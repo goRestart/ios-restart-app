@@ -780,8 +780,8 @@
 "product_post_camera_photo_mode_button" = "FOTO";
 "product_post_camera_tab_v2" = "KAMERA";
 "product_post_camera_video_mode_button" = "VIDEO";
-"product_post_camera_video_mode_button_new_badge" = "NY!";
-"product_post_camera_video_recording_min_duration_message" = "Please record for at least %d seconds";
+"product_post_camera_video_mode_button_new_badge" = "Nytt!";
+"product_post_camera_video_recording_min_duration_message" = "Var god spela in minst %d sekunder";
 "product_post_camera_video_recording_tooltip" = "%@ för att filma";
 "product_post_camera_video_recording_tooltip_highlighted_word" = "Håll in";
 "product_post_close_alert_close_button" = "Släng";
@@ -868,7 +868,7 @@
 "product_sell_again_free_button" = "Markera som tillgänglig";
 "product_sell_again_free_confirm_cancel_button" = "Avbryt";
 "product_sell_again_free_confirm_message" = "Vill du markera din vara som tillgänglig?";
-"product_sell_again_free_confirm_ok_button" = "Skänk bort";
+"product_sell_again_free_confirm_ok_button" = "Ja";
 "product_sell_again_free_confirm_title" = "Markera som tillgänglig";
 "product_sell_again_free_success_message" = "Grattis! Din vara är nu tillgänglig för att skänkas bort igen.";
 "product_sell_again_success_message" = "Din annons har markerats som tillgänglig!";
@@ -1200,9 +1200,9 @@
 "settings_marketing_notifications_switch" = "Marknadsföringsnotiser";
 "settings_notifications_button" = "Notiser";
 "settings_notifications_email" = "E-post";
-"settings_notifications_error_button" = "Prova igen";
-"settings_notifications_error_message" = "Oops! An error occurred while loading your notification settings. Please try again.";
-"settings_notifications_push_notifications" = "Push notifications";
+"settings_notifications_error_button" = "Försök igen";
+"settings_notifications_error_message" = "Hoppsan! Ett fel uppstod när dina notisinställningar skulle laddas. Var god försök igen.";
+"settings_notifications_push_notifications" = "Pushaviseringar";
 "settings_notifications_search_alerts" = "Sökaviseringar";
 "settings_notifications_title" = "Notiser";
 "settings_section_profile" = "Profil";

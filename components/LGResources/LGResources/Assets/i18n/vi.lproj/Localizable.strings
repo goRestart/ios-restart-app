@@ -781,7 +781,7 @@
 "product_post_camera_tab_v2" = "MÁY ẢNH";
 "product_post_camera_video_mode_button" = "VIDEO";
 "product_post_camera_video_mode_button_new_badge" = "Mới!";
-"product_post_camera_video_recording_min_duration_message" = "Please record for at least %d seconds";
+"product_post_camera_video_recording_min_duration_message" = "Vui lòng thu trong ít nhất %d giây";
 "product_post_camera_video_recording_tooltip" = "%@ để thu một video";
 "product_post_camera_video_recording_tooltip_highlighted_word" = "Giữ";
 "product_post_close_alert_close_button" = "Hủy";
@@ -868,7 +868,7 @@
 "product_sell_again_free_button" = "Đánh dấu có sẵn";
 "product_sell_again_free_confirm_cancel_button" = "Hủy";
 "product_sell_again_free_confirm_message" = "Bạn có muốn đánh dấu có sẵn cho món đồ của mình?";
-"product_sell_again_free_confirm_ok_button" = "Đồ tặng";
+"product_sell_again_free_confirm_ok_button" = "Có";
 "product_sell_again_free_confirm_title" = "Đánh dấu có sẵn";
 "product_sell_again_free_success_message" = "Chúc mừng! Món đồ của bạn lại có sẵn để đem tặng.";
 "product_sell_again_success_message" = "Xin chúc mừng! Bài đăng của bạn vừa được đánh dấu có sẵn.";
@@ -1201,8 +1201,8 @@
 "settings_notifications_button" = "Thông báo";
 "settings_notifications_email" = "Email";
 "settings_notifications_error_button" = "Thử lại";
-"settings_notifications_error_message" = "Oops! An error occurred while loading your notification settings. Please try again.";
-"settings_notifications_push_notifications" = "Push notifications";
+"settings_notifications_error_message" = "Ồ! Có lỗi xảy ra trong khi tải cài đặt thông báo của bạn. Xin vui lòng thử lại.";
+"settings_notifications_push_notifications" = "Đẩy thông báo";
 "settings_notifications_search_alerts" = "Thông báo Tìm kiếm";
 "settings_notifications_title" = "Thông báo";
 "settings_section_profile" = "Hồ sơ";

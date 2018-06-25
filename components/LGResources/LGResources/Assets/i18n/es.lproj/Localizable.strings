@@ -868,7 +868,7 @@
 "product_sell_again_free_button" = "Regalar de nuevo";
 "product_sell_again_free_confirm_cancel_button" = "Cancelar";
 "product_sell_again_free_confirm_message" = "¿Quieres marcar tu artículo como disponible?";
-"product_sell_again_free_confirm_ok_button" = "Regalar";
+"product_sell_again_free_confirm_ok_button" = "Sí";
 "product_sell_again_free_confirm_title" = "Marcar como disponible";
 "product_sell_again_free_success_message" = "¡Enhorabuena! Tu artículo ya está disponible para regalar de nuevo.";
 "product_sell_again_success_message" = "Tu anuncio ha sido marcado como disponible.";

@@ -780,8 +780,8 @@
 "product_post_camera_photo_mode_button" = "ΦΩΤΟΓΡΑΦΙΑ";
 "product_post_camera_tab_v2" = "ΚΑΜΕΡΑ";
 "product_post_camera_video_mode_button" = "ΒΙΝΤΕΟ";
-"product_post_camera_video_mode_button_new_badge" = "ΝΕΟ!";
-"product_post_camera_video_recording_min_duration_message" = "Please record for at least %d seconds";
+"product_post_camera_video_mode_button_new_badge" = "Νέο!";
+"product_post_camera_video_recording_min_duration_message" = "Παρακαλώ καταγράψτε τουλάχιστον %d δευτερόλεπτα";
 "product_post_camera_video_recording_tooltip" = "%@ για να καταγράψετε ένα βίντεο";
 "product_post_camera_video_recording_tooltip_highlighted_word" = "Πατήστε";
 "product_post_close_alert_close_button" = "Απόρριψη";
@@ -868,7 +868,7 @@
 "product_sell_again_free_button" = "Μαρκάρισμα ως διαθέσιμο";
 "product_sell_again_free_confirm_cancel_button" = "Ακύρωση";
 "product_sell_again_free_confirm_message" = "Θέλετε να μαρκάρετε το αντικείμενό σας ως διαθέσιμο;";
-"product_sell_again_free_confirm_ok_button" = "Δώστε Το";
+"product_sell_again_free_confirm_ok_button" = "Ναι";
 "product_sell_again_free_confirm_title" = "Μαρκάρισμα ως διαθέσιμο";
 "product_sell_again_free_success_message" = "Συγχαρητήρια! Το αντικείμενό σας είναι ξανά διαθέσιμο για χάρισμα.";
 "product_sell_again_success_message" = "Η καταχώρησή σας έχει χαρακτηριστεί ως διαθέσιμη.";
@@ -1200,9 +1200,9 @@
 "settings_marketing_notifications_switch" = "Ειδοποιήσεις Μάρκετινγκ";
 "settings_notifications_button" = "Ειδοποιήσεις";
 "settings_notifications_email" = "Email";
-"settings_notifications_error_button" = "Προσπάθησε ξανά";
-"settings_notifications_error_message" = "Oops! An error occurred while loading your notification settings. Please try again.";
-"settings_notifications_push_notifications" = "Push notifications";
+"settings_notifications_error_button" = "Προσπαθήστε ξανά";
+"settings_notifications_error_message" = "Όπα! Παρουσιάστηκε σφάλμα κατά τη φόρτωση των ρυθμίσεων ειδοποιήσεών σας. Παρακαλώ δοκιμάστε ξανά.";
+"settings_notifications_push_notifications" = "Ειδοποιήσεις push";
 "settings_notifications_search_alerts" = "Αναζήτηση Ειδοποιήσεων";
 "settings_notifications_title" = "Ειδοποιήσεις";
 "settings_section_profile" = "Προφίλ";

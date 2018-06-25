@@ -781,7 +781,7 @@
 "product_post_camera_tab_v2" = "CÂMARA";
 "product_post_camera_video_mode_button" = "VÍDEO";
 "product_post_camera_video_mode_button_new_badge" = "Novo!";
-"product_post_camera_video_recording_min_duration_message" = "Please record for at least %d seconds";
+"product_post_camera_video_recording_min_duration_message" = "Grave durante, pelo menos, %d segundos";
 "product_post_camera_video_recording_tooltip" = "%@ para gravar um vídeo";
 "product_post_camera_video_recording_tooltip_highlighted_word" = "Segure";
 "product_post_close_alert_close_button" = "Descartar";
@@ -868,7 +868,7 @@
 "product_sell_again_free_button" = "Para dar";
 "product_sell_again_free_confirm_cancel_button" = "Cancelar";
 "product_sell_again_free_confirm_message" = "Deseja marcar o seu item como disponível?";
-"product_sell_again_free_confirm_ok_button" = "Para dar";
+"product_sell_again_free_confirm_ok_button" = "Sim";
 "product_sell_again_free_confirm_title" = "Marcar como disponível";
 "product_sell_again_free_success_message" = "Parabéns! O seu item está de novo disponível para dar.";
 "product_sell_again_success_message" = "Parabéns! A sua publicação foi marcada como disponível.";
@@ -1201,8 +1201,8 @@
 "settings_notifications_button" = "Notificações";
 "settings_notifications_email" = "Email";
 "settings_notifications_error_button" = "Tentar de novo";
-"settings_notifications_error_message" = "Oops! An error occurred while loading your notification settings. Please try again.";
-"settings_notifications_push_notifications" = "Push notifications";
+"settings_notifications_error_message" = "Ups! Surgiu um erro ao carregar as configurações das suas notificações. Tente de novo.";
+"settings_notifications_push_notifications" = "Notificações Push";
 "settings_notifications_search_alerts" = "Pesquisar alertas";
 "settings_notifications_title" = "Notificações";
 "settings_section_profile" = "Perfil";

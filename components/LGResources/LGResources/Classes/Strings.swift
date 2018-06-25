@@ -1910,7 +1910,7 @@ extension R {
     public static let productSellAgainFreeConfirmCancelButton = Strings.tr("Localizable", "product_sell_again_free_confirm_cancel_button")
     /// Do you want to mark your item as available?
     public static let productSellAgainFreeConfirmMessage = Strings.tr("Localizable", "product_sell_again_free_confirm_message")
-    /// Give Away
+    /// Yes
     public static let productSellAgainFreeConfirmOkButton = Strings.tr("Localizable", "product_sell_again_free_confirm_ok_button")
     /// Mark as available
     public static let productSellAgainFreeConfirmTitle = Strings.tr("Localizable", "product_sell_again_free_confirm_title")

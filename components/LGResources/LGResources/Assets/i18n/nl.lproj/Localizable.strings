@@ -780,8 +780,8 @@
 "product_post_camera_photo_mode_button" = "FOTO";
 "product_post_camera_tab_v2" = "CAMERA";
 "product_post_camera_video_mode_button" = "VIDEO";
-"product_post_camera_video_mode_button_new_badge" = "NIEUW!";
-"product_post_camera_video_recording_min_duration_message" = "Please record for at least %d seconds";
+"product_post_camera_video_mode_button_new_badge" = "Nieuw!";
+"product_post_camera_video_recording_min_duration_message" = "Neem ten minste %d seconden op";
 "product_post_camera_video_recording_tooltip" = "%@ om een video op te nemen";
 "product_post_camera_video_recording_tooltip_highlighted_word" = "Vasthouden";
 "product_post_close_alert_close_button" = "Verwijder";
@@ -868,7 +868,7 @@
 "product_sell_again_free_button" = "Markeer als beschikbaar";
 "product_sell_again_free_confirm_cancel_button" = "Annuleren";
 "product_sell_again_free_confirm_message" = "Wil je je item als beschikbaar markeren?";
-"product_sell_again_free_confirm_ok_button" = "Weggeven";
+"product_sell_again_free_confirm_ok_button" = "Ja";
 "product_sell_again_free_confirm_title" = "Markeer als beschikbaar";
 "product_sell_again_free_success_message" = "Gefeliciteerd! Je item is weer beschikbaar om weg te geven.";
 "product_sell_again_success_message" = "Je advertentie werd als beschikbaar gemarkeerd.";
@@ -1199,10 +1199,10 @@
 "settings_marketing_notifications_alert_message" = "Weet je zeker dat je marketing meldingen wilt uitschakelen?";
 "settings_marketing_notifications_switch" = "Marketing Meldingen";
 "settings_notifications_button" = "Meldingen";
-"settings_notifications_email" = "EMAIL";
-"settings_notifications_error_button" = "Probeer opnieuw";
-"settings_notifications_error_message" = "Oops! An error occurred while loading your notification settings. Please try again.";
-"settings_notifications_push_notifications" = "Push notifications";
+"settings_notifications_email" = "Email";
+"settings_notifications_error_button" = "Probeer nogmaals";
+"settings_notifications_error_message" = "Oeps! Er is een fout opgetreden tijdens het laden van jouw meldingsinstellingen. Probeer het opnieuw.";
+"settings_notifications_push_notifications" = "Push-meldingen";
 "settings_notifications_search_alerts" = "Zoekmeldingen";
 "settings_notifications_title" = "Meldingen";
 "settings_section_profile" = "Profiel";

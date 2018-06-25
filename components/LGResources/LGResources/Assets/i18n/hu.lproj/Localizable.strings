@@ -780,8 +780,8 @@
 "product_post_camera_photo_mode_button" = "FOTÓ";
 "product_post_camera_tab_v2" = "KAMERA";
 "product_post_camera_video_mode_button" = "VIDEÓ";
-"product_post_camera_video_mode_button_new_badge" = "ÚJ!";
-"product_post_camera_video_recording_min_duration_message" = "Please record for at least %d seconds";
+"product_post_camera_video_mode_button_new_badge" = "Új!";
+"product_post_camera_video_recording_min_duration_message" = "Legalább %d másodpercig rögzíts";
 "product_post_camera_video_recording_tooltip" = "Videó rögzítéséhez %@";
 "product_post_camera_video_recording_tooltip_highlighted_word" = "tartsd nyomva";
 "product_post_close_alert_close_button" = "Elvetés";
@@ -868,7 +868,7 @@
 "product_sell_again_free_button" = "Megjelölés elérhetőként";
 "product_sell_again_free_confirm_cancel_button" = "Mégse";
 "product_sell_again_free_confirm_message" = "Elérhetőként szeretnéd jelölni a hirdetést?";
-"product_sell_again_free_confirm_ok_button" = "Ajándékozok";
+"product_sell_again_free_confirm_ok_button" = "Igen";
 "product_sell_again_free_confirm_title" = "Megjelölés elérhetőként";
 "product_sell_again_free_success_message" = "Gratulálunk! Hirdetésed újra elajándékozhatóvá vált.";
 "product_sell_again_success_message" = "Hirdetésed megjelölve elérhetőként.";
@@ -1199,10 +1199,10 @@
 "settings_marketing_notifications_alert_message" = "Biztosan kikapcsolod a marketinges értesítéseket?";
 "settings_marketing_notifications_switch" = "Marketinges értesítések";
 "settings_notifications_button" = "Jelzések";
-"settings_notifications_email" = "EMAIL";
+"settings_notifications_email" = "E-mail";
 "settings_notifications_error_button" = "Újra";
-"settings_notifications_error_message" = "Oops! An error occurred while loading your notification settings. Please try again.";
-"settings_notifications_push_notifications" = "Push notifications";
+"settings_notifications_error_message" = "Hoppá! Hiba történt az értesítési beállítások betöltése során. Próbálkozz újra.";
+"settings_notifications_push_notifications" = "Felugró értesítések";
 "settings_notifications_search_alerts" = "Keresési figyelmeztetések";
 "settings_notifications_title" = "Jelzések";
 "settings_section_profile" = "Profil";
