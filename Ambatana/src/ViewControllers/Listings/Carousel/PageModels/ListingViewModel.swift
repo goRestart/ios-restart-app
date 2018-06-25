@@ -494,7 +494,7 @@ class ListingViewModel: BaseViewModel {
     private func distanceString(_ listing: Listing) -> String? {
         guard let userLocation = locationManager.currentLocation?.location else { return nil }
         let distance = listing.location.distanceTo(userLocation)
-        let distanceString = String(format: "%0.1f %@", arguments: [distance, DistanceType.systemDistanceType().string])
+        let distanceString = String(format: "%0.1f %@", arguments: [distance, DistanceType.systemDistanceType().rawValue])
         return R.Strings.productDistanceXFromYou(distanceString)
     }
 

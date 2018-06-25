@@ -25,7 +25,7 @@ extension ListingFilters {
         
         // Distance
         params[.filterDistanceRadius] = distanceRadius ?? TrackerEvent.defaultValue
-        params[.filterDistanceUnit] = distanceType.string
+        params[.filterDistanceUnit] = distanceType.rawValue
         
         // Categories
         params[.categoryId] = categoriesTrackValue
