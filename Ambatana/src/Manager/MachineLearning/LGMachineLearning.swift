@@ -60,9 +60,8 @@ final class LGMachineLearning: MachineLearning {
     }
 
     deinit {
-        // Workaround to avoid crashes when deinit
-        // and prediction block it's called
-        while semaphore.signal() != 0 {}
+        // Workaround to avoid crashes: Unlock waiting calls
+        while semaphore.signal() >= 0 {}
     }
 
     func predict(pixelBuffer: CVPixelBuffer, completion: MachineLearningStatsPredictionCompletion?) {
