@@ -117,7 +117,7 @@ desc "Deploys a new version to App Store"
 lane :deploy_to_appstore do
 	UI.important ("\n\n ⚠️ \nThis lane will build release-x-x-x branch and send it to Apple. \n\n")
 	UI.message ("📝  Before we begin...").cyan
-	UI.importand ("Remember to merge this branch to master after uploading to the appstore via pull request.")
+	UI.important ("Remember to merge this branch to master after uploading to the appstore via pull request.")
 
 	release_branch = ask("Release branch to deploy (release-x.x.x): ".yellow)
 	channels = [ENV["BENDER_SLACK_DEFAULT_CHANNEL"]] 
