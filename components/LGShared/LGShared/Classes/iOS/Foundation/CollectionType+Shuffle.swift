@@ -1,6 +1,6 @@
 import Foundation
 
-extension Collection {
+public extension Collection {
     /// Return a copy of `self` with its elements shuffled
     func shuffled() -> [Iterator.Element] {
         var list = Array(self)
@@ -9,7 +9,7 @@ extension Collection {
     }
 }
 
-extension MutableCollection where Index == Int {
+public extension MutableCollection where Index == Int {
     /// Shuffle the elements of `self` in-place.
     mutating func shuffle() {
         // empty and single-element collections don't shuffle

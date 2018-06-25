@@ -1,15 +1,7 @@
-//
-//  LGEmoji.swift
-//  LetGo
-//
-//  Created by Nestor on 08/02/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
 import CoreText
 
-extension UnicodeScalar {
+public extension UnicodeScalar {
     var isEmoji: Bool {
         // Full emoji list http://unicode.org/emoji/charts/full-emoji-list.html
         // Emoji ranges https://en.wikipedia.org/wiki/Emoji#Unicode_blocks
@@ -39,7 +31,7 @@ extension UnicodeScalar {
     }
 }
 
-extension String {
+public extension String {
     var containsEmoji: Bool {
         return unicodeScalars.contains { $0.isEmoji }
     }

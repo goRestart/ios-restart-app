@@ -65,8 +65,14 @@ Pod::Spec.new do |s|
     	baseFolder='LGShared/LGShared/Classes/'
         sharedSpec.source_files = [
             baseFolder+'iOS/UIKit/UIView+Geometry.swift',
+            baseFolder+'iOS/UIKit/UIColor+LG.swift',
+            baseFolder+'iOS/UIKit/UIColor+RGB.swift',
+            baseFolder+'iOS/UIKit/UIColor+UIImage.swift',
             baseFolder+'iOS/Foundation/TimeInterval+Time.swift',
             baseFolder+'iOS/Foundation/String+LG.swift',
+            baseFolder+'iOS/Foundation/CollectionType+Shuffle.swift',
+            baseFolder+'iOS/Foundation/LGEmoji.swift',
+            baseFolder+'iOS/Foundation/URL+LG.swift',
             baseFolder+'Global/AppReport.swift',
             baseFolder+'Global/SharedConstants.swift',
             baseFolder+'Global/Debug.swift',
@@ -80,7 +86,7 @@ Pod::Spec.new do |s|
         ]
         # sharedSpec.source_files = 'LGShared/LGShared/Classes/**/*'
 
-        # sharedSpec.frameworks = 'CoreText'
+        sharedSpec.frameworks = 'CoreText'
 
         # sharedSpec.dependency 'LGComponents/LGAnalytics'
         # sharedSpec.dependency 'LGComponents/LGResources'
