@@ -91,6 +91,11 @@ fastlane ios dependencies
 fastlane ios make_automation_build
 ```
 Builds LetgoGoDev for simulator to export it for automation process
+### ios bump_build
+```
+fastlane ios bump_build
+```
+Increases build number by 1 (unless a build number is passed) & leaves the version number still (unless a version is passed)
 ### ios release_minor
 ```
 fastlane ios release_minor
