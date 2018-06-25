@@ -73,7 +73,7 @@ extension UIColor {
     private static let cloudyBlue = UIColor(rgb: 0xc5cddf) // (197, 205, 223)
     private static let lightPeriwinkle = UIColor(rgb: 0xc6dafb) // (198, 218, 251)
 
-    private static let pale = UIColor(rgb: 0xfff1d2) // (255, 241, 210)
+    private static let pale = UIColor(rgb: 0xfff0d2) // (255, 240, 210)
 }
 
 
