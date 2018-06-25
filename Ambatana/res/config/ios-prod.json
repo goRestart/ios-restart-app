@@ -1,6 +1,6 @@
 {
   "currentVersionInfo": {
-    "buildNumber": 421,
+    "buildNumber": 422,
     "forceUpdateVersions": [
       1,
       2,
@@ -180,4 +180,4 @@
   },
   "configURL": "https://static.letgo.com/mobile-config/ios.json",
   "quadKeyZoomLevel": 13
-}
+
