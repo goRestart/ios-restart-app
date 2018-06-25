@@ -475,7 +475,6 @@ enum AccessibilityId: Equatable {
     // ChatDisclaimerCell
     case chatDisclaimerCellContainer
     case chatDisclaimerCellMessageLabel
-    case chatDisclaimerCellButton
 
     // ChatOtherInfoCell
     case chatOtherInfoCellContainer
@@ -1673,9 +1672,7 @@ enum AccessibilityId: Equatable {
             return "chatDisclaimerCellContainer"
         case .chatDisclaimerCellMessageLabel:
             return "chatDisclaimerCellMessageLabel"
-        case .chatDisclaimerCellButton:
-            return "chatDisclaimerCellButton"
-            
+
         // ChatOtherInfoCell
         case .chatOtherInfoCellContainer:
             return "chatOtherInfoCellContainer"
