@@ -12,7 +12,7 @@ enum ChatViewMessageType {
     case text(text: String)
     case offer(text: String)
     case sticker(url: String)
-    case disclaimer(showAvatar: Bool,text: NSAttributedString, actionTitle: String? ,action: (() -> ())?)
+    case disclaimer(text: NSAttributedString ,action: (() -> ())?)
     case userInfo(isDummy: Bool, name: String, address: String?, facebook: Bool, google: Bool, email: Bool)
     case askPhoneNumber(text: String, action: (() -> Void)?)
     case meeting(type: MeetingMessageType,
@@ -59,10 +59,10 @@ enum ChatViewMessageType {
                 return lhsURL == rhsURL
             default: return false
             }
-        case let .disclaimer(lhsShowAvatar, lhsText, lhsActionTitle, _):
+        case let .disclaimer(lhsText, _):
             switch rhs {
-            case let .disclaimer(rhsShowAvatar, rhsText, rhsActionTitle, _):
-                return lhsShowAvatar == rhsShowAvatar && lhsText == rhsText && lhsActionTitle == rhsActionTitle
+            case let .disclaimer(rhsText, _):
+                return lhsText == rhsText
             default: return false
             }
         case let .userInfo(lhsIsDummy, lhsName, lhsAddress, lhsFacebook, lhsGoogle, lhsEmail):
@@ -160,7 +160,7 @@ struct ChatViewMessage: BaseModel {
             return text
         case .sticker(let url):
             return url
-        case .disclaimer(_, let text, _, _):
+        case .disclaimer(let text, _):
             return text.string
         case .userInfo(_, let name, _, _, _, _):
             return name
