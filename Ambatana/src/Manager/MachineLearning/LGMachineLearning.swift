@@ -32,7 +32,7 @@ final class LGMachineLearning: MachineLearning {
         return machineLearningRepository.stats
     }
     private var machineLearningVision: MachineLearningVision?
-    private let semaphore = DispatchSemaphore(value: 2)
+    private var predicting: Bool = false
     
     private var canPredict: Bool {
         if #available(iOS 11, *) {
@@ -81,18 +81,18 @@ final class LGMachineLearning: MachineLearning {
     // MARK: - VideoOutputDelegate & VideoCaptureDelegate
     
     func didCaptureVideoFrame(pixelBuffer: CVPixelBuffer?, timestamp: CMTime) {
-        guard canPredict, isLiveStatsEnabled, let pixelBuffer = pixelBuffer else { return }
+        guard canPredict, isLiveStatsEnabled, let pixelBuffer = pixelBuffer, !predicting else { return }
         // For better throughput, perform the prediction on a background queue
-        // instead of on the CameraManager queue. We use the semaphore to block
+        // instead of on the CameraManager queue. We use the flag to block
         // the capture queue and drop frames when Core ML can't keep up.
-        semaphore.wait()
+        predicting = true
         DispatchQueue.global().async { [weak self] in
             self?.predict(pixelBuffer: pixelBuffer, completion: { stats in
                 // Must be dispatched to main thread to prevent two different
                 // threads trying to assign the same `Variable.value` unsynchronized.
                 DispatchQueue.main.async {
                     self?.liveStats.value = stats
-                    self?.semaphore.signal()
+                    self?.predicting = false
                 }
             })
         }
