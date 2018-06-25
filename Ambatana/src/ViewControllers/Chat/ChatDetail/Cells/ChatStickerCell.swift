@@ -9,7 +9,7 @@
 import Foundation
 
 
-class ChatStickerCell: UITableViewCell, ReusableCell {
+final class ChatStickerCell: UITableViewCell, ReusableCell {
     
     let leftImage = UIImageView()
     let rightImage = UIImageView()
