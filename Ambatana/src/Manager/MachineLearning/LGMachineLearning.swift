@@ -32,7 +32,7 @@ final class LGMachineLearning: MachineLearning {
         return machineLearningRepository.stats
     }
     private var machineLearningVision: MachineLearningVision?
-    private var predicting: Bool = false
+    private let semaphore = DispatchSemaphore(value: 2)
     
     private var canPredict: Bool {
         if #available(iOS 11, *) {
@@ -58,7 +58,13 @@ final class LGMachineLearning: MachineLearning {
         }
         machineLearningRepository.fetchStats(jsonFileName: "MobileNetLetgov7final", completion: nil)
     }
-    
+
+    deinit {
+        // Workaround to avoid crashes when deinit
+        // and prediction block it's called
+        while semaphore.signal() != 0 {}
+    }
+
     func predict(pixelBuffer: CVPixelBuffer, completion: MachineLearningStatsPredictionCompletion?) {
         guard canPredict else {
             completion?(nil)
@@ -81,18 +87,18 @@ final class LGMachineLearning: MachineLearning {
     // MARK: - VideoOutputDelegate & VideoCaptureDelegate
     
     func didCaptureVideoFrame(pixelBuffer: CVPixelBuffer?, timestamp: CMTime) {
-        guard canPredict, isLiveStatsEnabled, let pixelBuffer = pixelBuffer, !predicting else { return }
+        guard canPredict, isLiveStatsEnabled, let pixelBuffer = pixelBuffer else { return }
         // For better throughput, perform the prediction on a background queue
-        // instead of on the CameraManager queue. We use the flag to block
+        // instead of on the CameraManager queue. We use the semaphore to block
         // the capture queue and drop frames when Core ML can't keep up.
-        predicting = true
+        semaphore.wait()
         DispatchQueue.global().async { [weak self] in
             self?.predict(pixelBuffer: pixelBuffer, completion: { stats in
                 // Must be dispatched to main thread to prevent two different
                 // threads trying to assign the same `Variable.value` unsynchronized.
                 DispatchQueue.main.async {
                     self?.liveStats.value = stats
-                    self?.predicting = false
+                    self?.semaphore.signal()
                 }
             })
         }
