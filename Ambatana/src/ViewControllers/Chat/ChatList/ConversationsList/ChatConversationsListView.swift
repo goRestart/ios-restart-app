@@ -32,13 +32,23 @@ final class ChatConversationsListView: UIView {
 
     private let connectionStatusView = ChatConnectionStatusView()
     private var statusViewHeightConstraint: NSLayoutConstraint = NSLayoutConstraint()
+    private var statusViewHeight: CGFloat {
+        return featureFlags.showChatConnectionStatusBar.isActive ? ChatConnectionStatusView.standardHeight : 0
+    }
+
+    private let featureFlags: FeatureFlaggeable
 
     private let bag = DisposeBag()
 
     
     // MARK: Lifecycle
-    
-    init() {
+
+    convenience init() {
+        self.init(featureFlags: FeatureFlags.sharedInstance)
+    }
+
+    init(featureFlags: FeatureFlaggeable) {
+        self.featureFlags = featureFlags
         super.init(frame: CGRect.zero)
         setupUI()
         setupConstraints()
@@ -94,7 +104,7 @@ final class ChatConversationsListView: UIView {
             ])
         
         addSubviewsForAutoLayout([connectionStatusView, tableView])
-        statusViewHeightConstraint = connectionStatusView.heightAnchor.constraint(equalToConstant: ChatConnectionStatusView.standardHeight)
+        statusViewHeightConstraint = connectionStatusView.heightAnchor.constraint(equalToConstant: statusViewHeight)
         NSLayoutConstraint.activate([
             statusViewHeightConstraint,
             topAnchor.constraint(equalTo: connectionStatusView.topAnchor),
@@ -117,7 +127,7 @@ final class ChatConversationsListView: UIView {
     }
 
     private func connectionStatusBar(isVisible: Bool) {
-        statusViewHeightConstraint.constant = isVisible ? ChatConnectionStatusView.standardHeight : 0
+        statusViewHeightConstraint.constant = isVisible ? statusViewHeight : 0
         UIView.animate(withDuration: 0.5) {
             self.layoutIfNeeded()
         }
