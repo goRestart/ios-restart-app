@@ -1154,6 +1154,10 @@ extension FeatureFlags {
 
 // MARK: Discovery
 
+private extension PersonalizedFeed {
+    static let defaultVariantValue = 4
+}
+
 extension FeatureFlags {
     /**
      This AB test has 3 cases: control(0), baseline(1) and active(2)
@@ -1175,7 +1179,7 @@ extension FeatureFlags {
     }
     
     var personalizedFeedABTestIntValue: Int? {
-        return abTests.personlizedFeedIsActive ? abTests.personalizedFeed.value : nil
+        return abTests.personlizedFeedIsActive ? abTests.personalizedFeed.value : PersonalizedFeed.defaultVariantValue
     }
     
     var searchBoxImprovements: SearchBoxImprovements {
