@@ -1013,8 +1013,6 @@
 		6A9BFE541C08B444000114DF /* FilterSingleCheckCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77593E71BF0C0290097D62F /* FilterSingleCheckCell.swift */; };
 		6AA26CFD1CFDBA7600546063 /* ChatDisclaimerCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA26CFC1CFDBA7600546063 /* ChatDisclaimerCellDrawer.swift */; };
 		6AA26CFE1CFDBA7600546063 /* ChatDisclaimerCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA26CFC1CFDBA7600546063 /* ChatDisclaimerCellDrawer.swift */; };
-		6AA26D001CFDCA2000546063 /* ChatDisclaimerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6AA26CFF1CFDCA2000546063 /* ChatDisclaimerCell.xib */; };
-		6AA26D011CFDCA2000546063 /* ChatDisclaimerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6AA26CFF1CFDCA2000546063 /* ChatDisclaimerCell.xib */; };
 		6AA32F3A1CA29CC4003A1677 /* AdminViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA32F391CA29CC4003A1677 /* AdminViewController.swift */; };
 		6AA32F3B1CA29CC4003A1677 /* AdminViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA32F391CA29CC4003A1677 /* AdminViewController.swift */; };
 		6AA9E90A203EC59D004EACC4 /* RatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA9E909203EC59D004EACC4 /* RatingView.swift */; };
@@ -2623,7 +2621,6 @@
 		6A8C421720B572DE00E5A5B7 /* MockReputationTooltipManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockReputationTooltipManager.swift; sourceTree = "<group>"; };
 		6A94D709205FB4B600B27C41 /* EditUserBioViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUserBioViewModelSpec.swift; sourceTree = "<group>"; };
 		6AA26CFC1CFDBA7600546063 /* ChatDisclaimerCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatDisclaimerCellDrawer.swift; sourceTree = "<group>"; };
-		6AA26CFF1CFDCA2000546063 /* ChatDisclaimerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatDisclaimerCell.xib; sourceTree = "<group>"; };
 		6AA32F391CA29CC4003A1677 /* AdminViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdminViewController.swift; sourceTree = "<group>"; };
 		6AA9E909203EC59D004EACC4 /* RatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingView.swift; sourceTree = "<group>"; };
 		6AA9E90B203EC5DC004EACC4 /* UserProfileTabsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileTabsView.swift; sourceTree = "<group>"; };
@@ -5598,7 +5595,6 @@
 				C7B588781CE1DFA6009B3975 /* ChatBubbleCell.swift */,
 				50FEFA1D20469AD6003C51B0 /* ChatBubbleCellType.swift */,
 				500210B51CF5D94F0034519F /* ChatDisclaimerCell.swift */,
-				6AA26CFF1CFDCA2000546063 /* ChatDisclaimerCell.xib */,
 				C7B588791CE1DFA6009B3975 /* ChatMyMessageCell.swift */,
 				C7B5887A1CE1DFA6009B3975 /* ChatMyMessageCell.xib */,
 				C75018461D10681B007D4CE4 /* ChatOtherInfoCell.swift */,
@@ -6283,7 +6279,6 @@
 				2E36656C1DE4882E00000F68 /* PostIncentivatorView.xib in Resources */,
 				C7B5889C1CE1E025009B3975 /* ConversationCell.xib in Resources */,
 				C7DE8AC91C888761005CF37E /* EditListingViewController.xib in Resources */,
-				6AA26D001CFDCA2000546063 /* ChatDisclaimerCell.xib in Resources */,
 				C7F18A971C89CB4C00D23319 /* PostListingGalleryView.xib in Resources */,
 				500DC12B1BDA1C4C00B494FA /* ios-devel.json in Resources */,
 				C7F3F1E71DE5EF6A00652447 /* TourBlurBackgroundViewController.xib in Resources */,
@@ -6391,7 +6386,6 @@
 				2E36656D1DE4882E00000F68 /* PostIncentivatorView.xib in Resources */,
 				C7B5889D1CE1E025009B3975 /* ConversationCell.xib in Resources */,
 				C7DE8ACA1C888761005CF37E /* EditListingViewController.xib in Resources */,
-				6AA26D011CFDCA2000546063 /* ChatDisclaimerCell.xib in Resources */,
 				8E0EEFBA2056DE34000C07C9 /* machinelearning.xcassets in Resources */,
 				C7F18A981C89CB4C00D23319 /* PostListingGalleryView.xib in Resources */,
 				C7DB42851C5138B500400945 /* ios-devel.json in Resources */,
