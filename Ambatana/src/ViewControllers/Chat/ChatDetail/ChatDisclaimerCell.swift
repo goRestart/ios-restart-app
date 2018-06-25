@@ -2,7 +2,7 @@ import UIKit
 import RxSwift
 import LGComponents
 
-class ChatDisclaimerCell: UITableViewCell, ReusableCell {
+final class ChatDisclaimerCell: UITableViewCell, ReusableCell {
     
     let backgroundCellView: UIView = {
         let bgView = UIView()
