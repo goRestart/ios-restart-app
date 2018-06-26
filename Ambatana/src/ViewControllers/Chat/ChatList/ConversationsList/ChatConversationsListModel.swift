@@ -46,7 +46,7 @@ extension ChatConversationsListItemModel: IdentifiableType, Equatable {
     typealias Identity = String
     
     var identity: Identity {
-        return conversationCellData.conversationId ?? ""
+        return UUID().uuidString
     }
     
     static func ==(lhs: ChatConversationsListItemModel, rhs: ChatConversationsListItemModel) -> Bool {
