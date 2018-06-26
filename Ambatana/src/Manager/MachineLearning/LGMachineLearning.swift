@@ -58,7 +58,12 @@ final class LGMachineLearning: MachineLearning {
         }
         machineLearningRepository.fetchStats(jsonFileName: "MobileNetLetgov7final", completion: nil)
     }
-    
+
+    deinit {
+        // Workaround to avoid crashes: Unlock waiting calls
+        while semaphore.signal() != 0 {}
+    }
+
     func predict(pixelBuffer: CVPixelBuffer, completion: MachineLearningStatsPredictionCompletion?) {
         guard canPredict else {
             completion?(nil)
