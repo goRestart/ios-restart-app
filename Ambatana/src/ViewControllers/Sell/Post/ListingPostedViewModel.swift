@@ -251,19 +251,16 @@ class ListingPostedViewModel: BaseViewModel {
     
 
     // MARK: - Private methods
-
+    
     private func postListing(_ images: [UIImage]?, video: RecordedVideo?, params: ListingCreationParams) {
         delegate?.productPostedViewModelSetupLoadingState(self)
-
-        let shouldUseCarEndpoint = featureFlags.createUpdateIntoNewBackend.shouldUseCarEndpoint(with: params)
-        let createAction = listingRepository.createAction(shouldUseCarEndpoint)
-
+        
         if let images = images {
             fileRepository.upload(images, progress: nil) { [weak self] result in
                 if let images = result.value {
                     let updatedParams = params.updating(images: images)
-
-                    createAction(updatedParams) { [weak self] result in
+                    
+                    self?.listingRepository.create(listingParams: updatedParams) { [weak self] result in
                         if let postedListing = result.value {
                             self?.trackPostSellComplete(postedListing: postedListing)
                         } else if let error = result.error {
@@ -306,7 +303,7 @@ class ListingPostedViewModel: BaseViewModel {
                                         let video: Video = LGVideo(path: path , snapshot: snapshot)
                                         let updatedParams = params.updating(videos: [video])
 
-                                        createAction(updatedParams) { [weak self] result in
+                                        self?.listingRepository.create(listingParams: updatedParams) { [weak self] result in
                                             if let postedListing = result.value {
                                                 self?.trackPostSellComplete(postedListing: postedListing)
                                             } else if let error = result.error {

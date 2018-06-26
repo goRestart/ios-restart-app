@@ -382,6 +382,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         usernameTextField.clearButtonOffset = 0
 
         termsConditionsText.attributedText = viewModel.attributedLegalText(UIColor.grayText)
+        termsConditionsText.textContainer.lineFragmentPadding = 0
         termsConditionsText.delegate = self
 
         // tags

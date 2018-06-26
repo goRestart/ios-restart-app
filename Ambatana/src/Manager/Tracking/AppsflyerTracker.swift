@@ -14,18 +14,6 @@ fileprivate extension TrackerEvent {
             }
         }
     }
-
-    // Criteo: https://ambatana.atlassian.net/browse/ABIOS-1966 (2)
-    var shouldTrackRegisteredUIAchievement: Bool {
-        get {
-            switch name {
-            case .loginFB, .loginGoogle, .signupEmail:
-                return true
-            default:
-                return false
-            }
-        }
-    }
 }
 
 final class AppsflyerTracker: Tracker {
@@ -64,7 +52,6 @@ final class AppsflyerTracker: Tracker {
         if let email = user.email {
             tracker?.setUserEmails([email], with: EmailCryptTypeSHA1)
         }
-        tracker?.trackEvent("af_user_status", withValues: ["ui_status": "login"])
         AppsFlyerTracker.shared().customerUserID = user.objectId
     }
     
@@ -72,9 +59,6 @@ final class AppsflyerTracker: Tracker {
         let tracker = AppsFlyerTracker.shared()
         if event.shouldTrack {
             tracker?.trackEvent(event.actualName, withValues: event.params?.stringKeyParams)
-        }
-        if event.shouldTrackRegisteredUIAchievement {
-            tracker?.trackEvent(AFEventAchievementUnlocked, withValues: ["ui_achievement": "registered"])
         }
     }
 

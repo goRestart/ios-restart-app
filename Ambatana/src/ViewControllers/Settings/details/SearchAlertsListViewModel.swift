@@ -3,9 +3,9 @@ import RxSwift
 import LGComponents
 
 enum SearchAlertsState {
-    case initial
-    case empty
-    case error
+    case refreshing
+    case empty(buttonAction: (() -> Void))
+    case error(buttonAction: (() -> Void))
     case full
 
     var icon: UIImage? {
@@ -14,7 +14,7 @@ enum SearchAlertsState {
             return R.Asset.IconsButtons.SearchAlerts.icSearchAlertsEmpty.image
         case .error:
             return R.Asset.IconsButtons.SearchAlerts.icSearchAlertsError.image
-        case .full, .initial:
+        case .full, .refreshing:
             return nil
         }
     }
@@ -25,7 +25,7 @@ enum SearchAlertsState {
             return R.Strings.searchAlertsPlaceholderEmptyText
         case .error:
             return R.Strings.searchAlertsPlaceholderErrorText
-        case .full, .initial:
+        case .full, .refreshing:
             return nil
         }
     }
@@ -36,7 +36,16 @@ enum SearchAlertsState {
             return R.Strings.searchAlertsPlaceholderEmptyButton
         case .error:
             return R.Strings.searchAlertsPlaceholderErrorButton
-        case .full, .initial:
+        case .full, .refreshing:
+            return nil
+        }
+    }
+    
+    var buttonAction: (() -> Void)? {
+        switch self {
+        case let .error(buttonAction), let .empty(buttonAction):
+            return buttonAction
+        case .full, .refreshing:
             return nil
         }
     }
@@ -54,8 +63,11 @@ final class SearchAlertsListViewModel: BaseViewModel {
     private let myUserRepository: MyUserRepository
     private let tracker: Tracker
 
-    var searchAlertsState = Variable<SearchAlertsState>(.initial)
+    var searchAlertsState = Variable<SearchAlertsState>(.refreshing)
     var searchAlerts = Variable<[SearchAlert]>([])
+    
+    
+    // MARK: - Lifecycle
     
     convenience override init() {
         self.init(searchAlertsRepository: Core.searchAlertsRepository,
@@ -78,26 +90,17 @@ final class SearchAlertsListViewModel: BaseViewModel {
     // MARK: - Requests
     
     private func retrieveSearchAlerts() {
+        searchAlertsState.value = .refreshing
         searchAlertsRepository.index(limit: SearchAlertsListViewModel.searchAlertLimit, offset: 0) { [weak self] result in
             if let value = result.value {
                 self?.searchAlerts.value = value
-                self?.searchAlertsState.value = value.count > 0 ? .full : .empty
+                self?.updateSearchAlertsStateAsEmptyOrFull()
             } else if let _ = result.error {
-                self?.searchAlertsState.value = .error
+                self?.searchAlertsState.value = .error(buttonAction: { [weak self] in
+                    self?.retrieveSearchAlerts()
+                })
             }
         }
-    }
-
-    func placeholderButtonTapped() {
-        switch searchAlertsState.value {
-        case .error:
-            retrieveSearchAlerts()
-        case .empty:
-            navigator?.openSearch()
-        case .full, .initial:
-            break
-        }
-
     }
 
     func triggerEnableOrDisable(searchAlertId: String, enable: Bool) {
@@ -157,7 +160,7 @@ final class SearchAlertsListViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
             if let _ = result.value {
                 strongSelf.searchAlerts.value.remove(at: index)
-                strongSelf.searchAlertsState.value = strongSelf.searchAlerts.value.count > 0 ? .full : .empty
+                strongSelf.updateSearchAlertsStateAsEmptyOrFull()
             } else if let _ = result.error {
                 strongSelf.delegate?.vmShowAutoFadingMessage(R.Strings.searchAlertDeleteErrorMessage,
                                                              completion: nil)
@@ -178,6 +181,15 @@ final class SearchAlertsListViewModel: BaseViewModel {
         if let index = optIndex {
             searchAlerts.value[index] = newAlert
         }
+    }
+    
+    
+    // MARK: - SearchAlertsState
+    
+    private func updateSearchAlertsStateAsEmptyOrFull() {
+        searchAlertsState.value = searchAlerts.value.count > 0 ? .full : .empty(buttonAction: { [weak self] in
+            self?.navigator?.openSearch()
+        })
     }
 }
 

@@ -67,4 +67,6 @@ class EnvironmentProxy: Environment {
     var meetingsBaseURL: String { return environment.meetingsBaseURL }
     var searchAlertsBaseURL: String { return environment.searchAlertsBaseURL }
     var customFeedBaseURL: String { return environment.customFeedBaseURL }
+    var notificationSettingsPusherBaseURL: String { return environment.notificationSettingsPusherBaseURL }
+    var notificationSettingsMailerBaseURL: String { return environment.notificationSettingsMailerBaseURL }
 }

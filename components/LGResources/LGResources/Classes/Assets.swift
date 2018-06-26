@@ -468,7 +468,6 @@ extension R {
       public static let itemShareWhatsapp = ImageAsset(name: "item_share_whatsapp")
       public static let itemShareWhatsappBig = ImageAsset(name: "item_share_whatsapp_big")
       public static let items = ImageAsset(name: "items")
-      public static let learnMoreChevron = ImageAsset(name: "learnMoreChevron")
       public static let listSearch = ImageAsset(name: "list_search")
       public static let listSearchGrey = ImageAsset(name: "list_search_grey")
       public enum Map {
@@ -747,7 +746,6 @@ extension R {
         itemShareWhatsapp,
         itemShareWhatsappBig,
         items,
-        learnMoreChevron,
         listSearch,
         listSearchGrey,
         Map.icPin,
@@ -900,13 +898,6 @@ extension R {
         public static let realEstatePromo6 = ImageAsset(name: "real-estate-promo-6")
         public static let realEstatePromo7 = ImageAsset(name: "real-estate-promo-7")
       }
-      public enum Tutorial {
-        public static let houseSale = ImageAsset(name: "houseSale")
-        public static let ilustraAroundMe = ImageAsset(name: "ilustraAroundMe")
-        public static let ilustraHouseSmall = ImageAsset(name: "ilustraHouseSmall")
-        public static let ilustraPhoneLocate = ImageAsset(name: "ilustraPhoneLocate")
-        public static let ilustraPhoneSmall = ImageAsset(name: "ilustraPhoneSmall")
-      }
 
       // swiftlint:disable trailing_comma
       public static let allColors: [ColorAsset] = [
@@ -919,11 +910,6 @@ extension R {
         Promo.realEstatePromo5,
         Promo.realEstatePromo6,
         Promo.realEstatePromo7,
-        Tutorial.houseSale,
-        Tutorial.ilustraAroundMe,
-        Tutorial.ilustraHouseSmall,
-        Tutorial.ilustraPhoneLocate,
-        Tutorial.ilustraPhoneSmall,
       ]
       // swiftlint:enable trailing_comma
       @available(*, deprecated, renamed: "allImages")

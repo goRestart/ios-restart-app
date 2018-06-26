@@ -2135,7 +2135,7 @@
 "product_sell_again_free_confirm_message" = "Do you want to mark your item as available?";
 
 // Product ready to give away again ok button. (mark as available)
-"product_sell_again_free_confirm_ok_button" = "Give Away";
+"product_sell_again_free_confirm_ok_button" = "Yes";
 
 // Confirmation message when product is again available to give away
 "product_sell_again_free_success_message" = "Congratulations! Your item is available to give away again.";
@@ -2308,11 +2308,17 @@
 // Video posting, tooltip: hold to record a video, highlighted hold
 "product_post_camera_video_recording_tooltip_highlighted_word" = "Hold";
 
+// Message when the user records a video shorter than min duration 
+"product_post_camera_video_recording_min_duration_message" = "Please record for at least %d seconds";
+
 // Video posting, button to set camera in photo mode
 "product_post_camera_photo_mode_button" = "PHOTO";
 
 // Video posting, button to set camera in video mode
 "product_post_camera_video_mode_button" = "VIDEO";
+
+// Badge in video button which indicate the new feature
+"product_post_camera_video_mode_button_new_badge" = "New!";
 
 // Video posting, button to select photos from the gallery
 "product_post_camera_gallery_text_button" = "GALLERY";
@@ -3631,6 +3637,12 @@
 
 // Settings option to access email notifications
 "settings_notifications_email" = "Email";
+
+// Settings option to try again if loading failed
+"settings_notifications_error_button" = "Try again";
+
+// Settings notifications loading error message
+"settings_notifications_error_message" = "Oops! An error occurred while loading your notification settings. Please try again.";
 
 // Search alerts view title
 "search_alerts_list_title" = "Search Alerts";

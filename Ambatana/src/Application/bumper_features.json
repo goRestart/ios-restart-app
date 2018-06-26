@@ -121,11 +121,6 @@
         "description": "Try different copies for Chat now button in Turkey"
     },
     {
-        "name": "RealEstateTutorial",
-        "values": ["control", "baseline", "oneScreen", "twoScreens", "threeScreens", "onlyBadge"],
-        "description": "Show real estate tutorial when user see Real estate category for first time"
-    },
-    {
         "name": "ChatNorris",
         "values": ["control", "baseline", "redButton", "whiteButton", "greenButton"],
         "description": "Show the create meeting option in chat detail view."
@@ -144,11 +139,6 @@
         "name": "ShowProTagUserProfile",
         "values": ["no", "yes"],
         "description": "Show Professional tag in user profile"
-    },
-    {
-        "name": "ShowAdvancedReputationSystem",
-        "values": ["control", "baseline", "active"],
-        "description": "Show the new advance reputation system and Karma Score"
     },
     {
         "name": "FeedAdsProviderForUS",
@@ -194,11 +184,6 @@
         "name": "CopyForSellFasterNowInEnglish",
         "values": ["control", "baseline", "variantB", "variantC", "variantD"],
         "description": "Try different copies for 'Sell faster now' banner in English"
-    },
-    {
-        "name": "CreateUpdateCarsIntoNewBackend",
-        "values": ["control", "baseline", "active"],
-        "description": "Create/Update cars into the new endpoint"
     },
     {
         "name": "EmergencyLocate",
@@ -288,5 +273,20 @@
         "name": "SimplifiedChatButton",
         "values": ["control", "baseline", "variantA", "variantB", "variantC", "variantD", "variantE", "variantF"],
         "description": "Show a simplified chat button on item page"
+    },
+    {
+        "name": "ShowChatConnectionStatusBar",
+        "values": ["control", "baseline", "active"],
+        "description": "Show a toast in the chat with the websocket and network connection status"
+	},
+	{
+         "name": "AdvancedReputationSystem",
+         "values": ["control", "baseline", "variantA", "variantB"],
+         "description": "Advance reputation system and Karma Score with SMS and tooltip"
+    },
+    {
+        "name": "NotificationSettings",
+        "values": ["control", "baseline", "differentLists", "sameList"],
+        "description": "Settings to enable or disable each type of notification"
     }
  ]

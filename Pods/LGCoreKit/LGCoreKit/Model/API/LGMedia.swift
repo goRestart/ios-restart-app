@@ -118,7 +118,12 @@ public struct LGMedia: Media, Decodable {
     public let snapshotId: String
     public let outputs: MediaOutputs
 
-    public init(type: MediaType, snapshotId: String, outputs: MediaOutputs) {
+    public init(objectId: String?,
+                type: MediaType,
+                snapshotId: String,
+                outputs: MediaOutputs) {
+        
+        self.objectId = objectId
         self.type = type
         self.snapshotId = snapshotId
         self.outputs = outputs
@@ -146,7 +151,10 @@ extension LGMedia {
     static func mediaFrom(images: [File]) -> [LGMedia] {
         return images.map {
             let mediaOutput = LGMediaOutputs(image: $0.fileURL, imageThumbnail: $0.fileURL)
-            return LGMedia(type: .image, snapshotId: "", outputs: mediaOutput)
+            return LGMedia(objectId: $0.objectId,
+                           type: .image,
+                           snapshotId: "",
+                           outputs: mediaOutput)
         }
     }
 }

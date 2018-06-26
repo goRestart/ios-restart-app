@@ -449,12 +449,12 @@
 "id_verification_third_step_subtitle" = "Asegúrate que tu documento se ve claramente y encaja en los bordes de la caja";
 "id_verification_third_step_title" = "Haz una foto de la cara frontal de tu documento de identidad";
 "id_verification_update_avatar_message" = "¿Quieres que sea tu foto de perfil?";
-"listing_chat_button" = "Chat Now";
-"listing_interested_button_A" = "I'm interested";
-"listing_interested_button_B" = "Interested";
-"listing_interested_button_C" = "Ask for Details";
-"listing_interested_button_D" = "Ask for Details";
-"listing_interested_footer" = "Automatically sends a message to the seller asking if it's available.";
+"listing_chat_button" = "Chatear Ahora";
+"listing_interested_button_A" = "Me interesa";
+"listing_interested_button_B" = "Interesado";
+"listing_interested_button_C" = "Pedir detalles";
+"listing_interested_button_D" = "Pedir detalles";
+"listing_interested_footer" = "Automáticamente enviará un mensaje al vendedor preguntando si está disponible.";
 "listing_map_redo_search" = "Buscar en esta zona";
 "listing_show_similar_results" = "Mostrado resultados de búsquedas similares";
 "listing_show_similar_results_description" = "No hay resultados exactos para tu búsqueda.\nAsegúrate que está escrita correctamente o usa términos y filtros distintos.";
@@ -780,6 +780,8 @@
 "product_post_camera_photo_mode_button" = "FOTO";
 "product_post_camera_tab_v2" = "CÁMARA";
 "product_post_camera_video_mode_button" = "VÍDEO";
+"product_post_camera_video_mode_button_new_badge" = "¡Nuevo!";
+"product_post_camera_video_recording_min_duration_message" = "Por favor graba al menos %d segundos";
 "product_post_camera_video_recording_tooltip" = "%@ para grabar un vídeo";
 "product_post_camera_video_recording_tooltip_highlighted_word" = "Mantén presionado";
 "product_post_close_alert_close_button" = "Descartar";
@@ -866,7 +868,7 @@
 "product_sell_again_free_button" = "Regalar de nuevo";
 "product_sell_again_free_confirm_cancel_button" = "Cancelar";
 "product_sell_again_free_confirm_message" = "¿Quieres marcar tu artículo como disponible?";
-"product_sell_again_free_confirm_ok_button" = "Regalar";
+"product_sell_again_free_confirm_ok_button" = "Sí";
 "product_sell_again_free_confirm_title" = "Marcar como disponible";
 "product_sell_again_free_success_message" = "¡Enhorabuena! Tu artículo ya está disponible para regalar de nuevo.";
 "product_sell_again_success_message" = "Tu anuncio ha sido marcado como disponible.";
@@ -1197,6 +1199,10 @@
 "settings_marketing_notifications_alert_message" = "¿Seguro que quieres desactivar las notificaciones de marketing?";
 "settings_marketing_notifications_switch" = "Notificaciones de marketing";
 "settings_notifications_button" = "Notificaciones";
+"settings_notifications_email" = "Email";
+"settings_notifications_error_button" = "Reintentar";
+"settings_notifications_error_message" = "¡Ups! Se ha producido un error al cargar tus ajustes de notificaciones. Por favor, vuelve a intentarlo.";
+"settings_notifications_push_notifications" = "Notificaciones";
 "settings_notifications_search_alerts" = "Alertas de búsqueda";
 "settings_notifications_title" = "Notificaciones";
 "settings_section_profile" = "Perfil";

@@ -9,7 +9,10 @@ final class ChatConversationsListViewController: ChatBaseViewController {
     private let contentView = ChatConversationsListView()
     private let connectionStatusView = ChatConnectionStatusView()
     private var statusViewHeightConstraint: NSLayoutConstraint = NSLayoutConstraint()
-    
+    private var statusViewHeight: CGFloat {
+        return featureFlags.showChatConnectionStatusBar.isActive ? ChatConnectionStatusView.standardHeight : 0
+    }
+
     private let featureFlags: FeatureFlaggeable
     
     private lazy var optionsButton: UIButton = {
@@ -46,14 +49,10 @@ final class ChatConversationsListViewController: ChatBaseViewController {
     override func loadView() {
         view = UIView()
         view.addSubviewsForAutoLayout([connectionStatusView, contentView])
-        statusViewHeightConstraint = connectionStatusView.heightAnchor.constraint(equalToConstant: ChatConnectionStatusView.standardHeight)
+        statusViewHeightConstraint = connectionStatusView.heightAnchor.constraint(equalToConstant: statusViewHeight)
 
         NSLayoutConstraint.activate([
-            statusViewHeightConstraint,
-            connectionStatusView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            connectionStatusView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            safeTopAnchor.constraint(equalTo: connectionStatusView.topAnchor),
-            contentView.topAnchor.constraint(equalTo: connectionStatusView.bottomAnchor),
+            safeTopAnchor.constraint(equalTo: contentView.topAnchor),
             safeBottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             view.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             view.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
@@ -67,7 +66,9 @@ final class ChatConversationsListViewController: ChatBaseViewController {
         setupNavigationBarRx()
         setupViewStateRx()
         setupTableViewRx()
-        setupStatusBarRx()
+        if featureFlags.showChatConnectionStatusBar.isActive {
+            setupStatusBarRx()
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -187,21 +188,10 @@ final class ChatConversationsListViewController: ChatBaseViewController {
     }
 
     private func setupStatusBarRx() {
-        viewModel.rx_connectionBarStatus.asDriver().drive(onNext: { [weak self] status in
-            guard let _ = status.title else {
-                self?.connectionStatusBar(isVisible: false)
-                return
-            }
-            self?.connectionStatusView.status = status
-            self?.connectionStatusBar(isVisible: true)
-        }).disposed(by: bag)
-    }
-
-    private func connectionStatusBar(isVisible: Bool) {
-        statusViewHeightConstraint.constant = isVisible ? ChatConnectionStatusView.standardHeight : 0
-        UIView.animate(withDuration: 0.5) {
-            self.view.layoutIfNeeded()
-        }
+        viewModel.rx_connectionBarStatus
+            .asDriver()
+            .drive(contentView.connectionBarStatus)
+            .disposed(by: bag)
     }
 
 

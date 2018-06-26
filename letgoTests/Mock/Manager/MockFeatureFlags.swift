@@ -4,6 +4,7 @@ import RxSwift
 
 final class MockFeatureFlags: FeatureFlaggeable {
 
+
     var trackingData: Observable<[(String, ABGroup)]?> {
         return trackingDataVar.asObservable()
     }
@@ -24,21 +25,16 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var requestTimeOut: RequestsTimeOut = .thirty
     var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed = .control
     var showClockInDirectAnswer: ShowClockInDirectAnswer = .control
-    var mostSearchedDemandedItems: MostSearchedDemandedItems = .control
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers = .control
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio = .control
     var realEstateNewCopy: RealEstateNewCopy = .control
-    var dummyUsersInfoProfile: DummyUsersInfoProfile = .control
     var searchImprovements: SearchImprovements = .control
     var relaxedSearch: RelaxedSearch = .control
     var bumpUpBoost: BumpUpBoost = .control
-    var onboardingIncentivizePosting: OnboardingIncentivizePosting = .control
     var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings = .control
     var showProTagUserProfile: Bool = false
-    var realEstateTutorial: RealEstateTutorial = .control
     var sectionedMainFeed: SectionedMainFeed = .control
     var showExactLocationForPros: Bool = true
-    var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed = .control
     
     // Country dependant features
     var freePostingModeAllowed = false
@@ -74,11 +70,11 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var markAllConversationsAsRead: MarkAllConversationsAsRead = .control
     var chatNorris: ChatNorris = .control
     var chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs = .control
+    var showChatConnectionStatusBar: ShowChatConnectionStatusBar = .control
     
     // MARK:  Verticals
     var searchCarsIntoNewBackend: SearchCarsIntoNewBackend = .control
     var filterSearchCarSellerType: FilterSearchCarSellerType = .control
-    var createUpdateIntoNewBackend: CreateUpdateCarsIntoNewBackend = .control
     var realEstateMap: RealEstateMap = .control
     var showServicesFeatures: ShowServicesFeatures = .control
     
@@ -96,12 +92,19 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var simplifiedChatButton: SimplifiedChatButton = .control
 
     // MARK: Users
-    var showAdvancedReputationSystem: ShowAdvancedReputationSystem = .control
+    var advancedReputationSystem: AdvancedReputationSystem = .control
     var showPasswordlessLogin: ShowPasswordlessLogin = .control
     var emergencyLocate: EmergencyLocate = .control
     var offensiveReportAlert: OffensiveReportAlert = .control
     
     // MARK: Money
     var preventMessagesFromFeedToProUsers: PreventMessagesFromFeedToProUsers = .control
+    
+    // MARK: Retention
+    var mostSearchedDemandedItems: MostSearchedDemandedItems = .control
+    var dummyUsersInfoProfile: DummyUsersInfoProfile = .control
+    var onboardingIncentivizePosting: OnboardingIncentivizePosting = .control
+    var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed = .control
+    var notificationSettings: NotificationSettings = .control
 }
 

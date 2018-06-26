@@ -131,6 +131,10 @@ open class MockListingRepository: ListingRepository {
         delay(result: listingResult, completion: completion)
     }
     
+    public func retrieveCar(_ listingId: String, completion: ListingCompletion?) {
+        delay(result: listingResult, completion: completion)
+    }
+    
     public func retrieveRealEstate(_ listingId: String, completion: ListingCompletion?) {
         delay(result: listingResult, completion: completion)
     }

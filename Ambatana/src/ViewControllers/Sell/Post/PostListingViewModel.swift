@@ -63,10 +63,6 @@ class PostListingViewModel: BaseViewModel {
     var isService: Bool {
         return postCategory?.isService ?? false
     }
-    
-    var realEstateTutorialPages: [LGTutorialPage]? {
-        return LGTutorialPage.makeRealEstateTutorial(typeOfOnboarding: featureFlags.realEstateTutorial)
-    }
 
     var availablePostCategories: [PostCategory] {
         var categories: [PostCategory] = [.car, .motorsAndAccessories, .otherItems(listingCategory: nil)]
@@ -120,11 +116,6 @@ class PostListingViewModel: BaseViewModel {
     
     var maxNumberImages: Int {
         return SharedConstants.maxImageCount
-    }
-    
-    var shouldShowInfoButton: Bool {
-        guard let category = postCategory?.listingCategory else { return false }
-        return category.isRealEstate && featureFlags.realEstateTutorial.shouldShowInfoButton
     }
 
     var shouldShowVideoFooter: Bool {
@@ -253,14 +244,6 @@ class PostListingViewModel: BaseViewModel {
         }
     }
 
-    func infoButtonPressed() {
-        openOnboardingRealEstate(origin: .postingIconInfo)
-    }
-    
-    func learnMorePressed() {
-        openOnboardingRealEstate(origin: .postingLearnMore)
-    }
-
     func imagesSelected(_ images: [UIImage], source: EventParameterPictureSource, predictionData: MLPredictionDetailsViewData?) {
         if isBlockingPosting {
             openQueuedRequestsLoading(images: images, imageSource: source)
@@ -273,11 +256,6 @@ class PostListingViewModel: BaseViewModel {
         let uploadingVideo = VideoUpload(recordedVideo: video, snapshot: nil, videoId: nil)
         self.uploadingVideo = uploadingVideo
         uploadVideoSnapshot(uploadingVideo: uploadingVideo)
-    }
-    
-    private func openOnboardingRealEstate(origin: EventParameterTypePage) {
-        guard let pages = LGTutorialPage.makeRealEstateTutorial(typeOfOnboarding: featureFlags.realEstateTutorial) else { return }
-        navigator?.openRealEstateOnboarding(pages: pages, origin: origin, tutorialType: .realEstate)
     }
     
     fileprivate func uploadImages(_ images: [UIImage], source: EventParameterPictureSource, predictionData: MLPredictionDetailsViewData? = nil) {
@@ -370,13 +348,6 @@ class PostListingViewModel: BaseViewModel {
                                              listingCreationParams: listingParams,
                                              imageSource: imageSource,
                                              postingSource: postingSource)
-    }
-    
-    func showRealEstateTutorial(origin: EventParameterTypePage) {
-        guard postCategory == .realEstate && !keyValueStorage[.realEstateTutorialShown] else { return }
-        guard let pages = realEstateTutorialPages else { return }
-        keyValueStorage[.realEstateTutorialShown] = true
-        navigator?.openRealEstateOnboarding(pages: pages, origin: origin, tutorialType: .realEstate)
     }
     
     func closeButtonPressed() {
@@ -640,14 +611,6 @@ fileprivate extension PostListingViewModel {
                                           postListingState: state.value)
     }
 }
-
-
-fileprivate extension RealEstateTutorial {
-    var shouldShowInfoButton: Bool {
-        return self == .oneScreen || self == .twoScreens || self == .threeScreens
-    }
-}
-
 
 // MARK: - Tracking
 

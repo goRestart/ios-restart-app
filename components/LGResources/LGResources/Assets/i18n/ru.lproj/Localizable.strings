@@ -449,12 +449,12 @@
 "id_verification_third_step_subtitle" = "Убедитесь, что документ четко видно и он попадает в рамку";
 "id_verification_third_step_title" = "Сделайте фото лицевой стороны документа";
 "id_verification_update_avatar_message" = "Хотите сделать это фото изображением профиля?";
-"listing_chat_button" = "Chat Now";
-"listing_interested_button_A" = "I'm interested";
-"listing_interested_button_B" = "Interested";
-"listing_interested_button_C" = "Ask for Details";
-"listing_interested_button_D" = "Ask for Details";
-"listing_interested_footer" = "Automatically sends a message to the seller asking if it's available.";
+"listing_chat_button" = "Пообщаться";
+"listing_interested_button_A" = "Я заинтересован";
+"listing_interested_button_B" = "Интересует";
+"listing_interested_button_C" = "Узнать подробности";
+"listing_interested_button_D" = "Узнать подробности";
+"listing_interested_footer" = "Автоматически отправляет продавцу сообщение с вопросом о доступности товара.";
 "listing_map_redo_search" = "Искать в этой области";
 "listing_show_similar_results" = "Показываем результаты для похожих поисков";
 "listing_show_similar_results_description" = "Нет точных совпадений по вашему поиску. \nУбедитесь, что запрос написан правильно или попробуйте другие ключевые слова и фильтры.";
@@ -780,6 +780,8 @@
 "product_post_camera_photo_mode_button" = "ФОТО";
 "product_post_camera_tab_v2" = "КАМЕРА";
 "product_post_camera_video_mode_button" = "ВИДЕО";
+"product_post_camera_video_mode_button_new_badge" = "Новое!";
+"product_post_camera_video_recording_min_duration_message" = "Пожалуйста, запишите как минимум %d секунд";
 "product_post_camera_video_recording_tooltip" = "%@, чтобы снять видео";
 "product_post_camera_video_recording_tooltip_highlighted_word" = "Зажмите";
 "product_post_close_alert_close_button" = "Отмена";
@@ -866,7 +868,7 @@
 "product_sell_again_free_button" = "Отметить как доступный";
 "product_sell_again_free_confirm_cancel_button" = "Отмена";
 "product_sell_again_free_confirm_message" = "Хотите пометить ваш товар как доступный?";
-"product_sell_again_free_confirm_ok_button" = "Отдать";
+"product_sell_again_free_confirm_ok_button" = "Да";
 "product_sell_again_free_confirm_title" = "Отметить как доступный";
 "product_sell_again_free_success_message" = "Поздравляем! Ваш товар снова доступен для дарения.";
 "product_sell_again_success_message" = "Поздравляем! Ваш товар отмечен как доступный.";
@@ -1197,6 +1199,10 @@
 "settings_marketing_notifications_alert_message" = "Вы точно хотите отключить уведомления?";
 "settings_marketing_notifications_switch" = "Маркетинговые уведомления";
 "settings_notifications_button" = "Уведомления";
+"settings_notifications_email" = "Email";
+"settings_notifications_error_button" = "Еще раз";
+"settings_notifications_error_message" = "Упс! При загрузке ваших настроек уведомлений произошла ошибка. Пожалуйста, попробуйте еще раз.";
+"settings_notifications_push_notifications" = "Всплывающие уведомления";
 "settings_notifications_search_alerts" = "Поисковые уведомления";
 "settings_notifications_title" = "Уведомления";
 "settings_section_profile" = "Профиль";

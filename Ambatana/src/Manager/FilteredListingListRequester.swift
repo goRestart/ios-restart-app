@@ -92,7 +92,7 @@ class FilteredListingListRequester: ListingListRequester {
             action(retrieveListingsParams, completion)
         } else if shouldUseSimilarQuery, queryString != nil {
             listingRepository.indexSimilar(retrieveListingsParams, completion: completion)
-        } else if isEmptyQueryAndDefaultFilters, featureFlags.personalizedFeed.isActive {
+        } else if isEmptyQueryAndDefaultFilters {
             listingRepository.indexCustomFeed(retrieveCustomFeedParams, completion: completion)
         } else {
             listingRepository.index(retrieveListingsParams, completion: completion)

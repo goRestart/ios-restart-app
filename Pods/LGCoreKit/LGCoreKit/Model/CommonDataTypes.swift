@@ -117,20 +117,8 @@ public func ==(lhs: LGLocationCoordinates2D, rhs: LGLocationCoordinates2D) -> Bo
     return lhs.latitude == rhs.latitude && lhs.longitude == rhs.longitude
 }
 
-@objc public enum DistanceType: Int, CustomStringConvertible {
+public enum DistanceType: String, Decodable {
     case mi, km
-    public var string: String {
-        get {
-            switch self {
-            case .mi:
-                return "mi" //"ML"
-            case .km:
-                return "km" //"KM"
-            }
-        }
-    }
-
-    public var description: String { return "\(string)" }
 }
 
 public enum ListingStatusCode: Int, Decodable {

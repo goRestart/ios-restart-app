@@ -449,12 +449,12 @@
 "id_verification_third_step_subtitle" = "Zorg ervoor dat je ID duidelijk is en binnen het kader van de zoeker valt";
 "id_verification_third_step_title" = "Maak een foto van de voorkant van je ID";
 "id_verification_update_avatar_message" = "Wil je van deze je profielfoto maken?";
-"listing_chat_button" = "Chat Now";
-"listing_interested_button_A" = "I'm interested";
-"listing_interested_button_B" = "Interested";
-"listing_interested_button_C" = "Ask for Details";
-"listing_interested_button_D" = "Ask for Details";
-"listing_interested_footer" = "Automatically sends a message to the seller asking if it's available.";
+"listing_chat_button" = "Chat Nu";
+"listing_interested_button_A" = "Ik ben geïnteresseerd!";
+"listing_interested_button_B" = "Geïnteresseerd";
+"listing_interested_button_C" = "Vragen om informatie";
+"listing_interested_button_D" = "Vragen om informatie";
+"listing_interested_footer" = "Verzendt automatisch een bericht naar de verkoper met de vraag of het beschikbaar is.";
 "listing_map_redo_search" = "Zoek in deze omgeving";
 "listing_show_similar_results" = "Resultaten voor vergelijkbare zoekopdrachten weergeven";
 "listing_show_similar_results_description" = "Geen exacte overeenkomsten voor jouw zoekopdracht.\nZorg ervoor dat het correct is gespeld of gebruik verschillende zoekwoorden en filters.";
@@ -780,6 +780,8 @@
 "product_post_camera_photo_mode_button" = "FOTO";
 "product_post_camera_tab_v2" = "CAMERA";
 "product_post_camera_video_mode_button" = "VIDEO";
+"product_post_camera_video_mode_button_new_badge" = "Nieuw!";
+"product_post_camera_video_recording_min_duration_message" = "Neem ten minste %d seconden op";
 "product_post_camera_video_recording_tooltip" = "%@ om een video op te nemen";
 "product_post_camera_video_recording_tooltip_highlighted_word" = "Vasthouden";
 "product_post_close_alert_close_button" = "Verwijder";
@@ -866,7 +868,7 @@
 "product_sell_again_free_button" = "Markeer als beschikbaar";
 "product_sell_again_free_confirm_cancel_button" = "Annuleren";
 "product_sell_again_free_confirm_message" = "Wil je je item als beschikbaar markeren?";
-"product_sell_again_free_confirm_ok_button" = "Weggeven";
+"product_sell_again_free_confirm_ok_button" = "Ja";
 "product_sell_again_free_confirm_title" = "Markeer als beschikbaar";
 "product_sell_again_free_success_message" = "Gefeliciteerd! Je item is weer beschikbaar om weg te geven.";
 "product_sell_again_success_message" = "Je advertentie werd als beschikbaar gemarkeerd.";
@@ -1197,6 +1199,10 @@
 "settings_marketing_notifications_alert_message" = "Weet je zeker dat je marketing meldingen wilt uitschakelen?";
 "settings_marketing_notifications_switch" = "Marketing Meldingen";
 "settings_notifications_button" = "Meldingen";
+"settings_notifications_email" = "Email";
+"settings_notifications_error_button" = "Probeer nogmaals";
+"settings_notifications_error_message" = "Oeps! Er is een fout opgetreden tijdens het laden van jouw meldingsinstellingen. Probeer het opnieuw.";
+"settings_notifications_push_notifications" = "Push-meldingen";
 "settings_notifications_search_alerts" = "Zoekmeldingen";
 "settings_notifications_title" = "Meldingen";
 "settings_section_profile" = "Profiel";

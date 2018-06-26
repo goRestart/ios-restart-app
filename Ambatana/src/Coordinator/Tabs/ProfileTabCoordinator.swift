@@ -110,10 +110,10 @@ extension ProfileTabCoordinator: SettingsNavigator {
         navigationController.pushViewController(vc, animated: true)
     }
 
-    func openSettingsNotifications() {
-        let vm = SettingsNotificationsViewModel()
+    func openNotificationSettings() {
+        let vm = NotificationSettingsViewModel()
         vm.navigator = self
-        let vc = SettingsNotificationsViewController(viewModel: vm)
+        let vc = NotificationSettingsViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
     
@@ -160,8 +160,8 @@ extension ProfileTabCoordinator: HelpNavigator {
     }
 }
 
-extension ProfileTabCoordinator: SettingsNotificationsNavigator {
-    func closeSettingsNotifications() {
+extension ProfileTabCoordinator: NotificationSettingsNavigator {
+    func closeNotificationSettings() {
         navigationController.popViewController(animated: true)
     }
 
@@ -169,6 +169,52 @@ extension ProfileTabCoordinator: SettingsNotificationsNavigator {
         let vm = SearchAlertsListViewModel()
         vm.navigator = self
         let vc = SearchAlertsListViewController(viewModel: vm)
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
+    func openNotificationSettingsList(notificationSettingsType: NotificationSettingsType) {
+        if featureFlags.notificationSettings == .differentLists {
+            openNotificationSettingsAccessorList(notificationSettingsType: notificationSettingsType)
+        } else if featureFlags.notificationSettings == .sameList {
+            openNotificationSettingsCompleteList(notificationSettingType: notificationSettingsType)
+        }
+    }
+    
+    private func openNotificationSettingsAccessorList(notificationSettingsType: NotificationSettingsType) {
+        let vm: NotificationSettingsAccessorListViewModel
+        switch notificationSettingsType {
+        case .push:
+            vm = NotificationSettingsAccessorListViewModel.makePusherNotificationSettingsListViewModel()
+        case .mail:
+            vm = NotificationSettingsAccessorListViewModel.makeMailerNotificationSettingsListViewModel()
+        case .marketing, .searchAlerts:
+            return
+        }
+        vm.navigator = self
+        let vc = NotificationSettingsAccessorListViewController(viewModel: vm)
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
+    private func openNotificationSettingsCompleteList(notificationSettingType: NotificationSettingsType) {
+        let vm: NotificationSettingsCompleteListViewModel
+        switch notificationSettingType {
+        case .push:
+            vm = NotificationSettingsCompleteListViewModel.makePusherNotificationSettingsListViewModel()
+        case .mail:
+            vm = NotificationSettingsCompleteListViewModel.makeMailerNotificationSettingsListViewModel()
+        case .marketing, .searchAlerts:
+            return
+        }
+        vm.navigator = self
+        let vc = NotificationSettingsCompleteListViewController(viewModel: vm)
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
+    func openNotificationSettingsListDetail(notificationSetting: NotificationSetting, notificationSettingsRepository: NotificationSettingsRepository) {
+        let vm = NotificationSettingsListDetailViewModel(notificationSetting: notificationSetting,
+                                                         notificationSettingsRepository: notificationSettingsRepository)
+        vm.navigator = self
+        let vc = NotificationSettingsListDetailViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
 }

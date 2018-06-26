@@ -168,6 +168,7 @@ extension ABTests {
     var markAllConversationsAsRead: LeanplumABVariable<Int> { return chat.markAllConversationsAsRead }
     var chatNorris: LeanplumABVariable<Int> { return chat.chatNorris }
     var chatConversationsListWithoutTabs: LeanplumABVariable<Int> { return chat.chatConversationsListWithoutTabs }
+    var showChatConnectionStatusBar: LeanplumABVariable<Int> { return chat.showChatConnectionStatusBar }
 }
 
 //  MARK: Money
@@ -194,6 +195,7 @@ extension ABTests {
     var onboardingIncentivizePosting: LeanplumABVariable<Int> { return retention.onboardingIncentivizePosting }
     var iAmInterestedInFeed: LeanplumABVariable<Int> { return retention.iAmInterestedInFeed }
     var highlightedIAmInterestedInFeed: LeanplumABVariable<Int> { return retention.highlightedIAmInterestedInFeed }
+    var notificationSettings: LeanplumABVariable<Int> { return retention.notificationSettings }
 }
 
 //  MARK: RealEstate
@@ -201,7 +203,6 @@ extension ABTests {
 
 extension ABTests {
     var realEstateNewCopy: LeanplumABVariable<Int> { return realEstate.realEstateNewCopy }
-    var realEstateTutorial: LeanplumABVariable<Int>{ return realEstate.realEstateTutorial }
 }
 
 //  MARK: Verticals
@@ -209,7 +210,6 @@ extension ABTests {
 extension ABTests {
     var searchCarsIntoNewBackend: LeanplumABVariable<Int> { return verticals.searchCarsIntoNewBackend }
     var filterSearchCarSellerType: LeanplumABVariable<Int> { return verticals.filterSearchCarSellerType }
-    var createUpdateCarsIntoNewBackend: LeanplumABVariable<Int> { return verticals.createUpdateIntoNewBackend }
     var realEstateMap: LeanplumABVariable<Int> { return verticals.realEstateMap }
     var showServicesFeatures: LeanplumABVariable<Int> { return verticals.showServicesFeatures }
 }

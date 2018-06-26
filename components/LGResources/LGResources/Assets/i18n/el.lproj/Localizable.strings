@@ -449,12 +449,12 @@
 "id_verification_third_step_subtitle" = "Βεβαιωθείτε πως η ταυτότητά σας φαίνεται ξεκάθαρα και είναι καλά εστιασμένη στην οθόνη";
 "id_verification_third_step_title" = "Τραβήξτε μια φωτογραφία της μπροστινής όψης της ταυτότητάς σας";
 "id_verification_update_avatar_message" = "Θέλετε να την κάνετε εικόνα προφίλ;";
-"listing_chat_button" = "Chat Now";
-"listing_interested_button_A" = "I'm interested";
-"listing_interested_button_B" = "Interested";
-"listing_interested_button_C" = "Ask for Details";
-"listing_interested_button_D" = "Ask for Details";
-"listing_interested_footer" = "Automatically sends a message to the seller asking if it's available.";
+"listing_chat_button" = "Συνομιλήστε Τώρα";
+"listing_interested_button_A" = "Ενδιαφέρομαι";
+"listing_interested_button_B" = "Ενδιαφέρομαι";
+"listing_interested_button_C" = "Ζητήστε λεπτομέρειες";
+"listing_interested_button_D" = "Ζητήστε λεπτομέρειες";
+"listing_interested_footer" = "Στέλνει αυτόματα ένα μήνυμα στον πωλητή, ρωτώντας αν είναι διαθέσιμο.";
 "listing_map_redo_search" = "Κάντε αναζήτηση σε αυτήν την περιοχή";
 "listing_show_similar_results" = "Εμφάνιση αποτελεσμάτων για παρόμοιες αναζητήσεις";
 "listing_show_similar_results_description" = "Δε βρέθηκαν ακριβή αποτελέσματα για την αναζήτησή σας.\nΒεβαιωθείτε πως έχετε γράψει σωστά τη λέξη ή δοκιμάστε διαφορετικές λέξεις κλειδιά και φίλτρα.";
@@ -661,7 +661,7 @@
 "post_description_name_placeholder" = "Αλλαγή Ονόματος";
 "post_description_save_button_text" = "Αποθήκευση αυτής της καταχώρησης!";
 "post_details_services_add_new" = "Προσθήκη νέας υπηρεσίας";
-"post_details_services_camera_message" = "Post a picture of yourself or your company’s logo";
+"post_details_services_camera_message" = "Δημοσιεύστε μια φωτογραφία σας ή το λογότυπο της εταιρίας σας";
 "post_details_services_congratulation_people_near" = "Άνθρωποι γύρω σας αναζητούν αυτές τις υπηρεσίες, έχετε τέτοιου είδους ικανότητες;";
 "post_details_services_congratulation_post_another" = "Δημοσιεύστε κι άλλη καταχώρηση";
 "post_details_services_congratulation_review" = "Ελέξγτε τις καταχωρήσεις σας και προσθέστε περισσότερες λεπτομέρειες";
@@ -780,6 +780,8 @@
 "product_post_camera_photo_mode_button" = "ΦΩΤΟΓΡΑΦΙΑ";
 "product_post_camera_tab_v2" = "ΚΑΜΕΡΑ";
 "product_post_camera_video_mode_button" = "ΒΙΝΤΕΟ";
+"product_post_camera_video_mode_button_new_badge" = "Νέο!";
+"product_post_camera_video_recording_min_duration_message" = "Παρακαλώ καταγράψτε τουλάχιστον %d δευτερόλεπτα";
 "product_post_camera_video_recording_tooltip" = "%@ για να καταγράψετε ένα βίντεο";
 "product_post_camera_video_recording_tooltip_highlighted_word" = "Πατήστε";
 "product_post_close_alert_close_button" = "Απόρριψη";
@@ -866,7 +868,7 @@
 "product_sell_again_free_button" = "Μαρκάρισμα ως διαθέσιμο";
 "product_sell_again_free_confirm_cancel_button" = "Ακύρωση";
 "product_sell_again_free_confirm_message" = "Θέλετε να μαρκάρετε το αντικείμενό σας ως διαθέσιμο;";
-"product_sell_again_free_confirm_ok_button" = "Δώστε Το";
+"product_sell_again_free_confirm_ok_button" = "Ναι";
 "product_sell_again_free_confirm_title" = "Μαρκάρισμα ως διαθέσιμο";
 "product_sell_again_free_success_message" = "Συγχαρητήρια! Το αντικείμενό σας είναι ξανά διαθέσιμο για χάρισμα.";
 "product_sell_again_success_message" = "Η καταχώρησή σας έχει χαρακτηριστεί ως διαθέσιμη.";
@@ -1197,6 +1199,10 @@
 "settings_marketing_notifications_alert_message" = "Είστε σίγουροι πως θέλετε να απενεργοποιήσετε τις ειδοποιήσεις προώθησης;";
 "settings_marketing_notifications_switch" = "Ειδοποιήσεις Μάρκετινγκ";
 "settings_notifications_button" = "Ειδοποιήσεις";
+"settings_notifications_email" = "Email";
+"settings_notifications_error_button" = "Προσπαθήστε ξανά";
+"settings_notifications_error_message" = "Όπα! Παρουσιάστηκε σφάλμα κατά τη φόρτωση των ρυθμίσεων ειδοποιήσεών σας. Παρακαλώ δοκιμάστε ξανά.";
+"settings_notifications_push_notifications" = "Ειδοποιήσεις push";
 "settings_notifications_search_alerts" = "Αναζήτηση Ειδοποιήσεων";
 "settings_notifications_title" = "Ειδοποιήσεις";
 "settings_section_profile" = "Προφίλ";

@@ -579,12 +579,12 @@ enum AccessibilityId: Equatable {
     case settingsCellValue
     case settingsCellSwitch
     
-    // SettingsNotifications
-    case settingsNotificationsTableView
+    // NotificationSettings
+    case notificationSettingsTableView
     
-    // SettingsNotificationsCell
-    case settingsNotificationsCellTitle
-    case settingsNotificationsCellSwitch
+    // NotificationSettingsCell
+    case notificationSettingsCellTitle
+    case notificationSettingsCellSwitch
 
     // ChangeUsername
     case changeUsernameNameField
@@ -1857,15 +1857,15 @@ enum AccessibilityId: Equatable {
         case .settingsCellSwitch:
             return "settingsCellSwitch"
             
-        // SettingsNotifications
-        case .settingsNotificationsTableView:
-            return "settingsNotificationsTableView"
+        // NotificationSettings
+        case .notificationSettingsTableView:
+            return "notificationSettingsTableView"
         
-        // SettingsNotificationsCell
-        case .settingsNotificationsCellTitle:
-            return "settingsNotificationsCellTitle"
-        case .settingsNotificationsCellSwitch:
-            return "settingsNotificationsCellSwitch"
+        // NotificationSettingsCell
+        case .notificationSettingsCellTitle:
+            return "notificationSettingsCellTitle"
+        case .notificationSettingsCellSwitch:
+            return "notificationSettingsCellSwitch"
             
         // ChangeUsername
         case .changeUsernameNameField:

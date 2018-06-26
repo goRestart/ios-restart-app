@@ -42,16 +42,16 @@ def shared_pods
 
     # letgo Core
 
-    pod "LGCoreKit",             "4.32.2", :inhibit_warnings => false
+    pod "LGCoreKit",             "4.36.1", :inhibit_warnings => false
     # pod "LGCoreKit",            :path => "../lgcorekit", :inhibit_warnings => false
-    # pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => 'd0aa85bf3cdbc0f487ccb080886e598e9748078f', :inhibit_warnings => false
+    #  pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :branch => 'remove-ab-tests-verticals', :inhibit_warnings => false
 
     # letgo Collapsible label
         pod "LGCollapsibleLabel",   "1.2.0", :inhibit_warnings => false     # :path => "../collapsiblelabel"
 
     # letgo bumper (feature flags)
-#    pod "bumper",               "1.1.0"     #:path => "../bumper"
-    pod "bumper",            :git => 'git@github.com:letgoapp/bumper.git', :commit => '12d17a1d022483ce46aa70a53702c58f28d5b6c1', :inhibit_warnings => false
+	pod "bumper",               "1.2.1"     #:path => "../bumper"
+   #  pod "bumper",            :git => 'git@github.com:letgoapp/bumper.git', :commit => '7ec04a070eca2337f058954d7f53c474d616d7b1', :inhibit_warnings => false
 
 
     # Collection View Custom Layout

@@ -125,8 +125,5 @@ class BaseViewModelSpec: QuickSpec, BaseViewModelDelegate, TabNavigator {
     func openRatingList(_ userId: String) {}
     func openMostSearchedItems(source: PostingSource, enableSearch: Bool) {}
     func openUserReport(source: EventParameterTypePage, userReportedId: String) {}
-    func openRealEstateOnboarding(pages: [LGTutorialPage],
-                                  origin: EventParameterTypePage,
-                                  tutorialType: EventParameterTutorialType) {}
     func openUserVerificationView() {}
 }

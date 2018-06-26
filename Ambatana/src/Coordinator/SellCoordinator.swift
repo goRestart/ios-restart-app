@@ -73,13 +73,9 @@ final class SellCoordinator: Coordinator {
             self.viewController = navigationController
             getStartedVM.navigator = self
         } else {
-            let machineLearningSupported: Bool
-            if #available(iOS 11, *), postCategory?.listingCategory.isProduct ?? true,
-                featureFlags.predictivePosting.isActive {
-                machineLearningSupported = true
-            } else {
-                machineLearningSupported = false
-            }
+            let language = Locale.systemLanguage()
+            let machineLearningSupported = featureFlags.predictivePosting.isSupportedFor(postCategory: postCategory,
+                                                                                         language: language)
             let postListingVM = PostListingViewModel(source: source,
                                                      postCategory: postCategory,
                                                      listingTitle: listingTitle,
@@ -120,13 +116,8 @@ extension SellCoordinator: PostListingNavigator {
     
     func closePostProductAndPostInBackground(params: ListingCreationParams,
                                              trackingInfo: PostListingTrackingInfo) {
-        
-        let shouldUseCarEndpoint = featureFlags.createUpdateIntoNewBackend.shouldUseCarEndpoint(with: params)
-        let createAction = listingRepository.createAction(shouldUseCarEndpoint)
-        
         dismissViewController(animated: true) { [weak self] in
-            
-            createAction(params) { [weak self] result in
+            self?.listingRepository.create(listingParams: params) { [weak self] result in
                 if let listing = result.value {
                     self?.trackPost(withListing: listing, trackingInfo: trackingInfo)
                     self?.keyValueStorage.userPostProductPostedPreviously = true
@@ -308,15 +299,7 @@ extension SellCoordinator: PostListingNavigator {
         let vc = BlockingPostingQueuedRequestsViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: false)
     }
-    
-    func openRealEstateOnboarding(pages: [LGTutorialPage],
-                                  origin: EventParameterTypePage,
-                                  tutorialType: EventParameterTutorialType) {
-        guard pages.count > 0 else { return }
-        let viewModel = LGTutorialViewModel(pages: pages, origin: origin, tutorialType: tutorialType)
-        let viewController = LGTutorialViewController(viewModel: viewModel)
-        navigationController.present(viewController, animated: true, completion: nil)
-    }
+
 }
 
 
@@ -348,14 +331,12 @@ extension SellCoordinator: ListingPostedNavigator {
     func closeProductPostedAndOpenPost() {
         dismissViewController(animated: true) { [weak self] in
             guard let strongSelf = self, let parentVC = strongSelf.parentViewController else { return }
-            let machineLearningSupported: Bool
-            if #available(iOS 11, *), strongSelf.featureFlags.predictivePosting.isActive {
-                machineLearningSupported = true
-            } else {
-                machineLearningSupported = false
-            }
+            let postCategory: PostCategory? = nil
+            let language = Locale.systemLanguage()
+            let machineLearningSupported = strongSelf.featureFlags.predictivePosting.isSupportedFor(postCategory: postCategory,
+                                                                                         language: language)
             let postListingVM = PostListingViewModel(source: strongSelf.postingSource,
-                                                     postCategory: nil,
+                                                     postCategory: postCategory,
                                                      listingTitle: nil,
                                                      isBlockingPosting: false,
                                                      machineLearningSupported: machineLearningSupported)
@@ -385,7 +366,12 @@ extension SellCoordinator: MultiListingPostedNavigator {
     
     func openEdit(forListing listing: Listing) {
         
-        let editListingNavigator = EditListingCoordinator(listing: listing, bumpUpProductData: nil, pageType: EventParameterTypePage.edit, listingCanBeBoosted: false, timeSinceLastBump: nil, maxCountdown: 0)
+        let editListingNavigator = EditListingCoordinator(listing: listing,
+                                                          bumpUpProductData: nil,
+                                                          pageType: nil,
+                                                          listingCanBeBoosted: false,
+                                                          timeSinceLastBump: nil,
+                                                          maxCountdown: 0)
         editListingNavigator.delegate = self
         openChild(coordinator: editListingNavigator,
                   parent: viewController,

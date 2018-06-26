@@ -46,9 +46,6 @@ protocol TabNavigator: class {
     func openRatingList(_ userId: String)
     func openMostSearchedItems(source: PostingSource, enableSearch: Bool)
     func openUserReport(source: EventParameterTypePage, userReportedId: String)
-    func openRealEstateOnboarding(pages: [LGTutorialPage],
-                                  origin: EventParameterTypePage,
-                                  tutorialType: EventParameterTutorialType)
     func showUndoBubble(withMessage message: String,
                         duration: TimeInterval,
                         withAction action: @escaping () -> ())

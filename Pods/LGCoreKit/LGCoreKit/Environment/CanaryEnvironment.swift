@@ -19,7 +19,7 @@ struct CanaryEnvironment: Environment {
     let webSocketURL = "wss://chat.letgo.com/socket"
     let notificationsBaseURL = "https://notifications.canary.letgo.com/api"
     let paymentsBaseURL = "https://payment.canary.letgo.com/payment"
-    let suggestiveSearchBaseURL = "https://suggestivesearch.letgo.com"
+    let suggestiveSearchBaseURL = "https://suggestivesearch.canary.letgo.com"
     let searchProductsBaseURL = "https://search-products.canary.letgo.com"
     let searchRealEstateBaseURL = "https://searchrealestate.canary.letgo.com"
     let niordBaseURL = "https://niord.letgo.com"
@@ -27,4 +27,6 @@ struct CanaryEnvironment: Environment {
     let meetingsBaseURL = "https://meeting.canary.letgo.com"
     let searchAlertsBaseURL = "https://searchalerts.canary.letgo.com"
     let customFeedBaseURL = "https://customfeed.stg.letgo.com"
+    let notificationSettingsPusherBaseURL = "https://push.stg.letgo.com"
+    let notificationSettingsMailerBaseURL = "https://mailer.stg.letgo.com"
 }
