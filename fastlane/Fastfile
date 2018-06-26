@@ -454,7 +454,9 @@ lane :release_patch do |options|
 	lg_dependencies
 	lg_fetch_app_version # This populates two env variables with the new_build & new_version
 	
-	segments = Gem::Version.new(Actions.lane_context[Actions::SharedValues::LG_VERSION_NUMBER]).segments
+	current_version = Actions.lane_context[Actions::SharedValues::LG_VERSION_NUMBER]
+	
+	segments = Gem::Version.new(current_version).segments
 	patch = segments[2].to_i + 1
 	new_version = Gem::Version.new(segments[0].to_s + "." + segments[1].to_s + "." + patch.to_s).to_s
 	new_build = options[:new_build] ||= Actions.lane_context[Actions::SharedValues::LG_BUILD_NUMBER].to_i + 1
@@ -462,7 +464,7 @@ lane :release_patch do |options|
 	release_beta(
 		new_version: new_version,
 		new_build: new_build,
-		base_branch: 'master'
+		base_branch: current_version
 	)
 end
 
@@ -483,12 +485,11 @@ lane :release_beta do |options|
 	channels = [ENV["BENDER_SLACK_DEFAULT_CHANNEL"]]
 	bender(message: message, channels: channels)
 
-	relelase_branch = 'release-' + new_version.to_s
-	if options[:base_branch].nil?
-		rb_git_clone(branch_name: release_branch)
-	else
-		base_branch_name = options[:base_branch]
-		rb_git_clone(branch_name: base_branch_name)
+	release_branch = 'release-' + new_version.to_s
+	
+	if !options[:base_branch].nil?
+		base_branch_name = release_branch
+		rb_git_clone(branch_name: options[:base_branch])
 		# This will update the ENV RB_INFO_BRANCH_NAME to the new created branch
 		rb_git_create_branch(
 			branch_name: "release-" + new_version,
@@ -502,15 +503,15 @@ lane :release_beta do |options|
 	)
 	
 	update_version_and_build(
-		branch_name: Actions.lane_context[Actions::SharedValues::RB_INFO_BRANCH_NAME],
+		branch_name: base_branch_name,
 		repository_path: repository_path, 
 		version_number: new_version.to_s, 
-		build_number: new_build
+		build_number: new_build.to_s
 	)
 
 	add_version_badge(
 		version_number: new_version, 
-		build_number: new_build, 
+		build_number: new_build,
 		path: repository_path
 	)
 

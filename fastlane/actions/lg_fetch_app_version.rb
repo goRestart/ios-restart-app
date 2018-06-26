@@ -32,6 +32,7 @@ class LgFetchAppVersionAction < Action
 		end
 
 		if branch_name 
+			Actions.sh "git fetch origin"  
 			changeBranchCommand = "git checkout #{branch_name}"
 			UI.message changeBranchCommand
 			Actions.sh changeBranchCommand
