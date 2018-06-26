@@ -56,7 +56,7 @@ class ChatCellDrawerFactory {
     static func registerCells(_ tableView: UITableView) {
         ChatMyMessageCellDrawer.registerCell(tableView)
         ChatOthersMessageCellDrawer.registerCell(tableView)
-        ChatStickerCellDrawer.registerCell(tableView)
+        ChatStickerCellDrawer.registerClassCell(tableView)
         ChatDisclaimerCellDrawer.registerCell(tableView)
         ChatOtherInfoCellDrawer.registerCell(tableView)
         ChatAskPhoneNumberCellDrawer.registerCell(tableView)

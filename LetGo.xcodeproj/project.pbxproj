@@ -1047,8 +1047,6 @@
 		6AF75D081CF449AF00EACCF0 /* ChatViewMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF75D061CF449AF00EACCF0 /* ChatViewMessage.swift */; };
 		6AF75D0A1CF457D800EACCF0 /* ChatViewMessageAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF75D091CF457D800EACCF0 /* ChatViewMessageAdapter.swift */; };
 		6AF75D0B1CF457D800EACCF0 /* ChatViewMessageAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF75D091CF457D800EACCF0 /* ChatViewMessageAdapter.swift */; };
-		6AF75D0D1CF4657B00EACCF0 /* ChatStickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6AF75D0C1CF4657B00EACCF0 /* ChatStickerCell.xib */; };
-		6AF75D0E1CF4657B00EACCF0 /* ChatStickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6AF75D0C1CF4657B00EACCF0 /* ChatStickerCell.xib */; };
 		6AFED59D20B2CB3600F0C761 /* ReputationTooltipManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFED59C20B2CB3600F0C761 /* ReputationTooltipManager.swift */; };
 		6AFED59E20B2CB3600F0C761 /* ReputationTooltipManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFED59C20B2CB3600F0C761 /* ReputationTooltipManager.swift */; };
 		6AFED5A020B2CB4800F0C761 /* LGReputationTooltipManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFED59F20B2CB4800F0C761 /* LGReputationTooltipManager.swift */; };
@@ -2638,7 +2636,6 @@
 		6AF75D031CF3600D00EACCF0 /* ChatStickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatStickerCell.swift; sourceTree = "<group>"; };
 		6AF75D061CF449AF00EACCF0 /* ChatViewMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewMessage.swift; sourceTree = "<group>"; };
 		6AF75D091CF457D800EACCF0 /* ChatViewMessageAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewMessageAdapter.swift; sourceTree = "<group>"; };
-		6AF75D0C1CF4657B00EACCF0 /* ChatStickerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatStickerCell.xib; sourceTree = "<group>"; };
 		6AFED59C20B2CB3600F0C761 /* ReputationTooltipManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReputationTooltipManager.swift; sourceTree = "<group>"; };
 		6AFED59F20B2CB4800F0C761 /* LGReputationTooltipManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGReputationTooltipManager.swift; sourceTree = "<group>"; };
 		6B9038639A27ACD226783445 /* Pods-LetGo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.debug.xcconfig"; sourceTree = "<group>"; };
@@ -5601,7 +5598,6 @@
 				C7B5887B1CE1DFA6009B3975 /* ChatOthersMessageCell.swift */,
 				C7B5887C1CE1DFA6009B3975 /* ChatOthersMessageCell.xib */,
 				6AF75D031CF3600D00EACCF0 /* ChatStickerCell.swift */,
-				6AF75D0C1CF4657B00EACCF0 /* ChatStickerCell.xib */,
 				2EE47D2720177653004B04EE /* ChatAskPhoneNumberCell.swift */,
 				2EE47D2820177653004B04EE /* ChatAskPhoneNumberCell.xib */,
 				8E031CAB20331D2D00CA0ED9 /* ChatInterlocutorIsTypingCell.swift */,
@@ -6226,7 +6222,6 @@
 				506DC19C1BBE7D8A00E59D27 /* levelup.caf in Resources */,
 				2E92CBFC20248DC600451B65 /* MeetingAssistantViewController.xib in Resources */,
 				C7B588A01CE1E025009B3975 /* ChatGroupedListView.xib in Resources */,
-				6AF75D0D1CF4657B00EACCF0 /* ChatStickerCell.xib in Resources */,
 				2E92CBFF20248DC600451B65 /* SuggestedLocationCell.xib in Resources */,
 				C7DE8AE21C88A98B005CF37E /* PostListingViewController.xib in Resources */,
 				C7AFFAFC1E7053EF0052A9CA /* NPSViewController.xib in Resources */,
@@ -6331,7 +6326,6 @@
 				C7DB425E1C5138B500400945 /* levelup.caf in Resources */,
 				2E9716A91D5A284F009B3A32 /* ExpressChatCell.xib in Resources */,
 				C7B588A11CE1E025009B3975 /* ChatGroupedListView.xib in Resources */,
-				6AF75D0E1CF4657B00EACCF0 /* ChatStickerCell.xib in Resources */,
 				2E9716AB1D5A284F009B3A32 /* ExpressChatViewController.xib in Resources */,
 				C7DE8AE31C88A98B005CF37E /* PostListingViewController.xib in Resources */,
 				C7AFFAFD1E7053EF0052A9CA /* NPSViewController.xib in Resources */,
