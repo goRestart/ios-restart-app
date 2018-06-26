@@ -59,7 +59,6 @@ extension R {
       public static let icBlockedWhiteLine = ImageAsset(name: "ic_blocked_white_line")
       public static let icDollarSold = ImageAsset(name: "ic_dollar_sold")
       public static let icSoldWhite = ImageAsset(name: "ic_sold_white")
-      public static let imgCallCenterGirl = ImageAsset(name: "img_call_center_girl")
       public static let inviteLetgo = ImageAsset(name: "invite_letgo")
       public static let itemLocation = ImageAsset(name: "itemLocation")
       public static let logoBig = ImageAsset(name: "logo-big")
@@ -96,7 +95,6 @@ extension R {
         icBlockedWhiteLine,
         icDollarSold,
         icSoldWhite,
-        imgCallCenterGirl,
         inviteLetgo,
         itemLocation,
         logoBig,
