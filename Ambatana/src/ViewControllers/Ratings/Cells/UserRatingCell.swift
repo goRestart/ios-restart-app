@@ -9,9 +9,9 @@ extension UserRatingType {
         case .conversation:
             return R.Strings.ratingListRatingTypeConversationTextLabel(userName)
         case .seller:
-            return R.Strings.ratingListRatingTypeSellerTextLabel(userName)
-        case .buyer:
             return R.Strings.ratingListRatingTypeBuyerTextLabel(userName)
+        case .buyer:
+            return R.Strings.ratingListRatingTypeSellerTextLabel(userName)
         }
     }
 
@@ -69,9 +69,12 @@ final class UserRatingCell: UITableViewCell, ReusableCell {
     }()
 
     private let starsStackView: UIStackView = {
-        let stars: [UIImageView] = [UIImageView](repeating: UIImageView(image: R.Asset.IconsButtons.icStarFilled.image),
-                                                 count: 5)
-
+        let stars: [UIImageView] = [UIImageView(image: R.Asset.IconsButtons.icStarFilled.image),
+                                    UIImageView(image: R.Asset.IconsButtons.icStarFilled.image),
+                                    UIImageView(image: R.Asset.IconsButtons.icStarFilled.image),
+                                    UIImageView(image: R.Asset.IconsButtons.icStarFilled.image),
+                                    UIImageView(image: R.Asset.IconsButtons.icStarFilled.image)]
+        stars.forEach { $0.contentMode = .scaleAspectFit }
         let stackView: UIStackView = .horizontal(stars)
         stackView.distribution = .equalSpacing
         return stackView
@@ -235,7 +238,7 @@ final class UserRatingCell: UITableViewCell, ReusableCell {
             timeLabelTop,
             timeLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Layout.margin),
             timeLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Layout.margin)
-        ])
+            ])
         self.timeLabelTopConstraint = timeLabelTop
         self.ratingTypeLabelLeadingConstraint = ratingTypeLabelLeading
     }
