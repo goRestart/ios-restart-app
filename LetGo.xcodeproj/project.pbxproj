@@ -1333,6 +1333,8 @@
 		C2E9ACEC207B64C00054B246 /* VPPostListingRedCamFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E9ACEA207B64C00054B246 /* VPPostListingRedCamFooter.swift */; };
 		C611B06A20C92A0700D7DD89 /* MultiListingPostedStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C611B06920C92A0700D7DD89 /* MultiListingPostedStatus.swift */; };
 		C611B06B20C92A0700D7DD89 /* MultiListingPostedStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C611B06920C92A0700D7DD89 /* MultiListingPostedStatus.swift */; };
+		C611D65E20DD396100955BF4 /* CarExtras+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C611D65D20DD396100955BF4 /* CarExtras+LG.swift */; };
+		C611D65F20DD396100955BF4 /* CarExtras+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C611D65D20DD396100955BF4 /* CarExtras+LG.swift */; };
 		C613D0F220BFF3F100344CF2 /* LGPickerSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C613D0F120BFF3F100344CF2 /* LGPickerSearchBar.swift */; };
 		C613D0F320BFF3F600344CF2 /* LGPickerSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C613D0F120BFF3F100344CF2 /* LGPickerSearchBar.swift */; };
 		C616945020D3C85B00A6692A /* PostingParamsImageAssigner.swift in Sources */ = {isa = PBXBuildFile; fileRef = C616944F20D3C85B00A6692A /* PostingParamsImageAssigner.swift */; };
@@ -1352,6 +1354,8 @@
 		C6687F3720C820BF008C1922 /* MultiListingPostedCongratsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6687F3520C820BF008C1922 /* MultiListingPostedCongratsCell.swift */; };
 		C6687F3A20C83A2C008C1922 /* MultiListingPostedIncentivisorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6687F3920C83A2C008C1922 /* MultiListingPostedIncentivisorCell.swift */; };
 		C6687F3B20C83A2C008C1922 /* MultiListingPostedIncentivisorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6687F3920C83A2C008C1922 /* MultiListingPostedIncentivisorCell.swift */; };
+		C6A5CC4E20E23EC100610A3A /* ListingAttributeGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A5CC4D20E23EC100610A3A /* ListingAttributeGridItem.swift */; };
+		C6A5CC4F20E23EC100610A3A /* ListingAttributeGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A5CC4D20E23EC100610A3A /* ListingAttributeGridItem.swift */; };
 		C6C8936D20C6E8B70069197C /* MultiListingPostedListingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C8936C20C6E8B70069197C /* MultiListingPostedListingCell.swift */; };
 		C6C8936E20C6E8B70069197C /* MultiListingPostedListingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C8936C20C6E8B70069197C /* MultiListingPostedListingCell.swift */; };
 		C6C8937020C7D4B80069197C /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C8936F20C7D4B80069197C /* CardView.swift */; };
@@ -2793,6 +2797,7 @@
 		C2E9ACEA207B64C00054B246 /* VPPostListingRedCamFooter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VPPostListingRedCamFooter.swift; sourceTree = "<group>"; };
 		C5EEF8649486D5B298DA9550 /* Pods-LetGoGodMode.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.debug.xcconfig"; sourceTree = "<group>"; };
 		C611B06920C92A0700D7DD89 /* MultiListingPostedStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiListingPostedStatus.swift; sourceTree = "<group>"; };
+		C611D65D20DD396100955BF4 /* CarExtras+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CarExtras+LG.swift"; sourceTree = "<group>"; };
 		C613D0F120BFF3F100344CF2 /* LGPickerSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGPickerSearchBar.swift; sourceTree = "<group>"; };
 		C616944F20D3C85B00A6692A /* PostingParamsImageAssigner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostingParamsImageAssigner.swift; sourceTree = "<group>"; };
 		C616945220D3CB1600A6692A /* PostingParamsImageAssignerSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostingParamsImageAssignerSpec.swift; sourceTree = "<group>"; };
@@ -2804,6 +2809,7 @@
 		C6687F3220C80D70008C1922 /* MultiListingPostedHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiListingPostedHeaderCell.swift; sourceTree = "<group>"; };
 		C6687F3520C820BF008C1922 /* MultiListingPostedCongratsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiListingPostedCongratsCell.swift; sourceTree = "<group>"; };
 		C6687F3920C83A2C008C1922 /* MultiListingPostedIncentivisorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiListingPostedIncentivisorCell.swift; sourceTree = "<group>"; };
+		C6A5CC4D20E23EC100610A3A /* ListingAttributeGridItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingAttributeGridItem.swift; sourceTree = "<group>"; };
 		C6C8936C20C6E8B70069197C /* MultiListingPostedListingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiListingPostedListingCell.swift; sourceTree = "<group>"; };
 		C6C8936F20C7D4B80069197C /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		C6D5FF1920B6B0A50045E3D3 /* ServicesInfo.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ServicesInfo.json; sourceTree = "<group>"; };
@@ -3993,6 +3999,7 @@
 		505B06A41B15A9910049F9CD /* Widgets */ = {
 			isa = PBXGroup;
 			children = (
+				C6A5CC4C20E23E9F00610A3A /* ListingAttributeGridView */,
 				425B40A920A99E32000968CF /* Map */,
 				2EB32D611DF184CB00E01E93 /* BumpUp */,
 				F57D3A231FECFCFC006F2CA4 /* TagCollectionView */,
@@ -4813,6 +4820,7 @@
 				424898ED2090820E004B11AC /* ListingRepository+LG.swift */,
 				42FCAC8620999DC400ED3DF7 /* LGLocationCoordinates2D+Region.swift */,
 				C2E7F41F20DB90BC0092A1F9 /* Locale+LG.swift */,
+				C611D65D20DD396100955BF4 /* CarExtras+LG.swift */,
 			);
 			path = LetgoExtensions;
 			sourceTree = "<group>";
@@ -5173,6 +5181,14 @@
 				C6687F3920C83A2C008C1922 /* MultiListingPostedIncentivisorCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		C6A5CC4C20E23E9F00610A3A /* ListingAttributeGridView */ = {
+			isa = PBXGroup;
+			children = (
+				C6A5CC4D20E23EC100610A3A /* ListingAttributeGridItem.swift */,
+			);
+			path = ListingAttributeGridView;
 			sourceTree = "<group>";
 		};
 		C6E770982099B12D002CFA99 /* PushPermissions */ = {
@@ -7201,6 +7217,7 @@
 				50146BC21D4F5F5B00B0F635 /* TabCoordinator.swift in Sources */,
 				2EF4E3B21D3688AB00A09DFD /* LGConfigDAO.swift in Sources */,
 				6AA32F3A1CA29CC4003A1677 /* AdminViewController.swift in Sources */,
+				C6A5CC4E20E23EC100610A3A /* ListingAttributeGridItem.swift in Sources */,
 				C7E1DE511E4C8D0E003818F6 /* NewRelicTracker.swift in Sources */,
 				C7DCFEC41C03625E00F7A4FB /* ListingTimeCriteria+LG.swift in Sources */,
 				6A879DA81C8DD2BD00E0C868 /* PushPrePermissionsSettingsViewModel.swift in Sources */,
@@ -7775,6 +7792,7 @@
 				F57D3A271FECFD2D006F2CA4 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
 				72854D101F8515BB00E54530 /* PostingDetailsViewController.swift in Sources */,
 				01A171C3208DE5B800C98D4C /* SearchAlertSwitchCell.swift in Sources */,
+				C611D65E20DD396100955BF4 /* CarExtras+LG.swift in Sources */,
 				C6687F3320C80D70008C1922 /* MultiListingPostedHeaderCell.swift in Sources */,
 				721A83111E827FD300507E47 /* MediaPermissions.swift in Sources */,
 				2E4DE8D9206422970016D5A8 /* BoostSuccessAlertView.swift in Sources */,
@@ -8014,6 +8032,7 @@
 				72EB70601E65C63900BF709B /* ModularNotificationCell.swift in Sources */,
 				C7DE8ADD1C88A8E5005CF37E /* PostListingViewModel.swift in Sources */,
 				C7DB41A41C5138B500400945 /* MainListingsViewController.swift in Sources */,
+				C6A5CC4F20E23EC100610A3A /* ListingAttributeGridItem.swift in Sources */,
 				50146BC31D4F5F5B00B0F635 /* TabCoordinator.swift in Sources */,
 				2E2D53E21D369B0500348D12 /* LGConfigDAO.swift in Sources */,
 				C7E1DE521E4C8D0E003818F6 /* NewRelicTracker.swift in Sources */,
@@ -8588,6 +8607,7 @@
 				326C730B20908148009D21DB /* CategoriesFeedHeaderCell.swift in Sources */,
 				C7DB42201C5138B500400945 /* BaseViewModel.swift in Sources */,
 				427CAB86206A7D5600112D58 /* InfoBubbleView.swift in Sources */,
+				C611D65F20DD396100955BF4 /* CarExtras+LG.swift in Sources */,
 				72854D111F8515BB00E54530 /* PostingDetailsViewController.swift in Sources */,
 				C6687F3420C80D70008C1922 /* MultiListingPostedHeaderCell.swift in Sources */,
 				6A5E1A1B1D548F5400F92692 /* UIViewController+Alert.swift in Sources */,

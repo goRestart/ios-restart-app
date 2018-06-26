@@ -273,6 +273,37 @@ extension R {
       public static let chevronDownGrey = ImageAsset(name: "chevron_down_grey")
       public static let customPermissionProfile = ImageAsset(name: "custom_permission_profile")
       public static let downChevronRed = ImageAsset(name: "down_chevron_red")
+      public enum FiltersCarExtrasIcons {
+        public enum Bodytype {
+          public static let convertible = ImageAsset(name: "convertible")
+          public static let coupe = ImageAsset(name: "coupe")
+          public static let hatchback = ImageAsset(name: "hatchback")
+          public static let hybrid = ImageAsset(name: "hybrid")
+          public static let minivan = ImageAsset(name: "minivan")
+          public static let other = ImageAsset(name: "other")
+          public static let sedan = ImageAsset(name: "sedan")
+          public static let suv = ImageAsset(name: "suv")
+          public static let truck = ImageAsset(name: "truck")
+          public static let wagon = ImageAsset(name: "wagon")
+        }
+        public enum Drivetrain {
+          public static let _4wd = ImageAsset(name: "4wd")
+          public static let awd = ImageAsset(name: "awd")
+          public static let fwd = ImageAsset(name: "fwd")
+          public static let rwd = ImageAsset(name: "rwd")
+        }
+        public enum Fueltype {
+          public static let diesel = ImageAsset(name: "diesel")
+          public static let electric = ImageAsset(name: "electric")
+          public static let flex = ImageAsset(name: "flex")
+          public static let gas = ImageAsset(name: "gas")
+          public static let hybrid = ImageAsset(name: "hybrid")
+        }
+        public enum Transmission {
+          public static let automatic = ImageAsset(name: "automatic")
+          public static let manual = ImageAsset(name: "manual")
+        }
+      }
       public enum FiltersCategoriesIcons {
         public static let categoriesBabiesInactive = ImageAsset(name: "categories_babies_inactive")
         public static let categoriesCarsInactive = ImageAsset(name: "categories_cars_inactive")
@@ -555,6 +586,27 @@ extension R {
         chevronDownGrey,
         customPermissionProfile,
         downChevronRed,
+        FiltersCarExtrasIcons.Bodytype.convertible,
+        FiltersCarExtrasIcons.Bodytype.coupe,
+        FiltersCarExtrasIcons.Bodytype.hatchback,
+        FiltersCarExtrasIcons.Bodytype.hybrid,
+        FiltersCarExtrasIcons.Bodytype.minivan,
+        FiltersCarExtrasIcons.Bodytype.other,
+        FiltersCarExtrasIcons.Bodytype.sedan,
+        FiltersCarExtrasIcons.Bodytype.suv,
+        FiltersCarExtrasIcons.Bodytype.truck,
+        FiltersCarExtrasIcons.Bodytype.wagon,
+        FiltersCarExtrasIcons.Drivetrain._4wd,
+        FiltersCarExtrasIcons.Drivetrain.awd,
+        FiltersCarExtrasIcons.Drivetrain.fwd,
+        FiltersCarExtrasIcons.Drivetrain.rwd,
+        FiltersCarExtrasIcons.Fueltype.diesel,
+        FiltersCarExtrasIcons.Fueltype.electric,
+        FiltersCarExtrasIcons.Fueltype.flex,
+        FiltersCarExtrasIcons.Fueltype.gas,
+        FiltersCarExtrasIcons.Fueltype.hybrid,
+        FiltersCarExtrasIcons.Transmission.automatic,
+        FiltersCarExtrasIcons.Transmission.manual,
         FiltersCategoriesIcons.categoriesBabiesInactive,
         FiltersCategoriesIcons.categoriesCarsInactive,
         FiltersCategoriesIcons.categoriesElectronicsInactive,
