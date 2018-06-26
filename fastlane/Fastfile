@@ -448,6 +448,22 @@ lane :release_minor do
 	)
 end
 
+desc "Creates a new patch from the last tag"
+lane :release_patch do
+	lg_dependencies
+	lg_fetch_app_version # This populates two env variables with the new_build & new_version
+	
+	segments = Gem::Version.new(Actions.lane_context[Actions::SharedValues::LG_VERSION_NUMBER]).segments
+	patch = segments[2] + 1
+	new_version = Gem::Version.new(segments[0] + '.' + segmets[1] + '.' + patch).to_s
+	new_build = options[:new_build] ||= Actions.lane_context[Actions::SharedValues::LG_BUILD_NUMBER].to_i + 1
+
+	release_beta(
+		new_version: new_version,
+		new_build: neww_build
+	)
+end
+
 desc "Generates a new beta"
 lane :release_beta do |options|
 	lg_dependencies
