@@ -282,7 +282,8 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
                         appstoreProduct: PurchaseableProduct,
                         letgoItemId: String,
                         isBoost: Bool,
-                        maxCountdown: TimeInterval) {
+                        maxCountdown: TimeInterval,
+                        typePage: EventParameterTypePage?) {
         guard canMakePayments else { return }
         guard let appstoreProducts = letgoProductsDict[listingId],
             let appstoreChosenProduct = appstoreProduct as? SKProduct,
@@ -290,6 +291,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
             else { return }
 
         purchasesShopperState = .purchasing
+        currentBumpTypePage = typePage
 
         delegate?.pricedBumpDidStart(typePage: currentBumpTypePage, isBoost: isBoost)
 
