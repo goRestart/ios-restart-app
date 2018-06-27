@@ -54,7 +54,7 @@ class ABTestsSpec: QuickSpec {
                     sut.registerVariables()
                 }
                 it("registers all the variables") {
-                    expect(syncer.syncedCount) == 63
+                    expect(syncer.syncedCount) == 64
                 }
             }
 
@@ -301,7 +301,7 @@ class ABTestsSpec: QuickSpec {
 
             context("registering all users variables") {
                 it("the users int variable registered are 4") {
-                    expect(users.intVariables.count) == 4
+                    expect(users.intVariables.count) == 5
                 }
 
                 it("the users bool variable registered are 0") {
@@ -325,7 +325,7 @@ class ABTestsSpec: QuickSpec {
                     syncer.sync(variables: users.floatVariables)
                 }
                 it("the variables registered are 4") {
-                    expect(syncer.syncedCount) == 4
+                    expect(syncer.syncedCount) == 5
                 }
             }
                     
