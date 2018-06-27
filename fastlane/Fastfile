@@ -493,9 +493,8 @@ lane :release_beta do |options|
 			repository_path: repository_path
 		)
 	else
-		ensure_git_branch(
-			branch: release_branch
-		)
+		release_branch = sh("git symbolic-ref HEAD --short").gsub("\n")
+			
 		rb_git_clone(branch_name: release_branch)    
 		base_branch_name = release_branch
 	end
@@ -513,8 +512,8 @@ lane :release_beta do |options|
 	)
 
 	add_version_badge(
-		version_number: new_version, 
-		build_number: new_build,
+		version_number: new_version.to_s, 
+		build_number: new_build.to_s,
 		path: repository_path
 	)
 
@@ -523,10 +522,10 @@ lane :release_beta do |options|
 	build_beta(workspace: workspace, scheme: scheme)
 	
 	ipa_path = ENV["LG_LAST_BETA"]
-	#upload_crashlytics(
-	#	beta_path: ipa_path, 
-	#	version_number: new_version, 
-	#	build_number: new_build
+	upload_crashlytics(
+		beta_path: ipa_path, 
+		version_number: new_version.to_s, 
+		build_number: new_build.to_s
 
 	lg_push(
 		repository_path: repository_path,
