@@ -8,25 +8,25 @@ import UIKit
     case SignUpLoginEmailButton
  */
 
-protocol Accessible {
+public protocol Accessible {
     var identifier: String { get }
 }
 
-enum AccessibilityId: String, Accessible {
+public enum Accessibility: String, Accessible {
     
-    var identifier: String { return rawValue }
+    public var identifier: String { return rawValue }
     
     case helpWebView
 }
 
-extension UIAccessibilityIdentification {
+public extension UIAccessibilityIdentification {
     
-    func set(accessibilityId: Accessible?) {
-        accessibilityIdentifier = accessibilityId?.identifier
+    func set(accessibility: Accessible?) {
+        accessibilityIdentifier = accessibility?.identifier
     }
 }
 
-extension NSObject {
+public extension NSObject {
     
     var accessibilityInspectionEnabled: Bool {
         get { return !accessibilityElementsHidden }

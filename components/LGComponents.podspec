@@ -72,11 +72,22 @@ Pod::Spec.new do |s|
             baseFolder+'iOS/UIKit/UIView+Corners.swift',
             baseFolder+'iOS/UIKit/UIView+Border.swift',
             baseFolder+'iOS/UIKit/LGLayout.swift',
+            baseFolder+'iOS/UIKit/ToastView.swift',
+            baseFolder+'iOS/UIKit/UIViewController+LG.swift',
+            baseFolder+'iOS/UIKit/UIAction.swift',
+            baseFolder+'iOS/UIKit/LetgoButton.swift',
             baseFolder+'iOS/Foundation/TimeInterval+Time.swift',
             baseFolder+'iOS/Foundation/String+LG.swift',
             baseFolder+'iOS/Foundation/CollectionType+Shuffle.swift',
             baseFolder+'iOS/Foundation/LGEmoji.swift',
             baseFolder+'iOS/Foundation/URL+LG.swift',
+            baseFolder+'MVVM+C/BaseViewModel.swift',
+            baseFolder+'MVVM+C/BaseViewController.swift',
+            baseFolder+'MVVM+C/HelpViewController.swift',
+            baseFolder+'MVVM+C/HelpViewModel.swift',
+            baseFolder+'MVVM+C/BaseView.swift',
+            baseFolder+'MVVM+C/TabBarShowable.swift',
+            baseFolder+'Global/AccessibilityId.swift',
             baseFolder+'Global/AppReport.swift',
             baseFolder+'Global/SharedConstants.swift',
             baseFolder+'Global/Debug.swift',
@@ -101,7 +112,7 @@ Pod::Spec.new do |s|
         sharedSpec.dependency 'AlamofireImage',        '3.3.0'
         # sharedSpec.dependency 'SwiftyUserDefaults',    '3.0.1'
         sharedSpec.dependency 'CocoaLumberjack/Swift', '3.3.0'
-        # sharedSpec.dependency 'RxCocoa',               '4.0.0'
+        sharedSpec.dependency 'RxCocoa',               '4.0.0'
     end
 
     # s.subspec 'LGSharedMocks' do |sharedMocksSpec|

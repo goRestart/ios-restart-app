@@ -669,13 +669,13 @@ class ListingViewModel: BaseViewModel {
                                                          action: { [weak self] in
                                                             self?.bumpUpHiddenProductContactUs()
                     },
-                                                         accessibilityId: .bumpUpHiddenListingAlertContactButton)
+                                                         accessibility: AccessibilityId.bumpUpHiddenListingAlertContactButton)
 
                 let cancelInterface = UIActionInterface.button(R.Strings.commonCancel,
                                                                .secondary(fontSize: .medium, withBorder: true))
                 let cancelAction: UIAction = UIAction(interface: cancelInterface,
                                                       action: {},
-                                                      accessibilityId: .bumpUpHiddenListingAlertCancelButton)
+                                                      accessibility: AccessibilityId.bumpUpHiddenListingAlertCancelButton)
 
 
                 self?.navigator?.showBumpUpNotAvailableAlertWithTitle(title: R.Strings.commonErrorTitle,
@@ -919,31 +919,31 @@ extension ListingViewModel {
             .withRenderingMode(.alwaysOriginal)
         return UIAction(interface: .image(icon, nil), action: { [weak self] in
             self?.switchFavorite()
-        }, accessibilityId: .listingCarouselNavBarFavoriteButton)
+        }, accessibility: AccessibilityId.listingCarouselNavBarFavoriteButton)
     }
 
     private func buildEditNavBarAction() -> UIAction {
         let icon = R.Asset.IconsButtons.navbarEdit.image.withRenderingMode(.alwaysOriginal)
         return UIAction(interface: .image(icon, nil), action: { [weak self] in
             self?.editListing()
-        }, accessibilityId: .listingCarouselNavBarEditButton)
+        }, accessibility: AccessibilityId.listingCarouselNavBarEditButton)
     }
 
     private func buildMoreNavBarAction() -> UIAction {
         let icon = R.Asset.IconsButtons.navbarMore.image.withRenderingMode(.alwaysOriginal)
         return UIAction(interface: .image(icon, nil), action: { [weak self] in self?.updateAltActions() },
-                        accessibilityId: .listingCarouselNavBarActionsButton)
+                        accessibility: AccessibilityId.listingCarouselNavBarActionsButton)
     }
 
     private func buildShareNavBarAction() -> UIAction {
  		if DeviceFamily.current.isWiderOrEqualThan(.iPhone6) {
             return UIAction(interface: .textImage(R.Strings.productShareNavbarButton, R.Asset.IconsButtons.icShare.image), action: { [weak self] in
                 self?.shareProduct()
-            }, accessibilityId: .listingCarouselNavBarShareButton)
+            }, accessibility: AccessibilityId.listingCarouselNavBarShareButton)
         } else {
             return UIAction(interface: .text(R.Strings.productShareNavbarButton), action: { [weak self] in
                 self?.shareProduct()
-            }, accessibilityId: .listingCarouselNavBarShareButton)
+            }, accessibility: AccessibilityId.listingCarouselNavBarShareButton)
         }
     }
 
@@ -968,13 +968,13 @@ extension ListingViewModel {
     private func buildEditAction() -> UIAction {
         return UIAction(interface: .text(R.Strings.productOptionEdit), action: { [weak self] in
             self?.editListing()
-        }, accessibilityId: .listingCarouselNavBarEditButton)
+        }, accessibility: AccessibilityId.listingCarouselNavBarEditButton)
     }
 
     private func buildShareAction() -> UIAction {
         return UIAction(interface: .text(R.Strings.productOptionShare), action: { [weak self] in
             self?.shareProduct()
-        }, accessibilityId: .listingCarouselNavBarShareButton)
+        }, accessibility: AccessibilityId.listingCarouselNavBarShareButton)
     }
 
     private func buildReportAction() -> UIAction {
@@ -1137,7 +1137,7 @@ fileprivate extension ListingViewModel {
     func favoriteBubbleNotificationData() -> BubbleNotificationData {
         let action = UIAction(interface: .text(R.Strings.productBubbleFavoriteButton), action: { [weak self] in
             self?.sendMessage(type: .favoritedListing(R.Strings.productFavoriteDirectMessage))
-        }, accessibilityId: .bubbleButton)
+        }, accessibility: AccessibilityId.bubbleButton)
         let data = BubbleNotificationData(tagGroup: ListingViewModel.bubbleTagGroup,
                                           text: R.Strings.productBubbleFavoriteButton,
                                           infoText: R.Strings.productBubbleFavoriteText,

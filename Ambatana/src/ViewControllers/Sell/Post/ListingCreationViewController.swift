@@ -1,15 +1,7 @@
-//
-//  PostingLoadingViewController.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 23/11/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
-
 import Foundation
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 class ListingCreationViewController: BaseViewController {
     

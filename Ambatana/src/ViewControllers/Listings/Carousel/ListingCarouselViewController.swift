@@ -723,7 +723,7 @@ extension ListingCarouselViewController {
                 case .textImage:
                     let shareButton = CarouselUIHelper.buildShareButton(action.text, icon: action.image)
                     let rightItem = UIBarButtonItem(customView: shareButton)
-                    rightItem.set(accessibilityId: action.accessibilityId)
+                    rightItem.set(accessibility: action.accessibility)
                     rightItem.style = .plain
                     shareButton.rx.tap.takeUntil(takeUntilAction).bind{
                         action.action()
@@ -751,7 +751,7 @@ extension ListingCarouselViewController {
                         }.disposed(by: strongSelf.disposeBag)
                     buttons.append(button)
                     button.alpha = alpha
-                    button.set(accessibilityId: navBarButton.accessibilityId)
+                    button.set(accessibility: navBarButton.accessibility)
                 }
                 strongSelf.setNavigationBarRightButtons(buttons)
             }

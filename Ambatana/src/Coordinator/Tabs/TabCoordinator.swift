@@ -603,7 +603,7 @@ extension TabCoordinator: ListingDetailNavigator {
             let action = UIAction(interface: .button(R.Strings.productDeletePostButtonTitle,
                                                      .primary(fontSize: .medium)), action: { [weak self] in
                                                         self?.openSell(source: .deleteListing, postCategory: nil)
-                }, accessibilityId: .postDeleteAlertButton)
+                }, accessibility: AccessibilityId.postDeleteAlertButton)
             navigationController.showAlertWithTitle(R.Strings.productDeletePostTitle,
                                                     text: R.Strings.productDeletePostSubtitle,
                                                     alertType: .plainAlertOld, actions: [action])

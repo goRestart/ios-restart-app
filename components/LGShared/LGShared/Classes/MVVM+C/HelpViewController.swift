@@ -1,11 +1,3 @@
-//
-//  HelpViewController.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 24/09/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
 import WebKit
 
 public class HelpViewController: BaseViewController {
@@ -15,17 +7,17 @@ public class HelpViewController: BaseViewController {
 
     // MARK: - Lifecycle
     
-    public required init(viewModel: HelpViewModel) {
+    required public init(viewModel: HelpViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
         automaticallyAdjustsScrollViewInsets = false
     }
 
-    public required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
 
         webView.translatesAutoresizingMaskIntoConstraints = false
@@ -46,6 +38,6 @@ public class HelpViewController: BaseViewController {
     // MARK: - Private methods
 
     private func setupAccessibilityIds() {
-        webView.set(accessibilityId: AccessibilityId.helpWebView)
+        webView.set(accessibility: Accessibility.helpWebView)
     }
 }

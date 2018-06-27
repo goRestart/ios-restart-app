@@ -403,7 +403,7 @@ extension ChatViewController: UIGestureRecognizerDelegate {
         let kbAction = UIAction(interface: .image(image, nil), action: { [weak self] in
             guard let showing = self?.showingStickers else { return }
             showing ? self?.hideStickers() : self?.showStickers()
-        }, accessibilityId: .chatViewStickersButton)
+        }, accessibility: AccessibilityId.chatViewStickersButton)
         actions.append(kbAction)
 
         leftActions = actions

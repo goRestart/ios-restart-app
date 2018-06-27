@@ -1,12 +1,5 @@
-//
-//  Leanplum+LG.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 08/11/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 protocol CustomLeanplumPresenter {
     func showLeanplumAlert(_ title: String?, text: String, image: String, action: UIAction)
@@ -41,7 +34,7 @@ extension Leanplum {
             let title = context.stringNamed(titleIdentifier)
             let okAction = UIAction(interface: .styledText(buttonText, .standard),
                                     action: { context.runTrackedActionNamed(actionIdentifier) },
-                                    accessibilityId: .acceptPopUpButton)
+                                    accessibility: AccessibilityId.acceptPopUpButton)
             presenter.showLeanplumAlert(title, text:message, image:image, action: okAction)
             return true
         })

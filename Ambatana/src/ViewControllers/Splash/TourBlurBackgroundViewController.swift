@@ -1,12 +1,5 @@
-//
-//  TourBlurBackgroundViewController.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 23/11/2016.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
 final class TourBlurBackgroundViewController: BaseViewController {
 

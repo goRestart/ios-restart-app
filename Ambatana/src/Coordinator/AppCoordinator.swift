@@ -303,12 +303,12 @@ extension AppCoordinator: AppNavigator {
                                                              .primary(fontSize: .medium))
         let reviewAlertAction = UIAction(interface: reviewActionInterface,
                                          action: reviewAction,
-                                         accessibilityId: .offensiveReportAlertOpenGuidelineButton)
+                                         accessibility: AccessibilityId.offensiveReportAlertOpenGuidelineButton)
         let skipActionInterface = UIActionInterface.button(R.Strings.offensiveReportAlertSecondaryAction,
                                                             .secondary(fontSize: .medium, withBorder: true))
         let skipAlertAction = UIAction(interface: skipActionInterface,
                                   action: {},
-                                  accessibilityId: .offensiveReportAlertSkipButton)
+                                  accessibility: AccessibilityId.offensiveReportAlertSkipButton)
         if let alert = LGAlertViewController(title: R.Strings.offensiveReportAlertTitle,
                                              text: R.Strings.offensiveReportAlertMessage,
                                              alertType: .plainAlert,

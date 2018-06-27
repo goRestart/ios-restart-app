@@ -42,10 +42,6 @@ protocol EditLocationNavigator: class {
     func closeEditLocation()
 }
 
-protocol HelpNavigator: class {
-    func closeHelp()
-}
-
 protocol EditUserBioNavigator: class {
     func closeEditUserBio()
 }

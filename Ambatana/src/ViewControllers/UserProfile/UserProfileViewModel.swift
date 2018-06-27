@@ -541,10 +541,10 @@ extension UserProfileViewModel {
 
         let positive = UIAction(interface: .styledText(R.Strings.profilePermissionsAlertOk, .standard),
                                 action: positiveClosure,
-                                accessibilityId: .userPushPermissionOK)
+                                accessibility: AccessibilityId.userPushPermissionOK)
         let negative = UIAction(interface: .styledText(R.Strings.profilePermissionsAlertCancel, .cancel),
                                 action:negativeClosure,
-                                accessibilityId: .userPushPermissionCancel)
+                                accessibility: AccessibilityId.userPushPermissionCancel)
 
         delegate?.vmShowAlertWithTitle(R.Strings.profilePermissionsAlertTitle,
                                        text: R.Strings.profilePermissionsAlertMessage,

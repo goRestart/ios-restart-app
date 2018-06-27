@@ -1,13 +1,6 @@
-//
-//  PostListingBasicDetailViewModel.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 17/08/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import RxSwift
 import LGCoreKit
+import LGComponents
 
 protocol PostListingBasicDetailViewModelDelegate: class {
     func postListingDetailDone(_ viewModel: PostListingBasicDetailViewModel)
