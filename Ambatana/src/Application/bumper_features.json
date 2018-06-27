@@ -288,5 +288,10 @@
         "name": "NotificationSettings",
         "values": ["control", "baseline", "differentLists", "sameList"],
         "description": "Settings to enable or disable each type of notification"
+    },
+    {
+        "name": "ReportingFostaSesta",
+        "values": ["control", "baseline", "withIcons", "withoutIcons"],
+        "description": "Show new user/product reporting flow (FOSTA-SESTA compliance)"
     }
  ]
