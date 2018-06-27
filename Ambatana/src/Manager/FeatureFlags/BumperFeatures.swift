@@ -74,6 +74,7 @@ extension Bumper  {
         flags.append(ShowChatConnectionStatusBar.self)
         flags.append(AdvancedReputationSystem.self)
         flags.append(NotificationSettings.self)
+        flags.append(ReportingFostaSesta.self)
         Bumper.initialize(flags)
     } 
 
@@ -782,11 +783,6 @@ extension Bumper  {
     static var simplifiedChatButton: SimplifiedChatButton {
         guard let value = Bumper.value(for: SimplifiedChatButton.key) else { return .control }
         return SimplifiedChatButton(rawValue: value) ?? .control 
-    }
-
-    static var notificationSettings: NotificationSettings {
-        guard let value = Bumper.value(for: NotificationSettings.key) else { return .control }
-        return NotificationSettings(rawValue: value) ?? .control 
     } 
 
     #if (RX_BUMPER)
@@ -819,6 +815,32 @@ extension Bumper  {
     static var advancedReputationSystemObservable: Observable<AdvancedReputationSystem> {
         return Bumper.observeValue(for: AdvancedReputationSystem.key).map {
             AdvancedReputationSystem(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var notificationSettings: NotificationSettings {
+        guard let value = Bumper.value(for: NotificationSettings.key) else { return .control }
+        return NotificationSettings(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var notificationSettingsObservable: Observable<NotificationSettings> {
+        return Bumper.observeValue(for: NotificationSettings.key).map {
+            NotificationSettings(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var reportingFostaSesta: ReportingFostaSesta {
+        guard let value = Bumper.value(for: ReportingFostaSesta.key) else { return .control }
+        return ReportingFostaSesta(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var reportingFostaSestaObservable: Observable<ReportingFostaSesta> {
+        return Bumper.observeValue(for: ReportingFostaSesta.key).map {
+            ReportingFostaSesta(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1740,6 +1762,23 @@ enum NotificationSettings: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .differentLists
             case 3: return .sameList
+            default: return .control
+        }
+    }
+}
+
+enum ReportingFostaSesta: String, BumperFeature  {
+    case control, baseline, withIcons, withoutIcons
+    static var defaultValue: String { return ReportingFostaSesta.control.rawValue }
+    static var enumValues: [ReportingFostaSesta] { return [.control, .baseline, .withIcons, .withoutIcons]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show new user/product reporting flow (FOSTA-SESTA compliance)" } 
+    static func fromPosition(_ position: Int) -> ReportingFostaSesta {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .withIcons
+            case 3: return .withoutIcons
             default: return .control
         }
     }
