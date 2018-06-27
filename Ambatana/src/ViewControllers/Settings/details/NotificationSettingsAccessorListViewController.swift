@@ -138,7 +138,8 @@ final class NotificationSettingsAccessorListViewController: BaseViewController, 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
+        defer { tableView.deselectRow(at: indexPath, animated: true) }
+        guard indexPath.row < viewModel.notificationSettings.value.count else { return }
         viewModel.openNotificationSettingsListDetail(notificationSetting: viewModel.notificationSettings.value[indexPath.row])
     }
 }

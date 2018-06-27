@@ -5548,6 +5548,58 @@ class TrackerEventSpec: QuickSpec {
                     expect(sut.params!.stringKeyParams["feed-position"] as? String) == "20"
                 }
             }
+            
+            describe("Notification settings") {
+                describe("Notification settings start") {
+                    beforeEach {
+                        sut = TrackerEvent.notificationsEditStart()
+                    }
+                    it("has its event name") {
+                        expect(sut.name.rawValue) == "notifications-edit-start"
+                    }
+                    it("has no params") {
+                        expect(sut.params?.params).to(beNil())
+                    }
+                }
+                describe("Push settings") {
+                    beforeEach {
+                        var dynamicParameters: [String: Bool] = [:]
+                        dynamicParameters["parameter"] = true
+                        dynamicParameters["parameter2"] = false
+                        sut = TrackerEvent.pushNotificationsEditStart(dynamicParameters: dynamicParameters,
+                                                                      marketingNoticationsEnabled: true)
+                    }
+                    it("event name is ad-shown") {
+                        expect(sut.name.rawValue) == "push-notifications-edit-start"
+                    }
+                    it("contains parameter-enabled as true") {
+                        expect(sut.params!.stringKeyParams["parameter-enabled"] as? Bool) == true
+                    }
+                    it("contains parameter2-enabled as false") {
+                        expect(sut.params!.stringKeyParams["parameter2-enabled"] as? Bool) == false
+                    }
+                    it("contains marketing-notifications-enabled as true") {
+                        expect(sut.params!.stringKeyParams["marketing-notifications-enabled"] as? Bool) == true
+                    }
+                }
+                describe("Mail settings") {
+                    beforeEach {
+                        var dynamicParameters: [String: Bool] = [:]
+                        dynamicParameters["parameter"] = false
+                        dynamicParameters["parameter2"] = true
+                        sut = TrackerEvent.mailNotificationsEditStart(dynamicParameters: dynamicParameters)
+                    }
+                    it("event name is ad-shown") {
+                        expect(sut.name.rawValue) == "email-notifications-edit-start"
+                    }
+                    it("contains parameter-enabled as true") {
+                        expect(sut.params!.stringKeyParams["parameter-enabled"] as? Bool) == false
+                    }
+                    it("contains parameter2-enabled as false") {
+                        expect(sut.params!.stringKeyParams["parameter2-enabled"] as? Bool) == true
+                    }
+                }
+            }
         }
     }
 }

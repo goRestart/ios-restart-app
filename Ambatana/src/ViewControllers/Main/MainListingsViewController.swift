@@ -685,8 +685,9 @@ extension MainListingsViewController: TrendingSearchViewDelegate {
         case .suggestive:
             guard let (suggestiveSearch, sourceText) = viewModel.suggestiveSearchAtIndex(indexPath.row) else { return nil }
             return SuggestionSearchCellContent(title: suggestiveSearch.title,
-                                      titleSkipHighlight: sourceText,
-                                      subtitle: suggestiveSearch.subtitle, icon: suggestiveSearch.icon) { [weak self] in
+                                               titleSkipHighlight: sourceText,
+                                               subtitle: suggestiveSearch.subtitle,
+                                               icon: suggestiveSearch.icon) { [weak self] in
                 self?.updadeSearchTextfield(suggestiveSearch.title)
             }
         case .lastSearch:
@@ -703,7 +704,6 @@ extension MainListingsViewController: TrendingSearchViewDelegate {
         navbarSearch.searchTextField.text = text
         navBarSearchTextFieldDidUpdate(text: text)
     }
-    
 }
 
 extension MainListingsViewController {

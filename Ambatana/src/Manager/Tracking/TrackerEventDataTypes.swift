@@ -206,6 +206,10 @@ enum EventName: String {
     case screenshot                         = "os-screenshot"
 
     case sessionOneMinuteFirstWeek          = "session-one-minute-first-week"
+    
+    case notificationsEditStart             = "notifications-edit-start"
+    case pushNotificationsEditStart         = "push-notifications-edit-start"
+    case emailNotificationsEditStart        = "email-notifications-edit-start"
 
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
@@ -385,6 +389,9 @@ enum EventParameterName: String {
     case isVideo              = "is-video"
     case messageGoal          = "message-goal"
     case productCounter       = "product-counter"
+    
+    case marketingNotificationsEnabled  = "marketing-notifications-enabled"
+    
     
     // Machine Learning
     case mlPredictiveFlow = "predictive-flow"
@@ -1402,6 +1409,7 @@ enum EventParameterUserBadge: String {
 
 struct EventParameters {
     var params: [EventParameterName : Any] = [:]
+    var dynamicParams: [String : Any] = [:]
     
     // transforms the params to [String: Any]
     var stringKeyParams: [String: Any] {
@@ -1409,6 +1417,9 @@ struct EventParameters {
             var res = [String: Any]()
             for (paramName, value) in params {
                 res[paramName.rawValue] = value
+            }
+            for (paramName, value) in dynamicParams {
+                res[paramName] = value
             }
             return res
         }
@@ -1449,6 +1460,15 @@ struct EventParameters {
         }
         set(newValue) {
             params[paramName] = newValue
+        }
+    }
+    
+    internal subscript(dynamicParamName: String) -> Any? {
+        get {
+            return dynamicParams[dynamicParamName]
+        }
+        set(newValue) {
+            dynamicParams[dynamicParamName] = newValue
         }
     }
 }
