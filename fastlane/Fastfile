@@ -494,7 +494,9 @@ lane :release_beta do |options|
 		)
 	else
 		release_branch = sh("git symbolic-ref HEAD --short").gsub("\n")
-			
+		if !release_branch.include?('release') 
+			UI.user_error!("You must be in a release branch")
+		end
 		rb_git_clone(branch_name: release_branch)    
 		base_branch_name = release_branch
 	end
