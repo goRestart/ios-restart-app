@@ -782,11 +782,6 @@ extension Bumper  {
     static var simplifiedChatButton: SimplifiedChatButton {
         guard let value = Bumper.value(for: SimplifiedChatButton.key) else { return .control }
         return SimplifiedChatButton(rawValue: value) ?? .control 
-    }
-
-    static var notificationSettings: NotificationSettings {
-        guard let value = Bumper.value(for: NotificationSettings.key) else { return .control }
-        return NotificationSettings(rawValue: value) ?? .control 
     } 
 
     #if (RX_BUMPER)
@@ -819,6 +814,19 @@ extension Bumper  {
     static var advancedReputationSystemObservable: Observable<AdvancedReputationSystem> {
         return Bumper.observeValue(for: AdvancedReputationSystem.key).map {
             AdvancedReputationSystem(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var notificationSettings: NotificationSettings {
+        guard let value = Bumper.value(for: NotificationSettings.key) else { return .control }
+        return NotificationSettings(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var notificationSettingsObservable: Observable<NotificationSettings> {
+        return Bumper.observeValue(for: NotificationSettings.key).map {
+            NotificationSettings(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
