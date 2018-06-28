@@ -73,6 +73,12 @@ class ChatGroupedViewModel: BaseViewModel {
 
     let verificationPending = Variable<Bool>(false)
 
+    // Connectivity
+    private let reachability: ReachabilityProtocol
+    private let rx_wsChatStatus = Variable<WSChatStatus>(.closed)
+    private let rx_isReachable = Variable<Bool>(true)
+    let rx_connectionBarStatus = Variable<ChatConnectionBarStatus>(.wsConnected)
+
     fileprivate let disposeBag: DisposeBag
 
 
@@ -82,18 +88,21 @@ class ChatGroupedViewModel: BaseViewModel {
         self.init(myUserRepository: Core.myUserRepository,
                   chatRepository: Core.chatRepository,
                   featureFlags: FeatureFlags.sharedInstance,
-                  tracker: TrackerProxy.sharedInstance)
+                  tracker: TrackerProxy.sharedInstance,
+                  reachability: LGReachability())
     }
 
     init(myUserRepository: MyUserRepository,
          chatRepository: ChatRepository,
          featureFlags: FeatureFlaggeable,
-         tracker: TrackerProxy) {
+         tracker: TrackerProxy,
+         reachability: ReachabilityProtocol) {
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
         self.featureFlags = featureFlags
         self.tracker = tracker
         self.chatListViewModels = []
+        self.reachability = reachability
         self.blockedUsersListViewModel = BlockedUsersListViewModel()
         self.disposeBag = DisposeBag()
         
@@ -122,6 +131,13 @@ class ChatGroupedViewModel: BaseViewModel {
         }
         setupRxBindings()
         setupVerificationPendingEmptyVM()
+    }
+
+    override func didBecomeActive(_ firstTime: Bool) {
+        super.didBecomeActive(firstTime)
+        if firstTime && featureFlags.showChatConnectionStatusBar.isActive {
+            setupReachability()
+        }
     }
 
     func setupVerificationPendingEmptyVM() {
@@ -313,6 +329,16 @@ class ChatGroupedViewModel: BaseViewModel {
         chatListViewModel.emptyStatusViewModel = emptyVM
         return chatListViewModel
     }
+
+    private func setupReachability() {
+        reachability.reachableBlock = { [weak self] in
+            self?.rx_isReachable.value = true
+        }
+        reachability.unreachableBlock = { [weak self] in
+            self?.rx_isReachable.value = false
+        }
+        reachability.start()
+    }
 }
 
 
@@ -364,5 +390,34 @@ extension ChatGroupedViewModel {
                     description: R.Strings.chatNotVerifiedAlertMessage),
                 completionBlock: nil)
         }.disposed(by: disposeBag)
+
+        if featureFlags.showChatConnectionStatusBar.isActive {
+            chatRepository.chatStatus
+                .asObservable()
+                .bind(to: rx_wsChatStatus)
+                .disposed(by: disposeBag)
+
+            Observable.combineLatest(rx_wsChatStatus.asObservable(),
+                                     rx_isReachable.asObservable())
+                .asObservable()
+                .skip(1)
+                .bind { [weak self] (wsChatStatus, isReachable) in
+                    guard isReachable else {
+                        self?.rx_connectionBarStatus.value = .noNetwork
+                        return
+                    }
+                    switch wsChatStatus {
+                    case .openAuthenticated, .openNotVerified:
+                        self?.rx_connectionBarStatus.value = .wsConnected
+                    case .closed, .closing:
+                        self?.rx_connectionBarStatus.value = .wsClosed(reconnectBlock: { [weak self] in
+                            self?.refreshCurrentPage()
+                        })
+                    case .opening, .openNotAuthenticated:
+                        self?.rx_connectionBarStatus.value = .wsConnecting
+                    }
+                }
+                .disposed(by: disposeBag)
+        }
     }
 }

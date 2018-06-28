@@ -27,24 +27,6 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         return searchType?.text
     }
     
-    var searchBoxSize: SearchBoxSize {
-        switch featureFlags.searchBoxImprovements {
-        case .baseline, .control, .changeCopy:
-            return .normal
-        case .biggerBox, .changeCopyAndBoxSize:
-            return .large
-        }
-    }
-    
-    var searchFieldStyle: SearchFieldStyle {
-        switch featureFlags.searchBoxImprovements {
-        case .baseline, .control, .biggerBox:
-            return .letgoRed
-        case .changeCopy, .changeCopyAndBoxSize:
-            return .grey
-        }
-    }
-    
     var clearTextOnSearch: Bool {
         guard let searchType = searchType else { return false }
         switch searchType {

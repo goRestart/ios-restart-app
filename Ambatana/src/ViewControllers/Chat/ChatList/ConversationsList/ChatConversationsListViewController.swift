@@ -40,7 +40,7 @@ final class ChatConversationsListViewController: ChatBaseViewController {
          featureFlags: FeatureFlaggeable) {
         self.viewModel = viewModel
         self.featureFlags = featureFlags
-        super.init(viewModel: viewModel)
+        super.init(viewModel: viewModel, featureFlags: featureFlags)
         automaticallyAdjustsScrollViewInsets = false
         hidesBottomBarWhenPushed = false
         hasTabBar = true

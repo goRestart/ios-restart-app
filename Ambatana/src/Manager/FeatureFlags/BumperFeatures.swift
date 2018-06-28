@@ -59,7 +59,6 @@ extension Bumper  {
         flags.append(ChatConversationsListWithoutTabs.self)
         flags.append(PersonalizedFeed.self)
         flags.append(ServicesCategoryOnSalchichasMenu.self)
-        flags.append(SearchBoxImprovements.self)
         flags.append(GoogleAdxForTR.self)
         flags.append(MultiContactAfterSearch.self)
         flags.append(ShowServicesFeatures.self)
@@ -633,19 +632,6 @@ extension Bumper  {
     static var servicesCategoryOnSalchichasMenuObservable: Observable<ServicesCategoryOnSalchichasMenu> {
         return Bumper.observeValue(for: ServicesCategoryOnSalchichasMenu.key).map {
             ServicesCategoryOnSalchichasMenu(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var searchBoxImprovements: SearchBoxImprovements {
-        guard let value = Bumper.value(for: SearchBoxImprovements.key) else { return .control }
-        return SearchBoxImprovements(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var searchBoxImprovementsObservable: Observable<SearchBoxImprovements> {
-        return Bumper.observeValue(for: SearchBoxImprovements.key).map {
-            SearchBoxImprovements(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1505,24 +1491,6 @@ enum ServicesCategoryOnSalchichasMenu: String, BumperFeature  {
             case 2: return .variantA
             case 3: return .variantB
             case 4: return .variantC
-            default: return .control
-        }
-    }
-}
-
-enum SearchBoxImprovements: String, BumperFeature  {
-    case control, baseline, changeCopy, biggerBox, changeCopyAndBoxSize
-    static var defaultValue: String { return SearchBoxImprovements.control.rawValue }
-    static var enumValues: [SearchBoxImprovements] { return [.control, .baseline, .changeCopy, .biggerBox, .changeCopyAndBoxSize]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Improve search box visibility by changing its size and copy" } 
-    static func fromPosition(_ position: Int) -> SearchBoxImprovements {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .changeCopy
-            case 3: return .biggerBox
-            case 4: return .changeCopyAndBoxSize
             default: return .control
         }
     }
