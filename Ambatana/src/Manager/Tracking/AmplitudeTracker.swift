@@ -8,6 +8,7 @@ final class AmplitudeTracker: Tracker {
     // Constants
     // > User properties
     private static let userPropIdKey = "user-id"
+    private static let userPropUserIsLoggedKey = "user-is-logged"
     private static let userPropEmailKey = "user-email"
     private static let userPropLatitudeKey = "user-lat"
     private static let userPropLongitudeKey = "user-lon"
@@ -73,25 +74,30 @@ final class AmplitudeTracker: Tracker {
     }
 
     func setUser(_ user: MyUser?) {
+        // https://ambatana.atlassian.net/browse/ABIOS-3984
+        // https://ambatana.atlassian.net/browse/ABIOS-4000
+
         let identify = AMPIdentify()
-        Amplitude.instance().setUserId(user?.emailOrId)
+        loggedIn = user != nil
+
+        let userLoggedIn = NSString(string: loggedIn ? "true" : "false")
+        identify.set(AmplitudeTracker.userPropUserIsLoggedKey, value: userLoggedIn)
 
         if let loggedUser = user {
-            // https://ambatana.atlassian.net/browse/ABIOS-3984
+            Amplitude.instance().setUserId(loggedUser.emailOrId)
+
             let userIdValue = NSString(string: loggedUser.objectId ?? "")
             identify.set(AmplitudeTracker.userPropIdKey, value: userIdValue)
+
+            let ratingAverageValue = NSNumber(value: loggedUser.ratingAverage ?? 0)
+            identify.set(AmplitudeTracker.userPropUserRating, value: ratingAverageValue)
+            let reputationBadge = NSString(string: loggedUser.reputationBadge.rawValue)
+            identify.set(AmplitudeTracker.userPropReputationBadge, value: reputationBadge)
         }
-
-        let ratingAverageValue = NSNumber(value: user?.ratingAverage ?? 0)
-        identify.set(AmplitudeTracker.userPropUserRating, value: ratingAverageValue)
-        let reputationBadge = NSString(string: user?.reputationBadge.rawValue ?? "")
-        identify.set(AmplitudeTracker.userPropReputationBadge, value: reputationBadge)
-        Amplitude.instance().identify(identify)
-
-        loggedIn = user != nil
         if let pendingLoginEvent = pendingLoginEvent {
             trackEvent(pendingLoginEvent)
         }
+        Amplitude.instance().identify(identify)
     }
     
     func trackEvent(_ event: TrackerEvent) {

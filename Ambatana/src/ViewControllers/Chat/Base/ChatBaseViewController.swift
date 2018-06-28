@@ -3,13 +3,13 @@ import RxSwift
 class ChatBaseViewController: BaseViewController {
     
     let bag = DisposeBag()
-    
-    init(viewModel: ChatBaseViewModel) {
+
+    init(viewModel: ChatBaseViewModel, featureFlags: FeatureFlaggeable = FeatureFlags.sharedInstance) {
         super.init(viewModel: viewModel, nibName: nil)
-        showConnectionToastView = false
+        showConnectionToastView = !featureFlags.showChatConnectionStatusBar.isActive
         setupBaseRx(viewModel: viewModel)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

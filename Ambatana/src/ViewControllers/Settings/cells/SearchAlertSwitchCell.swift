@@ -93,8 +93,8 @@ final class SearchAlertSwitchCell: UITableViewCell, ReusableCell {
     }
     
     private func setupAccessibilityIds() {
-        label.set(accessibilityId: .settingsNotificationsCellTitle)
-        activationSwitch.set(accessibilityId: .settingsNotificationsCellSwitch)
+        label.set(accessibilityId: .notificationSettingsCellTitle)
+        activationSwitch.set(accessibilityId: .notificationSettingsCellSwitch)
     }
     
     func setupWithSearchAlert(_ searchAlert: SearchAlert) {

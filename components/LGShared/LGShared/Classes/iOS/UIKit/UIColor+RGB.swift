@@ -1,18 +1,12 @@
-//
-//  UIColor+RGB.swift
-//  LetGo
-//
-//  Created by AHL on 27/4/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
 import UIKit
 
-extension UIColor {
-    public convenience init(rgb: UInt) {
+public extension UIColor {
+    
+    convenience init(rgb: UInt) {
         self.init(rgb: rgb, alpha: 1.0)
     }
-    public convenience init(rgb: UInt, alpha: CGFloat) {
+    
+    convenience init(rgb: UInt, alpha: CGFloat) {
         self.init(
             red: CGFloat((rgb & 0xFF0000) >> 16) / 255.0,
             green: CGFloat((rgb & 0x00FF00) >> 8) / 255.0,

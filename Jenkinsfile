@@ -13,9 +13,7 @@ branch_type = get_branch_type "${env.BRANCH_NAME}"
 try {
 	parallel (
 		"Move Tickets": {
-			if (branch_type == 'pr') {
-				notifyChannelNewPR()
-			} else if (branch_type == "master") {
+			if (branch_type == "master") {
 				markJiraIssuesAsDone() 
 			} else if (branch_type == "release") {
 				def release_identifier = get_release_identifier "${env.BRANCH_NAME}"
@@ -25,6 +23,7 @@ try {
 		"CI": { 
 			if (branch_type == "pr") {
 				stopPreviousRunningBuilds()
+        notifyChannelNewPR()
 				launchUnitTests() 
         	} 
       	}

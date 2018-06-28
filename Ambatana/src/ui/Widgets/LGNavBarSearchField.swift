@@ -62,9 +62,6 @@ final class LGNavBarSearchField: UIView {
             }
         }
     }
-
-    private let boxSize: SearchBoxSize
-    private let searchFieldStyle: SearchFieldStyle
     
     private var stackCenterConstraint: NSLayoutConstraint?
     private var stackLeftConstraint: NSLayoutConstraint?
@@ -72,11 +69,7 @@ final class LGNavBarSearchField: UIView {
     
     private var state: State { didSet { renderStatefulUI() } }
     
-    init(_ text: String?,
-         searchBoxSize: SearchBoxSize,
-         searchFieldStyle: SearchFieldStyle) {
-        self.boxSize = searchBoxSize
-        self.searchFieldStyle = searchFieldStyle
+    init(_ text: String?) {
         if let text = text {
             self.state = .completeEdit(text: text)
         } else {
@@ -122,7 +115,7 @@ final class LGNavBarSearchField: UIView {
     
     private func setupConstraints() {
         containerView.layout(with: self).fillHorizontal().centerY()
-        containerView.layout().height(boxSize.boxHeight)
+        containerView.layout().height(LGNavBarMetrics.Container.largeHeight)
         
         searchTextField.layout(with: containerView).fill()
         magnifierIcon.layout()
@@ -139,10 +132,10 @@ final class LGNavBarSearchField: UIView {
     
     private func setupUI() {
         containerView.cornerRadius = containerCornerRadius
-        magnifierIcon.image = searchFieldStyle.magnifierImage
-        logoIcon.isHidden = searchFieldStyle.shouldHideLetgoIcon
+        magnifierIcon.image = SearchFieldStyle.magnifierImage
+        logoIcon.isHidden = SearchFieldStyle.shouldHideLetgoIcon
         searchTextLabel.isHidden = shouldHideGreySearchLabel
-        stackView.spacing = searchFieldStyle.imageTextSpacing
+        stackView.spacing = SearchFieldStyle.imageTextSpacing
     }
     
     private func renderStatefulUI() {
@@ -164,37 +157,15 @@ final class LGNavBarSearchField: UIView {
     }
     
     private var stackAlignment: UIStackViewAlignment {
-        
-        if let queryText = searchTextField.text,
-            !queryText.isEmpty {
-            return .center
-        }
-        
-        switch (searchFieldStyle, state) {
-            case (.grey, _), (_, .beginEdit): return .center
-            default: return .top
-        }
+        return .center
     }
     
     private var shouldHideGreySearchLabel: Bool {
-        switch searchFieldStyle {
-        case .letgoRed: return true
-        case .grey: return searchTextField.text?.isEmpty == false
-        }
+        return searchTextField.text?.isEmpty == false
     }
 
-    private var yOffset: CGFloat {
-        return searchFieldStyle.shouldHideLetgoIcon ?
-            0 : LGNavBarMetrics.StackView.verticalDiference
-    }
-    
-    private var containerCornerRadius: CGFloat {
-        switch (searchFieldStyle, boxSize) {
-        case (.grey, _): return 10
-        case (.letgoRed, .normal): return LGNavBarMetrics.Container.height / 2.0
-        case (.letgoRed, .large): return LGNavBarMetrics.Container.largeHeight / 2.0
-        }
-    }
+    private let yOffset: CGFloat = 0
+    private let containerCornerRadius: CGFloat = 10
     
     private func setupTextFieldEditMode() {
         logosLeft()

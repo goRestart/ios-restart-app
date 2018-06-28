@@ -27,20 +27,16 @@ protocol FeatureFlaggeable: class {
     var taxonomiesAndTaxonomyChildrenInFeed : TaxonomiesAndTaxonomyChildrenInFeed { get }
     var showClockInDirectAnswer : ShowClockInDirectAnswer { get }
     var deckItemPage: DeckItemPage { get }
-    var mostSearchedDemandedItems: MostSearchedDemandedItems { get }
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio { get }
     var realEstateNewCopy: RealEstateNewCopy { get }
-    var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers { get }
     var searchImprovements: SearchImprovements { get }
     var relaxedSearch: RelaxedSearch { get }
-    var onboardingIncentivizePosting: OnboardingIncentivizePosting { get }
     var bumpUpBoost: BumpUpBoost { get }
     var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings { get }
     var showProTagUserProfile: Bool { get }
     var sectionedMainFeed: SectionedMainFeed { get }
     var showExactLocationForPros: Bool { get }
-    var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -73,6 +69,7 @@ protocol FeatureFlaggeable: class {
     var markAllConversationsAsRead: MarkAllConversationsAsRead { get }
     var chatNorris: ChatNorris { get }
     var chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs { get }
+    var showChatConnectionStatusBar: ShowChatConnectionStatusBar { get }
 
     // MARK: Verticals
     var searchCarsIntoNewBackend: SearchCarsIntoNewBackend { get }
@@ -83,7 +80,6 @@ protocol FeatureFlaggeable: class {
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed { get }
     var personalizedFeedABTestIntValue: Int? { get }
-    var searchBoxImprovements: SearchBoxImprovements { get }
     var multiContactAfterSearch: MultiContactAfterSearch { get }
     var emptySearchImprovements: EmptySearchImprovements { get }
 
@@ -100,6 +96,13 @@ protocol FeatureFlaggeable: class {
     
     // MARK: Money
     var preventMessagesFromFeedToProUsers: PreventMessagesFromFeedToProUsers { get }
+    
+    // MARK: Retention
+    var mostSearchedDemandedItems: MostSearchedDemandedItems { get }
+    var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
+    var onboardingIncentivizePosting: OnboardingIncentivizePosting { get }
+    var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed { get }
+    var notificationSettings: NotificationSettings { get }
 }
 
 extension FeatureFlaggeable {
@@ -372,6 +375,10 @@ extension IAmInterestedFeed {
 
 extension PersonalizedFeed {
     var isActive: Bool { return self != .control && self != .baseline }
+}
+
+extension NotificationSettings {
+    var isActive: Bool { return self == .differentLists || self == .sameList }
 }
 
 // MARK: Products
@@ -711,6 +718,13 @@ final class FeatureFlags: FeatureFlaggeable {
         return OffensiveReportAlert.fromPosition(abTests.offensiveReportAlert.value)
     }
 
+    var notificationSettings: NotificationSettings {
+        if Bumper.enabled {
+            return Bumper.notificationSettings
+        }
+        return NotificationSettings.fromPosition(abTests.notificationSettings.value)
+    }
+    
     // MARK: - Country features
 
     var freePostingModeAllowed: Bool {
@@ -1044,6 +1058,10 @@ extension ChatConversationsListWithoutTabs {
     var isActive: Bool { return self == .active }
 }
 
+extension ShowChatConnectionStatusBar {
+    var isActive: Bool { return self == .active }
+}
+
 extension FeatureFlags {
     
     var showInactiveConversations: Bool {
@@ -1088,6 +1106,15 @@ extension FeatureFlags {
         let cached = dao.retrieveChatConversationsListWithoutTabs()
         return cached ?? ChatConversationsListWithoutTabs.fromPosition(abTests.chatConversationsListWithoutTabs.value)
     }
+
+    var showChatConnectionStatusBar: ShowChatConnectionStatusBar {
+        if Bumper.enabled {
+            return Bumper.showChatConnectionStatusBar
+        }
+        // Remove hardcoded value when is implemented also for chat detail
+        return .control
+//        return  ShowChatConnectionStatusBar.fromPosition(abTests.showChatConnectionStatusBar.value)
+    }
 }
 
 // MARK: Verticals
@@ -1119,12 +1146,16 @@ extension FeatureFlags {
         if Bumper.enabled {
             return Bumper.showServicesFeatures
         }
-        return .control // ShowServicesFeatures.fromPosition(abTests.showServicesFeatures.value)
+        return ShowServicesFeatures.fromPosition(abTests.showServicesFeatures.value)
     }
 }
 
 
 // MARK: Discovery
+
+private extension PersonalizedFeed {
+    static let defaultVariantValue = 4
+}
 
 extension FeatureFlags {
     /**
@@ -1147,14 +1178,7 @@ extension FeatureFlags {
     }
     
     var personalizedFeedABTestIntValue: Int? {
-        return abTests.personlizedFeedIsActive ? abTests.personalizedFeed.value : nil
-    }
-    
-    var searchBoxImprovements: SearchBoxImprovements {
-        if Bumper.enabled {
-            return Bumper.searchBoxImprovements
-        }
-        return SearchBoxImprovements.fromPosition(abTests.searchBoxImprovement.value)
+        return abTests.personlizedFeedIsActive ? abTests.personalizedFeed.value : PersonalizedFeed.defaultVariantValue
     }
     
     var multiContactAfterSearch: MultiContactAfterSearch {

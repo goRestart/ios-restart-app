@@ -1,14 +1,6 @@
-//
-//  UIView+Border.swift
-//  LetGo
-//
-//  Created by AHL on 17/5/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
 import UIKit
 
-extension UIView {
+public extension UIView {
     
     func addTopBorderWithWidth(_ width: CGFloat, color: UIColor) -> CALayer {
         let actualWidth = width / UIScreen.main.scale;
@@ -76,7 +68,7 @@ extension UIView {
 
 // MARK: - Shadows
 
-extension UIView {
+public extension UIView {
     func applyFloatingButtonShadow() {
         layer.shadowColor = UIColor.black.cgColor
         layer.shadowOffset = CGSize(width: 0.0, height: 8.0)
@@ -102,7 +94,7 @@ extension UIView {
 
 // MARK: - Rounded corners
 
-extension UIView {
+public extension UIView {
     func setRoundedCorners(_ roundingCorners: UIRectCorner, cornerRadius: CGFloat) {
         let maskPath = UIBezierPath(roundedRect: bounds, byRoundingCorners: roundingCorners,
                                     cornerRadii: CGSize(width: cornerRadius, height: cornerRadius))

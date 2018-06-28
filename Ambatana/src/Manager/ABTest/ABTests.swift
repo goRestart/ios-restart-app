@@ -133,10 +133,6 @@ extension ABTests {
         return discovery.multiContact
     }
     
-    var searchBoxImprovement: LeanplumABVariable<Int> {
-        return discovery.searchBoxImprovements
-    }
-    
     var emptySearchImprovements: LeanplumABVariable<Int> {
         return discovery.emptySearchImprovements
     }
@@ -168,6 +164,7 @@ extension ABTests {
     var markAllConversationsAsRead: LeanplumABVariable<Int> { return chat.markAllConversationsAsRead }
     var chatNorris: LeanplumABVariable<Int> { return chat.chatNorris }
     var chatConversationsListWithoutTabs: LeanplumABVariable<Int> { return chat.chatConversationsListWithoutTabs }
+    var showChatConnectionStatusBar: LeanplumABVariable<Int> { return chat.showChatConnectionStatusBar }
 }
 
 //  MARK: Money
@@ -194,6 +191,7 @@ extension ABTests {
     var onboardingIncentivizePosting: LeanplumABVariable<Int> { return retention.onboardingIncentivizePosting }
     var iAmInterestedInFeed: LeanplumABVariable<Int> { return retention.iAmInterestedInFeed }
     var highlightedIAmInterestedInFeed: LeanplumABVariable<Int> { return retention.highlightedIAmInterestedInFeed }
+    var notificationSettings: LeanplumABVariable<Int> { return retention.notificationSettings }
 }
 
 //  MARK: RealEstate

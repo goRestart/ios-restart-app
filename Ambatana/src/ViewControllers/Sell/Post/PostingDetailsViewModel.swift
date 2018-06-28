@@ -146,6 +146,8 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         return sizeListing.asObservable()
     }
     
+    var nextButtonEnabled: Variable<Bool> = Variable(true)
+    
     private let tracker: Tracker
     private let currencyHelper: CurrencyHelper
     private let locationManager: LocationManager
@@ -172,6 +174,8 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     
     weak var navigator: PostListingNavigator?
     private let disposeBag = DisposeBag()
+    
+    
     
     // MARK: - LifeCycle
     
@@ -233,6 +237,9 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         self.imageMultiplierRepository = imageMultiplierRepository
         self.servicesInfoRepository = servicesInfoRepository
         self.listingRepository = listingRepository
+        
+        super.init()
+        updateNextbuttonEnabled()
     }
     
     func closeButtonPressed() {
@@ -564,7 +571,8 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     
     // MARK: - PostingAddDetailSummaryTableViewDelegate
     
-    func postingAddDetailSummary(_ postingAddDetailSummary: PostingAddDetailSummaryTableView, didSelectIndex: PostingSummaryOption) {
+    func postingAddDetailSummary(_ postingAddDetailSummary: PostingAddDetailSummaryTableView,
+                                 didSelectIndex: PostingSummaryOption) {
         
         let event = TrackerEvent.openOptionOnSummary(fieldOpen: EventParameterOptionSummary(optionSelected: didSelectIndex),
                                                      postingType: EventParameterPostingType(category: postListingState.category ?? .otherItems(listingCategory: nil)))
@@ -620,7 +628,9 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         return postListingState.place?.postalAddress?.address ?? myUserRepository.myUser?.location?.postalAddress?.address ?? locationManager.currentLocation?.postalAddress?.address
     }
     
-    private func multipostParams(subtypes: [ServiceSubtype], newSubtypes: [String], imagesIds: [String]) -> [ListingCreationParams] {
+    private func multipostParams(subtypes: [ServiceSubtype],
+                                 newSubtypes: [String],
+                                 imagesIds: [String]) -> [ListingCreationParams] {
         guard let location = locationManager.currentLocation?.location else { return [] }
         
         let postalAddress = locationManager.currentLocation?.postalAddress ?? PostalAddress.emptyAddress()
@@ -649,26 +659,31 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
 }
 
 extension PostingDetailsViewModel: PostingMultiSelectionViewDelegate {
+    
     func add(service subtype: ServiceSubtype) {
         guard !multipostingSubtypes.contains(where: { $0.id == subtype.id }),
             selectedServicesIsLessThanMax else { return }
         multipostingSubtypes.append(subtype)
+        updateNextbuttonEnabled()
     }
     
     func remove(service subtype: ServiceSubtype) {
         guard let index = multipostingSubtypes.index(where: { $0.name == subtype.name }) else { return }
         multipostingSubtypes.remove(at: index)
+        updateNextbuttonEnabled()
     }
     
     func addNew(service name: String) {
         guard !multipostingNewSubtypes.contains(where: { $0 == name }),
             selectedServicesIsLessThanMax else { return }
         multipostingNewSubtypes.append(name)
+        updateNextbuttonEnabled()
     }
     
     func removeNew(service name: String) {
         guard let index = multipostingNewSubtypes.index(where: { $0 == name }) else { return }
         multipostingNewSubtypes.remove(at: index)
+        updateNextbuttonEnabled()
     }
     
     func showAlertMaxSelection() {
@@ -685,5 +700,14 @@ extension PostingDetailsViewModel: PostingMultiSelectionViewDelegate {
         return (multipostingSubtypes.count + multipostingNewSubtypes.count) <= SharedConstants.maxNumberMultiPosting
     }
     
+    private func updateNextbuttonEnabled() {
+        nextButtonEnabled.value = isNextButtonEnabled()
+    }
+    
+    private func isNextButtonEnabled() -> Bool {
+        guard step == PostingDetailStep.servicesSubtypes else {
+            return true
+        }
+        return multipostingSubtypes.count > 0 || multipostingNewSubtypes.count > 0
+    }
 }
-

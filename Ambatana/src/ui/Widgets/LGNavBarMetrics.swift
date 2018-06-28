@@ -1,10 +1,4 @@
-//
-//  LGNavBarMetrics.swift
-//  LetGo
-//
-//  Created by Tomas Cobo on 23/03/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
+import LGComponents
 
 import LGComponents
 
@@ -49,4 +43,15 @@ struct LGNavBarMetrics {
     struct GreySearchTextLabel {
         static let height: CGFloat = Logo.height
     }
+}
+
+struct SearchFieldStyle {
+    static let magnifierImage = R.Asset.IconsButtons.listSearchGrey.image
+    static let containerCornerRadius: CGFloat = 10
+    static let imageTextSpacing: CGFloat = 8
+    static let shouldHideLetgoIcon = true
+}
+
+struct SearchBoxSize {
+    static let boxHeight: CGFloat = LGNavBarMetrics.Container.largeHeight
 }

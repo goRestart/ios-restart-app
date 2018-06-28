@@ -25,20 +25,16 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var requestTimeOut: RequestsTimeOut = .thirty
     var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed = .control
     var showClockInDirectAnswer: ShowClockInDirectAnswer = .control
-    var mostSearchedDemandedItems: MostSearchedDemandedItems = .control
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers = .control
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio = .control
     var realEstateNewCopy: RealEstateNewCopy = .control
-    var dummyUsersInfoProfile: DummyUsersInfoProfile = .control
     var searchImprovements: SearchImprovements = .control
     var relaxedSearch: RelaxedSearch = .control
     var bumpUpBoost: BumpUpBoost = .control
-    var onboardingIncentivizePosting: OnboardingIncentivizePosting = .control
     var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings = .control
     var showProTagUserProfile: Bool = false
     var sectionedMainFeed: SectionedMainFeed = .control
     var showExactLocationForPros: Bool = true
-    var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed = .control
     
     // Country dependant features
     var freePostingModeAllowed = false
@@ -74,6 +70,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var markAllConversationsAsRead: MarkAllConversationsAsRead = .control
     var chatNorris: ChatNorris = .control
     var chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs = .control
+    var showChatConnectionStatusBar: ShowChatConnectionStatusBar = .control
     
     // MARK:  Verticals
     var searchCarsIntoNewBackend: SearchCarsIntoNewBackend = .control
@@ -84,7 +81,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed = .control
     var personalizedFeedABTestIntValue: Int? = nil
-    var searchBoxImprovements: SearchBoxImprovements = .control
     var multiContactAfterSearch: MultiContactAfterSearch = .control
     var emptySearchImprovements: EmptySearchImprovements = .control
     
@@ -102,5 +98,12 @@ final class MockFeatureFlags: FeatureFlaggeable {
     
     // MARK: Money
     var preventMessagesFromFeedToProUsers: PreventMessagesFromFeedToProUsers = .control
+    
+    // MARK: Retention
+    var mostSearchedDemandedItems: MostSearchedDemandedItems = .control
+    var dummyUsersInfoProfile: DummyUsersInfoProfile = .control
+    var onboardingIncentivizePosting: OnboardingIncentivizePosting = .control
+    var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed = .control
+    var notificationSettings: NotificationSettings = .control
 }
 

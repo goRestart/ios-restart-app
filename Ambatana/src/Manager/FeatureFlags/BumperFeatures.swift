@@ -59,7 +59,6 @@ extension Bumper  {
         flags.append(ChatConversationsListWithoutTabs.self)
         flags.append(PersonalizedFeed.self)
         flags.append(ServicesCategoryOnSalchichasMenu.self)
-        flags.append(SearchBoxImprovements.self)
         flags.append(GoogleAdxForTR.self)
         flags.append(MultiContactAfterSearch.self)
         flags.append(ShowServicesFeatures.self)
@@ -71,7 +70,9 @@ extension Bumper  {
         flags.append(PredictivePosting.self)
         flags.append(PreventMessagesFromFeedToProUsers.self)
         flags.append(SimplifiedChatButton.self)
+        flags.append(ShowChatConnectionStatusBar.self)
         flags.append(AdvancedReputationSystem.self)
+        flags.append(NotificationSettings.self)
         Bumper.initialize(flags)
     } 
 
@@ -634,19 +635,6 @@ extension Bumper  {
     }
     #endif
 
-    static var searchBoxImprovements: SearchBoxImprovements {
-        guard let value = Bumper.value(for: SearchBoxImprovements.key) else { return .control }
-        return SearchBoxImprovements(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var searchBoxImprovementsObservable: Observable<SearchBoxImprovements> {
-        return Bumper.observeValue(for: SearchBoxImprovements.key).map {
-            SearchBoxImprovements(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
     static var googleAdxForTR: GoogleAdxForTR {
         guard let value = Bumper.value(for: GoogleAdxForTR.key) else { return .control }
         return GoogleAdxForTR(rawValue: value) ?? .control 
@@ -790,6 +778,19 @@ extension Bumper  {
     }
     #endif
 
+    static var showChatConnectionStatusBar: ShowChatConnectionStatusBar {
+        guard let value = Bumper.value(for: ShowChatConnectionStatusBar.key) else { return .control }
+        return ShowChatConnectionStatusBar(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var showChatConnectionStatusBarObservable: Observable<ShowChatConnectionStatusBar> {
+        return Bumper.observeValue(for: ShowChatConnectionStatusBar.key).map {
+            ShowChatConnectionStatusBar(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
     static var advancedReputationSystem: AdvancedReputationSystem {
         guard let value = Bumper.value(for: AdvancedReputationSystem.key) else { return .control }
         return AdvancedReputationSystem(rawValue: value) ?? .control 
@@ -799,6 +800,19 @@ extension Bumper  {
     static var advancedReputationSystemObservable: Observable<AdvancedReputationSystem> {
         return Bumper.observeValue(for: AdvancedReputationSystem.key).map {
             AdvancedReputationSystem(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var notificationSettings: NotificationSettings {
+        guard let value = Bumper.value(for: NotificationSettings.key) else { return .control }
+        return NotificationSettings(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var notificationSettingsObservable: Observable<NotificationSettings> {
+        return Bumper.observeValue(for: NotificationSettings.key).map {
+            NotificationSettings(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1468,24 +1482,6 @@ enum ServicesCategoryOnSalchichasMenu: String, BumperFeature  {
     }
 }
 
-enum SearchBoxImprovements: String, BumperFeature  {
-    case control, baseline, changeCopy, biggerBox, changeCopyAndBoxSize
-    static var defaultValue: String { return SearchBoxImprovements.control.rawValue }
-    static var enumValues: [SearchBoxImprovements] { return [.control, .baseline, .changeCopy, .biggerBox, .changeCopyAndBoxSize]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Improve search box visibility by changing its size and copy" } 
-    static func fromPosition(_ position: Int) -> SearchBoxImprovements {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .changeCopy
-            case 3: return .biggerBox
-            case 4: return .changeCopyAndBoxSize
-            default: return .control
-        }
-    }
-}
-
 enum GoogleAdxForTR: String, BumperFeature  {
     case control, baseline, googleAdxForAllUsers, googleAdxForOldUsers
     static var defaultValue: String { return GoogleAdxForTR.control.rawValue }
@@ -1675,6 +1671,22 @@ enum SimplifiedChatButton: String, BumperFeature  {
     }
 }
 
+enum ShowChatConnectionStatusBar: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return ShowChatConnectionStatusBar.control.rawValue }
+    static var enumValues: [ShowChatConnectionStatusBar] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show a toast in the chat with the websocket and network connection status" } 
+    static func fromPosition(_ position: Int) -> ShowChatConnectionStatusBar {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
 enum AdvancedReputationSystem: String, BumperFeature  {
     case control, baseline, variantA, variantB
     static var defaultValue: String { return AdvancedReputationSystem.control.rawValue }
@@ -1687,6 +1699,23 @@ enum AdvancedReputationSystem: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .variantA
             case 3: return .variantB
+            default: return .control
+        }
+    }
+}
+
+enum NotificationSettings: String, BumperFeature  {
+    case control, baseline, differentLists, sameList
+    static var defaultValue: String { return NotificationSettings.control.rawValue }
+    static var enumValues: [NotificationSettings] { return [.control, .baseline, .differentLists, .sameList]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Settings to enable or disable each type of notification" } 
+    static func fromPosition(_ position: Int) -> NotificationSettings {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .differentLists
+            case 3: return .sameList
             default: return .control
         }
     }

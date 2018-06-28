@@ -366,7 +366,12 @@ extension SellCoordinator: MultiListingPostedNavigator {
     
     func openEdit(forListing listing: Listing) {
         
-        let editListingNavigator = EditListingCoordinator(listing: listing, bumpUpProductData: nil, pageType: EventParameterTypePage.edit, listingCanBeBoosted: false, timeSinceLastBump: nil, maxCountdown: 0)
+        let editListingNavigator = EditListingCoordinator(listing: listing,
+                                                          bumpUpProductData: nil,
+                                                          pageType: nil,
+                                                          listingCanBeBoosted: false,
+                                                          timeSinceLastBump: nil,
+                                                          maxCountdown: 0)
         editListingNavigator.delegate = self
         openChild(coordinator: editListingNavigator,
                   parent: viewController,

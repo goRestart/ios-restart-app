@@ -42,7 +42,8 @@ protocol PurchasesShopper: class {
                         appstoreProduct: PurchaseableProduct,
                         letgoItemId: String,
                         isBoost: Bool,
-                        maxCountdown: TimeInterval)
+                        maxCountdown: TimeInterval,
+                        typePage: EventParameterTypePage?)
 
     func isBumpUpPending(forListingId: String) -> Bool
     func timeSinceRecentBumpFor(listingId: String) -> (timeDifference: TimeInterval, maxCountdown: TimeInterval)?

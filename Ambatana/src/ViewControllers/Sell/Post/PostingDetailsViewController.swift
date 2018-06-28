@@ -16,6 +16,10 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
     private let buttonNext = LetgoButton()
     private var buttonNextBottomMargin = NSLayoutConstraint()
     
+    // This view will match the bounds of the next button and absorb the touch to stop the tableView
+    // from taking the touch when the next button is disabled
+    private let buttonNextUnderView = UIView()
+    
     private let viewModel: PostingDetailsViewModel
     
     let disposeBag = DisposeBag()
@@ -79,6 +83,11 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
             strongSelf.buttonNext.setStyle(strongSelf.viewModel.doneButtonStyle)
             strongSelf.buttonNext.setTitle(strongSelf.viewModel.buttonTitle, for: .normal)
         }.disposed(by: disposeBag)
+        
+        viewModel.nextButtonEnabled.asObservable().bind { [weak self] (enabled) in
+            guard let strongSelf = self else { return }
+            strongSelf.buttonNext.isEnabled = enabled
+        }.disposed(by: disposeBag)
     }
     
     private func setupNavigationBar() {
@@ -134,6 +143,7 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
         infoView = viewModel.makeContentView(viewControllerDelegate: self)
         infoView?.setupContainerView(view: contentView)
         
+        view.addSubviewForAutoLayout(buttonNextUnderView)
         view.addSubview(buttonNext)
         buttonNext.layout(with: view).bottom(by: -Metrics.margin)
         buttonNext.layout().height(PostingDetailsViewController.skipButtonHeight)
@@ -147,6 +157,12 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
             buttonNext.layout(with: keyboardView).left(by: Metrics.bigMargin)
         }
         buttonNext.layout(with: view).right(by: -Metrics.bigMargin)
+        
+        buttonNextUnderView.layout(with: buttonNext)
+            .centerX()
+            .centerY()
+        
+        buttonNextUnderView.layout(with: buttonNext).fill()
     }
     
     
