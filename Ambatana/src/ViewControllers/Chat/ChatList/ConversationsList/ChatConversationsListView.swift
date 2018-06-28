@@ -70,11 +70,11 @@ final class ChatConversationsListView: UIView {
     private func setupStatusBarRx() {
         connectionBarStatus.asDriver().drive(onNext: { [weak self] status in
             guard let _ = status.title else {
-                self?.connectionStatusBar(isVisible: false)
+                self?.animateStatusBar(visible: false)
                 return
             }
             self?.connectionStatusView.status = status
-            self?.connectionStatusBar(isVisible: true)
+            self?.animateStatusBar(visible: true)
         }).disposed(by: bag)
     }
     
@@ -116,8 +116,8 @@ final class ChatConversationsListView: UIView {
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
     }
 
-    private func connectionStatusBar(isVisible: Bool) {
-        statusViewHeightConstraint.constant = isVisible ? ChatConnectionStatusView.standardHeight : 0
+    private func animateStatusBar(visible: Bool) {
+        statusViewHeightConstraint.constant = visible ? ChatConnectionStatusView.standardHeight : 0
         UIView.animate(withDuration: 0.5) {
             self.layoutIfNeeded()
         }

@@ -1479,14 +1479,4 @@ extension ListingCarouselViewController: GADInterstitialDelegate {
         viewModel.interstitialAdTapped(typePage: EventParameterTypePage.nextItem)
     }
     
-    func interstitial(_ ad: GADInterstitial, didFailToReceiveAdWithError error: GADRequestError) {
-        viewModel.interstitialDidFail(typePage: EventParameterTypePage.nextItem)
-        setupInterstitial()
-    }
-    
-    func interstitialDidFail(toPresentScreen ad: GADInterstitial) {
-        viewModel.interstitialDidFail(typePage: EventParameterTypePage.nextItem)
-        setupInterstitial()
-    }
-    
 }

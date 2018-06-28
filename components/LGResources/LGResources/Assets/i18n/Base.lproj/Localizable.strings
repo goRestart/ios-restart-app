@@ -1237,6 +1237,86 @@
 
 "filter_results_cars_other_results" = "Recently posted in your area";
 
+// Title for bodytype filter section
+"filters_cars_bodytype_title" = "Body Type";
+
+// Title for transmission filter section
+"filters_cars_transmission_title" = "Transmission";
+
+// Title for fueltype filter section
+"filters_cars_fueltype_title" = "Fuel Type";
+
+// Title for drivetrain filter section
+"filters_cars_drivetrain_title" = "Drivetrain";
+
+// Title for seat filter section
+"filter_cars_seats_title" = "Seats";
+
+"filter_cars_distance_placeholder" = "";
+
+// Coupe car type
+"filters_cars_bodytype_coupe" = "Coupe";
+
+// Sedan car type
+"filters_cars_bodytype_sedan" = "Sedan";
+
+// Hybrid car type
+"filters_cars_bodytype_hybrid" = "Hybrid";
+
+// Hatchback car type
+"filters_cars_bodytype_hatchback" = "Hatchback";
+
+// Convertible car type
+"filters_cars_bodytype_convertible" = "Convertible";
+
+// Wagon car type
+"filters_cars_bodytype_wagon" = "Wagon";
+
+// Minivan car type
+"filters_cars_bodytype_minivan" = "Minivan";
+
+// SUV car type
+"filters_cars_bodytype_suv" = "SUV";
+
+// Truck car type
+"filters_cars_bodytype_truck" = "Truck";
+
+// Other car type
+"filters_cars_bodytype_other" = "Others";
+
+// AWD drive train
+"filters_cars_drivetrain_awd" = "AWD";
+
+// FWD drive train
+"filters_cars_drivetrain_fwd" = "FWD";
+
+// 4WD drive train
+"filters_cars_drivetrain_4wd" = "4WD";
+
+// RWD drive train
+"filters_cars_drivetrain_rwd" = "RWD";
+
+// Diesel Fuel type
+"filters_cars_fueltype_diesel" = "Diesel";
+
+// Electric Fuel type
+"filters_cars_fueltype_electric" = "Electric";
+
+// Flex Fuel type
+"filters_cars_fueltype_flex" = "Flex";
+
+// gas Fuel type
+"filters_cars_fueltype_gas" = "Gas";
+
+// Hybrid fuel type
+"filters_cars_fueltype_hybrid" = "Hybrid";
+
+// Automatic transmission type
+"filters_cars_transmission_automatic" = "Automatic";
+
+// Manual transmission type
+"filters_cars_transmission_manual" = "Manual";
+
 // Forced update message.
 "forced_update_message" = "A new version of letgo is available. Please update now!";
 

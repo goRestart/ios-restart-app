@@ -133,10 +133,6 @@ extension ABTests {
         return discovery.multiContact
     }
     
-    var searchBoxImprovement: LeanplumABVariable<Int> {
-        return discovery.searchBoxImprovements
-    }
-    
     var emptySearchImprovements: LeanplumABVariable<Int> {
         return discovery.emptySearchImprovements
     }
@@ -212,6 +208,7 @@ extension ABTests {
     var filterSearchCarSellerType: LeanplumABVariable<Int> { return verticals.filterSearchCarSellerType }
     var realEstateMap: LeanplumABVariable<Int> { return verticals.realEstateMap }
     var showServicesFeatures: LeanplumABVariable<Int> { return verticals.showServicesFeatures }
+    var carExtraFieldsEnabled: LeanplumABVariable<Int> { return verticals.carExtraFieldsEnabled }
 }
 
 //  MARK: Products
