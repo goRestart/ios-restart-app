@@ -5,6 +5,7 @@ final class DevelopmentEnvironment: AppEnvironment {
     // General
     let appleAppId = "986339882"
     let facebookAppId = "924384130976182"
+    let appleMerchantId = "merchant.com.letgo.ios.payments"
 
     // AppsFlyer
     let appsFlyerAPIKey = "5EKnCjmwmNKjE2e7gYBo6T"
@@ -48,6 +49,10 @@ final class DevelopmentEnvironment: AppEnvironment {
     let feedAdUnitIdMoPubUSAForOldUsers = "657d10ec0c1c48c3a280766a4dd821f4"
     let feedAdUnitIdMoPubTRForAllUsers = "05cf3847a6b24c389fc4127f595f5889"
     let feedAdUnitIdMoPubTRForOldUsers = "c6c5061b958949b0a90397d7346718aa"
+
+    // Stripe
+    let stripeLiveAPIKey = "pk_live_reeoNOBIaAAXXS2qQgwvaAKE"
+    let stripeTestAPIKey = "pk_test_ubL9uioHtnpGqKN5bzIRElxk"
 
     private let _godmode: Bool
     
