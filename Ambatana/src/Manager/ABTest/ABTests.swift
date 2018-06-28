@@ -209,6 +209,7 @@ extension ABTests {
     var filterSearchCarSellerType: LeanplumABVariable<Int> { return verticals.filterSearchCarSellerType }
     var realEstateMap: LeanplumABVariable<Int> { return verticals.realEstateMap }
     var showServicesFeatures: LeanplumABVariable<Int> { return verticals.showServicesFeatures }
+    var carExtraFieldsEnabled: LeanplumABVariable<Int> { return verticals.carExtraFieldsEnabled }
 }
 
 //  MARK: Products

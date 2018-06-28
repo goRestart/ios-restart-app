@@ -74,6 +74,7 @@ extension Bumper  {
         flags.append(AdvancedReputationSystem.self)
         flags.append(NotificationSettings.self)
         flags.append(ReportingFostaSesta.self)
+        flags.append(CarExtraFieldsEnabled.self)
         Bumper.initialize(flags)
     } 
 
@@ -827,6 +828,19 @@ extension Bumper  {
     static var reportingFostaSestaObservable: Observable<ReportingFostaSesta> {
         return Bumper.observeValue(for: ReportingFostaSesta.key).map {
             ReportingFostaSesta(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var carExtraFieldsEnabled: CarExtraFieldsEnabled {
+        guard let value = Bumper.value(for: CarExtraFieldsEnabled.key) else { return .control }
+        return CarExtraFieldsEnabled(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var carExtraFieldsEnabledObservable: Observable<CarExtraFieldsEnabled> {
+        return Bumper.observeValue(for: CarExtraFieldsEnabled.key).map {
+            CarExtraFieldsEnabled(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1752,3 +1766,18 @@ enum ReportingFostaSesta: String, BumperFeature  {
     }
 }
 
+enum CarExtraFieldsEnabled: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return CarExtraFieldsEnabled.control.rawValue }
+    static var enumValues: [CarExtraFieldsEnabled] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "allows user to see extra car fields (bodyType, fuelType, drivetrain, transmission, seats, mileage)" } 
+    static func fromPosition(_ position: Int) -> CarExtraFieldsEnabled {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
