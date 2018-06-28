@@ -1,5 +1,7 @@
 import LGComponents
 
+import LGComponents
+
 struct LGNavBarMetrics {
     struct Size {
         static var navBarSize: CGSize {

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import LGComponents
 
 struct WaterFallLayoutSettings {
 

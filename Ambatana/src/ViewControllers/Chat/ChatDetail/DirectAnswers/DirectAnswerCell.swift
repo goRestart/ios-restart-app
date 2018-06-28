@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import LGComponents
 
 class DirectAnswerCell: UICollectionViewCell, ReusableCell {
 

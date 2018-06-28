@@ -1,5 +1,6 @@
 import Foundation
 import RxSwift
+import LGComponents
 
 final class NotificationSettingsPlaceholderView: UIView {
 

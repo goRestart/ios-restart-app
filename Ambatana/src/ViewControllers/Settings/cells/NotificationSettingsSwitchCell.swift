@@ -1,6 +1,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import LGComponents
 
 final class NotificationSettingsSwitchCell: UITableViewCell, ReusableCell {
     
