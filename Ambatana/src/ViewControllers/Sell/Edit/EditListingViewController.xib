@@ -1437,7 +1437,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RHn-Oh-ilJ">
                     <rect key="frame" x="0.0" y="1154" width="432" height="80"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hgl-q6-NPc" userLabel="Update Button" customClass="LetgoButton" customModule="LetGo" customModuleProvider="target">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hgl-q6-NPc" userLabel="Update Button" customClass="LetgoButton" customModule="LGComponents">
                             <rect key="frame" x="16" y="15" width="400" height="50"/>
                             <color key="backgroundColor" red="0.98746788501739502" green="0.26312592625617981" blue="0.31356120109558105" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
