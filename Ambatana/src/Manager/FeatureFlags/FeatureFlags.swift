@@ -76,6 +76,7 @@ protocol FeatureFlaggeable: class {
     var filterSearchCarSellerType: FilterSearchCarSellerType { get }
     var realEstateMap: RealEstateMap { get }
     var showServicesFeatures: ShowServicesFeatures { get }
+    var carExtraFieldsEnabled: CarExtraFieldsEnabled { get }
     
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed { get }
@@ -1147,6 +1148,15 @@ extension FeatureFlags {
             return Bumper.showServicesFeatures
         }
         return ShowServicesFeatures.fromPosition(abTests.showServicesFeatures.value)
+    }
+    
+    var carExtraFieldsEnabled: CarExtraFieldsEnabled {
+        if Bumper.enabled {
+            return Bumper.carExtraFieldsEnabled
+        }
+        
+        return .control
+//        return CarExtraFieldsEnabled.fromPosition(abTests.carExtraFieldsEnabled.value)
     }
 }
 

@@ -77,6 +77,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var filterSearchCarSellerType: FilterSearchCarSellerType = .control
     var realEstateMap: RealEstateMap = .control
     var showServicesFeatures: ShowServicesFeatures = .control
+    var carExtraFieldsEnabled: CarExtraFieldsEnabled = .control
     
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed = .control
