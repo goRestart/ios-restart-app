@@ -81,7 +81,7 @@ final class ChatViewController: TextViewController {
         self.expressChatBanner.delegate = self
         self.professionalSellerBanner.delegate = self
         hidesBottomBarWhenPushed = hidesBottomBar
-        //        showConnectionToastView = false  <-- Didac: add feature flag when chat maintenance mode is ready.
+        showConnectionToastView = !featureFlags.showChatConnectionStatusBar.isActive
     }
     
     required init(coder decoder: NSCoder) {

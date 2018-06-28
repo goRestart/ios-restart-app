@@ -8,6 +8,7 @@ enum BumpUpSource {
     case deepLink
     case promoted
     case edit(listing: Listing)
+    case sellEdit(listing: Listing)
 
     var typePageParameter: EventParameterTypePage? {
         switch self {
@@ -17,6 +18,8 @@ enum BumpUpSource {
             return .sell
         case .edit:
             return .edit
+        case .sellEdit:
+            return .sellEdit
         }
     }
 }
@@ -513,7 +516,7 @@ extension AppCoordinator: SellCoordinatorDelegate {
     }
 
     func sellCoordinator(_ coordinator: SellCoordinator, closePostAndOpenEditForListing listing: Listing) {
-		openAfterSellDialogIfNeeded(forListing: listing, bumpUpSource: .edit(listing: listing))
+		openAfterSellDialogIfNeeded(forListing: listing, bumpUpSource: .sellEdit(listing: listing))
     }
 }
 
@@ -531,7 +534,7 @@ extension AppCoordinator: EditListingCoordinatorDelegate {
             bumpData.hasPaymentId else { return }
         openPromoteBumpForListingId(listingId: listingId,
                                     bumpUpProductData: bumpData,
-                                    typePage: .edit)
+                                    typePage: .sellEdit)
     }
 }
 
@@ -596,7 +599,7 @@ fileprivate extension AppCoordinator {
 
     fileprivate func shouldRetrieveBumpeableInfoFor(source: BumpUpSource) -> Bool {
         switch source {
-        case .edit, .deepLink:
+        case .edit, .deepLink, .sellEdit:
             return true
         case .promoted:
             return !promoteBumpShownInLastDay
@@ -652,6 +655,8 @@ fileprivate extension AppCoordinator {
 
     private func bumpUpFallbackFor(source: BumpUpSource) {
         switch source {
+        case .sellEdit(let listing):
+            openEditForListing(listing: listing, bumpUpProductData: nil, maxCountdown: 0)
         case .edit(let listing):
             openEditForListing(listing: listing, bumpUpProductData: nil, maxCountdown: 0)
         case .deepLink, .promoted:
@@ -1167,6 +1172,10 @@ extension AppCoordinator: BumpInfoRequesterDelegate {
                                         bumpUpProductData: bumpUpProductData,
                                         typePage: typePage)
         case .edit(let listing):
+            openEditForListing(listing: listing,
+                               bumpUpProductData: bumpUpProductData,
+                               maxCountdown: maxCountdown)
+        case .sellEdit(let listing):
             openEditForListing(listing: listing,
                                bumpUpProductData: bumpUpProductData,
                                maxCountdown: maxCountdown)

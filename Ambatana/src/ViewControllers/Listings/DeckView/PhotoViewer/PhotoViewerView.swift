@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import LGComponents
 
 final class PhotoViewerView: UIView, PhotoViewerViewType, PhotoViewerBinderViewType {
     var rxTapControlEvents: Observable<UIControlEvents> { return tapControlEvents.asObservable().ignoreNil() }

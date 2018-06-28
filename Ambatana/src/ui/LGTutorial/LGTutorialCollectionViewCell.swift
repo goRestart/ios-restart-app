@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import LGComponents
 
 final class LGTutorialCollectionViewCell: UICollectionViewCell {
     

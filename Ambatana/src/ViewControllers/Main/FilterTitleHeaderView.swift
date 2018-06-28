@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import LGComponents
 
 class FilterTitleHeaderView: UIView {
     

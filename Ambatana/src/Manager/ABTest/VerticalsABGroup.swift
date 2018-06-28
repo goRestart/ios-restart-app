@@ -14,6 +14,7 @@ struct VerticalsABGroup: ABGroupType {
     let filterSearchCarSellerType: LeanplumABVariable<Int>
     let realEstateMap: LeanplumABVariable<Int>
     let showServicesFeatures: LeanplumABVariable<Int>
+    let carExtraFieldsEnabled: LeanplumABVariable<Int>
 
     let group: ABGroup = .verticals
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -24,23 +25,27 @@ struct VerticalsABGroup: ABGroupType {
     private init(searchCarsIntoNewBackend: LeanplumABVariable<Int>,
                  filterSearchCarSellerType: LeanplumABVariable<Int>,
                  realEstateMap: LeanplumABVariable<Int>,
-                 showServicesFeatures: LeanplumABVariable<Int>) {
+                 showServicesFeatures: LeanplumABVariable<Int>,
+                 carExtraFieldsEnabled: LeanplumABVariable<Int>) {
         self.searchCarsIntoNewBackend = searchCarsIntoNewBackend
         self.filterSearchCarSellerType = filterSearchCarSellerType
         self.realEstateMap = realEstateMap
         self.showServicesFeatures = showServicesFeatures
+        self.carExtraFieldsEnabled = carExtraFieldsEnabled
         
         intVariables.append(contentsOf: [searchCarsIntoNewBackend,
                                          filterSearchCarSellerType,
                                          realEstateMap,
-                                         showServicesFeatures])
+                                         showServicesFeatures,
+                                         carExtraFieldsEnabled])
     }
     
     static func make() -> VerticalsABGroup {
         return VerticalsABGroup(searchCarsIntoNewBackend: verticalsIntFor(key: Keys.searchCarsIntoNewBackend),
                                 filterSearchCarSellerType: verticalsIntFor(key: Keys.filterSearchCarSellerType),
                                 realEstateMap: verticalsIntFor(key: Keys.realEstateMap),
-                                showServicesFeatures: verticalsIntFor(key: Keys.showServicesFeatures))
+                                showServicesFeatures: verticalsIntFor(key: Keys.showServicesFeatures),
+                                carExtraFieldsEnabled: verticalsIntFor(key: Keys.carExtraFieldsEnabled))
     }
     
     private static func verticalsIntFor(key: String) -> LeanplumABVariable<Int> {
@@ -53,4 +58,5 @@ private struct Keys {
     static let filterSearchCarSellerType = "20180412filterSearchCarSellerType"
     static let realEstateMap = "20180427realEstateMap"
     static let showServicesFeatures = "20180518showServicesFeatures"
+    static let carExtraFieldsEnabled = "20180628carExtraFieldsEnabled"
 }

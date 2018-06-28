@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import LGComponents
 
 final class UserVerificationNavBarView: UIView {
     private let avatarImageView = UIImageView()

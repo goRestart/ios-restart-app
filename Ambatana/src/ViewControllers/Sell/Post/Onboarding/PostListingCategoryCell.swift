@@ -5,6 +5,7 @@
 
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 class PostListingCategoryCell: UITableViewCell {
 

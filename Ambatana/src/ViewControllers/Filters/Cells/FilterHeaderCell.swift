@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import LGComponents
 
 class FilterHeaderCell: UICollectionReusableView, FilterCell, ReusableCell {
     var topSeparator: UIView?

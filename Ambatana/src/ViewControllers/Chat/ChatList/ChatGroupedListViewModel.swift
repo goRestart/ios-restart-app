@@ -41,7 +41,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
     fileprivate let tracker: Tracker
     let featureFlags: FeatureFlaggeable
     private let localChatCounter = Variable<Int>(0)
-    
+
     private let chatRepository: ChatRepository
     var inactiveConversationsCount: Int?
     
@@ -64,7 +64,8 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
     var shouldShowInactiveConversations: Bool {
         return featureFlags.showInactiveConversations
     }
-    
+
+
     // MARK: - Paginable
 
     let firstPage: Int = 1
