@@ -39,6 +39,7 @@ final class ChatConversationsListViewController: ChatBaseViewController {
         automaticallyAdjustsScrollViewInsets = false
         hidesBottomBarWhenPushed = false
         hasTabBar = true
+        showConnectionToastView = !featureFlags.showChatConnectionStatusBar.isActive
     }
     
     override func loadView() {

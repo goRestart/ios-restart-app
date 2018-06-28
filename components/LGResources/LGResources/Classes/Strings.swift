@@ -484,7 +484,7 @@ extension R {
     public static let chatSendErrorGeneric = Strings.tr("Localizable", "chat_send_error_generic")
     /// Connecting...
     public static let chatStatusViewConnecting = Strings.tr("Localizable", "chat_status_view_connecting")
-    /// No network connection
+    /// Not connected
     public static let chatStatusViewNoNetwork = Strings.tr("Localizable", "chat_status_view_no_network")
     /// try again
     public static let chatStatusViewTryAgain = Strings.tr("Localizable", "chat_status_view_try_again")
@@ -808,6 +808,12 @@ extension R {
     public static let featuredInfoViewSellFaster = Strings.tr("Localizable", "featured_info_view_sell_faster")
     /// Featured Listing
     public static let featuredInfoViewTitle = Strings.tr("Localizable", "featured_info_view_title")
+    /// How many %@?
+    public static func filterCarsDistancePlaceholder(_ p1: String) -> String {
+      return Strings.tr("Localizable", "filter_cars_distance_placeholder", p1)
+    }
+    /// Seats
+    public static let filterCarsSeatsTitle = Strings.tr("Localizable", "filter_cars_seats_title")
     /// No exact matches for your search.\n Showing similar results. 
     public static let filterResultsCarsNoMatches = Strings.tr("Localizable", "filter_results_cars_no_matches")
     /// Recently posted in your area
@@ -832,10 +838,64 @@ extension R {
     public static func filtersCarYearBeforeYear(_ p1: Int) -> String {
       return Strings.tr("Localizable", "filters_car_year_before_year", p1)
     }
+    /// Convertible
+    public static let filtersCarsBodytypeConvertible = Strings.tr("Localizable", "filters_cars_bodytype_convertible")
+    /// Coupe
+    public static let filtersCarsBodytypeCoupe = Strings.tr("Localizable", "filters_cars_bodytype_coupe")
+    /// Hatchback
+    public static let filtersCarsBodytypeHatchback = Strings.tr("Localizable", "filters_cars_bodytype_hatchback")
+    /// Hybrid
+    public static let filtersCarsBodytypeHybrid = Strings.tr("Localizable", "filters_cars_bodytype_hybrid")
+    /// Minivan
+    public static let filtersCarsBodytypeMinivan = Strings.tr("Localizable", "filters_cars_bodytype_minivan")
+    /// Others
+    public static let filtersCarsBodytypeOther = Strings.tr("Localizable", "filters_cars_bodytype_other")
+    /// Sedan
+    public static let filtersCarsBodytypeSedan = Strings.tr("Localizable", "filters_cars_bodytype_sedan")
+    /// SUV
+    public static let filtersCarsBodytypeSuv = Strings.tr("Localizable", "filters_cars_bodytype_suv")
+    /// Body Type
+    public static let filtersCarsBodytypeTitle = Strings.tr("Localizable", "filters_cars_bodytype_title")
+    /// Truck
+    public static let filtersCarsBodytypeTruck = Strings.tr("Localizable", "filters_cars_bodytype_truck")
+    /// Wagon
+    public static let filtersCarsBodytypeWagon = Strings.tr("Localizable", "filters_cars_bodytype_wagon")
+    /// 4WD
+    public static let filtersCarsDrivetrain4wd = Strings.tr("Localizable", "filters_cars_drivetrain_4wd")
+    /// AWD
+    public static let filtersCarsDrivetrainAwd = Strings.tr("Localizable", "filters_cars_drivetrain_awd")
+    /// FWD
+    public static let filtersCarsDrivetrainFwd = Strings.tr("Localizable", "filters_cars_drivetrain_fwd")
+    /// RWD
+    public static let filtersCarsDrivetrainRwd = Strings.tr("Localizable", "filters_cars_drivetrain_rwd")
+    /// Drivetrain
+    public static let filtersCarsDrivetrainTitle = Strings.tr("Localizable", "filters_cars_drivetrain_title")
+    /// Diesel
+    public static let filtersCarsFueltypeDiesel = Strings.tr("Localizable", "filters_cars_fueltype_diesel")
+    /// Electric
+    public static let filtersCarsFueltypeElectric = Strings.tr("Localizable", "filters_cars_fueltype_electric")
+    /// Flex
+    public static let filtersCarsFueltypeFlex = Strings.tr("Localizable", "filters_cars_fueltype_flex")
+    /// Gas
+    public static let filtersCarsFueltypeGas = Strings.tr("Localizable", "filters_cars_fueltype_gas")
+    /// Hybrid
+    public static let filtersCarsFueltypeHybrid = Strings.tr("Localizable", "filters_cars_fueltype_hybrid")
+    /// Fuel Type
+    public static let filtersCarsFueltypeTitle = Strings.tr("Localizable", "filters_cars_fueltype_title")
+    /// Automatic
+    public static let filtersCarsTransmissionAutomatic = Strings.tr("Localizable", "filters_cars_transmission_automatic")
+    /// Manual
+    public static let filtersCarsTransmissionManual = Strings.tr("Localizable", "filters_cars_transmission_manual")
+    /// Transmission
+    public static let filtersCarsTransmissionTitle = Strings.tr("Localizable", "filters_cars_transmission_title")
     /// not set
     public static let filtersDistanceNotSet = Strings.tr("Localizable", "filters_distance_not_set")
+    /// Mileage
+    public static let filtersMileageSliderTitle = Strings.tr("Localizable", "filters_mileage_slider_title")
     /// Reset
     public static let filtersNavbarReset = Strings.tr("Localizable", "filters_navbar_reset")
+    /// Seats
+    public static let filtersNumberOfSeatsSliderTitle = Strings.tr("Localizable", "filters_numberOfSeats_slider_title")
     /// From
     public static let filtersPriceFrom = Strings.tr("Localizable", "filters_price_from")
     /// From
@@ -886,6 +946,8 @@ extension R {
     public static let filtersServiceTypeNotSet = Strings.tr("Localizable", "filters_service_type_not_set")
     /// The minimum size can’t be higher than the maximum size.
     public static let filtersSizeWrongRangeError = Strings.tr("Localizable", "filters_size_wrong_range_error")
+    /// Any
+    public static let filtersSliderAny = Strings.tr("Localizable", "filters_slider_any")
     /// Closest first
     public static let filtersSortClosest = Strings.tr("Localizable", "filters_sort_closest")
     /// Newest first
@@ -972,6 +1034,8 @@ extension R {
     public static let idVerificationThirdStepTitle = Strings.tr("Localizable", "id_verification_third_step_title")
     /// Do you want to make this your profile picture?
     public static let idVerificationUpdateAvatarMessage = Strings.tr("Localizable", "id_verification_update_avatar_message")
+    /// KM
+    public static let kilometerUnitSuffix = Strings.tr("Localizable", "kilometer_unit_suffix")
     /// Chat Now
     public static let listingChatButton = Strings.tr("Localizable", "listing_chat_button")
     /// I'm interested
@@ -1122,6 +1186,8 @@ extension R {
     public static let meetingCreationViewSuggestCellSelected = Strings.tr("Localizable", "meeting_creation_view_suggest_cell_selected")
     /// Schedule a meeting
     public static let meetingCreationViewTitle = Strings.tr("Localizable", "meeting_creation_view_title")
+    /// mi
+    public static let mileUnitSuffix = Strings.tr("Localizable", "mile_unit_suffix")
     /// in about %d days
     public static func mlCameraInAboutDaysText(_ p1: Int) -> String {
       return Strings.tr("Localizable", "ml_camera_in_about_days_text", p1)
@@ -1910,7 +1976,7 @@ extension R {
     public static let productSellAgainFreeConfirmCancelButton = Strings.tr("Localizable", "product_sell_again_free_confirm_cancel_button")
     /// Do you want to mark your item as available?
     public static let productSellAgainFreeConfirmMessage = Strings.tr("Localizable", "product_sell_again_free_confirm_message")
-    /// Give Away
+    /// Yes
     public static let productSellAgainFreeConfirmOkButton = Strings.tr("Localizable", "product_sell_again_free_confirm_ok_button")
     /// Mark as available
     public static let productSellAgainFreeConfirmTitle = Strings.tr("Localizable", "product_sell_again_free_confirm_title")

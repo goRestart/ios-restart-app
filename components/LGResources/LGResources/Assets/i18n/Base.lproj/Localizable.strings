@@ -624,7 +624,7 @@
 "chat_status_view_connecting" = "Connecting...";
 
 // Chat connection status bar no network connection
-"chat_status_view_no_network" = "No network connection";
+"chat_status_view_no_network" = "Not connected";
 
 // Chat connection status bar unable to connect
 "chat_status_view_unable_to_connect" = "Unable to connect. Please try again";
@@ -1236,6 +1236,102 @@
 "filter_results_cars_no_matches" = "No exact matches for your search.\n Showing similar results. ";
 
 "filter_results_cars_other_results" = "Recently posted in your area";
+
+// Title for bodytype filter section
+"filters_cars_bodytype_title" = "Body Type";
+
+// Title for transmission filter section
+"filters_cars_transmission_title" = "Transmission";
+
+// Title for fueltype filter section
+"filters_cars_fueltype_title" = "Fuel Type";
+
+// Title for drivetrain filter section
+"filters_cars_drivetrain_title" = "Drivetrain";
+
+// Title for seat filter section
+"filter_cars_seats_title" = "Seats";
+
+// Title for distance placeholder
+"filter_cars_distance_placeholder" = "How many %@?";
+
+// Coupe car type
+"filters_cars_bodytype_coupe" = "Coupe";
+
+// Sedan car type
+"filters_cars_bodytype_sedan" = "Sedan";
+
+// Hybrid car type
+"filters_cars_bodytype_hybrid" = "Hybrid";
+
+// Hatchback car type
+"filters_cars_bodytype_hatchback" = "Hatchback";
+
+// Convertible car type
+"filters_cars_bodytype_convertible" = "Convertible";
+
+// Wagon car type
+"filters_cars_bodytype_wagon" = "Wagon";
+
+// Minivan car type
+"filters_cars_bodytype_minivan" = "Minivan";
+
+// SUV car type
+"filters_cars_bodytype_suv" = "SUV";
+
+// Truck car type
+"filters_cars_bodytype_truck" = "Truck";
+
+// Other car type
+"filters_cars_bodytype_other" = "Others";
+
+// AWD drive train
+"filters_cars_drivetrain_awd" = "AWD";
+
+// FWD drive train
+"filters_cars_drivetrain_fwd" = "FWD";
+
+// 4WD drive train
+"filters_cars_drivetrain_4wd" = "4WD";
+
+// RWD drive train
+"filters_cars_drivetrain_rwd" = "RWD";
+
+// Diesel Fuel type
+"filters_cars_fueltype_diesel" = "Diesel";
+
+// Electric Fuel type
+"filters_cars_fueltype_electric" = "Electric";
+
+// Flex Fuel type
+"filters_cars_fueltype_flex" = "Flex";
+
+// gas Fuel type
+"filters_cars_fueltype_gas" = "Gas";
+
+// Hybrid fuel type
+"filters_cars_fueltype_hybrid" = "Hybrid";
+
+// Automatic transmission type
+"filters_cars_transmission_automatic" = "Automatic";
+
+// Manual transmission type
+"filters_cars_transmission_manual" = "Manual";
+
+// Title for Mileage slider
+"filters_mileage_slider_title" = "Mileage";
+
+// Title for number of seats slider
+"filters_numberOfSeats_slider_title" = "Seats";
+
+// Text to display when no min or max value is selected
+"filters_slider_any" = "Any";
+
+// Unit suffix for miles (e.g. the mi in "400,000 mi")
+"mile_unit_suffix" = "mi";
+
+// Unit suffix for kilometers (e.g. the km in "400,000 km")
+"kilometer_unit_suffix" = "KM";
 
 // Forced update message.
 "forced_update_message" = "A new version of letgo is available. Please update now!";
@@ -2135,7 +2231,7 @@
 "product_sell_again_free_confirm_message" = "Do you want to mark your item as available?";
 
 // Product ready to give away again ok button. (mark as available)
-"product_sell_again_free_confirm_ok_button" = "Give Away";
+"product_sell_again_free_confirm_ok_button" = "Yes";
 
 // Confirmation message when product is again available to give away
 "product_sell_again_free_success_message" = "Congratulations! Your item is available to give away again.";
