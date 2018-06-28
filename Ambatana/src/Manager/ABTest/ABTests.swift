@@ -133,10 +133,6 @@ extension ABTests {
         return discovery.multiContact
     }
     
-    var searchBoxImprovement: LeanplumABVariable<Int> {
-        return discovery.searchBoxImprovements
-    }
-    
     var emptySearchImprovements: LeanplumABVariable<Int> {
         return discovery.emptySearchImprovements
     }

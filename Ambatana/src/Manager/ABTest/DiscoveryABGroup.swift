@@ -12,14 +12,12 @@ struct DiscoveryABGroup: ABGroupType {
     private struct Keys {
         static let sectionedMainFeed = "20180411SectionedMainFeed"
         static let personalizedFeed = "20180509PersonalizedFeed"
-        static let searchBoxImprovements = "20180511SearchBoxImprovements"
         static let multiContact = "20180515MultiContact"
         static let emptySearchImprovements = "20180522EmptySearchImprovements"
     }
     
     let sectionedMainFeed: LeanplumABVariable<Int>
     let personalizedFeed: LeanplumABVariable<Int>
-    let searchBoxImprovements: LeanplumABVariable<Int>
     let multiContact: LeanplumABVariable<Int>
     let emptySearchImprovements: LeanplumABVariable<Int>
     
@@ -31,18 +29,15 @@ struct DiscoveryABGroup: ABGroupType {
     
     init(sectionedMainFeed: LeanplumABVariable<Int>,
          personalizedFeed: LeanplumABVariable<Int>,
-         searchBoxImprovements: LeanplumABVariable<Int>,
          multiContact: LeanplumABVariable<Int>,
          emptySearchImprovements: LeanplumABVariable<Int>) {
         self.sectionedMainFeed = sectionedMainFeed
         self.personalizedFeed = personalizedFeed
-        self.searchBoxImprovements = searchBoxImprovements
         self.multiContact = multiContact
         self.emptySearchImprovements = emptySearchImprovements
         
         intVariables.append(contentsOf: [sectionedMainFeed,
                                          personalizedFeed,
-                                         searchBoxImprovements,
                                          multiContact,
                                          emptySearchImprovements])
     }
@@ -54,9 +49,6 @@ struct DiscoveryABGroup: ABGroupType {
                                 personalizedFeed: .makeInt(key: Keys.personalizedFeed,
                                                            defaultValue: 0,
                                                            groupType: .discovery),
-                                searchBoxImprovements: .makeInt(key: Keys.searchBoxImprovements,
-                                                                 defaultValue: 0,
-                                                                 groupType: .discovery),
                                 multiContact: .makeInt(key: Keys.multiContact,
                                                        defaultValue: 0,
                                                        groupType: .discovery),
