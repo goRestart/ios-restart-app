@@ -69,12 +69,7 @@ final class UserRatingCell: UITableViewCell, ReusableCell {
     }()
 
     private let starsStackView: UIStackView = {
-        let stars: [UIImageView] = [UIImageView(image: R.Asset.IconsButtons.icStarFilled.image),
-                                    UIImageView(image: R.Asset.IconsButtons.icStarFilled.image),
-                                    UIImageView(image: R.Asset.IconsButtons.icStarFilled.image),
-                                    UIImageView(image: R.Asset.IconsButtons.icStarFilled.image),
-                                    UIImageView(image: R.Asset.IconsButtons.icStarFilled.image)]
-        stars.forEach { $0.contentMode = .scaleAspectFit }
+        let stars: [UIImageView] = UserRatingCell.makeStars()
         let stackView: UIStackView = .horizontal(stars)
         stackView.distribution = .equalSpacing
         return stackView
@@ -256,9 +251,22 @@ final class UserRatingCell: UITableViewCell, ReusableCell {
 
     private func drawStarsForValue(_ value: Int) {
         let starImage = R.Asset.IconsButtons.icUserProfileStar.image
-        stars.forEach{
+        stars.forEach {
             $0.image = starImage
             $0.alpha =  ($0.tag <= value) ? 1 : 0.4
         }
+    }
+}
+
+private extension UserRatingCell {
+    static func makeStars() -> [UIImageView] {
+        var stars: [UIImageView] = []
+        for index in 1...5 {
+            let imageView = UIImageView(image: R.Asset.IconsButtons.icStarFilled.image)
+            imageView.tag = index
+            imageView.contentMode = .scaleAspectFit
+            stars.append(imageView)
+        }
+        return stars
     }
 }
