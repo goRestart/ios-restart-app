@@ -1,5 +1,5 @@
-
 import UIKit
+import LGComponents
 
 final class MultiListingPostedHeaderCell: UICollectionReusableView, ReusableCell {
     

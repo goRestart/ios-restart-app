@@ -59,7 +59,6 @@ extension Bumper  {
         flags.append(ChatConversationsListWithoutTabs.self)
         flags.append(PersonalizedFeed.self)
         flags.append(ServicesCategoryOnSalchichasMenu.self)
-        flags.append(SearchBoxImprovements.self)
         flags.append(GoogleAdxForTR.self)
         flags.append(MultiContactAfterSearch.self)
         flags.append(ShowServicesFeatures.self)
@@ -74,6 +73,8 @@ extension Bumper  {
         flags.append(ShowChatConnectionStatusBar.self)
         flags.append(AdvancedReputationSystem.self)
         flags.append(NotificationSettings.self)
+        flags.append(ReportingFostaSesta.self)
+        flags.append(CarExtraFieldsEnabled.self)
         Bumper.initialize(flags)
     } 
 
@@ -636,19 +637,6 @@ extension Bumper  {
     }
     #endif
 
-    static var searchBoxImprovements: SearchBoxImprovements {
-        guard let value = Bumper.value(for: SearchBoxImprovements.key) else { return .control }
-        return SearchBoxImprovements(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var searchBoxImprovementsObservable: Observable<SearchBoxImprovements> {
-        return Bumper.observeValue(for: SearchBoxImprovements.key).map {
-            SearchBoxImprovements(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
     static var googleAdxForTR: GoogleAdxForTR {
         guard let value = Bumper.value(for: GoogleAdxForTR.key) else { return .control }
         return GoogleAdxForTR(rawValue: value) ?? .control 
@@ -782,11 +770,6 @@ extension Bumper  {
     static var simplifiedChatButton: SimplifiedChatButton {
         guard let value = Bumper.value(for: SimplifiedChatButton.key) else { return .control }
         return SimplifiedChatButton(rawValue: value) ?? .control 
-    }
-
-    static var notificationSettings: NotificationSettings {
-        guard let value = Bumper.value(for: NotificationSettings.key) else { return .control }
-        return NotificationSettings(rawValue: value) ?? .control 
     } 
 
     #if (RX_BUMPER)
@@ -819,6 +802,45 @@ extension Bumper  {
     static var advancedReputationSystemObservable: Observable<AdvancedReputationSystem> {
         return Bumper.observeValue(for: AdvancedReputationSystem.key).map {
             AdvancedReputationSystem(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var notificationSettings: NotificationSettings {
+        guard let value = Bumper.value(for: NotificationSettings.key) else { return .control }
+        return NotificationSettings(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var notificationSettingsObservable: Observable<NotificationSettings> {
+        return Bumper.observeValue(for: NotificationSettings.key).map {
+            NotificationSettings(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var reportingFostaSesta: ReportingFostaSesta {
+        guard let value = Bumper.value(for: ReportingFostaSesta.key) else { return .control }
+        return ReportingFostaSesta(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var reportingFostaSestaObservable: Observable<ReportingFostaSesta> {
+        return Bumper.observeValue(for: ReportingFostaSesta.key).map {
+            ReportingFostaSesta(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var carExtraFieldsEnabled: CarExtraFieldsEnabled {
+        guard let value = Bumper.value(for: CarExtraFieldsEnabled.key) else { return .control }
+        return CarExtraFieldsEnabled(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var carExtraFieldsEnabledObservable: Observable<CarExtraFieldsEnabled> {
+        return Bumper.observeValue(for: CarExtraFieldsEnabled.key).map {
+            CarExtraFieldsEnabled(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1488,24 +1510,6 @@ enum ServicesCategoryOnSalchichasMenu: String, BumperFeature  {
     }
 }
 
-enum SearchBoxImprovements: String, BumperFeature  {
-    case control, baseline, changeCopy, biggerBox, changeCopyAndBoxSize
-    static var defaultValue: String { return SearchBoxImprovements.control.rawValue }
-    static var enumValues: [SearchBoxImprovements] { return [.control, .baseline, .changeCopy, .biggerBox, .changeCopyAndBoxSize]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Improve search box visibility by changing its size and copy" } 
-    static func fromPosition(_ position: Int) -> SearchBoxImprovements {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .changeCopy
-            case 3: return .biggerBox
-            case 4: return .changeCopyAndBoxSize
-            default: return .control
-        }
-    }
-}
-
 enum GoogleAdxForTR: String, BumperFeature  {
     case control, baseline, googleAdxForAllUsers, googleAdxForOldUsers
     static var defaultValue: String { return GoogleAdxForTR.control.rawValue }
@@ -1745,3 +1749,35 @@ enum NotificationSettings: String, BumperFeature  {
     }
 }
 
+enum ReportingFostaSesta: String, BumperFeature  {
+    case control, baseline, withIcons, withoutIcons
+    static var defaultValue: String { return ReportingFostaSesta.control.rawValue }
+    static var enumValues: [ReportingFostaSesta] { return [.control, .baseline, .withIcons, .withoutIcons]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show new user/product reporting flow (FOSTA-SESTA compliance)" } 
+    static func fromPosition(_ position: Int) -> ReportingFostaSesta {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .withIcons
+            case 3: return .withoutIcons
+            default: return .control
+        }
+    }
+}
+
+enum CarExtraFieldsEnabled: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return CarExtraFieldsEnabled.control.rawValue }
+    static var enumValues: [CarExtraFieldsEnabled] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "allows user to see extra car fields (bodyType, fuelType, drivetrain, transmission, seats, mileage)" } 
+    static func fromPosition(_ position: Int) -> CarExtraFieldsEnabled {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}

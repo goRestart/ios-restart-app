@@ -76,11 +76,11 @@ protocol FeatureFlaggeable: class {
     var filterSearchCarSellerType: FilterSearchCarSellerType { get }
     var realEstateMap: RealEstateMap { get }
     var showServicesFeatures: ShowServicesFeatures { get }
+    var carExtraFieldsEnabled: CarExtraFieldsEnabled { get }
     
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed { get }
     var personalizedFeedABTestIntValue: Int? { get }
-    var searchBoxImprovements: SearchBoxImprovements { get }
     var multiContactAfterSearch: MultiContactAfterSearch { get }
     var emptySearchImprovements: EmptySearchImprovements { get }
 
@@ -1149,6 +1149,15 @@ extension FeatureFlags {
         }
         return ShowServicesFeatures.fromPosition(abTests.showServicesFeatures.value)
     }
+    
+    var carExtraFieldsEnabled: CarExtraFieldsEnabled {
+        if Bumper.enabled {
+            return Bumper.carExtraFieldsEnabled
+        }
+        
+        return .control
+//        return CarExtraFieldsEnabled.fromPosition(abTests.carExtraFieldsEnabled.value)
+    }
 }
 
 
@@ -1180,13 +1189,6 @@ extension FeatureFlags {
     
     var personalizedFeedABTestIntValue: Int? {
         return abTests.personlizedFeedIsActive ? abTests.personalizedFeed.value : PersonalizedFeed.defaultVariantValue
-    }
-    
-    var searchBoxImprovements: SearchBoxImprovements {
-        if Bumper.enabled {
-            return Bumper.searchBoxImprovements
-        }
-        return SearchBoxImprovements.fromPosition(abTests.searchBoxImprovement.value)
     }
     
     var multiContactAfterSearch: MultiContactAfterSearch {

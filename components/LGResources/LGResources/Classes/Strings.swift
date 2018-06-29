@@ -808,6 +808,10 @@ extension R {
     public static let featuredInfoViewSellFaster = Strings.tr("Localizable", "featured_info_view_sell_faster")
     /// Featured Listing
     public static let featuredInfoViewTitle = Strings.tr("Localizable", "featured_info_view_title")
+    /// 
+    public static let filterCarsDistancePlaceholder = Strings.tr("Localizable", "filter_cars_distance_placeholder")
+    /// Seats
+    public static let filterCarsSeatsTitle = Strings.tr("Localizable", "filter_cars_seats_title")
     /// No exact matches for your search.\n Showing similar results. 
     public static let filterResultsCarsNoMatches = Strings.tr("Localizable", "filter_results_cars_no_matches")
     /// Recently posted in your area
