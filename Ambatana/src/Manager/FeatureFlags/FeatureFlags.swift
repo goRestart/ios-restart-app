@@ -1112,9 +1112,7 @@ extension FeatureFlags {
         if Bumper.enabled {
             return Bumper.showChatConnectionStatusBar
         }
-        // Remove hardcoded value when is implemented also for chat detail
-        return .control
-//        return  ShowChatConnectionStatusBar.fromPosition(abTests.showChatConnectionStatusBar.value)
+        return  ShowChatConnectionStatusBar.fromPosition(abTests.showChatConnectionStatusBar.value)
     }
 }
 
