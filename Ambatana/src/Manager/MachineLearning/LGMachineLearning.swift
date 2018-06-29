@@ -61,17 +61,25 @@ final class LGMachineLearning: MachineLearning {
             completion?(nil)
             return
         }
-        machineLearningVision?.predict(pixelBuffer: pixelBuffer) { [weak self] observations in
-            guard let observationsValue = observations else {
-                completion?(nil)
-                return
+
+        operationQueue.addOperation { [weak self] in
+            let group = DispatchGroup()
+            group.enter()
+            self?.machineLearningVision?.predict(pixelBuffer: pixelBuffer) { [weak self] observations in
+                guard let observationsValue = observations else {
+                    group.leave()
+                    completion?(nil)
+                    return
+                }
+                let statsResult: [MachineLearningStats] =
+                    observationsValue.flatMap { [weak self] observation -> MachineLearningStats? in
+                        return self?.machineLearningRepository.stats(forKeyword: observation.identifier,
+                                                                     confidence: observation.confidence)
+                }
+                group.leave()
+                completion?(statsResult)
             }
-            let statsResult: [MachineLearningStats] =
-                observationsValue.flatMap { [weak self] observation -> MachineLearningStats? in
-                    return self?.machineLearningRepository.stats(forKeyword: observation.identifier,
-                                                                 confidence: observation.confidence)
-            }
-            completion?(statsResult)
+            group.wait()
         }
     }
 
@@ -79,21 +87,17 @@ final class LGMachineLearning: MachineLearning {
 
     func didCaptureVideoFrame(pixelBuffer: CVPixelBuffer?, timestamp: CMTime) {
         guard canPredict, isLiveStatsEnabled, let pixelBuffer = pixelBuffer else { return }
+        // Drop the frame if already are processing frames
         guard operationQueue.operationCount < operationQueue.maxConcurrentOperationCount else {
             logMessage(.debug, type: .debug, message: "Dropped machine learning frame")
             return
         }
-        // For better throughput, perform the prediction on a background queue
-        // instead of on the CameraManager queue. We use the operation queue
-        // to drop frames when Core ML can't keep up.
-        operationQueue.addOperation { [weak self] in
-            self?.predict(pixelBuffer: pixelBuffer, completion: { stats in
-                // Must be dispatched to main thread to prevent two different
-                // threads trying to assign the same `Variable.value` unsynchronized.
-                DispatchQueue.main.async {
-                    self?.liveStats.value = stats
-                }
-            })
-        }
+        self.predict(pixelBuffer: pixelBuffer, completion: { stats in
+            // Must be dispatched to main thread to prevent two different
+            // threads trying to assign the same `Variable.value` unsynchronized.
+            DispatchQueue.main.async {
+                self.liveStats.value = stats
+            }
+        })
     }
 }
