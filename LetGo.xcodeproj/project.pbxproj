@@ -3909,6 +3909,7 @@
 				C727FBBB1CCFC4C9002BC643 /* Notifications */,
 				50560B8F1B25D18F0021D8D9 /* Listings */,
 				C749316B1D34FCE100E117F1 /* Ratings */,
+				55EF4E4320E644D900B118B7 /* Reporting */,
 				C783D9791C64BB5D000EE5CA /* ReportUsers */,
 				2EE60AF01B60D8CD00E56E7D /* Sell */,
 				50D2CACA1BB412D800EC5C30 /* Settings */,
@@ -4666,6 +4667,13 @@
 				55FABE1E20763460004B0DBD /* UserPhoneVerificationCountryPickerViewModel.swift */,
 			);
 			path = UserPhoneVerification;
+			sourceTree = "<group>";
+		};
+		55EF4E4320E644D900B118B7 /* Reporting */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Reporting;
 			sourceTree = "<group>";
 		};
 		6608E02D1A820FBD005895ED = {
