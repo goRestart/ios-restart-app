@@ -87,7 +87,7 @@ Pod::Spec.new do |s|
             baseFolder+'MVVM+C/HelpViewModel.swift',
             baseFolder+'MVVM+C/BaseView.swift',
             baseFolder+'MVVM+C/TabBarShowable.swift',
-            baseFolder+'Global/AccessibilityId.swift',
+            baseFolder+'Global/Accessibility.swift',
             baseFolder+'Global/AppReport.swift',
             baseFolder+'Global/SharedConstants.swift',
             baseFolder+'Global/Debug.swift',
