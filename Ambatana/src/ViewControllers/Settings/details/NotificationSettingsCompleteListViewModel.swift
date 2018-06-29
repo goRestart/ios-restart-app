@@ -2,6 +2,19 @@ import LGComponents
 import LGCoreKit
 import RxSwift
 
+fileprivate extension Array where Element == NotificationGroupSetting {
+    func getTrackingParams() -> [String: Bool] {
+        return self.reduce([:]) { (dict, keyValue) -> [String: Bool] in
+            var newDict = dict
+            if let objectId = keyValue.objectId {
+                newDict[objectId] = keyValue.isEnabled
+            }
+            return newDict
+        }
+    }
+}
+
+
 final class NotificationSettingsCompleteListViewModel: BaseViewModel {
     
     enum DataState {
@@ -53,6 +66,9 @@ final class NotificationSettingsCompleteListViewModel: BaseViewModel {
     private var notificationSettings: [NotificationSetting] = []
     private var groupSettings: [NotificationGroupSetting] = []
     var dataState = Variable<DataState>(.initial)
+    private var trackingParams: [String: Bool] {
+        return groupSettings.getTrackingParams()
+    }
     
     
     // MARK: - Lifecycle
@@ -97,8 +113,15 @@ final class NotificationSettingsCompleteListViewModel: BaseViewModel {
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
         retrieveNotificationSettings()
+        if firstTime {
+            trackNotificationsEditStart()
+        }
     }
-    
+
+    override func didBecomeInactive() {
+        super.didBecomeInactive()
+        trackEnablingSettings()
+    }
     
     // MARK: - Requests
     
@@ -214,8 +237,6 @@ final class NotificationSettingsCompleteListViewModel: BaseViewModel {
     
     private func setMarketingNotification(enabled: Bool) {
         notificationsManager.marketingNotifications.value = enabled
-        let event = TrackerEvent.marketingPushNotifications(myUserRepository.myUser?.objectId, enabled: enabled)
-        tracker.trackEvent(event)
     }
     
     private func checkMarketingNotifications(_ enabled: Bool) {
@@ -265,5 +286,35 @@ final class NotificationSettingsCompleteListViewModel: BaseViewModel {
     private func forceMarketingNotifications(enabled: Bool) {
         notificationsManager.marketingNotifications.value = enabled
         switchMarketingNotificationValue = enabled
+    }
+    
+    
+    // MARK: - Tracking
+    
+    private func trackNotificationsEditStart() {
+        let event = TrackerEvent.notificationsEditStart()
+        tracker.trackEvent(event)
+    }
+    
+    private func trackEnablingSettings() {
+        switch notificationSettingsType {
+        case .push:
+            trackPushNotificationsStatus()
+        case .mail:
+            trackMailNotificationsStatus()
+        case .marketing, .searchAlerts:
+            break
+        }
+    }
+    
+    private func trackPushNotificationsStatus() {
+        let event = TrackerEvent.pushNotificationsEditStart(dynamicParameters: trackingParams,
+                                                            marketingNoticationsEnabled: switchMarketingNotificationValue)
+        tracker.trackEvent(event)
+    }
+    
+    private func trackMailNotificationsStatus() {
+        let event = TrackerEvent.mailNotificationsEditStart(dynamicParameters: trackingParams)
+        tracker.trackEvent(event)
     }
 }
