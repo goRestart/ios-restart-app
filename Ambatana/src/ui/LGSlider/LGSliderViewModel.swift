@@ -1,14 +1,8 @@
-//
-//  LGSliderViewModel.swift
-//  LetGo
-//
-//  Created by Nestor on 04/08/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
 
 import UIKit
 
-class LGSliderViewModel {
+final class LGSliderViewModel {
+    
     let title: String
     
     private let minimumValueNotSelectedText: String
@@ -21,6 +15,29 @@ class LGSliderViewModel {
     var minimumValueSelected: Int
     var maximumValueSelected: Int
     
+    private var unitSuffix: String?
+    private var numberFormatter: NumberFormatter?
+    
+    convenience init(title: String,
+                     minimumValueNotSelectedText: String,
+                     maximumValueNotSelectedText: String,
+                     minimumAndMaximumValuesNotSelectedText: String,
+                     minimumValue: Int,
+                     maximumValue: Int,
+                     minimumValueSelected: Int?,
+                     maximumValueSelected: Int?) {
+        self.init(title: title,
+                  minimumValueNotSelectedText: minimumValueNotSelectedText,
+                  maximumValueNotSelectedText: maximumValueNotSelectedText,
+                  minimumAndMaximumValuesNotSelectedText: minimumAndMaximumValuesNotSelectedText,
+                  minimumValue: minimumValue,
+                  maximumValue: maximumValue,
+                  minimumValueSelected: minimumValueSelected,
+                  maximumValueSelected: maximumValueSelected,
+                  unitSuffix: nil,
+                  numberFormatter: nil)
+    }
+    
     init(title: String,
          minimumValueNotSelectedText: String,
          maximumValueNotSelectedText: String,
@@ -28,7 +45,9 @@ class LGSliderViewModel {
          minimumValue: Int,
          maximumValue: Int,
          minimumValueSelected: Int?,
-         maximumValueSelected: Int?) {
+         maximumValueSelected: Int?,
+         unitSuffix: String?,
+         numberFormatter: NumberFormatter?) {
         
         self.title = title
         self.minimumValueNotSelectedText = minimumValueNotSelectedText
@@ -39,6 +58,8 @@ class LGSliderViewModel {
         
         self.minimumValueSelected = minimumValueSelected ?? minimumValue
         self.maximumValueSelected = maximumValueSelected ?? maximumValue
+        self.unitSuffix = unitSuffix
+        self.numberFormatter = numberFormatter
     }
     
     
@@ -83,21 +104,46 @@ class LGSliderViewModel {
     
     func selectionLabelText() -> String {
         if minimumValueSelected == maximumValueSelected {
-            return "\(minimumValueSelected)"
+            return formattedString(forValue: minimumValueSelected)
         } else {
             if minimumValueSelected == minimumValue {
                 if maximumValueSelected == maximumValue {
                     return minimumAndMaximumValuesNotSelectedText
                 } else {
-                    return "\(minimumValueNotSelectedText) - \(maximumValueSelected)"
+                    let suffix = selectionTextSuffix()
+                    return minimumValueNotSelectedText +
+                        " - " +
+                        formattedString(forValue: maximumValueSelected)
+                        + suffix
                 }
             } else {
+                let suffix = selectionTextSuffix()
                 if maximumValueSelected == maximumValue {
-                    return "\(minimumValueSelected) - \(maximumValueNotSelectedText)"
+                    return formattedString(forValue: minimumValueSelected)
+                        + " - "
+                        + maximumValueNotSelectedText
+                        + suffix
                 } else {
-                    return "\(minimumValueSelected) - \(maximumValueSelected)"
+                    return formattedString(forValue: minimumValueSelected)
+                        + " - "
+                        + formattedString(forValue: maximumValueSelected)
+                        + suffix
                 }
             }
         }
+    }
+    
+    private func selectionTextSuffix() -> String {
+        if let unitSuffix = unitSuffix {
+            return " \(unitSuffix)"
+        }
+        return ""
+    }
+    
+    private func formattedString(forValue value: Int) -> String {
+        guard let numberFormatter = numberFormatter,
+            let formattedString = numberFormatter.string(from: NSNumber(value: value))
+            else { return "\(value)" }
+        return formattedString
     }
 }

@@ -219,7 +219,7 @@
 "chat_send_error_different_country" = "Du kannst kein Gespräch zu einem Angebot beginnen, das in einem anderen Land eingestellt wurde.";
 "chat_send_error_generic" = "Beim Senden der Nachricht ist ein Fehler aufgetreten. Bitte versuche es noch einmal.";
 "chat_status_view_connecting" = "Verbinden...";
-"chat_status_view_no_network" = "Keine Netzwerkverbindung";
+"chat_status_view_no_network" = "Nicht verbunden";
 "chat_status_view_try_again" = "versuche es erneut";
 "chat_status_view_unable_to_connect" = "Verbinden fehlgeschlagen. Bitte versuche es erneut.";
 "chat_stickers_tooltip_new" = "NEU!";

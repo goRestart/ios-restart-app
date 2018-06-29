@@ -219,7 +219,7 @@
 "chat_send_error_different_country" = "Et voi aloittaa keskustelua ilmoituksesta, joka on julkaistu toisessa maassa.";
 "chat_send_error_generic" = "Viestiä lähetettäessä tapahtui virhe. Ole hyvä ja yritä uudelleen.";
 "chat_status_view_connecting" = "Yhdistetään...";
-"chat_status_view_no_network" = "Ei verkkoyhteyttä";
+"chat_status_view_no_network" = "Ei yhteyttä";
 "chat_status_view_try_again" = "yritä uudelleen";
 "chat_status_view_unable_to_connect" = "Yhdistäminen ei onnistu. Ole hyvä ja yritä uudelleen";
 "chat_stickers_tooltip_new" = "UUTTA!";

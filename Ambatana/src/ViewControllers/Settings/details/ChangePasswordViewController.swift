@@ -9,6 +9,12 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
         case password = 1000, confirmPassword
     }
 
+    fileprivate struct Layout {
+        static let passwordTopMargin: CGFloat = 90
+        static let textFieldHeight: CGFloat = 44
+        static let buttonHeight: CGFloat = 50
+    }
+
     let passwordTextfield: LGTextField = {
         let textfield = LGTextField()
         textfield.tag = TextFieldTag.password.rawValue
@@ -161,15 +167,14 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
             
             switch (result) {
             case .success:
-                completion = {
-                    self.passwordTextfield.text = ""
-                    self.confirmPasswordTextfield.text = ""
+                completion = { [weak self] in
+                    self?.passwordTextfield.text = ""
+                    self?.confirmPasswordTextfield.text = ""
                     
-                    self.showAutoFadingOutMessageAlert(message: R.Strings.changePasswordSendOk) { [weak self] in
+                    self?.showAutoFadingOutMessageAlert(message: R.Strings.changePasswordSendOk) {
                         self?.viewModel.passwordChangedCorrectly()
                     }
                 }
-                break
             case .failure(let error):
                 let message: String
                 switch (error) {
@@ -183,8 +188,8 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
                 case .network, .internalError:
                     message = R.Strings.changePasswordSendErrorGeneric
                 }
-                completion = {
-                    self.showAutoFadingOutMessageAlert(message: message)
+                completion = { [weak self] in
+                    self?.showAutoFadingOutMessageAlert(message: message)
                 }
             }
             dismissLoadingMessageAlert(completion)
@@ -215,18 +220,18 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
 
     private func setupConstraints() {
         let constraints: [NSLayoutConstraint] = [
-            passwordTextfield.topAnchor.constraint(equalTo: safeTopAnchor, constant: 90),
+            passwordTextfield.topAnchor.constraint(equalTo: safeTopAnchor, constant: Layout.passwordTopMargin),
             passwordTextfield.leftAnchor.constraint(equalTo: view.leftAnchor),
             passwordTextfield.rightAnchor.constraint(equalTo: view.rightAnchor),
-            passwordTextfield.heightAnchor.constraint(equalToConstant: 44),
+            passwordTextfield.heightAnchor.constraint(equalToConstant: Layout.textFieldHeight),
             confirmPasswordTextfield.topAnchor.constraint(equalTo: passwordTextfield.bottomAnchor),
             confirmPasswordTextfield.leftAnchor.constraint(equalTo: view.leftAnchor),
             confirmPasswordTextfield.rightAnchor.constraint(equalTo: view.rightAnchor),
-            confirmPasswordTextfield.heightAnchor.constraint(equalToConstant: 44),
+            confirmPasswordTextfield.heightAnchor.constraint(equalToConstant: Layout.textFieldHeight),
             sendButton.topAnchor.constraint(equalTo: confirmPasswordTextfield.bottomAnchor, constant: Metrics.margin),
             sendButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: Metrics.margin),
             sendButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -Metrics.margin),
-            sendButton.heightAnchor.constraint(equalToConstant: 50)
+            sendButton.heightAnchor.constraint(equalToConstant: Layout.buttonHeight)
         ]
 
         NSLayoutConstraint.activate(constraints)

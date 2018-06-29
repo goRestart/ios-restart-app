@@ -9,23 +9,65 @@
 import Foundation
 
 
-class ChatStickerCell: UITableViewCell, ReusableCell {
+final class ChatStickerCell: UITableViewCell, ReusableCell {
     
-    @IBOutlet weak var leftImage: UIImageView!
-    @IBOutlet weak var rightImage: UIImageView!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        setAccessibilityIds()
-        backgroundColor = .clear
-    }
-}
+    let leftImage = UIImageView()
+    let rightImage = UIImageView()
 
-extension ChatStickerCell {
-    func setAccessibilityIds() {
+    private struct Layout {
+        static let imageSize = CGSize(width: 125, height: 125)
+    }
+
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupUI()
+        setupConstraints()
+        setAccessibilityIds()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        resetUI()
+    }
+
+    private func setupUI() {
+        backgroundColor = .clear
+        selectionStyle = .none
+        contentView.addSubviewsForAutoLayout([leftImage, rightImage])
+        leftImage.contentMode = .scaleAspectFit
+        rightImage.contentMode = .scaleAspectFit
+    }
+
+    private func setupConstraints() {
+        let constraints = [
+            leftImage.widthAnchor.constraint(equalToConstant: Layout.imageSize.width),
+            leftImage.heightAnchor.constraint(equalToConstant: Layout.imageSize.height),
+            rightImage.widthAnchor.constraint(equalToConstant: Layout.imageSize.width),
+            rightImage.heightAnchor.constraint(equalToConstant: Layout.imageSize.height),
+            leftImage.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor),
+            leftImage.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
+            leftImage.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
+            rightImage.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor),
+            rightImage.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
+            rightImage.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
+        ]
+
+        NSLayoutConstraint.activate(constraints)
+    }
+
+    private func setAccessibilityIds() {
         set(accessibilityId: .chatStickerCellContainer)
         leftImage.set(accessibilityId: .chatStickerCellLeftImage)
         rightImage.set(accessibilityId: .chatStickerCellRightImage)
+    }
+
+    private func resetUI() {
+        leftImage.image = nil
+        rightImage.image = nil
     }
 }
 

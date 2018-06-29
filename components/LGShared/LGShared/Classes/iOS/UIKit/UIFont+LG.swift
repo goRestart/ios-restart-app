@@ -1,13 +1,6 @@
-//
-//  UIFont+LG.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 26/4/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
 import UIKit
 
-extension UIFont {
+public extension UIFont {
 
     // Avatar Font
     static var avatarFont: UIFont { return systemBoldFont(size: 50) }
@@ -48,23 +41,24 @@ extension UIFont {
     
     // Posting Flow
     static var postingFlowHeadline: UIFont { return systemBoldFont(size: 35) }
+    static var postingFlowHeadlineSubtitle: UIFont { return systemBoldFont(size: 20) }
     static var postingFlowBody: UIFont { return systemBoldFont(size: 27) }
     static var postingFlowSelectableItem: UIFont { return systemBoldFont(size: 23) }
-    
+
     static var adTitleFont: UIFont { return systemMediumFont(size: 16)}
     static var adDescriptionFont: UIFont { return systemRegularFont(size: 14)}
     static var adCallToActionFont: UIFont { return systemMediumFont(size: 14)}
     static var adTextFont: UIFont { return systemRegularFont(size: 14)}
 
-    // User Profile
-    static var profileUserHeadline: UIFont { return systemBoldFont(size: 35) }
+    // Letgo Tooltip
+    static var tooltipMessageFont: UIFont { return systemBoldFont(size: 17) }
 
     // MARK: Private methods
-    
+
     static func systemFont(size: Int) -> UIFont {
         return self.systemFont(ofSize: CGFloat(size))
     }
-    
+
     static func systemMediumFont(size: Int) -> UIFont {
         return self.systemFont(ofSize: CGFloat(size), weight: UIFont.Weight.medium)
     }
@@ -72,19 +66,19 @@ extension UIFont {
     static func systemLightFont(size: Int) -> UIFont {
         return self.systemFont(ofSize: CGFloat(size), weight: UIFont.Weight.light)
     }
-    
+
     static func systemRegularFont(size: Int) -> UIFont {
         return self.systemFont(ofSize: CGFloat(size), weight: UIFont.Weight.regular)
     }
-    
+
     static func systemSemiBoldFont(size: Int) -> UIFont {
         return self.systemFont(ofSize: CGFloat(size), weight: UIFont.Weight.semibold)
     }
-    
+
     static func systemBoldFont(size: Int) -> UIFont {
         return boldSystemFont(ofSize: CGFloat(size))
     }
-    
+
     static func systemItalicFont(size: Int) -> UIFont {
         return italicSystemFont(ofSize: CGFloat(size))
     }
@@ -96,7 +90,7 @@ extension UIFont {
 
 
 // MARK: > Chat Fonts
-extension UIFont {
+public extension UIFont {
     // Chat header view
     static var chatListingViewNameFont: UIFont { return systemFont(size: 13) }
     static var chatListingViewUserFont: UIFont { return systemBoldFont(size: 13) }
@@ -122,7 +116,7 @@ extension UIFont {
 
 // MARK: - Notification fonts
 
-extension UIFont {
+public extension UIFont {
     static var notificationTitleFont: UIFont { return systemRegularFont(size: 17) }
     static func notificationSubtitleFont(read: Bool) -> UIFont { return read ? systemLightFont(size: 15) : systemSemiBoldFont(size: 15) }
     static var notificationTimeFont: UIFont { return systemLightFont(size: 15) }
@@ -130,7 +124,7 @@ extension UIFont {
 
 
 // MARK: - Product caroussel
-extension UIFont {
+public extension UIFont {
     static var productTitleFont: UIFont { return UIFont.systemSemiBoldFont(size: 17) }
     static var productPriceFont: UIFont { return UIFont.systemBoldFont(size: 21) }
     static var productTitleDisclaimersFont: UIFont { return UIFont.systemItalicFont(size: 13) }
@@ -144,7 +138,7 @@ extension UIFont {
 
 
 // MARK: - Tour
-extension UIFont {
+public extension UIFont {
     static var tourButtonFont: UIFont { return systemMediumFont(size: 17) }
     static var tourNotificationsTitleFont: UIFont { return systemMediumFont(size: 30) }
     static var tourNotificationsTitleMiniFont: UIFont { return systemMediumFont(size: 24) }
@@ -153,9 +147,9 @@ extension UIFont {
     static var tourLocationDistanceLabelFont: UIFont { return systemMediumFont(size: 16) }
 }
 
-// MARK: DeckView
+// MARK: - DeckView
 
-extension UIFont {
+public extension UIFont {
     static var deckTitleFont: UIFont { return systemMediumFont(size: 17) }
     static var deckPriceFont: UIFont { return systemBoldFont(size: 27) }
     static var deckDetailFont: UIFont { return systemRegularFont(size: 15) }
@@ -164,14 +158,32 @@ extension UIFont {
 }
 
 // MARK: - PrePremission Push Settings
-extension UIFont {
+public extension UIFont {
     static var notificationsSettingsCellTextFont: UIFont { return mediumBodyFont }
     static var notificationsSettingsCellTextMiniFont: UIFont { return smallBodyFont }
 }
 
 // MARK: - User Profile
-extension UIFont {
-    static var userProfileTabsNumberFont: UIFont { return UIFont.systemBoldFont(size: 19)}
-    static var userProfileTabsNameFont: UIFont { return UIFont.systemRegularFont(size: 15)}
-    static var userProfileTabsNameSelectedFont: UIFont { return UIFont.systemBoldFont(size: 15)}
+public extension UIFont {
+    static var userProfileTabsNumberFont: UIFont { return UIFont.systemBoldFont(size: 19) }
+    static var userProfileTabsNameFont: UIFont { return UIFont.systemRegularFont(size: 15) }
+    static var userProfileTabsNameSelectedFont: UIFont { return UIFont.systemBoldFont(size: 15) }
+    static var userProfileTabsNameMiniFont: UIFont { return UIFont.systemRegularFont(size: 13) }
+    static var userProfileTabsNameSelectedMiniFont: UIFont { return UIFont.systemBoldFont(size: 13) }
+    static var userProfileVerificationSectionSubtitleFont: UIFont { return UIFont.systemRegularFont(size: 12) }
+    static var profileUserHeadline: UIFont { return systemBoldFont(size: 35) }
+    static var profileKarmaSubtitleBoldFont: UIFont { return systemBoldFont(size: 11) }
+    static var profileKarmaScoreTitleFont: UIFont { return systemBoldFont(size: 23) }
+    static var profileKarmaOpenVerificationFont: UIFont { return UIFont.systemBoldFont(size: 15) }
+    static var verificationItemTitle: UIFont { return systemBoldFont(size: 23) }
+    static var verificationEventCountFont: UIFont { return systemBoldFont(size: 10) }
+}
+
+public extension UIFont {
+    static var smsVerificationInputBigText: UIFont { return UIFont.systemBoldFont(size: 30) }
+    static var smsVerificationInputDescription: UIFont { return UIFont.systemMediumFont(size: 20) }
+    static var smsVerificationInputSmallDescription: UIFont { return UIFont.systemRegularFont(size: 15) }
+    static var smsVerificationInputCodeInformation: UIFont { return UIFont.systemMediumFont(size: 14) }
+    static var smsVerificationCountryListCellText: UIFont { return UIFont.systemBoldFont(size: 23) }
+    static var smsVerificationCodeInputTextfieldText: UIFont { return UIFont.systemBoldFont(size: 40) }
 }

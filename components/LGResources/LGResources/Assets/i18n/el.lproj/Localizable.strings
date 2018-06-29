@@ -219,7 +219,7 @@
 "chat_send_error_different_country" = "Δεν μπορείτε να ξεκινήσετε μια συνομιλία για κάποια καταχώρηση που έχει δημοσιευθεί σε άλλη χώρα.";
 "chat_send_error_generic" = "Παρουσιάστηκε σφάλμα κατά την αποστολή του μηνύματος. Παρακαλώ προσπαθήστε ξανά.";
 "chat_status_view_connecting" = "Σύνδεση...";
-"chat_status_view_no_network" = "Καμία σύνδεση δικτύου";
+"chat_status_view_no_network" = "Καμία σύνδεση";
 "chat_status_view_try_again" = "δοκιμάστε ξανά";
 "chat_status_view_unable_to_connect" = "Αποτυχία σύνδεσης. Παρακαλώ δοκιμάστε ξανά.";
 "chat_stickers_tooltip_new" = "ΝΕΟ!";

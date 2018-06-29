@@ -41,7 +41,7 @@ class DistanceBubbleTextGenerator {
 
         var distanceString: String? = nil
         if distance > 0 {
-            distanceString = String(format: "%d %@", arguments: [min(maxDistance, distance), type.string])
+            distanceString = String(format: "%d %@", arguments: [min(maxDistance, distance), type.rawValue])
             if let distanceValue = distanceString, distance > maxDistance && distanceRadius == nil {
                 distanceString = R.Strings.productDistanceMoreThan(distanceValue)
             }

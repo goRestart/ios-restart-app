@@ -240,8 +240,12 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
             firstThumbnailHeightConstraint.constant = Metrics.modularNotificationThumbnailSize
             thumbnailsTopMarginConstraint.constant = Metrics.shortMargin
             for (index, item) in thumbnailsModule.enumerated() {
-                guard let deeplink = item.deeplink else { return } //only add thumbnail if there is deeplink
-                addThumbnail(to: thumbnails[index], shape:item.shape ?? .square, imageURL: item.imageURL, deeplink: deeplink)
+                guard let deeplink = item.deeplink,
+                    index < thumbnails.count else { return } //only add thumbnail if there is deeplink and if its index safe
+                addThumbnail(to: thumbnails[index],
+                             shape:item.shape ?? .square,
+                             imageURL: item.imageURL,
+                             deeplink: deeplink)
             }
         } else {
             firstThumbnailHeightConstraint.constant = 0

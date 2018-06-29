@@ -1331,7 +1331,7 @@
 "mile_unit_suffix" = "mi";
 
 // Unit suffix for kilometers (e.g. the km in "400,000 km")
-"kilometer_unit_suffix" = "KM";
+"kilometer_unit_suffix" = "km";
 
 // Forced update message.
 "forced_update_message" = "A new version of letgo is available. Please update now!";

@@ -1,12 +1,5 @@
-//
-//  DistanceType+LG.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 16/11/15.
-//  Copyright © 2015 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
+import LGComponents
 
 extension DistanceType {
     
@@ -20,5 +13,14 @@ extension DistanceType {
             distanceType = .mi
         }
         return distanceType
+    }
+    
+    func localizedUnitType() -> String {
+        switch self {
+        case .mi:
+            return R.Strings.mileUnitSuffix
+        case .km:
+            return R.Strings.kilometerUnitSuffix
+        }
     }
 }

@@ -1,21 +1,13 @@
-//
-//  UIColor+LG.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 26/4/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
 
 // MARK: > Basic Letgo Palette
 
-extension UIColor {
+public extension UIColor {
     static var soldColor: UIColor { return tealBlue }
     static var soldFreeColor: UIColor { return tealBlue }
 }
 
-extension UIColor {
+public extension UIColor {
     convenience init(red: Int, green: Int, blue: Int) {
         self.init(red: CGFloat(red) / 255.0,
                   green: CGFloat(green) / 255.0,
@@ -26,9 +18,9 @@ extension UIColor {
 
 // MARK: > Basic Buttons Palette
 
-extension UIColor {
+public extension UIColor {
     
-    public static var primaryColor: UIColor { return watermelon }
+    static var primaryColor: UIColor { return watermelon }
     static var secondaryColor: UIColor { return white }
     static var terciaryColor: UIColor { return tealBlue }
     
@@ -55,7 +47,7 @@ extension UIColor {
 
 // MARK: > Extended Buttons Palette
 
-extension UIColor {
+public extension UIColor {
     static var facebookColor: UIColor { return denimBlue }
     static var googleColor: UIColor { return dodgerBlue }
     
@@ -86,11 +78,12 @@ extension UIColor {
 
 // MARK: > Gray Palette
 
-extension UIColor {
+public extension UIColor {
     // Solid Grays
     static var lgBlack: UIColor { return UIColor(rgb: 0x2c2c2c) } // (44,44,44)
+    static var grayDarker: UIColor { return UIColor(rgb: 0x4a4a4a) } // (74,74,74)
     static var grayDark: UIColor { return UIColor(rgb: 0x757575) } // (117,117,117)
-    static var gray: UIColor { return UIColor(rgb: 0xbdbdbd) } // (189,189,189)
+    static var grayRegular: UIColor { return UIColor(rgb: 0xbdbdbd) } // (189,189,189)
     static var grayLight: UIColor { return UIColor(rgb: 0xdddddd) } // (221,221,221)
     static var grayLighter: UIColor { return UIColor(rgb: 0xede9e9) } // (237,233,233)
     static var grayBackground: UIColor { return UIColor(rgb: 0xF7F3F3) } // (247,143,243)
@@ -111,14 +104,14 @@ extension UIColor {
 
 // MARK: > View Controller Color: 
 
-extension UIColor {
+public extension UIColor {
 
     static var viewControllerBackground: UIColor { return grayBackground }
 }
 
 // MARK: > Categories colors
 
-extension UIColor {
+public extension UIColor {
 
     static let asparagus = UIColor(rgb: 0x81ac56) // (129, 172, 86)
     static let macaroniAndCheese = UIColor(rgb: 0xf1b83d)
@@ -126,7 +119,7 @@ extension UIColor {
 
 // MARK: > Text colors
 
-extension UIColor {
+public extension UIColor {
 
     // Light Background
     static var blackText: UIColor { return lgBlack }
@@ -150,7 +143,7 @@ extension UIColor {
 
 // MARK: > Nav Bar Colors
 
-extension UIColor {
+public extension UIColor {
 
     // Light bar
     static var lightBarBackground: UIColor { return white }
@@ -177,7 +170,7 @@ extension UIColor {
     static var clearBarButton: UIColor { return white }
 }
 
-extension UIColor {
+public extension UIColor {
     static var tabBarIconSelectedColor: UIColor { return watermelon }
     static var tabBarIconUnselectedColor: UIColor { return black }
     static var tabBarSellIconBgColor: UIColor { return watermelon }
@@ -188,7 +181,7 @@ extension UIColor {
 
 // MARK: > UIPageControl
 
-extension UIColor {
+public extension UIColor {
     static var pageIndicatorTintColor: UIColor { return whiteAlpha30 }
     static var currentPageIndicatorTintColor: UIColor { return white }
     static var pageIndicatorTintColorDark: UIColor { return blackAlpha15 }
@@ -198,25 +191,25 @@ extension UIColor {
 
 // MARK: > Separation lines
 
-extension UIColor {
+public extension UIColor {
     static var separatorFilters: UIColor { return UIColor(rgb: 0xcccccc) }
     static var lineGray: UIColor { return grayLight }
     static var lineWhite: UIColor { return white }
 }
 
-extension UIColor {
+public extension UIColor {
     static let filterCellsGrey = UIColor(rgb: 0xAAAAAA)
 }
 
 
 // MARK: > pattern colors
 
-extension UIColor {
-    static var ratingViewBackgroundColor: UIColor {
+public extension UIColor {
+    static var ratingViewBackgroundColor: UIColor? {
         return UIColor(patternImage: R.Asset.BackgroundsAndImages.patternRed.image)
     }
 
-    static var emptyViewBackgroundColor: UIColor {
+    static var emptyViewBackgroundColor: UIColor? {
         return UIColor(patternImage: R.Asset.BackgroundsAndImages.patternWhite.image)
     }
 }
@@ -224,7 +217,7 @@ extension UIColor {
 
 // MARK: > Chat colors
 
-extension UIColor {
+public extension UIColor {
 
     static var listBackgroundColor: UIColor { return grayBackground }
 
@@ -234,6 +227,9 @@ extension UIColor {
     static var chatOthersBubbleBgColor: UIColor { return white }
     static var chatOthersBubbleBgColorSelected: UIColor { return grayLighter }
 
+    static var assistantConversationCellBgColor: UIColor { return primaryColorAlpha08 }
+
+    private static let primaryColorAlpha08 = UIColor(rgb: 0xFFE0F1)
     private static let primaryColorAlpha16 = UIColor(rgb: 0xFFE0E4) // (255, 224, 228)
     private static let primaryColorAlpha30 = UIColor(rgb: 0xFFC6CD) // (255, 198, 205)
 
@@ -241,7 +237,7 @@ extension UIColor {
 
 // MARK: > Placeholder colors
 
-extension UIColor {
+public extension UIColor {
     private static let brownDark = UIColor(rgb: 0xBBA298) // (187, 162, 152)
     private static let cream = UIColor(rgb: 0xF3F1EC) // (243, 241, 236)
     private static let brownLight = UIColor(rgb: 0xE9E2D7) // (233, 226, 215)
@@ -267,7 +263,7 @@ extension UIColor {
 
 // MARK: > Avatars
 
-extension UIColor {
+public extension UIColor {
     static var defaultAvatarColor: UIColor { return avatarRed }
     static var defaultBackgroundColor: UIColor { return bgRed }
 
@@ -307,15 +303,15 @@ extension UIColor {
 
 // MARK: > Superkeyword groups
 
-extension UIColor {
+public extension UIColor {
     struct Taxonomy {
-        static var electronics: UIColor { return paleTeal }
-        static var vehiclesAndBicycles: UIColor { return celestialBlue }
-        static var homeAndGarden: UIColor { return cyanBlueAzure }
-        static var hobbiesAndEntertainment: UIColor { return budGreen }
-        static var fashionAndAccessories: UIColor { return rosa }
-        static var family: UIColor { return amber }
-        static var others: UIColor { return earthYellow }
+        public static var electronics: UIColor { return paleTeal }
+        public static var vehiclesAndBicycles: UIColor { return celestialBlue }
+        public static var homeAndGarden: UIColor { return cyanBlueAzure }
+        public static var hobbiesAndEntertainment: UIColor { return budGreen }
+        public static var fashionAndAccessories: UIColor { return rosa }
+        public static var family: UIColor { return amber }
+        public static var others: UIColor { return earthYellow }
         
         fileprivate static let amber = UIColor(rgb: 0x538fd1) // (83, 143, 209)
         fileprivate static let cyanBlueAzure = UIColor(rgb: 0xf5cd77) // (245, 205, 119)
@@ -323,8 +319,35 @@ extension UIColor {
     }
 }
 
+// MARK: - Camera
+
+public extension UIColor {
+    struct Camera {
+        public static var cameraButton: UIColor { return almostWatermelon }
+        public static var cameraButtonHighlighted: UIColor { return almostWatermelonDarker }
+        public static var selectedPhotoVideoButton: UIColor { return almostWatermelon }
+        public static var unselectedPhotoVideoButton: UIColor { return UIColor.white }
+
+        fileprivate static let almostWatermelon = UIColor(rgb: 0xf6416c) // (244, 65, 108)
+        fileprivate static let almostWatermelonDarker = UIColor(rgb: 0xa93f56) // (169, 63, 86)
+    }
+}
 // MARK: > Edit User Bio
 
-extension UIColor {
+public extension UIColor {
     static var placeholder: UIColor { return UIColor(rgb: 0x999999) } // 153, 153, 153
+    static var verificationGreen: UIColor { return UIColor(rgb: 0xa3ce71 ) } // 163, 206, 113
+}
+
+// MARK: > User Verifications
+
+public extension UIColor {
+    static var verificationPoints: UIColor { return UIColor(rgb: 0xa3ce71) } //  163, 206, 113
+}
+
+
+// MARK: > Toast color
+
+public extension UIColor {
+    static let toastBackground = UIColor.grayDarker
 }

@@ -27,24 +27,6 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         return searchType?.text
     }
     
-    var searchBoxSize: SearchBoxSize {
-        switch featureFlags.searchBoxImprovements {
-        case .baseline, .control, .changeCopy:
-            return .normal
-        case .biggerBox, .changeCopyAndBoxSize:
-            return .large
-        }
-    }
-    
-    var searchFieldStyle: SearchFieldStyle {
-        switch featureFlags.searchBoxImprovements {
-        case .baseline, .control, .biggerBox:
-            return .letgoRed
-        case .changeCopy, .changeCopyAndBoxSize:
-            return .grey
-        }
-    }
-    
     var clearTextOnSearch: Bool {
         guard let searchType = searchType else { return false }
         switch searchType {
@@ -163,9 +145,21 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                     resultTags.append(.model(id: modelId.value, name: modelName.localizedUppercase))
                 }
             }
+            
             if filters.carYearStart != nil || filters.carYearEnd != nil {
                 resultTags.append(.yearsRange(from: filters.carYearStart?.value, to: filters.carYearEnd?.value))
             }
+            
+            if filters.carMileageStart != nil || filters.carMileageEnd != nil {
+                resultTags.append(.mileageRange(from: filters.carMileageStart,
+                                                to: filters.carMileageEnd))
+            }
+            
+            if filters.carNumberOfSeatsStart != nil || filters.carNumberOfSeatsEnd != nil {
+                resultTags.append(.numberOfSeats(from: filters.carNumberOfSeatsStart,
+                                                 to: filters.carNumberOfSeatsEnd))
+            }
+            
 
             if featureFlags.filterSearchCarSellerType.isActive {
                 let carSellerFilterMultiSelection = featureFlags.filterSearchCarSellerType.isMultiselection
@@ -176,6 +170,11 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                 
                 resultTags.append(contentsOf: carSellerTypeTags)
             }
+            
+            filters.carBodyTypes.forEach({ resultTags.append(.carBodyType($0)) })
+            filters.carFuelTypes.forEach({ resultTags.append(.carFuelType($0)) })
+            filters.carDriveTrainTypes.forEach({ resultTags.append(.carDriveTrainType($0)) })
+            filters.carTransmissionTypes.forEach({ resultTags.append(.carTransmissionType($0)) })
         }
         
         if isRealEstateSelected {
@@ -514,7 +513,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     /**
         Called when a filter gets removed
     */
-    func updateFiltersFromTags(_ tags: [FilterTag], removedTag: FilterTag?) {
+    func updateFiltersFromTags(_ tags: [FilterTag],
+                               removedTag: FilterTag?) {
         var categories: [FilterCategoryItem] = []
         var taxonomyChild: TaxonomyChild? = nil
         var taxonomy: Taxonomy? = nil
@@ -531,6 +531,14 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         var modelName: String? = nil
         var carYearStart: Int? = nil
         var carYearEnd: Int? = nil
+        var carBodyTypes: [CarBodyType] = []
+        var carFuelTypes: [CarFuelType] = []
+        var carMileageStart: Int? = nil
+        var carMileageEnd: Int? = nil
+        var carNumberOfSeatsStart: Int? = nil
+        var carNumberOfSeatsEnd: Int? = nil
+        var carTransmissionTypes: [CarTransmissionType] = []
+        var carDrivetrainTypes: [CarDriveTrainType] = []
         var realEstatePropertyType: RealEstatePropertyType? = nil
         var realEstateOfferTypes: [RealEstateOfferType] = []
         var realEstateNumberOfBedrooms: NumberOfBedrooms? = nil
@@ -593,6 +601,20 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                 servicesServiceType = type
             case .serviceSubtype(let subtype):
                 servicesServiceSubtype.append(subtype)
+            case .carBodyType(let bodyType):
+                carBodyTypes.append(bodyType)
+            case .carFuelType(let fuelType):
+                carFuelTypes.append(fuelType)
+            case .carTransmissionType(let transmissionType):
+                carTransmissionTypes.append(transmissionType)
+            case .carDriveTrainType(let driveTrainType):
+                carDrivetrainTypes.append(driveTrainType)
+            case .mileageRange(let start, let end):
+                carMileageStart = start
+                carMileageEnd = end
+            case .numberOfSeats(let start, let end):
+                carNumberOfSeatsStart = start
+                carNumberOfSeatsEnd = end
             }
         }
 
@@ -660,6 +682,16 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         } else {
             filters.carYearEnd = nil
         }
+        
+        filters.carNumberOfSeatsStart = carNumberOfSeatsStart
+        filters.carNumberOfSeatsEnd = carNumberOfSeatsEnd
+        filters.carMileageStart = carMileageStart
+        filters.carMileageEnd = carMileageEnd
+        
+        filters.carBodyTypes = carBodyTypes
+        filters.carFuelTypes = carFuelTypes
+        filters.carTransmissionTypes = carTransmissionTypes
+        filters.carDriveTrainTypes = carDrivetrainTypes
         
         filters.realEstatePropertyType = realEstatePropertyType
         filters.realEstateOfferTypes = realEstateOfferTypes

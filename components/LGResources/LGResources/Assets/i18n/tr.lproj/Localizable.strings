@@ -219,7 +219,7 @@
 "chat_send_error_different_country" = "Farklı bir ülkede yayınlanmış bir ilan için mesaj gönderemezsin.";
 "chat_send_error_generic" = "Mesaj gönderilirken bir hata oluştu. Lütfen tekrar dene.";
 "chat_status_view_connecting" = "Bağlanıyor...";
-"chat_status_view_no_network" = "Ağ bağlantısı yok";
+"chat_status_view_no_network" = "Bağlı değil";
 "chat_status_view_try_again" = "tekrar dene";
 "chat_status_view_unable_to_connect" = "Bağlanamıyor. Lütfen tekrar dene";
 "chat_stickers_tooltip_new" = "YENİ!";
@@ -478,7 +478,7 @@
 "id_verification_third_step_subtitle" = "Kimliğinin net olduğundan ve görüntü bulucunun kutusunun içinde olduğundan emin ol";
 "id_verification_third_step_title" = "Kimliğinin ön kısmının fotoğrafını çek";
 "id_verification_update_avatar_message" = "Bunu profil fotoğrafın yapmak ister misin?";
-"kilometer_unit_suffix" = "KM";
+"kilometer_unit_suffix" = "km";
 "listing_chat_button" = "Mesajlaş";
 "listing_interested_button_A" = "İlgileniyorum";
 "listing_interested_button_B" = "İlgileniyorum";

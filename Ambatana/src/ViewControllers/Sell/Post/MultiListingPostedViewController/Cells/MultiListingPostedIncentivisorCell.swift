@@ -1,5 +1,6 @@
 
 import UIKit
+import LGComponents
 
 final class MultiListingPostedIncentivisorCell: UICollectionViewCell, ReusableCell {
     

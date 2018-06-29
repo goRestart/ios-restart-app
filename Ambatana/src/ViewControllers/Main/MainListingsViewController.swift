@@ -88,9 +88,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     // MARK: - Lifecycle
 
     required init(viewModel: MainListingsViewModel) {
-        navbarSearch = LGNavBarSearchField(viewModel.searchString,
-                                           searchBoxSize: viewModel.searchBoxSize,
-                                           searchFieldStyle: viewModel.searchFieldStyle)
+        navbarSearch = LGNavBarSearchField(viewModel.searchString)
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
         viewModel.delegate = self

@@ -130,7 +130,11 @@ lane :deploy_to_appstore do
 		clone_single_branch: false,
 		shallow_clone: false
 	)
-	lg_fetch_app_version
+	lg_fetch_app_version(
+		branch_name: release_branch,
+		repository_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER]
+	)
+
 	build_number = Actions.lane_context[Actions::SharedValues::LG_BUILD_NUMBER]
 	version_number = Actions.lane_context[Actions::SharedValues::LG_VERSION_NUMBER]
 	
@@ -411,8 +415,41 @@ end
 # Better lanes, better future.
 # We code because we care.
 
+desc "Increases build number by 1 (unless a build number is passed) & leaves the version number still (unless a version is passed)"
+lane :update_version_and_build do |options|
+	repository_path = options[:repository_path] ||= '.' 
+
+	lg_fetch_app_version(
+		branch_name: options[:branch_name],
+		repository_path: repository_path
+	)
+
+	build_number = options[:build_number] ||= Actions.lane_context[Actions::SharedValues::LG_BUILD_NUMBER].to_i + 1 
+	version_number = options[:version_number] ||= Actions.lane_context[Actions::SharedValues::LG_VERSION_NUMBER]
+
+	rb_update_app_version(
+		branch_name: options[:branch_name],
+		version_number: version_number.to_s,
+		repository_path: repository_path,
+		update_json_files: true,
+		build_number: build_number.to_s
+	)
+end
+
 desc "Creates a new minor release branch"
 lane :release_minor do
+	lg_fetch_app_version # This populates two env variables with the new_build & new_version
+	new_version = Gem::Version.new(Actions.lane_context[Actions::SharedValues::LG_VERSION_NUMBER]).bump.to_s + '.0'
+	new_build = Actions.lane_context[Actions::SharedValues::LG_BUILD_NUMBER].to_i + 1
+
+	release_beta(
+		new_version: new_version,
+		new_build: neww_build
+	)
+end
+
+desc "Generates a new beta"
+lane :release_beta do |options|
 	lg_dependencies
 	
 	base_branch_name = 'master'
@@ -422,8 +459,8 @@ lane :release_minor do
 	Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] = repository_path
 	
 	lg_fetch_app_version # This populates two env variables with the new_build & new_version
-	new_version = Gem::Version.new(Actions.lane_context[Actions::SharedValues::LG_VERSION_NUMBER]).bump.to_s + '.0'
-	new_build = Actions.lane_context[Actions::SharedValues::LG_BUILD_NUMBER].to_i + 1
+	new_version = options[:new_version] ||= Actions.lane_context[Actions::SharedValues::LG_VERSION_NUMBER]
+	new_build = options[:new_build] ||= Actions.lane_context[Actions::SharedValues::LG_BUILD_NUMBER].to_i + 1
 
 	message = "Crafting brand new version (#{new_version} - #{new_build})"
 	channels = [ENV["BENDER_SLACK_DEFAULT_CHANNEL"]]
@@ -431,28 +468,36 @@ lane :release_minor do
 	
 	rb_git_clone(branch_name: base_branch_name)
 	
+	lg_fetch_app_version(
+		branch_name: base_branch_name,
+		repository_path: repository_path
+	)
+
+	new_version = Gem::Version.new(Actions.lane_context[Actions::SharedValues::LG_VERSION_NUMBER]).bump.to_s + '.0'
+	new_build = Actions.lane_context[Actions::SharedValues::LG_BUILD_NUMBER].to_i + 1
+
 	# Create locally and remotely the new release branch 'release-x.x.x'
 	# This will update the ENV RB_INFO_BRANCH_NAME to the new created branch
 	rb_git_create_branch(
 		branch_name: "release-" + new_version,
 		repository_path: repository_path
 	)
-	rb_update_app_version(
-		branch_name: Actions.lane_context[Actions::SharedValues::RB_INFO_BRANCH_NAME],
-		version_number: new_version.to_s,
-		repository_path: repository_path,
-		update_json_files: true,
-		autoincrement: true
-	) 
 	
+	update_version_and_build(
+		branch_name: Actions.lane_context[Actions::SharedValues::RB_INFO_BRANCH_NAME],
+		repository_path: repository_path, 
+		version_number: new_version.to_s, 
+		build_number: new_build
+	)
+
 	add_version_badge(
 		version_number: new_version, 
-		build_number:new_build, 
+		build_number: new_build, 
 		path: repository_path
 	)
 
 	workspace = repository_path + "/" + ENV["LETGO_WORKSPACE"]
-	scheme = "LetGoPROD"
+	scheme = ENV["LETGO_PROD_SCHEME"]
 	build_beta(workspace: workspace, scheme: scheme)
 	
 	ipa_path = ENV["LG_LAST_BETA"]
@@ -497,7 +542,11 @@ end
 	
 desc "Upload beta build to crashlytics"
 lane :upload_crashlytics do |options|
-	lg_fetch_app_version
+	repository_path = options[:repository_path] ||= '.'
+	lg_fetch_app_version(
+		branch_name: options[:branch_name],
+		repository_path: repository_path
+	)
 	
 	ipa_path = options[:beta_path] ||= ENV['LAST_BETA_BUILD']
 	version_number = options[:version_number] ||= Actions.lane_context[Actions::SharedValues::LG_VERSION_NUMBER]
@@ -572,5 +621,5 @@ end
 ## Functions
 
 def make_timestamp()
-	Time.now.getutc.strftime("_%m_%d_%y_%I_%M_%p")
+	Time.now.getlocal.strftime("_%Y_%m_%d_%I_%M_%p")
 end

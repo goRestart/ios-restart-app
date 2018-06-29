@@ -1,13 +1,3 @@
-//
-//  ListingRepositoryParams.swift
-//  LGCoreKit
-//
-//  Created by Eli Kohen on 27/03/2017.
-//  Copyright © 2017 Ambatana Inc. All rights reserved.
-//
-
-// MARK: - PARAMS
-
 public struct RetrieveListingParam<T: Equatable> {
     public let value: T
     public let isNegated: Bool
@@ -90,7 +80,7 @@ public struct RetrieveListingParams {
     public var distanceType: DistanceType?
     public var abtest: String?
     public var relaxParam: RelaxParam?
-    public var similarParam: SimilarParam?    
+    public var similarParam: SimilarParam?
     
     
     //  MARK: Discovery
@@ -98,16 +88,27 @@ public struct RetrieveListingParams {
     public var customFeedVariant: Int?
     
     
-    //  MARK: Verticals
-    
+    //  MARK: Car
     public var userTypes: [UserType]?
     public var makeId: RetrieveListingParam<String>?
     public var modelId: RetrieveListingParam<String>?
     public var startYear: RetrieveListingParam<Int>?
     public var endYear: RetrieveListingParam<Int>?
+    public var bodyType: [CarBodyType]?
+    public var drivetrain: [CarDriveTrainType]?
+    public var fuelType: [CarFuelType]?
+    public var transmision: [CarTransmissionType]?
+    public var startMileage: Int?
+    public var endMileage: Int?
+    public var mileageType: String?
+    public var startNumberOfSeats: Int?
+    public var endNumberOfSeats: Int?
+    
+    //  MARK: Services
     public var typeIds: [String]?
     public var subtypeIds: [String]?
     
+    //  MARK: Real Estate
     public var propertyType: String?
     public var offerType: [String]?
     public var numberOfBedrooms: Int?
@@ -162,7 +163,7 @@ public struct RetrieveListingParams {
         params[VerticalsParamsKeys.maxPrice] = maxPrice
         params[VerticalsParamsKeys.minPrice] = minPrice
         params[VerticalsParamsKeys.distanceRadius] = distanceRadius
-        params[VerticalsParamsKeys.distanceType] = distanceType?.string
+        params[VerticalsParamsKeys.distanceType] = distanceType?.rawValue
         params[VerticalsParamsKeys.numResults] = numListings
         params[VerticalsParamsKeys.offset] = offset
         params[VerticalsParamsKeys.sort] = sortCriteria?.string
@@ -218,7 +219,7 @@ public struct RetrieveListingParams {
         params[ApiProductsParamsKeys.maxPrice] = maxPrice
         params[ApiProductsParamsKeys.minPrice] = minPrice
         params[ApiProductsParamsKeys.distanceRadius] = distanceRadius
-        params[ApiProductsParamsKeys.distanceType] = distanceType?.string
+        params[ApiProductsParamsKeys.distanceType] = distanceType?.rawValue
         params[ApiProductsParamsKeys.numberOfResults] = numListings
         params[ApiProductsParamsKeys.offset] = offset
         params[ApiProductsParamsKeys.sort] = sortCriteria?.string

@@ -219,7 +219,7 @@
 "chat_send_error_different_country" = "Du kan inte starta en chatt om en annons som har lagts upp i ett annat land.";
 "chat_send_error_generic" = "Ett fel uppstod när meddelandet sändes. Vänligen försök igen.";
 "chat_status_view_connecting" = "Ansluter...";
-"chat_status_view_no_network" = "Ingen nätverksanslutning";
+"chat_status_view_no_network" = "Ingen anslutning";
 "chat_status_view_try_again" = "försök igen";
 "chat_status_view_unable_to_connect" = "Anslutningen misslyckades. Vänligen försök igen";
 "chat_stickers_tooltip_new" = "NY!";

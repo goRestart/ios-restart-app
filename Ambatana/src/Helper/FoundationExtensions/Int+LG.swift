@@ -26,7 +26,7 @@ extension Int {
     }
 
     func intToDistanceFormat() -> String {
-        let value = "\(self) \(DistanceType.systemDistanceType().string)"
+        let value = "\(self) \(DistanceType.systemDistanceType().rawValue)"
         return value
     }
 }

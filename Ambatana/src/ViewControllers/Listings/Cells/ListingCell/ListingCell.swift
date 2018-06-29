@@ -408,7 +408,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     
     private func addDistanceViewInImage(distance: Double, isOnTopLeft: Bool) {
         
-        let distanceString = String(describing: distance) + DistanceType.systemDistanceType().string
+        let distanceString = String(describing: distance) + DistanceType.systemDistanceType().rawValue
         
         if isOnTopLeft {
             topDistanceInfoView.isHidden = false

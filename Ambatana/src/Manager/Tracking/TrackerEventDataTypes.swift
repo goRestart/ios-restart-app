@@ -875,6 +875,7 @@ enum EventParameterTypePage: String {
     case chatList = "chat-list"
     case sell = "product-sell"
     case edit = "product-edit"
+    case sellEdit = "product-sell-edit"
     case listingDetail = "product-detail"
     case listingDetailMoreInfo = "product-detail-more-info"
     case settings = "settings"

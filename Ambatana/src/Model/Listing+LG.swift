@@ -23,6 +23,11 @@ extension Listing {
         return media.contains(where: { $0.type == .video })
     }
     
+    var isCarWithEmptyAttributes: Bool {
+        guard isCar else { return false }
+        return car?.carAttributes.isAllExtraFieldsEmpty ?? false
+    }
+    
     var isRealEstateWithEmptyAttributes: Bool {
         guard isRealEstate else { return false }
         return realEstate?.realEstateAttributes == RealEstateAttributes.emptyRealEstateAttributes()

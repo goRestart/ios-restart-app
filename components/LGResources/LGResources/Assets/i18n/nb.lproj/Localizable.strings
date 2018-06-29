@@ -219,7 +219,7 @@
 "chat_send_error_different_country" = "Du kan ikke starte en chat angående en annonse i et annen land.";
 "chat_send_error_generic" = "En feil har oppstått ved sending av meldingen. Vennligst prøv igjen senere.";
 "chat_status_view_connecting" = "Kobler til...";
-"chat_status_view_no_network" = "Ingen nettverkstilkobling";
+"chat_status_view_no_network" = "Ikke tilkoblet";
 "chat_status_view_try_again" = "prøv igjen";
 "chat_status_view_unable_to_connect" = "Kunne ikke koble til. Vennligst prøv igjen.";
 "chat_stickers_tooltip_new" = "NYHET!";
@@ -478,7 +478,7 @@
 "id_verification_third_step_subtitle" = "Sørg for at din ID er tydelig og at hele vises i bildevinduet";
 "id_verification_third_step_title" = "Ta et bilde av forsiden av din ID";
 "id_verification_update_avatar_message" = "Ønsker du å velge dette som ditt profilbilde?";
-"kilometer_unit_suffix" = "KM";
+"kilometer_unit_suffix" = "km";
 "listing_chat_button" = "Chat nå";
 "listing_interested_button_A" = "Jeg er interessert";
 "listing_interested_button_B" = "Interessert";

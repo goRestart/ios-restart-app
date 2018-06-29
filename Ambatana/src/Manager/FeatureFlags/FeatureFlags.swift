@@ -76,11 +76,11 @@ protocol FeatureFlaggeable: class {
     var filterSearchCarSellerType: FilterSearchCarSellerType { get }
     var realEstateMap: RealEstateMap { get }
     var showServicesFeatures: ShowServicesFeatures { get }
+    var carExtraFieldsEnabled: CarExtraFieldsEnabled { get }
     
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed { get }
     var personalizedFeedABTestIntValue: Int? { get }
-    var searchBoxImprovements: SearchBoxImprovements { get }
     var multiContactAfterSearch: MultiContactAfterSearch { get }
     var emptySearchImprovements: EmptySearchImprovements { get }
 
@@ -188,6 +188,10 @@ extension OnboardingIncentivizePosting {
 }
 
 extension ShowServicesFeatures {
+    var isActive: Bool { return self == .active }
+}
+
+extension CarExtraFieldsEnabled {
     var isActive: Bool { return self == .active }
 }
 
@@ -1147,10 +1151,23 @@ extension FeatureFlags {
         }
         return ShowServicesFeatures.fromPosition(abTests.showServicesFeatures.value)
     }
+    
+    var carExtraFieldsEnabled: CarExtraFieldsEnabled {
+        if Bumper.enabled {
+            return Bumper.carExtraFieldsEnabled
+        }
+        
+        return .control
+//        return CarExtraFieldsEnabled.fromPosition(abTests.carExtraFieldsEnabled.value)
+    }
 }
 
 
 // MARK: Discovery
+
+private extension PersonalizedFeed {
+    static let defaultVariantValue = 4
+}
 
 extension FeatureFlags {
     /**
@@ -1173,14 +1190,7 @@ extension FeatureFlags {
     }
     
     var personalizedFeedABTestIntValue: Int? {
-        return abTests.personlizedFeedIsActive ? abTests.personalizedFeed.value : nil
-    }
-    
-    var searchBoxImprovements: SearchBoxImprovements {
-        if Bumper.enabled {
-            return Bumper.searchBoxImprovements
-        }
-        return SearchBoxImprovements.fromPosition(abTests.searchBoxImprovement.value)
+        return abTests.personlizedFeedIsActive ? abTests.personalizedFeed.value : PersonalizedFeed.defaultVariantValue
     }
     
     var multiContactAfterSearch: MultiContactAfterSearch {

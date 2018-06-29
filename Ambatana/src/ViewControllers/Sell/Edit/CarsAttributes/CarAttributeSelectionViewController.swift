@@ -9,6 +9,7 @@
 import Foundation
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 class CarAttributeSelectionViewController : BaseViewController, CarAttributeSelectionViewModelDelegate {
 

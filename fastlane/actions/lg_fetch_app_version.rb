@@ -20,7 +20,22 @@ class LgFetchAppVersionAction < Action
 	end
 
 	def self.run(params)
+		branch_name = params[:branch_name] 
+		path_to_repo = params[:repository_path] ||= "." 
+		
 		plist_path = ENV["APP_PLIST_PATH"]
+
+		if repository_path 
+			cdCommand = "cd #{path_to_repo}"   
+			UI.message cdCommand
+			Actions.sh cdCommand
+		end
+
+		if branch_name 
+			changeBranchCommand = "git checkout #{branch_name}"
+			UI.message changeBranchCommand
+			Actions.sh changeBranchCommand
+		end
 
 		build_number = getInfoPlistValue("CFBundleVersion", plist_path)
 		version_number = getInfoPlistValue("CFBundleShortVersionString", plist_path)

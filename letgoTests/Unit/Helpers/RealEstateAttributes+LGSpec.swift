@@ -4,7 +4,20 @@ import Nimble
 import LGCoreKit
 import LGComponents
 
-class RealEstateAttributesLGSpec: QuickSpec {
+private struct RealEstateSpecResult {
+    static let other = R.Strings.realEstateTitleGeneratorPropertyTypeOther.localizedUppercase
+    static let forRent = R.Strings.realEstateTitleGeneratorOfferTypeRent.capitalizedFirstLetterOnly
+    static let threeBathrooms = NumberOfBathrooms(rawValue: 3)?.shortLocalizedString.localizedUppercase ?? ""
+    static let zeroBedrooms = NumberOfBedrooms(rawValue: 0)?.shortLocalizedString.localizedUppercase ?? ""
+    static let zeroBathrooms = R.Strings.realEstateAttributeTagBathroom0.localizedUppercase
+    static let house = R.Strings.realEstateTypePropertyHouse.uppercased()
+    static let flat = R.Strings.realEstateTypePropertyFlat.uppercased()
+    static let studio = R.Strings.realEstateRoomsStudio.capitalized
+    static let overTen = R.Strings.realEstateRoomsOverTen
+}
+
+
+final class RealEstateAttributesLGSpec: QuickSpec {
     override func spec() {
         var sut: RealEstateAttributes!
         
@@ -31,20 +44,21 @@ class RealEstateAttributesLGSpec: QuickSpec {
                                                    sizeSquareMeters: nil)
                     }
                     it ("result should equal: OTHER For rent") {
-                        expect(sut.generateTitle(postingFlowType: .standard)) == "OTHER For rent"
+                        expect(sut.generateTitle(postingFlowType: .standard)) == [RealEstateSpecResult.other,
+                                                                                  RealEstateSpecResult.forRent].joined(separator: " ")
                     }
                 }
                 context("attributes with bedrooms") {
                     beforeEach {
                         sut = RealEstateAttributes(propertyType: nil,
                                                    offerType: nil,
-                                                   bedrooms: 3,
+                                                   bedrooms: 0,
                                                    bathrooms: nil,
                                                    livingRooms: nil,
                                                    sizeSquareMeters: nil)
                     }
                     it ("result should equal: 3BR") {
-                        expect(sut.generateTitle(postingFlowType: .standard)) == "3BR"
+                        expect(sut.generateTitle(postingFlowType: .standard)) == RealEstateSpecResult.zeroBedrooms
                     }
                 }
                 context("attributes with bathrooms") {
@@ -57,7 +71,9 @@ class RealEstateAttributesLGSpec: QuickSpec {
                                                    sizeSquareMeters: nil)
                     }
                     it ("result should equal: OTHER For rent 3BA") {
-                        expect(sut.generateTitle(postingFlowType: .standard)) == "OTHER For rent 3BA"
+                        expect(sut.generateTitle(postingFlowType: .standard)) == [RealEstateSpecResult.other,
+                                                                                  RealEstateSpecResult.forRent,
+                                                                                  RealEstateSpecResult.threeBathrooms].joined(separator: " ")
                     }
                 }
             }
@@ -86,7 +102,8 @@ class RealEstateAttributesLGSpec: QuickSpec {
                                                    sizeSquareMeters: nil)
                     }
                     it ("result should equal: OTHER For rent") {
-                        expect(sut.generateTitle(postingFlowType: .turkish)) == "For rent OTHER"
+                        expect(sut.generateTitle(postingFlowType: .turkish)) == [RealEstateSpecResult.forRent,
+                                                                                 RealEstateSpecResult.other].joined(separator: " ")
                     }
                 }
                 context("attributes with studio (1+0)") {
@@ -99,7 +116,8 @@ class RealEstateAttributesLGSpec: QuickSpec {
                                                    sizeSquareMeters: nil)
                     }
                     it ("result should equal: studio (1+0)") {
-                        expect(sut.generateTitle(postingFlowType: .turkish)) == "FLAT Studio (1+0)"
+                        expect(sut.generateTitle(postingFlowType: .turkish)) == [RealEstateSpecResult.flat,
+                                                                                 RealEstateSpecResult.studio].joined(separator: " ")
                     }
                 }
                 context("attributes with over 10 rooms") {
@@ -112,7 +130,9 @@ class RealEstateAttributesLGSpec: QuickSpec {
                                                    sizeSquareMeters: nil)
                     }
                     it ("result should equal: OTHER For rent Over 10") {
-                        expect(sut.generateTitle(postingFlowType: .turkish)) == "For rent OTHER Over 10"
+                        expect(sut.generateTitle(postingFlowType: .turkish)) == [RealEstateSpecResult.forRent,
+                                                                                 RealEstateSpecResult.other,
+                                                                                 RealEstateSpecResult.overTen].joined(separator: " ")
                     }
                 }
             }
@@ -145,25 +165,25 @@ class RealEstateAttributesLGSpec: QuickSpec {
                     it ("returns 1 tag") {
                         let tags = sut.generateTags(postingFlowType: .standard)
                         expect(tags.count).to(equal(1))
-                        expect(tags[0]).to(equal("0BA"))
+                        expect(tags[0]).to(equal(RealEstateSpecResult.zeroBathrooms))
                     }
                 }
                 context("with all attributes") {
                     beforeEach {
                         sut = RealEstateAttributes(propertyType: .house,
                                                    offerType: .rent,
-                                                   bedrooms: 2,
-                                                   bathrooms: 1,
+                                                   bedrooms: 0,
+                                                   bathrooms: 3,
                                                    livingRooms: nil,
                                                    sizeSquareMeters: nil)
                     }
                     it ("returns 4 tags") {
                         let tags = sut.generateTags(postingFlowType: .standard)
                         expect(tags.count).to(equal(4))
-                        expect(tags[0]).to(equal("HOUSE"))
-                        expect(tags[1]).to(equal("For Rent"))
-                        expect(tags[2]).to(equal("2BR"))
-                        expect(tags[3]).to(equal("1BA"))
+                        expect(tags[0]).to(equal(RealEstateSpecResult.house))
+                        expect(tags[1]).to(equal(RealEstateSpecResult.forRent.localizedCapitalized))
+                        expect(tags[2]).to(equal(RealEstateSpecResult.zeroBedrooms))
+                        expect(tags[3]).to(equal(RealEstateSpecResult.threeBathrooms))
                     }
                 }
             }
@@ -208,13 +228,13 @@ class RealEstateAttributesLGSpec: QuickSpec {
                     it ("returns 4 tags") {
                         let tags = sut.generateTags(postingFlowType: .turkish)
                         expect(tags.count).to(equal(4))
-                        expect(tags[0]).to(equal("HOUSE"))
-                        expect(tags[1]).to(equal("For Rent"))
+                        expect(tags[0]).to(equal(RealEstateSpecResult.house))
                         expect(tags[2]).to(equal("2 + 2"))
                         expect(tags[3]).to(equal("100 \(SharedConstants.sizeSquareMetersUnit)"))
                     }
                 }
             }
         }
+        
     }
 }

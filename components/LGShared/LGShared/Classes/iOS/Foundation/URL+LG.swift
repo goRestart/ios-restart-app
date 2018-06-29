@@ -1,6 +1,6 @@
 import Foundation
 
-extension URL {
+public extension URL {
 
     var queryParameters: [String : String] {
         var result : [String : String] = [:]
