@@ -1,16 +1,9 @@
-//
-//  LGMachineLearning.swift
-//  LetGo
-//
-//  Created by Nestor on 06/03/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
 import RxSwift
 import CameraManager
 import LGCoreKit
 import CoreMedia
+import LGComponents
 
 typealias MachineLearningStatsPredictionCompletion = ([MachineLearningStats]?) -> Void
 
@@ -32,15 +25,19 @@ final class LGMachineLearning: MachineLearning {
         return machineLearningRepository.stats
     }
     private var machineLearningVision: MachineLearningVision?
-    private let semaphore = DispatchSemaphore(value: 2)
-    
+    private let operationQueue: OperationQueue = {
+        let queue = OperationQueue()
+        queue.maxConcurrentOperationCount = 1
+        return queue
+    }()
+
     private var canPredict: Bool {
         if #available(iOS 11, *) {
             return machineLearningVision != nil
         }
         return false
     }
-    
+
     var isLiveStatsEnabled: Bool = true
     let pixelsBuffersToForwardPerSecond: Int = 15
     let liveStats = Variable<[MachineLearningStats]?>(nil)
@@ -48,7 +45,7 @@ final class LGMachineLearning: MachineLearning {
     convenience init() {
         self.init(machineLearningRepository: Core.machineLearningRepository)
     }
-    
+
     init(machineLearningRepository: MachineLearningRepository) {
         self.machineLearningRepository = machineLearningRepository
         if #available(iOS 11, *) {
@@ -75,29 +72,31 @@ final class LGMachineLearning: MachineLearning {
                 return
             }
             let statsResult: [MachineLearningStats] =
-                observationsValue.flatMap { [weak self] observation -> MachineLearningStats? in
+                observationsValue.compactMap { [weak self] observation -> MachineLearningStats? in
                     return self?.machineLearningRepository.stats(forKeyword: observation.identifier,
                                                                  confidence: observation.confidence)
             }
             completion?(statsResult)
         }
     }
-    
+
     // MARK: - VideoOutputDelegate & VideoCaptureDelegate
-    
+
     func didCaptureVideoFrame(pixelBuffer: CVPixelBuffer?, timestamp: CMTime) {
         guard canPredict, isLiveStatsEnabled, let pixelBuffer = pixelBuffer else { return }
+        guard operationQueue.operationCount < operationQueue.maxConcurrentOperationCount else {
+            logMessage(.debug, type: .debug, message: "Dropped machine learning frame")
+            return
+        }
         // For better throughput, perform the prediction on a background queue
-        // instead of on the CameraManager queue. We use the semaphore to block
-        // the capture queue and drop frames when Core ML can't keep up.
-        semaphore.wait()
-        DispatchQueue.global().async { [weak self] in
+        // instead of on the CameraManager queue. We use the operation queue
+        // to drop frames when Core ML can't keep up.
+        operationQueue.addOperation { [weak self] in
             self?.predict(pixelBuffer: pixelBuffer, completion: { stats in
                 // Must be dispatched to main thread to prevent two different
                 // threads trying to assign the same `Variable.value` unsynchronized.
                 DispatchQueue.main.async {
                     self?.liveStats.value = stats
-                    self?.semaphore.signal()
                 }
             })
         }
