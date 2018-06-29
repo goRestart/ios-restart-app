@@ -14,11 +14,14 @@ struct UsersABGroup: ABGroupType {
         static let showPasswordlessLogin = "20180417ShowPasswordlessLogin"
         static let emergencyLocate = "20180425EmergencyLocate"
         static let offensiveReportAlert = "20180525OffensiveReportAlert"
+        static let reportingFostaSesta = "20180627ReportingFostaSesta"
     }
+
     let advancedReputationSystem: LeanplumABVariable<Int>
     let showPasswordlessLogin: LeanplumABVariable<Int>
     let emergencyLocate: LeanplumABVariable<Int>
     let offensiveReportAlert: LeanplumABVariable<Int>
+    let reportingFostaSesta: LeanplumABVariable<Int>
 
     let group: ABGroup = .users
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -29,15 +32,18 @@ struct UsersABGroup: ABGroupType {
     init(advancedReputationSystem: LeanplumABVariable<Int>,
          showPasswordlessLogin: LeanplumABVariable<Int>,
          emergencyLocate: LeanplumABVariable<Int>,
-         offensiveReportAlert: LeanplumABVariable<Int>) {
+         offensiveReportAlert: LeanplumABVariable<Int>,
+         reportingFostaSesta: LeanplumABVariable<Int>) {
         self.advancedReputationSystem = advancedReputationSystem
         self.showPasswordlessLogin = showPasswordlessLogin
         self.emergencyLocate = emergencyLocate
         self.offensiveReportAlert = offensiveReportAlert
+        self.reportingFostaSesta = reportingFostaSesta
         intVariables.append(contentsOf: [advancedReputationSystem,
                                          showPasswordlessLogin,
                                          emergencyLocate,
-                                         offensiveReportAlert])
+                                         offensiveReportAlert,
+                                         reportingFostaSesta])
     }
 
     static func make() -> UsersABGroup {
@@ -52,7 +58,10 @@ struct UsersABGroup: ABGroupType {
                                                       groupType: .users),
                             offensiveReportAlert: .makeInt(key: Keys.offensiveReportAlert,
                                                            defaultValue: 0,
-                                                           groupType: .users)
+                                                           groupType: .users),
+                            reportingFostaSesta: .makeInt(key: Keys.reportingFostaSesta,
+                                                          defaultValue: 0,
+                                                          groupType: .users)
         )
     }
 }

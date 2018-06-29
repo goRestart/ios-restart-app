@@ -145,6 +145,7 @@ extension ABTests {
     var showPasswordlessLogin: LeanplumABVariable<Int> { return users.showPasswordlessLogin }
     var emergencyLocate: LeanplumABVariable<Int> { return users.emergencyLocate }
     var offensiveReportAlert: LeanplumABVariable<Int> { return users.offensiveReportAlert }
+    var reportingFostaSesta: LeanplumABVariable<Int> { return users.reportingFostaSesta }
 }
 
 //  MARK: Core

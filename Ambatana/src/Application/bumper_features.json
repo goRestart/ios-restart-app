@@ -285,8 +285,13 @@
         "description": "Settings to enable or disable each type of notification"
     },
     {
-         "name": "CarExtraFieldsEnabled",
-         "values": ["control", "baseline", "active"],
-         "description": "allows user to see extra car fields (bodyType, fuelType, drivetrain, transmission, seats, mileage)"
+        "name": "ReportingFostaSesta",
+        "values": ["control", "baseline", "withIcons", "withoutIcons"],
+        "description": "Show new user/product reporting flow (FOSTA-SESTA compliance)"
+    },
+    {
+        "name": "CarExtraFieldsEnabled",
+        "values": ["control", "baseline", "active"],
+        "description": "allows user to see extra car fields (bodyType, fuelType, drivetrain, transmission, seats, mileage)"
     }
  ]
