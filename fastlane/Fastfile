@@ -621,5 +621,5 @@ end
 ## Functions
 
 def make_timestamp()
-	Time.now.getutc.strftime("_%m_%d_%y_%I_%M_%p")
+	Time.now.getlocal.strftime("_%Y_%m_%d_%I_%M_%p")
 end

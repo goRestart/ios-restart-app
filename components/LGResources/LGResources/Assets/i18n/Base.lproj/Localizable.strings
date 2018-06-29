@@ -624,7 +624,7 @@
 "chat_status_view_connecting" = "Connecting...";
 
 // Chat connection status bar no network connection
-"chat_status_view_no_network" = "No network connection";
+"chat_status_view_no_network" = "Not connected";
 
 // Chat connection status bar unable to connect
 "chat_status_view_unable_to_connect" = "Unable to connect. Please try again";
@@ -1252,7 +1252,8 @@
 // Title for seat filter section
 "filter_cars_seats_title" = "Seats";
 
-"filter_cars_distance_placeholder" = "";
+// Title for distance placeholder
+"filter_cars_distance_placeholder" = "How many %@?";
 
 // Coupe car type
 "filters_cars_bodytype_coupe" = "Coupe";
@@ -1316,6 +1317,21 @@
 
 // Manual transmission type
 "filters_cars_transmission_manual" = "Manual";
+
+// Title for Mileage slider
+"filters_mileage_slider_title" = "Mileage";
+
+// Title for number of seats slider
+"filters_numberOfSeats_slider_title" = "Seats";
+
+// Text to display when no min or max value is selected
+"filters_slider_any" = "Any";
+
+// Unit suffix for miles (e.g. the mi in "400,000 mi")
+"mile_unit_suffix" = "mi";
+
+// Unit suffix for kilometers (e.g. the km in "400,000 km")
+"kilometer_unit_suffix" = "KM";
 
 // Forced update message.
 "forced_update_message" = "A new version of letgo is available. Please update now!";

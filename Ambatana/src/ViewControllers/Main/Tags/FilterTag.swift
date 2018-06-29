@@ -24,6 +24,12 @@ enum FilterTag: Equatable {
     case make(id: String, name: String)
     case model(id: String, name: String)
     case yearsRange(from: Int?, to: Int?)
+    case mileageRange(from: Int?, to: Int?)
+    case numberOfSeats(from: Int?, to: Int?)
+    case carBodyType(CarBodyType)
+    case carFuelType(CarFuelType)
+    case carTransmissionType(CarTransmissionType)
+    case carDriveTrainType(CarDriveTrainType)
     
     case realEstateNumberOfBedrooms(NumberOfBedrooms)
     case realEstateNumberOfBathrooms(NumberOfBathrooms)
@@ -39,7 +45,9 @@ enum FilterTag: Equatable {
 extension FilterTag {
     var isTaxonomy: Bool {
         switch self {
-    case .location, .within, .orderBy, .category, .taxonomyChild, .secondaryTaxonomyChild, .priceRange, .freeStuff, .distance, .carSellerType, .make, .model, .yearsRange, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType, .realEstateOfferType, .realEstateNumberOfRooms, .sizeSquareMetersRange, .serviceType, .serviceSubtype:
+    case .location, .within, .orderBy, .category, .taxonomyChild, .secondaryTaxonomyChild, .priceRange, .freeStuff, .distance, .carSellerType, .make, .model, .yearsRange, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType, .realEstateOfferType, .realEstateNumberOfRooms, .sizeSquareMetersRange, .serviceType, .serviceSubtype,
+         .carBodyType, .carTransmissionType, .carFuelType, .carDriveTrainType,
+         .mileageRange, .numberOfSeats:
             return false
         case .taxonomy:
             return true
@@ -48,7 +56,12 @@ extension FilterTag {
     
     var taxonomyChild: TaxonomyChild? {
         switch self {
-        case .location, .within, .orderBy, .category, .taxonomy, .priceRange, .freeStuff, .distance, .carSellerType, .make, .model, .yearsRange, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType, .realEstateOfferType, .realEstateNumberOfRooms, .sizeSquareMetersRange, .serviceType, .serviceSubtype:
+        case .location, .within, .orderBy, .category, .taxonomy, .priceRange, .freeStuff, .distance,
+             .carSellerType, .make, .model, .yearsRange,
+             .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType,
+             .realEstateOfferType, .realEstateNumberOfRooms, .sizeSquareMetersRange, .serviceType, .serviceSubtype,
+             .carBodyType, .carTransmissionType, .carFuelType, .carDriveTrainType,
+             .mileageRange, .numberOfSeats:
             return nil
         case .taxonomyChild(let taxonomyChild):
             return taxonomyChild
@@ -74,6 +87,8 @@ func ==(a: FilterTag, b: FilterTag) -> Bool {
     case (.make(let idA, let nameA), .make(let idB, let nameB)) where idA == idB && nameA == nameB: return true
     case (.model(let idA, let nameA), .model(let idB, let nameB)) where idA == idB && nameA == nameB: return true
     case (.yearsRange(let a, let b), .yearsRange(let c, let d)) where a == c && b == d: return true
+    case (.mileageRange(let a, let b), .mileageRange(let c, let d)) where a == c && b == d: return true
+    case (.numberOfSeats(let a, let b), .numberOfSeats(let c, let d)) where a == c && b == d: return true
     case (.realEstateNumberOfBedrooms(let idA), .realEstateNumberOfBedrooms(let idB)) where idA == idB: return true
     case (.realEstateNumberOfBathrooms(let idA), .realEstateNumberOfBathrooms(let idB)) where idA == idB: return true
     case (.realEstatePropertyType(let idA), .realEstatePropertyType(let idB)) where idA == idB: return true
@@ -82,6 +97,10 @@ func ==(a: FilterTag, b: FilterTag) -> Bool {
     case (.sizeSquareMetersRange(let a, let b), .sizeSquareMetersRange(let c, let d)) where a == c && b == d: return true
     case (.serviceType(let a), .serviceType(let b)) where a.id == b.id: return true
     case (.serviceSubtype(let a), .serviceSubtype(let b)) where a.id == b.id: return true
+    case (.carBodyType(let a), .carBodyType(let b)) where a.value == b.value: return true
+    case (.carFuelType(let a), .carFuelType(let b)) where a.value == b.value: return true
+    case (.carTransmissionType(let a), .carTransmissionType(let b)) where a.value == b.value: return true
+    case (.carDriveTrainType(let a), .carDriveTrainType(let b)) where a.value == b.value: return true
     default: return false
     }
 }

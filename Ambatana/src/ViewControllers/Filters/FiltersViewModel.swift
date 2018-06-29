@@ -265,11 +265,13 @@ class FiltersViewModel: BaseViewModel {
     }
     
     var carSections: [FilterCarSection] {
+        let sections = FilterCarSection.all(showCarExtraFilters: featureFlags.carExtraFieldsEnabled.isActive)
+        
         guard featureFlags.searchCarsIntoNewBackend.isActive,
             featureFlags.filterSearchCarSellerType.isActive else {
-            return FilterCarSection.all.filter { return !$0.isCarSellerTypeSection }
+            return sections.filter { return !$0.isCarSellerTypeSection }
         }
-        return FilterCarSection.all
+        return sections
     }
     
     var serviceSections: [FilterServicesSection] {
@@ -346,6 +348,18 @@ class FiltersViewModel: BaseViewModel {
     
     private func updateCarSelectedSections() {
         filterCarSellerSelectedSections = productFilter.carSellerTypes.filterCarSectionsFor(feature: featureFlags.filterSearchCarSellerType)
+    }
+    
+    func attributeGridHeight(forCarSection carSection: FilterCarSection,
+                             forContainerWidth containerWidth: CGFloat) -> CGFloat {
+        switch carSection {
+        case .bodyType, .transmission, .fuelType, .driveTrain:
+            let items = carExtrasAttributeItems(forSection: carSection)
+            return FilterAttributeGridCell.height(forItemCount: items.count,
+                                                  forContainerWidth: containerWidth)
+        case .firstSection, .secondSection, .make, .model, .year, .mileage, .numberOfSeats:
+            return 0
+        }
     }
 
     func locationButtonPressed() {
@@ -546,6 +560,7 @@ class FiltersViewModel: BaseViewModel {
             })
             return false
         }
+        
         return true
     }
 
@@ -862,5 +877,148 @@ extension FiltersViewModel: FilterFreeCellDelegate {
     func freeSwitchChanged(isOn: Bool) {
         productFilter.priceRange = isOn ? .freePrice : .priceRange(min: nil, max: nil)
         delegate?.vmDidUpdate()
+    }
+}
+
+
+// MARK: Cars Extra Fields
+
+extension FiltersViewModel {
+    
+    func carExtrasAttributeItems(forSection section: FilterCarSection) -> [ListingAttributeGridItem] {
+        switch section {
+        case .bodyType:
+            return CarBodyType.allCases
+        case .transmission:
+            return CarTransmissionType.allCases
+        case .fuelType:
+            return CarFuelType.allCases
+        case .driveTrain:
+            return CarDriveTrainType.allCases
+        case .firstSection, .secondSection, .make, .model, .year, .mileage, .numberOfSeats:
+            return []
+        }
+    }
+    
+    func selectedCarExtrasAttributeItems(forSection section: FilterCarSection) -> [ListingAttributeGridItem] {
+        switch section {
+        case .bodyType:
+            return productFilter.carBodyTypes
+        case .transmission:
+            return productFilter.carTransmissionTypes
+        case .fuelType:
+            return productFilter.carFuelTypes
+        case .driveTrain:
+            return productFilter.carDriveTrainTypes
+        case .firstSection, .secondSection, .make, .model, .year, .mileage, .numberOfSeats:
+            return []
+        }
+    }
+    
+    func didSelectItem(_ item: ListingAttributeGridItem,
+                       forSection section: FilterCarSection) {
+        switch section {
+        case .bodyType:
+            if let item = item as? CarBodyType,
+                !productFilter.carBodyTypes.contains(item) {
+                productFilter.carBodyTypes.append(item)
+            }
+        case .transmission:
+            if let item = item as? CarTransmissionType,
+                !productFilter.carTransmissionTypes.contains(item) {
+                productFilter.carTransmissionTypes.append(item)
+            }
+        case .fuelType:
+            if let item = item as? CarFuelType,
+                !productFilter.carFuelTypes.contains(item) {
+                productFilter.carFuelTypes.append(item)
+            }
+        case .driveTrain:
+            if let item = item as? CarDriveTrainType,
+                !productFilter.carDriveTrainTypes.contains(item) {
+                productFilter.carDriveTrainTypes.append(item)
+            }
+        case .firstSection, .secondSection, .make, .model, .year, .mileage, .numberOfSeats:
+            break
+        }
+    }
+    
+    func didDeselectItem(_ item: ListingAttributeGridItem,
+                         forSection section: FilterCarSection) {
+        switch section {
+        case .bodyType:
+            guard let item = item as? CarBodyType else { return }
+            productFilter.carBodyTypes = productFilter.carBodyTypes.filter({ $0 != item })
+        case .transmission:
+            guard let item = item as? CarTransmissionType else { return }
+            productFilter.carTransmissionTypes = productFilter.carTransmissionTypes.filter( { $0 != item })
+        case .fuelType:
+            guard let item = item as? CarFuelType else { return }
+            productFilter.carFuelTypes = productFilter.carFuelTypes.filter( { $0 != item })
+        case .driveTrain:
+            guard let item = item as? CarDriveTrainType else { return }
+            productFilter.carDriveTrainTypes = productFilter.carDriveTrainTypes.filter( { $0 != item })
+        case .firstSection, .secondSection, .make, .model, .year, .mileage, .numberOfSeats:
+            break
+        }
+    }
+    
+    func sliderViewModel(forSection section: FilterCarSection) -> LGSliderViewModel? {
+        switch section {
+        case .numberOfSeats:
+            return LGSliderViewModel(title: R.Strings.filtersNumberOfSeatsSliderTitle,
+                                     minimumValueNotSelectedText: String(SharedConstants.filterMinCarSeatsNumber),
+                                     maximumValueNotSelectedText: String(SharedConstants.filterMaxCarSeatsNumber),
+                                     minimumAndMaximumValuesNotSelectedText: R.Strings.filtersSliderAny,
+                                     minimumValue: SharedConstants.filterMinCarSeatsNumber,
+                                     maximumValue: SharedConstants.filterMaxCarSeatsNumber,
+                                     minimumValueSelected: productFilter.carNumberOfSeatsStart,
+                                     maximumValueSelected: productFilter.carNumberOfSeatsEnd)
+        case .mileage:
+            let numberFormatter = NumberFormatter()
+            numberFormatter.numberStyle = .decimal
+            numberFormatter.locale = Locale.autoupdatingCurrent
+            numberFormatter.usesGroupingSeparator = true
+            return LGSliderViewModel(title: R.Strings.filtersMileageSliderTitle,
+                                     minimumValueNotSelectedText: String(SharedConstants.filterMinCarMileage),
+                                     maximumValueNotSelectedText: String(SharedConstants.filterMaxCarMileage),
+                                     minimumAndMaximumValuesNotSelectedText: R.Strings.filtersSliderAny,
+                                     minimumValue: SharedConstants.filterMinCarMileage,
+                                     maximumValue: SharedConstants.filterMaxCarMileage,
+                                     minimumValueSelected: productFilter.carMileageStart,
+                                     maximumValueSelected: productFilter.carMileageEnd,
+                                     unitSuffix: distanceType.localizedUnitType(),
+                                     numberFormatter: numberFormatter)
+        case .firstSection, .secondSection, .make, .model, .year,
+             .bodyType, .transmission, .fuelType, .driveTrain:
+            return nil
+        }
+
+    }
+    
+    func didSelectMinimumValue(forSection section: FilterCarSection,
+                               value: Int) {
+        switch section {
+        case .numberOfSeats:
+            productFilter.carNumberOfSeatsStart = value
+        case .mileage:
+            productFilter.carMileageStart = value
+        case .firstSection, .secondSection, .make, .model, .year,
+             .bodyType, .transmission, .fuelType, .driveTrain:
+            break
+        }
+    }
+    
+    func didSelectMaximumValue(forSection section: FilterCarSection,
+                               value: Int) {
+        switch section {
+        case .numberOfSeats:
+            productFilter.carNumberOfSeatsEnd = value
+        case .mileage:
+            productFilter.carMileageEnd = value
+        case .firstSection, .secondSection, .make, .model, .year,
+             .bodyType, .transmission, .fuelType, .driveTrain:
+            break
+        }
     }
 }

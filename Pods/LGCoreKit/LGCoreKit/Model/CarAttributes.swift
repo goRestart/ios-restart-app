@@ -61,6 +61,27 @@ public struct CarAttributes: Equatable, Decodable {
         seats = try keyedContainerCarsApi.decodeIfPresent(Int.self, forKey: .seats)
     }
     
+    var dictionaryEncoded: [String: Any] {
+        let codingKeysAndValues: [(codingKey: CodingKeysCarsApi, value: Any?)] = [(.makeId , makeId ?? ""),
+                                                                                  (.modelId , modelId ?? ""),
+                                                                                  (.year , year ?? 0),
+                                                                                  (.mileage, mileage),
+                                                                                  (.mileageType, mileageType?.rawValue),
+                                                                                  (.bodyType, bodyType?.rawValue),
+                                                                                  (.transmission, transmission?.rawValue),
+                                                                                  (.fuelType, fuelType?.rawValue),
+                                                                                  (.seats, seats),
+                                                                                  (.driveTrain, driveTrain?.rawValue)]
+        
+        return codingKeysAndValues.reduce([:]) { (dict, nextValue) -> [String : Any] in
+            guard let value = nextValue.value else { return dict }
+            let key = nextValue.codingKey.rawValue
+            var newDict = dict
+            newDict[key] = value
+            return newDict
+        }
+    }
+    
     private enum CodingKeysProductsApi: String, CodingKey {
         case make, model, year
     }
