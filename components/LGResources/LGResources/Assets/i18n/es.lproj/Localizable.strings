@@ -368,6 +368,7 @@
 "featured_info_view_more_buyers" = "Atrae más compradores";
 "featured_info_view_sell_faster" = "Vende más rápido";
 "featured_info_view_title" = "Anuncio destacado";
+"filter_cars_seats_title" = "Asientos";
 "filter_results_cars_no_matches" = "No hay resultados exactos para tu búsqueda.\nMostrando resultados similares.";
 "filter_results_cars_other_results" = "Publicados recientemente cerca de ti";
 "filters_car_make_not_set" = "No Definida";
@@ -405,7 +406,9 @@
 "filters_cars_transmission_manual" = "Manual";
 "filters_cars_transmission_title" = "Transmisión";
 "filters_distance_not_set" = "no definida";
+"filters_mileage_slider_title" = "Mileage";
 "filters_navbar_reset" = "Borrar";
+"filters_numberOfSeats_slider_title" = "Seats";
 "filters_price_from" = "De";
 "filters_price_from_feed_filter_cell" = "De";
 "filters_price_to" = "A";
@@ -431,6 +434,7 @@
 "filters_service_subtype_not_set" = "No Definido";
 "filters_service_type_not_set" = "No Definido";
 "filters_size_wrong_range_error" = "El tamaño mínimo no puede superior al tamaño máximo.";
+"filters_slider_any" = "Any";
 "filters_sort_closest" = "Más cercanos primero";
 "filters_sort_newest" = "Más recientes primero";
 "filters_sort_price_asc" = "De más barato a más caro";
@@ -474,6 +478,7 @@
 "id_verification_third_step_subtitle" = "Asegúrate que tu documento se ve claramente y encaja en los bordes de la caja";
 "id_verification_third_step_title" = "Haz una foto de la cara frontal de tu documento de identidad";
 "id_verification_update_avatar_message" = "¿Quieres que sea tu foto de perfil?";
+"kilometer_unit_suffix" = "KM";
 "listing_chat_button" = "Chatear Ahora";
 "listing_interested_button_A" = "Me interesa";
 "listing_interested_button_B" = "Interesado";
@@ -546,6 +551,7 @@
 "meeting_creation_view_suggest_cell_select" = "Selecciona";
 "meeting_creation_view_suggest_cell_selected" = "Seleccionada";
 "meeting_creation_view_title" = "Programar un encuentro";
+"mile_unit_suffix" = "mi";
 "ml_camera_in_about_days_text" = "en unos %d días";
 "ml_camera_in_more_than_days_text" = "en más de %d días";
 "ml_camera_sells_for_text" = "Se suele vender por %d";

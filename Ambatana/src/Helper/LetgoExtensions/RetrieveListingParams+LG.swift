@@ -40,6 +40,16 @@ extension RetrieveListingParams {
         startYear = filters?.carYearStart
         endYear = filters?.carYearEnd
         
+        bodyType = filters?.carBodyTypes
+        drivetrain = filters?.carDriveTrainTypes
+        fuelType = filters?.carFuelTypes
+        transmision = filters?.carTransmissionTypes
+        startMileage = filters?.carMileageStart
+        endMileage = filters?.carMileageEnd
+        startNumberOfSeats = filters?.carNumberOfSeatsStart
+        endNumberOfSeats = filters?.carNumberOfSeatsEnd
+        mileageType = filters?.carMileageType
+        
         if let propertyTypeValue = filters?.realEstatePropertyType?.rawValue {
             propertyType = propertyTypeValue
         }
@@ -65,7 +75,6 @@ extension RetrieveListingParams {
         }
         subtypeIds = filters?.servicesSubtypes?.map( { $0.id } )
 
-        
         if let priceRange = filters?.priceRange {
             switch priceRange {
             case .freePrice:

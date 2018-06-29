@@ -191,6 +191,10 @@ extension ShowServicesFeatures {
     var isActive: Bool { return self == .active }
 }
 
+extension CarExtraFieldsEnabled {
+    var isActive: Bool { return self == .active }
+}
+
 extension BumpUpBoost {
     var isActive: Bool { get { return self != .control && self != .baseline } }
 

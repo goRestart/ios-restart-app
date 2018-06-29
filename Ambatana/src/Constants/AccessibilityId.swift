@@ -919,20 +919,26 @@ enum AccessibilityId: Equatable {
                 idSuffix = "CarMake-\(carId)_\(carName)"
             case let .model(carId, carName):
                 idSuffix = "CarModel-\(carId)_\(carName)"
+            case let .carDriveTrainType(driveTrainType):
+                idSuffix = "CarDriveTrain-\(driveTrainType.value)"
+            case let .carBodyType(bodyType):
+                idSuffix = "CarBodyType-\(bodyType.value)"
+            case let .carFuelType(fuelType):
+                idSuffix = "CarFuelType-\(fuelType.value)"
+            case let .carTransmissionType(transmissionType):
+                idSuffix = "CarTransmissionType-\(transmissionType.value)"
+            case let .mileageRange(from, to):
+                idSuffix = AccessibilityId.rangeIdentifier(forRange: AccessibilityRange(withLowerBound: from,
+                                                                                        upperBound: to),
+                                                           identifierPrefix: "CarMileage")
+            case let .numberOfSeats(from, to):
+                idSuffix = AccessibilityId.rangeIdentifier(forRange: AccessibilityRange(withLowerBound: from,
+                                                                                        upperBound: to),
+                                                           identifierPrefix: "CarNumberOfSeats")
             case let .yearsRange(from, to):
-                let fromString: String
-                if let from = from {
-                    fromString = String(from)
-                } else {
-                    fromString = ""
-                }
-                let toString: String
-                if let to = to {
-                    toString = String(to)
-                } else {
-                    toString = ""
-                }
-                idSuffix = "CarYears-\(fromString)_\(toString)"
+                idSuffix = AccessibilityId.rangeIdentifier(forRange: AccessibilityRange(withLowerBound: from,
+                                                                                        upperBound: to),
+                                                           identifierPrefix: "CarYears")
             case let .realEstateNumberOfBedrooms(number):
                 idSuffix = "RealEstateNumBedRooms-\(number)"
             case let .realEstateNumberOfBathrooms(number):
@@ -948,19 +954,9 @@ enum AccessibilityId: Equatable {
             case let .serviceSubtype(serviceSubtype):
                 idSuffix = "ServicesServiceSubtype-\(serviceSubtype.name)"
             case let .sizeSquareMetersRange(from, to):
-                let fromString: String
-                if let from = from {
-                    fromString = String(from)
-                } else {
-                    fromString = ""
-                }
-                let toString: String
-                if let to = to {
-                    toString = String(to)
-                } else {
-                    toString = ""
-                }
-                idSuffix = "RealEstateSizeSquareMetersRange-\(fromString)_\(toString)"
+                idSuffix = AccessibilityId.rangeIdentifier(forRange: AccessibilityRange(withLowerBound: from,
+                                                                                        upperBound: to),
+                                                           identifierPrefix: "RealEstateSizeSquareMetersRange")
             }
             return idPrefix + idSuffix
         case .filterTagCellTagIcon:
@@ -2148,6 +2144,23 @@ enum AccessibilityId: Equatable {
         case .letgoTooltipText:
             return "letgoTooltipText"
         }
+    }
+    
+    static func rangeIdentifier(forRange range: AccessibilityRange,
+                                identifierPrefix: String) -> String {
+        return "\(identifierPrefix)-\(range.lowerBound)_\(range.upperBound)"
+    }
+}
+
+struct AccessibilityRange {
+    
+    let lowerBound: String
+    let upperBound: String
+    
+    init(withLowerBound lowerBound: CustomStringConvertible?,
+         upperBound: CustomStringConvertible?) {
+        self.lowerBound = lowerBound?.description ?? ""
+        self.upperBound = upperBound?.description ?? ""
     }
 }
 

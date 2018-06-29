@@ -15,6 +15,8 @@ FilterPriceCellDelegate, FilterRangePriceCellDelegate, FilterCarInfoYearCellDele
         static let singleCheckWithMarginHeight: CGFloat = 62.0
         static let pricesHeight: CGFloat = 50.0
         static let yearHeight: CGFloat = 90.0
+        static let mileageHeight: CGFloat = 90.0
+        static let numberOfSeatsHeight: CGFloat = 90.0
         static let saveButtonContainerHeight: CGFloat = 76.0
         static let defaultCellSize: CGSize = CGSize(width: 50,
                                                     height: 50)
@@ -199,6 +201,8 @@ extension FiltersViewController {
         collectionView.register(type: FilterRangePriceCell.self)
         collectionView.register(type: FilterTextFieldIntCell.self)
         collectionView.register(type: FilterFreeCell.self)
+        collectionView.register(type: FilterAttributeGridCell.self)
+        collectionView.register(type: FilterSliderCell.self)
         
         collectionView.register(FilterHeaderCell.self,
                                 forSupplementaryViewOfKind: UICollectionElementKindSectionHeader,
@@ -349,6 +353,14 @@ extension FiltersViewController {
                 return CGSize(width: view.bounds.width, height: Layout.singleCheckHeight)
             case .year:
                 return CGSize(width: view.bounds.width, height: Layout.yearHeight)
+            case .mileage:
+                return CGSize(width: view.bounds.width, height: Layout.mileageHeight)
+            case .numberOfSeats:
+                return CGSize(width: view.bounds.width, height: Layout.numberOfSeatsHeight)
+            case .bodyType, .transmission, .fuelType, .driveTrain:
+                let height = viewModel.attributeGridHeight(forCarSection: carSection,
+                                                  forContainerWidth: view.bounds.width)
+                return CGSize(width: view.bounds.width, height: height)
             }
             
         case .sortBy, .within, .location:
@@ -494,6 +506,35 @@ extension FiltersViewController {
                                      minimumValueSelected: viewModel.carYearStart,
                                      maximumValueSelected: viewModel.carYearEnd)
                     cell.delegate = self
+                    return cell
+                case .mileage, .numberOfSeats:
+                    guard let cell = collectionView.dequeue(type: FilterSliderCell.self,
+                                                            for: indexPath),
+                        let sliderViewModel = viewModel.sliderViewModel(forSection: carSection)
+                        else { return UICollectionViewCell() }
+                    
+                    cell.setup(withViewModel: sliderViewModel,
+                               minimumValueSelectedAction: { [weak self] (minValue) in
+                                self?.viewModel.didSelectMinimumValue(forSection: carSection,
+                                                                      value: minValue)
+                        }, maximumValueSelectedAction: { [weak self] (maxValue) in
+                            self?.viewModel.didSelectMaximumValue(forSection: carSection,
+                                                                  value: maxValue)
+                    })
+                    return cell
+                case .bodyType, .transmission, .fuelType, .driveTrain:
+                    guard let cell = collectionView.dequeue(type: FilterAttributeGridCell.self,
+                                                            for: indexPath) else { return UICollectionViewCell() }
+                    cell.setup(withTitle: viewModel.carCellTitle(section: carSection),
+                               values: viewModel.carExtrasAttributeItems(forSection: carSection),
+                               selectedValues: viewModel.selectedCarExtrasAttributeItems(forSection: carSection),
+                               selectionAction: { [weak self] item in
+                                self?.viewModel.didSelectItem(item,
+                                                              forSection: carSection)
+                        }, deselectionAction: { [weak self] item in
+                            self?.viewModel.didDeselectItem(item,
+                                                            forSection: carSection)
+                    })
                     return cell
                 }
             case .realEstateInfo:
@@ -665,7 +706,7 @@ extension FiltersViewController {
                 viewModel.makeButtonPressed()
             case .model:
                 viewModel.modelButtonPressed()
-            case .year:
+            case .year, .bodyType, .transmission, .fuelType, .driveTrain, .mileage, .numberOfSeats:
                 break
             }
             

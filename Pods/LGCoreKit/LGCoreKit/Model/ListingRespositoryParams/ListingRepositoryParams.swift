@@ -98,6 +98,11 @@ public struct RetrieveListingParams {
     public var drivetrain: [CarDriveTrainType]?
     public var fuelType: [CarFuelType]?
     public var transmision: [CarTransmissionType]?
+    public var startMileage: Int?
+    public var endMileage: Int?
+    public var mileageType: String?
+    public var startNumberOfSeats: Int?
+    public var endNumberOfSeats: Int?
     
     //  MARK: Services
     public var typeIds: [String]?

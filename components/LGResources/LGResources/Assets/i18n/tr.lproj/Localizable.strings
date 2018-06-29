@@ -368,6 +368,7 @@
 "featured_info_view_more_buyers" = "Daha çok alıcıyı çek";
 "featured_info_view_sell_faster" = "Hemen sat";
 "featured_info_view_title" = "Öne Çıkan İlan";
+"filter_cars_seats_title" = "Koltuklar";
 "filter_results_cars_no_matches" = "Aramanla eşleşen bir sonuç yok.\nBenzer sonuçlar gösteriliyor. ";
 "filter_results_cars_other_results" = "Çevrende en son yayınlananlar";
 "filters_car_make_not_set" = "Belirlenmedi";
@@ -405,7 +406,9 @@
 "filters_cars_transmission_manual" = "Düz vites";
 "filters_cars_transmission_title" = "Vites";
 "filters_distance_not_set" = "belirlenmedi";
+"filters_mileage_slider_title" = "Mileage";
 "filters_navbar_reset" = "Sıfırla";
+"filters_numberOfSeats_slider_title" = "Seats";
 "filters_price_from" = "Min";
 "filters_price_from_feed_filter_cell" = "Min";
 "filters_price_to" = "Max";
@@ -431,6 +434,7 @@
 "filters_service_subtype_not_set" = "Belirlenmedi";
 "filters_service_type_not_set" = "Belirlenmedi";
 "filters_size_wrong_range_error" = "Minimum büyüklük maksimum büyüklüğü aşmamalıdır.";
+"filters_slider_any" = "Any";
 "filters_sort_closest" = "İlk önce en yakını";
 "filters_sort_newest" = "İlk önce en yenisi";
 "filters_sort_price_asc" = "Düşük fiyattan yüksek fiyata";
@@ -474,6 +478,7 @@
 "id_verification_third_step_subtitle" = "Kimliğinin net olduğundan ve görüntü bulucunun kutusunun içinde olduğundan emin ol";
 "id_verification_third_step_title" = "Kimliğinin ön kısmının fotoğrafını çek";
 "id_verification_update_avatar_message" = "Bunu profil fotoğrafın yapmak ister misin?";
+"kilometer_unit_suffix" = "KM";
 "listing_chat_button" = "Mesajlaş";
 "listing_interested_button_A" = "İlgileniyorum";
 "listing_interested_button_B" = "İlgileniyorum";
@@ -546,6 +551,7 @@
 "meeting_creation_view_suggest_cell_select" = "Seç";
 "meeting_creation_view_suggest_cell_selected" = "Seçildi";
 "meeting_creation_view_title" = "Bir buluşma ayarla";
+"mile_unit_suffix" = "mi";
 "ml_camera_in_about_days_text" = "Yaklaşık %d günde";
 "ml_camera_in_more_than_days_text" = "%d günden fazla";
 "ml_camera_sells_for_text" = "Genellikle %d ₺'den satılıyor";
