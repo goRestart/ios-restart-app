@@ -70,6 +70,7 @@ protocol FeatureFlaggeable: class {
     var chatNorris: ChatNorris { get }
     var chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs { get }
     var showChatConnectionStatusBar: ShowChatConnectionStatusBar { get }
+    var showChatHeaderWithoutListingForAssistant: Bool { get }
 
     // MARK: Verticals
     var searchCarsIntoNewBackend: SearchCarsIntoNewBackend { get }
@@ -1117,6 +1118,13 @@ extension FeatureFlags {
             return Bumper.showChatConnectionStatusBar
         }
         return  ShowChatConnectionStatusBar.fromPosition(abTests.showChatConnectionStatusBar.value)
+    }
+
+    var showChatHeaderWithoutListingForAssistant: Bool {
+        if Bumper.enabled {
+            return Bumper.showChatHeaderWithoutListingForAssistant
+        }
+        return abTests.showChatHeaderWithoutListingForAssistant.value
     }
 }
 

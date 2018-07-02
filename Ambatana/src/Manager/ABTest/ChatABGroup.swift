@@ -17,6 +17,7 @@ struct ChatABGroup: ABGroupType {
         static let chatNorris = "20180319ChatNorris"
         static let chatConversationsListWithoutTabs = "20180509ChatConversationsListWithoutTabs"
         static let showChatConnectionStatusBar = "20180621ShowChatConnectionStatusBar"
+        static let showChatHeaderWithoutListingForAssistant = "20180629ShowChatHeaderWithoutListingForAssistant"
     }
 
     let showInactiveConversations: LeanplumABVariable<Bool>
@@ -26,6 +27,7 @@ struct ChatABGroup: ABGroupType {
     let chatNorris: LeanplumABVariable<Int>
     let chatConversationsListWithoutTabs: LeanplumABVariable<Int>
     let showChatConnectionStatusBar: LeanplumABVariable<Int>
+    let showChatHeaderWithoutListingForAssistant: LeanplumABVariable<Bool>
 
     let group: ABGroup = .chat
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -39,7 +41,8 @@ struct ChatABGroup: ABGroupType {
          markAllConversationsAsRead: LeanplumABVariable<Int>,
          chatNorris: LeanplumABVariable<Int>,
          chatConversationsListWithoutTabs: LeanplumABVariable<Int>,
-         showChatConnectionStatusBar: LeanplumABVariable<Int>) {
+         showChatConnectionStatusBar: LeanplumABVariable<Int>,
+         showChatHeaderWithoutListingForAssistant: LeanplumABVariable<Bool>) {
         self.showInactiveConversations = showInactiveConversations
         self.showChatSafetyTips = showChatSafetyTips
         self.userIsTyping = userIsTyping
@@ -47,6 +50,7 @@ struct ChatABGroup: ABGroupType {
         self.chatNorris = chatNorris
         self.chatConversationsListWithoutTabs = chatConversationsListWithoutTabs
         self.showChatConnectionStatusBar = showChatConnectionStatusBar
+        self.showChatHeaderWithoutListingForAssistant = showChatHeaderWithoutListingForAssistant
 
         intVariables.append(contentsOf: [userIsTyping,
                                          markAllConversationsAsRead,
@@ -55,7 +59,8 @@ struct ChatABGroup: ABGroupType {
                                          showChatConnectionStatusBar])
 
         boolVariables.append(contentsOf: [showInactiveConversations,
-                                          showChatSafetyTips])
+                                          showChatSafetyTips,
+                                          showChatHeaderWithoutListingForAssistant])
     }
 
     static func make() -> ChatABGroup {
@@ -69,17 +74,21 @@ struct ChatABGroup: ABGroupType {
                                                   defaultValue: 0,
                                                   groupType: .chat),
                            markAllConversationsAsRead: .makeInt(key: Keys.markAllConversationsAsRead,
-                                                                 defaultValue: 0,
-                                                                 groupType: .chat),
+                                                                defaultValue: 0,
+                                                                groupType: .chat),
                            chatNorris: .makeInt(key: Keys.chatNorris,
                                                 defaultValue: 0,
                                                 groupType: .chat),
                            chatConversationsListWithoutTabs: .makeInt(key: Keys.chatConversationsListWithoutTabs,
-                                                                     defaultValue: 0,
-                                                                     groupType: .chat),
+                                                                      defaultValue: 0,
+                                                                      groupType: .chat),
                            showChatConnectionStatusBar: .makeInt(key: Keys.showChatConnectionStatusBar,
                                                                  defaultValue: 0,
-                                                                 groupType: .chat)
+                                                                 groupType: .chat),
+                           showChatHeaderWithoutListingForAssistant: .makeBool(key: Keys.showChatHeaderWithoutListingForAssistant,
+                                                                               defaultValue: false,
+                                                                               groupType: .chat)
+
         )
     }
 }

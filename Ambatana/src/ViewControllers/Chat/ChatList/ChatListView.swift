@@ -52,6 +52,8 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
 
         let cellNib = UINib(nibName: "ConversationCell", bundle: nil)
         tableView.register(cellNib, forCellReuseIdentifier: ConversationCell.reusableID)
+        tableView.register(type: ChatAssistantConversationCell.self)
+
         tableView.allowsMultipleSelectionDuringEditing = true
         tableView.rowHeight = ConversationCell.defaultHeight
 
@@ -126,19 +128,26 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
         let cell = super.cellForRowAtIndexPath(indexPath)
 
         guard let chatData = viewModel.conversationDataAtIndex(indexPath.row) else { return cell }
-        guard let chatCell = tableView.dequeueReusableCell(withIdentifier: ConversationCell.reusableID,
-            for: indexPath) as? ConversationCell else { return cell }
 
-        chatCell.tag = (indexPath as NSIndexPath).hash // used for cell reuse on "setupCellWithData"
-        chatCell.setupCellWithData(chatData, indexPath: indexPath)
-
-        let isSelected = viewModel.isConversationSelected(index: indexPath.row)
-        if isSelected {
-            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+        if let userType = chatData.userType, userType == .dummy, chatData.listingId == nil {
+            guard let chatCell = tableView.dequeue(type: ChatAssistantConversationCell.self, for: indexPath) else {
+                return cell
+            }
+            chatCell.setupCellWith(data: chatData, indexPath: indexPath)
+            return chatCell
         } else {
-            tableView.deselectRow(at: indexPath, animated: false)
+            guard let chatCell = tableView.dequeue(type: ConversationCell.self, for: indexPath) else { return cell }
+            chatCell.tag = (indexPath as NSIndexPath).hash // used for cell reuse on "setupCellWithData"
+            chatCell.setupCellWithData(chatData, indexPath: indexPath)
+
+            let isSelected = viewModel.isConversationSelected(index: indexPath.row)
+            if isSelected {
+                tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+            } else {
+                tableView.deselectRow(at: indexPath, animated: false)
+            }
+            return chatCell
         }
-        return chatCell
     }
 
 
