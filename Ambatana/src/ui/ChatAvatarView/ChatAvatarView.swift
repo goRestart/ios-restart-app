@@ -123,6 +123,18 @@ final class ChatAvatarView: UIView {
         badgeView.image = badge
     }
 
+    func setCornerRadius(cornerRadius: ChatAvatarCornerRadius) {
+        mainCornerRadius = cornerRadius
+    }
+
+    func setBadgeStyle(badgeStyle: ChatBadgeStyle) {
+        self.badgeStyle = badgeStyle
+    }
+
+    func setShareBounds(shareBounds: Bool) {
+        self.shareBounds = shareBounds
+    }
+
     func lg_setImageWithURL(_ url: URL, placeholderImage: UIImage? = nil, completion: ImageDownloadCompletion? = nil) {
         mainView.lg_setImageWithURL(url, placeholderImage: placeholderImage, completion: completion)
     }

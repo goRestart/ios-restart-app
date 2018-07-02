@@ -70,6 +70,8 @@ final class ChatConversationsListView: UIView {
     
     private func setupTableView() {
         tableView.register(ChatUserConversationCell.self, forCellReuseIdentifier: ChatUserConversationCell.reusableID)
+        tableView.register(type: ChatAssistantConversationCell.self)
+
         tableView.alpha = 0
         tableView.rowHeight = Layout.rowHeight
         tableView.separatorStyle = .singleLine

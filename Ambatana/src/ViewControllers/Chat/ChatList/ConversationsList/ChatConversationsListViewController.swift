@@ -139,10 +139,22 @@ final class ChatConversationsListViewController: ChatBaseViewController {
     private func setupTableViewRx() {
         let dataSource = RxTableViewSectionedAnimatedDataSource<ChatConversationsListSectionModel>(
             configureCell: { (_, tableView, indexPath, item) in
-                guard let cell = tableView.dequeueReusableCell(withIdentifier: ChatUserConversationCell.reusableID)
-                    as? ChatUserConversationCell else { return UITableViewCell() }
-                cell.setupCellWith(data: item.conversationCellData, indexPath: indexPath)
-                return cell
+
+                if let userType = item.conversationCellData.userType,
+                    userType == .dummy,
+                    item.conversationCellData.listingId == nil {
+                    guard let cell = tableView.dequeue(type: ChatAssistantConversationCell.self, for: indexPath) else {
+                        return UITableViewCell()
+                    }
+                    cell.setupCellWith(data: item.conversationCellData, indexPath: indexPath)
+                    return cell
+                } else {
+                    guard let cell = tableView.dequeue(type: ChatUserConversationCell.self, for: indexPath) else {
+                        return UITableViewCell()
+                    }
+                    cell.setupCellWith(data: item.conversationCellData, indexPath: indexPath)
+                    return cell
+                }
         },
             canEditRowAtIndexPath: { (_, _) in
             return true

@@ -20,7 +20,6 @@ enum ChatConnectionBarStatus {
             let unableToConnectString = R.Strings.chatStatusViewUnableToConnect
             let finalAttributtedString = NSMutableAttributedString(string: unableToConnectString)
             let tryAgainRange = NSString(string: unableToConnectString).range(of: tryAgain)
-            print(tryAgainRange)
             finalAttributtedString.setAttributes(tryAgainAttributes, range: tryAgainRange)
             return finalAttributtedString
         case .wsConnecting:

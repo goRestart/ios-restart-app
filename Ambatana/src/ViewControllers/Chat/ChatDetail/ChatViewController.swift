@@ -17,6 +17,7 @@ final class ChatViewController: TextViewController {
     let reputationTooltipMargin: CGFloat = 40
 
     let listingView: ChatListingView
+    let chatDetailHeader: ChatDetailNavBarInfoView
     var selectedCellIndexPath: IndexPath?
     let viewModel: ChatViewModel
     var keyboardShown: Bool = false
@@ -69,6 +70,7 @@ final class ChatViewController: TextViewController {
                   hidesBottomBar: Bool) {
         self.viewModel = viewModel
         self.listingView = ChatListingView.chatListingView()
+        self.chatDetailHeader = ChatDetailNavBarInfoView()
         self.relatedListingsView = ChatRelatedListingsView()
         self.directAnswersPresenter = DirectAnswersPresenter()
         self.stickersView = ChatStickersView()
@@ -211,10 +213,16 @@ final class ChatViewController: TextViewController {
         listingView.height = navigationBarHeight
         listingView.letgoAssistantTag.isHidden = !viewModel.isUserDummy
         listingView.layoutIfNeeded()
-
         setNavBarTitleStyle(.custom(listingView))
         setLetGoRightButtonWith(image: R.Asset.IconsButtons.icMoreOptions.image, selector: "optionsBtnPressed")
     }
+
+    private func updateNavigationBarHeaderWith(view: UIView?) {
+        guard let view = view else { return }
+        view.height = navigationBarHeight
+        setNavBarTitleStyle(.custom(view))
+    }
+
 
     private func addSubviews() {
         relationInfoView.translatesAutoresizingMaskIntoConstraints = false
@@ -558,6 +566,17 @@ fileprivate extension ChatViewController {
                 } else {
                     self?.listingView.userAvatar.image = placeholder
                 }
+            }.disposed(by: disposeBag)
+
+        Observable.combineLatest(viewModel.interlocutorAvatarURL.asObservable(),
+                                 viewModel.interlocutorName.asObservable())
+            .bind { [weak self] (avatarUrl, name) in
+                guard let vm = self?.viewModel, vm.isUserDummy else { return }
+                guard let showNewHeader = self?.featureFlags.showChatHeaderWithoutListingForAssistant, showNewHeader else { return }
+                self?.chatDetailHeader.setupWith(info: .assistant(name: name, imageUrl: avatarUrl)) { [weak self] in
+                    self?.viewModel.userInfoPressed()
+                }
+                self?.updateNavigationBarHeaderWith(view: self?.chatDetailHeader)
             }.disposed(by: disposeBag)
 
         viewModel.shouldShowExpressBanner.asObservable().skip(1).bind { [weak self] showBanner in
