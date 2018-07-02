@@ -509,6 +509,8 @@ class ListingViewModel: BaseViewModel {
             listingRepository.retrieveRealEstate(listingId, completion: retrieveCompletion)
         } else if listing.isServiceWithEmptyAttributes {
             listingRepository.retrieveService(listingId, completion: retrieveCompletion)
+        } else if listing.isCarWithEmptyAttributes {
+            listingRepository.retrieveCar(listingId, completion: retrieveCompletion)
         } else {
             isListingDetailsCompleted.value = true
         }

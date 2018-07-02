@@ -219,7 +219,7 @@
 "chat_send_error_different_country" = "Je kunt geen gesprek beginnen over een geplaatste advertentie in een ander land.";
 "chat_send_error_generic" = "Er is een fout opgetreden tijdens het versturen van het bericht. Probeer het later nog eens.";
 "chat_status_view_connecting" = "Verbinden...";
-"chat_status_view_no_network" = "Geen netwerkverbinding";
+"chat_status_view_no_network" = "Geen verbinding";
 "chat_status_view_try_again" = "probeer het opnieuw";
 "chat_status_view_unable_to_connect" = "Niet in staat te verbinden. Probeer het opnieuw";
 "chat_stickers_tooltip_new" = "NIEUW!";
@@ -368,6 +368,7 @@
 "featured_info_view_more_buyers" = "Meer kopers aantrekken";
 "featured_info_view_sell_faster" = "Sneller verkopen";
 "featured_info_view_title" = "Uitgelichte Advertentie";
+"filter_cars_seats_title" = "Zitplaatsen";
 "filter_results_cars_no_matches" = "Geen exacte resultaten voor jouw zoekopdracht.\n  Toon vergelijkbare resultaten.";
 "filter_results_cars_other_results" = "Recent geplaatst in jouw omgeving";
 "filters_car_make_not_set" = "Niet Ingesteld";
@@ -405,7 +406,9 @@
 "filters_cars_transmission_manual" = "Handgeschakeld";
 "filters_cars_transmission_title" = "Transmissie";
 "filters_distance_not_set" = "Niet ingesteld";
+"filters_mileage_slider_title" = "Kilometerstand";
 "filters_navbar_reset" = "Reset";
+"filters_numberOfSeats_slider_title" = "Zitplaatsen";
 "filters_price_from" = "Van";
 "filters_price_from_feed_filter_cell" = "Van";
 "filters_price_to" = "Tot";
@@ -431,6 +434,7 @@
 "filters_service_subtype_not_set" = "Niet Ingesteld";
 "filters_service_type_not_set" = "Niet Ingesteld";
 "filters_size_wrong_range_error" = "De minimale grootte kan niet hoger zijn dan de maximale grootte.";
+"filters_slider_any" = "Alle";
 "filters_sort_closest" = "Dichtstbijzijnde eerst";
 "filters_sort_newest" = "Nieuwste eerst";
 "filters_sort_price_asc" = "Prijs van laag naar hoog";
@@ -474,6 +478,7 @@
 "id_verification_third_step_subtitle" = "Zorg ervoor dat je ID duidelijk is en binnen het kader van de zoeker valt";
 "id_verification_third_step_title" = "Maak een foto van de voorkant van je ID";
 "id_verification_update_avatar_message" = "Wil je van deze je profielfoto maken?";
+"kilometer_unit_suffix" = "km";
 "listing_chat_button" = "Chat Nu";
 "listing_interested_button_A" = "Ik ben geïnteresseerd!";
 "listing_interested_button_B" = "Geïnteresseerd";
@@ -546,6 +551,7 @@
 "meeting_creation_view_suggest_cell_select" = "Selecteer";
 "meeting_creation_view_suggest_cell_selected" = "Geselecteerd";
 "meeting_creation_view_title" = "Plan een afspraak";
+"mile_unit_suffix" = "km";
 "ml_camera_in_about_days_text" = "over ongeveer %d dagen";
 "ml_camera_in_more_than_days_text" = "over meer dan %d dagen";
 "ml_camera_sells_for_text" = "Verkoopt gewoonlijk voor €%d";

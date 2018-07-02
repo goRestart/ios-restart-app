@@ -250,8 +250,7 @@ class ChatViewMessageAdapter {
     
     private func createDisclaimerMessage(_ disclaimerText: NSAttributedString, showAvatar: Bool, actionTitle: String?,
                                          action: (() -> ())?) -> ChatViewMessage {
-        let disclaimer = ChatViewMessageType.disclaimer(showAvatar: showAvatar, text: disclaimerText,
-                                                        actionTitle: actionTitle, action: action)
+        let disclaimer = ChatViewMessageType.disclaimer(text: disclaimerText, action: action)
         let disclaimerMessage = ChatViewMessage(objectId: nil, talkerId: "", sentAt: nil, receivedAt: nil, readAt: nil,
                                                 type: disclaimer, status: nil, warningStatus: .normal)
         return disclaimerMessage

@@ -1524,6 +1524,32 @@ struct TrackerEvent {
     static func sessionOneMinuteFirstWeek() -> TrackerEvent {
         return TrackerEvent(name: .sessionOneMinuteFirstWeek, params: nil)
     }
+    
+    static func notificationsEditStart() -> TrackerEvent {
+        return TrackerEvent(name: .notificationsEditStart, params: nil)
+    }
+    
+    static func pushNotificationsEditStart(dynamicParameters: [String: Bool],
+                                           marketingNoticationsEnabled: Bool) -> TrackerEvent {
+        var dynamicParams = TrackerEvent.makeDynamicEventParameters(dynamicParameters: dynamicParameters)
+        dynamicParams[.marketingNotificationsEnabled] = marketingNoticationsEnabled
+        return TrackerEvent(name: .pushNotificationsEditStart, params: dynamicParams)
+    }
+    
+    static func mailNotificationsEditStart(dynamicParameters: [String: Bool]) -> TrackerEvent {
+        let dynamicParams = TrackerEvent.makeDynamicEventParameters(dynamicParameters: dynamicParameters)
+        return TrackerEvent(name: .emailNotificationsEditStart, params: dynamicParams)
+    }
+    
+    static private func makeDynamicEventParameters(dynamicParameters: [String: Bool]) -> EventParameters {
+        var dynamicParams = EventParameters()
+        let parameterEnabledAddition = "-enabled"
+        for (parameterName, boolValue) in dynamicParameters {
+            dynamicParams["\(parameterName)\(parameterEnabledAddition)"] = boolValue
+        }
+        return dynamicParams
+    }
+
 
     // MARK: - Private methods
     

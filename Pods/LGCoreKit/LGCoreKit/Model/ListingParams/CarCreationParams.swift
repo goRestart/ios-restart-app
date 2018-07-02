@@ -1,11 +1,3 @@
-//
-//  CarCreationParams.swift
-//  LGCoreKit
-//
-//  Created by Juan Iglesias on 19/09/2017.
-//  Copyright © 2017 Ambatana Inc. All rights reserved.
-//
-
 public class CarCreationParams: BaseListingParams {
     
     public var carAttributes: CarAttributes
@@ -34,17 +26,15 @@ public class CarCreationParams: BaseListingParams {
     }
     
     override func apiCreationEncode(userId: String) -> [String: Any] {
-        
         var params = super.apiCreationEncode(userId: userId)
         params.removeValue(forKey: "price_flag")
-        
-        let carAttributesDict: [String: Any] = ["makeId": carAttributes.makeId ?? "",
-                                                "modelId" : carAttributes.modelId ?? "",
-                                                "year" : carAttributes.year ?? 0]
-        params["carAttributes"] = carAttributesDict
-        params["images"] = images.flatMap { $0.objectId }
-        params["priceFlag"] = price.priceFlag.rawValue
-        
+        params[CodingKeys.carAttributes.rawValue] = carAttributes.dictionaryEncoded
+        params[CodingKeys.images.rawValue] = images.flatMap { $0.objectId }
+        params[CodingKeys.priceFlag.rawValue] = price.priceFlag.rawValue
         return params
+    }
+    
+    private enum CodingKeys: String {
+        case carAttributes, images, priceFlag
     }
 }

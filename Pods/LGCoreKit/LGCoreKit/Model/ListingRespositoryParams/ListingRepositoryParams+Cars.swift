@@ -1,5 +1,6 @@
 private enum CarAttributesCodingKey: String {
-    case userType, makeId, modelId, minYear, maxYear, bodyType, fuelType, transmission
+    case userType, makeId, modelId, minYear, maxYear, bodyType, fuelType, transmission,
+        minMileage, maxMileage, mileageType, minSeats, maxSeats
     case driveTrain = "drivetrain"
 }
 
@@ -42,6 +43,11 @@ extension RetrieveListingParams {
         params[CarAttributesCodingKey.driveTrain.rawValue] = drivetrain?.map { $0.rawValue }
         params[CarAttributesCodingKey.fuelType.rawValue] = fuelType?.map { $0.rawValue }
         params[CarAttributesCodingKey.transmission.rawValue] = transmision?.map { $0.rawValue }
+        params[CarAttributesCodingKey.minSeats.rawValue] = startNumberOfSeats
+        params[CarAttributesCodingKey.maxSeats.rawValue] = endNumberOfSeats
+        params[CarAttributesCodingKey.minMileage.rawValue] = startMileage
+        params[CarAttributesCodingKey.maxMileage.rawValue] = endMileage
+        params[CarAttributesCodingKey.mileageType.rawValue] = mileageType
         
         return params
     }

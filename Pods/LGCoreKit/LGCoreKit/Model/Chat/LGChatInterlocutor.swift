@@ -39,6 +39,8 @@ extension ChatInterlocutor {
 }
 
 struct LGChatInterlocutor: ChatInterlocutor, Decodable {
+    private static let statusDefaultValue: UserStatus = .inactive
+
     let objectId: String?
     let name: String
     let avatar: File?
@@ -104,7 +106,7 @@ struct LGChatInterlocutor: ChatInterlocutor, Decodable {
     public init(from decoder: Decoder) throws {
         let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
         objectId = try keyedContainer.decode(String.self, forKey: .objectId)
-        name = try keyedContainer.decode(String.self, forKey: .name)
+        name = try keyedContainer.decodeIfPresent(String.self, forKey: .name) ?? ""
         if let avatarStringURL = try? keyedContainer.decode(String.self, forKey: .avatar) {
             avatar = LGFile(id: nil, urlString: avatarStringURL)
         } else {
@@ -113,7 +115,11 @@ struct LGChatInterlocutor: ChatInterlocutor, Decodable {
         isBanned = try keyedContainer.decodeIfPresent(Bool.self, forKey: .isBanned) ?? false
         isMuted = try keyedContainer.decodeIfPresent(Bool.self, forKey: .isMuted) ?? false
         hasMutedYou = try keyedContainer.decodeIfPresent(Bool.self, forKey: .hasMutedYou) ?? false
-        status = try keyedContainer.decodeIfPresent(UserStatus.self, forKey: .status) ?? .active
+
+        let statusValue = try keyedContainer.decodeIfPresent(String.self, forKey: .status) ??
+            LGChatInterlocutor.statusDefaultValue.rawValue
+        status = UserStatus(rawValue: statusValue) ?? LGChatInterlocutor.statusDefaultValue
+
         userType = try keyedContainer.decodeIfPresent(UserType.self, forKey: .type) ?? .user
     }
     

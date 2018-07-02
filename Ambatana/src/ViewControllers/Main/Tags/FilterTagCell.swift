@@ -28,7 +28,11 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
     }()
     private var tagIconWidth: NSLayoutConstraint?
 
-    private let tagLabel: UILabel = UILabel()
+    private let tagLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.mediumBodyFont
+        return label
+    }()
     private let closeButton: UIButton = {
         let button = UIButton.init(type: .custom)
         button.setImage(R.Asset.IconsButtons.filtersClearBtn.image, for: .normal)
@@ -90,6 +94,24 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
             return FilterTagCell.sizeForText(serviceType.name)
         case .serviceSubtype(let serviceSubtype):
             return FilterTagCell.sizeForText(serviceSubtype.name)
+        case .carBodyType(let bodyType):
+            return FilterTagCell.sizeForText(bodyType.title)
+        case .carFuelType(let fuelType):
+            return FilterTagCell.sizeForText(fuelType.title)
+        case .carTransmissionType(let transmissionType):
+            return FilterTagCell.sizeForText(transmissionType.title)
+        case .carDriveTrainType(let driveTrainType):
+            return FilterTagCell.sizeForText(driveTrainType.title)
+        case .mileageRange(let start, let end):
+            let rangeString = FilterTagCell.stringForRange(fromValue: start,
+                                                      toValue: end,
+                                                      unit: DistanceType.systemDistanceType().localizedUnitType())
+            return FilterTagCell.sizeForText(rangeString)
+        case .numberOfSeats(let start, let end):
+            let rangeString = FilterTagCell.stringForRange(fromValue: start,
+                                                           toValue: end,
+                                                           unit: R.Strings.filterCarsSeatsTitle)
+            return FilterTagCell.sizeForText(rangeString)
         }
     }
     
@@ -142,6 +164,35 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
             return endText
         } else {
             // should never ever happen
+            return ""
+        }
+    }
+    
+    private static func stringForRange(fromValue: Int?,
+                                       toValue: Int?,
+                                       unit: String?) -> String {
+        var startText = ""
+        var endText = ""
+        var unitText = ""
+        
+        if let fromValue = fromValue {
+            startText = String(fromValue)
+        }
+        if let toValue = toValue {
+            endText = String(toValue)
+        }
+        
+        if let unit = unit {
+            unitText = " \(unit)"
+        }
+        
+        if !startText.isEmpty && !endText.isEmpty {
+            return startText + " " + "-" + " " + endText + unitText
+        } else if !startText.isEmpty {
+            return R.Strings.filtersPriceFrom + " " + startText + unitText
+        } else if !endText.isEmpty {
+            return R.Strings.filtersPriceTo + " " + endText + unitText
+        } else {
             return ""
         }
     }
@@ -236,7 +287,8 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
         case .location, .within, .orderBy, .category, .taxonomyChild, .secondaryTaxonomyChild, .priceRange,
              .freeStuff, .distance, .carSellerType, .make, .model, .yearsRange, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms,
              .realEstatePropertyType, .realEstateOfferType, .sizeSquareMetersRange, .realEstateNumberOfRooms,
-             .serviceType, .serviceSubtype:
+             .serviceType, .serviceSubtype, .carDriveTrainType, .carBodyType, .carFuelType, .carTransmissionType,
+             .mileageRange, .numberOfSeats:
             setDefaultCellStyle()
         }
     }
@@ -288,6 +340,14 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
             tagLabel.text = name
         case .model(_, let name):
             tagLabel.text = name
+        case .carDriveTrainType(let driveTrainType):
+            tagLabel.text = driveTrainType.title
+        case .carFuelType(let fuelType):
+            tagLabel.text = fuelType.title
+        case .carBodyType(let bodyType):
+            tagLabel.text = bodyType.title
+        case .carTransmissionType(let transmissionType):
+            tagLabel.text = transmissionType.title
         case .yearsRange(let startYear, let endYear):
             tagLabel.text = FilterTagCell.stringForYearsRange(startYear, endYear: endYear)
         case .realEstatePropertyType(let propertyType):
@@ -306,6 +366,14 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
             tagLabel.text = serviceType.name
         case .serviceSubtype(let subtype):
             tagLabel.text = subtype.name
+        case .mileageRange(let start, let end):
+            tagLabel.text = FilterTagCell.stringForRange(fromValue: start,
+                                                         toValue: end,
+                                                         unit: DistanceType.systemDistanceType().localizedUnitType())
+        case .numberOfSeats(let start, let end):
+            tagLabel.text = FilterTagCell.stringForRange(fromValue: start,
+                                                         toValue: end,
+                                                         unit: R.Strings.filterCarsSeatsTitle)
         }
         set(accessibilityId: .filterTagCell(tag: tag))
     }

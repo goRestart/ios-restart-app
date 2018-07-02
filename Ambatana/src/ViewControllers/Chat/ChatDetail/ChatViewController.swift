@@ -243,17 +243,19 @@ final class ChatViewController: TextViewController {
         expressChatBanner.layout(with: view).fillHorizontal()
         expressChatBanner.layout(with: relationInfoView).below(by: -relationInfoView.height, constraintBlock: { [weak self] in self?.expressChatBannerTopConstraint = $0 })
 
-        view.addSubviewForAutoLayout(connectionStatusView)
-        connectionStatusViewTopConstraint = connectionStatusView.topAnchor.constraint(equalTo: safeTopAnchor, constant: Metrics.veryBigMargin)
-        NSLayoutConstraint.activate([
-            connectionStatusView.heightAnchor.constraint(equalToConstant: ChatConnectionStatusView.standardHeight),
-            connectionStatusView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            connectionStatusView.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: Metrics.margin),
-            connectionStatusView.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: Metrics.margin),
-            connectionStatusViewTopConstraint
-            ])
-        connectionStatusView.cornerRadius = ChatConnectionStatusView.standardHeight/2
-        connectionStatusView.alpha = 0
+        if featureFlags.showChatConnectionStatusBar.isActive {
+            view.addSubviewForAutoLayout(connectionStatusView)
+            connectionStatusViewTopConstraint = connectionStatusView.topAnchor.constraint(equalTo: safeTopAnchor, constant: Metrics.veryBigMargin)
+            NSLayoutConstraint.activate([
+                connectionStatusView.heightAnchor.constraint(equalToConstant: ChatConnectionStatusView.standardHeight),
+                connectionStatusView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                connectionStatusView.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: Metrics.margin),
+                connectionStatusView.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: Metrics.margin),
+                connectionStatusViewTopConstraint
+                ])
+            connectionStatusView.cornerRadius = ChatConnectionStatusView.standardHeight/2
+            connectionStatusView.alpha = 0
+        }
     }
 
     fileprivate func setupRelatedProducts() {
@@ -464,11 +466,11 @@ extension ChatViewController {
 
 fileprivate extension ChatViewController {
 
-    func connectionStatusView(isVisible: Bool) {
+    func animateStatusBar(visible: Bool) {
         let existingTopOffset = blockedToastOffset + expressChatBannerOffset
-        connectionStatusViewTopConstraint.constant = isVisible ? Metrics.veryBigMargin + existingTopOffset : existingTopOffset
+        connectionStatusViewTopConstraint.constant = visible ? Metrics.veryBigMargin + existingTopOffset : existingTopOffset
         UIView.animate(withDuration: 0.5) { [weak self] in
-            self?.connectionStatusView.alpha = isVisible ? 1 : 0
+            self?.connectionStatusView.alpha = visible ? 1 : 0
             self?.view.layoutIfNeeded()
         }
     }
@@ -483,11 +485,11 @@ fileprivate extension ChatViewController {
 
         viewModel.rx_connectionBarStatus.asDriver().drive(onNext: { [weak self] status in
             guard let _ = status.title else {
-                self?.connectionStatusView(isVisible: false)
+                self?.animateStatusBar(visible: false)
                 return
             }
             self?.connectionStatusView.status = status
-            self?.connectionStatusView(isVisible: true)
+            self?.animateStatusBar(visible: true)
             }).disposed(by: disposeBag)
 
         viewModel.chatUserInteractionsEnabled.asDriver()

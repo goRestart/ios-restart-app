@@ -173,6 +173,17 @@ fileprivate extension SearchRelatedListingListRequester {
         params.modelId = filters?.carModelId
         params.startYear = filters?.carYearStart
         params.endYear = filters?.carYearEnd
+        params.bodyType = filters?.carBodyTypes
+        params.fuelType = filters?.carFuelTypes
+        params.transmision = filters?.carTransmissionTypes
+        params.drivetrain = filters?.carDriveTrainTypes
+        
+        params.startMileage = filters?.carMileageStart
+        params.endMileage = filters?.carMileageEnd
+        params.startNumberOfSeats = filters?.carNumberOfSeatsStart
+        params.endNumberOfSeats = filters?.carNumberOfSeatsEnd
+        params.mileageType = filters?.carMileageType
+        
         params.abtest = featureFlags.searchImprovements.stringValue
 
         if let propertyType = filters?.realEstatePropertyType?.rawValue {

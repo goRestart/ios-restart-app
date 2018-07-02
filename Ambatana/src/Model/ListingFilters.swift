@@ -72,6 +72,21 @@ struct ListingFilters {
     var carModelName: String?
     var carYearStart: RetrieveListingParam<Int>?
     var carYearEnd: RetrieveListingParam<Int>?
+    var carBodyTypes: [CarBodyType]
+    var carDriveTrainTypes: [CarDriveTrainType]
+    var carFuelTypes: [CarFuelType]
+    var carTransmissionTypes: [CarTransmissionType]
+    var carMileageStart: Int?
+    var carMileageEnd: Int?
+    var carNumberOfSeatsStart: Int?
+    var carNumberOfSeatsEnd: Int?
+    var carMileageType: String? {
+        guard carMileageStart != nil || carMileageEnd != nil else {
+            return nil
+        }
+        
+        return DistanceType.systemDistanceType().rawValue
+    }
     
     var realEstatePropertyType: RealEstatePropertyType?
     var realEstateOfferTypes: [RealEstateOfferType]
@@ -105,6 +120,14 @@ struct ListingFilters {
             carModelName: nil,
             carYearStart: nil,
             carYearEnd: nil,
+            carBodyTypes: [],
+            carFuelTypes: [],
+            carTransmissionTypes: [],
+            carDriveTrainTypes: [],
+            carMileageStart: nil,
+            carMileageEnd: nil,
+            carNumberOfSeatsStart: nil,
+            carNumberOfSeatsEnd: nil,
             realEstatePropertyType: nil,
             realEstateOfferType: [],
             realEstateNumberOfBedrooms: nil,
@@ -132,6 +155,14 @@ struct ListingFilters {
          carModelName: String?,
          carYearStart: RetrieveListingParam<Int>?,
          carYearEnd: RetrieveListingParam<Int>?,
+         carBodyTypes: [CarBodyType],
+         carFuelTypes: [CarFuelType],
+         carTransmissionTypes: [CarTransmissionType],
+         carDriveTrainTypes: [CarDriveTrainType],
+         carMileageStart: Int?,
+         carMileageEnd: Int?,
+         carNumberOfSeatsStart: Int?,
+         carNumberOfSeatsEnd: Int?,
          realEstatePropertyType: RealEstatePropertyType?,
          realEstateOfferType: [RealEstateOfferType],
          realEstateNumberOfBedrooms: NumberOfBedrooms?,
@@ -156,6 +187,14 @@ struct ListingFilters {
         self.carModelName = carModelName
         self.carYearStart = carYearStart
         self.carYearEnd = carYearEnd
+        self.carBodyTypes = carBodyTypes
+        self.carFuelTypes = carFuelTypes
+        self.carDriveTrainTypes = carDriveTrainTypes
+        self.carTransmissionTypes = carTransmissionTypes
+        self.carMileageStart = carMileageStart
+        self.carMileageEnd = carMileageEnd
+        self.carNumberOfSeatsStart = carNumberOfSeatsStart
+        self.carNumberOfSeatsEnd = carNumberOfSeatsEnd
         self.realEstatePropertyType = realEstatePropertyType
         self.realEstateOfferTypes = realEstateOfferType
         self.realEstateNumberOfBedrooms = realEstateNumberOfBedrooms
@@ -183,6 +222,14 @@ struct ListingFilters {
                               carModelName: carModelName,
                               carYearStart: carYearStart,
                               carYearEnd: carYearEnd,
+                              carBodyTypes: carBodyTypes,
+                              carFuelTypes: carFuelTypes,
+                              carTransmissionTypes: carTransmissionTypes,
+                              carDriveTrainTypes: carDriveTrainTypes,
+                              carMileageStart: carMileageStart,
+                              carMileageEnd: carMileageEnd,
+                              carNumberOfSeatsStart: carNumberOfSeatsStart,
+                              carNumberOfSeatsEnd: carNumberOfSeatsEnd,
                               realEstatePropertyType: realEstatePropertyType,
                               realEstateOfferType: realEstateOfferTypes,
                               realEstateNumberOfBedrooms: realEstateNumberOfBedrooms,
@@ -210,6 +257,14 @@ struct ListingFilters {
                               carModelName: carModelName,
                               carYearStart: carYearStart,
                               carYearEnd: carYearEnd,
+                              carBodyTypes: carBodyTypes,
+                              carFuelTypes: carFuelTypes,
+                              carTransmissionTypes: carTransmissionTypes,
+                              carDriveTrainTypes: carDriveTrainTypes,
+                              carMileageStart: carMileageStart,
+                              carMileageEnd: carMileageEnd,
+                              carNumberOfSeatsStart: carNumberOfSeatsStart,
+                              carNumberOfSeatsEnd: carNumberOfSeatsEnd,
                               realEstatePropertyType: nil,
                               realEstateOfferType: [],
                               realEstateNumberOfBedrooms: nil,
@@ -237,6 +292,14 @@ struct ListingFilters {
                               carModelName: nil,
                               carYearStart: nil,
                               carYearEnd: nil,
+                              carBodyTypes: [],
+                              carFuelTypes: [],
+                              carTransmissionTypes: [],
+                              carDriveTrainTypes: [],
+                              carMileageStart: nil,
+                              carMileageEnd: nil,
+                              carNumberOfSeatsStart: nil,
+                              carNumberOfSeatsEnd: nil,
                               realEstatePropertyType: realEstatePropertyType,
                               realEstateOfferType: realEstateOfferTypes,
                               realEstateNumberOfBedrooms: realEstateNumberOfBedrooms,
@@ -264,6 +327,14 @@ struct ListingFilters {
                               carModelName: carModelName,
                               carYearStart: carYearStart,
                               carYearEnd: carYearEnd,
+                              carBodyTypes: carBodyTypes,
+                              carFuelTypes: carFuelTypes,
+                              carTransmissionTypes: carTransmissionTypes,
+                              carDriveTrainTypes: carDriveTrainTypes,
+                              carMileageStart: carMileageStart,
+                              carMileageEnd: carMileageEnd,
+                              carNumberOfSeatsStart: carNumberOfSeatsStart,
+                              carNumberOfSeatsEnd: carNumberOfSeatsEnd,
                               realEstatePropertyType: realEstatePropertyType,
                               realEstateOfferType: realEstateOfferTypes,
                               realEstateNumberOfBedrooms: realEstateNumberOfBedrooms,
@@ -294,7 +365,10 @@ struct ListingFilters {
     }
     
     var hasAnyCarAttributes: Bool {
-        return carMakeId != nil || carMakeId != nil || carYearStart != nil || carYearEnd != nil
+        return carMakeId != nil || carMakeId != nil || carYearStart != nil || carYearEnd != nil || carBodyTypes.count > 0 || carDriveTrainTypes.count > 0 ||
+            carFuelTypes.count > 0 || carTransmissionTypes.count > 0 ||
+            carMileageStart != nil || carMileageEnd != nil ||
+            carNumberOfSeatsStart != nil || carNumberOfSeatsEnd != nil
     }
     
     var hasAnyServicesAttributes: Bool {
@@ -356,6 +430,14 @@ extension ListingFilters: Equatable {
             a.carModelId == b.carModelId &&
             a.carYearStart == b.carYearStart &&
             a.carYearEnd == b.carYearEnd &&
+            a.carBodyTypes == b.carBodyTypes &&
+            a.carFuelTypes == b.carFuelTypes &&
+            a.carTransmissionTypes == b.carTransmissionTypes &&
+            a.carDriveTrainTypes == b.carDriveTrainTypes &&
+            a.carMileageStart == b.carMileageStart &&
+            a.carMileageEnd == b.carMileageEnd &&
+            a.carNumberOfSeatsStart == b.carNumberOfSeatsStart &&
+            a.carNumberOfSeatsEnd == b.carNumberOfSeatsEnd &&
             a.realEstatePropertyType == b.realEstatePropertyType &&
             a.realEstateOfferTypes == b.realEstateOfferTypes &&
             a.realEstateNumberOfBedrooms == b.realEstateNumberOfBedrooms &&

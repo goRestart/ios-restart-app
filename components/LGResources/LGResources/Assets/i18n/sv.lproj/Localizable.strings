@@ -219,7 +219,7 @@
 "chat_send_error_different_country" = "Du kan inte starta en chatt om en annons som har lagts upp i ett annat land.";
 "chat_send_error_generic" = "Ett fel uppstod när meddelandet sändes. Vänligen försök igen.";
 "chat_status_view_connecting" = "Ansluter...";
-"chat_status_view_no_network" = "Ingen nätverksanslutning";
+"chat_status_view_no_network" = "Ingen anslutning";
 "chat_status_view_try_again" = "försök igen";
 "chat_status_view_unable_to_connect" = "Anslutningen misslyckades. Vänligen försök igen";
 "chat_stickers_tooltip_new" = "NY!";
@@ -368,6 +368,7 @@
 "featured_info_view_more_buyers" = "Locka flera köpare";
 "featured_info_view_sell_faster" = "Sälj snabbare";
 "featured_info_view_title" = "Topplistad produkt";
+"filter_cars_seats_title" = "Säten";
 "filter_results_cars_no_matches" = "Din sökning gav ingen träff. \nLiknande resultat visas. ";
 "filter_results_cars_other_results" = "Nyligen upplagda i ditt område";
 "filters_car_make_not_set" = "Ej Valt";
@@ -405,7 +406,9 @@
 "filters_cars_transmission_manual" = "Manuell";
 "filters_cars_transmission_title" = "Växellåda";
 "filters_distance_not_set" = "inte vald";
+"filters_mileage_slider_title" = "Miltal";
 "filters_navbar_reset" = "Återställ";
+"filters_numberOfSeats_slider_title" = "Säten";
 "filters_price_from" = "Från";
 "filters_price_from_feed_filter_cell" = "Från";
 "filters_price_to" = "Till";
@@ -431,6 +434,7 @@
 "filters_service_subtype_not_set" = "Ej Vald";
 "filters_service_type_not_set" = "Ej Vald";
 "filters_size_wrong_range_error" = "Den minsta ytan får inte vara högre än den största ytan.";
+"filters_slider_any" = "Alla";
 "filters_sort_closest" = "Närmast först";
 "filters_sort_newest" = "Senast upplagda först";
 "filters_sort_price_asc" = "Pris lågt till högt";
@@ -474,6 +478,7 @@
 "id_verification_third_step_subtitle" = "Försäkra dig att bilden är skarp och att du får med hela dokumentet";
 "id_verification_third_step_title" = "Ta en bild av framsidan av dokumentet";
 "id_verification_update_avatar_message" = "Vill du använda denna bild som profilbild?";
+"kilometer_unit_suffix" = "km";
 "listing_chat_button" = "Chatta nu";
 "listing_interested_button_A" = "Jag är intresserad!";
 "listing_interested_button_B" = "Intresserad";
@@ -546,6 +551,7 @@
 "meeting_creation_view_suggest_cell_select" = "Välj";
 "meeting_creation_view_suggest_cell_selected" = "Vald";
 "meeting_creation_view_title" = "Planera ett möte";
+"mile_unit_suffix" = "mil";
 "ml_camera_in_about_days_text" = "Inom cirka %d dagar";
 "ml_camera_in_more_than_days_text" = "Mer än %d dagar";
 "ml_camera_sells_for_text" = "Säljs vanligtvis för $%d";

@@ -219,7 +219,7 @@
 "chat_send_error_different_country" = "Du kan ikke starte en chat angående en annonse i et annen land.";
 "chat_send_error_generic" = "En feil har oppstått ved sending av meldingen. Vennligst prøv igjen senere.";
 "chat_status_view_connecting" = "Kobler til...";
-"chat_status_view_no_network" = "Ingen nettverkstilkobling";
+"chat_status_view_no_network" = "Ikke tilkoblet";
 "chat_status_view_try_again" = "prøv igjen";
 "chat_status_view_unable_to_connect" = "Kunne ikke koble til. Vennligst prøv igjen.";
 "chat_stickers_tooltip_new" = "NYHET!";
@@ -368,6 +368,7 @@
 "featured_info_view_more_buyers" = "Tiltrekk flere kjøpere";
 "featured_info_view_sell_faster" = "Selg raskere";
 "featured_info_view_title" = "Promotert annonse";
+"filter_cars_seats_title" = "Seter";
 "filter_results_cars_no_matches" = "Ingen eksakte resultater ble funnet.\n Vis liknende resultater. ";
 "filter_results_cars_other_results" = "Nylig publisert i ditt nærområde";
 "filters_car_make_not_set" = "Ikke valgt";
@@ -405,7 +406,9 @@
 "filters_cars_transmission_manual" = "Manuell";
 "filters_cars_transmission_title" = "Girkasse";
 "filters_distance_not_set" = "ikke satt";
+"filters_mileage_slider_title" = "Kilometerstand";
 "filters_navbar_reset" = "Tilbakestill";
+"filters_numberOfSeats_slider_title" = "Seter";
 "filters_price_from" = "Fra";
 "filters_price_from_feed_filter_cell" = "Fra";
 "filters_price_to" = "Til";
@@ -431,6 +434,7 @@
 "filters_service_subtype_not_set" = "Ikke Satt";
 "filters_service_type_not_set" = "Ikke Satt";
 "filters_size_wrong_range_error" = "Minimum størrelse kan ikke være høyere enn maksimum størrelse.";
+"filters_slider_any" = "Alle";
 "filters_sort_closest" = "Nærmest først";
 "filters_sort_newest" = "Nyeste først";
 "filters_sort_price_asc" = "Pris lav til høy";
@@ -474,6 +478,7 @@
 "id_verification_third_step_subtitle" = "Sørg for at din ID er tydelig og at hele vises i bildevinduet";
 "id_verification_third_step_title" = "Ta et bilde av forsiden av din ID";
 "id_verification_update_avatar_message" = "Ønsker du å velge dette som ditt profilbilde?";
+"kilometer_unit_suffix" = "km";
 "listing_chat_button" = "Chat nå";
 "listing_interested_button_A" = "Jeg er interessert";
 "listing_interested_button_B" = "Interessert";
@@ -546,6 +551,7 @@
 "meeting_creation_view_suggest_cell_select" = "Velg";
 "meeting_creation_view_suggest_cell_selected" = "Valgt";
 "meeting_creation_view_title" = "Planlegg et møte";
+"mile_unit_suffix" = "km";
 "ml_camera_in_about_days_text" = "i løpet av %d dager";
 "ml_camera_in_more_than_days_text" = "i mer enn %d dager";
 "ml_camera_sells_for_text" = "Selges vanligvis for %d,-";

@@ -219,7 +219,7 @@
 "chat_send_error_different_country" = "Du kannst kein Gespräch zu einem Angebot beginnen, das in einem anderen Land eingestellt wurde.";
 "chat_send_error_generic" = "Beim Senden der Nachricht ist ein Fehler aufgetreten. Bitte versuche es noch einmal.";
 "chat_status_view_connecting" = "Verbinden...";
-"chat_status_view_no_network" = "Keine Netzwerkverbindung";
+"chat_status_view_no_network" = "Nicht verbunden";
 "chat_status_view_try_again" = "versuche es erneut";
 "chat_status_view_unable_to_connect" = "Verbinden fehlgeschlagen. Bitte versuche es erneut.";
 "chat_stickers_tooltip_new" = "NEU!";
@@ -368,6 +368,7 @@
 "featured_info_view_more_buyers" = "Locke mehr Käufer an";
 "featured_info_view_sell_faster" = "Schneller verkaufen";
 "featured_info_view_title" = "Empfohlenes Angebot";
+"filter_cars_seats_title" = "Sitze";
 "filter_results_cars_no_matches" = "Keine exakten Treffer für deine Suche.\n Es werden ähnliche Ergebnisse angezeigt. ";
 "filter_results_cars_other_results" = "Kürzlich in deiner Nähe eingestellt";
 "filters_car_make_not_set" = "Nicht ausgewählt";
@@ -405,7 +406,9 @@
 "filters_cars_transmission_manual" = "Schaltgetriebe";
 "filters_cars_transmission_title" = "Getriebe";
 "filters_distance_not_set" = "nicht eingestellt";
+"filters_mileage_slider_title" = "Kilometerstand";
 "filters_navbar_reset" = "Zurücksetzen";
+"filters_numberOfSeats_slider_title" = "Sitze";
 "filters_price_from" = "Von";
 "filters_price_from_feed_filter_cell" = "Von";
 "filters_price_to" = "Bis";
@@ -431,6 +434,7 @@
 "filters_service_subtype_not_set" = "Nicht ausgewählt";
 "filters_service_type_not_set" = "Nicht ausgewählt";
 "filters_size_wrong_range_error" = "Die Mindestgröße kann nicht größer sein als die Maximalgröße.";
+"filters_slider_any" = "Beliebig";
 "filters_sort_closest" = "Nächste zuerst";
 "filters_sort_newest" = "Neueste zuerst";
 "filters_sort_price_asc" = "Preis aufsteigend";
@@ -474,6 +478,7 @@
 "id_verification_third_step_subtitle" = "Stelle sicher, dass dein Ausweis gut lesbar und innerhalb des Rechtecks des Suchers ist";
 "id_verification_third_step_title" = "Nimm ein Bild von der Vorderseite deines Ausweises auf";
 "id_verification_update_avatar_message" = "Möchtest du es als Profilbild nutzen?";
+"kilometer_unit_suffix" = "km";
 "listing_chat_button" = "Jetzt ansprechen";
 "listing_interested_button_A" = "Ich bin interessiert";
 "listing_interested_button_B" = "Interessiert";
@@ -546,6 +551,7 @@
 "meeting_creation_view_suggest_cell_select" = "Auswählen";
 "meeting_creation_view_suggest_cell_selected" = "Ausgewählt";
 "meeting_creation_view_title" = "Vereinbare ein Treffen";
+"mile_unit_suffix" = "mi";
 "ml_camera_in_about_days_text" = "in etwa %d Tagen";
 "ml_camera_in_more_than_days_text" = "in über %d Tagen";
 "ml_camera_sells_for_text" = "Wird im Schnitt für %d€ verkauft";

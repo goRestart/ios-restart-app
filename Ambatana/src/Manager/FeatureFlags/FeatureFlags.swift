@@ -191,6 +191,10 @@ extension ShowServicesFeatures {
     var isActive: Bool { return self == .active }
 }
 
+extension CarExtraFieldsEnabled {
+    var isActive: Bool { return self == .active }
+}
+
 extension BumpUpBoost {
     var isActive: Bool { get { return self != .control && self != .baseline } }
 
@@ -1112,9 +1116,7 @@ extension FeatureFlags {
         if Bumper.enabled {
             return Bumper.showChatConnectionStatusBar
         }
-        // Remove hardcoded value when is implemented also for chat detail
-        return .control
-//        return  ShowChatConnectionStatusBar.fromPosition(abTests.showChatConnectionStatusBar.value)
+        return  ShowChatConnectionStatusBar.fromPosition(abTests.showChatConnectionStatusBar.value)
     }
 }
 

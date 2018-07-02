@@ -484,7 +484,7 @@ extension R {
     public static let chatSendErrorGeneric = Strings.tr("Localizable", "chat_send_error_generic")
     /// Connecting...
     public static let chatStatusViewConnecting = Strings.tr("Localizable", "chat_status_view_connecting")
-    /// No network connection
+    /// Not connected
     public static let chatStatusViewNoNetwork = Strings.tr("Localizable", "chat_status_view_no_network")
     /// try again
     public static let chatStatusViewTryAgain = Strings.tr("Localizable", "chat_status_view_try_again")
@@ -808,8 +808,10 @@ extension R {
     public static let featuredInfoViewSellFaster = Strings.tr("Localizable", "featured_info_view_sell_faster")
     /// Featured Listing
     public static let featuredInfoViewTitle = Strings.tr("Localizable", "featured_info_view_title")
-    /// 
-    public static let filterCarsDistancePlaceholder = Strings.tr("Localizable", "filter_cars_distance_placeholder")
+    /// How many %@?
+    public static func filterCarsDistancePlaceholder(_ p1: String) -> String {
+      return Strings.tr("Localizable", "filter_cars_distance_placeholder", p1)
+    }
     /// Seats
     public static let filterCarsSeatsTitle = Strings.tr("Localizable", "filter_cars_seats_title")
     /// No exact matches for your search.\n Showing similar results. 
@@ -888,8 +890,12 @@ extension R {
     public static let filtersCarsTransmissionTitle = Strings.tr("Localizable", "filters_cars_transmission_title")
     /// not set
     public static let filtersDistanceNotSet = Strings.tr("Localizable", "filters_distance_not_set")
+    /// Mileage
+    public static let filtersMileageSliderTitle = Strings.tr("Localizable", "filters_mileage_slider_title")
     /// Reset
     public static let filtersNavbarReset = Strings.tr("Localizable", "filters_navbar_reset")
+    /// Seats
+    public static let filtersNumberOfSeatsSliderTitle = Strings.tr("Localizable", "filters_numberOfSeats_slider_title")
     /// From
     public static let filtersPriceFrom = Strings.tr("Localizable", "filters_price_from")
     /// From
@@ -940,6 +946,8 @@ extension R {
     public static let filtersServiceTypeNotSet = Strings.tr("Localizable", "filters_service_type_not_set")
     /// The minimum size can’t be higher than the maximum size.
     public static let filtersSizeWrongRangeError = Strings.tr("Localizable", "filters_size_wrong_range_error")
+    /// Any
+    public static let filtersSliderAny = Strings.tr("Localizable", "filters_slider_any")
     /// Closest first
     public static let filtersSortClosest = Strings.tr("Localizable", "filters_sort_closest")
     /// Newest first
@@ -1026,6 +1034,8 @@ extension R {
     public static let idVerificationThirdStepTitle = Strings.tr("Localizable", "id_verification_third_step_title")
     /// Do you want to make this your profile picture?
     public static let idVerificationUpdateAvatarMessage = Strings.tr("Localizable", "id_verification_update_avatar_message")
+    /// KM
+    public static let kilometerUnitSuffix = Strings.tr("Localizable", "kilometer_unit_suffix")
     /// Chat Now
     public static let listingChatButton = Strings.tr("Localizable", "listing_chat_button")
     /// I'm interested
@@ -1176,6 +1186,8 @@ extension R {
     public static let meetingCreationViewSuggestCellSelected = Strings.tr("Localizable", "meeting_creation_view_suggest_cell_selected")
     /// Schedule a meeting
     public static let meetingCreationViewTitle = Strings.tr("Localizable", "meeting_creation_view_title")
+    /// mi
+    public static let mileUnitSuffix = Strings.tr("Localizable", "mile_unit_suffix")
     /// in about %d days
     public static func mlCameraInAboutDaysText(_ p1: Int) -> String {
       return Strings.tr("Localizable", "ml_camera_in_about_days_text", p1)

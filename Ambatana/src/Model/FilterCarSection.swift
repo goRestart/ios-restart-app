@@ -2,9 +2,15 @@ import LGCoreKit
 import LGComponents
 
 enum FilterCarSection {
-    case firstSection, secondSection, make, model, year
+    case firstSection, secondSection, make, model, year, bodyType,
+        transmission, fuelType, driveTrain, mileage, numberOfSeats
     
-    static var all: [FilterCarSection] {
+    static func all(showCarExtraFilters: Bool) -> [FilterCarSection] {
+        if showCarExtraFilters {
+            return [.firstSection, .secondSection, .make, .model,
+             .year, .mileage, .bodyType, .transmission, .fuelType, .driveTrain, .numberOfSeats]
+        }
+        
         return [.firstSection, .secondSection, .make, .model, .year]
     }
     
@@ -28,6 +34,18 @@ enum FilterCarSection {
             return R.Strings.postCategoryDetailCarModel
         case .year:
             return ""
+        case .bodyType:
+            return R.Strings.filtersCarsBodytypeTitle
+        case .transmission:
+            return R.Strings.filtersCarsTransmissionTitle
+        case .fuelType:
+            return R.Strings.filtersCarsFueltypeTitle
+        case .driveTrain:
+            return R.Strings.filtersCarsDrivetrainTitle
+        case .mileage:
+            return R.Strings.filtersMileageSliderTitle
+        case .numberOfSeats:
+            return R.Strings.filtersNumberOfSeatsSliderTitle
         }
     }
 }
