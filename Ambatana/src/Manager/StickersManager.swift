@@ -25,7 +25,7 @@ class StickersManager {
 
     private func setupRx() {
         stickersRepository.stickers
-            .map { $0.flatMap { URL(string: $0.url) }
+            .map { $0.compactMap { URL(string: $0.url) }
             }.bind { [weak self] urls in
                 self?.imageDownloader.downloadImagesWithURLs(urls)
             }.disposed(by: disposeBag)

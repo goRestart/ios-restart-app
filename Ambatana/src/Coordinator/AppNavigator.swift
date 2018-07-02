@@ -12,7 +12,7 @@ protocol AppNavigatorDelegate: class {
 }
 
 protocol AppNavigator: class {
-    weak var delegate: AppNavigatorDelegate? { get }
+    var delegate: AppNavigatorDelegate? { get }
     
     func open()
     func openForceUpdateAlertIfNeeded()

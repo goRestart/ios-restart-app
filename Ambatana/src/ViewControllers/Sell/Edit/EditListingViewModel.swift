@@ -28,7 +28,7 @@ enum EditListingMediaType {
 class ListingMedia {
     var media: [EditListingMediaType] = []
     var localImages: [UIImage] {
-        return media.flatMap {
+        return media.compactMap {
             switch $0 {
             case .local(let image):
                 return image
@@ -38,7 +38,7 @@ class ListingMedia {
         }
     }
     var remoteMedia: [Media] {
-        return media.flatMap {
+        return media.compactMap {
             switch $0 {
             case .local:
                 return nil
@@ -48,7 +48,7 @@ class ListingMedia {
         }
     }
     var remoteImages: [File] {
-        return media.flatMap {
+        return media.compactMap {
             switch $0 {
             case .local:
                 return nil
@@ -62,7 +62,7 @@ class ListingMedia {
         }
     }
     var remoteVideos: [Video] {
-        return media.flatMap {
+        return media.compactMap {
             switch $0 {
             case .local:
                 return nil
@@ -556,7 +556,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     
     func realEstateNumberOfRoomsButtonPressed() {
         let attributeValues = NumberOfRooms.allValues
-        let values: [String] = attributeValues.flatMap { $0.localizedString }
+        let values: [String] = attributeValues.compactMap { $0.localizedString }
         var selectedAttribute: String? = nil
         if let bedrooms = realEstateNumberOfBedrooms.value, let livingRooms = realEstateNumberOfLivingRooms.value {
             selectedAttribute = NumberOfRooms(numberOfBedrooms: bedrooms,
@@ -851,7 +851,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         let localImages = listingMedia.localImages
         let remoteImages = listingMedia.remoteImages
         let remoteVideos = listingMedia.remoteVideos
-        let videoSnapshots: [File] = listingMedia.remoteVideos.flatMap { video in
+        let videoSnapshots: [File] = listingMedia.remoteVideos.compactMap { video in
             return listing.images.first(where: { $0.objectId == video.snapshot })
         }
         

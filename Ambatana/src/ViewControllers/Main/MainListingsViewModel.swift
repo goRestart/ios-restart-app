@@ -618,7 +618,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             }
         }
 
-        filters.selectedCategories = categories.flatMap{ filterCategoryItem in
+        filters.selectedCategories = categories.compactMap { filterCategoryItem in
             switch filterCategoryItem {
             case .free:
                 return nil
@@ -1658,7 +1658,7 @@ fileprivate extension MainListingsViewModel {
         switch type {
         case .selectedForYou:
             query = keyValueStorage[.lastSuggestiveSearches]
-                .flatMap { $0.suggestiveSearch.name }
+                .compactMap { $0.suggestiveSearch.name }
                 .reversed()
                 .joined(separator: " ")
                 .clipMoreThan(wordCount: SharedConstants.maxSelectedForYouQueryTerms)

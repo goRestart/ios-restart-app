@@ -340,7 +340,7 @@ extension PostingMultiSelectionView: UITableViewDelegate, UITableViewDataSource 
     }
     
     private var tags: [String] {
-        let tags = selectedIndexes.flatMap { rawValues[safeAt: $0.row] }
+        let tags = selectedIndexes.compactMap { rawValues[safeAt: $0.row] }
         return newSubtypes + tags
     }
     

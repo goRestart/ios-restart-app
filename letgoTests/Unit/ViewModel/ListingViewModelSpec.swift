@@ -139,7 +139,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                         expect(tracker.trackedEvents.count).toEventually(equal(1))
                     }
                     it("has mark as sold twice (button updates after user show request) and then sell it again button") {
-                        let buttonTexts: [String] = bottomButtonsObserver.eventValues.flatMap { $0.first?.text }
+                        let buttonTexts: [String] = bottomButtonsObserver.eventValues.compactMap { $0.first?.text }
                         expect(buttonTexts) == [R.Strings.productMarkAsSoldButton,
                                                 R.Strings.productMarkAsSoldButton,
                                                 R.Strings.productSellAgainButton]

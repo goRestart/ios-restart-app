@@ -147,7 +147,7 @@ fileprivate extension SearchRelatedListingListRequester {
         params.coordinates = queryCoordinates
         params.queryString = queryString
         params.countryCode = countryCode
-        params.categoryIds = filters?.selectedCategories.flatMap { $0.rawValue }
+        params.categoryIds = filters?.selectedCategories.compactMap { $0.rawValue }
         
         let idCategoriesFromTaxonomies = filters?.selectedTaxonomyChildren.getIds(withType: .category)
         params.categoryIds?.append(contentsOf: idCategoriesFromTaxonomies ?? [])

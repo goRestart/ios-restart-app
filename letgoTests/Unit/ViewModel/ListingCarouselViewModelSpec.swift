@@ -413,7 +413,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                     buildSut(initialProduct: product, firstProductSyncRequired: true)
                 }
                 it("product info title passes trough both items title") {
-                    expect(productInfoObserver.eventValues.flatMap { $0?.title }).toEventually(equal([product.title, newProduct.title].flatMap { $0 }))
+                    expect(productInfoObserver.eventValues.compactMap { $0?.title }).toEventually(equal([product.title, newProduct.title].compactMap { $0 }))
                 }
             }
             describe("pagination") {
@@ -512,7 +512,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                             buildSut(productListModels: productListModels, initialProduct: product)
                         }
                         it("requests images for items 0-3") {
-                            let images = products.prefix(through: 3).flatMap { $0.images.first?.fileURL }
+                            let images = products.prefix(through: 3).compactMap { $0.images.first?.fileURL }
                             expect(imageDownloader.downloadImagesRequested) == images
                         }
                         describe("swipe right") {
@@ -520,7 +520,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                                 sut.moveToProductAtIndex(1, movement: .swipeRight)
                             }
                             it("just requests one more image on the right") {
-                                let images = [products[4].images.first?.fileURL].flatMap { $0 }
+                                let images = [products[4].images.first?.fileURL].compactMap { $0 }
                                 expect(imageDownloader.downloadImagesRequested) == images
                             }
                         }
@@ -532,7 +532,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                             buildSut(productListModels: productListModels, initialProduct: product)
                         }
                         it("requests images for items 9-13") {
-                            let images = products[9...13].flatMap { $0.images.first?.fileURL }
+                            let images = products[9...13].compactMap { $0.images.first?.fileURL }
                             expect(imageDownloader.downloadImagesRequested) == images
                         }
                         describe("swipe right") {
@@ -540,7 +540,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                                 sut.moveToProductAtIndex(11, movement: .swipeRight)
                             }
                             it("just requests one more image on the right") {
-                                let images = [products[14].images.first?.fileURL].flatMap { $0 }
+                                let images = [products[14].images.first?.fileURL].compactMap { $0 }
                                 expect(imageDownloader.downloadImagesRequested) == images
                             }
                         }
@@ -549,7 +549,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                                 sut.moveToProductAtIndex(9, movement: .swipeLeft)
                             }
                             it("just requests one more image on the left") {
-                                let images = [products[8].images.first?.fileURL].flatMap { $0 }
+                                let images = [products[8].images.first?.fileURL].compactMap { $0 }
                                 expect(imageDownloader.downloadImagesRequested) == images
                             }
                         }
@@ -630,8 +630,8 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                             expect(tracker.trackedEvents.map { $0.actualName }) == ["product-detail-visit","product-detail-visit","product-detail-visit"]
                         }
                         it("tracks with product ids of first 3 products") {
-                            expect(tracker.trackedEvents.flatMap { $0.params?.stringKeyParams["product-id"] as? String })
-                                == products.prefix(through: 2).flatMap { $0.objectId }
+                            expect(tracker.trackedEvents.compactMap { $0.params?.stringKeyParams["product-id"] as? String })
+                                == products.prefix(through: 2).compactMap { $0.objectId }
                         }
                         it("product info changed twice") {
                             expect(productInfoObserver.eventValues.count) == 3
@@ -692,10 +692,10 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                         expect(productStatsObserver.eventValues.count).toEventually(equal(2))
                     }
                     it("matches product views") {
-                        expect(productStatsObserver.eventValues.flatMap {$0}.last?.viewsCount).toEventually(equal(stats.viewsCount))
+                        expect(productStatsObserver.eventValues.compactMap {$0}.last?.viewsCount).toEventually(equal(stats.viewsCount))
                     }
                     it("matches product favorites") {
-                        expect(productStatsObserver.eventValues.flatMap {$0}.last?.favouritesCount).toEventually(equal(stats.favouritesCount))
+                        expect(productStatsObserver.eventValues.compactMap {$0}.last?.favouritesCount).toEventually(equal(stats.favouritesCount))
                     }
                     it("share button state is hidden") {
                         expect(shareButtonStateObserver.eventValues) == [.hidden]
@@ -792,7 +792,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                                 expect(productInfoObserver.lastValue??.title) == product.title
                             }
                             it("images match") {
-                                expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
+                                expect(productImageUrlsObserver.lastValue) == product.images.compactMap { $0.fileURL }
                             }
                             it("user name matches") {
                                 expect(userInfoObserver.lastValue??.name) == myUser.shortName
@@ -835,7 +835,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                                 expect(productInfoObserver.lastValue??.title) == product.title
                             }
                             it("images match") {
-                                expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
+                                expect(productImageUrlsObserver.lastValue) == product.images.compactMap { $0.fileURL }
                             }
                             it("user name matches") {
                                 expect(userInfoObserver.lastValue??.name) == myUser.shortName
@@ -879,7 +879,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                             expect(productInfoObserver.lastValue??.title) == product.title
                         }
                         it("images match") {
-                            expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
+                            expect(productImageUrlsObserver.lastValue) == product.images.compactMap { $0.fileURL }
                         }
                         it("user name matches") {
                             expect(userInfoObserver.lastValue??.name) == myUser.shortName
@@ -889,7 +889,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                             expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibility?.identifier }) == accesibilityIds.map{ $0.identifier }
                         }
                         it("there is a mark sold action") {
-                            expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [R.Strings.productMarkAsSoldButton]
+                            expect(actionButtonsObserver.lastValue?.compactMap { $0.text }) == [R.Strings.productMarkAsSoldButton]
                         }
                         it("product vm status is pending") {
                             expect(statusObserver.lastValue) == .available
@@ -922,7 +922,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                             expect(productInfoObserver.lastValue??.title) == product.title
                         }
                         it("images match") {
-                            expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
+                            expect(productImageUrlsObserver.lastValue) == product.images.compactMap { $0.fileURL }
                         }
                         it("user name matches") {
                             expect(userInfoObserver.lastValue??.name) == myUser.shortName
@@ -932,7 +932,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                             expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibility?.identifier }) == accesibilityIds.map{ $0.identifier }
                         }
                         it("there is a mark sold action") {
-                            expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [R.Strings.productMarkAsSoldFreeButton]
+                            expect(actionButtonsObserver.lastValue?.compactMap { $0.text }) == [R.Strings.productMarkAsSoldFreeButton]
                         }
                         it("product vm status is pending") {
                             expect(statusObserver.lastValue) == .availableFree
@@ -965,7 +965,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                             expect(productInfoObserver.lastValue??.title) == product.title
                         }
                         it("images match") {
-                            expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
+                            expect(productImageUrlsObserver.lastValue) == product.images.compactMap { $0.fileURL }
                         }
                         it("user name matches") {
                             expect(userInfoObserver.lastValue??.name) == myUser.shortName
@@ -975,7 +975,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                             expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibility?.identifier }) == accesibilityIds.map{ $0.identifier }
                         }
                         it("there is a sell again action") {
-                            expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [R.Strings.productSellAgainButton]
+                            expect(actionButtonsObserver.lastValue?.compactMap { $0.text }) == [R.Strings.productSellAgainButton]
                         }
                         it("product vm status is pending") {
                             expect(statusObserver.lastValue) == .sold
@@ -1008,7 +1008,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                             expect(productInfoObserver.lastValue??.title) == product.title
                         }
                         it("images match") {
-                            expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
+                            expect(productImageUrlsObserver.lastValue) == product.images.compactMap { $0.fileURL }
                         }
                         it("user name matches") {
                             expect(userInfoObserver.lastValue??.name) == myUser.shortName
@@ -1018,7 +1018,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                             expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibility?.identifier }) == accesibilityIds.map{ $0.identifier }
                         }
                         it("there is a sell again action") {
-                            expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [R.Strings.productSellAgainFreeButton]
+                            expect(actionButtonsObserver.lastValue?.compactMap { $0.text }) == [R.Strings.productSellAgainFreeButton]
                         }
                         it("product vm status is pending") {
                             expect(statusObserver.lastValue) == .soldFree
@@ -1052,7 +1052,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                             expect(productInfoObserver.lastValue??.title) == product.title
                         }
                         it("images match") {
-                            expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
+                            expect(productImageUrlsObserver.lastValue) == product.images.compactMap { $0.fileURL }
                         }
                         it("user name matches") {
                             expect(userInfoObserver.lastValue??.name) == product.user.shortName
@@ -1100,7 +1100,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                                 expect(productInfoObserver.lastValue??.title) == product.title
                             }
                             it("images match") {
-                                expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
+                                expect(productImageUrlsObserver.lastValue) == product.images.compactMap { $0.fileURL }
                             }
                             it("user name matches") {
                                 expect(userInfoObserver.lastValue??.name) == product.user.shortName
@@ -1147,7 +1147,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                                 expect(productInfoObserver.lastValue??.title) == product.title
                             }
                             it("images match") {
-                                expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
+                                expect(productImageUrlsObserver.lastValue) == product.images.compactMap { $0.fileURL }
                             }
                             it("user name matches") {
                                 expect(userInfoObserver.lastValue??.name) == product.user.shortName
@@ -1196,7 +1196,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                                 expect(productInfoObserver.lastValue??.title) == product.title
                             }
                             it("images match") {
-                                expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
+                                expect(productImageUrlsObserver.lastValue) == product.images.compactMap { $0.fileURL }
                             }
                             it("user name matches") {
                                 expect(userInfoObserver.lastValue??.name) == product.user.shortName
@@ -1243,7 +1243,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                                 expect(productInfoObserver.lastValue??.title) == product.title
                             }
                             it("images match") {
-                                expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
+                                expect(productImageUrlsObserver.lastValue) == product.images.compactMap { $0.fileURL }
                             }
                             it("user name matches") {
                                 expect(userInfoObserver.lastValue??.name) == product.user.shortName
@@ -1287,7 +1287,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                             expect(productInfoObserver.lastValue??.title) == product.title
                         }
                         it("images match") {
-                            expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
+                            expect(productImageUrlsObserver.lastValue) == product.images.compactMap { $0.fileURL }
                         }
                         it("user name matches") {
                             expect(userInfoObserver.lastValue??.name) == product.user.shortName
@@ -1330,7 +1330,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                             expect(productInfoObserver.lastValue??.title) == product.title
                         }
                         it("images match") {
-                            expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
+                            expect(productImageUrlsObserver.lastValue) == product.images.compactMap { $0.fileURL }
                         }
                         it("user name matches") {
                             expect(userInfoObserver.lastValue??.name) == product.user.shortName

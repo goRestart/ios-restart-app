@@ -514,7 +514,7 @@ extension MultiListingPostedViewModel {
     }
     
     private func trackSellConfirmation(listings: [Listing]) {
-        let listingsIds = listings.flatMap { $0.objectId }
+        let listingsIds = listings.compactMap { $0.objectId }
         tracker.trackEvent(TrackerEvent.listingsSellConfirmation(listingIds: listingsIds))
     }
     

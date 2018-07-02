@@ -163,7 +163,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
     }
 
     func selectedObjectsAtIndexes(_ indexes: [Int]) -> [T]? {
-        return indexes.filter { $0 < objectCount && $0 >= 0 }.flatMap { objects.value[$0] }
+        return indexes.filter { $0 < objectCount && $0 >= 0 }.compactMap { objects.value[$0] }
     }
 
     func index(_ page: Int, completion: ((Result<[T], RepositoryError>) -> ())?) {

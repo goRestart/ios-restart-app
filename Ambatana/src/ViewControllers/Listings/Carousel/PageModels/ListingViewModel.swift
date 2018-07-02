@@ -445,7 +445,7 @@ class ListingViewModel: BaseViewModel {
                                                                      fallbackToStore: true,
                                                                      myUserId: strongSelf.myUserId,
                                                                      myUserName: strongSelf.myUserName)
-            strongSelf.productImageURLs.value = listing.images.flatMap { return $0.fileURL }
+            strongSelf.productImageURLs.value = listing.images.compactMap { return $0.fileURL }
             strongSelf.productMedia.value = listing.media
             let productInfo = ListingVMProductInfo(listing: listing,
                                                    isAutoTranslated: listing.isTitleAutoTranslated(strongSelf.countryHelper),

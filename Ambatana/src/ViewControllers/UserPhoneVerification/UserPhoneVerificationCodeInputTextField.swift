@@ -23,7 +23,7 @@ final class VerificationCodeTextField: UIView {
 
     private var currentCode: String {
         return textFields
-            .flatMap { $0.text }
+            .compactMap { $0.text }
             .reduce("", +)
     }
 

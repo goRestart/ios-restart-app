@@ -291,13 +291,13 @@ class ListingCarouselViewModel: BaseViewModel {
          reputationTooltipManager: ReputationTooltipManager) {
         if let productListModels = productListModels {
             let listingCarouselCellModels = productListModels
-                .flatMap(ListingCarouselCellModel.adapter)
+                .compactMap(ListingCarouselCellModel.adapter)
                 .filter({!$0.listing.status.isDiscarded})
             self.objects.appendContentsOf(listingCarouselCellModels)
             self.isLastPage = listingListRequester.isLastPage(productListModels.count)
         } else {
             let listingCarouselCellModels = [initialListing]
-                .flatMap{$0}
+                .compactMap{$0}
                 .map(ListingCarouselCellModel.init)
                 .filter({!$0.listing.status.isDiscarded})
             self.objects.appendContentsOf(listingCarouselCellModels)

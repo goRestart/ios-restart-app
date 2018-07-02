@@ -77,7 +77,7 @@ class ChatInactiveConversationDetailsViewModel: BaseViewModel {
         self.featureFlags = featureFlags
         self.tracker = tracker
         super.init()
-        messages = conversation.messages.flatMap { [weak self] in
+        messages = conversation.messages.compactMap { [weak self] in
             guard let strongSelf = self else { return nil }
             return strongSelf.chatViewMessageAdapter.adapt($0)
         }
