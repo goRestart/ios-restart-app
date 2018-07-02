@@ -75,7 +75,7 @@ final class LGMachineLearning: MachineLearning {
                 return
             }
             let statsResult: [MachineLearningStats] =
-                observationsValue.flatMap { [weak self] observation -> MachineLearningStats? in
+                observationsValue.compactMap { [weak self] observation -> MachineLearningStats? in
                     return self?.machineLearningRepository.stats(forKeyword: observation.identifier,
                                                                  confidence: observation.confidence)
             }

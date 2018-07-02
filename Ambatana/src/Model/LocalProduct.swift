@@ -62,7 +62,7 @@ struct LocalProduct: Product {
         self.status = chatListing.status
         self.thumbnail = chatListing.image
         self.thumbnailSize = nil
-        self.images = [chatListing.image].flatMap{ $0 }
+        self.images = [chatListing.image].compactMap{ $0 }
         self.media = []
         self.mediaThumbnail = nil
         self.updatedAt = nil

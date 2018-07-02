@@ -375,7 +375,7 @@ class EditLocationViewModel: BaseViewModel {
                 guard let currentText = self?.searchText.value.0, currentText == textToSearch else { return }
                 if let suggestions = result.value {
                     self?.predictiveResults = suggestions
-                    let suggestionsStrings : [String] = suggestions.flatMap {$0.placeResumedData}
+                    let suggestionsStrings : [String] = suggestions.compactMap {$0.placeResumedData}
                     self?.delegate?.vmUpdateSearchTableWithResults(suggestionsStrings)
                 } else {
                     self?.delegate?.vmDidFailFindingSuggestions()

@@ -74,7 +74,7 @@ extension ListingFilters {
         } else {
             params[.propertyType] = TrackerEvent.notApply
         }
-        let offerTypeValues = realEstateOfferTypes.flatMap({ offerType -> String? in
+        let offerTypeValues = realEstateOfferTypes.compactMap({ offerType -> String? in
             return offerType.rawValue
         })
         if !offerTypeValues.isEmpty {

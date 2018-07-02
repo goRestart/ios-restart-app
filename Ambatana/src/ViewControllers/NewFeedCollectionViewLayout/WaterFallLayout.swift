@@ -57,7 +57,7 @@ final class WaterFallLayout: UICollectionViewLayout {
 
     private var hasStickyHeader: Bool {
         guard let collectionView = collectionView else { return false }
-        let headerTypes = (0 ..< numberOfSections).flatMap { section in
+        let headerTypes = (0 ..< numberOfSections).compactMap { section in
             return delegate?.collectionView(collectionView, headerStickynessForSectionAt: section)
         }
         return headerTypes.contains(.pinned) || headerTypes.contains(.sticky)

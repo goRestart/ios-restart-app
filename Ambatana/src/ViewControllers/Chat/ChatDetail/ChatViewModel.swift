@@ -1446,7 +1446,7 @@ extension ChatViewModel {
         guard let interlocutorId = conversation.value.interlocutor?.objectId else { return }
 
         let readIds: [String] = chatMessages.filter { return $0.talkerId == interlocutorId && $0.readAt == nil }
-            .flatMap { $0.objectId }
+            .compactMap { $0.objectId }
         if !readIds.isEmpty {
             chatRepository.confirmRead(convId, messageIds: readIds, completion: nil)
         }
@@ -1456,7 +1456,7 @@ extension ChatViewModel {
         markAsReadMessages(newMessages)
 
         // Add message disclaimer (message flagged)
-        let mappedChatMessages = newMessages.flatMap(chatViewMessageAdapter.adapt)
+        let mappedChatMessages = newMessages.compactMap(chatViewMessageAdapter.adapt)
         var chatMessages = chatViewMessageAdapter.addDisclaimers(mappedChatMessages,
                                                                  disclaimerMessage: defaultDisclaimerMessage)
         // Add user info as 1st message
@@ -1479,7 +1479,7 @@ extension ChatViewModel {
             }
         }
         
-        let newViewMessages = newMessages.flatMap(chatViewMessageAdapter.adapt)
+        let newViewMessages = newMessages.compactMap(chatViewMessageAdapter.adapt)
         guard !newViewMessages.isEmpty else { return }
 
         // We need to remove extra messages & disclaimers to be able to merge correctly. Will be added back before returning

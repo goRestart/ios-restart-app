@@ -28,7 +28,7 @@ extension Leanplum {
         let argumentImage = LPActionArg(named: imageIdentifier, withFile: nil)
         let argumentButton = LPActionArg(named: buttonTextIdentifier, with: "")
         let argumentAction = LPActionArg(named: actionIdentifier, withAction: nil)
-        let arguments = [argumentTitle, argumentMessage, argumentImage, argumentButton, argumentAction].flatMap { $0 }
+        let arguments = [argumentTitle, argumentMessage, argumentImage, argumentButton, argumentAction].compactMap { $0 }
         // ofKind: LeanplumActionKind | kLeanplumActionKindAction  need to be set as rawValue.
 
         Leanplum.defineAction(Leanplum.leanplumCustomPopUp, of: LeanplumActionKind(rawValue: 0b11),

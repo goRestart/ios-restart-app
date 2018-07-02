@@ -1,11 +1,3 @@
-//
-//  FilterTagsVC+RemoveRelatedTags.swift
-//  LetGo
-//
-//  Created by Dídac on 09/05/17.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 @testable import LetGoGodMode
 import Quick
 import Nimble
@@ -18,7 +10,6 @@ class FilterTagsVCRemoveRelatedTagsSpec: QuickSpec {
 
         describe("Remove Related Tags") {
             beforeEach {
-                let layout = UICollectionViewFlowLayout.init()
                 sut = FilterTagsView()
                 relatedTagsToRemove = []
             }

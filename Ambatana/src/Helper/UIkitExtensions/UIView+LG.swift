@@ -19,7 +19,7 @@ extension UIView {
     }
     
     func subviews<T>(ofType type: T.Type) -> [T]? {
-        return allSubviewsRecursively.flatMap { $0 as? T }
+        return allSubviewsRecursively.compactMap { $0 as? T }
     }
 
     func convertToWindow(_ rect: CGRect) -> CGRect {

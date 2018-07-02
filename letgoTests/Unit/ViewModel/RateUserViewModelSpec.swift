@@ -117,7 +117,7 @@ class RateUserViewModelSpec: BaseViewModelSpec {
                     expect(sut.descriptionCharLimit.value).to(equal(255))
                 }
                 it("has the positive user rating tags") {
-                    let tags = (0..<sut.numberOfTags).flatMap { sut.titleForTagAt(index: $0) }
+                    let tags = (0..<sut.numberOfTags).compactMap { sut.titleForTagAt(index: $0) }
                     let positiveTags = PositiveUserRatingTag.allValues.map { $0.localizedText }
                     expect(tags).to(equal(positiveTags))
                 }
@@ -126,7 +126,7 @@ class RateUserViewModelSpec: BaseViewModelSpec {
                     expect(selectedTags).to(beEmpty())
                 }
                 it("tracks a userRatingStart event") {
-                    let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                    let trackedEventNames = tracker.trackedEvents.compactMap { $0.name }
                     expect(trackedEventNames).to(equal([EventName.userRatingStart]))
                 }
             }
@@ -167,13 +167,13 @@ class RateUserViewModelSpec: BaseViewModelSpec {
                             expect(isLoadingObserver.eventValues).toEventually(equal([false, true, false]))
                         }
                         it("rating emits: number") {
-                            expect(ratingObserver.eventValues.flatMap { $0 }).toEventually(equal([userRating.value]))
+                            expect(ratingObserver.eventValues.compactMap { $0 }).toEventually(equal([userRating.value]))
                         }
                         it("calls delegate to update description") {
                             expect(self.delegateReceivedUpdateDescriptionLastValue).toEventually(equal("Comment"))
                         }
                         it("description emits: string") {
-                            expect(descriptionObserver.eventValues.flatMap { $0 }).toEventually(equal(["Comment"]))
+                            expect(descriptionObserver.eventValues.compactMap { $0 }).toEventually(equal(["Comment"]))
                         }
                         it("calls delegate to update tags") {
                             expect(self.delegateReceivedUpdateTags).toEventually(equal(true))
@@ -198,13 +198,13 @@ class RateUserViewModelSpec: BaseViewModelSpec {
                             expect(isLoadingObserver.eventValues).toEventually(equal([false, true, false]))
                         }
                         it("rating emits: number") {
-                            expect(ratingObserver.eventValues.flatMap { $0 }).toEventually(equal([userRating.value]))
+                            expect(ratingObserver.eventValues.compactMap { $0 }).toEventually(equal([userRating.value]))
                         }
                         it("calls delegate to update description") {
                             expect(self.delegateReceivedUpdateDescriptionLastValue).toEventually(equal(userRating.comment))
                         }
                         it("description emits: string") {
-                            expect(descriptionObserver.eventValues.flatMap { $0 }).toEventually(equal([userRating.comment!]))
+                            expect(descriptionObserver.eventValues.compactMap { $0 }).toEventually(equal([userRating.comment!]))
                         }
                         it("calls delegate to update tags") {
                             expect(self.delegateReceivedUpdateTags).toEventually(beTrue())
@@ -230,13 +230,13 @@ class RateUserViewModelSpec: BaseViewModelSpec {
                         expect(isLoadingObserver.eventValues).toEventually(equal([false, true, false]))
                     }
                     it("rating emits: nil") {
-                        expect(ratingObserver.eventValues.flatMap { $0 }).toEventually(equal([]))
+                        expect(ratingObserver.eventValues.compactMap { $0 }).toEventually(equal([]))
                     }
                     it("does not call delegate to update description") {
                         expect(self.delegateReceivedUpdateDescriptionLastValue).toEventually(beNil())
                     }
                     it("description emits: nil") {
-                        expect(descriptionObserver.eventValues.flatMap { $0 }).toEventually(equal([]))
+                        expect(descriptionObserver.eventValues.compactMap { $0 }).toEventually(equal([]))
                     }
                     it("calls delegate to update tags") {
                         expect(self.delegateReceivedUpdateTags).toEventually(equal(false))
@@ -285,7 +285,7 @@ class RateUserViewModelSpec: BaseViewModelSpec {
                     }
                     
                     it("rating emits: 1") {
-                        expect(ratingObserver.eventValues.flatMap { $0 }) == [1]
+                        expect(ratingObserver.eventValues.compactMap { $0 }) == [1]
                     }
                     
                     it("state emits: .review(positive: true), .review(positive: false)") {
@@ -303,7 +303,7 @@ class RateUserViewModelSpec: BaseViewModelSpec {
                     }
                     
                     it("rating emits: 5") {
-                        expect(ratingObserver.eventValues.flatMap { $0 }) == [5]
+                        expect(ratingObserver.eventValues.compactMap { $0 }) == [5]
                     }
                     
                     it("state emits: .review(positive: true)") {
@@ -384,7 +384,7 @@ class RateUserViewModelSpec: BaseViewModelSpec {
                             
                             it("tracks a userRatingComplete event") {
                                 expect(tracker.trackedEvents).toEventually(haveCount(2))
-                                expect(tracker.trackedEvents.flatMap { $0.name }) == [EventName.userRatingStart, EventName.userRatingComplete]
+                                expect(tracker.trackedEvents.compactMap { $0.name }) == [EventName.userRatingStart, EventName.userRatingComplete]
                             }
                         }
                         
@@ -451,7 +451,7 @@ class RateUserViewModelSpec: BaseViewModelSpec {
                             }
                             
                             it("tracks a second userRatingComplete event") {
-                                expect(tracker.trackedEvents.flatMap { $0.name }).toEventually(equal([EventName.userRatingStart, EventName.userRatingComplete, EventName.userRatingComplete]))
+                                expect(tracker.trackedEvents.compactMap { $0.name }).toEventually(equal([EventName.userRatingStart, EventName.userRatingComplete, EventName.userRatingComplete]))
                             }
                         }
                         

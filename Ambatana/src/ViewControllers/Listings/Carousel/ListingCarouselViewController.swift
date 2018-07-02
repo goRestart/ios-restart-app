@@ -610,7 +610,7 @@ final class ListingCarouselViewController: KeyboardViewController, AnimatableTra
     }
 
     private func returnCellToFirstImage() {
-        let visibleCells = collectionView.visibleCells.flatMap { $0 as? ListingCarouselCell }
+        let visibleCells = collectionView.visibleCells.compactMap { $0 as? ListingCarouselCell }
         visibleCells.filter {
             guard let index = collectionView.indexPath(for: $0) else { return false }
             return index.row != viewModel.currentIndex

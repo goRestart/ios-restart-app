@@ -11,11 +11,11 @@ protocol Coordinator: CoordinatorDelegate {
     /// Possible child coordinator. Will be automatically set on `openChild` method
     var child: Coordinator? { get set }
     /// Delegate for parent coordinators, to notify when this has finished. Will be automatically set on `openChild` method
-    weak var coordinatorDelegate: CoordinatorDelegate? { get set }
+    var coordinatorDelegate: CoordinatorDelegate? { get set }
     /// main view controller
     var viewController: UIViewController { get }
     /// Possible presented alert controller
-    weak var presentedAlertController: UIAlertController? { get set }
+    var presentedAlertController: UIAlertController? { get set }
 
     /// required to show bubble notification from any coordinator
     var bubbleNotificationManager: BubbleNotificationManager { get }

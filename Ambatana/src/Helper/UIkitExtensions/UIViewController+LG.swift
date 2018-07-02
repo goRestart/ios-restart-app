@@ -205,7 +205,7 @@ extension UIViewController {
 
         var x: CGFloat = 0
         
-        let items: [UIBarButtonItem] = buttons.flatMap { button in
+        let items: [UIBarButtonItem] = buttons.compactMap { button in
             guard let icon = button.image(for: .normal) else { return nil }
             
             let buttonWidth = icon.size.width + barButtonsHoritzontalSpacing

@@ -74,7 +74,7 @@ final class UserRatingCell: UITableViewCell, ReusableCell {
         stackView.distribution = .equalSpacing
         return stackView
     }()
-    private var stars: [UIImageView] { return starsStackView.arrangedSubviews.flatMap { $0 as? UIImageView } }
+    private var stars: [UIImageView] { return starsStackView.arrangedSubviews.compactMap { $0 as? UIImageView } }
 
     private let ratingTypeIcon: UIImageView = UIImageView(image: R.Asset.IconsButtons.icRatingPending.image)
     private let ratingTypeLabel: UILabel = {
