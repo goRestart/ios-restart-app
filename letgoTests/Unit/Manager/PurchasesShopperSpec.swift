@@ -165,7 +165,8 @@ class PurchasesShopperSpec: QuickSpec {
                                            appstoreProduct: myAppstoreProduct,
                                            letgoItemId: "letgo_item_id",
                                            isBoost: false,
-                                           maxCountdown: 1000)
+                                           maxCountdown: 1000,
+                                           typePage: .listingDetail)
                     }
                     it ("doesn't add a new payment to the queue") {
                         expect(sut.numPendingTransactions) == initialPendingPayments
@@ -180,7 +181,8 @@ class PurchasesShopperSpec: QuickSpec {
                                            appstoreProduct: myAppstoreProduct,
                                            letgoItemId: "letgo_item_id",
                                            isBoost: false,
-                                           maxCountdown: 1000)
+                                           maxCountdown: 1000,
+                                           typePage: .listingDetail)
                     }
                     it ("adds a new payment to the queue") {
                         expect(sut.numPendingTransactions) == initialPendingPayments + 1
@@ -196,7 +198,8 @@ class PurchasesShopperSpec: QuickSpec {
                                            appstoreProduct: unavailableAppstoreProduct,
                                            letgoItemId: "letgo_item_id",
                                            isBoost: false,
-                                           maxCountdown: 1000)
+                                           maxCountdown: 1000,
+                                           typePage: .listingDetail)
                     }
                     it ("doesn't add a new payment to the queue") {
                         expect(sut.numPendingTransactions) == initialPendingPayments

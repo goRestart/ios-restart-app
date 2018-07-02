@@ -808,6 +808,10 @@ extension R {
     public static let featuredInfoViewSellFaster = Strings.tr("Localizable", "featured_info_view_sell_faster")
     /// Featured Listing
     public static let featuredInfoViewTitle = Strings.tr("Localizable", "featured_info_view_title")
+    /// 
+    public static let filterCarsDistancePlaceholder = Strings.tr("Localizable", "filter_cars_distance_placeholder")
+    /// Seats
+    public static let filterCarsSeatsTitle = Strings.tr("Localizable", "filter_cars_seats_title")
     /// No exact matches for your search.\n Showing similar results. 
     public static let filterResultsCarsNoMatches = Strings.tr("Localizable", "filter_results_cars_no_matches")
     /// Recently posted in your area
@@ -832,6 +836,56 @@ extension R {
     public static func filtersCarYearBeforeYear(_ p1: Int) -> String {
       return Strings.tr("Localizable", "filters_car_year_before_year", p1)
     }
+    /// Convertible
+    public static let filtersCarsBodytypeConvertible = Strings.tr("Localizable", "filters_cars_bodytype_convertible")
+    /// Coupe
+    public static let filtersCarsBodytypeCoupe = Strings.tr("Localizable", "filters_cars_bodytype_coupe")
+    /// Hatchback
+    public static let filtersCarsBodytypeHatchback = Strings.tr("Localizable", "filters_cars_bodytype_hatchback")
+    /// Hybrid
+    public static let filtersCarsBodytypeHybrid = Strings.tr("Localizable", "filters_cars_bodytype_hybrid")
+    /// Minivan
+    public static let filtersCarsBodytypeMinivan = Strings.tr("Localizable", "filters_cars_bodytype_minivan")
+    /// Others
+    public static let filtersCarsBodytypeOther = Strings.tr("Localizable", "filters_cars_bodytype_other")
+    /// Sedan
+    public static let filtersCarsBodytypeSedan = Strings.tr("Localizable", "filters_cars_bodytype_sedan")
+    /// SUV
+    public static let filtersCarsBodytypeSuv = Strings.tr("Localizable", "filters_cars_bodytype_suv")
+    /// Body Type
+    public static let filtersCarsBodytypeTitle = Strings.tr("Localizable", "filters_cars_bodytype_title")
+    /// Truck
+    public static let filtersCarsBodytypeTruck = Strings.tr("Localizable", "filters_cars_bodytype_truck")
+    /// Wagon
+    public static let filtersCarsBodytypeWagon = Strings.tr("Localizable", "filters_cars_bodytype_wagon")
+    /// 4WD
+    public static let filtersCarsDrivetrain4wd = Strings.tr("Localizable", "filters_cars_drivetrain_4wd")
+    /// AWD
+    public static let filtersCarsDrivetrainAwd = Strings.tr("Localizable", "filters_cars_drivetrain_awd")
+    /// FWD
+    public static let filtersCarsDrivetrainFwd = Strings.tr("Localizable", "filters_cars_drivetrain_fwd")
+    /// RWD
+    public static let filtersCarsDrivetrainRwd = Strings.tr("Localizable", "filters_cars_drivetrain_rwd")
+    /// Drivetrain
+    public static let filtersCarsDrivetrainTitle = Strings.tr("Localizable", "filters_cars_drivetrain_title")
+    /// Diesel
+    public static let filtersCarsFueltypeDiesel = Strings.tr("Localizable", "filters_cars_fueltype_diesel")
+    /// Electric
+    public static let filtersCarsFueltypeElectric = Strings.tr("Localizable", "filters_cars_fueltype_electric")
+    /// Flex
+    public static let filtersCarsFueltypeFlex = Strings.tr("Localizable", "filters_cars_fueltype_flex")
+    /// Gas
+    public static let filtersCarsFueltypeGas = Strings.tr("Localizable", "filters_cars_fueltype_gas")
+    /// Hybrid
+    public static let filtersCarsFueltypeHybrid = Strings.tr("Localizable", "filters_cars_fueltype_hybrid")
+    /// Fuel Type
+    public static let filtersCarsFueltypeTitle = Strings.tr("Localizable", "filters_cars_fueltype_title")
+    /// Automatic
+    public static let filtersCarsTransmissionAutomatic = Strings.tr("Localizable", "filters_cars_transmission_automatic")
+    /// Manual
+    public static let filtersCarsTransmissionManual = Strings.tr("Localizable", "filters_cars_transmission_manual")
+    /// Transmission
+    public static let filtersCarsTransmissionTitle = Strings.tr("Localizable", "filters_cars_transmission_title")
     /// not set
     public static let filtersDistanceNotSet = Strings.tr("Localizable", "filters_distance_not_set")
     /// Reset

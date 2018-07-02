@@ -37,8 +37,6 @@ protocol FeedViewModelType: FeedNavigatorOwnership {
     var rxHasFilter: Driver<Bool> { get }
     
     var searchString: String? { get }
-    var searchBoxSize: SearchBoxSize { get }
-    var searchFieldStyle: SearchFieldStyle { get }
     
     var shouldShowInviteButton: Bool { get }
     

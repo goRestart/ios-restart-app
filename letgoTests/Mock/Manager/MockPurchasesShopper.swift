@@ -63,7 +63,8 @@ class MockPurchasesShopper: PurchasesShopper {
                         appstoreProduct: PurchaseableProduct,
                         letgoItemId: String,
                         isBoost: Bool,
-                        maxCountdown: TimeInterval) {
+                        maxCountdown: TimeInterval,
+                        typePage: EventParameterTypePage?) {
         delegate?.restoreBumpDidStart()
         
         performAfterDelayWithCompletion { [weak self] in

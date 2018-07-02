@@ -218,15 +218,6 @@ class ListingViewModel: BaseViewModel {
     var storeProductId: String?
     private var userIsSoftBlocked: Bool = false
     private var bumpUpSource: BumpUpSource?
-    private var isPromotedBump: Bool {
-        guard let bumpSource = bumpUpSource else { return false }
-        switch bumpSource {
-        case .promoted:
-            return true
-        case .deepLink, .edit:
-            return false
-        }
-    }
 
     fileprivate var alreadyTrackedFirstMessageSent: Bool = false
     fileprivate static let bubbleTagGroup = "favorite.bubble.group"
@@ -542,6 +533,7 @@ class ListingViewModel: BaseViewModel {
                                            maxCountdown: recentBumpInfo.maxCountdown)
         } else {
             isUpdatingBumpUpBanner = true
+            let parameterTypePage = getParameterTypePage()
             monetizationRepository.retrieveBumpeableListingInfo(
                 listingId: listingId,
                 completion: { [weak self] result in
@@ -566,7 +558,7 @@ class ListingViewModel: BaseViewModel {
                                                                                          letgoItemId: letgoItemId,
                                                                                          withIds: paymentItems.map { $0.providerItemId },
                                                                                          maxCountdown: bumpeableProduct.maxCountdown,
-                                                                                         typePage: .listingDetail)
+                                                                                         typePage: parameterTypePage)
                         }
                     } else if !freeItems.isEmpty, strongSelf.featureFlags.freeBumpUpEnabled {
                         strongSelf.letgoItemId = freeItems.first?.itemId
@@ -588,11 +580,17 @@ class ListingViewModel: BaseViewModel {
                                                                                          letgoItemId: letgoItemId,
                                                                                          withIds: hiddenItems.map { $0.providerItemId },
                                                                                          maxCountdown: bumpeableProduct.maxCountdown,
-                                                                                         typePage: .listingDetail)
+                                                                                         typePage: parameterTypePage)
                         }
                     }
             })
         }
+    }
+    
+    private func getParameterTypePage() -> EventParameterTypePage {
+        guard let bumpUpSource = self.bumpUpSource,
+            let typePageParameter = bumpUpSource.typePageParameter else { return .listingDetail }
+        return typePageParameter
     }
 
     fileprivate func createBumpeableBanner(forListingId listingId: String,
@@ -844,7 +842,8 @@ extension ListingViewModel {
                                         appstoreProduct: purchaseableProduct,
                                         letgoItemId: letgoItemId,
                                         isBoost: isBoost,
-                                        maxCountdown: bumpMaxCountdown)
+                                        maxCountdown: bumpMaxCountdown,
+                                        typePage: getParameterTypePage())
     }
 
     func titleURLPressed(_ url: URL) {
@@ -1439,10 +1438,19 @@ extension ListingViewModel: BumpInfoRequesterDelegate {
 }
 
 extension ListingViewModel: PurchasesShopperDelegate {
+    
+    private func isPromotedBump(typePage: EventParameterTypePage?) -> Bool {
+        guard let typePage = typePage else { return false }
+        return typePage == .edit || typePage == .sellEdit || typePage == .pushNotification || typePage == .sell
+    }
+    
     // Free Bump Up
 
     func freeBumpDidStart(typePage: EventParameterTypePage?) {
-        trackBumpUpStarted(.free, type: .free, storeProductId: storeProductId, isPromotedBump: isPromotedBump,
+        trackBumpUpStarted(.free,
+                           type: .free,
+                           storeProductId: storeProductId,
+                           isPromotedBump: isPromotedBump(typePage: typePage),
                            typePage: typePage)
         delegate?.vmShowLoading(R.Strings.bumpUpProcessingFreeText)
     }
@@ -1456,7 +1464,7 @@ extension ListingViewModel: PurchasesShopperDelegate {
                              network: network,
                              transactionStatus: nil,
                              storeProductId: storeProductId,
-                             isPromotedBump: isPromotedBump,
+                             isPromotedBump: isPromotedBump(typePage: typePage),
                              typePage: typePage,
                              paymentId: paymentId)
         delegate?.vmHideLoading(R.Strings.bumpUpFreeSuccess, afterMessageCompletion: { [weak self] in
@@ -1470,13 +1478,15 @@ extension ListingViewModel: PurchasesShopperDelegate {
         delegate?.vmHideLoading(R.Strings.bumpUpErrorBumpGeneric, afterMessageCompletion: nil)
     }
 
-
     // Paid Bump Up
 
     func pricedBumpDidStart(typePage: EventParameterTypePage?, isBoost: Bool) {
         let type: BumpUpType = isBoost ? .boost(boostBannerVisible: true) : .priced
-        trackBumpUpStarted(.pay(price: bumpUpPurchaseableProduct?.formattedCurrencyPrice ?? ""), type: type,
-                           storeProductId: storeProductId, isPromotedBump: isPromotedBump, typePage: typePage)
+        trackBumpUpStarted(.pay(price: bumpUpPurchaseableProduct?.formattedCurrencyPrice ?? ""),
+                           type: type,
+                           storeProductId: storeProductId,
+                           isPromotedBump: isPromotedBump(typePage: typePage),
+                           typePage: typePage)
         delegate?.vmShowLoading(R.Strings.bumpUpProcessingPricedText)
     }
 
@@ -1501,7 +1511,7 @@ extension ListingViewModel: PurchasesShopperDelegate {
                              network: .notAvailable,
                              transactionStatus: transactionStatus,
                              storeProductId: storeProductId,
-                             isPromotedBump: isPromotedBump,
+                             isPromotedBump: isPromotedBump(typePage: typePage),
                              typePage: typePage,
                              paymentId: paymentId)
 
@@ -1539,8 +1549,11 @@ extension ListingViewModel: PurchasesShopperDelegate {
     // Restore Bump
 
     func restoreBumpDidStart() {
-        trackBumpUpStarted(.pay(price: bumpUpPurchaseableProduct?.formattedCurrencyPrice ?? ""), type: .restore,
-                           storeProductId: storeProductId, isPromotedBump: isPromotedBump, typePage: .listingDetail)
+        trackBumpUpStarted(.pay(price: bumpUpPurchaseableProduct?.formattedCurrencyPrice ?? ""),
+                           type: .restore,
+                           storeProductId: storeProductId,
+                           isPromotedBump: false,
+                           typePage: .listingDetail)
         delegate?.vmShowLoading(R.Strings.bumpUpProcessingFreeText)
     }
 }

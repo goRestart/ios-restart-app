@@ -25,9 +25,7 @@ final class FeedViewController: BaseViewController {
     // MARK:- Init
     
     required init<T>(withViewModel viewModel: T) where T: BaseViewModel, T: FeedViewModelType {
-        self.navbarSearch = LGNavBarSearchField(viewModel.searchString,
-                                                searchBoxSize: viewModel.searchBoxSize,
-                                                searchFieldStyle: viewModel.searchFieldStyle)
+        self.navbarSearch = LGNavBarSearchField(viewModel.searchString)
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
         setup()
