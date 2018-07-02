@@ -677,7 +677,7 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource  {
         
         let drawer = ChatCellDrawerFactory.drawerForMessage(message, meetingsEnabled: viewModel.meetingsEnabled)
         let cell = drawer.cell(tableView, atIndexPath: indexPath)
-        
+
         drawer.draw(cell, message: message)
         UIView.performWithoutAnimation {
             cell.transform = tableView.transform

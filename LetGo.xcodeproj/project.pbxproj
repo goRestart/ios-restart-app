@@ -486,8 +486,6 @@
 		2EDCFA331BFF8AB00000E47D /* SignUpLogInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDCFA301BFF8AB00000E47D /* SignUpLogInViewModel.swift */; };
 		2EE47D2920177653004B04EE /* ChatAskPhoneNumberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE47D2720177653004B04EE /* ChatAskPhoneNumberCell.swift */; };
 		2EE47D2A20177653004B04EE /* ChatAskPhoneNumberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE47D2720177653004B04EE /* ChatAskPhoneNumberCell.swift */; };
-		2EE47D2B20177653004B04EE /* ChatAskPhoneNumberCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EE47D2820177653004B04EE /* ChatAskPhoneNumberCell.xib */; };
-		2EE47D2C20177653004B04EE /* ChatAskPhoneNumberCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EE47D2820177653004B04EE /* ChatAskPhoneNumberCell.xib */; };
 		2EE47D2E2017812D004B04EE /* ChatAskPhoneNumberCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE47D2D2017812D004B04EE /* ChatAskPhoneNumberCellDrawer.swift */; };
 		2EE47D2F2017812D004B04EE /* ChatAskPhoneNumberCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE47D2D2017812D004B04EE /* ChatAskPhoneNumberCellDrawer.swift */; };
 		2EE47D3120178835004B04EE /* PhoneCallsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE47D3020178835004B04EE /* PhoneCallsHelper.swift */; };
@@ -1676,12 +1674,8 @@
 		C7B588881CE1DFA6009B3975 /* ChatBubbleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B588781CE1DFA6009B3975 /* ChatBubbleCell.swift */; };
 		C7B588891CE1DFA6009B3975 /* ChatMyMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B588791CE1DFA6009B3975 /* ChatMyMessageCell.swift */; };
 		C7B5888A1CE1DFA6009B3975 /* ChatMyMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B588791CE1DFA6009B3975 /* ChatMyMessageCell.swift */; };
-		C7B5888B1CE1DFA6009B3975 /* ChatMyMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7B5887A1CE1DFA6009B3975 /* ChatMyMessageCell.xib */; };
-		C7B5888C1CE1DFA6009B3975 /* ChatMyMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7B5887A1CE1DFA6009B3975 /* ChatMyMessageCell.xib */; };
 		C7B5888D1CE1DFA6009B3975 /* ChatOthersMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B5887B1CE1DFA6009B3975 /* ChatOthersMessageCell.swift */; };
 		C7B5888E1CE1DFA6009B3975 /* ChatOthersMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B5887B1CE1DFA6009B3975 /* ChatOthersMessageCell.swift */; };
-		C7B5888F1CE1DFA6009B3975 /* ChatOthersMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7B5887C1CE1DFA6009B3975 /* ChatOthersMessageCell.xib */; };
-		C7B588901CE1DFA6009B3975 /* ChatOthersMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7B5887C1CE1DFA6009B3975 /* ChatOthersMessageCell.xib */; };
 		C7B5889A1CE1E025009B3975 /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B588931CE1E025009B3975 /* ConversationCell.swift */; };
 		C7B5889B1CE1E025009B3975 /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B588931CE1E025009B3975 /* ConversationCell.swift */; };
 		C7B5889C1CE1E025009B3975 /* ConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7B588941CE1E025009B3975 /* ConversationCell.xib */; };
@@ -2255,7 +2249,6 @@
 		2EDCFA2F1BFF8AB00000E47D /* SignUpLogInViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SignUpLogInViewController.xib; sourceTree = "<group>"; };
 		2EDCFA301BFF8AB00000E47D /* SignUpLogInViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpLogInViewModel.swift; sourceTree = "<group>"; };
 		2EE47D2720177653004B04EE /* ChatAskPhoneNumberCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAskPhoneNumberCell.swift; sourceTree = "<group>"; };
-		2EE47D2820177653004B04EE /* ChatAskPhoneNumberCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatAskPhoneNumberCell.xib; sourceTree = "<group>"; };
 		2EE47D2D2017812D004B04EE /* ChatAskPhoneNumberCellDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAskPhoneNumberCellDrawer.swift; sourceTree = "<group>"; };
 		2EE47D3020178835004B04EE /* PhoneCallsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneCallsHelper.swift; sourceTree = "<group>"; };
 		2EE47E591BBEA5B70034C19D /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
@@ -2967,9 +2960,7 @@
 		C7B588761CE1DFA6009B3975 /* ChatOthersMessageCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatOthersMessageCellDrawer.swift; sourceTree = "<group>"; };
 		C7B588781CE1DFA6009B3975 /* ChatBubbleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatBubbleCell.swift; sourceTree = "<group>"; };
 		C7B588791CE1DFA6009B3975 /* ChatMyMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatMyMessageCell.swift; sourceTree = "<group>"; };
-		C7B5887A1CE1DFA6009B3975 /* ChatMyMessageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatMyMessageCell.xib; sourceTree = "<group>"; };
 		C7B5887B1CE1DFA6009B3975 /* ChatOthersMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatOthersMessageCell.swift; sourceTree = "<group>"; };
-		C7B5887C1CE1DFA6009B3975 /* ChatOthersMessageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatOthersMessageCell.xib; sourceTree = "<group>"; };
 		C7B588931CE1E025009B3975 /* ConversationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationCell.swift; sourceTree = "<group>"; };
 		C7B588941CE1E025009B3975 /* ConversationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConversationCell.xib; sourceTree = "<group>"; };
 		C7B588951CE1E025009B3975 /* ChatGroupedListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatGroupedListView.swift; sourceTree = "<group>"; };
@@ -5580,14 +5571,11 @@
 				50FEFA1D20469AD6003C51B0 /* ChatBubbleCellType.swift */,
 				500210B51CF5D94F0034519F /* ChatDisclaimerCell.swift */,
 				C7B588791CE1DFA6009B3975 /* ChatMyMessageCell.swift */,
-				C7B5887A1CE1DFA6009B3975 /* ChatMyMessageCell.xib */,
 				C75018461D10681B007D4CE4 /* ChatOtherInfoCell.swift */,
 				C75018471D10681B007D4CE4 /* ChatOtherInfoCell.xib */,
 				C7B5887B1CE1DFA6009B3975 /* ChatOthersMessageCell.swift */,
-				C7B5887C1CE1DFA6009B3975 /* ChatOthersMessageCell.xib */,
 				6AF75D031CF3600D00EACCF0 /* ChatStickerCell.swift */,
 				2EE47D2720177653004B04EE /* ChatAskPhoneNumberCell.swift */,
-				2EE47D2820177653004B04EE /* ChatAskPhoneNumberCell.xib */,
 				8E031CAB20331D2D00CA0ED9 /* ChatInterlocutorIsTypingCell.swift */,
 				8EADA728203453CB00DE8126 /* ChatInterlocutorIsTypingCell.xib */,
 			);
@@ -6220,9 +6208,7 @@
 				2E9A899520A048D4009F6BB7 /* ChatOtherMeetingCell.xib in Resources */,
 				C75B5DC31D59E09500112368 /* ListingCarouselViewController.xib in Resources */,
 				2E9716A41D5A0535009B3A32 /* ExpressChatCell.xib in Resources */,
-				C7B5888B1CE1DFA6009B3975 /* ChatMyMessageCell.xib in Resources */,
 				6A879DA21C8D89B300E0C868 /* PushPrePermissionsSettingsViewController.xib in Resources */,
-				C7B5888F1CE1DFA6009B3975 /* ChatOthersMessageCell.xib in Resources */,
 				50F0BAAA1B28938D00E50A68 /* MainSignUpViewController.xib in Resources */,
 				6A12E0581C6398BE00C1BFE3 /* TourNotificationsViewController.xib in Resources */,
 				C73FABBE1DD3895E008F4519 /* SettingsInfoCell.xib in Resources */,
@@ -6239,7 +6225,6 @@
 				C74016DC1D6467DB004C1E9D /* PostListingDetailPriceView.xib in Resources */,
 				5080111F1D474ED80073F362 /* Icons-Launchers.xcassets in Resources */,
 				C7F18AA11C89D62600D23319 /* GalleryImageCell.xib in Resources */,
-				2EE47D2B20177653004B04EE /* ChatAskPhoneNumberCell.xib in Resources */,
 				C727FBC01CCFC4ED002BC643 /* NotificationsViewController.xib in Resources */,
 				C78BB50D1C5A314700614096 /* AppShareViewController.xib in Resources */,
 				50A8DC801BA06B92008296B0 /* ChatSafetyTipsView.xib in Resources */,
@@ -6319,11 +6304,9 @@
 				508011011D4748120073F362 /* SettingsViewController.xib in Resources */,
 				C7B588621CE1DE1C009B3975 /* RelationInfoView.xib in Resources */,
 				C75B5DC41D59E09500112368 /* ListingCarouselViewController.xib in Resources */,
-				C7B5888C1CE1DFA6009B3975 /* ChatMyMessageCell.xib in Resources */,
 				2E7F4A472074FB7200A05728 /* lottie_bump_up_boost_success_animation.json in Resources */,
 				6A879DA31C8D89B300E0C868 /* PushPrePermissionsSettingsViewController.xib in Resources */,
 				8E80179F2010DC50004CE244 /* ChatInactiveConversationsListView.xib in Resources */,
-				C7B588901CE1DFA6009B3975 /* ChatOthersMessageCell.xib in Resources */,
 				C7DB42741C5138B500400945 /* MainSignUpViewController.xib in Resources */,
 				6A12E0591C6398BE00C1BFE3 /* TourNotificationsViewController.xib in Resources */,
 				C73FABBF1DD3895E008F4519 /* SettingsInfoCell.xib in Resources */,
@@ -6359,7 +6342,6 @@
 				C7F18A981C89CB4C00D23319 /* PostListingGalleryView.xib in Resources */,
 				C7DB42851C5138B500400945 /* ios-devel.json in Resources */,
 				C7F3F1E81DE5EF6A00652447 /* TourBlurBackgroundViewController.xib in Resources */,
-				2EE47D2C20177653004B04EE /* ChatAskPhoneNumberCell.xib in Resources */,
 				C7DB42861C5138B500400945 /* SignUpLogInViewController.xib in Resources */,
 				C7DB42961C513BB900400945 /* Settings.bundle in Resources */,
 				C7DE8ABD1C888750005CF37E /* ListingPostedViewController.xib in Resources */,
