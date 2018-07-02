@@ -187,3 +187,7 @@ public extension UIFont {
     static var smsVerificationCountryListCellText: UIFont { return UIFont.systemBoldFont(size: 23) }
     static var smsVerificationCodeInputTextfieldText: UIFont { return UIFont.systemBoldFont(size: 40) }
 }
+
+public extension UIFont {
+    static var reportCellTitleFont: UIFont { return UIFont.systemBoldFont(size: 22) }
+}
