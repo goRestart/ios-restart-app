@@ -15,7 +15,7 @@ struct ReportOptionsGroup {
     var options: [ReportOption]
 }
 
-class ReportOptionsBuilder {
+final class ReportOptionsBuilder {
 
     // MARK: - Report User Options
 
@@ -27,7 +27,7 @@ class ReportOptionsBuilder {
 
     private static func reportProductOptionsStep1() -> ReportOptionsGroup {
         return ReportOptionsGroup(
-            title: "Why are you reporting this listing?",
+            title: "Why are you reporting this listing?", // FIXME: localize
             options: [
                 ReportOption(type: .itShouldntBeOnLetgo, childOptions: reportProductOptionsStep2()),
                 ReportOption(type: .iThinkItsAScam),
@@ -41,7 +41,7 @@ class ReportOptionsBuilder {
 
     private static func reportProductOptionsStep2() -> ReportOptionsGroup {
         return ReportOptionsGroup(
-            title: "Why shouldn't it be on letgo?",
+            title: "Why shouldn't it be on letgo?", // FIXME: localize
             options: [
                 ReportOption(type: .sexualContent),
                 ReportOption(type: .drugsAlcoholOrTobacco),
@@ -60,7 +60,7 @@ class ReportOptionsBuilder {
 
     private static func reportUserOptionsStep1() -> ReportOptionsGroup {
         return ReportOptionsGroup(
-            title: "Why are you reporting this user?",
+            title: "Why are you reporting this user?", // FIXME: localize
             options: [
                 ReportOption(type: .sellingSomethingInappropriate),
                 ReportOption(type: .suspiciousBehaviour, childOptions: reportUserOptionsStep2A()),
@@ -75,7 +75,7 @@ class ReportOptionsBuilder {
 
     private static func reportUserOptionsStep2A() -> ReportOptionsGroup {
         return ReportOptionsGroup(
-            title: "What happened?",
+            title: "What happened?", // FIXME: localize
             options: [
                 ReportOption(type: .notRespondingToMessages),
                 ReportOption(type: .offeringToTradeInsteadOfPayingInCash),
@@ -89,7 +89,7 @@ class ReportOptionsBuilder {
 
     private static func reportUserOptionsStep2B() -> ReportOptionsGroup {
         return ReportOptionsGroup(
-            title: "Which one?",
+            title: "Which one?", // FIXME: localize
             options: [
                 ReportOption(type: .inappropriateProfilePhoto),
                 ReportOption(type: .inappropriateBio)]
@@ -100,7 +100,7 @@ class ReportOptionsBuilder {
 
     private static func reportUserOptionsStep2C() -> ReportOptionsGroup {
         return ReportOptionsGroup(
-            title: "What happened?",
+            title: "What happened?", // FIXME: localize
             options: [
                 ReportOption(type: .robberyOrViolentIncident),
                 ReportOption(type: .paidWithCounterfeitMoney),
@@ -114,7 +114,7 @@ class ReportOptionsBuilder {
 
     private static func reportUserOptionsStep2D() -> ReportOptionsGroup {
         return ReportOptionsGroup(
-            title: "What happened?",
+            title: "What happened?", // FIXME: localize
             options: [
                 ReportOption(type: .threateningViolence),
                 ReportOption(type: .rudeOrOffensiveLanguage),
