@@ -66,8 +66,8 @@ final class LGMachineLearning: MachineLearning {
             let group = DispatchGroup()
             group.enter()
             self?.machineLearningVision?.predict(pixelBuffer: pixelBuffer) { [weak self] observations in
+                group.leave()
                 guard let observationsValue = observations else {
-                    group.leave()
                     completion?(nil)
                     return
                 }
@@ -76,7 +76,6 @@ final class LGMachineLearning: MachineLearning {
                         return self?.machineLearningRepository.stats(forKeyword: observation.identifier,
                                                                      confidence: observation.confidence)
                 }
-                group.leave()
                 completion?(statsResult)
             }
             group.wait()
@@ -88,13 +87,8 @@ final class LGMachineLearning: MachineLearning {
     func didCaptureVideoFrame(pixelBuffer: CVPixelBuffer?, timestamp: CMTime) {
         guard canPredict, isLiveStatsEnabled, let pixelBuffer = pixelBuffer else { return }
         // Drop the frame if already are processing frames
-        guard operationQueue.operationCount < operationQueue.maxConcurrentOperationCount else {
-            logMessage(.debug, type: .debug, message: "Dropped machine learning frame")
-            return
-        }
-        self.predict(pixelBuffer: pixelBuffer, completion: { stats in
-            // Must be dispatched to main thread to prevent two different
-            // threads trying to assign the same `Variable.value` unsynchronized.
+        guard operationQueue.operationCount < operationQueue.maxConcurrentOperationCount else { return }
+        predict(pixelBuffer: pixelBuffer, completion: { stats in
             DispatchQueue.main.async {
                 self.liveStats.value = stats
             }
