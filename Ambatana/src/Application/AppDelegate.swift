@@ -87,9 +87,13 @@ extension AppDelegate: UIApplicationDelegate {
         navigator = appCoordinator
         pushManager?.navigator = appCoordinator
 
+        let vm = ReportOptionsListViewModel()
+        let vc = ReportOptionsListViewController(viewModel: vm)
+        let nav = UINavigationController(rootViewController: vc)
+
         let window = UIWindow(frame: UIScreen.main.bounds)
         window.backgroundColor = UIColor.white
-        window.rootViewController = appCoordinator.tabBarCtl
+        window.rootViewController = nav
         self.window = window
 
         window.makeKeyAndVisible()

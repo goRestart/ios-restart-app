@@ -45,10 +45,16 @@ final class ReportOptionCell: UITableViewCell, ReusableCell {
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupUI()
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    func configure(with title: String, icon: UIImage) {
+        titleLabel.text = title
+        iconImageView.image = icon
     }
 
     private func setupUI() {
@@ -63,7 +69,7 @@ final class ReportOptionCell: UITableViewCell, ReusableCell {
             iconImageView.heightAnchor.constraint(equalToConstant: Layout.iconSize),
             iconImageView.widthAnchor.constraint(equalToConstant: Layout.iconSize),
             titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Layout.labelMargin),
-            titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: Layout.labelMargin),
+            titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Layout.labelMargin),
             titleLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: Layout.labelRightMargin),
             accessoryImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             accessoryImageView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -Metrics.margin),
