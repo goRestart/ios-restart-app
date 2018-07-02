@@ -180,9 +180,10 @@ final class UserProfileHeaderView: UIView {
     }
 
     private func updateBadge() {
-        guard userBadge != .noBadge else { return }
-        verifiedBadgeImageView.isHidden = userBadge != .silver && userBadge != .gold
-        proBadgeImageView.isHidden = userBadge != .pro
+        let showVerifiedBadge = userBadge == .silver || userBadge == .gold
+        let showProBadge = userBadge == .pro
+        verifiedBadgeImageView.isHidden = !showVerifiedBadge
+        proBadgeImageView.isHidden = !showProBadge
     }
 
     @objc private func didTapEditAvatar() {

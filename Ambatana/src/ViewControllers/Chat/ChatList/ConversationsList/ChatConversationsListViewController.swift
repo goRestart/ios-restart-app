@@ -7,11 +7,6 @@ final class ChatConversationsListViewController: ChatBaseViewController {
     
     private let viewModel: ChatConversationsListViewModel
     private let contentView = ChatConversationsListView()
-    private let connectionStatusView = ChatConnectionStatusView()
-    private var statusViewHeightConstraint: NSLayoutConstraint = NSLayoutConstraint()
-    private var statusViewHeight: CGFloat {
-        return featureFlags.showChatConnectionStatusBar.isActive ? ChatConnectionStatusView.standardHeight : 0
-    }
 
     private let featureFlags: FeatureFlaggeable
     
@@ -44,12 +39,12 @@ final class ChatConversationsListViewController: ChatBaseViewController {
         automaticallyAdjustsScrollViewInsets = false
         hidesBottomBarWhenPushed = false
         hasTabBar = true
+        showConnectionToastView = !featureFlags.showChatConnectionStatusBar.isActive
     }
     
     override func loadView() {
         view = UIView()
-        view.addSubviewsForAutoLayout([connectionStatusView, contentView])
-        statusViewHeightConstraint = connectionStatusView.heightAnchor.constraint(equalToConstant: statusViewHeight)
+        view.addSubviewForAutoLayout(contentView)
 
         NSLayoutConstraint.activate([
             safeTopAnchor.constraint(equalTo: contentView.topAnchor),
@@ -57,7 +52,6 @@ final class ChatConversationsListViewController: ChatBaseViewController {
             view.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             view.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
             ])
-
     }
     
     override func viewDidLoad() {

@@ -406,9 +406,9 @@
 "filters_cars_transmission_manual" = "Manual";
 "filters_cars_transmission_title" = "Transmisión";
 "filters_distance_not_set" = "no definida";
-"filters_mileage_slider_title" = "Mileage";
+"filters_mileage_slider_title" = "Kilometraje";
 "filters_navbar_reset" = "Borrar";
-"filters_numberOfSeats_slider_title" = "Seats";
+"filters_numberOfSeats_slider_title" = "Asientos";
 "filters_price_from" = "De";
 "filters_price_from_feed_filter_cell" = "De";
 "filters_price_to" = "A";
@@ -434,7 +434,7 @@
 "filters_service_subtype_not_set" = "No Definido";
 "filters_service_type_not_set" = "No Definido";
 "filters_size_wrong_range_error" = "El tamaño mínimo no puede superior al tamaño máximo.";
-"filters_slider_any" = "Any";
+"filters_slider_any" = "Cualquiera";
 "filters_sort_closest" = "Más cercanos primero";
 "filters_sort_newest" = "Más recientes primero";
 "filters_sort_price_asc" = "De más barato a más caro";
@@ -478,7 +478,7 @@
 "id_verification_third_step_subtitle" = "Asegúrate que tu documento se ve claramente y encaja en los bordes de la caja";
 "id_verification_third_step_title" = "Haz una foto de la cara frontal de tu documento de identidad";
 "id_verification_update_avatar_message" = "¿Quieres que sea tu foto de perfil?";
-"kilometer_unit_suffix" = "KM";
+"kilometer_unit_suffix" = "km";
 "listing_chat_button" = "Chatear Ahora";
 "listing_interested_button_A" = "Me interesa";
 "listing_interested_button_B" = "Interesado";

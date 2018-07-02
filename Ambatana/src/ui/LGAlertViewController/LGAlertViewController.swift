@@ -73,7 +73,6 @@ final class LGAlertViewController: UIViewController {
         static let iconWidth: CGFloat = 110
         static let titleTopMargin: CGFloat = 75
         static let alertCornerRadius: CGFloat = 15
-        static let buttonContainerHeight: CGFloat = 44
         static let defaultWidth: CGFloat = 270
         static let contentTopMargin: CGFloat = 55
     }
@@ -96,13 +95,21 @@ final class LGAlertViewController: UIViewController {
     let alertTitleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
+        label.numberOfLines = 0
         return label
     }()
 
     let alertTextLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
+        label.numberOfLines = 0
         return label
+    }()
+
+    let separator: UIView = {
+        let view = UIView()
+        view.backgroundColor = .gray
+        return view
     }()
 
     let buttonsContainer = UIView()
@@ -211,7 +218,7 @@ final class LGAlertViewController: UIViewController {
     private func setupConstraints() {
         view.addLayoutGuide(alertContainerView)
         view.addSubviewsForAutoLayout([alertContentView, alertIcon])
-        alertContentView.addSubviewsForAutoLayout([alertTitleLabel, alertTextLabel, buttonsContainer])
+        alertContentView.addSubviewsForAutoLayout([alertTitleLabel, alertTextLabel, buttonsContainer, separator])
 
         var constraints: [NSLayoutConstraint] = [
             alertContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -230,10 +237,13 @@ final class LGAlertViewController: UIViewController {
             buttonsContainer.leftAnchor.constraint(equalTo: alertContentView.leftAnchor, constant: Metrics.veryBigMargin),
             buttonsContainer.rightAnchor.constraint(equalTo: alertContentView.rightAnchor, constant: -Metrics.veryBigMargin),
             buttonsContainer.bottomAnchor.constraint(equalTo: alertContentView.bottomAnchor, constant: -Metrics.veryBigMargin),
-            buttonsContainer.heightAnchor.constraint(equalToConstant: Layout.buttonContainerHeight),
             alertContentView.topAnchor.constraint(equalTo: alertContainerView.topAnchor, constant: alertType.contentTopSeparation),
             alertTitleLabel.topAnchor.constraint(equalTo: alertIcon.centerYAnchor, constant: alertType.titleTopSeparation),
             alertContainerView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: alertType.containerCenterYOffset),
+            separator.topAnchor.constraint(equalTo: buttonsContainer.topAnchor),
+            separator.leftAnchor.constraint(equalTo: buttonsContainer.leftAnchor),
+            separator.rightAnchor.constraint(equalTo: buttonsContainer.rightAnchor),
+            separator.heightAnchor.constraint(equalToConstant: 1 / UIScreen.main.scale)
         ]
 
         let buttonsTop = buttonsContainer.topAnchor.constraint(equalTo: alertTextLabel.bottomAnchor, constant: Metrics.veryBigMargin)
@@ -303,7 +313,8 @@ final class LGAlertViewController: UIViewController {
         if let lastBtn = previous {
             lastBtn.layout(with: centeredContainer).right()
         }
-        _ = buttonsContainer.addTopBorderWithWidth(1, color: UIColor.gray)
+
+        separator.isHidden = false
     }
     
     private func buildButtonsHorizontally(_ buttonActions: [UIAction]) {
@@ -330,6 +341,7 @@ final class LGAlertViewController: UIViewController {
         if let lastBtn = previous {
             lastBtn.layout(with: buttonsContainer).right()
         }
+        separator.isHidden = true
     }
 
     private func buildButtonsVertically(_ buttonActions: [UIAction]) {
@@ -351,7 +363,8 @@ final class LGAlertViewController: UIViewController {
         if let lastBtn = previous {
             lastBtn.layout(with: buttonsContainer).bottom()
         }
-        _ = buttonsContainer.addTopBorderWithWidth(1, color: UIColor.gray)
+
+        separator.isHidden = false
     }
 
     private func styleButton(_ button: LetgoButton, action: UIAction) {

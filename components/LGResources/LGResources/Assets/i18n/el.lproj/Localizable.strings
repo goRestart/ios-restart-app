@@ -219,7 +219,7 @@
 "chat_send_error_different_country" = "Δεν μπορείτε να ξεκινήσετε μια συνομιλία για κάποια καταχώρηση που έχει δημοσιευθεί σε άλλη χώρα.";
 "chat_send_error_generic" = "Παρουσιάστηκε σφάλμα κατά την αποστολή του μηνύματος. Παρακαλώ προσπαθήστε ξανά.";
 "chat_status_view_connecting" = "Σύνδεση...";
-"chat_status_view_no_network" = "Καμία σύνδεση δικτύου";
+"chat_status_view_no_network" = "Καμία σύνδεση";
 "chat_status_view_try_again" = "δοκιμάστε ξανά";
 "chat_status_view_unable_to_connect" = "Αποτυχία σύνδεσης. Παρακαλώ δοκιμάστε ξανά.";
 "chat_stickers_tooltip_new" = "ΝΕΟ!";
@@ -368,7 +368,7 @@
 "featured_info_view_more_buyers" = "Προσελκύστε περισσότερους αγοραστές";
 "featured_info_view_sell_faster" = "Πουλήστε Γρηγορότερα";
 "featured_info_view_title" = "Προτεινόμενη Καταχώρηση";
-"filter_cars_seats_title" = "Seats";
+"filter_cars_seats_title" = "Καθίσματα";
 "filter_results_cars_no_matches" = "Δε βρέθηκαν ακριβή αποτελέσματα για την αναζήτησή σας. \nΠροβολή παρόμοιων αποτελεσμάτων. ";
 "filter_results_cars_other_results" = "Πρόσφατες δημοσιεύσεις στην περιοχή σας";
 "filters_car_make_not_set" = "Δεν έχει καθοριστεί";
@@ -406,9 +406,9 @@
 "filters_cars_transmission_manual" = "Χειροκίνητο";
 "filters_cars_transmission_title" = "Μετάδοση κίνησης";
 "filters_distance_not_set" = "Δεν έχει καθοριστεί";
-"filters_mileage_slider_title" = "Mileage";
+"filters_mileage_slider_title" = "Χιλιόμετρα";
 "filters_navbar_reset" = "Επαναφορα";
-"filters_numberOfSeats_slider_title" = "Seats";
+"filters_numberOfSeats_slider_title" = "Θέσεις";
 "filters_price_from" = "Από";
 "filters_price_from_feed_filter_cell" = "Από";
 "filters_price_to" = "Μέχρι";
@@ -434,7 +434,7 @@
 "filters_service_subtype_not_set" = "Καμία Ρύθμιση";
 "filters_service_type_not_set" = "Καμία Ρύθμιση";
 "filters_size_wrong_range_error" = "Το μικρότερο μέγεθος δεν μπορεί να είναι μεγαλύτερο από το μέγιστο μέγεθος.";
-"filters_slider_any" = "Any";
+"filters_slider_any" = "Οποιοδήποτε";
 "filters_sort_closest" = "Κοντινότερο";
 "filters_sort_newest" = "Πιο καινούριο";
 "filters_sort_price_asc" = "Τιμή από χαμηλότερη σε υψηλότερη";
@@ -478,7 +478,7 @@
 "id_verification_third_step_subtitle" = "Βεβαιωθείτε πως η ταυτότητά σας φαίνεται ξεκάθαρα και είναι καλά εστιασμένη στην οθόνη";
 "id_verification_third_step_title" = "Τραβήξτε μια φωτογραφία της μπροστινής όψης της ταυτότητάς σας";
 "id_verification_update_avatar_message" = "Θέλετε να την κάνετε εικόνα προφίλ;";
-"kilometer_unit_suffix" = "KM";
+"kilometer_unit_suffix" = "ΧΛΜ";
 "listing_chat_button" = "Συνομιλήστε Τώρα";
 "listing_interested_button_A" = "Ενδιαφέρομαι";
 "listing_interested_button_B" = "Ενδιαφέρομαι";
@@ -551,7 +551,7 @@
 "meeting_creation_view_suggest_cell_select" = "Επιλογή";
 "meeting_creation_view_suggest_cell_selected" = "Επιλεγμένο";
 "meeting_creation_view_title" = "Προγραμματίστε μια συνάντηση";
-"mile_unit_suffix" = "mi";
+"mile_unit_suffix" = "χλμ";
 "ml_camera_in_about_days_text" = "σε περίπου %d μέρες";
 "ml_camera_in_more_than_days_text" = "σε περισσότερες από %d μέρες";
 "ml_camera_sells_for_text" = "Συνήθως πωλείται για %d€";
