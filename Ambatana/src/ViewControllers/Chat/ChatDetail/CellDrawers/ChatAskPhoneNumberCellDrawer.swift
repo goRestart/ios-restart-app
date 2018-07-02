@@ -21,5 +21,6 @@ final class ChatAskPhoneNumberCellDrawer: BaseChatCellDrawer<ChatAskPhoneNumberC
             cell.buttonAction = nil
             cell.leavePhoneNumberButton.isHidden = true
         }
+        cell.configure(for: .individualCell, type: .askPhoneNumber)
     }
 }
