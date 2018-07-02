@@ -130,6 +130,7 @@ lane :deploy_to_appstore do
 		clone_single_branch: false,
 		shallow_clone: false
 	)
+	sh "git fetch origin"	
 	lg_fetch_app_version(
 		branch_name: release_branch,
 		repository_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER]
@@ -418,7 +419,8 @@ end
 desc "Increases build number by 1 (unless a build number is passed) & leaves the version number still (unless a version is passed)"
 lane :update_version_and_build do |options|
 	repository_path = options[:repository_path] ||= '.' 
-
+	
+	sh "git fetch origin"
 	lg_fetch_app_version(
 		branch_name: options[:branch_name],
 		repository_path: repository_path
