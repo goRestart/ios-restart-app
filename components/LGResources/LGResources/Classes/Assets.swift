@@ -997,6 +997,7 @@ extension R {
       public static let violence = ImageAsset(name: "Violence")
       public static let weapons = ImageAsset(name: "Weapons")
       public static let wrongCategory = ImageAsset(name: "WrongCategory")
+      public static let icCheck = ImageAsset(name: "ic_check")
 
       // swiftlint:disable trailing_comma
       public static let allColors: [ColorAsset] = [
@@ -1031,6 +1032,7 @@ extension R {
         violence,
         weapons,
         wrongCategory,
+        icCheck,
       ]
       // swiftlint:enable trailing_comma
       @available(*, deprecated, renamed: "allImages")

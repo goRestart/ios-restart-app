@@ -84,7 +84,7 @@ final class ReportOptionsListViewController: BaseViewController, UITableViewDele
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ReportOptionCell.reusableID, for: indexPath)
             as? ReportOptionCell else { return UITableViewCell() }
-        cell.configure(with: "It shouldn't be on letgo", icon: R.Asset.Reporting.inappropriatePhoto.image)
+        cell.configure(with: .inappropriateBio)
         return cell
     }
 
@@ -94,5 +94,9 @@ final class ReportOptionsListViewController: BaseViewController, UITableViewDele
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return UIView()
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        tableView.deselectRow(at: indexPath, animated: true)
     }
 }

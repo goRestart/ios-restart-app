@@ -34,6 +34,14 @@ final class ReportOptionCell: UITableViewCell, ReusableCell {
         return imageView
     }()
 
+    private let selectedImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.image = R.Asset.Reporting.icCheck.image
+        imageView.isHidden = true
+        return imageView
+    }()
+
     var shouldShowIcon: Bool = true {
         didSet {
             iconImageView.isHidden = !shouldShowIcon
@@ -52,14 +60,26 @@ final class ReportOptionCell: UITableViewCell, ReusableCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure(with title: String, icon: UIImage) {
-        titleLabel.text = title
-        iconImageView.image = icon
+    func configure(with option: ReportOptionType) {
+        titleLabel.text = option.text
+        iconImageView.image = option.icon
+        accessoryImageView.isHidden = option.canNavigate
     }
 
     private func setupUI() {
-        contentView.addSubviewsForAutoLayout([iconImageView, titleLabel, accessoryImageView])
+        contentView.addSubviewsForAutoLayout([iconImageView, titleLabel, accessoryImageView, selectedImageView])
         setupConstraints()
+        selectionStyle = .none
+    }
+
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: true)
+        selectedImageView.isHidden = !selected
+    }
+
+    override func prepareForReuse() {
+        accessoryImageView.isHidden = true
+        selectedImageView.isHidden = !isSelected
     }
 
     private func setupConstraints() {
@@ -74,7 +94,11 @@ final class ReportOptionCell: UITableViewCell, ReusableCell {
             accessoryImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             accessoryImageView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -Metrics.margin),
             accessoryImageView.heightAnchor.constraint(equalToConstant: Layout.accessoryHeight),
-            accessoryImageView.widthAnchor.constraint(equalToConstant: Layout.accessoryWidth)
+            accessoryImageView.widthAnchor.constraint(equalToConstant: Layout.accessoryWidth),
+            selectedImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            selectedImageView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -Metrics.margin),
+            selectedImageView.heightAnchor.constraint(equalToConstant: 15),
+            selectedImageView.widthAnchor.constraint(equalToConstant: 20)
         ]
 
         let labelLeft = titleLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: Layout.labelLeftBigMargin)
