@@ -35,8 +35,7 @@ class ChatGroupedViewModel: BaseViewModel {
             }
         }
         
-        func markAllConversationAsReadButtonEnabled(isFeatureFlagEnabled: Bool) -> Bool {
-            guard isFeatureFlagEnabled else { return false }
+        var markAllConversationAsReadButtonEnabled: Bool {
             switch self {
             case .all, .selling, .buying:
                 return true
@@ -254,7 +253,7 @@ class ChatGroupedViewModel: BaseViewModel {
             }))
         }
         
-        if currentTab.value.markAllConversationAsReadButtonEnabled(isFeatureFlagEnabled: featureFlags.markAllConversationsAsRead.isActive) {
+        if currentTab.value.markAllConversationAsReadButtonEnabled {
             actions.append(UIAction(interface: UIActionInterface.text(R.Strings.chatMarkConversationAsReadButton),
                                     action: { [weak self] in
                                         self?.markAllConversationAsRead()

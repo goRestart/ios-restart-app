@@ -167,9 +167,7 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
         
         var actions: [UIAction] = []
         actions.append(deleteAction)
-        if featureFlags.markAllConversationsAsRead.isActive {
-            actions.append(markAllConvesationsAsReadAction)
-        }
+        actions.append(markAllConvesationsAsReadAction)
         if featureFlags.showInactiveConversations {
             actions.append(showInactiveConversationsAction)
         }

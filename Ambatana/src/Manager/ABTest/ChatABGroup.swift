@@ -1,11 +1,3 @@
-//
-//  ABChat.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 29/03/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
 
 struct ChatABGroup: ABGroupType {
@@ -13,7 +5,6 @@ struct ChatABGroup: ABGroupType {
         static let showInactiveConversations = "20180206ShowInactiveConversations"
         static let showChatSafetyTips = "20180226ShowChatSafetyTips"
         static let userIsTyping = "20180305UserIsTyping"
-        static let markAllConversationsAsRead = "20180508MarkAllConversationsAsRead"
         static let chatNorris = "20180319ChatNorris"
         static let chatConversationsListWithoutTabs = "20180509ChatConversationsListWithoutTabs"
         static let showChatConnectionStatusBar = "20180621ShowChatConnectionStatusBar"
@@ -23,7 +14,6 @@ struct ChatABGroup: ABGroupType {
     let showInactiveConversations: LeanplumABVariable<Bool>
     let showChatSafetyTips: LeanplumABVariable<Bool>
     let userIsTyping: LeanplumABVariable<Int>
-    let markAllConversationsAsRead: LeanplumABVariable<Int>
     let chatNorris: LeanplumABVariable<Int>
     let chatConversationsListWithoutTabs: LeanplumABVariable<Int>
     let showChatConnectionStatusBar: LeanplumABVariable<Int>
@@ -38,7 +28,6 @@ struct ChatABGroup: ABGroupType {
     init(showInactiveConversations: LeanplumABVariable<Bool>,
          showChatSafetyTips: LeanplumABVariable<Bool>,
          userIsTyping: LeanplumABVariable<Int>,
-         markAllConversationsAsRead: LeanplumABVariable<Int>,
          chatNorris: LeanplumABVariable<Int>,
          chatConversationsListWithoutTabs: LeanplumABVariable<Int>,
          showChatConnectionStatusBar: LeanplumABVariable<Int>,
@@ -46,14 +35,12 @@ struct ChatABGroup: ABGroupType {
         self.showInactiveConversations = showInactiveConversations
         self.showChatSafetyTips = showChatSafetyTips
         self.userIsTyping = userIsTyping
-        self.markAllConversationsAsRead = markAllConversationsAsRead
         self.chatNorris = chatNorris
         self.chatConversationsListWithoutTabs = chatConversationsListWithoutTabs
         self.showChatConnectionStatusBar = showChatConnectionStatusBar
         self.showChatHeaderWithoutListingForAssistant = showChatHeaderWithoutListingForAssistant
 
         intVariables.append(contentsOf: [userIsTyping,
-                                         markAllConversationsAsRead,
                                          chatNorris,
                                          chatConversationsListWithoutTabs,
                                          showChatConnectionStatusBar])
@@ -73,9 +60,6 @@ struct ChatABGroup: ABGroupType {
                            userIsTyping: .makeInt(key: Keys.userIsTyping,
                                                   defaultValue: 0,
                                                   groupType: .chat),
-                           markAllConversationsAsRead: .makeInt(key: Keys.markAllConversationsAsRead,
-                                                                defaultValue: 0,
-                                                                groupType: .chat),
                            chatNorris: .makeInt(key: Keys.chatNorris,
                                                 defaultValue: 0,
                                                 groupType: .chat),

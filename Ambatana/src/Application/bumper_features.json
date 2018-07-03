@@ -131,11 +131,6 @@
         "description": "Add price, title and distance to listings"
     },
     {
-        "name": "MarkAllConversationsAsRead",
-        "values": ["control", "baseline", "active"],
-        "description": "Show a button to mark all conversations as read"
-    },
-    {
         "name": "ShowProTagUserProfile",
         "values": ["no", "yes"],
         "description": "Show Professional tag in user profile"

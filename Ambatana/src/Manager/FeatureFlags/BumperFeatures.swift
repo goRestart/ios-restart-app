@@ -42,7 +42,6 @@ extension Bumper  {
         flags.append(CopyForChatNowInTurkey.self)
         flags.append(ChatNorris.self)
         flags.append(AddPriceTitleDistanceToListings.self)
-        flags.append(MarkAllConversationsAsRead.self)
         flags.append(ShowProTagUserProfile.self)
         flags.append(FeedAdsProviderForUS.self)
         flags.append(CopyForChatNowInEnglish.self)
@@ -413,19 +412,6 @@ extension Bumper  {
     static var addPriceTitleDistanceToListingsObservable: Observable<AddPriceTitleDistanceToListings> {
         return Bumper.observeValue(for: AddPriceTitleDistanceToListings.key).map {
             AddPriceTitleDistanceToListings(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var markAllConversationsAsRead: MarkAllConversationsAsRead {
-        guard let value = Bumper.value(for: MarkAllConversationsAsRead.key) else { return .control }
-        return MarkAllConversationsAsRead(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var markAllConversationsAsReadObservable: Observable<MarkAllConversationsAsRead> {
-        return Bumper.observeValue(for: MarkAllConversationsAsRead.key).map {
-            MarkAllConversationsAsRead(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1248,22 +1234,6 @@ enum AddPriceTitleDistanceToListings: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .infoInImage
             case 3: return .infoWithWhiteBackground
-            default: return .control
-        }
-    }
-}
-
-enum MarkAllConversationsAsRead: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return MarkAllConversationsAsRead.control.rawValue }
-    static var enumValues: [MarkAllConversationsAsRead] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show a button to mark all conversations as read" } 
-    static func fromPosition(_ position: Int) -> MarkAllConversationsAsRead {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
             default: return .control
         }
     }

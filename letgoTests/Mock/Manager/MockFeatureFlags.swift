@@ -67,7 +67,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var showInactiveConversations: Bool = false
     var showChatSafetyTips: Bool = false
     var userIsTyping: UserIsTyping = .control
-    var markAllConversationsAsRead: MarkAllConversationsAsRead = .control
     var chatNorris: ChatNorris = .control
     var chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs = .control
     var showChatConnectionStatusBar: ShowChatConnectionStatusBar = .control
