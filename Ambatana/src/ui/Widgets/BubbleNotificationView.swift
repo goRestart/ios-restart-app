@@ -219,7 +219,7 @@ final class BubbleNotificationView: UIView {
             actionButton.titleLabel?.minimumScaleFactor = 0.6
             actionButton.setTitle(action.text, for: .normal)
             actionButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-            actionButton.set(accessibilityId:  action.accessibilityId)
+            actionButton.set(accessibility: action.accessibility)
         }
         
         switch style {

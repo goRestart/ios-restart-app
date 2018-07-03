@@ -132,7 +132,7 @@ extension UserRatingListViewModel:  UserRatingCellDelegate {
         let reviewAction = UIAction(interface: .text(R.Strings.ratingListActionReviewUser), action: { [weak self] in
             guard let userData = RateUserData(user: userFrom, listingId: rating.listingId, ratingType: rating.type.rateBackType) else { return }
             self?.tabNavigator?.openUserRating(.userRatingList, data: userData)
-        }, accessibilityId: .ratingListCellReview)
+        }, accessibility: AccessibilityId.ratingListCellReview)
         actions.append(reviewAction)
 
         if isReportActionEnabled {
@@ -150,7 +150,7 @@ extension UserRatingListViewModel:  UserRatingCellDelegate {
                                                       afterMessageCompletion: nil)
                     }
                 })
-                }, accessibilityId: .ratingListCellReport)
+                }, accessibility: AccessibilityId.ratingListCellReport)
             actions.append(reportAction)
         }
 

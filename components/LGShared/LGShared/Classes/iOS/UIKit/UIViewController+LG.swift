@@ -1,9 +1,3 @@
-//
-//  UIViewController+LG.swift
-//  LetGo
-//
-//
-
 import UIKit
 import SafariServices
 import RxSwift
@@ -19,7 +13,22 @@ fileprivate extension UIBarButtonItem {
     }
 }
 
-extension UIViewController {
+public struct ButtonImage {
+    let normal: UIImage
+    let selected: UIImage
+    
+    public init(normal: UIImage, selected: UIImage) {
+        self.normal = normal
+        self.selected = selected
+    }
+    
+    public init(normal: UIImage) {
+        self.normal = normal
+        self.selected = normal
+    }
+}
+
+public extension UIViewController {
 
     var isModal: Bool {
         if presentingViewController != nil { return true }
@@ -31,9 +40,9 @@ extension UIViewController {
     var barButtonsHoritzontalSpacing: CGFloat {
         switch DeviceFamily.current {
         case .iPhone4, .iPhone5:
-            return 8
+            return 4
         default:
-            return 16
+            return 8
         }
     }
 
@@ -68,6 +77,16 @@ extension UIViewController {
         navigationItem.rightBarButtonItem = rightItem
         return rightItem
     }
+    
+    @discardableResult
+    func setLetGoRightButtonWith(barButtonSystemItem: UIBarButtonSystemItem,
+                                 selector: Selector,
+                                 animated: Bool = false) -> UIBarButtonItem {
+        let rightItem = UIBarButtonItem(barButtonSystemItem: barButtonSystemItem, target: self, action: selector)
+        navigationItem.setRightBarButtonItems(nil, animated: animated)
+        navigationItem.setRightBarButton(rightItem, animated: animated)
+        return rightItem
+    }
 
     @discardableResult
     func setLetGoRightButtonWith(text: String, selector: Selector) -> UIBarButtonItem {
@@ -78,19 +97,13 @@ extension UIViewController {
     }
 
     @discardableResult
-    func setLetGoRightButtonWith(imageName image: String, selector: String,
+    func setLetGoRightButtonWith(image: UIImage, selector: String,
         buttonsTintColor: UIColor? = nil) -> UIBarButtonItem {
-            return setLetGoRightButtonWith(imageName: image, renderingMode: .alwaysTemplate, selector: selector,
+            return setLetGoRightButtonWith(image: image, renderingMode: .alwaysTemplate, selector: selector,
                 buttonsTintColor: buttonsTintColor)
     }
 
     @discardableResult
-    func setLetGoRightButtonWith(imageName image: String, renderingMode: UIImageRenderingMode,
-        selector: String, buttonsTintColor: UIColor? = nil) -> UIBarButtonItem {
-        return setLetGoRightButtonWith(image: UIImage(named: image), renderingMode: renderingMode, selector: selector,
-                                       buttonsTintColor: buttonsTintColor)
-    }
-
     func setLetGoRightButtonWith(image: UIImage?, renderingMode: UIImageRenderingMode,
                                            selector: String, buttonsTintColor: UIColor? = nil) -> UIBarButtonItem {
         let itemImage = image?.withRenderingMode(renderingMode)
@@ -102,24 +115,64 @@ extension UIViewController {
         return rightitem
     }
     
-    // Used to set right buttons in the LetGo style and link them with proper actions.
-    func setLetGoRightButtonsWith(imageNames images: [String], selectors: [String], tags: [Int]? = nil) -> [UIButton] {
-        let renderingMode: [UIImageRenderingMode] = images.map({ _ in return .alwaysTemplate })
-        return setLetGoRightButtonsWith(imageNames: images, renderingMode: renderingMode, selectors: selectors,
+    @discardableResult
+    func setLetGoRightButtonsWith(images: [UIImage], selectors: [Selector], tags: [Int]? = nil) -> [UIButton] {
+        let renderingMode: [UIImageRenderingMode] = images.map({ _ in return .alwaysOriginal })
+        return setLetGoRightButtonsWith(images: images, renderingMode: renderingMode, selectors: selectors,
             tags: tags)
     }
-
-    func setLetGoRightButtonsWith(imageNames images: [String], renderingMode: [UIImageRenderingMode],
-        selectors: [String], tags: [Int]? = nil) -> [UIButton] {
+    
+    @discardableResult
+    /// Set right navigation bar buttons
+    ///
+    /// - Parameters:
+    ///   - buttonImages: a struct contains image for .normal and .selected button control state
+    ///   - selectors: button selectors
+    ///   - tags: button tag
+    /// - Returns: a list of UIButtons for navigation bar right navigation items
+    func setLetGoRightButtonsWith(buttonImages: [ButtonImage],
+                                  selectors: [Selector],
+                                  tags: [Int]? = nil) -> [UIButton] {
+        let renderingMode: [UIImageRenderingMode] = buttonImages.map({ _ in return .alwaysOriginal })
+        return setLetGoRightButtonsWith(buttonImages: buttonImages, renderingMode: renderingMode, selectors: selectors,
+                                        tags: tags)
+    }
+    
+    private func setLetGoRightButtonsWith(buttonImages: [ButtonImage], renderingMode: [UIImageRenderingMode],
+                                          selectors: [Selector], tags: [Int]? = nil) -> [UIButton] {
+        if (buttonImages.count != selectors.count) { return [] }
+        
+        var buttons: [UIButton] = []
+        for i in 0..<buttonImages.count {
+            let button = configureButton(image: buttonImages[i].normal,
+                                         selectedImage: buttonImages[i].selected,
+                                         renderingMode: renderingMode[i],
+                                         selector: selectors[i],
+                                         tag: tags != nil ? tags![i] : i)
+            buttons.append(button)
+        }
+        
+        setNavigationBarRightButtons(buttons)
+        
+        return buttons
+    }
+    
+    private func setLetGoRightButtonsWith(images: [UIImage],
+                                          renderingMode: [UIImageRenderingMode],
+                                          selectors: [Selector],
+                                          tags: [Int]? = nil) -> [UIButton] {
             if (images.count != selectors.count) { return [] }
 
             var buttons: [UIButton] = []
             for i in 0..<images.count {
+
                 let button = UIButton(type: .system)
                 button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.right
                 button.tag = tags != nil ? tags![i] : i
-                button.setImage(UIImage(named: images[i])?.withRenderingMode(renderingMode[i]), for: .normal)
-                button.addTarget(self, action: Selector(selectors[i]), for: UIControlEvents.touchUpInside)
+                button.setImage(images[i].withRenderingMode(renderingMode[i]), for: .normal)
+                if responds(to: selectors[i]) {
+                    button.addTarget(self, action: selectors[i], for: UIControlEvents.touchUpInside)
+                }
                 buttons.append(button)
             }
 
@@ -128,7 +181,25 @@ extension UIViewController {
         return buttons
     }
     
-    func setNavigationBarRightButtons(_ buttons: [UIButton]) {
+    private func configureButton(image: UIImage,
+                                 selectedImage: UIImage?,
+                                 renderingMode: UIImageRenderingMode,
+                                 selector: Selector,
+                                 tag: Int) -> UIButton {
+        let button = UIButton(type: .custom)
+        button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.right
+        button.tag = tag
+        button.setImage(image.withRenderingMode(renderingMode), for: .normal)
+        if let selectedImage = selectedImage {
+            button.setImage(selectedImage.withRenderingMode(renderingMode), for: .selected)
+        }
+        button.imageView?.contentMode = .scaleAspectFit
+        button.imageView?.clipsToBounds = true
+        button.addTarget(self, action: selector, for: UIControlEvents.touchUpInside)
+        return button
+    }
+    
+    func setNavigationBarRightButtons(_ buttons: [UIButton], animated: Bool = false) {
         let height: CGFloat = 44
 
         var x: CGFloat = 0
@@ -138,22 +209,21 @@ extension UIViewController {
             
             let buttonWidth = icon.size.width + barButtonsHoritzontalSpacing
             button.frame = CGRect(x: x, y: 0, width: buttonWidth, height: height)
-            button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.right
+            button.contentHorizontalAlignment = .right
             
             x += buttonWidth
             
             return UIBarButtonItem(customView: button)
         }
-
-        navigationItem.rightBarButtonItem = nil
-        navigationItem.rightBarButtonItems = items.reversed()
+        navigationItem.setRightBarButton(nil, animated: animated)
+        navigationItem.setRightBarButtonItems(items.reversed(), animated: animated)
     }
 }
 
 
 // MARK: - Present/pop
 
-@objc extension UIViewController {
+@objc public extension UIViewController {
 
     // gets back one VC from the stack.
     func popBackViewController() {
@@ -164,7 +234,7 @@ extension UIViewController {
     Helper to present a view controller using the main thread
     */
     func presentViewController(_ viewControllerToPresent: UIViewController, animated: Bool, onMainThread: Bool,
-        completion: (() -> Void)?) {
+        completion: (() -> Void)? = nil) {
             if onMainThread {
                 DispatchQueue.main.async { [weak self] in
                     self?.present(viewControllerToPresent, animated: animated, completion: completion)
@@ -181,7 +251,7 @@ extension UIViewController {
     - parameter animated:   whether to animate or not
     - parameter completion: completion callback
     */
-    func popViewController(animated: Bool, completion: (() -> Void)?) {
+    func popViewController(animated: Bool, completion: (() -> Void)? = nil) {
         guard let navigationController = navigationController else { return }
         if animated {
             CATransaction.begin()
@@ -200,7 +270,7 @@ extension UIViewController {
     - parameter animated:   whether to animate or not
     - parameter completion: completion callback
     */
-    func pushViewController(_ viewController: UIViewController, animated: Bool, completion: (() -> Void)?) {
+    func pushViewController(_ viewController: UIViewController, animated: Bool, completion: (() -> Void)? = nil) {
         guard let navigationController = navigationController else { return }
         if animated {
             CATransaction.begin()
@@ -240,20 +310,27 @@ extension UIViewController {
     }
 }
 
+public extension UIViewController {
+    func setupForModalWithNonOpaqueBackground() {
+        modalPresentationStyle = .overCurrentContext
+    }
+}
 
 // MARK: - Internal urls presenters
 
-extension UIViewController {
+public extension UIViewController {
     func openInAppWebViewWith(url: URL) {
+        let universalSchemes = ["http", "https"]
+        guard let scheme = url.scheme?.lowercased(), universalSchemes.contains(scheme) else { return }
         let svc = SFSafariViewController(url: url, entersReaderIfAvailable: false)
-            svc.view.tintColor = UIColor.primaryColor
-            self.present(svc, animated: true, completion: nil)
+        svc.view.tintColor = UIColor.primaryColor
+        self.present(svc, animated: true, completion: nil)
     }
 }
 
 // MARK: - TabBar
 
-extension UIViewController {
+public extension UIViewController {
     func containsTabBar() -> Bool {
         guard let tabBarShowable = self as? TabBarShowable else { return false }
         return tabBarShowable.hasTabBar

@@ -1,4 +1,5 @@
 import RxSwift
+import LGComponents
 
 final class SellNavigationViewModel : BaseViewModel {
     let numberOfSteps = Variable<CGFloat>(0)

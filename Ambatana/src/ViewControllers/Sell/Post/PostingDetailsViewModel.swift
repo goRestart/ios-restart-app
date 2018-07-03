@@ -689,7 +689,7 @@ extension PostingDetailsViewModel: PostingMultiSelectionViewDelegate {
     func showAlertMaxSelection() {
         let action = UIAction(interface: .button(R.Strings.commonOk, .primary(fontSize: .medium)),
                               action: { },
-                              accessibilityId: .postingDetailMaxServices)
+                              accessibility: AccessibilityId.postingDetailMaxServices)
         delegate?.vmShowAlertWithTitle(R.Strings.postDetailsServicesCreateMax,
                                        text: "",
                                        alertType: .plainAlert,

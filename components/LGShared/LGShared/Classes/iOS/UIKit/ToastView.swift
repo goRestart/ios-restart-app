@@ -1,24 +1,12 @@
-//
-//  ToastView.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 13/11/15.
-//  Copyright © 2015 Ambatana. All rights reserved.
-//
-
 import UIKit
 
-private extension UIColor {
-    static let toastBackground = UIColor(red: 74, green: 74, blue: 74)
-}
-
-class ToastView: UIView {
+final public class ToastView: UIView {
     private struct Layout {
         static let insets = UIEdgeInsets(top: 8, left: 15, bottom: 9, right: 15)
     }
-    static let standardHeight: CGFloat = 33
+    static internal let standardHeight: CGFloat = 33
 
-    let toastMessage: UILabel = {
+    private let toastMessage: UILabel = {
         let label = UILabel()
         label.textColor = .white
         label.textAlignment = .center
@@ -26,7 +14,7 @@ class ToastView: UIView {
         return label
     }()
 
-    var title: String = "" {
+    public var title: String = "" {
         didSet { toastMessage.text = title }
     }
 
@@ -50,7 +38,7 @@ class ToastView: UIView {
         ])
     }
     
-    override var intrinsicContentSize : CGSize {
+    override public var intrinsicContentSize : CGSize {
         var size = toastMessage.intrinsicContentSize
         size.height += Layout.insets.top + Layout.insets.bottom
         size.width += Layout.insets.left + Layout.insets.right

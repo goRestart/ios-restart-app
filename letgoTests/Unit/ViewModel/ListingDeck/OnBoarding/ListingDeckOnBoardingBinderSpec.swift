@@ -1,17 +1,10 @@
-//
-//  ListingDeckOnBoardingBinderSpec.swift
-//  letgoTests
-//
-//  Created by Facundo Menzella on 24/01/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 @testable import LetGoGodMode
 import RxTest
 import RxSwift
 import LGCoreKit
 import Quick
 import Nimble
+import LGComponents
 
 class ListingDeckOnBoardingBinderSpec: QuickSpec {
 

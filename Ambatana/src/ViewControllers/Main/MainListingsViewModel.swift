@@ -1621,12 +1621,12 @@ extension MainListingsViewModel {
                                     self?.trackPushPermissionComplete()
                                     LGPushPermissionsManager.sharedInstance.showPushPermissionsAlert(prePermissionType: .listingListBanner)
             },
-                                accessibilityId: .userPushPermissionOK)
+                                accessibility: AccessibilityId.userPushPermissionOK)
         let negative = UIAction(interface: .styledText(R.Strings.profilePermissionsAlertCancel, .cancel),
                                 action: { [weak self] in
                                     self?.trackPushPermissionCancel()
             },
-                                accessibilityId: .userPushPermissionCancel)
+                                accessibility: AccessibilityId.userPushPermissionCancel)
         delegate?.vmShowAlertWithTitle(R.Strings.profilePermissionsAlertTitle,
                                        text: R.Strings.profilePermissionsAlertMessage,
                                        alertType: .iconAlert(icon: R.Asset.IconsButtons.customPermissionProfile.image),

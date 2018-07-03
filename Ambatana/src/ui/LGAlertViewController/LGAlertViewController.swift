@@ -376,7 +376,7 @@ final class LGAlertViewController: UIViewController {
             button.titleLabel?.textAlignment = .center
             button.titleLabel?.adjustsFontSizeToFitWidth = true
             button.setTitle(action.text, for: .normal)
-            button.set(accessibilityId: action.accessibilityId)
+            button.set(accessibility: action.accessibility)
             button.setStyle(action.buttonStyle ?? .primary(fontSize: .medium))
         }
         

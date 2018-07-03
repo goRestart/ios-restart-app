@@ -1,10 +1,4 @@
-//
-//  AccessibilityId.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 23/08/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
+import LGComponents
 
 /**
  Defines the accessibility identifiers used for automated UI testing. The format is the following:
@@ -13,7 +7,7 @@
  i.e:
     case SignUpLoginEmailButton
  */
-enum AccessibilityId: Equatable {
+enum AccessibilityId: Equatable, Accessible {
     // Tab Bar
     case tabBarFirstTab
     case tabBarSecondTab
@@ -599,9 +593,6 @@ enum AccessibilityId: Equatable {
     case changePasswordPwdTextfield
     case changePasswordPwdConfirmTextfield
     case changePasswordSendButton
-
-    // Help
-    case helpWebView
 
     // EditLocation
     case editLocationMap
@@ -1884,10 +1875,6 @@ enum AccessibilityId: Equatable {
             return "changePasswordPwdConfirmTextfield"
         case .changePasswordSendButton:
             return "changePasswordSendButton"
-            
-        // Help
-        case .helpWebView:
-            return "helpWebView"
             
         // EditLocation
         case .editLocationMap:

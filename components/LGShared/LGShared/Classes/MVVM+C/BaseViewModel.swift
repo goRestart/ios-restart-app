@@ -1,7 +1,7 @@
-public class BaseViewModel {
+open class BaseViewModel {
 
     private var activeFirstTime = true
-    var active: Bool = false {
+    open var active: Bool = false {
         didSet {
             if oldValue != active {
                 didSetActive(active)
@@ -14,19 +14,20 @@ public class BaseViewModel {
             }
         }
     }
-
-    public init() {
-    }
     
-    func didSetActive(_ active: Bool) {
+    public init() {}
+    
+    // MARK: - Internal methods
+    
+    open func didSetActive(_ active: Bool) {
         
     }
 
-    func didBecomeActive(_ firstTime: Bool) {
+    open func didBecomeActive(_ firstTime: Bool) {
 
     }
 
-    func didBecomeInactive() {
+    open func didBecomeInactive() {
 
     }
 
@@ -34,7 +35,7 @@ public class BaseViewModel {
      Called on standard back button press. Return false for native behavior or true if handled back internally
      Defaults to false
      */
-    func backButtonPressed() -> Bool {
+    open func backButtonPressed() -> Bool {
         return false
     }
 }

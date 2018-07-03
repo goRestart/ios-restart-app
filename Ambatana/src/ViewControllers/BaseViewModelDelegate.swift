@@ -1,10 +1,4 @@
-//
-//  BaseViewModelDelegate.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 07/03/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
+import LGComponents
 
 protocol BaseViewModelDelegate: class {
     func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?)

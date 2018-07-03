@@ -1,14 +1,7 @@
-//
-//  ChatGroupedListViewModel.swift
-//  LetGo
-//
-//  Created by Dídac on 15/02/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import Result
 import RxSwift
+import LGComponents
 
 /**
 Defines the type shared across 'Chats' section lists.
