@@ -46,6 +46,10 @@ public final class EnvironmentProxy: AppEnvironment {
         return environment.facebookAppId
     }
 
+    public var appleMerchantId: String {
+        return environment.appleMerchantId
+    }
+
     public var appsFlyerAPIKey: String {
         return environment.appsFlyerAPIKey
     }
@@ -144,6 +148,10 @@ public final class EnvironmentProxy: AppEnvironment {
     
     public var feedAdUnitIdAdxTRForOldUsers: String {
         return environment.feedAdUnitIdAdxTRForOldUsers
+    }
+
+    public var stripeAPIKey: String {
+        return environment.stripeAPIKey
     }
     
     public var fullScreenAdUnitIdAdxForAllUsersForUS: String {
