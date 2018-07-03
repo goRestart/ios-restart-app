@@ -967,6 +967,77 @@ extension R {
       @available(*, deprecated, renamed: "allImages")
       public static let allValues: [AssetType] = allImages
     }
+    public enum Reporting {
+      public static let communityBadge = ImageAsset(name: "CommunityBadge")
+      public static let counterfeitMoney = ImageAsset(name: "CounterfeitMoney")
+      public static let drugs = ImageAsset(name: "Drugs")
+      public static let duplicate = ImageAsset(name: "Duplicate")
+      public static let forbidden = ImageAsset(name: "Forbidden")
+      public static let inappropriateBio = ImageAsset(name: "InappropriateBio")
+      public static let inappropriateChat = ImageAsset(name: "InappropriateChat")
+      public static let inappropriateItem = ImageAsset(name: "InappropriateItem")
+      public static let inappropriatePhoto = ImageAsset(name: "InappropriatePhoto")
+      public static let inappropriateProfile = ImageAsset(name: "InappropriateProfile")
+      public static let itemDefective = ImageAsset(name: "ItemDefective")
+      public static let meetupProblem = ImageAsset(name: "MeetupProblem")
+      public static let noAnswerChat = ImageAsset(name: "NoAnswerChat")
+      public static let noShow = ImageAsset(name: "NoShow")
+      public static let obsceneLanguage = ImageAsset(name: "ObsceneLanguage")
+      public static let offensiveChat = ImageAsset(name: "OffensiveChat")
+      public static let onlinePayment = ImageAsset(name: "OnlinePayment")
+      public static let other = ImageAsset(name: "Other")
+      public static let robbery = ImageAsset(name: "Robbery")
+      public static let rocket = ImageAsset(name: "Rocket")
+      public static let scam = ImageAsset(name: "Scam")
+      public static let sexualContent = ImageAsset(name: "SexualContent")
+      public static let spam = ImageAsset(name: "Spam")
+      public static let suspicious = ImageAsset(name: "Suspicious")
+      public static let trade = ImageAsset(name: "Trade")
+      public static let unrealisticPrice = ImageAsset(name: "UnrealisticPrice")
+      public static let violence = ImageAsset(name: "Violence")
+      public static let weapons = ImageAsset(name: "Weapons")
+      public static let wrongCategory = ImageAsset(name: "WrongCategory")
+      public static let icCheck = ImageAsset(name: "ic_check")
+
+      // swiftlint:disable trailing_comma
+      public static let allColors: [ColorAsset] = [
+      ]
+      public static let allImages: [ImageAsset] = [
+        communityBadge,
+        counterfeitMoney,
+        drugs,
+        duplicate,
+        forbidden,
+        inappropriateBio,
+        inappropriateChat,
+        inappropriateItem,
+        inappropriatePhoto,
+        inappropriateProfile,
+        itemDefective,
+        meetupProblem,
+        noAnswerChat,
+        noShow,
+        obsceneLanguage,
+        offensiveChat,
+        onlinePayment,
+        other,
+        robbery,
+        rocket,
+        scam,
+        sexualContent,
+        spam,
+        suspicious,
+        trade,
+        unrealisticPrice,
+        violence,
+        weapons,
+        wrongCategory,
+        icCheck,
+      ]
+      // swiftlint:enable trailing_comma
+      @available(*, deprecated, renamed: "allImages")
+      public static let allValues: [AssetType] = allImages
+    }
     public enum IPhoneParts {
       public static let imgNotifications = ImageAsset(name: "img_notifications")
       public static let imgPermissionsAlert = ImageAsset(name: "img_permissions_alert")

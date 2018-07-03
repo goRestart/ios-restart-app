@@ -1,4 +1,5 @@
 import Foundation
+import LGComponents
 
 enum ReportOptionType {
 
@@ -62,11 +63,18 @@ enum ReportOptionType {
     var icon: UIImage {
         switch self {
         default:
-            return UIImage() // FIXME: add option images
+            return R.Asset.Reporting.meetupProblem.image // FIXME: add option images
         }
     }
 
     var allowsAdditionalNotes: Bool {
+        switch self {
+        default:
+            return true // FIXME: define this
+        }
+    }
+
+    var canNavigate: Bool {
         switch self {
         default:
             return true // FIXME: define this
