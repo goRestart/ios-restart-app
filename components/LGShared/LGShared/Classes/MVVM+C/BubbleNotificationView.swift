@@ -1,23 +1,23 @@
 import Foundation
 import LGComponents
 
-struct BubbleNotificationData {
-    let tagGroup: String?
-    let text: String
-    let infoText: String?
-    let action: UIAction?
-    let iconURL: URL?
-    let iconImage: UIImage?
+public struct BubbleNotificationData {
+    public let tagGroup: String?
+    public let text: String
+    public let infoText: String?
+    public let action: UIAction?
+    public let iconURL: URL?
+    public let iconImage: UIImage?
 
-    var hasIcon: Bool {
+    public var hasIcon: Bool {
         return iconURL != nil || iconImage != nil
     }
-    var hasInfo: Bool {
+    public var hasInfo: Bool {
         guard let infoText = infoText else { return false }
         return !infoText.isEmpty
     }
 
-    init(tagGroup: String? = nil, text: String, infoText: String? = nil, action: UIAction?,
+    public init(tagGroup: String? = nil, text: String, infoText: String? = nil, action: UIAction?,
          iconURL: URL? = nil, iconImage: UIImage? = nil) {
         self.tagGroup = tagGroup
         self.text = text
@@ -28,20 +28,20 @@ struct BubbleNotificationData {
     }
 }
 
-protocol BubbleNotificationDelegate: class {
+public protocol BubbleNotificationDelegate: class {
     func bubbleNotificationSwiped(_ notification: BubbleNotificationView)
     func bubbleNotificationTimedOut(_ notification: BubbleNotificationView)
     func bubbleNotificationActionPressed(_ notification: BubbleNotificationView)
 }
 
-final class BubbleNotificationView: UIView {
+final public class BubbleNotificationView: UIView {
 
-    enum Style {
+    public enum Style {
         case dark
         case light
     }
     
-    enum Alignment: Equatable {
+    public enum Alignment: Equatable {
         case top(offset: CGFloat)
         case bottom
 
@@ -63,7 +63,7 @@ final class BubbleNotificationView: UIView {
             }
         }
         
-        static func ==(lhs: BubbleNotificationView.Alignment, rhs: BubbleNotificationView.Alignment) -> Bool {
+        static public func ==(lhs: BubbleNotificationView.Alignment, rhs: BubbleNotificationView.Alignment) -> Bool {
             switch (lhs, rhs) {
             case (.top(let lhs), .top(let rhs)):
                 return lhs == rhs
@@ -75,7 +75,7 @@ final class BubbleNotificationView: UIView {
         }
     }
     
-    static let initialHeight: CGFloat = 80
+    public static let initialHeight: CGFloat = 80
     
     private struct Layout {
         static let buttonHeight: CGFloat = 30
@@ -87,13 +87,13 @@ final class BubbleNotificationView: UIView {
         static let iconDiameter: CGFloat = 46
     }
     
-    struct Animation {
-        static let showAnimationTime: TimeInterval = 0.3
-        static let closeAnimationTime: TimeInterval = 0.5
+    public struct Animation {
+        static public let showAnimationTime: TimeInterval = 0.3
+        static public let closeAnimationTime: TimeInterval = 0.5
     }
 
 
-    weak var delegate: BubbleNotificationDelegate?
+    weak public var delegate: BubbleNotificationDelegate?
 
     private let containerView = UIView()
     private let leftIcon = UIImageView()
@@ -105,18 +105,18 @@ final class BubbleNotificationView: UIView {
 
     var bottomConstraint = NSLayoutConstraint()
 
-    let data: BubbleNotificationData
+    public let data: BubbleNotificationData
     private let style: Style
     private let alignment: Alignment
     
-    var isBottomAligned: Bool {
+    public var isBottomAligned: Bool {
         return alignment == .bottom
     }
     
     
     // - Lifecycle
 
-    init(frame: CGRect,
+    public init(frame: CGRect,
          data: BubbleNotificationData,
          alignment: Alignment,
          style: Style) {
@@ -128,12 +128,12 @@ final class BubbleNotificationView: UIView {
         setupUI()
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
 
-    func setupOnView(parentView: UIView) {
+    public func setupOnView(parentView: UIView) {
         bottomConstraint = bottomAnchor.constraint(equalTo: parentView.topAnchor, constant: alignment.initialBottomConstraintConstant)
         let constraints = [
             leftAnchor.constraint(equalTo: parentView.leftAnchor, constant: BubbleNotificationView.Layout.bubbleMargin),
@@ -143,11 +143,11 @@ final class BubbleNotificationView: UIView {
         NSLayoutConstraint.activate(constraints)
     }
 
-    func showBubble() {
+    public func showBubble() {
         self.showBubble(autoDismissTime: nil)
     }
     
-    func showBubble(autoDismissTime time: TimeInterval?) {
+    public func showBubble(autoDismissTime time: TimeInterval?) {
         // delay to let the setup build the view properly
         delay(0.1) { [weak self] in
             guard let strongSelf = self else { return }
@@ -162,7 +162,7 @@ final class BubbleNotificationView: UIView {
         }
     }
 
-    func closeBubble() {
+    public func closeBubble() {
         guard superview != nil else { return } // Already closed
         bottomConstraint.constant = alignment.initialBottomConstraintConstant
         UIView.animate(withDuration: BubbleNotificationView.Animation.closeAnimationTime, animations: { [weak self] in
@@ -172,7 +172,7 @@ final class BubbleNotificationView: UIView {
         }) 
     }
 
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
         if data.hasIcon {
             leftIcon.setRoundedCorners()

@@ -1,13 +1,6 @@
-//
-//  EditListingCoordinator.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 16/10/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
+import LGComponents
 
 protocol EditListingCoordinatorDelegate: class {
     func editListingCoordinatorDidCancel(_ coordinator: EditListingCoordinator)
