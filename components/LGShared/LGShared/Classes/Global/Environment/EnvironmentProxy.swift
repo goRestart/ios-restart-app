@@ -150,12 +150,8 @@ public final class EnvironmentProxy: AppEnvironment {
         return environment.feedAdUnitIdAdxTRForOldUsers
     }
 
-    public var stripeLiveAPIKey: String {
-        return environment.stripeLiveAPIKey
-    }
-
-    public var stripeTestAPIKey: String {
-        return environment.stripeTestAPIKey
+    public var stripeAPIKey: String {
+        return environment.stripeAPIKey
     }
     
     public var fullScreenAdUnitIdAdxForAllUsersForUS: String {

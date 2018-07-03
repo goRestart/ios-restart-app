@@ -53,8 +53,7 @@ final class EscrowEnvironment: AppEnvironment {
     let feedAdUnitIdMoPubTRForOldUsers = ""
 
     // Stripe
-    let stripeLiveAPIKey = ""
-    let stripeTestAPIKey = ""
+    let stripeAPIKey = ""
     
     private let _godmode: Bool
     

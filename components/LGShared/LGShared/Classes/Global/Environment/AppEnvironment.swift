@@ -42,8 +42,7 @@ public protocol AppEnvironment: AnalyticsAPIKeys {
     var feedAdUnitIdMoPubTRForOldUsers: String { get }
 
     // Stripe
-    var stripeLiveAPIKey: String { get }
-    var stripeTestAPIKey: String { get }
+    var stripeAPIKey: String { get }
 }
 
 
