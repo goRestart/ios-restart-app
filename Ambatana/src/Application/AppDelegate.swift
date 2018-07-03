@@ -312,6 +312,13 @@ fileprivate extension AppDelegate {
                                                 featureFlags: featureFlags)
         LGNotificationsManager.sharedInstance.setup()
         StickersManager.sharedInstance.setup()
+        setupStripeManager()
+    }
+
+    private func setupStripeManager() {
+        let config = StripeManager.Config(apiKey: EnvironmentProxy.sharedInstance.stripeAPIKey,
+                                          appleMerchantId: EnvironmentProxy.sharedInstance.appleMerchantId)
+        StripeManager.setup(config: config)
     }
 }
 
