@@ -73,11 +73,4 @@ enum ReportOptionType {
             return true // FIXME: define this
         }
     }
-
-    var canNavigate: Bool {
-        switch self {
-        default:
-            return true // FIXME: define this
-        }
-    }
 }
