@@ -11,6 +11,8 @@ final class ReportOptionCell: UITableViewCell, ReusableCell {
         static let labelRightMargin: CGFloat = 38
         static let labelLeftBigMargin: CGFloat = 68
         static let labelLeftSmallMargin: CGFloat = 15
+        static let checkmarkHeight: CGFloat = 15
+        static let checkmarkWidth: CGFloat = 20
     }
 
     private let iconImageView: UIImageView = {
@@ -97,8 +99,8 @@ final class ReportOptionCell: UITableViewCell, ReusableCell {
             accessoryImageView.widthAnchor.constraint(equalToConstant: Layout.accessoryWidth),
             selectedImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             selectedImageView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -Metrics.margin),
-            selectedImageView.heightAnchor.constraint(equalToConstant: 15),
-            selectedImageView.widthAnchor.constraint(equalToConstant: 20)
+            selectedImageView.heightAnchor.constraint(equalToConstant: Layout.checkmarkHeight),
+            selectedImageView.widthAnchor.constraint(equalToConstant: Layout.checkmarkWidth)
         ]
 
         let labelLeft = titleLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: Layout.labelLeftBigMargin)
