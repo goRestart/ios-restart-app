@@ -881,6 +881,10 @@
 		55DFCDDA2073790D00AC5E09 /* UserPhoneVerificationNumberInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55DFCDD82073790D00AC5E09 /* UserPhoneVerificationNumberInputViewController.swift */; };
 		55DFCDDC2073791C00AC5E09 /* UserPhoneVerificationNumberInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55DFCDDB2073791C00AC5E09 /* UserPhoneVerificationNumberInputViewModel.swift */; };
 		55DFCDDD2073791C00AC5E09 /* UserPhoneVerificationNumberInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55DFCDDB2073791C00AC5E09 /* UserPhoneVerificationNumberInputViewModel.swift */; };
+		55EF4E5220E6554900B118B7 /* ReportOptionsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EF4E5020E6554800B118B7 /* ReportOptionsBuilder.swift */; };
+		55EF4E5320E6554900B118B7 /* ReportOptionsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EF4E5020E6554800B118B7 /* ReportOptionsBuilder.swift */; };
+		55EF4E5420E6554900B118B7 /* ReportOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EF4E5120E6554800B118B7 /* ReportOptions.swift */; };
+		55EF4E5520E6554900B118B7 /* ReportOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EF4E5120E6554800B118B7 /* ReportOptions.swift */; };
 		55F1FB36204942B8005D1BD4 /* UserProfileNavBarUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F1FB35204942B8005D1BD4 /* UserProfileNavBarUserView.swift */; };
 		55F1FB37204942B8005D1BD4 /* UserProfileNavBarUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F1FB35204942B8005D1BD4 /* UserProfileNavBarUserView.swift */; };
 		55F90BA0203C3E1000D9F7D0 /* UserProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F90B9F203C3E1000D9F7D0 /* UserProfileHeaderView.swift */; };
@@ -2556,6 +2560,8 @@
 		556E26F8203C3C940098ECF0 /* UserProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewModel.swift; sourceTree = "<group>"; };
 		55DFCDD82073790D00AC5E09 /* UserPhoneVerificationNumberInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhoneVerificationNumberInputViewController.swift; sourceTree = "<group>"; };
 		55DFCDDB2073791C00AC5E09 /* UserPhoneVerificationNumberInputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhoneVerificationNumberInputViewModel.swift; sourceTree = "<group>"; };
+		55EF4E5020E6554800B118B7 /* ReportOptionsBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportOptionsBuilder.swift; sourceTree = "<group>"; };
+		55EF4E5120E6554800B118B7 /* ReportOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportOptions.swift; sourceTree = "<group>"; };
 		55F1FB35204942B8005D1BD4 /* UserProfileNavBarUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileNavBarUserView.swift; sourceTree = "<group>"; };
 		55F90B9F203C3E1000D9F7D0 /* UserProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileHeaderView.swift; sourceTree = "<group>"; };
 		55FABE122076288D004B0DBD /* UserPhoneVerificationNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhoneVerificationNavigator.swift; sourceTree = "<group>"; };
@@ -4684,6 +4690,8 @@
 				6AB9A6FB20E6499D00A6DD08 /* ReportOptionsListViewController.swift */,
 				6AB9A6FE20E649C400A6DD08 /* ReportOptionsListViewModel.swift */,
 				6AB9A70120E649EE00A6DD08 /* ReportOptionCell.swift */,
+				55EF4E5120E6554800B118B7 /* ReportOptions.swift */,
+				55EF4E5020E6554800B118B7 /* ReportOptionsBuilder.swift */,
 			);
 			path = Reporting;
 			sourceTree = "<group>";
@@ -7375,6 +7383,7 @@
 				0A04D5D920760A9D00471B9D /* ABTests.swift in Sources */,
 				729912F5200FABD9000541CF /* NumberOfRooms.swift in Sources */,
 				55F1FB36204942B8005D1BD4 /* UserProfileNavBarUserView.swift in Sources */,
+				55EF4E5420E6554900B118B7 /* ReportOptions.swift in Sources */,
 				6AA9E90A203EC59D004EACC4 /* RatingView.swift in Sources */,
 				8E2600761E2FB16D00242B3F /* ChangeEmailViewController.swift in Sources */,
 				5021910D1B2F1DAA00ABD31F /* RememberPasswordViewController.swift in Sources */,
@@ -7922,6 +7931,7 @@
 				2E64D41A1D11B34F00257B69 /* Tooltip.swift in Sources */,
 				0AFE311F2056DCAB004B6781 /* ListingDeckImagePreviewCell.swift in Sources */,
 				0AA6A5671FFFBCD600F72F4A /* LGCGAffineTransform.swift in Sources */,
+				55EF4E5220E6554900B118B7 /* ReportOptionsBuilder.swift in Sources */,
 				42CA899920973F7300CE7B5B /* ListingsMapViewController.swift in Sources */,
 				01834970204F6A9F00B14A24 /* BlockingPostingListingEditionViewModel.swift in Sources */,
 				0A6650DC20BBF51500BD1F2B /* EditLocationView.swift in Sources */,
@@ -8194,6 +8204,7 @@
 				2E4ADECC200516A600D07D8A /* ProfessionalDealerAskPhoneViewController.swift in Sources */,
 				C7AFFAFB1E7053EF0052A9CA /* NPSViewController.swift in Sources */,
 				5095988E1C8733B70026AE2D /* CrashlyticsReporter.swift in Sources */,
+				55EF4E5520E6554900B118B7 /* ReportOptions.swift in Sources */,
 				2E2A5E161D5C81250047ED45 /* ExpressChatCoordinator.swift in Sources */,
 				0A04D5DA20760A9D00471B9D /* ABTests.swift in Sources */,
 				729912F6200FABD9000541CF /* NumberOfRooms.swift in Sources */,
@@ -8741,6 +8752,7 @@
 				0AFE31202056DCAB004B6781 /* ListingDeckImagePreviewCell.swift in Sources */,
 				0AA6A5681FFFBE7B00F72F4A /* LGCGAffineTransform.swift in Sources */,
 				4287173E20655DB500EE334C /* LGNavBarMetrics.swift in Sources */,
+				55EF4E5320E6554900B118B7 /* ReportOptionsBuilder.swift in Sources */,
 				42CA899A20973F7300CE7B5B /* ListingsMapViewController.swift in Sources */,
 				01834971204F6A9F00B14A24 /* BlockingPostingListingEditionViewModel.swift in Sources */,
 				0A6650DD20BBF51800BD1F2B /* EditLocationView.swift in Sources */,
