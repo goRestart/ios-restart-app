@@ -97,6 +97,8 @@
 		01D432012080FBD100061F0C /* NotificationSettingsMainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D431FF2080FBD100061F0C /* NotificationSettingsMainViewModel.swift */; };
 		01D432022080FBD600061F0C /* NotificationSettingsMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D431FD2080FBC100061F0C /* NotificationSettingsMainViewController.swift */; };
 		01E5B70620889BEF001C5A1F /* SearchAlertFeedHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E5B70420889BEF001C5A1F /* SearchAlertFeedHeader.swift */; };
+		09D7BC7E20EB62950090E499 /* StripeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D7BC7D20EB62950090E499 /* StripeManager.swift */; };
+		09D7BC7F20EB62950090E499 /* StripeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D7BC7D20EB62950090E499 /* StripeManager.swift */; };
 		0A00F9C61FA3656600E915F4 /* ListingDeckViewControllerBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A00F9C31FA364B100E915F4 /* ListingDeckViewControllerBinder.swift */; };
 		0A04D5CD20760A9D00471B9D /* CoreABGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A04D5C420760A9C00471B9D /* CoreABGroup.swift */; };
 		0A04D5CE20760A9D00471B9D /* CoreABGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A04D5C420760A9C00471B9D /* CoreABGroup.swift */; };
@@ -2029,6 +2031,7 @@
 		01D431FD2080FBC100061F0C /* NotificationSettingsMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsMainViewController.swift; sourceTree = "<group>"; };
 		01D431FF2080FBD100061F0C /* NotificationSettingsMainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsMainViewModel.swift; sourceTree = "<group>"; };
 		01E5B70420889BEF001C5A1F /* SearchAlertFeedHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAlertFeedHeader.swift; sourceTree = "<group>"; };
+		09D7BC7D20EB62950090E499 /* StripeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripeManager.swift; sourceTree = "<group>"; };
 		0A00F9C31FA364B100E915F4 /* ListingDeckViewControllerBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckViewControllerBinder.swift; sourceTree = "<group>"; };
 		0A04D5C420760A9C00471B9D /* CoreABGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreABGroup.swift; sourceTree = "<group>"; };
 		0A04D5C520760A9C00471B9D /* ABDynamicVar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ABDynamicVar.swift; sourceTree = "<group>"; };
@@ -3176,6 +3179,14 @@
 			path = SearchAlerts;
 			sourceTree = "<group>";
 		};
+		09D7BC7C20EB62800090E499 /* Payments */ = {
+			isa = PBXGroup;
+			children = (
+				09D7BC7D20EB62950090E499 /* StripeManager.swift */,
+			);
+			path = Payments;
+			sourceTree = "<group>";
+		};
 		0A04D5C320760A9C00471B9D /* ABTest */ = {
 			isa = PBXGroup;
 			children = (
@@ -4085,6 +4096,7 @@
 		509273341B172D2100A346F9 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				09D7BC7C20EB62800090E499 /* Payments */,
 				6AFED59B20B2CB2000F0C761 /* ReputationTooltip */,
 				C29F7129209076D900362F76 /* FileManager */,
 				0A04D5C320760A9C00471B9D /* ABTest */,
@@ -7200,6 +7212,7 @@
 				C7132A3F1BF246D40000747A /* ListingFilters.swift in Sources */,
 				2E39292820E625530066C636 /* ChatDetailNavBarInfoView.swift in Sources */,
 				C708C83C1CDB590400AA87B3 /* AppRatingView.swift in Sources */,
+				09D7BC7E20EB62950090E499 /* StripeManager.swift in Sources */,
 				C784FDFF1C21B45B00846AB7 /* LoadingIndicator.swift in Sources */,
 				C7B588291CE1DE1C009B3975 /* BlockedUsersListView.swift in Sources */,
 				2EF4E3AE1D3688AB00A09DFD /* LGConfigManager.swift in Sources */,
@@ -7999,6 +8012,7 @@
 				6A5E1A011D548F5400F92692 /* MapZoomBlocker.swift in Sources */,
 				C7DB41B81C5138B500400945 /* Tracker.swift in Sources */,
 				2E39292920E625530066C636 /* ChatDetailNavBarInfoView.swift in Sources */,
+				09D7BC7F20EB62950090E499 /* StripeManager.swift in Sources */,
 				2E2D53E01D369B0500348D12 /* ConfigDAO.swift in Sources */,
 				C7DB41BB1C5138B500400945 /* ListingCategory+LG.swift in Sources */,
 				6AEF66B41C5A155C0025D43C /* Paginable.swift in Sources */,
