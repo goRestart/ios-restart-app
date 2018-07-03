@@ -46,6 +46,12 @@ final class ReportOptionsListViewController: BaseViewController, UITableViewDele
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func viewWillAppearFromBackground(_ fromBackground: Bool) {
+        super.viewWillAppearFromBackground(fromBackground)
+        setNavBarBackgroundStyle(.white)
+        setNavBarTitle("Test Title")
+    }
+
     private func setupUI() {
         view.addSubviewsForAutoLayout([tableView, buttonContainer, reportButton])
         view.backgroundColor = .white
@@ -78,7 +84,7 @@ final class ReportOptionsListViewController: BaseViewController, UITableViewDele
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ReportOptionCell.reusableID, for: indexPath)
             as? ReportOptionCell else { return UITableViewCell() }
-        cell.configure(with: "It shouldn't be on letgo", icon: R.Asset.IconsButtons.icKarmaEye.image)
+        cell.configure(with: "It shouldn't be on letgo", icon: R.Asset.Reporting.inappropriatePhoto.image)
         return cell
     }
 
