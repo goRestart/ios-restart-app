@@ -36,6 +36,9 @@ def shared_pods
     pod "Leanplum-iOS-SDK",     "2.0.5"     # Obj-c
     pod "NewRelicAgent",        "6.1.1"     # Obj-c
 
+    # Stripe
+    pod "Stripe",               "13.0.3"
+
     # letgo components
     pod "LGComponents",            :path => "components"
 

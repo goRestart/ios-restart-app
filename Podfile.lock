@@ -141,6 +141,7 @@ PODS:
   - RxTest (4.0.0):
     - RxSwift (~> 4.0)
   - SocketRocket (0.5.1)
+  - Stripe (13.0.3)
   - SwiftyGif (4.1.0)
   - SwiftyUserDefaults (3.0.1)
 
@@ -182,6 +183,7 @@ DEPENDENCIES:
   - RxSwift (= 4.0.0)
   - RxSwiftExt (= 3.0.0)
   - RxTest (= 4.0.0)
+  - Stripe (= 13.0.3)
   - SwiftyGif (= 4.1.0)
   - SwiftyUserDefaults (= 3.0.1)
 
@@ -233,6 +235,7 @@ SPEC REPOS:
     - RxSwiftExt
     - RxTest
     - SocketRocket
+    - Stripe
     - SwiftyGif
     - SwiftyUserDefaults
 
@@ -303,9 +306,10 @@ SPEC CHECKSUMS:
   RxSwiftExt: b06c47dff66cd33ca7683bba1e74b0c5c8e3592e
   RxTest: 0041e792cede35e53e4749f378d21482af0e9d12
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
+  Stripe: 76c203e21555089b708e6cbe972a3e3baf1ab4d8
   SwiftyGif: d36c6dfb52e2ca1e48fe349d225f50ec4123ec85
   SwiftyUserDefaults: 3d273b1739b68ada3145dc754a70ec775bc5c8be
 
-PODFILE CHECKSUM: 883a34f7806e2976bf1e8064d1e9d27d60765be7
+PODFILE CHECKSUM: 207870ef91c7c2425ae1e39d481bc41b17bb2d6f
 
 COCOAPODS: 1.5.3
