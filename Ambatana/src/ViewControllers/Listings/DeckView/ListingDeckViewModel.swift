@@ -493,11 +493,8 @@ extension ListingDeckViewModel: ListingViewModelDelegate {
     }
 
     var trackingFeedPosition: EventParameterFeedPosition {
-        if let trackingIndex = trackingIndex, currentIndex == startIndex {
-            return .position(index: trackingIndex)
-        } else {
-            return .none
-        }
+        guard let trackingIndex = trackingIndex else { return .none }
+        return .position(index: trackingIndex)
     }
 
     func vmResetBumpUpBannerCountdown() {

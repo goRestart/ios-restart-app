@@ -1034,7 +1034,7 @@ extension R {
     public static let idVerificationThirdStepTitle = Strings.tr("Localizable", "id_verification_third_step_title")
     /// Do you want to make this your profile picture?
     public static let idVerificationUpdateAvatarMessage = Strings.tr("Localizable", "id_verification_update_avatar_message")
-    /// KM
+    /// km
     public static let kilometerUnitSuffix = Strings.tr("Localizable", "kilometer_unit_suffix")
     /// Chat Now
     public static let listingChatButton = Strings.tr("Localizable", "listing_chat_button")

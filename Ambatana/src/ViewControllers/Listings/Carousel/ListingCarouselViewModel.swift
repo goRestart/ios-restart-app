@@ -335,8 +335,6 @@ class ListingCarouselViewModel: BaseViewModel {
         if firstTime && shouldShowOnboarding {
             delegate?.vmShowOnboarding()
         }
-
-        // Tracking
         currentListingViewModel?.trackVisit(.none, source: source, feedPosition: trackingFeedPosition)
     }
         
@@ -803,11 +801,8 @@ extension ListingCarouselViewModel: ListingViewModelDelegate {
     }
 
     var trackingFeedPosition: EventParameterFeedPosition {
-        if let trackingIndex = trackingIndex, currentIndex == startIndex {
-            return .position(index: trackingIndex)
-        } else {
-            return .none
-        }
+        guard let trackingIndex = trackingIndex else { return .none }
+        return .position(index: trackingIndex)
     }
     
     var listingOrigin: ListingOrigin {

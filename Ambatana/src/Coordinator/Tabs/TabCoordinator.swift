@@ -253,7 +253,7 @@ fileprivate extension TabCoordinator {
                                    requester: requester,
                                    source: source,
                                    actionOnFirstAppear: actionOnFirstAppear,
-                                   trackingIndex: nil)
+                                   trackingIndex: index)
         } else {
             let vm = ListingCarouselViewModel(listing: listing, thumbnailImage: thumbnailImage,
                                               listingListRequester: requester, source: source,
