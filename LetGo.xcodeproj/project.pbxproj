@@ -1203,8 +1203,8 @@
 		8E26E95A1ED5AF9A0086D3EC /* FilterDistanceSlider.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8E26E9581ED5AF9A0086D3EC /* FilterDistanceSlider.xib */; };
 		8E26E95C1ED5B5B90086D3EC /* FilterDistanceSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26E95B1ED5B5B90086D3EC /* FilterDistanceSlider.swift */; };
 		8E26E95D1ED5B5B90086D3EC /* FilterDistanceSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26E95B1ED5B5B90086D3EC /* FilterDistanceSlider.swift */; };
-		8E28A82A207B85C70070A7A6 /* GoogleAdxNativeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E28A829207B85C70070A7A6 /* GoogleAdxNativeView.swift */; };
-		8E28A82B207B85C70070A7A6 /* GoogleAdxNativeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E28A829207B85C70070A7A6 /* GoogleAdxNativeView.swift */; };
+		8E28A82A207B85C70070A7A6 /* GoogleAdxNativeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E28A829207B85C70070A7A6 /* GoogleAdxNativeContentView.swift */; };
+		8E28A82B207B85C70070A7A6 /* GoogleAdxNativeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E28A829207B85C70070A7A6 /* GoogleAdxNativeContentView.swift */; };
 		8E28A82D207BC5E70070A7A6 /* AdvertisementAdxCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E28A82C207BC5E70070A7A6 /* AdvertisementAdxCellDrawer.swift */; };
 		8E28A82E207BC5E70070A7A6 /* AdvertisementAdxCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E28A82C207BC5E70070A7A6 /* AdvertisementAdxCellDrawer.swift */; };
 		8E56D74520A2ED1300097B61 /* ChatConversationsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E56D74420A2ED1300097B61 /* ChatConversationsListView.swift */; };
@@ -1251,12 +1251,12 @@
 		8EB6510F205C1C1500FF50E4 /* MobileNetLetgov7final.json in Resources */ = {isa = PBXBuildFile; fileRef = 8EB6510C205C1C1200FF50E4 /* MobileNetLetgov7final.json */; };
 		8EB65110205C1C1500FF50E4 /* MobileNetLetgov7final.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8EB6510D205C1C1400FF50E4 /* MobileNetLetgov7final.mlmodel */; };
 		8EB65111205C1C1500FF50E4 /* MobileNetLetgov7final.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8EB6510D205C1C1400FF50E4 /* MobileNetLetgov7final.mlmodel */; };
-		8EB8B8022084E89F00D3B9CA /* GoogleAdxNativeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8EB8B8012084E89F00D3B9CA /* GoogleAdxNativeView.xib */; };
-		8EB8B8032084E89F00D3B9CA /* GoogleAdxNativeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8EB8B8012084E89F00D3B9CA /* GoogleAdxNativeView.xib */; };
 		8EBE07861FD59F3F009EBC1A /* Data+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E85EA251FD0539700A24ADE /* Data+Extensions.swift */; };
 		8EBEF9791F3CA50500473822 /* LGSliderViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBEF9781F3CA50500473822 /* LGSliderViewModelSpec.swift */; };
 		8EC2051E1EAE52F000E4E5EC /* UIView+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC2051D1EAE52F000E4E5EC /* UIView+LG.swift */; };
 		8EC2051F1EAE52F000E4E5EC /* UIView+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC2051D1EAE52F000E4E5EC /* UIView+LG.swift */; };
+		8ECB2DD920E2A26A00AE9E5B /* GoogleAdxNativeAppInstallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECB2DD820E2A26900AE9E5B /* GoogleAdxNativeAppInstallView.swift */; };
+		8ECB2DDA20E2A26A00AE9E5B /* GoogleAdxNativeAppInstallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECB2DD820E2A26900AE9E5B /* GoogleAdxNativeAppInstallView.swift */; };
 		8ED3C523204811E90078BE39 /* LGAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED3C522204811E90078BE39 /* LGAnimation.swift */; };
 		8ED3C524204811E90078BE39 /* LGAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED3C522204811E90078BE39 /* LGAnimation.swift */; };
 		8EEC7F56206AA60B00616858 /* MoPubNativeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC7F54206AA60800616858 /* MoPubNativeView.swift */; };
@@ -2685,7 +2685,7 @@
 		8E26007B1E30E1C300242B3F /* ChangeEmailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeEmailView.swift; sourceTree = "<group>"; };
 		8E26E9581ED5AF9A0086D3EC /* FilterDistanceSlider.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterDistanceSlider.xib; sourceTree = "<group>"; };
 		8E26E95B1ED5B5B90086D3EC /* FilterDistanceSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterDistanceSlider.swift; sourceTree = "<group>"; };
-		8E28A829207B85C70070A7A6 /* GoogleAdxNativeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAdxNativeView.swift; sourceTree = "<group>"; };
+		8E28A829207B85C70070A7A6 /* GoogleAdxNativeContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAdxNativeContentView.swift; sourceTree = "<group>"; };
 		8E28A82C207BC5E70070A7A6 /* AdvertisementAdxCellDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvertisementAdxCellDrawer.swift; sourceTree = "<group>"; };
 		8E56D74420A2ED1300097B61 /* ChatConversationsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatConversationsListView.swift; sourceTree = "<group>"; };
 		8E56D74720A342EF00097B61 /* ChatConversationsListFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatConversationsListFilter.swift; sourceTree = "<group>"; };
@@ -2710,9 +2710,9 @@
 		8EB65109205ACBEF00FF50E4 /* MLTrackingInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLTrackingInfo.swift; sourceTree = "<group>"; };
 		8EB6510C205C1C1200FF50E4 /* MobileNetLetgov7final.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = MobileNetLetgov7final.json; sourceTree = "<group>"; };
 		8EB6510D205C1C1400FF50E4 /* MobileNetLetgov7final.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = MobileNetLetgov7final.mlmodel; sourceTree = "<group>"; };
-		8EB8B8012084E89F00D3B9CA /* GoogleAdxNativeView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GoogleAdxNativeView.xib; sourceTree = "<group>"; };
 		8EBEF9781F3CA50500473822 /* LGSliderViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGSliderViewModelSpec.swift; sourceTree = "<group>"; };
 		8EC2051D1EAE52F000E4E5EC /* UIView+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+LG.swift"; sourceTree = "<group>"; };
+		8ECB2DD820E2A26900AE9E5B /* GoogleAdxNativeAppInstallView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleAdxNativeAppInstallView.swift; sourceTree = "<group>"; };
 		8ED3C522204811E90078BE39 /* LGAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGAnimation.swift; sourceTree = "<group>"; };
 		8EEC7F54206AA60800616858 /* MoPubNativeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoPubNativeView.swift; sourceTree = "<group>"; };
 		8EEC7F55206AA60900616858 /* NativeAdBlankStateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NativeAdBlankStateView.swift; sourceTree = "<group>"; };
@@ -5337,8 +5337,8 @@
 				4219243F20761CDF00862CEF /* PromoCell */,
 				8EEC7F55206AA60900616858 /* NativeAdBlankStateView.swift */,
 				8EEC7F54206AA60800616858 /* MoPubNativeView.swift */,
-				8E28A829207B85C70070A7A6 /* GoogleAdxNativeView.swift */,
-				8EB8B8012084E89F00D3B9CA /* GoogleAdxNativeView.xib */,
+				8E28A829207B85C70070A7A6 /* GoogleAdxNativeContentView.swift */,
+				8ECB2DD820E2A26900AE9E5B /* GoogleAdxNativeAppInstallView.swift */,
 				3221E5462062C1690006B12B /* ListingCell */,
 				C7C61DF91D630ED500F9505D /* CollectionCell.swift */,
 				C73189C71DBE3847005A93EE /* ListHeaderContainer.swift */,
@@ -6154,7 +6154,6 @@
 				2E92CBFF20248DC600451B65 /* SuggestedLocationCell.xib in Resources */,
 				C7DE8AE21C88A98B005CF37E /* PostListingViewController.xib in Resources */,
 				6A38ADE81C64EAA1009E1A31 /* TourNotificationsViewControllerMini.xib in Resources */,
-				8EB8B8022084E89F00D3B9CA /* GoogleAdxNativeView.xib in Resources */,
 				2E4ADEC0200515FC00D07D8A /* BumpUpFreeViewController.xib in Resources */,
 				508011031D4749030073F362 /* LaunchScreen.xib in Resources */,
 				6A38ADEB1C650294009E1A31 /* TourLocationViewControllerMini.xib in Resources */,
@@ -6284,7 +6283,6 @@
 				2E423797205C004B0077B62A /* ChatMyMeetingCell.xib in Resources */,
 				C727FBC11CCFC4ED002BC643 /* NotificationsViewController.xib in Resources */,
 				C78BB50E1C5A314700614096 /* AppShareViewController.xib in Resources */,
-				8EB8B8032084E89F00D3B9CA /* GoogleAdxNativeView.xib in Resources */,
 				2ECB417020065FB200482EF7 /* BumpUpPayViewController.xib in Resources */,
 				C7DB427F1C5138B500400945 /* ChatSafetyTipsView.xib in Resources */,
 				2E132A511F2233A900C20127 /* Taxonomies.json in Resources */,
@@ -7140,6 +7138,7 @@
 				C783D9891C64C15B000EE5CA /* ReportUserCell.swift in Sources */,
 				50C9E4BD1B721F6B001E4E92 /* TrackerProxy.swift in Sources */,
 				6A5E19F41D548F5400F92692 /* CountryHelper+Product.swift in Sources */,
+				8ECB2DD920E2A26A00AE9E5B /* GoogleAdxNativeAppInstallView.swift in Sources */,
 				72FE02DC1F98CE0A005BD672 /* AlphaAnimator.swift in Sources */,
 				326C72FB208F4043009D21DB /* CollectionView+FeedExtension.swift in Sources */,
 				427070D520764EBA00C1FEB3 /* CellAppereance.swift in Sources */,
@@ -7720,7 +7719,7 @@
 				8E0C9DF41E96924F00768D27 /* PostCategoryDetailProgressView.swift in Sources */,
 				72854D1A1F8E002100E54530 /* RealEstateOfferType+LG.swift in Sources */,
 				5011938E20C553FE00FA7C20 /* AnalyticsSessionData.swift in Sources */,
-				8E28A82A207B85C70070A7A6 /* GoogleAdxNativeView.swift in Sources */,
+				8E28A82A207B85C70070A7A6 /* GoogleAdxNativeContentView.swift in Sources */,
 				C788EED71CC7847400B9E26F /* FilteredListingListRequester.swift in Sources */,
 				509273361B172D5B00A346F9 /* PushManager.swift in Sources */,
 				3299E5E8207FB7AB002935AE /* WaterfallLayoutItemRenderPolicy.swift in Sources */,
@@ -7939,6 +7938,7 @@
 				6A5E1A051D548F5400F92692 /* TypeAliases.swift in Sources */,
 				C727FBBF1CCFC4ED002BC643 /* NotificationsViewController.swift in Sources */,
 				0ACDD2ED1FD1451A00616F53 /* QuickChatViewBinder.swift in Sources */,
+				8ECB2DDA20E2A26A00AE9E5B /* GoogleAdxNativeAppInstallView.swift in Sources */,
 				C21E6079208A89AF008A1956 /* VideoPreview.swift in Sources */,
 				C74931741D351E8300E117F1 /* RateUserViewModel.swift in Sources */,
 				72FE02DD1F98CE0A005BD672 /* AlphaAnimator.swift in Sources */,
@@ -8517,7 +8517,7 @@
 				015E4FDF204FFC090094FF20 /* BlockingPostingLoadingView.swift in Sources */,
 				8E0C9DF51E96924F00768D27 /* PostCategoryDetailProgressView.swift in Sources */,
 				72854D1B1F8E002100E54530 /* RealEstateOfferType+LG.swift in Sources */,
-				8E28A82B207B85C70070A7A6 /* GoogleAdxNativeView.swift in Sources */,
+				8E28A82B207B85C70070A7A6 /* GoogleAdxNativeContentView.swift in Sources */,
 				5011938F20C553FE00FA7C20 /* AnalyticsSessionData.swift in Sources */,
 				6AF75D051CF3600D00EACCF0 /* ChatStickerCell.swift in Sources */,
 				C7DB42261C5138B500400945 /* TabBarController.swift in Sources */,

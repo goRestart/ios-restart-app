@@ -1059,6 +1059,8 @@
 "real_estate_gallery_view_subtitle_params" = "Válassz ki legfeljebb %d képet az eladó vagy kiadó ingatlanodról. Az első lesz a kiemelt képed, jót válassz!";
 "real_estate_location_notification_message" = "Sosem mutatjuk meg más felhasználóknak a pontos tartózkodási helyedet";
 "real_estate_location_title" = "Hely";
+"real_estate_map_tooltip_button_title" = "Try Now";
+"real_estate_map_tooltip_title" = "Új! Térképen láthatod az ingatlanokat.";
 "real_estate_offer_type_rent" = "Kiadó";
 "real_estate_offer_type_sale" = "Eladó";
 "real_estate_offer_type_title" = "Hirdetés típusa";
@@ -1137,7 +1139,7 @@
 "real_estate_type_property_room" = "Szoba";
 "real_estate_type_property_title" = "Ingatlan típusa";
 "real_estate_type_property_villa" = "Családi ház / Villa";
-"related_items_title" = "Related listings";
+"related_items_title" = "Kapcsolódó hirdetések";
 "report_user_counterfeit" = "Hamis tárgyak";
 "report_user_error_already_reported" = "Már jelentetted ezt a felhasználót!";
 "report_user_inactive" = "Nem reagál";

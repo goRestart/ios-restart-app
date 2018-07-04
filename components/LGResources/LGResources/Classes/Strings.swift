@@ -932,7 +932,7 @@ extension R {
     public static let filtersSectionLocation = Strings.tr("Localizable", "filters_section_location")
     /// Price
     public static let filtersSectionPrice = Strings.tr("Localizable", "filters_section_price")
-    /// Show only free items
+    /// Only show free items
     public static let filtersSectionPriceFreeTitle = Strings.tr("Localizable", "filters_section_price_free_title")
     /// Property info
     public static let filtersSectionRealEstateInfo = Strings.tr("Localizable", "filters_section_real_estate_info")
@@ -2328,9 +2328,9 @@ extension R {
     public static let realEstateLocationNotificationMessage = Strings.tr("Localizable", "real_estate_location_notification_message")
     /// Location
     public static let realEstateLocationTitle = Strings.tr("Localizable", "real_estate_location_title")
-    /// Try NoX
+    /// Try Now
     public static let realEstateMapTooltipButtonTitle = Strings.tr("Localizable", "real_estate_map_tooltip_button_title")
-    /// New! See properties on a map
+    /// New! See properties on a map.
     public static let realEstateMapTooltipTitle = Strings.tr("Localizable", "real_estate_map_tooltip_title")
     /// For Rent
     public static let realEstateOfferTypeRent = Strings.tr("Localizable", "real_estate_offer_type_rent")

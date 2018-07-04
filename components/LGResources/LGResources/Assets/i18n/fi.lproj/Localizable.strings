@@ -1059,6 +1059,8 @@
 "real_estate_gallery_view_subtitle_params" = "Valitse korkeintaan %d kuvaa kiinteistöstä, jonka haluat myydä tai vuokrata. Ensimmäistä kuvaa käytetään ilmoituksen pääkuvana, joten pidä huoli, että kyseinen kuva on hyvä!";
 "real_estate_location_notification_message" = "Emme koskaan näytä tarkkaa sijaintiasi muille käyttäjille";
 "real_estate_location_title" = "Sijainti";
+"real_estate_map_tooltip_button_title" = "Try Now";
+"real_estate_map_tooltip_title" = "Uutta! Näet kiinteistöt kartalla.";
 "real_estate_offer_type_rent" = "Vuokrataan";
 "real_estate_offer_type_sale" = "Myydään";
 "real_estate_offer_type_title" = "Ilmoituksen tyyppi";
@@ -1137,7 +1139,7 @@
 "real_estate_type_property_room" = "Huone";
 "real_estate_type_property_title" = "Kiinteistön tyyppi";
 "real_estate_type_property_villa" = "Omakotitalo/huvila";
-"related_items_title" = "Related listings";
+"related_items_title" = "Samankaltaisia ilmoituksia";
 "report_user_counterfeit" = "Väärennettyjä tuotteita";
 "report_user_error_already_reported" = "Olet jo ilmiantanut tämän käyttäjän!";
 "report_user_inactive" = "Passiivinen";

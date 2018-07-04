@@ -427,7 +427,7 @@
 "filters_section_distance" = "Distance";
 "filters_section_location" = "Location";
 "filters_section_price" = "Price";
-"filters_section_price_free_title" = "Show only free items";
+"filters_section_price_free_title" = "Only show free items";
 "filters_section_real_estate_info" = "Property info";
 "filters_section_services_info" = "Service info";
 "filters_section_sortby" = "Sort by";
@@ -1059,6 +1059,8 @@
 "real_estate_gallery_view_subtitle_params" = "Select up to %d images of the property you want to sell or rent. The first one will be your featured photo so make sure it's a good one!";
 "real_estate_location_notification_message" = "We'll never show your exact location to other users";
 "real_estate_location_title" = "Location";
+"real_estate_map_tooltip_button_title" = "Try Now";
+"real_estate_map_tooltip_title" = "New! See properties on a map.";
 "real_estate_offer_type_rent" = "For Rent";
 "real_estate_offer_type_sale" = "For Sale";
 "real_estate_offer_type_title" = "Type of Listing";

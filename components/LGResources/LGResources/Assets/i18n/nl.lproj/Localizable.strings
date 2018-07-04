@@ -1059,6 +1059,8 @@
 "real_estate_gallery_view_subtitle_params" = "Selecteer maximaal %d afbeeldingen van de woning die je wilt verkopen of verhuren. De eerste is je uitgelichte foto, dus zorg dat deze een goede is!";
 "real_estate_location_notification_message" = "We zullen jouw exacte locatie nooit aan andere gebruikers laten zien";
 "real_estate_location_title" = "Plaats";
+"real_estate_map_tooltip_button_title" = "Try Now";
+"real_estate_map_tooltip_title" = "Nieuw! Bekijk onroerend goed op een kaart.";
 "real_estate_offer_type_rent" = "Te Huur";
 "real_estate_offer_type_sale" = "Te Koop";
 "real_estate_offer_type_title" = "Soort Advertentie";
@@ -1137,7 +1139,7 @@
 "real_estate_type_property_room" = "Kamer";
 "real_estate_type_property_title" = "Soort Woning";
 "real_estate_type_property_villa" = "Vrijstaand Huis / Villa";
-"related_items_title" = "Related listings";
+"related_items_title" = "Gerelateerde advertenties";
 "report_user_counterfeit" = "Nagemaakte artikelen";
 "report_user_error_already_reported" = "Je hebt deze gebruiker al gerapporteerd!";
 "report_user_inactive" = "Inactief";

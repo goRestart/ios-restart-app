@@ -1126,7 +1126,7 @@
 "filters_section_within" = "Posted within";
 
 // Label to select only free items
-"filters_section_price_free_title" = "Show only free items";
+"filters_section_price_free_title" = "Only show free items";
 
 // Filters Section From price
 "filters_price_from" = "From";
@@ -3435,10 +3435,10 @@
 "real_estate_promo_post_button_title" = "Post Now";
 
 // Title for tooltip for real estate map
-"real_estate_map_tooltip_title" = "New! See properties on a map";
+"real_estate_map_tooltip_title" = "New! See properties on a map.";
 
 // Title for button in tooltip for real estate map
-"real_estate_map_tooltip_button_title" = "Try NoX";
+"real_estate_map_tooltip_button_title" = "Try Now";
 
 // Title when showing list of related items
 "related_items_title" = "Related listings";

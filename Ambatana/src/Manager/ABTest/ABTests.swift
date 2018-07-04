@@ -183,6 +183,7 @@ extension ABTests {
     var googleAdxForTR: LeanplumABVariable<Int> { return money.googleAdxForTR }
     var fullScreenAdsWhenBrowsingForUS: LeanplumABVariable<Int> { return money.fullScreenAdsWhenBrowsingForUS }
     var preventMessagesFromFeedToProUsers: LeanplumABVariable<Int> { return money.preventMessagesFromFeedToProUsers }
+    var appInstallAdsInFeed: LeanplumABVariable<Int> { return money.appInstallAdsInFeed }
 }
 
 //  MARK: Retention

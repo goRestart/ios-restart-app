@@ -60,6 +60,8 @@ protocol FeatureFlaggeable: class {
     var googleAdxForTR: GoogleAdxForTR { get }
     var fullScreenAdsWhenBrowsingForUS: FullScreenAdsWhenBrowsingForUS { get }
     var fullScreenAdUnitId: String? { get }
+    var appInstallAdsInFeed: AppInstallAdsInFeed { get }
+    var appInstallAdsInFeedAdUnit: String? { get }
     
     // MARK: Chat
     var showInactiveConversations: Bool { get }
@@ -458,6 +460,10 @@ extension FullScreenAdsWhenBrowsingForUS {
 }
 
 extension PreventMessagesFromFeedToProUsers {
+    var isActive: Bool { return self == .active }
+}
+
+extension AppInstallAdsInFeed {
     var isActive: Bool { return self == .active }
 }
 
@@ -1023,6 +1029,28 @@ final class FeatureFlags: FeatureFlaggeable {
         default:
             return nil
         }
+    }
+    
+    var appInstallAdsInFeedAdUnit: String? {
+        if Bumper.enabled {
+            // Bumper overrides country restriction
+            return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxInstallAppUSA
+        }
+        switch sensorLocationCountryCode {
+        case .usa?:
+            return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxInstallAppUSA
+        case .turkey?:
+            return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxInstallAppTR
+        default:
+            return nil
+        }
+    }
+    
+    var appInstallAdsInFeed: AppInstallAdsInFeed {
+        if Bumper.enabled {
+            return Bumper.appInstallAdsInFeed
+        }
+        return AppInstallAdsInFeed.fromPosition(abTests.appInstallAdsInFeed.value)
     }
     
     // MARK: - Private

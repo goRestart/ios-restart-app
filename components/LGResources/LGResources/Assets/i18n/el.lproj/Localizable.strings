@@ -1059,6 +1059,8 @@
 "real_estate_gallery_view_subtitle_params" = "Επιλέξτε μέχρι και %d εικόνες της ιδιοκτησίας που θέλετε να πουλήσετε ή να ενοικιάσετε. Η πρώτη θα είναι η προβεβλημένη σας φωτογραφία γι' αυτό βεβαιωθείτε πως είναι καλή!";
 "real_estate_location_notification_message" = "Δε θα δείξουμε ποτέ την ακριβή σας τοποθεσία σε άλλους χρήστες";
 "real_estate_location_title" = "Τοποθεσία";
+"real_estate_map_tooltip_button_title" = "Try Now";
+"real_estate_map_tooltip_title" = "Νέο! Δείτε ιδιοκτησίες στο χάρτη.";
 "real_estate_offer_type_rent" = "Για Ενοικίαση";
 "real_estate_offer_type_sale" = "Για Πώληση";
 "real_estate_offer_type_title" = "Τύπος Καταχώρησης";
@@ -1137,7 +1139,7 @@
 "real_estate_type_property_room" = "Δωμάτιο";
 "real_estate_type_property_title" = "Τύπος Ιδιοκτησίας";
 "real_estate_type_property_villa" = "Μονοκατοικία / Βίλα";
-"related_items_title" = "Related listings";
+"related_items_title" = "Σχετικές καταχωρήσεις";
 "report_user_counterfeit" = "Πλαστά στοιχεία";
 "report_user_error_already_reported" = "Έχετε ήδη κάνει αναφορά αυτού του χρήστη!";
 "report_user_inactive" = "Ανενεργός";

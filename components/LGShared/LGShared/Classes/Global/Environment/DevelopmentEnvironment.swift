@@ -40,6 +40,9 @@ final class DevelopmentEnvironment: AppEnvironment {
     let feedAdUnitIdAdxUSAForOldUsers = "/21666124832/us/iOS/feed/c_render_var_b"
     let feedAdUnitIdAdxTRForAllUsers = "/21636273254/turkey/iOS/feed/c_render_var_a"
     let feedAdUnitIdAdxTRForOldUsers = "/21636273254/turkey/iOS/feed/c_render_var_b"
+    
+    var feedAdUnitIdAdxInstallAppUSA = "/21666124832/us/iOS/feed/c_render_var_a"
+    var feedAdUnitIdAdxInstallAppTR = "/21636273254/turkey/iOS/feed/c_render_var_a"
 
     let fullScreenAdUnitIdAdxForAllUsersForUS = "/21666124832/us/iOS/interstitials/inter_var_a"
     let fullScreenAdUnitIdAdxForOldUsersForUS = "/21666124832/us/iOS/interstitials/inter_var_b"

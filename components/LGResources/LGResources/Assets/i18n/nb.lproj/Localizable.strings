@@ -1059,6 +1059,8 @@
 "real_estate_gallery_view_subtitle_params" = "Velg opp til %d bilder av boligen du ønsker å selge eller leie ut. Det første bildet vil bli ditt fremhevede bilde - så sørg derfor for at dette bildet er fint!";
 "real_estate_location_notification_message" = "Vi viser aldri din nøyaktige plassering til andre brukere";
 "real_estate_location_title" = "Sted";
+"real_estate_map_tooltip_button_title" = "Try Now";
+"real_estate_map_tooltip_title" = "Nyhet! Se innstillinger på et kart";
 "real_estate_offer_type_rent" = "Til utleie";
 "real_estate_offer_type_sale" = "Til salg";
 "real_estate_offer_type_title" = "Annonsetype";
@@ -1137,7 +1139,7 @@
 "real_estate_type_property_room" = "Rom";
 "real_estate_type_property_title" = "Eiendomstype";
 "real_estate_type_property_villa" = "Enebolig / Villa";
-"related_items_title" = "Related listings";
+"related_items_title" = "Lignende annonser";
 "report_user_counterfeit" = "Forfalskede produkter";
 "report_user_error_already_reported" = "Du har allerede rapportert denne brukeren!";
 "report_user_inactive" = "Inaktiv";

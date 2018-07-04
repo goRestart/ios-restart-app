@@ -1186,6 +1186,70 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         return cellModels
     }
 
+    private func setupAdsCellModelForMoPub(adsDelegate: MainListingsAdsDelegate) -> ListingCellModel? {
+        let settings = MPStaticNativeAdRendererSettings()
+        guard let feedAdUnitId = featureFlags.feedAdUnitId,
+            let config = MPStaticNativeAdRenderer.rendererConfiguration(with: settings) else { return nil }
+        settings.renderingViewClass = MoPubNativeView.self
+        let configurations: [MPNativeAdRendererConfiguration] = [config]
+        let nativeAdRequest = MPNativeAdRequest.init(adUnitIdentifier: feedAdUnitId,
+                                                     rendererConfigurations: configurations)
+        let adData = AdvertisementMoPubData(adUnitId: feedAdUnitId,
+                                            rootViewController: adsDelegate.rootViewControllerForAds(),
+                                            adPosition: lastAdPosition,
+                                            bannerHeight: LGUIKitConstants.advertisementCellDefaultHeight,
+                                            adRequested: false,
+                                            categories: filters.selectedCategories,
+                                            nativeAdRequest: nativeAdRequest,
+                                            moPubNativeAd: nil,
+                                            moPubView: NativeAdBlankStateView())
+       return ListingCellModel.mopubAdvertisement(data: adData)
+    }
+    
+    private func setupAdsCellModelForGoogleAdx(adsDelegate: MainListingsAdsDelegate) -> ListingCellModel? {
+        guard var feedAdUnitId = featureFlags.feedAdUnitId else { return nil }
+        var adTypes: [GADAdLoaderAdType] = [.nativeContent]
+        if featureFlags.appInstallAdsInFeed.isActive {
+            guard let appInstallAdUnit = featureFlags.appInstallAdsInFeedAdUnit else { return nil }
+            feedAdUnitId = appInstallAdUnit
+            adTypes.append(.nativeAppInstall)
+        }
+        let adLoader = GADAdLoader(adUnitID: feedAdUnitId,
+                                   rootViewController: adsDelegate.rootViewControllerForAds(),
+                                   adTypes: adTypes,
+                                   options: nil)
+        let adData = AdvertisementAdxData(adUnitId: feedAdUnitId,
+                                          rootViewController: adsDelegate.rootViewControllerForAds(),
+                                          adPosition: lastAdPosition,
+                                          bannerHeight: LGUIKitConstants.advertisementCellDefaultHeight,
+                                          adRequested: false,
+                                          categories: filters.selectedCategories,
+                                          adLoader: adLoader,
+                                          adxNativeView: NativeAdBlankStateView())
+        return ListingCellModel.adxAdvertisement(data: adData)
+    }
+    
+    private func setupAdsCellModelForDFP(adsDelegate: MainListingsAdsDelegate) -> ListingCellModel? {
+        guard let feedAdUnitId = featureFlags.feedDFPAdUnitId else { return nil }
+        let request = DFPRequest()
+        var customTargetingValue = ""
+        if featureFlags.showAdsInFeedWithRatio.isActive {
+            customTargetingValue = featureFlags.showAdsInFeedWithRatio.customTargetingValueFor(position: lastAdPosition)
+        } else if featureFlags.noAdsInFeedForNewUsers.shouldShowAdsInFeed {
+            customTargetingValue = featureFlags.noAdsInFeedForNewUsers.customTargetingValueFor(position: lastAdPosition)
+        }
+        request.customTargeting = [SharedConstants.adInFeedCustomTargetingKey: customTargetingValue]
+        let adData = AdvertisementDFPData(adUnitId: feedAdUnitId,
+                                          rootViewController: adsDelegate.rootViewControllerForAds(),
+                                          adPosition: lastAdPosition,
+                                          bannerHeight: LGUIKitConstants.advertisementCellPlaceholderHeight,
+                                          adRequested: false,
+                                          categories: filters.selectedCategories,
+                                          adRequest: request,
+                                          bannerView: nil)
+        return ListingCellModel.dfpAdvertisement(data: adData)
+    }
+    
     private func addAds(to listings: [ListingCellModel], page: UInt) -> [ListingCellModel] {
         if page == 0 {
             lastAdPosition = MainListingsViewModel.adInFeedInitialPosition
@@ -1197,78 +1261,26 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             featureFlags.feedAdsProviderForTR.shouldShowAdsInFeed ||
             featureFlags.googleAdxForTR.shouldShowAdsInFeed
         var cellModels = listings
-
         var canInsertAds = true
 
-        guard adsActive else { return listings }
+        guard let _ = featureFlags.feedAdUnitId, adsActive else { return listings }
         while canInsertAds {
 
             let adPositionInPage = lastAdPosition-previousPagesAdsOffset
             guard let adRelativePosition = adPositionRelativeToPage(page: page,
-                                                                  itemsInPage: cellModels.count,
-                                                                  pageSize: listingListRequester.itemsPerPage,
-                                                                  adPosition: adPositionInPage) else { break }
-            var adsCellModel: ListingCellModel
-            
-            guard let feedAdUnitId = featureFlags.feedAdUnitId else { return listings }
+                                                                    itemsInPage: cellModels.count,
+                                                                    pageSize: listingListRequester.itemsPerPage,
+                                                                    adPosition: adPositionInPage) else { break }
+            var adsCellModel: ListingCellModel?
             if featureFlags.feedAdsProviderForUS.shouldShowGoogleAdxAds || featureFlags.googleAdxForTR.shouldShowGoogleAdxAds {
-                let adLoader = GADAdLoader(adUnitID: feedAdUnitId,
-                                           rootViewController: adsDelegate.rootViewControllerForAds(),
-                                           adTypes: [GADAdLoaderAdType.nativeContent],
-                                           options: nil)
-                let adData = AdvertisementAdxData(adUnitId: feedAdUnitId,
-                                                  rootViewController: adsDelegate.rootViewControllerForAds(),
-                                                  adPosition: lastAdPosition,
-                                                  bannerHeight: LGUIKitConstants.advertisementCellMoPubHeight,
-                                                  adRequested: false,
-                                                  categories: filters.selectedCategories,
-                                                  adLoader: adLoader,
-                                                  adxNativeView: NativeAdBlankStateView())
-                adsCellModel = ListingCellModel.adxAdvertisement(data: adData)
-                
+                adsCellModel = setupAdsCellModelForGoogleAdx(adsDelegate: adsDelegate)
             } else if featureFlags.feedAdsProviderForUS.shouldShowMoPubAds || featureFlags.feedAdsProviderForTR.shouldShowMoPubAds {
-                let settings = MPStaticNativeAdRendererSettings()
-                var configurations = Array<MPNativeAdRendererConfiguration>()
-                settings.renderingViewClass = MoPubNativeView.self
-                let config = MPStaticNativeAdRenderer.rendererConfiguration(with: settings)
-                configurations.append(config!)
-                let nativeAdRequest = MPNativeAdRequest.init(adUnitIdentifier: feedAdUnitId,
-                                                             rendererConfigurations: configurations)
-                let adData = AdvertisementMoPubData(adUnitId: feedAdUnitId,
-                                                    rootViewController: adsDelegate.rootViewControllerForAds(),
-                                                    adPosition: lastAdPosition,
-                                                    bannerHeight: LGUIKitConstants.advertisementCellMoPubHeight,
-                                                    adRequested: false,
-                                                    categories: filters.selectedCategories,
-                                                    nativeAdRequest: nativeAdRequest,
-                                                    moPubNativeAd: nil,
-                                                    moPubView: NativeAdBlankStateView())
-                adsCellModel = ListingCellModel.mopubAdvertisement(data: adData)
-                
+                adsCellModel = setupAdsCellModelForMoPub(adsDelegate: adsDelegate)
             } else {
-                guard let feedAdUnitId = featureFlags.feedDFPAdUnitId else { return listings }
-                let request = DFPRequest()
-                var customTargetingValue = ""
-                
-                if featureFlags.showAdsInFeedWithRatio.isActive {
-                    customTargetingValue = featureFlags.showAdsInFeedWithRatio.customTargetingValueFor(position: lastAdPosition)
-                } else if featureFlags.noAdsInFeedForNewUsers.shouldShowAdsInFeed {
-                    customTargetingValue = featureFlags.noAdsInFeedForNewUsers.customTargetingValueFor(position: lastAdPosition)
-                }
-                request.customTargeting = [SharedConstants.adInFeedCustomTargetingKey: customTargetingValue]
-                
-                let adData = AdvertisementDFPData(adUnitId: feedAdUnitId,
-                                                  rootViewController: adsDelegate.rootViewControllerForAds(),
-                                                  adPosition: lastAdPosition,
-                                                  bannerHeight: LGUIKitConstants.advertisementCellPlaceholderHeight,
-                                                  adRequested: false,
-                                                  categories: filters.selectedCategories,
-                                                  adRequest: request,
-                                                  bannerView: nil)
-                adsCellModel = ListingCellModel.dfpAdvertisement(data: adData)
+                adsCellModel = setupAdsCellModelForDFP(adsDelegate: adsDelegate)
             }
-  
-            cellModels.insert(adsCellModel, at: adRelativePosition)
+            guard let listingCellModel = adsCellModel else { return listings }
+            cellModels.insert(listingCellModel, at: adRelativePosition)
 
             lastAdPosition = adAbsolutePosition()
             canInsertAds = adRelativePosition < cellModels.count

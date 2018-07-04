@@ -1059,6 +1059,8 @@
 "real_estate_gallery_view_subtitle_params" = "Välj upp till %d bilder av bostaden du vill sälja eller hyra ut. Den första kommer att bli din annonsbild så välj en bra bild!";
 "real_estate_location_notification_message" = "Vi visar aldrig din exakta plats till andra användare";
 "real_estate_location_title" = "Plats";
+"real_estate_map_tooltip_button_title" = "Try Now";
+"real_estate_map_tooltip_title" = "Nytt! Se fastigheter på en karta.";
 "real_estate_offer_type_rent" = "Uthyres";
 "real_estate_offer_type_sale" = "Till salu";
 "real_estate_offer_type_title" = "Typ av annons";
@@ -1137,7 +1139,7 @@
 "real_estate_type_property_room" = "Rum";
 "real_estate_type_property_title" = "Typ av fastighet";
 "real_estate_type_property_villa" = "Avskilt Hus / Villa";
-"related_items_title" = "Related listings";
+"related_items_title" = "Liknande annonser";
 "report_user_counterfeit" = "Oäkta varor";
 "report_user_error_already_reported" = "Du har redan rapporterat denna användare!";
 "report_user_inactive" = "Inaktiv";

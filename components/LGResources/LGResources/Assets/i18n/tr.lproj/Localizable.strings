@@ -1059,6 +1059,8 @@
 "real_estate_gallery_view_subtitle_params" = "Satmak ya da kiralamak istediğin emlak için %d adete kadar fotoğraf seçebilirsin. İlk fotoğraf öne çıkan fotoğrafın olacak, oldukça net gözükmeli!";
 "real_estate_location_notification_message" = "Açık adresini diğer kullanıcılara asla göstermeyeceğiz";
 "real_estate_location_title" = "Konum";
+"real_estate_map_tooltip_button_title" = "Try Now";
+"real_estate_map_tooltip_title" = "Yeni! Emlakları bir haritada gör.";
 "real_estate_offer_type_rent" = "Kiralık";
 "real_estate_offer_type_sale" = "Satılık";
 "real_estate_offer_type_title" = "İlan Türü";
@@ -1137,7 +1139,7 @@
 "real_estate_type_property_room" = "Oda";
 "real_estate_type_property_title" = "Emlak Tipi";
 "real_estate_type_property_villa" = "Müstakil Ev / Villa";
-"related_items_title" = "Related listings";
+"related_items_title" = "Benzer ilanlar";
 "report_user_counterfeit" = "Sahte ürünler";
 "report_user_error_already_reported" = "Bu kullanıcıyı daha önce şikayet etmiştin!";
 "report_user_inactive" = "Aktif değil";

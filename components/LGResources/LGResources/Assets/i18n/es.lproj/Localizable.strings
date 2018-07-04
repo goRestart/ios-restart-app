@@ -1059,6 +1059,8 @@
 "real_estate_gallery_view_subtitle_params" = "Selecciona hasta %d imágenes de la propiedad que quieres alquilar o vender. ¡La primera será la imagen destacada así que asegúrate de que sea buena!";
 "real_estate_location_notification_message" = "Nunca mostraremos tu ubicación exacta al resto de usuarios";
 "real_estate_location_title" = "Ubicación";
+"real_estate_map_tooltip_button_title" = "Pruébalo ahora";
+"real_estate_map_tooltip_title" = "¡Nuevo! Visualiza las propiedades en un mapa.";
 "real_estate_offer_type_rent" = "En alquiler";
 "real_estate_offer_type_sale" = "En venta";
 "real_estate_offer_type_title" = "Tipo de anuncio";
@@ -1137,7 +1139,7 @@
 "real_estate_type_property_room" = "Habitación";
 "real_estate_type_property_title" = "Tipo de propiedad";
 "real_estate_type_property_villa" = "Casa / Villa";
-"related_items_title" = "Related listings";
+"related_items_title" = "Anuncios relacionados";
 "report_user_counterfeit" = "Productos falsificados";
 "report_user_error_already_reported" = "¡Ya has denunciado a este usuario!";
 "report_user_inactive" = "Inactivo";

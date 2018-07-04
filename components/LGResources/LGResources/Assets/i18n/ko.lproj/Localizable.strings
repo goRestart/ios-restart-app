@@ -1059,6 +1059,8 @@
 "real_estate_gallery_view_subtitle_params" = "매매하거나 임대하고자 하는 부동산의 사진을 최대 %d장 선택하세요. 첫번째 사진은 강조되기 때문에, 가장 잘나온 사진을 선택하는 것을 잊지 말아주세요!";
 "real_estate_location_notification_message" = "저희는 다른 사용자들에게 회원님의 정확한 위치를 공개하지 않습니다";
 "real_estate_location_title" = "위치";
+"real_estate_map_tooltip_button_title" = "Try Now";
+"real_estate_map_tooltip_title" = "새로운 기능! 지도에서 판매하고 계신 것을 확인해보세요.";
 "real_estate_offer_type_rent" = "전세";
 "real_estate_offer_type_sale" = "판매중";
 "real_estate_offer_type_title" = "게시글 종류";
@@ -1137,7 +1139,7 @@
 "real_estate_type_property_room" = "방";
 "real_estate_type_property_title" = "매물 종류";
 "real_estate_type_property_villa" = "단독 주택/빌라";
-"related_items_title" = "Related listings";
+"related_items_title" = "관련 상품 목록";
 "report_user_counterfeit" = "짝퉁상품";
 "report_user_error_already_reported" = "회원님은 이 사용자를 이미 신고하셨습니다!";
 "report_user_inactive" = "비활성화";

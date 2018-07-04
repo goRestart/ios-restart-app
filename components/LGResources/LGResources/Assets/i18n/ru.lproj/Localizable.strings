@@ -1059,6 +1059,8 @@
 "real_estate_gallery_view_subtitle_params" = "Выберите до %d изображений недвижимости, которую хотите продать или сдать. Первым будет выделенное вам фото, поэтому убедитесь, что оно подходит!";
 "real_estate_location_notification_message" = "Мы никогда не показываем ваше точное местоположение другим пользователям";
 "real_estate_location_title" = "Местоположение";
+"real_estate_map_tooltip_button_title" = "Try Now";
+"real_estate_map_tooltip_title" = "Новинка! Смотрите подробности на карте.";
 "real_estate_offer_type_rent" = "Аренда";
 "real_estate_offer_type_sale" = "Продажа";
 "real_estate_offer_type_title" = "Тип объявления";
@@ -1137,7 +1139,7 @@
 "real_estate_type_property_room" = "Комната";
 "real_estate_type_property_title" = "Тип недвижимости";
 "real_estate_type_property_villa" = "Особняк / Вилла";
-"related_items_title" = "Related listings";
+"related_items_title" = "Похожие объявления";
 "report_user_counterfeit" = "Поддельные товары";
 "report_user_error_already_reported" = "Вы уже пожаловались на этого пользователя!";
 "report_user_inactive" = "Не отвечает";

@@ -75,6 +75,7 @@ extension Bumper  {
         flags.append(ShowChatHeaderWithoutListingForAssistant.self)
         flags.append(ReportingFostaSesta.self)
         flags.append(RealEstateMapTooltip.self)
+        flags.append(AppInstallAdsInFeed.self)
         Bumper.initialize(flags)
     } 
 
@@ -841,6 +842,19 @@ extension Bumper  {
     static var realEstateMapTooltipObservable: Observable<RealEstateMapTooltip> {
         return Bumper.observeValue(for: RealEstateMapTooltip.key).map {
             RealEstateMapTooltip(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var appInstallAdsInFeed: AppInstallAdsInFeed {
+        guard let value = Bumper.value(for: AppInstallAdsInFeed.key) else { return .control }
+        return AppInstallAdsInFeed(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var appInstallAdsInFeedObservable: Observable<AppInstallAdsInFeed> {
+        return Bumper.observeValue(for: AppInstallAdsInFeed.key).map {
+            AppInstallAdsInFeed(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1773,6 +1787,22 @@ enum RealEstateMapTooltip: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show tooltip for Real Estate Map" } 
     static func fromPosition(_ position: Int) -> RealEstateMapTooltip {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum AppInstallAdsInFeed: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return AppInstallAdsInFeed.control.rawValue }
+    static var enumValues: [AppInstallAdsInFeed] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show App Install Ads from Google Adx in feed" } 
+    static func fromPosition(_ position: Int) -> AppInstallAdsInFeed {
         switch position { 
             case 0: return .control
             case 1: return .baseline

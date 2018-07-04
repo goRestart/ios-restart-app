@@ -1059,6 +1059,8 @@
 "real_estate_gallery_view_subtitle_params" = "Selecione até %d imagens do imóvel que quer vender ou arrendar. A primeira será a sua foto de destaque por isso assegure-se de que é uma boa foto!";
 "real_estate_location_notification_message" = "Nunca mostraremos a sua localização exata aos outros utilizadores";
 "real_estate_location_title" = "Localização";
+"real_estate_map_tooltip_button_title" = "Try Now";
+"real_estate_map_tooltip_title" = "Novo! Veja imóveis num mapa.";
 "real_estate_offer_type_rent" = "Para aluguer";
 "real_estate_offer_type_sale" = "Para venda";
 "real_estate_offer_type_title" = "Tipo de publicação";
@@ -1137,7 +1139,7 @@
 "real_estate_type_property_room" = "Quarto";
 "real_estate_type_property_title" = "Tipo de imóvel";
 "real_estate_type_property_villa" = "Moradia isolada / vivenda";
-"related_items_title" = "Related listings";
+"related_items_title" = "Publicações relacionadas";
 "report_user_counterfeit" = "Itens contrafeitos";
 "report_user_error_already_reported" = "Já reportou este utilizador!";
 "report_user_inactive" = "Inativo";

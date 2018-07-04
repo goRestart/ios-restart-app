@@ -50,6 +50,8 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var feedAdsProviderForTR: FeedAdsProviderForTR = .control
     var fullScreenAdsWhenBrowsingForUS: FullScreenAdsWhenBrowsingForUS = .control
     var fullScreenAdUnitId: String? = ""
+    var appInstallAdsInFeed: AppInstallAdsInFeed = .control
+    var appInstallAdsInFeedAdUnit: String? = ""
     
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false
