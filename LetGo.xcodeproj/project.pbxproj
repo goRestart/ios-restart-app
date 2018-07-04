@@ -4669,6 +4669,28 @@
 			path = LGEmptyView;
 			sourceTree = "<group>";
 		};
+		55697DFC20ECD8C400B2BD3B /* ReportOptions */ = {
+			isa = PBXGroup;
+			children = (
+				55EF4E5120E6554800B118B7 /* ReportOptions.swift */,
+				55EF4E5020E6554800B118B7 /* ReportOptionsBuilder.swift */,
+				6AB9A6FB20E6499D00A6DD08 /* ReportOptionsListViewController.swift */,
+				6AB9A6FE20E649C400A6DD08 /* ReportOptionsListViewModel.swift */,
+				6AB9A70120E649EE00A6DD08 /* ReportOptionCell.swift */,
+			);
+			path = ReportOptions;
+			sourceTree = "<group>";
+		};
+		55697DFD20ECD8DB00B2BD3B /* ReportSent */ = {
+			isa = PBXGroup;
+			children = (
+				550F94F220EB91420057DF8A /* ReportSentTypes.swift */,
+				55B4F98920EA25F50041544A /* ReportSentViewController.swift */,
+				55B4F98C20EA26000041544A /* ReportSentViewModel.swift */,
+			);
+			path = ReportSent;
+			sourceTree = "<group>";
+		};
 		556E26F4203C3B190098ECF0 /* UserProfile */ = {
 			isa = PBXGroup;
 			children = (
@@ -4696,14 +4718,8 @@
 		55EF4E4320E644D900B118B7 /* Reporting */ = {
 			isa = PBXGroup;
 			children = (
-				6AB9A6FB20E6499D00A6DD08 /* ReportOptionsListViewController.swift */,
-				6AB9A6FE20E649C400A6DD08 /* ReportOptionsListViewModel.swift */,
-				6AB9A70120E649EE00A6DD08 /* ReportOptionCell.swift */,
-				55EF4E5120E6554800B118B7 /* ReportOptions.swift */,
-				550F94F220EB91420057DF8A /* ReportSentTypes.swift */,
-				55EF4E5020E6554800B118B7 /* ReportOptionsBuilder.swift */,
-				55B4F98920EA25F50041544A /* ReportSentViewController.swift */,
-				55B4F98C20EA26000041544A /* ReportSentViewModel.swift */,
+				55697DFD20ECD8DB00B2BD3B /* ReportSent */,
+				55697DFC20ECD8C400B2BD3B /* ReportOptions */,
 			);
 			path = Reporting;
 			sourceTree = "<group>";
