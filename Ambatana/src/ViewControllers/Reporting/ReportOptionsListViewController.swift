@@ -26,6 +26,7 @@ final class ReportOptionsListViewController: BaseViewController, UITableViewDele
     private let reportButton: LetgoButton = {
         let button = LetgoButton(withStyle: ButtonStyle.primary(fontSize: ButtonFontSize.medium))
         button.setTitle("Report", for: .normal) // FIXME: Localize
+        button.isEnabled = false
         return button
     }()
 
@@ -35,6 +36,8 @@ final class ReportOptionsListViewController: BaseViewController, UITableViewDele
         view.alpha = 0.9
         return view
     }()
+
+    private var selectedOption: ReportOption?
 
     init(viewModel: ReportOptionsListViewModel) {
         self.viewModel = viewModel
@@ -57,6 +60,7 @@ final class ReportOptionsListViewController: BaseViewController, UITableViewDele
         view.backgroundColor = .white
         tableView.delegate = self
         tableView.dataSource = self
+        reportButton.addTarget(self, action: #selector(reportButtonTapped), for: .touchUpInside)
         setupConstraints()
     }
 
@@ -79,6 +83,11 @@ final class ReportOptionsListViewController: BaseViewController, UITableViewDele
         NSLayoutConstraint.activate(constraints)
     }
 
+    @objc private func reportButtonTapped() {
+        guard let option = selectedOption else { return }
+        viewModel.didSelect(option: option)
+    }
+
     // MARK: TableView Delegate & DataSource
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -95,5 +104,7 @@ final class ReportOptionsListViewController: BaseViewController, UITableViewDele
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let option = viewModel.optionGroup.options[indexPath.row]
         viewModel.didSelect(option: option)
+        reportButton.isEnabled = option.childOptions == nil
+        selectedOption = option
     }
 }

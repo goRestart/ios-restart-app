@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol ReportProductNavigator: class {
+protocol ReportNavigator: class {
     func openNextStep(with options: ReportOptionsGroup)
     func openThankYouScreen()
 }

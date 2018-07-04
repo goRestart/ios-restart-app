@@ -1,7 +1,19 @@
 import Foundation
 import LGCoreKit
 
-final class ReportProductCoordinator: Coordinator {
+final class ReportCoordinator: Coordinator {
+
+    enum ReportCoordinatorType {
+        case product
+        case user
+
+        fileprivate var options: ReportOptionsGroup {
+            switch self {
+            case .product: return ReportOptionsBuilder.reportProductOptions()
+            case .user: return ReportOptionsBuilder.reportUserOptions()
+            }
+        }
+    }
 
     var child: Coordinator?
     weak var coordinatorDelegate: CoordinatorDelegate?
@@ -12,20 +24,22 @@ final class ReportProductCoordinator: Coordinator {
 
     fileprivate let featureFlags: FeatureFlaggeable
 
-    convenience init() {
+    convenience init(type: ReportCoordinatorType) {
         self.init(bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
                   featureFlags: FeatureFlags.sharedInstance,
-                  sessionManager: Core.sessionManager)
+                  sessionManager: Core.sessionManager,
+                  type: type)
     }
 
     init(bubbleNotificationManager: BubbleNotificationManager,
          featureFlags: FeatureFlaggeable,
-         sessionManager: SessionManager) {
+         sessionManager: SessionManager,
+         type: ReportCoordinatorType) {
         self.bubbleNotificationManager = bubbleNotificationManager
         self.featureFlags = featureFlags
         self.sessionManager = sessionManager
 
-        let vm = ReportOptionsListViewModel(optionGroup: ReportOptionsBuilder.reportProductOptions())
+        let vm = ReportOptionsListViewModel(optionGroup: type.options)
         let vc = ReportOptionsListViewController(viewModel: vm)
         let nav = UINavigationController(rootViewController: vc)
         viewController = nav
@@ -42,7 +56,7 @@ final class ReportProductCoordinator: Coordinator {
     }
 }
 
-extension ReportProductCoordinator: ReportProductNavigator {
+extension ReportCoordinator: ReportNavigator {
 
     func openNextStep(with options: ReportOptionsGroup) {
         guard let navCtl = viewController as? UINavigationController else { return }

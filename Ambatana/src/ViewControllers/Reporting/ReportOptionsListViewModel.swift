@@ -4,7 +4,7 @@ import LGCoreKit
 final class ReportOptionsListViewModel: BaseViewModel {
     
     let optionGroup: ReportOptionsGroup
-    var navigator: ReportProductNavigator?
+    var navigator: ReportNavigator?
 
     init(optionGroup: ReportOptionsGroup) {
         self.optionGroup = optionGroup
@@ -15,5 +15,10 @@ final class ReportOptionsListViewModel: BaseViewModel {
         if let child = option.childOptions {
             navigator?.openNextStep(with: child)
         }
+    }
+
+    func didTapReport(with option: ReportOption) {
+        navigator?.openThankYouScreen()
+        // TODO: Report to backend
     }
 }

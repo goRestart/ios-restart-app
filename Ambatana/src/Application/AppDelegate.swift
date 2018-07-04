@@ -91,7 +91,7 @@ extension AppDelegate: UIApplicationDelegate {
 //        let vc = ReportOptionsListViewController(viewModel: vm)
 //        let nav = UINavigationController(rootViewController: vc)
 
-        let proc = ReportProductCoordinator()
+        let proc = ReportCoordinator(type: .user)
 
         let window = UIWindow(frame: UIScreen.main.bounds)
         window.backgroundColor = UIColor.white
