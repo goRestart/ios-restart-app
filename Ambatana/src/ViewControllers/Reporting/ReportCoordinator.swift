@@ -79,4 +79,8 @@ extension ReportCoordinator: ReportNavigator {
         // TODO
         print("🤡 Thank You!")
     }
+
+    func closeReporting() {
+        closeCoordinator(animated: true, completion: nil)
+    }
 }

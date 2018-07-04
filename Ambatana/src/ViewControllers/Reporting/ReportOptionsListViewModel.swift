@@ -23,4 +23,8 @@ final class ReportOptionsListViewModel: BaseViewModel {
         navigator?.openThankYouScreen()
         // TODO: Report to backend
     }
+
+    func didTapClose() {
+        navigator?.closeReporting()
+    }
 }

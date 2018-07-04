@@ -53,6 +53,7 @@ final class ReportOptionsListViewController: BaseViewController, UITableViewDele
         super.viewWillAppearFromBackground(fromBackground)
         setNavBarBackgroundStyle(.white)
         setNavBarTitle(viewModel.title)
+        setNavBarCloseButton(#selector(didTapClose))
     }
 
     private func setupUI() {
@@ -86,6 +87,10 @@ final class ReportOptionsListViewController: BaseViewController, UITableViewDele
     @objc private func reportButtonTapped() {
         guard let option = selectedOption else { return }
         viewModel.didSelect(option: option)
+    }
+
+    @objc private func didTapClose() {
+        viewModel.didTapClose()
     }
 
     // MARK: TableView Delegate & DataSource

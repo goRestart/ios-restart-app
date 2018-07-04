@@ -95,8 +95,8 @@ extension AppDelegate: UIApplicationDelegate {
 
         let window = UIWindow(frame: UIScreen.main.bounds)
         window.backgroundColor = UIColor.white
-//        window.rootViewController = appCoordinator.tabBarCtl
-        window.rootViewController = proc.viewController
+        window.rootViewController = appCoordinator.tabBarCtl
+//        window.rootViewController = proc.viewController
         self.window = window
 
         window.makeKeyAndVisible()
@@ -107,6 +107,8 @@ extension AppDelegate: UIApplicationDelegate {
                                                                    didFinishLaunchingWithOptions: launchOptions) ?? false
 
         appCoordinator.open()
+
+        appCoordinator.openChild(coordinator: proc, parent: appCoordinator.tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
         
         return deepLinksRouterContinuation || fbSdkContinuation
     }
