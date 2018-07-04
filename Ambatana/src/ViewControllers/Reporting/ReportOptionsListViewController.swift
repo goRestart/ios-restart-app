@@ -52,7 +52,7 @@ final class ReportOptionsListViewController: BaseViewController, UITableViewDele
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
         setNavBarBackgroundStyle(.white)
-        setNavBarTitle("Test Title")
+        setNavBarTitle(viewModel.title)
     }
 
     private func setupUI() {

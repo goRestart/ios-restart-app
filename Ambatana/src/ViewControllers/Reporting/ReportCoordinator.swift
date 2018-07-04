@@ -13,6 +13,13 @@ final class ReportCoordinator: Coordinator {
             case .user: return ReportOptionsBuilder.reportUserOptions()
             }
         }
+
+        fileprivate var title: String {
+            switch self {
+            case .product: return "Report listing" // FIXME: Localize
+            case .user: return "Report user"
+            }
+        }
     }
 
     var child: Coordinator?
@@ -23,6 +30,7 @@ final class ReportCoordinator: Coordinator {
     var sessionManager: SessionManager
 
     fileprivate let featureFlags: FeatureFlaggeable
+    fileprivate let type: ReportCoordinatorType
 
     convenience init(type: ReportCoordinatorType) {
         self.init(bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
@@ -38,8 +46,9 @@ final class ReportCoordinator: Coordinator {
         self.bubbleNotificationManager = bubbleNotificationManager
         self.featureFlags = featureFlags
         self.sessionManager = sessionManager
+        self.type = type
 
-        let vm = ReportOptionsListViewModel(optionGroup: type.options)
+        let vm = ReportOptionsListViewModel(optionGroup: type.options, title: type.title)
         let vc = ReportOptionsListViewController(viewModel: vm)
         let nav = UINavigationController(rootViewController: vc)
         viewController = nav
@@ -60,7 +69,7 @@ extension ReportCoordinator: ReportNavigator {
 
     func openNextStep(with options: ReportOptionsGroup) {
         guard let navCtl = viewController as? UINavigationController else { return }
-        let vm = ReportOptionsListViewModel(optionGroup: options)
+        let vm = ReportOptionsListViewModel(optionGroup: options, title: type.title)
         vm.navigator = self
         let vc = ReportOptionsListViewController(viewModel: vm)
         navCtl.pushViewController(vc, animated: true)

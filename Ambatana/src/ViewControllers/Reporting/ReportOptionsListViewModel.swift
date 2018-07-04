@@ -4,10 +4,12 @@ import LGCoreKit
 final class ReportOptionsListViewModel: BaseViewModel {
     
     let optionGroup: ReportOptionsGroup
+    let title: String
     var navigator: ReportNavigator?
 
-    init(optionGroup: ReportOptionsGroup) {
+    init(optionGroup: ReportOptionsGroup, title: String) {
         self.optionGroup = optionGroup
+        self.title = title
         super.init()
     }
 
