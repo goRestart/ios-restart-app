@@ -288,5 +288,10 @@
         "name": "ReportingFostaSesta",
         "values": ["control", "baseline", "withIcons", "withoutIcons"],
         "description": "Show new user/product reporting flow (FOSTA-SESTA compliance)"
-    }
+    },
+     {
+     "name": "RealEstateMapTooltip",
+     "values": ["control", "baseline", "active"],
+     "description": "Show tooltip for Real Estate Map"
+     }
  ]

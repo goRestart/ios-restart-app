@@ -76,6 +76,7 @@ protocol FeatureFlaggeable: class {
     var realEstateMap: RealEstateMap { get }
     var showServicesFeatures: ShowServicesFeatures { get }
     var carExtraFieldsEnabled: CarExtraFieldsEnabled { get }
+    var realEstateMapTooltip: RealEstateMapTooltip { get }
     
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed { get }
@@ -192,6 +193,10 @@ extension ShowServicesFeatures {
 
 extension CarExtraFieldsEnabled {
     var isActive: Bool { return self == .active }
+}
+
+extension RealEstateMapTooltip {
+    var isActive: Bool { return self == .active  }
 }
 
 extension BumpUpBoost {
@@ -1147,6 +1152,13 @@ extension FeatureFlags {
         
         return .control
 //        return CarExtraFieldsEnabled.fromPosition(abTests.carExtraFieldsEnabled.value)
+    }
+    
+    var realEstateMapTooltip: RealEstateMapTooltip {
+        if Bumper.enabled {
+            return Bumper.realEstateMapTooltip
+        }
+        return .control // RealEstateMapTooltip.fromPosition(abTests.realEstateMapTooltip.value)
     }
 }
 
