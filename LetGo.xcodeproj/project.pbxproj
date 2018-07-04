@@ -871,12 +871,18 @@
 		50F681F31C8F4586001F33A3 /* RxPaginable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F681F11C8F4586001F33A3 /* RxPaginable.swift */; };
 		50FEFA1E20469AD6003C51B0 /* ChatBubbleCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FEFA1D20469AD6003C51B0 /* ChatBubbleCellType.swift */; };
 		50FEFA1F20469AD6003C51B0 /* ChatBubbleCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FEFA1D20469AD6003C51B0 /* ChatBubbleCellType.swift */; };
+		550F94F320EB91420057DF8A /* ReportSentTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550F94F220EB91420057DF8A /* ReportSentTypes.swift */; };
+		550F94F420EB91420057DF8A /* ReportSentTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550F94F220EB91420057DF8A /* ReportSentTypes.swift */; };
 		5555531E203D92F900C913D2 /* UserProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556E26F8203C3C940098ECF0 /* UserProfileViewModel.swift */; };
 		5569D9A820848CA8004E5468 /* UserPhoneVerificationCodeInputTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5569D9A720848CA8004E5468 /* UserPhoneVerificationCodeInputTextField.swift */; };
 		5569D9A920848CA8004E5468 /* UserPhoneVerificationCodeInputTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5569D9A720848CA8004E5468 /* UserPhoneVerificationCodeInputTextField.swift */; };
 		556E26F6203C3BA70098ECF0 /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556E26F5203C3BA70098ECF0 /* UserProfileViewController.swift */; };
 		556E26F7203C3C0D0098ECF0 /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556E26F5203C3BA70098ECF0 /* UserProfileViewController.swift */; };
 		556E26F9203C3C940098ECF0 /* UserProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556E26F8203C3C940098ECF0 /* UserProfileViewModel.swift */; };
+		55B4F98A20EA25F50041544A /* ReportSentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B4F98920EA25F50041544A /* ReportSentViewController.swift */; };
+		55B4F98B20EA25F50041544A /* ReportSentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B4F98920EA25F50041544A /* ReportSentViewController.swift */; };
+		55B4F98D20EA26000041544A /* ReportSentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B4F98C20EA26000041544A /* ReportSentViewModel.swift */; };
+		55B4F98E20EA26000041544A /* ReportSentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B4F98C20EA26000041544A /* ReportSentViewModel.swift */; };
 		55DFCDD92073790D00AC5E09 /* UserPhoneVerificationNumberInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55DFCDD82073790D00AC5E09 /* UserPhoneVerificationNumberInputViewController.swift */; };
 		55DFCDDA2073790D00AC5E09 /* UserPhoneVerificationNumberInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55DFCDD82073790D00AC5E09 /* UserPhoneVerificationNumberInputViewController.swift */; };
 		55DFCDDC2073791C00AC5E09 /* UserPhoneVerificationNumberInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55DFCDDB2073791C00AC5E09 /* UserPhoneVerificationNumberInputViewModel.swift */; };
@@ -2554,10 +2560,13 @@
 		50F0BAA81B28938D00E50A68 /* MainSignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainSignUpViewController.xib; sourceTree = "<group>"; };
 		50F681F11C8F4586001F33A3 /* RxPaginable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxPaginable.swift; sourceTree = "<group>"; };
 		50FEFA1D20469AD6003C51B0 /* ChatBubbleCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubbleCellType.swift; sourceTree = "<group>"; };
+		550F94F220EB91420057DF8A /* ReportSentTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportSentTypes.swift; sourceTree = "<group>"; };
 		5552CC2A0F21B551369C1D20 /* Pods_LetGo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetGo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5569D9A720848CA8004E5468 /* UserPhoneVerificationCodeInputTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhoneVerificationCodeInputTextField.swift; sourceTree = "<group>"; };
 		556E26F5203C3BA70098ECF0 /* UserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
 		556E26F8203C3C940098ECF0 /* UserProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewModel.swift; sourceTree = "<group>"; };
+		55B4F98920EA25F50041544A /* ReportSentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportSentViewController.swift; sourceTree = "<group>"; };
+		55B4F98C20EA26000041544A /* ReportSentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportSentViewModel.swift; sourceTree = "<group>"; };
 		55DFCDD82073790D00AC5E09 /* UserPhoneVerificationNumberInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhoneVerificationNumberInputViewController.swift; sourceTree = "<group>"; };
 		55DFCDDB2073791C00AC5E09 /* UserPhoneVerificationNumberInputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhoneVerificationNumberInputViewModel.swift; sourceTree = "<group>"; };
 		55EF4E5020E6554800B118B7 /* ReportOptionsBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportOptionsBuilder.swift; sourceTree = "<group>"; };
@@ -4691,7 +4700,10 @@
 				6AB9A6FE20E649C400A6DD08 /* ReportOptionsListViewModel.swift */,
 				6AB9A70120E649EE00A6DD08 /* ReportOptionCell.swift */,
 				55EF4E5120E6554800B118B7 /* ReportOptions.swift */,
+				550F94F220EB91420057DF8A /* ReportSentTypes.swift */,
 				55EF4E5020E6554800B118B7 /* ReportOptionsBuilder.swift */,
+				55B4F98920EA25F50041544A /* ReportSentViewController.swift */,
+				55B4F98C20EA26000041544A /* ReportSentViewModel.swift */,
 			);
 			path = Reporting;
 			sourceTree = "<group>";
@@ -7195,6 +7207,7 @@
 				509CFF351DCCE8DF0068E518 /* CGPoint+LG.swift in Sources */,
 				8E80F70720D938FD005256D9 /* ChatBaseViewModel.swift in Sources */,
 				C707D44A1E96799000042C03 /* TextHiddenTags.swift in Sources */,
+				55B4F98A20EA25F50041544A /* ReportSentViewController.swift in Sources */,
 				427CAB8A206A827300112D58 /* TrendingSearchView.swift in Sources */,
 				50EC64041C64B05500DC04C5 /* LGEmptyView.swift in Sources */,
 				0187407D1FD594B6009C1363 /* BlockingPostingQueuedRequestsViewModel.swift in Sources */,
@@ -7275,6 +7288,7 @@
 				6A5E1A041D548F5400F92692 /* TypeAliases.swift in Sources */,
 				8EF1CDB22010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift in Sources */,
 				50E557BE1E421CF500327B6A /* LoginNavigator.swift in Sources */,
+				55B4F98D20EA26000041544A /* ReportSentViewModel.swift in Sources */,
 				2E4DE8D42062A09E0016D5A8 /* BumpUpBoostViewController.swift in Sources */,
 				018B82F21FFE3B2D00687233 /* MostSearchedItemsListViewModel.swift in Sources */,
 				8EEC7F57206AA60B00616858 /* NativeAdBlankStateView.swift in Sources */,
@@ -7766,6 +7780,7 @@
 				C6687F3A20C83A2C008C1922 /* MultiListingPostedIncentivisorCell.swift in Sources */,
 				502191101B2F1DC100ABD31F /* RememberPasswordViewModel.swift in Sources */,
 				F5A836AB1FD1AE32009E636D /* ListingAttributePickerViewController.swift in Sources */,
+				550F94F320EB91420057DF8A /* ReportSentTypes.swift in Sources */,
 				72C99E9C1DED7417006361C1 /* ChangePasswordCoordinator.swift in Sources */,
 				C7415ED61DE880BD0003D6C1 /* SimpleListingsViewController.swift in Sources */,
 				0A4AD7FA203DD9B8002625B7 /* UILayoutPriority.swift in Sources */,
@@ -8016,6 +8031,7 @@
 				C7B5886A1CE1DE1C009B3975 /* ChatGroupedViewController.swift in Sources */,
 				8E80F70820D938FD005256D9 /* ChatBaseViewModel.swift in Sources */,
 				50146BDA1D4F90E500B0F635 /* ChatsTabNavigator.swift in Sources */,
+				55B4F98B20EA25F50041544A /* ReportSentViewController.swift in Sources */,
 				C7C328421C907267008078EC /* PostListingGalleryViewModel.swift in Sources */,
 				C707D44B1E96799000042C03 /* TextHiddenTags.swift in Sources */,
 				50EC64051C64B05500DC04C5 /* LGEmptyView.swift in Sources */,
@@ -8096,6 +8112,7 @@
 				C7732F761D8842B800EAD5B7 /* OnboardingNavigator.swift in Sources */,
 				8EF1CDB32010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift in Sources */,
 				C7DB41AA1C5138B500400945 /* MainListingsViewModel.swift in Sources */,
+				55B4F98E20EA26000041544A /* ReportSentViewModel.swift in Sources */,
 				018B82F41FFE3B6A00687233 /* MostSearchedItemsListViewModel.swift in Sources */,
 				8EEC7F5E206AA62D00616858 /* NativeAdBlankStateView.swift in Sources */,
 				50E557BF1E421CF500327B6A /* LoginNavigator.swift in Sources */,
@@ -8587,6 +8604,7 @@
 				2E9716AF1D5B2C59009B3A32 /* ChatWrapper.swift in Sources */,
 				C75018491D10681B007D4CE4 /* ChatOtherInfoCell.swift in Sources */,
 				F5A836AE1FD1BA11009E636D /* ListingAttributePickerViewController.swift in Sources */,
+				550F94F420EB91420057DF8A /* ReportSentTypes.swift in Sources */,
 				0A4AD7FB203DDACA002625B7 /* UILayoutPriority.swift in Sources */,
 				326C72D32088820F009D21DB /* WaterFallLayout.swift in Sources */,
 				C7DB421B1C5138B500400945 /* FilterHeaderCell.swift in Sources */,
