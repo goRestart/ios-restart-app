@@ -756,9 +756,14 @@ extension TabCoordinator: ListingDetailNavigator {
     }
 
     func openUserReport(source: EventParameterTypePage, userReportedId: String) {
-        let vm = ReportUsersViewModel(origin: source, userReportedId: userReportedId)
-        let vc = ReportUsersViewController(viewModel: vm)
-        navigationController.pushViewController(vc, animated: true)
+        if featureFlags.reportingFostaSesta.isActive {
+            let child = ReportCoordinator(type: .user)
+            openChild(coordinator: child, parent: rootViewController, animated: true, forceCloseChild: false, completion: nil)
+        } else {
+            let vm = ReportUsersViewModel(origin: source, userReportedId: userReportedId)
+            let vc = ReportUsersViewController(viewModel: vm)
+            navigationController.pushViewController(vc, animated: true)
+        }
     }
 
     func showUndoBubble(withMessage message: String,

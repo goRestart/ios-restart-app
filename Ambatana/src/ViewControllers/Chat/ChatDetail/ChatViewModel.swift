@@ -1200,8 +1200,7 @@ extension ChatViewModel {
     
     private func reportUserAction() {
         guard let userID = conversation.value.interlocutor?.objectId else { return }
-        let reportVM = ReportUsersViewModel(origin: .chat, userReportedId: userID)
-        delegate?.vmDidPressReportUser(reportVM)
+        navigator?.openUserReport(source: .chat, userReportedId: userID)
     }
     
     fileprivate func blockUserAction(buttonPosition: EventParameterBlockButtonPosition) {
