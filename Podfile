@@ -53,7 +53,7 @@ def shared_pods
         pod "LGCollapsibleLabel",   "1.2.0", :inhibit_warnings => false     # :path => "../collapsiblelabel"
 
     # letgo bumper (feature flags)
-	pod "bumper",               "1.3.0"     #:path => "../bumper"
+	pod "bumper",               "1.3.1"     #:path => "../bumper"
    #  pod "bumper",            :git => 'git@github.com:letgoapp/bumper.git', :commit => '7ec04a070eca2337f058954d7f53c474d616d7b1', :inhibit_warnings => false
 
 

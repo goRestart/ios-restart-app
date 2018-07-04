@@ -26,7 +26,9 @@ final class BumperViewModel {
     weak var delegate: BumperViewModelDelegate?
 
     private(set) var enabled: Bool
-    private var viewData: [BumperViewData]
+    private var viewData: [BumperViewData] {
+        didSet { rx_filtered.value = viewData }
+    }
     var filter: String? = nil
     var rx_filtered: Variable<[BumperViewData]>
 

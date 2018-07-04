@@ -13,9 +13,9 @@ PODS:
   - Branch (0.22.5):
     - Branch/Core (= 0.22.5)
   - Branch/Core (0.22.5)
-  - bumper (1.3.0):
-    - bumper/Core (= 1.3.0)
-  - bumper/Core (1.3.0):
+  - bumper (1.3.1):
+    - bumper/Core (= 1.3.1)
+  - bumper/Core (1.3.1):
     - RxCocoa (~> 4.0.0)
     - RxSwift (~> 4.0.0)
   - CameraManager (4.0.1)
@@ -150,7 +150,7 @@ DEPENDENCIES:
   - Amplitude-iOS (= 4.0.4)
   - AppsFlyerFramework (= 4.8.4)
   - Branch (= 0.22.5)
-  - bumper (= 1.3.0)
+  - bumper (= 1.3.1)
   - "CameraManager (from `git@github.com:letgoapp/CameraManager.git`, commit `7b32b50f8bdb1f94f1f1d0fdb6c99a9d21a7ee84`)"
   - CHTCollectionViewWaterfallLayout (= 0.9.7)
   - CocoaLumberjack/Swift (= 3.3.0)
@@ -264,7 +264,7 @@ SPEC CHECKSUMS:
   AppsFlyerFramework: c45bbd289a6f9e9a19976ee270b44edea646aab6
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   Branch: 4f0482418d99e77d15b0e6065ef216c10e24797b
-  bumper: 2e1460ddf906992415e58efb0a76548e67c3c18b
+  bumper: f8d19f02bca78a960374877f07ce4072d5a35f17
   CameraManager: 3680841b23453730bb4b2dbed0dd493ccb354c7d
   CHTCollectionViewWaterfallLayout: 9d11068fafecac106695bb5a5d6d0f738483b598
   CocoaLumberjack: 3c8c74683302f9012bb168e1c4b7ae3c0b558431
@@ -310,6 +310,6 @@ SPEC CHECKSUMS:
   SwiftyGif: d36c6dfb52e2ca1e48fe349d225f50ec4123ec85
   SwiftyUserDefaults: 3d273b1739b68ada3145dc754a70ec775bc5c8be
 
-PODFILE CHECKSUM: 075053f2bd08e366db352d21277ea765aed1aa6d
+PODFILE CHECKSUM: 0808e493b6b5bc6afa5c91a22c8486f30a9329d8
 
 COCOAPODS: 1.5.3
