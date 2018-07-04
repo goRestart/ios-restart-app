@@ -1702,8 +1702,8 @@
 // no changes and close button text
 "meeting_creation_tips_view_gotit_button" = "Got it";
 
-// MoPub advertising indicator "Ad"
-"mopub_advertising_text" = "Ad";
+// MoPub and Google Adx advertising indicator "Ad"
+"advertising_text" = "Ad";
 
 // Subtitle text for empty notifications center
 "notifications_empty_subtitle" = "Post something for sale to start seeing some activity here";
@@ -3433,6 +3433,12 @@
 
 // Title for Button in Promo Cell real estate Listing
 "real_estate_promo_post_button_title" = "Post Now";
+
+// Title for tooltip for real estate map
+"real_estate_map_tooltip_title" = "New! See properties on a map";
+
+// Title for button in tooltip for real estate map
+"real_estate_map_tooltip_button_title" = "Try NoX";
 
 // Title when showing list of related items
 "related_items_title" = "Related listings";

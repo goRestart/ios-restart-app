@@ -1,11 +1,6 @@
 
 [
     {
-		"name": "ShowNPSSurvey",
-		"values": ["No", "Yes"],
-		"description": "Show nps survey"
-	},
-    {
         "name": "SurveyEnabled",
         "values": ["No", "Yes"],
         "description": "Show qualitative survey"

@@ -16,7 +16,6 @@ import RxSwift
 extension Bumper  {
     static func initialize() {
         var flags = [BumperFeature.Type]()
-        flags.append(ShowNPSSurvey.self)
         flags.append(SurveyEnabled.self)
         flags.append(FreeBumpUpEnabled.self)
         flags.append(PricedBumpUpEnabled.self)
@@ -72,24 +71,11 @@ extension Bumper  {
         flags.append(ShowChatConnectionStatusBar.self)
         flags.append(AdvancedReputationSystem.self)
         flags.append(NotificationSettings.self)
-        flags.append(ReportingFostaSesta.self)
         flags.append(CarExtraFieldsEnabled.self)
         flags.append(ShowChatHeaderWithoutListingForAssistant.self)
+        flags.append(ReportingFostaSesta.self)
         Bumper.initialize(flags)
     } 
-
-    static var showNPSSurvey: Bool {
-        guard let value = Bumper.value(for: ShowNPSSurvey.key) else { return false }
-        return ShowNPSSurvey(rawValue: value)?.asBool ?? false
-    } 
-
-    #if (RX_BUMPER)
-    static var showNPSSurveyObservable: Observable<Bool> {
-        return Bumper.observeValue(for: ShowNPSSurvey.key).map {
-            ShowNPSSurvey(rawValue: $0 ?? "")?.asBool ?? false
-        }
-    }
-    #endif
 
     static var surveyEnabled: Bool {
         guard let value = Bumper.value(for: SurveyEnabled.key) else { return false }
@@ -806,19 +792,6 @@ extension Bumper  {
     }
     #endif
 
-    static var reportingFostaSesta: ReportingFostaSesta {
-        guard let value = Bumper.value(for: ReportingFostaSesta.key) else { return .control }
-        return ReportingFostaSesta(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var reportingFostaSestaObservable: Observable<ReportingFostaSesta> {
-        return Bumper.observeValue(for: ReportingFostaSesta.key).map {
-            ReportingFostaSesta(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
     static var carExtraFieldsEnabled: CarExtraFieldsEnabled {
         guard let value = Bumper.value(for: CarExtraFieldsEnabled.key) else { return .control }
         return CarExtraFieldsEnabled(rawValue: value) ?? .control 
@@ -844,17 +817,21 @@ extension Bumper  {
         }
     }
     #endif
+
+    static var reportingFostaSesta: ReportingFostaSesta {
+        guard let value = Bumper.value(for: ReportingFostaSesta.key) else { return .control }
+        return ReportingFostaSesta(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var reportingFostaSestaObservable: Observable<ReportingFostaSesta> {
+        return Bumper.observeValue(for: ReportingFostaSesta.key).map {
+            ReportingFostaSesta(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
 }
 
-
-enum ShowNPSSurvey: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return ShowNPSSurvey.no.rawValue }
-    static var enumValues: [ShowNPSSurvey] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show nps survey" } 
-    var asBool: Bool { return self == .yes }
-}
 
 enum SurveyEnabled: String, BumperFeature  {
     case no, yes
@@ -1733,23 +1710,6 @@ enum NotificationSettings: String, BumperFeature  {
     }
 }
 
-enum ReportingFostaSesta: String, BumperFeature  {
-    case control, baseline, withIcons, withoutIcons
-    static var defaultValue: String { return ReportingFostaSesta.control.rawValue }
-    static var enumValues: [ReportingFostaSesta] { return [.control, .baseline, .withIcons, .withoutIcons]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show new user/product reporting flow (FOSTA-SESTA compliance)" } 
-    static func fromPosition(_ position: Int) -> ReportingFostaSesta {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .withIcons
-            case 3: return .withoutIcons
-            default: return .control
-        }
-    }
-}
-
 enum CarExtraFieldsEnabled: String, BumperFeature  {
     case control, baseline, active
     static var defaultValue: String { return CarExtraFieldsEnabled.control.rawValue }
@@ -1774,3 +1734,21 @@ enum ShowChatHeaderWithoutListingForAssistant: String, BumperFeature  {
     static var description: String { return "Use the new header without listing in chat detail" } 
     var asBool: Bool { return self == .yes }
 }
+
+enum ReportingFostaSesta: String, BumperFeature  {
+    case control, baseline, withIcons, withoutIcons
+    static var defaultValue: String { return ReportingFostaSesta.control.rawValue }
+    static var enumValues: [ReportingFostaSesta] { return [.control, .baseline, .withIcons, .withoutIcons]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show new user/product reporting flow (FOSTA-SESTA compliance)" } 
+    static func fromPosition(_ position: Int) -> ReportingFostaSesta {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .withIcons
+            case 3: return .withoutIcons
+            default: return .control
+        }
+    }
+}
+

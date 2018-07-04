@@ -1,5 +1,6 @@
 "account_pending_moderation" = "Tili on poistettu käytöstä moderaattorin toimesta";
 "account_pending_moderation_w_name" = "Käyttäjän %@ tili on poistettu käytöstä moderaattorin toimesta";
+"advertising_text" = "Mainos";
 "app_notification_reply" = "Vastaa";
 "app_share_download_text" = "Lataa";
 "app_share_email_button" = "Kutsu sähköpostilla";
@@ -562,7 +563,6 @@
 "ml_onboarding_description_text" = "Näytä minulle kohde ja kerron, paljonko tienaat";
 "ml_onboarding_new_text" = "UUSI!";
 "ml_onboarding_ok_text" = "OK";
-"mopub_advertising_text" = "Mainos";
 "notifications_empty_subtitle" = "Julkaise jotakin myytäväksi, jotta täällä alkaa tapahtua";
 "notifications_empty_title" = "EI ILMOITUKSIA (VIELÄ!)";
 "notifications_permissions_1_push" = "Liisa: Olen todella kiinnostunut puhelimestasi. Myytkö sen 100 eurolla?";
@@ -1137,7 +1137,7 @@
 "real_estate_type_property_room" = "Huone";
 "real_estate_type_property_title" = "Kiinteistön tyyppi";
 "real_estate_type_property_villa" = "Omakotitalo/huvila";
-"related_items_title" = "Samankaltaisia ilmoituksia";
+"related_items_title" = "Related listings";
 "report_user_counterfeit" = "Väärennettyjä tuotteita";
 "report_user_error_already_reported" = "Olet jo ilmiantanut tämän käyttäjän!";
 "report_user_inactive" = "Passiivinen";

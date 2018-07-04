@@ -1,5 +1,6 @@
 "account_pending_moderation" = "Account in afwachting van matiging";
 "account_pending_moderation_w_name" = "%@'s account in afwachting van matiging";
+"advertising_text" = "Advertentie";
 "app_notification_reply" = "Antwoord";
 "app_share_download_text" = "Download";
 "app_share_email_button" = "Uitnodigen via Email";
@@ -562,7 +563,6 @@
 "ml_onboarding_description_text" = "Toon me een item en ik zal je vertellen hoeveel je zult verdienen";
 "ml_onboarding_new_text" = "NIEUW!";
 "ml_onboarding_ok_text" = "OK";
-"mopub_advertising_text" = "Advertentie";
 "notifications_empty_subtitle" = "Plaats iets in de verkoop om hier wat activiteit te zien";
 "notifications_empty_title" = "(NOG!) GEEN NOTIFICATIES";
 "notifications_permissions_1_push" = "Fleur: Hoi! Ik wil je telefoon graag kopen voor 100 euro. Deal?";
@@ -1137,7 +1137,7 @@
 "real_estate_type_property_room" = "Kamer";
 "real_estate_type_property_title" = "Soort Woning";
 "real_estate_type_property_villa" = "Vrijstaand Huis / Villa";
-"related_items_title" = "Gerelateerde advertenties";
+"related_items_title" = "Related listings";
 "report_user_counterfeit" = "Nagemaakte artikelen";
 "report_user_error_already_reported" = "Je hebt deze gebruiker al gerapporteerd!";
 "report_user_inactive" = "Inactief";

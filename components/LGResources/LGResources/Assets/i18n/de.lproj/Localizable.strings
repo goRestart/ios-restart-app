@@ -1,5 +1,6 @@
 "account_pending_moderation" = "Benutzerkonto wird überprüft";
 "account_pending_moderation_w_name" = "Das Benutzerkonto von %@ wird überprüft";
+"advertising_text" = "Anzeige";
 "app_notification_reply" = "Antwort";
 "app_share_download_text" = "Herunterladen";
 "app_share_email_button" = "Via E-Mail einladen";
@@ -562,7 +563,6 @@
 "ml_onboarding_description_text" = "Zeige mir einen Artikel und ich sage dir, wieviel du damit verdienst";
 "ml_onboarding_new_text" = "NEU!";
 "ml_onboarding_ok_text" = "Ok";
-"mopub_advertising_text" = "Anzeige";
 "notifications_empty_subtitle" = "Stelle etwas zum Verkauf ein, damit hier etwas Leben reinkommt";
 "notifications_empty_title" = "(NOCH) KEINE MITTEILUNGEN";
 "notifications_permissions_1_push" = "Claudia: Ich interessiere mich für das Smartphone. Wären 100€ okay?";
@@ -1137,7 +1137,7 @@
 "real_estate_type_property_room" = "Zimmer";
 "real_estate_type_property_title" = "Art der Immobilie";
 "real_estate_type_property_villa" = "Einfamilienhaus / Villa";
-"related_items_title" = "Ähnliche Angebote";
+"related_items_title" = "Related listings";
 "report_user_counterfeit" = "Gefälschte Ware";
 "report_user_error_already_reported" = "Du hast diesen Nutzer bereits gemeldet!";
 "report_user_inactive" = "Inaktiv";

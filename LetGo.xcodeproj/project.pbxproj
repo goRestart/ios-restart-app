@@ -1596,12 +1596,6 @@
 		C79895C91DE43D5100DD58BF /* SessionEvent+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79895C71DE4349900DD58BF /* SessionEvent+LG.swift */; };
 		C7AB4EC61CD39C67007B573D /* LGNotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AB4EC51CD39C67007B573D /* LGNotificationsManager.swift */; };
 		C7AB4EC71CD39C67007B573D /* LGNotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AB4EC51CD39C67007B573D /* LGNotificationsManager.swift */; };
-		C7AFFAFA1E7053EF0052A9CA /* NPSViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AFFAF71E7053EF0052A9CA /* NPSViewController.swift */; };
-		C7AFFAFB1E7053EF0052A9CA /* NPSViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AFFAF71E7053EF0052A9CA /* NPSViewController.swift */; };
-		C7AFFAFC1E7053EF0052A9CA /* NPSViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7AFFAF81E7053EF0052A9CA /* NPSViewController.xib */; };
-		C7AFFAFD1E7053EF0052A9CA /* NPSViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7AFFAF81E7053EF0052A9CA /* NPSViewController.xib */; };
-		C7AFFAFE1E7053EF0052A9CA /* NPSViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AFFAF91E7053EF0052A9CA /* NPSViewModel.swift */; };
-		C7AFFAFF1E7053EF0052A9CA /* NPSViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AFFAF91E7053EF0052A9CA /* NPSViewModel.swift */; };
 		C7AFFB011E7054590052A9CA /* WebSurveyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AFFB001E7054590052A9CA /* WebSurveyViewController.swift */; };
 		C7AFFB021E7054590052A9CA /* WebSurveyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AFFB001E7054590052A9CA /* WebSurveyViewController.swift */; };
 		C7AFFB041E7054780052A9CA /* WebSurveyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AFFB031E7054780052A9CA /* WebSurveyViewModel.swift */; };
@@ -2908,9 +2902,6 @@
 		C79842001CC8E8C900C300FF /* User+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+LG.swift"; sourceTree = "<group>"; };
 		C79895C71DE4349900DD58BF /* SessionEvent+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SessionEvent+LG.swift"; sourceTree = "<group>"; };
 		C7AB4EC51CD39C67007B573D /* LGNotificationsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGNotificationsManager.swift; sourceTree = "<group>"; };
-		C7AFFAF71E7053EF0052A9CA /* NPSViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NPSViewController.swift; sourceTree = "<group>"; };
-		C7AFFAF81E7053EF0052A9CA /* NPSViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NPSViewController.xib; sourceTree = "<group>"; };
-		C7AFFAF91E7053EF0052A9CA /* NPSViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NPSViewModel.swift; sourceTree = "<group>"; };
 		C7AFFB001E7054590052A9CA /* WebSurveyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSurveyViewController.swift; sourceTree = "<group>"; };
 		C7AFFB031E7054780052A9CA /* WebSurveyViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSurveyViewModel.swift; sourceTree = "<group>"; };
 		C7AFFB061E714D5D0052A9CA /* SurveysCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SurveysCoordinator.swift; sourceTree = "<group>"; };
@@ -5462,21 +5453,10 @@
 		C7AFFAF51E7053EF0052A9CA /* Surveys */ = {
 			isa = PBXGroup;
 			children = (
-				C7AFFAF61E7053EF0052A9CA /* NPS */,
 				C7AFFB001E7054590052A9CA /* WebSurveyViewController.swift */,
 				C7AFFB031E7054780052A9CA /* WebSurveyViewModel.swift */,
 			);
 			path = Surveys;
-			sourceTree = "<group>";
-		};
-		C7AFFAF61E7053EF0052A9CA /* NPS */ = {
-			isa = PBXGroup;
-			children = (
-				C7AFFAF71E7053EF0052A9CA /* NPSViewController.swift */,
-				C7AFFAF81E7053EF0052A9CA /* NPSViewController.xib */,
-				C7AFFAF91E7053EF0052A9CA /* NPSViewModel.swift */,
-			);
-			path = NPS;
 			sourceTree = "<group>";
 		};
 		C7B587FA1CE1DE1C009B3975 /* BlockedUsers */ = {
@@ -6173,7 +6153,6 @@
 				C7B588A01CE1E025009B3975 /* ChatGroupedListView.xib in Resources */,
 				2E92CBFF20248DC600451B65 /* SuggestedLocationCell.xib in Resources */,
 				C7DE8AE21C88A98B005CF37E /* PostListingViewController.xib in Resources */,
-				C7AFFAFC1E7053EF0052A9CA /* NPSViewController.xib in Resources */,
 				6A38ADE81C64EAA1009E1A31 /* TourNotificationsViewControllerMini.xib in Resources */,
 				8EB8B8022084E89F00D3B9CA /* GoogleAdxNativeView.xib in Resources */,
 				2E4ADEC0200515FC00D07D8A /* BumpUpFreeViewController.xib in Resources */,
@@ -6273,7 +6252,6 @@
 				C7B588A11CE1E025009B3975 /* ChatGroupedListView.xib in Resources */,
 				2E9716AB1D5A284F009B3A32 /* ExpressChatViewController.xib in Resources */,
 				C7DE8AE31C88A98B005CF37E /* PostListingViewController.xib in Resources */,
-				C7AFFAFD1E7053EF0052A9CA /* NPSViewController.xib in Resources */,
 				6A38ADE91C64EAA1009E1A31 /* TourNotificationsViewControllerMini.xib in Resources */,
 				6A38ADEC1C650294009E1A31 /* TourLocationViewControllerMini.xib in Resources */,
 				508011041D4749030073F362 /* LaunchScreen.xib in Resources */,
@@ -7102,7 +7080,6 @@
 				C7AFFB011E7054590052A9CA /* WebSurveyViewController.swift in Sources */,
 				50AB5F221ED4447200E9909D /* UserRatingTag.swift in Sources */,
 				C7B5886B1CE1DE1C009B3975 /* ChatGroupedViewModel.swift in Sources */,
-				C7AFFAFE1E7053EF0052A9CA /* NPSViewModel.swift in Sources */,
 				724D77A41FC3251E00DB43C0 /* RealEstateAttributes+LG.swift in Sources */,
 				8EEC7F5A206AA62800616858 /* AdvertisementMoPubCellDrawer.swift in Sources */,
 				6A5691531D255D27000B7365 /* ListingCellModel.swift in Sources */,
@@ -7251,7 +7228,6 @@
 				8E1139E21EC9AD5B00A9D772 /* FilterDescriptionHeaderView.swift in Sources */,
 				42ED94ED2077C36C00548B62 /* PromoCellData.swift in Sources */,
 				503996D61C60C258004D2E09 /* LGViewPager.swift in Sources */,
-				C7AFFAFA1E7053EF0052A9CA /* NPSViewController.swift in Sources */,
 				42ED94EA2077A6DB00548B62 /* PromoCellMetrics.swift in Sources */,
 				C7B76CF51C1089DF00863512 /* ListingCellDrawer.swift in Sources */,
 				C78BB50B1C5A314700614096 /* AppShareViewController.swift in Sources */,
@@ -7909,7 +7885,6 @@
 				C7B5886C1CE1DE1C009B3975 /* ChatGroupedViewModel.swift in Sources */,
 				724D77A51FC3252100DB43C0 /* RealEstateAttributes+LG.swift in Sources */,
 				017E608020D15D39007025C0 /* NotificationSettingsListDetailViewModel.swift in Sources */,
-				C7AFFAFF1E7053EF0052A9CA /* NPSViewModel.swift in Sources */,
 				8E814F3D1F3472E800C88432 /* LGSliderViewModel.swift in Sources */,
 				01A171C1208DD1B900C98D4C /* SearchAlertsListViewModel.swift in Sources */,
 				6A5691541D255D27000B7365 /* ListingCellModel.swift in Sources */,
@@ -8061,7 +8036,6 @@
 				C727FBC41CCFC545002BC643 /* NotificationsViewModel.swift in Sources */,
 				328E8E3020C03A5E00BBF639 /* EmptyViewModelBuilder.swift in Sources */,
 				2E4ADECC200516A600D07D8A /* ProfessionalDealerAskPhoneViewController.swift in Sources */,
-				C7AFFAFB1E7053EF0052A9CA /* NPSViewController.swift in Sources */,
 				5095988E1C8733B70026AE2D /* CrashlyticsReporter.swift in Sources */,
 				2E2A5E161D5C81250047ED45 /* ExpressChatCoordinator.swift in Sources */,
 				0A04D5DA20760A9D00471B9D /* ABTests.swift in Sources */,

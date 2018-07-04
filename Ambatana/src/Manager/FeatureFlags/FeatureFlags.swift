@@ -15,7 +15,6 @@ protocol FeatureFlaggeable: class {
     var syncedData: Observable<Bool> { get }
     func variablesUpdated()
 
-    var showNPSSurvey: Bool { get }
     var surveyUrl: String { get }
     var surveyEnabled: Bool { get }
 
@@ -524,14 +523,7 @@ final class FeatureFlags: FeatureFlaggeable {
         }
         abTests.variablesUpdated()
     }
-
-    var showNPSSurvey: Bool {
-        if Bumper.enabled {
-            return Bumper.showNPSSurvey
-        }
-        return abTests.showNPSSurvey.value
-    }
-
+    
     var surveyUrl: String {
         if Bumper.enabled {
             return Bumper.surveyEnabled ? SharedConstants.surveyDefaultTestUrl : ""

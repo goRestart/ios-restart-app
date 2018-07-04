@@ -1,5 +1,6 @@
 "account_pending_moderation" = "Cuenta pendiente de moderación";
 "account_pending_moderation_w_name" = "La cuenta de %@ está pendiente de moderación";
+"advertising_text" = "Anuncio";
 "app_notification_reply" = "Responder";
 "app_share_download_text" = "Descargar";
 "app_share_email_button" = "Invitar por Email";
@@ -562,7 +563,6 @@
 "ml_onboarding_description_text" = "Muestráme un artículo y te diré cuánto podrías ganar";
 "ml_onboarding_new_text" = "¡NUEVO!";
 "ml_onboarding_ok_text" = "OK";
-"mopub_advertising_text" = "Anuncio";
 "notifications_empty_subtitle" = "Empieza a vender y verás mucha actividad por aquí";
 "notifications_empty_title" = "NO HAY NOTIFICACIONES (¡TODAVÍA!)";
 "notifications_permissions_1_push" = "Isabel: Me interesa el teléfono. ¿Lo venderías por 100€?";
@@ -1137,7 +1137,7 @@
 "real_estate_type_property_room" = "Habitación";
 "real_estate_type_property_title" = "Tipo de propiedad";
 "real_estate_type_property_villa" = "Casa / Villa";
-"related_items_title" = "Anuncios relacionados";
+"related_items_title" = "Related listings";
 "report_user_counterfeit" = "Productos falsificados";
 "report_user_error_already_reported" = "¡Ya has denunciado a este usuario!";
 "report_user_inactive" = "Inactivo";

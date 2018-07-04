@@ -11,7 +11,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     func variablesUpdated() {}
     let trackingDataVar = Variable<[(String, ABGroup)]?>(nil)
 
-    var showNPSSurvey: Bool = false
     var surveyUrl: String = ""
     var surveyEnabled: Bool = false
 

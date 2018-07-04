@@ -1172,16 +1172,6 @@ struct TrackerEvent {
         params[.expressChatTrigger] = trigger.rawValue
         return TrackerEvent(name: .expressChatDontAsk, params: params)
     }
-    
-    static func npsStart() -> TrackerEvent {
-        return TrackerEvent(name: .npsStart, params: nil)
-    }
-    
-    static func npsComplete(_ score: Int) -> TrackerEvent {
-        var params = EventParameters()
-        params[.npsScore] = score
-        return TrackerEvent(name: .npsComplete, params: params)
-    }
 
     static func surveyStart(userId: String?, surveyUrl: String) -> TrackerEvent {
         var params = EventParameters()

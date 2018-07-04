@@ -14,6 +14,8 @@ extension R {
     public static func accountPendingModerationWName(_ p1: String) -> String {
       return Strings.tr("Localizable", "account_pending_moderation_w_name", p1)
     }
+    /// Ad
+    public static let advertisingText = Strings.tr("Localizable", "advertising_text")
     /// Reply
     public static let appNotificationReply = Strings.tr("Localizable", "app_notification_reply")
     /// Download
@@ -1214,8 +1216,6 @@ extension R {
     public static let mlOnboardingNewText = Strings.tr("Localizable", "ml_onboarding_new_text")
     /// OK
     public static let mlOnboardingOkText = Strings.tr("Localizable", "ml_onboarding_ok_text")
-    /// Ad
-    public static let mopubAdvertisingText = Strings.tr("Localizable", "mopub_advertising_text")
     /// Post something for sale to start seeing some activity here
     public static let notificationsEmptySubtitle = Strings.tr("Localizable", "notifications_empty_subtitle")
     /// NO NOTIFICATIONS (YET!)
@@ -2328,6 +2328,10 @@ extension R {
     public static let realEstateLocationNotificationMessage = Strings.tr("Localizable", "real_estate_location_notification_message")
     /// Location
     public static let realEstateLocationTitle = Strings.tr("Localizable", "real_estate_location_title")
+    /// Try NoX
+    public static let realEstateMapTooltipButtonTitle = Strings.tr("Localizable", "real_estate_map_tooltip_button_title")
+    /// New! See properties on a map
+    public static let realEstateMapTooltipTitle = Strings.tr("Localizable", "real_estate_map_tooltip_title")
     /// For Rent
     public static let realEstateOfferTypeRent = Strings.tr("Localizable", "real_estate_offer_type_rent")
     /// For Sale
