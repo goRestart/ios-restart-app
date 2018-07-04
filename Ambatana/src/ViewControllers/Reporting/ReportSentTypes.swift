@@ -5,24 +5,12 @@ enum ReportSentType {
     case userBasic
     case userBlockA
     case userBlockB
-    case userBlockReviewA
-    case userBlockReviewB
     case userLawEnforcement
     case userLawEnforcementBlock
 
     var allowsBlockUser: Bool {
         switch self {
-            case .userBlockA, .userBlockB, .userBlockReviewA,
-                 .userBlockReviewB, .userLawEnforcementBlock:
-            return true
-        default:
-            return false
-        }
-    }
-
-    var allowsReviewUser: Bool {
-        switch self {
-        case .userBlockReviewA, .userBlockReviewB:
+            case .userBlockA, .userBlockB, .userLawEnforcementBlock:
             return true
         default:
             return false
