@@ -297,12 +297,12 @@ final class PostListingCameraView: BaseView, LGViewPagerPage, MLPredictionDetail
 
     private func setupMachineLearning(enabled: Bool) {
         if enabled {
-            machineLearningButton.setImage(#imageLiteral(resourceName: "ml_icon_on"), for: .normal)
+            machineLearningButton.setImage(R.Asset.Machinelearning.mlIconOn.image, for: .normal)
             camera.startForwardingPixelBuffers(to: viewModel.machineLearning,
                                                pixelsBuffersToForwardPerSecond: viewModel.machineLearning.pixelsBuffersToForwardPerSecond)
             predictionLabel.animateTo(alpha: 1)
         } else {
-            machineLearningButton.setImage(#imageLiteral(resourceName: "ml_icon_off"), for: .normal)
+            machineLearningButton.setImage(R.Asset.Machinelearning.mlIconOff.image, for: .normal)
             camera.stopForwardingPixelBuffers()
             predictionLabel.animateTo(alpha: 0)
         }
