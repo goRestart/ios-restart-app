@@ -14,7 +14,6 @@ final class ListingDeckViewControllerBinderSpec: QuickSpec {
         var viewControllerType: MockListingDeckViewControllerBinderType!
         var viewModelType: MockListingDeckViewModelType!
         var viewType: MockListingDeckViewType!
-        var cellType: MockListingDeckViewControllerBinderCellType!
 
         var currentDisposeBag: DisposeBag!
 
@@ -24,7 +23,6 @@ final class ListingDeckViewControllerBinderSpec: QuickSpec {
                 viewControllerType = MockListingDeckViewControllerBinderType()
                 viewType = MockListingDeckViewType()
                 viewModelType = MockListingDeckViewModelType()
-                cellType = MockListingDeckViewControllerBinderCellType()
 
                 sut.listingDeckViewController = viewControllerType
             }
@@ -32,69 +30,6 @@ final class ListingDeckViewControllerBinderSpec: QuickSpec {
                 viewControllerType.resetVariables()
                 viewModelType.resetVariables()
                 viewType.resetVariables()
-            }
-
-            context("the cell's usericon button is touched") {
-                beforeEach {
-                    sut.bind(cell: cellType)
-                    cellType.userIcon.sendActions(for: .touchUpInside)
-                }
-                it("didTapCardAction method is called one time") {
-                    expect(viewControllerType.isDidTapUserIconCalled).toEventually(be(1))
-                }
-            }
-
-            context("the cell's action button is touched after disposing the bag") {
-                beforeEach {
-                    sut.bind(cell: cellType)
-                    cellType.disposeBag = DisposeBag()
-                    cellType.userIcon.sendActions(for: .touchUpInside)
-                }
-                it("didTapCardAction method is not called") {
-                    expect(viewControllerType.isDidTapUserIconCalled).toEventually(be(0))
-                }
-            }
-
-            context("the cell's action button is touched") {
-                beforeEach {
-                    sut.bind(cell: cellType)
-                    cellType.actionButton.sendActions(for: .touchUpInside)
-                }
-                it("didTapCardAction method is called one time") {
-                    expect(viewControllerType.isDidTapCardActionCalled).toEventually(be(1))
-                }
-            }
-
-            context("the cell's action button is touched after disposing the bag") {
-                beforeEach {
-                    sut.bind(cell: cellType)
-                    cellType.disposeBag = DisposeBag()
-                    cellType.actionButton.sendActions(for: .touchUpInside)
-                }
-                it("didTapCardAction method is not called") {
-                    expect(viewControllerType.isDidTapCardActionCalled).toEventually(be(0))
-                }
-            }
-
-            context("the cell's share button is touched after disposing the bag") {
-                beforeEach {
-                    sut.bind(cell: cellType)
-                    cellType.disposeBag = DisposeBag()
-                    cellType.shareButton.sendActions(for: .touchUpInside)
-                }
-                it("didTapShare method is not called one time") {
-                    expect(viewControllerType.isDidTapShareCalled).toEventually(be(0))
-                }
-            }
-
-            context("the cell's share button is touched") {
-                beforeEach {
-                    sut.bind(cell: cellType)
-                    cellType.shareButton.sendActions(for: .touchUpInside)
-                }
-                it("didTapShare method is called one time") {
-                    expect(viewControllerType.isDidTapShareCalled).toEventually(be(1))
-                }
             }
 
             context("the view scrolls the cards with the chat enabled") {
@@ -132,21 +67,6 @@ final class ListingDeckViewControllerBinderSpec: QuickSpec {
                 }
                 it("the viewmodel does not register any scroll") {
                     expect(viewModelType.userHasScrollCalled).toEventually(be(0))
-                }
-            }
-
-            context("the keyboard appears") {
-                beforeEach {
-                    sut.bind(withViewModel: viewModelType, listingDeckView: viewType)
-                    viewControllerType.rx_keyboardChanges.value = KeyboardChange(height: 0,
-                                                                                 origin: 0,
-                                                                                 animationTime: 0,
-                                                                                 animationOptions: .allowUserInteraction,
-                                                                                 visible: true,
-                                                                                 isLocal: true)
-                }
-                it("updateWithKeyboardChange method is called twice") {
-                    expect(viewControllerType.isUpdateWithKeyboardChangeCalled).toEventually(be(2))
                 }
             }
 
@@ -217,24 +137,6 @@ final class ListingDeckViewControllerBinderSpec: QuickSpec {
                 }
             }
         }
-    }
-}
-
-private class MockListingDeckViewControllerBinderCellType: ListingDeckViewControllerBinderCellType {
-
-    var rxShareButton: Reactive<UIButton> { return shareButton.rx }
-    let shareButton = UIButton(frame: .zero)
-
-    var rxActionButton: Reactive<UIButton> { return actionButton.rx }
-    let actionButton = UIButton(frame: .zero)
-
-    var rxUserIcon: Reactive<UIButton> { return userIcon.rx }
-    let userIcon = UIButton(frame: .zero)
-
-    var disposeBag = DisposeBag()
-
-    func recycleDisposeBag() {
-        disposeBag = DisposeBag()
     }
 }
 
@@ -320,10 +222,6 @@ final class MockListingDeckViewModelType: ListingDeckViewModelType {
 }
 
 private class MockListingDeckViewControllerBinderType: ListingDeckViewControllerBinderType {
-    var rxDidBeginEditing: ControlEvent<()>? { return textField.rx.controlEvent(.editingDidBegin) }
-    var rxDidEndEditing: ControlEvent<()>? { return textField.rx.controlEvent(.editingDidEnd) }
-    var textField = UITextField()
-
     func didMoveToItemAtIndex(_ index: Int) {
         isDidMoveToItemAtIndex += 1
     }
@@ -338,9 +236,6 @@ private class MockListingDeckViewControllerBinderType: ListingDeckViewController
     func willDisplayCell(_ cell: UICollectionViewCell, atIndexPath indexPath: IndexPath) {
         // ☢️ do not know how to test this
     }
-    func turnNavigationBar(_ on: Bool) {
-        // ☢️ do not know how to test this
-    }
 
     func updateViewWith(alpha: CGFloat, chatEnabled: Bool, actionsEnabled: Bool) {
         isUpdateViewWithAlphaCalled += 1
@@ -348,32 +243,17 @@ private class MockListingDeckViewControllerBinderType: ListingDeckViewController
 
     var rxContentOffset: Observable<CGPoint> { return contentOffset.asObservable() }
     var contentOffset: Variable<CGPoint> = Variable<CGPoint>(CGPoint(x: 0, y: 0))
-    var keyboardChanges: Observable<KeyboardChange> { return rx_keyboardChanges.asObservable() }
-    let rx_keyboardChanges: Variable<KeyboardChange> = Variable(KeyboardChange(height: 0,
-                                                                               origin: 0,
-                                                                               animationTime: 0,
-                                                                               animationOptions: .allowUserInteraction,
-                                                                               visible: true,
-                                                                               isLocal: true))
 
     var isUpdateViewWithActionsCalled: Int = 0
-    var isUpdateWithKeyboardChangeCalled: Int = 0
     var isShowBumpUpBannerBumpInfoCalled: Int = 0
-    var isDidTapShareCalled: Int = 0
-    var isDidTapUserIconCalled = 0
-    var isDidTapCardActionCalled: Int = 0
     var isUpdateViewWithAlphaCalled: Int = 0
     var isDidMoveToItemAtIndex: Int = 0
     var isPresentInterstitialAtIndex: Int = 0
 
     func resetVariables() {
         isUpdateViewWithActionsCalled = 0
-        isUpdateWithKeyboardChangeCalled = 0
         isShowBumpUpBannerBumpInfoCalled = 0
-        isDidTapShareCalled = 0
-        isDidTapCardActionCalled = 0
         isUpdateViewWithAlphaCalled = 0
-        isDidTapUserIconCalled = 0
         isDidMoveToItemAtIndex = 0
         isPresentInterstitialAtIndex = 0
     }
@@ -381,20 +261,8 @@ private class MockListingDeckViewControllerBinderType: ListingDeckViewController
     func updateViewWithActions(_ actions: [UIAction]) {
         isUpdateViewWithActionsCalled += 1
     }
-    func updateWith(keyboardChange: KeyboardChange) {
-        isUpdateWithKeyboardChangeCalled += 1
-    }
     func updateWithBumpUpInfo(_ bumpInfo: BumpUpInfo?) {
         isShowBumpUpBannerBumpInfoCalled += 1
-    }
-    func didTapShare() {
-        isDidTapShareCalled += 1
-    }
-    func didTapOnUserIcon() {
-        isDidTapUserIconCalled += 1
-    }
-    func didTapCardAction() {
-        isDidTapCardActionCalled += 1
     }
     func presentInterstitialAtIndex(_ index: Int) {
         isPresentInterstitialAtIndex += 1

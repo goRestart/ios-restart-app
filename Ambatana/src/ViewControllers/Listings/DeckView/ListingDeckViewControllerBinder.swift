@@ -6,17 +6,9 @@ import GoogleMobileAds
 import LGComponents
 
 protocol ListingDeckViewControllerBinderType: class {
-    var keyboardChanges: Observable<KeyboardChange> { get }
     var rxContentOffset: Observable<CGPoint> { get }
-    var rxDidBeginEditing: ControlEvent<()>? { get }
-    var rxDidEndEditing: ControlEvent<()>? { get }
 
-    func updateWith(keyboardChange: KeyboardChange)
     func updateWithBumpUpInfo(_ bumpInfo: BumpUpInfo?)
-
-    func didTapShare()
-    func didTapCardAction()
-    func didTapOnUserIcon()
 
     func willDisplayCell(_ cell: UICollectionViewCell, atIndexPath indexPath: IndexPath)
     func willBeginDragging()
@@ -25,8 +17,6 @@ protocol ListingDeckViewControllerBinderType: class {
     
     func updateViewWith(alpha: CGFloat, chatEnabled: Bool, actionsEnabled: Bool)
     func updateViewWithActions(_ actions: [UIAction])
-
-    func turnNavigationBar(_ on: Bool)
     
     func presentInterstitialAtIndex(_ index: Int)
 }
@@ -61,15 +51,6 @@ protocol ListingDeckViewModelType: class {
     func openVideoPlayer()
 }
 
-protocol ListingDeckViewControllerBinderCellType {
-    var rxShareButton: Reactive<UIButton> { get }
-    var rxActionButton: Reactive<UIButton> { get }
-    var rxUserIcon: Reactive<UIButton> { get }
-    var disposeBag: DisposeBag { get }
-
-    func recycleDisposeBag()
-}
-
 final class ListingDeckViewControllerBinder {
 
     weak var listingDeckViewController: ListingDeckViewControllerBinderType? = nil
@@ -80,7 +61,6 @@ final class ListingDeckViewControllerBinder {
         let currentDB = DisposeBag()
         disposeBag = currentDB
 
-        bindKeyboardChanges(withViewController: viewController, disposeBag: currentDB)
         bindCollectionView(withViewController: viewController, viewModel: viewModel,
                            listingDeckView: listingDeckView, disposeBag: currentDB)
         bindDeckMovement(withViewController: viewController, viewModel: viewModel,
@@ -89,44 +69,7 @@ final class ListingDeckViewControllerBinder {
                  listingDeckView: listingDeckView, disposeBag: currentDB)
         bindActions(withViewModel: viewModel, listingDeckView: listingDeckView, disposeBag: currentDB)
         bindActionButtonTap(withViewModel: viewModel, listingDeckView: listingDeckView, disposeBag: currentDB)
-        bindNavigationBar(withViewController: viewController, listingDeckView: listingDeckView, disposeBag: currentDB)
         bindBumpUps(withViewModel: viewModel, viewController: viewController, listingDeckView: listingDeckView, disposeBag: currentDB)
-    }
-
-    func bindNavigationBar(withViewController
-        viewController: ListingDeckViewControllerBinderType,
-                           listingDeckView: ListingDeckViewType,
-                           disposeBag: DisposeBag) {
-        if let didEndEditing = viewController.rxDidEndEditing {
-            didEndEditing
-                .asDriver()
-                .drive(onNext: { [weak viewController] _ in
-                    viewController?.turnNavigationBar(true)
-                }).disposed(by: disposeBag)
-        }
-        if let didBeginEditing = viewController.rxDidBeginEditing {
-            didBeginEditing
-                .asDriver()
-                .drive(onNext: { [weak viewController] _ in
-                    viewController?.turnNavigationBar(false)
-                }).disposed(by: disposeBag)
-        }
-    }
-
-    func bind(cell: ListingDeckViewControllerBinderCellType) {
-        guard let viewController = listingDeckViewController else { return }
-        cell.recycleDisposeBag()
-        cell.rxShareButton.tap.asObservable().bind { [weak viewController] in
-            viewController?.didTapShare()
-        }.disposed(by: cell.disposeBag)
-
-        cell.rxActionButton.tap.asObservable().bind { [weak viewController] in
-            viewController?.didTapCardAction()
-        }.disposed(by: cell.disposeBag)
-
-        cell.rxUserIcon.tap.asObservable().bind { [weak viewController] in
-            viewController?.didTapOnUserIcon()
-        }.disposed(by: cell.disposeBag)
     }
 
     private func bindActions(withViewModel viewModel: ListingDeckViewModelType,
@@ -146,13 +89,6 @@ final class ListingDeckViewControllerBinder {
                                      disposeBag: DisposeBag) {
         listingDeckView?.rxActionButton.tap.bind { [weak viewModel] in
             viewModel?.didTapActionButton()
-        }.disposed(by: disposeBag)
-    }
-
-    private func bindKeyboardChanges(withViewController viewController: ListingDeckViewControllerBinderType,
-                                     disposeBag: DisposeBag) {
-        viewController.keyboardChanges.bind { [weak viewController] change in
-            viewController?.updateWith(keyboardChange: change)
         }.disposed(by: disposeBag)
     }
 

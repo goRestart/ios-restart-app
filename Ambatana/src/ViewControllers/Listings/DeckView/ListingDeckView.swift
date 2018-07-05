@@ -12,8 +12,10 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
                                                   left: 0,
                                                   bottom: 0,
                                                   right: 30)
-        struct Height {
+        static let playButtonHeight: CGFloat = 30
+		struct Height {
             static let previewFactor: CGFloat = 0.7
+            static let actions: CGFloat = 100
         }
         static let collectionVerticalInset: CGFloat = 18
     }
@@ -22,11 +24,12 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
     var cardSize: CGSize { return collectionLayout.cardSize }
     var cellHeight: CGFloat { return collectionLayout.cellHeight }
 
-    let collectionView: UICollectionView
+    lazy var collectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
+    lazy var rxCollectionView: Reactive<UICollectionView> = collectionView.rx
     private let collectionLayout = ListingDeckCollectionViewLayout()
-    let rxCollectionView: Reactive<UICollectionView>
 
     let itemActionsView = ListingDeckActionView()
+
     private let startPlayingButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setImage(R.Asset.IconsButtons.VideoPosting.icVideopostingPlay.image, for: .normal)
@@ -41,9 +44,6 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
     var isBumpUpVisible: Bool { return itemActionsView.isBumpUpVisible }
 
     override init(frame: CGRect) {
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
-        rxCollectionView = collectionView.rx
-        
         super.init(frame: frame)
         setupUI()
     }
@@ -56,20 +56,33 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
 
     private func setupUI() {
         backgroundColor = UIColor.white
-        setupCollectionView()
-        setupPrivateActionsView()
-        if #available(iOS 10.0, *) { collectionView.isPrefetchingEnabled = true }
-    }
-
-    private func setupCollectionView() {
-        addSubviewForAutoLayout(collectionView)
+        addSubviewsForAutoLayout([collectionView, itemActionsView, startPlayingButton])
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: topAnchor, constant: Layout.collectionVerticalInset),
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Layout.collectionVerticalInset)
+
+            itemActionsView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            itemActionsView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            itemActionsView.topAnchor.constraint(equalTo: collectionView.bottomAnchor),
+            itemActionsView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            itemActionsView.heightAnchor.constraint(equalToConstant: Layout.Height.actions),
+
+            startPlayingButton.rightAnchor.constraint(equalTo: collectionView.rightAnchor,
+                                                      constant: -Layout.playButtonEdges.right),
+            startPlayingButton.topAnchor.constraint(equalTo: collectionView.topAnchor,
+                                                    constant: Layout.playButtonEdges.top),
+            startPlayingButton.widthAnchor.constraint(equalToConstant: Layout.playButtonHeight),
+            startPlayingButton.heightAnchor.constraint(equalTo: startPlayingButton.widthAnchor)
         ])
 
+        setupCollectionView()
+        setupPrivateActionsView()
+
+        if #available(iOS 10.0, *) { collectionView.isPrefetchingEnabled = true }
+    }
+
+    private func setupCollectionView() {
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.decelerationRate = 0
         collectionView.contentInset = .zero
@@ -81,23 +94,11 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
     }
 
     private func setupPlayableButton() {
-        addSubviewForAutoLayout(startPlayingButton)
         startPlayingButton.alpha = 0
-        NSLayoutConstraint.activate([
-            startPlayingButton.rightAnchor.constraint(equalTo: collectionView.rightAnchor,
-                                                      constant: -Layout.playButtonEdges.right),
-            startPlayingButton.topAnchor.constraint(equalTo: collectionView.topAnchor,
-                                                    constant: Layout.playButtonEdges.top),
-            startPlayingButton.widthAnchor.constraint(equalToConstant: 30),
-            startPlayingButton.heightAnchor.constraint(equalTo: startPlayingButton.widthAnchor)
-        ])
         startPlayingButton.addTarget(self, action: #selector(bouncePlayingButton), for: .touchUpInside)
     }
 
     private func setupPrivateActionsView() {
-        addSubview(itemActionsView)
-        itemActionsView.translatesAutoresizingMaskIntoConstraints = false
-
         itemActionsView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         itemActionsView.layout(with: self).fillHorizontal()
 

@@ -8,7 +8,7 @@ import GoogleMobileAds
 
 typealias DeckMovement = CarouselMovement
 
-final class ListingDeckViewController: KeyboardViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+final class ListingDeckViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     private struct Layout {
         struct Insets {
             static let chat: CGFloat = 75
@@ -17,12 +17,6 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     }
     override var preferredStatusBarStyle: UIStatusBarStyle { return .default }
 
-    private let whiteBackground: UIView = {
-        let whiteBackground = UIView()
-        whiteBackground.backgroundColor = UIColor.white.withAlphaComponent(0.9)
-        return whiteBackground
-    }()
-
     fileprivate let listingDeckView = ListingDeckView()
     fileprivate let viewModel: ListingDeckViewModel
     fileprivate let binder = ListingDeckViewControllerBinder()
@@ -30,11 +24,6 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     fileprivate var transitioner: PhotoViewerTransitionAnimator?
     private var lastPageBeforeDragging: Int = 0
 
-    private let dismissTap = UITapGestureRecognizer()
-    private var quickChatView: QuickChatView?
-    var quickChatTopToCollectionBotton: NSLayoutConstraint?
-    var chatEnabled: Bool = false { didSet { quickChatTopToCollectionBotton?.isActive = chatEnabled } }
-    
     private var interstitial: GADInterstitial?
     private var firstAdShowed = false
     private var lastIndexAd = -1
@@ -78,11 +67,9 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        dismissTap.addTarget(self, action: #selector(hideFullScreenChat))
         view.backgroundColor = listingDeckView.backgroundColor
         
         setupCollectionView()
-        setupQuickChatView(viewModel.quickChatViewModel)
         setupRx()
         reloadData()
         setupInterstitial()
@@ -155,7 +142,6 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
                                                          for: indexPath) as? ListingCardView {
             guard let model = viewModel.snapshotModelAt(index: indexPath.row) else { return cell }
             cell.tag = indexPath.row
-            binder.bind(cell: cell)
             cell.populateWith(model, imageDownloader: viewModel.imageDownloader)
             cell.delegate = self
 
@@ -195,11 +181,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
 
     @objc private func didTapClose() {
         closeBumpUpBanner(animated: false)
-        UIView.animate(withDuration: 0.3, animations: { [weak self] in
-            self?.quickChatView?.resignFirstResponder()
-        }) { [weak self] (completion) in
-            self?.viewModel.close()
-        }
+        viewModel.close()
     }
 
     private func closeBumpUpBanner(animated: Bool) {
@@ -221,24 +203,9 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
 
 extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     var rxContentOffset: Observable<CGPoint> { return listingDeckView.rxCollectionView.contentOffset.share() }
-    var rxDidBeginEditing: ControlEvent<()>? { return quickChatView?.rxDidBeginEditing }
-    var rxDidEndEditing: ControlEvent<()>? { return quickChatView?.rxDidEndEditing }
-
-    func turnNavigationBar(_ on: Bool) {
-        if on {
-            navigationItem.hidesBackButton = false
-            setupNavigationBar()
-        } else {
-            navigationItem.hidesBackButton = true
-            navigationItem.leftBarButtonItem = UIBarButtonItem()
-            navigationItem.rightBarButtonItem = UIBarButtonItem()
-        }
-    }
 
     func willDisplayCell(_ cell: UICollectionViewCell, atIndexPath indexPath: IndexPath) {
         cell.isUserInteractionEnabled = indexPath.row == viewModel.currentIndex
-        guard let card = cell as? ListingCardView else { return }
-        card.update(bottomContentInset: Layout.Insets.chat)
     }
 
     func willBeginDragging() {
@@ -273,32 +240,12 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
         viewModel.didShowMoreInfo()
     }
 
-    func didTapOnUserIcon() {
-        viewModel.showUser()
-    }
-
     func updateViewWithActions(_ actionButtons: [UIAction]) {
         guard let actionButton = actionButtons.first else { return }
         listingDeckView.configureActionWith(actionButton)
     }
-
-    func updateWith(keyboardChange: KeyboardChange) {
-        let height = view.bounds.height - keyboardChange.origin
-        quickChatView?.updateWith(bottomInset: height,
-                                  animationTime: TimeInterval(keyboardChange.animationTime),
-                                  animationOptions: keyboardChange.animationOptions)
-        if keyboardChange.visible {
-            whiteBackground.alpha = 0
-            showFullScreenChat()
-        } else {
-            whiteBackground.alpha = 1
-            hideFullScreenChat()
-        }
-    }
     
     func updateViewWith(alpha: CGFloat, chatEnabled: Bool, actionsEnabled: Bool) {
-        whiteBackground.isHidden = !chatEnabled
-        self.chatEnabled = chatEnabled
 
         let clippedAlpha = min(1.0, alpha)
 
@@ -307,6 +254,10 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
 
         listingDeckView.updatePrivateActionsWith(actionsAlpha: actionsAlpha, bumpBannerAlpha: bumpBannerAlpha)
         updateChatWith(alpha: (chatEnabled && !actionsEnabled) ? clippedAlpha : 0)
+    }
+
+    func updateChatWith(alpha: CGFloat) {
+        // TODO: Handle interested button
     }
     
 
@@ -321,12 +272,10 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     func updateWithBumpUpInfo(_ bumpInfo: BumpUpInfo?) {
         guard let bumpUp = bumpInfo else {
             closeBumpUpBanner(animated: true)
-            currentPageCell()?.update(bottomContentInset: Layout.Insets.chat)
             return
         }
 
         listingDeckView.bumpUpBanner.animateTo(alpha: 1)
-        currentPageCell()?.update(bottomContentInset: Layout.Insets.bump)
         guard !listingDeckView.isBumpUpVisible else {
             // banner is already visible, but info changes
             listingDeckView.updateBumpUp(withInfo: bumpUp)
@@ -372,7 +321,7 @@ extension ListingDeckViewController {
     private func processActionOnFirstAppear() {
         switch viewModel.actionOnFirstAppear {
         case .showKeyboard:
-            quickChatView?.becomeFirstResponder()
+            break // we no longer support this one
         case .showShareSheet:
             viewModel.didTapCardAction()
         case .triggerBumpUp(_,_,_,_):
@@ -404,39 +353,14 @@ extension ListingDeckViewController: DeckMapViewDelegate {
     }
 }
 
-extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCardViewDelegate, ListingDeckCollectionViewLayoutDelegate, ListingCardDetailMapViewDelegate {
+extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCardViewDelegate, ListingDeckCollectionViewLayoutDelegate {
     func viewControllerToShowShareOptions() -> UIViewController { return self }
-
-    func didTapOnMapSnapshot(_ snapshot: UIView) {
-        guard let cell = currentPageCell() else { return }
-        guard let shouldShowExactLocation = viewModel.currentListingViewModel?.showExactLocationOnMap.value,
-            let location = viewModel.currentListingViewModel?.productInfo.value?.location?.coordinates2DfromLocation()
-            else { return }
-        let size = CGSize(width: cell.width, height: listingDeckView.height * 0.8)
-        let vc = DeckMapViewController(with: DeckMapData(size: size,
-                                                         location: location,
-                                                         shouldHighlightCenter: shouldShowExactLocation))
-        vc.setupForModalWithNonOpaqueBackground()
-        vc.delegate = self
-        self.present(vc, animated: true, completion: nil)
-    }
-
-    func cardViewDidTapOnPreview(_ cardView: ListingCardView) {
-        guard cardView.tag == viewModel.currentIndex else { return }
-        guard viewModel.cachedImageAtIndex(0) != nil else { return }
-        viewModel.openPhotoViewer()
-    }
     
     func targetPage(forProposedPage proposedPage: Int, withScrollingDirection direction: ScrollingDirection) -> Int {
         guard direction != .none else {
             return proposedPage
         }
         return min(max(0, lastPageBeforeDragging + direction.delta), viewModel.objectCount - 1)
-    }
-
-    func cardViewDidScroll(_ cardView: ListingCardView, contentOffset: CGFloat) {
-        let alpha: CGFloat = contentOffset > Metrics.margin ? 0 : 1
-        animatePlayButton(withAlpha: alpha)
     }
 
     func cardViewDidTapOnStatusView(_ cardView: ListingCardView) {
@@ -446,74 +370,6 @@ extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCard
 
     func cardViewDidTapOnReputationTooltip(_ cardView: ListingCardView) {
         viewModel.didTapReputationTooltip()
-    }
-
-    // MARK: Chat
-    override func resignFirstResponder() -> Bool {
-        return quickChatView?.resignFirstResponder() ?? true
-    }
-
-    func updateChatWith(alpha: CGFloat) {
-        quickChatView?.alpha = alpha
-    }
-
-    private func setupQuickChatView(_ viewModel: QuickChatViewModel) {
-        let quickChatView = QuickChatView(chatViewModel: viewModel)
-        quickChatView.addDismissGestureRecognizer(dismissTap)
-        quickChatView.isRemovedWhenResigningFirstResponder = false
-        setupDirectChatView(quickChatView: quickChatView)
-        self.quickChatView = quickChatView
-
-        focusOnCollectionView()
-        mainResponder = quickChatView.textView
-    }
-
-    private func setupDirectChatView(quickChatView: QuickChatView) {
-        quickChatView.isRemovedWhenResigningFirstResponder = false
-        quickChatView.textViewStandardColor = UIColor(red: 242, green: 242, blue: 242)
-        view.addSubviewsForAutoLayout([whiteBackground, quickChatView])
-
-        NSLayoutConstraint.activate([
-            quickChatView.leftAnchor.constraint(equalTo: view.leftAnchor),
-            quickChatView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            quickChatView.topAnchor.constraint(equalTo: view.topAnchor),
-            quickChatView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Metrics.shortMargin),
-
-            whiteBackground.leftAnchor.constraint(equalTo: view.leftAnchor),
-            whiteBackground.rightAnchor.constraint(equalTo: view.rightAnchor),
-            whiteBackground.topAnchor.constraint(equalTo: quickChatView.directAnswersView.topAnchor,
-                                                 constant: -Metrics.shortMargin),
-            whiteBackground.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-        quickChatTopToCollectionBotton?.isActive = true
-        focusOnCollectionView()
-    }
-
-    func showFullScreenChat() {
-        guard let chatView = quickChatView else { return }
-        quickChatTopToCollectionBotton?.isActive = false
-
-        focusOnChat()
-        chatView.becomeFirstResponder()
-    }
-
-    @objc func hideFullScreenChat() {
-        quickChatView?.resignFirstResponder()
-        quickChatTopToCollectionBotton?.isActive = chatEnabled
-        focusOnCollectionView()
-    }
-
-    private func focusOnChat() {
-        quickChatView?.isTableInteractionEnabled = true
-    }
-
-    func hideChat() {
-        quickChatView?.alpha = 0
-        focusOnCollectionView()
-    }
-
-    private func focusOnCollectionView() {
-        quickChatView?.isTableInteractionEnabled = false
     }
 
     private func currentPageCell() -> ListingCardView? {
