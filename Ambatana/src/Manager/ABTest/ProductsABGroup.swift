@@ -15,12 +15,14 @@ struct ProductsABGroup: ABGroupType {
         static let predictivePosting = "20180604PredictivePosting"
         static let videoPosting = "20180604VideoPosting"
         static let simplifiedChatButton = "20180611SimplifiedChatButton"
+        static let deckItemPage = "20180704DeckItemPage"
     }
     
     let servicesCategoryOnSalchichasMenu: LeanplumABVariable<Int>
     let predictivePosting: LeanplumABVariable<Int>
     let videoPosting: LeanplumABVariable<Int>
     let simplifiedChatButton: LeanplumABVariable<Int>
+    let deckItemPage: LeanplumABVariable<Int>
 
     let group: ABGroup = .products
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -31,18 +33,24 @@ struct ProductsABGroup: ABGroupType {
     init(servicesCategoryOnSalchichasMenu: LeanplumABVariable<Int>,
          predictivePosting: LeanplumABVariable<Int>,
          videoPosting: LeanplumABVariable<Int>,
-         simplifiedChatButton: LeanplumABVariable<Int>) {
+         simplifiedChatButton: LeanplumABVariable<Int>,
+         deckItemPage: LeanplumABVariable<Int>) {
         self.servicesCategoryOnSalchichasMenu = servicesCategoryOnSalchichasMenu
         self.predictivePosting = predictivePosting
         self.videoPosting = videoPosting
         self.simplifiedChatButton = simplifiedChatButton
-        intVariables.append(contentsOf: [servicesCategoryOnSalchichasMenu, predictivePosting, videoPosting, simplifiedChatButton])
+        self.deckItemPage = deckItemPage
+        intVariables.append(contentsOf: [servicesCategoryOnSalchichasMenu,
+                                         predictivePosting,
+                                         videoPosting,
+                                         simplifiedChatButton,
+                                         deckItemPage])
     }
 
     static func make() -> ProductsABGroup {
         return ProductsABGroup(servicesCategoryOnSalchichasMenu: .makeInt(key: Keys.servicesCategoryOnSalchichasMenu,
-                                                               defaultValue: 0,
-                                                               groupType: .products),
+                                                                          defaultValue: 0,
+                                                                          groupType: .products),
                                predictivePosting: .makeInt(key: Keys.predictivePosting,
                                                            defaultValue: 0,
                                                            groupType: .products),
@@ -51,7 +59,11 @@ struct ProductsABGroup: ABGroupType {
                                                       groupType: .products),
                                simplifiedChatButton: .makeInt(key: Keys.simplifiedChatButton,
                                                               defaultValue: 0,
-                                                              groupType: .products))
+                                                              groupType: .products),
+                               deckItemPage: .makeInt(key: Keys.deckItemPage,
+                                                      defaultValue: 0,
+                                                      groupType: .products)
+        )
     }
 }
 

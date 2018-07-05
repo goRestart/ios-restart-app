@@ -23,7 +23,6 @@ struct LegacyABGroup: ABGroupType {
         static let locationDataSourceType = "20170830LocationDataSourceType"
         static let realEstateEnabled = "20171228realEstateEnabled"
         static let requestTimeOut = "20170929RequestTimeOut"
-        static let deckItemPage = "20180403NewItemPage"
         static let taxonomiesAndTaxonomyChildrenInFeed = "20171031TaxonomiesAndTaxonomyChildrenInFeed"
         static let showClockInDirectAnswer = "20171031ShowClockInDirectAnswer"
         static let mostSearchedDemandedItems = "20180104MostSearchedDemandedItems"
@@ -44,7 +43,6 @@ struct LegacyABGroup: ABGroupType {
     let locationDataSourceType: LeanplumABVariable<Int>
     let realEstateEnabled: LeanplumABVariable<Int>
     let requestsTimeOut: LeanplumABVariable<Int>
-    let newItemPage: LeanplumABVariable<Int>
     let taxonomiesAndTaxonomyChildrenInFeed: LeanplumABVariable<Int>
     let showClockInDirectAnswer: LeanplumABVariable<Int>
     let mostSearchedDemandedItems: LeanplumABVariable<Int>
@@ -70,7 +68,6 @@ struct LegacyABGroup: ABGroupType {
          locationDataSourceType: LeanplumABVariable<Int>,
          realEstateEnabled: LeanplumABVariable<Int>,
          requestsTimeOut: LeanplumABVariable<Int>,
-         newItemPage: LeanplumABVariable<Int>,
          taxonomiesAndTaxonomyChildrenInFeed: LeanplumABVariable<Int>,
          showClockInDirectAnswer: LeanplumABVariable<Int>,
          mostSearchedDemandedItems: LeanplumABVariable<Int>,
@@ -89,7 +86,6 @@ struct LegacyABGroup: ABGroupType {
         self.locationDataSourceType = locationDataSourceType
         self.realEstateEnabled = realEstateEnabled
         self.requestsTimeOut = requestsTimeOut
-        self.newItemPage = newItemPage
         self.taxonomiesAndTaxonomyChildrenInFeed = taxonomiesAndTaxonomyChildrenInFeed
         self.showClockInDirectAnswer = showClockInDirectAnswer
         self.mostSearchedDemandedItems = mostSearchedDemandedItems
@@ -99,7 +95,6 @@ struct LegacyABGroup: ABGroupType {
                                          locationDataSourceType,
                                          realEstateEnabled,
                                          requestsTimeOut,
-                                         newItemPage,
                                          taxonomiesAndTaxonomyChildrenInFeed,
                                          showClockInDirectAnswer,
                                          mostSearchedDemandedItems,
@@ -125,7 +120,6 @@ struct LegacyABGroup: ABGroupType {
                              locationDataSourceType: .makeInt(key: Keys.locationDataSourceType, defaultValue: 0, groupType: .legacyABTests),
                              realEstateEnabled: .makeInt(key: Keys.realEstateEnabled, defaultValue: 0, groupType: .legacyABTests),
                              requestsTimeOut: .makeInt(key: Keys.requestTimeOut, defaultValue: 30, groupType: .legacyABTests),
-                             newItemPage: .makeInt(key: Keys.deckItemPage, defaultValue: 0, groupType: .legacyABTests),
                              taxonomiesAndTaxonomyChildrenInFeed: .makeInt(key: Keys.taxonomiesAndTaxonomyChildrenInFeed, defaultValue: 0, groupType: .legacyABTests),
                              showClockInDirectAnswer: .makeInt(key: Keys.showClockInDirectAnswer, defaultValue: 0, groupType: .legacyABTests),
                              mostSearchedDemandedItems: .makeInt(key: Keys.mostSearchedDemandedItems, defaultValue: 0, groupType: .retention), showAdsInFeedWithRatio: .makeInt(key: Keys.showAdsInFeedWithRatio, defaultValue: 0, groupType: .legacyABTests))

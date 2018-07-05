@@ -24,7 +24,6 @@ extension Bumper  {
         flags.append(RealEstateEnabled.self)
         flags.append(RequestsTimeOut.self)
         flags.append(TaxonomiesAndTaxonomyChildrenInFeed.self)
-        flags.append(DeckItemPage.self)
         flags.append(ShowClockInDirectAnswer.self)
         flags.append(MostSearchedDemandedItems.self)
         flags.append(ShowAdsInFeedWithRatio.self)
@@ -72,9 +71,10 @@ extension Bumper  {
         flags.append(ShowChatConnectionStatusBar.self)
         flags.append(AdvancedReputationSystem.self)
         flags.append(NotificationSettings.self)
-        flags.append(ReportingFostaSesta.self)
         flags.append(CarExtraFieldsEnabled.self)
         flags.append(ShowChatHeaderWithoutListingForAssistant.self)
+        flags.append(ReportingFostaSesta.self)
+        flags.append(NewItemPageV3.self)
         Bumper.initialize(flags)
     } 
 
@@ -182,15 +182,15 @@ extension Bumper  {
     }
     #endif
 
-    static var deckItemPage: DeckItemPage {
-        guard let value = Bumper.value(for: DeckItemPage.key) else { return .control }
-        return DeckItemPage(rawValue: value) ?? .control 
+    static var deckItemPage: NewItemPageV3 {
+        guard let value = Bumper.value(for: NewItemPageV3.key) else { return .control }
+        return NewItemPageV3(rawValue: value) ?? .control
     } 
 
     #if (RX_BUMPER)
-    static var deckItemPageObservable: Observable<DeckItemPage> {
-        return Bumper.observeValue(for: DeckItemPage.key).map {
-            DeckItemPage(rawValue: $0 ?? "") ?? .control
+    static var deckItemPageObservable: Observable<NewItemPageV3> {
+        return Bumper.observeValue(for: NewItemPageV3.key).map {
+            NewItemPageV3(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -806,19 +806,6 @@ extension Bumper  {
     }
     #endif
 
-    static var reportingFostaSesta: ReportingFostaSesta {
-        guard let value = Bumper.value(for: ReportingFostaSesta.key) else { return .control }
-        return ReportingFostaSesta(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var reportingFostaSestaObservable: Observable<ReportingFostaSesta> {
-        return Bumper.observeValue(for: ReportingFostaSesta.key).map {
-            ReportingFostaSesta(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
     static var carExtraFieldsEnabled: CarExtraFieldsEnabled {
         guard let value = Bumper.value(for: CarExtraFieldsEnabled.key) else { return .control }
         return CarExtraFieldsEnabled(rawValue: value) ?? .control 
@@ -841,6 +828,32 @@ extension Bumper  {
     static var showChatHeaderWithoutListingForAssistantObservable: Observable<Bool> {
         return Bumper.observeValue(for: ShowChatHeaderWithoutListingForAssistant.key).map {
             ShowChatHeaderWithoutListingForAssistant(rawValue: $0 ?? "")?.asBool ?? true
+        }
+    }
+    #endif
+
+    static var reportingFostaSesta: ReportingFostaSesta {
+        guard let value = Bumper.value(for: ReportingFostaSesta.key) else { return .control }
+        return ReportingFostaSesta(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var reportingFostaSestaObservable: Observable<ReportingFostaSesta> {
+        return Bumper.observeValue(for: ReportingFostaSesta.key).map {
+            ReportingFostaSesta(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var newItemPageV3: NewItemPageV3 {
+        guard let value = Bumper.value(for: NewItemPageV3.key) else { return .control }
+        return NewItemPageV3(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var newItemPageV3Observable: Observable<NewItemPageV3> {
+        return Bumper.observeValue(for: NewItemPageV3.key).map {
+            NewItemPageV3(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -933,22 +946,6 @@ enum TaxonomiesAndTaxonomyChildrenInFeed: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Taxonomies and taxonomy children in feed as filter tags" } 
     static func fromPosition(_ position: Int) -> TaxonomiesAndTaxonomyChildrenInFeed {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
-enum DeckItemPage: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return DeckItemPage.control.rawValue }
-    static var enumValues: [DeckItemPage] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Deck item page with card appearance and different navigation" } 
-    static func fromPosition(_ position: Int) -> DeckItemPage {
         switch position { 
             case 0: return .control
             case 1: return .baseline
@@ -1733,23 +1730,6 @@ enum NotificationSettings: String, BumperFeature  {
     }
 }
 
-enum ReportingFostaSesta: String, BumperFeature  {
-    case control, baseline, withIcons, withoutIcons
-    static var defaultValue: String { return ReportingFostaSesta.control.rawValue }
-    static var enumValues: [ReportingFostaSesta] { return [.control, .baseline, .withIcons, .withoutIcons]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show new user/product reporting flow (FOSTA-SESTA compliance)" } 
-    static func fromPosition(_ position: Int) -> ReportingFostaSesta {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .withIcons
-            case 3: return .withoutIcons
-            default: return .control
-        }
-    }
-}
-
 enum CarExtraFieldsEnabled: String, BumperFeature  {
     case control, baseline, active
     static var defaultValue: String { return CarExtraFieldsEnabled.control.rawValue }
@@ -1774,3 +1754,42 @@ enum ShowChatHeaderWithoutListingForAssistant: String, BumperFeature  {
     static var description: String { return "Use the new header without listing in chat detail" } 
     var asBool: Bool { return self == .yes }
 }
+
+enum ReportingFostaSesta: String, BumperFeature  {
+    case control, baseline, withIcons, withoutIcons
+    static var defaultValue: String { return ReportingFostaSesta.control.rawValue }
+    static var enumValues: [ReportingFostaSesta] { return [.control, .baseline, .withIcons, .withoutIcons]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show new user/product reporting flow (FOSTA-SESTA compliance)" } 
+    static func fromPosition(_ position: Int) -> ReportingFostaSesta {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .withIcons
+            case 3: return .withoutIcons
+            default: return .control
+        }
+    }
+}
+
+enum NewItemPageV3: String, BumperFeature  {
+    case control, baseline, variant1, variant2, variant3, variant4, variant5, variant6
+    static var defaultValue: String { return NewItemPageV3.control.rawValue }
+    static var enumValues: [NewItemPageV3] { return [.control, .baseline, .variant1, .variant2, .variant3, .variant4, .variant5, .variant6]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[Products] New item page V3 -- all in" } 
+    static func fromPosition(_ position: Int) -> NewItemPageV3 {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .variant1
+            case 3: return .variant2
+            case 4: return .variant3
+            case 5: return .variant4
+            case 6: return .variant5
+            case 7: return .variant6
+            default: return .control
+        }
+    }
+}
+
