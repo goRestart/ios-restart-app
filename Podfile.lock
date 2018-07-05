@@ -18,7 +18,6 @@ PODS:
   - bumper/Core (1.3.1):
     - RxCocoa (~> 4.0.0)
     - RxSwift (~> 4.0.0)
-  - CameraManager (4.0.1)
   - CHTCollectionViewWaterfallLayout (0.9.7):
     - CHTCollectionViewWaterfallLayout/ObjC (= 0.9.7)
   - CHTCollectionViewWaterfallLayout/ObjC (0.9.7)
@@ -151,7 +150,6 @@ DEPENDENCIES:
   - AppsFlyerFramework (= 4.8.4)
   - Branch (= 0.22.5)
   - bumper (= 1.3.1)
-  - "CameraManager (from `git@github.com:letgoapp/CameraManager.git`, commit `7b32b50f8bdb1f94f1f1d0fdb6c99a9d21a7ee84`)"
   - CHTCollectionViewWaterfallLayout (= 0.9.7)
   - CocoaLumberjack/Swift (= 3.3.0)
   - Crashlytics (= 3.9.3)
@@ -240,9 +238,6 @@ SPEC REPOS:
     - SwiftyUserDefaults
 
 EXTERNAL SOURCES:
-  CameraManager:
-    :commit: 7b32b50f8bdb1f94f1f1d0fdb6c99a9d21a7ee84
-    :git: "git@github.com:letgoapp/CameraManager.git"
   KMPlaceholderTextView:
     :commit: 426117c98e8da8fc7d64a7d3c2f0f45c48d595e6
     :git: https://github.com/letgoapp/KMPlaceholderTextView
@@ -250,9 +245,6 @@ EXTERNAL SOURCES:
     :path: components
 
 CHECKOUT OPTIONS:
-  CameraManager:
-    :commit: 7b32b50f8bdb1f94f1f1d0fdb6c99a9d21a7ee84
-    :git: "git@github.com:letgoapp/CameraManager.git"
   KMPlaceholderTextView:
     :commit: 426117c98e8da8fc7d64a7d3c2f0f45c48d595e6
     :git: https://github.com/letgoapp/KMPlaceholderTextView
@@ -265,7 +257,6 @@ SPEC CHECKSUMS:
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   Branch: 4f0482418d99e77d15b0e6065ef216c10e24797b
   bumper: f8d19f02bca78a960374877f07ce4072d5a35f17
-  CameraManager: 3680841b23453730bb4b2dbed0dd493ccb354c7d
   CHTCollectionViewWaterfallLayout: 9d11068fafecac106695bb5a5d6d0f738483b598
   CocoaLumberjack: 3c8c74683302f9012bb168e1c4b7ae3c0b558431
   Crashlytics: dbb07d01876c171c5ccbdf7826410380189e452c
@@ -310,6 +301,6 @@ SPEC CHECKSUMS:
   SwiftyGif: d36c6dfb52e2ca1e48fe349d225f50ec4123ec85
   SwiftyUserDefaults: 3d273b1739b68ada3145dc754a70ec775bc5c8be
 
-PODFILE CHECKSUM: db2bb4158ac8a3cf879eeb97f3e1f193979094bf
+PODFILE CHECKSUM: 6b59479ccfeef083c5384e70a5f94b5faa25b0a8
 
 COCOAPODS: 1.5.3
