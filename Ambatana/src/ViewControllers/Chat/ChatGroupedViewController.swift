@@ -8,8 +8,6 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedListViewDelegate
                                  ChatListViewDelegate, BlockedUsersListViewDelegate, LGViewPagerDataSource,
                                  LGViewPagerDelegate, ScrollableToTop, ChatGroupedViewModelDelegate {
     // UI
-    static let topSafeAreaConstant: CGFloat = 64
-    
     var viewPager: LGViewPager
     var validationPendingEmptyView: LGEmptyView = LGEmptyView()
 
@@ -275,8 +273,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedListViewDelegate
             } else {
                 connectionStatusViewTopConstraint = connectionStatusView
                     .topAnchor
-                    .constraint(equalTo: view.topAnchor,
-                                constant: ChatGroupedViewController.topSafeAreaConstant)
+                    .constraint(equalTo: topLayoutGuide.bottomAnchor)
             }
             NSLayoutConstraint.activate([
                 statusViewHeightConstraint,
@@ -295,8 +292,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedListViewDelegate
             } else {
                 viewPagerTopConstraint = viewPager
                     .topAnchor
-                    .constraint(equalTo: view.topAnchor,
-                                constant: ChatGroupedViewController.topSafeAreaConstant)
+                    .constraint(equalTo: topLayoutGuide.bottomAnchor)
             }
             NSLayoutConstraint.activate([
                 viewPagerTopConstraint,
