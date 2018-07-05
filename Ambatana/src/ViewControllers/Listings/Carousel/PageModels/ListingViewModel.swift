@@ -1268,7 +1268,7 @@ fileprivate extension ListingViewModel {
     func sendMessage(type: ChatWrapperMessageType) {
         // Optimistic behavior
         let message = LocalMessage(type: type, userId: myUserRepository.myUser?.objectId)
-        let messageView = chatViewMessageAdapter.adapt(message)
+        let messageView = chatViewMessageAdapter.adapt(message, userAvatarData: nil)
         directChatMessages.insert(messageView, atIndex: 0)
 
         chatWrapper.sendMessageFor(listing: listing.value, type: type) { [weak self] result in

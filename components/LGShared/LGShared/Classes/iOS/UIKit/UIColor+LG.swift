@@ -95,6 +95,7 @@ public extension UIColor {
     fileprivate static let blackAlpha50 = black.withAlphaComponent(0.5)
     fileprivate static let blackAlpha30 = black.withAlphaComponent(0.3)
     fileprivate static let blackAlpha15 = black.withAlphaComponent(0.15)
+    fileprivate static let blackAlpha04 = black.withAlphaComponent(0.04)
 
     fileprivate static let whiteAlpha70 = white.withAlphaComponent(0.7)
     fileprivate static let whiteAlpha30 = white.withAlphaComponent(0.3)
@@ -224,7 +225,8 @@ public extension UIColor {
     static var chatMyBubbleBgColor: UIColor { return primaryColorAlpha16 }
     static var chatMyBubbleBgColorSelected: UIColor { return primaryColorAlpha30 }
 
-    static var chatOthersBubbleBgColor: UIColor { return white }
+    static var chatOthersBubbleBgColorWhite: UIColor { return white }
+    static var chatOthersBubbleBgColorGray: UIColor { return blackAlpha04 }
     static var chatOthersBubbleBgColorSelected: UIColor { return grayLighter }
 
     static var assistantConversationCellBgColor: UIColor { return primaryColorAlpha08 }

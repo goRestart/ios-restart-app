@@ -6,7 +6,7 @@ class ChatViewMessageAdapter {
     let myUserRepository: MyUserRepository
     let featureFlags: FeatureFlaggeable
     let tracker: TrackerProxy
-    
+
     convenience init() {
         let stickersRepository = Core.stickersRepository
         let myUserRepository = Core.myUserRepository
@@ -27,7 +27,7 @@ class ChatViewMessageAdapter {
         self.tracker = tracker
     }
     
-    func adapt(_ message: Message) -> ChatViewMessage {
+    func adapt(_ message: Message, userAvatarData: ChatMessageAvatarData?) -> ChatViewMessage {
         
         let type: ChatViewMessageType
         switch message.type {
@@ -46,10 +46,11 @@ class ChatViewMessageAdapter {
         let status: ChatMessageStatus = message.isRead ? .read : .unknown
         return ChatViewMessage(objectId: message.objectId, talkerId: message.userId, sentAt: message.createdAt,
                                receivedAt: nil, readAt: nil, type: type, status: status,
-                               warningStatus: ChatViewMessageWarningStatus(status: message.warningStatus))
+                               warningStatus: ChatViewMessageWarningStatus(status: message.warningStatus),
+                               userAvatarData: userAvatarData)
     }
     
-    func adapt(_ message: ChatMessage) -> ChatViewMessage? {
+    func adapt(_ message: ChatMessage, userAvatarData: ChatMessageAvatarData?) -> ChatViewMessage? {
         
         let type: ChatViewMessageType
         let text = message.content.text ?? ""
@@ -94,10 +95,11 @@ class ChatViewMessageAdapter {
         return ChatViewMessage(objectId: message.objectId, talkerId: message.talkerId, sentAt: message.sentAt,
                                receivedAt: message.receivedAt, readAt: message.readAt, type: type,
                                status: message.messageStatus,
-                               warningStatus: ChatViewMessageWarningStatus(status: message.warnings))
+                               warningStatus: ChatViewMessageWarningStatus(status: message.warnings),
+                               userAvatarData: userAvatarData)
     }
     
-    func adapt(_ message: ChatInactiveMessage) -> ChatViewMessage {
+    func adapt(_ message: ChatInactiveMessage, userAvatarData: ChatMessageAvatarData?) -> ChatViewMessage {
         let type: ChatViewMessageType
         let text = message.content.text ?? ""
         switch message.content.type {
@@ -131,7 +133,8 @@ class ChatViewMessageAdapter {
                                readAt: nil,
                                type: type,
                                status: nil,
-                               warningStatus: ChatViewMessageWarningStatus(status: message.warnings))
+                               warningStatus: ChatViewMessageWarningStatus(status: message.warnings),
+                               userAvatarData: userAvatarData)
     }
     
     func addDisclaimers(_ messages: [ChatViewMessage], disclaimerMessage: ChatViewMessage) -> [ChatViewMessage] {
@@ -213,7 +216,7 @@ class ChatViewMessageAdapter {
         return createDisclaimerMessage(message, showAvatar: false, actionTitle: nil, action: nil)
     }
 
-    func createUserInfoMessage(_ user: User?) -> ChatViewMessage? {
+    func createUserInfoMessage(_ user: User?, userAvatarData: ChatMessageAvatarData?) -> ChatViewMessage? {
         guard let user = user else { return nil }
         let facebook = user.facebookAccount?.verified ?? false
         let google = user.googleAccount?.verified ?? false
@@ -227,32 +230,37 @@ class ChatViewMessageAdapter {
                                                facebook: facebook,
                                                google: google,
                                                email: email),
-                               status: nil, warningStatus: .normal)
+                               status: nil, warningStatus: .normal,
+                               userAvatarData: userAvatarData)
     }
 
-    func createAskPhoneMessageWith(action: (() -> Void)?) -> ChatViewMessage? {
+    func createAskPhoneMessageWith(action: (() -> Void)?, userAvatarData: ChatMessageAvatarData?) -> ChatViewMessage? {
 
         return ChatViewMessage(objectId: nil, talkerId: "", sentAt: Date(), receivedAt: nil, readAt: nil,
                                type: .askPhoneNumber(text: R.Strings.professionalDealerAskPhoneAddPhoneCellMessage,
                                                      action: action),
-                               status: nil, warningStatus: .normal)
+                               status: nil, warningStatus: .normal,
+                               userAvatarData: userAvatarData)
     }
 
-    func createAutomaticAnswerWith(message: String) -> ChatViewMessage? {
+    func createAutomaticAnswerWith(message: String, userAvatarData: ChatMessageAvatarData?) -> ChatViewMessage? {
         return ChatViewMessage(objectId: nil, talkerId: "", sentAt: Date(), receivedAt: nil, readAt: nil,
-                               type: .text(text: message), status: nil, warningStatus: .normal)
+                               type: .text(text: message), status: nil, warningStatus: .normal,
+                               userAvatarData: userAvatarData)
     }
 
-    func createInterlocutorIsTyping() -> ChatViewMessage {
+    func createInterlocutorIsTyping(userAvatarData: ChatMessageAvatarData?) -> ChatViewMessage {
         return ChatViewMessage(objectId: nil, talkerId: "", sentAt: nil, receivedAt: nil, readAt: nil,
-                               type: .interlocutorIsTyping, status: nil, warningStatus: .normal)
+                               type: .interlocutorIsTyping, status: nil, warningStatus: .normal,
+                               userAvatarData: userAvatarData)
     }
     
     private func createDisclaimerMessage(_ disclaimerText: NSAttributedString, showAvatar: Bool, actionTitle: String?,
                                          action: (() -> ())?) -> ChatViewMessage {
         let disclaimer = ChatViewMessageType.disclaimer(text: disclaimerText, action: action)
         let disclaimerMessage = ChatViewMessage(objectId: nil, talkerId: "", sentAt: nil, receivedAt: nil, readAt: nil,
-                                                type: disclaimer, status: nil, warningStatus: .normal)
+                                                type: disclaimer, status: nil, warningStatus: .normal,
+                                                userAvatarData: nil)
         return disclaimerMessage
     }
 

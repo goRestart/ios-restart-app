@@ -74,6 +74,7 @@ extension Bumper  {
         flags.append(CarExtraFieldsEnabled.self)
         flags.append(ShowChatHeaderWithoutListingForAssistant.self)
         flags.append(ReportingFostaSesta.self)
+        flags.append(ShowChatHeaderWithoutUser.self)
         flags.append(RealEstateMapTooltip.self)
         flags.append(AppInstallAdsInFeed.self)
         Bumper.initialize(flags)
@@ -833,6 +834,19 @@ extension Bumper  {
     }
     #endif
 
+    static var showChatHeaderWithoutUser: Bool {
+        guard let value = Bumper.value(for: ShowChatHeaderWithoutUser.key) else { return true }
+        return ShowChatHeaderWithoutUser(rawValue: value)?.asBool ?? true
+    } 
+
+    #if (RX_BUMPER)
+    static var showChatHeaderWithoutUserObservable: Observable<Bool> {
+        return Bumper.observeValue(for: ShowChatHeaderWithoutUser.key).map {
+            ShowChatHeaderWithoutUser(rawValue: $0 ?? "")?.asBool ?? true
+        }
+    }
+    #endif
+
     static var realEstateMapTooltip: RealEstateMapTooltip {
         guard let value = Bumper.value(for: RealEstateMapTooltip.key) else { return .control }
         return RealEstateMapTooltip(rawValue: value) ?? .control 
@@ -1067,7 +1081,7 @@ enum ShowInactiveConversations: String, BumperFeature  {
     static var defaultValue: String { return ShowInactiveConversations.no.rawValue }
     static var enumValues: [ShowInactiveConversations] { return [.no, .yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show button to access inactive conversations" } 
+    static var description: String { return "[CHAT] Show button to access inactive conversations" } 
     var asBool: Bool { return self == .yes }
 }
 
@@ -1135,7 +1149,7 @@ enum ShowChatSafetyTips: String, BumperFeature  {
     static var defaultValue: String { return ShowChatSafetyTips.no.rawValue }
     static var enumValues: [ShowChatSafetyTips] { return [.no, .yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show chat safety tips to new users" } 
+    static var description: String { return "[CHAT] Show chat safety tips to new users" } 
     var asBool: Bool { return self == .yes }
 }
 
@@ -1161,7 +1175,7 @@ enum UserIsTyping: String, BumperFeature  {
     static var defaultValue: String { return UserIsTyping.control.rawValue }
     static var enumValues: [UserIsTyping] { return [.control, .baseline, .active]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show user is typing status on chat" } 
+    static var description: String { return "[CHAT] Show user is typing status on chat" } 
     static func fromPosition(_ position: Int) -> UserIsTyping {
         switch position { 
             case 0: return .control
@@ -1214,7 +1228,7 @@ enum ChatNorris: String, BumperFeature  {
     static var defaultValue: String { return ChatNorris.control.rawValue }
     static var enumValues: [ChatNorris] { return [.control, .baseline, .redButton, .whiteButton, .greenButton]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show the create meeting option in chat detail view." } 
+    static var description: String { return "[CHAT] Show the create meeting option in chat detail view." } 
     static func fromPosition(_ position: Int) -> ChatNorris {
         switch position { 
             case 0: return .control
@@ -1454,7 +1468,7 @@ enum ChatConversationsListWithoutTabs: String, BumperFeature  {
     static var defaultValue: String { return ChatConversationsListWithoutTabs.control.rawValue }
     static var enumValues: [ChatConversationsListWithoutTabs] { return [.control, .baseline, .active]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Chat conversation list without tabs" } 
+    static var description: String { return "[CHAT] Chat conversation list without tabs" } 
     static func fromPosition(_ position: Int) -> ChatConversationsListWithoutTabs {
         switch position { 
             case 0: return .control
@@ -1693,7 +1707,7 @@ enum ShowChatConnectionStatusBar: String, BumperFeature  {
     static var defaultValue: String { return ShowChatConnectionStatusBar.control.rawValue }
     static var enumValues: [ShowChatConnectionStatusBar] { return [.control, .baseline, .active]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show a toast in the chat with the websocket and network connection status" } 
+    static var description: String { return "[CHAT] Show a toast in the chat with the websocket and network connection status" } 
     static func fromPosition(_ position: Int) -> ShowChatConnectionStatusBar {
         switch position { 
             case 0: return .control
@@ -1759,7 +1773,7 @@ enum ShowChatHeaderWithoutListingForAssistant: String, BumperFeature  {
     static var defaultValue: String { return ShowChatHeaderWithoutListingForAssistant.yes.rawValue }
     static var enumValues: [ShowChatHeaderWithoutListingForAssistant] { return [.yes, .no]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Use the new header without listing in chat detail" } 
+    static var description: String { return "[CHAT] Use the new header WITHOUT LISTING for conversations with no listing related" } 
     var asBool: Bool { return self == .yes }
 }
 
@@ -1778,6 +1792,15 @@ enum ReportingFostaSesta: String, BumperFeature  {
             default: return .control
         }
     }
+}
+
+enum ShowChatHeaderWithoutUser: String, BumperFeature  {
+    case yes, no
+    static var defaultValue: String { return ShowChatHeaderWithoutUser.yes.rawValue }
+    static var enumValues: [ShowChatHeaderWithoutUser] { return [.yes, .no]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[CHAT] Use the new header WITHOUT USER in chat detail" } 
+    var asBool: Bool { return self == .yes }
 }
 
 enum RealEstateMapTooltip: String, BumperFeature  {

@@ -460,6 +460,7 @@ enum AccessibilityId: Equatable, Accessible {
     case chatCellContainer(type: ChatBubbleCellType)
     case chatCellMessageLabel
     case chatCellDateLabel
+    case chatCellAvatar
 
     // ChatStickerCell
     case chatStickerCellContainer
@@ -473,6 +474,9 @@ enum AccessibilityId: Equatable, Accessible {
     // ChatOtherInfoCell
     case chatOtherInfoCellContainer
     case chatOtherInfoCellNameLabel
+
+    // ChatInterlocutorTypingCell
+    case chatInterlocutorTypingCell
 
     // TourLogin
     case tourLoginCloseButton
@@ -1632,6 +1636,8 @@ enum AccessibilityId: Equatable, Accessible {
             return "chatCellMessageLabel"
         case .chatCellDateLabel:
             return "chatCellDateLabel"
+        case .chatCellAvatar:
+            return "chatCellAvatar"
             
         // ChatStickerCell
         case .chatStickerCellContainer:
@@ -1652,7 +1658,11 @@ enum AccessibilityId: Equatable, Accessible {
             return "chatOtherInfoCellContainer"
         case .chatOtherInfoCellNameLabel:
             return "chatOtherInfoCellNameLabel"
-            
+
+        // ChatInterlocutorTypingCell
+        case .chatInterlocutorTypingCell:
+            return "chatInterlocutorTypingCell"
+
         // TourLogin
         case .tourLoginCloseButton:
             return "tourLoginCloseButton"

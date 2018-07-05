@@ -197,7 +197,7 @@ final class ChatViewController: TextViewController {
         
         if let patternBackground = UIColor.emptyViewBackgroundColor {
             tableView.backgroundColor = .clear
-            view.backgroundColor = patternBackground
+            view.backgroundColor = viewModel.showWhiteBackground ? .white : patternBackground
         }
         
         listingView.delegate = self
@@ -572,9 +572,25 @@ fileprivate extension ChatViewController {
                                  viewModel.interlocutorName.asObservable())
             .bind { [weak self] (avatarUrl, name) in
                 guard let vm = self?.viewModel, vm.isUserDummy else { return }
-                guard let showNewHeader = self?.featureFlags.showChatHeaderWithoutListingForAssistant, showNewHeader else { return }
+                guard let showNoListingHeader = self?.featureFlags.showChatHeaderWithoutListingForAssistant,
+                    showNoListingHeader else { return }
                 self?.chatDetailHeader.setupWith(info: .assistant(name: name, imageUrl: avatarUrl)) { [weak self] in
                     self?.viewModel.userInfoPressed()
+                }
+                self?.updateNavigationBarHeaderWith(view: self?.chatDetailHeader)
+            }.disposed(by: disposeBag)
+
+        Observable.combineLatest(viewModel.listingName.asObservable(),
+                                 viewModel.listingPrice.asObservable(),
+                                 viewModel.listingImageUrl.asObservable())
+            .bind { [weak self] (listingName, listingPrice, listingImageUrl) in
+                guard let showNoUserHeader = self?.featureFlags.showChatHeaderWithoutUser,
+                    showNoUserHeader else { return }
+                let chatNavBarInfo = ChatDetailNavBarInfo.listing(name: listingName,
+                                                                  price: listingPrice,
+                                                                  imageUrl: listingImageUrl)
+                self?.chatDetailHeader.setupWith(info: chatNavBarInfo) { [weak self] in
+                    self?.viewModel.listingInfoPressed()
                 }
                 self?.updateNavigationBarHeaderWith(view: self?.chatDetailHeader)
             }.disposed(by: disposeBag)
@@ -678,7 +694,9 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource  {
         let drawer = ChatCellDrawerFactory.drawerForMessage(message, meetingsEnabled: viewModel.meetingsEnabled)
         let cell = drawer.cell(tableView, atIndexPath: indexPath)
 
-        drawer.draw(cell, message: message)
+        let bubbleColor: UIColor = viewModel.showWhiteBackground ? .chatOthersBubbleBgColorGray : .chatOthersBubbleBgColorWhite
+
+        drawer.draw(cell, message: message, bubbleColor: bubbleColor)
         UIView.performWithoutAnimation {
             cell.transform = tableView.transform
         }

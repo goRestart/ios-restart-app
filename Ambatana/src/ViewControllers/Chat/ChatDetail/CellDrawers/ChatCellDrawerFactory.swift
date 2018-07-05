@@ -58,9 +58,9 @@ class ChatCellDrawerFactory {
         ChatOthersMessageCellDrawer.registerClassCell(tableView)
         ChatStickerCellDrawer.registerClassCell(tableView)
         ChatDisclaimerCellDrawer.registerClassCell(tableView)
-        ChatOtherInfoCellDrawer.registerCell(tableView)
+        ChatOtherInfoCellDrawer.registerClassCell(tableView)
         ChatAskPhoneNumberCellDrawer.registerClassCell(tableView)
-        ChatInterlocutorIsTypingCellDrawer.registerCell(tableView)
+        ChatInterlocutorIsTypingCellDrawer.registerClassCell(tableView)
 
         ChatOtherMeetingCellDrawer.registerCell(tableView)
         ChatMyMeetingCellDrawer.registerCell(tableView)

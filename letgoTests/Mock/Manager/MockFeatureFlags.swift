@@ -72,6 +72,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs = .control
     var showChatConnectionStatusBar: ShowChatConnectionStatusBar = .control
     var showChatHeaderWithoutListingForAssistant: Bool = true
+    var showChatHeaderWithoutUser: Bool = true
     
     // MARK:  Verticals
     var searchCarsIntoNewBackend: SearchCarsIntoNewBackend = .control

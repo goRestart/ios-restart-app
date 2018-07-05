@@ -133,6 +133,16 @@ enum ChatViewMessageWarningStatus: String {
     }
 }
 
+struct ChatMessageAvatarData {
+    var avatarImage: UIImage?
+    var avatarAction: (()->Void)?
+
+    init(avatarImage: UIImage? = nil, avatarAction: (()->Void)? = nil) {
+        self.avatarImage = avatarImage
+        self.avatarAction = avatarAction
+    }
+}
+
 struct ChatViewMessage: BaseModel {
     var objectId: String?
     var talkerId: String
@@ -142,6 +152,7 @@ struct ChatViewMessage: BaseModel {
     var type: ChatViewMessageType
     var status: ChatMessageStatus?
     var warningStatus: ChatViewMessageWarningStatus
+    var userAvatarData: ChatMessageAvatarData?
 
     var copyEnabled: Bool {
         switch type {
@@ -193,18 +204,19 @@ extension ChatViewMessage {
     func markAsSent(date: Date = Date()) -> ChatViewMessage {
         return ChatViewMessage(objectId: objectId, talkerId: talkerId, sentAt: sentAt ?? date,
                                receivedAt: receivedAt, readAt: readAt, type: type, status: .sent,
-                               warningStatus: warningStatus)
+                               warningStatus: warningStatus, userAvatarData: userAvatarData)
     }
     
     func markAsReceived(date: Date = Date()) -> ChatViewMessage {
         return ChatViewMessage(objectId: objectId, talkerId: talkerId, sentAt: sentAt,
                                receivedAt: receivedAt ?? date, readAt: readAt, type: type, status: .received,
-                               warningStatus: warningStatus)
+                               warningStatus: warningStatus, userAvatarData: userAvatarData)
     }
     
     func markAsRead(date: Date = Date()) -> ChatViewMessage {
         return ChatViewMessage(objectId: objectId, talkerId: talkerId, sentAt: sentAt, receivedAt: receivedAt,
-                               readAt: readAt ?? date, type: type, status: .read, warningStatus: warningStatus)
+                               readAt: readAt ?? date, type: type, status: .read, warningStatus: warningStatus,
+                               userAvatarData: userAvatarData)
     }
 }
 
@@ -224,7 +236,8 @@ extension ChatViewMessage {
                                    readAt: readAt,
                                    type: acceptedMessageType,
                                    status: status,
-                                   warningStatus: warningStatus)
+                                   warningStatus: warningStatus,
+                                   userAvatarData: userAvatarData)
         } else {
             return self
         }
@@ -244,7 +257,8 @@ extension ChatViewMessage {
                                    readAt: readAt,
                                    type: rejectedMessageType,
                                    status: status,
-                                   warningStatus: warningStatus)
+                                   warningStatus: warningStatus,
+                                   userAvatarData: userAvatarData)
         } else {
             return self
         }

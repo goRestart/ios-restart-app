@@ -1241,8 +1241,6 @@
 		8E8EAD3720A2EC1400ADEAFE /* ChatConversationsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8EAD3520A2EC1400ADEAFE /* ChatConversationsListViewModel.swift */; };
 		8E92B2FB20A9CCEB00CE48DA /* ChatConversationsListFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E56D74720A342EF00097B61 /* ChatConversationsListFilter.swift */; };
 		8E92B2FC20A9CCEB00CE48DA /* ChatConversationsListFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E56D74720A342EF00097B61 /* ChatConversationsListFilter.swift */; };
-		8EADA729203453CC00DE8126 /* ChatInterlocutorIsTypingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8EADA728203453CB00DE8126 /* ChatInterlocutorIsTypingCell.xib */; };
-		8EADA72A203453CC00DE8126 /* ChatInterlocutorIsTypingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8EADA728203453CB00DE8126 /* ChatInterlocutorIsTypingCell.xib */; };
 		8EADA72D20347EC600DE8126 /* lottie_chat_typing_animation.json in Resources */ = {isa = PBXBuildFile; fileRef = 8EADA72C20347EC600DE8126 /* lottie_chat_typing_animation.json */; };
 		8EADA72E20347EC600DE8126 /* lottie_chat_typing_animation.json in Resources */ = {isa = PBXBuildFile; fileRef = 8EADA72C20347EC600DE8126 /* lottie_chat_typing_animation.json */; };
 		8EB650F22059279400FF50E4 /* MLPredictionDetailsViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB650F12059279400FF50E4 /* MLPredictionDetailsViewCell.swift */; };
@@ -1500,8 +1498,6 @@
 		C74BDB421D7F121600B59482 /* StickersManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74BDB401D7F121600B59482 /* StickersManager.swift */; };
 		C75018481D10681B007D4CE4 /* ChatOtherInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75018461D10681B007D4CE4 /* ChatOtherInfoCell.swift */; };
 		C75018491D10681B007D4CE4 /* ChatOtherInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75018461D10681B007D4CE4 /* ChatOtherInfoCell.swift */; };
-		C750184A1D10681B007D4CE4 /* ChatOtherInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C75018471D10681B007D4CE4 /* ChatOtherInfoCell.xib */; };
-		C750184B1D10681B007D4CE4 /* ChatOtherInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C75018471D10681B007D4CE4 /* ChatOtherInfoCell.xib */; };
 		C750AA8B1E6D76DC005F87C5 /* MockListingViewModelMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C750AA8A1E6D76DC005F87C5 /* MockListingViewModelMaker.swift */; };
 		C750AA8D1E6D77B7005F87C5 /* MockImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C750AA8C1E6D77B7005F87C5 /* MockImageDownloader.swift */; };
 		C75B55F91C7E12C90001F5CD /* FilterDisclosureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75B55F71C7E12C90001F5CD /* FilterDisclosureCell.swift */; };
@@ -2705,7 +2701,6 @@
 		8E85EA251FD0539700A24ADE /* Data+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extensions.swift"; sourceTree = "<group>"; };
 		8E8EAD2E20A2EBB800ADEAFE /* ChatConversationsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatConversationsListViewController.swift; sourceTree = "<group>"; };
 		8E8EAD3520A2EC1400ADEAFE /* ChatConversationsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatConversationsListViewModel.swift; sourceTree = "<group>"; };
-		8EADA728203453CB00DE8126 /* ChatInterlocutorIsTypingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatInterlocutorIsTypingCell.xib; sourceTree = "<group>"; };
 		8EADA72C20347EC600DE8126 /* lottie_chat_typing_animation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = lottie_chat_typing_animation.json; sourceTree = "<group>"; };
 		8EB650F12059279400FF50E4 /* MLPredictionDetailsViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLPredictionDetailsViewCell.swift; sourceTree = "<group>"; };
 		8EB65109205ACBEF00FF50E4 /* MLTrackingInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLTrackingInfo.swift; sourceTree = "<group>"; };
@@ -2847,7 +2842,6 @@
 		C749C78E1C10836C00F7118E /* BaseCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCellDrawer.swift; sourceTree = "<group>"; };
 		C74BDB401D7F121600B59482 /* StickersManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StickersManager.swift; sourceTree = "<group>"; };
 		C75018461D10681B007D4CE4 /* ChatOtherInfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatOtherInfoCell.swift; sourceTree = "<group>"; };
-		C75018471D10681B007D4CE4 /* ChatOtherInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatOtherInfoCell.xib; sourceTree = "<group>"; };
 		C750AA8A1E6D76DC005F87C5 /* MockListingViewModelMaker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockListingViewModelMaker.swift; sourceTree = "<group>"; };
 		C750AA8C1E6D77B7005F87C5 /* MockImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockImageDownloader.swift; sourceTree = "<group>"; };
 		C75B55F71C7E12C90001F5CD /* FilterDisclosureCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterDisclosureCell.swift; sourceTree = "<group>"; };
@@ -5537,12 +5531,10 @@
 				500210B51CF5D94F0034519F /* ChatDisclaimerCell.swift */,
 				C7B588791CE1DFA6009B3975 /* ChatMyMessageCell.swift */,
 				C75018461D10681B007D4CE4 /* ChatOtherInfoCell.swift */,
-				C75018471D10681B007D4CE4 /* ChatOtherInfoCell.xib */,
 				C7B5887B1CE1DFA6009B3975 /* ChatOthersMessageCell.swift */,
 				6AF75D031CF3600D00EACCF0 /* ChatStickerCell.swift */,
 				2EE47D2720177653004B04EE /* ChatAskPhoneNumberCell.swift */,
 				8E031CAB20331D2D00CA0ED9 /* ChatInterlocutorIsTypingCell.swift */,
-				8EADA728203453CB00DE8126 /* ChatInterlocutorIsTypingCell.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -6128,7 +6120,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C750184A1D10681B007D4CE4 /* ChatOtherInfoCell.xib in Resources */,
 				C73FABB81DD37968008F4519 /* SettingsLogoutCell.xib in Resources */,
 				C7B5432A1D758BA7005FBA30 /* VerifyAccountsViewController.xib in Resources */,
 				C7DE8AD31C888761005CF37E /* SellListingCell.xib in Resources */,
@@ -6192,7 +6183,6 @@
 				8EB6510E205C1C1500FF50E4 /* MobileNetLetgov7final.json in Resources */,
 				2E132A501F220D7B00C20127 /* Taxonomies.json in Resources */,
 				C7B588511CE1DE1C009B3975 /* DirectAnswerCell.xib in Resources */,
-				8EADA729203453CC00DE8126 /* ChatInterlocutorIsTypingCell.xib in Resources */,
 				2E36656C1DE4882E00000F68 /* PostIncentivatorView.xib in Resources */,
 				C7B5889C1CE1E025009B3975 /* ConversationCell.xib in Resources */,
 				C7DE8AC91C888761005CF37E /* EditListingViewController.xib in Resources */,
@@ -6229,7 +6219,6 @@
 				0A82750C1F7D0DAD00A6A0C5 /* DeferredDeepLinkTargetListing.json in Resources */,
 				0A82750B1F7D0DA400A6A0C5 /* DeferredDeepLinkTargetSearchQuery.json in Resources */,
 				0A6D88C51F7CFECA00819E89 /* DeferredDeepLinkTargetCategory.json in Resources */,
-				C750184B1D10681B007D4CE4 /* ChatOtherInfoCell.xib in Resources */,
 				C73FABB91DD37968008F4519 /* SettingsLogoutCell.xib in Resources */,
 				C7B5432B1D758BA7005FBA30 /* VerifyAccountsViewController.xib in Resources */,
 				C7DE8AD41C888761005CF37E /* SellListingCell.xib in Resources */,
@@ -6280,7 +6269,6 @@
 				C7DB427C1C5138B500400945 /* RememberPasswordViewController.xib in Resources */,
 				C7B588481CE1DE1C009B3975 /* ChatListingView.xib in Resources */,
 				C7415ED91DE880BD0003D6C1 /* SimpleListingsViewController.xib in Resources */,
-				8EADA72A203453CC00DE8126 /* ChatInterlocutorIsTypingCell.xib in Resources */,
 				C74016DD1D6467DB004C1E9D /* PostListingDetailPriceView.xib in Resources */,
 				508011201D474ED80073F362 /* Icons-Launchers.xcassets in Resources */,
 				C6D5FF1B20B6B0AC0045E3D3 /* ServicesInfo.json in Resources */,
