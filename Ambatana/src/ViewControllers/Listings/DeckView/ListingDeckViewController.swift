@@ -8,7 +8,7 @@ import GoogleMobileAds
 
 typealias DeckMovement = CarouselMovement
 
-final class ListingDeckViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+final class ListingDeckViewController: KeyboardViewController, UICollectionViewDelegate {
     private struct Layout {
         struct Insets {
             static let chat: CGFloat = 75
@@ -18,6 +18,7 @@ final class ListingDeckViewController: BaseViewController, UICollectionViewDataS
     override var preferredStatusBarStyle: UIStatusBarStyle { return .default }
 
     fileprivate let listingDeckView = ListingDeckView()
+    private let collectionDataSource: DeckCollectionDataSource
     fileprivate let viewModel: ListingDeckViewModel
     fileprivate let binder = ListingDeckViewControllerBinder()
 
@@ -36,7 +37,10 @@ final class ListingDeckViewController: BaseViewController, UICollectionViewDataS
 
     init(viewModel: ListingDeckViewModel) {
         self.viewModel = viewModel
+        self.collectionDataSource =  DeckCollectionDataSource(withViewModel: viewModel,
+                                                              imageDownloader: viewModel.imageDownloader)
         super.init(viewModel: viewModel, nibName: nil)
+        self.collectionDataSource.delegate = self
     }
 
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
@@ -117,7 +121,7 @@ final class ListingDeckViewController: BaseViewController, UICollectionViewDataS
 
     private func setupCollectionView() {
         automaticallyAdjustsScrollViewInsets = false
-        listingDeckView.collectionView.dataSource = self
+        listingDeckView.collectionView.dataSource = self.collectionDataSource
         listingDeckView.setCollectionLayoutDelegate(self)
         listingDeckView.collectionView.register(ListingCardView.self,
                                                 forCellWithReuseIdentifier: ListingCardView.reusableID)
@@ -125,29 +129,6 @@ final class ListingDeckViewController: BaseViewController, UICollectionViewDataS
 
     func reloadData() {
         listingDeckView.collectionView.reloadData()
-    }
-
-    // MARK: UICollectionViewDataSource
-
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.objectCount
-    }
-
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListingCardView.reusableID,
-                                                         for: indexPath) as? ListingCardView {
-            guard let model = viewModel.snapshotModelAt(index: indexPath.row) else { return cell }
-            cell.tag = indexPath.row
-            cell.populateWith(model, imageDownloader: viewModel.imageDownloader)
-            cell.delegate = self
-
-            return cell
-        }
-        return UICollectionViewCell()
     }
 
     // MARK: NavBar

@@ -242,6 +242,8 @@
 		0AD1B7442085D66400A28852 /* FeedNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD1B7422085D66400A28852 /* FeedNavigator.swift */; };
 		0ADE58D21FC45F3100F3DB17 /* ListingCardDetailsViewBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADE58D11FC45F3100F3DB17 /* ListingCardDetailsViewBinder.swift */; };
 		0ADE58D31FC4609400F3DB17 /* ListingCardDetailsViewBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADE58D11FC45F3100F3DB17 /* ListingCardDetailsViewBinder.swift */; };
+		0AE405BF20EE4B8D0041E3F1 /* DeckCollectionDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE405BE20EE4B8D0041E3F1 /* DeckCollectionDataSource.swift */; };
+		0AE405C020EE4C760041E3F1 /* DeckCollectionDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE405BE20EE4B8D0041E3F1 /* DeckCollectionDataSource.swift */; };
 		0AEB4FF02018AA93003365DE /* ListingDeckOnBoardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEB4FEF2018AA93003365DE /* ListingDeckOnBoardingViewModel.swift */; };
 		0AEB4FF22018C25F003365DE /* ListingDeckOnBoardingBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEB4FF12018C25F003365DE /* ListingDeckOnBoardingBinder.swift */; };
 		0AEB4FF52018C347003365DE /* ListingDeckOnBoardingBinderSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEB4FF42018C347003365DE /* ListingDeckOnBoardingBinderSpec.swift */; };
@@ -2107,6 +2109,7 @@
 		0ACE7DAC1FD2C3A10068E47B /* DeckCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckCoordinator.swift; sourceTree = "<group>"; };
 		0AD1B7422085D66400A28852 /* FeedNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedNavigator.swift; sourceTree = "<group>"; };
 		0ADE58D11FC45F3100F3DB17 /* ListingCardDetailsViewBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardDetailsViewBinder.swift; sourceTree = "<group>"; };
+		0AE405BE20EE4B8D0041E3F1 /* DeckCollectionDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckCollectionDataSource.swift; sourceTree = "<group>"; };
 		0AEB4FEF2018AA93003365DE /* ListingDeckOnBoardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingDeckOnBoardingViewModel.swift; sourceTree = "<group>"; };
 		0AEB4FF12018C25F003365DE /* ListingDeckOnBoardingBinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingDeckOnBoardingBinder.swift; sourceTree = "<group>"; };
 		0AEB4FF42018C347003365DE /* ListingDeckOnBoardingBinderSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingDeckOnBoardingBinderSpec.swift; sourceTree = "<group>"; };
@@ -3328,6 +3331,7 @@
 				0A6BAC1D1FC58D680008A703 /* ListingCardViewCellModel.swift */,
 				0A759E961FB472F60030FDE0 /* ListingCardViewModel.swift */,
 				0A3048272041E1DE00C11498 /* ListingDeckSnapshotType.swift */,
+				0AE405BE20EE4B8D0041E3F1 /* DeckCollectionDataSource.swift */,
 			);
 			path = DeckView;
 			sourceTree = "<group>";
@@ -7047,6 +7051,7 @@
 				326C72F2208E104C009D21DB /* EmptyHeaderCellPresenter.swift in Sources */,
 				8E26007C1E30E1C300242B3F /* ChangeEmailView.swift in Sources */,
 				326C72DF2089F9E6009D21DB /* DummyCell.swift in Sources */,
+				0AE405BF20EE4B8D0041E3F1 /* DeckCollectionDataSource.swift in Sources */,
 				C739C1D81D11A2FB0014AD6A /* ChatOtherInfoCellDrawer.swift in Sources */,
 				50C9E50C1B74EEED001E4E92 /* DLImageResizing.swift in Sources */,
 				5015881B1C7396A8006AEFC8 /* UserView.swift in Sources */,
@@ -7848,6 +7853,7 @@
 				C703BDFF1C7F1AF900EC8EF2 /* EditLocationViewController.swift in Sources */,
 				326C72E02089F9E6009D21DB /* DummyCell.swift in Sources */,
 				C739C1D91D11A2FB0014AD6A /* ChatOtherInfoCellDrawer.swift in Sources */,
+				0AE405C020EE4C760041E3F1 /* DeckCollectionDataSource.swift in Sources */,
 				C7DB418D1C5138B500400945 /* DLImageResizing.swift in Sources */,
 				8E26007D1E30E1C300242B3F /* ChangeEmailView.swift in Sources */,
 				5015881C1C7396A8006AEFC8 /* UserView.swift in Sources */,

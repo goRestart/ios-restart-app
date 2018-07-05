@@ -272,14 +272,6 @@ final class ListingDeckViewModel: BaseViewModel {
         return viewModelFor(listing: listing)
     }
 
-    func snapshotModelAt(index: Int) -> ListingDeckSnapshotType? {
-        guard 0..<objectCount ~= index, let listing = objects.value[index].listing else { return nil }
-        if let listingId = listing.objectId, let viewModel = productsViewModels[listingId] {
-            return listingViewModelMaker.makeListingDeckSnapshot(listingViewModel: viewModel)
-        }
-        return listingViewModelMaker.makeListingDeckSnapshot(listing: listing)
-    }
-
     fileprivate func listingAt(index: Int) -> Listing? {
         guard 0..<objectCount ~= index, let listing = objects.value[index].listing else { return nil }
         return listing
@@ -635,5 +627,14 @@ extension ListingDeckViewModel {
         guard let listing = model.listing else { return false }
         return !listing.status.isDiscarded
     }
+}
 
+extension ListingDeckViewModel: DeckCollectionViewModel {
+    func snapshotModelAt(index: Int) -> ListingDeckSnapshotType? {
+        guard let listing = objects.value[safeAt: index]?.listing else { return nil }
+        if let listingId = listing.objectId, let viewModel = productsViewModels[listingId] {
+            return listingViewModelMaker.makeListingDeckSnapshot(listingViewModel: viewModel)
+        }
+        return listingViewModelMaker.makeListingDeckSnapshot(listing: listing)
+    }
 }
