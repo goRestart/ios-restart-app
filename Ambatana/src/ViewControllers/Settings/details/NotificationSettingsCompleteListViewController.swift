@@ -7,10 +7,9 @@ final class NotificationSettingsCompleteListViewController: BaseViewController, 
     private let disposeBag = DisposeBag()
     
     private let tableView: UITableView = {
-        let tableView = UITableView()
+        let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.backgroundColor = .grayBackground
         tableView.separatorStyle = .none
-        tableView.contentInset.top = NotificationSettingsViewController.tableViewTopInset
         return tableView
     }()
     private let activityIndicator: UIActivityIndicatorView = {
@@ -69,7 +68,7 @@ final class NotificationSettingsCompleteListViewController: BaseViewController, 
             }
             }).disposed(by: disposeBag)
         
-        viewModel.notificationSettingsCells.asObservable().subscribeNext { [weak self] _ in
+        viewModel.sections.asObservable().subscribeNext { [weak self] _ in
             self?.tableView.reloadData()
             }.disposed(by: disposeBag)
     }
@@ -86,7 +85,8 @@ final class NotificationSettingsCompleteListViewController: BaseViewController, 
         case .searchAlerts, .marketing:
             break
         }
-        
+
+        tableView.sectionFooterHeight = 0.0
         automaticallyAdjustsScrollViewInsets = false
     }
     
@@ -112,18 +112,32 @@ final class NotificationSettingsCompleteListViewController: BaseViewController, 
     
     // MARK: - UITableViewDataSource, UITableViewDelegate
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return viewModel.sections.value.count
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return SettingsTableViewHeader.Layout.totalHeight
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header = SettingsTableViewHeader()
+        let title = viewModel.sections.value[section].title
+        header.setup(withTitle: title)
+        return header
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.notificationSettingsCells.value.count
+        return viewModel.sections.value[section].settings.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellData = viewModel.notificationSettingsCells.value[indexPath.row]
+        let cellData = viewModel.cellDataFor(section: indexPath.section, row: indexPath.row)
         switch cellData {
         case .switcher:
             guard let cell = tableView.dequeue(type: NotificationSettingSwitchCell.self, for: indexPath)
                 else { return UITableViewCell() }
-            let notificationSettingCell = viewModel.notificationSettingsCells.value[indexPath.row]
-            cell.setupWithNotificationSettingCell(notificationSettingCell)
+            cell.setupWithNotificationSettingCell(cellData)
             return cell
         case .marketing:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: NotificationSettingSwitchCell.reusableID, for: indexPath)

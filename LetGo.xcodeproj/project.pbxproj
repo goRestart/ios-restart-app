@@ -94,6 +94,8 @@
 		01BDE97B2050B1820081B670 /* BlockingPostingHeaderStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BDE9792050B1820081B670 /* BlockingPostingHeaderStep.swift */; };
 		01C7778E1FFE4B92001A04C7 /* MostSearchedItemsListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C7778D1FFE4B92001A04C7 /* MostSearchedItemsListCell.swift */; };
 		01C7778F1FFE4B92001A04C7 /* MostSearchedItemsListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C7778D1FFE4B92001A04C7 /* MostSearchedItemsListCell.swift */; };
+		01CB107B20EBB3790026D0FC /* SettingsTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CB107A20EBB3790026D0FC /* SettingsTableViewHeader.swift */; };
+		01CB107C20EBB3790026D0FC /* SettingsTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CB107A20EBB3790026D0FC /* SettingsTableViewHeader.swift */; };
 		01D432012080FBD100061F0C /* NotificationSettingsMainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D431FF2080FBD100061F0C /* NotificationSettingsMainViewModel.swift */; };
 		01D432022080FBD600061F0C /* NotificationSettingsMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D431FD2080FBC100061F0C /* NotificationSettingsMainViewController.swift */; };
 		01E5B70620889BEF001C5A1F /* SearchAlertFeedHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E5B70420889BEF001C5A1F /* SearchAlertFeedHeader.swift */; };
@@ -2066,6 +2068,7 @@
 		01B06D87202B187100083DD1 /* MockEventParameterMostSearched.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockEventParameterMostSearched.swift; sourceTree = "<group>"; };
 		01BDE9792050B1820081B670 /* BlockingPostingHeaderStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BlockingPostingHeaderStep.swift; path = Onboarding/BlockingPostingHeaderStep.swift; sourceTree = "<group>"; };
 		01C7778D1FFE4B92001A04C7 /* MostSearchedItemsListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostSearchedItemsListCell.swift; sourceTree = "<group>"; };
+		01CB107A20EBB3790026D0FC /* SettingsTableViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewHeader.swift; sourceTree = "<group>"; };
 		01D431FD2080FBC100061F0C /* NotificationSettingsMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsMainViewController.swift; sourceTree = "<group>"; };
 		01D431FF2080FBD100061F0C /* NotificationSettingsMainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsMainViewModel.swift; sourceTree = "<group>"; };
 		01E5B70420889BEF001C5A1F /* SearchAlertFeedHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAlertFeedHeader.swift; sourceTree = "<group>"; };
@@ -4630,6 +4633,7 @@
 				508010E61D4748120073F362 /* SettingsViewController.swift */,
 				508010E71D4748120073F362 /* SettingsViewController.xib */,
 				C72794481D54944E009C25AB /* SettingsViewModel.swift */,
+				01CB107A20EBB3790026D0FC /* SettingsTableViewHeader.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -7339,6 +7343,7 @@
 				5095988D1C8733B70026AE2D /* CrashlyticsReporter.swift in Sources */,
 				C7363FBC1BFA449A00A4BF6F /* ListingSortCriteria+LG.swift in Sources */,
 				C6E770AC209CB9E2002CFA99 /* FeedCellDrawer.swift in Sources */,
+				01CB107B20EBB3790026D0FC /* SettingsTableViewHeader.swift in Sources */,
 				724635B31F2742CD002997D1 /* CategoryHeaderElement.swift in Sources */,
 				0AC05A871FB081110091D0E2 /* ListingCardViewBinder.swift in Sources */,
 				8E1139E21EC9AD5B00A9D772 /* FilterDescriptionHeaderView.swift in Sources */,
@@ -8155,6 +8160,7 @@
 				2E75EC541FA89F5B00C5F48F /* AdsRequester.swift in Sources */,
 				0183496B204F573100B14A24 /* ListingEditionParams+LG.swift in Sources */,
 				6A5E1A1D1D548F5400F92692 /* UIViewController+LG.swift in Sources */,
+				01CB107C20EBB3790026D0FC /* SettingsTableViewHeader.swift in Sources */,
 				6A5E1A171D548F5400F92692 /* UITextField+LG.swift in Sources */,
 				C79643121D4F5AFA000C5FCE /* RelatedListingsView.swift in Sources */,
 				C6E770AD209CB9E2002CFA99 /* FeedCellDrawer.swift in Sources */,

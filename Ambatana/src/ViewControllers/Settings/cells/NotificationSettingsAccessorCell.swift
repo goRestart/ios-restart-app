@@ -3,14 +3,12 @@ import LGComponents
 final class NotificationSettingsAccessorCell: UITableViewCell, ReusableCell {
     
     private let label = UILabel()
-    private let topSeparatorInsetView = UIView()
-    private let bottomSeparatorInsetView = UIView()
     private let accessoryImageView = UIImageView()
+    private var lines: [CALayer] = []
     
     private struct Layout {
         static let accessoryHeight: CGFloat = 13
         static let accessoryWidth: CGFloat = 8
-        static let separatorInsetHeight: CGFloat = 1
     }
 
     
@@ -26,6 +24,13 @@ final class NotificationSettingsAccessorCell: UITableViewCell, ReusableCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        lines.forEach { $0.removeFromSuperlayer() }
+        lines.removeAll()
+        lines.append(contentView.addBottomBorderWithWidth(1, color: UIColor.lineGray))
+    }
+    
     
     // MARK: - UI
 
@@ -34,29 +39,17 @@ final class NotificationSettingsAccessorCell: UITableViewCell, ReusableCell {
         label.font = UIFont.systemRegularFont(size: 17)
         label.text = R.Strings.settingsNotificationsSearchAlerts
         
-        topSeparatorInsetView.backgroundColor = .grayLight
-        bottomSeparatorInsetView.backgroundColor = .grayLight
-        
         accessoryImageView.image = R.Asset.IconsButtons.rightChevron.image
     }
     
     private func setupConstraints() {
-        contentView.addSubviewsForAutoLayout([label, topSeparatorInsetView, bottomSeparatorInsetView, accessoryImageView])
+        contentView.addSubviewsForAutoLayout([label, accessoryImageView])
         
         let constraints = [
             label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metrics.margin),
             label.trailingAnchor.constraint(equalTo: accessoryImageView.leadingAnchor, constant: -Metrics.shortMargin),
             label.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Metrics.margin),
             label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Metrics.margin),
-            
-            topSeparatorInsetView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            topSeparatorInsetView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            topSeparatorInsetView.heightAnchor.constraint(equalToConstant: Layout.separatorInsetHeight),
-            
-            bottomSeparatorInsetView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            bottomSeparatorInsetView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            bottomSeparatorInsetView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            bottomSeparatorInsetView.heightAnchor.constraint(equalToConstant: Layout.separatorInsetHeight),
             
             accessoryImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             accessoryImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Metrics.margin),

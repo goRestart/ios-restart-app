@@ -106,7 +106,6 @@ final class NotificationSettingsViewModel: BaseViewModel {
             notificationsSettings.append(.marketing(switchValue: switchMarketingNotificationValue,
                                                 changeClosure: { [weak self] enabled in
                                                     self?.checkMarketingNotifications(enabled)
-                                                    
             } ))
         }
         notificationsSettings.append(.searchAlerts)
