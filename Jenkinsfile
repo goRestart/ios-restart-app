@@ -145,7 +145,7 @@ def get_release_identifier(String branch_name) {
 
 def notifyBuildStatus(String buildStatus = 'STARTED') {
   buildStatus =  buildStatus ?: 'SUCCESSFUL'
-  def slack_channel = "${env.SLACK_CHANNEL}"
+  def slack_channel = "${env.SLACK_CHANNEL_IOS}"
   def red = '#FF0000'
   def yellow = '#FFCC00'
   def green = '#228B22'
