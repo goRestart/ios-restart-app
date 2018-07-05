@@ -141,8 +141,6 @@ enum EventName: String {
     case expressChatComplete                = "express-chat-complete"
     case expressChatDontAsk                 = "express-chat-dont-ask"
 
-    case npsStart                           = "nps-start"
-    case npsComplete                        = "nps-complete"
     case surveyStart                        = "survey-start"
     case surveyCompleted                    = "survey-completed"
 
@@ -307,7 +305,6 @@ enum EventParameterName: String {
     case numberOfUsers        = "number-of-users"
     case priceFrom            = "price-from"
     case priceTo              = "price-to"
-    case npsScore             = "nps-score"
     case accountNetwork       = "account-network"
     case profileType          = "profile-type"
     case notificationClickArea = "notification-click-area"

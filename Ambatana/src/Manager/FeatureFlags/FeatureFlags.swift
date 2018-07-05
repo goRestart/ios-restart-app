@@ -15,7 +15,6 @@ protocol FeatureFlaggeable: class {
     var syncedData: Observable<Bool> { get }
     func variablesUpdated()
 
-    var showNPSSurvey: Bool { get }
     var surveyUrl: String { get }
     var surveyEnabled: Bool { get }
 
@@ -61,6 +60,8 @@ protocol FeatureFlaggeable: class {
     var googleAdxForTR: GoogleAdxForTR { get }
     var fullScreenAdsWhenBrowsingForUS: FullScreenAdsWhenBrowsingForUS { get }
     var fullScreenAdUnitId: String? { get }
+    var appInstallAdsInFeed: AppInstallAdsInFeed { get }
+    var appInstallAdsInFeedAdUnit: String? { get }
     
     // MARK: Chat
     var showInactiveConversations: Bool { get }
@@ -77,6 +78,7 @@ protocol FeatureFlaggeable: class {
     var realEstateMap: RealEstateMap { get }
     var showServicesFeatures: ShowServicesFeatures { get }
     var carExtraFieldsEnabled: CarExtraFieldsEnabled { get }
+    var realEstateMapTooltip: RealEstateMapTooltip { get }
     
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed { get }
@@ -193,6 +195,10 @@ extension ShowServicesFeatures {
 
 extension CarExtraFieldsEnabled {
     var isActive: Bool { return self == .active }
+}
+
+extension RealEstateMapTooltip {
+    var isActive: Bool { return self == .active  }
 }
 
 extension BumpUpBoost {
@@ -457,6 +463,10 @@ extension PreventMessagesFromFeedToProUsers {
     var isActive: Bool { return self == .active }
 }
 
+extension AppInstallAdsInFeed {
+    var isActive: Bool { return self == .active }
+}
+
 final class FeatureFlags: FeatureFlaggeable {
     
     static let sharedInstance: FeatureFlags = FeatureFlags()
@@ -524,14 +534,7 @@ final class FeatureFlags: FeatureFlaggeable {
         }
         abTests.variablesUpdated()
     }
-
-    var showNPSSurvey: Bool {
-        if Bumper.enabled {
-            return Bumper.showNPSSurvey
-        }
-        return abTests.showNPSSurvey.value
-    }
-
+    
     var surveyUrl: String {
         if Bumper.enabled {
             return Bumper.surveyEnabled ? SharedConstants.surveyDefaultTestUrl : ""
@@ -1028,6 +1031,28 @@ final class FeatureFlags: FeatureFlaggeable {
         }
     }
     
+    var appInstallAdsInFeedAdUnit: String? {
+        if Bumper.enabled {
+            // Bumper overrides country restriction
+            return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxInstallAppUSA
+        }
+        switch sensorLocationCountryCode {
+        case .usa?:
+            return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxInstallAppUSA
+        case .turkey?:
+            return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxInstallAppTR
+        default:
+            return nil
+        }
+    }
+    
+    var appInstallAdsInFeed: AppInstallAdsInFeed {
+        if Bumper.enabled {
+            return Bumper.appInstallAdsInFeed
+        }
+        return AppInstallAdsInFeed.fromPosition(abTests.appInstallAdsInFeed.value)
+    }
+    
     // MARK: - Private
 
     private var locationCountryCode: CountryCode? {
@@ -1155,6 +1180,13 @@ extension FeatureFlags {
         
         return .control
 //        return CarExtraFieldsEnabled.fromPosition(abTests.carExtraFieldsEnabled.value)
+    }
+    
+    var realEstateMapTooltip: RealEstateMapTooltip {
+        if Bumper.enabled {
+            return Bumper.realEstateMapTooltip
+        }
+        return .control // RealEstateMapTooltip.fromPosition(abTests.realEstateMapTooltip.value)
     }
 }
 

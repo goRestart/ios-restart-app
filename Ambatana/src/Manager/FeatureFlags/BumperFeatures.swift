@@ -16,7 +16,6 @@ import RxSwift
 extension Bumper  {
     static func initialize() {
         var flags = [BumperFeature.Type]()
-        flags.append(ShowNPSSurvey.self)
         flags.append(SurveyEnabled.self)
         flags.append(FreeBumpUpEnabled.self)
         flags.append(PricedBumpUpEnabled.self)
@@ -75,21 +74,10 @@ extension Bumper  {
         flags.append(ShowChatHeaderWithoutListingForAssistant.self)
         flags.append(ReportingFostaSesta.self)
         flags.append(NewItemPageV3.self)
+        flags.append(RealEstateMapTooltip.self)
+        flags.append(AppInstallAdsInFeed.self)
         Bumper.initialize(flags)
     } 
-
-    static var showNPSSurvey: Bool {
-        guard let value = Bumper.value(for: ShowNPSSurvey.key) else { return false }
-        return ShowNPSSurvey(rawValue: value)?.asBool ?? false
-    } 
-
-    #if (RX_BUMPER)
-    static var showNPSSurveyObservable: Observable<Bool> {
-        return Bumper.observeValue(for: ShowNPSSurvey.key).map {
-            ShowNPSSurvey(rawValue: $0 ?? "")?.asBool ?? false
-        }
-    }
-    #endif
 
     static var surveyEnabled: Bool {
         guard let value = Bumper.value(for: SurveyEnabled.key) else { return false }
@@ -178,19 +166,6 @@ extension Bumper  {
     static var taxonomiesAndTaxonomyChildrenInFeedObservable: Observable<TaxonomiesAndTaxonomyChildrenInFeed> {
         return Bumper.observeValue(for: TaxonomiesAndTaxonomyChildrenInFeed.key).map {
             TaxonomiesAndTaxonomyChildrenInFeed(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var deckItemPage: NewItemPageV3 {
-        guard let value = Bumper.value(for: NewItemPageV3.key) else { return .control }
-        return NewItemPageV3(rawValue: value) ?? .control
-    } 
-
-    #if (RX_BUMPER)
-    static var deckItemPageObservable: Observable<NewItemPageV3> {
-        return Bumper.observeValue(for: NewItemPageV3.key).map {
-            NewItemPageV3(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -857,17 +832,34 @@ extension Bumper  {
         }
     }
     #endif
+
+    static var realEstateMapTooltip: RealEstateMapTooltip {
+        guard let value = Bumper.value(for: RealEstateMapTooltip.key) else { return .control }
+        return RealEstateMapTooltip(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var realEstateMapTooltipObservable: Observable<RealEstateMapTooltip> {
+        return Bumper.observeValue(for: RealEstateMapTooltip.key).map {
+            RealEstateMapTooltip(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var appInstallAdsInFeed: AppInstallAdsInFeed {
+        guard let value = Bumper.value(for: AppInstallAdsInFeed.key) else { return .control }
+        return AppInstallAdsInFeed(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var appInstallAdsInFeedObservable: Observable<AppInstallAdsInFeed> {
+        return Bumper.observeValue(for: AppInstallAdsInFeed.key).map {
+            AppInstallAdsInFeed(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
 }
 
-
-enum ShowNPSSurvey: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return ShowNPSSurvey.no.rawValue }
-    static var enumValues: [ShowNPSSurvey] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show nps survey" } 
-    var asBool: Bool { return self == .yes }
-}
 
 enum SurveyEnabled: String, BumperFeature  {
     case no, yes
@@ -1788,6 +1780,38 @@ enum NewItemPageV3: String, BumperFeature  {
             case 5: return .variant4
             case 6: return .variant5
             case 7: return .variant6
+            default: return .control
+        }
+    }
+}
+
+enum RealEstateMapTooltip: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return RealEstateMapTooltip.control.rawValue }
+    static var enumValues: [RealEstateMapTooltip] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show tooltip for Real Estate Map" } 
+    static func fromPosition(_ position: Int) -> RealEstateMapTooltip {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum AppInstallAdsInFeed: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return AppInstallAdsInFeed.control.rawValue }
+    static var enumValues: [AppInstallAdsInFeed] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show App Install Ads from Google Adx in feed" } 
+    static func fromPosition(_ position: Int) -> AppInstallAdsInFeed {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
             default: return .control
         }
     }

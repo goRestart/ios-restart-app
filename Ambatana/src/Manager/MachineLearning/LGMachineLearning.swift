@@ -8,7 +8,6 @@
 
 import Foundation
 import RxSwift
-import CameraManager
 import LGCoreKit
 import CoreMedia
 
@@ -19,7 +18,7 @@ typealias MachineLearningStatsPredictionCompletion = ([MachineLearningStats]?) -
  - Live: by capturing via delegate VideoCaptureDelegate. Results are publish into `liveStats`
  - One time: by calling predict(pixelBuffer:completion:). Result is provided in the completion
  */
-protocol MachineLearning: VideoOutputDelegate, VideoCaptureDelegate {
+protocol MachineLearning: VideoOutputDelegate {
     var isLiveStatsEnabled: Bool { get set }
     var liveStats: Variable<[MachineLearningStats]?> { get }
     var pixelsBuffersToForwardPerSecond: Int { get }
@@ -83,7 +82,7 @@ final class LGMachineLearning: MachineLearning {
         }
     }
     
-    // MARK: - VideoOutputDelegate & VideoCaptureDelegate
+    // MARK: - VideoOutputDelegate
     
     func didCaptureVideoFrame(pixelBuffer: CVPixelBuffer?, timestamp: CMTime) {
         guard canPredict, isLiveStatsEnabled, let pixelBuffer = pixelBuffer else { return }

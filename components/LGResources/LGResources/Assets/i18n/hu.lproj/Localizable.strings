@@ -1,5 +1,6 @@
 "account_pending_moderation" = "Moderálásra váró fiók";
 "account_pending_moderation_w_name" = "%@ fiókja moderálásra vár";
+"advertising_text" = "Hirdetés";
 "app_notification_reply" = "Válasz";
 "app_share_download_text" = "Letöltés";
 "app_share_email_button" = "Meghívás e-mailben";
@@ -562,7 +563,6 @@
 "ml_onboarding_description_text" = "Mutass egy tárgyat, és megmondom, hogy mennyit kereshetsz vele";
 "ml_onboarding_new_text" = "ÚJ!";
 "ml_onboarding_ok_text" = "OK";
-"mopub_advertising_text" = "Hirdetés";
 "notifications_empty_subtitle" = "Tölts fel hirdetést, hogy történjen itt valami";
 "notifications_empty_title" = "NINCS ÉRTESÍTÉS (MÉG!)";
 "notifications_permissions_1_push" = "Izabella: Érdekelne a telefon. Eladnád 25.000 Ft-ért?";
@@ -1059,6 +1059,8 @@
 "real_estate_gallery_view_subtitle_params" = "Válassz ki legfeljebb %d képet az eladó vagy kiadó ingatlanodról. Az első lesz a kiemelt képed, jót válassz!";
 "real_estate_location_notification_message" = "Sosem mutatjuk meg más felhasználóknak a pontos tartózkodási helyedet";
 "real_estate_location_title" = "Hely";
+"real_estate_map_tooltip_button_title" = "Try Now";
+"real_estate_map_tooltip_title" = "Új! Térképen láthatod az ingatlanokat.";
 "real_estate_offer_type_rent" = "Kiadó";
 "real_estate_offer_type_sale" = "Eladó";
 "real_estate_offer_type_title" = "Hirdetés típusa";

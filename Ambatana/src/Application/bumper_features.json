@@ -1,11 +1,6 @@
 
 [
     {
-		"name": "ShowNPSSurvey",
-		"values": ["No", "Yes"],
-		"description": "Show nps survey"
-	},
-    {
         "name": "SurveyEnabled",
         "values": ["No", "Yes"],
         "description": "Show qualitative survey"
@@ -263,8 +258,8 @@
         "name": "ShowChatConnectionStatusBar",
         "values": ["control", "baseline", "active"],
         "description": "Show a toast in the chat with the websocket and network connection status"
-	},
-	{
+    },
+    {
          "name": "AdvancedReputationSystem",
          "values": ["control", "baseline", "variantA", "variantB"],
          "description": "Advance reputation system and Karma Score with SMS and tooltip"
@@ -293,5 +288,15 @@
         "name": "NewItemPageV3",
         "values": ["control", "baseline", "variant1", "variant2", "variant3", "variant4", "variant5", "variant6"],
         "description": "[Products] New item page V3 -- all in"
+	},
+    {
+     	"name": "RealEstateMapTooltip",
+    	"values": ["control", "baseline", "active"],
+     	"description": "Show tooltip for Real Estate Map"
+     },
+	 {
+     	"name": "AppInstallAdsInFeed",
+        "values": ["control", "baseline", "active"],
+        "description": "Show App Install Ads from Google Adx in feed"
     }
 ]

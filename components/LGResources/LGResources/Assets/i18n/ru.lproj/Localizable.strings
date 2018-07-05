@@ -1,5 +1,6 @@
 "account_pending_moderation" = "Аккаунт на модерации";
 "account_pending_moderation_w_name" = "Аккаунт %@ на модерации";
+"advertising_text" = "Реклама";
 "app_notification_reply" = "Ответить";
 "app_share_download_text" = "Загрузка";
 "app_share_email_button" = "Пригласить через е-мейл";
@@ -562,7 +563,6 @@
 "ml_onboarding_description_text" = "Покажите мне товар, и я скажу, сколько вы можете получить";
 "ml_onboarding_new_text" = "НОВОЕ!";
 "ml_onboarding_ok_text" = "OK";
-"mopub_advertising_text" = "Реклама";
 "notifications_empty_subtitle" = "Разместите что-нибудь на продажу для получения уведомлений";
 "notifications_empty_title" = "НЕТ УВЕДОМЛЕНИЙ (ПОКА!)";
 "notifications_permissions_1_push" = "Ирина: Очень понравился ваш телефон. Отдадите за 5000р?";
@@ -1059,6 +1059,8 @@
 "real_estate_gallery_view_subtitle_params" = "Выберите до %d изображений недвижимости, которую хотите продать или сдать. Первым будет выделенное вам фото, поэтому убедитесь, что оно подходит!";
 "real_estate_location_notification_message" = "Мы никогда не показываем ваше точное местоположение другим пользователям";
 "real_estate_location_title" = "Местоположение";
+"real_estate_map_tooltip_button_title" = "Try Now";
+"real_estate_map_tooltip_title" = "Новинка! Смотрите подробности на карте.";
 "real_estate_offer_type_rent" = "Аренда";
 "real_estate_offer_type_sale" = "Продажа";
 "real_estate_offer_type_title" = "Тип объявления";

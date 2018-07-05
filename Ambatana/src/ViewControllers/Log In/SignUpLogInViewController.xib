@@ -350,7 +350,7 @@
                                         <action selector="usernameButtonPressed:" destination="-1" eventType="touchUpInside" id="jc6-Kg-e7l"/>
                                     </connections>
                                 </button>
-                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="_Username" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="5Sh-1T-g0d" userLabel="Username Text Field" customClass="LGTextField" customModule="LetGo" customModuleProvider="target">
+                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="_Username" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="5Sh-1T-g0d" userLabel="Username Text Field" customClass="LGTextField" customModule="LGComponents">
                                     <rect key="frame" x="45" y="88" width="292" height="44"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" returnKeyType="send"/>

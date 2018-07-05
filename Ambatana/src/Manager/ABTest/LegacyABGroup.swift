@@ -11,7 +11,6 @@ import Foundation
 struct LegacyABGroup: ABGroupType {
     private struct Keys {
         static let marketingPush = "marketingPush"
-        static let showNPSSurvey = "showNPSSurvey"
         static let surveyURL = "surveyURL"
         static let surveyEnabled = "surveyEnabled"
         static let freeBumpUpEnabled = "freeBumpUpEnabled"
@@ -31,7 +30,6 @@ struct LegacyABGroup: ABGroupType {
     
     let marketingPush: LeanplumABVariable<Int>
     // Not an A/B just flags and variables for surveys
-    let showNPSSurvey: LeanplumABVariable<Bool>
     let surveyURL: LeanplumABVariable<String>
     let surveyEnabled: LeanplumABVariable<Bool>
     let freeBumpUpEnabled: LeanplumABVariable<Bool>
@@ -56,7 +54,6 @@ struct LegacyABGroup: ABGroupType {
     var boolVariables: [LeanplumABVariable<Bool>] = []
     
     init(marketingPush: LeanplumABVariable<Int>,
-         showNPSSurvey: LeanplumABVariable<Bool>,
          surveyURL: LeanplumABVariable<String>,
          surveyEnabled: LeanplumABVariable<Bool>,
          freeBumpUpEnabled: LeanplumABVariable<Bool>,
@@ -74,7 +71,6 @@ struct LegacyABGroup: ABGroupType {
          showAdsInFeedWithRatio: LeanplumABVariable<Int>) {
         
         self.marketingPush = marketingPush
-        self.showNPSSurvey = showNPSSurvey
         self.surveyURL = surveyURL
         self.surveyEnabled = surveyEnabled
         self.freeBumpUpEnabled = freeBumpUpEnabled
@@ -99,7 +95,7 @@ struct LegacyABGroup: ABGroupType {
                                          showClockInDirectAnswer,
                                          mostSearchedDemandedItems,
                                          showAdsInFeedWithRatio])
-        boolVariables.append(contentsOf: [showNPSSurvey, surveyEnabled, freeBumpUpEnabled,
+        boolVariables.append(contentsOf: [surveyEnabled, freeBumpUpEnabled,
                                           pricedBumpUpEnabled, newCarsMultiRequesterEnabled, inAppRatingIOS10,
                                           userReviewsReportEnabled, appRatingDialogInactive])
         stringVariables.append(surveyURL)
@@ -108,7 +104,6 @@ struct LegacyABGroup: ABGroupType {
     
     static func make() -> LegacyABGroup {
         return LegacyABGroup(marketingPush: .makeInt(key: Keys.marketingPush, defaultValue: 0, groupType: .legacyABTests),
-                             showNPSSurvey: .makeBool(key: Keys.showNPSSurvey, defaultValue: false, groupType: .legacyABTests),
                              surveyURL: .makeString(key: Keys.surveyURL, defaultValue: "", groupType: .legacyABTests),
                              surveyEnabled: .makeBool(key: Keys.surveyEnabled, defaultValue: false, groupType: .legacyABTests),
                              freeBumpUpEnabled: .makeBool(key: Keys.freeBumpUpEnabled, defaultValue: false, groupType: .legacyABTests),

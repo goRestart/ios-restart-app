@@ -6,7 +6,6 @@ public enum AppEnvironmentType: String {
 }
 
 public final class EnvironmentProxy: AppEnvironment {
-
     public static let sharedInstance = EnvironmentProxy(godmode: false)
 
     public private(set) var environment: AppEnvironment
@@ -160,6 +159,14 @@ public final class EnvironmentProxy: AppEnvironment {
     
     public var fullScreenAdUnitIdAdxForOldUsersForUS: String {
         return environment.fullScreenAdUnitIdAdxForOldUsersForUS
+    }
+    
+    public var feedAdUnitIdAdxInstallAppUSA: String {
+        return environment.feedAdUnitIdAdxInstallAppUSA
+    }
+    
+    public var feedAdUnitIdAdxInstallAppTR: String {
+        return environment.feedAdUnitIdAdxInstallAppTR
     }
     
 }

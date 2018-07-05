@@ -521,8 +521,6 @@ extension R {
       public static let navbarSettingsRed = ImageAsset(name: "navbar_settings_red")
       public static let navbarShare = ImageAsset(name: "navbar_share")
       public static let navbarShareRed = ImageAsset(name: "navbar_share_red")
-      public static let npsBad = ImageAsset(name: "nps_bad")
-      public static let npsGood = ImageAsset(name: "nps_good")
       public static let oval = ImageAsset(name: "oval")
       public static let productPlaceholder = ImageAsset(name: "product_placeholder")
       public static let rightChevron = ImageAsset(name: "right_chevron")
@@ -818,8 +816,6 @@ extension R {
         navbarSettingsRed,
         navbarShare,
         navbarShareRed,
-        npsBad,
-        npsGood,
         oval,
         productPlaceholder,
         rightChevron,

@@ -1,5 +1,6 @@
 "account_pending_moderation" = "Benutzerkonto wird überprüft";
 "account_pending_moderation_w_name" = "Das Benutzerkonto von %@ wird überprüft";
+"advertising_text" = "Anzeige";
 "app_notification_reply" = "Antwort";
 "app_share_download_text" = "Herunterladen";
 "app_share_email_button" = "Via E-Mail einladen";
@@ -562,7 +563,6 @@
 "ml_onboarding_description_text" = "Zeige mir einen Artikel und ich sage dir, wieviel du damit verdienst";
 "ml_onboarding_new_text" = "NEU!";
 "ml_onboarding_ok_text" = "Ok";
-"mopub_advertising_text" = "Anzeige";
 "notifications_empty_subtitle" = "Stelle etwas zum Verkauf ein, damit hier etwas Leben reinkommt";
 "notifications_empty_title" = "(NOCH) KEINE MITTEILUNGEN";
 "notifications_permissions_1_push" = "Claudia: Ich interessiere mich für das Smartphone. Wären 100€ okay?";
@@ -1059,6 +1059,8 @@
 "real_estate_gallery_view_subtitle_params" = "Wähle bis zu %d Bilder der Immobilie, die du zum Verkauf oder zur Miete anbieten möchtest. Das erste wird dein Hauptfoto sein, also wähle ein gutes Bild!";
 "real_estate_location_notification_message" = "Wir werden anderen Nutzern niemals deinen genauen Standort anzeigen";
 "real_estate_location_title" = "Standort";
+"real_estate_map_tooltip_button_title" = "Try Now";
+"real_estate_map_tooltip_title" = "Neu! Grundstück auf der Landkarte ansehen.";
 "real_estate_offer_type_rent" = "Zur Miete";
 "real_estate_offer_type_sale" = "Zum Verkauf";
 "real_estate_offer_type_title" = "Art des Angebots";

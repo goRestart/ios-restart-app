@@ -679,11 +679,10 @@ extension ListingListView: MPNativeAdDelegate {
 // MARK: - GADNativeContentAdLoaderDelegate
 extension ListingListView: GADNativeContentAdLoaderDelegate, GADAdLoaderDelegate, GADNativeAdDelegate {
     public func adLoader(_ adLoader: GADAdLoader, didReceive nativeContentAd: GADNativeContentAd) {
-        nativeContentAd.delegate = self
         guard let position = adLoader.position else { return }
+        nativeContentAd.delegate = self
         nativeContentAd.position = position
-        let contentAdView = Bundle.main.loadNibNamed("GoogleAdxNativeView", owner: nil, options: nil)?.first as! GoogleAdxNativeView
-        viewModel.updateAdvertisementRequestedIn(position: position, nativeContentAd: nativeContentAd, contentAdView: contentAdView)
+        viewModel.updateAdvertisementRequestedIn(position: position, nativeAd: nativeContentAd)
     }
     
     public func adLoader(_ adLoader: GADAdLoader, didFailToReceiveAdWithError error: GADRequestError) {
@@ -699,6 +698,17 @@ extension ListingListView: GADNativeContentAdLoaderDelegate, GADAdLoaderDelegate
                                   feedPosition: feedPosition)
     }
     
+}
+
+// MARK: - GADNativeAppInstallAdLoaderDelegate
+extension ListingListView: GADNativeAppInstallAdLoaderDelegate {
+
+    public func adLoader(_ adLoader: GADAdLoader, didReceive nativeAppInstallAd: GADNativeAppInstallAd) {
+        guard let position = adLoader.position else { return }
+        nativeAppInstallAd.delegate = self
+        nativeAppInstallAd.position = position
+        viewModel.updateAdvertisementRequestedIn(position: position, nativeAd: nativeAppInstallAd)
+    }
 }
 
 extension GADAdLoader {

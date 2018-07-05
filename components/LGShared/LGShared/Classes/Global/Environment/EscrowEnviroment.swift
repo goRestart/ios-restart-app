@@ -43,6 +43,9 @@ final class EscrowEnvironment: AppEnvironment {
     let feedAdUnitIdAdxTRForAllUsers = ""
     let feedAdUnitIdAdxTRForOldUsers = ""
     
+    var feedAdUnitIdAdxInstallAppUSA = ""
+    var feedAdUnitIdAdxInstallAppTR = ""
+    
     let fullScreenAdUnitIdAdxForAllUsersForUS = ""
     let fullScreenAdUnitIdAdxForOldUsersForUS = ""
     

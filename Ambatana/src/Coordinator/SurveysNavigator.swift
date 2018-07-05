@@ -12,8 +12,3 @@ protocol WebSurveyNavigator: class {
     func closeWebSurvey()
     func webSurveyFinished()
 }
-
-protocol NpsSurveyNavigator: class {
-    func closeNpsSurvey()
-    func npsSurveyFinished()
-}

@@ -605,19 +605,6 @@ enum AccessibilityId: Equatable, Accessible {
     case editLocationSetLocationButton
     case editLocationApproxLocationSwitch
 
-    // NPS Survey
-    case npsCloseButton
-    case npsScore1
-    case npsScore2
-    case npsScore3
-    case npsScore4
-    case npsScore5
-    case npsScore6
-    case npsScore7
-    case npsScore8
-    case npsScore9
-    case npsScore10
-
     // Express chat
     case expressChatCloseButton
     case expressChatCollection
@@ -1895,30 +1882,6 @@ enum AccessibilityId: Equatable, Accessible {
             return "editLocationSetLocationButton"
         case .editLocationApproxLocationSwitch:
             return "editLocationApproxLocationSwitch"
-            
-        // NPS Survey
-        case .npsCloseButton:
-            return "npsCloseButton"
-        case .npsScore1:
-            return "npsScore1"
-        case .npsScore2:
-            return "npsScore2"
-        case .npsScore3:
-            return "npsScore3"
-        case .npsScore4:
-            return "npsScore4"
-        case .npsScore5:
-            return "npsScore5"
-        case .npsScore6:
-            return "npsScore6"
-        case .npsScore7:
-            return "npsScore7"
-        case .npsScore8:
-            return "npsScore8"
-        case .npsScore9:
-            return "npsScore9"
-        case .npsScore10:
-            return "npsScore10"
             
         // Express chat
         case .expressChatCloseButton:
