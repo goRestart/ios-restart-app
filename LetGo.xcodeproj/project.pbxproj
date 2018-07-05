@@ -576,6 +576,10 @@
 		4252685720C7E7F900A6E191 /* TagCollectionViewWithCloseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4252685520C7E7F900A6E191 /* TagCollectionViewWithCloseCell.swift */; };
 		4252685920C82FC500A6E191 /* PostAddNewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4252685820C82FC500A6E191 /* PostAddNewCell.swift */; };
 		4252685A20C82FC500A6E191 /* PostAddNewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4252685820C82FC500A6E191 /* PostAddNewCell.swift */; };
+		42566BF020ED211600120431 /* TooltipStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42566BEF20ED211600120431 /* TooltipStyle.swift */; };
+		42566BF220ED217800120431 /* TooltipConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42566BF120ED217800120431 /* TooltipConfiguration.swift */; };
+		42566BF320ED217800120431 /* TooltipConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42566BF120ED217800120431 /* TooltipConfiguration.swift */; };
+		42566BF420ED218200120431 /* TooltipStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42566BEF20ED211600120431 /* TooltipStyle.swift */; };
 		425B40A720A99981000968CF /* MKMapView+Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425B40A620A99981000968CF /* MKMapView+Location.swift */; };
 		425B40A820A99981000968CF /* MKMapView+Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425B40A620A99981000968CF /* MKMapView+Location.swift */; };
 		425BB9FB20888CF500FE9BB8 /* UserType+LGSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425BB9FA20888CF500FE9BB8 /* UserType+LGSpec.swift */; };
@@ -2181,7 +2185,7 @@
 		2E607ECA1E3F417700ADFED1 /* BumpUpNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BumpUpNavigator.swift; sourceTree = "<group>"; };
 		2E607ECD1E3F41C700ADFED1 /* BumpUpCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BumpUpCoordinator.swift; sourceTree = "<group>"; };
 		2E6248D7207E352300F4144C /* Sequence+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+LG.swift"; sourceTree = "<group>"; };
-		2E64D4191D11B34F00257B69 /* Tooltip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tooltip.swift; sourceTree = "<group>"; };
+		2E64D4191D11B34F00257B69 /* Tooltip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Tooltip.swift; path = ../To/Tooltip.swift; sourceTree = "<group>"; };
 		2E6691AE1FBDE45700FC2A77 /* PromoteBumpViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PromoteBumpViewModel.swift; path = "Promote Bump/PromoteBumpViewModel.swift"; sourceTree = "<group>"; };
 		2E6691B11FBDF2D000FC2A77 /* PromoteBumpNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromoteBumpNavigator.swift; sourceTree = "<group>"; };
 		2E6691B41FBDF2E100FC2A77 /* PromoteBumpCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromoteBumpCoordinator.swift; sourceTree = "<group>"; };
@@ -2280,6 +2284,8 @@
 		424898ED2090820E004B11AC /* ListingRepository+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ListingRepository+LG.swift"; sourceTree = "<group>"; };
 		4252685520C7E7F900A6E191 /* TagCollectionViewWithCloseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewWithCloseCell.swift; sourceTree = "<group>"; };
 		4252685820C82FC500A6E191 /* PostAddNewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAddNewCell.swift; sourceTree = "<group>"; };
+		42566BEF20ED211600120431 /* TooltipStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipStyle.swift; sourceTree = "<group>"; };
+		42566BF120ED217800120431 /* TooltipConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipConfiguration.swift; sourceTree = "<group>"; };
 		425B40A620A99981000968CF /* MKMapView+Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKMapView+Location.swift"; sourceTree = "<group>"; };
 		425BB9FA20888CF500FE9BB8 /* UserType+LGSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserType+LGSpec.swift"; sourceTree = "<group>"; };
 		426CB12E20C56768009A065F /* MockImageMultiplierRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockImageMultiplierRepository.swift; sourceTree = "<group>"; };
@@ -3675,6 +3681,16 @@
 			path = PromoCell;
 			sourceTree = "<group>";
 		};
+		42566BEE20ED20CD00120431 /* Tooltip */ = {
+			isa = PBXGroup;
+			children = (
+				2E64D4191D11B34F00257B69 /* Tooltip.swift */,
+				42566BEF20ED211600120431 /* TooltipStyle.swift */,
+				42566BF120ED217800120431 /* TooltipConfiguration.swift */,
+			);
+			path = Tooltip;
+			sourceTree = "<group>";
+		};
 		425B40A920A99E32000968CF /* Map */ = {
 			isa = PBXGroup;
 			children = (
@@ -3920,6 +3936,7 @@
 		505B06A41B15A9910049F9CD /* Widgets */ = {
 			isa = PBXGroup;
 			children = (
+				42566BEE20ED20CD00120431 /* Tooltip */,
 				C605853C20DBD2F4008025FD /* ListingAttributeGridView */,
 				425B40A920A99E32000968CF /* Map */,
 				2EB32D611DF184CB00E01E93 /* BumpUp */,
@@ -3938,7 +3955,6 @@
 				2E5350401CF8A0C6003B06CC /* ListingStatsView.swift */,
 				2E5350431CF8A181003B06CC /* ListingStatsView.xib */,
 				C6E770982099B12D002CFA99 /* PushPermissions */,
-				2E64D4191D11B34F00257B69 /* Tooltip.swift */,
 				727463B11FB0AEAB00AD8261 /* LGSearchMap.swift */,
 				727463B41FB0AF1400AD8261 /* LGSearchMapViewModel.swift */,
 				F5D212B41FF53F4C00B31593 /* ProgressView.swift */,
@@ -7593,6 +7609,7 @@
 				2EBAA2421EB9E1D000F69DC7 /* CarAttributes+GeneratedName.swift in Sources */,
 				6A6C756B207B7F0000845A88 /* UserVerificationEmailViewController.swift in Sources */,
 				C6687F3A20C83A2C008C1922 /* MultiListingPostedIncentivisorCell.swift in Sources */,
+				42566BF220ED217800120431 /* TooltipConfiguration.swift in Sources */,
 				502191101B2F1DC100ABD31F /* RememberPasswordViewModel.swift in Sources */,
 				F5A836AB1FD1AE32009E636D /* ListingAttributePickerViewController.swift in Sources */,
 				72C99E9C1DED7417006361C1 /* ChangePasswordCoordinator.swift in Sources */,
@@ -7658,6 +7675,7 @@
 				C72794401D549342009C25AB /* ChangeUsernameViewModel.swift in Sources */,
 				320843B820A1FDF7009A1DC5 /* DiscoveryABGroup.swift in Sources */,
 				4219244120761CF900862CEF /* PromoCell.swift in Sources */,
+				42566BF020ED211600120431 /* TooltipStyle.swift in Sources */,
 				0183BB18203C71D400204383 /* ListingPostedDescriptiveViewModel.swift in Sources */,
 				2E151D7020A49B8A0038D7C7 /* ChatBlockedUsersViewModel.swift in Sources */,
 				2E4436311BF389E000814624 /* LGNavBarSearchField.swift in Sources */,
@@ -7838,6 +7856,7 @@
 				8E80F70820D938FD005256D9 /* ChatBaseViewModel.swift in Sources */,
 				50146BDA1D4F90E500B0F635 /* ChatsTabNavigator.swift in Sources */,
 				C7C328421C907267008078EC /* PostListingGalleryViewModel.swift in Sources */,
+				42566BF320ED217800120431 /* TooltipConfiguration.swift in Sources */,
 				C707D44B1E96799000042C03 /* TextHiddenTags.swift in Sources */,
 				50EC64051C64B05500DC04C5 /* LGEmptyView.swift in Sources */,
 				509CFF361DCCE8DF0068E518 /* CGPoint+LG.swift in Sources */,
@@ -8167,6 +8186,7 @@
 				0A4766CC1FC5BFE8005B176F /* ProductStatusView.swift in Sources */,
 				C7DB41F61C5138B500400945 /* UITabBarController+Animations.swift in Sources */,
 				0AF5EB6A1FD012A4001DFAE2 /* MapViewSnapShot.swift in Sources */,
+				42566BF420ED218200120431 /* TooltipStyle.swift in Sources */,
 				8E28A82E207BC5E70070A7A6 /* AdvertisementAdxCellDrawer.swift in Sources */,
 				72C7A1C41FA73AC80089F175 /* ListingPrice+LG.swift in Sources */,
 				6A879DA01C8D89A400E0C868 /* PushPrePermissionsSettingsViewController.swift in Sources */,

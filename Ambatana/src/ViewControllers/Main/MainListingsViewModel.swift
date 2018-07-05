@@ -10,6 +10,8 @@ protocol MainListingsViewModelDelegate: BaseViewModelDelegate {
     func vmDidSearch()
     func vmShowTags(primaryTags: [FilterTag], secondaryTags: [FilterTag])
     func vmFiltersChanged()
+    func vmShowMapToolTip(with configuration: TooltipConfiguration)
+    func vmHideMapToolTip()
 }
 
 protocol MainListingsAdsDelegate: class {
@@ -84,6 +86,9 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         var rightButtonItems: [(image: UIImage, selector: Selector)] = []
         if featureFlags.realEstateMap.isActive && isRealEstateSelected {
             rightButtonItems.append((image: R.Asset.IconsButtons.icMap.image, selector: #selector(MainListingsViewController.openMap)))
+            if shouldShowRealEstateMapTooltip {
+                showTooltipMap()
+            }
         }
         rightButtonItems.append((image: hasFilters ? R.Asset.IconsButtons.icFiltersActive.image : R.Asset.IconsButtons.icFilters.image, selector: #selector(MainListingsViewController.openFilters)))
         return rightButtonItems
@@ -247,6 +252,34 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
 
     private var shouldShowCollections: Bool {
         return keyValueStorage[.lastSuggestiveSearches].count >= minimumSearchesSavedToShowCollection && filters.noFilterCategoryApplied
+    }
+    
+    private var shouldShowRealEstateMapTooltip: Bool {
+        return featureFlags.realEstateMapTooltip.isActive && !keyValueStorage[.realEstateTooltipMapShown]
+    }
+    
+    private func showTooltipMap() {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 3
+        let title = R.Strings.realEstateMapTooltipTitle
+        let attributedText = title.bicolorAttributedText(mainColor: .white,
+                                                         colouredText: R.Strings.commonNew.capitalizedFirstLetterOnly,
+                                                         otherColor: .primaryColor,
+                                                         font: UIFont.systemSemiBoldFont(size: 15),
+                                                         paragraphStyle: paragraphStyle)
+        let tooltipConfiguration = TooltipConfiguration(title: attributedText,
+                                                        style: .black(closeEnabled: false),
+                                                        peakOnTop: true,
+                                                        actionBlock: {},
+                                                        closeBlock:{ [weak self] in
+                                                            self?.delegate?.vmHideMapToolTip()
+        })
+        delegate?.vmShowMapToolTip(with: tooltipConfiguration)
+    }
+    
+    func tooltipMapHidden() {
+        guard shouldShowRealEstateMapTooltip else { return }
+        keyValueStorage[.realEstateTooltipMapShown] = true
     }
     
     var shouldShowSearchAlertBanner: Bool {

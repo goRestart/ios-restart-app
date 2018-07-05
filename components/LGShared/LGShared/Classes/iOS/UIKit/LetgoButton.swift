@@ -19,7 +19,7 @@ public enum ButtonStyle {
     case lightField
     case postingFlow
     case pinkish(fontSize: ButtonFontSize, withBorder: Bool)
-    case transparent
+    case transparent(fontSize: ButtonFontSize, sidePadding: CGFloat)
     
     public var titleColor: UIColor {
         switch self {
@@ -119,9 +119,9 @@ public enum ButtonStyle {
     private var fontSize: ButtonFontSize {
         var fontSize = ButtonFontSize.big
         switch self {
-        case let .primary(size):
+        case let .primary(size), let .transparent(size, _):
             fontSize = size
-        case .logout, .postingFlow, .transparent:
+        case .logout, .postingFlow:
             fontSize = .medium
         case let .secondary(size, _), let .dark(size, _), let .pinkish(size, _):
             fontSize = size
@@ -190,13 +190,15 @@ public enum ButtonStyle {
         switch self {
         case .postingFlow:
             return 15
-        case .primary, .terciary, .google, .facebook, .dark, .darkField, .lightField, .logout, .secondary, .pinkish, .transparent:
+        case .primary, .terciary, .google, .facebook, .dark, .darkField, .lightField, .logout, .secondary, .pinkish:
             switch fontSize {
             case .big:
                 return 15
             case .medium, .small, .verySmall:
                 return 10
             }
+        case .transparent(_, let side):
+            return side
         }
     }
     

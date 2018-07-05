@@ -1186,7 +1186,7 @@ extension FeatureFlags {
         if Bumper.enabled {
             return Bumper.realEstateMapTooltip
         }
-        return .control // RealEstateMapTooltip.fromPosition(abTests.realEstateMapTooltip.value)
+        return RealEstateMapTooltip.fromPosition(abTests.realEstateMapTooltip.value)
     }
 }
 

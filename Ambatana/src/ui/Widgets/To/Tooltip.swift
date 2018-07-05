@@ -1,50 +1,7 @@
 import UIKit
 import LGComponents
 
-enum TooltipStyle {
-    case black(closeEnabled: Bool)
-    case blue(closeEnabled: Bool)
-
-    static let minWidthWithCloseButton: CGFloat = 200
-    static let minWidthWithoutCloseButton: CGFloat = 150
-
-    var closeEnabled: Bool {
-        switch self {
-        case let .black(closeEnabled):
-            return closeEnabled
-        case let .blue(closeEnabled):
-            return closeEnabled
-        }
-    }
-
-    var bgColor: UIColor {
-        switch self {
-        case .black:
-            return UIColor.blackTooltip.withAlphaComponent(0.95)
-        case .blue:
-            return UIColor.blueTooltip.withAlphaComponent(0.95)
-        }
-    }
-
-    var centeredPeak: UIImage? {
-        return R.Asset.IconsButtons.tooltipPeakCenterBlack.image.withRenderingMode(.alwaysTemplate)
-    }
-
-    var leftSidePeak: UIImage? {
-        return R.Asset.IconsButtons.tooltipPeakSideBlack.image.withRenderingMode(.alwaysTemplate)
-    }
-
-    var rightSidePeak: UIImage? {
-        guard let originalImg = leftSidePeak, let cgImg = originalImg.cgImage else { return nil }
-        return UIImage.init(cgImage: cgImg, scale: originalImg.scale, orientation: .upMirrored)
-    }
-
-    var minWidth: CGFloat {
-        return closeEnabled ? TooltipStyle.minWidthWithCloseButton : TooltipStyle.minWidthWithoutCloseButton
-    }
-}
-
-class Tooltip: UIView {
+final class Tooltip: UIView {
 
     static var peakViewCenterDistance: CGFloat = 8
 
@@ -58,6 +15,7 @@ class Tooltip: UIView {
     var targetView: UIView = UIView()
     var targetGlobalCenter: CGPoint = CGPoint.zero
     var superView: UIView = UIView()
+    var button: UIButton?
     var title: NSAttributedString = NSAttributedString()
     var style: TooltipStyle = .black(closeEnabled: true)
     var actionBlock: ()->() = {}
@@ -75,6 +33,8 @@ class Tooltip: UIView {
     }
 
     var peakOnTop: Bool = false
+    
+    var targetViewCenter: CGPoint = .zero
 
 
     // MARK: Lifecycle
@@ -90,10 +50,16 @@ class Tooltip: UIView {
      - parameter actionBlock: the action executed when the text is tapped
      */
 
-    convenience init(targetView: UIView, superView: UIView, title: NSAttributedString, style: TooltipStyle,
-                     peakOnTop: Bool, actionBlock: @escaping () -> (), closeBlock: (() -> ())?) {
+    convenience init(targetView: UIView,
+                     superView: UIView,
+                     title: NSAttributedString,
+                     style: TooltipStyle,
+                     peakOnTop: Bool,
+                     button: UIButton? = nil,
+                     actionBlock: @escaping () -> (),
+                     closeBlock: (() -> ())?) {
         self.init()
-
+        self.button = button
         self.title = title
         self.targetView = targetView
         self.targetGlobalCenter = superView.convert(targetView.center, to: nil)
@@ -104,6 +70,20 @@ class Tooltip: UIView {
         self.closeBlock = closeBlock
 
         setupUI()
+    }
+    
+    convenience init(targetView: UIView,
+                     superView: UIView,
+                     button: UIButton? = nil,
+                     configuration: TooltipConfiguration) {
+        self.init(targetView: targetView,
+                  superView: superView,
+                  title: configuration.title,
+                  style: configuration.style,
+                  peakOnTop: configuration.peakOnTop,
+                  button: button,
+                  actionBlock: configuration.actionBlock,
+                  closeBlock: configuration.closeBlock)
     }
 
     override init(frame: CGRect)  {
@@ -116,7 +96,8 @@ class Tooltip: UIView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        targetGlobalCenter = superView.convert(targetView.center, to: nil)
+        let targerCenterPoint = targetViewCenter != .zero ? targetViewCenter : superView.convert(targetView.center, to: nil)
+        targetGlobalCenter = targerCenterPoint
         peakOffset = peakFinalOffset()
     }
 
@@ -127,10 +108,8 @@ class Tooltip: UIView {
 
         translatesAutoresizingMaskIntoConstraints = false
 
-        coloredView.translatesAutoresizingMaskIntoConstraints = false
         coloredView.cornerRadius = LGUIKitConstants.mediumCornerRadius
         coloredView.backgroundColor = style.bgColor
-        addSubview(coloredView)
 
         titleLabel.attributedText = title
         titleLabel.textAlignment = .left
@@ -139,27 +118,23 @@ class Tooltip: UIView {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         let tapTitle = UITapGestureRecognizer(target: self, action: #selector(titleTapped))
         titleLabel.addGestureRecognizer(tapTitle)
-        titleLabel.isUserInteractionEnabled = true
-        coloredView.addSubview(titleLabel)
+        coloredView.addSubviewForAutoLayout(titleLabel)
 
         if style.closeEnabled {
             separationView.frame = CGRect(x: 0, y: 0, width: 2, height: 28)
             separationView.backgroundColor = .white
-            separationView.translatesAutoresizingMaskIntoConstraints = false
-            coloredView.addSubview(separationView)
 
             closeButton.setImage(R.Asset.IconsButtons.icClose.image, for: .normal)
-            closeButton.translatesAutoresizingMaskIntoConstraints = false
             closeButton.addTarget(self, action: #selector(closeTooltip), for: .touchUpInside)
-            coloredView.addSubview(closeButton)
+            coloredView.addSubviewsForAutoLayout([separationView, closeButton])
         }
 
-        upTooltipPeak.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(upTooltipPeak)
-
-        downTooltipPeak.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(downTooltipPeak)
+        addSubviewsForAutoLayout([coloredView, upTooltipPeak, downTooltipPeak])
         setupPeak()
+        
+        if let button = button {
+            coloredView.addSubviewForAutoLayout(button)
+        }
 
         setupConstraints()
     }
@@ -177,83 +152,85 @@ class Tooltip: UIView {
         let mainHeight = NSLayoutConstraint(item: self, attribute: .height, relatedBy: .greaterThanOrEqual,
                                             toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 70)
         mainHeight.priority = .required - 1
-        self.addConstraints([mainWidth, mainMinWidth, mainHeight])
+        NSLayoutConstraint.activate([mainWidth, mainMinWidth, mainHeight])
 
         // colored view
-        let coloredViewTop = NSLayoutConstraint(item: coloredView, attribute: .top, relatedBy: .equal,
-                                                toItem: self, attribute: .top, multiplier: 1, constant: 10)
-        let coloredViewBottom = NSLayoutConstraint(item: coloredView, attribute: .bottom, relatedBy: .equal,
-                                                   toItem: self, attribute: .bottom, multiplier: 1, constant: -10)
-        let coloredViewLeft = NSLayoutConstraint(item: coloredView, attribute: .left, relatedBy: .equal,
-                                                 toItem: self, attribute: .left, multiplier: 1, constant: 0)
-        let coloredViewRight = NSLayoutConstraint(item: coloredView, attribute: .right, relatedBy: .equal,
-                                                  toItem: self, attribute: .right, multiplier: 1, constant: 0)
-        self.addConstraints([coloredViewTop, coloredViewBottom, coloredViewLeft, coloredViewRight])
+        NSLayoutConstraint.activate([NSLayoutConstraint(item: coloredView, attribute: .top, relatedBy: .equal,
+                                                        toItem: self, attribute: .top, multiplier: 1, constant: 10),
+                                     NSLayoutConstraint(item: coloredView, attribute: .bottom, relatedBy: .equal,
+                                                        toItem: self, attribute: .bottom, multiplier: 1, constant: -10),
+                                     NSLayoutConstraint(item: coloredView, attribute: .left, relatedBy: .equal,
+                                                        toItem: self, attribute: .left, multiplier: 1, constant: 0),
+                                     NSLayoutConstraint(item: coloredView, attribute: .right, relatedBy: .equal,
+                                                        toItem: self, attribute: .right, multiplier: 1, constant: 0)])
 
         // title label
         let labelTop = NSLayoutConstraint(item: titleLabel, attribute: .top, relatedBy: .equal,
                                           toItem: coloredView, attribute: .top, multiplier: 1, constant: Metrics.shortMargin)
-        let labelBottom = NSLayoutConstraint(item: titleLabel, attribute: .bottom, relatedBy: .equal,
-                                             toItem: coloredView, attribute: .bottom, multiplier: 1, constant: -Metrics.shortMargin)
+        let labelBottom: NSLayoutConstraint
+        let labelRight: NSLayoutConstraint
         let labelLeft = NSLayoutConstraint(item: titleLabel, attribute: .left, relatedBy: .equal,
                                            toItem: coloredView, attribute: .left, multiplier: 1, constant: Metrics.margin)
-        if style.closeEnabled {
-            let labelRight = NSLayoutConstraint(item: titleLabel, attribute: .right, relatedBy: .equal,
-                                                toItem: separationView, attribute: .left, multiplier: 1, constant: -12)
-            coloredView.addConstraints([labelTop, labelBottom, labelLeft, labelRight])
-
-            // separation view
-            let separationViewHeight = NSLayoutConstraint(item: separationView, attribute: .height, relatedBy: .equal,
-                                                          toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 28)
-            let separationViewWidth = NSLayoutConstraint(item: separationView, attribute: .width, relatedBy: .equal,
-                                                         toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 1)
-            separationView.addConstraints([separationViewHeight, separationViewWidth])
-
-            let separationViewRight = NSLayoutConstraint(item: separationView, attribute: .right, relatedBy: .equal,
-                                                         toItem: closeButton, attribute: .left, multiplier: 1, constant: 0)
-            let separationViewCenterY = NSLayoutConstraint(item: separationView, attribute: .centerY, relatedBy: .equal,
-                                                           toItem: coloredView, attribute: .centerY, multiplier: 1, constant: 0)
-            coloredView.addConstraints([separationViewRight, separationViewCenterY])
-
-            // close button
-            let closeButtonHeight = NSLayoutConstraint(item: closeButton, attribute: .height, relatedBy: .equal,
-                                                       toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 50)
-            let closeButtonWidth = NSLayoutConstraint(item: closeButton, attribute: .width, relatedBy: .equal,
-                                                      toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 50)
-            closeButton.addConstraints([closeButtonHeight, closeButtonWidth])
-
-            let closeButtonRight = NSLayoutConstraint(item: closeButton, attribute: .right, relatedBy: .equal,
-                                                      toItem: coloredView, attribute: .right, multiplier: 1, constant: -8)
-            let closeButtonCenterY = NSLayoutConstraint(item: closeButton, attribute: .centerY, relatedBy: .equal,
-                                                        toItem: coloredView, attribute: .centerY, multiplier: 1, constant: 0)
-            coloredView.addConstraints([closeButtonRight, closeButtonCenterY])
+        
+        if let button = button {
+            labelBottom = NSLayoutConstraint(item: titleLabel, attribute: .bottom, relatedBy: .equal, toItem: button,
+                                             attribute: .top, multiplier: 1, constant: -Metrics.shortMargin)
+            NSLayoutConstraint.activate([NSLayoutConstraint(item: button, attribute: .bottom, relatedBy: .equal, toItem: coloredView,
+                                                         attribute: .bottom, multiplier: 1, constant: -Metrics.margin),
+                                        NSLayoutConstraint(item: button, attribute: .centerX, relatedBy: .equal, toItem: coloredView,
+                                                           attribute: .centerX, multiplier: 1, constant: 0)])
         } else {
-            let labelRight = NSLayoutConstraint(item: titleLabel, attribute: .right, relatedBy: .equal,
-                                                toItem: coloredView, attribute: .right, multiplier: 1, constant: -12)
-            coloredView.addConstraints([labelTop, labelBottom, labelLeft, labelRight])
+            labelBottom = NSLayoutConstraint(item: titleLabel, attribute: .bottom, relatedBy: .equal, toItem: coloredView,
+                                             attribute: .bottom, multiplier: 1, constant: -Metrics.shortMargin)
         }
+        
+        if style.closeEnabled {
+            labelRight = NSLayoutConstraint(item: titleLabel, attribute: .right, relatedBy: .equal,
+                                            toItem: separationView, attribute: .left, multiplier: 1, constant: -12)
+            
+            NSLayoutConstraint.activate([NSLayoutConstraint(item: separationView, attribute: .height, relatedBy: .equal,
+                                                            toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 28),
+                                         NSLayoutConstraint(item: separationView, attribute: .width, relatedBy: .equal,
+                                                            toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 1),
+                                         
+                                         NSLayoutConstraint(item: separationView, attribute: .right, relatedBy: .equal,
+                                                            toItem: closeButton, attribute: .left, multiplier: 1, constant: 0),
+                                         NSLayoutConstraint(item: separationView, attribute: .centerY, relatedBy: .equal,
+                                                            toItem: coloredView, attribute: .centerY, multiplier: 1, constant: 0),
+                                         
+                                         NSLayoutConstraint(item: closeButton, attribute: .height, relatedBy: .equal,
+                                                            toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 50),
+                                         NSLayoutConstraint(item: closeButton, attribute: .width, relatedBy: .equal,
+                                                            toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 50),
+                                         
+                                         NSLayoutConstraint(item: closeButton, attribute: .right, relatedBy: .equal,
+                                                            toItem: coloredView, attribute: .right, multiplier: 1, constant: -8),
+                                         NSLayoutConstraint(item: closeButton, attribute: .centerY, relatedBy: .equal,
+                                                            toItem: coloredView, attribute: .centerY, multiplier: 1, constant: 0)
+                                         ])
+        } else {
+            labelRight = NSLayoutConstraint(item: titleLabel, attribute: .right, relatedBy: .equal,
+                                                toItem: coloredView, attribute: .right, multiplier: 1, constant: -12)
+        }
+        NSLayoutConstraint.activate([labelTop, labelBottom, labelLeft, labelRight])
     }
 
     private func setupConstraintsForPeakOnTop() {
         let width = NSLayoutConstraint(item: upTooltipPeak, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 15)
-        upTooltipPeak.addConstraints([width])
-
         let top = NSLayoutConstraint(item: upTooltipPeak, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1, constant: 0)
         let centerX = NSLayoutConstraint(item: upTooltipPeak, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: peakOffset)
         let bottom = NSLayoutConstraint(item: upTooltipPeak, attribute: .bottom, relatedBy: .equal, toItem: coloredView, attribute: .top, multiplier: 1, constant: 0)
 
-        self.addConstraints([top, centerX, bottom])
+        NSLayoutConstraint.activate([top, centerX, bottom, width])
     }
 
     private func setupConstraintsForPeakOnBottom() {
         let width = NSLayoutConstraint(item: downTooltipPeak, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 15)
-        downTooltipPeak.addConstraints([width])
-
         let top = NSLayoutConstraint(item: downTooltipPeak, attribute: .top, relatedBy: .equal, toItem: coloredView, attribute: .bottom, multiplier: 1, constant: 0)
         let centerX = NSLayoutConstraint(item: downTooltipPeak, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: peakOffset)
         let bottom = NSLayoutConstraint(item: downTooltipPeak, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1, constant: 0)
 
-        self.addConstraints([top, centerX, bottom])
+        NSLayoutConstraint.activate([top, centerX, bottom, width])
     }
 
     private func setupPeak() {
