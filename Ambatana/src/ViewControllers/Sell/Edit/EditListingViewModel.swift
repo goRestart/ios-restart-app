@@ -15,6 +15,7 @@ protocol EditListingViewModelDelegate : BaseViewModelDelegate {
     func vmShouldUpdateDescriptionWithCount(_ count: Int)
     func vmDidAddOrDeleteImage()
     func openCarAttributeSelectionsWithViewModel(attributesChoiceViewModel: CarAttributeSelectionViewModel)
+    func openAttributesPicker(viewModel: ListingAttributePickerViewModel)
     func vmShouldOpenMapWithViewModel(_ locationViewModel: EditLocationViewModel)
     func vmShareOnFbWith(content: FBSDKShareLinkContent)
     func vmHideKeyboard()
@@ -190,6 +191,13 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     let carModelId = Variable<String?>(nil)
     let carModelName = Variable<String?>(nil)
     let carYear = Variable<Int?>(nil)
+    let carBody = Variable<CarBodyType?>(nil)
+    let carDistance = Variable<Int?>(nil)
+    let carDistanceType = DistanceType.systemDistanceType()
+    let carTransmission = Variable<CarTransmissionType?>(nil)
+    let carFuel = Variable<CarFuelType?>(nil)
+    let carDrivetrain = Variable<CarDriveTrainType?>(nil)
+    let carSeat = Variable<CarSeat?>(nil)
     
     let realEstatePropertyType = Variable<RealEstatePropertyType?>(nil)
     let realEstateOfferType = Variable<RealEstateOfferType?>(nil)
@@ -339,6 +347,12 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
             self.carModelId.value = car.carAttributes.modelId
             self.carModelName.value = car.carAttributes.model
             self.carYear.value = car.carAttributes.year
+            self.carDistance.value = car.carAttributes.mileage
+            self.carBody.value = car.carAttributes.bodyType
+            self.carTransmission.value = car.carAttributes.transmission
+            self.carFuel.value = car.carAttributes.fuelType
+            self.carDrivetrain.value = car.carAttributes.driveTrain
+            self.carSeat.value = CarSeat(rawValue: car.carAttributes.seats ?? 0)
         case .product(_):
             break
         case .realEstate(let realEstate):
@@ -427,8 +441,18 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
 
     var carAttributes: CarAttributes {
-        return CarAttributes(makeId: carMakeId.value, make: carMakeName.value, modelId: carModelId.value,
-                             model: carModelName.value, year: carYear.value)
+        return CarAttributes(makeId: carMakeId.value,
+                             make: carMakeName.value,
+                             modelId: carModelId.value,
+                             model: carModelName.value,
+                             year: carYear.value,
+                             mileage: carDistance.value,
+                             mileageType: carDistanceType,
+                             bodyType: carBody.value,
+                             transmission: carTransmission.value,
+                             fuelType: carFuel.value,
+                             driveTrain: carDrivetrain.value,
+                             seats: carSeat.value?.rawValue)
     }
     
     var realEstateAttributes: RealEstateAttributes {
@@ -483,7 +507,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
 
     func carModelButtonPressed() {
-        // open car models table
+        delegate?.vmHideKeyboard()
         guard let makeId = carMakeId.value else { return }
         let carsModelsList = carsInfoRepository.retrieveCarsModelsFormake(makeId: makeId)
         let carsAttributtesChoiceVMWithModels = CarAttributeSelectionViewModel(carsModels: carsModelsList, selectedModel: carModelId.value, style: .edit)
@@ -492,11 +516,47 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
 
     func carYearButtonPressed() {
-        // open car years table
+        delegate?.vmHideKeyboard()
         let carsYearsList = carsInfoRepository.retrieveValidYears(withFirstYear: nil, ascending: false)
         let carsAttributtesChoiceVMWithYears = CarAttributeSelectionViewModel(yearsList: carsYearsList, selectedYear: carYear.value)
         carsAttributtesChoiceVMWithYears.carAttributeSelectionDelegate = self
         delegate?.openCarAttributeSelectionsWithViewModel(attributesChoiceViewModel: carsAttributtesChoiceVMWithYears)
+    }
+    
+    func carBodyButtonPressed() {
+        openCarEditOption(selectedOption: carBody.value?.rawValue, type: .body)
+    }
+    
+    func carTransmissionButtonPressed() {
+        openCarEditOption(selectedOption: carTransmission.value?.rawValue, type: .transmission)
+    }
+    
+    func carFuelButtonPressed() {
+        openCarEditOption(selectedOption: carFuel.value?.rawValue, type: .fuel)
+    }
+    
+    func carDrivetrainButtonPressed() {
+        openCarEditOption(selectedOption: carDrivetrain.value?.rawValue, type: .drivetrain)
+    }
+    
+    func carSeatButtonPressed() {
+        openCarEditOption(selectedOption: carDrivetrain.value?.rawValue, type: .seat)
+    }
+    
+    private func openCarEditOption(selectedOption: String?, type: CarDetailType) {
+        
+        delegate?.vmHideKeyboard()
+        
+        guard let options = type.options else { return }
+        
+        let vm = ListingAttributeSingleSelectPickerViewModel(title: type.navigationTitle,
+                                                             attributes: options,
+                                                             selectedAttribute: selectedOption) { [weak self] selectedIndex in
+            guard let selectedIndex = selectedIndex else { return }
+            self?.didSelect(index: selectedIndex, type: type)
+        }
+        
+        navigator?.openListingAttributePicker(viewModel: vm)
     }
     
     func realEstatePropertyTypeButtonPressed() {
@@ -695,24 +755,32 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
 
     private func setupChangeCheckingObservable() {
-        let checkingCarChanges = Observable.combineLatest(isFreePosting.asObservable(),
-                                                          category.asObservable(),
-                                                          carMakeName.asObservable(),
-                                                          carModelName.asObservable(),
-                                                          carYear.asObservable())
-        let checkingRealEstateChanges = Observable.combineLatest(realEstatePropertyType.asObservable(),
-                                                                 realEstateOfferType.asObservable(),
-                                                                 realEstateNumberOfBathrooms.asObservable(),
-                                                                 realEstateNumberOfBedrooms.asObservable(),
-                                                                 realEstateSizeSquareMeters.asObservable(),
-                                                                 realEstateNumberOfLivingRooms.asObservable())
-        let checkingServicesChanges = Observable.combineLatest(serviceTypeId.asObservable(),
-                                                               serviceTypeName.asObservable(),
-                                                               serviceSubtypeId.asObservable(),
-                                                               serviceSubtypeName.asObservable())
+        let checkingCarChanges = Observable.combineLatest(isFreePosting.asObservable().distinctUntilChanged(),
+                                                          category.asObservable().distinctUntilChanged(),
+                                                          carMakeName.asObservable().distinctUntilChanged(),
+                                                          carModelName.asObservable().distinctUntilChanged(),
+                                                          carYear.asObservable().distinctUntilChanged())
+        let checkingCarExtraFieldsChanges = Observable.combineLatest(carBody.asObservable().distinctUntilChanged(),
+                                                          carFuel.asObservable().distinctUntilChanged(),
+                                                          carDistance.asObservable().distinctUntilChanged(),
+                                                          carTransmission.asObservable().distinctUntilChanged(),
+                                                          carSeat.asObservable().distinctUntilChanged(),
+                                                          carDrivetrain.asObservable().distinctUntilChanged())
+        
+        let checkingRealEstateChanges = Observable.combineLatest(realEstatePropertyType.asObservable().distinctUntilChanged(),
+                                                                 realEstateOfferType.asObservable().distinctUntilChanged(),
+                                                                 realEstateNumberOfBathrooms.asObservable().distinctUntilChanged(),
+                                                                 realEstateNumberOfBedrooms.asObservable().distinctUntilChanged(),
+                                                                 realEstateSizeSquareMeters.asObservable().distinctUntilChanged(),
+                                                                 realEstateNumberOfLivingRooms.asObservable().distinctUntilChanged())
+        let checkingServicesChanges = Observable.combineLatest(serviceTypeId.asObservable().distinctUntilChanged(),
+                                                               serviceTypeName.asObservable().distinctUntilChanged(),
+                                                               serviceSubtypeId.asObservable().distinctUntilChanged(),
+                                                               serviceSubtypeName.asObservable().distinctUntilChanged())
         
         if featureFlags.showServicesFeatures.isActive {
             let checkAllChanges = Observable.combineLatest(checkingCarChanges.asObservable(),
+                                                           checkingCarExtraFieldsChanges.asObservable(),
                                                            checkingRealEstateChanges.asObservable(),
                                                            checkingServicesChanges.asObservable())
             
@@ -722,6 +790,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
             
         } else {
             let checkAllChanges = Observable.combineLatest(checkingCarChanges.asObservable(),
+                                                           checkingCarExtraFieldsChanges.asObservable(),
                                                            checkingRealEstateChanges.asObservable())
             
             checkAllChanges.bind { [weak self] _ in
@@ -1098,6 +1167,23 @@ extension EditListingViewModel : CarAttributeSelectionDelegate {
 
     func didSelectYear(year: Int) {
         carYear.value = year
+    }
+    
+    func didSelect(index: Int, type: CarDetailType) {
+        switch type {
+        case .make, .model, .year, .distance:
+            break
+        case .body:
+            carBody.value = CarBodyType.allCases[safeAt: index]
+        case .transmission:
+            carTransmission.value = CarTransmissionType.allCases[safeAt: index]
+        case .fuel:
+            carFuel.value = CarFuelType.allCases[safeAt: index]
+        case .drivetrain:
+            carDrivetrain.value = CarDriveTrainType.allCases[safeAt: index]
+        case .seat:
+            carSeat.value = CarSeat.allCases[safeAt: index]
+        }
     }
 }
 

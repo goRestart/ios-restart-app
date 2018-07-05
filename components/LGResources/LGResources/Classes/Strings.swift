@@ -814,6 +814,8 @@ extension R {
     public static func filterCarsDistancePlaceholder(_ p1: String) -> String {
       return Strings.tr("Localizable", "filter_cars_distance_placeholder", p1)
     }
+    /// Mileage
+    public static let filterCarsMileage = Strings.tr("Localizable", "filter_cars_mileage")
     /// Seats
     public static let filterCarsSeatsTitle = Strings.tr("Localizable", "filter_cars_seats_title")
     /// No exact matches for your search.\n Showing similar results. 

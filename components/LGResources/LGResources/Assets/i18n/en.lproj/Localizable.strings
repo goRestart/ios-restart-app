@@ -1255,6 +1255,9 @@
 // Title for distance placeholder
 "filter_cars_distance_placeholder" = "How many %@?";
 
+// Mileage
+"filter_cars_mileage" = "Mileage";
+
 // Coupe car type
 "filters_cars_bodytype_coupe" = "Coupe";
 

@@ -101,21 +101,36 @@ enum CarDetailType {
     case make
     case model
     case year
+    case distance
+    case body
+    case transmission
+    case fuel
+    case drivetrain
+    case seat
     
     var addOtherString: String? {
         switch self {
         case .make: return R.Strings.postCategoryDetailAddMake
         case .model: return R.Strings.postCategoryDetailAddModel
-        case .year: return nil
+        case .year, .distance, .body, .transmission, .fuel, .drivetrain, .seat: return nil
         }
     }
     
-    static public func ==(lhs: CarDetailType, rhs: CarDetailType) -> Bool {
-        switch (lhs, rhs) {
-        case (.make, .make), (.model, .model), (.year, .year):
-            return true
-        default:
-            return false
+    var options: [String]? {
+        switch self {
+        case .make, .model, .year: return nil
+        case .distance:
+            return DistanceType.allCases.map { $0.rawValue.capitalizedFirstLetterOnly }
+        case .body:
+            return CarBodyType.allCases.map { $0.title.capitalizedFirstLetterOnly }
+        case .transmission:
+            return CarTransmissionType.allCases.map { $0.title.capitalizedFirstLetterOnly }
+        case .fuel:
+            return CarFuelType.allCases.map { $0.title.capitalizedFirstLetterOnly }
+        case .drivetrain:
+            return CarDriveTrainType.allCases.map { $0.title.capitalizedFirstLetterOnly }
+        case .seat:
+            return CarSeat.allCases.map { $0.title }
         }
     }
 }
@@ -132,26 +147,33 @@ struct CarInfoWrapper: Equatable {
 
 enum CategoryDetailSelectedInfo {
     case index(i: Int, value: CarInfoWrapper)
-    case custom(value: CarInfoWrapper) // for 'Others' options
+    case custom(i: Int, value: CarInfoWrapper) // for 'Others' options
     
     var name: String {
         switch self {
         case .index(_, let value): return value.name
-        case .custom(let value): return value.name
+        case .custom(_, let value): return value.name
         }
     }
     
     var id: String {
         switch self {
         case .index(_, let value): return value.id
-        case .custom(let value): return value.id
+        case .custom(_, let value): return value.id
         }
     }
     
     var type: CarDetailType {
         switch self {
         case .index(_, let value): return value.type
-        case .custom(let value): return value.type
+        case .custom(_, let value): return value.type
+        }
+    }
+    
+    var index: Int {
+        switch self {
+        case .index(let index, _): return index
+        case .custom(let index, _): return index
         }
     }
 }
@@ -311,7 +333,7 @@ final class CategoryDetailTableView: UIView, UITableViewDelegate, UITableViewDat
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard !isOtherCell(forIndexPath: indexPath) else {
             if let searchBarText = searchBar.text, !searchBarText.isEmpty {
-                selectedDetail.value = .custom(value: CarInfoWrapper(id: "", name: searchBarText, type: detailType))
+                selectedDetail.value = .custom(i: indexPath.row, value: CarInfoWrapper(id: "", name: searchBarText, type: detailType))
                 searchBar.resignFirstResponder()
             } else {
                 searchBar.becomeFirstResponder()

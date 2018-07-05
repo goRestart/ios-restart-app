@@ -448,6 +448,8 @@ extension PostListingViewModel {
                 selectedIndex = values.index(of: selectedYearInfo)
             }
             return (carInfoWrappers: values, selectedIndex: selectedIndex)
+        case .distance, .body, .transmission, .fuel, .drivetrain, .seat:
+            return (carInfoWrappers: [], selectedIndex: nil)
         }
     }
     
@@ -482,6 +484,8 @@ extension PostListingViewModel {
                                                                                              model: categoryDetail.name)
             case .year:
                 strongSelf.selectedCarAttributes = strongSelf.selectedCarAttributes.updating(year: Int(categoryDetail.id))
+            case .distance, .body, .transmission, .fuel, .drivetrain, .seat:
+                break
             }
         }.disposed(by: disposeBag)
     }
