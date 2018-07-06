@@ -4,6 +4,7 @@ import LGComponents
 
 final class NotificationSettingSwitchCell: UITableViewCell, ReusableCell {
     
+    static let defaultHeight: CGFloat = 60
     private struct Layout {
         static let descriptionShownBottomConstant: CGFloat = -15
         static let descriptionHiddenBottomConstant: CGFloat = 0

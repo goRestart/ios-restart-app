@@ -11,6 +11,7 @@ final class NotificationSettingsAccessorListViewController: BaseViewController, 
         tableView.backgroundColor = .grayBackground
         tableView.separatorStyle = .none
         tableView.contentInset.top = NotificationSettingsViewController.tableViewTopInset
+        tableView.rowHeight = NotificationSettingsAccessorCell.defaultHeight
         return tableView
     }()
     
@@ -97,8 +98,8 @@ final class NotificationSettingsAccessorListViewController: BaseViewController, 
         let constraints = [
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.topAnchor.constraint(equalTo: topLayoutGuide.topAnchor),
             tableView.bottomAnchor.constraint(equalTo: bottomLayoutGuide.bottomAnchor),
+            tableView.topAnchor.constraint(equalTo: safeTopAnchor),
             
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),

@@ -6,6 +6,7 @@ final class NotificationSettingsAccessorCell: UITableViewCell, ReusableCell {
     private let accessoryImageView = UIImageView()
     private var lines: [CALayer] = []
     
+    static let defaultHeight: CGFloat = 50
     private struct Layout {
         static let accessoryHeight: CGFloat = 13
         static let accessoryWidth: CGFloat = 8

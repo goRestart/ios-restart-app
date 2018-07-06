@@ -10,6 +10,8 @@ final class NotificationSettingsCompleteListViewController: BaseViewController, 
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.backgroundColor = .grayBackground
         tableView.separatorStyle = .none
+        tableView.sectionFooterHeight = 0.0
+        tableView.estimatedRowHeight = NotificationSettingSwitchCell.defaultHeight
         return tableView
     }()
     private let activityIndicator: UIActivityIndicatorView = {
@@ -86,7 +88,6 @@ final class NotificationSettingsCompleteListViewController: BaseViewController, 
             break
         }
 
-        tableView.sectionFooterHeight = 0.0
         automaticallyAdjustsScrollViewInsets = false
     }
     
@@ -95,8 +96,8 @@ final class NotificationSettingsCompleteListViewController: BaseViewController, 
         let constraints = [
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.topAnchor.constraint(equalTo: topLayoutGuide.topAnchor),
             tableView.bottomAnchor.constraint(equalTo: bottomLayoutGuide.bottomAnchor),
+            tableView.topAnchor.constraint(equalTo: safeTopAnchor),
             
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
@@ -106,6 +107,7 @@ final class NotificationSettingsCompleteListViewController: BaseViewController, 
             placeholderView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             placeholderView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ]
+        
         NSLayoutConstraint.activate(constraints)
     }
     
