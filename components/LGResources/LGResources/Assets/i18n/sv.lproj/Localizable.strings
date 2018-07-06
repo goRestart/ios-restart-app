@@ -1,5 +1,6 @@
 "account_pending_moderation" = "Konto väntar på att modereras";
 "account_pending_moderation_w_name" = "%@s konto väntar på att modereras";
+"advertising_text" = "Reklam";
 "app_notification_reply" = "Svara";
 "app_share_download_text" = "Ladda ner";
 "app_share_email_button" = "Bjud in via mejl";
@@ -368,6 +369,7 @@
 "featured_info_view_more_buyers" = "Locka flera köpare";
 "featured_info_view_sell_faster" = "Sälj snabbare";
 "featured_info_view_title" = "Topplistad produkt";
+"filter_cars_mileage" = "Mileage";
 "filter_cars_seats_title" = "Säten";
 "filter_results_cars_no_matches" = "Din sökning gav ingen träff. \nLiknande resultat visas. ";
 "filter_results_cars_other_results" = "Nyligen upplagda i ditt område";
@@ -562,7 +564,6 @@
 "ml_onboarding_description_text" = "Visa mig en produkt så berättar jag hur mycket du kan tjäna";
 "ml_onboarding_new_text" = "NY!";
 "ml_onboarding_ok_text" = "Ok";
-"mopub_advertising_text" = "Reklam";
 "notifications_empty_subtitle" = "Lägg upp något till försäljning för att börja se lite aktivitet här";
 "notifications_empty_title" = "INGA NOTISER (ÄNNU!)";
 "notifications_permissions_1_push" = "Isabella: Jag är väldigt intresserad av din mobil. let go för 800 kr?";
@@ -795,6 +796,8 @@
 "product_new_onboarding_tap_right_highlighted_label" = "Klicka till höger";
 "product_new_onboarding_tap_right_highlighted_label_2" = "i mitten";
 "product_new_onboarding_tap_right_label" = "%@ eller %@ för att se nästa bild";
+"product_nit_onboarding_next_picture" = "Next picture";
+"product_nit_onboarding_previous_picture" = "Previous picture";
 "product_onboarding_finger_scroll_label" = "Skrolla ner för att se fler bilder.";
 "product_onboarding_finger_swipe_label" = "Svep för att gå till nästa eller föregående annons";
 "product_onboarding_finger_tap_label" = "Klicka för att gå till nästa annons";
@@ -1059,6 +1062,8 @@
 "real_estate_gallery_view_subtitle_params" = "Välj upp till %d bilder av bostaden du vill sälja eller hyra ut. Den första kommer att bli din annonsbild så välj en bra bild!";
 "real_estate_location_notification_message" = "Vi visar aldrig din exakta plats till andra användare";
 "real_estate_location_title" = "Plats";
+"real_estate_map_tooltip_button_title" = "Try Now";
+"real_estate_map_tooltip_title" = "Nytt! Se fastigheter på en karta.";
 "real_estate_offer_type_rent" = "Uthyres";
 "real_estate_offer_type_sale" = "Till salu";
 "real_estate_offer_type_title" = "Typ av annons";

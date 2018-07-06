@@ -1,5 +1,6 @@
 "account_pending_moderation" = "Account pending moderation";
 "account_pending_moderation_w_name" = "%@'s account is pending moderation";
+"advertising_text" = "Ad";
 "app_notification_reply" = "Reply";
 "app_share_download_text" = "Download";
 "app_share_email_button" = "Invite via Email";
@@ -368,6 +369,7 @@
 "featured_info_view_more_buyers" = "Attract more buyers";
 "featured_info_view_sell_faster" = "Sell faster";
 "featured_info_view_title" = "Featured Listing";
+"filter_cars_mileage" = "Mileage";
 "filter_cars_seats_title" = "Seats";
 "filter_results_cars_no_matches" = "No exact matches for your search.\n Showing similar results. ";
 "filter_results_cars_other_results" = "Recently posted in your area";
@@ -426,7 +428,7 @@
 "filters_section_distance" = "Distance";
 "filters_section_location" = "Location";
 "filters_section_price" = "Price";
-"filters_section_price_free_title" = "Show only free items";
+"filters_section_price_free_title" = "Only show free items";
 "filters_section_real_estate_info" = "Property info";
 "filters_section_services_info" = "Service info";
 "filters_section_sortby" = "Sort by";
@@ -562,7 +564,6 @@
 "ml_onboarding_description_text" = "Show me an item and I'll tell you how much you'll make";
 "ml_onboarding_new_text" = "NEW!";
 "ml_onboarding_ok_text" = "OK";
-"mopub_advertising_text" = "Ad";
 "notifications_empty_subtitle" = "Post something for sale to start seeing some activity here";
 "notifications_empty_title" = "NO NOTIFICATIONS (YET!)";
 "notifications_permissions_1_push" = "Isabella: I'm very interested in your phone. Can you let go of it for $100?";
@@ -795,6 +796,8 @@
 "product_new_onboarding_tap_right_highlighted_label" = "Tap on the right";
 "product_new_onboarding_tap_right_highlighted_label_2" = "in the center";
 "product_new_onboarding_tap_right_label" = "%@ or %@ to see the next picture";
+"product_nit_onboarding_next_picture" = "Next picture";
+"product_nit_onboarding_previous_picture" = "Previous picture";
 "product_onboarding_finger_scroll_label" = "Scroll to see more pictures";
 "product_onboarding_finger_swipe_label" = "Swipe to go to the next listing or to the previous one";
 "product_onboarding_finger_tap_label" = "Tap to go to the next listing";
@@ -1059,6 +1062,8 @@
 "real_estate_gallery_view_subtitle_params" = "Select up to %d images of the property you want to sell or rent. The first one will be your featured photo so make sure it's a good one!";
 "real_estate_location_notification_message" = "We'll never show your exact location to other users";
 "real_estate_location_title" = "Location";
+"real_estate_map_tooltip_button_title" = "Try Now";
+"real_estate_map_tooltip_title" = "New! See properties on a map.";
 "real_estate_offer_type_rent" = "For Rent";
 "real_estate_offer_type_sale" = "For Sale";
 "real_estate_offer_type_title" = "Type of Listing";

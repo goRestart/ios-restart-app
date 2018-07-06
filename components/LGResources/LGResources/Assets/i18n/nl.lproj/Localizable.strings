@@ -1,5 +1,6 @@
 "account_pending_moderation" = "Account in afwachting van matiging";
 "account_pending_moderation_w_name" = "%@'s account in afwachting van matiging";
+"advertising_text" = "Advertentie";
 "app_notification_reply" = "Antwoord";
 "app_share_download_text" = "Download";
 "app_share_email_button" = "Uitnodigen via Email";
@@ -368,6 +369,7 @@
 "featured_info_view_more_buyers" = "Meer kopers aantrekken";
 "featured_info_view_sell_faster" = "Sneller verkopen";
 "featured_info_view_title" = "Uitgelichte Advertentie";
+"filter_cars_mileage" = "Mileage";
 "filter_cars_seats_title" = "Zitplaatsen";
 "filter_results_cars_no_matches" = "Geen exacte resultaten voor jouw zoekopdracht.\n  Toon vergelijkbare resultaten.";
 "filter_results_cars_other_results" = "Recent geplaatst in jouw omgeving";
@@ -426,7 +428,7 @@
 "filters_section_distance" = "Afstand";
 "filters_section_location" = "Plaats";
 "filters_section_price" = "Prijs";
-"filters_section_price_free_title" = "Vis kun gratis varer";
+"filters_section_price_free_title" = "Toon alleen gratis items";
 "filters_section_real_estate_info" = "Huizen en woningen info";
 "filters_section_services_info" = "Service info";
 "filters_section_sortby" = "Sorteer op";
@@ -562,7 +564,6 @@
 "ml_onboarding_description_text" = "Toon me een item en ik zal je vertellen hoeveel je zult verdienen";
 "ml_onboarding_new_text" = "NIEUW!";
 "ml_onboarding_ok_text" = "OK";
-"mopub_advertising_text" = "Advertentie";
 "notifications_empty_subtitle" = "Plaats iets in de verkoop om hier wat activiteit te zien";
 "notifications_empty_title" = "(NOG!) GEEN NOTIFICATIES";
 "notifications_permissions_1_push" = "Fleur: Hoi! Ik wil je telefoon graag kopen voor 100 euro. Deal?";
@@ -795,6 +796,8 @@
 "product_new_onboarding_tap_right_highlighted_label" = "Tik rechts";
 "product_new_onboarding_tap_right_highlighted_label_2" = "in het midden";
 "product_new_onboarding_tap_right_label" = "%@ of %@ om de volgende afbeelding te zien";
+"product_nit_onboarding_next_picture" = "Next picture";
+"product_nit_onboarding_previous_picture" = "Previous picture";
 "product_onboarding_finger_scroll_label" = "Scroll om meer afbeeldingen te zien";
 "product_onboarding_finger_swipe_label" = "Schuif om naar de volgende of vorige advertentie te gaan";
 "product_onboarding_finger_tap_label" = "Tik om naar de volgende advertentie te gaan";
@@ -1059,6 +1062,8 @@
 "real_estate_gallery_view_subtitle_params" = "Selecteer maximaal %d afbeeldingen van de woning die je wilt verkopen of verhuren. De eerste is je uitgelichte foto, dus zorg dat deze een goede is!";
 "real_estate_location_notification_message" = "We zullen jouw exacte locatie nooit aan andere gebruikers laten zien";
 "real_estate_location_title" = "Plaats";
+"real_estate_map_tooltip_button_title" = "Probeer Nu";
+"real_estate_map_tooltip_title" = "Nieuw! Bekijk onroerend goed op een kaart.";
 "real_estate_offer_type_rent" = "Te Huur";
 "real_estate_offer_type_sale" = "Te Koop";
 "real_estate_offer_type_title" = "Soort Advertentie";

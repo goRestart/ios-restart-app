@@ -1,5 +1,6 @@
 "account_pending_moderation" = "Cuenta pendiente de moderación";
 "account_pending_moderation_w_name" = "La cuenta de %@ está pendiente de moderación";
+"advertising_text" = "Anuncio";
 "app_notification_reply" = "Responder";
 "app_share_download_text" = "Descargar";
 "app_share_email_button" = "Invitar por Email";
@@ -368,6 +369,7 @@
 "featured_info_view_more_buyers" = "Atrae más compradores";
 "featured_info_view_sell_faster" = "Vende más rápido";
 "featured_info_view_title" = "Anuncio destacado";
+"filter_cars_mileage" = "Mileage";
 "filter_cars_seats_title" = "Asientos";
 "filter_results_cars_no_matches" = "No hay resultados exactos para tu búsqueda.\nMostrando resultados similares.";
 "filter_results_cars_other_results" = "Publicados recientemente cerca de ti";
@@ -562,7 +564,6 @@
 "ml_onboarding_description_text" = "Muestráme un artículo y te diré cuánto podrías ganar";
 "ml_onboarding_new_text" = "¡NUEVO!";
 "ml_onboarding_ok_text" = "OK";
-"mopub_advertising_text" = "Anuncio";
 "notifications_empty_subtitle" = "Empieza a vender y verás mucha actividad por aquí";
 "notifications_empty_title" = "NO HAY NOTIFICACIONES (¡TODAVÍA!)";
 "notifications_permissions_1_push" = "Isabel: Me interesa el teléfono. ¿Lo venderías por 100€?";
@@ -795,6 +796,8 @@
 "product_new_onboarding_tap_right_highlighted_label" = "Pulsa a la derecha";
 "product_new_onboarding_tap_right_highlighted_label_2" = "o en el centro";
 "product_new_onboarding_tap_right_label" = "%@ o %@ para ver la siguiente imagen";
+"product_nit_onboarding_next_picture" = "Next picture";
+"product_nit_onboarding_previous_picture" = "Previous picture";
 "product_onboarding_finger_scroll_label" = "Desplázate arriba o abajo para ver más fotos";
 "product_onboarding_finger_swipe_label" = "Desliza hacia la derecha o a la izquierda para pasar al próximo anuncio o al anterior";
 "product_onboarding_finger_tap_label" = "Pulsa para pasar al próximo anuncio";
@@ -1059,6 +1062,8 @@
 "real_estate_gallery_view_subtitle_params" = "Selecciona hasta %d imágenes de la propiedad que quieres alquilar o vender. ¡La primera será la imagen destacada así que asegúrate de que sea buena!";
 "real_estate_location_notification_message" = "Nunca mostraremos tu ubicación exacta al resto de usuarios";
 "real_estate_location_title" = "Ubicación";
+"real_estate_map_tooltip_button_title" = "Pruébalo ahora";
+"real_estate_map_tooltip_title" = "¡Nuevo! Visualiza las propiedades en un mapa.";
 "real_estate_offer_type_rent" = "En alquiler";
 "real_estate_offer_type_sale" = "En venta";
 "real_estate_offer_type_title" = "Tipo de anuncio";

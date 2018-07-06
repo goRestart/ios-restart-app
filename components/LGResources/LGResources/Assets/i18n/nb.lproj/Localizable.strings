@@ -1,5 +1,6 @@
 "account_pending_moderation" = "Konto avventer gjennomgang";
 "account_pending_moderation_w_name" = "%@'s konto avventer gjennomgang";
+"advertising_text" = "Annonse";
 "app_notification_reply" = "Svar";
 "app_share_download_text" = "Last ned";
 "app_share_email_button" = "Inviter via e-post";
@@ -368,6 +369,7 @@
 "featured_info_view_more_buyers" = "Tiltrekk flere kjøpere";
 "featured_info_view_sell_faster" = "Selg raskere";
 "featured_info_view_title" = "Promotert annonse";
+"filter_cars_mileage" = "Mileage";
 "filter_cars_seats_title" = "Seter";
 "filter_results_cars_no_matches" = "Ingen eksakte resultater ble funnet.\n Vis liknende resultater. ";
 "filter_results_cars_other_results" = "Nylig publisert i ditt nærområde";
@@ -562,7 +564,6 @@
 "ml_onboarding_description_text" = "Vis meg et produkt og jeg vil fortelle deg hvor mye du kan tjene";
 "ml_onboarding_new_text" = "NYHET!";
 "ml_onboarding_ok_text" = "Ok";
-"mopub_advertising_text" = "Annonse";
 "notifications_empty_subtitle" = "Publiser noe for salg for å få i gang aktiviteten her";
 "notifications_empty_title" = "INGEN VARSLINGER (ENDA!)";
 "notifications_permissions_1_push" = "Ida: Jeg er veldig interessert i din mobil. Kan du la den gå for 900,-?";
@@ -795,6 +796,8 @@
 "product_new_onboarding_tap_right_highlighted_label" = "Trykk på høyre side";
 "product_new_onboarding_tap_right_highlighted_label_2" = "i midten";
 "product_new_onboarding_tap_right_label" = "%@ eller %@ for å se neste bilde";
+"product_nit_onboarding_next_picture" = "Next picture";
+"product_nit_onboarding_previous_picture" = "Previous picture";
 "product_onboarding_finger_scroll_label" = "Scroll for å se flere bilder";
 "product_onboarding_finger_swipe_label" = "Swipe for å gå til neste eller forrige annonse";
 "product_onboarding_finger_tap_label" = "Trykk for å gå til neste annonse";
@@ -1059,6 +1062,8 @@
 "real_estate_gallery_view_subtitle_params" = "Velg opp til %d bilder av boligen du ønsker å selge eller leie ut. Det første bildet vil bli ditt fremhevede bilde - så sørg derfor for at dette bildet er fint!";
 "real_estate_location_notification_message" = "Vi viser aldri din nøyaktige plassering til andre brukere";
 "real_estate_location_title" = "Sted";
+"real_estate_map_tooltip_button_title" = "Prøv nå";
+"real_estate_map_tooltip_title" = "Nyhet! Se innstillinger på et kart";
 "real_estate_offer_type_rent" = "Til utleie";
 "real_estate_offer_type_sale" = "Til salg";
 "real_estate_offer_type_title" = "Annonsetype";

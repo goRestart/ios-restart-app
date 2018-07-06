@@ -1,5 +1,6 @@
 "account_pending_moderation" = "조정중인 계정";
 "account_pending_moderation_w_name" = "%@의 계정은 현재 조정중입니다";
+"advertising_text" = "광고";
 "app_notification_reply" = "답변";
 "app_share_download_text" = "다운로드";
 "app_share_email_button" = "이메일로 초대하기";
@@ -368,6 +369,7 @@
 "featured_info_view_more_buyers" = "더 많은 구매자의 관심 끌기";
 "featured_info_view_sell_faster" = "빠르게 판매하기";
 "featured_info_view_title" = "특별 판매 목록";
+"filter_cars_mileage" = "Mileage";
 "filter_cars_seats_title" = "자리";
 "filter_results_cars_no_matches" = "검색에 대한 정확하게 일치되는 것이 없습니다. \n유사한 결과물 보기. ";
 "filter_results_cars_other_results" = "귀하의 영역에 최근에 게시됨";
@@ -562,7 +564,6 @@
 "ml_onboarding_description_text" = "상품을 보여주세요. 가격이 얼마 정도 하는지 알려드릴게요.";
 "ml_onboarding_new_text" = "새로운!";
 "ml_onboarding_ok_text" = "예";
-"mopub_advertising_text" = "광고";
 "notifications_empty_subtitle" = "판매할 상품을 게시하고 몇가지 활동을 확인하세요";
 "notifications_empty_title" = "알림 없음 (아직이에요!)";
 "notifications_permissions_1_push" = "이사벨라: 판매하시는 전화기에 관심있는데요. $100 제안해볼게요";
@@ -795,6 +796,8 @@
 "product_new_onboarding_tap_right_highlighted_label" = "클릭하여 우측으로 이동하기";
 "product_new_onboarding_tap_right_highlighted_label_2" = "화면 중간";
 "product_new_onboarding_tap_right_label" = "다음 사진을 확인하기 위해 %@ 혹은 %@ 확인";
+"product_nit_onboarding_next_picture" = "Next picture";
+"product_nit_onboarding_previous_picture" = "Previous picture";
 "product_onboarding_finger_scroll_label" = "더 많은 사진을 확인하기 위해 스크롤을 내려보세요";
 "product_onboarding_finger_swipe_label" = "다음 상품 목록 혹은 이전 상품 목록으로 이동하기 위해 누르기";
 "product_onboarding_finger_tap_label" = "눌러서 다음 상품 목록으로 이동하기";
@@ -1059,6 +1062,8 @@
 "real_estate_gallery_view_subtitle_params" = "매매하거나 임대하고자 하는 부동산의 사진을 최대 %d장 선택하세요. 첫번째 사진은 강조되기 때문에, 가장 잘나온 사진을 선택하는 것을 잊지 말아주세요!";
 "real_estate_location_notification_message" = "저희는 다른 사용자들에게 회원님의 정확한 위치를 공개하지 않습니다";
 "real_estate_location_title" = "위치";
+"real_estate_map_tooltip_button_title" = "Try Now";
+"real_estate_map_tooltip_title" = "새로운 기능! 지도에서 판매하고 계신 것을 확인해보세요.";
 "real_estate_offer_type_rent" = "전세";
 "real_estate_offer_type_sale" = "판매중";
 "real_estate_offer_type_title" = "게시글 종류";

@@ -1,5 +1,6 @@
 "account_pending_moderation" = "Conta pendente de moderação";
 "account_pending_moderation_w_name" = "A conta de %@ está pendente de moderação";
+"advertising_text" = "Anúncio";
 "app_notification_reply" = "Responder";
 "app_share_download_text" = "Download";
 "app_share_email_button" = "Convide via email";
@@ -368,6 +369,7 @@
 "featured_info_view_more_buyers" = "Atraia mais compradores";
 "featured_info_view_sell_faster" = "Venda mais rápido";
 "featured_info_view_title" = "Publicação destacada";
+"filter_cars_mileage" = "Mileage";
 "filter_cars_seats_title" = "Lugares";
 "filter_results_cars_no_matches" = "A sua pesquisa não devolveu resultados exatos.\nA exibir resultados semelhantes. ";
 "filter_results_cars_other_results" = "Publicado recentemente na sua área";
@@ -478,7 +480,7 @@
 "id_verification_third_step_subtitle" = "Assegure-se de que a sua identificação está nítida e dentro da caixa do visor";
 "id_verification_third_step_title" = "Tire uma fotografia da parte da frente da sua identificação";
 "id_verification_update_avatar_message" = "Quer que esta seja a sua fotografia de perfil?";
-"kilometer_unit_suffix" = "KM";
+"kilometer_unit_suffix" = "km";
 "listing_chat_button" = "Converse já";
 "listing_interested_button_A" = "Tenho interesse";
 "listing_interested_button_B" = "Interessado";
@@ -562,7 +564,6 @@
 "ml_onboarding_description_text" = "Mostre-me um item e dir-lhe-ei quanto fará";
 "ml_onboarding_new_text" = "NOVO!";
 "ml_onboarding_ok_text" = "OK";
-"mopub_advertising_text" = "Anúncio";
 "notifications_empty_subtitle" = "Coloque algo à venda para começar a ver alguma atividade por aqui";
 "notifications_empty_title" = "SEM NOTIFICAÇÕES (AINDA)!";
 "notifications_permissions_1_push" = "Isabel: Estou interessado no seu telemóvel. Quer deixá-lo ir por 100€?";
@@ -795,6 +796,8 @@
 "product_new_onboarding_tap_right_highlighted_label" = "Toque na direita";
 "product_new_onboarding_tap_right_highlighted_label_2" = "no centro";
 "product_new_onboarding_tap_right_label" = "%@ ou %@ para ver a imagem seguinte";
+"product_nit_onboarding_next_picture" = "Next picture";
+"product_nit_onboarding_previous_picture" = "Previous picture";
 "product_onboarding_finger_scroll_label" = "Desloque para ver mais imagens";
 "product_onboarding_finger_swipe_label" = "Deslize para ver a publicação seguinte ou a anterior";
 "product_onboarding_finger_tap_label" = "Toque para ver a publicação seguinte";
@@ -1059,6 +1062,8 @@
 "real_estate_gallery_view_subtitle_params" = "Selecione até %d imagens do imóvel que quer vender ou arrendar. A primeira será a sua foto de destaque por isso assegure-se de que é uma boa foto!";
 "real_estate_location_notification_message" = "Nunca mostraremos a sua localização exata aos outros utilizadores";
 "real_estate_location_title" = "Localização";
+"real_estate_map_tooltip_button_title" = "Experimente agora";
+"real_estate_map_tooltip_title" = "Novo! Veja imóveis num mapa.";
 "real_estate_offer_type_rent" = "Para aluguer";
 "real_estate_offer_type_sale" = "Para venda";
 "real_estate_offer_type_title" = "Tipo de publicação";
