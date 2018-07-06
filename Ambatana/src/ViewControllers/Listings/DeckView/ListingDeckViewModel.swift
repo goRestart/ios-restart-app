@@ -241,7 +241,7 @@ final class ListingDeckViewModel: BaseViewModel {
             prefetchNeighborsImages(index, movement: movement)
 
         // Tracking
-            let feedPosition = movement.feedPosition(for: trackingIndex)
+            let feedPosition = trackingFeedPosition
             if source == .relatedListings {
                 currentListingViewModel?.trackVisit(movement.visitUserAction,
                                                     source: movement.visitSource(source),

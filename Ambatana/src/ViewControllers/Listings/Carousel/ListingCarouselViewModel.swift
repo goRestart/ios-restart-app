@@ -370,7 +370,7 @@ class ListingCarouselViewModel: BaseViewModel {
         if active {
             currentListingViewModel?.trackVisit(movement.visitUserAction,
                                                 source: movement.visitSource(source),
-                                                feedPosition: movement.feedPosition(for: trackingIndex))
+                                                feedPosition: trackingFeedPosition)
         }
     }
 
@@ -896,15 +896,6 @@ extension CarouselMovement {
             return .swipeRight
         case .initial:
             return .none
-        }
-    }
-    func feedPosition(for index: Int?) -> EventParameterFeedPosition {
-        guard let index = index else  { return .none }
-        switch self {
-        case .tap, .swipeLeft, .swipeRight:
-            return .none
-        case .initial:
-            return .position(index: index)
         }
     }
 }
