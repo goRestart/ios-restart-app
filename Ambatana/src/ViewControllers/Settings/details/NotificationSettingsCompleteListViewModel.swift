@@ -268,8 +268,11 @@ final class NotificationSettingsCompleteListViewModel: BaseViewModel {
     
     // MARK: - Marketing notifications
     
-    private func setMarketingNotification(enabled: Bool) {
+    private func setMarketingNotifications(enabled: Bool) {
         notificationsManager.marketingNotifications.value = enabled
+        switchMarketingNotificationValue.value = enabled
+        makeGroupSettings()
+        makeNotificationSettingCells()
     }
     
     private func checkMarketingNotifications(_ enabled: Bool) {
@@ -282,18 +285,18 @@ final class NotificationSettingsCompleteListViewModel: BaseViewModel {
     
     private func showPrePermissionsIfNeeded() {
         guard !pushPermissionManager.pushNotificationActive else {
-            setMarketingNotification(enabled: true)
+            setMarketingNotifications(enabled: true)
             return
         }
         let cancelAction = UIAction(
             interface: .button(R.Strings.settingsMarketingNotificationsAlertCancel, .secondary(fontSize: .medium, withBorder: true)),
             action: { [weak self] in
-                self?.forceMarketingNotifications(enabled: false)
+                self?.setMarketingNotifications(enabled: false)
         })
         let activateAction = UIAction(interface: .button(R.Strings.settingsMarketingNotificationsAlertActivate,
                                                          .primary(fontSize: .medium)),
                                       action: { [weak self] in
-                                        self?.setMarketingNotification(enabled: true)
+                                        self?.setMarketingNotifications(enabled: true)
                                         self?.pushPermissionManager.showPushPermissionsAlert(prePermissionType: .profile)
         })
         
@@ -305,20 +308,15 @@ final class NotificationSettingsCompleteListViewModel: BaseViewModel {
         let cancelAction = UIAction(
             interface: .button(R.Strings.settingsMarketingNotificationsAlertCancel, .secondary(fontSize: .medium, withBorder: true)),
             action: { [weak self] in
-                self?.forceMarketingNotifications(enabled: true)
+                self?.setMarketingNotifications(enabled: true)
         })
         let  deactivateAction = UIAction(
             interface: .button(R.Strings.settingsMarketingNotificationsAlertDeactivate, .secondary(fontSize: .medium, withBorder: true)),
             action: { [weak self] in
-                self?.setMarketingNotification(enabled: false)
+                self?.setMarketingNotifications(enabled: false)
         })
         delegate?.vmShowAlertWithTitle(nil, text: R.Strings.settingsMarketingNotificationsAlertMessage,
                                        alertType: .plainAlertOld, actions: [cancelAction, deactivateAction], dismissAction: cancelAction.action)
-    }
-    
-    private func forceMarketingNotifications(enabled: Bool) {
-        notificationsManager.marketingNotifications.value = enabled
-        switchMarketingNotificationValue.value = enabled
     }
     
     

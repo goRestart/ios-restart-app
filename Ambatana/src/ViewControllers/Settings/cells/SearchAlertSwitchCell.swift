@@ -60,7 +60,8 @@ final class SearchAlertSwitchCell: UITableViewCell, ReusableCell {
         label.textColor = UIColor.darkGray
         label.font = UIFont.systemRegularFont(size: 17)
 
-        activationSwitch.onTintColor = UIColor.primaryColor
+        activationSwitch.onTintColor = .primaryColor
+        activationSwitch.tintColor = .grayLight
     }
 
     private func setupRx() {

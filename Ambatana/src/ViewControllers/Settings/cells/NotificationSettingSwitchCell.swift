@@ -28,6 +28,7 @@ final class NotificationSettingSwitchCell: UITableViewCell, ReusableCell {
     
     private let activationSwitch: UISwitch = {
         let activationSwitch = UISwitch()
+        activationSwitch.tintColor = .grayLight
         activationSwitch.onTintColor = UIColor.primaryColor
         return activationSwitch
     }()
