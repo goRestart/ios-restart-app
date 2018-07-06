@@ -904,6 +904,7 @@ enum EventParameterTypePage: String {
     case smsVerification = "sms-verification"
     case nextItem = "next-item"
     case feed = "feed"
+    case notificationCenter = "notification-center"
 }
 
 enum EventParameterPermissionType: String {
