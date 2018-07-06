@@ -266,18 +266,9 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedListViewDelegate
         if featureFlags.showChatConnectionStatusBar.isActive {
             view.addSubviewForAutoLayout(connectionStatusView)
             statusViewHeightConstraint = connectionStatusView.heightAnchor.constraint(equalToConstant: 0)
-            let connectionStatusViewTopConstraint: NSLayoutConstraint
-            if #available(iOS 11, *) {
-                connectionStatusViewTopConstraint = connectionStatusView.topAnchor
-                    .constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
-            } else {
-                connectionStatusViewTopConstraint = connectionStatusView
-                    .topAnchor
-                    .constraint(equalTo: topLayoutGuide.bottomAnchor)
-            }
             NSLayoutConstraint.activate([
                 statusViewHeightConstraint,
-                connectionStatusViewTopConstraint,
+                connectionStatusView.topAnchor.constraint(equalTo: safeTopAnchor),
                 connectionStatusView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 connectionStatusView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                 viewPager.topAnchor.constraint(equalTo: connectionStatusView.bottomAnchor),
@@ -286,16 +277,8 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedListViewDelegate
                 viewPager.trailingAnchor.constraint(equalTo: view.trailingAnchor)
                 ])
         } else {
-            let viewPagerTopConstraint: NSLayoutConstraint
-            if #available(iOS 11, *) {
-                viewPagerTopConstraint = viewPager.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
-            } else {
-                viewPagerTopConstraint = viewPager
-                    .topAnchor
-                    .constraint(equalTo: topLayoutGuide.bottomAnchor)
-            }
             NSLayoutConstraint.activate([
-                viewPagerTopConstraint,
+                viewPager.topAnchor.constraint(equalTo: safeTopAnchor),
                 viewPager.bottomAnchor.constraint(equalTo: view.bottomAnchor),
                 viewPager.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 viewPager.trailingAnchor.constraint(equalTo: view.trailingAnchor)
