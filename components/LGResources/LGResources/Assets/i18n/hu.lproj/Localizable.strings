@@ -369,6 +369,7 @@
 "featured_info_view_more_buyers" = "Szerezz több vásárlót";
 "featured_info_view_sell_faster" = "Add el gyorsabban";
 "featured_info_view_title" = "Kiemelt hirdetés";
+"filter_cars_mileage" = "Megtett mérföld";
 "filter_cars_seats_title" = "Ülések";
 "filter_results_cars_no_matches" = "Nincs pontos találat a keresésre.\n Hasonló találatokat láthatsz.";
 "filter_results_cars_other_results" = "Nemrégiben meghirdetve a környéken.";
@@ -795,6 +796,8 @@
 "product_new_onboarding_tap_right_highlighted_label" = "koppints jobbra";
 "product_new_onboarding_tap_right_highlighted_label_2" = "középre";
 "product_new_onboarding_tap_right_label" = "A következő képhez %@ vagy %@";
+"product_nit_onboarding_next_picture" = "Next picture";
+"product_nit_onboarding_previous_picture" = "Previous picture";
 "product_onboarding_finger_scroll_label" = "Csúsztatással további képeket jeleníthetsz meg";
 "product_onboarding_finger_swipe_label" = "A következő vagy az előző hirdetéshez suhints oldalra";
 "product_onboarding_finger_tap_label" = "A következő hirdetéshez koppints egyet";

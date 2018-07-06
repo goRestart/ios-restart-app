@@ -579,7 +579,7 @@ final class FeatureFlags: FeatureFlaggeable {
 
     var deckItemPage: NewItemPageV3 {
         if Bumper.enabled {
-            return Bumper.deckItemPage
+            return Bumper.newItemPageV3
         }
         return NewItemPageV3.fromPosition(abTests.deckItemPage.value)
     }

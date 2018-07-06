@@ -369,6 +369,7 @@
 "featured_info_view_more_buyers" = "Daha çok alıcıyı çek";
 "featured_info_view_sell_faster" = "Hemen sat";
 "featured_info_view_title" = "Öne Çıkan İlan";
+"filter_cars_mileage" = "Kilometre sayacı";
 "filter_cars_seats_title" = "Koltuklar";
 "filter_results_cars_no_matches" = "Aramanla eşleşen bir sonuç yok.\nBenzer sonuçlar gösteriliyor. ";
 "filter_results_cars_other_results" = "Çevrende en son yayınlananlar";
@@ -795,6 +796,8 @@
 "product_new_onboarding_tap_right_highlighted_label" = "Sağa dokun";
 "product_new_onboarding_tap_right_highlighted_label_2" = "ekrana";
 "product_new_onboarding_tap_right_label" = "Sonraki fotoğrafı görmek için %@ veya %@";
+"product_nit_onboarding_next_picture" = "Next picture";
+"product_nit_onboarding_previous_picture" = "Previous picture";
 "product_onboarding_finger_scroll_label" = "Daha fazla fotoğraf görmek için sürükle";
 "product_onboarding_finger_swipe_label" = "Bir önceki veya sonraki ilana gitmek için ekranı kaydır";
 "product_onboarding_finger_tap_label" = "Bir sonraki ilana gitmek için dokun";

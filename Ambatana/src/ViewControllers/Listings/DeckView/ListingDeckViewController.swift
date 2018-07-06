@@ -21,14 +21,16 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     private let collectionDataSource: DeckCollectionDataSource
     fileprivate let viewModel: ListingDeckViewModel
     fileprivate let binder = ListingDeckViewControllerBinder()
+    private lazy var cardOnBoarding = ListingCardOnBoardingView()
 
     fileprivate var transitioner: PhotoViewerTransitionAnimator?
     private var lastPageBeforeDragging: Int = 0
+    private let shouldShowCardsOnBoarding: Bool
 
     private var interstitial: GADInterstitial?
     private var firstAdShowed = false
     private var lastIndexAd = -1
-    
+
     lazy var windowTargetFrame: CGRect = {
         let size = listingDeckView.cardSize
         let frame = CGRect(x: 20, y: 0, width: size.width, height: size.height)
@@ -37,6 +39,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
 
     init(viewModel: ListingDeckViewModel) {
         self.viewModel = viewModel
+        self.shouldShowCardsOnBoarding = viewModel.shouldShowCardGesturesOnBoarding
         self.collectionDataSource =  DeckCollectionDataSource(withViewModel: viewModel,
                                                               imageDownloader: viewModel.imageDownloader)
         super.init(viewModel: viewModel, nibName: nil)
@@ -53,20 +56,40 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
 
     override func viewDidFirstAppear(_ animated: Bool) {
         super.viewDidFirstAppear(animated)
-
         updateStartIndex()
         listingDeckView.collectionView.layoutIfNeeded()
         guard let current = currentPageCell() else { return }
         populateCell(current)
-        let index = viewModel.currentIndex
         UIView.animate(withDuration: 0.5,
                        delay: 0,
                        options: .curveEaseIn,
                        animations: { [weak self] in
                         self?.listingDeckView.collectionView.alpha = 1
         }, completion: { [weak self] _ in
-            self?.didMoveToItemAtIndex(index)
+            self?.didAnimateCollectionViewAppearence(withCurrentCell: current)
         })
+    }
+
+    private func didAnimateCollectionViewAppearence(withCurrentCell current: ListingCardView) {
+        didMoveToItemAtIndex(viewModel.currentIndex)
+        guard shouldShowCardsOnBoarding else { return }
+        showCardGestureNavigation(withCurrentCell: current)
+    }
+
+    private func showCardGestureNavigation(withCurrentCell current: ListingCardView) {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(removeOnBoarding))
+        cardOnBoarding.addGestureRecognizer(tapGesture)
+
+        cardOnBoarding.alpha = 0
+        current.contentView.addSubviewForAutoLayout(cardOnBoarding)
+        cardOnBoarding.layout(with: current.contentView).fill()
+        cardOnBoarding.animateTo(alpha: 1)
+    }
+
+    @objc private func removeOnBoarding() {
+        cardOnBoarding.animateTo(alpha: 0, duration: 0.3) { [weak self] (completion) in
+            self?.cardOnBoarding.removeFromSuperview()
+        }
     }
 
     override func viewDidLoad() {

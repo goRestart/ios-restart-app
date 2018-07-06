@@ -369,6 +369,7 @@
 "featured_info_view_more_buyers" = "Locka flera köpare";
 "featured_info_view_sell_faster" = "Sälj snabbare";
 "featured_info_view_title" = "Topplistad produkt";
+"filter_cars_mileage" = "Miltal";
 "filter_cars_seats_title" = "Säten";
 "filter_results_cars_no_matches" = "Din sökning gav ingen träff. \nLiknande resultat visas. ";
 "filter_results_cars_other_results" = "Nyligen upplagda i ditt område";
@@ -795,6 +796,8 @@
 "product_new_onboarding_tap_right_highlighted_label" = "Klicka till höger";
 "product_new_onboarding_tap_right_highlighted_label_2" = "i mitten";
 "product_new_onboarding_tap_right_label" = "%@ eller %@ för att se nästa bild";
+"product_nit_onboarding_next_picture" = "Next picture";
+"product_nit_onboarding_previous_picture" = "Previous picture";
 "product_onboarding_finger_scroll_label" = "Skrolla ner för att se fler bilder.";
 "product_onboarding_finger_swipe_label" = "Svep för att gå till nästa eller föregående annons";
 "product_onboarding_finger_tap_label" = "Klicka för att gå till nästa annons";

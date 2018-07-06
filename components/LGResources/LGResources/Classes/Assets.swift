@@ -258,6 +258,7 @@ extension R {
         public static let nitPhotoChat = ImageAsset(name: "nit_photo_chat")
         public static let nitPreviewCount = ImageAsset(name: "nit_preview_count")
         public static let nitShare = ImageAsset(name: "nit_share")
+        public static let nitTapGesture = ImageAsset(name: "nit_tap_gesture")
       }
       public enum SearchAlerts {
         public static let icSearchAlertsEmpty = ImageAsset(name: "ic_search_alerts_empty")
@@ -574,6 +575,7 @@ extension R {
         NewItemPage.nitPhotoChat,
         NewItemPage.nitPreviewCount,
         NewItemPage.nitShare,
+        NewItemPage.nitTapGesture,
         SearchAlerts.icSearchAlertsEmpty,
         SearchAlerts.icSearchAlertsError,
         VideoPosting.icVideopostingPlay,

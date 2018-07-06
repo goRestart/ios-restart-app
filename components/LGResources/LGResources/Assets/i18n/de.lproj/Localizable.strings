@@ -369,6 +369,7 @@
 "featured_info_view_more_buyers" = "Locke mehr Käufer an";
 "featured_info_view_sell_faster" = "Schneller verkaufen";
 "featured_info_view_title" = "Empfohlenes Angebot";
+"filter_cars_mileage" = "Kilometerstand";
 "filter_cars_seats_title" = "Sitze";
 "filter_results_cars_no_matches" = "Keine exakten Treffer für deine Suche.\n Es werden ähnliche Ergebnisse angezeigt. ";
 "filter_results_cars_other_results" = "Kürzlich in deiner Nähe eingestellt";
@@ -795,6 +796,8 @@
 "product_new_onboarding_tap_right_highlighted_label" = "Drücke rechts";
 "product_new_onboarding_tap_right_highlighted_label_2" = "in der Mitte";
 "product_new_onboarding_tap_right_label" = "%@ oder %@, um das nächste Bild zu sehen";
+"product_nit_onboarding_next_picture" = "Next picture";
+"product_nit_onboarding_previous_picture" = "Previous picture";
 "product_onboarding_finger_scroll_label" = "Scrolle, um mehr Bilder zu sehen";
 "product_onboarding_finger_swipe_label" = "Wische, um zum nächsten oder vorherigen Angebot zu gelangen";
 "product_onboarding_finger_tap_label" = "Drücke, um zum nächsten Angebot zu gelangen";

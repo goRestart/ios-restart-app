@@ -1758,6 +1758,10 @@ extension R {
     public static func productNewOnboardingTapRightLabel(_ p1: String, _ p2: String) -> String {
       return Strings.tr("Localizable", "product_new_onboarding_tap_right_label", p1, p2)
     }
+    /// Next picture
+    public static let productNitOnboardingNextPicture = Strings.tr("Localizable", "product_nit_onboarding_next_picture")
+    /// Previous picture
+    public static let productNitOnboardingPreviousPicture = Strings.tr("Localizable", "product_nit_onboarding_previous_picture")
     /// Scroll to see more pictures
     public static let productOnboardingFingerScrollLabel = Strings.tr("Localizable", "product_onboarding_finger_scroll_label")
     /// Swipe to go to the next listing or to the previous one

@@ -369,6 +369,7 @@
 "featured_info_view_more_buyers" = "Προσελκύστε περισσότερους αγοραστές";
 "featured_info_view_sell_faster" = "Πουλήστε Γρηγορότερα";
 "featured_info_view_title" = "Προτεινόμενη Καταχώρηση";
+"filter_cars_mileage" = "Χιλιόμετρα";
 "filter_cars_seats_title" = "Καθίσματα";
 "filter_results_cars_no_matches" = "Δε βρέθηκαν ακριβή αποτελέσματα για την αναζήτησή σας. \nΠροβολή παρόμοιων αποτελεσμάτων. ";
 "filter_results_cars_other_results" = "Πρόσφατες δημοσιεύσεις στην περιοχή σας";
@@ -795,6 +796,8 @@
 "product_new_onboarding_tap_right_highlighted_label" = "Πατήστε δεξιά";
 "product_new_onboarding_tap_right_highlighted_label_2" = "στο κέντρο";
 "product_new_onboarding_tap_right_label" = "%@ ή %@ για να δείτε την επόμενη φωτογραφία";
+"product_nit_onboarding_next_picture" = "Next picture";
+"product_nit_onboarding_previous_picture" = "Previous picture";
 "product_onboarding_finger_scroll_label" = "Σύρετε για να δείτε περισσότερες φωτογραφίες";
 "product_onboarding_finger_swipe_label" = "Σύρετε για να πάτε στην επόμενη ή στην προηγούμενη καταχώρηση";
 "product_onboarding_finger_tap_label" = "Πατήστε για να πάτε στην επόμενη καταχώρηση";

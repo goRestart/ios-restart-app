@@ -369,6 +369,7 @@
 "featured_info_view_more_buyers" = "Houkuttele enemmän ostajia";
 "featured_info_view_sell_faster" = "Myy nopeammin";
 "featured_info_view_title" = "Esiin nostettu ilmoitus";
+"filter_cars_mileage" = "Kilometrilukema";
 "filter_cars_seats_title" = "Istuinpaikat";
 "filter_results_cars_no_matches" = "Täysin hakuasi vastaavia osumia ei löytynyt.\n Näytetään samankaltaiset tulokset. ";
 "filter_results_cars_other_results" = "Alueellasi äskettäin julkaistu";
@@ -795,6 +796,8 @@
 "product_new_onboarding_tap_right_highlighted_label" = "Paina oikealla";
 "product_new_onboarding_tap_right_highlighted_label_2" = "keskellä";
 "product_new_onboarding_tap_right_label" = "%@ tai %@ nähdäksesi seuraavan kuvan";
+"product_nit_onboarding_next_picture" = "Next picture";
+"product_nit_onboarding_previous_picture" = "Previous picture";
 "product_onboarding_finger_scroll_label" = "Vieritä nähdäksesi lisää kuvia";
 "product_onboarding_finger_swipe_label" = "Pyyhkäise mennäksesi seuraavaan tai edelliseen ilmoitukseen";
 "product_onboarding_finger_tap_label" = "Napauta mennäksesi seuraavaan ilmoitukseen";
@@ -1059,7 +1062,7 @@
 "real_estate_gallery_view_subtitle_params" = "Valitse korkeintaan %d kuvaa kiinteistöstä, jonka haluat myydä tai vuokrata. Ensimmäistä kuvaa käytetään ilmoituksen pääkuvana, joten pidä huoli, että kyseinen kuva on hyvä!";
 "real_estate_location_notification_message" = "Emme koskaan näytä tarkkaa sijaintiasi muille käyttäjille";
 "real_estate_location_title" = "Sijainti";
-"real_estate_map_tooltip_button_title" = "Try Now";
+"real_estate_map_tooltip_button_title" = "Kokeile nyt";
 "real_estate_map_tooltip_title" = "Uutta! Näet kiinteistöt kartalla.";
 "real_estate_offer_type_rent" = "Vuokrataan";
 "real_estate_offer_type_sale" = "Myydään";

@@ -369,6 +369,7 @@
 "featured_info_view_more_buyers" = "Thu hút thêm người mua";
 "featured_info_view_sell_faster" = "Bán nhanh hơn";
 "featured_info_view_title" = "Bài đăng Nổi bật";
+"filter_cars_mileage" = "Số km đã đi";
 "filter_cars_seats_title" = "Chỗ";
 "filter_results_cars_no_matches" = "Không có kết quả chính xác cho tìm kiếm của bạn.\nHiển thị kết quả tương tự. ";
 "filter_results_cars_other_results" = "Được đăng gần đây tại khu vực của bạn";
@@ -795,6 +796,8 @@
 "product_new_onboarding_tap_right_highlighted_label" = "Nhấp vào bên phải";
 "product_new_onboarding_tap_right_highlighted_label_2" = "ở giữa";
 "product_new_onboarding_tap_right_label" = "%@ hoặc %@ để xem ảnh tiếp theo";
+"product_nit_onboarding_next_picture" = "Next picture";
+"product_nit_onboarding_previous_picture" = "Previous picture";
 "product_onboarding_finger_scroll_label" = "Cuộn để xem thêm ảnh";
 "product_onboarding_finger_swipe_label" = "Vuốt để tới bài đăng tiếp theo hoặc trước đó";
 "product_onboarding_finger_tap_label" = "Chạm để tới bài đăng tiếp theo";

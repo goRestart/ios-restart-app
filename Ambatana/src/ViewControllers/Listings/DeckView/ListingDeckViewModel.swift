@@ -94,6 +94,10 @@ final class ListingDeckViewModel: BaseViewModel {
     private var shouldShowDeckOnBoarding: Bool {
         return !userHasScrolled && !keyValueStorage[.didShowDeckOnBoarding]
     }
+    var shouldShowCardGesturesOnBoarding: Bool {
+        return !keyValueStorage[.didShowCardGesturesOnBoarding]
+    }
+
     private let keyValueStorage: KeyValueStorageable
     
     fileprivate let adsRequester: AdsRequester
@@ -409,6 +413,10 @@ final class ListingDeckViewModel: BaseViewModel {
     func showOnBoarding() {
         deckNavigator?.showOnBoarding()
         keyValueStorage[.didShowDeckOnBoarding] = true
+    }
+
+    func didShowCardsGesturesOnBoarding() {
+        keyValueStorage[.didShowCardGesturesOnBoarding] = true
     }
 
     func cachedImageAtIndex(_ index: Int) -> UIImage? {
