@@ -50,15 +50,16 @@ final class ListingDeckViewModel: BaseViewModel {
 
     let startIndex: Int
     var shouldSyncFirstListing: Bool = false
-    fileprivate let trackingIndex: Int?
+    private let trackingIndex: Int?
 
-    fileprivate var lastMovement: CarouselMovement = .initial
-    fileprivate let source: EventParameterListingVisitSource
-    fileprivate let listingListRequester: ListingListRequester
-    fileprivate let userRepository: MyUserRepository
-    fileprivate var productsViewModels: [String: ListingViewModel] = [:]
-    fileprivate let listingViewModelMaker: ListingViewModelMaker
-    fileprivate let tracker: Tracker
+    private var lastMovement: CarouselMovement = .initial
+    private let source: EventParameterListingVisitSource
+    private let listingListRequester: ListingListRequester
+    private let userRepository: MyUserRepository
+    private var productsViewModels: [String: ListingViewModel] = [:]
+    private let listingViewModelMaker: ListingViewModelMaker
+    private let tracker: Tracker
+    private let listingTracker: ListingTracker
     private let featureFlags: FeatureFlaggeable
 
     let actionOnFirstAppear: DeckActionOnFirstAppear
@@ -192,6 +193,9 @@ final class ListingDeckViewModel: BaseViewModel {
         self.userRepository = myUserRepository
         self.navigator = detailNavigator
         self.tracker = tracker
+        self.listingTracker = ListingTracker.init(tracker: tracker,
+                                                  featureFlags: featureFlags,
+                                                  myUserRepository: myUserRepository)
         self.actionOnFirstAppear = actionOnFirstAppear
         self.trackingIndex = trackingIndex
         self.keyValueStorage = keyValueStorage
@@ -244,17 +248,7 @@ final class ListingDeckViewModel: BaseViewModel {
             prefetchViewModels(index, movement: movement)
             prefetchNeighborsImages(index, movement: movement)
 
-        // Tracking
-            let feedPosition = movement.feedPosition(for: trackingIndex)
-            if source == .relatedListings {
-                currentListingViewModel?.trackVisit(movement.visitUserAction,
-                                                    source: movement.visitSource(source),
-                                                    feedPosition: feedPosition)
-            } else {
-                currentListingViewModel?.trackVisit(movement.visitUserAction,
-                                                    source: source,
-                                                    feedPosition: feedPosition)
-            }
+        // Tracking ABIOS-4531
         }
     }
 
@@ -334,35 +328,39 @@ final class ListingDeckViewModel: BaseViewModel {
         adsRequester.presentInterstitial(interstitial, index: index, fromViewController: fromViewController)
     }
 
-    // MARK: Tracking
+    // TODO: Tracking ABIOS-4531
 
     func bumpUpBannerShown(type: BumpUpType) {
-        currentListingViewModel?.trackBumpUpBannerShown(type: type,
-                                                        storeProductId: currentListingViewModel?.storeProductId)
+        guard let listing = currentListingViewModel?.listing.value else { return }
+        listingTracker.trackBumpUpBannerShown(listing,
+                                              type: type,
+                                              storeProductId: currentListingViewModel?.storeProductId)
     }
     
     func interstitialAdTapped(typePage: EventParameterTypePage) {
         let adType = AdRequestType.interstitial.trackingParamValue
-        let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
         let feedPosition: EventParameterFeedPosition = .position(index: currentIndex)
         let willLeave = EventParameterBoolean(bool: true)
-        currentListingViewModel?.trackInterstitialAdTapped(adType: adType,
-                                                           isMine: isMine,
-                                                           feedPosition: feedPosition,
-                                                           willLeaveApp: willLeave,
-                                                           typePage: typePage)
+
+        guard let listing = currentListingViewModel?.listing.value else { return }
+        listingTracker.trackInterstitialAdTapped(listing,
+                                                 adType: adType,
+                                                 feedPosition: feedPosition,
+                                                 willLeaveApp: willLeave,
+                                                 typePage: typePage)
     }
     
     func interstitialAdShown(typePage: EventParameterTypePage) {
         let adType = AdRequestType.interstitial.trackingParamValue
-        let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
         let feedPosition: EventParameterFeedPosition = .position(index: currentIndex)
         let adShown = EventParameterBoolean(bool: true)
-        currentListingViewModel?.trackInterstitialAdShown(adType: adType,
-                                                          isMine: isMine,
-                                                          feedPosition: feedPosition,
-                                                          adShown: adShown,
-                                                          typePage: typePage)
+
+        guard let listing = currentListingViewModel?.listing.value else { return }
+        listingTracker.trackInterstitialAdShown(listing,
+                                                adType: adType,
+                                                feedPosition: feedPosition,
+                                                adShown: adShown,
+                                                typePage: typePage)
     }
 
     // MARK: Paginable
@@ -395,7 +393,8 @@ final class ListingDeckViewModel: BaseViewModel {
 
     func didTapStatusView() {
         navigator?.openFeaturedInfo()
-        currentListingViewModel?.trackOpenFeaturedInfo()
+        guard let listing = currentListingViewModel?.listing.value else { return }
+        listingTracker.trackOpenFeaturedInfo(listing)
     }
 
     func didTapReputationTooltip() {
@@ -444,17 +443,6 @@ final class ListingDeckViewModel: BaseViewModel {
         guard index >= 0 && index < urls.count else { return nil }
 
         return urls[index]
-    }
-
-    func didShowMoreInfo() {
-        let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
-        currentListingViewModel?.trackVisitMoreInfo(isMine: isMine,
-                                                          adShown: .notAvailable,
-                                                          adType: nil,
-                                                          queryType: nil,
-                                                          query: nil,
-                                                          visibility: nil,
-                                                          errorReason: nil)
     }
 
     func showBumpUpView(_ action: DeckActionOnFirstAppear) {

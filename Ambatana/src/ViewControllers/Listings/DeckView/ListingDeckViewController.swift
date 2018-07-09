@@ -240,12 +240,6 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
         guard let listing = viewModel.listingCellModelAt(index: viewModel.currentIndex) else { return }
         card.populateWith(cellModel: listing, imageDownloader: viewModel.imageDownloader)
     }
-    
-    func cardViewDidShowMoreInfo(_ cardView: ListingCardView) {
-        guard cardView.tag == viewModel.currentIndex else { return }
-        guard isCardVisible(cardView) else { return }
-        viewModel.didShowMoreInfo()
-    }
 
     func updateViewWithActions(_ actionButtons: [UIAction]) {
         guard let actionButton = actionButtons.first else { return }
