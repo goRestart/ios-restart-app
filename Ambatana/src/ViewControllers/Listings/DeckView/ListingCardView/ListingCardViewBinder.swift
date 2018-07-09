@@ -22,7 +22,6 @@ final class ListingCardViewBinder {
     func bind(withViewModel viewModel: ListingCardViewCellModel) {
         recycleDisposeBag()
         guard let vmDisposeBag = viewModelBag else { return }
-
         viewModel
             .cardProductPreview
             .observeOn(MainScheduler.asyncInstance)

@@ -357,9 +357,7 @@ extension ListingDeckViewController: DeckMapViewDelegate {
     }
 }
 
-extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCardViewDelegate, ListingDeckCollectionViewLayoutDelegate {
-    func viewControllerToShowShareOptions() -> UIViewController { return self }
-    
+extension ListingDeckViewController: ListingCardViewDelegate, ListingDeckCollectionViewLayoutDelegate {    
     func targetPage(forProposedPage proposedPage: Int, withScrollingDirection direction: ScrollingDirection) -> Int {
         guard direction != .none else {
             return proposedPage

@@ -131,11 +131,9 @@
 		0A0CD7F81FD97FBB00B0BACF /* FilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0CD7F71FD97FBB00B0BACF /* FilterCell.swift */; };
 		0A0CD7F91FD9806C00B0BACF /* FilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0CD7F71FD97FBB00B0BACF /* FilterCell.swift */; };
 		0A104696206CFB99003F1577 /* ABTestsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A104695206CFB99003F1577 /* ABTestsSpec.swift */; };
-		0A24AFED1FCF0CDE00F1CA6B /* ListingCardDetailMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2D69DF1FC6BA6900F072A1 /* ListingCardDetailMapView.swift */; };
 		0A25E8122019C87900E6A72E /* OnBoardingAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A25E8112019C87900E6A72E /* OnBoardingAnimator.swift */; };
 		0A25E8132019C88C00E6A72E /* OnBoardingAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A25E8112019C87900E6A72E /* OnBoardingAnimator.swift */; };
 		0A2D69DE1FC5DB0300F072A1 /* Bounceable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2D69DC1FC5DA8700F072A1 /* Bounceable.swift */; };
-		0A2D69E01FC6BA6900F072A1 /* ListingCardDetailMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2D69DF1FC6BA6900F072A1 /* ListingCardDetailMapView.swift */; };
 		0A2EC6A120357C0700DE1711 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508010E61D4748120073F362 /* SettingsViewController.swift */; };
 		0A3048282041E1DE00C11498 /* ListingDeckSnapshotType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3048272041E1DE00C11498 /* ListingDeckSnapshotType.swift */; };
 		0A3048292041E20100C11498 /* ListingDeckSnapshotType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3048272041E1DE00C11498 /* ListingDeckSnapshotType.swift */; };
@@ -156,10 +154,6 @@
 		0A5333D1208F5508000D3F42 /* VideoPlayerCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5333CF208F53BC000D3F42 /* VideoPlayerCoordinator.swift */; };
 		0A561AE220C81FF00082D551 /* UICollectionView+ReusableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A561AE120C81FF00082D551 /* UICollectionView+ReusableCell.swift */; };
 		0A561AE320C8203F0082D551 /* UICollectionView+ReusableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A561AE120C81FF00082D551 /* UICollectionView+ReusableCell.swift */; };
-		0A60CAA71FB0C4EF00BE1EFE /* ListingCardUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A63DFC21FB0B7AC00C065F2 /* ListingCardUserView.swift */; };
-		0A63DFC01FB0A9A600C065F2 /* ListingCardDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A63DFBF1FB0A9A600C065F2 /* ListingCardDetailsView.swift */; };
-		0A63DFC11FB0A9D000C065F2 /* ListingCardDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A63DFBF1FB0A9A600C065F2 /* ListingCardDetailsView.swift */; };
-		0A63DFC31FB0B7AC00C065F2 /* ListingCardUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A63DFC21FB0B7AC00C065F2 /* ListingCardUserView.swift */; };
 		0A653BC01FAB7C8600C2AA77 /* ListingDeckViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A653BBF1FAB7C8600C2AA77 /* ListingDeckViewModelSpec.swift */; };
 		0A6650DC20BBF51500BD1F2B /* EditLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6650DB20BBF51500BD1F2B /* EditLocationView.swift */; };
 		0A6650DD20BBF51800BD1F2B /* EditLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6650DB20BBF51500BD1F2B /* EditLocationView.swift */; };
@@ -236,6 +230,16 @@
 		0ACE7DAE1FD2C3A10068E47B /* DeckCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACE7DAC1FD2C3A10068E47B /* DeckCoordinator.swift */; };
 		0AD1B7432085D66400A28852 /* FeedNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD1B7422085D66400A28852 /* FeedNavigator.swift */; };
 		0AD1B7442085D66400A28852 /* FeedNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD1B7422085D66400A28852 /* FeedNavigator.swift */; };
+		0AE405C820EE4FB90041E3F1 /* ListingCardDetailsViewBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE405C320EE4FB90041E3F1 /* ListingCardDetailsViewBinder.swift */; };
+		0AE405C920EE4FB90041E3F1 /* ListingCardDetailsViewBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE405C320EE4FB90041E3F1 /* ListingCardDetailsViewBinder.swift */; };
+		0AE405CA20EE4FB90041E3F1 /* ListingCardUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE405C420EE4FB90041E3F1 /* ListingCardUserView.swift */; };
+		0AE405CB20EE4FB90041E3F1 /* ListingCardUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE405C420EE4FB90041E3F1 /* ListingCardUserView.swift */; };
+		0AE405CC20EE4FB90041E3F1 /* ListingCardDetailMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE405C520EE4FB90041E3F1 /* ListingCardDetailMapView.swift */; };
+		0AE405CD20EE4FB90041E3F1 /* ListingCardDetailMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE405C520EE4FB90041E3F1 /* ListingCardDetailMapView.swift */; };
+		0AE405CF20EE4FE00041E3F1 /* ListingDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE405CE20EE4FE00041E3F1 /* ListingDetailViewController.swift */; };
+		0AE405D020EE4FE00041E3F1 /* ListingDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE405CE20EE4FE00041E3F1 /* ListingDetailViewController.swift */; };
+		0AE405D220EE500A0041E3F1 /* ListingDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE405D120EE500A0041E3F1 /* ListingDetailView.swift */; };
+		0AE405D320EE500A0041E3F1 /* ListingDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE405D120EE500A0041E3F1 /* ListingDetailView.swift */; };
 		0ADE58D21FC45F3100F3DB17 /* ListingCardDetailsViewBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADE58D11FC45F3100F3DB17 /* ListingCardDetailsViewBinder.swift */; };
 		0ADE58D31FC4609400F3DB17 /* ListingCardDetailsViewBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADE58D11FC45F3100F3DB17 /* ListingCardDetailsViewBinder.swift */; };
 		0AE405B720EDF7F10041E3F1 /* ListingCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE405B520EDF7F10041E3F1 /* ListingCardView.swift */; };
@@ -2044,7 +2048,6 @@
 		0A104695206CFB99003F1577 /* ABTestsSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABTestsSpec.swift; sourceTree = "<group>"; };
 		0A25E8112019C87900E6A72E /* OnBoardingAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingAnimator.swift; sourceTree = "<group>"; };
 		0A2D69DC1FC5DA8700F072A1 /* Bounceable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bounceable.swift; sourceTree = "<group>"; };
-		0A2D69DF1FC6BA6900F072A1 /* ListingCardDetailMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardDetailMapView.swift; sourceTree = "<group>"; };
 		0A3048272041E1DE00C11498 /* ListingDeckSnapshotType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingDeckSnapshotType.swift; sourceTree = "<group>"; };
 		0A31CF611FA1EBEB00FE84E0 /* ListingDeckViewModelBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckViewModelBinder.swift; sourceTree = "<group>"; };
 		0A3E5FEC207FAB9A00577670 /* FeedAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedAssembly.swift; sourceTree = "<group>"; };
@@ -2053,8 +2056,6 @@
 		0A4C69D720C92D5100B89022 /* RecaptchaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecaptchaView.swift; sourceTree = "<group>"; };
 		0A5333CF208F53BC000D3F42 /* VideoPlayerCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerCoordinator.swift; sourceTree = "<group>"; };
 		0A561AE120C81FF00082D551 /* UICollectionView+ReusableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+ReusableCell.swift"; sourceTree = "<group>"; };
-		0A63DFBF1FB0A9A600C065F2 /* ListingCardDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardDetailsView.swift; sourceTree = "<group>"; };
-		0A63DFC21FB0B7AC00C065F2 /* ListingCardUserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardUserView.swift; sourceTree = "<group>"; };
 		0A653BBF1FAB7C8600C2AA77 /* ListingDeckViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckViewModelSpec.swift; sourceTree = "<group>"; };
 		0A6650DB20BBF51500BD1F2B /* EditLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLocationView.swift; sourceTree = "<group>"; };
 		0A6BAC1D1FC58D680008A703 /* ListingCardViewCellModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardViewCellModel.swift; sourceTree = "<group>"; };
@@ -2098,6 +2099,11 @@
 		0ACDD2EB1FD1450300616F53 /* QuickChatViewBinderSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickChatViewBinderSpec.swift; sourceTree = "<group>"; };
 		0ACE7DAC1FD2C3A10068E47B /* DeckCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckCoordinator.swift; sourceTree = "<group>"; };
 		0AD1B7422085D66400A28852 /* FeedNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedNavigator.swift; sourceTree = "<group>"; };
+		0AE405C320EE4FB90041E3F1 /* ListingCardDetailsViewBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardDetailsViewBinder.swift; sourceTree = "<group>"; };
+		0AE405C420EE4FB90041E3F1 /* ListingCardUserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardUserView.swift; sourceTree = "<group>"; };
+		0AE405C520EE4FB90041E3F1 /* ListingCardDetailMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardDetailMapView.swift; sourceTree = "<group>"; };
+		0AE405CE20EE4FE00041E3F1 /* ListingDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingDetailViewController.swift; sourceTree = "<group>"; };
+		0AE405D120EE500A0041E3F1 /* ListingDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingDetailView.swift; sourceTree = "<group>"; };
 		0ADE58D11FC45F3100F3DB17 /* ListingCardDetailsViewBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardDetailsViewBinder.swift; sourceTree = "<group>"; };
 		0AE405B520EDF7F10041E3F1 /* ListingCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardView.swift; sourceTree = "<group>"; };
 		0AE405B620EDF7F10041E3F1 /* ListingCardViewBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardViewBinder.swift; sourceTree = "<group>"; };
@@ -3299,6 +3305,7 @@
 		0AB6E1D21F9DD15D0048AFFD /* DeckView */ = {
 			isa = PBXGroup;
 			children = (
+				0AE405C120EE4F8F0041E3F1 /* ListingDetailView */,
 				0AE405B420EDF7A10041E3F1 /* ListingCardView */,
 				0A05F381209B375300F43A67 /* Map */,
 				0A7A05832018A9750009D74C /* OnBoarding */,
@@ -3313,8 +3320,6 @@
 				0A63DFBF1FB0A9A600C065F2 /* ListingCardDetailsView.swift */,
 				0A63DFC21FB0B7AC00C065F2 /* ListingCardUserView.swift */,
 				0A4766CA1FC5BB2A005B176F /* ProductStatusView.swift */,
-				0A2D69DF1FC6BA6900F072A1 /* ListingCardDetailMapView.swift */,
-				0ADE58D11FC45F3100F3DB17 /* ListingCardDetailsViewBinder.swift */,
 				0A6BAC1D1FC58D680008A703 /* ListingCardViewCellModel.swift */,
 				0A759E961FB472F60030FDE0 /* ListingCardViewModel.swift */,
 				0A3048272041E1DE00C11498 /* ListingDeckSnapshotType.swift */,
@@ -3330,6 +3335,18 @@
 			);
 			path = DeckCoordinator;
 			sourceTree = "<group>";
+		};
+		0AE405C120EE4F8F0041E3F1 /* ListingDetailView */ = {
+			isa = PBXGroup;
+			children = (
+				0AE405C520EE4FB90041E3F1 /* ListingCardDetailMapView.swift */,
+				0AE405C320EE4FB90041E3F1 /* ListingCardDetailsViewBinder.swift */,
+				0AE405C420EE4FB90041E3F1 /* ListingCardUserView.swift */,
+				0AE405CE20EE4FE00041E3F1 /* ListingDetailViewController.swift */,
+				0AE405D120EE500A0041E3F1 /* ListingDetailView.swift */,
+			);
+			path = ListingDetailView;
+			sourceTree = "<group>"; 
 		};
 		0AE405B420EDF7A10041E3F1 /* ListingCardView */ = {
 			isa = PBXGroup;
@@ -7014,7 +7031,6 @@
 				C74234061D59EC680082D1CD /* LocalMessage.swift in Sources */,
 				0A5333D0208F53BC000D3F42 /* VideoPlayerCoordinator.swift in Sources */,
 				504652F21CC0F0B3003F5070 /* Listing+Title.swift in Sources */,
-				0A63DFC31FB0B7AC00C065F2 /* ListingCardUserView.swift in Sources */,
 				2E0F26501E0ACB3B00D97898 /* PurchaseableProductsRequestFactory.swift in Sources */,
 				C7F18A9F1C89D62600D23319 /* GalleryImageCell.swift in Sources */,
 				C75B5DC71D59E09500112368 /* ListingDetailOnboardingView.swift in Sources */,
@@ -7159,6 +7175,7 @@
 				2E2208E81DD4BD1100FB2483 /* EmptyCell.swift in Sources */,
 				C783D97C1C64BB90000EE5CA /* ReportUsersViewController.swift in Sources */,
 				724D77AB1FC7085000DB43C0 /* ListingCreationViewController.swift in Sources */,
+				0AE405C820EE4FB90041E3F1 /* ListingCardDetailsViewBinder.swift in Sources */,
 				50BA5C061C3C093E00F34042 /* AppDelegate.swift in Sources */,
 				2E4ADECB200516A600D07D8A /* ProfessionalDealerAskPhoneViewController.swift in Sources */,
 				01616CCC1F978DA900F412D7 /* SelectableFilterTagCell.swift in Sources */,
@@ -7177,6 +7194,7 @@
 				50C9E4B91B71FBB7001E4E92 /* Tracker.swift in Sources */,
 				72C7A1BC1F9F8D150089F175 /* SellNavigationViewModel.swift in Sources */,
 				508E4CEA1B41A5D2007BD301 /* ListingCategory+LG.swift in Sources */,
+				0AE405CA20EE4FB90041E3F1 /* ListingCardUserView.swift in Sources */,
 				6A5E19E21D548F5400F92692 /* GoogleLoginHelper.swift in Sources */,
 				2ED5E52D1EC5BAFB00B6D4F6 /* FilterListingListRequesterFactory.swift in Sources */,
 				6AEF66B31C5A155C0025D43C /* Paginable.swift in Sources */,
@@ -7380,6 +7398,7 @@
 				C765EE7F1E84036400063750 /* SessionErrors+LG.swift in Sources */,
 				C7E73E8A1CD1F77E000F2591 /* NotificationData.swift in Sources */,
 				0A4766CB1FC5BB2A005B176F /* ProductStatusView.swift in Sources */,
+				0AE405D220EE500A0041E3F1 /* ListingDetailView.swift in Sources */,
 				C7D23FE11DCC954D00931803 /* CarouselUIHelper.swift in Sources */,
 				72C7A1C31FA73AC80089F175 /* ListingPrice+LG.swift in Sources */,
 				0187407A1FD59391009C1363 /* BlockingPostingQueuedRequestsViewController.swift in Sources */,
@@ -7437,6 +7456,7 @@
 				8EB65110205C1C1500FF50E4 /* MobileNetLetgov7final.mlmodel in Sources */,
 				72CD80D2203469FB0042E1E0 /* LGTutorialView.swift in Sources */,
 				6A40A3D01C0D9D7E00C551B3 /* ReusableCell.swift in Sources */,
+				0AE405CC20EE4FB90041E3F1 /* ListingCardDetailMapView.swift in Sources */,
 				2E4EBFC01EADF628005FE040 /* CarAttributeSelectionViewModel.swift in Sources */,
 				42CA899F20975BF400CE7B5B /* ListingsMapViewModel.swift in Sources */,
 				0A04D5D720760A9D00471B9D /* RetentionABGroup.swift in Sources */,
@@ -7453,7 +7473,6 @@
 				50F0BAA91B28938D00E50A68 /* MainSignUpViewController.swift in Sources */,
 				2E151D7320A49BB20038D7C7 /* ChatBlockedUsersViewController.swift in Sources */,
 				C73832801E029CC2007D0C03 /* AccountProvider+LG.swift in Sources */,
-				0ADE58D21FC45F3100F3DB17 /* ListingCardDetailsViewBinder.swift in Sources */,
 				0A561AE220C81FF00082D551 /* UICollectionView+ReusableCell.swift in Sources */,
 				C21E6078208A89AF008A1956 /* VideoPreview.swift in Sources */,
 				2E28B12B1D9912B2001BF8E4 /* Double+Rounding.swift in Sources */,
@@ -7516,7 +7535,6 @@
 				C797404F1D2A95B100381A4A /* LeanplumTracker.swift in Sources */,
 				0A98767320CE580D00DCD360 /* UIStackView+LG.swift in Sources */,
 				C605853E20DBD545008025FD /* FilterAttributeGridCell.swift in Sources */,
-				0A63DFC01FB0A9A600C065F2 /* ListingCardDetailsView.swift in Sources */,
 				2E303F49207BAD7300C2CE1D /* CellMapViewer.swift in Sources */,
 				501495EE1D895B5800AC67CA /* DiscoverListingListRequester.swift in Sources */,
 				425B40A720A99981000968CF /* MKMapView+Location.swift in Sources */,
@@ -7701,7 +7719,6 @@
 				8E814F421F3475AB00C88432 /* FilterSliderYearCell.swift in Sources */,
 				C74931791D3533DE00E117F1 /* UserRatingNavigator.swift in Sources */,
 				C7415EDB1DE898580003D6C1 /* SimpleListingsViewModel.swift in Sources */,
-				0A2D69E01FC6BA6900F072A1 /* ListingCardDetailMapView.swift in Sources */,
 				C7AFFB071E714D5D0052A9CA /* SurveysCoordinator.swift in Sources */,
 				50E557BB1E421CB900327B6A /* LoginCoordinator.swift in Sources */,
 				0A25E8122019C87900E6A72E /* OnBoardingAnimator.swift in Sources */,
@@ -7762,6 +7779,7 @@
 				C7126BE11E6596B200038CC4 /* ListingVMProductInfo.swift in Sources */,
 				4252685920C82FC500A6E191 /* PostAddNewCell.swift in Sources */,
 				2E373FA81D3D01AE00AC811C /* UserRatingListViewModel.swift in Sources */,
+				0AE405CF20EE4FE00041E3F1 /* ListingDetailViewController.swift in Sources */,
 				3221E5352060612D0006B12B /* ProductPriceAndTitleView.swift in Sources */,
 				7290DB461F27839900277C7A /* TaxonomyChild+LG.swift in Sources */,
 				C735101E1D942B5000D67040 /* FeatureFlags.swift in Sources */,
@@ -7815,7 +7833,6 @@
 				504652F31CC0F398003F5070 /* Listing+Title.swift in Sources */,
 				0A5333D1208F5508000D3F42 /* VideoPlayerCoordinator.swift in Sources */,
 				C7F18AA01C89D62600D23319 /* GalleryImageCell.swift in Sources */,
-				0A60CAA71FB0C4EF00BE1EFE /* ListingCardUserView.swift in Sources */,
 				2E0F26511E0ACD5D00D97898 /* PurchaseableProductsRequestFactory.swift in Sources */,
 				C75B5DC81D59E09500112368 /* ListingDetailOnboardingView.swift in Sources */,
 				5555531E203D92F900C913D2 /* UserProfileViewModel.swift in Sources */,
@@ -7960,6 +7977,7 @@
 				C7DB41B11C5138B500400945 /* TrackerEventDataTypes.swift in Sources */,
 				2E373FAC1D3E6F3E00AC811C /* UserRatingListRequester.swift in Sources */,
 				C72794291D549334009C25AB /* SettingsCell.swift in Sources */,
+				0AE405C920EE4FB90041E3F1 /* ListingCardDetailsViewBinder.swift in Sources */,
 				C7111F031CA438AC000C5C5A /* UniversalLink.swift in Sources */,
 				724D77AC1FC7085000DB43C0 /* ListingCreationViewController.swift in Sources */,
 				01616CCD1F978DA900F412D7 /* SelectableFilterTagCell.swift in Sources */,
@@ -7978,6 +7996,7 @@
 				C7126BDF1E6596A300038CC4 /* ListingVMUserInfo.swift in Sources */,
 				6A0D7344204D613500892663 /* EditUserBioViewModel.swift in Sources */,
 				72C7A1BD1F9F8D150089F175 /* SellNavigationViewModel.swift in Sources */,
+				0AE405CB20EE4FB90041E3F1 /* ListingCardUserView.swift in Sources */,
 				C271D021206B7C8B00D898F1 /* LGCamera.swift in Sources */,
 				2E4ADED0200516DD00D07D8A /* ProfessionalDealerAskPhoneViewModel.swift in Sources */,
 				6A3C73101CF346CB00A062E0 /* ChatStickerGridCell.swift in Sources */,
@@ -8181,6 +8200,7 @@
 				8E0EEFBD2056E2AA000C07C9 /* MLPostingOnboardingView.swift in Sources */,
 				C7DB41F51C5138B500400945 /* CellDrawer.swift in Sources */,
 				727463B61FB0AF1400AD8261 /* LGSearchMapViewModel.swift in Sources */,
+				0AE405D320EE500A0041E3F1 /* ListingDetailView.swift in Sources */,
 				C7B588601CE1DE1C009B3975 /* RelationInfoView.swift in Sources */,
 				C765EE801E84036400063750 /* SessionErrors+LG.swift in Sources */,
 				0A4766CC1FC5BFE8005B176F /* ProductStatusView.swift in Sources */,
@@ -8238,6 +8258,7 @@
 				C7DB41FE1C5138B500400945 /* AppsflyerTracker.swift in Sources */,
 				C7DE8ABF1C888750005CF37E /* ListingPostedViewModel.swift in Sources */,
 				6A12E04D1C635FA600C1BFE3 /* TourLoginViewController.swift in Sources */,
+				0AE405CD20EE4FB90041E3F1 /* ListingCardDetailMapView.swift in Sources */,
 				8EB65111205C1C1500FF50E4 /* MobileNetLetgov7final.mlmodel in Sources */,
 				C75B5DD21D59E0C500112368 /* ListingCarouselCell.swift in Sources */,
 				2E4EBFC11EADF628005FE040 /* CarAttributeSelectionViewModel.swift in Sources */,
@@ -8260,7 +8281,6 @@
 				0A561AE320C8203F0082D551 /* UICollectionView+ReusableCell.swift in Sources */,
 				509598881C8733B70026AE2D /* CrashlyticsLogger.swift in Sources */,
 				6A0D7341204D612500892663 /* EditUserBioViewController.swift in Sources */,
-				0ADE58D31FC4609400F3DB17 /* ListingCardDetailsViewBinder.swift in Sources */,
 				50EC640B1C64F99E00DC04C5 /* LGEmptyViewModel.swift in Sources */,
 				C78F9DBA1DC9EE8500884064 /* LocalUser.swift in Sources */,
 				50C59BD51CE0DB4400377124 /* KeyValueStorageable.swift in Sources */,
@@ -8307,7 +8327,6 @@
 				2E5350421CF8A0C6003B06CC /* ListingStatsView.swift in Sources */,
 				2E0F26591E0C425900D97898 /* BumpUpBanner.swift in Sources */,
 				0A04D5CE20760A9D00471B9D /* CoreABGroup.swift in Sources */,
-				0A63DFC11FB0A9D000C065F2 /* ListingCardDetailsView.swift in Sources */,
 				0114DBF620CEA2D200C6DD0B /* NotificationSettingsAccessorListViewModel.swift in Sources */,
 				C7DB420A1C5138B500400945 /* FilterDistanceCell.swift in Sources */,
 				0AEB4FF72018C795003365DE /* ListingDeckOnBoardingViewModel.swift in Sources */,
@@ -8536,7 +8555,6 @@
 				8EEC7F5D206AA62800616858 /* AdvertisementDFPCellDrawer.swift in Sources */,
 				6A5E19ED1D548F5400F92692 /* NSError+LG.swift in Sources */,
 				0AF7CCBF1F8B533D00128303 /* OvalLayer.swift in Sources */,
-				0A24AFED1FCF0CDE00F1CA6B /* ListingCardDetailMapView.swift in Sources */,
 				C7F4CBA41C9181A5008E40D6 /* PostListingCameraViewModel.swift in Sources */,
 				C616945120D3C85B00A6692A /* PostingParamsImageAssigner.swift in Sources */,
 				C707D4531E9B7CA200042C03 /* SendMessageTrackingInfo.swift in Sources */,
@@ -8563,6 +8581,7 @@
 				C7126BE21E6596B200038CC4 /* ListingVMProductInfo.swift in Sources */,
 				4252685A20C82FC500A6E191 /* PostAddNewCell.swift in Sources */,
 				C7F4CBA71C92CC5A008E40D6 /* LGViewPagerPage.swift in Sources */,
+				0AE405D020EE4FE00041E3F1 /* ListingDetailViewController.swift in Sources */,
 				7290DB471F27839900277C7A /* TaxonomyChild+LG.swift in Sources */,
 				C735101F1D942B5000D67040 /* FeatureFlags.swift in Sources */,
 				C7B6FA8B1D182F4200DAA19D /* LocalChat.swift in Sources */,

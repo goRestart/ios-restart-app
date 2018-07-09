@@ -293,7 +293,7 @@
      	"name": "RealEstateMapTooltip",
     	"values": ["control", "baseline", "active"],
      	"description": "Show tooltip for Real Estate Map"
-     },
+    },
 	 {
      	"name": "AppInstallAdsInFeed",
         "values": ["control", "baseline", "active"],

@@ -150,8 +150,8 @@ public extension UIFont {
 // MARK: - DeckView
 
 public extension UIFont {
-    static var deckTitleFont: UIFont { return systemMediumFont(size: 17) }
-    static var deckPriceFont: UIFont { return systemBoldFont(size: 27) }
+    static var deckTitleFont: UIFont { return systemMediumFont(size: 27) }
+    static var deckPriceFont: UIFont { return systemBoldFont(size: 17) }
     static var deckDetailFont: UIFont { return systemRegularFont(size: 15) }
     static var deckSocialHeaderFont: UIFont { return systemRegularFont(size: 13) }
     static var deckUsernameFont: UIFont { return systemBoldFont(size: 15) }
