@@ -31,22 +31,26 @@ final class ReportCoordinator: Coordinator {
 
     fileprivate let featureFlags: FeatureFlaggeable
     fileprivate let type: ReportCoordinatorType
+    fileprivate let reportedId: String
 
-    convenience init(type: ReportCoordinatorType) {
+    convenience init(type: ReportCoordinatorType, reportedId: String) {
         self.init(bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
                   featureFlags: FeatureFlags.sharedInstance,
                   sessionManager: Core.sessionManager,
-                  type: type)
+                  type: type,
+                  reportedId: reportedId)
     }
 
     init(bubbleNotificationManager: BubbleNotificationManager,
          featureFlags: FeatureFlaggeable,
          sessionManager: SessionManager,
-         type: ReportCoordinatorType) {
+         type: ReportCoordinatorType,
+         reportedId: String) {
         self.bubbleNotificationManager = bubbleNotificationManager
         self.featureFlags = featureFlags
         self.sessionManager = sessionManager
         self.type = type
+        self.reportedId = reportedId
 
         let vm = ReportOptionsListViewModel(optionGroup: type.options, title: type.title)
         let vc = ReportOptionsListViewController(viewModel: vm)
