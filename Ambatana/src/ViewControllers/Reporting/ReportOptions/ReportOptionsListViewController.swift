@@ -86,7 +86,7 @@ final class ReportOptionsListViewController: BaseViewController, UITableViewDele
 
     @objc private func reportButtonTapped() {
         guard let option = selectedOption else { return }
-        viewModel.didSelect(option: option)
+        viewModel.didTapReport(with: option)
     }
 
     @objc private func didTapClose() {

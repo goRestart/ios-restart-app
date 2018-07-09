@@ -20,8 +20,8 @@ final class ReportOptionsListViewModel: BaseViewModel {
     }
 
     func didTapReport(with option: ReportOption) {
-        navigator?.openThankYouScreen()
-        // TODO: Report to backend
+        guard let type = option.type.reportSentType else { return }
+        navigator?.openReportSentScreen(type: type)
     }
 
     func didTapClose() {

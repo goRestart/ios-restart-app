@@ -4724,8 +4724,7 @@
 		55EF4E4320E644D900B118B7 /* Reporting */ = {
 			isa = PBXGroup;
 			children = (
-				6AF5272820EB799B00810709 /* ReportNavigator.swift */,
-				6AF5272B20EB79A900810709 /* ReportCoordinator.swift */,
+				6A572A7620F3681B000E95AD /* ReportNavigation */,
 				55697DFD20ECD8DB00B2BD3B /* ReportSent */,
 				55697DFC20ECD8C400B2BD3B /* ReportOptions */,
 			);
@@ -4823,6 +4822,15 @@
 				6A5691521D255D27000B7365 /* ListingCellModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		6A572A7620F3681B000E95AD /* ReportNavigation */ = {
+			isa = PBXGroup;
+			children = (
+				6AF5272820EB799B00810709 /* ReportNavigator.swift */,
+				6AF5272B20EB79A900810709 /* ReportCoordinator.swift */,
+			);
+			path = ReportNavigation;
 			sourceTree = "<group>";
 		};
 		6A5E19B61D548F5400F92692 /* 3rdPartyExtensions */ = {

@@ -140,4 +140,27 @@ enum ReportOptionType {
             return true
         }
     }
+
+    var reportSentType: ReportSentType? {
+        switch self {
+        case .itShouldntBeOnLetgo,.suspiciousBehaviour, .inappropriateProfilePhotoOrBio, .problemDuringMeetup,
+             .inappropriateChatMessages, .unrealisticPriceOrOffers:
+            return nil
+        case .iThinkItsAScam, .iTsADuplicateListing, .itsInTheWrongCategory, .sexualContent,
+             .drugsAlcoholOrTobacco, .weaponsOrViolentContent, .otherReasonItShouldntBeOnLetgo:
+            return ReportSentType.productBasic
+        case .sellingSomethingInappropriate:
+            return ReportSentType.userBasic
+        case .notRespondingToMessages, .offeringToTradeInsteadOfPayingInCash, .didntShowUp, .itemDefectiveOrNotAsDescribed:
+            return ReportSentType.userBlockA
+        case .offeringRoPayWithWesternUnionOrPaypal, .spamAccount, .otherSuspiciousBehaviour, .inappropriateProfilePhoto,
+             .inappropriateBio, .otherProblemDuringMeetup, .rudeOrOffensiveLanguage, .suspiciousOrScammyBehavior,
+             .sexualOrObsceneLanguage, .otherReasonInnappropriateChatMessages :
+            return ReportSentType.userBlockB
+        case .robberyOrViolentIncident, .paidWithCounterfeitMoney:
+            return ReportSentType.userLawEnforcement
+        case .threateningViolence:
+            return ReportSentType.userLawEnforcementBlock
+        }
+    }
 }

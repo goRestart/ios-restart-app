@@ -79,9 +79,12 @@ extension ReportCoordinator: ReportNavigator {
         navCtl.pushViewController(vc, animated: true)
     }
 
-    func openThankYouScreen() {
-        // TODO
-        print("🤡 Thank You!")
+    func openReportSentScreen(type: ReportSentType) {
+        guard let navCtl = viewController as? UINavigationController else { return }
+        let vm = ReportSentViewModel(type: type)
+        vm.navigator = self
+        let vc = ReportSentViewController(viewModel: vm)
+        navCtl.pushViewController(vc, animated: true)
     }
 
     func closeReporting() {
