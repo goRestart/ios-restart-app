@@ -115,7 +115,6 @@ public extension UIFont {
 
 
 // MARK: - Notification fonts
-
 public extension UIFont {
     static var notificationTitleFont: UIFont { return systemRegularFont(size: 17) }
     static func notificationSubtitleFont(read: Bool) -> UIFont { return read ? systemLightFont(size: 15) : systemSemiBoldFont(size: 15) }
@@ -148,7 +147,6 @@ public extension UIFont {
 }
 
 // MARK: - DeckView
-
 public extension UIFont {
     static var deckTitleFont: UIFont { return systemMediumFont(size: 17) }
     static var deckPriceFont: UIFont { return systemBoldFont(size: 27) }
@@ -179,6 +177,7 @@ public extension UIFont {
     static var verificationEventCountFont: UIFont { return systemBoldFont(size: 10) }
 }
 
+// MARK: - SMS Verification
 public extension UIFont {
     static var smsVerificationInputBigText: UIFont { return UIFont.systemBoldFont(size: 30) }
     static var smsVerificationInputDescription: UIFont { return UIFont.systemMediumFont(size: 20) }
@@ -188,6 +187,8 @@ public extension UIFont {
     static var smsVerificationCodeInputTextfieldText: UIFont { return UIFont.systemBoldFont(size: 40) }
 }
 
+// MARK: - Reporting
 public extension UIFont {
     static var reportCellTitleFont: UIFont { return UIFont.systemBoldFont(size: 22) }
+    static var reportSentTitleText: UIFont { return UIFont.systemBoldFont(size: 27) }
 }

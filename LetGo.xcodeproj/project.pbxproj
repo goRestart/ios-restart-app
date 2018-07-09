@@ -871,20 +871,22 @@
 		50F681F31C8F4586001F33A3 /* RxPaginable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F681F11C8F4586001F33A3 /* RxPaginable.swift */; };
 		50FEFA1E20469AD6003C51B0 /* ChatBubbleCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FEFA1D20469AD6003C51B0 /* ChatBubbleCellType.swift */; };
 		50FEFA1F20469AD6003C51B0 /* ChatBubbleCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FEFA1D20469AD6003C51B0 /* ChatBubbleCellType.swift */; };
+		550F94F320EB91420057DF8A /* ReportSentTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550F94F220EB91420057DF8A /* ReportSentTypes.swift */; };
+		550F94F420EB91420057DF8A /* ReportSentTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550F94F220EB91420057DF8A /* ReportSentTypes.swift */; };
 		5555531E203D92F900C913D2 /* UserProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556E26F8203C3C940098ECF0 /* UserProfileViewModel.swift */; };
 		5569D9A820848CA8004E5468 /* UserPhoneVerificationCodeInputTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5569D9A720848CA8004E5468 /* UserPhoneVerificationCodeInputTextField.swift */; };
 		5569D9A920848CA8004E5468 /* UserPhoneVerificationCodeInputTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5569D9A720848CA8004E5468 /* UserPhoneVerificationCodeInputTextField.swift */; };
 		556E26F6203C3BA70098ECF0 /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556E26F5203C3BA70098ECF0 /* UserProfileViewController.swift */; };
 		556E26F7203C3C0D0098ECF0 /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556E26F5203C3BA70098ECF0 /* UserProfileViewController.swift */; };
 		556E26F9203C3C940098ECF0 /* UserProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556E26F8203C3C940098ECF0 /* UserProfileViewModel.swift */; };
+		55B4F98A20EA25F50041544A /* ReportSentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B4F98920EA25F50041544A /* ReportSentViewController.swift */; };
+		55B4F98B20EA25F50041544A /* ReportSentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B4F98920EA25F50041544A /* ReportSentViewController.swift */; };
+		55B4F98D20EA26000041544A /* ReportSentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B4F98C20EA26000041544A /* ReportSentViewModel.swift */; };
+		55B4F98E20EA26000041544A /* ReportSentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B4F98C20EA26000041544A /* ReportSentViewModel.swift */; };
 		55DFCDD92073790D00AC5E09 /* UserPhoneVerificationNumberInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55DFCDD82073790D00AC5E09 /* UserPhoneVerificationNumberInputViewController.swift */; };
 		55DFCDDA2073790D00AC5E09 /* UserPhoneVerificationNumberInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55DFCDD82073790D00AC5E09 /* UserPhoneVerificationNumberInputViewController.swift */; };
 		55DFCDDC2073791C00AC5E09 /* UserPhoneVerificationNumberInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55DFCDDB2073791C00AC5E09 /* UserPhoneVerificationNumberInputViewModel.swift */; };
 		55DFCDDD2073791C00AC5E09 /* UserPhoneVerificationNumberInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55DFCDDB2073791C00AC5E09 /* UserPhoneVerificationNumberInputViewModel.swift */; };
-		55EF4E5220E6554900B118B7 /* ReportOptionsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EF4E5020E6554800B118B7 /* ReportOptionsBuilder.swift */; };
-		55EF4E5320E6554900B118B7 /* ReportOptionsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EF4E5020E6554800B118B7 /* ReportOptionsBuilder.swift */; };
-		55EF4E5420E6554900B118B7 /* ReportOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EF4E5120E6554800B118B7 /* ReportOptions.swift */; };
-		55EF4E5520E6554900B118B7 /* ReportOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EF4E5120E6554800B118B7 /* ReportOptions.swift */; };
 		55F1FB36204942B8005D1BD4 /* UserProfileNavBarUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F1FB35204942B8005D1BD4 /* UserProfileNavBarUserView.swift */; };
 		55F1FB37204942B8005D1BD4 /* UserProfileNavBarUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F1FB35204942B8005D1BD4 /* UserProfileNavBarUserView.swift */; };
 		55F90BA0203C3E1000D9F7D0 /* UserProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F90B9F203C3E1000D9F7D0 /* UserProfileHeaderView.swift */; };
@@ -961,6 +963,16 @@
 		6A4E80621C77620900C6423E /* LetgoAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4E80601C77620900C6423E /* LetgoAvatar.swift */; };
 		6A5691531D255D27000B7365 /* ListingCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5691521D255D27000B7365 /* ListingCellModel.swift */; };
 		6A5691541D255D27000B7365 /* ListingCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5691521D255D27000B7365 /* ListingCellModel.swift */; };
+		6A572A6C20F3592D000E95AD /* ReportOptionsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A572A6720F3592A000E95AD /* ReportOptionsListViewController.swift */; };
+		6A572A6D20F3592D000E95AD /* ReportOptionsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A572A6720F3592A000E95AD /* ReportOptionsListViewController.swift */; };
+		6A572A6E20F3592D000E95AD /* ReportOptionsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A572A6820F3592B000E95AD /* ReportOptionsListViewModel.swift */; };
+		6A572A6F20F3592D000E95AD /* ReportOptionsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A572A6820F3592B000E95AD /* ReportOptionsListViewModel.swift */; };
+		6A572A7020F3592D000E95AD /* ReportOptionsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A572A6920F3592B000E95AD /* ReportOptionsBuilder.swift */; };
+		6A572A7120F3592D000E95AD /* ReportOptionsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A572A6920F3592B000E95AD /* ReportOptionsBuilder.swift */; };
+		6A572A7220F3592D000E95AD /* ReportOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A572A6A20F3592C000E95AD /* ReportOptions.swift */; };
+		6A572A7320F3592D000E95AD /* ReportOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A572A6A20F3592C000E95AD /* ReportOptions.swift */; };
+		6A572A7420F3592D000E95AD /* ReportOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A572A6B20F3592C000E95AD /* ReportOptionCell.swift */; };
+		6A572A7520F3592D000E95AD /* ReportOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A572A6B20F3592C000E95AD /* ReportOptionCell.swift */; };
 		6A5E19DC1D548F5400F92692 /* ExternalServiceAuthResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19B71D548F5400F92692 /* ExternalServiceAuthResult.swift */; };
 		6A5E19DD1D548F5400F92692 /* ExternalServiceAuthResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19B71D548F5400F92692 /* ExternalServiceAuthResult.swift */; };
 		6A5E19DE1D548F5400F92692 /* FBLoginHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19B81D548F5400F92692 /* FBLoginHelper.swift */; };
@@ -1027,12 +1039,6 @@
 		6AA9E90C203EC5DC004EACC4 /* UserProfileTabsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA9E90B203EC5DC004EACC4 /* UserProfileTabsView.swift */; };
 		6AA9E90D203EDCB2004EACC4 /* RatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA9E909203EC59D004EACC4 /* RatingView.swift */; };
 		6AA9E90E203EDCB5004EACC4 /* UserProfileTabsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA9E90B203EC5DC004EACC4 /* UserProfileTabsView.swift */; };
-		6AB9A6FC20E6499D00A6DD08 /* ReportOptionsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB9A6FB20E6499D00A6DD08 /* ReportOptionsListViewController.swift */; };
-		6AB9A6FD20E6499D00A6DD08 /* ReportOptionsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB9A6FB20E6499D00A6DD08 /* ReportOptionsListViewController.swift */; };
-		6AB9A6FF20E649C400A6DD08 /* ReportOptionsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB9A6FE20E649C400A6DD08 /* ReportOptionsListViewModel.swift */; };
-		6AB9A70020E649C400A6DD08 /* ReportOptionsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB9A6FE20E649C400A6DD08 /* ReportOptionsListViewModel.swift */; };
-		6AB9A70220E649EE00A6DD08 /* ReportOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB9A70120E649EE00A6DD08 /* ReportOptionCell.swift */; };
-		6AB9A70320E649EE00A6DD08 /* ReportOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB9A70120E649EE00A6DD08 /* ReportOptionCell.swift */; };
 		6ACC24BA1D2A5C570064B165 /* GridCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ACC24B91D2A5C570064B165 /* GridCellDrawer.swift */; };
 		6ACC24BB1D2A5C570064B165 /* GridCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ACC24B91D2A5C570064B165 /* GridCellDrawer.swift */; };
 		6ACC24C41D2A90400064B165 /* GridDrawerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ACC24C31D2A90400064B165 /* GridDrawerManager.swift */; };
@@ -2558,14 +2564,15 @@
 		50F0BAA81B28938D00E50A68 /* MainSignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainSignUpViewController.xib; sourceTree = "<group>"; };
 		50F681F11C8F4586001F33A3 /* RxPaginable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxPaginable.swift; sourceTree = "<group>"; };
 		50FEFA1D20469AD6003C51B0 /* ChatBubbleCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubbleCellType.swift; sourceTree = "<group>"; };
+		550F94F220EB91420057DF8A /* ReportSentTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportSentTypes.swift; sourceTree = "<group>"; };
 		5552CC2A0F21B551369C1D20 /* Pods_LetGo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetGo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5569D9A720848CA8004E5468 /* UserPhoneVerificationCodeInputTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhoneVerificationCodeInputTextField.swift; sourceTree = "<group>"; };
 		556E26F5203C3BA70098ECF0 /* UserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
 		556E26F8203C3C940098ECF0 /* UserProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewModel.swift; sourceTree = "<group>"; };
+		55B4F98920EA25F50041544A /* ReportSentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportSentViewController.swift; sourceTree = "<group>"; };
+		55B4F98C20EA26000041544A /* ReportSentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportSentViewModel.swift; sourceTree = "<group>"; };
 		55DFCDD82073790D00AC5E09 /* UserPhoneVerificationNumberInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhoneVerificationNumberInputViewController.swift; sourceTree = "<group>"; };
 		55DFCDDB2073791C00AC5E09 /* UserPhoneVerificationNumberInputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhoneVerificationNumberInputViewModel.swift; sourceTree = "<group>"; };
-		55EF4E5020E6554800B118B7 /* ReportOptionsBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportOptionsBuilder.swift; sourceTree = "<group>"; };
-		55EF4E5120E6554800B118B7 /* ReportOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportOptions.swift; sourceTree = "<group>"; };
 		55F1FB35204942B8005D1BD4 /* UserProfileNavBarUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileNavBarUserView.swift; sourceTree = "<group>"; };
 		55F90B9F203C3E1000D9F7D0 /* UserProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileHeaderView.swift; sourceTree = "<group>"; };
 		55FABE122076288D004B0DBD /* UserPhoneVerificationNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhoneVerificationNavigator.swift; sourceTree = "<group>"; };
@@ -2613,6 +2620,11 @@
 		6A4D1E141C6B824600D2D3B8 /* TourLocationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourLocationViewModel.swift; sourceTree = "<group>"; };
 		6A4E80601C77620900C6423E /* LetgoAvatar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LetgoAvatar.swift; sourceTree = "<group>"; };
 		6A5691521D255D27000B7365 /* ListingCellModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCellModel.swift; sourceTree = "<group>"; };
+		6A572A6720F3592A000E95AD /* ReportOptionsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportOptionsListViewController.swift; sourceTree = "<group>"; };
+		6A572A6820F3592B000E95AD /* ReportOptionsListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportOptionsListViewModel.swift; sourceTree = "<group>"; };
+		6A572A6920F3592B000E95AD /* ReportOptionsBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportOptionsBuilder.swift; sourceTree = "<group>"; };
+		6A572A6A20F3592C000E95AD /* ReportOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportOptions.swift; sourceTree = "<group>"; };
+		6A572A6B20F3592C000E95AD /* ReportOptionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportOptionCell.swift; sourceTree = "<group>"; };
 		6A5E19B71D548F5400F92692 /* ExternalServiceAuthResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExternalServiceAuthResult.swift; sourceTree = "<group>"; };
 		6A5E19B81D548F5400F92692 /* FBLoginHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FBLoginHelper.swift; sourceTree = "<group>"; };
 		6A5E19B91D548F5400F92692 /* FBSDKSharing+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FBSDKSharing+LG.swift"; sourceTree = "<group>"; };
@@ -2647,9 +2659,6 @@
 		6AA32F391CA29CC4003A1677 /* AdminViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdminViewController.swift; sourceTree = "<group>"; };
 		6AA9E909203EC59D004EACC4 /* RatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingView.swift; sourceTree = "<group>"; };
 		6AA9E90B203EC5DC004EACC4 /* UserProfileTabsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileTabsView.swift; sourceTree = "<group>"; };
-		6AB9A6FB20E6499D00A6DD08 /* ReportOptionsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportOptionsListViewController.swift; sourceTree = "<group>"; };
-		6AB9A6FE20E649C400A6DD08 /* ReportOptionsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportOptionsListViewModel.swift; sourceTree = "<group>"; };
-		6AB9A70120E649EE00A6DD08 /* ReportOptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportOptionCell.swift; sourceTree = "<group>"; };
 		6ACC24B91D2A5C570064B165 /* GridCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridCellDrawer.swift; sourceTree = "<group>"; };
 		6ACC24C31D2A90400064B165 /* GridDrawerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridDrawerManager.swift; sourceTree = "<group>"; };
 		6ADACDC61CEDC68A008A5603 /* ChatStickersView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatStickersView.swift; sourceTree = "<group>"; };
@@ -4666,6 +4675,28 @@
 			path = LGEmptyView;
 			sourceTree = "<group>";
 		};
+		55697DFC20ECD8C400B2BD3B /* ReportOptions */ = {
+			isa = PBXGroup;
+			children = (
+				6A572A6B20F3592C000E95AD /* ReportOptionCell.swift */,
+				6A572A6A20F3592C000E95AD /* ReportOptions.swift */,
+				6A572A6920F3592B000E95AD /* ReportOptionsBuilder.swift */,
+				6A572A6720F3592A000E95AD /* ReportOptionsListViewController.swift */,
+				6A572A6820F3592B000E95AD /* ReportOptionsListViewModel.swift */,
+			);
+			path = ReportOptions;
+			sourceTree = "<group>";
+		};
+		55697DFD20ECD8DB00B2BD3B /* ReportSent */ = {
+			isa = PBXGroup;
+			children = (
+				550F94F220EB91420057DF8A /* ReportSentTypes.swift */,
+				55B4F98920EA25F50041544A /* ReportSentViewController.swift */,
+				55B4F98C20EA26000041544A /* ReportSentViewModel.swift */,
+			);
+			path = ReportSent;
+			sourceTree = "<group>";
+		};
 		556E26F4203C3B190098ECF0 /* UserProfile */ = {
 			isa = PBXGroup;
 			children = (
@@ -4693,13 +4724,10 @@
 		55EF4E4320E644D900B118B7 /* Reporting */ = {
 			isa = PBXGroup;
 			children = (
-				6AB9A6FB20E6499D00A6DD08 /* ReportOptionsListViewController.swift */,
-				6AB9A6FE20E649C400A6DD08 /* ReportOptionsListViewModel.swift */,
-				6AB9A70120E649EE00A6DD08 /* ReportOptionCell.swift */,
-				55EF4E5120E6554800B118B7 /* ReportOptions.swift */,
-				55EF4E5020E6554800B118B7 /* ReportOptionsBuilder.swift */,
 				6AF5272820EB799B00810709 /* ReportNavigator.swift */,
 				6AF5272B20EB79A900810709 /* ReportCoordinator.swift */,
+				55697DFD20ECD8DB00B2BD3B /* ReportSent */,
+				55697DFC20ECD8C400B2BD3B /* ReportOptions */,
 			);
 			path = Reporting;
 			sourceTree = "<group>";
@@ -7203,6 +7231,7 @@
 				509CFF351DCCE8DF0068E518 /* CGPoint+LG.swift in Sources */,
 				8E80F70720D938FD005256D9 /* ChatBaseViewModel.swift in Sources */,
 				C707D44A1E96799000042C03 /* TextHiddenTags.swift in Sources */,
+				55B4F98A20EA25F50041544A /* ReportSentViewController.swift in Sources */,
 				427CAB8A206A827300112D58 /* TrendingSearchView.swift in Sources */,
 				50EC64041C64B05500DC04C5 /* LGEmptyView.swift in Sources */,
 				0187407D1FD594B6009C1363 /* BlockingPostingQueuedRequestsViewModel.swift in Sources */,
@@ -7283,6 +7312,7 @@
 				6A5E1A041D548F5400F92692 /* TypeAliases.swift in Sources */,
 				8EF1CDB22010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift in Sources */,
 				50E557BE1E421CF500327B6A /* LoginNavigator.swift in Sources */,
+				55B4F98D20EA26000041544A /* ReportSentViewModel.swift in Sources */,
 				2E4DE8D42062A09E0016D5A8 /* BumpUpBoostViewController.swift in Sources */,
 				018B82F21FFE3B2D00687233 /* MostSearchedItemsListViewModel.swift in Sources */,
 				8EEC7F57206AA60B00616858 /* NativeAdBlankStateView.swift in Sources */,
@@ -7373,6 +7403,7 @@
 				2E75EC531FA89F5B00C5F48F /* AdsRequester.swift in Sources */,
 				C79643111D4F5AFA000C5FCE /* RelatedListingsView.swift in Sources */,
 				5095988D1C8733B70026AE2D /* CrashlyticsReporter.swift in Sources */,
+				6A572A7220F3592D000E95AD /* ReportOptions.swift in Sources */,
 				C7363FBC1BFA449A00A4BF6F /* ListingSortCriteria+LG.swift in Sources */,
 				C6E770AC209CB9E2002CFA99 /* FeedCellDrawer.swift in Sources */,
 				724635B31F2742CD002997D1 /* CategoryHeaderElement.swift in Sources */,
@@ -7389,9 +7420,9 @@
 				2E4BDE721EDD7E6A00CBDC8C /* DistanceBubbleTextGenerator.swift in Sources */,
 				6A8335842057CE2C00171A68 /* UserProfileDummyUserDisclaimerView.swift in Sources */,
 				0A04D5D920760A9D00471B9D /* ABTests.swift in Sources */,
+				6A572A6E20F3592D000E95AD /* ReportOptionsListViewModel.swift in Sources */,
 				729912F5200FABD9000541CF /* NumberOfRooms.swift in Sources */,
 				55F1FB36204942B8005D1BD4 /* UserProfileNavBarUserView.swift in Sources */,
-				55EF4E5420E6554900B118B7 /* ReportOptions.swift in Sources */,
 				6AA9E90A203EC59D004EACC4 /* RatingView.swift in Sources */,
 				8E2600761E2FB16D00242B3F /* ChangeEmailViewController.swift in Sources */,
 				5021910D1B2F1DAA00ABD31F /* RememberPasswordViewController.swift in Sources */,
@@ -7399,6 +7430,7 @@
 				C7363FBA1BFA3E6500A4BF6F /* DistanceType+LG.swift in Sources */,
 				C7B5889E1CE1E025009B3975 /* ChatGroupedListView.swift in Sources */,
 				72D928E41E83EBC10030F4C3 /* LGRatingManager.swift in Sources */,
+				6A572A7420F3592D000E95AD /* ReportOptionCell.swift in Sources */,
 				D412E07F1B4EFF2800683FFD /* ListingListViewModel.swift in Sources */,
 				2E2AB8281C04A2EF0007B8EB /* CrashlyticsTracker.swift in Sources */,
 				8EEC7F56206AA60B00616858 /* MoPubNativeView.swift in Sources */,
@@ -7490,6 +7522,7 @@
 				8E85EA261FD0539700A24ADE /* Data+Extensions.swift in Sources */,
 				6A4E80611C77620900C6423E /* LetgoAvatar.swift in Sources */,
 				0A04D5CF20760A9D00471B9D /* ABDynamicVar.swift in Sources */,
+				6A572A6C20F3592D000E95AD /* ReportOptionsListViewController.swift in Sources */,
 				725BD5562077C37E00563926 /* VerticalsABGroup.swift in Sources */,
 				50FEFA1E20469AD6003C51B0 /* ChatBubbleCellType.swift in Sources */,
 				C7B588831CE1DFA6009B3975 /* ChatMyMessageCellDrawer.swift in Sources */,
@@ -7527,7 +7560,6 @@
 				C7B5885F1CE1DE1C009B3975 /* RelationInfoView.swift in Sources */,
 				C749C78D1C10830600F7118E /* CellDrawer.swift in Sources */,
 				C6C8936D20C6E8B70069197C /* MultiListingPostedListingCell.swift in Sources */,
-				6AB9A6FF20E649C400A6DD08 /* ReportOptionsListViewModel.swift in Sources */,
 				421CB34B207BBE5E006BF8A4 /* Collection+Safe.swift in Sources */,
 				8E0EEFBC2056E2AA000C07C9 /* MLPostingOnboardingView.swift in Sources */,
 				6A879D9F1C8D89A400E0C868 /* PushPrePermissionsSettingsViewController.swift in Sources */,
@@ -7544,7 +7576,6 @@
 				50C63B761DC3B63700836D85 /* ShareType.swift in Sources */,
 				0A48B2521FD9A1B300C7F163 /* Bounceable.swift in Sources */,
 				72CD80D0203469FB0042E1E0 /* LGTutorialViewController.swift in Sources */,
-				6AB9A70220E649EE00A6DD08 /* ReportOptionCell.swift in Sources */,
 				C79895C81DE4349900DD58BF /* SessionEvent+LG.swift in Sources */,
 				F51A08322031B55E0008D744 /* LGSize+CGSize.swift in Sources */,
 				72A83F641DD222100043EB3B /* Leanplum+LG.swift in Sources */,
@@ -7757,6 +7788,7 @@
 				2E4A94EE1E4C8D4200218916 /* ShowFeaturedStripeHelper.swift in Sources */,
 				2E92CBFA20248DC600451B65 /* MeetingAssistantNavigator.swift in Sources */,
 				6A12E0551C6398A400C1BFE3 /* TourNotificationsViewModel.swift in Sources */,
+				6A572A7020F3592D000E95AD /* ReportOptionsBuilder.swift in Sources */,
 				C7DE8AC71C888761005CF37E /* EditListingViewController.swift in Sources */,
 				6ADACDC71CEDC68A008A5603 /* ChatStickersView.swift in Sources */,
 				55FABE1C2076344F004B0DBD /* UserPhoneVerificationCountryPickerViewController.swift in Sources */,
@@ -7775,6 +7807,7 @@
 				C6687F3A20C83A2C008C1922 /* MultiListingPostedIncentivisorCell.swift in Sources */,
 				502191101B2F1DC100ABD31F /* RememberPasswordViewModel.swift in Sources */,
 				F5A836AB1FD1AE32009E636D /* ListingAttributePickerViewController.swift in Sources */,
+				550F94F320EB91420057DF8A /* ReportSentTypes.swift in Sources */,
 				72C99E9C1DED7417006361C1 /* ChangePasswordCoordinator.swift in Sources */,
 				C7415ED61DE880BD0003D6C1 /* SimpleListingsViewController.swift in Sources */,
 				0A4AD7FA203DD9B8002625B7 /* UILayoutPriority.swift in Sources */,
@@ -7887,7 +7920,6 @@
 				5011938E20C553FE00FA7C20 /* AnalyticsSessionData.swift in Sources */,
 				8E28A82A207B85C70070A7A6 /* GoogleAdxNativeView.swift in Sources */,
 				C788EED71CC7847400B9E26F /* FilteredListingListRequester.swift in Sources */,
-				6AB9A6FC20E6499D00A6DD08 /* ReportOptionsListViewController.swift in Sources */,
 				509273361B172D5B00A346F9 /* PushManager.swift in Sources */,
 				3299E5E8207FB7AB002935AE /* WaterfallLayoutItemRenderPolicy.swift in Sources */,
 				0A31CF621FA1EBEB00FE84E0 /* ListingDeckViewModelBinder.swift in Sources */,
@@ -7941,7 +7973,6 @@
 				2E64D41A1D11B34F00257B69 /* Tooltip.swift in Sources */,
 				0AFE311F2056DCAB004B6781 /* ListingDeckImagePreviewCell.swift in Sources */,
 				0AA6A5671FFFBCD600F72F4A /* LGCGAffineTransform.swift in Sources */,
-				55EF4E5220E6554900B118B7 /* ReportOptionsBuilder.swift in Sources */,
 				42CA899920973F7300CE7B5B /* ListingsMapViewController.swift in Sources */,
 				01834970204F6A9F00B14A24 /* BlockingPostingListingEditionViewModel.swift in Sources */,
 				0A6650DC20BBF51500BD1F2B /* EditLocationView.swift in Sources */,
@@ -8026,6 +8057,7 @@
 				C7B5886A1CE1DE1C009B3975 /* ChatGroupedViewController.swift in Sources */,
 				8E80F70820D938FD005256D9 /* ChatBaseViewModel.swift in Sources */,
 				50146BDA1D4F90E500B0F635 /* ChatsTabNavigator.swift in Sources */,
+				55B4F98B20EA25F50041544A /* ReportSentViewController.swift in Sources */,
 				C7C328421C907267008078EC /* PostListingGalleryViewModel.swift in Sources */,
 				C707D44B1E96799000042C03 /* TextHiddenTags.swift in Sources */,
 				50EC64051C64B05500DC04C5 /* LGEmptyView.swift in Sources */,
@@ -8106,6 +8138,7 @@
 				C7732F761D8842B800EAD5B7 /* OnboardingNavigator.swift in Sources */,
 				8EF1CDB32010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift in Sources */,
 				C7DB41AA1C5138B500400945 /* MainListingsViewModel.swift in Sources */,
+				55B4F98E20EA26000041544A /* ReportSentViewModel.swift in Sources */,
 				018B82F41FFE3B6A00687233 /* MostSearchedItemsListViewModel.swift in Sources */,
 				8EEC7F5E206AA62D00616858 /* NativeAdBlankStateView.swift in Sources */,
 				50E557BF1E421CF500327B6A /* LoginNavigator.swift in Sources */,
@@ -8196,6 +8229,7 @@
 				C727944A1D54944E009C25AB /* SettingsViewModel.swift in Sources */,
 				326C72D7208882EB009D21DB /* WaterFallLayoutDelegates.swift in Sources */,
 				2E75EC541FA89F5B00C5F48F /* AdsRequester.swift in Sources */,
+				6A572A7320F3592D000E95AD /* ReportOptions.swift in Sources */,
 				0183496B204F573100B14A24 /* ListingEditionParams+LG.swift in Sources */,
 				6A5E1A1D1D548F5400F92692 /* UIViewController+LG.swift in Sources */,
 				6A5E1A171D548F5400F92692 /* UITextField+LG.swift in Sources */,
@@ -8212,9 +8246,9 @@
 				C727FBC41CCFC545002BC643 /* NotificationsViewModel.swift in Sources */,
 				328E8E3020C03A5E00BBF639 /* EmptyViewModelBuilder.swift in Sources */,
 				2E4ADECC200516A600D07D8A /* ProfessionalDealerAskPhoneViewController.swift in Sources */,
+				6A572A6F20F3592D000E95AD /* ReportOptionsListViewModel.swift in Sources */,
 				C7AFFAFB1E7053EF0052A9CA /* NPSViewController.swift in Sources */,
 				5095988E1C8733B70026AE2D /* CrashlyticsReporter.swift in Sources */,
-				55EF4E5520E6554900B118B7 /* ReportOptions.swift in Sources */,
 				2E2A5E161D5C81250047ED45 /* ExpressChatCoordinator.swift in Sources */,
 				0A04D5DA20760A9D00471B9D /* ABTests.swift in Sources */,
 				729912F6200FABD9000541CF /* NumberOfRooms.swift in Sources */,
@@ -8222,6 +8256,7 @@
 				2E4BDE731EDD7E6A00CBDC8C /* DistanceBubbleTextGenerator.swift in Sources */,
 				55F1FB37204942B8005D1BD4 /* UserProfileNavBarUserView.swift in Sources */,
 				6AA9E90D203EDCB2004EACC4 /* RatingView.swift in Sources */,
+				6A572A7520F3592D000E95AD /* ReportOptionCell.swift in Sources */,
 				8E2600771E2FB16D00242B3F /* ChangeEmailViewController.swift in Sources */,
 				C7DB41C91C5138B500400945 /* ListingSortCriteria+LG.swift in Sources */,
 				C730FD0F1E76F93000175C27 /* CacheManager.swift in Sources */,
@@ -8313,6 +8348,7 @@
 				328E8E1A20B6EF4300BBF639 /* RequesterFactory.swift in Sources */,
 				C2E85E8920736B9A0009F3B0 /* Camera.swift in Sources */,
 				0AC264E21F94B6A800666BA6 /* EditListingCoordinator.swift in Sources */,
+				6A572A6D20F3592D000E95AD /* ReportOptionsListViewController.swift in Sources */,
 				C7DB41E51C5138B500400945 /* FilterTagsView.swift in Sources */,
 				0A04D5D020760A9D00471B9D /* ABDynamicVar.swift in Sources */,
 				725BD5572077C37E00563926 /* VerticalsABGroup.swift in Sources */,
@@ -8350,7 +8386,6 @@
 				2EBC92131E0ABC4A007F0F82 /* PurchaseableProduct.swift in Sources */,
 				C7E73E8E1CD20A49000F2591 /* ViewState.swift in Sources */,
 				421CB34C207BBE5E006BF8A4 /* Collection+Safe.swift in Sources */,
-				6AB9A70020E649C400A6DD08 /* ReportOptionsListViewModel.swift in Sources */,
 				C6C8936E20C6E8B70069197C /* MultiListingPostedListingCell.swift in Sources */,
 				C7DB41F31C5138B500400945 /* BaseCellDrawer.swift in Sources */,
 				C7111F001CA4389C000C5C5A /* PushNotification.swift in Sources */,
@@ -8367,7 +8402,6 @@
 				8E28A82E207BC5E70070A7A6 /* AdvertisementAdxCellDrawer.swift in Sources */,
 				72C7A1C41FA73AC80089F175 /* ListingPrice+LG.swift in Sources */,
 				6A879DA01C8D89A400E0C868 /* PushPrePermissionsSettingsViewController.swift in Sources */,
-				6AB9A70320E649EE00A6DD08 /* ReportOptionCell.swift in Sources */,
 				0187407B1FD59391009C1363 /* BlockingPostingQueuedRequestsViewController.swift in Sources */,
 				C7D23FE21DCC96BA00931803 /* CarouselUIHelper.swift in Sources */,
 				2ECB417220065FB200482EF7 /* FeaturedInfoViewController.swift in Sources */,
@@ -8580,6 +8614,7 @@
 				C2636F6F208B7A9600534D01 /* PreSignedUploadUrlForm+LG.swift in Sources */,
 				2E4C60A61DDF61B300595490 /* ChatBanner.swift in Sources */,
 				C7DE8AC81C888761005CF37E /* EditListingViewController.swift in Sources */,
+				6A572A7120F3592D000E95AD /* ReportOptionsBuilder.swift in Sources */,
 				55FABE1D2076344F004B0DBD /* UserPhoneVerificationCountryPickerViewController.swift in Sources */,
 				6A38A9AD2077610400F3B292 /* UserVerificationViewModel.swift in Sources */,
 				6ADACDC81CEDC68A008A5603 /* ChatStickersView.swift in Sources */,
@@ -8598,6 +8633,7 @@
 				2E9716AF1D5B2C59009B3A32 /* ChatWrapper.swift in Sources */,
 				C75018491D10681B007D4CE4 /* ChatOtherInfoCell.swift in Sources */,
 				F5A836AE1FD1BA11009E636D /* ListingAttributePickerViewController.swift in Sources */,
+				550F94F420EB91420057DF8A /* ReportSentTypes.swift in Sources */,
 				0A4AD7FB203DDACA002625B7 /* UILayoutPriority.swift in Sources */,
 				326C72D32088820F009D21DB /* WaterFallLayout.swift in Sources */,
 				C7DB421B1C5138B500400945 /* FilterHeaderCell.swift in Sources */,
@@ -8710,7 +8746,6 @@
 				5011938F20C553FE00FA7C20 /* AnalyticsSessionData.swift in Sources */,
 				6AF75D051CF3600D00EACCF0 /* ChatStickerCell.swift in Sources */,
 				C7DB42261C5138B500400945 /* TabBarController.swift in Sources */,
-				6AB9A6FD20E6499D00A6DD08 /* ReportOptionsListViewController.swift in Sources */,
 				0A31CF631FA1ECCE00FE84E0 /* ListingDeckViewModelBinder.swift in Sources */,
 				0A04D5E12076175D00471B9D /* UsersABGroup.swift in Sources */,
 				724D77AF1FC709DE00DB43C0 /* ListingCreationViewModel.swift in Sources */,
@@ -8764,7 +8799,6 @@
 				0AFE31202056DCAB004B6781 /* ListingDeckImagePreviewCell.swift in Sources */,
 				0AA6A5681FFFBE7B00F72F4A /* LGCGAffineTransform.swift in Sources */,
 				4287173E20655DB500EE334C /* LGNavBarMetrics.swift in Sources */,
-				55EF4E5320E6554900B118B7 /* ReportOptionsBuilder.swift in Sources */,
 				42CA899A20973F7300CE7B5B /* ListingsMapViewController.swift in Sources */,
 				01834971204F6A9F00B14A24 /* BlockingPostingListingEditionViewModel.swift in Sources */,
 				0A6650DD20BBF51800BD1F2B /* EditLocationView.swift in Sources */,
