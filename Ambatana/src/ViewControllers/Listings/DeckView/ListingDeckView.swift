@@ -108,6 +108,11 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
         itemActionsView.backgroundColor = ListingDeckView.actionsViewBackgroundColor
     }
 
+    func moveToPage(_ page: Int) {
+        let offset = collectionLayout.anchorOffsetForPage(page)
+        collectionView.setContentOffset(offset, animated: true)
+    }
+
     func normalizedPageOffset(givenOffset: CGFloat) -> CGFloat {
         return collectionLayout.normalizedPageOffset(givenOffset: givenOffset)
     }

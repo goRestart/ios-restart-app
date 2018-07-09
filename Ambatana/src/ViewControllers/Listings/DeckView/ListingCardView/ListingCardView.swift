@@ -4,19 +4,25 @@ import RxSwift
 import LGCoreKit
 import LGComponents
 
+enum CardViewTapLocation {
+    case right, left, bottom
+}
+
 protocol ListingCardViewDelegate: class {
     func cardViewDidTapOnStatusView(_ cardView: ListingCardView)
     func cardViewDidTapOnReputationTooltip(_ cardView: ListingCardView)
+    func cardViewDidTapOn(_ cardView: ListingCardView, location: CardViewTapLocation)
 }
 
 final class ListingCardView: UICollectionViewCell, ReusableCell {
     weak var delegate: ListingCardViewDelegate?
+    private let cardTapGesture = UITapGestureRecognizer()
 
     private var reputationTooltip: LetgoTooltip?
     private let binder = ListingCardViewBinder()
 
     private let statusView = ProductStatusView()
-    private var statusTapGesture: UITapGestureRecognizer?
+    private let statusTapGesture = UITapGestureRecognizer()
 
     private let previewImageView: UIImageView = {
         let imageView = UIImageView()
@@ -74,7 +80,7 @@ final class ListingCardView: UICollectionViewCell, ReusableCell {
             statusView.isHidden = true
             return
         }
-        statusTapGesture?.isEnabled = featured
+        statusTapGesture.isEnabled = featured
         let statusVisible = featured || listingStatus.shouldShowStatus
         statusView.isHidden = !statusVisible
         statusView.setFeaturedStatus(listingStatus, featured: featured)
@@ -100,16 +106,30 @@ final class ListingCardView: UICollectionViewCell, ReusableCell {
             statusView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
         ])
         setupStatusView()
+        setupTapGesture()
 
         backgroundColor = .clear
         contentView.clipsToBounds = true
         contentView.backgroundColor = .white
     }
 
+    private func setupTapGesture() {
+        contentView.addGestureRecognizer(cardTapGesture)
+        cardTapGesture.addTarget(self, action: #selector(didTapCard))
+    }
+
+    @objc private func didTapCard(_ gesture: UITapGestureRecognizer) {
+        let location = gesture.location(in: contentView)
+        let isLeft = location.x / contentView.width < 0.5
+
+        delegate?.cardViewDidTapOn(self, location: isLeft ? .left : .right)
+
+        // TODO: Check more info when we have it implemented
+    }
+
     private func setupStatusView() {
-        let statusTap = UITapGestureRecognizer(target: self, action: #selector(touchUpStatusView))
-        statusView.addGestureRecognizer(statusTap)
-        statusTapGesture = statusTap
+        statusTapGesture.addTarget(self, action: #selector(touchUpStatusView))
+        statusView.addGestureRecognizer(statusTapGesture)
         statusView.isHidden = true
     }
 
