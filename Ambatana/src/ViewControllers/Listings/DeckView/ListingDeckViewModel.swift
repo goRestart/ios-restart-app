@@ -397,10 +397,6 @@ final class ListingDeckViewModel: BaseViewModel {
         listingTracker.trackOpenFeaturedInfo(listing)
     }
 
-    func didTapReputationTooltip() {
-        navigator?.openUserVerificationView()
-    }
-
     func close() {
         if shouldShowDeckOnBoarding {
             showOnBoarding()

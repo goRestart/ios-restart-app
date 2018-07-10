@@ -10,7 +10,6 @@ enum CardViewTapLocation {
 
 protocol ListingCardViewDelegate: class {
     func cardViewDidTapOnStatusView(_ cardView: ListingCardView)
-    func cardViewDidTapOnReputationTooltip(_ cardView: ListingCardView)
     func cardViewDidTapOn(_ cardView: ListingCardView, location: CardViewTapLocation)
 }
 
@@ -18,7 +17,6 @@ final class ListingCardView: UICollectionViewCell, ReusableCell {
     weak var delegate: ListingCardViewDelegate?
     private let cardTapGesture = UITapGestureRecognizer()
 
-    private var reputationTooltip: LetgoTooltip?
     private let binder = ListingCardViewBinder()
 
     private let statusView = ProductStatusView()
@@ -144,29 +142,5 @@ final class ListingCardView: UICollectionViewCell, ReusableCell {
         super.apply(layoutAttributes)
         contentView.layer.cornerRadius = Metrics.margin
         previewImageView.layer.cornerRadius = Metrics.margin
-    }
-}
-extension ListingCardView: LetgoTooltipDelegate {
-    func showReputationTooltip() {
-        // TODO: See if this still makes sense
-//        guard reputationTooltip == nil else { return }
-//        let tooltip = LetgoTooltip()
-//        addSubviewForAutoLayout(tooltip)
-//        tooltip.setupWith(peakOnTop: false, peakOffsetFromLeft: 40,
-//                          message: R.Strings.profileReputationTooltipTitle)
-//        tooltip.leftAnchor.constraint(equalTo: userView.leftAnchor, constant: Metrics.veryShortMargin).isActive = true
-//        tooltip.bottomAnchor.constraint(equalTo: userView.topAnchor, constant: Metrics.veryBigMargin).isActive = true
-//        tooltip.delegate = self
-//        reputationTooltip = tooltip
-    }
-
-    func hideReputationTooltip() {
-        reputationTooltip?.removeFromSuperview()
-        reputationTooltip = nil
-    }
-
-    func didTapTooltip() {
-        hideReputationTooltip()
-        delegate?.cardViewDidTapOnReputationTooltip(self)
     }
 }

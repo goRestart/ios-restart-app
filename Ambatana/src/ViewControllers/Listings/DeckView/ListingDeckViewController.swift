@@ -367,10 +367,6 @@ extension ListingDeckViewController: ListingCardViewDelegate, ListingDeckCollect
         viewModel.didTapStatusView()
     }
 
-    func cardViewDidTapOnReputationTooltip(_ cardView: ListingCardView) {
-        viewModel.didTapReputationTooltip()
-    }
-
     private func currentPageCell() -> ListingCardView? {
         return listingDeckView.cardAtIndex(viewModel.currentIndex)
     }
