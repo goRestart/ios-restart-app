@@ -360,19 +360,37 @@ struct ListingFilters {
     }
     
     var hasAnyRealEstateAttributes: Bool {
-        return !realEstateOfferTypes.isEmpty || realEstatePropertyType != nil || realEstateNumberOfBathrooms != nil
-            || realEstateNumberOfBedrooms != nil || realEstateNumberOfRooms != nil || realEstateSizeRange != SizeRange(min: nil, max: nil)
+        return checkIfAnyAttributesAreSet(forAttributes: [realEstateOfferTypes, realEstatePropertyType,
+                                                          realEstateNumberOfBathrooms, realEstateNumberOfBedrooms, realEstateNumberOfRooms],
+                                          initialValue: realEstateSizeRange != SizeRange(min: nil, max: nil))
     }
     
     var hasAnyCarAttributes: Bool {
-        return carMakeId != nil || carMakeId != nil || carYearStart != nil || carYearEnd != nil || carBodyTypes.count > 0 || carDriveTrainTypes.count > 0 ||
-            carFuelTypes.count > 0 || carTransmissionTypes.count > 0 ||
-            carMileageStart != nil || carMileageEnd != nil ||
-            carNumberOfSeatsStart != nil || carNumberOfSeatsEnd != nil
+        return checkIfAnyAttributesAreSet(forAttributes: [carMakeId, carModelId,
+                                                          carYearStart, carYearEnd,
+                                                          carMileageStart, carMileageEnd,
+                                                          carNumberOfSeatsStart, carNumberOfSeatsEnd,
+                                                          carBodyTypes, carDriveTrainTypes,
+                                                          carFuelTypes, carTransmissionTypes,
+                                                          carSellerTypes])
     }
     
     var hasAnyServicesAttributes: Bool {
-        return servicesType != nil || servicesSubtypes != nil
+        return checkIfAnyAttributesAreSet(forAttributes: [servicesType, servicesSubtypes])
+    }
+    
+    func checkIfAnyAttributesAreSet(forAttributes attributes: [Any?],
+                                    initialValue: Bool = false) -> Bool {
+        return attributes.reduce(initialValue, { (res, next) -> Bool in
+            guard let next = next else {
+                return res
+            }
+            
+            if let nextArray = next as? [Any] {
+                return nextArray.count > 0 ? true : res
+            }
+            return true
+        })
     }
 
     func isDefault() -> Bool {

@@ -1371,6 +1371,7 @@
 		C6FFC47420F49A9F00B9F53A /* NumberFormatter+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FFC47320F49A9F00B9F53A /* NumberFormatter+LG.swift */; };
 		C6FFC47520F49A9F00B9F53A /* NumberFormatter+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FFC47320F49A9F00B9F53A /* NumberFormatter+LG.swift */; };
 		C6FFC47720F49C5500B9F53A /* NumberFormatter+LGSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FFC47620F49C5500B9F53A /* NumberFormatter+LGSpec.swift */; };
+		C6FFC47920F4DEFB00B9F53A /* ListingFiltersSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FFC47820F4DEFB00B9F53A /* ListingFiltersSpec.swift */; };
 		C703BDFE1C7F1AF900EC8EF2 /* EditLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C703BDFB1C7F1AF900EC8EF2 /* EditLocationViewController.swift */; };
 		C703BDFF1C7F1AF900EC8EF2 /* EditLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C703BDFB1C7F1AF900EC8EF2 /* EditLocationViewController.swift */; };
 		C703BE021C7F1AF900EC8EF2 /* EditLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C703BDFD1C7F1AF900EC8EF2 /* EditLocationViewModel.swift */; };
@@ -2789,6 +2790,7 @@
 		C6E770B720A073DB002CFA99 /* FeedSectionMapCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedSectionMapCollection.swift; sourceTree = "<group>"; };
 		C6FFC47320F49A9F00B9F53A /* NumberFormatter+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NumberFormatter+LG.swift"; sourceTree = "<group>"; };
 		C6FFC47620F49C5500B9F53A /* NumberFormatter+LGSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NumberFormatter+LGSpec.swift"; sourceTree = "<group>"; };
+		C6FFC47820F4DEFB00B9F53A /* ListingFiltersSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingFiltersSpec.swift; sourceTree = "<group>"; };
 		C703BDFB1C7F1AF900EC8EF2 /* EditLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditLocationViewController.swift; sourceTree = "<group>"; };
 		C703BDFD1C7F1AF900EC8EF2 /* EditLocationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditLocationViewModel.swift; sourceTree = "<group>"; };
 		C707D4491E96799000042C03 /* TextHiddenTags.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextHiddenTags.swift; sourceTree = "<group>"; };
@@ -4511,6 +4513,7 @@
 				50D08D8E1E69AF14009CC260 /* LocalUserSpec.swift */,
 				012B73E51F54216600068537 /* QuickAnswerSpec.swift */,
 				425BB9FA20888CF500FE9BB8 /* UserType+LGSpec.swift */,
+				C6FFC47820F4DEFB00B9F53A /* ListingFiltersSpec.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -7015,6 +7018,7 @@
 				50D08DD71E69AF14009CC260 /* PostIncentiviserItemSpec.swift in Sources */,
 				5020471E1EEA956C006C0EC2 /* FeatureFlagsSpec.swift in Sources */,
 				5011939120C6990D00FA7C20 /* AnalyticsSessionDataSpec.swift in Sources */,
+				C6FFC47920F4DEFB00B9F53A /* ListingFiltersSpec.swift in Sources */,
 				727463B81FB1E96600AD8261 /* ListingCreationParams+LGSpec.swift in Sources */,
 				42F64F8220AB1A4100CF97AD /* MockListingFilters.swift in Sources */,
 				50D08DBC1E69AF14009CC260 /* MockPurchaseableProductsRequest.swift in Sources */,
