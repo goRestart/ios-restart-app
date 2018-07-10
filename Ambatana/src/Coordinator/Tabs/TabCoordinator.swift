@@ -792,6 +792,19 @@ extension TabCoordinator: ListingDetailNavigator {
                                                        style: .dark)
         }
     }
+    
+    
+    func openListingAttributeTable(withViewModel viewModel: ListingAttributeTableViewModel) {
+        let viewController = ListingAttributeTableViewController(withViewModel: viewModel)
+        rootViewController.present(viewController,
+                                   animated: true,
+                                   completion: nil)
+    }
+    
+    func closeListingAttributeTable() {
+        rootViewController.dismiss(animated: true,
+                                   completion: nil)
+    }
 }
 
 

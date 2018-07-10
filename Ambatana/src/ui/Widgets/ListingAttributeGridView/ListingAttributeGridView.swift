@@ -8,50 +8,57 @@ protocol ListingAttributeGridViewDelegate: class {
 final class ListingAttributeGridView: UIView {
     
     private struct Layout {
+        static let defaultTheme: ListingAttributeGridTheme = .light
         static let interItemSpacing: CGFloat = 15.0
         static let lineSpacing: CGFloat = 15.0
+        static let cellWidthMultiplier: CGFloat = 0.9
         static let defaultItemsPerRow: Int = 4
+        static let defaultLayoutBehaviour = ListingAttributeGridLayoutBehaviour.growVertically(maxItemsPerRow: defaultItemsPerRow)
     }
     
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        
         layout.minimumInteritemSpacing = Layout.interItemSpacing
         layout.minimumLineSpacing = Layout.lineSpacing
 
         let collectionView = UICollectionView(frame: .zero,
                                               collectionViewLayout: layout)
-        collectionView.isScrollEnabled = false
         collectionView.backgroundColor = .clear
-        collectionView.allowsSelection = true
-        collectionView.allowsMultipleSelection = true
+        collectionView.showsHorizontalScrollIndicator = false
         return collectionView
     }()
     
-    private let itemsPerRow: Int
+    private let theme: ListingAttributeGridTheme
+    private let layoutBehaviour: ListingAttributeGridLayoutBehaviour
+    private let selectionEnabled: Bool
     private var items: [ListingAttributeGridItem]
     
     weak var delegate: ListingAttributeGridViewDelegate?
     
     override convenience init(frame: CGRect) {
         self.init(frame: frame,
-                  itemsPerRow: Layout.defaultItemsPerRow,
-                  items: [])
+                  layoutBehaviour: Layout.defaultLayoutBehaviour,
+                  theme: Layout.defaultTheme,
+                  items: [],
+                  selectionEnabled: true)
     }
     
     init(frame: CGRect,
-         itemsPerRow: Int,
-         items: [ListingAttributeGridItem]) {
-        self.itemsPerRow = itemsPerRow
+         layoutBehaviour: ListingAttributeGridLayoutBehaviour,
+         theme: ListingAttributeGridTheme,
+         items: [ListingAttributeGridItem],
+         selectionEnabled: Bool) {
+        self.layoutBehaviour = layoutBehaviour
+        self.theme = theme
         self.items = items
+        self.selectionEnabled = selectionEnabled
         super.init(frame: frame)
         setupUI()
         setupConstraints()
     }
     
     func setup(withItems items: [ListingAttributeGridItem],
-               selectedItems: [ListingAttributeGridItem]) {
+               selectedItems: [ListingAttributeGridItem] = []) {
         self.items = items
         collectionView.reloadData()
         applySelectedItems(selectedItems: selectedItems)
@@ -64,7 +71,7 @@ final class ListingAttributeGridView: UIView {
     private func applySelectedItems(selectedItems: [ListingAttributeGridItem]) {
         let indexes = selectedItems.map({ selectedItem in
             return items.index(where: { $0.value == selectedItem.value })
-        }).flatMap( { $0 } )
+        }).compactMap( { $0 } )
             .map( { IndexPath(item: $0, section: 0) } )
         
         for index in indexes {
@@ -75,7 +82,7 @@ final class ListingAttributeGridView: UIView {
     }
     
     private func setupUI() {
-        backgroundColor = .white
+        backgroundColor = theme.backgroundColor
         setupCollectionView()
     }
     
@@ -83,6 +90,19 @@ final class ListingAttributeGridView: UIView {
         collectionView.register(type: ListingAttributeGridViewItemCell.self)
         collectionView.dataSource = self
         collectionView.delegate = self
+        
+        switch layoutBehaviour {
+        case .growVertically:
+            (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.scrollDirection = .vertical
+            collectionView.isScrollEnabled = false
+        case .horizontalScroll:
+            (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.scrollDirection = .horizontal
+            collectionView.isScrollEnabled = true
+            collectionView.alwaysBounceHorizontal = true
+        }
+        
+        collectionView.allowsSelection = selectionEnabled
+        collectionView.allowsMultipleSelection = selectionEnabled
     }
     
     private func setupConstraints() {
@@ -92,7 +112,7 @@ final class ListingAttributeGridView: UIView {
             .fillVertical()
             .fillHorizontal()
     }
-    
+
     static func height(forItemCount itemCount: Int,
                        maxItemsPerRow: Int = Layout.defaultItemsPerRow,
                        inContainerWidth containerWidth: CGFloat) -> CGFloat {
@@ -127,6 +147,7 @@ extension ListingAttributeGridView: UICollectionViewDataSource {
             .contains(where: { $0 == indexPath }) ?? false
         
         cell.setup(withItem: item,
+                   theme: theme,
                    isSelected: isSelected)
         return cell
     }
@@ -143,6 +164,7 @@ extension ListingAttributeGridView: UICollectionViewDelegate {
             let item = items[safeAt: indexPath.row] else { return }
         delegate?.didSelect(item: item)
         cell.updateSelectedState(isSelected: true,
+                                 theme: theme,
                                  performSelectionAnimation: true)
     }
     
@@ -151,7 +173,8 @@ extension ListingAttributeGridView: UICollectionViewDelegate {
         guard let cell = collectionView.cellForItem(at: indexPath) as? ListingAttributeGridViewItemCell,
             let item = items[safeAt: indexPath.row] else { return }
         delegate?.didDeselect(item: item)
-        cell.updateSelectedState(isSelected: false)
+        cell.updateSelectedState(isSelected: false,
+                                 theme: theme)
     }
 }
 
@@ -163,8 +186,15 @@ extension ListingAttributeGridView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return ListingAttributeGridView.cellSize(forContainerWidth: collectionView.width,
-                                                 withItemsPerRow: itemsPerRow)
+        
+        switch layoutBehaviour {
+        case .growVertically(let maxItemsPerRow):
+            return ListingAttributeGridView.cellSize(forContainerWidth: collectionView.width,
+                                                     withItemsPerRow: maxItemsPerRow)
+        case .horizontalScroll:
+            return ListingAttributeGridView.cellSize(forContainerHeight: collectionView.height)
+        }
+
     }
     
     private static func cellSize(forContainerWidth containerWidth: CGFloat,
@@ -173,5 +203,10 @@ extension ListingAttributeGridView: UICollectionViewDelegateFlowLayout {
         let width = (containerWidth-totalInterItemSpacings)/CGFloat(itemsPerRow)
         return CGSize(width: width,
                       height: width)
+    }
+    
+    private static func cellSize(forContainerHeight containerHeight: CGFloat) -> CGSize {
+        return CGSize(width: containerHeight*Layout.cellWidthMultiplier,
+                      height: containerHeight)
     }
 }

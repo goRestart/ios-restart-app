@@ -213,6 +213,10 @@ class ListingCarouselViewModel: BaseViewModel {
     var meetingsEnabled: Bool {
         return featureFlags.chatNorris.isActive
     }
+    
+    var extraFieldsGridEnabled: Bool {
+        return featureFlags.carExtraFieldsEnabled.isActive
+    }
 
     // MARK: - Init
 
@@ -384,6 +388,12 @@ class ListingCarouselViewModel: BaseViewModel {
     func thumbnailAtIndex(_ index: Int) -> UIImage? {
         if index == startIndex { return initialThumbnail }
         return nil
+    }
+    
+    func listingAttributeGridTapped(forItems items: [ListingAttributeGridItem]) {
+        let viewModel = ListingAttributeTableViewModel(withItems: items)
+        viewModel.navigator = navigator
+        navigator?.openListingAttributeTable(withViewModel: viewModel)
     }
 
     func userAvatarPressed() {

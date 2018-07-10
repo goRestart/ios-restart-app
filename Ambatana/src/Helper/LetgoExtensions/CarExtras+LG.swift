@@ -7,6 +7,10 @@ extension CarBodyType: ListingAttributeGridItem {
         return [.sedan, .hybrid, .convertible, .truck, .coupe, .hatchback, .minivan, .wagon, .suv, .others]
     }
     
+    var typeName: String {
+        return R.Strings.filtersCarsBodytypeTitle
+    }
+    
     var title: String {
         switch self {
         case .coupe:
@@ -68,6 +72,10 @@ extension CarDriveTrainType: ListingAttributeGridItem {
         return [.awd, .rwd, .fourWd, .fwd]
     }
     
+    var typeName: String {
+        return R.Strings.filtersCarsDrivetrainTitle
+    }
+    
     var title: String {
         switch self {
         case .awd:
@@ -104,6 +112,10 @@ extension CarFuelType: ListingAttributeGridItem {
     
     static var allCases: [CarFuelType] {
         return [.electric, .gas, .diesel, .flex, .hybrid]
+    }
+    
+    var typeName: String {
+        return R.Strings.filtersCarsFueltypeTitle
     }
     
     var title: String {
@@ -147,6 +159,10 @@ extension CarTransmissionType: ListingAttributeGridItem {
         return [.manual, .automatic]
     }
     
+    var typeName: String {
+        return R.Strings.filtersCarsTransmissionTitle
+    }
+    
     var title: String {
         switch self {
         case .manual:
@@ -171,10 +187,15 @@ extension CarTransmissionType: ListingAttributeGridItem {
 }
 
 enum CarSeat: Int, ListingAttributeGridItem {
+    
     case one = 1 , two, three, four, five, six, seven, eight, nine
     
     static var allCases: [CarSeat] {
         return [.one, .two, .three, .four, .five, .six, .seven, .eight, .nine]
+    }
+    
+    var typeName: String {
+        return R.Strings.filterCarsSeatsTitle
     }
     
     var title: String {
