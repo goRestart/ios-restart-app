@@ -299,5 +299,11 @@
         "name": "AppInstallAdsInFeed",
         "values": ["control", "baseline", "active"],
         "description": "Show App Install Ads from Google Adx in feed"
+    },
+    {
+        "name": "SearchAlertsInSearchSuggestions",
+        "values": ["control", "baseline", "active"],
+        "description": "Show search alerts in search suggestions view"
     }
+
  ]

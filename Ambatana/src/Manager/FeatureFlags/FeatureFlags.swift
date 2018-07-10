@@ -106,6 +106,7 @@ protocol FeatureFlaggeable: class {
     var onboardingIncentivizePosting: OnboardingIncentivizePosting { get }
     var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed { get }
     var notificationSettings: NotificationSettings { get }
+    var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions { get }
 }
 
 extension FeatureFlaggeable {
@@ -724,6 +725,14 @@ final class FeatureFlags: FeatureFlaggeable {
         }
         return NotificationSettings.fromPosition(abTests.notificationSettings.value)
     }
+    
+    var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions {
+        if Bumper.enabled {
+            return Bumper.searchAlertsInSearchSuggestions
+        }
+        return SearchAlertsInSearchSuggestions.fromPosition(abTests.searchAlertsInSearchSuggestions.value)
+    }
+    
     
     // MARK: - Country features
 
