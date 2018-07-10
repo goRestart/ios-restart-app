@@ -399,7 +399,7 @@ class FiltersViewModel: BaseViewModel {
         let vm = ListingAttributeSingleSelectPickerViewModel(
             title: R.Strings.realEstateTypePropertyTitle,
             attributes: values,
-            selectedAttribute: productFilter.realEstatePropertyType?.rawValue
+            selectedAttribute: productFilter.realEstatePropertyType?.localizedString
         ) { [weak self] selectedIndex in
             if let selectedIndex = selectedIndex {
                 self?.productFilter.realEstatePropertyType = attributeValues[selectedIndex]
