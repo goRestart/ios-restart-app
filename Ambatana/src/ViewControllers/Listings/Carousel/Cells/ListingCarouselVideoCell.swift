@@ -16,15 +16,17 @@ class ListingCarouselVideoCell: UICollectionViewCell, ReusableCell {
     var progress = Variable<Float>(0)
     var delegate: ListingCarouselVideoCellDelegate?
 
-    private var effectsView: UIVisualEffectView
+    private var effectsView: UIVisualEffectView = {
+        let effect = UIBlurEffect(style: .dark)
+        return UIVisualEffectView(effect: effect)
+    }()
     private let disposeBag = DisposeBag()
 
     // MARK: - Lifecycle
 
     override init(frame: CGRect) {
-        let effect = UIBlurEffect(style: .dark)
-        self.effectsView = UIVisualEffectView(effect: effect)
         super.init(frame: frame)
+        
         setupUI()
         setAccessibilityIds()
     }
