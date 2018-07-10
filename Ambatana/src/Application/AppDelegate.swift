@@ -87,12 +87,10 @@ extension AppDelegate: UIApplicationDelegate {
         navigator = appCoordinator
         pushManager?.navigator = appCoordinator
 
-        let proc = ReportCoordinator(type: .user, reportedId: "")
 
         let window = UIWindow(frame: UIScreen.main.bounds)
         window.backgroundColor = UIColor.white
         window.rootViewController = appCoordinator.tabBarCtl
-//        window.rootViewController = proc.viewController
         self.window = window
 
         window.makeKeyAndVisible()
@@ -104,7 +102,6 @@ extension AppDelegate: UIApplicationDelegate {
 
         appCoordinator.open()
 
-        appCoordinator.openChild(coordinator: proc, parent: appCoordinator.tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
         return deepLinksRouterContinuation || fbSdkContinuation
     }
 
