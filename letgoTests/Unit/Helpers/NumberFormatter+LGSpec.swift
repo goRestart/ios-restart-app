@@ -19,7 +19,7 @@ class NumberFormatterLGSpec: QuickSpec {
                     value = Int.makeRandom()
                     unit = String.makeRandom()
                     formattedMileage = NumberFormatter.formattedMileage(forValue: value,
-                                                                            distanceUnit: unit)
+                                                                        distanceUnit: unit)
                 }
                 
                 it("has a valid mileage string") {

@@ -1371,6 +1371,9 @@
 		C6FFC47420F49A9F00B9F53A /* NumberFormatter+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FFC47320F49A9F00B9F53A /* NumberFormatter+LG.swift */; };
 		C6FFC47520F49A9F00B9F53A /* NumberFormatter+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FFC47320F49A9F00B9F53A /* NumberFormatter+LG.swift */; };
 		C6FFC47720F49C5500B9F53A /* NumberFormatter+LGSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FFC47620F49C5500B9F53A /* NumberFormatter+LGSpec.swift */; };
+		C6FFC47B20F4E8E400B9F53A /* FormattedUnitRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FFC47A20F4E8E400B9F53A /* FormattedUnitRange.swift */; };
+		C6FFC47C20F4E8E400B9F53A /* FormattedUnitRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FFC47A20F4E8E400B9F53A /* FormattedUnitRange.swift */; };
+		C6FFC47E20F4EC3600B9F53A /* FormattedUnitRangeSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FFC47D20F4EC3600B9F53A /* FormattedUnitRangeSpec.swift */; };
 		C6FFC47920F4DEFB00B9F53A /* ListingFiltersSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FFC47820F4DEFB00B9F53A /* ListingFiltersSpec.swift */; };
 		C703BDFE1C7F1AF900EC8EF2 /* EditLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C703BDFB1C7F1AF900EC8EF2 /* EditLocationViewController.swift */; };
 		C703BDFF1C7F1AF900EC8EF2 /* EditLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C703BDFB1C7F1AF900EC8EF2 /* EditLocationViewController.swift */; };
@@ -2790,6 +2793,8 @@
 		C6E770B720A073DB002CFA99 /* FeedSectionMapCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedSectionMapCollection.swift; sourceTree = "<group>"; };
 		C6FFC47320F49A9F00B9F53A /* NumberFormatter+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NumberFormatter+LG.swift"; sourceTree = "<group>"; };
 		C6FFC47620F49C5500B9F53A /* NumberFormatter+LGSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NumberFormatter+LGSpec.swift"; sourceTree = "<group>"; };
+		C6FFC47A20F4E8E400B9F53A /* FormattedUnitRange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattedUnitRange.swift; sourceTree = "<group>"; };
+		C6FFC47D20F4EC3600B9F53A /* FormattedUnitRangeSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattedUnitRangeSpec.swift; sourceTree = "<group>"; };
 		C6FFC47820F4DEFB00B9F53A /* ListingFiltersSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingFiltersSpec.swift; sourceTree = "<group>"; };
 		C703BDFB1C7F1AF900EC8EF2 /* EditLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditLocationViewController.swift; sourceTree = "<group>"; };
 		C703BDFD1C7F1AF900EC8EF2 /* EditLocationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditLocationViewModel.swift; sourceTree = "<group>"; };
@@ -4103,6 +4108,7 @@
 				C26D224C208B47E500C66EC0 /* UploadingVideo.swift */,
 				C2636F6D208B7A9600534D01 /* PreSignedUploadUrlForm+LG.swift */,
 				C6BEE65020EE65A9008AEA0B /* CarAttributeItem.swift */,
+				C6FFC47A20F4E8E400B9F53A /* FormattedUnitRange.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -4513,6 +4519,7 @@
 				50D08D8E1E69AF14009CC260 /* LocalUserSpec.swift */,
 				012B73E51F54216600068537 /* QuickAnswerSpec.swift */,
 				425BB9FA20888CF500FE9BB8 /* UserType+LGSpec.swift */,
+				C6FFC47D20F4EC3600B9F53A /* FormattedUnitRangeSpec.swift */,
 				C6FFC47820F4DEFB00B9F53A /* ListingFiltersSpec.swift */,
 			);
 			path = Model;
@@ -7022,6 +7029,7 @@
 				727463B81FB1E96600AD8261 /* ListingCreationParams+LGSpec.swift in Sources */,
 				42F64F8220AB1A4100CF97AD /* MockListingFilters.swift in Sources */,
 				50D08DBC1E69AF14009CC260 /* MockPurchaseableProductsRequest.swift in Sources */,
+				C6FFC47E20F4EC3600B9F53A /* FormattedUnitRangeSpec.swift in Sources */,
 				50D08DC81E69AF14009CC260 /* TestableObserver+LGSpec.swift in Sources */,
 				0AC110492003C99E00D23246 /* ListingCardDetailsViewBinderSpec.swift in Sources */,
 				50EAFB241F7A2CE5003B96D5 /* LocalSuggestiveSearchSpec.swift in Sources */,
@@ -7073,6 +7081,7 @@
 				F57D3A251FECFCFC006F2CA4 /* TagCollectionView.swift in Sources */,
 				C7B588451CE1DE1C009B3975 /* ChatListingView.swift in Sources */,
 				509F79AC1ED6CD1C00AF2F70 /* UserRatingTagCell.swift in Sources */,
+				C6FFC47B20F4E8E400B9F53A /* FormattedUnitRange.swift in Sources */,
 				0A4C69D820C92D5100B89022 /* RecaptchaView.swift in Sources */,
 				50D67B9A1D182EE9003AC0A5 /* SellCoordinator.swift in Sources */,
 				42009A2220765A4F003F946E /* PromoCellDrawer.swift in Sources */,
@@ -7882,6 +7891,7 @@
 				C7C61E011D631F3400F9505D /* ListingCollectionCellDrawer.swift in Sources */,
 				2E36656A1DE4880A00000F68 /* PostIncentivatorView.swift in Sources */,
 				F57D3A2E1FED01A6006F2CA4 /* TagCollectionView.swift in Sources */,
+				C6FFC47C20F4E8E400B9F53A /* FormattedUnitRange.swift in Sources */,
 				0A4C69D920C92E4E00B89022 /* RecaptchaView.swift in Sources */,
 				C707D4561E9B7CB200042C03 /* PostListingTrackingInfo.swift in Sources */,
 				42009A2320765FE0003F946E /* PromoCellDrawer.swift in Sources */,

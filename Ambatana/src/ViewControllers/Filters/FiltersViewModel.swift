@@ -973,14 +973,15 @@ extension FiltersViewModel {
                                      minimumValueSelected: productFilter.carNumberOfSeatsStart,
                                      maximumValueSelected: productFilter.carNumberOfSeatsEnd)
         case .mileage:
-            let numberFormatter = NumberFormatter()
-            numberFormatter.numberStyle = .decimal
-            numberFormatter.locale = Locale.autoupdatingCurrent
-            numberFormatter.usesGroupingSeparator = true
+            let numberFormatter = NumberFormatter.newMileageNumberFormatter()
+            let formattedAnyValue = FormattedUnitRange(minimumValue: SharedConstants.filterMinCarMileage,
+                                                       maximumValue: SharedConstants.filterMaxCarMileage,
+                                                       unitSuffix: distanceType.localizedUnitType(),
+                                                       numberFormatter: numberFormatter).toString()
             return LGSliderViewModel(title: R.Strings.filtersMileageSliderTitle,
                                      minimumValueNotSelectedText: String(SharedConstants.filterMinCarMileage),
                                      maximumValueNotSelectedText: String(SharedConstants.filterMaxCarMileage),
-                                     minimumAndMaximumValuesNotSelectedText: R.Strings.filtersSliderAny,
+                                     minimumAndMaximumValuesNotSelectedText: formattedAnyValue ?? R.Strings.filtersSliderAny,
                                      minimumValue: SharedConstants.filterMinCarMileage,
                                      maximumValue: SharedConstants.filterMaxCarMileage,
                                      minimumValueSelected: productFilter.carMileageStart,
@@ -991,7 +992,6 @@ extension FiltersViewModel {
              .bodyType, .transmission, .fuelType, .driveTrain:
             return nil
         }
-
     }
     
     func didSelectMinimumValue(forSection section: FilterCarSection,
