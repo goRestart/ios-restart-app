@@ -151,8 +151,6 @@ class ListingCarouselViewModel: BaseViewModel {
         return currentListingViewModel?.isMine ?? false
     }
 
-    var isPlayable: Bool { return currentListingViewModel?.isPlayable ?? false }
-
     fileprivate var trackingIndex: Int?
     fileprivate var initialThumbnail: UIImage?
 
@@ -586,6 +584,12 @@ class ListingCarouselViewModel: BaseViewModel {
 
     func reputationTooltipShown() {
         reputationTooltipManager.didShowTooltip()
+    }
+
+    func itemIsPlayable(at index: Int) -> Bool {
+        guard let media = currentListingViewModel?.productMedia.value,
+            index < media.count else { return false }
+        return media[index].isPlayable
     }
 
     // MARK: - Private Methods

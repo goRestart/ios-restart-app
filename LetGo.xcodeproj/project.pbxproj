@@ -1295,6 +1295,8 @@
 		C29F01832067A03E00A43E2F /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29F01812067A03E00A43E2F /* Camera.swift */; };
 		C29F712B209076F800362F76 /* LGFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29F712A209076F800362F76 /* LGFileManager.swift */; };
 		C29F712C209076F800362F76 /* LGFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29F712A209076F800362F76 /* LGFileManager.swift */; };
+		C2C2F30520F2DFBA00EAF42A /* ListingCarouselVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C2F30420F2DFBA00EAF42A /* ListingCarouselVideoCell.swift */; };
+		C2C2F30620F2DFBA00EAF42A /* ListingCarouselVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C2F30420F2DFBA00EAF42A /* ListingCarouselVideoCell.swift */; };
 		C2DC548420A3343E0052EB12 /* AppEventsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2DC548320A3343E0052EB12 /* AppEventsManager.swift */; };
 		C2DC548520A3343E0052EB12 /* AppEventsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2DC548320A3343E0052EB12 /* AppEventsManager.swift */; };
 		C2E7F42020DB90BC0092A1F9 /* Locale+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E7F41F20DB90BC0092A1F9 /* Locale+LG.swift */; };
@@ -2730,6 +2732,7 @@
 		C271E13920CEB3B8008868C6 /* ListingCarouselChatContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingCarouselChatContainerView.swift; sourceTree = "<group>"; };
 		C29F01812067A03E00A43E2F /* Camera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
 		C29F712A209076F800362F76 /* LGFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGFileManager.swift; sourceTree = "<group>"; };
+		C2C2F30420F2DFBA00EAF42A /* ListingCarouselVideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingCarouselVideoCell.swift; sourceTree = "<group>"; };
 		C2DC548320A3343E0052EB12 /* AppEventsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEventsManager.swift; sourceTree = "<group>"; };
 		C2E7F41F20DB90BC0092A1F9 /* Locale+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Locale+LG.swift"; sourceTree = "<group>"; };
 		C2E9ACEA207B64C00054B246 /* VPPostListingRedCamFooter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VPPostListingRedCamFooter.swift; sourceTree = "<group>"; };
@@ -5369,6 +5372,7 @@
 				C75B5DCE1D59E0C500112368 /* ListingCarouselCell.swift */,
 				C75B5DCF1D59E0C500112368 /* ListingCarouselCellModel.swift */,
 				C75B5DD01D59E0C500112368 /* ListingCarouselImageCell.swift */,
+				C2C2F30420F2DFBA00EAF42A /* ListingCarouselVideoCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -7260,6 +7264,7 @@
 				C7415EEB1DEF1E300003D6C1 /* TextViewController.swift in Sources */,
 				2EE47D2920177653004B04EE /* ChatAskPhoneNumberCell.swift in Sources */,
 				C7905B871DF1D090009CD191 /* UITextView+Lines.swift in Sources */,
+				C2C2F30520F2DFBA00EAF42A /* ListingCarouselVideoCell.swift in Sources */,
 				0A0C0490209C8CD20028A75D /* SearchAlertFeedHeader.swift in Sources */,
 				01BDE97A2050B1820081B670 /* BlockingPostingHeaderStep.swift in Sources */,
 				720A8FA91F1F94E700DCBAD8 /* FilterTextFieldIntCell.swift in Sources */,
@@ -8061,6 +8066,7 @@
 				C7DB41D81C5138B500400945 /* TrackerEvent.swift in Sources */,
 				55FABE2020763460004B0DBD /* UserPhoneVerificationCountryPickerViewModel.swift in Sources */,
 				C6E770B920A073DB002CFA99 /* FeedSectionMapCollection.swift in Sources */,
+				C2C2F30620F2DFBA00EAF42A /* ListingCarouselVideoCell.swift in Sources */,
 				0AAC7953207F73960096F156 /* FeedViewController.swift in Sources */,
 				50146BCE1D4F5F9000B0F635 /* NotificationsTabCoordinator.swift in Sources */,
 				8E031CB32033343300CA0ED9 /* ChatInterlocutorIsTypingCellDrawer.swift in Sources */,

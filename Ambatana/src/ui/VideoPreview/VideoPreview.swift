@@ -28,6 +28,7 @@ final class VideoPreview: UIView {
             player.replaceCurrentItem(with: playerItem)
         }
     }
+
     lazy private var player: AVPlayer = {
         let player = AVPlayer(playerItem: nil)
         player.actionAtItemEnd = .none

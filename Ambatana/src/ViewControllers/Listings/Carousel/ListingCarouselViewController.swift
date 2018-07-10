@@ -110,13 +110,17 @@ final class ListingCarouselViewController: KeyboardViewController, AnimatableTra
     private var productOnboardingView: ListingDetailOnboardingView?
     private var didSetupAfterLayout = false
 
-    private var shouldShowPlayButton: Bool = false {
-        didSet { startPlayingButton.isHidden = !shouldShowPlayButton }
+    private var shouldShowProgressView: Bool = false {
+        didSet {
+            progressView.progress = 0
+            progressView.isHidden = !shouldShowProgressView
+        }
     }
-    private let startPlayingButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setImage(R.Asset.IconsButtons.VideoPosting.icVideopostingPlay.image, for: .normal)
-        return button
+    private let progressView: UIProgressView = {
+        let bar = UIProgressView()
+        bar.progressTintColor = .gray
+        bar.trackTintColor = UIColor.black.withAlphaComponent(0.5)
+        return bar
     }()
 
     private let moreInfoView: ListingCarouselMoreInfoView
@@ -191,28 +195,18 @@ final class ListingCarouselViewController: KeyboardViewController, AnimatableTra
         setupGradientView()
         setupCollectionRx()
         setupZoomRx()
-        if viewModel.isPlayable {
-            setupPlayButton()
-        }
+        setupProgressViewButton()
         setAccessibilityIds()
         setupInterstitial()
     }
 
-    private func setupPlayButton() {
-        view.addSubviewForAutoLayout(startPlayingButton)
+    private func setupProgressViewButton() {
+        view.addSubviewForAutoLayout(progressView)
         NSLayoutConstraint.activate([
-            startPlayingButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            startPlayingButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            startPlayingButton.widthAnchor.constraint(equalToConstant: 60),
-            startPlayingButton.heightAnchor.constraint(equalTo: startPlayingButton.widthAnchor)
-        ])
-        startPlayingButton.addTarget(self, action: #selector(openVideoPlayer), for: .touchUpInside)
-    }
-
-    @objc private func openVideoPlayer() {
-        startPlayingButton.bounce { [weak self] in
-            self?.viewModel.videoButtonTapped()
-        }
+            progressView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: CarouselUI.itemsMargin),
+            progressView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -CarouselUI.itemsMargin),
+            progressView.bottomAnchor.constraint(equalTo: userView.topAnchor, constant: -20)
+            ])
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -511,6 +505,7 @@ final class ListingCarouselViewController: KeyboardViewController, AnimatableTra
         itemsAlpha.asObservable().bind(to: buttonTop.rx.alpha).disposed(by: disposeBag)
         itemsAlpha.asObservable().bind(to: userView.rx.alpha).disposed(by: disposeBag)
         itemsAlpha.asObservable().bind(to: buttonCall.rx.alpha).disposed(by: disposeBag)
+        itemsAlpha.asObservable().bind(to: progressView.rx.alpha).disposed(by: disposeBag)
 
         itemsAlpha.asObservable().bind { [weak self] itemsAlpha in
             self?.pageControl.alpha = itemsAlpha
@@ -591,7 +586,7 @@ final class ListingCarouselViewController: KeyboardViewController, AnimatableTra
                 if movement == .tap {
                     self?.finishedTransition()
                 }
-                self?.shouldShowPlayButton = self?.viewModel.isPlayable ?? false
+                self?.shouldShowProgressView = self?.viewModel.itemIsPlayable(at: 0) ?? false
                 strongSelf.returnCellToFirstImage()
             }
             .disposed(by: disposeBag)
@@ -1006,6 +1001,12 @@ extension ListingCarouselViewController: ListingCarouselCellDelegate {
 
     func didScrollToPage(_ page: Int) {
         pageControl.currentPage = page
+        shouldShowProgressView = viewModel.itemIsPlayable(at: page)
+    }
+
+    func didChangeVideoProgress(progress: Float, atIndex index: Int) {
+        guard index == viewModel.currentIndex else { return }
+        progressView.progress = progress
     }
 
     func didPullFromCellWith(_ offset: CGFloat, bottomLimit: CGFloat) {
@@ -1243,6 +1244,7 @@ extension ListingCarouselViewController: UICollectionViewDataSource, UICollectio
                                            imageScrollDirection: viewModel.imageScrollDirection)
             carouselCell.delegate = self
             carouselCell.tag = indexPath.row
+            carouselCell.position = indexPath.row
             
             return carouselCell
     }
@@ -1458,7 +1460,7 @@ fileprivate extension ListingCarouselViewController {
         userView.set(accessibilityId: .listingCarouselUserView)
         productStatusView.set(accessibilityId: .listingCarouselStatusView)
         directChatTable.accessibilityInspectionEnabled = false
-        startPlayingButton.set(accessibilityId: .listingCarouselPlayButton)
+        progressView.set(accessibilityId: .listingCarouselVideoProgressView)
     }
 }
 
