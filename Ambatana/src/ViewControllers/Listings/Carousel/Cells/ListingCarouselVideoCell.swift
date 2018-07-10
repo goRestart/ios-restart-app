@@ -5,7 +5,7 @@ protocol ListingCarouselVideoCellDelegate {
     func didChangeVideoProgress(progress: Float, pageAtIndex index: Int)
 }
 
-class ListingCarouselVideoCell: UICollectionViewCell, ReusableCell {
+final class ListingCarouselVideoCell: UICollectionViewCell, ReusableCell {
 
     let videoPreview: VideoPreview = {
         let videoPreview = VideoPreview(frame: .zero)
@@ -26,7 +26,7 @@ class ListingCarouselVideoCell: UICollectionViewCell, ReusableCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+
         setupUI()
         setAccessibilityIds()
     }
@@ -90,7 +90,7 @@ extension ListingCarouselVideoCell {
 
 // MARK: - Accessibility
 
-fileprivate extension ListingCarouselVideoCell {
+private extension ListingCarouselVideoCell {
     func setAccessibilityIds() {
         set(accessibilityId: .listingCarouselVideoCell)
         videoPreview.set(accessibilityId: .listingCarouselVideoCellVideoPreview)
