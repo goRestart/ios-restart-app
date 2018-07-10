@@ -156,7 +156,7 @@ public struct SharedConstants {
 
     // Cars
     public static let filterMinCarYear: Int = 1990
-    public static let filterMinCarSeatsNumber: Int = 0
+    public static let filterMinCarSeatsNumber: Int = 1
     public static let filterMaxCarSeatsNumber: Int = 9
     public static let filterMinCarMileage: Int = 0
     public static let filterMaxCarMileage: Int = 300000
