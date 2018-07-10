@@ -347,9 +347,9 @@ extension FiltersViewController {
         case .carsInfo:
             let carSection = viewModel.carSections[indexPath.item]
             switch carSection {
-            case .secondSection:
+            case .dealership:
                 return CGSize(width: view.bounds.width, height: Layout.singleCheckWithMarginHeight)
-            case .firstSection, .make, .model:
+            case .individual, .make, .model:
                 return CGSize(width: view.bounds.width, height: Layout.singleCheckHeight)
             case .year:
                 return CGSize(width: view.bounds.width, height: Layout.yearHeight)
@@ -466,14 +466,14 @@ extension FiltersViewController {
             case .carsInfo:
                 let carSection = viewModel.carSections[indexPath.item]
                 switch carSection {
-                case .firstSection:
+                case .individual:
                     guard let cell = collectionView.dequeue(type: FilterSingleCheckCell.self,
                                                             for: indexPath) else { return UICollectionViewCell() }
                     cell.titleLabel.text = viewModel.carCellTitle(section: carSection)
                     cell.isSelected = viewModel.isCarSellerTypeSelected(type: carSection)
                     cell.topSeparator.isHidden = false
                     return cell
-                case .secondSection:
+                case .dealership:
                     guard let cell = collectionView.dequeue(type: FilterSingleCheckCell.self,
                                                             for: indexPath) else { return UICollectionViewCell() }
                     cell.titleLabel.text = viewModel.carCellTitle(section: carSection)
@@ -700,7 +700,7 @@ extension FiltersViewController {
         case .carsInfo:
             let carSection = viewModel.carSections[indexPath.item]
             switch carSection {
-            case .firstSection, .secondSection:
+            case .individual, .dealership:
                 viewModel.selectCarSeller(section: carSection)
             case .make:
                 viewModel.makeButtonPressed()

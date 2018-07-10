@@ -156,11 +156,6 @@
         "description": "A new fully sectioned main feed"
     },
     {
-        "name": "FilterSearchCarSellerType",
-        "values": ["control", "baseline", "variantA", "variantB", "variantC", "variantD"],
-        "description": "Include Search filter for Car Seller type"
-    },
-    {
         "name": "ShowExactLocationForPros",
         "values": ["yes", "no"],
         "description": "Show exact location for professional delaers in listing detail map"

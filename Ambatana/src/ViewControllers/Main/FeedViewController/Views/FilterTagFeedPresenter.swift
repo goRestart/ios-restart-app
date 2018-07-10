@@ -94,15 +94,8 @@ final class FilterTagFeedPresenter: FilterTagFeedPresentable {
                 resultTags.append(.yearsRange(from: filters.carYearStart?.value, to: filters.carYearEnd?.value))
             }
             
-            if featureFlags.filterSearchCarSellerType.isActive {
-                let carSellerFilterMultiSelection = featureFlags.filterSearchCarSellerType.isMultiselection
-                let containsBothFilters = filters.carSellerTypes.containsBothCarSellerTypes
-                let carSellerTypeTags: [FilterTag] = filters.carSellerTypes
-                    .filter { carSellerFilterMultiSelection || ($0.isProfessional && !containsBothFilters) }
-                    .map { .carSellerType(type: $0, name: $0.title(feature: featureFlags.filterSearchCarSellerType)) }
-                
-                resultTags.append(contentsOf: carSellerTypeTags)
-            }
+            let carSellerTypeTags = filters.carSellerTypes.map { FilterTag.carSellerType(type: $0, name: $0.title) }
+            resultTags.append(contentsOf: carSellerTypeTags)
         }
         if filters.selectedCategories.contains(.realEstate) {
             if let propertyType = filters.realEstatePropertyType {

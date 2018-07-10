@@ -166,15 +166,9 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             }
             
 
-            if featureFlags.filterSearchCarSellerType.isActive {
-                let carSellerFilterMultiSelection = featureFlags.filterSearchCarSellerType.isMultiselection
-                let containsBothFilters = filters.carSellerTypes.containsBothCarSellerTypes
-                let carSellerTypeTags: [FilterTag] = filters.carSellerTypes
-                    .filter { carSellerFilterMultiSelection || ($0.isProfessional && !containsBothFilters) }
-                    .map { .carSellerType(type: $0, name: $0.title(feature: featureFlags.filterSearchCarSellerType)) }
-                
-                resultTags.append(contentsOf: carSellerTypeTags)
-            }
+            let carSellerTypeTags = filters.carSellerTypes.map { FilterTag.carSellerType(type: $0, name: $0.title) }
+            
+            resultTags.append(contentsOf: carSellerTypeTags)
             
             filters.carBodyTypes.forEach({ resultTags.append(.carBodyType($0)) })
             filters.carFuelTypes.forEach({ resultTags.append(.carFuelType($0)) })

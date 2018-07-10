@@ -75,7 +75,6 @@ protocol FeatureFlaggeable: class {
 
     // MARK: Verticals
     var searchCarsIntoNewBackend: SearchCarsIntoNewBackend { get }
-    var filterSearchCarSellerType: FilterSearchCarSellerType { get }
     var realEstateMap: RealEstateMap { get }
     var showServicesFeatures: ShowServicesFeatures { get }
     var carExtraFieldsEnabled: CarExtraFieldsEnabled { get }
@@ -256,14 +255,6 @@ extension CopyForChatNowInTurkey {
 
 extension RealEstateMap {
     var isActive: Bool { return self != .baseline && self != .control }
-}
-
-extension FilterSearchCarSellerType {
-    var isActive: Bool { return self != .baseline && self != .control }
-    
-    var isMultiselection: Bool {
-        return self == .variantA || self == .variantB
-    }
 }
 
 extension AdvancedReputationSystem {
@@ -1158,13 +1149,6 @@ extension FeatureFlags {
             return Bumper.searchCarsIntoNewBackend
         }
         return SearchCarsIntoNewBackend.fromPosition(abTests.searchCarsIntoNewBackend.value)
-    }
-    
-    var filterSearchCarSellerType: FilterSearchCarSellerType {
-        if Bumper.enabled {
-            return Bumper.filterSearchCarSellerType
-        }
-        return FilterSearchCarSellerType.fromPosition(abTests.filterSearchCarSellerType.value)
     }
     
     var realEstateMap: RealEstateMap {

@@ -384,29 +384,16 @@ class MainListingsViewModelSpec: QuickSpec {
                 }
                 
                 context("cars new backend active") {
-                    beforeEach {
-                        mockFeatureFlags.searchCarsIntoNewBackend = .active
-                    }
                     
-                    context("car seller type multiple selection") {
+                    context("car seller type") {
                         beforeEach {
-                            mockFeatureFlags.filterSearchCarSellerType = .variantA
+                            mockFeatureFlags.searchCarsIntoNewBackend = .active
                         }
                         it("has right tags") {
                             expect(sut.primaryTags).to(contain(.carSellerType(type: .user,
-                                                                              name: R.Strings.filtersCarSellerTypePrivate)))
+                                                                              name: R.Strings.filtersCarSellerTypeInvidual)))
                         }
                         
-                    }
-                    
-                    context("car seller type single selection") {
-                        beforeEach {
-                            mockFeatureFlags.filterSearchCarSellerType = .variantC
-                        }
-                        it("has NOT All tag") {
-                            expect(sut.primaryTags).toNot(contain(.carSellerType(type: .user,
-                                                                                 name: R.Strings.filtersCarSellerTypeAll)))
-                        }
                     }
                 }
             }
