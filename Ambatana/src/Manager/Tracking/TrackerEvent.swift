@@ -1378,6 +1378,12 @@ struct TrackerEvent {
         params[.chatEnabled] = chatEnabled
         return TrackerEvent(name: .chatWindowVisit, params: params)
     }
+
+    static func chatTabOpen(tabName: EventParameterChatTabName) -> TrackerEvent {
+        var params = EventParameters()
+        params[.chatTabName] = tabName.rawValue
+        return TrackerEvent(name: .chatTabOpen, params: params)
+    }
     
     static func emptyStateVisit(typePage: EventParameterTypePage, reason: EventParameterEmptyReason,
                                 errorCode:Int?, errorDescription: String?) -> TrackerEvent {

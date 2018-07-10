@@ -209,6 +209,9 @@ enum EventName: String {
     case pushNotificationsEditStart         = "push-notifications-edit-start"
     case emailNotificationsEditStart        = "email-notifications-edit-start"
 
+    case chatTabOpen                        = "chat-tab-open"
+
+
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
     
@@ -388,7 +391,8 @@ enum EventParameterName: String {
     case productCounter       = "product-counter"
     
     case marketingNotificationsEnabled  = "marketing-notifications-enabled"
-    
+
+    case chatTabName          = "tab-name"
     
     // Machine Learning
     case mlPredictiveFlow = "predictive-flow"
@@ -847,6 +851,13 @@ enum EventParameterChatError {
         }
         return nil
     }
+}
+
+enum EventParameterChatTabName: String {
+    case all
+    case selling
+    case buying
+    case blocked
 }
 
 enum EventParameterEditedFields: String {

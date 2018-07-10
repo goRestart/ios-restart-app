@@ -4978,6 +4978,18 @@ class TrackerEventSpec: QuickSpec {
                     expect(param) == true
                 }
             }
+            describe("chat-tab-open") {
+                beforeEach {
+                    sut = TrackerEvent.chatTabOpen(tabName: .selling)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("chat-tab-open"))
+                }
+                it("contains tabName parameter") {
+                    let param = sut.params!.stringKeyParams["tab-name"] as? String
+                    expect(param) == "selling"
+                }
+            }
             describe("app rating start") {
                 beforeEach {
                     sut = TrackerEvent.appRatingStart(EventParameterRatingSource.listingSellComplete)
