@@ -302,6 +302,14 @@ fileprivate extension FilteredListingListRequester {
                 matchingFields.append(EventParameterName.yearEnd.rawValue)
             }
         }
+        
+        let carAttributes = filters.carTrackingParams()
+        carAttributes.forEach { (key, value) in
+            let keyRaw = key.rawValue
+            if let _ = value, !keywords.contains(keyRaw) { return }
+            keywords.append(keyRaw)
+            matchingFields.append(key.rawValue)
+        }
 
         return VerticalTrackingInfo(category: vertical, keywords: keywords, matchingFields: matchingFields, nonMatchingFields: nonMatchingFields)
     }

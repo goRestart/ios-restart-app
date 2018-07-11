@@ -1353,17 +1353,8 @@ extension EditListingViewModel {
         if initialListing.price.isFree != listing.price.isFree {
             editedFields.append(.freePosting)
         }
-        // listing was a car and is still a car
-        if let carAttributes = initialListing.car?.carAttributes, let newCarAttributes = listing.car?.carAttributes {
-            if carAttributes.makeId != newCarAttributes.makeId {
-                editedFields.append(.make)
-            }
-            if carAttributes.modelId != newCarAttributes.modelId {
-                editedFields.append(.model)
-            }
-            if carAttributes.year != newCarAttributes.year {
-                editedFields.append(.year)
-            }
+        if let carEdited = initialListing.car?.carAttributes.editedFieldsTracker(newCarAttributes: listing.car?.carAttributes) {
+            editedFields.append(contentsOf: carEdited)
         }
         return editedFields
     }

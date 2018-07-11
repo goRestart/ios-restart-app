@@ -42,30 +42,11 @@ extension ListingFilters {
 
         var verticalFields: [String] = []
         
-        if let make = carMakeName {
-            params[.make] = make
-            verticalFields.append(EventParameterName.make.rawValue)
-        } else {
-            params[.make] = TrackerEvent.notApply
-        }
-        if let make = carModelName {
-            params[.model] = make
-            verticalFields.append(EventParameterName.model.rawValue)
-        } else {
-            params[.model] = TrackerEvent.notApply
-        }
-        
-        if let carYearStart = carYearStart?.value {
-            params[.yearStart] = String(carYearStart)
-            verticalFields.append(EventParameterName.yearStart.rawValue)
-        } else {
-            params[.yearStart] = TrackerEvent.notApply
-        }
-        if let carYearEnd = carYearEnd?.value {
-            params[.yearEnd] = String(carYearEnd)
-            verticalFields.append(EventParameterName.yearEnd.rawValue)
-        } else {
-            params[.yearEnd] = TrackerEvent.notApply
+        let carParams = carTrackingParams()
+        carParams.forEach { (key, value) in
+            params[key] = value ?? TrackerEvent.notApply
+            guard let _ = value else { return }
+            verticalFields.append(key.rawValue)
         }
         
         if let propertyType = realEstatePropertyType?.rawValue {
@@ -141,7 +122,7 @@ extension ListingFilters {
         return isRealEstateWithFilters || isCarsWithFilters(carSearchActive:carSearchActive) || isServicesWithFilters
     }
     
-    // MARK: - Private methods
+    // MARK: - Private
     
     private var hasMinFilters: EventParameterBoolean {
         return priceRange.min != nil ? .trueParameter : .falseParameter
@@ -169,4 +150,24 @@ extension ListingFilters {
             .map { String($0.rawValue) }
             .joined(separator: ",")
     }
+    
+    func carTrackingParams() -> [(EventParameterName, Any?)] {
+        let bodyTypes =  carBodyTypes.compactMap { $0.rawValue }.stringCommaSeparated
+        let transmissions = carTransmissionTypes.compactMap { $0.rawValue }.stringCommaSeparated
+        let fuelTypes = carFuelTypes.compactMap { $0.rawValue }.stringCommaSeparated
+        let driveTrains = carDriveTrainTypes.compactMap { $0.rawValue }.stringCommaSeparated
+        return [(.make, carMakeName),
+                (.model, carModelName),
+                (.yearStart, carYearStart?.value),
+                (.yearEnd, carYearEnd?.value),
+                (.mileageFrom, carMileageStart),
+                (.mileageTo, carMileageEnd),
+                (.bodyType, bodyTypes),
+                (.transmission, transmissions),
+                (.fuelType, fuelTypes),
+                (.drivetrain, driveTrains),
+                (.seatsFrom, carNumberOfSeatsStart),
+                (.seatsTo, carNumberOfSeatsEnd)]
+    }
+    
 }

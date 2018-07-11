@@ -1035,10 +1035,10 @@ class TrackerEventSpec: QuickSpec {
                         expect(sut.params!.stringKeyParams["product-model"] as? String) == "model"
                     }
                     it ("start") {
-                        expect(sut.params!.stringKeyParams["product-year-start"] as? String) == "1990"
+                        expect(sut.params!.stringKeyParams["product-year-start"] as? Int) == 1990
                     }
                     it ("end") {
-                        expect(sut.params!.stringKeyParams["product-year-end"] as? String) == "2000"
+                        expect(sut.params!.stringKeyParams["product-year-end"] as? Int) == 2000
                     }
                     it ("property-type") {
                         expect(sut.params!.stringKeyParams["property-type"] as? String) == "flat"
@@ -1068,7 +1068,7 @@ class TrackerEventSpec: QuickSpec {
                         expect(sut.params!.stringKeyParams["service-subtype"] as? String).notTo(beNil())
                     }
                     it ("vertical fields") {
-                        expect(sut.params!.stringKeyParams["vertical-fields"] as? String) == "product-make,product-model,product-year-start,product-year-end,property-type,deal-type,bedroom-number,bathroom-number,size-from,room-number,service-type,service-subtype"
+                        expect(sut.params!.stringKeyParams["vertical-fields"] as? String) == "product-make,product-model,product-year-start,product-year-end,mileage-from,mileage-to,body-type,transmission,fuel-type,drivetrain,seats-from,seats-to,property-type,deal-type,bedroom-number,bathroom-number,size-from,room-number,service-type,service-subtype"
                     }
                 }
                 context("not receiving all params, contains the default params") {
@@ -1128,6 +1128,30 @@ class TrackerEventSpec: QuickSpec {
                     }
                     it ("end") {
                         expect(sut.params!.stringKeyParams["product-year-end"] as? String) == TrackerEvent.notApply
+                    }
+                    it ("mileage-from") {
+                        expect(sut.params!.stringKeyParams["mileage-from"] as? String) == TrackerEvent.notApply
+                    }
+                    it ("mileage-to") {
+                        expect(sut.params!.stringKeyParams["mileage-to"] as? String) == TrackerEvent.notApply
+                    }
+                    it ("bodyType") {
+                        expect(sut.params!.stringKeyParams["body-type"] as? String) == TrackerEvent.notApply
+                    }
+                    it ("transmission") {
+                        expect(sut.params!.stringKeyParams["transmission"] as? String) == TrackerEvent.notApply
+                    }
+                    it ("fuelType") {
+                        expect(sut.params!.stringKeyParams["fuel-type"] as? String) == TrackerEvent.notApply
+                    }
+                    it ("driveTrain") {
+                        expect(sut.params!.stringKeyParams["drivetrain"] as? String) == TrackerEvent.notApply
+                    }
+                    it ("seats-from") {
+                        expect(sut.params!.stringKeyParams["seats-from"] as? String) == TrackerEvent.notApply
+                    }
+                    it ("seats-to") {
+                        expect(sut.params!.stringKeyParams["seats-to"] as? String) == TrackerEvent.notApply
                     }
 
                     it ("vertical fields") {
@@ -3435,6 +3459,57 @@ class TrackerEventSpec: QuickSpec {
                         expect(data).to(equal("profile"))
                     }
                 }
+                
+                context("edit car") {
+                    beforeEach {
+                        var car = MockCar.makeMock()
+                        car.objectId = "r4nd0m1D"
+                        car.name = "name"
+                        car.descr = nil
+                        car.category = .cars
+                        car.price = .normal(20)
+                        car.images = MockFile.makeMocks(count: 2)
+                        car.descr = String.makeRandom()
+                        car.carAttributes = CarAttributes.init(makeId: "makeId", make: "make", modelId: "modelId", model: "model", year: 1234, mileage: 50000, mileageType: .mi, bodyType: .coupe, transmission: .automatic, fuelType: .electric, driveTrain: .fourWd, seats: 4)
+                        sut = TrackerEvent.listingEditComplete(nil, listing: .car(car), category: nil, editedFields: [.make, .model, .year], pageType: .profile)
+                    }
+                    it("has its event name") {
+                        expect(sut.name.rawValue).to(equal("product-edit-complete"))
+                    }
+                    it ("containts edited-fields") {
+                        expect(sut.params!.stringKeyParams["edited-fields"]).notTo(beNil())
+                        let editedFields = sut.params!.stringKeyParams["edited-fields"] as? String
+                        expect(editedFields).to(equal("make,model,year"))
+                    }
+                    it ("make") {
+                        expect(sut.params!.stringKeyParams["product-make"] as? String) == "make"
+                    }
+                    it ("model") {
+                        expect(sut.params!.stringKeyParams["product-model"] as? String) == "model"
+                    }
+                    it ("year") {
+                        expect(sut.params!.stringKeyParams["product-year"] as? String) == "1234"
+                    }
+                    
+                    it ("mileage") {
+                        expect(sut.params!.stringKeyParams["mileage"] as? Int) == 50000
+                    }
+                    it ("bodyType") {
+                        expect(sut.params!.stringKeyParams["body-type"] as? String) == "coupe"
+                    }
+                    it ("transmission") {
+                        expect(sut.params!.stringKeyParams["transmission"] as? String) == "automatic"
+                    }
+                    it ("fuelType") {
+                        expect(sut.params!.stringKeyParams["fuel-type"] as? String) == "electric"
+                    }
+                    it ("driveTrain") {
+                        expect(sut.params!.stringKeyParams["drivetrain"] as? String) == "4wd"
+                    }
+                    it ("seats") {
+                        expect(sut.params!.stringKeyParams["seats"] as? Int) == 4
+                    }
+                }
             }
             
             describe("listingEditComplete") {
@@ -5352,10 +5427,10 @@ class TrackerEventSpec: QuickSpec {
                         expect(sut.params!.stringKeyParams["product-model"] as? String) == "model"
                     }
                     it ("start") {
-                        expect(sut.params!.stringKeyParams["product-year-start"] as? String) == "1990"
+                        expect(sut.params!.stringKeyParams["product-year-start"] as? Int) == 1990
                     }
                     it ("end") {
-                        expect(sut.params!.stringKeyParams["product-year-end"] as? String) == "2000"
+                        expect(sut.params!.stringKeyParams["product-year-end"] as? Int) == 2000
                     }
                     it ("property-type") {
                         expect(sut.params!.stringKeyParams["property-type"] as? String) == "flat"
@@ -5385,7 +5460,7 @@ class TrackerEventSpec: QuickSpec {
                         expect(sut.params!.stringKeyParams["service-subtype"] as? String).notTo(beNil())
                     }
                     it ("vertical fields") {
-                        expect(sut.params!.stringKeyParams["vertical-fields"] as? String) == "product-make,product-model,product-year-start,product-year-end,property-type,deal-type,bedroom-number,bathroom-number,size-from,room-number,service-type,service-subtype"
+                        expect(sut.params!.stringKeyParams["vertical-fields"] as? String) == "product-make,product-model,product-year-start,product-year-end,mileage-from,mileage-to,body-type,transmission,fuel-type,drivetrain,seats-from,seats-to,property-type,deal-type,bedroom-number,bathroom-number,size-from,room-number,service-type,service-subtype"
                     }
                 }
             }

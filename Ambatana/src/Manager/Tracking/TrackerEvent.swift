@@ -574,6 +574,14 @@ struct TrackerEvent {
         params[.model] = EventParameterModel.model(name: listing.car?.carAttributes.model).name
         params[.year] = EventParameterYear.year(year: listing.car?.carAttributes.year).year
         
+        params[.mileage] = listing.car?.carAttributes.mileage ?? SharedConstants.parameterNotApply
+        params[.bodyType] = listing.car?.carAttributes.bodyType?.rawValue ?? SharedConstants.parameterNotApply
+        params[.transmission] = listing.car?.carAttributes.transmission?.rawValue ?? SharedConstants.parameterNotApply
+        params[.fuelType] = listing.car?.carAttributes.fuelType?.rawValue ?? SharedConstants.parameterNotApply
+        params[.drivetrain] = listing.car?.carAttributes.driveTrain?.rawValue ?? SharedConstants.parameterNotApply
+        params[.seats] = listing.car?.carAttributes.seats ?? SharedConstants.parameterNotApply 
+
+        
         if let realEstateAttributes = listing.realEstate?.realEstateAttributes {
             params[.propertyType] = EventParameterStringRealEstate.realEstateParam(name: realEstateAttributes.propertyType?.rawValue).name
             params[.offerType] = EventParameterStringRealEstate.realEstateParam(name: realEstateAttributes.offerType?.rawValue).name
@@ -766,6 +774,13 @@ struct TrackerEvent {
         params[.make] = EventParameterMake.make(name: listing.car?.carAttributes.make).name
         params[.model] = EventParameterModel.model(name: listing.car?.carAttributes.model).name
         params[.year] = EventParameterYear.year(year: listing.car?.carAttributes.year).year
+        
+        params[.mileage] = listing.car?.carAttributes.mileage
+        params[.bodyType] = listing.car?.carAttributes.bodyType?.rawValue
+        params[.transmission] = listing.car?.carAttributes.transmission?.rawValue
+        params[.fuelType] = listing.car?.carAttributes.fuelType?.rawValue
+        params[.drivetrain] = listing.car?.carAttributes.driveTrain?.rawValue
+        params[.seats] = listing.car?.carAttributes.seats
         
         if let servicesAttributes = listing.service?.servicesAttributes {
             params[.serviceType] = servicesAttributes.typeId ?? SharedConstants.parameterNotApply
