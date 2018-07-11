@@ -246,15 +246,16 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
 
     // Repositories
-    let myUserRepository: MyUserRepository
-    let listingRepository: ListingRepository
-    let fileRepository: FileRepository
-    let categoryRepository: CategoryRepository
-    let carsInfoRepository: CarsInfoRepository
-    let servicesInfoRepository: ServicesInfoRepository
-    let locationManager: LocationManager
-    let tracker: Tracker
-    let featureFlags: FeatureFlaggeable
+    private let myUserRepository: MyUserRepository
+    private let listingRepository: ListingRepository
+    private let fileRepository: FileRepository
+    private let categoryRepository: CategoryRepository
+    private let carsInfoRepository: CarsInfoRepository
+    private let servicesInfoRepository: ServicesInfoRepository
+    private let locationManager: LocationManager
+    private let tracker: Tracker
+    private let featureFlags: FeatureFlaggeable
+    private let purchasesShopper: PurchasesShopper
 
     // Delegate
     weak var delegate: EditListingViewModelDelegate?
@@ -286,7 +287,8 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
                   featureFlags: FeatureFlags.sharedInstance,
                   listingCanBeBoosted: listingCanBeBoosted,
                   timeSinceLastBump: timeSinceLastBump,
-                  maxCountdown: maxCountdown)
+                  maxCountdown: maxCountdown,
+                  purchasesShopper: LGPurchasesShopper.sharedInstance)
     }
     
     init(listing: Listing,
@@ -303,7 +305,8 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
          featureFlags: FeatureFlaggeable,
          listingCanBeBoosted: Bool,
          timeSinceLastBump: TimeInterval?,
-         maxCountdown: TimeInterval) {
+         maxCountdown: TimeInterval,
+         purchasesShopper: PurchasesShopper) {
         self.myUserRepository = myUserRepository
         self.listingRepository = listingRepository
         self.fileRepository = fileRepository
@@ -314,6 +317,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         self.tracker = tracker
         self.featureFlags = featureFlags
         self.initialListing = listing
+        self.purchasesShopper = purchasesShopper
 
         self.title = listing.title
         
@@ -395,7 +399,13 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         self.timeSinceLastBump = timeSinceLastBump
         self.maxCountdown = maxCountdown
 
-        let listingCanBeBumped = !(listing.featured ?? false)
+        var listingCanBeBumped = !(listing.featured ?? false)
+        
+        if let featured = listing.featured, !featured,
+            let listingId = listing.objectId,
+            let timeOfRecentBump = purchasesShopper.timeSinceRecentBumpFor(listingId: listingId) {
+            listingCanBeBumped = !(timeOfRecentBump.timeDifference > 0.0)
+        }
 
         self.listingCanBeFeatured = (listingCanBeBumped || listingCanBeBoosted) && listingHasPaymentInfo
 
