@@ -1322,7 +1322,7 @@ extension ListingCarouselViewController {
             return
         }
 
-        viewModel.bumpUpBannerShown(type: bumpInfo.type)
+        viewModel.bumpUpBannerShown(bumpInfo: bumpInfo)
         bannerContainer.bringSubview(toFront: bumpUpBanner)
         bannerContainer.isHidden = false
         bumpUpBanner.updateInfo(info: bumpInfo)

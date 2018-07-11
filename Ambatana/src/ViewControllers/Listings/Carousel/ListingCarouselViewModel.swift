@@ -445,8 +445,11 @@ class ListingCarouselViewModel: BaseViewModel {
         currentListingViewModel?.descriptionURLPressed(url)
     }
 
-    func bumpUpBannerShown(type: BumpUpType) {
-        currentListingViewModel?.trackBumpUpBannerShown(type: type, storeProductId: currentListingViewModel?.storeProductId)
+    func bumpUpBannerShown(bumpInfo: BumpUpInfo) {
+        if bumpInfo.shouldTrackBumpBannerShown {
+            currentListingViewModel?.trackBumpUpBannerShown(type: bumpInfo.type,
+                                                            storeProductId: currentListingViewModel?.storeProductId)
+        }
     }
 
     func showBumpUpView(bumpUpProductData: BumpUpProductData,
