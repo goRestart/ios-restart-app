@@ -66,12 +66,12 @@ struct ListingFilters {
     var priceRange: FilterPriceRange
 
     var carSellerTypes: [UserType]
-    var carMakeId: RetrieveListingParam<String>?
+    var carMakeId: String?
     var carMakeName: String?
-    var carModelId: RetrieveListingParam<String>?
+    var carModelId: String?
     var carModelName: String?
-    var carYearStart: RetrieveListingParam<Int>?
-    var carYearEnd: RetrieveListingParam<Int>?
+    var carYearStart: Int?
+    var carYearEnd: Int?
     var carBodyTypes: [CarBodyType]
     var carDriveTrainTypes: [CarDriveTrainType]
     var carFuelTypes: [CarFuelType]
@@ -149,12 +149,12 @@ struct ListingFilters {
          selectedOrdering: ListingSortCriteria?,
          priceRange: FilterPriceRange,
          carSellerTypes: [UserType],
-         carMakeId: RetrieveListingParam<String>?,
+         carMakeId: String?,
          carMakeName: String?,
-         carModelId: RetrieveListingParam<String>?,
+         carModelId: String?,
          carModelName: String?,
-         carYearStart: RetrieveListingParam<Int>?,
-         carYearEnd: RetrieveListingParam<Int>?,
+         carYearStart: Int?,
+         carYearEnd: Int?,
          carBodyTypes: [CarBodyType],
          carFuelTypes: [CarFuelType],
          carTransmissionTypes: [CarTransmissionType],
@@ -410,12 +410,6 @@ struct ListingFilters {
     
     private func indexForCategory(_ category: ListingCategory) -> Int? {
         return selectedCategories.index(where: { $0 == category })
-    }
-}
-
-extension RetrieveListingParam: Equatable {
-    static public func == (a: RetrieveListingParam, b: RetrieveListingParam) -> Bool {
-        return a.value == b.value && a.isNegated == b.isNegated
     }
 }
 

@@ -850,8 +850,7 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     sut = TrackerEvent.listingListVertical(category: .cars,
                                                            keywords: ["kw1", "kw2"],
-                                                           matchingFields: ["mf1", "mf2"],
-                                                           nonMatchingFields: ["nmf1", "nmf2"])
+                                                           matchingFields: ["mf1", "mf2"])
                 }
                 
                 it("has its event name") {
@@ -866,9 +865,6 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains vertical matching fields parameter") {
                     expect(sut.params!.stringKeyParams["vertical-matching-fields"] as? String) == "mf1,mf2"
-                }
-                it("contains vertical no  matching fields parameter") {
-                    expect(sut.params!.stringKeyParams["vertical-no-matching-fields"] as? String) == "nmf1,nmf2"
                 }
             }
 

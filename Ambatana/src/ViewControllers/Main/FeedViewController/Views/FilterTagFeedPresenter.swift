@@ -85,13 +85,13 @@ final class FilterTagFeedPresenter: FilterTagFeedPresentable {
         
         if filters.selectedCategories.contains(.cars) || filters.selectedTaxonomyChildren.containsCarsTaxonomy {
             if let makeId = filters.carMakeId, let makeName = filters.carMakeName {
-                resultTags.append(.make(id: makeId.value, name: makeName.localizedUppercase))
+                resultTags.append(.make(id: makeId, name: makeName.localizedUppercase))
                 if let modelId = filters.carModelId, let modelName = filters.carModelName {
-                    resultTags.append(.model(id: modelId.value, name: modelName.localizedUppercase))
+                    resultTags.append(.model(id: modelId, name: modelName.localizedUppercase))
                 }
             }
             if filters.carYearStart != nil || filters.carYearEnd != nil {
-                resultTags.append(.yearsRange(from: filters.carYearStart?.value, to: filters.carYearEnd?.value))
+                resultTags.append(.yearsRange(from: filters.carYearStart, to: filters.carYearEnd))
             }
             
             let carSellerTypeTags = filters.carSellerTypes.map { FilterTag.carSellerType(type: $0, name: $0.title) }

@@ -191,13 +191,13 @@ struct TrackerEvent {
         return TrackerEvent(name: .listingList, params: params)
     }
     
-    static func listingListVertical(category: ListingCategory, keywords: [String],
-                                    matchingFields: [String], nonMatchingFields: [String]) -> TrackerEvent {
+    static func listingListVertical(category: ListingCategory,
+                                    keywords: [String],
+                                    matchingFields: [String]) -> TrackerEvent {
         var params = EventParameters()
         params[.categoryId] = String(category.rawValue)
         params[.verticalKeyword] = keywords.isEmpty ? TrackerEvent.notApply : keywords.joined(separator: "_")
         params[.verticalMatchingFields] = matchingFields.isEmpty ? TrackerEvent.notApply : matchingFields.joined(separator: ",")
-        params[.verticalNoMatchingFields] = nonMatchingFields.isEmpty ? TrackerEvent.notApply : nonMatchingFields.joined(separator: ",")
 
         return TrackerEvent(name: .listingListVertical, params: params)
     }

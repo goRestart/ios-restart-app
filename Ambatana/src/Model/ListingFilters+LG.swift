@@ -152,14 +152,15 @@ extension ListingFilters {
     }
     
     func carTrackingParams() -> [(EventParameterName, Any?)] {
+        
         let bodyTypes =  carBodyTypes.compactMap { $0.rawValue }.stringCommaSeparated
         let transmissions = carTransmissionTypes.compactMap { $0.rawValue }.stringCommaSeparated
         let fuelTypes = carFuelTypes.compactMap { $0.rawValue }.stringCommaSeparated
         let driveTrains = carDriveTrainTypes.compactMap { $0.rawValue }.stringCommaSeparated
         return [(.make, carMakeName),
                 (.model, carModelName),
-                (.yearStart, carYearStart?.value),
-                (.yearEnd, carYearEnd?.value),
+                (.yearStart, carYearStart),
+                (.yearEnd, carYearEnd),
                 (.mileageFrom, carMileageStart),
                 (.mileageTo, carMileageEnd),
                 (.bodyType, bodyTypes),

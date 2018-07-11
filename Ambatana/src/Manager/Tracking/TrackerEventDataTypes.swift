@@ -360,7 +360,6 @@ enum EventParameterName: String {
     case serviceSubtype       = "service-subtype"
     case verticalKeyword            = "vertical-keyword"
     case verticalMatchingFields     = "vertical-matching-fields"
-    case verticalNoMatchingFields   = "vertical-no-matching-fields"
     case verticalFields             = "vertical-fields"
     case bubblePosition       = "bubble-position"
     case bubbleName           = "bubble-name"
