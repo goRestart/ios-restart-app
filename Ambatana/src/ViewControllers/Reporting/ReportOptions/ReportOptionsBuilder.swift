@@ -20,7 +20,7 @@ final class ReportOptionsBuilder {
     // MARK: - Report User Options
 
     static func reportProductOptions() -> ReportOptionsGroup {
-        return reportUserOptionsStep1()
+        return reportProductOptionsStep1()
     }
 
     // MARK: Step 1

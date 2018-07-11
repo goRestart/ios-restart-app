@@ -94,6 +94,7 @@ protocol FeatureFlaggeable: class {
     var advancedReputationSystem: AdvancedReputationSystem { get }
     var emergencyLocate: EmergencyLocate { get }
     var offensiveReportAlert: OffensiveReportAlert { get }
+    var reportingFostaSesta: ReportingFostaSesta { get }
     
     // MARK: Money
     var preventMessagesFromFeedToProUsers: PreventMessagesFromFeedToProUsers { get }
@@ -274,6 +275,10 @@ extension EmergencyLocate {
 
 extension OffensiveReportAlert {
     var isActive: Bool { return self == .active }
+}
+
+extension ReportingFostaSesta {
+    var isActive: Bool { return self != .baseline && self != .control }
 }
 
 extension FeedAdsProviderForUS {
@@ -728,6 +733,13 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.notificationSettings
         }
         return NotificationSettings.fromPosition(abTests.notificationSettings.value)
+    }
+
+    var reportingFostaSesta: ReportingFostaSesta {
+        if Bumper.enabled {
+            return Bumper.reportingFostaSesta
+        }
+        return ReportingFostaSesta.fromPosition(abTests.reportingFostaSesta.value)
     }
     
     // MARK: - Country features

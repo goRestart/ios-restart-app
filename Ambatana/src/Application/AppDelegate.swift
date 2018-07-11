@@ -87,13 +87,10 @@ extension AppDelegate: UIApplicationDelegate {
         navigator = appCoordinator
         pushManager?.navigator = appCoordinator
 
-        let vm = ReportOptionsListViewModel()
-        let vc = ReportOptionsListViewController(viewModel: vm)
-        let nav = UINavigationController(rootViewController: vc)
 
         let window = UIWindow(frame: UIScreen.main.bounds)
         window.backgroundColor = UIColor.white
-        window.rootViewController = nav
+        window.rootViewController = appCoordinator.tabBarCtl
         self.window = window
 
         window.makeKeyAndVisible()
@@ -104,7 +101,7 @@ extension AppDelegate: UIApplicationDelegate {
                                                                    didFinishLaunchingWithOptions: launchOptions) ?? false
 
         appCoordinator.open()
-        
+
         return deepLinksRouterContinuation || fbSdkContinuation
     }
 

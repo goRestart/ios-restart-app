@@ -52,6 +52,7 @@ final class ReportOptionCell: UITableViewCell, ReusableCell {
     }
 
     private var titleLabelLeftConstraint: NSLayoutConstraint?
+    private var canShowCheckMark: Bool = true
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -62,10 +63,11 @@ final class ReportOptionCell: UITableViewCell, ReusableCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure(with option: ReportOptionType) {
-        titleLabel.text = option.text
-        iconImageView.image = option.icon
-        accessoryImageView.isHidden = option.canNavigate
+    func configure(with option: ReportOption) {
+        titleLabel.text = option.type.text
+        iconImageView.image = option.type.icon
+        accessoryImageView.isHidden = option.childOptions == nil
+        canShowCheckMark = option.childOptions == nil
     }
 
     private func setupUI() {
@@ -75,6 +77,7 @@ final class ReportOptionCell: UITableViewCell, ReusableCell {
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
+        guard canShowCheckMark else { return }
         super.setSelected(selected, animated: true)
         selectedImageView.isHidden = !selected
     }

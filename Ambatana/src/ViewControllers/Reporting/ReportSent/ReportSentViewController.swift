@@ -1,4 +1,5 @@
 import UIKit
+import LGComponents
 
 final class ReportSentViewController: BaseViewController {
 
@@ -53,6 +54,11 @@ final class ReportSentViewController: BaseViewController {
         super.viewWillAppearFromBackground(fromBackground)
         setNavBarBackgroundStyle(.white)
         setNavBarTitle("Test Title")
+        setNavBarBackButton(R.Asset.IconsButtons.navbarClose.image, selector: #selector(didTapClose))
+    }
+    
+    @objc private func didTapClose() {
+        viewModel.didTapClose()
     }
 
     private func setupUI() {

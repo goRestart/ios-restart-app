@@ -13,7 +13,7 @@ final class ReportOptionsListViewController: BaseViewController, UITableViewDele
 
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
-        tableView.register(ReportOptionCell.self, forCellReuseIdentifier: ReportOptionCell.reusableID)
+        tableView.register(type: ReportOptionCell.self)
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = Layout.estimatedRowHeight
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Layout.buttonContainerHeight, right: 0)
@@ -26,6 +26,7 @@ final class ReportOptionsListViewController: BaseViewController, UITableViewDele
     private let reportButton: LetgoButton = {
         let button = LetgoButton(withStyle: ButtonStyle.primary(fontSize: ButtonFontSize.medium))
         button.setTitle("Report", for: .normal) // FIXME: Localize
+        button.isEnabled = false
         return button
     }()
 
@@ -35,6 +36,8 @@ final class ReportOptionsListViewController: BaseViewController, UITableViewDele
         view.alpha = 0.9
         return view
     }()
+
+    private var selectedOption: ReportOption?
 
     init(viewModel: ReportOptionsListViewModel) {
         self.viewModel = viewModel
@@ -49,7 +52,8 @@ final class ReportOptionsListViewController: BaseViewController, UITableViewDele
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
         setNavBarBackgroundStyle(.white)
-        setNavBarTitle("Test Title")
+        setNavBarTitle(viewModel.title)
+        setNavBarCloseButton(#selector(didTapClose))
     }
 
     private func setupUI() {
@@ -57,6 +61,7 @@ final class ReportOptionsListViewController: BaseViewController, UITableViewDele
         view.backgroundColor = .white
         tableView.delegate = self
         tableView.dataSource = self
+        reportButton.addTarget(self, action: #selector(reportButtonTapped), for: .touchUpInside)
         setupConstraints()
     }
 
@@ -79,16 +84,32 @@ final class ReportOptionsListViewController: BaseViewController, UITableViewDele
         NSLayoutConstraint.activate(constraints)
     }
 
+    @objc private func reportButtonTapped() {
+        guard let option = selectedOption else { return }
+        viewModel.didTapReport(with: option)
+    }
+
+    @objc private func didTapClose() {
+        viewModel.didTapClose()
+    }
+
     // MARK: TableView Delegate & DataSource
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: ReportOptionCell.reusableID, for: indexPath)
-            as? ReportOptionCell else { return UITableViewCell() }
-        cell.configure(with: .inappropriateBio)
+        guard let cell = tableView.dequeue(type: ReportOptionCell.self, for: indexPath) else { return UITableViewCell() }
+        let option = viewModel.optionGroup.options[indexPath.row]
+        cell.configure(with: option)
         return cell
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return viewModel.optionGroup.options.count
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let option = viewModel.optionGroup.options[indexPath.row]
+        viewModel.didSelect(option: option)
+        reportButton.isEnabled = option.childOptions == nil
+        selectedOption = option
     }
 }
