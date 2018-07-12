@@ -311,7 +311,7 @@ final class ChatViewController: TextViewController {
     fileprivate func setupProfessionalSellerBannerWithPhone(phoneNumber: String?) {
         var action: UIAction? = nil
         var buttonIcon: UIImage? = nil
-        if let phone = phoneNumber, phone.isPhoneNumber, viewModel.professionalBannerHasCallAction {
+        if phoneNumber != nil, viewModel.professionalBannerHasCallAction {
             action = UIAction(interface: .button(R.Strings.chatProfessionalBannerButtonTitle,
                                                  .primary(fontSize: .small)),
                               action: { [weak self] in
