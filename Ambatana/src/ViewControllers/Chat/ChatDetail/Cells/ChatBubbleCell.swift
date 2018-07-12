@@ -110,13 +110,17 @@ extension ChatCellWithBubble {
     func configure(for position: ChatBubbleCellPosition, type: ChatBubbleCellType) {
         bubbleBottomMargin?.constant = -position.bottomMargin
 
-        bubbleView.clipsToBounds = true
-        bubbleView.layer.cornerRadius = 16
+        bubbleView.cornerRadius = ChatBubbleLayout.cornerRadius
 
-        if #available(iOS 11.0, *) {
-            bubbleView.layer.maskedCorners = position.maskedCorners(for: type)
-        } else {
-            bubbleView.setRoundedCorners(position.roundedCorners(for: type), cornerRadius: ChatBubbleLayout.cornerRadius)
-        }
+        // FIXME: This snippet makes the cells not show their background color on ios < 11 and is not needed yet
+        // I'm commenting it now as a quick fix, and it will be propperly fixed when implementing task:
+        // https://ambatana.atlassian.net/browse/ABIOS-3752
+        // that will make use of it
+
+//        if #available(iOS 11.0, *) {
+//            bubbleView.layer.maskedCorners = position.maskedCorners(for: type)
+//        } else {
+//            bubbleView.setRoundedCorners(position.roundedCorners(for: type), cornerRadius: ChatBubbleLayout.cornerRadius)
+//        }
     }
 }

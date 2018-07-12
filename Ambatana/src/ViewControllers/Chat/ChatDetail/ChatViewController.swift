@@ -210,9 +210,7 @@ final class ChatViewController: TextViewController {
     }
 
     private func setupNavigationBar() {
-        listingView.height = navigationBarHeight
         listingView.letgoAssistantTag.isHidden = !viewModel.isUserDummy
-        listingView.layoutIfNeeded()
         setNavBarTitleStyle(.custom(listingView))
         setLetGoRightButtonWith(image: R.Asset.IconsButtons.icMoreOptions.image, selector: "optionsBtnPressed")
         setNavBarBackgroundStyle(viewModel.showWhiteBackground ? .white : .default)
@@ -220,7 +218,6 @@ final class ChatViewController: TextViewController {
 
     private func updateNavigationBarHeaderWith(view: UIView?) {
         guard let view = view else { return }
-        view.height = navigationBarHeight
         setNavBarTitleStyle(.custom(view))
     }
 

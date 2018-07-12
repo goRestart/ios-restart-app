@@ -111,6 +111,7 @@ final class ChatConversationsListViewController: ChatBaseViewController, Scrolla
         
         viewModel.rx_isEditing
             .asDriver()
+            .distinctUntilChanged()
             .drive(onNext: { [weak self] isEditing in
                 self?.setupNavigationBar(isEditing: isEditing)
                 self?.contentView.switchEditMode(isEditing: isEditing)

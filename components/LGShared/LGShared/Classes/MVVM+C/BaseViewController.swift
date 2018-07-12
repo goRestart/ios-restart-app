@@ -266,6 +266,7 @@ public extension UIViewController {
         case let .image(image):
             self.navigationItem.titleView = UIImageView(image: image)
         case let .custom(view):
+            view.frame = self.navigationController?.navigationBar.frame ?? .zero
             self.navigationItem.titleView = view
         }
     }

@@ -17,6 +17,7 @@ final class ChatDetailNavBarInfoView: UIView {
         static let transactionBadgeHeight: CGFloat = 24
         static let arrowHeight: CGFloat = 12
         static let listingImageCornerRadius: CGFloat = 5
+        static let topBottomMargin: CGFloat = 2
     }
 
     private var imageView: ChatAvatarView = ChatAvatarView(mainCornerRadius: .round,
@@ -69,8 +70,8 @@ final class ChatDetailNavBarInfoView: UIView {
         NSLayoutConstraint.activate([
             imageView.heightAnchor.constraint(equalToConstant: Layout.imageHeight),
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor),
-            imageView.topAnchor.constraint(equalTo: topAnchor),
-            imageView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            imageView.topAnchor.constraint(equalTo: topAnchor, constant: Layout.topBottomMargin),
+            imageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Layout.topBottomMargin),
             imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: Metrics.margin),
             titleLabel.topAnchor.constraint(equalTo: imageView.topAnchor),
