@@ -371,8 +371,7 @@ struct ListingFilters {
                                                           carMileageStart, carMileageEnd,
                                                           carNumberOfSeatsStart, carNumberOfSeatsEnd,
                                                           carBodyTypes, carDriveTrainTypes,
-                                                          carFuelTypes, carTransmissionTypes,
-                                                          carSellerTypes])
+                                                          carFuelTypes, carTransmissionTypes])
     }
     
     var hasAnyServicesAttributes: Bool {
