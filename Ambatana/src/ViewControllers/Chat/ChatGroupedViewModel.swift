@@ -117,7 +117,7 @@ class ChatGroupedViewModel: BaseViewModel {
                     title: R.Strings.chatListBlockedEmptyTitle,
                     body: R.Strings.chatListBlockedEmptyBody, buttonTitle: nil, action: nil,
                     secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: .emptyResults, errorCode: nil,
-                    errorDescription: nil)
+                    errorDescription: nil, errorRequestHost: nil)
             }
         }
         setupRxBindings()
@@ -133,7 +133,7 @@ class ChatGroupedViewModel: BaseViewModel {
                                                         self?.refreshCurrentPage()
                                                         },
                                                       secondaryButtonTitle: nil, secondaryAction: nil,
-                                                      emptyReason: .verification, errorCode: nil, errorDescription: nil)
+                                                      emptyReason: .verification, errorCode: nil, errorDescription: nil, errorRequestHost: nil)
     }
 
     // MARK: - Public methods
@@ -277,7 +277,7 @@ class ChatGroupedViewModel: BaseViewModel {
             secondaryButtonTitle: R.Strings.chatListBuyingEmptyButton,
             secondaryAction: { [weak self] in
                 self?.tabNavigator?.openHome()
-            }, emptyReason: nil, errorCode: nil, errorDescription: nil)
+            }, emptyReason: nil, errorCode: nil, errorDescription: nil, errorRequestHost: nil)
         let chatListViewModel: ChatListViewModel
         chatListViewModel = ChatListViewModel(chatsType: chatsType, tabNavigator: tabNavigator)
         chatListViewModel.emptyStatusViewModel = emptyVM
@@ -292,7 +292,7 @@ class ChatGroupedViewModel: BaseViewModel {
             action: { [weak self] in
                 self?.tabNavigator?.openSell(source: .sellButton, postCategory: nil)
             },
-            secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: nil, errorCode: nil, errorDescription: nil)
+            secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: nil, errorCode: nil, errorDescription: nil, errorRequestHost: nil)
         let chatListViewModel: ChatListViewModel
         chatListViewModel = ChatListViewModel(chatsType: chatsType, tabNavigator: tabNavigator)
         chatListViewModel.emptyStatusViewModel = emptyVM
@@ -307,7 +307,7 @@ class ChatGroupedViewModel: BaseViewModel {
             action: { [weak self] in
                 self?.tabNavigator?.openHome()
             },
-            secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: nil, errorCode: nil, errorDescription: nil)
+            secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: nil, errorCode: nil, errorDescription: nil, errorRequestHost: nil)
         let chatListViewModel: ChatListViewModel
         chatListViewModel = ChatListViewModel(chatsType: chatsType, tabNavigator: tabNavigator)
         chatListViewModel.emptyStatusViewModel = emptyVM

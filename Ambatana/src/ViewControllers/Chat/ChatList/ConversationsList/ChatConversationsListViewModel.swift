@@ -243,10 +243,10 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
     // MARK: Reachability
     
     private func setupReachability() {
-        reachability.reachableBlock = { [weak self] in
+        reachability.reachableBlock = { [weak self] _ in
             self?.rx_isReachable.value = true
         }
-        reachability.unreachableBlock = { [weak self] in
+        reachability.unreachableBlock = { [weak self] _ in
             self?.rx_isReachable.value = false
         }
         reachability.start()
@@ -414,7 +414,8 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
                                 secondaryAction: nil,
                                 emptyReason: .verification,
                                 errorCode: nil,
-                                errorDescription: nil)
+                                errorDescription: nil,
+                                errorRequestHost: nil)
     }
     
     private func emptyViewModel(forFilter filter: ChatConversationsListFilter) -> LGEmptyViewModel {
@@ -445,7 +446,8 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
                                 secondaryAction: secundaryAction,
                                 emptyReason: nil,
                                 errorCode: nil,
-                                errorDescription: nil)
+                                errorDescription: nil,
+                                errorRequestHost: nil)
     }
     
     private func emptyViewModel(forError error: RepositoryError) -> LGEmptyViewModel? {
@@ -461,6 +463,8 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
         tracker.trackEvent(TrackerEvent.emptyStateVisit(typePage: .chatList,
                                                         reason: emptyReason,
                                                         errorCode: emptyViewModel.errorCode,
-                                                        errorDescription: emptyViewModel.errorDescription))
+                                                        errorDescription: emptyViewModel.errorDescription,
+                                                        errorRequestHost: emptyViewModel.errorRequestHost,
+                                                        featureFlags: featureFlags))
     }
 }

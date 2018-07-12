@@ -21,7 +21,7 @@ final class ChatBlockedUsersViewModel: ChatBaseViewModel {
                                 title: R.Strings.chatListBlockedEmptyTitle,
                                 body: R.Strings.chatListBlockedEmptyBody, buttonTitle: nil,
                                 action: nil, secondaryButtonTitle: nil, secondaryAction: nil,
-                                emptyReason: .emptyResults, errorCode: nil, errorDescription: nil)
+                                emptyReason: .emptyResults, errorCode: nil, errorDescription: nil, errorRequestHost: nil)
     }()
 
     let errorStateVM: LGEmptyViewModel = {
@@ -29,7 +29,7 @@ final class ChatBlockedUsersViewModel: ChatBaseViewModel {
                                 title: R.Strings.chatListBlockedEmptyTitle,
                                 body: R.Strings.chatListBlockedEmptyBody, buttonTitle: nil,
                                 action: nil, secondaryButtonTitle: nil, secondaryAction: nil,
-                                emptyReason: .emptyResults, errorCode: nil, errorDescription: nil)
+                                emptyReason: .emptyResults, errorCode: nil, errorDescription: nil, errorRequestHost: nil)
     }()
 
 

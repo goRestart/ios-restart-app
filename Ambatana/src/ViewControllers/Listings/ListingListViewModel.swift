@@ -272,7 +272,7 @@ final class ListingListViewModel: BaseViewModel {
         state = .error(viewModel)
         if let errorReason = viewModel.emptyReason {
             trackErrorStateShown(reason: errorReason, errorCode: viewModel.errorCode,
-                                 errorDescription: viewModel.errorDescription)
+                                 errorDescription: viewModel.errorDescription, errorRequestHost: viewModel.errorRequestHost)
         }
     }
 
@@ -776,9 +776,10 @@ final class ListingListViewModel: BaseViewModel {
 // MARK: - Tracking
 
 extension ListingListViewModel {
-    func trackErrorStateShown(reason: EventParameterEmptyReason, errorCode: Int?, errorDescription: String?) {
+    func trackErrorStateShown(reason: EventParameterEmptyReason, errorCode: Int?, errorDescription: String?, errorRequestHost: String?) {
         let event = TrackerEvent.emptyStateVisit(typePage: .listingList , reason: reason, errorCode: errorCode,
-                                                 errorDescription: errorDescription)
+                                                 errorDescription: errorDescription, errorRequestHost: errorRequestHost,
+                                                 featureFlags: featureFlags)
         tracker.trackEvent(event)
 
         reporter.report(CrashlyticsReporter.appDomain,

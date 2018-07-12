@@ -17,4 +17,5 @@ struct LGEmptyViewModel {
     let emptyReason: EventParameterEmptyReason?
     let errorCode: Int?
     let errorDescription: String?
+    let errorRequestHost: String?
 }

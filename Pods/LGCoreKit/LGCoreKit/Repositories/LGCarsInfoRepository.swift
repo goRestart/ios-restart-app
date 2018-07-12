@@ -70,7 +70,7 @@ final class LGCarsInfoRepository: CarsInfoRepository {
     // Rx
 
     fileprivate func setupRx() {
-        locationManager.locationEvents.filter { $0 == .locationUpdate }.subscribeNext { [weak self] _ in
+        locationManager.locationEvents.take(1).filter { $0 == .locationUpdate }.subscribeNext { [weak self] _ in
             guard let locationCountryCode = self?.locationManager.currentLocation?.postalAddress?.countryCode,
                 locationCountryCode != self?.countryCode else { return }
             self?.refreshCarsInfoFile()

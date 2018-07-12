@@ -34,12 +34,14 @@ final class CoreDI: InternalDI {
         tokenDAO = TokenKeychainDAO(keychain: keychain)
 
         let apiClient = AFApiClient(alamofireManager: networkManager,
-                                    tokenDAO: tokenDAO)
+                                    tokenDAO: tokenDAO,
+                                    tracker: tracker)
         let reachability = LGReachability()
         let webSocketLibrary = LGWebSocketLibrary()
         self.webSocketLibrary = webSocketLibrary
         let webSocketClient = LGWebSocketClient(webSocket: webSocketLibrary,
-                                                reachability: reachability)
+                                                reachability: reachability,
+                                                tracker: tracker)
         webSocketClient.timeoutIntervalForRequest = timeoutInterval
 
         let appVersion = Bundle.main
@@ -184,6 +186,13 @@ final class CoreDI: InternalDI {
         imageMultiplierRepository = LGImageMultiplierRepository(dataSource: imageMultiplierDataSource)
 
         self.reporter = ReporterProxy()
+    }
+
+    var tracker: CoreTracker? {
+        didSet {
+            apiClient.tracker = tracker
+            webSocketClient.tracker = tracker
+        }
     }
 
 

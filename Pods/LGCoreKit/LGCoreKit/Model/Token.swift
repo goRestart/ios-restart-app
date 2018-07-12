@@ -13,6 +13,16 @@ enum AuthLevel: Int {
     case user
 }
 
+extension AuthLevel {
+    var eventAuthLevel: EventParameterAuthLevel {
+        switch self {
+        case .nonexistent: return EventParameterAuthLevel.nonexistent
+        case .installation: return EventParameterAuthLevel.installation
+        case .user: return EventParameterAuthLevel.user
+        }
+    }
+}
+
 struct Token {
     let value: String?
     var actualValue: String? {

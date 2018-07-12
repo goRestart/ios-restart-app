@@ -5025,8 +5025,13 @@ class TrackerEventSpec: QuickSpec {
             
             describe("empty state error") {
                 beforeEach {
-                    sut = TrackerEvent.emptyStateVisit(typePage: .chat, reason: .notFound,
-                                                       errorCode: 404, errorDescription: "Internal error")
+                    sut = TrackerEvent.emptyStateVisit(typePage: .chat,
+                                                       reason: .notFound,
+                                                       errorCode: 404,
+                                                       errorDescription: "Internal error",
+                                                       errorRequestHost: nil,
+                                                       featureFlags: MockFeatureFlags()
+                    )
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("empty-state-error"))
@@ -5046,8 +5051,13 @@ class TrackerEventSpec: QuickSpec {
             }
             describe("empty state error") {
                 beforeEach {
-                    sut = TrackerEvent.emptyStateVisit(typePage: .chat, reason: .notFound,
-                                                       errorCode: nil, errorDescription: "Internal error")
+                    sut = TrackerEvent.emptyStateVisit(typePage: .chat,
+                                                       reason: .notFound,
+                                                       errorCode: nil,
+                                                       errorDescription: "Internal error",
+                                                       errorRequestHost: nil,
+                                                       featureFlags: MockFeatureFlags()
+                    )
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("empty-state-error"))

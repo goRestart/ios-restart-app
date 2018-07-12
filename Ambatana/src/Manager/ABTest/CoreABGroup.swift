@@ -13,11 +13,13 @@ struct CoreABGroup: ABGroupType {
         static let searchImprovements = "20180313SearchImprovements"
         static let addPriceTitleDistanceToListings = "20180319AddPriceTitleDistanceToListings"
         static let relaxedSearch = "20180319RelaxedSearch"
+        static let emptyStateErrorResearchActive = "20180710EmptyStateErrorResearchActive"
     }
 
     let searchImprovements: LeanplumABVariable<Int>
     let addPriceTitleDistanceToListings: LeanplumABVariable<Int>
     let relaxedSearch: LeanplumABVariable<Int>
+    let emptyStateErrorResearchActive: LeanplumABVariable<Bool>
 
     let group: ABGroup = .retention
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -27,13 +29,18 @@ struct CoreABGroup: ABGroupType {
     
     init(searchImprovements: LeanplumABVariable<Int>,
          addPriceTitleDistanceToListings: LeanplumABVariable<Int>,
-         relaxedSearch: LeanplumABVariable<Int>) {
+         relaxedSearch: LeanplumABVariable<Int>,
+         emptyStateErrorResearchActive: LeanplumABVariable<Bool>
+         ) {
         self.searchImprovements = searchImprovements
         self.addPriceTitleDistanceToListings = addPriceTitleDistanceToListings
         self.relaxedSearch = relaxedSearch
+        self.emptyStateErrorResearchActive = emptyStateErrorResearchActive
         intVariables.append(contentsOf: [searchImprovements,
                                          addPriceTitleDistanceToListings,
-                                         relaxedSearch])
+                                         relaxedSearch
+                                         ])
+        boolVariables.append(contentsOf: [emptyStateErrorResearchActive])
     }
     
     static func make() -> CoreABGroup {
@@ -45,6 +52,10 @@ struct CoreABGroup: ABGroupType {
                                                                      groupType: .core),
                            relaxedSearch: .makeInt(key: Keys.relaxedSearch,
                                                    defaultValue: 0,
-                                                   groupType: .core))
+                                                   groupType: .core),
+                           emptyStateErrorResearchActive: .makeBool(key: Keys.emptyStateErrorResearchActive,
+                                                                    defaultValue: false,
+                                                                    groupType: .core)
+        )
     }
 }

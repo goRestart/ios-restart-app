@@ -1,5 +1,6 @@
 import LGComponents
 import LGCoreKit
+import Reachability
 
 func ==(a: TrackerEvent, b: TrackerEvent) -> Bool {
     if a.name == b.name && a.actualName == b.actualName,
@@ -8,6 +9,8 @@ func ==(a: TrackerEvent, b: TrackerEvent) -> Bool {
     }
     return false
 }
+
+fileprivate let reachability = Reachability()
 
 struct TrackerEvent {
     static let notApply: String = "N/A"
@@ -173,8 +176,14 @@ struct TrackerEvent {
         return TrackerEvent(name: .loginBlockedAccountKeepBrowsing, params: params)
     }
 
-    static func listingList(_ user: User?, categories: [ListingCategory]?, taxonomy: TaxonomyChild?, searchQuery: String?,
-                            resultsCount: ItemsCount?, feedSource: EventParameterFeedSource, success: EventParameterBoolean) -> TrackerEvent {
+    static func listingList(_ user: User?,
+                            categories: [ListingCategory]?,
+                            taxonomy: TaxonomyChild?,
+                            searchQuery: String?,
+                            resultsCount: ItemsCount?,
+                            feedSource: EventParameterFeedSource,
+                            success: EventParameterBoolean) -> TrackerEvent
+    {
         var params = EventParameters()
 
         params[.feedSource] = feedSource.rawValue
@@ -1389,11 +1398,39 @@ struct TrackerEvent {
         return TrackerEvent(name: .chatWindowVisit, params: params)
     }
     
-    static func emptyStateVisit(typePage: EventParameterTypePage, reason: EventParameterEmptyReason,
-                                errorCode:Int?, errorDescription: String?) -> TrackerEvent {
+    static func emptyStateVisit(
+        typePage: EventParameterTypePage,
+        reason: EventParameterEmptyReason,
+        errorCode:Int?,
+        errorDescription: String?,
+        errorRequestHost: String?,
+        featureFlags: FeatureFlaggeable
+        ) -> TrackerEvent
+    {
         var params = EventParameters()
         params[.typePage] = typePage.rawValue
         params[.reason] = reason.rawValue
+
+        if featureFlags.emptyStateErrorResearchActive {
+            if let connection = reachability?.connection {
+                let reachabilityParamValue: EventParameterEmptyInternetReachability
+                switch connection {
+                case .none: reachabilityParamValue = .noConnection
+                case .wifi: reachabilityParamValue = .wifi
+                case .cellular: reachabilityParamValue = .cellular
+                }
+                params[.connectivityStatus] = reachabilityParamValue.rawValue
+                params[.errorRequestHost] = errorRequestHost ?? "unknown"
+                let state: String
+                switch UIApplication.shared.applicationState {
+                case .active: state = "active"
+                case .background: state = "background"
+                case .inactive: state = "inactive"
+                }
+                params[.appState] = state
+            }
+        }
+        
         let errorDetails: String
         if let errorCode = errorCode {
             errorDetails = String(errorCode)
@@ -1404,6 +1441,54 @@ struct TrackerEvent {
         }
         params[.errorDetails] = errorDetails
         return TrackerEvent(name: .emptyStateError, params: params)
+    }
+
+    static func refreshToken(origin: EventParameterRefreshTokenOrigin,
+                             originDomain: String?,
+                             tokenLevel: EventParameterAuthLevel) -> TrackerEvent {
+        var params = EventParameters()
+        params[.refreshTokenOrigin] = origin.description
+        params[.refreshTokenOriginDomain] = originDomain ?? "No domain provided"
+        params[.refreshTokenLevel] = tokenLevel.rawValue
+        return TrackerEvent(name: .refreshToken, params: params)
+    }
+
+    static func refreshTokenResponse(origin: EventParameterRefreshTokenOrigin,
+                                     success: Bool,
+                                     description: String?) -> TrackerEvent {
+        var params = EventParameters()
+        params[.refreshTokenOrigin] = origin.description
+        params[.refreshTokenSuccess] = EventParameterBoolean(bool: success)
+        if let desc = description {
+            params[.refreshTokenError] = desc
+        }
+        return TrackerEvent(name: .refreshTokenResponse, params: params)
+    }
+
+    static func requestTimeOut(host: String,
+                                endpoint: String,
+                                totalDuration: TimeInterval,
+                                requestDuration: TimeInterval,
+                                statusCode: Int?,
+                                errorCode: Int?) -> TrackerEvent {
+        var params = EventParameters()
+        params[.requestHost] = host
+        params[.requestEndpoint] = endpoint
+        params[.requestTotalDuration] = String(format: "%.3f", totalDuration)
+        params[.requestDuration] = String(format: "%.3f", requestDuration)
+        if let statusCode = statusCode {
+            params[.requestStatusCode] = statusCode
+        }
+        if let errorCode = errorCode {
+            params[.requestErrorCode] = errorCode
+        }
+        return TrackerEvent(name: .requestTimeOut, params: params)
+    }
+
+    static func connectivityChange(connectivity: String) -> TrackerEvent {
+        var params = EventParameters()
+        params[.connectivityStatus] = connectivity
+        return TrackerEvent(name: .connectivityChange, params: params)
     }
     
     static func userRatingReport(userFromId: String?,

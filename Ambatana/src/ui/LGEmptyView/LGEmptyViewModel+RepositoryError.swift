@@ -10,6 +10,7 @@ extension LGEmptyViewModel {
         let reason = LGEmptyViewModel.reason(for: error)
         let errorCode = LGEmptyViewModel.errorCode(for: error)
         let errorDescription = LGEmptyViewModel.errorDescription(for: error)
+        let errorRequestHost = LGEmptyViewModel.requestHost(for: error)
         return LGEmptyViewModel(
             icon: icon,
             title: R.Strings.commonErrorTitle,
@@ -20,7 +21,8 @@ extension LGEmptyViewModel {
             secondaryAction: nil,
             emptyReason: reason,
             errorCode: errorCode,
-            errorDescription: errorDescription)
+            errorDescription: errorDescription,
+            errorRequestHost: errorRequestHost)
     }
 }
 
@@ -28,7 +30,7 @@ fileprivate extension LGEmptyViewModel {
     
     static func isBackground(_ error: RepositoryError) -> Bool {
         switch error {
-        case .network(_, let onBackground):
+        case .network(_, let onBackground, _):
             return onBackground
         case .wsChatError(let chatError):
             return isBackground(chatError)
@@ -135,7 +137,7 @@ fileprivate extension LGEmptyViewModel {
     
     static func errorCode(for error: RepositoryError) -> Int? {
         switch error {
-        case .network(let errorCode, _):
+        case .network(let errorCode, _, _):
             return errorCode
         case .wsChatError(let chatError):
             return errorCode(for: chatError)
@@ -185,6 +187,15 @@ fileprivate extension LGEmptyViewModel {
         case .internalError(let message):
             return message
         case  .network, .apiError, .notAuthenticated, .userNotVerified, .userBlocked, .differentCountry:
+            return nil
+        }
+    }
+    
+    static func requestHost(for error: RepositoryError) -> String? {
+        switch error {
+        case .network(_, _, let requestHost):
+            return requestHost
+        case .unauthorized, .internalError, .wsChatError, .serverError, .notFound, .forbidden, .tooManyRequests, .userNotVerified, .searchAlertError:
             return nil
         }
     }

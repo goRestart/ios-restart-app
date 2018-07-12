@@ -495,10 +495,10 @@ class BaseViewController: UIViewController, TabBarShowable {
     func setReachabilityEnabled(_ enabled: Bool) {
         if enabled {
             reachability = LGReachability()
-            reachability?.reachableBlock = { [weak self] in
+            reachability?.reachableBlock = { [weak self] _ in
                 self?.setToastViewHidden(true)
             }
-            reachability?.unreachableBlock = { [weak self] in
+            reachability?.unreachableBlock = { [weak self] _ in
                 self?.setToastViewHidden(false)
                 self?.toastView?.title = R.Strings.toastNoNetwork
             }

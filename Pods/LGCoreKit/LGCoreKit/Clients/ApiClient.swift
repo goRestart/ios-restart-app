@@ -23,6 +23,8 @@ protocol ApiClient: class {
     var renewingUser: Variable<Bool> { get }
     var userQueue: OperationQueue { get }
 
+    var tracker: CoreTracker? { get set } // refresh token incident
+
     /**
     Executes the given request with a decoder.
     - parameter request: The request.
@@ -58,8 +60,14 @@ extension ApiClient {
     func request<T>(_ req: URLRequestAuthenticable, decoder: @escaping (Any) -> T?,
                  completion: ((ResultResult<T, ApiError>.t) -> ())?) {
         renewTokenIfNeeded(req, decoder: decoder, succeeded: { [weak self] in
+            self?.tracker?.trackRefreshTokenResponse(origin: .api,
+                                                     success: true,
+                                                     description: nil)
             self?.request(req, decoder: decoder, completion: completion)
-        }, failed: { error in
+        }, failed: { [weak self] error in
+            self?.tracker?.trackRefreshTokenResponse(origin: .api,
+                                                     success: false,
+                                                     description: error.localizedDescription)
             completion?(ResultResult<T, ApiError>.t(error: error))
         }, notNeeded: { [weak self] in
             self?.privateRequest(req, decoder: decoder, completion: completion)
@@ -102,7 +110,8 @@ extension ApiClient {
     - parameter response:   The response.
     - parameter completion: The completion closure.
     */
-    func handlePrivateApiResponse<T>(_ req: URLRequestAuthenticable, decoder: @escaping (Any) -> T?,
+    func handlePrivateApiResponse<T>(_ req: URLRequestAuthenticable,
+                                     decoder: @escaping (Any) -> T?,
                                      response: DataResponse<T>,
                                      completion: ((ResultResult<T, ApiError>.t) -> ())?) {
         if shouldRenewToken(response) {
@@ -122,13 +131,25 @@ extension ApiClient {
             }
         } else if let error = errorFromAlamofireResponse(errorDecoderType: req.errorDecoderType, response: response) {
             logMessage(.verbose, type: [CoreLoggingOptions.networking], message: response.debugMessage)
-
             handlePrivateApiErrorResponse(error, response: response)
             completion?(ResultResult<T, ApiError>.t(error: error))
+            if let nsError = response.error as NSError?, case .network = error {
+                trackResponseTimeout(response: response, errorCode: nsError.code)
+            }
+
         } else if let value = response.result.value {
             logMessage(.info, type: CoreLoggingOptions.networking, message: response.debugMessage)
             completion?(ResultResult<T, ApiError>.t(value: value))
         }
+    }
+
+    private func trackResponseTimeout<T>(response: DataResponse<T>,
+                                        errorCode: Int) {
+        tracker?.trackRequestTimeOut(host: response.request?.url?.host ?? TimeOutDefaults.noHost,
+                                     endpoint: response.request?.url?.path ?? TimeOutDefaults.noEndPoint,
+                                     statusCode: response.response?.statusCode,
+                                     errorCode: errorCode,
+                                     timeline: response.timeline)
     }
 
     /**
@@ -141,10 +162,14 @@ extension ApiClient {
         guard let error = response.result.error else { return nil }
         if let afError = error as? AFError, let urlError = afError.underlyingError as? URLError {
             let onBackground = urlError.errorCode == -997
-            return .network(errorCode: urlError.errorCode, onBackground: onBackground)
+            return .network(errorCode: urlError.errorCode,
+                            onBackground: onBackground,
+                            requestHost: response.request?.url?.host ?? nil)
         } else if let urlError = error as? URLError {
             let onBackground = urlError.errorCode == -997
-            return .network(errorCode: urlError.errorCode, onBackground: onBackground)
+            return .network(errorCode: urlError.errorCode,
+                            onBackground: onBackground,
+                            requestHost: response.request?.url?.host ?? nil)
         } else if errorDecoderType == .searchAlertsError,
             let apiCode = response.apiErrorSearchAlertCode(errorDecoderType: errorDecoderType) {
             let apiError = ApiError.errorForSearchAlertCode(apiCode)
@@ -214,6 +239,12 @@ private extension ApiClient {
     func renewTokenIfNeeded<T>(_ request: URLRequestAuthenticable, decoder: @escaping (Any) -> T?, succeeded: (() -> ())?,
                             failed: ((ApiError) -> ())?, notNeeded: (() -> ())?) {
         if shouldRenewInstallationTokenForRequest(request) {
+            if !renewingInstallation {
+                // to avoid touching renewInstallationTokenOrEnqueueRequest,
+                // we add this flag to mimic the method logic
+                // if it's not already renewing installation, it will renew it
+                trackRefreshTokenRequest(request, origin: .api, level: .installation)
+            }
             renewInstallationTokenOrEnqueueRequest(succeeded, failed: failed, notNeeded: notNeeded)
         }
         else if tokenDAO.level == .user && request.requiredAuthLevel == .user {
@@ -235,6 +266,22 @@ private extension ApiClient {
             report(CoreReportSession.insufficientTokenLevel, message: message)
         } else {
             notNeeded?()
+        }
+    }
+
+    private func trackRefreshTokenRequest(_ request: URLRequestAuthenticable,
+                                          origin: EventParameterRefreshTokenOrigin,
+                                          level: AuthLevel) {
+        do {
+            if let host = try request.host() {
+                tracker?.trackRefreshToken(origin: origin,
+                                           originDomain: host,
+                                           tokenLevel: level.eventAuthLevel)
+            }
+        } catch _ {
+            tracker?.trackRefreshToken(origin: origin,
+                                       originDomain: "could not retrieve host",
+                                       tokenLevel: level.eventAuthLevel)
         }
     }
 
@@ -331,7 +378,7 @@ private extension ApiClient {
         if !renewingInstallation {
             renewingInstallation = true
             installationQueue.isSuspended = true
-
+            
             sessionManager?.authenticateInstallation { [weak self] result in
                 guard let strongSelf = self else { return }
 
@@ -375,6 +422,7 @@ private extension ApiClient {
     func renewUserTokenOrEnqueueRequest<T>(_ req: URLRequestAuthenticable, decoder: @escaping (Any) -> T?,
                                         completion: ((ResultResult<T, ApiError>.t) -> ())?) {
         if !renewingUser.value {
+            trackRefreshTokenRequest(req, origin: .api, level: .user)
             sessionManager?.renewUserToken { [weak self] result in
                 if let error = result.error {
                     completion?(ResultResult<T, ApiError>.t(error: error))

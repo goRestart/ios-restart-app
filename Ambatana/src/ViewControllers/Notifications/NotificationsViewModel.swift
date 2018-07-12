@@ -97,12 +97,13 @@ class NotificationsViewModel: BaseViewModel {
                         body: R.Strings.notificationsEmptySubtitle, buttonTitle: R.Strings.tabBarToolTip,
                         action: { [weak self] in self?.navigator?.openSell(source: .notifications, postCategory: nil) },
                         secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: .emptyResults, errorCode: nil,
-                        errorDescription: nil)
+                        errorDescription: nil, errorRequestHost: nil)
 
                     strongSelf.viewState.value = .empty(emptyViewModel)
                     if let errorReason = emptyViewModel.emptyReason {
                         strongSelf.trackErrorStateShown(reason: errorReason, errorCode: emptyViewModel.errorCode,
-                                                        errorDescription: emptyViewModel.errorDescription)
+                                                        errorDescription: emptyViewModel.errorDescription,
+                                                        errorRequestHost: emptyViewModel.errorRequestHost)
                     }
                 } else {
                     strongSelf.viewState.value = .data
@@ -111,7 +112,7 @@ class NotificationsViewModel: BaseViewModel {
             } else if let error = result.error {
                 switch error {
                     case .forbidden, .internalError, .notFound, .serverError, .tooManyRequests, .unauthorized, .userNotVerified,
-                         .network(errorCode: _, onBackground: false), .wsChatError, .searchAlertError:
+                         .network(errorCode: _, onBackground: false, _), .wsChatError, .searchAlertError:
                         if let emptyViewModel = LGEmptyViewModel.map(from: error, action: { [weak self] in
                                 self?.viewState.value = .loading
                                 self?.reloadNotifications()
@@ -120,10 +121,11 @@ class NotificationsViewModel: BaseViewModel {
                             if let errorReason = emptyViewModel.emptyReason {
                                 strongSelf.trackErrorStateShown(reason: errorReason,
                                                                 errorCode: emptyViewModel.errorCode,
-                                                                errorDescription: emptyViewModel.errorDescription)
+                                                                errorDescription: emptyViewModel.errorDescription,
+                                                                errorRequestHost: emptyViewModel.errorRequestHost)
                             }
                     }
-                    case .network(errorCode: _, onBackground: true):
+                    case .network(errorCode: _, onBackground: true, _):
                         break
                 }
             }
@@ -192,10 +194,12 @@ fileprivate extension NotificationsViewModel {
         tracker.trackEvent(event)
     }
     
-    func trackErrorStateShown(reason: EventParameterEmptyReason, errorCode: Int?, errorDescription: String?) {
+    func trackErrorStateShown(reason: EventParameterEmptyReason, errorCode: Int?, errorDescription: String?, errorRequestHost: String?) {
         let event = TrackerEvent.emptyStateVisit(typePage: .notifications, reason: reason,
                                                  errorCode: errorCode,
-                                                 errorDescription: errorDescription)
+                                                 errorDescription: errorDescription,
+                                                 errorRequestHost: errorRequestHost,
+                                                 featureFlags: featureFlags)
         tracker.trackEvent(event)
     }
 }

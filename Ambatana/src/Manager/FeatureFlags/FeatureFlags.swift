@@ -37,6 +37,7 @@ protocol FeatureFlaggeable: class {
     var showProTagUserProfile: Bool { get }
     var sectionedMainFeed: SectionedMainFeed { get }
     var showExactLocationForPros: Bool { get }
+    var emptyStateErrorResearchActive: Bool { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -688,6 +689,13 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.showExactLocationForPros
         }
         return abTests.showExactLocationForPros.value
+    }
+    
+    var emptyStateErrorResearchActive: Bool {
+        if Bumper.enabled {
+            return Bumper.emptyStateErrorResearchActive
+        }
+        return abTests.emptyStateErrorResearchActive.value
     }
 
     var showPasswordlessLogin: ShowPasswordlessLogin {

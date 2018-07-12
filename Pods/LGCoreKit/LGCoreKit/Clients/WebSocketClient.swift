@@ -66,8 +66,9 @@ protocol WebSocketClient: class {
 
     var eventBus: PublishSubject<ChatEvent> { get }
     var socketStatus: Variable<WebSocketStatus> { get }
-    
-    init(webSocket: WebSocketLibraryProtocol, reachability: ReachabilityProtocol)
+    var tracker: CoreTracker? { get set }
+
+    init(webSocket: WebSocketLibraryProtocol, reachability: ReachabilityProtocol, tracker: CoreTracker?)
     
     func start(withEndpoint endpoint: String)
     func stop()

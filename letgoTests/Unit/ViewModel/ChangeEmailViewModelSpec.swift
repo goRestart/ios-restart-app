@@ -127,7 +127,7 @@ class ChangeEmailViewModelSpec: QuickSpec {
                 describe("network error emssage") {
                     beforeEach {
                         sut.newEmail.value = "nestor.garcia@letgo.com"
-                        let error = RepositoryError(apiError: .network(errorCode: 0, onBackground: false))
+                        let error = RepositoryError(apiError: .network(errorCode: 0, onBackground: false, requestHost: nil))
                         myUserRepository.result = MyUserResult(error: error)
                         sut.updateEmail()
                     }

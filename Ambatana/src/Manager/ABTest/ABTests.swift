@@ -157,6 +157,7 @@ extension ABTests {
     var searchImprovements: LeanplumABVariable<Int> { return core.searchImprovements }
     var addPriceTitleDistanceToListings: LeanplumABVariable<Int> { return core.addPriceTitleDistanceToListings }
     var relaxedSearch: LeanplumABVariable<Int> { return core.relaxedSearch }
+    var emptyStateErrorResearchActive: LeanplumABVariable<Bool> { return core.emptyStateErrorResearchActive }
 }
 
 //  MARK: Chat

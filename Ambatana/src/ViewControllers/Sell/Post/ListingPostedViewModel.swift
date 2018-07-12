@@ -430,7 +430,7 @@ enum ListingPostedStatus {
 extension EventParameterPostListingError {
     init(error: RepositoryError) {
         switch error {
-        case .network(_, _):
+        case .network(_, _, _):
             self = .network
         case .serverError(let code):
             self = .serverError(code: code)

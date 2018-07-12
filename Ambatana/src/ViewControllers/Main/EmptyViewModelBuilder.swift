@@ -44,6 +44,7 @@ final class EmptyViewModelBuilder {
                                 secondaryAction: nil,
                                 emptyReason: nil,
                                 errorCode: nil,
-                                errorDescription: nil)
+                                errorDescription: nil,
+                                errorRequestHost: nil)
     }
 }

@@ -128,6 +128,8 @@
 		0A0CCB1D208E678E00DCFFCA /* ListingDeckVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0CCB1B208E670600DCFFCA /* ListingDeckVideoCell.swift */; };
 		0A0CD7F81FD97FBB00B0BACF /* FilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0CD7F71FD97FBB00B0BACF /* FilterCell.swift */; };
 		0A0CD7F91FD9806C00B0BACF /* FilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0CD7F71FD97FBB00B0BACF /* FilterCell.swift */; };
+		0A0DF9F520F61573001F6AD9 /* LGCoreTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0DF9F420F61573001F6AD9 /* LGCoreTracker.swift */; };
+		0A0DFA3020F77137001F6AD9 /* LGCoreTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0DF9F420F61573001F6AD9 /* LGCoreTracker.swift */; };
 		0A104696206CFB99003F1577 /* ABTestsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A104695206CFB99003F1577 /* ABTestsSpec.swift */; };
 		0A24AFED1FCF0CDE00F1CA6B /* ListingCardDetailMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2D69DF1FC6BA6900F072A1 /* ListingCardDetailMapView.swift */; };
 		0A25E8122019C87900E6A72E /* OnBoardingAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A25E8112019C87900E6A72E /* OnBoardingAnimator.swift */; };
@@ -2099,6 +2101,7 @@
 		0A0AF97B1FA864900024EF22 /* ListingDeckViewModelBinderSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckViewModelBinderSpec.swift; sourceTree = "<group>"; };
 		0A0CCB1B208E670600DCFFCA /* ListingDeckVideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingDeckVideoCell.swift; sourceTree = "<group>"; };
 		0A0CD7F71FD97FBB00B0BACF /* FilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCell.swift; sourceTree = "<group>"; };
+		0A0DF9F420F61573001F6AD9 /* LGCoreTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGCoreTracker.swift; sourceTree = "<group>"; };
 		0A104695206CFB99003F1577 /* ABTestsSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABTestsSpec.swift; sourceTree = "<group>"; };
 		0A25E8112019C87900E6A72E /* OnBoardingAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingAnimator.swift; sourceTree = "<group>"; };
 		0A2D69DC1FC5DA8700F072A1 /* Bounceable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bounceable.swift; sourceTree = "<group>"; };
@@ -4296,6 +4299,7 @@
 				50C9E4B81B71FBB7001E4E92 /* Tracker.swift */,
 				50C9E4BA1B71FBD7001E4E92 /* TrackerEvent.swift */,
 				50C9E4C81B735344001E4E92 /* TrackerEventDataTypes.swift */,
+				0A0DF9F420F61573001F6AD9 /* LGCoreTracker.swift */,
 			);
 			path = Tracking;
 			sourceTree = "<group>";
@@ -7755,6 +7759,7 @@
 				C6687F3A20C83A2C008C1922 /* MultiListingPostedIncentivisorCell.swift in Sources */,
 				502191101B2F1DC100ABD31F /* RememberPasswordViewModel.swift in Sources */,
 				F5A836AB1FD1AE32009E636D /* ListingAttributePickerViewController.swift in Sources */,
+				0A0DF9F520F61573001F6AD9 /* LGCoreTracker.swift in Sources */,
 				72C99E9C1DED7417006361C1 /* ChangePasswordCoordinator.swift in Sources */,
 				C7415ED61DE880BD0003D6C1 /* SimpleListingsViewController.swift in Sources */,
 				0A4AD7FA203DD9B8002625B7 /* UILayoutPriority.swift in Sources */,
@@ -8578,6 +8583,7 @@
 				2E9716AF1D5B2C59009B3A32 /* ChatWrapper.swift in Sources */,
 				C75018491D10681B007D4CE4 /* ChatOtherInfoCell.swift in Sources */,
 				F5A836AE1FD1BA11009E636D /* ListingAttributePickerViewController.swift in Sources */,
+				0A0DFA3020F77137001F6AD9 /* LGCoreTracker.swift in Sources */,
 				0A4AD7FB203DDACA002625B7 /* UILayoutPriority.swift in Sources */,
 				326C72D32088820F009D21DB /* WaterFallLayout.swift in Sources */,
 				C7DB421B1C5138B500400945 /* FilterHeaderCell.swift in Sources */,

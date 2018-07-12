@@ -34,7 +34,7 @@ class BaseChatGroupedListViewModelSpec: BaseViewModelSpec {
                             sut.emptyStatusViewModel = LGEmptyViewModel(icon: nil, title: "", body: "", buttonTitle: "",
                                                                         action: nil, secondaryButtonTitle: nil,
                                                                         secondaryAction: nil, emptyReason: .emptyResults,
-                                                                        errorCode: nil, errorDescription: nil)
+                                                                        errorCode: nil, errorDescription: nil, errorRequestHost: nil)
                             sut.retrievePage(1)
                         }
                         it("does not track empty state error because there was not an error") {
@@ -57,7 +57,8 @@ class BaseChatGroupedListViewModelSpec: BaseViewModelSpec {
                 context("fails with an internet connection error") {
                     beforeEach {
                         sut.result = Result<[String], RepositoryError>(error: .network(errorCode: -1,
-                                                                                       onBackground: false))
+                                                                                       onBackground: false,
+                                                                                       requestHost: nil))
                         sut.retrievePage(1)
                     }
                     

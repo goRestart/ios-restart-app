@@ -70,7 +70,8 @@ class NotificationsViewModelSpec: BaseViewModelSpec {
                     beforeEach {
                         let notificationsRepository = MockNotificationsRepository()
                         notificationsRepository.indexResult = Result<[NotificationModel], RepositoryError>(error: .network(errorCode: -1,
-                                                                                                                           onBackground: false))
+                                                                                                                           onBackground: false,
+                                                                                                                           requestHost: nil))
                         sut = NotificationsViewModel(notificationsRepository: notificationsRepository,
                                                      listingRepository: MockListingRepository(), userRepository: MockUserRepository(),
                                                      myUserRepository: MockMyUserRepository(), notificationsManager: MockNotificationsManager(),

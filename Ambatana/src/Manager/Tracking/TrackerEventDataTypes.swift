@@ -175,6 +175,10 @@ enum EventName: String {
     case chatWindowVisit                    = "chat-window-open"
     
     case emptyStateError                    = "empty-state-error"
+    case refreshToken                       = "refresh-token"
+    case refreshTokenResponse               = "refresh-token-response"
+    case requestTimeOut                     = "request-timeout"
+    case connectivityChange                 = "connectivity-change"
     
     case filterBubble                       = "filter-bubble"
     case onboardingInterestsComplete        = "onboarding-interests-complete"
@@ -280,6 +284,8 @@ enum EventParameterName: String {
     case errorDetails         = "error-details"
     case permissionType       = "permission-type"
     case typePage             = "type-page"
+    case errorRequestHost     = "error-request-host"
+    case appState             = "app-state"
     case alertType            = "alert-type"
     case permissionGoToSettings = "permission-go-to-settings"
     case negotiablePrice      = "negotiable-price"
@@ -414,6 +420,21 @@ enum EventParameterName: String {
     case returnedResults    = "returned-results"
     case featuredResults    = "featured-results"
     case action             = "action"
+
+    case refreshTokenOrigin = "refresh-token-origin"
+    case refreshTokenOriginDomain = "refresh-token-origin-domain"
+    case refreshTokenLevel = "refresh-token-level"
+    case refreshTokenResut = "refresh-token-result"
+    case refreshTokenSuccess = "refresh-token-success"
+    case refreshTokenError = "refresh-token-error"
+    case requestHost = "request-host"
+    case requestEndpoint = "request-endpoint"
+    case requestStatusCode = "request-status-code"
+    case requestErrorCode = "request-error-code"
+    case requestTotalDuration = "request-total-duration"
+    case requestDuration = "request-duration"
+
+    case connectivityStatus = "connectivity-status"
 }
 
 enum EventParameterBoolean: String {
@@ -1220,6 +1241,12 @@ enum EventParameterEmptyReason: String {
     case chatUserBlocked     = "chat-user-blocked"
     case notAuthenticated    = "not-authenticated"
     case differentCountry    = "different-country"
+}
+
+enum EventParameterEmptyInternetReachability: String {
+    case wifi = "wifi"
+    case cellular = "cellular"
+    case noConnection = "no connection"
 }
 
 enum EventParameterQuickAnswerType: String {

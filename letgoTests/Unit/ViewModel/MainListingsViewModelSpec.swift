@@ -452,7 +452,7 @@ class MainListingsViewModelSpec: QuickSpec {
                 }
                 context("with internet connection error") {
                     beforeEach {
-                        sut.listingListMV(listingListViewModel, didFailRetrievingListingsPage: 0, hasListings: false, error:.network(errorCode: -1, onBackground: false))
+                        sut.listingListMV(listingListViewModel, didFailRetrievingListingsPage: 0, hasListings: false, error:.network(errorCode: -1, onBackground: false, requestHost: nil))
                     }
                     it("fires empty-state-error") {
                         let eventNames = mockTracker.trackedEvents.flatMap { $0.name }

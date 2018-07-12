@@ -45,6 +45,7 @@ extension AppDelegate: UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         GodModeManager.sharedInstance.applicationDidFinishLaunching()
+        Core.tracker = LGCoreTracker()
         let featureFlags = FeatureFlags.sharedInstance
         self.featureFlags = featureFlags
         featureFlags.registerVariables()

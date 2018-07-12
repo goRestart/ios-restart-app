@@ -717,10 +717,10 @@ class ChatViewModel: BaseViewModel {
     }
 
     private func setupReachability() {
-        reachability.reachableBlock = { [weak self] in
+        reachability.reachableBlock = { [weak self] _ in
             self?.rx_isReachable.value = true
         }
-        reachability.unreachableBlock = { [weak self] in
+        reachability.unreachableBlock = { [weak self] _ in
             self?.rx_isReachable.value = false
         }
         reachability.start()

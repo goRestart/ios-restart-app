@@ -24,6 +24,7 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, RxPaginable {
     private let chatRepository: ChatRepository
     private let myUserRepository: MyUserRepository
     private let tracker: Tracker
+    private let featureFlags: FeatureFlaggeable
     
     let conversations = Variable<[ChatInactiveConversation]>([])
     let selectedConversationIds = Variable<[String]>([])
@@ -47,7 +48,8 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, RxPaginable {
                                 secondaryAction: nil,
                                 emptyReason: .emptyResults,
                                 errorCode: nil,
-                                errorDescription: nil)
+                                errorDescription: nil,
+                                errorRequestHost: nil)
     }
     
     // MARK: - Lifecycle
@@ -56,17 +58,20 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, RxPaginable {
         self.init(navigator: navigator,
                   chatRepository: Core.chatRepository,
                   myUserRepository: Core.myUserRepository,
-                  tracker: TrackerProxy.sharedInstance)
+                  tracker: TrackerProxy.sharedInstance,
+                  featureFlags: FeatureFlags.sharedInstance)
     }
     
     required init(navigator: TabNavigator?,
                   chatRepository: ChatRepository,
                   myUserRepository: MyUserRepository,
-                  tracker: Tracker) {
+                  tracker: Tracker,
+                  featureFlags: FeatureFlaggeable) {
         self.navigator = navigator
         self.chatRepository = chatRepository
         self.myUserRepository = myUserRepository
         self.tracker = tracker
+        self.featureFlags = featureFlags
         super.init()
         setupRx()
     }
@@ -111,7 +116,8 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, RxPaginable {
                 case let .error(emptyVM):
                     if let emptyReason = self?.emptyViewModel?.emptyReason {
                         self?.trackErrorStateShown(reason: emptyReason, errorCode: emptyVM.errorCode,
-                                                   errorDescription: emptyVM.errorDescription)
+                                                   errorDescription: emptyVM.errorDescription,
+                                                   errorRequestHost: emptyVM.errorRequestHost)
                     }
                 case .loading, .data, .empty:
                     break
@@ -244,10 +250,12 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, RxPaginable {
     
     // MARK: - Tracking
     
-    func trackErrorStateShown(reason: EventParameterEmptyReason, errorCode: Int?, errorDescription: String?) {
+    func trackErrorStateShown(reason: EventParameterEmptyReason, errorCode: Int?, errorDescription: String?, errorRequestHost: String?) {
         let event = TrackerEvent.emptyStateVisit(typePage: .chatList, reason: reason,
                                                  errorCode: errorCode,
-                                                 errorDescription: errorDescription)
+                                                 errorDescription: errorDescription,
+                                                 errorRequestHost: errorRequestHost,
+                                                 featureFlags: featureFlags)
         tracker.trackEvent(event)
     }
     

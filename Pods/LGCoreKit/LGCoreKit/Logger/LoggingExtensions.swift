@@ -16,6 +16,19 @@ extension URLRequestAuthenticable {
     }
 }
 
+extension URLRequestAuthenticable {
+    func host() throws -> String? {
+        guard let url = try asURLRequest().url, let host = url.host else { return nil }
+        return host
+    }
+    func path() throws -> String? {
+        if let url = try asURLRequest().url {
+           return url.path
+        }
+        return nil
+    }
+}
+
 extension URLRequest {
     var debugMessage: String {
         var httpBody: String?

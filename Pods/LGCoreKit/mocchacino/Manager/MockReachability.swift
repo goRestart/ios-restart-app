@@ -22,13 +22,12 @@ open class MockReachability: ReachabilityProtocol {
     }
     
     public func performBlock() {
-        isOnline ? reachableBlock?() : unreachableBlock?()
+        isOnline ? reachableBlock?(.wifi) : unreachableBlock?(.none)
     }
     
     // MARK: - ReachableNotifier Protocol
-    
-    public var reachableBlock: (() -> Void)?
-    public var unreachableBlock: (() -> Void)?
+    public var reachableBlock: ((LGConnection) -> Void)?
+    public var unreachableBlock: ((LGConnection) -> Void)?
     
     public var isReachable: Bool? {
         get {

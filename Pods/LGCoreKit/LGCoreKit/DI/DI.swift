@@ -43,7 +43,6 @@ public protocol DI: class {
     var notificationSettingsPusherRepository: NotificationSettingsPusherRepository { get }
     var notificationSettingsMailerRepository: NotificationSettingsMailerRepository { get }
 
-    
     // Helper
     var dateFormatter: DateFormatter { get }
     var currencyHelper: CurrencyHelper { get }
@@ -51,6 +50,9 @@ public protocol DI: class {
 
     // Logs
     var reporter: ReporterProxy { get }
+
+    // Tracker
+    var tracker: CoreTracker? { get set } // refresh token incident
 }
 
 

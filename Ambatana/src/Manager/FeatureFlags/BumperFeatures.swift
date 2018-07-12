@@ -74,6 +74,7 @@ extension Bumper  {
         flags.append(ShowChatConnectionStatusBar.self)
         flags.append(AdvancedReputationSystem.self)
         flags.append(NotificationSettings.self)
+        flags.append(EmptyStateErrorResearchActive.self)
         Bumper.initialize(flags)
     } 
 
@@ -782,11 +783,6 @@ extension Bumper  {
     static var simplifiedChatButton: SimplifiedChatButton {
         guard let value = Bumper.value(for: SimplifiedChatButton.key) else { return .control }
         return SimplifiedChatButton(rawValue: value) ?? .control 
-    }
-
-    static var notificationSettings: NotificationSettings {
-        guard let value = Bumper.value(for: NotificationSettings.key) else { return .control }
-        return NotificationSettings(rawValue: value) ?? .control 
     } 
 
     #if (RX_BUMPER)
@@ -819,6 +815,32 @@ extension Bumper  {
     static var advancedReputationSystemObservable: Observable<AdvancedReputationSystem> {
         return Bumper.observeValue(for: AdvancedReputationSystem.key).map {
             AdvancedReputationSystem(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var notificationSettings: NotificationSettings {
+        guard let value = Bumper.value(for: NotificationSettings.key) else { return .control }
+        return NotificationSettings(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var notificationSettingsObservable: Observable<NotificationSettings> {
+        return Bumper.observeValue(for: NotificationSettings.key).map {
+            NotificationSettings(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var emptyStateErrorResearchActive: Bool {
+        guard let value = Bumper.value(for: EmptyStateErrorResearchActive.key) else { return false }
+        return EmptyStateErrorResearchActive(rawValue: value)?.asBool ?? false
+    } 
+
+    #if (RX_BUMPER)
+    static var emptyStateErrorResearchActiveObservable: Observable<Bool> {
+        return Bumper.observeValue(for: EmptyStateErrorResearchActive.key).map {
+            EmptyStateErrorResearchActive(rawValue: $0 ?? "")?.asBool ?? false
         }
     }
     #endif
@@ -1743,5 +1765,14 @@ enum NotificationSettings: String, BumperFeature  {
             default: return .control
         }
     }
+}
+
+enum EmptyStateErrorResearchActive: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return EmptyStateErrorResearchActive.no.rawValue }
+    static var enumValues: [EmptyStateErrorResearchActive] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Sends more events and params to Amplitude to find the empty-state-error issue." } 
+    var asBool: Bool { return self == .yes }
 }
 

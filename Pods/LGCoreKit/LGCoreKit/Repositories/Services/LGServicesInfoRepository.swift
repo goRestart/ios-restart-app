@@ -80,7 +80,7 @@ final class LGServicesInfoRepository: ServicesInfoRepository {
 extension LGServicesInfoRepository {
     
     private func setupRX() {
-        locationManager.locationEvents.filter { $0 == .locationUpdate }.subscribeNext { [weak self] _ in
+        locationManager.locationEvents.take(1).filter { $0 == .locationUpdate }.subscribeNext { [weak self] _ in
             guard let locationCountryCode = self?.locationManager.currentLocation?.postalAddress?.countryCode,
                 locationCountryCode != self?.countryCode else { return }
             self?.refreshServicesFile()

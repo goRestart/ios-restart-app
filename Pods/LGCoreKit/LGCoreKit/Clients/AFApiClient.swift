@@ -10,6 +10,11 @@ import Alamofire
 import Result
 import RxSwift
 
+enum TimeOutDefaults {
+    static let noHost = "could not retrieve host"
+    static let noEndPoint = "could not retrieve endpoint"
+}
+
 public enum ConflictCause {
 
     case userExists
@@ -97,7 +102,7 @@ public func ==(lhs: ForbiddenCause, rhs: ForbiddenCause) -> Bool {
 
 public enum ApiError: Error {
     // errorCode references URLError codes (i.e. URLErrorUnknown)
-    case network(errorCode: Int, onBackground: Bool)
+    case network(errorCode: Int, onBackground: Bool, requestHost: String?)
     case internalError(description: String)
 
     case badRequest(cause: BadRequestCause)
@@ -214,12 +219,14 @@ class AFApiClient: ApiClient {
     let renewingUser = Variable<Bool>(false)
     var userQueue: OperationQueue
 
+    var tracker: CoreTracker?
 
     // MARK: - Lifecycle
     
-    init(alamofireManager: Alamofire.SessionManager, tokenDAO: TokenDAO) {
+    init(alamofireManager: Alamofire.SessionManager, tokenDAO: TokenDAO, tracker: CoreTracker?) {
         self.alamofireManager = alamofireManager
         self.tokenDAO = tokenDAO
+        self.tracker = tracker
         self.renewingInstallation = false
         self.installationQueue = OperationQueue()
         self.renewingUser.value = false

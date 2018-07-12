@@ -83,6 +83,8 @@ class LGWebSocketClient: WebSocketClient, WebSocketLibraryDelegate {
     private var pingTimer: Timer?
     private var backgroundTimeoutTimer: Timer?
 
+    var tracker: CoreTracker?
+
     /** Completions are stored to be executed once the WS delegate inform us of the ack/error */
     private var pendingCommandCompletions: [String: ((Result<Void, WebSocketError>) -> Void)] = [:]
     private var pendingQueryCompletions: [String: ((Result<[AnyHashable: Any], WebSocketError>) -> Void)] = [:]
@@ -115,18 +117,21 @@ class LGWebSocketClient: WebSocketClient, WebSocketLibraryDelegate {
     
     // MARK: - LifeCycle
     
-    required init(webSocket: WebSocketLibraryProtocol, reachability: ReachabilityProtocol) {
+    required init(webSocket: WebSocketLibraryProtocol,
+                  reachability: ReachabilityProtocol,
+                  tracker: CoreTracker?) {
         self.webSocket = webSocket
         self.reachability = reachability
+        self.tracker = tracker
         operationQueue.maxConcurrentOperationCount = 1
         operationQueue.isSuspended = true
-        self.reachability.reachableBlock = { [weak self] in
+        self.reachability.reachableBlock = { [weak self] _ in
             logMessage(LogLevel.debug, type: .webSockets,
                        message: "[Reachability] Online. \(self?.operationQueue.operationCount ?? 0) operations in queue")
             // Open web socket if we have peding operations, otherwise it will open on demand
             self?.openWebSocketIfPendingOperations()
         }
-        self.reachability.unreachableBlock = { [weak self] in
+        self.reachability.unreachableBlock = { [weak self] _ in
             logMessage(LogLevel.debug, type: .webSockets,
                        message: "[Reachability] Offline. \(self?.operationQueue.operationCount ?? 0) operations in queue")
             self?.invalidateOpenWebSocketTimer()
@@ -739,7 +744,12 @@ class LGWebSocketClient: WebSocketClient, WebSocketLibraryDelegate {
         logMessage(LogLevel.debug, type: .webSockets, message: "[AUTH] Trying to renew user token")
         suspendOperations()
         setSocketStatus(.open(authenticated: .notAuthenticated))
-        sessionManager?.renewUserToken(nil)
+        tracker?.trackRefreshToken(origin: .websocket, originDomain: nil, tokenLevel: .user)
+        sessionManager?.renewUserToken({ [weak self] (result) in
+            self?.tracker?.trackRefreshTokenResponse(origin: .websocket,
+                                                     success: result.error == nil,
+                                                     description: result.debugDescription)
+        })
     }
     
     private func authenticateWebSocket() {

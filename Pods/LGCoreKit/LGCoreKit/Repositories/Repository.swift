@@ -14,7 +14,7 @@ import Result
 public enum RepositoryError: Error, ApiErrorConvertible, WebSocketErrorConvertible {
     
     case internalError(message: String)
-    case network(errorCode: Int, onBackground: Bool)
+    case network(errorCode: Int, onBackground: Bool, requestHost: String?)
     case notFound
     case unauthorized(code: Int?, description: String?)
     case forbidden(cause: ForbiddenCause)
@@ -26,8 +26,8 @@ public enum RepositoryError: Error, ApiErrorConvertible, WebSocketErrorConvertib
 
     public init(apiError: ApiError) {
         switch apiError {
-        case let .network(errorCode, onBackground):
-            self = .network(errorCode: errorCode, onBackground: onBackground)
+        case let .network(errorCode, onBackground, requestHost):
+            self = .network(errorCode: errorCode, onBackground: onBackground, requestHost: requestHost)
         case let .internalError(description):
             self = .internalError(message: description)
         case .badRequest(let cause):
@@ -82,7 +82,7 @@ public enum RepositoryError: Error, ApiErrorConvertible, WebSocketErrorConvertib
     }
     
     public static func setupNetworkGenericError() -> RepositoryError {
-        return .network(errorCode: 408, onBackground: false)
+        return .network(errorCode: 408, onBackground: false, requestHost: nil)
     }
 }
 
