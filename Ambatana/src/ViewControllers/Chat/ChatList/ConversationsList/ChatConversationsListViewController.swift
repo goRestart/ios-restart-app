@@ -3,7 +3,7 @@ import RxDataSources
 import LGCoreKit
 import LGComponents
 
-final class ChatConversationsListViewController: ChatBaseViewController {
+final class ChatConversationsListViewController: ChatBaseViewController, ScrollableToTop {
     
     private let viewModel: ChatConversationsListViewModel
     private let contentView = ChatConversationsListView()
@@ -213,5 +213,12 @@ final class ChatConversationsListViewController: ChatBaseViewController {
     
     @objc private func navigationBarCancelButtonPressed() {
         viewModel.switchEditMode(isEditing: false)
+    }
+
+    // MARK: - ScrollableToTop
+
+    func scrollToTop() {
+        guard viewModel.objectCount > 0 else { return }
+        contentView.scrollToTop()
     }
 }

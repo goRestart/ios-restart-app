@@ -25,7 +25,7 @@ final class ChatDetailNavBarInfoView: UIView {
 
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemBoldFont(size: 13)
+        label.font = .systemBoldFont(size: 15)
         label.textColor = UIColor.blackText
         label.textAlignment = .left
         return label

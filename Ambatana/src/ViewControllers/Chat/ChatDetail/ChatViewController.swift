@@ -215,6 +215,7 @@ final class ChatViewController: TextViewController {
         listingView.layoutIfNeeded()
         setNavBarTitleStyle(.custom(listingView))
         setLetGoRightButtonWith(image: R.Asset.IconsButtons.icMoreOptions.image, selector: "optionsBtnPressed")
+        setNavBarBackgroundStyle(viewModel.showWhiteBackground ? .white : .default)
     }
 
     private func updateNavigationBarHeaderWith(view: UIView?) {

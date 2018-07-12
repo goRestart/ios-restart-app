@@ -138,8 +138,7 @@ class ChatViewModel: BaseViewModel {
     }
 
     var showWhiteBackground: Bool {
-        let assistantNoProduct = (isUserDummy && featureFlags.showChatHeaderWithoutListingForAssistant && listingId == nil)
-        return featureFlags.showChatHeaderWithoutUser || assistantNoProduct
+        return featureFlags.showChatHeaderWithoutUser
     }
 
 

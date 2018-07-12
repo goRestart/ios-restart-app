@@ -231,9 +231,8 @@ public extension UIColor {
     static var chatOthersBubbleBgColorGray: UIColor { return blackAlpha04 }
     static var chatOthersBubbleBgColorSelected: UIColor { return grayLighter }
 
-    static var assistantConversationCellBgColor: UIColor { return primaryColorAlpha08 }
+    static var assistantConversationCellBgColor: UIColor { return UIColor(rgb: 0xFFF0F1) }
 
-    private static let primaryColorAlpha08 = UIColor(rgb: 0xFFE0F1)
     private static let primaryColorAlpha16 = UIColor(rgb: 0xFFE0E4) // (255, 224, 228)
     private static let primaryColorAlpha30 = UIColor(rgb: 0xFFC6CD) // (255, 198, 205)
 
