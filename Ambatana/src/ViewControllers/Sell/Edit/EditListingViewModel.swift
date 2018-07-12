@@ -534,23 +534,23 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
     
     func carBodyButtonPressed() {
-        openCarEditOption(selectedOption: carBody.value?.rawValue, type: .body)
+        openCarEditOption(selectedOption: carBody.value?.title, type: .body)
     }
     
     func carTransmissionButtonPressed() {
-        openCarEditOption(selectedOption: carTransmission.value?.rawValue, type: .transmission)
+        openCarEditOption(selectedOption: carTransmission.value?.title, type: .transmission)
     }
     
     func carFuelButtonPressed() {
-        openCarEditOption(selectedOption: carFuel.value?.rawValue, type: .fuel)
+        openCarEditOption(selectedOption: carFuel.value?.title, type: .fuel)
     }
     
     func carDrivetrainButtonPressed() {
-        openCarEditOption(selectedOption: carDrivetrain.value?.rawValue, type: .drivetrain)
+        openCarEditOption(selectedOption: carDrivetrain.value?.title, type: .drivetrain)
     }
     
     func carSeatButtonPressed() {
-        openCarEditOption(selectedOption: carDrivetrain.value?.rawValue, type: .seat)
+        openCarEditOption(selectedOption: carDrivetrain.value?.title, type: .seat)
     }
     
     private func openCarEditOption(selectedOption: String?, type: CarDetailType) {

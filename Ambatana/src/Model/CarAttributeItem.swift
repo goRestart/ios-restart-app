@@ -26,11 +26,11 @@ extension CarAttributeItem {
     }
     
     static func newSeatNumberInstance(withSeatNumber seatNumber: Int?) -> CarAttributeItem? {
-        guard let seatNumber = seatNumber else { return nil }
-        let title = "\(seatNumber) " + R.Strings.filtersNumberOfSeatsSliderTitle
+        guard let seatNumber = seatNumber, let carSeat = CarSeat(rawValue: seatNumber) else { return nil }
+        let title = [carSeat.title, R.Strings.filtersNumberOfSeatsSliderTitle].joined(separator: " ")
         return CarAttributeItem(typeName: R.Strings.filterCarsSeatsTitle,
                                 title: title,
-                                value: String(seatNumber),
+                                value: carSeat.title,
                                 icon: R.Asset.IconsButtons.FiltersCarExtrasIcons.seats.image)
     }
 }
