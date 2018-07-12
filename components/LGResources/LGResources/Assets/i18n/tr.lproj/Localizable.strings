@@ -1,5 +1,6 @@
 "account_pending_moderation" = "Hesap inceleme altındadır";
 "account_pending_moderation_w_name" = "%@ adlı kullanıcının hesabı inceleme altındadır";
+"advertising_text" = "Reklam";
 "app_notification_reply" = "Yanıtla";
 "app_share_download_text" = "Yükle";
 "app_share_email_button" = "E-posta ile davet et";
@@ -219,7 +220,7 @@
 "chat_send_error_different_country" = "Farklı bir ülkede yayınlanmış bir ilan için mesaj gönderemezsin.";
 "chat_send_error_generic" = "Mesaj gönderilirken bir hata oluştu. Lütfen tekrar dene.";
 "chat_status_view_connecting" = "Bağlanıyor...";
-"chat_status_view_no_network" = "Ağ bağlantısı yok";
+"chat_status_view_no_network" = "Bağlı değil";
 "chat_status_view_try_again" = "tekrar dene";
 "chat_status_view_unable_to_connect" = "Bağlanamıyor. Lütfen tekrar dene";
 "chat_stickers_tooltip_new" = "YENİ!";
@@ -368,6 +369,7 @@
 "featured_info_view_more_buyers" = "Daha çok alıcıyı çek";
 "featured_info_view_sell_faster" = "Hemen sat";
 "featured_info_view_title" = "Öne Çıkan İlan";
+"filter_cars_mileage" = "Kilometre sayacı";
 "filter_cars_seats_title" = "Koltuklar";
 "filter_results_cars_no_matches" = "Aramanla eşleşen bir sonuç yok.\nBenzer sonuçlar gösteriliyor. ";
 "filter_results_cars_other_results" = "Çevrende en son yayınlananlar";
@@ -478,7 +480,7 @@
 "id_verification_third_step_subtitle" = "Kimliğinin net olduğundan ve görüntü bulucunun kutusunun içinde olduğundan emin ol";
 "id_verification_third_step_title" = "Kimliğinin ön kısmının fotoğrafını çek";
 "id_verification_update_avatar_message" = "Bunu profil fotoğrafın yapmak ister misin?";
-"kilometer_unit_suffix" = "KM";
+"kilometer_unit_suffix" = "km";
 "listing_chat_button" = "Mesajlaş";
 "listing_interested_button_A" = "İlgileniyorum";
 "listing_interested_button_B" = "İlgileniyorum";
@@ -562,7 +564,6 @@
 "ml_onboarding_description_text" = "Bana bir ürün göster sana kaç para kazanacağını söyleyeyim";
 "ml_onboarding_new_text" = "YENİ!";
 "ml_onboarding_ok_text" = "OK";
-"mopub_advertising_text" = "Reklam";
 "notifications_empty_subtitle" = "Burada bir hareketlenme görmek için yeni bir ürün satışa çıkar";
 "notifications_empty_title" = "(HENÜZ!) BİLDİRİM YOK";
 "notifications_permissions_1_push" = "Ayşenur: Telefonu beğendim. 150'ye bırakır mısın?";
@@ -795,6 +796,8 @@
 "product_new_onboarding_tap_right_highlighted_label" = "Sağa dokun";
 "product_new_onboarding_tap_right_highlighted_label_2" = "ekrana";
 "product_new_onboarding_tap_right_label" = "Sonraki fotoğrafı görmek için %@ veya %@";
+"product_nit_onboarding_next_picture" = "Sonraki resim";
+"product_nit_onboarding_previous_picture" = "Önceki resim";
 "product_onboarding_finger_scroll_label" = "Daha fazla fotoğraf görmek için sürükle";
 "product_onboarding_finger_swipe_label" = "Bir önceki veya sonraki ilana gitmek için ekranı kaydır";
 "product_onboarding_finger_tap_label" = "Bir sonraki ilana gitmek için dokun";
@@ -1059,6 +1062,8 @@
 "real_estate_gallery_view_subtitle_params" = "Satmak ya da kiralamak istediğin emlak için %d adete kadar fotoğraf seçebilirsin. İlk fotoğraf öne çıkan fotoğrafın olacak, oldukça net gözükmeli!";
 "real_estate_location_notification_message" = "Açık adresini diğer kullanıcılara asla göstermeyeceğiz";
 "real_estate_location_title" = "Konum";
+"real_estate_map_tooltip_button_title" = "Şimdi Dene";
+"real_estate_map_tooltip_title" = "Yeni! Emlakları bir haritada gör.";
 "real_estate_offer_type_rent" = "Kiralık";
 "real_estate_offer_type_sale" = "Satılık";
 "real_estate_offer_type_title" = "İlan Türü";

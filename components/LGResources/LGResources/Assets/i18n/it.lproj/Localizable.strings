@@ -1,5 +1,6 @@
 "account_pending_moderation" = "Account in attesa di moderazione";
 "account_pending_moderation_w_name" = "L'account di %@ è in attesa di moderazione";
+"advertising_text" = "Annuncio";
 "app_notification_reply" = "Rispondi";
 "app_share_download_text" = "Scarica";
 "app_share_email_button" = "Invita via Email";
@@ -219,7 +220,7 @@
 "chat_send_error_different_country" = "Non puoi iniziare una conversazione su un annuncio pubblicato in un paese differente.";
 "chat_send_error_generic" = "Si è verificato un errore durante l'invio del messaggio. Riprova.";
 "chat_status_view_connecting" = "Connessione...";
-"chat_status_view_no_network" = "Nessuna connessione di rete";
+"chat_status_view_no_network" = "Non connesso";
 "chat_status_view_try_again" = "Riprova";
 "chat_status_view_unable_to_connect" = "Impossibile connettersi. Riprova.";
 "chat_stickers_tooltip_new" = "NOVITÀ!";
@@ -368,6 +369,7 @@
 "featured_info_view_more_buyers" = "Attira più compratori";
 "featured_info_view_sell_faster" = "Vendi più velocemente";
 "featured_info_view_title" = "Articolo in evidenza";
+"filter_cars_mileage" = "Chilometraggio";
 "filter_cars_seats_title" = "Posti";
 "filter_results_cars_no_matches" = "Nessuna corrispondenza per la tua ricerca.\n Risultati simili. ";
 "filter_results_cars_other_results" = "Pubblicati di recente nella tua zona";
@@ -426,7 +428,7 @@
 "filters_section_distance" = "Distanza";
 "filters_section_location" = "Posizione";
 "filters_section_price" = "Prezzo";
-"filters_section_price_free_title" = "Mostra solo oggetti gratuiti";
+"filters_section_price_free_title" = "Mostra solo articoli gratuiti";
 "filters_section_real_estate_info" = "Informazioni proprietà";
 "filters_section_services_info" = "Informazioni servizio";
 "filters_section_sortby" = "Ordina per";
@@ -478,7 +480,7 @@
 "id_verification_third_step_subtitle" = "Assicurati che il documento sia visibile e all'interno del riquadro";
 "id_verification_third_step_title" = "Fai una foto della parte frontale del documento";
 "id_verification_update_avatar_message" = "Desideri impostarla come immagine del profilo?";
-"kilometer_unit_suffix" = "KM";
+"kilometer_unit_suffix" = "km";
 "listing_chat_button" = "Chatta subito";
 "listing_interested_button_A" = "Sono interessato!";
 "listing_interested_button_B" = "Mi interessa";
@@ -562,7 +564,6 @@
 "ml_onboarding_description_text" = "Mostrami un oggetto e ti dirò quanto potrai guadagnare";
 "ml_onboarding_new_text" = "NOVITÀ!";
 "ml_onboarding_ok_text" = "OK";
-"mopub_advertising_text" = "Annuncio";
 "notifications_empty_subtitle" = "Pubblica qualcosa da vendere per iniziare a vedere delle attività";
 "notifications_empty_title" = "ANCORA NESSUNA NOTIFICA!";
 "notifications_permissions_1_push" = "Francesca: il tuo telefono mi interessa molto. Me lo lasci per 100€?";
@@ -795,6 +796,8 @@
 "product_new_onboarding_tap_right_highlighted_label" = "Tocca a sinistra";
 "product_new_onboarding_tap_right_highlighted_label_2" = "nel centro";
 "product_new_onboarding_tap_right_label" = "%@ or %@ per vedere la foto successiva";
+"product_nit_onboarding_next_picture" = "Immagine successiva";
+"product_nit_onboarding_previous_picture" = "Immagine precedente";
 "product_onboarding_finger_scroll_label" = "Scorri per vedere altre foto";
 "product_onboarding_finger_swipe_label" = "Striscia il dito per passare all'annuncio successivo o a quello precedente";
 "product_onboarding_finger_tap_label" = "Tocca per passare all'annuncio successivo";
@@ -1059,6 +1062,8 @@
 "real_estate_gallery_view_subtitle_params" = "Seleziona un massimo di %d immagini della proprietà che desideri vendere o affittare. La prima foto sarà quella principale, quindi assicurati che sia ben fatta!";
 "real_estate_location_notification_message" = "La tua posizione esatta non verrà mai mostrata agli altri utenti";
 "real_estate_location_title" = "Posizione";
+"real_estate_map_tooltip_button_title" = "Prova adesso";
+"real_estate_map_tooltip_title" = "Novità! Visualizza proprietà su una mappa.";
 "real_estate_offer_type_rent" = "In affitto";
 "real_estate_offer_type_sale" = "In vendita";
 "real_estate_offer_type_title" = "Tipo di annuncio";

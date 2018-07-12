@@ -1,5 +1,6 @@
 "account_pending_moderation" = "Tài khoản đang chờ duyệt";
 "account_pending_moderation_w_name" = "Tài khoản của %@ đang chờ duyệt";
+"advertising_text" = "QC";
 "app_notification_reply" = "Trả lời";
 "app_share_download_text" = "Tải về";
 "app_share_email_button" = "Mời qua Email";
@@ -368,7 +369,8 @@
 "featured_info_view_more_buyers" = "Thu hút thêm người mua";
 "featured_info_view_sell_faster" = "Bán nhanh hơn";
 "featured_info_view_title" = "Bài đăng Nổi bật";
-"filter_cars_seats_title" = "Seats";
+"filter_cars_mileage" = "Số km đã đi";
+"filter_cars_seats_title" = "Chỗ";
 "filter_results_cars_no_matches" = "Không có kết quả chính xác cho tìm kiếm của bạn.\nHiển thị kết quả tương tự. ";
 "filter_results_cars_other_results" = "Được đăng gần đây tại khu vực của bạn";
 "filters_car_make_not_set" = "Chưa Cài Đặt";
@@ -406,9 +408,9 @@
 "filters_cars_transmission_manual" = "Số sàn";
 "filters_cars_transmission_title" = "Cơ cấu truyền động";
 "filters_distance_not_set" = "chưa được cài đặt";
-"filters_mileage_slider_title" = "Mileage";
+"filters_mileage_slider_title" = "Số km đã đi";
 "filters_navbar_reset" = "Xóa";
-"filters_numberOfSeats_slider_title" = "Seats";
+"filters_numberOfSeats_slider_title" = "Chỗ";
 "filters_price_from" = "Từ";
 "filters_price_from_feed_filter_cell" = "Từ";
 "filters_price_to" = "Tới";
@@ -426,7 +428,7 @@
 "filters_section_distance" = "Khoảng cách";
 "filters_section_location" = "Địa điểm";
 "filters_section_price" = "Giá";
-"filters_section_price_free_title" = "Chỉ hiện các sản phẩm miễn phí";
+"filters_section_price_free_title" = "Chỉ hiện các món đồ miễn phí";
 "filters_section_real_estate_info" = "Thông tin nhà đất";
 "filters_section_services_info" = "Thông tin dịch vụ";
 "filters_section_sortby" = "Sắp xếp theo";
@@ -434,7 +436,7 @@
 "filters_service_subtype_not_set" = "Chưa Cài Đặt";
 "filters_service_type_not_set" = "Chưa Cài Đặt";
 "filters_size_wrong_range_error" = "Diện tích tối thiểu không thể lớn hơn diện tích tối đa.";
-"filters_slider_any" = "Any";
+"filters_slider_any" = "Bất kỳ";
 "filters_sort_closest" = "Gần nhất trước tiên";
 "filters_sort_newest" = "Mới nhất trước tiên";
 "filters_sort_price_asc" = "Giá từ thấp lên cao";
@@ -551,7 +553,7 @@
 "meeting_creation_view_suggest_cell_select" = "Chọn";
 "meeting_creation_view_suggest_cell_selected" = "Đã chọn";
 "meeting_creation_view_title" = "Lên lịch hẹn";
-"mile_unit_suffix" = "mi";
+"mile_unit_suffix" = "km";
 "ml_camera_in_about_days_text" = "trong khoảng %d ngày";
 "ml_camera_in_more_than_days_text" = "trong hơn %d ngày";
 "ml_camera_sells_for_text" = "Thường bán được %d";
@@ -562,7 +564,6 @@
 "ml_onboarding_description_text" = "Cho tôi xem một món đồ và tôi sẽ cho bạn biết bạn sẽ kiếm được bao nhiêu";
 "ml_onboarding_new_text" = "MỚI!";
 "ml_onboarding_ok_text" = "OK";
-"mopub_advertising_text" = "QC";
 "notifications_empty_subtitle" = "Đăng bán sản phẩm nào đó để bắt đầu xem hoạt động tại đây";
 "notifications_empty_title" = "KHÔNG (CHƯA) CÓ THÔNG BÁO NÀO!";
 "notifications_permissions_1_push" = "Phương: Mình thích chiếc điện thoại. 3 triệu đồng có được không?";
@@ -795,6 +796,8 @@
 "product_new_onboarding_tap_right_highlighted_label" = "Nhấp vào bên phải";
 "product_new_onboarding_tap_right_highlighted_label_2" = "ở giữa";
 "product_new_onboarding_tap_right_label" = "%@ hoặc %@ để xem ảnh tiếp theo";
+"product_nit_onboarding_next_picture" = "Ảnh tiếp theo";
+"product_nit_onboarding_previous_picture" = "Ảnh trước";
 "product_onboarding_finger_scroll_label" = "Cuộn để xem thêm ảnh";
 "product_onboarding_finger_swipe_label" = "Vuốt để tới bài đăng tiếp theo hoặc trước đó";
 "product_onboarding_finger_tap_label" = "Chạm để tới bài đăng tiếp theo";
@@ -1059,6 +1062,8 @@
 "real_estate_gallery_view_subtitle_params" = "Chọn tối đa %d ảnh nhà đất bạn muốn bán hoặc cho thuê. Ảnh đầu tiên sẽ là ảnh nổi bật của bạn, vì vậy hãy đảm bảo đó là một ảnh có chất lượng tốt!";
 "real_estate_location_notification_message" = "Chúng tôi sẽ không bao giờ hiển thị chính xác địa điểm của bạn cho người dùng khác";
 "real_estate_location_title" = "Địa điểm";
+"real_estate_map_tooltip_button_title" = "Thử bây giờ";
+"real_estate_map_tooltip_title" = "Mới! Xem nhà đất trên bản đồ.";
 "real_estate_offer_type_rent" = "Cho Thuê";
 "real_estate_offer_type_sale" = "Bán";
 "real_estate_offer_type_title" = "Loại Bài đăng";

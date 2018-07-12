@@ -14,6 +14,8 @@ extension R {
     public static func accountPendingModerationWName(_ p1: String) -> String {
       return Strings.tr("Localizable", "account_pending_moderation_w_name", p1)
     }
+    /// Ad
+    public static let advertisingText = Strings.tr("Localizable", "advertising_text")
     /// Reply
     public static let appNotificationReply = Strings.tr("Localizable", "app_notification_reply")
     /// Download
@@ -812,6 +814,8 @@ extension R {
     public static func filterCarsDistancePlaceholder(_ p1: String) -> String {
       return Strings.tr("Localizable", "filter_cars_distance_placeholder", p1)
     }
+    /// Mileage
+    public static let filterCarsMileage = Strings.tr("Localizable", "filter_cars_mileage")
     /// Seats
     public static let filterCarsSeatsTitle = Strings.tr("Localizable", "filter_cars_seats_title")
     /// No exact matches for your search.\n Showing similar results. 
@@ -930,7 +934,7 @@ extension R {
     public static let filtersSectionLocation = Strings.tr("Localizable", "filters_section_location")
     /// Price
     public static let filtersSectionPrice = Strings.tr("Localizable", "filters_section_price")
-    /// Show only free items
+    /// Only show free items
     public static let filtersSectionPriceFreeTitle = Strings.tr("Localizable", "filters_section_price_free_title")
     /// Property info
     public static let filtersSectionRealEstateInfo = Strings.tr("Localizable", "filters_section_real_estate_info")
@@ -1034,7 +1038,7 @@ extension R {
     public static let idVerificationThirdStepTitle = Strings.tr("Localizable", "id_verification_third_step_title")
     /// Do you want to make this your profile picture?
     public static let idVerificationUpdateAvatarMessage = Strings.tr("Localizable", "id_verification_update_avatar_message")
-    /// KM
+    /// km
     public static let kilometerUnitSuffix = Strings.tr("Localizable", "kilometer_unit_suffix")
     /// Chat Now
     public static let listingChatButton = Strings.tr("Localizable", "listing_chat_button")
@@ -1214,8 +1218,6 @@ extension R {
     public static let mlOnboardingNewText = Strings.tr("Localizable", "ml_onboarding_new_text")
     /// OK
     public static let mlOnboardingOkText = Strings.tr("Localizable", "ml_onboarding_ok_text")
-    /// Ad
-    public static let mopubAdvertisingText = Strings.tr("Localizable", "mopub_advertising_text")
     /// Post something for sale to start seeing some activity here
     public static let notificationsEmptySubtitle = Strings.tr("Localizable", "notifications_empty_subtitle")
     /// NO NOTIFICATIONS (YET!)
@@ -1414,7 +1416,7 @@ extension R {
     public static func passwordlessEmailSentSubtitle(_ p1: String) -> String {
       return Strings.tr("Localizable", "passwordless_email_sent_subtitle", p1)
     }
-    /// To sign in, click the 'magic link' we just sent you.
+    /// To sign in, click the "magic link" we just sent you.
     public static let passwordlessEmailSentTitle = Strings.tr("Localizable", "passwordless_email_sent_title")
     /// Continue with email
     public static let passwordlessMainSignupButton = Strings.tr("Localizable", "passwordless_main_signup_button")
@@ -1756,6 +1758,10 @@ extension R {
     public static func productNewOnboardingTapRightLabel(_ p1: String, _ p2: String) -> String {
       return Strings.tr("Localizable", "product_new_onboarding_tap_right_label", p1, p2)
     }
+    /// Next picture
+    public static let productNitOnboardingNextPicture = Strings.tr("Localizable", "product_nit_onboarding_next_picture")
+    /// Previous picture
+    public static let productNitOnboardingPreviousPicture = Strings.tr("Localizable", "product_nit_onboarding_previous_picture")
     /// Scroll to see more pictures
     public static let productOnboardingFingerScrollLabel = Strings.tr("Localizable", "product_onboarding_finger_scroll_label")
     /// Swipe to go to the next listing or to the previous one
@@ -2328,6 +2334,10 @@ extension R {
     public static let realEstateLocationNotificationMessage = Strings.tr("Localizable", "real_estate_location_notification_message")
     /// Location
     public static let realEstateLocationTitle = Strings.tr("Localizable", "real_estate_location_title")
+    /// Try Now
+    public static let realEstateMapTooltipButtonTitle = Strings.tr("Localizable", "real_estate_map_tooltip_button_title")
+    /// New! See properties on a map.
+    public static let realEstateMapTooltipTitle = Strings.tr("Localizable", "real_estate_map_tooltip_title")
     /// For Rent
     public static let realEstateOfferTypeRent = Strings.tr("Localizable", "real_estate_offer_type_rent")
     /// For Sale
