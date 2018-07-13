@@ -369,7 +369,7 @@
 "featured_info_view_more_buyers" = "Meer kopers aantrekken";
 "featured_info_view_sell_faster" = "Sneller verkopen";
 "featured_info_view_title" = "Uitgelichte Advertentie";
-"filter_cars_mileage" = "Mileage";
+"filter_cars_mileage" = "Kilometerstand";
 "filter_cars_seats_title" = "Zitplaatsen";
 "filter_results_cars_no_matches" = "Geen exacte resultaten voor jouw zoekopdracht.\n  Toon vergelijkbare resultaten.";
 "filter_results_cars_other_results" = "Recent geplaatst in jouw omgeving";
@@ -796,8 +796,8 @@
 "product_new_onboarding_tap_right_highlighted_label" = "Tik rechts";
 "product_new_onboarding_tap_right_highlighted_label_2" = "in het midden";
 "product_new_onboarding_tap_right_label" = "%@ of %@ om de volgende afbeelding te zien";
-"product_nit_onboarding_next_picture" = "Next picture";
-"product_nit_onboarding_previous_picture" = "Previous picture";
+"product_nit_onboarding_next_picture" = "Volgende afbeelding";
+"product_nit_onboarding_previous_picture" = "Vorige afbeelding";
 "product_onboarding_finger_scroll_label" = "Scroll om meer afbeeldingen te zien";
 "product_onboarding_finger_swipe_label" = "Schuif om naar de volgende of vorige advertentie te gaan";
 "product_onboarding_finger_tap_label" = "Tik om naar de volgende advertentie te gaan";

@@ -15,6 +15,6 @@ extension TestableObserver {
     }
 
     var eventValues: [Element] {
-        return events.flatMap{ $0.value.element }
+        return events.compactMap{ $0.value.element }
     }
 }

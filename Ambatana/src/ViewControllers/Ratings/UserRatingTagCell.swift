@@ -1,12 +1,5 @@
-//
-//  UserRatingTagCell.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 25/05/17.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
 class UserRatingTagCell: UICollectionViewCell {
     static let reuseIdentifier = "UserRatingTagCell"

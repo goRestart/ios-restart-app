@@ -6,6 +6,7 @@ final class ProductionEnvironment: AppEnvironment {
     // General
     let appleAppId = "986339882"
     let facebookAppId = "699538486794082"
+    let appleMerchantId = "merchant.com.letgo.ios.payments"
     
     // AppsFlyer
     let appsFlyerAPIKey = "5EKnCjmwmNKjE2e7gYBo6T"
@@ -41,6 +42,9 @@ final class ProductionEnvironment: AppEnvironment {
     let feedAdUnitIdAdxTRForAllUsers = "/21636273254/turkey/iOS/feed/c_render_var_a"
     let feedAdUnitIdAdxTRForOldUsers = "/21636273254/turkey/iOS/feed/c_render_var_b"
     
+    var feedAdUnitIdAdxInstallAppUSA = "/21666124832/us/iOS/feed/c_render_var_a"
+    var feedAdUnitIdAdxInstallAppTR = "/21636273254/turkey/iOS/feed/c_render_var_a"
+    
     let fullScreenAdUnitIdAdxForAllUsersForUS = "/21666124832/us/iOS/interstitials/inter_var_a"
     let fullScreenAdUnitIdAdxForOldUsersForUS = "/21666124832/us/iOS/interstitials/inter_var_b"
     
@@ -49,7 +53,10 @@ final class ProductionEnvironment: AppEnvironment {
     let feedAdUnitIdMoPubUSAForOldUsers = "657d10ec0c1c48c3a280766a4dd821f4"
     let feedAdUnitIdMoPubTRForAllUsers = "05cf3847a6b24c389fc4127f595f5889"
     let feedAdUnitIdMoPubTRForOldUsers = "c6c5061b958949b0a90397d7346718aa"
-    
+
+    // Stripe
+    let stripeAPIKey = "pk_live_reeoNOBIaAAXXS2qQgwvaAKE"
+
     private let _godmode: Bool
     
     required init(godmode: Bool) {

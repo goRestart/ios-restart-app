@@ -59,7 +59,6 @@ extension R {
       public static let icBlockedWhiteLine = ImageAsset(name: "ic_blocked_white_line")
       public static let icDollarSold = ImageAsset(name: "ic_dollar_sold")
       public static let icSoldWhite = ImageAsset(name: "ic_sold_white")
-      public static let imgCallCenterGirl = ImageAsset(name: "img_call_center_girl")
       public static let inviteLetgo = ImageAsset(name: "invite_letgo")
       public static let itemLocation = ImageAsset(name: "itemLocation")
       public static let logoBig = ImageAsset(name: "logo-big")
@@ -96,7 +95,6 @@ extension R {
         icBlockedWhiteLine,
         icDollarSold,
         icSoldWhite,
-        imgCallCenterGirl,
         inviteLetgo,
         itemLocation,
         logoBig,
@@ -299,6 +297,8 @@ extension R {
           public static let gas = ImageAsset(name: "gas")
           public static let hybrid = ImageAsset(name: "hybrid")
         }
+        public static let mileage = ImageAsset(name: "mileage")
+        public static let seats = ImageAsset(name: "seats")
         public enum Transmission {
           public static let automatic = ImageAsset(name: "automatic")
           public static let manual = ImageAsset(name: "manual")
@@ -523,8 +523,6 @@ extension R {
       public static let navbarSettingsRed = ImageAsset(name: "navbar_settings_red")
       public static let navbarShare = ImageAsset(name: "navbar_share")
       public static let navbarShareRed = ImageAsset(name: "navbar_share_red")
-      public static let npsBad = ImageAsset(name: "nps_bad")
-      public static let npsGood = ImageAsset(name: "nps_good")
       public static let oval = ImageAsset(name: "oval")
       public static let productPlaceholder = ImageAsset(name: "product_placeholder")
       public static let rightChevron = ImageAsset(name: "right_chevron")
@@ -605,6 +603,8 @@ extension R {
         FiltersCarExtrasIcons.Fueltype.flex,
         FiltersCarExtrasIcons.Fueltype.gas,
         FiltersCarExtrasIcons.Fueltype.hybrid,
+        FiltersCarExtrasIcons.mileage,
+        FiltersCarExtrasIcons.seats,
         FiltersCarExtrasIcons.Transmission.automatic,
         FiltersCarExtrasIcons.Transmission.manual,
         FiltersCategoriesIcons.categoriesBabiesInactive,
@@ -820,8 +820,6 @@ extension R {
         navbarSettingsRed,
         navbarShare,
         navbarShareRed,
-        npsBad,
-        npsGood,
         oval,
         productPlaceholder,
         rightChevron,

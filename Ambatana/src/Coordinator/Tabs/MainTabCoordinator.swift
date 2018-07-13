@@ -134,11 +134,11 @@ extension MainTabCoordinator: MainTabNavigator {
                                             positiveAction()
                                             self?.pushPermissionsManager.showPushPermissionsAlert(prePermissionType: .listingListBanner)
         },
-                                          accessibilityId: .userPushPermissionOK)
+                                          accessibility: AccessibilityId.userPushPermissionOK)
         
         let negative: UIAction = UIAction(interface: .styledText(R.Strings.profilePermissionsAlertCancel, .cancel),
                                           action: negativeAction,
-                                          accessibilityId: .userPushPermissionCancel)
+                                          accessibility: AccessibilityId.userPushPermissionCancel)
         navigationController.showAlertWithTitle(R.Strings.profilePermissionsAlertTitle,
                                                 text: R.Strings.profilePermissionsAlertMessage,
                                                 alertType: .iconAlert(icon: R.Asset.IconsButtons.customPermissionProfile.image),

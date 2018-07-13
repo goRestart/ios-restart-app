@@ -369,7 +369,7 @@
 "featured_info_view_more_buyers" = "Thu hút thêm người mua";
 "featured_info_view_sell_faster" = "Bán nhanh hơn";
 "featured_info_view_title" = "Bài đăng Nổi bật";
-"filter_cars_mileage" = "Mileage";
+"filter_cars_mileage" = "Số km đã đi";
 "filter_cars_seats_title" = "Chỗ";
 "filter_results_cars_no_matches" = "Không có kết quả chính xác cho tìm kiếm của bạn.\nHiển thị kết quả tương tự. ";
 "filter_results_cars_other_results" = "Được đăng gần đây tại khu vực của bạn";
@@ -428,7 +428,7 @@
 "filters_section_distance" = "Khoảng cách";
 "filters_section_location" = "Địa điểm";
 "filters_section_price" = "Giá";
-"filters_section_price_free_title" = "Chỉ hiện các sản phẩm miễn phí";
+"filters_section_price_free_title" = "Chỉ hiện các món đồ miễn phí";
 "filters_section_real_estate_info" = "Thông tin nhà đất";
 "filters_section_services_info" = "Thông tin dịch vụ";
 "filters_section_sortby" = "Sắp xếp theo";
@@ -796,8 +796,8 @@
 "product_new_onboarding_tap_right_highlighted_label" = "Nhấp vào bên phải";
 "product_new_onboarding_tap_right_highlighted_label_2" = "ở giữa";
 "product_new_onboarding_tap_right_label" = "%@ hoặc %@ để xem ảnh tiếp theo";
-"product_nit_onboarding_next_picture" = "Next picture";
-"product_nit_onboarding_previous_picture" = "Previous picture";
+"product_nit_onboarding_next_picture" = "Ảnh tiếp theo";
+"product_nit_onboarding_previous_picture" = "Ảnh trước";
 "product_onboarding_finger_scroll_label" = "Cuộn để xem thêm ảnh";
 "product_onboarding_finger_swipe_label" = "Vuốt để tới bài đăng tiếp theo hoặc trước đó";
 "product_onboarding_finger_tap_label" = "Chạm để tới bài đăng tiếp theo";
@@ -1062,7 +1062,7 @@
 "real_estate_gallery_view_subtitle_params" = "Chọn tối đa %d ảnh nhà đất bạn muốn bán hoặc cho thuê. Ảnh đầu tiên sẽ là ảnh nổi bật của bạn, vì vậy hãy đảm bảo đó là một ảnh có chất lượng tốt!";
 "real_estate_location_notification_message" = "Chúng tôi sẽ không bao giờ hiển thị chính xác địa điểm của bạn cho người dùng khác";
 "real_estate_location_title" = "Địa điểm";
-"real_estate_map_tooltip_button_title" = "Try Now";
+"real_estate_map_tooltip_button_title" = "Thử bây giờ";
 "real_estate_map_tooltip_title" = "Mới! Xem nhà đất trên bản đồ.";
 "real_estate_offer_type_rent" = "Cho Thuê";
 "real_estate_offer_type_sale" = "Bán";

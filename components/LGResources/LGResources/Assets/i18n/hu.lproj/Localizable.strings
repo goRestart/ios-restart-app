@@ -369,7 +369,7 @@
 "featured_info_view_more_buyers" = "Szerezz több vásárlót";
 "featured_info_view_sell_faster" = "Add el gyorsabban";
 "featured_info_view_title" = "Kiemelt hirdetés";
-"filter_cars_mileage" = "Mileage";
+"filter_cars_mileage" = "Megtett mérföld";
 "filter_cars_seats_title" = "Ülések";
 "filter_results_cars_no_matches" = "Nincs pontos találat a keresésre.\n Hasonló találatokat láthatsz.";
 "filter_results_cars_other_results" = "Nemrégiben meghirdetve a környéken.";
@@ -428,7 +428,7 @@
 "filters_section_distance" = "Távolság";
 "filters_section_location" = "Tartózkodási hely";
 "filters_section_price" = "Ár";
-"filters_section_price_free_title" = "Csak ingyenes portékák";
+"filters_section_price_free_title" = "Csak ingyenes hirdetések";
 "filters_section_real_estate_info" = "Ingatlaninformációk";
 "filters_section_services_info" = "Szolgáltatásinformációk";
 "filters_section_sortby" = "Rendezés";
@@ -796,8 +796,8 @@
 "product_new_onboarding_tap_right_highlighted_label" = "koppints jobbra";
 "product_new_onboarding_tap_right_highlighted_label_2" = "középre";
 "product_new_onboarding_tap_right_label" = "A következő képhez %@ vagy %@";
-"product_nit_onboarding_next_picture" = "Next picture";
-"product_nit_onboarding_previous_picture" = "Previous picture";
+"product_nit_onboarding_next_picture" = "Következő kép";
+"product_nit_onboarding_previous_picture" = "Előző kép";
 "product_onboarding_finger_scroll_label" = "Csúsztatással további képeket jeleníthetsz meg";
 "product_onboarding_finger_swipe_label" = "A következő vagy az előző hirdetéshez suhints oldalra";
 "product_onboarding_finger_tap_label" = "A következő hirdetéshez koppints egyet";
@@ -1062,7 +1062,7 @@
 "real_estate_gallery_view_subtitle_params" = "Válassz ki legfeljebb %d képet az eladó vagy kiadó ingatlanodról. Az első lesz a kiemelt képed, jót válassz!";
 "real_estate_location_notification_message" = "Sosem mutatjuk meg más felhasználóknak a pontos tartózkodási helyedet";
 "real_estate_location_title" = "Hely";
-"real_estate_map_tooltip_button_title" = "Try Now";
+"real_estate_map_tooltip_button_title" = "Próbáld ki";
 "real_estate_map_tooltip_title" = "Új! Térképen láthatod az ingatlanokat.";
 "real_estate_offer_type_rent" = "Kiadó";
 "real_estate_offer_type_sale" = "Eladó";

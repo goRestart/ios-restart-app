@@ -649,7 +649,7 @@
 "passwordless_email_input_title" = "Continue with email";
 "passwordless_email_sent_screen_title" = "Check your email inbox";
 "passwordless_email_sent_subtitle" = "Email address: %@";
-"passwordless_email_sent_title" = "To sign in, click the 'magic link' we just sent you.";
+"passwordless_email_sent_title" = "To sign in, click the \"magic link\" we just sent you.";
 "passwordless_main_signup_button" = "Continue with email";
 "passwordless_username_input_done_button" = "Done";
 "passwordless_username_input_textfield_placeholder" = "Username";

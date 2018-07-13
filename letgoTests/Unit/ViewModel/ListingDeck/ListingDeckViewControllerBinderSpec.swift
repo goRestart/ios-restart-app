@@ -1,11 +1,3 @@
-//
-//  ListingDeckViewControllerBinderSpec.swift
-//  letgoTests
-//
-//  Created by Facundo Menzella on 16/01/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 @testable import LetGoGodMode
 import RxTest
 import RxCocoa
@@ -13,6 +5,7 @@ import RxSwift
 import LGCoreKit
 import Quick
 import Nimble
+import LGComponents
 
 final class ListingDeckViewControllerBinderSpec: QuickSpec {
 
@@ -176,7 +169,7 @@ final class ListingDeckViewControllerBinderSpec: QuickSpec {
                     sut.bind(withViewModel: viewModelType, listingDeckView: viewType)
                     viewModelType.actionButtons.value = [UIAction(interface: .text(String.makeRandom()),
                                                                   action: {},
-                                                                  accessibilityId: nil)]
+                                                                  accessibility: nil)]
                 }
                 it("updateViewWithActions method is called twice") {
                     expect(viewControllerType.isUpdateViewWithActionsCalled).toEventually(be(2))

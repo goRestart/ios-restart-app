@@ -135,7 +135,7 @@ class PostListingGalleryViewModel: BaseViewModel {
     // MARK: - Public methods
 
     func postButtonPressed() {
-        let okImages = imagesSelected.value.flatMap { $0.image }
+        let okImages = imagesSelected.value.compactMap { $0.image }
         guard !okImages.isEmpty else { return }
         galleryDelegate?.listingGalleryDidSelectImages(okImages)
     }

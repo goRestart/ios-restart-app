@@ -369,7 +369,7 @@
 "featured_info_view_more_buyers" = "Tiltrekk flere kjøpere";
 "featured_info_view_sell_faster" = "Selg raskere";
 "featured_info_view_title" = "Promotert annonse";
-"filter_cars_mileage" = "Mileage";
+"filter_cars_mileage" = "Kilometerstand";
 "filter_cars_seats_title" = "Seter";
 "filter_results_cars_no_matches" = "Ingen eksakte resultater ble funnet.\n Vis liknende resultater. ";
 "filter_results_cars_other_results" = "Nylig publisert i ditt nærområde";
@@ -796,8 +796,8 @@
 "product_new_onboarding_tap_right_highlighted_label" = "Trykk på høyre side";
 "product_new_onboarding_tap_right_highlighted_label_2" = "i midten";
 "product_new_onboarding_tap_right_label" = "%@ eller %@ for å se neste bilde";
-"product_nit_onboarding_next_picture" = "Next picture";
-"product_nit_onboarding_previous_picture" = "Previous picture";
+"product_nit_onboarding_next_picture" = "Neste bilde";
+"product_nit_onboarding_previous_picture" = "Forrige bilde";
 "product_onboarding_finger_scroll_label" = "Scroll for å se flere bilder";
 "product_onboarding_finger_swipe_label" = "Swipe for å gå til neste eller forrige annonse";
 "product_onboarding_finger_tap_label" = "Trykk for å gå til neste annonse";

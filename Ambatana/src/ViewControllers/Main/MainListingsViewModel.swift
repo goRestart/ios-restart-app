@@ -10,6 +10,8 @@ protocol MainListingsViewModelDelegate: BaseViewModelDelegate {
     func vmDidSearch()
     func vmShowTags(primaryTags: [FilterTag], secondaryTags: [FilterTag])
     func vmFiltersChanged()
+    func vmShowMapToolTip(with configuration: TooltipConfiguration)
+    func vmHideMapToolTip()
 }
 
 protocol MainListingsAdsDelegate: class {
@@ -84,6 +86,9 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         var rightButtonItems: [(image: UIImage, selector: Selector)] = []
         if featureFlags.realEstateMap.isActive && isRealEstateSelected {
             rightButtonItems.append((image: R.Asset.IconsButtons.icMap.image, selector: #selector(MainListingsViewController.openMap)))
+            if shouldShowRealEstateMapTooltip {
+                showTooltipMap()
+            }
         }
         rightButtonItems.append((image: hasFilters ? R.Asset.IconsButtons.icFiltersActive.image : R.Asset.IconsButtons.icFilters.image, selector: #selector(MainListingsViewController.openFilters)))
         return rightButtonItems
@@ -140,14 +145,14 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
 
         if filters.selectedCategories.contains(.cars) || filters.selectedTaxonomyChildren.containsCarsTaxonomy {
             if let makeId = filters.carMakeId, let makeName = filters.carMakeName {
-                resultTags.append(.make(id: makeId.value, name: makeName.localizedUppercase))
+                resultTags.append(.make(id: makeId, name: makeName.localizedUppercase))
                 if let modelId = filters.carModelId, let modelName = filters.carModelName {
-                    resultTags.append(.model(id: modelId.value, name: modelName.localizedUppercase))
+                    resultTags.append(.model(id: modelId, name: modelName.localizedUppercase))
                 }
             }
             
             if filters.carYearStart != nil || filters.carYearEnd != nil {
-                resultTags.append(.yearsRange(from: filters.carYearStart?.value, to: filters.carYearEnd?.value))
+                resultTags.append(.yearsRange(from: filters.carYearStart, to: filters.carYearEnd))
             }
             
             if filters.carMileageStart != nil || filters.carMileageEnd != nil {
@@ -161,15 +166,9 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             }
             
 
-            if featureFlags.filterSearchCarSellerType.isActive {
-                let carSellerFilterMultiSelection = featureFlags.filterSearchCarSellerType.isMultiselection
-                let containsBothFilters = filters.carSellerTypes.containsBothCarSellerTypes
-                let carSellerTypeTags: [FilterTag] = filters.carSellerTypes
-                    .filter { carSellerFilterMultiSelection || ($0.isProfessional && !containsBothFilters) }
-                    .map { .carSellerType(type: $0, name: $0.title(feature: featureFlags.filterSearchCarSellerType)) }
-                
-                resultTags.append(contentsOf: carSellerTypeTags)
-            }
+            let carSellerTypeTags = filters.carSellerTypes.map { FilterTag.carSellerType(type: $0, name: $0.title) }
+            
+            resultTags.append(contentsOf: carSellerTypeTags)
             
             filters.carBodyTypes.forEach({ resultTags.append(.carBodyType($0)) })
             filters.carFuelTypes.forEach({ resultTags.append(.carFuelType($0)) })
@@ -247,6 +246,34 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
 
     private var shouldShowCollections: Bool {
         return keyValueStorage[.lastSuggestiveSearches].count >= minimumSearchesSavedToShowCollection && filters.noFilterCategoryApplied
+    }
+    
+    private var shouldShowRealEstateMapTooltip: Bool {
+        return featureFlags.realEstateMapTooltip.isActive && !keyValueStorage[.realEstateTooltipMapShown]
+    }
+    
+    private func showTooltipMap() {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 3
+        let title = R.Strings.realEstateMapTooltipTitle
+        let attributedText = title.bicolorAttributedText(mainColor: .white,
+                                                         colouredText: R.Strings.commonNew.capitalizedFirstLetterOnly,
+                                                         otherColor: .primaryColor,
+                                                         font: UIFont.systemSemiBoldFont(size: 15),
+                                                         paragraphStyle: paragraphStyle)
+        let tooltipConfiguration = TooltipConfiguration(title: attributedText,
+                                                        style: .black(closeEnabled: false),
+                                                        peakOnTop: true,
+                                                        actionBlock: {},
+                                                        closeBlock:{ [weak self] in
+                                                            self?.delegate?.vmHideMapToolTip()
+        })
+        delegate?.vmShowMapToolTip(with: tooltipConfiguration)
+    }
+    
+    func tooltipMapHidden() {
+        guard shouldShowRealEstateMapTooltip else { return }
+        keyValueStorage[.realEstateTooltipMapShown] = true
     }
     
     var shouldShowSearchAlertBanner: Bool {
@@ -618,7 +645,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             }
         }
 
-        filters.selectedCategories = categories.flatMap{ filterCategoryItem in
+        filters.selectedCategories = categories.compactMap { filterCategoryItem in
             switch filterCategoryItem {
             case .free:
                 return nil
@@ -657,31 +684,14 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
 
         filters.carSellerTypes = carSellerTypes
         
-        if let makeId = makeId {
-            filters.carMakeId = RetrieveListingParam<String>(value: makeId, isNegated: false)
-        } else {
-            filters.carMakeId = nil
-        }
+        filters.carMakeId = makeId
         filters.carMakeName = makeName
-
-        if let modelId = modelId {
-            filters.carModelId = RetrieveListingParam<String>(value: modelId, isNegated: false)
-        } else {
-            filters.carModelId = nil
-        }
+        
+        filters.carModelId = modelId
         filters.carModelName = modelName
-
-        if let startYear = carYearStart {
-            filters.carYearStart = RetrieveListingParam<Int>(value: startYear, isNegated: false)
-        } else {
-            filters.carYearStart = nil
-        }
-
-        if let endYear = carYearEnd {
-            filters.carYearEnd = RetrieveListingParam<Int>(value: endYear, isNegated: false)
-        } else {
-            filters.carYearEnd = nil
-        }
+        
+        filters.carYearStart = carYearStart
+        filters.carYearEnd = carYearEnd
         
         filters.carNumberOfSeatsStart = carNumberOfSeatsStart
         filters.carNumberOfSeatsEnd = carNumberOfSeatsEnd
@@ -1186,6 +1196,70 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         return cellModels
     }
 
+    private func setupAdsCellModelForMoPub(adsDelegate: MainListingsAdsDelegate) -> ListingCellModel? {
+        let settings = MPStaticNativeAdRendererSettings()
+        guard let feedAdUnitId = featureFlags.feedAdUnitId,
+            let config = MPStaticNativeAdRenderer.rendererConfiguration(with: settings) else { return nil }
+        settings.renderingViewClass = MoPubNativeView.self
+        let configurations: [MPNativeAdRendererConfiguration] = [config]
+        let nativeAdRequest = MPNativeAdRequest.init(adUnitIdentifier: feedAdUnitId,
+                                                     rendererConfigurations: configurations)
+        let adData = AdvertisementMoPubData(adUnitId: feedAdUnitId,
+                                            rootViewController: adsDelegate.rootViewControllerForAds(),
+                                            adPosition: lastAdPosition,
+                                            bannerHeight: LGUIKitConstants.advertisementCellDefaultHeight,
+                                            adRequested: false,
+                                            categories: filters.selectedCategories,
+                                            nativeAdRequest: nativeAdRequest,
+                                            moPubNativeAd: nil,
+                                            moPubView: NativeAdBlankStateView())
+       return ListingCellModel.mopubAdvertisement(data: adData)
+    }
+    
+    private func setupAdsCellModelForGoogleAdx(adsDelegate: MainListingsAdsDelegate) -> ListingCellModel? {
+        guard var feedAdUnitId = featureFlags.feedAdUnitId else { return nil }
+        var adTypes: [GADAdLoaderAdType] = [.nativeContent]
+        if featureFlags.appInstallAdsInFeed.isActive {
+            guard let appInstallAdUnit = featureFlags.appInstallAdsInFeedAdUnit else { return nil }
+            feedAdUnitId = appInstallAdUnit
+            adTypes.append(.nativeAppInstall)
+        }
+        let adLoader = GADAdLoader(adUnitID: feedAdUnitId,
+                                   rootViewController: adsDelegate.rootViewControllerForAds(),
+                                   adTypes: adTypes,
+                                   options: nil)
+        let adData = AdvertisementAdxData(adUnitId: feedAdUnitId,
+                                          rootViewController: adsDelegate.rootViewControllerForAds(),
+                                          adPosition: lastAdPosition,
+                                          bannerHeight: LGUIKitConstants.advertisementCellDefaultHeight,
+                                          adRequested: false,
+                                          categories: filters.selectedCategories,
+                                          adLoader: adLoader,
+                                          adxNativeView: NativeAdBlankStateView())
+        return ListingCellModel.adxAdvertisement(data: adData)
+    }
+    
+    private func setupAdsCellModelForDFP(adsDelegate: MainListingsAdsDelegate) -> ListingCellModel? {
+        guard let feedAdUnitId = featureFlags.feedDFPAdUnitId else { return nil }
+        let request = DFPRequest()
+        var customTargetingValue = ""
+        if featureFlags.showAdsInFeedWithRatio.isActive {
+            customTargetingValue = featureFlags.showAdsInFeedWithRatio.customTargetingValueFor(position: lastAdPosition)
+        } else if featureFlags.noAdsInFeedForNewUsers.shouldShowAdsInFeed {
+            customTargetingValue = featureFlags.noAdsInFeedForNewUsers.customTargetingValueFor(position: lastAdPosition)
+        }
+        request.customTargeting = [SharedConstants.adInFeedCustomTargetingKey: customTargetingValue]
+        let adData = AdvertisementDFPData(adUnitId: feedAdUnitId,
+                                          rootViewController: adsDelegate.rootViewControllerForAds(),
+                                          adPosition: lastAdPosition,
+                                          bannerHeight: LGUIKitConstants.advertisementCellPlaceholderHeight,
+                                          adRequested: false,
+                                          categories: filters.selectedCategories,
+                                          adRequest: request,
+                                          bannerView: nil)
+        return ListingCellModel.dfpAdvertisement(data: adData)
+    }
+    
     private func addAds(to listings: [ListingCellModel], page: UInt) -> [ListingCellModel] {
         if page == 0 {
             lastAdPosition = MainListingsViewModel.adInFeedInitialPosition
@@ -1197,78 +1271,26 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             featureFlags.feedAdsProviderForTR.shouldShowAdsInFeed ||
             featureFlags.googleAdxForTR.shouldShowAdsInFeed
         var cellModels = listings
-
         var canInsertAds = true
 
-        guard adsActive else { return listings }
+        guard let _ = featureFlags.feedAdUnitId, adsActive else { return listings }
         while canInsertAds {
 
             let adPositionInPage = lastAdPosition-previousPagesAdsOffset
             guard let adRelativePosition = adPositionRelativeToPage(page: page,
-                                                                  itemsInPage: cellModels.count,
-                                                                  pageSize: listingListRequester.itemsPerPage,
-                                                                  adPosition: adPositionInPage) else { break }
-            var adsCellModel: ListingCellModel
-            
-            guard let feedAdUnitId = featureFlags.feedAdUnitId else { return listings }
+                                                                    itemsInPage: cellModels.count,
+                                                                    pageSize: listingListRequester.itemsPerPage,
+                                                                    adPosition: adPositionInPage) else { break }
+            var adsCellModel: ListingCellModel?
             if featureFlags.feedAdsProviderForUS.shouldShowGoogleAdxAds || featureFlags.googleAdxForTR.shouldShowGoogleAdxAds {
-                let adLoader = GADAdLoader(adUnitID: feedAdUnitId,
-                                           rootViewController: adsDelegate.rootViewControllerForAds(),
-                                           adTypes: [GADAdLoaderAdType.nativeContent],
-                                           options: nil)
-                let adData = AdvertisementAdxData(adUnitId: feedAdUnitId,
-                                                  rootViewController: adsDelegate.rootViewControllerForAds(),
-                                                  adPosition: lastAdPosition,
-                                                  bannerHeight: LGUIKitConstants.advertisementCellMoPubHeight,
-                                                  adRequested: false,
-                                                  categories: filters.selectedCategories,
-                                                  adLoader: adLoader,
-                                                  adxNativeView: NativeAdBlankStateView())
-                adsCellModel = ListingCellModel.adxAdvertisement(data: adData)
-                
+                adsCellModel = setupAdsCellModelForGoogleAdx(adsDelegate: adsDelegate)
             } else if featureFlags.feedAdsProviderForUS.shouldShowMoPubAds || featureFlags.feedAdsProviderForTR.shouldShowMoPubAds {
-                let settings = MPStaticNativeAdRendererSettings()
-                var configurations = Array<MPNativeAdRendererConfiguration>()
-                settings.renderingViewClass = MoPubNativeView.self
-                let config = MPStaticNativeAdRenderer.rendererConfiguration(with: settings)
-                configurations.append(config!)
-                let nativeAdRequest = MPNativeAdRequest.init(adUnitIdentifier: feedAdUnitId,
-                                                             rendererConfigurations: configurations)
-                let adData = AdvertisementMoPubData(adUnitId: feedAdUnitId,
-                                                    rootViewController: adsDelegate.rootViewControllerForAds(),
-                                                    adPosition: lastAdPosition,
-                                                    bannerHeight: LGUIKitConstants.advertisementCellMoPubHeight,
-                                                    adRequested: false,
-                                                    categories: filters.selectedCategories,
-                                                    nativeAdRequest: nativeAdRequest,
-                                                    moPubNativeAd: nil,
-                                                    moPubView: NativeAdBlankStateView())
-                adsCellModel = ListingCellModel.mopubAdvertisement(data: adData)
-                
+                adsCellModel = setupAdsCellModelForMoPub(adsDelegate: adsDelegate)
             } else {
-                guard let feedAdUnitId = featureFlags.feedDFPAdUnitId else { return listings }
-                let request = DFPRequest()
-                var customTargetingValue = ""
-                
-                if featureFlags.showAdsInFeedWithRatio.isActive {
-                    customTargetingValue = featureFlags.showAdsInFeedWithRatio.customTargetingValueFor(position: lastAdPosition)
-                } else if featureFlags.noAdsInFeedForNewUsers.shouldShowAdsInFeed {
-                    customTargetingValue = featureFlags.noAdsInFeedForNewUsers.customTargetingValueFor(position: lastAdPosition)
-                }
-                request.customTargeting = [SharedConstants.adInFeedCustomTargetingKey: customTargetingValue]
-                
-                let adData = AdvertisementDFPData(adUnitId: feedAdUnitId,
-                                                  rootViewController: adsDelegate.rootViewControllerForAds(),
-                                                  adPosition: lastAdPosition,
-                                                  bannerHeight: LGUIKitConstants.advertisementCellPlaceholderHeight,
-                                                  adRequested: false,
-                                                  categories: filters.selectedCategories,
-                                                  adRequest: request,
-                                                  bannerView: nil)
-                adsCellModel = ListingCellModel.dfpAdvertisement(data: adData)
+                adsCellModel = setupAdsCellModelForDFP(adsDelegate: adsDelegate)
             }
-  
-            cellModels.insert(adsCellModel, at: adRelativePosition)
+            guard let listingCellModel = adsCellModel else { return listings }
+            cellModels.insert(listingCellModel, at: adRelativePosition)
 
             lastAdPosition = adAbsolutePosition()
             canInsertAds = adRelativePosition < cellModels.count
@@ -1621,12 +1643,12 @@ extension MainListingsViewModel {
                                     self?.trackPushPermissionComplete()
                                     LGPushPermissionsManager.sharedInstance.showPushPermissionsAlert(prePermissionType: .listingListBanner)
             },
-                                accessibilityId: .userPushPermissionOK)
+                                accessibility: AccessibilityId.userPushPermissionOK)
         let negative = UIAction(interface: .styledText(R.Strings.profilePermissionsAlertCancel, .cancel),
                                 action: { [weak self] in
                                     self?.trackPushPermissionCancel()
             },
-                                accessibilityId: .userPushPermissionCancel)
+                                accessibility: AccessibilityId.userPushPermissionCancel)
         delegate?.vmShowAlertWithTitle(R.Strings.profilePermissionsAlertTitle,
                                        text: R.Strings.profilePermissionsAlertMessage,
                                        alertType: .iconAlert(icon: R.Asset.IconsButtons.customPermissionProfile.image),
@@ -1658,7 +1680,7 @@ fileprivate extension MainListingsViewModel {
         switch type {
         case .selectedForYou:
             query = keyValueStorage[.lastSuggestiveSearches]
-                .flatMap { $0.suggestiveSearch.name }
+                .compactMap { $0.suggestiveSearch.name }
                 .reversed()
                 .joined(separator: " ")
                 .clipMoreThan(wordCount: SharedConstants.maxSelectedForYouQueryTerms)

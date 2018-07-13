@@ -369,7 +369,7 @@
 "featured_info_view_more_buyers" = "Locka flera köpare";
 "featured_info_view_sell_faster" = "Sälj snabbare";
 "featured_info_view_title" = "Topplistad produkt";
-"filter_cars_mileage" = "Mileage";
+"filter_cars_mileage" = "Miltal";
 "filter_cars_seats_title" = "Säten";
 "filter_results_cars_no_matches" = "Din sökning gav ingen träff. \nLiknande resultat visas. ";
 "filter_results_cars_other_results" = "Nyligen upplagda i ditt område";
@@ -428,7 +428,7 @@
 "filters_section_distance" = "Avstånd";
 "filters_section_location" = "Plats";
 "filters_section_price" = "Pris";
-"filters_section_price_free_title" = "Visa endast gratis produkter";
+"filters_section_price_free_title" = "Visa endast gratis varor";
 "filters_section_real_estate_info" = "Fastighetsinformation";
 "filters_section_services_info" = "Tjänstinfo";
 "filters_section_sortby" = "Sortera efter";
@@ -796,8 +796,8 @@
 "product_new_onboarding_tap_right_highlighted_label" = "Klicka till höger";
 "product_new_onboarding_tap_right_highlighted_label_2" = "i mitten";
 "product_new_onboarding_tap_right_label" = "%@ eller %@ för att se nästa bild";
-"product_nit_onboarding_next_picture" = "Next picture";
-"product_nit_onboarding_previous_picture" = "Previous picture";
+"product_nit_onboarding_next_picture" = "Nästa bild";
+"product_nit_onboarding_previous_picture" = "Föregående bild";
 "product_onboarding_finger_scroll_label" = "Skrolla ner för att se fler bilder.";
 "product_onboarding_finger_swipe_label" = "Svep för att gå till nästa eller föregående annons";
 "product_onboarding_finger_tap_label" = "Klicka för att gå till nästa annons";
@@ -1062,8 +1062,8 @@
 "real_estate_gallery_view_subtitle_params" = "Välj upp till %d bilder av bostaden du vill sälja eller hyra ut. Den första kommer att bli din annonsbild så välj en bra bild!";
 "real_estate_location_notification_message" = "Vi visar aldrig din exakta plats till andra användare";
 "real_estate_location_title" = "Plats";
-"real_estate_map_tooltip_button_title" = "Try Now";
-"real_estate_map_tooltip_title" = "Nytt! Se fastigheter på en karta.";
+"real_estate_map_tooltip_button_title" = "Prova nu";
+"real_estate_map_tooltip_title" = "Nytt! Se bostäderna på en karta";
 "real_estate_offer_type_rent" = "Uthyres";
 "real_estate_offer_type_sale" = "Till salu";
 "real_estate_offer_type_title" = "Typ av annons";

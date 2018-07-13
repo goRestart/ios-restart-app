@@ -38,7 +38,7 @@ class BaseChatGroupedListViewModelSpec: BaseViewModelSpec {
                             sut.retrievePage(1)
                         }
                         it("does not track empty state error because there was not an error") {
-                            let eventNames = tracker.trackedEvents.flatMap { $0.name }
+                            let eventNames = tracker.trackedEvents.compactMap { $0.name }
                             expect(eventNames) == []
                         }
                     }
@@ -49,7 +49,7 @@ class BaseChatGroupedListViewModelSpec: BaseViewModelSpec {
                         }
                         
                         it("does not fire empty-state-error") {
-                            let eventNames = tracker.trackedEvents.flatMap { $0.name }
+                            let eventNames = tracker.trackedEvents.compactMap { $0.name }
                             expect(eventNames) == []
                         }
                     }
@@ -62,15 +62,15 @@ class BaseChatGroupedListViewModelSpec: BaseViewModelSpec {
                     }
                     
                     it("fires empty-state-error") {
-                        let eventNames = tracker.trackedEvents.flatMap { $0.name }
+                        let eventNames = tracker.trackedEvents.compactMap { $0.name }
                         expect(eventNames) == [.emptyStateError]
                     }
                     it("fires empty-state-error with .serverError") {
-                        let eventParams = tracker.trackedEvents.flatMap { $0.params }.first
+                        let eventParams = tracker.trackedEvents.compactMap { $0.params }.first
                         expect(eventParams?.stringKeyParams["reason"] as? String) == "no-internet-connection"
                     }
                     it("fires empty-state-error error code -1") {
-                        let eventParams = tracker.trackedEvents.flatMap { $0.params }.first
+                        let eventParams = tracker.trackedEvents.compactMap { $0.params }.first
                         expect(eventParams?.stringKeyParams["error-details"] as? String) == "-1"
                     }
                 }
@@ -81,11 +81,11 @@ class BaseChatGroupedListViewModelSpec: BaseViewModelSpec {
                     }
                     
                     it("fires empty-state-error") {
-                        let eventNames = tracker.trackedEvents.flatMap { $0.name }
+                        let eventNames = tracker.trackedEvents.compactMap { $0.name }
                         expect(eventNames) == [.emptyStateError]
                     }
                     it("fires empty-state-error with .tooManyRequests") {
-                        let eventParams = tracker.trackedEvents.flatMap { $0.params }.first
+                        let eventParams = tracker.trackedEvents.compactMap { $0.params }.first
                         expect(eventParams?.stringKeyParams["reason"] as? String) == "too-many-requests"
                     }
                 }

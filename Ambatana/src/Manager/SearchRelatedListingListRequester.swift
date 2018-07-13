@@ -147,7 +147,7 @@ fileprivate extension SearchRelatedListingListRequester {
         params.coordinates = queryCoordinates
         params.queryString = queryString
         params.countryCode = countryCode
-        params.categoryIds = filters?.selectedCategories.flatMap { $0.rawValue }
+        params.categoryIds = filters?.selectedCategories.compactMap { $0.rawValue }
         
         let idCategoriesFromTaxonomies = filters?.selectedTaxonomyChildren.getIds(withType: .category)
         params.categoryIds?.append(contentsOf: idCategoriesFromTaxonomies ?? [])
@@ -169,6 +169,8 @@ fileprivate extension SearchRelatedListingListRequester {
         params.sortCriteria = filters?.selectedOrdering
         params.distanceRadius = filters?.distanceRadius
         params.distanceType = filters?.distanceType
+        
+        params.userTypes = filters?.carSellerTypes
         params.makeId = filters?.carMakeId
         params.modelId = filters?.carModelId
         params.startYear = filters?.carYearStart
@@ -183,7 +185,6 @@ fileprivate extension SearchRelatedListingListRequester {
         params.startNumberOfSeats = filters?.carNumberOfSeatsStart
         params.endNumberOfSeats = filters?.carNumberOfSeatsEnd
         params.mileageType = filters?.carMileageType
-        
         params.abtest = featureFlags.searchImprovements.stringValue
 
         if let propertyType = filters?.realEstatePropertyType?.rawValue {

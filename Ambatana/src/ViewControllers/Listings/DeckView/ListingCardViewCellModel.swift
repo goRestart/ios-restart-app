@@ -1,15 +1,8 @@
-//
-//  ListingCardViewCellModel.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 22/11/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
 import RxSwift
 import RxCocoa
+import LGComponents
 
 protocol ListingCardDetailsViewModel: class {
     var cardProductInfo: Observable<ListingVMProductInfo?> { get }

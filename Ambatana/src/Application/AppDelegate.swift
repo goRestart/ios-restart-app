@@ -312,6 +312,13 @@ fileprivate extension AppDelegate {
                                                 featureFlags: featureFlags)
         LGNotificationsManager.sharedInstance.setup()
         StickersManager.sharedInstance.setup()
+        setupStripeManager()
+    }
+
+    private func setupStripeManager() {
+        let config = StripeManager.Config(apiKey: EnvironmentProxy.sharedInstance.stripeAPIKey,
+                                          appleMerchantId: EnvironmentProxy.sharedInstance.appleMerchantId)
+        StripeManager.setup(config: config)
     }
 }
 
@@ -332,7 +339,6 @@ fileprivate extension AppDelegate {
         appActiveAfterTour.subscribeNext { [weak self] enabled in
             guard let `self` = self else { return }
             if enabled {
-                let emergencyActive = self.featureFlags?.emergencyLocate.isActive ?? false
                 self.locationManager?.shouldAskForBackgroundLocationPermission = false
                 self.locationManager?.startSensorLocationUpdates()
             } else {

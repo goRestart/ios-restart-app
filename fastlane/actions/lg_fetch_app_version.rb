@@ -25,7 +25,7 @@ class LgFetchAppVersionAction < Action
 		
 		plist_path = ENV["APP_PLIST_PATH"]
 
-		if path_to_repo 
+		if path_to_repo
 			cdCommand = "cd #{path_to_repo}"   
 			UI.message cdCommand
 			Actions.sh cdCommand

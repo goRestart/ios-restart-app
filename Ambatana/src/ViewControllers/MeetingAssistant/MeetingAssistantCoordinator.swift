@@ -1,13 +1,6 @@
-//
-//  MeetingAssistantCoordinator.swift
-//  LetGo
-//
-//  Created by Dídac on 22/11/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
+import LGComponents
 
 final class MeetingAssistantCoordinator: Coordinator {
 

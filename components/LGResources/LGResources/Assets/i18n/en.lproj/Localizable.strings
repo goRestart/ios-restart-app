@@ -1967,7 +1967,7 @@
 "passwordless_email_sent_screen_title" = "Check your email inbox";
 
 // Title in the screen where app explains email has been sent
-"passwordless_email_sent_title" = "To sign in, click the 'magic link' we just sent you.";
+"passwordless_email_sent_title" = "To sign in, click the \"magic link\" we just sent you.";
 
 // Subtitle in the screen where app explains email has been sent
 "passwordless_email_sent_subtitle" = "Email address: %@";

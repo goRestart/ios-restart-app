@@ -17,6 +17,7 @@ final class ChatViewController: TextViewController {
     let reputationTooltipMargin: CGFloat = 40
 
     let listingView: ChatListingView
+    let chatDetailHeader: ChatDetailNavBarInfoView
     var selectedCellIndexPath: IndexPath?
     let viewModel: ChatViewModel
     var keyboardShown: Bool = false
@@ -69,6 +70,7 @@ final class ChatViewController: TextViewController {
                   hidesBottomBar: Bool) {
         self.viewModel = viewModel
         self.listingView = ChatListingView.chatListingView()
+        self.chatDetailHeader = ChatDetailNavBarInfoView()
         self.relatedListingsView = ChatRelatedListingsView()
         self.directAnswersPresenter = DirectAnswersPresenter()
         self.stickersView = ChatStickersView()
@@ -195,7 +197,7 @@ final class ChatViewController: TextViewController {
         
         if let patternBackground = UIColor.emptyViewBackgroundColor {
             tableView.backgroundColor = .clear
-            view.backgroundColor = patternBackground
+            view.backgroundColor = viewModel.showWhiteBackground ? .white : patternBackground
         }
         
         listingView.delegate = self
@@ -208,13 +210,17 @@ final class ChatViewController: TextViewController {
     }
 
     private func setupNavigationBar() {
-        listingView.height = navigationBarHeight
         listingView.letgoAssistantTag.isHidden = !viewModel.isUserDummy
-        listingView.layoutIfNeeded()
-
         setNavBarTitleStyle(.custom(listingView))
         setLetGoRightButtonWith(image: R.Asset.IconsButtons.icMoreOptions.image, selector: "optionsBtnPressed")
+        setNavBarBackgroundStyle(viewModel.showWhiteBackground ? .white : .default)
     }
+
+    private func updateNavigationBarHeaderWith(view: UIView?) {
+        guard let view = view else { return }
+        setNavBarTitleStyle(.custom(view))
+    }
+
 
     private func addSubviews() {
         relationInfoView.translatesAutoresizingMaskIntoConstraints = false
@@ -305,7 +311,7 @@ final class ChatViewController: TextViewController {
     fileprivate func setupProfessionalSellerBannerWithPhone(phoneNumber: String?) {
         var action: UIAction? = nil
         var buttonIcon: UIImage? = nil
-        if let phone = phoneNumber, phone.isPhoneNumber, viewModel.professionalBannerHasCallAction {
+        if phoneNumber != nil, viewModel.professionalBannerHasCallAction {
             action = UIAction(interface: .button(R.Strings.chatProfessionalBannerButtonTitle,
                                                  .primary(fontSize: .small)),
                               action: { [weak self] in
@@ -405,7 +411,7 @@ extension ChatViewController: UIGestureRecognizerDelegate {
         let kbAction = UIAction(interface: .image(image, nil), action: { [weak self] in
             guard let showing = self?.showingStickers else { return }
             showing ? self?.hideStickers() : self?.showStickers()
-        }, accessibilityId: .chatViewStickersButton)
+        }, accessibility: AccessibilityId.chatViewStickersButton)
         actions.append(kbAction)
 
         leftActions = actions
@@ -560,6 +566,38 @@ fileprivate extension ChatViewController {
                 }
             }.disposed(by: disposeBag)
 
+        Observable.combineLatest(viewModel.interlocutorAvatarURL.asObservable(),
+                                 viewModel.interlocutorName.asObservable())
+            .bind { [weak self] (avatarUrl, name) in
+                guard let vm = self?.viewModel, vm.isUserDummy else { return }
+                guard let showNoListingHeader = self?.featureFlags.showChatHeaderWithoutListingForAssistant,
+                    showNoListingHeader else { return }
+                self?.chatDetailHeader.setupWith(info: .assistant(name: name, imageUrl: avatarUrl)) { [weak self] in
+                    self?.viewModel.userInfoPressed()
+                }
+                self?.updateNavigationBarHeaderWith(view: self?.chatDetailHeader)
+            }.disposed(by: disposeBag)
+
+        Observable.combineLatest(viewModel.listingName.asObservable(),
+                                 viewModel.listingPrice.asObservable(),
+                                 viewModel.listingImageUrl.asObservable())
+            .bind { [weak self] (listingName, listingPrice, listingImageUrl) in
+                guard let strongSelf = self else { return }
+                let isAssistantWithNoProduct = strongSelf.viewModel.isUserDummy
+                    && strongSelf.featureFlags.showChatHeaderWithoutListingForAssistant
+                    && listingName.isEmpty
+                guard !isAssistantWithNoProduct else { return }
+                guard let showNoUserHeader = self?.featureFlags.showChatHeaderWithoutUser,
+                    showNoUserHeader else { return }
+                let chatNavBarInfo = ChatDetailNavBarInfo.listing(name: listingName,
+                                                                  price: listingPrice,
+                                                                  imageUrl: listingImageUrl)
+                self?.chatDetailHeader.setupWith(info: chatNavBarInfo) { [weak self] in
+                    self?.viewModel.listingInfoPressed()
+                }
+                self?.updateNavigationBarHeaderWith(view: self?.chatDetailHeader)
+            }.disposed(by: disposeBag)
+
         viewModel.shouldShowExpressBanner.asObservable().skip(1).bind { [weak self] showBanner in
             if showBanner {
                 self?.showExpressChatBanner()
@@ -658,8 +696,10 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource  {
         
         let drawer = ChatCellDrawerFactory.drawerForMessage(message, meetingsEnabled: viewModel.meetingsEnabled)
         let cell = drawer.cell(tableView, atIndexPath: indexPath)
-        
-        drawer.draw(cell, message: message)
+
+        let bubbleColor: UIColor = viewModel.showWhiteBackground ? .chatOthersBubbleBgColorGray : .chatOthersBubbleBgColorWhite
+
+        drawer.draw(cell, message: message, bubbleColor: bubbleColor)
         UIView.performWithoutAnimation {
             cell.transform = tableView.transform
         }

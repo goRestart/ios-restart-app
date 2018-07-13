@@ -369,7 +369,7 @@
 "featured_info_view_more_buyers" = "Attira più compratori";
 "featured_info_view_sell_faster" = "Vendi più velocemente";
 "featured_info_view_title" = "Articolo in evidenza";
-"filter_cars_mileage" = "Mileage";
+"filter_cars_mileage" = "Chilometraggio";
 "filter_cars_seats_title" = "Posti";
 "filter_results_cars_no_matches" = "Nessuna corrispondenza per la tua ricerca.\n Risultati simili. ";
 "filter_results_cars_other_results" = "Pubblicati di recente nella tua zona";
@@ -796,8 +796,8 @@
 "product_new_onboarding_tap_right_highlighted_label" = "Tocca a sinistra";
 "product_new_onboarding_tap_right_highlighted_label_2" = "nel centro";
 "product_new_onboarding_tap_right_label" = "%@ or %@ per vedere la foto successiva";
-"product_nit_onboarding_next_picture" = "Next picture";
-"product_nit_onboarding_previous_picture" = "Previous picture";
+"product_nit_onboarding_next_picture" = "Immagine successiva";
+"product_nit_onboarding_previous_picture" = "Immagine precedente";
 "product_onboarding_finger_scroll_label" = "Scorri per vedere altre foto";
 "product_onboarding_finger_swipe_label" = "Striscia il dito per passare all'annuncio successivo o a quello precedente";
 "product_onboarding_finger_tap_label" = "Tocca per passare all'annuncio successivo";

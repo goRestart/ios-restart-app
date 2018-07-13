@@ -11,7 +11,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     func variablesUpdated() {}
     let trackingDataVar = Variable<[(String, ABGroup)]?>(nil)
 
-    var showNPSSurvey: Bool = false
     var surveyUrl: String = ""
     var surveyEnabled: Bool = false
 
@@ -51,6 +50,8 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var feedAdsProviderForTR: FeedAdsProviderForTR = .control
     var fullScreenAdsWhenBrowsingForUS: FullScreenAdsWhenBrowsingForUS = .control
     var fullScreenAdUnitId: String? = ""
+    var appInstallAdsInFeed: AppInstallAdsInFeed = .control
+    var appInstallAdsInFeedAdUnit: String? = ""
     
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false
@@ -67,17 +68,18 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var showInactiveConversations: Bool = false
     var showChatSafetyTips: Bool = false
     var userIsTyping: UserIsTyping = .control
-    var markAllConversationsAsRead: MarkAllConversationsAsRead = .control
     var chatNorris: ChatNorris = .control
     var chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs = .control
     var showChatConnectionStatusBar: ShowChatConnectionStatusBar = .control
+    var showChatHeaderWithoutListingForAssistant: Bool = true
+    var showChatHeaderWithoutUser: Bool = true
     
     // MARK:  Verticals
     var searchCarsIntoNewBackend: SearchCarsIntoNewBackend = .control
-    var filterSearchCarSellerType: FilterSearchCarSellerType = .control
     var realEstateMap: RealEstateMap = .control
     var showServicesFeatures: ShowServicesFeatures = .control
     var carExtraFieldsEnabled: CarExtraFieldsEnabled = .control
+    var realEstateMapTooltip: RealEstateMapTooltip = .control
     
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed = .control

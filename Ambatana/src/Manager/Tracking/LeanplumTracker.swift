@@ -22,7 +22,7 @@ fileprivate extension TrackerEvent {
                  .firstMessage, .listingOpenChat, .listingFavorite, .listingShareComplete,
                  .listingMarkAsSold, .listingDetailVisit,
                  .listingSellComplete, .listingSellStart,
-                 .profileVisit, .npsStart, .npsComplete, .surveyStart, .surveyCompleted, .onboardingInterestsComplete:
+                 .profileVisit, .surveyStart, .surveyCompleted, .onboardingInterestsComplete:
                 return true
             default:
                 return false

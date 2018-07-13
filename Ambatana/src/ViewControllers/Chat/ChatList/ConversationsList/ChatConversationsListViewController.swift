@@ -3,7 +3,7 @@ import RxDataSources
 import LGCoreKit
 import LGComponents
 
-final class ChatConversationsListViewController: ChatBaseViewController {
+final class ChatConversationsListViewController: ChatBaseViewController, ScrollableToTop {
     
     private let viewModel: ChatConversationsListViewModel
     private let contentView = ChatConversationsListView()
@@ -111,6 +111,7 @@ final class ChatConversationsListViewController: ChatBaseViewController {
         
         viewModel.rx_isEditing
             .asDriver()
+            .distinctUntilChanged()
             .drive(onNext: { [weak self] isEditing in
                 self?.setupNavigationBar(isEditing: isEditing)
                 self?.contentView.switchEditMode(isEditing: isEditing)
@@ -139,10 +140,22 @@ final class ChatConversationsListViewController: ChatBaseViewController {
     private func setupTableViewRx() {
         let dataSource = RxTableViewSectionedAnimatedDataSource<ChatConversationsListSectionModel>(
             configureCell: { (_, tableView, indexPath, item) in
-                guard let cell = tableView.dequeueReusableCell(withIdentifier: ChatUserConversationCell.reusableID)
-                    as? ChatUserConversationCell else { return UITableViewCell() }
-                cell.setupCellWith(data: item.conversationCellData, indexPath: indexPath)
-                return cell
+
+                if let userType = item.conversationCellData.userType,
+                    userType == .dummy,
+                    item.conversationCellData.listingId == nil {
+                    guard let cell = tableView.dequeue(type: ChatAssistantConversationCell.self, for: indexPath) else {
+                        return UITableViewCell()
+                    }
+                    cell.setupCellWith(data: item.conversationCellData, indexPath: indexPath)
+                    return cell
+                } else {
+                    guard let cell = tableView.dequeue(type: ChatUserConversationCell.self, for: indexPath) else {
+                        return UITableViewCell()
+                    }
+                    cell.setupCellWith(data: item.conversationCellData, indexPath: indexPath)
+                    return cell
+                }
         },
             canEditRowAtIndexPath: { (_, _) in
             return true
@@ -201,5 +214,12 @@ final class ChatConversationsListViewController: ChatBaseViewController {
     
     @objc private func navigationBarCancelButtonPressed() {
         viewModel.switchEditMode(isEditing: false)
+    }
+
+    // MARK: - ScrollableToTop
+
+    func scrollToTop() {
+        guard viewModel.objectCount > 0 else { return }
+        contentView.scrollToTop()
     }
 }

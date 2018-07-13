@@ -167,11 +167,11 @@ class MainListingsViewModelSpec: QuickSpec {
                         sut.listingListVM(listingListViewModel, didSucceedRetrievingListingsPage: 0, withResultsCount: Int.random(), hasListings: true)
                     }
                     it("fires product list event") {
-                        let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
+                        let eventNames = mockTracker.trackedEvents.compactMap { $0.name }
                         expect(eventNames) == [.listingList]
                     }
                     it("fires product list event and feed source parameter is .home") {
-                        let eventParams = mockTracker.trackedEvents.flatMap { $0.params }.first
+                        let eventParams = mockTracker.trackedEvents.compactMap { $0.params }.first
                         expect(eventParams?.stringKeyParams["feed-source"] as? String) == "home"
                     }
                 }
@@ -201,11 +201,11 @@ class MainListingsViewModelSpec: QuickSpec {
                         sut.listingListVM(listingListViewModel, didSucceedRetrievingListingsPage: 0, withResultsCount: Int.random(), hasListings: true)
                     }
                     it("fires listing list event and search complete") {
-                        let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
+                        let eventNames = mockTracker.trackedEvents.compactMap { $0.name }
                         expect(eventNames) == [.listingList, .searchComplete]
                     }
                     it("fires listing list event and feed source parameter is .search") {
-                        let eventParams = mockTracker.trackedEvents.flatMap { $0.params }.first
+                        let eventParams = mockTracker.trackedEvents.compactMap { $0.params }.first
                         expect(eventParams?.stringKeyParams["feed-source"] as? String) == "search"
                     }
                 }
@@ -235,11 +235,11 @@ class MainListingsViewModelSpec: QuickSpec {
                         sut.listingListVM(listingListViewModel, didSucceedRetrievingListingsPage: 0, withResultsCount: Int.random(), hasListings: true)
                     }
                     it("fires product list event") {
-                        let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
+                        let eventNames = mockTracker.trackedEvents.compactMap { $0.name }
                         expect(eventNames) == [.listingList]
                     }
                     it("fires product list event and feed source parameter is .filter") {
-                        let eventParams = mockTracker.trackedEvents.flatMap { $0.params }.first
+                        let eventParams = mockTracker.trackedEvents.compactMap { $0.params }.first
                         expect(eventParams?.stringKeyParams["feed-source"] as? String) == "filter"
                     }
                 }
@@ -269,11 +269,11 @@ class MainListingsViewModelSpec: QuickSpec {
                         sut.listingListVM(listingListViewModel, didSucceedRetrievingListingsPage: 0, withResultsCount: Int.random(), hasListings: true)
                     }
                     it("fires product list event and search complete") {
-                        let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
+                        let eventNames = mockTracker.trackedEvents.compactMap { $0.name }
                         expect(eventNames) == [.listingList, .searchComplete]
                     }
                     it("fires product list event and feed source parameter is .search&filter") {
-                        let eventParams = mockTracker.trackedEvents.flatMap { $0.params }.first
+                        let eventParams = mockTracker.trackedEvents.compactMap { $0.params }.first
                         expect(eventParams?.stringKeyParams["feed-source"] as? String) == "search&filter"
                     }
                 }
@@ -303,11 +303,11 @@ class MainListingsViewModelSpec: QuickSpec {
                         sut.listingListVM(listingListViewModel, didSucceedRetrievingListingsPage: 0, withResultsCount: Int.random(), hasListings: true)
                     }
                     it("fires product list event") {
-                        let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
+                        let eventNames = mockTracker.trackedEvents.compactMap { $0.name }
                         expect(eventNames) == [.listingList]
                     }
                     it("fires product list event and feed source parameter is .collection") {
-                        let eventParams = mockTracker.trackedEvents.flatMap { $0.params }.first
+                        let eventParams = mockTracker.trackedEvents.compactMap { $0.params }.first
                         expect(eventParams?.stringKeyParams["feed-source"] as? String) == "collection"
                     }
                 }
@@ -384,29 +384,16 @@ class MainListingsViewModelSpec: QuickSpec {
                 }
                 
                 context("cars new backend active") {
-                    beforeEach {
-                        mockFeatureFlags.searchCarsIntoNewBackend = .active
-                    }
                     
-                    context("car seller type multiple selection") {
+                    context("car seller type") {
                         beforeEach {
-                            mockFeatureFlags.filterSearchCarSellerType = .variantA
+                            mockFeatureFlags.searchCarsIntoNewBackend = .active
                         }
                         it("has right tags") {
                             expect(sut.primaryTags).to(contain(.carSellerType(type: .user,
-                                                                              name: R.Strings.filtersCarSellerTypePrivate)))
+                                                                              name: R.Strings.filtersCarSellerTypeInvidual)))
                         }
                         
-                    }
-                    
-                    context("car seller type single selection") {
-                        beforeEach {
-                            mockFeatureFlags.filterSearchCarSellerType = .variantC
-                        }
-                        it("has NOT All tag") {
-                            expect(sut.primaryTags).toNot(contain(.carSellerType(type: .user,
-                                                                                 name: R.Strings.filtersCarSellerTypeAll)))
-                        }
                     }
                 }
             }
@@ -442,11 +429,11 @@ class MainListingsViewModelSpec: QuickSpec {
                        sut.listingListMV(listingListViewModel, didFailRetrievingListingsPage: 0, hasListings: false, error:.tooManyRequests)
                     }
                     it("fires empty-state-error") {
-                        let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
+                        let eventNames = mockTracker.trackedEvents.compactMap { $0.name }
                         expect(eventNames) == [.emptyStateError]
                     }
                     it("fires empty-state-error with .tooManyRequests") {
-                        let eventParams = mockTracker.trackedEvents.flatMap { $0.params }.first
+                        let eventParams = mockTracker.trackedEvents.compactMap { $0.params }.first
                         expect(eventParams?.stringKeyParams["reason"] as? String) == "too-many-requests"
                     }
                 }
@@ -455,11 +442,11 @@ class MainListingsViewModelSpec: QuickSpec {
                         sut.listingListMV(listingListViewModel, didFailRetrievingListingsPage: 0, hasListings: false, error:.network(errorCode: -1, onBackground: false))
                     }
                     it("fires empty-state-error") {
-                        let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
+                        let eventNames = mockTracker.trackedEvents.compactMap { $0.name }
                         expect(eventNames) == [.emptyStateError]
                     }
                     it("fires empty-state-error with .no-internet-connection") {
-                        let eventParams = mockTracker.trackedEvents.flatMap { $0.params }.first
+                        let eventParams = mockTracker.trackedEvents.compactMap { $0.params }.first
                         expect(eventParams?.stringKeyParams["reason"] as? String) == "no-internet-connection"
                     }
                 }

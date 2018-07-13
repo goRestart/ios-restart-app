@@ -11,7 +11,7 @@ import LGCoreKit
 extension RetrieveListingParams {
     
     mutating func populate(with filters: ListingFilters?) {
-        categoryIds = filters?.selectedCategories.flatMap { $0.rawValue }
+        categoryIds = filters?.selectedCategories.compactMap { $0.rawValue }
         let idCategoriesFromTaxonomies = filters?.selectedTaxonomyChildren.getIds(withType: .category)
         categoryIds?.append(contentsOf: idCategoriesFromTaxonomies ?? [])
         superKeywordIds = filters?.selectedTaxonomyChildren.getIds(withType: .superKeyword)
@@ -54,7 +54,7 @@ extension RetrieveListingParams {
             propertyType = propertyTypeValue
         }
 
-        offerType = filters?.realEstateOfferTypes.flatMap { $0.rawValue }
+        offerType = filters?.realEstateOfferTypes.compactMap { $0.rawValue }
         numberOfBedrooms = filters?.realEstateNumberOfBedrooms?.rawValue ?? filters?.realEstateNumberOfRooms?.numberOfBedrooms
         numberOfLivingRooms = filters?.realEstateNumberOfRooms?.numberOfLivingRooms
         numberOfBathrooms = filters?.realEstateNumberOfBathrooms?.rawValue

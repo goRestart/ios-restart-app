@@ -1,22 +1,13 @@
-//
-//  LGAlertViewController.swift
-//  LetGo
-//
-//  Created by Dídac on 02/06/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
 import RxSwift
 import RxCocoa
-
 
 public enum AlertType {
     case plainAlert
     case plainAlertOld
     case iconAlert(icon: UIImage?)
 
-    var titleTopSeparation: CGFloat {
+    public var titleTopSeparation: CGFloat {
         switch self {
         case .plainAlertOld, .plainAlert:
             return 20
@@ -25,7 +16,7 @@ public enum AlertType {
         }
     }
 
-    var contentTopSeparation: CGFloat {
+    public var contentTopSeparation: CGFloat {
         switch self {
         case .plainAlertOld, .plainAlert:
             return 0
@@ -34,7 +25,7 @@ public enum AlertType {
         }
     }
 
-    var containerCenterYOffset: CGFloat {
+    public var containerCenterYOffset: CGFloat {
         return -contentTopSeparation/2
     }
 }
@@ -43,8 +34,8 @@ public enum AlertButtonsLayout {
     case horizontal
     case vertical
     case emojis
-
-    var buttonsHeight: CGFloat {
+    
+    public var buttonsHeight: CGFloat {
         switch self {
         case .horizontal, .vertical:
             return LGUIKitConstants.mediumButtonHeight
@@ -52,8 +43,8 @@ public enum AlertButtonsLayout {
             return 60
         }
     }
-
-    var buttonsMargin: CGFloat {
+    
+    public var buttonsMargin: CGFloat {
         switch self {
         case .horizontal, .vertical:
             return 10
@@ -61,8 +52,8 @@ public enum AlertButtonsLayout {
             return 50
         }
     }
-
-    var topButtonMargin: CGFloat {
+    
+    public var topButtonMargin: CGFloat {
         switch self {
         case .horizontal:
             return 0
@@ -72,21 +63,50 @@ public enum AlertButtonsLayout {
     }
 }
 
-final class LGAlertViewController: UIViewController {
+final public class LGAlertViewController: UIViewController {
 
-    static let buttonsContainerTopSeparation: CGFloat = 20
 
-    @IBOutlet weak var alertIcon: UIImageView!
-    @IBOutlet weak var alertContentView: UIView!
-    @IBOutlet weak var alertTitleLabel: UILabel!
-    @IBOutlet weak var alertTextLabel: UILabel!
+    private struct Layout {
+        static let buttonsContainerTopSeparation: CGFloat = 20
+        static let iconHeight: CGFloat = 110
+        static let iconWidth: CGFloat = 110
+        static let titleTopMargin: CGFloat = 75
+        static let alertCornerRadius: CGFloat = 15
+        static let buttonContainerHeight: CGFloat = 44
+        static let defaultWidth: CGFloat = 270
+        static let contentTopMargin: CGFloat = 55
+    }
 
-    @IBOutlet weak var alertContainerCenterYConstraint: NSLayoutConstraint!
-    @IBOutlet weak var alertContentTopSeparationConstraint: NSLayoutConstraint!
-    @IBOutlet weak var alertTitleTopSeparationConstraint: NSLayoutConstraint!
-    @IBOutlet weak var alertContainerWidthConstraint: NSLayoutConstraint!
-    @IBOutlet weak var buttonsContainer: UIView!
-    @IBOutlet weak var buttonsContainerViewTopSeparationConstraint: NSLayoutConstraint!
+    private let alertContainerView = UILayoutGuide()
+
+    private let alertContentView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = Layout.alertCornerRadius
+        view.clipsToBounds = true
+        return view
+    }()
+
+    private let alertIcon: UIImageView = {
+        let image = UIImageView()
+        return image
+    }()
+
+    private let alertTitleLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        return label
+    }()
+
+    private let alertTextLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        return label
+    }()
+
+    private let buttonsContainer = UIView()
+    private var alertContainerWidthConstraint: NSLayoutConstraint?
+    private var buttonsContainerViewTopSeparationConstraint: NSLayoutConstraint?
 
     private let alertType: AlertType
     private let buttonsLayout: AlertButtonsLayout
@@ -97,10 +117,11 @@ final class LGAlertViewController: UIViewController {
     private let dismissAction: (() -> ())?
 
     private let disposeBag = DisposeBag()
-
-    var simulatePushTransitionOnPresent: Bool = false
-    var simulatePushTransitionOnDismiss: Bool = false
-    var alertWidth: CGFloat = 270 {
+    
+    public var simulatePushTransitionOnPresent: Bool = false
+    public var simulatePushTransitionOnDismiss: Bool = false
+    
+    public var alertWidth: CGFloat = Layout.defaultWidth {
         didSet {
             view.setNeedsLayout()
         }
@@ -108,7 +129,7 @@ final class LGAlertViewController: UIViewController {
 
     // MARK: - Lifecycle
 
-    init?(title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout = .horizontal,
+    public init?(title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout = .horizontal,
           actions: [UIAction]?, dismissAction: (() -> ())? = nil) {
         self.alertTitle = title
         self.alertText = text
@@ -116,28 +137,29 @@ final class LGAlertViewController: UIViewController {
         self.alertType = alertType
         self.buttonsLayout = buttonsLayout
         self.dismissAction = dismissAction
-        super.init(nibName: "LGAlertViewController", bundle: nil)
-        modalPresentationStyle = .overCurrentContext
+        super.init(nibName: nil, bundle: nil)
+        setupForModalWithNonOpaqueBackground()
         modalTransitionStyle = .crossDissolve
+        modalPresentationStyle = .overCurrentContext
     }
-
-    required init?(coder aDecoder: NSCoder) {
+    
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        setupConstraints()
         setupUI()
     }
 
-    override func viewWillLayoutSubviews() {
+    override public func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        alertContainerWidthConstraint.constant = alertWidth
-        alertContentView.setNeedsLayout()
+        alertContainerWidthConstraint?.constant = alertWidth
     }
 
-    override func viewWillAppear(_ animated: Bool) {
+    override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         if simulatePushTransitionOnPresent {
@@ -145,7 +167,7 @@ final class LGAlertViewController: UIViewController {
             UIView.animate(withDuration: 0.2) { [weak self] in
                 self?.view.alpha = 1
             }
-
+            
             let animation = CATransition()
             animation.type = kCATransitionPush
             animation.subtype = kCATransitionFromRight
@@ -177,16 +199,50 @@ final class LGAlertViewController: UIViewController {
         alertTitleLabel.text = alertTitle
         alertTextLabel.text = alertText
 
-        alertContentTopSeparationConstraint.constant = alertType.contentTopSeparation
-        alertTitleTopSeparationConstraint.constant = alertType.titleTopSeparation
-        alertContainerCenterYConstraint.constant = alertType.containerCenterYOffset
-
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapOutside))
         view.addGestureRecognizer(tapRecognizer)
 
         alertContentView.cornerRadius = LGUIKitConstants.bigCornerRadius
 
         setupButtons(alertActions)
+    }
+
+    private func setupConstraints() {
+        view.addLayoutGuide(alertContainerView)
+        view.addSubviewsForAutoLayout([alertContentView, alertIcon])
+        alertContentView.addSubviewsForAutoLayout([alertTitleLabel, alertTextLabel, buttonsContainer])
+
+        var constraints: [NSLayoutConstraint] = [
+            alertContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            alertContentView.leftAnchor.constraint(equalTo: alertContainerView.leftAnchor),
+            alertContentView.rightAnchor.constraint(equalTo: alertContainerView.rightAnchor),
+            alertContentView.bottomAnchor.constraint(equalTo: alertContainerView.bottomAnchor),
+            alertIcon.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            alertIcon.centerYAnchor.constraint(equalTo: alertContentView.topAnchor),
+            alertIcon.heightAnchor.constraint(equalToConstant: Layout.iconHeight),
+            alertIcon.widthAnchor.constraint(equalToConstant: Layout.iconWidth),
+            alertTitleLabel.leftAnchor.constraint(equalTo: alertContentView.leftAnchor, constant: Metrics.veryBigMargin),
+            alertTitleLabel.rightAnchor.constraint(equalTo: alertContentView.rightAnchor, constant: -Metrics.veryBigMargin),
+            alertTextLabel.topAnchor.constraint(equalTo: alertTitleLabel.bottomAnchor, constant: Metrics.margin),
+            alertTextLabel.leftAnchor.constraint(equalTo: alertContentView.leftAnchor, constant: Metrics.veryBigMargin),
+            alertTextLabel.rightAnchor.constraint(equalTo: alertContentView.rightAnchor, constant: -Metrics.veryBigMargin),
+            buttonsContainer.leftAnchor.constraint(equalTo: alertContentView.leftAnchor, constant: Metrics.veryBigMargin),
+            buttonsContainer.rightAnchor.constraint(equalTo: alertContentView.rightAnchor, constant: -Metrics.veryBigMargin),
+            buttonsContainer.bottomAnchor.constraint(equalTo: alertContentView.bottomAnchor, constant: -Metrics.veryBigMargin),
+            buttonsContainer.heightAnchor.constraint(equalToConstant: Layout.buttonContainerHeight),
+            alertContentView.topAnchor.constraint(equalTo: alertContainerView.topAnchor, constant: alertType.contentTopSeparation),
+            alertTitleLabel.topAnchor.constraint(equalTo: alertIcon.centerYAnchor, constant: alertType.titleTopSeparation),
+            alertContainerView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: alertType.containerCenterYOffset),
+        ]
+
+        let buttonsTop = buttonsContainer.topAnchor.constraint(equalTo: alertTextLabel.bottomAnchor, constant: Metrics.veryBigMargin)
+        buttonsContainerViewTopSeparationConstraint = buttonsTop
+
+        let widthConstraint = alertContainerView.widthAnchor.constraint(equalToConstant: Layout.defaultWidth)
+        alertContainerWidthConstraint = widthConstraint
+
+        constraints.append(contentsOf: [buttonsTop, widthConstraint])
+        NSLayoutConstraint.activate(constraints)
     }
 
     private func setupButtons(_ actions: [UIAction]?) {
@@ -197,10 +253,10 @@ final class LGAlertViewController: UIViewController {
         guard let buttonActions = actions else { return }
         // No actions -> No buttons
         guard buttonActions.count > 0 else {
-            buttonsContainerViewTopSeparationConstraint.constant = 0
+            buttonsContainerViewTopSeparationConstraint?.constant = 0
             return
         }
-        buttonsContainerViewTopSeparationConstraint.constant = LGAlertViewController.buttonsContainerTopSeparation
+        buttonsContainerViewTopSeparationConstraint?.constant = Layout.buttonsContainerTopSeparation
 
         switch buttonsLayout {
         case .horizontal:
@@ -213,7 +269,7 @@ final class LGAlertViewController: UIViewController {
     }
 
     private func buildEmojiButtons(actions: [UIAction]) {
-
+        
         let centeredContainer = UIView()
         centeredContainer.translatesAutoresizingMaskIntoConstraints = false
         buttonsContainer.addSubview(centeredContainer)
@@ -248,7 +304,7 @@ final class LGAlertViewController: UIViewController {
         }
         _ = buttonsContainer.addTopBorderWithWidth(1, color: UIColor.gray)
     }
-
+    
     private func buildButtonsHorizontally(_ buttonActions: [UIAction]) {
         let widthMultiplier: CGFloat = 1 / CGFloat(buttonActions.count)
         let widthConstant: CGFloat = buttonActions.count == 1 ? 0 : -(AlertButtonsLayout.horizontal.buttonsMargin/2)
@@ -306,15 +362,15 @@ final class LGAlertViewController: UIViewController {
             button.titleLabel?.textAlignment = .center
             button.titleLabel?.adjustsFontSizeToFitWidth = true
             button.setTitle(action.text, for: .normal)
-            button.set(accessibilityId: action.accessibilityId)
+            button.set(accessibility: action.accessibility)
             button.setStyle(action.buttonStyle ?? .primary(fontSize: .medium))
         }
-
+        
         button.rx.tap.bind { [weak self] in
             self?.dismissAlert(pushTransition: true) {
                 action.action()
             }
-            }.disposed(by: disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     @objc private func tapOutside() {
@@ -331,16 +387,16 @@ final class LGAlertViewController: UIViewController {
             animation.duration = 0.2
             animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
             alertContentView.layer.add(animation, forKey: kCATransition)
-
+            
             // modalTransitionStyle = .crossDissolve will add a layer animation on dismiss and you will see
             // twice the alertContentView, 1 from our push animation and 2 from the crossDisolve animation.
             // we set the alpha to 0 to prevent any weirdness
             alertContentView.alpha = 0
-
+            
             UIView.animate(withDuration: 0.2, animations: { [weak self] in
                 self?.view.alpha = 0 // to prevent flickering from one controller to another
-                }, completion: { (completed) in
-                    self.dismiss(animated: false, completion: completion)
+            }, completion: { (completed) in
+                self.dismiss(animated: false, completion: completion)
             })
         } else {
             dismiss(animated: true, completion: completion)

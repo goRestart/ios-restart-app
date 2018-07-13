@@ -369,7 +369,7 @@
 "featured_info_view_more_buyers" = "Привлечь больше покупателей";
 "featured_info_view_sell_faster" = "Продать быстрее";
 "featured_info_view_title" = "Выделенное объявление";
-"filter_cars_mileage" = "Mileage";
+"filter_cars_mileage" = "Пробег";
 "filter_cars_seats_title" = "Сиденья";
 "filter_results_cars_no_matches" = "Совпадений для вашего поиска не найдено. \n Показывать похожие результаты. ";
 "filter_results_cars_other_results" = "Недавно опубликовано в вашем районе";
@@ -796,8 +796,8 @@
 "product_new_onboarding_tap_right_highlighted_label" = "Нажмите на правую часть";
 "product_new_onboarding_tap_right_highlighted_label_2" = "или в середину";
 "product_new_onboarding_tap_right_label" = "%@ или %@ для просмотра следующего фото";
-"product_nit_onboarding_next_picture" = "Next picture";
-"product_nit_onboarding_previous_picture" = "Previous picture";
+"product_nit_onboarding_next_picture" = "Следующее изображение";
+"product_nit_onboarding_previous_picture" = "Предыдущее изображение";
 "product_onboarding_finger_scroll_label" = "Проведите вверх или вниз, чтобы листать фотографии";
 "product_onboarding_finger_swipe_label" = "Листайте, чтобы пройти к следующему или предыдущему объявлению";
 "product_onboarding_finger_tap_label" = "Нажмите, чтобы пройти к следующему объявлению";

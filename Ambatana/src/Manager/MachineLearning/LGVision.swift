@@ -1,5 +1,4 @@
 import LGComponents
-import CameraManager
 import Vision
 import CoreMedia
 import LGCoreKit

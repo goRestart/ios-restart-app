@@ -213,6 +213,10 @@ class ListingCarouselViewModel: BaseViewModel {
     var meetingsEnabled: Bool {
         return featureFlags.chatNorris.isActive
     }
+    
+    var extraFieldsGridEnabled: Bool {
+        return featureFlags.carExtraFieldsEnabled.isActive
+    }
 
     // MARK: - Init
 
@@ -291,13 +295,13 @@ class ListingCarouselViewModel: BaseViewModel {
          reputationTooltipManager: ReputationTooltipManager) {
         if let productListModels = productListModels {
             let listingCarouselCellModels = productListModels
-                .flatMap(ListingCarouselCellModel.adapter)
+                .compactMap(ListingCarouselCellModel.adapter)
                 .filter({!$0.listing.status.isDiscarded})
             self.objects.appendContentsOf(listingCarouselCellModels)
             self.isLastPage = listingListRequester.isLastPage(productListModels.count)
         } else {
             let listingCarouselCellModels = [initialListing]
-                .flatMap{$0}
+                .compactMap{$0}
                 .map(ListingCarouselCellModel.init)
                 .filter({!$0.listing.status.isDiscarded})
             self.objects.appendContentsOf(listingCarouselCellModels)
@@ -383,6 +387,12 @@ class ListingCarouselViewModel: BaseViewModel {
         if index == startIndex { return initialThumbnail }
         return nil
     }
+    
+    func listingAttributeGridTapped(forItems items: [ListingAttributeGridItem]) {
+        let viewModel = ListingAttributeTableViewModel(withItems: items)
+        viewModel.navigator = navigator
+        navigator?.openListingAttributeTable(withViewModel: viewModel)
+    }
 
     func userAvatarPressed() {
         currentListingViewModel?.openProductOwnerProfile()
@@ -433,8 +443,11 @@ class ListingCarouselViewModel: BaseViewModel {
         currentListingViewModel?.descriptionURLPressed(url)
     }
 
-    func bumpUpBannerShown(type: BumpUpType) {
-        currentListingViewModel?.trackBumpUpBannerShown(type: type, storeProductId: currentListingViewModel?.storeProductId)
+    func bumpUpBannerShown(bumpInfo: BumpUpInfo) {
+        if bumpInfo.shouldTrackBumpBannerShown {
+            currentListingViewModel?.trackBumpUpBannerShown(type: bumpInfo.type,
+                                                            storeProductId: currentListingViewModel?.storeProductId)
+        }
     }
 
     func showBumpUpView(bumpUpProductData: BumpUpProductData,

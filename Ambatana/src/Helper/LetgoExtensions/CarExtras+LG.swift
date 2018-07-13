@@ -4,7 +4,11 @@ import LGComponents
 extension CarBodyType: ListingAttributeGridItem {
 
     static var allCases: [CarBodyType] {
-        return [.sedan, .hybrid, .convertible, .truck, .coupe, .hatchback, .minivan, .wagon, .suv, .other]
+        return [.sedan, .hybrid, .convertible, .truck, .coupe, .hatchback, .minivan, .wagon, .suv, .others]
+    }
+    
+    var typeName: String {
+        return R.Strings.filtersCarsBodytypeTitle
     }
     
     var title: String {
@@ -27,7 +31,7 @@ extension CarBodyType: ListingAttributeGridItem {
             return R.Strings.filtersCarsBodytypeSuv
         case .truck:
             return R.Strings.filtersCarsBodytypeTruck
-        case .other:
+        case .others:
             return R.Strings.filtersCarsBodytypeOther
         }
     }
@@ -56,7 +60,7 @@ extension CarBodyType: ListingAttributeGridItem {
             return R.Asset.IconsButtons.FiltersCarExtrasIcons.Bodytype.suv.image
         case .truck:
             return R.Asset.IconsButtons.FiltersCarExtrasIcons.Bodytype.truck.image
-        case .other:
+        case .others:
             return R.Asset.IconsButtons.FiltersCarExtrasIcons.Bodytype.other.image
         }
     }
@@ -66,6 +70,10 @@ extension CarDriveTrainType: ListingAttributeGridItem {
     
     static var allCases: [CarDriveTrainType] {
         return [.awd, .rwd, .fourWd, .fwd]
+    }
+    
+    var typeName: String {
+        return R.Strings.filtersCarsDrivetrainTitle
     }
     
     var title: String {
@@ -104,6 +112,10 @@ extension CarFuelType: ListingAttributeGridItem {
     
     static var allCases: [CarFuelType] {
         return [.electric, .gas, .diesel, .flex, .hybrid]
+    }
+    
+    var typeName: String {
+        return R.Strings.filtersCarsFueltypeTitle
     }
     
     var title: String {
@@ -147,6 +159,10 @@ extension CarTransmissionType: ListingAttributeGridItem {
         return [.manual, .automatic]
     }
     
+    var typeName: String {
+        return R.Strings.filtersCarsTransmissionTitle
+    }
+    
     var title: String {
         switch self {
         case .manual:
@@ -168,4 +184,26 @@ extension CarTransmissionType: ListingAttributeGridItem {
             return R.Asset.IconsButtons.FiltersCarExtrasIcons.Transmission.automatic.image
         }
     }
+}
+
+enum CarSeat: Int, ListingAttributeGridItem {
+    
+    case one = 1 , two, three, four, five, six, seven, eight, nine
+    
+    static var allCases: [CarSeat] {
+        return [.one, .two, .three, .four, .five, .six, .seven, .eight, .nine]
+    }
+    
+    var typeName: String {
+        return R.Strings.filterCarsSeatsTitle
+    }
+    
+    var title: String {
+        guard self == .nine else { return String(self.rawValue) }
+        return "9+"
+    }
+    
+    var value: String { return self.title }
+    
+    var icon: UIImage? { return nil }
 }

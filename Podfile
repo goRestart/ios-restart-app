@@ -23,7 +23,7 @@ def shared_pods
     pod "RxMKMapView",          "4.0.0"
 
     #Ads
-    pod "Google-Mobile-Ads-SDK","7.30.0"
+    pod "Google-Mobile-Ads-SDK","7.31.0"
 
     #Fabric
     pod "Fabric",               "1.7.2"     # Obj-c
@@ -36,21 +36,24 @@ def shared_pods
     pod "Leanplum-iOS-SDK",     "2.0.5"     # Obj-c
     pod "NewRelicAgent",        "6.1.1"     # Obj-c
 
+    # Stripe
+    pod "Stripe",               "13.0.3"
+
     # letgo components
     pod "LGComponents",            :path => "components"
 
 
     # letgo Core
 
-    pod "LGCoreKit",             "4.36.4", :inhibit_warnings => false
-    # pod "LGCoreKit",            :path => "../lgcorekit", :inhibit_warnings => false
-    #pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :branch => 'ABIOS-3962-new-car-filters', :inhibit_warnings => false
+    pod "LGCoreKit",             "4.40.0", :inhibit_warnings => false
+#     pod "LGCoreKit",            :path => "../lgcorekit", :inhibit_warnings => false
+#  pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :branch => 'ABIOS-4416-remove-negative-attributes-params-in-cars-requester', :inhibit_warnings => false
 
     # letgo Collapsible label
         pod "LGCollapsibleLabel",   "1.2.0", :inhibit_warnings => false     # :path => "../collapsiblelabel"
 
     # letgo bumper (feature flags)
-	pod "bumper",               "1.2.1"     #:path => "../bumper"
+	pod "bumper",               "1.3.1"     #:path => "../bumper"
    #  pod "bumper",            :git => 'git@github.com:letgoapp/bumper.git', :commit => '7ec04a070eca2337f058954d7f53c474d616d7b1', :inhibit_warnings => false
 
 
@@ -64,11 +67,6 @@ def shared_pods
     pod "GoogleSignIn",         "4.1.1"     # Obj-c
 
     pod "GoogleIDFASupport",    "3.14.0"    # Obj-c
-
-    # Custom camera
-#    pod "CameraManager",        "4.0.1"
-#    pod "CameraManager",            :path => "../CameraManager"
-    pod "CameraManager",            :git => 'git@github.com:letgoapp/CameraManager.git', :commit => '7b32b50f8bdb1f94f1f1d0fdb6c99a9d21a7ee84', :inhibit_warnings => false
 
     # Logging
     pod "CocoaLumberjack/Swift", "3.3.0"

@@ -1,17 +1,9 @@
-//
-//  SignUpViewModelSpec.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 21/11/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 @testable import LetGoGodMode
 import LGCoreKit
 import Quick
 import Nimble
 import Result
-
+import LGComponents
 
 class SignUpViewModelSpec: QuickSpec {
     var loading: Bool = false

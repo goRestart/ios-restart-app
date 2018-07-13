@@ -35,8 +35,7 @@ class ChatGroupedViewModel: BaseViewModel {
             }
         }
         
-        func markAllConversationAsReadButtonEnabled(isFeatureFlagEnabled: Bool) -> Bool {
-            guard isFeatureFlagEnabled else { return false }
+        var markAllConversationAsReadButtonEnabled: Bool {
             switch self {
             case .all, .selling, .buying:
                 return true
@@ -47,6 +46,19 @@ class ChatGroupedViewModel: BaseViewModel {
 
         static var allValues: [Tab] {
             return [.all, .selling, .buying, .blockedUsers]
+        }
+
+        var nameForTracking: EventParameterChatTabName {
+            switch self {
+            case .all:
+                return .all
+            case .selling:
+                return .selling
+            case .buying:
+                return .buying
+            case .blockedUsers:
+                return .blocked
+            }
         }
     }
 
@@ -254,7 +266,7 @@ class ChatGroupedViewModel: BaseViewModel {
             }))
         }
         
-        if currentTab.value.markAllConversationAsReadButtonEnabled(isFeatureFlagEnabled: featureFlags.markAllConversationsAsRead.isActive) {
+        if currentTab.value.markAllConversationAsReadButtonEnabled {
             actions.append(UIAction(interface: UIActionInterface.text(R.Strings.chatMarkConversationAsReadButton),
                                     action: { [weak self] in
                                         self?.markAllConversationAsRead()
@@ -354,6 +366,15 @@ extension ChatGroupedViewModel {
                 return self?.blockedUsersListViewModel
             }
         }.bind(to: currentPageViewModel).disposed(by: disposeBag)
+
+
+        currentTab.asObservable()
+            .skip(2)  // we skip the initial value and the 1st access to the chat window
+            .subscribeNext { [weak self] tab in
+                let openTabEvent = TrackerEvent.chatTabOpen(tabName: tab.nameForTracking)
+                self?.tracker.trackEvent(openTabEvent)
+            }
+            .disposed(by: disposeBag)
 
         // Observe current page view model changes
         currentPageViewModel.asObservable().subscribeNext { [weak self] viewModel in

@@ -191,13 +191,13 @@ struct TrackerEvent {
         return TrackerEvent(name: .listingList, params: params)
     }
     
-    static func listingListVertical(category: ListingCategory, keywords: [String],
-                                    matchingFields: [String], nonMatchingFields: [String]) -> TrackerEvent {
+    static func listingListVertical(category: ListingCategory,
+                                    keywords: [String],
+                                    matchingFields: [String]) -> TrackerEvent {
         var params = EventParameters()
         params[.categoryId] = String(category.rawValue)
         params[.verticalKeyword] = keywords.isEmpty ? TrackerEvent.notApply : keywords.joined(separator: "_")
         params[.verticalMatchingFields] = matchingFields.isEmpty ? TrackerEvent.notApply : matchingFields.joined(separator: ",")
-        params[.verticalNoMatchingFields] = nonMatchingFields.isEmpty ? TrackerEvent.notApply : nonMatchingFields.joined(separator: ",")
 
         return TrackerEvent(name: .listingListVertical, params: params)
     }
@@ -574,6 +574,14 @@ struct TrackerEvent {
         params[.model] = EventParameterModel.model(name: listing.car?.carAttributes.model).name
         params[.year] = EventParameterYear.year(year: listing.car?.carAttributes.year).year
         
+        params[.mileage] = listing.car?.carAttributes.mileage ?? SharedConstants.parameterNotApply
+        params[.bodyType] = listing.car?.carAttributes.bodyType?.rawValue ?? SharedConstants.parameterNotApply
+        params[.transmission] = listing.car?.carAttributes.transmission?.rawValue ?? SharedConstants.parameterNotApply
+        params[.fuelType] = listing.car?.carAttributes.fuelType?.rawValue ?? SharedConstants.parameterNotApply
+        params[.drivetrain] = listing.car?.carAttributes.driveTrain?.rawValue ?? SharedConstants.parameterNotApply
+        params[.seats] = listing.car?.carAttributes.seats ?? SharedConstants.parameterNotApply 
+
+        
         if let realEstateAttributes = listing.realEstate?.realEstateAttributes {
             params[.propertyType] = EventParameterStringRealEstate.realEstateParam(name: realEstateAttributes.propertyType?.rawValue).name
             params[.offerType] = EventParameterStringRealEstate.realEstateParam(name: realEstateAttributes.offerType?.rawValue).name
@@ -766,6 +774,13 @@ struct TrackerEvent {
         params[.make] = EventParameterMake.make(name: listing.car?.carAttributes.make).name
         params[.model] = EventParameterModel.model(name: listing.car?.carAttributes.model).name
         params[.year] = EventParameterYear.year(year: listing.car?.carAttributes.year).year
+        
+        params[.mileage] = listing.car?.carAttributes.mileage
+        params[.bodyType] = listing.car?.carAttributes.bodyType?.rawValue
+        params[.transmission] = listing.car?.carAttributes.transmission?.rawValue
+        params[.fuelType] = listing.car?.carAttributes.fuelType?.rawValue
+        params[.drivetrain] = listing.car?.carAttributes.driveTrain?.rawValue
+        params[.seats] = listing.car?.carAttributes.seats
         
         if let servicesAttributes = listing.service?.servicesAttributes {
             params[.serviceType] = servicesAttributes.typeId ?? SharedConstants.parameterNotApply
@@ -1172,16 +1187,6 @@ struct TrackerEvent {
         params[.expressChatTrigger] = trigger.rawValue
         return TrackerEvent(name: .expressChatDontAsk, params: params)
     }
-    
-    static func npsStart() -> TrackerEvent {
-        return TrackerEvent(name: .npsStart, params: nil)
-    }
-    
-    static func npsComplete(_ score: Int) -> TrackerEvent {
-        var params = EventParameters()
-        params[.npsScore] = score
-        return TrackerEvent(name: .npsComplete, params: params)
-    }
 
     static func surveyStart(userId: String?, surveyUrl: String) -> TrackerEvent {
         var params = EventParameters()
@@ -1387,6 +1392,12 @@ struct TrackerEvent {
         params[.typePage] = typePage.rawValue
         params[.chatEnabled] = chatEnabled
         return TrackerEvent(name: .chatWindowVisit, params: params)
+    }
+
+    static func chatTabOpen(tabName: EventParameterChatTabName) -> TrackerEvent {
+        var params = EventParameters()
+        params[.chatTabName] = tabName.rawValue
+        return TrackerEvent(name: .chatTabOpen, params: params)
     }
     
     static func emptyStateVisit(typePage: EventParameterTypePage, reason: EventParameterEmptyReason,

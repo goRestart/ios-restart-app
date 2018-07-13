@@ -1,16 +1,9 @@
-//
-//  ListingDeckViewControllerBinder.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 27/10/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
 import RxCocoa
 import RxSwift
 import GoogleMobileAds
+import LGComponents
 
 protocol ListingDeckViewControllerBinderType: class {
     var keyboardChanges: Observable<KeyboardChange> { get }

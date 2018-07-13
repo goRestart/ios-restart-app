@@ -547,14 +547,9 @@ final class LGListingRepository: ListingRepository {
 
     
     private func updateRetrieveCompletion(_ completion: ListingCompletion?) -> ListingDataSourceCompletion? {
-        let updatedCompletion: ListingDataSourceCompletion = { result in
-            if let value = result.value {
-                completion?(ListingResult(value: value))
-            } else if let error = result.error {
-                completion?(ListingResult(error: RepositoryError(apiError: error)))
-            }
+        return { [weak self] result in
+            self?.handleUpdate(result, completion)
         }
-        return updatedCompletion
     }
     
     private func updateListingViewsBatch(_ listingIds: [(String, String, Double)], completion: ListingVoidCompletion?) {

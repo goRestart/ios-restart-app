@@ -610,7 +610,7 @@ final class ListingCarouselViewController: KeyboardViewController, AnimatableTra
     }
 
     private func returnCellToFirstImage() {
-        let visibleCells = collectionView.visibleCells.flatMap { $0 as? ListingCarouselCell }
+        let visibleCells = collectionView.visibleCells.compactMap { $0 as? ListingCarouselCell }
         visibleCells.filter {
             guard let index = collectionView.indexPath(for: $0) else { return false }
             return index.row != viewModel.currentIndex
@@ -723,7 +723,7 @@ extension ListingCarouselViewController {
                 case .textImage:
                     let shareButton = CarouselUIHelper.buildShareButton(action.text, icon: action.image)
                     let rightItem = UIBarButtonItem(customView: shareButton)
-                    rightItem.set(accessibilityId: action.accessibilityId)
+                    rightItem.set(accessibility: action.accessibility)
                     rightItem.style = .plain
                     shareButton.rx.tap.takeUntil(takeUntilAction).bind{
                         action.action()
@@ -751,7 +751,7 @@ extension ListingCarouselViewController {
                         }.disposed(by: strongSelf.disposeBag)
                     buttons.append(button)
                     button.alpha = alpha
-                    button.set(accessibilityId: navBarButton.accessibilityId)
+                    button.set(accessibility: navBarButton.accessibility)
                 }
                 strongSelf.setNavigationBarRightButtons(buttons)
             }
@@ -784,7 +784,7 @@ extension ListingCarouselViewController {
         allowCalls.asObservable().bind { [weak self] (isPro, phoneNum) in
             guard let strongSelf = self else { return }
 
-            if let phone = phoneNum, phone.isPhoneNumber && isPro && strongSelf.viewModel.deviceCanCall {
+            if phoneNum != nil, isPro && strongSelf.viewModel.deviceCanCall {
                 strongSelf.buttonCall.isHidden = false
                 strongSelf.buttonCallRightMarginToSuperviewConstraint.constant = Metrics.margin
                 strongSelf.buttonBottomRightMarginToSuperviewConstraint.constant = 0
@@ -1301,7 +1301,7 @@ extension ListingCarouselViewController: UITableViewDataSource, UITableViewDeleg
                                                             meetingsEnabled: viewModel.meetingsEnabled)
         let cell = drawer.cell(tableView, atIndexPath: indexPath)
 
-        drawer.draw(cell, message: message)
+        drawer.draw(cell, message: message, bubbleColor: nil)
         cell.transform = tableView.transform
 
         return cell
@@ -1322,7 +1322,7 @@ extension ListingCarouselViewController {
             return
         }
 
-        viewModel.bumpUpBannerShown(type: bumpInfo.type)
+        viewModel.bumpUpBannerShown(bumpInfo: bumpInfo)
         bannerContainer.bringSubview(toFront: bumpUpBanner)
         bannerContainer.isHidden = false
         bumpUpBanner.updateInfo(info: bumpInfo)

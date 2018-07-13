@@ -1,4 +1,5 @@
 import RxSwift
+import LGComponents
 
 class ChatBaseViewController: BaseViewController {
     

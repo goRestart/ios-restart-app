@@ -54,7 +54,8 @@ final class QuickChatViewBinderSpec: QuickSpec {
                                                   readAt: nil,
                                                   type: .text(text: String.makeRandom()),
                                                   status: nil,
-                                                  warningStatus: .normal)
+                                                  warningStatus: .normal,
+                                                  userAvatarData: nil)
                     quickChatVM.directChatMessages.insert(message, atIndex: 0)
                 }
                 it("handleChatChange is called") {

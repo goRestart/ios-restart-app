@@ -1,11 +1,6 @@
 
 [
     {
-		"name": "ShowNPSSurvey",
-		"values": ["No", "Yes"],
-		"description": "Show nps survey"
-	},
-    {
         "name": "SurveyEnabled",
         "values": ["No", "Yes"],
         "description": "Show qualitative survey"
@@ -78,7 +73,7 @@
     {
         "name": "ShowInactiveConversations",
         "values": ["No", "Yes"],
-        "description": "Show button to access inactive conversations"
+        "description": "[CHAT] Show button to access inactive conversations"
     },
     {
         "name": "NoAdsInFeedForNewUsers",
@@ -98,7 +93,7 @@
     {
         "name": "ShowChatSafetyTips",
         "values": ["no","yes"],
-        "description": "Show chat safety tips to new users"
+        "description": "[CHAT] Show chat safety tips to new users"
     },
     {
         "name": "OnboardingIncentivizePosting",
@@ -108,7 +103,7 @@
     {
         "name": "UserIsTyping",
         "values": ["control", "baseline", "active"],
-        "description": "Show user is typing status on chat"
+        "description": "[CHAT] Show user is typing status on chat"
     },
     {
         "name": "BumpUpBoost",
@@ -123,17 +118,12 @@
     {
         "name": "ChatNorris",
         "values": ["control", "baseline", "redButton", "whiteButton", "greenButton"],
-        "description": "Show the create meeting option in chat detail view."
+        "description": "[CHAT] Show the create meeting option in chat detail view."
     },
     {
         "name": "AddPriceTitleDistanceToListings",
         "values": ["control", "baseline", "infoInImage", "infoWithWhiteBackground"],
         "description": "Add price, title and distance to listings"
-    },
-    {
-        "name": "MarkAllConversationsAsRead",
-        "values": ["control", "baseline", "active"],
-        "description": "Show a button to mark all conversations as read"
     },
     {
         "name": "ShowProTagUserProfile",
@@ -164,11 +154,6 @@
         "name": "SectionedMainFeed",
         "values": ["control", "baseline", "active"],
         "description": "A new fully sectioned main feed"
-    },
-    {
-        "name": "FilterSearchCarSellerType",
-        "values": ["control", "baseline", "variantA", "variantB", "variantC", "variantD"],
-        "description": "Include Search filter for Car Seller type"
     },
     {
         "name": "ShowExactLocationForPros",
@@ -203,7 +188,7 @@
     {
         "name": "ChatConversationsListWithoutTabs",
         "values": ["control", "baseline", "active"],
-        "description": "Chat conversation list without tabs"
+        "description": "[CHAT] Chat conversation list without tabs"
     },
     {
         "name": "PersonalizedFeed",
@@ -249,7 +234,8 @@
         "name": "FullScreenAdsWhenBrowsingForUS",
         "values": ["control", "baseline", "AdsForAllUsers", "AdsForOldUsers"],
         "description": "Show full screen Interstitial while browsing through items"
-    },{
+    },
+    {
         "name": "VideoPosting",
         "values": ["control", "baseline", "active"],
         "description": "Show video posting flow when pressing Other Items and Other Vehicles and Parts on salchichas menu"
@@ -272,9 +258,9 @@
     {
         "name": "ShowChatConnectionStatusBar",
         "values": ["control", "baseline", "active"],
-        "description": "Show a toast in the chat with the websocket and network connection status"
-	},
-	{
+        "description": "[CHAT] Show a toast in the chat with the websocket and network connection status"
+    },
+    {
          "name": "AdvancedReputationSystem",
          "values": ["control", "baseline", "variantA", "variantB"],
          "description": "Advance reputation system and Karma Score with SMS and tooltip"
@@ -285,13 +271,33 @@
         "description": "Settings to enable or disable each type of notification"
     },
     {
+         "name": "CarExtraFieldsEnabled",
+         "values": ["control", "baseline", "active"],
+         "description": "allows user to see extra car fields (bodyType, fuelType, drivetrain, transmission, seats, mileage)"
+    },
+    {
+        "name": "ShowChatHeaderWithoutListingForAssistant",
+        "values": ["yes", "no"],
+        "description": "[CHAT] Use the new header WITHOUT LISTING for conversations with no listing related"
+    },
+    {
         "name": "ReportingFostaSesta",
         "values": ["control", "baseline", "withIcons", "withoutIcons"],
         "description": "Show new user/product reporting flow (FOSTA-SESTA compliance)"
     },
     {
-        "name": "CarExtraFieldsEnabled",
+        "name": "ShowChatHeaderWithoutUser",
+        "values": ["yes", "no"],
+        "description": "[CHAT] Use the new header WITHOUT USER in chat detail"
+    },
+    {
+        "name": "RealEstateMapTooltip",
         "values": ["control", "baseline", "active"],
-        "description": "allows user to see extra car fields (bodyType, fuelType, drivetrain, transmission, seats, mileage)"
+        "description": "Show tooltip for Real Estate Map"
+    },
+    {
+        "name": "AppInstallAdsInFeed",
+        "values": ["control", "baseline", "active"],
+        "description": "Show App Install Ads from Google Adx in feed"
     }
  ]

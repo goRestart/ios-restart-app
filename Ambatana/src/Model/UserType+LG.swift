@@ -14,40 +14,27 @@ extension UserType {
 
     var isDummy: Bool { return self == .dummy }
     
-    func title(feature: FilterSearchCarSellerType) -> String {
-        return isProfessional ? FilterCarSection.secondSection.title(feature: feature) :
-            FilterCarSection.firstSection.title(feature: feature)
+    var title: String {
+        return filterCarSection.title
     }
     var filterCarSection: FilterCarSection {
-        return isProfessional ? .secondSection : .firstSection
+        return isProfessional ? .dealership : .individual
     }
 }
 
 extension Array where Element == UserType {
-    func filterCarSectionsFor(feature: FilterSearchCarSellerType) -> [FilterCarSection] {
-        let sections = self.map{ $0.filterCarSection }
-        
-        //  UI is selected differently depending on AB Test.
-        if !feature.isMultiselection,   //  Single selectable
-            sections.count != 1 {       //  0 or 2 options selected -> UI is firstRow (All)
-            return [.firstSection]
-        }
-        return sections
-    }
-
-    func carSectionsFrom(feature: FilterSearchCarSellerType, filter: FilterCarSection) -> [UserType] {
-        var carSections = self
-        if feature.isMultiselection {
-            let carSellerType = filter.carSellerType
-            carSections.removeIfContainsElseAppend(carSellerType)
-        } else {
-            carSections = filter.isFirstSection ? [.user, .pro] : [.pro]
-        }
-        return carSections
+    var filterCarSections: [FilterCarSection] {
+        return map{ $0.filterCarSection }
     }
     
     var containsBothCarSellerTypes: Bool {
         return contains(.user) && contains(.pro)
+    }
+    
+    func toogleFilterCarSection(filter: FilterCarSection) -> [UserType] {
+        var carSections = self
+        carSections.removeIfContainsElseAppend(filter.carSellerType)
+        return carSections
     }
 
     var trackValue: String {

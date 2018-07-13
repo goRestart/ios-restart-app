@@ -106,7 +106,7 @@ class ChatViewModel: BaseViewModel {
     let interlocutorProfessionalInfo = Variable<InterlocutorProfessionalInfo>(InterlocutorProfessionalInfo(isProfessional: false, phoneNumber: nil))
     let lastMessageSentType = Variable<ChatWrapperMessageType?>(nil)
     let messagesDidFinishRefreshing = Variable<Bool>(false)
-    let interlocutorTypingChatViewMessage: ChatViewMessage
+    var interlocutorTypingChatViewMessage: ChatViewMessage?
     let chatBoxText = Variable<String>("")
     var userIsTypingTimeout: Timer?
     var stoppedTypingEventEnabled: Bool = true
@@ -135,6 +135,10 @@ class ChatViewModel: BaseViewModel {
             return true
         }
         return false
+    }
+
+    var showWhiteBackground: Bool {
+        return featureFlags.showChatHeaderWithoutUser
     }
 
 
@@ -240,7 +244,13 @@ class ChatViewModel: BaseViewModel {
             return true
         }
     }
-    
+
+    private var interlocutorAvatar: UIImage?
+    private var defaultUserAvatarData: ChatMessageAvatarData {
+        return ChatMessageAvatarData(avatarImage: interlocutorAvatar) { [weak self] in
+            self?.userInfoPressed()
+        }
+    }
     
     // MARK: - Lifecycle
 
@@ -340,7 +350,6 @@ class ChatViewModel: BaseViewModel {
             self.interlocutorProfessionalInfo.value = InterlocutorProfessionalInfo(isProfessional: true,
                                                                                    phoneNumber: nil)
         }
-        interlocutorTypingChatViewMessage = chatViewMessageAdapter.createInterlocutorIsTyping()
         super.init()
         setupRx()
         loadStickers()
@@ -442,6 +451,29 @@ class ChatViewModel: BaseViewModel {
             self?.interlocutorName.value = conversation.interlocutor?.name ?? ""
             self?.interlocutorId.value = conversation.interlocutor?.objectId
         }.disposed(by: disposeBag)
+
+        let placeHolder = Observable.combineLatest(interlocutorId.asObservable(),
+                                                   interlocutorName.asObservable()) {
+                                                    (id, name) -> UIImage? in
+                                                    return LetgoAvatar.avatarWithID(id, name: name)
+        }
+        Observable.combineLatest(placeHolder, interlocutorAvatarURL.asObservable()) { ($0, $1) }
+            .bind { [weak self] (placeholder, avatarUrl) in
+                guard let showUserAvatarinCells = self?.featureFlags.showChatHeaderWithoutUser,
+                    showUserAvatarinCells else {
+                        self?.interlocutorAvatar = nil
+                        return
+                }
+                if let url = avatarUrl {
+                    do {
+                        self?.interlocutorAvatar = try UIImage.imageFrom(url: url)
+                    } catch {
+                        self?.interlocutorAvatar = placeholder
+                    }
+                } else {
+                    self?.interlocutorAvatar = placeholder
+                }
+            }.disposed(by: disposeBag)
 
         chatStatus.asObservable().subscribeNext { [weak self] status in
             guard let strongSelf = self else { return }
@@ -863,7 +895,7 @@ extension ChatViewModel {
         }
 
         let newMessage = chatRepository.createNewMessage(userId, text: message, type: type.chatType)
-        let viewMessage = chatViewMessageAdapter.adapt(newMessage)?.markAsSent()
+        let viewMessage = chatViewMessageAdapter.adapt(newMessage, userAvatarData: nil)?.markAsSent()
         guard let messageId = newMessage.objectId else { return }
         insertFirst(viewMessage: viewMessage)
         chatRepository.sendMessage(convId, messageId: messageId, type: type.websocketType, text: message, answerKey: type.quickAnswerKey) {
@@ -1034,11 +1066,14 @@ extension ChatViewModel {
     }
     
     private func insertInterlocutorIsTypingMessage() {
-        messages.insert(interlocutorTypingChatViewMessage, atIndex: 0)
+        interlocutorTypingChatViewMessage = chatViewMessageAdapter.createInterlocutorIsTyping(userAvatarData: defaultUserAvatarData)
+        guard let interlocutorTypingMessage = interlocutorTypingChatViewMessage else { return }
+        messages.insert(interlocutorTypingMessage, atIndex: 0)
     }
     
     private func removeInterlocutorIsTypingMessage() {
-        if let index = messages.value.index(where: {$0 == interlocutorTypingChatViewMessage}) {
+        guard let interlocutorTypingMessage = interlocutorTypingChatViewMessage else { return }
+        if let index = messages.value.index(where: {$0 == interlocutorTypingMessage}) {
             messages.removeAtIndex(index)
         }
     }
@@ -1066,7 +1101,7 @@ extension ChatViewModel {
 
         updateMeetingsStatusAfterReceiving(message: message)
 
-        let viewMessage = chatViewMessageAdapter.adapt(message)?.markAsSent(date: sentAt).markAsReceived().markAsRead()
+        let viewMessage = chatViewMessageAdapter.adapt(message, userAvatarData: defaultUserAvatarData)?.markAsSent(date: sentAt).markAsReceived().markAsRead()
         insertFirst(viewMessage: viewMessage, fromInterlocutor: true)
         chatRepository.confirmRead(convId, messageIds: [messageId], completion: nil)
         if let securityMeetingIndex = securityMeetingIndex(for: messages.value) {
@@ -1088,7 +1123,8 @@ extension ChatViewModel {
     }
 
     fileprivate func sendProfessionalAutomaticAnswerWith(message: String, isPhone: Bool) {
-        guard let automaticAnswerMessage = chatViewMessageAdapter.createAutomaticAnswerWith(message: message) else { return }
+        guard let automaticAnswerMessage = chatViewMessageAdapter.createAutomaticAnswerWith(message: message,
+                                                                                            userAvatarData: defaultUserAvatarData) else { return }
         insertFirst(viewMessage: automaticAnswerMessage)
         hasSentAutomaticAnswerForPhoneMessage = isPhone
         hasSentAutomaticAnswerForOtherMessage = true
@@ -1096,7 +1132,8 @@ extension ChatViewModel {
 
     private func disableAskPhoneMessageButton() {
         guard let index = messages.value.index(where: { $0.type.isAskPhoneNumber }) else { return }
-        guard let newMessage = chatViewMessageAdapter.createAskPhoneMessageWith(action: nil) else { return }
+        guard let newMessage = chatViewMessageAdapter.createAskPhoneMessageWith(action: nil,
+                                                                                userAvatarData: defaultUserAvatarData) else { return }
         let range = index..<(index+1)
         messages.replace(range, with: [newMessage])
     }
@@ -1345,7 +1382,7 @@ extension ChatViewModel {
     }
 
     var userInfoMessage: ChatViewMessage? {
-        return chatViewMessageAdapter.createUserInfoMessage(interlocutor)
+        return chatViewMessageAdapter.createUserInfoMessage(interlocutor, userAvatarData: defaultUserAvatarData)
     }
 
     private var bottomDisclaimerMessage: ChatViewMessage? {
@@ -1378,7 +1415,7 @@ extension ChatViewModel {
             self?.tracker.trackEvent(TrackerEvent.phoneNumberRequest(typePage: .chat))
         }
         hasShownAskedPhoneMessage = true
-        return chatViewMessageAdapter.createAskPhoneMessageWith(action: askPhoneAction)
+        return chatViewMessageAdapter.createAskPhoneMessageWith(action: askPhoneAction, userAvatarData: defaultUserAvatarData)
     }
 
     private func downloadFirstPage(_ conversationId: String) {
@@ -1446,7 +1483,7 @@ extension ChatViewModel {
         guard let interlocutorId = conversation.value.interlocutor?.objectId else { return }
 
         let readIds: [String] = chatMessages.filter { return $0.talkerId == interlocutorId && $0.readAt == nil }
-            .flatMap { $0.objectId }
+            .compactMap { $0.objectId }
         if !readIds.isEmpty {
             chatRepository.confirmRead(convId, messageIds: readIds, completion: nil)
         }
@@ -1456,7 +1493,10 @@ extension ChatViewModel {
         markAsReadMessages(newMessages)
 
         // Add message disclaimer (message flagged)
-        let mappedChatMessages = newMessages.flatMap(chatViewMessageAdapter.adapt)
+        let mappedChatMessages = newMessages.compactMap { [weak self] message in
+            return self?.chatViewMessageAdapter.adapt(message, userAvatarData: self?.defaultUserAvatarData)
+        }
+
         var chatMessages = chatViewMessageAdapter.addDisclaimers(mappedChatMessages,
                                                                  disclaimerMessage: defaultDisclaimerMessage)
         // Add user info as 1st message
@@ -1478,8 +1518,11 @@ extension ChatViewModel {
                 messages.append(userInfoMessage)
             }
         }
-        
-        let newViewMessages = newMessages.flatMap(chatViewMessageAdapter.adapt)
+
+        let newViewMessages = newMessages.compactMap { [weak self] message in
+            return self?.chatViewMessageAdapter.adapt(message, userAvatarData: self?.defaultUserAvatarData)
+        }
+
         guard !newViewMessages.isEmpty else { return }
 
         // We need to remove extra messages & disclaimers to be able to merge correctly. Will be added back before returning

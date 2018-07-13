@@ -15,6 +15,9 @@ struct ListingVMProductInfo {
     let distance: String?
     let creationDate: Date?
     let category: ListingCategory?
+    let attributeGridTitle: String?
+    let attributeGridItems: [ListingAttributeGridItem]?
+    
     fileprivate(set) var attributeTags: [String]?
 
     init(listing: Listing, isAutoTranslated: Bool, distance: String?, freeModeAllowed: Bool, postingFlowType: PostingFlowType) {
@@ -30,13 +33,17 @@ struct ListingVMProductInfo {
         self.distance = distance
         self.creationDate = listing.createdAt
         self.category = listing.category
+        self.attributeGridItems = ListingVMProductInfo.gridItems(forListing: listing)
+        self.attributeGridTitle = ListingVMProductInfo.attributeGridTitle(forListing: listing)
+        
         self.attributeTags = tags(for: listing, postingFlowType: postingFlowType)
     }
 }
 
-fileprivate extension ListingVMProductInfo {
+
+extension ListingVMProductInfo {
     
-    func tags(for listing: Listing, postingFlowType: PostingFlowType) -> [String]? {
+    private func tags(for listing: Listing, postingFlowType: PostingFlowType) -> [String]? {
         switch listing {
         case .product, .car:
             return nil
@@ -44,6 +51,24 @@ fileprivate extension ListingVMProductInfo {
             return realEstate.realEstateAttributes.generateTags(postingFlowType: postingFlowType)
         case .service:
             // FIXME: Implement this in ABIOS-4184
+            return nil
+        }
+    }
+    
+    private static func attributeGridTitle(forListing listing: Listing) -> String? {
+        switch listing {
+        case .car(let car):
+            return car.carAttributes.generatedTitle
+        case .realEstate, .product, .service:
+            return nil
+        }
+    }
+    
+    private static func gridItems(forListing listing: Listing) -> [ListingAttributeGridItem]? {
+        switch listing {
+        case .car(let car):
+            return car.carAttributes.createListingAttributesCollection()
+        case .realEstate, .product, .service:
             return nil
         }
     }
