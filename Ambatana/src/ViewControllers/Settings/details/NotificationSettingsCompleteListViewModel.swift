@@ -205,7 +205,7 @@ final class NotificationSettingsCompleteListViewModel: BaseViewModel {
     func enableGroupSetting(_ groupSetting: NotificationGroupSetting,
                             notificationSetting: NotificationSettingData,
                             isEnabled: Bool) {
-        if isEnabled {
+        if !groupSetting.isEnabled {
             enableNotificationGroupSetting(groupSetting, notificationSetting: notificationSetting)
         } else {
             disableNotificationGroupSetting(groupSetting, notificationSetting: notificationSetting)

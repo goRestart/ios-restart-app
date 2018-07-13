@@ -4,7 +4,7 @@ import LGComponents
 
 final class NotificationSettingSwitchCell: UITableViewCell, ReusableCell {
     
-    static let defaultHeight: CGFloat = 60
+    static let defaultHeight: CGFloat = 80
     private struct Layout {
         static let descriptionShownBottomConstant: CGFloat = -15
         static let descriptionHiddenBottomConstant: CGFloat = 0
@@ -29,12 +29,13 @@ final class NotificationSettingSwitchCell: UITableViewCell, ReusableCell {
     
     private let activationSwitch: UISwitch = {
         let activationSwitch = UISwitch()
-        activationSwitch.tintColor = .grayLight
+        activationSwitch.backgroundColor = .white
         activationSwitch.onTintColor = UIColor.primaryColor
         return activationSwitch
     }()
     
     private var groupSetting: NotificationGroupSetting?
+    private var notificationSettingCellType: NotificationSettingCellType?
     private var switchAction: ((Bool) -> Void)?
     private let disposeBag = DisposeBag()
     
@@ -73,7 +74,6 @@ final class NotificationSettingSwitchCell: UITableViewCell, ReusableCell {
         groupSetting = nil
         titleLabel.text = nil
         descriptionLabel.text = nil
-        activationSwitch.isOn = false
     }
     
     private func setupUI() {
@@ -111,20 +111,8 @@ final class NotificationSettingSwitchCell: UITableViewCell, ReusableCell {
         }
     }
     
-    func setupWithGroupSetting(_ groupSetting: NotificationGroupSetting) {
-        self.groupSetting = groupSetting
-        titleLabel.text = groupSetting.name
-        if let description = groupSetting.description {
-            descriptionLabel.text = description
-            updateDescriptionLayout(isShown: true)
-        } else {
-            updateDescriptionLayout(isShown: false)
-        }
-        activationSwitch.isOn = groupSetting.isEnabled
-        activationSwitch.isUserInteractionEnabled = !isEditing
-    }
-    
     func setupWithNotificationSettingCell(_ notificationSettingCellType: NotificationSettingCellType) {
+        self.notificationSettingCellType = notificationSettingCellType
         titleLabel.text = notificationSettingCellType.title
         if let description = notificationSettingCellType.description {
             descriptionLabel.text = description
@@ -134,6 +122,7 @@ final class NotificationSettingSwitchCell: UITableViewCell, ReusableCell {
         }
         if let switchValue = notificationSettingCellType.switchValue {
             activationSwitch.isOn = switchValue.value
+            activationSwitch.isEnabled = true
             activationSwitch.addTarget(self, action: #selector(switchValueChanged), for: .valueChanged)
             switchValue.asObservable().bind(to: activationSwitch.rx.value).disposed(by: disposeBag)
             switchAction = notificationSettingCellType.switchAction
@@ -144,6 +133,9 @@ final class NotificationSettingSwitchCell: UITableViewCell, ReusableCell {
     // MARK: - UI Actions
     
     @objc private func switchValueChanged(_ sender: AnyObject) {
+        if let notificationSettingCellType = notificationSettingCellType, notificationSettingCellType.isSwitcher {
+            activationSwitch.isEnabled = false
+        }
         switchAction?(activationSwitch.isOn)
     }
 }

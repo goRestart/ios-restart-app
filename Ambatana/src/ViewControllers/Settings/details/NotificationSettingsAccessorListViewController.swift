@@ -11,7 +11,7 @@ final class NotificationSettingsAccessorListViewController: BaseViewController, 
         tableView.backgroundColor = .grayBackground
         tableView.separatorStyle = .none
         tableView.contentInset.top = NotificationSettingsViewController.tableViewTopInset
-        tableView.rowHeight = NotificationSettingsAccessorCell.defaultHeight
+        tableView.estimatedRowHeight = NotificationSettingsAccessorCell.defaultHeight
         return tableView
     }()
     
