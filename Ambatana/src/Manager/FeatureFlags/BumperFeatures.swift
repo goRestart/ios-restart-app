@@ -76,6 +76,7 @@ extension Bumper  {
         flags.append(ShowChatHeaderWithoutUser.self)
         flags.append(RealEstateMapTooltip.self)
         flags.append(AppInstallAdsInFeed.self)
+        flags.append(SearchAlertsInSearchSuggestions.self)
         Bumper.initialize(flags)
     } 
 
@@ -855,6 +856,19 @@ extension Bumper  {
     static var appInstallAdsInFeedObservable: Observable<AppInstallAdsInFeed> {
         return Bumper.observeValue(for: AppInstallAdsInFeed.key).map {
             AppInstallAdsInFeed(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions {
+        guard let value = Bumper.value(for: SearchAlertsInSearchSuggestions.key) else { return .control }
+        return SearchAlertsInSearchSuggestions(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var searchAlertsInSearchSuggestionsObservable: Observable<SearchAlertsInSearchSuggestions> {
+        return Bumper.observeValue(for: SearchAlertsInSearchSuggestions.key).map {
+            SearchAlertsInSearchSuggestions(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1793,6 +1807,22 @@ enum AppInstallAdsInFeed: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show App Install Ads from Google Adx in feed" } 
     static func fromPosition(_ position: Int) -> AppInstallAdsInFeed {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum SearchAlertsInSearchSuggestions: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return SearchAlertsInSearchSuggestions.control.rawValue }
+    static var enumValues: [SearchAlertsInSearchSuggestions] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show search alerts in search suggestions view" } 
+    static func fromPosition(_ position: Int) -> SearchAlertsInSearchSuggestions {
         switch position { 
             case 0: return .control
             case 1: return .baseline
