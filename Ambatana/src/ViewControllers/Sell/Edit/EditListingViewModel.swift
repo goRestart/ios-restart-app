@@ -346,10 +346,14 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
         switch listing {
         case .car(let car):
+            let carMakeName = car.carAttributes.make ?? carsInfoRepository.retrieveMakeName(with: car.carAttributes.makeId)
+            let carModelName = car.carAttributes.model ??
+                carsInfoRepository.retrieveModelName(with: car.carAttributes.makeId, modelId: car.carAttributes.modelId)
+            
             self.carMakeId.value = car.carAttributes.makeId
-            self.carMakeName.value = car.carAttributes.make
+            self.carMakeName.value = carMakeName
             self.carModelId.value = car.carAttributes.modelId
-            self.carModelName.value = car.carAttributes.model
+            self.carModelName.value = carModelName
             self.carYear.value = car.carAttributes.year
             self.carDistance.value = car.carAttributes.mileage
             self.carBody.value = car.carAttributes.bodyType
@@ -833,7 +837,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
             hasChanges = true
         }
         else if initialListing.isCar {
-            hasChanges = initialListing.car?.carAttributes != carAttributes
+            hasChanges = initialListing.car?.carAttributes.updating(mileageType: carDistanceType) != carAttributes
         } else if initialListing.isRealEstate {
             hasChanges = initialListing.realEstate?.realEstateAttributes != realEstateAttributes
         } else if initialListing.isService, featureFlags.showServicesFeatures.isActive {

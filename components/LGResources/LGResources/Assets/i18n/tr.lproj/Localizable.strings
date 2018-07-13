@@ -369,6 +369,7 @@
 "featured_info_view_more_buyers" = "Daha çok alıcıyı çek";
 "featured_info_view_sell_faster" = "Hemen sat";
 "featured_info_view_title" = "Öne Çıkan İlan";
+"filter_cars_mileage" = "Kilometre sayacı";
 "filter_cars_seats_title" = "Koltuklar";
 "filter_results_cars_no_matches" = "Aramanla eşleşen bir sonuç yok.\nBenzer sonuçlar gösteriliyor. ";
 "filter_results_cars_other_results" = "Çevrende en son yayınlananlar";
@@ -795,6 +796,8 @@
 "product_new_onboarding_tap_right_highlighted_label" = "Sağa dokun";
 "product_new_onboarding_tap_right_highlighted_label_2" = "ekrana";
 "product_new_onboarding_tap_right_label" = "Sonraki fotoğrafı görmek için %@ veya %@";
+"product_nit_onboarding_next_picture" = "Sonraki resim";
+"product_nit_onboarding_previous_picture" = "Önceki resim";
 "product_onboarding_finger_scroll_label" = "Daha fazla fotoğraf görmek için sürükle";
 "product_onboarding_finger_swipe_label" = "Bir önceki veya sonraki ilana gitmek için ekranı kaydır";
 "product_onboarding_finger_tap_label" = "Bir sonraki ilana gitmek için dokun";
@@ -1059,7 +1062,7 @@
 "real_estate_gallery_view_subtitle_params" = "Satmak ya da kiralamak istediğin emlak için %d adete kadar fotoğraf seçebilirsin. İlk fotoğraf öne çıkan fotoğrafın olacak, oldukça net gözükmeli!";
 "real_estate_location_notification_message" = "Açık adresini diğer kullanıcılara asla göstermeyeceğiz";
 "real_estate_location_title" = "Konum";
-"real_estate_map_tooltip_button_title" = "Try Now";
+"real_estate_map_tooltip_button_title" = "Şimdi Dene";
 "real_estate_map_tooltip_title" = "Yeni! Emlakları bir haritada gör.";
 "real_estate_offer_type_rent" = "Kiralık";
 "real_estate_offer_type_sale" = "Satılık";
