@@ -39,4 +39,5 @@ private struct EmptyUserListing: UserListing {
     let status: UserStatus = .inactive
     var isDummy: Bool = false
     let banned: Bool? = nil
+    let type: UserType = .unknown
 }

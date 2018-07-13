@@ -194,7 +194,6 @@ extension LGService: Decodable {
         user = baseListing.user
         featured = baseListing.featured
         
-        
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let searchContainer = try decoder.container(keyedBy: SerchApiCodingKeys.self)
         if let attributes =  try container.decodeIfPresent(ServiceAttributes.self, forKey: .serviceAttributes) {

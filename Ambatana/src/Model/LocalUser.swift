@@ -93,7 +93,7 @@ struct LocalUser: User, UserListing {
         self.isDummy = false
         self.banned = userListing.banned
         self.phone = nil
-        self.type = .user
+        self.type = userListing.type
         self.biography = nil
         self.reputationPoints = 0
     }

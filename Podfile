@@ -45,9 +45,9 @@ def shared_pods
 
     # letgo Core
 
-    pod "LGCoreKit",             "4.40.0", :inhibit_warnings => false
+    pod "LGCoreKit",             "4.41.0", :inhibit_warnings => false
 #     pod "LGCoreKit",            :path => "../lgcorekit", :inhibit_warnings => false
-#  pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :branch => 'ABIOS-4416-remove-negative-attributes-params-in-cars-requester', :inhibit_warnings => false
+#  pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :branch => 'ABIOS-4495-mapping-owner-for-verticals', :inhibit_warnings => false
 
     # letgo Collapsible label
         pod "LGCollapsibleLabel",   "1.2.0", :inhibit_warnings => false     # :path => "../collapsiblelabel"

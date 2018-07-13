@@ -1931,7 +1931,7 @@ extension MainListingsViewModel: ListingCellDelegate {
         navigator?.openSell(source: .realEstatePromo, postCategory: .realEstate)
     }
     
-    func openAskPhoneFor(_ listing: Listing, interlocutor: User) {
+    func openAskPhoneFor(_ listing: Listing, interlocutor: LocalUser) {
         let action: () -> () = { [weak self] in
             guard let strSelf = self else { return }
             if let listingId = listing.objectId,

@@ -21,7 +21,7 @@ struct MoneyABGroup: ABGroupType {
         static let copyForSellFasterNowInEnglish = "20180420CopyForSellFasterNowInEnglish"
         static let googleAdxForTR = "20180511GoogleAdxForTR"
         static let fullScreenAdsWhenBrowsingForUS = "20180516FullScreenAdsWhenBrowsingForUS"
-        static let preventMessagesFromFeedToProUsers = "20180607PreventMessagesFromFeedToProUsers"
+        static let preventMessagesFromFeedToProUsers = "20180710PreventMessagesFromFeedToProUsers"
         static let appInstallAdsInFeed = "20180628AppInstallAdsInFeed"
     }
     let noAdsInFeedForNewUsers: LeanplumABVariable<Int>

@@ -92,7 +92,7 @@ Pod::Spec.new do |s|
         # sharedSpec.dependency 'LGComponents/LGAnalytics'
         # sharedSpec.dependency 'LGComponents/LGResources'
 
-        sharedSpec.dependency 'LGCoreKit',             '4.40.0'
+        sharedSpec.dependency 'LGCoreKit',              '4.41.0'
 
         # sharedSpec.dependency 'DeviceGuru',            '3.0.1'
         sharedSpec.dependency 'AlamofireImage',        '3.3.0'

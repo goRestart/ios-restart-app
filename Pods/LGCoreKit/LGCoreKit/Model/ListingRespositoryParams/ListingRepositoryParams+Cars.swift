@@ -60,7 +60,7 @@ extension UserType {
             return CarSellerTypeParamsValue.user
         case .pro:
             return CarSellerTypeParamsValue.professional
-        case .dummy:
+        case .dummy, .unknown:
             return ""
         }
     }

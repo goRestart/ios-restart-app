@@ -377,7 +377,7 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
         }
 
         switch type {
-        case .user:
+        case .user, .unknown:
             proUserTagView.isHidden = true
             assistantInfoContainerView.isHidden = true
             assistantInfoContainerView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
