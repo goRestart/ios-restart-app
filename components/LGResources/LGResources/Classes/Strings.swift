@@ -1416,7 +1416,7 @@ extension R {
     public static func passwordlessEmailSentSubtitle(_ p1: String) -> String {
       return Strings.tr("Localizable", "passwordless_email_sent_subtitle", p1)
     }
-    /// To sign in, click the 'magic link' we just sent you.
+    /// To sign in, click the "magic link" we just sent you.
     public static let passwordlessEmailSentTitle = Strings.tr("Localizable", "passwordless_email_sent_title")
     /// Continue with email
     public static let passwordlessMainSignupButton = Strings.tr("Localizable", "passwordless_main_signup_button")
