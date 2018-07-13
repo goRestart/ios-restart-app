@@ -969,7 +969,8 @@ extension FiltersViewModel {
             let formattedAnyValue = FormattedUnitRange(minimumValue: SharedConstants.filterMinCarMileage,
                                                        maximumValue: SharedConstants.filterMaxCarMileage,
                                                        unitSuffix: distanceType.localizedUnitType(),
-                                                       numberFormatter: numberFormatter).toString()
+                                                       numberFormatter: numberFormatter,
+                                                       isUnboundedUpperValue: true).toString()
             return LGSliderViewModel(title: R.Strings.filtersMileageSliderTitle,
                                      minimumValueNotSelectedText: String(SharedConstants.filterMinCarMileage),
                                      maximumValueNotSelectedText: String(SharedConstants.filterMaxCarMileage),
