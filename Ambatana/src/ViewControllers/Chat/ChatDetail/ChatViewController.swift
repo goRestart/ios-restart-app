@@ -582,6 +582,11 @@ fileprivate extension ChatViewController {
                                  viewModel.listingPrice.asObservable(),
                                  viewModel.listingImageUrl.asObservable())
             .bind { [weak self] (listingName, listingPrice, listingImageUrl) in
+                guard let strongSelf = self else { return }
+                let isAssistantWithNoProduct = strongSelf.viewModel.isUserDummy
+                    && strongSelf.featureFlags.showChatHeaderWithoutListingForAssistant
+                    && listingName.isEmpty
+                guard !isAssistantWithNoProduct else { return }
                 guard let showNoUserHeader = self?.featureFlags.showChatHeaderWithoutUser,
                     showNoUserHeader else { return }
                 let chatNavBarInfo = ChatDetailNavBarInfo.listing(name: listingName,
