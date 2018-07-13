@@ -4,6 +4,7 @@ import LGComponents
 
 final class NotificationSettingSwitchCell: UITableViewCell, ReusableCell {
     
+    static let defaultHeight: CGFloat = 60
     private struct Layout {
         static let descriptionShownBottomConstant: CGFloat = -15
         static let descriptionHiddenBottomConstant: CGFloat = 0
@@ -28,14 +29,9 @@ final class NotificationSettingSwitchCell: UITableViewCell, ReusableCell {
     
     private let activationSwitch: UISwitch = {
         let activationSwitch = UISwitch()
+        activationSwitch.tintColor = .grayLight
         activationSwitch.onTintColor = UIColor.primaryColor
         return activationSwitch
-    }()
-    
-    private let topInsetView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .grayLight
-        return view
     }()
     
     private var groupSetting: NotificationGroupSetting?
@@ -43,6 +39,7 @@ final class NotificationSettingSwitchCell: UITableViewCell, ReusableCell {
     private let disposeBag = DisposeBag()
     
     private var descriptionBottomConstraint = NSLayoutConstraint()
+    private var lines: [CALayer] = []
     
     
     // MARK: - Lifecycle
@@ -62,6 +59,13 @@ final class NotificationSettingSwitchCell: UITableViewCell, ReusableCell {
         resetUI()
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        lines.forEach { $0.removeFromSuperlayer() }
+        lines.removeAll()
+        lines.append(contentView.addBottomBorderWithWidth(1, color: UIColor.lineGray))
+    }
+    
     
     // MARK: - UI
     
@@ -78,7 +82,7 @@ final class NotificationSettingSwitchCell: UITableViewCell, ReusableCell {
     }
     
     private func setupConstraints() {
-        contentView.addSubviewsForAutoLayout([titleLabel, descriptionLabel, activationSwitch, topInsetView])
+        contentView.addSubviewsForAutoLayout([titleLabel, descriptionLabel, activationSwitch])
         
         descriptionBottomConstraint = descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Metrics.margin)
         let constraints = [
@@ -95,11 +99,6 @@ final class NotificationSettingSwitchCell: UITableViewCell, ReusableCell {
             descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metrics.margin),
             descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Metrics.margin),
             descriptionBottomConstraint,
-
-            topInsetView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            topInsetView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            topInsetView.topAnchor.constraint(equalTo: topAnchor),
-            topInsetView.heightAnchor.constraint(equalToConstant: Layout.topInsetViewHeight)
         ]
         NSLayoutConstraint.activate(constraints)
     }

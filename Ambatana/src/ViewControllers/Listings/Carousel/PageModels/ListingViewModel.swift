@@ -535,11 +535,11 @@ class ListingViewModel: BaseViewModel {
                                            maxCountdown: recentBumpInfo.maxCountdown)
         } else {
             isUpdatingBumpUpBanner = true
-            let parameterTypePage = getParameterTypePage()
             monetizationRepository.retrieveBumpeableListingInfo(
                 listingId: listingId,
                 completion: { [weak self] result in
                     guard let strongSelf = self else { return }
+                    let parameterTypePage = strongSelf.getParameterTypePage()
                     strongSelf.isUpdatingBumpUpBanner = false
                     guard let bumpeableProduct = result.value else { return }
 
@@ -1443,7 +1443,7 @@ extension ListingViewModel: PurchasesShopperDelegate {
     
     private func isPromotedBump(typePage: EventParameterTypePage?) -> Bool {
         guard let typePage = typePage else { return false }
-        return typePage == .edit || typePage == .sellEdit || typePage == .pushNotification || typePage == .sell
+        return typePage == .edit || typePage == .sellEdit || typePage == .notificationCenter || typePage == .sell
     }
     
     // Free Bump Up

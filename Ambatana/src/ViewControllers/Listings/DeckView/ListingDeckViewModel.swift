@@ -241,7 +241,7 @@ final class ListingDeckViewModel: BaseViewModel {
             prefetchNeighborsImages(index, movement: movement)
 
         // Tracking
-            let feedPosition = movement.feedPosition(for: trackingIndex)
+            let feedPosition = trackingFeedPosition
             if source == .relatedListings {
                 currentListingViewModel?.trackVisit(movement.visitUserAction,
                                                     source: movement.visitSource(source),
@@ -495,11 +495,8 @@ extension ListingDeckViewModel: ListingViewModelDelegate {
     }
 
     var trackingFeedPosition: EventParameterFeedPosition {
-        if let trackingIndex = trackingIndex, currentIndex == startIndex {
-            return .position(index: trackingIndex)
-        } else {
-            return .none
-        }
+        guard let trackingIndex = trackingIndex else { return .none }
+        return .position(index: trackingIndex)
     }
 
     func vmResetBumpUpBannerCountdown() {

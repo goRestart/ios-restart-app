@@ -339,8 +339,6 @@ class ListingCarouselViewModel: BaseViewModel {
         if firstTime && shouldShowOnboarding {
             delegate?.vmShowOnboarding()
         }
-
-        // Tracking
         currentListingViewModel?.trackVisit(.none, source: source, feedPosition: trackingFeedPosition)
     }
         
@@ -376,7 +374,7 @@ class ListingCarouselViewModel: BaseViewModel {
         if active {
             currentListingViewModel?.trackVisit(movement.visitUserAction,
                                                 source: movement.visitSource(source),
-                                                feedPosition: movement.feedPosition(for: trackingIndex))
+                                                feedPosition: trackingFeedPosition)
         }
     }
 
@@ -816,11 +814,8 @@ extension ListingCarouselViewModel: ListingViewModelDelegate {
     }
 
     var trackingFeedPosition: EventParameterFeedPosition {
-        if let trackingIndex = trackingIndex, currentIndex == startIndex {
-            return .position(index: trackingIndex)
-        } else {
-            return .none
-        }
+        guard let trackingIndex = trackingIndex else { return .none }
+        return .position(index: trackingIndex)
     }
     
     var listingOrigin: ListingOrigin {
@@ -914,15 +909,6 @@ extension CarouselMovement {
             return .swipeRight
         case .initial:
             return .none
-        }
-    }
-    func feedPosition(for index: Int?) -> EventParameterFeedPosition {
-        guard let index = index else  { return .none }
-        switch self {
-        case .tap, .swipeLeft, .swipeRight:
-            return .none
-        case .initial:
-            return .position(index: index)
         }
     }
 }
