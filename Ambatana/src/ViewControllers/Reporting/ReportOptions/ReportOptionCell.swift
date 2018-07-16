@@ -26,6 +26,7 @@ final class ReportOptionCell: UITableViewCell, ReusableCell {
         let label = UILabel()
         label.font = UIFont.reportCellTitleFont
         label.textColor = UIColor.lgBlack
+        label.numberOfLines = 0
         return label
     }()
 

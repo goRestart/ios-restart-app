@@ -68,6 +68,7 @@ final class ReportSentViewController: BaseViewController {
 
         titleLabel.text = viewModel.type.title
         messageLabel.attributedText = viewModel.type.attributedMessage(includingReviewText: true, userName: "Isaac R.")
+        imageView.image = R.Asset.Reporting.rocket.image
     }
 
     private func setupConstraints() {
