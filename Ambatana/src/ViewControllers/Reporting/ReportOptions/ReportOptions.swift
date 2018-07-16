@@ -55,37 +55,37 @@ enum ReportOptionType {
 
     var text: String {
         switch self {
-            case .itShouldntBeOnLetgo: return "Test Option"
-            case .iThinkItsAScam: return "Test Option"
-            case .iTsADuplicateListing: return "Test Option"
-            case .itsInTheWrongCategory: return "Test Option"
-            case .sexualContent: return "Test Option"
-            case .drugsAlcoholOrTobacco: return "Test Option"
-            case .weaponsOrViolentContent: return "Test Option"
-            case .otherReasonItShouldntBeOnLetgo: return "Test Option"
-            case .sellingSomethingInappropriate: return "Test Option"
-            case .suspiciousBehaviour: return "Test Option"
-            case .inappropriateProfilePhotoOrBio: return "Test Option"
-            case .problemDuringMeetup: return "Test Option"
-            case .inappropriateChatMessages: return "Test Option"
-            case .unrealisticPriceOrOffers: return "Test Option"
-            case .notRespondingToMessages: return "Test Option"
-            case .offeringToTradeInsteadOfPayingInCash: return "Test Option"
-            case .offeringRoPayWithWesternUnionOrPaypal: return "Test Option"
-            case .spamAccount: return "Test Option"
-            case .otherSuspiciousBehaviour: return "Test Option"
-            case .inappropriateProfilePhoto: return "Test Option"
-            case .inappropriateBio: return "Test Option"
-            case .robberyOrViolentIncident: return "Test Option"
-            case .paidWithCounterfeitMoney: return "Test Option"
-            case .didntShowUp: return "Test Option"
-            case .itemDefectiveOrNotAsDescribed: return "Test Option"
-            case .otherProblemDuringMeetup: return "Test Option"
-            case .threateningViolence: return "Test Option"
-            case .rudeOrOffensiveLanguage: return "Test Option"
-            case .suspiciousOrScammyBehavior: return "Test Option"
-            case .sexualOrObsceneLanguage: return "Test Option"
-            case .otherReasonInnappropriateChatMessages: return "Test Option"
+        case .itShouldntBeOnLetgo: return R.Strings.reportingReasonShouldNotBeOnLetgo
+        case .iThinkItsAScam: return R.Strings.reportingReasonItsScam
+        case .iTsADuplicateListing: return R.Strings.reportingReasonDuplicateListing
+        case .itsInTheWrongCategory: return R.Strings.reportingReasonWrongCategory
+        case .sexualContent: return R.Strings.reportingReasonSexualContent
+        case .drugsAlcoholOrTobacco: return R.Strings.reportingReasonDrugs
+        case .weaponsOrViolentContent: return R.Strings.reportingReasonWeapons
+        case .otherReasonItShouldntBeOnLetgo: return R.Strings.reportingReasonOther
+        case .sellingSomethingInappropriate: return R.Strings.reportingReasonSellingInappropiate
+        case .suspiciousBehaviour: return R.Strings.reportingReasonSuspiciousBehavior
+        case .inappropriateProfilePhotoOrBio: return R.Strings.reportingReasonInappropiatePhotoOrBio
+        case .problemDuringMeetup: return R.Strings.reportingReasonProblemMeetup
+        case .inappropriateChatMessages: return R.Strings.reportingReasonInappropiateChatMessages
+        case .unrealisticPriceOrOffers: return R.Strings.reportingReasonUnrealisticPrice
+        case .notRespondingToMessages: return R.Strings.reportingReasonNotResponding
+        case .offeringToTradeInsteadOfPayingInCash: return R.Strings.reportingReasonOfferedTrade
+        case .offeringRoPayWithWesternUnionOrPaypal: return R.Strings.reportingReasonOfferedWesternUnionOrPaypañ
+        case .spamAccount: return R.Strings.reportingReasonSpamAccount
+        case .otherSuspiciousBehaviour: return R.Strings.reportingReasonOther
+        case .inappropriateProfilePhoto: return R.Strings.reportingReasonProfilePhoto
+        case .inappropriateBio: return R.Strings.reportingReasonBio
+        case .robberyOrViolentIncident: return R.Strings.reportingReasonRobbery
+        case .paidWithCounterfeitMoney: return R.Strings.reportingReasonCounterfeitMoney
+        case .didntShowUp: return R.Strings.reportingReasonDidnTShowUp
+        case .itemDefectiveOrNotAsDescribed: return R.Strings.reportingReasonItemDefective
+        case .otherProblemDuringMeetup: return R.Strings.reportingReasonOther
+        case .threateningViolence: return R.Strings.reportingReasonThreatingViolence
+        case .rudeOrOffensiveLanguage: return R.Strings.reportingReasonRudeOffensiveLanguage
+        case .suspiciousOrScammyBehavior: return R.Strings.reportingReasonSuspiciousBehavior
+        case .sexualOrObsceneLanguage: return R.Strings.reportingReasonSexualLanguage
+        case .otherReasonInnappropriateChatMessages: return R.Strings.reportingReasonOther
         }
     }
 

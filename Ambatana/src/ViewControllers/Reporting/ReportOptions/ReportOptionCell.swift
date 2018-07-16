@@ -26,6 +26,7 @@ final class ReportOptionCell: UITableViewCell, ReusableCell {
         let label = UILabel()
         label.font = UIFont.reportCellTitleFont
         label.textColor = UIColor.lgBlack
+        label.numberOfLines = 0
         return label
     }()
 
@@ -95,7 +96,7 @@ final class ReportOptionCell: UITableViewCell, ReusableCell {
             iconImageView.widthAnchor.constraint(equalToConstant: Layout.iconSize),
             titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Layout.labelMargin),
             titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Layout.labelMargin),
-            titleLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: Layout.labelRightMargin),
+            titleLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -Layout.labelRightMargin),
             accessoryImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             accessoryImageView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -Metrics.margin),
             accessoryImageView.heightAnchor.constraint(equalToConstant: Layout.accessoryHeight),
