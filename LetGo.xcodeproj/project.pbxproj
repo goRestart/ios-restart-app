@@ -1918,6 +1918,12 @@
 		F5D91E7E2008C20200DF28E7 /* UserRatingType+RateBack.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D91E7C2008C20200DF28E7 /* UserRatingType+RateBack.swift */; };
 		F5DC45242088889100D1EC17 /* KenBurnsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5DC45232088889100D1EC17 /* KenBurnsView.swift */; };
 		F5DC45252088889100D1EC17 /* KenBurnsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5DC45232088889100D1EC17 /* KenBurnsView.swift */; };
+		F5F2113320EE564000CD137A /* ServerEnvironmentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F2113220EE564000CD137A /* ServerEnvironmentPicker.swift */; };
+		F5F2113420EE564000CD137A /* ServerEnvironmentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F2113220EE564000CD137A /* ServerEnvironmentPicker.swift */; };
+		F5F2113620EE59E700CD137A /* DefaultKeys+Admin.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F2113520EE59E700CD137A /* DefaultKeys+Admin.swift */; };
+		F5F2113720EE59E700CD137A /* DefaultKeys+Admin.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F2113520EE59E700CD137A /* DefaultKeys+Admin.swift */; };
+		F5F2113920EE5EE000CD137A /* EnvironmentsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F2113820EE5EE000CD137A /* EnvironmentsHelper.swift */; };
+		F5F2113A20EE5EE000CD137A /* EnvironmentsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F2113820EE5EE000CD137A /* EnvironmentsHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -3068,6 +3074,9 @@
 		F5D6E67720090D8600E71A54 /* UserRatingType+RateBackSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserRatingType+RateBackSpec.swift"; sourceTree = "<group>"; };
 		F5D91E7C2008C20200DF28E7 /* UserRatingType+RateBack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserRatingType+RateBack.swift"; sourceTree = "<group>"; };
 		F5DC45232088889100D1EC17 /* KenBurnsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KenBurnsView.swift; sourceTree = "<group>"; };
+		F5F2113220EE564000CD137A /* ServerEnvironmentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerEnvironmentPicker.swift; sourceTree = "<group>"; };
+		F5F2113520EE59E700CD137A /* DefaultKeys+Admin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DefaultKeys+Admin.swift"; sourceTree = "<group>"; };
+		F5F2113820EE5EE000CD137A /* EnvironmentsHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnvironmentsHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -4840,7 +4849,10 @@
 		6AA32F381CA29C98003A1677 /* Admin */ = {
 			isa = PBXGroup;
 			children = (
+				F5F2113820EE5EE000CD137A /* EnvironmentsHelper.swift */,
 				6AA32F391CA29CC4003A1677 /* AdminViewController.swift */,
+				F5F2113220EE564000CD137A /* ServerEnvironmentPicker.swift */,
+				F5F2113520EE59E700CD137A /* DefaultKeys+Admin.swift */,
 			);
 			path = Admin;
 			sourceTree = "<group>";
@@ -7107,6 +7119,7 @@
 				509CFF351DCCE8DF0068E518 /* CGPoint+LG.swift in Sources */,
 				8E80F70720D938FD005256D9 /* ChatBaseViewModel.swift in Sources */,
 				C707D44A1E96799000042C03 /* TextHiddenTags.swift in Sources */,
+				F5F2113620EE59E700CD137A /* DefaultKeys+Admin.swift in Sources */,
 				427CAB8A206A827300112D58 /* TrendingSearchView.swift in Sources */,
 				50EC64041C64B05500DC04C5 /* LGEmptyView.swift in Sources */,
 				0187407D1FD594B6009C1363 /* BlockingPostingQueuedRequestsViewModel.swift in Sources */,
@@ -7241,6 +7254,7 @@
 				2EF4E3B01D3688AB00A09DFD /* ConfigDAO.swift in Sources */,
 				C7132A3F1BF246D40000747A /* ListingFilters.swift in Sources */,
 				2E39292820E625530066C636 /* ChatDetailNavBarInfoView.swift in Sources */,
+				F5F2113920EE5EE000CD137A /* EnvironmentsHelper.swift in Sources */,
 				C708C83C1CDB590400AA87B3 /* AppRatingView.swift in Sources */,
 				09D7BC7E20EB62950090E499 /* StripeManager.swift in Sources */,
 				C784FDFF1C21B45B00846AB7 /* LoadingIndicator.swift in Sources */,
@@ -7786,6 +7800,7 @@
 				C788EED71CC7847400B9E26F /* FilteredListingListRequester.swift in Sources */,
 				509273361B172D5B00A346F9 /* PushManager.swift in Sources */,
 				3299E5E8207FB7AB002935AE /* WaterfallLayoutItemRenderPolicy.swift in Sources */,
+				F5F2113320EE564000CD137A /* ServerEnvironmentPicker.swift in Sources */,
 				0A31CF621FA1EBEB00FE84E0 /* ListingDeckViewModelBinder.swift in Sources */,
 				0A04D5E0207614F000471B9D /* UsersABGroup.swift in Sources */,
 				724D77AE1FC709DE00DB43C0 /* ListingCreationViewModel.swift in Sources */,
@@ -7920,6 +7935,7 @@
 				C7B5886A1CE1DE1C009B3975 /* ChatGroupedViewController.swift in Sources */,
 				8E80F70820D938FD005256D9 /* ChatBaseViewModel.swift in Sources */,
 				50146BDA1D4F90E500B0F635 /* ChatsTabNavigator.swift in Sources */,
+				F5F2113720EE59E700CD137A /* DefaultKeys+Admin.swift in Sources */,
 				C7C328421C907267008078EC /* PostListingGalleryViewModel.swift in Sources */,
 				42566BF320ED217800120431 /* TooltipConfiguration.swift in Sources */,
 				C707D44B1E96799000042C03 /* TextHiddenTags.swift in Sources */,
@@ -8054,6 +8070,7 @@
 				6A5E1A011D548F5400F92692 /* MapZoomBlocker.swift in Sources */,
 				C7DB41B81C5138B500400945 /* Tracker.swift in Sources */,
 				2E39292920E625530066C636 /* ChatDetailNavBarInfoView.swift in Sources */,
+				F5F2113A20EE5EE000CD137A /* EnvironmentsHelper.swift in Sources */,
 				09D7BC7F20EB62950090E499 /* StripeManager.swift in Sources */,
 				2E2D53E01D369B0500348D12 /* ConfigDAO.swift in Sources */,
 				C7DB41BB1C5138B500400945 /* ListingCategory+LG.swift in Sources */,
@@ -8599,6 +8616,7 @@
 				C7DB42261C5138B500400945 /* TabBarController.swift in Sources */,
 				0A31CF631FA1ECCE00FE84E0 /* ListingDeckViewModelBinder.swift in Sources */,
 				0A04D5E12076175D00471B9D /* UsersABGroup.swift in Sources */,
+				F5F2113420EE564000CD137A /* ServerEnvironmentPicker.swift in Sources */,
 				724D77AF1FC709DE00DB43C0 /* ListingCreationViewModel.swift in Sources */,
 				C788EED81CC7847400B9E26F /* FilteredListingListRequester.swift in Sources */,
 				C74BDB421D7F121600B59482 /* StickersManager.swift in Sources */,
