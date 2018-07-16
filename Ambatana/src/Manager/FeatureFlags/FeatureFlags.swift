@@ -75,7 +75,6 @@ protocol FeatureFlaggeable: class {
 
     // MARK: Verticals
     var searchCarsIntoNewBackend: SearchCarsIntoNewBackend { get }
-    var filterSearchCarSellerType: FilterSearchCarSellerType { get }
     var realEstateMap: RealEstateMap { get }
     var showServicesFeatures: ShowServicesFeatures { get }
     var carExtraFieldsEnabled: CarExtraFieldsEnabled { get }
@@ -107,6 +106,7 @@ protocol FeatureFlaggeable: class {
     var onboardingIncentivizePosting: OnboardingIncentivizePosting { get }
     var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed { get }
     var notificationSettings: NotificationSettings { get }
+    var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions { get }
 }
 
 extension FeatureFlaggeable {
@@ -256,14 +256,6 @@ extension CopyForChatNowInTurkey {
 
 extension RealEstateMap {
     var isActive: Bool { return self != .baseline && self != .control }
-}
-
-extension FilterSearchCarSellerType {
-    var isActive: Bool { return self != .baseline && self != .control }
-    
-    var isMultiselection: Bool {
-        return self == .variantA || self == .variantB
-    }
 }
 
 extension AdvancedReputationSystem {
@@ -734,6 +726,14 @@ final class FeatureFlags: FeatureFlaggeable {
         return NotificationSettings.fromPosition(abTests.notificationSettings.value)
     }
     
+    var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions {
+        if Bumper.enabled {
+            return Bumper.searchAlertsInSearchSuggestions
+        }
+        return SearchAlertsInSearchSuggestions.fromPosition(abTests.searchAlertsInSearchSuggestions.value)
+    }
+    
+    
     // MARK: - Country features
 
     var freePostingModeAllowed: Bool {
@@ -1158,13 +1158,6 @@ extension FeatureFlags {
             return Bumper.searchCarsIntoNewBackend
         }
         return SearchCarsIntoNewBackend.fromPosition(abTests.searchCarsIntoNewBackend.value)
-    }
-    
-    var filterSearchCarSellerType: FilterSearchCarSellerType {
-        if Bumper.enabled {
-            return Bumper.filterSearchCarSellerType
-        }
-        return FilterSearchCarSellerType.fromPosition(abTests.filterSearchCarSellerType.value)
     }
     
     var realEstateMap: RealEstateMap {

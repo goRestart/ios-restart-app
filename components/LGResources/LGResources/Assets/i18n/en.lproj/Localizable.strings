@@ -1967,7 +1967,7 @@
 "passwordless_email_sent_screen_title" = "Check your email inbox";
 
 // Title in the screen where app explains email has been sent
-"passwordless_email_sent_title" = "To sign in, click the 'magic link' we just sent you.";
+"passwordless_email_sent_title" = "To sign in, click the \"magic link\" we just sent you.";
 
 // Subtitle in the screen where app explains email has been sent
 "passwordless_email_sent_subtitle" = "Email address: %@";
@@ -2376,6 +2376,12 @@
 
 // Product new onboarding, swipe to go to next or previous product highlighted swipe
 "product_new_onboarding_finger_swipe_next_product_highlighted_label" = "Swipe";
+
+// New item Page -- Onboarding over cards to tap to see previous picture
+"product_nit_onboarding_previous_picture" = "Previous picture";
+
+// New item Page -- Onboarding over cards to tap to see next picture
+"product_nit_onboarding_next_picture" = "Next picture";
 
 // Option to edit product
 "product_option_edit" = "Edit listing";

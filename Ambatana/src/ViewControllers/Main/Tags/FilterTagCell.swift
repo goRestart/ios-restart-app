@@ -103,9 +103,12 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
         case .carDriveTrainType(let driveTrainType):
             return FilterTagCell.sizeForText(driveTrainType.title)
         case .mileageRange(let start, let end):
+            let numberFormatter = NumberFormatter.newMileageNumberFormatter()
             let rangeString = FilterTagCell.stringForRange(fromValue: start,
-                                                      toValue: end,
-                                                      unit: DistanceType.systemDistanceType().localizedUnitType())
+                                                           toValue: end,
+                                                           unit: DistanceType.systemDistanceType().localizedUnitType(),
+                                                           isUnboundedUpperLimit: true,
+                                                           numberFormatter: numberFormatter)
             return FilterTagCell.sizeForText(rangeString)
         case .numberOfSeats(let start, let end):
             let rangeString = FilterTagCell.stringForRange(fromValue: start,
@@ -170,17 +173,14 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
     
     private static func stringForRange(fromValue: Int?,
                                        toValue: Int?,
-                                       unit: String?) -> String {
-        var startText = ""
-        var endText = ""
-        var unitText = ""
+                                       unit: String?,
+                                       isUnboundedUpperLimit: Bool = false,
+                                       numberFormatter: NumberFormatter? = nil) -> String {
         
-        if let fromValue = fromValue {
-            startText = String(fromValue)
-        }
-        if let toValue = toValue {
-            endText = String(toValue)
-        }
+        let startText = createStringForValue(value: fromValue, numberFormatter: numberFormatter)
+        let endText = createStringForValue(value: toValue, numberFormatter: numberFormatter)
+        var unitText = ""
+        let upperLimitPostfix = FormattedUnitRange.upperValuePostfixString(shouldAppendPostfixString: isUnboundedUpperLimit)
         
         if let unit = unit {
             unitText = " \(unit)"
@@ -191,10 +191,22 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
         } else if !startText.isEmpty {
             return R.Strings.filtersPriceFrom + " " + startText + unitText
         } else if !endText.isEmpty {
-            return R.Strings.filtersPriceTo + " " + endText + unitText
+            return R.Strings.filtersPriceTo + " " + endText + upperLimitPostfix + unitText
         } else {
             return ""
         }
+    }
+    
+    private static func createStringForValue(value: Int?,
+                                             numberFormatter: NumberFormatter?) -> String {
+        guard let value = value else { return "" }
+        
+        if let numberFormatter = numberFormatter,
+            let formattedValue = numberFormatter.string(from: NSNumber(value: value)) {
+            return formattedValue
+        }
+        
+        return String(value)
     }
     
     private static func stringForSizeRange(startSize: Int?, endSize: Int?) -> String {
@@ -367,9 +379,12 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
         case .serviceSubtype(let subtype):
             tagLabel.text = subtype.name
         case .mileageRange(let start, let end):
+            let numberFormatter = NumberFormatter.newMileageNumberFormatter()
             tagLabel.text = FilterTagCell.stringForRange(fromValue: start,
                                                          toValue: end,
-                                                         unit: DistanceType.systemDistanceType().localizedUnitType())
+                                                         unit: DistanceType.systemDistanceType().localizedUnitType(),
+                                                         isUnboundedUpperLimit: true,
+                                                         numberFormatter: numberFormatter)
         case .numberOfSeats(let start, let end):
             tagLabel.text = FilterTagCell.stringForRange(fromValue: start,
                                                          toValue: end,

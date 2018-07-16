@@ -369,7 +369,8 @@
 "featured_info_view_more_buyers" = "Atrae más compradores";
 "featured_info_view_sell_faster" = "Vende más rápido";
 "featured_info_view_title" = "Anuncio destacado";
-"filter_cars_seats_title" = "Asientos";
+"filter_cars_mileage" = "Kilometraje";
+"filter_cars_seats_title" = "Plazas";
 "filter_results_cars_no_matches" = "No hay resultados exactos para tu búsqueda.\nMostrando resultados similares.";
 "filter_results_cars_other_results" = "Publicados recientemente cerca de ti";
 "filters_car_make_not_set" = "No Definida";
@@ -409,7 +410,7 @@
 "filters_distance_not_set" = "no definida";
 "filters_mileage_slider_title" = "Kilometraje";
 "filters_navbar_reset" = "Borrar";
-"filters_numberOfSeats_slider_title" = "Asientos";
+"filters_numberOfSeats_slider_title" = "Plazas";
 "filters_price_from" = "De";
 "filters_price_from_feed_filter_cell" = "De";
 "filters_price_to" = "A";
@@ -795,6 +796,8 @@
 "product_new_onboarding_tap_right_highlighted_label" = "Pulsa a la derecha";
 "product_new_onboarding_tap_right_highlighted_label_2" = "o en el centro";
 "product_new_onboarding_tap_right_label" = "%@ o %@ para ver la siguiente imagen";
+"product_nit_onboarding_next_picture" = "Foto siguiente";
+"product_nit_onboarding_previous_picture" = "Foto anterior";
 "product_onboarding_finger_scroll_label" = "Desplázate arriba o abajo para ver más fotos";
 "product_onboarding_finger_swipe_label" = "Desliza hacia la derecha o a la izquierda para pasar al próximo anuncio o al anterior";
 "product_onboarding_finger_tap_label" = "Pulsa para pasar al próximo anuncio";

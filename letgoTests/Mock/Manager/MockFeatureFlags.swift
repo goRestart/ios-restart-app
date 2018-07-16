@@ -76,7 +76,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     
     // MARK:  Verticals
     var searchCarsIntoNewBackend: SearchCarsIntoNewBackend = .control
-    var filterSearchCarSellerType: FilterSearchCarSellerType = .control
     var realEstateMap: RealEstateMap = .control
     var showServicesFeatures: ShowServicesFeatures = .control
     var carExtraFieldsEnabled: CarExtraFieldsEnabled = .control
@@ -110,5 +109,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var onboardingIncentivizePosting: OnboardingIncentivizePosting = .control
     var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed = .control
     var notificationSettings: NotificationSettings = .control
+    var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions = .control
 }
 

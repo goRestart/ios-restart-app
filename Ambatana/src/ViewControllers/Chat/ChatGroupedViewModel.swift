@@ -47,6 +47,19 @@ class ChatGroupedViewModel: BaseViewModel {
         static var allValues: [Tab] {
             return [.all, .selling, .buying, .blockedUsers]
         }
+
+        var nameForTracking: EventParameterChatTabName {
+            switch self {
+            case .all:
+                return .all
+            case .selling:
+                return .selling
+            case .buying:
+                return .buying
+            case .blockedUsers:
+                return .blocked
+            }
+        }
     }
 
     fileprivate var chatListViewModels: [ChatListViewModel]
@@ -353,6 +366,15 @@ extension ChatGroupedViewModel {
                 return self?.blockedUsersListViewModel
             }
         }.bind(to: currentPageViewModel).disposed(by: disposeBag)
+
+
+        currentTab.asObservable()
+            .skip(2)  // we skip the initial value and the 1st access to the chat window
+            .subscribeNext { [weak self] tab in
+                let openTabEvent = TrackerEvent.chatTabOpen(tabName: tab.nameForTracking)
+                self?.tracker.trackEvent(openTabEvent)
+            }
+            .disposed(by: disposeBag)
 
         // Observe current page view model changes
         currentPageViewModel.asObservable().subscribeNext { [weak self] viewModel in

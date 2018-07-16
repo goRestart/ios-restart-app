@@ -369,6 +369,7 @@
 "featured_info_view_more_buyers" = "Привлечь больше покупателей";
 "featured_info_view_sell_faster" = "Продать быстрее";
 "featured_info_view_title" = "Выделенное объявление";
+"filter_cars_mileage" = "Пробег";
 "filter_cars_seats_title" = "Сиденья";
 "filter_results_cars_no_matches" = "Совпадений для вашего поиска не найдено. \n Показывать похожие результаты. ";
 "filter_results_cars_other_results" = "Недавно опубликовано в вашем районе";
@@ -479,7 +480,7 @@
 "id_verification_third_step_subtitle" = "Убедитесь, что документ четко видно и он попадает в рамку";
 "id_verification_third_step_title" = "Сделайте фото лицевой стороны документа";
 "id_verification_update_avatar_message" = "Хотите сделать это фото изображением профиля?";
-"kilometer_unit_suffix" = "КМ";
+"kilometer_unit_suffix" = "км";
 "listing_chat_button" = "Пообщаться";
 "listing_interested_button_A" = "Я заинтересован";
 "listing_interested_button_B" = "Интересует";
@@ -795,6 +796,8 @@
 "product_new_onboarding_tap_right_highlighted_label" = "Нажмите на правую часть";
 "product_new_onboarding_tap_right_highlighted_label_2" = "или в середину";
 "product_new_onboarding_tap_right_label" = "%@ или %@ для просмотра следующего фото";
+"product_nit_onboarding_next_picture" = "Следующее изображение";
+"product_nit_onboarding_previous_picture" = "Предыдущее изображение";
 "product_onboarding_finger_scroll_label" = "Проведите вверх или вниз, чтобы листать фотографии";
 "product_onboarding_finger_swipe_label" = "Листайте, чтобы пройти к следующему или предыдущему объявлению";
 "product_onboarding_finger_tap_label" = "Нажмите, чтобы пройти к следующему объявлению";
@@ -1059,7 +1062,7 @@
 "real_estate_gallery_view_subtitle_params" = "Выберите до %d изображений недвижимости, которую хотите продать или сдать. Первым будет выделенное вам фото, поэтому убедитесь, что оно подходит!";
 "real_estate_location_notification_message" = "Мы никогда не показываем ваше точное местоположение другим пользователям";
 "real_estate_location_title" = "Местоположение";
-"real_estate_map_tooltip_button_title" = "Try Now";
+"real_estate_map_tooltip_button_title" = "Попробовать сейчас";
 "real_estate_map_tooltip_title" = "Новинка! Смотрите подробности на карте.";
 "real_estate_offer_type_rent" = "Аренда";
 "real_estate_offer_type_sale" = "Продажа";

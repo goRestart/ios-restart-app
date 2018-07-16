@@ -80,6 +80,7 @@ public extension UIColor {
 
 public extension UIColor {
     // Solid Grays
+    static var jetBlack: UIColor { return UIColor(rgb: 0x0C0C0C) } // (12, 12, 12)
     static var lgBlack: UIColor { return UIColor(rgb: 0x2c2c2c) } // (44,44,44)
     static var grayDarker: UIColor { return UIColor(rgb: 0x4a4a4a) } // (74,74,74)
     static var grayDark: UIColor { return UIColor(rgb: 0x757575) } // (117,117,117)
@@ -87,8 +88,9 @@ public extension UIColor {
     static var grayLight: UIColor { return UIColor(rgb: 0xdddddd) } // (221,221,221)
     static var grayLighter: UIColor { return UIColor(rgb: 0xede9e9) } // (237,233,233)
     static var grayBackground: UIColor { return UIColor(rgb: 0xF7F3F3) } // (247,143,243)
+    static var graySeparator: UIColor { return UIColor(rgb: 0x979797) } // (151, 151, 151)
     static var grayDisclaimerText: UIColor { return UIColor(rgb: 0x9b9b9b) } // (155, 155, 155)
-
+    
     // Alpha grays
 
     fileprivate static let blackAlpha80 = black.withAlphaComponent(0.8)
@@ -229,9 +231,8 @@ public extension UIColor {
     static var chatOthersBubbleBgColorGray: UIColor { return blackAlpha04 }
     static var chatOthersBubbleBgColorSelected: UIColor { return grayLighter }
 
-    static var assistantConversationCellBgColor: UIColor { return primaryColorAlpha08 }
+    static var assistantConversationCellBgColor: UIColor { return UIColor(rgb: 0xFFF0F1) }
 
-    private static let primaryColorAlpha08 = UIColor(rgb: 0xFFE0F1)
     private static let primaryColorAlpha16 = UIColor(rgb: 0xFFE0E4) // (255, 224, 228)
     private static let primaryColorAlpha30 = UIColor(rgb: 0xFFC6CD) // (255, 198, 205)
 

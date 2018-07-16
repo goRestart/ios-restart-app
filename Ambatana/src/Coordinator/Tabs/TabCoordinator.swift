@@ -253,7 +253,7 @@ fileprivate extension TabCoordinator {
                                    requester: requester,
                                    source: source,
                                    actionOnFirstAppear: actionOnFirstAppear,
-                                   trackingIndex: nil)
+                                   trackingIndex: index)
         } else {
             let vm = ListingCarouselViewModel(listing: listing, thumbnailImage: thumbnailImage,
                                               listingListRequester: requester, source: source,
@@ -791,6 +791,19 @@ extension TabCoordinator: ListingDetailNavigator {
                                                        alignment: .bottom,
                                                        style: .dark)
         }
+    }
+    
+    
+    func openListingAttributeTable(withViewModel viewModel: ListingAttributeTableViewModel) {
+        let viewController = ListingAttributeTableViewController(withViewModel: viewModel)
+        rootViewController.present(viewController,
+                                   animated: true,
+                                   completion: nil)
+    }
+    
+    func closeListingAttributeTable() {
+        rootViewController.dismiss(animated: true,
+                                   completion: nil)
     }
 }
 

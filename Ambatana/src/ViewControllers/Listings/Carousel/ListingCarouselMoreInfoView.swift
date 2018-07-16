@@ -25,13 +25,18 @@ extension MKMapView {
 }
 
 class ListingCarouselMoreInfoView: UIView {
+    
+    private struct Layout {
+        static let relatedItemsHeight: CGFloat = 80
+        static let shareViewToMapMargin: CGFloat = 30
+        static let navBarDefaultHeight: CGFloat = 64
+        static let shareViewToBannerMargin = Metrics.margin
+        static let dragViewVerticalExtraMargin: CGFloat = 2 // Center purposes to the custom navigation bar in carousel view
+        static let mapViewBottomMargin: CGFloat = 8
+        static let attributeGridHeight: CGFloat = 150
+    }
 
-    private static let relatedItemsHeight: CGFloat = 80
-    private static let shareViewToMapMargin: CGFloat = 30
-    private static let navBarDefaultHeight: CGFloat = 64
-    private static let shareViewToBannerMargin = Metrics.margin
-    private static let dragViewVerticalExtraMargin: CGFloat = 2 // Center purposes to the custom navigation bar in carousel view
-    private static let mapViewBottomMargin: CGFloat = 8
+
     private static let mapPinAnnotationReuseId = "mapPin"
 
     @IBOutlet weak var titleTextLabel: UILabel!
@@ -47,6 +52,7 @@ class ListingCarouselMoreInfoView: UIView {
     @IBOutlet weak var visualEffectViewBottom: NSLayoutConstraint!
     @IBOutlet weak var descriptionLabel: LGCollapsibleLabel!
     @IBOutlet weak var tagCollectionView: TagCollectionView!
+    @IBOutlet weak var attributeGridView: ListingCarouselMoreInfoViewAttributeGridView!
     @IBOutlet weak var statsContainerView: UIView!
     @IBOutlet weak var statsContainerViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var statsContainerViewTopConstraint: NSLayoutConstraint!
@@ -69,6 +75,8 @@ class ListingCarouselMoreInfoView: UIView {
     @IBOutlet var shareViewToMapTopConstraint: NSLayoutConstraint!
     @IBOutlet var shareViewToBannerTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var scrollViewToSuperviewTopConstraint: NSLayoutConstraint!
+    
+    @IBOutlet var attributeGridViewHeightConstraint: NSLayoutConstraint!
     
     var dfpBannerView: DFPBannerView?
 
@@ -229,7 +237,7 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
         mapView.layout(with: container)
             .fillHorizontal()
             .top()
-            .bottom(by: -ListingCarouselMoreInfoView.mapViewBottomMargin)
+            .bottom(by: -Layout.mapViewBottomMargin)
 
         report(AppReport.uikit(error: .breadcrumb), message: "MoreInfoView-LayoutMapView-end")
     }
@@ -433,7 +441,7 @@ fileprivate extension ListingCarouselMoreInfoView {
         if #available(iOS 11, *) {
             scrollViewToSuperviewTopConstraint.constant = safeAreaInsets.top
         } else {
-            scrollViewToSuperviewTopConstraint.constant = ListingCarouselMoreInfoView.navBarDefaultHeight
+            scrollViewToSuperviewTopConstraint.constant = Layout.navBarDefaultHeight
         }
 
         scrollView.delegate = self
@@ -447,6 +455,26 @@ fileprivate extension ListingCarouselMoreInfoView {
         tagCollectionView.defaultSetup()
     }
 
+    func setupAttributeGridView(withTitle title: String?,
+                                items: [ListingAttributeGridItem]?) {
+        let shouldShowAttributeGrid = viewModel?.extraFieldsGridEnabled ?? false
+        guard let items = items,
+            items.count > 0,
+            shouldShowAttributeGrid else {
+                attributeGridViewHeightConstraint.constant = 0.0
+                return
+        }
+        
+        attributeGridViewHeightConstraint.constant = Layout.attributeGridHeight
+        attributeGridView.setup(withTitle: title,
+                                items: items,
+                                tapAction: { [weak self] in
+                                    guard let wself = self,
+                                        let items = wself.viewModel?.productInfo.value?.attributeGridItems else { return }
+                                    wself.viewModel?.listingAttributeGridTapped(forItems: items)
+        })
+    }
+    
     func setupStatsView() {
         statsContainerViewHeightConstraint.constant = 0.0
         statsContainerViewTopConstraint.constant = 0.0
@@ -488,7 +516,7 @@ fileprivate extension ListingCarouselMoreInfoView {
         bannerContainerView.isHidden = true
         bannerContainerViewHeightConstraint.constant = 0
         if shareViewToMapTopConstraint.isActive {
-            shareViewToMapTopConstraint.constant = ListingCarouselMoreInfoView.shareViewToMapMargin
+            shareViewToMapTopConstraint.constant = Layout.shareViewToMapMargin
         }
     }
 
@@ -512,6 +540,8 @@ fileprivate extension ListingCarouselMoreInfoView {
             self?.descriptionLabel.mainAttributedText = info.styledDescription
             self?.descriptionLabel.setNeedsLayout()
             self?.tagCollectionViewModel?.tags = info.attributeTags ?? []
+            self?.setupAttributeGridView(withTitle: info.attributeGridTitle,
+                                         items: info.attributeGridItems)
         }.disposed(by: disposeBag)
     }
     
@@ -598,7 +628,7 @@ extension ListingCarouselMoreInfoView: GADAdSizeDelegate, GADBannerViewDelegate 
         bannerContainerView.isHidden = false
 
         bannerContainerViewHeightConstraint.constant = bannerView.height
-        shareViewToMapTopConstraint.constant = bannerView.height + ListingCarouselMoreInfoView.shareViewToMapMargin
+        shareViewToMapTopConstraint.constant = bannerView.height + Layout.shareViewToMapMargin
 
         if bannerView.frame.size.height > 0 {
             let absolutePosition = scrollView.convert(bannerContainerView.frame.origin, to: nil)

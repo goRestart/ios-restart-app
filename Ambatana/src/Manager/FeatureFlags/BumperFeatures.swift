@@ -47,7 +47,6 @@ extension Bumper  {
         flags.append(FeedAdsProviderForTR.self)
         flags.append(SearchCarsIntoNewBackend.self)
         flags.append(SectionedMainFeed.self)
-        flags.append(FilterSearchCarSellerType.self)
         flags.append(ShowExactLocationForPros.self)
         flags.append(ShowPasswordlessLogin.self)
         flags.append(CopyForSellFasterNowInEnglish.self)
@@ -77,6 +76,7 @@ extension Bumper  {
         flags.append(ShowChatHeaderWithoutUser.self)
         flags.append(RealEstateMapTooltip.self)
         flags.append(AppInstallAdsInFeed.self)
+        flags.append(SearchAlertsInSearchSuggestions.self)
         Bumper.initialize(flags)
     } 
 
@@ -483,19 +483,6 @@ extension Bumper  {
     }
     #endif
 
-    static var filterSearchCarSellerType: FilterSearchCarSellerType {
-        guard let value = Bumper.value(for: FilterSearchCarSellerType.key) else { return .control }
-        return FilterSearchCarSellerType(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var filterSearchCarSellerTypeObservable: Observable<FilterSearchCarSellerType> {
-        return Bumper.observeValue(for: FilterSearchCarSellerType.key).map {
-            FilterSearchCarSellerType(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
     static var showExactLocationForPros: Bool {
         guard let value = Bumper.value(for: ShowExactLocationForPros.key) else { return true }
         return ShowExactLocationForPros(rawValue: value)?.asBool ?? true
@@ -869,6 +856,19 @@ extension Bumper  {
     static var appInstallAdsInFeedObservable: Observable<AppInstallAdsInFeed> {
         return Bumper.observeValue(for: AppInstallAdsInFeed.key).map {
             AppInstallAdsInFeed(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions {
+        guard let value = Bumper.value(for: SearchAlertsInSearchSuggestions.key) else { return .control }
+        return SearchAlertsInSearchSuggestions(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var searchAlertsInSearchSuggestionsObservable: Observable<SearchAlertsInSearchSuggestions> {
+        return Bumper.observeValue(for: SearchAlertsInSearchSuggestions.key).map {
+            SearchAlertsInSearchSuggestions(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1353,25 +1353,6 @@ enum SectionedMainFeed: String, BumperFeature  {
     }
 }
 
-enum FilterSearchCarSellerType: String, BumperFeature  {
-    case control, baseline, variantA, variantB, variantC, variantD
-    static var defaultValue: String { return FilterSearchCarSellerType.control.rawValue }
-    static var enumValues: [FilterSearchCarSellerType] { return [.control, .baseline, .variantA, .variantB, .variantC, .variantD]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Include Search filter for Car Seller type" } 
-    static func fromPosition(_ position: Int) -> FilterSearchCarSellerType {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .variantA
-            case 3: return .variantB
-            case 4: return .variantC
-            case 5: return .variantD
-            default: return .control
-        }
-    }
-}
-
 enum ShowExactLocationForPros: String, BumperFeature  {
     case yes, no
     static var defaultValue: String { return ShowExactLocationForPros.yes.rawValue }
@@ -1826,6 +1807,22 @@ enum AppInstallAdsInFeed: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show App Install Ads from Google Adx in feed" } 
     static func fromPosition(_ position: Int) -> AppInstallAdsInFeed {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum SearchAlertsInSearchSuggestions: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return SearchAlertsInSearchSuggestions.control.rawValue }
+    static var enumValues: [SearchAlertsInSearchSuggestions] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show search alerts in search suggestions view" } 
+    static func fromPosition(_ position: Int) -> SearchAlertsInSearchSuggestions {
         switch position { 
             case 0: return .control
             case 1: return .baseline

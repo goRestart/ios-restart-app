@@ -297,6 +297,8 @@ extension R {
           public static let gas = ImageAsset(name: "gas")
           public static let hybrid = ImageAsset(name: "hybrid")
         }
+        public static let mileage = ImageAsset(name: "mileage")
+        public static let seats = ImageAsset(name: "seats")
         public enum Transmission {
           public static let automatic = ImageAsset(name: "automatic")
           public static let manual = ImageAsset(name: "manual")
@@ -601,6 +603,8 @@ extension R {
         FiltersCarExtrasIcons.Fueltype.flex,
         FiltersCarExtrasIcons.Fueltype.gas,
         FiltersCarExtrasIcons.Fueltype.hybrid,
+        FiltersCarExtrasIcons.mileage,
+        FiltersCarExtrasIcons.seats,
         FiltersCarExtrasIcons.Transmission.automatic,
         FiltersCarExtrasIcons.Transmission.manual,
         FiltersCategoriesIcons.categoriesBabiesInactive,

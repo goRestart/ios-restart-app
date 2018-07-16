@@ -9,7 +9,7 @@ final class NotificationSettingsListDetailViewController: BaseViewController, UI
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .grayBackground
-        tableView.estimatedRowHeight = 80
+        tableView.estimatedRowHeight = NotificationSettingSwitchCell.defaultHeight
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.separatorStyle = .none
         tableView.contentInset.top = NotificationSettingsViewController.tableViewTopInset
@@ -66,8 +66,8 @@ final class NotificationSettingsListDetailViewController: BaseViewController, UI
         let constraints = [
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.topAnchor.constraint(equalTo: topLayoutGuide.topAnchor),
             tableView.bottomAnchor.constraint(equalTo: bottomLayoutGuide.bottomAnchor),
+            tableView.topAnchor.constraint(equalTo: safeTopAnchor),
             
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)

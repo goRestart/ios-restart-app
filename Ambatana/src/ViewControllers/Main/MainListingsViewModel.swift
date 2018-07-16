@@ -145,14 +145,14 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
 
         if filters.selectedCategories.contains(.cars) || filters.selectedTaxonomyChildren.containsCarsTaxonomy {
             if let makeId = filters.carMakeId, let makeName = filters.carMakeName {
-                resultTags.append(.make(id: makeId.value, name: makeName.localizedUppercase))
+                resultTags.append(.make(id: makeId, name: makeName.localizedUppercase))
                 if let modelId = filters.carModelId, let modelName = filters.carModelName {
-                    resultTags.append(.model(id: modelId.value, name: modelName.localizedUppercase))
+                    resultTags.append(.model(id: modelId, name: modelName.localizedUppercase))
                 }
             }
             
             if filters.carYearStart != nil || filters.carYearEnd != nil {
-                resultTags.append(.yearsRange(from: filters.carYearStart?.value, to: filters.carYearEnd?.value))
+                resultTags.append(.yearsRange(from: filters.carYearStart, to: filters.carYearEnd))
             }
             
             if filters.carMileageStart != nil || filters.carMileageEnd != nil {
@@ -166,15 +166,9 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             }
             
 
-            if featureFlags.filterSearchCarSellerType.isActive {
-                let carSellerFilterMultiSelection = featureFlags.filterSearchCarSellerType.isMultiselection
-                let containsBothFilters = filters.carSellerTypes.containsBothCarSellerTypes
-                let carSellerTypeTags: [FilterTag] = filters.carSellerTypes
-                    .filter { carSellerFilterMultiSelection || ($0.isProfessional && !containsBothFilters) }
-                    .map { .carSellerType(type: $0, name: $0.title(feature: featureFlags.filterSearchCarSellerType)) }
-                
-                resultTags.append(contentsOf: carSellerTypeTags)
-            }
+            let carSellerTypeTags = filters.carSellerTypes.map { FilterTag.carSellerType(type: $0, name: $0.title) }
+            
+            resultTags.append(contentsOf: carSellerTypeTags)
             
             filters.carBodyTypes.forEach({ resultTags.append(.carBodyType($0)) })
             filters.carFuelTypes.forEach({ resultTags.append(.carFuelType($0)) })
@@ -690,31 +684,14 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
 
         filters.carSellerTypes = carSellerTypes
         
-        if let makeId = makeId {
-            filters.carMakeId = RetrieveListingParam<String>(value: makeId, isNegated: false)
-        } else {
-            filters.carMakeId = nil
-        }
+        filters.carMakeId = makeId
         filters.carMakeName = makeName
-
-        if let modelId = modelId {
-            filters.carModelId = RetrieveListingParam<String>(value: modelId, isNegated: false)
-        } else {
-            filters.carModelId = nil
-        }
+        
+        filters.carModelId = modelId
         filters.carModelName = modelName
-
-        if let startYear = carYearStart {
-            filters.carYearStart = RetrieveListingParam<Int>(value: startYear, isNegated: false)
-        } else {
-            filters.carYearStart = nil
-        }
-
-        if let endYear = carYearEnd {
-            filters.carYearEnd = RetrieveListingParam<Int>(value: endYear, isNegated: false)
-        } else {
-            filters.carYearEnd = nil
-        }
+        
+        filters.carYearStart = carYearStart
+        filters.carYearEnd = carYearEnd
         
         filters.carNumberOfSeatsStart = carNumberOfSeatsStart
         filters.carNumberOfSeatsEnd = carNumberOfSeatsEnd
@@ -1954,7 +1931,7 @@ extension MainListingsViewModel: ListingCellDelegate {
         navigator?.openSell(source: .realEstatePromo, postCategory: .realEstate)
     }
     
-    func openAskPhoneFor(_ listing: Listing, interlocutor: User) {
+    func openAskPhoneFor(_ listing: Listing, interlocutor: LocalUser) {
         let action: () -> () = { [weak self] in
             guard let strSelf = self else { return }
             if let listingId = listing.objectId,

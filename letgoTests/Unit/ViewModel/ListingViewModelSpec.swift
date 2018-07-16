@@ -861,7 +861,13 @@ extension ListingViewModelSpec: ListingDetailNavigator {
                          source: LetGoGodMode.EventParameterListingVisitSource) {
 
     }
-
+    func openListingAttributeTable(withViewModel viewModel: ListingAttributeTableViewModel) {
+        
+    }
+    
+    func closeListingAttributeTable() {
+        
+    }
 
     func closeProductDetail() {
 

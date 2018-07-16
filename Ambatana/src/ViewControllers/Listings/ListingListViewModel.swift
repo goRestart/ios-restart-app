@@ -40,7 +40,6 @@ struct VerticalTrackingInfo {
     let category: ListingCategory
     let keywords: [String]
     let matchingFields: [String]
-    let nonMatchingFields: [String]
 }
 
 
@@ -808,8 +807,7 @@ extension ListingListViewModel {
     func trackVerticalFilterResults(withVerticalTrackingInfo info: VerticalTrackingInfo) {
         let event = TrackerEvent.listingListVertical(category: info.category,
                                                      keywords: info.keywords,
-                                                     matchingFields: info.matchingFields,
-                                                     nonMatchingFields: info.nonMatchingFields)
+                                                     matchingFields: info.matchingFields)
         tracker.trackEvent(event)
     }
 }

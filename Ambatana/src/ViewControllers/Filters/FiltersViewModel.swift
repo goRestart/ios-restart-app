@@ -130,27 +130,19 @@ class FiltersViewModel: BaseViewModel {
     
     var carYearStart: Int? {
         get {
-            return productFilter.carYearStart?.value
+            return productFilter.carYearStart
         }
         set {
-            guard let newValue = newValue else {
-                productFilter.carYearStart = nil
-                return
-            }
-            productFilter.carYearStart = RetrieveListingParam<Int>(value: newValue, isNegated: false)
+            productFilter.carYearStart = newValue
         }
     }
 
     var carYearEnd: Int? {
         get {
-            return productFilter.carYearEnd?.value
+            return productFilter.carYearEnd
         }
         set {
-            guard let newValue = newValue else {
-                productFilter.carYearEnd = nil
-                return
-            }
-            productFilter.carYearEnd = RetrieveListingParam<Int>(value: newValue, isNegated: false)
+            productFilter.carYearEnd = newValue
         }
     }
 
@@ -267,8 +259,7 @@ class FiltersViewModel: BaseViewModel {
     var carSections: [FilterCarSection] {
         let sections = FilterCarSection.all(showCarExtraFilters: featureFlags.carExtraFieldsEnabled.isActive)
         
-        guard featureFlags.searchCarsIntoNewBackend.isActive,
-            featureFlags.filterSearchCarSellerType.isActive else {
+        guard featureFlags.searchCarsIntoNewBackend.isActive else {
             return sections.filter { return !$0.isCarSellerTypeSection }
         }
         return sections
@@ -347,7 +338,7 @@ class FiltersViewModel: BaseViewModel {
     }
     
     private func updateCarSelectedSections() {
-        filterCarSellerSelectedSections = productFilter.carSellerTypes.filterCarSectionsFor(feature: featureFlags.filterSearchCarSellerType)
+        filterCarSellerSelectedSections = productFilter.carSellerTypes.filterCarSections
     }
     
     func attributeGridHeight(forCarSection carSection: FilterCarSection,
@@ -357,7 +348,7 @@ class FiltersViewModel: BaseViewModel {
             let items = carExtrasAttributeItems(forSection: carSection)
             return FilterAttributeGridCell.height(forItemCount: items.count,
                                                   forContainerWidth: containerWidth)
-        case .firstSection, .secondSection, .make, .model, .year, .mileage, .numberOfSeats:
+        case .individual, .dealership, .make, .model, .year, .mileage, .numberOfSeats:
             return 0
         }
     }
@@ -378,17 +369,17 @@ class FiltersViewModel: BaseViewModel {
 
     func makeButtonPressed() {
         let vm = CarAttributeSelectionViewModel(carsMakes: carsInfoRepository.retrieveCarsMakes(),
-                                                selectedMake: productFilter.carMakeId?.value,
+                                                selectedMake: productFilter.carMakeId,
                                                 style: .filter)
         vm.carAttributeSelectionDelegate = self
         navigator?.openCarAttributeSelection(withViewModel: vm)
     }
 
     func modelButtonPressed() {
-        guard let makeId = productFilter.carMakeId?.value else { return }
+        guard let makeId = productFilter.carMakeId else { return }
         let carsModelsForMakeList = carsInfoRepository.retrieveCarsModelsFormake(makeId: makeId)
         let vm = CarAttributeSelectionViewModel(carsModels: carsModelsForMakeList,
-                                                selectedModel: productFilter.carModelId?.value,
+                                                selectedModel: productFilter.carModelId,
                                                 style: .filter)
         vm.carAttributeSelectionDelegate = self
         navigator?.openCarAttributeSelection(withViewModel: vm)
@@ -400,7 +391,7 @@ class FiltersViewModel: BaseViewModel {
         let vm = ListingAttributeSingleSelectPickerViewModel(
             title: R.Strings.realEstateTypePropertyTitle,
             attributes: values,
-            selectedAttribute: productFilter.realEstatePropertyType?.rawValue
+            selectedAttribute: productFilter.realEstatePropertyType?.localizedString
         ) { [weak self] selectedIndex in
             if let selectedIndex = selectedIndex {
                 self?.productFilter.realEstatePropertyType = attributeValues[selectedIndex]
@@ -711,7 +702,7 @@ class FiltersViewModel: BaseViewModel {
     func selectCarSeller(section: FilterCarSection) {
 
         if section.isCarSellerTypeSection {
-            let carSectionsSelected = productFilter.carSellerTypes.carSectionsFrom(feature: featureFlags.filterSearchCarSellerType, filter: section)
+            let carSectionsSelected = productFilter.carSellerTypes.toogleFilterCarSection(filter: section)
             productFilter.carSellerTypes = carSectionsSelected
         }
         updateCarSelectedSections()
@@ -723,7 +714,7 @@ class FiltersViewModel: BaseViewModel {
     }
     
     func carCellTitle(section: FilterCarSection) -> String? {
-        return section.title(feature: featureFlags.filterSearchCarSellerType)
+        return section.title
     }
     
     // MARK: Sort by
@@ -828,7 +819,7 @@ extension FiltersViewModel: EditLocationDelegate {
 
 extension FiltersViewModel: CarAttributeSelectionDelegate {
     func didSelectMake(makeId: String, makeName: String) {
-        productFilter.carMakeId = RetrieveListingParam<String>(value: makeId, isNegated: false)
+        productFilter.carMakeId = makeId
         productFilter.carMakeName = makeName
         productFilter.carModelId = nil
         productFilter.carModelName = nil
@@ -836,7 +827,7 @@ extension FiltersViewModel: CarAttributeSelectionDelegate {
     }
 
     func didSelectModel(modelId: String, modelName: String) {
-        productFilter.carModelId = RetrieveListingParam<String>(value: modelId, isNegated: false)
+        productFilter.carModelId = modelId
         productFilter.carModelName = modelName
         delegate?.vmDidUpdate()
     }
@@ -865,7 +856,6 @@ extension FiltersViewModel: TaxonomiesDelegate {
 
 extension FiltersViewModel {
     var trackCarSellerType: String? {
-        guard featureFlags.filterSearchCarSellerType.isActive else { return nil }
         return productFilter.carSellerTypes.trackValue
     }
 }
@@ -895,7 +885,7 @@ extension FiltersViewModel {
             return CarFuelType.allCases
         case .driveTrain:
             return CarDriveTrainType.allCases
-        case .firstSection, .secondSection, .make, .model, .year, .mileage, .numberOfSeats:
+        case .individual, .dealership, .make, .model, .year, .mileage, .numberOfSeats:
             return []
         }
     }
@@ -910,7 +900,7 @@ extension FiltersViewModel {
             return productFilter.carFuelTypes
         case .driveTrain:
             return productFilter.carDriveTrainTypes
-        case .firstSection, .secondSection, .make, .model, .year, .mileage, .numberOfSeats:
+        case .individual, .dealership, .make, .model, .year, .mileage, .numberOfSeats:
             return []
         }
     }
@@ -938,7 +928,7 @@ extension FiltersViewModel {
                 !productFilter.carDriveTrainTypes.contains(item) {
                 productFilter.carDriveTrainTypes.append(item)
             }
-        case .firstSection, .secondSection, .make, .model, .year, .mileage, .numberOfSeats:
+        case .individual, .dealership, .make, .model, .year, .mileage, .numberOfSeats:
             break
         }
     }
@@ -958,7 +948,7 @@ extension FiltersViewModel {
         case .driveTrain:
             guard let item = item as? CarDriveTrainType else { return }
             productFilter.carDriveTrainTypes = productFilter.carDriveTrainTypes.filter( { $0 != item })
-        case .firstSection, .secondSection, .make, .model, .year, .mileage, .numberOfSeats:
+        case .individual, .dealership, .make, .model, .year, .mileage, .numberOfSeats:
             break
         }
     }
@@ -975,25 +965,26 @@ extension FiltersViewModel {
                                      minimumValueSelected: productFilter.carNumberOfSeatsStart,
                                      maximumValueSelected: productFilter.carNumberOfSeatsEnd)
         case .mileage:
-            let numberFormatter = NumberFormatter()
-            numberFormatter.numberStyle = .decimal
-            numberFormatter.locale = Locale.autoupdatingCurrent
-            numberFormatter.usesGroupingSeparator = true
+            let numberFormatter = NumberFormatter.newMileageNumberFormatter()
+            let formattedAnyValue = FormattedUnitRange(minimumValue: SharedConstants.filterMinCarMileage,
+                                                       maximumValue: SharedConstants.filterMaxCarMileage,
+                                                       unitSuffix: distanceType.localizedUnitType(),
+                                                       numberFormatter: numberFormatter,
+                                                       isUnboundedUpperValue: true).toString()
             return LGSliderViewModel(title: R.Strings.filtersMileageSliderTitle,
                                      minimumValueNotSelectedText: String(SharedConstants.filterMinCarMileage),
                                      maximumValueNotSelectedText: String(SharedConstants.filterMaxCarMileage),
-                                     minimumAndMaximumValuesNotSelectedText: R.Strings.filtersSliderAny,
+                                     minimumAndMaximumValuesNotSelectedText: formattedAnyValue ?? R.Strings.filtersSliderAny,
                                      minimumValue: SharedConstants.filterMinCarMileage,
                                      maximumValue: SharedConstants.filterMaxCarMileage,
                                      minimumValueSelected: productFilter.carMileageStart,
                                      maximumValueSelected: productFilter.carMileageEnd,
                                      unitSuffix: distanceType.localizedUnitType(),
                                      numberFormatter: numberFormatter)
-        case .firstSection, .secondSection, .make, .model, .year,
+        case .individual, .dealership, .make, .model, .year,
              .bodyType, .transmission, .fuelType, .driveTrain:
             return nil
         }
-
     }
     
     func didSelectMinimumValue(forSection section: FilterCarSection,
@@ -1003,7 +994,7 @@ extension FiltersViewModel {
             productFilter.carNumberOfSeatsStart = value
         case .mileage:
             productFilter.carMileageStart = value
-        case .firstSection, .secondSection, .make, .model, .year,
+        case .individual, .dealership, .make, .model, .year,
              .bodyType, .transmission, .fuelType, .driveTrain:
             break
         }
@@ -1016,7 +1007,7 @@ extension FiltersViewModel {
             productFilter.carNumberOfSeatsEnd = value
         case .mileage:
             productFilter.carMileageEnd = value
-        case .firstSection, .secondSection, .make, .model, .year,
+        case .individual, .dealership, .make, .model, .year,
              .bodyType, .transmission, .fuelType, .driveTrain:
             break
         }

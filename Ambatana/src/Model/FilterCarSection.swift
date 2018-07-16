@@ -2,32 +2,30 @@ import LGCoreKit
 import LGComponents
 
 enum FilterCarSection {
-    case firstSection, secondSection, make, model, year, bodyType,
-        transmission, fuelType, driveTrain, mileage, numberOfSeats
+    case individual, dealership,
+    make, model, year, bodyType,
+    transmission, fuelType, driveTrain, mileage, numberOfSeats
     
     static func all(showCarExtraFilters: Bool) -> [FilterCarSection] {
         if showCarExtraFilters {
-            return [.firstSection, .secondSection, .make, .model,
-             .year, .mileage, .bodyType, .transmission, .fuelType, .driveTrain, .numberOfSeats]
+            return [.individual, .dealership,
+                    .make, .model, .year,
+                    .mileage, .bodyType, .transmission, .fuelType, .driveTrain, .numberOfSeats]
         }
         
-        return [.firstSection, .secondSection, .make, .model, .year]
+        return [.individual, .dealership, .make, .model, .year]
     }
     
     var isCarSellerTypeSection: Bool {
-        return self == .firstSection || self == .secondSection
+        return self == .individual || self == .dealership
     }
     
-    var isFirstSection: Bool {
-        return self == .firstSection
-    }
-    
-    func title(feature: FilterSearchCarSellerType) -> String {
+    var title: String {
         switch self {
-        case .firstSection:
-            return feature.firstSectionTitle
-        case .secondSection:
-            return feature.secondSectionTitle
+        case .individual:
+            return R.Strings.filtersCarSellerTypeInvidual
+        case .dealership:
+            return R.Strings.filtersCarSellerTypeDealership
         case .make:
             return R.Strings.postCategoryDetailCarMake
         case .model:
@@ -52,33 +50,7 @@ enum FilterCarSection {
 
 extension FilterCarSection {
     var carSellerType: UserType {
-        guard case .firstSection = self else { return .pro }
+        guard case .individual = self else { return .pro }
         return .user
-    }
-}
-
-private extension FilterSearchCarSellerType {
-    var firstSectionTitle: String {
-        switch self {
-        case .control, .baseline:
-            return ""
-        case .variantA:
-            return R.Strings.filtersCarSellerTypePrivate
-        case .variantB:
-            return R.Strings.filtersCarSellerTypeInvidual
-        case .variantC, .variantD:
-            return R.Strings.filtersCarSellerTypeAll
-        }
-    }
-    
-    var secondSectionTitle: String {
-        switch self {
-        case .control, .baseline:
-            return ""
-        case .variantA, .variantC:
-            return R.Strings.filtersCarSellerTypeProfessional
-        case .variantB, .variantD:
-            return R.Strings.filtersCarSellerTypeDealership
-        }
     }
 }

@@ -369,6 +369,7 @@
 "featured_info_view_more_buyers" = "Προσελκύστε περισσότερους αγοραστές";
 "featured_info_view_sell_faster" = "Πουλήστε Γρηγορότερα";
 "featured_info_view_title" = "Προτεινόμενη Καταχώρηση";
+"filter_cars_mileage" = "Χιλιόμετρα";
 "filter_cars_seats_title" = "Καθίσματα";
 "filter_results_cars_no_matches" = "Δε βρέθηκαν ακριβή αποτελέσματα για την αναζήτησή σας. \nΠροβολή παρόμοιων αποτελεσμάτων. ";
 "filter_results_cars_other_results" = "Πρόσφατες δημοσιεύσεις στην περιοχή σας";
@@ -479,7 +480,7 @@
 "id_verification_third_step_subtitle" = "Βεβαιωθείτε πως η ταυτότητά σας φαίνεται ξεκάθαρα και είναι καλά εστιασμένη στην οθόνη";
 "id_verification_third_step_title" = "Τραβήξτε μια φωτογραφία της μπροστινής όψης της ταυτότητάς σας";
 "id_verification_update_avatar_message" = "Θέλετε να την κάνετε εικόνα προφίλ;";
-"kilometer_unit_suffix" = "ΧΛΜ";
+"kilometer_unit_suffix" = "χλμ";
 "listing_chat_button" = "Συνομιλήστε Τώρα";
 "listing_interested_button_A" = "Ενδιαφέρομαι";
 "listing_interested_button_B" = "Ενδιαφέρομαι";
@@ -795,6 +796,8 @@
 "product_new_onboarding_tap_right_highlighted_label" = "Πατήστε δεξιά";
 "product_new_onboarding_tap_right_highlighted_label_2" = "στο κέντρο";
 "product_new_onboarding_tap_right_label" = "%@ ή %@ για να δείτε την επόμενη φωτογραφία";
+"product_nit_onboarding_next_picture" = "Επόμενη εικόνα";
+"product_nit_onboarding_previous_picture" = "Προηγούμενη εικόνα";
 "product_onboarding_finger_scroll_label" = "Σύρετε για να δείτε περισσότερες φωτογραφίες";
 "product_onboarding_finger_swipe_label" = "Σύρετε για να πάτε στην επόμενη ή στην προηγούμενη καταχώρηση";
 "product_onboarding_finger_tap_label" = "Πατήστε για να πάτε στην επόμενη καταχώρηση";
@@ -1059,7 +1062,7 @@
 "real_estate_gallery_view_subtitle_params" = "Επιλέξτε μέχρι και %d εικόνες της ιδιοκτησίας που θέλετε να πουλήσετε ή να ενοικιάσετε. Η πρώτη θα είναι η προβεβλημένη σας φωτογραφία γι' αυτό βεβαιωθείτε πως είναι καλή!";
 "real_estate_location_notification_message" = "Δε θα δείξουμε ποτέ την ακριβή σας τοποθεσία σε άλλους χρήστες";
 "real_estate_location_title" = "Τοποθεσία";
-"real_estate_map_tooltip_button_title" = "Try Now";
+"real_estate_map_tooltip_button_title" = "Δοκιμάστε Τώρα";
 "real_estate_map_tooltip_title" = "Νέο! Δείτε ιδιοκτησίες στο χάρτη.";
 "real_estate_offer_type_rent" = "Για Ενοικίαση";
 "real_estate_offer_type_sale" = "Για Πώληση";

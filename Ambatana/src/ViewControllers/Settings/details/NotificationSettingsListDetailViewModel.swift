@@ -53,7 +53,7 @@ final class NotificationSettingsListDetailViewModel: BaseViewModel {
     }
     
     func enableGroupSetting(_ groupSetting: NotificationGroupSetting, isEnabled: Bool) {
-        if isEnabled {
+        if !groupSetting.isEnabled {
             enableNotificationGroupSetting(groupSetting)
         } else {
             disableNotificationGroupSetting(groupSetting)

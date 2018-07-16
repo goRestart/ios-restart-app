@@ -15,12 +15,14 @@ struct RetentionABGroup: ABGroupType {
         static let iAmInterestedInFeed = "20180425iAmInterestedInFeed"
         static let highlightedIAmInterestedInFeed = "20180531HighlightedIAmInterestedInFeed"
         static let notificationSettings = "20180608NotificationSettings"
+        static let searchAlertsInSearchSuggestions = "20180710SearchAlertsInSearchSuggestions"
     }
     let dummyUsersInfoProfile: LeanplumABVariable<Int>
     let onboardingIncentivizePosting: LeanplumABVariable<Int>
     let iAmInterestedInFeed: LeanplumABVariable<Int>
     let highlightedIAmInterestedInFeed: LeanplumABVariable<Int>
     let notificationSettings: LeanplumABVariable<Int>
+    let searchAlertsInSearchSuggestions: LeanplumABVariable<Int>
     
     let group: ABGroup = .retention
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -32,18 +34,21 @@ struct RetentionABGroup: ABGroupType {
          onboardingIncentivizePosting: LeanplumABVariable<Int>,
          iAmInterestedInFeed: LeanplumABVariable<Int>,
          highlightedIAmInterestedInFeed: LeanplumABVariable<Int>,
-         notificationSettings: LeanplumABVariable<Int>) {
+         notificationSettings: LeanplumABVariable<Int>,
+         searchAlertsInSearchSuggestions: LeanplumABVariable<Int>) {
         self.dummyUsersInfoProfile = dummyUsersInfoProfile
         self.onboardingIncentivizePosting = onboardingIncentivizePosting
         self.iAmInterestedInFeed = iAmInterestedInFeed
         self.highlightedIAmInterestedInFeed = highlightedIAmInterestedInFeed
         self.notificationSettings = notificationSettings
+        self.searchAlertsInSearchSuggestions = searchAlertsInSearchSuggestions
 
         intVariables.append(contentsOf: [dummyUsersInfoProfile,
                                         onboardingIncentivizePosting,
                                         iAmInterestedInFeed,
                                         highlightedIAmInterestedInFeed,
-                                        notificationSettings])
+                                        notificationSettings,
+                                        searchAlertsInSearchSuggestions])
     }
 
     static func make() -> RetentionABGroup {
@@ -61,6 +66,9 @@ struct RetentionABGroup: ABGroupType {
                                                               groupType: .retention),
                                 notificationSettings: .makeInt(key: Keys.notificationSettings,
                                                                defaultValue: 0,
-                                                               groupType: .retention))
+                                                               groupType: .retention),
+                                searchAlertsInSearchSuggestions: .makeInt(key: Keys.searchAlertsInSearchSuggestions,
+                                                                          defaultValue: 0,
+                                                                          groupType: .retention))
     }
 }

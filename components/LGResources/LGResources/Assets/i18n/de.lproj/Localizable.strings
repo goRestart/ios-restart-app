@@ -369,6 +369,7 @@
 "featured_info_view_more_buyers" = "Locke mehr Käufer an";
 "featured_info_view_sell_faster" = "Schneller verkaufen";
 "featured_info_view_title" = "Empfohlenes Angebot";
+"filter_cars_mileage" = "Kilometerstand";
 "filter_cars_seats_title" = "Sitze";
 "filter_results_cars_no_matches" = "Keine exakten Treffer für deine Suche.\n Es werden ähnliche Ergebnisse angezeigt. ";
 "filter_results_cars_other_results" = "Kürzlich in deiner Nähe eingestellt";
@@ -795,6 +796,8 @@
 "product_new_onboarding_tap_right_highlighted_label" = "Drücke rechts";
 "product_new_onboarding_tap_right_highlighted_label_2" = "in der Mitte";
 "product_new_onboarding_tap_right_label" = "%@ oder %@, um das nächste Bild zu sehen";
+"product_nit_onboarding_next_picture" = "Nächstes Bild";
+"product_nit_onboarding_previous_picture" = "Vorheriges Bild";
 "product_onboarding_finger_scroll_label" = "Scrolle, um mehr Bilder zu sehen";
 "product_onboarding_finger_swipe_label" = "Wische, um zum nächsten oder vorherigen Angebot zu gelangen";
 "product_onboarding_finger_tap_label" = "Drücke, um zum nächsten Angebot zu gelangen";
@@ -1059,8 +1062,8 @@
 "real_estate_gallery_view_subtitle_params" = "Wähle bis zu %d Bilder der Immobilie, die du zum Verkauf oder zur Miete anbieten möchtest. Das erste wird dein Hauptfoto sein, also wähle ein gutes Bild!";
 "real_estate_location_notification_message" = "Wir werden anderen Nutzern niemals deinen genauen Standort anzeigen";
 "real_estate_location_title" = "Standort";
-"real_estate_map_tooltip_button_title" = "Try Now";
-"real_estate_map_tooltip_title" = "Neu! Grundstück auf der Landkarte ansehen.";
+"real_estate_map_tooltip_button_title" = "Jetzt ausprobieren";
+"real_estate_map_tooltip_title" = "Neu! Grundstücke auf der Landkarte ansehen.";
 "real_estate_offer_type_rent" = "Zur Miete";
 "real_estate_offer_type_sale" = "Zum Verkauf";
 "real_estate_offer_type_title" = "Art des Angebots";

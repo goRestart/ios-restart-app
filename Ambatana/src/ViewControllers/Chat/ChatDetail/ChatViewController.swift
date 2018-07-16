@@ -210,16 +210,14 @@ final class ChatViewController: TextViewController {
     }
 
     private func setupNavigationBar() {
-        listingView.height = navigationBarHeight
         listingView.letgoAssistantTag.isHidden = !viewModel.isUserDummy
-        listingView.layoutIfNeeded()
         setNavBarTitleStyle(.custom(listingView))
         setLetGoRightButtonWith(image: R.Asset.IconsButtons.icMoreOptions.image, selector: "optionsBtnPressed")
+        setNavBarBackgroundStyle(viewModel.showWhiteBackground ? .white : .default)
     }
 
     private func updateNavigationBarHeaderWith(view: UIView?) {
         guard let view = view else { return }
-        view.height = navigationBarHeight
         setNavBarTitleStyle(.custom(view))
     }
 
@@ -313,7 +311,7 @@ final class ChatViewController: TextViewController {
     fileprivate func setupProfessionalSellerBannerWithPhone(phoneNumber: String?) {
         var action: UIAction? = nil
         var buttonIcon: UIImage? = nil
-        if let phone = phoneNumber, phone.isPhoneNumber, viewModel.professionalBannerHasCallAction {
+        if phoneNumber != nil, viewModel.professionalBannerHasCallAction {
             action = UIAction(interface: .button(R.Strings.chatProfessionalBannerButtonTitle,
                                                  .primary(fontSize: .small)),
                               action: { [weak self] in
@@ -584,6 +582,11 @@ fileprivate extension ChatViewController {
                                  viewModel.listingPrice.asObservable(),
                                  viewModel.listingImageUrl.asObservable())
             .bind { [weak self] (listingName, listingPrice, listingImageUrl) in
+                guard let strongSelf = self else { return }
+                let isAssistantWithNoProduct = strongSelf.viewModel.isUserDummy
+                    && strongSelf.featureFlags.showChatHeaderWithoutListingForAssistant
+                    && listingName.isEmpty
+                guard !isAssistantWithNoProduct else { return }
                 guard let showNoUserHeader = self?.featureFlags.showChatHeaderWithoutUser,
                     showNoUserHeader else { return }
                 let chatNavBarInfo = ChatDetailNavBarInfo.listing(name: listingName,

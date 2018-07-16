@@ -321,7 +321,11 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
             case .sizeSquareMeters:
                 viewModel.realEstateSizeEditionFinished(value: text)
             case .distance:
-                guard let distance = Int(text), distance < SharedConstants.filterMaxCarMileage else { return false }
+                guard !text.isEmpty else {
+                    viewModel.carDistance.value = nil
+                    return true
+                }
+                guard let distance = Int(text) else { return false }
                 viewModel.carDistance.value = distance
             }
         }
@@ -568,7 +572,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         categoryTitleLabel.text = R.Strings.sellCategorySelectionLabel
         categorySelectedLabel.text = viewModel.categoryName ?? ""
 
-        carsDistanceLabel.text = R.Strings.filterCarsMileage.capitalizedFirstLetterOnly
+        carsDistanceLabel.text = viewModel.carAttributes.mileageType?.rawValue.uppercased()
         carsMakeTitleLabel.text = R.Strings.postCategoryDetailCarMake
         carsModelTitleLabel.text = R.Strings.postCategoryDetailCarModel
         carsYearTitleLabel.text = R.Strings.postCategoryDetailCarYear
@@ -581,7 +585,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         if let carDistance = viewModel.carDistance.value {
             carsDistanceField.text = String(carDistance)
         }
-        
+        carsDistanceField.placeholder = R.Strings.filterCarsMileage.capitalizedFirstLetterOnly
         carsDistanceField.tag = TextFieldTag.distance.rawValue
         
         realEstateStandardPropertyTypeTitleLabel.text = R.Strings.realEstateTypePropertyTitle
@@ -770,19 +774,19 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         }.disposed(by: disposeBag)
         
         viewModel.carBody.asObservable()
-            .map { $0?.rawValue.capitalizedFirstLetterOnly }
+            .map { $0?.title.capitalizedFirstLetterOnly }
             .bind(to: carsBodySelectedLabel.rx.text)
             .disposed(by: disposeBag)
         viewModel.carTransmission.asObservable()
-            .map { $0?.rawValue.capitalizedFirstLetterOnly }
+            .map { $0?.title.capitalizedFirstLetterOnly }
             .bind(to: carsTransmissionSelectedLabel.rx.text)
             .disposed(by: disposeBag)
         viewModel.carFuel.asObservable()
-            .map { $0?.rawValue.capitalizedFirstLetterOnly }
+            .map { $0?.title.capitalizedFirstLetterOnly }
             .bind(to: carsFuelSelectedLabel.rx.text)
             .disposed(by: disposeBag)
         viewModel.carDrivetrain.asObservable()
-            .map { $0?.rawValue.capitalizedFirstLetterOnly }
+            .map { $0?.title.capitalizedFirstLetterOnly }
             .bind(to: carsDrivetrainSelectedLabel.rx.text)
             .disposed(by: disposeBag)
         viewModel.carSeat.asObservable()

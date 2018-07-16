@@ -209,6 +209,9 @@ enum EventName: String {
     case pushNotificationsEditStart         = "push-notifications-edit-start"
     case emailNotificationsEditStart        = "email-notifications-edit-start"
 
+    case chatTabOpen                        = "chat-tab-open"
+
+
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
     
@@ -343,11 +346,20 @@ enum EventParameterName: String {
     case year                 = "product-year"
     case yearStart            = "product-year-start"
     case yearEnd              = "product-year-end"
+    case mileage              = "mileage"
+    case mileageFrom          = "mileage-from"
+    case mileageTo            = "mileage-to"
+    case bodyType             = "body-type"
+    case transmission         = "transmission"
+    case fuelType             = "fuel-type"
+    case drivetrain           = "drivetrain"
+    case seats                = "seats"
+    case seatsFrom            = "seats-from"
+    case seatsTo              = "seats-to"
     case serviceType          = "service-type"
     case serviceSubtype       = "service-subtype"
     case verticalKeyword            = "vertical-keyword"
     case verticalMatchingFields     = "vertical-matching-fields"
-    case verticalNoMatchingFields   = "vertical-no-matching-fields"
     case verticalFields             = "vertical-fields"
     case bubblePosition       = "bubble-position"
     case bubbleName           = "bubble-name"
@@ -388,7 +400,8 @@ enum EventParameterName: String {
     case productCounter       = "product-counter"
     
     case marketingNotificationsEnabled  = "marketing-notifications-enabled"
-    
+
+    case chatTabName          = "tab-name"
     
     // Machine Learning
     case mlPredictiveFlow = "predictive-flow"
@@ -849,6 +862,13 @@ enum EventParameterChatError {
     }
 }
 
+enum EventParameterChatTabName: String {
+    case all
+    case selling
+    case buying
+    case blocked
+}
+
 enum EventParameterEditedFields: String {
     case picture = "picture"
     case title = "title"
@@ -861,6 +881,12 @@ enum EventParameterEditedFields: String {
     case make = "make"
     case model = "model"
     case year = "year"
+    case mileage              = "mileage"
+    case bodyType             = "body-type"
+    case transmission         = "transmission"
+    case fuelType             = "fuel-type"
+    case drivetrain           = "drivetrain"
+    case seats                = "seats"
 }
 
 enum EventParameterTypePage: String {
@@ -901,6 +927,7 @@ enum EventParameterTypePage: String {
     case smsVerification = "sms-verification"
     case nextItem = "next-item"
     case feed = "feed"
+    case notificationCenter = "notification-center"
 }
 
 enum EventParameterPermissionType: String {
