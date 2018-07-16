@@ -3519,7 +3519,7 @@
 "reporting_reason_drugs" = "Drugs, alcohol or tobacco";
 
 // Reporting Product reason: the product is a weapon
-"reporting_reason_weapons" = "Weapoin or violent content";
+"reporting_reason_weapons" = "Weapon or violent content";
 
 // Reporting User reason: The user is selling something inappropiate
 "reporting_reason_selling_inappropiate" = "Selling something inappropriate";
@@ -3552,7 +3552,7 @@
 "reporting_reason_spam_account" = "Spam account";
 
 // Reporting User reason: The user has an inappropriate photo
-"reporting_reason_profile_photo" = "Profile Photo";
+"reporting_reason_profile_photo" = "Profile photo";
 
 // Reporting User reason: The user has an inappropriate bio
 "reporting_reason_bio" = "Bio";
@@ -3594,10 +3594,10 @@
 "reporting_listing_shouldnt_be_on_letgo_header" = "WHY SHOULDN'T IT BE ON LETGO?";
 
 // Title for the Report Sent view
-"reporting_listing_report_sent_title" = "Report Sent!";
+"reporting_listing_report_sent_title" = "Report sent!";
 
 // Text for the Repott Sent view
-"reporting_listing_report_sent_text" = "Thanks for your anonymous report! Your feedback helps to make letgo the best place to buy and sell locally";
+"reporting_listing_report_sent_text" = "Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.";
 
 // Title for the Report Update view
 "reporting_listing_update_title" = "Report update";
@@ -3630,7 +3630,7 @@
 "reporting_user_inappropriate_photo_or_bio_header" = "WHICH ONE?";
 
 // Header text for the report user "Problem during meetup" option list
-"reporting_user_problem_meetup_header" = "WHAT WAS THE PROBLEM?";
+"reporting_user_problem_meetup_header" = "WHAT HAPPENED?";
 
 // Header text for the report user "inappropriate chat" option list
 "reporting_user_inappropriate_chat_header" = "WHAT HAPPENED?";
@@ -3669,7 +3669,7 @@
 "reporting_user_report_sent_review_button_title" = "Review";
 
 // Placeholder shown if the seleted option allows additional notes
-"reporting_additional_notes_placeholder" = "Write here any additional notes that might help us to resolve this issue";
+"reporting_additional_notes_placeholder" = "In the meantime, please provide additional information so our team can investigate your claim.";
 
 // Button title to send the report
 "reporting_send_report_button" = "Report";
