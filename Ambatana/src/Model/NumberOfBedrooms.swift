@@ -8,6 +8,10 @@ enum NumberOfBedrooms: Int {
     case three = 3
     case four = 4
     
+    var trackingString: String {
+        return String(self.rawValue)
+    }
+    
     var localizedString: String {
         switch self {
         case .zero:

@@ -46,6 +46,14 @@ class FilterSingleCheckCell: UICollectionViewCell, ReusableCell {
         }
     }
 
+    func setup(withTitle title: String?,
+               isSelected: Bool,
+               showsBottomSeparator: Bool) {
+        titleLabel.text = title
+        self.isSelected = isSelected
+        bottomSeparator.isHidden = !showsBottomSeparator
+    }
+    
     func setMargin(top: Bool = false, bottom: Bool = false) {
         bottomMarginConstraint.constant = bottom ? -FilterSingleCheckCell.Metrics.marginHeight : 0
         topMarginConstraint.constant = top ? FilterSingleCheckCell.Metrics.marginHeight : 0

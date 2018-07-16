@@ -149,65 +149,69 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         }
 
         if filters.selectedCategories.contains(.cars) || filters.selectedTaxonomyChildren.containsCarsTaxonomy {
-            if let makeId = filters.carMakeId, let makeName = filters.carMakeName {
+            let carFilters = filters.verticalFilters.cars
+            if let makeId = carFilters.makeId, let makeName = carFilters.makeName {
                 resultTags.append(.make(id: makeId, name: makeName.localizedUppercase))
-                if let modelId = filters.carModelId, let modelName = filters.carModelName {
+                if let modelId = carFilters.modelId, let modelName = carFilters.modelName {
                     resultTags.append(.model(id: modelId, name: modelName.localizedUppercase))
                 }
             }
             
-            if filters.carYearStart != nil || filters.carYearEnd != nil {
-                resultTags.append(.yearsRange(from: filters.carYearStart, to: filters.carYearEnd))
+            if carFilters.yearStart != nil || carFilters.yearEnd != nil {
+                resultTags.append(.yearsRange(from: carFilters.yearStart, to: carFilters.yearEnd))
             }
             
-            if filters.carMileageStart != nil || filters.carMileageEnd != nil {
-                resultTags.append(.mileageRange(from: filters.carMileageStart,
-                                                to: filters.carMileageEnd))
+            if carFilters.mileageStart != nil || carFilters.mileageEnd != nil {
+                resultTags.append(.mileageRange(from: carFilters.mileageStart,
+                                                to: carFilters.mileageEnd))
             }
             
-            if filters.carNumberOfSeatsStart != nil || filters.carNumberOfSeatsEnd != nil {
-                resultTags.append(.numberOfSeats(from: filters.carNumberOfSeatsStart,
-                                                 to: filters.carNumberOfSeatsEnd))
+            if carFilters.numberOfSeatsStart != nil || carFilters.numberOfSeatsEnd != nil {
+                resultTags.append(.numberOfSeats(from: carFilters.numberOfSeatsStart,
+                                                 to: carFilters.numberOfSeatsEnd))
             }
             
 
-            let carSellerTypeTags = filters.carSellerTypes.map { FilterTag.carSellerType(type: $0, name: $0.title) }
-            
+            let carSellerTypeTags = carFilters.sellerTypes.map({ FilterTag.carSellerType(type: $0, name: $0.title) })
             resultTags.append(contentsOf: carSellerTypeTags)
-            
-            filters.carBodyTypes.forEach({ resultTags.append(.carBodyType($0)) })
-            filters.carFuelTypes.forEach({ resultTags.append(.carFuelType($0)) })
-            filters.carDriveTrainTypes.forEach({ resultTags.append(.carDriveTrainType($0)) })
-            filters.carTransmissionTypes.forEach({ resultTags.append(.carTransmissionType($0)) })
+
+            carFilters.bodyTypes.forEach({ resultTags.append(.carBodyType($0)) })
+            carFilters.fuelTypes.forEach({ resultTags.append(.carFuelType($0)) })
+            carFilters.driveTrainTypes.forEach({ resultTags.append(.carDriveTrainType($0)) })
+            carFilters.transmissionTypes.forEach({ resultTags.append(.carTransmissionType($0)) })
         }
         
         if isRealEstateSelected {
-            if let propertyType = filters.realEstatePropertyType {
+            let realEstateFilters = filters.verticalFilters.realEstate
+            if let propertyType = realEstateFilters.propertyType {
                 resultTags.append(.realEstatePropertyType(propertyType))
             }
             
-            filters.realEstateOfferTypes.forEach { resultTags.append(.realEstateOfferType($0)) }
+            realEstateFilters.offerTypes.forEach { resultTags.append(.realEstateOfferType($0)) }
+            
+            if let numberOfBedrooms = realEstateFilters.numberOfBedrooms {
+                resultTags.append(.realEstateNumberOfBedrooms(numberOfBedrooms))
+            }
+            if let numberOfBathrooms = realEstateFilters.numberOfBathrooms {
+                resultTags.append(.realEstateNumberOfBathrooms(numberOfBathrooms))
+            }
+            if let numberOfRooms = realEstateFilters.numberOfRooms {
+                resultTags.append(.realEstateNumberOfRooms(numberOfRooms))
+            }
+            if realEstateFilters.sizeRange.min != nil || realEstateFilters.sizeRange.max != nil {
+                resultTags.append(.sizeSquareMetersRange(from: realEstateFilters.sizeRange.min,
+                                                         to: realEstateFilters.sizeRange.max))
+            }
         }
         
         if isServicesSelected {
-            if let serviceType = filters.servicesType {
+            let servicesFilters = filters.verticalFilters.services
+            
+            if let serviceType = servicesFilters.type {
                 resultTags.append(.serviceType(serviceType))
             }
             
-            filters.servicesSubtypes?.forEach( { resultTags.append(.serviceSubtype($0)) } )
-        }
-        
-        if let numberOfBedrooms = filters.realEstateNumberOfBedrooms {
-            resultTags.append(.realEstateNumberOfBedrooms(numberOfBedrooms))
-        }
-        if let numberOfBathrooms = filters.realEstateNumberOfBathrooms {
-            resultTags.append(.realEstateNumberOfBathrooms(numberOfBathrooms))
-        }
-        if let numberOfRooms = filters.realEstateNumberOfRooms {
-            resultTags.append(.realEstateNumberOfRooms(numberOfRooms))
-        }
-        if filters.realEstateSizeRange.min != nil || filters.realEstateSizeRange.max != nil {
-            resultTags.append(.sizeSquareMetersRange(from: filters.realEstateSizeRange.min, to: filters.realEstateSizeRange.max))
+            servicesFilters.subtypes?.forEach( { resultTags.append(.serviceSubtype($0)) } )
         }
 
         return resultTags
@@ -687,41 +691,41 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             filters.priceRange = .priceRange(min: minPrice, max: maxPrice)
         }
 
-        filters.carSellerTypes = carSellerTypes
+        filters.verticalFilters.cars.sellerTypes = carSellerTypes
         
-        filters.carMakeId = makeId
-        filters.carMakeName = makeName
+        filters.verticalFilters.cars.makeId = makeId
+        filters.verticalFilters.cars.makeName = makeName
         
-        filters.carModelId = modelId
-        filters.carModelName = modelName
+        filters.verticalFilters.cars.modelId = modelId
+        filters.verticalFilters.cars.modelName = modelName
         
-        filters.carYearStart = carYearStart
-        filters.carYearEnd = carYearEnd
+        filters.verticalFilters.cars.yearStart = carYearStart
+        filters.verticalFilters.cars.yearEnd = carYearEnd
         
-        filters.carNumberOfSeatsStart = carNumberOfSeatsStart
-        filters.carNumberOfSeatsEnd = carNumberOfSeatsEnd
-        filters.carMileageStart = carMileageStart
-        filters.carMileageEnd = carMileageEnd
+        filters.verticalFilters.cars.numberOfSeatsStart = carNumberOfSeatsStart
+        filters.verticalFilters.cars.numberOfSeatsEnd = carNumberOfSeatsEnd
+        filters.verticalFilters.cars.mileageStart = carMileageStart
+        filters.verticalFilters.cars.mileageEnd = carMileageEnd
         
-        filters.carBodyTypes = carBodyTypes
-        filters.carFuelTypes = carFuelTypes
-        filters.carTransmissionTypes = carTransmissionTypes
-        filters.carDriveTrainTypes = carDrivetrainTypes
+        filters.verticalFilters.cars.bodyTypes = carBodyTypes
+        filters.verticalFilters.cars.fuelTypes = carFuelTypes
+        filters.verticalFilters.cars.transmissionTypes = carTransmissionTypes
+        filters.verticalFilters.cars.driveTrainTypes = carDrivetrainTypes
         
-        filters.realEstatePropertyType = realEstatePropertyType
-        filters.realEstateOfferTypes = realEstateOfferTypes
-        filters.realEstateNumberOfBedrooms = realEstateNumberOfBedrooms
-        filters.realEstateNumberOfBathrooms = realEstateNumberOfBathrooms
+        filters.verticalFilters.realEstate.propertyType = realEstatePropertyType
+        filters.verticalFilters.realEstate.offerTypes = realEstateOfferTypes
+        filters.verticalFilters.realEstate.numberOfBedrooms = realEstateNumberOfBedrooms
+        filters.verticalFilters.realEstate.numberOfBathrooms = realEstateNumberOfBathrooms
         
-        filters.realEstateNumberOfRooms = realEstateNumberOfRooms
-        filters.realEstateSizeRange = SizeRange(min: realEstateSizeSquareMetersMin, max: realEstateSizeSquareMetersMax)
+        filters.verticalFilters.realEstate.numberOfRooms = realEstateNumberOfRooms
+        filters.verticalFilters.realEstate.sizeRange = SizeRange(min: realEstateSizeSquareMetersMin, max: realEstateSizeSquareMetersMax)
         
-        filters.servicesType = servicesServiceType
+        filters.verticalFilters.services.type = servicesServiceType
         
         if servicesServiceSubtype.count > 0 {
-            filters.servicesSubtypes = servicesServiceSubtype
+            filters.verticalFilters.services.subtypes = servicesServiceSubtype
         } else {
-            filters.servicesSubtypes = nil
+            filters.verticalFilters.services.subtypes = nil
         }
         
         updateCategoriesHeader()

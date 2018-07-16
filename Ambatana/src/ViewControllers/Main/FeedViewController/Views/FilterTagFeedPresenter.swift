@@ -84,37 +84,42 @@ final class FilterTagFeedPresenter: FilterTagFeedPresentable {
         }
         
         if filters.selectedCategories.contains(.cars) || filters.selectedTaxonomyChildren.containsCarsTaxonomy {
-            if let makeId = filters.carMakeId, let makeName = filters.carMakeName {
+            let carFilters = filters.verticalFilters.cars
+            if let makeId = carFilters.makeId, let makeName = carFilters.makeName {
                 resultTags.append(.make(id: makeId, name: makeName.localizedUppercase))
-                if let modelId = filters.carModelId, let modelName = filters.carModelName {
+                if let modelId = carFilters.modelId, let modelName = carFilters.modelName {
                     resultTags.append(.model(id: modelId, name: modelName.localizedUppercase))
                 }
             }
-            if filters.carYearStart != nil || filters.carYearEnd != nil {
-                resultTags.append(.yearsRange(from: filters.carYearStart, to: filters.carYearEnd))
+            if carFilters.yearStart != nil || carFilters.yearEnd != nil {
+                resultTags.append(.yearsRange(from: carFilters.yearStart, to: carFilters.yearEnd))
             }
             
-            let carSellerTypeTags = filters.carSellerTypes.map { FilterTag.carSellerType(type: $0, name: $0.title) }
+            let carSellerTypeTags = carFilters.sellerTypes.map({ FilterTag.carSellerType(type: $0, name: $0.title) })
             resultTags.append(contentsOf: carSellerTypeTags)
+            
         }
         if filters.selectedCategories.contains(.realEstate) {
-            if let propertyType = filters.realEstatePropertyType {
+            let realEstateFilters = filters.verticalFilters.realEstate
+            if let propertyType = realEstateFilters.propertyType {
                 resultTags.append(.realEstatePropertyType(propertyType))
             }
             
-            filters.realEstateOfferTypes.forEach { resultTags.append(.realEstateOfferType($0)) }
+            realEstateFilters.offerTypes.forEach { resultTags.append(.realEstateOfferType($0)) }
             
-            if let numberOfBedrooms = filters.realEstateNumberOfBedrooms {
+            if let numberOfBedrooms = realEstateFilters.numberOfBedrooms {
                 resultTags.append(.realEstateNumberOfBedrooms(numberOfBedrooms))
             }
-            if let numberOfBathrooms = filters.realEstateNumberOfBathrooms {
+            if let numberOfBathrooms = realEstateFilters.numberOfBathrooms {
                 resultTags.append(.realEstateNumberOfBathrooms(numberOfBathrooms))
             }
-            if let numberOfRooms = filters.realEstateNumberOfRooms {
+            if let numberOfRooms = realEstateFilters.numberOfRooms {
                 resultTags.append(.realEstateNumberOfRooms(numberOfRooms))
             }
-            if filters.realEstateSizeRange.min != nil || filters.realEstateSizeRange.max != nil {
-                resultTags.append(.sizeSquareMetersRange(from: filters.realEstateSizeRange.min, to: filters.realEstateSizeRange.max))
+            
+            if realEstateFilters.sizeRange.min != nil || realEstateFilters.sizeRange.max != nil {
+                resultTags.append(.sizeSquareMetersRange(from: realEstateFilters.sizeRange.min,
+                                                         to: realEstateFilters.sizeRange.max))
             }
         }
         

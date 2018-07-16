@@ -363,7 +363,7 @@ class MainListingsViewModelSpec: QuickSpec {
                 beforeEach {
                     var filters = ListingFilters()
                     filters.selectedCategories = [.cars]
-                    filters.carSellerTypes = [.user]
+                    filters.verticalFilters.cars.sellerTypes = [.user]
                     sut = MainListingsViewModel(sessionManager: Core.sessionManager,
                                                 myUserRepository: Core.myUserRepository,
                                                 searchRepository: Core.searchRepository,

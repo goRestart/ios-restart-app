@@ -1379,6 +1379,22 @@
 		C6FFC47B20F4E8E400B9F53A /* FormattedUnitRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FFC47A20F4E8E400B9F53A /* FormattedUnitRange.swift */; };
 		C6FFC47C20F4E8E400B9F53A /* FormattedUnitRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FFC47A20F4E8E400B9F53A /* FormattedUnitRange.swift */; };
 		C6FFC47E20F4EC3600B9F53A /* FormattedUnitRangeSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FFC47D20F4EC3600B9F53A /* FormattedUnitRangeSpec.swift */; };
+		C6FFC49320F7478D00B9F53A /* VerticalFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FFC49220F7478D00B9F53A /* VerticalFilters.swift */; };
+		C6FFC49420F7478D00B9F53A /* VerticalFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FFC49220F7478D00B9F53A /* VerticalFilters.swift */; };
+		C6FFC49620F748B000B9F53A /* CarFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FFC49520F748B000B9F53A /* CarFilters.swift */; };
+		C6FFC49720F748B000B9F53A /* CarFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FFC49520F748B000B9F53A /* CarFilters.swift */; };
+		C6FFC49920F748BA00B9F53A /* ServicesFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FFC49820F748BA00B9F53A /* ServicesFilters.swift */; };
+		C6FFC49A20F748BA00B9F53A /* ServicesFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FFC49820F748BA00B9F53A /* ServicesFilters.swift */; };
+		C6FFC49C20F748C500B9F53A /* RealEstateFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FFC49B20F748C500B9F53A /* RealEstateFilters.swift */; };
+		C6FFC49D20F748C500B9F53A /* RealEstateFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FFC49B20F748C500B9F53A /* RealEstateFilters.swift */; };
+		C6FFC4A120F7491000B9F53A /* SizeRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FFC4A020F7491000B9F53A /* SizeRange.swift */; };
+		C6FFC4A220F7491000B9F53A /* SizeRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FFC4A020F7491000B9F53A /* SizeRange.swift */; };
+		C6FFC4A420F7492500B9F53A /* FilterPriceRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FFC4A320F7492500B9F53A /* FilterPriceRange.swift */; };
+		C6FFC4A520F7492500B9F53A /* FilterPriceRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FFC4A320F7492500B9F53A /* FilterPriceRange.swift */; };
+		C6FFC4A720F74F1E00B9F53A /* VerticalFilterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FFC4A620F74F1E00B9F53A /* VerticalFilterType.swift */; };
+		C6FFC4A820F74F1E00B9F53A /* VerticalFilterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FFC4A620F74F1E00B9F53A /* VerticalFilterType.swift */; };
+		C6FFC4B120FCA84600B9F53A /* FilterCategoryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FFC4B020FCA84600B9F53A /* FilterCategoryItem.swift */; };
+		C6FFC4B220FCA84600B9F53A /* FilterCategoryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FFC4B020FCA84600B9F53A /* FilterCategoryItem.swift */; };
 		C703BDFE1C7F1AF900EC8EF2 /* EditLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C703BDFB1C7F1AF900EC8EF2 /* EditLocationViewController.swift */; };
 		C703BDFF1C7F1AF900EC8EF2 /* EditLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C703BDFB1C7F1AF900EC8EF2 /* EditLocationViewController.swift */; };
 		C703BE021C7F1AF900EC8EF2 /* EditLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C703BDFD1C7F1AF900EC8EF2 /* EditLocationViewModel.swift */; };
@@ -2808,6 +2824,14 @@
 		C6FFC47820F4DEFB00B9F53A /* ListingFiltersSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingFiltersSpec.swift; sourceTree = "<group>"; };
 		C6FFC47A20F4E8E400B9F53A /* FormattedUnitRange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattedUnitRange.swift; sourceTree = "<group>"; };
 		C6FFC47D20F4EC3600B9F53A /* FormattedUnitRangeSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattedUnitRangeSpec.swift; sourceTree = "<group>"; };
+		C6FFC49220F7478D00B9F53A /* VerticalFilters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalFilters.swift; sourceTree = "<group>"; };
+		C6FFC49520F748B000B9F53A /* CarFilters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarFilters.swift; sourceTree = "<group>"; };
+		C6FFC49820F748BA00B9F53A /* ServicesFilters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServicesFilters.swift; sourceTree = "<group>"; };
+		C6FFC49B20F748C500B9F53A /* RealEstateFilters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealEstateFilters.swift; sourceTree = "<group>"; };
+		C6FFC4A020F7491000B9F53A /* SizeRange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizeRange.swift; sourceTree = "<group>"; };
+		C6FFC4A320F7492500B9F53A /* FilterPriceRange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPriceRange.swift; sourceTree = "<group>"; };
+		C6FFC4A620F74F1E00B9F53A /* VerticalFilterType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalFilterType.swift; sourceTree = "<group>"; };
+		C6FFC4B020FCA84600B9F53A /* FilterCategoryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCategoryItem.swift; sourceTree = "<group>"; };
 		C703BDFB1C7F1AF900EC8EF2 /* EditLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditLocationViewController.swift; sourceTree = "<group>"; };
 		C703BDFD1C7F1AF900EC8EF2 /* EditLocationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditLocationViewModel.swift; sourceTree = "<group>"; };
 		C707D4491E96799000042C03 /* TextHiddenTags.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextHiddenTags.swift; sourceTree = "<group>"; };
@@ -4094,8 +4118,9 @@
 				C7239A191C158139006CB5A6 /* Listing+Negotiable.swift */,
 				504652F11CC0F0B3003F5070 /* Listing+Title.swift */,
 				508E4CE91B41A5D2007BD301 /* ListingCategory+LG.swift */,
-				C7132A3E1BF246D40000747A /* ListingFilters.swift */,
-				42F64F7E20AAE99900CF97AD /* ListingFilters+LG.swift */,
+				C6FFC4A020F7491000B9F53A /* SizeRange.swift */,
+				C6FFC4A320F7492500B9F53A /* FilterPriceRange.swift */,
+				C6FFC49F20F748D500B9F53A /* ListingFilters */,
 				C7363FBB1BFA449A00A4BF6F /* ListingSortCriteria+LG.swift */,
 				C7DCFEC31C03625E00F7A4FB /* ListingTimeCriteria+LG.swift */,
 				C7B6FA891D182F4200DAA19D /* LocalChat.swift */,
@@ -5205,6 +5230,37 @@
 			path = PushPermissions;
 			sourceTree = "<group>";
 		};
+		C6FFC49F20F748D500B9F53A /* ListingFilters */ = {
+			isa = PBXGroup;
+			children = (
+				C7132A3E1BF246D40000747A /* ListingFilters.swift */,
+				42F64F7E20AAE99900CF97AD /* ListingFilters+LG.swift */,
+				C6FFC4A920F74F3300B9F53A /* VerticalFilters */,
+			);
+			path = ListingFilters;
+			sourceTree = "<group>";
+		};
+		C6FFC4A920F74F3300B9F53A /* VerticalFilters */ = {
+			isa = PBXGroup;
+			children = (
+				C6FFC49220F7478D00B9F53A /* VerticalFilters.swift */,
+				C6FFC4A620F74F1E00B9F53A /* VerticalFilterType.swift */,
+				C6FFC49520F748B000B9F53A /* CarFilters.swift */,
+				C6FFC49820F748BA00B9F53A /* ServicesFilters.swift */,
+				C6FFC49B20F748C500B9F53A /* RealEstateFilters.swift */,
+			);
+			path = VerticalFilters;
+			sourceTree = "<group>";
+		};
+		C6FFC4B320FCA86900B9F53A /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				C77593E01BF0B8C60097D62F /* FiltersViewModel.swift */,
+				C6FFC4B020FCA84600B9F53A /* FilterCategoryItem.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		C703BDFA1C7F1AE400EC8EF2 /* Location */ = {
 			isa = PBXGroup;
 			children = (
@@ -5449,9 +5505,9 @@
 		C77593D91BF0B7BD0097D62F /* Filters */ = {
 			isa = PBXGroup;
 			children = (
+				C6FFC4B320FCA86900B9F53A /* ViewModel */,
 				C77593E21BF0BC9C0097D62F /* Cells */,
 				C77593DC1BF0B8A00097D62F /* FiltersViewController.swift */,
-				C77593E01BF0B8C60097D62F /* FiltersViewModel.swift */,
 			);
 			path = Filters;
 			sourceTree = "<group>";
@@ -7127,6 +7183,7 @@
 				C7B5882B1CE1DE1C009B3975 /* BlockedUsersListViewModel.swift in Sources */,
 				50D4C3221F8CBF39000E8069 /* SuggestiveSearch+LG.swift in Sources */,
 				50CBCD5F1BF0BB8F00A329BB /* CollectionViewFooter.swift in Sources */,
+				C6FFC4A720F74F1E00B9F53A /* VerticalFilterType.swift in Sources */,
 				7265F459202B10EA00533FE7 /* FilterRealEstateSection.swift in Sources */,
 				C64D26C420ED1DD900EC43A1 /* ListingAttributeGridLayoutBehaviour.swift in Sources */,
 				0A0CD7F81FD97FBB00B0BACF /* FilterCell.swift in Sources */,
@@ -7137,6 +7194,7 @@
 				504C63BC1ECAF18F00D33BFA /* Application.swift in Sources */,
 				C78F9DB61DC9ED1300884064 /* LocalProduct.swift in Sources */,
 				6A12E0521C63988100C1BFE3 /* TourNotificationsViewController.swift in Sources */,
+				C6FFC4A420F7492500B9F53A /* FilterPriceRange.swift in Sources */,
 				0ACE7DAD1FD2C3A10068E47B /* DeckCoordinator.swift in Sources */,
 				017E608220D15D4F007025C0 /* NotificationSettingsListDetailViewController.swift in Sources */,
 				72462FB41FDE971B0030399F /* SearchRelatedListingListRequester.swift in Sources */,
@@ -7272,12 +7330,14 @@
 				0AB6E1D41F9DD1670048AFFD /* ListingDeckViewController.swift in Sources */,
 				2E200D2020BEEB630054F053 /* ChatConnectionStatusView.swift in Sources */,
 				C75B55F91C7E12C90001F5CD /* FilterDisclosureCell.swift in Sources */,
+				C6FFC49C20F748C500B9F53A /* RealEstateFilters.swift in Sources */,
 				C768CC1A1CA44B5F00E39E5F /* BranchDeepLink.swift in Sources */,
 				6AF75D0A1CF457D800EACCF0 /* ChatViewMessageAdapter.swift in Sources */,
 				C72794491D54944E009C25AB /* SettingsViewModel.swift in Sources */,
 				C7AFFB0D1E7172B20052A9CA /* MyUser+LG.swift in Sources */,
 				C727FBC31CCFC545002BC643 /* NotificationsViewModel.swift in Sources */,
 				326C72D520888280009D21DB /* UICollectionViewLayoutAttributes+Builder.swift in Sources */,
+				C6FFC4B120FCA84600B9F53A /* FilterCategoryItem.swift in Sources */,
 				6A5E1A161D548F5400F92692 /* UITextField+LG.swift in Sources */,
 				0127AA86200E3FB00058AAC5 /* MostSearchedItemsUserHeader.swift in Sources */,
 				C6A5CC5D20E3A22500610A3A /* FilterSliderCell.swift in Sources */,
@@ -7345,8 +7405,10 @@
 				01BDE97A2050B1820081B670 /* BlockingPostingHeaderStep.swift in Sources */,
 				720A8FA91F1F94E700DCBAD8 /* FilterTextFieldIntCell.swift in Sources */,
 				72D928F01E83F0BD0030F4C3 /* PushPermissionsManager.swift in Sources */,
+				C6FFC4A120F7491000B9F53A /* SizeRange.swift in Sources */,
 				C7798EA21D2EB6AB00C81DD4 /* UICollectionView+Helper.swift in Sources */,
 				8E56D74520A2ED1300097B61 /* ChatConversationsListView.swift in Sources */,
+				C6FFC49920F748BA00B9F53A /* ServicesFilters.swift in Sources */,
 				2E28B1291D99129D001BF8E4 /* CGFloat+rounding.swift in Sources */,
 				5020471B1EE99F7A006C0EC2 /* FeatureFlagsUDDAO.swift in Sources */,
 				50D250041DAFB68600B45EC2 /* UIApplication+PushNotification.swift in Sources */,
@@ -7541,6 +7603,7 @@
 				4281991520C14F6B00FF89D5 /* PostingMultiSelectionView.swift in Sources */,
 				2E6691B51FBDF2E100FC2A77 /* PromoteBumpCoordinator.swift in Sources */,
 				42CA899C2097498900CE7B5B /* LGMapView.swift in Sources */,
+				C6FFC49320F7478D00B9F53A /* VerticalFilters.swift in Sources */,
 				C74016DF1D6468A7004C1E9D /* PostListingBasicDetailViewModel.swift in Sources */,
 				4287173D20655B0600EE334C /* LGNavBarMetrics.swift in Sources */,
 				0A90350A1FCC18E800FDE795 /* PhotoViewerTransitionAnimator.swift in Sources */,
@@ -7820,6 +7883,7 @@
 				C7DE8ABA1C888750005CF37E /* ListingPostedViewController.swift in Sources */,
 				C29F712B209076F800362F76 /* LGFileManager.swift in Sources */,
 				2EF4E3B31D3688AB00A09DFD /* LGConfigRetrieveService.swift in Sources */,
+				C6FFC49620F748B000B9F53A /* CarFilters.swift in Sources */,
 				72FE02E21F9E1DF7005BD672 /* PostingAddDetailSummaryTableView.swift in Sources */,
 				2EE47D3120178835004B04EE /* PhoneCallsHelper.swift in Sources */,
 				8E26E95C1ED5B5B90086D3EC /* FilterDistanceSlider.swift in Sources */,
@@ -7943,6 +8007,7 @@
 				509CFF361DCCE8DF0068E518 /* CGPoint+LG.swift in Sources */,
 				C6E7709120972B73002CFA99 /* FeedSectionMap.swift in Sources */,
 				3221E53C206152CB0006B12B /* DistanceInfoView.swift in Sources */,
+				C6FFC4A820F74F1E00B9F53A /* VerticalFilterType.swift in Sources */,
 				0187407E1FD594B6009C1363 /* BlockingPostingQueuedRequestsViewModel.swift in Sources */,
 				8EEC7F5B206AA62800616858 /* AdvertisementMoPubCellDrawer.swift in Sources */,
 				C7B5882C1CE1DE1C009B3975 /* BlockedUsersListViewModel.swift in Sources */,
@@ -7953,6 +8018,7 @@
 				0A0CD7F91FD9806C00B0BACF /* FilterCell.swift in Sources */,
 				8E814F3A1F3472C000C88432 /* LGSlider.swift in Sources */,
 				3221E5382060619E0006B12B /* ProductPriceAndTitleView.swift in Sources */,
+				C6FFC4A520F7492500B9F53A /* FilterPriceRange.swift in Sources */,
 				C7DB41981C5138B500400945 /* CollectionViewFooter.swift in Sources */,
 				01616CC71F975C2E00F412D7 /* Taxonomy+LG.swift in Sources */,
 				017E608320D15D4F007025C0 /* NotificationSettingsListDetailViewController.swift in Sources */,
@@ -8088,12 +8154,14 @@
 				C727943B1D549342009C25AB /* ChangePasswordViewModel.swift in Sources */,
 				C7DB41BF1C5138B500400945 /* LoadingIndicator.swift in Sources */,
 				2E200D2120BEEB630054F053 /* ChatConnectionStatusView.swift in Sources */,
+				C6FFC49D20F748C500B9F53A /* RealEstateFilters.swift in Sources */,
 				0AB6E1D71F9DD4440048AFFD /* ListingDeckViewController.swift in Sources */,
 				6A5E19FB1D548F5400F92692 /* KeyboardHelper.swift in Sources */,
 				C7DB41C31C5138B500400945 /* SignUpLogInViewController.swift in Sources */,
 				C7AFFB0E1E7172B20052A9CA /* MyUser+LG.swift in Sources */,
 				C7DB41C51C5138B500400945 /* FilterTag.swift in Sources */,
 				C75B55FA1C7E12C90001F5CD /* FilterDisclosureCell.swift in Sources */,
+				C6FFC4B220FCA84600B9F53A /* FilterCategoryItem.swift in Sources */,
 				0127AA87200E3FB00058AAC5 /* MostSearchedItemsUserHeader.swift in Sources */,
 				01D432012080FBD100061F0C /* NotificationSettingsMainViewModel.swift in Sources */,
 				C768CC1B1CA44B5F00E39E5F /* BranchDeepLink.swift in Sources */,
@@ -8161,8 +8229,10 @@
 				8E031CB32033343300CA0ED9 /* ChatInterlocutorIsTypingCellDrawer.swift in Sources */,
 				2E6248D9207E352300F4144C /* Sequence+LG.swift in Sources */,
 				8EB6510B205ACBEF00FF50E4 /* MLTrackingInfo.swift in Sources */,
+				C6FFC4A220F7491000B9F53A /* SizeRange.swift in Sources */,
 				8ED3C524204811E90078BE39 /* LGAnimation.swift in Sources */,
 				C7DB41DC1C5138B500400945 /* CAGradientLayer+Color.swift in Sources */,
+				C6FFC49A20F748BA00B9F53A /* ServicesFilters.swift in Sources */,
 				8EEC7F5F206AA63000616858 /* MoPubNativeView.swift in Sources */,
 				8E56D74620A2F0A300097B61 /* ChatConversationsListView.swift in Sources */,
 				2EE47D2A20177653004B04EE /* ChatAskPhoneNumberCell.swift in Sources */,
@@ -8357,6 +8427,7 @@
 				2EADE4E320514BDB0089D9F8 /* PostingCategoriesPickViewModel.swift in Sources */,
 				C73832811E029CC2007D0C03 /* AccountProvider+LG.swift in Sources */,
 				01E5B70620889BEF001C5A1F /* SearchAlertFeedHeader.swift in Sources */,
+				C6FFC49420F7478D00B9F53A /* VerticalFilters.swift in Sources */,
 				4281991620C14F6B00FF89D5 /* PostingMultiSelectionView.swift in Sources */,
 				C7DB42031C5138B500400945 /* MainSignUpViewController.swift in Sources */,
 				50D934DA1E81283100BDD5FF /* PostListingState.swift in Sources */,
@@ -8636,6 +8707,7 @@
 				C29F712C209076F800362F76 /* LGFileManager.swift in Sources */,
 				C7F18A951C89CB3300D23319 /* PostListingGalleryView.swift in Sources */,
 				C7DE8ABB1C888750005CF37E /* ListingPostedViewController.swift in Sources */,
+				C6FFC49720F748B000B9F53A /* CarFilters.swift in Sources */,
 				2E28B12D1D991330001BF8E4 /* CGFloat+rounding.swift in Sources */,
 				01D432022080FBD600061F0C /* NotificationSettingsMainViewController.swift in Sources */,
 				72FE02E31F9E1DF7005BD672 /* PostingAddDetailSummaryTableView.swift in Sources */,

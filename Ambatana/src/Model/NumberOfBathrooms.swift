@@ -11,6 +11,10 @@ enum NumberOfBathrooms: Float {
     case threeAndHalf = 3.5
     case four = 4.0
     
+    var trackingString: String {
+        return String(self.rawValue)
+    }
+    
     var localizedString: String {
         switch self {
         case .zero:

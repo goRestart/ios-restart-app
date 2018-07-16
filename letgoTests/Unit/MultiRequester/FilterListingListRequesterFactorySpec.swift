@@ -63,7 +63,7 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                         beforeEach {
                             var filters = ListingFilters()
                             filters.selectedCategories = [.cars]
-                            filters.carMakeId = "makeId"
+                            filters.verticalFilters.cars.makeId = "makeId"
                             
                             let expectedRequester1 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                             expectedRequester1.filters = filters
@@ -83,7 +83,7 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                         beforeEach {
                             var filters = ListingFilters()
                             filters.selectedCategories = [.cars]
-                            filters.carMakeId = ""
+                            filters.verticalFilters.cars.makeId = ""
                             
                             let expectedRequester1 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                             expectedRequester1.filters = filters
@@ -102,8 +102,8 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                         beforeEach {
                             var filters = ListingFilters()
                             filters.selectedCategories = [.cars]
-                            filters.carMakeId = "makeId"
-                            filters.carModelId = "modelId"
+                            filters.verticalFilters.cars.makeId = "makeId"
+                            filters.verticalFilters.cars.modelId = "modelId"
                             
                             let expectedRequester1 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                             expectedRequester1.filters = filters
@@ -123,8 +123,8 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                         beforeEach {
                             var filters = ListingFilters()
                             filters.selectedCategories = [.cars]
-                            filters.carMakeId = "makeId"
-                            filters.carModelId = ""
+                            filters.verticalFilters.cars.makeId = "makeId"
+                            filters.verticalFilters.cars.modelId = ""
                             
                             let expectedRequester1 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                             expectedRequester1.filters = filters
@@ -144,8 +144,8 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                         beforeEach {
                             var filters = ListingFilters()
                             filters.selectedCategories = [.cars]
-                            filters.carMakeId = ""
-                            filters.carModelId = ""
+                            filters.verticalFilters.cars.makeId = ""
+                            filters.verticalFilters.cars.modelId = ""
                             
                             let expectedRequester1 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                             expectedRequester1.filters = filters
@@ -165,9 +165,9 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                         beforeEach {
                             var filters = ListingFilters()
                             filters.selectedCategories = [.cars]
-                            filters.carMakeId = "makeId"
-                            filters.carModelId = "modelId"
-                            filters.carYearStart = 2000
+                            filters.verticalFilters.cars.makeId = "makeId"
+                            filters.verticalFilters.cars.modelId = "modelId"
+                            filters.verticalFilters.cars.yearStart = 2000
                             
                             let expectedRequester1 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                             expectedRequester1.filters = filters
@@ -187,9 +187,9 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                         beforeEach {
                             var filters = ListingFilters()
                             filters.selectedCategories = [.cars]
-                            filters.carMakeId = "makeId"
-                            filters.carModelId = ""
-                            filters.carYearStart = 2000
+                            filters.verticalFilters.cars.makeId = "makeId"
+                            filters.verticalFilters.cars.modelId = ""
+                            filters.verticalFilters.cars.yearStart = 2000
                             
                             let expectedRequester1 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                             expectedRequester1.filters = filters
@@ -210,9 +210,9 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                         beforeEach {
                             var filters = ListingFilters()
                             filters.selectedCategories = [.cars]
-                            filters.carMakeId = ""
-                            filters.carModelId = ""
-                            filters.carYearStart = 2000
+                            filters.verticalFilters.cars.makeId = ""
+                            filters.verticalFilters.cars.modelId = ""
+                            filters.verticalFilters.cars.yearStart = 2000
                             
                             let expectedRequester1 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                             expectedRequester1.filters = filters
@@ -232,10 +232,10 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                         beforeEach {
                             var filters = ListingFilters()
                             filters.selectedCategories = [.cars]
-                            filters.carMakeId = "makeId"
-                            filters.carModelId = "modelId"
-                            filters.carYearStart = 2000
-                            filters.carYearEnd = 2015
+                            filters.verticalFilters.cars.makeId = "makeId"
+                            filters.verticalFilters.cars.modelId = "modelId"
+                            filters.verticalFilters.cars.yearStart = 2000
+                            filters.verticalFilters.cars.yearEnd = 2015
                             
                             let expectedRequester1 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                             expectedRequester1.filters = filters
@@ -256,7 +256,7 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                         beforeEach {
                             var filters = ListingFilters()
                             filters.selectedCategories = [.cars]
-                            filters.carYearEnd = 2015
+                            filters.verticalFilters.cars.yearEnd = 2015
                             
                             let expectedRequester1 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                             expectedRequester1.filters = filters
@@ -276,8 +276,8 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                         beforeEach {
                             var filters = ListingFilters()
                             filters.selectedCategories = [.cars]
-                            filters.carYearStart = 2000
-                            filters.carYearEnd = 2015
+                            filters.verticalFilters.cars.yearStart = 2000
+                            filters.verticalFilters.cars.yearEnd = 2015
                             
                             let expectedRequester1 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                             expectedRequester1.filters = filters
