@@ -10,6 +10,7 @@ protocol ListingCarouselCellDelegate: class {
     func canScrollToNextPage() -> Bool
     func didEndDraggingCell()
     func didChangeVideoProgress(progress: Float, atIndex index: Int)
+    func didChangeVideoStatus(status: VideoPreview.Status, pageAtIndex index: Int)
 }
 
 enum ListingCarouselTapSide {
@@ -295,6 +296,10 @@ extension ListingCarouselCell: ListingCarouselVideoCellDelegate {
     func didChangeVideoProgress(progress: Float, pageAtIndex index: Int) {
         guard index == currentPage else { return }
         delegate?.didChangeVideoProgress(progress: progress, atIndex: position)
+    }
+    func didChangeVideoStatus(status: VideoPreview.Status, pageAtIndex index: Int) {
+        guard index == currentPage else { return }
+        delegate?.didChangeVideoStatus(status: status, pageAtIndex: position)
     }
 }
 

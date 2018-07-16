@@ -2,6 +2,7 @@ import LGComponents
 import RxSwift
 
 protocol ListingCarouselVideoCellDelegate {
+    func didChangeVideoStatus(status: VideoPreview.Status, pageAtIndex index: Int)
     func didChangeVideoProgress(progress: Float, pageAtIndex index: Int)
 }
 
@@ -13,7 +14,7 @@ final class ListingCarouselVideoCell: UICollectionViewCell, ReusableCell {
     }()
 
     var position: Int = 0
-    var progress = Variable<Float>(0)
+    var status = Variable<VideoPreview.Status>(.unknown)
     var delegate: ListingCarouselVideoCellDelegate?
 
     private var effectsView: UIVisualEffectView = {
@@ -64,9 +65,15 @@ final class ListingCarouselVideoCell: UICollectionViewCell, ReusableCell {
     }
 
     private func setupRx() {
-        videoPreview.rx_progress.asObservable().subscribeNext { [weak self] progress in
+        videoPreview.rx_progress.asDriver().drive(onNext: { [weak self] progress in
             guard let strongSelf = self else { return }
             strongSelf.delegate?.didChangeVideoProgress(progress: progress, pageAtIndex: strongSelf.position)
+        }).disposed(by: disposeBag)
+        videoPreview.rx_status.subscribeNext { [weak self] status in
+            guard let strongSelf = self else { return }
+            DispatchQueue.main.async {
+                strongSelf.delegate?.didChangeVideoStatus(status: status, pageAtIndex: strongSelf.position)
+            }
         }.disposed(by: disposeBag)
     }
 }

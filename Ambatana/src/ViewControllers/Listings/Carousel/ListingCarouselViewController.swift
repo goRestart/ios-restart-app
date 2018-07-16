@@ -1009,6 +1009,11 @@ extension ListingCarouselViewController: ListingCarouselCellDelegate {
         progressView.progress = progress
     }
 
+    func didChangeVideoStatus(status: VideoPreview.Status, pageAtIndex index: Int) {
+        guard index == viewModel.currentIndex else { return }
+        progressView.isHidden = status != .readyToPlay
+    }
+
     func didPullFromCellWith(_ offset: CGFloat, bottomLimit: CGFloat) {
         dragMoreInfoView(offset: offset, bottomLimit: bottomLimit)
     }
