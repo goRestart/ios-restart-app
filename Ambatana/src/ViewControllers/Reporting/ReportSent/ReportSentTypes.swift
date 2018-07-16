@@ -2,6 +2,9 @@ import Foundation
 import LGComponents
 
 enum ReportSentType {
+
+    private static let lawEnforcementEmail = "lawenforcement@letgo.com"
+
     case productBasic
     case userBasic
     case userBlockA
@@ -32,7 +35,7 @@ enum ReportSentType {
                                                attributes: [.foregroundColor: UIColor.lgBlack,
                                                             .font: UIFont.bigBodyFont])
 
-        let emailRange = (messageString as NSString).range(of: "lawenforcement@letgo.com")
+        let emailRange = (messageString as NSString).range(of: ReportSentType.lawEnforcementEmail)
         string.addAttributes([.foregroundColor: UIColor.primaryColor], range: emailRange)
 
         let userRange = (messageString as NSString).range(of: userName)
