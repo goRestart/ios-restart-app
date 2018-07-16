@@ -8,6 +8,7 @@ final class ListingCarouselViewController: KeyboardViewController, AnimatableTra
         static let pageControlArbitraryTopMargin: CGFloat = 40
         static let pageControlArbitraryWidth: CGFloat = 50
         static let reputationTooltipMargin: CGFloat = 40
+        static let videoProgressViewHeight: CGFloat = 4.0
     }
     @IBOutlet weak var imageBackground: UIImageView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
@@ -120,6 +121,8 @@ final class ListingCarouselViewController: KeyboardViewController, AnimatableTra
         let bar = UIProgressView()
         bar.progressTintColor = .gray
         bar.trackTintColor = UIColor.black.withAlphaComponent(0.5)
+        bar.layer.cornerRadius = Layout.videoProgressViewHeight / 2.0
+        bar.clipsToBounds = true
         return bar
     }()
 
@@ -205,7 +208,8 @@ final class ListingCarouselViewController: KeyboardViewController, AnimatableTra
         NSLayoutConstraint.activate([
             progressView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: CarouselUI.itemsMargin),
             progressView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -CarouselUI.itemsMargin),
-            progressView.bottomAnchor.constraint(equalTo: userView.topAnchor, constant: -20)
+            progressView.bottomAnchor.constraint(equalTo: userView.topAnchor, constant: -CarouselUI.itemsMargin),
+            progressView.heightAnchor.constraint(equalToConstant: Layout.videoProgressViewHeight)
             ])
     }
 
