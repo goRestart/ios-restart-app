@@ -77,6 +77,7 @@ extension Bumper  {
         flags.append(RealEstateMapTooltip.self)
         flags.append(AppInstallAdsInFeed.self)
         flags.append(SearchAlertsInSearchSuggestions.self)
+        flags.append(FrictionlessShare.self)
         Bumper.initialize(flags)
     } 
 
@@ -872,6 +873,19 @@ extension Bumper  {
         }
     }
     #endif
+
+    static var frictionlessShare: FrictionlessShare {
+        guard let value = Bumper.value(for: FrictionlessShare.key) else { return .control }
+        return FrictionlessShare(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var frictionlessShareObservable: Observable<FrictionlessShare> {
+        return Bumper.observeValue(for: FrictionlessShare.key).map {
+            FrictionlessShare(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
 }
 
 
@@ -1481,7 +1495,7 @@ enum ServicesCategoryOnSalchichasMenu: String, BumperFeature  {
     static var defaultValue: String { return ServicesCategoryOnSalchichasMenu.control.rawValue }
     static var enumValues: [ServicesCategoryOnSalchichasMenu] { return [.control, .baseline, .variantA, .variantB, .variantC]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show services category on salchichas menu" } 
+    static var description: String { return "[PRODUCTS] Show services category on salchichas menu" } 
     static func fromPosition(_ position: Int) -> ServicesCategoryOnSalchichasMenu {
         switch position { 
             case 0: return .control
@@ -1619,7 +1633,7 @@ enum VideoPosting: String, BumperFeature  {
     static var defaultValue: String { return VideoPosting.control.rawValue }
     static var enumValues: [VideoPosting] { return [.control, .baseline, .active]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show video posting flow when pressing Other Items and Other Vehicles and Parts on salchichas menu" } 
+    static var description: String { return "[PRODUCTS] Show video posting flow when pressing Other Items and Other Vehicles and Parts on salchichas menu" } 
     static func fromPosition(_ position: Int) -> VideoPosting {
         switch position { 
             case 0: return .control
@@ -1635,7 +1649,7 @@ enum PredictivePosting: String, BumperFeature  {
     static var defaultValue: String { return PredictivePosting.control.rawValue }
     static var enumValues: [PredictivePosting] { return [.control, .baseline, .active]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show predictive posting flow when pressing Other Items on salchichas menu" } 
+    static var description: String { return "[PRODUCTS] Show predictive posting flow when pressing Other Items on salchichas menu" } 
     static func fromPosition(_ position: Int) -> PredictivePosting {
         switch position { 
             case 0: return .control
@@ -1667,7 +1681,7 @@ enum SimplifiedChatButton: String, BumperFeature  {
     static var defaultValue: String { return SimplifiedChatButton.control.rawValue }
     static var enumValues: [SimplifiedChatButton] { return [.control, .baseline, .variantA, .variantB, .variantC, .variantD, .variantE, .variantF]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show a simplified chat button on item page" } 
+    static var description: String { return "[PRODUCTS] Show a simplified chat button on item page" } 
     static func fromPosition(_ position: Int) -> SimplifiedChatButton {
         switch position { 
             case 0: return .control
@@ -1823,6 +1837,22 @@ enum SearchAlertsInSearchSuggestions: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show search alerts in search suggestions view" } 
     static func fromPosition(_ position: Int) -> SearchAlertsInSearchSuggestions {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum FrictionlessShare: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return FrictionlessShare.control.rawValue }
+    static var enumValues: [FrictionlessShare] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[PRODUCTS] Open facebook share dialog in congrats screen" } 
+    static func fromPosition(_ position: Int) -> FrictionlessShare {
         switch position { 
             case 0: return .control
             case 1: return .baseline
