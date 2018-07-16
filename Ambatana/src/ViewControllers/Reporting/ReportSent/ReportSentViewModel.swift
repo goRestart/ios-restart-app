@@ -1,4 +1,5 @@
 import Foundation
+import LGComponents
 
 final class ReportSentViewModel: BaseViewModel {
 
