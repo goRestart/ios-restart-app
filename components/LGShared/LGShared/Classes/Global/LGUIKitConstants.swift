@@ -62,7 +62,12 @@ public struct LGUIKitConstants {
 
     // MARK: - Ads
     public static let advertisementCellPlaceholderHeight: CGFloat = 220
-    public static let advertisementCellMoPubHeight: CGFloat = 290
+    public static let advertisementCellDefaultHeight: CGFloat = 320
+    public static let advertisementCallToActionHeight: CGFloat = 32
+    public static let advertisementAdTextHeight: CGFloat = 21
+    public static let advertisementAppIconHeight: CGFloat = 40
+    public static let advertisementImageAspectRatio: CGFloat = 1.91
+    
 
     // MARK: - Map Pin
     public static let mapPinHeight: CGFloat = 37

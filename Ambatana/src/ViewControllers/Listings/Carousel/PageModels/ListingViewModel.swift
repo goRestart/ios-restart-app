@@ -445,7 +445,7 @@ class ListingViewModel: BaseViewModel {
                                                                      fallbackToStore: true,
                                                                      myUserId: strongSelf.myUserId,
                                                                      myUserName: strongSelf.myUserName)
-            strongSelf.productImageURLs.value = listing.images.flatMap { return $0.fileURL }
+            strongSelf.productImageURLs.value = listing.images.compactMap { return $0.fileURL }
             strongSelf.productMedia.value = listing.media
             let productInfo = ListingVMProductInfo(listing: listing,
                                                    isAutoTranslated: listing.isTitleAutoTranslated(strongSelf.countryHelper),
@@ -535,11 +535,11 @@ class ListingViewModel: BaseViewModel {
                                            maxCountdown: recentBumpInfo.maxCountdown)
         } else {
             isUpdatingBumpUpBanner = true
-            let parameterTypePage = getParameterTypePage()
             monetizationRepository.retrieveBumpeableListingInfo(
                 listingId: listingId,
                 completion: { [weak self] result in
                     guard let strongSelf = self else { return }
+                    let parameterTypePage = strongSelf.getParameterTypePage()
                     strongSelf.isUpdatingBumpUpBanner = false
                     guard let bumpeableProduct = result.value else { return }
 
@@ -669,13 +669,13 @@ class ListingViewModel: BaseViewModel {
                                                          action: { [weak self] in
                                                             self?.bumpUpHiddenProductContactUs()
                     },
-                                                         accessibilityId: .bumpUpHiddenListingAlertContactButton)
+                                                         accessibility: AccessibilityId.bumpUpHiddenListingAlertContactButton)
 
                 let cancelInterface = UIActionInterface.button(R.Strings.commonCancel,
                                                                .secondary(fontSize: .medium, withBorder: true))
                 let cancelAction: UIAction = UIAction(interface: cancelInterface,
                                                       action: {},
-                                                      accessibilityId: .bumpUpHiddenListingAlertCancelButton)
+                                                      accessibility: AccessibilityId.bumpUpHiddenListingAlertCancelButton)
 
 
                 self?.navigator?.showBumpUpNotAvailableAlertWithTitle(title: R.Strings.commonErrorTitle,
@@ -920,31 +920,31 @@ extension ListingViewModel {
             .withRenderingMode(.alwaysOriginal)
         return UIAction(interface: .image(icon, nil), action: { [weak self] in
             self?.switchFavorite()
-        }, accessibilityId: .listingCarouselNavBarFavoriteButton)
+        }, accessibility: AccessibilityId.listingCarouselNavBarFavoriteButton)
     }
 
     private func buildEditNavBarAction() -> UIAction {
         let icon = R.Asset.IconsButtons.navbarEdit.image.withRenderingMode(.alwaysOriginal)
         return UIAction(interface: .image(icon, nil), action: { [weak self] in
             self?.editListing()
-        }, accessibilityId: .listingCarouselNavBarEditButton)
+        }, accessibility: AccessibilityId.listingCarouselNavBarEditButton)
     }
 
     private func buildMoreNavBarAction() -> UIAction {
         let icon = R.Asset.IconsButtons.navbarMore.image.withRenderingMode(.alwaysOriginal)
         return UIAction(interface: .image(icon, nil), action: { [weak self] in self?.updateAltActions() },
-                        accessibilityId: .listingCarouselNavBarActionsButton)
+                        accessibility: AccessibilityId.listingCarouselNavBarActionsButton)
     }
 
     private func buildShareNavBarAction() -> UIAction {
  		if DeviceFamily.current.isWiderOrEqualThan(.iPhone6) {
             return UIAction(interface: .textImage(R.Strings.productShareNavbarButton, R.Asset.IconsButtons.icShare.image), action: { [weak self] in
                 self?.shareProduct()
-            }, accessibilityId: .listingCarouselNavBarShareButton)
+            }, accessibility: AccessibilityId.listingCarouselNavBarShareButton)
         } else {
             return UIAction(interface: .text(R.Strings.productShareNavbarButton), action: { [weak self] in
                 self?.shareProduct()
-            }, accessibilityId: .listingCarouselNavBarShareButton)
+            }, accessibility: AccessibilityId.listingCarouselNavBarShareButton)
         }
     }
 
@@ -969,13 +969,13 @@ extension ListingViewModel {
     private func buildEditAction() -> UIAction {
         return UIAction(interface: .text(R.Strings.productOptionEdit), action: { [weak self] in
             self?.editListing()
-        }, accessibilityId: .listingCarouselNavBarEditButton)
+        }, accessibility: AccessibilityId.listingCarouselNavBarEditButton)
     }
 
     private func buildShareAction() -> UIAction {
         return UIAction(interface: .text(R.Strings.productOptionShare), action: { [weak self] in
             self?.shareProduct()
-        }, accessibilityId: .listingCarouselNavBarShareButton)
+        }, accessibility: AccessibilityId.listingCarouselNavBarShareButton)
     }
 
     private func buildReportAction() -> UIAction {
@@ -1146,7 +1146,7 @@ fileprivate extension ListingViewModel {
     func favoriteBubbleNotificationData() -> BubbleNotificationData {
         let action = UIAction(interface: .text(R.Strings.productBubbleFavoriteButton), action: { [weak self] in
             self?.sendMessage(type: .favoritedListing(R.Strings.productFavoriteDirectMessage))
-        }, accessibilityId: .bubbleButton)
+        }, accessibility: AccessibilityId.bubbleButton)
         let data = BubbleNotificationData(tagGroup: ListingViewModel.bubbleTagGroup,
                                           text: R.Strings.productBubbleFavoriteButton,
                                           infoText: R.Strings.productBubbleFavoriteText,
@@ -1276,7 +1276,7 @@ fileprivate extension ListingViewModel {
     func sendMessage(type: ChatWrapperMessageType) {
         // Optimistic behavior
         let message = LocalMessage(type: type, userId: myUserRepository.myUser?.objectId)
-        let messageView = chatViewMessageAdapter.adapt(message)
+        let messageView = chatViewMessageAdapter.adapt(message, userAvatarData: nil)
         directChatMessages.insert(messageView, atIndex: 0)
 
         chatWrapper.sendMessageFor(listing: listing.value, type: type) { [weak self] result in
@@ -1451,7 +1451,7 @@ extension ListingViewModel: PurchasesShopperDelegate {
     
     private func isPromotedBump(typePage: EventParameterTypePage?) -> Bool {
         guard let typePage = typePage else { return false }
-        return typePage == .edit || typePage == .sellEdit || typePage == .pushNotification || typePage == .sell
+        return typePage == .edit || typePage == .sellEdit || typePage == .notificationCenter || typePage == .sell
     }
     
     // Free Bump Up

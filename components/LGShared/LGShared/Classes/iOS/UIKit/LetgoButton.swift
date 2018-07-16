@@ -1,35 +1,29 @@
-//
-//  LetgoButton.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 09/03/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
+import Foundation
 
-import UIKit
-
-enum ButtonFontSize {
+public enum ButtonFontSize {
     case big
     case medium
     case small
     case verySmall
 }
 
-enum ButtonStyle {
+public enum ButtonStyle {
     case primary(fontSize: ButtonFontSize)
     case secondary(fontSize: ButtonFontSize, withBorder: Bool)
     case terciary
     case google
     case facebook
-    case dark(fontSize: ButtonFontSize)
+    case dark(fontSize: ButtonFontSize, withBorder: Bool)
     case logout
     case darkField
     case lightField
     case postingFlow
+    case pinkish(fontSize: ButtonFontSize, withBorder: Bool)
+    case transparent(fontSize: ButtonFontSize, sidePadding: CGFloat)
     
-    var titleColor: UIColor {
+    public var titleColor: UIColor {
         switch self {
-        case .primary, .terciary, .google, .facebook, .dark, .logout, .postingFlow:
+        case .primary, .terciary, .google, .facebook, .dark, .logout, .postingFlow, .transparent:
             return UIColor.white
         case .secondary:
             return UIColor.primaryColor
@@ -37,10 +31,12 @@ enum ButtonStyle {
             return UIColor.white
         case .lightField:
             return UIColor.lgBlack
+        case .pinkish:
+            return UIColor.pinkText
         }
     }
     
-    var backgroundColor: UIColor {
+    public var backgroundColor: UIColor {
         switch self {
         case .primary:
             return UIColor.primaryColor
@@ -52,7 +48,7 @@ enum ButtonStyle {
             return UIColor.facebookColor
         case .google:
             return UIColor.googleColor
-        case .dark, .postingFlow:
+        case .dark, .postingFlow, .transparent:
             return UIColor.lgBlack.withAlphaComponent(0.3)
         case .logout:
             return UIColor.lgBlack.withAlphaComponent(0.1)
@@ -60,10 +56,12 @@ enum ButtonStyle {
             return UIColor.white.withAlphaComponent(0.3)
         case .lightField:
             return UIColor.grayLighter
+        case .pinkish:
+            return UIColor.clear
         }
     }
     
-    var backgroundColorHighlighted: UIColor {
+    public var backgroundColorHighlighted: UIColor {
         switch self {
         case .primary:
             return UIColor.primaryColorHighlighted
@@ -75,7 +73,7 @@ enum ButtonStyle {
             return UIColor.facebookColorHighlighted
         case .google:
             return UIColor.googleColorHighlighted
-        case .dark, .postingFlow:
+        case .dark, .postingFlow, .pinkish, .transparent:
             return UIColor.lgBlack.withAlphaComponent(0.5)
         case .logout:
             return UIColor.lgBlack.withAlphaComponent(0.05)
@@ -84,7 +82,7 @@ enum ButtonStyle {
         }
     }
     
-    var backgroundColorDisabled: UIColor {
+    public var backgroundColorDisabled: UIColor {
         switch self {
         case .primary:
             return UIColor.primaryColorDisabled
@@ -96,7 +94,7 @@ enum ButtonStyle {
             return UIColor.facebookColorDisabled
         case .google:
             return UIColor.googleColorDisabled
-        case .dark, .postingFlow:
+        case .dark, .postingFlow, .pinkish, .transparent:
             return UIColor.lgBlack.withAlphaComponent(0.3)
         case .logout:
             return UIColor.lgBlack.withAlphaComponent(0.05)
@@ -105,7 +103,7 @@ enum ButtonStyle {
         }
     }
     
-    var titleFont: UIFont {
+    public var titleFont: UIFont {
         switch fontSize {
         case .big:
             return UIFont.bigButtonFont
@@ -121,13 +119,11 @@ enum ButtonStyle {
     private var fontSize: ButtonFontSize {
         var fontSize = ButtonFontSize.big
         switch self {
-        case let .primary(size):
-            fontSize = size
-        case let .dark(size):
+        case let .primary(size), let .transparent(size, _):
             fontSize = size
         case .logout, .postingFlow:
             fontSize = .medium
-        case let .secondary(size,_):
+        case let .secondary(size, _), let .dark(size, _), let .pinkish(size, _):
             fontSize = size
         case .terciary:
             fontSize = .big
@@ -137,21 +133,21 @@ enum ButtonStyle {
         return fontSize
     }
     
-    var withBorder: Bool {
+    public var withBorder: Bool {
         switch self {
-        case .primary, .terciary, .google, .facebook, .dark, .darkField, .lightField, .logout:
+        case .primary, .terciary, .google, .facebook, .darkField, .lightField, .logout:
             return false
-        case.postingFlow:
+        case .postingFlow, .transparent:
             return true
-        case let .secondary(_, withBorder):
+        case let .secondary(_, withBorder), let .dark(_, withBorder), let .pinkish(_, withBorder):
             return withBorder
         }
     }
     
     
-    var borderColor: UIColor {
+    public var borderColor: UIColor {
         switch self {
-        case .primary, .terciary, .google, .facebook, .dark, .logout, .darkField:
+        case .primary, .terciary, .google, .facebook, .dark, .logout, .darkField, .transparent:
             return UIColor.white
         case .secondary:
             return UIColor.primaryColor
@@ -159,12 +155,14 @@ enum ButtonStyle {
             return UIColor.lgBlack
         case .postingFlow:
             return UIColor.grayBackground
+        case .pinkish:
+            return UIColor.pinkText
         }
     }
     
-    var borderColorDisabled: UIColor {
+    public var borderColorDisabled: UIColor {
         switch self {
-        case .postingFlow:
+        case .postingFlow, .pinkish, .transparent:
             return UIColor.gray
         case .primary, .terciary, .google, .facebook, .dark, .logout, .darkField:
             return UIColor.white
@@ -175,36 +173,38 @@ enum ButtonStyle {
         }
     }
     
-    var titleColorDisabled: UIColor {
+    public var titleColorDisabled: UIColor {
         switch self {
-        case .postingFlow:
-            return UIColor.white
-        case .primary, .terciary, .google, .facebook, .dark, .logout, .darkField:
+        case .primary, .terciary, .google, .facebook, .dark, .logout, .darkField, .postingFlow, .pinkish:
             return UIColor.white
         case .secondary:
             return UIColor.primaryColorDisabled
         case .lightField:
             return UIColor.lgBlack
+        case .transparent:
+            return UIColor.gray
         }
     }
     
-    var sidePadding: CGFloat {
+    public var sidePadding: CGFloat {
         switch self {
         case .postingFlow:
             return 15
-        case .primary, .terciary, .google, .facebook, .dark, .darkField, .lightField, .logout, .secondary:
+        case .primary, .terciary, .google, .facebook, .dark, .darkField, .lightField, .logout, .secondary, .pinkish:
             switch fontSize {
             case .big:
                 return 15
             case .medium, .small, .verySmall:
                 return 10
             }
+        case .transparent(_, let side):
+            return side
         }
     }
     
-    var applyCornerRadius: Bool {
+    public var applyCornerRadius: Bool {
         switch self {
-        case .primary, .secondary, .terciary, .google, .facebook, .dark, .logout, .postingFlow:
+        case .primary, .secondary, .terciary, .google, .facebook, .dark, .logout, .postingFlow, .pinkish, .transparent:
             return true
         case .darkField, .lightField:
             return false
@@ -212,14 +212,14 @@ enum ButtonStyle {
     }
 }
 
-enum ButtonState {
+public enum ButtonState {
     case hidden
     case enabled
     case disabled
     case loading
 }
 
-extension UIButton {
+public extension UIButton {
     func setState(_ state: ButtonState) {
         switch state {
         case .hidden:
@@ -241,10 +241,7 @@ extension UIButton {
     }
 }
 // If you use it with xibs, you must set the type of the button to CUSTOM
-final class LetgoButton: UIButton {
-
-    override var intrinsicContentSize: CGSize { return CGSize(width: UIViewNoIntrinsicMetric, height: 44) }
-
+public final class LetgoButton: UIButton {
     private(set) var style: ButtonStyle = .primary(fontSize: .medium) {
         didSet {
             updateButton(withStyle: style)
@@ -256,16 +253,16 @@ final class LetgoButton: UIButton {
         super.init(frame: frame)
     }
 
-    required init?(coder aDecoder: NSCoder) { super.init(coder: aDecoder) }
+    required public init?(coder aDecoder: NSCoder) { super.init(coder: aDecoder) }
     
-    convenience init(withStyle style: ButtonStyle) {
+    convenience public init(withStyle style: ButtonStyle) {
         self.init(type: .custom)
         updateStyle(style)
     }
 
-    convenience init() { self.init(type: .custom) }
+    convenience public init() { self.init(type: .custom) }
 
-    func setStyle(_ style: ButtonStyle) {
+    public func setStyle(_ style: ButtonStyle) {
         guard buttonType == UIButtonType.custom else {
             print("💣 => Styles can only be applied to customStyle Buttons")
             return
@@ -273,12 +270,13 @@ final class LetgoButton: UIButton {
         updateStyle(style)
     }
 
-    func configureWith(uiAction action: UIAction) {
+    public func configureWith(uiAction action: UIAction) {
         setTitle(action.text, for: .normal)
         setImage(action.image, for: .normal)
         if let style = action.buttonStyle {
             setStyle(style)
         }
+        invalidateIntrinsicContentSize()
     }
 
     private func updateStyle(_ style: ButtonStyle) {
@@ -326,7 +324,7 @@ final class LetgoButton: UIButton {
         }
     }
     
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
         updateCornerRadius()
     }

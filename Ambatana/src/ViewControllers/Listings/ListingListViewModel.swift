@@ -40,7 +40,6 @@ struct VerticalTrackingInfo {
     let category: ListingCategory
     let keywords: [String]
     let matchingFields: [String]
-    let nonMatchingFields: [String]
 }
 
 
@@ -750,26 +749,45 @@ final class ListingListViewModel: BaseViewModel {
         }
     }
     
-    func updateAdvertisementRequestedIn(position: Int, nativeContentAd: GADNativeContentAd, contentAdView: GADNativeContentAdView) {
+    func updateAdvertisementRequestedIn(position: Int, nativeAd: GADNativeAd) {
         guard 0..<objects.count ~= position else { return }
         let modelToBeUpdated = objects[position]
         switch modelToBeUpdated {
         case .adxAdvertisement(let data):
-            guard data.adPosition == position else { return }
-            contentAdView.nativeContentAd = nativeContentAd
-            let newAdData = AdvertisementAdxData(adUnitId: data.adUnitId,
-                                                 rootViewController: data.rootViewController,
-                                                 adPosition: data.adPosition,
-                                                 bannerHeight: data.bannerHeight,
-                                                 adRequested: true,
-                                                 categories: data.categories,
-                                                 adLoader: data.adLoader,
-                                                 adxNativeView: contentAdView)
+            guard data.adPosition == position,
+                let newAdData = updateAdvertisementAdxDataFor(data: data, nativeAd: nativeAd) else { return }
             objects[position] = ListingCellModel.adxAdvertisement(data: newAdData)
             delegate?.vmReloadItemAtIndexPath(indexPath: IndexPath(row: position, section: 0))
         case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems, .dfpAdvertisement, .mopubAdvertisement, .promo:
             break
         }
+    }
+    
+    private func updateAdvertisementAdxDataFor(data: AdvertisementAdxData, nativeAd: GADNativeAd) -> AdvertisementAdxData? {
+        var adxNativeView = UIView()
+        if let nativeContentAd = nativeAd as? GADNativeContentAd {
+            let adxNativeContentView = GoogleAdxNativeContentView()
+            adxNativeContentView.nativeContentAd = nativeContentAd
+            adxNativeView = adxNativeContentView
+        } else if let nativeAppInstallAd = nativeAd as? GADNativeAppInstallAd {
+            let adxNativeAppInstallView = GoogleAdxNativeAppInstallView()
+            adxNativeAppInstallView.nativeAppInstallAd = nativeAppInstallAd
+            adxNativeView = adxNativeAppInstallView
+        } else {
+            return nil
+        }
+        let size = adxNativeView.systemLayoutSizeFitting(CGSize.init(width: cellWidth,
+                                                                     height: LGUIKitConstants.advertisementCellDefaultHeight),
+                                                         withHorizontalFittingPriority: .required,
+                                                         verticalFittingPriority: .fittingSizeLevel)
+        return AdvertisementAdxData(adUnitId: data.adUnitId,
+                                    rootViewController: data.rootViewController,
+                                    adPosition: data.adPosition,
+                                    bannerHeight: size.height,
+                                    adRequested: true,
+                                    categories: data.categories,
+                                    adLoader: data.adLoader,
+                                    adxNativeView: adxNativeView)
     }
 }
 
@@ -789,8 +807,7 @@ extension ListingListViewModel {
     func trackVerticalFilterResults(withVerticalTrackingInfo info: VerticalTrackingInfo) {
         let event = TrackerEvent.listingListVertical(category: info.category,
                                                      keywords: info.keywords,
-                                                     matchingFields: info.matchingFields,
-                                                     nonMatchingFields: info.nonMatchingFields)
+                                                     matchingFields: info.matchingFields)
         tracker.trackEvent(event)
     }
 }

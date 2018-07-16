@@ -15,7 +15,6 @@ protocol FeatureFlaggeable: class {
     var syncedData: Observable<Bool> { get }
     func variablesUpdated()
 
-    var showNPSSurvey: Bool { get }
     var surveyUrl: String { get }
     var surveyEnabled: Bool { get }
 
@@ -61,22 +60,25 @@ protocol FeatureFlaggeable: class {
     var googleAdxForTR: GoogleAdxForTR { get }
     var fullScreenAdsWhenBrowsingForUS: FullScreenAdsWhenBrowsingForUS { get }
     var fullScreenAdUnitId: String? { get }
+    var appInstallAdsInFeed: AppInstallAdsInFeed { get }
+    var appInstallAdsInFeedAdUnit: String? { get }
     
     // MARK: Chat
     var showInactiveConversations: Bool { get }
     var showChatSafetyTips: Bool { get }
     var userIsTyping: UserIsTyping { get }
-    var markAllConversationsAsRead: MarkAllConversationsAsRead { get }
     var chatNorris: ChatNorris { get }
     var chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs { get }
     var showChatConnectionStatusBar: ShowChatConnectionStatusBar { get }
+    var showChatHeaderWithoutListingForAssistant: Bool { get }
+    var showChatHeaderWithoutUser: Bool { get }
 
     // MARK: Verticals
     var searchCarsIntoNewBackend: SearchCarsIntoNewBackend { get }
-    var filterSearchCarSellerType: FilterSearchCarSellerType { get }
     var realEstateMap: RealEstateMap { get }
     var showServicesFeatures: ShowServicesFeatures { get }
     var carExtraFieldsEnabled: CarExtraFieldsEnabled { get }
+    var realEstateMapTooltip: RealEstateMapTooltip { get }
     
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed { get }
@@ -105,6 +107,7 @@ protocol FeatureFlaggeable: class {
     var onboardingIncentivizePosting: OnboardingIncentivizePosting { get }
     var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed { get }
     var notificationSettings: NotificationSettings { get }
+    var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions { get }
 }
 
 extension FeatureFlaggeable {
@@ -196,6 +199,10 @@ extension CarExtraFieldsEnabled {
     var isActive: Bool { return self == .active }
 }
 
+extension RealEstateMapTooltip {
+    var isActive: Bool { return self == .active  }
+}
+
 extension BumpUpBoost {
     var isActive: Bool { get { return self != .control && self != .baseline } }
 
@@ -250,14 +257,6 @@ extension CopyForChatNowInTurkey {
 
 extension RealEstateMap {
     var isActive: Bool { return self != .baseline && self != .control }
-}
-
-extension FilterSearchCarSellerType {
-    var isActive: Bool { return self != .baseline && self != .control }
-    
-    var isMultiselection: Bool {
-        return self == .variantA || self == .variantB
-    }
 }
 
 extension AdvancedReputationSystem {
@@ -462,6 +461,10 @@ extension PreventMessagesFromFeedToProUsers {
     var isActive: Bool { return self == .active }
 }
 
+extension AppInstallAdsInFeed {
+    var isActive: Bool { return self == .active }
+}
+
 final class FeatureFlags: FeatureFlaggeable {
     
     static let sharedInstance: FeatureFlags = FeatureFlags()
@@ -529,14 +532,7 @@ final class FeatureFlags: FeatureFlaggeable {
         }
         abTests.variablesUpdated()
     }
-
-    var showNPSSurvey: Bool {
-        if Bumper.enabled {
-            return Bumper.showNPSSurvey
-        }
-        return abTests.showNPSSurvey.value
-    }
-
+    
     var surveyUrl: String {
         if Bumper.enabled {
             return Bumper.surveyEnabled ? SharedConstants.surveyDefaultTestUrl : ""
@@ -741,6 +737,14 @@ final class FeatureFlags: FeatureFlaggeable {
         }
         return ReportingFostaSesta.fromPosition(abTests.reportingFostaSesta.value)
     }
+    
+    var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions {
+        if Bumper.enabled {
+            return Bumper.searchAlertsInSearchSuggestions
+        }
+        return SearchAlertsInSearchSuggestions.fromPosition(abTests.searchAlertsInSearchSuggestions.value)
+    }
+    
     
     // MARK: - Country features
 
@@ -1040,6 +1044,28 @@ final class FeatureFlags: FeatureFlaggeable {
         }
     }
     
+    var appInstallAdsInFeedAdUnit: String? {
+        if Bumper.enabled {
+            // Bumper overrides country restriction
+            return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxInstallAppUSA
+        }
+        switch sensorLocationCountryCode {
+        case .usa?:
+            return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxInstallAppUSA
+        case .turkey?:
+            return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxInstallAppTR
+        default:
+            return nil
+        }
+    }
+    
+    var appInstallAdsInFeed: AppInstallAdsInFeed {
+        if Bumper.enabled {
+            return Bumper.appInstallAdsInFeed
+        }
+        return AppInstallAdsInFeed.fromPosition(abTests.appInstallAdsInFeed.value)
+    }
+    
     // MARK: - Private
 
     private var locationCountryCode: CountryCode? {
@@ -1060,10 +1086,6 @@ final class FeatureFlags: FeatureFlaggeable {
 // MARK: Chat
 
 extension UserIsTyping {
-    var isActive: Bool { return self == .active }
-}
-
-extension MarkAllConversationsAsRead {
     var isActive: Bool { return self == .active }
 }
 
@@ -1102,13 +1124,6 @@ extension FeatureFlags {
         return UserIsTyping.fromPosition(abTests.userIsTyping.value)
     }
     
-    var markAllConversationsAsRead: MarkAllConversationsAsRead {
-        if Bumper.enabled {
-            return Bumper.markAllConversationsAsRead
-        }
-        return MarkAllConversationsAsRead.fromPosition(abTests.markAllConversationsAsRead.value)
-    }
-    
     var chatNorris: ChatNorris {
         if Bumper.enabled {
             return Bumper.chatNorris
@@ -1128,9 +1143,21 @@ extension FeatureFlags {
         if Bumper.enabled {
             return Bumper.showChatConnectionStatusBar
         }
-        // Remove hardcoded value when is implemented also for chat detail
-        return .control
-//        return  ShowChatConnectionStatusBar.fromPosition(abTests.showChatConnectionStatusBar.value)
+        return  ShowChatConnectionStatusBar.fromPosition(abTests.showChatConnectionStatusBar.value)
+    }
+
+    var showChatHeaderWithoutListingForAssistant: Bool {
+        if Bumper.enabled {
+            return Bumper.showChatHeaderWithoutListingForAssistant
+        }
+        return abTests.showChatHeaderWithoutListingForAssistant.value
+    }
+
+    var showChatHeaderWithoutUser: Bool {
+        if Bumper.enabled {
+            return Bumper.showChatHeaderWithoutUser
+        }
+        return abTests.showChatHeaderWithoutUser.value
     }
 }
 
@@ -1143,13 +1170,6 @@ extension FeatureFlags {
             return Bumper.searchCarsIntoNewBackend
         }
         return SearchCarsIntoNewBackend.fromPosition(abTests.searchCarsIntoNewBackend.value)
-    }
-    
-    var filterSearchCarSellerType: FilterSearchCarSellerType {
-        if Bumper.enabled {
-            return Bumper.filterSearchCarSellerType
-        }
-        return FilterSearchCarSellerType.fromPosition(abTests.filterSearchCarSellerType.value)
     }
     
     var realEstateMap: RealEstateMap {
@@ -1173,6 +1193,13 @@ extension FeatureFlags {
         
         return .control
 //        return CarExtraFieldsEnabled.fromPosition(abTests.carExtraFieldsEnabled.value)
+    }
+    
+    var realEstateMapTooltip: RealEstateMapTooltip {
+        if Bumper.enabled {
+            return Bumper.realEstateMapTooltip
+        }
+        return RealEstateMapTooltip.fromPosition(abTests.realEstateMapTooltip.value)
     }
 }
 

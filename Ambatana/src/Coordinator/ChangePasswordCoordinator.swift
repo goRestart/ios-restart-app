@@ -1,13 +1,6 @@
-//
-//  ChangePasswordCoordinator.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 29/11/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
+import LGComponents
 
 protocol ChangePasswordPresenter {
     func openChangePassword(coordinator: ChangePasswordCoordinator)

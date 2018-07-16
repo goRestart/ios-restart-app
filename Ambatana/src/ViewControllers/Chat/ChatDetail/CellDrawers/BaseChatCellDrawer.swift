@@ -25,21 +25,20 @@ class BaseChatCellDrawer<T: UITableViewCell>: BaseTableCellDrawer<T>, ChatCellDr
     If the cell is not of type T, it will do nothing.
     If the cell is of type T, it will call the real draw method implemented by the subclass
     
-    - parameter cell:     Cell where the message is going to be draw, must be T
-    - parameter message:  Message to draw
-    - parameter avatar:   Avatar to draw if any
-    - parameter delegate: Delegate of the cell if any
+    - parameter cell:           Cell where the message is going to be draw, must be T
+    - parameter message:        Message to draw
+    - parameter bubbleColor:    Color of the message bubble
     */
-    func draw(_ cell: UITableViewCell, message: ChatViewMessage) {
+    func draw(_ cell: UITableViewCell, message: ChatViewMessage, bubbleColor: UIColor?) {
         guard let myCell = cell as? T else { return }
-        draw(myCell, message: message)
+        draw(myCell, message: message, bubbleColor: bubbleColor)
         checkAutoHide(myCell, message: message)
     }
     
     /**
     Abstract method that should be implemented by the subclasses.
     */
-    func draw(_ cell: T, message: ChatViewMessage) {}
+    func draw(_ cell: T, message: ChatViewMessage, bubbleColor: UIColor?) {}
 
 
     private func checkAutoHide(_ cell: T, message: ChatViewMessage) {

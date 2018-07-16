@@ -6,7 +6,6 @@ public enum AppEnvironmentType: String {
 }
 
 public final class EnvironmentProxy: AppEnvironment {
-
     public static let sharedInstance = EnvironmentProxy(godmode: false)
 
     public private(set) var environment: AppEnvironment
@@ -44,6 +43,10 @@ public final class EnvironmentProxy: AppEnvironment {
 
     public var facebookAppId: String {
         return environment.facebookAppId
+    }
+
+    public var appleMerchantId: String {
+        return environment.appleMerchantId
     }
 
     public var appsFlyerAPIKey: String {
@@ -145,6 +148,10 @@ public final class EnvironmentProxy: AppEnvironment {
     public var feedAdUnitIdAdxTRForOldUsers: String {
         return environment.feedAdUnitIdAdxTRForOldUsers
     }
+
+    public var stripeAPIKey: String {
+        return environment.stripeAPIKey
+    }
     
     public var fullScreenAdUnitIdAdxForAllUsersForUS: String {
         return environment.fullScreenAdUnitIdAdxForAllUsersForUS
@@ -152,6 +159,14 @@ public final class EnvironmentProxy: AppEnvironment {
     
     public var fullScreenAdUnitIdAdxForOldUsersForUS: String {
         return environment.fullScreenAdUnitIdAdxForOldUsersForUS
+    }
+    
+    public var feedAdUnitIdAdxInstallAppUSA: String {
+        return environment.feedAdUnitIdAdxInstallAppUSA
+    }
+    
+    public var feedAdUnitIdAdxInstallAppTR: String {
+        return environment.feedAdUnitIdAdxInstallAppTR
     }
     
 }

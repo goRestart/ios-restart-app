@@ -39,7 +39,7 @@ extension TaxonomyChild {
 
 extension Array where Element == TaxonomyChild {
     func getIds(withType type: TaxonomyChildType) -> [Int] {
-       return self.filter { $0.type == type }.flatMap { $0.id }
+       return self.filter { $0.type == type }.compactMap { $0.id }
     }
 }
 

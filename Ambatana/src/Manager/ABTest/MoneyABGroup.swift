@@ -21,7 +21,8 @@ struct MoneyABGroup: ABGroupType {
         static let copyForSellFasterNowInEnglish = "20180420CopyForSellFasterNowInEnglish"
         static let googleAdxForTR = "20180511GoogleAdxForTR"
         static let fullScreenAdsWhenBrowsingForUS = "20180516FullScreenAdsWhenBrowsingForUS"
-        static let preventMessagesFromFeedToProUsers = "20180607PreventMessagesFromFeedToProUsers"
+        static let preventMessagesFromFeedToProUsers = "20180710PreventMessagesFromFeedToProUsers"
+        static let appInstallAdsInFeed = "20180628AppInstallAdsInFeed"
     }
     let noAdsInFeedForNewUsers: LeanplumABVariable<Int>
     let copyForChatNowInTurkey: LeanplumABVariable<Int>
@@ -35,6 +36,7 @@ struct MoneyABGroup: ABGroupType {
     let googleAdxForTR: LeanplumABVariable<Int>
     let fullScreenAdsWhenBrowsingForUS: LeanplumABVariable<Int>
     let preventMessagesFromFeedToProUsers: LeanplumABVariable<Int>
+    let appInstallAdsInFeed: LeanplumABVariable<Int>
 
     let group: ABGroup = .money
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -53,7 +55,8 @@ struct MoneyABGroup: ABGroupType {
          copyForSellFasterNowInEnglish: LeanplumABVariable<Int>,
          googleAdxForTR:LeanplumABVariable<Int>,
          fullScreenAdsWhenBrowsingForUS:LeanplumABVariable<Int>,
-         preventMessagesFromFeedToProUsers:LeanplumABVariable<Int>){
+         preventMessagesFromFeedToProUsers:LeanplumABVariable<Int>,
+         appInstallAdsInFeed:LeanplumABVariable<Int>){
         self.noAdsInFeedForNewUsers = noAdsInFeedForNewUsers
         self.copyForChatNowInTurkey = copyForChatNowInTurkey
         self.showProTagUserProfile = showProTagUserProfile
@@ -66,6 +69,7 @@ struct MoneyABGroup: ABGroupType {
         self.googleAdxForTR = googleAdxForTR
         self.fullScreenAdsWhenBrowsingForUS = fullScreenAdsWhenBrowsingForUS
         self.preventMessagesFromFeedToProUsers = preventMessagesFromFeedToProUsers
+        self.appInstallAdsInFeed = appInstallAdsInFeed
 
         intVariables.append(contentsOf: [noAdsInFeedForNewUsers,
                                          copyForChatNowInTurkey,
@@ -76,7 +80,8 @@ struct MoneyABGroup: ABGroupType {
                                          copyForSellFasterNowInEnglish,
                                          googleAdxForTR,
                                          fullScreenAdsWhenBrowsingForUS,
-                                         preventMessagesFromFeedToProUsers])
+                                         preventMessagesFromFeedToProUsers,
+                                         appInstallAdsInFeed])
         boolVariables.append(contentsOf: [showProTagUserProfile,
                                           showExactLocationForPros])
     }
@@ -117,6 +122,9 @@ struct MoneyABGroup: ABGroupType {
                                                                      groupType: .money),
                             preventMessagesFromFeedToProUsers: .makeInt(key: Keys.preventMessagesFromFeedToProUsers,
                                                                      defaultValue: 0,
-                                                                     groupType: .money))
+                                                                     groupType: .money),
+                            appInstallAdsInFeed: .makeInt(key: Keys.appInstallAdsInFeed,
+                                                          defaultValue: 0,
+                                                          groupType: .money))
     }
 }

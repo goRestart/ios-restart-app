@@ -1,12 +1,5 @@
-//
-//  ChangeEmailView.swift
-//  LetGo
-//
-//  Created by Nestor on 19/01/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 class ChangeEmailView: UIView {
     

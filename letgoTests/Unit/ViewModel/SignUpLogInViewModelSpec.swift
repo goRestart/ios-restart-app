@@ -655,7 +655,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                             expect(self.finishedSuccessfully) == false
                         }
                         it("does not track any event") {
-                            let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                            let trackedEventNames = tracker.trackedEvents.compactMap { $0.name }
                             expect(trackedEventNames) == []
                         }
                     }
@@ -673,7 +673,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                             expect(self.finishedSuccessfully) == false
                         }
                         it("tracks a loginEmailError event") {
-                            let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                            let trackedEventNames = tracker.trackedEvents.compactMap { $0.name }
                             expect(trackedEventNames) == [EventName.loginEmailError]
                         }
                         it("shows error message") {
@@ -694,7 +694,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                             expect(self.finishedSuccessfully) == false
                         }
                         it("tracks a loginEmailError event") {
-                            let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                            let trackedEventNames = tracker.trackedEvents.compactMap { $0.name }
                             expect(trackedEventNames) == [EventName.loginEmailError]
                         }
                         it("shows error message") {
@@ -712,7 +712,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                             expect(sendButtonEnabled) == true
                         }
                         it("does not track any event") {
-                            let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                            let trackedEventNames = tracker.trackedEvents.compactMap { $0.name }
                             expect(trackedEventNames) == []
                         }
                     }
@@ -731,7 +731,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         }
                         
                         it("does not track any event") {
-                            let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                            let trackedEventNames = tracker.trackedEvents.compactMap { $0.name }
                             expect(trackedEventNames) == []
                         }
                     }
@@ -744,7 +744,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         }
                         
                         it("tracks a loginEmailError event") {
-                            let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                            let trackedEventNames = tracker.trackedEvents.compactMap { $0.name }
                             expect(trackedEventNames) == [EventName.loginEmailError]
                         }
                     }
@@ -757,7 +757,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         }
                         
                         it("does not track any event") {
-                            let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                            let trackedEventNames = tracker.trackedEvents.compactMap { $0.name }
                             expect(trackedEventNames) == []
                         }
                     }
@@ -778,7 +778,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         }
                         
                         it("tracks a loginEmailError event") {
-                            let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                            let trackedEventNames = tracker.trackedEvents.compactMap { $0.name }
                             expect(trackedEventNames) == [EventName.loginEmailError]
                         }
                         it("does not call close after login in navigator") {
@@ -805,7 +805,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         }
                         
                         it("tracks two loginEmailError event") {
-                            let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                            let trackedEventNames = tracker.trackedEvents.compactMap { $0.name }
                             expect(trackedEventNames) == [EventName.loginEmailError, EventName.loginEmailError]
                         }
                         it("does not call close after login in navigator") {
@@ -831,7 +831,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         }
                         
                         it("tracks two loginEmailError event") {
-                            let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                            let trackedEventNames = tracker.trackedEvents.compactMap { $0.name }
                             expect(trackedEventNames) == [EventName.loginEmailError, EventName.loginEmailError]
                         }
                         it("does not call close after login in navigator") {
@@ -855,7 +855,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         }
                         
                         it("tracks a loginEmailError event") {
-                            let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                            let trackedEventNames = tracker.trackedEvents.compactMap { $0.name }
                             expect(trackedEventNames) == [EventName.loginEmailError]
                         }
                         it("does not call close after login in navigator") {
@@ -879,7 +879,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         }
                         
                         it("tracks a loginEmailError event") {
-                            let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                            let trackedEventNames = tracker.trackedEvents.compactMap { $0.name }
                             expect(trackedEventNames) == [EventName.loginEmailError]
                         }
                         it("does not call close after login in navigator") {
@@ -907,7 +907,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         }
                         
                         it("tracks a loginEmail event") {
-                            let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                            let trackedEventNames = tracker.trackedEvents.compactMap { $0.name }
                             expect(trackedEventNames) == [EventName.loginEmail]
                         }
                         it("calls close after login in navigator when signup succeeds") {
@@ -1088,7 +1088,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         }
                         
                         it("does not track any event") {
-                            let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                            let trackedEventNames = tracker.trackedEvents.compactMap { $0.name }
                             expect(trackedEventNames) == []
                         }
                     }
@@ -1102,7 +1102,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         }
                         
                         it("tracks a signupError event") {
-                            let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                            let trackedEventNames = tracker.trackedEvents.compactMap { $0.name }
                             expect(trackedEventNames) == [EventName.signupError]
                         }
                     }
@@ -1116,7 +1116,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         }
                         
                         it("tracks a loginEmailError event") {
-                            let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                            let trackedEventNames = tracker.trackedEvents.compactMap { $0.name }
                             expect(trackedEventNames) == [EventName.signupError]
                         }
                     }
@@ -1130,7 +1130,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         }
 
                         it("does not track any event") {
-                            let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                            let trackedEventNames = tracker.trackedEvents.compactMap { $0.name }
                             expect(trackedEventNames) == []
                         }
                     }
@@ -1152,7 +1152,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         }
                         
                         it("tracks a loginEmailError event") {
-                            let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                            let trackedEventNames = tracker.trackedEvents.compactMap { $0.name }
                             expect(trackedEventNames) == [EventName.signupError]
                         }
                         it("does not call close after login in navigator") {
@@ -1179,7 +1179,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         }
                         
                         it("tracks two signupError event") {
-                            let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                            let trackedEventNames = tracker.trackedEvents.compactMap { $0.name }
                             expect(trackedEventNames) == [EventName.signupError, EventName.signupError]
                         }
                         it("does not call close after login in navigator") {
@@ -1202,7 +1202,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         }
                         
                         it("tracks two loginEmailError event") {
-                            let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                            let trackedEventNames = tracker.trackedEvents.compactMap { $0.name }
                             expect(trackedEventNames) == [EventName.signupError, EventName.signupError]
                         }
                         it("does not call close after login in navigator") {
@@ -1226,7 +1226,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         }
                         
                         it("tracks a loginEmailError event") {
-                            let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                            let trackedEventNames = tracker.trackedEvents.compactMap { $0.name }
                             expect(trackedEventNames) == [EventName.signupError]
                         }
                         it("does not call close after login in navigator") {
@@ -1254,7 +1254,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         }
                         
                         it("tracks a signupEmail event") {
-                            let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                            let trackedEventNames = tracker.trackedEvents.compactMap { $0.name }
                             expect(trackedEventNames) == [EventName.signupEmail]
                         }
                         it("calls close after login in navigator when signup succeeds") {

@@ -1,13 +1,6 @@
-//
-//  LGTutorialViewController.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 11/17/17.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
 import RxSwift
+import LGComponents
 
 typealias LGTutorialCell = LGTutorialCollectionViewCell
 

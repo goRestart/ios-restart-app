@@ -1,5 +1,6 @@
 "account_pending_moderation" = "Аккаунт на модерации";
 "account_pending_moderation_w_name" = "Аккаунт %@ на модерации";
+"advertising_text" = "Реклама";
 "app_notification_reply" = "Ответить";
 "app_share_download_text" = "Загрузка";
 "app_share_email_button" = "Пригласить через е-мейл";
@@ -368,7 +369,8 @@
 "featured_info_view_more_buyers" = "Привлечь больше покупателей";
 "featured_info_view_sell_faster" = "Продать быстрее";
 "featured_info_view_title" = "Выделенное объявление";
-"filter_cars_seats_title" = "Seats";
+"filter_cars_mileage" = "Пробег";
+"filter_cars_seats_title" = "Сиденья";
 "filter_results_cars_no_matches" = "Совпадений для вашего поиска не найдено. \n Показывать похожие результаты. ";
 "filter_results_cars_other_results" = "Недавно опубликовано в вашем районе";
 "filters_car_make_not_set" = "Не установлен";
@@ -406,9 +408,9 @@
 "filters_cars_transmission_manual" = "Ручная";
 "filters_cars_transmission_title" = "Трансмиссия";
 "filters_distance_not_set" = "не установлен";
-"filters_mileage_slider_title" = "Mileage";
+"filters_mileage_slider_title" = "Пробег";
 "filters_navbar_reset" = "Сброс";
-"filters_numberOfSeats_slider_title" = "Seats";
+"filters_numberOfSeats_slider_title" = "Сиденья";
 "filters_price_from" = "От";
 "filters_price_from_feed_filter_cell" = "От";
 "filters_price_to" = "До";
@@ -434,7 +436,7 @@
 "filters_service_subtype_not_set" = "Не установлен";
 "filters_service_type_not_set" = "Не установлен";
 "filters_size_wrong_range_error" = "Минимальный размер не может быть больше максимального.";
-"filters_slider_any" = "Any";
+"filters_slider_any" = "Любое";
 "filters_sort_closest" = "Сначала ближайшее";
 "filters_sort_newest" = "Сначала новое";
 "filters_sort_price_asc" = "Цена (от меньшей к большей)";
@@ -478,7 +480,7 @@
 "id_verification_third_step_subtitle" = "Убедитесь, что документ четко видно и он попадает в рамку";
 "id_verification_third_step_title" = "Сделайте фото лицевой стороны документа";
 "id_verification_update_avatar_message" = "Хотите сделать это фото изображением профиля?";
-"kilometer_unit_suffix" = "KM";
+"kilometer_unit_suffix" = "км";
 "listing_chat_button" = "Пообщаться";
 "listing_interested_button_A" = "Я заинтересован";
 "listing_interested_button_B" = "Интересует";
@@ -551,7 +553,7 @@
 "meeting_creation_view_suggest_cell_select" = "Выбрать";
 "meeting_creation_view_suggest_cell_selected" = "Выбрано";
 "meeting_creation_view_title" = "Назначить встречу";
-"mile_unit_suffix" = "mi";
+"mile_unit_suffix" = "миль";
 "ml_camera_in_about_days_text" = "примерно за %d дней";
 "ml_camera_in_more_than_days_text" = "более чем за %d дней";
 "ml_camera_sells_for_text" = "Обычно продают за $%d";
@@ -562,7 +564,6 @@
 "ml_onboarding_description_text" = "Покажите мне товар, и я скажу, сколько вы можете получить";
 "ml_onboarding_new_text" = "НОВОЕ!";
 "ml_onboarding_ok_text" = "OK";
-"mopub_advertising_text" = "Реклама";
 "notifications_empty_subtitle" = "Разместите что-нибудь на продажу для получения уведомлений";
 "notifications_empty_title" = "НЕТ УВЕДОМЛЕНИЙ (ПОКА!)";
 "notifications_permissions_1_push" = "Ирина: Очень понравился ваш телефон. Отдадите за 5000р?";
@@ -795,6 +796,8 @@
 "product_new_onboarding_tap_right_highlighted_label" = "Нажмите на правую часть";
 "product_new_onboarding_tap_right_highlighted_label_2" = "или в середину";
 "product_new_onboarding_tap_right_label" = "%@ или %@ для просмотра следующего фото";
+"product_nit_onboarding_next_picture" = "Следующее изображение";
+"product_nit_onboarding_previous_picture" = "Предыдущее изображение";
 "product_onboarding_finger_scroll_label" = "Проведите вверх или вниз, чтобы листать фотографии";
 "product_onboarding_finger_swipe_label" = "Листайте, чтобы пройти к следующему или предыдущему объявлению";
 "product_onboarding_finger_tap_label" = "Нажмите, чтобы пройти к следующему объявлению";
@@ -1059,6 +1062,8 @@
 "real_estate_gallery_view_subtitle_params" = "Выберите до %d изображений недвижимости, которую хотите продать или сдать. Первым будет выделенное вам фото, поэтому убедитесь, что оно подходит!";
 "real_estate_location_notification_message" = "Мы никогда не показываем ваше точное местоположение другим пользователям";
 "real_estate_location_title" = "Местоположение";
+"real_estate_map_tooltip_button_title" = "Попробовать сейчас";
+"real_estate_map_tooltip_title" = "Новинка! Смотрите подробности на карте.";
 "real_estate_offer_type_rent" = "Аренда";
 "real_estate_offer_type_sale" = "Продажа";
 "real_estate_offer_type_title" = "Тип объявления";

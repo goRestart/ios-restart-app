@@ -1,4 +1,5 @@
 import WebKit
+import LGComponents
 
 final class RecaptchaViewController: BaseViewController {
     var webView: WKWebView { return recaptchaView.webView }

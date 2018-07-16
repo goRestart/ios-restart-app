@@ -1,5 +1,6 @@
 "account_pending_moderation" = "Moderálásra váró fiók";
 "account_pending_moderation_w_name" = "%@ fiókja moderálásra vár";
+"advertising_text" = "Hirdetés";
 "app_notification_reply" = "Válasz";
 "app_share_download_text" = "Letöltés";
 "app_share_email_button" = "Meghívás e-mailben";
@@ -219,7 +220,7 @@
 "chat_send_error_different_country" = "Nem kezdhetsz beszélgetést olyan portékáról, amelyet más országban hirdettek meg.";
 "chat_send_error_generic" = "Hiba történt az üzenet küldése során. Próbálkozz újra.";
 "chat_status_view_connecting" = "Csatlakozás...";
-"chat_status_view_no_network" = "Nincs hálózati kapcsolat";
+"chat_status_view_no_network" = "Nincs kapcsolat";
 "chat_status_view_try_again" = "újra";
 "chat_status_view_unable_to_connect" = "A csatlakozás sikertelen. Próbálkozz újra";
 "chat_stickers_tooltip_new" = "ÚJ!";
@@ -368,7 +369,8 @@
 "featured_info_view_more_buyers" = "Szerezz több vásárlót";
 "featured_info_view_sell_faster" = "Add el gyorsabban";
 "featured_info_view_title" = "Kiemelt hirdetés";
-"filter_cars_seats_title" = "Seats";
+"filter_cars_mileage" = "Megtett mérföld";
+"filter_cars_seats_title" = "Ülések";
 "filter_results_cars_no_matches" = "Nincs pontos találat a keresésre.\n Hasonló találatokat láthatsz.";
 "filter_results_cars_other_results" = "Nemrégiben meghirdetve a környéken.";
 "filters_car_make_not_set" = "Nincs megadva";
@@ -406,9 +408,9 @@
 "filters_cars_transmission_manual" = "Manuális";
 "filters_cars_transmission_title" = "Váltó";
 "filters_distance_not_set" = "nincs megadva";
-"filters_mileage_slider_title" = "Mileage";
+"filters_mileage_slider_title" = "Megtett mérföld";
 "filters_navbar_reset" = "Mégse";
-"filters_numberOfSeats_slider_title" = "Seats";
+"filters_numberOfSeats_slider_title" = "Ülések";
 "filters_price_from" = "Legalább";
 "filters_price_from_feed_filter_cell" = "Legalább";
 "filters_price_to" = "Legfeljebb";
@@ -426,7 +428,7 @@
 "filters_section_distance" = "Távolság";
 "filters_section_location" = "Tartózkodási hely";
 "filters_section_price" = "Ár";
-"filters_section_price_free_title" = "Csak ingyenes portékák";
+"filters_section_price_free_title" = "Csak ingyenes hirdetések";
 "filters_section_real_estate_info" = "Ingatlaninformációk";
 "filters_section_services_info" = "Szolgáltatásinformációk";
 "filters_section_sortby" = "Rendezés";
@@ -434,7 +436,7 @@
 "filters_service_subtype_not_set" = "Nincs Megadva";
 "filters_service_type_not_set" = "Nincs Megadva";
 "filters_size_wrong_range_error" = "A minimális méret nem lehet nagyobb a maximálisnál.";
-"filters_slider_any" = "Any";
+"filters_slider_any" = "Bármilyen";
 "filters_sort_closest" = "Legközelebbiek elöl";
 "filters_sort_newest" = "Legújabbak elöl";
 "filters_sort_price_asc" = "Ár szerint, növekvő";
@@ -478,7 +480,7 @@
 "id_verification_third_step_subtitle" = "Jól látszódjon az igazolvány, és a képernyőn látható dobozon belül legyen";
 "id_verification_third_step_title" = "Készíts egy képet az igazolványod elejéről";
 "id_verification_update_avatar_message" = "Szeretnéd, hogy ez legyen a profilképed?";
-"kilometer_unit_suffix" = "KM";
+"kilometer_unit_suffix" = "km";
 "listing_chat_button" = "Csevegés";
 "listing_interested_button_A" = "Érdekel";
 "listing_interested_button_B" = "Érdekel";
@@ -551,7 +553,7 @@
 "meeting_creation_view_suggest_cell_select" = "Választ";
 "meeting_creation_view_suggest_cell_selected" = "Kiválasztva";
 "meeting_creation_view_title" = "Találkozó megtervezése";
-"mile_unit_suffix" = "mi";
+"mile_unit_suffix" = "mérf.";
 "ml_camera_in_about_days_text" = "körülbelül %d nap alatt";
 "ml_camera_in_more_than_days_text" = "több mint %d nap alatt";
 "ml_camera_sells_for_text" = "Jellemző vételár: %d";
@@ -562,7 +564,6 @@
 "ml_onboarding_description_text" = "Mutass egy tárgyat, és megmondom, hogy mennyit kereshetsz vele";
 "ml_onboarding_new_text" = "ÚJ!";
 "ml_onboarding_ok_text" = "OK";
-"mopub_advertising_text" = "Hirdetés";
 "notifications_empty_subtitle" = "Tölts fel hirdetést, hogy történjen itt valami";
 "notifications_empty_title" = "NINCS ÉRTESÍTÉS (MÉG!)";
 "notifications_permissions_1_push" = "Izabella: Érdekelne a telefon. Eladnád 25.000 Ft-ért?";
@@ -795,6 +796,8 @@
 "product_new_onboarding_tap_right_highlighted_label" = "koppints jobbra";
 "product_new_onboarding_tap_right_highlighted_label_2" = "középre";
 "product_new_onboarding_tap_right_label" = "A következő képhez %@ vagy %@";
+"product_nit_onboarding_next_picture" = "Következő kép";
+"product_nit_onboarding_previous_picture" = "Előző kép";
 "product_onboarding_finger_scroll_label" = "Csúsztatással további képeket jeleníthetsz meg";
 "product_onboarding_finger_swipe_label" = "A következő vagy az előző hirdetéshez suhints oldalra";
 "product_onboarding_finger_tap_label" = "A következő hirdetéshez koppints egyet";
@@ -1059,6 +1062,8 @@
 "real_estate_gallery_view_subtitle_params" = "Válassz ki legfeljebb %d képet az eladó vagy kiadó ingatlanodról. Az első lesz a kiemelt képed, jót válassz!";
 "real_estate_location_notification_message" = "Sosem mutatjuk meg más felhasználóknak a pontos tartózkodási helyedet";
 "real_estate_location_title" = "Hely";
+"real_estate_map_tooltip_button_title" = "Próbáld ki";
+"real_estate_map_tooltip_title" = "Új! Térképen láthatod az ingatlanokat.";
 "real_estate_offer_type_rent" = "Kiadó";
 "real_estate_offer_type_sale" = "Eladó";
 "real_estate_offer_type_title" = "Hirdetés típusa";

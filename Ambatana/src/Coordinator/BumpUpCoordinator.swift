@@ -1,13 +1,6 @@
-//
-//  BumpUpCoordinator.swift
-//  LetGo
-//
-//  Created by Dídac on 30/01/17.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
+import LGComponents
 
 enum BumpUpPurchaseableData {
     case socialMessage(message: SocialMessage)

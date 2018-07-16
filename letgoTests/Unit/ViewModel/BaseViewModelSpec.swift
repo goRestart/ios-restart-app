@@ -1,14 +1,7 @@
-//
-//  BaseViewModelSpec.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 06/02/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 @testable import LetGoGodMode
 import Quick
 import Nimble
+import LGComponents
 
 class BaseViewModelSpec: QuickSpec, BaseViewModelDelegate, TabNavigator {
 

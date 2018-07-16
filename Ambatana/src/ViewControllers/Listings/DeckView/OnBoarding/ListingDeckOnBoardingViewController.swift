@@ -1,12 +1,5 @@
-//
-//  ListingDeckOnBoardingViewController.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 24/01/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 protocol ListingDeckOnBoardingViewModelType: class {
     func close()

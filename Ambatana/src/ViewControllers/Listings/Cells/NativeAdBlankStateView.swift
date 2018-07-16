@@ -20,7 +20,7 @@ final class NativeAdBlankStateView: UIView {
         backgroundColor = NativeAdBlankStateView.adsLightGrey
         addSubviewsForAutoLayout([adTextLabel])
 
-        adTextLabel.text = R.Strings.mopubAdvertisingText
+        adTextLabel.text = R.Strings.advertisingText
         adTextLabel.font = UIFont.adTextFont
         adTextLabel.textColor = UIColor.white
         adTextLabel.textAlignment = .right

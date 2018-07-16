@@ -2,7 +2,10 @@ import RxSwift
 import LGCoreKit
 import LGComponents
 
-protocol PostingDetailsViewModelDelegate: BaseViewModelDelegate {}
+protocol PostingDetailsViewModelDelegate: BaseViewModelDelegate {
+    func detailViewScrolled(contentOffsetY: CGFloat)
+    func detailViewScrollToTop()
+}
 
 class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDelegate, PostingAddDetailSummaryTableViewDelegate {
     
@@ -89,15 +92,15 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         var values: [String]
         switch step {
         case .bathrooms:
-            values = NumberOfBathrooms.allValues.flatMap { $0.localizedString }
+            values = NumberOfBathrooms.allValues.compactMap { $0.localizedString }
         case .bedrooms:
-            values = NumberOfBedrooms.allValues.flatMap { $0.localizedString }
+            values = NumberOfBedrooms.allValues.compactMap { $0.localizedString }
         case .rooms:
-            values = NumberOfRooms.allValues.flatMap { $0.localizedString }
+            values = NumberOfRooms.allValues.compactMap { $0.localizedString }
         case .offerType:
-            values = RealEstateOfferType.allValues.flatMap { $0.localizedString }
+            values = RealEstateOfferType.allValues.compactMap { $0.localizedString }
         case .propertyType:
-            values = RealEstatePropertyType.allValues(postingFlowType: featureFlags.postingFlowType).flatMap { $0.localizedString }
+            values = RealEstatePropertyType.allValues(postingFlowType: featureFlags.postingFlowType).compactMap { $0.localizedString }
         case .sizeSquareMeters:
             let sizeView = PostingAddDetailSizeView(frame: CGRect.zero)
             sizeView.sizeListingObservable.bind(to: sizeListing).disposed(by: disposeBag)
@@ -124,6 +127,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
                                                              theme: .light,
                                                              subtypes: serviceSubtypes)
             postServicesView.delegate = self
+            postServicesView.scrollDelegate = self
             return postServicesView
         }
         let view = PostingAttributePickerTableView(values: values, selectedIndexes: [], delegate: self)
@@ -642,7 +646,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
                                                                  currency: currency,
                                                                  postListingState: postListingState)
         
-        let multipostNewParams: [ListingCreationParams] = newSubtypes.enumerated().flatMap { (index, newSubtype) in
+        let multipostNewParams: [ListingCreationParams] = newSubtypes.enumerated().compactMap { (index, newSubtype) in
             guard let imageFileId = imagesIds[safeAt: index+multipostSubtypeParams.count] else { return nil }
             let serviceAttribute = ServiceAttributes()
             let imageFile = LGFile(id: imageFileId, url: nil)
@@ -689,12 +693,14 @@ extension PostingDetailsViewModel: PostingMultiSelectionViewDelegate {
     func showAlertMaxSelection() {
         let action = UIAction(interface: .button(R.Strings.commonOk, .primary(fontSize: .medium)),
                               action: { },
-                              accessibilityId: .postingDetailMaxServices)
+                              accessibility: AccessibilityId.postingDetailMaxServices)
         delegate?.vmShowAlertWithTitle(R.Strings.postDetailsServicesCreateMax,
                                        text: "",
                                        alertType: .plainAlert,
                                        actions: [action])
     }
+
+    //  MARK: - Private
     
     private var selectedServicesIsLessThanMax: Bool {
         return (multipostingSubtypes.count + multipostingNewSubtypes.count) <= SharedConstants.maxNumberMultiPosting
@@ -709,5 +715,18 @@ extension PostingDetailsViewModel: PostingMultiSelectionViewDelegate {
             return true
         }
         return multipostingSubtypes.count > 0 || multipostingNewSubtypes.count > 0
+    }
+}
+
+extension PostingDetailsViewModel: PostingMultiSelectionScrollDelegate {
+    
+    func scroll(_ scrollView: UIScrollView) {
+        if scrollView.isDragging || scrollView.isDecelerating {
+            delegate?.detailViewScrolled(contentOffsetY: scrollView.contentOffset.y)
+        }
+    }
+    
+    func scrollToTop() {
+        delegate?.detailViewScrollToTop()
     }
 }

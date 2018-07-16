@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
     s.author           = { 'letgo team' => 'ios@letgo.com' }
     s.source           = { :git => 'https://github.com/letgoapp/letgo-ios.git', :tag => s.version.to_s }
     
-    s.swift_version    = '4.0'
+    s.swift_version    = '4.1'
     s.ios.deployment_target = '9.0'
 
     s.static_framework = true
@@ -64,19 +64,15 @@ Pod::Spec.new do |s|
     s.subspec 'LGShared' do |sharedSpec|  
     	baseFolder='LGShared/LGShared/Classes/'
         sharedSpec.source_files = [
-            baseFolder+'iOS/UIKit/UIView+Geometry.swift',
-            baseFolder+'iOS/UIKit/UIColor+LG.swift',
-            baseFolder+'iOS/UIKit/UIColor+RGB.swift',
-            baseFolder+'iOS/UIKit/UIColor+UIImage.swift',
-            baseFolder+'iOS/UIKit/UIFont+LG.swift',
-            baseFolder+'iOS/UIKit/UIView+Corners.swift',
-            baseFolder+'iOS/UIKit/UIView+Border.swift',
-            baseFolder+'iOS/UIKit/LGLayout.swift',
+            baseFolder+'iOS/UIKit/**/*',
             baseFolder+'iOS/Foundation/TimeInterval+Time.swift',
             baseFolder+'iOS/Foundation/String+LG.swift',
             baseFolder+'iOS/Foundation/CollectionType+Shuffle.swift',
             baseFolder+'iOS/Foundation/LGEmoji.swift',
             baseFolder+'iOS/Foundation/URL+LG.swift',
+            baseFolder+'iOS/Foundation/Array+LG.swift',
+            baseFolder+'MVVM+C/**/*',
+            baseFolder+'Global/Accessibility.swift',
             baseFolder+'Global/AppReport.swift',
             baseFolder+'Global/SharedConstants.swift',
             baseFolder+'Global/Debug.swift',
@@ -96,13 +92,13 @@ Pod::Spec.new do |s|
         # sharedSpec.dependency 'LGComponents/LGAnalytics'
         # sharedSpec.dependency 'LGComponents/LGResources'
 
-        sharedSpec.dependency 'LGCoreKit',             '4.36.2'
+        sharedSpec.dependency 'LGCoreKit',              '4.41.0'
 
         # sharedSpec.dependency 'DeviceGuru',            '3.0.1'
         sharedSpec.dependency 'AlamofireImage',        '3.3.0'
         # sharedSpec.dependency 'SwiftyUserDefaults',    '3.0.1'
         sharedSpec.dependency 'CocoaLumberjack/Swift', '3.3.0'
-        # sharedSpec.dependency 'RxCocoa',               '4.0.0'
+        sharedSpec.dependency 'RxCocoa',               '4.0.0'
     end
 
     # s.subspec 'LGSharedMocks' do |sharedMocksSpec|

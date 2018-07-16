@@ -19,6 +19,6 @@ extension Array where Element == ServiceSubtype {
     
     var trackingValue: String? {
         guard !isEmpty else { return nil }
-        return flatMap { $0.id }.joined(separator: ",")
+        return compactMap { $0.id }.joined(separator: ",")
     }
 }

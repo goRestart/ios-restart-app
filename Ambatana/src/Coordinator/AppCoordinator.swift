@@ -13,7 +13,7 @@ enum BumpUpSource {
     var typePageParameter: EventParameterTypePage? {
         switch self {
         case .deepLink:
-            return .pushNotification
+            return .notificationCenter
         case .promoted:
             return .sell
         case .edit:
@@ -306,12 +306,12 @@ extension AppCoordinator: AppNavigator {
                                                              .primary(fontSize: .medium))
         let reviewAlertAction = UIAction(interface: reviewActionInterface,
                                          action: reviewAction,
-                                         accessibilityId: .offensiveReportAlertOpenGuidelineButton)
+                                         accessibility: AccessibilityId.offensiveReportAlertOpenGuidelineButton)
         let skipActionInterface = UIActionInterface.button(R.Strings.offensiveReportAlertSecondaryAction,
                                                             .secondary(fontSize: .medium, withBorder: true))
         let skipAlertAction = UIAction(interface: skipActionInterface,
                                   action: {},
-                                  accessibilityId: .offensiveReportAlertSkipButton)
+                                  accessibility: AccessibilityId.offensiveReportAlertSkipButton)
         if let alert = LGAlertViewController(title: R.Strings.offensiveReportAlertTitle,
                                              text: R.Strings.offensiveReportAlertMessage,
                                              alertType: .plainAlert,
@@ -1154,7 +1154,7 @@ extension AppCoordinator: BumpInfoRequesterDelegate {
                 var actionOnFirstAppear = ProductCarouselActionOnFirstAppear.triggerBumpUp(bumpUpProductData: bumpUpProductData,
                                                                                            bumpUpType: .priced,
                                                                                            triggerBumpUpSource: .deepLink,
-                                                                                           typePage: nil)
+                                                                                           typePage: .notificationCenter)
                 if let timeSinceLastBump = self?.timeSinceLastBump, timeSinceLastBump > 0 {
                     actionOnFirstAppear = ProductCarouselActionOnFirstAppear.nonexistent
                 }

@@ -16,6 +16,18 @@ extension CarDetailType {
             return R.Strings.postCategoryDetailCarModel
         case .year:
             return R.Strings.postCategoryDetailCarYear
+        case .distance:
+            return ""
+        case .body:
+            return R.Strings.filtersCarsBodytypeTitle
+        case .transmission:
+            return R.Strings.filtersCarsTransmissionTitle
+        case .fuel:
+            return R.Strings.filtersCarsFueltypeTitle
+        case .drivetrain:
+            return R.Strings.filtersCarsDrivetrainTitle
+        case .seat:
+            return R.Strings.filtersCarsDrivetrainTitle
         }
     }
 }
@@ -40,6 +52,14 @@ class CarAttributeSelectionViewModel : BaseViewModel {
 
 
     let wrappedInfoList = Variable<[CarInfoWrapper]>([])
+    
+    init(carsFieldOptions: [String], selectedIndex: Int?, type: CarDetailType, style: CarAttributeSelectionTableStyle) {
+        self.detailType = type
+        self.title = detailType.navigationTitle
+        self.selectedIndex = selectedIndex
+        self.style = style
+        wrappedInfoList.value = carsFieldOptions.map { CarInfoWrapper(id: "", name: $0, type: type ) }
+    }
 
     init(carsMakes: [CarsMake], selectedMake: String?, style: CarAttributeSelectionTableStyle) {
         self.detailType = .make
@@ -86,7 +106,7 @@ class CarAttributeSelectionViewModel : BaseViewModel {
         wrappedInfoList.value = yearsList.map { CarInfoWrapper(id: String($0), name: String($0), type: .year )}
     }
 
-    func carInfoSelected(id: String, name: String, type: CarDetailType) {
+    func carInfoSelected(id: String, index: Int, name: String, type: CarDetailType) {
         switch type {
         case .make:
             carAttributeSelectionDelegate?.didSelectMake(makeId: id, makeName: name)
@@ -95,9 +115,12 @@ class CarAttributeSelectionViewModel : BaseViewModel {
         case .year:
             guard let year = Int(id) else { return }
             carAttributeSelectionDelegate?.didSelectYear(year: year)
+        case .distance, .body, .transmission, .fuel, .drivetrain, .seat:
+            break
         }
         closeAttributesChoice()
     }
+
 }
 
 extension CarAttributeSelectionViewModel {

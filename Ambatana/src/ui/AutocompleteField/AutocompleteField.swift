@@ -1,18 +1,7 @@
-//
-//  AutocompleteField.swift
-//  Example
-//
-//  Created by Filip Stefansson on 05/11/15.
-//  Copyright © 2015 Filip Stefansson. All rights reserved.
-//
-
-// Originally from https://github.com/thestr4ng3r/AutocompleteField, commit: 2b3eae30ad51d35f5716afda91ef77fa796a0d77 (Swift 3)
-// Modified to delete useless functionality & inherit from LGTextField :D
-
 import Foundation
 import RxSwift
 import UIKit
-
+import LGComponents
 
 @IBDesignable class AutocompleteField: LGTextField {
     @IBInspectable var completionColor : UIColor = UIColor(white: 0, alpha: 0.22)

@@ -45,11 +45,6 @@ final class SurveysCoordinator: Coordinator {
             vm.navigator = self
             let vc = WebSurveyViewController(viewModel: vm)
             self.viewController = vc
-        } else if featureFlags.showNPSSurvey {
-            let vm = NPSViewModel()
-            vm.navigator = self
-            let vc = NPSViewController(viewModel: vm)
-            self.viewController = vc
         } else {
             return nil
         }
@@ -91,18 +86,5 @@ extension SurveysCoordinator: WebSurveyNavigator {
 
     func webSurveyFinished() {
         closeSurvey(animated: true, messageToShow: R.Strings.surveyConfirmation, completion: nil)
-    }
-}
-
-
-// MARK: - NpsSurveyNavigator
-
-extension SurveysCoordinator: NpsSurveyNavigator {
-    func closeNpsSurvey() {
-        closeSurvey(animated: true, messageToShow: nil, completion: nil)
-    }
-
-    func npsSurveyFinished() {
-        closeSurvey(animated: true, messageToShow: nil, completion: nil)
     }
 }

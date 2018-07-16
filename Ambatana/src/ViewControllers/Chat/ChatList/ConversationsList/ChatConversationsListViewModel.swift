@@ -20,7 +20,6 @@ enum ChatConnectionBarStatus {
             let unableToConnectString = R.Strings.chatStatusViewUnableToConnect
             let finalAttributtedString = NSMutableAttributedString(string: unableToConnectString)
             let tryAgainRange = NSString(string: unableToConnectString).range(of: tryAgain)
-            print(tryAgainRange)
             finalAttributtedString.setAttributes(tryAgainAttributes, range: tryAgainRange)
             return finalAttributtedString
         case .wsConnecting:
@@ -168,9 +167,7 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
         
         var actions: [UIAction] = []
         actions.append(deleteAction)
-        if featureFlags.markAllConversationsAsRead.isActive {
-            actions.append(markAllConvesationsAsReadAction)
-        }
+        actions.append(markAllConvesationsAsReadAction)
         if featureFlags.showInactiveConversations {
             actions.append(showInactiveConversationsAction)
         }

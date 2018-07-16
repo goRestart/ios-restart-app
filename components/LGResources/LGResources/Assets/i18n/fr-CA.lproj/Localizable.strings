@@ -1,5 +1,6 @@
 "account_pending_moderation" = "Compte en attente de modération";
 "account_pending_moderation_w_name" = "Le compte de %@ est en attente de modération";
+"advertising_text" = "Publicité";
 "app_notification_reply" = "Répondre";
 "app_share_download_text" = "Télécharger";
 "app_share_email_button" = "Inviter par Courriel";
@@ -368,7 +369,8 @@
 "featured_info_view_more_buyers" = "Attirez plus d'acheteurs";
 "featured_info_view_sell_faster" = "Vendez plus vite";
 "featured_info_view_title" = "Annonce en Vedette";
-"filter_cars_seats_title" = "Seats";
+"filter_cars_mileage" = "Kilométrage";
+"filter_cars_seats_title" = "Sièges";
 "filter_results_cars_no_matches" = "Aucune réponse exacte à votre recherche.\nAffichage de résultats similaires. ";
 "filter_results_cars_other_results" = "Publié récemment dans votre secteur";
 "filters_car_make_not_set" = "Non Communiqué";
@@ -406,9 +408,9 @@
 "filters_cars_transmission_manual" = "Manuelle";
 "filters_cars_transmission_title" = "Boite de vitesse";
 "filters_distance_not_set" = "non configuré";
-"filters_mileage_slider_title" = "Mileage";
+"filters_mileage_slider_title" = "Kilométrage";
 "filters_navbar_reset" = "Réinitialiser";
-"filters_numberOfSeats_slider_title" = "Seats";
+"filters_numberOfSeats_slider_title" = "Sièges";
 "filters_price_from" = "De";
 "filters_price_from_feed_filter_cell" = "De";
 "filters_price_to" = "À";
@@ -434,7 +436,7 @@
 "filters_service_subtype_not_set" = "Aucun";
 "filters_service_type_not_set" = "Aucun";
 "filters_size_wrong_range_error" = "La grandeur minimum ne peut pas être plus élevée que la grandeur maximum";
-"filters_slider_any" = "Any";
+"filters_slider_any" = "Tous";
 "filters_sort_closest" = "Le plus près en premier";
 "filters_sort_newest" = "Le plus récent en premier";
 "filters_sort_price_asc" = "Prix croissants";
@@ -478,7 +480,7 @@
 "id_verification_third_step_subtitle" = "Assurez-vous que votre pièce d'identité soit claire et à l'intérieur de l'espace prévu à cet effet";
 "id_verification_third_step_title" = "Prenez une photo du recto de votre pièce d'identité";
 "id_verification_update_avatar_message" = "Voulez-vous que cela devienne votre photo de profil ?";
-"kilometer_unit_suffix" = "KM";
+"kilometer_unit_suffix" = "km";
 "listing_chat_button" = "Clavardez Maintenant";
 "listing_interested_button_A" = "Je suis intéressé(e)";
 "listing_interested_button_B" = "Intéressé(e)";
@@ -562,7 +564,6 @@
 "ml_onboarding_description_text" = "Montrez-moi un produit et je vous dirai combien vous allez gagner";
 "ml_onboarding_new_text" = "NOUVEAU !";
 "ml_onboarding_ok_text" = "OK";
-"mopub_advertising_text" = "Publicité";
 "notifications_empty_subtitle" = "Publiez quelque chose à vendre pour qu'il y ait un peu d'action par ici";
 "notifications_empty_title" = "AUCUNE NOTIFICATION (POUR LE MOMENT !)";
 "notifications_permissions_1_push" = "Lucie : Je suis très intéressé par votre téléphone ! Pouvez-vous me le laisser pour $100 ?";
@@ -795,6 +796,8 @@
 "product_new_onboarding_tap_right_highlighted_label" = "Touchez sur la droite";
 "product_new_onboarding_tap_right_highlighted_label_2" = "au milieu";
 "product_new_onboarding_tap_right_label" = "%@ ou %@ pour voir l'image suivante";
+"product_nit_onboarding_next_picture" = "Photo suivante";
+"product_nit_onboarding_previous_picture" = "Photo précédente";
 "product_onboarding_finger_scroll_label" = "Faites défiler pour voir plus de photos";
 "product_onboarding_finger_swipe_label" = "Glissez pour voir l'annonce suivante ou précédente";
 "product_onboarding_finger_tap_label" = "Tapez pour aller à l'annonce suivante";
@@ -1059,6 +1062,8 @@
 "real_estate_gallery_view_subtitle_params" = "Sélectionnez jusqu'à %d images de la propriété que vous voulez vendre ou louer. La première sera votre photo mise en vedette, assurez-vous que ce soit une bonne !";
 "real_estate_location_notification_message" = "Nous n'indiquons jamais votre localisation exacte aux autres utilisateurs";
 "real_estate_location_title" = "Lieu";
+"real_estate_map_tooltip_button_title" = "Essayez Maintenant";
+"real_estate_map_tooltip_title" = "Nouveau ! Découvrez les propriétés sur une carte.";
 "real_estate_offer_type_rent" = "À louer";
 "real_estate_offer_type_sale" = "À vendre";
 "real_estate_offer_type_title" = "Type d'annonce";

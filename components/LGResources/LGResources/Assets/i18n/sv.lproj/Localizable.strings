@@ -1,5 +1,6 @@
 "account_pending_moderation" = "Konto väntar på att modereras";
 "account_pending_moderation_w_name" = "%@s konto väntar på att modereras";
+"advertising_text" = "Reklam";
 "app_notification_reply" = "Svara";
 "app_share_download_text" = "Ladda ner";
 "app_share_email_button" = "Bjud in via mejl";
@@ -219,7 +220,7 @@
 "chat_send_error_different_country" = "Du kan inte starta en chatt om en annons som har lagts upp i ett annat land.";
 "chat_send_error_generic" = "Ett fel uppstod när meddelandet sändes. Vänligen försök igen.";
 "chat_status_view_connecting" = "Ansluter...";
-"chat_status_view_no_network" = "Ingen nätverksanslutning";
+"chat_status_view_no_network" = "Ingen anslutning";
 "chat_status_view_try_again" = "försök igen";
 "chat_status_view_unable_to_connect" = "Anslutningen misslyckades. Vänligen försök igen";
 "chat_stickers_tooltip_new" = "NY!";
@@ -368,6 +369,7 @@
 "featured_info_view_more_buyers" = "Locka flera köpare";
 "featured_info_view_sell_faster" = "Sälj snabbare";
 "featured_info_view_title" = "Topplistad produkt";
+"filter_cars_mileage" = "Miltal";
 "filter_cars_seats_title" = "Säten";
 "filter_results_cars_no_matches" = "Din sökning gav ingen träff. \nLiknande resultat visas. ";
 "filter_results_cars_other_results" = "Nyligen upplagda i ditt område";
@@ -406,9 +408,9 @@
 "filters_cars_transmission_manual" = "Manuell";
 "filters_cars_transmission_title" = "Växellåda";
 "filters_distance_not_set" = "inte vald";
-"filters_mileage_slider_title" = "Mileage";
+"filters_mileage_slider_title" = "Miltal";
 "filters_navbar_reset" = "Återställ";
-"filters_numberOfSeats_slider_title" = "Seats";
+"filters_numberOfSeats_slider_title" = "Säten";
 "filters_price_from" = "Från";
 "filters_price_from_feed_filter_cell" = "Från";
 "filters_price_to" = "Till";
@@ -426,7 +428,7 @@
 "filters_section_distance" = "Avstånd";
 "filters_section_location" = "Plats";
 "filters_section_price" = "Pris";
-"filters_section_price_free_title" = "Visa endast gratis produkter";
+"filters_section_price_free_title" = "Visa endast gratis varor";
 "filters_section_real_estate_info" = "Fastighetsinformation";
 "filters_section_services_info" = "Tjänstinfo";
 "filters_section_sortby" = "Sortera efter";
@@ -434,7 +436,7 @@
 "filters_service_subtype_not_set" = "Ej Vald";
 "filters_service_type_not_set" = "Ej Vald";
 "filters_size_wrong_range_error" = "Den minsta ytan får inte vara högre än den största ytan.";
-"filters_slider_any" = "Any";
+"filters_slider_any" = "Alla";
 "filters_sort_closest" = "Närmast först";
 "filters_sort_newest" = "Senast upplagda först";
 "filters_sort_price_asc" = "Pris lågt till högt";
@@ -478,7 +480,7 @@
 "id_verification_third_step_subtitle" = "Försäkra dig att bilden är skarp och att du får med hela dokumentet";
 "id_verification_third_step_title" = "Ta en bild av framsidan av dokumentet";
 "id_verification_update_avatar_message" = "Vill du använda denna bild som profilbild?";
-"kilometer_unit_suffix" = "KM";
+"kilometer_unit_suffix" = "km";
 "listing_chat_button" = "Chatta nu";
 "listing_interested_button_A" = "Jag är intresserad!";
 "listing_interested_button_B" = "Intresserad";
@@ -551,7 +553,7 @@
 "meeting_creation_view_suggest_cell_select" = "Välj";
 "meeting_creation_view_suggest_cell_selected" = "Vald";
 "meeting_creation_view_title" = "Planera ett möte";
-"mile_unit_suffix" = "mi";
+"mile_unit_suffix" = "mil";
 "ml_camera_in_about_days_text" = "Inom cirka %d dagar";
 "ml_camera_in_more_than_days_text" = "Mer än %d dagar";
 "ml_camera_sells_for_text" = "Säljs vanligtvis för $%d";
@@ -562,7 +564,6 @@
 "ml_onboarding_description_text" = "Visa mig en produkt så berättar jag hur mycket du kan tjäna";
 "ml_onboarding_new_text" = "NY!";
 "ml_onboarding_ok_text" = "Ok";
-"mopub_advertising_text" = "Reklam";
 "notifications_empty_subtitle" = "Lägg upp något till försäljning för att börja se lite aktivitet här";
 "notifications_empty_title" = "INGA NOTISER (ÄNNU!)";
 "notifications_permissions_1_push" = "Isabella: Jag är väldigt intresserad av din mobil. let go för 800 kr?";
@@ -795,6 +796,8 @@
 "product_new_onboarding_tap_right_highlighted_label" = "Klicka till höger";
 "product_new_onboarding_tap_right_highlighted_label_2" = "i mitten";
 "product_new_onboarding_tap_right_label" = "%@ eller %@ för att se nästa bild";
+"product_nit_onboarding_next_picture" = "Nästa bild";
+"product_nit_onboarding_previous_picture" = "Föregående bild";
 "product_onboarding_finger_scroll_label" = "Skrolla ner för att se fler bilder.";
 "product_onboarding_finger_swipe_label" = "Svep för att gå till nästa eller föregående annons";
 "product_onboarding_finger_tap_label" = "Klicka för att gå till nästa annons";
@@ -1059,6 +1062,8 @@
 "real_estate_gallery_view_subtitle_params" = "Välj upp till %d bilder av bostaden du vill sälja eller hyra ut. Den första kommer att bli din annonsbild så välj en bra bild!";
 "real_estate_location_notification_message" = "Vi visar aldrig din exakta plats till andra användare";
 "real_estate_location_title" = "Plats";
+"real_estate_map_tooltip_button_title" = "Prova nu";
+"real_estate_map_tooltip_title" = "Nytt! Se bostäderna på en karta";
 "real_estate_offer_type_rent" = "Uthyres";
 "real_estate_offer_type_sale" = "Till salu";
 "real_estate_offer_type_title" = "Typ av annons";

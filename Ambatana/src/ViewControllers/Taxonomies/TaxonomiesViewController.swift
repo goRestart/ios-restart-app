@@ -1,14 +1,7 @@
-//
-//  TaxonomiesViewController.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 20/07/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 class TaxonomiesViewController : BaseViewController, TaxonomiesViewModelDelegate {
     

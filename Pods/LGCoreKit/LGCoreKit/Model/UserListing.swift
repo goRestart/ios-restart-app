@@ -17,4 +17,5 @@ public protocol UserListing: BaseModel {
     
     var banned: Bool? { get }
     var isDummy: Bool { get }
+    var type: UserType { get }
 }

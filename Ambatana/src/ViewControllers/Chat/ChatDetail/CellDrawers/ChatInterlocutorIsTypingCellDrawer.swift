@@ -12,7 +12,8 @@ class ChatInterlocutorIsTypingCellDrawer: BaseChatCellDrawer<ChatInterlocutorIsT
         super.init(autoHide: autoHide)
     }
     
-    override func draw(_ cell: ChatInterlocutorIsTypingCell, message: ChatViewMessage) {
-        
+    override func draw(_ cell: ChatInterlocutorIsTypingCell, message: ChatViewMessage, bubbleColor: UIColor? = nil) {
+        cell.set(bubbleBackgroundColor: bubbleColor)
+        cell.set(userAvatar: message.userAvatarData?.avatarImage, avatarAction: message.userAvatarData?.avatarAction)
     }
 }

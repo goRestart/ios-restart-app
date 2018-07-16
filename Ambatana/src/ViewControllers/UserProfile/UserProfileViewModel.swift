@@ -541,10 +541,10 @@ extension UserProfileViewModel {
 
         let positive = UIAction(interface: .styledText(R.Strings.profilePermissionsAlertOk, .standard),
                                 action: positiveClosure,
-                                accessibilityId: .userPushPermissionOK)
+                                accessibility: AccessibilityId.userPushPermissionOK)
         let negative = UIAction(interface: .styledText(R.Strings.profilePermissionsAlertCancel, .cancel),
                                 action:negativeClosure,
-                                accessibilityId: .userPushPermissionCancel)
+                                accessibility: AccessibilityId.userPushPermissionCancel)
 
         delegate?.vmShowAlertWithTitle(R.Strings.profilePermissionsAlertTitle,
                                        text: R.Strings.profilePermissionsAlertMessage,
@@ -771,7 +771,7 @@ extension UserProfileViewModel: ListingCellDelegate {
         return
     }
     
-    func openAskPhoneFor(_ listing: Listing, interlocutor: User) {}
+    func openAskPhoneFor(_ listing: Listing, interlocutor: LocalUser) {}
     
     func getUserInfoFor(_ listing: Listing, completion: @escaping (User?) -> Void) {}
 
