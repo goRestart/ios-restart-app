@@ -77,6 +77,7 @@ extension Bumper  {
         flags.append(RealEstateMapTooltip.self)
         flags.append(AppInstallAdsInFeed.self)
         flags.append(SearchAlertsInSearchSuggestions.self)
+        flags.append(EngagementBadging.self)
         Bumper.initialize(flags)
     } 
 
@@ -869,6 +870,19 @@ extension Bumper  {
     static var searchAlertsInSearchSuggestionsObservable: Observable<SearchAlertsInSearchSuggestions> {
         return Bumper.observeValue(for: SearchAlertsInSearchSuggestions.key).map {
             SearchAlertsInSearchSuggestions(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var engagementBadging: EngagementBadging {
+        guard let value = Bumper.value(for: EngagementBadging.key) else { return .control }
+        return EngagementBadging(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var engagementBadgingObservable: Observable<EngagementBadging> {
+        return Bumper.observeValue(for: EngagementBadging.key).map {
+            EngagementBadging(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1823,6 +1837,22 @@ enum SearchAlertsInSearchSuggestions: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show search alerts in search suggestions view" } 
     static func fromPosition(_ position: Int) -> SearchAlertsInSearchSuggestions {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum EngagementBadging: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return EngagementBadging.control.rawValue }
+    static var enumValues: [EngagementBadging] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show recent items bubble in feed basic approach" } 
+    static func fromPosition(_ position: Int) -> EngagementBadging {
         switch position { 
             case 0: return .control
             case 1: return .baseline

@@ -196,6 +196,7 @@ extension ABTests {
     var highlightedIAmInterestedInFeed: LeanplumABVariable<Int> { return retention.highlightedIAmInterestedInFeed }
     var notificationSettings: LeanplumABVariable<Int> { return retention.notificationSettings }
     var searchAlertsInSearchSuggestions: LeanplumABVariable<Int> { return retention.searchAlertsInSearchSuggestions }
+    var engagementBadging: LeanplumABVariable<Int> { return retention.engagementBadging }
 }
 
 //  MARK: RealEstate

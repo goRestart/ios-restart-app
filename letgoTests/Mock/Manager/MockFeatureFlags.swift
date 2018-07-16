@@ -110,5 +110,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed = .control
     var notificationSettings: NotificationSettings = .control
     var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions = .control
+    var engagementBadging: EngagementBadging = .control
 }
 

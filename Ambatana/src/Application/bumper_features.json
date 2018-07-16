@@ -304,6 +304,11 @@
         "name": "SearchAlertsInSearchSuggestions",
         "values": ["control", "baseline", "active"],
         "description": "Show search alerts in search suggestions view"
+    },
+    {
+        "name": "EngagementBadging",
+        "values": ["control", "baseline", "active"],
+        "description": "Show recent items bubble in feed basic approach"
     }
 
  ]

@@ -107,6 +107,7 @@ protocol FeatureFlaggeable: class {
     var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed { get }
     var notificationSettings: NotificationSettings { get }
     var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions { get }
+    var engagementBadging: EngagementBadging { get }
 }
 
 extension FeatureFlaggeable {
@@ -733,6 +734,13 @@ final class FeatureFlags: FeatureFlaggeable {
         return SearchAlertsInSearchSuggestions.fromPosition(abTests.searchAlertsInSearchSuggestions.value)
     }
     
+    
+    var engagementBadging: EngagementBadging {
+        if Bumper.enabled {
+            return Bumper.engagementBadging
+        }
+        return EngagementBadging.fromPosition(abTests.engagementBadging.value)
+    }
     
     // MARK: - Country features
 
