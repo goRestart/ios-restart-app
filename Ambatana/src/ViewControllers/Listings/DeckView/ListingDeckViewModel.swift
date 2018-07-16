@@ -200,7 +200,7 @@ final class ListingDeckViewModel: BaseViewModel {
             self.objects.appendContentsOf(filteredModels)
             self.pagination.isLast = listingListRequester.isLastPage(filteredModels.count)
         } else {
-            self.objects.appendContentsOf([initialListing].flatMap{ $0 }.map { .listingCell(listing: $0) })
+            self.objects.appendContentsOf([initialListing].compactMap{ $0 }.map { .listingCell(listing: $0) })
             self.pagination.isLast = false
         }
         if let listing = initialListing {
@@ -241,7 +241,7 @@ final class ListingDeckViewModel: BaseViewModel {
             prefetchNeighborsImages(index, movement: movement)
 
         // Tracking
-            let feedPosition = movement.feedPosition(for: trackingIndex)
+            let feedPosition = trackingFeedPosition
             if source == .relatedListings {
                 currentListingViewModel?.trackVisit(movement.visitUserAction,
                                                     source: movement.visitSource(source),
@@ -340,9 +340,11 @@ final class ListingDeckViewModel: BaseViewModel {
 
     // MARK: Tracking
 
-    func bumpUpBannerShown(type: BumpUpType) {
-        currentListingViewModel?.trackBumpUpBannerShown(type: type,
-                                                        storeProductId: currentListingViewModel?.storeProductId)
+    func bumpUpBannerShown(bumpInfo: BumpUpInfo) {
+        if bumpInfo.shouldTrackBumpBannerShown {
+            currentListingViewModel?.trackBumpUpBannerShown(type: bumpInfo.type,
+                                                            storeProductId: currentListingViewModel?.storeProductId)
+        }
     }
     
     func interstitialAdTapped(typePage: EventParameterTypePage) {
@@ -493,11 +495,8 @@ extension ListingDeckViewModel: ListingViewModelDelegate {
     }
 
     var trackingFeedPosition: EventParameterFeedPosition {
-        if let trackingIndex = trackingIndex, currentIndex == startIndex {
-            return .position(index: trackingIndex)
-        } else {
-            return .none
-        }
+        guard let trackingIndex = trackingIndex else { return .none }
+        return .position(index: trackingIndex)
     }
 
     func vmResetBumpUpBannerCountdown() {

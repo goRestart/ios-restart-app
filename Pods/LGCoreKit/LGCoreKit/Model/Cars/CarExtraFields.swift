@@ -1,5 +1,5 @@
 public enum CarBodyType: String, Decodable {
-    case coupe, sedan, hybrid, hatchback, convertible, wagon, minivan, suv, truck, other
+    case coupe, sedan, hybrid, hatchback, convertible, wagon, minivan, suv, truck, others
 }
 
 public enum CarDriveTrainType: String, Decodable {

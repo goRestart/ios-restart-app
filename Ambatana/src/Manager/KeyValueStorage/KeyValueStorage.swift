@@ -58,6 +58,7 @@ extension DefaultsKeys {
     static let lastShownSurveyDate = DefaultsKey<Date?>("lastShownSurveyDate")
     static let lastShownPromoteBumpDate = DefaultsKey<Date?>("lastShownPromoteBumpDate")
     static let realEstateTooltipSellButtonAlreadyShown = DefaultsKey<Bool>("realEstateTooltipSellButtonAlreadyShown")
+    static let realEstateTooltipMapShown = DefaultsKey<Bool>("realEstateTooltipMapShown")
     
     static let mostSearchedItemsCameraBadgeAlreadyShown = DefaultsKey<Bool>("mostSearchedItemsBadgeAlreadyShown")
     

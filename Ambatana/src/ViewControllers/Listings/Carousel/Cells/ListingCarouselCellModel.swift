@@ -24,7 +24,7 @@ enum ListingCarouselCellModel {
     }
 
     var images: [URL] {
-        return listing.images.flatMap { $0.fileURL }
+        return listing.images.compactMap { $0.fileURL }
     }
 
     var media: [Media] { return listing.media }

@@ -1,11 +1,4 @@
-//
-//  UIViewController+Alert.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 04/05/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
+import LGComponents
 
 // ABIOS-2082 All alert handling should be presented/dismissed via coordinator
 import UIKit
@@ -13,13 +6,13 @@ import UIKit
 private struct AlertKeys {
     static var LoadingKey = 0
 }
-private let kLetGoFadingAlertDismissalTime: Double = 2.5
+public let kLetGoFadingAlertDismissalTime: Double = 2.5
 
 
 
 // MARK: - Manual dismiss alert
 
-extension UIViewController {
+public extension UIViewController {
     private var loading: UIAlertController? {
         get {
             return (objc_getAssociatedObject(self, &AlertKeys.LoadingKey) as? UIAlertController)
@@ -70,7 +63,7 @@ extension UIViewController {
         let completion: (() -> ())?
         if let message = finishedMessage {
             completion = { [weak self] in
-                self?.showAutoFadingOutMessageAlert(message, time: 3, completion: afterMessageCompletion)
+                self?.showAutoFadingOutMessageAlert(message: message, time: 3, completion: afterMessageCompletion)
             }
         } else if let afterMessageCompletion = afterMessageCompletion {
             completion = afterMessageCompletion
@@ -84,11 +77,11 @@ extension UIViewController {
 
 // MARK: - Auto dismiss alert
 
-extension UIViewController {
+public extension UIViewController {
     // Shows an alert message that fades out after kLetGoFadingAlertDismissalTime seconds
-    func showAutoFadingOutMessageAlert(_ message: String, time: Double = kLetGoFadingAlertDismissalTime,
+    func showAutoFadingOutMessageAlert(title: String? = nil, message: String, time: Double = kLetGoFadingAlertDismissalTime,
                                        completion: (() -> Void)? = nil) {
-        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         present(alert, animated: true, completion: nil)
         delay(time) {
             alert.dismiss(animated: true) { completion?() }
@@ -99,7 +92,7 @@ extension UIViewController {
 
 // MARK: - Alerts w UIAction
 
-extension UIViewController {
+public extension UIViewController {
 
     func showAlert(_ title: String?, message: String?, actions: [UIAction], completion: (() -> Void)? = nil) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)

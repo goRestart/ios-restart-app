@@ -44,7 +44,7 @@ extension RealEstateAttributes {
         } else {
             attributes = [offerTypeString, propertyTypeString, roomsString, sizeSquareMetersString]
         }
-        return attributes.flatMap{ $0 }.joined(separator: " ")
+        return attributes.compactMap{ $0 }.joined(separator: " ")
     }
     
     func generateTags(postingFlowType: PostingFlowType) ->  [String] {

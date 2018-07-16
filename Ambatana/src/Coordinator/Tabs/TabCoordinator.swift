@@ -253,7 +253,7 @@ fileprivate extension TabCoordinator {
                                    requester: requester,
                                    source: source,
                                    actionOnFirstAppear: actionOnFirstAppear,
-                                   trackingIndex: nil)
+                                   trackingIndex: index)
         } else {
             let vm = ListingCarouselViewModel(listing: listing, thumbnailImage: thumbnailImage,
                                               listingListRequester: requester, source: source,
@@ -603,7 +603,7 @@ extension TabCoordinator: ListingDetailNavigator {
             let action = UIAction(interface: .button(R.Strings.productDeletePostButtonTitle,
                                                      .primary(fontSize: .medium)), action: { [weak self] in
                                                         self?.openSell(source: .deleteListing, postCategory: nil)
-                }, accessibilityId: .postDeleteAlertButton)
+                }, accessibility: AccessibilityId.postDeleteAlertButton)
             navigationController.showAlertWithTitle(R.Strings.productDeletePostTitle,
                                                     text: R.Strings.productDeletePostSubtitle,
                                                     alertType: .plainAlertOld, actions: [action])
@@ -801,6 +801,19 @@ extension TabCoordinator: ListingDetailNavigator {
                                                        alignment: .bottom,
                                                        style: .dark)
         }
+    }
+    
+    
+    func openListingAttributeTable(withViewModel viewModel: ListingAttributeTableViewModel) {
+        let viewController = ListingAttributeTableViewController(withViewModel: viewModel)
+        rootViewController.present(viewController,
+                                   animated: true,
+                                   completion: nil)
+    }
+    
+    func closeListingAttributeTable() {
+        rootViewController.dismiss(animated: true,
+                                   completion: nil)
     }
 }
 

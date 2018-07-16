@@ -1,12 +1,5 @@
-//
-//  Leanplum+LG.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 08/11/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 protocol CustomLeanplumPresenter {
     func showLeanplumAlert(_ title: String?, text: String, image: String, action: UIAction)
@@ -28,7 +21,7 @@ extension Leanplum {
         let argumentImage = LPActionArg(named: imageIdentifier, withFile: nil)
         let argumentButton = LPActionArg(named: buttonTextIdentifier, with: "")
         let argumentAction = LPActionArg(named: actionIdentifier, withAction: nil)
-        let arguments = [argumentTitle, argumentMessage, argumentImage, argumentButton, argumentAction].flatMap { $0 }
+        let arguments = [argumentTitle, argumentMessage, argumentImage, argumentButton, argumentAction].compactMap { $0 }
         // ofKind: LeanplumActionKind | kLeanplumActionKindAction  need to be set as rawValue.
 
         Leanplum.defineAction(Leanplum.leanplumCustomPopUp, of: LeanplumActionKind(rawValue: 0b11),
@@ -41,7 +34,7 @@ extension Leanplum {
             let title = context.stringNamed(titleIdentifier)
             let okAction = UIAction(interface: .styledText(buttonText, .standard),
                                     action: { context.runTrackedActionNamed(actionIdentifier) },
-                                    accessibilityId: .acceptPopUpButton)
+                                    accessibility: AccessibilityId.acceptPopUpButton)
             presenter.showLeanplumAlert(title, text:message, image:image, action: okAction)
             return true
         })

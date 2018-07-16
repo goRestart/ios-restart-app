@@ -4,6 +4,7 @@ final class EscrowEnvironment: AppEnvironment {
     // General
     let appleAppId = "986339882"
     let facebookAppId = "699538486794082"
+    let appleMerchantId = "merchant.com.letgo.ios.payments"
     
     // Tracking
     let amplitudeAPIKey = ""
@@ -42,6 +43,9 @@ final class EscrowEnvironment: AppEnvironment {
     let feedAdUnitIdAdxTRForAllUsers = ""
     let feedAdUnitIdAdxTRForOldUsers = ""
     
+    var feedAdUnitIdAdxInstallAppUSA = ""
+    var feedAdUnitIdAdxInstallAppTR = ""
+    
     let fullScreenAdUnitIdAdxForAllUsersForUS = ""
     let fullScreenAdUnitIdAdxForOldUsersForUS = ""
     
@@ -50,6 +54,9 @@ final class EscrowEnvironment: AppEnvironment {
     let feedAdUnitIdMoPubUSAForOldUsers = ""
     let feedAdUnitIdMoPubTRForAllUsers = ""
     let feedAdUnitIdMoPubTRForOldUsers = ""
+
+    // Stripe
+    let stripeAPIKey = ""
     
     private let _godmode: Bool
     

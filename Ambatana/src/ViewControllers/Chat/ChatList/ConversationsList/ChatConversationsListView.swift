@@ -32,13 +32,25 @@ final class ChatConversationsListView: UIView {
 
     private let connectionStatusView = ChatConnectionStatusView()
     private var statusViewHeightConstraint: NSLayoutConstraint = NSLayoutConstraint()
+    private var statusViewHeight: CGFloat {
+        return featureFlags.showChatConnectionStatusBar.isActive ? ChatConnectionStatusView.standardHeight : 0
+    }
+
+    private var isTableViewVisible: Bool = false
+
+    private let featureFlags: FeatureFlaggeable
 
     private let bag = DisposeBag()
 
     
     // MARK: Lifecycle
-    
-    init() {
+
+    convenience init() {
+        self.init(featureFlags: FeatureFlags.sharedInstance)
+    }
+
+    init(featureFlags: FeatureFlaggeable) {
+        self.featureFlags = featureFlags
         super.init(frame: CGRect.zero)
         setupUI()
         setupConstraints()
@@ -60,6 +72,8 @@ final class ChatConversationsListView: UIView {
     
     private func setupTableView() {
         tableView.register(ChatUserConversationCell.self, forCellReuseIdentifier: ChatUserConversationCell.reusableID)
+        tableView.register(type: ChatAssistantConversationCell.self)
+
         tableView.alpha = 0
         tableView.rowHeight = Layout.rowHeight
         tableView.separatorStyle = .singleLine
@@ -94,7 +108,7 @@ final class ChatConversationsListView: UIView {
             ])
         
         addSubviewsForAutoLayout([connectionStatusView, tableView])
-        statusViewHeightConstraint = connectionStatusView.heightAnchor.constraint(equalToConstant: ChatConnectionStatusView.standardHeight)
+        statusViewHeightConstraint = connectionStatusView.heightAnchor.constraint(equalToConstant: statusViewHeight)
         NSLayoutConstraint.activate([
             statusViewHeightConstraint,
             topAnchor.constraint(equalTo: connectionStatusView.topAnchor),
@@ -140,6 +154,7 @@ final class ChatConversationsListView: UIView {
     // MARK: View states
     
     func showEmptyView(with emptyViewModel: LGEmptyViewModel) {
+        isTableViewVisible = false
         emptyView.setupWithModel(emptyViewModel)
         tableView.animateTo(alpha: 0, duration: Time.animationDuration)
         emptyView.animateTo(alpha: 1, duration: Time.animationDuration) { [weak self] finished in
@@ -148,6 +163,7 @@ final class ChatConversationsListView: UIView {
     }
     
     func showTableView() {
+        isTableViewVisible = true
         emptyView.animateTo(alpha: 0, duration: Time.animationDuration)
         tableView.animateTo(alpha: 1, duration: Time.animationDuration) { [weak self] finished in
             self?.activityIndicatorView.stopAnimating()
@@ -155,8 +171,15 @@ final class ChatConversationsListView: UIView {
     }
     
     func showActivityIndicator() {
+        isTableViewVisible = false
         emptyView.animateTo(alpha: 0, duration: Time.animationDuration)
         tableView.animateTo(alpha: 0, duration: Time.animationDuration)
         activityIndicatorView.startAnimating()
+    }
+
+    func scrollToTop() {
+        guard isTableViewVisible else { return }
+        let indexPath = IndexPath(row: 0, section: 0)
+        tableView.scrollToRow(at: indexPath, at: .top, animated: true)
     }
 }

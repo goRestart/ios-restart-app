@@ -1,12 +1,3 @@
-public struct RetrieveListingParam<T: Equatable> {
-    public let value: T
-    public let isNegated: Bool
-    
-    public init(value: T, isNegated: Bool) {
-        self.value = value
-        self.isNegated = isNegated
-    }
-}
 
 struct ApiProductsParamsKeys {
     static let numberOfResults = "num_results"
@@ -30,7 +21,6 @@ struct ApiProductsParamsKeys {
     static let startYear = "start_year"
     static let endYear = "end_year"
     static let attributes = "attributes"
-    static let negativeAttributes = "negative_attributes"
 }
 
 struct DiscoveryParamsKeys {
@@ -90,10 +80,10 @@ public struct RetrieveListingParams {
     
     //  MARK: Car
     public var userTypes: [UserType]?
-    public var makeId: RetrieveListingParam<String>?
-    public var modelId: RetrieveListingParam<String>?
-    public var startYear: RetrieveListingParam<Int>?
-    public var endYear: RetrieveListingParam<Int>?
+    public var makeId: String?
+    public var modelId: String?
+    public var startYear: Int?
+    public var endYear: Int?
     public var bodyType: [CarBodyType]?
     public var drivetrain: [CarDriveTrainType]?
     public var fuelType: [CarFuelType]?
@@ -227,48 +217,25 @@ public struct RetrieveListingParams {
         params[ApiProductsParamsKeys.abtest] = abtest
         
         // Car attributes
-        var carsPositiveAttrs = [String: Any]()
-        var carsNegativeAttrs = [String: Any]()
+        var carAttributes = [String: Any]()
         
         if let makeId = makeId {
-            let value = makeId.value
-            if makeId.isNegated {
-                carsNegativeAttrs[ApiProductsParamsKeys.make] = value
-            } else {
-                carsPositiveAttrs[ApiProductsParamsKeys.make] = value
-            }
+            carAttributes[ApiProductsParamsKeys.make] = makeId
         }
         if let modelId = modelId {
-            let value = modelId.value
-            if modelId.isNegated {
-                carsNegativeAttrs[ApiProductsParamsKeys.model] = value
-            } else {
-                carsPositiveAttrs[ApiProductsParamsKeys.model] = value
-            }
+            carAttributes[ApiProductsParamsKeys.model] = modelId
         }
         if let startYear = startYear {
-            let value = startYear.value
-            if startYear.isNegated {
-                carsNegativeAttrs[ApiProductsParamsKeys.startYear] = value
-            } else {
-                carsPositiveAttrs[ApiProductsParamsKeys.startYear] = value
-            }
+            carAttributes[ApiProductsParamsKeys.startYear] = startYear
         }
         if let endYear = endYear {
-            let value = endYear.value
-            if endYear.isNegated {
-                carsNegativeAttrs[ApiProductsParamsKeys.endYear] = value
-            } else {
-                carsPositiveAttrs[ApiProductsParamsKeys.endYear] = value
-            }
+            carAttributes[ApiProductsParamsKeys.endYear] = endYear
         }
         
-        if carsPositiveAttrs.keys.count > 0 {
-            params[ApiProductsParamsKeys.attributes] = carsPositiveAttrs
+        if carAttributes.keys.count > 0 {
+            params[ApiProductsParamsKeys.attributes] = carAttributes
         }
-        if carsNegativeAttrs.keys.count > 0 {
-            params[ApiProductsParamsKeys.negativeAttributes] = carsNegativeAttrs
-        }
+
         return params
     }
 }

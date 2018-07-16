@@ -125,8 +125,9 @@ final class ListingApiDataSource: ListingDataSource {
         case .realEstate(let realEstateParams):
             request = ListingRouter.createRealEstate(params: realEstateParams.apiCreationEncode(userId: userId))
             apiClient.request(request, decoder: ListingApiDataSource.realEstateDecoder, completion: completion)
-        case .service(_):
-            completion?(Result(error: .badRequest(cause: .nonAcceptableParams)))
+        case .service(let serviceParams):
+            request = ListingRouter.create(params: serviceParams.apiCreationEncode(userId: userId))
+            apiClient.request(request, decoder: ListingApiDataSource.productDecoder, completion: completion)
         }
     }
     
@@ -155,8 +156,9 @@ final class ListingApiDataSource: ListingDataSource {
         case .realEstate(let realEstateParams):
             request = ListingRouter.updateRealEstate(listingId: realEstateParams.realEstateId, params: realEstateParams.apiEditionEncode())
             apiClient.request(request, decoder: ListingApiDataSource.realEstateDecoder, completion: completion)
-        case .service(_):
-            completion?(Result(error: .badRequest(cause: .nonAcceptableParams)))
+        case .service(let serviceParams):
+            request = ListingRouter.update(listingId: serviceParams.serviceId, params: serviceParams.apiEditionEncode())
+            apiClient.request(request, decoder: ListingApiDataSource.productDecoder, completion: completion)
         }
     }
     

@@ -9,9 +9,9 @@ extension UserRatingType {
         case .conversation:
             return R.Strings.ratingListRatingTypeConversationTextLabel(userName)
         case .seller:
-            return R.Strings.ratingListRatingTypeSellerTextLabel(userName)
-        case .buyer:
             return R.Strings.ratingListRatingTypeBuyerTextLabel(userName)
+        case .buyer:
+            return R.Strings.ratingListRatingTypeSellerTextLabel(userName)
         }
     }
 
@@ -69,14 +69,12 @@ final class UserRatingCell: UITableViewCell, ReusableCell {
     }()
 
     private let starsStackView: UIStackView = {
-        let stars: [UIImageView] = [UIImageView](repeating: UIImageView(image: R.Asset.IconsButtons.icStarFilled.image),
-                                                 count: 5)
-
+        let stars: [UIImageView] = UserRatingCell.makeStars()
         let stackView: UIStackView = .horizontal(stars)
         stackView.distribution = .equalSpacing
         return stackView
     }()
-    private var stars: [UIImageView] { return starsStackView.arrangedSubviews.flatMap { $0 as? UIImageView } }
+    private var stars: [UIImageView] { return starsStackView.arrangedSubviews.compactMap { $0 as? UIImageView } }
 
     private let ratingTypeIcon: UIImageView = UIImageView(image: R.Asset.IconsButtons.icRatingPending.image)
     private let ratingTypeLabel: UILabel = {
@@ -235,7 +233,7 @@ final class UserRatingCell: UITableViewCell, ReusableCell {
             timeLabelTop,
             timeLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Layout.margin),
             timeLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Layout.margin)
-        ])
+            ])
         self.timeLabelTopConstraint = timeLabelTop
         self.ratingTypeLabelLeadingConstraint = ratingTypeLabelLeading
     }
@@ -253,9 +251,22 @@ final class UserRatingCell: UITableViewCell, ReusableCell {
 
     private func drawStarsForValue(_ value: Int) {
         let starImage = R.Asset.IconsButtons.icUserProfileStar.image
-        stars.forEach{
+        stars.forEach {
             $0.image = starImage
             $0.alpha =  ($0.tag <= value) ? 1 : 0.4
         }
+    }
+}
+
+private extension UserRatingCell {
+    static func makeStars() -> [UIImageView] {
+        var stars: [UIImageView] = []
+        for index in 1...5 {
+            let imageView = UIImageView(image: R.Asset.IconsButtons.icStarFilled.image)
+            imageView.tag = index
+            imageView.contentMode = .scaleAspectFit
+            stars.append(imageView)
+        }
+        return stars
     }
 }

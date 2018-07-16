@@ -1,13 +1,6 @@
-//
-//  File.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 07/02/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 @testable import LetGoGodMode
 import RxSwift
+import LGComponents
 
 final class MockBubbleNotificationManager: BubbleNotificationManager {
     let bottomNotifications = Variable<[BubbleNotificationView]>([])

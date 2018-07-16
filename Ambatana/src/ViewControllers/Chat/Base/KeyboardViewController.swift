@@ -1,13 +1,6 @@
-//
-//  KeyboardViewController.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 29/11/2016.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
 import RxSwift
+import LGComponents
 
 struct KeyboardChange: CustomStringConvertible {
     let height: CGFloat

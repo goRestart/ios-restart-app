@@ -15,9 +15,10 @@ final class ChatOtherMeetingCellDrawer: BaseChatCellDrawer<ChatOtherMeetingCell>
         super.init(autoHide: autoHide)
     }
 
-    override func draw(_ cell: ChatOtherMeetingCell, message: ChatViewMessage) {
+    override func draw(_ cell: ChatOtherMeetingCell, message: ChatViewMessage, bubbleColor: UIColor? = nil) {
         switch message.type {
         case let .meeting(_, date, locationName, coordinates, status, _):
+            cell.set(bubbleBackgroundColor: bubbleColor)
             cell.setupLocation(locationName: locationName,
                                coordinates: coordinates,
                                date: date ?? Date(),

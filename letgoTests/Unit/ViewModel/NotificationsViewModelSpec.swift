@@ -43,7 +43,7 @@ class NotificationsViewModelSpec: BaseViewModelSpec {
                          expect(sut.dataCount).toEventually(equal(0))
                         }
                         it("tracks empty-state-error event") {
-                            expect(tracker.trackedEvents.flatMap { $0.name })
+                            expect(tracker.trackedEvents.compactMap { $0.name })
                                 .toEventually(equal([]))
                         }
                     }
@@ -61,7 +61,7 @@ class NotificationsViewModelSpec: BaseViewModelSpec {
                         }
                         
                         it("does not fire empty-state-error") {
-                            expect(tracker.trackedEvents.flatMap { $0.name })
+                            expect(tracker.trackedEvents.compactMap { $0.name })
                                 .toEventually(equal([]))
                         }
                     }
@@ -80,11 +80,11 @@ class NotificationsViewModelSpec: BaseViewModelSpec {
                     }
                     
                     it("fires empty-state-error") {
-                        expect(tracker.trackedEvents.flatMap { $0.name })
+                        expect(tracker.trackedEvents.compactMap { $0.name })
                             .toEventually(equal([.emptyStateError]))
                     }
                     it("fires empty-state-error with .serverError") {
-                        expect((tracker.trackedEvents.flatMap { $0.params }.first)?.stringKeyParams["reason"] as? String)
+                        expect((tracker.trackedEvents.compactMap { $0.params }.first)?.stringKeyParams["reason"] as? String)
                             .toEventually(equal("no-internet-connection"))
                     }
                 }
@@ -101,11 +101,11 @@ class NotificationsViewModelSpec: BaseViewModelSpec {
                     }
                     
                     it("fires empty-state-error") {
-                        expect(tracker.trackedEvents.flatMap { $0.name })
+                        expect(tracker.trackedEvents.compactMap { $0.name })
                             .toEventually(equal([.emptyStateError]))
                     }
                     it("fires empty-state-error with .tooManyRequests") {
-                        expect((tracker.trackedEvents.flatMap { $0.params }.first)?.stringKeyParams["reason"] as? String)
+                        expect((tracker.trackedEvents.compactMap { $0.params }.first)?.stringKeyParams["reason"] as? String)
                             .toEventually(equal("too-many-requests"))
                     }
                 }

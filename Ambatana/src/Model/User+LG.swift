@@ -40,7 +40,7 @@ extension User {
 extension User {
     var isProfessional: Bool {
         switch self.type {
-        case .dummy, .user:
+        case .dummy, .user, .unknown:
             return false
         case .pro:
             return true

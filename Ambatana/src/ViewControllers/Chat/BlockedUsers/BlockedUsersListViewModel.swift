@@ -49,7 +49,7 @@ class BlockedUsersListViewModel: BaseChatGroupedListViewModel<User> {
 
     func unblockSelectedUsersAtIndexes(_ indexes: [Int]) {
         guard let selectedUsers = selectedObjectsAtIndexes(indexes) else { return }
-        let userIds = selectedUsers.flatMap {$0.objectId}
+        let userIds = selectedUsers.compactMap {$0.objectId}
         trackUnblockUsers(userIds)
         delegate?.didStartUnblockingUsers(self)
         userRepository.unblockUsersWithIds(userIds) { [weak self] result in

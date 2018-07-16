@@ -1,11 +1,3 @@
-//
-//  CarAttributeSelectionViewController.swift
-//  LetGo
-//
-//  Created by Dídac on 24/04/17.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
 import RxSwift
@@ -73,8 +65,12 @@ class CarAttributeSelectionViewController : BaseViewController, CarAttributeSele
                 let selectedName = detailSelectedInfo?.name,
                 let selectedType = detailSelectedInfo?.type else { return }
 
-            self?.viewModel.carInfoSelected(id: selectedId, name: selectedName, type: selectedType)
+            self?.viewModel.carInfoSelected(id: selectedId,
+                                            index: detailSelectedInfo?.index ?? 0,
+                                            name: selectedName,
+                                            type: selectedType)
         }.disposed(by: disposeBag)
+
     }
 
     private func updateTableView(values: [CarInfoWrapper], selectedValueIndex: Int?, addOtherString: String?) {

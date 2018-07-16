@@ -1,12 +1,5 @@
-//
-//  ExpandableCategorySelectionViewModel.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 01/09/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
+import LGComponents
 
 enum ExpandableCategoryStyle {
     case redBackground

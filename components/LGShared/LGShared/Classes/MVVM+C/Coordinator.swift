@@ -1,11 +1,3 @@
-//
-//  Coordinator.swift
-//  LetGo
-//
-//  Created by AHL on 20/4/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
 import LGCoreKit
 
@@ -56,8 +48,8 @@ public protocol Coordinator: CoordinatorDelegate {
 
 // MARK: - CoordinatorDelegate
 
-extension Coordinator {
-    public func coordinatorDidClose(_ coordinator: Coordinator) {
+public extension Coordinator {
+    func coordinatorDidClose(_ coordinator: Coordinator) {
         child = nil
     }
 }
@@ -65,9 +57,9 @@ extension Coordinator {
 
 // MARK: - Helpers
 
-extension Coordinator {
-    public func openChild(coordinator: Coordinator, parent: UIViewController, animated: Bool, forceCloseChild: Bool,
-                          completion: (() -> Void)?) {
+public extension Coordinator {
+    func openChild(coordinator: Coordinator, parent: UIViewController, animated: Bool, forceCloseChild: Bool,
+                         completion: (() -> Void)?) {
         let presentBlock = {
             self.child?.coordinatorDelegate = nil
             self.child = coordinator
@@ -90,7 +82,7 @@ extension Coordinator {
         }
     }
 
-    public func closeCoordinator(animated: Bool, completion: (() -> Void)?) {
+    func closeCoordinator(animated: Bool, completion: (() -> Void)?) {
         let dismiss: () -> Void = { [weak self] in
             self?.dismissViewController(animated: animated) {
                 guard let strongSelf = self else { return }
@@ -107,10 +99,9 @@ extension Coordinator {
     }
 }
 
-
 // MARK: - Alerts
 
-extension Coordinator {
+public extension Coordinator {
     func openAlert(animated: Bool = true, title: String?, message: String?,
                             actions: [UIAction], completion: (() -> Void)? = nil) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -199,7 +190,11 @@ extension Coordinator {
     // MARK: > Bubble
     
     func showBubble(with data: BubbleNotificationData, duration: TimeInterval) {
-        bubbleNotificationManager.showBubble(data, duration: duration, view: viewController.view)
+        bubbleNotificationManager.showBubble(data: data,
+                                             duration: duration,
+                                             view: viewController.view,
+                                             alignment: .top(offset: viewController.statusBarHeight),
+                                             style: .light)
     }
     
     // MARK: > Helpers

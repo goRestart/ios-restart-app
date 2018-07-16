@@ -149,7 +149,7 @@ extension ListingCategory {
     }
 
     static func categoriesFromString(_ categories: String) -> [ListingCategory] {
-        return categories.components(separatedBy: ",").flatMap {
+        return categories.components(separatedBy: ",").compactMap {
             guard let intValue = Int(String(describing: $0)) else { return nil }
             return ListingCategory(rawValue: intValue)
         }

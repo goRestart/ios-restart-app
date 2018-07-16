@@ -12,7 +12,7 @@ class ChatStickerCellDrawer: BaseChatCellDrawer<ChatStickerCell> {
         super.init(autoHide: autoHide)
     }
     
-    override func draw(_ cell: ChatStickerCell, message: ChatViewMessage) {
+    override func draw(_ cell: ChatStickerCell, message: ChatViewMessage, bubbleColor: UIColor? = nil) {
         guard let url = URL(string: message.value) else { return }
         if messageIsMine {
             cell.rightImage.lg_setImageWithURL(url, placeholderImage: nil) { (result, url) in

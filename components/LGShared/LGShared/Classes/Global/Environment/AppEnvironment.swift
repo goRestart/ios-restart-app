@@ -7,6 +7,7 @@ public protocol AppEnvironment: AnalyticsAPIKeys {
     var godmode: Bool { get }
     var appleAppId: String { get }
     var facebookAppId: String { get }
+    var appleMerchantId: String { get }
 
     // Google login
     var googleServerClientID: String { get }
@@ -33,12 +34,17 @@ public protocol AppEnvironment: AnalyticsAPIKeys {
     var feedAdUnitIdAdxTRForOldUsers: String { get }
     var fullScreenAdUnitIdAdxForAllUsersForUS: String { get }
     var fullScreenAdUnitIdAdxForOldUsersForUS: String { get }
+    var feedAdUnitIdAdxInstallAppUSA: String { get }
+    var feedAdUnitIdAdxInstallAppTR: String { get }
     
     // MoPub Ads
     var feedAdUnitIdMoPubUSAForAllUsers: String { get }
     var feedAdUnitIdMoPubUSAForOldUsers: String { get }
     var feedAdUnitIdMoPubTRForAllUsers: String { get }
     var feedAdUnitIdMoPubTRForOldUsers: String { get }
+
+    // Stripe
+    var stripeAPIKey: String { get }
 }
 
 

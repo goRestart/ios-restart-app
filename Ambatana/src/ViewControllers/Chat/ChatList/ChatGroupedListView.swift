@@ -1,13 +1,6 @@
-//
-//  ChatGroupedListView.swift
-//  LetGo
-//
-//  Created by Dídac on 15/02/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 protocol ChatGroupedListViewDelegate: class {
     func chatGroupedListViewShouldUpdateInfoIndicators()

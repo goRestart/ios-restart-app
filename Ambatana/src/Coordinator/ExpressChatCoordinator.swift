@@ -1,13 +1,6 @@
-//
-//  ExpressChatCoordinator.swift
-//  LetGo
-//
-//  Created by Dídac on 11/08/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
+import LGComponents
 
 protocol ExpressChatCoordinatorDelegate: class {
     func expressChatCoordinatorDidSentMessages(_ coordinator: ExpressChatCoordinator, count: Int)

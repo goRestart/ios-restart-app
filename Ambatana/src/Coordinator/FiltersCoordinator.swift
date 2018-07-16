@@ -1,13 +1,6 @@
-//
-//  FiltersCoordinator.swift
-//  LetGo
-//
-//  Created by Nestor on 30/05/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
+import LGComponents
 
 final class FiltersCoordinator: Coordinator {
     

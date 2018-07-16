@@ -1,11 +1,3 @@
-//
-//  UserProfileViewModelSpec.swift
-//  letgoTests
-//
-//  Created by Isaac Roldan on 14/3/18.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
 
 @testable import LetGoGodMode
@@ -13,6 +5,7 @@ import LGCoreKit
 import Quick
 import Nimble
 import RxSwift
+import LGComponents
 
 final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, UserProfileViewModelDelegate {
 

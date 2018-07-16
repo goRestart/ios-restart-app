@@ -100,7 +100,10 @@ protocol ListingDetailNavigator: TabNavigator {
                           source: EventParameterTypePage,
                           interlocutor: User?)
 
-    func openVideoPlayer(atIndex index: Int, listingVM: ListingViewModel, source: EventParameterListingVisitSource) 
+    func openVideoPlayer(atIndex index: Int, listingVM: ListingViewModel, source: EventParameterListingVisitSource)
+    
+    func openListingAttributeTable(withViewModel viewModel: ListingAttributeTableViewModel)
+    func closeListingAttributeTable()
 }
 
 protocol SimpleProductsNavigator: class {

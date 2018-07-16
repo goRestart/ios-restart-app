@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RxSwift
 
 protocol BumperViewModelDelegate: class {
     func featuresUpdated()
@@ -25,7 +26,11 @@ final class BumperViewModel {
     weak var delegate: BumperViewModelDelegate?
 
     private(set) var enabled: Bool
-    private var viewData: [BumperViewData]
+    private var viewData: [BumperViewData] {
+        didSet { rx_filtered.value = viewData }
+    }
+    var filter: String? = nil
+    var rx_filtered: Variable<[BumperViewData]>
 
     private let bumper: Bumper
 
@@ -36,19 +41,28 @@ final class BumperViewModel {
     init(bumper: Bumper) {
         self.bumper = bumper
         self.viewData = bumper.bumperViewData
+        self.rx_filtered = Variable(bumper.bumperViewData)
         self.enabled = bumper.enabled
     }
 
     var featuresCount: Int {
-        return viewData.count
+        return rx_filtered.value.count
     }
 
     func featureName(at index: Int) -> String {
-        return viewData[index].description
+        return rx_filtered.value[index].description
     }
 
     func featureValue(at index: Int) -> String {
-        return viewData[index].value
+        return rx_filtered.value[index].value
+    }
+
+    func filter(with filter: String) {
+        if filter.count > 0 {
+            rx_filtered.value = viewData.filter { $0.description.contains(filter) }
+        } else {
+            rx_filtered.value = viewData
+        }
     }
 
     func makeExportableURL() -> URL? {
