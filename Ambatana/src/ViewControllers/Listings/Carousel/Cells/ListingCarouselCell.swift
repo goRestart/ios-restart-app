@@ -209,7 +209,7 @@ extension ListingCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
                 guard let videoCell = cell as? ListingCarouselVideoCell else { return ListingCarouselVideoCell() }
                 guard let videoURL = media.outputs.video else { return videoCell }
                 videoCell.setVideo(url: videoURL)
-                videoCell.position = indexPath.row
+                videoCell.position = indexPath.item
                 videoCell.delegate = self
                 return videoCell
             } else {

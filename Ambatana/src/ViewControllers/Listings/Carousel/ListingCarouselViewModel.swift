@@ -587,9 +587,8 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     func itemIsPlayable(at index: Int) -> Bool {
-        guard let media = currentListingViewModel?.productMedia.value,
-            index < media.count else { return false }
-        return media[index].isPlayable
+        guard let media = currentListingViewModel?.productMedia.value else { return false }
+        return media[safeAt: index]?.isPlayable ?? false
     }
 
     // MARK: - Private Methods
