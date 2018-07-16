@@ -126,7 +126,7 @@ final class ListingCarouselViewController: KeyboardViewController, AnimatableTra
         return bar
     }()
 
-    private let moreInfoView: ListingCarouselMoreInfoView
+    private let moreInfoView = ListingCarouselMoreInfoView(frame: .zero)
     private let moreInfoAlpha = Variable<CGFloat>(1)
     private let moreInfoState = Variable<MoreInfoState>(.hidden)
 
@@ -172,7 +172,6 @@ final class ListingCarouselViewController: KeyboardViewController, AnimatableTra
         self.pageControl = UIPageControl(frame: CGRect.zero)
         self.imageDownloader = imageDownloader
         self.carouselImageDownloader = carouselImageDownloader
-        self.moreInfoView = ListingCarouselMoreInfoView.moreInfoView()
         let mainBlurEffect = UIBlurEffect(style: .light)
         self.mainViewBlurEffectView = UIVisualEffectView(effect: mainBlurEffect)
         super.init(viewModel: viewModel, nibName: "ListingCarouselViewController", statusBarStyle: .lightContent,
@@ -429,6 +428,7 @@ final class ListingCarouselViewController: KeyboardViewController, AnimatableTra
 
     private func setupMoreInfo() {
         view.addSubview(moreInfoView)
+        moreInfoView.layout(with: view).fillHorizontal().fillVertical()
         moreInfoAlpha.asObservable().bind(to: moreInfoView.rx.alpha).disposed(by: disposeBag)
         moreInfoAlpha.asObservable().bind(to: moreInfoView.dragView.rx.alpha).disposed(by: disposeBag)
 
@@ -1042,7 +1042,7 @@ extension ListingCarouselViewController {
     }
 
     func setupMoreInfoDragging() {
-        guard let button = moreInfoView.dragView else { return }
+        let button = moreInfoView.dragView
         self.navigationController?.navigationBar.ignoreTouchesFor(button)
 
         let pan = UIPanGestureRecognizer(target: self, action: #selector(dragMoreInfoButton))
@@ -1108,13 +1108,11 @@ extension ListingCarouselViewController {
     }
 
     func addIgnoreTouchesForMoreInfo() {
-        guard let button = moreInfoView.dragView else { return }
-        self.navigationController?.navigationBar.ignoreTouchesFor(button)
+        self.navigationController?.navigationBar.ignoreTouchesFor(moreInfoView.dragView)
     }
 
     func removeIgnoreTouchesForMoreInfo() {
-        guard let button = moreInfoView.dragView else { return }
-        self.navigationController?.navigationBar.endIgnoreTouchesFor(button)
+        self.navigationController?.navigationBar.endIgnoreTouchesFor(moreInfoView.dragView)
     }
 
     fileprivate func dragMoreInfoView(offset: CGFloat, bottomLimit: CGFloat) {

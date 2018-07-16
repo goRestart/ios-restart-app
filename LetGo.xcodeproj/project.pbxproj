@@ -615,6 +615,8 @@
 		42CA899D2097498900CE7B5B /* LGMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CA899B2097498900CE7B5B /* LGMapView.swift */; };
 		42CA899F20975BF400CE7B5B /* ListingsMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CA899E20975BF400CE7B5B /* ListingsMapViewModel.swift */; };
 		42CA89A020975BF400CE7B5B /* ListingsMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CA899E20975BF400CE7B5B /* ListingsMapViewModel.swift */; };
+		42E17F8720FCAC8300E565C2 /* MKMapView+Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E17F8620FCAC8300E565C2 /* MKMapView+Shared.swift */; };
+		42E17F8820FCAC8300E565C2 /* MKMapView+Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E17F8620FCAC8300E565C2 /* MKMapView+Shared.swift */; };
 		42ED94EA2077A6DB00548B62 /* PromoCellMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42ED94E92077A6DB00548B62 /* PromoCellMetrics.swift */; };
 		42ED94EB2077A6DB00548B62 /* PromoCellMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42ED94E92077A6DB00548B62 /* PromoCellMetrics.swift */; };
 		42ED94ED2077C36C00548B62 /* PromoCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42ED94EC2077C36C00548B62 /* PromoCellData.swift */; };
@@ -1710,8 +1712,6 @@
 		C7C328421C907267008078EC /* PostListingGalleryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C328401C907267008078EC /* PostListingGalleryViewModel.swift */; };
 		C7C61DF51D63035400F9505D /* ListingCarouselMoreInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C61DF31D63035400F9505D /* ListingCarouselMoreInfoView.swift */; };
 		C7C61DF61D63035400F9505D /* ListingCarouselMoreInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C61DF31D63035400F9505D /* ListingCarouselMoreInfoView.swift */; };
-		C7C61DF71D63035400F9505D /* ListingCarouselMoreInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7C61DF41D63035400F9505D /* ListingCarouselMoreInfoView.xib */; };
-		C7C61DF81D63035400F9505D /* ListingCarouselMoreInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7C61DF41D63035400F9505D /* ListingCarouselMoreInfoView.xib */; };
 		C7C61DFB1D630ED500F9505D /* CollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C61DF91D630ED500F9505D /* CollectionCell.swift */; };
 		C7C61DFD1D630ED800F9505D /* CollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C61DF91D630ED500F9505D /* CollectionCell.swift */; };
 		C7C61E001D631F3200F9505D /* ListingCollectionCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C61DFF1D631F3200F9505D /* ListingCollectionCellDrawer.swift */; };
@@ -2325,6 +2325,7 @@
 		42CA899820973F7300CE7B5B /* ListingsMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingsMapViewController.swift; sourceTree = "<group>"; };
 		42CA899B2097498900CE7B5B /* LGMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGMapView.swift; sourceTree = "<group>"; };
 		42CA899E20975BF400CE7B5B /* ListingsMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingsMapViewModel.swift; sourceTree = "<group>"; };
+		42E17F8620FCAC8300E565C2 /* MKMapView+Shared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKMapView+Shared.swift"; sourceTree = "<group>"; };
 		42ED94E92077A6DB00548B62 /* PromoCellMetrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoCellMetrics.swift; sourceTree = "<group>"; };
 		42ED94EC2077C36C00548B62 /* PromoCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoCellData.swift; sourceTree = "<group>"; };
 		42F1DDFE20BD9C22002E2EE7 /* FilterServicesSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterServicesSection.swift; sourceTree = "<group>"; };
@@ -2983,7 +2984,6 @@
 		C7BB25CF1E36153600649396 /* GodModeManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GodModeManager.swift; sourceTree = "<group>"; };
 		C7C328401C907267008078EC /* PostListingGalleryViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostListingGalleryViewModel.swift; sourceTree = "<group>"; };
 		C7C61DF31D63035400F9505D /* ListingCarouselMoreInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCarouselMoreInfoView.swift; sourceTree = "<group>"; };
-		C7C61DF41D63035400F9505D /* ListingCarouselMoreInfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ListingCarouselMoreInfoView.xib; sourceTree = "<group>"; };
 		C7C61DF91D630ED500F9505D /* CollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionCell.swift; sourceTree = "<group>"; };
 		C7C61DFF1D631F3200F9505D /* ListingCollectionCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCollectionCellDrawer.swift; sourceTree = "<group>"; };
 		C7C61E031D633FDB00F9505D /* SearchType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchType.swift; sourceTree = "<group>"; };
@@ -4816,6 +4816,7 @@
 				0A561AE120C81FF00082D551 /* UICollectionView+ReusableCell.swift */,
 				427FCCCE20C946D300E652ED /* UITableView+ReusableCell.swift */,
 				0A98767220CE580D00DCD360 /* UIStackView+LG.swift */,
+				42E17F8620FCAC8300E565C2 /* MKMapView+Shared.swift */,
 			);
 			path = UIkitExtensions;
 			sourceTree = "<group>";
@@ -4853,7 +4854,6 @@
 				C271E13920CEB3B8008868C6 /* ListingCarouselChatContainerView.swift */,
 				C674D31920ED1AA40027E3AE /* ListingCarouselMoreInfoViewAttributeGridView.swift */,
 				C7C61DF31D63035400F9505D /* ListingCarouselMoreInfoView.swift */,
-				C7C61DF41D63035400F9505D /* ListingCarouselMoreInfoView.xib */,
 				C75B5DAF1D59E09500112368 /* ListingCarouselPushAnimator.swift */,
 				C75B5DB01D59E09500112368 /* ListingCarouselViewController.swift */,
 				C75B5DB11D59E09500112368 /* ListingCarouselViewController.xib */,
@@ -6195,7 +6195,6 @@
 				500DC12C1BDA1C4C00B494FA /* ios-prod.json in Resources */,
 				2E7F4A462074FB7200A05728 /* lottie_bump_up_boost_success_animation.json in Resources */,
 				2E5350441CF8A181003B06CC /* ListingStatsView.xib in Resources */,
-				C7C61DF71D63035400F9505D /* ListingCarouselMoreInfoView.xib in Resources */,
 				5015881E1C7396B7006AEFC8 /* UserView.xib in Resources */,
 				C783D97E1C64BB90000EE5CA /* ReportUsersViewController.xib in Resources */,
 				2E423791205BE2930077B62A /* ChatMyMeetingCell.xib in Resources */,
@@ -6335,7 +6334,6 @@
 				C6D5FF1B20B6B0AC0045E3D3 /* ServicesInfo.json in Resources */,
 				2E92CC0320248E2800451B65 /* MeetingAssistantViewController.xib in Resources */,
 				C7F18AA21C89D62600D23319 /* GalleryImageCell.xib in Resources */,
-				C7C61DF81D63035400F9505D /* ListingCarouselMoreInfoView.xib in Resources */,
 				2E423797205C004B0077B62A /* ChatMyMeetingCell.xib in Resources */,
 				C727FBC11CCFC4ED002BC643 /* NotificationsViewController.xib in Resources */,
 				C78BB50E1C5A314700614096 /* AppShareViewController.xib in Resources */,
@@ -7408,6 +7406,7 @@
 				C6687F3620C820BF008C1922 /* MultiListingPostedCongratsCell.swift in Sources */,
 				2E2A5E121D5C784B0047ED45 /* ExpressChatCoordinator.swift in Sources */,
 				42F64F7F20AAE99900CF97AD /* ListingFilters+LG.swift in Sources */,
+				42E17F8720FCAC8300E565C2 /* MKMapView+Shared.swift in Sources */,
 				C6E7709320976156002CFA99 /* PushPermissionsPresenter.swift in Sources */,
 				32059FDB20B5CDF30042713A /* ListingsRequesterProtocol.swift in Sources */,
 				01C7778E1FFE4B92001A04C7 /* MostSearchedItemsListCell.swift in Sources */,
@@ -8220,6 +8219,7 @@
 				F56651F2203C886C00B43DD7 /* DiscardedReason+LG.swift in Sources */,
 				32D85F4F209356580080D143 /* FilterTagFeedHeaderCell.swift in Sources */,
 				C7DB41EB1C5138B500400945 /* SignUpViewModel.swift in Sources */,
+				42E17F8820FCAC8300E565C2 /* MKMapView+Shared.swift in Sources */,
 				C6687F3720C820BF008C1922 /* MultiListingPostedCongratsCell.swift in Sources */,
 				0AC489471F9DE41A00CD6C53 /* ListingDeckCollectionViewLayout.swift in Sources */,
 				42F64F8020AAE99900CF97AD /* ListingFilters+LG.swift in Sources */,
