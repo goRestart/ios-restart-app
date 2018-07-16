@@ -3633,7 +3633,7 @@
 "reporting_user_problem_meetup_header" = "WHAT WAS THE PROBLEM?";
 
 // Header text for the report user "inappropriate chat" option list
-"reporting_user_inappropriate_chat" = "WHAT HAPPENED?";
+"reporting_user_inappropriate_chat_header" = "WHAT HAPPENED?";
 
 // Title Shown on the Report Sent view
 "reporting_user_report_sent_title" = "Report Sent!";

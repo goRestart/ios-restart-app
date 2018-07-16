@@ -2619,7 +2619,7 @@ extension R {
     /// Report
     public static let reportingSendReportButton = Strings.tr("Localizable", "reporting_send_report_button")
     /// WHAT HAPPENED?
-    public static let reportingUserInappropriateChat = Strings.tr("Localizable", "reporting_user_inappropriate_chat")
+    public static let reportingUserInappropriateChatHeader = Strings.tr("Localizable", "reporting_user_inappropriate_chat_header")
     /// WHICH ONE?
     public static let reportingUserInappropriatePhotoOrBioHeader = Strings.tr("Localizable", "reporting_user_inappropriate_photo_or_bio_header")
     /// WHY ARE YOU REPORTING THIS USER?

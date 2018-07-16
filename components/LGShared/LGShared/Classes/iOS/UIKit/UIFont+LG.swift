@@ -191,4 +191,5 @@ public extension UIFont {
 public extension UIFont {
     static var reportCellTitleFont: UIFont { return UIFont.systemBoldFont(size: 22) }
     static var reportSentTitleText: UIFont { return UIFont.systemBoldFont(size: 27) }
+    static var reportSentUserNameText: UIFont { return UIFont.systemBoldFont(size: 17) }
 }

@@ -53,7 +53,6 @@ final class ReportSentViewController: BaseViewController {
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
         setNavBarBackgroundStyle(.white)
-        setNavBarTitle("Test Title")
         setNavBarBackButton(R.Asset.IconsButtons.navbarClose.image, selector: #selector(didTapClose))
     }
     
@@ -68,7 +67,7 @@ final class ReportSentViewController: BaseViewController {
         setupConstraints()
 
         titleLabel.text = viewModel.type.title
-        messageLabel.text = viewModel.type.message
+        messageLabel.attributedText = viewModel.type.attributedMessage(includingReviewText: true, userName: "Isaac R.")
     }
 
     private func setupConstraints() {

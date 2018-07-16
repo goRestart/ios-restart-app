@@ -1,5 +1,6 @@
 import Foundation
 import LGCoreKit
+import LGComponents
 
 final class ReportCoordinator: Coordinator {
 
@@ -16,8 +17,8 @@ final class ReportCoordinator: Coordinator {
 
         fileprivate var title: String {
             switch self {
-            case .product: return "Report listing" // FIXME: Localize
-            case .user: return "Report user"
+            case .product: return R.Strings.reportingListingTitle
+            case .user: return R.Strings.reportingUserTitle
             }
         }
     }

@@ -1200,6 +1200,7 @@
 "reporting_reason_wrong_category" = "It's in the wrong category";
 "reporting_send_report_button" = "Report";
 "reporting_user_inappropriate_chat" = "WHAT HAPPENED?";
+"reporting_user_inappropriate_chat_header" = "WHAT HAPPENED?";
 "reporting_user_inappropriate_photo_or_bio_header" = "WHICH ONE?";
 "reporting_user_list_header" = "WHY ARE YOU REPORTING THIS USER?";
 "reporting_user_problem_meetup_header" = "WHAT WAS THE PROBLEM?";

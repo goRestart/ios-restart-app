@@ -1,4 +1,5 @@
 import Foundation
+import LGComponents
 
 enum ReportSentType {
     case productBasic
@@ -18,10 +19,44 @@ enum ReportSentType {
     }
 
     var title: String {
-        return "Report Sent!" // FIXME: localize
+        switch self {
+        case .productBasic: return R.Strings.reportingListingReportSentTitle
+        case .userBasic, .userBlockA, .userBlockB, .userLawEnforcement, .userLawEnforcementBlock:
+            return R.Strings.reportingUserReportSentTitle
+        }
     }
 
-    var message: String {
-        return "Thanks for helping us make ..." // FIXME: define and localize
+    func attributedMessage(includingReviewText: Bool, userName: String) -> NSAttributedString {
+        let messageString = message(includingReviewText: includingReviewText, userName: userName)
+        let string = NSMutableAttributedString(string: messageString,
+                                               attributes: [.foregroundColor: UIColor.lgBlack,
+                                                            .font: UIFont.bigBodyFont])
+
+        let emailRange = (messageString as NSString).range(of: "lawenforcement@letgo.com")
+        string.addAttributes([.foregroundColor: UIColor.primaryColor], range: emailRange)
+
+        let userRange = (messageString as NSString).range(of: userName)
+        string.addAttributes([.font: UIFont.reportSentUserNameText], range: userRange)
+
+        return string
+    }
+
+    private func message(includingReviewText: Bool, userName: String) -> String {
+        switch self {
+        case .productBasic:
+            return R.Strings.reportingListingReportSentText
+        case .userBasic:
+            return R.Strings.reportingUserReportSentRedirectItemText
+        case .userBlockA:
+            return includingReviewText ?
+                R.Strings.reportingUserReportSentBlockUserAWithReviewText : R.Strings.reportingUserReportSentBlockUserAText
+        case .userBlockB:
+            return includingReviewText ?
+                R.Strings.reportingUserReportSentBlockUserBWithReviewText : R.Strings.reportingUserReportSentBlockUserBText
+        case .userLawEnforcement:
+            return R.Strings.reportingUserReportSentLawEnforcementText(userName)
+        case .userLawEnforcementBlock:
+            return R.Strings.reportingUserReportSentLawEnforcementAndBlockText(userName)
+        }
     }
 }
