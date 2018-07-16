@@ -72,7 +72,7 @@ final class MoPubNativeView: UIView, MPNativeAdRendering {
     }
     
     private func setupAdTextLabel() {
-        adTextLabel.text = R.Strings.mopubAdvertisingText
+        adTextLabel.text = R.Strings.advertisingText
         adTextLabel.font = UIFont.adTextFont
         adTextLabel.textColor = UIColor.grayText
         adTextLabel.textAlignment = .right
