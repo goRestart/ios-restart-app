@@ -29,6 +29,11 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         return searchType?.text
     }
     
+    private var cellStyle: CellStyle {
+        let showServiceCell = featureFlags.showServicesFeatures.isActive && filters.hasSelectedCategory(.services)
+        return showServiceCell ? .serviceList : .mainList
+    }
+    
     var clearTextOnSearch: Bool {
         guard let searchType = searchType else { return false }
         switch searchType {
@@ -805,8 +810,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         listingListRequester = (listViewModel.currentActiveRequester as? ListingListMultiRequester) ?? ListingListMultiRequester()
         infoBubbleVisible.value = false
         errorMessage.value = nil
-        let showServiceCell = featureFlags.showServicesFeatures.isActive && filters.hasSelectedCategory(.services)
-        listViewModel.cellStyle = showServiceCell ? .serviceList : .mainList
+        listViewModel.cellStyle = cellStyle
         listViewModel.resetUI()
         listViewModel.refresh()
     }
@@ -997,7 +1001,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
 
     func setupProductList() {
         listViewModel.dataDelegate = self
-
+        listViewModel.cellStyle = cellStyle
         listingRepository.events.bind { [weak self] event in
             switch event {
             case let .update(listing):
