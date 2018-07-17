@@ -110,6 +110,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
 
     let infoBubbleVisible = Variable<Bool>(false)
     let infoBubbleText = Variable<String>(R.Strings.productPopularNearYou)
+    let recentItemsBubbleVisible = Variable<Bool>(false)
+    let recentItemsBubbleText = Variable<String>(R.Strings.engagementBadgingFeedBubble)
     let errorMessage = Variable<String?>(nil)
     
     private static let firstVersionNumber = 1
@@ -765,6 +767,10 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                                          distanceRadius: filters.distanceRadius,
                                          locationDelegate: self)
     }
+    
+    func recentItemsBubbleTapped() {
+        listViewModel.retrieveRecentItems()
+    }
 
     func updateSelectedTaxonomyChildren(taxonomyChildren: [TaxonomyChild]) {
         filters.selectedTaxonomyChildren = taxonomyChildren
@@ -813,6 +819,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         listViewModel.updateFactory(requesterFactory)
         listingListRequester = (listViewModel.currentActiveRequester as? ListingListMultiRequester) ?? ListingListMultiRequester()
         infoBubbleVisible.value = false
+        recentItemsBubbleVisible.value = false
         errorMessage.value = nil
         listViewModel.cellStyle = cellStyle
         listViewModel.resetUI()
@@ -1114,6 +1121,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
 
         errorMessage.value = nil
         infoBubbleVisible.value = hasListings && filters.infoBubblePresent
+        recentItemsBubbleVisible.value = showCategoriesCollectionBanner
         if(page == 0) {
             bubbleDistance = 1
         }
@@ -1146,6 +1154,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         }
         errorMessage.value = errorString
         infoBubbleVisible.value = hasProducts && filters.infoBubblePresent
+        recentItemsBubbleVisible.value = showCategoriesCollectionBanner
     }
 
     func listingListVM(_ viewModel: ListingListViewModel, didSelectItemAtIndex index: Int,

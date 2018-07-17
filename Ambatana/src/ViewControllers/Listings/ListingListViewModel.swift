@@ -90,6 +90,8 @@ final class ListingListViewModel: BaseViewModel {
         return tuple?.0
     }
     
+    var recentListingsRequester: RecentListingsRequester?
+    
     private var requesterFactory: RequesterFactory? {
         didSet {
             requesterSequence = requesterFactory?.buildRequesterList() ?? []
@@ -218,6 +220,9 @@ final class ListingListViewModel: BaseViewModel {
                   searchType: searchType)
         self.requesterFactory = requesterFactory
         requesterSequence = requesterFactory.buildRequesterList()
+        if featureFlags.engagementBadging == .active {
+            self.recentListingsRequester = requesterFactory.buildRecentListingsRequester()
+        }
         setCurrentFallbackRequester()
     }
     
@@ -388,7 +393,9 @@ final class ListingListViewModel: BaseViewModel {
             strongSelf.applyNewListingInfo(hasNewListing: !newListings.isEmpty,
                                            context: result.context,
                                            verticalTracking: result.verticalTrackingInfo)
-            let cellModels = strongSelf.mapListingsToCellModels(newListings, pageNumber: nextPageNumber)
+            let cellModels = strongSelf.mapListingsToCellModels(newListings,
+                                                                pageNumber: nextPageNumber,
+                                                                shouldBeProcessed: true)
             let indexes: [Int] = strongSelf.updateListingIndices(isFirstPage: isFirstPage, with: cellModels)
 
             strongSelf.pageNumber = nextPageNumber
@@ -428,10 +435,15 @@ final class ListingListViewModel: BaseViewModel {
         }
     }
     
-    private func mapListingsToCellModels(_ listings: [Listing], pageNumber: UInt) -> [ListingCellModel] {
-        let listingCellModels = listings.map(ListingCellModel.init)
-        let cellModels = dataDelegate?.vmProcessReceivedListingPage(listingCellModels, page: pageNumber) ?? listingCellModels
-        return cellModels
+    private func mapListingsToCellModels(_ listings: [Listing],
+                                         pageNumber: UInt?,
+                                         shouldBeProcessed: Bool) -> [ListingCellModel] {
+        var listingCellModels = listings.map(ListingCellModel.init)
+        if let pageNumber = pageNumber, shouldBeProcessed {
+            listingCellModels = dataDelegate?.vmProcessReceivedListingPage(listingCellModels,
+                                                                           page: pageNumber) ?? listingCellModels
+        }
+        return listingCellModels
     }
     
     private func updateListingIndices(isFirstPage: Bool, with cellModels: [ListingCellModel]) -> [Int] {
@@ -446,6 +458,12 @@ final class ListingListViewModel: BaseViewModel {
             indices = [Int](currentCount ..< (currentCount + cellModels.count))
         }
         return indices
+    }
+    
+    private func updateFirstListingIndexes(withCellModels cellModels: [ListingCellModel]) -> [Int] {
+        objects.insert(contentsOf: cellModels, at: 0)
+        let indexes = [Int](0 ..< (cellModels.count))
+        return indexes
     }
     
     private func applyNewListingInfo(hasNewListing: Bool, context: String?, verticalTracking: VerticalTrackingInfo?) {
@@ -497,6 +515,29 @@ final class ListingListViewModel: BaseViewModel {
         imageDownloader.downloadImagesWithURLs(urls)
     }
 
+    func retrieveRecentItems() {
+        isLoading = true
+        recentListingsRequester?.retrieveRecentItems { [weak self] result in
+            guard let strongSelf = self else { return }
+            defer { strongSelf.isLoading = false }
+            guard let newListings = result.listingsResult.value else { return }
+
+            let cellModels = strongSelf.mapListingsToCellModels(newListings,
+                                                                pageNumber: nil,
+                                                                shouldBeProcessed: false)
+            let indexes = strongSelf.updateFirstListingIndexes(withCellModels: cellModels)
+            
+            strongSelf.state = .data
+            strongSelf.delegate?.vmDidFinishLoading(strongSelf,
+                                                    page: 0,
+                                                    indexes: indexes)
+            strongSelf.dataDelegate?.listingListVM(strongSelf,
+                                                   didSucceedRetrievingListingsPage: 0,
+                                                   withResultsCount: newListings.count,
+                                                   hasListings: true)
+        }
+    }
+    
 
     // MARK: > UI
 
