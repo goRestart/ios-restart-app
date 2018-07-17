@@ -157,26 +157,26 @@ class FilteredListingListRequester: ListingListRequester {
     private func rangeYearTitle(forFilters filters: ListingFilters?) -> String? {
         guard let filters = filters else { return nil }
 
-        if let startYear = filters.carYearStart, let endYear = filters.carYearEnd, !startYear.isNegated, !endYear.isNegated {
+        if let startYear = filters.carYearStart, let endYear = filters.carYearEnd {
             // both years specified
-            if startYear.value == endYear.value {
-                return String(startYear.value)
+            if startYear == endYear {
+                return String(startYear)
             } else {
-                return String(startYear.value) + " - " + String(endYear.value)
+                return String(startYear) + " - " + String(endYear)
             }
-        } else if let startYear = filters.carYearStart, !startYear.isNegated {
+        } else if let startYear = filters.carYearStart {
             // only start specified
-            if startYear.value == Date().year {
-                return String(startYear.value)
+            if startYear == Date().year {
+                return String(startYear)
             } else {
-             return String(startYear.value) + " - " + String(Date().year)
+             return String(startYear) + " - " + String(Date().year)
             }
-        } else if let endYear = filters.carYearEnd, !endYear.isNegated {
+        } else if let endYear = filters.carYearEnd {
             // only end specified
-            if endYear.value == SharedConstants.filterMinCarYear {
+            if endYear == SharedConstants.filterMinCarYear {
                 return R.Strings.filtersCarYearBeforeYear(SharedConstants.filterMinCarYear)
             } else {
-                return R.Strings.filtersCarYearBeforeYear(SharedConstants.filterMinCarYear) + " - " + String(endYear.value)
+                return R.Strings.filtersCarYearBeforeYear(SharedConstants.filterMinCarYear) + " - " + String(endYear)
             }
         } else {
             // no year specified
@@ -265,45 +265,16 @@ fileprivate extension FilteredListingListRequester {
 
         var keywords: [String] = []
         var matchingFields: [String] = []
-        var nonMatchingFields: [String] = []
-
-        if let makeId = filters.carMakeId {
-            keywords.append(EventParameterName.make.rawValue)
-            if makeId.isNegated {
-                nonMatchingFields.append(EventParameterName.make.rawValue)
-            } else {
-                matchingFields.append(EventParameterName.make.rawValue)
-            }
+        
+        let carAttributes = filters.carTrackingParams()
+        carAttributes.forEach { (key, value) in
+            let keyRaw = key.rawValue
+            if let _ = value, !keywords.contains(keyRaw) { return }
+            keywords.append(keyRaw)
+            matchingFields.append(key.rawValue)
         }
 
-        if let modelId = filters.carModelId {
-            keywords.append(EventParameterName.model.rawValue)
-            if modelId.isNegated {
-                nonMatchingFields.append(EventParameterName.model.rawValue)
-            } else {
-                matchingFields.append(EventParameterName.model.rawValue)
-            }
-        }
-
-        if let yearStart = filters.carYearStart {
-            keywords.append(EventParameterName.yearStart.rawValue)
-            if yearStart.isNegated {
-                nonMatchingFields.append(EventParameterName.yearStart.rawValue)
-            } else {
-                matchingFields.append(EventParameterName.yearStart.rawValue)
-            }
-        }
-
-        if let yearEnd = filters.carYearEnd {
-            keywords.append(EventParameterName.yearEnd.rawValue)
-            if yearEnd.isNegated {
-                nonMatchingFields.append(EventParameterName.yearEnd.rawValue)
-            } else {
-                matchingFields.append(EventParameterName.yearEnd.rawValue)
-            }
-        }
-
-        return VerticalTrackingInfo(category: vertical, keywords: keywords, matchingFields: matchingFields, nonMatchingFields: nonMatchingFields)
+        return VerticalTrackingInfo(category: vertical, keywords: keywords, matchingFields: matchingFields)
     }
 }
 

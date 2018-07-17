@@ -9,5 +9,5 @@
 protocol PurchaseableProductsRequest {
     func start()
     func cancel()
-    weak var delegate: PurchaseableProductsRequestDelegate? { get set }
+    var delegate: PurchaseableProductsRequestDelegate? { get set }
 }

@@ -1,14 +1,7 @@
-//
-//  UserPhoneVerificationCountryPickerViewModel.swift
-//  LetGo
-//
-//  Created by Sergi Gracia on 05/04/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import RxSwift
 import RxCocoa
+import LGComponents
 
 protocol UserPhoneVerificationCountryPickerDelegate: class {
     func didSelect(country: PhoneVerificationCountry)

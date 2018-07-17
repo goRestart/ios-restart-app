@@ -327,3 +327,30 @@ public extension String {
         return name
     }
 }
+
+extension String {
+    
+    public func bicolorAttributedText(mainColor: UIColor,
+                                      colouredText: String,
+                                      otherColor: UIColor,
+                                      font: UIFont,
+                                      paragraphStyle: NSMutableParagraphStyle? = nil) -> NSMutableAttributedString {
+        
+        var mainAttributes: [NSAttributedStringKey : Any] = [.font : font]
+        if paragraphStyle != nil {
+            mainAttributes[.paragraphStyle] = paragraphStyle
+        }
+        mainAttributes[.foregroundColor] = mainColor
+        
+        let titleText = NSMutableAttributedString(string: self, attributes: mainAttributes)
+        
+        guard let range = range(of: colouredText) else { return titleText }
+        
+        var colouredAttributes = mainAttributes
+        colouredAttributes[.foregroundColor] = otherColor
+        titleText.setAttributes(colouredAttributes, range: NSRange(range, in: self))
+        
+        return titleText
+    }
+    
+}

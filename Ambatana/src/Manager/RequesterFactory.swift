@@ -33,13 +33,13 @@ final class SearchRequesterFactory: RequesterFactory {
     }
     
     func buildIndexedRequesterList() -> [(RequesterType, ListingListRequester)] {
-        return requesterTypes.flatMap { type in
+        return requesterTypes.compactMap { type in
             return (type, build(with: type))
         }
     }
     
     func buildRequesterList() -> [ListingListRequester] {
-        return requesterTypes.flatMap { build(with: $0) }
+        return requesterTypes.compactMap { build(with: $0) }
     }
     
     private func build(with requesterType: RequesterType) -> ListingListRequester {

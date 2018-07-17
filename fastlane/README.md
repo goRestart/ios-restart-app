@@ -101,6 +101,11 @@ Increases build number by 1 (unless a build number is passed) & leaves the versi
 fastlane ios release_minor
 ```
 Creates a new minor release branch
+### ios release_patch
+```
+fastlane ios release_patch
+```
+Creates a new patch from the last tag
 ### ios release_beta
 ```
 fastlane ios release_beta

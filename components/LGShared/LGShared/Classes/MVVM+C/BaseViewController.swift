@@ -14,7 +14,7 @@ private struct NavigationBarKeys {
 }
 
 
-extension UINavigationBar {
+public extension UINavigationBar {
 
     var outOfBoundsViewsToForceTouches: [UIView] {
         get {
@@ -96,7 +96,7 @@ extension UINavigationBar {
     }
 }
 
-extension UIViewController {
+public extension UIViewController {
 
     var toastView: ToastView? {
         get {
@@ -218,7 +218,7 @@ public enum NavBarBackgroundStyle {
     case custom(background: UIImage, shadow: UIImage)
     case `default`
 
-    var tintColor: UIColor {
+    public var tintColor: UIColor {
         switch self {
         case let .transparent(substyle):
             switch substyle {
@@ -232,7 +232,7 @@ public enum NavBarBackgroundStyle {
         }
     }
 
-    var titleColor: UIColor {
+    public var titleColor: UIColor {
         switch self {
         case let .transparent(substyle):
             switch substyle {
@@ -247,38 +247,47 @@ public enum NavBarBackgroundStyle {
     }
 }
 
-enum NavBarTitleStyle {
+public enum NavBarTitleStyle {
     case text(String?)
     case image(UIImage)
     case custom(UIView)
 }
 
-extension UIViewController {
+public extension UIViewController {
 
-    func setNavBarTitle(_ title: String?) {
+    public func setNavBarTitle(_ title: String?) {
         setNavBarTitleStyle(.text(title))
     }
 
-    func setNavBarTitleStyle(_ style: NavBarTitleStyle) {
+    public func setNavBarTitleStyle(_ style: NavBarTitleStyle) {
         switch style {
         case let .text(text):
             self.navigationItem.title = text
         case let .image(image):
             self.navigationItem.titleView = UIImageView(image: image)
         case let .custom(view):
+            view.frame = self.navigationController?.navigationBar.frame ?? .zero
             self.navigationItem.titleView = view
         }
     }
 
-    func setNavBarBackButton(_ icon: UIImage?) {
+    public func setNavBarBackButton(_ icon: UIImage? = nil, selector: Selector? = nil) {
         guard !isRootViewController() else { return }
         let backIconImage = icon ?? R.Asset.IconsButtons.navbarBack.image
         let backButton = UIBarButtonItem(image: backIconImage, style: .plain,
-                                         target: self, action: #selector(UIViewController.popBackViewController))
+                                         target: self, action: selector ?? #selector(UIViewController.popBackViewController))
         self.navigationItem.leftBarButtonItem = backButton
     }
+
+    public func setNavBarCloseButton(_ selector: Selector,  icon: UIImage? = nil) {
+        guard isRootViewController() else { return }
+        let closeIconImage = icon ?? R.Asset.IconsButtons.navbarClose.image
+        let closeButton = UIBarButtonItem(image: closeIconImage, style: .plain,
+                                          target: self, action: selector)
+        self.navigationItem.leftBarButtonItem = closeButton
+    }
     
-    func setNavBarBackgroundStyle(_ style: NavBarBackgroundStyle) {
+    public func setNavBarBackgroundStyle(_ style: NavBarBackgroundStyle) {
         switch style {
         case .white:
             navigationController?.navigationBar.shadowImage = UIImage()
@@ -311,7 +320,7 @@ open class BaseViewController: UIViewController, TabBarShowable {
     private var firstAppear: Bool = true
     private var firstWillAppear: Bool = true
     private var firstLayout: Bool = true
-    var active: Bool = false {
+    open var active: Bool = false {
         didSet {
             // Notify the VM & the views
             viewModel?.active = active
@@ -321,24 +330,21 @@ open class BaseViewController: UIViewController, TabBarShowable {
             }
         }
     }
-    var hasTabBar: Bool = false
+    public var hasTabBar: Bool = false
     
     // UI
     private var statusBarStyle: UIStatusBarStyle
     private let previousStatusBarStyle: UIStatusBarStyle
     private let navBarBackgroundStyle: NavBarBackgroundStyle
     private var swipeBackGestureEnabled: Bool
-    var floatingSellButtonHidden: Bool
-    private(set) var didCallViewDidLoaded: Bool = false
+    public var floatingSellButtonHidden: Bool
+    public private(set) var didCallViewDidLoaded: Bool = false
+    public var showConnectionToastView: Bool = true
 
     // MARK: Lifecycle
 
-    public init(viewModel: BaseViewModel?,
-                nibName nibNameOrNil: String?,
-                statusBarStyle: UIStatusBarStyle = .default,
-                navBarBackgroundStyle: NavBarBackgroundStyle = .default,
-                swipeBackGestureEnabled: Bool = true,
-                bundle: Bundle? = nil) {
+    public init(viewModel: BaseViewModel?, nibName nibNameOrNil: String?, statusBarStyle: UIStatusBarStyle = .default,
+         navBarBackgroundStyle: NavBarBackgroundStyle = .default, swipeBackGestureEnabled: Bool = true) {
         self.viewModel = viewModel
         self.subviews = []
         self.statusBarStyle = statusBarStyle
@@ -346,40 +352,41 @@ open class BaseViewController: UIViewController, TabBarShowable {
         self.navBarBackgroundStyle = navBarBackgroundStyle
         self.floatingSellButtonHidden = false
         self.swipeBackGestureEnabled = swipeBackGestureEnabled
-        super.init(nibName: nibNameOrNil, bundle: bundle)
+        super.init(nibName: nibNameOrNil, bundle: nil)
 
         // Setup
         hidesBottomBarWhenPushed = true
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     deinit {
+        reachability?.stop()
         NotificationCenter.default.removeObserver(self)
     }
 
-    override func popBackViewController() {
+    override open func popBackViewController() {
         let viewModelDidHandleBack = viewModel?.backButtonPressed() ?? false
         if !viewModelDidHandleBack {
             super.popBackViewController()
         }
     }
 
-    open override func viewDidLoad() {
+    override open func viewDidLoad() {
         super.viewDidLoad()
         didCallViewDidLoaded = true
-        setNavBarBackButton(nil)
+        setNavBarBackButton()
         
         setupToastView()
-        setReachabilityEnabled(true)
+        setReachabilityEnabled(showConnectionToastView)
         
         navigationController?.interactivePopGestureRecognizer?.isEnabled = swipeBackGestureEnabled
         view.backgroundColor = UIColor.viewControllerBackground
     }
     
-    open override func viewWillAppear(_ animated: Bool) {
+    override open func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewWillAppearFromBackground(false)
         if firstWillAppear {
@@ -388,12 +395,12 @@ open class BaseViewController: UIViewController, TabBarShowable {
         }
     }
     
-    open override func viewWillDisappear(_ animated: Bool) {
+    override open func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         viewWillDisappearToBackground(false)
     }
     
-    open override func viewDidAppear(_ animated: Bool) {
+    override open func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if firstAppear {
             viewDidFirstAppear(animated)
@@ -403,7 +410,7 @@ open class BaseViewController: UIViewController, TabBarShowable {
         navigationController?.interactivePopGestureRecognizer?.isEnabled = swipeBackGestureEnabled
     }
 
-    open override func viewDidLayoutSubviews() {
+    override open func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         if firstLayout {
             viewDidFirstLayoutSubviews()
@@ -422,11 +429,10 @@ open class BaseViewController: UIViewController, TabBarShowable {
     open func viewDidFirstLayoutSubviews() {
         // implement in subclasses
     }
-
     
     // MARK: Extended lifecycle
     
-    func viewWillAppearFromBackground(_ fromBackground: Bool) {
+    open func viewWillAppearFromBackground(_ fromBackground: Bool) {
         setNavBarBackgroundStyle(navBarBackgroundStyle)
 
         if !fromBackground {
@@ -437,7 +443,8 @@ open class BaseViewController: UIViewController, TabBarShowable {
         active = true
     }
     
-    func viewWillDisappearToBackground(_ toBackground: Bool) {
+    open func viewWillDisappearToBackground(_ toBackground: Bool) {
+        
         if !toBackground {
             if !isRootViewController() || isModal {
                 statusBarStyle = previousStatusBarStyle
@@ -451,13 +458,13 @@ open class BaseViewController: UIViewController, TabBarShowable {
     
     // MARK: StatusBarStyle
 
-    open override var preferredStatusBarStyle: UIStatusBarStyle {
+    override open var preferredStatusBarStyle: UIStatusBarStyle {
         return statusBarStyle
     }
     
     // MARK: Subview handling
     
-    func addSubview(_ subview: BaseView) {
+    public func addSubview(_ subview: BaseView) {
         //Adding to managed subviews
         if !subviews.contains(subview) {
             subviews.append(subview)
@@ -467,7 +474,7 @@ open class BaseViewController: UIViewController, TabBarShowable {
         }
     }
     
-    func removeSubview(_ subview: BaseView) {
+    public func removeSubview(_ subview: BaseView) {
         if subviews.contains(subview) {
             subviews = subviews.filter { return $0 !== subview }
             
@@ -493,7 +500,7 @@ open class BaseViewController: UIViewController, TabBarShowable {
     private var reachable: Bool? {
         return reachability?.isReachable
     }
-    func setReachabilityEnabled(_ enabled: Bool) {
+    public func setReachabilityEnabled(_ enabled: Bool) {
         if enabled {
             reachability = LGReachability()
             reachability?.reachableBlock = { [weak self] in
@@ -505,6 +512,7 @@ open class BaseViewController: UIViewController, TabBarShowable {
             }
             reachability?.start()
         } else {
+            reachability?.stop()
             reachability = nil
         }
     }

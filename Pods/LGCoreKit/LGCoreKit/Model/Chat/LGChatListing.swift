@@ -42,6 +42,9 @@ extension ChatListing {
 }
 
 struct LGChatListing: ChatListing, Decodable {
+
+    private static let emptyListingId = "00000000-0000-0000-0000-000000000000" // empty product id, to keep retrocompatibility with old app versions
+
     let objectId: String?
     let name: String?
     let status: ListingStatus
@@ -112,7 +115,8 @@ struct LGChatListing: ChatListing, Decodable {
     
     public init(from decoder: Decoder) throws {
         let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
-        objectId = try keyedContainer.decode(String.self, forKey: .objectId)
+        let objectIdValue = try keyedContainer.decode(String.self, forKey: .objectId)
+        objectId = objectIdValue == LGChatListing.emptyListingId ? nil : objectIdValue
         name = try keyedContainer.decodeIfPresent(String.self, forKey: .name)
         let code = try keyedContainer.decode(Int.self, forKey: .status)
         let statusCode = ListingStatusCode(rawValue: code) ?? .approved

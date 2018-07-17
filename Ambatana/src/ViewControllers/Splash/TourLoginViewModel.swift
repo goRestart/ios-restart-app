@@ -1,13 +1,6 @@
-//
-//  TourLoginViewModel.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 4/2/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 protocol TourLoginViewModelDelegate: BaseViewModelDelegate {
 }

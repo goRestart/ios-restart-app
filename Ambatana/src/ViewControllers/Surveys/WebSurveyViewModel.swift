@@ -1,13 +1,6 @@
-//
-//  WebSurveyViewModel.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 08/03/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
+import LGComponents
 
 class WebSurveyViewModel: BaseViewModel {
 

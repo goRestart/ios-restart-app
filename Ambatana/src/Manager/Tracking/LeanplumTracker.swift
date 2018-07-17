@@ -22,7 +22,7 @@ fileprivate extension TrackerEvent {
                  .firstMessage, .listingOpenChat, .listingFavorite, .listingShareComplete,
                  .listingMarkAsSold, .listingDetailVisit,
                  .listingSellComplete, .listingSellStart,
-                 .profileVisit, .npsStart, .npsComplete, .surveyStart, .surveyCompleted, .onboardingInterestsComplete:
+                 .profileVisit, .surveyStart, .surveyCompleted, .onboardingInterestsComplete:
                 return true
             default:
                 return false
@@ -90,16 +90,21 @@ final class LeanplumTracker: Tracker {
     }
 
     func setUser(_ user: MyUser?) {
-        Leanplum.setUserId(user?.objectId)
+        // https://ambatana.atlassian.net/browse/ABIOS-4446
 
         var userAttributes: [AnyHashable: Any] = [:]
-        userAttributes[LeanplumTracker.userPropIdKey] = user?.objectId
-        userAttributes[LeanplumTracker.userPropEmailKey] = user?.email
-        userAttributes[LeanplumTracker.userPropPublicUsernameKey] = user?.name
-        userAttributes[LeanplumTracker.userPropCityKey] = user?.postalAddress.city
-        userAttributes[LeanplumTracker.userPropCountryKey] = user?.postalAddress.countryCode
         userAttributes[LeanplumTracker.userPropLoggedIn] = user != nil
-        userAttributes[LeanplumTracker.userPropReputationBadge] = user?.reputationBadge.rawValue ?? ""
+
+        if let user = user {
+            Leanplum.setUserId(user.objectId)
+            userAttributes[LeanplumTracker.userPropIdKey] = user.objectId
+            userAttributes[LeanplumTracker.userPropEmailKey] = user.email
+            userAttributes[LeanplumTracker.userPropPublicUsernameKey] = user.name
+            userAttributes[LeanplumTracker.userPropCityKey] = user.postalAddress.city
+            userAttributes[LeanplumTracker.userPropCountryKey] = user.postalAddress.countryCode
+            userAttributes[LeanplumTracker.userPropReputationBadge] = user.reputationBadge.rawValue
+        }
+
         Leanplum.setUserAttributes(userAttributes)
     }
 

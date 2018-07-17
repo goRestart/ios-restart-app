@@ -11,6 +11,7 @@ final class NotificationSettingsAccessorListViewController: BaseViewController, 
         tableView.backgroundColor = .grayBackground
         tableView.separatorStyle = .none
         tableView.contentInset.top = NotificationSettingsViewController.tableViewTopInset
+        tableView.estimatedRowHeight = NotificationSettingsAccessorCell.defaultHeight
         return tableView
     }()
     
@@ -97,8 +98,8 @@ final class NotificationSettingsAccessorListViewController: BaseViewController, 
         let constraints = [
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.topAnchor.constraint(equalTo: topLayoutGuide.topAnchor),
             tableView.bottomAnchor.constraint(equalTo: bottomLayoutGuide.bottomAnchor),
+            tableView.topAnchor.constraint(equalTo: safeTopAnchor),
             
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
@@ -138,7 +139,8 @@ final class NotificationSettingsAccessorListViewController: BaseViewController, 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
+        defer { tableView.deselectRow(at: indexPath, animated: true) }
+        guard indexPath.row < viewModel.notificationSettings.value.count else { return }
         viewModel.openNotificationSettingsListDetail(notificationSetting: viewModel.notificationSettings.value[indexPath.row])
     }
 }

@@ -1,10 +1,4 @@
-//
-//  AccessibilityId.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 23/08/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
+import LGComponents
 
 /**
  Defines the accessibility identifiers used for automated UI testing. The format is the following:
@@ -13,7 +7,7 @@
  i.e:
     case SignUpLoginEmailButton
  */
-enum AccessibilityId: Equatable {
+enum AccessibilityId: Equatable, Accessible {
     // Tab Bar
     case tabBarFirstTab
     case tabBarSecondTab
@@ -466,6 +460,7 @@ enum AccessibilityId: Equatable {
     case chatCellContainer(type: ChatBubbleCellType)
     case chatCellMessageLabel
     case chatCellDateLabel
+    case chatCellAvatar
 
     // ChatStickerCell
     case chatStickerCellContainer
@@ -475,11 +470,13 @@ enum AccessibilityId: Equatable {
     // ChatDisclaimerCell
     case chatDisclaimerCellContainer
     case chatDisclaimerCellMessageLabel
-    case chatDisclaimerCellButton
 
     // ChatOtherInfoCell
     case chatOtherInfoCellContainer
     case chatOtherInfoCellNameLabel
+
+    // ChatInterlocutorTypingCell
+    case chatInterlocutorTypingCell
 
     // TourLogin
     case tourLoginCloseButton
@@ -601,9 +598,6 @@ enum AccessibilityId: Equatable {
     case changePasswordPwdConfirmTextfield
     case changePasswordSendButton
 
-    // Help
-    case helpWebView
-
     // EditLocation
     case editLocationMap
     case editLocationSearchButton
@@ -614,19 +608,6 @@ enum AccessibilityId: Equatable {
     case editLocationPOIImageView
     case editLocationSetLocationButton
     case editLocationApproxLocationSwitch
-
-    // NPS Survey
-    case npsCloseButton
-    case npsScore1
-    case npsScore2
-    case npsScore3
-    case npsScore4
-    case npsScore5
-    case npsScore6
-    case npsScore7
-    case npsScore8
-    case npsScore9
-    case npsScore10
 
     // Express chat
     case expressChatCloseButton
@@ -1655,6 +1636,8 @@ enum AccessibilityId: Equatable {
             return "chatCellMessageLabel"
         case .chatCellDateLabel:
             return "chatCellDateLabel"
+        case .chatCellAvatar:
+            return "chatCellAvatar"
             
         // ChatStickerCell
         case .chatStickerCellContainer:
@@ -1669,15 +1652,17 @@ enum AccessibilityId: Equatable {
             return "chatDisclaimerCellContainer"
         case .chatDisclaimerCellMessageLabel:
             return "chatDisclaimerCellMessageLabel"
-        case .chatDisclaimerCellButton:
-            return "chatDisclaimerCellButton"
-            
+
         // ChatOtherInfoCell
         case .chatOtherInfoCellContainer:
             return "chatOtherInfoCellContainer"
         case .chatOtherInfoCellNameLabel:
             return "chatOtherInfoCellNameLabel"
-            
+
+        // ChatInterlocutorTypingCell
+        case .chatInterlocutorTypingCell:
+            return "chatInterlocutorTypingCell"
+
         // TourLogin
         case .tourLoginCloseButton:
             return "tourLoginCloseButton"
@@ -1888,10 +1873,6 @@ enum AccessibilityId: Equatable {
         case .changePasswordSendButton:
             return "changePasswordSendButton"
             
-        // Help
-        case .helpWebView:
-            return "helpWebView"
-            
         // EditLocation
         case .editLocationMap:
             return "editLocationMap"
@@ -1911,30 +1892,6 @@ enum AccessibilityId: Equatable {
             return "editLocationSetLocationButton"
         case .editLocationApproxLocationSwitch:
             return "editLocationApproxLocationSwitch"
-            
-        // NPS Survey
-        case .npsCloseButton:
-            return "npsCloseButton"
-        case .npsScore1:
-            return "npsScore1"
-        case .npsScore2:
-            return "npsScore2"
-        case .npsScore3:
-            return "npsScore3"
-        case .npsScore4:
-            return "npsScore4"
-        case .npsScore5:
-            return "npsScore5"
-        case .npsScore6:
-            return "npsScore6"
-        case .npsScore7:
-            return "npsScore7"
-        case .npsScore8:
-            return "npsScore8"
-        case .npsScore9:
-            return "npsScore9"
-        case .npsScore10:
-            return "npsScore10"
             
         // Express chat
         case .expressChatCloseButton:

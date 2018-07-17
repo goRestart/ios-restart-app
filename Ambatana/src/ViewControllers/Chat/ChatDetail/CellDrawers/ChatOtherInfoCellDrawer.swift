@@ -13,10 +13,12 @@ class ChatOtherInfoCellDrawer: BaseChatCellDrawer<ChatOtherInfoCell> {
         super.init(autoHide: autoHide)
     }
 
-    override func draw(_ cell: ChatOtherInfoCell, message: ChatViewMessage) {
+    override func draw(_ cell: ChatOtherInfoCell, message: ChatViewMessage, bubbleColor: UIColor? = nil) {
         switch message.type {
         case let .userInfo(isDummy, name, address, facebook, google, email):
-            cell.nameLabel.text = name
+            cell.set(name: name)
+            cell.set(bubbleBackgroundColor: bubbleColor)
+            cell.set(userAvatar: message.userAvatarData?.avatarImage, avatarAction: message.userAvatarData?.avatarAction)
             if isDummy {
                 cell.setupLetgoAssistantInfo()
             } else {

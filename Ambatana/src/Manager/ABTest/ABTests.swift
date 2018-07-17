@@ -162,10 +162,11 @@ extension ABTests {
     var showInactiveConversations: LeanplumABVariable<Bool> { return chat.showInactiveConversations }
     var showChatSafetyTips: LeanplumABVariable<Bool> { return chat.showChatSafetyTips }
     var userIsTyping: LeanplumABVariable<Int> { return chat.userIsTyping }
-    var markAllConversationsAsRead: LeanplumABVariable<Int> { return chat.markAllConversationsAsRead }
     var chatNorris: LeanplumABVariable<Int> { return chat.chatNorris }
     var chatConversationsListWithoutTabs: LeanplumABVariable<Int> { return chat.chatConversationsListWithoutTabs }
     var showChatConnectionStatusBar: LeanplumABVariable<Int> { return chat.showChatConnectionStatusBar }
+    var showChatHeaderWithoutListingForAssistant: LeanplumABVariable<Bool> { return chat.showChatHeaderWithoutListingForAssistant }
+    var showChatHeaderWithoutUser: LeanplumABVariable<Bool> { return chat.showChatHeaderWithoutUser }
 }
 
 //  MARK: Money
@@ -183,6 +184,7 @@ extension ABTests {
     var googleAdxForTR: LeanplumABVariable<Int> { return money.googleAdxForTR }
     var fullScreenAdsWhenBrowsingForUS: LeanplumABVariable<Int> { return money.fullScreenAdsWhenBrowsingForUS }
     var preventMessagesFromFeedToProUsers: LeanplumABVariable<Int> { return money.preventMessagesFromFeedToProUsers }
+    var appInstallAdsInFeed: LeanplumABVariable<Int> { return money.appInstallAdsInFeed }
 }
 
 //  MARK: Retention
@@ -193,6 +195,7 @@ extension ABTests {
     var iAmInterestedInFeed: LeanplumABVariable<Int> { return retention.iAmInterestedInFeed }
     var highlightedIAmInterestedInFeed: LeanplumABVariable<Int> { return retention.highlightedIAmInterestedInFeed }
     var notificationSettings: LeanplumABVariable<Int> { return retention.notificationSettings }
+    var searchAlertsInSearchSuggestions: LeanplumABVariable<Int> { return retention.searchAlertsInSearchSuggestions }
 }
 
 //  MARK: RealEstate
@@ -206,10 +209,10 @@ extension ABTests {
 
 extension ABTests {
     var searchCarsIntoNewBackend: LeanplumABVariable<Int> { return verticals.searchCarsIntoNewBackend }
-    var filterSearchCarSellerType: LeanplumABVariable<Int> { return verticals.filterSearchCarSellerType }
     var realEstateMap: LeanplumABVariable<Int> { return verticals.realEstateMap }
     var showServicesFeatures: LeanplumABVariable<Int> { return verticals.showServicesFeatures }
     var carExtraFieldsEnabled: LeanplumABVariable<Int> { return verticals.carExtraFieldsEnabled }
+    var realEstateMapTooltip: LeanplumABVariable<Int> { return verticals.realEstateMapTooltip }
 }
 
 //  MARK: Products
@@ -226,7 +229,6 @@ extension ABTests {
 extension ABTests {
     var marketingPush: LeanplumABVariable<Int> { return legacy.marketingPush }
     // Not an A/B just flags and variables for surveys
-    var showNPSSurvey: LeanplumABVariable<Bool> { return legacy.showNPSSurvey }
     var surveyURL: LeanplumABVariable<String> { return legacy.surveyURL }
     var surveyEnabled: LeanplumABVariable<Bool> { return legacy.surveyEnabled }
     var freeBumpUpEnabled: LeanplumABVariable<Bool> { return legacy.freeBumpUpEnabled }

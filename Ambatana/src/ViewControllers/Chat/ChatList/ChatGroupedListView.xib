@@ -55,7 +55,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KxR-E5-wgI" userLabel="Footer View">
                     <rect key="frame" x="0.0" y="667" width="375" height="64"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aSL-RO-ZUw" userLabel="Footer Button" customClass="LetgoButton" customModule="LetGo" customModuleProvider="target">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aSL-RO-ZUw" userLabel="Footer Button" customClass="LetgoButton" customModule="LGComponents">
                             <rect key="frame" x="10" y="10" width="355" height="44"/>
                             <color key="backgroundColor" red="0.98660099506378174" green="0.14062686264514923" blue="0.26615336537361145" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <state key="normal" title="_BUTTON"/>

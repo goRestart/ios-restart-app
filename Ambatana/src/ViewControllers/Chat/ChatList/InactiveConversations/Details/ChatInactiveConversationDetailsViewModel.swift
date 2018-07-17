@@ -18,14 +18,16 @@ class ChatInactiveConversationDetailsViewModel: BaseViewModel {
     private let tracker: Tracker
     
     private let conversation: ChatInactiveConversation
-    private var messages: [ChatViewMessage] = []
-    
+
     private var isDeleted = false
+
+    let messages = Variable<[ChatViewMessage]>([])
+    private let interlocutorAvatar = Variable<UIImage?>(nil)
     
     private let disposeBag = DisposeBag()
     
     var messagesCount: Int {
-        return messages.count
+        return messages.value.count
     }
     var listingName: String? {
         return conversation.listing?.title
@@ -77,10 +79,7 @@ class ChatInactiveConversationDetailsViewModel: BaseViewModel {
         self.featureFlags = featureFlags
         self.tracker = tracker
         super.init()
-        messages = conversation.messages.flatMap { [weak self] in
-            guard let strongSelf = self else { return nil }
-            return strongSelf.chatViewMessageAdapter.adapt($0)
-        }
+        setupRx()
     }
     
     override func didBecomeActive(_ firstTime: Bool) {
@@ -88,6 +87,7 @@ class ChatInactiveConversationDetailsViewModel: BaseViewModel {
         
         if firstTime {
             tracker.trackEvent(TrackerEvent.chatInactiveConversationsShown())
+            retrieveInterlocutorAvatar()
         }
     }
     
@@ -95,7 +95,7 @@ class ChatInactiveConversationDetailsViewModel: BaseViewModel {
     
     func messageAtIndex(_ index: Int) -> ChatViewMessage? {
         guard 0..<messagesCount ~= index else { return nil }
-        return messages[index]
+        return messages.value[index]
     }
     
     func textOfMessageAtIndex(_ index: Int) -> String? {
@@ -144,5 +144,34 @@ class ChatInactiveConversationDetailsViewModel: BaseViewModel {
         self.chatRepository.archiveInactiveConversations([chatId]) { result in
             completion(result.value != nil)
         }
+    }
+
+    private func retrieveInterlocutorAvatar() {
+        guard let interlocutor = conversation.interlocutor(forMyUserId: myUserRepository.myUser?.objectId),
+            featureFlags.showChatHeaderWithoutUser else {
+                interlocutorAvatar.value = nil
+                return
+        }
+        let placeholder = LetgoAvatar.avatarWithID(interlocutor.objectId, name: interlocutor.name)
+
+        if let avatarUrl = interlocutor.avatar?.fileURL {
+            do {
+                interlocutorAvatar.value = try UIImage.imageFrom(url: avatarUrl)
+            } catch {
+                interlocutorAvatar.value = placeholder
+            }
+        } else {
+            interlocutorAvatar.value = placeholder
+        }
+    }
+
+    private func setupRx() {
+        interlocutorAvatar.asDriver().skip(1).drive(onNext: { [weak self] userAvatar in
+            guard let strongSelf = self else { return }
+            strongSelf.messages.value = strongSelf.conversation.messages.compactMap { message in
+                let avatarData = ChatMessageAvatarData(avatarImage: userAvatar, avatarAction: nil)
+                return strongSelf.chatViewMessageAdapter.adapt(message, userAvatarData: avatarData)
+            }
+        }).disposed(by: disposeBag)
     }
 }

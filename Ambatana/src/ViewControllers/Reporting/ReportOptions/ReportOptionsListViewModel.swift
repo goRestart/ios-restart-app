@@ -1,5 +1,6 @@
 import Foundation
 import LGCoreKit
+import LGComponents
 import RxSwift
 
 final class ReportOptionsListViewModel: BaseViewModel {

@@ -1,16 +1,7 @@
-//
-//  UIAction.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 07/03/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-import UIKit
-
-enum UIActionInterfaceStyle {
+public enum UIActionInterfaceStyle {
     case standard, destructive, cancel
 
-    var alertActionStyle: UIAlertActionStyle {
+    public var alertActionStyle: UIAlertActionStyle {
         switch self {
         case .standard:
             return .default
@@ -21,7 +12,7 @@ enum UIActionInterfaceStyle {
         }
     }
 
-    var buttonStyle: ButtonStyle {
+    public var buttonStyle: ButtonStyle {
         switch self {
         case .standard:
             return .primary(fontSize: .medium)
@@ -33,7 +24,7 @@ enum UIActionInterfaceStyle {
     }
 }
 
-enum UIActionInterface {
+public enum UIActionInterface {
     case text(String)
     case styledText(String, UIActionInterfaceStyle)
     case image(UIImage?, UIColor?) // Color will be the tint color if != nil
@@ -42,11 +33,11 @@ enum UIActionInterface {
 }
 
 public struct UIAction {
-    let interface: UIActionInterface
-    let action: () -> ()
-    var accessibilityId: Accessible?
+    public let interface: UIActionInterface
+    public let action: () -> ()
+    public var accessibility: Accessible?
 
-    var text: String? {
+    public var text: String? {
         switch interface {
         case let .text(text):
             return text
@@ -61,7 +52,7 @@ public struct UIAction {
         }
         
     }
-    var image: UIImage? {
+    public var image: UIImage? {
         switch interface {
         case .text, .styledText, .button:
             return nil
@@ -75,7 +66,7 @@ public struct UIAction {
             return image
         }
     }
-    var imageTint: UIColor? {
+    public var imageTint: UIColor? {
         switch interface {
         case .text, .styledText, .button, .textImage:
             return nil
@@ -84,7 +75,7 @@ public struct UIAction {
         }
     }
 
-    var style: UIActionInterfaceStyle {
+    public var style: UIActionInterfaceStyle {
         switch interface {
         case .text, .image, .textImage, .button:
             return .standard
@@ -93,7 +84,7 @@ public struct UIAction {
         }
     }
 
-    var buttonStyle: ButtonStyle? {
+    public var buttonStyle: ButtonStyle? {
         switch interface {
         case .text, .image, .textImage:
             return nil
@@ -104,9 +95,9 @@ public struct UIAction {
         }
     }
 
-    init(interface: UIActionInterface, action: @escaping () -> (), accessibilityId: AccessibilityId? = nil) {
+    public init(interface: UIActionInterface, action: @escaping () -> (), accessibility: Accessible? = nil) {
         self.interface = interface
         self.action = action
-        self.accessibilityId = accessibilityId
+        self.accessibility = accessibility
     }
 }

@@ -159,6 +159,7 @@ final class SearchAlertsListViewModel: BaseViewModel {
         searchAlertsRepository.delete(searchAlertId: searchAlertId) { [weak self] result in
             guard let strongSelf = self else { return }
             if let _ = result.value {
+                guard index < strongSelf.searchAlerts.value.count else { return }
                 strongSelf.searchAlerts.value.remove(at: index)
                 strongSelf.updateSearchAlertsStateAsEmptyOrFull()
             } else if let _ = result.error {

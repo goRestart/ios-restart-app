@@ -188,7 +188,7 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, RxPaginable {
     }
     
     func selectedObjectsAtIndexes(_ indexes: [Int]) -> [ChatInactiveConversation]? {
-        return indexes.filter { $0 < objectCount && $0 >= 0 }.flatMap { conversations.value[$0] }
+        return indexes.filter { $0 < objectCount && $0 >= 0 }.compactMap { conversations.value[$0] }
     }
     
     // MARK: - Delete Inactive Conversations

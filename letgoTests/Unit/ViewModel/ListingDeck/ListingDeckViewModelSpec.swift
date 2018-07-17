@@ -386,7 +386,7 @@ final class ListingDeckViewModelSpec: BaseViewModelSpec {
                             startObserving()
                         }
                         it("requests images for items 0-3") {
-                            let images = products.prefix(through: 3).flatMap { $0.images.first?.fileURL }
+                            let images = products.prefix(through: 3).compactMap { $0.images.first?.fileURL }
                             expect(imageDownloader.downloadImagesRequested) == images
                         }
                         describe("swipe right") {
@@ -394,7 +394,7 @@ final class ListingDeckViewModelSpec: BaseViewModelSpec {
                                 sut.moveToListingAtIndex(1, movement: .swipeRight)
                             }
                             it("just requests one more image on the right") {
-                                let images = [products[4].images.first?.fileURL].flatMap { $0 }
+                                let images = [products[4].images.first?.fileURL].compactMap { $0 }
                                 expect(imageDownloader.downloadImagesRequested) == images
                             }
                         }
@@ -410,7 +410,7 @@ final class ListingDeckViewModelSpec: BaseViewModelSpec {
                         it("requests images for items 7-13") {
                             let initial = 10 - prefetching.previousCount
                             let end = 10 + prefetching.nextCount
-                            let images = products[initial...end].flatMap { $0.images.first?.fileURL }
+                            let images = products[initial...end].compactMap { $0.images.first?.fileURL }
                             expect(imageDownloader.downloadImagesRequested) == images
                         }
                         describe("swipe right") {
@@ -418,7 +418,7 @@ final class ListingDeckViewModelSpec: BaseViewModelSpec {
                                 sut.moveToListingAtIndex(11, movement: .swipeRight)
                             }
                             it("just requests one more image on the right") {
-                                let images = [products[14].images.first?.fileURL].flatMap { $0 }
+                                let images = [products[14].images.first?.fileURL].compactMap { $0 }
                                 expect(imageDownloader.downloadImagesRequested) == images
                             }
                         }
@@ -427,7 +427,7 @@ final class ListingDeckViewModelSpec: BaseViewModelSpec {
                                 sut.moveToListingAtIndex(9, movement: .swipeLeft)
                             }
                             it("just requests one more image on the left") {
-                                let images = [products[6].images.first?.fileURL].flatMap { $0 }
+                                let images = [products[6].images.first?.fileURL].compactMap { $0 }
                                 expect(imageDownloader.downloadImagesRequested) == images
                             }
                         }
@@ -487,8 +487,8 @@ final class ListingDeckViewModelSpec: BaseViewModelSpec {
                                                                                     "product-detail-visit"]
                         }
                         it("tracks with product ids of first 3 products") {
-                            expect(tracker.trackedEvents.flatMap { $0.params?.stringKeyParams["product-id"] as? String })
-                                == products.prefix(through: 2).flatMap { $0.objectId }
+                            expect(tracker.trackedEvents.compactMap { $0.params?.stringKeyParams["product-id"] as? String })
+                                == products.prefix(through: 2).compactMap { $0.objectId }
                         }
                         // We have 4 = movements + activation ()
                         it("actionButtons changed 4 times") {
@@ -622,7 +622,7 @@ final class ListingDeckViewModelSpec: BaseViewModelSpec {
                             startObserving()
                         }
                         it("there is a mark sold action") {
-                            expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [R.Strings.productMarkAsSoldButton]
+                            expect(actionButtonsObserver.lastValue?.compactMap { $0.text }) == [R.Strings.productMarkAsSoldButton]
                         }
                         it("quick answers are disabled") {
                             expect(quickAnswersAvailableObserver.lastValue) == false
@@ -641,7 +641,7 @@ final class ListingDeckViewModelSpec: BaseViewModelSpec {
                             startObserving()
                         }
                         it("there is a mark sold action") {
-                            expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [R.Strings.productMarkAsSoldFreeButton]
+                            expect(actionButtonsObserver.lastValue?.compactMap { $0.text }) == [R.Strings.productMarkAsSoldFreeButton]
                         }
                         it("quick answers are disabled") {
                             expect(quickAnswersAvailableObserver.lastValue) == false
@@ -660,7 +660,7 @@ final class ListingDeckViewModelSpec: BaseViewModelSpec {
                             startObserving()
                         }
                         it("there is a sell again action") {
-                            expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [R.Strings.productSellAgainButton]
+                            expect(actionButtonsObserver.lastValue?.compactMap { $0.text }) == [R.Strings.productSellAgainButton]
                         }
                         it("quick answers are disabled") {
                             expect(quickAnswersAvailableObserver.lastValue) == false
@@ -679,7 +679,7 @@ final class ListingDeckViewModelSpec: BaseViewModelSpec {
                             startObserving()
                         }
                         it("there is a sell again action") {
-                            expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [R.Strings.productSellAgainFreeButton]
+                            expect(actionButtonsObserver.lastValue?.compactMap { $0.text }) == [R.Strings.productSellAgainFreeButton]
                         }
                         it("quick answers are disabled") {
                             expect(quickAnswersAvailableObserver.lastValue) == false
@@ -853,4 +853,6 @@ extension ListingDeckViewModelSpec: ListingDetailNavigator {
     func openContactUs(forListing listing: Listing, contactUstype: ContactUsType) {}
     func openFeaturedInfo() {}
     func closeFeaturedInfo() {}
+    func openListingAttributeTable(withViewModel viewModel: ListingAttributeTableViewModel) {}
+    func closeListingAttributeTable() {}
 }

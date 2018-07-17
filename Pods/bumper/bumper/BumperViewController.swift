@@ -7,14 +7,18 @@
 //
 
 import UIKit
+import RxSwift
 
 public final class BumperViewController: UIViewController {
+    private static let cellReuseIdentifier = "bumperCell"
 
-    fileprivate let tableView = UITableView()
-    fileprivate let enableBumperContainer = UIView()
-    fileprivate let enableBumperSwitch = UISwitch()
+    private let searchBar = UISearchBar()
+    private let tableView = UITableView()
+    private let enableBumperContainer = UIView()
+    private let enableBumperSwitch = UISwitch()
 
-    fileprivate let viewModel: BumperViewModel
+    private let viewModel: BumperViewModel
+    private let disposeBag = DisposeBag()
 
     public convenience init() {
         self.init(viewModel: BumperViewModel())
@@ -56,6 +60,20 @@ fileprivate extension BumperViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem:.action,
                                                             target: self,
                                                             action: #selector(share))
+
+        setupRx()
+    }
+
+    private func setupRx() {
+        let search = searchBar.rx.text.orEmpty
+            .throttle(0.5, scheduler: MainScheduler.instance)
+            .distinctUntilChanged()
+
+        search.bind { self.viewModel.filter(with: $0) }.disposed(by: disposeBag)
+
+        viewModel.rx_filtered.asDriver().drive(onNext: { (_) in
+            self.tableView.reloadData()
+        }).disposed(by: disposeBag)
     }
 
     func setupEnableHeader() {
@@ -89,20 +107,26 @@ fileprivate extension BumperViewController {
 
     func setupTableView() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+
         view.addSubview(tableView)
+        view.addSubview(searchBar)
 
         var views = [String: Any]()
         views["topLayoutGuide"] = topLayoutGuide
         views["container"] = enableBumperContainer
         views["table"] = tableView
+        views["search"] = searchBar
 
         var metrics = [String: Any]()
         metrics["containerH"] = CGFloat(40)
 
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[topLayoutGuide]-0-[container(containerH)]-0-[table]|",
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[topLayoutGuide]-0-[container(containerH)]-0-[search]-[table]|",
             options: [], metrics: metrics, views: views))
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[table]|",
             options: [], metrics: metrics, views: views))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[search]|",
+                                                           options: [], metrics: metrics, views: views))
     }
 
     func initSwitch() {
@@ -132,7 +156,6 @@ fileprivate extension BumperViewController {
 // MARK: TableView
 
 extension BumperViewController: UITableViewDelegate, UITableViewDataSource {
-    fileprivate static let cellReuseIdentifier = "bumperCell"
 
     fileprivate func initTableView() {
         tableView.register(BumperCell.self, forCellReuseIdentifier: BumperViewController.cellReuseIdentifier)

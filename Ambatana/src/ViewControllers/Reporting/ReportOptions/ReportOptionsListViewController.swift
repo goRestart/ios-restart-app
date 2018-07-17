@@ -59,7 +59,7 @@ final class ReportOptionsListViewController: BaseViewController {
 
     private let reportButton: LetgoButton = {
         let button = LetgoButton(withStyle: ButtonStyle.primary(fontSize: ButtonFontSize.medium))
-        button.setTitle("Report", for: .normal) // FIXME: Localize
+        button.setTitle(R.Strings.reportingSendReportButton, for: .normal)
         button.isEnabled = false
         return button
     }()

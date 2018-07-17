@@ -20,14 +20,14 @@ class ChatMyMessageCellDrawer: BaseChatCellDrawer<ChatMyMessageCell> {
         super.init(autoHide: autoHide)
     }
 
-    override func draw(_ cell: ChatMyMessageCell, message: ChatViewMessage) {
+    override func draw(_ cell: ChatMyMessageCell, message: ChatViewMessage, bubbleColor: UIColor? = nil) {
         cell.set(text: message.value)
         cell.dateLabel.text = message.sentAt?.formattedTime()
         cell.checkImageView.image = nil
+        cell.configure(for: .individualCell, type: .myMessage)
         drawCheckForMessage(cell, message: message)
         drawDisclosureForMessage(cell, disclosure: showDisclose)
     }
-
     
     // MARK: - private methods
 
@@ -51,10 +51,10 @@ class ChatMyMessageCellDrawer: BaseChatCellDrawer<ChatMyMessageCell> {
     private func drawDisclosureForMessage(_ cell: ChatMyMessageCell, disclosure: Bool) {
         if disclosure {
             cell.disclosureImageView.image = R.Asset.IconsButtons.icDisclosureChat.image
-            cell.marginRightConstraints.forEach { $0.constant = rightMarginWithDisclosure }
+            cell.marginRightConstraints.forEach { $0.constant = -rightMarginWithDisclosure }
         } else {
             cell.disclosureImageView.image = nil
-            cell.marginRightConstraints.forEach { $0.constant = rightMarginMessageTextDefault }
+            cell.marginRightConstraints.forEach { $0.constant = -rightMarginMessageTextDefault }
         }
         
     }

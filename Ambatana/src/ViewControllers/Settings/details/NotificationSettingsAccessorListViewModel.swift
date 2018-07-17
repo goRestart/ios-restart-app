@@ -2,6 +2,19 @@ import LGComponents
 import LGCoreKit
 import RxSwift
 
+fileprivate extension Array where Element == NotificationSetting {
+    func getTrackingParams() -> [String: Bool] {
+        return self.flatMap({ $0.groupSettings }).reduce([:]) { (dict, keyValue) -> [String: Bool] in
+            var newDict = dict
+            if let objectId = keyValue.objectId {
+                newDict[objectId] = keyValue.isEnabled
+            }
+            return newDict
+        }
+    }
+}
+
+
 final class NotificationSettingsAccessorListViewModel: BaseViewModel {
     
     enum DataState {
@@ -48,10 +61,13 @@ final class NotificationSettingsAccessorListViewModel: BaseViewModel {
     private let pushPermissionManager: PushPermissionsManager
     private let tracker: Tracker
     
-    var switchMarketingNotificationValue: Bool
+    var switchMarketingNotificationValue = Variable<Bool>(true)
     var notificationSettingsCells = Variable<[NotificationSettingCellType]>([])
     var notificationSettings = Variable<[NotificationSetting]>([])
     var dataState = Variable<DataState>(.initial)
+    private var trackingParams: [String: Bool] {
+        return notificationSettings.value.getTrackingParams()
+    }
     
     
     // MARK: - Lifecycle
@@ -88,14 +104,21 @@ final class NotificationSettingsAccessorListViewModel: BaseViewModel {
         self.notificationsManager = notificationsManager
         self.pushPermissionManager = pushPermissionManager
         self.tracker = tracker
-        self.switchMarketingNotificationValue = pushPermissionManager.pushNotificationActive &&
-            notificationsManager.marketingNotifications.value
         super.init()
     }
     
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
         retrieveNotificationSettings()
+        switchMarketingNotificationValue.value = pushPermissionManager.pushNotificationActive && notificationsManager.marketingNotifications.value
+        if firstTime {
+            trackNotificationsEditStart()
+        }
+    }
+    
+    override func backButtonPressed() -> Bool {
+        trackEnablingSettings()
+        return false
     }
     
     
@@ -125,7 +148,7 @@ final class NotificationSettingsAccessorListViewModel: BaseViewModel {
             cells.append(.accessor(title: notificationSetting.name))
         }
         if notificationSettingsType.isPush {
-            cells.append(.marketing(switchValue: Variable<Bool>(switchMarketingNotificationValue),
+            cells.append(.marketing(switchValue: switchMarketingNotificationValue,
                                     changeClosure: { [weak self] enabled in
                                         self?.checkMarketingNotifications(enabled)
                                         
@@ -147,8 +170,6 @@ final class NotificationSettingsAccessorListViewModel: BaseViewModel {
     
     private func setMarketingNotification(enabled: Bool) {
         notificationsManager.marketingNotifications.value = enabled
-        let event = TrackerEvent.marketingPushNotifications(myUserRepository.myUser?.objectId, enabled: enabled)
-        tracker.trackEvent(event)
     }
     
     private func checkMarketingNotifications(_ enabled: Bool) {
@@ -197,6 +218,36 @@ final class NotificationSettingsAccessorListViewModel: BaseViewModel {
     
     private func forceMarketingNotifications(enabled: Bool) {
         notificationsManager.marketingNotifications.value = enabled
-        switchMarketingNotificationValue = enabled
+        switchMarketingNotificationValue.value = enabled
+    }
+    
+    
+    // MARK: - Tracking
+    
+    private func trackNotificationsEditStart() {
+        let event = TrackerEvent.notificationsEditStart()
+        tracker.trackEvent(event)
+    }
+    
+    private func trackEnablingSettings() {
+        switch notificationSettingsType {
+        case .push:
+            trackPushNotificationsStatus()
+        case .mail:
+            trackMailNotificationsStatus()
+        case .marketing, .searchAlerts:
+            break
+        }
+    }
+    
+    private func trackPushNotificationsStatus() {
+        let event = TrackerEvent.pushNotificationsEditStart(dynamicParameters: trackingParams,
+                                                            marketingNoticationsEnabled: switchMarketingNotificationValue.value)
+        tracker.trackEvent(event)
+    }
+    
+    private func trackMailNotificationsStatus() {
+        let event = TrackerEvent.mailNotificationsEditStart(dynamicParameters: trackingParams)
+        tracker.trackEvent(event)
     }
 }

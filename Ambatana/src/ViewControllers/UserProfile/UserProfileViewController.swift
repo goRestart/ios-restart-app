@@ -454,8 +454,6 @@ extension UserProfileViewController: UserProfileBioAndTrustDelegate {
 
 extension UserProfileViewController: UserProfileHeaderDelegate {
     func didTapEditAvatar() {
-        let action = UIAction(interface: .text("holi"), action: {})
-        showAlertWithTitle("test", text: "message", alertType: AlertType.iconAlert(icon: R.Asset.IconsButtons.icHeart.image), actions: [action])
         guard viewModel.isPrivateProfile else { return }
         MediaPickerManager.showImagePickerIn(self)
     }

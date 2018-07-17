@@ -23,9 +23,9 @@ final class UserTypeTypeSpec: QuickSpec {
                     beforeEach {
                         sut = [.user, .pro]
                     }
-                    describe("Variant A - apply firstSection") {
+                    describe("deselect individual") {
                         beforeEach {
-                            carSellerType = sut.carSectionsFrom(feature: .variantA, filter: FilterCarSection.firstSection)
+                            carSellerType = sut.toogleFilterCarSection(filter: .individual)
                         }
                         it("it's not empty") {
                             expect(carSellerType).notTo(beEmpty())
@@ -35,21 +35,6 @@ final class UserTypeTypeSpec: QuickSpec {
                         }
                         it("contains pro") {
                             expect(carSellerType).to(contain(.pro))
-                        }
-                    }
-                    
-                    describe("Variant C - apply secondSection") {
-                        beforeEach {
-                            carSellerType = sut.carSectionsFrom(feature: .variantC, filter: FilterCarSection.secondSection)
-                        }
-                        it("it's not empty") {
-                            expect(carSellerType).notTo(beEmpty())
-                        }
-                        it("contains pro") {
-                            expect(carSellerType).to(contain(.pro))
-                        }
-                        it("NOT contains user") { 
-                            expect(carSellerType).toNot(contain(.user))
                         }
                     }
                 }
