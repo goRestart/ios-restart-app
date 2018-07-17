@@ -78,6 +78,7 @@ protocol FeatureFlaggeable: class {
     var showServicesFeatures: ShowServicesFeatures { get }
     var carExtraFieldsEnabled: CarExtraFieldsEnabled { get }
     var realEstateMapTooltip: RealEstateMapTooltip { get }
+    var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen { get }
     
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed { get }
@@ -191,6 +192,10 @@ extension OnboardingIncentivizePosting {
 }
 
 extension ShowServicesFeatures {
+    var isActive: Bool { return self == .active }
+}
+
+extension ServicesUnifiedFilterScreen {
     var isActive: Bool { return self == .active }
 }
 
@@ -1184,6 +1189,14 @@ extension FeatureFlags {
             return Bumper.realEstateMapTooltip
         }
         return RealEstateMapTooltip.fromPosition(abTests.realEstateMapTooltip.value)
+    }
+    
+    var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen {
+        if Bumper.enabled {
+            return Bumper.servicesUnifiedFilterScreen
+        }
+        return .control
+//        return ServicesUnifiedFilterScreen.fromPosition(abTests.servicesUnifiedFilterScreen.value)
     }
 }
 

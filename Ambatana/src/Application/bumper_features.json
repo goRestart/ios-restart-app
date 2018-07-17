@@ -304,6 +304,11 @@
         "name": "EngagementBadging",
         "values": ["control", "baseline", "active"],
         "description": "Show recent items bubble in feed basic approach"
+    },
+    {
+        "name": "ServicesUnifiedFilterScreen",
+        "values": ["control", "baseline", "active"],
+        "description": "Show new services filter screen"
     }
 
  ]
