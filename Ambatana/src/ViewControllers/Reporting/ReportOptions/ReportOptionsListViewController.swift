@@ -16,8 +16,6 @@ final class ReportOptionsListViewController: BaseViewController {
     private let keyboardHelper = KeyboardHelper()
     private let disposeBag = DisposeBag()
     private var bottomContainerTopConstraint: NSLayoutConstraint?
-    private var additionalNotesHeightConstraint: NSLayoutConstraint?
-    private var additionalNotesTopConstraint: NSLayoutConstraint?
 
     private var tableBottomInset: CGFloat = 0 {
         didSet {
@@ -137,12 +135,6 @@ final class ReportOptionsListViewController: BaseViewController {
                                     leftMargin: Metrics.margin,
                                     rightMargin: Metrics.margin)
 
-        let additionalNotesHeightConstraint = additionalNotesTextView.heightAnchor
-            .constraint(equalToConstant: Layout.additionalNotesAreaHeight)
-
-        let additionalNotesTopConstraint = additionalNotesPlacehoderTextView.topAnchor
-            .constraint(equalTo: additionalNotesTextView.topAnchor)
-
         let constraints = [
             additionalNotesTextView.topAnchor.constraint(equalTo: footer.topAnchor, constant: Metrics.margin),
             additionalNotesTextView.leftAnchor.constraint(equalTo: footer.leftAnchor, constant: Metrics.margin),
@@ -151,12 +143,9 @@ final class ReportOptionsListViewController: BaseViewController {
             additionalNotesPlacehoderTextView.leftAnchor.constraint(equalTo: additionalNotesTextView.leftAnchor),
             additionalNotesPlacehoderTextView.rightAnchor.constraint(equalTo: additionalNotesTextView.rightAnchor),
             additionalNotesPlacehoderTextView.heightAnchor.constraint(equalTo: additionalNotesTextView.heightAnchor),
-            additionalNotesHeightConstraint,
-            additionalNotesTopConstraint
+            additionalNotesTextView.heightAnchor.constraint(equalToConstant: Layout.additionalNotesAreaHeight),
+            additionalNotesPlacehoderTextView.topAnchor.constraint(equalTo: additionalNotesTextView.topAnchor)
         ]
-
-        self.additionalNotesHeightConstraint = additionalNotesHeightConstraint
-        self.additionalNotesTopConstraint = additionalNotesTopConstraint
 
         NSLayoutConstraint.activate(constraints)
 
