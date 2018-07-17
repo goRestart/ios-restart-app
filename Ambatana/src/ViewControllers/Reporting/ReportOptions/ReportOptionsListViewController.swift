@@ -49,7 +49,7 @@ final class ReportOptionsListViewController: BaseViewController {
         let textView = UITextView()
         textView.font = .bigBodyFont
         textView.textColor = .placeholder
-        textView.text = "Write here any additional notes that might help us to resolve this issue" // FIXME: localize
+        textView.text = R.Strings.reportingAdditionalNotesPlaceholder
         textView.isUserInteractionEnabled = false
         textView.backgroundColor = .clear
         return textView
