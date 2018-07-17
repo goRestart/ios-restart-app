@@ -27,9 +27,12 @@ final class BumperViewModel {
 
     private(set) var enabled: Bool
     private var viewData: [BumperViewData] {
-        didSet { rx_filtered.value = viewData }
+        didSet {
+            rx_filtered.value = viewData
+            filter(with: lastFilter ?? "")
+        }
     }
-    var filter: String? = nil
+    var lastFilter: String? = nil
     var rx_filtered: Variable<[BumperViewData]>
 
     private let bumper: Bumper
@@ -58,8 +61,9 @@ final class BumperViewModel {
     }
 
     func filter(with filter: String) {
+        lastFilter = filter
         if filter.count > 0 {
-            rx_filtered.value = viewData.filter { $0.description.contains(filter) }
+            rx_filtered.value = viewData.filter { $0.description.lowercased().contains(filter.lowercased()) }
         } else {
             rx_filtered.value = viewData
         }
@@ -104,11 +108,11 @@ final class BumperViewModel {
     }
 
     func didSelectFeature(at index: Int) {
-        delegate?.showFeature(index, title: featureName(at: index), itemsSelection: viewData[index].options)
+        delegate?.showFeature(index, title: featureName(at: index), itemsSelection: rx_filtered.value[index].options)
     }
 
     func updateFeature(at index: Int,with item: String) {
-        let data = viewData[index]
+        let data = rx_filtered.value[index]
         bumper.setValue(for: data.key, value: item)
         viewData = bumper.bumperViewData
         delegate?.featuresUpdated()
