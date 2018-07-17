@@ -29,7 +29,7 @@ final class ReportOptionsListViewModel: BaseViewModel {
         selectedOption = option
     }
 
-    func didTapReport() {
+    func didTapReport(withAdditionalNotes: String?) {
         guard let type = selectedOption?.type.reportSentType else { return }
         navigator?.openReportSentScreen(type: type)
     }

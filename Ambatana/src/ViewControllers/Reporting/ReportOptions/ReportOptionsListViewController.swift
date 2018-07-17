@@ -214,7 +214,7 @@ final class ReportOptionsListViewController: BaseViewController {
     }
 
     @objc private func reportButtonTapped() {
-        viewModel.didTapReport()
+        viewModel.didTapReport(withAdditionalNotes: additionalNotesTextView.text)
     }
 
     @objc private func didTapClose() {
