@@ -22,17 +22,11 @@ final class ListingCardViewBinder {
     func bind(withViewModel viewModel: ListingCardViewCellModel) {
         recycleDisposeBag()
         guard let vmDisposeBag = viewModelBag else { return }
-        viewModel
-            .cardProductPreview
-            .observeOn(MainScheduler.asyncInstance)
-            .bind { [weak self] (preview, count) in
-            self?.cardView?.populateWith(preview: preview, imageCount: count)
-        }.disposed(by:vmDisposeBag)
 
         let statusAndFeatured = Observable.combineLatest(viewModel.cardStatus,
                                                          viewModel.cardIsFeatured) { ($0, $1) }
         statusAndFeatured.observeOn(MainScheduler.asyncInstance).bind { [weak self] (status, isFeatured) in
             self?.cardView?.populateWith(status: status, featured: isFeatured)
-        }.disposed(by:vmDisposeBag)
+        }.disposed(by: vmDisposeBag)
     }
 }

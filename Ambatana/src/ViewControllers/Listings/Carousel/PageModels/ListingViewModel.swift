@@ -20,9 +20,6 @@ protocol ListingViewModelDelegate: BaseViewModelDelegate {
 protocol ListingViewModelMaker {
     func make(listing: Listing, visitSource: EventParameterListingVisitSource) -> ListingViewModel
     func make(listing: Listing, navigator: ListingDetailNavigator?, visitSource: EventParameterListingVisitSource) -> ListingViewModel
-
-    func makeListingDeckSnapshot(listingViewModel: ListingViewModel) -> ListingDeckSnapshotType
-    func makeListingDeckSnapshot(listing: Listing) -> ListingDeckSnapshotType
 }
 
 enum ListingOrigin {
@@ -31,82 +28,6 @@ enum ListingOrigin {
 
 class ListingViewModel: BaseViewModel {
     class ConvenienceMaker: ListingViewModelMaker {
-
-        func makeListingDeckSnapshot(listingViewModel: ListingViewModel) -> ListingDeckSnapshotType {
-            return makeListingDeckSnapshot(listing: listingViewModel.listing.value,
-                                           seller: listingViewModel.seller.value,
-                                           isFavorite: listingViewModel.isFavorite.value,
-                                           isFeatured: listingViewModel.isShowingFeaturedStripe.value,
-                                           socialMessage: listingViewModel.socialMessage.value)
-        }
-
-        func makeListingDeckSnapshot(listing: Listing) -> ListingDeckSnapshotType {
-            return makeListingDeckSnapshot(listing: listing,
-                                           seller: nil,
-                                           isFavorite: false,
-                                           isFeatured: false,
-                                           socialMessage: nil,
-                                           myUserRepository: Core.myUserRepository,
-                                           featureFlags: FeatureFlags.sharedInstance,
-                                           countryHelper: Core.countryHelper)
-        }
-
-        private func makeListingDeckSnapshot(listing: Listing,
-                                             seller: User?,
-                                             isFavorite: Bool,
-                                             isFeatured: Bool,
-                                             socialMessage: SocialMessage?) -> ListingDeckSnapshotType {
-            return makeListingDeckSnapshot(listing: listing,
-                                           seller: seller,
-                                           isFavorite: isFavorite,
-                                           isFeatured: isFeatured,
-                                           socialMessage: socialMessage,
-                                           myUserRepository: Core.myUserRepository,
-                                           featureFlags: FeatureFlags.sharedInstance,
-                                           countryHelper: Core.countryHelper)
-        }
-
-        private func makeListingDeckSnapshot(listing: Listing,
-                                             seller: User?,
-                                             isFavorite: Bool,
-                                             isFeatured: Bool,
-                                             socialMessage: SocialMessage?,
-                                             myUserRepository: MyUserRepository,
-                                             featureFlags: FeatureFlags,
-                                             countryHelper: CountryHelper) -> ListingDeckSnapshotType {
-            let isMine = listing.isMine(myUserRepository: myUserRepository)
-            let status = ListingViewModelStatus(listing: listing,
-                                                isMine: listing.isMine(myUserRepository: myUserRepository),
-                                                featureFlags: featureFlags)
-            let info = ListingVMProductInfo(listing: listing,
-                                            isAutoTranslated: listing.isTitleAutoTranslated(countryHelper),
-                                            distance: nil,
-                                            freeModeAllowed: featureFlags.freePostingModeAllowed,
-                                            postingFlowType: featureFlags.postingFlowType)
-
-            var badge: UserReputationBadge = .noBadge
-            if let reputationBadge = seller?.reputationBadge, featureFlags.advancedReputationSystem.isActive {
-                badge = reputationBadge
-            }
-
-            let userInfo = ListingVMUserInfo(userListing: listing.user, myUser: myUserRepository.myUser,
-                                             sellerBadge: badge)
-
-            return ListingDeckSnapshot(preview: listing.images.first?.fileURL,
-                                       imageCount: listing.images.count,
-                                       isFavoritable: isMine,
-                                       isFavorite: isFavorite,
-                                       userInfo: userInfo,
-                                       status: status,
-                                       isFeatured: isFeatured,
-                                       productInfo: info,
-                                       stats: nil,
-                                       postedDate: nil,
-                                       socialSharer: SocialSharer(),
-                                       socialMessage: socialMessage,
-                                       isMine: isMine)
-        }
-
         func make(listing: Listing, visitSource source: EventParameterListingVisitSource) -> ListingViewModel {
             return ListingViewModel(listing: listing,
                                     visitSource: source,

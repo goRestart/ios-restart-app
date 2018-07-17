@@ -3,7 +3,7 @@ import LGComponents
 
 protocol DeckCollectionViewModel: class {
     var objectCount: Int { get }
-    func snapshotModelAt(index: Int) -> ListingDeckSnapshotType?
+    func cardModel(at index: Int) -> ListingCardModel?
 }
 
 final class DeckCollectionDataSource: NSObject, UICollectionViewDataSource {
@@ -23,7 +23,7 @@ final class DeckCollectionDataSource: NSObject, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeue(type: ListingCardView.self,
                                                 for: indexPath) else { return UICollectionViewCell() }
-        guard let model = viewModel?.snapshotModelAt(index: indexPath.row) else { return cell }
+        guard let model = viewModel?.cardModel(at: indexPath.row) else { return cell }
 
         cell.tag = indexPath.row
         cell.populateWith(model, imageDownloader: imageDownloader)

@@ -73,7 +73,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     private func didAnimateCollectionViewAppearence(withCurrentCell current: ListingCardView) {
         didMoveToItemAtIndex(viewModel.currentIndex)
         guard shouldShowCardsOnBoarding else { return }
-        // TODO: On pursuse until finished viewModel.didShowCardsGesturesOnBoarding
+        viewModel.didShowCardsGesturesOnBoarding()
         showCardGestureNavigation(withCurrentCell: current)
     }
 
@@ -371,24 +371,10 @@ extension ListingDeckViewController: ListingCardViewDelegate, ListingDeckCollect
         return listingDeckView.cardAtIndex(viewModel.currentIndex)
     }
 
-    func cardViewDidTapOn(_ cardView: ListingCardView, location: CardViewTapLocation) {
-        switch location {
-        case .left:
-            movePrevious()
-        case .right:
-            moveNext()
-        case .bottom:
-            break // TODO no more info
-        }
+    func cardViewDidTapOnMoreInfo(_ cardView: ListingCardView) {
+        
     }
 
-    private func moveNext() {
-        listingDeckView.moveToPage(lastPageBeforeDragging + 1)
-    }
-
-    private func movePrevious() {
-        listingDeckView.moveToPage(lastPageBeforeDragging - 1)
-    }
 }
 
 extension ListingDeckViewController {

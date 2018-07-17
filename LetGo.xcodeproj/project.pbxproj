@@ -122,6 +122,10 @@
 		0A05F384209B375D00F43A67 /* DeckMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A05F382209B375D00F43A67 /* DeckMapViewController.swift */; };
 		0A05F386209B37C400F43A67 /* DeckMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A05F385209B37C400F43A67 /* DeckMapView.swift */; };
 		0A05F387209B37C400F43A67 /* DeckMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A05F385209B37C400F43A67 /* DeckMapView.swift */; };
+		0A06C3EB20FCCCC300D41982 /* ListingCardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A06C3EA20FCCCC300D41982 /* ListingCardModel.swift */; };
+		0A06C3EC20FCCD3100D41982 /* ListingCardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A06C3EA20FCCCC300D41982 /* ListingCardModel.swift */; };
+		0A06C3EE20FCCFF000D41982 /* ListingCardPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A06C3ED20FCCFF000D41982 /* ListingCardPageControl.swift */; };
+		0A06C3EF20FCD01400D41982 /* ListingCardPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A06C3ED20FCCFF000D41982 /* ListingCardPageControl.swift */; };
 		0A0AF97C1FA864900024EF22 /* ListingDeckViewModelBinderSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0AF97B1FA864900024EF22 /* ListingDeckViewModelBinderSpec.swift */; };
 		0A0C048F209C8CBB0028A75D /* NotificationSettingsMainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D431FF2080FBD100061F0C /* NotificationSettingsMainViewModel.swift */; };
 		0A0C0490209C8CD20028A75D /* SearchAlertFeedHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E5B70420889BEF001C5A1F /* SearchAlertFeedHeader.swift */; };
@@ -137,10 +141,10 @@
 		0A29CF0820EF6C76007F35F6 /* ListingTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A29CF0620EF6C76007F35F6 /* ListingTracker.swift */; };
 		0A2D69DE1FC5DB0300F072A1 /* Bounceable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2D69DC1FC5DA8700F072A1 /* Bounceable.swift */; };
 		0A2EC6A120357C0700DE1711 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508010E61D4748120073F362 /* SettingsViewController.swift */; };
-		0A3048282041E1DE00C11498 /* ListingDeckSnapshotType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3048272041E1DE00C11498 /* ListingDeckSnapshotType.swift */; };
-		0A3048292041E20100C11498 /* ListingDeckSnapshotType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3048272041E1DE00C11498 /* ListingDeckSnapshotType.swift */; };
 		0A31CF621FA1EBEB00FE84E0 /* ListingDeckViewModelBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A31CF611FA1EBEB00FE84E0 /* ListingDeckViewModelBinder.swift */; };
 		0A31CF631FA1ECCE00FE84E0 /* ListingDeckViewModelBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A31CF611FA1EBEB00FE84E0 /* ListingDeckViewModelBinder.swift */; };
+		0A35E6EA20FCDE49002701ED /* ListingCardMediaCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A35E6E920FCDE49002701ED /* ListingCardMediaCarousel.swift */; };
+		0A35E6EB20FCDF64002701ED /* ListingCardMediaCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A35E6E920FCDE49002701ED /* ListingCardMediaCarousel.swift */; };
 		0A3E5FED207FAB9A00577670 /* FeedAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3E5FEC207FAB9A00577670 /* FeedAssembly.swift */; };
 		0A3E5FEE207FAC1A00577670 /* FeedAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3E5FEC207FAB9A00577670 /* FeedAssembly.swift */; };
 		0A4766C91FC58DFF005B176F /* ListingCardViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6BAC1D1FC58D680008A703 /* ListingCardViewCellModel.swift */; };
@@ -156,10 +160,6 @@
 		0A5333D1208F5508000D3F42 /* VideoPlayerCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5333CF208F53BC000D3F42 /* VideoPlayerCoordinator.swift */; };
 		0A561AE220C81FF00082D551 /* UICollectionView+ReusableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A561AE120C81FF00082D551 /* UICollectionView+ReusableCell.swift */; };
 		0A561AE320C8203F0082D551 /* UICollectionView+ReusableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A561AE120C81FF00082D551 /* UICollectionView+ReusableCell.swift */; };
-		0A60CAA71FB0C4EF00BE1EFE /* ListingCardUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A63DFC21FB0B7AC00C065F2 /* ListingCardUserView.swift */; };
-		0A63DFC01FB0A9A600C065F2 /* ListingCardDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A63DFBF1FB0A9A600C065F2 /* ListingCardDetailsView.swift */; };
-		0A63DFC11FB0A9D000C065F2 /* ListingCardDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A63DFBF1FB0A9A600C065F2 /* ListingCardDetailsView.swift */; };
-		0A63DFC31FB0B7AC00C065F2 /* ListingCardUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A63DFC21FB0B7AC00C065F2 /* ListingCardUserView.swift */; };
 		0A6650DC20BBF51500BD1F2B /* EditLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6650DB20BBF51500BD1F2B /* EditLocationView.swift */; };
 		0A6650DD20BBF51800BD1F2B /* EditLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6650DB20BBF51500BD1F2B /* EditLocationView.swift */; };
 		0A6BAC1E1FC58D680008A703 /* ListingCardViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6BAC1D1FC58D680008A703 /* ListingCardViewCellModel.swift */; };
@@ -235,6 +235,14 @@
 		0ACE7DAE1FD2C3A10068E47B /* DeckCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACE7DAC1FD2C3A10068E47B /* DeckCoordinator.swift */; };
 		0AD1B7432085D66400A28852 /* FeedNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD1B7422085D66400A28852 /* FeedNavigator.swift */; };
 		0AD1B7442085D66400A28852 /* FeedNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD1B7422085D66400A28852 /* FeedNavigator.swift */; };
+		0AE405B720EDF7F10041E3F1 /* ListingCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE405B520EDF7F10041E3F1 /* ListingCardView.swift */; };
+		0AE405B820EDF7F10041E3F1 /* ListingCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE405B520EDF7F10041E3F1 /* ListingCardView.swift */; };
+		0AE405B920EDF7F10041E3F1 /* ListingCardViewBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE405B620EDF7F10041E3F1 /* ListingCardViewBinder.swift */; };
+		0AE405BA20EDF7F10041E3F1 /* ListingCardViewBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE405B620EDF7F10041E3F1 /* ListingCardViewBinder.swift */; };
+		0AE405BC20EDF8530041E3F1 /* ListingCardOnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE405BB20EDF8530041E3F1 /* ListingCardOnBoardingView.swift */; };
+		0AE405BD20EDF8530041E3F1 /* ListingCardOnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE405BB20EDF8530041E3F1 /* ListingCardOnBoardingView.swift */; };
+		0AE405BF20EE4B8D0041E3F1 /* DeckCollectionDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE405BE20EE4B8D0041E3F1 /* DeckCollectionDataSource.swift */; };
+		0AE405C020EE4C760041E3F1 /* DeckCollectionDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE405BE20EE4B8D0041E3F1 /* DeckCollectionDataSource.swift */; };
 		0AE405C820EE4FB90041E3F1 /* ListingCardDetailsViewBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE405C320EE4FB90041E3F1 /* ListingCardDetailsViewBinder.swift */; };
 		0AE405C920EE4FB90041E3F1 /* ListingCardDetailsViewBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE405C320EE4FB90041E3F1 /* ListingCardDetailsViewBinder.swift */; };
 		0AE405CA20EE4FB90041E3F1 /* ListingCardUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE405C420EE4FB90041E3F1 /* ListingCardUserView.swift */; };
@@ -245,16 +253,6 @@
 		0AE405D020EE4FE00041E3F1 /* ListingDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE405CE20EE4FE00041E3F1 /* ListingDetailViewController.swift */; };
 		0AE405D220EE500A0041E3F1 /* ListingDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE405D120EE500A0041E3F1 /* ListingDetailView.swift */; };
 		0AE405D320EE500A0041E3F1 /* ListingDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE405D120EE500A0041E3F1 /* ListingDetailView.swift */; };
-		0ADE58D21FC45F3100F3DB17 /* ListingCardDetailsViewBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADE58D11FC45F3100F3DB17 /* ListingCardDetailsViewBinder.swift */; };
-		0ADE58D31FC4609400F3DB17 /* ListingCardDetailsViewBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADE58D11FC45F3100F3DB17 /* ListingCardDetailsViewBinder.swift */; };
-		0AE405B720EDF7F10041E3F1 /* ListingCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE405B520EDF7F10041E3F1 /* ListingCardView.swift */; };
-		0AE405B820EDF7F10041E3F1 /* ListingCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE405B520EDF7F10041E3F1 /* ListingCardView.swift */; };
-		0AE405B920EDF7F10041E3F1 /* ListingCardViewBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE405B620EDF7F10041E3F1 /* ListingCardViewBinder.swift */; };
-		0AE405BA20EDF7F10041E3F1 /* ListingCardViewBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE405B620EDF7F10041E3F1 /* ListingCardViewBinder.swift */; };
-		0AE405BC20EDF8530041E3F1 /* ListingCardOnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE405BB20EDF8530041E3F1 /* ListingCardOnBoardingView.swift */; };
-		0AE405BD20EDF8530041E3F1 /* ListingCardOnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE405BB20EDF8530041E3F1 /* ListingCardOnBoardingView.swift */; };
-		0AE405BF20EE4B8D0041E3F1 /* DeckCollectionDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE405BE20EE4B8D0041E3F1 /* DeckCollectionDataSource.swift */; };
-		0AE405C020EE4C760041E3F1 /* DeckCollectionDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE405BE20EE4B8D0041E3F1 /* DeckCollectionDataSource.swift */; };
 		0AEB4FF02018AA93003365DE /* ListingDeckOnBoardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEB4FEF2018AA93003365DE /* ListingDeckOnBoardingViewModel.swift */; };
 		0AEB4FF22018C25F003365DE /* ListingDeckOnBoardingBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEB4FF12018C25F003365DE /* ListingDeckOnBoardingBinder.swift */; };
 		0AEB4FF52018C347003365DE /* ListingDeckOnBoardingBinderSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEB4FF42018C347003365DE /* ListingDeckOnBoardingBinderSpec.swift */; };
@@ -2047,6 +2045,8 @@
 		0A04D5DF207614F000471B9D /* UsersABGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersABGroup.swift; sourceTree = "<group>"; };
 		0A05F382209B375D00F43A67 /* DeckMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckMapViewController.swift; sourceTree = "<group>"; };
 		0A05F385209B37C400F43A67 /* DeckMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckMapView.swift; sourceTree = "<group>"; };
+		0A06C3EA20FCCCC300D41982 /* ListingCardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingCardModel.swift; sourceTree = "<group>"; };
+		0A06C3ED20FCCFF000D41982 /* ListingCardPageControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingCardPageControl.swift; sourceTree = "<group>"; };
 		0A0AF97B1FA864900024EF22 /* ListingDeckViewModelBinderSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckViewModelBinderSpec.swift; sourceTree = "<group>"; };
 		0A0CCB1B208E670600DCFFCA /* ListingDeckVideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingDeckVideoCell.swift; sourceTree = "<group>"; };
 		0A0CD7F71FD97FBB00B0BACF /* FilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCell.swift; sourceTree = "<group>"; };
@@ -2054,16 +2054,14 @@
 		0A25E8112019C87900E6A72E /* OnBoardingAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingAnimator.swift; sourceTree = "<group>"; };
 		0A29CF0620EF6C76007F35F6 /* ListingTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingTracker.swift; sourceTree = "<group>"; };
 		0A2D69DC1FC5DA8700F072A1 /* Bounceable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bounceable.swift; sourceTree = "<group>"; };
-		0A3048272041E1DE00C11498 /* ListingDeckSnapshotType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingDeckSnapshotType.swift; sourceTree = "<group>"; };
 		0A31CF611FA1EBEB00FE84E0 /* ListingDeckViewModelBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckViewModelBinder.swift; sourceTree = "<group>"; };
+		0A35E6E920FCDE49002701ED /* ListingCardMediaCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingCardMediaCarousel.swift; sourceTree = "<group>"; };
 		0A3E5FEC207FAB9A00577670 /* FeedAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedAssembly.swift; sourceTree = "<group>"; };
 		0A4766CA1FC5BB2A005B176F /* ProductStatusView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductStatusView.swift; sourceTree = "<group>"; };
 		0A4AD7F9203DD9B8002625B7 /* UILayoutPriority.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILayoutPriority.swift; sourceTree = "<group>"; };
 		0A4C69D720C92D5100B89022 /* RecaptchaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecaptchaView.swift; sourceTree = "<group>"; };
 		0A5333CF208F53BC000D3F42 /* VideoPlayerCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerCoordinator.swift; sourceTree = "<group>"; };
 		0A561AE120C81FF00082D551 /* UICollectionView+ReusableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+ReusableCell.swift"; sourceTree = "<group>"; };
-		0A63DFBF1FB0A9A600C065F2 /* ListingCardDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardDetailsView.swift; sourceTree = "<group>"; };
-		0A63DFC21FB0B7AC00C065F2 /* ListingCardUserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardUserView.swift; sourceTree = "<group>"; };
 		0A6650DB20BBF51500BD1F2B /* EditLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLocationView.swift; sourceTree = "<group>"; };
 		0A6BAC1D1FC58D680008A703 /* ListingCardViewCellModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardViewCellModel.swift; sourceTree = "<group>"; };
 		0A6D88BE1F7CED6900819E89 /* DeepLinksRouterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeepLinksRouterSpec.swift; sourceTree = "<group>"; };
@@ -2106,16 +2104,15 @@
 		0ACDD2EB1FD1450300616F53 /* QuickChatViewBinderSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickChatViewBinderSpec.swift; sourceTree = "<group>"; };
 		0ACE7DAC1FD2C3A10068E47B /* DeckCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckCoordinator.swift; sourceTree = "<group>"; };
 		0AD1B7422085D66400A28852 /* FeedNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedNavigator.swift; sourceTree = "<group>"; };
+		0AE405B520EDF7F10041E3F1 /* ListingCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardView.swift; sourceTree = "<group>"; };
+		0AE405B620EDF7F10041E3F1 /* ListingCardViewBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardViewBinder.swift; sourceTree = "<group>"; };
+		0AE405BB20EDF8530041E3F1 /* ListingCardOnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingCardOnBoardingView.swift; sourceTree = "<group>"; };
+		0AE405BE20EE4B8D0041E3F1 /* DeckCollectionDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckCollectionDataSource.swift; sourceTree = "<group>"; };
 		0AE405C320EE4FB90041E3F1 /* ListingCardDetailsViewBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardDetailsViewBinder.swift; sourceTree = "<group>"; };
 		0AE405C420EE4FB90041E3F1 /* ListingCardUserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardUserView.swift; sourceTree = "<group>"; };
 		0AE405C520EE4FB90041E3F1 /* ListingCardDetailMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardDetailMapView.swift; sourceTree = "<group>"; };
 		0AE405CE20EE4FE00041E3F1 /* ListingDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingDetailViewController.swift; sourceTree = "<group>"; };
 		0AE405D120EE500A0041E3F1 /* ListingDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingDetailView.swift; sourceTree = "<group>"; };
-		0ADE58D11FC45F3100F3DB17 /* ListingCardDetailsViewBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardDetailsViewBinder.swift; sourceTree = "<group>"; };
-		0AE405B520EDF7F10041E3F1 /* ListingCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardView.swift; sourceTree = "<group>"; };
-		0AE405B620EDF7F10041E3F1 /* ListingCardViewBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardViewBinder.swift; sourceTree = "<group>"; };
-		0AE405BB20EDF8530041E3F1 /* ListingCardOnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingCardOnBoardingView.swift; sourceTree = "<group>"; };
-		0AE405BE20EE4B8D0041E3F1 /* DeckCollectionDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckCollectionDataSource.swift; sourceTree = "<group>"; };
 		0AEB4FEF2018AA93003365DE /* ListingDeckOnBoardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingDeckOnBoardingViewModel.swift; sourceTree = "<group>"; };
 		0AEB4FF12018C25F003365DE /* ListingDeckOnBoardingBinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingDeckOnBoardingBinder.swift; sourceTree = "<group>"; };
 		0AEB4FF42018C347003365DE /* ListingDeckOnBoardingBinderSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingDeckOnBoardingBinderSpec.swift; sourceTree = "<group>"; };
@@ -3332,12 +3329,9 @@
 				0A760FF01FA0B7480055F2B6 /* ListingDeckViewModel.swift */,
 				0A31CF611FA1EBEB00FE84E0 /* ListingDeckViewModelBinder.swift */,
 				0A00F9C31FA364B100E915F4 /* ListingDeckViewControllerBinder.swift */,
-				0A63DFBF1FB0A9A600C065F2 /* ListingCardDetailsView.swift */,
-				0A63DFC21FB0B7AC00C065F2 /* ListingCardUserView.swift */,
 				0A4766CA1FC5BB2A005B176F /* ProductStatusView.swift */,
 				0A6BAC1D1FC58D680008A703 /* ListingCardViewCellModel.swift */,
 				0A759E961FB472F60030FDE0 /* ListingCardViewModel.swift */,
-				0A3048272041E1DE00C11498 /* ListingDeckSnapshotType.swift */,
 				0AE405BE20EE4B8D0041E3F1 /* DeckCollectionDataSource.swift */,
 			);
 			path = DeckView;
@@ -3351,6 +3345,19 @@
 			path = DeckCoordinator;
 			sourceTree = "<group>";
 		};
+		0AE405B420EDF7A10041E3F1 /* ListingCardView */ = {
+			isa = PBXGroup;
+			children = (
+				0AE405B520EDF7F10041E3F1 /* ListingCardView.swift */,
+				0AE405B620EDF7F10041E3F1 /* ListingCardViewBinder.swift */,
+				0AE405BB20EDF8530041E3F1 /* ListingCardOnBoardingView.swift */,
+				0A06C3EA20FCCCC300D41982 /* ListingCardModel.swift */,
+				0A06C3ED20FCCFF000D41982 /* ListingCardPageControl.swift */,
+				0A35E6E920FCDE49002701ED /* ListingCardMediaCarousel.swift */,
+			);
+			path = ListingCardView;
+			sourceTree = "<group>";
+		};
 		0AE405C120EE4F8F0041E3F1 /* ListingDetailView */ = {
 			isa = PBXGroup;
 			children = (
@@ -3361,16 +3368,6 @@
 				0AE405D120EE500A0041E3F1 /* ListingDetailView.swift */,
 			);
 			path = ListingDetailView;
-			sourceTree = "<group>"; 
-		};
-		0AE405B420EDF7A10041E3F1 /* ListingCardView */ = {
-			isa = PBXGroup;
-			children = (
-				0AE405B520EDF7F10041E3F1 /* ListingCardView.swift */,
-				0AE405B620EDF7F10041E3F1 /* ListingCardViewBinder.swift */,
-				0AE405BB20EDF8530041E3F1 /* ListingCardOnBoardingView.swift */,
-			);
-			path = ListingCardView;
 			sourceTree = "<group>";
 		};
 		0AEB4FF32018C336003365DE /* OnBoarding */ = {
@@ -7214,6 +7211,7 @@
 				6AEF66B31C5A155C0025D43C /* Paginable.swift in Sources */,
 				72854D131F85183E00E54530 /* PostingDetailsViewModel.swift in Sources */,
 				8E814F3F1F34732F00C88432 /* LGSliderThumb.swift in Sources */,
+				0A06C3EE20FCCFF000D41982 /* ListingCardPageControl.swift in Sources */,
 				2E92CBFD20248DC600451B65 /* MeetingAssistantViewModel.swift in Sources */,
 				0AF5EB6F1FD0698B001DFAE2 /* QuickChatViewModel.swift in Sources */,
 				6A5E1A001D548F5400F92692 /* MapZoomBlocker.swift in Sources */,
@@ -7234,6 +7232,7 @@
 				C727943A1D549342009C25AB /* ChangePasswordViewModel.swift in Sources */,
 				C7363FB81BF9E64B00A4BF6F /* FilterTag.swift in Sources */,
 				6A5E19FA1D548F5400F92692 /* KeyboardHelper.swift in Sources */,
+				0A35E6EA20FCDE49002701ED /* ListingCardMediaCarousel.swift in Sources */,
 				0AB6E1D41F9DD1670048AFFD /* ListingDeckViewController.swift in Sources */,
 				2E200D2020BEEB630054F053 /* ChatConnectionStatusView.swift in Sources */,
 				C75B55F91C7E12C90001F5CD /* FilterDisclosureCell.swift in Sources */,
@@ -7355,6 +7354,7 @@
 				C7AFFB041E7054780052A9CA /* WebSurveyViewModel.swift in Sources */,
 				72B935F61E3F917500F93F73 /* UserProduct+LG.swift in Sources */,
 				C7363FB21BF9CB5B00A4BF6F /* FilterTagsView.swift in Sources */,
+				0A06C3EB20FCCCC300D41982 /* ListingCardModel.swift in Sources */,
 				F5BBF67A1FD06488000E37A0 /* ListingAttributePickerCell.swift in Sources */,
 				C627573220A3436900B401E7 /* OrderCondition.swift in Sources */,
 				50C9E4C11B723E6B001E4E92 /* AmplitudeTracker.swift in Sources */,
@@ -7448,7 +7448,6 @@
 				C707D4581E9B8C0B00042C03 /* RepositoryError+LG.swift in Sources */,
 				C613D0F220BFF3F100344CF2 /* LGPickerSearchBar.swift in Sources */,
 				C7B543281D758BA7005FBA30 /* VerifyAccountsViewController.swift in Sources */,
-				0A3048282041E1DE00C11498 /* ListingDeckSnapshotType.swift in Sources */,
 				C77593E51BF0BD310097D62F /* FilterCategoryCell.swift in Sources */,
 				C7E1DE541E51F644003818F6 /* DirectAnswersHorizontalView.swift in Sources */,
 				508AFB0A1E51D1BF0007363D /* AutocompleteField.swift in Sources */,
@@ -8017,6 +8016,7 @@
 				6A3C73101CF346CB00A062E0 /* ChatStickerGridCell.swift in Sources */,
 				2ED5E52E1EC5BAFB00B6D4F6 /* FilterListingListRequesterFactory.swift in Sources */,
 				72854D141F85183E00E54530 /* PostingDetailsViewModel.swift in Sources */,
+				0A06C3EF20FCD01400D41982 /* ListingCardPageControl.swift in Sources */,
 				2E92CC0420248E2800451B65 /* MeetingAssistantViewModel.swift in Sources */,
 				6A5E19E31D548F5400F92692 /* GoogleLoginHelper.swift in Sources */,
 				8E814F401F34732F00C88432 /* LGSliderThumb.swift in Sources */,
@@ -8037,6 +8037,7 @@
 				C7415EE31DEDDB460003D6C1 /* KeyboardViewController.swift in Sources */,
 				0A93E2031FCE9A1600955A3A /* PhotoViewerViewControllerBinder.swift in Sources */,
 				C7B5882A1CE1DE1C009B3975 /* BlockedUsersListView.swift in Sources */,
+				0A35E6EB20FCDF64002701ED /* ListingCardMediaCarousel.swift in Sources */,
 				C727943B1D549342009C25AB /* ChangePasswordViewModel.swift in Sources */,
 				C7DB41BF1C5138B500400945 /* LoadingIndicator.swift in Sources */,
 				2E200D2120BEEB630054F053 /* ChatConnectionStatusView.swift in Sources */,
@@ -8158,6 +8159,7 @@
 				C7AFFB051E7054780052A9CA /* WebSurveyViewModel.swift in Sources */,
 				427CAB8B206A8B4E00112D58 /* TrendingSearchView.swift in Sources */,
 				326C72D8208882F2009D21DB /* WaterFallLayoutSettings.swift in Sources */,
+				0A06C3EC20FCCD3100D41982 /* ListingCardModel.swift in Sources */,
 				72CD80CF203469FB0042E1E0 /* LGTutorialViewModel.swift in Sources */,
 				722A6D15205A714F009A43AB /* LGPageControl.swift in Sources */,
 				C7B588801CE1DFA6009B3975 /* ChatCellDrawer.swift in Sources */,
@@ -8257,7 +8259,6 @@
 				C707D4591E9B8C0B00042C03 /* RepositoryError+LG.swift in Sources */,
 				50CFB2F420A2D94800255EE8 /* UserVerificationViewController.swift in Sources */,
 				C7DE8AD71C88929A005CF37E /* PostListingCameraView.swift in Sources */,
-				0A3048292041E20100C11498 /* ListingDeckSnapshotType.swift in Sources */,
 				C7E1DE551E51F644003818F6 /* DirectAnswersHorizontalView.swift in Sources */,
 				42A9F55A20CE600E00DC4D37 /* ServiceSubtype+LG.swift in Sources */,
 				508AFB0B1E51D1BF0007363D /* AutocompleteField.swift in Sources */,

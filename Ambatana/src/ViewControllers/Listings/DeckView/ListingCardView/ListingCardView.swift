@@ -4,13 +4,9 @@ import RxSwift
 import LGCoreKit
 import LGComponents
 
-enum CardViewTapLocation {
-    case right, left, bottom
-}
-
 protocol ListingCardViewDelegate: class {
     func cardViewDidTapOnStatusView(_ cardView: ListingCardView)
-    func cardViewDidTapOn(_ cardView: ListingCardView, location: CardViewTapLocation)
+    func cardViewDidTapOnMoreInfo(_ cardView: ListingCardView)
 }
 
 final class ListingCardView: UICollectionViewCell, ReusableCell {
@@ -18,6 +14,9 @@ final class ListingCardView: UICollectionViewCell, ReusableCell {
     private let cardTapGesture = UITapGestureRecognizer()
 
     private let binder = ListingCardViewBinder()
+
+    private let pageControl = ListingCardPageControl()
+    private var carousel: ListingCardMediaCarousel?
 
     private let statusView = ProductStatusView()
     private let statusTapGesture = UITapGestureRecognizer()
@@ -36,7 +35,6 @@ final class ListingCardView: UICollectionViewCell, ReusableCell {
     }
 
     private var imageDownloader: ImageDownloaderType?
-    private(set) var pageCount: Int = 0
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -47,6 +45,7 @@ final class ListingCardView: UICollectionViewCell, ReusableCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         previewImageView.image = nil
+        carousel = nil
     }
 
     func populateWith(cellModel listingViewModel: ListingCardViewCellModel, imageDownloader: ImageDownloaderType) {
@@ -54,23 +53,9 @@ final class ListingCardView: UICollectionViewCell, ReusableCell {
         binder.bind(withViewModel: listingViewModel)
     }
 
-    func populateWith(_ listingSnapshot: ListingDeckSnapshotType, imageDownloader: ImageDownloaderType) {
+    func populateWith(_ model: ListingCardModel, imageDownloader: ImageDownloaderType) {
         self.imageDownloader = imageDownloader
-        populateWith(preview: listingSnapshot.preview, imageCount: listingSnapshot.imageCount)
-    }
-
-    func populateWith(preview: URL?, imageCount: Int) {
-        update(pageCount: imageCount)
-        guard let previewURL = preview else { return }
-        _ = imageDownloader?.downloadImageWithURL(previewURL) { [weak self] (result, url) in
-            if let value = result.value {
-                let higherThanWider = value.image.size.height >= value.image.size.width
-                DispatchQueue.main.async {
-                    self?.previewImageView.contentMode = higherThanWider ? .scaleAspectFill : .scaleAspectFit
-                    self?.previewImageView.image = value.image
-                }
-            }
-        }
+        populateWith(media: model.media)
     }
 
     func populateWith(status: ListingViewModelStatus?, featured: Bool) {
@@ -86,13 +71,27 @@ final class ListingCardView: UICollectionViewCell, ReusableCell {
 
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
-    func update(pageCount: Int) {
-        self.pageCount = pageCount
-        // TODO: Update page progress bar
+    func populateWith(media: [Media]) {
+        updateWith(carousel: ListingCardMediaCarousel(media: media, current: 0))
+    }
+
+    private func updateWith(carousel: ListingCardMediaCarousel) {
+        pageControl.setPages(carousel.media.count)
+        pageControl.turnOnAt(carousel.current)
+        populateWith(media: carousel.media[safeAt: carousel.current])
+        self.carousel = carousel
+    }
+
+    private func populateWith(media: Media?) {
+        if let previewURL = media?.outputs.image {
+            previewImageView.lg_setImageWithURL(previewURL)
+        } else if let video = media?.outputs.video {
+            // TODO: handle videos
+        }
     }
 
     private func setupUI() {
-        contentView.addSubviewsForAutoLayout([previewImageView, statusView])
+        contentView.addSubviewsForAutoLayout([previewImageView, statusView, pageControl])
 
         NSLayoutConstraint.activate([
             previewImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -100,7 +99,11 @@ final class ListingCardView: UICollectionViewCell, ReusableCell {
             previewImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             previewImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
 
-            statusView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Metrics.margin),
+            pageControl.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Metrics.margin),
+            pageControl.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metrics.margin),
+            pageControl.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Metrics.margin),
+
+            statusView.topAnchor.constraint(equalTo: pageControl.bottomAnchor, constant: Metrics.margin),
             statusView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
         ])
         setupStatusView()
@@ -120,7 +123,11 @@ final class ListingCardView: UICollectionViewCell, ReusableCell {
         let location = gesture.location(in: contentView)
         let isLeft = location.x / contentView.width < 0.5
 
-        delegate?.cardViewDidTapOn(self, location: isLeft ? .left : .right)
+        if isLeft, let carousel = self.carousel?.makePrevious() {
+            updateWith(carousel: carousel)
+        } else if let carousel = self.carousel?.makeNext() {
+            updateWith(carousel: carousel)
+        }
 
         // TODO: Check more info when we have it implemented
     }

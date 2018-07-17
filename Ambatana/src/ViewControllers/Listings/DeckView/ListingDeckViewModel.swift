@@ -622,11 +622,13 @@ extension ListingDeckViewModel {
 }
 
 extension ListingDeckViewModel: DeckCollectionViewModel {
-    func snapshotModelAt(index: Int) -> ListingDeckSnapshotType? {
-        guard let listing = objects.value[safeAt: index]?.listing else { return nil }
-        if let listingId = listing.objectId, let viewModel = productsViewModels[listingId] {
-            return listingViewModelMaker.makeListingDeckSnapshot(listingViewModel: viewModel)
-        }
-        return listingViewModelMaker.makeListingDeckSnapshot(listing: listing)
+    func cardModel(at index: Int) -> ListingCardModel? {
+        guard let model = objects.value[safeAt: index] else { return nil }
+        guard let price = model.listing?.priceString(freeModeAllowed: featureFlags.freePostingModeAllowed),
+            let media = model.listing?.media else { return nil }
+
+        return ListingCardModel(title: model.listing?.title,
+                                price: price,
+                                media: media)
     }
 }
