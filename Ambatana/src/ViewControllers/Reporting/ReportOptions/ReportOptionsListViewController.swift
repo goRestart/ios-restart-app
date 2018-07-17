@@ -2,7 +2,7 @@ import Foundation
 import LGComponents
 import RxSwift
 
-final class ReportOptionsListViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource {
+final class ReportOptionsListViewController: BaseViewController {
 
     private enum Layout {
         static let buttonAreaHeight: CGFloat = 80
@@ -13,8 +13,11 @@ final class ReportOptionsListViewController: BaseViewController, UITableViewDele
     }
 
     private let viewModel: ReportOptionsListViewModel
+    private let keyboardHelper = KeyboardHelper()
     private let disposeBag = DisposeBag()
-    private var mutableConstraints: [NSLayoutConstraint] = []
+    private var bottomContainerTopConstraint: NSLayoutConstraint?
+    private var additionalNotesHeightConstraint: NSLayoutConstraint?
+    private var additionalNotesTopConstraint: NSLayoutConstraint?
 
     private var tableBottomInset: CGFloat = 0 {
         didSet {
@@ -32,15 +35,25 @@ final class ReportOptionsListViewController: BaseViewController, UITableViewDele
         tableView.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: Layout.buttonAreaHeight, right: 0)
         tableView.separatorStyle = .none
         tableView.backgroundColor = .white
+        tableView.keyboardDismissMode = .onDrag
         return tableView
     }()
 
     private let additionalNotesTextView: UITextView = {
         let textView = UITextView()
         textView.font = .bigBodyFont
+        textView.textColor = .blackText
+        textView.backgroundColor = .clear
+        return textView
+    }()
+
+    private let additionalNotesPlacehoderTextView: UITextView = {
+        let textView = UITextView()
+        textView.font = .bigBodyFont
         textView.textColor = .placeholder
         textView.text = "Write here any additional notes that might help us to resolve this issue" // FIXME: localize
-        textView.alpha = 0
+        textView.isUserInteractionEnabled = false
+        textView.backgroundColor = .clear
         return textView
     }()
 
@@ -78,29 +91,24 @@ final class ReportOptionsListViewController: BaseViewController, UITableViewDele
     }
 
     private func setupUI() {
-        bottomContainer.addSubviewsForAutoLayout([additionalNotesTextView, reportButton])
+        bottomContainer.addSubviewForAutoLayout(reportButton)
         view.addSubviewsForAutoLayout([tableView, bottomContainer])
         view.backgroundColor = .white
 
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.tableFooterView = setupTableFooter()
+        tableView.tableFooterView?.alpha = 0
         additionalNotesTextView.delegate = self
 
         reportButton.addTarget(self, action: #selector(reportButtonTapped), for: .touchUpInside)
 
-        setupBottomContainerBorder()
         setupConstraints()
     }
 
-    private func setupBottomContainerBorder() {
-        bottomContainerTopBorder = bottomContainer.addTopViewBorderWith(width: Layout.borderWidth,
-                                                                        color: .grayLight,
-                                                                        leftMargin: Metrics.margin,
-                                                                        rightMargin: Metrics.margin)
-        bottomContainerTopBorder?.alpha = 0
-    }
-
     private func setupConstraints() {
+        let bottomContainerTopConstraint = bottomContainer.topAnchor.constraint(equalTo: safeBottomAnchor,
+                                                                                constant: -Layout.buttonAreaHeight)
         let constraints: [NSLayoutConstraint] = [
             tableView.topAnchor.constraint(equalTo: safeTopAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -109,33 +117,50 @@ final class ReportOptionsListViewController: BaseViewController, UITableViewDele
             bottomContainer.leftAnchor.constraint(equalTo: view.leftAnchor),
             bottomContainer.rightAnchor.constraint(equalTo: view.rightAnchor),
             bottomContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            additionalNotesTextView.topAnchor.constraint(equalTo: bottomContainer.topAnchor, constant: Metrics.margin),
-            additionalNotesTextView.leftAnchor.constraint(equalTo: bottomContainer.leftAnchor, constant: Metrics.margin),
-            additionalNotesTextView.rightAnchor.constraint(equalTo: bottomContainer.rightAnchor, constant: -Metrics.margin),
+            reportButton.topAnchor.constraint(equalTo: bottomContainer.topAnchor, constant: Metrics.margin),
             reportButton.leftAnchor.constraint(equalTo: bottomContainer.leftAnchor, constant: Metrics.margin),
             reportButton.rightAnchor.constraint(equalTo: bottomContainer.rightAnchor, constant: -Metrics.margin),
-            reportButton.heightAnchor.constraint(equalToConstant: Layout.buttonHeight)
+            reportButton.heightAnchor.constraint(equalToConstant: Layout.buttonHeight),
+            bottomContainerTopConstraint
         ]
 
-        mutableConstraints = constraintsForAdditionalNotes(visible: false)
-
-        NSLayoutConstraint.activate(constraints + mutableConstraints)
-
+        self.bottomContainerTopConstraint = bottomContainerTopConstraint
+        NSLayoutConstraint.activate(constraints)
     }
 
-    private func constraintsForAdditionalNotes(visible: Bool) -> [NSLayoutConstraint] {
-        if visible {
-            return [
-                additionalNotesTextView.heightAnchor.constraint(equalToConstant: Layout.additionalNotesAreaHeight),
-                bottomContainer.topAnchor.constraint(equalTo: safeBottomAnchor, constant: -(Layout.buttonAreaHeight + Layout.additionalNotesAreaHeight + Metrics.margin)),
-                reportButton.topAnchor.constraint(equalTo: additionalNotesTextView.bottomAnchor, constant: Metrics.margin),
-            ]
-        } else {
-            return [
-                bottomContainer.topAnchor.constraint(equalTo: safeBottomAnchor, constant: -Layout.buttonAreaHeight),
-                reportButton.topAnchor.constraint(equalTo: bottomContainer.topAnchor, constant: Metrics.margin),
-            ]
-        }
+    private func setupTableFooter() -> UIView {
+        let footer = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: Layout.additionalNotesAreaHeight))
+
+        footer.addSubviewsForAutoLayout([additionalNotesTextView, additionalNotesPlacehoderTextView])
+        footer.addTopViewBorderWith(width: Layout.borderWidth,
+                                    color: .grayLight,
+                                    leftMargin: Metrics.margin,
+                                    rightMargin: Metrics.margin)
+
+        let additionalNotesHeightConstraint = additionalNotesTextView.heightAnchor
+            .constraint(equalToConstant: Layout.additionalNotesAreaHeight)
+
+        let additionalNotesTopConstraint = additionalNotesPlacehoderTextView.topAnchor
+            .constraint(equalTo: additionalNotesTextView.topAnchor)
+
+        let constraints = [
+            additionalNotesTextView.topAnchor.constraint(equalTo: footer.topAnchor, constant: Metrics.margin),
+            additionalNotesTextView.leftAnchor.constraint(equalTo: footer.leftAnchor, constant: Metrics.margin),
+            additionalNotesTextView.rightAnchor.constraint(equalTo: footer.rightAnchor, constant: -Metrics.margin),
+            additionalNotesTextView.bottomAnchor.constraint(equalTo: footer.bottomAnchor, constant: -Metrics.margin),
+            additionalNotesPlacehoderTextView.leftAnchor.constraint(equalTo: additionalNotesTextView.leftAnchor),
+            additionalNotesPlacehoderTextView.rightAnchor.constraint(equalTo: additionalNotesTextView.rightAnchor),
+            additionalNotesPlacehoderTextView.heightAnchor.constraint(equalTo: additionalNotesTextView.heightAnchor),
+            additionalNotesHeightConstraint,
+            additionalNotesTopConstraint
+        ]
+
+        self.additionalNotesHeightConstraint = additionalNotesHeightConstraint
+        self.additionalNotesTopConstraint = additionalNotesTopConstraint
+
+        NSLayoutConstraint.activate(constraints)
+
+        return footer
     }
 
     private func setupRx() {
@@ -154,6 +179,38 @@ final class ReportOptionsListViewController: BaseViewController, UITableViewDele
                 self?.reportButton.isEnabled = showButtonActive
             })
             .disposed(by: disposeBag)
+
+        keyboardHelper
+            .rx_keyboardOrigin
+            .asDriver()
+            .skip(1) // Ignore the first call with height == 0
+            .drive(onNext: { [weak self] origin in
+                var bottomContainerOffset: CGFloat
+
+                if origin < UIScreen.main.bounds.height {
+                    let height = UIScreen.main.bounds.height - origin
+                    bottomContainerOffset = height + Layout.buttonAreaHeight
+                    if #available(iOS 11.0, *) {
+                        bottomContainerOffset -= self?.view.safeAreaInsets.bottom ?? 0
+                    }
+                } else {
+                    bottomContainerOffset = Layout.buttonAreaHeight
+                }
+
+                self?.bottomContainerTopConstraint?.constant = -bottomContainerOffset
+                self?.tableBottomInset = bottomContainerOffset
+
+                UIView.animate(withDuration: 0.2, animations: {
+                    self?.view.layoutIfNeeded()
+                })
+
+                if let tableView = self?.tableView,
+                    let footerView = tableView.tableFooterView {
+                    let rect = tableView.convert(footerView.bounds, from: footerView)
+                    self?.tableView.scrollRectToVisible(rect, animated: true)
+                }
+            })
+            .disposed(by: disposeBag)
     }
 
     @objc private func reportButtonTapped() {
@@ -165,12 +222,13 @@ final class ReportOptionsListViewController: BaseViewController, UITableViewDele
     }
 
     func makeAdditionalNotes(visible: Bool) {
-        guard additionalNotesTextView.alpha != (visible ? 1 : 0) else { return }
+        guard tableView.tableFooterView?.alpha != (visible ? 1 : 0) else { return }
 
-        mutableConstraints.forEach { $0.isActive = false }
-        let constraints = constraintsForAdditionalNotes(visible: visible)
-        mutableConstraints = constraints
-        NSLayoutConstraint.activate(self.mutableConstraints)
+        let animationOffset: CGFloat = 80
+
+        if visible {
+            tableView.tableFooterView?.frame.origin.y += animationOffset
+        }
 
         UIView.animate(withDuration: 0.6,
                        delay: visible ? 0 : 0.1,
@@ -178,8 +236,11 @@ final class ReportOptionsListViewController: BaseViewController, UITableViewDele
                        initialSpringVelocity: 0.6,
                        options: .curveLinear,
                        animations: { [weak self] in
-                        self?.view.layoutIfNeeded() },
-                       completion: nil)
+                        self?.tableView.tableFooterView?.frame.origin.y -= visible ? animationOffset : -animationOffset },
+                       completion: { [weak self] _ in
+                        if !visible {
+                            self?.tableView.tableFooterView?.frame.origin.y -= animationOffset
+                        }})
 
         UIView.animate(withDuration: 0.4,
                        delay: visible ? 0.2 : 0,
@@ -187,10 +248,12 @@ final class ReportOptionsListViewController: BaseViewController, UITableViewDele
                        initialSpringVelocity: 0.6,
                        options: .curveLinear,
                        animations: { [weak self] in
-                        self?.bottomContainerTopBorder?.alpha = visible ? 1 : 0
-                        self?.additionalNotesTextView.alpha = visible ? 1 : 0 },
+                        self?.tableView.tableFooterView?.alpha = visible ? 1 : 0 },
                        completion: nil)
     }
+}
+
+extension ReportOptionsListViewController: UITableViewDelegate, UITableViewDataSource {
 
     // MARK: TableView Delegate & DataSource
 
@@ -212,17 +275,10 @@ final class ReportOptionsListViewController: BaseViewController, UITableViewDele
 }
 
 extension ReportOptionsListViewController: UITextViewDelegate {
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.textColor == .placeholder {
-            textView.text = nil
-            textView.textColor = .blackText
-        }
-    }
 
-    func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text.isEmpty {
-            textView.text = "Write here any additional notes that might help us to resolve this issue" // FIXME: localize
-            textView.textColor = .placeholder
-        }
+    // MARK: UITextView Delegate (Additional Notes)
+
+    func textViewDidChange(_ textView: UITextView) {
+        additionalNotesPlacehoderTextView.isHidden = !additionalNotesTextView.text.isEmpty
     }
 }
