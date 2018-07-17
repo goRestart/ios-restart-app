@@ -648,7 +648,7 @@ extension FiltersViewModel: CarAttributeSelectionDelegate {
             return productFilter.verticalFilters.cars.yearStart
         }
         set {
-            productFilter.verticalFilters.cars.yearEnd = newValue
+            productFilter.verticalFilters.cars.yearStart = newValue
         }
     }
     
