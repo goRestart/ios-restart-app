@@ -5,7 +5,6 @@ import LGComponents
 
 class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
 
-    
     struct LGSearchMapConstants {
         static let mapRegionMarginMutiplier = 0.5
         static let mapRegionDiameterMutiplier = 2.0
@@ -122,11 +121,6 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
             guard let searchField = self?.searchField, searchField.isFirstResponder else { return }
             guard let text = text else { return }
             self?.viewModel.searchText.value = (text, autoSelect:false)
-        }.disposed(by: disposeBag)
-        
-        viewModel.placeLocation.asObservable().bind { [weak self] (place) in
-            guard let place = place else { return }
-            self?.updateCenterMap(location: place.location)
         }.disposed(by: disposeBag)
         
         viewModel.placeGPSObservable.bind { [weak self] (place) in
