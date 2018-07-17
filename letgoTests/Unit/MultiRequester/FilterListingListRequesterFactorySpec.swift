@@ -32,8 +32,7 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
 
                     self.finalMultiRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                    queryString: nil,
-                                                                                                   itemsPerPage: 20,
-                                                                                                   carSearchActive: false)
+                                                                                                   itemsPerPage: 20)
                 }
                 it ("only one requester, and is the same") {
                     expect(self.finalMultiRequester.isEqual(toRequester: ListingListMultiRequester(requesters: self.expectedRequestersArray))) == true
@@ -51,8 +50,7 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                         
                         self.finalMultiRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                        queryString: nil,
-                                                                                                       itemsPerPage: 20,
-                                                                                                       carSearchActive: false)
+                                                                                                       itemsPerPage: 20)
                     }
                     it ("only one requester, and is the same, only cars category") {
                         expect(self.finalMultiRequester.isEqual(toRequester: ListingListMultiRequester(requesters: self.expectedRequestersArray))) == true
@@ -68,12 +66,13 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                             let expectedRequester1 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                             expectedRequester1.filters = filters
 
-                            self.expectedRequestersArray = [expectedRequester1]
+                            let relatedRequester = FilteredListingListRequester(itemsPerPage: 20)
+                            relatedRequester.filters = filters
+                            self.expectedRequestersArray = [expectedRequester1, relatedRequester]
                             
                             self.finalMultiRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                            queryString: nil,
-                                                                                                           itemsPerPage: 20,
-                                                                                                           carSearchActive: false)
+                                                                                                           itemsPerPage: 20)
                         }
                         it ("requesters with make") {
                             expect(self.finalMultiRequester.isEqual(toRequester: ListingListMultiRequester(requesters: self.expectedRequestersArray))) == true
@@ -87,12 +86,14 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                             
                             let expectedRequester1 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                             expectedRequester1.filters = filters
-                            self.expectedRequestersArray = [expectedRequester1]
+                            
+                            let relatedRequester = FilteredListingListRequester(itemsPerPage: 20)
+                            relatedRequester.filters = filters
+                            self.expectedRequestersArray = [expectedRequester1, relatedRequester]
                             
                             self.finalMultiRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                            queryString: nil,
-                                                                                                           itemsPerPage: 20,
-                                                                                                           carSearchActive: false)
+                                                                                                           itemsPerPage: 20)
                         }
                         it ("requesters with make 'others'") {
                             expect(self.finalMultiRequester.isEqual(toRequester: ListingListMultiRequester(requesters: self.expectedRequestersArray))) == true
@@ -108,12 +109,13 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                             let expectedRequester1 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                             expectedRequester1.filters = filters
                             
-                            self.expectedRequestersArray = [expectedRequester1]
+                            let relatedRequester = FilteredListingListRequester(itemsPerPage: 20)
+                            relatedRequester.filters = filters
+                            self.expectedRequestersArray = [expectedRequester1, relatedRequester]
                             
                             self.finalMultiRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                            queryString: nil,
-                                                                                                           itemsPerPage: 20,
-                                                                                                           carSearchActive: false)
+                                                                                                           itemsPerPage: 20)
                         }
                         it ("requesters with make and model") {
                             expect(self.finalMultiRequester.isEqual(toRequester: ListingListMultiRequester(requesters: self.expectedRequestersArray))) == true
@@ -129,12 +131,13 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                             let expectedRequester1 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                             expectedRequester1.filters = filters
                             
-                            self.expectedRequestersArray = [expectedRequester1]
+                            let relatedRequester = FilteredListingListRequester(itemsPerPage: 20)
+                            relatedRequester.filters = filters
+                            self.expectedRequestersArray = [expectedRequester1, relatedRequester]
                             
                             self.finalMultiRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                            queryString: nil,
-                                                                                                           itemsPerPage: 20,
-                                                                                                           carSearchActive: false)
+                                                                                                           itemsPerPage: 20)
                         }
                         it ("requesters with make and model 'other'") {
                             expect(self.finalMultiRequester.isEqual(toRequester: ListingListMultiRequester(requesters: self.expectedRequestersArray))) == true
@@ -150,12 +153,13 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                             let expectedRequester1 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                             expectedRequester1.filters = filters
                             
-                            self.expectedRequestersArray = [expectedRequester1]
+                            let relatedRequester = FilteredListingListRequester(itemsPerPage: 20)
+                            relatedRequester.filters = filters
+                            self.expectedRequestersArray = [expectedRequester1, relatedRequester]
                             
                             self.finalMultiRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                            queryString: nil,
-                                                                                                           itemsPerPage: 20,
-                                                                                                           carSearchActive: false)
+                                                                                                           itemsPerPage: 20)
                         }
                         it ("requesters with make 'others' and model 'other'") {
                             expect(self.finalMultiRequester.isEqual(toRequester: ListingListMultiRequester(requesters: self.expectedRequestersArray))) == true
@@ -172,12 +176,13 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                             let expectedRequester1 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                             expectedRequester1.filters = filters
                             
-                            self.expectedRequestersArray = [expectedRequester1]
+                            let relatedRequester = FilteredListingListRequester(itemsPerPage: 20)
+                            relatedRequester.filters = filters
+                            self.expectedRequestersArray = [expectedRequester1, relatedRequester]
                             
                             self.finalMultiRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                            queryString: nil,
-                                                                                                           itemsPerPage: 20,
-                                                                                                           carSearchActive: false)
+                                                                                                           itemsPerPage: 20)
                         }
                         it ("requesters with make and model and year") {
                             expect(self.finalMultiRequester.isEqual(toRequester: ListingListMultiRequester(requesters: self.expectedRequestersArray))) == true
@@ -194,13 +199,13 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                             let expectedRequester1 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                             expectedRequester1.filters = filters
                             
-                            
-                            self.expectedRequestersArray = [expectedRequester1]
+                            let relatedRequester = FilteredListingListRequester(itemsPerPage: 20)
+                            relatedRequester.filters = filters
+                            self.expectedRequestersArray = [expectedRequester1, relatedRequester]
                             
                             self.finalMultiRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                            queryString: nil,
-                                                                                                           itemsPerPage: 20,
-                                                                                                           carSearchActive: false)
+                                                                                                           itemsPerPage: 20)
                         }
                         it ("requesters with make and model 'other' and year") {
                             expect(self.finalMultiRequester.isEqual(toRequester: ListingListMultiRequester(requesters: self.expectedRequestersArray))) == true
@@ -217,12 +222,13 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                             let expectedRequester1 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                             expectedRequester1.filters = filters
                             
-                            self.expectedRequestersArray = [expectedRequester1]
+                            let relatedRequester = FilteredListingListRequester(itemsPerPage: 20)
+                            relatedRequester.filters = filters
+                            self.expectedRequestersArray = [expectedRequester1, relatedRequester]
                             
                             self.finalMultiRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                            queryString: nil,
-                                                                                                           itemsPerPage: 20,
-                                                                                                           carSearchActive: false)
+                                                                                                           itemsPerPage: 20)
                         }
                         it ("requesters with make 'other', model 'other' and year") {
                             expect(self.finalMultiRequester.isEqual(toRequester: ListingListMultiRequester(requesters: self.expectedRequestersArray))) == true
@@ -240,13 +246,13 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                             let expectedRequester1 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                             expectedRequester1.filters = filters
                             
-                            self.expectedRequestersArray = [expectedRequester1]
-                            
+                            let relatedRequester = FilteredListingListRequester(itemsPerPage: 20)
+                            relatedRequester.filters = filters
+                            self.expectedRequestersArray = [expectedRequester1, relatedRequester]
                             
                             self.finalMultiRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                            queryString: nil,
-                                                                                                           itemsPerPage: 20,
-                                                                                                           carSearchActive: false)
+                                                                                                           itemsPerPage: 20)
                         }
                         it ("requesters with make and model and year") {
                             expect(self.finalMultiRequester.isEqual(toRequester: ListingListMultiRequester(requesters: self.expectedRequestersArray))) == true
@@ -261,12 +267,13 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                             let expectedRequester1 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                             expectedRequester1.filters = filters
                             
-                            self.expectedRequestersArray = [expectedRequester1]
+                            let relatedRequester = FilteredListingListRequester(itemsPerPage: 20)
+                            relatedRequester.filters = filters
+                            self.expectedRequestersArray = [expectedRequester1, relatedRequester]
                             
                             self.finalMultiRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                            queryString: nil,
-                                                                                                           itemsPerPage: 20,
-                                                                                                           carSearchActive: false)
+                                                                                                           itemsPerPage: 20)
                         }
                         it ("requesters with year") {
                             expect(self.finalMultiRequester.isEqual(toRequester: ListingListMultiRequester(requesters: self.expectedRequestersArray))) == true
@@ -282,12 +289,13 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                             let expectedRequester1 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                             expectedRequester1.filters = filters
                             
-                            self.expectedRequestersArray = [expectedRequester1]
+                            let relatedRequester = FilteredListingListRequester(itemsPerPage: 20)
+                            relatedRequester.filters = filters
+                            self.expectedRequestersArray = [expectedRequester1, relatedRequester]
                             
                             self.finalMultiRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                            queryString: nil,
-                                                                                                           itemsPerPage: 20,
-                                                                                                           carSearchActive: false)
+                                                                                                           itemsPerPage: 20)
                         }
                         it ("requesters with year") {
                             expect(self.finalMultiRequester.isEqual(toRequester: ListingListMultiRequester(requesters: self.expectedRequestersArray))) == true

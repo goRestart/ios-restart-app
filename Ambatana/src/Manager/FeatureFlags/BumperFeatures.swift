@@ -45,7 +45,6 @@ extension Bumper  {
         flags.append(FeedAdsProviderForUS.self)
         flags.append(CopyForChatNowInEnglish.self)
         flags.append(FeedAdsProviderForTR.self)
-        flags.append(SearchCarsIntoNewBackend.self)
         flags.append(SectionedMainFeed.self)
         flags.append(ShowExactLocationForPros.self)
         flags.append(ShowPasswordlessLogin.self)
@@ -454,19 +453,6 @@ extension Bumper  {
     static var feedAdsProviderForTRObservable: Observable<FeedAdsProviderForTR> {
         return Bumper.observeValue(for: FeedAdsProviderForTR.key).map {
             FeedAdsProviderForTR(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var searchCarsIntoNewBackend: SearchCarsIntoNewBackend {
-        guard let value = Bumper.value(for: SearchCarsIntoNewBackend.key) else { return .control }
-        return SearchCarsIntoNewBackend(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var searchCarsIntoNewBackendObservable: Observable<SearchCarsIntoNewBackend> {
-        return Bumper.observeValue(for: SearchCarsIntoNewBackend.key).map {
-            SearchCarsIntoNewBackend(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1330,22 +1316,6 @@ enum FeedAdsProviderForTR: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .moPubAdsForAllUsers
             case 3: return .moPubAdsForOldUsers
-            default: return .control
-        }
-    }
-}
-
-enum SearchCarsIntoNewBackend: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return SearchCarsIntoNewBackend.control.rawValue }
-    static var enumValues: [SearchCarsIntoNewBackend] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Search cars into the new Search Car end point" } 
-    static func fromPosition(_ position: Int) -> SearchCarsIntoNewBackend {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
             default: return .control
         }
     }

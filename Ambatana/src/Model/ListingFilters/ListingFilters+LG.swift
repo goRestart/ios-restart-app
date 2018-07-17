@@ -53,8 +53,8 @@ extension ListingFilters {
         return params
     }
     
-    func searchRelatedNeeded(carSearchActive: Bool) -> Bool {
-        return isRealEstateWithFilters || isCarsWithFilters(carSearchActive: carSearchActive) || isServicesWithFilters
+    var isSearchRelatedNeeded: Bool {
+        return isRealEstateWithFilters || isCarsWithFilters || isServicesWithFilters
     }
     
     // MARK: - Private
@@ -71,8 +71,8 @@ extension ListingFilters {
         return selectedCategories.contains(.realEstate) && hasAnyRealEstateAttributes
     }
     
-    private func isCarsWithFilters(carSearchActive: Bool) -> Bool {
-        return selectedCategories.contains(.cars) && hasAnyCarAttributes && carSearchActive
+    private var isCarsWithFilters: Bool {
+        return selectedCategories.contains(.cars) && hasAnyCarAttributes
     }
     
     private var isServicesWithFilters: Bool {

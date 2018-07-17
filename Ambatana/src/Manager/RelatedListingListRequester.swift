@@ -121,15 +121,9 @@ fileprivate extension RelatedListingListRequester {
                                                      params: retrieveListingParams,
                                                      completion: requestCompletion)
         case (.car, _):
-            if featureFlags.searchCarsIntoNewBackend.isActive {
-                listingRepository.indexRelatedCars(listingId: listingObjectId,
-                                                   params: retrieveListingParams,
-                                                   completion: requestCompletion)
-            } else {
-                listingRepository.indexRelated(listingId: listingObjectId,
+            listingRepository.indexRelatedCars(listingId: listingObjectId,
                                                params: retrieveListingParams,
                                                completion: requestCompletion)
-            }
         case (.service, _):
             if featureFlags.showServicesFeatures.isActive {
                 listingRepository.indexRelatedServices(listingId: listingObjectId,

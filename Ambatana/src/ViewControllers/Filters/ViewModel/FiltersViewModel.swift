@@ -619,12 +619,7 @@ extension FiltersViewModel {
 extension FiltersViewModel: CarAttributeSelectionDelegate {
     
     var carSections: [FilterCarSection] {
-        let sections = FilterCarSection.all(showCarExtraFilters: featureFlags.carExtraFieldsEnabled.isActive)
-        
-        guard featureFlags.searchCarsIntoNewBackend.isActive else {
-            return sections.filter { return !$0.isCarSellerTypeSection }
-        }
-        return sections
+        return FilterCarSection.all(showCarExtraFilters: featureFlags.carExtraFieldsEnabled.isActive)
     }
     
     var isCarsInfoCellEnabled: Bool {

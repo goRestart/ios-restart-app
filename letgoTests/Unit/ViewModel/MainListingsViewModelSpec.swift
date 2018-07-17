@@ -386,9 +386,6 @@ class MainListingsViewModelSpec: QuickSpec {
                 context("cars new backend active") {
                     
                     context("car seller type") {
-                        beforeEach {
-                            mockFeatureFlags.searchCarsIntoNewBackend = .active
-                        }
                         it("has right tags") {
                             expect(sut.primaryTags).to(contain(.carSellerType(type: .user,
                                                                               name: R.Strings.filtersCarSellerTypeInvidual)))

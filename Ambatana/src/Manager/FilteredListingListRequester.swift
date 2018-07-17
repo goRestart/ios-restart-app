@@ -87,7 +87,6 @@ class FilteredListingListRequester: ListingListRequester {
     private func retrieve(_ completion: ListingsCompletion?) {
         if let category = filters?.selectedCategories.first {
             let action = category.index(listingRepository: listingRepository,
-                                        searchCarsEnabled: featureFlags.searchCarsIntoNewBackend.isActive,
                                         searchServicesEnabled: featureFlags.showServicesFeatures.isActive)
             action(retrieveListingsParams, completion)
         } else if shouldUseSimilarQuery, queryString != nil {
@@ -144,7 +143,7 @@ class FilteredListingListRequester: ListingListRequester {
             titleFromFilters += " " + rangeYearTitle
         }
 
-        if  carFilters.hasAnyAttributesSet && titleFromFilters.isEmpty {
+        if carFilters.hasAnyAttributesSet && titleFromFilters.isEmpty {
             // if there's a make filter active but no title, is "Other Results"
             titleFromFilters = R.Strings.filterResultsCarsOtherResults
         }
@@ -332,19 +331,18 @@ private extension EmptySearchImprovements {
 
 private extension ListingCategory {
     func index(listingRepository: ListingRepository,
-               searchCarsEnabled: Bool,
                searchServicesEnabled: Bool) -> ((RetrieveListingParams, ListingsCompletion?) -> ()) {
         switch self {
         case .realEstate:
             return listingRepository.indexRealEstate
         case .cars:
-            return searchCarsEnabled ? listingRepository.indexCars : listingRepository.index
+            return listingRepository.indexCars
+        case .services:
+            return searchServicesEnabled ? listingRepository.indexServices : listingRepository.index
         case .babyAndChild, .electronics, .fashionAndAccesories, .homeAndGarden, .motorsAndAccessories,
              .moviesBooksAndMusic, .other, .sportsLeisureAndGames,
              .unassigned:
             return listingRepository.index
-        case .services:
-            return searchServicesEnabled ? listingRepository.indexServices : listingRepository.index
         }
     }
 }

@@ -74,7 +74,6 @@ protocol FeatureFlaggeable: class {
     var showChatHeaderWithoutUser: Bool { get }
 
     // MARK: Verticals
-    var searchCarsIntoNewBackend: SearchCarsIntoNewBackend { get }
     var realEstateMap: RealEstateMap { get }
     var showServicesFeatures: ShowServicesFeatures { get }
     var carExtraFieldsEnabled: CarExtraFieldsEnabled { get }
@@ -330,10 +329,6 @@ extension FeedAdsProviderForTR {
             return shouldShowAdsInFeedForOldUsers
         }
     }
-}
-
-extension SearchCarsIntoNewBackend {
-    var isActive: Bool { return self == .active }
 }
 
 extension CopyForChatNowInEnglish {
@@ -1160,13 +1155,6 @@ extension FeatureFlags {
 // MARK: Verticals
 
 extension FeatureFlags {
-    
-    var searchCarsIntoNewBackend: SearchCarsIntoNewBackend {
-        if Bumper.enabled {
-            return Bumper.searchCarsIntoNewBackend
-        }
-        return SearchCarsIntoNewBackend.fromPosition(abTests.searchCarsIntoNewBackend.value)
-    }
     
     var realEstateMap: RealEstateMap {
         if Bumper.enabled {

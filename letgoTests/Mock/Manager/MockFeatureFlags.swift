@@ -75,7 +75,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var showChatHeaderWithoutUser: Bool = true
     
     // MARK:  Verticals
-    var searchCarsIntoNewBackend: SearchCarsIntoNewBackend = .control
     var realEstateMap: RealEstateMap = .control
     var showServicesFeatures: ShowServicesFeatures = .control
     var carExtraFieldsEnabled: CarExtraFieldsEnabled = .control

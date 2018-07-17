@@ -426,7 +426,6 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         self.requesterDependencyContainer = RequesterDependencyContainer(itemsPerPage: itemsPerPage,
                                                                          filters: filters,
                                                                          queryString: searchType?.query,
-                                                                         carSearchActive: featureFlags.searchCarsIntoNewBackend.isActive,
                                                                          similarSearchActive: featureFlags.emptySearchImprovements.isActive)
         let requesterFactory = SearchRequesterFactory(dependencyContainer: self.requesterDependencyContainer,
                                                       featureFlags: featureFlags)
@@ -812,7 +811,6 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         requesterDependencyContainer.updateContainer(itemsPerPage: currentItemsPerPage,
                                                      filters: filters,
                                                      queryString: queryString,
-                                                     carSearchActive: featureFlags.searchCarsIntoNewBackend.isActive,
                                                      similarSearchActive: featureFlags.emptySearchImprovements.isActive)
         let requesterFactory = SearchRequesterFactory(dependencyContainer: requesterDependencyContainer,
                                                       featureFlags: featureFlags)
