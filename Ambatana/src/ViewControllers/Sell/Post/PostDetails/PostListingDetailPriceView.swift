@@ -3,7 +3,6 @@ import RxSwift
 import RxCocoa
 import LGComponents
 
-
 class PostListingDetailPriceView: BaseView {
 
     @IBOutlet var contentView: UIView!
@@ -268,14 +267,15 @@ final class ShareOnFacebookView: BaseView {
     private func setupRX() {
         viewModel.shareOnFacebook.asObservable().bind { [weak self] shareOnFacebook in
             self?.checkbox.isChecked = shareOnFacebook
-            }.disposed(by: disposeBag)
+        }.disposed(by: disposeBag)
         checkbox.rx.tap.bind { [weak self] in
             self?.viewModel.shareOnFacebookPressed()
-            }.disposed(by: disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     private func setAccesibilityIds() {
-        //TODO
-        titleLabel.set(accessibilityId: .postingDoneButton)
+        titleLabel.set(accessibilityId: .postingDetailShareOnFacebookTitleLabel)
+        footerLabel.set(accessibilityId: .postingDetailShareOnFacebookFooterLabel)
+        checkbox.set(accessibilityId: .postingDetailShareOnFacebookCheckbox)
     }
 }

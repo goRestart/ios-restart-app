@@ -280,6 +280,9 @@ enum AccessibilityId: Equatable, Accessible {
     case postingAddDetailTableView
     case postingAddDetailSearchBar
     case postingDetailMaxServices
+    case postingDetailShareOnFacebookTitleLabel
+    case postingDetailShareOnFacebookFooterLabel
+    case postingDetailShareOnFacebookCheckbox
 
     // Editlisting
     case editListingCloseButton
@@ -1312,6 +1315,12 @@ enum AccessibilityId: Equatable, Accessible {
             return "postingAddDetailSearchBar"
         case .postingDetailMaxServices:
             return "postingDetailMaxServices"
+        case .postingDetailShareOnFacebookTitleLabel
+            return "postingDetailShareOnFacebookTitleLabel"
+        case .postingDetailShareOnFacebookFooterLabel
+            return "postingDetailShareOnFacebookFooterLabel"
+        case .postingDetailShareOnFacebookCheckbox
+            return "postingDetailShareOnFacebookCheckbox"
             
         // Editlisting
         case .editListingCloseButton:

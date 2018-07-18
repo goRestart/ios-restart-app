@@ -27,23 +27,19 @@ class PostListingBasicDetailViewModel: BaseViewModel {
     var listingTitle: String? {
         return title.value.isEmpty ? nil : title.value
     }
-
     var listingDescription: String? {
         return description.value.isEmpty ? nil : description.value
     }
-
-    var featureFlags: FeatureFlaggeable
     let currencySymbol: String?
+    private let featureFlags: FeatureFlaggeable
     private let keyValueStorage: KeyValueStorageable
-
+    private let disposeBag = DisposeBag()
     var freeOptionAvailable: Bool {
         return featureFlags.freePostingModeAllowed
     }
-
     var shareOnFacebookAvailable: Bool {
         return featureFlags.frictionlessShare.isActive
     }
-    private let disposeBag = DisposeBag()
 
     override convenience  init() {
         var currencySymbol: String? = nil
