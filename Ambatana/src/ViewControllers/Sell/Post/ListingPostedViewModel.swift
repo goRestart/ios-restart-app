@@ -38,6 +38,11 @@ class ListingPostedViewModel: BaseViewModel {
             return false
         }
     }
+
+    var autoShareOnFacebook: Bool {
+        guard featureFlags.frictionlessShare.isActive else { return false }
+        return keyValueStorage[.sellAutoShareOnFacebook] ?? false
+    }
     
     private var myUserId: String? {
         return myUserRepository.myUser?.objectId
