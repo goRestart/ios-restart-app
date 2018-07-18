@@ -1266,6 +1266,7 @@
 "sell_send_error_invalid_price" = "Lütfen, ilanın için geçerli bir fiyat gir. Fiyat sadece rakamlardan oluşmalıdır.";
 "sell_send_error_invalid_title" = "Lütfen, ilanın için geçerli bir başlık gir.";
 "sell_send_error_sharing_facebook" = "Facebook'ta paylaşırken bir hata oluştu. Lütfen tekrar dene.";
+"sell_share_on_facebook_footer_label" = "Get more visibility and sell faster";
 "sell_share_on_facebook_label" = "Facebook'ta paylaş";
 "sell_title_autogen_autotrans_label" = "letgo tarafından önerilen ve Yandex ile çevrilen başlık";
 "sell_title_autogen_label" = "letgo tarafından önerilen başlık";

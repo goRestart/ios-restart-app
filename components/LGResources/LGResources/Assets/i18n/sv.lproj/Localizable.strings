@@ -1266,6 +1266,7 @@
 "sell_send_error_invalid_price" = "Var god ange ett giltigt pris för annonsen. Använd endast siffror.";
 "sell_send_error_invalid_title" = "Vad god ange en giltig titel för annonsen.";
 "sell_send_error_sharing_facebook" = "Ett fel uppstod vid delning till Facebook. Var god försök igen.";
+"sell_share_on_facebook_footer_label" = "Get more visibility and sell faster";
 "sell_share_on_facebook_label" = "Dela på Facebook";
 "sell_title_autogen_autotrans_label" = "Titel föreslagen av letgo och översatt av Google";
 "sell_title_autogen_label" = "Titel föreslagen av letgo";

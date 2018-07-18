@@ -1266,6 +1266,7 @@
 "sell_send_error_invalid_price" = "Παρακαλώ εισάγετε μία έγκυρη τιμή για την καταχώρησή σας. Θα πρέπει να περιέχει μόνο νούμερα.";
 "sell_send_error_invalid_title" = "Παρακαλώ εισάγετε έναν έγκυρο τίτλο για την καταχώρησή σας.";
 "sell_send_error_sharing_facebook" = "Παρουσιάστηκε σφάλμα κατά την κοινοποίηση στο Facebook. Παρακαλώ, δοκιμάστε ξανά.";
+"sell_share_on_facebook_footer_label" = "Get more visibility and sell faster";
 "sell_share_on_facebook_label" = "Κοινοποίηση στο Facebook";
 "sell_title_autogen_autotrans_label" = "Προτεινόμενος τίτλος από το letgo, μεταφρασμένος από το Google";
 "sell_title_autogen_label" = "Προτεινόμενος τίτλος από το letgo";

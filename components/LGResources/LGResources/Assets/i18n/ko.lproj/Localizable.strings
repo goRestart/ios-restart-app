@@ -1266,6 +1266,7 @@
 "sell_send_error_invalid_price" = "상품 게시글에 유효한 가격을 입력해주세요. 숫자만 입력 가능합니다.";
 "sell_send_error_invalid_title" = "상품 목록의 이름을 입력해주세요.";
 "sell_send_error_sharing_facebook" = "페이스북에 공유하는데 문제가 발생했습니다. 다시 시도해주세요.";
+"sell_share_on_facebook_footer_label" = "Get more visibility and sell faster";
 "sell_share_on_facebook_label" = "페이스북에 공유하기";
 "sell_title_autogen_autotrans_label" = "lego에서 추천하고 Google에서 번역된 제목";
 "sell_title_autogen_label" = "letgo에서 추천하는 제목";

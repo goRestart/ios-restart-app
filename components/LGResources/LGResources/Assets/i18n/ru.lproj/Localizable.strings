@@ -1266,6 +1266,7 @@
 "sell_send_error_invalid_price" = "Пожалуйста, введите корректную цену для объявления. Она должна содержать только цифры.";
 "sell_send_error_invalid_title" = "Пожалуйста, введите корректное название объявления.";
 "sell_send_error_sharing_facebook" = "При соединении с Facebook произошла ошибка. Пожалуйста, попробуйте еще раз.";
+"sell_share_on_facebook_footer_label" = "Get more visibility and sell faster";
 "sell_share_on_facebook_label" = "Поделиться на Facebook";
 "sell_title_autogen_autotrans_label" = "Заголовок предложен letgo и переведен Яндексом";
 "sell_title_autogen_label" = "Заголовок предложен letgo";

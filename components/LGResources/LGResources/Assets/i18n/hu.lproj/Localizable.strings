@@ -1266,6 +1266,7 @@
 "sell_send_error_invalid_price" = "Kérjük, érvényes árat adj hirdetésedhez. Csak szám lehet.";
 "sell_send_error_invalid_title" = "Kérjük, érvényes címet adj a hirdetésnek.";
 "sell_send_error_sharing_facebook" = "Hiba történt a Facebook-megosztás során. Próbálkozz újra.";
+"sell_share_on_facebook_footer_label" = "Get more visibility and sell faster";
 "sell_share_on_facebook_label" = "Megosztás a Facebookon";
 "sell_title_autogen_autotrans_label" = "A címet a letgo ajánlotta és a Google fordította";
 "sell_title_autogen_label" = "A letgo által ajánlott cím";

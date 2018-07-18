@@ -1266,6 +1266,7 @@
 "sell_send_error_invalid_price" = "Xin vui lòng nhập giá hợp lệ cho bài đăng. Giá chỉ bao gồm các số.";
 "sell_send_error_invalid_title" = "Vui lòng nhập tiêu đề hợp lệ cho bài đăng.";
 "sell_send_error_sharing_facebook" = "Có lỗi xảy ra trong khi chia sẻ trên Facebook. Xin vui lòng thử lại.";
+"sell_share_on_facebook_footer_label" = "Get more visibility and sell faster";
 "sell_share_on_facebook_label" = "Chia sẻ trên Facebook";
 "sell_title_autogen_autotrans_label" = "Tiêu đề do letgo đề xuất và Google dịch";
 "sell_title_autogen_label" = "Tiêu đề do letgo đề xuất";

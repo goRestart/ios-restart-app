@@ -1266,6 +1266,7 @@
 "sell_send_error_invalid_price" = "Please enter a valid price for your listing. It should only include numbers.";
 "sell_send_error_invalid_title" = "Please enter a valid title for your listing.";
 "sell_send_error_sharing_facebook" = "An error occurred while sharing on Facebook. Please try again.";
+"sell_share_on_facebook_footer_label" = "Get more visibility and sell faster";
 "sell_share_on_facebook_label" = "Share on Facebook";
 "sell_title_autogen_autotrans_label" = "Title suggested by letgo and translated by Google";
 "sell_title_autogen_label" = "Title suggested by letgo";

@@ -1266,6 +1266,7 @@
 "sell_send_error_invalid_price" = "Ole hyvä ja syötä ilmoituksellesi kelvollinen hinta. Sen pitää olla pelkkä numero.";
 "sell_send_error_invalid_title" = "Ole hyvä ja syötä ilmoituksellesi kelvollinen otsikko.";
 "sell_send_error_sharing_facebook" = "Jaettaessa Facebookiin tapahtui virhe. Ole hyvä ja yritä uudelleen.";
+"sell_share_on_facebook_footer_label" = "Get more visibility and sell faster";
 "sell_share_on_facebook_label" = "Jaa Facebookissa";
 "sell_title_autogen_autotrans_label" = "letgon ehdottama ja Googlen kääntämä otsikko";
 "sell_title_autogen_label" = "letgon ehdottama otsikko";
