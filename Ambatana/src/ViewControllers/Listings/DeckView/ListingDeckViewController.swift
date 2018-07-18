@@ -372,9 +372,8 @@ extension ListingDeckViewController: ListingCardViewDelegate, ListingDeckCollect
     }
 
     func cardViewDidTapOnMoreInfo(_ cardView: ListingCardView) {
-        
+        viewModel.showListingDetail(at: cardView.tag)
     }
-
 }
 
 extension ListingDeckViewController {

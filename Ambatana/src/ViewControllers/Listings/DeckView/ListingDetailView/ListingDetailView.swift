@@ -24,8 +24,14 @@ final class ListingDetailView: UIView {
     private let scrollView: UIScrollView = {
         let scroll = UIScrollView()
         scroll.backgroundColor = .white
+        if #available(iOS 11.0, *) {
+            scroll.contentInsetAdjustmentBehavior = .never
+        }
         return scroll
     }()
+
+    var pageControlTop: NSLayoutConstraint?
+    private let pageControl = ListingCardPageControl()
 
     private let mainImageView: UIImageView = {
         let img = UIImageView()
@@ -134,16 +140,22 @@ final class ListingDetailView: UIView {
 
     private func setupUI() {
         addSubviewsForAutoLayout([scrollView])
-        scrollView.addSubviewsForAutoLayout([mainImageView, headerStackView, detailLabel,
+        scrollView.addSubviewsForAutoLayout([mainImageView, pageControl, headerStackView, detailLabel,
                                              statsView, userView, detailMapView, socialMediaHeader,
                                              socialShareView, whiteBackground, actionButton])
 
         let height = mainImageView.heightAnchor.constraint(equalToConstant: 60) // totally arbitrary
+        let pageControlTop = pageControl.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: Metrics.margin)
+
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: bottomAnchor),
+
+            pageControlTop,
+            pageControl.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metrics.margin),
+            pageControl.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metrics.margin),
 
             height,
             mainImageView.topAnchor.constraint(equalTo: scrollView.topAnchor),
@@ -194,6 +206,7 @@ final class ListingDetailView: UIView {
             ])
 
         self.mainImgHeightConstraint = height
+        self.pageControlTop = pageControlTop
     }
 
     func populateWith(productInfo: ListingVMProductInfo?, showExactLocationOnMap: Bool) {

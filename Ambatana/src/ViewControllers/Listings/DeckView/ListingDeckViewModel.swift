@@ -441,6 +441,11 @@ final class ListingDeckViewModel: BaseViewModel {
         return urls[index]
     }
 
+    func showListingDetail(at index: Int) {
+        guard let listing = objects.value[safeAt: index]?.listing else { return }
+        deckNavigator?.showListingDetail(listing: listing, visitSource: source)
+    }
+
     func showBumpUpView(_ action: DeckActionOnFirstAppear) {
         if case .triggerBumpUp(let bumpUpProductData,
                                let bumpUpType,

@@ -122,14 +122,14 @@ final class ListingCardView: UICollectionViewCell, ReusableCell {
     @objc private func didTapCard(_ gesture: UITapGestureRecognizer) {
         let location = gesture.location(in: contentView)
         let isLeft = location.x / contentView.width < 0.5
-
-        if isLeft, let carousel = self.carousel?.makePrevious() {
+        let isBottom = location.y / contentView.height > 0.7
+        if isBottom {
+            delegate?.cardViewDidTapOnMoreInfo(self)
+        } else if isLeft, let carousel = self.carousel?.makePrevious() {
             updateWith(carousel: carousel)
         } else if let carousel = self.carousel?.makeNext() {
             updateWith(carousel: carousel)
         }
-
-        // TODO: Check more info when we have it implemented
     }
 
     private func setupStatusView() {

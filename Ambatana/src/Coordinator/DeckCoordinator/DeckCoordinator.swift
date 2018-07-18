@@ -16,6 +16,9 @@ protocol DeckNavigator: class {
                          quickChatViewModel: QuickChatViewModel)
     func closeDeck()
     func showOnBoarding()
+
+    func showListingDetail(listing: Listing, visitSource: EventParameterListingVisitSource)
+    func closeDetail()
 }
 
 typealias DeckWithPhotoViewerNavigator = DeckNavigator & PhotoViewerNavigator
@@ -40,6 +43,18 @@ final class DeckCoordinator: DeckWithPhotoViewerNavigator, ListingDeckOnBoarding
 
     func setupWith(viewModel: ListingDeckViewModel) {
         viewModel.deckNavigator = self
+    }
+
+    func showListingDetail(listing: Listing, visitSource: EventParameterListingVisitSource) {
+        let vm = ListingDetailViewModel(withListing: listing, visitSource: visitSource)
+        vm.navigator = self
+        let vc = ListingDetailViewController(viewModel: vm)
+
+        navigationController?.pushViewController(vc, animated: true)
+    }
+
+    func closeDetail() {
+        navigationController?.popViewController(animated: true)
     }
 
     func openPhotoViewer(listingViewModel: ListingViewModel,
