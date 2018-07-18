@@ -196,6 +196,7 @@ extension ABTests {
     var highlightedIAmInterestedInFeed: LeanplumABVariable<Int> { return retention.highlightedIAmInterestedInFeed }
     var notificationSettings: LeanplumABVariable<Int> { return retention.notificationSettings }
     var searchAlertsInSearchSuggestions: LeanplumABVariable<Int> { return retention.searchAlertsInSearchSuggestions }
+    var engagementBadging: LeanplumABVariable<Int> { return retention.engagementBadging }
 }
 
 //  MARK: RealEstate
@@ -208,7 +209,6 @@ extension ABTests {
 //  MARK: Verticals
 
 extension ABTests {
-    var searchCarsIntoNewBackend: LeanplumABVariable<Int> { return verticals.searchCarsIntoNewBackend }
     var realEstateMap: LeanplumABVariable<Int> { return verticals.realEstateMap }
     var showServicesFeatures: LeanplumABVariable<Int> { return verticals.showServicesFeatures }
     var carExtraFieldsEnabled: LeanplumABVariable<Int> { return verticals.carExtraFieldsEnabled }

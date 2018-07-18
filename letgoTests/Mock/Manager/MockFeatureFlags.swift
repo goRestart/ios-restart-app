@@ -75,11 +75,11 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var showChatHeaderWithoutUser: Bool = true
     
     // MARK:  Verticals
-    var searchCarsIntoNewBackend: SearchCarsIntoNewBackend = .control
     var realEstateMap: RealEstateMap = .control
     var showServicesFeatures: ShowServicesFeatures = .control
     var carExtraFieldsEnabled: CarExtraFieldsEnabled = .control
     var realEstateMapTooltip: RealEstateMapTooltip = .control
+    var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen = .control
     
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed = .control
@@ -111,5 +111,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed = .control
     var notificationSettings: NotificationSettings = .control
     var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions = .control
+    var engagementBadging: EngagementBadging = .control
 }
 

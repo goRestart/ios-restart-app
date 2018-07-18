@@ -159,6 +159,7 @@ enum AccessibilityId: Equatable, Accessible {
     case listingCarouselInterestedButton
     case listingCarouselStatusView
     case listingCarouselPlayButton
+    case listingCarouselVideoProgressView
 
     case listingCarouselNavBarCloseButton
     case listingCarouselNavBarEditButton
@@ -192,6 +193,8 @@ enum AccessibilityId: Equatable, Accessible {
     case listingCarouselCellPlaceholderImage
     case listingCarouselImageCell
     case listingCarouselImageCellImageView
+    case listingCarouselVideoCell
+    case listingCarouselVideoCellVideoPreview
 
     // listing Carousel Post Delete screens
     case postDeleteAlertButton
@@ -1088,6 +1091,8 @@ enum AccessibilityId: Equatable, Accessible {
             return "listingCarouselStatusView"
         case .listingCarouselPlayButton:
             return "listingCarouselPlayButton"
+        case .listingCarouselVideoProgressView:
+            return "listingCarouselVideoProgressView"
             
         case .listingCarouselNavBarCloseButton:
             return "listingCarouselNavBarCloseButton"
@@ -1148,6 +1153,10 @@ enum AccessibilityId: Equatable, Accessible {
             return "listingCarouselImageCell"
         case .listingCarouselImageCellImageView:
             return "listingCarouselImageCellImageView"
+        case .listingCarouselVideoCell:
+            return "listingCarouselVideoCell"
+        case .listingCarouselVideoCellVideoPreview:
+            return "listingCarouselVideoCellVideoPreview"
             
         // listing Carousel Post Delete screens
         case .postDeleteAlertButton:

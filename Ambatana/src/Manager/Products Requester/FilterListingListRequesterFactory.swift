@@ -14,13 +14,11 @@ class FilterListingListRequesterFactory {
     static func generateRequester(withFilters filters: ListingFilters,
                                   queryString: String?,
                                   itemsPerPage: Int,
-                                  carSearchActive: Bool,
                                   similarSearchActive: Bool = false) -> ListingListMultiRequester {
         let requestersArray = FilterListingListRequesterFactory
             .generateRequesterArray(withFilters: filters,
                                     queryString: queryString,
                                     itemsPerPage: itemsPerPage,
-                                    carSearchActive: carSearchActive,
                                     similarSearchActive: similarSearchActive)
         let multiRequester = ListingListMultiRequester(requesters: requestersArray)
         return multiRequester
@@ -39,7 +37,6 @@ class FilterListingListRequesterFactory {
     private static func generateRequesterArray(withFilters filters: ListingFilters,
                                                queryString: String?,
                                                itemsPerPage: Int,
-                                               carSearchActive: Bool,
                                                similarSearchActive: Bool = false) -> [ListingListRequester] {
         var requestersArray: [ListingListRequester] = []
 
@@ -50,7 +47,7 @@ class FilterListingListRequesterFactory {
         filteredRequester.queryString = queryString
         requestersArray.append(filteredRequester)
         
-        if filters.searchRelatedNeeded(carSearchActive: carSearchActive) {
+        if filters.isSearchRelatedNeeded {
             let filteredRequester = SearchRelatedListingListRequester(itemsPerPage: itemsPerPage)
             filteredRequester.filters = filters
             filteredRequester.queryString = queryString

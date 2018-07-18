@@ -74,11 +74,11 @@ protocol FeatureFlaggeable: class {
     var showChatHeaderWithoutUser: Bool { get }
 
     // MARK: Verticals
-    var searchCarsIntoNewBackend: SearchCarsIntoNewBackend { get }
     var realEstateMap: RealEstateMap { get }
     var showServicesFeatures: ShowServicesFeatures { get }
     var carExtraFieldsEnabled: CarExtraFieldsEnabled { get }
     var realEstateMapTooltip: RealEstateMapTooltip { get }
+    var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen { get }
     
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed { get }
@@ -108,6 +108,7 @@ protocol FeatureFlaggeable: class {
     var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed { get }
     var notificationSettings: NotificationSettings { get }
     var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions { get }
+    var engagementBadging: EngagementBadging { get }
 }
 
 extension FeatureFlaggeable {
@@ -192,6 +193,10 @@ extension OnboardingIncentivizePosting {
 }
 
 extension ShowServicesFeatures {
+    var isActive: Bool { return self == .active }
+}
+
+extension ServicesUnifiedFilterScreen {
     var isActive: Bool { return self == .active }
 }
 
@@ -330,10 +335,6 @@ extension FeedAdsProviderForTR {
             return shouldShowAdsInFeedForOldUsers
         }
     }
-}
-
-extension SearchCarsIntoNewBackend {
-    var isActive: Bool { return self == .active }
 }
 
 extension CopyForChatNowInEnglish {
@@ -738,6 +739,13 @@ final class FeatureFlags: FeatureFlaggeable {
         return SearchAlertsInSearchSuggestions.fromPosition(abTests.searchAlertsInSearchSuggestions.value)
     }
     
+    
+    var engagementBadging: EngagementBadging {
+        if Bumper.enabled {
+            return Bumper.engagementBadging
+        }
+        return EngagementBadging.fromPosition(abTests.engagementBadging.value)
+    }
     
     // MARK: - Country features
 
@@ -1158,13 +1166,6 @@ extension FeatureFlags {
 
 extension FeatureFlags {
     
-    var searchCarsIntoNewBackend: SearchCarsIntoNewBackend {
-        if Bumper.enabled {
-            return Bumper.searchCarsIntoNewBackend
-        }
-        return SearchCarsIntoNewBackend.fromPosition(abTests.searchCarsIntoNewBackend.value)
-    }
-    
     var realEstateMap: RealEstateMap {
         if Bumper.enabled {
             return Bumper.realEstateMap
@@ -1193,6 +1194,14 @@ extension FeatureFlags {
             return Bumper.realEstateMapTooltip
         }
         return RealEstateMapTooltip.fromPosition(abTests.realEstateMapTooltip.value)
+    }
+    
+    var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen {
+        if Bumper.enabled {
+            return Bumper.servicesUnifiedFilterScreen
+        }
+        return .control
+//        return ServicesUnifiedFilterScreen.fromPosition(abTests.servicesUnifiedFilterScreen.value)
     }
 }
 

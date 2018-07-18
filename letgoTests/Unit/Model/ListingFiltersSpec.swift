@@ -15,19 +15,7 @@ class ListingFiltersSpec: QuickSpec {
                 
                 beforeEach {
                     sut = ListingFilters.makeMock()
-                    sut?.carMakeId = nil
-                    sut?.carModelId = nil
-                    sut?.carYearStart = nil
-                    sut?.carYearEnd = nil
-                    sut?.carMileageStart = nil
-                    sut?.carMileageEnd = nil
-                    sut?.carNumberOfSeatsStart = nil
-                    sut?.carNumberOfSeatsEnd = nil
-                    sut?.carBodyTypes = []
-                    sut?.carDriveTrainTypes = []
-                    sut?.carFuelTypes = []
-                    sut?.carTransmissionTypes = []
-                    sut?.carSellerTypes = []
+                    sut = sut?.resetVerticalAttributes()
                 }
                 
                 context("no car attributes are set") {
@@ -40,7 +28,7 @@ class ListingFiltersSpec: QuickSpec {
                 context("only car one attribute is set") {
                     
                     beforeEach {
-                        sut?.carMileageStart = 7
+                        sut?.verticalFilters.cars.mileageStart = 7
                     }
                     
                     it("hasAnyCarAttributes should be true") {
@@ -51,7 +39,7 @@ class ListingFiltersSpec: QuickSpec {
                 context("one array has an item") {
                     
                     beforeEach {
-                        sut?.carBodyTypes = [CarBodyType.coupe]
+                        sut?.verticalFilters.cars.bodyTypes = [CarBodyType.coupe]
                     }
                     
                     it("hasAnyCarAttributes should be true") {
@@ -63,12 +51,7 @@ class ListingFiltersSpec: QuickSpec {
             context("test hasAnyRealEstateAttributes") {
                 beforeEach {
                     sut = ListingFilters.makeMock()
-                    sut?.realEstateOfferTypes = []
-                    sut?.realEstatePropertyType = nil
-                    sut?.realEstateNumberOfBathrooms = nil
-                    sut?.realEstateNumberOfBedrooms = nil
-                    sut?.realEstateNumberOfRooms = nil
-                    sut?.realEstateSizeRange = SizeRange(min: nil, max: nil)
+                    sut = sut?.resetVerticalAttributes()
                 }
                 
                 context("no realEstate attributes are set") {
@@ -81,7 +64,7 @@ class ListingFiltersSpec: QuickSpec {
                 context("only realEstate one attribute is set") {
                     
                     beforeEach {
-                        sut?.realEstatePropertyType = RealEstatePropertyType.flat
+                        sut?.verticalFilters.realEstate.propertyType = RealEstatePropertyType.flat
                     }
                     
                     it("hasAnyRealEstateAttributes should be true") {
@@ -92,7 +75,7 @@ class ListingFiltersSpec: QuickSpec {
                 context("one array has an item") {
                     
                     beforeEach {
-                        sut?.realEstateOfferTypes = [RealEstateOfferType.rent]
+                        sut?.verticalFilters.realEstate.offerTypes = [RealEstateOfferType.rent]
                     }
                     
                     it("hasAnyRealEstateAttributes should be true") {
@@ -103,7 +86,7 @@ class ListingFiltersSpec: QuickSpec {
                 context("real estate size has a value") {
                     
                     beforeEach {
-                        sut?.realEstateSizeRange = SizeRange(min: 0, max: nil)
+                        sut?.verticalFilters.realEstate.sizeRange = SizeRange(min: 0, max: nil)
                     }
                     
                     it("hasAnyRealEstateAttributes should be true") {
@@ -115,8 +98,7 @@ class ListingFiltersSpec: QuickSpec {
             context("test hasAnyServicesAttributes") {
                 beforeEach {
                     sut = ListingFilters.makeMock()
-                    sut?.servicesType = nil
-                    sut?.servicesSubtypes = nil
+                    sut = sut?.resetVerticalAttributes()
                 }
                 
                 context("no service attributes are set") {
@@ -129,7 +111,7 @@ class ListingFiltersSpec: QuickSpec {
                 context("only service one attribute is set") {
                     
                     beforeEach {
-                        sut?.servicesType = MockServiceType.makeMock()
+                        sut?.verticalFilters.services.type = MockServiceType.makeMock()
                     }
                     
                     it("hasAnyServicesAttributes should be true") {
@@ -140,7 +122,7 @@ class ListingFiltersSpec: QuickSpec {
                 context("one array has an item") {
                     
                     beforeEach {
-                        sut?.servicesSubtypes = [MockServiceSubtype.makeMock()]
+                        sut?.verticalFilters.services.subtypes = [MockServiceSubtype.makeMock()]
                     }
                     
                     it("hasAnyServicesAttributes should be true") {

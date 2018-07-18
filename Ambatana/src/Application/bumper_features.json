@@ -146,11 +146,6 @@
         "description": "Change logic for showing ads with diferent ads providers in TR"
     },
     {
-        "name": "SearchCarsIntoNewBackend",
-        "values": ["control", "baseline", "active"],
-        "description": "Search cars into the new Search Car end point"
-    },
-    {
         "name": "SectionedMainFeed",
         "values": ["control", "baseline", "active"],
         "description": "A new fully sectioned main feed"
@@ -304,6 +299,16 @@
         "name": "SearchAlertsInSearchSuggestions",
         "values": ["control", "baseline", "active"],
         "description": "Show search alerts in search suggestions view"
+    },
+    {
+        "name": "EngagementBadging",
+        "values": ["control", "baseline", "active"],
+        "description": "Show recent items bubble in feed basic approach"
+    },
+    {
+        "name": "ServicesUnifiedFilterScreen",
+        "values": ["control", "baseline", "active"],
+        "description": "Show new services filter screen"
     },
     {
         "name": "FrictionlessShare",

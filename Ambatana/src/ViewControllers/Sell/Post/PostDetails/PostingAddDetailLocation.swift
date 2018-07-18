@@ -23,7 +23,6 @@ final class PostingAddDetailLocation: UIView, PostingViewConfigurable {
         setupConstraints()
         setupRx()
         searchMapView.viewModel.setViewControllerDelegate(viewControllerModelDelegate: viewControllerDelegate)
-        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -61,7 +60,6 @@ final class PostingAddDetailLocation: UIView, PostingViewConfigurable {
     func setupView(viewModel: PostingDetailsViewModel) {
         guard let location = viewModel.currentLocation else { return }
         searchMapView.updateCenterMap(location: location)
-        
     }
     
     func setupContainerView(view: UIView) {
@@ -69,6 +67,5 @@ final class PostingAddDetailLocation: UIView, PostingViewConfigurable {
         view.addSubview(self)
         layout(with: view).fill()
     }
-    
     
 }

@@ -33,48 +33,6 @@ extension RetrieveListingParams {
         distanceRadius = filters?.distanceRadius
         distanceType = filters?.distanceType
         
-        //  Car filters
-        userTypes = filters?.carSellerTypes
-        makeId = filters?.carMakeId
-        modelId = filters?.carModelId
-        startYear = filters?.carYearStart
-        endYear = filters?.carYearEnd
-        
-        bodyType = filters?.carBodyTypes
-        drivetrain = filters?.carDriveTrainTypes
-        fuelType = filters?.carFuelTypes
-        transmision = filters?.carTransmissionTypes
-        startMileage = filters?.carMileageStart
-        endMileage = filters?.carMileageEnd
-        startNumberOfSeats = filters?.carNumberOfSeatsStart
-        endNumberOfSeats = filters?.carNumberOfSeatsEnd
-        mileageType = filters?.carMileageType
-        
-        if let propertyTypeValue = filters?.realEstatePropertyType?.rawValue {
-            propertyType = propertyTypeValue
-        }
-
-        offerType = filters?.realEstateOfferTypes.compactMap { $0.rawValue }
-        numberOfBedrooms = filters?.realEstateNumberOfBedrooms?.rawValue ?? filters?.realEstateNumberOfRooms?.numberOfBedrooms
-        numberOfLivingRooms = filters?.realEstateNumberOfRooms?.numberOfLivingRooms
-        numberOfBathrooms = filters?.realEstateNumberOfBathrooms?.rawValue
-        
-        sizeSquareMetersFrom = filters?.realEstateSizeRange.min
-        sizeSquareMetersTo = filters?.realEstateSizeRange.max
-        
-        //  Services
-        /*
-         Currently, we only support single-select on the app side for typeId, but the API requires an
-         array of typeIds. When we support Multiselect we can just update the filters servicesType parameter to
-         an array
-         */
-        if let typeId = filters?.servicesType?.id {
-            typeIds = [typeId]
-        } else {
-            typeIds = nil
-        }
-        subtypeIds = filters?.servicesSubtypes?.map( { $0.id } )
-
         if let priceRange = filters?.priceRange {
             switch priceRange {
             case .freePrice:
@@ -84,6 +42,44 @@ extension RetrieveListingParams {
                 maxPrice = max
             }
         }
+        
+        applyVerticalFilters(with: filters?.verticalFilters)
     }
-
+    
+    mutating func applyVerticalFilters(with verticalFilters: VerticalFilters?) {
+        guard let verticalFilters = verticalFilters else { return }
+        
+        userTypes = verticalFilters.cars.sellerTypes
+        makeId = verticalFilters.cars.makeId
+        modelId = verticalFilters.cars.modelId
+        startYear = verticalFilters.cars.yearStart
+        endYear = verticalFilters.cars.yearEnd
+        bodyType = verticalFilters.cars.bodyTypes
+        fuelType = verticalFilters.cars.fuelTypes
+        transmision = verticalFilters.cars.transmissionTypes
+        drivetrain = verticalFilters.cars.driveTrainTypes
+        
+        startMileage = verticalFilters.cars.mileageStart
+        endMileage = verticalFilters.cars.mileageEnd
+        startNumberOfSeats = verticalFilters.cars.numberOfSeatsStart
+        endNumberOfSeats = verticalFilters.cars.numberOfSeatsEnd
+        mileageType = verticalFilters.cars.mileageType
+        if let typeId = verticalFilters.services.type?.id {
+            typeIds = [typeId]
+        }
+        subtypeIds = verticalFilters.services.subtypes?.map( { $0.id } )
+        
+        if let propertyTypeValue = verticalFilters.realEstate.propertyType?.rawValue {
+            propertyType = propertyTypeValue
+        }
+        
+        offerType = verticalFilters.realEstate.offerTypes.map( { $0.rawValue })
+        numberOfBedrooms = verticalFilters.realEstate.numberOfBedrooms?.rawValue ?? verticalFilters.realEstate.numberOfRooms?.numberOfBedrooms
+        numberOfBathrooms = verticalFilters.realEstate.numberOfBathrooms?.rawValue
+        numberOfLivingRooms = verticalFilters.realEstate.numberOfRooms?.numberOfLivingRooms
+        
+        sizeSquareMetersFrom = verticalFilters.realEstate.sizeRange.min
+        sizeSquareMetersTo = verticalFilters.realEstate.sizeRange.max
+    }
+    
 }

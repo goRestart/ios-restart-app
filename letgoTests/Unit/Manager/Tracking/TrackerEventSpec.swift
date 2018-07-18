@@ -1064,7 +1064,7 @@ class TrackerEventSpec: QuickSpec {
                         expect(sut.params!.stringKeyParams["service-subtype"] as? String).notTo(beNil())
                     }
                     it ("vertical fields") {
-                        expect(sut.params!.stringKeyParams["vertical-fields"] as? String) == "product-make,product-model,product-year-start,product-year-end,mileage-from,mileage-to,body-type,transmission,fuel-type,drivetrain,seats-from,seats-to,property-type,deal-type,bedroom-number,bathroom-number,size-from,room-number,service-type,service-subtype"
+                        expect(sut.params!.stringKeyParams["vertical-fields"] as? String) == "product-make,product-model,product-year-start,product-year-end,mileage-from,mileage-to,body-type,transmission,fuel-type,drivetrain,seats-from,seats-to,service-subtype,service-type,deal-type,property-type,bedroom-number,bathroom-number,room-number,size-from"
                     }
                 }
                 context("not receiving all params, contains the default params") {
@@ -5456,7 +5456,7 @@ class TrackerEventSpec: QuickSpec {
                         expect(sut.params!.stringKeyParams["service-subtype"] as? String).notTo(beNil())
                     }
                     it ("vertical fields") {
-                        expect(sut.params!.stringKeyParams["vertical-fields"] as? String) == "product-make,product-model,product-year-start,product-year-end,mileage-from,mileage-to,body-type,transmission,fuel-type,drivetrain,seats-from,seats-to,property-type,deal-type,bedroom-number,bathroom-number,size-from,room-number,service-type,service-subtype"
+                        expect(sut.params!.stringKeyParams["vertical-fields"] as? String) == "product-make,product-model,product-year-start,product-year-end,mileage-from,mileage-to,body-type,transmission,fuel-type,drivetrain,seats-from,seats-to,service-subtype,service-type,deal-type,property-type,bedroom-number,bathroom-number,room-number,size-from"
                     }
                 }
             }

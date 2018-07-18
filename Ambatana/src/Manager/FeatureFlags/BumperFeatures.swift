@@ -45,7 +45,6 @@ extension Bumper  {
         flags.append(FeedAdsProviderForUS.self)
         flags.append(CopyForChatNowInEnglish.self)
         flags.append(FeedAdsProviderForTR.self)
-        flags.append(SearchCarsIntoNewBackend.self)
         flags.append(SectionedMainFeed.self)
         flags.append(ShowExactLocationForPros.self)
         flags.append(ShowPasswordlessLogin.self)
@@ -77,6 +76,8 @@ extension Bumper  {
         flags.append(RealEstateMapTooltip.self)
         flags.append(AppInstallAdsInFeed.self)
         flags.append(SearchAlertsInSearchSuggestions.self)
+        flags.append(EngagementBadging.self)
+        flags.append(ServicesUnifiedFilterScreen.self)
         flags.append(FrictionlessShare.self)
         Bumper.initialize(flags)
     } 
@@ -454,19 +455,6 @@ extension Bumper  {
     static var feedAdsProviderForTRObservable: Observable<FeedAdsProviderForTR> {
         return Bumper.observeValue(for: FeedAdsProviderForTR.key).map {
             FeedAdsProviderForTR(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var searchCarsIntoNewBackend: SearchCarsIntoNewBackend {
-        guard let value = Bumper.value(for: SearchCarsIntoNewBackend.key) else { return .control }
-        return SearchCarsIntoNewBackend(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var searchCarsIntoNewBackendObservable: Observable<SearchCarsIntoNewBackend> {
-        return Bumper.observeValue(for: SearchCarsIntoNewBackend.key).map {
-            SearchCarsIntoNewBackend(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -870,6 +858,32 @@ extension Bumper  {
     static var searchAlertsInSearchSuggestionsObservable: Observable<SearchAlertsInSearchSuggestions> {
         return Bumper.observeValue(for: SearchAlertsInSearchSuggestions.key).map {
             SearchAlertsInSearchSuggestions(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var engagementBadging: EngagementBadging {
+        guard let value = Bumper.value(for: EngagementBadging.key) else { return .control }
+        return EngagementBadging(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var engagementBadgingObservable: Observable<EngagementBadging> {
+        return Bumper.observeValue(for: EngagementBadging.key).map {
+            EngagementBadging(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen {
+        guard let value = Bumper.value(for: ServicesUnifiedFilterScreen.key) else { return .control }
+        return ServicesUnifiedFilterScreen(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var servicesUnifiedFilterScreenObservable: Observable<ServicesUnifiedFilterScreen> {
+        return Bumper.observeValue(for: ServicesUnifiedFilterScreen.key).map {
+            ServicesUnifiedFilterScreen(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1330,22 +1344,6 @@ enum FeedAdsProviderForTR: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .moPubAdsForAllUsers
             case 3: return .moPubAdsForOldUsers
-            default: return .control
-        }
-    }
-}
-
-enum SearchCarsIntoNewBackend: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return SearchCarsIntoNewBackend.control.rawValue }
-    static var enumValues: [SearchCarsIntoNewBackend] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Search cars into the new Search Car end point" } 
-    static func fromPosition(_ position: Int) -> SearchCarsIntoNewBackend {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
             default: return .control
         }
     }
@@ -1837,6 +1835,38 @@ enum SearchAlertsInSearchSuggestions: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show search alerts in search suggestions view" } 
     static func fromPosition(_ position: Int) -> SearchAlertsInSearchSuggestions {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum EngagementBadging: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return EngagementBadging.control.rawValue }
+    static var enumValues: [EngagementBadging] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show recent items bubble in feed basic approach" } 
+    static func fromPosition(_ position: Int) -> EngagementBadging {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum ServicesUnifiedFilterScreen: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return ServicesUnifiedFilterScreen.control.rawValue }
+    static var enumValues: [ServicesUnifiedFilterScreen] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show new services filter screen" } 
+    static func fromPosition(_ position: Int) -> ServicesUnifiedFilterScreen {
         switch position { 
             case 0: return .control
             case 1: return .baseline

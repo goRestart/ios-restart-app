@@ -3,41 +3,6 @@ import LGCoreKit
 import RxSwift
 import LGComponents
 
-enum FilterCategoryItem: Equatable {
-    case category(category: ListingCategory)
-    case free
-
-    init(category: ListingCategory) {
-        self = .category(category: category)
-    }
-    
-    var name: String {
-        switch self {
-        case let .category(category: category):
-            return category.name
-        case .free:
-            return R.Strings.categoriesFree
-        }
-    }
-
-    var icon: UIImage? {
-        switch self {
-        case let .category(category: category):
-            return category.image
-        case .free:
-            return R.Asset.IconsButtons.FiltersCategoriesIcons.categoriesFreeInactive.image
-        }
-    }
-}
-
-func ==(a: FilterCategoryItem, b: FilterCategoryItem) -> Bool {
-    switch (a, b) {
-    case (.category(let catA), .category(let catB)) where catA.rawValue == catB.rawValue: return true
-    case (.free, .free): return true
-    default: return false
-    }
-}
-
 protocol FiltersViewModelDelegate: BaseViewModelDelegate {
     func vmDidUpdate()
     func vmForcePriceFix()
@@ -81,71 +46,6 @@ class FiltersViewModel: BaseViewModel {
     private var categoryRepository: CategoryRepository
     private var categories: [FilterCategoryItem]
 
-    var currentCarMakeName: String? {
-        return productFilter.carMakeName
-    }
-    var currentCarModelName: String? {
-        return productFilter.carModelName
-    }
-    
-    var currentServiceTypeName: String? {
-        return productFilter.servicesType?.name
-    }
-    
-    var selectedServiceSubtypesDisplayName: String? {
-        guard let firstSubtype = productFilter.servicesSubtypes?.first?.name else {
-            return nil
-        }
-        
-        guard let secondSubtype = productFilter.servicesSubtypes?[safeAt: 1]?.name else {
-            return firstSubtype
-        }
-        
-        return "\(firstSubtype), \(secondSubtype)"
-    }
-    
-    var currentPropertyTypeName: String? {
-        return productFilter.realEstatePropertyType?.localizedString
-    }
-    
-    var currentNumberOfBathroomsName: String? {
-        return productFilter.realEstateNumberOfBathrooms?.summaryLocalizedString
-    }
-    
-    var currentNumberOfBedroomsName: String? {
-        return productFilter.realEstateNumberOfBedrooms?.summaryLocalizedString
-    }
-    
-    var currentNumberOfRoomsName: String? {
-        return productFilter.realEstateNumberOfRooms?.localizedString
-    }
-    
-    var modelCellEnabled: Bool {
-        return currentCarMakeName != nil
-    }
-    
-    var serviceSubtypeCellEnabled: Bool {
-        return productFilter.servicesType != nil
-    }
-    
-    var carYearStart: Int? {
-        get {
-            return productFilter.carYearStart
-        }
-        set {
-            productFilter.carYearStart = newValue
-        }
-    }
-
-    var carYearEnd: Int? {
-        get {
-            return productFilter.carYearEnd
-        }
-        set {
-            productFilter.carYearEnd = newValue
-        }
-    }
-
     var numOfCategories : Int {
         // we add an extra empty cell if the num of categories is odds
         return isOddNumCategories ? self.categories.count+1 : self.categories.count
@@ -157,22 +57,6 @@ class FiltersViewModel: BaseViewModel {
 
     var isPriceCellEnabled: Bool {
         return featureFlags.taxonomiesAndTaxonomyChildrenInFeed.isActive || !productFilter.priceRange.free
-    }
-
-    var isCarsInfoCellEnabled: Bool {
-        let isTaxonomyCars = productFilter.selectedTaxonomyChildren.contains(where: { $0.isCarsTaxonomy } )
-        return productFilter.selectedCategories.contains(.cars) || isTaxonomyCars
-    }
-    
-    var isRealEstateInfoCellEnabled: Bool {
-        return productFilter.selectedCategories.contains(.realEstate)
-    }
-    
-    var isServicesInfoCellEnabled: Bool {
-        guard featureFlags.showServicesFeatures.isActive else {
-            return false
-        }
-        return productFilter.selectedCategories.contains(.services)
     }
 
     var numOfWithinTimes : Int {
@@ -198,10 +82,10 @@ class FiltersViewModel: BaseViewModel {
     }
     
     private var minSize: Int? {
-        return productFilter.realEstateSizeRange.min
+        return productFilter.verticalFilters.realEstate.sizeRange.min
     }
     private var maxSize: Int? {
-        return productFilter.realEstateSizeRange.max
+        return productFilter.verticalFilters.realEstate.sizeRange.max
     }
     
     fileprivate var priceRangeAvailable: Bool {
@@ -250,26 +134,6 @@ class FiltersViewModel: BaseViewModel {
         } else {
             return nil
         }
-    }
-    
-    var filterRealEstateSections: [FilterRealEstateSection] {
-        return FilterRealEstateSection.allValues(postingFlowType: postingFlowType)
-    }
-    
-    var carSections: [FilterCarSection] {
-        let sections = FilterCarSection.all(showCarExtraFilters: featureFlags.carExtraFieldsEnabled.isActive)
-        
-        guard featureFlags.searchCarsIntoNewBackend.isActive else {
-            return sections.filter { return !$0.isCarSellerTypeSection }
-        }
-        return sections
-    }
-    
-    var serviceSections: [FilterServicesSection] {
-        guard featureFlags.showServicesFeatures.isActive else {
-            return []
-        }
-        return FilterServicesSection.all
     }
     
     var filterCarSellerSelectedSections: [FilterCarSection] = []
@@ -336,22 +200,6 @@ class FiltersViewModel: BaseViewModel {
             .filter {!$0.isRealEstateSection || isRealEstateInfoCellEnabled }
             .filter { $0 != .servicesInfo || isServicesInfoCellEnabled }
     }
-    
-    private func updateCarSelectedSections() {
-        filterCarSellerSelectedSections = productFilter.carSellerTypes.filterCarSections
-    }
-    
-    func attributeGridHeight(forCarSection carSection: FilterCarSection,
-                             forContainerWidth containerWidth: CGFloat) -> CGFloat {
-        switch carSection {
-        case .bodyType, .transmission, .fuelType, .driveTrain:
-            let items = carExtrasAttributeItems(forSection: carSection)
-            return FilterAttributeGridCell.height(forItemCount: items.count,
-                                                  forContainerWidth: containerWidth)
-        case .individual, .dealership, .make, .model, .year, .mileage, .numberOfSeats:
-            return 0
-        }
-    }
 
     func locationButtonPressed() {
         let locationVM = EditLocationViewModel(mode: .editFilterLocation,
@@ -365,166 +213,6 @@ class FiltersViewModel: BaseViewModel {
         let taxonomiesVM = TaxonomiesViewModel(taxonomies: categoryRepository.indexTaxonomies(), taxonomySelected: currentTaxonomySelected, taxonomyChildSelected: currentTaxonomyChildSelected, source: .filter)
         taxonomiesVM.taxonomiesDelegate = self
         navigator?.openTaxonomyList(withViewModel: taxonomiesVM)
-    }
-
-    func makeButtonPressed() {
-        let vm = CarAttributeSelectionViewModel(carsMakes: carsInfoRepository.retrieveCarsMakes(),
-                                                selectedMake: productFilter.carMakeId,
-                                                style: .filter)
-        vm.carAttributeSelectionDelegate = self
-        navigator?.openCarAttributeSelection(withViewModel: vm)
-    }
-
-    func modelButtonPressed() {
-        guard let makeId = productFilter.carMakeId else { return }
-        let carsModelsForMakeList = carsInfoRepository.retrieveCarsModelsFormake(makeId: makeId)
-        let vm = CarAttributeSelectionViewModel(carsModels: carsModelsForMakeList,
-                                                selectedModel: productFilter.carModelId,
-                                                style: .filter)
-        vm.carAttributeSelectionDelegate = self
-        navigator?.openCarAttributeSelection(withViewModel: vm)
-    }
-    
-    func propertyTypeButtonPressed() {
-        let attributeValues = RealEstatePropertyType.allValues(postingFlowType: postingFlowType)
-        let values = attributeValues.map { $0.localizedString }
-        let vm = ListingAttributeSingleSelectPickerViewModel(
-            title: R.Strings.realEstateTypePropertyTitle,
-            attributes: values,
-            selectedAttribute: productFilter.realEstatePropertyType?.localizedString
-        ) { [weak self] selectedIndex in
-            if let selectedIndex = selectedIndex {
-                self?.productFilter.realEstatePropertyType = attributeValues[selectedIndex]
-            } else {
-                self?.productFilter.realEstatePropertyType = nil
-            }
-            self?.delegate?.vmDidUpdate()
-        }
-        navigator?.openListingAttributePicker(viewModel: vm)
-    }
-    
-    func numberOfBedroomsPressed() {
-        let attributeValues = NumberOfBedrooms.allValues
-        let values = attributeValues.map { $0.localizedString }
-        let vm = ListingAttributeSingleSelectPickerViewModel(
-            title: R.Strings.realEstateBedroomsTitle,
-            attributes: values,
-            selectedAttribute: productFilter.realEstateNumberOfBedrooms?.localizedString
-        ) { [weak self] selectedIndex in
-            if let selectedIndex = selectedIndex {
-                self?.productFilter.realEstateNumberOfBedrooms = attributeValues[selectedIndex]
-            } else {
-                self?.productFilter.realEstateNumberOfBedrooms = nil
-            }
-            self?.delegate?.vmDidUpdate()
-        }
-        navigator?.openListingAttributePicker(viewModel: vm)
-    }
-    
-    func numberOfRoomsPressed() {
-        let attributeValues = NumberOfRooms.allValues
-        let values = attributeValues.map { $0.localizedString }
-        let vm = ListingAttributeSingleSelectPickerViewModel(
-            title: R.Strings.realEstateRoomsTitle,
-            attributes: values,
-            selectedAttribute: productFilter.realEstateNumberOfRooms?.localizedString
-        ) { [weak self] selectedIndex in
-            if let selectedIndex = selectedIndex {
-                self?.productFilter.realEstateNumberOfRooms = attributeValues[selectedIndex]
-            } else {
-                self?.productFilter.realEstateNumberOfRooms = nil
-            }
-            self?.delegate?.vmDidUpdate()
-        }
-        navigator?.openListingAttributePicker(viewModel: vm)
-    }
-    
-    func numberOfBathroomsPressed() {
-        let attributeValues = NumberOfBathrooms.allValues
-        let values = attributeValues.map { $0.localizedString }
-        let vm = ListingAttributeSingleSelectPickerViewModel(
-            title: R.Strings.realEstateBathroomsTitle,
-            attributes: values,
-            selectedAttribute: productFilter.realEstateNumberOfBathrooms?.localizedString
-        ) { [weak self] selectedIndex in
-            if let selectedIndex = selectedIndex {
-                self?.productFilter.realEstateNumberOfBathrooms = attributeValues[selectedIndex]
-            } else {
-                self?.productFilter.realEstateNumberOfBathrooms = nil
-            }
-            self?.delegate?.vmDidUpdate()
-        }
-        navigator?.openListingAttributePicker(viewModel: vm)
-    }
-    
-    func servicesTypePressed() {
-        let serviceTypes = servicesInfoRepository.retrieveServiceTypes()
-        let serviceTypeNames = serviceTypes.map( { $0.name } )
-        let vm = ListingAttributeSingleSelectPickerViewModel(title: R.Strings.servicesServiceTypeListTitle,
-                                                 attributes: serviceTypeNames,
-                                                 selectedAttribute: productFilter.servicesType?.name)
-        { [weak self] selectedIndex in
-            if let selectedIndex = selectedIndex {
-                self?.updateServiceType(withServiceType: serviceTypes[safeAt: selectedIndex])
-            } else {
-                self?.clearServiceType()
-            }
-
-            self?.delegate?.vmDidUpdate()
-        }
-        navigator?.openListingAttributePicker(viewModel: vm)
-    }
-    
-    func servicesSubtypePressed() {
-        
-        guard let serviceTypeId = productFilter.servicesType?.id else {
-            return
-        }
-        
-        let serviceSubtypes = servicesInfoRepository.serviceSubtypes(forServiceTypeId: serviceTypeId)
-        let serviceSubtypeNames = serviceSubtypes.map( { $0.name } )
-        let selectedSubtypeNames = (productFilter.servicesSubtypes?.map( { $0.name } )) ?? []
-        let vm = ListingAttributeMultiselectPickerViewModel(title: R.Strings.servicesServiceSubtypeListTitle,
-                                                            attributes: serviceSubtypeNames,
-                                                            selectedAttributes: selectedSubtypeNames,
-                                                            canSearchAttributes: true)
-        { [weak self] (selectedIndexes) in
-            let selectedSubtypes = self?.selectedAttributes(forIndexes: selectedIndexes, in: serviceSubtypes)
-            self?.updateServiceSubtypes(withServiceSubtypes: selectedSubtypes)
-            self?.delegate?.vmDidUpdate()
-        }
-        
-        navigator?.openListingAttributePicker(viewModel: vm)
-    }
-    
-    private func selectedAttributes<T>(forIndexes indexes: [Int],
-                                       in attributes: [T]) -> [T] {
-
-        let selectedAttributes = indexes.reduce([]) { (res, next) -> [T] in
-            if let selectedAttribute = attributes[safeAt: next] {
-                return res + [selectedAttribute]
-            }
-            return res
-        }
-        
-        return selectedAttributes
-    }
-    
-    private func updateServiceType(withServiceType serviceType: ServiceType?) {
-        clearServiceSubtypes()
-        productFilter.servicesType = serviceType
-    }
-    
-    private func updateServiceSubtypes(withServiceSubtypes serviceSubtypes: [ServiceSubtype]?) {
-        productFilter.servicesSubtypes = serviceSubtypes
-    }
-    
-    private func clearServiceType() {
-        updateServiceType(withServiceType: nil)
-    }
-    
-    private func clearServiceSubtypes() {
-        updateServiceSubtypes(withServiceSubtypes: [])
     }
     
     func resetFilters() {
@@ -562,11 +250,9 @@ class FiltersViewModel: BaseViewModel {
         dataDelegate?.viewModelDidUpdateFilters(self, filters: productFilter)
     }
     
-    // MARK: Categories
     
-    /**
-    Retrieves the list of categories
-    */
+    // MARK: Categories
+
     func retrieveCategories() {
         categoryRepository.index(servicesIncluded: true,
                                  carsIncluded: false,
@@ -601,7 +287,7 @@ class FiltersViewModel: BaseViewModel {
                 productFilter.priceRange = .freePrice
             }
         case .category(let cat):
-            removeFiltersRelatedIfNeeded(category: cat)
+            resetFilterVerticalAttributes()
             productFilter.toggleCategory(cat)
         }
         sections = generateSections()
@@ -619,8 +305,7 @@ class FiltersViewModel: BaseViewModel {
         let category = categories[index]
         return category.icon?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
     }
-    
-    
+
     func categoryColorAtIndex(_ index: Int) -> UIColor {
         guard isValidCategory(index) else { return UIColor.blackText }
         let category = categories[index]
@@ -654,7 +339,9 @@ class FiltersViewModel: BaseViewModel {
         }
     }
     
+    
     // MARK: Within
+    
     func selectWithinTimeAtIndex(_ index: Int) {
         guard index < numOfWithinTimes else { return }
         
@@ -674,48 +361,6 @@ class FiltersViewModel: BaseViewModel {
         return withinTimes[index] == productFilter.selectedWithin
     }
     
-    
-    // MARK: Real Estate offer type
-    
-    func selectOfferTypeAtIndex(_ index: Int) {
-        guard index < offerTypeOptionsCount else { return }
-        if isOfferTypeSelectedAtIndex(index), let offerTypeIndexSelected =  productFilter.realEstateOfferTypes.index(of: offerTypeOptions[index]) {
-            productFilter.realEstateOfferTypes.remove(at: offerTypeIndexSelected)
-        } else {
-            productFilter.realEstateOfferTypes.append(offerTypeOptions[index])
-        }
-        delegate?.vmDidUpdate()
-    }
-    
-    func offerTypeNameAtIndex(_ index: Int) -> String? {
-        guard index < offerTypeOptionsCount else { return nil }
-        return offerTypeOptions[index].localizedString
-    }
-    
-    func isOfferTypeSelectedAtIndex(_ index: Int) -> Bool {
-        guard index < offerTypeOptionsCount else { return false }
-        return productFilter.realEstateOfferTypes.index(of: offerTypeOptions[index]) != nil
-    }
-    
-    // MARK: Car seller type
-    
-    func selectCarSeller(section: FilterCarSection) {
-
-        if section.isCarSellerTypeSection {
-            let carSectionsSelected = productFilter.carSellerTypes.toogleFilterCarSection(filter: section)
-            productFilter.carSellerTypes = carSectionsSelected
-        }
-        updateCarSelectedSections()
-        delegate?.vmDidUpdate()
-    }
-    
-    func isCarSellerTypeSelected(type: FilterCarSection) -> Bool {
-        return filterCarSellerSelectedSections.contains(type)
-    }
-    
-    func carCellTitle(section: FilterCarSection) -> String? {
-        return section.title
-    }
     
     // MARK: Sort by
     
@@ -742,6 +387,7 @@ class FiltersViewModel: BaseViewModel {
         guard let selectedOrdering = productFilter.selectedOrdering else { return false }
         return sortOptions[index] == selectedOrdering
     }
+    
 
     // MARK: Price
 
@@ -765,12 +411,12 @@ class FiltersViewModel: BaseViewModel {
     
     func setMinSize(_ value: String?) {
         guard let value = value else { return }
-        productFilter.realEstateSizeRange = SizeRange(min: Int(value), max: maxSize)
+        productFilter.verticalFilters.realEstate.sizeRange = SizeRange(min: Int(value), max: maxSize)
     }
     
     func setMaxSize(_ value: String?) {
         guard let value = value else { return }
-        productFilter.realEstateSizeRange = SizeRange(min: minSize, max: Int(value))
+        productFilter.verticalFilters.realEstate.sizeRange = SizeRange(min: minSize, max: Int(value))
     }
 
     private var validatePriceRange: Bool {
@@ -789,17 +435,8 @@ class FiltersViewModel: BaseViewModel {
         return index < numOfCategories && !(isOddNumCategories && index == numOfCategories-1)
     }
     
-    private func removeFiltersRelatedIfNeeded(category: ListingCategory) {
-        switch category {
-        case .realEstate:
-            productFilter = productFilter.resetingCarAttributes()
-        case .cars:
-            productFilter = productFilter.resetingRealEstateAttributes()
-        case .babyAndChild, .electronics, .fashionAndAccesories, .homeAndGarden,
-             .motorsAndAccessories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .unassigned, .services:
-            productFilter = productFilter.resetingCarAttributes()
-            productFilter = productFilter.resetingRealEstateAttributes()
-        }
+    private func resetFilterVerticalAttributes() {
+        productFilter = productFilter.resetVerticalAttributes()
     }
 }
 
@@ -809,7 +446,7 @@ class FiltersViewModel: BaseViewModel {
 extension FiltersViewModel: EditLocationDelegate {
     func editLocationDidSelectPlace(_ place: Place, distanceRadius: Int?) {
         if productFilter.place?.postalAddress?.countryCode != place.postalAddress?.countryCode {
-            productFilter = productFilter.resetingRealEstateAttributes()
+            productFilter = productFilter.resetVerticalAttributes()
         }
         productFilter.place = place
         productFilter.distanceRadius = distanceRadius
@@ -817,28 +454,11 @@ extension FiltersViewModel: EditLocationDelegate {
     }
 }
 
-extension FiltersViewModel: CarAttributeSelectionDelegate {
-    func didSelectMake(makeId: String, makeName: String) {
-        productFilter.carMakeId = makeId
-        productFilter.carMakeName = makeName
-        productFilter.carModelId = nil
-        productFilter.carModelName = nil
-        delegate?.vmDidUpdate()
-    }
-
-    func didSelectModel(modelId: String, modelName: String) {
-        productFilter.carModelId = modelId
-        productFilter.carModelName = modelName
-        delegate?.vmDidUpdate()
-    }
-
-    func didSelectYear(year: Int) { }
-}
-
 
 // MARK: TaxonomiesDelegate
 
 extension FiltersViewModel: TaxonomiesDelegate {
+    
     func didSelect(taxonomy: Taxonomy) {
         productFilter.selectedTaxonomy = taxonomy
         productFilter.selectedTaxonomyChildren = []
@@ -853,17 +473,10 @@ extension FiltersViewModel: TaxonomiesDelegate {
     }
 }
 
-
-extension FiltersViewModel {
-    var trackCarSellerType: String? {
-        return productFilter.carSellerTypes.trackValue
-    }
-}
-
-
 // MARK: FilterFreeCellDelegate
 
 extension FiltersViewModel: FilterFreeCellDelegate {
+    
     func freeSwitchChanged(isOn: Bool) {
         productFilter.priceRange = isOn ? .freePrice : .priceRange(min: nil, max: nil)
         delegate?.vmDidUpdate()
@@ -871,9 +484,267 @@ extension FiltersViewModel: FilterFreeCellDelegate {
 }
 
 
-// MARK: Cars Extra Fields
+// MARK: Real Estate
 
 extension FiltersViewModel {
+    
+    var currentPropertyTypeName: String? {
+        return productFilter.verticalFilters.realEstate.propertyType?.localizedString
+    }
+    
+    var currentNumberOfBathroomsName: String? {
+        return productFilter.verticalFilters.realEstate.numberOfBathrooms?.summaryLocalizedString
+    }
+    
+    var currentNumberOfBedroomsName: String? {
+        return productFilter.verticalFilters.realEstate.numberOfBedrooms?.summaryLocalizedString
+    }
+    
+    var currentNumberOfRoomsName: String? {
+        return productFilter.verticalFilters.realEstate.numberOfRooms?.localizedString
+    }
+    
+    var isRealEstateInfoCellEnabled: Bool {
+        return productFilter.selectedCategories.contains(.realEstate)
+    }
+    
+    var filterRealEstateSections: [FilterRealEstateSection] {
+        return FilterRealEstateSection.allValues(postingFlowType: postingFlowType)
+    }
+    
+    
+    // MARK: Actions
+    
+    func propertyTypeButtonPressed() {
+        let attributeValues = RealEstatePropertyType.allValues(postingFlowType: postingFlowType)
+        let values = attributeValues.map { $0.localizedString }
+        let vm = ListingAttributeSingleSelectPickerViewModel(
+            title: R.Strings.realEstateTypePropertyTitle,
+            attributes: values,
+            selectedAttribute: productFilter.verticalFilters.realEstate.propertyType?.localizedString
+        ) { [weak self] selectedIndex in
+            if let selectedIndex = selectedIndex {
+                self?.productFilter.verticalFilters.realEstate.propertyType = attributeValues[selectedIndex]
+            } else {
+                self?.productFilter.verticalFilters.realEstate.propertyType = nil
+            }
+            self?.delegate?.vmDidUpdate()
+        }
+        navigator?.openListingAttributePicker(viewModel: vm)
+    }
+    
+    func numberOfBedroomsPressed() {
+        let attributeValues = NumberOfBedrooms.allValues
+        let values = attributeValues.map { $0.localizedString }
+        let vm = ListingAttributeSingleSelectPickerViewModel(
+            title: R.Strings.realEstateBedroomsTitle,
+            attributes: values,
+            selectedAttribute: productFilter.verticalFilters.realEstate.numberOfBedrooms?.localizedString
+        ) { [weak self] selectedIndex in
+            if let selectedIndex = selectedIndex {
+                self?.productFilter.verticalFilters.realEstate.numberOfBedrooms = attributeValues[selectedIndex]
+            } else {
+                self?.productFilter.verticalFilters.realEstate.numberOfBedrooms = nil
+            }
+            self?.delegate?.vmDidUpdate()
+        }
+        navigator?.openListingAttributePicker(viewModel: vm)
+    }
+    
+    func numberOfRoomsPressed() {
+        let attributeValues = NumberOfRooms.allValues
+        let values = attributeValues.map { $0.localizedString }
+        let vm = ListingAttributeSingleSelectPickerViewModel(
+            title: R.Strings.realEstateRoomsTitle,
+            attributes: values,
+            selectedAttribute: productFilter.verticalFilters.realEstate.numberOfRooms?.localizedString
+        ) { [weak self] selectedIndex in
+            if let selectedIndex = selectedIndex {
+                self?.productFilter.verticalFilters.realEstate.numberOfRooms = attributeValues[selectedIndex]
+            } else {
+                self?.productFilter.verticalFilters.realEstate.numberOfRooms = nil
+            }
+            self?.delegate?.vmDidUpdate()
+        }
+        navigator?.openListingAttributePicker(viewModel: vm)
+    }
+    
+    func numberOfBathroomsPressed() {
+        let attributeValues = NumberOfBathrooms.allValues
+        let values = attributeValues.map { $0.localizedString }
+        let vm = ListingAttributeSingleSelectPickerViewModel(
+            title: R.Strings.realEstateBathroomsTitle,
+            attributes: values,
+            selectedAttribute: productFilter.verticalFilters.realEstate.numberOfBathrooms?.localizedString
+        ) { [weak self] selectedIndex in
+            if let selectedIndex = selectedIndex {
+                self?.productFilter.verticalFilters.realEstate.numberOfBathrooms = attributeValues[selectedIndex]
+            } else {
+                self?.productFilter.verticalFilters.realEstate.numberOfBathrooms = nil
+            }
+            self?.delegate?.vmDidUpdate()
+        }
+        navigator?.openListingAttributePicker(viewModel: vm)
+    }
+    
+    
+    // MARK: Real Estate offer type
+    
+    func selectOfferTypeAtIndex(_ index: Int) {
+        guard index < offerTypeOptionsCount else { return }
+        if isOfferTypeSelectedAtIndex(index),
+            let offerTypeIndexSelected = productFilter.verticalFilters.realEstate.offerTypes.index(of: offerTypeOptions[index]) {
+            productFilter.verticalFilters.realEstate.offerTypes.remove(at: offerTypeIndexSelected)
+        } else {
+            productFilter.verticalFilters.realEstate.offerTypes.append(offerTypeOptions[index])
+        }
+        delegate?.vmDidUpdate()
+    }
+    
+    func offerTypeNameAtIndex(_ index: Int) -> String? {
+        guard index < offerTypeOptionsCount else { return nil }
+        return offerTypeOptions[index].localizedString
+    }
+    
+    func isOfferTypeSelectedAtIndex(_ index: Int) -> Bool {
+        guard index < offerTypeOptionsCount else { return false }
+        return productFilter.verticalFilters.realEstate.offerTypes.index(of: offerTypeOptions[index]) != nil
+    }
+    
+}
+
+
+// MARK: Cars
+
+extension FiltersViewModel: CarAttributeSelectionDelegate {
+    
+    var carSections: [FilterCarSection] {
+        return FilterCarSection.all(showCarExtraFilters: featureFlags.carExtraFieldsEnabled.isActive)
+    }
+    
+    var isCarsInfoCellEnabled: Bool {
+        let isTaxonomyCars = productFilter.selectedTaxonomyChildren.contains(where: { $0.isCarsTaxonomy } )
+        return productFilter.selectedCategories.contains(.cars) || isTaxonomyCars
+    }
+    
+    var currentCarMakeName: String? {
+        return productFilter.verticalFilters.cars.makeName
+    }
+    
+    var currentCarModelName: String? {
+        return productFilter.verticalFilters.cars.modelName
+    }
+    
+    var currentServiceTypeName: String? {
+        return productFilter.verticalFilters.services.type?.name
+    }
+    
+    var modelCellEnabled: Bool {
+        return currentCarMakeName != nil
+    }
+    
+    var carYearStart: Int? {
+        get {
+            return productFilter.verticalFilters.cars.yearStart
+        }
+        set {
+            productFilter.verticalFilters.cars.yearStart = newValue
+        }
+    }
+    
+    var carYearEnd: Int? {
+        get {
+            return productFilter.verticalFilters.cars.yearEnd
+        }
+        set {
+            productFilter.verticalFilters.cars.yearEnd = newValue
+        }
+    }
+    
+    var trackCarSellerType: String? {
+        return productFilter.verticalFilters.cars.sellerTypes.trackValue
+    }
+    
+    
+    // MARK: Actions
+    
+    func makeButtonPressed() {
+        let vm = CarAttributeSelectionViewModel(carsMakes: carsInfoRepository.retrieveCarsMakes(),
+                                                selectedMake: productFilter.verticalFilters.cars.makeId,
+                                                style: .filter)
+        vm.carAttributeSelectionDelegate = self
+        navigator?.openCarAttributeSelection(withViewModel: vm)
+    }
+    
+    func modelButtonPressed() {
+        guard let makeId = productFilter.verticalFilters.cars.makeId else { return }
+        let carsModelsForMakeList = carsInfoRepository.retrieveCarsModelsFormake(makeId: makeId)
+        let vm = CarAttributeSelectionViewModel(carsModels: carsModelsForMakeList,
+                                                selectedModel: productFilter.verticalFilters.cars.modelId,
+                                                style: .filter)
+        vm.carAttributeSelectionDelegate = self
+        navigator?.openCarAttributeSelection(withViewModel: vm)
+    }
+    
+    
+    // CarAttributeSelectionDelegate Implementation
+    
+    func didSelectMake(makeId: String, makeName: String) {
+        productFilter.verticalFilters.cars.makeId = makeId
+        productFilter.verticalFilters.cars.makeName = makeName
+        productFilter.verticalFilters.cars.modelId = nil
+        productFilter.verticalFilters.cars.modelName = nil
+        delegate?.vmDidUpdate()
+    }
+    
+    func didSelectModel(modelId: String, modelName: String) {
+        productFilter.verticalFilters.cars.modelId = modelId
+        productFilter.verticalFilters.cars.modelName = modelName
+        delegate?.vmDidUpdate()
+    }
+    
+    func didSelectYear(year: Int) { }
+    
+    
+    private func updateCarSelectedSections() {
+        filterCarSellerSelectedSections = productFilter.verticalFilters.cars.sellerTypes.filterCarSections
+    }
+    
+    
+    // MARK: Car seller type
+    
+    func selectCarSeller(section: FilterCarSection) {
+        
+        if section.isCarSellerTypeSection {
+            let selectedCarSections = productFilter.verticalFilters.cars.sellerTypes.toogleFilterCarSection(filter: section)
+            productFilter.verticalFilters.cars.sellerTypes = selectedCarSections
+        }
+        updateCarSelectedSections()
+        delegate?.vmDidUpdate()
+    }
+    
+    func isCarSellerTypeSelected(type: FilterCarSection) -> Bool {
+        return filterCarSellerSelectedSections.contains(type)
+    }
+    
+    func carCellTitle(section: FilterCarSection) -> String? {
+        return section.title
+    }
+    
+    
+    // MARK: Cars Extra Fields
+    
+    func attributeGridHeight(forCarSection carSection: FilterCarSection,
+                             forContainerWidth containerWidth: CGFloat) -> CGFloat {
+        switch carSection {
+        case .bodyType, .transmission, .fuelType, .driveTrain:
+            let items = carExtrasAttributeItems(forSection: carSection)
+            return FilterAttributeGridCell.height(forItemCount: items.count,
+                                                  forContainerWidth: containerWidth)
+        case .individual, .dealership, .make, .model, .year, .mileage, .numberOfSeats:
+            return 0
+        }
+    }
     
     func carExtrasAttributeItems(forSection section: FilterCarSection) -> [ListingAttributeGridItem] {
         switch section {
@@ -893,13 +764,13 @@ extension FiltersViewModel {
     func selectedCarExtrasAttributeItems(forSection section: FilterCarSection) -> [ListingAttributeGridItem] {
         switch section {
         case .bodyType:
-            return productFilter.carBodyTypes
+            return productFilter.verticalFilters.cars.bodyTypes
         case .transmission:
-            return productFilter.carTransmissionTypes
+            return productFilter.verticalFilters.cars.transmissionTypes
         case .fuelType:
-            return productFilter.carFuelTypes
+            return productFilter.verticalFilters.cars.fuelTypes
         case .driveTrain:
-            return productFilter.carDriveTrainTypes
+            return productFilter.verticalFilters.cars.driveTrainTypes
         case .individual, .dealership, .make, .model, .year, .mileage, .numberOfSeats:
             return []
         }
@@ -910,23 +781,23 @@ extension FiltersViewModel {
         switch section {
         case .bodyType:
             if let item = item as? CarBodyType,
-                !productFilter.carBodyTypes.contains(item) {
-                productFilter.carBodyTypes.append(item)
+                !productFilter.verticalFilters.cars.bodyTypes.contains(item) {
+                productFilter.verticalFilters.cars.bodyTypes.append(item)
             }
         case .transmission:
             if let item = item as? CarTransmissionType,
-                !productFilter.carTransmissionTypes.contains(item) {
-                productFilter.carTransmissionTypes.append(item)
+                !productFilter.verticalFilters.cars.transmissionTypes.contains(item) {
+                productFilter.verticalFilters.cars.transmissionTypes.append(item)
             }
         case .fuelType:
             if let item = item as? CarFuelType,
-                !productFilter.carFuelTypes.contains(item) {
-                productFilter.carFuelTypes.append(item)
+                !productFilter.verticalFilters.cars.fuelTypes.contains(item) {
+                productFilter.verticalFilters.cars.fuelTypes.append(item)
             }
         case .driveTrain:
             if let item = item as? CarDriveTrainType,
-                !productFilter.carDriveTrainTypes.contains(item) {
-                productFilter.carDriveTrainTypes.append(item)
+                !productFilter.verticalFilters.cars.driveTrainTypes.contains(item) {
+                productFilter.verticalFilters.cars.driveTrainTypes.append(item)
             }
         case .individual, .dealership, .make, .model, .year, .mileage, .numberOfSeats:
             break
@@ -938,16 +809,20 @@ extension FiltersViewModel {
         switch section {
         case .bodyType:
             guard let item = item as? CarBodyType else { return }
-            productFilter.carBodyTypes = productFilter.carBodyTypes.filter({ $0 != item })
+            productFilter.verticalFilters.cars.bodyTypes =
+                productFilter.verticalFilters.cars.bodyTypes.filter({ $0 != item })
         case .transmission:
             guard let item = item as? CarTransmissionType else { return }
-            productFilter.carTransmissionTypes = productFilter.carTransmissionTypes.filter( { $0 != item })
+            productFilter.verticalFilters.cars.transmissionTypes =
+                productFilter.verticalFilters.cars.transmissionTypes.filter( { $0 != item })
         case .fuelType:
             guard let item = item as? CarFuelType else { return }
-            productFilter.carFuelTypes = productFilter.carFuelTypes.filter( { $0 != item })
+            productFilter.verticalFilters.cars.fuelTypes =
+                productFilter.verticalFilters.cars.fuelTypes.filter( { $0 != item })
         case .driveTrain:
             guard let item = item as? CarDriveTrainType else { return }
-            productFilter.carDriveTrainTypes = productFilter.carDriveTrainTypes.filter( { $0 != item })
+            productFilter.verticalFilters.cars.driveTrainTypes =
+                productFilter.verticalFilters.cars.driveTrainTypes.filter( { $0 != item })
         case .individual, .dealership, .make, .model, .year, .mileage, .numberOfSeats:
             break
         }
@@ -962,8 +837,8 @@ extension FiltersViewModel {
                                      minimumAndMaximumValuesNotSelectedText: R.Strings.filtersSliderAny,
                                      minimumValue: SharedConstants.filterMinCarSeatsNumber,
                                      maximumValue: SharedConstants.filterMaxCarSeatsNumber,
-                                     minimumValueSelected: productFilter.carNumberOfSeatsStart,
-                                     maximumValueSelected: productFilter.carNumberOfSeatsEnd)
+                                     minimumValueSelected: productFilter.verticalFilters.cars.numberOfSeatsStart,
+                                     maximumValueSelected: productFilter.verticalFilters.cars.numberOfSeatsEnd)
         case .mileage:
             let numberFormatter = NumberFormatter.newMileageNumberFormatter()
             let formattedAnyValue = FormattedUnitRange(minimumValue: SharedConstants.filterMinCarMileage,
@@ -977,8 +852,8 @@ extension FiltersViewModel {
                                      minimumAndMaximumValuesNotSelectedText: formattedAnyValue ?? R.Strings.filtersSliderAny,
                                      minimumValue: SharedConstants.filterMinCarMileage,
                                      maximumValue: SharedConstants.filterMaxCarMileage,
-                                     minimumValueSelected: productFilter.carMileageStart,
-                                     maximumValueSelected: productFilter.carMileageEnd,
+                                     minimumValueSelected: productFilter.verticalFilters.cars.mileageStart,
+                                     maximumValueSelected: productFilter.verticalFilters.cars.mileageEnd,
                                      unitSuffix: distanceType.localizedUnitType(),
                                      numberFormatter: numberFormatter)
         case .individual, .dealership, .make, .model, .year,
@@ -991,9 +866,9 @@ extension FiltersViewModel {
                                value: Int) {
         switch section {
         case .numberOfSeats:
-            productFilter.carNumberOfSeatsStart = value
+            productFilter.verticalFilters.cars.numberOfSeatsStart = value
         case .mileage:
-            productFilter.carMileageStart = value
+            productFilter.verticalFilters.cars.mileageStart = value
         case .individual, .dealership, .make, .model, .year,
              .bodyType, .transmission, .fuelType, .driveTrain:
             break
@@ -1004,12 +879,121 @@ extension FiltersViewModel {
                                value: Int) {
         switch section {
         case .numberOfSeats:
-            productFilter.carNumberOfSeatsEnd = value
+            productFilter.verticalFilters.cars.numberOfSeatsEnd = value
         case .mileage:
-            productFilter.carMileageEnd = value
+            productFilter.verticalFilters.cars.mileageEnd = value
         case .individual, .dealership, .make, .model, .year,
              .bodyType, .transmission, .fuelType, .driveTrain:
             break
         }
+    }
+}
+
+
+// MARK: Services
+
+extension FiltersViewModel {
+    
+    var isServicesInfoCellEnabled: Bool {
+        guard featureFlags.showServicesFeatures.isActive else {
+            return false
+        }
+        return productFilter.selectedCategories.contains(.services)
+    }
+    
+    var serviceSubtypeCellEnabled: Bool {
+        return productFilter.verticalFilters.services.type != nil
+    }
+    
+    var serviceSections: [FilterServicesSection] {
+        guard featureFlags.showServicesFeatures.isActive else {
+            return []
+        }
+        return FilterServicesSection.all
+    }
+    
+    var selectedServiceSubtypesDisplayName: String? {
+        guard let firstSubtype = productFilter.verticalFilters.services.subtypes?.first?.name else {
+            return nil
+        }
+        
+        guard let secondSubtype = productFilter.verticalFilters.services.subtypes?[safeAt: 1]?.name else {
+            return firstSubtype
+        }
+        
+        return "\(firstSubtype), \(secondSubtype)"
+    }
+
+    
+    // MARK: Actions
+    
+    func servicesTypePressed() {
+        let serviceTypes = servicesInfoRepository.retrieveServiceTypes()
+        let serviceTypeNames = serviceTypes.map( { $0.name } )
+        let vm = ListingAttributeSingleSelectPickerViewModel(title: R.Strings.servicesServiceTypeListTitle,
+                                                             attributes: serviceTypeNames,
+                                                             selectedAttribute: productFilter.verticalFilters.services.type?.name)
+        { [weak self] selectedIndex in
+            if let selectedIndex = selectedIndex {
+                self?.updateServiceType(withServiceType: serviceTypes[safeAt: selectedIndex])
+            } else {
+                self?.clearServiceType()
+            }
+            
+            self?.delegate?.vmDidUpdate()
+        }
+        navigator?.openListingAttributePicker(viewModel: vm)
+    }
+    
+    func servicesSubtypePressed() {
+        
+        guard let serviceTypeId = productFilter.verticalFilters.services.type?.id else {
+            return
+        }
+        
+        let serviceSubtypes = servicesInfoRepository.serviceSubtypes(forServiceTypeId: serviceTypeId)
+        let serviceSubtypeNames = serviceSubtypes.map( { $0.name } )
+        let selectedSubtypeNames = (productFilter.verticalFilters.services.subtypes?.map( { $0.name } )) ?? []
+        let vm = ListingAttributeMultiselectPickerViewModel(title: R.Strings.servicesServiceSubtypeListTitle,
+                                                            attributes: serviceSubtypeNames,
+                                                            selectedAttributes: selectedSubtypeNames,
+                                                            canSearchAttributes: true)
+        { [weak self] (selectedIndexes) in
+            let selectedSubtypes = self?.selectedAttributes(forIndexes: selectedIndexes, in: serviceSubtypes)
+            self?.updateServiceSubtypes(withServiceSubtypes: selectedSubtypes)
+            self?.delegate?.vmDidUpdate()
+        }
+        
+        navigator?.openListingAttributePicker(viewModel: vm)
+    }
+    
+    private func selectedAttributes<T>(forIndexes indexes: [Int],
+                                       in attributes: [T]) -> [T] {
+        
+        let selectedAttributes = indexes.reduce([]) { (res, next) -> [T] in
+            if let selectedAttribute = attributes[safeAt: next] {
+                return res + [selectedAttribute]
+            }
+            return res
+        }
+        
+        return selectedAttributes
+    }
+    
+    private func updateServiceType(withServiceType serviceType: ServiceType?) {
+        clearServiceSubtypes()
+        productFilter.verticalFilters.services.type = serviceType
+    }
+    
+    private func updateServiceSubtypes(withServiceSubtypes serviceSubtypes: [ServiceSubtype]?) {
+        productFilter.verticalFilters.services.subtypes = serviceSubtypes
+    }
+    
+    private func clearServiceType() {
+        updateServiceType(withServiceType: nil)
+    }
+    
+    private func clearServiceSubtypes() {
+        updateServiceSubtypes(withServiceSubtypes: [])
     }
 }
