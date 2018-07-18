@@ -130,7 +130,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             resultTags.append(.taxonomyChild(taxonomyChild))
         }
 
-        if filters.selectedWithin != ListingTimeCriteria.defaultOption {
+        if filters.selectedWithin.listingTimeCriteria != ListingTimeFilter.defaultOption.listingTimeCriteria {
             resultTags.append(.within(filters.selectedWithin))
         }
         if let selectedOrdering = filters.selectedOrdering, selectedOrdering != ListingSortCriteria.defaultOption {
@@ -557,7 +557,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         var taxonomy: Taxonomy? = nil
         var secondaryTaxonomyChild: TaxonomyChild? = nil
         var orderBy = ListingSortCriteria.defaultOption
-        var within = ListingTimeCriteria.defaultOption
+        var within = ListingTimeFilter.defaultOption
         var minPrice: Int? = nil
         var maxPrice: Int? = nil
         var free: Bool = false

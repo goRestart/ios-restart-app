@@ -11,7 +11,7 @@ extension ListingFilters: MockFactory {
                               selectedCategories: [ListingCategory.electronics, ListingCategory.motorsAndAccessories],
                               selectedTaxonomyChildren: [],
                               selectedTaxonomy: nil,
-                              selectedWithin: ListingTimeCriteria.day,
+                              selectedWithin: ListingTimeFilter.day,
                               selectedOrdering: ListingSortCriteria.distance,
                               priceRange: FilterPriceRange.priceRange(min: 5, max: 100),
                               verticalFilters: VerticalFilters.makeMock())

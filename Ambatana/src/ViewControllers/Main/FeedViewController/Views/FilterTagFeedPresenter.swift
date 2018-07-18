@@ -63,7 +63,7 @@ final class FilterTagFeedPresenter: FilterTagFeedPresentable {
             resultTags.append(.taxonomyChild(taxonomyChild))
         }
         
-        if filters.selectedWithin != ListingTimeCriteria.defaultOption {
+        if filters.selectedWithin.listingTimeCriteria != ListingTimeFilter.defaultOption.listingTimeCriteria {
             resultTags.append(.within(filters.selectedWithin))
         }
         if let selectedOrdering = filters.selectedOrdering, selectedOrdering != ListingSortCriteria.defaultOption {

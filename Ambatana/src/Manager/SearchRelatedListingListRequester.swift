@@ -165,7 +165,7 @@ fileprivate extension SearchRelatedListingListRequester {
             params.superKeywordIds = selectedTaxonomy.children.getIds(withType: .superKeyword)
         }
         
-        params.timeCriteria = filters?.selectedWithin
+        params.timeCriteria = filters?.selectedWithin.listingTimeCriteria
         params.sortCriteria = filters?.selectedOrdering
         params.distanceRadius = filters?.distanceRadius
         params.distanceType = filters?.distanceType

@@ -141,6 +141,12 @@ struct NotificationSettingsMailerBaseURL: BaseURL {
     static let contentTypeHeader: String? = "application/json"
 }
 
+struct ReportingBaseURL: BaseURL {
+    static let baseURL = EnvironmentProxy.sharedInstance.reportingBaseURL
+    static let acceptHeader: String? = "application/vnd.api+json;version=1"
+    static let contentTypeHeader: String? = "application/vnd.api+json;version=1"
+}
+
 enum Encoding {
     case json, url
 }

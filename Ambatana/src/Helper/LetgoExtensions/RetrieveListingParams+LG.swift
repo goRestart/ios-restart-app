@@ -28,7 +28,7 @@ extension RetrieveListingParams {
             superKeywordIds = selectedTaxonomy.children.getIds(withType: .superKeyword)
         }
         
-        timeCriteria = filters?.selectedWithin
+        timeCriteria = filters?.selectedWithin.listingTimeCriteria
         sortCriteria = filters?.selectedOrdering
         distanceRadius = filters?.distanceRadius
         distanceType = filters?.distanceType

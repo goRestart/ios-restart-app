@@ -62,7 +62,7 @@ class FiltersViewModel: BaseViewModel {
     var numOfWithinTimes : Int {
         return self.withinTimes.count
     }
-    private var withinTimes : [ListingTimeCriteria]
+    private var withinTimes : [ListingTimeFilter]
     
     var offerTypeOptionsCount : Int {
         return self.offerTypeOptions.count
@@ -157,8 +157,8 @@ class FiltersViewModel: BaseViewModel {
     convenience init(currentFilters: ListingFilters) {
         self.init(categoryRepository: Core.categoryRepository,
                   categories: [],
-                  withinTimes: ListingTimeCriteria.allValues(),
-                  sortOptions: ListingSortCriteria.allValues(),
+                  withinTimes: ListingTimeFilter.allValues,
+                  sortOptions: ListingSortCriteria.allValues,
                   offerTypeOptions: RealEstateOfferType.allValues,
                   currentFilters: currentFilters,
                   featureFlags: FeatureFlags.sharedInstance,
@@ -168,7 +168,7 @@ class FiltersViewModel: BaseViewModel {
     
     required init(categoryRepository: CategoryRepository,
                   categories: [FilterCategoryItem],
-                  withinTimes: [ListingTimeCriteria],
+                  withinTimes: [ListingTimeFilter],
                   sortOptions: [ListingSortCriteria],
                   offerTypeOptions: [RealEstateOfferType],
                   currentFilters: ListingFilters,
@@ -358,7 +358,7 @@ class FiltersViewModel: BaseViewModel {
     func withinTimeSelectedAtIndex(_ index: Int) -> Bool {
         guard index < numOfWithinTimes else { return false }
         
-        return withinTimes[index] == productFilter.selectedWithin
+        return withinTimes[index].listingTimeCriteria == productFilter.selectedWithin.listingTimeCriteria
     }
     
     
