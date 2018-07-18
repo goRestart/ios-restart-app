@@ -2534,19 +2534,19 @@ extension R {
     public static let reportUserTextPlaceholder = Strings.tr("Localizable", "report_user_text_placeholder")
     /// Report User
     public static let reportUserTitle = Strings.tr("Localizable", "report_user_title")
-    /// Write here any additional notes that might help us to resolve this issue
+    /// Add any additional notes that may help us to resolve this issue
     public static let reportingAdditionalNotesPlaceholder = Strings.tr("Localizable", "reporting_additional_notes_placeholder")
     /// WHY ARE YOU REPORTING THIS LISTING?
     public static let reportingListingListHeader = Strings.tr("Localizable", "reporting_listing_list_header")
-    /// Thanks for your anonymous report! Your feedback helps to make letgo the best place to buy and sell locally
+    /// Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.
     public static let reportingListingReportSentText = Strings.tr("Localizable", "reporting_listing_report_sent_text")
-    /// Report Sent!
+    /// Report sent!
     public static let reportingListingReportSentTitle = Strings.tr("Localizable", "reporting_listing_report_sent_title")
     /// WHY SHOULDN'T IT BE ON LETGO?
     public static let reportingListingShouldntBeOnLetgoHeader = Strings.tr("Localizable", "reporting_listing_shouldnt_be_on_letgo_header")
     /// Report listing
     public static let reportingListingTitle = Strings.tr("Localizable", "reporting_listing_title")
-    /// We're sorry to hear that...
+    /// We're sorry to hear that.
     public static let reportingListingUpdateFeedbackBad = Strings.tr("Localizable", "reporting_listing_update_feedback_bad")
     /// Awesome!
     public static let reportingListingUpdateFeedbackGood = Strings.tr("Localizable", "reporting_listing_update_feedback_good")
@@ -2588,7 +2588,7 @@ extension R {
     public static let reportingReasonOther = Strings.tr("Localizable", "reporting_reason_other")
     /// Problem during our meetup
     public static let reportingReasonProblemMeetup = Strings.tr("Localizable", "reporting_reason_problem_meetup")
-    /// Profile Photo
+    /// Profile photo
     public static let reportingReasonProfilePhoto = Strings.tr("Localizable", "reporting_reason_profile_photo")
     /// Robbery or violent incident
     public static let reportingReasonRobbery = Strings.tr("Localizable", "reporting_reason_robbery")
@@ -2612,7 +2612,7 @@ extension R {
     public static let reportingReasonThreatingViolence = Strings.tr("Localizable", "reporting_reason_threating_violence")
     /// Unrealistic price or offers
     public static let reportingReasonUnrealisticPrice = Strings.tr("Localizable", "reporting_reason_unrealistic_price")
-    /// Weapoin or violent content
+    /// Weapons or violent content
     public static let reportingReasonWeapons = Strings.tr("Localizable", "reporting_reason_weapons")
     /// It's in the wrong category
     public static let reportingReasonWrongCategory = Strings.tr("Localizable", "reporting_reason_wrong_category")
@@ -2624,7 +2624,7 @@ extension R {
     public static let reportingUserInappropriatePhotoOrBioHeader = Strings.tr("Localizable", "reporting_user_inappropriate_photo_or_bio_header")
     /// WHY ARE YOU REPORTING THIS USER?
     public static let reportingUserListHeader = Strings.tr("Localizable", "reporting_user_list_header")
-    /// WHAT WAS THE PROBLEM?
+    /// WHAT HAPPENED?
     public static let reportingUserProblemMeetupHeader = Strings.tr("Localizable", "reporting_user_problem_meetup_header")
     /// Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nYou can always block a user to make sure they can no longer see your items or chat with you.
     public static let reportingUserReportSentBlockUserAText = Strings.tr("Localizable", "reporting_user_report_sent_block_user_A_text")
@@ -2632,7 +2632,7 @@ extension R {
     public static let reportingUserReportSentBlockUserAWithReviewText = Strings.tr("Localizable", "reporting_user_report_sent_block_user_A_with_review_text")
     /// Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nOur team will investigate your claim, in the meantime, you can always block a user to make sure they can no longer see your items or chat with you.
     public static let reportingUserReportSentBlockUserBText = Strings.tr("Localizable", "reporting_user_report_sent_block_user_B_text")
-    /// Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nBe sure to leave a review of this user to let others know about your experience.\n\nOur team will investigate your claim, in the meantime,  you can always block a user to make sure they can no longer see your items or chat with you. 
+    /// Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nBe sure to leave a review of this user to let others know about your experience.\n\nOur team will investigate your claim, in the meantime,  you can always block a user to make sure they can no longer see your items or chat with you.
     public static let reportingUserReportSentBlockUserBWithReviewText = Strings.tr("Localizable", "reporting_user_report_sent_block_user_B_with_review_text")
     /// Block reported user
     public static let reportingUserReportSentBlockUserBigButtonTitle = Strings.tr("Localizable", "reporting_user_report_sent_block_user_big_button_title")
@@ -2650,12 +2650,26 @@ extension R {
     public static let reportingUserReportSentRedirectItemText = Strings.tr("Localizable", "reporting_user_report_sent_redirect_item_text")
     /// Review
     public static let reportingUserReportSentReviewButtonTitle = Strings.tr("Localizable", "reporting_user_report_sent_review_button_title")
-    /// Report Sent!
+    /// Report sent!
     public static let reportingUserReportSentTitle = Strings.tr("Localizable", "reporting_user_report_sent_title")
     /// WHAT HAPPENED?
     public static let reportingUserSuspiciousBehaviorHeader = Strings.tr("Localizable", "reporting_user_suspicious_behavior_header")
     /// Report user
     public static let reportingUserTitle = Strings.tr("Localizable", "reporting_user_title")
+    /// Thanks for anonymously reporting %@. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing this account, we've removed it because it violated our Community Guidelines.
+    public static func reportingUserUpdateTextA(_ p1: String) -> String {
+      return Strings.tr("Localizable", "reporting_user_update_text_A", p1)
+    }
+    /// Thanks for anonymously reporting %@'s profile photo. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing the photo, we've removed it because it violated our Community Guidelines.
+    public static func reportingUserUpdateTextB(_ p1: String) -> String {
+      return Strings.tr("Localizable", "reporting_user_update_text_B", p1)
+    }
+    /// Thanks for anonymously reporting %@'s bio. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing the bio, we've removed it because it violated our Community Guidelines.
+    public static func reportingUserUpdateTextC(_ p1: String) -> String {
+      return Strings.tr("Localizable", "reporting_user_update_text_C", p1)
+    }
+    /// Report update
+    public static let reportingUserUpdateTitle = Strings.tr("Localizable", "reporting_user_update_title")
     /// Enter your email address
     public static let resetPasswordEmailFieldHint = Strings.tr("Localizable", "reset_password_email_field_hint")
     /// Please enter your email address and we’ll send you an email to reset your password.

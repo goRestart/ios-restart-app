@@ -189,7 +189,7 @@ public extension UIFont {
 
 // MARK: - Reporting
 public extension UIFont {
-    static var reportCellTitleFont: UIFont { return UIFont.systemBoldFont(size: 22) }
+    static var reportCellTitleFont: UIFont { return UIFont.systemBoldFont(size: 17) }
     static var reportSentTitleText: UIFont { return UIFont.systemBoldFont(size: 27) }
     static var reportSentUserNameText: UIFont { return UIFont.systemBoldFont(size: 17) }
 }
