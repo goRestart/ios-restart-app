@@ -338,19 +338,12 @@ extension ListingDeckViewController {
 }
 
 extension ListingDeckViewController: ListingDeckViewModelDelegate {
-
     func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?) {
         return (self, navigationItem.rightBarButtonItems?.first)
     }
 
     func vmResetBumpUpBannerCountdown() {
         listingDeckView.resetBumpUpCountdown()
-    }
-}
-
-extension ListingDeckViewController: DeckMapViewDelegate {
-    func deckMapViewDidTapOnView(_ vc: DeckMapViewController) {
-        dismiss(animated: true, completion: nil)
     }
 }
 

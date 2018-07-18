@@ -1,6 +1,8 @@
 import Foundation
 import LGComponents
 import LGCoreKit
+import RxSwift
+import RxCocoa
 
 private enum Images {
     static let favourite = R.Asset.IconsButtons.NewItemPage.nitFavourite.image
@@ -94,6 +96,8 @@ final class ListingDetailView: UIView {
     private let userView = ListingCardUserView()
 
     private let detailMapView = ListingCardDetailMapView()
+    fileprivate let mapTap = UITapGestureRecognizer()
+
     private var mapSnapShotToBottom: NSLayoutConstraint?
     private var mapSnapShotToSocialView: NSLayoutConstraint?
 
@@ -143,6 +147,8 @@ final class ListingDetailView: UIView {
     }
 
     private func setupUI() {
+        detailMapView.addGestureRecognizer(mapTap)
+
         addSubviewsForAutoLayout([scrollView])
         scrollView.addSubviewsForAutoLayout([mainImageView, pageControl, headerStackView, detailLabel,
                                              statsView, userView, detailMapView, socialMediaHeader,
@@ -256,7 +262,12 @@ final class ListingDetailView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         updateImageViewAspectRatio()
+
     }
+}
+
+extension Reactive where Base: ListingDetailView {
+    var map: ControlEvent<UITapGestureRecognizer> { return base.mapTap.rx.event }
 }
 
 extension ListingDetailView {

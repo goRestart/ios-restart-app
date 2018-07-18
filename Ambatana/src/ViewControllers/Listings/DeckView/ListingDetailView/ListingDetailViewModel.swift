@@ -14,10 +14,24 @@ final class ListingDetailViewModel: BaseViewModel {
     private let maker: ListingViewModelMaker
     private let listing: Listing
     private let visitSource: EventParameterListingVisitSource
+    private let featureFlags: FeatureFlaggeable
 
-    init(withListing listing: Listing, visitSource: EventParameterListingVisitSource) {
+    var deckMapData: DeckMapData? {
+        guard let location = listingViewModel.productInfo.value?.location?.coordinates2DfromLocation() else { return nil }
+        let shouldShowExactLocation = listingViewModel.showExactLocationOnMap.value
+        return DeckMapData(location: location, shouldHighlightCenter: shouldShowExactLocation)
+    }
+
+    convenience init(withListing listing: Listing, visitSource: EventParameterListingVisitSource) {
+        self.init(withListing: listing, visitSource: visitSource, featureFlags: FeatureFlags.sharedInstance)
+    }
+
+    init(withListing listing: Listing,
+         visitSource: EventParameterListingVisitSource,
+         featureFlags: FeatureFlaggeable) {
         self.listing = listing
         self.visitSource = visitSource
+        self.featureFlags = featureFlags
         self.maker = ListingViewModel.ConvenienceMaker()
         super.init()
     }

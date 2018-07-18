@@ -46,6 +46,12 @@ final class ListingDetailViewController: BaseViewController {
             viewModel.rx.location.drive(rx.location)
             ]
         bindings.forEach { $0.disposed(by: disposeBag) }
+        detailView.rx
+            .map
+            .asObservable()
+            .subscribe(onNext: { [weak self] _ in
+            self?.openMapView()
+        }).disposed(by: disposeBag)
     }
 
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
@@ -78,6 +84,19 @@ final class ListingDetailViewController: BaseViewController {
 
     @objc private func closeView() {
         viewModel.closeDetail()
+    }
+}
+
+extension ListingDetailViewController: DeckMapViewDelegate {
+    func openMapView() {
+        guard let data = viewModel.deckMapData else { return }
+        let vc = DeckMapViewController(with: data)
+        vc.delegate = self
+        present(vc, animated: true, completion: nil)
+    }
+    
+    func close(_ vc: DeckMapViewController) {
+        dismiss(animated: true, completion: nil)
     }
 }
 
