@@ -1,12 +1,17 @@
 import Foundation
 import LGCoreKit
 import LGComponents
+import RxSwift
 
 final class ReportOptionsListViewModel: BaseViewModel {
     
-    let optionGroup: ReportOptionsGroup
     let title: String
+    let optionGroup: ReportOptionsGroup
+    let showReportButtonActive = Variable<Bool>(false)
+    let showAdditionalNotes = Variable<Bool>(false)
+
     var navigator: ReportNavigator?
+    private var selectedOption: ReportOption?
 
     init(optionGroup: ReportOptionsGroup, title: String) {
         self.optionGroup = optionGroup
@@ -17,11 +22,16 @@ final class ReportOptionsListViewModel: BaseViewModel {
     func didSelect(option: ReportOption) {
         if let child = option.childOptions {
             navigator?.openNextStep(with: child)
+        } else {
+            showAdditionalNotes.value = option.type.allowsAdditionalNotes
+            showReportButtonActive.value = true
         }
+
+        selectedOption = option
     }
 
-    func didTapReport(with option: ReportOption) {
-        guard let type = option.type.reportSentType else { return }
+    func didTapReport(withAdditionalNotes: String?) {
+        guard let type = selectedOption?.type.reportSentType else { return }
         navigator?.openReportSentScreen(type: type)
     }
 
