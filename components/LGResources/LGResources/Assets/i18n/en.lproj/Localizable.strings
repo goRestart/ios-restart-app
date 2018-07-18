@@ -3519,7 +3519,7 @@
 "reporting_reason_drugs" = "Drugs, alcohol or tobacco";
 
 // Reporting Product reason: the product is a weapon
-"reporting_reason_weapons" = "Weapon or violent content";
+"reporting_reason_weapons" = "Weapons or violent content";
 
 // Reporting User reason: The user is selling something inappropiate
 "reporting_reason_selling_inappropiate" = "Selling something inappropriate";
@@ -3609,7 +3609,7 @@
 "reporting_listing_update_feedback_title" = "How was this experience?";
 
 // Title shown When the user gives bad feedback about the experience
-"reporting_listing_update_feedback_bad" = "We're sorry to hear that...";
+"reporting_listing_update_feedback_bad" = "We're sorry to hear that.";
 
 // Title shown when the user gives a medium value feedback
 "reporting_listing_update_feedback_medium" = "Thanks!";
@@ -3636,7 +3636,7 @@
 "reporting_user_inappropriate_chat_header" = "WHAT HAPPENED?";
 
 // Title Shown on the Report Sent view
-"reporting_user_report_sent_title" = "Report Sent!";
+"reporting_user_report_sent_title" = "Report sent!";
 
 // Text shown in the "Redirect to item" thank you screen
 "reporting_user_report_sent_redirect_item_text" = "Thanks for helping us make letgo the best place to buy and sell locally.\n\nPlease go to the listing and flag the item and we will quickly review it.";
@@ -3651,7 +3651,7 @@
 "reporting_user_report_sent_block_user_B_text" = "Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nOur team will investigate your claim, in the meantime, you can always block a user to make sure they can no longer see your items or chat with you.";
 
 // Text Shown in the "block user" thank you screen when the user can leave a review (version A)
-"reporting_user_report_sent_block_user_B_with_review_text" = "Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nBe sure to leave a review of this user to let others know about your experience.\n\nOur team will investigate your claim, in the meantime,  you can always block a user to make sure they can no longer see your items or chat with you. ";
+"reporting_user_report_sent_block_user_B_with_review_text" = "Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nBe sure to leave a review of this user to let others know about your experience.\n\nOur team will investigate your claim, in the meantime,  you can always block a user to make sure they can no longer see your items or chat with you.";
 
 // Text Shown in the "Law enforcement" thank you screen
 "reporting_user_report_sent_law_enforcement_text" = "We're very sorry about your experience but thankful that you are now safe.\n\nWe strongly encourage you to reach out to local law enforcement and file a police report as soon as possible (if you haven't already done so).\n\nPlease remind the police to contact letgo’s law enforcement team at lawenforcement@letgo.com so we can help with their investigation.\n\nWe can share relevant information about %@ with police but, due to strict privacy protection laws, we need them to send us a valid search warrant or subpoena first.";
@@ -3668,8 +3668,20 @@
 // Button to review the reported user
 "reporting_user_report_sent_review_button_title" = "Review";
 
+// Title for the user report update screen
+"reporting_user_update_title" = "Report update";
+
+// Text for the user report update screen (version A)
+"reporting_user_update_text_A" = "Thanks for anonymously reporting %@. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing this account, we've removed it because it violated our Community Guidelines.";
+
+// Text for the user report update screen (version B)
+"reporting_user_update_text_B" = "Thanks for anonymously reporting %@'s profile photo. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing the photo, we've removed it because it violated our Community Guidelines.";
+
+// Text for the user report update screen (version C)
+"reporting_user_update_text_C" = "Thanks for anonymously reporting %@'s bio. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing the bio, we've removed it because it violated our Community Guidelines.";
+
 // Placeholder shown if the seleted option allows additional notes
-"reporting_additional_notes_placeholder" = "In the meantime, please provide additional information so our team can investigate your claim.";
+"reporting_additional_notes_placeholder" = "Add any additional notes that may help us to resolve this issue";
 
 // Button title to send the report
 "reporting_send_report_button" = "Report";
