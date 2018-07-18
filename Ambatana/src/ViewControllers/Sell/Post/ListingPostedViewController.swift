@@ -54,7 +54,7 @@ final class ListingPostedViewController: BaseViewController, ListingPostedViewMo
 
     override func viewDidFirstAppear(_ animated: Bool) {
         super.viewDidFirstAppear(animated)
-        guard viewModel.autoShareOnFacebook else { return }
+        guard viewModel.shouldAutoShareOnFacebook else { return }
         shareOnFacebook()
     }
 

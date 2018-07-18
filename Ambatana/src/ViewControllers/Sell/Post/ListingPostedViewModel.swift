@@ -39,7 +39,7 @@ class ListingPostedViewModel: BaseViewModel {
         }
     }
 
-    var autoShareOnFacebook: Bool {
+    var shouldAutoShareOnFacebook: Bool {
         guard featureFlags.frictionlessShare.isActive else { return false }
         return keyValueStorage[.sellAutoShareOnFacebook] ?? false
     }

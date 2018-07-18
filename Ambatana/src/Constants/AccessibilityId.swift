@@ -1324,11 +1324,11 @@ enum AccessibilityId: Equatable, Accessible {
             return "postingAddDetailSearchBar"
         case .postingDetailMaxServices:
             return "postingDetailMaxServices"
-        case .postingDetailShareOnFacebookTitleLabel
+        case .postingDetailShareOnFacebookTitleLabel:
             return "postingDetailShareOnFacebookTitleLabel"
-        case .postingDetailShareOnFacebookFooterLabel
+        case .postingDetailShareOnFacebookFooterLabel:
             return "postingDetailShareOnFacebookFooterLabel"
-        case .postingDetailShareOnFacebookCheckbox
+        case .postingDetailShareOnFacebookCheckbox:
             return "postingDetailShareOnFacebookCheckbox"
             
         // Editlisting

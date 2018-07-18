@@ -204,10 +204,7 @@ final class ShareOnFacebookView: BaseView {
         label.textAlignment = .center
         return label
     }()
-    private let checkbox: CheckBox = {
-        let checkBox = CheckBox()
-        return checkBox
-    }()
+    private let checkbox: CheckBox = CheckBox()
     private let titleAndCheckboxContainerView: UIView = UIView()
 
     private let viewModel: PostListingBasicDetailViewModel
