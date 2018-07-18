@@ -1,5 +1,6 @@
 import Foundation
 import LGComponents
+import LGCoreKit
 
 private enum Images {
     static let favourite = R.Asset.IconsButtons.NewItemPage.nitFavourite.image
@@ -19,6 +20,7 @@ private enum Layout {
     static let actionButton: CGFloat = 60
     static let scrollBottomInset: CGFloat = Layout.actionButton + 3*Metrics.bigMargin
 }
+
 
 final class ListingDetailView: UIView {
     private let scrollView: UIScrollView = {
@@ -40,6 +42,8 @@ final class ListingDetailView: UIView {
         img.contentMode = .scaleAspectFit
         return img
     }()
+    private var carousel: ListingCardMediaCarousel?
+
     private var mainImgHeightConstraint: NSLayoutConstraint?
     private lazy var headerStackView: UIStackView = {
         let stackView = UIStackView.vertical([titleLabel, priceLabel])
@@ -252,5 +256,58 @@ final class ListingDetailView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         updateImageViewAspectRatio()
+    }
+}
+
+extension ListingDetailView {
+    func populateWith(media: [Media]) {
+        updateWith(carousel: ListingCardMediaCarousel(media: media, current: 0))
+    }
+
+    private func updateWith(carousel: ListingCardMediaCarousel) {
+        pageControl.setPages(carousel.media.count)
+        pageControl.turnOnAt(carousel.current)
+        self.carousel = carousel
+
+        guard let url = carousel.media[safeAt: carousel.current]?.outputs.image else { return }
+        mainImageView.lg_setImageWithURL(url)
+    }
+
+    func populateWith(title: String?) {
+        titleLabel.text = title
+    }
+
+    func populateWith(price: String?) {
+        priceLabel.text = price
+    }
+
+    func populateWith(detail: String?) {
+        detailLabel.text = detail
+    }
+
+    func populateWith(stats: ListingDetailStats?) {
+        guard let stats = stats, let date = stats.posted else {
+            // TODO: collapse
+            return
+        }
+        statsView.updateStatsWithInfo(stats.views ?? 0,
+                                      favouritesCount: stats.favs ?? 0,
+                                      postedDate: date)
+    }
+
+    func populateWith(userInfo: ListingVMUserInfo) {
+        userView.populate(withUserName: userInfo.name,
+                          placeholder: userInfo.avatarPlaceholder(),
+                          icon: userInfo.avatar,
+                          imageDownloader: ImageDownloader.sharedInstance,
+                          badgeType: userInfo.badge)
+    }
+
+    func populateWith(location: ListingDetailLocation?) {
+        guard let coordinates = location?.location else { return }
+        detailMapView.setLocation(coordinates,
+                                  size: Map.snapshotSize,
+                                  showExactLocationOnMap: location?.showExactLocation ?? false)
+        detailMapView.setLocationName(location?.address)
     }
 }

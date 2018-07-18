@@ -1,5 +1,8 @@
 import Foundation
 import LGComponents
+import LGCoreKit
+import RxSwift
+import RxCocoa
 
 final class ListingDetailViewController: BaseViewController {
     private enum Layout {
@@ -7,6 +10,7 @@ final class ListingDetailViewController: BaseViewController {
     }
     let detailView = ListingDetailView()
     let viewModel: ListingDetailViewModel
+    private let disposeBag = DisposeBag()
 
     init(viewModel: ListingDetailViewModel) {
         self.viewModel = viewModel
@@ -28,6 +32,20 @@ final class ListingDetailViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupRx()
+    }
+
+    private func setupRx() {
+        let bindings = [
+            viewModel.rx.media.drive(rx.media),
+            viewModel.rx.title.drive(rx.title),
+            viewModel.rx.price.drive(rx.price),
+            viewModel.rx.detail.drive(rx.detail),
+            viewModel.rx.stats.drive(rx.stats),
+            viewModel.rx.user.drive(rx.userInfo),
+            viewModel.rx.location.drive(rx.location)
+            ]
+        bindings.forEach { $0.disposed(by: disposeBag) }
     }
 
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
@@ -60,5 +78,49 @@ final class ListingDetailViewController: BaseViewController {
 
     @objc private func closeView() {
         viewModel.closeDetail()
+    }
+}
+
+private extension Reactive where Base: ListingDetailViewController {
+    var media: Binder<[Media]> {
+        return Binder(self.base) { controller, media in
+            controller.detailView.populateWith(media: media)
+        }
+    }
+
+    var title: Binder<String?> {
+        return Binder(self.base) { controller, title in
+            controller.detailView.populateWith(title: title)
+        }
+    }
+
+    var price: Binder<String?> {
+        return Binder(self.base) { controller, price in
+            controller.detailView.populateWith(price: price)
+        }
+    }
+
+    var detail: Binder<String?> {
+        return Binder(self.base) { controller, detail in
+            controller.detailView.populateWith(detail: detail)
+        }
+    }
+
+    var stats: Binder<ListingDetailStats?> {
+        return Binder(self.base) { controller, stats in
+            controller.detailView.populateWith(stats: stats)
+        }
+    }
+
+    var userInfo: Binder<ListingVMUserInfo> {
+        return Binder(self.base) { controller, userInfo in
+            controller.detailView.populateWith(userInfo: userInfo)
+        }
+    }
+
+    var location: Binder<ListingDetailLocation?> {
+        return Binder(self.base) { controller, location in
+            controller.detailView.populateWith(location: location)
+        }
     }
 }
