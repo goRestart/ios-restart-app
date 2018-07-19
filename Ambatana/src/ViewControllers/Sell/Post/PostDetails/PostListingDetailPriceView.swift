@@ -167,25 +167,6 @@ extension PostListingDetailPriceView {
     }
 }
 
-final class CheckBox: UIButton {
-
-    private static let checkedImage = R.Asset.IconsButtons.icCheckboxSelected.image
-    private static let uncheckedImage = R.Asset.IconsButtons.icCheckbox.image
-
-    var isChecked: Bool = false {
-        didSet{ setImage(isChecked ? CheckBox.checkedImage : CheckBox.uncheckedImage, for: .normal) }
-    }
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        isChecked = false
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
 final class ShareOnFacebookView: BaseView {
 
     private let titleLabel: UILabel = {
@@ -204,7 +185,7 @@ final class ShareOnFacebookView: BaseView {
         label.textAlignment = .center
         return label
     }()
-    private let checkbox: CheckBox = CheckBox()
+    private let checkbox: Checkbox = Checkbox()
     private let titleAndCheckboxContainerView: UIView = UIView()
 
     private let viewModel: PostListingBasicDetailViewModel
