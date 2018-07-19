@@ -1,10 +1,10 @@
 import LGComponents
 
 enum FilterServicesSection {
-    case type, subtype
+    case type, subtype, unified
     
-    static var all: [FilterServicesSection] {
-        return [.type, .subtype]
+    static func allSections(isUnifiedActive: Bool) -> [FilterServicesSection] {
+        return isUnifiedActive ? [.unified] : [.type, .subtype]
     }
     
     var title: String {
@@ -13,6 +13,8 @@ enum FilterServicesSection {
             return R.Strings.servicesServiceTypeTitle
         case .subtype:
             return R.Strings.servicesServiceSubtypeTitle
+        case .unified:
+            return R.Strings.servicesUnifiedFilterTitle
         }
     }
 }

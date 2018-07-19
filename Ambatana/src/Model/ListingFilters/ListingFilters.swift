@@ -9,7 +9,7 @@ struct ListingFilters {
     var selectedCategories: [ListingCategory]
     var selectedTaxonomyChildren: [TaxonomyChild]
     var selectedTaxonomy: Taxonomy?
-    var selectedWithin: ListingTimeCriteria
+    var selectedWithin: ListingTimeFilter
     var selectedOrdering: ListingSortCriteria?
     var filterCoordinates: LGLocationCoordinates2D? {
         return place?.location
@@ -41,7 +41,7 @@ struct ListingFilters {
                   selectedCategories: [],
                   selectedTaxonomyChildren: [],
                   selectedTaxonomy: nil,
-                  selectedWithin: ListingTimeCriteria.defaultOption,
+                  selectedWithin: ListingTimeFilter.defaultOption,
                   selectedOrdering: ListingSortCriteria.defaultOption,
                   priceRange: .priceRange(min: nil, max: nil),
                   verticalFilters: VerticalFilters.create())
@@ -53,7 +53,7 @@ struct ListingFilters {
          selectedCategories: [ListingCategory],
          selectedTaxonomyChildren: [TaxonomyChild],
          selectedTaxonomy: Taxonomy?,
-         selectedWithin: ListingTimeCriteria,
+         selectedWithin: ListingTimeFilter,
          selectedOrdering: ListingSortCriteria?,
          priceRange: FilterPriceRange,
          verticalFilters: VerticalFilters) {
@@ -115,7 +115,7 @@ struct ListingFilters {
         if !selectedCategories.isEmpty { return false }
         if !selectedTaxonomyChildren.isEmpty { return false }
         if let _ = selectedTaxonomy { return false } //Default is nil
-        if selectedWithin != ListingTimeCriteria.defaultOption { return false }
+        if selectedWithin != ListingTimeFilter.defaultOption { return false }
         if selectedOrdering != ListingSortCriteria.defaultOption { return false }
         if priceRange != .priceRange(min: nil, max: nil) { return false }
         if verticalFilters.hasAnyAttributesSet { return false }

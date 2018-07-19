@@ -873,7 +873,7 @@ enum AccessibilityId: Equatable, Accessible {
             case .location:
                 idSuffix = "Location"
             case let .within(timeCriteria):
-                idSuffix = "WithinTime-\(timeCriteria.rawValue)"
+                idSuffix = "WithinTime-\(timeCriteria.accessibilityId)"
             case let .orderBy(sortCriteria):
                 idSuffix = "OrderBy-\(sortCriteria.rawValue)"
             case let .category(category):

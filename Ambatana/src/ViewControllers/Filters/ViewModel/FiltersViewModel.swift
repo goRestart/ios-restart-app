@@ -62,7 +62,7 @@ class FiltersViewModel: BaseViewModel {
     var numOfWithinTimes : Int {
         return self.withinTimes.count
     }
-    private var withinTimes : [ListingTimeCriteria]
+    private var withinTimes : [ListingTimeFilter]
     
     var offerTypeOptionsCount : Int {
         return self.offerTypeOptions.count
@@ -157,8 +157,8 @@ class FiltersViewModel: BaseViewModel {
     convenience init(currentFilters: ListingFilters) {
         self.init(categoryRepository: Core.categoryRepository,
                   categories: [],
-                  withinTimes: ListingTimeCriteria.allValues(),
-                  sortOptions: ListingSortCriteria.allValues(),
+                  withinTimes: ListingTimeFilter.allValues,
+                  sortOptions: ListingSortCriteria.allValues,
                   offerTypeOptions: RealEstateOfferType.allValues,
                   currentFilters: currentFilters,
                   featureFlags: FeatureFlags.sharedInstance,
@@ -168,7 +168,7 @@ class FiltersViewModel: BaseViewModel {
     
     required init(categoryRepository: CategoryRepository,
                   categories: [FilterCategoryItem],
-                  withinTimes: [ListingTimeCriteria],
+                  withinTimes: [ListingTimeFilter],
                   sortOptions: [ListingSortCriteria],
                   offerTypeOptions: [RealEstateOfferType],
                   currentFilters: ListingFilters,
@@ -358,7 +358,7 @@ class FiltersViewModel: BaseViewModel {
     func withinTimeSelectedAtIndex(_ index: Int) -> Bool {
         guard index < numOfWithinTimes else { return false }
         
-        return withinTimes[index] == productFilter.selectedWithin
+        return withinTimes[index].listingTimeCriteria == productFilter.selectedWithin.listingTimeCriteria
     }
     
     
@@ -635,10 +635,6 @@ extension FiltersViewModel: CarAttributeSelectionDelegate {
         return productFilter.verticalFilters.cars.modelName
     }
     
-    var currentServiceTypeName: String? {
-        return productFilter.verticalFilters.services.type?.name
-    }
-    
     var modelCellEnabled: Bool {
         return currentCarMakeName != nil
     }
@@ -894,6 +890,10 @@ extension FiltersViewModel: CarAttributeSelectionDelegate {
 
 extension FiltersViewModel {
     
+    var currentServiceTypeName: String? {
+        return productFilter.verticalFilters.services.type?.name
+    }
+    
     var isServicesInfoCellEnabled: Bool {
         guard featureFlags.showServicesFeatures.isActive else {
             return false
@@ -909,25 +909,51 @@ extension FiltersViewModel {
         guard featureFlags.showServicesFeatures.isActive else {
             return []
         }
-        return FilterServicesSection.all
+        return FilterServicesSection.allSections(isUnifiedActive: featureFlags.servicesUnifiedFilterScreen.isActive)
     }
     
     var selectedServiceSubtypesDisplayName: String? {
-        guard let firstSubtype = productFilter.verticalFilters.services.subtypes?.first?.name else {
+        if featureFlags.servicesUnifiedFilterScreen.isActive {
+            return createUnifiedSelectedServiceDisplayName()
+        } else {
+            return createSelectedServiceSubtypeDisplayName()
+        }
+    }
+    
+    private func createSelectedServiceSubtypeDisplayName() -> String? {
+        
+        guard let firstSubtype =
+            productFilter.verticalFilters.services.subtypes?.first?.name else {
             return nil
         }
         
-        guard let secondSubtype = productFilter.verticalFilters.services.subtypes?[safeAt: 1]?.name else {
+        guard let secondSubtype =
+            productFilter.verticalFilters.services.subtypes?[safeAt: 1]?.name else {
             return firstSubtype
         }
         
         return "\(firstSubtype), \(secondSubtype)"
     }
+    
+    private func createUnifiedSelectedServiceDisplayName() -> String? {
+        
+        guard let firstSubtype =
+            productFilter.verticalFilters.services.subtypes?.first?.name else {
+            return nil
+        }
+        
+        if let count =
+            productFilter.verticalFilters.services.subtypes?.count, count > 1 {
+            return "+\(count)"
+        }
+        
+        return firstSubtype
+    }
 
     
     // MARK: Actions
     
-    func servicesTypePressed() {
+    func servicesTypeTapped() {
         let serviceTypes = servicesInfoRepository.retrieveServiceTypes()
         let serviceTypeNames = serviceTypes.map( { $0.name } )
         let vm = ListingAttributeSingleSelectPickerViewModel(title: R.Strings.servicesServiceTypeListTitle,
@@ -945,7 +971,7 @@ extension FiltersViewModel {
         navigator?.openListingAttributePicker(viewModel: vm)
     }
     
-    func servicesSubtypePressed() {
+    func servicesSubtypeTapped() {
         
         guard let serviceTypeId = productFilter.verticalFilters.services.type?.id else {
             return
@@ -965,6 +991,10 @@ extension FiltersViewModel {
         }
         
         navigator?.openListingAttributePicker(viewModel: vm)
+    }
+    
+    func unifiedServicesFilterTapped() {
+        // FIXME: Implement in ABIOS-4578 - Open new view
     }
     
     private func selectedAttributes<T>(forIndexes indexes: [Int],

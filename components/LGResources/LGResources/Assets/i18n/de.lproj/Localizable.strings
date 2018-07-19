@@ -7,7 +7,7 @@
 "app_share_fbmessenger_button" = "Via Messenger einladen";
 "app_share_message_text" = "Schau dir die letgo-App an und verdiene bares Geld mit Sachen, die du nicht mehr brauchst!";
 "app_share_subject_text" = "Schau dir mal letgo an";
-"app_share_subtitle" = "Teile letgo mit deinen Freunden, damit unsere Community weiter wächst!";
+"app_share_subtitle" = "Teile letgo mit deinen Freunden, damit unsere Gemeinschaft weiter wächst!";
 "app_share_title" = "LADE FREUNDE EIN";
 "app_share_whatsapp_button" = "Via Whatsapp einladen";
 "block_user_error_generic" = "Beim Blockieren dieses Nutzers ist ein Fehler aufgetreten.";
@@ -611,7 +611,7 @@
 "offensive_report_alert_message" = "Uns ist auf gefallen, dass möglicherweise unangemessene Nachrichten von deinem Benutzerkonto aus verschickt wurden.\n\nWiederholte Verstöße können zur Kündigung des Benutzerkontos führen.";
 "offensive_report_alert_primary_action" = "Richtlinien ansehen";
 "offensive_report_alert_secondary_action" = "Überspringen";
-"offensive_report_alert_title" = "Community-Richtlinien ansehen";
+"offensive_report_alert_title" = "Gemeinschaftsleitlinien ansehen";
 "onboarding_alert_no" = "Nein";
 "onboarding_alert_yes" = "Ja";
 "onboarding_categories_button_countdown" = "Wähle mindestens %i weitere aus";
@@ -1158,7 +1158,7 @@
 "report_user_suspcious" = "Verdächtiges Verhalten";
 "report_user_text_placeholder" = "Kommentar hinzufügen (optional)";
 "report_user_title" = "Nutzer melden";
-"reporting_additional_notes_placeholder" = "Teile bitte in der Zwischenzeit unserem Team weitere Informationen mit, damit sie deinen Fall untersuchen können.";
+"reporting_additional_notes_placeholder" = "Gib weitere Informationen an, die uns dabei helfen könnten, diesen Fall zu lösen";
 "reporting_listing_list_header" = "WARUM MELDEST DU DIESES ANGEBOT?";
 "reporting_listing_report_sent_text" = "Danke für deinen anonymen Bericht und dass du uns hilfst, letgo zum besten Ort für lokales Handeln zu machen.";
 "reporting_listing_report_sent_title" = "Bericht verschickt!";
@@ -1168,7 +1168,7 @@
 "reporting_listing_update_feedback_good" = "Super!";
 "reporting_listing_update_feedback_medium" = "Danke!";
 "reporting_listing_update_feedback_title" = "Wie war das Erlebnis?";
-"reporting_listing_update_text" = "Danke, dass du \"%@\" eingestellt von %@ anonym gemeldet hast. Solches Feedback hilft uns, die letgo-Gemeinschaft sicher zu halten.\n\nNachdem wir uns diesen Artikel angesehen haben, haben wir ihn entfernt, da er gegen unsere Gemeinschaftsrichtlinien verstößt.";
+"reporting_listing_update_text" = "Danke, dass du \"%@\" eingestellt von %@ anonym gemeldet hast. Solches Feedback hilft uns, die letgo-Gemeinschaft sicher zu halten.\n\nNachdem wir uns diesen Artikel angesehen haben, haben wir ihn entfernt, da er gegen unsere Gemeinschaftsleitlinien verstößt.";
 "reporting_listing_update_title" = "Meldungsstatus";
 "reporting_reason_bio" = "Biografie";
 "reporting_reason_counterfeit_money" = "Hat mit Falschgeld bezahlt";
@@ -1216,10 +1216,10 @@
 "reporting_user_report_sent_title" = "Bericht verschickt!";
 "reporting_user_suspicious_behavior_header" = "WAS IST PASSIERT?";
 "reporting_user_title" = "Nutzer melden";
-"reporting_user_update_text_A" = "Thanks for anonymously reporting %@. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing this account, we've removed it because it violated our Community Guidelines.";
-"reporting_user_update_text_B" = "Thanks for anonymously reporting %@'s profile photo. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing the photo, we've removed it because it violated our Community Guidelines.";
-"reporting_user_update_text_C" = "Thanks for anonymously reporting %@'s bio. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing the bio, we've removed it because it violated our Community Guidelines.";
-"reporting_user_update_title" = "Report update";
+"reporting_user_update_text_A" = "Danke, dass du %@ anonym gemeldet hast. Diese Art von Feedback hilft uns, die letgo-Gemeinschaft sicher zu halten.\n\nNachdem wir das Benutzerkonto überprüft haben, haben wir es entfernt, da es gegen unsere Gemeinschaftsleitlinien verstößt.";
+"reporting_user_update_text_B" = "Danke, dass du das Profilbild von %@ anonym gemeldet hast. Diese Art von Feedback hilft uns, die letgo-Gemeinschaft sicher zu halten.\n\nNachdem wir das Foto überprüft haben, haben wir es entfernt, da es gegen unsere Gemeinschaftsleitlinien verstößt.";
+"reporting_user_update_text_C" = "Danke, dass du die Biografie von %@ anonym gemeldet hast. Diese Art von Feedback hilft uns, die letgo-Gemeinschaft sicher zu halten.\n\nNachdem wir die Biografie überprüft haben, haben wir sie entfernt, da sie gegen unsere Gemeinschaftsleitlinien verstößt.";
+"reporting_user_update_title" = "Meldungsstatus";
 "reset_password_email_field_hint" = "E-Mail-Adresse";
 "reset_password_instructions" = "Bitte gib deine E-Mail-Adresse ein, damit wir dir eine Mail zum Zurücksetzen deines Kennworts schicken können.";
 "reset_password_send_button" = "Kennwort zurücksetzen";
@@ -1266,7 +1266,7 @@
 "sell_send_error_invalid_price" = "Bitte gib einen gültigen Preis für dein Angebot ein. Er darf nur aus Ziffern bestehen.";
 "sell_send_error_invalid_title" = "Bitte gib einen gültigen Titel für dein Angebot ein.";
 "sell_send_error_sharing_facebook" = "Beim Teilen auf Facebook ist eine Fehler aufgetreten. Versuche es bitte noch einmal.";
-"sell_share_on_facebook_footer_label" = "Get more visibility and sell faster";
+"sell_share_on_facebook_footer_label" = "Erhalte mehr Sichtbarkeit und verkaufe schneller";
 "sell_share_on_facebook_label" = "Auf Facebook teilen";
 "sell_title_autogen_autotrans_label" = "Titelvorschlag von letgo und übersetzt von Google";
 "sell_title_autogen_label" = "Titelvorschlag von letgo";
@@ -1276,7 +1276,7 @@
 "services_service_subtype_title" = "Dienstleistung";
 "services_service_type_list_title" = "Dienstleistungskategorie";
 "services_service_type_title" = "Dienstleistungskategorie";
-"services_unified_filter_title" = "Select a category";
+"services_unified_filter_title" = "Wähle eine Kategorie";
 "settings_change_email_button" = "E-Mail-Adresse";
 "settings_change_location_button" = "Standort";
 "settings_change_password_button" = "Kennwort";

@@ -1159,10 +1159,10 @@
 "report_user_text_placeholder" = "댓글달기 (선택사항)";
 "report_user_title" = "사용자 신고하기";
 "reporting_additional_notes_placeholder" = "수사가 협조가 되는 동안, 저희 부서가 사용자분의 신고를 조사할 수 있도록 추가 정보를 제공하여 주십시오.";
-"reporting_listing_list_header" = "WHY ARE YOU REPORTING THIS LISTING?";
+"reporting_listing_list_header" = "해당 상품 게시글을 신고하는 사유가 무엇인가요?";
 "reporting_listing_report_sent_text" = "익명 신고와 letgo를 거래 및 판매를 하기 위한 최고의 장소로 만들 수 있도록 도움을 주셔서 진심으로 감사드립니다.";
 "reporting_listing_report_sent_title" = "신고가 발송되었습니다!";
-"reporting_listing_shouldnt_be_on_letgo_header" = "WHY SHOULDN'T IT BE ON LETGO?";
+"reporting_listing_shouldnt_be_on_letgo_header" = "이 게시글은 왜 letgo에 있어서는 안되나요?";
 "reporting_listing_title" = "게시글 신고";
 "reporting_listing_update_feedback_bad" = "We're sorry to hear that.";
 "reporting_listing_update_feedback_good" = "Awesome!";
@@ -1199,10 +1199,10 @@
 "reporting_reason_weapons" = "무기 혹은 폭력적인 컨텐츠";
 "reporting_reason_wrong_category" = "잘못된 항목에 포함되어 있습니다";
 "reporting_send_report_button" = "Report";
-"reporting_user_inappropriate_chat_header" = "WHAT HAPPENED?";
-"reporting_user_inappropriate_photo_or_bio_header" = "WHICH ONE?";
-"reporting_user_list_header" = "WHY ARE YOU REPORTING THIS USER?";
-"reporting_user_problem_meetup_header" = "WHAT HAPPENED?";
+"reporting_user_inappropriate_chat_header" = "무슨일이 일어났나요?";
+"reporting_user_inappropriate_photo_or_bio_header" = "어떤 것인가요?";
+"reporting_user_list_header" = "해당 사용자를 신고하려는 사유는 무엇인가요?";
+"reporting_user_problem_meetup_header" = "무슨일이 일어났나요?";
 "reporting_user_report_sent_block_user_A_text" = "Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nYou can always block a user to make sure they can no longer see your items or chat with you.";
 "reporting_user_report_sent_block_user_A_with_review_text" = "Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nBe sure to leave a review of this seller to let others know about your experience.\n\nYou can always block a user to make sure they can no longer see your items or chat with you.";
 "reporting_user_report_sent_block_user_B_text" = "Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nOur team will investigate your claim, in the meantime, you can always block a user to make sure they can no longer see your items or chat with you.";
@@ -1214,7 +1214,7 @@
 "reporting_user_report_sent_redirect_item_text" = "Thanks for helping us make letgo the best place to buy and sell locally.\n\nPlease go to the listing and flag the item and we will quickly review it.";
 "reporting_user_report_sent_review_button_title" = "댓글";
 "reporting_user_report_sent_title" = "신고가 발송되었습니다!";
-"reporting_user_suspicious_behavior_header" = "WHAT HAPPENED?";
+"reporting_user_suspicious_behavior_header" = "무슨일이 일어났나요?";
 "reporting_user_title" = "사용자 신고하기";
 "reporting_user_update_text_A" = "Thanks for anonymously reporting %@. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing this account, we've removed it because it violated our Community Guidelines.";
 "reporting_user_update_text_B" = "Thanks for anonymously reporting %@'s profile photo. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing the photo, we've removed it because it violated our Community Guidelines.";

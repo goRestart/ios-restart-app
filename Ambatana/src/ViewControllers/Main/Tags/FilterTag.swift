@@ -10,7 +10,7 @@ import LGCoreKit
 
 enum FilterTag: Equatable {
     case location(Place)
-    case within(ListingTimeCriteria)
+    case within(ListingTimeFilter)
     case orderBy(ListingSortCriteria)
     case category(ListingCategory)
     case taxonomyChild(TaxonomyChild)

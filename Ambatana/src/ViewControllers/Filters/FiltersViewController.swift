@@ -469,9 +469,11 @@ extension FiltersViewController: UICollectionViewDelegate {
         case .servicesInfo:
             switch viewModel.serviceSections[indexPath.item] {
             case .type:
-                viewModel.servicesTypePressed()
+                viewModel.servicesTypeTapped()
             case .subtype:
-                viewModel.servicesSubtypePressed()
+                viewModel.servicesSubtypeTapped()
+            case .unified:
+                viewModel.unifiedServicesFilterTapped()
             }
         case .within:
             viewModel.selectWithinTimeAtIndex(indexPath.row)
@@ -767,6 +769,9 @@ extension FiltersViewController {
                        subtitle: viewModel.selectedServiceSubtypesDisplayName ?? R.Strings.filtersServiceSubtypeNotSet,
                        isTitleEnabled: viewModel.serviceSubtypeCellEnabled,
                        isUserInteractionEnabled: viewModel.serviceSubtypeCellEnabled)
+        case .unified:
+            cell.setup(withTitle: viewModel.currentServiceTypeName ?? serviceSection.title,
+                       subtitle: viewModel.selectedServiceSubtypesDisplayName ?? R.Strings.filtersServiceTypeNotSet)
         }
         return cell
     }
