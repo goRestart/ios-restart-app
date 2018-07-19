@@ -430,10 +430,6 @@ final class ListingDeckViewModel: BaseViewModel {
                                        quickChatViewModel: quickChatViewModel)
     }
 
-    func showUser() {
-        currentListingViewModel?.openProductOwnerProfile()
-    }
-
     func urlAtIndex(_ index: Int) -> URL? {
         guard let urls = currentListingViewModel?.productImageURLs.value else { return nil }
         guard index >= 0 && index < urls.count else { return nil }

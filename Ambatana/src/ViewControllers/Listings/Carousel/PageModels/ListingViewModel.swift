@@ -118,7 +118,6 @@ class ListingViewModel: BaseViewModel {
     lazy var productInfo = Variable<ListingVMProductInfo?>(nil)
     lazy var productMedia = Variable<[Media]>([])
     lazy var productImageURLs = Variable<[URL]>([])
-    lazy var previewURL = Variable<(URL?, Int)>((nil, 0))
 
     let userInfo: Variable<ListingVMUserInfo>
 
@@ -310,10 +309,6 @@ class ListingViewModel: BaseViewModel {
     }
 
     private func setupRxBindings() {
-        productImageURLs.asObservable().bind { [weak self] urls in
-            self?.previewURL.value = (urls.first, urls.count)
-        }.disposed(by: disposeBag)
-
         if let productId = listing.value.objectId {
             listingRepository.updateEvents(for: productId).bind { [weak self] listing in
                 self?.listing.value = listing

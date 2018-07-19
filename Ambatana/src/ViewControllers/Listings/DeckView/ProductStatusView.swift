@@ -1,7 +1,7 @@
 import Foundation
 import LGComponents
 
-class ProductStatusView: UIView {
+final class ProductStatusView: UIView {
 
     private let statusLabel = UILabel()
     private let statusImageView = UIImageView(image: R.Asset.Monetization.icLightning.image)

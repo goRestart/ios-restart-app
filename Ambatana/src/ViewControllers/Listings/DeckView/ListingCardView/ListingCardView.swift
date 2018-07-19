@@ -13,8 +13,6 @@ final class ListingCardView: UICollectionViewCell, ReusableCell {
     weak var delegate: ListingCardViewDelegate?
     private let cardTapGesture = UITapGestureRecognizer()
 
-    private let binder = ListingCardViewBinder()
-
     private let pageControl = ListingCardPageControl()
     private var carousel: ListingCardMediaCarousel?
 
@@ -38,7 +36,6 @@ final class ListingCardView: UICollectionViewCell, ReusableCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        binder.cardView = self
         setupUI()
     }
 
@@ -46,11 +43,6 @@ final class ListingCardView: UICollectionViewCell, ReusableCell {
         super.prepareForReuse()
         previewImageView.image = nil
         carousel = nil
-    }
-
-    func populateWith(cellModel listingViewModel: ListingCardViewCellModel, imageDownloader: ImageDownloaderType) {
-        self.imageDownloader = imageDownloader
-        binder.bind(withViewModel: listingViewModel)
     }
 
     func populateWith(_ model: ListingCardModel, imageDownloader: ImageDownloaderType) {

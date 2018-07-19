@@ -216,7 +216,6 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     func willBeginDragging() {
         lastPageBeforeDragging = listingDeckView.currentPage
         listingDeckView.bumpUpBanner.animateTo(alpha: 0)
-        animatePlayButton(withAlpha: 0)
     }
 
     func didMoveToItemAtIndex(_ index: Int) {
@@ -225,20 +224,15 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
         listingDeckView.cardAtIndex(index - 1)?.isUserInteractionEnabled = false
         listingDeckView.cardAtIndex(index)?.isUserInteractionEnabled = true
         listingDeckView.cardAtIndex(index + 1)?.isUserInteractionEnabled = false
-        animatePlayButton(withAlpha: viewModel.isPlayable ? 1 : 0)
     }
     
     func didEndDecelerating() {
         guard let cell = listingDeckView.cardAtIndex(viewModel.currentIndex) else { return }
         populateCell(cell)
-        animatePlayButton(withAlpha: viewModel.isPlayable ? 1 : 0)
     }
 
     private func populateCell(_ card: ListingCardView) {
         card.isUserInteractionEnabled = true
-
-        guard let listing = viewModel.listingCellModelAt(index: viewModel.currentIndex) else { return }
-        card.populateWith(cellModel: listing, imageDownloader: viewModel.imageDownloader)
     }
 
     func updateViewWithActions(_ actionButtons: [UIAction]) {
@@ -247,7 +241,6 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     }
     
     func updateViewWith(alpha: CGFloat, chatEnabled: Bool, actionsEnabled: Bool) {
-
         let clippedAlpha = min(1.0, alpha)
 
         let actionsAlpha = actionsEnabled ? clippedAlpha : 0
@@ -304,16 +297,6 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
             .visibleCells
             .filter { cell in return cell.tag == cardView.tag }
         return !filtered.isEmpty
-    }
-
-    private func animatePlayButton(withAlpha alpha: CGFloat) {
-        guard viewModel.isPlayable else {
-            listingDeckView.updatePlayButtonWith(alpha: 0)
-            return
-        }
-        UIView.animate(withDuration: 0.3) {
-            self.listingDeckView.updatePlayButtonWith(alpha: alpha)
-        }
     }
 }
 

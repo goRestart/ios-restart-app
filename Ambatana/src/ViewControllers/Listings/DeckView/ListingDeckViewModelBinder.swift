@@ -39,7 +39,5 @@ final class ListingDeckViewModelBinder {
         currentVM.cardDirectChatMessages.subscribeNext { [weak quickChatViewModel] change in
             quickChatViewModel?.performCollectionChange(change: change)
         }.disposed(by:disposeBag)
-
-        quickChatViewModel.directChatPlaceholder.value = currentVM.cardDirectChatPlaceholder
     }
 }

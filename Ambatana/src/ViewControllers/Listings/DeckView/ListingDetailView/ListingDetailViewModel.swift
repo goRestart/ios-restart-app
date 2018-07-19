@@ -39,7 +39,7 @@ final class ListingDetailViewModel: BaseViewModel {
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
         if firstTime {
-            listingViewModel.didBecomeActive(firstTime)
+            listingViewModel.active = true
         }
     }
 
@@ -69,7 +69,7 @@ extension Reactive where Base: ListingDetailViewModel {
     var location: Driver<ListingDetailLocation?> {
         let location = base.listingViewModel.productInfo.asObservable().map { return $0?.location }
         let address = base.listingViewModel.productInfo.asObservable().map { $0?.address }
-        let showExactLocation = base.listingViewModel.cardShowExactLocationOnMap.asObservable()
+        let showExactLocation = base.listingViewModel.showExactLocationOnMap.asObservable()
         return Observable
             .combineLatest(location, address, showExactLocation) { ($0, $1, $2) }
             .asDriver(onErrorJustReturn: nil)
