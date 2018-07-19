@@ -102,9 +102,6 @@ extension AppDelegate: UIApplicationDelegate {
 
         appCoordinator.open()
 
-        let coord = ReportCoordinator(type: .user, reportedId: "1235")
-        appCoordinator.openChild(coordinator: coord, parent: appCoordinator.tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
-
         return deepLinksRouterContinuation || fbSdkContinuation
     }
 

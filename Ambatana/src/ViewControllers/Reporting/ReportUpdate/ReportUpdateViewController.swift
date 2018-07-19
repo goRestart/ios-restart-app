@@ -7,6 +7,7 @@ final class ReportUpdateViewController: BaseViewController {
 
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
+        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Metrics.bigMargin, right: 0)
         return scrollView
     }()
 
@@ -131,8 +132,8 @@ final class ReportUpdateViewController: BaseViewController {
             scrollView.leftAnchor.constraint(equalTo: view.leftAnchor),
             scrollView.rightAnchor.constraint(equalTo: view.rightAnchor),
             containerView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            containerView.leftAnchor.constraint(equalTo: scrollView.leftAnchor),
-            containerView.rightAnchor.constraint(equalTo: scrollView.rightAnchor),
+            containerView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            containerView.rightAnchor.constraint(equalTo: view.rightAnchor),
             containerView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             imageView.topAnchor.constraint(equalTo: containerView.topAnchor),
             imageView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
