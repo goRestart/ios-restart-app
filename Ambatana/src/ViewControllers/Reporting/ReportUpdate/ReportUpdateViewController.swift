@@ -114,7 +114,7 @@ final class ReportUpdateViewController: BaseViewController {
         containerView.addSubviewsForAutoLayout([imageView, titleLabel, messageLabel])
 
         titleLabel.text = viewModel.type.title
-        messageLabel.text = viewModel.type.text
+        messageLabel.attributedText = viewModel.type.attributedText
         imageView.image = R.Asset.Reporting.communityBadge.image
 
         view.addSubviewForAutoLayout(feedbackContainerView)
