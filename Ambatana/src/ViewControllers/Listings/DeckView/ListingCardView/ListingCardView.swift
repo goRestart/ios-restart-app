@@ -5,7 +5,6 @@ import LGCoreKit
 import LGComponents
 
 protocol ListingCardViewDelegate: class {
-    func cardViewDidTapOnStatusView(_ cardView: ListingCardView)
     func cardViewDidTapOnMoreInfo(_ cardView: ListingCardView)
 }
 
@@ -15,9 +14,6 @@ final class ListingCardView: UICollectionViewCell, ReusableCell {
 
     private let pageControl = ListingCardPageControl()
     private var carousel: ListingCardMediaCarousel?
-
-    private let statusView = ProductStatusView()
-    private let statusTapGesture = UITapGestureRecognizer()
 
     private let previewImageView: UIImageView = {
         let imageView = UIImageView()
@@ -50,17 +46,6 @@ final class ListingCardView: UICollectionViewCell, ReusableCell {
         populateWith(media: model.media)
     }
 
-    func populateWith(status: ListingViewModelStatus?, featured: Bool) {
-        guard let listingStatus = status else {
-            statusView.isHidden = true
-            return
-        }
-        statusTapGesture.isEnabled = featured
-        let statusVisible = featured || listingStatus.shouldShowStatus
-        statusView.isHidden = !statusVisible
-        statusView.setFeaturedStatus(listingStatus, featured: featured)
-    }
-
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     func populateWith(media: [Media]) {
@@ -68,6 +53,7 @@ final class ListingCardView: UICollectionViewCell, ReusableCell {
     }
 
     private func updateWith(carousel: ListingCardMediaCarousel) {
+        pageControl.isHidden = carousel.media.count <= 1
         pageControl.setPages(carousel.media.count)
         pageControl.turnOnAt(carousel.current)
         populateWith(media: carousel.media[safeAt: carousel.current])
@@ -83,7 +69,7 @@ final class ListingCardView: UICollectionViewCell, ReusableCell {
     }
 
     private func setupUI() {
-        contentView.addSubviewsForAutoLayout([previewImageView, statusView, pageControl])
+        contentView.addSubviewsForAutoLayout([previewImageView, pageControl])
 
         NSLayoutConstraint.activate([
             previewImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -93,12 +79,8 @@ final class ListingCardView: UICollectionViewCell, ReusableCell {
 
             pageControl.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Metrics.margin),
             pageControl.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metrics.margin),
-            pageControl.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Metrics.margin),
-
-            statusView.topAnchor.constraint(equalTo: pageControl.bottomAnchor, constant: Metrics.margin),
-            statusView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
+            pageControl.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Metrics.margin)
         ])
-        setupStatusView()
         setupTapGesture()
 
         backgroundColor = .clear
@@ -121,19 +103,6 @@ final class ListingCardView: UICollectionViewCell, ReusableCell {
             updateWith(carousel: carousel)
         } else if let carousel = self.carousel?.makeNext() {
             updateWith(carousel: carousel)
-        }
-    }
-
-    private func setupStatusView() {
-        statusTapGesture.addTarget(self, action: #selector(touchUpStatusView))
-        statusView.addGestureRecognizer(statusTapGesture)
-        statusView.isHidden = true
-    }
-
-    @objc private func touchUpStatusView() {
-        statusView.bounce { [weak self] in
-            guard let strongSelf = self else { return }
-            strongSelf.delegate?.cardViewDidTapOnStatusView(strongSelf)
         }
     }
 

@@ -3,6 +3,8 @@ import LGCoreKit
 import RxSwift
 import GoogleMobileAds
 import LGComponents
+import RxSwift
+import RxCocoa
 
 struct Pagination {
     let first: Int
@@ -38,6 +40,14 @@ protocol ListingDeckViewModelDelegate: BaseViewModelDelegate {
 typealias DeckActionOnFirstAppear = ProductCarouselActionOnFirstAppear
 final class ListingDeckViewModel: BaseViewModel {
 
+    let objects = CollectionVariable<ListingCellModel>([])
+
+    let binder: ListingDeckViewModelBinder
+    let currentListingViewModel: ListingViewModel?
+    weak var navigator: ListingDetailNavigator? { didSet { currentListingViewModel?.navigator = navigator } }
+    weak var deckNavigator: DeckNavigator?
+    weak var delegate: ListingDeckViewModelDelegate?
+
     var pagination: Pagination
 
     // Just for pagination
@@ -56,16 +66,12 @@ final class ListingDeckViewModel: BaseViewModel {
     private let source: EventParameterListingVisitSource
     private let listingListRequester: ListingListRequester
     private let userRepository: MyUserRepository
-    private var productsViewModels: [String: ListingViewModel] = [:]
     private let listingViewModelMaker: ListingViewModelMaker
     private let tracker: Tracker
     private let listingTracker: ListingTracker
     private let featureFlags: FeatureFlaggeable
 
     let actionOnFirstAppear: DeckActionOnFirstAppear
-    let objects = CollectionVariable<ListingCellModel>([])
-
-    let binder: ListingDeckViewModelBinder
 
     lazy var actionButtons = Variable<[UIAction]>([])
     var navBarButtons: [UIAction] { return currentListingViewModel?.navBarActionsNewItemPage ?? [] }
@@ -75,33 +81,18 @@ final class ListingDeckViewModel: BaseViewModel {
 
     let imageDownloader: ImageDownloaderType
 
-    weak var delegate: ListingDeckViewModelDelegate?
-
-    weak var currentListingViewModel: ListingViewModel?
-    var isPlayable: Bool { return currentListingViewModel?.isPlayable ?? false }
-
-    weak var navigator: ListingDetailNavigator? { didSet { currentListingViewModel?.navigator = navigator } }
-    weak var deckNavigator: DeckNavigator?
-    var userHasScrolled: Bool = false
-
     override var active: Bool {
-        didSet {
-            productsViewModels.forEach { (_, listingViewModel) in
-                listingViewModel.active = active
-            }
-        }
+        didSet { currentListingViewModel?.active = active }
     }
 
+    var userHasScrolled: Bool = false
     private var shouldShowDeckOnBoarding: Bool {
         return !userHasScrolled && !keyValueStorage[.didShowDeckOnBoarding]
     }
-    var shouldShowCardGesturesOnBoarding: Bool {
-        return !keyValueStorage[.didShowCardGesturesOnBoarding]
-    }
+    var shouldShowCardGesturesOnBoarding: Bool { return !keyValueStorage[.didShowCardGesturesOnBoarding] }
 
     private let keyValueStorage: KeyValueStorageable
-    
-    fileprivate let adsRequester: AdsRequester
+    private let adsRequester: AdsRequester
     
     convenience init(listModels: [ListingCellModel],
                      listing: Listing,
@@ -133,7 +124,7 @@ final class ListingDeckViewModel: BaseViewModel {
     }
 
     convenience init(listModels: [ListingCellModel],
-                     initialListing: Listing?,
+                     initialListing: Listing,
                      listingListRequester: ListingListRequester,
                      detailNavigator: ListingDetailNavigator,
                      source: EventParameterListingVisitSource,
@@ -166,7 +157,7 @@ final class ListingDeckViewModel: BaseViewModel {
     }
 
     init(listModels: [ListingCellModel],
-         initialListing: Listing?,
+         initialListing: Listing,
          listingListRequester: ListingListRequester,
          detailNavigator: ListingDetailNavigator,
          source: EventParameterListingVisitSource,
@@ -211,14 +202,11 @@ final class ListingDeckViewModel: BaseViewModel {
             self.objects.appendContentsOf([initialListing].compactMap{ $0 }.map { .listingCell(listing: $0) })
             self.pagination.isLast = false
         }
-        if let listing = initialListing {
-            startIndex = objects.value.index(where: {
-                guard let aListing = $0.listing else { return false }
-                return aListing.objectId == listing.objectId
-            }) ?? 0
-        } else {
-            startIndex = 0
-        }
+        startIndex = objects.value.index(where: {
+            guard let aListing = $0.listing else { return false }
+            return aListing.objectId == initialListing.objectId
+        }) ?? 0
+        currentListingViewModel = listingViewModelMaker.make(listing: initialListing, visitSource: source)
         currentIndex = startIndex
         super.init()
         self.shouldSyncFirstListing = shouldSyncFirstListing
@@ -232,29 +220,24 @@ final class ListingDeckViewModel: BaseViewModel {
         moveToListingAtIndex(currentIndex, movement: .initial)
     }
 
+
     func moveToListingAtIndex(_ index: Int, movement: DeckMovement) {
-        guard let viewModel = viewModelAt(index: index) else { return }
+        guard let listing = objects.value[safeAt: index]?.listing else { return }
         lastMovement = movement
         if active {
-            currentListingViewModel?.active = false
             currentListingViewModel?.delegate = nil
-            currentListingViewModel = viewModel
+            currentListingViewModel?.listing.value = listing
             currentListingViewModel?.delegate = self
 
             quickChatViewModel.listingViewModel = currentListingViewModel
-            binder.bind(to:viewModel, quickChatViewModel: quickChatViewModel)
+            // TODO: Quick answers not binded yet
+//            binder.bind(to:viewModel, quickChatViewModel: quickChatViewModel)
 
             currentIndex = index
-            prefetchViewModels(index, movement: movement)
             prefetchNeighborsImages(index, movement: movement)
 
-        // Tracking ABIOS-4531
+            // Tracking ABIOS-4531
         }
-    }
-
-    func didMoveToListing() {
-        // embrace a smooth scroll experience with delayed activation
-        delay(0.1) { [weak self] in self?.currentListingViewModel?.active = true }
     }
 
     func didTapCardAction() {
@@ -263,31 +246,6 @@ final class ListingDeckViewModel: BaseViewModel {
         } else {
             currentListingViewModel?.editListing()
         }
-    }
-
-    func listingCellModelAt(index: Int) -> ListingCardViewCellModel? {
-        guard 0..<objectCount ~= index, let listing = objects.value[index].listing else { return nil }
-        return viewModelFor(listing: listing)
-    }
-
-    fileprivate func listingAt(index: Int) -> Listing? {
-        guard 0..<objectCount ~= index, let listing = objects.value[index].listing else { return nil }
-        return listing
-    }
-
-    fileprivate func viewModelAt(index: Int) -> ListingViewModel? {
-        guard let listing = listingAt(index: index) else { return nil }
-        return viewModelFor(listing: listing)
-    }
-
-    func viewModelFor(listing: Listing) -> ListingViewModel? {
-        guard let listingId = listing.objectId else { return nil }
-        if let viewModel = productsViewModels[listingId] {
-            return viewModel
-        }
-        let vm = listingViewModelMaker.make(listing: listing, navigator: navigator, visitSource: source)
-        productsViewModels[listingId] = vm
-        return vm
     }
 
     func performCollectionChange(change: CollectionChange<ChatViewMessage>) {
@@ -415,7 +373,7 @@ final class ListingDeckViewModel: BaseViewModel {
     }
 
     func cachedImageAtIndex(_ index: Int) -> UIImage? {
-        guard let url = urlAtIndex(0),
+        guard let url = currentListingViewModel?.productImageURLs.value[safeAt: index],
             let cached = imageDownloader.cachedImageForUrl(url) else { return nil }
         return cached
     }
@@ -428,13 +386,6 @@ final class ListingDeckViewModel: BaseViewModel {
                                        atIndex: 0,
                                        source: source,
                                        quickChatViewModel: quickChatViewModel)
-    }
-
-    func urlAtIndex(_ index: Int) -> URL? {
-        guard let urls = currentListingViewModel?.productImageURLs.value else { return nil }
-        guard index >= 0 && index < urls.count else { return nil }
-
-        return urls[index]
     }
 
     func showListingDetail(at index: Int) {
@@ -568,12 +519,6 @@ extension ListingDeckViewModel: Paginable {
 
 extension ListingDeckViewModel {
 
-    func prefetchAtIndexes(_ indexes: CountableClosedRange<Int>) {
-        DispatchQueue.global(qos: .background).async { [weak self] in
-            indexes.forEach { _ = self?.viewModelAt(index: $0) }
-        }
-    }
-
     private func prefetchingRange(atIndex index: Int, movement: CarouselMovement) -> CountableClosedRange<Int> {
         let range: CountableClosedRange<Int>
         switch movement {
@@ -587,10 +532,6 @@ extension ListingDeckViewModel {
             range = (index - prefetching.previousCount)...(index + prefetching.nextCount)
         }
         return range
-    }
-
-    func prefetchViewModels(_ index: Int, movement: CarouselMovement) {
-        prefetchAtIndexes(prefetchingRange(atIndex: index, movement: movement))
     }
 
     func prefetchNeighborsImages(_ index: Int, movement: CarouselMovement) {
@@ -609,8 +550,8 @@ extension ListingDeckViewModel {
         for index in range {
             guard !prefetchingIndexes.contains(index) else { continue }
             prefetchingIndexes.append(index)
-            if let imageUrl = listingAt(index: index)?.images.first?.fileURL {
-                imagesToPrefetch.append(imageUrl)
+            if let url = objects.value[safeAt: index]?.listing?.images.first?.fileURL {
+                imagesToPrefetch.append(url)
             }
         }
         imageDownloader.downloadImagesWithURLs(imagesToPrefetch)
@@ -631,5 +572,19 @@ extension ListingDeckViewModel: DeckCollectionViewModel {
         return ListingCardModel(title: model.listing?.title,
                                 price: price,
                                 media: media)
+    }
+}
+
+// MARK: Rx
+
+typealias ListingDeckStatus = (status: ListingViewModelStatus, isFeatured: Bool)
+extension ListingDeckViewModel: ReactiveCompatible {}
+extension Reactive where Base: ListingDeckViewModel {
+    var listingStatus: Driver<ListingDeckStatus> {
+        let status = base.currentListingViewModel?.status.asObservable() ?? .just(.pending)
+        let isFeatured = base.currentListingViewModel?.cardIsFeatured.asObservable()  ?? .just(false)
+
+        let combined = Observable<ListingDeckStatus>.combineLatest(status, isFeatured) { ($0, $1) }
+        return combined.asDriver(onErrorJustReturn: (.pending, false))
     }
 }

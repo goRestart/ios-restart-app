@@ -14,7 +14,8 @@ protocol ListingDeckViewControllerBinderType: class {
     func willBeginDragging()
     func didMoveToItemAtIndex(_ index: Int)
     func didEndDecelerating()
-    
+    func didTapStatus()
+
     func updateViewWith(alpha: CGFloat, chatEnabled: Bool, actionsEnabled: Bool)
     func updateViewWithActions(_ actions: [UIAction])
     
@@ -24,10 +25,10 @@ protocol ListingDeckViewControllerBinderType: class {
 protocol ListingDeckViewType: class {
     var rxCollectionView: Reactive<UICollectionView> { get }
     var rxActionButton: Reactive<LetgoButton> { get }
-    var rxStartPlayingButton: Reactive<UIButton> { get }
+    var rxStatusControlEvent: ControlEvent<UITapGestureRecognizer>? { get }
+
     var currentPage: Int { get }
     func normalizedPageOffset(givenOffset: CGFloat) -> CGFloat
-
     func handleCollectionChange<T>(_ change: CollectionChange<T>, completion: ((Bool) -> Void)?)
 }
 
@@ -79,9 +80,9 @@ final class ListingDeckViewControllerBinder {
             self?.listingDeckViewController?.updateViewWithActions(actionButtons)
         }.disposed(by: disposeBag)
 
-        listingDeckView.rxStartPlayingButton.tap.bind { [weak viewModel] in
-            viewModel?.openVideoPlayer()
-        }.disposed(by: disposeBag)
+        listingDeckView.rxStatusControlEvent?.asDriver().drive(onNext: { [weak self] _ in
+            self?.listingDeckViewController?.didTapStatus()
+        }).disposed(by: disposeBag)
     }
 
     private func bindActionButtonTap(withViewModel viewModel: ListingDeckViewModelType,

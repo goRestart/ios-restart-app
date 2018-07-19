@@ -33,9 +33,7 @@ final class ListingDeckViewModelBinder {
         quickChatViewModel.quickAnswers.value = currentVM.cardQuickAnswers
 
         currentVM.cardDirectChatEnabled.bind(to: quickChatViewModel.chatEnabled).disposed(by: disposeBag)
-
         quickChatViewModel.directChatMessages.removeAll()
-        
         currentVM.cardDirectChatMessages.subscribeNext { [weak quickChatViewModel] change in
             quickChatViewModel?.performCollectionChange(change: change)
         }.disposed(by:disposeBag)

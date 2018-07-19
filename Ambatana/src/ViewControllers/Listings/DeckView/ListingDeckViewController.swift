@@ -21,6 +21,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     private let collectionDataSource: DeckCollectionDataSource
     fileprivate let viewModel: ListingDeckViewModel
     fileprivate let binder = ListingDeckViewControllerBinder()
+    private let disposeBag = DisposeBag()
     private lazy var cardOnBoarding = ListingCardOnBoardingView()
 
     fileprivate var transitioner: PhotoViewerTransitionAnimator?
@@ -101,6 +102,11 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         setupRx()
         reloadData()
         setupInterstitial()
+
+        let bindings = [
+            viewModel.rx.listingStatus.drive(rx.status)
+        ]
+        bindings.forEach { $0.disposed(by: disposeBag) }
     }
 
     override func viewWillDisappearToBackground(_ toBackground: Bool) {
@@ -219,11 +225,14 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     }
 
     func didMoveToItemAtIndex(_ index: Int) {
-        viewModel.didMoveToListing()
         lastPageBeforeDragging = index
         listingDeckView.cardAtIndex(index - 1)?.isUserInteractionEnabled = false
         listingDeckView.cardAtIndex(index)?.isUserInteractionEnabled = true
         listingDeckView.cardAtIndex(index + 1)?.isUserInteractionEnabled = false
+    }
+
+    func didTapStatus() {
+        viewModel.didTapStatusView()
     }
     
     func didEndDecelerating() {
@@ -338,11 +347,6 @@ extension ListingDeckViewController: ListingCardViewDelegate, ListingDeckCollect
         return min(max(0, lastPageBeforeDragging + direction.delta), viewModel.objectCount - 1)
     }
 
-    func cardViewDidTapOnStatusView(_ cardView: ListingCardView) {
-        guard cardView.tag == viewModel.currentIndex else { return }
-        viewModel.didTapStatusView()
-    }
-
     private func currentPageCell() -> ListingCardView? {
         return listingDeckView.cardAtIndex(viewModel.currentIndex)
     }
@@ -368,6 +372,19 @@ extension ListingDeckViewController {
             transitioner?.setImage(cached)
         }
         return transitioner
+    }
+}
+
+// MARK: Rx
+
+extension Reactive where Base: ListingDeckViewController {
+    var status: Binder<ListingDeckStatus?> {
+        return Binder(self.base) { controller, status in
+            guard let status = status else { return }
+            let statusVisible = status.isFeatured || status.status.shouldShowStatus
+            controller.listingDeckView.statusView.isHidden = !statusVisible
+            controller.listingDeckView.statusView.setFeaturedStatus(status.status, featured: status.isFeatured)
+        }
     }
 }
 

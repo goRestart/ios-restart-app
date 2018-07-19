@@ -344,7 +344,9 @@ class ListingViewModel: BaseViewModel {
             self?.refreshNavBarButtons()
         }.disposed(by: disposeBag)
 
-        listing.asObservable().subscribeNext { [weak self] listing in
+        listing
+            .asObservable()
+            .subscribeNext { [weak self] listing in
             guard let strongSelf = self else { return }
             strongSelf.trackHelper.listing = listing
             let isMine = listing.isMine(myUserRepository: strongSelf.myUserRepository)
