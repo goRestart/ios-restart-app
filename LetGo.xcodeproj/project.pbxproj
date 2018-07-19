@@ -287,6 +287,10 @@
 		2E1BC4001E6492230063D1A7 /* ReceiptURLProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1BC3FC1E648C0A0063D1A7 /* ReceiptURLProvider.swift */; };
 		2E200D2020BEEB630054F053 /* ChatConnectionStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E200D1F20BEEB630054F053 /* ChatConnectionStatusView.swift */; };
 		2E200D2120BEEB630054F053 /* ChatConnectionStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E200D1F20BEEB630054F053 /* ChatConnectionStatusView.swift */; };
+		2E212C6520FCC55400FB42B3 /* ChatCallToActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E212C6420FCC55400FB42B3 /* ChatCallToActionCell.swift */; };
+		2E212C6620FCC55400FB42B3 /* ChatCallToActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E212C6420FCC55400FB42B3 /* ChatCallToActionCell.swift */; };
+		2E212C6820FCDEE500FB42B3 /* ChatCallToActionCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E212C6720FCDEE500FB42B3 /* ChatCallToActionCellDrawer.swift */; };
+		2E212C6920FCDEE500FB42B3 /* ChatCallToActionCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E212C6720FCDEE500FB42B3 /* ChatCallToActionCellDrawer.swift */; };
 		2E2208E51DD4BCD800FB2483 /* EmptyCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2208E41DD4BCD800FB2483 /* EmptyCellDrawer.swift */; };
 		2E2208E61DD4BCD800FB2483 /* EmptyCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2208E41DD4BCD800FB2483 /* EmptyCellDrawer.swift */; };
 		2E2208E81DD4BD1100FB2483 /* EmptyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2208E71DD4BD1100FB2483 /* EmptyCell.swift */; };
@@ -2185,6 +2189,8 @@
 		2E151D7520A5D3370038D7C7 /* ChatBlockedUsersCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBlockedUsersCell.swift; sourceTree = "<group>"; };
 		2E1BC3FC1E648C0A0063D1A7 /* ReceiptURLProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReceiptURLProvider.swift; path = Monetization/ReceiptURLProvider.swift; sourceTree = "<group>"; };
 		2E200D1F20BEEB630054F053 /* ChatConnectionStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatConnectionStatusView.swift; sourceTree = "<group>"; };
+		2E212C6420FCC55400FB42B3 /* ChatCallToActionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCallToActionCell.swift; sourceTree = "<group>"; };
+		2E212C6720FCDEE500FB42B3 /* ChatCallToActionCellDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCallToActionCellDrawer.swift; sourceTree = "<group>"; };
 		2E2208E41DD4BCD800FB2483 /* EmptyCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyCellDrawer.swift; sourceTree = "<group>"; };
 		2E2208E71DD4BD1100FB2483 /* EmptyCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyCell.swift; sourceTree = "<group>"; };
 		2E28B1281D99129D001BF8E4 /* CGFloat+rounding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGFloat+rounding.swift"; sourceTree = "<group>"; };
@@ -5701,6 +5707,7 @@
 				C739C1D71D11A2FB0014AD6A /* ChatOtherInfoCellDrawer.swift */,
 				2EE47D2D2017812D004B04EE /* ChatAskPhoneNumberCellDrawer.swift */,
 				8E031CB12033343300CA0ED9 /* ChatInterlocutorIsTypingCellDrawer.swift */,
+				2E212C6720FCDEE500FB42B3 /* ChatCallToActionCellDrawer.swift */,
 			);
 			path = CellDrawers;
 			sourceTree = "<group>";
@@ -5718,6 +5725,7 @@
 				6AF75D031CF3600D00EACCF0 /* ChatStickerCell.swift */,
 				2EE47D2720177653004B04EE /* ChatAskPhoneNumberCell.swift */,
 				8E031CAB20331D2D00CA0ED9 /* ChatInterlocutorIsTypingCell.swift */,
+				2E212C6420FCC55400FB42B3 /* ChatCallToActionCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -7296,6 +7304,7 @@
 				0114DBF820CEA61E00C6DD0B /* NotificationSettingsAccessorListViewController.swift in Sources */,
 				C7B5432D1D758BF9005FBA30 /* VerifyAccountsViewModel.swift in Sources */,
 				D4BFE5B41B640C36006A8CB6 /* MainListingsViewController.swift in Sources */,
+				2E212C6820FCDEE500FB42B3 /* ChatCallToActionCellDrawer.swift in Sources */,
 				C7DE8ADC1C88A8E5005CF37E /* PostListingViewModel.swift in Sources */,
 				72EB705F1E65C63900BF709B /* ModularNotificationCell.swift in Sources */,
 				50146BC21D4F5F5B00B0F635 /* TabCoordinator.swift in Sources */,
@@ -7610,6 +7619,7 @@
 				C77593E51BF0BD310097D62F /* FilterCategoryCell.swift in Sources */,
 				C7E1DE541E51F644003818F6 /* DirectAnswersHorizontalView.swift in Sources */,
 				508AFB0A1E51D1BF0007363D /* AutocompleteField.swift in Sources */,
+				2E212C6520FCC55400FB42B3 /* ChatCallToActionCell.swift in Sources */,
 				727EF06F1E0BE6600037DA4E /* LGLocation+isAuto.swift in Sources */,
 				C6BEE65420EE6ED2008AEA0B /* ListingAttributeTableViewController.swift in Sources */,
 				0A05F383209B375D00F43A67 /* DeckMapViewController.swift in Sources */,
@@ -8127,6 +8137,7 @@
 				0114DBF920CEA61E00C6DD0B /* NotificationSettingsAccessorListViewController.swift in Sources */,
 				C7C61DFD1D630ED800F9505D /* CollectionCell.swift in Sources */,
 				C7B543251D6F49D1005FBA30 /* UIView+Screenshot.swift in Sources */,
+				2E212C6920FCDEE500FB42B3 /* ChatCallToActionCellDrawer.swift in Sources */,
 				50C59BDF1CE0DBC100377124 /* KeyValueStorage.swift in Sources */,
 				C7B5432E1D758BF9005FBA30 /* VerifyAccountsViewModel.swift in Sources */,
 				72EB70601E65C63900BF709B /* ModularNotificationCell.swift in Sources */,
@@ -8441,6 +8452,7 @@
 				2E423794205C003D0077B62A /* ChatMyMeetingCellDrawer.swift in Sources */,
 				C613D0F320BFF3F600344CF2 /* LGPickerSearchBar.swift in Sources */,
 				8E69F3F31E9E30EE00E14F12 /* CategoryDetailTableView.swift in Sources */,
+				2E212C6620FCC55400FB42B3 /* ChatCallToActionCell.swift in Sources */,
 				C7B5884C1CE1DE1C009B3975 /* ChatViewModel.swift in Sources */,
 				C707D4591E9B8C0B00042C03 /* RepositoryError+LG.swift in Sources */,
 				50CFB2F420A2D94800255EE8 /* UserVerificationViewController.swift in Sources */,

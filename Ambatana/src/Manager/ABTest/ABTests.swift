@@ -167,6 +167,7 @@ extension ABTests {
     var showChatConnectionStatusBar: LeanplumABVariable<Int> { return chat.showChatConnectionStatusBar }
     var showChatHeaderWithoutListingForAssistant: LeanplumABVariable<Bool> { return chat.showChatHeaderWithoutListingForAssistant }
     var showChatHeaderWithoutUser: LeanplumABVariable<Bool> { return chat.showChatHeaderWithoutUser }
+    var enableCTAMessageType: LeanplumABVariable<Bool> { return chat.enableCTAMessageType }
 }
 
 //  MARK: Money

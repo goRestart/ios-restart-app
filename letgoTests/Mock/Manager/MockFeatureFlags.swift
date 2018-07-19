@@ -73,6 +73,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var showChatConnectionStatusBar: ShowChatConnectionStatusBar = .control
     var showChatHeaderWithoutListingForAssistant: Bool = true
     var showChatHeaderWithoutUser: Bool = true
+    var enableCTAMessageType: Bool = true
     
     // MARK:  Verticals
     var realEstateMap: RealEstateMap = .control

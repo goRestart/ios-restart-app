@@ -909,6 +909,13 @@ struct TrackerEvent {
         return TrackerEvent(name: .chatLetgoServiceQuestionReceived, params: params)
     }
 
+    static func chatCallToActionTapped(ctaKey: String, isLetgoAssistant: EventParameterBoolean) -> TrackerEvent {
+        var params = EventParameters()
+        params[.messageActionKey] = ctaKey
+        params[.isLetgoAssistant] = isLetgoAssistant.rawValue
+        return TrackerEvent(name: .chatCallToActionTapped, params: params)
+    }
+
     static func profileVisit(_ user: User, profileType: EventParameterProfileType, typePage: EventParameterTypePage, tab: EventParameterTab)
         -> TrackerEvent {
             var params = EventParameters()

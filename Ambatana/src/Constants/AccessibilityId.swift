@@ -1648,6 +1648,8 @@ enum AccessibilityId: Equatable, Accessible {
                 suffix = "OthersMessage"
             case .askPhoneNumber:
                 suffix = "AskPhoneNumber"
+            case .callToAction:
+                suffix = "CallToAction"
             }
             return "chatCellContainer\(suffix)"
         case .chatCellMessageLabel:

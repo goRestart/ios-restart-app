@@ -5336,6 +5336,24 @@ class TrackerEventSpec: QuickSpec {
                     expect(param) == "1234"
                 }
             }
+
+            describe("chat message call to action tapped") {
+                beforeEach {
+                    sut = TrackerEvent.chatCallToActionTapped(ctaKey: "cta-cool-key", isLetgoAssistant: .trueParameter)
+                }
+
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("chat-call-to-action-tapped"))
+                }
+                it("contains the key") {
+                    let param = sut.params!.stringKeyParams["action-key"] as? String
+                    expect(param) == "cta-cool-key"
+                }
+                it("contains if interlocutor is an assistant") {
+                    let param = sut.params!.stringKeyParams["is-letgo-assistant"] as? String
+                    expect(param) == "true"
+                }
+            }
             
             describe("tutorial opens") {
                 beforeEach {

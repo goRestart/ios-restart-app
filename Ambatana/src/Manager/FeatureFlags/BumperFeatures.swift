@@ -75,6 +75,7 @@ extension Bumper  {
         flags.append(ShowChatHeaderWithoutUser.self)
         flags.append(RealEstateMapTooltip.self)
         flags.append(AppInstallAdsInFeed.self)
+        flags.append(EnableCTAMessageType.self)
         flags.append(SearchAlertsInSearchSuggestions.self)
         flags.append(EngagementBadging.self)
         flags.append(ServicesUnifiedFilterScreen.self)
@@ -845,6 +846,19 @@ extension Bumper  {
     static var appInstallAdsInFeedObservable: Observable<AppInstallAdsInFeed> {
         return Bumper.observeValue(for: AppInstallAdsInFeed.key).map {
             AppInstallAdsInFeed(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var enableCTAMessageType: Bool {
+        guard let value = Bumper.value(for: EnableCTAMessageType.key) else { return false }
+        return EnableCTAMessageType(rawValue: value)?.asBool ?? false
+    } 
+
+    #if (RX_BUMPER)
+    static var enableCTAMessageTypeObservable: Observable<Bool> {
+        return Bumper.observeValue(for: EnableCTAMessageType.key).map {
+            EnableCTAMessageType(rawValue: $0 ?? "")?.asBool ?? false
         }
     }
     #endif
@@ -1826,6 +1840,15 @@ enum AppInstallAdsInFeed: String, BumperFeature  {
             default: return .control
         }
     }
+}
+
+enum EnableCTAMessageType: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return EnableCTAMessageType.no.rawValue }
+    static var enumValues: [EnableCTAMessageType] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[CHAT] Enable the CTA message type" } 
+    var asBool: Bool { return self == .yes }
 }
 
 enum SearchAlertsInSearchSuggestions: String, BumperFeature  {

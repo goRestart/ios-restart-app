@@ -210,6 +210,7 @@ enum EventName: String {
     case emailNotificationsEditStart        = "email-notifications-edit-start"
 
     case chatTabOpen                        = "chat-tab-open"
+    case chatCallToActionTapped             = "chat-call-to-action-tapped"
 
 
     // Constants
@@ -403,6 +404,10 @@ enum EventParameterName: String {
     case marketingNotificationsEnabled  = "marketing-notifications-enabled"
 
     case chatTabName          = "tab-name"
+
+    case messageActionKey     = "action-key"
+    case isLetgoAssistant     = "is-letgo-assistant"
+
     
     // Machine Learning
     case mlPredictiveFlow = "predictive-flow"

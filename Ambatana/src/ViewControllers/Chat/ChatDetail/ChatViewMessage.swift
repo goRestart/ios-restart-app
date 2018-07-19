@@ -23,6 +23,7 @@ enum ChatViewMessageType {
                  text: String)
     case multiAnswer(question: ChatQuestion, answers: [ChatAnswer])
     case interlocutorIsTyping
+    case cta(ctaData: ChatCallToActionData, ctas: [ChatCallToAction])
     case unsupported(text: String)
 
     var isAskPhoneNumber: Bool {
@@ -100,6 +101,11 @@ enum ChatViewMessageType {
                 return true
             default: return false
             }
+        case .cta(let rhsCtaData, let rhsCtas):
+            if case .cta(let lhsCtaData, let lhsCtas) = lhs {
+                return lhsCtaData.text == rhsCtaData.text && lhsCtaData.key == rhsCtaData.key
+                    && lhsCtas.map { $0.objectId } == rhsCtas.map { $0.objectId }
+            }
         case .unsupported(let lhsText):
             switch rhs {
             case .unsupported(let rhsText):
@@ -158,7 +164,8 @@ struct ChatViewMessage: BaseModel {
         switch type {
         case .text, .offer:
             return true
-        case .sticker, .disclaimer, .userInfo, .askPhoneNumber, .meeting, .interlocutorIsTyping, .unsupported, .multiAnswer:
+        case .sticker, .disclaimer, .userInfo, .askPhoneNumber, .meeting, .interlocutorIsTyping, .unsupported, .multiAnswer,
+             .cta:
             return false
         }
     }
@@ -183,6 +190,8 @@ struct ChatViewMessage: BaseModel {
             return question.text
         case .interlocutorIsTyping:
             return "..."
+        case .cta(let ctaData, _):
+            return ctaData.text
         case .unsupported(let text):
             return text
         }

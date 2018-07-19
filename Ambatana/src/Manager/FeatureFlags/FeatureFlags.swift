@@ -72,6 +72,7 @@ protocol FeatureFlaggeable: class {
     var showChatConnectionStatusBar: ShowChatConnectionStatusBar { get }
     var showChatHeaderWithoutListingForAssistant: Bool { get }
     var showChatHeaderWithoutUser: Bool { get }
+    var enableCTAMessageType: Bool { get }
 
     // MARK: Verticals
     var realEstateMap: RealEstateMap { get }
@@ -1159,6 +1160,13 @@ extension FeatureFlags {
             return Bumper.showChatHeaderWithoutUser
         }
         return abTests.showChatHeaderWithoutUser.value
+    }
+
+    var enableCTAMessageType: Bool {
+        if Bumper.enabled {
+            return Bumper.enableCTAMessageType
+        }
+        return abTests.enableCTAMessageType.value
     }
 }
 
