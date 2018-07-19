@@ -1158,7 +1158,7 @@
 "report_user_suspcious" = "Şüpheli davranış";
 "report_user_text_placeholder" = "Yorum ekle (isteğe bağlı)";
 "report_user_title" = "Kullanıcıyı Şikayet Et";
-"reporting_additional_notes_placeholder" = "Bu arada, ekibimizin iddianı araştırabilmesi için lütfen ek bilgi ver.";
+"reporting_additional_notes_placeholder" = "Bu sorunu çözmemize yardımcı olmak için başka herhangi bir notun varsa, ekle";
 "reporting_listing_list_header" = "BU İLANI NEDEN RAPOR EDİYORSUN?";
 "reporting_listing_report_sent_text" = "Rapor ettiğin ve letgo'yu yerel alım satım için en ideal yer haline getirmemize yardım ettiğin için teşekkür ederiz.";
 "reporting_listing_report_sent_title" = "Rapor gönderildi!";
@@ -1216,9 +1216,9 @@
 "reporting_user_report_sent_title" = "Rapor gönderildi!";
 "reporting_user_suspicious_behavior_header" = "NE OLDU?";
 "reporting_user_title" = "Kullanıcıyı Şikayet Et";
-"reporting_user_update_text_A" = "Thanks for anonymously reporting %@. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing this account, we've removed it because it violated our Community Guidelines.";
-"reporting_user_update_text_B" = "Thanks for anonymously reporting %@'s profile photo. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing the photo, we've removed it because it violated our Community Guidelines.";
-"reporting_user_update_text_C" = "Thanks for anonymously reporting %@'s bio. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing the bio, we've removed it because it violated our Community Guidelines.";
+"reporting_user_update_text_A" = "%@ isimli kullanıcıyı anonim olarak rapor ettiğin için teşekkürler. Seninki gibi geri bildirimler letgo topluluğunu güvende tutmamıza yardımcı oluyor.\n\nBu hesabı inceledikten sonra kaldırdık, çünkü Topluluk Kurallarımızı ihlal ediyordu.";
+"reporting_user_update_text_B" = "%@ isimli kullanıcının profil fotoğrafını anonim olarak rapor ettiğin için teşekkürler. Seninki gibi geri bildirimler letgo topluluğunu güvende tutmamıza yardımcı oluyor. \n\nFotoğrafı inceledikten sonra kaldırdık, çünkü Topluluk Kurallarımızı ihlal ediyordu.";
+"reporting_user_update_text_C" = "%@ isimli kullanıcın biyografisini anonim olarak rapor ettiğin için teşekkürler. Seninki gibi geri bildirimler letgo topluluğunu güvende tutmamıza yardımcı oluyor. \n\nBiyografiyi inceledikten sonra kaldırdık, çünkü Topluluk Kurallarımızı ihlal ediyordu.";
 "reporting_user_update_title" = "Rapor güncellemesi";
 "reset_password_email_field_hint" = "E-posta adresini gir";
 "reset_password_instructions" = "Lütfen e-posta adresini gir, şifreni yenilemen için sana bir e-posta göndereceğiz.";
@@ -1266,6 +1266,7 @@
 "sell_send_error_invalid_price" = "Lütfen, ilanın için geçerli bir fiyat gir. Fiyat sadece rakamlardan oluşmalıdır.";
 "sell_send_error_invalid_title" = "Lütfen, ilanın için geçerli bir başlık gir.";
 "sell_send_error_sharing_facebook" = "Facebook'ta paylaşırken bir hata oluştu. Lütfen tekrar dene.";
+"sell_share_on_facebook_footer_label" = "Get more visibility and sell faster";
 "sell_share_on_facebook_label" = "Facebook'ta paylaş";
 "sell_title_autogen_autotrans_label" = "letgo tarafından önerilen ve Yandex ile çevrilen başlık";
 "sell_title_autogen_label" = "letgo tarafından önerilen başlık";
@@ -1275,6 +1276,7 @@
 "services_service_subtype_title" = "Hizmet";
 "services_service_type_list_title" = "Hizmet kategorisi";
 "services_service_type_title" = "Hizmet kategorisi";
+"services_unified_filter_title" = "Select a category";
 "settings_change_email_button" = "E-posta";
 "settings_change_location_button" = "Konum";
 "settings_change_password_button" = "Şifre";

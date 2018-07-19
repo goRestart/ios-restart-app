@@ -1266,6 +1266,7 @@
 "sell_send_error_invalid_price" = "Voer een geldige prijs in voor de advertentie. Deze kan enkel cijfers bevatten.";
 "sell_send_error_invalid_title" = "Voer een geldige titel in voor je advertentie.";
 "sell_send_error_sharing_facebook" = "Er is een fout opgetreden bij het delen op Facebook. Probeer het nog eens.";
+"sell_share_on_facebook_footer_label" = "Get more visibility and sell faster";
 "sell_share_on_facebook_label" = "Delen op Facebook";
 "sell_title_autogen_autotrans_label" = "Title voorgesteld door letgo en vertaald door Google";
 "sell_title_autogen_label" = "Titel voorgesteld door letgo";
@@ -1275,6 +1276,7 @@
 "services_service_subtype_title" = "Diensten";
 "services_service_type_list_title" = "Diensten categorie";
 "services_service_type_title" = "Diensten categorie";
+"services_unified_filter_title" = "Select a category";
 "settings_change_email_button" = "E-mail";
 "settings_change_location_button" = "Locatie";
 "settings_change_password_button" = "Wachtwoord";

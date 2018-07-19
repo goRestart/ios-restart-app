@@ -222,6 +222,7 @@ extension ABTests {
     var predictivePosting: LeanplumABVariable<Int> { return products.predictivePosting }
     var videoPosting: LeanplumABVariable<Int> { return products.videoPosting }
     var simplifiedChatButton: LeanplumABVariable<Int> { return products.simplifiedChatButton }
+    var frictionlessShare: LeanplumABVariable<Int> { return products.frictionlessShare }
 }
 
 //  MARK: Legacy

@@ -1279,6 +1279,8 @@
 		8EF1CDB02010F11F00D324F6 /* ChatInactiveConversationDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1CDAE2010F11F00D324F6 /* ChatInactiveConversationDetailsViewModel.swift */; };
 		8EF1CDB22010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1CDB12010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift */; };
 		8EF1CDB32010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1CDB12010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift */; };
+		C202E3F921005A2500E1A5E5 /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = C202E3F821005A2500E1A5E5 /* Checkbox.swift */; };
+		C202E3FA21005A2500E1A5E5 /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = C202E3F821005A2500E1A5E5 /* Checkbox.swift */; };
 		C21E6074208A8828008A1956 /* RecordedVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C21E6073208A8828008A1956 /* RecordedVideo.swift */; };
 		C21E6075208A8828008A1956 /* RecordedVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C21E6073208A8828008A1956 /* RecordedVideo.swift */; };
 		C21E6078208A89AF008A1956 /* VideoPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = C21E6077208A89AF008A1956 /* VideoPreview.swift */; };
@@ -2771,6 +2773,7 @@
 		8EF1CDB12010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInactiveConversationDetailsViewController.swift; sourceTree = "<group>"; };
 		9DB1684F7DACC5DAD148649F /* Pods_letgoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_letgoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A00FF2637A49FDC98C3FB781 /* Pods-LetGoGodMode.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.release.xcconfig"; sourceTree = "<group>"; };
+		C202E3F821005A2500E1A5E5 /* Checkbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checkbox.swift; sourceTree = "<group>"; };
 		C21E6073208A8828008A1956 /* RecordedVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordedVideo.swift; sourceTree = "<group>"; };
 		C21E6077208A89AF008A1956 /* VideoPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPreview.swift; sourceTree = "<group>"; };
 		C25C371520A18DE700B0C9E0 /* ProductsABGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsABGroup.swift; sourceTree = "<group>"; };
@@ -4033,6 +4036,7 @@
 				42B7029920A595840031B9BD /* LGRibbonView.swift */,
 				C6C8936F20C7D4B80069197C /* CardView.swift */,
 				C613D0F120BFF3F100344CF2 /* LGPickerSearchBar.swift */,
+				C202E3F821005A2500E1A5E5 /* Checkbox.swift */,
 			);
 			path = Widgets;
 			sourceTree = "<group>";
@@ -7917,6 +7921,7 @@
 				C7B588891CE1DFA6009B3975 /* ChatMyMessageCell.swift in Sources */,
 				502047181EE99F6E006C0EC2 /* FeatureFlagsDAO.swift in Sources */,
 				50C59BD81CE0DB4400377124 /* UserDefaultsUser.swift in Sources */,
+				C202E3F921005A2500E1A5E5 /* Checkbox.swift in Sources */,
 				2E64D41A1D11B34F00257B69 /* Tooltip.swift in Sources */,
 				0AFE311F2056DCAB004B6781 /* ListingDeckImagePreviewCell.swift in Sources */,
 				0AA6A5671FFFBCD600F72F4A /* LGCGAffineTransform.swift in Sources */,
@@ -8742,6 +8747,7 @@
 				502047191EE99F6E006C0EC2 /* FeatureFlagsDAO.swift in Sources */,
 				50C59BD91CE0DB4400377124 /* UserDefaultsUser.swift in Sources */,
 				2E64D41B1D11B34F00257B69 /* Tooltip.swift in Sources */,
+				C202E3FA21005A2500E1A5E5 /* Checkbox.swift in Sources */,
 				0AFE31202056DCAB004B6781 /* ListingDeckImagePreviewCell.swift in Sources */,
 				0AA6A5681FFFBE7B00F72F4A /* LGCGAffineTransform.swift in Sources */,
 				4287173E20655DB500EE334C /* LGNavBarMetrics.swift in Sources */,

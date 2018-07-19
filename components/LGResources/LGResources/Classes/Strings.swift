@@ -2768,6 +2768,8 @@ extension R {
     public static let sellSendErrorInvalidTitle = Strings.tr("Localizable", "sell_send_error_invalid_title")
     /// An error occurred while sharing on Facebook. Please try again.
     public static let sellSendErrorSharingFacebook = Strings.tr("Localizable", "sell_send_error_sharing_facebook")
+    /// Get more visibility and sell faster
+    public static let sellShareOnFacebookFooterLabel = Strings.tr("Localizable", "sell_share_on_facebook_footer_label")
     /// Share on Facebook
     public static let sellShareOnFacebookLabel = Strings.tr("Localizable", "sell_share_on_facebook_label")
     /// Title suggested by letgo and translated by Google

@@ -91,6 +91,7 @@ protocol FeatureFlaggeable: class {
     var predictivePosting: PredictivePosting { get }
     var videoPosting: VideoPosting { get }
     var simplifiedChatButton: SimplifiedChatButton { get }
+    var frictionlessShare: FrictionlessShare { get }
 
     // MARK: Users
     var advancedReputationSystem: AdvancedReputationSystem { get }
@@ -405,6 +406,10 @@ extension PredictivePosting {
 }
 
 extension VideoPosting {
+    var isActive: Bool { return self == .active }
+}
+
+extension FrictionlessShare {
     var isActive: Bool { return self == .active }
 }
 
@@ -1295,6 +1300,13 @@ extension FeatureFlags {
             return Bumper.simplifiedChatButton
         }
         return SimplifiedChatButton.fromPosition(abTests.simplifiedChatButton.value)
+    }
+
+    var frictionlessShare: FrictionlessShare {
+        if Bumper.enabled {
+            return Bumper.frictionlessShare
+        }
+        return FrictionlessShare.fromPosition(abTests.frictionlessShare.value)
     }
 }
 

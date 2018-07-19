@@ -1158,7 +1158,7 @@
 "report_user_suspcious" = "Ύποπτη συμπεριφορά";
 "report_user_text_placeholder" = "Προσθήκη σχολίου (προαιρετικό)";
 "report_user_title" = "Αναφορά Χρήστη";
-"reporting_additional_notes_placeholder" = "Στο μεταξύ, παρακαλώ παραθέστε επιπλέον πληροφορίες για να μπορέσει η ομάδα μας να ερευνήσει την υπόθεσή σας.";
+"reporting_additional_notes_placeholder" = "Προσθέστε επιπλέον πληροφορίες για να μπορέσει η ομάδα μας να ερευνήσει αυτό το θέμα";
 "reporting_listing_list_header" = "ΓΙΑΤΙ ΚΑΝΕΤΕ ΑΝΑΦΟΡΑ ΑΥΤΗΣ ΤΗΣ ΚΑΤΑΧΩΡΗΣΗΣ;";
 "reporting_listing_report_sent_text" = "Ευχαριστούμε για την ανώνυμη αναφορά και που μας βοηθάτε να κάνουμε το letgo το καλύτερο μέρος αγοραπωλησιών σε τοπικό επίπεδο.";
 "reporting_listing_report_sent_title" = "Αναφορά εστάλη!";
@@ -1216,10 +1216,10 @@
 "reporting_user_report_sent_title" = "Αναφορά εστάλη!";
 "reporting_user_suspicious_behavior_header" = "ΤΙ ΣΥΝΕΒΗ;";
 "reporting_user_title" = "Αναφορά Χρήστη";
-"reporting_user_update_text_A" = "Thanks for anonymously reporting %@. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing this account, we've removed it because it violated our Community Guidelines.";
-"reporting_user_update_text_B" = "Thanks for anonymously reporting %@'s profile photo. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing the photo, we've removed it because it violated our Community Guidelines.";
-"reporting_user_update_text_C" = "Thanks for anonymously reporting %@'s bio. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing the bio, we've removed it because it violated our Community Guidelines.";
-"reporting_user_update_title" = "Report update";
+"reporting_user_update_text_A" = "Ευχαριστούμε για την ανώνυμη αναφορά του %@. Η συμβολή σας βοηθά την κοινότητά μας να παραμένει ασφαλής.\n\nΑφού ελέγξαμε το αντικείμενο, το αφαιρέσαμε καθώς παραβιάζει του Όρους & Προϋποθέσεις της Κοινότητάς μας.";
+"reporting_user_update_text_B" = "Ευχαριστούμε για την ανώνυμη αναφορά της εικόνας προφίλ του %@. Η συμβολή σας βοηθά την κοινότητά μας να παραμένει ασφαλής.\n\nΑφού ελέγξαμε το αντικείμενο, το αφαιρέσαμε καθώς παραβιάζει του Όρους & Προϋποθέσεις της Κοινότητάς μας.";
+"reporting_user_update_text_C" = "Ευχαριστούμε για την ανώνυμη αναφορά του βιογραφικού του %@. Η συμβολή σας βοηθά την κοινότητά μας να παραμένει ασφαλής.\n\nΑφού ελέγξαμε το αντικείμενο, το αφαιρέσαμε καθώς παραβιάζει του Όρους & Προϋποθέσεις της Κοινότητάς μας.";
+"reporting_user_update_title" = "Ενημέρωση αναφοράς";
 "reset_password_email_field_hint" = "Συμπληρώστε το email σας";
 "reset_password_instructions" = "Παρακαλώ, εισάγετε την ηλεκτρονική σας διεύθυνση και θα σας στείλουμε ένα email για να επανακτήσετε τον κωδικό σας.";
 "reset_password_send_button" = "Αποστολή email";
@@ -1266,6 +1266,7 @@
 "sell_send_error_invalid_price" = "Παρακαλώ εισάγετε μία έγκυρη τιμή για την καταχώρησή σας. Θα πρέπει να περιέχει μόνο νούμερα.";
 "sell_send_error_invalid_title" = "Παρακαλώ εισάγετε έναν έγκυρο τίτλο για την καταχώρησή σας.";
 "sell_send_error_sharing_facebook" = "Παρουσιάστηκε σφάλμα κατά την κοινοποίηση στο Facebook. Παρακαλώ, δοκιμάστε ξανά.";
+"sell_share_on_facebook_footer_label" = "Get more visibility and sell faster";
 "sell_share_on_facebook_label" = "Κοινοποίηση στο Facebook";
 "sell_title_autogen_autotrans_label" = "Προτεινόμενος τίτλος από το letgo, μεταφρασμένος από το Google";
 "sell_title_autogen_label" = "Προτεινόμενος τίτλος από το letgo";
@@ -1275,6 +1276,7 @@
 "services_service_subtype_title" = "Υπηρεσία";
 "services_service_type_list_title" = "Κατηγορία υπηρεσίας";
 "services_service_type_title" = "Κατηγορία υπηρεσίας";
+"services_unified_filter_title" = "Select a category";
 "settings_change_email_button" = "Email";
 "settings_change_location_button" = "Τοποθεσία";
 "settings_change_password_button" = "Αλλαγή Κωδικού Πρόσβασης";

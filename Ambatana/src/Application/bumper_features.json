@@ -193,7 +193,7 @@
     {
         "name": "ServicesCategoryOnSalchichasMenu",
         "values": ["control", "baseline", "VariantA", "VariantB", "VariantC"],
-        "description": "Show services category on salchichas menu"
+        "description": "[PRODUCTS] Show services category on salchichas menu"
     },
     {
         "name": "GoogleAdxForTR",
@@ -233,12 +233,12 @@
     {
         "name": "VideoPosting",
         "values": ["control", "baseline", "active"],
-        "description": "Show video posting flow when pressing Other Items and Other Vehicles and Parts on salchichas menu"
+        "description": "[PRODUCTS] Show video posting flow when pressing Other Items and Other Vehicles and Parts on salchichas menu"
     },
     {
         "name": "PredictivePosting",
         "values": ["control", "baseline", "active"],
-        "description": "Show predictive posting flow when pressing Other Items on salchichas menu"
+        "description": "[PRODUCTS] Show predictive posting flow when pressing Other Items on salchichas menu"
     },
     {
         "name": "PreventMessagesFromFeedToProUsers",
@@ -248,7 +248,7 @@
     {
         "name": "SimplifiedChatButton",
         "values": ["control", "baseline", "variantA", "variantB", "variantC", "variantD", "variantE", "variantF"],
-        "description": "Show a simplified chat button on item page"
+        "description": "[PRODUCTS] Show a simplified chat button on item page"
     },
     {
         "name": "ShowChatConnectionStatusBar",
@@ -309,6 +309,10 @@
         "name": "ServicesUnifiedFilterScreen",
         "values": ["control", "baseline", "active"],
         "description": "Show new services filter screen"
+    },
+    {
+        "name": "FrictionlessShare",
+        "values": ["control", "baseline", "active"],
+        "description": "[PRODUCTS] Open facebook share dialog in congrats screen"
     }
-
  ]

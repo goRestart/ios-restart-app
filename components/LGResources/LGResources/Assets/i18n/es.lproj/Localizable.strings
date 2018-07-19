@@ -1266,6 +1266,7 @@
 "sell_send_error_invalid_price" = "Por favor, introduce un precio válido para tu anuncio. Debe ser un número.";
 "sell_send_error_invalid_title" = "Por favor, introduce un título válido para tu anuncio.";
 "sell_send_error_sharing_facebook" = "¡Ups! Se ha producido un error al compartir en Facebook. Por favor, inténtalo de nuevo.";
+"sell_share_on_facebook_footer_label" = "Obtén más visibilidad y vende más rápido";
 "sell_share_on_facebook_label" = "Compartir en Facebook";
 "sell_title_autogen_autotrans_label" = "Título sugerido por letgo y traducido por Google";
 "sell_title_autogen_label" = "Título sugerido por letgo";
@@ -1275,6 +1276,7 @@
 "services_service_subtype_title" = "Servicio";
 "services_service_type_list_title" = "Categoría del servicio";
 "services_service_type_title" = "Categoría del servicio";
+"services_unified_filter_title" = "Selecciona una categoría";
 "settings_change_email_button" = "Email";
 "settings_change_location_button" = "Ubicación";
 "settings_change_password_button" = "Contraseña";
