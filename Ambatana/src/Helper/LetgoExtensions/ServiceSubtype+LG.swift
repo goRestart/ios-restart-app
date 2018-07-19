@@ -21,4 +21,16 @@ extension Array where Element == ServiceSubtype {
         guard !isEmpty else { return nil }
         return compactMap { $0.id }.joined(separator: ",")
     }
+    
+}
+
+//  MARK: - ServiceSubtype+DropdownCellViewModel
+
+extension Collection where Element == ServiceSubtype {
+    var cellRepresentables: [DropdownCellRepresentable] {
+        return self.map {
+            let cellContent = DropdownCellContent(type: .item(featured: $0.isHighlighted), title: $0.name, id: $0.id)
+            return DropdownCellViewModel(withContent: cellContent, state: .disabled)
+        }
+    }
 }

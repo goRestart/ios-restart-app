@@ -37,3 +37,10 @@ extension ServicesFilters: Equatable {
             lhs.subtypes?.count == rhs.subtypes?.count
     }
 }
+
+
+extension ServicesFilters {
+    var selectedSubtypeIds: [String]? {
+        return subtypes?.compactMap({ $0.id })
+    }
+}

@@ -69,6 +69,11 @@ extension FiltersCoordinator: FiltersNavigator {
         viewModel.delegate = vc
         navigationController.pushViewController(vc, animated: true)
     }
+    
+    func openServicesDropdown(viewModel: DropdownViewModel) {
+        let vc = DropdownViewController(withViewModel: viewModel)
+        navigationController.pushViewController(vc, animated: true)
+    }
 
     func closeFilters() {
         closeCoordinator(animated: true, completion: nil)

@@ -937,6 +937,7 @@ extension FiltersViewModel {
     
     private func createUnifiedSelectedServiceDisplayName() -> String? {
         
+
         guard let firstSubtype =
             productFilter.verticalFilters.services.subtypes?.first?.name else {
             return nil
@@ -994,7 +995,11 @@ extension FiltersViewModel {
     }
     
     func unifiedServicesFilterTapped() {
-        // FIXME: Implement in ABIOS-4578 - Open new view
+        let types = servicesInfoRepository.retrieveServiceTypes()
+        let cellRepresentables = types.cellRepresentables
+            .updatedCellRepresentables(withServicesFilters: productFilter.verticalFilters.services)
+        let vm = DropdownViewModel(screenTitle: "", searchPlaceholderTitle: "", attributes: cellRepresentables)
+        navigator?.openServicesDropdown(viewModel: vm)
     }
     
     private func selectedAttributes<T>(forIndexes indexes: [Int],
