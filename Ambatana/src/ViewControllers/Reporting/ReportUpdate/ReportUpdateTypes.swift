@@ -15,4 +15,13 @@ enum ReportUpdateType {
         case .userC(let username): return R.Strings.reportingUserUpdateTextC(username)
         }
     }
+
+    var title: String {
+        switch self {
+        case .product:
+            return R.Strings.reportingListingUpdateTitle
+        case .userA, .userB, .userC:
+            return R.Strings.reportingUserUpdateTitle
+        }
+    }
 }

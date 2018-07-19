@@ -52,7 +52,7 @@ final class ReportSentViewController: BaseViewController {
 
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
-        setNavBarBackgroundStyle(.white)
+        setNavBarBackgroundStyle(.transparent(substyle: .light))
         setNavBarBackButton(R.Asset.IconsButtons.navbarClose.image, selector: #selector(didTapClose))
     }
     
@@ -61,6 +61,7 @@ final class ReportSentViewController: BaseViewController {
     }
 
     private func setupUI() {
+        disableAutomaticAdjustScrollViewInsets(in: scrollView)
         view.addSubviewForAutoLayout(scrollView)
         view.backgroundColor = .white
         scrollView.addSubviewsForAutoLayout([imageView, titleLabel, messageLabel])

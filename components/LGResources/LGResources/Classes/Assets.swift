@@ -77,6 +77,7 @@ extension R {
       public static let stickerError = ImageAsset(name: "sticker_error")
       public static let stripeWhite = ImageAsset(name: "stripe_white")
       public static let tour1 = ImageAsset(name: "tour_1")
+      public static let whitePixel = ImageAsset(name: "white_pixel")
 
       // swiftlint:disable trailing_comma
       public static let allColors: [ColorAsset] = [
@@ -113,6 +114,7 @@ extension R {
         stickerError,
         stripeWhite,
         tour1,
+        whitePixel,
       ]
       // swiftlint:enable trailing_comma
       @available(*, deprecated, renamed: "allImages")

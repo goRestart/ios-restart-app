@@ -73,6 +73,10 @@ final class ReportOptionsListViewController: BaseViewController {
     init(viewModel: ReportOptionsListViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
         setupUI()
         setupRx()
     }
@@ -84,11 +88,13 @@ final class ReportOptionsListViewController: BaseViewController {
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
         setNavBarBackgroundStyle(.white)
+        self.navigationController?.navigationBar.isTranslucent = false
         setNavBarTitle(viewModel.title)
         setNavBarCloseButton(#selector(didTapClose))
     }
 
     private func setupUI() {
+        disableAutomaticAdjustScrollViewInsets(in: tableView)
         bottomContainer.addSubviewForAutoLayout(reportButton)
         view.addSubviewsForAutoLayout([tableView, bottomContainer])
         view.backgroundColor = .white
