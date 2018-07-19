@@ -48,6 +48,13 @@ final class ReportSentViewController: BaseViewController {
         return button
     }()
 
+    private var scrollViewBottomInset: CGFloat = 0 {
+        didSet {
+            scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: scrollViewBottomInset, right: 0)
+            scrollView.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: scrollViewBottomInset, right: 0)
+        }
+    }
+
     private struct Layout {
         static let verticalMargin: CGFloat = 32
         static let imageSize = CGSize(width: 159, height: 159)
@@ -94,7 +101,6 @@ final class ReportSentViewController: BaseViewController {
         titleLabel.text = viewModel.type.title
         messageLabel.attributedText = viewModel.type.attributedMessage(includingReviewText: true, userName: "Isaac R.")
         imageView.image = R.Asset.Reporting.rocket.image
-        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Layout.buttonAreaHeight, right: 0)
     }
 
     private func setupConstraints() {
@@ -115,6 +121,7 @@ final class ReportSentViewController: BaseViewController {
             messageLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
             messageLabel.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: Metrics.margin),
             messageLabel.rightAnchor.constraint(equalTo: scrollView.rightAnchor, constant: -Metrics.margin),
+            messageLabel.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             bottomContainer.topAnchor.constraint(equalTo: safeBottomAnchor, constant: -Layout.buttonAreaHeight),
             bottomContainer.leftAnchor.constraint(equalTo: view.leftAnchor),
             bottomContainer.rightAnchor.constraint(equalTo: view.rightAnchor),
@@ -142,6 +149,8 @@ final class ReportSentViewController: BaseViewController {
         bottomContainer.subviews.forEach { $0.removeFromSuperview() }
         bottomContainer.isHidden = !showBlockAction && !showReviewAction
 
+        scrollViewBottomInset = showBlockAction || showReviewAction ? Layout.buttonAreaHeight : 0
+
         guard showBlockAction || showReviewAction else { return }
 
         if showBlockAction { bottomContainer.addSubviewForAutoLayout(blockButton) }
@@ -164,15 +173,17 @@ final class ReportSentViewController: BaseViewController {
         var constraints: [NSLayoutConstraint] = []
 
         if showBlockAction {
-            constraints.append(blockButton.centerYAnchor.constraint(equalTo: bottomContainer.centerYAnchor))
             constraints.append(blockButton.heightAnchor.constraint(equalToConstant: Layout.buttonHeight))
+            constraints.append(blockButton.topAnchor.constraint(equalTo: bottomContainer.topAnchor,
+                                                                constant: Metrics.margin))
             constraints.append(blockButton.leftAnchor.constraint(equalTo: bottomContainer.leftAnchor,
                                                                  constant: Metrics.margin))
         }
 
         if showReviewAction {
-            constraints.append(reviewButton.centerYAnchor.constraint(equalTo: bottomContainer.centerYAnchor))
             constraints.append(reviewButton.heightAnchor.constraint(equalToConstant: Layout.buttonHeight))
+            constraints.append(reviewButton.topAnchor.constraint(equalTo: bottomContainer.topAnchor,
+                                                                 constant: Metrics.margin))
             constraints.append(reviewButton.rightAnchor.constraint(equalTo: bottomContainer.rightAnchor,
                                                                    constant: -Metrics.margin))
         }
