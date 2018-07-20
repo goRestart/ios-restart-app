@@ -1204,9 +1204,7 @@ extension FeatureFlags {
         if Bumper.enabled {
             return Bumper.carExtraFieldsEnabled
         }
-        
-        return .control
-//        return CarExtraFieldsEnabled.fromPosition(abTests.carExtraFieldsEnabled.value)
+        return CarExtraFieldsEnabled.fromPosition(abTests.carExtraFieldsEnabled.value)
     }
     
     var realEstateMapTooltip: RealEstateMapTooltip {
