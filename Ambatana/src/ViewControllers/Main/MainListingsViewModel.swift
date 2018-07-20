@@ -29,6 +29,11 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         return searchType?.text
     }
     
+    private var cellStyle: CellStyle {
+        let showServiceCell = featureFlags.showServicesFeatures.isActive && filters.hasSelectedCategory(.services)
+        return showServiceCell ? .serviceList : .mainList
+    }
+    
     var clearTextOnSearch: Bool {
         guard let searchType = searchType else { return false }
         switch searchType {
@@ -105,6 +110,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
 
     let infoBubbleVisible = Variable<Bool>(false)
     let infoBubbleText = Variable<String>(R.Strings.productPopularNearYou)
+    let recentItemsBubbleVisible = Variable<Bool>(false)
+    let recentItemsBubbleText = Variable<String>(R.Strings.engagementBadgingFeedBubble)
     let errorMessage = Variable<String?>(nil)
     
     private static let firstVersionNumber = 1
@@ -123,7 +130,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             resultTags.append(.taxonomyChild(taxonomyChild))
         }
 
-        if filters.selectedWithin != ListingTimeCriteria.defaultOption {
+        if filters.selectedWithin.listingTimeCriteria != ListingTimeFilter.defaultOption.listingTimeCriteria {
             resultTags.append(.within(filters.selectedWithin))
         }
         if let selectedOrdering = filters.selectedOrdering, selectedOrdering != ListingSortCriteria.defaultOption {
@@ -144,65 +151,69 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         }
 
         if filters.selectedCategories.contains(.cars) || filters.selectedTaxonomyChildren.containsCarsTaxonomy {
-            if let makeId = filters.carMakeId, let makeName = filters.carMakeName {
+            let carFilters = filters.verticalFilters.cars
+            if let makeId = carFilters.makeId, let makeName = carFilters.makeName {
                 resultTags.append(.make(id: makeId, name: makeName.localizedUppercase))
-                if let modelId = filters.carModelId, let modelName = filters.carModelName {
+                if let modelId = carFilters.modelId, let modelName = carFilters.modelName {
                     resultTags.append(.model(id: modelId, name: modelName.localizedUppercase))
                 }
             }
             
-            if filters.carYearStart != nil || filters.carYearEnd != nil {
-                resultTags.append(.yearsRange(from: filters.carYearStart, to: filters.carYearEnd))
+            if carFilters.yearStart != nil || carFilters.yearEnd != nil {
+                resultTags.append(.yearsRange(from: carFilters.yearStart, to: carFilters.yearEnd))
             }
             
-            if filters.carMileageStart != nil || filters.carMileageEnd != nil {
-                resultTags.append(.mileageRange(from: filters.carMileageStart,
-                                                to: filters.carMileageEnd))
+            if carFilters.mileageStart != nil || carFilters.mileageEnd != nil {
+                resultTags.append(.mileageRange(from: carFilters.mileageStart,
+                                                to: carFilters.mileageEnd))
             }
             
-            if filters.carNumberOfSeatsStart != nil || filters.carNumberOfSeatsEnd != nil {
-                resultTags.append(.numberOfSeats(from: filters.carNumberOfSeatsStart,
-                                                 to: filters.carNumberOfSeatsEnd))
+            if carFilters.numberOfSeatsStart != nil || carFilters.numberOfSeatsEnd != nil {
+                resultTags.append(.numberOfSeats(from: carFilters.numberOfSeatsStart,
+                                                 to: carFilters.numberOfSeatsEnd))
             }
             
 
-            let carSellerTypeTags = filters.carSellerTypes.map { FilterTag.carSellerType(type: $0, name: $0.title) }
-            
+            let carSellerTypeTags = carFilters.sellerTypes.map({ FilterTag.carSellerType(type: $0, name: $0.title) })
             resultTags.append(contentsOf: carSellerTypeTags)
-            
-            filters.carBodyTypes.forEach({ resultTags.append(.carBodyType($0)) })
-            filters.carFuelTypes.forEach({ resultTags.append(.carFuelType($0)) })
-            filters.carDriveTrainTypes.forEach({ resultTags.append(.carDriveTrainType($0)) })
-            filters.carTransmissionTypes.forEach({ resultTags.append(.carTransmissionType($0)) })
+
+            carFilters.bodyTypes.forEach({ resultTags.append(.carBodyType($0)) })
+            carFilters.fuelTypes.forEach({ resultTags.append(.carFuelType($0)) })
+            carFilters.driveTrainTypes.forEach({ resultTags.append(.carDriveTrainType($0)) })
+            carFilters.transmissionTypes.forEach({ resultTags.append(.carTransmissionType($0)) })
         }
         
         if isRealEstateSelected {
-            if let propertyType = filters.realEstatePropertyType {
+            let realEstateFilters = filters.verticalFilters.realEstate
+            if let propertyType = realEstateFilters.propertyType {
                 resultTags.append(.realEstatePropertyType(propertyType))
             }
             
-            filters.realEstateOfferTypes.forEach { resultTags.append(.realEstateOfferType($0)) }
+            realEstateFilters.offerTypes.forEach { resultTags.append(.realEstateOfferType($0)) }
+            
+            if let numberOfBedrooms = realEstateFilters.numberOfBedrooms {
+                resultTags.append(.realEstateNumberOfBedrooms(numberOfBedrooms))
+            }
+            if let numberOfBathrooms = realEstateFilters.numberOfBathrooms {
+                resultTags.append(.realEstateNumberOfBathrooms(numberOfBathrooms))
+            }
+            if let numberOfRooms = realEstateFilters.numberOfRooms {
+                resultTags.append(.realEstateNumberOfRooms(numberOfRooms))
+            }
+            if realEstateFilters.sizeRange.min != nil || realEstateFilters.sizeRange.max != nil {
+                resultTags.append(.sizeSquareMetersRange(from: realEstateFilters.sizeRange.min,
+                                                         to: realEstateFilters.sizeRange.max))
+            }
         }
         
         if isServicesSelected {
-            if let serviceType = filters.servicesType {
+            let servicesFilters = filters.verticalFilters.services
+            
+            if let serviceType = servicesFilters.type {
                 resultTags.append(.serviceType(serviceType))
             }
             
-            filters.servicesSubtypes?.forEach( { resultTags.append(.serviceSubtype($0)) } )
-        }
-        
-        if let numberOfBedrooms = filters.realEstateNumberOfBedrooms {
-            resultTags.append(.realEstateNumberOfBedrooms(numberOfBedrooms))
-        }
-        if let numberOfBathrooms = filters.realEstateNumberOfBathrooms {
-            resultTags.append(.realEstateNumberOfBathrooms(numberOfBathrooms))
-        }
-        if let numberOfRooms = filters.realEstateNumberOfRooms {
-            resultTags.append(.realEstateNumberOfRooms(numberOfRooms))
-        }
-        if filters.realEstateSizeRange.min != nil || filters.realEstateSizeRange.max != nil {
-            resultTags.append(.sizeSquareMetersRange(from: filters.realEstateSizeRange.min, to: filters.realEstateSizeRange.max))
+            servicesFilters.subtypes?.forEach( { resultTags.append(.serviceSubtype($0)) } )
         }
 
         return resultTags
@@ -415,7 +426,6 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         self.requesterDependencyContainer = RequesterDependencyContainer(itemsPerPage: itemsPerPage,
                                                                          filters: filters,
                                                                          queryString: searchType?.query,
-                                                                         carSearchActive: featureFlags.searchCarsIntoNewBackend.isActive,
                                                                          similarSearchActive: featureFlags.emptySearchImprovements.isActive)
         let requesterFactory = SearchRequesterFactory(dependencyContainer: self.requesterDependencyContainer,
                                                       featureFlags: featureFlags)
@@ -547,7 +557,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         var taxonomy: Taxonomy? = nil
         var secondaryTaxonomyChild: TaxonomyChild? = nil
         var orderBy = ListingSortCriteria.defaultOption
-        var within = ListingTimeCriteria.defaultOption
+        var within = ListingTimeFilter.defaultOption
         var minPrice: Int? = nil
         var maxPrice: Int? = nil
         var free: Bool = false
@@ -682,41 +692,41 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             filters.priceRange = .priceRange(min: minPrice, max: maxPrice)
         }
 
-        filters.carSellerTypes = carSellerTypes
+        filters.verticalFilters.cars.sellerTypes = carSellerTypes
         
-        filters.carMakeId = makeId
-        filters.carMakeName = makeName
+        filters.verticalFilters.cars.makeId = makeId
+        filters.verticalFilters.cars.makeName = makeName
         
-        filters.carModelId = modelId
-        filters.carModelName = modelName
+        filters.verticalFilters.cars.modelId = modelId
+        filters.verticalFilters.cars.modelName = modelName
         
-        filters.carYearStart = carYearStart
-        filters.carYearEnd = carYearEnd
+        filters.verticalFilters.cars.yearStart = carYearStart
+        filters.verticalFilters.cars.yearEnd = carYearEnd
         
-        filters.carNumberOfSeatsStart = carNumberOfSeatsStart
-        filters.carNumberOfSeatsEnd = carNumberOfSeatsEnd
-        filters.carMileageStart = carMileageStart
-        filters.carMileageEnd = carMileageEnd
+        filters.verticalFilters.cars.numberOfSeatsStart = carNumberOfSeatsStart
+        filters.verticalFilters.cars.numberOfSeatsEnd = carNumberOfSeatsEnd
+        filters.verticalFilters.cars.mileageStart = carMileageStart
+        filters.verticalFilters.cars.mileageEnd = carMileageEnd
         
-        filters.carBodyTypes = carBodyTypes
-        filters.carFuelTypes = carFuelTypes
-        filters.carTransmissionTypes = carTransmissionTypes
-        filters.carDriveTrainTypes = carDrivetrainTypes
+        filters.verticalFilters.cars.bodyTypes = carBodyTypes
+        filters.verticalFilters.cars.fuelTypes = carFuelTypes
+        filters.verticalFilters.cars.transmissionTypes = carTransmissionTypes
+        filters.verticalFilters.cars.driveTrainTypes = carDrivetrainTypes
         
-        filters.realEstatePropertyType = realEstatePropertyType
-        filters.realEstateOfferTypes = realEstateOfferTypes
-        filters.realEstateNumberOfBedrooms = realEstateNumberOfBedrooms
-        filters.realEstateNumberOfBathrooms = realEstateNumberOfBathrooms
+        filters.verticalFilters.realEstate.propertyType = realEstatePropertyType
+        filters.verticalFilters.realEstate.offerTypes = realEstateOfferTypes
+        filters.verticalFilters.realEstate.numberOfBedrooms = realEstateNumberOfBedrooms
+        filters.verticalFilters.realEstate.numberOfBathrooms = realEstateNumberOfBathrooms
         
-        filters.realEstateNumberOfRooms = realEstateNumberOfRooms
-        filters.realEstateSizeRange = SizeRange(min: realEstateSizeSquareMetersMin, max: realEstateSizeSquareMetersMax)
+        filters.verticalFilters.realEstate.numberOfRooms = realEstateNumberOfRooms
+        filters.verticalFilters.realEstate.sizeRange = SizeRange(min: realEstateSizeSquareMetersMin, max: realEstateSizeSquareMetersMax)
         
-        filters.servicesType = servicesServiceType
+        filters.verticalFilters.services.type = servicesServiceType
         
         if servicesServiceSubtype.count > 0 {
-            filters.servicesSubtypes = servicesServiceSubtype
+            filters.verticalFilters.services.subtypes = servicesServiceSubtype
         } else {
-            filters.servicesSubtypes = nil
+            filters.verticalFilters.services.subtypes = nil
         }
         
         updateCategoriesHeader()
@@ -755,6 +765,10 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         navigator?.openLocationSelection(initialPlace: initialPlace, 
                                          distanceRadius: filters.distanceRadius,
                                          locationDelegate: self)
+    }
+    
+    func recentItemsBubbleTapped() {
+        listViewModel.retrieveRecentItems()
     }
 
     func updateSelectedTaxonomyChildren(taxonomyChildren: [TaxonomyChild]) {
@@ -797,16 +811,15 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         requesterDependencyContainer.updateContainer(itemsPerPage: currentItemsPerPage,
                                                      filters: filters,
                                                      queryString: queryString,
-                                                     carSearchActive: featureFlags.searchCarsIntoNewBackend.isActive,
                                                      similarSearchActive: featureFlags.emptySearchImprovements.isActive)
         let requesterFactory = SearchRequesterFactory(dependencyContainer: requesterDependencyContainer,
                                                       featureFlags: featureFlags)
         listViewModel.updateFactory(requesterFactory)
         listingListRequester = (listViewModel.currentActiveRequester as? ListingListMultiRequester) ?? ListingListMultiRequester()
         infoBubbleVisible.value = false
+        recentItemsBubbleVisible.value = false
         errorMessage.value = nil
-        let showServiceCell = featureFlags.showServicesFeatures.isActive && filters.hasSelectedCategory(.services)
-        listViewModel.cellStyle = showServiceCell ? .serviceList : .mainList
+        listViewModel.cellStyle = cellStyle
         listViewModel.resetUI()
         listViewModel.refresh()
     }
@@ -997,7 +1010,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
 
     func setupProductList() {
         listViewModel.dataDelegate = self
-
+        listViewModel.cellStyle = cellStyle
         listingRepository.events.bind { [weak self] event in
             switch event {
             case let .update(listing):
@@ -1060,7 +1073,6 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                        withResultsCount resultsCount: Int,
                        hasListings: Bool) {
 
-        trackRequestSuccess(page: page, resultsCount: resultsCount, hasListings: hasListings)
         // Only save the string when there is products and we are not searching a collection
         if let search = searchType, hasListings {
             updateLastSearchStored(lastSearch: search)
@@ -1087,6 +1099,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                 listViewModel.setEmptyState(emptyViewModel)
                 filterDescription.value = nil
                 filterTitle.value = nil
+                trackRequestSuccess(page: page, resultsCount: resultsCount, hasListings: hasListings, searchRelatedItems: false)
             } else {
                 listViewModel.retrieveListingsNextPage()
             }
@@ -1097,15 +1110,19 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             let isFirstRequesterInAlwaysSimilarCase = featureFlags.emptySearchImprovements == .alwaysSimilar && requesterType == .nonFilteredFeed
             let isFirstRequesterInOtherCases = featureFlags.emptySearchImprovements != .alwaysSimilar && requesterType != .search
             if isFirstRequesterInAlwaysSimilarCase || isFirstRequesterInOtherCases {
+                trackRequestSuccess(page: page, resultsCount: resultsCount, hasListings: hasListings, searchRelatedItems: true)
                 shouldHideCategoryAfterSearch = true
                 filterDescription.value = featureFlags.emptySearchImprovements.filterDescription
                 filterTitle.value = filterTitleString(forRequesterType: requesterType)
                 updateCategoriesHeader()
             }
+        } else {
+            trackRequestSuccess(page: page, resultsCount: resultsCount, hasListings: hasListings, searchRelatedItems: false)
         }
 
         errorMessage.value = nil
         infoBubbleVisible.value = hasListings && filters.infoBubblePresent
+        recentItemsBubbleVisible.value = showCategoriesCollectionBanner
         if(page == 0) {
             bubbleDistance = 1
         }
@@ -1138,6 +1155,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         }
         errorMessage.value = errorString
         infoBubbleVisible.value = hasProducts && filters.infoBubblePresent
+        recentItemsBubbleVisible.value = showCategoriesCollectionBanner
     }
 
     func listingListVM(_ viewModel: ListingListViewModel, didSelectItemAtIndex index: Int,
@@ -1738,7 +1756,7 @@ fileprivate extension MainListingsViewModel {
     }
     
 
-    func trackRequestSuccess(page: UInt, resultsCount: Int, hasListings: Bool) {
+    private func trackRequestSuccess(page: UInt, resultsCount: Int, hasListings: Bool, searchRelatedItems: Bool) {
         guard page == 0 else { return }
         let successParameter: EventParameterBoolean = hasListings ? .trueParameter : .falseParameter
         let trackerEvent = TrackerEvent.listingList(myUserRepository.myUser,
@@ -1750,11 +1768,14 @@ fileprivate extension MainListingsViewModel {
 
         if let searchType = searchType, let searchQuery = searchType.query, shouldTrackSearch {
             shouldTrackSearch = false
-            let successValue = hasListings ? EventParameterSearchCompleteSuccess.success : EventParameterSearchCompleteSuccess.fail
+            let successValue = searchRelatedItems ? EventParameterSearchCompleteSuccess.fail : EventParameterSearchCompleteSuccess.success
             tracker.trackEvent(TrackerEvent.searchComplete(myUserRepository.myUser, searchQuery: searchQuery,
                                                            isTrending: searchType.isTrending,
-                                                           success: successValue, isLastSearch: searchType.isLastSearch,
-                                                           isSuggestiveSearch: searchType.isSuggestive, suggestiveSearchIndex: searchType.indexSelected))
+                                                           success: successValue,
+                                                           isLastSearch: searchType.isLastSearch,
+                                                           isSuggestiveSearch: searchType.isSuggestive,
+                                                           suggestiveSearchIndex: searchType.indexSelected,
+                                                           searchRelatedItems: searchRelatedItems))
         }
     }
 

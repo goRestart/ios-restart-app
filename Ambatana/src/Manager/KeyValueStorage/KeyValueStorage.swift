@@ -72,6 +72,8 @@ extension DefaultsKeys {
     static let machineLearningOnboardingShown = DefaultsKey<Bool>("machineLearningOnboardingShown")
 
     static let analyticsSessionData = DefaultsKey<AnalyticsSessionData>("analyticsSessionData")
+
+    static let sellAutoShareOnFacebook = DefaultsKey<Bool?>("sellAutoShareOnFacebook")
 }
 
 

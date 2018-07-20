@@ -72,13 +72,15 @@ protocol FeatureFlaggeable: class {
     var showChatConnectionStatusBar: ShowChatConnectionStatusBar { get }
     var showChatHeaderWithoutListingForAssistant: Bool { get }
     var showChatHeaderWithoutUser: Bool { get }
+    var enableCTAMessageType: Bool { get }
+    var expressChatImprovement: ExpressChatImprovement { get }
 
     // MARK: Verticals
-    var searchCarsIntoNewBackend: SearchCarsIntoNewBackend { get }
     var realEstateMap: RealEstateMap { get }
     var showServicesFeatures: ShowServicesFeatures { get }
     var carExtraFieldsEnabled: CarExtraFieldsEnabled { get }
     var realEstateMapTooltip: RealEstateMapTooltip { get }
+    var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen { get }
     
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed { get }
@@ -91,6 +93,7 @@ protocol FeatureFlaggeable: class {
     var predictivePosting: PredictivePosting { get }
     var videoPosting: VideoPosting { get }
     var simplifiedChatButton: SimplifiedChatButton { get }
+    var frictionlessShare: FrictionlessShare { get }
 
     // MARK: Users
     var advancedReputationSystem: AdvancedReputationSystem { get }
@@ -106,6 +109,8 @@ protocol FeatureFlaggeable: class {
     var onboardingIncentivizePosting: OnboardingIncentivizePosting { get }
     var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed { get }
     var notificationSettings: NotificationSettings { get }
+    var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions { get }
+    var engagementBadging: EngagementBadging { get }
 }
 
 extension FeatureFlaggeable {
@@ -190,6 +195,10 @@ extension OnboardingIncentivizePosting {
 }
 
 extension ShowServicesFeatures {
+    var isActive: Bool { return self == .active }
+}
+
+extension ServicesUnifiedFilterScreen {
     var isActive: Bool { return self == .active }
 }
 
@@ -330,10 +339,6 @@ extension FeedAdsProviderForTR {
     }
 }
 
-extension SearchCarsIntoNewBackend {
-    var isActive: Bool { return self == .active }
-}
-
 extension CopyForChatNowInEnglish {
     var isActive: Bool { get { return self != .control } }
     
@@ -403,6 +408,10 @@ extension PredictivePosting {
 }
 
 extension VideoPosting {
+    var isActive: Bool { return self == .active }
+}
+
+extension FrictionlessShare {
     var isActive: Bool { return self == .active }
 }
 
@@ -723,6 +732,21 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.notificationSettings
         }
         return NotificationSettings.fromPosition(abTests.notificationSettings.value)
+    }
+    
+    var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions {
+        if Bumper.enabled {
+            return Bumper.searchAlertsInSearchSuggestions
+        }
+        return SearchAlertsInSearchSuggestions.fromPosition(abTests.searchAlertsInSearchSuggestions.value)
+    }
+    
+    
+    var engagementBadging: EngagementBadging {
+        if Bumper.enabled {
+            return Bumper.engagementBadging
+        }
+        return EngagementBadging.fromPosition(abTests.engagementBadging.value)
     }
     
     // MARK: - Country features
@@ -1080,6 +1104,10 @@ extension ShowChatConnectionStatusBar {
     var isActive: Bool { return self == .active }
 }
 
+extension ExpressChatImprovement {
+    var isActive: Bool { return self == .hideDontAsk || self == .newTitleAndHideDontAsk }
+}
+
 extension FeatureFlags {
     
     var showInactiveConversations: Bool {
@@ -1138,18 +1166,25 @@ extension FeatureFlags {
         }
         return abTests.showChatHeaderWithoutUser.value
     }
+
+    var enableCTAMessageType: Bool {
+        if Bumper.enabled {
+            return Bumper.enableCTAMessageType
+        }
+        return abTests.enableCTAMessageType.value
+    }
+
+    var expressChatImprovement: ExpressChatImprovement {
+        if Bumper.enabled {
+            return Bumper.expressChatImprovement
+        }
+        return  ExpressChatImprovement.fromPosition(abTests.expressChatImprovement.value)
+    }
 }
 
 // MARK: Verticals
 
 extension FeatureFlags {
-    
-    var searchCarsIntoNewBackend: SearchCarsIntoNewBackend {
-        if Bumper.enabled {
-            return Bumper.searchCarsIntoNewBackend
-        }
-        return SearchCarsIntoNewBackend.fromPosition(abTests.searchCarsIntoNewBackend.value)
-    }
     
     var realEstateMap: RealEstateMap {
         if Bumper.enabled {
@@ -1177,6 +1212,14 @@ extension FeatureFlags {
             return Bumper.realEstateMapTooltip
         }
         return RealEstateMapTooltip.fromPosition(abTests.realEstateMapTooltip.value)
+    }
+    
+    var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen {
+        if Bumper.enabled {
+            return Bumper.servicesUnifiedFilterScreen
+        }
+        return .control
+//        return ServicesUnifiedFilterScreen.fromPosition(abTests.servicesUnifiedFilterScreen.value)
     }
 }
 
@@ -1275,6 +1318,13 @@ extension FeatureFlags {
             return Bumper.simplifiedChatButton
         }
         return SimplifiedChatButton.fromPosition(abTests.simplifiedChatButton.value)
+    }
+
+    var frictionlessShare: FrictionlessShare {
+        if Bumper.enabled {
+            return Bumper.frictionlessShare
+        }
+        return FrictionlessShare.fromPosition(abTests.frictionlessShare.value)
     }
 }
 

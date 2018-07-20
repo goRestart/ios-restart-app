@@ -103,7 +103,9 @@ final class LGSliderViewModel {
     }
     
     func selectionLabelText() -> String {
-        if minimumValueSelected == maximumValueSelected {
+        if minimumValueSelected == maximumValueSelected && (minimumValueSelected == minimumValue) {
+            return minimumValueNotSelectedText
+        } else if minimumValueSelected == maximumValueSelected {
             return formattedString(forValue: minimumValueSelected)
         } else {
             if minimumValueSelected == minimumValue {

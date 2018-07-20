@@ -75,7 +75,10 @@ final class LGCamera: NSObject, Camera {
     }
 
     func pause() {
-        session.stopRunning()
+        sessionQueue.async { [weak self] in
+            guard self?.session.isRunning ?? false else { return }
+            self?.session.stopRunning()
+        }
     }
 
     func resume() {

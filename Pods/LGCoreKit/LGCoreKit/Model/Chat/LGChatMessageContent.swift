@@ -17,6 +17,7 @@ enum ChatMessageTypeDecodable: String, Decodable {
     case phone = "phone"
     case meeting = "chat_norris"
     case multiAnswer = "multi_answer"
+    case cta = "call_to_action"
 }
 
 public protocol ChatMessageContent {
@@ -98,6 +99,34 @@ struct LGChatMessageContent: ChatMessageContent, Decodable, Equatable {
                     type = .unsupported(defaultText: defaultText)
                     text = nil
                 }
+            case .cta:
+
+                // FIXME: Apply the correct code once the feature is implemented on backend
+                //        and can be propperly tested.  Until then will be mapped as "unsupported"
+                //        task: https://ambatana.atlassian.net/browse/ABIOS-4600
+                
+                type = .unsupported(defaultText: defaultText)
+                text = nil
+
+                /*
+                if let ctas = try? keyedContainer.decode([LGChatCallToAction].self, forKey: .cta) {
+
+                    let ctaDataKey = try keyedContainer.decodeIfPresent(String.self, forKey: .key)
+                    let ctaDataTitle = try keyedContainer.decode(String.self, forKey: .title)
+                    let ctaDataText = try keyedContainer.decode(String.self, forKey: .text)
+                    let ctaDataImage = try keyedContainer.decode(LGChatCallToActionImage.self, forKey: .image)
+
+                    let ctaData = LGChatCallToActionData(key: ctaDataKey,
+                                                         title: ctaDataTitle,
+                                                         text: ctaDataText,
+                                                         image: ctaDataImage)
+                    type = .cta(ctaData: ctaData, ctas: ctas)
+                    text = nil
+                } else {
+                    type = .unsupported(defaultText: defaultText)
+                    text = nil
+                }
+                 */
             }
         } else {
             type = .unsupported(defaultText: defaultText)
@@ -111,6 +140,9 @@ struct LGChatMessageContent: ChatMessageContent, Decodable, Equatable {
         case unsupportedMessageTypeDescription = "default"
         case key
         case answers
+        case cta
+        case title
+        case image
     }
     
     // MARK: Equatable

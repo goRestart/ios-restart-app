@@ -47,7 +47,7 @@ extension CarBodyType: ListingAttributeGridItem {
         case .sedan:
             return R.Asset.IconsButtons.FiltersCarExtrasIcons.Bodytype.sedan.image
         case .hybrid:
-            return R.Asset.IconsButtons.FiltersCarExtrasIcons.Bodytype.hybrid.image
+            return R.Asset.IconsButtons.FiltersCarExtrasIcons.Bodytype.bodyTypeHybrid.image
         case .hatchback:
             return R.Asset.IconsButtons.FiltersCarExtrasIcons.Bodytype.hatchback.image
         case .convertible:
@@ -148,7 +148,7 @@ extension CarFuelType: ListingAttributeGridItem {
         case .flex:
             return R.Asset.IconsButtons.FiltersCarExtrasIcons.Fueltype.flex.image
         case .hybrid:
-            return R.Asset.IconsButtons.FiltersCarExtrasIcons.Fueltype.hybrid.image
+            return R.Asset.IconsButtons.FiltersCarExtrasIcons.Fueltype.fuelTypeHybrid.image
         }
     }
 }

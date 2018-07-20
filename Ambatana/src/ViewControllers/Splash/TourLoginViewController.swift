@@ -163,10 +163,9 @@ fileprivate extension TourLoginViewController {
         orDividerViews.forEach { lines.append($0.addBottomBorderWithWidth(1, color: UIColor.white)) }
     }
 
-    @objc func openAdminPanel() {
+    @objc private func openAdminPanel() {
         guard AdminViewController.canOpenAdminPanel() else { return }
-        let admin = AdminViewController()
-        let nav = UINavigationController(rootViewController: admin)
+        let nav = UINavigationController(rootViewController: AdminViewController.make())
         present(nav, animated: true, completion: nil)
     }
 }

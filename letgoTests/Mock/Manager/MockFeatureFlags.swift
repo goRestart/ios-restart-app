@@ -73,13 +73,15 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var showChatConnectionStatusBar: ShowChatConnectionStatusBar = .control
     var showChatHeaderWithoutListingForAssistant: Bool = true
     var showChatHeaderWithoutUser: Bool = true
+    var enableCTAMessageType: Bool = true
+    var expressChatImprovement: ExpressChatImprovement = .control
     
     // MARK:  Verticals
-    var searchCarsIntoNewBackend: SearchCarsIntoNewBackend = .control
     var realEstateMap: RealEstateMap = .control
     var showServicesFeatures: ShowServicesFeatures = .control
     var carExtraFieldsEnabled: CarExtraFieldsEnabled = .control
     var realEstateMapTooltip: RealEstateMapTooltip = .control
+    var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen = .control
     
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed = .control
@@ -92,6 +94,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var predictivePosting: PredictivePosting = .control
     var videoPosting: VideoPosting = .control
     var simplifiedChatButton: SimplifiedChatButton = .control
+    var frictionlessShare: FrictionlessShare = .control
 
     // MARK: Users
     var advancedReputationSystem: AdvancedReputationSystem = .control
@@ -109,5 +112,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var onboardingIncentivizePosting: OnboardingIncentivizePosting = .control
     var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed = .control
     var notificationSettings: NotificationSettings = .control
+    var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions = .control
+    var engagementBadging: EngagementBadging = .control
 }
 

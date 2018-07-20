@@ -29,7 +29,14 @@ protocol ListingListViewHeaderDelegate: class {
 
 final class ListingListView: BaseView, CHTCollectionViewDelegateWaterfallLayout, ListingListViewModelDelegate,
 UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    private struct Layout { struct Height { static let errorButton: CGFloat = 50 } }
+    private struct Layout {
+        struct Height {
+            static let errorButton: CGFloat = 50
+        }
+        struct Error {
+            static let top: CGFloat = 64
+        }
+    }
 
     let firstLoadView = ActivityView()
 
@@ -168,12 +175,15 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
     func setErrorViewStyle(bgColor: UIColor?, borderColor: UIColor?, containerColor: UIColor?) {
         if errorView.superview == nil {
-            collectionView.addSubviewForAutoLayout(errorView)
-            NSLayoutConstraint.activate([
-                errorView.topAnchor.constraint(equalTo: collectionView.topAnchor),
-                errorView.leftAnchor.constraint(equalTo: leftAnchor),
-                errorView.rightAnchor.constraint(equalTo: rightAnchor)
-            ])
+            addSubviewForAutoLayout(errorView)
+            
+            if #available(iOS 11.0, *) {
+                NSLayoutConstraint.activate([errorView.topAnchor.constraint(equalTo: topAnchor),
+                                             errorView.leftAnchor.constraint(equalTo: leftAnchor),
+                                             errorView.rightAnchor.constraint(equalTo: rightAnchor)])
+            } else {
+                errorView.layout(with: self).fillHorizontal().top(by: Layout.Error.top)
+            }
             sendSubview(toBack: errorView)
         }
 

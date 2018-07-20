@@ -15,30 +15,6 @@
 			<string>PSTitleValueSpecifier</string>
 		</dict>
 		<dict>
-			<key>DefaultValue</key>
-			<string>Production</string>
-			<key>Key</key>
-			<string>SettingsBundleEnvironment</string>
-			<key>Title</key>
-			<string>Environment</string>
-			<key>Titles</key>
-			<array>
-				<string>Production</string>
-				<string>Canary</string>
-				<string>Staging</string>
-				<string>Escrow</string>
-			</array>
-			<key>Type</key>
-			<string>PSMultiValueSpecifier</string>
-			<key>Values</key>
-			<array>
-				<string>Production</string>
-				<string>Canary</string>
-				<string>Staging</string>
-				<string>Escrow</string>
-			</array>
-		</dict>
-		<dict>
 			<key>File</key>
 			<string>Acknowledgements</string>
 			<key>Title</key>

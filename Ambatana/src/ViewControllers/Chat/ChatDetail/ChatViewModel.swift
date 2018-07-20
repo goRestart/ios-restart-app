@@ -1570,7 +1570,7 @@ extension ChatViewModel {
                 switch $0.type {
                 case .disclaimer, .userInfo, .askPhoneNumber, .interlocutorIsTyping, .multiAnswer:
                     return false
-                case .offer, .sticker, .text, .meeting, .unsupported:
+                case .offer, .sticker, .text, .meeting, .unsupported, .cta:
                     return $0.talkerId != myUserRepository.myUser?.objectId
                 }
             }) else { return nil }
@@ -1982,6 +1982,13 @@ extension ChatViewModel: MeetingAssistantDataDelegate {
 
 
 extension ChatViewModel {
+
+    func openDeeplink(url: URL, trackingKey: String) {
+        let isLetgoAssistant = EventParameterBoolean(bool: isUserDummy)
+        let trackerEvent = TrackerEvent.chatCallToActionTapped(ctaKey: trackingKey, isLetgoAssistant: isLetgoAssistant)
+        tracker.trackEvent(trackerEvent)
+        navigator?.openDeeplink(url: url)
+    }
 
     func acceptMeeting() {
         let acceptedMeeting = LGAssistantMeeting(meetingType: .accepted,
