@@ -98,6 +98,7 @@ protocol FeatureFlaggeable: class {
     var advancedReputationSystem: AdvancedReputationSystem { get }
     var emergencyLocate: EmergencyLocate { get }
     var offensiveReportAlert: OffensiveReportAlert { get }
+    var community: ShowCommunity { get }
     
     // MARK: Money
     var preventMessagesFromFeedToProUsers: PreventMessagesFromFeedToProUsers { get }
@@ -268,6 +269,11 @@ extension RealEstateMap {
 extension AdvancedReputationSystem {
     var isActive: Bool { return self != .baseline && self != .control  }
     var shouldShowTooltip: Bool { return self == .variantB }
+}
+
+extension ShowCommunity {
+    var isActive: Bool {  return self != .baseline && self != .control }
+    var shouldShowOnTab: Bool { return self == .variantB }
 }
 
 extension ShowPasswordlessLogin {
@@ -531,6 +537,7 @@ final class FeatureFlags: FeatureFlaggeable {
             dao.save(advanceReputationSystem: AdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value))
             dao.save(emergencyLocate: EmergencyLocate.fromPosition(abTests.emergencyLocate.value))
             dao.save(chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs.fromPosition(abTests.chatConversationsListWithoutTabs.value))
+            dao.save(community: ShowCommunity.fromPosition(abTests.community.value))
         }
         abTests.variablesUpdated()
     }
@@ -681,6 +688,14 @@ final class FeatureFlags: FeatureFlaggeable {
         }
         let cached = dao.retrieveAdvanceReputationSystem()
         return cached ?? AdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value)
+    }
+
+    var community: ShowCommunity {
+        if Bumper.enabled {
+            return Bumper.showCommunity
+        }
+        let cached = dao.retrieveCommunity()
+        return cached ?? ShowCommunity.fromPosition(abTests.community.value)
     }
     
     var sectionedMainFeed: SectionedMainFeed {

@@ -16,6 +16,7 @@ final class FeatureFlagsUDDAO: FeatureFlagsDAO {
         case advancedReputationSystemEnabled = "advancedReputationSystemEnabled"
         case emergencyLocate = "emergencyLocate"
         case chatConversationsListWithoutTabs = "chatConversationsListWithoutTabs"
+        case community = "community"
     }
 
     fileprivate var dictionary: [String: Any]
@@ -72,6 +73,16 @@ final class FeatureFlagsUDDAO: FeatureFlagsDAO {
     
     func save(chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs) {
         save(key: .chatConversationsListWithoutTabs, value: chatConversationsListWithoutTabs.rawValue)
+        sync()
+    }
+
+    func retrieveCommunity() -> ShowCommunity? {
+        guard let rawValue: String = retrieve(key: .community) else { return nil }
+        return ShowCommunity(rawValue: rawValue)
+    }
+
+    func save(community: ShowCommunity) {
+        save(key: .community, value: community.rawValue)
         sync()
     }
 }
