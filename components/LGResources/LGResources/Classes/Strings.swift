@@ -824,6 +824,8 @@ extension R {
     public static let filterResultsCarsNoMatches = Strings.tr("Localizable", "filter_results_cars_no_matches")
     /// Recently posted in your area
     public static let filterResultsCarsOtherResults = Strings.tr("Localizable", "filter_results_cars_other_results")
+    /// Show more…
+    public static let filterServicesServicesListShowMore = Strings.tr("Localizable", "filter_services_services_list_show_more")
     /// Not Set
     public static let filtersCarMakeNotSet = Strings.tr("Localizable", "filters_car_make_not_set")
     /// Not Set
@@ -1802,7 +1804,7 @@ extension R {
     public static func productPostCameraVideoRecordingMinDurationMessage(_ p1: Int) -> String {
       return Strings.tr("Localizable", "product_post_camera_video_recording_min_duration_message", p1)
     }
-    /// %@ to record a video
+    /// %@ to record video
     public static func productPostCameraVideoRecordingTooltip(_ p1: String) -> String {
       return Strings.tr("Localizable", "product_post_camera_video_recording_tooltip", p1)
     }

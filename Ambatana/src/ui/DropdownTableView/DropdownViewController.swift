@@ -19,13 +19,18 @@ final class DropdownViewController: KeyboardViewController {
         tableView.tintColor = .white
         tableView.indicatorStyle = .white
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Metrics.bigMargin*2, right: 0)
+        tableView.register(type: DropdownHeaderCell.self)
+        tableView.register(type: DropdownItemCell.self)
+        
         return tableView
     }()
     
     private let searchBar = LGPickerSearchBar(withStyle: .darkContent)
     
     private let gradient: GradientView = {
-        let gradient = GradientView(colors: [.clear, .lgBlack], locations: [0.75, 1.0])
+        let gradient = GradientView(colors: [UIColor.white.withAlphaComponent(0.0),
+                                             .white],
+                                    locations: [0.75, 1.0])
         gradient.isUserInteractionEnabled = false
         return gradient
     }()
@@ -41,13 +46,20 @@ final class DropdownViewController: KeyboardViewController {
         self.viewModel = viewModel
         super.init(viewModel: nil, nibName: nil)
         setupUI()
+        setupTableView()
+        setupRx()
     }
     
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
     
     private func setupUI() {
+        view.backgroundColor = .white
         addSubViews()
         addConstraints()
+    }
+    
+    private func setupTableView() {
+        tableView.delegate = self
     }
     
     private func addSubViews() {
@@ -61,8 +73,8 @@ final class DropdownViewController: KeyboardViewController {
                                  searchBar.topAnchor.constraint(equalTo: safeTopAnchor, constant: Metrics.margin),
                                  searchBar.heightAnchor.constraint(equalToConstant: Layout.Search.height)]
         
-        let tableContraints = [tableView.leadingAnchor.constraint(equalTo: searchBar.leadingAnchor),
-                               tableView.trailingAnchor.constraint(equalTo: searchBar.trailingAnchor),
+        let tableContraints = [tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                               tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                                tableView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: Metrics.margin),
                                tableView.bottomAnchor.constraint(equalTo: safeBottomAnchor)]
 
@@ -76,9 +88,39 @@ final class DropdownViewController: KeyboardViewController {
 
     private func setupRx() {
 
+        viewModel.attributesDriver.asObservable().bind(to: tableView.rx.items) { (tableView, row, element) in
+            let indexPath = IndexPath(row: row, section: 0)
+            switch element.content.type {
+            case .header:
+                guard let cell = tableView.dequeue(type: DropdownHeaderCell.self,
+                                                   for: indexPath) else {
+                                                                return UITableViewCell()
+                }
+                
+                cell.setup(withRepresentable: element)
+                return cell
+            case .item:
+                guard let cell = tableView.dequeue(type: DropdownItemCell.self,
+                                                   for: indexPath) else {
+                                                                return UITableViewCell()
+                }
+                
+                cell.setup(withRepresentable: element)
+                return cell
+            }
+        }
+        .disposed(by: disposeBag)
     }
-    
 }
+
+extension DropdownViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView,
+                   heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return viewModel.itemHeight(atIndex: indexPath.item)
+    }
+}
+
 
 private struct Layout {
     struct Search {

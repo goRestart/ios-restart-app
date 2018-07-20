@@ -1333,6 +1333,9 @@
 // Text to display when no min or max value is selected
 "filters_slider_any" = "Any";
 
+// Text to display to show more items
+"filter_services_services_list_show_more" = "Show more…";
+
 // Unit suffix for miles (e.g. the mi in "400,000 mi")
 "mile_unit_suffix" = "mi";
 
@@ -2411,7 +2414,7 @@
 "product_post_camera_permissions_title" = "Allow access to Camera";
 
 // Video posting, tooltip: hold to record a video
-"product_post_camera_video_recording_tooltip" = "%@ to record a video";
+"product_post_camera_video_recording_tooltip" = "%@ to record video";
 
 // Video posting, tooltip: hold to record a video, highlighted hold
 "product_post_camera_video_recording_tooltip_highlighted_word" = "Hold";

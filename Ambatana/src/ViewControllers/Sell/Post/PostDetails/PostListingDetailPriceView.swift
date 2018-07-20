@@ -115,6 +115,7 @@ class PostListingDetailPriceView: BaseView {
             self?.priceTextField.resignFirstResponder()
             self?.viewModel.doneButtonPressed()
         }.disposed(by: disposeBag)
+        
     }
     
     private func showFreeOption(_ show: Bool) {

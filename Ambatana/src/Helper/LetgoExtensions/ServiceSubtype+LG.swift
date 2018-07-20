@@ -1,3 +1,4 @@
+
 import LGCoreKit
 
 extension Array where Element == ServiceSubtype {
@@ -27,10 +28,11 @@ extension Array where Element == ServiceSubtype {
 //  MARK: - ServiceSubtype+DropdownCellViewModel
 
 extension Collection where Element == ServiceSubtype {
+    
     var cellRepresentables: [DropdownCellRepresentable] {
         return self.map {
             let cellContent = DropdownCellContent(type: .item(featured: $0.isHighlighted), title: $0.name, id: $0.id)
-            return DropdownCellViewModel(withContent: cellContent, state: .disabled)
+            return DropdownCellViewModel(withContent: cellContent, state: .deselected)
         }
     }
 }

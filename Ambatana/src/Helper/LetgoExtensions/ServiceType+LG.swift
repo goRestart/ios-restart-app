@@ -1,9 +1,10 @@
 import LGCoreKit
 
 extension ServiceType {
-    var cellRepresentables: [DropdownCellRepresentable] {
+
+    var cellRepresentable: [DropdownCellRepresentable] {
         let cellContent = DropdownCellContent(type: .header, title: self.name, id: self.id)
-        let typeRepresentable = DropdownCellViewModel(withContent: cellContent, state: .disabled)
+        let typeRepresentable = DropdownCellViewModel(withContent: cellContent, state: .deselected)
         return [typeRepresentable] + subTypes.cellRepresentables
     }
     
@@ -15,7 +16,7 @@ extension ServiceType {
 extension Collection where Element == ServiceType {
     var cellRepresentables: [DropdownCellRepresentable] {
         return reduce([]) { (res, nextElement) -> [DropdownCellRepresentable] in
-            return res + nextElement.cellRepresentables
+            return res + nextElement.cellRepresentable
         }
     }
 }

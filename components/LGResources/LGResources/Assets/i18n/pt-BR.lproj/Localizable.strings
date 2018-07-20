@@ -816,7 +816,7 @@
 "product_post_camera_video_mode_button" = "VIDEO";
 "product_post_camera_video_mode_button_new_badge" = "New!";
 "product_post_camera_video_recording_min_duration_message" = "Please record for at least %d seconds";
-"product_post_camera_video_recording_tooltip" = "%@ to record a video";
+"product_post_camera_video_recording_tooltip" = "%@ to record video";
 "product_post_camera_video_recording_tooltip_highlighted_word" = "Hold";
 "product_post_close_alert_close_button" = "Discard";
 "product_post_close_alert_description" = "Do you still want to list it for sale?";
