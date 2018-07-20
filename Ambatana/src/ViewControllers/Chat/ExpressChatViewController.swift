@@ -4,10 +4,15 @@ import LGComponents
 
 class ExpressChatViewController: BaseViewController {
 
+    private enum Layout {
+        static let cellSeparation: CGFloat = 10
+        static let collectionHeight: CGFloat = 250
+        static let marginForButtonToKeyboard: CGFloat = 15
+        static let moreOptionsButtonHeight: CGFloat = 40
+        static let contactSellersButtonTop: CGFloat = 70
+    }
+
     static let collectionCellIdentifier = "ExpressChatCell"
-    static let cellSeparation: CGFloat = 10
-    static let collectionHeight: CGFloat = 250
-    static let marginForButtonToKeyboard: CGFloat = 15
 
     var viewModel: ExpressChatViewModel
 
@@ -18,6 +23,16 @@ class ExpressChatViewController: BaseViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var sendMessageButton: LetgoButton!
     @IBOutlet weak var dontAskAgainButton: UIButton!
+
+    private let moreOptionsButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(R.Asset.IconsButtons.icMoreOptions.image, for: .normal)
+        button.set(accessibilityId: .expressChatMoreOptionsButton)
+        return button
+    }()
+    @IBOutlet weak var contactSellersButtonTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var dontAskAgainButtonTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var dontAskAgainButtonHeightConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var collectionViewHeightConstraint: NSLayoutConstraint!
 
@@ -30,6 +45,7 @@ class ExpressChatViewController: BaseViewController {
     init (viewModel: ExpressChatViewModel, keyboardHelper: KeyboardHelper) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: "ExpressChatViewController")
+        viewModel.delegate = self
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -48,12 +64,16 @@ class ExpressChatViewController: BaseViewController {
     }
 
     func setupUI() {
+        view.backgroundColor = viewModel.hideDontAskAgainButton ? .white : .viewControllerBackground
         closeButton.setImage(R.Asset.CongratsScreenImages.icCloseRed.image, for: .normal)
         scrollView.backgroundColor = .clear
         automaticallyAdjustsScrollViewInsets = false
 
-        dontMissLabel.text = R.Strings.chatExpressDontMissLabel.uppercased()
-        contactSellersLabel.text = R.Strings.chatExpressContactSellersLabel
+        dontMissLabel.text = viewModel.dontMissLabelText
+        dontMissLabel.font = viewModel.dontMissLabelFont
+        dontMissLabel.textAlignment = viewModel.dontMissLabelAlignment
+
+        contactSellersLabel.text = viewModel.contactSellersLabelText
 
         sendMessageButton.setStyle(.primary(fontSize: .big))
         
@@ -64,7 +84,7 @@ class ExpressChatViewController: BaseViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionViewHeightConstraint.constant = viewModel.productListCount > 2 ?
-            ExpressChatViewController.collectionHeight : ExpressChatViewController.collectionHeight/2
+            Layout.collectionHeight : Layout.collectionHeight/2
         let cellNib = UINib(nibName: "ExpressChatCell", bundle: nil)
         collectionView.register(cellNib, forCellWithReuseIdentifier: ExpressChatViewController.collectionCellIdentifier)
         collectionView.allowsMultipleSelection = true
@@ -72,6 +92,33 @@ class ExpressChatViewController: BaseViewController {
         for i in 0...viewModel.productListCount {
             collectionView.selectItem(at: IndexPath(item: i, section: 0), animated: false, scrollPosition: UICollectionViewScrollPosition())
         }
+
+        moreOptionsButton.isHidden = true
+
+        if viewModel.hideDontAskAgainButton {
+            dontAskAgainButton.isHidden = true
+            view.addSubviewForAutoLayout(moreOptionsButton)
+            moreOptionsButton.isHidden = false
+            setupConstraintsForMoreOptionsButton()
+            moreOptionsButton.addTarget(self, action: #selector(openMoreOptionsMenu), for: .touchUpInside)
+
+            contactSellersButtonTopConstraint.constant = Layout.contactSellersButtonTop
+            dontAskAgainButtonTopConstraint.constant = 0
+            dontAskAgainButtonHeightConstraint.constant = 0
+        }
+    }
+
+    private func setupConstraintsForMoreOptionsButton() {
+        NSLayoutConstraint.activate([
+            moreOptionsButton.heightAnchor.constraint(equalToConstant: Layout.moreOptionsButtonHeight),
+            moreOptionsButton.widthAnchor.constraint(equalToConstant: Layout.moreOptionsButtonHeight),
+            moreOptionsButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -Metrics.shortMargin),
+            moreOptionsButton.centerYAnchor.constraint(equalTo: closeButton.centerYAnchor)
+            ])
+    }
+
+    @objc private func openMoreOptionsMenu() {
+        viewModel.openMoreOptionsMenu()
     }
 
     func setupRX() {
@@ -97,7 +144,7 @@ extension ExpressChatViewController: UICollectionViewDataSource, UICollectionVie
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let cellSize = (UIScreen.main.bounds.width - (ExpressChatViewController.cellSeparation*3))/2
+        let cellSize = (UIScreen.main.bounds.width - (Layout.cellSeparation*3))/2
         return CGSize(width: cellSize, height: cellSize)
     }
 
@@ -115,7 +162,8 @@ extension ExpressChatViewController: UICollectionViewDataSource, UICollectionVie
         let title = viewModel.titleForItemAtIndex(indexPath.item)
         let imageURL = viewModel.imageURLForItemAtIndex(indexPath.item)
         let price = viewModel.priceForItemAtIndex(indexPath.item)
-        cell.configureCellWithTitle(title, imageUrl: imageURL, price: price)
+        let cellCornerRadius = viewModel.hideDontAskAgainButton ? LGUIKitConstants.mediumCornerRadius : LGUIKitConstants.smallCornerRadius
+        cell.configureCellWithTitle(title, imageUrl: imageURL, price: price, cornerRadius: cellCornerRadius)
         return cell
     }
 
@@ -127,14 +175,6 @@ extension ExpressChatViewController: UICollectionViewDataSource, UICollectionVie
         viewModel.deselectItemAtIndex(indexPath.item)
     }
 }
-
-
-extension ExpressChatViewController: ExpressChatViewModelDelegate {
-    func sendMessageSuccess() {
-
-    }
-}
-
 
 extension ExpressChatViewController {
     func setupAccessibilityIds() {

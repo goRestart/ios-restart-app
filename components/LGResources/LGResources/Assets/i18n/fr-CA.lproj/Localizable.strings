@@ -149,10 +149,12 @@
 "chat_express_banner_button_title" = "Voir les Aubaines";
 "chat_express_banner_title" = "Aubaines similaires à proximité";
 "chat_express_contact_one_button_text" = "Contacter 1 vendeur";
+"chat_express_contact_only_button_text" = "Contact";
 "chat_express_contact_sellers_label" = "Contactez ces vendeurs avant que d'autres acheteurs ne le fassent !";
 "chat_express_contact_various_button_text" = "Contacter %@ vendeurs";
 "chat_express_dont_ask_again_button" = "Ne pas me redemander";
 "chat_express_dont_miss_label" = "Ne manquez pas ces aubaines";
+"chat_express_high_demand_label" = "In high demand!  Don't miss out on these deals";
 "chat_express_one_message_sent_success_alert" = "Votre message a été envoyé !";
 "chat_express_several_messages_sent_success_alert" = "Vos messages ont été envoyés !";
 "chat_express_text_field_text" = "Toujours disponible ?";
@@ -373,6 +375,7 @@
 "filter_cars_seats_title" = "Sièges";
 "filter_results_cars_no_matches" = "Aucune réponse exacte à votre recherche.\nAffichage de résultats similaires. ";
 "filter_results_cars_other_results" = "Publié récemment dans votre secteur";
+"filter_services_services_list_show_more" = "Afficher plus";
 "filters_car_make_not_set" = "Non Communiqué";
 "filters_car_model_not_set" = "Non Communiqué";
 "filters_car_seller_type_all" = "Tous";
@@ -1216,7 +1219,7 @@
 "reporting_user_report_sent_title" = "Information envoyée !";
 "reporting_user_suspicious_behavior_header" = "QUE S'EST-IL PASSÉ ?";
 "reporting_user_title" = "Signaler Utilisateur";
-"reporting_user_update_text_A" = "Merci d'avoir anonymement signalé %@. Des commentaires comme le vôtre nous aident à faire de letgo une communauté sécuritaire. \n\nAprès avoir évalué ce compte, nous l'avons retiré, car il violait nos Directives Communautaires.";
+"reporting_user_update_text_A" = "Merci d'avoir anonymement signalé %@. Des commentaires comme le vôtre nous aident à faire de letgo une communauté sécuritaire.\n\nAprès avoir évalué ce compte, nous l'avons retiré, car il violait nos Directives Communautaires.";
 "reporting_user_update_text_B" = "Merci d'avoir anonymement signalé la photo de profil de %@. Des commentaires comme le vôtre nous aident à faire de letgo une communauté sécuritaire. \n\nAprès avoir évalué la photo, nous l'avons retirée, car elle violait nos Directives Communautaires.";
 "reporting_user_update_text_C" = "Merci d'avoir anonymement signalé la bio de %@. Des commentaires comme le vôtre nous aident à faire de letgo une communauté sécuritaire. \n\nAprès avoir évalué cette bio, nous l'avons retirée, car elle violait nos Directives Communautaires.";
 "reporting_user_update_title" = "Suivi du signalement";
@@ -1266,7 +1269,7 @@
 "sell_send_error_invalid_price" = "Veuillez entrer un prix valide pour votre annonce. Le prix ne doit comporter que des nombres.";
 "sell_send_error_invalid_title" = "Veuillez entrer un titre valide pour votre annonce.";
 "sell_send_error_sharing_facebook" = "Une erreur est survenue lors du partage sur Facebook. Veuillez réessayer.";
-"sell_share_on_facebook_footer_label" = "Get more visibility and sell faster";
+"sell_share_on_facebook_footer_label" = "Obtenez plus de visibilité et vendez plus vite";
 "sell_share_on_facebook_label" = "Partager sur Facebook";
 "sell_title_autogen_autotrans_label" = "Titre suggéré par letgo et traduit par Google";
 "sell_title_autogen_label" = "Titre suggéré par letgo";
@@ -1276,7 +1279,7 @@
 "services_service_subtype_title" = "Service";
 "services_service_type_list_title" = "Catégorie de service";
 "services_service_type_title" = "Catégorie de service";
-"services_unified_filter_title" = "Select a category";
+"services_unified_filter_title" = "Sélectionnez une catégorie";
 "settings_change_email_button" = "Courriel";
 "settings_change_location_button" = "Localisation";
 "settings_change_password_button" = "Mot de passe";

@@ -80,6 +80,7 @@ extension Bumper  {
         flags.append(EngagementBadging.self)
         flags.append(ServicesUnifiedFilterScreen.self)
         flags.append(FrictionlessShare.self)
+        flags.append(ExpressChatImprovement.self)
         Bumper.initialize(flags)
     } 
 
@@ -911,6 +912,19 @@ extension Bumper  {
     static var frictionlessShareObservable: Observable<FrictionlessShare> {
         return Bumper.observeValue(for: FrictionlessShare.key).map {
             FrictionlessShare(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var expressChatImprovement: ExpressChatImprovement {
+        guard let value = Bumper.value(for: ExpressChatImprovement.key) else { return .control }
+        return ExpressChatImprovement(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var expressChatImprovementObservable: Observable<ExpressChatImprovement> {
+        return Bumper.observeValue(for: ExpressChatImprovement.key).map {
+            ExpressChatImprovement(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1910,6 +1924,23 @@ enum FrictionlessShare: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum ExpressChatImprovement: String, BumperFeature  {
+    case control, baseline, hideDontAsk, newTitleAndHideDontAsk
+    static var defaultValue: String { return ExpressChatImprovement.control.rawValue }
+    static var enumValues: [ExpressChatImprovement] { return [.control, .baseline, .hideDontAsk, .newTitleAndHideDontAsk]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[CHAT] Express chat improvements" } 
+    static func fromPosition(_ position: Int) -> ExpressChatImprovement {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .hideDontAsk
+            case 3: return .newTitleAndHideDontAsk
             default: return .control
         }
     }

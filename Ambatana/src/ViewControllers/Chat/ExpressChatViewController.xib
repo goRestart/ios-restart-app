@@ -15,8 +15,11 @@
                 <outlet property="closeButton" destination="PHV-LZ-dM9" id="5Kg-AH-3hv"/>
                 <outlet property="collectionView" destination="uUB-Kl-UFa" id="H9v-hd-QN7"/>
                 <outlet property="collectionViewHeightConstraint" destination="tm1-Ag-7je" id="i4p-5d-1zk"/>
+                <outlet property="contactSellersButtonTopConstraint" destination="Un6-Jl-9ay" id="BsU-ar-tum"/>
                 <outlet property="contactSellersLabel" destination="Nsv-Aa-WGV" id="aDf-Yl-VDM"/>
                 <outlet property="dontAskAgainButton" destination="512-gx-lJk" id="IhR-Hu-qE7"/>
+                <outlet property="dontAskAgainButtonHeightConstraint" destination="oGq-GQ-pOc" id="4ku-W3-AKN"/>
+                <outlet property="dontAskAgainButtonTopConstraint" destination="0Fc-GR-A2Q" id="Xdk-6y-5n1"/>
                 <outlet property="dontMissLabel" destination="2ja-pJ-I95" id="Qkn-7R-WGp"/>
                 <outlet property="scrollView" destination="O2k-0L-ux0" id="h7b-tq-Of2"/>
                 <outlet property="sendMessageButton" destination="BII-8c-slG" id="WVL-NG-K5U"/>
@@ -32,13 +35,16 @@
                     <rect key="frame" x="0.0" y="44" width="375" height="623"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Contact this sellers before other buyers snatch them up!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nsv-Aa-WGV">
-                            <rect key="frame" x="40" y="32.5" width="295" height="36"/>
+                            <rect key="frame" x="40" y="52.5" width="295" height="36"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="512-gx-lJk">
-                            <rect key="frame" x="107.5" y="553.5" width="160" height="30"/>
+                            <rect key="frame" x="107.5" y="573.5" width="160" height="30"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="30" id="oGq-GQ-pOc"/>
+                            </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <state key="normal" title="_DON'T ASK ME AGAIN">
                                 <color key="titleColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -48,13 +54,13 @@
                             </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Don't miss out on these bargains" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ja-pJ-I95">
-                            <rect key="frame" x="40" y="0.0" width="295" height="20.5"/>
+                            <rect key="frame" x="15" y="20" width="345" height="20.5"/>
                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BII-8c-slG" customClass="LetgoButton" customModule="LGComponents">
-                            <rect key="frame" x="15" y="483.5" width="345" height="50"/>
+                            <rect key="frame" x="15" y="503.5" width="345" height="50"/>
                             <color key="backgroundColor" red="0.98660099506378174" green="0.14062686264514923" blue="0.26615336537361145" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="50" id="fXB-AP-lvS"/>
@@ -66,7 +72,7 @@
                             </connections>
                         </button>
                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="uUB-Kl-UFa">
-                            <rect key="frame" x="0.0" y="88.5" width="375" height="375"/>
+                            <rect key="frame" x="0.0" y="108.5" width="375" height="375"/>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="250" id="hOu-QH-9PS"/>
@@ -90,7 +96,7 @@
                     <constraints>
                         <constraint firstItem="512-gx-lJk" firstAttribute="top" secondItem="BII-8c-slG" secondAttribute="bottom" constant="20" id="0Fc-GR-A2Q"/>
                         <constraint firstItem="uUB-Kl-UFa" firstAttribute="leading" secondItem="O2k-0L-ux0" secondAttribute="leading" id="16d-H6-NTg"/>
-                        <constraint firstItem="2ja-pJ-I95" firstAttribute="leading" secondItem="O2k-0L-ux0" secondAttribute="leading" constant="40" id="43j-3l-sSu"/>
+                        <constraint firstItem="2ja-pJ-I95" firstAttribute="leading" secondItem="O2k-0L-ux0" secondAttribute="leading" constant="15" id="43j-3l-sSu"/>
                         <constraint firstItem="BII-8c-slG" firstAttribute="leading" secondItem="O2k-0L-ux0" secondAttribute="leading" constant="15" id="67k-56-njz"/>
                         <constraint firstAttribute="trailing" secondItem="BII-8c-slG" secondAttribute="trailing" constant="15" id="Dpa-s2-3D4"/>
                         <constraint firstAttribute="trailing" secondItem="uUB-Kl-UFa" secondAttribute="trailing" id="FVw-Ki-wL4"/>
@@ -99,12 +105,12 @@
                         <constraint firstItem="Nsv-Aa-WGV" firstAttribute="leading" secondItem="O2k-0L-ux0" secondAttribute="leading" constant="40" id="V7x-1y-oqY"/>
                         <constraint firstItem="uUB-Kl-UFa" firstAttribute="top" secondItem="Nsv-Aa-WGV" secondAttribute="bottom" constant="20" id="Wxv-Tb-WtJ"/>
                         <constraint firstItem="uUB-Kl-UFa" firstAttribute="centerX" secondItem="O2k-0L-ux0" secondAttribute="centerX" id="XIJ-qM-g9s"/>
-                        <constraint firstItem="2ja-pJ-I95" firstAttribute="top" secondItem="O2k-0L-ux0" secondAttribute="top" id="ZHL-g4-k3k"/>
+                        <constraint firstItem="2ja-pJ-I95" firstAttribute="top" secondItem="O2k-0L-ux0" secondAttribute="top" constant="20" id="ZHL-g4-k3k"/>
                         <constraint firstItem="Nsv-Aa-WGV" firstAttribute="top" secondItem="2ja-pJ-I95" secondAttribute="bottom" constant="12" id="e81-iE-uEg"/>
                         <constraint firstAttribute="trailing" secondItem="Nsv-Aa-WGV" secondAttribute="trailing" constant="40" id="gpl-35-MyI"/>
                         <constraint firstItem="Nsv-Aa-WGV" firstAttribute="centerX" secondItem="O2k-0L-ux0" secondAttribute="centerX" id="q0j-TI-hyL"/>
                         <constraint firstItem="2ja-pJ-I95" firstAttribute="centerX" secondItem="O2k-0L-ux0" secondAttribute="centerX" id="rqA-SR-MHM"/>
-                        <constraint firstAttribute="trailing" secondItem="2ja-pJ-I95" secondAttribute="trailing" constant="40" id="wWK-6A-kFw"/>
+                        <constraint firstAttribute="trailing" secondItem="2ja-pJ-I95" secondAttribute="trailing" constant="15" id="wWK-6A-kFw"/>
                         <constraint firstAttribute="bottom" secondItem="512-gx-lJk" secondAttribute="bottom" constant="20" id="woz-W4-PWy"/>
                         <constraint firstItem="512-gx-lJk" firstAttribute="centerX" secondItem="O2k-0L-ux0" secondAttribute="centerX" id="yLE-VL-TFS"/>
                     </constraints>

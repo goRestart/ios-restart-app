@@ -620,6 +620,7 @@ enum AccessibilityId: Equatable, Accessible {
     case expressChatCollection
     case expressChatSendButton
     case expressChatDontAskButton
+    case expressChatMoreOptionsButton
 
     // Express chat cell
     case expressChatCell
@@ -1922,6 +1923,8 @@ enum AccessibilityId: Equatable, Accessible {
             return "expressChatSendButton"
         case .expressChatDontAskButton:
             return "expressChatDontAskButton"
+        case .expressChatMoreOptionsButton:
+            return "expressChatMoreOptionsButton"
             
         // Express chat cell
         case .expressChatCell:

@@ -149,10 +149,12 @@
 "chat_express_banner_button_title" = "Se fynd";
 "chat_express_banner_title" = "Liknande fynd nära dig";
 "chat_express_contact_one_button_text" = "Kontakta 1 säljare";
+"chat_express_contact_only_button_text" = "Contact";
 "chat_express_contact_sellers_label" = "Kontakta dessa säljare innan andra köpare hittar dem!";
 "chat_express_contact_various_button_text" = "Kontakta %@ säljare";
 "chat_express_dont_ask_again_button" = "Fråga mig inte igen";
 "chat_express_dont_miss_label" = "Missa inte dessa fynd";
+"chat_express_high_demand_label" = "In high demand!  Don't miss out on these deals";
 "chat_express_one_message_sent_success_alert" = "Ditt meddelande har skickats!";
 "chat_express_several_messages_sent_success_alert" = "Dina meddelanden har skickats!";
 "chat_express_text_field_text" = "Hej, är den fortfarande till salu?";
@@ -373,6 +375,7 @@
 "filter_cars_seats_title" = "Säten";
 "filter_results_cars_no_matches" = "Din sökning gav ingen träff. \nLiknande resultat visas. ";
 "filter_results_cars_other_results" = "Nyligen upplagda i ditt område";
+"filter_services_services_list_show_more" = "Visa mer";
 "filters_car_make_not_set" = "Ej Valt";
 "filters_car_model_not_set" = "Ej Vald";
 "filters_car_seller_type_all" = "Alla";
@@ -1266,7 +1269,7 @@
 "sell_send_error_invalid_price" = "Var god ange ett giltigt pris för annonsen. Använd endast siffror.";
 "sell_send_error_invalid_title" = "Vad god ange en giltig titel för annonsen.";
 "sell_send_error_sharing_facebook" = "Ett fel uppstod vid delning till Facebook. Var god försök igen.";
-"sell_share_on_facebook_footer_label" = "Get more visibility and sell faster";
+"sell_share_on_facebook_footer_label" = "Öka din synlighet och sälj snabbare";
 "sell_share_on_facebook_label" = "Dela på Facebook";
 "sell_title_autogen_autotrans_label" = "Titel föreslagen av letgo och översatt av Google";
 "sell_title_autogen_label" = "Titel föreslagen av letgo";
@@ -1276,7 +1279,7 @@
 "services_service_subtype_title" = "Tjänst";
 "services_service_type_list_title" = "Tjänstekategori";
 "services_service_type_title" = "Tjänstekategori";
-"services_unified_filter_title" = "Select a category";
+"services_unified_filter_title" = "Välj en kategori";
 "settings_change_email_button" = "E-post";
 "settings_change_location_button" = "Plats";
 "settings_change_password_button" = "Lösenord";

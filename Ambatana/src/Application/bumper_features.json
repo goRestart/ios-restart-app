@@ -319,5 +319,10 @@
         "name": "FrictionlessShare",
         "values": ["control", "baseline", "active"],
         "description": "[PRODUCTS] Open facebook share dialog in congrats screen"
+    },
+    {
+        "name": "ExpressChatImprovement",
+        "values": ["control", "baseline", "hideDontAsk", "newTitleAndHideDontAsk"],
+        "description": "[CHAT] Express chat improvements"
     }
  ]

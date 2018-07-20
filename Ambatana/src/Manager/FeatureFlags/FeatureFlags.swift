@@ -73,6 +73,7 @@ protocol FeatureFlaggeable: class {
     var showChatHeaderWithoutListingForAssistant: Bool { get }
     var showChatHeaderWithoutUser: Bool { get }
     var enableCTAMessageType: Bool { get }
+    var expressChatImprovement: ExpressChatImprovement { get }
 
     // MARK: Verticals
     var realEstateMap: RealEstateMap { get }
@@ -1103,6 +1104,10 @@ extension ShowChatConnectionStatusBar {
     var isActive: Bool { return self == .active }
 }
 
+extension ExpressChatImprovement {
+    var isActive: Bool { return self == .hideDontAsk || self == .newTitleAndHideDontAsk }
+}
+
 extension FeatureFlags {
     
     var showInactiveConversations: Bool {
@@ -1167,6 +1172,13 @@ extension FeatureFlags {
             return Bumper.enableCTAMessageType
         }
         return abTests.enableCTAMessageType.value
+    }
+
+    var expressChatImprovement: ExpressChatImprovement {
+        if Bumper.enabled {
+            return Bumper.expressChatImprovement
+        }
+        return  ExpressChatImprovement.fromPosition(abTests.expressChatImprovement.value)
     }
 }
 

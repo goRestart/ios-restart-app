@@ -488,6 +488,12 @@
 // Alert text for express chat messages send success
 "chat_express_several_messages_sent_success_alert" = "Your messages have been sent!";
 
+// Express chat jsut contact button title
+"chat_express_contact_only_button_text" = "Contact";
+
+// In high demand label text
+"chat_express_high_demand_label" = "In high demand!  Don't miss out on these deals";
+
 // text in chat professional banner action button
 "chat_professional_banner_button_title" = "Call";
 
@@ -1334,7 +1340,7 @@
 "filters_slider_any" = "Any";
 
 // Text to display to show more items
-"filter_services_services_list_show_more" = "Show more…";
+"filter_services_services_list_show_more" = "Show more";
 
 // Unit suffix for miles (e.g. the mi in "400,000 mi")
 "mile_unit_suffix" = "mi";

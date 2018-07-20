@@ -149,10 +149,12 @@
 "chat_express_banner_button_title" = "Ver pechinchas";
 "chat_express_banner_title" = "Pechinchas relacionadas perto de si";
 "chat_express_contact_one_button_text" = "Contacte 1 vendedor";
+"chat_express_contact_only_button_text" = "Contact";
 "chat_express_contact_sellers_label" = "Contacte estes vendedores antes que outros compradores os arrebatam!";
 "chat_express_contact_various_button_text" = "Contacte %@ vendedores";
 "chat_express_dont_ask_again_button" = "Não perguntar de novo";
 "chat_express_dont_miss_label" = "Não perca estes negócios";
+"chat_express_high_demand_label" = "In high demand!  Don't miss out on these deals";
 "chat_express_one_message_sent_success_alert" = "A sua mensagem foi enviada!";
 "chat_express_several_messages_sent_success_alert" = "As suas mensagens foram enviadas!";
 "chat_express_text_field_text" = "Ainda está disponível?";
@@ -373,6 +375,7 @@
 "filter_cars_seats_title" = "Lugares";
 "filter_results_cars_no_matches" = "A sua pesquisa não devolveu resultados exatos.\nA exibir resultados semelhantes. ";
 "filter_results_cars_other_results" = "Publicado recentemente na sua área";
+"filter_services_services_list_show_more" = "Mostrar mais";
 "filters_car_make_not_set" = "Não Definida";
 "filters_car_model_not_set" = "Não Definido";
 "filters_car_seller_type_all" = "Todos";
@@ -816,7 +819,7 @@
 "product_post_camera_video_mode_button" = "VÍDEO";
 "product_post_camera_video_mode_button_new_badge" = "Novo!";
 "product_post_camera_video_recording_min_duration_message" = "Grave durante, pelo menos, %d segundos";
-"product_post_camera_video_recording_tooltip" = "%@ para gravar um vídeo";
+"product_post_camera_video_recording_tooltip" = "%@ para gravar vídeo";
 "product_post_camera_video_recording_tooltip_highlighted_word" = "Segure";
 "product_post_close_alert_close_button" = "Descartar";
 "product_post_close_alert_description" = "Ainda quer publicá-lo para venda?";
@@ -1266,7 +1269,7 @@
 "sell_send_error_invalid_price" = "Insira um preço válido para a sua publicação. Deve incluir apenas números.";
 "sell_send_error_invalid_title" = "Insira um título válido para a sua publicação.";
 "sell_send_error_sharing_facebook" = "Ocorreu um erro ao partilhar no Facebook. Por favor tente novamente.";
-"sell_share_on_facebook_footer_label" = "Get more visibility and sell faster";
+"sell_share_on_facebook_footer_label" = "Tenha mais visibilidade e venda mais rápido";
 "sell_share_on_facebook_label" = "Partilhar no facebook";
 "sell_title_autogen_autotrans_label" = "Título sugerido pelo letgo e traduzido pelo Google";
 "sell_title_autogen_label" = "Título sugerido pelo letgo";
@@ -1276,7 +1279,7 @@
 "services_service_subtype_title" = "Serviço";
 "services_service_type_list_title" = "Categoria do serviço";
 "services_service_type_title" = "Categoria do serviço";
-"services_unified_filter_title" = "Select a category";
+"services_unified_filter_title" = "Selecione uma categoria";
 "settings_change_email_button" = "Email";
 "settings_change_location_button" = "Localização";
 "settings_change_password_button" = "Password";

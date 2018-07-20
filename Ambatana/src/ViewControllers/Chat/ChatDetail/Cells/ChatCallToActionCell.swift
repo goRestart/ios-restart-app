@@ -8,19 +8,12 @@ protocol ChatCallToActionCellDelegate: class {
 
 final class ChatCallToActionCell: ChatBubbleCell, ReusableCell {
 
-    private enum Layout: CGFloat {
-        case bubbleWidth = 250
-        case ctaImageHeight = 80
-        case actionButtonsHeight = 30
-        case separatorLineHeight = 1
+    private enum Layout {
+        static let bubbleWidth: CGFloat = 250
+        static let ctaImageHeight: CGFloat = 80
+        static let actionButtonsHeight: CGFloat = 30
+        static let separatorLineHeight: CGFloat = 1
     }
-
-//    private struct Layout {
-//        static let bubbleWidth: CGFloat = 250
-//        static let ctaImageHeight: CGFloat = 80
-//        static let actionButtonsHeight: CGFloat = 30
-//        static let separatorLineHeight: CGFloat = 1
-//    }
 
     let bubbleView: UIView = {
         let view = UIView()
@@ -179,7 +172,7 @@ final class ChatCallToActionCell: ChatBubbleCell, ReusableCell {
             avatarImageView.widthAnchor.constraint(equalToConstant: ChatBubbleLayout.avatarSize),
             avatarImageView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: ChatBubbleLayout.margin),
             avatarImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            bubbleView.widthAnchor.constraint(equalToConstant: Layout.bubbleWidth.rawValue),
+            bubbleView.widthAnchor.constraint(equalToConstant: Layout.bubbleWidth),
             bubbleView.topAnchor.constraint(equalTo: contentView.topAnchor),
             bubbleView.rightAnchor.constraint(lessThanOrEqualTo: contentView.rightAnchor,
                                               constant: -ChatBubbleLayout.minBubbleMargin),
@@ -199,7 +192,7 @@ final class ChatCallToActionCell: ChatBubbleCell, ReusableCell {
             separatorLine.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: ChatBubbleLayout.bigMargin),
             separatorLine.leftAnchor.constraint(equalTo: bubbleView.leftAnchor, constant: ChatBubbleLayout.bigMargin),
             separatorLine.rightAnchor.constraint(equalTo: bubbleView.rightAnchor, constant: -ChatBubbleLayout.bigMargin),
-            separatorLine.heightAnchor.constraint(equalToConstant: Layout.separatorLineHeight.rawValue),
+            separatorLine.heightAnchor.constraint(equalToConstant: Layout.separatorLineHeight),
             ctasContainer.leftAnchor.constraint(equalTo: bubbleView.leftAnchor, constant: ChatBubbleLayout.bigMargin),
             ctasContainer.rightAnchor.constraint(equalTo: bubbleView.rightAnchor, constant: -ChatBubbleLayout.bigMargin),
             ctasContainer.topAnchor.constraint(equalTo: separatorLine.bottomAnchor, constant: ChatBubbleLayout.bigMargin),
@@ -212,7 +205,7 @@ final class ChatCallToActionCell: ChatBubbleCell, ReusableCell {
         bubbleBottomMargin = bubbleBottom
         bubbleLeftMargin = bubbleLeft
 
-        let ctaImageHeightConstraint = ctaImageView.heightAnchor.constraint(equalToConstant: Layout.ctaImageHeight.rawValue)
+        let ctaImageHeightConstraint = ctaImageView.heightAnchor.constraint(equalToConstant: Layout.ctaImageHeight)
         ctaImageViewHeight = ctaImageHeightConstraint
 
         constraints.append(contentsOf: [bubbleBottom, bubbleLeft, ctaImageHeightConstraint])
@@ -283,7 +276,7 @@ final class ChatCallToActionCell: ChatBubbleCell, ReusableCell {
             button.titleLabel?.font = UIFont.mediumBodyFont
             button.tag = index
             button.addTarget(self, action: #selector(ctaButtonPressed(sender:)), for: .touchUpInside)
-            button.heightAnchor.constraint(equalToConstant: Layout.actionButtonsHeight.rawValue)
+            button.heightAnchor.constraint(equalToConstant: Layout.actionButtonsHeight)
             self?.ctasContainer.addArrangedSubview(button)
         }
     }

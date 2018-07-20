@@ -149,10 +149,12 @@
 "chat_express_banner_button_title" = "Ver ofertas";
 "chat_express_banner_title" = "Ofertas similares cerca de ti";
 "chat_express_contact_one_button_text" = "Contactar con 1 vendedor";
+"chat_express_contact_only_button_text" = "Contact";
 "chat_express_contact_sellers_label" = "¡Contacta a estos vendedores antes que lo hagan otros compradores!";
 "chat_express_contact_various_button_text" = "Contactar con %@ vendedores";
 "chat_express_dont_ask_again_button" = "No preguntar de nuevo";
 "chat_express_dont_miss_label" = "No te pierdas estas ofertas";
+"chat_express_high_demand_label" = "In high demand!  Don't miss out on these deals";
 "chat_express_one_message_sent_success_alert" = "¡Tu mensaje ha sido enviado!";
 "chat_express_several_messages_sent_success_alert" = "¡Tus mensajes han sido enviados!";
 "chat_express_text_field_text" = "¿Está disponible?";
@@ -373,6 +375,7 @@
 "filter_cars_seats_title" = "Plazas";
 "filter_results_cars_no_matches" = "No hay resultados exactos para tu búsqueda.\nMostrando resultados similares.";
 "filter_results_cars_other_results" = "Publicados recientemente cerca de ti";
+"filter_services_services_list_show_more" = "Ver más";
 "filters_car_make_not_set" = "No Definida";
 "filters_car_model_not_set" = "No Definido";
 "filters_car_seller_type_all" = "Todos";
