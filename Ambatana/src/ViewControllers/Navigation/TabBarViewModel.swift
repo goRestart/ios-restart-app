@@ -5,9 +5,12 @@ import LGComponents
 class TabBarViewModel: BaseViewModel {
     weak var navigator: AppNavigator?
 
+    static let engagementBadgingIndicatorValue = "·"
+    
     var notificationsBadge = Variable<String?>(nil)
     var chatsBadge = Variable<String?>(nil)
     var sellBadge = Variable<String?>(nil)
+    var homeBadge = Variable<String?>(nil)
     
     var shouldShowRealEstateTooltip: Bool {
         return featureFlags.realEstateEnabled.isActive &&
@@ -18,6 +21,9 @@ class TabBarViewModel: BaseViewModel {
     }
     var shouldShowCameraBadge: Bool {
         return isMostSearchedItemsCameraBadgeEnabled && !keyValueStorage[.mostSearchedItemsCameraBadgeAlreadyShown]
+    }
+    var shouldShowHomeBadge: Bool {
+        return featureFlags.engagementBadging.isActive
     }
 
     private let notificationsManager: NotificationsManager
@@ -118,6 +124,11 @@ class TabBarViewModel: BaseViewModel {
         
         notificationsManager.newSellFeatureIndicator.asObservable()
             .bind(to: sellBadge)
+            .disposed(by: disposeBag)
+        
+        notificationsManager.engagementBadgingNotifications.asObservable()
+            .map { $0 ? TabBarViewModel.engagementBadgingIndicatorValue : nil }
+            .bind(to: homeBadge)
             .disposed(by: disposeBag)
     }
 }

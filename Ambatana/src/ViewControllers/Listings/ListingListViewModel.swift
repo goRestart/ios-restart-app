@@ -220,7 +220,7 @@ final class ListingListViewModel: BaseViewModel {
                   searchType: searchType)
         self.requesterFactory = requesterFactory
         requesterSequence = requesterFactory.buildRequesterList()
-        if featureFlags.engagementBadging == .active {
+        if featureFlags.engagementBadging.isActive {
             self.recentListingsRequester = requesterFactory.buildRecentListingsRequester()
         }
         setCurrentFallbackRequester()

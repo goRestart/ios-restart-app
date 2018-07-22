@@ -74,6 +74,8 @@ extension DefaultsKeys {
     static let analyticsSessionData = DefaultsKey<AnalyticsSessionData>("analyticsSessionData")
 
     static let sellAutoShareOnFacebook = DefaultsKey<Bool?>("sellAutoShareOnFacebook")
+    
+    static let lastSessionDate = DefaultsKey<Date?>("lastSessionDate")
 }
 
 

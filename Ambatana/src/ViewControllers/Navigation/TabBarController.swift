@@ -333,6 +333,10 @@ final class TabBarController: UITabBarController {
         if let sellTab = vcs[Tab.sell.index].tabBarItem, viewModel.shouldShowCameraBadge {
             viewModel.sellBadge.asObservable().bind(to: sellTab.rx.badgeValue).disposed(by: disposeBag)
         }
+        
+        if let homeTab = vcs[Tab.home.index].tabBarItem, viewModel.shouldShowHomeBadge {
+            viewModel.homeBadge.asObservable().bind(to: homeTab.rx.badgeValue).disposed(by: disposeBag)
+        }
     }
 }
 

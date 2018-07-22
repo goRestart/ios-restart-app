@@ -59,7 +59,7 @@ final class InfoBubbleView: UIView {
         case .reddish:
             backgroundColor = .primaryColor
             title.textColor = .white
-            arrow.image = R.Asset.Monetization.grayChevronUp.image // TODO RETENTION: asset change when zeplin ready
+            arrow.image = R.Asset.IconsButtons.icChevronUp.image
         }
         layer.cornerRadius = InfoBubbleView.bubbleHeight/2
         applyShadow(withOpacity: 0.12, radius: 8.0)
