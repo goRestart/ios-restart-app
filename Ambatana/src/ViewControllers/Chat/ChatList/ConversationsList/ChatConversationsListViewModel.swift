@@ -416,7 +416,9 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
     
     private func emptyViewModel(forFilter filter: ChatConversationsListFilter) -> LGEmptyViewModel {
         let openSellAction: (() -> Void)? = { [weak self] in
-            return self?.navigator?.openSell(source: .sellButton, postCategory: nil)
+            let source: PostingSource = .chatList
+            self?.trackStartSelling(source: source)
+            self?.navigator?.openSell(source: source, postCategory: nil)
         }
         let openHomeAction: (() -> Void)? = { [weak self] in
             return self?.navigator?.openHome()
@@ -450,14 +452,23 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
             self?.retrieveFirstPage()
         })
     }
-    
-    // MARK: Trackings
-    
+}
+
+// MARK: - Trackings
+
+extension ChatConversationsListViewModel {
     private func trackEmptyState(emptyViewModel: LGEmptyViewModel) {
         guard let emptyReason = emptyViewModel.emptyReason else { return }
         tracker.trackEvent(TrackerEvent.emptyStateVisit(typePage: .chatList,
                                                         reason: emptyReason,
                                                         errorCode: emptyViewModel.errorCode,
                                                         errorDescription: emptyViewModel.errorDescription))
+    }
+
+    private func trackStartSelling(source: PostingSource) {
+        tracker.trackEvent(TrackerEvent.listingSellStart(typePage: source.typePage,
+                                                         buttonName: source.buttonName,
+                                                         sellButtonPosition: source.sellButtonPosition,
+                                                         category: nil))
     }
 }

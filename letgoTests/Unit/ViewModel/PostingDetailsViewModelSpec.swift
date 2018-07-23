@@ -39,7 +39,7 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
         
         var postingDetailsStep: PostingDetailStep!
         var postListingState: PostListingState!
-        var uploadedImageSource: EventParameterPictureSource! = .camera
+        var uploadedImageSource: EventParameterMediaSource! = .camera
         var uploadedVideoLength: TimeInterval?
         var postingSource: PostingSource! = .tabBar
         var previousStepIsSummary: Bool = false
@@ -289,7 +289,7 @@ extension PostingDetailsViewModelSpec: PostListingNavigator {
     
     func startDetails(firstStep: PostingDetailStep,
                       postListingState: PostListingState,
-                      uploadedImageSource: EventParameterPictureSource?,
+                      uploadedImageSource: EventParameterMediaSource?,
                       uploadedVideoLength: TimeInterval?,
                       postingSource: PostingSource,
                       postListingBasicInfo: PostListingBasicDetailViewModel) {
@@ -297,7 +297,7 @@ extension PostingDetailsViewModelSpec: PostListingNavigator {
     }
 
     func startDetails(postListingState: PostListingState,
-                      uploadedImageSource: EventParameterPictureSource?,
+                      uploadedImageSource: EventParameterMediaSource?,
                       postingSource: PostingSource,
                       postListingBasicInfo: PostListingBasicDetailViewModel) {
         // FIXME: No idea what to do here
@@ -315,13 +315,13 @@ extension PostingDetailsViewModelSpec: PostListingNavigator {
         
     }
     func startDetails(postListingState: PostListingState,
-                      uploadedImageSource: EventParameterPictureSource?,
+                      uploadedImageSource: EventParameterMediaSource?,
                       uploadedVideoLength: TimeInterval?,
                       postingSource: PostingSource,
                       postListingBasicInfo: PostListingBasicDetailViewModel) { }
     func nextPostingDetailStep(step: PostingDetailStep,
                                postListingState: PostListingState,
-                               uploadedImageSource: EventParameterPictureSource?,
+                               uploadedImageSource: EventParameterMediaSource?,
                                uploadedVideoLength: TimeInterval?,
                                postingSource: PostingSource,
                                postListingBasicInfo: PostListingBasicDetailViewModel,
@@ -349,7 +349,7 @@ extension PostingDetailsViewModelSpec: PostListingNavigator {
                                           trackingInfo: PostListingTrackingInfo,
                                           modalStyle: Bool) {}
     func openQueuedRequestsLoading(images: [UIImage], listingCreationParams: ListingCreationParams,
-                                   postState: PostListingState, source: EventParameterPictureSource) {}
+                                   postState: PostListingState, source: EventParameterMediaSource) {}
     func openQueuedRequestsLoading(images: [UIImage], listingCreationParams: ListingCreationParams,
-                                   imageSource: EventParameterPictureSource, postingSource: PostingSource) {}
+                                   imageSource: EventParameterMediaSource, postingSource: PostingSource) {}
 }

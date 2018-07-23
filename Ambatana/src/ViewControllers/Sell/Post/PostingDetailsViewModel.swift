@@ -159,7 +159,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     
     private let step: PostingDetailStep
     private var postListingState: PostListingState
-    private var uploadedImageSource: EventParameterPictureSource?
+    private var uploadedImageSource: EventParameterMediaSource?
     private var uploadedVideoLength: TimeInterval?
     private let postingSource: PostingSource
     private let postListingBasicInfo: PostListingBasicDetailViewModel
@@ -181,7 +181,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     
     convenience init(step: PostingDetailStep,
                      postListingState: PostListingState,
-                     uploadedImageSource: EventParameterPictureSource?,
+                     uploadedImageSource: EventParameterMediaSource?,
                      uploadedVideoLength: TimeInterval?,
                      postingSource: PostingSource,
                      postListingBasicInfo: PostListingBasicDetailViewModel,
@@ -206,7 +206,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     
     init(step: PostingDetailStep,
          postListingState: PostListingState,
-         uploadedImageSource: EventParameterPictureSource?,
+         uploadedImageSource: EventParameterMediaSource?,
          uploadedVideoLength: TimeInterval?,
          postingSource: PostingSource,
          postListingBasicInfo: PostListingBasicDetailViewModel,

@@ -63,6 +63,7 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
     private var shouldHideStatusBar = false
     private let onboardingView = MLPostingOnboardingView()
     private let keyValueStorage: KeyValueStorageable
+    private let tracker: Tracker
 
 
     // MARK: - Lifecycle
@@ -72,13 +73,15 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
         self.init(viewModel: viewModel,
                   forcedInitialTab: forcedInitialTab,
                   keyboardHelper: KeyboardHelper(),
-                  keyValueStorage: KeyValueStorage.sharedInstance)
+                  keyValueStorage: KeyValueStorage.sharedInstance,
+                  tracker: TrackerProxy.sharedInstance)
     }
 
     required init(viewModel: PostListingViewModel,
                   forcedInitialTab: Tab?,
                   keyboardHelper: KeyboardHelper,
-                  keyValueStorage: KeyValueStorageable) {
+                  keyValueStorage: KeyValueStorageable,
+                  tracker: Tracker) {
         
         let tabPosition: LGViewPagerTabPosition = .hidden
         var postFooter: UIView & PostListingFooter
@@ -95,12 +98,10 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
         self.cameraView = PostListingCameraView(viewModel: viewModel.postListingCameraViewModel)
         self.keyboardHelper = keyboardHelper
         self.keyValueStorage = keyValueStorage
+        self.tracker = tracker
         self.viewModel = viewModel
-        self.forcedInitialTab = forcedInitialTab
-        let postListingGalleryViewModel = PostListingGalleryViewModel(postCategory: viewModel.postCategory,
-                                                                      isBlockingPosting: viewModel.isBlockingPosting,
-                                                                      maxImageSelected: viewModel.maxNumberImages)
-        self.galleryView = PostListingGalleryView(viewModel: postListingGalleryViewModel)
+        self.forcedInitialTab = forcedInitialTab        
+        self.galleryView = PostListingGalleryView(viewModel: viewModel.postListingGalleryViewModel)
         
         self.priceView = PostListingDetailPriceView(viewModel: viewModel.postDetailViewModel)
         self.categorySelectionView = PostCategorySelectionView(categoriesAvailables: viewModel.availablePostCategories)
@@ -152,6 +153,12 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         viewDidAppear = true
+    }
+
+    override func viewDidFirstAppear(_ animated: Bool) {
+        super.viewDidFirstAppear(animated)
+        viewModel.mediaSourceDidChange(mediaSource: mediaSource)
+        trackMediaSource(source: mediaSource, previousSource: .none)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -210,17 +217,23 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
     }
 
     @objc func photoButtonPressed() {
+        let previousSource = mediaSource
         footer.updateToPhotoMode()
         viewModel.postListingCameraViewModel.cameraMode.value = .photo
         cameraView.setCameraModeToPhoto()
         cameraView.usePhotoButtonText = viewModel.usePhotoButtonText
+        viewModel.mediaSourceDidChange(mediaSource: mediaSource)
+        trackMediaSource(source: mediaSource, previousSource: previousSource)
     }
 
     @objc func videoButtonPressed() {
+        let previousSource = mediaSource
         footer.updateToVideoMode()
         viewModel.postListingCameraViewModel.cameraMode.value = .video
         cameraView.setCameraModeToVideo()
         cameraView.usePhotoButtonText = viewModel.useVideoButtonText
+        viewModel.mediaSourceDidChange(mediaSource: mediaSource)
+        trackMediaSource(source: mediaSource, previousSource: previousSource)
     }
 
     @IBAction func onRetryButton(_ sender: AnyObject) {
@@ -449,10 +462,12 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
             self?.update(state: state)
         }.disposed(by: disposeBag)
 
-        categorySelectionView.selectedCategory.asObservable()
-            .bind(to: viewModel.category)
-            .disposed(by: disposeBag)
-        
+        categorySelectionView.selectedCategory.asObservable().bind { [weak self] category in
+            guard let strongSelf = self else { return }
+            strongSelf.viewModel.category.value = category
+            strongSelf.trackSelectCategory(source: strongSelf.viewModel.postingSource, category: category)
+        }.disposed(by: disposeBag)
+
         keyboardHelper.rx_keyboardOrigin.asObservable().bind { [weak self] origin in
             guard origin > 0 else { return }
             guard let strongSelf = self else { return }
@@ -842,6 +857,8 @@ extension PostListingViewController: PostListingGalleryViewDelegate {
         if let navigationController = navigationController as? SellNavigationController {
             navigationController.updateBackground(image: cameraGalleryContainer.takeSnapshot())
         }
+        // As we don't have a preview for the gallery, we send the event once the user try to post the selected images
+        trackMediaCapture(source: .gallery, fileCount: images.count)
         viewModel.imagesSelected(images, source: .gallery, predictionData: nil)
     }
 
@@ -894,6 +911,19 @@ extension PostListingViewController: LGViewPagerDataSource, LGViewPagerDelegate,
 
     func viewPager(_ viewPager: LGViewPager, willDisplayView view: UIView, atIndex index: Int) {
         keyValueStorage.userPostListingLastTabSelected = index
+        let mediaSource: EventParameterMediaSource
+        let previousSource: EventParameterMediaSource
+        if index == Tab.gallery.index {
+            mediaSource = .gallery
+            previousSource = viewModel.postListingCameraViewModel.cameraMode.value.eventMediaSource
+        } else {
+            mediaSource = viewModel.postListingCameraViewModel.cameraMode.value.eventMediaSource
+            previousSource = .gallery
+
+        }
+        trackMediaSource(source: mediaSource , previousSource: previousSource)
+        viewModel.mediaSourceDidChange(mediaSource: mediaSource)
+
     }
 
     func viewPager(_ viewPager: LGViewPager, didEndDisplayingView view: UIView, atIndex index: Int) {}
@@ -967,6 +997,44 @@ extension PostListingViewController: LGViewPagerDataSource, LGViewPagerDelegate,
         titleAttributes[NSAttributedStringKey.foregroundColor] = UIColor.white
         titleAttributes[NSAttributedStringKey.font] = UIFont.activeTabFont
         return titleAttributes
+    }
+}
+
+// MARK: - Tracking
+
+extension PostListingViewController {
+    var mediaSource: EventParameterMediaSource {
+        if viewPager.currentPage == Tab.gallery.index {
+            return .gallery
+        } else {
+            return viewModel.postListingCameraViewModel.cameraMode.value.eventMediaSource
+        }
+    }
+
+    private func trackMediaSource(source: EventParameterMediaSource,
+                                  previousSource: EventParameterMediaSource?) {
+        tracker.trackEvent(TrackerEvent.listingSellMediaSource(source: source, previousSource: previousSource))
+    }
+
+    private func trackMediaCapture(source: EventParameterMediaSource, fileCount: Int) {
+        tracker.trackEvent(TrackerEvent.listingSellMediaCapture(source: source, fileCount: fileCount))
+    }
+
+    private func trackSelectCategory(source: PostingSource, category: PostCategory) {
+        tracker.trackEvent(TrackerEvent.listingSellCategorySelect(typePage: source.typePage,
+                                                                  postingType: EventParameterPostingType(category: category),
+                                                                  category: category.listingCategory))
+    }
+}
+
+extension CameraMode {
+    var eventMediaSource: EventParameterMediaSource {
+        switch self {
+        case .photo:
+            return .camera
+        case .video:
+            return .videoCamera
+        }
     }
 }
 

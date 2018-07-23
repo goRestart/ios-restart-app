@@ -17,7 +17,16 @@ struct VideoUpload {
 extension LGVideo {
     init?(videoUpload: VideoUpload) {
         guard let path = videoUpload.videoId, let snapshot = videoUpload.snapshot?.objectId else { return nil }
-        self.path = path
-        self.snapshot = snapshot
+        self.init(path: path, snapshot: snapshot)
+    }
+}
+
+extension VideoUpload {
+    var fileSize: Int {
+        do {
+            let fileAttributes = try FileManager.default.attributesOfItem(atPath: recordedVideo.url.path)
+            print(fileAttributes)
+            return fileAttributes[.size] as? Int ?? 0
+        } catch { return 0 }
     }
 }

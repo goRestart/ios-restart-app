@@ -34,6 +34,17 @@ final class TabBarController: UITabBarController {
 
     private static let appRatingTag = Int.makeRandom()
     private static let categorySelectionTag = Int.makeRandom()
+
+    private var postingSource: PostingSource? {
+        switch selectedIndex {
+        case Tab.home.index:
+            return .listingList
+        case Tab.profile.index:
+            return .profile
+        default:
+            return nil
+        }
+    }
     
     
     // MARK: - Lifecycle
@@ -121,7 +132,7 @@ final class TabBarController: UITabBarController {
         setTabBarHidden(false, animated: false)
 
         selectedIndex = tab.index
-        
+
         // Notify the delegate, as programmatically change doesn't do it
         delegate?.tabBarController?(self, didSelect: vc)
     }
@@ -317,6 +328,9 @@ final class TabBarController: UITabBarController {
         expandableCategorySelectionView.layoutIfNeeded()
         floatingSellButton.hideWithAnimation()
         expandableCategorySelectionView.expand(animated: true)
+        if let source = postingSource {
+            trackStartSelling(source: source)
+        }
     }
 
     private func setupBadgesRx() {
@@ -378,18 +392,38 @@ extension TabBarController {
 extension TabBarController: ExpandableCategorySelectionDelegate {
     func didPressCloseButton() {
         floatingSellButton.showWithAnimation()
+        trackAbandom()
     }
     
     func didPressCategory(_ category: ExpandableCategory) {
         floatingSellButton.showWithAnimation()
         let event = TrackerEvent.listingSellYourStuffButton()
         tracker.trackEvent(event)
-        viewModel.expandableButtonPressed(category: category)
+        let source: PostingSource = postingSource ?? .listingList
+        viewModel.expandableButtonPressed(category: category, source: source)
     }
     
     func didPressTag(_ tag: LocalMostSearchedItem) {
         floatingSellButton.showWithAnimation()
         viewModel.tagPressed(mostSearchedItem: tag)
+    }
+}
+
+// MARK: - Trackings
+
+extension TabBarController {
+    private func trackStartSelling(source: PostingSource) {
+        tracker.trackEvent(TrackerEvent.listingSellStart(typePage: source.typePage,
+                                                         buttonName: source.buttonName,
+                                                         sellButtonPosition: source.sellButtonPosition,
+                                                         category: nil))
+    }
+    
+    private func trackAbandom() {
+        tracker.trackEvent(TrackerEvent.listingSellAbandon(abandonStep: .productSellTypeSelect,
+                                                           pictureUploaded: .falseParameter,
+                                                           loggedUser: .notAvailable,
+                                                           buttonName: .cancelSelectType))
     }
 }
 

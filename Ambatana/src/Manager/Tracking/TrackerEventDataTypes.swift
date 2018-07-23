@@ -73,6 +73,12 @@ enum EventName: String {
     case listingSellConfirmationShareCancel = "product-sell-confirmation-share-cancel"
     case listingSellConfirmationShareComplete = "product-sell-confirmation-share-complete"
     case listingSellAbandon                 = "product-sell-abandon"
+    case listingSellCategorySelect          = "product-sell-type-select"
+    case listingSellPermissionsGrant        = "product-sell-permissions-grant"
+    case listingSellMediaSource             = "product-sell-media-source"
+    case listingSellMediaCapture            = "product-sell-media-capture"
+    case listingSellMediaChange             = "product-sell-media-change"
+    case listingSellMediaPublish            = "product-sell-media-publish"
     
     case listingEditStart                   = "product-edit-start"
     case listingEditFormValidationFailed    = "product-edit-form-validation-failed"
@@ -298,6 +304,7 @@ enum EventParameterName: String {
     case campaign             = "campaign"
     case medium               = "medium"
     case source               = "source"
+    case previousSource       = "previous-source"
     case itemPosition         = "item-position"
     case expressConversations = "express-conversations"
     case collectionTitle      = "collection-title"
@@ -386,6 +393,13 @@ enum EventParameterName: String {
     case isVideo              = "is-video"
     case messageGoal          = "message-goal"
     case productCounter       = "product-counter"
+    case pictureUploaded      = "picture-uploaded"
+    case loggedUser           = "logged-user"
+    case mediaType            = "media-type"
+    case originalFileSize     = "original-file-size"    
+    case cameraSide           = "camera-side"
+    case hasError             = "has-error"
+    case fileCount            = "file-count"
     
     case marketingNotificationsEnabled  = "marketing-notifications-enabled"
     
@@ -462,6 +476,7 @@ enum EventParameterButtonNameType: String {
     case sellYourStuff = "sell-your-stuff"
     case startMakingCash = "start-making-cash"
     case realEstatePromo = "real-estate-promo"
+    case cancelSelectType = "cancel-select-type"
 }
 
 enum EventParameterButtonType: String {
@@ -501,10 +516,15 @@ enum EventParameterNegotiablePrice: String {
     case no = "no"
 }
 
-enum EventParameterPictureSource: String {
+enum EventParameterMediaSource: String {
     case camera = "camera"
     case gallery = "gallery"
     case videoCamera = "video-camera"
+}
+
+enum EventParameterCameraSide: String {
+    case front = "front"
+    case back = "back"
 }
 
 enum EventParameterSortBy: String {
@@ -547,9 +567,20 @@ enum EventParameterPostingAbandonStep: String {
     case retry = "retry"
     case summaryOnboarding = "summary-onboarding"
     case welcomeOnboarding = "welcome-onboarding"
+    case mostSearchItems = "most-search-items"
+    case productSellTypeSelect = "product-sell-type-select"
+
+    case capturePhoto = "capture-photo"
+    case imagePreview = "image-preview"
+    case uploadingImage = "uploading-image"
+    case uploadingVideo = "uploading-video"
+    case addingDetails = "adding-details"
+    case errorUpload = "error-upload"
+    case none = "N/A"
     
     static var allValues: [EventParameterPostingAbandonStep] {
-        return [.cameraPermissions, .retry, .summaryOnboarding, .welcomeOnboarding]
+        return [.cameraPermissions, .retry, .summaryOnboarding, .welcomeOnboarding, .mostSearchItems,
+                .productSellTypeSelect]
     }
 }
 
@@ -907,6 +938,7 @@ enum EventParameterPermissionType: String {
     case push = "push-notification"
     case location = "gps"
     case camera = "camera"
+    case gallery = "gallery"
 }
 
 enum EventParameterPermissionAlertType: String {

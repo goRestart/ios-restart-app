@@ -160,19 +160,22 @@ final class PostListingCameraViewModel: BaseViewModel {
         cameraState.value = .recordingVideo
     }
 
-    func photoTaken(_ photo: UIImage) {
+    func photoTaken(_ photo: UIImage, camera: CameraSource) {
         imageSelected.value = photo
         cameraState.value = .previewPhoto
+        trackMediaCapture(source: .camera, camera: camera.eventParameter)
     }
 
-    func videoRecorded(video: RecordedVideo) {
+    func videoRecorded(video: RecordedVideo, camera: CameraSource) {
         if video.duration > SharedConstants.videoMinRecordingDuration {
             videoRecorded.value = video
             cameraState.value = .previewVideo
+            trackMediaCapture(source: .videoCamera, camera: camera.eventParameter)
         } else {
             backToCaptureMode()
             let message = R.Strings.productPostCameraVideoRecordingMinDurationMessage(Int(SharedConstants.videoMinRecordingDuration))
             videoRecordingErrorMessage.onNext(message)
+            trackMediaCapture(source: .videoCamera, camera: camera.eventParameter, hasError: true)
         }
     }
 
@@ -382,8 +385,12 @@ final class PostListingCameraViewModel: BaseViewModel {
         mediaPermissions.requestVideoAccess { granted in
             //This is required :(, callback is not on main thread so app would crash otherwise.
             DispatchQueue.main.async { [weak self] in
-                self?.cameraState.value = granted ?
-                    .capture : .missingPermissions(R.Strings.productPostCameraPermissionsSubtitle)
+                if granted {
+                    self?.cameraState.value = .capture
+                    self?.trackPermissionsGrant()
+                } else {
+                    self?.cameraState.value = .missingPermissions(R.Strings.productPostCameraPermissionsSubtitle)
+                }
             }
         }
     }
@@ -433,6 +440,31 @@ final class PostListingCameraViewModel: BaseViewModel {
         machineLearning.isLiveStatsEnabled = enable
         isLiveStatsEnabled.value = enable
         machineLearning.liveStats.value = nil
+    }
+}
+
+// MARK: - Tracking
+
+extension PostListingCameraViewModel {
+    private func trackPermissionsGrant() {
+        tracker.trackEvent(TrackerEvent.listingSellPermissionsGrant(type: .camera))
+    }
+    private func trackMediaCapture(source: EventParameterMediaSource, camera: EventParameterCameraSide,
+                                   hasError: Bool = false) {
+        tracker.trackEvent(TrackerEvent.listingSellMediaCapture(source: source,
+                                                                cameraSide: camera,
+                                                                hasError: EventParameterBoolean(bool: hasError)))
+    }
+}
+
+extension CameraSource {
+    var eventParameter: EventParameterCameraSide {
+        switch self {
+        case .front:
+            return .front
+        case .rear:
+            return .back
+        }
     }
 }
 

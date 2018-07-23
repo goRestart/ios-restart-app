@@ -139,7 +139,7 @@ extension SellCoordinator: PostListingNavigator {
     
     func startDetails(firstStep: PostingDetailStep,
                       postListingState: PostListingState,
-                      uploadedImageSource: EventParameterPictureSource?,
+                      uploadedImageSource: EventParameterMediaSource?,
                       uploadedVideoLength: TimeInterval?,
                       postingSource: PostingSource,
                       postListingBasicInfo: PostListingBasicDetailViewModel) {
@@ -164,7 +164,7 @@ extension SellCoordinator: PostListingNavigator {
     
     func nextPostingDetailStep(step: PostingDetailStep,
                                postListingState: PostListingState,
-                               uploadedImageSource: EventParameterPictureSource?,
+                               uploadedImageSource: EventParameterMediaSource?,
                                uploadedVideoLength: TimeInterval?,
                                postingSource: PostingSource,
                                postListingBasicInfo: PostListingBasicDetailViewModel,
@@ -289,7 +289,7 @@ extension SellCoordinator: PostListingNavigator {
     }
     
     func openQueuedRequestsLoading(images: [UIImage], listingCreationParams: ListingCreationParams,
-                                   imageSource: EventParameterPictureSource, postingSource: PostingSource) {
+                                   imageSource: EventParameterMediaSource, postingSource: PostingSource) {
         let viewModel = BlockingPostingQueuedRequestsViewModel(images: images,
                                                                listingCreationParams: listingCreationParams,
                                                                imageSource: imageSource,
@@ -417,7 +417,7 @@ extension SellCoordinator: BlockingPostingNavigator  {
         navigationController.pushViewController(postListingVC, animated: true)
     }
     
-    func openPrice(listing: Listing, images: [UIImage], imageSource: EventParameterPictureSource, videoLength: TimeInterval?, postingSource: PostingSource) {
+    func openPrice(listing: Listing, images: [UIImage], imageSource: EventParameterMediaSource, videoLength: TimeInterval?, postingSource: PostingSource) {
         let viewModel = BlockingPostingAddPriceViewModel(listing: listing,
                                                          images: images,
                                                          imageSource: imageSource,
@@ -428,7 +428,7 @@ extension SellCoordinator: BlockingPostingNavigator  {
         navigationController.pushViewController(vc, animated: true)
     }
     
-    func openListingPosted(listing: Listing, images: [UIImage], imageSource: EventParameterPictureSource, videoLength: TimeInterval?, postingSource: PostingSource) {
+    func openListingPosted(listing: Listing, images: [UIImage], imageSource: EventParameterMediaSource, videoLength: TimeInterval?, postingSource: PostingSource) {
         let viewModel = ListingPostedDescriptiveViewModel(listing: listing,
                                                           listingImages: images,
                                                           imageSource: imageSource,
@@ -466,7 +466,7 @@ extension SellCoordinator: BlockingPostingNavigator  {
     func openListingEditionLoading(listingParams: ListingEditionParams,
                                    listing: Listing,
                                    images: [UIImage],
-                                   imageSource: EventParameterPictureSource,
+                                   imageSource: EventParameterMediaSource,
                                    videoLength: TimeInterval?,
                                    postingSource: PostingSource) {
         let viewModel = BlockingPostingListingEditionViewModel(listingParams: listingParams,

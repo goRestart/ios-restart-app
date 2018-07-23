@@ -2444,12 +2444,10 @@ class TrackerEventSpec: QuickSpec {
 
             describe("listingSellStart") {
                 beforeEach {
-                    sut = TrackerEvent.listingSellStart(.sell,
+                    sut = TrackerEvent.listingSellStart(typePage: .sell,
                                                         buttonName: .sellYourStuff,
                                                         sellButtonPosition: .tabBar,
-                                                        category: .cars,
-                                                        mostSearchedButton: .notApply,
-                                                        predictiveFlow: false)
+                                                        category: .cars)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-start"))
@@ -2469,45 +2467,6 @@ class TrackerEventSpec: QuickSpec {
                 it("contains category id param") {
                     let name = sut.params!.stringKeyParams["category-id"] as? Int
                     expect(name).to(equal(9))
-                }
-                it("contains notApply mostSearchedButton param") {
-                    let mostSearchedButton = sut.params!.stringKeyParams["most-searched-button"] as? String
-                    expect(mostSearchedButton).to(equal(EventParameterMostSearched.notApply.rawValue))
-                }
-                describe("listingSellStart mostSearchedButton") {
-                    let eventParameterMostSearched = EventParameterMostSearched.makeMock()
-                    
-                    beforeEach {
-                        sut = TrackerEvent.listingSellStart(.mostSearched,
-                                                            buttonName: nil,
-                                                            sellButtonPosition: .none,
-                                                            category: .cars,
-                                                            mostSearchedButton: eventParameterMostSearched,
-                                                            predictiveFlow: false)
-                    }
-                    it("has its event name") {
-                        expect(sut.name.rawValue).to(equal("product-sell-start"))
-                    }
-                    it("contains the page from which the event has been sent") {
-                        let typePage = sut.params!.stringKeyParams["type-page"] as? String
-                        expect(typePage).to(equal("most-searched"))
-                    }
-                    it("contains button name from which the event has been sent") {
-                        let name = sut.params!.stringKeyParams["button-name"] as? String
-                        expect(name).to(beNil())
-                    }
-                    it("contains button position from which the event has been sent") {
-                        let position = sut.params!.stringKeyParams["sell-button-position"] as? String
-                        expect(position).to(equal("N/A"))
-                    }
-                    it("contains category id param") {
-                        let name = sut.params!.stringKeyParams["category-id"] as? Int
-                        expect(name).to(equal(9))
-                    }
-                    it("contains notApply mostSearchedButton param") {
-                        let mostSearchedButton = sut.params!.stringKeyParams["most-searched-button"] as? String
-                        expect(mostSearchedButton).to(equal(eventParameterMostSearched.rawValue))
-                    }
                 }
             }
 
@@ -2540,7 +2499,10 @@ class TrackerEventSpec: QuickSpec {
             describe("listingSellAbandon") {
                 let abandonStep = EventParameterPostingAbandonStep.makeMock()
                 beforeEach {
-                    sut = TrackerEvent.listingSellAbandon(abandonStep: abandonStep)
+                    sut = TrackerEvent.listingSellAbandon(abandonStep: abandonStep,
+                                                          pictureUploaded: .falseParameter,
+                                                          loggedUser: .falseParameter,
+                                                          buttonName: .skip)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-abandon"))

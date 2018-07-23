@@ -12,7 +12,7 @@ class BlockingPostingAddPriceViewModel: BaseViewModel {
     private let featureFlags: FeatureFlaggeable
     private let listing: Listing
     private let images: [UIImage]
-    private let imageSource: EventParameterPictureSource
+    private let imageSource: EventParameterMediaSource
     private let videoLength: TimeInterval?
     private let postingSource: PostingSource
     private let priceListing = Variable<ListingPrice>(SharedConstants.defaultPrice)
@@ -31,7 +31,7 @@ class BlockingPostingAddPriceViewModel: BaseViewModel {
     
     convenience init(listing: Listing,
                      images: [UIImage],
-                     imageSource: EventParameterPictureSource,
+                     imageSource: EventParameterMediaSource,
                      videoLength: TimeInterval?,
                      postingSource: PostingSource) {
         self.init(listingRepository: Core.listingRepository,
@@ -51,7 +51,7 @@ class BlockingPostingAddPriceViewModel: BaseViewModel {
          featureFlags: FeatureFlaggeable,
          listing: Listing,
          images: [UIImage],
-         imageSource: EventParameterPictureSource,
+         imageSource: EventParameterMediaSource,
          videoLength: TimeInterval?,
          postingSource: PostingSource) {
         self.listingRepository = listingRepository

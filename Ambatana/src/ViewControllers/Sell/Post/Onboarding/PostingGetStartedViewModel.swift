@@ -63,7 +63,7 @@ class PostingGetStartedViewModel: BaseViewModel {
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
         guard firstTime else { return }
-        trackVisit()
+        trackStartSelling()
     }
 
     func retrieveImageForAvatar() {
@@ -85,23 +85,24 @@ class PostingGetStartedViewModel: BaseViewModel {
         trackPostSellAbandon()
         navigator?.closePosting()
     }
-    
-    
-    // MARK: - Tracker
-    
-    private func trackVisit() {
-        let event = TrackerEvent.listingSellStart(.onboarding,
+}
+
+// MARK: - Tracker
+
+extension PostingGetStartedViewModel {
+    private func trackStartSelling() {
+        let event = TrackerEvent.listingSellStart(typePage: .onboarding,
                                                   buttonName: PostingSource.onboardingBlockingPosting.buttonName,
                                                   sellButtonPosition: PostingSource.onboardingBlockingPosting.sellButtonPosition,
-                                                  category: nil,
-                                                  mostSearchedButton: PostingSource.onboardingBlockingPosting.mostSearchedButton,
-                                                  predictiveFlow: false)
+                                                  category: nil)
         tracker.trackEvent(event)
     }
-    
+
     private func trackPostSellAbandon() {
-        let event = TrackerEvent.listingSellAbandon(abandonStep: .welcomeOnboarding)
+        let event = TrackerEvent.listingSellAbandon(abandonStep: .welcomeOnboarding,
+                                                    pictureUploaded: .falseParameter,
+                                                    loggedUser: .falseParameter,
+                                                    buttonName: .skip)
         tracker.trackEvent(event)
     }
 }
-

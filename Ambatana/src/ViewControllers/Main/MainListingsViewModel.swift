@@ -1906,7 +1906,10 @@ extension MainListingsViewModel: ListingCellDelegate {
     func moreOptionsPressedForDiscarded(listing: Listing) {}
     
     func postNowButtonPressed(_ view: UIView) {
-        navigator?.openSell(source: .realEstatePromo, postCategory: .realEstate)
+        let postCategory: PostCategory = .realEstate
+        let source: PostingSource = .realEstatePromo
+        navigator?.openSell(source: source, postCategory: postCategory)
+        trackStartSelling(source: source, category: postCategory)
     }
     
     func openAskPhoneFor(_ listing: Listing, interlocutor: User) {
@@ -1934,6 +1937,17 @@ extension MainListingsViewModel: ListingCellDelegate {
         }
     }
     
+}
+
+// MARK: - Trackings
+
+extension MainListingsViewModel {
+    private func trackStartSelling(source: PostingSource, category: PostCategory) {
+        tracker.trackEvent(TrackerEvent.listingSellStart(typePage: source.typePage,
+                                                         buttonName: source.buttonName,
+                                                         sellButtonPosition: source.sellButtonPosition,
+                                                         category: category.listingCategory))
+    }
 }
 
 extension NoAdsInFeedForNewUsers {

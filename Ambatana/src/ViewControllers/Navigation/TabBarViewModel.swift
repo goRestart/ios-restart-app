@@ -24,6 +24,7 @@ class TabBarViewModel: BaseViewModel {
     private let myUserRepository: MyUserRepository
     private let keyValueStorage: KeyValueStorage
     private let featureFlags: FeatureFlaggeable
+    private let tracker: Tracker
     
     private let disposeBag = DisposeBag()
 
@@ -34,17 +35,20 @@ class TabBarViewModel: BaseViewModel {
         self.init(notificationsManager: LGNotificationsManager.sharedInstance,
                   myUserRepository: Core.myUserRepository,
                   keyValueStorage: KeyValueStorage.sharedInstance,
-                  featureFlags: FeatureFlags.sharedInstance)
+                  featureFlags: FeatureFlags.sharedInstance,
+                  tracker: TrackerProxy.sharedInstance)
     }
 
     init(notificationsManager: NotificationsManager,
          myUserRepository: MyUserRepository,
          keyValueStorage: KeyValueStorage,
-         featureFlags: FeatureFlaggeable) {
+         featureFlags: FeatureFlaggeable,
+         tracker: Tracker) {
         self.notificationsManager = notificationsManager
         self.myUserRepository = myUserRepository
         self.keyValueStorage = keyValueStorage
         self.featureFlags = featureFlags
+        self.tracker = tracker
         super.init()
         setupRx()
     }
@@ -52,15 +56,12 @@ class TabBarViewModel: BaseViewModel {
 
     // MARK: - Public methods
 
-    func sellButtonPressed() {
-        navigator?.openSell(source: .sellButton, postCategory: nil, listingTitle: nil)
-    }
-    
-    func expandableButtonPressed(category: ExpandableCategory) {
+    func expandableButtonPressed(category: ExpandableCategory, source: PostingSource) {
         if category == .mostSearchedItems {
             navigator?.openMostSearchedItems(source: .mostSearchedTrendingExpandable, enableSearch: false)
         } else if let postCategory = category.listingCategory?.postingCategory(with: featureFlags) {
-            navigator?.openSell(source: .sellButton, postCategory: postCategory, listingTitle: nil)
+            trackSelectCategory(source: source, category: postCategory)
+            navigator?.openSell(source: source, postCategory: postCategory, listingTitle: nil)
         }
     }
     
@@ -119,5 +120,16 @@ class TabBarViewModel: BaseViewModel {
         notificationsManager.newSellFeatureIndicator.asObservable()
             .bind(to: sellBadge)
             .disposed(by: disposeBag)
+    }
+}
+
+// MARK: - Trackings
+
+extension TabBarViewModel {
+
+    private func trackSelectCategory(source:PostingSource, category: PostCategory) {
+        tracker.trackEvent(TrackerEvent.listingSellCategorySelect(typePage: source.typePage,
+                                                                  postingType: EventParameterPostingType(category: category),
+                                                                  category: category.listingCategory))
     }
 }
