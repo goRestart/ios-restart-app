@@ -321,6 +321,11 @@
         "description": "[PRODUCTS] Open facebook share dialog in congrats screen"
     },
     {
+        "name": "ShowCommunity",
+        "values": ["control", "baseline", "communityOnNavBar", "communityOnTabBar"],
+        "description": "[Users] Show button/tab to open the new Community feature"
+    },
+    {
         "name": "ExpressChatImprovement",
         "values": ["control", "baseline", "hideDontAsk", "newTitleAndHideDontAsk"],
         "description": "[CHAT] Express chat improvements"

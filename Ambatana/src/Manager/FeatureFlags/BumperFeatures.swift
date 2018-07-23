@@ -80,6 +80,7 @@ extension Bumper  {
         flags.append(EngagementBadging.self)
         flags.append(ServicesUnifiedFilterScreen.self)
         flags.append(FrictionlessShare.self)
+        flags.append(ShowCommunity.self)
         flags.append(ExpressChatImprovement.self)
         Bumper.initialize(flags)
     } 
@@ -912,6 +913,19 @@ extension Bumper  {
     static var frictionlessShareObservable: Observable<FrictionlessShare> {
         return Bumper.observeValue(for: FrictionlessShare.key).map {
             FrictionlessShare(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var showCommunity: ShowCommunity {
+        guard let value = Bumper.value(for: ShowCommunity.key) else { return .control }
+        return ShowCommunity(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var showCommunityObservable: Observable<ShowCommunity> {
+        return Bumper.observeValue(for: ShowCommunity.key).map {
+            ShowCommunity(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1924,6 +1938,23 @@ enum FrictionlessShare: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum ShowCommunity: String, BumperFeature  {
+    case control, baseline, communityOnNavBar, communityOnTabBar
+    static var defaultValue: String { return ShowCommunity.control.rawValue }
+    static var enumValues: [ShowCommunity] { return [.control, .baseline, .communityOnNavBar, .communityOnTabBar]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[Users] Show button/tab to open the new Community feature" } 
+    static func fromPosition(_ position: Int) -> ShowCommunity {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .communityOnNavBar
+            case 3: return .communityOnTabBar
             default: return .control
         }
     }

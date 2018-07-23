@@ -146,6 +146,7 @@ extension ABTests {
     var emergencyLocate: LeanplumABVariable<Int> { return users.emergencyLocate }
     var offensiveReportAlert: LeanplumABVariable<Int> { return users.offensiveReportAlert }
     var reportingFostaSesta: LeanplumABVariable<Int> { return users.reportingFostaSesta }
+    var community: LeanplumABVariable<Int> { return users.community }
 }
 
 //  MARK: Core
