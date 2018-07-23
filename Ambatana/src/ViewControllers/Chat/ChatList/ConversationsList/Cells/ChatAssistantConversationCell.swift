@@ -145,6 +145,7 @@ final class ChatAssistantConversationCell: UITableViewCell, ReusableCell {
         pendingMessagesLabel.set(accessibilityId: .assistantConversationCellBadgeLabel)
         assistantInfoLabel.set(accessibilityId: .assistantConversationCellInfoLabel)
         avatarView.set(accessibilityId: .assistantConversationCellAvatarImageView)
+        avatarView.isAccessibilityElement = true
     }
 
     func resetUI() {
@@ -177,6 +178,8 @@ final class ChatAssistantConversationCell: UITableViewCell, ReusableCell {
                 }
             }
         }
+
+        set(accessibilityId: .assistantConversationCellContainer(conversationId: data.conversationId))
     }
 }
 
