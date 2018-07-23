@@ -336,6 +336,8 @@ extension R {
     public static let chatExpressBannerTitle = Strings.tr("Localizable", "chat_express_banner_title")
     /// Contact 1 seller
     public static let chatExpressContactOneButtonText = Strings.tr("Localizable", "chat_express_contact_one_button_text")
+    /// Contact
+    public static let chatExpressContactOnlyButtonText = Strings.tr("Localizable", "chat_express_contact_only_button_text")
     /// Contact these sellers before other buyers snatch them up!
     public static let chatExpressContactSellersLabel = Strings.tr("Localizable", "chat_express_contact_sellers_label")
     /// Contact %@ sellers
@@ -346,6 +348,8 @@ extension R {
     public static let chatExpressDontAskAgainButton = Strings.tr("Localizable", "chat_express_dont_ask_again_button")
     /// Don't miss out on these deals
     public static let chatExpressDontMissLabel = Strings.tr("Localizable", "chat_express_dont_miss_label")
+    /// In high demand!  Don't miss out on these deals
+    public static let chatExpressHighDemandLabel = Strings.tr("Localizable", "chat_express_high_demand_label")
     /// Your message has been sent!
     public static let chatExpressOneMessageSentSuccessAlert = Strings.tr("Localizable", "chat_express_one_message_sent_success_alert")
     /// Your messages have been sent!
@@ -824,7 +828,7 @@ extension R {
     public static let filterResultsCarsNoMatches = Strings.tr("Localizable", "filter_results_cars_no_matches")
     /// Recently posted in your area
     public static let filterResultsCarsOtherResults = Strings.tr("Localizable", "filter_results_cars_other_results")
-    /// Show more…
+    /// Show more
     public static let filterServicesServicesListShowMore = Strings.tr("Localizable", "filter_services_services_list_show_more")
     /// Not Set
     public static let filtersCarMakeNotSet = Strings.tr("Localizable", "filters_car_make_not_set")

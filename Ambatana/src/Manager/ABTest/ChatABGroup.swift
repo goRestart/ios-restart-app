@@ -11,6 +11,7 @@ struct ChatABGroup: ABGroupType {
         static let showChatHeaderWithoutListingForAssistant = "20180629ShowChatHeaderWithoutListingForAssistant"
         static let showChatHeaderWithoutUser = "20180702ShowChatHeaderWithoutUser"
         static let enableCTAMessageType = "20180716enableCTAMessageType"
+        static let expressChatImprovement = "20180719ExpressChatImprovement"
     }
 
     let showInactiveConversations: LeanplumABVariable<Bool>
@@ -22,6 +23,7 @@ struct ChatABGroup: ABGroupType {
     let showChatHeaderWithoutListingForAssistant: LeanplumABVariable<Bool>
     let showChatHeaderWithoutUser: LeanplumABVariable<Bool>
     let enableCTAMessageType: LeanplumABVariable<Bool>
+    let expressChatImprovement: LeanplumABVariable<Int>
 
     let group: ABGroup = .chat
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -37,7 +39,8 @@ struct ChatABGroup: ABGroupType {
          showChatConnectionStatusBar: LeanplumABVariable<Int>,
          showChatHeaderWithoutListingForAssistant: LeanplumABVariable<Bool>,
          showChatHeaderWithoutUser: LeanplumABVariable<Bool>,
-         enableCTAMessageType: LeanplumABVariable<Bool>) {
+         enableCTAMessageType: LeanplumABVariable<Bool>,
+         expressChatImprovement: LeanplumABVariable<Int>) {
         self.showInactiveConversations = showInactiveConversations
         self.showChatSafetyTips = showChatSafetyTips
         self.userIsTyping = userIsTyping
@@ -47,11 +50,13 @@ struct ChatABGroup: ABGroupType {
         self.showChatHeaderWithoutListingForAssistant = showChatHeaderWithoutListingForAssistant
         self.showChatHeaderWithoutUser = showChatHeaderWithoutUser
         self.enableCTAMessageType = enableCTAMessageType
+        self.expressChatImprovement = expressChatImprovement
 
         intVariables.append(contentsOf: [userIsTyping,
                                          chatNorris,
                                          chatConversationsListWithoutTabs,
-                                         showChatConnectionStatusBar])
+                                         showChatConnectionStatusBar,
+                                         expressChatImprovement])
 
         boolVariables.append(contentsOf: [showInactiveConversations,
                                           showChatSafetyTips,
@@ -87,7 +92,10 @@ struct ChatABGroup: ABGroupType {
                                                                 groupType: .chat),
                            enableCTAMessageType: .makeBool(key: Keys.enableCTAMessageType,
                                                            defaultValue: false,
-                                                           groupType: .chat)
+                                                           groupType: .chat),
+                           expressChatImprovement: .makeInt(key: Keys.expressChatImprovement,
+                                                            defaultValue: 0,
+                                                            groupType: .chat)
         )
     }
 }

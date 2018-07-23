@@ -149,10 +149,12 @@
 "chat_express_banner_button_title" = "See Deals";
 "chat_express_banner_title" = "Related deals near you";
 "chat_express_contact_one_button_text" = "Contact 1 seller";
+"chat_express_contact_only_button_text" = "Contact";
 "chat_express_contact_sellers_label" = "Contact these sellers before other buyers snatch them up!";
 "chat_express_contact_various_button_text" = "Contact %@ sellers";
 "chat_express_dont_ask_again_button" = "Don't ask me again";
 "chat_express_dont_miss_label" = "Don't miss out on these deals";
+"chat_express_high_demand_label" = "In high demand!  Don't miss out on these deals";
 "chat_express_one_message_sent_success_alert" = "Your message has been sent!";
 "chat_express_several_messages_sent_success_alert" = "Your messages have been sent!";
 "chat_express_text_field_text" = "Hi! Is it still available?";
@@ -373,6 +375,7 @@
 "filter_cars_seats_title" = "Seats";
 "filter_results_cars_no_matches" = "No exact matches for your search.\n Showing similar results. ";
 "filter_results_cars_other_results" = "Recently posted in your area";
+"filter_services_services_list_show_more" = "Show more";
 "filters_car_make_not_set" = "Not Set";
 "filters_car_model_not_set" = "Not Set";
 "filters_car_seller_type_all" = "All";

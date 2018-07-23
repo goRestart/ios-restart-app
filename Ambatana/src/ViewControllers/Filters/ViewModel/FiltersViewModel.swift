@@ -45,6 +45,9 @@ class FiltersViewModel: BaseViewModel {
     
     private var categoryRepository: CategoryRepository
     private var categories: [FilterCategoryItem]
+    private lazy var serviceTypes: [ServiceType] = {
+        return servicesInfoRepository.retrieveServiceTypes()
+    }()
 
     var numOfCategories : Int {
         // we add an extra empty cell if the num of categories is odds
@@ -955,14 +958,14 @@ extension FiltersViewModel {
     // MARK: Actions
     
     func servicesTypeTapped() {
-        let serviceTypes = servicesInfoRepository.retrieveServiceTypes()
+
         let serviceTypeNames = serviceTypes.map( { $0.name } )
         let vm = ListingAttributeSingleSelectPickerViewModel(title: R.Strings.servicesServiceTypeListTitle,
                                                              attributes: serviceTypeNames,
-                                                             selectedAttribute: productFilter.verticalFilters.services.type?.name)
+                                                             selectedAttribute: currentServiceTypeName)
         { [weak self] selectedIndex in
             if let selectedIndex = selectedIndex {
-                self?.updateServiceType(withServiceType: serviceTypes[safeAt: selectedIndex])
+                self?.updateServiceType(withServiceType: self?.serviceTypes[safeAt: selectedIndex])
             } else {
                 self?.clearServiceType()
             }
@@ -995,10 +998,13 @@ extension FiltersViewModel {
     }
     
     func unifiedServicesFilterTapped() {
-        let types = servicesInfoRepository.retrieveServiceTypes()
-        let cellRepresentables = types.cellRepresentables
+        let cellRepresentables = serviceTypes.cellRepresentables
             .updatedCellRepresentables(withServicesFilters: productFilter.verticalFilters.services)
-        let vm = DropdownViewModel(screenTitle: "", searchPlaceholderTitle: "", attributes: cellRepresentables)
+        
+        let vm = DropdownViewModel(screenTitle: "",
+                                   searchPlaceholderTitle: "",
+                                   attributes: cellRepresentables,
+                                   buttonAction: updateAllServices)
         navigator?.openServicesDropdown(viewModel: vm)
     }
     
@@ -1013,6 +1019,15 @@ extension FiltersViewModel {
         }
         
         return selectedAttributes
+    }
+    
+    private func updateAllServices(_ selectedIds: DropdownSelectedItems) {
+        let serviceType = serviceTypes.first(where: { $0.id == selectedIds.selectedHeaderId })
+        let serviceSubtypes = serviceType?.subTypes.filter { selectedIds.selectedItemsIds.contains($0.id) }
+        productFilter.verticalFilters.services.type = serviceType
+        productFilter.verticalFilters.services.subtypes = serviceSubtypes
+        delegate?.vmDidUpdate()
+        delegate?.vmPop()
     }
     
     private func updateServiceType(withServiceType serviceType: ServiceType?) {

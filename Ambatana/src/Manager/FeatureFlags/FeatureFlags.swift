@@ -73,6 +73,7 @@ protocol FeatureFlaggeable: class {
     var showChatHeaderWithoutListingForAssistant: Bool { get }
     var showChatHeaderWithoutUser: Bool { get }
     var enableCTAMessageType: Bool { get }
+    var expressChatImprovement: ExpressChatImprovement { get }
 
     // MARK: Verticals
     var realEstateMap: RealEstateMap { get }
@@ -273,7 +274,7 @@ extension AdvancedReputationSystem {
 
 extension ShowCommunity {
     var isActive: Bool {  return self != .baseline && self != .control }
-    var shouldShowOnTab: Bool { return self == .variantB }
+    var shouldShowOnTab: Bool { return self == .communityOnTabBar }
 }
 
 extension ShowPasswordlessLogin {
@@ -1118,6 +1119,10 @@ extension ShowChatConnectionStatusBar {
     var isActive: Bool { return self == .active }
 }
 
+extension ExpressChatImprovement {
+    var isActive: Bool { return self == .hideDontAsk || self == .newTitleAndHideDontAsk }
+}
+
 extension FeatureFlags {
     
     var showInactiveConversations: Bool {
@@ -1183,6 +1188,13 @@ extension FeatureFlags {
         }
         return abTests.enableCTAMessageType.value
     }
+
+    var expressChatImprovement: ExpressChatImprovement {
+        if Bumper.enabled {
+            return Bumper.expressChatImprovement
+        }
+        return  ExpressChatImprovement.fromPosition(abTests.expressChatImprovement.value)
+    }
 }
 
 // MARK: Verticals
@@ -1207,9 +1219,7 @@ extension FeatureFlags {
         if Bumper.enabled {
             return Bumper.carExtraFieldsEnabled
         }
-        
-        return .control
-//        return CarExtraFieldsEnabled.fromPosition(abTests.carExtraFieldsEnabled.value)
+        return CarExtraFieldsEnabled.fromPosition(abTests.carExtraFieldsEnabled.value)
     }
     
     var realEstateMapTooltip: RealEstateMapTooltip {

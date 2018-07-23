@@ -149,10 +149,12 @@
 "chat_express_banner_button_title" = "Vedi occasioni";
 "chat_express_banner_title" = "Occasioni simili nella tua zona";
 "chat_express_contact_one_button_text" = "Contatta 1 venditore";
+"chat_express_contact_only_button_text" = "Contact";
 "chat_express_contact_sellers_label" = "Contatta questi venditori prima che altri acquirenti te li soffino da sotto il naso!";
 "chat_express_contact_various_button_text" = "Contatta %@ venditori";
 "chat_express_dont_ask_again_button" = "Non chiedermelo più";
 "chat_express_dont_miss_label" = "Non perderti queste occasioni";
+"chat_express_high_demand_label" = "In high demand!  Don't miss out on these deals";
 "chat_express_one_message_sent_success_alert" = "Il messaggio è stato inviato!";
 "chat_express_several_messages_sent_success_alert" = "Il messaggio è stato inviato!";
 "chat_express_text_field_text" = "È ancora disponibile?";
@@ -373,6 +375,7 @@
 "filter_cars_seats_title" = "Posti";
 "filter_results_cars_no_matches" = "Nessuna corrispondenza per la tua ricerca.\n Risultati simili. ";
 "filter_results_cars_other_results" = "Pubblicati di recente nella tua zona";
+"filter_services_services_list_show_more" = "Mostra Altro";
 "filters_car_make_not_set" = "Non Impostato";
 "filters_car_model_not_set" = "Non Impostato";
 "filters_car_seller_type_all" = "Tutti";
@@ -816,7 +819,7 @@
 "product_post_camera_video_mode_button" = "VIDEO";
 "product_post_camera_video_mode_button_new_badge" = "Novità!";
 "product_post_camera_video_recording_min_duration_message" = "Registra per almeno %d secondi";
-"product_post_camera_video_recording_tooltip" = "%@ per registrare un video";
+"product_post_camera_video_recording_tooltip" = "%@ per registrare video";
 "product_post_camera_video_recording_tooltip_highlighted_word" = "Tieni premuto";
 "product_post_close_alert_close_button" = "Elimina";
 "product_post_close_alert_description" = "Desideri ancora metterlo in vendita?";

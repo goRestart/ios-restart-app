@@ -150,8 +150,8 @@ final class PostingMultiSelectionView: UIView {
         tableView.layout(with: self)
             .bottom()
             .fillHorizontal(by: Metrics.margin)
-        gradient.layout(with: self).fillHorizontal()
-        gradient.layout(with: tableView).fillVertical()
+        gradient.layout(with: self).fillHorizontal().bottom()
+        gradient.layout().height(Layout.shadowHeight)
         
     }
     
@@ -196,6 +196,7 @@ final class PostingMultiSelectionView: UIView {
         static let cellSize: CGFloat = 67
         static let searchHeight: CGFloat = 44
         static let tagsHeight: CGFloat = 33
+        static let shadowHeight: CGFloat = 500
     }
     
 }

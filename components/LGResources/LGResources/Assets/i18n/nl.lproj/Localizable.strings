@@ -149,10 +149,12 @@
 "chat_express_banner_button_title" = "Bekijk Deals";
 "chat_express_banner_title" = "Gerelateerde deals in jouw buurt";
 "chat_express_contact_one_button_text" = "Contacteer 1 verkoper";
+"chat_express_contact_only_button_text" = "Contact";
 "chat_express_contact_sellers_label" = "Neem contact op met deze verkopers voordat andere kopers dat doen!";
 "chat_express_contact_various_button_text" = "Contacteer %@ verkopers";
 "chat_express_dont_ask_again_button" = "Vraag me niet opnieuw";
 "chat_express_dont_miss_label" = "Mis deze deals niet";
+"chat_express_high_demand_label" = "In high demand!  Don't miss out on these deals";
 "chat_express_one_message_sent_success_alert" = "Je bericht is verzonden!";
 "chat_express_several_messages_sent_success_alert" = "Je berichten zijn verzonden!";
 "chat_express_text_field_text" = "Is het nog beschikbaar?";
@@ -373,6 +375,7 @@
 "filter_cars_seats_title" = "Zitplaatsen";
 "filter_results_cars_no_matches" = "Geen exacte resultaten voor jouw zoekopdracht.\n  Toon vergelijkbare resultaten.";
 "filter_results_cars_other_results" = "Recent geplaatst in jouw omgeving";
+"filter_services_services_list_show_more" = "Toon meer";
 "filters_car_make_not_set" = "Niet Ingesteld";
 "filters_car_model_not_set" = "Niet Ingesteld";
 "filters_car_seller_type_all" = "Alle";
@@ -1266,7 +1269,7 @@
 "sell_send_error_invalid_price" = "Voer een geldige prijs in voor de advertentie. Deze kan enkel cijfers bevatten.";
 "sell_send_error_invalid_title" = "Voer een geldige titel in voor je advertentie.";
 "sell_send_error_sharing_facebook" = "Er is een fout opgetreden bij het delen op Facebook. Probeer het nog eens.";
-"sell_share_on_facebook_footer_label" = "Get more visibility and sell faster";
+"sell_share_on_facebook_footer_label" = "Krijg meer zichtbaarheid en verkoop sneller";
 "sell_share_on_facebook_label" = "Delen op Facebook";
 "sell_title_autogen_autotrans_label" = "Title voorgesteld door letgo en vertaald door Google";
 "sell_title_autogen_label" = "Titel voorgesteld door letgo";
@@ -1276,7 +1279,7 @@
 "services_service_subtype_title" = "Diensten";
 "services_service_type_list_title" = "Diensten categorie";
 "services_service_type_title" = "Diensten categorie";
-"services_unified_filter_title" = "Select a category";
+"services_unified_filter_title" = "Selecteer een categorie";
 "settings_change_email_button" = "E-mail";
 "settings_change_location_button" = "Locatie";
 "settings_change_password_button" = "Wachtwoord";
