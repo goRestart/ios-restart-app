@@ -452,11 +452,9 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
             self?.retrieveFirstPage()
         })
     }
-}
 
-// MARK: - Trackings
+    // MARK: - Trackings
 
-extension ChatConversationsListViewModel {
     private func trackEmptyState(emptyViewModel: LGEmptyViewModel) {
         guard let emptyReason = emptyViewModel.emptyReason else { return }
         tracker.trackEvent(TrackerEvent.emptyStateVisit(typePage: .chatList,

@@ -1826,6 +1826,13 @@ fileprivate extension MainListingsViewModel {
                                                               permissionGoToSettings: goToSettings)
         tracker.trackEvent(trackerEvent)
     }
+
+    private func trackStartSelling(source: PostingSource, category: PostCategory) {
+        tracker.trackEvent(TrackerEvent.listingSellStart(typePage: source.typePage,
+                                                         buttonName: source.buttonName,
+                                                         sellButtonPosition: source.sellButtonPosition,
+                                                         category: category.listingCategory))
+    }
 }
 
 
@@ -2002,18 +2009,6 @@ extension MainListingsViewModel: ListingCellDelegate {
         userRepository.show(userId) { result in
             completion(result.value)
         }
-    }
-    
-}
-
-// MARK: - Trackings
-
-extension MainListingsViewModel {
-    private func trackStartSelling(source: PostingSource, category: PostCategory) {
-        tracker.trackEvent(TrackerEvent.listingSellStart(typePage: source.typePage,
-                                                         buttonName: source.buttonName,
-                                                         sellButtonPosition: source.sellButtonPosition,
-                                                         category: category.listingCategory))
     }
 }
 

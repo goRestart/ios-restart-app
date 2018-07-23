@@ -730,7 +730,9 @@ struct TrackerEvent {
         return TrackerEvent(name: .listingSellPermissionsGrant, params: params)
     }
 
-    static func listingSellCategorySelect(typePage: EventParameterTypePage, postingType: EventParameterPostingType, category: ListingCategory) -> TrackerEvent {
+    static func listingSellCategorySelect(typePage: EventParameterTypePage,
+                                          postingType: EventParameterPostingType,
+                                          category: ListingCategory) -> TrackerEvent {
         var params = EventParameters()
         params[.listingVisitSource] = typePage.rawValue
         params[.postingType] = postingType.rawValue
@@ -766,7 +768,7 @@ struct TrackerEvent {
 
     static func listingSellMediaPublish(size: Int?) -> TrackerEvent {
         var params = EventParameters()
-        params[.originalFileSize] = size ?? ""
+        params[.originalFileSize] = size ?? TrackerEvent.notApply
         return TrackerEvent(name: .listingSellMediaPublish, params: params)
     }    
     

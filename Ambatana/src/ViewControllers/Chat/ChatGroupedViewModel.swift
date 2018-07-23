@@ -355,6 +355,15 @@ class ChatGroupedViewModel: BaseViewModel {
         }
         reachability.start()
     }
+
+    // MARK: - Trackings
+
+    private func trackStartSelling(source: PostingSource) {
+        tracker.trackEvent(TrackerEvent.listingSellStart(typePage: source.typePage,
+                                                         buttonName: source.buttonName,
+                                                         sellButtonPosition: source.sellButtonPosition,
+                                                         category: nil))
+    }
 }
 
 
@@ -444,16 +453,5 @@ extension ChatGroupedViewModel {
                 }
                 .disposed(by: disposeBag)
         }
-    }
-}
-
-// MARK: - Trackings
-
-extension ChatGroupedViewModel {
-    private func trackStartSelling(source: PostingSource) {
-        tracker.trackEvent(TrackerEvent.listingSellStart(typePage: source.typePage,
-                                                         buttonName: source.buttonName,
-                                                         sellButtonPosition: source.sellButtonPosition,
-                                                         category: nil))
     }
 }

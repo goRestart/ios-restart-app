@@ -1133,6 +1133,21 @@ fileprivate extension AppCoordinator {
             self?.showBubble(with: data, duration: SharedConstants.bubbleChatDuration)
         }
     }
+
+    // MARK: - Trackings
+
+    private func trackStartSelling(source: PostingSource) {
+        tracker.trackEvent(TrackerEvent.listingSellStart(typePage: source.typePage,
+                                                         buttonName: source.buttonName,
+                                                         sellButtonPosition: source.sellButtonPosition,
+                                                         category: nil))
+    }
+
+    private func trackSelectCategory(source: PostingSource, category: PostCategory) {
+        tracker.trackEvent(TrackerEvent.listingSellCategorySelect(typePage: source.typePage,
+                                                                  postingType: EventParameterPostingType(category: category),
+                                                                  category: category.listingCategory))
+    }
 }
 
 extension AppCoordinator: ChangePasswordNavigator {
@@ -1232,23 +1247,6 @@ extension AppCoordinator: ProfileCoordinatorSearchAlertsDelegate {
         openTab(.home) { [weak self] in
             self?.mainTabBarCoordinator.readyToSearch()
         }
-    }
-}
-
-// MARK: - Trackings
-
-extension AppCoordinator {
-    private func trackStartSelling(source: PostingSource) {
-        tracker.trackEvent(TrackerEvent.listingSellStart(typePage: source.typePage,
-                                                         buttonName: source.buttonName,
-                                                         sellButtonPosition: source.sellButtonPosition,
-                                                         category: nil))
-    }
-
-    private func trackSelectCategory(source: PostingSource, category: PostCategory) {
-        tracker.trackEvent(TrackerEvent.listingSellCategorySelect(typePage: source.typePage,
-                                                                  postingType: EventParameterPostingType(category: category),
-                                                                  category: category.listingCategory))
     }
 }
 

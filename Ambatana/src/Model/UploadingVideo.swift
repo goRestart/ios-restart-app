@@ -22,11 +22,11 @@ extension LGVideo {
 }
 
 extension VideoUpload {
-    var fileSize: Int {
+    var fileSize: Int? {
         do {
             let fileAttributes = try FileManager.default.attributesOfItem(atPath: recordedVideo.url.path)
             print(fileAttributes)
-            return fileAttributes[.size] as? Int ?? 0
-        } catch { return 0 }
+            return fileAttributes[.size] as? Int
+        } catch { return nil }
     }
 }

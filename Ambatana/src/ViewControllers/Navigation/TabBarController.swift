@@ -352,6 +352,22 @@ final class TabBarController: UITabBarController {
             viewModel.homeBadge.asObservable().bind(to: homeTab.rx.badgeValue).disposed(by: disposeBag)
         }
     }
+
+    // MARK: - Trackings
+
+    private func trackStartSelling(source: PostingSource) {
+        tracker.trackEvent(TrackerEvent.listingSellStart(typePage: source.typePage,
+                                                         buttonName: source.buttonName,
+                                                         sellButtonPosition: source.sellButtonPosition,
+                                                         category: nil))
+    }
+
+    private func trackAbandon() {
+        tracker.trackEvent(TrackerEvent.listingSellAbandon(abandonStep: .productSellTypeSelect,
+                                                           pictureUploaded: .falseParameter,
+                                                           loggedUser: EventParameterBoolean(bool: viewModel.userIsLoggedIn),
+                                                           buttonName: .cancelSelectType))
+    }
 }
 
 
@@ -395,7 +411,7 @@ extension TabBarController {
 extension TabBarController: ExpandableCategorySelectionDelegate {
     func didPressCloseButton() {
         floatingSellButton.showWithAnimation()
-        trackAbandom()
+        trackAbandon()
     }
     
     func didPressCategory(_ category: ExpandableCategory) {
@@ -411,22 +427,3 @@ extension TabBarController: ExpandableCategorySelectionDelegate {
         viewModel.tagPressed(mostSearchedItem: tag)
     }
 }
-
-// MARK: - Trackings
-
-extension TabBarController {
-    private func trackStartSelling(source: PostingSource) {
-        tracker.trackEvent(TrackerEvent.listingSellStart(typePage: source.typePage,
-                                                         buttonName: source.buttonName,
-                                                         sellButtonPosition: source.sellButtonPosition,
-                                                         category: nil))
-    }
-    
-    private func trackAbandom() {
-        tracker.trackEvent(TrackerEvent.listingSellAbandon(abandonStep: .productSellTypeSelect,
-                                                           pictureUploaded: .falseParameter,
-                                                           loggedUser: EventParameterBoolean(bool: viewModel.userIsLoggedIn),
-                                                           buttonName: .cancelSelectType))
-    }
-}
-
