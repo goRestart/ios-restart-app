@@ -329,7 +329,8 @@ extension PostingDetailsViewModelSpec: PostListingNavigator {
         nextPostingDetailStepCalled = true
     }
     func closePostProductAndPostInBackground(params: ListingCreationParams,
-                                             trackingInfo: PostListingTrackingInfo) {
+                                             trackingInfo: PostListingTrackingInfo,
+                                             shareAfterPost: Bool?) {
         closePostProductAndPostInBackgroundCalled = true
     }
     
