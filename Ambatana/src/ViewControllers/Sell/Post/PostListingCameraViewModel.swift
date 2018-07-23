@@ -441,15 +441,15 @@ final class PostListingCameraViewModel: BaseViewModel {
         isLiveStatsEnabled.value = enable
         machineLearning.liveStats.value = nil
     }
-}
 
-// MARK: - Tracking
+    // MARK: - Trackings
 
-extension PostListingCameraViewModel {
     private func trackPermissionsGrant() {
         tracker.trackEvent(TrackerEvent.listingSellPermissionsGrant(type: .camera))
     }
-    private func trackMediaCapture(source: EventParameterMediaSource, camera: EventParameterCameraSide,
+
+    private func trackMediaCapture(source: EventParameterMediaSource,
+                                   camera: EventParameterCameraSide,
                                    hasError: Bool = false) {
         tracker.trackEvent(TrackerEvent.listingSellMediaCapture(source: source,
                                                                 cameraSide: camera,

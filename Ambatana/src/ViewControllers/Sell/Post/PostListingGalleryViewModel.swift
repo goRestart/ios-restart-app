@@ -441,9 +441,6 @@ class PostListingGalleryViewModel: BaseViewModel {
                 handler(result)
         })
     }
-}
-
-extension PostListingGalleryViewModel {
 
     private func trackPermissionsGrant() {
         tracker.trackEvent(TrackerEvent.listingSellPermissionsGrant(type: .camera))

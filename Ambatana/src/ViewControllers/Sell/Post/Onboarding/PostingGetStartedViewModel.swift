@@ -85,11 +85,9 @@ class PostingGetStartedViewModel: BaseViewModel {
         trackPostSellAbandon()
         navigator?.closePosting()
     }
-}
 
-// MARK: - Tracker
+    // MARK: - Trackings
 
-extension PostingGetStartedViewModel {
     private func trackStartSelling() {
         let event = TrackerEvent.listingSellStart(typePage: .onboarding,
                                                   buttonName: PostingSource.onboardingBlockingPosting.buttonName,

@@ -139,11 +139,8 @@ class TabBarViewModel: BaseViewModel {
             .bind(to: homeBadge)
             .disposed(by: disposeBag)
     }
-}
 
-// MARK: - Trackings
-
-extension TabBarViewModel {
+    // MARK: - Trackings
 
     private func trackSelectCategory(source:PostingSource, category: PostCategory) {
         tracker.trackEvent(TrackerEvent.listingSellCategorySelect(typePage: source.typePage,
