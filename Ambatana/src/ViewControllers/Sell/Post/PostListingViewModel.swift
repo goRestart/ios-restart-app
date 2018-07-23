@@ -278,7 +278,7 @@ class PostListingViewModel: BaseViewModel {
             }
         }
 
-        trackPublish(size: 0)
+        trackPublish(size: nil)
     }
 
     fileprivate func uploadVideoSnapshot(uploadingVideo: VideoUpload) {
@@ -670,7 +670,7 @@ fileprivate extension PostListingViewModel {
         tracker.trackEvent(event)
     }
 
-    private func trackPublish(size: Int) {
+    private func trackPublish(size: Int?) {
         tracker.trackEvent(TrackerEvent.listingSellMediaPublish(size: size))
     }
 }
