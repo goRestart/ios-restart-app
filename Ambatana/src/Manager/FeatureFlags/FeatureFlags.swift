@@ -274,7 +274,7 @@ extension AdvancedReputationSystem {
 
 extension ShowCommunity {
     var isActive: Bool {  return self != .baseline && self != .control }
-    var shouldShowOnTab: Bool { return self == .variantB }
+    var shouldShowOnTab: Bool { return self == .communityOnTabBar }
 }
 
 extension ShowPasswordlessLogin {
