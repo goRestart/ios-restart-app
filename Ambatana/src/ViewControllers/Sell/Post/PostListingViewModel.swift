@@ -6,7 +6,6 @@ protocol PostListingViewModelDelegate: BaseViewModelDelegate {}
 
 enum PostingSource {
     case tabBar
-//    case sellButton
     case deepLink
     case onboardingButton
     case onboardingCamera
@@ -205,12 +204,6 @@ class PostListingViewModel: BaseViewModel {
         setupCarsRx()
         setupCategories()
     }
-
-//    override func didBecomeActive(_ firstTime: Bool) {
-//        super.didBecomeActive(firstTime)
-//        guard firstTime, !isBlockingPosting else { return }
-//        trackVisit()
-//    }
 
     private func setupCategories() {
         categoryRepository.index(servicesIncluded: false, carsIncluded: false, realEstateIncluded: false) { [weak self] result in

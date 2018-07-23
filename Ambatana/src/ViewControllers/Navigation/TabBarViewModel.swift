@@ -25,12 +25,16 @@ class TabBarViewModel: BaseViewModel {
     var shouldShowHomeBadge: Bool {
         return featureFlags.engagementBadging.isActive
     }
+    var userIsLoggedIn: Bool {
+        return sessionManager.loggedIn
+    }
 
     private let notificationsManager: NotificationsManager
     private let myUserRepository: MyUserRepository
     private let keyValueStorage: KeyValueStorage
     private let featureFlags: FeatureFlaggeable
     private let tracker: Tracker
+    private let sessionManager: SessionManager
     
     private let disposeBag = DisposeBag()
 
@@ -42,19 +46,22 @@ class TabBarViewModel: BaseViewModel {
                   myUserRepository: Core.myUserRepository,
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   featureFlags: FeatureFlags.sharedInstance,
-                  tracker: TrackerProxy.sharedInstance)
+                  tracker: TrackerProxy.sharedInstance,
+                  sessionManager: Core.sessionManager)
     }
 
     init(notificationsManager: NotificationsManager,
          myUserRepository: MyUserRepository,
          keyValueStorage: KeyValueStorage,
          featureFlags: FeatureFlaggeable,
-         tracker: Tracker) {
+         tracker: Tracker,
+         sessionManager: SessionManager) {
         self.notificationsManager = notificationsManager
         self.myUserRepository = myUserRepository
         self.keyValueStorage = keyValueStorage
         self.featureFlags = featureFlags
         self.tracker = tracker
+        self.sessionManager = sessionManager
         super.init()
         setupRx()
     }

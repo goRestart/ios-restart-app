@@ -425,7 +425,7 @@ extension TabBarController {
     private func trackAbandom() {
         tracker.trackEvent(TrackerEvent.listingSellAbandon(abandonStep: .productSellTypeSelect,
                                                            pictureUploaded: .falseParameter,
-                                                           loggedUser: .notAvailable,
+                                                           loggedUser: EventParameterBoolean(bool: viewModel.userIsLoggedIn),
                                                            buttonName: .cancelSelectType))
     }
 }
