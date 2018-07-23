@@ -41,6 +41,7 @@ final class AppCoordinator: NSObject, Coordinator {
     fileprivate let notificationsTabBarCoordinator: NotificationsTabCoordinator
     fileprivate let chatsTabBarCoordinator: ChatsTabCoordinator
     fileprivate let profileTabBarCoordinator: ProfileTabCoordinator
+    fileprivate let communityTabCoordinator: CommunityTabCoordinator
     fileprivate let tabCoordinators: [TabCoordinator]
 
     fileprivate let configManager: ConfigManager
@@ -124,8 +125,15 @@ final class AppCoordinator: NSObject, Coordinator {
         self.notificationsTabBarCoordinator = NotificationsTabCoordinator()
         self.chatsTabBarCoordinator = ChatsTabCoordinator()
         self.profileTabBarCoordinator = ProfileTabCoordinator()
-        self.tabCoordinators = [mainTabBarCoordinator, notificationsTabBarCoordinator, chatsTabBarCoordinator,
-                                profileTabBarCoordinator]
+        self.communityTabCoordinator = CommunityTabCoordinator()
+
+        if featureFlags.community.shouldShowOnTab {
+            self.tabCoordinators = [mainTabBarCoordinator, notificationsTabBarCoordinator, chatsTabBarCoordinator,
+                                    communityTabCoordinator]
+        } else {
+            self.tabCoordinators = [mainTabBarCoordinator, notificationsTabBarCoordinator, chatsTabBarCoordinator,
+                                    profileTabBarCoordinator]
+        }
 
         self.configManager = configManager
         self.sessionManager = sessionManager
@@ -698,7 +706,7 @@ extension AppCoordinator: UITabBarControllerDelegate {
         let afterLogInSuccessful: () -> ()
 
         switch tab {
-        case .home, .notifications, .chats, .profile:
+        case .home, .notifications, .chats, .profile, .community:
             afterLogInSuccessful = { [weak self] in self?.openTab(tab, force: true, completion: nil) }
         case .sell:
             afterLogInSuccessful = { [weak self] in self?.openSell(source: .tabBar, postCategory: nil, listingTitle: nil) }
@@ -709,7 +717,7 @@ extension AppCoordinator: UITabBarControllerDelegate {
             return false
         } else {
             switch tab {
-            case .home, .notifications, .chats, .profile:
+            case .home, .notifications, .chats, .profile, .community:
                 // tab is changed after returning from this method
                 return !shouldOpenLogin
             case .sell:
@@ -1231,7 +1239,7 @@ extension AppCoordinator: ProfileCoordinatorSearchAlertsDelegate {
 fileprivate extension Tab {
     var logInRequired: Bool {
         switch self {
-        case .home, .sell:
+        case .home, .sell, .community:
             return false
         case .notifications, .chats, .profile:
             return true
@@ -1249,6 +1257,8 @@ fileprivate extension Tab {
             return .chats
         case .profile:
             return .profile
+        case .community:
+            return .community
         }
     }
 }
