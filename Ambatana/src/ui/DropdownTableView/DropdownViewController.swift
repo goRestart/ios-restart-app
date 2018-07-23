@@ -35,6 +35,22 @@ final class DropdownViewController: KeyboardViewController {
         return gradient
     }()
     
+    private let doneButton: LetgoButton = {
+        let button = LetgoButton(withStyle: .primary(fontSize: .big))
+        button.alpha = 0
+        button.setTitle(R.Strings.commonDone, for: .normal)
+        return button
+    }()
+    
+    private let resetButton: UIBarButtonItem = {
+        let resetButton = UIBarButtonItem(title: R.Strings.filtersNavbarReset,
+                                          style: UIBarButtonItemStyle.plain,
+                                          target: self,
+                                          action: #selector(resetButtonTapped))
+        resetButton.tintColor = .primaryColor
+        return resetButton
+    }()
+    
     //  MARK: - Lifecycle
     
     convenience init(withViewModel viewModel: DropdownViewModel) {
@@ -54,6 +70,9 @@ final class DropdownViewController: KeyboardViewController {
     
     private func setupUI() {
         view.backgroundColor = .white
+        doneButton.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
+        showDoneButton()
+        showResetButton()
         addSubViews()
         addConstraints()
     }
@@ -63,7 +82,7 @@ final class DropdownViewController: KeyboardViewController {
     }
     
     private func addSubViews() {
-        view.addSubviewsForAutoLayout([searchBar, tableView, gradient])
+        view.addSubviewsForAutoLayout([searchBar, tableView, gradient, doneButton])
     }
     
     private func addConstraints() {
@@ -83,7 +102,15 @@ final class DropdownViewController: KeyboardViewController {
                                    gradient.bottomAnchor.constraint(equalTo: tableView.bottomAnchor),
                                    gradient.heightAnchor.constraint(equalToConstant: Layout.Gradient.height)]
         
-        NSLayoutConstraint.activate(searchConstraints + tableContraints + gradientConstraints)
+        let buttonConstraints = [doneButton.heightAnchor.constraint(equalToConstant: Layout.Done.height),
+                                 doneButton.widthAnchor.constraint(greaterThanOrEqualToConstant: Layout.Done.minimumWidth),
+                                 doneButton.trailingAnchor.constraint(equalTo: tableView.trailingAnchor, constant: -Metrics.bigMargin),
+                                 doneButton.bottomAnchor.constraint(equalTo: keyboardView.topAnchor, constant: -Metrics.veryBigMargin)]
+
+        NSLayoutConstraint.activate([searchConstraints,
+                                     tableContraints,
+                                     gradientConstraints,
+                                     buttonConstraints].flatMap { $0 })
     }
 
     private func setupRx() {
@@ -111,16 +138,43 @@ final class DropdownViewController: KeyboardViewController {
         }
         .disposed(by: disposeBag)
     }
+    
+    //  MARK: - Button Actions
+    
+    @objc private func doneButtonTapped() {
+        let selections = (selectedHeaderId: "", selectedItemsIds: [""])
+        viewModel.filter(selections)
+    }
+    
+    @objc private func resetButtonTapped() {
+        viewModel.resetFilters()
+    }
+}
+
+private extension DropdownViewController {
+    func showResetButton() {
+        navigationItem.rightBarButtonItem = resetButton
+    }
+    
+    func hideResetButton() {
+        navigationItem.rightBarButtonItem = nil
+    }
+    
+    func showDoneButton() {
+        doneButton.animateTo(alpha: 1.0)
+    }
+    
+    func hideDoneButton() {
+        doneButton.animateTo(alpha: 0.0)
+    }
 }
 
 extension DropdownViewController: UITableViewDelegate {
-    
     func tableView(_ tableView: UITableView,
                    heightForRowAt indexPath: IndexPath) -> CGFloat {
         return viewModel.itemHeight(atIndex: indexPath.item)
     }
 }
-
 
 private struct Layout {
     struct Search {
@@ -128,5 +182,9 @@ private struct Layout {
     }
     struct Gradient {
         static let height: CGFloat = 500
+    }
+    struct Done {
+        static let height: CGFloat = 44
+        static let minimumWidth: CGFloat = 114
     }
 }

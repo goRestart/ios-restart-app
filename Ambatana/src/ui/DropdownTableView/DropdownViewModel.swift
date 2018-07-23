@@ -7,6 +7,8 @@ protocol DropdownRepresentable {
     var attributes: [DropdownCellRepresentable] { get set }
 }
 
+typealias DropdownSelectedItems = (selectedHeaderId: String, selectedItemsIds: [String])
+
 final class DropdownViewModel: DropdownRepresentable {
     
     private enum Layout {
@@ -17,13 +19,18 @@ final class DropdownViewModel: DropdownRepresentable {
     let screenTitle: String
     let searchPlaceholderTitle: String
     var attributes: [DropdownCellRepresentable]
+    let buttonAction: ((DropdownSelectedItems) -> Void)?
+    
     let attributesDriver: Driver<[DropdownCellRepresentable]>
 
-    
-    init(screenTitle: String, searchPlaceholderTitle: String, attributes: [DropdownCellRepresentable]) {
+    init(screenTitle: String,
+         searchPlaceholderTitle: String,
+         attributes: [DropdownCellRepresentable],
+         buttonAction: ((DropdownSelectedItems) -> Void)?) {
         self.screenTitle = screenTitle
         self.searchPlaceholderTitle = searchPlaceholderTitle
         self.attributes = attributes
+        self.buttonAction = buttonAction
         self.attributesDriver = Driver.just(attributes)
     }
     
@@ -40,4 +47,16 @@ final class DropdownViewModel: DropdownRepresentable {
             return Layout.itemHeight
         }
     }
+}
+
+extension DropdownViewModel {
+    
+    func resetFilters() {
+        attributes.forEach { $0.update(withState: .disabled) }
+    }
+    
+    func filter(_ selections: DropdownSelectedItems) {
+        buttonAction?(selections)
+    }
+
 }

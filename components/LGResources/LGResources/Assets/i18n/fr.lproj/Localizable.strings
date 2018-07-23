@@ -149,10 +149,12 @@
 "chat_express_banner_button_title" = "Voir les Affaires";
 "chat_express_banner_title" = "Affaires similaires près de chez vous";
 "chat_express_contact_one_button_text" = "Contacter 1 vendeur";
+"chat_express_contact_only_button_text" = "Contact";
 "chat_express_contact_sellers_label" = "Contactez ces vendeurs avant que d'autres acheteurs ne le fassent !";
 "chat_express_contact_various_button_text" = "Contacter %@ vendeurs";
 "chat_express_dont_ask_again_button" = "Ne pas me redemander";
 "chat_express_dont_miss_label" = "Ne manquez pas ces bonnes affaires";
+"chat_express_high_demand_label" = "In high demand!  Don't miss out on these deals";
 "chat_express_one_message_sent_success_alert" = "Votre message a été envoyé !";
 "chat_express_several_messages_sent_success_alert" = "Vos messages ont été envoyés !";
 "chat_express_text_field_text" = "Toujours disponible ?";
@@ -373,6 +375,7 @@
 "filter_cars_seats_title" = "Sièges";
 "filter_results_cars_no_matches" = "Aucune réponse exacte à votre recherche.\nAffichage de résultats similaires. ";
 "filter_results_cars_other_results" = "Publié récemment dans votre secteur";
+"filter_services_services_list_show_more" = "Afficher plus";
 "filters_car_make_not_set" = "Non Communiqué";
 "filters_car_model_not_set" = "Non Communiqué";
 "filters_car_seller_type_all" = "Tous";
@@ -1158,7 +1161,7 @@
 "report_user_suspcious" = "Comportement suspect";
 "report_user_text_placeholder" = "Ajouter un commentaire (facultatif)";
 "report_user_title" = "Signaler l'utilisateur";
-"reporting_additional_notes_placeholder" = "Entre-temps, veuillez fournir des informations complémentaires afin que notre équipe puisse enquêter à la suite de votre déclaration.";
+"reporting_additional_notes_placeholder" = "Ajoutez toutes notes additionnelles qui pourraient nous aider à résoudre ce problème";
 "reporting_listing_list_header" = "POURQUOI SIGNALEZ-VOUS CETTE ANNONCE ?";
 "reporting_listing_report_sent_text" = "Merci pour votre envoi anonyme d'informations ainsi que pour nous aider à faire de letgo le meilleur endroit pour acheter et vendre localement.";
 "reporting_listing_report_sent_title" = "Information envoyée !";
@@ -1216,10 +1219,10 @@
 "reporting_user_report_sent_title" = "Information envoyée !";
 "reporting_user_suspicious_behavior_header" = "QUE S'EST-IL PASSÉ ?";
 "reporting_user_title" = "Signaler Utilisateur";
-"reporting_user_update_text_A" = "Thanks for anonymously reporting %@. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing this account, we've removed it because it violated our Community Guidelines.";
-"reporting_user_update_text_B" = "Thanks for anonymously reporting %@'s profile photo. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing the photo, we've removed it because it violated our Community Guidelines.";
-"reporting_user_update_text_C" = "Thanks for anonymously reporting %@'s bio. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing the bio, we've removed it because it violated our Community Guidelines.";
-"reporting_user_update_title" = "Report update";
+"reporting_user_update_text_A" = "Merci d'avoir anonymement signalé %@. Des commentaires comme le vôtre nous aident à faire de letgo une communauté sécuritaire.\n\nAprès avoir évalué ce compte, nous l'avons retiré, car il violait nos Directives Communautaires.";
+"reporting_user_update_text_B" = "Merci d'avoir anonymement signalé la photo de profil de %@. Des commentaires comme le vôtre nous aident à faire de letgo une communauté sécuritaire. \n\nAprès avoir évalué la photo, nous l'avons retirée, car elle violait nos Directives Communautaires.";
+"reporting_user_update_text_C" = "Merci d'avoir anonymement signalé la bio de %@. Des commentaires comme le vôtre nous aident à faire de letgo une communauté sécuritaire. \n\nAprès avoir évalué cette bio, nous l'avons retirée, car elle violait nos Directives Communautaires.";
+"reporting_user_update_title" = "Suivi du signalement";
 "reset_password_email_field_hint" = "Entrez votre adresse email";
 "reset_password_instructions" = "Veuillez entrer votre adresse email et nous vous enverrons un email pour réinitialiser votre mot de passe.";
 "reset_password_send_button" = "Envoyer email";
@@ -1276,7 +1279,7 @@
 "services_service_subtype_title" = "Service";
 "services_service_type_list_title" = "Catégorie de service";
 "services_service_type_title" = "Catégorie de service";
-"services_unified_filter_title" = "Select a category";
+"services_unified_filter_title" = "Sélectionner une catégorie";
 "settings_change_email_button" = "Email";
 "settings_change_location_button" = "Localisation";
 "settings_change_password_button" = "Mot de passe";

@@ -81,6 +81,7 @@ extension Bumper  {
         flags.append(ServicesUnifiedFilterScreen.self)
         flags.append(FrictionlessShare.self)
         flags.append(ShowCommunity.self)
+        flags.append(ExpressChatImprovement.self)
         Bumper.initialize(flags)
     } 
 
@@ -925,6 +926,19 @@ extension Bumper  {
     static var showCommunityObservable: Observable<ShowCommunity> {
         return Bumper.observeValue(for: ShowCommunity.key).map {
             ShowCommunity(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var expressChatImprovement: ExpressChatImprovement {
+        guard let value = Bumper.value(for: ExpressChatImprovement.key) else { return .control }
+        return ExpressChatImprovement(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var expressChatImprovementObservable: Observable<ExpressChatImprovement> {
+        return Bumper.observeValue(for: ExpressChatImprovement.key).map {
+            ExpressChatImprovement(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1930,17 +1944,34 @@ enum FrictionlessShare: String, BumperFeature  {
 }
 
 enum ShowCommunity: String, BumperFeature  {
-    case control, baseline, variantA, variantB
+    case control, baseline, communityOnNavBar, communityOnTabBar
     static var defaultValue: String { return ShowCommunity.control.rawValue }
-    static var enumValues: [ShowCommunity] { return [.control, .baseline, .variantA, .variantB]}
+    static var enumValues: [ShowCommunity] { return [.control, .baseline, .communityOnNavBar, .communityOnTabBar]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "[Users] Show button/tab to open the new Community feature" } 
     static func fromPosition(_ position: Int) -> ShowCommunity {
         switch position { 
             case 0: return .control
             case 1: return .baseline
-            case 2: return .variantA
-            case 3: return .variantB
+            case 2: return .communityOnNavBar
+            case 3: return .communityOnTabBar
+            default: return .control
+        }
+    }
+}
+
+enum ExpressChatImprovement: String, BumperFeature  {
+    case control, baseline, hideDontAsk, newTitleAndHideDontAsk
+    static var defaultValue: String { return ExpressChatImprovement.control.rawValue }
+    static var enumValues: [ExpressChatImprovement] { return [.control, .baseline, .hideDontAsk, .newTitleAndHideDontAsk]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[CHAT] Express chat improvements" } 
+    static func fromPosition(_ position: Int) -> ExpressChatImprovement {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .hideDontAsk
+            case 3: return .newTitleAndHideDontAsk
             default: return .control
         }
     }

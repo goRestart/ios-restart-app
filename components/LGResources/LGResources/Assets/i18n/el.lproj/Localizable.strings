@@ -149,10 +149,12 @@
 "chat_express_banner_button_title" = "Δείτε Προσφορές";
 "chat_express_banner_title" = "Παρόμοιες προσφορές κοντά σας";
 "chat_express_contact_one_button_text" = "Επικοινωνία με 1 πωλητή";
+"chat_express_contact_only_button_text" = "Contact";
 "chat_express_contact_sellers_label" = "Επικοινωνήστε με αυτούς τους πωλητές πριν σας προλάβουν άλλοι αγοραστές!";
 "chat_express_contact_various_button_text" = "Επικοινωνία με %@ πωλητές";
 "chat_express_dont_ask_again_button" = "Μην ερωτηθώ ξανά";
 "chat_express_dont_miss_label" = "Μη χάσετε αυτές τις προσφορές";
+"chat_express_high_demand_label" = "In high demand!  Don't miss out on these deals";
 "chat_express_one_message_sent_success_alert" = "Το μήνυμά σας έχει σταλεί!";
 "chat_express_several_messages_sent_success_alert" = "Τα μηνύματά σας έχουν σταλεί!";
 "chat_express_text_field_text" = "Γεια! Είναι ακόμη διαθέσιμο;";
@@ -373,6 +375,7 @@
 "filter_cars_seats_title" = "Καθίσματα";
 "filter_results_cars_no_matches" = "Δε βρέθηκαν ακριβή αποτελέσματα για την αναζήτησή σας. \nΠροβολή παρόμοιων αποτελεσμάτων. ";
 "filter_results_cars_other_results" = "Πρόσφατες δημοσιεύσεις στην περιοχή σας";
+"filter_services_services_list_show_more" = "Δείτε Περισσότερα";
 "filters_car_make_not_set" = "Δεν έχει καθοριστεί";
 "filters_car_model_not_set" = "Δεν έχει καθοριστεί";
 "filters_car_seller_type_all" = "Όλα";
@@ -816,7 +819,7 @@
 "product_post_camera_video_mode_button" = "ΒΙΝΤΕΟ";
 "product_post_camera_video_mode_button_new_badge" = "Νέο!";
 "product_post_camera_video_recording_min_duration_message" = "Παρακαλώ καταγράψτε τουλάχιστον %d δευτερόλεπτα";
-"product_post_camera_video_recording_tooltip" = "%@ για να καταγράψετε ένα βίντεο";
+"product_post_camera_video_recording_tooltip" = "%@ για καταγραφή βίντεο";
 "product_post_camera_video_recording_tooltip_highlighted_word" = "Πατήστε";
 "product_post_close_alert_close_button" = "Απόρριψη";
 "product_post_close_alert_description" = "Θέλετε ακόμη να το καταχωρήσετε για πώληση;";
@@ -1266,7 +1269,7 @@
 "sell_send_error_invalid_price" = "Παρακαλώ εισάγετε μία έγκυρη τιμή για την καταχώρησή σας. Θα πρέπει να περιέχει μόνο νούμερα.";
 "sell_send_error_invalid_title" = "Παρακαλώ εισάγετε έναν έγκυρο τίτλο για την καταχώρησή σας.";
 "sell_send_error_sharing_facebook" = "Παρουσιάστηκε σφάλμα κατά την κοινοποίηση στο Facebook. Παρακαλώ, δοκιμάστε ξανά.";
-"sell_share_on_facebook_footer_label" = "Get more visibility and sell faster";
+"sell_share_on_facebook_footer_label" = "Αποκτήστε περισσότερη προβολή και πουλήστε άμεσα";
 "sell_share_on_facebook_label" = "Κοινοποίηση στο Facebook";
 "sell_title_autogen_autotrans_label" = "Προτεινόμενος τίτλος από το letgo, μεταφρασμένος από το Google";
 "sell_title_autogen_label" = "Προτεινόμενος τίτλος από το letgo";
@@ -1276,7 +1279,7 @@
 "services_service_subtype_title" = "Υπηρεσία";
 "services_service_type_list_title" = "Κατηγορία υπηρεσίας";
 "services_service_type_title" = "Κατηγορία υπηρεσίας";
-"services_unified_filter_title" = "Select a category";
+"services_unified_filter_title" = "Επιλέξτε κατηγορία";
 "settings_change_email_button" = "Email";
 "settings_change_location_button" = "Τοποθεσία";
 "settings_change_password_button" = "Αλλαγή Κωδικού Πρόσβασης";

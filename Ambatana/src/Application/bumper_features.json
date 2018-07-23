@@ -322,7 +322,12 @@
     },
     {
         "name": "ShowCommunity",
-        "values": ["control", "baseline", "variantA", "variantB"],
+        "values": ["control", "baseline", "communityOnNavBar", "communityOnTabBar"],
         "description": "[Users] Show button/tab to open the new Community feature"
+    },
+    {
+        "name": "ExpressChatImprovement",
+        "values": ["control", "baseline", "hideDontAsk", "newTitleAndHideDontAsk"],
+        "description": "[CHAT] Express chat improvements"
     }
  ]
