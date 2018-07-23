@@ -10,8 +10,13 @@ import Foundation
 import LGComponents
 import LGCoreKit
 
+enum CommunitySource {
+    case mainListing
+    case tabbar
+}
+
 final class CommunityTabCoordinator: TabCoordinator {
-    init() {
+    init(source: CommunitySource) {
         let listingRepository = Core.listingRepository
         let userRepository = Core.userRepository
         let chatRepository = Core.chatRepository
@@ -33,5 +38,14 @@ final class CommunityTabCoordinator: TabCoordinator {
 
     override func shouldHideSellButtonAtViewController(_ viewController: UIViewController) -> Bool {
         return true
+    }
+
+    override func presentViewController(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
+        guard viewController.parent == nil else { return }
+        parent.present(viewController, animated: animated, completion: completion)
+    }
+
+    override func dismissViewController(animated: Bool, completion: (() -> Void)?) {
+        viewController.dismissWithPresented(animated: animated, completion: completion)
     }
 }

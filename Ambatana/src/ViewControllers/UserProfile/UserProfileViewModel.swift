@@ -9,6 +9,7 @@ enum UserSource {
     case chat
     case notifications
     case link
+    case mainListing
 }
 
 struct UserViewHeaderAccounts {
@@ -50,6 +51,7 @@ final class UserProfileViewModel: BaseViewModel {
 
     var isMostSearchedItemsAvailable: Bool { return featureFlags.mostSearchedDemandedItems.isActive }
     var showMostSearchedItemsBanner: Bool { return isMostSearchedItemsAvailable && selectedTab.value == .selling }
+    var showCloseButtonInNavBar: Bool { return source == .mainListing }
 
     let arePushNotificationsEnabled = Variable<Bool?>(nil)
     var showPushPermissionsBanner: Bool {
@@ -223,6 +225,10 @@ final class UserProfileViewModel: BaseViewModel {
 // MARK: - Public methods
 
 extension UserProfileViewModel {
+
+    func didTapCloseButton() {
+        profileNavigator?.closeProfile()
+    }
     
     func didTapKarmaScoreView() {
         guard isPrivateProfile else { return }
@@ -688,6 +694,8 @@ extension UserProfileViewModel {
             typePage = .notifications
         case .link:
             typePage = .external
+        case .mainListing:
+            typePage = .listingList
         }
 
         let eventTab: EventParameterTab

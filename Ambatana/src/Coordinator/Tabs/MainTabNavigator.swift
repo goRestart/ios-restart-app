@@ -25,4 +25,6 @@ protocol MainTabNavigator: TabNavigator, FeedNavigator {
                  locationManager: LocationManager)
     func openAskPhoneFromMainFeedFor(listing: Listing, interlocutor: User?)
     func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?)
+    func openPrivateUserProfile()
+    func openCommunity()
 }

@@ -128,7 +128,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         setupTagsView()
         setupSearchAndTrending()
         setFiltersNavBarButton()
-        setInviteNavBarButton()
+        setLeftNavBarButtons()
         setupRxBindings()
         setAccessibilityIds()
     }
@@ -425,6 +425,40 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         let spacing = makeSpacingButton(withFixedWidth: Metrics.navBarDefaultSpacing)
 
         navigationItem.setLeftBarButtonItems([invite, spacing], animated: false)
+    }
+
+    private func setLeftNavBarButtons() {
+        if viewModel.shouldShowCommunityButton {
+            setCommunityButton()
+        } else if viewModel.shouldShowUserProfileButton {
+            setUserProfileButton()
+        } else {
+            setInviteNavBarButton()
+        }
+    }
+
+    private func setCommunityButton() {
+        let button = UIBarButtonItem(image: R.Asset.IconsButtons.tabbarCommunity.image,
+                                     style: .plain,
+                                     target: self,
+                                     action: #selector(didTapCommunity))
+        navigationItem.setLeftBarButton(button, animated: false)
+    }
+
+    private func setUserProfileButton() {
+        let button = UIBarButtonItem(image: R.Asset.IconsButtons.tabbarProfile.image,
+                                     style: .plain,
+                                     target: self,
+                                     action: #selector(didTapUserProfile))
+        navigationItem.setLeftBarButton(button, animated: false)
+    }
+
+    @objc private func didTapCommunity() {
+        viewModel.vmUserDidTapCommunity()
+    }
+
+    @objc private func didTapUserProfile() {
+        viewModel.vmUserDidTapUserProfile()
     }
     
     @objc private func openInvite() {

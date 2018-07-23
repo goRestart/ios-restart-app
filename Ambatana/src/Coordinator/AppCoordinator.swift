@@ -125,7 +125,7 @@ final class AppCoordinator: NSObject, Coordinator {
         self.notificationsTabBarCoordinator = NotificationsTabCoordinator()
         self.chatsTabBarCoordinator = ChatsTabCoordinator()
         self.profileTabBarCoordinator = ProfileTabCoordinator()
-        self.communityTabCoordinator = CommunityTabCoordinator()
+        self.communityTabCoordinator = CommunityTabCoordinator(source: .tabbar)
 
         if featureFlags.community.shouldShowOnTab {
             self.tabCoordinators = [mainTabBarCoordinator, notificationsTabBarCoordinator, chatsTabBarCoordinator,

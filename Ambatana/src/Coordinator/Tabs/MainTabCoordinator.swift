@@ -177,6 +177,15 @@ extension MainTabCoordinator: MainTabNavigator {
         navigationController.present(askNumVC, animated: true, completion: nil)
     }
 
+    func openPrivateUserProfile() {
+        let coord = ProfileTabCoordinator(source: .mainListing)
+        openChild(coordinator: coord, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
+    }
+
+    func openCommunity() {
+        let coord = CommunityTabCoordinator(source: .mainListing)
+        openChild(coordinator: coord, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
+    }
 } 
 
 extension MainTabCoordinator: SearchAlertsListNavigator {
