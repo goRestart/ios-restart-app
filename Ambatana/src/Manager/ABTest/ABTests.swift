@@ -166,6 +166,9 @@ extension ABTests {
     var chatConversationsListWithoutTabs: LeanplumABVariable<Int> { return chat.chatConversationsListWithoutTabs }
     var showChatConnectionStatusBar: LeanplumABVariable<Int> { return chat.showChatConnectionStatusBar }
     var showChatHeaderWithoutListingForAssistant: LeanplumABVariable<Bool> { return chat.showChatHeaderWithoutListingForAssistant }
+    var showChatHeaderWithoutUser: LeanplumABVariable<Bool> { return chat.showChatHeaderWithoutUser }
+    var enableCTAMessageType: LeanplumABVariable<Bool> { return chat.enableCTAMessageType }
+    var expressChatImprovement: LeanplumABVariable<Int> { return chat.expressChatImprovement }
 }
 
 //  MARK: Money
@@ -183,6 +186,7 @@ extension ABTests {
     var googleAdxForTR: LeanplumABVariable<Int> { return money.googleAdxForTR }
     var fullScreenAdsWhenBrowsingForUS: LeanplumABVariable<Int> { return money.fullScreenAdsWhenBrowsingForUS }
     var preventMessagesFromFeedToProUsers: LeanplumABVariable<Int> { return money.preventMessagesFromFeedToProUsers }
+    var appInstallAdsInFeed: LeanplumABVariable<Int> { return money.appInstallAdsInFeed }
 }
 
 //  MARK: Retention
@@ -193,6 +197,8 @@ extension ABTests {
     var iAmInterestedInFeed: LeanplumABVariable<Int> { return retention.iAmInterestedInFeed }
     var highlightedIAmInterestedInFeed: LeanplumABVariable<Int> { return retention.highlightedIAmInterestedInFeed }
     var notificationSettings: LeanplumABVariable<Int> { return retention.notificationSettings }
+    var searchAlertsInSearchSuggestions: LeanplumABVariable<Int> { return retention.searchAlertsInSearchSuggestions }
+    var engagementBadging: LeanplumABVariable<Int> { return retention.engagementBadging }
 }
 
 //  MARK: RealEstate
@@ -205,11 +211,10 @@ extension ABTests {
 //  MARK: Verticals
 
 extension ABTests {
-    var searchCarsIntoNewBackend: LeanplumABVariable<Int> { return verticals.searchCarsIntoNewBackend }
-    var filterSearchCarSellerType: LeanplumABVariable<Int> { return verticals.filterSearchCarSellerType }
     var realEstateMap: LeanplumABVariable<Int> { return verticals.realEstateMap }
     var showServicesFeatures: LeanplumABVariable<Int> { return verticals.showServicesFeatures }
     var carExtraFieldsEnabled: LeanplumABVariable<Int> { return verticals.carExtraFieldsEnabled }
+    var realEstateMapTooltip: LeanplumABVariable<Int> { return verticals.realEstateMapTooltip }
 }
 
 //  MARK: Products
@@ -219,6 +224,7 @@ extension ABTests {
     var predictivePosting: LeanplumABVariable<Int> { return products.predictivePosting }
     var videoPosting: LeanplumABVariable<Int> { return products.videoPosting }
     var simplifiedChatButton: LeanplumABVariable<Int> { return products.simplifiedChatButton }
+    var frictionlessShare: LeanplumABVariable<Int> { return products.frictionlessShare }
 }
 
 //  MARK: Legacy

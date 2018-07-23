@@ -48,6 +48,8 @@ class ChatCellDrawerFactory {
                     return ChatOthersMessageCellDrawer(autoHide: autoHide)
                 }
             }
+        case .cta:
+            return ChatCallToActionCellDrawer(autoHide: autoHide)
         case .interlocutorIsTyping:
             return ChatInterlocutorIsTypingCellDrawer(autoHide: autoHide)
         }
@@ -58,9 +60,10 @@ class ChatCellDrawerFactory {
         ChatOthersMessageCellDrawer.registerClassCell(tableView)
         ChatStickerCellDrawer.registerClassCell(tableView)
         ChatDisclaimerCellDrawer.registerClassCell(tableView)
-        ChatOtherInfoCellDrawer.registerCell(tableView)
+        ChatOtherInfoCellDrawer.registerClassCell(tableView)
         ChatAskPhoneNumberCellDrawer.registerClassCell(tableView)
-        ChatInterlocutorIsTypingCellDrawer.registerCell(tableView)
+        ChatInterlocutorIsTypingCellDrawer.registerClassCell(tableView)
+        ChatCallToActionCellDrawer.registerClassCell(tableView)
 
         ChatOtherMeetingCellDrawer.registerCell(tableView)
         ChatMyMeetingCellDrawer.registerCell(tableView)

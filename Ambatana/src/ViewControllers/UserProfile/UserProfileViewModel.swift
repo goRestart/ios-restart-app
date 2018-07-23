@@ -771,7 +771,7 @@ extension UserProfileViewModel: ListingCellDelegate {
         return
     }
     
-    func openAskPhoneFor(_ listing: Listing, interlocutor: User) {}
+    func openAskPhoneFor(_ listing: Listing, interlocutor: LocalUser) {}
     
     func getUserInfoFor(_ listing: Listing, completion: @escaping (User?) -> Void) {}
 

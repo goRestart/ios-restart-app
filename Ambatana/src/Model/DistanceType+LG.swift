@@ -15,6 +15,10 @@ extension DistanceType {
         return distanceType
     }
     
+    static var allCases: [DistanceType] {
+        return [.km, .mi]
+    }
+    
     func localizedUnitType() -> String {
         switch self {
         case .mi:

@@ -73,7 +73,7 @@
     {
         "name": "ShowInactiveConversations",
         "values": ["No", "Yes"],
-        "description": "Show button to access inactive conversations"
+        "description": "[CHAT] Show button to access inactive conversations"
     },
     {
         "name": "NoAdsInFeedForNewUsers",
@@ -93,7 +93,7 @@
     {
         "name": "ShowChatSafetyTips",
         "values": ["no","yes"],
-        "description": "Show chat safety tips to new users"
+        "description": "[CHAT] Show chat safety tips to new users"
     },
     {
         "name": "OnboardingIncentivizePosting",
@@ -103,7 +103,7 @@
     {
         "name": "UserIsTyping",
         "values": ["control", "baseline", "active"],
-        "description": "Show user is typing status on chat"
+        "description": "[CHAT] Show user is typing status on chat"
     },
     {
         "name": "BumpUpBoost",
@@ -118,7 +118,7 @@
     {
         "name": "ChatNorris",
         "values": ["control", "baseline", "redButton", "whiteButton", "greenButton"],
-        "description": "Show the create meeting option in chat detail view."
+        "description": "[CHAT] Show the create meeting option in chat detail view."
     },
     {
         "name": "AddPriceTitleDistanceToListings",
@@ -146,19 +146,9 @@
         "description": "Change logic for showing ads with diferent ads providers in TR"
     },
     {
-        "name": "SearchCarsIntoNewBackend",
-        "values": ["control", "baseline", "active"],
-        "description": "Search cars into the new Search Car end point"
-    },
-    {
         "name": "SectionedMainFeed",
         "values": ["control", "baseline", "active"],
         "description": "A new fully sectioned main feed"
-    },
-    {
-        "name": "FilterSearchCarSellerType",
-        "values": ["control", "baseline", "variantA", "variantB", "variantC", "variantD"],
-        "description": "Include Search filter for Car Seller type"
     },
     {
         "name": "ShowExactLocationForPros",
@@ -193,7 +183,7 @@
     {
         "name": "ChatConversationsListWithoutTabs",
         "values": ["control", "baseline", "active"],
-        "description": "Chat conversation list without tabs"
+        "description": "[CHAT] Chat conversation list without tabs"
     },
     {
         "name": "PersonalizedFeed",
@@ -203,7 +193,7 @@
     {
         "name": "ServicesCategoryOnSalchichasMenu",
         "values": ["control", "baseline", "VariantA", "VariantB", "VariantC"],
-        "description": "Show services category on salchichas menu"
+        "description": "[PRODUCTS] Show services category on salchichas menu"
     },
     {
         "name": "GoogleAdxForTR",
@@ -239,15 +229,16 @@
         "name": "FullScreenAdsWhenBrowsingForUS",
         "values": ["control", "baseline", "AdsForAllUsers", "AdsForOldUsers"],
         "description": "Show full screen Interstitial while browsing through items"
-    },{
+    },
+    {
         "name": "VideoPosting",
         "values": ["control", "baseline", "active"],
-        "description": "Show video posting flow when pressing Other Items and Other Vehicles and Parts on salchichas menu"
+        "description": "[PRODUCTS] Show video posting flow when pressing Other Items and Other Vehicles and Parts on salchichas menu"
     },
     {
         "name": "PredictivePosting",
         "values": ["control", "baseline", "active"],
-        "description": "Show predictive posting flow when pressing Other Items on salchichas menu"
+        "description": "[PRODUCTS] Show predictive posting flow when pressing Other Items on salchichas menu"
     },
     {
         "name": "PreventMessagesFromFeedToProUsers",
@@ -257,14 +248,14 @@
     {
         "name": "SimplifiedChatButton",
         "values": ["control", "baseline", "variantA", "variantB", "variantC", "variantD", "variantE", "variantF"],
-        "description": "Show a simplified chat button on item page"
+        "description": "[PRODUCTS] Show a simplified chat button on item page"
     },
     {
         "name": "ShowChatConnectionStatusBar",
         "values": ["control", "baseline", "active"],
-        "description": "Show a toast in the chat with the websocket and network connection status"
-	},
-	{
+        "description": "[CHAT] Show a toast in the chat with the websocket and network connection status"
+    },
+    {
          "name": "AdvancedReputationSystem",
          "values": ["control", "baseline", "variantA", "variantB"],
          "description": "Advance reputation system and Karma Score with SMS and tooltip"
@@ -282,11 +273,56 @@
     {
         "name": "ShowChatHeaderWithoutListingForAssistant",
         "values": ["yes", "no"],
-        "description": "Use the new header without listing in chat detail"
+        "description": "[CHAT] Use the new header WITHOUT LISTING for conversations with no listing related"
     },
     {
         "name": "ReportingFostaSesta",
         "values": ["control", "baseline", "withIcons", "withoutIcons"],
         "description": "Show new user/product reporting flow (FOSTA-SESTA compliance)"
+    },
+    {
+        "name": "ShowChatHeaderWithoutUser",
+        "values": ["yes", "no"],
+        "description": "[CHAT] Use the new header WITHOUT USER in chat detail"
+    },
+    {
+        "name": "RealEstateMapTooltip",
+        "values": ["control", "baseline", "active"],
+        "description": "Show tooltip for Real Estate Map"
+    },
+    {
+        "name": "AppInstallAdsInFeed",
+        "values": ["control", "baseline", "active"],
+        "description": "Show App Install Ads from Google Adx in feed"
+    },
+    {
+        "name": "EnableCTAMessageType",
+        "values": ["no", "yes"],
+        "description": "[CHAT] Enable the CTA message type"
+    },
+    {
+        "name": "SearchAlertsInSearchSuggestions",
+        "values": ["control", "baseline", "active"],
+        "description": "Show search alerts in search suggestions view"
+    },
+    {
+        "name": "EngagementBadging",
+        "values": ["control", "baseline", "active"],
+        "description": "Show recent items bubble in feed basic approach"
+    },
+    {
+        "name": "ServicesUnifiedFilterScreen",
+        "values": ["control", "baseline", "active"],
+        "description": "Show new services filter screen"
+    },
+    {
+        "name": "FrictionlessShare",
+        "values": ["control", "baseline", "active"],
+        "description": "[PRODUCTS] Open facebook share dialog in congrats screen"
+    },
+    {
+        "name": "ExpressChatImprovement",
+        "values": ["control", "baseline", "hideDontAsk", "newTitleAndHideDontAsk"],
+        "description": "[CHAT] Express chat improvements"
     }
  ]

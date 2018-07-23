@@ -15,6 +15,7 @@ protocol EditListingViewModelDelegate : BaseViewModelDelegate {
     func vmShouldUpdateDescriptionWithCount(_ count: Int)
     func vmDidAddOrDeleteImage()
     func openCarAttributeSelectionsWithViewModel(attributesChoiceViewModel: CarAttributeSelectionViewModel)
+    func openAttributesPicker(viewModel: ListingAttributePickerViewModel)
     func vmShouldOpenMapWithViewModel(_ locationViewModel: EditLocationViewModel)
     func vmShareOnFbWith(content: FBSDKShareLinkContent)
     func vmHideKeyboard()
@@ -190,6 +191,13 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     let carModelId = Variable<String?>(nil)
     let carModelName = Variable<String?>(nil)
     let carYear = Variable<Int?>(nil)
+    let carBody = Variable<CarBodyType?>(nil)
+    let carDistance = Variable<Int?>(nil)
+    let carDistanceType = DistanceType.systemDistanceType()
+    let carTransmission = Variable<CarTransmissionType?>(nil)
+    let carFuel = Variable<CarFuelType?>(nil)
+    let carDrivetrain = Variable<CarDriveTrainType?>(nil)
+    let carSeat = Variable<CarSeat?>(nil)
     
     let realEstatePropertyType = Variable<RealEstatePropertyType?>(nil)
     let realEstateOfferType = Variable<RealEstateOfferType?>(nil)
@@ -238,15 +246,16 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
 
     // Repositories
-    let myUserRepository: MyUserRepository
-    let listingRepository: ListingRepository
-    let fileRepository: FileRepository
-    let categoryRepository: CategoryRepository
-    let carsInfoRepository: CarsInfoRepository
-    let servicesInfoRepository: ServicesInfoRepository
-    let locationManager: LocationManager
-    let tracker: Tracker
-    let featureFlags: FeatureFlaggeable
+    private let myUserRepository: MyUserRepository
+    private let listingRepository: ListingRepository
+    private let fileRepository: FileRepository
+    private let categoryRepository: CategoryRepository
+    private let carsInfoRepository: CarsInfoRepository
+    private let servicesInfoRepository: ServicesInfoRepository
+    private let locationManager: LocationManager
+    private let tracker: Tracker
+    private let featureFlags: FeatureFlaggeable
+    private let purchasesShopper: PurchasesShopper
 
     // Delegate
     weak var delegate: EditListingViewModelDelegate?
@@ -278,7 +287,8 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
                   featureFlags: FeatureFlags.sharedInstance,
                   listingCanBeBoosted: listingCanBeBoosted,
                   timeSinceLastBump: timeSinceLastBump,
-                  maxCountdown: maxCountdown)
+                  maxCountdown: maxCountdown,
+                  purchasesShopper: LGPurchasesShopper.sharedInstance)
     }
     
     init(listing: Listing,
@@ -295,7 +305,8 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
          featureFlags: FeatureFlaggeable,
          listingCanBeBoosted: Bool,
          timeSinceLastBump: TimeInterval?,
-         maxCountdown: TimeInterval) {
+         maxCountdown: TimeInterval,
+         purchasesShopper: PurchasesShopper) {
         self.myUserRepository = myUserRepository
         self.listingRepository = listingRepository
         self.fileRepository = fileRepository
@@ -306,6 +317,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         self.tracker = tracker
         self.featureFlags = featureFlags
         self.initialListing = listing
+        self.purchasesShopper = purchasesShopper
 
         self.title = listing.title
         
@@ -334,11 +346,21 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
         switch listing {
         case .car(let car):
+            let carMakeName = car.carAttributes.make ?? carsInfoRepository.retrieveMakeName(with: car.carAttributes.makeId)
+            let carModelName = car.carAttributes.model ??
+                carsInfoRepository.retrieveModelName(with: car.carAttributes.makeId, modelId: car.carAttributes.modelId)
+            
             self.carMakeId.value = car.carAttributes.makeId
-            self.carMakeName.value = car.carAttributes.make
+            self.carMakeName.value = carMakeName
             self.carModelId.value = car.carAttributes.modelId
-            self.carModelName.value = car.carAttributes.model
+            self.carModelName.value = carModelName
             self.carYear.value = car.carAttributes.year
+            self.carDistance.value = car.carAttributes.mileage
+            self.carBody.value = car.carAttributes.bodyType
+            self.carTransmission.value = car.carAttributes.transmission
+            self.carFuel.value = car.carAttributes.fuelType
+            self.carDrivetrain.value = car.carAttributes.driveTrain
+            self.carSeat.value = CarSeat(rawValue: car.carAttributes.seats ?? 0)
         case .product(_):
             break
         case .realEstate(let realEstate):
@@ -381,7 +403,13 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         self.timeSinceLastBump = timeSinceLastBump
         self.maxCountdown = maxCountdown
 
-        let listingCanBeBumped = !(listing.featured ?? false)
+        var listingCanBeBumped = !(listing.featured ?? false)
+        
+        if let featured = listing.featured, !featured,
+            let listingId = listing.objectId,
+            let timeOfRecentBump = purchasesShopper.timeSinceRecentBumpFor(listingId: listingId) {
+            listingCanBeBumped = !(timeOfRecentBump.timeDifference > 0.0)
+        }
 
         self.listingCanBeFeatured = (listingCanBeBumped || listingCanBeBoosted) && listingHasPaymentInfo
 
@@ -427,8 +455,18 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
 
     var carAttributes: CarAttributes {
-        return CarAttributes(makeId: carMakeId.value, make: carMakeName.value, modelId: carModelId.value,
-                             model: carModelName.value, year: carYear.value)
+        return CarAttributes(makeId: carMakeId.value,
+                             make: carMakeName.value,
+                             modelId: carModelId.value,
+                             model: carModelName.value,
+                             year: carYear.value,
+                             mileage: carDistance.value,
+                             mileageType: carDistanceType,
+                             bodyType: carBody.value,
+                             transmission: carTransmission.value,
+                             fuelType: carFuel.value,
+                             driveTrain: carDrivetrain.value,
+                             seats: carSeat.value?.rawValue)
     }
     
     var realEstateAttributes: RealEstateAttributes {
@@ -483,7 +521,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
 
     func carModelButtonPressed() {
-        // open car models table
+        delegate?.vmHideKeyboard()
         guard let makeId = carMakeId.value else { return }
         let carsModelsList = carsInfoRepository.retrieveCarsModelsFormake(makeId: makeId)
         let carsAttributtesChoiceVMWithModels = CarAttributeSelectionViewModel(carsModels: carsModelsList, selectedModel: carModelId.value, style: .edit)
@@ -492,11 +530,47 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
 
     func carYearButtonPressed() {
-        // open car years table
+        delegate?.vmHideKeyboard()
         let carsYearsList = carsInfoRepository.retrieveValidYears(withFirstYear: nil, ascending: false)
         let carsAttributtesChoiceVMWithYears = CarAttributeSelectionViewModel(yearsList: carsYearsList, selectedYear: carYear.value)
         carsAttributtesChoiceVMWithYears.carAttributeSelectionDelegate = self
         delegate?.openCarAttributeSelectionsWithViewModel(attributesChoiceViewModel: carsAttributtesChoiceVMWithYears)
+    }
+    
+    func carBodyButtonPressed() {
+        openCarEditOption(selectedOption: carBody.value?.title, type: .body)
+    }
+    
+    func carTransmissionButtonPressed() {
+        openCarEditOption(selectedOption: carTransmission.value?.title, type: .transmission)
+    }
+    
+    func carFuelButtonPressed() {
+        openCarEditOption(selectedOption: carFuel.value?.title, type: .fuel)
+    }
+    
+    func carDrivetrainButtonPressed() {
+        openCarEditOption(selectedOption: carDrivetrain.value?.title, type: .drivetrain)
+    }
+    
+    func carSeatButtonPressed() {
+        openCarEditOption(selectedOption: carDrivetrain.value?.title, type: .seat)
+    }
+    
+    private func openCarEditOption(selectedOption: String?, type: CarDetailType) {
+        
+        delegate?.vmHideKeyboard()
+        
+        guard let options = type.options else { return }
+        
+        let vm = ListingAttributeSingleSelectPickerViewModel(title: type.navigationTitle,
+                                                             attributes: options,
+                                                             selectedAttribute: selectedOption) { [weak self] selectedIndex in
+            guard let selectedIndex = selectedIndex else { return }
+            self?.didSelect(index: selectedIndex, type: type)
+        }
+        
+        navigator?.openListingAttributePicker(viewModel: vm)
     }
     
     func realEstatePropertyTypeButtonPressed() {
@@ -695,24 +769,32 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
 
     private func setupChangeCheckingObservable() {
-        let checkingCarChanges = Observable.combineLatest(isFreePosting.asObservable(),
-                                                          category.asObservable(),
-                                                          carMakeName.asObservable(),
-                                                          carModelName.asObservable(),
-                                                          carYear.asObservable())
-        let checkingRealEstateChanges = Observable.combineLatest(realEstatePropertyType.asObservable(),
-                                                                 realEstateOfferType.asObservable(),
-                                                                 realEstateNumberOfBathrooms.asObservable(),
-                                                                 realEstateNumberOfBedrooms.asObservable(),
-                                                                 realEstateSizeSquareMeters.asObservable(),
-                                                                 realEstateNumberOfLivingRooms.asObservable())
-        let checkingServicesChanges = Observable.combineLatest(serviceTypeId.asObservable(),
-                                                               serviceTypeName.asObservable(),
-                                                               serviceSubtypeId.asObservable(),
-                                                               serviceSubtypeName.asObservable())
+        let checkingCarChanges = Observable.combineLatest(isFreePosting.asObservable().distinctUntilChanged(),
+                                                          category.asObservable().distinctUntilChanged(),
+                                                          carMakeName.asObservable().distinctUntilChanged(),
+                                                          carModelName.asObservable().distinctUntilChanged(),
+                                                          carYear.asObservable().distinctUntilChanged())
+        let checkingCarExtraFieldsChanges = Observable.combineLatest(carBody.asObservable().distinctUntilChanged(),
+                                                          carFuel.asObservable().distinctUntilChanged(),
+                                                          carDistance.asObservable().distinctUntilChanged(),
+                                                          carTransmission.asObservable().distinctUntilChanged(),
+                                                          carSeat.asObservable().distinctUntilChanged(),
+                                                          carDrivetrain.asObservable().distinctUntilChanged())
+        
+        let checkingRealEstateChanges = Observable.combineLatest(realEstatePropertyType.asObservable().distinctUntilChanged(),
+                                                                 realEstateOfferType.asObservable().distinctUntilChanged(),
+                                                                 realEstateNumberOfBathrooms.asObservable().distinctUntilChanged(),
+                                                                 realEstateNumberOfBedrooms.asObservable().distinctUntilChanged(),
+                                                                 realEstateSizeSquareMeters.asObservable().distinctUntilChanged(),
+                                                                 realEstateNumberOfLivingRooms.asObservable().distinctUntilChanged())
+        let checkingServicesChanges = Observable.combineLatest(serviceTypeId.asObservable().distinctUntilChanged(),
+                                                               serviceTypeName.asObservable().distinctUntilChanged(),
+                                                               serviceSubtypeId.asObservable().distinctUntilChanged(),
+                                                               serviceSubtypeName.asObservable().distinctUntilChanged())
         
         if featureFlags.showServicesFeatures.isActive {
             let checkAllChanges = Observable.combineLatest(checkingCarChanges.asObservable(),
+                                                           checkingCarExtraFieldsChanges.asObservable(),
                                                            checkingRealEstateChanges.asObservable(),
                                                            checkingServicesChanges.asObservable())
             
@@ -722,6 +804,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
             
         } else {
             let checkAllChanges = Observable.combineLatest(checkingCarChanges.asObservable(),
+                                                           checkingCarExtraFieldsChanges.asObservable(),
                                                            checkingRealEstateChanges.asObservable())
             
             checkAllChanges.bind { [weak self] _ in
@@ -754,7 +837,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
             hasChanges = true
         }
         else if initialListing.isCar {
-            hasChanges = initialListing.car?.carAttributes != carAttributes
+            hasChanges = initialListing.car?.carAttributes.updating(mileageType: carDistanceType) != carAttributes
         } else if initialListing.isRealEstate {
             hasChanges = initialListing.realEstate?.realEstateAttributes != realEstateAttributes
         } else if initialListing.isService, featureFlags.showServicesFeatures.isActive {
@@ -1099,6 +1182,23 @@ extension EditListingViewModel : CarAttributeSelectionDelegate {
     func didSelectYear(year: Int) {
         carYear.value = year
     }
+    
+    func didSelect(index: Int, type: CarDetailType) {
+        switch type {
+        case .make, .model, .year, .distance:
+            break
+        case .body:
+            carBody.value = CarBodyType.allCases[safeAt: index]
+        case .transmission:
+            carTransmission.value = CarTransmissionType.allCases[safeAt: index]
+        case .fuel:
+            carFuel.value = CarFuelType.allCases[safeAt: index]
+        case .drivetrain:
+            carDrivetrain.value = CarDriveTrainType.allCases[safeAt: index]
+        case .seat:
+            carSeat.value = CarSeat.allCases[safeAt: index]
+        }
+    }
 }
 
 // MARK: - Cloudsight in real time
@@ -1257,17 +1357,8 @@ extension EditListingViewModel {
         if initialListing.price.isFree != listing.price.isFree {
             editedFields.append(.freePosting)
         }
-        // listing was a car and is still a car
-        if let carAttributes = initialListing.car?.carAttributes, let newCarAttributes = listing.car?.carAttributes {
-            if carAttributes.makeId != newCarAttributes.makeId {
-                editedFields.append(.make)
-            }
-            if carAttributes.modelId != newCarAttributes.modelId {
-                editedFields.append(.model)
-            }
-            if carAttributes.year != newCarAttributes.year {
-                editedFields.append(.year)
-            }
+        if let carEdited = initialListing.car?.carAttributes.editedFieldsTracker(newCarAttributes: listing.car?.carAttributes) {
+            editedFields.append(contentsOf: carEdited)
         }
         return editedFields
     }

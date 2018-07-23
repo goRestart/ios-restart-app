@@ -406,6 +406,8 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
                 delay(0.3) {  // requested by designers
                     strongSelf.didFinishEnteringDetails()
                 }
+            case .distance, .body, .transmission, .fuel, .drivetrain, .seat:
+                break
             }
             strongSelf.carDetailsView.updateProgress(withPercentage: strongSelf.viewModel.currentCarDetailsProgress)
         }.disposed(by: disposeBag)
@@ -518,6 +520,13 @@ extension PostListingViewController {
                 showCarMakes()
             case .selectDetailValue(forDetail: .year):
                 showCarModels()
+            case .selectDetailValue(.distance),
+                 .selectDetailValue(.body),
+                 .selectDetailValue(.transmission),
+                 .selectDetailValue(.fuel),
+                 .selectDetailValue(.drivetrain),
+                 .selectDetailValue(.seat):
+                break
             }
         }
     }

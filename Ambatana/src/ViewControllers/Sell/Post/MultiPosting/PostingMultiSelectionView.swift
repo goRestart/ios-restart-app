@@ -10,6 +10,11 @@ protocol PostingMultiSelectionViewDelegate: class {
     func showAlertMaxSelection()
 }
 
+protocol PostingMultiSelectionScrollDelegate: class {
+    func scroll(_ scrollView: UIScrollView)
+    func scrollToTop()
+}
+
 final class PostingMultiSelectionView: UIView {
     
     private let disposeBag = DisposeBag()
@@ -17,6 +22,7 @@ final class PostingMultiSelectionView: UIView {
     var theme: ListingAttributePickerCell.Theme = .dark
 
     weak var delegate: PostingMultiSelectionViewDelegate?
+    weak var scrollDelegate: PostingMultiSelectionScrollDelegate?
 
     private var filteredValues: [String]
     private let rawValues: [String]
@@ -144,12 +150,13 @@ final class PostingMultiSelectionView: UIView {
         tableView.layout(with: self)
             .bottom()
             .fillHorizontal(by: Metrics.margin)
-        gradient.layout(with: self).fillHorizontal()
-        gradient.layout(with: tableView).fillVertical()
+        gradient.layout(with: self).fillHorizontal().bottom()
+        gradient.layout().height(Layout.shadowHeight)
         
     }
     
     private func setupRx() {
+        
         keyboardHelper.rx_keyboardOrigin
             .asObservable()
             .skip(1)
@@ -158,6 +165,9 @@ final class PostingMultiSelectionView: UIView {
                 guard let keyboardHeight = self?.keyboardHelper.keyboardHeight else { return }
                 let keyboardVisible: Bool = origin < UIScreen.main.bounds.height
                 self?.tableView.contentInset.bottom = keyboardVisible ? (keyboardHeight + Metrics.shortMargin) : Layout.tableViewBottomInset
+                if keyboardVisible {
+                    self?.scrollDelegate?.scrollToTop()
+                }
             }.disposed(by: disposeBag)
     }
     
@@ -186,6 +196,7 @@ final class PostingMultiSelectionView: UIView {
         static let cellSize: CGFloat = 67
         static let searchHeight: CGFloat = 44
         static let tagsHeight: CGFloat = 33
+        static let shadowHeight: CGFloat = 500
     }
     
 }
@@ -380,6 +391,12 @@ extension PostingMultiSelectionView: UITableViewDelegate, UITableViewDataSource 
         }
     }
     
+}
+
+extension PostingMultiSelectionView: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        scrollDelegate?.scroll(scrollView)
+    }
 }
 
 extension PostingMultiSelectionView: PostingViewConfigurable {

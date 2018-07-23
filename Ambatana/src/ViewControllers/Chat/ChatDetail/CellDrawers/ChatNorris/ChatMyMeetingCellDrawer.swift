@@ -4,9 +4,10 @@ import LGComponents
 
 final class ChatMyMeetingCellDrawer: BaseChatCellDrawer<ChatMyMeetingCell> {
 
-    override func draw(_ cell: ChatMyMeetingCell, message: ChatViewMessage) {
+    override func draw(_ cell: ChatMyMeetingCell, message: ChatViewMessage, bubbleColor: UIColor? = nil) {
         switch message.type {
         case let .meeting(_, date, locationName, coordinates, status, _):
+            cell.set(bubbleBackgroundColor: bubbleColor)
             cell.setupLocation(locationName: locationName,
                                coordinates: coordinates,
                                date: date ?? Date(),

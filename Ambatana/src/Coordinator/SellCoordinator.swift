@@ -385,7 +385,7 @@ extension SellCoordinator: MultiListingPostedNavigator {
 // MARK: - EditListingCoordinatorDelegate
 extension SellCoordinator: EditListingCoordinatorDelegate {
     func editListingCoordinatorDidCancel(_ coordinator: EditListingCoordinator) {
-        // Do nothing, todo esta canela fina
+        // Do nothing, esta canela fina
     }
     
     func editListingCoordinator(_ coordinator: EditListingCoordinator,

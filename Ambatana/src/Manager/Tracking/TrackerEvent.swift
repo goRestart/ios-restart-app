@@ -191,13 +191,13 @@ struct TrackerEvent {
         return TrackerEvent(name: .listingList, params: params)
     }
     
-    static func listingListVertical(category: ListingCategory, keywords: [String],
-                                    matchingFields: [String], nonMatchingFields: [String]) -> TrackerEvent {
+    static func listingListVertical(category: ListingCategory,
+                                    keywords: [String],
+                                    matchingFields: [String]) -> TrackerEvent {
         var params = EventParameters()
         params[.categoryId] = String(category.rawValue)
         params[.verticalKeyword] = keywords.isEmpty ? TrackerEvent.notApply : keywords.joined(separator: "_")
         params[.verticalMatchingFields] = matchingFields.isEmpty ? TrackerEvent.notApply : matchingFields.joined(separator: ",")
-        params[.verticalNoMatchingFields] = nonMatchingFields.isEmpty ? TrackerEvent.notApply : nonMatchingFields.joined(separator: ",")
 
         return TrackerEvent(name: .listingListVertical, params: params)
     }
@@ -214,7 +214,7 @@ struct TrackerEvent {
         return TrackerEvent(name: .searchStart, params: params)
     }
 
-    static func searchComplete(_ user: User?, searchQuery: String, isTrending: Bool, success: EventParameterSearchCompleteSuccess, isLastSearch: Bool, isSuggestiveSearch: Bool, suggestiveSearchIndex: Int?)
+    static func searchComplete(_ user: User?, searchQuery: String, isTrending: Bool, success: EventParameterSearchCompleteSuccess, isLastSearch: Bool, isSuggestiveSearch: Bool, suggestiveSearchIndex: Int?, searchRelatedItems: Bool)
         -> TrackerEvent {
             var params = EventParameters()
             params[.searchString] = searchQuery
@@ -222,9 +222,12 @@ struct TrackerEvent {
             params[.trendingSearch] = isTrending
             params[.lastSearch] = isLastSearch
             params[.searchSuggestion] = isSuggestiveSearch
+            params[.searchRelatedItems] = searchRelatedItems
+            
             if let suggestiveSearchPosition = suggestiveSearchIndex {
                 params[.searchSuggestionPosition] = suggestiveSearchPosition
             }
+
             return TrackerEvent(name: .searchComplete, params: params)
     }
 
@@ -571,6 +574,14 @@ struct TrackerEvent {
         params[.model] = EventParameterModel.model(name: listing.car?.carAttributes.model).name
         params[.year] = EventParameterYear.year(year: listing.car?.carAttributes.year).year
         
+        params[.mileage] = listing.car?.carAttributes.mileage ?? SharedConstants.parameterNotApply
+        params[.bodyType] = listing.car?.carAttributes.bodyType?.rawValue ?? SharedConstants.parameterNotApply
+        params[.transmission] = listing.car?.carAttributes.transmission?.rawValue ?? SharedConstants.parameterNotApply
+        params[.fuelType] = listing.car?.carAttributes.fuelType?.rawValue ?? SharedConstants.parameterNotApply
+        params[.drivetrain] = listing.car?.carAttributes.driveTrain?.rawValue ?? SharedConstants.parameterNotApply
+        params[.seats] = listing.car?.carAttributes.seats ?? SharedConstants.parameterNotApply 
+
+        
         if let realEstateAttributes = listing.realEstate?.realEstateAttributes {
             params[.propertyType] = EventParameterStringRealEstate.realEstateParam(name: realEstateAttributes.propertyType?.rawValue).name
             params[.offerType] = EventParameterStringRealEstate.realEstateParam(name: realEstateAttributes.offerType?.rawValue).name
@@ -816,6 +827,13 @@ struct TrackerEvent {
         params[.model] = EventParameterModel.model(name: listing.car?.carAttributes.model).name
         params[.year] = EventParameterYear.year(year: listing.car?.carAttributes.year).year
         
+        params[.mileage] = listing.car?.carAttributes.mileage
+        params[.bodyType] = listing.car?.carAttributes.bodyType?.rawValue
+        params[.transmission] = listing.car?.carAttributes.transmission?.rawValue
+        params[.fuelType] = listing.car?.carAttributes.fuelType?.rawValue
+        params[.drivetrain] = listing.car?.carAttributes.driveTrain?.rawValue
+        params[.seats] = listing.car?.carAttributes.seats
+        
         if let servicesAttributes = listing.service?.servicesAttributes {
             params[.serviceType] = servicesAttributes.typeId ?? SharedConstants.parameterNotApply
             params[.serviceSubtype] = servicesAttributes.subtypeId ?? SharedConstants.parameterNotApply
@@ -938,6 +956,13 @@ struct TrackerEvent {
         params[.messageGoal] = questionKey
         params[.listingId] = listingId
         return TrackerEvent(name: .chatLetgoServiceQuestionReceived, params: params)
+    }
+
+    static func chatCallToActionTapped(ctaKey: String, isLetgoAssistant: EventParameterBoolean) -> TrackerEvent {
+        var params = EventParameters()
+        params[.messageActionKey] = ctaKey
+        params[.isLetgoAssistant] = isLetgoAssistant.rawValue
+        return TrackerEvent(name: .chatCallToActionTapped, params: params)
     }
 
     static func profileVisit(_ user: User, profileType: EventParameterProfileType, typePage: EventParameterTypePage, tab: EventParameterTab)
@@ -1426,6 +1451,12 @@ struct TrackerEvent {
         params[.typePage] = typePage.rawValue
         params[.chatEnabled] = chatEnabled
         return TrackerEvent(name: .chatWindowVisit, params: params)
+    }
+
+    static func chatTabOpen(tabName: EventParameterChatTabName) -> TrackerEvent {
+        var params = EventParameters()
+        params[.chatTabName] = tabName.rawValue
+        return TrackerEvent(name: .chatTabOpen, params: params)
     }
     
     static func emptyStateVisit(typePage: EventParameterTypePage, reason: EventParameterEmptyReason,

@@ -2,11 +2,7 @@ import UIKit
 import RxSwift
 import LGComponents
 
-private typealias FullCollectionViewDelegate = UICollectionViewDataSource & UICollectionViewDelegate
-private typealias FullLayoutDelegate = FullCollectionViewDelegate & UICollectionViewDelegateFlowLayout
-
-final class FiltersViewController: BaseViewController, FiltersViewModelDelegate, FilterDistanceSliderDelegate,
-FilterPriceCellDelegate, FilterRangePriceCellDelegate, FilterCarInfoYearCellDelegate, FullLayoutDelegate {
+final class FiltersViewController: BaseViewController {
     
     private struct Layout {
         static let distanceHeight: CGFloat = 78.0
@@ -111,16 +107,16 @@ extension FiltersViewController {
         view.endEditing(true)
     }
     
-    @objc func onNavbarCancel() {
+    @objc private func cancelButtonTapped() {
         viewModel.close()
     }
     
-    @objc func onNavbarReset() {
+    @objc private func resetButtonTapped() {
         resignFirstResponder()
         viewModel.resetFilters()
     }
     
-    @objc func didTapSaveFiltersButton() {
+    @objc private func saveFiltersButtonTapped() {
         guard viewModel.validateFilters() else { return }
         viewModel.saveFilters()
         viewModel.close()
@@ -168,7 +164,7 @@ extension FiltersViewController {
         setupNavigationBar()
         view.backgroundColor = .grayBackground
         saveFiltersBtn.addTarget(self,
-                                 action: #selector(didTapSaveFiltersButton),
+                                 action: #selector(saveFiltersButtonTapped),
                                  for: UIControlEvents.touchUpInside)
         tapRec = UITapGestureRecognizer(target: self, action: #selector(collectionTapped))
     }
@@ -216,11 +212,11 @@ extension FiltersViewController {
     private func setupNavigationBar() {
         setNavBarTitle(R.Strings.filtersTitle)
         let cancelButton = UIBarButtonItem(title: R.Strings.commonCancel, style: UIBarButtonItemStyle.plain,
-                                           target: self, action: #selector(FiltersViewController.onNavbarCancel))
+                                           target: self, action: #selector(FiltersViewController.cancelButtonTapped))
         cancelButton.tintColor = .primaryColor
         self.navigationItem.leftBarButtonItem = cancelButton;
         let resetButton = UIBarButtonItem(title: R.Strings.filtersNavbarReset, style: UIBarButtonItemStyle.plain,
-                                          target: self, action: #selector(FiltersViewController.onNavbarReset))
+                                          target: self, action: #selector(FiltersViewController.resetButtonTapped))
         resetButton.tintColor = .primaryColor
         self.navigationItem.rightBarButtonItem = resetButton
     }
@@ -236,7 +232,7 @@ extension FiltersViewController {
 
 // MARK: - FiltersViewModelDelegate Implementation
 
-extension FiltersViewController {
+extension FiltersViewController: FiltersViewModelDelegate {
     
     func vmDidUpdate() {
         collectionView.reloadData()
@@ -270,9 +266,9 @@ extension FiltersViewController {
 }
 
 
-// MARK: FilterDistanceCellDelegate Implementation
+// MARK: FilterDistanceSliderDelegate Implementation
 
-extension FiltersViewController {
+extension FiltersViewController: FilterDistanceSliderDelegate {
     
     func filterDistanceChanged(distance: Int) {
         viewModel.currentDistanceRadius = distance
@@ -280,9 +276,9 @@ extension FiltersViewController {
 }
 
 
-// MARK: - FilterPriceCellDelegate Implementation
+// MARK: - FilterPriceCellDelegate / FilterRangePriceCellDelegate Implementation
 
-extension FiltersViewController {
+extension FiltersViewController: FilterRangePriceCellDelegate, FilterPriceCellDelegate {
     
     func priceTextFieldValueChanged(_ value: String?, tag: Int) {
         switch tag {
@@ -316,7 +312,7 @@ extension FiltersViewController {
 
 // MARK: - FilterCarInfoYearCellDelegate Implementation
 
-extension FiltersViewController {
+extension FiltersViewController: FilterCarInfoYearCellDelegate {
     
     func filterYearChanged(withStartYear startYear: Int?, endYear: Int?) {
         if let startYear = startYear {
@@ -328,59 +324,9 @@ extension FiltersViewController {
     }
 }
 
+// MARK: UICollectionViewDataSource Implementation
 
-// MARK: - UICollectionViewDelegate & DataSource methods
-
-extension FiltersViewController {
-
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
-        guard indexPath.section < viewModel.sections.count else { return .zero }
-        switch viewModel.sections[indexPath.section] {
-        case .distance:
-            return CGSize(width: view.bounds.width, height: Layout.distanceHeight)
-        case .categories:
-            let viewWidth = view.width
-            let width = viewModel.isTaxonomiesAndTaxonomyChildrenInFeedEnabled ? viewWidth : viewWidth * 0.5
-            return CGSize(width: width, height: Layout.categoryHeight)
-        case .carsInfo:
-            let carSection = viewModel.carSections[indexPath.item]
-            switch carSection {
-            case .secondSection:
-                return CGSize(width: view.bounds.width, height: Layout.singleCheckWithMarginHeight)
-            case .firstSection, .make, .model:
-                return CGSize(width: view.bounds.width, height: Layout.singleCheckHeight)
-            case .year:
-                return CGSize(width: view.bounds.width, height: Layout.yearHeight)
-            case .mileage:
-                return CGSize(width: view.bounds.width, height: Layout.mileageHeight)
-            case .numberOfSeats:
-                return CGSize(width: view.bounds.width, height: Layout.numberOfSeatsHeight)
-            case .bodyType, .transmission, .fuelType, .driveTrain:
-                let height = viewModel.attributeGridHeight(forCarSection: carSection,
-                                                  forContainerWidth: view.bounds.width)
-                return CGSize(width: view.bounds.width, height: height)
-            }
-            
-        case .sortBy, .within, .location:
-            return CGSize(width: view.bounds.width, height: Layout.singleCheckHeight)
-        case .price:
-            return CGSize(width: view.bounds.width, height: Layout.pricesHeight)
-        case .realEstateInfo:
-            let filterRealEstateSection = viewModel.filterRealEstateSections[indexPath.item]
-            switch filterRealEstateSection {
-            case .propertyType, .numberOfBathrooms, .numberOfBedrooms, .numberOfRooms:
-                return CGSize(width: view.bounds.width, height: Layout.singleCheckHeight)
-            case .offerTypeRent, .offerTypeSale:
-                return CGSize(width: view.bounds.width, height: Layout.singleCheckWithMarginHeight)
-            case .sizeFrom, .sizeTo:
-                return CGSize(width: view.bounds.width * 0.5, height: Layout.pricesHeight)
-            }
-        case .servicesInfo:
-            return CGSize(width: view.bounds.width, height: Layout.singleCheckHeight)
-        }
-    }
+extension FiltersViewController: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return viewModel.sections.count
@@ -389,9 +335,7 @@ extension FiltersViewController {
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
         switch viewModel.sections[section] {
-        case .location:
-            return 1
-        case .distance:
+        case .location, .distance:
             return 1
         case .categories:
             return viewModel.isTaxonomiesAndTaxonomyChildrenInFeedEnabled ? 1 : viewModel.numOfCategories
@@ -411,6 +355,55 @@ extension FiltersViewController {
     }
     
     func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        switch viewModel.sections[indexPath.section] {
+        case .location:
+            guard let cell = collectionView.dequeue(type: FilterDisclosureCell.self,
+                                                    for: indexPath) else { return UICollectionViewCell() }
+            cell.setup(withTitle: R.Strings.changeLocationTitle,
+                       subtitle: viewModel.place?.fullText(showAddress: false))
+            return cell
+        case .distance:
+            guard let cell = collectionView.dequeue(type: FilterDistanceCell.self,
+                                                    for: indexPath) else { return UICollectionViewCell() }
+            cell.delegate = self
+            cell.distanceType = viewModel.distanceType
+            cell.setupWithDistance(viewModel.currentDistanceRadius)
+            return cell
+        case .categories:
+            return newCategoryCell(forIndexPath: indexPath,
+                                   inCollectionView: collectionView)
+        case .carsInfo:
+            return newCarCell(forIndexPath: indexPath,
+                              inCollectionView: collectionView)
+        case .realEstateInfo:
+            return newRealEstateCell(forIndexPath: indexPath,
+                                     inCollectionView: collectionView)
+            
+        case .servicesInfo:
+            return newServicesCell(forIndexPath: indexPath,
+                                   inCollectionView: collectionView)
+        case .within:
+            guard let cell = collectionView.dequeue(type: FilterSingleCheckCell.self,
+                                                    for: indexPath) else { return UICollectionViewCell() }
+            cell.setup(withTitle: viewModel.withinTimeNameAtIndex(indexPath.row),
+                       isSelected: viewModel.withinTimeSelectedAtIndex(indexPath.row),
+                       showsBottomSeparator: indexPath.row != (viewModel.numOfWithinTimes - 1))
+            return cell
+        case .sortBy:
+            guard let cell = collectionView.dequeue(type: FilterSingleCheckCell.self,
+                                                    for: indexPath) else { return UICollectionViewCell() }
+            cell.setup(withTitle: viewModel.sortOptionTextAtIndex(indexPath.row),
+                       isSelected: viewModel.sortOptionSelectedAtIndex(indexPath.row),
+                       showsBottomSeparator: indexPath.row != (viewModel.numOfSortOptions - 1))
+            return cell
+        case .price:
+            return newPriceCell(forIndexPath: indexPath,
+                                inCollectionView: collectionView)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
                         viewForSupplementaryElementOfKind kind: String,
                         at indexPath: IndexPath) -> UICollectionReusableView {
         if (kind == UICollectionElementKindSectionHeader) {
@@ -426,271 +419,19 @@ extension FiltersViewController {
         }
         return UICollectionReusableView()
     }
+}
+
+
+// MARK: UICollectionViewDelegate Implementation
+
+extension FiltersViewController: UICollectionViewDelegate {
     
-    func collectionView(_ collectionView: UICollectionView,
-                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-            switch viewModel.sections[indexPath.section] {
-            case .location:
-                guard let cell = collectionView.dequeue(type: FilterDisclosureCell.self,
-                                                        for: indexPath) else { return UICollectionViewCell() }
-                cell.titleLabel.text = R.Strings.changeLocationTitle
-                cell.subtitleLabel.text = viewModel.place?.fullText(showAddress: false)
-                return cell
-            case .distance:
-                guard let cell = collectionView.dequeue(type: FilterDistanceCell.self,
-                                                        for: indexPath) else { return UICollectionViewCell() }
-                cell.delegate = self
-                cell.distanceType = viewModel.distanceType
-                cell.setupWithDistance(viewModel.currentDistanceRadius)
-                return cell
-            case .categories:
-                if viewModel.isTaxonomiesAndTaxonomyChildrenInFeedEnabled {
-                    guard let cell = collectionView.dequeue(type: FilterDisclosureCell.self,
-                                                            for: indexPath) else { return UICollectionViewCell() }
-                    cell.titleLabel.text = R.Strings.categoriesTitle
-                    cell.subtitleLabel.text = viewModel.currentCategoryNameSelected
-                    return cell
-                } else {
-                    guard let cell = collectionView.dequeue(type: FilterCategoryCell.self,
-                                                            for: indexPath) else { return UICollectionViewCell() }
-                    cell.titleLabel.text = viewModel.categoryTextAtIndex(indexPath.row)
-                    cell.categoryIcon.image = viewModel.categoryIconAtIndex(indexPath.row)
-                    let colorText = viewModel.categoryColorAtIndex(indexPath.row)
-                    let colorIcon = viewModel.categoryIconColorAtIndex(indexPath.row)
-                    cell.categoryIcon.tintColor = colorIcon
-                    cell.titleLabel.textColor = colorText
-                    cell.rightSeparator?.isHidden = indexPath.row % 2 == 1
-                    cell.isSelected = viewModel.categorySelectedAtIndex(indexPath.row)
-                    return cell
-                }
-            case .carsInfo:
-                let carSection = viewModel.carSections[indexPath.item]
-                switch carSection {
-                case .firstSection:
-                    guard let cell = collectionView.dequeue(type: FilterSingleCheckCell.self,
-                                                            for: indexPath) else { return UICollectionViewCell() }
-                    cell.titleLabel.text = viewModel.carCellTitle(section: carSection)
-                    cell.isSelected = viewModel.isCarSellerTypeSelected(type: carSection)
-                    cell.topSeparator.isHidden = false
-                    return cell
-                case .secondSection:
-                    guard let cell = collectionView.dequeue(type: FilterSingleCheckCell.self,
-                                                            for: indexPath) else { return UICollectionViewCell() }
-                    cell.titleLabel.text = viewModel.carCellTitle(section: carSection)
-                    cell.isSelected = viewModel.isCarSellerTypeSelected(type: carSection)
-                    cell.setMargin(bottom: true)
-                    cell.bottomSeparator.isHidden = false
-                    return cell
-                case .make:
-                    guard let cell = collectionView.dequeue(type: FilterDisclosureCell.self,
-                                                            for: indexPath) else { return UICollectionViewCell() }
-                    
-                    cell.titleLabel.text = viewModel.carCellTitle(section: carSection)
-                    cell.subtitleLabel.text = viewModel.currentCarMakeName ?? R.Strings.filtersCarMakeNotSet
-                    cell.topSeparator?.isHidden = false
-                    return cell
-                case .model:
-                    guard let cell = collectionView.dequeue(type: FilterDisclosureCell.self,
-                                                            for: indexPath) else { return UICollectionViewCell() }
-                    cell.isUserInteractionEnabled = viewModel.modelCellEnabled
-                    cell.titleLabel.isEnabled = viewModel.modelCellEnabled
-                    cell.titleLabel.text = viewModel.carCellTitle(section: carSection)
-                    cell.subtitleLabel.text = viewModel.currentCarModelName ?? R.Strings.filtersCarModelNotSet
-                    cell.topSeparator?.isHidden = false
-                    return cell
-                case .year:
-                    guard let cell = collectionView.dequeue(type: FilterSliderYearCell.self,
-                                                            for: indexPath) else { return UICollectionViewCell() }
-                    cell.setupSlider(minimumValue: SharedConstants.filterMinCarYear,
-                                     maximumValue: Date().year,
-                                     minimumValueSelected: viewModel.carYearStart,
-                                     maximumValueSelected: viewModel.carYearEnd)
-                    cell.delegate = self
-                    return cell
-                case .mileage, .numberOfSeats:
-                    guard let cell = collectionView.dequeue(type: FilterSliderCell.self,
-                                                            for: indexPath),
-                        let sliderViewModel = viewModel.sliderViewModel(forSection: carSection)
-                        else { return UICollectionViewCell() }
-                    
-                    cell.setup(withViewModel: sliderViewModel,
-                               minimumValueSelectedAction: { [weak self] (minValue) in
-                                self?.viewModel.didSelectMinimumValue(forSection: carSection,
-                                                                      value: minValue)
-                        }, maximumValueSelectedAction: { [weak self] (maxValue) in
-                            self?.viewModel.didSelectMaximumValue(forSection: carSection,
-                                                                  value: maxValue)
-                    })
-                    return cell
-                case .bodyType, .transmission, .fuelType, .driveTrain:
-                    guard let cell = collectionView.dequeue(type: FilterAttributeGridCell.self,
-                                                            for: indexPath) else { return UICollectionViewCell() }
-                    cell.setup(withTitle: viewModel.carCellTitle(section: carSection),
-                               values: viewModel.carExtrasAttributeItems(forSection: carSection),
-                               selectedValues: viewModel.selectedCarExtrasAttributeItems(forSection: carSection),
-                               selectionAction: { [weak self] item in
-                                self?.viewModel.didSelectItem(item,
-                                                              forSection: carSection)
-                        }, deselectionAction: { [weak self] item in
-                            self?.viewModel.didDeselectItem(item,
-                                                            forSection: carSection)
-                    })
-                    return cell
-                }
-            case .realEstateInfo:
-                let realEstateSection = viewModel.filterRealEstateSections[indexPath.item]
-                switch realEstateSection {
-                case .propertyType:
-                    guard let cell = collectionView.dequeue(type: FilterDisclosureCell.self,
-                                                            for: indexPath) else { return UICollectionViewCell() }
-                    cell.isUserInteractionEnabled = true
-                    cell.titleLabel.isEnabled = true
-                    cell.titleLabel.text = R.Strings.realEstateTypePropertyTitle
-                    cell.subtitleLabel.text = viewModel.currentPropertyTypeName ?? R.Strings.filtersRealEstatePropertyTypeNotSet
-                    return cell
-                case .offerTypeSale:
-                    guard let cell = collectionView.dequeue(type: FilterSingleCheckCell.self,
-                                                            for: indexPath) else { return UICollectionViewCell() }
-                    cell.titleLabel.text = viewModel.offerTypeNameAtIndex(indexPath.row - 1)
-                    cell.isSelected = viewModel.isOfferTypeSelectedAtIndex(indexPath.row - 1)
-                    cell.topSeparator.isHidden = false
-                    cell.bottomSeparator.isHidden = true
-                    cell.setMargin(top: true)
-                    return cell
-                case .offerTypeRent:
-                    guard let cell = collectionView.dequeue(type: FilterSingleCheckCell.self,
-                                                            for: indexPath) else { return UICollectionViewCell() }
-                    cell.titleLabel.text = viewModel.offerTypeNameAtIndex(indexPath.row - 1)
-                    cell.isSelected = viewModel.isOfferTypeSelectedAtIndex(indexPath.row - 1)
-                    cell.topSeparator.isHidden = false
-                    cell.bottomSeparator.isHidden = false
-                    cell.setMargin(bottom: true)
-                    return cell
-                case .numberOfBedrooms:
-                    guard let cell = collectionView.dequeue(type: FilterDisclosureCell.self,
-                                                            for: indexPath) else { return UICollectionViewCell() }
-                    cell.isUserInteractionEnabled = true
-                    cell.titleLabel.isEnabled = true
-                    cell.titleLabel.text = R.Strings.realEstateBedroomsTitle
-                    cell.subtitleLabel.text = viewModel.currentNumberOfBedroomsName ?? R.Strings.filtersRealEstateBedroomsNotSet
-                    cell.topSeparator?.isHidden = false
-                    return cell
-                case .numberOfBathrooms:
-                    guard let cell = collectionView.dequeue(type: FilterDisclosureCell.self,
-                                                            for: indexPath) else { return UICollectionViewCell() }
-                    cell.isUserInteractionEnabled = true
-                    cell.titleLabel.isEnabled = true
-                    cell.titleLabel.text = R.Strings.realEstateBathroomsTitle
-                    cell.subtitleLabel.text = viewModel.currentNumberOfBathroomsName ?? R.Strings.filtersRealEstateBathroomsNotSet
-                    return cell
-                case .numberOfRooms:
-                    guard let cell = collectionView.dequeue(type: FilterDisclosureCell.self,
-                                                            for: indexPath) else { return UICollectionViewCell() }
-                    cell.isUserInteractionEnabled = true
-                    cell.titleLabel.isEnabled = true
-                    cell.titleLabel.text = R.Strings.realEstateRoomsTitle
-                    cell.subtitleLabel.text = viewModel.currentNumberOfRoomsName ?? R.Strings.filtersRealEstateBedroomsNotSet
-                    cell.topSeparator?.isHidden = false
-                    return cell
-                case .sizeFrom, .sizeTo:
-                    guard let cell = collectionView.dequeue(type: FilterTextFieldIntCell.self,
-                                                            for: indexPath) else { return UICollectionViewCell() }
-                    cell.tag = realEstateSection == .sizeFrom ? TextFieldNumberType.sizeFrom.rawValue : TextFieldNumberType.sizeTo.rawValue
-                    cell.textField.placeholder = SharedConstants.sizeSquareMetersUnit
-                    cell.titleLabel.text = realEstateSection == .sizeFrom ? R.Strings.filtersPriceFrom :
-                        R.Strings.filtersPriceTo
-                    cell.bottomSeparator?.isHidden =  false
-                    cell.topSeparator?.isHidden =  false
-                    cell.textField.text = realEstateSection == .sizeFrom ? viewModel.minSizeString : viewModel.maxSizeString
-                    cell.delegate = self
-                    if realEstateSection == .sizeTo {
-                        priceToCellFrame = cell.frame
-                    }
-                    return cell
-                }
-                
-            case .servicesInfo:
-                let serviceSection = viewModel.serviceSections[indexPath.item]
-                guard let cell = collectionView.dequeue(type: FilterDisclosureCell.self,
-                                                        for: indexPath) else { return UICollectionViewCell() }
-                cell.titleLabel.text = serviceSection.title
-                switch serviceSection {
-                case .type:
-                    cell.subtitleLabel.text = viewModel.currentServiceTypeName ?? R.Strings.filtersServiceTypeNotSet
-                    cell.topSeparator?.isHidden = false
-                case .subtype:
-                    cell.isUserInteractionEnabled = viewModel.serviceSubtypeCellEnabled
-                    cell.titleLabel.isEnabled = viewModel.serviceSubtypeCellEnabled
-                    cell.subtitleLabel.text = viewModel.selectedServiceSubtypesDisplayName ?? R.Strings.filtersServiceSubtypeNotSet
-                }
-                return cell
-            case .within:
-                guard let cell = collectionView.dequeue(type: FilterSingleCheckCell.self,
-                                                        for: indexPath) else { return UICollectionViewCell() }
-                cell.titleLabel.text = viewModel.withinTimeNameAtIndex(indexPath.row)
-                cell.isSelected = viewModel.withinTimeSelectedAtIndex(indexPath.row)
-                cell.bottomSeparator.isHidden = indexPath.row != (viewModel.numOfWithinTimes - 1)
-                return cell
-                
-            case .sortBy:
-                guard let cell = collectionView.dequeue(type: FilterSingleCheckCell.self,
-                                                        for: indexPath) else { return UICollectionViewCell() }
-                cell.titleLabel.text = viewModel.sortOptionTextAtIndex(indexPath.row)
-                cell.isSelected = viewModel.sortOptionSelectedAtIndex(indexPath.row)
-                cell.bottomSeparator.isHidden = indexPath.row != (viewModel.numOfSortOptions - 1)
-                return cell
-            case .price:
-                if viewModel.isTaxonomiesAndTaxonomyChildrenInFeedEnabled {
-                    if indexPath.row == 0 {
-                        guard let cell = collectionView.dequeue(type: FilterFreeCell.self,
-                                                                for: indexPath) else { return UICollectionViewCell() }
-                        cell.bottomSeparator?.isHidden = true
-                        cell.topSeparator?.isHidden = false
-                        cell.titleLabel.text = R.Strings.filtersSectionPriceFreeTitle
-                        cell.delegate = viewModel
-                        cell.freeSwitch.setOn(viewModel.isFreeActive, animated: false)
-                        return cell
-                    } else if indexPath.row == 1 {
-                        guard let cell = collectionView.dequeue(type: FilterRangePriceCell.self,
-                                                                for: indexPath) else { return UICollectionViewCell() }
-                        cell.titleLabelFrom.text = R.Strings.filtersPriceFrom
-                        cell.titleLabelTo.text = R.Strings.filtersPriceTo
-                        cell.bottomSeparator?.isHidden =  false
-                        cell.topSeparator?.isHidden =  false
-                        cell.textFieldFrom.text = viewModel.minPriceString
-                        cell.textFieldTo.text = viewModel.maxPriceString
-                        cell.delegate = self
-                        return cell
-                    } else {
-                        return UICollectionViewCell()
-                    }
-                } else {
-                    guard let cell = collectionView.dequeue(type: FilterTextFieldIntCell.self,
-                                                            for: indexPath) else { return UICollectionViewCell() }
-                    cell.tag = indexPath.row
-                    cell.textField.placeholder = R.Strings.filtersSectionPrice
-                    cell.titleLabel.text = indexPath.row == 0 ? R.Strings.filtersPriceFrom :
-                        R.Strings.filtersPriceTo
-                    cell.bottomSeparator?.isHidden =  indexPath.row == 0
-                    cell.topSeparator?.isHidden =  indexPath.row != 0
-                    cell.textField.text = indexPath.row == 0 ? viewModel.minPriceString : viewModel.maxPriceString
-                    cell.delegate = self
-                    if indexPath.row == 1 {
-                        priceToCellFrame = cell.frame
-                    }
-                    return cell
-                }
-            }
-    }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: false)
         switch viewModel.sections[indexPath.section] {
         case .location:
             viewModel.locationButtonPressed()
-        case .distance:
-            //Do nothing on distance
-            break
         case .categories:
             if viewModel.isTaxonomiesAndTaxonomyChildrenInFeedEnabled {
                 viewModel.categoriesButtonPressed()
@@ -700,7 +441,7 @@ extension FiltersViewController {
         case .carsInfo:
             let carSection = viewModel.carSections[indexPath.item]
             switch carSection {
-            case .firstSection, .secondSection:
+            case .individual, .dealership:
                 viewModel.selectCarSeller(section: carSection)
             case .make:
                 viewModel.makeButtonPressed()
@@ -728,17 +469,311 @@ extension FiltersViewController {
         case .servicesInfo:
             switch viewModel.serviceSections[indexPath.item] {
             case .type:
-                viewModel.servicesTypePressed()
+                viewModel.servicesTypeTapped()
             case .subtype:
-                viewModel.servicesSubtypePressed()
+                viewModel.servicesSubtypeTapped()
+            case .unified:
+                viewModel.unifiedServicesFilterTapped()
             }
         case .within:
             viewModel.selectWithinTimeAtIndex(indexPath.row)
         case .sortBy:
             viewModel.selectSortOptionAtIndex(indexPath.row)
-        case .price:
-            //Do nothing on price
+        case .price, .distance:
+            // Do nothing
             break
         }
     }
+}
+
+
+// MARK: UICollectionViewDelegateFlowLayout Implementation
+
+extension FiltersViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        guard indexPath.section < viewModel.sections.count else { return .zero }
+        switch viewModel.sections[indexPath.section] {
+        case .distance:
+            return CGSize(width: view.bounds.width, height: Layout.distanceHeight)
+        case .categories:
+            let viewWidth = view.width
+            let width = viewModel.isTaxonomiesAndTaxonomyChildrenInFeedEnabled ? viewWidth : viewWidth * 0.5
+            return CGSize(width: width, height: Layout.categoryHeight)
+        case .carsInfo:
+            let carSection = viewModel.carSections[indexPath.item]
+            switch carSection {
+            case .dealership:
+                return CGSize(width: view.bounds.width, height: Layout.singleCheckWithMarginHeight)
+            case .individual, .make, .model:
+                return CGSize(width: view.bounds.width, height: Layout.singleCheckHeight)
+            case .year:
+                return CGSize(width: view.bounds.width, height: Layout.yearHeight)
+            case .mileage:
+                return CGSize(width: view.bounds.width, height: Layout.mileageHeight)
+            case .numberOfSeats:
+                return CGSize(width: view.bounds.width, height: Layout.numberOfSeatsHeight)
+            case .bodyType, .transmission, .fuelType, .driveTrain:
+                let height = viewModel.attributeGridHeight(forCarSection: carSection,
+                                                           forContainerWidth: view.bounds.width)
+                return CGSize(width: view.bounds.width, height: height)
+            }
+        case .sortBy, .within, .location:
+            return CGSize(width: view.bounds.width, height: Layout.singleCheckHeight)
+        case .price:
+            return CGSize(width: view.bounds.width, height: Layout.pricesHeight)
+        case .realEstateInfo:
+            let filterRealEstateSection = viewModel.filterRealEstateSections[indexPath.item]
+            switch filterRealEstateSection {
+            case .propertyType, .numberOfBathrooms, .numberOfBedrooms, .numberOfRooms:
+                return CGSize(width: view.bounds.width, height: Layout.singleCheckHeight)
+            case .offerTypeRent, .offerTypeSale:
+                return CGSize(width: view.bounds.width, height: Layout.singleCheckWithMarginHeight)
+            case .sizeFrom, .sizeTo:
+                return CGSize(width: view.bounds.width * 0.5, height: Layout.pricesHeight)
+            }
+        case .servicesInfo:
+            return CGSize(width: view.bounds.width, height: Layout.singleCheckHeight)
+        }
+    }
+}
+
+
+// MARK: Cell Creation Methods
+
+extension FiltersViewController {
+    
+    private func newCategoryCell(forIndexPath indexPath: IndexPath,
+                                 inCollectionView collectionView: UICollectionView) -> UICollectionViewCell {
+        if viewModel.isTaxonomiesAndTaxonomyChildrenInFeedEnabled {
+            guard let cell = collectionView.dequeue(type: FilterDisclosureCell.self,
+                                                    for: indexPath) else { return UICollectionViewCell() }
+            cell.setup(withTitle: R.Strings.categoriesTitle,
+                       subtitle: viewModel.currentCategoryNameSelected)
+            return cell
+        } else {
+            guard let cell = collectionView.dequeue(type: FilterCategoryCell.self,
+                                                    for: indexPath) else { return UICollectionViewCell() }
+            cell.titleLabel.text = viewModel.categoryTextAtIndex(indexPath.row)
+            cell.categoryIcon.image = viewModel.categoryIconAtIndex(indexPath.row)
+            let colorText = viewModel.categoryColorAtIndex(indexPath.row)
+            let colorIcon = viewModel.categoryIconColorAtIndex(indexPath.row)
+            cell.categoryIcon.tintColor = colorIcon
+            cell.titleLabel.textColor = colorText
+            cell.rightSeparator?.isHidden = indexPath.row % 2 == 1
+            cell.isSelected = viewModel.categorySelectedAtIndex(indexPath.row)
+            return cell
+        }
+    }
+    
+    private func newPriceCell(forIndexPath indexPath: IndexPath,
+                              inCollectionView collectionView: UICollectionView) -> UICollectionViewCell {
+        if viewModel.isTaxonomiesAndTaxonomyChildrenInFeedEnabled {
+            if indexPath.row == 0 {
+                guard let cell = collectionView.dequeue(type: FilterFreeCell.self,
+                                                        for: indexPath) else { return UICollectionViewCell() }
+                cell.bottomSeparator?.isHidden = true
+                cell.topSeparator?.isHidden = false
+                cell.titleLabel.text = R.Strings.filtersSectionPriceFreeTitle
+                cell.delegate = viewModel
+                cell.freeSwitch.setOn(viewModel.isFreeActive, animated: false)
+                return cell
+            } else if indexPath.row == 1 {
+                guard let cell = collectionView.dequeue(type: FilterRangePriceCell.self,
+                                                        for: indexPath) else { return UICollectionViewCell() }
+                cell.titleLabelFrom.text = R.Strings.filtersPriceFrom
+                cell.titleLabelTo.text = R.Strings.filtersPriceTo
+                cell.bottomSeparator?.isHidden =  false
+                cell.topSeparator?.isHidden =  false
+                cell.textFieldFrom.text = viewModel.minPriceString
+                cell.textFieldTo.text = viewModel.maxPriceString
+                cell.delegate = self
+                return cell
+            } else {
+                return UICollectionViewCell()
+            }
+        } else {
+            guard let cell = collectionView.dequeue(type: FilterTextFieldIntCell.self,
+                                                    for: indexPath) else { return UICollectionViewCell() }
+            cell.tag = indexPath.row
+            cell.textField.placeholder = R.Strings.filtersSectionPrice
+            cell.titleLabel.text = indexPath.row == 0 ? R.Strings.filtersPriceFrom :
+                R.Strings.filtersPriceTo
+            cell.bottomSeparator?.isHidden =  indexPath.row == 0
+            cell.topSeparator?.isHidden =  indexPath.row != 0
+            cell.textField.text = indexPath.row == 0 ? viewModel.minPriceString : viewModel.maxPriceString
+            cell.delegate = self
+            if indexPath.row == 1 {
+                priceToCellFrame = cell.frame
+            }
+            return cell
+        }
+    }
+    
+    private func newCarCell(forIndexPath indexPath: IndexPath,
+                            inCollectionView collectionView: UICollectionView) -> UICollectionViewCell {
+        let carSection = viewModel.carSections[indexPath.item]
+        switch carSection {
+        case .individual:
+            guard let cell = collectionView.dequeue(type: FilterSingleCheckCell.self,
+                                                    for: indexPath) else { return UICollectionViewCell() }
+            cell.titleLabel.text = viewModel.carCellTitle(section: carSection)
+            cell.isSelected = viewModel.isCarSellerTypeSelected(type: carSection)
+            cell.topSeparator.isHidden = false
+            return cell
+        case .dealership:
+            guard let cell = collectionView.dequeue(type: FilterSingleCheckCell.self,
+                                                    for: indexPath) else { return UICollectionViewCell() }
+            cell.titleLabel.text = viewModel.carCellTitle(section: carSection)
+            cell.isSelected = viewModel.isCarSellerTypeSelected(type: carSection)
+            cell.setMargin(bottom: true)
+            cell.bottomSeparator.isHidden = false
+            return cell
+        case .make:
+            guard let cell = collectionView.dequeue(type: FilterDisclosureCell.self,
+                                                    for: indexPath) else { return UICollectionViewCell() }
+            cell.setup(withTitle: viewModel.carCellTitle(section: carSection),
+                       subtitle: viewModel.currentCarMakeName ?? R.Strings.filtersCarMakeNotSet)
+            cell.topSeparator?.isHidden = false
+            return cell
+        case .model:
+            guard let cell = collectionView.dequeue(type: FilterDisclosureCell.self,
+                                                    for: indexPath) else { return UICollectionViewCell() }
+            cell.setup(withTitle: viewModel.carCellTitle(section: carSection),
+                       subtitle: viewModel.currentCarModelName ?? R.Strings.filtersCarModelNotSet,
+                       isTitleEnabled: viewModel.modelCellEnabled,
+                       isUserInteractionEnabled: viewModel.modelCellEnabled)
+            cell.topSeparator?.isHidden = false
+            return cell
+        case .year:
+            guard let cell = collectionView.dequeue(type: FilterSliderYearCell.self,
+                                                    for: indexPath) else { return UICollectionViewCell() }
+            cell.setupSlider(minimumValue: SharedConstants.filterMinCarYear,
+                             maximumValue: Date().year,
+                             minimumValueSelected: viewModel.carYearStart,
+                             maximumValueSelected: viewModel.carYearEnd)
+            cell.delegate = self
+            return cell
+        case .mileage, .numberOfSeats:
+            guard let cell = collectionView.dequeue(type: FilterSliderCell.self,
+                                                    for: indexPath),
+                let sliderViewModel = viewModel.sliderViewModel(forSection: carSection)
+                else { return UICollectionViewCell() }
+            
+            cell.setup(withViewModel: sliderViewModel,
+                       minimumValueSelectedAction: { [weak self] (minValue) in
+                        self?.viewModel.didSelectMinimumValue(forSection: carSection,
+                                                              value: minValue)
+                }, maximumValueSelectedAction: { [weak self] (maxValue) in
+                    self?.viewModel.didSelectMaximumValue(forSection: carSection,
+                                                          value: maxValue)
+            })
+            return cell
+        case .bodyType, .transmission, .fuelType, .driveTrain:
+            guard let cell = collectionView.dequeue(type: FilterAttributeGridCell.self,
+                                                    for: indexPath) else { return UICollectionViewCell() }
+            cell.setup(withTitle: viewModel.carCellTitle(section: carSection),
+                       values: viewModel.carExtrasAttributeItems(forSection: carSection),
+                       selectedValues: viewModel.selectedCarExtrasAttributeItems(forSection: carSection),
+                       selectionAction: { [weak self] item in
+                        self?.viewModel.didSelectItem(item,
+                                                      forSection: carSection)
+                }, deselectionAction: { [weak self] item in
+                    self?.viewModel.didDeselectItem(item,
+                                                    forSection: carSection)
+            })
+            return cell
+        }
+    }
+    
+    private func newRealEstateCell(forIndexPath indexPath: IndexPath,
+                                   inCollectionView collectionView: UICollectionView) -> UICollectionViewCell {
+        let realEstateSection = viewModel.filterRealEstateSections[indexPath.item]
+        switch realEstateSection {
+        case .propertyType:
+            guard let cell = collectionView.dequeue(type: FilterDisclosureCell.self,
+                                                    for: indexPath) else { return UICollectionViewCell() }
+            cell.setup(withTitle: R.Strings.realEstateTypePropertyTitle,
+                       subtitle: viewModel.currentPropertyTypeName ?? R.Strings.filtersRealEstatePropertyTypeNotSet)
+            return cell
+        case .offerTypeSale:
+            guard let cell = collectionView.dequeue(type: FilterSingleCheckCell.self,
+                                                    for: indexPath) else { return UICollectionViewCell() }
+            cell.titleLabel.text = viewModel.offerTypeNameAtIndex(indexPath.row - 1)
+            cell.isSelected = viewModel.isOfferTypeSelectedAtIndex(indexPath.row - 1)
+            cell.topSeparator.isHidden = false
+            cell.bottomSeparator.isHidden = true
+            cell.setMargin(top: true)
+            return cell
+        case .offerTypeRent:
+            guard let cell = collectionView.dequeue(type: FilterSingleCheckCell.self,
+                                                    for: indexPath) else { return UICollectionViewCell() }
+            cell.titleLabel.text = viewModel.offerTypeNameAtIndex(indexPath.row - 1)
+            cell.isSelected = viewModel.isOfferTypeSelectedAtIndex(indexPath.row - 1)
+            cell.topSeparator.isHidden = false
+            cell.bottomSeparator.isHidden = false
+            cell.setMargin(bottom: true)
+            return cell
+        case .numberOfBedrooms:
+            guard let cell = collectionView.dequeue(type: FilterDisclosureCell.self,
+                                                    for: indexPath) else { return UICollectionViewCell() }
+            cell.setup(withTitle: R.Strings.realEstateBedroomsTitle,
+                       subtitle: viewModel.currentNumberOfBedroomsName ?? R.Strings.filtersRealEstateBedroomsNotSet)
+            cell.topSeparator?.isHidden = false
+            return cell
+        case .numberOfBathrooms:
+            guard let cell = collectionView.dequeue(type: FilterDisclosureCell.self,
+                                                    for: indexPath) else { return UICollectionViewCell() }
+            cell.setup(withTitle: R.Strings.realEstateBathroomsTitle,
+                       subtitle: viewModel.currentNumberOfBathroomsName ?? R.Strings.filtersRealEstateBathroomsNotSet)
+            return cell
+        case .numberOfRooms:
+            guard let cell = collectionView.dequeue(type: FilterDisclosureCell.self,
+                                                    for: indexPath) else { return UICollectionViewCell() }
+            cell.setup(withTitle: R.Strings.realEstateRoomsTitle,
+                       subtitle: viewModel.currentNumberOfRoomsName ?? R.Strings.filtersRealEstateBedroomsNotSet)
+            cell.topSeparator?.isHidden = false
+            return cell
+        case .sizeFrom, .sizeTo:
+            guard let cell = collectionView.dequeue(type: FilterTextFieldIntCell.self,
+                                                    for: indexPath) else { return UICollectionViewCell() }
+            cell.tag = realEstateSection == .sizeFrom ? TextFieldNumberType.sizeFrom.rawValue : TextFieldNumberType.sizeTo.rawValue
+            cell.textField.placeholder = SharedConstants.sizeSquareMetersUnit
+            cell.titleLabel.text = realEstateSection == .sizeFrom ? R.Strings.filtersPriceFrom :
+                R.Strings.filtersPriceTo
+            cell.bottomSeparator?.isHidden = false
+            cell.topSeparator?.isHidden = false
+            cell.textField.text = realEstateSection == .sizeFrom ? viewModel.minSizeString : viewModel.maxSizeString
+            cell.delegate = self
+            if realEstateSection == .sizeTo {
+                priceToCellFrame = cell.frame
+            }
+            return cell
+        }
+    }
+    
+    private func newServicesCell(forIndexPath indexPath: IndexPath,
+                                 inCollectionView collectionView: UICollectionView) -> UICollectionViewCell {
+        let serviceSection = viewModel.serviceSections[indexPath.item]
+        guard let cell = collectionView.dequeue(type: FilterDisclosureCell.self,
+                                                for: indexPath) else { return UICollectionViewCell() }
+        switch serviceSection {
+        case .type:
+            cell.setup(withTitle: serviceSection.title,
+                       subtitle: viewModel.currentServiceTypeName ?? R.Strings.filtersServiceTypeNotSet)
+            cell.topSeparator?.isHidden = false
+        case .subtype:
+            cell.setup(withTitle: serviceSection.title,
+                       subtitle: viewModel.selectedServiceSubtypesDisplayName ?? R.Strings.filtersServiceSubtypeNotSet,
+                       isTitleEnabled: viewModel.serviceSubtypeCellEnabled,
+                       isUserInteractionEnabled: viewModel.serviceSubtypeCellEnabled)
+        case .unified:
+            cell.setup(withTitle: viewModel.currentServiceTypeName ?? serviceSection.title,
+                       subtitle: viewModel.selectedServiceSubtypesDisplayName ?? R.Strings.filtersServiceTypeNotSet)
+        }
+        return cell
+    }
+
 }

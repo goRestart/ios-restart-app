@@ -347,6 +347,10 @@ final class TabBarController: UITabBarController {
         if let sellTab = vcs[Tab.sell.index].tabBarItem, viewModel.shouldShowCameraBadge {
             viewModel.sellBadge.asObservable().bind(to: sellTab.rx.badgeValue).disposed(by: disposeBag)
         }
+        
+        if let homeTab = vcs[Tab.home.index].tabBarItem, viewModel.shouldShowHomeBadge {
+            viewModel.homeBadge.asObservable().bind(to: homeTab.rx.badgeValue).disposed(by: disposeBag)
+        }
     }
 }
 
@@ -361,10 +365,9 @@ extension TabBarController: UIGestureRecognizerDelegate {
         self.tabBar.addGestureRecognizer(longPress)
     }
 
-    @objc func longPressProfileItem(_ recognizer: UILongPressGestureRecognizer) {
+    @objc private func longPressProfileItem(_ recognizer: UILongPressGestureRecognizer) {
         guard AdminViewController.canOpenAdminPanel() else { return }
-        let admin = AdminViewController()
-        let nav = UINavigationController(rootViewController: admin)
+        let nav = UINavigationController(rootViewController: AdminViewController.make())
         present(nav, animated: true, completion: nil)
     }
 

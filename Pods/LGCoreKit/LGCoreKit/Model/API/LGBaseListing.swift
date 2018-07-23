@@ -247,7 +247,6 @@ struct LGBaseListing: BaseListingModel, Decodable {
                                          video: media.outputs.video, videoThumbnail: media.outputs.videoThumbnail)
             return LGMedia(objectId: nil, type: media.type, snapshotId: media.snapshotId, outputs: outputs)
         }
-
     }
 
     enum CodingKeysProductsApi: String, CodingKey {

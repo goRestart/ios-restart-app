@@ -136,6 +136,7 @@ extension AppDelegate: UIApplicationDelegate {
          when the user quits.*/
 
         keyValueStorage?[.didEnterBackground] = true
+        keyValueStorage?[.lastSessionDate] = Date()
         appIsActive.value = false
         LGCoreKit.applicationDidEnterBackground()
         listingRepository?.updateListingViewCounts()
@@ -163,7 +164,7 @@ extension AppDelegate: UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-
+        keyValueStorage?[.lastSessionDate] = Date()
     }
 
     func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String,
@@ -278,7 +279,7 @@ fileprivate extension AppDelegate {
         #endif
         
         // LGCoreKit
-        let coreEnvironment = environmentHelper.coreEnvironment
+        let coreEnvironment = environmentHelper.serverEnvironment
         let carsInfoJSONPath = Bundle.main.path(forResource: "CarsInfo", ofType: "json") ?? ""
         let taxonomiesJSONPath = Bundle.main.path(forResource: "Taxonomies", ofType: "json") ?? ""
         let servicesJSONPath = Bundle.main.path(forResource: "ServicesInfo", ofType: "json") ?? ""

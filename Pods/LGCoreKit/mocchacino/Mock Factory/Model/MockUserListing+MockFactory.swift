@@ -6,6 +6,7 @@ extension MockUserListing: MockFactory {
                                postalAddress: PostalAddress.makeMock(),
                                status: UserStatus.makeMock(),
                                banned: Bool?.makeRandom(),
-                               isDummy: Bool.makeRandom())
+                               isDummy: Bool.makeRandom(),
+                               type: UserType.makeMock())
     }
 }

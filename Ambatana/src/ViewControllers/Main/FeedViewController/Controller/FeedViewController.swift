@@ -8,7 +8,7 @@ final class FeedViewController: BaseViewController {
     private let refreshControl = UIRefreshControl()
     weak var collectionViewFooter: CollectionViewFooter?
     
-    private let infoBubbleView = InfoBubbleView()
+    private let infoBubbleView = InfoBubbleView(style: .light)
     private var infoBubbleTopConstraints: NSLayoutConstraint?
 
     private let waterFallLayout = WaterFallLayout()

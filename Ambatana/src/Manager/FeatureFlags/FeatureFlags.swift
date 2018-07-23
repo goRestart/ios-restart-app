@@ -60,6 +60,8 @@ protocol FeatureFlaggeable: class {
     var googleAdxForTR: GoogleAdxForTR { get }
     var fullScreenAdsWhenBrowsingForUS: FullScreenAdsWhenBrowsingForUS { get }
     var fullScreenAdUnitId: String? { get }
+    var appInstallAdsInFeed: AppInstallAdsInFeed { get }
+    var appInstallAdsInFeedAdUnit: String? { get }
     
     // MARK: Chat
     var showInactiveConversations: Bool { get }
@@ -69,13 +71,16 @@ protocol FeatureFlaggeable: class {
     var chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs { get }
     var showChatConnectionStatusBar: ShowChatConnectionStatusBar { get }
     var showChatHeaderWithoutListingForAssistant: Bool { get }
+    var showChatHeaderWithoutUser: Bool { get }
+    var enableCTAMessageType: Bool { get }
+    var expressChatImprovement: ExpressChatImprovement { get }
 
     // MARK: Verticals
-    var searchCarsIntoNewBackend: SearchCarsIntoNewBackend { get }
-    var filterSearchCarSellerType: FilterSearchCarSellerType { get }
     var realEstateMap: RealEstateMap { get }
     var showServicesFeatures: ShowServicesFeatures { get }
     var carExtraFieldsEnabled: CarExtraFieldsEnabled { get }
+    var realEstateMapTooltip: RealEstateMapTooltip { get }
+    var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen { get }
     
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed { get }
@@ -88,6 +93,7 @@ protocol FeatureFlaggeable: class {
     var predictivePosting: PredictivePosting { get }
     var videoPosting: VideoPosting { get }
     var simplifiedChatButton: SimplifiedChatButton { get }
+    var frictionlessShare: FrictionlessShare { get }
 
     // MARK: Users
     var advancedReputationSystem: AdvancedReputationSystem { get }
@@ -103,6 +109,8 @@ protocol FeatureFlaggeable: class {
     var onboardingIncentivizePosting: OnboardingIncentivizePosting { get }
     var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed { get }
     var notificationSettings: NotificationSettings { get }
+    var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions { get }
+    var engagementBadging: EngagementBadging { get }
 }
 
 extension FeatureFlaggeable {
@@ -190,8 +198,16 @@ extension ShowServicesFeatures {
     var isActive: Bool { return self == .active }
 }
 
+extension ServicesUnifiedFilterScreen {
+    var isActive: Bool { return self == .active }
+}
+
 extension CarExtraFieldsEnabled {
     var isActive: Bool { return self == .active }
+}
+
+extension RealEstateMapTooltip {
+    var isActive: Bool { return self == .active  }
 }
 
 extension BumpUpBoost {
@@ -248,14 +264,6 @@ extension CopyForChatNowInTurkey {
 
 extension RealEstateMap {
     var isActive: Bool { return self != .baseline && self != .control }
-}
-
-extension FilterSearchCarSellerType {
-    var isActive: Bool { return self != .baseline && self != .control }
-    
-    var isMultiselection: Bool {
-        return self == .variantA || self == .variantB
-    }
 }
 
 extension AdvancedReputationSystem {
@@ -331,10 +339,6 @@ extension FeedAdsProviderForTR {
     }
 }
 
-extension SearchCarsIntoNewBackend {
-    var isActive: Bool { return self == .active }
-}
-
 extension CopyForChatNowInEnglish {
     var isActive: Bool { get { return self != .control } }
     
@@ -385,6 +389,11 @@ extension NotificationSettings {
     var isActive: Bool { return self == .differentLists || self == .sameList }
 }
 
+extension EngagementBadging {
+    var isActive: Bool { return self == .active }
+}
+
+
 // MARK: Products
 
 extension ServicesCategoryOnSalchichasMenu {
@@ -404,6 +413,10 @@ extension PredictivePosting {
 }
 
 extension VideoPosting {
+    var isActive: Bool { return self == .active }
+}
+
+extension FrictionlessShare {
     var isActive: Bool { return self == .active }
 }
 
@@ -453,6 +466,10 @@ extension FullScreenAdsWhenBrowsingForUS {
 }
 
 extension PreventMessagesFromFeedToProUsers {
+    var isActive: Bool { return self == .active }
+}
+
+extension AppInstallAdsInFeed {
     var isActive: Bool { return self == .active }
 }
 
@@ -720,6 +737,21 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.notificationSettings
         }
         return NotificationSettings.fromPosition(abTests.notificationSettings.value)
+    }
+    
+    var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions {
+        if Bumper.enabled {
+            return Bumper.searchAlertsInSearchSuggestions
+        }
+        return SearchAlertsInSearchSuggestions.fromPosition(abTests.searchAlertsInSearchSuggestions.value)
+    }
+    
+    
+    var engagementBadging: EngagementBadging {
+        if Bumper.enabled {
+            return Bumper.engagementBadging
+        }
+        return EngagementBadging.fromPosition(abTests.engagementBadging.value)
     }
     
     // MARK: - Country features
@@ -1020,6 +1052,28 @@ final class FeatureFlags: FeatureFlaggeable {
         }
     }
     
+    var appInstallAdsInFeedAdUnit: String? {
+        if Bumper.enabled {
+            // Bumper overrides country restriction
+            return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxInstallAppUSA
+        }
+        switch sensorLocationCountryCode {
+        case .usa?:
+            return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxInstallAppUSA
+        case .turkey?:
+            return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxInstallAppTR
+        default:
+            return nil
+        }
+    }
+    
+    var appInstallAdsInFeed: AppInstallAdsInFeed {
+        if Bumper.enabled {
+            return Bumper.appInstallAdsInFeed
+        }
+        return AppInstallAdsInFeed.fromPosition(abTests.appInstallAdsInFeed.value)
+    }
+    
     // MARK: - Private
 
     private var locationCountryCode: CountryCode? {
@@ -1053,6 +1107,10 @@ extension ChatConversationsListWithoutTabs {
 
 extension ShowChatConnectionStatusBar {
     var isActive: Bool { return self == .active }
+}
+
+extension ExpressChatImprovement {
+    var isActive: Bool { return self == .hideDontAsk || self == .newTitleAndHideDontAsk }
 }
 
 extension FeatureFlags {
@@ -1106,25 +1164,32 @@ extension FeatureFlags {
         }
         return abTests.showChatHeaderWithoutListingForAssistant.value
     }
+
+    var showChatHeaderWithoutUser: Bool {
+        if Bumper.enabled {
+            return Bumper.showChatHeaderWithoutUser
+        }
+        return abTests.showChatHeaderWithoutUser.value
+    }
+
+    var enableCTAMessageType: Bool {
+        if Bumper.enabled {
+            return Bumper.enableCTAMessageType
+        }
+        return abTests.enableCTAMessageType.value
+    }
+
+    var expressChatImprovement: ExpressChatImprovement {
+        if Bumper.enabled {
+            return Bumper.expressChatImprovement
+        }
+        return  ExpressChatImprovement.fromPosition(abTests.expressChatImprovement.value)
+    }
 }
 
 // MARK: Verticals
 
 extension FeatureFlags {
-    
-    var searchCarsIntoNewBackend: SearchCarsIntoNewBackend {
-        if Bumper.enabled {
-            return Bumper.searchCarsIntoNewBackend
-        }
-        return SearchCarsIntoNewBackend.fromPosition(abTests.searchCarsIntoNewBackend.value)
-    }
-    
-    var filterSearchCarSellerType: FilterSearchCarSellerType {
-        if Bumper.enabled {
-            return Bumper.filterSearchCarSellerType
-        }
-        return FilterSearchCarSellerType.fromPosition(abTests.filterSearchCarSellerType.value)
-    }
     
     var realEstateMap: RealEstateMap {
         if Bumper.enabled {
@@ -1144,9 +1209,22 @@ extension FeatureFlags {
         if Bumper.enabled {
             return Bumper.carExtraFieldsEnabled
         }
-        
+        return CarExtraFieldsEnabled.fromPosition(abTests.carExtraFieldsEnabled.value)
+    }
+    
+    var realEstateMapTooltip: RealEstateMapTooltip {
+        if Bumper.enabled {
+            return Bumper.realEstateMapTooltip
+        }
+        return RealEstateMapTooltip.fromPosition(abTests.realEstateMapTooltip.value)
+    }
+    
+    var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen {
+        if Bumper.enabled {
+            return Bumper.servicesUnifiedFilterScreen
+        }
         return .control
-//        return CarExtraFieldsEnabled.fromPosition(abTests.carExtraFieldsEnabled.value)
+//        return ServicesUnifiedFilterScreen.fromPosition(abTests.servicesUnifiedFilterScreen.value)
     }
 }
 
@@ -1245,6 +1323,13 @@ extension FeatureFlags {
             return Bumper.simplifiedChatButton
         }
         return SimplifiedChatButton.fromPosition(abTests.simplifiedChatButton.value)
+    }
+
+    var frictionlessShare: FrictionlessShare {
+        if Bumper.enabled {
+            return Bumper.frictionlessShare
+        }
+        return FrictionlessShare.fromPosition(abTests.frictionlessShare.value)
     }
 }
 

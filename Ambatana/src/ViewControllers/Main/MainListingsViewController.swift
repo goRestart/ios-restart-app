@@ -34,7 +34,8 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     private let listingListView = ListingListView()
     private let filterDescriptionHeaderView = FilterDescriptionHeaderView()
     private let filterTitleHeaderView = FilterTitleHeaderView()
-    private let infoBubbleView = InfoBubbleView()
+    private let infoBubbleView = InfoBubbleView(style: .light)
+    private let recentItemsBubbleView = InfoBubbleView(style: .reddish)
     private let navbarSearch: LGNavBarSearchField
     private var trendingSearchView = TrendingSearchView()
     private var filterTagsView = FilterTagsView()
@@ -51,6 +52,8 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         view.backgroundColor = .white
         return view
     }()
+    
+    private var mapTooltip: Tooltip?
     
 
     // MARK: - Constraints
@@ -122,6 +125,9 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         setupFilterHeaders()
         setupListingView()
         setupInfoBubble()
+        if viewModel.isEngagementBadgingEnabled {
+            setupRecentItemsBubbleView()
+        }
         setupTagsView()
         setupSearchAndTrending()
         setFiltersNavBarButton()
@@ -218,7 +224,42 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     func vmFiltersChanged() {
         setFiltersNavBarButton()
     }
+    
+    func vmShowMapToolTip(with configuration: TooltipConfiguration) {
+        guard let mapButton = navigationItem.rightBarButtonItems?.first?.customView else { return }
+        
+        let tryNowButton = LetgoButton(withStyle: .transparent(fontSize: .verySmall, sidePadding: Layout.ToolTipMap.buttonSidePadding))
+        tryNowButton.setTitle(R.Strings.realEstateMapTooltipButtonTitle, for: .normal)
+        tryNowButton.addTarget(self, action: #selector(openMap(_:)), for: UIControlEvents.touchUpInside)
 
+        let tooltip = Tooltip(targetView: mapButton,
+                              superView: view,
+                              button: tryNowButton,
+                              configuration: configuration)
+
+        tooltip.alpha = 0.0
+        tooltip.targetViewCenter = mapButton.convert(mapButton.frame.center, to: view)
+        view.addSubviewForAutoLayout(tooltip)
+        NSLayoutConstraint.activate([tryNowButton.heightAnchor.constraint(equalToConstant: Layout.ToolTipMap.buttonHeight),
+                                     tooltip.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: Layout.ToolTipMap.right),
+                                     tooltip.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: Layout.ToolTipMap.left),
+                                     tooltip.topAnchor.constraint(lessThanOrEqualTo: safeTopAnchor)])
+        self.mapTooltip = tooltip
+        UIView.animate(withDuration: 0.3) {
+            self.mapTooltip?.alpha = 1.0
+        }
+
+    }
+    
+    func vmHideMapToolTip() {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.mapTooltip?.alpha = 0.0
+        }) { [weak self] _ in
+            self?.mapTooltip?.removeFromSuperview()
+            self?.mapTooltip = nil
+            self?.viewModel.tooltipMapHidden()
+        }
+    }
 
     // MARK: - MainListingsAdsDelegate
 
@@ -270,6 +311,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
                 ])
         }
     }
+    
     
     // MARK: - FilterHeaders
     
@@ -332,6 +374,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     
     @objc func openMap(_ sender: AnyObject) {
         navbarSearch.searchTextField.resignFirstResponder()
+        vmHideMapToolTip()
         viewModel.showMap()
     }
     
@@ -453,9 +496,38 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         let bubbleTap = UITapGestureRecognizer(target: self, action: #selector(onBubbleTapped))
         infoBubbleView.addGestureRecognizer(bubbleTap)
     }
+    
+    private func setupRecentItemsBubbleView() {
+        view.addSubviewForAutoLayout(recentItemsBubbleView)
+        // trendingSearchesView should be up front of every view, as it is added the latest in addSubviews method
+        view.bringSubview(toFront: trendingSearchView)
+        
+        let recentItemsBubbleViewTopConstraint = recentItemsBubbleView.topAnchor.constraint(equalTo: infoBubbleView.bottomAnchor, constant: Metrics.shortMargin)
+        let recentItemsBubbleViewTrailingConstraint = recentItemsBubbleView.trailingAnchor.constraint(greaterThanOrEqualTo: safeTrailingAnchor, constant: Metrics.bigMargin)
+        recentItemsBubbleViewTopConstraint.priority = UILayoutPriority.defaultLow
+        recentItemsBubbleViewTrailingConstraint.priority = UILayoutPriority.defaultLow
+        
+        NSLayoutConstraint.activate([
+            recentItemsBubbleViewTopConstraint,
+            recentItemsBubbleView.centerXAnchor.constraint(equalTo: view.centerXAnchor,
+                                                           constant: 0),
+            recentItemsBubbleView.heightAnchor.constraint(equalToConstant: InfoBubbleView.bubbleHeight),
+            recentItemsBubbleView.leadingAnchor.constraint(greaterThanOrEqualTo: safeLeadingAnchor,
+                                                           constant: Metrics.bigMargin),
+            recentItemsBubbleViewTrailingConstraint
+            ])
+
+        let bubbleTap = UITapGestureRecognizer(target: self, action: #selector(onRecentItemsBubbleTapped))
+        recentItemsBubbleView.addGestureRecognizer(bubbleTap)
+    }
 
     @objc private func onBubbleTapped() {
         viewModel.bubbleTapped()
+    }
+    
+    @objc private func onRecentItemsBubbleTapped() {
+        viewModel.recentItemsBubbleTapped()
+        scrollToTop()
     }
 
     private func setupSearchAndTrending() {
@@ -472,8 +544,19 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
                 self?.infoBubbleView.invalidateIntrinsicContentSize()
             }.disposed(by: disposeBag)
         
-        viewModel.infoBubbleText.asObservable().bind(to: infoBubbleView.title.rx.text).disposed(by: disposeBag)
-        viewModel.infoBubbleVisible.asObservable().map { !$0 }.bind(to: infoBubbleView.rx.isHidden).disposed(by: disposeBag)
+        viewModel.infoBubbleText.asObservable()
+            .bind(to: infoBubbleView.title.rx.text)
+            .disposed(by: disposeBag)
+        viewModel.infoBubbleVisible.asObservable().map { !$0 }
+            .bind(to: infoBubbleView.rx.isHidden)
+            .disposed(by: disposeBag)
+        
+        viewModel.recentItemsBubbleText.asObservable()
+            .bind(to: recentItemsBubbleView.title.rx.text)
+            .disposed(by: disposeBag)
+        viewModel.recentItemsBubbleVisible.asObservable().map { !$0 }
+            .bind(to: recentItemsBubbleView.rx.isHidden)
+            .disposed(by: disposeBag)
 
         topInset.asObservable()
             .bind { [weak self] topInset in
@@ -526,6 +609,15 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     
     func navBarSearchTextFieldDidUpdate(text: String) {
         viewModel.searchTextFieldDidUpdate(text: text)
+    }
+    
+    private struct Layout {
+        struct ToolTipMap  {
+            static let left: CGFloat = 50
+            static let right: CGFloat = -60
+            static let buttonHeight: CGFloat = 32
+            static let buttonSidePadding: CGFloat = 20
+        }
     }
 }
 

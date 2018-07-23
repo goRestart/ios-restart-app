@@ -52,6 +52,12 @@ final class ListingPostedViewController: BaseViewController, ListingPostedViewMo
         setAccesibilityIds()
     }
 
+    override func viewDidFirstAppear(_ animated: Bool) {
+        super.viewDidFirstAppear(animated)
+        guard viewModel.shouldAutoShareOnFacebook else { return }
+        shareOnFacebook()
+    }
+
     // MARK: - Status Bar
     
     override var prefersStatusBarHidden: Bool {
@@ -177,6 +183,11 @@ final class ListingPostedViewController: BaseViewController, ListingPostedViewMo
     private func shareButtonPressed() {
         guard let socialMessage = viewModel.socialMessage else { return }
         socialSharer.share(socialMessage, shareType: .native(restricted: false), viewController: self)
+    }
+
+    private func shareOnFacebook() {
+        guard let socialMessage = viewModel.socialMessage else { return }
+        socialSharer.share(socialMessage, shareType: .facebook, viewController: self)
     }
 }
 

@@ -29,7 +29,14 @@ protocol ListingListViewHeaderDelegate: class {
 
 final class ListingListView: BaseView, CHTCollectionViewDelegateWaterfallLayout, ListingListViewModelDelegate,
 UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    private struct Layout { struct Height { static let errorButton: CGFloat = 50 } }
+    private struct Layout {
+        struct Height {
+            static let errorButton: CGFloat = 50
+        }
+        struct Error {
+            static let top: CGFloat = 64
+        }
+    }
 
     let firstLoadView = ActivityView()
 
@@ -168,12 +175,15 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
     func setErrorViewStyle(bgColor: UIColor?, borderColor: UIColor?, containerColor: UIColor?) {
         if errorView.superview == nil {
-            collectionView.addSubviewForAutoLayout(errorView)
-            NSLayoutConstraint.activate([
-                errorView.topAnchor.constraint(equalTo: collectionView.topAnchor),
-                errorView.leftAnchor.constraint(equalTo: leftAnchor),
-                errorView.rightAnchor.constraint(equalTo: rightAnchor)
-            ])
+            addSubviewForAutoLayout(errorView)
+            
+            if #available(iOS 11.0, *) {
+                NSLayoutConstraint.activate([errorView.topAnchor.constraint(equalTo: topAnchor),
+                                             errorView.leftAnchor.constraint(equalTo: leftAnchor),
+                                             errorView.rightAnchor.constraint(equalTo: rightAnchor)])
+            } else {
+                errorView.layout(with: self).fillHorizontal().top(by: Layout.Error.top)
+            }
             sendSubview(toBack: errorView)
         }
 
@@ -679,11 +689,10 @@ extension ListingListView: MPNativeAdDelegate {
 // MARK: - GADNativeContentAdLoaderDelegate
 extension ListingListView: GADNativeContentAdLoaderDelegate, GADAdLoaderDelegate, GADNativeAdDelegate {
     public func adLoader(_ adLoader: GADAdLoader, didReceive nativeContentAd: GADNativeContentAd) {
-        nativeContentAd.delegate = self
         guard let position = adLoader.position else { return }
+        nativeContentAd.delegate = self
         nativeContentAd.position = position
-        let contentAdView = Bundle.main.loadNibNamed("GoogleAdxNativeView", owner: nil, options: nil)?.first as! GoogleAdxNativeView
-        viewModel.updateAdvertisementRequestedIn(position: position, nativeContentAd: nativeContentAd, contentAdView: contentAdView)
+        viewModel.updateAdvertisementRequestedIn(position: position, nativeAd: nativeContentAd)
     }
     
     public func adLoader(_ adLoader: GADAdLoader, didFailToReceiveAdWithError error: GADRequestError) {
@@ -699,6 +708,17 @@ extension ListingListView: GADNativeContentAdLoaderDelegate, GADAdLoaderDelegate
                                   feedPosition: feedPosition)
     }
     
+}
+
+// MARK: - GADNativeAppInstallAdLoaderDelegate
+extension ListingListView: GADNativeAppInstallAdLoaderDelegate {
+
+    public func adLoader(_ adLoader: GADAdLoader, didReceive nativeAppInstallAd: GADNativeAppInstallAd) {
+        guard let position = adLoader.position else { return }
+        nativeAppInstallAd.delegate = self
+        nativeAppInstallAd.position = position
+        viewModel.updateAdvertisementRequestedIn(position: position, nativeAd: nativeAppInstallAd)
+    }
 }
 
 extension GADAdLoader {

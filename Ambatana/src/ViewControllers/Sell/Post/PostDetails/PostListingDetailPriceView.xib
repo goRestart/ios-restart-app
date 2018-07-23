@@ -14,6 +14,7 @@
                 <outlet property="contentView" destination="iN0-l3-epB" id="IMh-1d-BKT"/>
                 <outlet property="currencyLabel" destination="uyy-G0-bIC" id="5Gd-LM-YH2"/>
                 <outlet property="doneButton" destination="C1C-GM-OzP" id="EeF-EV-IUu"/>
+                <outlet property="doneButtonTopConstraint" destination="C7l-GY-ERO" id="Fui-1m-90J"/>
                 <outlet property="freePostLabel" destination="TcK-LL-Tbh" id="IiD-LM-CAG"/>
                 <outlet property="freePostSwitch" destination="aSl-kP-p11" id="gva-pC-cGc"/>
                 <outlet property="giveAwayContainerHeightConstraint" destination="Owp-Eo-shY" id="YKv-kt-myt"/>

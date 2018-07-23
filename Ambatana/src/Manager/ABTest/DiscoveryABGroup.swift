@@ -13,7 +13,7 @@ struct DiscoveryABGroup: ABGroupType {
         static let sectionedMainFeed = "20180411SectionedMainFeed"
         static let personalizedFeed = "20180509PersonalizedFeed"
         static let multiContact = "20180515MultiContact"
-        static let emptySearchImprovements = "20180522EmptySearchImprovements"
+        static let emptySearchImprovements = "20180718EmptySearchImprovementsWithTracking"
     }
     
     let sectionedMainFeed: LeanplumABVariable<Int>

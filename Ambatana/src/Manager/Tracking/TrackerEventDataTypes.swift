@@ -215,6 +215,10 @@ enum EventName: String {
     case pushNotificationsEditStart         = "push-notifications-edit-start"
     case emailNotificationsEditStart        = "email-notifications-edit-start"
 
+    case chatTabOpen                        = "chat-tab-open"
+    case chatCallToActionTapped             = "chat-call-to-action-tapped"
+
+
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
     
@@ -260,6 +264,7 @@ enum EventParameterName: String {
     case userZipCode          = "user-zipcode"
     case searchString         = "search-keyword"
     case searchSuccess        = "search-success"
+    case searchRelatedItems   = "search-related-items"
     case searchSuggestion     = "search-suggestion"
     case searchSuggestionPosition = "search-suggestion-position"
     case trendingSearch       = "trending-search"
@@ -350,11 +355,20 @@ enum EventParameterName: String {
     case year                 = "product-year"
     case yearStart            = "product-year-start"
     case yearEnd              = "product-year-end"
+    case mileage              = "mileage"
+    case mileageFrom          = "mileage-from"
+    case mileageTo            = "mileage-to"
+    case bodyType             = "body-type"
+    case transmission         = "transmission"
+    case fuelType             = "fuel-type"
+    case drivetrain           = "drivetrain"
+    case seats                = "seats"
+    case seatsFrom            = "seats-from"
+    case seatsTo              = "seats-to"
     case serviceType          = "service-type"
     case serviceSubtype       = "service-subtype"
     case verticalKeyword            = "vertical-keyword"
     case verticalMatchingFields     = "vertical-matching-fields"
-    case verticalNoMatchingFields   = "vertical-no-matching-fields"
     case verticalFields             = "vertical-fields"
     case bubblePosition       = "bubble-position"
     case bubbleName           = "bubble-name"
@@ -402,7 +416,12 @@ enum EventParameterName: String {
     case fileCount            = "file-count"
     
     case marketingNotificationsEnabled  = "marketing-notifications-enabled"
-    
+
+    case chatTabName          = "tab-name"
+
+    case messageActionKey     = "action-key"
+    case isLetgoAssistant     = "is-letgo-assistant"
+
     
     // Machine Learning
     case mlPredictiveFlow = "predictive-flow"
@@ -880,6 +899,13 @@ enum EventParameterChatError {
     }
 }
 
+enum EventParameterChatTabName: String {
+    case all
+    case selling
+    case buying
+    case blocked
+}
+
 enum EventParameterEditedFields: String {
     case picture = "picture"
     case title = "title"
@@ -892,6 +918,12 @@ enum EventParameterEditedFields: String {
     case make = "make"
     case model = "model"
     case year = "year"
+    case mileage              = "mileage"
+    case bodyType             = "body-type"
+    case transmission         = "transmission"
+    case fuelType             = "fuel-type"
+    case drivetrain           = "drivetrain"
+    case seats                = "seats"
 }
 
 enum EventParameterTypePage: String {
@@ -932,6 +964,7 @@ enum EventParameterTypePage: String {
     case smsVerification = "sms-verification"
     case nextItem = "next-item"
     case feed = "feed"
+    case notificationCenter = "notification-center"
 }
 
 enum EventParameterPermissionType: String {

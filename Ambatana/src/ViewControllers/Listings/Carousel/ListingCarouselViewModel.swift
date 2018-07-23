@@ -151,8 +151,6 @@ class ListingCarouselViewModel: BaseViewModel {
         return currentListingViewModel?.isMine ?? false
     }
 
-    var isPlayable: Bool { return currentListingViewModel?.isPlayable ?? false }
-
     fileprivate var trackingIndex: Int?
     fileprivate var initialThumbnail: UIImage?
 
@@ -212,6 +210,10 @@ class ListingCarouselViewModel: BaseViewModel {
 
     var meetingsEnabled: Bool {
         return featureFlags.chatNorris.isActive
+    }
+    
+    var extraFieldsGridEnabled: Bool {
+        return featureFlags.carExtraFieldsEnabled.isActive
     }
 
     // MARK: - Init
@@ -335,8 +337,6 @@ class ListingCarouselViewModel: BaseViewModel {
         if firstTime && shouldShowOnboarding {
             delegate?.vmShowOnboarding()
         }
-
-        // Tracking
         currentListingViewModel?.trackVisit(.none, source: source, feedPosition: trackingFeedPosition)
     }
         
@@ -372,7 +372,7 @@ class ListingCarouselViewModel: BaseViewModel {
         if active {
             currentListingViewModel?.trackVisit(movement.visitUserAction,
                                                 source: movement.visitSource(source),
-                                                feedPosition: movement.feedPosition(for: trackingIndex))
+                                                feedPosition: trackingFeedPosition)
         }
     }
 
@@ -384,6 +384,12 @@ class ListingCarouselViewModel: BaseViewModel {
     func thumbnailAtIndex(_ index: Int) -> UIImage? {
         if index == startIndex { return initialThumbnail }
         return nil
+    }
+    
+    func listingAttributeGridTapped(forItems items: [ListingAttributeGridItem]) {
+        let viewModel = ListingAttributeTableViewModel(withItems: items)
+        viewModel.navigator = navigator
+        navigator?.openListingAttributeTable(withViewModel: viewModel)
     }
 
     func userAvatarPressed() {
@@ -435,8 +441,11 @@ class ListingCarouselViewModel: BaseViewModel {
         currentListingViewModel?.descriptionURLPressed(url)
     }
 
-    func bumpUpBannerShown(type: BumpUpType) {
-        currentListingViewModel?.trackBumpUpBannerShown(type: type, storeProductId: currentListingViewModel?.storeProductId)
+    func bumpUpBannerShown(bumpInfo: BumpUpInfo) {
+        if bumpInfo.shouldTrackBumpBannerShown {
+            currentListingViewModel?.trackBumpUpBannerShown(type: bumpInfo.type,
+                                                            storeProductId: currentListingViewModel?.storeProductId)
+        }
     }
 
     func showBumpUpView(bumpUpProductData: BumpUpProductData,
@@ -586,6 +595,11 @@ class ListingCarouselViewModel: BaseViewModel {
 
     func reputationTooltipShown() {
         reputationTooltipManager.didShowTooltip()
+    }
+
+    func itemIsPlayable(at index: Int) -> Bool {
+        guard let media = currentListingViewModel?.productMedia.value else { return false }
+        return media[safeAt: index]?.isPlayable ?? false
     }
 
     // MARK: - Private Methods
@@ -803,11 +817,8 @@ extension ListingCarouselViewModel: ListingViewModelDelegate {
     }
 
     var trackingFeedPosition: EventParameterFeedPosition {
-        if let trackingIndex = trackingIndex, currentIndex == startIndex {
-            return .position(index: trackingIndex)
-        } else {
-            return .none
-        }
+        guard let trackingIndex = trackingIndex else { return .none }
+        return .position(index: trackingIndex)
     }
     
     var listingOrigin: ListingOrigin {
@@ -901,15 +912,6 @@ extension CarouselMovement {
             return .swipeRight
         case .initial:
             return .none
-        }
-    }
-    func feedPosition(for index: Int?) -> EventParameterFeedPosition {
-        guard let index = index else  { return .none }
-        switch self {
-        case .tap, .swipeLeft, .swipeRight:
-            return .none
-        case .initial:
-            return .position(index: index)
         }
     }
 }

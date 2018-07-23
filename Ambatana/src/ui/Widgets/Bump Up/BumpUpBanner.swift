@@ -104,6 +104,10 @@ struct BumpUpInfo {
         self.bannerInteractionBlock = bannerInteractionBlock
         self.buttonBlock = buttonBlock
     }
+    
+    var shouldTrackBumpBannerShown: Bool {
+        return self.timeSinceLastBump == 0 || self.type == .boost(boostBannerVisible: true)
+    }
 }
 
 protocol BumpUpBannerBoostDelegate: class {

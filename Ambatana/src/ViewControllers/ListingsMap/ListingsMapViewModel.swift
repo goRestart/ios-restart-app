@@ -61,8 +61,7 @@ final class ListingsMapViewModel: BaseViewModel {
         isLoading.value = true
         let requester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                             queryString: nil,
-                                                                            itemsPerPage: 50,
-                                                                            carSearchActive: featureFlags.searchCarsIntoNewBackend.isActive)
+                                                                            itemsPerPage: 50)
         requester.retrieveFirstPage { [weak self] result in
             guard let strongSelf = self else { return }
             if let error = result.listingsResult.error {

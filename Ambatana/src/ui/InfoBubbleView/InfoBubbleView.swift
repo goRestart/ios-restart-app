@@ -3,7 +3,15 @@ import LGComponents
 
 final class InfoBubbleView: UIView {
     
+    enum Style {
+        case light
+        case reddish
+    }
+    
+    
     static let bubbleHeight: CGFloat = 30
+    
+    let style: Style
     
     //  MARK: - Subviews
     
@@ -23,12 +31,13 @@ final class InfoBubbleView: UIView {
     }()
     
     private let arrow: UIImageView = {
-        let imageView = UIImageView(image: R.Asset.IconsButtons.downChevronRed.image)
+        let imageView = UIImageView()
         imageView.contentMode = .center
         return imageView
     }()
     
-    init() {
+    init(style: Style) {
+        self.style = style
         super.init(frame: .zero)
         setupView()
         setupSubviews()
@@ -42,7 +51,16 @@ final class InfoBubbleView: UIView {
     //  MARK: - Private methods
     
     private func setupView() {
-        backgroundColor = .white
+        switch style {
+        case .light:
+            backgroundColor = .white
+            title.textColor = .black
+            arrow.image = R.Asset.IconsButtons.downChevronRed.image
+        case .reddish:
+            backgroundColor = .primaryColor
+            title.textColor = .white
+            arrow.image = R.Asset.IconsButtons.icChevronUp.image
+        }
         layer.cornerRadius = InfoBubbleView.bubbleHeight/2
         applyShadow(withOpacity: 0.12, radius: 8.0)
     }

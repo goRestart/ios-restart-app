@@ -495,7 +495,7 @@ lane :release_beta do |options|
 			repository_path: repository_path
 		)
 	else
-		release_branch = sh("git symbolic-ref HEAD --short").gsub("\n")
+		release_branch = sh("git symbolic-ref HEAD --short").gsub("\n").peek
 		if !release_branch.include?('release') 
 			UI.user_error!("You must be in a release branch")
 		end

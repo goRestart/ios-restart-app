@@ -2,7 +2,10 @@ import RxSwift
 import LGCoreKit
 import LGComponents
 
-protocol PostingDetailsViewModelDelegate: BaseViewModelDelegate {}
+protocol PostingDetailsViewModelDelegate: BaseViewModelDelegate {
+    func detailViewScrolled(contentOffsetY: CGFloat)
+    func detailViewScrollToTop()
+}
 
 class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDelegate, PostingAddDetailSummaryTableViewDelegate {
     
@@ -124,6 +127,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
                                                              theme: .light,
                                                              subtypes: serviceSubtypes)
             postServicesView.delegate = self
+            postServicesView.scrollDelegate = self
             return postServicesView
         }
         let view = PostingAttributePickerTableView(values: values, selectedIndexes: [], delegate: self)
@@ -695,6 +699,8 @@ extension PostingDetailsViewModel: PostingMultiSelectionViewDelegate {
                                        alertType: .plainAlert,
                                        actions: [action])
     }
+
+    //  MARK: - Private
     
     private var selectedServicesIsLessThanMax: Bool {
         return (multipostingSubtypes.count + multipostingNewSubtypes.count) <= SharedConstants.maxNumberMultiPosting
@@ -709,5 +715,18 @@ extension PostingDetailsViewModel: PostingMultiSelectionViewDelegate {
             return true
         }
         return multipostingSubtypes.count > 0 || multipostingNewSubtypes.count > 0
+    }
+}
+
+extension PostingDetailsViewModel: PostingMultiSelectionScrollDelegate {
+    
+    func scroll(_ scrollView: UIScrollView) {
+        if scrollView.isDragging || scrollView.isDecelerating {
+            delegate?.detailViewScrolled(contentOffsetY: scrollView.contentOffset.y)
+        }
+    }
+    
+    func scrollToTop() {
+        delegate?.detailViewScrollToTop()
     }
 }

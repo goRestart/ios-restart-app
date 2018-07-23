@@ -18,7 +18,7 @@ extension RetrieveListingParams {
         params[VerticalsParamsKeys.numResults] = numListings
         params[VerticalsParamsKeys.offset] = offset
         params[VerticalsParamsKeys.sort] = sortCriteria?.string
-        params[VerticalsParamsKeys.since] = timeCriteria?.string
+        params[VerticalsParamsKeys.since] = timeCriteria?.parameterValue
         
         params[ServicesAttributesParamsKey.typeId] = typeIds
         params[ServicesAttributesParamsKey.subtypeId] = subtypeIds

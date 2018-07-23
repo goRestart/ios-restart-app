@@ -75,14 +75,20 @@ final class LGCamera: NSObject, Camera {
     }
 
     func pause() {
-        session.stopRunning()
+        sessionQueue.async { [weak self] in
+            guard self?.session.isRunning ?? false else { return }
+            self?.session.stopRunning()
+        }
     }
 
     func resume() {
-        if !isSetup {
-            setup()
-        } else if !session.isRunning {
-            session.startRunning()
+        sessionQueue.async { [weak self] in
+            guard let strongSelf = self else { return }
+            if !strongSelf.isSetup {
+                strongSelf.setup()
+            } else if !strongSelf.session.isRunning {
+                strongSelf.session.startRunning()
+            }
         }
     }
 
@@ -186,24 +192,25 @@ final class LGCamera: NSObject, Camera {
 extension LGCamera {
 
     private func setup() {
-        sessionQueue.async {
+        sessionQueue.async { [weak self] in
+            guard let strongSelf = self else { return }
             do {
-                self.session.beginConfiguration()
-                if let backCamera = self.backCamera {
-                    try self.configureInputVideoDevice(device: backCamera)
-                } else if let frontCamera = self.frontCamera {
-                    try self.configureInputVideoDevice(device: frontCamera)
+                strongSelf.session.beginConfiguration()
+                if let backCamera = strongSelf.backCamera {
+                    try strongSelf.configureInputVideoDevice(device: backCamera)
+                } else if let frontCamera = strongSelf.frontCamera {
+                    try strongSelf.configureInputVideoDevice(device: frontCamera)
                 }
-                self.configureOutputs()
-                if let connection = self.videoOutput.connection(with: .video) {
+                strongSelf.configureOutputs()
+                if let connection = strongSelf.videoOutput.connection(with: .video) {
                     connection.videoOrientation = .portrait
                 }
-                self.videoOutput.alwaysDiscardsLateVideoFrames = false
-                self.session.commitConfiguration()
-                self.session.startRunning()
-                self.isSetup = true
+                strongSelf.videoOutput.alwaysDiscardsLateVideoFrames = false
+                strongSelf.session.commitConfiguration()
+                strongSelf.session.startRunning()
+                strongSelf.isSetup = true
             } catch let error {
-                self.session.commitConfiguration()
+                strongSelf.session.commitConfiguration()
                 logMessage(.error, type: .camera, message: "Error trying to configure camera input: \(error)")
             }
         }

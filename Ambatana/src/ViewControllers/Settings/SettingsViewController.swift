@@ -103,35 +103,10 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header = SettingsTableViewHeader()
         let title = viewModel.sectionTitle(section)
-        guard !title.isEmpty else {
-            let container = UIView()
-            container.backgroundColor = UIColor.grayBackground
-            if section > 0 {
-                let topSeparator = UIView(frame: CGRect(x: 0, y: 0, width: tableView.width, height: LGUIKitConstants.onePixelSize))
-                topSeparator.backgroundColor = UIColor.grayLight
-                container.addSubview(topSeparator)
-            }
-            return container
-        }
-        let container = UIView()
-        container.backgroundColor = UIColor.grayBackground
-        if section > 0 {
-            let topSeparator = UIView(frame: CGRect(x: 0, y: 0, width: tableView.width, height: LGUIKitConstants.onePixelSize))
-            topSeparator.backgroundColor = UIColor.grayLight
-            container.addSubview(topSeparator)
-        }
-        let label = UILabel(frame: CGRect(x: 12, y: 28, width: tableView.width, height: 15))
-        label.text = title.localizedUppercase
-        label.font = UIFont.systemRegularFont(size: 13)
-        label.textColor = UIColor.gray
-        label.sizeToFit()
-        container.addSubview(label)
-        let bottomSeparator = UIView(frame: CGRect(x: 0, y: SettingsViewController.headerHeight-LGUIKitConstants.onePixelSize,
-            width: tableView.width, height: LGUIKitConstants.onePixelSize))
-        bottomSeparator.backgroundColor = UIColor.grayLight
-        container.addSubview(bottomSeparator)
-        return container
+        header.setup(withTitle: title)
+        return header
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

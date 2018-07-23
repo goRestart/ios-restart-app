@@ -6,37 +6,13 @@
 	<array>
 		<dict>
 			<key>DefaultValue</key>
-			<string>1.36.0 (427)</string>
+			<string>1.39.0 (435)</string>
 			<key>Key</key>
 			<string>version_preference</string>
 			<key>Title</key>
 			<string>Version</string>
 			<key>Type</key>
 			<string>PSTitleValueSpecifier</string>
-		</dict>
-		<dict>
-			<key>DefaultValue</key>
-			<string>Production</string>
-			<key>Key</key>
-			<string>SettingsBundleEnvironment</string>
-			<key>Title</key>
-			<string>Environment</string>
-			<key>Titles</key>
-			<array>
-				<string>Production</string>
-				<string>Canary</string>
-				<string>Staging</string>
-				<string>Escrow</string>
-			</array>
-			<key>Type</key>
-			<string>PSMultiValueSpecifier</string>
-			<key>Values</key>
-			<array>
-				<string>Production</string>
-				<string>Canary</string>
-				<string>Staging</string>
-				<string>Escrow</string>
-			</array>
 		</dict>
 		<dict>
 			<key>File</key>
