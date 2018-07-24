@@ -175,6 +175,10 @@ extension TabCoordinator: TabNavigator {
     var hidesBottomBarWhenPushed: Bool {
         return navigationController.viewControllers.count == 1
     }
+
+    func openCommunityTab() {
+        appNavigator?.openCommunityTab()
+    }
 }
 
 fileprivate extension TabCoordinator {

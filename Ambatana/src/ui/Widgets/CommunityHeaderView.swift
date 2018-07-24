@@ -1,6 +1,10 @@
 import Foundation
 import LGComponents
 
+protocol CommunityHeaderViewDelegate: class {
+    func didTapCommunityHeader()
+}
+
 final class CommunityHeaderView: UIView {
 
     static var viewHeight: CGFloat {
@@ -12,6 +16,8 @@ final class CommunityHeaderView: UIView {
         static let sideMargin: CGFloat = 26
         static let bannerAspectRatio: CGFloat = 2.96
     }
+
+    weak var delegate: CommunityHeaderViewDelegate?
 
     private let containerView: UIView = {
         let view = UIView()
@@ -71,7 +77,13 @@ final class CommunityHeaderView: UIView {
         addSubviewForAutoLayout(containerView)
         containerView.addSubviewsForAutoLayout([topLeftBubbleImageView, topRightBubbleImageView,
                                                 bottomLeftBubbleImageView, centerImageView, titleLabel])
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapHeader))
+        addGestureRecognizer(tap)
         setupConstraints()
+    }
+
+    @objc private func didTapHeader() {
+        delegate?.didTapCommunityHeader()
     }
 
     private func setupConstraints() {

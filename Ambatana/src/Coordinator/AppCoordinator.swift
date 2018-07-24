@@ -511,6 +511,10 @@ extension AppCoordinator: AppNavigator {
     func openInAppWebView(url: URL) {
         tabBarCtl.openInAppWebViewWith(url: url)
     }
+
+    func openCommunityTab() {
+        openTab(.community, completion: nil)
+    }
 }
 
 // MARK: - SellCoordinatorDelegate

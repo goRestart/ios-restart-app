@@ -704,6 +704,7 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
 
         if viewModel.shouldShowCommunityBanner {
             let community = CommunityHeaderView()
+            community.delegate = self
             header.addHeader(community, height: CommunityHeaderView.viewHeight)
         }
         
@@ -836,6 +837,12 @@ extension MainListingsViewController: TrendingSearchViewDelegate {
         viewModel.searchText.value = text
         navbarSearch.searchTextField.text = text
         navBarSearchTextFieldDidUpdate(text: text)
+    }
+}
+
+extension MainListingsViewController: CommunityHeaderViewDelegate {
+    func didTapCommunityHeader() {
+        viewModel.vmUserDidTapCommunity()
     }
 }
 
