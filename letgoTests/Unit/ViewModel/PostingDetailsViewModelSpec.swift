@@ -276,7 +276,7 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
 
 
 extension PostingDetailsViewModelSpec: PostListingNavigator {
-    
+
     func closePostServicesAndPostLater(params: [ListingCreationParams],
                                        images: [UIImage]?,
                                        trackingInfo: PostListingTrackingInfo) {
@@ -306,7 +306,8 @@ extension PostingDetailsViewModelSpec: PostListingNavigator {
     func closePostProductAndPostLater(params: ListingCreationParams,
                                       images: [UIImage]?,
                                       video: RecordedVideo?,
-                                      trackingInfo: PostListingTrackingInfo) {
+                                      trackingInfo: PostListingTrackingInfo,
+                                      shareAfterPost: Bool?) {
         closePostProductAndPostLaterCalled = true
     }
   
@@ -345,7 +346,10 @@ extension PostingDetailsViewModelSpec: PostListingNavigator {
     func openListingsCreation(uploadedImageId: String, multipostingSubtypes: [ServiceSubtype], multipostingNewSubtypes: [String], postListingState: PostListingState, trackingInfo: PostListingTrackingInfo) {
         openListingCreationCalled = true
     }
-    func showConfirmation(listingResult: ListingResult, trackingInfo: PostListingTrackingInfo, modalStyle: Bool) {}
+    func showConfirmation(listingResult: ListingResult,
+                          trackingInfo: PostListingTrackingInfo,
+                          shareAfterPost: Bool?,
+                          modalStyle: Bool) {}
     func showMultiListingPostConfirmation(listingResult: ListingsResult,
                                           trackingInfo: PostListingTrackingInfo,
                                           modalStyle: Bool) {}
