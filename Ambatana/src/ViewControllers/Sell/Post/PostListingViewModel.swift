@@ -373,7 +373,8 @@ class PostListingViewModel: BaseViewModel {
                                                            mostSearchedButton: postingSource.mostSearchedButton,
                                                            machineLearningInfo: machineLearningTrackingInfo)
                 navigator?.closePostProductAndPostInBackground(params: listingParams,
-                                                               trackingInfo: trackingInfo)
+                                                               trackingInfo: trackingInfo,
+                                                               shareAfterPost: state.value.shareAfterPost)
             } else {
                 navigator?.cancelPostListing()
             }
@@ -495,7 +496,7 @@ extension PostListingViewModel {
 
 extension PostListingViewModel: PostListingBasicDetailViewModelDelegate {
     func postListingDetailDone(_ viewModel: PostListingBasicDetailViewModel) {
-        state.value = state.value.updating(price: viewModel.listingPrice)
+        state.value = state.value.updating(price: viewModel.listingPrice, shareAfterPost: viewModel.shareOnFacebook.value)
     }
 }
 
@@ -555,14 +556,16 @@ fileprivate extension PostListingViewModel {
             guard state.value.lastImagesUploadResult?.value != nil || state.value.uploadedVideo != nil,
                 let listingCreationParams = makeListingParams() else { return }
             navigator?.closePostProductAndPostInBackground(params: listingCreationParams,
-                                                           trackingInfo: trackingInfo)
+                                                           trackingInfo: trackingInfo,
+                                                           shareAfterPost: state.value.shareAfterPost)
         } else if state.value.pendingToUploadMedia {
             let loggedInAction = { [weak self] in
                 guard let listingParams = self?.makeListingParams() else { return }
                 self?.navigator?.closePostProductAndPostLater(params: listingParams,
                                                               images: self?.state.value.pendingToUploadImages,
                                                               video: self?.state.value.pendingToUploadVideo,
-                                                              trackingInfo: trackingInfo)
+                                                              trackingInfo: trackingInfo,
+                                                              shareAfterPost: self?.state.value.shareAfterPost)
             }
             let cancelAction = { [weak self] in
                 guard let _ = self?.state.value else { return }

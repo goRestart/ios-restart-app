@@ -105,7 +105,7 @@ final class SellCoordinator: Coordinator {
 
 // MARK: - PostListingNavigator
 
-extension SellCoordinator: PostListingNavigator {    
+extension SellCoordinator: PostListingNavigator {
 
     func cancelPostListing() {
         closeCoordinator(animated: true) { [weak self] in
@@ -115,18 +115,23 @@ extension SellCoordinator: PostListingNavigator {
     }
     
     func closePostProductAndPostInBackground(params: ListingCreationParams,
-                                             trackingInfo: PostListingTrackingInfo) {
+                                             trackingInfo: PostListingTrackingInfo,
+                                             shareAfterPost: Bool?) {
         dismissViewController(animated: true) { [weak self] in
             self?.listingRepository.create(listingParams: params) { [weak self] result in
                 if let listing = result.value {
                     self?.trackPost(withListing: listing, trackingInfo: trackingInfo)
                     self?.keyValueStorage.userPostProductPostedPreviously = true
                     self?.showConfirmation(listingResult: ListingResult(value: listing),
-                                           trackingInfo: trackingInfo, modalStyle: true)
+                                           trackingInfo: trackingInfo,
+                                           shareAfterPost: shareAfterPost,
+                                           modalStyle: true)
                 } else if let error = result.error {
                     self?.trackListingPostedInBackground(withError: error)
                     self?.showConfirmation(listingResult: ListingResult(error: error),
-                                           trackingInfo: trackingInfo, modalStyle: true)
+                                           trackingInfo: trackingInfo,
+                                           shareAfterPost: shareAfterPost,
+                                           modalStyle: true)
                 }
             }
         }
@@ -212,10 +217,13 @@ extension SellCoordinator: PostListingNavigator {
 
     func showConfirmation(listingResult: ListingResult,
                           trackingInfo: PostListingTrackingInfo,
+                          shareAfterPost: Bool?,
                           modalStyle: Bool) {
         guard let parentVC = parentViewController else { return }
         
-        let listingPostedVM = ListingPostedViewModel(listingResult: listingResult, trackingInfo: trackingInfo)
+        let listingPostedVM = ListingPostedViewModel(listingResult: listingResult,
+                                                     trackingInfo: trackingInfo,
+                                                     shareAfterPost: shareAfterPost)
         listingPostedVM.navigator = self
         let listingPostedVC = ListingPostedViewController(viewModel: listingPostedVM)
         showCongrats(listingPostedVC, modalStyle, parentVC)
@@ -247,14 +255,16 @@ extension SellCoordinator: PostListingNavigator {
     func closePostProductAndPostLater(params: ListingCreationParams,
                                       images: [UIImage]?,
                                       video: RecordedVideo?,
-                                      trackingInfo: PostListingTrackingInfo) {
+                                      trackingInfo: PostListingTrackingInfo,
+                                      shareAfterPost: Bool?) {
         guard let parentVC = parentViewController else { return }
 
         dismissViewController(animated: true) { [weak self] in
             let listingPostedVM = ListingPostedViewModel(postParams: params,
                                                          listingImages: images,
                                                          video: video,
-                                                         trackingInfo: trackingInfo)
+                                                         trackingInfo: trackingInfo,
+                                                         shareAfterPost: shareAfterPost)
             listingPostedVM.navigator = self
             let listingPostedVC = ListingPostedViewController(viewModel: listingPostedVM)
             self?.viewController = listingPostedVC

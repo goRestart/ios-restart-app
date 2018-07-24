@@ -180,7 +180,7 @@ final class ShareOnFacebookView: BaseView {
     }()
     private let footerLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemRegularFont(size: 9)
+        label.font = UIFont.smallBodyFont
         label.textColor = UIColor.white
         label.text = R.Strings.sellShareOnFacebookFooterLabel
         label.textAlignment = .center

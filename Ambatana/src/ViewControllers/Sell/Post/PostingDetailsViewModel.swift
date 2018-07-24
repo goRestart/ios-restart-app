@@ -284,7 +284,8 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
             guard let imageUploadedId = lastImagesUploaded.first?.objectId,
                 isPostingServices else {
                     navigator?.closePostProductAndPostInBackground(params: listingParams,
-                                                                   trackingInfo: postListingTrackingInfo)
+                                                                   trackingInfo: postListingTrackingInfo,
+                                                                   shareAfterPost: postListingState.shareAfterPost)
                     return
             }
                 
@@ -311,6 +312,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
                                             } else if let error = results.error {
                                                 self?.navigator?.showConfirmation(listingResult: ListingResult(error: error),
                                                                                   trackingInfo: trackingInfo,
+                                                                                  shareAfterPost: self?.postListingState.shareAfterPost,
                                                                                   modalStyle: true)
                                             }
                                         }
@@ -432,7 +434,8 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
             navigator?.closePostProductAndPostLater(params: listingParams,
                                                     images: images,
                                                     video: video,
-                                                    trackingInfo: trackingInfo)
+                                                    trackingInfo: trackingInfo,
+                                                    shareAfterPost: postListingState.shareAfterPost)
         }
     }
     

@@ -26,18 +26,20 @@ protocol PostListingNavigator: class {
                                postListingBasicInfo: PostListingBasicDetailViewModel,
                                previousStepIsSummary: Bool)
     func closePostProductAndPostInBackground(params: ListingCreationParams,
-                                             trackingInfo: PostListingTrackingInfo)
+                                             trackingInfo: PostListingTrackingInfo,
+                                             shareAfterPost: Bool?)
     func closePostServicesAndPostInBackground(completion: @escaping (() -> Void))
     func closePostProductAndPostLater(params: ListingCreationParams,
                                       images: [UIImage]?,
                                       video: RecordedVideo?,
-                                      trackingInfo: PostListingTrackingInfo)
+                                      trackingInfo: PostListingTrackingInfo,
+                                      shareAfterPost: Bool?)
     func closePostServicesAndPostLater(params: [ListingCreationParams],
                                        images: [UIImage]?,
                                        trackingInfo: PostListingTrackingInfo)
     func openLoginIfNeededFromListingPosted(from: EventParameterLoginSourceValue,
                                             loggedInAction: @escaping (() -> Void), cancelAction: (() -> Void)?)
-    func showConfirmation(listingResult: ListingResult, trackingInfo: PostListingTrackingInfo, modalStyle: Bool)
+    func showConfirmation(listingResult: ListingResult, trackingInfo: PostListingTrackingInfo, shareAfterPost: Bool?, modalStyle: Bool)
     func showMultiListingPostConfirmation(listingResult: ListingsResult, trackingInfo: PostListingTrackingInfo, modalStyle: Bool)
     func openListingCreation(listingParams: ListingCreationParams, trackingInfo: PostListingTrackingInfo)
     func openListingsCreation(uploadedImageId: String,
