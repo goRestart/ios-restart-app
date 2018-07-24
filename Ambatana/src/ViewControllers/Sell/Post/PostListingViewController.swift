@@ -1022,11 +1022,15 @@ extension PostListingViewController {
 
     private func trackMediaSource(source: EventParameterMediaSource,
                                   previousSource: EventParameterMediaSource?) {
-        tracker.trackEvent(TrackerEvent.listingSellMediaSource(source: source, previousSource: previousSource))
+        tracker.trackEvent(TrackerEvent.listingSellMediaSource(source: source,
+                                                               previousSource: previousSource,
+                                                               predictiveFlow: viewModel.machineLearningSupported))
     }
 
     private func trackMediaCapture(source: EventParameterMediaSource, fileCount: Int) {
-        tracker.trackEvent(TrackerEvent.listingSellMediaCapture(source: source, fileCount: fileCount))
+        tracker.trackEvent(TrackerEvent.listingSellMediaCapture(source: source,
+                                                                fileCount: fileCount,
+                                                                predictiveFlow: viewModel.machineLearningSupported))
     }
 
     private func trackSelectCategory(source: PostingSource, category: PostCategory) {

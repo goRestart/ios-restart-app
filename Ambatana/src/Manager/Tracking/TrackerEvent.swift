@@ -741,22 +741,26 @@ struct TrackerEvent {
     }
 
     static func listingSellMediaSource(source: EventParameterMediaSource,
-                                       previousSource: EventParameterMediaSource?) -> TrackerEvent {
+                                       previousSource: EventParameterMediaSource?,
+                                       predictiveFlow: Bool) -> TrackerEvent {
         var params = EventParameters()
         params[.source] = source.rawValue
         params[.previousSource] = previousSource?.rawValue ?? ""
+        params[.mlPredictiveFlow] = EventParameterBoolean(bool: predictiveFlow)
         return TrackerEvent(name: .listingSellMediaSource, params: params)
     }
 
     static func listingSellMediaCapture(source: EventParameterMediaSource,
                                         cameraSide: EventParameterCameraSide? = nil,
                                         fileCount: Int = 1,
-                                        hasError: EventParameterBoolean = .falseParameter) -> TrackerEvent {
+                                        hasError: EventParameterBoolean = .falseParameter,
+                                        predictiveFlow: Bool) -> TrackerEvent {
         var params = EventParameters()
         params[.mediaType] = source.rawValue
         params[.cameraSide] = cameraSide?.rawValue ?? ""
         params[.hasError] = hasError.rawValue
         params[.fileCount] = fileCount
+        params[.mlPredictiveFlow] = EventParameterBoolean(bool: predictiveFlow)
         return TrackerEvent(name: .listingSellMediaCapture, params: params)
     }
 
