@@ -242,6 +242,10 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     var shouldShowUserProfileButton: Bool {
         return featureFlags.community.shouldShowOnTab
     }
+
+    var shouldShowCommunityBanner: Bool {
+        return featureFlags.community.isActive
+    }
     
     private var carSelectedWithFilters: Bool {
         guard filters.selectedCategories.contains(.cars) || filters.selectedTaxonomyChildren.containsCarsTaxonomy else { return false }

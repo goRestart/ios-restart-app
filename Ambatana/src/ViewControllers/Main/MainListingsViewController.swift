@@ -671,6 +671,10 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
         if shouldShowSearchAlertBanner {
             totalHeight += SearchAlertFeedHeader.viewHeight
         }
+        if viewModel.shouldShowCommunityBanner {
+            totalHeight += CommunityHeaderView.viewHeight
+        }
+
         return totalHeight
     }
 
@@ -696,6 +700,11 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
                 categoriesHeader.tag = 1
                 header.addHeader(categoriesHeader, height: CategoriesHeaderCollectionView.viewHeight)
             }
+        }
+
+        if viewModel.shouldShowCommunityBanner {
+            let community = CommunityHeaderView()
+            header.addHeader(community, height: CommunityHeaderView.viewHeight)
         }
         
         if shouldShowSearchAlertBanner, let searchAlertCreationData = viewModel.searchAlertCreationData.value {
