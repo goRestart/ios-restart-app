@@ -53,7 +53,7 @@ final class CommunityHeaderView: UIView {
         label.textColor = .white
         label.numberOfLines = 0
         label.font = UIFont.communityBannerTitleFont
-        label.text = "Join the letgo community!"
+        label.text = R.Strings.communityBannerTitle
         label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         return label
     }()

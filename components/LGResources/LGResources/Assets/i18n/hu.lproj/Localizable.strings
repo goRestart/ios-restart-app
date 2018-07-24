@@ -149,12 +149,12 @@
 "chat_express_banner_button_title" = "Alkalmi vételek";
 "chat_express_banner_title" = "Kapcsolódó alkalmi vételek a közelben";
 "chat_express_contact_one_button_text" = "Üzenet 1 eladónak";
-"chat_express_contact_only_button_text" = "Contact";
+"chat_express_contact_only_button_text" = "Kapcsolatfelvétel";
 "chat_express_contact_sellers_label" = "Lépj kapcsolatba az eladókkal, mielőtt mások elhappolják!";
 "chat_express_contact_various_button_text" = "Üzenet %@ eladónak";
 "chat_express_dont_ask_again_button" = "Ne jelenjen meg újra";
 "chat_express_dont_miss_label" = "Ne hagyd ki ezeket az alkalmi vételeket";
-"chat_express_high_demand_label" = "In high demand!  Don't miss out on these deals";
+"chat_express_high_demand_label" = "Micsoda népszerűség! Ezeket a hirdetéseket ne hagyd ki";
 "chat_express_one_message_sent_success_alert" = "Üzeneted elküldve!";
 "chat_express_several_messages_sent_success_alert" = "Üzeneteid elküldve!";
 "chat_express_text_field_text" = "Szia! Elérhető még?";
@@ -296,6 +296,7 @@
 "common_user_not_available" = "Hoppá! A felhasználó nem található.";
 "common_user_review_not_available" = "Hoppá! Az értékelés nem található.";
 "common_yes" = "Igen";
+"community_banner_title" = "Join the letgo community!";
 "contact_subject_option_location" = "Problémák a helyadatokkal";
 "contact_subject_option_login" = "Bejelentkezés";
 "contact_subject_option_other" = "Egyebek";
@@ -438,6 +439,7 @@
 "filters_section_within" = "Közzétéve";
 "filters_service_subtype_not_set" = "Nincs Megadva";
 "filters_service_type_not_set" = "Nincs Megadva";
+"filters_services_services_list_title" = "Select a Category";
 "filters_size_wrong_range_error" = "A minimális méret nem lehet nagyobb a maximálisnál.";
 "filters_slider_any" = "Bármilyen";
 "filters_sort_closest" = "Legközelebbiek elöl";
@@ -531,7 +533,7 @@
 "main_sign_up_facebook_connect_button_w_name" = "Bejelentkezés mint %@";
 "main_sign_up_fb_connect_error_email_taken" = "Már tartozik regisztráció az e-mail címedhez. Jelentkezz be vele!";
 "main_sign_up_fb_connect_error_generic" = "A bejelentkezés sikertelen, próbálkozz újra.";
-"main_sign_up_google_connect_button" = "Google-csatlakozás";
+"main_sign_up_google_connect_button" = "Folytatás a Google-lal";
 "main_sign_up_google_connect_button_w_name" = "Bejelentkezés mint %@";
 "main_sign_up_help_button" = "Segítség";
 "main_sign_up_log_in_label" = "Bejelentkezés";
@@ -1350,7 +1352,7 @@
 "tour_continue_w_email" = "Folytatás e-maillel";
 "tour_email_button" = "EMAIL";
 "tour_facebook_button" = "Folytatás a Facebookkal";
-"tour_google_button" = "Google-csatlakozás";
+"tour_google_button" = "Folytatás a Google-lal";
 "tour_or_label" = "VAGY E-MAIL";
 "trending_item_atv" = "ATV";
 "trending_item_computer" = "számítógép";
