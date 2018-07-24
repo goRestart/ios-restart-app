@@ -34,7 +34,7 @@ class FilterSliderYearCell: UICollectionViewCell, LGSliderDelegate, ReusableCell
                      maximumValueSelected: Int?) {
         
         let vm = LGSliderViewModel(title: R.Strings.postCategoryDetailCarYear,
-                                   minimumValueNotSelectedText: R.Strings.filtersCarYearBeforeYearString("\(minimumValue)"),
+                                   minimumValueNotSelectedText: R.Strings.filtersCarYearBeforeYear("\(minimumValue)"),
                                    maximumValueNotSelectedText: String(maximumValue),
                                    minimumAndMaximumValuesNotSelectedText: R.Strings.filtersCarYearAnyYear,
                                    minimumValue: minimumValue,

@@ -296,7 +296,7 @@
 "common_user_not_available" = "¡Ups! No se ha encontrado el usuario.";
 "common_user_review_not_available" = "¡Ups! Valoración no encontrada.";
 "common_yes" = "Sí";
-"community_banner_title" = "Join the letgo community!";
+"community_banner_title" = "¡Únete a la comunidad de letgo!";
 "contact_subject_option_location" = "Problemas de ubicación";
 "contact_subject_option_login" = "Problemas al iniciar sesión";
 "contact_subject_option_other" = "Otros problemas";
@@ -385,7 +385,7 @@
 "filters_car_seller_type_private" = "Privado";
 "filters_car_seller_type_professional" = "Profesional";
 "filters_car_year_any_year" = "Cualquier año";
-"filters_car_year_before_year" = "Anterior a %i";
+"filters_car_year_before_year" = "Anterior a %@";
 "filters_cars_bodytype_convertible" = "Descapotable";
 "filters_cars_bodytype_coupe" = "coupé";
 "filters_cars_bodytype_hatchback" = "Compacto";

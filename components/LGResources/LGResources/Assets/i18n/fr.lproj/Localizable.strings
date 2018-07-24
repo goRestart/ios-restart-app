@@ -385,7 +385,7 @@
 "filters_car_seller_type_private" = "Privé";
 "filters_car_seller_type_professional" = "Professionnel";
 "filters_car_year_any_year" = "Toutes les Années";
-"filters_car_year_before_year" = "Avant %i";
+"filters_car_year_before_year" = "Avant %@";
 "filters_cars_bodytype_convertible" = "Cabriolet";
 "filters_cars_bodytype_coupe" = "Coupé";
 "filters_cars_bodytype_hatchback" = "À hayon";

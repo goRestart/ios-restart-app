@@ -385,7 +385,7 @@
 "filters_car_seller_type_private" = "Yksityinen";
 "filters_car_seller_type_professional" = "Ammattilainen";
 "filters_car_year_any_year" = "Kaikki vuodet";
-"filters_car_year_before_year" = "Ennen vuotta %i";
+"filters_car_year_before_year" = "Ennen vuotta %@";
 "filters_cars_bodytype_convertible" = "Avoauto";
 "filters_cars_bodytype_coupe" = "Coupe-auto";
 "filters_cars_bodytype_hatchback" = "Viistoperä";

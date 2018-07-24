@@ -385,7 +385,7 @@
 "filters_car_seller_type_private" = "Particulier";
 "filters_car_seller_type_professional" = "Professioneel";
 "filters_car_year_any_year" = "Elk Jaar";
-"filters_car_year_before_year" = "Voor %i";
+"filters_car_year_before_year" = "Before %@";
 "filters_cars_bodytype_convertible" = "Cabrio";
 "filters_cars_bodytype_coupe" = "coupe";
 "filters_cars_bodytype_hatchback" = "Hatchback";

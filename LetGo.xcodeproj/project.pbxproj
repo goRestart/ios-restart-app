@@ -642,7 +642,6 @@
 		42F64F7F20AAE99900CF97AD /* ListingFilters+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F64F7E20AAE99900CF97AD /* ListingFilters+LG.swift */; };
 		42F64F8020AAE99900CF97AD /* ListingFilters+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F64F7E20AAE99900CF97AD /* ListingFilters+LG.swift */; };
 		42F64F8220AB1A4100CF97AD /* MockListingFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F64F8120AB1A4100CF97AD /* MockListingFilters.swift */; };
-		42F8B58D210084CC0046F958 /* DropdownCellRepresentableSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F8B58C210084CC0046F958 /* DropdownCellRepresentableSpec.swift */; };
 		42FCAC8720999DC400ED3DF7 /* LGLocationCoordinates2D+Region.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FCAC8620999DC400ED3DF7 /* LGLocationCoordinates2D+Region.swift */; };
 		42FCAC8820999DC400ED3DF7 /* LGLocationCoordinates2D+Region.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FCAC8620999DC400ED3DF7 /* LGLocationCoordinates2D+Region.swift */; };
 		500210B61CF5D94F0034519F /* ChatDisclaimerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500210B51CF5D94F0034519F /* ChatDisclaimerCell.swift */; };
@@ -2390,7 +2389,6 @@
 		42F1DDFE20BD9C22002E2EE7 /* FilterServicesSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterServicesSection.swift; sourceTree = "<group>"; };
 		42F64F7E20AAE99900CF97AD /* ListingFilters+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ListingFilters+LG.swift"; sourceTree = "<group>"; };
 		42F64F8120AB1A4100CF97AD /* MockListingFilters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockListingFilters.swift; sourceTree = "<group>"; };
-		42F8B58C210084CC0046F958 /* DropdownCellRepresentableSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownCellRepresentableSpec.swift; sourceTree = "<group>"; };
 		42FADDDD2069257F00B6B774 /* InfoBubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoBubbleView.swift; sourceTree = "<group>"; };
 		42FCAC8620999DC400ED3DF7 /* LGLocationCoordinates2D+Region.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LGLocationCoordinates2D+Region.swift"; sourceTree = "<group>"; };
 		500210B51CF5D94F0034519F /* ChatDisclaimerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatDisclaimerCell.swift; path = ../ChatDisclaimerCell.swift; sourceTree = "<group>"; };
@@ -3857,7 +3855,7 @@
 				C6F3CEEE20FF446A00AF4D38 /* DropdownItemCell.swift */,
 				C6F3CEEB20FF445100AF4D38 /* DropdownHeaderCell.swift */,
 				C690704921009E2300AF27E4 /* DropdownShowMoreCell.swift */,
-        );
+			);
 			path = Cell;
 			sourceTree = "<group>";
 		};
@@ -4639,7 +4637,6 @@
 				425BB9FA20888CF500FE9BB8 /* UserType+LGSpec.swift */,
 				C6FFC47D20F4EC3600B9F53A /* FormattedUnitRangeSpec.swift */,
 				C6FFC47820F4DEFB00B9F53A /* ListingFiltersSpec.swift */,
-				42F8B58C210084CC0046F958 /* DropdownCellRepresentableSpec.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -7165,7 +7162,6 @@
 				C765EE491E7FEA4500063750 /* DeepLink+MockFactory.swift in Sources */,
 				50D08DC71E69AF14009CC260 /* String+LGSpec.swift in Sources */,
 				50D08DBF1E69AF14009CC260 /* MockPurchaseableProductsResponse.swift in Sources */,
-				42F8B58D210084CC0046F958 /* DropdownCellRepresentableSpec.swift in Sources */,
 				0AEB4FF52018C347003365DE /* ListingDeckOnBoardingBinderSpec.swift in Sources */,
 				50D08DD11E69AF14009CC260 /* VersionCheckerSpec.swift in Sources */,
 				F51A082E2031B54B0008D744 /* AspectRatioSpec.swift in Sources */,

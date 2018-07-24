@@ -1210,10 +1210,7 @@
 "filters_car_year_any_year" = "Any Year";
 
 // Filters For Year, before year X
-"filters_car_year_before_year" = "Before %i";
-
-// Filters For Year, before year X
-"filters_car_year_before_year_string" = "Before %@";
+"filters_car_year_before_year" = "Before %@";
 
 // Filters section title
 "filters_section_real_estate_info" = "Property info";

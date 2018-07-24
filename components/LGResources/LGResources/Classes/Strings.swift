@@ -848,13 +848,9 @@ extension R {
     public static let filtersCarSellerTypeProfessional = Strings.tr("Localizable", "filters_car_seller_type_professional")
     /// Any Year
     public static let filtersCarYearAnyYear = Strings.tr("Localizable", "filters_car_year_any_year")
-    /// Before %i
-    public static func filtersCarYearBeforeYear(_ p1: Int) -> String {
-      return Strings.tr("Localizable", "filters_car_year_before_year", p1)
-    }
     /// Before %@
-    public static func filtersCarYearBeforeYearString(_ p1: String) -> String {
-      return Strings.tr("Localizable", "filters_car_year_before_year_string", p1)
+    public static func filtersCarYearBeforeYear(_ p1: String) -> String {
+      return Strings.tr("Localizable", "filters_car_year_before_year", p1)
     }
     /// Convertible
     public static let filtersCarsBodytypeConvertible = Strings.tr("Localizable", "filters_cars_bodytype_convertible")

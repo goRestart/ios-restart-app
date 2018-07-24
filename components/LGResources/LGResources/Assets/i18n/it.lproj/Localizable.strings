@@ -385,7 +385,7 @@
 "filters_car_seller_type_private" = "Privati";
 "filters_car_seller_type_professional" = "Rivenditori";
 "filters_car_year_any_year" = "Qualunque";
-"filters_car_year_before_year" = "Prima del %i";
+"filters_car_year_before_year" = "Prima del %@";
 "filters_cars_bodytype_convertible" = "Cabriolet";
 "filters_cars_bodytype_coupe" = "coupé";
 "filters_cars_bodytype_hatchback" = "Hatchback";

@@ -385,7 +385,7 @@
 "filters_car_seller_type_private" = "Privado";
 "filters_car_seller_type_professional" = "Profissional";
 "filters_car_year_any_year" = "Qualquer Ano";
-"filters_car_year_before_year" = "Anterior a %i";
+"filters_car_year_before_year" = "Before %@";
 "filters_cars_bodytype_convertible" = "Conversível";
 "filters_cars_bodytype_coupe" = "coupé";
 "filters_cars_bodytype_hatchback" = "Porta traseira";

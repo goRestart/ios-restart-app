@@ -385,7 +385,7 @@
 "filters_car_seller_type_private" = "개인";
 "filters_car_seller_type_professional" = "전문가";
 "filters_car_year_any_year" = "아무 해";
-"filters_car_year_before_year" = "% 전!";
+"filters_car_year_before_year" = "%@ 전!";
 "filters_cars_bodytype_convertible" = "컨버터블";
 "filters_cars_bodytype_coupe" = "쿠페";
 "filters_cars_bodytype_hatchback" = "해치백";

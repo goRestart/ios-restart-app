@@ -385,7 +385,7 @@
 "filters_car_seller_type_private" = "Riêng tư";
 "filters_car_seller_type_professional" = "Chuyên nghiệp";
 "filters_car_year_any_year" = "Mọi Năm";
-"filters_car_year_before_year" = "Trước %i";
+"filters_car_year_before_year" = "Before %@";
 "filters_cars_bodytype_convertible" = "Mui trần";
 "filters_cars_bodytype_coupe" = "coupe";
 "filters_cars_bodytype_hatchback" = "Hatchback";
