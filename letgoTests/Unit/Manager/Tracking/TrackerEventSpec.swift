@@ -2571,7 +2571,7 @@ class TrackerEventSpec: QuickSpec {
                     sut = TrackerEvent.listingSellAbandon(abandonStep: abandonStep,
                                                           pictureUploaded: .falseParameter,
                                                           loggedUser: .falseParameter,
-                                                          buttonName: .skip)
+                                                          buttonName: .close)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-abandon"))

@@ -362,11 +362,11 @@ final class TabBarController: UITabBarController {
                                                          category: nil))
     }
 
-    private func trackAbandon() {
+    private func trackAbandon(buttonName: EventParameterButtonNameType) {
         tracker.trackEvent(TrackerEvent.listingSellAbandon(abandonStep: .productSellTypeSelect,
                                                            pictureUploaded: .falseParameter,
                                                            loggedUser: EventParameterBoolean(bool: viewModel.userIsLoggedIn),
-                                                           buttonName: .cancelSelectType))
+                                                           buttonName: buttonName))
     }
 }
 
@@ -411,7 +411,12 @@ extension TabBarController {
 extension TabBarController: ExpandableCategorySelectionDelegate {
     func didPressCloseButton() {
         floatingSellButton.showWithAnimation()
-        trackAbandon()
+        trackAbandon(buttonName: .close)
+    }
+
+    func tapOutside() {
+        floatingSellButton.showWithAnimation()
+        trackAbandon(buttonName: .tapOutside)
     }
     
     func didPressCategory(_ category: ExpandableCategory) {

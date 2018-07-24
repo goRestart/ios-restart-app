@@ -496,6 +496,7 @@ enum EventParameterButtonNameType: String {
     case startMakingCash = "start-making-cash"
     case realEstatePromo = "real-estate-promo"
     case cancelSelectType = "cancel-select-type"
+    case tapOutside = "tap-outside"
 }
 
 enum EventParameterButtonType: String {

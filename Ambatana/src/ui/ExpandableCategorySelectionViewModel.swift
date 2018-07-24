@@ -76,6 +76,7 @@ extension ExpandableCategory {
 
 protocol ExpandableCategorySelectionDelegate: class {
     func didPressCloseButton()
+    func tapOutside()
     func didPressCategory(_ category: ExpandableCategory)
     func didPressTag(_ mostSearchedItem: LocalMostSearchedItem)
 }
@@ -133,6 +134,10 @@ class ExpandableCategorySelectionViewModel: BaseViewModel {
     
     func closeButtonAction() {
         delegate?.didPressCloseButton()
+    }
+
+    func tapOutside() {
+        delegate?.tapOutside()
     }
     
     func pressCategoryAction(category: ExpandableCategory) {

@@ -666,7 +666,7 @@ fileprivate extension PostListingViewModel {
         let event = TrackerEvent.listingSellAbandon(abandonStep: step,
                                                     pictureUploaded: pictureUploaded,
                                                     loggedUser: EventParameterBoolean(bool: sessionManager.loggedIn),
-                                                    buttonName: .skip)
+                                                    buttonName: .close)
         tracker.trackEvent(event)
     }
 

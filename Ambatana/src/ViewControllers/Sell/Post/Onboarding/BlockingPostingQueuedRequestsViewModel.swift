@@ -214,7 +214,7 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
         let event = TrackerEvent.listingSellAbandon(abandonStep: .retry,
                                                     pictureUploaded: uploadImagesResult.value != nil ? .trueParameter : .falseParameter,
                                                     loggedUser: .trueParameter,
-                                                    buttonName: .skip)
+                                                    buttonName: .close)
         tracker.trackEvent(event)
     }
 }

@@ -197,7 +197,7 @@ class ListingPostedDescriptiveViewModel: BaseViewModel, PostingCategoriesPickDel
         let event = TrackerEvent.listingSellAbandon(abandonStep: .summaryOnboarding,
                                                     pictureUploaded: .trueParameter,
                                                     loggedUser: .trueParameter,
-                                                    buttonName: .skip)
+                                                    buttonName: .close)
         tracker.trackEvent(event)
     }
     

@@ -100,7 +100,7 @@ class PostingGetStartedViewModel: BaseViewModel {
         let event = TrackerEvent.listingSellAbandon(abandonStep: .welcomeOnboarding,
                                                     pictureUploaded: .falseParameter,
                                                     loggedUser: .falseParameter,
-                                                    buttonName: .skip)
+                                                    buttonName: .close)
         tracker.trackEvent(event)
     }
 }
