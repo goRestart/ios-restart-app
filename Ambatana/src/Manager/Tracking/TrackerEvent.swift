@@ -766,9 +766,10 @@ struct TrackerEvent {
         return TrackerEvent(name: .listingSellMediaChange, params: params)
     }
 
-    static func listingSellMediaPublish(size: Int?) -> TrackerEvent {
+    static func listingSellMediaPublish(source: EventParameterMediaSource, size: Int?) -> TrackerEvent {
         var params = EventParameters()
-        params[.originalFileSize] = size ?? TrackerEvent.notApply
+        params[.mediaType] = source.rawValue
+        params[.originalFileSize] = size ?? 0
         return TrackerEvent(name: .listingSellMediaPublish, params: params)
     }    
     
