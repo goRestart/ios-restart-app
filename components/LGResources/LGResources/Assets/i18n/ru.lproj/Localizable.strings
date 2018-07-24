@@ -149,12 +149,12 @@
 "chat_express_banner_button_title" = "Предложения";
 "chat_express_banner_title" = "Похожие предложения рядом";
 "chat_express_contact_one_button_text" = "Связаться с продавцом";
-"chat_express_contact_only_button_text" = "Contact";
+"chat_express_contact_only_button_text" = "Связаться";
 "chat_express_contact_sellers_label" = "Свяжитесь с продавцами, пока другие покупатели не перехватили товар!";
 "chat_express_contact_various_button_text" = "Связаться с продавцами %@";
 "chat_express_dont_ask_again_button" = "Не спрашивать снова";
 "chat_express_dont_miss_label" = "Не пропустите эти сделки";
-"chat_express_high_demand_label" = "In high demand!  Don't miss out on these deals";
+"chat_express_high_demand_label" = "Высокий спрос! Не пропустите выгодные предложения";
 "chat_express_one_message_sent_success_alert" = "Ваше сообщение отправлено!";
 "chat_express_several_messages_sent_success_alert" = "Ваши сообщения отправлены!";
 "chat_express_text_field_text" = "Товар еще продается?";
@@ -296,6 +296,7 @@
 "common_user_not_available" = "Упс! Пользователь не найден.";
 "common_user_review_not_available" = "Упс! Отзыв не найден.";
 "common_yes" = "Да";
+"community_banner_title" = "Join the letgo community!";
 "contact_subject_option_location" = "Проблемы с геолокацией";
 "contact_subject_option_login" = "Проблемы со входом";
 "contact_subject_option_other" = "Другие проблемы";
@@ -438,6 +439,7 @@
 "filters_section_within" = "Размещено за";
 "filters_service_subtype_not_set" = "Не установлен";
 "filters_service_type_not_set" = "Не установлен";
+"filters_services_services_list_title" = "Выберите категорию";
 "filters_size_wrong_range_error" = "Минимальный размер не может быть больше максимального.";
 "filters_slider_any" = "Любое";
 "filters_sort_closest" = "Сначала ближайшее";
@@ -1269,7 +1271,7 @@
 "sell_send_error_invalid_price" = "Пожалуйста, введите корректную цену для объявления. Она должна содержать только цифры.";
 "sell_send_error_invalid_title" = "Пожалуйста, введите корректное название объявления.";
 "sell_send_error_sharing_facebook" = "При соединении с Facebook произошла ошибка. Пожалуйста, попробуйте еще раз.";
-"sell_share_on_facebook_footer_label" = "Get more visibility and sell faster";
+"sell_share_on_facebook_footer_label" = "Получите больше просмотров и продайте быстрее";
 "sell_share_on_facebook_label" = "Поделиться на Facebook";
 "sell_title_autogen_autotrans_label" = "Заголовок предложен letgo и переведен Яндексом";
 "sell_title_autogen_label" = "Заголовок предложен letgo";
@@ -1279,7 +1281,7 @@
 "services_service_subtype_title" = "Услуги";
 "services_service_type_list_title" = "Категория услуги";
 "services_service_type_title" = "Категория услуги";
-"services_unified_filter_title" = "Select a category";
+"services_unified_filter_title" = "Выберите категорию";
 "settings_change_email_button" = "Е-мейл";
 "settings_change_location_button" = "Местоположение";
 "settings_change_password_button" = "Изменить пароль";

@@ -154,7 +154,7 @@
 "chat_express_contact_various_button_text" = "Contact %@ sellers";
 "chat_express_dont_ask_again_button" = "Don't ask me again";
 "chat_express_dont_miss_label" = "Don't miss out on these deals";
-"chat_express_high_demand_label" = "In high demand!  Don't miss out on these deals";
+"chat_express_high_demand_label" = "In high demand! Don't miss out on these deals";
 "chat_express_one_message_sent_success_alert" = "Your message has been sent!";
 "chat_express_several_messages_sent_success_alert" = "Your messages have been sent!";
 "chat_express_text_field_text" = "Hi! Is it still available?";
@@ -296,6 +296,7 @@
 "common_user_not_available" = "Oops! User not found.";
 "common_user_review_not_available" = "Oops! Review not found.";
 "common_yes" = "Yes";
+"community_banner_title" = "Join the letgo community!";
 "contact_subject_option_location" = "Location issues";
 "contact_subject_option_login" = "Issues logging in";
 "contact_subject_option_other" = "Other issues";
@@ -438,6 +439,7 @@
 "filters_section_within" = "Posted within";
 "filters_service_subtype_not_set" = "Not Set";
 "filters_service_type_not_set" = "Not Set";
+"filters_services_services_list_title" = "Select a Category";
 "filters_size_wrong_range_error" = "The minimum size can’t be higher than the maximum size.";
 "filters_slider_any" = "Any";
 "filters_sort_closest" = "Closest first";

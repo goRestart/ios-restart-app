@@ -149,12 +149,12 @@
 "chat_express_banner_button_title" = "Vedi occasioni";
 "chat_express_banner_title" = "Occasioni simili nella tua zona";
 "chat_express_contact_one_button_text" = "Contatta 1 venditore";
-"chat_express_contact_only_button_text" = "Contact";
+"chat_express_contact_only_button_text" = "Contatta";
 "chat_express_contact_sellers_label" = "Contatta questi venditori prima che altri acquirenti te li soffino da sotto il naso!";
 "chat_express_contact_various_button_text" = "Contatta %@ venditori";
 "chat_express_dont_ask_again_button" = "Non chiedermelo più";
 "chat_express_dont_miss_label" = "Non perderti queste occasioni";
-"chat_express_high_demand_label" = "In high demand!  Don't miss out on these deals";
+"chat_express_high_demand_label" = "A grande richiesta! Non perdere queste occasioni.";
 "chat_express_one_message_sent_success_alert" = "Il messaggio è stato inviato!";
 "chat_express_several_messages_sent_success_alert" = "Il messaggio è stato inviato!";
 "chat_express_text_field_text" = "È ancora disponibile?";
@@ -296,6 +296,7 @@
 "common_user_not_available" = "Ops! Utente non trovato.";
 "common_user_review_not_available" = "Ops! Recensione non trovata.";
 "common_yes" = "Sì";
+"community_banner_title" = "Join the letgo community!";
 "contact_subject_option_location" = "Problemi di posizione";
 "contact_subject_option_login" = "Accesso";
 "contact_subject_option_other" = "Altri problemi";
@@ -438,6 +439,7 @@
 "filters_section_within" = "Periodo di pubblicazione";
 "filters_service_subtype_not_set" = "Non Impostato";
 "filters_service_type_not_set" = "Non Impostato";
+"filters_services_services_list_title" = "Seleziona una categoria";
 "filters_size_wrong_range_error" = "La dimensione minima non può essere superiore a quella massima.";
 "filters_slider_any" = "Tutti";
 "filters_sort_closest" = "Prima i più vicini";

@@ -149,12 +149,12 @@
 "chat_express_banner_button_title" = "Δείτε Προσφορές";
 "chat_express_banner_title" = "Παρόμοιες προσφορές κοντά σας";
 "chat_express_contact_one_button_text" = "Επικοινωνία με 1 πωλητή";
-"chat_express_contact_only_button_text" = "Contact";
+"chat_express_contact_only_button_text" = "Επικοινωνία";
 "chat_express_contact_sellers_label" = "Επικοινωνήστε με αυτούς τους πωλητές πριν σας προλάβουν άλλοι αγοραστές!";
 "chat_express_contact_various_button_text" = "Επικοινωνία με %@ πωλητές";
 "chat_express_dont_ask_again_button" = "Μην ερωτηθώ ξανά";
 "chat_express_dont_miss_label" = "Μη χάσετε αυτές τις προσφορές";
-"chat_express_high_demand_label" = "In high demand!  Don't miss out on these deals";
+"chat_express_high_demand_label" = "Σε υψηλή ζήτηση! Μη χάσετε αυτές τις προσφορές";
 "chat_express_one_message_sent_success_alert" = "Το μήνυμά σας έχει σταλεί!";
 "chat_express_several_messages_sent_success_alert" = "Τα μηνύματά σας έχουν σταλεί!";
 "chat_express_text_field_text" = "Γεια! Είναι ακόμη διαθέσιμο;";
@@ -296,6 +296,7 @@
 "common_user_not_available" = "Όπα! Δε βρέθηκε ο χρήστης.";
 "common_user_review_not_available" = "Όπα! Η κριτική δε βρέθηκε.";
 "common_yes" = "Ναι";
+"community_banner_title" = "Join the letgo community!";
 "contact_subject_option_location" = "Θέματα τοποθεσίας";
 "contact_subject_option_login" = "Πρόσβαση στο λογαριασμό";
 "contact_subject_option_other" = "Άλλα θέματα";
@@ -438,6 +439,7 @@
 "filters_section_within" = "Δημοσιεύτηκε μεταξύ";
 "filters_service_subtype_not_set" = "Καμία Ρύθμιση";
 "filters_service_type_not_set" = "Καμία Ρύθμιση";
+"filters_services_services_list_title" = "Επιλογή κατηγορίας";
 "filters_size_wrong_range_error" = "Το μικρότερο μέγεθος δεν μπορεί να είναι μεγαλύτερο από το μέγιστο μέγεθος.";
 "filters_slider_any" = "Οποιοδήποτε";
 "filters_sort_closest" = "Κοντινότερο";

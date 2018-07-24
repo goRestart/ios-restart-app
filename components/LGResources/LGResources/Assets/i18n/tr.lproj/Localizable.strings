@@ -149,12 +149,12 @@
 "chat_express_banner_button_title" = "Fırsatları Gör";
 "chat_express_banner_title" = "Yakınındaki benzer fırsatlar";
 "chat_express_contact_one_button_text" = "1 satıcı ile iletişime geç";
-"chat_express_contact_only_button_text" = "Contact";
+"chat_express_contact_only_button_text" = "İletişime Geç";
 "chat_express_contact_sellers_label" = "Bu satıcılarla, diğer alıcılardan önce iletişime geçmelisin!";
 "chat_express_contact_various_button_text" = "%@ satıcı ile iletişime geç";
 "chat_express_dont_ask_again_button" = "Bir daha sorma";
 "chat_express_dont_miss_label" = "Bu fırsatları kaçırma";
-"chat_express_high_demand_label" = "In high demand!  Don't miss out on these deals";
+"chat_express_high_demand_label" = "Çok revaçta! Bu fırsatları kaçırma";
 "chat_express_one_message_sent_success_alert" = "Mesajın gönderildi!";
 "chat_express_several_messages_sent_success_alert" = "Mesajın gönderildi!";
 "chat_express_text_field_text" = "Merhaba! Hala satılık mı?";
@@ -296,6 +296,7 @@
 "common_user_not_available" = "Oops! Kullanıcı bulunamadı.";
 "common_user_review_not_available" = "Oops! Yorum bulunamadı.";
 "common_yes" = "Evet";
+"community_banner_title" = "Join the letgo community!";
 "contact_subject_option_location" = "Konum sorunları";
 "contact_subject_option_login" = "Uygulamaya giriş/erişim";
 "contact_subject_option_other" = "Diğer sorunlar";
@@ -438,6 +439,7 @@
 "filters_section_within" = "YAYINLANMA ZAMANI";
 "filters_service_subtype_not_set" = "Belirlenmedi";
 "filters_service_type_not_set" = "Belirlenmedi";
+"filters_services_services_list_title" = "Kategori seç";
 "filters_size_wrong_range_error" = "Minimum büyüklük maksimum büyüklüğü aşmamalıdır.";
 "filters_slider_any" = "Herhangi";
 "filters_sort_closest" = "İlk önce en yakını";
