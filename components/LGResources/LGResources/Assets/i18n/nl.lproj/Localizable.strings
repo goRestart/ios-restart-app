@@ -154,7 +154,7 @@
 "chat_express_contact_various_button_text" = "Contacteer %@ verkopers";
 "chat_express_dont_ask_again_button" = "Vraag me niet opnieuw";
 "chat_express_dont_miss_label" = "Mis deze deals niet";
-"chat_express_high_demand_label" = "In high demand!  Don't miss out on these deals";
+"chat_express_high_demand_label" = "In hoge vraag! Mis deze deals niet";
 "chat_express_one_message_sent_success_alert" = "Je bericht is verzonden!";
 "chat_express_several_messages_sent_success_alert" = "Je berichten zijn verzonden!";
 "chat_express_text_field_text" = "Is het nog beschikbaar?";
@@ -296,6 +296,7 @@
 "common_user_not_available" = "Oeps! Gebruiker niet gevonden.";
 "common_user_review_not_available" = "Oeps! Beoordeling niet gevonden.";
 "common_yes" = "Ja";
+"community_banner_title" = "Join the letgo community!";
 "contact_subject_option_location" = "Locatieproblemen";
 "contact_subject_option_login" = "Login toegang";
 "contact_subject_option_other" = "Andere problemen";
@@ -384,7 +385,6 @@
 "filters_car_seller_type_private" = "Particulier";
 "filters_car_seller_type_professional" = "Professioneel";
 "filters_car_year_any_year" = "Elk Jaar";
-"filters_car_year_before_year" = "Voor %i";
 "filters_cars_bodytype_convertible" = "Cabrio";
 "filters_cars_bodytype_coupe" = "coupe";
 "filters_cars_bodytype_hatchback" = "Hatchback";
@@ -438,6 +438,7 @@
 "filters_section_within" = "Gepost in";
 "filters_service_subtype_not_set" = "Niet Ingesteld";
 "filters_service_type_not_set" = "Niet Ingesteld";
+"filters_services_services_list_title" = "Kies een categorie";
 "filters_size_wrong_range_error" = "De minimale grootte kan niet hoger zijn dan de maximale grootte.";
 "filters_slider_any" = "Alle";
 "filters_sort_closest" = "Dichtstbijzijnde eerst";

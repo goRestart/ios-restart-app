@@ -492,7 +492,7 @@
 "chat_express_contact_only_button_text" = "Contact";
 
 // In high demand label text
-"chat_express_high_demand_label" = "In high demand!  Don't miss out on these deals";
+"chat_express_high_demand_label" = "In high demand! Don't miss out on these deals";
 
 // text in chat professional banner action button
 "chat_professional_banner_button_title" = "Call";
@@ -877,6 +877,9 @@
 // Common display for time
 "common_hours_mins_secs" = "%@h %@m %@s";
 
+// Text shown in the Community Banner
+"community_banner_title" = "Join the letgo community!";
+
 // Contact subject option location. Check attached image @ "contact_email_field_hint" segment
 "contact_subject_option_location" = "Location issues";
 
@@ -1207,7 +1210,7 @@
 "filters_car_year_any_year" = "Any Year";
 
 // Filters For Year, before year X
-"filters_car_year_before_year" = "Before %i";
+"filters_car_year_before_year" = "Before %@";
 
 // Filters section title
 "filters_section_real_estate_info" = "Property info";
@@ -1341,6 +1344,9 @@
 
 // Text to display to show more items
 "filter_services_services_list_show_more" = "Show more";
+
+// Title for filters services list
+"filters_services_services_list_title" = "Select a Category";
 
 // Unit suffix for miles (e.g. the mi in "400,000 mi")
 "mile_unit_suffix" = "mi";

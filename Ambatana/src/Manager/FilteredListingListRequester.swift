@@ -171,9 +171,9 @@ class FilteredListingListRequester: ListingListRequester {
         } else if let endYear = carFilters.yearEnd {
             // only end specified
             if endYear == SharedConstants.filterMinCarYear {
-                return R.Strings.filtersCarYearBeforeYear(SharedConstants.filterMinCarYear)
+                return R.Strings.filtersCarYearBeforeYear("\(SharedConstants.filterMinCarYear)")
             } else {
-                return R.Strings.filtersCarYearBeforeYear(SharedConstants.filterMinCarYear) + " - " + String(endYear)
+                return R.Strings.filtersCarYearBeforeYear("\(SharedConstants.filterMinCarYear)") + " - " + String(endYear)
             }
         } else {
             // no year specified

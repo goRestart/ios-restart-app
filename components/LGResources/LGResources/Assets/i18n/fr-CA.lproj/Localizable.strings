@@ -154,7 +154,7 @@
 "chat_express_contact_various_button_text" = "Contacter %@ vendeurs";
 "chat_express_dont_ask_again_button" = "Ne pas me redemander";
 "chat_express_dont_miss_label" = "Ne manquez pas ces aubaines";
-"chat_express_high_demand_label" = "In high demand!  Don't miss out on these deals";
+"chat_express_high_demand_label" = "En forte demande ! Ne manquez pas ces aubaines";
 "chat_express_one_message_sent_success_alert" = "Votre message a été envoyé !";
 "chat_express_several_messages_sent_success_alert" = "Vos messages ont été envoyés !";
 "chat_express_text_field_text" = "Toujours disponible ?";
@@ -296,6 +296,7 @@
 "common_user_not_available" = "Oups ! Utilisateur non trouvé.";
 "common_user_review_not_available" = "Oups ! Avis introuvable.";
 "common_yes" = "Oui";
+"community_banner_title" = "Join the letgo community!";
 "contact_subject_option_location" = "Problèmes de localisation";
 "contact_subject_option_login" = "Problèmes de connexion";
 "contact_subject_option_other" = "Autres problèmes";
@@ -384,7 +385,6 @@
 "filters_car_seller_type_private" = "Privé";
 "filters_car_seller_type_professional" = "Professionnel";
 "filters_car_year_any_year" = "Toutes les Années";
-"filters_car_year_before_year" = "Avant %i";
 "filters_cars_bodytype_convertible" = "Cabriolet";
 "filters_cars_bodytype_coupe" = "coupé";
 "filters_cars_bodytype_hatchback" = "À hayon";
@@ -438,6 +438,7 @@
 "filters_section_within" = "Publié dans les";
 "filters_service_subtype_not_set" = "Aucun";
 "filters_service_type_not_set" = "Aucun";
+"filters_services_services_list_title" = "Sélectionner une catégorie";
 "filters_size_wrong_range_error" = "La grandeur minimum ne peut pas être plus élevée que la grandeur maximum";
 "filters_slider_any" = "Tous";
 "filters_sort_closest" = "Le plus près en premier";
