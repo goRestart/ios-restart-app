@@ -278,7 +278,15 @@ public extension UIViewController {
                                          target: self, action: selector ?? #selector(UIViewController.popBackViewController))
         self.navigationItem.leftBarButtonItem = backButton
     }
-    
+
+    public func setNavBarCloseButton(_ selector: Selector,  icon: UIImage? = nil) {
+        guard isRootViewController() else { return }
+        let closeIconImage = icon ?? R.Asset.IconsButtons.navbarClose.image
+        let closeButton = UIBarButtonItem(image: closeIconImage, style: .plain,
+                                          target: self, action: selector)
+        self.navigationItem.leftBarButtonItem = closeButton
+    }
+
     public func setNavBarBackgroundStyle(_ style: NavBarBackgroundStyle) {
         switch style {
         case .white:

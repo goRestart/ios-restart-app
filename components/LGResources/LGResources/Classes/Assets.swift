@@ -529,6 +529,7 @@ extension R {
       public static let searchAlertIcon = ImageAsset(name: "search_alert_icon")
       public static let servicesIcon = ImageAsset(name: "servicesIcon")
       public static let tabbarChats = ImageAsset(name: "tabbar_chats")
+      public static let tabbarCommunity = ImageAsset(name: "tabbar_community")
       public static let tabbarHome = ImageAsset(name: "tabbar_home")
       public static let tabbarNotifications = ImageAsset(name: "tabbar_notifications")
       public static let tabbarProfile = ImageAsset(name: "tabbar_profile")
@@ -826,6 +827,7 @@ extension R {
         searchAlertIcon,
         servicesIcon,
         tabbarChats,
+        tabbarCommunity,
         tabbarHome,
         tabbarNotifications,
         tabbarProfile,
