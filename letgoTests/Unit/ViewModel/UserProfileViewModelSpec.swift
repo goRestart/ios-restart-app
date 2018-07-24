@@ -366,5 +366,7 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
         showNativeShareCalled = true
     }
 
+    func closeProfile() {}
+
     func editListing(_ listing: Listing, pageType: EventParameterTypePage?) {}
 }
