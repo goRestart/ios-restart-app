@@ -82,10 +82,6 @@ final class CommunityHeaderView: UIView {
         setupConstraints()
     }
 
-    @objc private func didTapHeader() {
-        delegate?.didTapCommunityHeader()
-    }
-
     private func setupConstraints() {
         let constraints: [NSLayoutConstraint] = [
             containerView.topAnchor.constraint(equalTo: topAnchor),
@@ -106,5 +102,9 @@ final class CommunityHeaderView: UIView {
         ]
 
         NSLayoutConstraint.activate(constraints)
+    }
+
+    @objc private func didTapHeader() {
+        delegate?.didTapCommunityHeader()
     }
 }
