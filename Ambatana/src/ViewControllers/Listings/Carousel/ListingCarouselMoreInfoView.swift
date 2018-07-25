@@ -372,7 +372,7 @@ final class ListingCarouselMoreInfoView: UIView {
             .centerX().bottom()
         dragView.layout().height(Layout.DragView.height)
         dragButton.layout(with: dragView)
-            .fillHorizontal(by: Metrics.veryShortMargin).proportionalHeight().bottom(by: -Layout.DragView.bottom)
+            .centerX().proportionalHeight().bottom(by: -Layout.DragView.bottom)
         
         dragViewTitle.layout(with: dragButton)
             .leading(by: Metrics.margin).fillVertical()
@@ -629,11 +629,9 @@ extension ListingCarouselMoreInfoView: UIScrollViewDelegate {
 private extension ListingCarouselMoreInfoView {
 
     func setupAttributeGridView(withTitle title: String?,
-                                items: [ListingAttributeGridItem]?) {
-        let shouldShowAttributeGrid = viewModel?.extraFieldsGridEnabled ?? false
-        guard let items = items,
-            items.count > 0,
-            shouldShowAttributeGrid else {
+                                items: [ListingAttributeGridItem]?,
+                                showExtraCardFields: Bool = false) {
+        guard let items = items, items.count > 0, showExtraCardFields else {
                 attributeGridViewHeightConstraint?.constant = 0.0
                 return
         }
@@ -671,7 +669,9 @@ private extension ListingCarouselMoreInfoView {
             self?.scrollView.contentInset = UIEdgeInsets(top: 0, left: 0,
                                                          bottom: status.scrollBottomInset(chatEnabled: chatEnabled), right: 0)
         }.disposed(by: disposeBag)
-
+        
+        let showCarExtraFields = viewModel.extraFieldsGridEnabled
+        
         viewModel.productInfo.asObservable().unwrap().bind { [weak self] info in
             self?.titleLabel.attributedText = info.styledTitle?.stringByRemovingLinks
             self?.priceLabel.text = info.price
@@ -681,9 +681,16 @@ private extension ListingCarouselMoreInfoView {
             self?.distanceLabel.text = info.distance
             self?.descriptionLabel.mainAttributedText = info.styledDescription
             self?.descriptionLabel.setNeedsLayout()
-            self?.tagCollectionViewModel.tags = info.attributeTags ?? []
-            self?.setupAttributeGridView(withTitle: info.attributeGridTitle, items: info.attributeGridItems)
+            self?.updateTags(tags: info.attributeTags)
+            self?.setupAttributeGridView(withTitle: info.attributeGridTitle,
+                                         items: info.attributeGridItems,
+                                         showExtraCardFields: showCarExtraFields)
         }.disposed(by: disposeBag)
+    }
+    
+    private func updateTags(tags: [String]?) {
+        tagCollectionViewModel.tags = tags ?? []
+        tagCollectionView.reloadData()
     }
     
     func setupStatsRx(viewModel: ListingCarouselViewModel) {
