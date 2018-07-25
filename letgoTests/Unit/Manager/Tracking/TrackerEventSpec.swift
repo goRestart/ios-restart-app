@@ -2648,7 +2648,7 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
-            describe("listingSellMediaPublish") {
+            describe("listingSellMediaPublish video") {
                 beforeEach {
                     sut = TrackerEvent.listingSellMediaPublish(source: .videoCamera,
                                                                size: 3657)
@@ -2663,6 +2663,24 @@ class TrackerEventSpec: QuickSpec {
                 it("contains the overall size of the files being uploaded") {
                     let fileSize = sut.params!.stringKeyParams["original-file-size"] as? Int
                     expect(fileSize).to(equal(3657))
+                }
+            }
+
+            describe("listingSellMediaPublish camera") {
+                beforeEach {
+                    sut = TrackerEvent.listingSellMediaPublish(source: .camera,
+                                                               size: nil)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-sell-media-publish"))
+                }
+                it("contains the type of media which has been captured") {
+                    let mediaType = sut.params!.stringKeyParams["media-type"] as? String
+                    expect(mediaType).to(equal("camera"))
+                }
+                it("contains the overall size of the files being uploaded") {
+                    let fileSize = sut.params!.stringKeyParams["original-file-size"] as? Int
+                    expect(fileSize).to(equal(0))
                 }
             }
 
