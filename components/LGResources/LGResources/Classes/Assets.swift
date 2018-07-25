@@ -997,6 +997,16 @@ extension R {
       public static let violence = ImageAsset(name: "Violence")
       public static let weapons = ImageAsset(name: "Weapons")
       public static let wrongCategory = ImageAsset(name: "WrongCategory")
+      public static let feedbackHappy = ImageAsset(name: "feedback_happy")
+      public static let feedbackHappyDisabled = ImageAsset(name: "feedback_happyDisabled")
+      public static let feedbackNeutral = ImageAsset(name: "feedback_neutral")
+      public static let feedbackNeutralDisabled = ImageAsset(name: "feedback_neutralDisabled")
+      public static let feedbackSad = ImageAsset(name: "feedback_sad")
+      public static let feedbackSadDisabled = ImageAsset(name: "feedback_sadDisabled")
+      public static let feedbackVeryHappy = ImageAsset(name: "feedback_veryHappy")
+      public static let feedbackVeryHappyDisabled = ImageAsset(name: "feedback_veryHappyDisabled")
+      public static let feedbackVerySad = ImageAsset(name: "feedback_verySad")
+      public static let feedbackVerySadDisabled = ImageAsset(name: "feedback_verySadDisabled")
       public static let icCheck = ImageAsset(name: "ic_check")
 
       // swiftlint:disable trailing_comma
@@ -1032,6 +1042,16 @@ extension R {
         violence,
         weapons,
         wrongCategory,
+        feedbackHappy,
+        feedbackHappyDisabled,
+        feedbackNeutral,
+        feedbackNeutralDisabled,
+        feedbackSad,
+        feedbackSadDisabled,
+        feedbackVeryHappy,
+        feedbackVeryHappyDisabled,
+        feedbackVerySad,
+        feedbackVerySadDisabled,
         icCheck,
       ]
       // swiftlint:enable trailing_comma

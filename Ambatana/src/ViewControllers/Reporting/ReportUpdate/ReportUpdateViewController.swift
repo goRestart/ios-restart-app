@@ -46,15 +46,6 @@ final class ReportUpdateViewController: BaseViewController {
         return view
     }()
 
-    private let buttonsStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.distribution = UIStackViewDistribution.equalSpacing
-        stackView.spacing = 22
-        stackView.alignment = .center
-        return stackView
-    }()
-
     private let feedbackSeparator: UIView = {
         let view = UIView()
         view.backgroundColor = .grayLight
@@ -69,22 +60,22 @@ final class ReportUpdateViewController: BaseViewController {
         return label
     }()
 
-    private let feedbackButtons: [UIButton] = {
-        var array: [UIButton] = []
-        for i in 0...4 {
-            let button = UIButton()
-            button.setImage(R.Asset.IconsButtons.icEmojiYes.image, for: .normal)
-            button.contentMode = .scaleAspectFit
-            button.tag = i
-            array.append(button)
-        }
-        return array
-    }()
-
     private struct Layout {
         static let verticalMargin: CGFloat = 32
         static let contentViewMargin: CGFloat = 15
         static let imageSize = CGSize(width: 159, height: 159)
+        static let buttonMiniSize: CGFloat = 38
+        static let buttonBigSize: CGFloat = 49
+    }
+
+    private let verySadButton = ReportUpdateButton(type: .verySad)
+    private let sadButton = ReportUpdateButton(type: .sad)
+    private let neutralButton = ReportUpdateButton(type: .neutral)
+    private let happyButton = ReportUpdateButton(type: .happy)
+    private let veryHappyButton = ReportUpdateButton(type: .veryHappy)
+
+    private var feedbackButtons: [ReportUpdateButton] {
+        return [verySadButton, sadButton, neutralButton, happyButton, veryHappyButton]
     }
 
     init(viewModel: ReportUpdateViewModel) {
@@ -118,8 +109,8 @@ final class ReportUpdateViewController: BaseViewController {
         imageView.image = R.Asset.Reporting.communityBadge.image
 
         view.addSubviewForAutoLayout(feedbackContainerView)
-        feedbackContainerView.addSubviewsForAutoLayout([feedbackSeparator, feedbackTitle, buttonsStackView])
-        buttonsStackView.addArrangedSubviews(feedbackButtons)
+        feedbackContainerView.addSubviewsForAutoLayout([feedbackSeparator, feedbackTitle, verySadButton, sadButton,
+                                                        neutralButton, happyButton, veryHappyButton])
         feedbackButtons.forEach { button in
             button.addTarget(self, action: #selector(didTapButton(sender:)), for: .touchUpInside)
         }
@@ -159,22 +150,22 @@ final class ReportUpdateViewController: BaseViewController {
             feedbackSeparator.heightAnchor.constraint(equalToConstant: 1),
             feedbackTitle.topAnchor.constraint(equalTo: feedbackContainerView.topAnchor, constant: Metrics.bigMargin),
             feedbackTitle.centerXAnchor.constraint(equalTo: feedbackContainerView.centerXAnchor),
-            buttonsStackView.topAnchor.constraint(equalTo: feedbackTitle.bottomAnchor, constant: Metrics.bigMargin),
-            buttonsStackView.centerXAnchor.constraint(equalTo: feedbackContainerView.centerXAnchor)
-            ]
-
-        var buttonConstraints: [NSLayoutConstraint] = []
-        feedbackButtons.forEach { button in
-            let height = button.heightAnchor.constraint(equalToConstant: 38)
-            let width = button.widthAnchor.constraint(equalToConstant: 38)
-            buttonConstraints.append(contentsOf: [height, width])
-        }
+            neutralButton.centerXAnchor.constraint(equalTo: feedbackContainerView.centerXAnchor),
+            neutralButton.topAnchor.constraint(equalTo: feedbackTitle.bottomAnchor, constant: 39),
+            sadButton.centerYAnchor.constraint(equalTo: neutralButton.centerYAnchor),
+            sadButton.centerXAnchor.constraint(equalTo: neutralButton.centerXAnchor, constant: -50),
+            verySadButton.centerYAnchor.constraint(equalTo: neutralButton.centerYAnchor),
+            verySadButton.centerXAnchor.constraint(equalTo: sadButton.centerXAnchor, constant: -50),
+            happyButton.centerYAnchor.constraint(equalTo: neutralButton.centerYAnchor),
+            happyButton.centerXAnchor.constraint(equalTo: neutralButton.centerXAnchor, constant: 50),
+            veryHappyButton.centerYAnchor.constraint(equalTo: neutralButton.centerYAnchor),
+            veryHappyButton.centerXAnchor.constraint(equalTo: happyButton.centerXAnchor, constant: 50)
+        ]
 
         NSLayoutConstraint.activate(constraints)
-        NSLayoutConstraint.activate(buttonConstraints)
     }
 
-    @objc private func didTapButton(sender: UIButton) {
+    @objc private func didTapButton(sender: ReportUpdateButton) {
         print("did tap button \(sender.tag)")
     }
 }
