@@ -2513,9 +2513,9 @@ class TrackerEventSpec: QuickSpec {
 
             describe("listingSellStart") {
                 beforeEach {
-                    sut = TrackerEvent.listingSellStart(typePage: .sell,
+                    sut = TrackerEvent.listingSellStart(typePage: .listingList,
                                                         buttonName: .sellYourStuff,
-                                                        sellButtonPosition: .tabBar,
+                                                        sellButtonPosition: .floatingButton,
                                                         category: .cars)
                 }
                 it("has its event name") {
@@ -2523,7 +2523,11 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the page from which the event has been sent") {
                     let typePage = sut.params!.stringKeyParams["type-page"] as? String
-                    expect(typePage).to(equal("product-sell"))
+                    expect(typePage).to(equal("product-list"))
+                }
+                it("contains the page from which the event has been sent as visit source") {
+                    let visitSource = sut.params!.stringKeyParams["visit-source"] as? String
+                    expect(visitSource).to(equal("product-list"))
                 }
                 it("contains button name from which the event has been sent") {
                     let name = sut.params!.stringKeyParams["button-name"] as? String
@@ -2531,11 +2535,147 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains button position from which the event has been sent") {
                     let position = sut.params!.stringKeyParams["sell-button-position"] as? String
-                    expect(position).to(equal("tabbar-camera"))
+                    expect(position).to(equal("big-button"))
                 }
                 it("contains category id param") {
                     let name = sut.params!.stringKeyParams["category-id"] as? Int
                     expect(name).to(equal(9))
+                }
+            }
+
+            describe("listingSellPermissionsGrant") {
+                beforeEach {
+                    sut = TrackerEvent.listingSellPermissionsGrant(type: .camera)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-sell-permissions-grant"))
+                }
+                it("contains the type of permission which has been granted") {
+                    let permissionType = sut.params!.stringKeyParams["permission-type"] as? String
+                    expect(permissionType).to(equal("camera"))
+                }
+            }
+
+            describe("listingSellCategorySelect") {
+                beforeEach {
+                    sut = TrackerEvent.listingSellCategorySelect(typePage: .listingList,
+                                                                 postingType: .stuff,
+                                                                 category: .other)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-sell-type-select"))
+                }
+                it("contains the category type which has been selected") {
+                    let postingType = sut.params!.stringKeyParams["posting-type"] as? String
+                    expect(postingType).to(equal("stuff"))
+                }
+                it("contains the page from which the posting has been started") {
+                    let visitSource = sut.params!.stringKeyParams["visit-source"] as? String
+                    expect(visitSource).to(equal("product-list"))
+                }
+                it("contains the category id which has been selected") {
+                    let categoryId = sut.params!.stringKeyParams["category-id"] as? Int
+                    expect(categoryId).to(equal(8))
+                }
+            }
+
+            describe("listingSellMediaSource") {
+                beforeEach {
+                    sut = TrackerEvent.listingSellMediaSource(source: .gallery,
+                                                              previousSource: nil,
+                                                              predictiveFlow: true)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-sell-media-source"))
+                }
+                it("contains the media source which has been selected") {
+                    let source = sut.params!.stringKeyParams["source"] as? String
+                    expect(source).to(equal("gallery"))
+                }
+                it("contains the media source which comes from") {
+                    let previousSource = sut.params!.stringKeyParams["previous-source"] as? String
+                    expect(previousSource).to(equal(""))
+                }
+                it("contains if it is a predictive flow") {
+                    let predictiveFlow = sut.params!.stringKeyParams["predictive-flow"] as? String
+                    expect(predictiveFlow).to(equal("true"))
+                }
+            }
+
+            describe("listingSellMediaCapture") {
+                beforeEach {
+                    sut = TrackerEvent.listingSellMediaCapture(source: .videoCamera,
+                                                               cameraSide: .back,
+                                                               fileCount: 1,
+                                                               hasError: .trueParameter,
+                                                               predictiveFlow: .trueParameter)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-sell-media-capture"))
+                }
+                it("contains the media type which has been captured") {
+                    let mediaType = sut.params!.stringKeyParams["media-type"] as? String
+                    expect(mediaType).to(equal("video-camera"))
+                }
+                it("contains the file count which has been captured") {
+                    let fileCount = sut.params!.stringKeyParams["file-count"] as? Int
+                    expect(fileCount).to(equal(1))
+                }
+                it("contains the camera side from which has been captured") {
+                    let cameraSide = sut.params!.stringKeyParams["camera-side"] as? String
+                    expect(cameraSide).to(equal("back"))
+                }
+                it("contains if there was an error capturing media") {
+                    let hasError = sut.params!.stringKeyParams["has-error"] as? String
+                    expect(hasError).to(equal("true"))
+                }
+                it("contains if it is a predictive flow") {
+                    let predictiveFlow = sut.params!.stringKeyParams["predictive-flow"] as? String
+                    expect(predictiveFlow).to(equal("true"))
+                }
+            }
+
+            describe("listingSellMediaChange") {
+                beforeEach {
+                    sut = TrackerEvent.listingSellMediaChange(source: .camera)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-sell-media-change"))
+                }
+                it("contains the type of media which will be captured") {
+                    let mediaType = sut.params!.stringKeyParams["media-type"] as? String
+                    expect(mediaType).to(equal("camera"))
+                }
+            }
+
+            describe("listingSellMediaChange") {
+                beforeEach {
+                    sut = TrackerEvent.listingSellMediaChange(source: .camera)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-sell-media-change"))
+                }
+                it("contains the type of media which will be captured") {
+                    let mediaType = sut.params!.stringKeyParams["media-type"] as? String
+                    expect(mediaType).to(equal("camera"))
+                }
+            }
+
+            describe("listingSellMediaPublish") {
+                beforeEach {
+                    sut = TrackerEvent.listingSellMediaPublish(source: .videoCamera,
+                                                               size: 3657)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-sell-media-publish"))
+                }
+                it("contains the type of media which has been captured") {
+                    let mediaType = sut.params!.stringKeyParams["media-type"] as? String
+                    expect(mediaType).to(equal("video-camera"))
+                }
+                it("contains the overall size of the files being uploaded") {
+                    let mediaType = sut.params!.stringKeyParams["original-file-size"] as? Int
+                    expect(mediaType).to(equal(3657))
                 }
             }
 
@@ -2567,11 +2707,14 @@ class TrackerEventSpec: QuickSpec {
             
             describe("listingSellAbandon") {
                 let abandonStep = EventParameterPostingAbandonStep.makeMock()
+                let pictureUploaded = EventParameterBoolean.falseParameter
+                let loggedUser = EventParameterBoolean.falseParameter
+                let buttonName = EventParameterButtonNameType.close
                 beforeEach {
                     sut = TrackerEvent.listingSellAbandon(abandonStep: abandonStep,
-                                                          pictureUploaded: .falseParameter,
-                                                          loggedUser: .falseParameter,
-                                                          buttonName: .close)
+                                                          pictureUploaded: pictureUploaded,
+                                                          loggedUser: loggedUser,
+                                                          buttonName: buttonName)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-abandon"))
@@ -2579,6 +2722,18 @@ class TrackerEventSpec: QuickSpec {
                 it("matches abandon step") {
                     let data = sut.params!.stringKeyParams["abandon-step"] as? String
                     expect(data).to(equal(abandonStep.rawValue))
+                }
+                it("matches picture uploaded") {
+                    let data = sut.params!.stringKeyParams["picture-uploaded"] as? String
+                    expect(data).to(equal(pictureUploaded.rawValue))
+                }
+                it("matches logged user") {
+                    let data = sut.params!.stringKeyParams["logged-user"] as? String
+                    expect(data).to(equal(loggedUser.rawValue))
+                }
+                it("matches button name") {
+                    let data = sut.params!.stringKeyParams["button-name"] as? String
+                    expect(data).to(equal(buttonName.rawValue))
                 }
             }
             
