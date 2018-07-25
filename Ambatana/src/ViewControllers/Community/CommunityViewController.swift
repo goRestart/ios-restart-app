@@ -9,6 +9,7 @@ final class CommunityViewController: BaseViewController {
     init(viewModel: CommunityViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
+        hasTabBar = viewModel.showTabBar
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -28,7 +29,14 @@ final class CommunityViewController: BaseViewController {
     }
 
     private func setupConstraints() {
-        webView.layout(with: view).fill()
+        let constraints = [
+            webView.topAnchor.constraint(equalTo: safeTopAnchor),
+            webView.bottomAnchor.constraint(equalTo: safeBottomAnchor),
+            webView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            webView.rightAnchor.constraint(equalTo: view.rightAnchor)
+        ]
+
+        NSLayoutConstraint.activate(constraints)
     }
 
     private func loadWeb() {
