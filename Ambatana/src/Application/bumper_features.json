@@ -147,8 +147,8 @@
     },
     {
         "name": "SectionedMainFeed",
-        "values": ["control", "baseline", "active"],
-        "description": "A new fully sectioned main feed"
+        "values": ["control", "baseline", "mediumHorizontalSection", "smallHorizontalSection"],
+        "description": "[Discovery] Sectioned feed"
     },
     {
         "name": "ShowExactLocationForPros",

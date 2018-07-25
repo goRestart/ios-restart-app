@@ -104,6 +104,7 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
 }
 
 extension ListingDeckViewModelBinderSpec: ListingDetailNavigator {
+    func openUser(user: User, source: UserSource) { }
     func openVideoPlayer(atIndex index: Int,
                          listingVM: ListingViewModel,
                          source: EventParameterListingVisitSource) { }

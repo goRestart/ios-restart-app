@@ -29,11 +29,11 @@ final class UserProfileViewModel: BaseViewModel {
     // MARK: - Input
     let selectedTab = Variable<UserProfileTabType>(.selling)
 
-    weak var navigator: TabNavigator?
+    weak var navigator: PublicProfileNavigator?
     weak var profileNavigator: ProfileTabNavigator? {
         didSet {
             navigator = profileNavigator
-            ratingListViewModel.tabNavigator = navigator
+            ratingListViewModel.tabNavigator = profileNavigator
         }
     }
 
@@ -244,7 +244,7 @@ extension UserProfileViewModel {
             verifyTypes.append(.google)
         }
         guard !verifyTypes.isEmpty else { return }
-        navigator?.openVerifyAccounts(verifyTypes,
+        profileNavigator?.openVerifyAccounts(verifyTypes,
                                       source: .profile(title: R.Strings.chatConnectAccountsTitle,
                                                        description: R.Strings.profileConnectAccountsMessage),
                                       completionBlock: nil)
@@ -551,10 +551,6 @@ extension UserProfileViewModel {
                                        alertType: .iconAlert(icon: R.Asset.IconsButtons.customPermissionProfile.image),
                                        actions: [negative, positive])
     }
-
-    func didTapMostSearchedItems() {
-        navigator?.openMostSearchedItems(source: .mostSearchedUserProfile, enableSearch: false)
-    }
 }
 
 // MARK: - ListingList Data Delegate
@@ -625,7 +621,7 @@ extension UserProfileViewModel {
         case let vm where vm === favoritesListingListViewModel:
             errTitle = R.Strings.profileFavouritesMyUserNoProductsLabel
             errButTitle = itsMe ? nil : R.Strings.profileFavouritesMyUserNoProductsButton
-            errButAction = { [weak self] in self?.navigator?.openHome() }
+            errButAction = { [weak self] in self?.profileNavigator?.openHome() }
         default:
             return nil
         }

@@ -19,6 +19,12 @@ protocol OrderConditionable {
 
 extension OrderConditionable {
     
+    
+    
+    /// Return bounded optional index of the order condition
+    ///
+    /// - Parameter orderCondition: OrderCondition to apply
+    /// - Returns: bounded optional index of the order condition
     func cleanedIndex(forOrderCondition orderCondition: OrderCondition<Orderable>) -> Int? {
         return clean(forIndex: index(forOrderCondition: orderCondition))
     }

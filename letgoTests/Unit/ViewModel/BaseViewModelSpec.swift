@@ -1,4 +1,5 @@
 @testable import LetGoGodMode
+import LGCoreKit
 import Quick
 import Nimble
 import LGComponents
@@ -110,6 +111,7 @@ class BaseViewModelSpec: QuickSpec, BaseViewModelDelegate, TabNavigator {
     func openAppRating(_ source: EventParameterRatingSource) {}
     func openUserRating(_ source: RateUserSource, data: RateUserData) {}
     func openUser(_ data: UserDetailData) {}
+    func openUser(user: User, source: UserSource) { }
     func openListing(_ data: ListingDetailData, source: EventParameterListingVisitSource, actionOnFirstAppear: ProductCarouselActionOnFirstAppear) {}
     func openChat(_ data: ChatDetailData, source: EventParameterTypePage, predefinedMessage: String?) {}
     func openVerifyAccounts(_ types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?) {}

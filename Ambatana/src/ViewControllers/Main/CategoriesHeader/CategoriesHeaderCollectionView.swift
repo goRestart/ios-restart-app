@@ -19,6 +19,7 @@ struct CategoryHeaderInfo {
 protocol CategoriesHeaderCollectionViewDelegate: class {
     func openTaxonomyList()
     func openMostSearchedItems()
+    func categoryHeaderDidSelect(categoryHeaderInfo: CategoryHeaderInfo)
 }
 
 final class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -76,7 +77,8 @@ final class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDe
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryHeaderCell.reuseIdentifier, for: indexPath) as? CategoryHeaderCell else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryHeaderCell.reuseIdentifier,
+                                                            for: indexPath) as? CategoryHeaderCell else { return UICollectionViewCell() }
             let categoryHeaderElement = categoryHeaderElements[indexPath.row]
             cell.categoryTitle.text = categoryHeaderElement.name.localizedUppercase
             cell.categoryTitle.addKern(value: -0.30)
@@ -104,9 +106,12 @@ final class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDe
         case .mostSearchedItems:
             delegateCategoryHeader?.openMostSearchedItems()
         case .listingCategory, .superKeyword, .superKeywordGroup:
-            categorySelected.value = CategoryHeaderInfo(categoryHeaderElement: categoryHeaderElement,
-                                                        position: indexPath.row + 1,
-                                                        name: categoryHeaderElement.name)
+            let headerInfo = CategoryHeaderInfo(categoryHeaderElement: categoryHeaderElement,
+                                                position: indexPath.row + 1,
+                                                name: categoryHeaderElement.name)
+            
+            categorySelected.value = headerInfo
+            delegateCategoryHeader?.categoryHeaderDidSelect(categoryHeaderInfo: headerInfo)
         }
     }
 

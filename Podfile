@@ -89,6 +89,9 @@ def shared_pods
 
     # Gifs
     pod "SwiftyGif",            "4.1.0"
+
+    # IGListKit
+    pod "IGListKit", "3.4.0"
 end
 
 target "LetGo" do

@@ -1392,16 +1392,17 @@ enum FeedAdsProviderForTR: String, BumperFeature  {
 }
 
 enum SectionedMainFeed: String, BumperFeature  {
-    case control, baseline, active
+    case control, baseline, mediumHorizontalSection, smallHorizontalSection
     static var defaultValue: String { return SectionedMainFeed.control.rawValue }
-    static var enumValues: [SectionedMainFeed] { return [.control, .baseline, .active]}
+    static var enumValues: [SectionedMainFeed] { return [.control, .baseline, .mediumHorizontalSection, .smallHorizontalSection]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "A new fully sectioned main feed" } 
+    static var description: String { return "[Discovery] Sectioned feed" } 
     static func fromPosition(_ position: Int) -> SectionedMainFeed {
         switch position { 
             case 0: return .control
             case 1: return .baseline
-            case 2: return .active
+            case 2: return .mediumHorizontalSection
+            case 3: return .smallHorizontalSection
             default: return .control
         }
     }
@@ -1976,4 +1977,3 @@ enum ExpressChatImprovement: String, BumperFeature  {
         }
     }
 }
-

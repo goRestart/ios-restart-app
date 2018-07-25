@@ -102,7 +102,7 @@ final class ListingDeckViewModel: BaseViewModel {
                      listing: Listing,
                      listingListRequester: ListingListRequester,
                      source: EventParameterListingVisitSource,
-                     detailNavigator: ListingDetailNavigator,
+                     detailNavigator: ListingDetailNavigator?,
                      actionOnFirstAppear: DeckActionOnFirstAppear,
                      trackingIndex: Int?) {
         let pagination = Pagination.makePagination(first: 0, next: 1, isLast: false)
@@ -130,7 +130,7 @@ final class ListingDeckViewModel: BaseViewModel {
     convenience init(listModels: [ListingCellModel],
                      initialListing: Listing?,
                      listingListRequester: ListingListRequester,
-                     detailNavigator: ListingDetailNavigator,
+                     detailNavigator: ListingDetailNavigator?,
                      source: EventParameterListingVisitSource,
                      imageDownloader: ImageDownloaderType,
                      listingViewModelMaker: ListingViewModelMaker,
@@ -163,7 +163,7 @@ final class ListingDeckViewModel: BaseViewModel {
     init(listModels: [ListingCellModel],
          initialListing: Listing?,
          listingListRequester: ListingListRequester,
-         detailNavigator: ListingDetailNavigator,
+         detailNavigator: ListingDetailNavigator?,
          source: EventParameterListingVisitSource,
          imageDownloader: ImageDownloaderType,
          listingViewModelMaker: ListingViewModelMaker,
