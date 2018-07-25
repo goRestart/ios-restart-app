@@ -2661,8 +2661,8 @@ class TrackerEventSpec: QuickSpec {
                     expect(mediaType).to(equal("video-camera"))
                 }
                 it("contains the overall size of the files being uploaded") {
-                    let mediaType = sut.params!.stringKeyParams["original-file-size"] as? Int
-                    expect(mediaType).to(equal(3657))
+                    let fileSize = sut.params!.stringKeyParams["original-file-size"] as? Int
+                    expect(fileSize).to(equal(3657))
                 }
             }
 
