@@ -593,6 +593,8 @@
 		427070D520764EBA00C1FEB3 /* CellAppereance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427070D420764EBA00C1FEB3 /* CellAppereance.swift */; };
 		427070D620764EBA00C1FEB3 /* CellAppereance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427070D420764EBA00C1FEB3 /* CellAppereance.swift */; };
 		42713C68207629A10077F88A /* PromoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4219244020761CF900862CEF /* PromoCell.swift */; };
+		42718E612107305200FF3F8F /* ListingErrorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42718E602107305200FF3F8F /* ListingErrorCell.swift */; };
+		42718E622107305200FF3F8F /* ListingErrorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42718E602107305200FF3F8F /* ListingErrorCell.swift */; };
 		4273565120A2E9C200C71D49 /* LGMapAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4273565020A2E9C200C71D49 /* LGMapAnnotation.swift */; };
 		4273565220A2E9C200C71D49 /* LGMapAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4273565020A2E9C200C71D49 /* LGMapAnnotation.swift */; };
 		4273565420A308A300C71D49 /* LGMapDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4273565320A308A300C71D49 /* LGMapDetailView.swift */; };
@@ -2364,6 +2366,7 @@
 		426CB12E20C56768009A065F /* MockImageMultiplierRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockImageMultiplierRepository.swift; sourceTree = "<group>"; };
 		426CB13520C58820009A065F /* PostMultiSelectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostMultiSelectionCell.swift; sourceTree = "<group>"; };
 		427070D420764EBA00C1FEB3 /* CellAppereance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellAppereance.swift; sourceTree = "<group>"; };
+		42718E602107305200FF3F8F /* ListingErrorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingErrorCell.swift; sourceTree = "<group>"; };
 		4273565020A2E9C200C71D49 /* LGMapAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGMapAnnotation.swift; sourceTree = "<group>"; };
 		4273565320A308A300C71D49 /* LGMapDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGMapDetailView.swift; sourceTree = "<group>"; };
 		4273565620A32F5000C71D49 /* Listing+Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Listing+Map.swift"; sourceTree = "<group>"; };
@@ -5554,6 +5557,7 @@
 				0AF7CCBC1F8B525E00128303 /* OvalLayer.swift */,
 				2ECB417C2008CC6900482EF7 /* AdvertisementCell.swift */,
 				012C56EF2017A09400C087D0 /* MostSearchedItemsListingListCell.swift */,
+				42718E602107305200FF3F8F /* ListingErrorCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -7985,6 +7989,7 @@
 				013489F820D3FEF900E543C2 /* NotificationSettingCellType.swift in Sources */,
 				2E4B359C1CC90A9500B8CB64 /* RelatedListingListRequester.swift in Sources */,
 				C742340C1D5A132D0082D1CD /* UITableView+Changes.swift in Sources */,
+				42718E612107305200FF3F8F /* ListingErrorCell.swift in Sources */,
 				C7AB4EC61CD39C67007B573D /* LGNotificationsManager.swift in Sources */,
 				556E26F9203C3C940098ECF0 /* UserProfileViewModel.swift in Sources */,
 				8EEC7F5C206AA62800616858 /* AdvertisementDFPCellDrawer.swift in Sources */,
@@ -8823,6 +8828,7 @@
 				013489F920D3FEF900E543C2 /* NotificationSettingCellType.swift in Sources */,
 				C7AFFB0B1E715F840052A9CA /* SurveysNavigator.swift in Sources */,
 				2E2D53E31D369B0500348D12 /* LGConfigRetrieveService.swift in Sources */,
+				42718E622107305200FF3F8F /* ListingErrorCell.swift in Sources */,
 				2E6B6E3E1D2BCC9800C10A20 /* PostIncentiviserItem.swift in Sources */,
 				C742340D1D5A132D0082D1CD /* UITableView+Changes.swift in Sources */,
 				2E4B359D1CC90A9500B8CB64 /* RelatedListingListRequester.swift in Sources */,

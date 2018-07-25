@@ -8,7 +8,7 @@
 
 import LGCoreKit
 
-enum ViewState {
+enum ViewState: Equatable {
     case loading
     case data
     case empty(LGEmptyViewModel)

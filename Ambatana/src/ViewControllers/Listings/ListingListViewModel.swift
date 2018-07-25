@@ -152,6 +152,11 @@ final class ListingListViewModel: BaseViewModel {
         return objects.count
     }
     
+    var isDataOrLoading: Bool {
+        return state == .data || state == .loading
+    }
+
+    
     let numberOfColumns: Int
     private var searchType: SearchType?
 
