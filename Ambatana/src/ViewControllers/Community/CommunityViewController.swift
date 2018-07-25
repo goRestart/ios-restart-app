@@ -9,7 +9,9 @@ final class CommunityViewController: BaseViewController {
     init(viewModel: CommunityViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
-        hasTabBar = viewModel.showTabBar
+        hidesBottomBarWhenPushed = false
+        floatingSellButtonHidden = false
+        hasTabBar = true
     }
 
     required init?(coder aDecoder: NSCoder) {

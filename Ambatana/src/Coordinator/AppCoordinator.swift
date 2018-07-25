@@ -764,6 +764,7 @@ fileprivate extension AppCoordinator {
         notificationsTabBarCoordinator.tabCoordinatorDelegate = self
         chatsTabBarCoordinator.tabCoordinatorDelegate = self
         profileTabBarCoordinator.tabCoordinatorDelegate = self
+        communityTabCoordinator.tabCoordinatorDelegate = self
 
         mainTabBarCoordinator.appNavigator = self
         notificationsTabBarCoordinator.appNavigator = self
