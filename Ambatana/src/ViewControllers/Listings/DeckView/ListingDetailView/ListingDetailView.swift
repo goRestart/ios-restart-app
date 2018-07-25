@@ -19,8 +19,7 @@ private enum Map {
 
 private enum Layout {
     static let mapHeight: CGFloat = 115
-    static let actionButton: CGFloat = 60
-    static let scrollBottomInset: CGFloat = Layout.actionButton + 3*Metrics.bigMargin
+    static let scrollBottomInset: CGFloat = 3*Metrics.bigMargin
 }
 
 
@@ -123,11 +122,6 @@ final class ListingDetailView: UIView {
         view.backgroundColor = UIColor.white.withAlphaComponent(0.8)
         return view
     }()
-    private let actionButton: UIControl = {
-        let btn = LetgoButton(withStyle: .primary(fontSize: .big))
-        btn.setTitle(R.Strings.listingInterestedButtonA, for: .normal)
-        return btn
-    }()
 
     required init?(coder aDecoder: NSCoder) { fatalError("Die xibs, die") }
 
@@ -152,7 +146,7 @@ final class ListingDetailView: UIView {
         addSubviewsForAutoLayout([scrollView])
         scrollView.addSubviewsForAutoLayout([mainImageView, pageControl, headerStackView, detailLabel,
                                              statsView, userView, detailMapView, socialMediaHeader,
-                                             socialShareView, whiteBackground, actionButton])
+                                             socialShareView, whiteBackground])
 
         let height = mainImageView.heightAnchor.constraint(equalToConstant: 60) // totally arbitrary
         let pageControlTop = pageControl.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: Metrics.margin)
@@ -202,17 +196,7 @@ final class ListingDetailView: UIView {
             socialShareView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metrics.shortMargin),
             socialShareView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metrics.shortMargin),
             socialShareView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor,
-                                                    constant: -Layout.scrollBottomInset),
-
-            whiteBackground.bottomAnchor.constraint(equalTo: bottomAnchor),
-            whiteBackground.leadingAnchor.constraint(equalTo: leadingAnchor),
-            whiteBackground.trailingAnchor.constraint(equalTo: trailingAnchor),
-            whiteBackground.topAnchor.constraint(equalTo: actionButton.topAnchor, constant: -Metrics.bigMargin),
-
-            actionButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Metrics.bigMargin),
-            actionButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metrics.bigMargin),
-            actionButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metrics.bigMargin),
-            actionButton.heightAnchor.constraint(equalToConstant: Layout.actionButton)
+                                                    constant: -Layout.scrollBottomInset)
             ])
 
         self.mainImgHeightConstraint = height

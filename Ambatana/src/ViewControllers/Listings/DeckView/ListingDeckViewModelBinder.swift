@@ -14,7 +14,7 @@ final class ListingDeckViewModelBinder {
     weak var deckViewModel: ListingDeckViewModelType? = nil
     var disposeBag: DisposeBag = DisposeBag()
 
-    func bind(to currentVM: ListingCardViewCellModel, quickChatViewModel: QuickChatViewModelRx) {
+    func bind(to currentVM: ListingCardViewCellModel, quickChatViewModel: QuickChatViewModel) {
         guard let viewModel = deckViewModel else { return }
         self.disposeBag = DisposeBag()
 
@@ -25,17 +25,7 @@ final class ListingDeckViewModelBinder {
 
         currentVM.cardActionButtons.bind(to: viewModel.actionButtons).disposed(by: disposeBag)
 
-        bind(listingViewModel: currentVM, quickChatViewModel: quickChatViewModel)
+        // TODO: chat not ready
         currentVM.cardBumpUpBannerInfo.bind(to: viewModel.bumpUpBannerInfo).disposed(by: disposeBag)
-    }
-
-    private func bind(listingViewModel currentVM: ListingCardViewCellModel, quickChatViewModel: QuickChatViewModelRx) {
-        quickChatViewModel.quickAnswers.value = currentVM.cardQuickAnswers
-
-        currentVM.cardDirectChatEnabled.bind(to: quickChatViewModel.chatEnabled).disposed(by: disposeBag)
-        quickChatViewModel.directChatMessages.removeAll()
-        currentVM.cardDirectChatMessages.subscribeNext { [weak quickChatViewModel] change in
-            quickChatViewModel?.performCollectionChange(change: change)
-        }.disposed(by:disposeBag)
     }
 }

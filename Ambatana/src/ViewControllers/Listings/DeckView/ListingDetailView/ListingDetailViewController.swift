@@ -12,8 +12,12 @@ final class ListingDetailViewController: BaseViewController {
     let viewModel: ListingDetailViewModel
     private let disposeBag = DisposeBag()
 
+    private let quickChatViewController: QuickChatViewController
+
     init(viewModel: ListingDetailViewModel) {
         self.viewModel = viewModel
+        self.quickChatViewController = QuickChatViewController(listingViewModel: viewModel.listingViewModel)
+
         super.init(viewModel: viewModel,
                    nibName: nil,
                    statusBarStyle: .lightContent,
@@ -32,7 +36,30 @@ final class ListingDetailViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        addQuickChat()
         setupRx()
+    }
+
+    private func addQuickChat() {
+        addChildViewController(quickChatViewController)
+        detailView.addSubviewForAutoLayout(quickChatViewController.view)
+
+        NSLayoutConstraint.activate([
+            quickChatViewController.view.topAnchor.constraint(equalTo: safeTopAnchor),
+            quickChatViewController.view.leadingAnchor.constraint(equalTo: detailView.leadingAnchor),
+            quickChatViewController.view.trailingAnchor.constraint(equalTo: detailView.trailingAnchor),
+            quickChatViewController.view.bottomAnchor.constraint(equalTo: safeBottomAnchor)
+            ])
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: true)
     }
 
     private func setupRx() {
@@ -60,7 +87,6 @@ final class ListingDetailViewController: BaseViewController {
     }
 
     private func setupTransparentNavigationBar() {
-        navigationController?.setNavigationBarHidden(true, animated: true)
         setLeftCloseButton()
     }
 

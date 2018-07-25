@@ -10,20 +10,35 @@ import Foundation
 import RxSwift
 import RxCocoa
 import LGCoreKit
+import LGComponents
 
-final class QuickChatViewModel: QuickChatViewModelRx, DirectAnswersHorizontalViewDelegate {
-    var listingViewModel: ListingViewModel?
+final class QuickChatViewModel: BaseViewModel, DirectAnswersHorizontalViewDelegate {
+    var listingViewModel: ListingViewModel? {
+        didSet { setupRx() }
+    }
 
-    var rxDirectChatPlaceholder: Observable<String> { return directChatPlaceholder.asObservable() }
-    var rxQuickAnswers: Observable<[QuickAnswer]> { return quickAnswers.asObservable() }
-
-    var rxIsChatEnabled: Observable<Bool> { return chatEnabled.asObservable() }
-    var rxDirectMessages: Observable<CollectionChange<ChatViewMessage>> { return directChatMessages.changesObservable }
-
+    private var disposeBag = DisposeBag()
     let chatEnabled = Variable<Bool>(false)
     let quickAnswers = Variable<[QuickAnswer]>([])
-    var directChatPlaceholder = Variable<String>("")
     let directChatMessages = CollectionVariable<ChatViewMessage>([])
+
+    private func setupRx() {
+        disposeBag = DisposeBag()
+
+        guard let listingVM = listingViewModel else { return }
+        quickAnswers.value = listingVM.quickAnswers
+        let bindings = [
+            listingVM.cardDirectChatEnabled.asDriver(onErrorJustReturn: false).drive(chatEnabled),
+            quickAnswers.asDriver().drive(quickAnswers)
+        ]
+        listingVM.directChatMessages
+            .changesObservable
+            .subscribe(onNext: { [weak self] (change) in
+            self?.performCollectionChange(change: change)
+        }).disposed(by: disposeBag)
+
+        bindings.forEach { $0.disposed(by: disposeBag) }
+    }
 
     func messageExists(_ messageID: String) -> Bool {
         return directChatMessages.value.filter({ $0.objectId == messageID }).count >= 1
@@ -57,4 +72,11 @@ final class QuickChatViewModel: QuickChatViewModelRx, DirectAnswersHorizontalVie
     func directAnswersHorizontalViewDidSelect(answer: QuickAnswer) {
         listingViewModel?.sendQuickAnswer(quickAnswer: answer)
     }
+}
+
+extension QuickChatViewModel: ReactiveCompatible {}
+extension Reactive where Base: QuickChatViewModel {
+    var quickAnswers: Observable<[QuickAnswer]> { return base.quickAnswers.asObservable() }
+    var isChatEnabled: Observable<Bool> { return base.chatEnabled.asObservable() }
+    var directMessages: Observable<CollectionChange<ChatViewMessage>> { return base.directChatMessages.changesObservable }
 }

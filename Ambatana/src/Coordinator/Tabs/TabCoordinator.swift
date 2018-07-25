@@ -348,6 +348,7 @@ fileprivate extension TabCoordinator {
                                 trackingIndex: Int?) {
         if deckAnimator == nil {
             let coordinator = DeckCoordinator(withNavigationController: navigationController)
+            coordinator.listingDetailNavigator = self
             deckAnimator = coordinator
         }
 

@@ -21,7 +21,7 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
 
     init(viewModel: PhotoViewerViewModel, quickChatViewModel: QuickChatViewModel) {
         self.viewModel = viewModel
-        self.chatView = QuickChatView(chatViewModel: quickChatViewModel)
+        self.chatView = QuickChatView()
         super.init(viewModel: viewModel, nibName: nil)
     }
 
@@ -31,7 +31,6 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        mainResponder = chatView?.textView
         setupUI()
     }
 
@@ -45,8 +44,6 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
         setupPhotoViewer()
         setupChatbutton()
         setupGestures()
-
-        chatView?.textViewStandardColor = .white
     }
 
     private func setupChatbutton() {
