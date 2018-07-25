@@ -187,7 +187,7 @@ extension MainTabCoordinator: MainTabNavigator {
         if featureFlags.community.shouldShowOnTab {
             openCommunityTab()
         } else {
-            let coord = CommunityTabCoordinator(source: .mainListing)
+            let coord = CommunityTabCoordinator(source: .navBar)
             openChild(coordinator: coord, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
         }
     }
