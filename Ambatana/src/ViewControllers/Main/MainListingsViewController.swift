@@ -702,17 +702,17 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
             }
         }
 
-        if viewModel.shouldShowCommunityBanner {
-            let community = CommunityHeaderView()
-            community.delegate = self
-            header.addHeader(community, height: CommunityHeaderView.viewHeight)
-        }
-        
         if shouldShowSearchAlertBanner, let searchAlertCreationData = viewModel.searchAlertCreationData.value {
             let searchAlertHeader = SearchAlertFeedHeader(searchAlertCreationData: searchAlertCreationData)
             searchAlertHeader.tag = 3
             searchAlertHeader.delegate = self
             header.addHeader(searchAlertHeader, height: SearchAlertFeedHeader.viewHeight)
+        }
+
+        if viewModel.shouldShowCommunityBanner {
+            let community = CommunityHeaderView()
+            community.delegate = self
+            header.addHeader(community, height: CommunityHeaderView.viewHeight)
         }
     }
 

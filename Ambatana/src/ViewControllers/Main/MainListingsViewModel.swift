@@ -244,7 +244,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     }
 
     var shouldShowCommunityBanner: Bool {
-        return featureFlags.community.isActive
+        return featureFlags.community.isActive && !listViewModel.isListingListEmpty.value
     }
     
     private var carSelectedWithFilters: Bool {
