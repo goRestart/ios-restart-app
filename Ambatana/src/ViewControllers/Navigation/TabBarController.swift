@@ -329,10 +329,6 @@ final class TabBarController: UITabBarController {
         if let notificationsTab = vcs[Tab.notifications.index].tabBarItem {
             viewModel.notificationsBadge.asObservable().bind(to: notificationsTab.rx.badgeValue).disposed(by: disposeBag)
         }
-        
-        if let sellTab = vcs[Tab.sell.index].tabBarItem, viewModel.shouldShowCameraBadge {
-            viewModel.sellBadge.asObservable().bind(to: sellTab.rx.badgeValue).disposed(by: disposeBag)
-        }
     }
 }
 
@@ -379,16 +375,11 @@ extension TabBarController: ExpandableCategorySelectionDelegate {
         floatingSellButton.showWithAnimation()
     }
     
-    func didPressCategory(_ category: ExpandableCategory) {
+    func didPressCategory(_ listingCategory: ListingCategory) {
         floatingSellButton.showWithAnimation()
         let event = TrackerEvent.listingSellYourStuffButton()
         tracker.trackEvent(event)
-        viewModel.expandableButtonPressed(category: category)
-    }
-    
-    func didPressTag(_ tag: LocalMostSearchedItem) {
-        floatingSellButton.showWithAnimation()
-        viewModel.tagPressed(mostSearchedItem: tag)
+        viewModel.expandableButtonPressed(listingCategory: listingCategory)
     }
 }
 

@@ -138,7 +138,6 @@ extension ListingDeckViewModelBinderSpec: ListingDetailNavigator {
                          timeSinceLastBump: TimeInterval,
                          maxCountdown: TimeInterval) { }
     func openAppInvite(myUserId: String?, myUserName: String?) { }
-    func openMostSearchedItems(source: PostingSource, enableSearch: Bool) {}
     func openHome() {}
     func openSell(source: PostingSource, postCategory: PostCategory?) {}
     func openAppRating(_ source: EventParameterRatingSource) {}

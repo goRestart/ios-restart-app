@@ -251,7 +251,7 @@ extension FeedViewModel {
         case .showMore:
             trackFilterCategoryHeaderSelection(with: categoryHeaderInfo)
             return // do not update any filters
-        case .mostSearchedItems, .superKeyword:
+        case .superKeyword:
             return
         }
         
@@ -300,10 +300,6 @@ extension FeedViewModel: CategoriesHeaderCollectionViewDelegate {
                                                       source: .listingList)
         taxonomiesViewModel.taxonomiesDelegate = self
         navigator?.openTaxonomyList(withViewModel: taxonomiesViewModel)
-    }
-    
-    func openMostSearchedItems() {
-        navigator?.openMostSearchedItems(source: .mostSearchedCategoryHeader, enableSearch: true)
     }
     
     func categoryHeaderDidSelect(categoryHeaderInfo: CategoryHeaderInfo) {

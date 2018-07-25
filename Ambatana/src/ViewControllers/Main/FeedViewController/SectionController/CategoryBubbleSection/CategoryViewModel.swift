@@ -3,7 +3,6 @@ import LGCoreKit
 protocol CategoriesBubblePresentable: CategoriesHeaderCollectionViewDelegate {
     var categories: [CategoryHeaderElement] { get }
     var categoryHighlighted: CategoryHeaderElement { get }
-    var isMostSearchedItemsEnabled: Bool { get }
 }
 
 final class CategoryViewModel: CategoriesBubblePresentable {
@@ -29,10 +28,6 @@ final class CategoryViewModel: CategoriesBubblePresentable {
             return CategoryHeaderElement.listingCategory(.cars)
         }
     }
-    
-    var isMostSearchedItemsEnabled: Bool {
-        return featureFlags.mostSearchedDemandedItems.isActive
-    }
 }
 
 extension CategoryViewModel {
@@ -41,13 +36,10 @@ extension CategoryViewModel {
         delegate?.openTaxonomyList()
     }
     
-    func openMostSearchedItems() {
-        delegate?.openMostSearchedItems()
-    }
-    
     func categoryHeaderDidSelect(categoryHeaderInfo: CategoryHeaderInfo) {
         delegate?.categoryHeaderDidSelect(categoryHeaderInfo: categoryHeaderInfo)
     }
+
 }
 
 

@@ -61,8 +61,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     
     private let interestingUndoTimeout: TimeInterval = 5
     private let chatWrapper: ChatWrapper
-    
-    let mostSearchedItemsCellPosition: Int = 6
+
     let bannerCellPosition: Int = 8
     let suggestedSearchesLimit: Int = 10
     var filters: ListingFilters
@@ -76,9 +75,6 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     
     var isTaxonomiesAndTaxonomyChildrenInFeedEnabled: Bool {
         return featureFlags.taxonomiesAndTaxonomyChildrenInFeed.isActive
-    }
-    var isMostSearchedItemsEnabled: Bool {
-        return featureFlags.mostSearchedDemandedItems.isActive
     }
     
     private var isRealEstateSelected: Bool {
@@ -768,9 +764,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         case .showMore:
             tracker.trackEvent(TrackerEvent.filterCategoryHeaderSelected(position: categoryHeaderInfo.position,
                                                                          name: categoryHeaderInfo.name))
-        return // do not update any filters
-        case .mostSearchedItems:
-            return
+            return // do not update any filters
         }
         applyFilters(categoryHeaderInfo)
     }
@@ -1198,7 +1192,6 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
     
     func vmProcessReceivedListingPage(_ listings: [ListingCellModel], page: UInt) -> [ListingCellModel] {
         var totalListings = listings
-        totalListings = addMostSearchedItems(to: totalListings)
         totalListings = addCollections(to: totalListings, page: page)
         totalListings = addRealEstatePromoItem(to: totalListings)
         let myUserCreationDate: Date? = myUserRepository.myUser?.creationDate
@@ -1217,11 +1210,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         delegate?.vmDidSearch()
         navigator?.openMainListings(withSearchType: .collection(type: type, query: query), listingFilters: filters)
     }
-    
-    func vmDidSelectMostSearchedItems() {
-        navigator?.openMostSearchedItems(source: .mostSearchedCard, enableSearch: true)
-    }
-    
+
     func vmUserDidTapInvite() {
         navigator?.openAppInvite(myUserId: myUserId, myUserName: myUserName)
     }
@@ -1339,18 +1328,6 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             canInsertAds = adRelativePosition < cellModels.count
         }
         previousPagesAdsOffset += (cellModels.count - listings.count + collections.count)
-        previousPagesAdsOffset += isMostSearchedItemsEnabled ? 1 : 0
-        return cellModels
-    }
-    
-    private func addMostSearchedItems(to listings: [ListingCellModel]) -> [ListingCellModel] {
-        guard searchType == nil else { return listings }
-        guard listings.count > mostSearchedItemsCellPosition else { return listings }
-        var cellModels = listings
-        if isMostSearchedItemsEnabled {
-            let mostSearchedItemsModel = ListingCellModel.mostSearchedItems(data: MostSearchedItemsCardData())
-            cellModels.insert(mostSearchedItemsModel, at: mostSearchedItemsCellPosition)
-        }
         return cellModels
     }
     
@@ -1852,10 +1829,6 @@ extension MainListingsViewModel: CategoriesHeaderCollectionViewDelegate {
         let vm = TaxonomiesViewModel(taxonomies: getTaxonomies(), taxonomySelected: nil, taxonomyChildSelected: nil, source: .listingList)
         vm.taxonomiesDelegate = self
         navigator?.openTaxonomyList(withViewModel: vm)
-    }
-    
-    func openMostSearchedItems() {
-        navigator?.openMostSearchedItems(source: .mostSearchedCategoryHeader, enableSearch: true)
     }
 }
 

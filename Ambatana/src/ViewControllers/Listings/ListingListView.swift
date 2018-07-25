@@ -600,7 +600,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             adLoader.position = data.adPosition
             adLoader.load(GADRequest())
             break
-        case .collectionCell, .emptyCell, .listingCell, .mostSearchedItems, .promo:
+        case .collectionCell, .emptyCell, .listingCell, .promo:
             break
         }
     }

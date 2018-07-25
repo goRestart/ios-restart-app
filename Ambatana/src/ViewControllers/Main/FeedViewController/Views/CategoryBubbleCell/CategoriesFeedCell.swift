@@ -21,9 +21,7 @@ final class CategoriesFeedCell: UICollectionViewCell {
     
     func configure(with feedPresenter: CategoriesBubblePresentable) {
         categoryView.configure(with: feedPresenter.categories,
-                               categoryHighlighted: feedPresenter.categoryHighlighted,
-                               isMostSearchedItemsEnabled: feedPresenter.isMostSearchedItemsEnabled)
-        categoryView.delegateCategoryHeader = feedPresenter
+                               categoryHighlighted: feedPresenter.categoryHighlighted)
     }
 }
 

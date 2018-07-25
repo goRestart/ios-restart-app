@@ -48,9 +48,6 @@ final class UserProfileViewModel: BaseViewModel {
     // Flag to define if there is a logged in user that allows special actions
     var isLoggedInUser: Bool { return sessionManager.loggedIn }
 
-    var isMostSearchedItemsAvailable: Bool { return featureFlags.mostSearchedDemandedItems.isActive }
-    var showMostSearchedItemsBanner: Bool { return isMostSearchedItemsAvailable && selectedTab.value == .selling }
-
     let arePushNotificationsEnabled = Variable<Bool?>(nil)
     var showPushPermissionsBanner: Bool {
         guard let areEnabled = arePushNotificationsEnabled.value else { return false }
@@ -592,7 +589,6 @@ extension UserProfileViewModel: ListingListViewModelDataDelegate {
     func vmProcessReceivedListingPage(_ Listings: [ListingCellModel], page: UInt) -> [ListingCellModel] { return Listings }
     func vmDidSelectSellBanner(_ type: String) {}
     func vmDidSelectCollection(_ type: CollectionCellType) {}
-    func vmDidSelectMostSearchedItems() {}
 }
 
 // MARK: Error & Empty States

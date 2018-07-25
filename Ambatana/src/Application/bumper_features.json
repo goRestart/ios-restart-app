@@ -46,11 +46,6 @@
         "description": "Show a clock until the message is delivered correctly"
     },
     {
-        "name": "MostSearchedDemandedItems",
-        "values": ["control", "baseline", "cameraBadge", "trendingButtonExpandableMenu", "subsetAboveExpandableMenu"],
-        "description": "Display a list of top seller items that inspire users to post new items"
-    },
-    {
         "name": "ShowAdsInFeedWithRatio",
         "values": ["control", "baseline", "ten", "fifteen", "twenty"],
         "description": "show ads in feed every X cells"

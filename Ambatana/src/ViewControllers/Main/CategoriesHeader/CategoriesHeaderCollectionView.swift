@@ -18,7 +18,6 @@ struct CategoryHeaderInfo {
 
 protocol CategoriesHeaderCollectionViewDelegate: class {
     func openTaxonomyList()
-    func openMostSearchedItems()
     func categoryHeaderDidSelect(categoryHeaderInfo: CategoryHeaderInfo)
 }
 
@@ -48,14 +47,11 @@ final class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDe
         setAccessibilityIds()
     }
     
-    func configure(with categories: [CategoryHeaderElement], categoryHighlighted: CategoryHeaderElement, isMostSearchedItemsEnabled: Bool) {
+    func configure(with categories: [CategoryHeaderElement], categoryHighlighted: CategoryHeaderElement) {
         self.categoryHeaderElements = categories
         self.categoryHighlighted = categoryHighlighted
         if isShowingSuperKeywords {
             categoryHeaderElements.append(CategoryHeaderElement.showMore)
-        }
-        if isMostSearchedItemsEnabled {
-            categoryHeaderElements.insert(CategoryHeaderElement.mostSearchedItems, at: 0)
         }
     }
     
@@ -83,7 +79,7 @@ final class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDe
             cell.categoryTitle.text = categoryHeaderElement.name.localizedUppercase
             cell.categoryTitle.addKern(value: -0.30)
             switch categoryHeaderElement {
-            case .listingCategory, .showMore, .mostSearchedItems:
+            case .listingCategory, .showMore:
                 cell.categoryIcon.image = categoryHeaderElement.imageIcon
             case .superKeyword, .superKeywordGroup:
                 if let url = categoryHeaderElement.imageIconURL {
@@ -103,8 +99,6 @@ final class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDe
         switch categoryHeaderElement {
         case .showMore:
             delegateCategoryHeader?.openTaxonomyList()
-        case .mostSearchedItems:
-            delegateCategoryHeader?.openMostSearchedItems()
         case .listingCategory, .superKeyword, .superKeywordGroup:
             let headerInfo = CategoryHeaderInfo(categoryHeaderElement: categoryHeaderElement,
                                                 position: indexPath.row + 1,

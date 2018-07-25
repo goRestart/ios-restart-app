@@ -25,7 +25,6 @@ struct LegacyABGroup: ABGroupType {
         static let deckItemPage = "20180403NewItemPage"
         static let taxonomiesAndTaxonomyChildrenInFeed = "20171031TaxonomiesAndTaxonomyChildrenInFeed"
         static let showClockInDirectAnswer = "20171031ShowClockInDirectAnswer"
-        static let mostSearchedDemandedItems = "20180104MostSearchedDemandedItems"
         static let showAdsInFeedWithRatio = "20180111ShowAdsInFeedWithRatio"
     }
     
@@ -45,7 +44,6 @@ struct LegacyABGroup: ABGroupType {
     let newItemPage: LeanplumABVariable<Int>
     let taxonomiesAndTaxonomyChildrenInFeed: LeanplumABVariable<Int>
     let showClockInDirectAnswer: LeanplumABVariable<Int>
-    let mostSearchedDemandedItems: LeanplumABVariable<Int>
     let showAdsInFeedWithRatio: LeanplumABVariable<Int>
     
     
@@ -70,7 +68,6 @@ struct LegacyABGroup: ABGroupType {
          newItemPage: LeanplumABVariable<Int>,
          taxonomiesAndTaxonomyChildrenInFeed: LeanplumABVariable<Int>,
          showClockInDirectAnswer: LeanplumABVariable<Int>,
-         mostSearchedDemandedItems: LeanplumABVariable<Int>,
          showAdsInFeedWithRatio: LeanplumABVariable<Int>) {
         
         self.marketingPush = marketingPush
@@ -88,7 +85,6 @@ struct LegacyABGroup: ABGroupType {
         self.newItemPage = newItemPage
         self.taxonomiesAndTaxonomyChildrenInFeed = taxonomiesAndTaxonomyChildrenInFeed
         self.showClockInDirectAnswer = showClockInDirectAnswer
-        self.mostSearchedDemandedItems = mostSearchedDemandedItems
         self.showAdsInFeedWithRatio = showAdsInFeedWithRatio
         
         intVariables.append(contentsOf: [marketingPush,
@@ -98,7 +94,6 @@ struct LegacyABGroup: ABGroupType {
                                          newItemPage,
                                          taxonomiesAndTaxonomyChildrenInFeed,
                                          showClockInDirectAnswer,
-                                         mostSearchedDemandedItems,
                                          showAdsInFeedWithRatio])
         boolVariables.append(contentsOf: [surveyEnabled, freeBumpUpEnabled,
                                           pricedBumpUpEnabled, newCarsMultiRequesterEnabled, inAppRatingIOS10,
@@ -123,6 +118,6 @@ struct LegacyABGroup: ABGroupType {
                              newItemPage: .makeInt(key: Keys.deckItemPage, defaultValue: 0, groupType: .legacyABTests),
                              taxonomiesAndTaxonomyChildrenInFeed: .makeInt(key: Keys.taxonomiesAndTaxonomyChildrenInFeed, defaultValue: 0, groupType: .legacyABTests),
                              showClockInDirectAnswer: .makeInt(key: Keys.showClockInDirectAnswer, defaultValue: 0, groupType: .legacyABTests),
-                             mostSearchedDemandedItems: .makeInt(key: Keys.mostSearchedDemandedItems, defaultValue: 0, groupType: .retention), showAdsInFeedWithRatio: .makeInt(key: Keys.showAdsInFeedWithRatio, defaultValue: 0, groupType: .legacyABTests))
+                             showAdsInFeedWithRatio: .makeInt(key: Keys.showAdsInFeedWithRatio, defaultValue: 0, groupType: .legacyABTests))
     }
 }

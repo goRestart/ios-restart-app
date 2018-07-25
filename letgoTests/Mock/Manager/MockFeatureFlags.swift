@@ -108,7 +108,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var preventMessagesFromFeedToProUsers: PreventMessagesFromFeedToProUsers = .control
     
     // MARK: Retention
-    var mostSearchedDemandedItems: MostSearchedDemandedItems = .control
     var dummyUsersInfoProfile: DummyUsersInfoProfile = .control
     var onboardingIncentivizePosting: OnboardingIncentivizePosting = .control
     var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed = .control

@@ -105,7 +105,6 @@ protocol FeatureFlaggeable: class {
     var preventMessagesFromFeedToProUsers: PreventMessagesFromFeedToProUsers { get }
     
     // MARK: Retention
-    var mostSearchedDemandedItems: MostSearchedDemandedItems { get }
     var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
     var onboardingIncentivizePosting: OnboardingIncentivizePosting { get }
     var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed { get }
@@ -122,14 +121,6 @@ extension FeatureFlaggeable {
 
 extension TaxonomiesAndTaxonomyChildrenInFeed {
     var isActive: Bool { return self == .active }
-}
-
-extension MostSearchedDemandedItems {
-    var isActive: Bool {
-        return self == .cameraBadge ||
-            self == .trendingButtonExpandableMenu ||
-            self == .subsetAboveExpandableMenu
-    }
 }
 
 extension RealEstateEnabled {
@@ -604,13 +595,6 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.showClockInDirectAnswer
         }
         return ShowClockInDirectAnswer.fromPosition(abTests.showClockInDirectAnswer.value)
-    }
-
-    var mostSearchedDemandedItems: MostSearchedDemandedItems {
-        if Bumper.enabled {
-            return Bumper.mostSearchedDemandedItems
-        }
-        return MostSearchedDemandedItems.fromPosition(abTests.mostSearchedDemandedItems.value)
     }
     
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio {
