@@ -2648,19 +2648,6 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
-            describe("listingSellMediaChange") {
-                beforeEach {
-                    sut = TrackerEvent.listingSellMediaChange(source: .camera)
-                }
-                it("has its event name") {
-                    expect(sut.name.rawValue).to(equal("product-sell-media-change"))
-                }
-                it("contains the type of media which will be captured") {
-                    let mediaType = sut.params!.stringKeyParams["media-type"] as? String
-                    expect(mediaType).to(equal("camera"))
-                }
-            }
-
             describe("listingSellMediaPublish") {
                 beforeEach {
                     sut = TrackerEvent.listingSellMediaPublish(source: .videoCamera,
