@@ -14,13 +14,13 @@ protocol PostListingNavigator: class {
     
     func startDetails(firstStep: PostingDetailStep,
                       postListingState: PostListingState,
-                      uploadedImageSource: EventParameterPictureSource?,
+                      uploadedImageSource: EventParameterMediaSource?,
                       uploadedVideoLength: TimeInterval?,
                       postingSource: PostingSource,
                       postListingBasicInfo: PostListingBasicDetailViewModel)
     func nextPostingDetailStep(step: PostingDetailStep,
                                postListingState: PostListingState,
-                               uploadedImageSource: EventParameterPictureSource?,
+                               uploadedImageSource: EventParameterMediaSource?,
                                uploadedVideoLength: TimeInterval?,
                                postingSource: PostingSource,
                                postListingBasicInfo: PostListingBasicDetailViewModel,
@@ -49,7 +49,7 @@ protocol PostListingNavigator: class {
                               trackingInfo: PostListingTrackingInfo)
     func backToSummary()
     func openQueuedRequestsLoading(images: [UIImage], listingCreationParams: ListingCreationParams,
-                                   imageSource: EventParameterPictureSource, postingSource: PostingSource)
+                                   imageSource: EventParameterMediaSource, postingSource: PostingSource)
 }
 
 protocol ListingPostedNavigator: class {
@@ -66,9 +66,9 @@ protocol MultiListingPostedNavigator: ListingPostedNavigator {
 
 protocol BlockingPostingNavigator: class {
     func openCamera()
-    func openPrice(listing: Listing, images: [UIImage], imageSource: EventParameterPictureSource, videoLength: TimeInterval?, postingSource: PostingSource)
-    func openListingEditionLoading(listingParams: ListingEditionParams, listing: Listing, images: [UIImage], imageSource: EventParameterPictureSource, videoLength: TimeInterval?, postingSource: PostingSource)
-    func openListingPosted(listing: Listing, images: [UIImage], imageSource: EventParameterPictureSource, videoLength: TimeInterval?, postingSource: PostingSource)
+    func openPrice(listing: Listing, images: [UIImage], imageSource: EventParameterMediaSource, videoLength: TimeInterval?, postingSource: PostingSource)
+    func openListingEditionLoading(listingParams: ListingEditionParams, listing: Listing, images: [UIImage], imageSource: EventParameterMediaSource, videoLength: TimeInterval?, postingSource: PostingSource)
+    func openListingPosted(listing: Listing, images: [UIImage], imageSource: EventParameterMediaSource, videoLength: TimeInterval?, postingSource: PostingSource)
     func openCategoriesPickerWith(selectedCategory: ListingCategory?, delegate: PostingCategoriesPickDelegate)
     func closeCategoriesPicker()
     func closePosting()

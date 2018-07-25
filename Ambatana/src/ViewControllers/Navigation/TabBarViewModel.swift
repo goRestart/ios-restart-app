@@ -25,11 +25,16 @@ class TabBarViewModel: BaseViewModel {
     var shouldShowHomeBadge: Bool {
         return featureFlags.engagementBadging.isActive
     }
+    var userIsLoggedIn: Bool {
+        return sessionManager.loggedIn
+    }
 
     private let notificationsManager: NotificationsManager
     private let myUserRepository: MyUserRepository
     private let keyValueStorage: KeyValueStorage
     private let featureFlags: FeatureFlaggeable
+    private let tracker: Tracker
+    private let sessionManager: SessionManager
     
     private let disposeBag = DisposeBag()
 
@@ -40,17 +45,23 @@ class TabBarViewModel: BaseViewModel {
         self.init(notificationsManager: LGNotificationsManager.sharedInstance,
                   myUserRepository: Core.myUserRepository,
                   keyValueStorage: KeyValueStorage.sharedInstance,
-                  featureFlags: FeatureFlags.sharedInstance)
+                  featureFlags: FeatureFlags.sharedInstance,
+                  tracker: TrackerProxy.sharedInstance,
+                  sessionManager: Core.sessionManager)
     }
 
     init(notificationsManager: NotificationsManager,
          myUserRepository: MyUserRepository,
          keyValueStorage: KeyValueStorage,
-         featureFlags: FeatureFlaggeable) {
+         featureFlags: FeatureFlaggeable,
+         tracker: Tracker,
+         sessionManager: SessionManager) {
         self.notificationsManager = notificationsManager
         self.myUserRepository = myUserRepository
         self.keyValueStorage = keyValueStorage
         self.featureFlags = featureFlags
+        self.tracker = tracker
+        self.sessionManager = sessionManager
         super.init()
         setupRx()
     }
@@ -58,15 +69,12 @@ class TabBarViewModel: BaseViewModel {
 
     // MARK: - Public methods
 
-    func sellButtonPressed() {
-        navigator?.openSell(source: .sellButton, postCategory: nil, listingTitle: nil)
-    }
-    
-    func expandableButtonPressed(category: ExpandableCategory) {
+    func expandableButtonPressed(category: ExpandableCategory, source: PostingSource) {
         if category == .mostSearchedItems {
             navigator?.openMostSearchedItems(source: .mostSearchedTrendingExpandable, enableSearch: false)
         } else if let postCategory = category.listingCategory?.postingCategory(with: featureFlags) {
-            navigator?.openSell(source: .sellButton, postCategory: postCategory, listingTitle: nil)
+            trackSelectCategory(source: source, category: postCategory)
+            navigator?.openSell(source: source, postCategory: postCategory, listingTitle: nil)
         }
     }
     
@@ -130,5 +138,13 @@ class TabBarViewModel: BaseViewModel {
             .map { $0 ? TabBarViewModel.engagementBadgingIndicatorValue : nil }
             .bind(to: homeBadge)
             .disposed(by: disposeBag)
+    }
+
+    // MARK: - Trackings
+
+    private func trackSelectCategory(source:PostingSource, category: PostCategory) {
+        tracker.trackEvent(TrackerEvent.listingSellCategorySelect(typePage: source.typePage,
+                                                                  postingType: EventParameterPostingType(category: category),
+                                                                  category: category.listingCategory))
     }
 }

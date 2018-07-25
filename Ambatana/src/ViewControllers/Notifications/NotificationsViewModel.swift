@@ -95,7 +95,11 @@ class NotificationsViewModel: BaseViewModel {
                     let emptyViewModel = LGEmptyViewModel(icon: R.Asset.IconsButtons.icNotificationsEmpty.image,
                         title:  R.Strings.notificationsEmptyTitle,
                         body: R.Strings.notificationsEmptySubtitle, buttonTitle: R.Strings.tabBarToolTip,
-                        action: { [weak self] in self?.navigator?.openSell(source: .notifications, postCategory: nil) },
+                        action: { [weak self] in
+                            let source: PostingSource = .notifications
+                            self?.trackStartSelling(source: source)
+                            self?.navigator?.openSell(source: source, postCategory: nil)
+                        },
                         secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: .emptyResults, errorCode: nil,
                         errorDescription: nil)
 
@@ -181,6 +185,13 @@ extension NotificationsViewModel: ModularNotificationCellDelegate {
 // MARK: - Trackings
 
 fileprivate extension NotificationsViewModel {
+    private func trackStartSelling(source: PostingSource) {
+        tracker.trackEvent(TrackerEvent.listingSellStart(typePage: source.typePage,
+                                                         buttonName: source.buttonName,
+                                                         sellButtonPosition: source.sellButtonPosition,
+                                                         category: nil))
+    }
+
     func trackVisit() {
         let event = TrackerEvent.notificationCenterStart()
         tracker.trackEvent(event)

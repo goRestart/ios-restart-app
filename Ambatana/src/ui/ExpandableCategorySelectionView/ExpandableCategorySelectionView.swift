@@ -252,7 +252,8 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
     }
     
     @objc fileprivate dynamic func tapOutside() {
-        closeButtonPressed()
+        shrink(animated: true)
+        viewModel.tapOutside()
     }
     
     @objc fileprivate dynamic func closeButtonPressed() {

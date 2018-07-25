@@ -67,14 +67,14 @@ class ListingPostedDescriptiveViewModel: BaseViewModel, PostingCategoriesPickDel
     private var listing: Listing
     private let listingRepository: ListingRepository
     private let featureFlags: FeatureFlaggeable
-    private let imageSource: EventParameterPictureSource
+    private let imageSource: EventParameterMediaSource
     private let videoLength: TimeInterval?
     private let postingSource: PostingSource
 
 
     // MARK: - Lifecycle
     
-    convenience init(listing: Listing, listingImages: [UIImage], imageSource: EventParameterPictureSource,
+    convenience init(listing: Listing, listingImages: [UIImage], imageSource: EventParameterMediaSource,
                      videoLength: TimeInterval?, postingSource: PostingSource) {
         self.init(listing: listing,
                   listingImages: listingImages,
@@ -86,7 +86,7 @@ class ListingPostedDescriptiveViewModel: BaseViewModel, PostingCategoriesPickDel
                   featureFlags: FeatureFlags.sharedInstance)
     }
 
-    init(listing: Listing, listingImages: [UIImage], imageSource: EventParameterPictureSource,
+    init(listing: Listing, listingImages: [UIImage], imageSource: EventParameterMediaSource,
          videoLength: TimeInterval?, postingSource: PostingSource, tracker: Tracker,
          listingRepository: ListingRepository, featureFlags: FeatureFlaggeable) {
         self.listing = listing
@@ -194,7 +194,10 @@ class ListingPostedDescriptiveViewModel: BaseViewModel, PostingCategoriesPickDel
     }
     
     fileprivate func trackPostSellAbandon() {
-        let event = TrackerEvent.listingSellAbandon(abandonStep: .summaryOnboarding)
+        let event = TrackerEvent.listingSellAbandon(abandonStep: .summaryOnboarding,
+                                                    pictureUploaded: .trueParameter,
+                                                    loggedUser: .trueParameter,
+                                                    buttonName: .close)
         tracker.trackEvent(event)
     }
     

@@ -512,19 +512,16 @@ struct TrackerEvent {
         return TrackerEvent(name: .listingReportError, params: params)
     }
 
-    static func listingSellStart(_ typePage: EventParameterTypePage,
+    static func listingSellStart(typePage: EventParameterTypePage,
                                  buttonName: EventParameterButtonNameType?,
                                  sellButtonPosition: EventParameterSellButtonPosition,
-                                 category: ListingCategory?,
-                                 mostSearchedButton: EventParameterMostSearched,
-                                 predictiveFlow: Bool) -> TrackerEvent {
+                                 category: ListingCategory?) -> TrackerEvent {
         var params = EventParameters()
         params[.typePage] = typePage.rawValue
+        params[.listingVisitSource] = typePage.rawValue
         params[.buttonName] = buttonName?.rawValue
         params[.sellButtonPosition] = sellButtonPosition.rawValue
         params[.categoryId] = category?.rawValue ?? TrackerEvent.notApply
-        params[.mostSearchedButton] = mostSearchedButton.rawValue
-        params[.mlPredictiveFlow] = predictiveFlow
         return TrackerEvent(name: .listingSellStart, params: params)
     }
     
@@ -532,7 +529,7 @@ struct TrackerEvent {
                                     buttonName: EventParameterButtonNameType?,
                                     sellButtonPosition: EventParameterSellButtonPosition?,
                                     negotiable: EventParameterNegotiablePrice?,
-                                    pictureSource: EventParameterPictureSource?,
+                                    pictureSource: EventParameterMediaSource?,
                                     videoLength: TimeInterval?,
                                     freePostingModeAllowed: Bool,
                                     typePage: EventParameterTypePage,
@@ -715,11 +712,70 @@ struct TrackerEvent {
             return TrackerEvent(name: .listingSellConfirmationShareComplete, params: params)
     }
     
-    static func listingSellAbandon(abandonStep: EventParameterPostingAbandonStep) -> TrackerEvent {
+    static func listingSellAbandon(abandonStep: EventParameterPostingAbandonStep,
+                                   pictureUploaded: EventParameterBoolean,
+                                   loggedUser: EventParameterBoolean,
+                                   buttonName: EventParameterButtonNameType) -> TrackerEvent {
         var params = EventParameters()
         params[.abandonStep] = abandonStep.rawValue
+        params[.pictureUploaded] = pictureUploaded.rawValue
+        params[.loggedUser] = loggedUser.rawValue
+        params[.buttonName] = buttonName.rawValue
         return TrackerEvent(name: .listingSellAbandon, params: params)
     }
+
+    static func listingSellPermissionsGrant(type: EventParameterPermissionType) -> TrackerEvent {
+        var params = EventParameters()
+        params[.permissionType] = type.rawValue
+        return TrackerEvent(name: .listingSellPermissionsGrant, params: params)
+    }
+
+    static func listingSellCategorySelect(typePage: EventParameterTypePage,
+                                          postingType: EventParameterPostingType,
+                                          category: ListingCategory) -> TrackerEvent {
+        var params = EventParameters()
+        params[.listingVisitSource] = typePage.rawValue
+        params[.postingType] = postingType.rawValue
+        params[.categoryId] = category.rawValue
+        return TrackerEvent(name: .listingSellCategorySelect, params: params)
+    }
+
+    static func listingSellMediaSource(source: EventParameterMediaSource,
+                                       previousSource: EventParameterMediaSource?,
+                                       predictiveFlow: Bool) -> TrackerEvent {
+        var params = EventParameters()
+        params[.source] = source.rawValue
+        params[.previousSource] = previousSource?.rawValue ?? ""
+        params[.mlPredictiveFlow] = EventParameterBoolean(bool: predictiveFlow).rawValue
+        return TrackerEvent(name: .listingSellMediaSource, params: params)
+    }
+
+    static func listingSellMediaCapture(source: EventParameterMediaSource,
+                                        cameraSide: EventParameterCameraSide? = nil,
+                                        fileCount: Int = 1,
+                                        hasError: EventParameterBoolean = .falseParameter,
+                                        predictiveFlow: EventParameterBoolean) -> TrackerEvent {
+        var params = EventParameters()
+        params[.mediaType] = source.rawValue
+        params[.cameraSide] = cameraSide?.rawValue ?? ""
+        params[.hasError] = hasError.rawValue
+        params[.fileCount] = fileCount
+        params[.mlPredictiveFlow] = predictiveFlow.rawValue
+        return TrackerEvent(name: .listingSellMediaCapture, params: params)
+    }
+
+    static func listingSellMediaChange(source: EventParameterMediaSource) -> TrackerEvent {
+        var params = EventParameters()
+        params[.mediaType] = source.rawValue
+        return TrackerEvent(name: .listingSellMediaChange, params: params)
+    }
+
+    static func listingSellMediaPublish(source: EventParameterMediaSource, size: Int?) -> TrackerEvent {
+        var params = EventParameters()
+        params[.mediaType] = source.rawValue
+        params[.originalFileSize] = size ?? 0
+        return TrackerEvent(name: .listingSellMediaPublish, params: params)
+    }    
     
     static func listingEditError(_ user: User?,
                                  listing: Listing?,
