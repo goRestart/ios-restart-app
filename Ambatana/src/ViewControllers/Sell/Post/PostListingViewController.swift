@@ -1028,9 +1028,10 @@ extension PostListingViewController {
     }
 
     private func trackMediaCapture(source: EventParameterMediaSource, fileCount: Int) {
+        let predictiveFlow = EventParameterBoolean(bool: viewModel.machineLearningSupported)
         tracker.trackEvent(TrackerEvent.listingSellMediaCapture(source: source,
                                                                 fileCount: fileCount,
-                                                                predictiveFlow: viewModel.machineLearningSupported))
+                                                                predictiveFlow: predictiveFlow))
     }
 
     private func trackSelectCategory(source: PostingSource, category: PostCategory) {

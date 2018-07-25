@@ -455,7 +455,7 @@ final class PostListingCameraViewModel: BaseViewModel {
         tracker.trackEvent(TrackerEvent.listingSellMediaCapture(source: source,
                                                                 cameraSide: camera,
                                                                 hasError: EventParameterBoolean(bool: hasError),
-                                                                predictiveFlow: predictiveFlow))
+                                                                predictiveFlow: EventParameterBoolean(bool: predictiveFlow)))
     }
 }
 

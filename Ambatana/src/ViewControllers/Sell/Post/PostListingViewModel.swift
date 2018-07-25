@@ -704,11 +704,11 @@ extension PostingSource {
 
     var buttonName: EventParameterButtonNameType? {
         switch self {
-        case .tabBar, .listingList, .profile, .deepLink, .notifications, .deleteListing, .mostSearchedTabBarCamera,
+        case .tabBar, .deepLink, .notifications, .deleteListing, .mostSearchedTabBarCamera,
              .mostSearchedTrendingExpandable, .mostSearchedTagsExpandable, .mostSearchedCategoryHeader,
              .mostSearchedCard, .mostSearchedUserProfile, .onboardingBlockingPosting, .chatList:
             return nil
-        case .onboardingButton:
+        case .onboardingButton, .listingList, .profile:
             return .sellYourStuff
         case .onboardingCamera:
             return .startMakingCash
