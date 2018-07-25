@@ -348,7 +348,7 @@ extension R {
     public static let chatExpressDontAskAgainButton = Strings.tr("Localizable", "chat_express_dont_ask_again_button")
     /// Don't miss out on these deals
     public static let chatExpressDontMissLabel = Strings.tr("Localizable", "chat_express_dont_miss_label")
-    /// In high demand!  Don't miss out on these deals
+    /// In high demand! Don't miss out on these deals
     public static let chatExpressHighDemandLabel = Strings.tr("Localizable", "chat_express_high_demand_label")
     /// Your message has been sent!
     public static let chatExpressOneMessageSentSuccessAlert = Strings.tr("Localizable", "chat_express_one_message_sent_success_alert")
@@ -664,6 +664,8 @@ extension R {
     public static let commonUserReviewNotAvailable = Strings.tr("Localizable", "common_user_review_not_available")
     /// Yes
     public static let commonYes = Strings.tr("Localizable", "common_yes")
+    /// Join the letgo community!
+    public static let communityBannerTitle = Strings.tr("Localizable", "community_banner_title")
     /// Location issues
     public static let contactSubjectOptionLocation = Strings.tr("Localizable", "contact_subject_option_location")
     /// Issues logging in
@@ -956,6 +958,8 @@ extension R {
     public static let filtersServiceSubtypeNotSet = Strings.tr("Localizable", "filters_service_subtype_not_set")
     /// Not Set
     public static let filtersServiceTypeNotSet = Strings.tr("Localizable", "filters_service_type_not_set")
+    /// Select a Category
+    public static let filtersServicesServicesListTitle = Strings.tr("Localizable", "filters_services_services_list_title")
     /// The minimum size can’t be higher than the maximum size.
     public static let filtersSizeWrongRangeError = Strings.tr("Localizable", "filters_size_wrong_range_error")
     /// Any

@@ -50,6 +50,7 @@ protocol TabNavigator: class {
                         duration: TimeInterval,
                         withAction action: @escaping () -> ())
     func openUserVerificationView()
+    func openCommunityTab()
 }
 
 protocol ListingDetailNavigator: TabNavigator {

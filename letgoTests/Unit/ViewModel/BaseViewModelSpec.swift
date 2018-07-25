@@ -119,4 +119,5 @@ class BaseViewModelSpec: QuickSpec, BaseViewModelDelegate, TabNavigator {
     func openMostSearchedItems(source: PostingSource, enableSearch: Bool) {}
     func openUserReport(source: EventParameterTypePage, userReportedId: String) {}
     func openUserVerificationView() {}
+    func openCommunityTab() {}
 }

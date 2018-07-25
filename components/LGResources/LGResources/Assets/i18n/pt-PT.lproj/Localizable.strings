@@ -149,12 +149,12 @@
 "chat_express_banner_button_title" = "Ver pechinchas";
 "chat_express_banner_title" = "Pechinchas relacionadas perto de si";
 "chat_express_contact_one_button_text" = "Contacte 1 vendedor";
-"chat_express_contact_only_button_text" = "Contact";
+"chat_express_contact_only_button_text" = "Contacto";
 "chat_express_contact_sellers_label" = "Contacte estes vendedores antes que outros compradores os arrebatam!";
 "chat_express_contact_various_button_text" = "Contacte %@ vendedores";
 "chat_express_dont_ask_again_button" = "Não perguntar de novo";
 "chat_express_dont_miss_label" = "Não perca estes negócios";
-"chat_express_high_demand_label" = "In high demand!  Don't miss out on these deals";
+"chat_express_high_demand_label" = "Muito procurado! Não perca estes negócios";
 "chat_express_one_message_sent_success_alert" = "A sua mensagem foi enviada!";
 "chat_express_several_messages_sent_success_alert" = "As suas mensagens foram enviadas!";
 "chat_express_text_field_text" = "Ainda está disponível?";
@@ -296,6 +296,7 @@
 "common_user_not_available" = "Ops! Utilizador não encontrado.";
 "common_user_review_not_available" = "Ups! Comentário não encontrado.";
 "common_yes" = "Sim";
+"community_banner_title" = "Join the letgo community!";
 "contact_subject_option_location" = "Problemas com a localização";
 "contact_subject_option_login" = "Acesso login";
 "contact_subject_option_other" = "Outros problemas";
@@ -438,6 +439,7 @@
 "filters_section_within" = "Publicado dentro de";
 "filters_service_subtype_not_set" = "Não Definido";
 "filters_service_type_not_set" = "Não Definido";
+"filters_services_services_list_title" = "Select a Category";
 "filters_size_wrong_range_error" = "O tamanho mínimo não pode ser maior que o tamanho máximo";
 "filters_slider_any" = "Qualquer";
 "filters_sort_closest" = "Os mais próximos primeiro";

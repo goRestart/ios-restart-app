@@ -149,12 +149,12 @@
 "chat_express_banner_button_title" = "Se fynd";
 "chat_express_banner_title" = "Liknande fynd nära dig";
 "chat_express_contact_one_button_text" = "Kontakta 1 säljare";
-"chat_express_contact_only_button_text" = "Contact";
+"chat_express_contact_only_button_text" = "Kontakta";
 "chat_express_contact_sellers_label" = "Kontakta dessa säljare innan andra köpare hittar dem!";
 "chat_express_contact_various_button_text" = "Kontakta %@ säljare";
 "chat_express_dont_ask_again_button" = "Fråga mig inte igen";
 "chat_express_dont_miss_label" = "Missa inte dessa fynd";
-"chat_express_high_demand_label" = "In high demand!  Don't miss out on these deals";
+"chat_express_high_demand_label" = "Stor efterfrågan! Missa inte dessa fynd";
 "chat_express_one_message_sent_success_alert" = "Ditt meddelande har skickats!";
 "chat_express_several_messages_sent_success_alert" = "Dina meddelanden har skickats!";
 "chat_express_text_field_text" = "Hej, är den fortfarande till salu?";
@@ -296,6 +296,7 @@
 "common_user_not_available" = "Hoppsan! Användaren hittades inte.";
 "common_user_review_not_available" = "Oups! Inget omdöme kunde hittas.";
 "common_yes" = "Ja";
+"community_banner_title" = "Join the letgo community!";
 "contact_subject_option_location" = "Platsproblem";
 "contact_subject_option_login" = "Problem med inloggning";
 "contact_subject_option_other" = "Andra problem";
@@ -438,6 +439,7 @@
 "filters_section_within" = "Annonserade under";
 "filters_service_subtype_not_set" = "Ej Vald";
 "filters_service_type_not_set" = "Ej Vald";
+"filters_services_services_list_title" = "Select a Category";
 "filters_size_wrong_range_error" = "Den minsta ytan får inte vara högre än den största ytan.";
 "filters_slider_any" = "Alla";
 "filters_sort_closest" = "Närmast först";

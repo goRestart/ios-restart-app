@@ -183,8 +183,13 @@ extension MainTabCoordinator: MainTabNavigator {
     }
 
     func openCommunity() {
-        let coord = CommunityTabCoordinator(source: .mainListing)
-        openChild(coordinator: coord, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
+        guard featureFlags.community.isActive else { return }
+        if featureFlags.community.shouldShowOnTab {
+            openCommunityTab()
+        } else {
+            let coord = CommunityTabCoordinator(source: .mainListing)
+            openChild(coordinator: coord, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
+        }
     }
 } 
 
