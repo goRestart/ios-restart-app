@@ -13,14 +13,34 @@ final class DropdownHeaderCell: DropdownItemCell {
     }
     
     private let chevronView: LGChevronView = LGChevronView()
+    private var checkboxAction: (() -> Void)?
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         titleLabel.font = UIFont.systemMediumFont(size: Layout.titleLabelFontSize)
+        setupCheckboxTapAction()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupCheckboxTapAction() {
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapCheckbox))
+        checkboxView.addGestureRecognizer(gestureRecognizer)
+    }
+    
+    @objc private func didTapCheckbox() {
+        checkboxAction?()
+    }
+    
+    func setup(withRepresentable representable: DropdownCellRepresentable,
+               isExpanded: Bool,
+               checkboxAction: @escaping (() -> Void)) {
+        self.checkboxAction = checkboxAction
+        let chevronPosition: LGChevronView.Position = isExpanded ? .expanded : .contracted
+        updateChevronPosition(toPosition: chevronPosition)
+        super.setup(withRepresentable: representable)
     }
     
     func updateChevronPosition(toPosition position: LGChevronView.Position) {

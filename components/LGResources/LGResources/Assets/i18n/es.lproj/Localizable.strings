@@ -385,6 +385,7 @@
 "filters_car_seller_type_private" = "Privado";
 "filters_car_seller_type_professional" = "Profesional";
 "filters_car_year_any_year" = "Cualquier año";
+"filters_car_year_before_year" = "Anterior a %@";
 "filters_cars_bodytype_convertible" = "Descapotable";
 "filters_cars_bodytype_coupe" = "coupé";
 "filters_cars_bodytype_hatchback" = "Compacto";

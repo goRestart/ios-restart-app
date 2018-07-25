@@ -385,6 +385,7 @@
 "filters_car_seller_type_private" = "Privat";
 "filters_car_seller_type_professional" = "Professionell";
 "filters_car_year_any_year" = "Alla år";
+"filters_car_year_before_year" = "Innan %@";
 "filters_cars_bodytype_convertible" = "Cabriolet";
 "filters_cars_bodytype_coupe" = "coupé";
 "filters_cars_bodytype_hatchback" = "Halvkombi";

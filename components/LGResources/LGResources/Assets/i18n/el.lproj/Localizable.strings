@@ -385,6 +385,7 @@
 "filters_car_seller_type_private" = "Ιδιωτικό";
 "filters_car_seller_type_professional" = "Επαγγελματικό";
 "filters_car_year_any_year" = "Οποιοδήποτε Έτος";
+"filters_car_year_before_year" = "Πριν το %@";
 "filters_cars_bodytype_convertible" = "Κάμπριο";
 "filters_cars_bodytype_coupe" = "coupe";
 "filters_cars_bodytype_hatchback" = "Hatchback";

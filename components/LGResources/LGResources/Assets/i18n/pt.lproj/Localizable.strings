@@ -385,6 +385,7 @@
 "filters_car_seller_type_private" = "Private";
 "filters_car_seller_type_professional" = "Professional";
 "filters_car_year_any_year" = "Any Year";
+"filters_car_year_before_year" = "Before %@";
 "filters_cars_bodytype_convertible" = "Convertible";
 "filters_cars_bodytype_coupe" = "Coupe";
 "filters_cars_bodytype_hatchback" = "Hatchback";

@@ -1,8 +1,8 @@
 enum DropdownCellState {
-    case selected, semiSelected, deselected, disabled
+    case selected, semiSelected, deselected
 }
-enum DropdownCellType {
-    case header, item(featured: Bool)
+enum DropdownCellType: Equatable {
+    case header, item(featured: Bool, parentId: String)
 }
 
 struct DropdownCellContent {
@@ -17,42 +17,31 @@ protocol DropdownCellRepresentable {
     func update(withState state: DropdownCellState)
 }
 
-extension DropdownCellType: Equatable {
-    static func ==(a: DropdownCellType, b: DropdownCellType) -> Bool {
-        switch (a, b) {
-        case (let .item(featured: valueA), let .item(featured: valueB)): return valueA == valueB
-        case (.header, .header): return true
-        default: return false
+extension DropdownCellRepresentable {
+    
+    var isHighlighted: Bool {
+        if case .item(let featured, _) = content.type {
+            return featured
         }
+        return false
     }
 }
 
 //  MARK: - [DropdownCellRepresentable]+ServicesFilters
 
-extension Collection where Element == DropdownCellRepresentable {
-    func updatedCellRepresentables(withServicesFilters serviceFilters: ServicesFilters) -> [DropdownCellRepresentable] {
-        guard let updatedCellRepresentable = self as? [DropdownCellRepresentable] else { return [] }
+extension Collection where Element == DropdownSection {
+    
+    func updatedSectionRepresentables(withServicesFilters serviceFilters: ServicesFilters) -> [DropdownSection] {
+        guard let updatedSectionRepresentable = self as? [DropdownSection] else { return [] }
         
-        guard let serviceType = serviceFilters.type else { return updatedCellRepresentable }
+        guard let serviceType = serviceFilters.type else { return updatedSectionRepresentable }
+        guard let serviceSubtypes = serviceFilters.subtypes else { return updatedSectionRepresentable }
         
-        first(where: { $0.content.id == serviceType.id  })?.update(withState: .semiSelected)
+        guard let section = first(where: { $0.sectionId == serviceType.id }) else { return updatedSectionRepresentable }
         
-        guard let serviceSubtypes = serviceFilters.subtypes else { return updatedCellRepresentable }
-        
-        let isAllSelected = serviceType.isAllSubtypesSelected(serviceSubtypes)
         let servicesSubtypeIds = serviceSubtypes.map { $0.id }
+        section.absorb(ids: servicesSubtypeIds)
         
-        if isAllSelected {
-            first(where: { $0.content.id == serviceType.id  })?.update(withState: .selected)
-        }
-        
-        forEach {
-            if $0.content.type != .header {
-                let subtypeState: DropdownCellState = servicesSubtypeIds.contains( $0.content.id) ? .selected : .deselected
-                $0.update(withState: subtypeState)
-            }
-        }
-        
-        return updatedCellRepresentable
+        return updatedSectionRepresentable
     }
 }

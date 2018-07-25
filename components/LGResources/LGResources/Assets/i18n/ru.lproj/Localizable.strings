@@ -385,6 +385,7 @@
 "filters_car_seller_type_private" = "Частное лицо";
 "filters_car_seller_type_professional" = "Компания";
 "filters_car_year_any_year" = "Любой год";
+"filters_car_year_before_year" = "До %@";
 "filters_cars_bodytype_convertible" = "Кабриолет";
 "filters_cars_bodytype_coupe" = "купе";
 "filters_cars_bodytype_hatchback" = "Хэтчбэк";

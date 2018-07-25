@@ -36,31 +36,39 @@ class DropdownItemCell: UITableViewCell, ReusableCell {
     
     func setup(withRepresentable representable: DropdownCellRepresentable) {
         titleLabel.text = representable.content.title
-        updateState(state: representable.state)
+        updateState(state: representable.state, animated: false)
     }
     
-    func updateState(state: DropdownCellState) {
+    func updateState(state: DropdownCellState, animated: Bool) {
         updateTitleLabel(forState: state)
-        updateCheckbox(withState: state)
+        updateCheckbox(withState: state, animated: animated)
+        updateCellState(toState: state)
+    }
+    
+    private func updateCellState(toState state: DropdownCellState) {
+        switch state {
+        case .selected, .semiSelected:
+            isSelected = true
+        case .deselected:
+            isSelected = false
+        }
     }
     
     private func updateTitleLabel(forState state: DropdownCellState) {
         switch state {
         case .selected, .semiSelected, .deselected:
             titleLabel.textColor = Layout.defaultTitleTextColour
-        case .disabled:
-            titleLabel.textColor = Layout.disabledTitleTextColour
         }
     }
     
-    private func updateCheckbox(withState state: DropdownCellState) {
+    private func updateCheckbox(withState state: DropdownCellState, animated: Bool) {
         switch state {
         case .selected:
-            checkboxView.update(withState: .selected)
+            checkboxView.update(withState: .selected, animated: animated)
         case .semiSelected:
-            checkboxView.update(withState: .semiSelected)
-        case .deselected, .disabled:
-            checkboxView.update(withState: .deselected)
+            checkboxView.update(withState: .semiSelected, animated: animated)
+        case .deselected:
+            checkboxView.update(withState: .deselected, animated: animated)
         }
     }
     

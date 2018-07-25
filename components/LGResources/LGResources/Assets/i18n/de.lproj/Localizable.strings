@@ -385,6 +385,7 @@
 "filters_car_seller_type_private" = "Privat";
 "filters_car_seller_type_professional" = "Händler";
 "filters_car_year_any_year" = "Beliebiges Baujahr";
+"filters_car_year_before_year" = "Von vor %@";
 "filters_cars_bodytype_convertible" = "Cabriolet";
 "filters_cars_bodytype_coupe" = "Zweitürer";
 "filters_cars_bodytype_hatchback" = "Kombilimousine";

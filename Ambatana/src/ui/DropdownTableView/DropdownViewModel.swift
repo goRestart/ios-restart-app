@@ -1,15 +1,7 @@
-import RxSwift
-import RxCocoa
 
-protocol DropdownRepresentable {
-    var screenTitle: String { get }
-    var searchPlaceholderTitle: String { get }
-    var attributes: [DropdownCellRepresentable] { get set }
-}
+typealias DropdownSelectedItems = (selectedHeaderId: String, selectedItemIds: [String])
 
-typealias DropdownSelectedItems = (selectedHeaderId: String, selectedItemsIds: [String])
-
-final class DropdownViewModel: DropdownRepresentable {
+final class DropdownViewModel {
     
     private enum Layout {
         static let headerHeight: CGFloat = 50.0
@@ -18,28 +10,35 @@ final class DropdownViewModel: DropdownRepresentable {
     
     let screenTitle: String
     let searchPlaceholderTitle: String
-    var attributes: [DropdownCellRepresentable]
-    let buttonAction: ((DropdownSelectedItems) -> Void)?
+    let buttonAction: ((DropdownSelectedItems?) -> Void)?
     
-    let attributesDriver: Driver<[DropdownCellRepresentable]>
-
+    let attributes: [DropdownSection]
+    
+    var filteredAttributes: [DropdownSection] {
+        // MARK: Will be used for filtering by keyword
+        return attributes
+    }
+    
     init(screenTitle: String,
          searchPlaceholderTitle: String,
-         attributes: [DropdownCellRepresentable],
-         buttonAction: ((DropdownSelectedItems) -> Void)?) {
+         attributes: [DropdownSection],
+         buttonAction: ((DropdownSelectedItems?) -> Void)?) {
         self.screenTitle = screenTitle
         self.searchPlaceholderTitle = searchPlaceholderTitle
         self.attributes = attributes
         self.buttonAction = buttonAction
-        self.attributesDriver = Driver.just(attributes)
+    }
+
+    
+    // MARK: DataSource fetching
+    
+    func item(forIndexPath indexPath: IndexPath) -> DropdownCellRepresentable? {
+        guard let section = dropdownSection(atSection: indexPath.section) else { return nil }
+        return section.item(forIndex: indexPath.row)
     }
     
-    func update(withState state: DropdownCellState, atIndex index: Int) {
-        attributes[safeAt: index]?.update(withState: state)
-    }
-    
-    func itemHeight(atIndex index: Int) -> CGFloat {
-        guard let item = attributes[safeAt: index] else { return 0 }
+    func itemHeight(atIndexPath indexPath: IndexPath) -> CGFloat {
+        guard let item = item(forIndexPath: indexPath) else { return 0 }
         switch item.content.type {
         case .header:
             return Layout.headerHeight
@@ -47,16 +46,64 @@ final class DropdownViewModel: DropdownRepresentable {
             return Layout.itemHeight
         }
     }
-}
+    
+    func numberOfSections() -> Int {
+        return filteredAttributes.count
+    }
+    
+    func numberOfItems(forSection section: Int) -> Int {
+        return filteredAttributes[safeAt: section]?.count ?? 0
+    }
 
-extension DropdownViewModel {
+
+    // MARK: DataSource Operations
+
+    func dropdownSection(atSection section: Int) -> DropdownSection? {
+        return filteredAttributes[safeAt: section]
+    }
+    
+    func didSelectItem(atIndexPath indexPath: IndexPath) {
+        guard let item = item(forIndexPath: indexPath),
+            let section = dropdownSection(atSection: indexPath.section) else { return }
+        switch item.content.type {
+        case .item:
+            filteredAttributes.selectItem(withItemId: item.content.id,
+                                          inSection: section)
+        case .header:
+            filteredAttributes.toggleExpansionState(forId: item.content.id)
+        }
+    }
+    
+    func didDeselectItem(atIndexPath indexPath: IndexPath) {
+        guard let item = item(forIndexPath: indexPath) else { return }
+        switch item.content.type {
+        case .item:
+            filteredAttributes.deselectItem(withItemId: item.content.id)
+        case .header:
+            filteredAttributes.toggleExpansionState(forId: item.content.id)
+        }
+    }
+    
+    func toggleHeaderSelection(atIndexPath indexPath: IndexPath) {
+        guard let item = item(forIndexPath: indexPath) else { return }
+        switch item.state {
+        case .selected, .semiSelected:
+            filteredAttributes.deselectSection(withHeaderId: item.content.id)
+        case .deselected:
+            filteredAttributes.selectSection(withHeaderId: item.content.id)
+        }
+    }
+    
+    func expansionState(forId id: String) -> Bool {
+        return filteredAttributes.expansionState(forId: id)
+    }
     
     func resetFilters() {
-        attributes.forEach { $0.update(withState: .disabled) }
+        attributes.deselectAllItems()
     }
     
-    func filter(_ selections: DropdownSelectedItems) {
-        buttonAction?(selections)
+    func applySelectedFilters() {
+        let selectedItems = attributes.selectedSectionItems
+        buttonAction?(selectedItems)
     }
-
 }

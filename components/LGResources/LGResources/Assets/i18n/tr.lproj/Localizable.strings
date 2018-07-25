@@ -385,6 +385,7 @@
 "filters_car_seller_type_private" = "Özel";
 "filters_car_seller_type_professional" = "Profesyonel";
 "filters_car_year_any_year" = "Herhangi bir Yıl";
+"filters_car_year_before_year" = "%@ yılından önce";
 "filters_cars_bodytype_convertible" = "Üstü açılan";
 "filters_cars_bodytype_coupe" = "coupe";
 "filters_cars_bodytype_hatchback" = "Hatchback";
