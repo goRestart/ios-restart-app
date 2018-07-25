@@ -30,8 +30,10 @@ final class UserApiDataSource: UserDataSource {
         apiClient.request(request, completion: completion)
     }
 
-    func indexBlocked(_ userId: String, completion: UsersDataSourceCompletion?) {
-        let params: [String: Any] = ["filter[link_name]": "blocked"]
+    func indexBlocked(_ userId: String, limit: Int, offset: Int, completion: UsersDataSourceCompletion?) {
+        let params: [String: Any] = ["filter[link_name]": "blocked",
+                                     "offset": offset,
+                                     "limit": limit]
         let request = UserRouter.indexBlocked(userId: userId, params: params)
         apiClient.request(request, decoder: UserApiDataSource.decoderArray, completion: completion)
     }
