@@ -88,7 +88,6 @@ final class ReportOptionsListViewController: BaseViewController {
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
         setNavBarBackgroundStyle(.white)
-        self.navigationController?.navigationBar.isTranslucent = false
         setNavBarTitle(viewModel.title)
         setNavBarCloseButton(#selector(didTapClose))
     }
