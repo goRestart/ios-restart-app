@@ -52,7 +52,11 @@ protocol TabNavigator: class {
     func openUserVerificationView()
 }
 
-protocol ListingDetailNavigator: TabNavigator {
+protocol ListingDetailNavigator: class {
+    func openAppRating(_ source: EventParameterRatingSource)
+    func openUser(_ data: UserDetailData)
+    func openUserVerificationView()
+
     func closeProductDetail()
     func editListing(_ listing: Listing,
                      bumpUpProductData: BumpUpProductData?,

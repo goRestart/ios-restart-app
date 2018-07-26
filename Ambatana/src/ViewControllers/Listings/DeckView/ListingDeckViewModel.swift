@@ -404,10 +404,6 @@ final class ListingDeckViewModel: BaseViewModel {
         currentListingViewModel?.trackOpenFeaturedInfo()
     }
 
-    func didTapReputationTooltip() {
-        navigator?.openUserVerificationView()
-    }
-
     func close() {
         if shouldShowDeckOnBoarding {
             showOnBoarding()
