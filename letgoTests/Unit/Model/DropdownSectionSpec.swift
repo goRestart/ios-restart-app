@@ -17,37 +17,33 @@ final class DropdownSectionSpec: QuickSpec {
                                                                                  id: "321"),
                                                 state: .deselected)
         
-        let mockItems = [DropdownCellViewModel(withContent: DropdownCellContent(type: .item(featured: true,
-                                                                                            parentId: "123"),
+        let mockItems = [DropdownCellViewModel(withContent: DropdownCellContent(type: .item(featured: true),
                                                                                 title: "item1", id: "111"),
                                                state: .selected),
-                         DropdownCellViewModel(withContent: DropdownCellContent(type: .item(featured: false,
-                                                                                            parentId: "123"),
+                         DropdownCellViewModel(withContent: DropdownCellContent(type: .item(featured: false),
                                                                                 title: "item2", id: "222"),
                                                state: .deselected)]
-        let mockItems2 = [DropdownCellViewModel(withContent: DropdownCellContent(type: .item(featured: true,
-                                                                                             parentId: "321"),
+        let mockItems2 = [DropdownCellViewModel(withContent: DropdownCellContent(type: .item(featured: true),
                                                                                  title: "item3", id: "333"),
                                                 state: .deselected),
-                          DropdownCellViewModel(withContent: DropdownCellContent(type: .item(featured: false,
-                                                                                             parentId: "321"),
+                          DropdownCellViewModel(withContent: DropdownCellContent(type: .item(featured: false),
                                                                                  title: "item4", id: "444"),
                                                 state: .deselected)]
-        var sut: DropdownSection!
-        var sutSections: [DropdownSection]!
+        var sut: DropdownSectionViewModel!
+        var sutSections: [DropdownSectionViewModel]!
         
         describe("DropdownSectionSpec") {
             
             beforeEach {
-                sut = DropdownSection(withHeader: mockHeader,
+                sut = DropdownSectionViewModel(withHeader: mockHeader,
                                       items: mockItems,
                                       isExpanded: false,
                                       isShowingAll: false)
-                sutSections = [DropdownSection(withHeader: mockHeader,
+                sutSections = [DropdownSectionViewModel(withHeader: mockHeader,
                                                items: mockItems,
                                                isExpanded: false,
                                                isShowingAll: false),
-                               DropdownSection(withHeader: mockHeader2,
+                               DropdownSectionViewModel(withHeader: mockHeader2,
                                                items: mockItems2,
                                                isExpanded: false,
                                                isShowingAll: false)]
@@ -75,6 +71,7 @@ final class DropdownSectionSpec: QuickSpec {
                 beforeEach {
                     sut.deselectAllItems()
                     sut.absorb(ids: ["111"])
+                    sut.toggleExpansionState(forId: "123")
                 }
                 it("header is semiselected") {
                     expect(sut.item(forIndex: 0)?.state).to(equal(.semiSelected))
@@ -105,6 +102,8 @@ final class DropdownSectionSpec: QuickSpec {
                 }
                 context("selectSection") {
                     beforeEach {
+                        sutSections.first?.isExpanded = true
+                        sutSections.first?.isShowingAll = true
                         sutSections.selectSection(withHeaderId: "123")
                     }
                     it("header is selected") {
@@ -119,6 +118,8 @@ final class DropdownSectionSpec: QuickSpec {
                 }
                 context("deselectSection") {
                     beforeEach {
+                        sutSections.first?.isExpanded = true
+                        sutSections.first?.isShowingAll = true
                         sutSections.deselectSection(withHeaderId: "123")
                     }
                     it("header is deselected") {
@@ -134,6 +135,8 @@ final class DropdownSectionSpec: QuickSpec {
                 
                 context("deselectItem") {
                     beforeEach {
+                        sutSections.first?.isExpanded = true
+                        sutSections.first?.isShowingAll = true
                         sutSections.deselectItem(withItemId: "111")
                     }
                     it("header is deselected") {
@@ -148,6 +151,10 @@ final class DropdownSectionSpec: QuickSpec {
                 }
                 context("deselectAllItems") {
                     beforeEach {
+                        for section in sutSections {
+                            section.isExpanded = true
+                            section.isShowingAll = true
+                        }
                         sutSections.deselectAllItems()
                     }
                     it("first section - header is deselected") {

@@ -1348,6 +1348,9 @@
 // Title for filters services list
 "filters_services_services_list_title" = "Select a Category";
 
+// Placeholder text shown inside the Search Box to filter the service types
+"filters_services_services_list_search_placeholder" = "Handyman, Contracting…";
+
 // Unit suffix for miles (e.g. the mi in "400,000 mi")
 "mile_unit_suffix" = "mi";
 

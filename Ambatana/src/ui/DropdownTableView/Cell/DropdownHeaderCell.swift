@@ -36,14 +36,17 @@ final class DropdownHeaderCell: DropdownItemCell {
     
     func setup(withRepresentable representable: DropdownCellRepresentable,
                isExpanded: Bool,
+               showsChevron: Bool,
                checkboxAction: @escaping (() -> Void)) {
         self.checkboxAction = checkboxAction
         let chevronPosition: LGChevronView.Position = isExpanded ? .expanded : .contracted
-        updateChevronPosition(toPosition: chevronPosition)
+        updateChevronPosition(toPosition: chevronPosition, showsChevron: showsChevron)
         super.setup(withRepresentable: representable)
     }
     
-    func updateChevronPosition(toPosition position: LGChevronView.Position) {
+    func updateChevronPosition(toPosition position: LGChevronView.Position,
+                               showsChevron: Bool) {
+        chevronView.isHidden = !showsChevron
         chevronView.updatePosition(withPosition: position)
     }
     

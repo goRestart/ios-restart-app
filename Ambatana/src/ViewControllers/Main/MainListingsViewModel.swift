@@ -205,12 +205,30 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         
         if isServicesSelected {
             let servicesFilters = filters.verticalFilters.services
-            
-            if let serviceType = servicesFilters.type {
-                resultTags.append(.serviceType(serviceType))
+
+            if featureFlags.servicesUnifiedFilterScreen.isActive {
+                if let serviceType = servicesFilters.type {
+                    
+                    if let serviceSubtypes = servicesFilters.subtypes {
+                        if serviceType.subTypes.count == serviceSubtypes.count {
+                            resultTags.append(.serviceType(serviceType))
+                        } else {
+                            resultTags.append(.unifiedServiceType(type: serviceType,
+                                                                  selectedSubtypes: serviceSubtypes))
+                        }
+                    } else {
+                        resultTags.append(.serviceType(serviceType))
+                    }
+                }
+            } else {
+                if let serviceType = servicesFilters.type {
+                    resultTags.append(.serviceType(serviceType))
+                }
+                
+                if let tags = servicesFilters.subtypes?.map({ FilterTag.serviceSubtype($0) }) {
+                    resultTags.append(contentsOf: tags)
+                }
             }
-            
-            servicesFilters.subtypes?.forEach( { resultTags.append(.serviceSubtype($0)) } )
         }
         
         return resultTags
@@ -650,6 +668,9 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                 servicesServiceType = type
             case .serviceSubtype(let subtype):
                 servicesServiceSubtype.append(subtype)
+            case .unifiedServiceType(let type, let selectedSubtypes):
+                servicesServiceType = type
+                servicesServiceSubtype = selectedSubtypes
             case .carBodyType(let bodyType):
                 carBodyTypes.append(bodyType)
             case .carFuelType(let fuelType):

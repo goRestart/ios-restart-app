@@ -103,6 +103,8 @@ class DropdownViewModelSpec: QuickSpec {
             context("header selection") {
                 
                 beforeEach {
+                    sut.attributes[0].isShowingAll = true
+                    sut.attributes[0].isExpanded = true
                     sut.toggleHeaderSelection(atIndexPath: IndexPath(row: 0, section: 0))
                 }
                 
@@ -111,7 +113,7 @@ class DropdownViewModelSpec: QuickSpec {
                 }
                 
                 it("items should be selected") {
-                    for i in 0...sut.attributes[0].count {
+                    for i in 0...sut.attributes[0].count-1 {
                         expect(sut.attributes[0].item(forIndex: i)?.state).to(equal(DropdownCellState.selected))
                     }
                 }
@@ -120,6 +122,8 @@ class DropdownViewModelSpec: QuickSpec {
             context("header deselection") {
 
                 beforeEach {
+                    sut.attributes[0].isShowingAll = true
+                    sut.attributes[0].isExpanded = true
                     sut.toggleHeaderSelection(atIndexPath: IndexPath(row: 0, section: 0))
                     sut.toggleHeaderSelection(atIndexPath: IndexPath(row: 0, section: 0))
                 }
@@ -129,7 +133,7 @@ class DropdownViewModelSpec: QuickSpec {
                 }
                 
                 it("items should be deselected") {
-                    for i in 0...sut.attributes[0].count {
+                    for i in 0...sut.attributes[0].count-1 {
                         expect(sut.attributes[0].item(forIndex: i)?.state).to(equal(DropdownCellState.deselected))
                     }
                 }

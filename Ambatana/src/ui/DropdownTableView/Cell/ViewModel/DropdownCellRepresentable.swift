@@ -2,7 +2,7 @@ enum DropdownCellState {
     case selected, semiSelected, deselected
 }
 enum DropdownCellType: Equatable {
-    case header, item(featured: Bool, parentId: String)
+    case header, item(featured: Bool)
 }
 
 struct DropdownCellContent {
@@ -20,7 +20,7 @@ protocol DropdownCellRepresentable {
 extension DropdownCellRepresentable {
     
     var isHighlighted: Bool {
-        if case .item(let featured, _) = content.type {
+        if case .item(let featured) = content.type {
             return featured
         }
         return false
@@ -29,10 +29,10 @@ extension DropdownCellRepresentable {
 
 //  MARK: - [DropdownCellRepresentable]+ServicesFilters
 
-extension Collection where Element == DropdownSection {
+extension Collection where Element == DropdownSectionViewModel {
     
-    func updatedSectionRepresentables(withServicesFilters serviceFilters: ServicesFilters) -> [DropdownSection] {
-        guard let updatedSectionRepresentable = self as? [DropdownSection] else { return [] }
+    func updatedSectionRepresentables(withServicesFilters serviceFilters: ServicesFilters) -> [DropdownSectionViewModel] {
+        guard let updatedSectionRepresentable = self as? [DropdownSectionViewModel] else { return [] }
         
         guard let serviceType = serviceFilters.type else { return updatedSectionRepresentable }
         guard let serviceSubtypes = serviceFilters.subtypes else { return updatedSectionRepresentable }

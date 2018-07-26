@@ -1001,7 +1001,7 @@ extension FiltersViewModel {
         let sectionRepresentables = serviceTypes.sectionRepresentables
             .updatedSectionRepresentables(withServicesFilters: productFilter.verticalFilters.services)
         let vm = DropdownViewModel(screenTitle: R.Strings.filtersServicesServicesListTitle,
-                                   searchPlaceholderTitle: "",
+                                   searchPlaceholderTitle: R.Strings.filtersServicesServicesListSearchPlaceholder,
                                    attributes: sectionRepresentables,
                                    buttonAction: updateAllServices)
         navigator?.openServicesDropdown(viewModel: vm)

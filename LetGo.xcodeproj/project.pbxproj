@@ -1386,8 +1386,8 @@
 		C674D31E20ED1BA20027E3AE /* ListingAttributeGridTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C674D31C20ED1BA20027E3AE /* ListingAttributeGridTheme.swift */; };
 		C690704A21009E2300AF27E4 /* DropdownShowMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C690704921009E2300AF27E4 /* DropdownShowMoreView.swift */; };
 		C690704B21009E2300AF27E4 /* DropdownShowMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C690704921009E2300AF27E4 /* DropdownShowMoreView.swift */; };
-		C690704D21021E7A00AF27E4 /* DropdownSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C690704C21021E7A00AF27E4 /* DropdownSection.swift */; };
-		C690704E21021E7A00AF27E4 /* DropdownSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C690704C21021E7A00AF27E4 /* DropdownSection.swift */; };
+		C690704D21021E7A00AF27E4 /* DropdownSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C690704C21021E7A00AF27E4 /* DropdownSectionViewModel.swift */; };
+		C690704E21021E7A00AF27E4 /* DropdownSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C690704C21021E7A00AF27E4 /* DropdownSectionViewModel.swift */; };
 		C69070502107130E00AF27E4 /* DropdownViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = C690704F2107130E00AF27E4 /* DropdownViewModelSpec.swift */; };
 		C6A5CC5720E245D400610A3A /* ListingAttributeGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A5CC5620E245D400610A3A /* ListingAttributeGridView.swift */; };
 		C6A5CC5820E245D400610A3A /* ListingAttributeGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A5CC5620E245D400610A3A /* ListingAttributeGridView.swift */; };
@@ -2873,7 +2873,7 @@
 		C674D31920ED1AA40027E3AE /* ListingCarouselMoreInfoViewAttributeGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingCarouselMoreInfoViewAttributeGridView.swift; sourceTree = "<group>"; };
 		C674D31C20ED1BA20027E3AE /* ListingAttributeGridTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingAttributeGridTheme.swift; sourceTree = "<group>"; };
 		C690704921009E2300AF27E4 /* DropdownShowMoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownShowMoreView.swift; sourceTree = "<group>"; };
-		C690704C21021E7A00AF27E4 /* DropdownSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownSection.swift; sourceTree = "<group>"; };
+		C690704C21021E7A00AF27E4 /* DropdownSectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownSectionViewModel.swift; sourceTree = "<group>"; };
 		C690704F2107130E00AF27E4 /* DropdownViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownViewModelSpec.swift; sourceTree = "<group>"; };
 		C6A5CC4D20E23EC100610A3A /* ListingAttributeGridItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingAttributeGridItem.swift; sourceTree = "<group>"; };
 		C6A5CC5620E245D400610A3A /* ListingAttributeGridView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingAttributeGridView.swift; sourceTree = "<group>"; };
@@ -4001,10 +4001,9 @@
 		42F0687E20FF3A51009AC898 /* DropdownTableView */ = {
 			isa = PBXGroup;
 			children = (
-				42F0687F20FF3A90009AC898 /* Cell */,
 				42F0688720FF442B009AC898 /* DropdownViewController.swift */,
-				42F0688A20FF44C1009AC898 /* DropdownViewModel.swift */,
-				C690704C21021E7A00AF27E4 /* DropdownSection.swift */,
+				C67FC0FE210863A8000D9DAA /* View Model */,
+				42F0687F20FF3A90009AC898 /* Cell */,
 			);
 			path = DropdownTableView;
 			sourceTree = "<group>";
@@ -5443,6 +5442,15 @@
 				C6687F3920C83A2C008C1922 /* MultiListingPostedIncentivisorCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		C67FC0FE210863A8000D9DAA /* View Model */ = {
+			isa = PBXGroup;
+			children = (
+				42F0688A20FF44C1009AC898 /* DropdownViewModel.swift */,
+				C690704C21021E7A00AF27E4 /* DropdownSectionViewModel.swift */,
+			);
+			path = "View Model";
 			sourceTree = "<group>";
 		};
 		C6A5CC5520E242AA00610A3A /* Recovered References */ = {
@@ -7780,7 +7788,7 @@
 				2EBC92051E0A77A5007F0F82 /* AppstoreProductsRequest.swift in Sources */,
 				016328F720DBCFF000FA618B /* NotificationSettingsPlaceholderView.swift in Sources */,
 				50C63B711DC3A79100836D85 /* SocialMessage.swift in Sources */,
-				C690704D21021E7A00AF27E4 /* DropdownSection.swift in Sources */,
+				C690704D21021E7A00AF27E4 /* DropdownSectionViewModel.swift in Sources */,
 				C7B5884B1CE1DE1C009B3975 /* ChatViewModel.swift in Sources */,
 				727EF0691E0AF0220037DA4E /* LocationManager+LG.swift in Sources */,
 				2E607ECB1E3F417700ADFED1 /* BumpUpNavigator.swift in Sources */,
@@ -8632,7 +8640,7 @@
 				72CD80D1203469FB0042E1E0 /* LGTutorialViewController.swift in Sources */,
 				50C63B771DC3B63700836D85 /* ShareType.swift in Sources */,
 				F51A08312031B55D0008D744 /* LGSize+CGSize.swift in Sources */,
-				C690704E21021E7A00AF27E4 /* DropdownSection.swift in Sources */,
+				C690704E21021E7A00AF27E4 /* DropdownSectionViewModel.swift in Sources */,
 				8E1139E61EC9AD7100A9D772 /* FilterTitleHeaderView.swift in Sources */,
 				2E57B80D2051A3FA008B2082 /* PostListingCategoryCell.swift in Sources */,
 				C743FEB11E449F2E00B4E912 /* RateBuyersHeader.swift in Sources */,

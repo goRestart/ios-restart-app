@@ -1,6 +1,6 @@
 import LGComponents
 
-final class DropdownViewController: KeyboardViewController, UITableViewDataSource, UITableViewDelegate {
+final class DropdownViewController: KeyboardViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
     
     private enum Layout {
         static let searchBoxHeight: CGFloat = 44
@@ -35,7 +35,7 @@ final class DropdownViewController: KeyboardViewController, UITableViewDataSourc
         return tableView
     }()
     
-    private let searchBar = LGPickerSearchBar(withStyle: .darkContent)
+    private let searchBar = LGPickerSearchBar(withStyle: .darkContent, clearButtonMode: .always)
     
     private let gradient: GradientView = {
         let gradient = GradientView(colors: [UIColor.white.withAlphaComponent(0.0),
@@ -71,26 +71,43 @@ final class DropdownViewController: KeyboardViewController, UITableViewDataSourc
         self.keyboardHelper = keyboardHelper
         self.viewModel = viewModel
         super.init(viewModel: nil, nibName: nil)
+        setupAccessibilityIds()
         setupUI()
-        setupTableView()
     }
     
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
     
+    private func setupAccessibilityIds() {
+        tableView.set(accessibilityId: .dropdownViewControllerTableView)
+        searchBar.set(accessibilityId: .dropdownViewControllerSearchBar)
+        doneButton.set(accessibilityId: .dropdownViewControllerApplyButton)
+        resetButton.set(accessibilityId: .dropdownViewControllerResetButton)
+    }
+    
     private func setupUI() {
         view.backgroundColor = .white
         title = viewModel.screenTitle
-        doneButton.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
+        
+        doneButton.addTarget(self,
+                             action: #selector(doneButtonTapped),
+                             for: .touchUpInside)
 
         showDoneButton()
         showResetButton()
         addSubViews()
         addConstraints()
+        setupTableView()
+        setupSearchBar()
     }
     
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
+    }
+    
+    private func setupSearchBar() {
+        searchBar.placeholder = viewModel.searchPlaceholderTitle
+        searchBar.delegate = self
     }
     
     private func addSubViews() {
@@ -164,6 +181,7 @@ final class DropdownViewController: KeyboardViewController, UITableViewDataSourc
             
             cell.setup(withRepresentable: item,
                        isExpanded: isExpanded,
+                       showsChevron: viewModel.showsHeaderChevron,
                        checkboxAction: { [weak self, indexPath] in
                         self?.viewModel.toggleHeaderSelection(atIndexPath: indexPath)
                         self?.reloadView()
@@ -201,7 +219,11 @@ final class DropdownViewController: KeyboardViewController, UITableViewDataSourc
 
 
     // MARK: UITableViewDelegate Implementation
-
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        searchBar.resignFirstResponder()
+    }
+    
     func tableView(_ tableView: UITableView,
                    heightForRowAt indexPath: IndexPath) -> CGFloat {
         return viewModel.itemHeight(atIndexPath: indexPath)
@@ -225,6 +247,24 @@ final class DropdownViewController: KeyboardViewController, UITableViewDataSourc
         viewModel.didDeselectItem(atIndexPath: indexPath)
         tableView.deselectRow(at: indexPath, animated: false)
         reloadView()
+    }
+
+
+    // MARK: UISearchBarDelegate
+    
+    func searchBar(_ searchBar: UISearchBar,
+                   textDidChange searchText: String) {
+        if searchText.isEmpty {
+            viewModel.clearTextFilter()
+        } else {
+            viewModel.didFilter(withText: searchText)
+        }
+        
+        reloadView()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
     }
     
     

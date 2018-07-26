@@ -958,6 +958,8 @@ extension R {
     public static let filtersServiceSubtypeNotSet = Strings.tr("Localizable", "filters_service_subtype_not_set")
     /// Not Set
     public static let filtersServiceTypeNotSet = Strings.tr("Localizable", "filters_service_type_not_set")
+    /// Handyman, Contracting…
+    public static let filtersServicesServicesListSearchPlaceholder = Strings.tr("Localizable", "filters_services_services_list_search_placeholder")
     /// Select a Category
     public static let filtersServicesServicesListTitle = Strings.tr("Localizable", "filters_services_services_list_title")
     /// The minimum size can’t be higher than the maximum size.
