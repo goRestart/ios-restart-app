@@ -25,7 +25,6 @@ extension Bumper  {
         flags.append(TaxonomiesAndTaxonomyChildrenInFeed.self)
         flags.append(DeckItemPage.self)
         flags.append(ShowClockInDirectAnswer.self)
-        flags.append(MostSearchedDemandedItems.self)
         flags.append(ShowAdsInFeedWithRatio.self)
         flags.append(RealEstateFlowType.self)
         flags.append(RealEstateNewCopy.self)
@@ -198,19 +197,6 @@ extension Bumper  {
     static var showClockInDirectAnswerObservable: Observable<ShowClockInDirectAnswer> {
         return Bumper.observeValue(for: ShowClockInDirectAnswer.key).map {
             ShowClockInDirectAnswer(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var mostSearchedDemandedItems: MostSearchedDemandedItems {
-        guard let value = Bumper.value(for: MostSearchedDemandedItems.key) else { return .control }
-        return MostSearchedDemandedItems(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var mostSearchedDemandedItemsObservable: Observable<MostSearchedDemandedItems> {
-        return Bumper.observeValue(for: MostSearchedDemandedItems.key).map {
-            MostSearchedDemandedItems(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1063,24 +1049,6 @@ enum ShowClockInDirectAnswer: String, BumperFeature  {
     }
 }
 
-enum MostSearchedDemandedItems: String, BumperFeature  {
-    case control, baseline, cameraBadge, trendingButtonExpandableMenu, subsetAboveExpandableMenu
-    static var defaultValue: String { return MostSearchedDemandedItems.control.rawValue }
-    static var enumValues: [MostSearchedDemandedItems] { return [.control, .baseline, .cameraBadge, .trendingButtonExpandableMenu, .subsetAboveExpandableMenu]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Display a list of top seller items that inspire users to post new items" } 
-    static func fromPosition(_ position: Int) -> MostSearchedDemandedItems {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .cameraBadge
-            case 3: return .trendingButtonExpandableMenu
-            case 4: return .subsetAboveExpandableMenu
-            default: return .control
-        }
-    }
-}
-
 enum ShowAdsInFeedWithRatio: String, BumperFeature  {
     case control, baseline, ten, fifteen, twenty
     static var defaultValue: String { return ShowAdsInFeedWithRatio.control.rawValue }
@@ -1392,16 +1360,17 @@ enum FeedAdsProviderForTR: String, BumperFeature  {
 }
 
 enum SectionedMainFeed: String, BumperFeature  {
-    case control, baseline, active
+    case control, baseline, mediumHorizontalSection, smallHorizontalSection
     static var defaultValue: String { return SectionedMainFeed.control.rawValue }
-    static var enumValues: [SectionedMainFeed] { return [.control, .baseline, .active]}
+    static var enumValues: [SectionedMainFeed] { return [.control, .baseline, .mediumHorizontalSection, .smallHorizontalSection]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "A new fully sectioned main feed" } 
+    static var description: String { return "[Discovery] Sectioned feed" } 
     static func fromPosition(_ position: Int) -> SectionedMainFeed {
         switch position { 
             case 0: return .control
             case 1: return .baseline
-            case 2: return .active
+            case 2: return .mediumHorizontalSection
+            case 3: return .smallHorizontalSection
             default: return .control
         }
     }
@@ -1976,4 +1945,3 @@ enum ExpressChatImprovement: String, BumperFeature  {
         }
     }
 }
-

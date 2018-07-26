@@ -651,7 +651,8 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
        
         if shouldShowCategoryCollectionBanner {
             categoriesHeader = CategoriesHeaderCollectionView()
-            categoriesHeader?.configure(with: viewModel.categoryHeaderElements, categoryHighlighted: viewModel.categoryHeaderHighlighted, isMostSearchedItemsEnabled: viewModel.isMostSearchedItemsEnabled)
+            categoriesHeader?.configure(with: viewModel.categoryHeaderElements,
+                                        categoryHighlighted: viewModel.categoryHeaderHighlighted)
             categoriesHeader?.delegateCategoryHeader = viewModel
             categoriesHeader?.categorySelected.asObservable().bind { [weak self] categoryHeaderInfo in
                 guard let category = categoryHeaderInfo else { return }
