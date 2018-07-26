@@ -36,6 +36,8 @@ final class CommunityTabCoordinator: TabCoordinator {
                    installationRepository: installationRepository, bubbleNotificationManager: bubbleNotificationManager,
                    keyValueStorage: keyValueStorage, tracker: tracker,
                    rootViewController: rootViewController, featureFlags: featureFlags, sessionManager: sessionManager)
+
+        viewModel.navigator = self
     }
 
     override func shouldHideSellButtonAtViewController(_ viewController: UIViewController) -> Bool {
@@ -49,5 +51,11 @@ final class CommunityTabCoordinator: TabCoordinator {
 
     override func dismissViewController(animated: Bool, completion: (() -> Void)?) {
         viewController.dismissWithPresented(animated: animated, completion: completion)
+    }
+}
+
+extension CommunityTabCoordinator: CommunityTabNavigator {
+    func closeCommunity() {
+        dismissViewController(animated: true, completion: nil)
     }
 }
