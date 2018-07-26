@@ -881,6 +881,8 @@
 		556E26F6203C3BA70098ECF0 /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556E26F5203C3BA70098ECF0 /* UserProfileViewController.swift */; };
 		556E26F7203C3C0D0098ECF0 /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556E26F5203C3BA70098ECF0 /* UserProfileViewController.swift */; };
 		556E26F9203C3C940098ECF0 /* UserProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556E26F8203C3C940098ECF0 /* UserProfileViewModel.swift */; };
+		55769A622109C19600E66696 /* CommunityTabNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55769A612109C19500E66696 /* CommunityTabNavigator.swift */; };
+		55769A632109C19600E66696 /* CommunityTabNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55769A612109C19500E66696 /* CommunityTabNavigator.swift */; };
 		55D305CB2101E55800E80843 /* CommunityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D305CA2101E55800E80843 /* CommunityViewController.swift */; };
 		55D305CC2101E55800E80843 /* CommunityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D305CA2101E55800E80843 /* CommunityViewController.swift */; };
 		55D305CE2101E63600E80843 /* CommunityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D305CD2101E63600E80843 /* CommunityViewModel.swift */; };
@@ -2583,6 +2585,7 @@
 		5569D9A720848CA8004E5468 /* UserPhoneVerificationCodeInputTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhoneVerificationCodeInputTextField.swift; sourceTree = "<group>"; };
 		556E26F5203C3BA70098ECF0 /* UserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
 		556E26F8203C3C940098ECF0 /* UserProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewModel.swift; sourceTree = "<group>"; };
+		55769A612109C19500E66696 /* CommunityTabNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityTabNavigator.swift; sourceTree = "<group>"; };
 		55D305CA2101E55800E80843 /* CommunityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityViewController.swift; sourceTree = "<group>"; };
 		55D305CD2101E63600E80843 /* CommunityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityViewModel.swift; sourceTree = "<group>"; };
 		55DFCDD82073790D00AC5E09 /* UserPhoneVerificationNumberInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhoneVerificationNumberInputViewController.swift; sourceTree = "<group>"; };
@@ -3924,8 +3927,9 @@
 				50146BCC1D4F5F9000B0F635 /* NotificationsTabCoordinator.swift */,
 				50146BDE1D4F910000B0F635 /* NotificationsTabNavigator.swift */,
 				50146BD21D4F5FC700B0F635 /* ProfileTabCoordinator.swift */,
-				6AE1666D2101F0DA00D6B6ED /* CommunityTabCoordinator.swift */,
 				50146BE11D4F910B00B0F635 /* ProfileTabNavigator.swift */,
+				6AE1666D2101F0DA00D6B6ED /* CommunityTabCoordinator.swift */,
+				55769A612109C19500E66696 /* CommunityTabNavigator.swift */,
 				50146BC01D4F5F5B00B0F635 /* TabCoordinator.swift */,
 				50146BC11D4F5F5B00B0F635 /* TabNavigator.swift */,
 			);
@@ -7612,6 +7616,7 @@
 				2E92CBF920248DC600451B65 /* MeetingAssistantCoordinator.swift in Sources */,
 				C7890A851E55B96D0079964C /* MotionDeviceOrientation.swift in Sources */,
 				C749C78F1C10836C00F7118E /* BaseCellDrawer.swift in Sources */,
+				55769A622109C19600E66696 /* CommunityTabNavigator.swift in Sources */,
 				C7111EFF1CA4389C000C5C5A /* PushNotification.swift in Sources */,
 				C7B5885F1CE1DE1C009B3975 /* RelationInfoView.swift in Sources */,
 				C749C78D1C10830600F7118E /* CellDrawer.swift in Sources */,
@@ -8454,6 +8459,7 @@
 				72CD80CD203469FB0042E1E0 /* LGTutorialLayout.swift in Sources */,
 				2EBC92161E0ABC73007F0F82 /* PurchaseableProductsResponse.swift in Sources */,
 				2E92CC0020248E2800451B65 /* MeetingAssistantCoordinator.swift in Sources */,
+				55769A632109C19600E66696 /* CommunityTabNavigator.swift in Sources */,
 				6AE143CE204413B000CFAE10 /* UserProfileBioAndTrustView.swift in Sources */,
 				C7DB41EF1C5138B500400945 /* ListingListView.swift in Sources */,
 				C7890A861E55B96D0079964C /* MotionDeviceOrientation.swift in Sources */,
