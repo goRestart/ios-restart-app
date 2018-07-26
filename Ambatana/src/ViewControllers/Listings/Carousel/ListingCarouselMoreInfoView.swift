@@ -191,6 +191,7 @@ final class ListingCarouselMoreInfoView: UIView {
     
     private let dragViewImage: UIImageView = {
         let imageView = UIImageView(image: R.Asset.IconsButtons.icArrowDown.image)
+        imageView.contentMode = .scaleAspectFit
         imageView.applyShadow(withOpacity: 0.5, radius: 1)
         return imageView
     }()
@@ -369,10 +370,12 @@ final class ListingCarouselMoreInfoView: UIView {
         //  DragView
         
         dragView.layout(with: self)
-            .centerX().bottom()
-        dragView.layout().height(Layout.DragView.height)
+            .bottom().fillHorizontal(by: 2*Metrics.veryBigMargin)
+        
+        dragButton.layout().height(Layout.DragView.height)
         dragButton.layout(with: dragView)
-            .centerX().proportionalHeight().bottom(by: -Layout.DragView.bottom)
+            .centerX()
+            .top(by: Metrics.veryShortMargin).bottom(by: -Layout.DragView.bottom)
         
         dragViewTitle.layout(with: dragButton)
             .leading(by: Metrics.margin).fillVertical()
