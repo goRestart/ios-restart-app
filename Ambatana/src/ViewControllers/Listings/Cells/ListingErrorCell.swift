@@ -76,7 +76,7 @@ final class ListingErrorCell: UICollectionViewCell, ReusableCell {
         retryButton.setTitle(emptyViewModel.buttonTitle, for: .normal)
         
         imageHeightConstraint?.constant = emptyViewModel.iconHeight
-        buttonHeightConstraint?.constant = emptyViewModel.action != nil ? Layout.retryButtonHeight : 0
+        buttonHeightConstraint?.constant = emptyViewModel.hasAction ? Layout.retryButtonHeight : 0
     }
     
     func setup(withStyle style: ErrorViewCellStyle) {
