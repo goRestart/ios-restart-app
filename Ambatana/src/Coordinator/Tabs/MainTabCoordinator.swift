@@ -178,8 +178,10 @@ extension MainTabCoordinator: MainTabNavigator {
     }
 
     func openPrivateUserProfile() {
-        let coord = ProfileTabCoordinator(source: .mainListing)
-        openChild(coordinator: coord, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
+        openLoginIfNeeded(from: .profile, style: .fullScreen, loggedInAction: {
+            let coord = ProfileTabCoordinator(source: .mainListing)
+            self.openChild(coordinator: coord, parent: self.rootViewController, animated: true, forceCloseChild: true, completion: nil)
+        }, cancelAction: nil)
     }
 
     func openCommunity() {
