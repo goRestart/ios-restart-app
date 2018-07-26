@@ -4,13 +4,17 @@ import LGCoreKit
 
 class CommunityViewModel: BaseViewModel {
 
-    //weak var navigator:
+    weak var navigator: CommunityTabNavigator?
     private let communityRepository: CommunityRepository
 
     var urlRequest: URLRequest?
+    var showNavBar: Bool
+    var showCloseButton: Bool
 
     init(communityRepository: CommunityRepository, source: CommunitySource) {
         self.communityRepository = communityRepository
+        self.showNavBar = source == .navBar
+        self.showCloseButton = source == .navBar
         super.init()
         setupRequest()
     }
@@ -20,6 +24,6 @@ class CommunityViewModel: BaseViewModel {
     }
 
     func didTapClose() {
-        // navigator?.close...
+        navigator?.closeCommunity()
     }
 }

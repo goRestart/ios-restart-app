@@ -27,16 +27,28 @@ final class CommunityViewController: BaseViewController {
     private func setupUI() {
         view.backgroundColor = .white
         view.addSubviewForAutoLayout(webView)
+        setupNavBar()
         setupConstraints()
     }
 
+    private func setupNavBar() {
+        navigationController?.setNavigationBarHidden(!viewModel.showNavBar, animated: false)
+        guard viewModel.showCloseButton else { return }
+        setNavBarCloseButton(#selector(close))
+    }
+
     private func setupConstraints() {
-        let constraints = [
+        var constraints = [
             webView.topAnchor.constraint(equalTo: safeTopAnchor),
-            webView.bottomAnchor.constraint(equalTo: safeBottomAnchor),
             webView.leftAnchor.constraint(equalTo: view.leftAnchor),
             webView.rightAnchor.constraint(equalTo: view.rightAnchor)
         ]
+
+        if tabBarController != nil {
+            constraints.append(webView.bottomAnchor.constraint(equalTo: safeBottomAnchor))
+        } else {
+            constraints.append(webView.bottomAnchor.constraint(equalTo: view.bottomAnchor))
+        }
 
         NSLayoutConstraint.activate(constraints)
     }
@@ -44,5 +56,9 @@ final class CommunityViewController: BaseViewController {
     private func loadWeb() {
         guard let urlRequest = viewModel.urlRequest else { return }
         webView.load(urlRequest)
+    }
+
+    @objc private func close() {
+        viewModel.didTapClose()
     }
 }
