@@ -45,7 +45,7 @@ def shared_pods
 
     # letgo Core
 
-    pod "LGCoreKit",             "4.45.0", :inhibit_warnings => false
+    pod "LGCoreKit",             "4.47.0", :inhibit_warnings => false
 #     pod "LGCoreKit",            :path => "../lgcorekit", :inhibit_warnings => false
 #  pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :branch => 'ABIOS-4441-Add-Pagination-blocked-users', :inhibit_warnings => false
 

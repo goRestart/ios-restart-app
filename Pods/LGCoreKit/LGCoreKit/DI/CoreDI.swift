@@ -12,6 +12,7 @@ import KeychainSwift
 import Reachability
 
 final class CoreDI: InternalDI {
+
     // MARK: - Lifecycle
     
     init() {
@@ -183,6 +184,8 @@ final class CoreDI: InternalDI {
         let imageMultiplierDataSource = ImageMultiplierApiDataSource(apiClient: apiClient)
         imageMultiplierRepository = LGImageMultiplierRepository(dataSource: imageMultiplierDataSource)
 
+        communityRepository = LGCommunityRepository(tokenDAO: tokenDAO)
+
         self.reporter = ReporterProxy()
     }
 
@@ -239,8 +242,9 @@ final class CoreDI: InternalDI {
     var locationRepository: LocationRepository
     let imageMultiplierRepository: ImageMultiplierRepository
     let servicesInfoRepository: ServicesInfoRepository
-
     let listingRepository: ListingRepository
+    let communityRepository: CommunityRepository
+
     lazy var fileRepository: FileRepository = {
         let dataSource = FileApiDataSource(apiClient: self.apiClient)
         return LGFileRepository(myUserRepository: self.internalMyUserRepository, fileDataSource: dataSource)
@@ -278,7 +282,6 @@ final class CoreDI: InternalDI {
         let notificationSettingsMailerDataSource = NotificationSettingsMailerApiDataSource(apiClient: self.apiClient)
         return LGNotificationSettingsMailerRepository(dataSource: notificationSettingsMailerDataSource)
     }()
-
 
     // MARK: > DAO
 
