@@ -40,6 +40,15 @@ enum ViewState: Equatable {
             return false
         }
     }
+    
+    var isError: Bool {
+        switch self {
+        case .error:
+            return true
+        case .data, .empty, .loading:
+            return false
+        }
+    }
 }
 
 

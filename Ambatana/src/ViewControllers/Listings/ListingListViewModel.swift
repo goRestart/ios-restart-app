@@ -105,7 +105,7 @@ final class ListingListViewModel: BaseViewModel {
     private(set) var state: ViewState {
         didSet {
             delegate?.vmDidUpdateState(self, state: state)
-            isListingListEmpty.value = state.isEmpty
+            isListingListEmpty.value = state.isEmpty || (state.isError && objects.count == 0)
         }
     }
 
@@ -152,8 +152,8 @@ final class ListingListViewModel: BaseViewModel {
         return objects.count
     }
     
-    var isDataOrLoading: Bool {
-        return state == .data || state == .loading
+    var isErrorOrEmpty: Bool {
+        return state.isError || state.isEmpty
     }
 
     

@@ -152,28 +152,27 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         super.switchViewModel(vm)
     }
     
-    private func isFirstSectionAndDataState(section: Int) -> Bool {
-        return viewModel.isDataOrLoading && section == 0
+    private func isNotFirstSectionAndErrorOrEmpty(section: Int) -> Bool {
+        return viewModel.isErrorOrEmpty && section == 1
     }
-
 
     // MARK: - CHTCollectionViewDelegateWaterfallLayout
 
     func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!,
                         heightForHeaderInSection section: Int) -> CGFloat {
-        guard isFirstSectionAndDataState(section: section) else { return 0 }
+        guard !isNotFirstSectionAndErrorOrEmpty(section: section) else { return 0 }
         return headerDelegate?.totalHeaderHeight() ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!,
         heightForFooterInSection section: Int) -> CGFloat {
-        guard isFirstSectionAndDataState(section: section) else { return 0 }
+        guard !viewModel.isErrorOrEmpty else { return 0 }
         return SharedConstants.listingListFooterHeight
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
         insetForSectionAt section: Int) -> UIEdgeInsets {
-        guard isFirstSectionAndDataState(section: section) else { return .zero }
+        guard !isNotFirstSectionAndErrorOrEmpty(section: section) else { return .zero }
         let inset = viewModel.listingListFixedInset
         return UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
     }
@@ -184,7 +183,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        guard isFirstSectionAndDataState(section: indexPath.section) else {
+        guard !isNotFirstSectionAndErrorOrEmpty(section: indexPath.section) else {
             return CGSize(width: viewModel.cellWidth, height: Layout.errorCellHeigh)
         }
         return viewModel.sizeForCellAtIndex(indexPath.row)
@@ -192,19 +191,22 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     
     func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!,
         columnCountForSection section: Int) -> Int {
-        guard isFirstSectionAndDataState(section: section) else { return 1 }
+        guard !isNotFirstSectionAndErrorOrEmpty(section: section) else { return 1 }
         return viewModel.numberOfColumns
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard isFirstSectionAndDataState(section: section) else { return 1 }
+        guard !isNotFirstSectionAndErrorOrEmpty(section: section) else { return 1 }
         return viewModel.numberOfListings
     }
     
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return viewModel.isErrorOrEmpty ? 2 : 1
+    }
 
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard isFirstSectionAndDataState(section: indexPath.section) else {
+        guard !isNotFirstSectionAndErrorOrEmpty(section: indexPath.section) else {
             switch viewModel.state {
             case .error(let viewModel), .empty(let viewModel):
                 let cell = collectionView.dequeue(type: ListingErrorCell.self, for: indexPath)
@@ -233,11 +235,10 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     func collectionView(_ collectionView: UICollectionView,
                         willDisplay cell: UICollectionViewCell,
                         forItemAt indexPath: IndexPath) {
-        guard viewModel.isDataOrLoading, indexPath.section == 0 else { return }
-        
         guard let item = viewModel.itemAtIndex(indexPath.row),
-            viewModel.isDataOrLoading,
-            indexPath.section != 1 else { return }
+            (viewModel.state == .data || viewModel.state == .loading),
+            indexPath.section == 0 else { return }
+    
 
         let imageSize = viewModel.imageViewSizeForItem(at: indexPath.row)
         let interestedState = viewModel.interestStateFor(listingAtIndex: indexPath.row)
@@ -257,7 +258,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     func collectionView(_ collectionView: UICollectionView,
                         didEndDisplaying cell: UICollectionViewCell,
                         forItemAt indexPath: IndexPath) {
-        if isFirstSectionAndDataState(section: indexPath.section) { return }
+        if !isNotFirstSectionAndErrorOrEmpty(section: indexPath.section) { return }
         let topProductIndex = (collectionView.indexPathsForVisibleItems.map{ $0.item }).min() ?? indexPath.item
         cellsDelegate?.visibleTopCellWithIndex(topProductIndex, whileScrollingDown: scrollingDown)
     }
@@ -265,7 +266,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     func collectionView(_ collectionView: UICollectionView,
                         viewForSupplementaryElementOfKind kind: String,
                         at indexPath: IndexPath) -> UICollectionReusableView  {
-        guard isFirstSectionAndDataState(section: indexPath.section) else { return UICollectionReusableView() }
+        guard !isNotFirstSectionAndErrorOrEmpty(section: indexPath.section) else { return UICollectionReusableView() }
         
         switch kind {
         case CHTCollectionElementKindSectionFooter, UICollectionElementKindSectionFooter:

@@ -39,7 +39,7 @@ final class ListingErrorCell: UICollectionViewCell, ReusableCell {
         label.textAlignment = .center
         label.minimumScaleFactor = 0.7
         label.numberOfLines = 3
-        label.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
+        label.setContentHuggingPriority(.defaultHigh, for: .vertical)
         label.set(accessibilityId: .listingListErrorBodyLabel)
         return label
     }()
@@ -124,7 +124,7 @@ final class ListingErrorCell: UICollectionViewCell, ReusableCell {
             bodyLabel.widthAnchor.constraint(equalTo: containerView.widthAnchor, constant: -2*Metrics.veryBigMargin),
             bodyLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
             
-            retryButton.topAnchor.constraint(equalTo: bodyLabel.bottomAnchor, constant: Metrics.bigMargin),
+            retryButton.topAnchor.constraint(greaterThanOrEqualTo: bodyLabel.bottomAnchor, constant: Metrics.bigMargin),
             retryButton.widthAnchor.constraint(equalTo: containerView.widthAnchor, constant: -2*Metrics.veryBigMargin),
             retryButton.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
             buttomBottomConstraint,
