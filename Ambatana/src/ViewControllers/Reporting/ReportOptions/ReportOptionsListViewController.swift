@@ -73,6 +73,10 @@ final class ReportOptionsListViewController: BaseViewController {
     init(viewModel: ReportOptionsListViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
         setupUI()
         setupRx()
     }
@@ -89,6 +93,7 @@ final class ReportOptionsListViewController: BaseViewController {
     }
 
     private func setupUI() {
+        disableAutomaticAdjustScrollViewInsets(in: tableView)
         bottomContainer.addSubviewForAutoLayout(reportButton)
         view.addSubviewsForAutoLayout([tableView, bottomContainer])
         view.backgroundColor = .white

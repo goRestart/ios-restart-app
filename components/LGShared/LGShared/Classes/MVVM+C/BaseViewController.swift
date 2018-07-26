@@ -290,7 +290,8 @@ public extension UIViewController {
     public func setNavBarBackgroundStyle(_ style: NavBarBackgroundStyle) {
         switch style {
         case .white:
-            navigationController?.navigationBar.shadowImage = UIImage()
+            navigationController?.navigationBar.shadowImage = R.Asset.BackgroundsAndImages.whitePixel.image
+            navigationController?.navigationBar.setBackgroundImage(R.Asset.BackgroundsAndImages.whitePixel.image, for: .default)
             navigationController?.navigationBar.barTintColor = .white
         case .transparent:
             navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
