@@ -33,4 +33,5 @@ protocol Environment {
     var notificationSettingsPusherBaseURL: String { get }
     var notificationSettingsMailerBaseURL: String { get }
     var reportingBaseURL: String { get }
+    var communityBaseURL: String { get }
 }
