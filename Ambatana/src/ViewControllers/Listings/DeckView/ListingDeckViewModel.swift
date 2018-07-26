@@ -248,23 +248,6 @@ final class ListingDeckViewModel: BaseViewModel {
         }
     }
 
-    func performCollectionChange(change: CollectionChange<ChatViewMessage>) {
-        switch change {
-        case let .insert(index, value):
-            quickChatViewModel.directChatMessages.insert(value, atIndex: index)
-        case let .remove(index, _):
-            quickChatViewModel.directChatMessages.removeAtIndex(index)
-        case let .swap(fromIndex, toIndex, replacingWith):
-            quickChatViewModel.directChatMessages.swap(fromIndex: fromIndex, toIndex: toIndex, replacingWith: replacingWith)
-        case let .move(fromIndex, toIndex, replacingWith):
-            quickChatViewModel.directChatMessages.move(fromIndex: fromIndex, toIndex: toIndex, replacingWith: replacingWith)
-        case let .composite(changes):
-            for change in changes {
-                performCollectionChange(change: change)
-            }
-        }
-    }
-
     private func syncFirstListing() {
         currentListingViewModel?.syncListing() { [weak self] in
             guard let strongSelf = self else { return }

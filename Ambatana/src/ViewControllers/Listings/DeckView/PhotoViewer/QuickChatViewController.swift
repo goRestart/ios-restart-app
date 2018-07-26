@@ -62,7 +62,8 @@ final class QuickChatViewController: BaseViewController {
             viewModel.rx
                 .quickAnswers
                 .asDriver(onErrorJustReturn: []).drive(rx.quickAnswers),
-            viewModel.rx.directMessages.asDriver(onErrorJustReturn: .composite([])).drive(rx.directMessages)
+            viewModel.rx.directMessages.asDriver(onErrorJustReturn: .composite([])).drive(rx.directMessages),
+            viewModel.rx.isInterested.asDriver(onErrorJustReturn: false).drive(rx.isInterested)
         ]
         bindings.forEach { $0.disposed(by: disposeBag) }
     }
@@ -122,6 +123,12 @@ extension Reactive where Base: QuickChatViewController {
                 controller.chatView.showDirectMessages()
             }
             controller.handleChatChange(change)
+        }
+    }
+
+    var isInterested: Binder<Bool> {
+        return Binder(self.base) { controller, isInterested in
+            controller.chatView.setListingAs(interested: isInterested)
         }
     }
 }

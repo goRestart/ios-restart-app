@@ -6,7 +6,9 @@ import LGComponents
 
 
 final class QuickChatView: UIView, UIGestureRecognizerDelegate {
-    private struct Layout { static let outsideKeyboard: CGFloat = 120.0 }
+    private struct Layout {
+        static let buttonHeight: CGFloat = 50
+    }
     private struct Duration {
         static let flashInTable: TimeInterval = TimeInterval(1)
         static let flashOutTable: TimeInterval = TimeInterval(3)
@@ -17,6 +19,12 @@ final class QuickChatView: UIView, UIGestureRecognizerDelegate {
     private var directAnswersViewBottom: NSLayoutConstraint?
     let directAnswersView = DirectAnswersHorizontalView(answers: [])
     let tableView = CustomTouchesTableView()
+
+    private let chatButton: LetgoButton = {
+        let button = LetgoButton(withStyle: .primary(fontSize: .medium))
+        button.setTitle(R.Strings.listingChatButton, for: .normal)
+        return button
+    }()
 
     private var alphaAnimationHideTimer: Timer?
 
@@ -31,6 +39,11 @@ final class QuickChatView: UIView, UIGestureRecognizerDelegate {
         guard newSuperview != nil else { return }
         directAnswersViewBottom?.constant = -Metrics.margin
         backgroundColor = UIColor.clear
+    }
+
+    func setListingAs(interested: Bool) {
+        chatButton.isHidden = !interested
+        directAnswersView.isHidden = interested
     }
 
     func updateWith(bottomInset: CGFloat, animationTime: TimeInterval,
@@ -119,12 +132,18 @@ final class QuickChatView: UIView, UIGestureRecognizerDelegate {
 
     private func setupUI() {
         backgroundColor = .clear
-        addSubviewsForAutoLayout([directAnswersView, tableView])
+        addSubviewsForAutoLayout([directAnswersView, chatButton, tableView])
         let directAnswersViewBottom = directAnswersView.bottomAnchor.constraint(equalTo: bottomAnchor)
+
         NSLayoutConstraint.activate([
             directAnswersView.leadingAnchor.constraint(equalTo: leadingAnchor),
             directAnswersView.trailingAnchor.constraint(equalTo: trailingAnchor),
             directAnswersViewBottom,
+
+            chatButton.heightAnchor.constraint(equalToConstant: Layout.buttonHeight),
+            chatButton.bottomAnchor.constraint(equalTo: bottomAnchor),
+            chatButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metrics.margin),
+            chatButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metrics.margin),
 
             tableView.topAnchor.constraint(equalTo: topAnchor),
             tableView.leadingAnchor.constraint(equalTo: leadingAnchor),

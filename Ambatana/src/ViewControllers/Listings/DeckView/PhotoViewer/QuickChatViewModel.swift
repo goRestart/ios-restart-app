@@ -18,9 +18,11 @@ final class QuickChatViewModel: BaseViewModel, DirectAnswersHorizontalViewDelega
     }
 
     private var disposeBag = DisposeBag()
-    let chatEnabled = Variable<Bool>(false)
-    let quickAnswers = Variable<[QuickAnswer]>([])
+
+    fileprivate let chatEnabled = Variable<Bool>(false)
+    fileprivate let quickAnswers = Variable<[QuickAnswer]>([])
     let directChatMessages = CollectionVariable<ChatViewMessage>([])
+    fileprivate let isInterested: Variable<Bool> = .init(false)
 
     private func setupRx() {
         disposeBag = DisposeBag()
@@ -29,7 +31,7 @@ final class QuickChatViewModel: BaseViewModel, DirectAnswersHorizontalViewDelega
         quickAnswers.value = listingVM.quickAnswers
         let bindings = [
             listingVM.cardDirectChatEnabled.asDriver(onErrorJustReturn: false).drive(chatEnabled),
-            quickAnswers.asDriver().drive(quickAnswers)
+            listingVM.isInterested.asDriver().drive(isInterested)
         ]
         listingVM.directChatMessages
             .changesObservable
@@ -79,4 +81,5 @@ extension Reactive where Base: QuickChatViewModel {
     var quickAnswers: Observable<[QuickAnswer]> { return base.quickAnswers.asObservable() }
     var isChatEnabled: Observable<Bool> { return base.chatEnabled.asObservable() }
     var directMessages: Observable<CollectionChange<ChatViewMessage>> { return base.directChatMessages.changesObservable }
+    var isInterested: Observable<Bool> { return base.isInterested.asObservable() }
 }
