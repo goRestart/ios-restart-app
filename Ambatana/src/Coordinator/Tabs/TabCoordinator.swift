@@ -264,29 +264,23 @@ fileprivate extension TabCoordinator {
 
 extension TabCoordinator: UserVerificationNavigator {
     func closeUserVerification() {
-        navigationController.popViewController(animated: true)
+        let router = UserVerificationRouter(navigationController: navigationController)
+        router.closeUserVerification()
     }
 
     func openEmailVerification() {
-        let vm = UserVerificationEmailViewModel()
-        vm.navigator = self
-        let vc = UserVerificationEmailViewController(viewModel: vm)
-        navigationController.pushViewController(vc, animated: true)
+        let router = UserVerificationRouter(navigationController: navigationController)
+        router.openEmailVerification(verifyUserNavigator: self)
     }
 
     func openEditUserBio() {
-        let vm = EditUserBioViewModel()
-        vm.navigator = self
-        let vc = EditUserBioViewController(viewModel: vm)
-        navigationController.pushViewController(vc, animated: true)
+        let router = UserVerificationRouter(navigationController: navigationController)
+        router.openEditUserBio(navigator: self)
     }
 
     func openPhoneNumberVerification() {
-        let vm = UserPhoneVerificationNumberInputViewModel()
-        vm.navigator = self
-        let vc = UserPhoneVerificationNumberInputViewController(viewModel: vm)
-        vm.delegate = vc
-        navigationController.pushViewController(vc, animated: true)
+        let router = UserVerificationRouter(navigationController: navigationController)
+        router.openPhoneNumberVerification(navigator: self)
     }
 }
 
