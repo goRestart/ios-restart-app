@@ -62,6 +62,7 @@ protocol FeatureFlaggeable: class {
     var fullScreenAdUnitId: String? { get }
     var appInstallAdsInFeed: AppInstallAdsInFeed { get }
     var appInstallAdsInFeedAdUnit: String? { get }
+    var alwaysShowBumpBannerWithLoading: AlwaysShowBumpBannerWithLoading { get }
     
     // MARK: Chat
     var showInactiveConversations: Bool { get }
@@ -458,6 +459,10 @@ extension PreventMessagesFromFeedToProUsers {
 }
 
 extension AppInstallAdsInFeed {
+    var isActive: Bool { return self == .active }
+}
+
+extension AlwaysShowBumpBannerWithLoading {
     var isActive: Bool { return self == .active }
 }
 
@@ -1063,7 +1068,15 @@ final class FeatureFlags: FeatureFlaggeable {
         }
         return AppInstallAdsInFeed.fromPosition(abTests.appInstallAdsInFeed.value)
     }
-    
+
+    var alwaysShowBumpBannerWithLoading: AlwaysShowBumpBannerWithLoading {
+        if Bumper.enabled {
+            return Bumper.alwaysShowBumpBannerWithLoading
+        }
+        return AlwaysShowBumpBannerWithLoading.fromPosition(abTests.alwaysShowBumpBannerWithLoading.value)
+    }
+
+
     // MARK: - Private
 
     private var locationCountryCode: CountryCode? {

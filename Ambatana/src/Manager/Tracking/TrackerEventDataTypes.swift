@@ -1203,6 +1203,7 @@ enum EventParameterBumpUpType: String {
     case free = "free"
     case paid = "paid"
     case retry = "retry"
+    case loading = "loading"
 
     init(bumpType: BumpUpType) {
         switch bumpType {
@@ -1212,6 +1213,8 @@ enum EventParameterBumpUpType: String {
             self = .paid
         case .restore:
             self = .retry
+        case .loading:
+            self = .loading
         }
     }
 }

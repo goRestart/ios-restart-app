@@ -80,6 +80,7 @@ extension Bumper  {
         flags.append(FrictionlessShare.self)
         flags.append(ShowCommunity.self)
         flags.append(ExpressChatImprovement.self)
+        flags.append(AlwaysShowBumpBannerWithLoading.self)
         Bumper.initialize(flags)
     } 
 
@@ -914,6 +915,19 @@ extension Bumper  {
         }
     }
     #endif
+
+    static var alwaysShowBumpBannerWithLoading: AlwaysShowBumpBannerWithLoading {
+        guard let value = Bumper.value(for: AlwaysShowBumpBannerWithLoading.key) else { return .control }
+        return AlwaysShowBumpBannerWithLoading(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var alwaysShowBumpBannerWithLoadingObservable: Observable<AlwaysShowBumpBannerWithLoading> {
+        return Bumper.observeValue(for: AlwaysShowBumpBannerWithLoading.key).map {
+            AlwaysShowBumpBannerWithLoading(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
 }
 
 
@@ -931,7 +945,7 @@ enum FreeBumpUpEnabled: String, BumperFeature  {
     static var defaultValue: String { return FreeBumpUpEnabled.no.rawValue }
     static var enumValues: [FreeBumpUpEnabled] { return [.no, .yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "User can bump sharing" } 
+    static var description: String { return "[MONEY] User can bump sharing" } 
     var asBool: Bool { return self == .yes }
 }
 
@@ -940,7 +954,7 @@ enum PricedBumpUpEnabled: String, BumperFeature  {
     static var defaultValue: String { return PricedBumpUpEnabled.no.rawValue }
     static var enumValues: [PricedBumpUpEnabled] { return [.no, .yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "User can bump paying" } 
+    static var description: String { return "[MONEY] User can bump paying" } 
     var asBool: Bool { return self == .yes }
 }
 
@@ -1040,7 +1054,7 @@ enum ShowAdsInFeedWithRatio: String, BumperFeature  {
     static var defaultValue: String { return ShowAdsInFeedWithRatio.control.rawValue }
     static var enumValues: [ShowAdsInFeedWithRatio] { return [.control, .baseline, .ten, .fifteen, .twenty]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "show ads in feed every X cells" } 
+    static var description: String { return "[MONEY] show ads in feed every X cells" } 
     static func fromPosition(_ position: Int) -> ShowAdsInFeedWithRatio {
         switch position { 
             case 0: return .control
@@ -1114,7 +1128,7 @@ enum NoAdsInFeedForNewUsers: String, BumperFeature  {
     static var defaultValue: String { return NoAdsInFeedForNewUsers.control.rawValue }
     static var enumValues: [NoAdsInFeedForNewUsers] { return [.control, .baseline, .adsEverywhere, .noAdsForNewUsers, .adsForNewUsersOnlyInFeed]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Change logic for showing ads to new users (2 weeks old)" } 
+    static var description: String { return "[MONEY] Change logic for showing ads to new users (2 weeks old)" } 
     static func fromPosition(_ position: Int) -> NoAdsInFeedForNewUsers {
         switch position { 
             case 0: return .control
@@ -1296,7 +1310,7 @@ enum FeedAdsProviderForUS: String, BumperFeature  {
     static var defaultValue: String { return FeedAdsProviderForUS.control.rawValue }
     static var enumValues: [FeedAdsProviderForUS] { return [.control, .baseline, .googleAdxForAllUsers, .googleAdxForOldUsers, .moPubAdsForAllUsers, .moPubAdsForOldUsers]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Change logic for showing ads with diferent ads providers in the US" } 
+    static var description: String { return "[MONEY] Change logic for showing ads with diferent ads providers in the US" } 
     static func fromPosition(_ position: Int) -> FeedAdsProviderForUS {
         switch position { 
             case 0: return .control
@@ -1333,7 +1347,7 @@ enum FeedAdsProviderForTR: String, BumperFeature  {
     static var defaultValue: String { return FeedAdsProviderForTR.control.rawValue }
     static var enumValues: [FeedAdsProviderForTR] { return [.control, .baseline, .moPubAdsForAllUsers, .moPubAdsForOldUsers]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Change logic for showing ads with diferent ads providers in TR" } 
+    static var description: String { return "[MONEY] Change logic for showing ads with diferent ads providers in TR" } 
     static func fromPosition(_ position: Int) -> FeedAdsProviderForTR {
         switch position { 
             case 0: return .control
@@ -1367,7 +1381,7 @@ enum ShowExactLocationForPros: String, BumperFeature  {
     static var defaultValue: String { return ShowExactLocationForPros.yes.rawValue }
     static var enumValues: [ShowExactLocationForPros] { return [.yes, .no]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show exact location for professional delaers in listing detail map" } 
+    static var description: String { return "[MONEY] Show exact location for professional delaers in listing detail map" } 
     var asBool: Bool { return self == .yes }
 }
 
@@ -1392,7 +1406,7 @@ enum CopyForSellFasterNowInEnglish: String, BumperFeature  {
     static var defaultValue: String { return CopyForSellFasterNowInEnglish.control.rawValue }
     static var enumValues: [CopyForSellFasterNowInEnglish] { return [.control, .baseline, .variantB, .variantC, .variantD]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Try different copies for 'Sell faster now' banner in English" } 
+    static var description: String { return "[MONEY] Try different copies for 'Sell faster now' banner in English" } 
     static func fromPosition(_ position: Int) -> CopyForSellFasterNowInEnglish {
         switch position { 
             case 0: return .control
@@ -1492,7 +1506,7 @@ enum GoogleAdxForTR: String, BumperFeature  {
     static var defaultValue: String { return GoogleAdxForTR.control.rawValue }
     static var enumValues: [GoogleAdxForTR] { return [.control, .baseline, .googleAdxForAllUsers, .googleAdxForOldUsers]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Change logic for showing GoogleAdx in TR" } 
+    static var description: String { return "[MONEY] Change logic for showing GoogleAdx in TR" } 
     static func fromPosition(_ position: Int) -> GoogleAdxForTR {
         switch position { 
             case 0: return .control
@@ -1595,7 +1609,7 @@ enum FullScreenAdsWhenBrowsingForUS: String, BumperFeature  {
     static var defaultValue: String { return FullScreenAdsWhenBrowsingForUS.control.rawValue }
     static var enumValues: [FullScreenAdsWhenBrowsingForUS] { return [.control, .baseline, .adsForAllUsers, .adsForOldUsers]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show full screen Interstitial while browsing through items" } 
+    static var description: String { return "[MONEY] Show full screen Interstitial while browsing through items" } 
     static func fromPosition(_ position: Int) -> FullScreenAdsWhenBrowsingForUS {
         switch position { 
             case 0: return .control
@@ -1644,7 +1658,7 @@ enum PreventMessagesFromFeedToProUsers: String, BumperFeature  {
     static var defaultValue: String { return PreventMessagesFromFeedToProUsers.control.rawValue }
     static var enumValues: [PreventMessagesFromFeedToProUsers] { return [.control, .baseline, .active]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "If buyer taps 'I'm interested' button in the feed and the listing is from a PRO user, show the phone number request screen" } 
+    static var description: String { return "[MONEY] If buyer taps 'I'm interested' button in the feed and the listing is from a PRO user, show the phone number request screen" } 
     static func fromPosition(_ position: Int) -> PreventMessagesFromFeedToProUsers {
         switch position { 
             case 0: return .control
@@ -1798,7 +1812,7 @@ enum AppInstallAdsInFeed: String, BumperFeature  {
     static var defaultValue: String { return AppInstallAdsInFeed.control.rawValue }
     static var enumValues: [AppInstallAdsInFeed] { return [.control, .baseline, .active]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show App Install Ads from Google Adx in feed" } 
+    static var description: String { return "[MONEY] Show App Install Ads from Google Adx in feed" } 
     static func fromPosition(_ position: Int) -> AppInstallAdsInFeed {
         switch position { 
             case 0: return .control
@@ -1916,3 +1930,18 @@ enum ExpressChatImprovement: String, BumperFeature  {
     }
 }
 
+enum AlwaysShowBumpBannerWithLoading: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return AlwaysShowBumpBannerWithLoading.control.rawValue }
+    static var enumValues: [AlwaysShowBumpBannerWithLoading] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[MONEY] Always show bump banner with a loading till we get the info" } 
+    static func fromPosition(_ position: Int) -> AlwaysShowBumpBannerWithLoading {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}

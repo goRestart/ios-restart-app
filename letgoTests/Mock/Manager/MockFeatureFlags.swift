@@ -52,6 +52,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var fullScreenAdUnitId: String? = ""
     var appInstallAdsInFeed: AppInstallAdsInFeed = .control
     var appInstallAdsInFeedAdUnit: String? = ""
+    var alwaysShowBumpBannerWithLoading: AlwaysShowBumpBannerWithLoading = .control
     
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false
