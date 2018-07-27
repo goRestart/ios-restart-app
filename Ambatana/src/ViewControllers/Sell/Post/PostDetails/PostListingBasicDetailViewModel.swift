@@ -16,7 +16,7 @@ class PostListingBasicDetailViewModel: BaseViewModel {
 
     // In&Out variables
     let isFree = Variable<Bool>(false)
-    let shareOnFacebook = Variable<Bool>(true)
+    let shareOnFacebook = Variable<Bool?>(nil)
     
     // Out variables
     var listingPrice: ListingPrice {
@@ -60,6 +60,7 @@ class PostListingBasicDetailViewModel: BaseViewModel {
     }
 
     private func updateShareOnFacebookFromKeyValueStorage() {
+        guard shareOnFacebookAvailable else { return }
         shareOnFacebook.value = keyValueStorage[.sellAutoShareOnFacebook] ?? true
         shareOnFacebook.asObservable().subscribeNext { [weak self] shareOnFacebook in
             self?.keyValueStorage[.sellAutoShareOnFacebook] = shareOnFacebook
@@ -75,6 +76,7 @@ class PostListingBasicDetailViewModel: BaseViewModel {
     }
 
     func shareOnFacebookPressed() {
-        shareOnFacebook.value = !shareOnFacebook.value
+        guard let shareOnFacebook = shareOnFacebook.value else { return }
+        self.shareOnFacebook.value = !shareOnFacebook
     }
 }

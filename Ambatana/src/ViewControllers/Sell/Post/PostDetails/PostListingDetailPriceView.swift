@@ -244,7 +244,7 @@ final class ShareOnFacebookView: BaseView {
     }
 
     private func setupRX() {
-        viewModel.shareOnFacebook.asObservable().bind { [weak self] shareOnFacebook in
+        viewModel.shareOnFacebook.asObservable().ignoreNil().bind { [weak self] shareOnFacebook in
             self?.checkbox.isChecked = shareOnFacebook
         }.disposed(by: disposeBag)
         checkbox.rx.tap.bind { [weak self] in
