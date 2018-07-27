@@ -51,7 +51,7 @@ public protocol UserRepository: class {
 
      - parameter completion: The completion closure
      */
-    func indexBlocked(_ completion: UsersCompletion?)
+    func indexBlocked(limit: Int, offset: Int, completion: UsersCompletion?)
 
     /**
      Blocks a user

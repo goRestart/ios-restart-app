@@ -385,7 +385,7 @@ extension SellCoordinator: MultiListingPostedNavigator {
 // MARK: - EditListingCoordinatorDelegate
 extension SellCoordinator: EditListingCoordinatorDelegate {
     func editListingCoordinatorDidCancel(_ coordinator: EditListingCoordinator) {
-        // Do nothing, todo esta canela fina
+        // Do nothing, esta canela fina
     }
     
     func editListingCoordinator(_ coordinator: EditListingCoordinator,
@@ -494,7 +494,6 @@ fileprivate extension SellCoordinator {
                                                      videoLength: trackingInfo.videoLength,
                                                      freePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                      typePage: trackingInfo.typePage,
-                                                     mostSearchedButton: trackingInfo.mostSearchedButton,
                                                      machineLearningTrackingInfo: trackingInfo.machineLearningInfo)
 
         tracker.trackEvent(event)

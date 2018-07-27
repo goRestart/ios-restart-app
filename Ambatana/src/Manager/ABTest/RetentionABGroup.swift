@@ -16,6 +16,7 @@ struct RetentionABGroup: ABGroupType {
         static let highlightedIAmInterestedInFeed = "20180531HighlightedIAmInterestedInFeed"
         static let notificationSettings = "20180608NotificationSettings"
         static let searchAlertsInSearchSuggestions = "20180710SearchAlertsInSearchSuggestions"
+        static let engagementBadging = "20180613EngagementBadging"
     }
     let dummyUsersInfoProfile: LeanplumABVariable<Int>
     let onboardingIncentivizePosting: LeanplumABVariable<Int>
@@ -23,6 +24,7 @@ struct RetentionABGroup: ABGroupType {
     let highlightedIAmInterestedInFeed: LeanplumABVariable<Int>
     let notificationSettings: LeanplumABVariable<Int>
     let searchAlertsInSearchSuggestions: LeanplumABVariable<Int>
+    let engagementBadging: LeanplumABVariable<Int>
     
     let group: ABGroup = .retention
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -35,20 +37,23 @@ struct RetentionABGroup: ABGroupType {
          iAmInterestedInFeed: LeanplumABVariable<Int>,
          highlightedIAmInterestedInFeed: LeanplumABVariable<Int>,
          notificationSettings: LeanplumABVariable<Int>,
-         searchAlertsInSearchSuggestions: LeanplumABVariable<Int>) {
+         searchAlertsInSearchSuggestions: LeanplumABVariable<Int>,
+         engagementBadging: LeanplumABVariable<Int>) {
         self.dummyUsersInfoProfile = dummyUsersInfoProfile
         self.onboardingIncentivizePosting = onboardingIncentivizePosting
         self.iAmInterestedInFeed = iAmInterestedInFeed
         self.highlightedIAmInterestedInFeed = highlightedIAmInterestedInFeed
         self.notificationSettings = notificationSettings
         self.searchAlertsInSearchSuggestions = searchAlertsInSearchSuggestions
+        self.engagementBadging = engagementBadging
 
         intVariables.append(contentsOf: [dummyUsersInfoProfile,
                                         onboardingIncentivizePosting,
                                         iAmInterestedInFeed,
                                         highlightedIAmInterestedInFeed,
                                         notificationSettings,
-                                        searchAlertsInSearchSuggestions])
+                                        searchAlertsInSearchSuggestions,
+                                        engagementBadging])
     }
 
     static func make() -> RetentionABGroup {
@@ -69,6 +74,9 @@ struct RetentionABGroup: ABGroupType {
                                                                groupType: .retention),
                                 searchAlertsInSearchSuggestions: .makeInt(key: Keys.searchAlertsInSearchSuggestions,
                                                                           defaultValue: 0,
-                                                                          groupType: .retention))
+                                                                          groupType: .retention),
+                                engagementBadging: .makeInt(key: Keys.engagementBadging,
+                                                            defaultValue: 0,
+                                                            groupType: .retention))
     }
 }

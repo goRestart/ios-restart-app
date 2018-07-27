@@ -2,16 +2,18 @@ import UIKit
 import LGComponents
 
 class FilterDisclosureCell: UICollectionViewCell, ReusableCell, FilterCell {
+    
     private struct Margins {
         static let short: CGFloat = 8
         static let standard: CGFloat = 16
         static let big: CGFloat = 20
     }
+    
     var topSeparator: UIView?
     var bottomSeparator: UIView?
     var rightSeparator: UIView?
 
-    let titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.lgBlack
         label.setContentHuggingPriority(.required, for: .horizontal)
@@ -20,7 +22,7 @@ class FilterDisclosureCell: UICollectionViewCell, ReusableCell, FilterCell {
         return label
     }()
     
-    let subtitleLabel: UILabel = {
+    private let subtitleLabel: UILabel = {
         let label = UILabel()
         
         label.setContentHuggingPriority(.required, for: .horizontal)
@@ -31,7 +33,7 @@ class FilterDisclosureCell: UICollectionViewCell, ReusableCell, FilterCell {
         return label
     }()
     
-    fileprivate let disclosure: UIImageView = {
+    private let disclosure: UIImageView = {
         let imageView = UIImageView(image: R.Asset.IconsButtons.icDisclosure.image)
         imageView.contentMode = .center
 
@@ -53,6 +55,18 @@ class FilterDisclosureCell: UICollectionViewCell, ReusableCell, FilterCell {
         super.prepareForReuse()
         self.resetUI()
     }
+    
+    func setup(withTitle title: String?,
+               subtitle: String?,
+               isTitleEnabled: Bool = true,
+               isUserInteractionEnabled: Bool = true) {
+        titleLabel.text = title
+        subtitleLabel.text = subtitle
+        
+        titleLabel.isEnabled = isTitleEnabled
+        self.isUserInteractionEnabled = isUserInteractionEnabled
+    }
+    
 
     // MARK: - Private methods
 

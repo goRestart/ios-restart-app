@@ -34,7 +34,8 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     private let listingListView = ListingListView()
     private let filterDescriptionHeaderView = FilterDescriptionHeaderView()
     private let filterTitleHeaderView = FilterTitleHeaderView()
-    private let infoBubbleView = InfoBubbleView()
+    private let infoBubbleView = InfoBubbleView(style: .light)
+    private let recentItemsBubbleView = InfoBubbleView(style: .reddish)
     private let navbarSearch: LGNavBarSearchField
     private var trendingSearchView = TrendingSearchView()
     private var filterTagsView = FilterTagsView()
@@ -308,6 +309,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         }
     }
     
+    
     // MARK: - FilterHeaders
     
     private func setupFilterHeaders() {
@@ -491,9 +493,41 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         let bubbleTap = UITapGestureRecognizer(target: self, action: #selector(onBubbleTapped))
         infoBubbleView.addGestureRecognizer(bubbleTap)
     }
+    
+    private func addRecentItemsBubbleView() {
+        view.addSubviewForAutoLayout(recentItemsBubbleView)
+        
+        let recentItemsBubbleViewTopConstraint = recentItemsBubbleView.topAnchor.constraint(equalTo: infoBubbleView.bottomAnchor, constant: Metrics.shortMargin)
+        let recentItemsBubbleViewTrailingConstraint = recentItemsBubbleView.trailingAnchor.constraint(greaterThanOrEqualTo: safeTrailingAnchor, constant: Metrics.bigMargin)
+        recentItemsBubbleViewTopConstraint.priority = UILayoutPriority.defaultLow
+        recentItemsBubbleViewTrailingConstraint.priority = UILayoutPriority.defaultLow
+        
+        NSLayoutConstraint.activate([
+            recentItemsBubbleViewTopConstraint,
+            recentItemsBubbleView.centerXAnchor.constraint(equalTo: view.centerXAnchor,
+                                                           constant: 0),
+            recentItemsBubbleView.heightAnchor.constraint(equalToConstant: InfoBubbleView.bubbleHeight),
+            recentItemsBubbleView.leadingAnchor.constraint(greaterThanOrEqualTo: safeLeadingAnchor,
+                                                           constant: Metrics.bigMargin),
+            recentItemsBubbleViewTrailingConstraint
+            ])
+
+        let bubbleTap = UITapGestureRecognizer(target: self, action: #selector(onRecentItemsBubbleTapped))
+        recentItemsBubbleView.addGestureRecognizer(bubbleTap)
+    }
+    
+    private func removeRecentItemsBubble() {
+        recentItemsBubbleView.removeFromSuperview()
+    }
 
     @objc private func onBubbleTapped() {
         viewModel.bubbleTapped()
+    }
+    
+    @objc private func onRecentItemsBubbleTapped() {
+        viewModel.recentItemsBubbleTapped()
+        scrollToTop()
+        removeRecentItemsBubble()
     }
 
     private func setupSearchAndTrending() {
@@ -510,8 +544,19 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
                 self?.infoBubbleView.invalidateIntrinsicContentSize()
             }.disposed(by: disposeBag)
         
-        viewModel.infoBubbleText.asObservable().bind(to: infoBubbleView.title.rx.text).disposed(by: disposeBag)
-        viewModel.infoBubbleVisible.asObservable().map { !$0 }.bind(to: infoBubbleView.rx.isHidden).disposed(by: disposeBag)
+        viewModel.infoBubbleText.asObservable()
+            .bind(to: infoBubbleView.title.rx.text)
+            .disposed(by: disposeBag)
+        viewModel.infoBubbleVisible.asObservable().map { !$0 }
+            .bind(to: infoBubbleView.rx.isHidden)
+            .disposed(by: disposeBag)
+        
+        viewModel.recentItemsBubbleText.asObservable()
+            .bind(to: recentItemsBubbleView.title.rx.text)
+            .disposed(by: disposeBag)
+        viewModel.recentItemsBubbleVisible.asObservable().map { !$0 }
+            .bind(to: recentItemsBubbleView.rx.isHidden)
+            .disposed(by: disposeBag)
 
         topInset.asObservable()
             .bind { [weak self] topInset in
@@ -606,7 +651,8 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
        
         if shouldShowCategoryCollectionBanner {
             categoriesHeader = CategoriesHeaderCollectionView()
-            categoriesHeader?.configure(with: viewModel.categoryHeaderElements, categoryHighlighted: viewModel.categoryHeaderHighlighted, isMostSearchedItemsEnabled: viewModel.isMostSearchedItemsEnabled)
+            categoriesHeader?.configure(with: viewModel.categoryHeaderElements,
+                                        categoryHighlighted: viewModel.categoryHeaderHighlighted)
             categoriesHeader?.delegateCategoryHeader = viewModel
             categoriesHeader?.categorySelected.asObservable().bind { [weak self] categoryHeaderInfo in
                 guard let category = categoryHeaderInfo else { return }

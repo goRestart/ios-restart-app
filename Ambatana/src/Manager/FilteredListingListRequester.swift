@@ -87,7 +87,6 @@ class FilteredListingListRequester: ListingListRequester {
     private func retrieve(_ completion: ListingsCompletion?) {
         if let category = filters?.selectedCategories.first {
             let action = category.index(listingRepository: listingRepository,
-                                        searchCarsEnabled: featureFlags.searchCarsIntoNewBackend.isActive,
                                         searchServicesEnabled: featureFlags.showServicesFeatures.isActive)
             action(retrieveListingsParams, completion)
         } else if shouldUseSimilarQuery, queryString != nil {
@@ -128,25 +127,23 @@ class FilteredListingListRequester: ListingListRequester {
     }
     
     private var requesterTitle: String? {
-        guard let filters = filters, filters.selectedCategories.contains(.cars) || filters.selectedTaxonomyChildren.containsCarsTaxonomy  else { return nil }
+        guard let filters = filters,
+            filters.selectedCategories.contains(.cars) || filters.selectedTaxonomyChildren.containsCarsTaxonomy else { return nil }
+        
+        let carFilters = filters.verticalFilters.cars
         var titleFromFilters: String = ""
 
-        if let makeName = filters.carMakeName {
+        if let makeName = carFilters.makeName {
             titleFromFilters += makeName
         }
-        if let modelName = filters.carModelName {
+        if let modelName = carFilters.modelName {
             titleFromFilters += " " + modelName
         }
-        if let rangeYearTitle = rangeYearTitle(forFilters: filters) {
+        if let rangeYearTitle = rangeYearTitle(forCarFilters: carFilters) {
             titleFromFilters += " " + rangeYearTitle
         }
 
-        let filtersHasAnyCarAttributes: Bool = filters.carMakeId != nil ||
-                                            filters.carModelId != nil ||
-                                            filters.carYearStart != nil ||
-                                            filters.carYearEnd != nil
-
-        if  filtersHasAnyCarAttributes && titleFromFilters.isEmpty {
+        if carFilters.hasAnyAttributesSet && titleFromFilters.isEmpty {
             // if there's a make filter active but no title, is "Other Results"
             titleFromFilters = R.Strings.filterResultsCarsOtherResults
         }
@@ -154,29 +151,29 @@ class FilteredListingListRequester: ListingListRequester {
         return titleFromFilters.isEmpty ? nil : titleFromFilters.localizedUppercase
     }
 
-    private func rangeYearTitle(forFilters filters: ListingFilters?) -> String? {
-        guard let filters = filters else { return nil }
+    private func rangeYearTitle(forCarFilters carFilters: CarFilters) -> String? {
 
-        if let startYear = filters.carYearStart, let endYear = filters.carYearEnd {
+        if let startYear = carFilters.yearStart,
+            let endYear = carFilters.yearEnd {
             // both years specified
             if startYear == endYear {
                 return String(startYear)
             } else {
                 return String(startYear) + " - " + String(endYear)
             }
-        } else if let startYear = filters.carYearStart {
+        } else if let startYear = carFilters.yearStart {
             // only start specified
             if startYear == Date().year {
                 return String(startYear)
             } else {
              return String(startYear) + " - " + String(Date().year)
             }
-        } else if let endYear = filters.carYearEnd {
+        } else if let endYear = carFilters.yearEnd {
             // only end specified
             if endYear == SharedConstants.filterMinCarYear {
-                return R.Strings.filtersCarYearBeforeYear(SharedConstants.filterMinCarYear)
+                return R.Strings.filtersCarYearBeforeYear("\(SharedConstants.filterMinCarYear)")
             } else {
-                return R.Strings.filtersCarYearBeforeYear(SharedConstants.filterMinCarYear) + " - " + String(endYear)
+                return R.Strings.filtersCarYearBeforeYear("\(SharedConstants.filterMinCarYear)") + " - " + String(endYear)
             }
         } else {
             // no year specified
@@ -230,7 +227,7 @@ fileprivate extension FilteredListingListRequester {
         params.abtest = featureFlags.searchImprovements.stringValue
         params.relaxParam = featureFlags.relaxedSearch.relaxParam
         params.similarParam = featureFlags.emptySearchImprovements.similarParam
-        params.populate(with: filters)
+        params.populate(with: filters, featureFlags: featureFlags)
         return params
     }
     
@@ -266,8 +263,7 @@ fileprivate extension FilteredListingListRequester {
         var keywords: [String] = []
         var matchingFields: [String] = []
         
-        let carAttributes = filters.carTrackingParams()
-        carAttributes.forEach { (key, value) in
+        filters.verticalFilters.createTrackingParams().forEach { (key, value) in
             let keyRaw = key.rawValue
             if let _ = value, !keywords.contains(keyRaw) { return }
             keywords.append(keyRaw)
@@ -335,19 +331,18 @@ private extension EmptySearchImprovements {
 
 private extension ListingCategory {
     func index(listingRepository: ListingRepository,
-               searchCarsEnabled: Bool,
                searchServicesEnabled: Bool) -> ((RetrieveListingParams, ListingsCompletion?) -> ()) {
         switch self {
         case .realEstate:
             return listingRepository.indexRealEstate
         case .cars:
-            return searchCarsEnabled ? listingRepository.indexCars : listingRepository.index
+            return listingRepository.indexCars
+        case .services:
+            return searchServicesEnabled ? listingRepository.indexServices : listingRepository.index
         case .babyAndChild, .electronics, .fashionAndAccesories, .homeAndGarden, .motorsAndAccessories,
              .moviesBooksAndMusic, .other, .sportsLeisureAndGames,
              .unassigned:
             return listingRepository.index
-        case .services:
-            return searchServicesEnabled ? listingRepository.indexServices : listingRepository.index
         }
     }
 }

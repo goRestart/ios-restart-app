@@ -23,8 +23,6 @@ final class SpyListingListViewModelDataDelegate: ListingListViewModelDataDelegat
     
     func vmDidSelectCollection(_ type: CollectionCellType) { }
     
-    func vmDidSelectMostSearchedItems() { }
-    
     func listingListMV(_ viewModel: ListingListViewModel, didFailRetrievingListingsPage page: UInt, hasListings: Bool, error: RepositoryError) { }
     
     func listingListVM(_ viewModel: ListingListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?, originFrame: CGRect?) { }

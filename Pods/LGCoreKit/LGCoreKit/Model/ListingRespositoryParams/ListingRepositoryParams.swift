@@ -157,7 +157,7 @@ public struct RetrieveListingParams {
         params[VerticalsParamsKeys.numResults] = numListings
         params[VerticalsParamsKeys.offset] = offset
         params[VerticalsParamsKeys.sort] = sortCriteria?.string
-        params[VerticalsParamsKeys.since] = timeCriteria?.string
+        params[VerticalsParamsKeys.since] = timeCriteria?.parameterValue
         
         // Real Estate attributes
         if let propertyType = propertyType {
@@ -213,7 +213,7 @@ public struct RetrieveListingParams {
         params[ApiProductsParamsKeys.numberOfResults] = numListings
         params[ApiProductsParamsKeys.offset] = offset
         params[ApiProductsParamsKeys.sort] = sortCriteria?.string
-        params[ApiProductsParamsKeys.since] = timeCriteria?.string
+        params[ApiProductsParamsKeys.since] = timeCriteria?.parameterValue
         params[ApiProductsParamsKeys.abtest] = abtest
         
         // Car attributes
@@ -317,9 +317,16 @@ public enum ListingSortCriteria: Int, Equatable {
     }
 }
 
-public enum ListingTimeCriteria: Int, Equatable {
-    case day = 1, week = 2, month = 3, all = 4
-    var string : String? {
+public enum ListingTimeCriteria: Equatable {
+    case day
+    case week
+    case month
+    case all
+    case date(date: Date)
+    
+    private static let dateFormatter = LGDateFormatter()
+    
+    var parameterValue: String? {
         switch self {
         case .day:
             return "day"
@@ -329,6 +336,8 @@ public enum ListingTimeCriteria: Int, Equatable {
             return "month"
         case .all:
             return nil
+        case .date(let date):
+            return ListingTimeCriteria.dateFormatter.string(from: date)
         }
     }
 }

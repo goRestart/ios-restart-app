@@ -5,6 +5,12 @@ import RxCocoa
 import MapKit
 import LGComponents
 
+protocol ListingsMapNavigator {
+    func openListing(_ data: ListingDetailData,
+                     source: EventParameterListingVisitSource,
+                     actionOnFirstAppear: ProductCarouselActionOnFirstAppear)
+}
+
 final class ListingsMapViewModel: BaseViewModel {
     
     typealias ListingWithTags = (listing: Listing?, tags: [String])
@@ -12,7 +18,7 @@ final class ListingsMapViewModel: BaseViewModel {
     private let disposeBag = DisposeBag()
     
     private let tracker: Tracker
-    private let navigator: TabNavigator
+    private let navigator: ListingsMapNavigator
     private let myUserRepository: MyUserRepository
     private var productFilter : ListingFilters
     private let featureFlags: FeatureFlaggeable
@@ -24,8 +30,18 @@ final class ListingsMapViewModel: BaseViewModel {
 
     let isLoading = Variable(false)
     let errorMessage = Variable<String?>(nil)
-    
-    init(navigator: TabNavigator,
+
+    convenience init(navigator: ListingsMapNavigator,
+                     currentFilters: ListingFilters) {
+        self.init(navigator: navigator,
+                  tracker: TrackerProxy.sharedInstance,
+                  myUserRepository: Core.myUserRepository,
+                  locationManager: Core.locationManager,
+                  currentFilters: currentFilters,
+                  featureFlags: FeatureFlags.sharedInstance)
+    }
+
+    init(navigator: ListingsMapNavigator,
          tracker: Tracker,
          myUserRepository: MyUserRepository,
          locationManager: LocationManager,
@@ -61,8 +77,7 @@ final class ListingsMapViewModel: BaseViewModel {
         isLoading.value = true
         let requester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                             queryString: nil,
-                                                                            itemsPerPage: 50,
-                                                                            carSearchActive: featureFlags.searchCarsIntoNewBackend.isActive)
+                                                                            itemsPerPage: 50)
         requester.retrieveFirstPage { [weak self] result in
             guard let strongSelf = self else { return }
             if let error = result.listingsResult.error {

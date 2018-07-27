@@ -26,7 +26,6 @@ class MockNotificationsManager: NotificationsManager {
     let loggedInMktNofitications = Variable<Bool>(false)
     
     var updateCountersCalled: Bool = false
-    var newSellFeatureIndicator = Variable<String?>(LGNotificationsManager.newSellFeatureIndicatorValue)
 
     func setup() {  }
     func updateCounters() {

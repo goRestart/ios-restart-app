@@ -373,7 +373,7 @@ public extension UIView {
     }
     
     func addToViewController(_ viewController: UIViewController, inView: UIView) {
-        inView.addSubview(self)
+        inView.addSubviewForAutoLayout(self)
         layout(with: inView).left().right()
         layout(with: viewController.topLayoutGuide).top(to: .bottom)
         layout(with: viewController.bottomLayoutGuide).bottom(to: .top)

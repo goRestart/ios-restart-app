@@ -7,7 +7,7 @@
 "app_share_fbmessenger_button" = "Via Messenger einladen";
 "app_share_message_text" = "Schau dir die letgo-App an und verdiene bares Geld mit Sachen, die du nicht mehr brauchst!";
 "app_share_subject_text" = "Schau dir mal letgo an";
-"app_share_subtitle" = "Teile letgo mit deinen Freunden, damit unsere Community weiter wächst!";
+"app_share_subtitle" = "Teile letgo mit deinen Freunden, damit unsere Gemeinschaft weiter wächst!";
 "app_share_title" = "LADE FREUNDE EIN";
 "app_share_whatsapp_button" = "Via Whatsapp einladen";
 "block_user_error_generic" = "Beim Blockieren dieses Nutzers ist ein Fehler aufgetreten.";
@@ -15,6 +15,7 @@
 "bump_up_banner_boost_text" = "Kurbel dein Angebot so richtig an!";
 "bump_up_banner_free_button_title" = "Hochholen";
 "bump_up_banner_free_text" = "Kostenlos hochholen, um schneller zu verkaufen";
+"bump_up_banner_loading_text" = "Weitere Infos laden…";
 "bump_up_banner_pay_text" = "Jetzt schneller verkaufen";
 "bump_up_banner_pay_text_improvement" = "Jetzt schneller verkaufen";
 "bump_up_banner_pay_text_improvement_english_a" = "Jetzt schneller verkaufen";
@@ -149,10 +150,12 @@
 "chat_express_banner_button_title" = "Angebote ansehen";
 "chat_express_banner_title" = "Passende Angebote in deiner Nähe";
 "chat_express_contact_one_button_text" = "Kontaktiere 1 Verkäufer";
+"chat_express_contact_only_button_text" = "Kontakt";
 "chat_express_contact_sellers_label" = "Schreibe den Verkäufer an, bevor jemand anderes sie wegschnappt!";
 "chat_express_contact_various_button_text" = "Kontaktiere %@ Verkäufer";
 "chat_express_dont_ask_again_button" = "Nicht erneut fragen";
 "chat_express_dont_miss_label" = "Verpasse keines dieser Angebote";
+"chat_express_high_demand_label" = "Sehr gefragt! Lass dir diese Schnäppchen nicht entgehen.";
 "chat_express_one_message_sent_success_alert" = "Deine Nachricht wurde verschickt!";
 "chat_express_several_messages_sent_success_alert" = "Deine Nachrichten wurden verschickt!";
 "chat_express_text_field_text" = "Ist das noch zu haben?";
@@ -294,6 +297,7 @@
 "common_user_not_available" = "Hoppla! Benutzer nicht gefunden.";
 "common_user_review_not_available" = "Hoppla! Bewertung konnte nicht gefunden werden.";
 "common_yes" = "Ja";
+"community_banner_title" = "Werde Teil der letgo-Gemeinschaft!";
 "contact_subject_option_location" = "Standortfragen";
 "contact_subject_option_login" = "Kontozugriff";
 "contact_subject_option_other" = "Andere Fragen";
@@ -373,6 +377,7 @@
 "filter_cars_seats_title" = "Sitze";
 "filter_results_cars_no_matches" = "Keine exakten Treffer für deine Suche.\n Es werden ähnliche Ergebnisse angezeigt. ";
 "filter_results_cars_other_results" = "Kürzlich in deiner Nähe eingestellt";
+"filter_services_services_list_show_more" = "Mehr anzeigen";
 "filters_car_make_not_set" = "Nicht ausgewählt";
 "filters_car_model_not_set" = "Nicht ausgewählt";
 "filters_car_seller_type_all" = "Alle";
@@ -381,7 +386,7 @@
 "filters_car_seller_type_private" = "Privat";
 "filters_car_seller_type_professional" = "Händler";
 "filters_car_year_any_year" = "Beliebiges Baujahr";
-"filters_car_year_before_year" = "Von vor %i";
+"filters_car_year_before_year" = "Von vor %@";
 "filters_cars_bodytype_convertible" = "Cabriolet";
 "filters_cars_bodytype_coupe" = "Zweitürer";
 "filters_cars_bodytype_hatchback" = "Kombilimousine";
@@ -435,6 +440,9 @@
 "filters_section_within" = "Eingestellt innerhalb";
 "filters_service_subtype_not_set" = "Nicht ausgewählt";
 "filters_service_type_not_set" = "Nicht ausgewählt";
+"filters_services_services_list_max_selection_alert" = "Hoppla! Du kannst nur maximal 15 Dienstleistungen auswählen.";
+"filters_services_services_list_search_placeholder" = "Handwerker, Klempner ...";
+"filters_services_services_list_title" = "Wähle eine Kategorie";
 "filters_size_wrong_range_error" = "Die Mindestgröße kann nicht größer sein als die Maximalgröße.";
 "filters_slider_any" = "Beliebig";
 "filters_sort_closest" = "Nächste zuerst";
@@ -611,7 +619,7 @@
 "offensive_report_alert_message" = "Uns ist auf gefallen, dass möglicherweise unangemessene Nachrichten von deinem Benutzerkonto aus verschickt wurden.\n\nWiederholte Verstöße können zur Kündigung des Benutzerkontos führen.";
 "offensive_report_alert_primary_action" = "Richtlinien ansehen";
 "offensive_report_alert_secondary_action" = "Überspringen";
-"offensive_report_alert_title" = "Community-Richtlinien ansehen";
+"offensive_report_alert_title" = "Gemeinschaftsleitlinien ansehen";
 "onboarding_alert_no" = "Nein";
 "onboarding_alert_yes" = "Ja";
 "onboarding_categories_button_countdown" = "Wähle mindestens %i weitere aus";
@@ -816,7 +824,7 @@
 "product_post_camera_video_mode_button" = "VIDEO";
 "product_post_camera_video_mode_button_new_badge" = "Neu!";
 "product_post_camera_video_recording_min_duration_message" = "Bitte nimm mindestens für %d Sekunden auf";
-"product_post_camera_video_recording_tooltip" = "%@, um ein Video aufzunehmen";
+"product_post_camera_video_recording_tooltip" = "%@, um Video aufzuzeichnen";
 "product_post_camera_video_recording_tooltip_highlighted_word" = "Gedrückt halten";
 "product_post_close_alert_close_button" = "Verwerfen";
 "product_post_close_alert_description" = "Möchtest du es weiterhin zum Verkauf anbieten?";
@@ -1158,7 +1166,7 @@
 "report_user_suspcious" = "Verdächtiges Verhalten";
 "report_user_text_placeholder" = "Kommentar hinzufügen (optional)";
 "report_user_title" = "Nutzer melden";
-"reporting_additional_notes_placeholder" = "Teile bitte in der Zwischenzeit unserem Team weitere Informationen mit, damit sie deinen Fall untersuchen können.";
+"reporting_additional_notes_placeholder" = "Gib weitere Informationen an, die uns dabei helfen könnten, diesen Fall zu lösen";
 "reporting_listing_list_header" = "WARUM MELDEST DU DIESES ANGEBOT?";
 "reporting_listing_report_sent_text" = "Danke für deinen anonymen Bericht und dass du uns hilfst, letgo zum besten Ort für lokales Handeln zu machen.";
 "reporting_listing_report_sent_title" = "Bericht verschickt!";
@@ -1168,7 +1176,7 @@
 "reporting_listing_update_feedback_good" = "Super!";
 "reporting_listing_update_feedback_medium" = "Danke!";
 "reporting_listing_update_feedback_title" = "Wie war das Erlebnis?";
-"reporting_listing_update_text" = "Danke, dass du \"%@\" eingestellt von %@ anonym gemeldet hast. Solches Feedback hilft uns, die letgo-Gemeinschaft sicher zu halten.\n\nNachdem wir uns diesen Artikel angesehen haben, haben wir ihn entfernt, da er gegen unsere Gemeinschaftsrichtlinien verstößt.";
+"reporting_listing_update_text" = "Danke, dass du \"%@\" eingestellt von %@ anonym gemeldet hast. Solches Feedback hilft uns, die letgo-Gemeinschaft sicher zu halten.\n\nNachdem wir uns diesen Artikel angesehen haben, haben wir ihn entfernt, da er gegen unsere Gemeinschaftsleitlinien verstößt.";
 "reporting_listing_update_title" = "Meldungsstatus";
 "reporting_reason_bio" = "Biografie";
 "reporting_reason_counterfeit_money" = "Hat mit Falschgeld bezahlt";
@@ -1216,10 +1224,10 @@
 "reporting_user_report_sent_title" = "Bericht verschickt!";
 "reporting_user_suspicious_behavior_header" = "WAS IST PASSIERT?";
 "reporting_user_title" = "Nutzer melden";
-"reporting_user_update_text_A" = "Thanks for anonymously reporting %@. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing this account, we've removed it because it violated our Community Guidelines.";
-"reporting_user_update_text_B" = "Thanks for anonymously reporting %@'s profile photo. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing the photo, we've removed it because it violated our Community Guidelines.";
-"reporting_user_update_text_C" = "Thanks for anonymously reporting %@'s bio. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing the bio, we've removed it because it violated our Community Guidelines.";
-"reporting_user_update_title" = "Report update";
+"reporting_user_update_text_A" = "Danke, dass du %@ anonym gemeldet hast. Diese Art von Feedback hilft uns, die letgo-Gemeinschaft sicher zu halten.\n\nNachdem wir das Benutzerkonto überprüft haben, haben wir es entfernt, da es gegen unsere Gemeinschaftsleitlinien verstößt.";
+"reporting_user_update_text_B" = "Danke, dass du das Profilbild von %@ anonym gemeldet hast. Diese Art von Feedback hilft uns, die letgo-Gemeinschaft sicher zu halten.\n\nNachdem wir das Foto überprüft haben, haben wir es entfernt, da es gegen unsere Gemeinschaftsleitlinien verstößt.";
+"reporting_user_update_text_C" = "Danke, dass du die Biografie von %@ anonym gemeldet hast. Diese Art von Feedback hilft uns, die letgo-Gemeinschaft sicher zu halten.\n\nNachdem wir die Biografie überprüft haben, haben wir sie entfernt, da sie gegen unsere Gemeinschaftsleitlinien verstößt.";
+"reporting_user_update_title" = "Meldungsstatus";
 "reset_password_email_field_hint" = "E-Mail-Adresse";
 "reset_password_instructions" = "Bitte gib deine E-Mail-Adresse ein, damit wir dir eine Mail zum Zurücksetzen deines Kennworts schicken können.";
 "reset_password_send_button" = "Kennwort zurücksetzen";
@@ -1266,6 +1274,7 @@
 "sell_send_error_invalid_price" = "Bitte gib einen gültigen Preis für dein Angebot ein. Er darf nur aus Ziffern bestehen.";
 "sell_send_error_invalid_title" = "Bitte gib einen gültigen Titel für dein Angebot ein.";
 "sell_send_error_sharing_facebook" = "Beim Teilen auf Facebook ist eine Fehler aufgetreten. Versuche es bitte noch einmal.";
+"sell_share_on_facebook_footer_label" = "Erhalte mehr Sichtbarkeit und verkaufe schneller";
 "sell_share_on_facebook_label" = "Auf Facebook teilen";
 "sell_title_autogen_autotrans_label" = "Titelvorschlag von letgo und übersetzt von Google";
 "sell_title_autogen_label" = "Titelvorschlag von letgo";
@@ -1275,6 +1284,7 @@
 "services_service_subtype_title" = "Dienstleistung";
 "services_service_type_list_title" = "Dienstleistungskategorie";
 "services_service_type_title" = "Dienstleistungskategorie";
+"services_unified_filter_title" = "Wähle eine Kategorie";
 "settings_change_email_button" = "E-Mail-Adresse";
 "settings_change_location_button" = "Standort";
 "settings_change_password_button" = "Kennwort";

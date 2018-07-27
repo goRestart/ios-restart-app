@@ -29,4 +29,6 @@ struct EscrowEnvironment: Environment {
     let customFeedBaseURL = "https://customfeed.stg.letgo.com"
     let notificationSettingsPusherBaseURL = "https://push.escrowverification.letgo.com"
     let notificationSettingsMailerBaseURL = "https://mailer.escrowverification.letgo.com"
+    let reportingBaseURL = "https://reporting.stg.letgo.com"
+    let communityBaseURL = "https://community-sso.escrowverification.letgo.com"
 }

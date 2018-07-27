@@ -275,10 +275,10 @@ extension R {
       public static let downChevronRed = ImageAsset(name: "down_chevron_red")
       public enum FiltersCarExtrasIcons {
         public enum Bodytype {
+          public static let bodyTypeHybrid = ImageAsset(name: "bodyTypeHybrid")
           public static let convertible = ImageAsset(name: "convertible")
           public static let coupe = ImageAsset(name: "coupe")
           public static let hatchback = ImageAsset(name: "hatchback")
-          public static let hybrid = ImageAsset(name: "hybrid")
           public static let minivan = ImageAsset(name: "minivan")
           public static let other = ImageAsset(name: "other")
           public static let sedan = ImageAsset(name: "sedan")
@@ -296,8 +296,8 @@ extension R {
           public static let diesel = ImageAsset(name: "diesel")
           public static let electric = ImageAsset(name: "electric")
           public static let flex = ImageAsset(name: "flex")
+          public static let fuelTypeHybrid = ImageAsset(name: "fuelTypeHybrid")
           public static let gas = ImageAsset(name: "gas")
-          public static let hybrid = ImageAsset(name: "hybrid")
         }
         public static let mileage = ImageAsset(name: "mileage")
         public static let seats = ImageAsset(name: "seats")
@@ -538,7 +538,6 @@ extension R {
       public static let tooltipPeakCenterBlack = ImageAsset(name: "tooltip_peak_center_black")
       public static let tooltipPeakSideBlack = ImageAsset(name: "tooltip_peak_side_black")
       public static let trendingExpandable = ImageAsset(name: "trending_expandable")
-      public static let trendingIcon = ImageAsset(name: "trending_icon")
       public static let userPlaceholder = ImageAsset(name: "user_placeholder")
       public static let userProfileAddAvatar = ImageAsset(name: "user_profile_add_avatar")
       public static let userProfileEditAvatar = ImageAsset(name: "user_profile_edit_avatar")
@@ -586,10 +585,10 @@ extension R {
         chevronDownGrey,
         customPermissionProfile,
         downChevronRed,
+        FiltersCarExtrasIcons.Bodytype.bodyTypeHybrid,
         FiltersCarExtrasIcons.Bodytype.convertible,
         FiltersCarExtrasIcons.Bodytype.coupe,
         FiltersCarExtrasIcons.Bodytype.hatchback,
-        FiltersCarExtrasIcons.Bodytype.hybrid,
         FiltersCarExtrasIcons.Bodytype.minivan,
         FiltersCarExtrasIcons.Bodytype.other,
         FiltersCarExtrasIcons.Bodytype.sedan,
@@ -603,8 +602,8 @@ extension R {
         FiltersCarExtrasIcons.Fueltype.diesel,
         FiltersCarExtrasIcons.Fueltype.electric,
         FiltersCarExtrasIcons.Fueltype.flex,
+        FiltersCarExtrasIcons.Fueltype.fuelTypeHybrid,
         FiltersCarExtrasIcons.Fueltype.gas,
-        FiltersCarExtrasIcons.Fueltype.hybrid,
         FiltersCarExtrasIcons.mileage,
         FiltersCarExtrasIcons.seats,
         FiltersCarExtrasIcons.Transmission.automatic,
@@ -835,7 +834,6 @@ extension R {
         tooltipPeakCenterBlack,
         tooltipPeakSideBlack,
         trendingExpandable,
-        trendingIcon,
         userPlaceholder,
         userProfileAddAvatar,
         userProfileEditAvatar,

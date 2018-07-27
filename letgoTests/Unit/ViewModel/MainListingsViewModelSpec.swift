@@ -363,7 +363,7 @@ class MainListingsViewModelSpec: QuickSpec {
                 beforeEach {
                     var filters = ListingFilters()
                     filters.selectedCategories = [.cars]
-                    filters.carSellerTypes = [.user]
+                    filters.verticalFilters.cars.sellerTypes = [.user]
                     sut = MainListingsViewModel(sessionManager: Core.sessionManager,
                                                 myUserRepository: Core.myUserRepository,
                                                 searchRepository: Core.searchRepository,
@@ -386,9 +386,6 @@ class MainListingsViewModelSpec: QuickSpec {
                 context("cars new backend active") {
                     
                     context("car seller type") {
-                        beforeEach {
-                            mockFeatureFlags.searchCarsIntoNewBackend = .active
-                        }
                         it("has right tags") {
                             expect(sut.primaryTags).to(contain(.carSellerType(type: .user,
                                                                               name: R.Strings.filtersCarSellerTypeInvidual)))

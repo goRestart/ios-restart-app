@@ -110,7 +110,6 @@ class RequesterFactorySpec: QuickSpec {
             return RequesterDependencyContainer(itemsPerPage: 50,
                                                           filters: ListingFilters(),
                                                           queryString: "abc",
-                                                          carSearchActive: false,
                                                           similarSearchActive: similarSearchActive)
         }
         
@@ -118,8 +117,7 @@ class RequesterFactorySpec: QuickSpec {
             return FilterListingListRequesterFactory
                 .generateRequester(withFilters: dependency.filters,
                                    queryString:dependency.queryString,
-                                   itemsPerPage: dependency.itemsPerPage,
-                                   carSearchActive: dependency.carSearchActive)
+                                   itemsPerPage: dependency.itemsPerPage)
         }
         
         func buildFeedRequester(with dependency: RequesterDependencyContainer) -> ListingListMultiRequester {
@@ -132,7 +130,6 @@ class RequesterFactorySpec: QuickSpec {
                 .generateRequester(withFilters: dependency.filters,
                                    queryString: dependency.queryString,
                                    itemsPerPage: dependency.itemsPerPage,
-                                   carSearchActive: dependency.carSearchActive,
                                    similarSearchActive: dependency.similarSearchActive)
         }
     }

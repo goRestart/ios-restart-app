@@ -21,7 +21,6 @@ protocol ListingListViewModelDataDelegate: class {
     func vmProcessReceivedListingPage(_ Listings: [ListingCellModel], page: UInt) -> [ListingCellModel]
     func vmDidSelectSellBanner(_ type: String)
     func vmDidSelectCollection(_ type: CollectionCellType)
-    func vmDidSelectMostSearchedItems()
 }
 
 struct ListingsRequesterResult {
@@ -89,6 +88,8 @@ final class ListingListViewModel: BaseViewModel {
         let tuple = requesterFactory?.buildIndexedRequesterList()[safeAt: currentRequesterIndex]
         return tuple?.0
     }
+    
+    var recentListingsRequester: RecentListingsRequester?
     
     private var requesterFactory: RequesterFactory? {
         didSet {
@@ -218,6 +219,9 @@ final class ListingListViewModel: BaseViewModel {
                   searchType: searchType)
         self.requesterFactory = requesterFactory
         requesterSequence = requesterFactory.buildRequesterList()
+        if featureFlags.engagementBadging == .active {
+            self.recentListingsRequester = requesterFactory.buildRecentListingsRequester()
+        }
         setCurrentFallbackRequester()
     }
     
@@ -388,7 +392,9 @@ final class ListingListViewModel: BaseViewModel {
             strongSelf.applyNewListingInfo(hasNewListing: !newListings.isEmpty,
                                            context: result.context,
                                            verticalTracking: result.verticalTrackingInfo)
-            let cellModels = strongSelf.mapListingsToCellModels(newListings, pageNumber: nextPageNumber)
+            let cellModels = strongSelf.mapListingsToCellModels(newListings,
+                                                                pageNumber: nextPageNumber,
+                                                                shouldBeProcessed: true)
             let indexes: [Int] = strongSelf.updateListingIndices(isFirstPage: isFirstPage, with: cellModels)
 
             strongSelf.pageNumber = nextPageNumber
@@ -428,10 +434,15 @@ final class ListingListViewModel: BaseViewModel {
         }
     }
     
-    private func mapListingsToCellModels(_ listings: [Listing], pageNumber: UInt) -> [ListingCellModel] {
-        let listingCellModels = listings.map(ListingCellModel.init)
-        let cellModels = dataDelegate?.vmProcessReceivedListingPage(listingCellModels, page: pageNumber) ?? listingCellModels
-        return cellModels
+    private func mapListingsToCellModels(_ listings: [Listing],
+                                         pageNumber: UInt?,
+                                         shouldBeProcessed: Bool) -> [ListingCellModel] {
+        var listingCellModels = listings.map(ListingCellModel.init)
+        if let pageNumber = pageNumber, shouldBeProcessed {
+            listingCellModels = dataDelegate?.vmProcessReceivedListingPage(listingCellModels,
+                                                                           page: pageNumber) ?? listingCellModels
+        }
+        return listingCellModels
     }
     
     private func updateListingIndices(isFirstPage: Bool, with cellModels: [ListingCellModel]) -> [Int] {
@@ -446,6 +457,12 @@ final class ListingListViewModel: BaseViewModel {
             indices = [Int](currentCount ..< (currentCount + cellModels.count))
         }
         return indices
+    }
+    
+    private func updateFirstListingIndexes(withCellModels cellModels: [ListingCellModel]) -> [Int] {
+        objects.insert(contentsOf: cellModels, at: 0)
+        let indexes = [Int](0 ..< (cellModels.count))
+        return indexes
     }
     
     private func applyNewListingInfo(hasNewListing: Bool, context: String?, verticalTracking: VerticalTrackingInfo?) {
@@ -474,9 +491,6 @@ final class ListingListViewModel: BaseViewModel {
                                         originFrame: originFrame)
         case .collectionCell(let type):
             dataDelegate?.vmDidSelectCollection(type)
-        case .mostSearchedItems:
-            dataDelegate?.vmDidSelectMostSearchedItems()
-            return
         case .emptyCell, .dfpAdvertisement, .mopubAdvertisement, .promo, .adxAdvertisement:
             return
         }
@@ -490,13 +504,36 @@ final class ListingListViewModel: BaseViewModel {
                 if let thumbnailURL = listing.thumbnail?.fileURL {
                     urls.append(thumbnailURL)
                 }
-            case .emptyCell, .collectionCell, .dfpAdvertisement, .mopubAdvertisement, .mostSearchedItems, .promo, .adxAdvertisement:
+            case .emptyCell, .collectionCell, .dfpAdvertisement, .mopubAdvertisement, .promo, .adxAdvertisement:
                 break
             }
         }
         imageDownloader.downloadImagesWithURLs(urls)
     }
 
+    func retrieveRecentItems() {
+        isLoading = true
+        recentListingsRequester?.retrieveRecentItems { [weak self] result in
+            guard let strongSelf = self else { return }
+            defer { strongSelf.isLoading = false }
+            guard let newListings = result.listingsResult.value else { return }
+
+            let cellModels = strongSelf.mapListingsToCellModels(newListings,
+                                                                pageNumber: nil,
+                                                                shouldBeProcessed: false)
+            let indexes = strongSelf.updateFirstListingIndexes(withCellModels: cellModels)
+            
+            strongSelf.state = .data
+            strongSelf.delegate?.vmDidFinishLoading(strongSelf,
+                                                    page: 0,
+                                                    indexes: indexes)
+            strongSelf.dataDelegate?.listingListVM(strongSelf,
+                                                   didSucceedRetrievingListingsPage: 0,
+                                                   withResultsCount: newListings.count,
+                                                   hasListings: true)
+        }
+    }
+    
 
     // MARK: > UI
 
@@ -533,7 +570,7 @@ final class ListingListViewModel: BaseViewModel {
         switch item {
         case let .listingCell(listing):
             return listing
-        case .collectionCell, .emptyCell, .dfpAdvertisement, .mopubAdvertisement, .mostSearchedItems, .promo, .adxAdvertisement:
+        case .collectionCell, .emptyCell, .dfpAdvertisement, .mopubAdvertisement, .promo, .adxAdvertisement:
             return nil
         }
     }
@@ -543,7 +580,7 @@ final class ListingListViewModel: BaseViewModel {
             switch cellModel {
             case let .listingCell(listing):
                 return listing.objectId == listingId
-            case .collectionCell, .emptyCell, .dfpAdvertisement, .mopubAdvertisement, .mostSearchedItems, .promo, .adxAdvertisement:
+            case .collectionCell, .emptyCell, .dfpAdvertisement, .mopubAdvertisement, .promo, .adxAdvertisement:
                 return false
             }
         })
@@ -657,8 +694,6 @@ final class ListingListViewModel: BaseViewModel {
         case .adxAdvertisement(let adData):
             guard adData.adPosition == index else { return CGSize(width: cellWidth, height: 0) }
             size = CGSize(width: cellWidth, height: adData.bannerHeight)
-        case .mostSearchedItems:
-            return CGSize(width: cellWidth, height: MostSearchedItemsListingListCell.height)
         case .promo:
             return CGSize(width: cellWidth, height: PromoCellMetrics.height)
         }
@@ -699,7 +734,7 @@ final class ListingListViewModel: BaseViewModel {
             categories = data.categories
         case .adxAdvertisement(let data):
             categories = data.categories
-        case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems, .promo:
+        case .listingCell, .collectionCell, .emptyCell, .promo:
             break
         }
         return categories
@@ -721,7 +756,7 @@ final class ListingListViewModel: BaseViewModel {
                                                      bannerView: bannerView)
                 objects[position] = ListingCellModel.dfpAdvertisement(data: newAdData)
 
-        case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems, .mopubAdvertisement, .promo, .adxAdvertisement:
+        case .listingCell, .collectionCell, .emptyCell, .mopubAdvertisement, .promo, .adxAdvertisement:
             break
         }
     }
@@ -744,7 +779,7 @@ final class ListingListViewModel: BaseViewModel {
             objects[position] = ListingCellModel.mopubAdvertisement(data: newAdData)
             delegate?.vmReloadItemAtIndexPath(indexPath: IndexPath(row: position, section: 0))
             
-        case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems, .dfpAdvertisement, .promo, .adxAdvertisement:
+        case .listingCell, .collectionCell, .emptyCell, .dfpAdvertisement, .promo, .adxAdvertisement:
             break
         }
     }
@@ -758,7 +793,7 @@ final class ListingListViewModel: BaseViewModel {
                 let newAdData = updateAdvertisementAdxDataFor(data: data, nativeAd: nativeAd) else { return }
             objects[position] = ListingCellModel.adxAdvertisement(data: newAdData)
             delegate?.vmReloadItemAtIndexPath(indexPath: IndexPath(row: position, section: 0))
-        case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems, .dfpAdvertisement, .mopubAdvertisement, .promo:
+        case .listingCell, .collectionCell, .emptyCell, .dfpAdvertisement, .mopubAdvertisement, .promo:
             break
         }
     }
@@ -829,7 +864,7 @@ extension ListingListViewModel {
                                                   bannerView: bannerView)
                 objects[forPosition] = ListingCellModel.dfpAdvertisement(data: newAdData)
                 delegate?.vmReloadItemAtIndexPath(indexPath: IndexPath(item: forPosition, section: 0))
-        case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems, .mopubAdvertisement, .promo, .adxAdvertisement:
+        case .listingCell, .collectionCell, .emptyCell, .mopubAdvertisement, .promo, .adxAdvertisement:
             break
         }
     }

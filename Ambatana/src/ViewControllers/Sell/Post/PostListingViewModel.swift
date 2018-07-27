@@ -14,12 +14,6 @@ enum PostingSource {
     case notifications
     case deleteListing
     case realEstatePromo
-    case mostSearchedTabBarCamera
-    case mostSearchedTrendingExpandable
-    case mostSearchedTagsExpandable
-    case mostSearchedCategoryHeader
-    case mostSearchedCard
-    case mostSearchedUserProfile
 }
 
 
@@ -370,7 +364,6 @@ class PostListingViewModel: BaseViewModel {
                                                            videoLength: uploadedVideoLength,
                                                            price: postDetailViewModel.price.value,
                                                            typePage: postingSource.typePage,
-                                                           mostSearchedButton: postingSource.mostSearchedButton,
                                                            machineLearningInfo: machineLearningTrackingInfo)
                 navigator?.closePostProductAndPostInBackground(params: listingParams,
                                                                trackingInfo: trackingInfo)
@@ -549,7 +542,6 @@ fileprivate extension PostListingViewModel {
                                                    videoLength: uploadedVideoLength,
                                                    price: postDetailViewModel.price.value,
                                                    typePage: postingSource.typePage,
-                                                   mostSearchedButton: postingSource.mostSearchedButton,
                                                    machineLearningInfo: machineLearningTrackingInfo)
         if sessionManager.loggedIn {
             guard state.value.lastImagesUploadResult?.value != nil || state.value.uploadedVideo != nil,
@@ -624,7 +616,6 @@ fileprivate extension PostListingViewModel {
                                                   buttonName: postingSource.buttonName,
                                                   sellButtonPosition: postingSource.sellButtonPosition,
                                                   category: postCategory?.listingCategory,
-                                                  mostSearchedButton: postingSource.mostSearchedButton,
                                                   predictiveFlow: false)
         tracker.trackEvent(event)
     }
@@ -648,9 +639,6 @@ extension PostingSource {
             return .notifications
         case .deleteListing:
             return .listingDelete
-        case .mostSearchedTabBarCamera, .mostSearchedTrendingExpandable, .mostSearchedTagsExpandable,
-             .mostSearchedCategoryHeader, .mostSearchedCard, .mostSearchedUserProfile:
-            return .mostSearched
         case .realEstatePromo:
             return .realEstatePromo
         }
@@ -658,9 +646,7 @@ extension PostingSource {
 
     var buttonName: EventParameterButtonNameType? {
         switch self {
-        case .tabBar, .sellButton, .deepLink, .notifications, .deleteListing, .mostSearchedTabBarCamera,
-             .mostSearchedTrendingExpandable, .mostSearchedTagsExpandable, .mostSearchedCategoryHeader,
-             .mostSearchedCard, .mostSearchedUserProfile, .onboardingBlockingPosting:
+        case .tabBar, .sellButton, .deepLink, .notifications, .deleteListing, .onboardingBlockingPosting:
             return nil
         case .onboardingButton:
             return .sellYourStuff
@@ -677,32 +663,10 @@ extension PostingSource {
             return .tabBar
         case .sellButton:
             return .floatingButton
-        case .onboardingButton, .onboardingCamera, .onboardingBlockingPosting, .deepLink, .notifications, .deleteListing, .mostSearchedTabBarCamera,
-             .mostSearchedTrendingExpandable, .mostSearchedTagsExpandable, .mostSearchedCategoryHeader,
-             .mostSearchedCard, .mostSearchedUserProfile:
+        case .onboardingButton, .onboardingCamera, .onboardingBlockingPosting, .deepLink, .notifications, .deleteListing:
             return .none
         case .realEstatePromo:
             return .realEstatePromo
-        }
-    }
-    
-    var mostSearchedButton: EventParameterMostSearched {
-        switch self {
-        case .tabBar, .sellButton, .deepLink, .onboardingButton, .onboardingCamera, .onboardingBlockingPosting,
-             .notifications, .deleteListing, .realEstatePromo:
-            return .notApply
-        case .mostSearchedTabBarCamera:
-            return .tabBarCamera
-        case .mostSearchedTrendingExpandable:
-            return .trendingExpandableButton
-        case .mostSearchedTagsExpandable:
-            return .postingTags
-        case .mostSearchedCategoryHeader:
-            return .feedBubble
-        case .mostSearchedCard:
-            return .feedCard
-        case .mostSearchedUserProfile:
-            return .userProfile
         }
     }
 }

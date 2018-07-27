@@ -210,6 +210,7 @@ enum EventName: String {
     case emailNotificationsEditStart        = "email-notifications-edit-start"
 
     case chatTabOpen                        = "chat-tab-open"
+    case chatCallToActionTapped             = "chat-call-to-action-tapped"
 
 
     // Constants
@@ -257,6 +258,7 @@ enum EventParameterName: String {
     case userZipCode          = "user-zipcode"
     case searchString         = "search-keyword"
     case searchSuccess        = "search-success"
+    case searchRelatedItems   = "search-related-items"
     case searchSuggestion     = "search-suggestion"
     case searchSuggestionPosition = "search-suggestion-position"
     case trendingSearch       = "trending-search"
@@ -390,7 +392,6 @@ enum EventParameterName: String {
     case chatsDeleted         = "chats-deleted"
     case chatContainsEmoji    = "contain-emoji"
     case inactiveConversations = "inactive-conversations"
-    case mostSearchedButton   = "most-searched-button"
     case photoViewerNumberOfPhotos   = "number-photos"
     case abandonStep          = "abandon-step"
     case searchAlertSource    = "alert-source"
@@ -402,6 +403,10 @@ enum EventParameterName: String {
     case marketingNotificationsEnabled  = "marketing-notifications-enabled"
 
     case chatTabName          = "tab-name"
+
+    case messageActionKey     = "action-key"
+    case isLetgoAssistant     = "is-letgo-assistant"
+
     
     // Machine Learning
     case mlPredictiveFlow = "predictive-flow"
@@ -918,7 +923,6 @@ enum EventParameterTypePage: String {
     case inAppNotification = "in-app-notification"
     case filter = "filter"
     case realEstatePromo = "real-estate-promo"
-    case mostSearched = "most-searched"
     case filterBubble = "filter-bubble"
     case postingIconInfo = "posting-icon-information"
     case postingLearnMore = "posting-learn-more-button"
@@ -1397,20 +1401,6 @@ enum EventParameterOptionSummary: String {
         case .year:
             self = .year
         }
-    }
-}
-
-enum EventParameterMostSearched: String {
-    case notApply                   = "N/A"
-    case tabBarCamera               = "tabbar-camera"
-    case trendingExpandableButton   = "trending-salchicha"
-    case postingTags                = "posting-tags"
-    case feedBubble                 = "feed-bubble"
-    case feedCard                   = "feed-card"
-    case userProfile                = "user-profile"
-    
-    static var allValues: [EventParameterMostSearched] {
-        return [.notApply, .tabBarCamera, .trendingExpandableButton, .postingTags, .feedBubble, .feedCard, .userProfile]
     }
 }
 

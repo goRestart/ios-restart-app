@@ -13,8 +13,6 @@ class LGNotificationsManager: NotificationsManager {
 
     // Singleton
     static let sharedInstance = LGNotificationsManager()
-
-    static let newSellFeatureIndicatorValue = " "
     
     // Rx
     let unreadMessagesCount = Variable<Int?>(nil)
@@ -44,11 +42,6 @@ class LGNotificationsManager: NotificationsManager {
     fileprivate var loggedIn: Variable<Bool>
     private var requestingChat = false
     private var requestingNotifications = false
-    
-    var shouldShowNewSellFeatureIndicator: Bool {
-        return featureFlags.mostSearchedDemandedItems == .cameraBadge &&
-            !keyValueStorage[.mostSearchedItemsCameraBadgeAlreadyShown]
-    }
 
 
     // MARK: - Lifecycle
@@ -95,7 +88,6 @@ class LGNotificationsManager: NotificationsManager {
     func updateCounters() {
         requestChatCounters()
         requestNotificationCounters()
-        requestNewSellFeatureIndicators()
     }
 
     func updateChatCounters() {
@@ -180,11 +172,6 @@ class LGNotificationsManager: NotificationsManager {
             guard let notificationCounts = result.value else { return }
             self?.unreadNotificationsCount.value = notificationCounts
         }
-    }
-    
-    private func requestNewSellFeatureIndicators() {
-        guard shouldShowNewSellFeatureIndicator else { return }
-        newSellFeatureIndicator.value = LGNotificationsManager.newSellFeatureIndicatorValue
     }
 }
 
