@@ -7,7 +7,7 @@ final class DropdownViewController: KeyboardViewController, UITableViewDataSourc
         static let gradientHeight: CGFloat = 500
         static let doneButtonHeight: CGFloat = 44
         static let doneButtonMinimumWidth: CGFloat = 114
-        static let showMoreHeight: CGFloat = 32
+        static let showMoreHeight: CGFloat = 40
     }
     
     private let viewModel: DropdownViewModel
@@ -94,7 +94,7 @@ final class DropdownViewController: KeyboardViewController, UITableViewDataSourc
                              action: #selector(doneButtonTapped),
                              for: .touchUpInside)
 
-        showDoneButton()
+        hideDoneButton()
         showResetButton()
         addSubViews()
         addConstraints()
@@ -278,7 +278,19 @@ final class DropdownViewController: KeyboardViewController, UITableViewDataSourc
         reloadView()
     }
     
-    func reloadView() {
+    func showDoneButton() {
+        doneButton.animateTo(alpha: 1.0)
+    }
+    
+    func hideDoneButton() {
+        doneButton.animateTo(alpha: 0.0)
+    }
+    
+    func showResetButton() {
+        navigationItem.rightBarButtonItem = resetButton
+    }
+    
+    private func reloadView() {
         let selectedIndexPaths = tableView.indexPathsForSelectedRows
         tableView.reloadData()
         selectedIndexPaths?.forEach({ indexPath in
@@ -288,22 +300,6 @@ final class DropdownViewController: KeyboardViewController, UITableViewDataSourc
     
     
     // MARK: Helpers
-    
-    private func showResetButton() {
-        navigationItem.rightBarButtonItem = resetButton
-    }
-    
-    private func hideResetButton() {
-        navigationItem.rightBarButtonItem = nil
-    }
-    
-    private func showDoneButton() {
-        doneButton.animateTo(alpha: 1.0)
-    }
-    
-    private func hideDoneButton() {
-        doneButton.animateTo(alpha: 0.0)
-    }
     
     private func toggleCellSelection(toState state: DropdownCellState,
                                      forIndexPath indexPath: IndexPath) {

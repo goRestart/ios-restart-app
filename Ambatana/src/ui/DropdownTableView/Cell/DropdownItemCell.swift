@@ -5,9 +5,8 @@ class DropdownItemCell: UITableViewCell, ReusableCell {
     private enum Layout {
         static let titleLabelFontSize: CGFloat = 17.0
         static let defaultTitleTextColour: UIColor = .blackText
-        static let disabledTitleTextColour: UIColor = UIColor.blackText.withAlphaComponent(0.2)
-        static let checkboxSize: CGSize = CGSize(width: 16.0, height: 16.0)
-        static let checkboxTrailingConstant: CGFloat = 19.0
+        static let checkboxSize: CGSize = CGSize(width: 18.0, height: 18.0)
+        static let checkboxTrailingConstant: CGFloat = 28.0
         static let titleLabelTrailingConstant: CGFloat = 13.0
         static let titleLabelLeadingConstant: CGFloat = 55.0
     }
@@ -40,7 +39,6 @@ class DropdownItemCell: UITableViewCell, ReusableCell {
     }
     
     func updateState(state: DropdownCellState, animated: Bool) {
-        updateTitleLabel(forState: state)
         updateCheckbox(withState: state, animated: animated)
         updateCellState(toState: state)
     }
@@ -51,13 +49,6 @@ class DropdownItemCell: UITableViewCell, ReusableCell {
             isSelected = true
         case .deselected:
             isSelected = false
-        }
-    }
-    
-    private func updateTitleLabel(forState state: DropdownCellState) {
-        switch state {
-        case .selected, .semiSelected, .deselected:
-            titleLabel.textColor = Layout.defaultTitleTextColour
         }
     }
     

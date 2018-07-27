@@ -1206,8 +1206,7 @@ extension FeatureFlags {
         if Bumper.enabled {
             return Bumper.servicesUnifiedFilterScreen
         }
-        return .control
-//        return ServicesUnifiedFilterScreen.fromPosition(abTests.servicesUnifiedFilterScreen.value)
+        return ServicesUnifiedFilterScreen.fromPosition(abTests.servicesUnifiedFilterScreen.value)
     }
 }
 

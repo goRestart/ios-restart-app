@@ -440,8 +440,8 @@
 "filters_section_within" = "Annonserade under";
 "filters_service_subtype_not_set" = "Ej Vald";
 "filters_service_type_not_set" = "Ej Vald";
-"filters_services_services_list_max_selection_alert" = "Oops! You can't select more than 15 services.";
-"filters_services_services_list_search_placeholder" = "Handyman, Contracting…";
+"filters_services_services_list_max_selection_alert" = "Hoppsan! Du kan inte välja fler än 15 tjänster.";
+"filters_services_services_list_search_placeholder" = "Hemmafixare, Entreprenad...";
 "filters_services_services_list_title" = "Välj kategori";
 "filters_size_wrong_range_error" = "Den minsta ytan får inte vara högre än den största ytan.";
 "filters_slider_any" = "Alla";
