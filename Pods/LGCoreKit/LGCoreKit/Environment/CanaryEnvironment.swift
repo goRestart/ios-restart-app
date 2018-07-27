@@ -30,4 +30,5 @@ struct CanaryEnvironment: Environment {
     let notificationSettingsPusherBaseURL = "https://push.stg.letgo.com"
     let notificationSettingsMailerBaseURL = "https://mailer.stg.letgo.com"
     let reportingBaseURL = "https://reporting.stg.letgo.com"
+    let communityBaseURL = "https://community-sso.canary.letgo.com"
 }

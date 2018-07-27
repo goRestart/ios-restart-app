@@ -11,7 +11,7 @@ import LGComponents
 import LGCoreKit
 
 enum CommunitySource {
-    case mainListing
+    case navBar
     case tabbar
 }
 
@@ -22,18 +22,22 @@ final class CommunityTabCoordinator: TabCoordinator {
         let chatRepository = Core.chatRepository
         let myUserRepository = Core.myUserRepository
         let installationRepository = Core.installationRepository
+        let sessionManager = Core.sessionManager
         let bubbleNotificationManager = LGBubbleNotificationManager.sharedInstance
         let keyValueStorage = KeyValueStorage.sharedInstance
         let tracker = TrackerProxy.sharedInstance
-        let viewModel = NotificationsViewModel()
         let featureFlags = FeatureFlags.sharedInstance
-        let sessionManager = Core.sessionManager
-        let rootViewController = NotificationsViewController(viewModel: viewModel)
+
+        let viewModel = CommunityViewModel(communityRepository: Core.communityRepository, source: source)
+        let rootViewController = CommunityViewController(viewModel: viewModel)
+
         super.init(listingRepository: listingRepository, userRepository: userRepository,
                    chatRepository: chatRepository, myUserRepository: myUserRepository,
                    installationRepository: installationRepository, bubbleNotificationManager: bubbleNotificationManager,
                    keyValueStorage: keyValueStorage, tracker: tracker,
                    rootViewController: rootViewController, featureFlags: featureFlags, sessionManager: sessionManager)
+
+        viewModel.navigator = self
     }
 
     override func shouldHideSellButtonAtViewController(_ viewController: UIViewController) -> Bool {
@@ -47,5 +51,11 @@ final class CommunityTabCoordinator: TabCoordinator {
 
     override func dismissViewController(animated: Bool, completion: (() -> Void)?) {
         viewController.dismissWithPresented(animated: animated, completion: completion)
+    }
+}
+
+extension CommunityTabCoordinator: CommunityTabNavigator {
+    func closeCommunity() {
+        dismissViewController(animated: true, completion: nil)
     }
 }

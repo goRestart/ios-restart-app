@@ -12,8 +12,9 @@ final class CommunityHeaderView: UIView {
     }
 
     private struct Layout {
+        static let sideMargin: CGFloat = 6
         static let cornerRadius: CGFloat = 8
-        static let sideMargin: CGFloat = 26
+        static let titleSideMargin: CGFloat = 26
         static let bannerAspectRatio: CGFloat = 2.96
     }
 
@@ -85,8 +86,8 @@ final class CommunityHeaderView: UIView {
     private func setupConstraints() {
         let constraints: [NSLayoutConstraint] = [
             containerView.topAnchor.constraint(equalTo: topAnchor),
-            containerView.leftAnchor.constraint(equalTo: leftAnchor, constant: Metrics.shortMargin),
-            containerView.rightAnchor.constraint(equalTo: rightAnchor, constant: -Metrics.shortMargin),
+            containerView.leftAnchor.constraint(equalTo: leftAnchor, constant: Layout.sideMargin),
+            containerView.rightAnchor.constraint(equalTo: rightAnchor, constant: -Layout.sideMargin),
             containerView.bottomAnchor.constraint(equalTo: bottomAnchor),
             topLeftBubbleImageView.topAnchor.constraint(equalTo: containerView.topAnchor),
             topLeftBubbleImageView.leftAnchor.constraint(equalTo: containerView.leftAnchor),
@@ -95,7 +96,7 @@ final class CommunityHeaderView: UIView {
             bottomLeftBubbleImageView.leftAnchor.constraint(equalTo: containerView.leftAnchor),
             bottomLeftBubbleImageView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
             titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-            titleLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: Layout.sideMargin),
+            titleLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: Layout.titleSideMargin),
             titleLabel.rightAnchor.constraint(equalTo: centerImageView.leftAnchor, constant: -Metrics.margin),
             centerImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
             centerImageView.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -Layout.sideMargin)

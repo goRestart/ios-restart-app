@@ -178,8 +178,10 @@ extension MainTabCoordinator: MainTabNavigator {
     }
 
     func openPrivateUserProfile() {
-        let coord = ProfileTabCoordinator(source: .mainListing)
-        openChild(coordinator: coord, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
+        openLoginIfNeeded(from: .profile, style: .fullScreen, loggedInAction: {
+            let coord = ProfileTabCoordinator(source: .mainListing)
+            self.openChild(coordinator: coord, parent: self.rootViewController, animated: true, forceCloseChild: true, completion: nil)
+        }, cancelAction: nil)
     }
 
     func openCommunity() {
@@ -187,7 +189,7 @@ extension MainTabCoordinator: MainTabNavigator {
         if featureFlags.community.shouldShowOnTab {
             openCommunityTab()
         } else {
-            let coord = CommunityTabCoordinator(source: .mainListing)
+            let coord = CommunityTabCoordinator(source: .navBar)
             openChild(coordinator: coord, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
         }
     }
