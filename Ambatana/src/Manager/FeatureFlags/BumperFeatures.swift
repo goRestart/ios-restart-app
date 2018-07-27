@@ -49,7 +49,6 @@ extension Bumper  {
         flags.append(ShowPasswordlessLogin.self)
         flags.append(CopyForSellFasterNowInEnglish.self)
         flags.append(EmergencyLocate.self)
-        flags.append(RealEstateMap.self)
         flags.append(IAmInterestedFeed.self)
         flags.append(ChatConversationsListWithoutTabs.self)
         flags.append(PersonalizedFeed.self)
@@ -509,19 +508,6 @@ extension Bumper  {
     static var emergencyLocateObservable: Observable<EmergencyLocate> {
         return Bumper.observeValue(for: EmergencyLocate.key).map {
             EmergencyLocate(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var realEstateMap: RealEstateMap {
-        guard let value = Bumper.value(for: RealEstateMap.key) else { return .control }
-        return RealEstateMap(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var realEstateMapObservable: Observable<RealEstateMap> {
-        return Bumper.observeValue(for: RealEstateMap.key).map {
-            RealEstateMap(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1426,22 +1412,6 @@ enum EmergencyLocate: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Activate the Emergency Locate feature" } 
     static func fromPosition(_ position: Int) -> EmergencyLocate {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
-enum RealEstateMap: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return RealEstateMap.control.rawValue }
-    static var enumValues: [RealEstateMap] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show Real Estate Map" } 
-    static func fromPosition(_ position: Int) -> RealEstateMap {
         switch position { 
             case 0: return .control
             case 1: return .baseline

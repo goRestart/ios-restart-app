@@ -87,7 +87,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     
     var rightBarButtonsItems: [(image: UIImage, selector: Selector)] {
         var rightButtonItems: [(image: UIImage, selector: Selector)] = []
-        if featureFlags.realEstateMap.isActive && isRealEstateSelected {
+        if isRealEstateSelected {
             rightButtonItems.append((image: R.Asset.IconsButtons.icMap.image, selector: #selector(MainListingsViewController.openMap)))
             if shouldShowRealEstateMapTooltip {
                 showTooltipMap()

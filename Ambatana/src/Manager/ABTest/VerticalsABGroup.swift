@@ -1,6 +1,5 @@
 struct VerticalsABGroup: ABGroupType {
 
-    let realEstateMap: LeanplumABVariable<Int>
     let showServicesFeatures: LeanplumABVariable<Int>
     let carExtraFieldsEnabled: LeanplumABVariable<Int>
     let realEstateMapTooltip: LeanplumABVariable<Int>
@@ -12,27 +11,23 @@ struct VerticalsABGroup: ABGroupType {
     var floatVariables: [LeanplumABVariable<Float>] = []
     var boolVariables: [LeanplumABVariable<Bool>] = []
 
-    private init(realEstateMap: LeanplumABVariable<Int>,
-                 showServicesFeatures: LeanplumABVariable<Int>,
+    private init(showServicesFeatures: LeanplumABVariable<Int>,
                  carExtraFieldsEnabled: LeanplumABVariable<Int>,
                  realEstateMapTooltip: LeanplumABVariable<Int>,
                  servicesUnifiedFilterScreen: LeanplumABVariable<Int>) {
-        self.realEstateMap = realEstateMap
         self.showServicesFeatures = showServicesFeatures
         self.carExtraFieldsEnabled = carExtraFieldsEnabled
         self.realEstateMapTooltip = realEstateMapTooltip
         self.servicesUnifiedFilterScreen = servicesUnifiedFilterScreen
         
-        intVariables.append(contentsOf: [realEstateMap,
-                                         showServicesFeatures,
+        intVariables.append(contentsOf: [showServicesFeatures,
                                          carExtraFieldsEnabled,
                                          realEstateMapTooltip,
                                          servicesUnifiedFilterScreen])
     }
     
     static func make() -> VerticalsABGroup {
-        return VerticalsABGroup(realEstateMap: verticalsIntFor(key: Keys.realEstateMap),
-                                showServicesFeatures: verticalsIntFor(key: Keys.showServicesFeatures),
+        return VerticalsABGroup(showServicesFeatures: verticalsIntFor(key: Keys.showServicesFeatures),
                                 carExtraFieldsEnabled: verticalsIntFor(key: Keys.carExtraFieldsEnabled),
                                 realEstateMapTooltip: verticalsIntFor(key: Keys.realEstateMapTooltip),
                                 servicesUnifiedFilterScreen: verticalsIntFor(key: Keys.servicesUnifiedFilterScreen))
@@ -44,7 +39,6 @@ struct VerticalsABGroup: ABGroupType {
 }
 
 private struct Keys {
-    static let realEstateMap = "20180427realEstateMap"
     static let showServicesFeatures = "20180518showServicesFeatures"
     static let carExtraFieldsEnabled = "20180628carExtraFieldsEnabled"
     static let realEstateMapTooltip = "20180703realEstateMapTooltip"

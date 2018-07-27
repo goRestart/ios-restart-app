@@ -166,11 +166,6 @@
         "description": "Activate the Emergency Locate feature"
     },
     {
-        "name": "RealEstateMap",
-        "values": ["control", "baseline", "active"],
-        "description": "Show Real Estate Map"
-    },
-    {
         "name": "IAmInterestedFeed",
         "values": ["control", "baseline", "hidden"],
         "description": "Show an I am interested button in the main feed"

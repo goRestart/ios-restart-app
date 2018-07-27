@@ -77,7 +77,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var expressChatImprovement: ExpressChatImprovement = .control
     
     // MARK:  Verticals
-    var realEstateMap: RealEstateMap = .control
     var showServicesFeatures: ShowServicesFeatures = .control
     var carExtraFieldsEnabled: CarExtraFieldsEnabled = .control
     var realEstateMapTooltip: RealEstateMapTooltip = .control

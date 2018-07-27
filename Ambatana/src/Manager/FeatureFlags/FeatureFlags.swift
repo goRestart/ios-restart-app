@@ -76,7 +76,6 @@ protocol FeatureFlaggeable: class {
     var expressChatImprovement: ExpressChatImprovement { get }
 
     // MARK: Verticals
-    var realEstateMap: RealEstateMap { get }
     var showServicesFeatures: ShowServicesFeatures { get }
     var carExtraFieldsEnabled: CarExtraFieldsEnabled { get }
     var realEstateMapTooltip: RealEstateMapTooltip { get }
@@ -252,10 +251,6 @@ extension CopyForChatNowInTurkey {
             return R.Strings.bumpUpProductCellChatNowButtonD
         }
     }
-}
-
-extension RealEstateMap {
-    var isActive: Bool { return self != .baseline && self != .control }
 }
 
 extension AdvancedReputationSystem {
@@ -1184,13 +1179,6 @@ extension FeatureFlags {
 // MARK: Verticals
 
 extension FeatureFlags {
-    
-    var realEstateMap: RealEstateMap {
-        if Bumper.enabled {
-            return Bumper.realEstateMap
-        }
-        return RealEstateMap.fromPosition(abTests.realEstateMap.value)
-    }
     
     var showServicesFeatures: ShowServicesFeatures {
         if Bumper.enabled {
