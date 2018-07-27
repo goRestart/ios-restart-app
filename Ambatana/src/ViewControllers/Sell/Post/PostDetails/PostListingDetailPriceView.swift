@@ -89,7 +89,7 @@ class PostListingDetailPriceView: BaseView {
         let tap = UITapGestureRecognizer(target: self, action: #selector(freeCellPressed))
         postFreeViewContainer.addGestureRecognizer(tap)
 
-        if viewModel.shareOnFacebookAvailable {
+        if viewModel.showShareOnFacebook {
             doneButtonTopConstraint.isActive = false
             setupShareOnFacebook()
         }
@@ -244,7 +244,7 @@ final class ShareOnFacebookView: BaseView {
     }
 
     private func setupRX() {
-        viewModel.shareOnFacebook.asObservable().ignoreNil().bind { [weak self] shareOnFacebook in
+        viewModel.shareOnFacebook.asObservable().bind { [weak self] shareOnFacebook in
             self?.checkbox.isChecked = shareOnFacebook
         }.disposed(by: disposeBag)
         checkbox.rx.tap.bind { [weak self] in
