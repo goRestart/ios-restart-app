@@ -74,15 +74,21 @@ final class LGCheckboxView: UIView {
         }
     }
     
+    
+    // MARK: Animation
+    
     private func performTickAnimation() {
         let animation = CABasicAnimation(keyPath: "strokeEnd")
-        animation.duration = 0.5
+        animation.duration = 0.26
         animation.fromValue = 0
         animation.toValue = 1
         animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
         accessoryLayer.add(animation, forKey: "tickAnimation")
     }
     
+
+    // MARK: Drawing
+
     override func draw(_ rect: CGRect) {
         super.draw(rect)
         updateBackground()

@@ -17,7 +17,6 @@ protocol MainTabNavigator: TabNavigator, FeedNavigator {
                                distanceRadius: Int?,
                                locationDelegate: EditLocationDelegate)
     func openTaxonomyList(withViewModel viewModel: TaxonomiesViewModel)
-    func openMostSearchedItems(source: PostingSource, enableSearch: Bool)
     func openLoginIfNeeded(infoMessage: String, then loggedAction: @escaping (() -> Void))
     func openSearchAlertsList()
     func openMap(requester: ListingListMultiRequester,
@@ -27,4 +26,5 @@ protocol MainTabNavigator: TabNavigator, FeedNavigator {
     func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?)
     func openPrivateUserProfile()
     func openCommunity()
+    func openSearches()
 }

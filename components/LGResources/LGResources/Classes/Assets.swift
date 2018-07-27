@@ -543,7 +543,6 @@ extension R {
       public static let tooltipPeakCenterBlack = ImageAsset(name: "tooltip_peak_center_black")
       public static let tooltipPeakSideBlack = ImageAsset(name: "tooltip_peak_side_black")
       public static let trendingExpandable = ImageAsset(name: "trending_expandable")
-      public static let trendingIcon = ImageAsset(name: "trending_icon")
       public static let userPlaceholder = ImageAsset(name: "user_placeholder")
       public static let userProfileAddAvatar = ImageAsset(name: "user_profile_add_avatar")
       public static let userProfileEditAvatar = ImageAsset(name: "user_profile_edit_avatar")
@@ -845,7 +844,6 @@ extension R {
         tooltipPeakCenterBlack,
         tooltipPeakSideBlack,
         trendingExpandable,
-        trendingIcon,
         userPlaceholder,
         userProfileAddAvatar,
         userProfileEditAvatar,

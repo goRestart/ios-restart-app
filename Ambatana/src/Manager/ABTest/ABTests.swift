@@ -212,10 +212,10 @@ extension ABTests {
 //  MARK: Verticals
 
 extension ABTests {
-    var realEstateMap: LeanplumABVariable<Int> { return verticals.realEstateMap }
     var showServicesFeatures: LeanplumABVariable<Int> { return verticals.showServicesFeatures }
     var carExtraFieldsEnabled: LeanplumABVariable<Int> { return verticals.carExtraFieldsEnabled }
     var realEstateMapTooltip: LeanplumABVariable<Int> { return verticals.realEstateMapTooltip }
+    var servicesUnifiedFilterScreen: LeanplumABVariable<Int> { return verticals.servicesUnifiedFilterScreen }
 }
 
 //  MARK: Products
@@ -247,6 +247,5 @@ extension ABTests {
     var deckItemPage: LeanplumABVariable<Int> { return legacy.newItemPage }
     var taxonomiesAndTaxonomyChildrenInFeed: LeanplumABVariable<Int> { return legacy.taxonomiesAndTaxonomyChildrenInFeed }
     var showClockInDirectAnswer: LeanplumABVariable<Int> { return legacy.showClockInDirectAnswer }
-    var mostSearchedDemandedItems: LeanplumABVariable<Int> { return legacy.mostSearchedDemandedItems }
     var showAdsInFeedWithRatio: LeanplumABVariable<Int> { return legacy.showAdsInFeedWithRatio }
 }

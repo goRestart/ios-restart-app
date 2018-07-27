@@ -479,7 +479,6 @@ extension MultiListingPostedViewModel {
                                                      videoLength: trackingInfo.videoLength,
                                                      freePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                      typePage: trackingInfo.typePage,
-                                                     mostSearchedButton: trackingInfo.mostSearchedButton,
                                                      machineLearningTrackingInfo: trackingInfo.machineLearningInfo)
         tracker.trackEvent(event)
         
@@ -523,7 +522,6 @@ extension MultiListingPostedViewModel {
                                                   buttonName: trackingInfo.buttonName,
                                                   sellButtonPosition: trackingInfo.sellButtonPosition,
                                                   category: nil,
-                                                  mostSearchedButton: trackingInfo.mostSearchedButton,
                                                   predictiveFlow: false)
         tracker.trackEvent(event)
     }

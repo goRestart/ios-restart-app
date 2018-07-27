@@ -77,7 +77,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var expressChatImprovement: ExpressChatImprovement = .control
     
     // MARK:  Verticals
-    var realEstateMap: RealEstateMap = .control
     var showServicesFeatures: ShowServicesFeatures = .control
     var carExtraFieldsEnabled: CarExtraFieldsEnabled = .control
     var realEstateMapTooltip: RealEstateMapTooltip = .control
@@ -108,7 +107,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var preventMessagesFromFeedToProUsers: PreventMessagesFromFeedToProUsers = .control
     
     // MARK: Retention
-    var mostSearchedDemandedItems: MostSearchedDemandedItems = .control
     var dummyUsersInfoProfile: DummyUsersInfoProfile = .control
     var onboardingIncentivizePosting: OnboardingIncentivizePosting = .control
     var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed = .control

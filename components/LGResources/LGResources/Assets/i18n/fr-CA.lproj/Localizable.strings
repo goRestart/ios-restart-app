@@ -15,6 +15,7 @@
 "bump_up_banner_boost_text" = "Ajouter Extra Boost";
 "bump_up_banner_free_button_title" = "Renvoyer vers le haut";
 "bump_up_banner_free_text" = "Renvoyez vers le haut gratuitement pour vendre plus vite";
+"bump_up_banner_loading_text" = "Chargement de plus d'informations…";
 "bump_up_banner_pay_text" = "Mettre en vedette pour vendre plus vite";
 "bump_up_banner_pay_text_improvement" = "Vendez au plus vite !";
 "bump_up_banner_pay_text_improvement_english_a" = "Vendez au plus vite !";
@@ -296,7 +297,7 @@
 "common_user_not_available" = "Oups ! Utilisateur non trouvé.";
 "common_user_review_not_available" = "Oups ! Avis introuvable.";
 "common_yes" = "Oui";
-"community_banner_title" = "Join the letgo community!";
+"community_banner_title" = "Faites partie de la communauté letgo !";
 "contact_subject_option_location" = "Problèmes de localisation";
 "contact_subject_option_login" = "Problèmes de connexion";
 "contact_subject_option_other" = "Autres problèmes";
@@ -385,7 +386,7 @@
 "filters_car_seller_type_private" = "Privé";
 "filters_car_seller_type_professional" = "Professionnel";
 "filters_car_year_any_year" = "Toutes les Années";
-"filters_car_year_before_year" = "Avant %i";
+"filters_car_year_before_year" = "Avant %@";
 "filters_cars_bodytype_convertible" = "Cabriolet";
 "filters_cars_bodytype_coupe" = "coupé";
 "filters_cars_bodytype_hatchback" = "À hayon";
@@ -439,7 +440,9 @@
 "filters_section_within" = "Publié dans les";
 "filters_service_subtype_not_set" = "Aucun";
 "filters_service_type_not_set" = "Aucun";
-"filters_services_services_list_title" = "Select a Category";
+"filters_services_services_list_max_selection_alert" = "Oups ! Vous ne pouvez pas sélectionner plus de 15 services.";
+"filters_services_services_list_search_placeholder" = "Homme à tout faire, Travailleur à contrat…";
+"filters_services_services_list_title" = "Sélectionner une catégorie";
 "filters_size_wrong_range_error" = "La grandeur minimum ne peut pas être plus élevée que la grandeur maximum";
 "filters_slider_any" = "Tous";
 "filters_sort_closest" = "Le plus près en premier";

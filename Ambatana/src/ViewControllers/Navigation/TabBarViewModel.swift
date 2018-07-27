@@ -13,12 +13,6 @@ class TabBarViewModel: BaseViewModel {
         return featureFlags.realEstateEnabled.isActive &&
             !keyValueStorage[.realEstateTooltipSellButtonAlreadyShown]
     }
-    var isMostSearchedItemsCameraBadgeEnabled: Bool {
-        return featureFlags.mostSearchedDemandedItems == .cameraBadge
-    }
-    var shouldShowCameraBadge: Bool {
-        return isMostSearchedItemsCameraBadgeEnabled && !keyValueStorage[.mostSearchedItemsCameraBadgeAlreadyShown]
-    }
 
     private let notificationsManager: NotificationsManager
     private let myUserRepository: MyUserRepository
@@ -56,18 +50,9 @@ class TabBarViewModel: BaseViewModel {
         navigator?.openSell(source: .sellButton, postCategory: nil, listingTitle: nil)
     }
     
-    func expandableButtonPressed(category: ExpandableCategory) {
-        if category == .mostSearchedItems {
-            navigator?.openMostSearchedItems(source: .mostSearchedTrendingExpandable, enableSearch: false)
-        } else if let postCategory = category.listingCategory?.postingCategory(with: featureFlags) {
-            navigator?.openSell(source: .sellButton, postCategory: postCategory, listingTitle: nil)
-        }
-    }
-    
-    func tagPressed(mostSearchedItem: LocalMostSearchedItem) {
-        navigator?.openSell(source: .mostSearchedTagsExpandable,
-                            postCategory: mostSearchedItem.category,
-                            listingTitle: mostSearchedItem.name)
+    func expandableButtonPressed(listingCategory: ListingCategory) {
+        let postCategory = listingCategory.postingCategory(with: featureFlags)
+        navigator?.openSell(source: .sellButton, postCategory: postCategory, listingTitle: nil)
     }
     
     func realEstateTooltipText() -> NSMutableAttributedString {
@@ -114,10 +99,6 @@ class TabBarViewModel: BaseViewModel {
                 guard myUser != nil else { return String(1) }
                 return count.flatMap { $0 > 0 ? String($0) : nil }
             }).bind(to: notificationsBadge)
-            .disposed(by: disposeBag)
-        
-        notificationsManager.newSellFeatureIndicator.asObservable()
-            .bind(to: sellBadge)
             .disposed(by: disposeBag)
     }
 }

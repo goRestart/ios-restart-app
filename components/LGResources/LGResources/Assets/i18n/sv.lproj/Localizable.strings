@@ -15,6 +15,7 @@
 "bump_up_banner_boost_text" = "Lägg till en extra Boost!";
 "bump_up_banner_free_button_title" = "Puffa uppåt";
 "bump_up_banner_free_text" = "Puffa uppåt gratis för att sälja snabbare";
+"bump_up_banner_loading_text" = "Laddar mer info...";
 "bump_up_banner_pay_text" = "Sälj snabbare nu";
 "bump_up_banner_pay_text_improvement" = "Sälj snabbare nu";
 "bump_up_banner_pay_text_improvement_english_a" = "Sälj snabbare nu";
@@ -296,7 +297,7 @@
 "common_user_not_available" = "Hoppsan! Användaren hittades inte.";
 "common_user_review_not_available" = "Oups! Inget omdöme kunde hittas.";
 "common_yes" = "Ja";
-"community_banner_title" = "Join the letgo community!";
+"community_banner_title" = "Anslut dig till letgos community!";
 "contact_subject_option_location" = "Platsproblem";
 "contact_subject_option_login" = "Problem med inloggning";
 "contact_subject_option_other" = "Andra problem";
@@ -385,7 +386,7 @@
 "filters_car_seller_type_private" = "Privat";
 "filters_car_seller_type_professional" = "Professionell";
 "filters_car_year_any_year" = "Alla år";
-"filters_car_year_before_year" = "Innan %i";
+"filters_car_year_before_year" = "Innan %@";
 "filters_cars_bodytype_convertible" = "Cabriolet";
 "filters_cars_bodytype_coupe" = "coupé";
 "filters_cars_bodytype_hatchback" = "Halvkombi";
@@ -439,7 +440,9 @@
 "filters_section_within" = "Annonserade under";
 "filters_service_subtype_not_set" = "Ej Vald";
 "filters_service_type_not_set" = "Ej Vald";
-"filters_services_services_list_title" = "Select a Category";
+"filters_services_services_list_max_selection_alert" = "Oops! You can't select more than 15 services.";
+"filters_services_services_list_search_placeholder" = "Handyman, Contracting…";
+"filters_services_services_list_title" = "Välj kategori";
 "filters_size_wrong_range_error" = "Den minsta ytan får inte vara högre än den största ytan.";
 "filters_slider_any" = "Alla";
 "filters_sort_closest" = "Närmast först";

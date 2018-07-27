@@ -15,6 +15,7 @@
 "bump_up_banner_boost_text" = "Добавить Экстра Продвижение!";
 "bump_up_banner_free_button_title" = "Поднять";
 "bump_up_banner_free_text" = "Поднять бесплатно для быстрой продажи";
+"bump_up_banner_loading_text" = "Загружаем еще детали...";
 "bump_up_banner_pay_text" = "Продавайте быстрее";
 "bump_up_banner_pay_text_improvement" = "Продайте быстрее";
 "bump_up_banner_pay_text_improvement_english_a" = "Продайте быстрее";
@@ -296,7 +297,7 @@
 "common_user_not_available" = "Упс! Пользователь не найден.";
 "common_user_review_not_available" = "Упс! Отзыв не найден.";
 "common_yes" = "Да";
-"community_banner_title" = "Join the letgo community!";
+"community_banner_title" = "Присоединяйтесь к сообществу letgo!";
 "contact_subject_option_location" = "Проблемы с геолокацией";
 "contact_subject_option_login" = "Проблемы со входом";
 "contact_subject_option_other" = "Другие проблемы";
@@ -385,7 +386,7 @@
 "filters_car_seller_type_private" = "Частное лицо";
 "filters_car_seller_type_professional" = "Компания";
 "filters_car_year_any_year" = "Любой год";
-"filters_car_year_before_year" = "До %i";
+"filters_car_year_before_year" = "До %@";
 "filters_cars_bodytype_convertible" = "Кабриолет";
 "filters_cars_bodytype_coupe" = "купе";
 "filters_cars_bodytype_hatchback" = "Хэтчбэк";
@@ -439,7 +440,9 @@
 "filters_section_within" = "Размещено за";
 "filters_service_subtype_not_set" = "Не установлен";
 "filters_service_type_not_set" = "Не установлен";
-"filters_services_services_list_title" = "Select a Category";
+"filters_services_services_list_max_selection_alert" = "Oops! You can't select more than 15 services.";
+"filters_services_services_list_search_placeholder" = "Мастер, заключение договоров...";
+"filters_services_services_list_title" = "Выберите категорию";
 "filters_size_wrong_range_error" = "Минимальный размер не может быть больше максимального.";
 "filters_slider_any" = "Любое";
 "filters_sort_closest" = "Сначала ближайшее";

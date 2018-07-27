@@ -15,6 +15,7 @@
 "bump_up_banner_boost_text" = "¡Añade un impulso extra!";
 "bump_up_banner_free_button_title" = "Destacar";
 "bump_up_banner_free_text" = "Destaca gratis para vender más rápido";
+"bump_up_banner_loading_text" = "Cargando más información…";
 "bump_up_banner_pay_text" = "Destaca para vender más rápido";
 "bump_up_banner_pay_text_improvement" = "Vender más rápido";
 "bump_up_banner_pay_text_improvement_english_a" = "Vender más rápido";
@@ -68,7 +69,7 @@
 "categories_inFeed_baby_child" = "Niño";
 "categories_inFeed_books_movies" = "Ocio";
 "categories_inFeed_cars" = "Coches";
-"categories_inFeed_electronics" = "Tecnología";
+"categories_inFeed_electronics" = "Electrónica";
 "categories_inFeed_fashion" = "Moda";
 "categories_inFeed_home" = "Hogar";
 "categories_inFeed_motors" = "Motores";
@@ -296,7 +297,7 @@
 "common_user_not_available" = "¡Ups! No se ha encontrado el usuario.";
 "common_user_review_not_available" = "¡Ups! Valoración no encontrada.";
 "common_yes" = "Sí";
-"community_banner_title" = "Join the letgo community!";
+"community_banner_title" = "¡Únete a la comunidad de letgo!";
 "contact_subject_option_location" = "Problemas de ubicación";
 "contact_subject_option_login" = "Problemas al iniciar sesión";
 "contact_subject_option_other" = "Otros problemas";
@@ -385,7 +386,7 @@
 "filters_car_seller_type_private" = "Privado";
 "filters_car_seller_type_professional" = "Profesional";
 "filters_car_year_any_year" = "Cualquier año";
-"filters_car_year_before_year" = "Anterior a %i";
+"filters_car_year_before_year" = "Anterior a %@";
 "filters_cars_bodytype_convertible" = "Descapotable";
 "filters_cars_bodytype_coupe" = "coupé";
 "filters_cars_bodytype_hatchback" = "Compacto";
@@ -439,7 +440,9 @@
 "filters_section_within" = "Publicado en";
 "filters_service_subtype_not_set" = "No Definido";
 "filters_service_type_not_set" = "No Definido";
-"filters_services_services_list_title" = "Select a Category";
+"filters_services_services_list_max_selection_alert" = "¡Ups! No puedes seleccionar más de 15 servicios.";
+"filters_services_services_list_search_placeholder" = "Mantenimiento, contratista...";
+"filters_services_services_list_title" = "Elige una categoría";
 "filters_size_wrong_range_error" = "El tamaño mínimo no puede superior al tamaño máximo.";
 "filters_slider_any" = "Cualquiera";
 "filters_sort_closest" = "Más cercanos primero";

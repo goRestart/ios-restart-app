@@ -25,7 +25,6 @@ extension Bumper  {
         flags.append(TaxonomiesAndTaxonomyChildrenInFeed.self)
         flags.append(DeckItemPage.self)
         flags.append(ShowClockInDirectAnswer.self)
-        flags.append(MostSearchedDemandedItems.self)
         flags.append(ShowAdsInFeedWithRatio.self)
         flags.append(RealEstateFlowType.self)
         flags.append(RealEstateNewCopy.self)
@@ -50,7 +49,6 @@ extension Bumper  {
         flags.append(ShowPasswordlessLogin.self)
         flags.append(CopyForSellFasterNowInEnglish.self)
         flags.append(EmergencyLocate.self)
-        flags.append(RealEstateMap.self)
         flags.append(IAmInterestedFeed.self)
         flags.append(ChatConversationsListWithoutTabs.self)
         flags.append(PersonalizedFeed.self)
@@ -198,19 +196,6 @@ extension Bumper  {
     static var showClockInDirectAnswerObservable: Observable<ShowClockInDirectAnswer> {
         return Bumper.observeValue(for: ShowClockInDirectAnswer.key).map {
             ShowClockInDirectAnswer(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var mostSearchedDemandedItems: MostSearchedDemandedItems {
-        guard let value = Bumper.value(for: MostSearchedDemandedItems.key) else { return .control }
-        return MostSearchedDemandedItems(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var mostSearchedDemandedItemsObservable: Observable<MostSearchedDemandedItems> {
-        return Bumper.observeValue(for: MostSearchedDemandedItems.key).map {
-            MostSearchedDemandedItems(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -523,19 +508,6 @@ extension Bumper  {
     static var emergencyLocateObservable: Observable<EmergencyLocate> {
         return Bumper.observeValue(for: EmergencyLocate.key).map {
             EmergencyLocate(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var realEstateMap: RealEstateMap {
-        guard let value = Bumper.value(for: RealEstateMap.key) else { return .control }
-        return RealEstateMap(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var realEstateMapObservable: Observable<RealEstateMap> {
-        return Bumper.observeValue(for: RealEstateMap.key).map {
-            RealEstateMap(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1063,24 +1035,6 @@ enum ShowClockInDirectAnswer: String, BumperFeature  {
     }
 }
 
-enum MostSearchedDemandedItems: String, BumperFeature  {
-    case control, baseline, cameraBadge, trendingButtonExpandableMenu, subsetAboveExpandableMenu
-    static var defaultValue: String { return MostSearchedDemandedItems.control.rawValue }
-    static var enumValues: [MostSearchedDemandedItems] { return [.control, .baseline, .cameraBadge, .trendingButtonExpandableMenu, .subsetAboveExpandableMenu]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Display a list of top seller items that inspire users to post new items" } 
-    static func fromPosition(_ position: Int) -> MostSearchedDemandedItems {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .cameraBadge
-            case 3: return .trendingButtonExpandableMenu
-            case 4: return .subsetAboveExpandableMenu
-            default: return .control
-        }
-    }
-}
-
 enum ShowAdsInFeedWithRatio: String, BumperFeature  {
     case control, baseline, ten, fifteen, twenty
     static var defaultValue: String { return ShowAdsInFeedWithRatio.control.rawValue }
@@ -1392,16 +1346,17 @@ enum FeedAdsProviderForTR: String, BumperFeature  {
 }
 
 enum SectionedMainFeed: String, BumperFeature  {
-    case control, baseline, active
+    case control, baseline, mediumHorizontalSection, smallHorizontalSection
     static var defaultValue: String { return SectionedMainFeed.control.rawValue }
-    static var enumValues: [SectionedMainFeed] { return [.control, .baseline, .active]}
+    static var enumValues: [SectionedMainFeed] { return [.control, .baseline, .mediumHorizontalSection, .smallHorizontalSection]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "A new fully sectioned main feed" } 
+    static var description: String { return "[Discovery] Sectioned feed" } 
     static func fromPosition(_ position: Int) -> SectionedMainFeed {
         switch position { 
             case 0: return .control
             case 1: return .baseline
-            case 2: return .active
+            case 2: return .mediumHorizontalSection
+            case 3: return .smallHorizontalSection
             default: return .control
         }
     }
@@ -1457,22 +1412,6 @@ enum EmergencyLocate: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Activate the Emergency Locate feature" } 
     static func fromPosition(_ position: Int) -> EmergencyLocate {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
-enum RealEstateMap: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return RealEstateMap.control.rawValue }
-    static var enumValues: [RealEstateMap] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show Real Estate Map" } 
-    static func fromPosition(_ position: Int) -> RealEstateMap {
         switch position { 
             case 0: return .control
             case 1: return .baseline

@@ -28,8 +28,8 @@ struct LGNavBarMetrics {
     }
     
     struct Magnifier {
-        static let height: CGFloat = 17
-        static let width: CGFloat = 17
+        static let height: CGFloat = 20
+        static let width: CGFloat = 20
     }
     
     struct StackView {

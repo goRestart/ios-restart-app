@@ -10,7 +10,8 @@ import LGCoreKit
 
 extension RetrieveListingParams {
     
-    mutating func populate(with filters: ListingFilters?) {
+    mutating func populate(with filters: ListingFilters?,
+                           featureFlags: FeatureFlaggeable) {
         categoryIds = filters?.selectedCategories.compactMap { $0.rawValue }
         let idCategoriesFromTaxonomies = filters?.selectedTaxonomyChildren.getIds(withType: .category)
         categoryIds?.append(contentsOf: idCategoriesFromTaxonomies ?? [])
@@ -43,10 +44,12 @@ extension RetrieveListingParams {
             }
         }
         
-        applyVerticalFilters(with: filters?.verticalFilters)
+        applyVerticalFilters(with: filters?.verticalFilters,
+                             featureFlags: featureFlags)
     }
     
-    mutating func applyVerticalFilters(with verticalFilters: VerticalFilters?) {
+    mutating func applyVerticalFilters(with verticalFilters: VerticalFilters?,
+                                       featureFlags: FeatureFlaggeable) {
         guard let verticalFilters = verticalFilters else { return }
         
         userTypes = verticalFilters.cars.sellerTypes
@@ -64,11 +67,23 @@ extension RetrieveListingParams {
         startNumberOfSeats = verticalFilters.cars.numberOfSeatsStart
         endNumberOfSeats = verticalFilters.cars.numberOfSeatsEnd
         mileageType = verticalFilters.cars.mileageType
+        
         if let typeId = verticalFilters.services.type?.id {
             typeIds = [typeId]
         }
-        subtypeIds = verticalFilters.services.subtypes?.map( { $0.id } )
         
+        if featureFlags.servicesUnifiedFilterScreen.isActive {
+            if let selectedServiceSubtypeCount = verticalFilters.services.subtypes?.count,
+                let serviceSubtypesCount = verticalFilters.services.type?.subTypes.count,
+                selectedServiceSubtypeCount < serviceSubtypesCount {
+                subtypeIds = verticalFilters.services.subtypes?.map( { $0.id } )
+            } else {
+                subtypeIds = nil
+            }
+        } else {
+            subtypeIds = verticalFilters.services.subtypes?.map( { $0.id } )
+        }
+    
         if let propertyTypeValue = verticalFilters.realEstate.propertyType?.rawValue {
             propertyType = propertyTypeValue
         }

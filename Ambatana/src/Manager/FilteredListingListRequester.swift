@@ -171,9 +171,9 @@ class FilteredListingListRequester: ListingListRequester {
         } else if let endYear = carFilters.yearEnd {
             // only end specified
             if endYear == SharedConstants.filterMinCarYear {
-                return R.Strings.filtersCarYearBeforeYear(SharedConstants.filterMinCarYear)
+                return R.Strings.filtersCarYearBeforeYear("\(SharedConstants.filterMinCarYear)")
             } else {
-                return R.Strings.filtersCarYearBeforeYear(SharedConstants.filterMinCarYear) + " - " + String(endYear)
+                return R.Strings.filtersCarYearBeforeYear("\(SharedConstants.filterMinCarYear)") + " - " + String(endYear)
             }
         } else {
             // no year specified
@@ -227,7 +227,7 @@ fileprivate extension FilteredListingListRequester {
         params.abtest = featureFlags.searchImprovements.stringValue
         params.relaxParam = featureFlags.relaxedSearch.relaxParam
         params.similarParam = featureFlags.emptySearchImprovements.similarParam
-        params.populate(with: filters)
+        params.populate(with: filters, featureFlags: featureFlags)
         return params
     }
     

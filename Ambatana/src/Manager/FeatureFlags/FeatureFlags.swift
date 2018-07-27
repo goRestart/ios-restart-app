@@ -76,7 +76,6 @@ protocol FeatureFlaggeable: class {
     var expressChatImprovement: ExpressChatImprovement { get }
 
     // MARK: Verticals
-    var realEstateMap: RealEstateMap { get }
     var showServicesFeatures: ShowServicesFeatures { get }
     var carExtraFieldsEnabled: CarExtraFieldsEnabled { get }
     var realEstateMapTooltip: RealEstateMapTooltip { get }
@@ -105,7 +104,6 @@ protocol FeatureFlaggeable: class {
     var preventMessagesFromFeedToProUsers: PreventMessagesFromFeedToProUsers { get }
     
     // MARK: Retention
-    var mostSearchedDemandedItems: MostSearchedDemandedItems { get }
     var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
     var onboardingIncentivizePosting: OnboardingIncentivizePosting { get }
     var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed { get }
@@ -122,14 +120,6 @@ extension FeatureFlaggeable {
 
 extension TaxonomiesAndTaxonomyChildrenInFeed {
     var isActive: Bool { return self == .active }
-}
-
-extension MostSearchedDemandedItems {
-    var isActive: Bool {
-        return self == .cameraBadge ||
-            self == .trendingButtonExpandableMenu ||
-            self == .subsetAboveExpandableMenu
-    }
 }
 
 extension RealEstateEnabled {
@@ -261,10 +251,6 @@ extension CopyForChatNowInTurkey {
             return R.Strings.bumpUpProductCellChatNowButtonD
         }
     }
-}
-
-extension RealEstateMap {
-    var isActive: Bool { return self != .baseline && self != .control }
 }
 
 extension AdvancedReputationSystem {
@@ -605,13 +591,6 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.showClockInDirectAnswer
         }
         return ShowClockInDirectAnswer.fromPosition(abTests.showClockInDirectAnswer.value)
-    }
-
-    var mostSearchedDemandedItems: MostSearchedDemandedItems {
-        if Bumper.enabled {
-            return Bumper.mostSearchedDemandedItems
-        }
-        return MostSearchedDemandedItems.fromPosition(abTests.mostSearchedDemandedItems.value)
     }
     
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio {
@@ -1201,13 +1180,6 @@ extension FeatureFlags {
 // MARK: Verticals
 
 extension FeatureFlags {
-    
-    var realEstateMap: RealEstateMap {
-        if Bumper.enabled {
-            return Bumper.realEstateMap
-        }
-        return RealEstateMap.fromPosition(abTests.realEstateMap.value)
-    }
     
     var showServicesFeatures: ShowServicesFeatures {
         if Bumper.enabled {

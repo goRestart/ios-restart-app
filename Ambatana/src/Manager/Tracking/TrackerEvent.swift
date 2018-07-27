@@ -516,14 +516,12 @@ struct TrackerEvent {
                                  buttonName: EventParameterButtonNameType?,
                                  sellButtonPosition: EventParameterSellButtonPosition,
                                  category: ListingCategory?,
-                                 mostSearchedButton: EventParameterMostSearched,
                                  predictiveFlow: Bool) -> TrackerEvent {
         var params = EventParameters()
         params[.typePage] = typePage.rawValue
         params[.buttonName] = buttonName?.rawValue
         params[.sellButtonPosition] = sellButtonPosition.rawValue
         params[.categoryId] = category?.rawValue ?? TrackerEvent.notApply
-        params[.mostSearchedButton] = mostSearchedButton.rawValue
         params[.mlPredictiveFlow] = predictiveFlow
         return TrackerEvent(name: .listingSellStart, params: params)
     }
@@ -536,7 +534,6 @@ struct TrackerEvent {
                                     videoLength: TimeInterval?,
                                     freePostingModeAllowed: Bool,
                                     typePage: EventParameterTypePage,
-                                    mostSearchedButton: EventParameterMostSearched,
                                     machineLearningTrackingInfo: MachineLearningTrackingInfo) -> TrackerEvent {
         var params = EventParameters()
         params[.freePosting] = listing.price.allowFreeFilters(freePostingModeAllowed: freePostingModeAllowed).rawValue
@@ -547,7 +544,6 @@ struct TrackerEvent {
         params[.sellButtonPosition] = sellButtonPosition?.rawValue
         params[.listingDescription] = !(listing.descr?.isEmpty ?? true)
         params[.typePage] = typePage.rawValue
-        params[.mostSearchedButton] = mostSearchedButton.rawValue
         if let buttonName = buttonName {
             params[.buttonName] = buttonName.rawValue
         }

@@ -232,9 +232,7 @@ extension AppCoordinator: AppNavigator {
     func openSell(source: PostingSource, postCategory: PostCategory?, listingTitle: String?) {
         let forcedInitialTab: PostListingViewController.Tab?
         switch source {
-        case .tabBar, .sellButton, .deepLink, .notifications, .deleteListing, .realEstatePromo,
-             .mostSearchedTabBarCamera, .mostSearchedTrendingExpandable, .mostSearchedTagsExpandable,
-             .mostSearchedCategoryHeader, .mostSearchedCard, .mostSearchedUserProfile:
+        case .tabBar, .sellButton, .deepLink, .notifications, .deleteListing, .realEstatePromo:
             forcedInitialTab = nil
         case .onboardingButton, .onboardingCamera, .onboardingBlockingPosting:
             forcedInitialTab = .camera
@@ -246,16 +244,6 @@ extension AppCoordinator: AppNavigator {
                                               listingTitle: listingTitle)
         sellCoordinator.delegate = self
         openChild(coordinator: sellCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
-    }
-    
-    func openMostSearchedItems(source: PostingSource, enableSearch: Bool) {
-        let mostSearchedItemsCoordinator = MostSearchedItemsCoordinator(source: source, enableSearch: enableSearch)
-        mostSearchedItemsCoordinator.delegate = self
-        openChild(coordinator: mostSearchedItemsCoordinator,
-                  parent: tabBarCtl,
-                  animated: true,
-                  forceCloseChild: true,
-                  completion: nil)
     }
     
     func showBottomBubbleNotification(data: BubbleNotificationData,
@@ -725,13 +713,7 @@ extension AppCoordinator: UITabBarControllerDelegate {
                 // tab is changed after returning from this method
                 return !shouldOpenLogin
             case .sell:
-                let shouldOpenMostSearchedItems = featureFlags.mostSearchedDemandedItems == .cameraBadge &&
-                    !keyValueStorage[.mostSearchedItemsCameraBadgeAlreadyShown]
-                if shouldOpenMostSearchedItems {
-                    openMostSearchedItems(source: .mostSearchedTabBarCamera, enableSearch: false)
-                } else {
-                    openSell(source: .tabBar, postCategory: nil, listingTitle: nil)
-                }
+                openSell(source: .tabBar, postCategory: nil, listingTitle: nil)
                 return false
             }
         }
@@ -1214,19 +1196,6 @@ extension AppCoordinator: PromoteBumpCoordinatorDelegate {
             self?.keyValueStorage[.lastShownPromoteBumpDate] = Date()
             
         }
-    }
-}
-
-
-extension AppCoordinator: MostSearchedItemsCoordinatorDelegate {
-    func openSell(source: PostingSource, mostSearchedItem: LocalMostSearchedItem) {
-        openSell(source: source,
-                 postCategory: mostSearchedItem.category,
-                 listingTitle: mostSearchedItem.name)
-    }
-    
-    func openSearchFor(listingTitle: String) {
-        mainTabBarCoordinator.openMainListings(withSearchType: .user(query: listingTitle), listingFilters: ListingFilters())
     }
 }
 

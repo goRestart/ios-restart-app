@@ -157,11 +157,7 @@ extension MainTabCoordinator: MainTabNavigator {
                  listingFilters: ListingFilters,
                  locationManager: LocationManager) {
         let viewModel = ListingsMapViewModel(navigator: self,
-                                             tracker: tracker,
-                                             myUserRepository: myUserRepository,
-                                             locationManager: locationManager,
-                                             currentFilters: listingFilters,
-                                             featureFlags: featureFlags)
+                                             currentFilters: listingFilters)
         let viewController = ListingsMapViewController(viewModel: viewModel)
         navigationController.pushViewController(viewController, animated: true)
     }
@@ -193,7 +189,17 @@ extension MainTabCoordinator: MainTabNavigator {
             openChild(coordinator: coord, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
         }
     }
-} 
+
+    func openSearches() {
+        openChild(coordinator: SearchCoordinator(),
+                  parent: rootViewController,
+                  animated: true,
+                  forceCloseChild: true,
+                  completion: nil)
+    }
+}
+
+extension MainTabCoordinator: ListingsMapNavigator { }
 
 extension MainTabCoordinator: SearchAlertsListNavigator {
     func closeSearchAlertsList() {
@@ -205,4 +211,3 @@ extension MainTabCoordinator: SearchAlertsListNavigator {
         readyToSearch()
     }
 }
-

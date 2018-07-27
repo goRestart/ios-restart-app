@@ -45,16 +45,16 @@ def shared_pods
 
     # letgo Core
 
-    pod "LGCoreKit",             "4.46.0", :inhibit_warnings => false
+    pod "LGCoreKit",             "4.47.0", :inhibit_warnings => false
     # pod "LGCoreKit",            :path => "../lgcorekit", :inhibit_warnings => false
     # pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :branch => 'ABIOS-4484-CTA-Message-Type', :inhibit_warnings => false
 
     # letgo Collapsible label
-        pod "LGCollapsibleLabel",   "1.2.0", :inhibit_warnings => false     # :path => "../collapsiblelabel"
+    pod "LGCollapsibleLabel",   "1.2.0", :inhibit_warnings => false     # :path => "../collapsiblelabel"
 
     # letgo bumper (feature flags)
 	pod "bumper",               "1.3.1"     #:path => "../bumper"
-   #  pod "bumper",            :git => 'git@github.com:letgoapp/bumper.git', :commit => '7ec04a070eca2337f058954d7f53c474d616d7b1', :inhibit_warnings => false
+    # pod "bumper",            :git => 'git@github.com:letgoapp/bumper.git', :commit => '7ec04a070eca2337f058954d7f53c474d616d7b1', :inhibit_warnings => false
 
 
     # Collection View Custom Layout
@@ -89,6 +89,9 @@ def shared_pods
 
     # Gifs
     pod "SwiftyGif",            "4.1.0"
+
+    # IGListKit
+    pod "IGListKit", "3.4.0"
 end
 
 target "LetGo" do

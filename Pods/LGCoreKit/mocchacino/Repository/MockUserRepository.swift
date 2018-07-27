@@ -27,7 +27,7 @@ open class MockUserRepository: InternalUserRepository {
         delay(result: userUserRelationResult, completion: completion)
     }
 
-    public func indexBlocked(_ completion: UsersCompletion?) {
+    public func indexBlocked(limit: Int, offset: Int, completion: UsersCompletion?) {
         delay(result: indexResult, completion: completion)
     }
 

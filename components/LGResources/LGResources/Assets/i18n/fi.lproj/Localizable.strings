@@ -15,6 +15,7 @@
 "bump_up_banner_boost_text" = "Anna lisäboostia!";
 "bump_up_banner_free_button_title" = "Nosta";
 "bump_up_banner_free_text" = "Nosta ilmaiseksi myydäksesi tuotteesi nopeammin";
+"bump_up_banner_loading_text" = "Ladataan lisätietoja…";
 "bump_up_banner_pay_text" = "Myy nopeammin nyt";
 "bump_up_banner_pay_text_improvement" = "Myy nopeammin nyt";
 "bump_up_banner_pay_text_improvement_english_a" = "Myy nopeammin nyt";
@@ -296,7 +297,7 @@
 "common_user_not_available" = "Hups! Käyttäjää ei löytynyt.";
 "common_user_review_not_available" = "Hups! Arvostelua ei löytynyt.";
 "common_yes" = "Kyllä";
-"community_banner_title" = "Join the letgo community!";
+"community_banner_title" = "Liity letgon yhteisöön!";
 "contact_subject_option_location" = "Paikannusongelmat";
 "contact_subject_option_login" = "Sisäänkirjautuminen";
 "contact_subject_option_other" = "Muut asiat";
@@ -385,7 +386,7 @@
 "filters_car_seller_type_private" = "Yksityinen";
 "filters_car_seller_type_professional" = "Ammattilainen";
 "filters_car_year_any_year" = "Kaikki vuodet";
-"filters_car_year_before_year" = "Ennen vuotta %i";
+"filters_car_year_before_year" = "Ennen vuotta %@";
 "filters_cars_bodytype_convertible" = "Avoauto";
 "filters_cars_bodytype_coupe" = "Coupe-auto";
 "filters_cars_bodytype_hatchback" = "Viistoperä";
@@ -439,7 +440,9 @@
 "filters_section_within" = "Julkaisusta aikaa";
 "filters_service_subtype_not_set" = "Ei Rajattu";
 "filters_service_type_not_set" = "Ei Rajattu";
-"filters_services_services_list_title" = "Select a Category";
+"filters_services_services_list_max_selection_alert" = "Hups! Voit valita korkeintaan 15 palvelua.";
+"filters_services_services_list_search_placeholder" = "Remonttimies, urakointi…";
+"filters_services_services_list_title" = "Valitse kategoria";
 "filters_size_wrong_range_error" = "Minimikoko ei voi olla suurempi kuin maksimikoko.";
 "filters_slider_any" = "Kaikki";
 "filters_sort_closest" = "Lähin ensin";

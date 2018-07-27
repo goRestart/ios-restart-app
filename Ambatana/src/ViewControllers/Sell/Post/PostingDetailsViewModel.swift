@@ -360,7 +360,6 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
                                        videoLength: uploadedVideoLength,
                                        price: String.fromPriceDouble(postListingState.price?.value ?? 0),
                                        typePage: postingSource.typePage,
-                                       mostSearchedButton: postingSource.mostSearchedButton,
                                        machineLearningInfo: MachineLearningTrackingInfo.defaultValues())
     }
     
@@ -383,7 +382,6 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
                                                    videoLength: uploadedVideoLength,
                                                    price: String.fromPriceDouble(postListingState.price?.value ?? 0),
                                                    typePage: postingSource.typePage,
-                                                   mostSearchedButton: postingSource.mostSearchedButton,
                                                    machineLearningInfo: MachineLearningTrackingInfo.defaultValues())
         if sessionManager.loggedIn {
             openListingPosting(trackingInfo: trackingInfo)

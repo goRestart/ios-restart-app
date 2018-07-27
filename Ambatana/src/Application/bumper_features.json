@@ -46,11 +46,6 @@
         "description": "Show a clock until the message is delivered correctly"
     },
     {
-        "name": "MostSearchedDemandedItems",
-        "values": ["control", "baseline", "cameraBadge", "trendingButtonExpandableMenu", "subsetAboveExpandableMenu"],
-        "description": "Display a list of top seller items that inspire users to post new items"
-    },
-    {
         "name": "ShowAdsInFeedWithRatio",
         "values": ["control", "baseline", "ten", "fifteen", "twenty"],
         "description": "show ads in feed every X cells"
@@ -147,8 +142,8 @@
     },
     {
         "name": "SectionedMainFeed",
-        "values": ["control", "baseline", "active"],
-        "description": "A new fully sectioned main feed"
+        "values": ["control", "baseline", "mediumHorizontalSection", "smallHorizontalSection"],
+        "description": "[Discovery] Sectioned feed"
     },
     {
         "name": "ShowExactLocationForPros",
@@ -169,11 +164,6 @@
         "name": "EmergencyLocate",
         "values": ["control", "baseline", "active"],
         "description": "Activate the Emergency Locate feature"
-    },
-    {
-        "name": "RealEstateMap",
-        "values": ["control", "baseline", "active"],
-        "description": "Show Real Estate Map"
     },
     {
         "name": "IAmInterestedFeed",

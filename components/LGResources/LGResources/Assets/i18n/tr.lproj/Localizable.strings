@@ -15,6 +15,7 @@
 "bump_up_banner_boost_text" = "Ekstra Doping ekle!";
 "bump_up_banner_free_button_title" = "Üste çıkar";
 "bump_up_banner_free_text" = "Daha hızlı satmak için üste çıkar";
+"bump_up_banner_loading_text" = "Daha fazla bilgi yükleniyor…";
 "bump_up_banner_pay_text" = "Hemen sat";
 "bump_up_banner_pay_text_improvement" = "Hemen sat";
 "bump_up_banner_pay_text_improvement_english_a" = "Hemen sat";
@@ -200,7 +201,7 @@
 "chat_meeting_cell_status_declined" = "Reddedildi";
 "chat_meeting_cell_status_pending" = "Beklemede";
 "chat_meeting_cell_title" = "Hadi şurda buluşalım:";
-"chat_message_disclaimer_meeting_security" = "Kafe ve banka şubeleri gibi kalabalık alanlarda buluşmaya çalış. Bu alanlar güvenli ve uygun buluşma noktalarıdır.";
+"chat_message_disclaimer_meeting_security" = "Buluşmak için, kafe ve alışveriş merkezi gibi kalabalık ve güvenli alanları tercih edin.";
 "chat_message_disclaimer_scammer_append_blocked" = "Bu kullanıcıyı engellemek için buraya tıkla.";
 "chat_message_disclaimer_scammer_base_blocked" = "Sistemimiz uygunsuz kelimelerin kullanıldığını veya tehlike oluşturabilecek bir iletişim bilgisinin paylaşıldığını tespit etti. %@";
 "chat_message_field_hint" = "Mesajını buraya yaz";
@@ -296,7 +297,7 @@
 "common_user_not_available" = "Oops! Kullanıcı bulunamadı.";
 "common_user_review_not_available" = "Oops! Yorum bulunamadı.";
 "common_yes" = "Evet";
-"community_banner_title" = "Join the letgo community!";
+"community_banner_title" = "letgo topluluğuna katıl!";
 "contact_subject_option_location" = "Konum sorunları";
 "contact_subject_option_login" = "Uygulamaya giriş/erişim";
 "contact_subject_option_other" = "Diğer sorunlar";
@@ -385,7 +386,7 @@
 "filters_car_seller_type_private" = "Özel";
 "filters_car_seller_type_professional" = "Profesyonel";
 "filters_car_year_any_year" = "Herhangi bir Yıl";
-"filters_car_year_before_year" = "%i yılından önce";
+"filters_car_year_before_year" = "%@ yılından önce";
 "filters_cars_bodytype_convertible" = "Üstü açılan";
 "filters_cars_bodytype_coupe" = "coupe";
 "filters_cars_bodytype_hatchback" = "Hatchback";
@@ -439,7 +440,9 @@
 "filters_section_within" = "YAYINLANMA ZAMANI";
 "filters_service_subtype_not_set" = "Belirlenmedi";
 "filters_service_type_not_set" = "Belirlenmedi";
-"filters_services_services_list_title" = "Select a Category";
+"filters_services_services_list_max_selection_alert" = "Oops! 15'den fazla hizmet seçemezsiniz.";
+"filters_services_services_list_search_placeholder" = "Tamirci, müteahhitlik…";
+"filters_services_services_list_title" = "Kategori seç";
 "filters_size_wrong_range_error" = "Minimum büyüklük maksimum büyüklüğü aşmamalıdır.";
 "filters_slider_any" = "Herhangi";
 "filters_sort_closest" = "İlk önce en yakını";
@@ -546,7 +549,7 @@
 "meeting_creation_tips_view_change_button" = "Buluşmayı değiştir";
 "meeting_creation_tips_view_gotit_button" = "Anladım";
 "meeting_creation_tips_view_send_button" = "Buluşma isteği gönder";
-"meeting_creation_tips_view_subtitle" = "Banka şubesi veya kafe gibi aydınlık kamu alanlarında, gündüz ve yoğun saatlerde buluşmanı öneriyoruz.";
+"meeting_creation_tips_view_subtitle" = "Buluşmak için, kafe ve alışveriş merkezi gibi kalabalık ve güvenli alanları tercih edin.";
 "meeting_creation_tips_view_title" = "Buluşmak için uygun ve güvenli bir yer seç";
 "meeting_creation_view_date_time" = "TARİH & ZAMAN";
 "meeting_creation_view_place" = "YER";

@@ -29,9 +29,11 @@ extension Array where Element == ServiceSubtype {
 
 extension Collection where Element == ServiceSubtype {
     
-    var cellRepresentables: [DropdownCellRepresentable] {
+    func makeCellRepresentables() -> [DropdownCellRepresentable] {
         return self.map {
-            let cellContent = DropdownCellContent(type: .item(featured: $0.isHighlighted), title: $0.name, id: $0.id)
+            let cellContent = DropdownCellContent(type: .item(featured: $0.isHighlighted),
+                                                  title: $0.name,
+                                                  id: $0.id)
             return DropdownCellViewModel(withContent: cellContent, state: .deselected)
         }
     }

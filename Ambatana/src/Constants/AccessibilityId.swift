@@ -745,6 +745,14 @@ enum AccessibilityId: Equatable, Accessible {
     case letgoTooltipButton
     case letgoTooltipText
     
+    
+    // DropdownTableView
+    
+    case dropdownViewControllerTableView
+    case dropdownViewControllerSearchBar
+    case dropdownViewControllerApplyButton
+    case dropdownViewControllerResetButton
+    
     static func ==(lhs: AccessibilityId, rhs: AccessibilityId) -> Bool {
         return lhs.identifier == rhs.identifier
     }
@@ -941,6 +949,8 @@ enum AccessibilityId: Equatable, Accessible {
                 idSuffix = "ServicesServiceType-\(serviceType.name)"
             case let .serviceSubtype(serviceSubtype):
                 idSuffix = "ServicesServiceSubtype-\(serviceSubtype.name)"
+            case let .unifiedServiceType(serviceType, subtypes):
+                idSuffix = "ServicesServiceType-\(serviceType.name)+\(subtypes.count)"
             case let .sizeSquareMetersRange(from, to):
                 idSuffix = AccessibilityId.rangeIdentifier(forRange: AccessibilityRange(withLowerBound: from,
                                                                                         upperBound: to),
@@ -2123,6 +2133,17 @@ enum AccessibilityId: Equatable, Accessible {
             return "letgoTooltipButton"
         case .letgoTooltipText:
             return "letgoTooltipText"
+            
+            
+        // DropdownTableView
+        case .dropdownViewControllerTableView:
+            return "dropdownViewControllerTableView"
+        case .dropdownViewControllerSearchBar:
+            return "dropdownViewControllerSearchBar"
+        case .dropdownViewControllerApplyButton:
+            return "dropdownViewControllerApplyButton"
+        case .dropdownViewControllerResetButton:
+            return "dropdownViewControllerResetButton"
         }
     }
     

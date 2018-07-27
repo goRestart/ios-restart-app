@@ -7,12 +7,19 @@
 //
 import LGCoreKit
 
-protocol ProfileTabNavigator: TabNavigator {
+protocol ProfileTabNavigator: TabNavigator, PublicProfileNavigator {
     func openSettings()
     func openEditUserBio()
     func editListing(_ listing: Listing, pageType: EventParameterTypePage?)
     func openVerificationView()
     func closeProfile()
+}
+
+protocol PublicProfileNavigator: class {
+    func openUserReport(source: EventParameterTypePage, userReportedId: String)
+    func openListing(_ data: ListingDetailData,
+                     source: EventParameterListingVisitSource,
+                     actionOnFirstAppear: ProductCarouselActionOnFirstAppear)
 }
 
 protocol SettingsNavigator: class {
