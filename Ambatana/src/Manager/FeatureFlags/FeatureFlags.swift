@@ -261,6 +261,7 @@ extension AdvancedReputationSystem {
 extension ShowCommunity {
     var isActive: Bool {  return self != .baseline && self != .control }
     var shouldShowOnTab: Bool { return self == .communityOnTabBar }
+    var shouldShowOnNavBar: Bool { return self == .communityOnNavBar }
 }
 
 extension ShowPasswordlessLogin {

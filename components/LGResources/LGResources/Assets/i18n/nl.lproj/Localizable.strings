@@ -15,6 +15,7 @@
 "bump_up_banner_boost_text" = "Voeg een Extra Boost toe!";
 "bump_up_banner_free_button_title" = "Omhoog plaatsen";
 "bump_up_banner_free_text" = "Gratis omhoog plaatsen om sneller te verkopen";
+"bump_up_banner_loading_text" = "Meer info laden…";
 "bump_up_banner_pay_text" = "Verkoop nu sneller";
 "bump_up_banner_pay_text_improvement" = "Verkoop nu sneller";
 "bump_up_banner_pay_text_improvement_english_a" = "Verkoop nu sneller";
@@ -296,7 +297,7 @@
 "common_user_not_available" = "Oeps! Gebruiker niet gevonden.";
 "common_user_review_not_available" = "Oeps! Beoordeling niet gevonden.";
 "common_yes" = "Ja";
-"community_banner_title" = "Join the letgo community!";
+"community_banner_title" = "Sluit je aan bij de letgo community!";
 "contact_subject_option_location" = "Locatieproblemen";
 "contact_subject_option_login" = "Login toegang";
 "contact_subject_option_other" = "Andere problemen";
@@ -439,6 +440,8 @@
 "filters_section_within" = "Gepost in";
 "filters_service_subtype_not_set" = "Niet Ingesteld";
 "filters_service_type_not_set" = "Niet Ingesteld";
+"filters_services_services_list_max_selection_alert" = "Oeps! Je kunt niet meer dan 15 diensten selecteren.";
+"filters_services_services_list_search_placeholder" = "Klusjesman, Aannemer...";
 "filters_services_services_list_title" = "Kies een categorie";
 "filters_size_wrong_range_error" = "De minimale grootte kan niet hoger zijn dan de maximale grootte.";
 "filters_slider_any" = "Alle";

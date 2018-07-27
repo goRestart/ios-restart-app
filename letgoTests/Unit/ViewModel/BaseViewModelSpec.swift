@@ -120,4 +120,5 @@ class BaseViewModelSpec: QuickSpec, BaseViewModelDelegate, TabNavigator {
     func openRatingList(_ userId: String) {}
     func openUserReport(source: EventParameterTypePage, userReportedId: String) {}
     func openUserVerificationView() {}
+    func openCommunityTab() {}
 }

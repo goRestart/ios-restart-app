@@ -15,6 +15,7 @@
 "bump_up_banner_boost_text" = "Προσθέστε μια Επιπλέον Προώθηση!";
 "bump_up_banner_free_button_title" = "Προωθήστε";
 "bump_up_banner_free_text" = "Προωθήστε δωρεάν για να πουλήσετε γρηγορότερα";
+"bump_up_banner_loading_text" = "Φόρτωση περισσότερων πληροφοριών...";
 "bump_up_banner_pay_text" = "Προωθήστε για να πουλάτε γρηγορότερα";
 "bump_up_banner_pay_text_improvement" = "Πουλήστε τώρα γρηγορότερα";
 "bump_up_banner_pay_text_improvement_english_a" = "Πουλήστε τώρα γρηγορότερα";
@@ -439,6 +440,8 @@
 "filters_section_within" = "Δημοσιεύτηκε μεταξύ";
 "filters_service_subtype_not_set" = "Καμία Ρύθμιση";
 "filters_service_type_not_set" = "Καμία Ρύθμιση";
+"filters_services_services_list_max_selection_alert" = "Όπα! Δεν μπορείτε να επιλέξετε παραπάνω από 15 υπηρεσίες.";
+"filters_services_services_list_search_placeholder" = "Τεχνίτες, Εργολάβοι…";
 "filters_services_services_list_title" = "Επιλογή κατηγορίας";
 "filters_size_wrong_range_error" = "Το μικρότερο μέγεθος δεν μπορεί να είναι μεγαλύτερο από το μέγιστο μέγεθος.";
 "filters_slider_any" = "Οποιοδήποτε";

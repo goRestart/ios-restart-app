@@ -245,6 +245,12 @@ extension R {
         public static let showMore = ImageAsset(name: "showMore")
         public static let techFeed = ImageAsset(name: "tech_feed")
       }
+      public enum Community {
+        public static let icCommunityBanner = ImageAsset(name: "ic_community_banner")
+        public static let shapeBrightblue = ImageAsset(name: "shapeBrightblue")
+        public static let shapeDarkblue = ImageAsset(name: "shapeDarkblue")
+        public static let shapeYellow = ImageAsset(name: "shapeYellow")
+      }
       public enum IAmInterested {
         public static let icIamiSeeconv = ImageAsset(name: "ic_iami_seeconv")
         public static let icIamiSend = ImageAsset(name: "ic_iami_send")
@@ -529,6 +535,7 @@ extension R {
       public static let searchAlertIcon = ImageAsset(name: "search_alert_icon")
       public static let servicesIcon = ImageAsset(name: "servicesIcon")
       public static let tabbarChats = ImageAsset(name: "tabbar_chats")
+      public static let tabbarCommunity = ImageAsset(name: "tabbar_community")
       public static let tabbarHome = ImageAsset(name: "tabbar_home")
       public static let tabbarNotifications = ImageAsset(name: "tabbar_notifications")
       public static let tabbarProfile = ImageAsset(name: "tabbar_profile")
@@ -565,6 +572,10 @@ extension R {
         CategoriesHeaderIcons.servicesFeed,
         CategoriesHeaderIcons.showMore,
         CategoriesHeaderIcons.techFeed,
+        Community.icCommunityBanner,
+        Community.shapeBrightblue,
+        Community.shapeDarkblue,
+        Community.shapeYellow,
         IAmInterested.icIamiSeeconv,
         IAmInterested.icIamiSend,
         NewItemPage.nitEdit,
@@ -825,6 +836,7 @@ extension R {
         searchAlertIcon,
         servicesIcon,
         tabbarChats,
+        tabbarCommunity,
         tabbarHome,
         tabbarNotifications,
         tabbarProfile,

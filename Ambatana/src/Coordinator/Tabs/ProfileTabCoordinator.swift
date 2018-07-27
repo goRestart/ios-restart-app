@@ -10,7 +10,7 @@ final class ProfileTabCoordinator: TabCoordinator {
 
     weak var profileCoordinatorSearchAlertsDelegate: ProfileCoordinatorSearchAlertsDelegate?
 
-    convenience init() {
+    convenience init(source: UserSource = .tabBar) {
         let sessionManager = Core.sessionManager
         let listingRepository = Core.listingRepository
         let userRepository = Core.userRepository
@@ -21,7 +21,7 @@ final class ProfileTabCoordinator: TabCoordinator {
         let keyValueStorage = KeyValueStorage.sharedInstance
         let tracker = TrackerProxy.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
-        let viewModel = UserProfileViewModel.makePrivateProfile(source: .tabBar)
+        let viewModel = UserProfileViewModel.makePrivateProfile(source: source)
         let rootViewController = UserProfileViewController(viewModel: viewModel)
 
         self.init(listingRepository: listingRepository,
@@ -37,6 +37,15 @@ final class ProfileTabCoordinator: TabCoordinator {
                   sessionManager: sessionManager)
 
         viewModel.profileNavigator = self
+    }
+
+    override func presentViewController(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
+        guard viewController.parent == nil else { return }
+        parent.present(viewController, animated: animated, completion: completion)
+    }
+
+    override func dismissViewController(animated: Bool, completion: (() -> Void)?) {
+        viewController.dismissWithPresented(animated: animated, completion: completion)
     }
 }
 
@@ -63,6 +72,10 @@ extension ProfileTabCoordinator: ProfileTabNavigator {
         vm.navigator = self
         let vc = UserVerificationViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
+    }
+
+    func closeProfile() {
+        dismissViewController(animated: true, completion: nil)
     }
 }
 

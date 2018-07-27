@@ -249,6 +249,18 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     var shouldShowInviteButton: Bool {
         return navigator?.canOpenAppInvite() ?? false
     }
+
+    var shouldShowCommunityButton: Bool {
+        return featureFlags.community.shouldShowOnNavBar
+    }
+
+    var shouldShowUserProfileButton: Bool {
+        return featureFlags.community.shouldShowOnTab
+    }
+
+    var shouldShowCommunityBanner: Bool {
+        return featureFlags.community.isActive && !listViewModel.isListingListEmpty.value
+    }
     
     private var carSelectedWithFilters: Bool {
         guard filters.selectedCategories.contains(.cars) || filters.selectedTaxonomyChildren.containsCarsTaxonomy else { return false }
@@ -1234,6 +1246,14 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
 
     func vmUserDidTapInvite() {
         navigator?.openAppInvite(myUserId: myUserId, myUserName: myUserName)
+    }
+
+    func vmUserDidTapCommunity() {
+        navigator?.openCommunity()
+    }
+
+    func vmUserDidTapUserProfile() {
+        navigator?.openPrivateUserProfile()
     }
     
     func vmDidSelectSellBanner(_ type: String) {}

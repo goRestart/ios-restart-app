@@ -15,6 +15,7 @@
 "bump_up_banner_boost_text" = "Anna lisäboostia!";
 "bump_up_banner_free_button_title" = "Nosta";
 "bump_up_banner_free_text" = "Nosta ilmaiseksi myydäksesi tuotteesi nopeammin";
+"bump_up_banner_loading_text" = "Ladataan lisätietoja…";
 "bump_up_banner_pay_text" = "Myy nopeammin nyt";
 "bump_up_banner_pay_text_improvement" = "Myy nopeammin nyt";
 "bump_up_banner_pay_text_improvement_english_a" = "Myy nopeammin nyt";
@@ -439,6 +440,8 @@
 "filters_section_within" = "Julkaisusta aikaa";
 "filters_service_subtype_not_set" = "Ei Rajattu";
 "filters_service_type_not_set" = "Ei Rajattu";
+"filters_services_services_list_max_selection_alert" = "Hups! Voit valita korkeintaan 15 palvelua.";
+"filters_services_services_list_search_placeholder" = "Remonttimies, urakointi…";
 "filters_services_services_list_title" = "Valitse kategoria";
 "filters_size_wrong_range_error" = "Minimikoko ei voi olla suurempi kuin maksimikoko.";
 "filters_slider_any" = "Kaikki";

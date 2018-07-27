@@ -173,4 +173,5 @@ extension ListingDeckViewModelBinderSpec: ListingDetailNavigator {
     func openUserVerificationView() {}
     func openListingAttributeTable(withViewModel viewModel: ListingAttributeTableViewModel) {}
     func closeListingAttributeTable() {}
+    func openCommunityTab() {}
 }

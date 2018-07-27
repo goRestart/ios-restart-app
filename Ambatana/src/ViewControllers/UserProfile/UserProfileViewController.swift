@@ -197,6 +197,9 @@ final class UserProfileViewController: BaseViewController {
     private func setupNavBar() {
         let backIcon = R.Asset.IconsButtons.navbarBackRed.image
         setNavBarBackButton(backIcon)
+        if viewModel.showCloseButtonInNavBar {
+            setNavBarCloseButton(#selector(close))
+        }
 
         self.navigationItem.titleView = navBarUserView
 
@@ -207,6 +210,10 @@ final class UserProfileViewController: BaseViewController {
             .distinctUntilChanged()
             .drive(onNext: setupNavBarRightActions)
             .disposed(by: disposeBag)
+    }
+
+    @objc func close() {
+        viewModel.didTapCloseButton()
     }
 
     func setupNavBarRightActions(isMyUser: Bool) {

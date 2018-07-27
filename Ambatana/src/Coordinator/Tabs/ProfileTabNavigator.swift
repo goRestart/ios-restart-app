@@ -12,6 +12,7 @@ protocol ProfileTabNavigator: TabNavigator, PublicProfileNavigator {
     func openEditUserBio()
     func editListing(_ listing: Listing, pageType: EventParameterTypePage?)
     func openVerificationView()
+    func closeProfile()
 }
 
 protocol PublicProfileNavigator: class {

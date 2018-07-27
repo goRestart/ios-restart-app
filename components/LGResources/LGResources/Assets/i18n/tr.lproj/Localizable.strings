@@ -15,6 +15,7 @@
 "bump_up_banner_boost_text" = "Ekstra Doping ekle!";
 "bump_up_banner_free_button_title" = "Üste çıkar";
 "bump_up_banner_free_text" = "Daha hızlı satmak için üste çıkar";
+"bump_up_banner_loading_text" = "Daha fazla bilgi yükleniyor…";
 "bump_up_banner_pay_text" = "Hemen sat";
 "bump_up_banner_pay_text_improvement" = "Hemen sat";
 "bump_up_banner_pay_text_improvement_english_a" = "Hemen sat";
@@ -439,6 +440,8 @@
 "filters_section_within" = "YAYINLANMA ZAMANI";
 "filters_service_subtype_not_set" = "Belirlenmedi";
 "filters_service_type_not_set" = "Belirlenmedi";
+"filters_services_services_list_max_selection_alert" = "Oops! 15'den fazla hizmet seçemezsiniz.";
+"filters_services_services_list_search_placeholder" = "Tamirci, müteahhitlik…";
 "filters_services_services_list_title" = "Kategori seç";
 "filters_size_wrong_range_error" = "Minimum büyüklük maksimum büyüklüğü aşmamalıdır.";
 "filters_slider_any" = "Herhangi";

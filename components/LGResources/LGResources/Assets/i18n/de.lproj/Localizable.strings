@@ -15,6 +15,7 @@
 "bump_up_banner_boost_text" = "Kurbel dein Angebot so richtig an!";
 "bump_up_banner_free_button_title" = "Hochholen";
 "bump_up_banner_free_text" = "Kostenlos hochholen, um schneller zu verkaufen";
+"bump_up_banner_loading_text" = "Weitere Infos laden…";
 "bump_up_banner_pay_text" = "Jetzt schneller verkaufen";
 "bump_up_banner_pay_text_improvement" = "Jetzt schneller verkaufen";
 "bump_up_banner_pay_text_improvement_english_a" = "Jetzt schneller verkaufen";
@@ -296,7 +297,7 @@
 "common_user_not_available" = "Hoppla! Benutzer nicht gefunden.";
 "common_user_review_not_available" = "Hoppla! Bewertung konnte nicht gefunden werden.";
 "common_yes" = "Ja";
-"community_banner_title" = "Join the letgo community!";
+"community_banner_title" = "Werde Teil der letgo-Gemeinschaft!";
 "contact_subject_option_location" = "Standortfragen";
 "contact_subject_option_login" = "Kontozugriff";
 "contact_subject_option_other" = "Andere Fragen";
@@ -439,6 +440,8 @@
 "filters_section_within" = "Eingestellt innerhalb";
 "filters_service_subtype_not_set" = "Nicht ausgewählt";
 "filters_service_type_not_set" = "Nicht ausgewählt";
+"filters_services_services_list_max_selection_alert" = "Hoppla! Du kannst nur maximal 15 Dienstleistungen auswählen.";
+"filters_services_services_list_search_placeholder" = "Handwerker, Klempner ...";
 "filters_services_services_list_title" = "Wähle eine Kategorie";
 "filters_size_wrong_range_error" = "Die Mindestgröße kann nicht größer sein als die Maximalgröße.";
 "filters_slider_any" = "Beliebig";
