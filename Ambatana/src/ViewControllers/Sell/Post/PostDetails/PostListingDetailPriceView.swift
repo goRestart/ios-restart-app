@@ -89,7 +89,7 @@ class PostListingDetailPriceView: BaseView {
         let tap = UITapGestureRecognizer(target: self, action: #selector(freeCellPressed))
         postFreeViewContainer.addGestureRecognizer(tap)
 
-        if viewModel.shareOnFacebookAvailable {
+        if viewModel.showShareOnFacebook {
             doneButtonTopConstraint.isActive = false
             setupShareOnFacebook()
         }
