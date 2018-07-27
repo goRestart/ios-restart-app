@@ -94,6 +94,8 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
             return FilterTagCell.sizeForText(serviceType.name)
         case .serviceSubtype(let serviceSubtype):
             return FilterTagCell.sizeForText(serviceSubtype.name)
+        case .unifiedServiceType(let type, let selectedSubtypes):
+             return FilterTagCell.sizeForText("\(type.name) +\(selectedSubtypes.count)")
         case .carBodyType(let bodyType):
             return FilterTagCell.sizeForText(bodyType.title)
         case .carFuelType(let fuelType):
@@ -149,7 +151,7 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
     }
 
     private static func stringForYearsRange(_ startYear: Int?, endYear: Int?) -> String {
-        var startText = R.Strings.filtersCarYearBeforeYear(SharedConstants.filterMinCarYear)
+        var startText = R.Strings.filtersCarYearBeforeYear("\(SharedConstants.filterMinCarYear)")
         var endText = String(Date().year)
 
         if let startYear = startYear {
@@ -299,7 +301,7 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
         case .location, .within, .orderBy, .category, .taxonomyChild, .secondaryTaxonomyChild, .priceRange,
              .freeStuff, .distance, .carSellerType, .make, .model, .yearsRange, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms,
              .realEstatePropertyType, .realEstateOfferType, .sizeSquareMetersRange, .realEstateNumberOfRooms,
-             .serviceType, .serviceSubtype, .carDriveTrainType, .carBodyType, .carFuelType, .carTransmissionType,
+             .serviceType, .serviceSubtype, .unifiedServiceType, .carDriveTrainType, .carBodyType, .carFuelType, .carTransmissionType,
              .mileageRange, .numberOfSeats:
             setDefaultCellStyle()
         }
@@ -378,6 +380,8 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
             tagLabel.text = serviceType.name
         case .serviceSubtype(let subtype):
             tagLabel.text = subtype.name
+        case .unifiedServiceType(let type, let selectedSubtypes):
+            tagLabel.text = "\(type.name) +\(selectedSubtypes.count)"
         case .mileageRange(let start, let end):
             let numberFormatter = NumberFormatter.newMileageNumberFormatter()
             tagLabel.text = FilterTagCell.stringForRange(fromValue: start,

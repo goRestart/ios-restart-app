@@ -214,7 +214,7 @@ struct TrackerEvent {
         return TrackerEvent(name: .searchStart, params: params)
     }
 
-    static func searchComplete(_ user: User?, searchQuery: String, isTrending: Bool, success: EventParameterSearchCompleteSuccess, isLastSearch: Bool, isSuggestiveSearch: Bool, suggestiveSearchIndex: Int?)
+    static func searchComplete(_ user: User?, searchQuery: String, isTrending: Bool, success: EventParameterSearchCompleteSuccess, isLastSearch: Bool, isSuggestiveSearch: Bool, suggestiveSearchIndex: Int?, searchRelatedItems: Bool)
         -> TrackerEvent {
             var params = EventParameters()
             params[.searchString] = searchQuery
@@ -222,9 +222,12 @@ struct TrackerEvent {
             params[.trendingSearch] = isTrending
             params[.lastSearch] = isLastSearch
             params[.searchSuggestion] = isSuggestiveSearch
+            params[.searchRelatedItems] = searchRelatedItems
+            
             if let suggestiveSearchPosition = suggestiveSearchIndex {
                 params[.searchSuggestionPosition] = suggestiveSearchPosition
             }
+
             return TrackerEvent(name: .searchComplete, params: params)
     }
 
@@ -513,14 +516,12 @@ struct TrackerEvent {
                                  buttonName: EventParameterButtonNameType?,
                                  sellButtonPosition: EventParameterSellButtonPosition,
                                  category: ListingCategory?,
-                                 mostSearchedButton: EventParameterMostSearched,
                                  predictiveFlow: Bool) -> TrackerEvent {
         var params = EventParameters()
         params[.typePage] = typePage.rawValue
         params[.buttonName] = buttonName?.rawValue
         params[.sellButtonPosition] = sellButtonPosition.rawValue
         params[.categoryId] = category?.rawValue ?? TrackerEvent.notApply
-        params[.mostSearchedButton] = mostSearchedButton.rawValue
         params[.mlPredictiveFlow] = predictiveFlow
         return TrackerEvent(name: .listingSellStart, params: params)
     }
@@ -533,7 +534,6 @@ struct TrackerEvent {
                                     videoLength: TimeInterval?,
                                     freePostingModeAllowed: Bool,
                                     typePage: EventParameterTypePage,
-                                    mostSearchedButton: EventParameterMostSearched,
                                     machineLearningTrackingInfo: MachineLearningTrackingInfo) -> TrackerEvent {
         var params = EventParameters()
         params[.freePosting] = listing.price.allowFreeFilters(freePostingModeAllowed: freePostingModeAllowed).rawValue
@@ -544,7 +544,6 @@ struct TrackerEvent {
         params[.sellButtonPosition] = sellButtonPosition?.rawValue
         params[.listingDescription] = !(listing.descr?.isEmpty ?? true)
         params[.typePage] = typePage.rawValue
-        params[.mostSearchedButton] = mostSearchedButton.rawValue
         if let buttonName = buttonName {
             params[.buttonName] = buttonName.rawValue
         }
@@ -904,6 +903,13 @@ struct TrackerEvent {
         params[.messageGoal] = questionKey
         params[.listingId] = listingId
         return TrackerEvent(name: .chatLetgoServiceQuestionReceived, params: params)
+    }
+
+    static func chatCallToActionTapped(ctaKey: String, isLetgoAssistant: EventParameterBoolean) -> TrackerEvent {
+        var params = EventParameters()
+        params[.messageActionKey] = ctaKey
+        params[.isLetgoAssistant] = isLetgoAssistant.rawValue
+        return TrackerEvent(name: .chatCallToActionTapped, params: params)
     }
 
     static func profileVisit(_ user: User, profileType: EventParameterProfileType, typePage: EventParameterTypePage, tab: EventParameterTab)

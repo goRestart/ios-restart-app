@@ -6,6 +6,10 @@ extension ListingSortCriteria {
         return nil
     }
     
+    static var allValues: [ListingSortCriteria] {
+        return [.creation, .distance, .priceAsc, .priceDesc]
+    }
+    
     var name : String {
         switch(self) {
         case .distance:
@@ -17,10 +21,6 @@ extension ListingSortCriteria {
         case .priceDesc:
             return R.Strings.filtersSortPriceDesc
         }
-    }
-    
-    static func allValues() -> [ListingSortCriteria] {
-        return [.creation, .distance, .priceAsc, .priceDesc]
     }
     
     var trackValue: EventParameterSortBy {

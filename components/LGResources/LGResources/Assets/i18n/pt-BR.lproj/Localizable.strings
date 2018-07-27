@@ -15,6 +15,7 @@
 "bump_up_banner_boost_text" = "Add an extra boost!";
 "bump_up_banner_free_button_title" = "Bump Up";
 "bump_up_banner_free_text" = "Bump Up for free to sell faster";
+"bump_up_banner_loading_text" = "Loading more info…";
 "bump_up_banner_pay_text" = "Sell faster now";
 "bump_up_banner_pay_text_improvement" = "Sell faster now";
 "bump_up_banner_pay_text_improvement_english_a" = "Sell faster now";
@@ -149,10 +150,12 @@
 "chat_express_banner_button_title" = "See Deals";
 "chat_express_banner_title" = "Related deals near you";
 "chat_express_contact_one_button_text" = "Contact 1 seller";
+"chat_express_contact_only_button_text" = "Contact";
 "chat_express_contact_sellers_label" = "Contact these sellers before other buyers snatch them up!";
 "chat_express_contact_various_button_text" = "Contact %@ sellers";
 "chat_express_dont_ask_again_button" = "Don't ask me again";
 "chat_express_dont_miss_label" = "Don't miss out on these deals";
+"chat_express_high_demand_label" = "In high demand! Don't miss out on these deals";
 "chat_express_one_message_sent_success_alert" = "Your message has been sent!";
 "chat_express_several_messages_sent_success_alert" = "Your messages have been sent!";
 "chat_express_text_field_text" = "Hi! Is it still available?";
@@ -294,6 +297,7 @@
 "common_user_not_available" = "Oops! User not found.";
 "common_user_review_not_available" = "Oops! Review not found.";
 "common_yes" = "Yes";
+"community_banner_title" = "Join the letgo community!";
 "contact_subject_option_location" = "Location issues";
 "contact_subject_option_login" = "Issues logging in";
 "contact_subject_option_other" = "Other issues";
@@ -373,6 +377,7 @@
 "filter_cars_seats_title" = "Seats";
 "filter_results_cars_no_matches" = "No exact matches for your search.\n Showing similar results. ";
 "filter_results_cars_other_results" = "Recently posted in your area";
+"filter_services_services_list_show_more" = "Show more";
 "filters_car_make_not_set" = "Not Set";
 "filters_car_model_not_set" = "Not Set";
 "filters_car_seller_type_all" = "All";
@@ -381,7 +386,7 @@
 "filters_car_seller_type_private" = "Private";
 "filters_car_seller_type_professional" = "Professional";
 "filters_car_year_any_year" = "Any Year";
-"filters_car_year_before_year" = "Before %i";
+"filters_car_year_before_year" = "Before %@";
 "filters_cars_bodytype_convertible" = "Convertible";
 "filters_cars_bodytype_coupe" = "Coupe";
 "filters_cars_bodytype_hatchback" = "Hatchback";
@@ -435,6 +440,9 @@
 "filters_section_within" = "Posted within";
 "filters_service_subtype_not_set" = "Not Set";
 "filters_service_type_not_set" = "Not Set";
+"filters_services_services_list_max_selection_alert" = "Oops! You can't select more than 15 services.";
+"filters_services_services_list_search_placeholder" = "Handyman, Contracting…";
+"filters_services_services_list_title" = "Select a Category";
 "filters_size_wrong_range_error" = "The minimum size can’t be higher than the maximum size.";
 "filters_slider_any" = "Any";
 "filters_sort_closest" = "Closest first";
@@ -546,7 +554,7 @@
 "meeting_creation_view_date_time" = "DATE & TIME";
 "meeting_creation_view_place" = "PLACE";
 "meeting_creation_view_search_cell_search" = "Search";
-"meeting_creation_view_search_cell_title" = "Search another location";
+"meeting_creation_view_search_cell_title" = "Search for another location";
 "meeting_creation_view_select_date_time" = "Select date and time";
 "meeting_creation_view_select_location" = "Select a location";
 "meeting_creation_view_send_button" = "Send meeting";
@@ -816,7 +824,7 @@
 "product_post_camera_video_mode_button" = "VIDEO";
 "product_post_camera_video_mode_button_new_badge" = "New!";
 "product_post_camera_video_recording_min_duration_message" = "Please record for at least %d seconds";
-"product_post_camera_video_recording_tooltip" = "%@ to record a video";
+"product_post_camera_video_recording_tooltip" = "%@ to record video";
 "product_post_camera_video_recording_tooltip_highlighted_word" = "Hold";
 "product_post_close_alert_close_button" = "Discard";
 "product_post_close_alert_description" = "Do you still want to list it for sale?";
@@ -1266,6 +1274,7 @@
 "sell_send_error_invalid_price" = "Please enter a valid price for your listing. It should only include numbers.";
 "sell_send_error_invalid_title" = "Please enter a valid title for your listing.";
 "sell_send_error_sharing_facebook" = "An error occurred while sharing on Facebook. Please try again.";
+"sell_share_on_facebook_footer_label" = "Get more visibility and sell faster";
 "sell_share_on_facebook_label" = "Share on Facebook";
 "sell_title_autogen_autotrans_label" = "Title suggested by letgo and translated by Google";
 "sell_title_autogen_label" = "Title suggested by letgo";
@@ -1275,6 +1284,7 @@
 "services_service_subtype_title" = "Service";
 "services_service_type_list_title" = "Service category";
 "services_service_type_title" = "Service category";
+"services_unified_filter_title" = "Select a category";
 "settings_change_email_button" = "Email";
 "settings_change_location_button" = "Location";
 "settings_change_password_button" = "Password";

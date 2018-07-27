@@ -159,6 +159,7 @@ enum AccessibilityId: Equatable, Accessible {
     case listingCarouselInterestedButton
     case listingCarouselStatusView
     case listingCarouselPlayButton
+    case listingCarouselVideoProgressView
 
     case listingCarouselNavBarCloseButton
     case listingCarouselNavBarEditButton
@@ -192,6 +193,8 @@ enum AccessibilityId: Equatable, Accessible {
     case listingCarouselCellPlaceholderImage
     case listingCarouselImageCell
     case listingCarouselImageCellImageView
+    case listingCarouselVideoCell
+    case listingCarouselVideoCellVideoPreview
 
     // listing Carousel Post Delete screens
     case postDeleteAlertButton
@@ -280,6 +283,9 @@ enum AccessibilityId: Equatable, Accessible {
     case postingAddDetailTableView
     case postingAddDetailSearchBar
     case postingDetailMaxServices
+    case postingDetailShareOnFacebookTitleLabel
+    case postingDetailShareOnFacebookFooterLabel
+    case postingDetailShareOnFacebookCheckbox
 
     // Editlisting
     case editListingCloseButton
@@ -614,6 +620,7 @@ enum AccessibilityId: Equatable, Accessible {
     case expressChatCollection
     case expressChatSendButton
     case expressChatDontAskButton
+    case expressChatMoreOptionsButton
 
     // Express chat cell
     case expressChatCell
@@ -737,6 +744,14 @@ enum AccessibilityId: Equatable, Accessible {
     // Letgo Tooltip
     case letgoTooltipButton
     case letgoTooltipText
+    
+    
+    // DropdownTableView
+    
+    case dropdownViewControllerTableView
+    case dropdownViewControllerSearchBar
+    case dropdownViewControllerApplyButton
+    case dropdownViewControllerResetButton
     
     static func ==(lhs: AccessibilityId, rhs: AccessibilityId) -> Bool {
         return lhs.identifier == rhs.identifier
@@ -867,7 +882,7 @@ enum AccessibilityId: Equatable, Accessible {
             case .location:
                 idSuffix = "Location"
             case let .within(timeCriteria):
-                idSuffix = "WithinTime-\(timeCriteria.rawValue)"
+                idSuffix = "WithinTime-\(timeCriteria.accessibilityId)"
             case let .orderBy(sortCriteria):
                 idSuffix = "OrderBy-\(sortCriteria.rawValue)"
             case let .category(category):
@@ -934,6 +949,8 @@ enum AccessibilityId: Equatable, Accessible {
                 idSuffix = "ServicesServiceType-\(serviceType.name)"
             case let .serviceSubtype(serviceSubtype):
                 idSuffix = "ServicesServiceSubtype-\(serviceSubtype.name)"
+            case let .unifiedServiceType(serviceType, subtypes):
+                idSuffix = "ServicesServiceType-\(serviceType.name)+\(subtypes.count)"
             case let .sizeSquareMetersRange(from, to):
                 idSuffix = AccessibilityId.rangeIdentifier(forRange: AccessibilityRange(withLowerBound: from,
                                                                                         upperBound: to),
@@ -1085,6 +1102,8 @@ enum AccessibilityId: Equatable, Accessible {
             return "listingCarouselStatusView"
         case .listingCarouselPlayButton:
             return "listingCarouselPlayButton"
+        case .listingCarouselVideoProgressView:
+            return "listingCarouselVideoProgressView"
             
         case .listingCarouselNavBarCloseButton:
             return "listingCarouselNavBarCloseButton"
@@ -1145,6 +1164,10 @@ enum AccessibilityId: Equatable, Accessible {
             return "listingCarouselImageCell"
         case .listingCarouselImageCellImageView:
             return "listingCarouselImageCellImageView"
+        case .listingCarouselVideoCell:
+            return "listingCarouselVideoCell"
+        case .listingCarouselVideoCellVideoPreview:
+            return "listingCarouselVideoCellVideoPreview"
             
         // listing Carousel Post Delete screens
         case .postDeleteAlertButton:
@@ -1312,6 +1335,12 @@ enum AccessibilityId: Equatable, Accessible {
             return "postingAddDetailSearchBar"
         case .postingDetailMaxServices:
             return "postingDetailMaxServices"
+        case .postingDetailShareOnFacebookTitleLabel:
+            return "postingDetailShareOnFacebookTitleLabel"
+        case .postingDetailShareOnFacebookFooterLabel:
+            return "postingDetailShareOnFacebookFooterLabel"
+        case .postingDetailShareOnFacebookCheckbox:
+            return "postingDetailShareOnFacebookCheckbox"
             
         // Editlisting
         case .editListingCloseButton:
@@ -1630,6 +1659,8 @@ enum AccessibilityId: Equatable, Accessible {
                 suffix = "OthersMessage"
             case .askPhoneNumber:
                 suffix = "AskPhoneNumber"
+            case .callToAction:
+                suffix = "CallToAction"
             }
             return "chatCellContainer\(suffix)"
         case .chatCellMessageLabel:
@@ -1902,6 +1933,8 @@ enum AccessibilityId: Equatable, Accessible {
             return "expressChatSendButton"
         case .expressChatDontAskButton:
             return "expressChatDontAskButton"
+        case .expressChatMoreOptionsButton:
+            return "expressChatMoreOptionsButton"
             
         // Express chat cell
         case .expressChatCell:
@@ -2100,6 +2133,17 @@ enum AccessibilityId: Equatable, Accessible {
             return "letgoTooltipButton"
         case .letgoTooltipText:
             return "letgoTooltipText"
+            
+            
+        // DropdownTableView
+        case .dropdownViewControllerTableView:
+            return "dropdownViewControllerTableView"
+        case .dropdownViewControllerSearchBar:
+            return "dropdownViewControllerSearchBar"
+        case .dropdownViewControllerApplyButton:
+            return "dropdownViewControllerApplyButton"
+        case .dropdownViewControllerResetButton:
+            return "dropdownViewControllerResetButton"
         }
     }
     

@@ -15,6 +15,7 @@
 "bump_up_banner_boost_text" = "Voeg een Extra Boost toe!";
 "bump_up_banner_free_button_title" = "Omhoog plaatsen";
 "bump_up_banner_free_text" = "Gratis omhoog plaatsen om sneller te verkopen";
+"bump_up_banner_loading_text" = "Meer info laden…";
 "bump_up_banner_pay_text" = "Verkoop nu sneller";
 "bump_up_banner_pay_text_improvement" = "Verkoop nu sneller";
 "bump_up_banner_pay_text_improvement_english_a" = "Verkoop nu sneller";
@@ -149,10 +150,12 @@
 "chat_express_banner_button_title" = "Bekijk Deals";
 "chat_express_banner_title" = "Gerelateerde deals in jouw buurt";
 "chat_express_contact_one_button_text" = "Contacteer 1 verkoper";
+"chat_express_contact_only_button_text" = "Contact";
 "chat_express_contact_sellers_label" = "Neem contact op met deze verkopers voordat andere kopers dat doen!";
 "chat_express_contact_various_button_text" = "Contacteer %@ verkopers";
 "chat_express_dont_ask_again_button" = "Vraag me niet opnieuw";
 "chat_express_dont_miss_label" = "Mis deze deals niet";
+"chat_express_high_demand_label" = "In hoge vraag! Mis deze deals niet";
 "chat_express_one_message_sent_success_alert" = "Je bericht is verzonden!";
 "chat_express_several_messages_sent_success_alert" = "Je berichten zijn verzonden!";
 "chat_express_text_field_text" = "Is het nog beschikbaar?";
@@ -294,6 +297,7 @@
 "common_user_not_available" = "Oeps! Gebruiker niet gevonden.";
 "common_user_review_not_available" = "Oeps! Beoordeling niet gevonden.";
 "common_yes" = "Ja";
+"community_banner_title" = "Sluit je aan bij de letgo community!";
 "contact_subject_option_location" = "Locatieproblemen";
 "contact_subject_option_login" = "Login toegang";
 "contact_subject_option_other" = "Andere problemen";
@@ -373,6 +377,7 @@
 "filter_cars_seats_title" = "Zitplaatsen";
 "filter_results_cars_no_matches" = "Geen exacte resultaten voor jouw zoekopdracht.\n  Toon vergelijkbare resultaten.";
 "filter_results_cars_other_results" = "Recent geplaatst in jouw omgeving";
+"filter_services_services_list_show_more" = "Toon meer";
 "filters_car_make_not_set" = "Niet Ingesteld";
 "filters_car_model_not_set" = "Niet Ingesteld";
 "filters_car_seller_type_all" = "Alle";
@@ -381,7 +386,7 @@
 "filters_car_seller_type_private" = "Particulier";
 "filters_car_seller_type_professional" = "Professioneel";
 "filters_car_year_any_year" = "Elk Jaar";
-"filters_car_year_before_year" = "Voor %i";
+"filters_car_year_before_year" = "Voor %@";
 "filters_cars_bodytype_convertible" = "Cabrio";
 "filters_cars_bodytype_coupe" = "coupe";
 "filters_cars_bodytype_hatchback" = "Hatchback";
@@ -435,6 +440,9 @@
 "filters_section_within" = "Gepost in";
 "filters_service_subtype_not_set" = "Niet Ingesteld";
 "filters_service_type_not_set" = "Niet Ingesteld";
+"filters_services_services_list_max_selection_alert" = "Oeps! Je kunt niet meer dan 15 diensten selecteren.";
+"filters_services_services_list_search_placeholder" = "Klusjesman, Aannemer...";
+"filters_services_services_list_title" = "Kies een categorie";
 "filters_size_wrong_range_error" = "De minimale grootte kan niet hoger zijn dan de maximale grootte.";
 "filters_slider_any" = "Alle";
 "filters_sort_closest" = "Dichtstbijzijnde eerst";
@@ -1158,7 +1166,7 @@
 "report_user_suspcious" = "Verdacht gedrag";
 "report_user_text_placeholder" = "Voeg een opmerking toe (optioneel)";
 "report_user_title" = "Rapporteer Gebruiker";
-"reporting_additional_notes_placeholder" = "Geef in de tussentijd aanvullende informatie op zodat ons team jouw claim kan onderzoeken.";
+"reporting_additional_notes_placeholder" = "Voeg ondertussen extra opmerkingen toe die ons kunnen helpen dit probleem op te lossen";
 "reporting_listing_list_header" = "WAAROM RAPPORTEER JE DEZE ADVERTENTIE?";
 "reporting_listing_report_sent_text" = "Bedankt voor je anonieme rapport en om ons te helpen letgo de beste plaats te maken om lokaal te kopen en te verkopen.";
 "reporting_listing_report_sent_title" = "Rapport verzonden!";
@@ -1216,10 +1224,10 @@
 "reporting_user_report_sent_title" = "Rapport verzonden!";
 "reporting_user_suspicious_behavior_header" = "WAT IS ER GEBEURD?";
 "reporting_user_title" = "Rapporteer Gebruiker";
-"reporting_user_update_text_A" = "Thanks for anonymously reporting %@. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing this account, we've removed it because it violated our Community Guidelines.";
-"reporting_user_update_text_B" = "Thanks for anonymously reporting %@'s profile photo. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing the photo, we've removed it because it violated our Community Guidelines.";
-"reporting_user_update_text_C" = "Thanks for anonymously reporting %@'s bio. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing the bio, we've removed it because it violated our Community Guidelines.";
-"reporting_user_update_title" = "Report update";
+"reporting_user_update_text_A" = "Bedankt voor het anoniem rapporteren van %@. Feedback zoals die van jou helpt ons om de letgo-community veilig te houden.\n \nNadat we dit account hebben beoordeeld, hebben we het verwijderd omdat het onze communityrichtlijnen schendt.";
+"reporting_user_update_text_B" = "Bedankt voor het anoniem rapporteren van de profielfoto van %@. Feedback zoals die van jou helpt ons om de letgo-community veilig te houden.\n \nNadat we de foto hebben beoordeeld, hebben we deze verwijderd omdat deze onze communityrichtlijnen schendt.";
+"reporting_user_update_text_C" = "Bedankt voor het anoniem rapporteren van %@'s biografie. Feedback zoals die van jou helpt ons om de letgo-community veilig te houden.\n \nNa het bekijken van de biografie hebben we deze verwijderd omdat deze onze communityrichtlijnen schendt.";
+"reporting_user_update_title" = "Update rapport";
 "reset_password_email_field_hint" = "Vul je e-mail adres in";
 "reset_password_instructions" = "Vul a.u.b. je e-mailadres in en we zullen je een e-mail sturen om je wachtwoord te resetten.";
 "reset_password_send_button" = "Verzend e-mail";
@@ -1266,6 +1274,7 @@
 "sell_send_error_invalid_price" = "Voer een geldige prijs in voor de advertentie. Deze kan enkel cijfers bevatten.";
 "sell_send_error_invalid_title" = "Voer een geldige titel in voor je advertentie.";
 "sell_send_error_sharing_facebook" = "Er is een fout opgetreden bij het delen op Facebook. Probeer het nog eens.";
+"sell_share_on_facebook_footer_label" = "Krijg meer zichtbaarheid en verkoop sneller";
 "sell_share_on_facebook_label" = "Delen op Facebook";
 "sell_title_autogen_autotrans_label" = "Title voorgesteld door letgo en vertaald door Google";
 "sell_title_autogen_label" = "Titel voorgesteld door letgo";
@@ -1275,6 +1284,7 @@
 "services_service_subtype_title" = "Diensten";
 "services_service_type_list_title" = "Diensten categorie";
 "services_service_type_title" = "Diensten categorie";
+"services_unified_filter_title" = "Selecteer een categorie";
 "settings_change_email_button" = "E-mail";
 "settings_change_location_button" = "Locatie";
 "settings_change_password_button" = "Wachtwoord";

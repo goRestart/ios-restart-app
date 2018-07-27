@@ -15,6 +15,7 @@
 "bump_up_banner_boost_text" = "Anna lisäboostia!";
 "bump_up_banner_free_button_title" = "Nosta";
 "bump_up_banner_free_text" = "Nosta ilmaiseksi myydäksesi tuotteesi nopeammin";
+"bump_up_banner_loading_text" = "Ladataan lisätietoja…";
 "bump_up_banner_pay_text" = "Myy nopeammin nyt";
 "bump_up_banner_pay_text_improvement" = "Myy nopeammin nyt";
 "bump_up_banner_pay_text_improvement_english_a" = "Myy nopeammin nyt";
@@ -149,10 +150,12 @@
 "chat_express_banner_button_title" = "Katso tarjouksia";
 "chat_express_banner_title" = "Vastaavia tarjouksia lähelläsi";
 "chat_express_contact_one_button_text" = "Ota yhteyttä yhteen myyjään";
+"chat_express_contact_only_button_text" = "Ota yhteyttä";
 "chat_express_contact_sellers_label" = "Ota yhteyttä näihin myyjiin, ennen kuin muut ostajat nappaavat ne!";
 "chat_express_contact_various_button_text" = "Ota yhteyttä %@ myyjään";
 "chat_express_dont_ask_again_button" = "Älä kysy uudelleen";
 "chat_express_dont_miss_label" = "Älä missaa näitä tarjouksia";
+"chat_express_high_demand_label" = "Kysyttyä tavaraa! Älä missaa näitä tarjouksia";
 "chat_express_one_message_sent_success_alert" = "Viestisi on lähetetty!";
 "chat_express_several_messages_sent_success_alert" = "Viestisi on lähetetty!";
 "chat_express_text_field_text" = "Onko tuote edelleen myynnissä?";
@@ -294,6 +297,7 @@
 "common_user_not_available" = "Hups! Käyttäjää ei löytynyt.";
 "common_user_review_not_available" = "Hups! Arvostelua ei löytynyt.";
 "common_yes" = "Kyllä";
+"community_banner_title" = "Liity letgon yhteisöön!";
 "contact_subject_option_location" = "Paikannusongelmat";
 "contact_subject_option_login" = "Sisäänkirjautuminen";
 "contact_subject_option_other" = "Muut asiat";
@@ -373,6 +377,7 @@
 "filter_cars_seats_title" = "Istuinpaikat";
 "filter_results_cars_no_matches" = "Täysin hakuasi vastaavia osumia ei löytynyt.\n Näytetään samankaltaiset tulokset. ";
 "filter_results_cars_other_results" = "Alueellasi äskettäin julkaistu";
+"filter_services_services_list_show_more" = "Näytä enemmän";
 "filters_car_make_not_set" = "Ei rajattu";
 "filters_car_model_not_set" = "Ei rajattu";
 "filters_car_seller_type_all" = "Kaikki";
@@ -381,7 +386,7 @@
 "filters_car_seller_type_private" = "Yksityinen";
 "filters_car_seller_type_professional" = "Ammattilainen";
 "filters_car_year_any_year" = "Kaikki vuodet";
-"filters_car_year_before_year" = "Ennen vuotta %i";
+"filters_car_year_before_year" = "Ennen vuotta %@";
 "filters_cars_bodytype_convertible" = "Avoauto";
 "filters_cars_bodytype_coupe" = "Coupe-auto";
 "filters_cars_bodytype_hatchback" = "Viistoperä";
@@ -435,6 +440,9 @@
 "filters_section_within" = "Julkaisusta aikaa";
 "filters_service_subtype_not_set" = "Ei Rajattu";
 "filters_service_type_not_set" = "Ei Rajattu";
+"filters_services_services_list_max_selection_alert" = "Hups! Voit valita korkeintaan 15 palvelua.";
+"filters_services_services_list_search_placeholder" = "Remonttimies, urakointi…";
+"filters_services_services_list_title" = "Valitse kategoria";
 "filters_size_wrong_range_error" = "Minimikoko ei voi olla suurempi kuin maksimikoko.";
 "filters_slider_any" = "Kaikki";
 "filters_sort_closest" = "Lähin ensin";
@@ -1158,7 +1166,7 @@
 "report_user_suspcious" = "Epäilyttävää käytöstä";
 "report_user_text_placeholder" = "Lisää kommentti (vapaaehtoinen)";
 "report_user_title" = "Ilmianna käyttäjä";
-"reporting_additional_notes_placeholder" = "Annathan tällä välin tiimillemme lisätietoja, jotta voimme tutkia kanteesi.";
+"reporting_additional_notes_placeholder" = "Lisääthän mahdolliset lisätiedot, jotka voivat auttaa meitä tämän ongelman ratkaisemisessa";
 "reporting_listing_list_header" = "MIKSI ILMIANNAT TÄMÄN ILMOITUKSEN?";
 "reporting_listing_report_sent_text" = "Kiitos nimettömästä ilmiannostasi ja siitä, että autat meitä tekemään letgosta parhaan paikan ostaa ja myydä paikallisesti.";
 "reporting_listing_report_sent_title" = "Ilmoitus lähetetty!";
@@ -1216,10 +1224,10 @@
 "reporting_user_report_sent_title" = "Ilmoitus lähetetty!";
 "reporting_user_suspicious_behavior_header" = "MITÄ TAPAHTUI?";
 "reporting_user_title" = "Ilmianna käyttäjä";
-"reporting_user_update_text_A" = "Thanks for anonymously reporting %@. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing this account, we've removed it because it violated our Community Guidelines.";
-"reporting_user_update_text_B" = "Thanks for anonymously reporting %@'s profile photo. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing the photo, we've removed it because it violated our Community Guidelines.";
-"reporting_user_update_text_C" = "Thanks for anonymously reporting %@'s bio. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing the bio, we've removed it because it violated our Community Guidelines.";
-"reporting_user_update_title" = "Report update";
+"reporting_user_update_text_A" = "Kiitos, että ilmiannoit käyttäjän %@ anonyymisti. Tällainen palaute auttaa meitä pitämään letgon yhteisön turvallisena.\n\nTarkastettuamme tämän tilin olemme poistaneet sen, koska se rikkoi yhteisömme ohjesääntöjä.";
+"reporting_user_update_text_B" = "Kiitos, että ilmiannoit käyttäjän %@ profiilikuvan anonyymisti. Tällainen palaute auttaa meitä pitämään letgon yhteisön turvallisena.\n\nTarkastettuamme kyseisen kuvan olemme poistaneet sen, koska se rikkoi yhteisömme ohjesääntöjä.";
+"reporting_user_update_text_C" = "Kiitos, että ilmiannoit käyttäjän %@ biografian anonyymisti. Tällainen palaute auttaa meitä pitämään letgon yhteisön turvallisena.\n\nTarkastettuamme kyseisen biografian olemme poistaneet sen, koska se rikkoi yhteisömme ohjesääntöjä.";
+"reporting_user_update_title" = "Ilmianna päivitys";
 "reset_password_email_field_hint" = "Kirjoita sähköpostiosoitteesi";
 "reset_password_instructions" = "Ole hyvä ja syötä sähköpostiosoitteesi niin lähetämme sinulle sähköpostia salasanasi nollaamiseksi.";
 "reset_password_send_button" = "Lähetä sähköposti";
@@ -1266,6 +1274,7 @@
 "sell_send_error_invalid_price" = "Ole hyvä ja syötä ilmoituksellesi kelvollinen hinta. Sen pitää olla pelkkä numero.";
 "sell_send_error_invalid_title" = "Ole hyvä ja syötä ilmoituksellesi kelvollinen otsikko.";
 "sell_send_error_sharing_facebook" = "Jaettaessa Facebookiin tapahtui virhe. Ole hyvä ja yritä uudelleen.";
+"sell_share_on_facebook_footer_label" = "Saat enemmän näkyvyyttä ja myyt nopeammin";
 "sell_share_on_facebook_label" = "Jaa Facebookissa";
 "sell_title_autogen_autotrans_label" = "letgon ehdottama ja Googlen kääntämä otsikko";
 "sell_title_autogen_label" = "letgon ehdottama otsikko";
@@ -1275,6 +1284,7 @@
 "services_service_subtype_title" = "Palvelu";
 "services_service_type_list_title" = "Palvelun kategoria";
 "services_service_type_title" = "Palvelun kategoria";
+"services_unified_filter_title" = "Valitse kategoria";
 "settings_change_email_button" = "Sähköposti";
 "settings_change_location_button" = "Sijainti";
 "settings_change_password_button" = "Salasana";

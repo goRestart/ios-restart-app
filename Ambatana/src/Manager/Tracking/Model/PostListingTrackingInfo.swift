@@ -13,7 +13,6 @@ struct PostListingTrackingInfo {
     var videoLength: TimeInterval?
     var negotiablePrice: EventParameterNegotiablePrice
     var typePage: EventParameterTypePage
-    var mostSearchedButton: EventParameterMostSearched
     var machineLearningInfo: MachineLearningTrackingInfo
 
     init(buttonName: EventParameterButtonNameType,
@@ -22,14 +21,12 @@ struct PostListingTrackingInfo {
          videoLength: TimeInterval?,
          price: String?,
          typePage: EventParameterTypePage,
-         mostSearchedButton: EventParameterMostSearched,
          machineLearningInfo: MachineLearningTrackingInfo) {
         self.buttonName = buttonName
         self.sellButtonPosition = sellButtonPosition
         self.imageSource = imageSource ?? .camera
         self.videoLength = videoLength
         self.typePage = typePage
-        self.mostSearchedButton = mostSearchedButton
         if let price = price, let doublePrice = Double(price) {
             negotiablePrice = doublePrice > 0 ? .no : .yes
         } else {

@@ -10,6 +10,8 @@ struct ChatABGroup: ABGroupType {
         static let showChatConnectionStatusBar = "20180621ShowChatConnectionStatusBar"
         static let showChatHeaderWithoutListingForAssistant = "20180629ShowChatHeaderWithoutListingForAssistant"
         static let showChatHeaderWithoutUser = "20180702ShowChatHeaderWithoutUser"
+        static let enableCTAMessageType = "20180716enableCTAMessageType"
+        static let expressChatImprovement = "20180719ExpressChatImprovement"
     }
 
     let showInactiveConversations: LeanplumABVariable<Bool>
@@ -20,6 +22,8 @@ struct ChatABGroup: ABGroupType {
     let showChatConnectionStatusBar: LeanplumABVariable<Int>
     let showChatHeaderWithoutListingForAssistant: LeanplumABVariable<Bool>
     let showChatHeaderWithoutUser: LeanplumABVariable<Bool>
+    let enableCTAMessageType: LeanplumABVariable<Bool>
+    let expressChatImprovement: LeanplumABVariable<Int>
 
     let group: ABGroup = .chat
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -34,7 +38,9 @@ struct ChatABGroup: ABGroupType {
          chatConversationsListWithoutTabs: LeanplumABVariable<Int>,
          showChatConnectionStatusBar: LeanplumABVariable<Int>,
          showChatHeaderWithoutListingForAssistant: LeanplumABVariable<Bool>,
-         showChatHeaderWithoutUser: LeanplumABVariable<Bool>) {
+         showChatHeaderWithoutUser: LeanplumABVariable<Bool>,
+         enableCTAMessageType: LeanplumABVariable<Bool>,
+         expressChatImprovement: LeanplumABVariable<Int>) {
         self.showInactiveConversations = showInactiveConversations
         self.showChatSafetyTips = showChatSafetyTips
         self.userIsTyping = userIsTyping
@@ -43,16 +49,20 @@ struct ChatABGroup: ABGroupType {
         self.showChatConnectionStatusBar = showChatConnectionStatusBar
         self.showChatHeaderWithoutListingForAssistant = showChatHeaderWithoutListingForAssistant
         self.showChatHeaderWithoutUser = showChatHeaderWithoutUser
+        self.enableCTAMessageType = enableCTAMessageType
+        self.expressChatImprovement = expressChatImprovement
 
         intVariables.append(contentsOf: [userIsTyping,
                                          chatNorris,
                                          chatConversationsListWithoutTabs,
-                                         showChatConnectionStatusBar])
+                                         showChatConnectionStatusBar,
+                                         expressChatImprovement])
 
         boolVariables.append(contentsOf: [showInactiveConversations,
                                           showChatSafetyTips,
                                           showChatHeaderWithoutListingForAssistant,
-                                          showChatHeaderWithoutUser])
+                                          showChatHeaderWithoutUser,
+                                          enableCTAMessageType])
     }
 
     static func make() -> ChatABGroup {
@@ -79,8 +89,13 @@ struct ChatABGroup: ABGroupType {
                                                                                groupType: .chat),
                            showChatHeaderWithoutUser: .makeBool(key: Keys.showChatHeaderWithoutUser,
                                                                 defaultValue: false,
-                                                                groupType: .chat)
-
+                                                                groupType: .chat),
+                           enableCTAMessageType: .makeBool(key: Keys.enableCTAMessageType,
+                                                           defaultValue: false,
+                                                           groupType: .chat),
+                           expressChatImprovement: .makeInt(key: Keys.expressChatImprovement,
+                                                            defaultValue: 0,
+                                                            groupType: .chat)
         )
     }
 }

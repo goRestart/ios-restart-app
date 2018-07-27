@@ -177,7 +177,6 @@ class ListingPostedDescriptiveViewModel: BaseViewModel, PostingCategoriesPickDel
                                                    videoLength: videoLength,
                                                    price: String.fromPriceDouble(listing.price.value),
                                                    typePage: postingSource.typePage,
-                                                   mostSearchedButton: postingSource.mostSearchedButton,
                                                    machineLearningInfo: MachineLearningTrackingInfo.defaultValues())
         
         let event = TrackerEvent.listingSellComplete(listing,
@@ -188,7 +187,6 @@ class ListingPostedDescriptiveViewModel: BaseViewModel, PostingCategoriesPickDel
                                                      videoLength: videoLength,
                                                      freePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                      typePage: trackingInfo.typePage,
-                                                     mostSearchedButton: trackingInfo.mostSearchedButton,
                                                      machineLearningTrackingInfo: trackingInfo.machineLearningInfo)
         tracker.trackEvent(event)
     }

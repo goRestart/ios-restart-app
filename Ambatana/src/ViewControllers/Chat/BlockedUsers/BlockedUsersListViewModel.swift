@@ -20,6 +20,7 @@ class BlockedUsersListViewModel: BaseChatGroupedListViewModel<User> {
 
     weak var delegate: BlockedUsersListViewModelDelegate?
     private var userRepository: UserRepository
+    let resultsPerPage: Int = 50
 
 
     // MARK: - Lifecycle
@@ -39,9 +40,14 @@ class BlockedUsersListViewModel: BaseChatGroupedListViewModel<User> {
     // MARK: - Public methods
     // MARK: > Chats
 
+    override func refresh(completion: (() -> Void)?) {
+        retrievePage(firstPage, completion: completion)
+    }
+
     override func index(_ page: Int, completion: ((Result<[User], RepositoryError>) -> ())?) {
         super.index(page, completion: completion)
-        userRepository.indexBlocked(completion)
+        let offset = max(0, page - 1) * resultsPerPage
+        userRepository.indexBlocked(limit: resultsPerPage, offset: offset, completion: completion)
     }
 
 

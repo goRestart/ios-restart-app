@@ -711,6 +711,9 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource  {
         } else if let myMeetingCell = cell as? ChatMyMeetingCell {
             myMeetingCell.locationDelegate = self
             return myMeetingCell
+        } else if let ctaCell = cell as? ChatCallToActionCell {
+            ctaCell.delegate = self
+            return ctaCell
         }
 
         return cell
@@ -954,5 +957,12 @@ extension ChatViewController: MeetingCellImageDelegate, MKMapViewDelegate {
         cellMapViewer.openMapOnView(mainView: topView, fromInitialView: imageView, withCenterCoordinates: coordinates)
 
         textView.resignFirstResponder()
+    }
+}
+
+extension ChatViewController: ChatCallToActionCellDelegate {
+
+    func openDeeplink(url: URL, trackingKey: String) {
+        viewModel.openDeeplink(url: url, trackingKey: trackingKey)
     }
 }

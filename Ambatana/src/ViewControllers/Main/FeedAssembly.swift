@@ -2,7 +2,12 @@ import Foundation
 import LGComponents
 
 extension SectionedMainFeed {
-    var feedAssembly: FeedAssembly { return self == .active ? .pro : .classic }
+    
+    var isActive: Bool {
+        return self != .control && self != .baseline
+    }
+    
+    var feedAssembly: FeedAssembly { return isActive ? .pro : .classic }
 }
  
 enum FeedAssembly {

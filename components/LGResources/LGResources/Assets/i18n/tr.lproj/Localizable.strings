@@ -15,6 +15,7 @@
 "bump_up_banner_boost_text" = "Ekstra Doping ekle!";
 "bump_up_banner_free_button_title" = "Üste çıkar";
 "bump_up_banner_free_text" = "Daha hızlı satmak için üste çıkar";
+"bump_up_banner_loading_text" = "Daha fazla bilgi yükleniyor…";
 "bump_up_banner_pay_text" = "Hemen sat";
 "bump_up_banner_pay_text_improvement" = "Hemen sat";
 "bump_up_banner_pay_text_improvement_english_a" = "Hemen sat";
@@ -149,10 +150,12 @@
 "chat_express_banner_button_title" = "Fırsatları Gör";
 "chat_express_banner_title" = "Yakınındaki benzer fırsatlar";
 "chat_express_contact_one_button_text" = "1 satıcı ile iletişime geç";
+"chat_express_contact_only_button_text" = "İletişime Geç";
 "chat_express_contact_sellers_label" = "Bu satıcılarla, diğer alıcılardan önce iletişime geçmelisin!";
 "chat_express_contact_various_button_text" = "%@ satıcı ile iletişime geç";
 "chat_express_dont_ask_again_button" = "Bir daha sorma";
 "chat_express_dont_miss_label" = "Bu fırsatları kaçırma";
+"chat_express_high_demand_label" = "Çok revaçta! Bu fırsatları kaçırma";
 "chat_express_one_message_sent_success_alert" = "Mesajın gönderildi!";
 "chat_express_several_messages_sent_success_alert" = "Mesajın gönderildi!";
 "chat_express_text_field_text" = "Merhaba! Hala satılık mı?";
@@ -198,7 +201,7 @@
 "chat_meeting_cell_status_declined" = "Reddedildi";
 "chat_meeting_cell_status_pending" = "Beklemede";
 "chat_meeting_cell_title" = "Hadi şurda buluşalım:";
-"chat_message_disclaimer_meeting_security" = "Kafe ve banka şubeleri gibi kalabalık alanlarda buluşmaya çalış. Bu alanlar güvenli ve uygun buluşma noktalarıdır.";
+"chat_message_disclaimer_meeting_security" = "Buluşmak için, kafe ve alışveriş merkezi gibi kalabalık ve güvenli alanları tercih edin.";
 "chat_message_disclaimer_scammer_append_blocked" = "Bu kullanıcıyı engellemek için buraya tıkla.";
 "chat_message_disclaimer_scammer_base_blocked" = "Sistemimiz uygunsuz kelimelerin kullanıldığını veya tehlike oluşturabilecek bir iletişim bilgisinin paylaşıldığını tespit etti. %@";
 "chat_message_field_hint" = "Mesajını buraya yaz";
@@ -294,6 +297,7 @@
 "common_user_not_available" = "Oops! Kullanıcı bulunamadı.";
 "common_user_review_not_available" = "Oops! Yorum bulunamadı.";
 "common_yes" = "Evet";
+"community_banner_title" = "letgo topluluğuna katıl!";
 "contact_subject_option_location" = "Konum sorunları";
 "contact_subject_option_login" = "Uygulamaya giriş/erişim";
 "contact_subject_option_other" = "Diğer sorunlar";
@@ -373,6 +377,7 @@
 "filter_cars_seats_title" = "Koltuklar";
 "filter_results_cars_no_matches" = "Aramanla eşleşen bir sonuç yok.\nBenzer sonuçlar gösteriliyor. ";
 "filter_results_cars_other_results" = "Çevrende en son yayınlananlar";
+"filter_services_services_list_show_more" = "Daha fazla göster";
 "filters_car_make_not_set" = "Belirlenmedi";
 "filters_car_model_not_set" = "Belirlenmedi";
 "filters_car_seller_type_all" = "Hepsi";
@@ -381,7 +386,7 @@
 "filters_car_seller_type_private" = "Özel";
 "filters_car_seller_type_professional" = "Profesyonel";
 "filters_car_year_any_year" = "Herhangi bir Yıl";
-"filters_car_year_before_year" = "%i yılından önce";
+"filters_car_year_before_year" = "%@ yılından önce";
 "filters_cars_bodytype_convertible" = "Üstü açılan";
 "filters_cars_bodytype_coupe" = "coupe";
 "filters_cars_bodytype_hatchback" = "Hatchback";
@@ -435,6 +440,9 @@
 "filters_section_within" = "YAYINLANMA ZAMANI";
 "filters_service_subtype_not_set" = "Belirlenmedi";
 "filters_service_type_not_set" = "Belirlenmedi";
+"filters_services_services_list_max_selection_alert" = "Oops! 15'den fazla hizmet seçemezsiniz.";
+"filters_services_services_list_search_placeholder" = "Tamirci, müteahhitlik…";
+"filters_services_services_list_title" = "Kategori seç";
 "filters_size_wrong_range_error" = "Minimum büyüklük maksimum büyüklüğü aşmamalıdır.";
 "filters_slider_any" = "Herhangi";
 "filters_sort_closest" = "İlk önce en yakını";
@@ -541,7 +549,7 @@
 "meeting_creation_tips_view_change_button" = "Buluşmayı değiştir";
 "meeting_creation_tips_view_gotit_button" = "Anladım";
 "meeting_creation_tips_view_send_button" = "Buluşma isteği gönder";
-"meeting_creation_tips_view_subtitle" = "Banka şubesi veya kafe gibi aydınlık kamu alanlarında, gündüz ve yoğun saatlerde buluşmanı öneriyoruz.";
+"meeting_creation_tips_view_subtitle" = "Buluşmak için, kafe ve alışveriş merkezi gibi kalabalık ve güvenli alanları tercih edin.";
 "meeting_creation_tips_view_title" = "Buluşmak için uygun ve güvenli bir yer seç";
 "meeting_creation_view_date_time" = "TARİH & ZAMAN";
 "meeting_creation_view_place" = "YER";
@@ -816,7 +824,7 @@
 "product_post_camera_video_mode_button" = "VİDEO";
 "product_post_camera_video_mode_button_new_badge" = "Yeni!";
 "product_post_camera_video_recording_min_duration_message" = "Lütfen en az %d saniye kaydet";
-"product_post_camera_video_recording_tooltip" = "Bir video kaydetmek için %@";
+"product_post_camera_video_recording_tooltip" = "Video kaydetmek için %@";
 "product_post_camera_video_recording_tooltip_highlighted_word" = "basılı tut";
 "product_post_close_alert_close_button" = "Sil";
 "product_post_close_alert_description" = "Ürünü satmak için yüklemek istiyor musun?";
@@ -870,7 +878,7 @@
 "product_post_product_posted" = "İlan yayınlandı. Tebrikler!";
 "product_post_product_posted_not_logged" = "Fotoğraf Yüklendi!";
 "product_post_product_posted_not_logged_video_posting" = "Video yüklendi!";
-"product_post_retake" = "Tekrar Çek";
+"product_post_retake" = "Yeniden Çek";
 "product_post_retry_button" = "Tekrar dene";
 "product_post_select_category_cars" = "Araba";
 "product_post_select_category_housing" = "Satılık / Kiralık Emlak";
@@ -1158,7 +1166,7 @@
 "report_user_suspcious" = "Şüpheli davranış";
 "report_user_text_placeholder" = "Yorum ekle (isteğe bağlı)";
 "report_user_title" = "Kullanıcıyı Şikayet Et";
-"reporting_additional_notes_placeholder" = "Bu arada, ekibimizin iddianı araştırabilmesi için lütfen ek bilgi ver.";
+"reporting_additional_notes_placeholder" = "Bu sorunu çözmemize yardımcı olmak için başka herhangi bir notun varsa, ekle";
 "reporting_listing_list_header" = "BU İLANI NEDEN RAPOR EDİYORSUN?";
 "reporting_listing_report_sent_text" = "Rapor ettiğin ve letgo'yu yerel alım satım için en ideal yer haline getirmemize yardım ettiğin için teşekkür ederiz.";
 "reporting_listing_report_sent_title" = "Rapor gönderildi!";
@@ -1211,15 +1219,15 @@
 "reporting_user_report_sent_block_user_small_button_title" = "Engelle";
 "reporting_user_report_sent_law_enforcement_and_block_text" = "Yaşadığın tecrübe için üzgünüz. Mümkün olan en kısa zamanda yerel güvenlik görevlileriyle iletişime geçmeni ve bir polis raporu doldurmanı tavsiye ederiz (daha önce yapmadıysan).\n\nSoruşturmalarına yardım edebilmemiz için, lütfen polise letgo'nun yasa uygulama ekibiyle lawenforcement@letgo üzerinden iletişime geçebileceklerini hatırlatmayı unutma. Polisle %@ ile ilgili bilgileri paylaşabiliriz, ama katı gizlilik koruma yasaları sebebiyle, öncelikle bize geçerli bir arama izni veya celp göndermeleri gerekiyor. Bu arada, ekibimizin iddianı araştırabilmesi için lütfen ek bilgiler sağla.\n\nürünlerini görememeleri veya sana mesaj gönderememeleri için istediğin zaman her kullanıcıyı engelleyebileceğini hatırlatmak isteriz.";
 "reporting_user_report_sent_law_enforcement_text" = "Yaşadığın tecrübe için üzgünüz, ama şimdi güvende olduğun için minnettarız.\n\nMümkün olan en kısa zamanda yerel güvenlik görevlileriyle iletişime geçmeni ve bir polis raporu doldurmanı tavsiye ederiz (daha önce yapmadıysan).\n\nSoruşturmalarına yardım edebilmemiz için, lütfen polise letgo'nun yasa uygulama ekibiyle lawenforcement@letgo üzerinden iletişime geçebileceklerini hatırlatmayı unutma.\n\nPolisle %@ ile ilgili bilgileri paylaşabiliriz, ama katı gizlilik koruma yasaları sebebiyle, öncelikle bize geçerli bir arama izni veya celp göndermeleri gerekiyor.";
-"reporting_user_report_sent_redirect_item_text" = "letgo'yu yerel alım satım için en ideal yer haline getirmemize yardım ettiğin için teşekkürler.\n\nLütfen ilana git ve ögeyi işaretle; çabucak gözden geçirelim.";
+"reporting_user_report_sent_redirect_item_text" = "letgo'yu yerel alım satım için en ideal yer haline getirmemize yardım ettiğin için teşekkürler.\n\nLütfen ilana git ve ürünü işaretle; çabucak gözden geçirelim.";
 "reporting_user_report_sent_review_button_title" = "Değerlendir";
 "reporting_user_report_sent_title" = "Rapor gönderildi!";
 "reporting_user_suspicious_behavior_header" = "NE OLDU?";
 "reporting_user_title" = "Kullanıcıyı Şikayet Et";
-"reporting_user_update_text_A" = "Thanks for anonymously reporting %@. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing this account, we've removed it because it violated our Community Guidelines.";
-"reporting_user_update_text_B" = "Thanks for anonymously reporting %@'s profile photo. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing the photo, we've removed it because it violated our Community Guidelines.";
-"reporting_user_update_text_C" = "Thanks for anonymously reporting %@'s bio. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing the bio, we've removed it because it violated our Community Guidelines.";
-"reporting_user_update_title" = "Report update";
+"reporting_user_update_text_A" = "%@ isimli kullanıcıyı anonim olarak rapor ettiğin için teşekkürler. Seninki gibi geri bildirimler letgo topluluğunu güvende tutmamıza yardımcı oluyor.\n\nBu hesabı inceledikten sonra kaldırdık, çünkü Topluluk Kurallarımızı ihlal ediyordu.";
+"reporting_user_update_text_B" = "%@ isimli kullanıcının profil fotoğrafını anonim olarak rapor ettiğin için teşekkürler. Seninki gibi geri bildirimler letgo topluluğunu güvende tutmamıza yardımcı oluyor. \n\nFotoğrafı inceledikten sonra kaldırdık, çünkü Topluluk Kurallarımızı ihlal ediyordu.";
+"reporting_user_update_text_C" = "%@ isimli kullanıcın biyografisini anonim olarak rapor ettiğin için teşekkürler. Seninki gibi geri bildirimler letgo topluluğunu güvende tutmamıza yardımcı oluyor. \n\nBiyografiyi inceledikten sonra kaldırdık, çünkü Topluluk Kurallarımızı ihlal ediyordu.";
+"reporting_user_update_title" = "Rapor güncellemesi";
 "reset_password_email_field_hint" = "E-posta adresini gir";
 "reset_password_instructions" = "Lütfen e-posta adresini gir, şifreni yenilemen için sana bir e-posta göndereceğiz.";
 "reset_password_send_button" = "E-posta gönder";
@@ -1266,6 +1274,7 @@
 "sell_send_error_invalid_price" = "Lütfen, ilanın için geçerli bir fiyat gir. Fiyat sadece rakamlardan oluşmalıdır.";
 "sell_send_error_invalid_title" = "Lütfen, ilanın için geçerli bir başlık gir.";
 "sell_send_error_sharing_facebook" = "Facebook'ta paylaşırken bir hata oluştu. Lütfen tekrar dene.";
+"sell_share_on_facebook_footer_label" = "Daha fazla görünürlük kazan ve daha hızlı satış yap";
 "sell_share_on_facebook_label" = "Facebook'ta paylaş";
 "sell_title_autogen_autotrans_label" = "letgo tarafından önerilen ve Yandex ile çevrilen başlık";
 "sell_title_autogen_label" = "letgo tarafından önerilen başlık";
@@ -1275,6 +1284,7 @@
 "services_service_subtype_title" = "Hizmet";
 "services_service_type_list_title" = "Hizmet kategorisi";
 "services_service_type_title" = "Hizmet kategorisi";
+"services_unified_filter_title" = "Bir kategori seç";
 "settings_change_email_button" = "E-posta";
 "settings_change_location_button" = "Konum";
 "settings_change_password_button" = "Şifre";

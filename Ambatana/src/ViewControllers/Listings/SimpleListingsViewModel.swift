@@ -78,5 +78,4 @@ class SimpleListingsViewModel: BaseViewModel, ListingListViewModelDataDelegate {
     }
     func vmDidSelectSellBanner(_ type: String) {}
     func vmDidSelectCollection(_ type: CollectionCellType) {}
-    func vmDidSelectMostSearchedItems() {}
 }

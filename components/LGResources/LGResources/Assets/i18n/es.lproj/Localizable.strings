@@ -15,6 +15,7 @@
 "bump_up_banner_boost_text" = "¡Añade un impulso extra!";
 "bump_up_banner_free_button_title" = "Destacar";
 "bump_up_banner_free_text" = "Destaca gratis para vender más rápido";
+"bump_up_banner_loading_text" = "Cargando más información…";
 "bump_up_banner_pay_text" = "Destaca para vender más rápido";
 "bump_up_banner_pay_text_improvement" = "Vender más rápido";
 "bump_up_banner_pay_text_improvement_english_a" = "Vender más rápido";
@@ -68,7 +69,7 @@
 "categories_inFeed_baby_child" = "Niño";
 "categories_inFeed_books_movies" = "Ocio";
 "categories_inFeed_cars" = "Coches";
-"categories_inFeed_electronics" = "Tecnología";
+"categories_inFeed_electronics" = "Electrónica";
 "categories_inFeed_fashion" = "Moda";
 "categories_inFeed_home" = "Hogar";
 "categories_inFeed_motors" = "Motores";
@@ -149,10 +150,12 @@
 "chat_express_banner_button_title" = "Ver ofertas";
 "chat_express_banner_title" = "Ofertas similares cerca de ti";
 "chat_express_contact_one_button_text" = "Contactar con 1 vendedor";
+"chat_express_contact_only_button_text" = "Contactar";
 "chat_express_contact_sellers_label" = "¡Contacta a estos vendedores antes que lo hagan otros compradores!";
 "chat_express_contact_various_button_text" = "Contactar con %@ vendedores";
 "chat_express_dont_ask_again_button" = "No preguntar de nuevo";
 "chat_express_dont_miss_label" = "No te pierdas estas ofertas";
+"chat_express_high_demand_label" = "¡Muy buscadas! No te pierdas estas ofertas";
 "chat_express_one_message_sent_success_alert" = "¡Tu mensaje ha sido enviado!";
 "chat_express_several_messages_sent_success_alert" = "¡Tus mensajes han sido enviados!";
 "chat_express_text_field_text" = "¿Está disponible?";
@@ -294,6 +297,7 @@
 "common_user_not_available" = "¡Ups! No se ha encontrado el usuario.";
 "common_user_review_not_available" = "¡Ups! Valoración no encontrada.";
 "common_yes" = "Sí";
+"community_banner_title" = "¡Únete a la comunidad de letgo!";
 "contact_subject_option_location" = "Problemas de ubicación";
 "contact_subject_option_login" = "Problemas al iniciar sesión";
 "contact_subject_option_other" = "Otros problemas";
@@ -373,6 +377,7 @@
 "filter_cars_seats_title" = "Plazas";
 "filter_results_cars_no_matches" = "No hay resultados exactos para tu búsqueda.\nMostrando resultados similares.";
 "filter_results_cars_other_results" = "Publicados recientemente cerca de ti";
+"filter_services_services_list_show_more" = "Ver más";
 "filters_car_make_not_set" = "No Definida";
 "filters_car_model_not_set" = "No Definido";
 "filters_car_seller_type_all" = "Todos";
@@ -381,7 +386,7 @@
 "filters_car_seller_type_private" = "Privado";
 "filters_car_seller_type_professional" = "Profesional";
 "filters_car_year_any_year" = "Cualquier año";
-"filters_car_year_before_year" = "Anterior a %i";
+"filters_car_year_before_year" = "Anterior a %@";
 "filters_cars_bodytype_convertible" = "Descapotable";
 "filters_cars_bodytype_coupe" = "coupé";
 "filters_cars_bodytype_hatchback" = "Compacto";
@@ -435,6 +440,9 @@
 "filters_section_within" = "Publicado en";
 "filters_service_subtype_not_set" = "No Definido";
 "filters_service_type_not_set" = "No Definido";
+"filters_services_services_list_max_selection_alert" = "¡Ups! No puedes seleccionar más de 15 servicios.";
+"filters_services_services_list_search_placeholder" = "Mantenimiento, contratista...";
+"filters_services_services_list_title" = "Elige una categoría";
 "filters_size_wrong_range_error" = "El tamaño mínimo no puede superior al tamaño máximo.";
 "filters_slider_any" = "Cualquiera";
 "filters_sort_closest" = "Más cercanos primero";
@@ -1158,7 +1166,7 @@
 "report_user_suspcious" = "Comportamiento sospechoso";
 "report_user_text_placeholder" = "Añade un comentario (opcional)";
 "report_user_title" = "Denunciar usuario";
-"reporting_additional_notes_placeholder" = "Mientras tanto, comparte información adicional para que nuestro equipo pueda investigar tu denuncia.";
+"reporting_additional_notes_placeholder" = "Añade información adicional que pueda ayudarnos a resolver este problema";
 "reporting_listing_list_header" = "¿POR QUÉ DENUNCIAS ESTE ANUNCIO?";
 "reporting_listing_report_sent_text" = "Gracias por tu denuncia anónima y por ayudarnos a hacer que letgo sea el mejor sitio para comprar y vender en tu ciudad.";
 "reporting_listing_report_sent_title" = "¡Denuncia enviada!";
@@ -1216,10 +1224,10 @@
 "reporting_user_report_sent_title" = "¡Denuncia enviada!";
 "reporting_user_suspicious_behavior_header" = "¿QUÉ HA PASADO?";
 "reporting_user_title" = "Denunciar usuario";
-"reporting_user_update_text_A" = "Thanks for anonymously reporting %@. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing this account, we've removed it because it violated our Community Guidelines.";
-"reporting_user_update_text_B" = "Thanks for anonymously reporting %@'s profile photo. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing the photo, we've removed it because it violated our Community Guidelines.";
-"reporting_user_update_text_C" = "Thanks for anonymously reporting %@'s bio. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing the bio, we've removed it because it violated our Community Guidelines.";
-"reporting_user_update_title" = "Report update";
+"reporting_user_update_text_A" = "Gracias por tu denuncia anónima de %@. Tus comentarios nos ayudan a mantener segura la comunidad de letgo.\n\nTras revisar esta cuenta, la hemos eliminado ya que incumple nuestras Normas de la comunidad.";
+"reporting_user_update_text_B" = "Gracias por tu denuncia anónima de la foto de perfil de %@. Tus comentarios nos ayudan a mantener segura la comunidad de letgo.\n\nTras revisar esta foto, la hemos eliminado ya que incumple nuestras Normas de la comunidad.";
+"reporting_user_update_text_C" = "Gracias por tu denuncia anónima de la bio de %@. Tus comentarios nos ayudan a mantener segura la comunidad de letgo.\n\nTras revisar esta bio, la hemos eliminado ya que incumple nuestras Normas de la comunidad.";
+"reporting_user_update_title" = "Actualización sobre tu denuncia";
 "reset_password_email_field_hint" = "Introduce tu email";
 "reset_password_instructions" = "Por favor, introduce tu dirección de email y te enviaremos un email para restablecer tu contraseña.";
 "reset_password_send_button" = "Enviar email";
@@ -1266,6 +1274,7 @@
 "sell_send_error_invalid_price" = "Por favor, introduce un precio válido para tu anuncio. Debe ser un número.";
 "sell_send_error_invalid_title" = "Por favor, introduce un título válido para tu anuncio.";
 "sell_send_error_sharing_facebook" = "¡Ups! Se ha producido un error al compartir en Facebook. Por favor, inténtalo de nuevo.";
+"sell_share_on_facebook_footer_label" = "Obtén más visibilidad y vende más rápido";
 "sell_share_on_facebook_label" = "Compartir en Facebook";
 "sell_title_autogen_autotrans_label" = "Título sugerido por letgo y traducido por Google";
 "sell_title_autogen_label" = "Título sugerido por letgo";
@@ -1275,6 +1284,7 @@
 "services_service_subtype_title" = "Servicio";
 "services_service_type_list_title" = "Categoría del servicio";
 "services_service_type_title" = "Categoría del servicio";
+"services_unified_filter_title" = "Selecciona una categoría";
 "settings_change_email_button" = "Email";
 "settings_change_location_button" = "Ubicación";
 "settings_change_password_button" = "Contraseña";

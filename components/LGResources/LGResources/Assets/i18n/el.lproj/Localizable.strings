@@ -15,6 +15,7 @@
 "bump_up_banner_boost_text" = "Προσθέστε μια Επιπλέον Προώθηση!";
 "bump_up_banner_free_button_title" = "Προωθήστε";
 "bump_up_banner_free_text" = "Προωθήστε δωρεάν για να πουλήσετε γρηγορότερα";
+"bump_up_banner_loading_text" = "Φόρτωση περισσότερων πληροφοριών...";
 "bump_up_banner_pay_text" = "Προωθήστε για να πουλάτε γρηγορότερα";
 "bump_up_banner_pay_text_improvement" = "Πουλήστε τώρα γρηγορότερα";
 "bump_up_banner_pay_text_improvement_english_a" = "Πουλήστε τώρα γρηγορότερα";
@@ -149,10 +150,12 @@
 "chat_express_banner_button_title" = "Δείτε Προσφορές";
 "chat_express_banner_title" = "Παρόμοιες προσφορές κοντά σας";
 "chat_express_contact_one_button_text" = "Επικοινωνία με 1 πωλητή";
+"chat_express_contact_only_button_text" = "Επικοινωνία";
 "chat_express_contact_sellers_label" = "Επικοινωνήστε με αυτούς τους πωλητές πριν σας προλάβουν άλλοι αγοραστές!";
 "chat_express_contact_various_button_text" = "Επικοινωνία με %@ πωλητές";
 "chat_express_dont_ask_again_button" = "Μην ερωτηθώ ξανά";
 "chat_express_dont_miss_label" = "Μη χάσετε αυτές τις προσφορές";
+"chat_express_high_demand_label" = "Σε υψηλή ζήτηση! Μη χάσετε αυτές τις προσφορές";
 "chat_express_one_message_sent_success_alert" = "Το μήνυμά σας έχει σταλεί!";
 "chat_express_several_messages_sent_success_alert" = "Τα μηνύματά σας έχουν σταλεί!";
 "chat_express_text_field_text" = "Γεια! Είναι ακόμη διαθέσιμο;";
@@ -294,6 +297,7 @@
 "common_user_not_available" = "Όπα! Δε βρέθηκε ο χρήστης.";
 "common_user_review_not_available" = "Όπα! Η κριτική δε βρέθηκε.";
 "common_yes" = "Ναι";
+"community_banner_title" = "Μπείτε στην κοινότητα του letgo!";
 "contact_subject_option_location" = "Θέματα τοποθεσίας";
 "contact_subject_option_login" = "Πρόσβαση στο λογαριασμό";
 "contact_subject_option_other" = "Άλλα θέματα";
@@ -373,6 +377,7 @@
 "filter_cars_seats_title" = "Καθίσματα";
 "filter_results_cars_no_matches" = "Δε βρέθηκαν ακριβή αποτελέσματα για την αναζήτησή σας. \nΠροβολή παρόμοιων αποτελεσμάτων. ";
 "filter_results_cars_other_results" = "Πρόσφατες δημοσιεύσεις στην περιοχή σας";
+"filter_services_services_list_show_more" = "Δείτε Περισσότερα";
 "filters_car_make_not_set" = "Δεν έχει καθοριστεί";
 "filters_car_model_not_set" = "Δεν έχει καθοριστεί";
 "filters_car_seller_type_all" = "Όλα";
@@ -381,7 +386,7 @@
 "filters_car_seller_type_private" = "Ιδιωτικό";
 "filters_car_seller_type_professional" = "Επαγγελματικό";
 "filters_car_year_any_year" = "Οποιοδήποτε Έτος";
-"filters_car_year_before_year" = "Πριν το %i";
+"filters_car_year_before_year" = "Πριν το %@";
 "filters_cars_bodytype_convertible" = "Κάμπριο";
 "filters_cars_bodytype_coupe" = "coupe";
 "filters_cars_bodytype_hatchback" = "Hatchback";
@@ -435,6 +440,9 @@
 "filters_section_within" = "Δημοσιεύτηκε μεταξύ";
 "filters_service_subtype_not_set" = "Καμία Ρύθμιση";
 "filters_service_type_not_set" = "Καμία Ρύθμιση";
+"filters_services_services_list_max_selection_alert" = "Όπα! Δεν μπορείτε να επιλέξετε παραπάνω από 15 υπηρεσίες.";
+"filters_services_services_list_search_placeholder" = "Τεχνίτες, Εργολάβοι…";
+"filters_services_services_list_title" = "Επιλογή κατηγορίας";
 "filters_size_wrong_range_error" = "Το μικρότερο μέγεθος δεν μπορεί να είναι μεγαλύτερο από το μέγιστο μέγεθος.";
 "filters_slider_any" = "Οποιοδήποτε";
 "filters_sort_closest" = "Κοντινότερο";
@@ -816,7 +824,7 @@
 "product_post_camera_video_mode_button" = "ΒΙΝΤΕΟ";
 "product_post_camera_video_mode_button_new_badge" = "Νέο!";
 "product_post_camera_video_recording_min_duration_message" = "Παρακαλώ καταγράψτε τουλάχιστον %d δευτερόλεπτα";
-"product_post_camera_video_recording_tooltip" = "%@ για να καταγράψετε ένα βίντεο";
+"product_post_camera_video_recording_tooltip" = "%@ για καταγραφή βίντεο";
 "product_post_camera_video_recording_tooltip_highlighted_word" = "Πατήστε";
 "product_post_close_alert_close_button" = "Απόρριψη";
 "product_post_close_alert_description" = "Θέλετε ακόμη να το καταχωρήσετε για πώληση;";
@@ -1158,7 +1166,7 @@
 "report_user_suspcious" = "Ύποπτη συμπεριφορά";
 "report_user_text_placeholder" = "Προσθήκη σχολίου (προαιρετικό)";
 "report_user_title" = "Αναφορά Χρήστη";
-"reporting_additional_notes_placeholder" = "Στο μεταξύ, παρακαλώ παραθέστε επιπλέον πληροφορίες για να μπορέσει η ομάδα μας να ερευνήσει την υπόθεσή σας.";
+"reporting_additional_notes_placeholder" = "Προσθέστε επιπλέον πληροφορίες για να μπορέσει η ομάδα μας να ερευνήσει αυτό το θέμα";
 "reporting_listing_list_header" = "ΓΙΑΤΙ ΚΑΝΕΤΕ ΑΝΑΦΟΡΑ ΑΥΤΗΣ ΤΗΣ ΚΑΤΑΧΩΡΗΣΗΣ;";
 "reporting_listing_report_sent_text" = "Ευχαριστούμε για την ανώνυμη αναφορά και που μας βοηθάτε να κάνουμε το letgo το καλύτερο μέρος αγοραπωλησιών σε τοπικό επίπεδο.";
 "reporting_listing_report_sent_title" = "Αναφορά εστάλη!";
@@ -1216,10 +1224,10 @@
 "reporting_user_report_sent_title" = "Αναφορά εστάλη!";
 "reporting_user_suspicious_behavior_header" = "ΤΙ ΣΥΝΕΒΗ;";
 "reporting_user_title" = "Αναφορά Χρήστη";
-"reporting_user_update_text_A" = "Thanks for anonymously reporting %@. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing this account, we've removed it because it violated our Community Guidelines.";
-"reporting_user_update_text_B" = "Thanks for anonymously reporting %@'s profile photo. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing the photo, we've removed it because it violated our Community Guidelines.";
-"reporting_user_update_text_C" = "Thanks for anonymously reporting %@'s bio. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing the bio, we've removed it because it violated our Community Guidelines.";
-"reporting_user_update_title" = "Report update";
+"reporting_user_update_text_A" = "Ευχαριστούμε για την ανώνυμη αναφορά του %@. Η συμβολή σας βοηθά την κοινότητά μας να παραμένει ασφαλής.\n\nΑφού ελέγξαμε το αντικείμενο, το αφαιρέσαμε καθώς παραβιάζει του Όρους & Προϋποθέσεις της Κοινότητάς μας.";
+"reporting_user_update_text_B" = "Ευχαριστούμε για την ανώνυμη αναφορά της εικόνας προφίλ του %@. Η συμβολή σας βοηθά την κοινότητά μας να παραμένει ασφαλής.\n\nΑφού ελέγξαμε το αντικείμενο, το αφαιρέσαμε καθώς παραβιάζει του Όρους & Προϋποθέσεις της Κοινότητάς μας.";
+"reporting_user_update_text_C" = "Ευχαριστούμε για την ανώνυμη αναφορά του βιογραφικού του %@. Η συμβολή σας βοηθά την κοινότητά μας να παραμένει ασφαλής.\n\nΑφού ελέγξαμε το αντικείμενο, το αφαιρέσαμε καθώς παραβιάζει του Όρους & Προϋποθέσεις της Κοινότητάς μας.";
+"reporting_user_update_title" = "Ενημέρωση αναφοράς";
 "reset_password_email_field_hint" = "Συμπληρώστε το email σας";
 "reset_password_instructions" = "Παρακαλώ, εισάγετε την ηλεκτρονική σας διεύθυνση και θα σας στείλουμε ένα email για να επανακτήσετε τον κωδικό σας.";
 "reset_password_send_button" = "Αποστολή email";
@@ -1266,6 +1274,7 @@
 "sell_send_error_invalid_price" = "Παρακαλώ εισάγετε μία έγκυρη τιμή για την καταχώρησή σας. Θα πρέπει να περιέχει μόνο νούμερα.";
 "sell_send_error_invalid_title" = "Παρακαλώ εισάγετε έναν έγκυρο τίτλο για την καταχώρησή σας.";
 "sell_send_error_sharing_facebook" = "Παρουσιάστηκε σφάλμα κατά την κοινοποίηση στο Facebook. Παρακαλώ, δοκιμάστε ξανά.";
+"sell_share_on_facebook_footer_label" = "Αποκτήστε περισσότερη προβολή και πουλήστε άμεσα";
 "sell_share_on_facebook_label" = "Κοινοποίηση στο Facebook";
 "sell_title_autogen_autotrans_label" = "Προτεινόμενος τίτλος από το letgo, μεταφρασμένος από το Google";
 "sell_title_autogen_label" = "Προτεινόμενος τίτλος από το letgo";
@@ -1275,6 +1284,7 @@
 "services_service_subtype_title" = "Υπηρεσία";
 "services_service_type_list_title" = "Κατηγορία υπηρεσίας";
 "services_service_type_title" = "Κατηγορία υπηρεσίας";
+"services_unified_filter_title" = "Επιλέξτε κατηγορία";
 "settings_change_email_button" = "Email";
 "settings_change_location_button" = "Τοποθεσία";
 "settings_change_password_button" = "Αλλαγή Κωδικού Πρόσβασης";

@@ -58,6 +58,11 @@ PODS:
   - GTMSessionFetcher/Core (1.1.15)
   - GTMSessionFetcher/Full (1.1.15):
     - GTMSessionFetcher/Core (= 1.1.15)
+  - IGListKit (3.4.0):
+    - IGListKit/Default (= 3.4.0)
+  - IGListKit/Default (3.4.0):
+    - IGListKit/Diffing
+  - IGListKit/Diffing (3.4.0)
   - JSONWebToken (2.2.0)
   - KeychainSwift (10.0.0)
   - KMPlaceholderTextView (1.3.0)
@@ -72,9 +77,9 @@ PODS:
   - LGComponents/LGShared (1.0.0):
     - AlamofireImage (= 3.3.0)
     - CocoaLumberjack/Swift (= 3.3.0)
-    - LGCoreKit (= 4.41.0)
+    - LGCoreKit (= 4.47.0)
     - RxCocoa (= 4.0.0)
-  - LGCoreKit (4.41.0):
+  - LGCoreKit (4.47.0):
     - Alamofire (~> 4.5.1)
     - CocoaLumberjack/Swift (~> 3.3.0)
     - DeviceGuru (~> 3.0.1)
@@ -162,12 +167,13 @@ DEPENDENCIES:
   - Google-Mobile-Ads-SDK (= 7.31.0)
   - GoogleIDFASupport (= 3.14.0)
   - GoogleSignIn (= 4.1.1)
+  - IGListKit (= 3.4.0)
   - KeychainSwift (= 10.0.0)
   - KMPlaceholderTextView (from `https://github.com/letgoapp/KMPlaceholderTextView`, commit `426117c98e8da8fc7d64a7d3c2f0f45c48d595e6`)
   - Leanplum-iOS-SDK (= 2.0.5)
   - LGCollapsibleLabel (= 1.2.0)
   - LGComponents (from `components`)
-  - LGCoreKit (= 4.41.0)
+  - LGCoreKit (= 4.47.0)
   - lottie-ios (= 2.5.0)
   - mopub-ios-sdk (= 4.20.0)
   - NewRelicAgent (= 6.1.1)
@@ -213,6 +219,7 @@ SPEC REPOS:
     - GoogleToolboxForMac
     - GTMOAuth2
     - GTMSessionFetcher
+    - IGListKit
     - JSONWebToken
     - KeychainSwift
     - Leanplum-iOS-SDK
@@ -273,13 +280,14 @@ SPEC CHECKSUMS:
   GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
   GTMOAuth2: c77fe325e4acd453837e72d91e3b5f13116857b2
   GTMSessionFetcher: 5fa5b80fd20e439ef5f545fb2cb3ca6c6714caa2
+  IGListKit: 7a5d788e9fb746bcd402baa8e8b24bc3bd2a5a07
   JSONWebToken: 6fae32489632658d563dd6952a5c34020ea813e4
   KeychainSwift: f9f7910449a0c0fd2cabc889121530dd2c477c33
   KMPlaceholderTextView: 2bbcd19a273648a80a61e1e48f9743a24d8930e3
   Leanplum-iOS-SDK: d7d387b7f3688e697f2893978bfe67092df5b7ca
   LGCollapsibleLabel: 2a5ebb0ff0ff3e1d7ab0c295a17c923db000f557
-  LGComponents: e330cda35c437454166ae987b8ebc1e5988b6dde
-  LGCoreKit: 81cee7ed8f1a897af46e89b230c088873b00b360
+  LGComponents: da88134c94dacbd950b1b5ebe6e8ae85c1670a34
+  LGCoreKit: e7577b3f566da0870e73e69ead1514e13e088c5d
   lottie-ios: d699fdee68d7b63e721d949388b015fef1aaa4ac
   mopub-ios-sdk: 89c6ac9ca01d3b36e9fba16a6cfe31d3c290d354
   NewRelicAgent: 652434a627201e3745cd5849228feeb10afe1879
@@ -301,6 +309,6 @@ SPEC CHECKSUMS:
   SwiftyGif: d36c6dfb52e2ca1e48fe349d225f50ec4123ec85
   SwiftyUserDefaults: 3d273b1739b68ada3145dc754a70ec775bc5c8be
 
-PODFILE CHECKSUM: 0e39d3784bfb0dd67214108596b3c8ed4d5e5de9
+PODFILE CHECKSUM: fe0445acbe6d25e0b9ef2e161bbdfd9820d845cb
 
 COCOAPODS: 1.5.3

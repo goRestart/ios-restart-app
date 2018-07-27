@@ -15,12 +15,14 @@ struct ProductsABGroup: ABGroupType {
         static let predictivePosting = "20180604PredictivePosting"
         static let videoPosting = "20180604VideoPosting"
         static let simplifiedChatButton = "20180611SimplifiedChatButton"
+        static let frictionlessShare = "20180716FrictionlessShare"
     }
     
     let servicesCategoryOnSalchichasMenu: LeanplumABVariable<Int>
     let predictivePosting: LeanplumABVariable<Int>
     let videoPosting: LeanplumABVariable<Int>
     let simplifiedChatButton: LeanplumABVariable<Int>
+    let frictionlessShare: LeanplumABVariable<Int>
 
     let group: ABGroup = .products
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -31,12 +33,15 @@ struct ProductsABGroup: ABGroupType {
     init(servicesCategoryOnSalchichasMenu: LeanplumABVariable<Int>,
          predictivePosting: LeanplumABVariable<Int>,
          videoPosting: LeanplumABVariable<Int>,
-         simplifiedChatButton: LeanplumABVariable<Int>) {
+         simplifiedChatButton: LeanplumABVariable<Int>,
+         frictionlessShare: LeanplumABVariable<Int>) {
         self.servicesCategoryOnSalchichasMenu = servicesCategoryOnSalchichasMenu
         self.predictivePosting = predictivePosting
         self.videoPosting = videoPosting
         self.simplifiedChatButton = simplifiedChatButton
-        intVariables.append(contentsOf: [servicesCategoryOnSalchichasMenu, predictivePosting, videoPosting, simplifiedChatButton])
+        self.frictionlessShare = frictionlessShare
+        intVariables.append(contentsOf: [servicesCategoryOnSalchichasMenu, predictivePosting, videoPosting,
+                                         simplifiedChatButton, frictionlessShare])
     }
 
     static func make() -> ProductsABGroup {
@@ -51,7 +56,10 @@ struct ProductsABGroup: ABGroupType {
                                                       groupType: .products),
                                simplifiedChatButton: .makeInt(key: Keys.simplifiedChatButton,
                                                               defaultValue: 0,
-                                                              groupType: .products))
+                                                              groupType: .products),
+                               frictionlessShare: .makeInt(key: Keys.frictionlessShare,
+                                                           defaultValue: 0,
+                                                           groupType: .products))
     }
 }
 
