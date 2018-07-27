@@ -44,6 +44,8 @@ extension R {
     public static let bumpUpBannerFreeButtonTitle = Strings.tr("Localizable", "bump_up_banner_free_button_title")
     /// Bump Up for free to sell faster
     public static let bumpUpBannerFreeText = Strings.tr("Localizable", "bump_up_banner_free_text")
+    /// Loading more info…
+    public static let bumpUpBannerLoadingText = Strings.tr("Localizable", "bump_up_banner_loading_text")
     /// Sell faster now
     public static let bumpUpBannerPayText = Strings.tr("Localizable", "bump_up_banner_pay_text")
     /// Sell faster now
@@ -958,6 +960,8 @@ extension R {
     public static let filtersServiceSubtypeNotSet = Strings.tr("Localizable", "filters_service_subtype_not_set")
     /// Not Set
     public static let filtersServiceTypeNotSet = Strings.tr("Localizable", "filters_service_type_not_set")
+    /// Oops! You can't select more than 15 services.
+    public static let filtersServicesServicesListMaxSelectionAlert = Strings.tr("Localizable", "filters_services_services_list_max_selection_alert")
     /// Handyman, Contracting…
     public static let filtersServicesServicesListSearchPlaceholder = Strings.tr("Localizable", "filters_services_services_list_search_placeholder")
     /// Select a Category
@@ -1190,7 +1194,7 @@ extension R {
     public static let meetingCreationViewPlace = Strings.tr("Localizable", "meeting_creation_view_place")
     /// Search
     public static let meetingCreationViewSearchCellSearch = Strings.tr("Localizable", "meeting_creation_view_search_cell_search")
-    /// Search another location
+    /// Search for another location
     public static let meetingCreationViewSearchCellTitle = Strings.tr("Localizable", "meeting_creation_view_search_cell_title")
     /// Select date and time
     public static let meetingCreationViewSelectDateTime = Strings.tr("Localizable", "meeting_creation_view_select_date_time")
@@ -2714,6 +2718,8 @@ extension R {
     public static let searchAlertErrorTooManyButtonText = Strings.tr("Localizable", "search_alert_error_too_many_button_text")
     /// Oops! You've reached the maximum number of search alerts
     public static let searchAlertErrorTooManyText = Strings.tr("Localizable", "search_alert_error_too_many_text")
+    /// You’ve reached the max number of search alerts, so we’ve turned your oldest one off and activated this one.
+    public static let searchAlertsDisabledOldestMessage = Strings.tr("Localizable", "search_alerts_disabled_oldest_message")
     /// Edit
     public static let searchAlertsEditButton = Strings.tr("Localizable", "search_alerts_edit_button")
     /// Get notifications about new listings

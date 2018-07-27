@@ -108,6 +108,7 @@ protocol ListingDetailNavigator: class {
     
     func openListingAttributeTable(withViewModel viewModel: ListingAttributeTableViewModel)
     func closeListingAttributeTable()
+    func openListingReport(source: EventParameterTypePage, productId: String)
 }
 
 protocol SimpleProductsNavigator: class {

@@ -64,6 +64,7 @@ class TabCoordinator: NSObject, Coordinator {
         super.init()
 
         self.listingCoordinator.listingDetailNavigator = self
+        self.userCoordinator.tabNavigator = self
         self.navigationController.delegate = self
     }
 

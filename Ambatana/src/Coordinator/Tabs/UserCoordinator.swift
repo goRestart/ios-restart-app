@@ -6,6 +6,8 @@ final class UserCoordinator {
     private let navigationController: UINavigationController
     private let userRepository: UserRepository
     private let myUserRepository: MyUserRepository
+    
+    weak var tabNavigator: TabNavigator?
 
     private lazy var listingCoordinator = ListingCoordinator(navigationController: navigationController)
 
@@ -67,9 +69,7 @@ final class UserCoordinator {
 
 extension UserCoordinator: PublicProfileNavigator {
     func openUserReport(source: EventParameterTypePage, userReportedId: String) {
-        let vm = ReportUsersViewModel(origin: source, userReportedId: userReportedId)
-        let vc = ReportUsersViewController(viewModel: vm)
-        navigationController.pushViewController(vc, animated: true)
+        tabNavigator?.openUserReport(source: source, userReportedId: userReportedId)
     }
 
     func openListing(_ data: ListingDetailData,
