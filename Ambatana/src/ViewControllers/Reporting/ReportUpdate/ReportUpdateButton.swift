@@ -27,23 +27,21 @@ enum ReportUpdateButtonType: Int {
         case .veryHappy: return R.Asset.Reporting.feedbackVeryHappyDisabled.image
         }
     }
-//
-//    var selectedStateImage: UIImage {
-//        return image.af_imageAspectScaled(toFit: CGSize(width: 49, height: 49))
-//    }
-//
-//    var disabledStateImage: UIImage {
-//        return disabledImage.af_imageAspectScaled(toFit: CGSize(width: 38, height: 38))
-//    }
-//
-//    var normalStateImage: UIImage {
-//        return image.af_imageAspectScaled(toFit: CGSize(width: 38, height: 38))
-//    }
+
+    var title: String {
+        switch self {
+        case .verySad: return R.Strings.reportingListingUpdateFeedbackBad
+        case .sad: return R.Strings.reportingListingUpdateFeedbackBad
+        case .neutral: return R.Strings.reportingListingUpdateFeedbackMedium
+        case .happy: return R.Strings.reportingListingUpdateFeedbackGood
+        case .veryHappy: return R.Strings.reportingListingUpdateFeedbackGood
+        }
+    }
 }
 
 final class ReportUpdateButton: UIButton {
 
-    private let type: ReportUpdateButtonType
+    let type: ReportUpdateButtonType
 
     init(type: ReportUpdateButtonType) {
         self.type = type

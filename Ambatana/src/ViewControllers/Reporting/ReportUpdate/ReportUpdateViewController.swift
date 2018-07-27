@@ -173,6 +173,21 @@ final class ReportUpdateViewController: BaseViewController {
         feedbackButtons.forEach { button in
             button.set(selected: button == sender)
         }
+        updateFeedbackTitle(type: sender.type)
         // TODO: Communicate with ViewModel to send feedback
+    }
+
+    private func updateFeedbackTitle(type: ReportUpdateButtonType) {
+        UIView.animate(withDuration: 0.1, delay: 0, options: UIViewAnimationOptions.curveEaseIn, animations: {
+            self.feedbackTitle.alpha = 0
+        }) { completed in
+            self.feedbackTitle.transform = CGAffineTransform.init(scaleX: 0, y: 0)
+            self.feedbackTitle.text = type.title
+            self.feedbackTitle.alpha = 1
+            UIView.animate(withDuration: 0.25, delay: 0.05, options: .curveEaseOut, animations: {
+                self.feedbackTitle.transform = .identity
+            }, completion: nil
+            )
+        }
     }
 }
