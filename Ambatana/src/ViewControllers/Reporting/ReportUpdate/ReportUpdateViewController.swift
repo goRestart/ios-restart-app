@@ -66,6 +66,10 @@ final class ReportUpdateViewController: BaseViewController {
         static let imageSize = CGSize(width: 159, height: 159)
         static let buttonMiniSize: CGFloat = 38
         static let buttonBigSize: CGFloat = 49
+        static let buttonSeparation: CGFloat = 60
+        static let buttonTopMargin: CGFloat = 40
+        static let separatorHeight: CGFloat = 1
+        static let feedbackContainerHeight: CGFloat = 128
     }
 
     private let verySadButton = ReportUpdateButton(type: .verySad)
@@ -143,29 +147,32 @@ final class ReportUpdateViewController: BaseViewController {
             feedbackContainerView.bottomAnchor.constraint(equalTo: safeBottomAnchor),
             feedbackContainerView.leftAnchor.constraint(equalTo: view.leftAnchor),
             feedbackContainerView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            feedbackContainerView.heightAnchor.constraint(equalToConstant: 128),
+            feedbackContainerView.heightAnchor.constraint(equalToConstant: Layout.feedbackContainerHeight),
             feedbackSeparator.topAnchor.constraint(equalTo: feedbackContainerView.topAnchor),
             feedbackSeparator.leftAnchor.constraint(equalTo: feedbackContainerView.leftAnchor, constant: Metrics.margin),
             feedbackSeparator.rightAnchor.constraint(equalTo: feedbackContainerView.rightAnchor, constant: -Metrics.margin),
-            feedbackSeparator.heightAnchor.constraint(equalToConstant: 1),
+            feedbackSeparator.heightAnchor.constraint(equalToConstant: Layout.separatorHeight),
             feedbackTitle.topAnchor.constraint(equalTo: feedbackContainerView.topAnchor, constant: Metrics.bigMargin),
             feedbackTitle.centerXAnchor.constraint(equalTo: feedbackContainerView.centerXAnchor),
             neutralButton.centerXAnchor.constraint(equalTo: feedbackContainerView.centerXAnchor),
-            neutralButton.topAnchor.constraint(equalTo: feedbackTitle.bottomAnchor, constant: 39),
+            neutralButton.centerYAnchor.constraint(equalTo: feedbackTitle.bottomAnchor, constant: Layout.buttonTopMargin),
             sadButton.centerYAnchor.constraint(equalTo: neutralButton.centerYAnchor),
-            sadButton.centerXAnchor.constraint(equalTo: neutralButton.centerXAnchor, constant: -50),
+            sadButton.centerXAnchor.constraint(equalTo: neutralButton.centerXAnchor, constant: -Layout.buttonSeparation),
             verySadButton.centerYAnchor.constraint(equalTo: neutralButton.centerYAnchor),
-            verySadButton.centerXAnchor.constraint(equalTo: sadButton.centerXAnchor, constant: -50),
+            verySadButton.centerXAnchor.constraint(equalTo: sadButton.centerXAnchor, constant: -Layout.buttonSeparation),
             happyButton.centerYAnchor.constraint(equalTo: neutralButton.centerYAnchor),
-            happyButton.centerXAnchor.constraint(equalTo: neutralButton.centerXAnchor, constant: 50),
+            happyButton.centerXAnchor.constraint(equalTo: neutralButton.centerXAnchor, constant: Layout.buttonSeparation),
             veryHappyButton.centerYAnchor.constraint(equalTo: neutralButton.centerYAnchor),
-            veryHappyButton.centerXAnchor.constraint(equalTo: happyButton.centerXAnchor, constant: 50)
+            veryHappyButton.centerXAnchor.constraint(equalTo: happyButton.centerXAnchor, constant: Layout.buttonSeparation)
         ]
 
         NSLayoutConstraint.activate(constraints)
     }
 
     @objc private func didTapButton(sender: ReportUpdateButton) {
-        print("did tap button \(sender.tag)")
+        feedbackButtons.forEach { button in
+            button.set(selected: button == sender)
+        }
+        // TODO: Communicate with ViewModel to send feedback
     }
 }
