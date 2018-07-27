@@ -1,5 +1,12 @@
 
+import LGComponents
+
 typealias DropdownSelectedItems = (selectedHeaderId: String, selectedItemIds: [String])
+
+protocol DropdownViewModelDelegate: BaseViewModelDelegate {
+    func selectRow(atIndexPath indexPath: IndexPath)
+    func deselectRow(atIndexPath indexPath: IndexPath)
+}
 
 final class DropdownViewModel {
     
@@ -14,7 +21,11 @@ final class DropdownViewModel {
     
     let attributes: [DropdownSectionViewModel]
     
+    
+    private let maxSelectableAttributes: Int = 15
+    
     private var isFilterActive: Bool = false
+    weak var delegate: DropdownViewModelDelegate?
     
     init(screenTitle: String,
          searchPlaceholderTitle: String,
@@ -68,12 +79,20 @@ final class DropdownViewModel {
             let section = dropdownSection(atSection: indexPath.section) else { return }
         switch item.content.type {
         case .item:
-            attributes.selectItem(withItemId: item.content.id,
-                                          inSection: section)
+            if canSelectItem(atIndexPath: indexPath) {
+                attributes.selectItem(withItemId: item.content.id,
+                                      inSection: section)
+                delegate?.selectRow(atIndexPath: indexPath)
+            } else {
+                delegate?.deselectRow(atIndexPath: indexPath)
+                showAlert(withTitle: R.Strings.filtersServicesServicesListMaxSelectionAlert)
+            }
         case .header:
             if !isFilterActive {
                 attributes.toggleExpansionState(forId: item.content.id)
             }
+            
+            delegate?.selectRow(atIndexPath: indexPath)
         }
     }
     
@@ -87,6 +106,8 @@ final class DropdownViewModel {
                 attributes.toggleExpansionState(forId: item.content.id)
             }
         }
+        
+        delegate?.deselectRow(atIndexPath: indexPath)
     }
     
     func toggleHeaderSelection(atIndexPath indexPath: IndexPath) {
@@ -101,6 +122,21 @@ final class DropdownViewModel {
     
     func expansionState(forId id: String) -> Bool {
         return attributes.expansionState(forId: id)
+    }
+    
+    func canSelectItem(atIndexPath indexPath: IndexPath) -> Bool {
+        guard let selectedItems = attributes.selectedSectionItems else { return true }
+        return selectedItems.selectedItemIds.count < maxSelectableAttributes
+    }
+    
+    func showAlert(withTitle title: String) {
+        let action = UIAction(interface: .button(R.Strings.commonOk, .primary(fontSize: .medium)),
+                              action: { },
+                              accessibility: AccessibilityId.postingDetailMaxServices)
+        delegate?.vmShowAlertWithTitle(title,
+                                       text: "",
+                                       alertType: .plainAlert,
+                                       actions: [action])
     }
     
     

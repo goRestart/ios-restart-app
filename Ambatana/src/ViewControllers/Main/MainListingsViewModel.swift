@@ -210,7 +210,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                 if let serviceType = servicesFilters.type {
                     
                     if let serviceSubtypes = servicesFilters.subtypes {
-                        if serviceType.subTypes.count == serviceSubtypes.count {
+                        if serviceType.subTypes.count == serviceSubtypes.count ||
+                            serviceSubtypes.count == 0 {
                             resultTags.append(.serviceType(serviceType))
                         } else {
                             resultTags.append(.unifiedServiceType(type: serviceType,

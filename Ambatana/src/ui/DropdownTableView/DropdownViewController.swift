@@ -1,6 +1,6 @@
 import LGComponents
 
-final class DropdownViewController: KeyboardViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
+final class DropdownViewController: KeyboardViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, DropdownViewModelDelegate {
     
     private enum Layout {
         static let searchBoxHeight: CGFloat = 44
@@ -10,7 +10,7 @@ final class DropdownViewController: KeyboardViewController, UITableViewDataSourc
         static let showMoreHeight: CGFloat = 32
     }
     
-    private let viewModel : DropdownViewModel
+    private let viewModel: DropdownViewModel
     private let keyboardHelper: KeyboardHelper
     
     //  MARK: - Subviews
@@ -64,13 +64,15 @@ final class DropdownViewController: KeyboardViewController, UITableViewDataSourc
     //  MARK: - Lifecycle
     
     convenience init(withViewModel viewModel: DropdownViewModel) {
-        self.init(viewModel: viewModel, keyboardHelper: KeyboardHelper())
+        self.init(viewModel: viewModel,
+                  keyboardHelper: KeyboardHelper())
     }
     
     private init(viewModel: DropdownViewModel, keyboardHelper: KeyboardHelper) {
         self.keyboardHelper = keyboardHelper
         self.viewModel = viewModel
         super.init(viewModel: nil, nibName: nil)
+        self.viewModel.delegate = self
         setupAccessibilityIds()
         setupUI()
     }
@@ -239,14 +241,10 @@ final class DropdownViewController: KeyboardViewController, UITableViewDataSourc
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         viewModel.didSelectItem(atIndexPath: indexPath)
-        tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
-        reloadView()
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         viewModel.didDeselectItem(atIndexPath: indexPath)
-        tableView.deselectRow(at: indexPath, animated: false)
-        reloadView()
     }
 
 
@@ -266,6 +264,27 @@ final class DropdownViewController: KeyboardViewController, UITableViewDataSourc
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
     }
+
+
+    // MARK: DropdownViewModelDelegate
+
+    func selectRow(atIndexPath indexPath: IndexPath) {
+        tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+        reloadView()
+    }
+    
+    func deselectRow(atIndexPath indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: false)
+        reloadView()
+    }
+    
+    func reloadView() {
+        let selectedIndexPaths = tableView.indexPathsForSelectedRows
+        tableView.reloadData()
+        selectedIndexPaths?.forEach({ indexPath in
+            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+        })
+    }
     
     
     // MARK: Helpers
@@ -284,14 +303,6 @@ final class DropdownViewController: KeyboardViewController, UITableViewDataSourc
     
     private func hideDoneButton() {
         doneButton.animateTo(alpha: 0.0)
-    }
-    
-    private func reloadView() {
-        let selectedIndexPaths = tableView.indexPathsForSelectedRows
-        tableView.reloadData()
-        selectedIndexPaths?.forEach({ indexPath in
-            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
-        })
     }
     
     private func toggleCellSelection(toState state: DropdownCellState,

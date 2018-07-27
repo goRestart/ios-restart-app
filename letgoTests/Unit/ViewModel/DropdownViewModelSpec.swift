@@ -112,9 +112,9 @@ class DropdownViewModelSpec: QuickSpec {
                     expect(sut.attributes[0].item(forIndex: 0)?.state).to(equal(DropdownCellState.selected))
                 }
                 
-                it("items should be selected") {
-                    for i in 0...sut.attributes[0].count-1 {
-                        expect(sut.attributes[0].item(forIndex: i)?.state).to(equal(DropdownCellState.selected))
+                it("items should be deselected") {
+                    for i in 1...sut.attributes[0].count-1 {
+                        expect(sut.attributes[0].item(forIndex: i)?.state).to(equal(DropdownCellState.deselected))
                     }
                 }
             }

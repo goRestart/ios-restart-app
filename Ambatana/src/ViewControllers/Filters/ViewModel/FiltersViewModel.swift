@@ -915,11 +915,11 @@ extension FiltersViewModel {
         return FilterServicesSection.allSections(isUnifiedActive: featureFlags.servicesUnifiedFilterScreen.isActive)
     }
     
-    var selectedServiceSubtypesDisplayName: String? {
+    var selectedServiceSubtypesDisplayName: String {
         if featureFlags.servicesUnifiedFilterScreen.isActive {
-            return createUnifiedSelectedServiceDisplayName()
+            return createUnifiedSelectedServiceDisplayName() ?? ""
         } else {
-            return createSelectedServiceSubtypeDisplayName()
+            return createSelectedServiceSubtypeDisplayName() ?? R.Strings.filtersServiceSubtypeNotSet
         }
     }
     
@@ -940,7 +940,6 @@ extension FiltersViewModel {
     
     private func createUnifiedSelectedServiceDisplayName() -> String? {
         
-
         guard let firstSubtype =
             productFilter.verticalFilters.services.subtypes?.first?.name else {
             return nil

@@ -766,7 +766,7 @@ extension FiltersViewController {
             cell.topSeparator?.isHidden = false
         case .subtype:
             cell.setup(withTitle: serviceSection.title,
-                       subtitle: viewModel.selectedServiceSubtypesDisplayName ?? R.Strings.filtersServiceSubtypeNotSet,
+                       subtitle: viewModel.selectedServiceSubtypesDisplayName,
                        isTitleEnabled: viewModel.serviceSubtypeCellEnabled,
                        isUserInteractionEnabled: viewModel.serviceSubtypeCellEnabled)
         case .unified:

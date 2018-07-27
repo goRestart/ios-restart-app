@@ -76,14 +76,17 @@ final class DropdownSectionViewModel {
         header.update(withState: state)
     }
     
-    func absorb(ids: [String]) {
-        allItems.forEach { (item) in
-            if ids.contains(item.content.id) {
-                item.update(withState: .selected)
+    func setupSectionAsSelected(withSelectedItemIds selectedItemIds: [String]) {
+        if selectedItemIds.count > 0 {
+            allItems.forEach { (item) in
+                if selectedItemIds.contains(item.content.id) {
+                    item.update(withState: .selected)
+                }
             }
+            refreshHeaderState()
+        } else {
+            selectHeader()
         }
-        
-        refreshHeaderState()
     }
     
     private func refreshHeaderState() {
@@ -130,8 +133,9 @@ final class DropdownSectionViewModel {
         updateAllItems(toState: .deselected)
     }
     
-    func selectAllItems() {
-        updateAllItems(toState: .selected)
+    func selectHeader() {
+        deselectAllItems()
+        header.update(withState: .selected)
     }
 
 
@@ -185,7 +189,7 @@ extension Collection where Element == DropdownSectionViewModel {
     func selectSection(withHeaderId id: String) {
         forEach { section in
             if section.sectionId == id {
-                section.selectAllItems()
+                section.selectHeader()
             } else {
                 section.deselectAllItems()
             }
