@@ -311,7 +311,6 @@ fileprivate extension AppDelegate {
                                                 didFinishLaunchingWithOptions: launchOptions,
                                                 featureFlags: featureFlags)
         LGNotificationsManager.sharedInstance.setup()
-        StickersManager.sharedInstance.setup()
         setupStripeManager()
     }
 
