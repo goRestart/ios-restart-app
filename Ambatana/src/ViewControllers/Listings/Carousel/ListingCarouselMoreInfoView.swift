@@ -370,12 +370,13 @@ final class ListingCarouselMoreInfoView: UIView {
         //  DragView
         
         dragView.layout(with: self)
-            .bottom().fillHorizontal(by: 2*Metrics.veryBigMargin)
-        
+            .bottom().centerX()
         dragButton.layout().height(Layout.DragView.height)
         dragButton.layout(with: dragView)
             .centerX()
             .top(by: Metrics.veryShortMargin).bottom(by: -Layout.DragView.bottom)
+        
+        dragView.layout(with: dragButton).proportionalWidth()
         
         dragViewTitle.layout(with: dragButton)
             .leading(by: Metrics.margin).fillVertical()
