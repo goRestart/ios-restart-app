@@ -227,7 +227,7 @@ fileprivate extension FilteredListingListRequester {
         params.abtest = featureFlags.searchImprovements.stringValue
         params.relaxParam = featureFlags.relaxedSearch.relaxParam
         params.similarParam = featureFlags.emptySearchImprovements.similarParam
-        params.populate(with: filters)
+        params.populate(with: filters, featureFlags: featureFlags)
         return params
     }
     

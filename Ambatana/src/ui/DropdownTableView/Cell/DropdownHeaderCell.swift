@@ -4,8 +4,8 @@ final class DropdownHeaderCell: DropdownItemCell {
     
     private enum Layout {
         static let titleLabelFontSize: Int = 19
-        static let checkboxSize: CGSize = CGSize(width: 20.0, height: 20.0)
-        static let checkboxTrailingConstant: CGFloat = 17.0
+        static let checkboxSize: CGSize = CGSize(width: 18.0, height: 18.0)
+        static let checkboxTrailingConstant: CGFloat = 28.0
         static let titleLabelTrailingConstant: CGFloat = 23.0
         static let titleLabelLeadingConstant: CGFloat = 10.0
         static let chevronLeadingConstant: CGFloat = 15.0
@@ -13,17 +13,40 @@ final class DropdownHeaderCell: DropdownItemCell {
     }
     
     private let chevronView: LGChevronView = LGChevronView()
+    private var checkboxAction: (() -> Void)?
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         titleLabel.font = UIFont.systemMediumFont(size: Layout.titleLabelFontSize)
+        setupCheckboxTapAction()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func updateChevronPosition(toPosition position: LGChevronView.Position) {
+    private func setupCheckboxTapAction() {
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapCheckbox))
+        checkboxView.addGestureRecognizer(gestureRecognizer)
+    }
+    
+    @objc private func didTapCheckbox() {
+        checkboxAction?()
+    }
+    
+    func setup(withRepresentable representable: DropdownCellRepresentable,
+               isExpanded: Bool,
+               showsChevron: Bool,
+               checkboxAction: @escaping (() -> Void)) {
+        self.checkboxAction = checkboxAction
+        let chevronPosition: LGChevronView.Position = isExpanded ? .expanded : .contracted
+        updateChevronPosition(toPosition: chevronPosition, showsChevron: showsChevron)
+        super.setup(withRepresentable: representable)
+    }
+    
+    func updateChevronPosition(toPosition position: LGChevronView.Position,
+                               showsChevron: Bool) {
+        chevronView.isHidden = !showsChevron
         chevronView.updatePosition(withPosition: position)
     }
     

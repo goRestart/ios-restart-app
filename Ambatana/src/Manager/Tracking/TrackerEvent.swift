@@ -533,7 +533,6 @@ struct TrackerEvent {
                                     videoLength: TimeInterval?,
                                     freePostingModeAllowed: Bool,
                                     typePage: EventParameterTypePage,
-                                    mostSearchedButton: EventParameterMostSearched,
                                     machineLearningTrackingInfo: MachineLearningTrackingInfo) -> TrackerEvent {
         var params = EventParameters()
         params[.freePosting] = listing.price.allowFreeFilters(freePostingModeAllowed: freePostingModeAllowed).rawValue
@@ -544,7 +543,6 @@ struct TrackerEvent {
         params[.sellButtonPosition] = sellButtonPosition?.rawValue
         params[.listingDescription] = !(listing.descr?.isEmpty ?? true)
         params[.typePage] = typePage.rawValue
-        params[.mostSearchedButton] = mostSearchedButton.rawValue
         if let buttonName = buttonName {
             params[.buttonName] = buttonName.rawValue
         }

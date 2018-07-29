@@ -4,7 +4,6 @@ import LGComponents
 protocol CategoriesHeaderCellPresentable {
     var categories: [CategoryHeaderElement] { get }
     var categoryHighlighted: CategoryHeaderElement { get }
-    var isMostSearchedItemsEnabled: Bool { get }
 }
 
 final class CategoryPresenter: BaseViewModel {
@@ -52,9 +51,5 @@ extension CategoryPresenter: CategoriesHeaderCellPresentable {
         } else {
             return CategoryHeaderElement.listingCategory(.cars)
         }
-    }
-    
-    var isMostSearchedItemsEnabled: Bool {
-        return featureFlags.mostSearchedDemandedItems.isActive
     }
 }

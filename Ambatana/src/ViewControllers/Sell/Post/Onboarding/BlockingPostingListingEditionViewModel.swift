@@ -122,7 +122,6 @@ class BlockingPostingListingEditionViewModel: BaseViewModel {
                                                    videoLength: videoLength,
                                                    price: String.fromPriceDouble(listing.price.value),
                                                    typePage: postingSource.typePage,
-                                                   mostSearchedButton: postingSource.mostSearchedButton,
                                                    machineLearningInfo: MachineLearningTrackingInfo.defaultValues())
         
         let event = TrackerEvent.listingSellComplete(listing,
@@ -133,7 +132,6 @@ class BlockingPostingListingEditionViewModel: BaseViewModel {
                                                      videoLength: trackingInfo.videoLength,
                                                      freePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                      typePage: trackingInfo.typePage,
-                                                     mostSearchedButton: trackingInfo.mostSearchedButton,
                                                      machineLearningTrackingInfo: trackingInfo.machineLearningInfo)
         tracker.trackEvent(event)
     }

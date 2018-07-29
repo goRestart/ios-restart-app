@@ -15,6 +15,7 @@
 "bump_up_banner_boost_text" = "Legg til ekstra promotering!";
 "bump_up_banner_free_button_title" = "Promoter ditt produkt";
 "bump_up_banner_free_text" = "Promoter gratis for å selge raskere";
+"bump_up_banner_loading_text" = "Laster mer info…";
 "bump_up_banner_pay_text" = "Selg raskere nå";
 "bump_up_banner_pay_text_improvement" = "Selg raskere nå";
 "bump_up_banner_pay_text_improvement_english_a" = "Selg raskere nå";
@@ -296,7 +297,7 @@
 "common_user_not_available" = "Oops! Fant ikke bruker.";
 "common_user_review_not_available" = "Oops! Kunne ikke finne vurderingen.";
 "common_yes" = "Ja";
-"community_banner_title" = "Join the letgo community!";
+"community_banner_title" = "Bli med i letgo-fellesskapet!";
 "contact_subject_option_location" = "Problemer for plassering";
 "contact_subject_option_login" = "Innloggingstilgang";
 "contact_subject_option_other" = "Andre problemer";
@@ -439,6 +440,8 @@
 "filters_section_within" = "Publisert";
 "filters_service_subtype_not_set" = "Ikke Satt";
 "filters_service_type_not_set" = "Ikke Satt";
+"filters_services_services_list_max_selection_alert" = "Oops! Du kan ikke velge mer enn 15 tjenester.";
+"filters_services_services_list_search_placeholder" = "Håndverker, Entreprenør …";
 "filters_services_services_list_title" = "Velg en kategori";
 "filters_size_wrong_range_error" = "Minimum størrelse kan ikke være høyere enn maksimum størrelse.";
 "filters_slider_any" = "Alle";

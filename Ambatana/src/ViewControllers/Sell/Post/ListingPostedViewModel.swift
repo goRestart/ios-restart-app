@@ -352,7 +352,6 @@ class ListingPostedViewModel: BaseViewModel {
         let pictureSource = trackingInfo.imageSource
         let videoLength = trackingInfo.videoLength
         let typePage = trackingInfo.typePage
-        let mostSearchedButton = trackingInfo.mostSearchedButton
         let event = TrackerEvent.listingSellComplete(postedListing,
                                                      buttonName: buttonName,
                                                      sellButtonPosition: trackingInfo.sellButtonPosition,
@@ -360,7 +359,6 @@ class ListingPostedViewModel: BaseViewModel {
                                                      videoLength: videoLength,
                                                      freePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                      typePage: typePage,
-                                                     mostSearchedButton: mostSearchedButton,
                                                      machineLearningTrackingInfo: trackingInfo.machineLearningInfo)
         tracker.trackEvent(event)
 

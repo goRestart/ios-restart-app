@@ -41,6 +41,7 @@ final class AppCoordinator: NSObject, Coordinator {
     fileprivate let notificationsTabBarCoordinator: NotificationsTabCoordinator
     fileprivate let chatsTabBarCoordinator: ChatsTabCoordinator
     fileprivate let profileTabBarCoordinator: ProfileTabCoordinator
+    fileprivate let communityTabCoordinator: CommunityTabCoordinator
     fileprivate let tabCoordinators: [TabCoordinator]
 
     fileprivate let configManager: ConfigManager
@@ -124,8 +125,15 @@ final class AppCoordinator: NSObject, Coordinator {
         self.notificationsTabBarCoordinator = NotificationsTabCoordinator()
         self.chatsTabBarCoordinator = ChatsTabCoordinator()
         self.profileTabBarCoordinator = ProfileTabCoordinator()
-        self.tabCoordinators = [mainTabBarCoordinator, notificationsTabBarCoordinator, chatsTabBarCoordinator,
-                                profileTabBarCoordinator]
+        self.communityTabCoordinator = CommunityTabCoordinator(source: .tabbar)
+
+        if featureFlags.community.shouldShowOnTab {
+            self.tabCoordinators = [mainTabBarCoordinator, notificationsTabBarCoordinator, chatsTabBarCoordinator,
+                                    communityTabCoordinator]
+        } else {
+            self.tabCoordinators = [mainTabBarCoordinator, notificationsTabBarCoordinator, chatsTabBarCoordinator,
+                                    profileTabBarCoordinator]
+        }
 
         self.configManager = configManager
         self.sessionManager = sessionManager
@@ -224,9 +232,7 @@ extension AppCoordinator: AppNavigator {
     func openSell(source: PostingSource, postCategory: PostCategory?, listingTitle: String?) {
         let forcedInitialTab: PostListingViewController.Tab?
         switch source {
-        case .tabBar, .listingList, .profile, .deepLink, .notifications, .deleteListing, .realEstatePromo,
-             .mostSearchedTabBarCamera, .mostSearchedTrendingExpandable, .mostSearchedTagsExpandable,
-             .mostSearchedCategoryHeader, .mostSearchedCard, .mostSearchedUserProfile, .chatList:
+        case .tabBar, .listingList, .profile, .deepLink, .notifications, .deleteListing, .realEstatePromo, .chatList:
             forcedInitialTab = nil
         case .onboardingButton, .onboardingCamera, .onboardingBlockingPosting:
             forcedInitialTab = .camera
@@ -238,16 +244,6 @@ extension AppCoordinator: AppNavigator {
                                               listingTitle: listingTitle)
         sellCoordinator.delegate = self
         openChild(coordinator: sellCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
-    }
-    
-    func openMostSearchedItems(source: PostingSource, enableSearch: Bool) {
-        let mostSearchedItemsCoordinator = MostSearchedItemsCoordinator(source: source, enableSearch: enableSearch)
-        mostSearchedItemsCoordinator.delegate = self
-        openChild(coordinator: mostSearchedItemsCoordinator,
-                  parent: tabBarCtl,
-                  animated: true,
-                  forceCloseChild: true,
-                  completion: nil)
     }
     
     func showBottomBubbleNotification(data: BubbleNotificationData,
@@ -503,6 +499,10 @@ extension AppCoordinator: AppNavigator {
     func openInAppWebView(url: URL) {
         tabBarCtl.openInAppWebViewWith(url: url)
     }
+
+    func openCommunityTab() {
+        openTab(.community, completion: nil)
+    }
 }
 
 // MARK: - SellCoordinatorDelegate
@@ -699,7 +699,7 @@ extension AppCoordinator: UITabBarControllerDelegate {
         let afterLogInSuccessful: () -> ()
 
         switch tab {
-        case .home, .notifications, .chats, .profile:
+        case .home, .notifications, .chats, .profile, .community:
             afterLogInSuccessful = { [weak self] in self?.openTab(tab, force: true, completion: nil) }
         case .sell:
             afterLogInSuccessful = { [weak self] in
@@ -714,19 +714,13 @@ extension AppCoordinator: UITabBarControllerDelegate {
             return false
         } else {
             switch tab {
-            case .home, .notifications, .chats, .profile:
+            case .home, .notifications, .chats, .profile, .community:
                 // tab is changed after returning from this method
                 return !shouldOpenLogin
             case .sell:
-                let shouldOpenMostSearchedItems = featureFlags.mostSearchedDemandedItems == .cameraBadge &&
-                    !keyValueStorage[.mostSearchedItemsCameraBadgeAlreadyShown]
-                if shouldOpenMostSearchedItems {
-                    openMostSearchedItems(source: .mostSearchedTabBarCamera, enableSearch: false)
-                } else {
-                    let source: PostingSource = .tabBar
-                    openSell(source: source, postCategory: nil, listingTitle: nil)
-                    trackStartSelling(source: source)
-                }
+                let source: PostingSource = .tabBar
+                openSell(source: source, postCategory: nil, listingTitle: nil)
+                trackStartSelling(source: source)
                 return false
             }
         }
@@ -759,6 +753,7 @@ fileprivate extension AppCoordinator {
         notificationsTabBarCoordinator.tabCoordinatorDelegate = self
         chatsTabBarCoordinator.tabCoordinatorDelegate = self
         profileTabBarCoordinator.tabCoordinatorDelegate = self
+        communityTabCoordinator.tabCoordinatorDelegate = self
 
         mainTabBarCoordinator.appNavigator = self
         notificationsTabBarCoordinator.appNavigator = self
@@ -1229,19 +1224,6 @@ extension AppCoordinator: PromoteBumpCoordinatorDelegate {
 }
 
 
-extension AppCoordinator: MostSearchedItemsCoordinatorDelegate {
-    func openSell(source: PostingSource, mostSearchedItem: LocalMostSearchedItem) {
-        openSell(source: source,
-                 postCategory: mostSearchedItem.category,
-                 listingTitle: mostSearchedItem.name)
-        trackSelectCategory(source: source, category: mostSearchedItem.category)
-    }
-    
-    func openSearchFor(listingTitle: String) {
-        mainTabBarCoordinator.openMainListings(withSearchType: .user(query: listingTitle), listingFilters: ListingFilters())
-    }
-}
-
 extension AppCoordinator: ProfileCoordinatorSearchAlertsDelegate {
     func profileCoordinatorSearchAlertsOpenSearch() {
         openTab(.home) { [weak self] in
@@ -1256,7 +1238,7 @@ extension AppCoordinator: ProfileCoordinatorSearchAlertsDelegate {
 fileprivate extension Tab {
     var logInRequired: Bool {
         switch self {
-        case .home, .sell:
+        case .home, .sell, .community:
             return false
         case .notifications, .chats, .profile:
             return true
@@ -1274,6 +1256,8 @@ fileprivate extension Tab {
             return .chats
         case .profile:
             return .profile
+        case .community:
+            return .community
         }
     }
 }

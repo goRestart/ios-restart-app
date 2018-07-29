@@ -5,9 +5,8 @@ class DropdownItemCell: UITableViewCell, ReusableCell {
     private enum Layout {
         static let titleLabelFontSize: CGFloat = 17.0
         static let defaultTitleTextColour: UIColor = .blackText
-        static let disabledTitleTextColour: UIColor = UIColor.blackText.withAlphaComponent(0.2)
-        static let checkboxSize: CGSize = CGSize(width: 16.0, height: 16.0)
-        static let checkboxTrailingConstant: CGFloat = 19.0
+        static let checkboxSize: CGSize = CGSize(width: 18.0, height: 18.0)
+        static let checkboxTrailingConstant: CGFloat = 28.0
         static let titleLabelTrailingConstant: CGFloat = 13.0
         static let titleLabelLeadingConstant: CGFloat = 55.0
     }
@@ -36,31 +35,31 @@ class DropdownItemCell: UITableViewCell, ReusableCell {
     
     func setup(withRepresentable representable: DropdownCellRepresentable) {
         titleLabel.text = representable.content.title
-        updateState(state: representable.state)
+        updateState(state: representable.state, animated: false)
     }
     
-    func updateState(state: DropdownCellState) {
-        updateTitleLabel(forState: state)
-        updateCheckbox(withState: state)
+    func updateState(state: DropdownCellState, animated: Bool) {
+        updateCheckbox(withState: state, animated: animated)
+        updateCellState(toState: state)
     }
     
-    private func updateTitleLabel(forState state: DropdownCellState) {
+    private func updateCellState(toState state: DropdownCellState) {
         switch state {
-        case .selected, .semiSelected, .deselected:
-            titleLabel.textColor = Layout.defaultTitleTextColour
-        case .disabled:
-            titleLabel.textColor = Layout.disabledTitleTextColour
+        case .selected, .semiSelected:
+            isSelected = true
+        case .deselected:
+            isSelected = false
         }
     }
     
-    private func updateCheckbox(withState state: DropdownCellState) {
+    private func updateCheckbox(withState state: DropdownCellState, animated: Bool) {
         switch state {
         case .selected:
-            checkboxView.update(withState: .selected)
+            checkboxView.update(withState: .selected, animated: animated)
         case .semiSelected:
-            checkboxView.update(withState: .semiSelected)
-        case .deselected, .disabled:
-            checkboxView.update(withState: .deselected)
+            checkboxView.update(withState: .semiSelected, animated: animated)
+        case .deselected:
+            checkboxView.update(withState: .deselected, animated: animated)
         }
     }
     

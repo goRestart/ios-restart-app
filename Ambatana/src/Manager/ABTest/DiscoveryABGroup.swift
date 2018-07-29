@@ -41,7 +41,7 @@ struct DiscoveryABGroup: ABGroupType {
                                          multiContact,
                                          emptySearchImprovements])
     }
-
+    
     static func make() -> DiscoveryABGroup {
         return DiscoveryABGroup(sectionedMainFeed: .makeInt(key: Keys.sectionedMainFeed,
                                                             defaultValue: 0,

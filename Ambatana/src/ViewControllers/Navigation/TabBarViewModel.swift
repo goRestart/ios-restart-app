@@ -16,12 +16,6 @@ class TabBarViewModel: BaseViewModel {
         return featureFlags.realEstateEnabled.isActive &&
             !keyValueStorage[.realEstateTooltipSellButtonAlreadyShown]
     }
-    var isMostSearchedItemsCameraBadgeEnabled: Bool {
-        return featureFlags.mostSearchedDemandedItems == .cameraBadge
-    }
-    var shouldShowCameraBadge: Bool {
-        return isMostSearchedItemsCameraBadgeEnabled && !keyValueStorage[.mostSearchedItemsCameraBadgeAlreadyShown]
-    }
     var shouldShowHomeBadge: Bool {
         return featureFlags.engagementBadging.isActive
     }
@@ -69,13 +63,10 @@ class TabBarViewModel: BaseViewModel {
 
     // MARK: - Public methods
 
-    func expandableButtonPressed(category: ExpandableCategory, source: PostingSource) {
-        if category == .mostSearchedItems {
-            navigator?.openMostSearchedItems(source: .mostSearchedTrendingExpandable, enableSearch: false)
-        } else if let postCategory = category.listingCategory?.postingCategory(with: featureFlags) {
-            trackSelectCategory(source: source, category: postCategory)
-            navigator?.openSell(source: source, postCategory: postCategory, listingTitle: nil)
-        }
+    func expandableButtonPressed(listingCategory: ListingCategory, source: PostingSource) {
+        let postCategory = listingCategory.postingCategory(with: featureFlags)
+        trackSelectCategory(source: source, category: postCategory)
+        navigator?.openSell(source: source, postCategory: postCategory, listingTitle: nil)
     }
     
     func tagPressed(mostSearchedItem: LocalMostSearchedItem) {
@@ -129,11 +120,7 @@ class TabBarViewModel: BaseViewModel {
                 return count.flatMap { $0 > 0 ? String($0) : nil }
             }).bind(to: notificationsBadge)
             .disposed(by: disposeBag)
-        
-        notificationsManager.newSellFeatureIndicator.asObservable()
-            .bind(to: sellBadge)
-            .disposed(by: disposeBag)
-        
+
         notificationsManager.engagementBadgingNotifications.asObservable()
             .map { $0 ? TabBarViewModel.engagementBadgingIndicatorValue : nil }
             .bind(to: homeBadge)

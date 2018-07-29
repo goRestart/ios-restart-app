@@ -83,7 +83,7 @@ final class LGMapDetailView: UIView {
         return label
     }()
     
-    private var tagCollectionViewModel = TagCollectionViewModel(tags: [], cellStyle: .grayBorder)
+    private var tagCollectionViewModel = TagCollectionViewModel(cellStyle: .grayBorder)
     private var tagCollectionView: TagCollectionView?
     
     //  MARK: - Private

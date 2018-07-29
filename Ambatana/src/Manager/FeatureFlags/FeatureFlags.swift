@@ -62,6 +62,7 @@ protocol FeatureFlaggeable: class {
     var fullScreenAdUnitId: String? { get }
     var appInstallAdsInFeed: AppInstallAdsInFeed { get }
     var appInstallAdsInFeedAdUnit: String? { get }
+    var alwaysShowBumpBannerWithLoading: AlwaysShowBumpBannerWithLoading { get }
     
     // MARK: Chat
     var showInactiveConversations: Bool { get }
@@ -76,7 +77,6 @@ protocol FeatureFlaggeable: class {
     var expressChatImprovement: ExpressChatImprovement { get }
 
     // MARK: Verticals
-    var realEstateMap: RealEstateMap { get }
     var showServicesFeatures: ShowServicesFeatures { get }
     var carExtraFieldsEnabled: CarExtraFieldsEnabled { get }
     var realEstateMapTooltip: RealEstateMapTooltip { get }
@@ -99,12 +99,12 @@ protocol FeatureFlaggeable: class {
     var advancedReputationSystem: AdvancedReputationSystem { get }
     var emergencyLocate: EmergencyLocate { get }
     var offensiveReportAlert: OffensiveReportAlert { get }
+    var community: ShowCommunity { get }
     
     // MARK: Money
     var preventMessagesFromFeedToProUsers: PreventMessagesFromFeedToProUsers { get }
     
     // MARK: Retention
-    var mostSearchedDemandedItems: MostSearchedDemandedItems { get }
     var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
     var onboardingIncentivizePosting: OnboardingIncentivizePosting { get }
     var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed { get }
@@ -121,14 +121,6 @@ extension FeatureFlaggeable {
 
 extension TaxonomiesAndTaxonomyChildrenInFeed {
     var isActive: Bool { return self == .active }
-}
-
-extension MostSearchedDemandedItems {
-    var isActive: Bool {
-        return self == .cameraBadge ||
-            self == .trendingButtonExpandableMenu ||
-            self == .subsetAboveExpandableMenu
-    }
 }
 
 extension RealEstateEnabled {
@@ -262,13 +254,15 @@ extension CopyForChatNowInTurkey {
     }
 }
 
-extension RealEstateMap {
-    var isActive: Bool { return self != .baseline && self != .control }
-}
-
 extension AdvancedReputationSystem {
     var isActive: Bool { return self != .baseline && self != .control  }
     var shouldShowTooltip: Bool { return self == .variantB }
+}
+
+extension ShowCommunity {
+    var isActive: Bool {  return self != .baseline && self != .control }
+    var shouldShowOnTab: Bool { return self == .communityOnTabBar }
+    var shouldShowOnNavBar: Bool { return self == .communityOnNavBar }
 }
 
 extension ShowPasswordlessLogin {
@@ -473,6 +467,10 @@ extension AppInstallAdsInFeed {
     var isActive: Bool { return self == .active }
 }
 
+extension AlwaysShowBumpBannerWithLoading {
+    var isActive: Bool { return self == .active }
+}
+
 final class FeatureFlags: FeatureFlaggeable {
     
     static let sharedInstance: FeatureFlags = FeatureFlags()
@@ -537,6 +535,7 @@ final class FeatureFlags: FeatureFlaggeable {
             dao.save(advanceReputationSystem: AdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value))
             dao.save(emergencyLocate: EmergencyLocate.fromPosition(abTests.emergencyLocate.value))
             dao.save(chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs.fromPosition(abTests.chatConversationsListWithoutTabs.value))
+            dao.save(community: ShowCommunity.fromPosition(abTests.community.value))
         }
         abTests.variablesUpdated()
     }
@@ -602,13 +601,6 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.showClockInDirectAnswer
         }
         return ShowClockInDirectAnswer.fromPosition(abTests.showClockInDirectAnswer.value)
-    }
-
-    var mostSearchedDemandedItems: MostSearchedDemandedItems {
-        if Bumper.enabled {
-            return Bumper.mostSearchedDemandedItems
-        }
-        return MostSearchedDemandedItems.fromPosition(abTests.mostSearchedDemandedItems.value)
     }
     
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio {
@@ -687,6 +679,14 @@ final class FeatureFlags: FeatureFlaggeable {
         }
         let cached = dao.retrieveAdvanceReputationSystem()
         return cached ?? AdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value)
+    }
+
+    var community: ShowCommunity {
+        if Bumper.enabled {
+            return Bumper.showCommunity
+        }
+        let cached = dao.retrieveCommunity()
+        return cached ?? ShowCommunity.fromPosition(abTests.community.value)
     }
     
     var sectionedMainFeed: SectionedMainFeed {
@@ -1073,7 +1073,15 @@ final class FeatureFlags: FeatureFlaggeable {
         }
         return AppInstallAdsInFeed.fromPosition(abTests.appInstallAdsInFeed.value)
     }
-    
+
+    var alwaysShowBumpBannerWithLoading: AlwaysShowBumpBannerWithLoading {
+        if Bumper.enabled {
+            return Bumper.alwaysShowBumpBannerWithLoading
+        }
+        return AlwaysShowBumpBannerWithLoading.fromPosition(abTests.alwaysShowBumpBannerWithLoading.value)
+    }
+
+
     // MARK: - Private
 
     private var locationCountryCode: CountryCode? {
@@ -1191,13 +1199,6 @@ extension FeatureFlags {
 
 extension FeatureFlags {
     
-    var realEstateMap: RealEstateMap {
-        if Bumper.enabled {
-            return Bumper.realEstateMap
-        }
-        return RealEstateMap.fromPosition(abTests.realEstateMap.value)
-    }
-    
     var showServicesFeatures: ShowServicesFeatures {
         if Bumper.enabled {
             return Bumper.showServicesFeatures
@@ -1223,8 +1224,7 @@ extension FeatureFlags {
         if Bumper.enabled {
             return Bumper.servicesUnifiedFilterScreen
         }
-        return .control
-//        return ServicesUnifiedFilterScreen.fromPosition(abTests.servicesUnifiedFilterScreen.value)
+        return ServicesUnifiedFilterScreen.fromPosition(abTests.servicesUnifiedFilterScreen.value)
     }
 }
 

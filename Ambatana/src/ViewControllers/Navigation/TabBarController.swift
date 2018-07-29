@@ -419,7 +419,7 @@ extension TabBarController: ExpandableCategorySelectionDelegate {
         trackAbandon(buttonName: .tapOutside)
     }
     
-    func didPressCategory(_ category: ExpandableCategory) {
+    func didPressCategory(_ listingCategory: ListingCategory) {
         floatingSellButton.showWithAnimation()
         let event = TrackerEvent.listingSellYourStuffButton()
         tracker.trackEvent(event)
@@ -429,6 +429,5 @@ extension TabBarController: ExpandableCategorySelectionDelegate {
     
     func didPressTag(_ tag: LocalMostSearchedItem) {
         floatingSellButton.showWithAnimation()
-        viewModel.tagPressed(mostSearchedItem: tag)
     }
 }

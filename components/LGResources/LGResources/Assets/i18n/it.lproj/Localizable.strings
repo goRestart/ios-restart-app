@@ -15,6 +15,7 @@
 "bump_up_banner_boost_text" = "Aggiungi una spinta extra!";
 "bump_up_banner_free_button_title" = "Promuovi";
 "bump_up_banner_free_text" = "Promuovi gratuitamente per vendere più velocemente";
+"bump_up_banner_loading_text" = "Caricamento ulteriori informazioni...";
 "bump_up_banner_pay_text" = "Vendi subito più rapidamente";
 "bump_up_banner_pay_text_improvement" = "Vendi più rapidamente";
 "bump_up_banner_pay_text_improvement_english_a" = "Vendi più rapidamente";
@@ -296,7 +297,7 @@
 "common_user_not_available" = "Ops! Utente non trovato.";
 "common_user_review_not_available" = "Ops! Recensione non trovata.";
 "common_yes" = "Sì";
-"community_banner_title" = "Join the letgo community!";
+"community_banner_title" = "Unisciti alla comunità di letgo!";
 "contact_subject_option_location" = "Problemi di posizione";
 "contact_subject_option_login" = "Accesso";
 "contact_subject_option_other" = "Altri problemi";
@@ -439,6 +440,8 @@
 "filters_section_within" = "Periodo di pubblicazione";
 "filters_service_subtype_not_set" = "Non Impostato";
 "filters_service_type_not_set" = "Non Impostato";
+"filters_services_services_list_max_selection_alert" = "Oops! You can't select more than 15 services.";
+"filters_services_services_list_search_placeholder" = "Tuttofare, agenti...";
 "filters_services_services_list_title" = "Seleziona una categoria";
 "filters_size_wrong_range_error" = "La dimensione minima non può essere superiore a quella massima.";
 "filters_slider_any" = "Tutti";

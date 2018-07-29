@@ -915,11 +915,11 @@ extension FiltersViewModel {
         return FilterServicesSection.allSections(isUnifiedActive: featureFlags.servicesUnifiedFilterScreen.isActive)
     }
     
-    var selectedServiceSubtypesDisplayName: String? {
+    var selectedServiceSubtypesDisplayName: String {
         if featureFlags.servicesUnifiedFilterScreen.isActive {
-            return createUnifiedSelectedServiceDisplayName()
+            return createUnifiedSelectedServiceDisplayName() ?? ""
         } else {
-            return createSelectedServiceSubtypeDisplayName()
+            return createSelectedServiceSubtypeDisplayName() ?? R.Strings.filtersServiceSubtypeNotSet
         }
     }
     
@@ -940,7 +940,6 @@ extension FiltersViewModel {
     
     private func createUnifiedSelectedServiceDisplayName() -> String? {
         
-
         guard let firstSubtype =
             productFilter.verticalFilters.services.subtypes?.first?.name else {
             return nil
@@ -998,12 +997,11 @@ extension FiltersViewModel {
     }
     
     func unifiedServicesFilterTapped() {
-        let cellRepresentables = serviceTypes.cellRepresentables
-            .updatedCellRepresentables(withServicesFilters: productFilter.verticalFilters.services)
-        
-        let vm = DropdownViewModel(screenTitle: "",
-                                   searchPlaceholderTitle: "",
-                                   attributes: cellRepresentables,
+        let sectionRepresentables = serviceTypes.sectionRepresentables
+            .updatedSectionRepresentables(withServicesFilters: productFilter.verticalFilters.services)
+        let vm = DropdownViewModel(screenTitle: R.Strings.filtersServicesServicesListTitle,
+                                   searchPlaceholderTitle: R.Strings.filtersServicesServicesListSearchPlaceholder,
+                                   attributes: sectionRepresentables,
                                    buttonAction: updateAllServices)
         navigator?.openServicesDropdown(viewModel: vm)
     }
@@ -1021,11 +1019,18 @@ extension FiltersViewModel {
         return selectedAttributes
     }
     
-    private func updateAllServices(_ selectedIds: DropdownSelectedItems) {
-        let serviceType = serviceTypes.first(where: { $0.id == selectedIds.selectedHeaderId })
-        let serviceSubtypes = serviceType?.subTypes.filter { selectedIds.selectedItemsIds.contains($0.id) }
-        productFilter.verticalFilters.services.type = serviceType
-        productFilter.verticalFilters.services.subtypes = serviceSubtypes
+    private func updateAllServices(_ selectedIds: DropdownSelectedItems?) {
+
+        if let selectedIds = selectedIds {
+            let serviceType = serviceTypes.first(where: { $0.id == selectedIds.selectedHeaderId })
+            let serviceSubtypes = serviceType?.subTypes.filter { selectedIds.selectedItemIds.contains($0.id) }
+            productFilter.verticalFilters.services.type = serviceType
+            productFilter.verticalFilters.services.subtypes = serviceSubtypes
+        } else {
+            productFilter.verticalFilters.services.type = nil
+            productFilter.verticalFilters.services.subtypes = nil
+        }
+
         delegate?.vmDidUpdate()
         delegate?.vmPop()
     }

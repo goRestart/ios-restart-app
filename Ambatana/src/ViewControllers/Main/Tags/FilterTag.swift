@@ -40,12 +40,13 @@ enum FilterTag: Equatable {
     
     case serviceType(ServiceType)
     case serviceSubtype(ServiceSubtype)
+    case unifiedServiceType(type: ServiceType, selectedSubtypes: [ServiceSubtype])
 }
 
 extension FilterTag {
     var isTaxonomy: Bool {
         switch self {
-    case .location, .within, .orderBy, .category, .taxonomyChild, .secondaryTaxonomyChild, .priceRange, .freeStuff, .distance, .carSellerType, .make, .model, .yearsRange, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType, .realEstateOfferType, .realEstateNumberOfRooms, .sizeSquareMetersRange, .serviceType, .serviceSubtype,
+    case .location, .within, .orderBy, .category, .taxonomyChild, .secondaryTaxonomyChild, .priceRange, .freeStuff, .distance, .carSellerType, .make, .model, .yearsRange, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType, .realEstateOfferType, .realEstateNumberOfRooms, .sizeSquareMetersRange, .serviceType, .serviceSubtype, .unifiedServiceType,
          .carBodyType, .carTransmissionType, .carFuelType, .carDriveTrainType,
          .mileageRange, .numberOfSeats:
             return false
@@ -60,7 +61,7 @@ extension FilterTag {
              .carSellerType, .make, .model, .yearsRange,
              .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType,
              .realEstateOfferType, .realEstateNumberOfRooms, .sizeSquareMetersRange, .serviceType, .serviceSubtype,
-             .carBodyType, .carTransmissionType, .carFuelType, .carDriveTrainType,
+             .unifiedServiceType, .carBodyType, .carTransmissionType, .carFuelType, .carDriveTrainType,
              .mileageRange, .numberOfSeats:
             return nil
         case .taxonomyChild(let taxonomyChild):
@@ -96,6 +97,7 @@ func ==(a: FilterTag, b: FilterTag) -> Bool {
     case (.realEstateNumberOfRooms(let idA), .realEstateNumberOfRooms(let idB)) where idA == idB: return true
     case (.sizeSquareMetersRange(let a, let b), .sizeSquareMetersRange(let c, let d)) where a == c && b == d: return true
     case (.serviceType(let a), .serviceType(let b)) where a.id == b.id: return true
+    case (.unifiedServiceType(let a, _), .unifiedServiceType(let b, _)) where a.id == b.id: return true
     case (.serviceSubtype(let a), .serviceSubtype(let b)) where a.id == b.id: return true
     case (.carBodyType(let a), .carBodyType(let b)) where a.value == b.value: return true
     case (.carFuelType(let a), .carFuelType(let b)) where a.value == b.value: return true

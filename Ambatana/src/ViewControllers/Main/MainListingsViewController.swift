@@ -131,7 +131,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         setupTagsView()
         setupSearchAndTrending()
         setFiltersNavBarButton()
-        setInviteNavBarButton()
+        setLeftNavBarButtons()
         setupRxBindings()
         setAccessibilityIds()
     }
@@ -429,6 +429,40 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
 
         navigationItem.setLeftBarButtonItems([invite, spacing], animated: false)
     }
+
+    private func setLeftNavBarButtons() {
+        if viewModel.shouldShowCommunityButton {
+            setCommunityButton()
+        } else if viewModel.shouldShowUserProfileButton {
+            setUserProfileButton()
+        } else {
+            setInviteNavBarButton()
+        }
+    }
+
+    private func setCommunityButton() {
+        let button = UIBarButtonItem(image: R.Asset.IconsButtons.tabbarCommunity.image,
+                                     style: .plain,
+                                     target: self,
+                                     action: #selector(didTapCommunity))
+        navigationItem.setLeftBarButton(button, animated: false)
+    }
+
+    private func setUserProfileButton() {
+        let button = UIBarButtonItem(image: R.Asset.IconsButtons.tabbarProfile.image,
+                                     style: .plain,
+                                     target: self,
+                                     action: #selector(didTapUserProfile))
+        navigationItem.setLeftBarButton(button, animated: false)
+    }
+
+    @objc private func didTapCommunity() {
+        viewModel.vmUserDidTapCommunity()
+    }
+
+    @objc private func didTapUserProfile() {
+        viewModel.vmUserDidTapUserProfile()
+    }
     
     @objc private func openInvite() {
         viewModel.vmUserDidTapInvite()
@@ -639,6 +673,10 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
         if shouldShowSearchAlertBanner {
             totalHeight += SearchAlertFeedHeader.viewHeight
         }
+        if viewModel.shouldShowCommunityBanner {
+            totalHeight += CommunityHeaderView.viewHeight
+        }
+
         return totalHeight
     }
 
@@ -653,7 +691,8 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
        
         if shouldShowCategoryCollectionBanner {
             categoriesHeader = CategoriesHeaderCollectionView()
-            categoriesHeader?.configure(with: viewModel.categoryHeaderElements, categoryHighlighted: viewModel.categoryHeaderHighlighted, isMostSearchedItemsEnabled: viewModel.isMostSearchedItemsEnabled)
+            categoriesHeader?.configure(with: viewModel.categoryHeaderElements,
+                                        categoryHighlighted: viewModel.categoryHeaderHighlighted)
             categoriesHeader?.delegateCategoryHeader = viewModel
             categoriesHeader?.categorySelected.asObservable().bind { [weak self] categoryHeaderInfo in
                 guard let category = categoryHeaderInfo else { return }
@@ -665,12 +704,18 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
                 header.addHeader(categoriesHeader, height: CategoriesHeaderCollectionView.viewHeight)
             }
         }
-        
+
         if shouldShowSearchAlertBanner, let searchAlertCreationData = viewModel.searchAlertCreationData.value {
             let searchAlertHeader = SearchAlertFeedHeader(searchAlertCreationData: searchAlertCreationData)
             searchAlertHeader.tag = 3
             searchAlertHeader.delegate = self
             header.addHeader(searchAlertHeader, height: SearchAlertFeedHeader.viewHeight)
+        }
+
+        if viewModel.shouldShowCommunityBanner {
+            let community = CommunityHeaderView()
+            community.delegate = self
+            header.addHeader(community, height: CommunityHeaderView.viewHeight)
         }
     }
 
@@ -795,6 +840,12 @@ extension MainListingsViewController: TrendingSearchViewDelegate {
         viewModel.searchText.value = text
         navbarSearch.searchTextField.text = text
         navBarSearchTextFieldDidUpdate(text: text)
+    }
+}
+
+extension MainListingsViewController: CommunityHeaderViewDelegate {
+    func didTapCommunityHeader() {
+        viewModel.vmUserDidTapCommunity()
     }
 }
 

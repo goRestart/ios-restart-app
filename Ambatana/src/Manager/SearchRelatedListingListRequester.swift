@@ -182,7 +182,7 @@ fileprivate extension SearchRelatedListingListRequester {
             }
         }
         
-        params.applyVerticalFilters(with: filters?.verticalFilters)
+        params.applyVerticalFilters(with: filters?.verticalFilters, featureFlags: featureFlags)
         
         return params
     }

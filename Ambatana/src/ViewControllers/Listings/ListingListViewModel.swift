@@ -21,7 +21,6 @@ protocol ListingListViewModelDataDelegate: class {
     func vmProcessReceivedListingPage(_ Listings: [ListingCellModel], page: UInt) -> [ListingCellModel]
     func vmDidSelectSellBanner(_ type: String)
     func vmDidSelectCollection(_ type: CollectionCellType)
-    func vmDidSelectMostSearchedItems()
 }
 
 struct ListingsRequesterResult {
@@ -497,9 +496,6 @@ final class ListingListViewModel: BaseViewModel {
                                         originFrame: originFrame)
         case .collectionCell(let type):
             dataDelegate?.vmDidSelectCollection(type)
-        case .mostSearchedItems:
-            dataDelegate?.vmDidSelectMostSearchedItems()
-            return
         case .emptyCell, .dfpAdvertisement, .mopubAdvertisement, .promo, .adxAdvertisement:
             return
         }
@@ -513,7 +509,7 @@ final class ListingListViewModel: BaseViewModel {
                 if let thumbnailURL = listing.thumbnail?.fileURL {
                     urls.append(thumbnailURL)
                 }
-            case .emptyCell, .collectionCell, .dfpAdvertisement, .mopubAdvertisement, .mostSearchedItems, .promo, .adxAdvertisement:
+            case .emptyCell, .collectionCell, .dfpAdvertisement, .mopubAdvertisement, .promo, .adxAdvertisement:
                 break
             }
         }
@@ -579,7 +575,7 @@ final class ListingListViewModel: BaseViewModel {
         switch item {
         case let .listingCell(listing):
             return listing
-        case .collectionCell, .emptyCell, .dfpAdvertisement, .mopubAdvertisement, .mostSearchedItems, .promo, .adxAdvertisement:
+        case .collectionCell, .emptyCell, .dfpAdvertisement, .mopubAdvertisement, .promo, .adxAdvertisement:
             return nil
         }
     }
@@ -589,7 +585,7 @@ final class ListingListViewModel: BaseViewModel {
             switch cellModel {
             case let .listingCell(listing):
                 return listing.objectId == listingId
-            case .collectionCell, .emptyCell, .dfpAdvertisement, .mopubAdvertisement, .mostSearchedItems, .promo, .adxAdvertisement:
+            case .collectionCell, .emptyCell, .dfpAdvertisement, .mopubAdvertisement, .promo, .adxAdvertisement:
                 return false
             }
         })
@@ -703,8 +699,6 @@ final class ListingListViewModel: BaseViewModel {
         case .adxAdvertisement(let adData):
             guard adData.adPosition == index else { return CGSize(width: cellWidth, height: 0) }
             size = CGSize(width: cellWidth, height: adData.bannerHeight)
-        case .mostSearchedItems:
-            return CGSize(width: cellWidth, height: MostSearchedItemsListingListCell.height)
         case .promo:
             return CGSize(width: cellWidth, height: PromoCellMetrics.height)
         }
@@ -745,7 +739,7 @@ final class ListingListViewModel: BaseViewModel {
             categories = data.categories
         case .adxAdvertisement(let data):
             categories = data.categories
-        case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems, .promo:
+        case .listingCell, .collectionCell, .emptyCell, .promo:
             break
         }
         return categories
@@ -767,7 +761,7 @@ final class ListingListViewModel: BaseViewModel {
                                                      bannerView: bannerView)
                 objects[position] = ListingCellModel.dfpAdvertisement(data: newAdData)
 
-        case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems, .mopubAdvertisement, .promo, .adxAdvertisement:
+        case .listingCell, .collectionCell, .emptyCell, .mopubAdvertisement, .promo, .adxAdvertisement:
             break
         }
     }
@@ -790,7 +784,7 @@ final class ListingListViewModel: BaseViewModel {
             objects[position] = ListingCellModel.mopubAdvertisement(data: newAdData)
             delegate?.vmReloadItemAtIndexPath(indexPath: IndexPath(row: position, section: 0))
             
-        case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems, .dfpAdvertisement, .promo, .adxAdvertisement:
+        case .listingCell, .collectionCell, .emptyCell, .dfpAdvertisement, .promo, .adxAdvertisement:
             break
         }
     }
@@ -804,7 +798,7 @@ final class ListingListViewModel: BaseViewModel {
                 let newAdData = updateAdvertisementAdxDataFor(data: data, nativeAd: nativeAd) else { return }
             objects[position] = ListingCellModel.adxAdvertisement(data: newAdData)
             delegate?.vmReloadItemAtIndexPath(indexPath: IndexPath(row: position, section: 0))
-        case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems, .dfpAdvertisement, .mopubAdvertisement, .promo:
+        case .listingCell, .collectionCell, .emptyCell, .dfpAdvertisement, .mopubAdvertisement, .promo:
             break
         }
     }
@@ -875,7 +869,7 @@ extension ListingListViewModel {
                                                   bannerView: bannerView)
                 objects[forPosition] = ListingCellModel.dfpAdvertisement(data: newAdData)
                 delegate?.vmReloadItemAtIndexPath(indexPath: IndexPath(item: forPosition, section: 0))
-        case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems, .mopubAdvertisement, .promo, .adxAdvertisement:
+        case .listingCell, .collectionCell, .emptyCell, .mopubAdvertisement, .promo, .adxAdvertisement:
             break
         }
     }

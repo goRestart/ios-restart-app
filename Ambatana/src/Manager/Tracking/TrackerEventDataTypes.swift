@@ -399,7 +399,6 @@ enum EventParameterName: String {
     case chatsDeleted         = "chats-deleted"
     case chatContainsEmoji    = "contain-emoji"
     case inactiveConversations = "inactive-conversations"
-    case mostSearchedButton   = "most-searched-button"
     case photoViewerNumberOfPhotos   = "number-photos"
     case abandonStep          = "abandon-step"
     case searchAlertSource    = "alert-source"
@@ -478,6 +477,7 @@ enum EventParameterLoginSourceValue: String {
     case directChat = "direct-chat"
     case directQuickAnswer = "direct-quick-answer"
     case chatProUser = "chat-pro-user"
+    case community = "community"
 }
 
 enum EventParameterProductItemType: String {
@@ -956,7 +956,6 @@ enum EventParameterTypePage: String {
     case inAppNotification = "in-app-notification"
     case filter = "filter"
     case realEstatePromo = "real-estate-promo"
-    case mostSearched = "most-searched"
     case filterBubble = "filter-bubble"
     case postingIconInfo = "posting-icon-information"
     case postingLearnMore = "posting-learn-more-button"
@@ -1237,6 +1236,7 @@ enum EventParameterBumpUpType: String {
     case free = "free"
     case paid = "paid"
     case retry = "retry"
+    case loading = "loading"
 
     init(bumpType: BumpUpType) {
         switch bumpType {
@@ -1246,6 +1246,8 @@ enum EventParameterBumpUpType: String {
             self = .paid
         case .restore:
             self = .retry
+        case .loading:
+            self = .loading
         }
     }
 }
@@ -1436,20 +1438,6 @@ enum EventParameterOptionSummary: String {
         case .year:
             self = .year
         }
-    }
-}
-
-enum EventParameterMostSearched: String {
-    case notApply                   = "N/A"
-    case tabBarCamera               = "tabbar-camera"
-    case trendingExpandableButton   = "trending-salchicha"
-    case postingTags                = "posting-tags"
-    case feedBubble                 = "feed-bubble"
-    case feedCard                   = "feed-card"
-    case userProfile                = "user-profile"
-    
-    static var allValues: [EventParameterMostSearched] {
-        return [.notApply, .tabBarCamera, .trendingExpandableButton, .postingTags, .feedBubble, .feedCard, .userProfile]
     }
 }
 

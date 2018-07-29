@@ -157,11 +157,7 @@ extension MainTabCoordinator: MainTabNavigator {
                  listingFilters: ListingFilters,
                  locationManager: LocationManager) {
         let viewModel = ListingsMapViewModel(navigator: self,
-                                             tracker: tracker,
-                                             myUserRepository: myUserRepository,
-                                             locationManager: locationManager,
-                                             currentFilters: listingFilters,
-                                             featureFlags: featureFlags)
+                                             currentFilters: listingFilters)
         let viewController = ListingsMapViewController(viewModel: viewModel)
         navigationController.pushViewController(viewController, animated: true)
     }
@@ -177,7 +173,33 @@ extension MainTabCoordinator: MainTabNavigator {
         navigationController.present(askNumVC, animated: true, completion: nil)
     }
 
-} 
+    func openPrivateUserProfile() {
+        openLoginIfNeeded(from: .profile, style: .fullScreen, loggedInAction: {
+            let coord = ProfileTabCoordinator(source: .mainListing)
+            self.openChild(coordinator: coord, parent: self.rootViewController, animated: true, forceCloseChild: true, completion: nil)
+        }, cancelAction: nil)
+    }
+
+    func openCommunity() {
+        guard featureFlags.community.isActive else { return }
+        if featureFlags.community.shouldShowOnTab {
+            openCommunityTab()
+        } else {
+            let coord = CommunityTabCoordinator(source: .navBar)
+            openChild(coordinator: coord, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
+        }
+    }
+
+    func openSearches() {
+        openChild(coordinator: SearchCoordinator(),
+                  parent: rootViewController,
+                  animated: true,
+                  forceCloseChild: true,
+                  completion: nil)
+    }
+}
+
+extension MainTabCoordinator: ListingsMapNavigator { }
 
 extension MainTabCoordinator: SearchAlertsListNavigator {
     func closeSearchAlertsList() {
@@ -189,4 +211,3 @@ extension MainTabCoordinator: SearchAlertsListNavigator {
         readyToSearch()
     }
 }
-

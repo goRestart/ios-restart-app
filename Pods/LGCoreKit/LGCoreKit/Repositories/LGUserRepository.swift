@@ -69,13 +69,13 @@ final class LGUserRepository: InternalUserRepository {
 
      - parameter completion: The completion closure
      */
-    func indexBlocked(_ completion: UsersCompletion?) {
+    func indexBlocked(limit: Int, offset: Int, completion: UsersCompletion?) {
         guard let userId = myUserRepository.myUser?.objectId else {
             completion?(UsersResult(error: .internalError(message: "Missing objectId in MyUser")))
             return
         }
 
-        dataSource.indexBlocked(userId) { result in
+        dataSource.indexBlocked(userId, limit: limit, offset: offset) { result in
             handleApiResult(result, completion: completion)
         }
     }

@@ -13,7 +13,6 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
     var openEditBioCalled: Bool = false
     var openUserReportCalled: Bool = false
     var openVerifyAccountsCalled: Bool = false
-    var openMostSearchedItemsCalled: Bool = false
     var openVerificationsViewCalled: Bool = false
     var showAlertCalled: Bool = false
     var showNativeShareCalled: Bool = false
@@ -76,7 +75,6 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
                 self.openEditBioCalled = false
                 self.openUserReportCalled = false
                 self.openVerifyAccountsCalled = false
-                self.openMostSearchedItemsCalled = false
                 self.showAlertCalled = false
                 self.showNativeShareCalled = false
                 self.openVerificationsViewCalled = false
@@ -218,15 +216,6 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
                     }
                 }
 
-                context("open most searched items") {
-                    beforeEach {
-                        sut.didTapMostSearchedItems()
-                    }
-                    it("calls navigator to open most searched items") {
-                        expect(self.openMostSearchedItemsCalled) == true
-                    }
-                }
-
                 context("open push permission alert") {
                     beforeEach {
                         sut.didTapPushPermissionsBanner()
@@ -295,15 +284,6 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
                     }
                 }
 
-                context("open most searched items") {
-                    beforeEach {
-                        sut.didTapMostSearchedItems()
-                    }
-                    it("calls navigator to open most searched items") {
-                        expect(self.openMostSearchedItemsCalled) == true
-                    }
-                }
-
                 context("open share") {
                     beforeEach {
                         sut.didTapShareButton()
@@ -345,11 +325,6 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
     override func openVerifyAccounts(_ types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?) {
         openVerifyAccountsCalled = true
     }
-
-    override func openMostSearchedItems(source: PostingSource, enableSearch: Bool) {
-        openMostSearchedItemsCalled = true
-    }
-
     override func openUserReport(source: EventParameterTypePage, userReportedId: String) {
         openUserReportCalled = true
     }
@@ -365,6 +340,8 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
     func vmShowNativeShare(_ socialMessage: SocialMessage) {
         showNativeShareCalled = true
     }
+
+    func closeProfile() {}
 
     func editListing(_ listing: Listing, pageType: EventParameterTypePage?) {}
 }

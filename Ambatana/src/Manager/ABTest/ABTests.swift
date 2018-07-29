@@ -146,6 +146,7 @@ extension ABTests {
     var emergencyLocate: LeanplumABVariable<Int> { return users.emergencyLocate }
     var offensiveReportAlert: LeanplumABVariable<Int> { return users.offensiveReportAlert }
     var reportingFostaSesta: LeanplumABVariable<Int> { return users.reportingFostaSesta }
+    var community: LeanplumABVariable<Int> { return users.community }
 }
 
 //  MARK: Core
@@ -187,6 +188,7 @@ extension ABTests {
     var fullScreenAdsWhenBrowsingForUS: LeanplumABVariable<Int> { return money.fullScreenAdsWhenBrowsingForUS }
     var preventMessagesFromFeedToProUsers: LeanplumABVariable<Int> { return money.preventMessagesFromFeedToProUsers }
     var appInstallAdsInFeed: LeanplumABVariable<Int> { return money.appInstallAdsInFeed }
+    var alwaysShowBumpBannerWithLoading: LeanplumABVariable<Int> { return money.alwaysShowBumpBannerWithLoading }
 }
 
 //  MARK: Retention
@@ -211,10 +213,10 @@ extension ABTests {
 //  MARK: Verticals
 
 extension ABTests {
-    var realEstateMap: LeanplumABVariable<Int> { return verticals.realEstateMap }
     var showServicesFeatures: LeanplumABVariable<Int> { return verticals.showServicesFeatures }
     var carExtraFieldsEnabled: LeanplumABVariable<Int> { return verticals.carExtraFieldsEnabled }
     var realEstateMapTooltip: LeanplumABVariable<Int> { return verticals.realEstateMapTooltip }
+    var servicesUnifiedFilterScreen: LeanplumABVariable<Int> { return verticals.servicesUnifiedFilterScreen }
 }
 
 //  MARK: Products
@@ -246,6 +248,5 @@ extension ABTests {
     var deckItemPage: LeanplumABVariable<Int> { return legacy.newItemPage }
     var taxonomiesAndTaxonomyChildrenInFeed: LeanplumABVariable<Int> { return legacy.taxonomiesAndTaxonomyChildrenInFeed }
     var showClockInDirectAnswer: LeanplumABVariable<Int> { return legacy.showClockInDirectAnswer }
-    var mostSearchedDemandedItems: LeanplumABVariable<Int> { return legacy.mostSearchedDemandedItems }
     var showAdsInFeedWithRatio: LeanplumABVariable<Int> { return legacy.showAdsInFeedWithRatio }
 }

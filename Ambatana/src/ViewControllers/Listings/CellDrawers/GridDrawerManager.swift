@@ -25,7 +25,6 @@ class GridDrawerManager {
     private let advertisementDFPDrawer = AdvertisementDFPCellDrawer()
     private let advertisementMoPubDrawer = AdvertisementMoPubCellDrawer()
     private let advertisementAdxDrawer = AdvertisementAdxCellDrawer()
-    private let mostSearchedItemsDrawer = MostSearchedItemsCellDrawer()
     private let showFeaturedStripeHelper = ShowFeaturedStripeHelper(featureFlags: FeatureFlags.sharedInstance,
                                                                     myUserRepository: Core.myUserRepository)
     private let promoDrawer = PromoCellDrawer()
@@ -45,7 +44,6 @@ class GridDrawerManager {
         AdvertisementDFPCellDrawer.registerClassCell(collectionView)
         AdvertisementMoPubCellDrawer.registerClassCell(collectionView)
         AdvertisementAdxCellDrawer.registerClassCell(collectionView)
-        MostSearchedItemsCellDrawer.registerClassCell(collectionView)
         PromoCellDrawer.registerClassCell(collectionView)
     }
     
@@ -63,8 +61,6 @@ class GridDrawerManager {
             return advertisementMoPubDrawer.cell(collectionView, atIndexPath: atIndexPath)
         case .adxAdvertisement:
             return advertisementAdxDrawer.cell(collectionView, atIndexPath: atIndexPath)
-        case .mostSearchedItems:
-            return mostSearchedItemsDrawer.cell(collectionView, atIndexPath: atIndexPath)
         case .promo:
             return promoDrawer.cell(collectionView, atIndexPath: atIndexPath)
         }
@@ -149,9 +145,6 @@ class GridDrawerManager {
         case .adxAdvertisement(let adData):
             guard let cell = cell as? AdvertisementCell else { return }
             return advertisementAdxDrawer.draw(adData, style: cellStyle, inCell: cell)
-        case .mostSearchedItems(let data):
-            guard let cell = cell as? MostSearchedItemsListingListCell else { return }
-            return mostSearchedItemsDrawer.draw(data, style: cellStyle, inCell: cell)
         case .promo(let data, let delegate):
             guard let cell = cell as? PromoCell else { return }
             cell.delegate = delegate

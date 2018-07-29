@@ -15,6 +15,7 @@
 "bump_up_banner_boost_text" = "Đẩy thêm!";
 "bump_up_banner_free_button_title" = "Đẩy lên";
 "bump_up_banner_free_text" = "Đẩy lên miễn phí để bán nhanh hơn";
+"bump_up_banner_loading_text" = "Đang tải thêm thông tin…";
 "bump_up_banner_pay_text" = "Bán nhanh hơn";
 "bump_up_banner_pay_text_improvement" = "Bán nhanh hơn bây giờ";
 "bump_up_banner_pay_text_improvement_english_a" = "Bán nhanh hơn";
@@ -296,7 +297,7 @@
 "common_user_not_available" = "Ồ! Không tìm thấy người dùng.";
 "common_user_review_not_available" = "Ồ! Không tìm thấy đánh giá.";
 "common_yes" = "Có";
-"community_banner_title" = "Join the letgo community!";
+"community_banner_title" = "Tham gia cộng đồng letgo!";
 "contact_subject_option_location" = "Vấn đề về địa điểm";
 "contact_subject_option_login" = "Truy cập đăng nhập";
 "contact_subject_option_other" = "Vấn đề khác";
@@ -385,7 +386,7 @@
 "filters_car_seller_type_private" = "Riêng tư";
 "filters_car_seller_type_professional" = "Chuyên nghiệp";
 "filters_car_year_any_year" = "Mọi Năm";
-"filters_car_year_before_year" = "Before %@";
+"filters_car_year_before_year" = "Trước %@";
 "filters_cars_bodytype_convertible" = "Mui trần";
 "filters_cars_bodytype_coupe" = "coupe";
 "filters_cars_bodytype_hatchback" = "Hatchback";
@@ -439,6 +440,8 @@
 "filters_section_within" = "Được đăng trong vòng";
 "filters_service_subtype_not_set" = "Chưa Cài Đặt";
 "filters_service_type_not_set" = "Chưa Cài Đặt";
+"filters_services_services_list_max_selection_alert" = "Oops! You can't select more than 15 services.";
+"filters_services_services_list_search_placeholder" = "Người giúp việc, Làm hợp đồng…";
 "filters_services_services_list_title" = "Chọn một mục";
 "filters_size_wrong_range_error" = "Diện tích tối thiểu không thể lớn hơn diện tích tối đa.";
 "filters_slider_any" = "Bất kỳ";

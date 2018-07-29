@@ -6,7 +6,14 @@ final class LGPickerSearchBar: UISearchBar {
     init(withStyle style: CategoryDetailStyle) {
         super.init(frame: CGRect.zero)
         setupStyling(forStyle: style)
-        setupTextField(forStyle: style)
+        setupTextField(forStyle: style, clearButtonMode: .never)
+    }
+    
+    init(withStyle style: CategoryDetailStyle,
+         clearButtonMode: UITextFieldViewMode) {
+        super.init(frame: CGRect.zero)
+        setupStyling(forStyle: style)
+        setupTextField(forStyle: style, clearButtonMode: clearButtonMode)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -28,10 +35,10 @@ final class LGPickerSearchBar: UISearchBar {
         searchTextPositionAdjustment = UIOffsetMake(10, 0)
     }
     
-    private func setupTextField(forStyle style: CategoryDetailStyle) {
+    private func setupTextField(forStyle style: CategoryDetailStyle, clearButtonMode: UITextFieldViewMode) {
         if let textField: UITextField = firstSubview(ofType: UITextField.self) {
             textField.font = UIFont.bigBodyFont
-            textField.clearButtonMode = .never
+            textField.clearButtonMode = clearButtonMode
             textField.backgroundColor = .clear
             textField.textColor = style.searchTextColor
             textField.attributedPlaceholder =

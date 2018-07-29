@@ -98,7 +98,7 @@ final class ListingCarouselMoreInfoView: UIView {
     
     private let attributeGridView = ListingCarouselMoreInfoViewAttributeGridView(frame: .zero)
     
-    private var tagCollectionViewModel = TagCollectionViewModel(tags: [], cellStyle: .blackBackground)
+    private var tagCollectionViewModel = TagCollectionViewModel(cellStyle: .blackBackground)
     private lazy var tagCollectionView: TagCollectionView = {
         let tagCollectionView = TagCollectionView(viewModel: tagCollectionViewModel, flowLayout: .leftAligned)
         tagCollectionView.register(type: TagCollectionViewCell.self)

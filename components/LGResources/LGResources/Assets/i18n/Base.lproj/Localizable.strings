@@ -67,6 +67,9 @@
 // Title for bubble button
 "bump_up_banner_free_button_title" = "Bump Up";
 
+// Text for the loading bump up banner
+"bump_up_banner_loading_text" = "Loading more info…";
+
 // Free bump up success message
 "bump_up_free_success" = "Bumped Up! Keep Bumping Up your listing and it'll be even more visible.";
 
@@ -1348,6 +1351,12 @@
 // Title for filters services list
 "filters_services_services_list_title" = "Select a Category";
 
+// Placeholder text shown inside the Search Box to filter the service types
+"filters_services_services_list_search_placeholder" = "Handyman, Contracting…";
+
+// Alert to display to user that the max amount of services have already been selected
+"filters_services_services_list_max_selection_alert" = "Oops! You can't select more than 15 services.";
+
 // Unit suffix for miles (e.g. the mi in "400,000 mi")
 "mile_unit_suffix" = "mi";
 
@@ -1700,7 +1709,7 @@
 "meeting_creation_view_suggest_cell_selected" = "Selected";
 
 // custom location cell title
-"meeting_creation_view_search_cell_title" = "Search another location";
+"meeting_creation_view_search_cell_title" = "Search for another location";
 
 // custom location cell button text
 "meeting_creation_view_search_cell_search" = "Search";
@@ -3760,6 +3769,9 @@
 
 // text for error alert button when max search alerts reached
 "search_alert_error_too_many_button_text" = "Manage notifications";
+
+// Alert message when enabled a new search alert but the limit has been reached
+"search_alerts_disabled_oldest_message" = "You’ve reached the max number of search alerts, so we’ve turned your oldest one off and activated this one.";
 
 // text shown in feed search bar
 "search_letgo" = "Search letgo";

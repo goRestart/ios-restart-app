@@ -15,6 +15,7 @@
 "bump_up_banner_boost_text" = "Add an extra boost!";
 "bump_up_banner_free_button_title" = "Bump Up";
 "bump_up_banner_free_text" = "Bump Up for free to sell faster";
+"bump_up_banner_loading_text" = "Loading more info…";
 "bump_up_banner_pay_text" = "Sell faster now";
 "bump_up_banner_pay_text_improvement" = "Sell faster now";
 "bump_up_banner_pay_text_improvement_english_a" = "Sell faster now";
@@ -439,6 +440,8 @@
 "filters_section_within" = "Posted within";
 "filters_service_subtype_not_set" = "Not Set";
 "filters_service_type_not_set" = "Not Set";
+"filters_services_services_list_max_selection_alert" = "Oops! You can't select more than 15 services.";
+"filters_services_services_list_search_placeholder" = "Handyman, Contracting…";
 "filters_services_services_list_title" = "Select a Category";
 "filters_size_wrong_range_error" = "The minimum size can’t be higher than the maximum size.";
 "filters_slider_any" = "Any";
@@ -551,7 +554,7 @@
 "meeting_creation_view_date_time" = "DATE & TIME";
 "meeting_creation_view_place" = "PLACE";
 "meeting_creation_view_search_cell_search" = "Search";
-"meeting_creation_view_search_cell_title" = "Search another location";
+"meeting_creation_view_search_cell_title" = "Search for another location";
 "meeting_creation_view_select_date_time" = "Select date and time";
 "meeting_creation_view_select_location" = "Select a location";
 "meeting_creation_view_send_button" = "Send meeting";

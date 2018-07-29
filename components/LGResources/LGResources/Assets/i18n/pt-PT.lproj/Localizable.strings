@@ -15,6 +15,7 @@
 "bump_up_banner_boost_text" = "Dê-lhe um impulso extra!";
 "bump_up_banner_free_button_title" = "Priorizar";
 "bump_up_banner_free_text" = "Dê prioridade gratuitamente para vender mais rápido";
+"bump_up_banner_loading_text" = "A carregar mais informações…";
 "bump_up_banner_pay_text" = "Venda mais rápido";
 "bump_up_banner_pay_text_improvement" = "Vender mais rápido agora";
 "bump_up_banner_pay_text_improvement_english_a" = "Venda mais rápido";
@@ -296,7 +297,7 @@
 "common_user_not_available" = "Ops! Utilizador não encontrado.";
 "common_user_review_not_available" = "Ups! Comentário não encontrado.";
 "common_yes" = "Sim";
-"community_banner_title" = "Join the letgo community!";
+"community_banner_title" = "Junte-se à comunidade letgo!";
 "contact_subject_option_location" = "Problemas com a localização";
 "contact_subject_option_login" = "Acesso login";
 "contact_subject_option_other" = "Outros problemas";
@@ -385,7 +386,7 @@
 "filters_car_seller_type_private" = "Privado";
 "filters_car_seller_type_professional" = "Profissional";
 "filters_car_year_any_year" = "Qualquer Ano";
-"filters_car_year_before_year" = "Before %@";
+"filters_car_year_before_year" = "Anterior a %@";
 "filters_cars_bodytype_convertible" = "Conversível";
 "filters_cars_bodytype_coupe" = "coupé";
 "filters_cars_bodytype_hatchback" = "Porta traseira";
@@ -439,6 +440,8 @@
 "filters_section_within" = "Publicado dentro de";
 "filters_service_subtype_not_set" = "Não Definido";
 "filters_service_type_not_set" = "Não Definido";
+"filters_services_services_list_max_selection_alert" = "Ups! Não pode escolher mais do que 15 serviços.";
+"filters_services_services_list_search_placeholder" = "Faz-tudo, contratante…";
 "filters_services_services_list_title" = "Selecionar categoria";
 "filters_size_wrong_range_error" = "O tamanho mínimo não pode ser maior que o tamanho máximo";
 "filters_slider_any" = "Qualquer";
