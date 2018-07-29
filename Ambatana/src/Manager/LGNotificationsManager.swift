@@ -184,12 +184,7 @@ class LGNotificationsManager: NotificationsManager {
             self?.unreadNotificationsCount.value = notificationCounts
         }
     }
-    
-    private func requestNewSellFeatureIndicators() {
-        guard shouldShowNewSellFeatureIndicator else { return }
-        newSellFeatureIndicator.value = LGNotificationsManager.newSellFeatureIndicatorValue
-    }
-    
+        
     func updateEngagementBadgingNotifications() {
         guard let lastSessionDate = keyValueStorage[.lastSessionDate] else { return }
         let previousSessionLongerThan1Hour = Date().timeIntervalSince(lastSessionDate) > TimeInterval.make(hours: 1)
