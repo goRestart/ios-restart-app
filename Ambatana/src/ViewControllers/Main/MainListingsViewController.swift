@@ -702,8 +702,8 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
                 header.addHeader(categoriesHeader, height: CategoriesHeaderCollectionView.viewHeight)
             }
         }
-
-        if shouldShowSearchAlertBanner, let searchAlertCreationData = viewModel.searchAlertCreationData.value {
+        
+        if shouldShowSearchAlertBanner, let searchAlertCreationData = viewModel.currentSearchAlertCreationData.value {
             let searchAlertHeader = SearchAlertFeedHeader(searchAlertCreationData: searchAlertCreationData)
             searchAlertHeader.tag = 3
             searchAlertHeader.delegate = self
@@ -742,7 +742,7 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
     }
 
     func searchAlertFeedHeaderDidEnableSearchAlert(fromEnabled: Bool) {
-        viewModel.triggerSearchAlert(fromEnabled: fromEnabled)
+        viewModel.triggerCurrentSearchAlert(fromEnabled: fromEnabled)
     }
 }
 

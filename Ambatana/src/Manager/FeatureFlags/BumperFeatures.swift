@@ -81,6 +81,7 @@ extension Bumper  {
         flags.append(ShowCommunity.self)
         flags.append(ExpressChatImprovement.self)
         flags.append(AlwaysShowBumpBannerWithLoading.self)
+        flags.append(SearchAlertsDisableOldestIfMaximumReached.self)
         Bumper.initialize(flags)
     } 
 
@@ -925,6 +926,19 @@ extension Bumper  {
     static var alwaysShowBumpBannerWithLoadingObservable: Observable<AlwaysShowBumpBannerWithLoading> {
         return Bumper.observeValue(for: AlwaysShowBumpBannerWithLoading.key).map {
             AlwaysShowBumpBannerWithLoading(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var searchAlertsDisableOldestIfMaximumReached: SearchAlertsDisableOldestIfMaximumReached {
+        guard let value = Bumper.value(for: SearchAlertsDisableOldestIfMaximumReached.key) else { return .control }
+        return SearchAlertsDisableOldestIfMaximumReached(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var searchAlertsDisableOldestIfMaximumReachedObservable: Observable<SearchAlertsDisableOldestIfMaximumReached> {
+        return Bumper.observeValue(for: SearchAlertsDisableOldestIfMaximumReached.key).map {
+            SearchAlertsDisableOldestIfMaximumReached(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1945,3 +1959,19 @@ enum AlwaysShowBumpBannerWithLoading: String, BumperFeature  {
         }
     }
 }
+enum SearchAlertsDisableOldestIfMaximumReached: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return SearchAlertsDisableOldestIfMaximumReached.control.rawValue }
+    static var enumValues: [SearchAlertsDisableOldestIfMaximumReached] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[RETENTION] Disable oldest search alert if a new one is created and the maximum has been reached" } 
+    static func fromPosition(_ position: Int) -> SearchAlertsDisableOldestIfMaximumReached {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+

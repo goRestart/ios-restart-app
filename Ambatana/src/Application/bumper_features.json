@@ -324,5 +324,10 @@
         "name": "AlwaysShowBumpBannerWithLoading",
         "values": ["control", "baseline", "active"],
         "description": "[MONEY] Always show bump banner with a loading till we get the info"
+    },
+    {
+        "name": "SearchAlertsDisableOldestIfMaximumReached",
+        "values": ["control", "baseline", "active"],
+        "description": "[RETENTION] Disable oldest search alert if a new one is created and the maximum has been reached"
     }
  ]
