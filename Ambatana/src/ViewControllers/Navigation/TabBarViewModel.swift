@@ -69,12 +69,6 @@ class TabBarViewModel: BaseViewModel {
         navigator?.openSell(source: source, postCategory: postCategory, listingTitle: nil)
     }
     
-    func tagPressed(mostSearchedItem: LocalMostSearchedItem) {
-        navigator?.openSell(source: .mostSearchedTagsExpandable,
-                            postCategory: mostSearchedItem.category,
-                            listingTitle: mostSearchedItem.name)
-    }
-    
     func realEstateTooltipText() -> NSMutableAttributedString {
         var newTextAttributes = [NSAttributedStringKey : Any]()
         newTextAttributes[.foregroundColor] = UIColor.primaryColor
