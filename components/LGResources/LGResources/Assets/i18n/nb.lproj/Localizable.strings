@@ -1242,6 +1242,7 @@
 "search_alert_enable_error_message" = "Oops! En feil oppstod ved aktivering av din søkevarsling.";
 "search_alert_error_too_many_button_text" = "Behandle varslinger";
 "search_alert_error_too_many_text" = "Oops! Du har nådd dine maksimale antall søkevarslinger";
+"search_alerts_disabled_oldest_message" = "Du har nådd maks antall søkevarslinger, så vi har deaktivert det eldste søket og aktivert dette.";
 "search_alerts_edit_button" = "Endre";
 "search_alerts_header_subtitle" = "Få varslinger om nye annonser";
 "search_alerts_list_title" = "Søkevarslinger";

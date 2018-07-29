@@ -1242,6 +1242,7 @@
 "search_alert_enable_error_message" = "Όπα! Παρουσιάστηκε σφάλμα κατά την ενεργοποίηση της ειδοποίησης αναζήτησης.";
 "search_alert_error_too_many_button_text" = "Διαχείριση Γνωστοποιήσεων";
 "search_alert_error_too_many_text" = "Όπα! Φτάσατε στο όριο του μέγιστου αριθμού ειδοποιήσεων αναζήτησης.";
+"search_alerts_disabled_oldest_message" = "Φτάσατε το μέγιστο αριθμό ειδοποιήσεων αναζήτησης, γι' αυτό και απενεργοποιήσαμε τις παλαιότερες ειδοποιήσεις και ενεργοποιήσαμε αυτήν.";
 "search_alerts_edit_button" = "Επεξεργασία";
 "search_alerts_header_subtitle" = "Λάβετε ειδοποιήσεις για νέες καταχωρήσεις";
 "search_alerts_list_title" = "Αναζήτηση Ειδοποιήσεων";

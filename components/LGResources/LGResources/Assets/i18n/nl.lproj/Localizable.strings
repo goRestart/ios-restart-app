@@ -1242,6 +1242,7 @@
 "search_alert_enable_error_message" = "Oeps! Er is een fout opgetreden tijdens het activeren van jouw zoekmelding";
 "search_alert_error_too_many_button_text" = "Meldingen beheren";
 "search_alert_error_too_many_text" = "Oeps! Je hebt het maximale aantal zoekmeldingen bereikt";
+"search_alerts_disabled_oldest_message" = "You’ve reached the max number of search alerts, so we’ve turned your oldest one off and activated this one.";
 "search_alerts_edit_button" = "Bewerken";
 "search_alerts_header_subtitle" = "Ontvang meldingen over nieuwe advertenties";
 "search_alerts_list_title" = "Zoekmeldingen";

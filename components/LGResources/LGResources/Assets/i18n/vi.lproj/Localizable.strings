@@ -440,7 +440,7 @@
 "filters_section_within" = "Được đăng trong vòng";
 "filters_service_subtype_not_set" = "Chưa Cài Đặt";
 "filters_service_type_not_set" = "Chưa Cài Đặt";
-"filters_services_services_list_max_selection_alert" = "Oops! You can't select more than 15 services.";
+"filters_services_services_list_max_selection_alert" = "Ồ! Bạn không thể chọn hơn 15 dịch vụ.";
 "filters_services_services_list_search_placeholder" = "Người giúp việc, Làm hợp đồng…";
 "filters_services_services_list_title" = "Chọn một mục";
 "filters_size_wrong_range_error" = "Diện tích tối thiểu không thể lớn hơn diện tích tối đa.";
@@ -1242,6 +1242,7 @@
 "search_alert_enable_error_message" = "Ồ! Có lỗi xảy ra trong khi kích hoạt thông báo tìm kiếm của bạn.";
 "search_alert_error_too_many_button_text" = "Quản lý Thông báo";
 "search_alert_error_too_many_text" = "Ồ! Bạn đã đạt tối đa số lượng thông báo tìm kiếm";
+"search_alerts_disabled_oldest_message" = "You’ve reached the max number of search alerts, so we’ve turned your oldest one off and activated this one.";
 "search_alerts_edit_button" = "Chỉnh sửa";
 "search_alerts_header_subtitle" = "Nhận thông báo về bài đăng mới";
 "search_alerts_list_title" = "Thông báo Tìm kiếm";

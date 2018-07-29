@@ -1242,6 +1242,7 @@
 "search_alert_enable_error_message" = "Ups! Surgiu um erro ao ativar o seu alerta de pesquisa";
 "search_alert_error_too_many_button_text" = "Gerir notificações";
 "search_alert_error_too_many_text" = "Ups! Alcançou o número máximo de alertas de pesquisa";
+"search_alerts_disabled_oldest_message" = "You’ve reached the max number of search alerts, so we’ve turned your oldest one off and activated this one.";
 "search_alerts_edit_button" = "Editar";
 "search_alerts_header_subtitle" = "Obtenha notificações sobre novas publicações";
 "search_alerts_list_title" = "Pesquisar alertas";

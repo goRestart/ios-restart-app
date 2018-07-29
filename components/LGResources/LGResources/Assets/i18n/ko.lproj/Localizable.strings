@@ -1242,6 +1242,7 @@
 "search_alert_enable_error_message" = "이런! 검색 알림을 활성화 하는 동안 오류가 발생했습니다.";
 "search_alert_error_too_many_button_text" = "알림 설정";
 "search_alert_error_too_many_text" = "이런! 회원님께서는 검색알림을 받을 수 있는 최대치에 도달하셨습니다";
+"search_alerts_disabled_oldest_message" = "You’ve reached the max number of search alerts, so we’ve turned your oldest one off and activated this one.";
 "search_alerts_edit_button" = "수정";
 "search_alerts_header_subtitle" = "새로운 게시글 알림 받기";
 "search_alerts_list_title" = "검색 알림";

@@ -1242,6 +1242,7 @@
 "search_alert_enable_error_message" = "Oops! Arama alarmına izin verilirken bir hata oluştu.";
 "search_alert_error_too_many_button_text" = "Bildirimleri Yönet";
 "search_alert_error_too_many_text" = "Oops! Maksimum arama uyarısı sayısına ulaştın";
+"search_alerts_disabled_oldest_message" = "You’ve reached the max number of search alerts, so we’ve turned your oldest one off and activated this one.";
 "search_alerts_edit_button" = "Düzelt";
 "search_alerts_header_subtitle" = "Yeni ilanlarla ilgili bildirim al";
 "search_alerts_list_title" = "Arama Uyarıları";
