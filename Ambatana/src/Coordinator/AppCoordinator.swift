@@ -834,7 +834,7 @@ fileprivate extension AppCoordinator {
 
 // MARK: - CustomLeanplumPresenter
 
-extension AppCoordinator: CustomLeanplumPresenter {
+extension AppCoordinator: CustomLeanplumPresenter, LPMessageNavigator {
 
     func setupLeanplumPopUp() {
         Leanplum.customLeanplumAlert(self)
@@ -844,6 +844,15 @@ extension AppCoordinator: CustomLeanplumPresenter {
         let alertIcon = UIImage(contentsOfFile: image)
         guard let alert = LGAlertViewController(title: title, text: text, alertType: .iconAlert(icon: alertIcon), actions: [action]) else { return }
         tabBarCtl.present(alert, animated: true, completion: nil)
+    }
+
+    func showLPMessageAlert(_ message: LPMessage) {
+        let coordinator = LeanplumCoordinator(leanplumMessage: message)
+        openChild(coordinator: coordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
+    }
+
+    func closeLPMessage() {
+        child?.closeCoordinator(animated: true, completion: nil)
     }
 }
 

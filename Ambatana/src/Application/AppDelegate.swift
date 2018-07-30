@@ -100,7 +100,7 @@ extension AppDelegate: UIApplicationDelegate {
                                                                    didFinishLaunchingWithOptions: launchOptions) ?? false
 
         appCoordinator.open()
-        
+
         return deepLinksRouterContinuation || fbSdkContinuation
     }
 
