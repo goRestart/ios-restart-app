@@ -1615,7 +1615,18 @@ struct TrackerEvent {
         let dynamicParams = TrackerEvent.makeDynamicEventParameters(dynamicParameters: dynamicParameters)
         return TrackerEvent(name: .emailNotificationsEditStart, params: dynamicParams)
     }
+
+    static func openCommunityFromProductList(showingBanner: Bool, bannerType: EventBannerType) -> TrackerEvent {
+        var params = EventParameters()
+        params[.showingBanner] = EventParameterBoolean(bool: showingBanner)
+        params[.bannerType] = bannerType.rawValue
+        return TrackerEvent(name: .openCommunity, params: params)
+    }
     
+    static func openCommunityFromTabBar() -> TrackerEvent {
+        return TrackerEvent(name: .openCommunity, params: nil)
+    }
+
     static private func makeDynamicEventParameters(dynamicParameters: [String: Bool]) -> EventParameters {
         var dynamicParams = EventParameters()
         let parameterEnabledAddition = "-enabled"

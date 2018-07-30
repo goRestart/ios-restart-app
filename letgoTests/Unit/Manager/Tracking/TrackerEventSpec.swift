@@ -5720,6 +5720,30 @@ class TrackerEventSpec: QuickSpec {
                     }
                 }
             }
+            describe("Open Community") {
+                describe("From product list") {
+                    beforeEach {
+                        sut = TrackerEvent.openCommunityFromProductList(showingBanner: true, bannerType: .joinCommunity)
+                    }
+                    it("event name is open-community") {
+                        expect(sut.name.rawValue) == "open-community"
+                    }
+                    it("contains showing-banner as true") {
+                        expect(sut.params!.stringKeyParams["showing-banner"] as? Bool) == true
+                    }
+                    it("contains bannery-type as join-community") {
+                        expect(sut.params!.stringKeyParams["banner-type"] as? String) == "join-community"
+                    }
+                }
+                describe("From tab bar") {
+                    beforeEach {
+                        sut = TrackerEvent.openCommunityFromTabBar()
+                    }
+                    it("event name is open-community") {
+                        expect(sut.name.rawValue) == "open-community"
+                    }
+                }
+            }
         }
     }
 }
