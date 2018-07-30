@@ -212,3 +212,5 @@ final class ReportSentViewController: BaseViewController {
         viewModel.didTapReview()
     }
 }
+
+extension ReportSentViewController: ReportSentViewModelDelegate { }
