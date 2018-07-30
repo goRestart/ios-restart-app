@@ -230,7 +230,7 @@ extension UserProfileViewModel {
     
     func didTapKarmaScoreView() {
         guard isPrivateProfile else { return }
-        profileNavigator?.openVerificationView()
+        profileNavigator?.openUserVerificationView()
         trackVerifyAccountStart()
     }
 

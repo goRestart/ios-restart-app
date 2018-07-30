@@ -66,14 +66,6 @@ extension ProfileTabCoordinator: ProfileTabNavigator {
                                                maxCountdown: 0)
         openChild(coordinator: navigator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
     }
-
-    func openVerificationView() {
-        let vm = UserVerificationViewModel()
-        vm.navigator = self
-        let vc = UserVerificationViewController(viewModel: vm)
-        navigationController.pushViewController(vc, animated: true)
-    }
-
     func closeProfile() {
         dismissViewController(animated: true, completion: nil)
     }

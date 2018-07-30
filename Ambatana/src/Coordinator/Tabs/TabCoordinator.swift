@@ -34,6 +34,8 @@ class TabCoordinator: NSObject, Coordinator {
     let featureFlags: FeatureFlaggeable
     let disposeBag = DisposeBag()
 
+    private lazy var verificationAssembly: UserVerificationAssembly = LGUserVerificationBuilder.standard(nav: self.navigationController)
+
     weak var tabCoordinatorDelegate: TabCoordinatorDelegate?
     weak var appNavigator: AppNavigator?
 
@@ -157,9 +159,7 @@ extension TabCoordinator: TabNavigator {
     }
 
     func openUserVerificationView() {
-        let vm = UserVerificationViewModel()
-        vm.navigator = self
-        let vc = UserVerificationViewController(viewModel: vm)
+        let vc = verificationAssembly.buildUserVerification()
         navigationController.pushViewController(vc, animated: true)
     }
 
@@ -266,66 +266,10 @@ fileprivate extension TabCoordinator {
     }
 }
 
-extension TabCoordinator: UserVerificationNavigator {
-    func closeUserVerification() {
-        let router = UserVerificationRouter(navigationController: navigationController)
-        router.closeUserVerification()
-    }
-
-    func openEmailVerification() {
-        let router = UserVerificationRouter(navigationController: navigationController)
-        router.openEmailVerification(verifyUserNavigator: self)
-    }
-
+extension TabCoordinator {
     func openEditUserBio() {
         let router = UserVerificationRouter(navigationController: navigationController)
-        router.openEditUserBio(navigator: self)
-    }
-
-    func openPhoneNumberVerification() {
-        let router = UserVerificationRouter(navigationController: navigationController)
-        router.openPhoneNumberVerification(navigator: self)
-    }
-}
-
-extension TabCoordinator: EditUserBioNavigator {
-    func closeEditUserBio() {
-        navigationController.popViewController(animated: true)
-    }
-}
-
-extension TabCoordinator: VerifyUserEmailNavigator {
-    func closeEmailVerification() {
-        navigationController.popViewController(animated: true)
-    }
-}
-
-extension TabCoordinator: UserPhoneVerificationNavigator {
-    func openCountrySelector(withDelegate delegate: UserPhoneVerificationCountryPickerDelegate) {
-        let vm = UserPhoneVerificationCountryPickerViewModel()
-        vm.navigator = self
-        vm.delegate = delegate
-        let vc = UserPhoneVerificationCountryPickerViewController(viewModel: vm)
-        navigationController.pushViewController(vc, animated: true)
-    }
-
-    func closeCountrySelector() {
-        navigationController.popViewController(animated: true)
-    }
-
-    func openCodeInput(sentTo phoneNumber: String, with callingCode: String) {
-        let vm = UserPhoneVerificationCodeInputViewModel(callingCode: callingCode,
-                                                         phoneNumber: phoneNumber)
-        vm.navigator = self
-        let vc = UserPhoneVerificationCodeInputViewController(viewModel: vm)
-        vm.delegate = vc
-        navigationController.pushViewController(vc, animated: true)
-    }
-
-    func closePhoneVerificaction() {
-        guard let vc = navigationController.viewControllers
-            .filter({ $0 is UserVerificationViewController }).first else { return }
-        navigationController.popToViewController(vc, animated: true)
+        router.openEditUserBio()
     }
 }
 

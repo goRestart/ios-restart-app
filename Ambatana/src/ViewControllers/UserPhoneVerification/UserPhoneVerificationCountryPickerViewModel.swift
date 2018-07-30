@@ -9,7 +9,7 @@ protocol UserPhoneVerificationCountryPickerDelegate: class {
 
 final class UserPhoneVerificationCountryPickerViewModel: BaseViewModel {
 
-    weak var navigator: UserPhoneVerificationNavigator?
+    var navigator: UserPhoneVerificationNavigator?
     weak var delegate: UserPhoneVerificationCountryPickerDelegate?
 
     private let countryHelper: CountryHelper
