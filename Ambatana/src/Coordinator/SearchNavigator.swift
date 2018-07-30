@@ -125,7 +125,8 @@ extension SearchCoordinator: ListingsMapNavigator {
 
 extension SearchCoordinator: FiltersNavigator {
     func openServicesDropdown(viewModel: DropdownViewModel) {
-        // TODO: Not implemented yet
+        let vc = DropdownViewController(withViewModel: viewModel)
+        navigationController.pushViewController(vc, animated: true)
     }
 
     func openEditLocation(withViewModel viewModel: EditLocationViewModel) {
