@@ -525,16 +525,6 @@ extension TabCoordinator: ListingDetailNavigator {
     }
 }
 
-
-// MARK: SimpleProductsNavigator
-
-extension TabCoordinator: SimpleProductsNavigator {
-    func closeSimpleProducts() {
-        navigationController.popViewController(animated: true)
-    }
-}
-
-
 // MARK: > ChatDetailNavigator
 
 extension TabCoordinator: ChatDetailNavigator {
