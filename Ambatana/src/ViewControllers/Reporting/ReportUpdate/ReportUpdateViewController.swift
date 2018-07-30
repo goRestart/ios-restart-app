@@ -46,15 +46,6 @@ final class ReportUpdateViewController: BaseViewController {
         return view
     }()
 
-    private let buttonsStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.distribution = UIStackViewDistribution.equalSpacing
-        stackView.spacing = 22
-        stackView.alignment = .center
-        return stackView
-    }()
-
     private let feedbackSeparator: UIView = {
         let view = UIView()
         view.backgroundColor = .grayLight
@@ -69,22 +60,26 @@ final class ReportUpdateViewController: BaseViewController {
         return label
     }()
 
-    private let feedbackButtons: [UIButton] = {
-        var array: [UIButton] = []
-        for i in 0...4 {
-            let button = UIButton()
-            button.setImage(R.Asset.IconsButtons.icEmojiYes.image, for: .normal)
-            button.contentMode = .scaleAspectFit
-            button.tag = i
-            array.append(button)
-        }
-        return array
-    }()
-
     private struct Layout {
         static let verticalMargin: CGFloat = 32
         static let contentViewMargin: CGFloat = 15
         static let imageSize = CGSize(width: 159, height: 159)
+        static let buttonMiniSize: CGFloat = 38
+        static let buttonBigSize: CGFloat = 49
+        static let buttonSeparation: CGFloat = 60
+        static let buttonTopMargin: CGFloat = 40
+        static let separatorHeight: CGFloat = 1
+        static let feedbackContainerHeight: CGFloat = 128
+    }
+
+    private let verySadButton = ReportUpdateButton(type: .verySad)
+    private let sadButton = ReportUpdateButton(type: .sad)
+    private let neutralButton = ReportUpdateButton(type: .neutral)
+    private let happyButton = ReportUpdateButton(type: .happy)
+    private let veryHappyButton = ReportUpdateButton(type: .veryHappy)
+
+    private var feedbackButtons: [ReportUpdateButton] {
+        return [verySadButton, sadButton, neutralButton, happyButton, veryHappyButton]
     }
 
     init(viewModel: ReportUpdateViewModel) {
@@ -118,8 +113,8 @@ final class ReportUpdateViewController: BaseViewController {
         imageView.image = R.Asset.Reporting.communityBadge.image
 
         view.addSubviewForAutoLayout(feedbackContainerView)
-        feedbackContainerView.addSubviewsForAutoLayout([feedbackSeparator, feedbackTitle, buttonsStackView])
-        buttonsStackView.addArrangedSubviews(feedbackButtons)
+        feedbackContainerView.addSubviewsForAutoLayout([feedbackSeparator, feedbackTitle, verySadButton, sadButton,
+                                                        neutralButton, happyButton, veryHappyButton])
         feedbackButtons.forEach { button in
             button.addTarget(self, action: #selector(didTapButton(sender:)), for: .touchUpInside)
         }
@@ -152,29 +147,47 @@ final class ReportUpdateViewController: BaseViewController {
             feedbackContainerView.bottomAnchor.constraint(equalTo: safeBottomAnchor),
             feedbackContainerView.leftAnchor.constraint(equalTo: view.leftAnchor),
             feedbackContainerView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            feedbackContainerView.heightAnchor.constraint(equalToConstant: 128),
+            feedbackContainerView.heightAnchor.constraint(equalToConstant: Layout.feedbackContainerHeight),
             feedbackSeparator.topAnchor.constraint(equalTo: feedbackContainerView.topAnchor),
             feedbackSeparator.leftAnchor.constraint(equalTo: feedbackContainerView.leftAnchor, constant: Metrics.margin),
             feedbackSeparator.rightAnchor.constraint(equalTo: feedbackContainerView.rightAnchor, constant: -Metrics.margin),
-            feedbackSeparator.heightAnchor.constraint(equalToConstant: 1),
+            feedbackSeparator.heightAnchor.constraint(equalToConstant: Layout.separatorHeight),
             feedbackTitle.topAnchor.constraint(equalTo: feedbackContainerView.topAnchor, constant: Metrics.bigMargin),
             feedbackTitle.centerXAnchor.constraint(equalTo: feedbackContainerView.centerXAnchor),
-            buttonsStackView.topAnchor.constraint(equalTo: feedbackTitle.bottomAnchor, constant: Metrics.bigMargin),
-            buttonsStackView.centerXAnchor.constraint(equalTo: feedbackContainerView.centerXAnchor)
-            ]
-
-        var buttonConstraints: [NSLayoutConstraint] = []
-        feedbackButtons.forEach { button in
-            let height = button.heightAnchor.constraint(equalToConstant: 38)
-            let width = button.widthAnchor.constraint(equalToConstant: 38)
-            buttonConstraints.append(contentsOf: [height, width])
-        }
+            neutralButton.centerXAnchor.constraint(equalTo: feedbackContainerView.centerXAnchor),
+            neutralButton.centerYAnchor.constraint(equalTo: feedbackTitle.bottomAnchor, constant: Layout.buttonTopMargin),
+            sadButton.centerYAnchor.constraint(equalTo: neutralButton.centerYAnchor),
+            sadButton.centerXAnchor.constraint(equalTo: neutralButton.centerXAnchor, constant: -Layout.buttonSeparation),
+            verySadButton.centerYAnchor.constraint(equalTo: neutralButton.centerYAnchor),
+            verySadButton.centerXAnchor.constraint(equalTo: sadButton.centerXAnchor, constant: -Layout.buttonSeparation),
+            happyButton.centerYAnchor.constraint(equalTo: neutralButton.centerYAnchor),
+            happyButton.centerXAnchor.constraint(equalTo: neutralButton.centerXAnchor, constant: Layout.buttonSeparation),
+            veryHappyButton.centerYAnchor.constraint(equalTo: neutralButton.centerYAnchor),
+            veryHappyButton.centerXAnchor.constraint(equalTo: happyButton.centerXAnchor, constant: Layout.buttonSeparation)
+        ]
 
         NSLayoutConstraint.activate(constraints)
-        NSLayoutConstraint.activate(buttonConstraints)
     }
 
-    @objc private func didTapButton(sender: UIButton) {
-        print("did tap button \(sender.tag)")
+    @objc private func didTapButton(sender: ReportUpdateButton) {
+        feedbackButtons.forEach { button in
+            button.set(selected: button == sender)
+        }
+        updateFeedbackTitle(type: sender.type)
+        // TODO: Communicate with ViewModel to send feedback
+    }
+
+    private func updateFeedbackTitle(type: ReportUpdateButtonType) {
+        UIView.animate(withDuration: 0.1, delay: 0, options: UIViewAnimationOptions.curveEaseIn, animations: {
+            self.feedbackTitle.alpha = 0
+        }) { completed in
+            self.feedbackTitle.transform = CGAffineTransform.init(scaleX: 0, y: 0)
+            self.feedbackTitle.text = type.title
+            self.feedbackTitle.alpha = 1
+            UIView.animate(withDuration: 0.25, delay: 0.05, options: .curveEaseOut, animations: {
+                self.feedbackTitle.transform = .identity
+            }, completion: nil
+            )
+        }
     }
 }
