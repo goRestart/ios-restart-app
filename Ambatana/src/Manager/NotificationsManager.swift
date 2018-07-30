@@ -17,9 +17,13 @@ protocol NotificationsManager {
     var globalCount: Observable<Int> { get }
     var marketingNotifications: Variable<Bool> { get }
     var loggedInMktNofitications: Variable<Bool> { get }
+    var engagementBadgingNotifications: Variable<Bool> { get }
 
     func setup()
     func updateCounters()
     func updateChatCounters()
     func updateNotificationCounters()
+    func clearNewSellFeatureIndicator()
+    func updateEngagementBadgingNotifications()
+    func hideEngagementBadgingNotifications()
 }

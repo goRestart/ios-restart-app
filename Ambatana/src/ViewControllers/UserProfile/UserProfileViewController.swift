@@ -330,7 +330,6 @@ final class UserProfileViewController: BaseViewController {
         navBarUserView.userNameLabel.set(accessibilityId: .userHeaderCollapsedNameLabel)
         listingView.firstLoadView.set(accessibilityId: .userListingsFirstLoad)
         listingView.collectionView.set(accessibilityId: .userListingsList)
-        listingView.errorView.set(accessibilityId: .userListingsError)
     }
 
     // MARK: - UI
@@ -355,7 +354,10 @@ final class UserProfileViewController: BaseViewController {
         tableView.contentInset = scrollableContentInset
         listingView.collectionViewContentInset = scrollableContentInset
         listingView.firstLoadPadding = scrollableContentInset
-        listingView.setErrorViewStyle(bgColor: .white, borderColor: .clear, containerColor: .white)
+        let errorStyle = ErrorViewCellStyle(backgroundColor: .white,
+                                        borderColor: .clear,
+                                        containerColor: .white)
+        listingView.setupErrorView(withStyle: errorStyle)
 
         let contentInset: UIEdgeInsets
         let contentOffset: CGPoint

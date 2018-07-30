@@ -1795,6 +1795,21 @@
 // Button to accept push notifications permissions
 "notifications_permissions_yes_button" = "Yes, Notify Me";
 
+// Notification center section with today title
+"notifications_section_today" = "Today";
+
+// Notification center section with yesterday title
+"notifications_section_yesterday" = "Yesterday";
+
+// Notification center section with n days ago title
+"notifications_section_days_ago" = "%i days ago";
+
+// Notification center section with n weeks ago title
+"notifications_section_weeks_ago" = "%i weeks ago";
+
+// Notification center section with n months ago title
+"notifications_section_months_ago" = "%i months ago";
+
 // Title of notifications section
 "notifications_title" = "Notifications";
 

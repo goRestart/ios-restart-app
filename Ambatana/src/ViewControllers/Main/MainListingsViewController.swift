@@ -125,6 +125,9 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         setupFilterHeaders()
         setupListingView()
         setupInfoBubble()
+        if viewModel.isEngagementBadgingEnabled {
+            setupRecentItemsBubbleView()
+        }
         setupTagsView()
         setupSearchAndTrending()
         setFiltersNavBarButton()
@@ -485,9 +488,11 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         listingListView.collectionViewContentInset.bottom = tabBarHeight
             + LGUIKitConstants.tabBarSellFloatingButtonHeight
             + LGUIKitConstants.tabBarSellFloatingButtonDistance
-        listingListView.setErrorViewStyle(bgColor: UIColor(patternImage: R.Asset.BackgroundsAndImages.patternWhite.image),
-                                          borderColor: UIColor.lineGray,
-                                          containerColor: UIColor.white)
+        let errorStyle = ErrorViewCellStyle(backgroundColor: UIColor(patternImage: R.Asset.BackgroundsAndImages.patternWhite.image),
+                                            borderColor: .lineGray,
+                                            containerColor: .white)
+        listingListView.setupErrorView(withStyle: errorStyle)
+
         listingListView.scrollDelegate = self
         listingListView.headerDelegate = self
         listingListView.adsDelegate = self
@@ -528,8 +533,10 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         infoBubbleView.addGestureRecognizer(bubbleTap)
     }
     
-    private func addRecentItemsBubbleView() {
+    private func setupRecentItemsBubbleView() {
         view.addSubviewForAutoLayout(recentItemsBubbleView)
+        // trendingSearchesView should be up front of every view, as it is added the latest in addSubviews method
+        view.bringSubview(toFront: trendingSearchView)
         
         let recentItemsBubbleViewTopConstraint = recentItemsBubbleView.topAnchor.constraint(equalTo: infoBubbleView.bottomAnchor, constant: Metrics.shortMargin)
         let recentItemsBubbleViewTrailingConstraint = recentItemsBubbleView.trailingAnchor.constraint(greaterThanOrEqualTo: safeTrailingAnchor, constant: Metrics.bigMargin)
@@ -549,10 +556,6 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         let bubbleTap = UITapGestureRecognizer(target: self, action: #selector(onRecentItemsBubbleTapped))
         recentItemsBubbleView.addGestureRecognizer(bubbleTap)
     }
-    
-    private func removeRecentItemsBubble() {
-        recentItemsBubbleView.removeFromSuperview()
-    }
 
     @objc private func onBubbleTapped() {
         viewModel.bubbleTapped()
@@ -561,7 +564,6 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     @objc private func onRecentItemsBubbleTapped() {
         viewModel.recentItemsBubbleTapped()
         scrollToTop()
-        removeRecentItemsBubble()
     }
 
     private func setupSearchAndTrending() {

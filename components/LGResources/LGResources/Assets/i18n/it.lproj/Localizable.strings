@@ -440,7 +440,7 @@
 "filters_section_within" = "Periodo di pubblicazione";
 "filters_service_subtype_not_set" = "Non Impostato";
 "filters_service_type_not_set" = "Non Impostato";
-"filters_services_services_list_max_selection_alert" = "Oops! You can't select more than 15 services.";
+"filters_services_services_list_max_selection_alert" = "Ops! Non puoi selezionare più di 15 servizi.";
 "filters_services_services_list_search_placeholder" = "Tuttofare, agenti...";
 "filters_services_services_list_title" = "Seleziona una categoria";
 "filters_size_wrong_range_error" = "La dimensione minima non può essere superiore a quella massima.";
@@ -1242,6 +1242,7 @@
 "search_alert_enable_error_message" = "Ops! Si è verificato un errore durante l'attivazione dei tuoi avvisi di ricerca.";
 "search_alert_error_too_many_button_text" = "Gestisci notifiche";
 "search_alert_error_too_many_text" = "Ops! Hai raggiunto il numero massimo di avvisi di ricerca";
+"search_alerts_disabled_oldest_message" = "Hai raggiunto il numero massimo di avvisi di ricerca. Abbiamo provveduto a disattivare quelli più vecchi e a attivare questo.";
 "search_alerts_edit_button" = "Modifica";
 "search_alerts_header_subtitle" = "Ricevi notifiche su nuovi annunci";
 "search_alerts_list_title" = "Avvisi di ricerca";

@@ -232,7 +232,7 @@ extension AppCoordinator: AppNavigator {
     func openSell(source: PostingSource, postCategory: PostCategory?, listingTitle: String?) {
         let forcedInitialTab: PostListingViewController.Tab?
         switch source {
-        case .tabBar, .sellButton, .deepLink, .notifications, .deleteListing, .realEstatePromo:
+        case .tabBar, .listingList, .profile, .deepLink, .notifications, .deleteListing, .realEstatePromo, .chatList:
             forcedInitialTab = nil
         case .onboardingButton, .onboardingCamera, .onboardingBlockingPosting:
             forcedInitialTab = .camera
@@ -562,6 +562,7 @@ extension AppCoordinator: OnboardingCoordinatorDelegate {
         delegate?.appNavigatorDidOpenApp()
         if let source = source, posting {
             openSell(source: source, postCategory: nil, listingTitle: nil)
+            trackStartSelling(source: source)
         } else {
             openHome()
         }
@@ -701,7 +702,11 @@ extension AppCoordinator: UITabBarControllerDelegate {
         case .home, .notifications, .chats, .profile, .community:
             afterLogInSuccessful = { [weak self] in self?.openTab(tab, force: true, completion: nil) }
         case .sell:
-            afterLogInSuccessful = { [weak self] in self?.openSell(source: .tabBar, postCategory: nil, listingTitle: nil) }
+            afterLogInSuccessful = { [weak self] in
+                let source: PostingSource = .tabBar
+                self?.trackStartSelling(source: source)
+                self?.openSell(source: source, postCategory: nil, listingTitle: nil)
+            }
         }
 
         if let source = tab.logInSource, shouldOpenLogin {
@@ -713,7 +718,9 @@ extension AppCoordinator: UITabBarControllerDelegate {
                 // tab is changed after returning from this method
                 return !shouldOpenLogin
             case .sell:
-                openSell(source: .tabBar, postCategory: nil, listingTitle: nil)
+                let source: PostingSource = .tabBar
+                openSell(source: source, postCategory: nil, listingTitle: nil)
+                trackStartSelling(source: source)
                 return false
             }
         }
@@ -926,7 +933,9 @@ fileprivate extension AppCoordinator {
             }
         case .sell:
             afterDelayClosure = { [weak self] in
-                self?.openSell(source: .deepLink, postCategory: nil, listingTitle: nil)
+                let source: PostingSource = .deepLink
+                self?.trackStartSelling(source: source)
+                self?.openSell(source: source, postCategory: nil, listingTitle: nil)
             }
         case let .listing(listingId):
             tabBarCtl.clearAllPresented(nil)
@@ -1119,6 +1128,21 @@ fileprivate extension AppCoordinator {
             self?.showBubble(with: data, duration: SharedConstants.bubbleChatDuration)
         }
     }
+
+    // MARK: - Trackings
+
+    private func trackStartSelling(source: PostingSource) {
+        tracker.trackEvent(TrackerEvent.listingSellStart(typePage: source.typePage,
+                                                         buttonName: source.buttonName,
+                                                         sellButtonPosition: source.sellButtonPosition,
+                                                         category: nil))
+    }
+
+    private func trackSelectCategory(source: PostingSource, category: PostCategory) {
+        tracker.trackEvent(TrackerEvent.listingSellCategorySelect(typePage: source.typePage,
+                                                                  postingType: EventParameterPostingType(category: category),
+                                                                  category: category.listingCategory))
+    }
 }
 
 extension AppCoordinator: ChangePasswordNavigator {
@@ -1198,6 +1222,7 @@ extension AppCoordinator: PromoteBumpCoordinatorDelegate {
         }
     }
 }
+
 
 extension AppCoordinator: ProfileCoordinatorSearchAlertsDelegate {
     func profileCoordinatorSearchAlertsOpenSearch() {

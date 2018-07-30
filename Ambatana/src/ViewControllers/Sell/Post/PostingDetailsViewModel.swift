@@ -163,7 +163,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     
     private let step: PostingDetailStep
     private var postListingState: PostListingState
-    private var uploadedImageSource: EventParameterPictureSource?
+    private var uploadedImageSource: EventParameterMediaSource?
     private var uploadedVideoLength: TimeInterval?
     private let postingSource: PostingSource
     private let postListingBasicInfo: PostListingBasicDetailViewModel
@@ -185,7 +185,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     
     convenience init(step: PostingDetailStep,
                      postListingState: PostListingState,
-                     uploadedImageSource: EventParameterPictureSource?,
+                     uploadedImageSource: EventParameterMediaSource?,
                      uploadedVideoLength: TimeInterval?,
                      postingSource: PostingSource,
                      postListingBasicInfo: PostListingBasicDetailViewModel,
@@ -210,7 +210,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     
     init(step: PostingDetailStep,
          postListingState: PostListingState,
-         uploadedImageSource: EventParameterPictureSource?,
+         uploadedImageSource: EventParameterMediaSource?,
          uploadedVideoLength: TimeInterval?,
          postingSource: PostingSource,
          postListingBasicInfo: PostListingBasicDetailViewModel,
@@ -284,7 +284,8 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
             guard let imageUploadedId = lastImagesUploaded.first?.objectId,
                 isPostingServices else {
                     navigator?.closePostProductAndPostInBackground(params: listingParams,
-                                                                   trackingInfo: postListingTrackingInfo)
+                                                                   trackingInfo: postListingTrackingInfo,
+                                                                   shareAfterPost: postListingState.shareAfterPost)
                     return
             }
                 
@@ -311,6 +312,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
                                             } else if let error = results.error {
                                                 self?.navigator?.showConfirmation(listingResult: ListingResult(error: error),
                                                                                   trackingInfo: trackingInfo,
+                                                                                  shareAfterPost: self?.postListingState.shareAfterPost,
                                                                                   modalStyle: true)
                                             }
                                         }
@@ -430,7 +432,8 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
             navigator?.closePostProductAndPostLater(params: listingParams,
                                                     images: images,
                                                     video: video,
-                                                    trackingInfo: trackingInfo)
+                                                    trackingInfo: trackingInfo,
+                                                    shareAfterPost: postListingState.shareAfterPost)
         }
     }
     

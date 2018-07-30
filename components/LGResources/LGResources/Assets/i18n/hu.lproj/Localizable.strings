@@ -440,8 +440,8 @@
 "filters_section_within" = "Közzétéve";
 "filters_service_subtype_not_set" = "Nincs Megadva";
 "filters_service_type_not_set" = "Nincs Megadva";
-"filters_services_services_list_max_selection_alert" = "Oops! You can't select more than 15 services.";
-"filters_services_services_list_search_placeholder" = "Handyman, Contracting…";
+"filters_services_services_list_max_selection_alert" = "Hoppá! Legfeljebb 15 szolgáltatást választhatsz.";
+"filters_services_services_list_search_placeholder" = "Ezermester, építőmunka...";
 "filters_services_services_list_title" = "Válassz kategóriát";
 "filters_size_wrong_range_error" = "A minimális méret nem lehet nagyobb a maximálisnál.";
 "filters_slider_any" = "Bármilyen";
@@ -1242,6 +1242,7 @@
 "search_alert_enable_error_message" = "Hoppá! Hiba történt a keresési figyelmeztetés bekapcsolása során.";
 "search_alert_error_too_many_button_text" = "Értesítések kezelése";
 "search_alert_error_too_many_text" = "Hoppá! Elérted a keresési figyelmeztetések maximális számát";
+"search_alerts_disabled_oldest_message" = "Elérted a keresési értesítések maximális számát, ezért a legrégebbit kikapcsoltuk, hogy ezt aktiválhassuk.";
 "search_alerts_edit_button" = "Szerkesztés";
 "search_alerts_header_subtitle" = "Értesítéseket kaphatsz az új hirdetésekről";
 "search_alerts_list_title" = "Keresési figyelmeztetések";

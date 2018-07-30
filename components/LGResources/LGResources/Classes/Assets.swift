@@ -365,6 +365,7 @@ extension R {
       public static let icCheckboxSelected = ImageAsset(name: "ic_checkbox_selected")
       public static let icCheckmark = ImageAsset(name: "ic_checkmark")
       public static let icChevronRight = ImageAsset(name: "ic_chevron_right")
+      public static let icChevronUp = ImageAsset(name: "ic_chevron_up")
       public static let icCirlePlus = ImageAsset(name: "ic_cirle_plus")
       public static let icClose = ImageAsset(name: "ic_close")
       public static let icCloseCarousel = ImageAsset(name: "ic_close_carousel")
@@ -668,6 +669,7 @@ extension R {
         icCheckboxSelected,
         icCheckmark,
         icChevronRight,
+        icChevronUp,
         icCirlePlus,
         icClose,
         icCloseCarousel,

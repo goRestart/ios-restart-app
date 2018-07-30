@@ -384,6 +384,11 @@ extension NotificationSettings {
     var isActive: Bool { return self == .differentLists || self == .sameList }
 }
 
+extension EngagementBadging {
+    var isActive: Bool { return self == .active }
+}
+
+
 // MARK: Products
 
 extension ServicesCategoryOnSalchichasMenu {

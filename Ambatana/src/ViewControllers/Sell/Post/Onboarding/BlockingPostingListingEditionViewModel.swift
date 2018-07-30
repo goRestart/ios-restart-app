@@ -33,7 +33,7 @@ class BlockingPostingListingEditionViewModel: BaseViewModel {
     private let listingParams: ListingEditionParams
     private var listing: Listing
     private let images: [UIImage]
-    private let imageSource: EventParameterPictureSource
+    private let imageSource: EventParameterMediaSource
     private let videoLength: TimeInterval?
     private let postingSource: PostingSource
     
@@ -45,7 +45,7 @@ class BlockingPostingListingEditionViewModel: BaseViewModel {
     // MARK: - Lifecycle
 
     convenience init(listingParams: ListingEditionParams, listing: Listing, images: [UIImage],
-                     imageSource: EventParameterPictureSource, videoLength: TimeInterval?, postingSource: PostingSource) {
+                     imageSource: EventParameterMediaSource, videoLength: TimeInterval?, postingSource: PostingSource) {
         self.init(listingRepository: Core.listingRepository,
                   tracker: TrackerProxy.sharedInstance,
                   featureFlags: FeatureFlags.sharedInstance,
@@ -63,7 +63,7 @@ class BlockingPostingListingEditionViewModel: BaseViewModel {
          listingParams: ListingEditionParams,
          listing: Listing,
          images: [UIImage],
-         imageSource: EventParameterPictureSource,
+         imageSource: EventParameterMediaSource,
          videoLength: TimeInterval?,
          postingSource: PostingSource) {
         self.listingRepository = listingRepository

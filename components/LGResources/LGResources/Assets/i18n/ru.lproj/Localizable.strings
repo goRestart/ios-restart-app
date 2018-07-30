@@ -440,7 +440,7 @@
 "filters_section_within" = "Размещено за";
 "filters_service_subtype_not_set" = "Не установлен";
 "filters_service_type_not_set" = "Не установлен";
-"filters_services_services_list_max_selection_alert" = "Oops! You can't select more than 15 services.";
+"filters_services_services_list_max_selection_alert" = "Упс! Вы не можете выбрать более 15 услуг.";
 "filters_services_services_list_search_placeholder" = "Мастер, заключение договоров...";
 "filters_services_services_list_title" = "Выберите категорию";
 "filters_size_wrong_range_error" = "Минимальный размер не может быть больше максимального.";
@@ -1242,6 +1242,7 @@
 "search_alert_enable_error_message" = "Упс! При включении поискового уведомления произошла ошибка";
 "search_alert_error_too_many_button_text" = "Управления уведомлениями";
 "search_alert_error_too_many_text" = "Упс! Вы достигли максимального количества поисковых уведомлений";
+"search_alerts_disabled_oldest_message" = "You’ve reached the max number of search alerts, so we’ve turned your oldest one off and activated this one.";
 "search_alerts_edit_button" = "Редактировать";
 "search_alerts_header_subtitle" = "Получать уведомления о новых объявлениях";
 "search_alerts_list_title" = "Поисковые уведомления";

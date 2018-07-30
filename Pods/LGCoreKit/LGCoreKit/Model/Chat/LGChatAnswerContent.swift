@@ -43,7 +43,8 @@ struct LGChatAnswerContent: ChatAnswerContent, Decodable, Equatable {
         textToShow = try keyedContainer.decode(String.self, forKey: .textToShow)
         textToReply = try keyedContainer.decode(String.self, forKey: .textToReply)
         if let deeplinkString = try keyedContainer.decodeIfPresent(String.self, forKey: .deeplink),
-            let deeplinkURLValue = URL(string: deeplinkString) {
+            let escapedString = deeplinkString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+            let deeplinkURLValue = URL(string: escapedString) {
                 deeplinkURL = deeplinkURLValue
         } else {
             deeplinkURL = nil

@@ -1990,6 +1990,8 @@
 		F5D91E7E2008C20200DF28E7 /* UserRatingType+RateBack.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D91E7C2008C20200DF28E7 /* UserRatingType+RateBack.swift */; };
 		F5DC45242088889100D1EC17 /* KenBurnsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5DC45232088889100D1EC17 /* KenBurnsView.swift */; };
 		F5DC45252088889100D1EC17 /* KenBurnsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5DC45232088889100D1EC17 /* KenBurnsView.swift */; };
+		F5E79A68210E3AE6003101D4 /* ListingErrorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E79A67210E3AE6003101D4 /* ListingErrorCell.swift */; };
+		F5E79A69210E3AE6003101D4 /* ListingErrorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E79A67210E3AE6003101D4 /* ListingErrorCell.swift */; };
 		F5F2113320EE564000CD137A /* ServerEnvironmentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F2113220EE564000CD137A /* ServerEnvironmentPicker.swift */; };
 		F5F2113420EE564000CD137A /* ServerEnvironmentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F2113220EE564000CD137A /* ServerEnvironmentPicker.swift */; };
 		F5F2113620EE59E700CD137A /* DefaultKeys+Admin.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F2113520EE59E700CD137A /* DefaultKeys+Admin.swift */; };
@@ -3183,6 +3185,7 @@
 		F5D6E67720090D8600E71A54 /* UserRatingType+RateBackSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserRatingType+RateBackSpec.swift"; sourceTree = "<group>"; };
 		F5D91E7C2008C20200DF28E7 /* UserRatingType+RateBack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserRatingType+RateBack.swift"; sourceTree = "<group>"; };
 		F5DC45232088889100D1EC17 /* KenBurnsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KenBurnsView.swift; sourceTree = "<group>"; };
+		F5E79A67210E3AE6003101D4 /* ListingErrorCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingErrorCell.swift; sourceTree = "<group>"; };
 		F5F2113220EE564000CD137A /* ServerEnvironmentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerEnvironmentPicker.swift; sourceTree = "<group>"; };
 		F5F2113520EE59E700CD137A /* DefaultKeys+Admin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DefaultKeys+Admin.swift"; sourceTree = "<group>"; };
 		F5F2113820EE5EE000CD137A /* EnvironmentsHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnvironmentsHelper.swift; sourceTree = "<group>"; };
@@ -5738,6 +5741,7 @@
 		C749C7811C10811B00F7118E /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				F5E79A67210E3AE6003101D4 /* ListingErrorCell.swift */,
 				4219243F20761CDF00862CEF /* PromoCell */,
 				8EEC7F55206AA60900616858 /* NativeAdBlankStateView.swift */,
 				8EEC7F54206AA60800616858 /* MoPubNativeView.swift */,
@@ -7851,6 +7855,7 @@
 				72CD80CA203469FB0042E1E0 /* LGTutorialCollectionViewCell.swift in Sources */,
 				50C9E4C31B723E7B001E4E92 /* AppsflyerTracker.swift in Sources */,
 				72FE02D61F95FCE5005BD672 /* PostingDetailStep.swift in Sources */,
+				F5E79A68210E3AE6003101D4 /* ListingErrorCell.swift in Sources */,
 				C75B5DD11D59E0C500112368 /* ListingCarouselCell.swift in Sources */,
 				01A171BD208DD1A300C98D4C /* SearchAlertsListViewController.swift in Sources */,
 				F59755FD20B5AA2F00C5103F /* ABGroup+AnalyticsABTestGroupIdentifier.swift in Sources */,
@@ -8176,7 +8181,6 @@
 				0A04D5E0207614F000471B9D /* UsersABGroup.swift in Sources */,
 				724D77AE1FC709DE00DB43C0 /* ListingCreationViewModel.swift in Sources */,
 				2E2A5E141D5C78600047ED45 /* ExpressChatNavigator.swift in Sources */,
-				326C72DB2089F408009D21DB /* FeedDrawer.swift in Sources */,
 				C7B588251CE1DE1C009B3975 /* BlockedUserCell.swift in Sources */,
 				6ACC24BA1D2A5C570064B165 /* GridCellDrawer.swift in Sources */,
 				C7F4CBA31C9181A5008E40D6 /* PostListingCameraViewModel.swift in Sources */,
@@ -8740,6 +8744,7 @@
 				C650DEA320C595A500D47C4A /* MultiListingPostedViewModel.swift in Sources */,
 				01772B60204F0F340037FD5F /* BlockingPostingStepHeaderView.swift in Sources */,
 				2E151D7420A49BB20038D7C7 /* ChatBlockedUsersViewController.swift in Sources */,
+				F5E79A69210E3AE6003101D4 /* ListingErrorCell.swift in Sources */,
 				C7111F091CA4458F000C5C5A /* ShortcutItem.swift in Sources */,
 				C743FEB81E44E46000B4E912 /* PossibleBuyerCell.swift in Sources */,
 				0A561AE320C8203F0082D551 /* UICollectionView+ReusableCell.swift in Sources */,
@@ -9027,7 +9032,6 @@
 				F5F2113420EE564000CD137A /* ServerEnvironmentPicker.swift in Sources */,
 				724D77AF1FC709DE00DB43C0 /* ListingCreationViewModel.swift in Sources */,
 				C788EED81CC7847400B9E26F /* FilteredListingListRequester.swift in Sources */,
-				326C72DC2089F408009D21DB /* FeedDrawer.swift in Sources */,
 				C7DB42281C5138B500400945 /* PushManager.swift in Sources */,
 				C7B588261CE1DE1C009B3975 /* BlockedUserCell.swift in Sources */,
 				6ACC24BB1D2A5C570064B165 /* GridCellDrawer.swift in Sources */,

@@ -39,7 +39,7 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
         
         var postingDetailsStep: PostingDetailStep!
         var postListingState: PostListingState!
-        var uploadedImageSource: EventParameterPictureSource! = .camera
+        var uploadedImageSource: EventParameterMediaSource! = .camera
         var uploadedVideoLength: TimeInterval?
         var postingSource: PostingSource! = .tabBar
         var previousStepIsSummary: Bool = false
@@ -276,7 +276,7 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
 
 
 extension PostingDetailsViewModelSpec: PostListingNavigator {
-    
+
     func closePostServicesAndPostLater(params: [ListingCreationParams],
                                        images: [UIImage]?,
                                        trackingInfo: PostListingTrackingInfo) {
@@ -289,7 +289,7 @@ extension PostingDetailsViewModelSpec: PostListingNavigator {
     
     func startDetails(firstStep: PostingDetailStep,
                       postListingState: PostListingState,
-                      uploadedImageSource: EventParameterPictureSource?,
+                      uploadedImageSource: EventParameterMediaSource?,
                       uploadedVideoLength: TimeInterval?,
                       postingSource: PostingSource,
                       postListingBasicInfo: PostListingBasicDetailViewModel) {
@@ -297,7 +297,7 @@ extension PostingDetailsViewModelSpec: PostListingNavigator {
     }
 
     func startDetails(postListingState: PostListingState,
-                      uploadedImageSource: EventParameterPictureSource?,
+                      uploadedImageSource: EventParameterMediaSource?,
                       postingSource: PostingSource,
                       postListingBasicInfo: PostListingBasicDetailViewModel) {
         // FIXME: No idea what to do here
@@ -306,7 +306,8 @@ extension PostingDetailsViewModelSpec: PostListingNavigator {
     func closePostProductAndPostLater(params: ListingCreationParams,
                                       images: [UIImage]?,
                                       video: RecordedVideo?,
-                                      trackingInfo: PostListingTrackingInfo) {
+                                      trackingInfo: PostListingTrackingInfo,
+                                      shareAfterPost: Bool?) {
         closePostProductAndPostLaterCalled = true
     }
   
@@ -315,13 +316,13 @@ extension PostingDetailsViewModelSpec: PostListingNavigator {
         
     }
     func startDetails(postListingState: PostListingState,
-                      uploadedImageSource: EventParameterPictureSource?,
+                      uploadedImageSource: EventParameterMediaSource?,
                       uploadedVideoLength: TimeInterval?,
                       postingSource: PostingSource,
                       postListingBasicInfo: PostListingBasicDetailViewModel) { }
     func nextPostingDetailStep(step: PostingDetailStep,
                                postListingState: PostListingState,
-                               uploadedImageSource: EventParameterPictureSource?,
+                               uploadedImageSource: EventParameterMediaSource?,
                                uploadedVideoLength: TimeInterval?,
                                postingSource: PostingSource,
                                postListingBasicInfo: PostListingBasicDetailViewModel,
@@ -329,7 +330,8 @@ extension PostingDetailsViewModelSpec: PostListingNavigator {
         nextPostingDetailStepCalled = true
     }
     func closePostProductAndPostInBackground(params: ListingCreationParams,
-                                             trackingInfo: PostListingTrackingInfo) {
+                                             trackingInfo: PostListingTrackingInfo,
+                                             shareAfterPost: Bool?) {
         closePostProductAndPostInBackgroundCalled = true
     }
     
@@ -344,12 +346,15 @@ extension PostingDetailsViewModelSpec: PostListingNavigator {
     func openListingsCreation(uploadedImageId: String, multipostingSubtypes: [ServiceSubtype], multipostingNewSubtypes: [String], postListingState: PostListingState, trackingInfo: PostListingTrackingInfo) {
         openListingCreationCalled = true
     }
-    func showConfirmation(listingResult: ListingResult, trackingInfo: PostListingTrackingInfo, modalStyle: Bool) {}
+    func showConfirmation(listingResult: ListingResult,
+                          trackingInfo: PostListingTrackingInfo,
+                          shareAfterPost: Bool?,
+                          modalStyle: Bool) {}
     func showMultiListingPostConfirmation(listingResult: ListingsResult,
                                           trackingInfo: PostListingTrackingInfo,
                                           modalStyle: Bool) {}
     func openQueuedRequestsLoading(images: [UIImage], listingCreationParams: ListingCreationParams,
-                                   postState: PostListingState, source: EventParameterPictureSource) {}
+                                   postState: PostListingState, source: EventParameterMediaSource) {}
     func openQueuedRequestsLoading(images: [UIImage], listingCreationParams: ListingCreationParams,
-                                   imageSource: EventParameterPictureSource, postingSource: PostingSource) {}
+                                   imageSource: EventParameterMediaSource, postingSource: PostingSource) {}
 }

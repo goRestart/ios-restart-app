@@ -421,8 +421,12 @@ enum AccessibilityId: Equatable, Accessible {
     case conversationCellThumbnailImageView
     case conversationCellAvatarImageView
     case conversationCellStatusImageView
+    case conversationCellStatusLabel
+    case conversationCellAssistantInfoLabel
+    case conversationCellProfessionalTag
 
     // Chat Assistant Conversation Cell
+    case assistantConversationCellContainer(conversationId: String?)
     case assistantConversationCellNameLabel
     case assistantConversationCellAvatarImageView
     case assistantConversationCellInfoLabel
@@ -1581,9 +1585,16 @@ enum AccessibilityId: Equatable, Accessible {
             return "conversationCellAvatarImageView"
         case .conversationCellStatusImageView:
             return "conversationCellStatusImageView"
+        case .conversationCellStatusLabel:
+            return "conversationCellStatusLabel"
+        case .conversationCellAssistantInfoLabel:
+            return "conversationCellAssistantInfoLabel"
+        case .conversationCellProfessionalTag:
+            return "conversationCellProfessionalTag"
 
         // Chat Assistant Conversation Cell
-
+        case let .assistantConversationCellContainer(conversationId):
+            return "assistantConversationCellContainer-\(conversationId ?? "")"
         case .assistantConversationCellNameLabel:
             return "assistantConversationCellNameLabel"
         case .assistantConversationCellAvatarImageView:

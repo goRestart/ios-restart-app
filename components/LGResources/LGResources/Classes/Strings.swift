@@ -1276,6 +1276,22 @@ extension R {
     public static let notificationsPermissionsSettingsYesButton = Strings.tr("Localizable", "notifications_permissions_settings_yes_button")
     /// Yes, Notify Me
     public static let notificationsPermissionsYesButton = Strings.tr("Localizable", "notifications_permissions_yes_button")
+    /// %i days ago
+    public static func notificationsSectionDaysAgo(_ p1: Int) -> String {
+      return Strings.tr("Localizable", "notifications_section_days_ago", p1)
+    }
+    /// %i months ago
+    public static func notificationsSectionMonthsAgo(_ p1: Int) -> String {
+      return Strings.tr("Localizable", "notifications_section_months_ago", p1)
+    }
+    /// Today
+    public static let notificationsSectionToday = Strings.tr("Localizable", "notifications_section_today")
+    /// %i weeks ago
+    public static func notificationsSectionWeeksAgo(_ p1: Int) -> String {
+      return Strings.tr("Localizable", "notifications_section_weeks_ago", p1)
+    }
+    /// Yesterday
+    public static let notificationsSectionYesterday = Strings.tr("Localizable", "notifications_section_yesterday")
     /// Notifications
     public static let notificationsTitle = Strings.tr("Localizable", "notifications_title")
     /// %d buyers might be interested in your listing

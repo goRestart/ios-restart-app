@@ -1242,6 +1242,7 @@
 "search_alert_enable_error_message" = "Hoppla! Beim Aktivieren deiner gespeicherten Suche ist ein Fehler aufgetreten.";
 "search_alert_error_too_many_button_text" = "Mitteilungen verwalten";
 "search_alert_error_too_many_text" = "Hoppla! Du hast die maximale Anzahl an gespeicherten Suchen erreicht";
+"search_alerts_disabled_oldest_message" = "Du hast die maximale Anzahl an gespeicherten Suchen erreicht, darum haben wir deine älteste Suche pausiert und diese aktiviert";
 "search_alerts_edit_button" = "Bearbeiten";
 "search_alerts_header_subtitle" = "Erhalte Benachrichtigungen zu neuen Angeboten";
 "search_alerts_list_title" = "Gespeicherte Suchen";

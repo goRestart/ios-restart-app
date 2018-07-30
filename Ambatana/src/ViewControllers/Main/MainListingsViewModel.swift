@@ -85,6 +85,10 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         return filters.selectedCategories.contains(.services)
     }
     
+    var isEngagementBadgingEnabled: Bool {
+        return featureFlags.engagementBadging.isActive
+    }
+    
     var rightBarButtonsItems: [(image: UIImage, selector: Selector)] {
         var rightButtonItems: [(image: UIImage, selector: Selector)] = []
         if isRealEstateSelected {
@@ -111,6 +115,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     let recentItemsBubbleVisible = Variable<Bool>(false)
     let recentItemsBubbleText = Variable<String>(R.Strings.engagementBadgingFeedBubble)
     let errorMessage = Variable<String?>(nil)
+    let containsListings = Variable<Bool>(false)
+    let isShowingCategoriesHeader = Variable<Bool>(false)
     
     private static let firstVersionNumber = 1
     
@@ -327,6 +333,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     fileprivate let listingRepository: ListingRepository
     fileprivate let monetizationRepository: MonetizationRepository
     fileprivate let locationManager: LocationManager
+    private let notificationsManager: NotificationsManager
     fileprivate let currencyHelper: CurrencyHelper
     fileprivate let bubbleTextGenerator: DistanceBubbleTextGenerator
     fileprivate let categoryRepository: CategoryRepository
@@ -427,6 +434,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
          searchAlertsRepository: SearchAlertsRepository,
          userRepository: UserRepository,
          locationManager: LocationManager,
+         notificationsManager: NotificationsManager,
          currencyHelper: CurrencyHelper,
          tracker: Tracker,
          searchType: SearchType? = nil,
@@ -444,6 +452,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         self.searchAlertsRepository = searchAlertsRepository
         self.userRepository = userRepository
         self.locationManager = locationManager
+        self.notificationsManager = notificationsManager
         self.currencyHelper = currencyHelper
         self.tracker = tracker
         self.searchType = searchType
@@ -489,6 +498,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         let searchAlertsRepository = Core.searchAlertsRepository
         let userRepository = Core.userRepository
         let locationManager = Core.locationManager
+        let notificationsManager = LGNotificationsManager.sharedInstance
         let currencyHelper = Core.currencyHelper
         let tracker = TrackerProxy.sharedInstance
         let keyValueStorage = KeyValueStorage.sharedInstance
@@ -504,6 +514,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                   searchAlertsRepository: searchAlertsRepository,
                   userRepository: userRepository,
                   locationManager: locationManager,
+                  notificationsManager: notificationsManager,
                   currencyHelper: currencyHelper,
                   tracker: tracker,
                   searchType: searchType,
@@ -534,6 +545,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         }
         if firstTime {
             setupRx()
+            notificationsManager.updateEngagementBadgingNotifications()
         }
         if let currentLocation = locationManager.currentLocation {
             retrieveProductsIfNeededWithNewLocation(currentLocation)
@@ -825,6 +837,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     
     func recentItemsBubbleTapped() {
         listViewModel.retrieveRecentItems()
+        notificationsManager.hideEngagementBadgingNotifications()
     }
 
     func updateSelectedTaxonomyChildren(taxonomyChildren: [TaxonomyChild]) {
@@ -845,7 +858,13 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     private func setupRx() {
         listViewModel.isListingListEmpty.asObservable().bind { [weak self] _ in
             self?.updateCategoriesHeader()
-            }.disposed(by: disposeBag)
+        }.disposed(by: disposeBag)
+        
+        Observable.combineLatest(notificationsManager.engagementBadgingNotifications.asObservable(),
+                                 containsListings.asObservable(),
+                                 isShowingCategoriesHeader.asObservable()) { $0 && $1 && $2 }
+            .bind(to: recentItemsBubbleVisible)
+            .disposed(by: disposeBag)
     }
     
     /**
@@ -1210,7 +1229,8 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                 listViewModel.setEmptyState(emptyViewModel)
                 filterDescription.value = nil
                 filterTitle.value = nil
-                trackRequestSuccess(page: page, resultsCount: resultsCount, hasListings: hasListings, searchRelatedItems: false)
+                
+                trackRequestSuccess(page: page, resultsCount: resultsCount, hasListings: hasListings, searchRelatedItems: featureFlags.emptySearchImprovements.isActive)
             } else {
                 listViewModel.retrieveListingsNextPage()
             }
@@ -1226,14 +1246,19 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                 filterDescription.value = featureFlags.emptySearchImprovements.filterDescription
                 filterTitle.value = filterTitleString(forRequesterType: requesterType)
                 updateCategoriesHeader()
+            } else {
+                trackRequestSuccess(page: page, resultsCount: resultsCount, hasListings: hasListings, searchRelatedItems: false)
             }
         } else {
             trackRequestSuccess(page: page, resultsCount: resultsCount, hasListings: hasListings, searchRelatedItems: false)
         }
         
         errorMessage.value = nil
+        
+        containsListings.value = hasListings
+        isShowingCategoriesHeader.value = showCategoriesCollectionBanner
         infoBubbleVisible.value = hasListings && filters.infoBubblePresent
-        recentItemsBubbleVisible.value = showCategoriesCollectionBanner
+        
         if(page == 0) {
             bubbleDistance = 1
         }
@@ -1265,8 +1290,10 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             }
         }
         errorMessage.value = errorString
+        
+        containsListings.value = hasProducts
+        isShowingCategoriesHeader.value = showCategoriesCollectionBanner
         infoBubbleVisible.value = hasProducts && filters.infoBubblePresent
-        recentItemsBubbleVisible.value = showCategoriesCollectionBanner
     }
     
     func listingListVM(_ viewModel: ListingListViewModel, didSelectItemAtIndex index: Int,
@@ -1872,7 +1899,7 @@ fileprivate extension MainListingsViewModel {
         
         if let searchType = searchType, let searchQuery = searchType.query, shouldTrackSearch {
             shouldTrackSearch = false
-            let successValue = searchRelatedItems ? EventParameterSearchCompleteSuccess.fail : EventParameterSearchCompleteSuccess.success
+            let successValue = searchRelatedItems || !hasListings ? EventParameterSearchCompleteSuccess.fail : EventParameterSearchCompleteSuccess.success
             tracker.trackEvent(TrackerEvent.searchComplete(myUserRepository.myUser, searchQuery: searchQuery,
                                                            isTrending: searchType.isTrending,
                                                            success: successValue,
@@ -1905,6 +1932,13 @@ fileprivate extension MainListingsViewModel {
         let trackerEvent = TrackerEvent.permissionAlertCancel(.push, typePage: .listingListBanner, alertType: .custom,
                                                               permissionGoToSettings: goToSettings)
         tracker.trackEvent(trackerEvent)
+    }
+
+    private func trackStartSelling(source: PostingSource, category: PostCategory) {
+        tracker.trackEvent(TrackerEvent.listingSellStart(typePage: source.typePage,
+                                                         buttonName: source.buttonName,
+                                                         sellButtonPosition: source.sellButtonPosition,
+                                                         category: category.listingCategory))
     }
 }
 
@@ -2055,7 +2089,10 @@ extension MainListingsViewModel: ListingCellDelegate {
     func moreOptionsPressedForDiscarded(listing: Listing) {}
     
     func postNowButtonPressed(_ view: UIView) {
-        navigator?.openSell(source: .realEstatePromo, postCategory: .realEstate)
+        let postCategory: PostCategory = .realEstate
+        let source: PostingSource = .realEstatePromo
+        navigator?.openSell(source: source, postCategory: postCategory)
+        trackStartSelling(source: source, category: postCategory)
     }
     
     func openAskPhoneFor(_ listing: Listing, interlocutor: LocalUser) {
@@ -2082,7 +2119,6 @@ extension MainListingsViewModel: ListingCellDelegate {
             completion(result.value)
         }
     }
-    
 }
 
 extension NoAdsInFeedForNewUsers {
