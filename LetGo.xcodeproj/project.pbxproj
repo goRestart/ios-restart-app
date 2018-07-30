@@ -619,8 +619,6 @@
 		421CB34C207BBE5E006BF8A4 /* Collection+Safe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421CB34A207BBE5E006BF8A4 /* Collection+Safe.swift */; };
 		4245B6EF2084D47A00EF8162 /* UserType+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4245B6EE2084D47A00EF8162 /* UserType+LG.swift */; };
 		4245B6F02084D47A00EF8162 /* UserType+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4245B6EE2084D47A00EF8162 /* UserType+LG.swift */; };
-		424898EE2090820E004B11AC /* ListingRepository+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424898ED2090820E004B11AC /* ListingRepository+LG.swift */; };
-		424898EF2090820E004B11AC /* ListingRepository+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424898ED2090820E004B11AC /* ListingRepository+LG.swift */; };
 		4252685620C7E7F900A6E191 /* TagCollectionViewWithCloseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4252685520C7E7F900A6E191 /* TagCollectionViewWithCloseCell.swift */; };
 		4252685720C7E7F900A6E191 /* TagCollectionViewWithCloseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4252685520C7E7F900A6E191 /* TagCollectionViewWithCloseCell.swift */; };
 		4252685920C82FC500A6E191 /* PostAddNewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4252685820C82FC500A6E191 /* PostAddNewCell.swift */; };
@@ -2423,7 +2421,6 @@
 		4219244020761CF900862CEF /* PromoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoCell.swift; sourceTree = "<group>"; };
 		421CB34A207BBE5E006BF8A4 /* Collection+Safe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Safe.swift"; sourceTree = "<group>"; };
 		4245B6EE2084D47A00EF8162 /* UserType+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserType+LG.swift"; sourceTree = "<group>"; };
-		424898ED2090820E004B11AC /* ListingRepository+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ListingRepository+LG.swift"; sourceTree = "<group>"; };
 		4252685520C7E7F900A6E191 /* TagCollectionViewWithCloseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewWithCloseCell.swift; sourceTree = "<group>"; };
 		4252685820C82FC500A6E191 /* PostAddNewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAddNewCell.swift; sourceTree = "<group>"; };
 		42566BEF20ED211600120431 /* TooltipStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipStyle.swift; sourceTree = "<group>"; };
@@ -5140,7 +5137,6 @@
 				F5D91E7C2008C20200DF28E7 /* UserRatingType+RateBack.swift */,
 				01A04809200CEF53008725A1 /* DailyCountIncrementer.swift */,
 				01834969204F573100B14A24 /* ListingEditionParams+LG.swift */,
-				424898ED2090820E004B11AC /* ListingRepository+LG.swift */,
 				42FCAC8620999DC400ED3DF7 /* LGLocationCoordinates2D+Region.swift */,
 				C2E7F41F20DB90BC0092A1F9 /* Locale+LG.swift */,
 				C611D65D20DD396100955BF4 /* CarExtras+LG.swift */,
@@ -8021,7 +8017,6 @@
 				C78F9DBC1DCA525F00884064 /* ChatTextView.swift in Sources */,
 				502B705B1BAAC3AE00C5D465 /* FloatingButton.swift in Sources */,
 				C75B5DC51D59E09500112368 /* ListingCarouselViewModel.swift in Sources */,
-				424898EE2090820E004B11AC /* ListingRepository+LG.swift in Sources */,
 				556E26F6203C3BA70098ECF0 /* UserProfileViewController.swift in Sources */,
 				2E2FF6E820AC64C800C9A5DA /* ChatUserConversationCell.swift in Sources */,
 				8E8EAD2F20A2EBB800ADEAFE /* ChatConversationsListViewController.swift in Sources */,
@@ -8891,7 +8886,6 @@
 				0AA031F9210A292F00728A1A /* EditUserBioRouter.swift in Sources */,
 				2E2FF6E920AC64C800C9A5DA /* ChatUserConversationCell.swift in Sources */,
 				50A61C231DCA1B5A0057436A /* NSLocale+Country.swift in Sources */,
-				424898EF2090820E004B11AC /* ListingRepository+LG.swift in Sources */,
 				C7DB420D1C5138B500400945 /* FloatingButton.swift in Sources */,
 				0A759E981FB473AC0030FDE0 /* ListingCardViewModel.swift in Sources */,
 				0AF5EB6D1FD060B2001DFAE2 /* QuickChatView.swift in Sources */,

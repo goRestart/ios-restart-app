@@ -196,11 +196,6 @@
         "description": "MultiContact After Search"
     },
     {
-         "name": "ShowServicesFeatures",
-         "values": ["control", "baseline", "active"],
-         "description": "Show services features (search & filters, posting, editing)"
-    },
-    {
          "name": "EmptySearchImprovements",
          "values": ["control", "baseline", "popularNearYou", "similarQueries", "similarQueriesWhenFewResults", "alwaysSimilar"],
          "description": "Improve empty search experience by proposing relavant listings"

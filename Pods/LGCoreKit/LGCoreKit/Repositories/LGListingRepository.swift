@@ -226,16 +226,6 @@ final class LGListingRepository: ListingRepository {
         }
     }
     
-    func updateService(listingParams: ListingEditionParams, completion: ListingCompletion?) {
-        guard listingParams.userId == myUserRepository.myUser?.objectId else {
-            completion?(ListingResult(error: .internalError(message: "UserId doesn't match MyUser")))
-            return
-        }
-        dataSource.updateListingService(listingParams: listingParams) { [weak self] result in
-            self?.handleUpdate(result, completion)
-        }
-    }
-    
     private func handleUpdate(_ result: ListingDataSourceResult, _ completion: ListingCompletion?) {
         guard let listing = result.value else {
             handleApiResult(result, completion: completion)

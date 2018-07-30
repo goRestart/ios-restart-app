@@ -898,9 +898,6 @@ extension FiltersViewModel {
     }
     
     var isServicesInfoCellEnabled: Bool {
-        guard featureFlags.showServicesFeatures.isActive else {
-            return false
-        }
         return productFilter.selectedCategories.contains(.services)
     }
     
@@ -909,9 +906,6 @@ extension FiltersViewModel {
     }
     
     var serviceSections: [FilterServicesSection] {
-        guard featureFlags.showServicesFeatures.isActive else {
-            return []
-        }
         return FilterServicesSection.allSections(isUnifiedActive: featureFlags.servicesUnifiedFilterScreen.isActive)
     }
     

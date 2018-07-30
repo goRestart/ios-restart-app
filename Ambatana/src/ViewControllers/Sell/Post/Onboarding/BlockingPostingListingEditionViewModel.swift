@@ -83,17 +83,15 @@ class BlockingPostingListingEditionViewModel: BaseViewModel {
     
     func updateListing() {
         state.value = .updatingListing
-        let shouldUseServicesEndpoint = featureFlags.showServicesFeatures.isActive
-        let updateAction = listingRepository.updateAction(forParams: listingParams,
-                                                          shouldUseServicesEndpoint: shouldUseServicesEndpoint)
-        updateAction(listingParams) { [weak self] result in
-            if let responseListing = result.value {
-                self?.listing = responseListing
-                self?.state.value = .success
-            } else if let _ = result.error {
-                self?.state.value = .error
-            }
-        }
+        listingRepository.update(listingParams: listingParams,
+                                 completion: { [weak self] result in
+                                    if let responseListing = result.value {
+                                        self?.listing = responseListing
+                                        self?.state.value = .success
+                                    } else if let _ = result.error {
+                                        self?.state.value = .error
+                                    }
+        })
     }
     
     

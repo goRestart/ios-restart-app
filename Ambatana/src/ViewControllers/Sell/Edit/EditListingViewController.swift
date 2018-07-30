@@ -877,26 +877,25 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
             self?.viewModel.realEstateNumberOfRoomsButtonPressed()
             }.disposed(by: disposeBag)
         
-        if featureFlags.showServicesFeatures.isActive {
-            viewModel.serviceTypeId.asObservable().bind { [weak self] serviceTypeId in
-                guard let _ = serviceTypeId else {
-                    self?.disableServicesSubtypeField()
-                    return
-                }
-                self?.enableServicesSubtypeField()
-                }.disposed(by: disposeBag)
-            
-            viewModel.serviceTypeName.asObservable().bind(to: serviceTypeValueLabel.rx.text).disposed(by: disposeBag)
-            viewModel.serviceSubtypeName.asObservable().bind(to: serviceSubtypeValueLabel.rx.text).disposed(by: disposeBag)
-            
-            serviceTypeButton.rx.tap.bind { [weak self] in
-                self?.viewModel.serviceTypeButtonPressed()
-                }.disposed(by: disposeBag)
-            
-            serviceSubtypeButton.rx.tap.bind { [weak self] in
-                self?.viewModel.serviceSubtypeButtonPressed()
-                }.disposed(by: disposeBag)
-        }
+        viewModel.serviceTypeId.asObservable().bind { [weak self] serviceTypeId in
+            guard let _ = serviceTypeId else {
+                self?.disableServicesSubtypeField()
+                return
+            }
+            self?.enableServicesSubtypeField()
+            }.disposed(by: disposeBag)
+        
+        viewModel.serviceTypeName.asObservable().bind(to: serviceTypeValueLabel.rx.text).disposed(by: disposeBag)
+        viewModel.serviceSubtypeName.asObservable().bind(to: serviceSubtypeValueLabel.rx.text).disposed(by: disposeBag)
+        
+        serviceTypeButton.rx.tap.bind { [weak self] in
+            self?.viewModel.serviceTypeButtonPressed()
+            }.disposed(by: disposeBag)
+        
+        serviceSubtypeButton.rx.tap.bind { [weak self] in
+            self?.viewModel.serviceSubtypeButtonPressed()
+            }.disposed(by: disposeBag)
+        
         
         viewModel.loadingProgress.asObservable().map { $0 == nil }.bind(to: loadingView.rx.isHidden).disposed(by: disposeBag)
         viewModel.loadingProgress.asObservable().ignoreNil().bind(to: loadingProgressView.rx.progress).disposed(by: disposeBag)
@@ -968,13 +967,9 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
             hideServicesAttributesView()
             showRealEstateAttributesView()
         case .services:
-            if featureFlags.showServicesFeatures.isActive {
-                hideCarsAttributesView()
-                hideRealEstateAttributesView()
-                showServicesAttributesView()
-            } else {
-                hideVerticalFields()
-            }
+            hideCarsAttributesView()
+            hideRealEstateAttributesView()
+            showServicesAttributesView()
         case .babyAndChild, .electronics, .fashionAndAccesories, .homeAndGarden, .motorsAndAccessories,
              .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .unassigned:
             hideVerticalFields()

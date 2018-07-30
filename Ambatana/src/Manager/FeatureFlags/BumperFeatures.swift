@@ -55,7 +55,6 @@ extension Bumper  {
         flags.append(ServicesCategoryOnSalchichasMenu.self)
         flags.append(GoogleAdxForTR.self)
         flags.append(MultiContactAfterSearch.self)
-        flags.append(ShowServicesFeatures.self)
         flags.append(EmptySearchImprovements.self)
         flags.append(OffensiveReportAlert.self)
         flags.append(HighlightedIAmInterestedFeed.self)
@@ -588,19 +587,6 @@ extension Bumper  {
     static var multiContactAfterSearchObservable: Observable<MultiContactAfterSearch> {
         return Bumper.observeValue(for: MultiContactAfterSearch.key).map {
             MultiContactAfterSearch(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var showServicesFeatures: ShowServicesFeatures {
-        guard let value = Bumper.value(for: ShowServicesFeatures.key) else { return .control }
-        return ShowServicesFeatures(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var showServicesFeaturesObservable: Observable<ShowServicesFeatures> {
-        return Bumper.observeValue(for: ShowServicesFeatures.key).map {
-            ShowServicesFeatures(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1549,22 +1535,6 @@ enum MultiContactAfterSearch: String, BumperFeature  {
     }
 }
 
-enum ShowServicesFeatures: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return ShowServicesFeatures.control.rawValue }
-    static var enumValues: [ShowServicesFeatures] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show services features (search & filters, posting, editing)" } 
-    static func fromPosition(_ position: Int) -> ShowServicesFeatures {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
 enum EmptySearchImprovements: String, BumperFeature  {
     case control, baseline, popularNearYou, similarQueries, similarQueriesWhenFewResults, alwaysSimilar
     static var defaultValue: String { return EmptySearchImprovements.control.rawValue }
@@ -1959,6 +1929,7 @@ enum AlwaysShowBumpBannerWithLoading: String, BumperFeature  {
         }
     }
 }
+
 enum SearchAlertsDisableOldestIfMaximumReached: String, BumperFeature  {
     case control, baseline, active
     static var defaultValue: String { return SearchAlertsDisableOldestIfMaximumReached.control.rawValue }

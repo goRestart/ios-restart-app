@@ -85,7 +85,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     }
     
     private var isPostingServices: Bool {
-        return featureFlags.showServicesFeatures.isActive && postListingState.category?.isService ?? false
+        return postListingState.category?.isService ?? false
     }
     
     func makeContentView(viewControllerDelegate: LGSearchMapViewControllerModelDelegate) -> PostingViewConfigurable? {

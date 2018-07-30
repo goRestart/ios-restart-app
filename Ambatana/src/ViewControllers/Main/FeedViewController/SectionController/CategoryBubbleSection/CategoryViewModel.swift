@@ -17,7 +17,7 @@ final class CategoryViewModel: CategoriesBubblePresentable {
     var categories: [CategoryHeaderElement] {
         return ListingCategory.visibleValuesInFeed(servicesIncluded: true,
                                                    realEstateIncluded: featureFlags.realEstateEnabled.isActive,
-                                                   servicesHighlighted: featureFlags.showServicesFeatures.isActive)
+                                                   servicesHighlighted: true)
             .map { CategoryHeaderElement.listingCategory($0) }
     }
     

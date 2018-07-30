@@ -185,7 +185,6 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
                         postListingState = postListingState.updatingStepToUploadingImages()
                         postListingState = postListingState.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
                         buildPostingDetailsViewModel()
-                        featureFlags.showServicesFeatures = ShowServicesFeatures.active
                     }
                     context("press next button") {
                         beforeEach {

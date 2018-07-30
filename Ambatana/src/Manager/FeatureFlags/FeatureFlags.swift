@@ -77,7 +77,6 @@ protocol FeatureFlaggeable: class {
     var expressChatImprovement: ExpressChatImprovement { get }
 
     // MARK: Verticals
-    var showServicesFeatures: ShowServicesFeatures { get }
     var carExtraFieldsEnabled: CarExtraFieldsEnabled { get }
     var realEstateMapTooltip: RealEstateMapTooltip { get }
     var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen { get }
@@ -185,10 +184,6 @@ extension DummyUsersInfoProfile {
 
 extension OnboardingIncentivizePosting {
     var isActive: Bool { return self == .blockingPosting || self == .blockingPostingSkipWelcome }
-}
-
-extension ShowServicesFeatures {
-    var isActive: Bool { return self == .active }
 }
 
 extension ServicesUnifiedFilterScreen {
@@ -1168,13 +1163,6 @@ extension FeatureFlags {
 // MARK: Verticals
 
 extension FeatureFlags {
-    
-    var showServicesFeatures: ShowServicesFeatures {
-        if Bumper.enabled {
-            return Bumper.showServicesFeatures
-        }
-        return ShowServicesFeatures.fromPosition(abTests.showServicesFeatures.value)
-    }
     
     var carExtraFieldsEnabled: CarExtraFieldsEnabled {
         if Bumper.enabled {

@@ -133,7 +133,7 @@ class PostListingState {
         self.shareAfterPost = shareAfterPost
     }
     
-    func updating(category: PostCategory, showServicesFeatures: Bool = false) -> PostListingState {
+    func updating(category: PostCategory) -> PostListingState {
         guard step == .categorySelection else { return self }
         let newStep: PostListingStep
         switch category {
@@ -144,7 +144,7 @@ class PostListingState {
         case .otherItems, .motorsAndAccessories:
             newStep = .finished
         case .services:
-            newStep =  showServicesFeatures ? .addingDetails : .finished
+            newStep = .addingDetails
         }
         return PostListingState(step: newStep,
                                 previousStep: step,
