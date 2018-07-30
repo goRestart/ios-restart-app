@@ -77,9 +77,9 @@ PODS:
   - LGComponents/LGShared (1.0.0):
     - AlamofireImage (= 3.3.0)
     - CocoaLumberjack/Swift (= 3.3.0)
-    - LGCoreKit (= 4.47.0)
+    - LGCoreKit (= 4.48.0)
     - RxCocoa (= 4.0.0)
-  - LGCoreKit (4.47.0):
+  - LGCoreKit (4.48.0):
     - Alamofire (~> 4.5.1)
     - CocoaLumberjack/Swift (~> 3.3.0)
     - DeviceGuru (~> 3.0.1)
@@ -173,7 +173,7 @@ DEPENDENCIES:
   - Leanplum-iOS-SDK (= 2.0.5)
   - LGCollapsibleLabel (= 1.2.0)
   - LGComponents (from `components`)
-  - LGCoreKit (= 4.47.0)
+  - LGCoreKit (= 4.48.0)
   - lottie-ios (= 2.5.0)
   - mopub-ios-sdk (= 4.20.0)
   - NewRelicAgent (= 6.1.1)
@@ -286,8 +286,8 @@ SPEC CHECKSUMS:
   KMPlaceholderTextView: 2bbcd19a273648a80a61e1e48f9743a24d8930e3
   Leanplum-iOS-SDK: d7d387b7f3688e697f2893978bfe67092df5b7ca
   LGCollapsibleLabel: 2a5ebb0ff0ff3e1d7ab0c295a17c923db000f557
-  LGComponents: da88134c94dacbd950b1b5ebe6e8ae85c1670a34
-  LGCoreKit: e7577b3f566da0870e73e69ead1514e13e088c5d
+  LGComponents: 7b8bdf1213106a180ddd88aa0fcd00f2eb667921
+  LGCoreKit: f37ce0b12a0ad2b2d69f9f179dccf9f78fce780e
   lottie-ios: d699fdee68d7b63e721d949388b015fef1aaa4ac
   mopub-ios-sdk: 89c6ac9ca01d3b36e9fba16a6cfe31d3c290d354
   NewRelicAgent: 652434a627201e3745cd5849228feeb10afe1879
@@ -309,6 +309,6 @@ SPEC CHECKSUMS:
   SwiftyGif: d36c6dfb52e2ca1e48fe349d225f50ec4123ec85
   SwiftyUserDefaults: 3d273b1739b68ada3145dc754a70ec775bc5c8be
 
-PODFILE CHECKSUM: 2c9c652d5daec6be02462e955d78c360f154d2b5
+PODFILE CHECKSUM: 5fa8e2fc3e9418c7d04c15bff1e3cc502c5eed38
 
 COCOAPODS: 1.5.3
