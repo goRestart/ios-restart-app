@@ -1557,7 +1557,59 @@ struct TrackerEvent {
         let dynamicParams = TrackerEvent.makeDynamicEventParameters(dynamicParameters: dynamicParameters)
         return TrackerEvent(name: .emailNotificationsEditStart, params: dynamicParams)
     }
-    
+
+    static func productReport(listing: Listing,
+                              reason: ReportOptionType,
+                              subreason: ReportOptionType?,
+                              hasComment: EventParameterBoolean) -> TrackerEvent {
+        var params = EventParameters()
+        params.addListingParams(listing)
+        params[.productReportReason] = reason.rawValue
+        if let subreason = subreason {
+            params[.productReportSubReason] = subreason.rawValue
+        }
+        params[.comment] = hasComment.rawValue
+        return TrackerEvent(name: .listingReport, params: params)
+    }
+
+    static func userReport(typePage: EventParameterTypePage,
+                           reportedUserId: String,
+                           reason: ReportOptionType,
+                           subreason: ReportOptionType?,
+                           hasComment: EventParameterBoolean) -> TrackerEvent {
+        var params = EventParameters()
+        params[.typePage] = typePage.rawValue
+        params[.userToId] = reportedUserId
+        params[.profileReportReason] = reason.rawValue
+        if let subreason = subreason {
+            params[.profileReportSubReason] = subreason.rawValue
+        }
+        params[.comment] = hasComment.rawValue
+        return TrackerEvent(name: .profileReport, params: params)
+    }
+
+    static func profileReportUpdateSent(userId: String, reportedUserId: String) -> TrackerEvent {
+        var params = EventParameters()
+        params[.userId] = userId
+        params[.userToId] = reportedUserId
+        return TrackerEvent(name: .profileReportUpdateSent, params: params)
+    }
+
+    static func profileReportUpdateCompleted() -> TrackerEvent {
+        var params = EventParameters()
+        return TrackerEvent(name: .profileReportUpdateComplete, params: params)
+    }
+
+    static func productReportUpdateSent() -> TrackerEvent {
+        var params = EventParameters()
+        return TrackerEvent(name: .productReportUpdateSent, params: params)
+    }
+
+    static func producReportUpdateCompleted() -> TrackerEvent {
+        var params = EventParameters()
+        return TrackerEvent(name: .productReportUpdateComplete, params: params)
+    }
+
     static private func makeDynamicEventParameters(dynamicParameters: [String: Bool]) -> EventParameters {
         var dynamicParams = EventParameters()
         let parameterEnabledAddition = "-enabled"
@@ -1566,7 +1618,6 @@ struct TrackerEvent {
         }
         return dynamicParams
     }
-
 
     // MARK: - Private methods
     

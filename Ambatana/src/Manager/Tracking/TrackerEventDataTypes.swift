@@ -52,8 +52,6 @@ enum EventName: String {
     case listingMarkAsSoldAtLetgo           = "product-detail-sold-at-letgo"
     case listingMarkAsSoldOutsideLetgo      = "product-detail-sold-outside-letgo"
     case listingMarkAsUnsold                = "product-detail-unsold"
-    case listingReport                      = "product-detail-report"
-    case listingReportError                 = "product-detail-report-error"
 
     case productDetailPlayVideo             = "product-detail-play-video"
     
@@ -101,7 +99,6 @@ enum EventName: String {
     case profileEditEditName                = "profile-edit-edit-name"
     case profileEditEditLocationStart       = "profile-edit-edit-location-start"
     case profileEditEditPicture             = "profile-edit-edit-picture"
-    case profileReport                      = "profile-report"
     case profileBlock                       = "profile-block"
     case profileUnblock                     = "profile-unblock"
     case profileShareStart                  = "profile-share-start"
@@ -212,6 +209,13 @@ enum EventName: String {
     case chatTabOpen                        = "chat-tab-open"
     case chatCallToActionTapped             = "chat-call-to-action-tapped"
 
+    case profileReport                      = "profile-report"
+    case profileReportUpdateSent            = "profile-report-update-sent"
+    case profileReportUpdateComplete        = "profile-report-update-complete"
+    case listingReport                      = "product-detail-report"
+    case listingReportError                 = "product-detail-report-error"
+    case productReportUpdateSent            = "product-report-update-sent"
+    case productReportUpdateComplete        = "product-report-update-complete"
 
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
@@ -429,6 +433,15 @@ enum EventParameterName: String {
     case returnedResults    = "returned-results"
     case featuredResults    = "featured-results"
     case action             = "action"
+
+    // Reporting (fosta-sesta)
+    case profileReportReason = "profile-report-reason"
+    case profileReportSubReason = "profile-report-subreason"
+    case comment = "comment"
+    case productReportReason = "product-report-reason"
+    case productReportSubReason = "product-report-subreason"
+    case experienceRating = "experience-rating"
+
 }
 
 enum EventParameterBoolean: String {
