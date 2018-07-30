@@ -12,6 +12,7 @@ final class ChatConversationsListView: UIView {
     
     struct Time {
         static let animationDuration: TimeInterval = 0.1
+        static let statusViewAnimationDuration: TimeInterval = 0.5
     }
     
     struct Layout {
@@ -35,9 +36,7 @@ final class ChatConversationsListView: UIView {
     private var statusViewHeight: CGFloat {
         return featureFlags.showChatConnectionStatusBar.isActive ? ChatConnectionStatusView.standardHeight : 0
     }
-
-    private var isTableViewVisible: Bool = false
-
+    
     private let featureFlags: FeatureFlaggeable
 
     private let bag = DisposeBag()
@@ -132,7 +131,7 @@ final class ChatConversationsListView: UIView {
 
     private func animateStatusBar(visible: Bool) {
         statusViewHeightConstraint.constant = visible ? ChatConnectionStatusView.standardHeight : 0
-        UIView.animate(withDuration: 0.5) {
+        UIView.animate(withDuration: Time.statusViewAnimationDuration) {
             self.layoutIfNeeded()
         }
     }
@@ -154,7 +153,6 @@ final class ChatConversationsListView: UIView {
     // MARK: View states
     
     func showEmptyView(with emptyViewModel: LGEmptyViewModel) {
-        isTableViewVisible = false
         emptyView.setupWithModel(emptyViewModel)
         tableView.animateTo(alpha: 0, duration: Time.animationDuration)
         emptyView.animateTo(alpha: 1, duration: Time.animationDuration) { [weak self] finished in
@@ -163,7 +161,6 @@ final class ChatConversationsListView: UIView {
     }
     
     func showTableView() {
-        isTableViewVisible = true
         emptyView.animateTo(alpha: 0, duration: Time.animationDuration)
         tableView.animateTo(alpha: 1, duration: Time.animationDuration) { [weak self] finished in
             self?.activityIndicatorView.stopAnimating()
@@ -171,15 +168,17 @@ final class ChatConversationsListView: UIView {
     }
     
     func showActivityIndicator() {
-        isTableViewVisible = false
         emptyView.animateTo(alpha: 0, duration: Time.animationDuration)
         tableView.animateTo(alpha: 0, duration: Time.animationDuration)
         activityIndicatorView.startAnimating()
     }
 
     func scrollToTop() {
-        guard isTableViewVisible else { return }
-        let indexPath = IndexPath(row: 0, section: 0)
-        tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+        guard tableView.numberOfSections > 0 &&
+            tableView.numberOfRows(inSection: 0) > 0
+            else { return }
+        tableView.scrollToRow(at: IndexPath(row: 0, section: 0),
+                              at: .top,
+                              animated: true)
     }
 }

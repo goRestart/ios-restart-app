@@ -219,7 +219,6 @@ final class ChatConversationsListViewController: ChatBaseViewController, Scrolla
     // MARK: - ScrollableToTop
 
     func scrollToTop() {
-        guard viewModel.objectCount > 0 else { return }
         contentView.scrollToTop()
     }
 }
