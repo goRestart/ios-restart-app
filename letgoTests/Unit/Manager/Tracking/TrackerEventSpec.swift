@@ -5729,7 +5729,7 @@ class TrackerEventSpec: QuickSpec {
                         expect(sut.name.rawValue) == "open-community"
                     }
                     it("contains showing-banner as true") {
-                        expect(sut.params!.stringKeyParams["showing-banner"] as? Bool) == true
+                        expect(sut.params!.stringKeyParams["showing-banner"] as? String) == "true"
                     }
                     it("contains bannery-type as join-community") {
                         expect(sut.params!.stringKeyParams["banner-type"] as? String) == "join-community"

@@ -1618,7 +1618,7 @@ struct TrackerEvent {
 
     static func openCommunityFromProductList(showingBanner: Bool, bannerType: EventBannerType) -> TrackerEvent {
         var params = EventParameters()
-        params[.showingBanner] = EventParameterBoolean(bool: showingBanner)
+        params[.showingBanner] = EventParameterBoolean(bool: showingBanner).rawValue
         params[.bannerType] = bannerType.rawValue
         return TrackerEvent(name: .openCommunity, params: params)
     }
