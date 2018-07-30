@@ -1304,6 +1304,8 @@
 		8E814F421F3475AB00C88432 /* FilterSliderYearCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E814F411F3475AB00C88432 /* FilterSliderYearCell.swift */; };
 		8E814F431F3475AB00C88432 /* FilterSliderYearCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E814F411F3475AB00C88432 /* FilterSliderYearCell.swift */; };
 		8E8236F3202CA68000A70A33 /* LGEmojiSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8236F2202CA68000A70A33 /* LGEmojiSpec.swift */; };
+		8E838214210F4D8000475568 /* ChatConnectionBarStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E838213210F4D8000475568 /* ChatConnectionBarStatus.swift */; };
+		8E838215210F4D8000475568 /* ChatConnectionBarStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E838213210F4D8000475568 /* ChatConnectionBarStatus.swift */; };
 		8E85EA261FD0539700A24ADE /* Data+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E85EA251FD0539700A24ADE /* Data+Extensions.swift */; };
 		8E8EAD2F20A2EBB800ADEAFE /* ChatConversationsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8EAD2E20A2EBB800ADEAFE /* ChatConversationsListViewController.swift */; };
 		8E8EAD3420A2EBFD00ADEAFE /* ChatConversationsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8EAD2E20A2EBB800ADEAFE /* ChatConversationsListViewController.swift */; };
@@ -2853,6 +2855,7 @@
 		8E814F3E1F34732F00C88432 /* LGSliderThumb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LGSliderThumb.swift; path = LGSlider/LGSliderThumb.swift; sourceTree = "<group>"; };
 		8E814F411F3475AB00C88432 /* FilterSliderYearCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterSliderYearCell.swift; sourceTree = "<group>"; };
 		8E8236F2202CA68000A70A33 /* LGEmojiSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGEmojiSpec.swift; sourceTree = "<group>"; };
+		8E838213210F4D8000475568 /* ChatConnectionBarStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatConnectionBarStatus.swift; sourceTree = "<group>"; };
 		8E85EA251FD0539700A24ADE /* Data+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extensions.swift"; sourceTree = "<group>"; };
 		8E8EAD2E20A2EBB800ADEAFE /* ChatConversationsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatConversationsListViewController.swift; sourceTree = "<group>"; };
 		8E8EAD3520A2EC1400ADEAFE /* ChatConversationsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatConversationsListViewModel.swift; sourceTree = "<group>"; };
@@ -5995,6 +5998,7 @@
 		C7B588911CE1E025009B3975 /* ChatList */ = {
 			isa = PBXGroup;
 			children = (
+				8E838213210F4D8000475568 /* ChatConnectionBarStatus.swift */,
 				8E8EAD3020A2EBC200ADEAFE /* ConversationsList */,
 				8E8017962010B8C8004CE244 /* InactiveConversations */,
 				2E151D6E20A49B6A0038D7C7 /* ChatBlockedUsers */,
@@ -7674,6 +7678,7 @@
 				C727FBC31CCFC545002BC643 /* NotificationsViewModel.swift in Sources */,
 				326C72D520888280009D21DB /* UICollectionViewLayoutAttributes+Builder.swift in Sources */,
 				C6FFC4B120FCA84600B9F53A /* FilterCategoryItem.swift in Sources */,
+				8E838214210F4D8000475568 /* ChatConnectionBarStatus.swift in Sources */,
 				6A5E1A161D548F5400F92692 /* UITextField+LG.swift in Sources */,
 				C6A5CC5D20E3A22500610A3A /* FilterSliderCell.swift in Sources */,
 				5569D9A820848CA8004E5468 /* UserPhoneVerificationCodeInputTextField.swift in Sources */,
@@ -8763,6 +8768,7 @@
 				8E69F3F31E9E30EE00E14F12 /* CategoryDetailTableView.swift in Sources */,
 				2E212C6620FCC55400FB42B3 /* ChatCallToActionCell.swift in Sources */,
 				C7B5884C1CE1DE1C009B3975 /* ChatViewModel.swift in Sources */,
+				8E838215210F4D8000475568 /* ChatConnectionBarStatus.swift in Sources */,
 				C707D4591E9B8C0B00042C03 /* RepositoryError+LG.swift in Sources */,
 				50CFB2F420A2D94800255EE8 /* UserVerificationViewController.swift in Sources */,
 				C6BEE65520EE6ED2008AEA0B /* ListingAttributeTableViewController.swift in Sources */,

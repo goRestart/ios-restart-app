@@ -67,6 +67,7 @@ final class ChatConversationsListView: UIView {
         setupTableView()
         setupStatusBarRx()
         addRefreshControl()
+        removeLineSeparatorOnEmptyCells()
     }
     
     private func setupTableView() {
@@ -127,6 +128,10 @@ final class ChatConversationsListView: UIView {
             tableView.addSubview(refreshControl)
         }
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+    }
+    
+    private func removeLineSeparatorOnEmptyCells() {
+        tableView.tableFooterView = UIView()
     }
 
     private func animateStatusBar(visible: Bool) {
