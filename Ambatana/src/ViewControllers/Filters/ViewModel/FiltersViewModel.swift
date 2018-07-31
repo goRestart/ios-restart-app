@@ -7,6 +7,7 @@ protocol FiltersViewModelDelegate: BaseViewModelDelegate {
     func vmDidUpdate()
     func vmForcePriceFix()
     func vmForceSizeFix()
+    func scrollToItem(atIndexPath indexPath: IndexPath)
 }
 
 protocol FiltersViewModelDataDelegate: class {
@@ -198,9 +199,9 @@ class FiltersViewModel: BaseViewModel {
     fileprivate func generateSections() -> [FilterSection] {
         let updatedSections = FilterSection.allValues(priceAsLast: !featureFlags.taxonomiesAndTaxonomyChildrenInFeed.isActive)
 
-        return updatedSections.filter { $0 != .price ||  isPriceCellEnabled }
-            .filter {$0 != .carsInfo ||  isCarsInfoCellEnabled }
-            .filter {!$0.isRealEstateSection || isRealEstateInfoCellEnabled }
+        return updatedSections.filter { $0 != .price || isPriceCellEnabled }
+            .filter { $0 != .carsInfo || isCarsInfoCellEnabled }
+            .filter { !$0.isRealEstateSection || isRealEstateInfoCellEnabled }
             .filter { $0 != .servicesInfo || isServicesInfoCellEnabled }
     }
 
@@ -295,6 +296,19 @@ class FiltersViewModel: BaseViewModel {
         }
         sections = generateSections()
         delegate?.vmDidUpdate()
+        scrollToHighlightedSection(withSelectedCategory: category)
+    }
+    
+    private func scrollToHighlightedSection(withSelectedCategory category: FilterCategoryItem) {
+        switch category {
+        case .category(let listingCategory):
+            if let carSectionIndex = sections.index(of: .carsInfo),
+                listingCategory.isCar,
+                featureFlags.carExtraFieldsEnabled.isActive {
+                delegate?.scrollToItem(atIndexPath: IndexPath(row: 0, section: carSectionIndex))
+            }
+        case .free: break
+        }
     }
     
     func categoryTextAtIndex(_ index: Int) -> String? {

@@ -234,6 +234,17 @@ extension FiltersViewController {
 
 extension FiltersViewController: FiltersViewModelDelegate {
     
+    func scrollToItem(atIndexPath indexPath: IndexPath) {
+        
+        guard numberOfSections(in: collectionView) > indexPath.section,
+            collectionView(collectionView, numberOfItemsInSection: indexPath.section) > indexPath.item else {
+                return
+        }
+        collectionView.scrollToItem(at: indexPath,
+                                    at: .top,
+                                    animated: true)
+    }
+    
     func vmDidUpdate() {
         collectionView.reloadData()
     }
