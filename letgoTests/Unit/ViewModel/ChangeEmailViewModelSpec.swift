@@ -185,6 +185,11 @@ extension ChangeEmailViewModelSpec: ChangeEmailViewModelDelegate {
         loading = true
         loadingMessage = message
     }
+    
+    func vmShowAutoFadingMessage(message: String, time: Double, completion: (() -> ())?) {
+        loading = true
+        loadingMessage = message
+    }
 
     func vmShowAutoFadingMessage(title: String, message: String, time: Double, completion: (() -> ())?) {
         loading = true
