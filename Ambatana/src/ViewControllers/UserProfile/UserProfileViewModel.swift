@@ -30,7 +30,7 @@ final class UserProfileViewModel: BaseViewModel {
     // MARK: - Input
     let selectedTab = Variable<UserProfileTabType>(.selling)
 
-    weak var navigator: PublicProfileNavigator?
+    var navigator: PublicProfileNavigator?
     weak var profileNavigator: ProfileTabNavigator? {
         didSet {
             navigator = profileNavigator

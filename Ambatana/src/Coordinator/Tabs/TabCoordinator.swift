@@ -58,8 +58,11 @@ class TabCoordinator: NSObject, Coordinator {
         self.featureFlags = featureFlags
         self.sessionManager = sessionManager
         self.navigationController = UINavigationController(rootViewController: rootViewController)
-        self.listingCoordinator = ListingCoordinator(navigationController: navigationController)
-        self.userCoordinator = UserCoordinator(navigationController: navigationController)
+        let userCoordinator = UserCoordinator(navigationController: navigationController)
+        self.userCoordinator = userCoordinator
+        self.listingCoordinator = ListingCoordinator(navigationController: navigationController,
+                                                     userCoordinator: userCoordinator)
+        userCoordinator.listingCoordinator = listingCoordinator
 
         super.init()
 

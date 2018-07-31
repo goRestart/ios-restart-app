@@ -7,7 +7,7 @@ final class UserCoordinator {
     private let userRepository: UserRepository
     private let myUserRepository: MyUserRepository
 
-    private lazy var listingCoordinator = ListingCoordinator(navigationController: navigationController)
+    weak var listingCoordinator: ListingCoordinator?
 
     convenience init(navigationController: UINavigationController){
         self.init(navigationController: navigationController,
@@ -75,6 +75,6 @@ extension UserCoordinator: PublicProfileNavigator {
     func openListing(_ data: ListingDetailData,
                      source: EventParameterListingVisitSource,
                      actionOnFirstAppear: ProductCarouselActionOnFirstAppear) {
-        listingCoordinator.openListing(data, source: source, actionOnFirstAppear: actionOnFirstAppear)
+        listingCoordinator?.openListing(data, source: source, actionOnFirstAppear: actionOnFirstAppear)
     }
 }

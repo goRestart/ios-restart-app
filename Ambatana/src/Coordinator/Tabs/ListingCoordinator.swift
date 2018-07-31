@@ -5,34 +5,37 @@ import LGComponents
 final class ListingCoordinator {
     private let navigationController: UINavigationController
     weak var listingDetailNavigator: ListingDetailNavigator?
+    
     private let myUserRepository: MyUserRepository
 
     weak var tabNavigator: TabNavigator?
 
-    private lazy var userCoordinator = UserCoordinator(navigationController: navigationController)
+    private let userCoordinator: UserCoordinator
     private let listingRepository: ListingRepository
 
     private let tracker: Tracker
     private let featureFlags: FeatureFlaggeable
     var deckAnimator: DeckAnimator?
 
-    convenience init(navigationController: UINavigationController) {
+    convenience init(navigationController: UINavigationController, userCoordinator: UserCoordinator) {
         self.init(navigationController: navigationController,
                   listingRepository: Core.listingRepository,
                   myUserRepository: Core.myUserRepository,
                   tracker: TrackerProxy.sharedInstance,
-                  featureFlags: FeatureFlags.sharedInstance)
+                  featureFlags: FeatureFlags.sharedInstance,
+                  userCoordinator: userCoordinator)
     }
 
     private init(navigationController: UINavigationController,
                  listingRepository: ListingRepository,
                  myUserRepository: MyUserRepository,
                  tracker: Tracker,
-                 featureFlags: FeatureFlaggeable) {
+                 featureFlags: FeatureFlaggeable,
+                 userCoordinator: UserCoordinator) {
         self.navigationController = navigationController
         self.listingRepository = listingRepository
         self.myUserRepository = myUserRepository
-
+        self.userCoordinator = userCoordinator
         self.tracker = tracker
         self.featureFlags = featureFlags
     }
