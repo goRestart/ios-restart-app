@@ -214,6 +214,7 @@ extension ABTests {
 //  MARK: Verticals
 
 extension ABTests {
+    var servicesPriceType: LeanplumABVariable<Int> { return verticals.servicesPriceType }
     var carExtraFieldsEnabled: LeanplumABVariable<Int> { return verticals.carExtraFieldsEnabled }
     var realEstateMapTooltip: LeanplumABVariable<Int> { return verticals.realEstateMapTooltip }
     var servicesUnifiedFilterScreen: LeanplumABVariable<Int> { return verticals.servicesUnifiedFilterScreen }

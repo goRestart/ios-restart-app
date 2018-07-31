@@ -80,6 +80,7 @@ extension Bumper  {
         flags.append(ShowCommunity.self)
         flags.append(ExpressChatImprovement.self)
         flags.append(AlwaysShowBumpBannerWithLoading.self)
+        flags.append(ServicesPriceType.self)
         flags.append(SearchAlertsDisableOldestIfMaximumReached.self)
         Bumper.initialize(flags)
     } 
@@ -912,6 +913,19 @@ extension Bumper  {
     static var alwaysShowBumpBannerWithLoadingObservable: Observable<AlwaysShowBumpBannerWithLoading> {
         return Bumper.observeValue(for: AlwaysShowBumpBannerWithLoading.key).map {
             AlwaysShowBumpBannerWithLoading(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var servicesPriceType: ServicesPriceType {
+        guard let value = Bumper.value(for: ServicesPriceType.key) else { return .control }
+        return ServicesPriceType(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var servicesPriceTypeObservable: Observable<ServicesPriceType> {
+        return Bumper.observeValue(for: ServicesPriceType.key).map {
+            ServicesPriceType(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1921,6 +1935,22 @@ enum AlwaysShowBumpBannerWithLoading: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "[MONEY] Always show bump banner with a loading till we get the info" } 
     static func fromPosition(_ position: Int) -> AlwaysShowBumpBannerWithLoading {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum ServicesPriceType: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return ServicesPriceType.control.rawValue }
+    static var enumValues: [ServicesPriceType] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "shows services priceType functionality (e.g 2 euro per day, etc.)" } 
+    static func fromPosition(_ position: Int) -> ServicesPriceType {
         switch position { 
             case 0: return .control
             case 1: return .baseline
