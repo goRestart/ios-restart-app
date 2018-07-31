@@ -8,7 +8,7 @@ enum ReportUpdateButtonType: Int {
     case happy
     case veryHappy
 
-    var image: UIImage {
+    fileprivate var image: UIImage {
         switch self {
         case .verySad: return R.Asset.Reporting.feedbackVerySad.image
         case .sad: return R.Asset.Reporting.feedbackSad.image
@@ -18,7 +18,7 @@ enum ReportUpdateButtonType: Int {
         }
     }
 
-    var disabledImage: UIImage {
+    fileprivate var disabledImage: UIImage {
         switch self {
         case .verySad: return R.Asset.Reporting.feedbackVerySadDisabled.image
         case .sad: return R.Asset.Reporting.feedbackSadDisabled.image
@@ -28,7 +28,7 @@ enum ReportUpdateButtonType: Int {
         }
     }
 
-    var title: String {
+    fileprivate var title: String {
         switch self {
         case .verySad: return R.Strings.reportingListingUpdateFeedbackBad
         case .sad: return R.Strings.reportingListingUpdateFeedbackBad

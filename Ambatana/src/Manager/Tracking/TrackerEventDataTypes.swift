@@ -1435,6 +1435,24 @@ enum EventParameterUserBadge: String {
     }
 }
 
+enum EventParameterReportingRating: Int {
+    case verySad = 1
+    case sad = 2
+    case neutral = 3
+    case happy = 4
+    case veryHappy = 5
+
+    init(reportType: ReportUpdateButtonType) {
+        switch reportType {
+        case .verySad: self = .verySad
+        case .sad: self = .sad
+        case .neutral: self = .neutral
+        case .happy: self = .happy
+        case .veryHappy: self = .veryHappy
+        }
+    }
+}
+
 struct EventParameters {
     var params: [EventParameterName : Any] = [:]
     var dynamicParams: [String : Any] = [:]

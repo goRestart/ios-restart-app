@@ -1595,18 +1595,35 @@ struct TrackerEvent {
         return TrackerEvent(name: .profileReportUpdateSent, params: params)
     }
 
-    static func profileReportUpdateCompleted() -> TrackerEvent {
+    static func profileReportUpdateCompleted(userId: String,
+                                             reportedUserId: String,
+                                             rating: EventParameterReportingRating) -> TrackerEvent {
         var params = EventParameters()
+        params[.userId] = userId
+        params[.userToId] = reportedUserId
+        params[.experienceRating] = rating.rawValue
         return TrackerEvent(name: .profileReportUpdateComplete, params: params)
     }
 
-    static func productReportUpdateSent() -> TrackerEvent {
+    static func productReportUpdateSent(userId: String,
+                                        reportedUserId: String,
+                                        listingId: String) -> TrackerEvent {
         var params = EventParameters()
+        params[.userId] = userId
+        params[.userToId] = reportedUserId
+        params[.listingId] = listingId
         return TrackerEvent(name: .productReportUpdateSent, params: params)
     }
 
-    static func producReportUpdateCompleted() -> TrackerEvent {
+    static func producReportUpdateCompleted(userId: String,
+                                            reportedUserId: String,
+                                            listingId: String,
+                                            rating: EventParameterReportingRating) -> TrackerEvent {
         var params = EventParameters()
+        params[.userId] = userId
+        params[.userToId] = reportedUserId
+        params[.listingId] = listingId
+        params[.experienceRating] = rating.rawValue
         return TrackerEvent(name: .productReportUpdateComplete, params: params)
     }
 
