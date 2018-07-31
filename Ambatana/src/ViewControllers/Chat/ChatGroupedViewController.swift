@@ -80,6 +80,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedListViewDelegate
         super.viewDidLoad()
         setupUI()
         setupConstraints()
+        setupConnectionStatusBarRx()
         setAccessibilityIds()
     }
 
@@ -308,7 +309,6 @@ extension ChatGroupedViewController {
 
     fileprivate func setupRxBindings() {
         setupRxVerificationViewBindings()
-        setupConnectionStatusBarRx()
     }
 
     private func setupRxVerificationViewBindings() {

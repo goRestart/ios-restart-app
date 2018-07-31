@@ -258,7 +258,7 @@ class BumpUpBanner: UIView {
 
         UIView.animate(withDuration: 0.3, animations: { [weak self] in
             self?.layoutIfNeeded()
-            self?.loadingLabel.alpha = 0
+            self?.loadingContainerView.isHidden = true
         }) { [weak self] (finished) in
             self?.animateSellFasterIcon()
         }
@@ -275,7 +275,7 @@ class BumpUpBanner: UIView {
     }
 
     private func updateInfoForLoadingBanner() {
-        loadingLabel.alpha = 1
+        loadingContainerView.isHidden = false
         loadingContainerCenterYConstraint.constant = 0
         textContainerCenterYConstraint.constant = BumpUpBanner.bannerHeight/2
         activityIndicator.startAnimating()
@@ -284,6 +284,7 @@ class BumpUpBanner: UIView {
     }
 
     private func updateInfoForFreeBanner() {
+        loadingContainerView.isHidden = true
         activityIndicator.stopAnimating()
         bumpButtonWidthConstraint.isActive = false
         bumpButton.isHidden = true
@@ -291,6 +292,7 @@ class BumpUpBanner: UIView {
     }
 
     private func updateInfoForPricedBannerWith(price: String?) {
+        loadingContainerView.isHidden = true
         activityIndicator.stopAnimating()
         bumpButtonWidthConstraint.isActive = false
         bumpButton.isHidden = true
@@ -302,6 +304,7 @@ class BumpUpBanner: UIView {
     }
 
     private func updateInfoForRestoreBanner() {
+        loadingContainerView.isHidden = true
         activityIndicator.stopAnimating()
         bumpButton.isHidden = false
         bumpButtonWidthConstraint.isActive = true
@@ -309,6 +312,7 @@ class BumpUpBanner: UIView {
     }
 
     private func updateInfoForBoostBannerWith(bannerIsVisible: Bool) {
+        loadingContainerView.isHidden = true
         activityIndicator.stopAnimating()
         bumpButtonWidthConstraint.isActive = false
         bumpButton.isHidden = true
