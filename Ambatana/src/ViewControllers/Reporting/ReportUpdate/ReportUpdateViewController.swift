@@ -86,6 +86,7 @@ final class ReportUpdateViewController: BaseViewController {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
         setupUI()
+        setupAccessibilityIds()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -167,6 +168,16 @@ final class ReportUpdateViewController: BaseViewController {
         ]
 
         NSLayoutConstraint.activate(constraints)
+    }
+
+    private func setupAccessibilityIds() {
+        titleLabel.set(accessibilityId: .reportUpdateTitle)
+        messageLabel.set(accessibilityId: .reportUpdateMessage)
+        verySadButton.set(accessibilityId: .reportUpdateFeedbackVerySad)
+        sadButton.set(accessibilityId: .reportUpdateFeedbackSad)
+        neutralButton.set(accessibilityId: .reportUpdateFeedbackNeutral)
+        happyButton.set(accessibilityId: .reportUpdateFeedbackHappy)
+        veryHappyButton.set(accessibilityId: .reportUpdateFeedbackVeryHappy)
     }
 
     @objc private func didTapButton(sender: ReportUpdateButton) {
