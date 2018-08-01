@@ -113,6 +113,7 @@ class DropdownViewModelSpec: QuickSpec {
                 }
                 
                 it("items should be deselected") {
+                    guard sut.attributes[0].count > 1 else { return }
                     for i in 1...sut.attributes[0].count-1 {
                         expect(sut.attributes[0].item(forIndex: i)?.state).to(equal(DropdownCellState.deselected))
                     }

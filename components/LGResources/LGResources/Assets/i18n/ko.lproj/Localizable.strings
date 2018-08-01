@@ -440,8 +440,8 @@
 "filters_section_within" = "안에 입력하세요";
 "filters_service_subtype_not_set" = "설정하지 않기";
 "filters_service_type_not_set" = "설정하지 않기";
-"filters_services_services_list_max_selection_alert" = "Oops! You can't select more than 15 services.";
-"filters_services_services_list_search_placeholder" = "Handyman, Contracting…";
+"filters_services_services_list_max_selection_alert" = "이런! 15개 이상 서비스를 선택하실 수 없습니다.";
+"filters_services_services_list_search_placeholder" = "수리공, 계약직...";
 "filters_services_services_list_title" = "항목을 선택하세요";
 "filters_size_wrong_range_error" = "최소 크기는 최대 크기보다 클 수 없습니다.";
 "filters_slider_any" = "모두";
@@ -724,6 +724,13 @@
 "post_queued_requests_state_listing_posted" = "게시글이 등록되었습니다!";
 "post_queued_requests_state_posting_listing" = "상품 목록 게시 중...";
 "posting_button_skip" = "넘기기";
+"priceType_biweekly" = "Biweekly";
+"priceType_daily" = "Daily";
+"priceType_hourly" = "Hourly";
+"priceType_monthly" = "Monthly";
+"priceType_oneOff" = "One-time";
+"priceType_weekly" = "Weekly";
+"priceType_yearly" = "Yearly";
 "product_auto_generated_title_label" = "제목은 letgo에서 자동적으로 생성합니다";
 "product_auto_generated_translated_title_label" = "(또한 구글에 의해서 번역됩니다)";
 "product_bubble_favorite_button" = "판매자에게 알려보세요!";
@@ -1242,7 +1249,7 @@
 "search_alert_enable_error_message" = "이런! 검색 알림을 활성화 하는 동안 오류가 발생했습니다.";
 "search_alert_error_too_many_button_text" = "알림 설정";
 "search_alert_error_too_many_text" = "이런! 회원님께서는 검색알림을 받을 수 있는 최대치에 도달하셨습니다";
-"search_alerts_disabled_oldest_message" = "You’ve reached the max number of search alerts, so we’ve turned your oldest one off and activated this one.";
+"search_alerts_disabled_oldest_message" = "최대 검색 알림에 도달하셨습니다. 따라서, 저희는 가장 오래된 알림을 비활성화 하고, 현재 선택하신 사항을 활성화 했습니다.";
 "search_alerts_edit_button" = "수정";
 "search_alerts_header_subtitle" = "새로운 게시글 알림 받기";
 "search_alerts_list_title" = "검색 알림";

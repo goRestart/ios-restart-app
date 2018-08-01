@@ -211,6 +211,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     let serviceTypeName = Variable<String?>(nil)
     let serviceSubtypeId = Variable<String?>(nil)
     let serviceSubtypeName = Variable<String?>(nil)
+    let servicePriceType = Variable<PriceType?>(nil)
     
     var shouldFeatureItemAfterEdit = Variable<Bool>(true)
     
@@ -389,6 +390,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
                 self.serviceSubtypeName.value = services.servicesAttributes.subtypeTitle
                     ?? servicesInfoRepository.serviceSubtype(forServiceSubtypeId: serviceSubtypeId)?.name
             }
+            self.servicePriceType.value = services.servicesAttributes.priceType ?? .hourly
         }
 
         self.shouldShareInFB = false
@@ -480,7 +482,8 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         return ServiceAttributes(typeId: serviceTypeId.value,
                                  subtypeId: serviceSubtypeId.value,
                                  typeTitle: serviceTypeName.value,
-                                 subtypeTitle: serviceSubtypeName.value)
+                                 subtypeTitle: serviceSubtypeName.value,
+                                 priceType: servicePriceType.value)
     }
 
     var descriptionCharCount: Int {
@@ -788,7 +791,8 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         let checkingServicesChanges = Observable.combineLatest(serviceTypeId.asObservable().distinctUntilChanged(),
                                                                serviceTypeName.asObservable().distinctUntilChanged(),
                                                                serviceSubtypeId.asObservable().distinctUntilChanged(),
-                                                               serviceSubtypeName.asObservable().distinctUntilChanged())
+                                                               serviceSubtypeName.asObservable().distinctUntilChanged(),
+                                                               servicePriceType.asObservable().distinctUntilChanged())
         
         let checkAllChanges = Observable.combineLatest(checkingCarChanges.asObservable(),
                                                        checkingCarExtraFieldsChanges.asObservable(),
@@ -1028,6 +1032,10 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 // MARK:- Services
 extension EditListingViewModel {
     
+    var shouldShowPriceType: Bool {
+        return featureFlags.servicesPriceType.isActive
+    }
+    
     func serviceTypeButtonPressed() {
         let serviceTypes = servicesInfoRepository.retrieveServiceTypes()
         let serviceTypeNames = serviceTypes.map( { $0.name } )
@@ -1066,6 +1074,22 @@ extension EditListingViewModel {
             }
         }
         navigator?.openListingAttributePicker(viewModel: vm)
+    }
+    
+    func priceTypeButtonPressed() {
+        let priceTypeActions = PriceType.allCases.map({ [weak self] priceType in
+            return UIAction(interface: UIActionInterface.text(priceType.localizedDisplayName),
+                             action: {
+                                self?.servicePriceType.value = priceType
+            })
+        })
+        
+        let cancelAction = UIAction(interface: UIActionInterface.text(R.Strings.commonCancel),
+                                    action: {})
+
+        delegate?.vmShowActionSheet(cancelAction,
+                                    actions: priceTypeActions,
+                                    withTitle: R.Strings.editPriceTypeChooseTitle)
     }
 
     private func updateServiceType(withServiceType serviceType: ServiceType?) {

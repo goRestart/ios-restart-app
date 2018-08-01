@@ -724,6 +724,13 @@
 "post_queued_requests_state_listing_posted" = "Ilmoitus julkaistu!";
 "post_queued_requests_state_posting_listing" = "Julkaistaan ilmoitusta...";
 "posting_button_skip" = "Ohita";
+"priceType_biweekly" = "Biweekly";
+"priceType_daily" = "Daily";
+"priceType_hourly" = "Hourly";
+"priceType_monthly" = "Monthly";
+"priceType_oneOff" = "One-time";
+"priceType_weekly" = "Weekly";
+"priceType_yearly" = "Yearly";
 "product_auto_generated_title_label" = "letgon automaattisesti luoma otsikko";
 "product_auto_generated_translated_title_label" = "(ja Googlen kääntämä)";
 "product_bubble_favorite_button" = "Kerro myyjälle asiasta!";
@@ -1242,7 +1249,7 @@
 "search_alert_enable_error_message" = "Hups! Hakuvahtiasi aktivoitaessa tapahtui virhe.";
 "search_alert_error_too_many_button_text" = "Hallinnoi ilmoituksia";
 "search_alert_error_too_many_text" = "Hups! Sinulla on jo käytössäsi maksimimäärä hakuvahteja";
-"search_alerts_disabled_oldest_message" = "You’ve reached the max number of search alerts, so we’ve turned your oldest one off and activated this one.";
+"search_alerts_disabled_oldest_message" = "Hakuvahtiesi maksimäärä on ylittynyt, joten kytkimme vanhimman pois päältä ja aktivoimme tämän vahdin.";
 "search_alerts_edit_button" = "Muokkaa";
 "search_alerts_header_subtitle" = "Saa ilmoituksia uusista ilmoituksista";
 "search_alerts_list_title" = "Hakuvahdit";

@@ -724,6 +724,13 @@
 "post_queued_requests_state_listing_posted" = "Advertentie geplaatst!";
 "post_queued_requests_state_posting_listing" = "Advertentie plaatsen...";
 "posting_button_skip" = "Overslaan";
+"priceType_biweekly" = "Biweekly";
+"priceType_daily" = "Daily";
+"priceType_hourly" = "Hourly";
+"priceType_monthly" = "Monthly";
+"priceType_oneOff" = "One-time";
+"priceType_weekly" = "Weekly";
+"priceType_yearly" = "Yearly";
 "product_auto_generated_title_label" = "Titel automatisch gegenereerd door letgo";
 "product_auto_generated_translated_title_label" = "(en vertaald door Google)";
 "product_bubble_favorite_button" = "Laat het de verkoper weten!";
@@ -1242,7 +1249,7 @@
 "search_alert_enable_error_message" = "Oeps! Er is een fout opgetreden tijdens het activeren van jouw zoekmelding";
 "search_alert_error_too_many_button_text" = "Meldingen beheren";
 "search_alert_error_too_many_text" = "Oeps! Je hebt het maximale aantal zoekmeldingen bereikt";
-"search_alerts_disabled_oldest_message" = "You’ve reached the max number of search alerts, so we’ve turned your oldest one off and activated this one.";
+"search_alerts_disabled_oldest_message" = "Je hebt het maximale aantal zoekmeldingen bereikt, dus we hebben je oudste uitgeschakeld en deze geactiveerd.";
 "search_alerts_edit_button" = "Bewerken";
 "search_alerts_header_subtitle" = "Ontvang meldingen over nieuwe advertenties";
 "search_alerts_list_title" = "Zoekmeldingen";

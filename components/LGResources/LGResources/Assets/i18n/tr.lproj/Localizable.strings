@@ -724,6 +724,13 @@
 "post_queued_requests_state_listing_posted" = "İlan yüklendi!";
 "post_queued_requests_state_posting_listing" = "İlan yükleniyor...";
 "posting_button_skip" = "Geç";
+"priceType_biweekly" = "Biweekly";
+"priceType_daily" = "Daily";
+"priceType_hourly" = "Hourly";
+"priceType_monthly" = "Monthly";
+"priceType_oneOff" = "One-time";
+"priceType_weekly" = "Weekly";
+"priceType_yearly" = "Yearly";
 "product_auto_generated_title_label" = "Başlık letgo tarafından otomatik olarak belirlendi";
 "product_auto_generated_translated_title_label" = "(Yandex ile çevrildi)";
 "product_bubble_favorite_button" = "Satıcıyı haberdar et!";
@@ -1259,7 +1266,7 @@
 "sell_picture_image_source_camera_roll_button" = "Fotoğraf galerisi";
 "sell_picture_image_source_cancel_button" = "İptal et";
 "sell_picture_image_source_title" = "Fotoğraf kaynağını seç";
-"sell_picture_label" = "Resim";
+"sell_picture_label" = "Görsel";
 "sell_picture_save_into_camera_roll_error_generic" = "Görsel, fotoğraf galerisine kaydedilirken bir hata oluştu. Lütfen telefonunun ayarlarından, letgo'nun fotoğraflarına erişebilmesine izin verdiğinden emin ol.";
 "sell_picture_save_into_camera_roll_loading" = "Fotoğraf galeriye kaydediliyor...";
 "sell_picture_save_into_camera_roll_ok" = "Fotoğraf galeriye kaydedildi.";

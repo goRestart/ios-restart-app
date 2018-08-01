@@ -724,6 +724,13 @@
 "post_queued_requests_state_listing_posted" = "Annuncio pubblicato!";
 "post_queued_requests_state_posting_listing" = "Pubblicazione annuncio...";
 "posting_button_skip" = "Salta";
+"priceType_biweekly" = "Biweekly";
+"priceType_daily" = "Daily";
+"priceType_hourly" = "Hourly";
+"priceType_monthly" = "Monthly";
+"priceType_oneOff" = "One-time";
+"priceType_weekly" = "Weekly";
+"priceType_yearly" = "Yearly";
 "product_auto_generated_title_label" = "Titolo generato automaticamente da letgo";
 "product_auto_generated_translated_title_label" = "(e tradotto da Google)";
 "product_bubble_favorite_button" = "Fallo sapere al venditore!";

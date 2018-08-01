@@ -724,6 +724,13 @@
 "post_queued_requests_state_listing_posted" = "Bài đã được đăng!";
 "post_queued_requests_state_posting_listing" = "Đang đăng bài…";
 "posting_button_skip" = "Bỏ qua";
+"priceType_biweekly" = "Biweekly";
+"priceType_daily" = "Daily";
+"priceType_hourly" = "Hourly";
+"priceType_monthly" = "Monthly";
+"priceType_oneOff" = "One-time";
+"priceType_weekly" = "Weekly";
+"priceType_yearly" = "Yearly";
 "product_auto_generated_title_label" = "Tiêu đề do letgo tự động đặt";
 "product_auto_generated_translated_title_label" = "(và do Google dịch)";
 "product_bubble_favorite_button" = "Cho người bán biết!";
@@ -1242,7 +1249,7 @@
 "search_alert_enable_error_message" = "Ồ! Có lỗi xảy ra trong khi kích hoạt thông báo tìm kiếm của bạn.";
 "search_alert_error_too_many_button_text" = "Quản lý Thông báo";
 "search_alert_error_too_many_text" = "Ồ! Bạn đã đạt tối đa số lượng thông báo tìm kiếm";
-"search_alerts_disabled_oldest_message" = "You’ve reached the max number of search alerts, so we’ve turned your oldest one off and activated this one.";
+"search_alerts_disabled_oldest_message" = "Bạn đã đạt số lượng cảnh báo tìm kiếm tối đa, vì vậy chúng tôi đã tắt cái cũ nhất và kích hoạt cái này.";
 "search_alerts_edit_button" = "Chỉnh sửa";
 "search_alerts_header_subtitle" = "Nhận thông báo về bài đăng mới";
 "search_alerts_list_title" = "Thông báo Tìm kiếm";

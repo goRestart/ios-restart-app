@@ -724,6 +724,13 @@
 "post_queued_requests_state_listing_posted" = "Hirdetés feltöltve!";
 "post_queued_requests_state_posting_listing" = "Hirdetés feltöltése...";
 "posting_button_skip" = "Kihagy";
+"priceType_biweekly" = "Biweekly";
+"priceType_daily" = "Daily";
+"priceType_hourly" = "Hourly";
+"priceType_monthly" = "Monthly";
+"priceType_oneOff" = "One-time";
+"priceType_weekly" = "Weekly";
+"priceType_yearly" = "Yearly";
 "product_auto_generated_title_label" = "A címet a letgo hozta létre automatikusan";
 "product_auto_generated_translated_title_label" = "(és a Google fordította)";
 "product_bubble_favorite_button" = "Tudasd az eladóval!";

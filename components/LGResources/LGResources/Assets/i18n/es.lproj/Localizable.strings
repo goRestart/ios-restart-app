@@ -724,6 +724,13 @@
 "post_queued_requests_state_listing_posted" = "¡Anuncio publicado!";
 "post_queued_requests_state_posting_listing" = "Publicando anuncio...";
 "posting_button_skip" = "Saltar";
+"priceType_biweekly" = "Biweekly";
+"priceType_daily" = "Daily";
+"priceType_hourly" = "Hourly";
+"priceType_monthly" = "Monthly";
+"priceType_oneOff" = "One-time";
+"priceType_weekly" = "Weekly";
+"priceType_yearly" = "Yearly";
 "product_auto_generated_title_label" = "Título generado automáticamente por letgo";
 "product_auto_generated_translated_title_label" = "(y traducido por Google)";
 "product_bubble_favorite_button" = "¡Avisa al vendedor!";
@@ -1242,7 +1249,7 @@
 "search_alert_enable_error_message" = "¡Ups! Se ha producido un error al activar tu alerta de búsqueda.";
 "search_alert_error_too_many_button_text" = "Gestionar notificaciones";
 "search_alert_error_too_many_text" = "¡Ups! Has llegado al máximo de alertas de búsqueda";
-"search_alerts_disabled_oldest_message" = "You’ve reached the max number of search alerts, so we’ve turned your oldest one off and activated this one.";
+"search_alerts_disabled_oldest_message" = "Has llegado al número máximo de alertas de búsqueda, así que hemos apagado la más antigua y hemos activado esta.";
 "search_alerts_edit_button" = "Editar";
 "search_alerts_header_subtitle" = "Recibir notificaciones de nuevos anuncios";
 "search_alerts_list_title" = "Alertas de búsqueda";

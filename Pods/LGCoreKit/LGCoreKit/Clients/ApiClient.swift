@@ -12,8 +12,8 @@ import Result
 import RxSwift
 
 protocol ApiClient: class {
-    weak var sessionManager: InternalSessionManager? { get }
-    weak var installationRepository: InstallationRepository? { get }
+    var sessionManager: InternalSessionManager? { get }
+    var installationRepository: InstallationRepository? { get }
 
     var tokenDAO: TokenDAO { get }
 

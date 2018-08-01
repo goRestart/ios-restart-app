@@ -724,6 +724,13 @@
 "post_queued_requests_state_listing_posted" = "Η καταχώρηση δημοσιεύτηκε!";
 "post_queued_requests_state_posting_listing" = "Δημοσίευση καταχώρησης...";
 "posting_button_skip" = "Παράλειψη";
+"priceType_biweekly" = "Biweekly";
+"priceType_daily" = "Daily";
+"priceType_hourly" = "Hourly";
+"priceType_monthly" = "Monthly";
+"priceType_oneOff" = "One-time";
+"priceType_weekly" = "Weekly";
+"priceType_yearly" = "Yearly";
 "product_auto_generated_title_label" = "Ο τίτλος έχει επιλεγεί αυτόματα από το letgo";
 "product_auto_generated_translated_title_label" = "(και μεταγραστεί από το Google)";
 "product_bubble_favorite_button" = "Ενημερώστε τον πωλητή!";

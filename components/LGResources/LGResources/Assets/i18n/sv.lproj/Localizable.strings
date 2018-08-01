@@ -724,6 +724,13 @@
 "post_queued_requests_state_listing_posted" = "Annonsen har lagts upp!";
 "post_queued_requests_state_posting_listing" = "Publicerar annons...";
 "posting_button_skip" = "Rensa";
+"priceType_biweekly" = "Biweekly";
+"priceType_daily" = "Daily";
+"priceType_hourly" = "Hourly";
+"priceType_monthly" = "Monthly";
+"priceType_oneOff" = "One-time";
+"priceType_weekly" = "Weekly";
+"priceType_yearly" = "Yearly";
 "product_auto_generated_title_label" = "Titeln har genererats automatiskt av letgo";
 "product_auto_generated_translated_title_label" = "(och översatts av Google)";
 "product_bubble_favorite_button" = "Låt säljaren veta!";
@@ -1242,7 +1249,7 @@
 "search_alert_enable_error_message" = "Hoppsan! Ett fel inträffade när din sökavisering skulle aktiveras";
 "search_alert_error_too_many_button_text" = "Hantera Notiser";
 "search_alert_error_too_many_text" = "Hoppsan! Du har uppnått maxantalet sökaviseringar";
-"search_alerts_disabled_oldest_message" = "You’ve reached the max number of search alerts, so we’ve turned your oldest one off and activated this one.";
+"search_alerts_disabled_oldest_message" = "Du har nått det maximala antalet sökaviseringar så vi har inaktiverat den äldsta för att aktivera den här.";
 "search_alerts_edit_button" = "Redigera";
 "search_alerts_header_subtitle" = "Få notiser om nya annonser";
 "search_alerts_list_title" = "Sökaviseringar";
