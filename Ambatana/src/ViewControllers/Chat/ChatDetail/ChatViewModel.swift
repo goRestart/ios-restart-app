@@ -1880,7 +1880,7 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
             case .replyText:
                 break
             case .callToAction(_, _, let deeplinkURL):
-                navigator?.openDeeplink(url: deeplinkURL)
+                navigator?.navigate(with: deeplinkURL)
             }
         }
     }
@@ -1987,7 +1987,7 @@ extension ChatViewModel {
         let isLetgoAssistant = EventParameterBoolean(bool: isUserDummy)
         let trackerEvent = TrackerEvent.chatCallToActionTapped(ctaKey: trackingKey, isLetgoAssistant: isLetgoAssistant)
         tracker.trackEvent(trackerEvent)
-        navigator?.openDeeplink(url: url)
+        navigator?.navigate(with: url)
     }
 
     func acceptMeeting() {

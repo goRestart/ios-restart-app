@@ -115,9 +115,8 @@ protocol SimpleProductsNavigator: class {
     func openListing(_ data: ListingDetailData, source: EventParameterListingVisitSource, actionOnFirstAppear: ProductCarouselActionOnFirstAppear)
 }
 
-protocol ChatDetailNavigator: TabNavigator {
+protocol ChatDetailNavigator: TabNavigator, DeepLinkNavigator {
     func closeChatDetail()
-    func openDeeplink(url: URL)
     func openExpressChat(_ listings: [Listing], sourceListingId: String, manualOpen: Bool)
     func selectBuyerToRate(source: RateUserSource,
                            buyers: [UserListing],

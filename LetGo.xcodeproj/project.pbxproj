@@ -231,6 +231,8 @@
 		0AA03206210B1A3400728A1A /* UserVerificationRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA03204210B1A3400728A1A /* UserVerificationRouter.swift */; };
 		0AA6A5671FFFBCD600F72F4A /* LGCGAffineTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA6A5661FFFBCD600F72F4A /* LGCGAffineTransform.swift */; };
 		0AA6A5681FFFBE7B00F72F4A /* LGCGAffineTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA6A5661FFFBCD600F72F4A /* LGCGAffineTransform.swift */; };
+		0AA7DB5B2110A7B800B2B657 /* DeeplinkMailBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA7DB5A2110A7B800B2B657 /* DeeplinkMailBox.swift */; };
+		0AA7DB5C2110A7B800B2B657 /* DeeplinkMailBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA7DB5A2110A7B800B2B657 /* DeeplinkMailBox.swift */; };
 		0AAC7952207F73960096F156 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAC7951207F73960096F156 /* FeedViewController.swift */; };
 		0AAC7953207F73960096F156 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAC7951207F73960096F156 /* FeedViewController.swift */; };
 		0AAC7955207F73F30096F156 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAC7954207F73F30096F156 /* FeedViewModel.swift */; };
@@ -260,8 +262,6 @@
 		0AD1B7442085D66400A28852 /* FeedNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD1B7422085D66400A28852 /* FeedNavigator.swift */; };
 		0ADE58D21FC45F3100F3DB17 /* ListingCardDetailsViewBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADE58D11FC45F3100F3DB17 /* ListingCardDetailsViewBinder.swift */; };
 		0ADE58D31FC4609400F3DB17 /* ListingCardDetailsViewBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADE58D11FC45F3100F3DB17 /* ListingCardDetailsViewBinder.swift */; };
-		0AE779FC20E6678E001633B1 /* LPMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE779FB20E6678E001633B1 /* LPMessageViewController.swift */; };
-		0AE779FD20E667B5001633B1 /* LPMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE779FB20E6678E001633B1 /* LPMessageViewController.swift */; };
 		0AE6F4EA20F88B0100D58BCE /* TrendingSearchesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE6F4E920F88B0100D58BCE /* TrendingSearchesViewController.swift */; };
 		0AE6F4EC20F88B0C00D58BCE /* TrendingSearchesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE6F4EB20F88B0C00D58BCE /* TrendingSearchesViewModel.swift */; };
 		0AE6F4EF20F88D7800D58BCE /* TrendingSearchesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE6F4E920F88B0100D58BCE /* TrendingSearchesViewController.swift */; };
@@ -274,6 +274,8 @@
 		0AE6F4FC20F8CE7A00D58BCE /* UIViewController+Childs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE6F4FA20F8CE5500D58BCE /* UIViewController+Childs.swift */; };
 		0AE6F4FE20F8DE2A00D58BCE /* SearchNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE6F4FD20F8DE2A00D58BCE /* SearchNavigator.swift */; };
 		0AE6F4FF20F8DF6600D58BCE /* SearchNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE6F4FD20F8DE2A00D58BCE /* SearchNavigator.swift */; };
+		0AE779FC20E6678E001633B1 /* LPMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE779FB20E6678E001633B1 /* LPMessageViewController.swift */; };
+		0AE779FD20E667B5001633B1 /* LPMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE779FB20E6678E001633B1 /* LPMessageViewController.swift */; };
 		0AEB4FF02018AA93003365DE /* ListingDeckOnBoardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEB4FEF2018AA93003365DE /* ListingDeckOnBoardingViewModel.swift */; };
 		0AEB4FF22018C25F003365DE /* ListingDeckOnBoardingBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEB4FF12018C25F003365DE /* ListingDeckOnBoardingBinder.swift */; };
 		0AEB4FF52018C347003365DE /* ListingDeckOnBoardingBinderSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEB4FF42018C347003365DE /* ListingDeckOnBoardingBinderSpec.swift */; };
@@ -2227,6 +2229,7 @@
 		0AA03201210A293600728A1A /* LGUserVerificationBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGUserVerificationBuilder.swift; sourceTree = "<group>"; };
 		0AA03204210B1A3400728A1A /* UserVerificationRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserVerificationRouter.swift; sourceTree = "<group>"; };
 		0AA6A5661FFFBCD600F72F4A /* LGCGAffineTransform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGCGAffineTransform.swift; sourceTree = "<group>"; };
+		0AA7DB5A2110A7B800B2B657 /* DeeplinkMailBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeeplinkMailBox.swift; sourceTree = "<group>"; };
 		0AAC7951207F73960096F156 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		0AAC7954207F73F30096F156 /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
 		0AB3660B200DED020065D5AE /* ListingDeckViewControllerBinderSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingDeckViewControllerBinderSpec.swift; sourceTree = "<group>"; };
@@ -2243,13 +2246,13 @@
 		0ACE7DAC1FD2C3A10068E47B /* DeckCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckCoordinator.swift; sourceTree = "<group>"; };
 		0AD1B7422085D66400A28852 /* FeedNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedNavigator.swift; sourceTree = "<group>"; };
 		0ADE58D11FC45F3100F3DB17 /* ListingCardDetailsViewBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardDetailsViewBinder.swift; sourceTree = "<group>"; };
-		0AE779FB20E6678E001633B1 /* LPMessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LPMessageViewController.swift; sourceTree = "<group>"; };
 		0AE6F4E920F88B0100D58BCE /* TrendingSearchesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingSearchesViewController.swift; sourceTree = "<group>"; };
 		0AE6F4EB20F88B0C00D58BCE /* TrendingSearchesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingSearchesViewModel.swift; sourceTree = "<group>"; };
 		0AE6F4F220F8CBBB00D58BCE /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		0AE6F4F420F8CBCF00D58BCE /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		0AE6F4FA20F8CE5500D58BCE /* UIViewController+Childs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Childs.swift"; sourceTree = "<group>"; };
 		0AE6F4FD20F8DE2A00D58BCE /* SearchNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNavigator.swift; sourceTree = "<group>"; };
+		0AE779FB20E6678E001633B1 /* LPMessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LPMessageViewController.swift; sourceTree = "<group>"; };
 		0AEB4FEF2018AA93003365DE /* ListingDeckOnBoardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingDeckOnBoardingViewModel.swift; sourceTree = "<group>"; };
 		0AEB4FF12018C25F003365DE /* ListingDeckOnBoardingBinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingDeckOnBoardingBinder.swift; sourceTree = "<group>"; };
 		0AEB4FF42018C347003365DE /* ListingDeckOnBoardingBinderSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingDeckOnBoardingBinderSpec.swift; sourceTree = "<group>"; };
@@ -3513,6 +3516,14 @@
 			path = Builder;
 			sourceTree = "<group>";
 		};
+		0AA7DB592110A5AE00B2B657 /* InAppDeeplinks */ = {
+			isa = PBXGroup;
+			children = (
+				0AA7DB5A2110A7B800B2B657 /* DeeplinkMailBox.swift */,
+			);
+			path = InAppDeeplinks;
+			sourceTree = "<group>";
+		};
 		0AAC7950207F738C0096F156 /* FeedViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -4382,6 +4393,7 @@
 		507622851CD0EB1D004E5D0D /* Coordinator */ = {
 			isa = PBXGroup;
 			children = (
+				0AA7DB592110A5AE00B2B657 /* InAppDeeplinks */,
 				0AA03200210A293600728A1A /* Builder */,
 				0AA031E32109D02D00728A1A /* Router */,
 				0ACE7DAB1FD2C3960068E47B /* DeckCoordinator */,
@@ -7498,6 +7510,7 @@
 				C7B5884D1CE1DE1C009B3975 /* QuickAnswer.swift in Sources */,
 				2EBC92181E0ABCDF007F0F82 /* PurchaseableProductsRequest.swift in Sources */,
 				C74234061D59EC680082D1CD /* LocalMessage.swift in Sources */,
+				0AA7DB5B2110A7B800B2B657 /* DeeplinkMailBox.swift in Sources */,
 				0A5333D0208F53BC000D3F42 /* VideoPlayerCoordinator.swift in Sources */,
 				504652F21CC0F0B3003F5070 /* Listing+Title.swift in Sources */,
 				0A63DFC31FB0B7AC00C065F2 /* ListingCardUserView.swift in Sources */,
@@ -8211,7 +8224,6 @@
 				2E423784205A7AA00077B62A /* BumpUpTimerBarView.swift in Sources */,
 				2E1BC3FD1E648C0A0063D1A7 /* ReceiptURLProvider.swift in Sources */,
 				0AF0A46120EA58C100E9176F /* LPCenterPopupView.swift in Sources */,
-				C6E770AF209CBA52002CFA99 /* UIViewConfigError.swift in Sources */,
 				727EF06C1E0BE16D0037DA4E /* CountryCode.swift in Sources */,
 				C6BEE65120EE65A9008AEA0B /* CarAttributeItem.swift in Sources */,
 				C72794401D549342009C25AB /* ChangeUsernameViewModel.swift in Sources */,
@@ -8365,6 +8377,7 @@
 				C74234071D5A01440082D1CD /* LocalMessage.swift in Sources */,
 				2EBC92191E0ABCDF007F0F82 /* PurchaseableProductsRequest.swift in Sources */,
 				504652F31CC0F398003F5070 /* Listing+Title.swift in Sources */,
+				0AA7DB5C2110A7B800B2B657 /* DeeplinkMailBox.swift in Sources */,
 				0A5333D1208F5508000D3F42 /* VideoPlayerCoordinator.swift in Sources */,
 				C7F18AA01C89D62600D23319 /* GalleryImageCell.swift in Sources */,
 				0A60CAA71FB0C4EF00BE1EFE /* ListingCardUserView.swift in Sources */,
@@ -8374,7 +8387,6 @@
 				5555531E203D92F900C913D2 /* UserProfileViewModel.swift in Sources */,
 				2ECB417120065FB200482EF7 /* BumpUpPayViewModel.swift in Sources */,
 				C703BDFF1C7F1AF900EC8EF2 /* EditLocationViewController.swift in Sources */,
-				326C72E02089F9E6009D21DB /* DummyCell.swift in Sources */,
 				0A38625520EB7E8C00DD997F /* LPMessageViewModel.swift in Sources */,
 				C6BEE65920EE6F08008AEA0B /* ListingAttributeTableViewCell.swift in Sources */,
 				C739C1D91D11A2FB0014AD6A /* ChatOtherInfoCellDrawer.swift in Sources */,

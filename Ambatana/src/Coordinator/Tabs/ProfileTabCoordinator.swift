@@ -34,7 +34,8 @@ final class ProfileTabCoordinator: TabCoordinator {
                   tracker: tracker,
                   rootViewController: rootViewController,
                   featureFlags: featureFlags,
-                  sessionManager: sessionManager)
+                  sessionManager: sessionManager,
+                  deeplinkMailBox: LGDeepLinkMailBox.sharedInstance)
 
         viewModel.profileNavigator = self
     }

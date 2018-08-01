@@ -51,6 +51,7 @@ final class AppCoordinator: NSObject, Coordinator {
     fileprivate let ratingManager: RatingManager
     fileprivate let tracker: Tracker
     fileprivate let deepLinksRouter: DeepLinksRouter
+    fileprivate let deeplinkMailBox: DeepLinkMailBox
 
     fileprivate let listingRepository: ListingRepository
     fileprivate let userRepository: UserRepository
@@ -84,6 +85,7 @@ final class AppCoordinator: NSObject, Coordinator {
                   pushPermissionsManager: LGPushPermissionsManager.sharedInstance,
                   ratingManager: LGRatingManager.sharedInstance,
                   deepLinksRouter: LGDeepLinksRouter.sharedInstance,
+                  deeplinkMailBox: LGDeepLinkMailBox.sharedInstance,
                   tracker: TrackerProxy.sharedInstance,
                   listingRepository: Core.listingRepository,
                   userRepository: Core.userRepository,
@@ -106,6 +108,7 @@ final class AppCoordinator: NSObject, Coordinator {
          pushPermissionsManager: PushPermissionsManager,
          ratingManager: RatingManager,
          deepLinksRouter: DeepLinksRouter,
+         deeplinkMailBox: DeepLinkMailBox,
          tracker: Tracker,
          listingRepository: ListingRepository,
          userRepository: UserRepository,
@@ -144,6 +147,7 @@ final class AppCoordinator: NSObject, Coordinator {
         self.tracker = tracker
 
         self.deepLinksRouter = deepLinksRouter
+        self.deeplinkMailBox = deeplinkMailBox
 
         self.listingRepository = listingRepository
         self.userRepository = userRepository
@@ -770,6 +774,11 @@ fileprivate extension AppCoordinator {
                     self?.openExternalDeepLink(deepLink)
                 }
             }.disposed(by: disposeBag)
+
+        deeplinkMailBox.deeplinks
+            .subscribeNext { [weak self] (deeplink) in
+                self?.openDeepLink(deepLink: deeplink)
+        }.disposed(by: disposeBag)
     }
 
     func setupCoreEventsRx() {

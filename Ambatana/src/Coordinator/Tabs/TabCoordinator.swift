@@ -34,6 +34,8 @@ class TabCoordinator: NSObject, Coordinator {
     let featureFlags: FeatureFlaggeable
     let disposeBag = DisposeBag()
 
+    private let deeplinkMailBox: DeepLinkMailBox
+
     private lazy var verificationAssembly: UserVerificationAssembly = LGUserVerificationBuilder.standard(nav: self.navigationController)
 
     weak var tabCoordinatorDelegate: TabCoordinatorDelegate?
@@ -47,7 +49,7 @@ class TabCoordinator: NSObject, Coordinator {
          myUserRepository: MyUserRepository, installationRepository: InstallationRepository,
          bubbleNotificationManager: BubbleNotificationManager,
          keyValueStorage: KeyValueStorage, tracker: Tracker, rootViewController: UIViewController,
-         featureFlags: FeatureFlaggeable, sessionManager: SessionManager) {
+         featureFlags: FeatureFlaggeable, sessionManager: SessionManager, deeplinkMailBox: DeepLinkMailBox) {
         self.listingRepository = listingRepository
         self.userRepository = userRepository
         self.chatRepository = chatRepository
@@ -62,6 +64,7 @@ class TabCoordinator: NSObject, Coordinator {
         self.navigationController = UINavigationController(rootViewController: rootViewController)
         self.listingCoordinator = ListingCoordinator(navigationController: navigationController)
         self.userCoordinator = UserCoordinator(navigationController: navigationController)
+        self.deeplinkMailBox = deeplinkMailBox
 
         super.init()
 
@@ -154,7 +157,7 @@ extension TabCoordinator: TabNavigator {
         navigationController.pushViewController(vc, animated: true)
     }
     
-    func openDeepLink(_ deeplink: DeepLink) {
+    private func openDeepLink(_ deeplink: DeepLink) {
         appNavigator?.openDeepLink(deepLink: deeplink)
     }
 
@@ -528,13 +531,12 @@ extension TabCoordinator: ListingDetailNavigator {
 // MARK: > ChatDetailNavigator
 
 extension TabCoordinator: ChatDetailNavigator {
+    func navigate(with convertible: DeepLinkConvertible) {
+        deeplinkMailBox.push(convertible: convertible)
+    }
+
     func closeChatDetail() {
         navigationController.popViewController(animated: true)
-    }
-    
-    func openDeeplink(url: URL) {
-        guard let deepLink = UriScheme.buildFromUrl(url)?.deepLink else { return }
-        openDeepLink(deepLink)
     }
 
     func openExpressChat(_ listings: [Listing], sourceListingId: String, manualOpen: Bool) {
