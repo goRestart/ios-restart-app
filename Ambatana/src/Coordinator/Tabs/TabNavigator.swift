@@ -46,7 +46,7 @@ protocol TabNavigator: class {
     func canOpenAppInvite() -> Bool
     func openRatingList(_ userId: String)
     func openUserReport(source: EventParameterTypePage, userReportedId: String)
-    func openListingReport(source: EventParameterTypePage, productId: String)
+    func openListingReport(source: EventParameterTypePage, listing: Listing, productId: String)
     func showUndoBubble(withMessage message: String,
                         duration: TimeInterval,
                         withAction action: @escaping () -> ())
@@ -108,7 +108,7 @@ protocol ListingDetailNavigator: class {
     
     func openListingAttributeTable(withViewModel viewModel: ListingAttributeTableViewModel)
     func closeListingAttributeTable()
-    func openListingReport(source: EventParameterTypePage, productId: String)
+    func openListingReport(source: EventParameterTypePage, listing: Listing, productId: String)
 }
 
 protocol SimpleProductsNavigator: class {

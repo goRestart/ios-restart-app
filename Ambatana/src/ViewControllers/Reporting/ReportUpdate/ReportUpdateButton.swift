@@ -28,7 +28,7 @@ enum ReportUpdateButtonType: Int {
         }
     }
 
-    fileprivate var title: String {
+    var title: String {
         switch self {
         case .verySad: return R.Strings.reportingListingUpdateFeedbackBad
         case .sad: return R.Strings.reportingListingUpdateFeedbackBad

@@ -985,7 +985,7 @@ extension ListingViewModel {
 
     fileprivate func reportProduct() {
         if featureFlags.reportingFostaSesta.isActive, let productId = listing.value.objectId {
-            navigator?.openListingReport(source: .listingDetail, productId: productId)
+            navigator?.openListingReport(source: .listingDetail, listing: listing.value, productId: productId)
         } else {
             confirmToReportProduct()
         }
