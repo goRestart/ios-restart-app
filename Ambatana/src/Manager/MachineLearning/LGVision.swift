@@ -45,6 +45,6 @@ final class LGVision: MachineLearningVision {
         }
         let request = VNCoreMLRequest(model: model, completionHandler: completionHandler)
         request.imageCropAndScaleOption = .centerCrop
-        try? requestHandler.perform([request]) // no need to catch, requestDidComplete will also be called
+        try? requestHandler.perform([request]) // no need to catch, completionHandler will also be called
     }
 }
