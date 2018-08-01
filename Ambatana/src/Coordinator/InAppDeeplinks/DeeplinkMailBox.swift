@@ -26,6 +26,12 @@ extension URL: DeepLinkConvertible {
     var deeplink: DeepLink? { return UriScheme.buildFromUrl(self)?.deepLink }
 }
 
+extension URL {
+    static func makeAppRatingDeeplink(with source: EventParameterRatingSource) -> URL? {
+        return URL(string: String(format: "letgo://app_rating?rating-source=%@", source.rawValue))
+    }
+}
+
 final class LGDeepLinkMailBox: DeepLinkMailBox {
     private let rx_deeplinks = PublishSubject<DeepLink>()
     static let sharedInstance = LGDeepLinkMailBox()

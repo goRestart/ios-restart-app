@@ -945,6 +945,12 @@ fileprivate extension AppCoordinator {
     func triggerDeepLink(_ deepLink: DeepLink, initialDeepLink: Bool) {
         var afterDelayClosure: (() -> Void)?
         switch deepLink.action {
+        case .appRating(let source):
+            if let ratingSource = EventParameterRatingSource(rawValue: source) {
+                afterDelayClosure = { [weak self] in
+                    self?.openAppRating(ratingSource)
+                }
+            }
         case .home:
             afterDelayClosure = { [weak self] in
                 self?.openTab(.home, force: false, completion: nil)
@@ -1070,7 +1076,7 @@ fileprivate extension AppCoordinator {
         switch deepLink.action {
         case .home, .sell, .listing, .listingShare, .listingBumpUp, .listingMarkAsSold, .listingEdit, .user,
              .conversations, .conversationWithMessage, .search, .resetPassword, .userRatings, .userRating,
-             .notificationCenter, .appStore, .webView:
+             .notificationCenter, .appStore, .webView, .appRating:
             return // Do nothing
         case let .conversation(data):
             showInappChatNotification(data, message: deepLink.origin.message)

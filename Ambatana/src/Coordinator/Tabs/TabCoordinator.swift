@@ -101,10 +101,6 @@ extension TabCoordinator: TabNavigator {
         appNavigator?.openSell(source: source, postCategory: postCategory, listingTitle: nil)
     }
 
-    func openAppRating(_ source: EventParameterRatingSource) {
-        appNavigator?.openAppRating(source)
-    }
-
     func openUserRating(_ source: RateUserSource, data: RateUserData) {
         appNavigator?.openUserRating(source, data: data)
     }
@@ -279,7 +275,11 @@ extension TabCoordinator {
 // MARK: > ListingDetailNavigator
 
 extension TabCoordinator: ListingDetailNavigator {
-    
+    func openAppRating(_ source: EventParameterRatingSource) {
+        guard let url = URL.makeAppRatingDeeplink(with: source) else { return }
+        deeplinkMailBox.push(convertible: url)
+    }
+
     func openVideoPlayer(atIndex index: Int, listingVM: ListingViewModel, source: EventParameterListingVisitSource) {
         guard let coordinator = VideoPlayerCoordinator(atIndex: index, listingVM: listingVM, source: source) else {
             return

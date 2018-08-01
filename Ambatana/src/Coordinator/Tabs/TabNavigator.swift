@@ -35,7 +35,6 @@ enum ProductCarouselActionOnFirstAppear {
 protocol TabNavigator: class {
     func openHome()
     func openSell(source: PostingSource, postCategory: PostCategory?)
-    func openAppRating(_ source: EventParameterRatingSource)
     func openUserRating(_ source: RateUserSource, data: RateUserData)
     func openUser(_ data: UserDetailData)
     func openUser(user: User, source: UserSource)
@@ -117,6 +116,7 @@ protocol SimpleProductsNavigator: class {
 
 protocol ChatDetailNavigator: TabNavigator, DeepLinkNavigator {
     func closeChatDetail()
+    func openAppRating(_ source: EventParameterRatingSource)
     func openExpressChat(_ listings: [Listing], sourceListingId: String, manualOpen: Bool)
     func selectBuyerToRate(source: RateUserSource,
                            buyers: [UserListing],
