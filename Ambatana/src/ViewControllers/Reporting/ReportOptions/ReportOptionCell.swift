@@ -58,6 +58,7 @@ final class ReportOptionCell: UITableViewCell, ReusableCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
+        setupAccessibilityIds()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -75,6 +76,10 @@ final class ReportOptionCell: UITableViewCell, ReusableCell {
         contentView.addSubviewsForAutoLayout([iconImageView, titleLabel, accessoryImageView, selectedImageView])
         setupConstraints()
         selectionStyle = .none
+    }
+
+    private func setupAccessibilityIds() {
+        titleLabel.set(accessibilityId: .reportOptionsCellText)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
