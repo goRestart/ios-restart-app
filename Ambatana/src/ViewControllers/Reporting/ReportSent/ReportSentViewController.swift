@@ -75,6 +75,7 @@ final class ReportSentViewController: BaseViewController {
         super.init(viewModel: viewModel, nibName: nil)
         setupUI()
         setupRx()
+        setupAccessibilityIds()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -140,6 +141,13 @@ final class ReportSentViewController: BaseViewController {
                 self?.setupActions(showBlockAction: showBlockAction, showReviewAction: showReviewAction)
             })
             .disposed(by: disposeBag)
+    }
+
+    private func setupAccessibilityIds() {
+        titleLabel.set(accessibilityId: .reportSentTitle)
+        messageLabel.set(accessibilityId: .reportSentMessage)
+        blockButton.set(accessibilityId: .reportSentBlockButton)
+        reviewButton.set(accessibilityId: .reportSentReviewButton)
     }
 
     private func setupActions(showBlockAction: Bool, showReviewAction: Bool) {
