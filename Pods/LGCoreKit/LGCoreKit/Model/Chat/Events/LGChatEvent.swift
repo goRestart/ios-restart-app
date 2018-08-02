@@ -14,6 +14,7 @@ public enum ChatEventType: Equatable {
     case interlocutorReadConfirmed(messagesIds: [String])
     case authenticationTokenExpired
     case talkerUnauthenticated
+    case smartQuickAnswer(ChatSmartQuickAnswers)
     
     public static func ==(a: ChatEventType, b: ChatEventType) -> Bool {
         switch (a, b) {
@@ -36,6 +37,8 @@ public enum ChatEventType: Equatable {
             return true
         case (.talkerUnauthenticated, .talkerUnauthenticated):
             return true
+        case (.smartQuickAnswer(let sqaA), .smartQuickAnswer(let sqaB)):
+            return LGChatSmartQuickAnswers(from: sqaA) == LGChatSmartQuickAnswers(from: sqaB)
         default: return false
         }
     }
@@ -129,20 +132,38 @@ struct LGChatEvent: ChatEvent, Decodable {
      }
      }
      
+     ChatSmartQuickAnswers
+     {
+     "id" : [uuid],
+     "type": "smart_quick_answer_available",
+     "data": {
+         "id": [uuid],
+         "conversation_id": [uuid],
+         "talker_id": [uuid],
+         "message_id": [uuid],
+         "referral_word": [string],
+         "created_at": [long],
+         "answers": [array[ChatAnswer]]
+     }
+
      */ 
     
     public init(from decoder: Decoder) throws {
         let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
         objectId = try keyedContainer.decode(String.self, forKey: .objectId)
-        let data = try keyedContainer.decode(ChatEventDataDecodable.self, forKey: .data)
-        conversationId = data.conversationId
         let eventTypeStringDecoded = try keyedContainer.decode(ChatEventTypeDecodable.self, forKey: .type)
         switch eventTypeStringDecoded {
         case .interlocutorTypingStarted:
+            let data = try keyedContainer.decode(ChatEventDataDecodable.self, forKey: .data)
+            conversationId = data.conversationId
             type = .interlocutorTypingStarted
         case .interlocutorTypingStopped:
+            let data = try keyedContainer.decode(ChatEventDataDecodable.self, forKey: .data)
+            conversationId = data.conversationId
             type = .interlocutorTypingStopped
         case .interlocutorMessageSent:
+            let data = try keyedContainer.decode(ChatEventDataDecodable.self, forKey: .data)
+            conversationId = data.conversationId
             guard let messageId = data.messageId,
                 let sendAt = data.sentAt,
                 let content = data.content
@@ -155,6 +176,8 @@ struct LGChatEvent: ChatEvent, Decodable {
                                             sentAt: sendAt,
                                             content: content)
         case .interlocutorReceptionConfirmed:
+            let data = try keyedContainer.decode(ChatEventDataDecodable.self, forKey: .data)
+            conversationId = data.conversationId
             guard let messageIds = data.messageIds else {
                 throw DecodingError.valueNotFound(ChatEventDataDecodable.self,
                                                   DecodingError.Context(codingPath: [],
@@ -162,6 +185,8 @@ struct LGChatEvent: ChatEvent, Decodable {
             }
             type = .interlocutorReceptionConfirmed(messagesIds: messageIds)
         case .interlocutorReadConfirmed:
+            let data = try keyedContainer.decode(ChatEventDataDecodable.self, forKey: .data)
+            conversationId = data.conversationId
             guard let messageIds = data.messageIds else {
                 throw DecodingError.valueNotFound(ChatEventDataDecodable.self,
                                                   DecodingError.Context(codingPath: [],
@@ -169,9 +194,17 @@ struct LGChatEvent: ChatEvent, Decodable {
             }
             type = .interlocutorReadConfirmed(messagesIds: messageIds)
         case .authenticationTokenExpired:
+            let data = try keyedContainer.decode(ChatEventDataDecodable.self, forKey: .data)
+            conversationId = data.conversationId
             type = .authenticationTokenExpired
         case .talkerUnauthenticated:
+            let data = try keyedContainer.decode(ChatEventDataDecodable.self, forKey: .data)
+            conversationId = data.conversationId
             type = .talkerUnauthenticated
+        case .smartQuickAnswer:
+            let smartQuickAnswer = try keyedContainer.decode(LGChatSmartQuickAnswers.self, forKey: .data)
+            conversationId = smartQuickAnswer.conversationId
+            type = .smartQuickAnswer(smartQuickAnswer)
         }
     }
     
@@ -190,6 +223,7 @@ enum ChatEventTypeDecodable: String, Decodable {
     case interlocutorReadConfirmed = "interlocutor_read_confirmed"
     case authenticationTokenExpired = "authentication_token_expired"
     case talkerUnauthenticated = "talker_unauthenticated"
+    case smartQuickAnswer = "smart_quick_answer_available"
 }
 
 struct ChatEventDataDecodable: Decodable {
