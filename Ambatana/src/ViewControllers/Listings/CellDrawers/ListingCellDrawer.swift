@@ -61,7 +61,10 @@ final class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDr
         switch featureFlags.addPriceTitleDistanceToListings {
         case .baseline, .control: break
         case .infoInImage:
-            cell.showCompleteProductInfoInImage(price: model.price, title: model.title, distance: model.distanceToListing)
+            cell.showCompleteProductInfoInImage(price: model.price,
+                                                priceType: model.priceType,
+                                                title: model.title,
+                                                distance: model.distanceToListing)
         case .infoWithWhiteBackground:
             cell.showDistanceOnlyInImage(distance: model.distanceToListing)
         }
@@ -83,13 +86,15 @@ final class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDr
         if isServicesCell { hideProductDetail = false }
         if model.isFeatured {
             cell.setupFeaturedListingInfoWith(price: model.price,
+                                              priceType: model.priceType,
                                               title: model.title,
                                               isMine: model.isMine,
                                               hideProductDetail: hideProductDetail)
         } else {
             cell.setupNonFeaturedProductInfoUnderImage(price: model.price,
-                                                      title: model.title,
-                                                      shouldShow: flag.showDetailInNormalCell || isServicesCell)
+                                                       priceType: model.priceType,
+                                                       title: model.title,
+                                                       shouldShow: flag.showDetailInNormalCell || isServicesCell)
         }
     }
 

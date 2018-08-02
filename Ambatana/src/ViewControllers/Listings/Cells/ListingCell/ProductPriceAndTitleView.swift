@@ -10,6 +10,10 @@ import UIKit
 
 final class ProductPriceAndTitleView: UIView {
     
+    private enum FontSize {
+        static let priceType: CGFloat = 15.0
+    }
+    
     enum DisplayStyle {
         case whiteText, darkText
     }
@@ -47,6 +51,7 @@ final class ProductPriceAndTitleView: UIView {
     }
     
     func clearLabelTexts() {
+        priceLabel.attributedText = nil
         priceLabel.text = nil
         titleLabel.text = nil
     }
@@ -78,21 +83,71 @@ final class ProductPriceAndTitleView: UIView {
         ])
     }
     
-    func configUI(title: String?, price: String, style: DisplayStyle) {
+    func configUI(title: String?,
+                  price: String,
+                  priceType: String?,
+                  style: DisplayStyle) {
         priceLabel.text = price
         titleLabel.text = title
+        
+        priceLabel.textColor = priceLabelColour(forDisplayStyle: style)
+
         switch style {
         case .darkText:
-            priceLabel.textColor = UIColor.blackText
             titleLabel.textColor = .darkGrayText
             backgroundColor = .clear
             titleLabel.font = ListingCellMetrics.TitleLabel.fontMedium
             priceLabel.layout(with: self).top(by: ListingCellMetrics.PriceLabel.topMargin)
         case .whiteText:
             titleLabel.textColor = .white
-            priceLabel.textColor = .white
             titleLabel.font = ListingCellMetrics.TitleLabel.fontBold
             applyShadow(withOpacity: 0.5, radius: 5, color: UIColor.black.cgColor)
+        }
+        
+        configurePriceLabelAttributedText(forPrice: price,
+                                          withPriceType: priceType,
+                                          style: style)
+    }
+    
+    private func configurePriceLabelAttributedText(forPrice price: String,
+                                                   withPriceType priceType: String?,
+                                                   style: DisplayStyle) {
+        guard let priceType = priceType else {
+            return
+        }
+        
+        let priceColour = priceLabelColour(forDisplayStyle: style)
+        let priceTypeColour = priceTypeForegroundColor(forDisplayStyle: style)
+        
+        
+        let attributedPriceString = NSAttributedString(string: "\(price) ",
+                                                       attributes: [.font: ListingCellMetrics.PriceLabel.font,
+                                                                    .foregroundColor: priceColour])
+        let attributedPriceTypeString = NSAttributedString(string: priceType,
+                                                           attributes: [.font: UIFont.systemFont(ofSize: FontSize.priceType),
+                                                                        .foregroundColor: priceTypeColour])
+        
+        let attributedString = NSMutableAttributedString(attributedString: attributedPriceString)
+        attributedString.append(attributedPriceTypeString)
+        
+        priceLabel.attributedText = attributedString
+    }
+    
+    private func priceTypeForegroundColor(forDisplayStyle displayStyle: DisplayStyle) -> UIColor {
+        switch displayStyle {
+        case .darkText:
+            return .grayDark
+        case .whiteText:
+            return .white
+        }
+    }
+    
+    private func priceLabelColour(forDisplayStyle displayStyle: DisplayStyle) -> UIColor {
+        switch displayStyle {
+        case .darkText:
+            return .blackText
+        case .whiteText:
+            return .white
         }
     }
     
