@@ -17,9 +17,13 @@ protocol ChatInactiveConversationsListViewModelDelegate: class {
                                       action: @escaping () -> ())
 }
 
+protocol ChatInactiveConversationsListNavigator {
+    func openChat(_ data: ChatDetailData, source: EventParameterTypePage, predefinedMessage: String?)
+}
+
 class ChatInactiveConversationsListViewModel: BaseViewModel, RxPaginable {
     weak var delegate: ChatInactiveConversationsListViewModelDelegate?
-    weak var navigator: TabNavigator?
+    var navigator: ChatInactiveConversationsListNavigator?
     
     private let chatRepository: ChatRepository
     private let myUserRepository: MyUserRepository
@@ -52,14 +56,14 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, RxPaginable {
     
     // MARK: - Lifecycle
     
-    convenience init(navigator: TabNavigator?) {
+    convenience init(navigator: ChatInactiveConversationsListNavigator?) {
         self.init(navigator: navigator,
                   chatRepository: Core.chatRepository,
                   myUserRepository: Core.myUserRepository,
                   tracker: TrackerProxy.sharedInstance)
     }
     
-    required init(navigator: TabNavigator?,
+    required init(navigator: ChatInactiveConversationsListNavigator?,
                   chatRepository: ChatRepository,
                   myUserRepository: MyUserRepository,
                   tracker: Tracker) {

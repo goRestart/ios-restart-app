@@ -9,7 +9,7 @@ final class UserCoordinator {
 
     private lazy var listingCoordinator = ListingCoordinator(navigationController: navigationController)
 
-    convenience init(navigationController: UINavigationController){
+    convenience init(navigationController: UINavigationController) {
         self.init(navigationController: navigationController,
                   userRepository: Core.userRepository,
                   myUserRepository: Core.myUserRepository)
@@ -22,6 +22,17 @@ final class UserCoordinator {
 
         self.userRepository = userRepository
         self.myUserRepository = myUserRepository
+    }
+
+    func openUser(_ data: UserDetailData) {
+        switch data {
+        case let .id(userId, source):
+            openUser(userId: userId, source: source)
+        case let .userAPI(user, source):
+            openUser(user: user, source: source)
+        case let .userChat(user):
+            openUser(user, hidesBottomBarWhenPushed: navigationController.viewControllers.count == 1)
+        }
     }
 
     func openUser(userId: String, source: UserSource) {

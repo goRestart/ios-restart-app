@@ -264,6 +264,7 @@ fileprivate extension TabCoordinator {
         navigationController.showAutoFadingOutMessageAlert(message: message)
     }
 }
+extension TabCoordinator: ChatInactiveConversationsListNavigator {}
 
 extension TabCoordinator {
     func openEditUserBio() {

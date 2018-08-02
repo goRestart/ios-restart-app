@@ -63,7 +63,7 @@ class ChatViewModel: ChatBaseViewModel {
     
     // Protocols
     weak var delegate: ChatViewModelDelegate?
-    weak var navigator: ChatDetailNavigator?
+    var navigator: ChatDetailNavigator?
     
     // Paginable
     var resultsPerPage: Int = SharedConstants.numMessagesPerPage
