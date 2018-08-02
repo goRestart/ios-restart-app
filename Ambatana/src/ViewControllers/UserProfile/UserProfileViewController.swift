@@ -197,6 +197,9 @@ final class UserProfileViewController: BaseViewController {
     private func setupNavBar() {
         let backIcon = R.Asset.IconsButtons.navbarBackRed.image
         setNavBarBackButton(backIcon)
+        if viewModel.showCloseButtonInNavBar {
+            setNavBarCloseButton(#selector(close))
+        }
 
         self.navigationItem.titleView = navBarUserView
 
@@ -207,6 +210,10 @@ final class UserProfileViewController: BaseViewController {
             .distinctUntilChanged()
             .drive(onNext: setupNavBarRightActions)
             .disposed(by: disposeBag)
+    }
+
+    @objc func close() {
+        viewModel.didTapCloseButton()
     }
 
     func setupNavBarRightActions(isMyUser: Bool) {
@@ -323,7 +330,6 @@ final class UserProfileViewController: BaseViewController {
         navBarUserView.userNameLabel.set(accessibilityId: .userHeaderCollapsedNameLabel)
         listingView.firstLoadView.set(accessibilityId: .userListingsFirstLoad)
         listingView.collectionView.set(accessibilityId: .userListingsList)
-        listingView.errorView.set(accessibilityId: .userListingsError)
     }
 
     // MARK: - UI
@@ -348,7 +354,10 @@ final class UserProfileViewController: BaseViewController {
         tableView.contentInset = scrollableContentInset
         listingView.collectionViewContentInset = scrollableContentInset
         listingView.firstLoadPadding = scrollableContentInset
-        listingView.setErrorViewStyle(bgColor: .white, borderColor: .clear, containerColor: .white)
+        let errorStyle = ErrorViewCellStyle(backgroundColor: .white,
+                                        borderColor: .clear,
+                                        containerColor: .white)
+        listingView.setupErrorView(withStyle: errorStyle)
 
         let contentInset: UIEdgeInsets
         let contentOffset: CGPoint

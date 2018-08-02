@@ -41,6 +41,7 @@ struct DeepLink {
 }
 
 enum DeepLinkAction: Equatable {
+    case appRating(source: String)
     case home
     case sell
     case listing(listingId: String)
@@ -63,6 +64,8 @@ enum DeepLinkAction: Equatable {
     
     static public func ==(lhs: DeepLinkAction, rhs: DeepLinkAction) -> Bool {
         switch (lhs, rhs) {
+        case (.appRating(let sourceLhs), .appRating(let sourceRhs)):
+            return sourceLhs == sourceRhs
         case (.home, .home):
             return true
         case (.sell, .sell):

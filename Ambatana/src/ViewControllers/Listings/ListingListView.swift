@@ -29,14 +29,6 @@ protocol ListingListViewHeaderDelegate: class {
 
 final class ListingListView: BaseView, CHTCollectionViewDelegateWaterfallLayout, ListingListViewModelDelegate,
 UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    private struct Layout {
-        struct Height {
-            static let errorButton: CGFloat = 50
-        }
-        struct Error {
-            static let top: CGFloat = 64
-        }
-    }
 
     let firstLoadView = ActivityView()
 
@@ -46,11 +38,10 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     
     private var lastContentOffset: CGFloat
     private var scrollingDown: Bool
+    private var errorViewStyle: ErrorViewCellStyle?
 
     var rxIsDragging: Observable<Bool> { return isDragging.asObservable() }
     private let isDragging = Variable<Bool>(false)
-
-    let errorView = ErrorView()
 
     var shouldScrollToTopOnFirstPageReload = true
     var dataPadding: UIEdgeInsets {
@@ -65,22 +56,11 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             firstLoadView.setNeedsLayout()
         }
     }
-    var errorPadding: UIEdgeInsets {
-        didSet {
-            let headerHeight: CGFloat = headerDelegate?.totalHeaderHeight() ?? 0
-            errorView.updateWithInsets(UIEdgeInsets(top: errorPadding.top + headerHeight,
-                                                    left: errorPadding.left,
-                                                    bottom: errorPadding.bottom,
-                                                    right: errorPadding.right))
-            errorView.setNeedsLayout()
-        }
-    }
 
     var padding: UIEdgeInsets {
         didSet {
             dataPadding = padding
             firstLoadPadding = padding
-            errorPadding = padding
         }
     }
     var collectionViewContentInset: UIEdgeInsets {
@@ -122,7 +102,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         let padding = UIEdgeInsets.zero
         self.dataPadding = padding
         self.firstLoadPadding = padding
-        self.errorPadding = padding
         self.padding = padding
         self.lastContentOffset = 0
         self.scrollingDown = true
@@ -138,22 +117,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
         refreshDataView()
-    }
-
-    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        let hitView = super.hitTest(point, with: event)
-        switch viewModel.state {
-        case .empty:
-            if let delegate = scrollDelegate, delegate.listingListViewAllowScrollingOnEmptyState(self) { return hitView }
-            guard let headerHeight = headerDelegate?.totalHeaderHeight(), headerHeight > 0 else { return errorView }
-            let collectionConvertedPoint = collectionView.convert(point, from: self)
-            let collectionHeaderSize = CGSize(width: collectionView.frame.width, height: CGFloat(headerHeight))
-            let headerFrame = CGRect(origin: CGPoint.zero, size: collectionHeaderSize)
-            let insideHeader = headerFrame.contains(collectionConvertedPoint)
-            return insideHeader ? hitView : errorView
-        case .data, .loading, .error:
-            return hitView
-        }
     }
     
     // MARK: Public methods
@@ -173,27 +136,9 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         collectionView.setContentOffset(position, animated: animated)
     }
 
-    func setErrorViewStyle(bgColor: UIColor?, borderColor: UIColor?, containerColor: UIColor?) {
-        if errorView.superview == nil {
-            addSubviewForAutoLayout(errorView)
-            
-            if #available(iOS 11.0, *) {
-                NSLayoutConstraint.activate([errorView.topAnchor.constraint(equalTo: topAnchor),
-                                             errorView.leftAnchor.constraint(equalTo: leftAnchor),
-                                             errorView.rightAnchor.constraint(equalTo: rightAnchor)])
-            } else {
-                errorView.layout(with: self).fillHorizontal().top(by: Layout.Error.top)
-            }
-            sendSubview(toBack: errorView)
-        }
-
-        errorView.backgroundColor = bgColor
-        errorContentView.backgroundColor = containerColor
-        errorContentView.layer.borderColor = borderColor?.cgColor
-        errorContentView.layer.borderWidth = borderColor != nil ? 0.5 : 0
-        errorContentView.cornerRadius = 4
+    func setupErrorView(withStyle style: ErrorViewCellStyle) {
+        self.errorViewStyle = style
     }
-
     
     // MARK: > ViewModel
 
@@ -206,22 +151,28 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         
         super.switchViewModel(vm)
     }
-
+    
+    private func isNotFirstSectionAndErrorOrEmpty(section: Int) -> Bool {
+        return viewModel.isErrorOrEmpty && section == 1
+    }
 
     // MARK: - CHTCollectionViewDelegateWaterfallLayout
 
     func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!,
                         heightForHeaderInSection section: Int) -> CGFloat {
+        guard !isNotFirstSectionAndErrorOrEmpty(section: section) else { return 0 }
         return headerDelegate?.totalHeaderHeight() ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!,
         heightForFooterInSection section: Int) -> CGFloat {
+        guard !viewModel.isErrorOrEmpty else { return 0 }
         return SharedConstants.listingListFooterHeight
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
         insetForSectionAt section: Int) -> UIEdgeInsets {
+        guard !isNotFirstSectionAndErrorOrEmpty(section: section) else { return .zero }
         let inset = viewModel.listingListFixedInset
         return UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
     }
@@ -229,23 +180,46 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
     // MARK: - UICollectionViewDataSource
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAt indexPath: IndexPath) -> CGSize {
-            return viewModel.sizeForCellAtIndex(indexPath.row)
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        guard !isNotFirstSectionAndErrorOrEmpty(section: indexPath.section) else {
+            return CGSize(width: viewModel.cellWidth, height: Layout.errorCellHeigh)
+        }
+        return viewModel.sizeForCellAtIndex(indexPath.row)
     }
     
     func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!,
         columnCountForSection section: Int) -> Int {
-            return viewModel.numberOfColumns
+        guard !isNotFirstSectionAndErrorOrEmpty(section: section) else { return 1 }
+        return viewModel.numberOfColumns
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        guard !isNotFirstSectionAndErrorOrEmpty(section: section) else { return 1 }
         return viewModel.numberOfListings
     }
     
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return viewModel.isErrorOrEmpty ? 2 : 1
+    }
 
     func collectionView(_ collectionView: UICollectionView,
-                               cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard !isNotFirstSectionAndErrorOrEmpty(section: indexPath.section) else {
+            switch viewModel.state {
+            case .error(let viewModel), .empty(let viewModel):
+                let cell = collectionView.dequeue(type: ListingErrorCell.self, for: indexPath)
+                if let errorStyle = errorViewStyle {
+                    cell?.setup(withStyle: errorStyle)
+                }
+                cell?.setup(viewModel)
+                return cell ?? UICollectionViewCell()
+            default:
+                return UICollectionViewCell()
+            }
+        }
+        
         guard let item = viewModel.itemAtIndex(indexPath.row) else { return UICollectionViewCell() }
         requestAdFor(cellModel: item, inPosition: indexPath.row)
         let cell = drawerManager.cell(item, collectionView: collectionView, atIndexPath: indexPath)
@@ -261,7 +235,10 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     func collectionView(_ collectionView: UICollectionView,
                         willDisplay cell: UICollectionViewCell,
                         forItemAt indexPath: IndexPath) {
-        guard let item = viewModel.itemAtIndex(indexPath.row) else { return }
+        guard let item = viewModel.itemAtIndex(indexPath.row),
+            (viewModel.state == .data || viewModel.state == .loading),
+            indexPath.section == 0 else { return }
+    
 
         let imageSize = viewModel.imageViewSizeForItem(at: indexPath.row)
         let interestedState = viewModel.interestStateFor(listingAtIndex: indexPath.row)
@@ -281,13 +258,16 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     func collectionView(_ collectionView: UICollectionView,
                         didEndDisplaying cell: UICollectionViewCell,
                         forItemAt indexPath: IndexPath) {
-
+        if !isNotFirstSectionAndErrorOrEmpty(section: indexPath.section) { return }
         let topProductIndex = (collectionView.indexPathsForVisibleItems.map{ $0.item }).min() ?? indexPath.item
         cellsDelegate?.visibleTopCellWithIndex(topProductIndex, whileScrollingDown: scrollingDown)
     }
     
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String,
-                               at indexPath: IndexPath) -> UICollectionReusableView  {
+    func collectionView(_ collectionView: UICollectionView,
+                        viewForSupplementaryElementOfKind kind: String,
+                        at indexPath: IndexPath) -> UICollectionReusableView  {
+        guard !isNotFirstSectionAndErrorOrEmpty(section: indexPath.section) else { return UICollectionReusableView() }
+        
         switch kind {
         case CHTCollectionElementKindSectionFooter, UICollectionElementKindSectionFooter:
             guard let footer: CollectionViewFooter = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
@@ -442,9 +422,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
         refreshControl.addTarget(self, action: #selector(refreshControlTriggered), for: UIControlEvents.valueChanged)
         collectionView.addSubview(refreshControl)
-
-        errorButtonHeightConstraint?.constant = Layout.Height.errorButton
-        errorButton.addTarget(self, action: #selector(ListingListView.errorButtonPressed), for: .touchUpInside)
         
         if #available(iOS 10, *) {
             setupPrefetching()
@@ -483,33 +460,13 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         case .loading:
             firstLoadView.isHidden = false
             dataView.isHidden = true
-            errorView.isHidden = true
-        case .data:
+        case .data, .empty:
             firstLoadView.isHidden = true
             dataView.isHidden = false
-            errorView.isHidden = true
-        case .error(let emptyVM):
-            firstLoadView.isHidden = true
-            dataView.isHidden = true
-            errorView.isHidden = false
-            setErrorState(emptyVM)
-        case .empty(let emptyVM):
+        case .error:
             firstLoadView.isHidden = true
             dataView.isHidden = false
-            errorView.isHidden = false
-            setErrorState(emptyVM)
         }
-        setNeedsLayout()
-    }
-
-    private func setErrorState(_ emptyViewModel: LGEmptyViewModel) {
-        errorView.setImage(emptyViewModel.icon)
-        errorImageViewHeightConstraint?.constant = emptyViewModel.iconHeight
-        errorView.setTitle(emptyViewModel.title)
-        errorView.setBody(emptyViewModel.body)
-        errorButton.setTitle(emptyViewModel.buttonTitle, for: .normal)
-        errorButtonHeightConstraint?.constant = emptyViewModel.hasAction ? Layout.Height.errorButton : 0
-        errorView.setNeedsLayout()
     }
 
     @objc private func refreshControlTriggered() {
@@ -558,17 +515,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         }
     }
 
-    @objc private func errorButtonPressed() {
-        switch viewModel.state {
-        case .empty(let emptyVM):
-            emptyVM.action?()
-        case .error(let emptyVM):
-            emptyVM.action?()
-        default:
-            break
-        }
-    }
-
     fileprivate func requestAdFor(cellModel: ListingCellModel, inPosition: Int) {
         switch cellModel {
         case .dfpAdvertisement(let data):
@@ -603,6 +549,10 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         case .collectionCell, .emptyCell, .listingCell, .promo:
             break
         }
+    }
+    
+    enum Layout {
+        static let errorCellHeigh: CGFloat = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus) ? 130 : 180
     }
 }
 
@@ -751,12 +701,6 @@ extension GADNativeAd {
 
 
 extension ListingListView {
-    var errorContentView: UIView { return errorView.containerView }
-    var errorImageViewHeightConstraint: NSLayoutConstraint? { return errorView.imageHeight }
-
-    var errorButton: LetgoButton! { return errorView.actionButton }
-    var errorButtonHeightConstraint: NSLayoutConstraint? { return errorView.actionHeight }
-
     var collectionView: UICollectionView { return dataView.collectionView }
 }
 
@@ -776,9 +720,10 @@ private final class DataView: UIView {
         if #available(iOS 11.0, *) {
             collectionView.contentInsetAdjustmentBehavior = .never
         }
+        
         collectionView.backgroundColor = .clear
         collectionView.alwaysBounceVertical = true
-
+        collectionView.register(type: ListingErrorCell.self)
         return collectionView
     }()
 
@@ -821,4 +766,3 @@ private final class DataView: UIView {
         self.bottomInset = bottomInset
     }
 }
-

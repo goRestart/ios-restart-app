@@ -358,6 +358,7 @@
 "discarded_products_reason_poor_ad_quality" = "Bryter mot våra användartips";
 "discarded_products_reason_reference_to_competitors" = "Hänvisar till andra appar eller webbplatser";
 "discarded_products_reason_stock_photo_only" = "Innehåller endast stockfoton";
+"edit_priceType_choose_title" = "Choose an option";
 "edit_product_feature_label_long_text" = "Topplista din annons för att sälja snabbare";
 "edit_product_feature_label_short_text" = "Sälj snabbare nu";
 "edit_product_location_alert_text" = "För att ändra plats på din annons, tillåt tillgång till din platsinfo";
@@ -369,6 +370,7 @@
 "edit_product_title" = "Redigera annons";
 "edit_product_unsaved_changes_alert" = "Är du säker på att du vill lämna sidan utan att spara ändringarna?";
 "edit_product_unsaved_changes_alert_ok" = "Släng";
+"engagement_badging_feed_bubble" = "New items";
 "featured_info_view_increase_visibility" = "Skaffa mera synlighet";
 "featured_info_view_more_buyers" = "Locka flera köpare";
 "featured_info_view_sell_faster" = "Sälj snabbare";
@@ -440,8 +442,8 @@
 "filters_section_within" = "Annonserade under";
 "filters_service_subtype_not_set" = "Ej Vald";
 "filters_service_type_not_set" = "Ej Vald";
-"filters_services_services_list_max_selection_alert" = "Oops! You can't select more than 15 services.";
-"filters_services_services_list_search_placeholder" = "Handyman, Contracting…";
+"filters_services_services_list_max_selection_alert" = "Hoppsan! Du kan inte välja fler än 15 tjänster.";
+"filters_services_services_list_search_placeholder" = "Hemmafixare, Entreprenad...";
 "filters_services_services_list_title" = "Välj kategori";
 "filters_size_wrong_range_error" = "Den minsta ytan får inte vara högre än den största ytan.";
 "filters_slider_any" = "Alla";
@@ -724,6 +726,13 @@
 "post_queued_requests_state_listing_posted" = "Annonsen har lagts upp!";
 "post_queued_requests_state_posting_listing" = "Publicerar annons...";
 "posting_button_skip" = "Rensa";
+"priceType_biweekly" = "Varannan vecka";
+"priceType_daily" = "Varje dag";
+"priceType_hourly" = "Varje timme";
+"priceType_monthly" = "Varje månad";
+"priceType_oneOff" = "Engångsbetalning";
+"priceType_weekly" = "Varje vecka";
+"priceType_yearly" = "Varje år";
 "product_auto_generated_title_label" = "Titeln har genererats automatiskt av letgo";
 "product_auto_generated_translated_title_label" = "(och översatts av Google)";
 "product_bubble_favorite_button" = "Låt säljaren veta!";
@@ -1176,7 +1185,7 @@
 "reporting_listing_update_feedback_good" = "Toppen!";
 "reporting_listing_update_feedback_medium" = "Tack!";
 "reporting_listing_update_feedback_title" = "Hur var din erfarenhet?";
-"reporting_listing_update_text" = "Tack för att ha anonymt anmält \"%@\" publicerad av %@. Feedback som denna hjälper oss att hålla letgo säkert.  \n \nEfter att ha granskat annonsen har vi valt att ta bort den eftersom den bryter mot letgos riktlinjer.";
+"reporting_listing_update_text" = "Tack för att ha anonymt anmält \"%1$@\" publicerad av %2$@. Feedback som denna hjälper oss att hålla letgo säkert.\n\nEfter att ha granskat annonsen har vi valt att ta bort den eftersom den bryter mot letgos riktlinjer.";
 "reporting_listing_update_title" = "Rapportuppdatering";
 "reporting_reason_bio" = "Bio";
 "reporting_reason_counterfeit_money" = "Betalade med falska pengar";
@@ -1242,6 +1251,7 @@
 "search_alert_enable_error_message" = "Hoppsan! Ett fel inträffade när din sökavisering skulle aktiveras";
 "search_alert_error_too_many_button_text" = "Hantera Notiser";
 "search_alert_error_too_many_text" = "Hoppsan! Du har uppnått maxantalet sökaviseringar";
+"search_alerts_disabled_oldest_message" = "Du har nått det maximala antalet sökaviseringar så vi har inaktiverat den äldsta för att aktivera den här.";
 "search_alerts_edit_button" = "Redigera";
 "search_alerts_header_subtitle" = "Få notiser om nya annonser";
 "search_alerts_list_title" = "Sökaviseringar";

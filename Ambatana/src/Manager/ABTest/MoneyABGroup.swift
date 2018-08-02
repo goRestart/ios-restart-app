@@ -23,6 +23,7 @@ struct MoneyABGroup: ABGroupType {
         static let fullScreenAdsWhenBrowsingForUS = "20180516FullScreenAdsWhenBrowsingForUS"
         static let preventMessagesFromFeedToProUsers = "20180710PreventMessagesFromFeedToProUsers"
         static let appInstallAdsInFeed = "20180628AppInstallAdsInFeed"
+        static let alwaysShowBumpBannerWithLoading = "20180725AlwaysShowBumpBannerWithLoading"
     }
     let noAdsInFeedForNewUsers: LeanplumABVariable<Int>
     let copyForChatNowInTurkey: LeanplumABVariable<Int>
@@ -37,6 +38,7 @@ struct MoneyABGroup: ABGroupType {
     let fullScreenAdsWhenBrowsingForUS: LeanplumABVariable<Int>
     let preventMessagesFromFeedToProUsers: LeanplumABVariable<Int>
     let appInstallAdsInFeed: LeanplumABVariable<Int>
+    let alwaysShowBumpBannerWithLoading: LeanplumABVariable<Int>
 
     let group: ABGroup = .money
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -56,7 +58,8 @@ struct MoneyABGroup: ABGroupType {
          googleAdxForTR:LeanplumABVariable<Int>,
          fullScreenAdsWhenBrowsingForUS:LeanplumABVariable<Int>,
          preventMessagesFromFeedToProUsers:LeanplumABVariable<Int>,
-         appInstallAdsInFeed:LeanplumABVariable<Int>){
+         appInstallAdsInFeed:LeanplumABVariable<Int>,
+         alwaysShowBumpBannerWithLoading: LeanplumABVariable<Int>){
         self.noAdsInFeedForNewUsers = noAdsInFeedForNewUsers
         self.copyForChatNowInTurkey = copyForChatNowInTurkey
         self.showProTagUserProfile = showProTagUserProfile
@@ -70,6 +73,7 @@ struct MoneyABGroup: ABGroupType {
         self.fullScreenAdsWhenBrowsingForUS = fullScreenAdsWhenBrowsingForUS
         self.preventMessagesFromFeedToProUsers = preventMessagesFromFeedToProUsers
         self.appInstallAdsInFeed = appInstallAdsInFeed
+        self.alwaysShowBumpBannerWithLoading = alwaysShowBumpBannerWithLoading
 
         intVariables.append(contentsOf: [noAdsInFeedForNewUsers,
                                          copyForChatNowInTurkey,
@@ -81,7 +85,8 @@ struct MoneyABGroup: ABGroupType {
                                          googleAdxForTR,
                                          fullScreenAdsWhenBrowsingForUS,
                                          preventMessagesFromFeedToProUsers,
-                                         appInstallAdsInFeed])
+                                         appInstallAdsInFeed,
+                                         alwaysShowBumpBannerWithLoading])
         boolVariables.append(contentsOf: [showProTagUserProfile,
                                           showExactLocationForPros])
     }
@@ -103,11 +108,11 @@ struct MoneyABGroup: ABGroupType {
                                                               defaultValue: 0,
                                                               groupType: .money),
                             feedAdsProviderForTR: .makeInt(key: Keys.feedAdsProviderForTR,
-                                                              defaultValue: 0,
-                                                              groupType: .money),
-                            bumpUpBoost: .makeInt(key: Keys.bumpUpBoost,
                                                            defaultValue: 0,
                                                            groupType: .money),
+                            bumpUpBoost: .makeInt(key: Keys.bumpUpBoost,
+                                                  defaultValue: 0,
+                                                  groupType: .money),
                             showExactLocationForPros: .makeBool(key: Keys.showExactLocationForPros,
                                                                 defaultValue: true,
                                                                 groupType: .money),
@@ -115,16 +120,20 @@ struct MoneyABGroup: ABGroupType {
                                                                     defaultValue: 0,
                                                                     groupType: .money),
                             googleAdxForTR: .makeInt(key: Keys.googleAdxForTR,
-                                                           defaultValue: 0,
-                                                           groupType: .money),
+                                                     defaultValue: 0,
+                                                     groupType: .money),
                             fullScreenAdsWhenBrowsingForUS: .makeInt(key: Keys.fullScreenAdsWhenBrowsingForUS,
                                                                      defaultValue: 0,
                                                                      groupType: .money),
                             preventMessagesFromFeedToProUsers: .makeInt(key: Keys.preventMessagesFromFeedToProUsers,
-                                                                     defaultValue: 0,
-                                                                     groupType: .money),
+                                                                        defaultValue: 0,
+                                                                        groupType: .money),
                             appInstallAdsInFeed: .makeInt(key: Keys.appInstallAdsInFeed,
                                                           defaultValue: 0,
-                                                          groupType: .money))
+                                                          groupType: .money),
+                            alwaysShowBumpBannerWithLoading: .makeInt(key: Keys.alwaysShowBumpBannerWithLoading,
+                                                                      defaultValue: 0,
+                                                                      groupType: .money)
+        )
     }
 }

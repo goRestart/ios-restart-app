@@ -212,10 +212,10 @@ lane :update_dsyms do |options|
 	build_number = options[:build_number] ||= Actions.lane_context[Actions::SharedValues::LG_BUILD_NUMBER]
 	version = options[:version] ||= Actions.lane_context[Actions::SharedValues::LG_VERSION_NUMBER]
    
-	binary_path = "com.letgo.ios-#{version}-#{build_number}.dSYM.zip"
+	dsym_path = "com.letgo.ios-#{version}-#{build_number}.dSYM.zip"
 	download_dsyms(version: version, build_number: build_number)
 	upload_symbols_to_crashlytics(
-		binary_path: '/Applications/Fabric.app/Contents/MacOS/upload-symbols',
+		dsym_path: dsym_path,
 		api_token: 'da82303e33e3a2dc304cdccaa4e19dba00334a34'
 	)
 	clean_build_artifacts

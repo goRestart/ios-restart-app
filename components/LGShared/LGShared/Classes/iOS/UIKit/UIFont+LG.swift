@@ -53,6 +53,9 @@ public extension UIFont {
     // Letgo Tooltip
     static var tooltipMessageFont: UIFont { return systemBoldFont(size: 17) }
 
+    // Community Banner
+    static var communityBannerTitleFont: UIFont { return systemBoldFont(size: 22) }
+
     // MARK: Private methods
 
     static func systemFont(size: Int) -> UIFont {

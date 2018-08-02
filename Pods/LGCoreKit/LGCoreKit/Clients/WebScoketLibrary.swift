@@ -31,7 +31,7 @@ enum WebSocketStatusCode: Int {
 }
 
 protocol WebSocketLibraryProtocol: class {
-    weak var delegate: WebSocketLibraryDelegate? { get set }
+    var delegate: WebSocketLibraryDelegate? { get set }
     
     func open(withEndpointURL endpointURL: URL, timeout: TimeInterval)
     func close()

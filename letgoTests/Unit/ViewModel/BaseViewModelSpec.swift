@@ -88,6 +88,10 @@ class BaseViewModelSpec: QuickSpec, BaseViewModelDelegate, TabNavigator {
     func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout, actions: [UIAction]?, dismissAction: (() -> ())?) {
         delegateReceivedShowAlert = true
     }
+    
+    func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction], withTitle title: String?) {
+        delegateReceivedShowActionSheet = true
+    }
 
     func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction]) {
         delegateReceivedShowActionSheet = true
@@ -121,4 +125,5 @@ class BaseViewModelSpec: QuickSpec, BaseViewModelDelegate, TabNavigator {
     func openUserReport(source: EventParameterTypePage, userReportedId: String) {}
     func openUserVerificationView() {}
     func openListingReport(source: EventParameterTypePage, productId: String) {}
+    func openCommunityTab() {}
 }

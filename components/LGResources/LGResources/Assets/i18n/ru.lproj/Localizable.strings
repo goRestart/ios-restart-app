@@ -358,6 +358,7 @@
 "discarded_products_reason_poor_ad_quality" = "Не соответствует лучшей практике";
 "discarded_products_reason_reference_to_competitors" = "Ссылки на другие приложения и сайты";
 "discarded_products_reason_stock_photo_only" = "Содержит только фото из сети";
+"edit_priceType_choose_title" = "Choose an option";
 "edit_product_feature_label_long_text" = "Выделите свое объявление, чтобы продать быстрее";
 "edit_product_feature_label_short_text" = "Продайте быстрее";
 "edit_product_location_alert_text" = "Для изменение местоположения объявления разрешите доступ к геолокации";
@@ -369,6 +370,7 @@
 "edit_product_title" = "Редактировать объявление";
 "edit_product_unsaved_changes_alert" = "Вы точно не хотите сохранять эти изменения?";
 "edit_product_unsaved_changes_alert_ok" = "Не сохранять";
+"engagement_badging_feed_bubble" = "New items";
 "featured_info_view_increase_visibility" = "Улучшить видимость";
 "featured_info_view_more_buyers" = "Привлечь больше покупателей";
 "featured_info_view_sell_faster" = "Продать быстрее";
@@ -440,7 +442,7 @@
 "filters_section_within" = "Размещено за";
 "filters_service_subtype_not_set" = "Не установлен";
 "filters_service_type_not_set" = "Не установлен";
-"filters_services_services_list_max_selection_alert" = "Oops! You can't select more than 15 services.";
+"filters_services_services_list_max_selection_alert" = "Упс! Вы не можете выбрать более 15 услуг.";
 "filters_services_services_list_search_placeholder" = "Мастер, заключение договоров...";
 "filters_services_services_list_title" = "Выберите категорию";
 "filters_size_wrong_range_error" = "Минимальный размер не может быть больше максимального.";
@@ -724,6 +726,13 @@
 "post_queued_requests_state_listing_posted" = "Объявление размещено!";
 "post_queued_requests_state_posting_listing" = "Размещаем объявление...";
 "posting_button_skip" = "Пропустить";
+"priceType_biweekly" = "Каждые две недели";
+"priceType_daily" = "Ежедневно";
+"priceType_hourly" = "Ежечасно";
+"priceType_monthly" = "Ежемесячно";
+"priceType_oneOff" = "Единовременно";
+"priceType_weekly" = "Еженедельно";
+"priceType_yearly" = "Ежегодно";
 "product_auto_generated_title_label" = "Заголовок автоматически задан letgo";
 "product_auto_generated_translated_title_label" = "(и переведен Яндексом)";
 "product_bubble_favorite_button" = "Дайте знать продавцу!";
@@ -1176,7 +1185,7 @@
 "reporting_listing_update_feedback_good" = "Отлично!";
 "reporting_listing_update_feedback_medium" = "Спасибо!";
 "reporting_listing_update_feedback_title" = "Каков ваш опыт?";
-"reporting_listing_update_text" = "Спасибо за анонимную жалобу \"%@\", размещенную %@. Такие отзывы помогают нам делать сообщество letgo безопасным. \n\nМы удалили этот товар после проверки, так как он нарушает Правила Пользования.";
+"reporting_listing_update_text" = "Спасибо за анонимную жалобу \"%1$@\", размещенную %2$@. Такие отзывы помогают нам делать сообщество letgo безопасным.\n\nМы удалили этот товар после проверки, так как он нарушает Правила Пользования.";
 "reporting_listing_update_title" = "Обновление жалобы";
 "reporting_reason_bio" = "Информация";
 "reporting_reason_counterfeit_money" = "Оплата фальшивыми деньгами";
@@ -1242,6 +1251,7 @@
 "search_alert_enable_error_message" = "Упс! При включении поискового уведомления произошла ошибка";
 "search_alert_error_too_many_button_text" = "Управления уведомлениями";
 "search_alert_error_too_many_text" = "Упс! Вы достигли максимального количества поисковых уведомлений";
+"search_alerts_disabled_oldest_message" = "Вы достигли максимального количества поисковых уведомлений, поэтому можете выключить самое старое и включить это.";
 "search_alerts_edit_button" = "Редактировать";
 "search_alerts_header_subtitle" = "Получать уведомления о новых объявлениях";
 "search_alerts_list_title" = "Поисковые уведомления";

@@ -358,6 +358,7 @@
 "discarded_products_reason_poor_ad_quality" = "Voldoet niet aan Best Practices";
 "discarded_products_reason_reference_to_competitors" = "Verwijzingen naar andere apps of websites";
 "discarded_products_reason_stock_photo_only" = "Bevat enkel voorraadfoto's";
+"edit_priceType_choose_title" = "Choose an option";
 "edit_product_feature_label_long_text" = "Plaats je advertentie als uitgelicht om sneller te verkopen";
 "edit_product_feature_label_short_text" = "Verkoop nu sneller";
 "edit_product_location_alert_text" = "Om te wijzigen waar je advertentie is geplaatst, geef toegang tot jouw locatie";
@@ -369,6 +370,7 @@
 "edit_product_title" = "Advertentie bewerken";
 "edit_product_unsaved_changes_alert" = "Weet je zeker dat je deze wijzigingen wilt verwijderen?";
 "edit_product_unsaved_changes_alert_ok" = "Verwijderen";
+"engagement_badging_feed_bubble" = "New items";
 "featured_info_view_increase_visibility" = "Meer zichtbaar krijgen";
 "featured_info_view_more_buyers" = "Meer kopers aantrekken";
 "featured_info_view_sell_faster" = "Sneller verkopen";
@@ -724,6 +726,13 @@
 "post_queued_requests_state_listing_posted" = "Advertentie geplaatst!";
 "post_queued_requests_state_posting_listing" = "Advertentie plaatsen...";
 "posting_button_skip" = "Overslaan";
+"priceType_biweekly" = "Per twee weken";
+"priceType_daily" = "Per dag";
+"priceType_hourly" = "Per uur";
+"priceType_monthly" = "Per maand";
+"priceType_oneOff" = "Eenmalig";
+"priceType_weekly" = "Per week";
+"priceType_yearly" = "Per jaar";
 "product_auto_generated_title_label" = "Titel automatisch gegenereerd door letgo";
 "product_auto_generated_translated_title_label" = "(en vertaald door Google)";
 "product_bubble_favorite_button" = "Laat het de verkoper weten!";
@@ -1176,7 +1185,7 @@
 "reporting_listing_update_feedback_good" = "Geweldig!";
 "reporting_listing_update_feedback_medium" = "Bedankt!";
 "reporting_listing_update_feedback_title" = "Hoe was deze ervaring?";
-"reporting_listing_update_text" = "Bedankt voor het anoniem melden van \"%@\" geplaatst door %@. Feedback zoals die van jou helpt ons om de letgo-community veilig te houden.\n \nNadat we dit item hebben beoordeeld, hebben we het verwijderd omdat het onze communityrichtlijnen schendt.";
+"reporting_listing_update_text" = "Bedankt voor het anoniem melden van \"%1$@\" geplaatst door %2$@. Feedback zoals die van jou helpt ons om de letgo-community veilig te houden.\n \nNadat we dit item hebben beoordeeld, hebben we het verwijderd omdat het onze communityrichtlijnen schendt.";
 "reporting_listing_update_title" = "Update rapport";
 "reporting_reason_bio" = "Biografie";
 "reporting_reason_counterfeit_money" = "Betaald met vals geld";
@@ -1242,6 +1251,7 @@
 "search_alert_enable_error_message" = "Oeps! Er is een fout opgetreden tijdens het activeren van jouw zoekmelding";
 "search_alert_error_too_many_button_text" = "Meldingen beheren";
 "search_alert_error_too_many_text" = "Oeps! Je hebt het maximale aantal zoekmeldingen bereikt";
+"search_alerts_disabled_oldest_message" = "Je hebt het maximale aantal zoekmeldingen bereikt, dus we hebben je oudste uitgeschakeld en deze geactiveerd.";
 "search_alerts_edit_button" = "Bewerken";
 "search_alerts_header_subtitle" = "Ontvang meldingen over nieuwe advertenties";
 "search_alerts_list_title" = "Zoekmeldingen";

@@ -1,20 +1,35 @@
 
+import LGComponents
+
 typealias DropdownSelectedItems = (selectedHeaderId: String, selectedItemIds: [String])
+
+protocol DropdownViewModelDelegate: BaseViewModelDelegate {
+    func selectRow(atIndexPath indexPath: IndexPath)
+    func deselectRow(atIndexPath indexPath: IndexPath)
+    func showDoneButton()
+    func hideDoneButton()
+}
 
 final class DropdownViewModel {
     
     private enum Layout {
         static let headerHeight: CGFloat = 50.0
-        static let itemHeight: CGFloat = 30.0
+        static let itemHeight: CGFloat = 40.0
     }
     
     let screenTitle: String
     let searchPlaceholderTitle: String
     let buttonAction: ((DropdownSelectedItems?) -> Void)?
     
+    
+    private let initialSelectedItems: DropdownSelectedItems?
     let attributes: [DropdownSectionViewModel]
     
+    
+    private let maxSelectableAttributes: Int = 15
+    
     private var isFilterActive: Bool = false
+    weak var delegate: DropdownViewModelDelegate?
     
     init(screenTitle: String,
          searchPlaceholderTitle: String,
@@ -22,6 +37,7 @@ final class DropdownViewModel {
          buttonAction: ((DropdownSelectedItems?) -> Void)?) {
         self.screenTitle = screenTitle
         self.searchPlaceholderTitle = searchPlaceholderTitle
+        self.initialSelectedItems = attributes.selectedSectionItems
         self.attributes = attributes
         self.buttonAction = buttonAction
     }
@@ -68,13 +84,22 @@ final class DropdownViewModel {
             let section = dropdownSection(atSection: indexPath.section) else { return }
         switch item.content.type {
         case .item:
-            attributes.selectItem(withItemId: item.content.id,
-                                          inSection: section)
+            if canSelectItem(atIndexPath: indexPath) {
+                attributes.selectItem(withItemId: item.content.id,
+                                      inSection: section)
+                delegate?.selectRow(atIndexPath: indexPath)
+            } else {
+                delegate?.deselectRow(atIndexPath: indexPath)
+                showAlert(withTitle: R.Strings.filtersServicesServicesListMaxSelectionAlert)
+            }
         case .header:
             if !isFilterActive {
                 attributes.toggleExpansionState(forId: item.content.id)
             }
+            
+            delegate?.selectRow(atIndexPath: indexPath)
         }
+        assertShouldShowActionButtons()
     }
     
     func didDeselectItem(atIndexPath indexPath: IndexPath) {
@@ -87,6 +112,8 @@ final class DropdownViewModel {
                 attributes.toggleExpansionState(forId: item.content.id)
             }
         }
+        assertShouldShowActionButtons()
+        delegate?.deselectRow(atIndexPath: indexPath)
     }
     
     func toggleHeaderSelection(atIndexPath indexPath: IndexPath) {
@@ -97,10 +124,26 @@ final class DropdownViewModel {
         case .deselected:
             attributes.selectSection(withHeaderId: item.content.id)
         }
+        assertShouldShowActionButtons()
     }
     
     func expansionState(forId id: String) -> Bool {
         return attributes.expansionState(forId: id)
+    }
+    
+    func canSelectItem(atIndexPath indexPath: IndexPath) -> Bool {
+        guard let selectedItems = attributes.selectedSectionItems else { return true }
+        return selectedItems.selectedItemIds.count < maxSelectableAttributes
+    }
+    
+    func showAlert(withTitle title: String) {
+        let action = UIAction(interface: .button(R.Strings.commonOk, .primary(fontSize: .medium)),
+                              action: { },
+                              accessibility: AccessibilityId.postingDetailMaxServices)
+        delegate?.vmShowAlertWithTitle(title,
+                                       text: "",
+                                       alertType: .plainAlert,
+                                       actions: [action])
     }
     
     
@@ -108,6 +151,7 @@ final class DropdownViewModel {
     
     func resetFilters() {
         attributes.deselectAllItems()
+        assertShouldShowActionButtons()
     }
     
     func applySelectedFilters() {
@@ -126,5 +170,18 @@ final class DropdownViewModel {
     func clearTextFilter() {
         attributes.clearTextFilter()
         isFilterActive = false
+    }
+    
+    
+    // MARK: Action Buttons
+    
+    private func assertShouldShowActionButtons() {
+        let headerChanged = attributes.selectedSectionItems?.selectedHeaderId != initialSelectedItems?.selectedHeaderId
+        let itemsChanged = attributes.selectedSectionItems?.selectedItemIds != initialSelectedItems?.selectedItemIds
+        if headerChanged || itemsChanged {
+            delegate?.showDoneButton()
+        } else {
+            delegate?.hideDoneButton()
+        }
     }
 }

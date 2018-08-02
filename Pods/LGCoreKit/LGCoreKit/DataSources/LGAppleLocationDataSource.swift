@@ -25,7 +25,7 @@ class LGAppleLocationDataSource: LocationDataSource {
                                             completion: SuggestionsLocationDataSourceCompletion?) {
         geocoder.geocodeAddressString(addressString, in: region) { (placemarks, error) in
             if let actualPlacemarks = placemarks {
-                let suggestedResults: [Place] = actualPlacemarks.flatMap { $0.place() }
+                let suggestedResults: [Place] = actualPlacemarks.compactMap { $0.place() }
                 completion?(SuggestionsLocationDataSourceResult(value: suggestedResults))
             } else if let actualError = error {
                 if actualError._code == CLError.Code.geocodeFoundNoResult.rawValue {

@@ -9,7 +9,7 @@
 struct PostListingTrackingInfo {
     var buttonName: EventParameterButtonNameType
     var sellButtonPosition: EventParameterSellButtonPosition
-    var imageSource: EventParameterPictureSource
+    var imageSource: EventParameterMediaSource
     var videoLength: TimeInterval?
     var negotiablePrice: EventParameterNegotiablePrice
     var typePage: EventParameterTypePage
@@ -17,7 +17,7 @@ struct PostListingTrackingInfo {
 
     init(buttonName: EventParameterButtonNameType,
          sellButtonPosition: EventParameterSellButtonPosition,
-         imageSource: EventParameterPictureSource?,
+         imageSource: EventParameterMediaSource?,
          videoLength: TimeInterval?,
          price: String?,
          typePage: EventParameterTypePage,

@@ -22,6 +22,8 @@ public enum AppReport: ReportType {
             switch error {
             case .childCoordinatorPresent:
                 return 2001
+            case .mailBoxInvalidDeeplink:
+                return 2002
             }
         case .uikit(let error):
             switch error {
@@ -45,4 +47,5 @@ public enum MonetizationReportError {
 
 public enum NavigationReportError {
     case childCoordinatorPresent
+    case mailBoxInvalidDeeplink
 }

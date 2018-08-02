@@ -20,6 +20,7 @@ class ListingPostedViewModel: BaseViewModel {
 
     private var status: ListingPostedStatus
     private let trackingInfo: PostListingTrackingInfo
+    private let shareAfterPost: Bool?
     private let featureFlags: FeatureFlaggeable
     private let keyValueStorage: KeyValueStorage
     private let tracker: Tracker
@@ -40,8 +41,7 @@ class ListingPostedViewModel: BaseViewModel {
     }
 
     var shouldAutoShareOnFacebook: Bool {
-        guard featureFlags.frictionlessShare.isActive else { return false }
-        return keyValueStorage[.sellAutoShareOnFacebook] ?? false
+        return shareAfterPost ?? false
     }
     
     private var myUserId: String? {
@@ -55,19 +55,22 @@ class ListingPostedViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
 
-    convenience init(listingResult: ListingResult, trackingInfo: PostListingTrackingInfo) {
+    convenience init(listingResult: ListingResult, trackingInfo: PostListingTrackingInfo, shareAfterPost: Bool?) {
         self.init(status: ListingPostedStatus(listingResult: listingResult),
-                  trackingInfo: trackingInfo)
+                  trackingInfo: trackingInfo,
+                  shareAfterPost: shareAfterPost)
     }
 
-    convenience init(postParams: ListingCreationParams, listingImages: [UIImage]?, video: RecordedVideo?, trackingInfo: PostListingTrackingInfo) {
+    convenience init(postParams: ListingCreationParams, listingImages: [UIImage]?, video: RecordedVideo?, trackingInfo: PostListingTrackingInfo, shareAfterPost: Bool?) {
         self.init(status: ListingPostedStatus(images: listingImages, video: video, params: postParams),
-                  trackingInfo: trackingInfo)
+                  trackingInfo: trackingInfo,
+                  shareAfterPost: shareAfterPost)
     }
 
-    convenience init(status: ListingPostedStatus, trackingInfo: PostListingTrackingInfo) {
+    convenience init(status: ListingPostedStatus, trackingInfo: PostListingTrackingInfo, shareAfterPost: Bool?) {
         self.init(status: status,
                   trackingInfo: trackingInfo,
+                  shareAfterPost: shareAfterPost,
                   listingRepository: Core.listingRepository,
                   fileRepository: Core.fileRepository,
                   preSignedUploadUrlRepository: Core.preSignedUploadUrlRepository,
@@ -79,6 +82,7 @@ class ListingPostedViewModel: BaseViewModel {
 
     init(status: ListingPostedStatus,
          trackingInfo: PostListingTrackingInfo,
+         shareAfterPost: Bool?,
          listingRepository: ListingRepository,
          fileRepository: FileRepository,
          preSignedUploadUrlRepository: PreSignedUploadUrlRepository,
@@ -88,6 +92,7 @@ class ListingPostedViewModel: BaseViewModel {
          tracker: Tracker) {
         self.status = status
         self.trackingInfo = trackingInfo
+        self.shareAfterPost = shareAfterPost
         self.featureFlags = featureFlags
         self.keyValueStorage = keyValueStorage
         self.tracker = tracker

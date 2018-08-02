@@ -358,6 +358,7 @@
 "discarded_products_reason_poor_ad_quality" = "Δε συμβαδίζει με τις καλύτερες πρακτικές για προχωρημένους";
 "discarded_products_reason_reference_to_competitors" = "Αναφορές σε άλλες εφαρμογές ή ιστοσελίδες";
 "discarded_products_reason_stock_photo_only" = "Περιέχει μόνο πρότυπα φωτογραφιών";
+"edit_priceType_choose_title" = "Choose an option";
 "edit_product_feature_label_long_text" = "Προωθήστε την καταχώρησή σας για να πουλήσετε γρηγορότερα";
 "edit_product_feature_label_short_text" = "Πουλήστε τώρα γρηγορότερα";
 "edit_product_location_alert_text" = "Για να αλλάξετε το που δημοσιεύτηκε η καταχώρησή σας, επιτρέψτε την πρόσβαση στην τοποθεσία σας";
@@ -369,6 +370,7 @@
 "edit_product_title" = "Επεξεργασία καταχώρησης";
 "edit_product_unsaved_changes_alert" = "Είστε σίγουροι πώς θέλετε να απορρίψετε αυτές τις αλλαγές;";
 "edit_product_unsaved_changes_alert_ok" = "Απορρίψτε";
+"engagement_badging_feed_bubble" = "New items";
 "featured_info_view_increase_visibility" = "Αποκτήστε περισσότερη προβολή";
 "featured_info_view_more_buyers" = "Προσελκύστε περισσότερους αγοραστές";
 "featured_info_view_sell_faster" = "Πουλήστε Γρηγορότερα";
@@ -724,6 +726,13 @@
 "post_queued_requests_state_listing_posted" = "Η καταχώρηση δημοσιεύτηκε!";
 "post_queued_requests_state_posting_listing" = "Δημοσίευση καταχώρησης...";
 "posting_button_skip" = "Παράλειψη";
+"priceType_biweekly" = "Biweekly";
+"priceType_daily" = "Daily";
+"priceType_hourly" = "Hourly";
+"priceType_monthly" = "Monthly";
+"priceType_oneOff" = "One-time";
+"priceType_weekly" = "Weekly";
+"priceType_yearly" = "Yearly";
 "product_auto_generated_title_label" = "Ο τίτλος έχει επιλεγεί αυτόματα από το letgo";
 "product_auto_generated_translated_title_label" = "(και μεταγραστεί από το Google)";
 "product_bubble_favorite_button" = "Ενημερώστε τον πωλητή!";
@@ -1176,7 +1185,7 @@
 "reporting_listing_update_feedback_good" = "Τέλεια!";
 "reporting_listing_update_feedback_medium" = "Ευχαριστούμε!";
 "reporting_listing_update_feedback_title" = "Πώς ήταν η εμπειρία σας;";
-"reporting_listing_update_text" = "Ευχαριστούμε για την ανώνυμη αναφορά του \"%@\" που δημοσιεύτηκε από τον %@. Η συμβολή σας βοηθά την κοινότητά μας να παραμένει ασφαλής.\n\nΑφού ελέγξαμε το αντικείμενο, το αφαιρέσαμε καθώς παραβιάζει του Όρους & Προϋποθέσεις της Κοινότητάς μας.";
+"reporting_listing_update_text" = "Ευχαριστούμε για την ανώνυμη αναφορά του \"%1$@\" που δημοσιεύτηκε από τον %2$@. Η συμβολή σας βοηθά την κοινότητά μας να παραμένει ασφαλής.\n\nΑφού ελέγξαμε το αντικείμενο, το αφαιρέσαμε καθώς παραβιάζει του Όρους & Προϋποθέσεις της Κοινότητάς μας.";
 "reporting_listing_update_title" = "Ενημέρωση αναφοράς";
 "reporting_reason_bio" = "Βιογραφικού";
 "reporting_reason_counterfeit_money" = "Πληρωμή με πλαστά χρήματα";
@@ -1242,6 +1251,7 @@
 "search_alert_enable_error_message" = "Όπα! Παρουσιάστηκε σφάλμα κατά την ενεργοποίηση της ειδοποίησης αναζήτησης.";
 "search_alert_error_too_many_button_text" = "Διαχείριση Γνωστοποιήσεων";
 "search_alert_error_too_many_text" = "Όπα! Φτάσατε στο όριο του μέγιστου αριθμού ειδοποιήσεων αναζήτησης.";
+"search_alerts_disabled_oldest_message" = "Φτάσατε το μέγιστο αριθμό ειδοποιήσεων αναζήτησης, γι' αυτό και απενεργοποιήσαμε τις παλαιότερες ειδοποιήσεις και ενεργοποιήσαμε αυτήν.";
 "search_alerts_edit_button" = "Επεξεργασία";
 "search_alerts_header_subtitle" = "Λάβετε ειδοποιήσεις για νέες καταχωρήσεις";
 "search_alerts_list_title" = "Αναζήτηση Ειδοποιήσεων";

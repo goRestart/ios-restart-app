@@ -41,7 +41,8 @@ final class ChatsTabCoordinator: TabCoordinator {
                   tracker: tracker,
                   rootViewController: rootViewController,
                   featureFlags: featureFlags,
-                  sessionManager: sessionManager)
+                  sessionManager: sessionManager,
+                  deeplinkMailBox: LGDeepLinkMailBox.sharedInstance)
         
         chatGroupedViewModel.tabNavigator = self
         chatConversationsListViewModel.navigator = self

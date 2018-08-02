@@ -4,8 +4,8 @@ final class DropdownHeaderCell: DropdownItemCell {
     
     private enum Layout {
         static let titleLabelFontSize: Int = 19
-        static let checkboxSize: CGSize = CGSize(width: 20.0, height: 20.0)
-        static let checkboxTrailingConstant: CGFloat = 17.0
+        static let checkboxSize: CGSize = CGSize(width: 18.0, height: 18.0)
+        static let checkboxTrailingConstant: CGFloat = 28.0
         static let titleLabelTrailingConstant: CGFloat = 23.0
         static let titleLabelLeadingConstant: CGFloat = 10.0
         static let chevronLeadingConstant: CGFloat = 15.0

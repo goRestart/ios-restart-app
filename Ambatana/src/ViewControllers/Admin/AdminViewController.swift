@@ -167,7 +167,7 @@ extension AdminViewController {
         #if GOD_MODE
         let isGodMode = true
         #else
-        let isGodmode = false
+        let isGodMode = false
         #endif
         return AdminViewController(isGodMode: isGodMode)
     }

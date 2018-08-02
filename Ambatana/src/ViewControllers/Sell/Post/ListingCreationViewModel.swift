@@ -99,8 +99,7 @@ final class ListingCreationViewModel : BaseViewModel {
     }
     
     func createListing() {
-        if featureFlags.showServicesFeatures.isActive,
-            !uploadedImageId.isEmpty,
+        if !uploadedImageId.isEmpty,
             numberOfSelectedServicesSubtypes > 0 {
             fetchImagesAndCreateListings()
         } else {
@@ -203,7 +202,10 @@ final class ListingCreationViewModel : BaseViewModel {
     
     func nextStep() {
         if let result = listingResult {
-            navigator?.showConfirmation(listingResult: result, trackingInfo: trackingInfo, modalStyle: false)
+            navigator?.showConfirmation(listingResult: result,
+                                        trackingInfo: trackingInfo,
+                                        shareAfterPost: postListingState?.shareAfterPost,
+                                        modalStyle: false)
         } else if let results = listingsResult {
             navigator?.showMultiListingPostConfirmation(listingResult: results, trackingInfo: trackingInfo, modalStyle: false)
         } else {

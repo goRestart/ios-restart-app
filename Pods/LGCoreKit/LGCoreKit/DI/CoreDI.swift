@@ -81,9 +81,6 @@ final class CoreDI: InternalDI {
                                                 locationRepository: locationRepository,
                                                 deviceLocationDAO: deviceLocationDAO,
                                                 countryHelper: countryHelper)
-
-        let suggestedLocationsApiDataSource = SuggestedLocationsApiDataSource(apiClient: apiClient)
-
         let carsInfoDataSource = CarsInfoApiDataSource(apiClient: apiClient)
         let carsInfoCache: CarsInfoDAO = CarsInfoRealmDAO() ?? CarsInfoMemoryDAO()
         let carsInfoRepository = LGCarsInfoRepository(dataSource: carsInfoDataSource,

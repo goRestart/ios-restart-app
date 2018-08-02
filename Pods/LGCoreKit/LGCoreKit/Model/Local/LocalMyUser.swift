@@ -97,7 +97,7 @@ extension LocalMyUser {
         }
         var accounts: [LocalAccount] = []
         if let encodedAccounts = dictionary[keys.accounts] as? [[String : Any]] {
-            accounts = encodedAccounts.flatMap { LocalAccount.decode($0) }
+            accounts = encodedAccounts.compactMap { LocalAccount.decode($0) }
         }
         let ratingAverage = dictionary[keys.ratingAverage] as? Float
         let ratingCount = dictionary[keys.ratingCount] as? Int ?? 0

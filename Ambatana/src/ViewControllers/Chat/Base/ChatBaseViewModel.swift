@@ -1,5 +1,6 @@
 import RxSwift
 import LGComponents
+import LGCoreKit
 
 struct VMActionSheet {
     let cancelTitle: String
@@ -86,5 +87,35 @@ class ChatBaseViewModel: BaseViewModel {
     let rx_vmPresentLoadingMessage = PublishSubject<VMPresentLoadingMessage>()
     let rx_vmDismissLoadingMessage = PublishSubject<VMDismissLoadingMessage>()
     
+    private let reachability: ReachabilityProtocol
+    let rx_isReachable = Variable<Bool>(true)
+    
     let bag = DisposeBag()
+    
+    // MARK: Lifecycle
+    
+    init(reachability: ReachabilityProtocol = LGReachability()) {
+        self.reachability = reachability
+        super.init()
+    }
+    
+    override func didBecomeActive(_ firstTime: Bool) {
+        super.didBecomeActive(firstTime)
+        
+        if firstTime {
+            setupReachability()
+        }
+    }
+    
+    // MARK: Reachability
+    
+    private func setupReachability() {
+        reachability.reachableBlock = { [weak self] in
+            self?.rx_isReachable.value = true
+        }
+        reachability.unreachableBlock = { [weak self] in
+            self?.rx_isReachable.value = false
+        }
+        reachability.start()
+    }
 }

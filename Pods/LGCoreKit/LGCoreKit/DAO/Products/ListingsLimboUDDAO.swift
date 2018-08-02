@@ -62,6 +62,6 @@ private extension ListingsLimboUDDAO {
 
     static func fetch(_ userDefaults: UserDefaults) -> Set<String> {
         guard let array = userDefaults.array(forKey: ListingsLimboUDDAO.ListingsLimboMainKey) else { return Set<String>() }
-        return Set<String>(array.flatMap{$0 as? String})
+        return Set<String>(array.compactMap{$0 as? String})
     }
 }

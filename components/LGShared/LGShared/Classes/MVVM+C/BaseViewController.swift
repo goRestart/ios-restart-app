@@ -286,7 +286,7 @@ public extension UIViewController {
                                           target: self, action: selector)
         self.navigationItem.leftBarButtonItem = closeButton
     }
-    
+
     public func setNavBarBackgroundStyle(_ style: NavBarBackgroundStyle) {
         switch style {
         case .white:

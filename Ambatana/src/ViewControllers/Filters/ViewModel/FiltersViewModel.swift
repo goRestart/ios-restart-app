@@ -7,6 +7,7 @@ protocol FiltersViewModelDelegate: BaseViewModelDelegate {
     func vmDidUpdate()
     func vmForcePriceFix()
     func vmForceSizeFix()
+    func scrollToSection(atIndexPath indexPath: IndexPath)
 }
 
 protocol FiltersViewModelDataDelegate: class {
@@ -198,9 +199,9 @@ class FiltersViewModel: BaseViewModel {
     fileprivate func generateSections() -> [FilterSection] {
         let updatedSections = FilterSection.allValues(priceAsLast: !featureFlags.taxonomiesAndTaxonomyChildrenInFeed.isActive)
 
-        return updatedSections.filter { $0 != .price ||  isPriceCellEnabled }
-            .filter {$0 != .carsInfo ||  isCarsInfoCellEnabled }
-            .filter {!$0.isRealEstateSection || isRealEstateInfoCellEnabled }
+        return updatedSections.filter { $0 != .price || isPriceCellEnabled }
+            .filter { $0 != .carsInfo || isCarsInfoCellEnabled }
+            .filter { !$0.isRealEstateSection || isRealEstateInfoCellEnabled }
             .filter { $0 != .servicesInfo || isServicesInfoCellEnabled }
     }
 
@@ -295,6 +296,25 @@ class FiltersViewModel: BaseViewModel {
         }
         sections = generateSections()
         delegate?.vmDidUpdate()
+        scrollToHighlightedSection(withSelectedCategory: category)
+    }
+    
+    private func scrollToHighlightedSection(withSelectedCategory category: FilterCategoryItem) {
+        switch category {
+        case .category(let listingCategory):
+            if let carSectionIndex = sections.index(of: .carsInfo),
+                listingCategory.isCar,
+                featureFlags.carExtraFieldsEnabled.isActive {
+                delegate?.scrollToSection(atIndexPath: IndexPath(row: 0, section: carSectionIndex))
+            } else if let realEstateSectionIndex = sections.index(of: .realEstateInfo),
+                listingCategory.isRealEstate {
+                delegate?.scrollToSection(atIndexPath: IndexPath(row: 0, section: realEstateSectionIndex))
+            } else if let servicesSectionIndex = sections.index(of: .servicesInfo),
+                listingCategory.isServices {
+                delegate?.scrollToSection(atIndexPath: IndexPath(row: 0, section: servicesSectionIndex))
+            }
+        case .free: break
+        }
     }
     
     func categoryTextAtIndex(_ index: Int) -> String? {
@@ -898,9 +918,6 @@ extension FiltersViewModel {
     }
     
     var isServicesInfoCellEnabled: Bool {
-        guard featureFlags.showServicesFeatures.isActive else {
-            return false
-        }
         return productFilter.selectedCategories.contains(.services)
     }
     
@@ -909,17 +926,14 @@ extension FiltersViewModel {
     }
     
     var serviceSections: [FilterServicesSection] {
-        guard featureFlags.showServicesFeatures.isActive else {
-            return []
-        }
         return FilterServicesSection.allSections(isUnifiedActive: featureFlags.servicesUnifiedFilterScreen.isActive)
     }
     
-    var selectedServiceSubtypesDisplayName: String? {
+    var selectedServiceSubtypesDisplayName: String {
         if featureFlags.servicesUnifiedFilterScreen.isActive {
-            return createUnifiedSelectedServiceDisplayName()
+            return createUnifiedSelectedServiceDisplayName() ?? ""
         } else {
-            return createSelectedServiceSubtypeDisplayName()
+            return createSelectedServiceSubtypeDisplayName() ?? R.Strings.filtersServiceSubtypeNotSet
         }
     }
     
@@ -940,7 +954,6 @@ extension FiltersViewModel {
     
     private func createUnifiedSelectedServiceDisplayName() -> String? {
         
-
         guard let firstSubtype =
             productFilter.verticalFilters.services.subtypes?.first?.name else {
             return nil

@@ -358,6 +358,7 @@
 "discarded_products_reason_poor_ad_quality" = "Verstoß gegen unsere Angebotsregeln";
 "discarded_products_reason_reference_to_competitors" = "Verweis auf andere Apps oder Webseiten";
 "discarded_products_reason_stock_photo_only" = "Enthält nur Herstellerfotos";
+"edit_priceType_choose_title" = "Wähle eine Option";
 "edit_product_feature_label_long_text" = "Empfehle dein Angebot, um schneller zu verkaufen";
 "edit_product_feature_label_short_text" = "Jetzt schneller verkaufen";
 "edit_product_location_alert_text" = "Erlaube den Zugriff auf deinen Standort, um zu ändern, wo dein Angebot eingestellt wird";
@@ -369,6 +370,7 @@
 "edit_product_title" = "Angebot bearbeiten";
 "edit_product_unsaved_changes_alert" = "Bist du sicher, dass du diese Änderungen verwerfen möchtest?";
 "edit_product_unsaved_changes_alert_ok" = "Verwerfen";
+"engagement_badging_feed_bubble" = "Neue Artikel";
 "featured_info_view_increase_visibility" = "Mehr Sichtbarkeit verschaffen";
 "featured_info_view_more_buyers" = "Locke mehr Käufer an";
 "featured_info_view_sell_faster" = "Schneller verkaufen";
@@ -724,6 +726,13 @@
 "post_queued_requests_state_listing_posted" = "Angebot eingestellt!";
 "post_queued_requests_state_posting_listing" = "Angebot einstellen...";
 "posting_button_skip" = "Überspringen";
+"priceType_biweekly" = "Alle zwei Wochen";
+"priceType_daily" = "Pro Tag";
+"priceType_hourly" = "Pro Stunde";
+"priceType_monthly" = "Pro Monat";
+"priceType_oneOff" = "Einmalig";
+"priceType_weekly" = "Pro Woche";
+"priceType_yearly" = "Pro Jahr";
 "product_auto_generated_title_label" = "Der Titel wurde von letgo automatisch generiert";
 "product_auto_generated_translated_title_label" = "(und mit Google übersetzt)";
 "product_bubble_favorite_button" = "Sag dem Verkäufer Bescheid!";
@@ -1176,7 +1185,7 @@
 "reporting_listing_update_feedback_good" = "Super!";
 "reporting_listing_update_feedback_medium" = "Danke!";
 "reporting_listing_update_feedback_title" = "Wie war das Erlebnis?";
-"reporting_listing_update_text" = "Danke, dass du \"%@\" eingestellt von %@ anonym gemeldet hast. Solches Feedback hilft uns, die letgo-Gemeinschaft sicher zu halten.\n\nNachdem wir uns diesen Artikel angesehen haben, haben wir ihn entfernt, da er gegen unsere Gemeinschaftsleitlinien verstößt.";
+"reporting_listing_update_text" = "Danke, dass du \"%1$@\" eingestellt von %2$@ anonym gemeldet hast. Solches Feedback hilft uns, die letgo-Gemeinschaft sicher zu halten.\n\nNachdem wir uns diesen Artikel angesehen haben, haben wir ihn entfernt, da er gegen unsere Gemeinschaftsleitlinien verstößt.";
 "reporting_listing_update_title" = "Meldungsstatus";
 "reporting_reason_bio" = "Biografie";
 "reporting_reason_counterfeit_money" = "Hat mit Falschgeld bezahlt";
@@ -1242,6 +1251,7 @@
 "search_alert_enable_error_message" = "Hoppla! Beim Aktivieren deiner gespeicherten Suche ist ein Fehler aufgetreten.";
 "search_alert_error_too_many_button_text" = "Mitteilungen verwalten";
 "search_alert_error_too_many_text" = "Hoppla! Du hast die maximale Anzahl an gespeicherten Suchen erreicht";
+"search_alerts_disabled_oldest_message" = "Du hast die maximale Anzahl an gespeicherten Suchen erreicht, darum haben wir deine älteste Suche pausiert und diese aktiviert";
 "search_alerts_edit_button" = "Bearbeiten";
 "search_alerts_header_subtitle" = "Erhalte Benachrichtigungen zu neuen Angeboten";
 "search_alerts_list_title" = "Gespeicherte Suchen";

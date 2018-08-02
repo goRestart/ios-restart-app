@@ -124,36 +124,73 @@ public extension UIViewController {
         presenter.present(alert, animated: true, completion: nil)
     }
 
-    func showActionSheet(_ cancelAction: UIAction, actions: [UIAction], barButtonItem: UIBarButtonItem? = nil,
+    func showActionSheet(_ cancelAction: UIAction,
+                         title: String? = nil,
+                         actions: [UIAction],
+                         barButtonItem: UIBarButtonItem? = nil,
                          completion: (() -> Void)? = nil) {
-        showActionSheet(cancelAction, actions: actions, barButtonItem: barButtonItem, sourceView: nil, sourceRect: nil,
+        showActionSheet(cancelAction,
+                        actions: actions,
+                        title: title,
+                        barButtonItem: barButtonItem,
+                        sourceView: nil,
+                        sourceRect: nil,
                         completion: completion)
     }
     
-    func showActionSheet(_ cancelAction: UIAction, actions: [UIAction], sourceView: UIView? = nil,
-                         sourceRect: CGRect? = nil, completion: (() -> Void)? = nil) {
-        showActionSheet(cancelAction, actions: actions, barButtonItem: nil, sourceView: sourceView,
-                        sourceRect: sourceRect, completion: completion)
+    func showActionSheet(_ cancelAction: UIAction,
+                         title: String? = nil,
+                         actions: [UIAction],
+                         sourceView: UIView? = nil,
+                         sourceRect: CGRect? = nil,
+                         completion: (() -> Void)? = nil) {
+        showActionSheet(cancelAction,
+                        actions: actions,
+                        title: title,
+                        barButtonItem: nil,
+                        sourceView: sourceView,
+                        sourceRect: sourceRect,
+                        completion: completion)
     }
 
-    func showActionSheet(_ cancelLabel: String, actions: [UIAction], barButtonItem: UIBarButtonItem? = nil) {
+    func showActionSheet(_ cancelLabel: String,
+                         title: String? = nil,
+                         actions: [UIAction],
+                         barButtonItem: UIBarButtonItem? = nil) {
         let cancelAction = UIAction(interface: .text(cancelLabel), action: {})
-        showActionSheet(cancelAction, actions: actions, barButtonItem: barButtonItem, sourceView: nil,
-                        sourceRect: nil, completion: nil)
+        showActionSheet(cancelAction,
+                        actions: actions,
+                        title: title,
+                        barButtonItem: barButtonItem,
+                        sourceView: nil,
+                        sourceRect: nil,
+                        completion: nil)
     }
     
-    func showActionSheet(_ cancelLabel: String, actions: [UIAction], sourceView: UIView? = nil,
+    func showActionSheet(_ cancelLabel: String,
+                         actions: [UIAction],
+                         title: String? = nil,
+                         sourceView: UIView? = nil,
                          sourceRect: CGRect? = nil) {
         let cancelAction = UIAction(interface: .text(cancelLabel), action: {})
-        showActionSheet(cancelAction, actions: actions, barButtonItem: nil, sourceView: sourceView,
-                        sourceRect: sourceRect, completion: nil)
+        showActionSheet(cancelAction,
+                        actions: actions,
+                        title: title,
+                        barButtonItem: nil,
+                        sourceView: sourceView,
+                        sourceRect: sourceRect,
+                        completion: nil)
     }
     
-    private func showActionSheet(_ cancelAction: UIAction, actions: [UIAction], barButtonItem: UIBarButtonItem? = nil,
-                                 sourceView: UIView? = nil, sourceRect: CGRect? = nil,
+    private func showActionSheet(_ cancelAction: UIAction,
+                                 actions: [UIAction],
+                                 title: String? = nil,
+                                 barButtonItem: UIBarButtonItem? = nil,
+                                 sourceView: UIView? = nil,
+                                 sourceRect: CGRect? = nil,
                                  completion: (() -> Void)? = nil) {
         
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: title, message: nil, preferredStyle: .actionSheet)
         
         if let item = barButtonItem {
             alert.popoverPresentationController?.barButtonItem = item

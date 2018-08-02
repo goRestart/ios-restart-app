@@ -1343,7 +1343,10 @@ extension ListingCarouselViewController {
         guard !bannerContainer.isHidden else { return }
         bannerBottom = -bannerHeight
         bumpUpBanner.stopCountdown()
-        bannerContainer.isHidden = true
+        UIView.animate(withDuration: 0.2, animations: { [weak self] in
+            self?.view.layoutIfNeeded()
+            self?.bannerContainer.isHidden = true
+        })
     }
 
     private func updateBannerHeightFor(type: BumpUpType) {
@@ -1351,7 +1354,7 @@ extension ListingCarouselViewController {
         switch type {
         case .boost(let boostBannerVisible):
             bannerTotalHeight = boostBannerVisible ? CarouselUI.bannerHeight*2 : CarouselUI.bannerHeight
-        case .free, .hidden, .priced, .restore:
+        case .free, .hidden, .priced, .restore, .loading:
             bannerTotalHeight = CarouselUI.bannerHeight
         }
 

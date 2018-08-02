@@ -35,7 +35,6 @@ public class LGCoreKit {
     }
 
     public static func start() {
-        InternalCore.categoryRepository.refreshTaxonomiesCache()
         InternalCore.stickersRepository.show(nil) // Sync stickers to UserDefaults
     }
 

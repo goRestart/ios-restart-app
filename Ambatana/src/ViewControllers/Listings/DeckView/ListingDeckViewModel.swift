@@ -537,6 +537,9 @@ extension ListingDeckViewModel: ListingViewModelDelegate {
     func vmShowActionSheet(_ cancelLabel: String, actions: [UIAction]) {
         delegate?.vmShowActionSheet(cancelLabel, actions: actions)
     }
+    func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction], withTitle title: String?) {
+        delegate?.vmShowActionSheet(cancelAction, actions: actions, withTitle: title)
+    }
     func vmOpenInAppWebViewWith(url: URL) {
         delegate?.vmOpenInAppWebViewWith(url:url)
     }

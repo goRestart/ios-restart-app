@@ -100,7 +100,6 @@ class ChatViewModelSpec: BaseViewModelSpec {
 
                 conversation = chatConversation
                 let predefinedMessage = String.makeRandom()
-                let reachability = LGReachability()
                 sut = ChatViewModel(conversation: conversation, myUserRepository: myUserRepository,
                                     chatRepository: chatRepository, listingRepository: listingRepository,
                                     userRepository: userRepository, stickersRepository: stickersRepository,
@@ -108,8 +107,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                                     keyValueStorage: keyValueStorage, navigator: nil, featureFlags: featureFlags,
                                     source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionManager,
                                     predefinedMessage: predefinedMessage, openChatAutomaticMessage: openChatAutomaticMessage,
-                                    interlocutor: interlocutor, reputationTooltipManager: reputationTooltipManager,
-                                    reachability: reachability)
+                                    interlocutor: interlocutor, reputationTooltipManager: reputationTooltipManager)
                 sut.delegate = self
                 disposeBag = DisposeBag()
                 sut.messages.observable.bind(to: messages).disposed(by: disposeBag)

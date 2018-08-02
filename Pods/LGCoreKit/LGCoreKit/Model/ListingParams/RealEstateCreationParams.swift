@@ -50,7 +50,7 @@ public class RealEstateCreationParams: BaseListingParams {
         params["city"] = postalAddress.city
         params["address"] = postalAddress.address
         params["zipCode"] = postalAddress.zipCode
-        params["images"] = images.flatMap { $0.objectId }
+        params["images"] = images.compactMap { $0.objectId }
         let paramsVideos: [[String: Any]] = videos.map { ["path": $0.path, "snapshot": $0.snapshot] }
         params["videos"] = paramsVideos
 

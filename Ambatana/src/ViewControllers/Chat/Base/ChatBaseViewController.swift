@@ -5,7 +5,8 @@ class ChatBaseViewController: BaseViewController {
     
     let bag = DisposeBag()
 
-    init(viewModel: ChatBaseViewModel, featureFlags: FeatureFlaggeable = FeatureFlags.sharedInstance) {
+    init(viewModel: ChatBaseViewModel,
+         featureFlags: FeatureFlaggeable = FeatureFlags.sharedInstance) {
         super.init(viewModel: viewModel, nibName: nil)
         showConnectionToastView = !featureFlags.showChatConnectionStatusBar.isActive
         setupBaseRx(viewModel: viewModel)

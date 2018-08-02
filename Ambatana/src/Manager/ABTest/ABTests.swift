@@ -188,6 +188,7 @@ extension ABTests {
     var fullScreenAdsWhenBrowsingForUS: LeanplumABVariable<Int> { return money.fullScreenAdsWhenBrowsingForUS }
     var preventMessagesFromFeedToProUsers: LeanplumABVariable<Int> { return money.preventMessagesFromFeedToProUsers }
     var appInstallAdsInFeed: LeanplumABVariable<Int> { return money.appInstallAdsInFeed }
+    var alwaysShowBumpBannerWithLoading: LeanplumABVariable<Int> { return money.alwaysShowBumpBannerWithLoading }
 }
 
 //  MARK: Retention
@@ -200,6 +201,7 @@ extension ABTests {
     var notificationSettings: LeanplumABVariable<Int> { return retention.notificationSettings }
     var searchAlertsInSearchSuggestions: LeanplumABVariable<Int> { return retention.searchAlertsInSearchSuggestions }
     var engagementBadging: LeanplumABVariable<Int> { return retention.engagementBadging }
+    var searchAlertsDisableOldestIfMaximumReached: LeanplumABVariable<Int> { return retention.searchAlertsDisableOldestIfMaximumReached }
 }
 
 //  MARK: RealEstate
@@ -212,7 +214,7 @@ extension ABTests {
 //  MARK: Verticals
 
 extension ABTests {
-    var showServicesFeatures: LeanplumABVariable<Int> { return verticals.showServicesFeatures }
+    var servicesPriceType: LeanplumABVariable<Int> { return verticals.servicesPriceType }
     var carExtraFieldsEnabled: LeanplumABVariable<Int> { return verticals.carExtraFieldsEnabled }
     var realEstateMapTooltip: LeanplumABVariable<Int> { return verticals.realEstateMapTooltip }
     var servicesUnifiedFilterScreen: LeanplumABVariable<Int> { return verticals.servicesUnifiedFilterScreen }
