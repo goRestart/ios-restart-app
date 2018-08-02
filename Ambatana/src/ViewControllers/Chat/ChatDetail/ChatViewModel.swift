@@ -709,7 +709,7 @@ class ChatViewModel: ChatBaseViewModel {
                 self?.conversation.value.interlocutorIsTyping.value = true
             case .interlocutorTypingStopped:
                 self?.conversation.value.interlocutorIsTyping.value = false
-            case .authenticationTokenExpired, .talkerUnauthenticated:
+            case .authenticationTokenExpired, .talkerUnauthenticated, .smartQuickAnswer(_):
                 break
             }
         }.disposed(by: disposeBag)
@@ -1859,10 +1859,7 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
             onMeetingAssistantPressed()
         case .dynamic(let chatAnswer):
             send(quickAnswer: QuickAnswer.dynamic(chatAnswer: chatAnswer))
-            switch chatAnswer.type {
-            case .replyText:
-                break
-            case .callToAction(_, _, let deeplinkURL):
+            if case .callToAction(_, _, let deeplinkURL) = chatAnswer.type {
                 navigator?.navigate(with: deeplinkURL)
             }
         }

@@ -183,6 +183,9 @@ final class CoreDI: InternalDI {
 
         communityRepository = LGCommunityRepository(tokenDAO: tokenDAO)
 
+        let reportingDataSource = ReportingApiDataSource(apiClient: self.apiClient)
+        reportingRepository = LGReportingRepository(dataSource: reportingDataSource, myUserRepository: myUserRepository)
+
         self.reporter = ReporterProxy()
     }
 
@@ -241,6 +244,7 @@ final class CoreDI: InternalDI {
     let servicesInfoRepository: ServicesInfoRepository
     let listingRepository: ListingRepository
     let communityRepository: CommunityRepository
+    let reportingRepository: ReportingRepository
 
     lazy var fileRepository: FileRepository = {
         let dataSource = FileApiDataSource(apiClient: self.apiClient)
