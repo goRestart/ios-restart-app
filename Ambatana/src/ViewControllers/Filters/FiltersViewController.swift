@@ -234,6 +234,19 @@ extension FiltersViewController {
 
 extension FiltersViewController: FiltersViewModelDelegate {
     
+    func scrollToSection(atIndexPath indexPath: IndexPath) {
+        guard numberOfSections(in: collectionView) > indexPath.section,
+            collectionView(collectionView, numberOfItemsInSection: indexPath.section) > indexPath.item else {
+                return
+        }
+        
+        collectionView.scrollToSupplementaryView(ofKind: UICollectionElementKindSectionHeader,
+                                                 atIndexPath: indexPath,
+                                                 atScrollPosition: .top,
+                                                 verticalOffset: topBarHeight,
+                                                 animated: true)
+    }
+    
     func vmDidUpdate() {
         collectionView.reloadData()
     }
@@ -766,7 +779,7 @@ extension FiltersViewController {
             cell.topSeparator?.isHidden = false
         case .subtype:
             cell.setup(withTitle: serviceSection.title,
-                       subtitle: viewModel.selectedServiceSubtypesDisplayName ?? R.Strings.filtersServiceSubtypeNotSet,
+                       subtitle: viewModel.selectedServiceSubtypesDisplayName,
                        isTitleEnabled: viewModel.serviceSubtypeCellEnabled,
                        isUserInteractionEnabled: viewModel.serviceSubtypeCellEnabled)
         case .unified:

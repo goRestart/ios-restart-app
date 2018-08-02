@@ -54,7 +54,7 @@ enum DirectAnswersState {
     case notAvailable, visible, hidden
 }
 
-class ChatViewModel: BaseViewModel {
+class ChatViewModel: ChatBaseViewModel {
     
     static let typingStartedThrottleTime: TimeInterval = 15
     static let userIsTypingTimeoutTime: TimeInterval = 10
@@ -74,9 +74,7 @@ class ChatViewModel: BaseViewModel {
     }
 
     // Connectivity
-    private let reachability: ReachabilityProtocol
     private let rx_wsChatStatus = Variable<WSChatStatus>(.closed)
-    private let rx_isReachable = Variable<Bool>(true)
     let rx_connectionBarStatus = Variable<ChatConnectionBarStatus>(.wsConnected)
 
 
@@ -278,7 +276,7 @@ class ChatViewModel: BaseViewModel {
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
                   source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager,
                   predefinedMessage: predefinedMessage, openChatAutomaticMessage: nil, interlocutor: nil,
-                  reputationTooltipManager: reputationTooltipManager, reachability: LGReachability())
+                  reputationTooltipManager: reputationTooltipManager)
     }
     
     convenience init?(listing: Listing,
@@ -310,7 +308,7 @@ class ChatViewModel: BaseViewModel {
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
                   source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager, predefinedMessage: nil,
                   openChatAutomaticMessage: openChatAutomaticMessage, interlocutor: interlocutor,
-                  reputationTooltipManager: reputationTooltipManager, reachability: LGReachability())
+                  reputationTooltipManager: reputationTooltipManager)
         self.setupConversationFrom(listing: listing)
     }
     
@@ -319,8 +317,7 @@ class ChatViewModel: BaseViewModel {
           tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, keyValueStorage: KeyValueStorageable,
           navigator: ChatDetailNavigator?, featureFlags: FeatureFlaggeable, source: EventParameterTypePage,
           ratingManager: RatingManager, pushPermissionsManager: PushPermissionsManager, predefinedMessage: String?,
-          openChatAutomaticMessage: ChatWrapperMessageType?, interlocutor: User?, reputationTooltipManager: ReputationTooltipManager,
-          reachability: ReachabilityProtocol) {
+          openChatAutomaticMessage: ChatWrapperMessageType?, interlocutor: User?, reputationTooltipManager: ReputationTooltipManager) {
         self.conversation = Variable<ChatConversation>(conversation)
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
@@ -342,7 +339,6 @@ class ChatViewModel: BaseViewModel {
         self.openChatAutomaticMessage = openChatAutomaticMessage
         self.interlocutor = interlocutor
         self.reputationTooltipManager = reputationTooltipManager
-        self.reachability = reachability
         if let isProfessional = interlocutor?.isProfessional {
             self.interlocutorProfessionalInfo.value = InterlocutorProfessionalInfo(isProfessional: isProfessional,
                                                                                    phoneNumber: interlocutor?.phone)
@@ -362,7 +358,6 @@ class ChatViewModel: BaseViewModel {
             if isUserDummy {
                 textBoxVisible.value = false
             }
-            setupReachability()
             retrieveRelatedListings()
             setupExpressChat()
             refreshChat()
@@ -714,7 +709,7 @@ class ChatViewModel: BaseViewModel {
                 self?.conversation.value.interlocutorIsTyping.value = true
             case .interlocutorTypingStopped:
                 self?.conversation.value.interlocutorIsTyping.value = false
-            case .authenticationTokenExpired, .talkerUnauthenticated:
+            case .authenticationTokenExpired, .talkerUnauthenticated, .smartQuickAnswer(_):
                 break
             }
         }.disposed(by: disposeBag)
@@ -747,17 +742,6 @@ class ChatViewModel: BaseViewModel {
             .bind(to: chatUserInteractionsEnabled)
             .disposed(by: disposeBag)
     }
-
-    private func setupReachability() {
-        reachability.reachableBlock = { [weak self] in
-            self?.rx_isReachable.value = true
-        }
-        reachability.unreachableBlock = { [weak self] in
-            self?.rx_isReachable.value = false
-        }
-        reachability.start()
-    }
-
     
     // MARK: - Public Methods
     
@@ -1875,11 +1859,8 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
             onMeetingAssistantPressed()
         case .dynamic(let chatAnswer):
             send(quickAnswer: QuickAnswer.dynamic(chatAnswer: chatAnswer))
-            switch chatAnswer.type {
-            case .replyText:
-                break
-            case .callToAction(_, _, let deeplinkURL):
-                navigator?.openDeeplink(url: deeplinkURL)
+            if case .callToAction(_, _, let deeplinkURL) = chatAnswer.type {
+                navigator?.navigate(with: deeplinkURL)
             }
         }
     }
@@ -1986,7 +1967,7 @@ extension ChatViewModel {
         let isLetgoAssistant = EventParameterBoolean(bool: isUserDummy)
         let trackerEvent = TrackerEvent.chatCallToActionTapped(ctaKey: trackingKey, isLetgoAssistant: isLetgoAssistant)
         tracker.trackEvent(trackerEvent)
-        navigator?.openDeeplink(url: url)
+        navigator?.navigate(with: url)
     }
 
     func acceptMeeting() {

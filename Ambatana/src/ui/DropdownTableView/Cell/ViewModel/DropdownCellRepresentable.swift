@@ -40,7 +40,7 @@ extension Collection where Element == DropdownSectionViewModel {
         guard let section = first(where: { $0.sectionId == serviceType.id }) else { return updatedSectionRepresentable }
         
         let servicesSubtypeIds = serviceSubtypes.map { $0.id }
-        section.absorb(ids: servicesSubtypeIds)
+        section.setupSectionAsSelected(withSelectedItemIds: servicesSubtypeIds)
         
         return updatedSectionRepresentable
     }

@@ -104,7 +104,7 @@ final class ListingListViewModel: BaseViewModel {
     private(set) var state: ViewState {
         didSet {
             delegate?.vmDidUpdateState(self, state: state)
-            isListingListEmpty.value = state.isEmpty
+            isListingListEmpty.value = state.isEmpty || (state.isError && objects.count == 0)
         }
     }
 
@@ -150,6 +150,11 @@ final class ListingListViewModel: BaseViewModel {
     var numberOfListings: Int {
         return objects.count
     }
+    
+    var isErrorOrEmpty: Bool {
+        return state.isError || state.isEmpty
+    }
+
     
     let numberOfColumns: Int
     private var searchType: SearchType?
@@ -219,7 +224,7 @@ final class ListingListViewModel: BaseViewModel {
                   searchType: searchType)
         self.requesterFactory = requesterFactory
         requesterSequence = requesterFactory.buildRequesterList()
-        if featureFlags.engagementBadging == .active {
+        if featureFlags.engagementBadging.isActive {
             self.recentListingsRequester = requesterFactory.buildRecentListingsRequester()
         }
         setCurrentFallbackRequester()

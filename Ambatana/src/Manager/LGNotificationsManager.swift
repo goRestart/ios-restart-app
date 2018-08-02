@@ -28,6 +28,7 @@ class LGNotificationsManager: NotificationsManager {
     }
     let marketingNotifications: Variable<Bool>
     let loggedInMktNofitications: Variable<Bool>
+    let engagementBadgingNotifications = Variable<Bool>(false)
 
     fileprivate let disposeBag = DisposeBag()
 
@@ -43,27 +44,36 @@ class LGNotificationsManager: NotificationsManager {
     private var requestingChat = false
     private var requestingNotifications = false
 
+    private let listingRepository: ListingRepository
+    private let locationManager: LocationManager
+    
 
     // MARK: - Lifecycle
 
     convenience init() {
         self.init(sessionManager: Core.sessionManager,
+                  locationManager: Core.locationManager,
                   chatRepository: Core.chatRepository,
                   notificationsRepository: Core.notificationsRepository,
+                  listingRepository: Core.listingRepository,
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   featureFlags: FeatureFlags.sharedInstance,
                   deepLinksRouter: LGDeepLinksRouter.sharedInstance)
     }
 
     init(sessionManager: SessionManager,
+         locationManager: LocationManager,
          chatRepository: ChatRepository,
          notificationsRepository: NotificationsRepository,
+         listingRepository: ListingRepository,
          keyValueStorage: KeyValueStorage,
          featureFlags: FeatureFlaggeable,
          deepLinksRouter: DeepLinksRouter) {
         self.sessionManager = sessionManager
+        self.locationManager = locationManager
         self.chatRepository = chatRepository
         self.notificationsRepository = notificationsRepository
+        self.listingRepository = listingRepository
         self.keyValueStorage = keyValueStorage
         self.featureFlags = featureFlags
         self.deepLinksRouter = deepLinksRouter
@@ -117,7 +127,8 @@ class LGNotificationsManager: NotificationsManager {
 
         sessionManager.sessionEvents.map { $0.isLogin }.bind(to: loggedIn).disposed(by: disposeBag)
 
-        globalCount.bind { count in
+        // Skipping first event because it sets to 0 the badge number until the API requests finishes
+        globalCount.skip(1).bind { count in
             UIApplication.shared.applicationIconBadgeNumber = count
         }.disposed(by: disposeBag)
 
@@ -172,6 +183,29 @@ class LGNotificationsManager: NotificationsManager {
             guard let notificationCounts = result.value else { return }
             self?.unreadNotificationsCount.value = notificationCounts
         }
+    }
+        
+    func updateEngagementBadgingNotifications() {
+        guard let lastSessionDate = keyValueStorage[.lastSessionDate] else { return }
+        let previousSessionLongerThan1Hour = Date().timeIntervalSince(lastSessionDate) > TimeInterval.make(hours: 1)
+        let hasAppIconBadge = UIApplication.shared.applicationIconBadgeNumber > 0
+        
+        if hasAppIconBadge && previousSessionLongerThan1Hour {
+            var params = RetrieveListingParams()
+            if let currentLocation = locationManager.currentLocation {
+                params.coordinates = LGLocationCoordinates2D(location: currentLocation)
+            }
+            params.timeCriteria = ListingTimeCriteria.date(date: lastSessionDate)
+
+            listingRepository.index(params) { [weak self] result in
+                guard let recentListings = result.value, !recentListings.isEmpty else { return }
+                self?.engagementBadgingNotifications.value = true
+            }
+        }
+    }
+    
+    func hideEngagementBadgingNotifications() {
+        engagementBadgingNotifications.value = false
     }
 }
 

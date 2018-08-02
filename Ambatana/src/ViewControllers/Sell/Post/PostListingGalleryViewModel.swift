@@ -97,6 +97,8 @@ class PostListingGalleryViewModel: BaseViewModel {
 
     let disposeBag = DisposeBag()
 
+    let tracker: Tracker
+
 
     // MARK: - Lifecycle
 
@@ -106,7 +108,8 @@ class PostListingGalleryViewModel: BaseViewModel {
                   mediaPermissions: LGMediaPermissions(),
                   maxImageSelected: maxImageSelected,
                   postCategory: postCategory,
-                  isBlockingPosting: isBlockingPosting)
+                  isBlockingPosting: isBlockingPosting,
+                  tracker: TrackerProxy.sharedInstance)
     }
 
     required init(keyValueStorage: KeyValueStorage,
@@ -114,13 +117,15 @@ class PostListingGalleryViewModel: BaseViewModel {
                   mediaPermissions: MediaPermissions,
                   maxImageSelected: Int,
                   postCategory: PostCategory?,
-                  isBlockingPosting: Bool) {
+                  isBlockingPosting: Bool,
+                  tracker: Tracker) {
         self.keyValueStorage = keyValueStorage
         self.featureFlags = featureFlags
         self.mediaPermissions = mediaPermissions
         self.postCategory = postCategory
         self.isBlockingPosting = isBlockingPosting
         self.maxImagesSelected = maxImageSelected
+        self.tracker = tracker
         super.init()
         setupRX()
     }
@@ -279,6 +284,7 @@ class PostListingGalleryViewModel: BaseViewModel {
             DispatchQueue.main.async { [weak self] in
                 if newStatus == .authorized {
                     self?.fetchAlbums()
+                    self?.trackPermissionsGrant()
                 } else {
                     self?.galleryState.value =
                         .missingPermissions(R.Strings.productPostGalleryPermissionsSubtitle)
@@ -434,6 +440,10 @@ class PostListingGalleryViewModel: BaseViewModel {
                 guard let info = info, info[PHImageCancelledKey] == nil else { return }
                 handler(result)
         })
+    }
+
+    private func trackPermissionsGrant() {
+        tracker.trackEvent(TrackerEvent.listingSellPermissionsGrant(type: .camera))
     }
 }
 

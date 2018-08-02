@@ -58,19 +58,21 @@ final class DropdownSectionSpec: QuickSpec {
                     expect(sut.selectedItems).to(beNil())
                 }
             }
-            context("selectAllItems") {
+            context("selectHeader") {
                 beforeEach {
-                    sut.selectAllItems()
+                    sut.selectHeader()
                 }
-                it("all items must be selected") {
+                it("header must be selected") {
                     expect(sut.selectedItems?.selectedHeaderId).to(equal("123"))
-                    expect(sut.selectedItems?.selectedItemIds).to(equal(["111", "222"]))
+                }
+                it("selected items must be empty") {
+                    expect(sut.selectedItems?.selectedItemIds).to(equal([]))
                 }
             }
             context("absorb") {
                 beforeEach {
                     sut.deselectAllItems()
-                    sut.absorb(ids: ["111"])
+                    sut.setupSectionAsSelected(withSelectedItemIds: ["111"])
                     sut.toggleExpansionState(forId: "123")
                 }
                 it("header is semiselected") {
@@ -109,11 +111,11 @@ final class DropdownSectionSpec: QuickSpec {
                     it("header is selected") {
                         expect(sutSections?.first?.item(forIndex: 0)?.state).to(equal(.selected))
                     }
-                    it("first item is selected") {
-                        expect(sutSections?.first?.item(forIndex: 1)?.state).to(equal(.selected))
+                    it("first item is deselected") {
+                        expect(sutSections?.first?.item(forIndex: 1)?.state).to(equal(.deselected))
                     }
-                    it("second item is selected") {
-                        expect(sutSections?.first?.item(forIndex: 2)?.state).to(equal(.selected))
+                    it("second item is deselected") {
+                        expect(sutSections?.first?.item(forIndex: 2)?.state).to(equal(.deselected))
                     }
                 }
                 context("deselectSection") {

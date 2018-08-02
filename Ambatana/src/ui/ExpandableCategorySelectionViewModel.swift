@@ -31,6 +31,7 @@ extension ListingCategory {
 
 protocol ExpandableCategorySelectionDelegate: class {
     func didPressCloseButton()
+    func tapOutside()
     func didPressCategory(_ listingCategory: ListingCategory)
 }
 
@@ -75,6 +76,10 @@ class ExpandableCategorySelectionViewModel: BaseViewModel {
     
     func closeButtonAction() {
         delegate?.didPressCloseButton()
+    }
+
+    func tapOutside() {
+        delegate?.tapOutside()
     }
     
     func pressCategoryAction(listingCategory: ListingCategory) {

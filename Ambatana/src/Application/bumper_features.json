@@ -8,12 +8,12 @@
     {
         "name": "FreeBumpUpEnabled",
         "values": ["No", "Yes"],
-        "description": "User can bump sharing"
+        "description": "[MONEY] User can bump sharing"
     },
     {
         "name": "PricedBumpUpEnabled",
         "values": ["No", "Yes"],
-        "description": "User can bump paying"
+        "description": "[MONEY] User can bump paying"
     },
     {
         "name": "UserReviewsReportEnabled",
@@ -48,7 +48,7 @@
     {
         "name": "ShowAdsInFeedWithRatio",
         "values": ["control", "baseline", "ten", "fifteen", "twenty"],
-        "description": "show ads in feed every X cells"
+        "description": "[MONEY] show ads in feed every X cells"
     },
     {
         "name": "RealEstateFlowType",
@@ -73,7 +73,7 @@
     {
         "name": "NoAdsInFeedForNewUsers",
         "values": ["control", "baseline", "AdsEverywhere", "NoAdsForNewUsers", "AdsForNewUsersOnlyInFeed"],
-        "description": "Change logic for showing ads to new users (2 weeks old)"
+        "description": "[MONEY] Change logic for showing ads to new users (2 weeks old)"
     },
     {
         "name": "SearchImprovements",
@@ -128,7 +128,7 @@
     {
         "name": "FeedAdsProviderForUS",
         "values": ["control", "baseline", "GoogleAdxForAllUsers", "GoogleAdxForOldUsers", "MoPubAdsForAllUsers", "MoPubAdsForOldUsers"],
-        "description": "Change logic for showing ads with diferent ads providers in the US"
+        "description": "[MONEY] Change logic for showing ads with diferent ads providers in the US"
     },
     {
         "name": "CopyForChatNowInEnglish",
@@ -138,7 +138,7 @@
     {
         "name": "FeedAdsProviderForTR",
         "values": ["control", "baseline", "MoPubAdsForAllUsers", "MoPubAdsForOldUsers"],
-        "description": "Change logic for showing ads with diferent ads providers in TR"
+        "description": "[MONEY] Change logic for showing ads with diferent ads providers in TR"
     },
     {
         "name": "SectionedMainFeed",
@@ -148,7 +148,7 @@
     {
         "name": "ShowExactLocationForPros",
         "values": ["yes", "no"],
-        "description": "Show exact location for professional delaers in listing detail map"
+        "description": "[MONEY] Show exact location for professional delaers in listing detail map"
     },
     {
       "name": "ShowPasswordlessLogin",
@@ -158,7 +158,7 @@
     {
         "name": "CopyForSellFasterNowInEnglish",
         "values": ["control", "baseline", "variantB", "variantC", "variantD"],
-        "description": "Try different copies for 'Sell faster now' banner in English"
+        "description": "[MONEY] Try different copies for 'Sell faster now' banner in English"
     },
     {
         "name": "EmergencyLocate",
@@ -188,17 +188,12 @@
     {
         "name": "GoogleAdxForTR",
         "values": ["control", "baseline", "GoogleAdxForAllUsers", "GoogleAdxForOldUsers"],
-        "description": "Change logic for showing GoogleAdx in TR"
+        "description": "[MONEY] Change logic for showing GoogleAdx in TR"
     },
     {
         "name": "MultiContactAfterSearch",
         "values": ["control", "baseline", "photoAndInfo", "onlyPhoto"],
         "description": "MultiContact After Search"
-    },
-    {
-         "name": "ShowServicesFeatures",
-         "values": ["control", "baseline", "active"],
-         "description": "Show services features (search & filters, posting, editing)"
     },
     {
          "name": "EmptySearchImprovements",
@@ -218,7 +213,7 @@
     {
         "name": "FullScreenAdsWhenBrowsingForUS",
         "values": ["control", "baseline", "AdsForAllUsers", "AdsForOldUsers"],
-        "description": "Show full screen Interstitial while browsing through items"
+        "description": "[MONEY] Show full screen Interstitial while browsing through items"
     },
     {
         "name": "VideoPosting",
@@ -233,7 +228,7 @@
     {
         "name": "PreventMessagesFromFeedToProUsers",
         "values": ["control", "baseline", "active"],
-        "description": "If buyer taps 'I'm interested' button in the feed and the listing is from a PRO user, show the phone number request screen"
+        "description": "[MONEY] If buyer taps 'I'm interested' button in the feed and the listing is from a PRO user, show the phone number request screen"
     },
     {
         "name": "SimplifiedChatButton",
@@ -283,7 +278,7 @@
     {
         "name": "AppInstallAdsInFeed",
         "values": ["control", "baseline", "active"],
-        "description": "Show App Install Ads from Google Adx in feed"
+        "description": "[MONEY] Show App Install Ads from Google Adx in feed"
     },
     {
         "name": "EnableCTAMessageType",
@@ -319,5 +314,20 @@
         "name": "ExpressChatImprovement",
         "values": ["control", "baseline", "hideDontAsk", "newTitleAndHideDontAsk"],
         "description": "[CHAT] Express chat improvements"
+    },
+    {
+        "name": "AlwaysShowBumpBannerWithLoading",
+        "values": ["control", "baseline", "active"],
+        "description": "[MONEY] Always show bump banner with a loading till we get the info"
+    },
+    {
+         "name": "ServicesPriceType",
+         "values": ["control", "baseline", "active"],
+         "description": "shows services priceType functionality (e.g 2 euro per day, etc.)"
+    },
+    {
+        "name": "SearchAlertsDisableOldestIfMaximumReached",
+        "values": ["control", "baseline", "active"],
+        "description": "[RETENTION] Disable oldest search alert if a new one is created and the maximum has been reached"
     }
  ]

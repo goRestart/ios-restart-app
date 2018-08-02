@@ -518,11 +518,10 @@ extension MultiListingPostedViewModel {
     }
     
     private func trackSellStart(forTrackingInfo trackingInfo: PostListingTrackingInfo) {
-        let event = TrackerEvent.listingSellStart(trackingInfo.typePage,
+        let event = TrackerEvent.listingSellStart(typePage: trackingInfo.typePage,
                                                   buttonName: trackingInfo.buttonName,
                                                   sellButtonPosition: trackingInfo.sellButtonPosition,
-                                                  category: nil,
-                                                  predictiveFlow: false)
+                                                  category: nil)
         tracker.trackEvent(event)
     }
 

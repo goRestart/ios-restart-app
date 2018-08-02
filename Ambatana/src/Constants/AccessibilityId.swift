@@ -313,11 +313,29 @@ enum AccessibilityId: Equatable, Accessible {
     case editListingFeatureSwitch
     case editListingServicesTypeButton
     case editListingServicesSubtypeButton
+    case editListingPriceTypeButton
     
     // ReportUser
     case reportUserCollection
     case reportUserCommentField
     case reportUserSendButton
+
+    // Reporting Flow
+    case reportOptionsTable
+    case reportOptionsButton
+    case reportOptionsAdditionalNotes
+    case reportOptionsCellText
+    case reportSentTitle
+    case reportSentMessage
+    case reportSentBlockButton
+    case reportSentReviewButton
+    case reportUpdateTitle
+    case reportUpdateMessage
+    case reportUpdateFeedbackVerySad
+    case reportUpdateFeedbackSad
+    case reportUpdateFeedbackNeutral
+    case reportUpdateFeedbackHappy
+    case reportUpdateFeedbackVeryHappy
 
     // RateUser
     case rateUserUserNameLabel
@@ -421,8 +439,12 @@ enum AccessibilityId: Equatable, Accessible {
     case conversationCellThumbnailImageView
     case conversationCellAvatarImageView
     case conversationCellStatusImageView
+    case conversationCellStatusLabel
+    case conversationCellAssistantInfoLabel
+    case conversationCellProfessionalTag
 
     // Chat Assistant Conversation Cell
+    case assistantConversationCellContainer(conversationId: String?)
     case assistantConversationCellNameLabel
     case assistantConversationCellAvatarImageView
     case assistantConversationCellInfoLabel
@@ -1393,6 +1415,8 @@ enum AccessibilityId: Equatable, Accessible {
             return "editListingServicesTypeButton"
         case .editListingServicesSubtypeButton:
             return "editListingServicesSubtypeButton"
+        case .editListingPriceTypeButton:
+            return "editListingPriceTypeButton"
 
             
         // ReportUser
@@ -1402,7 +1426,39 @@ enum AccessibilityId: Equatable, Accessible {
             return "reportUserCommentField"
         case .reportUserSendButton:
             return "reportUserSendButton"
-            
+
+        // Reporting Flow
+        case .reportOptionsTable:
+            return "reportOptionsTable"
+        case .reportOptionsButton:
+            return "reportOptionsButton"
+        case .reportOptionsAdditionalNotes:
+            return "reportOptionsAdditionalNotes"
+        case .reportOptionsCellText:
+            return "reportOptionsCellText"
+        case .reportSentTitle:
+            return "reportSentTitle"
+        case .reportSentMessage:
+            return "reportSentMessage"
+        case .reportSentBlockButton:
+            return "reportSentBlockButton"
+        case .reportSentReviewButton:
+            return "reportSentReviewButton"
+        case .reportUpdateTitle:
+            return "reportUpdateTitle"
+        case .reportUpdateMessage:
+            return "reportUpdateMessage"
+        case .reportUpdateFeedbackVerySad:
+            return "reportUpdateFeedbackVerySad"
+        case .reportUpdateFeedbackSad:
+            return "reportUpdateFeedbackSad"
+        case .reportUpdateFeedbackNeutral:
+            return "reportUpdateFeedbackNeutral"
+        case .reportUpdateFeedbackHappy:
+            return "reportUpdateFeedbackHappy"
+        case .reportUpdateFeedbackVeryHappy:
+            return "reportUpdateFeedbackVeryHappy"
+
         // RateUser
         case .rateUserUserNameLabel:
             return "rateUserUserNameLabel"
@@ -1581,9 +1637,16 @@ enum AccessibilityId: Equatable, Accessible {
             return "conversationCellAvatarImageView"
         case .conversationCellStatusImageView:
             return "conversationCellStatusImageView"
+        case .conversationCellStatusLabel:
+            return "conversationCellStatusLabel"
+        case .conversationCellAssistantInfoLabel:
+            return "conversationCellAssistantInfoLabel"
+        case .conversationCellProfessionalTag:
+            return "conversationCellProfessionalTag"
 
         // Chat Assistant Conversation Cell
-
+        case let .assistantConversationCellContainer(conversationId):
+            return "assistantConversationCellContainer-\(conversationId ?? "")"
         case .assistantConversationCellNameLabel:
             return "assistantConversationCellNameLabel"
         case .assistantConversationCellAvatarImageView:
@@ -2112,7 +2175,7 @@ enum AccessibilityId: Equatable, Accessible {
         case .askPhoneNumberSendPhoneButton:
             return "askPhoneNumberSendPhoneButton"
             
-            //  MARK: Verticals
+        //  MARK: Verticals
         case .realEstateCell:
             return "realEstateCell"
         case .realEstatePromoTitle:

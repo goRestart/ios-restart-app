@@ -12,6 +12,8 @@ final class ListingCoordinator {
     private lazy var userCoordinator = UserCoordinator(navigationController: navigationController)
     private let listingRepository: ListingRepository
 
+    private let simpleListingAssembly: SimpleListingsAssembly
+
     private let tracker: Tracker
     private let featureFlags: FeatureFlaggeable
     var deckAnimator: DeckAnimator?
@@ -21,17 +23,20 @@ final class ListingCoordinator {
                   listingRepository: Core.listingRepository,
                   myUserRepository: Core.myUserRepository,
                   tracker: TrackerProxy.sharedInstance,
-                  featureFlags: FeatureFlags.sharedInstance)
+                  featureFlags: FeatureFlags.sharedInstance,
+                  simpleListingAssembly: LGSimpleListingsBuilder.standard(nav: navigationController))
     }
 
     private init(navigationController: UINavigationController,
                  listingRepository: ListingRepository,
                  myUserRepository: MyUserRepository,
                  tracker: Tracker,
-                 featureFlags: FeatureFlaggeable) {
+                 featureFlags: FeatureFlaggeable,
+                 simpleListingAssembly: SimpleListingsAssembly) {
         self.navigationController = navigationController
         self.listingRepository = listingRepository
         self.myUserRepository = myUserRepository
+        self.simpleListingAssembly = simpleListingAssembly
 
         self.tracker = tracker
         self.featureFlags = featureFlags
@@ -250,29 +255,23 @@ final class ListingCoordinator {
     }
 }
 
-extension ListingCoordinator: SimpleProductsNavigator {
+private extension ListingCoordinator {
     func openRelatedListingsForNonExistentListing(listingId: String,
                                                   source: EventParameterListingVisitSource,
                                                   requester: ListingListRequester,
                                                   relatedListings: [Listing]) {
-        let simpleRelatedListingsVM = SimpleListingsViewModel(requester: requester,
-                                                              listings: relatedListings,
-                                                              title: R.Strings.relatedItemsTitle,
-                                                              listingVisitSource: .relatedListings)
-        simpleRelatedListingsVM.navigator = self
-        let simpleRelatedListingsVC = SimpleListingsViewController(viewModel: simpleRelatedListingsVM)
-        navigationController.pushViewController(simpleRelatedListingsVC, animated: true)
-
+        let vc = simpleListingAssembly.buildSimpleListingViewController(listingId: listingId,
+                                                                        source: source,
+                                                                        requester: requester,
+                                                                        relatedListings: relatedListings,
+                                                                        detailNavigator: listingDetailNavigator)
+        navigationController.pushViewController(vc, animated: true)
         trackRelatedListings(listingId: listingId, source: .notFound)
-    }
-
-    func closeSimpleProducts() {
-        navigationController.popViewController(animated: true)
     }
 }
 
 // MARK: Tracking
-extension ListingCoordinator {
+private extension ListingCoordinator {
     func trackProductNotAvailable(source: EventParameterListingVisitSource, repositoryError: RepositoryError) {
         var reason: EventParameterNotAvailableReason
         switch repositoryError {

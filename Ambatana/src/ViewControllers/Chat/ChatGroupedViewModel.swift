@@ -300,7 +300,9 @@ class ChatGroupedViewModel: BaseViewModel {
             title: R.Strings.chatListAllEmptyTitle,
             body: nil, buttonTitle: R.Strings.chatListSellingEmptyButton,
             action: { [weak self] in
-                self?.tabNavigator?.openSell(source: .sellButton, postCategory: nil)
+                let source: PostingSource = .chatList
+                self?.trackStartSelling(source: source)
+                self?.tabNavigator?.openSell(source: source, postCategory: nil)
             },
             secondaryButtonTitle: R.Strings.chatListBuyingEmptyButton,
             secondaryAction: { [weak self] in
@@ -318,7 +320,9 @@ class ChatGroupedViewModel: BaseViewModel {
             title: R.Strings.chatListSellingEmptyTitle,
             body: nil, buttonTitle: R.Strings.chatListSellingEmptyButton,
             action: { [weak self] in
-                self?.tabNavigator?.openSell(source: .sellButton, postCategory: nil)
+                let source: PostingSource = .chatList
+                self?.trackStartSelling(source: source)
+                self?.tabNavigator?.openSell(source: source, postCategory: nil)
             },
             secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: nil, errorCode: nil, errorDescription: nil)
         let chatListViewModel: ChatListViewModel
@@ -350,6 +354,15 @@ class ChatGroupedViewModel: BaseViewModel {
             self?.rx_isReachable.value = false
         }
         reachability.start()
+    }
+
+    // MARK: - Trackings
+
+    private func trackStartSelling(source: PostingSource) {
+        tracker.trackEvent(TrackerEvent.listingSellStart(typePage: source.typePage,
+                                                         buttonName: source.buttonName,
+                                                         sellButtonPosition: source.sellButtonPosition,
+                                                         category: nil))
     }
 }
 

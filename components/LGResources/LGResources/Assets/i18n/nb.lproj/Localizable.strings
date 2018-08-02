@@ -358,6 +358,7 @@
 "discarded_products_reason_poor_ad_quality" = "Dette overholder ikke optimal praksis";
 "discarded_products_reason_reference_to_competitors" = "Referanser til andre apper eller nettsider";
 "discarded_products_reason_stock_photo_only" = "Inneholder kun bilder som er tatt av andre (stockphoto)";
+"edit_priceType_choose_title" = "Choose an option";
 "edit_product_feature_label_long_text" = "Promoter din annonse for å selge raskere";
 "edit_product_feature_label_short_text" = "Selg raskere nå";
 "edit_product_location_alert_text" = "Gi tilgang til din plassering for å kunne endre hvor din annonse publiseres fra";
@@ -369,6 +370,7 @@
 "edit_product_title" = "Endre annonse";
 "edit_product_unsaved_changes_alert" = "Er du sikker på at du vil forkaste endringene?";
 "edit_product_unsaved_changes_alert_ok" = "Forkast";
+"engagement_badging_feed_bubble" = "New items";
 "featured_info_view_increase_visibility" = "Få mer synlighet";
 "featured_info_view_more_buyers" = "Tiltrekk flere kjøpere";
 "featured_info_view_sell_faster" = "Selg raskere";
@@ -724,6 +726,13 @@
 "post_queued_requests_state_listing_posted" = "Annonsen er publisert!";
 "post_queued_requests_state_posting_listing" = "Publiserer annonse...";
 "posting_button_skip" = "Hopp over";
+"priceType_biweekly" = "Annenhver uke";
+"priceType_daily" = "Daglig";
+"priceType_hourly" = "Timebasert";
+"priceType_monthly" = "Månedlig";
+"priceType_oneOff" = "Engangsbeløp";
+"priceType_weekly" = "Ukentlig";
+"priceType_yearly" = "Årlig";
 "product_auto_generated_title_label" = "Automatisk generert tittel av letgo";
 "product_auto_generated_translated_title_label" = "(og oversatt av Google)";
 "product_bubble_favorite_button" = "Informer selgeren!";
@@ -1176,7 +1185,7 @@
 "reporting_listing_update_feedback_good" = "Flott!";
 "reporting_listing_update_feedback_medium" = "Takk!";
 "reporting_listing_update_feedback_title" = "Hvordan var denne opplevelsen?";
-"reporting_listing_update_text" = "Takk for din anonyme rapportering om «%@» publisert av %@. Tilbakemeldinger som din bidrar til å holde letgo-fellesskapet trygt.\n\nEtter å ha sett på dette produktet, har vi fjernet det fordi det er i strid med våre Retningslinjer for letgos fellesskap.";
+"reporting_listing_update_text" = "Takk for din anonyme rapportering om «%1$@» publisert av %2$@. Tilbakemeldinger som din bidrar til å holde letgo-fellesskapet trygt.\n\nEtter å ha sett på dette produktet, har vi fjernet det fordi det er i strid med våre Retningslinjer for letgos fellesskap.";
 "reporting_listing_update_title" = "Oppdatering for rapportering";
 "reporting_reason_bio" = "Biografi";
 "reporting_reason_counterfeit_money" = "Betalt med falske penger";
@@ -1242,6 +1251,7 @@
 "search_alert_enable_error_message" = "Oops! En feil oppstod ved aktivering av din søkevarsling.";
 "search_alert_error_too_many_button_text" = "Behandle varslinger";
 "search_alert_error_too_many_text" = "Oops! Du har nådd dine maksimale antall søkevarslinger";
+"search_alerts_disabled_oldest_message" = "Du har nådd maks antall søkevarslinger, så vi har deaktivert det eldste søket og aktivert dette.";
 "search_alerts_edit_button" = "Endre";
 "search_alerts_header_subtitle" = "Få varslinger om nye annonser";
 "search_alerts_list_title" = "Søkevarslinger";

@@ -125,10 +125,13 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         setupFilterHeaders()
         setupListingView()
         setupInfoBubble()
+        if viewModel.isEngagementBadgingEnabled {
+            setupRecentItemsBubbleView()
+        }
         setupTagsView()
         setupSearchAndTrending()
         setFiltersNavBarButton()
-        setInviteNavBarButton()
+        setLeftNavBarButtons()
         setupRxBindings()
         setAccessibilityIds()
     }
@@ -426,6 +429,40 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
 
         navigationItem.setLeftBarButtonItems([invite, spacing], animated: false)
     }
+
+    private func setLeftNavBarButtons() {
+        if viewModel.shouldShowCommunityButton {
+            setCommunityButton()
+        } else if viewModel.shouldShowUserProfileButton {
+            setUserProfileButton()
+        } else {
+            setInviteNavBarButton()
+        }
+    }
+
+    private func setCommunityButton() {
+        let button = UIBarButtonItem(image: R.Asset.IconsButtons.tabbarCommunity.image,
+                                     style: .plain,
+                                     target: self,
+                                     action: #selector(didTapCommunity))
+        navigationItem.setLeftBarButton(button, animated: false)
+    }
+
+    private func setUserProfileButton() {
+        let button = UIBarButtonItem(image: R.Asset.IconsButtons.tabbarProfile.image,
+                                     style: .plain,
+                                     target: self,
+                                     action: #selector(didTapUserProfile))
+        navigationItem.setLeftBarButton(button, animated: false)
+    }
+
+    @objc private func didTapCommunity() {
+        viewModel.vmUserDidTapCommunity()
+    }
+
+    @objc private func didTapUserProfile() {
+        viewModel.vmUserDidTapUserProfile()
+    }
     
     @objc private func openInvite() {
         viewModel.vmUserDidTapInvite()
@@ -451,9 +488,11 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         listingListView.collectionViewContentInset.bottom = tabBarHeight
             + LGUIKitConstants.tabBarSellFloatingButtonHeight
             + LGUIKitConstants.tabBarSellFloatingButtonDistance
-        listingListView.setErrorViewStyle(bgColor: UIColor(patternImage: R.Asset.BackgroundsAndImages.patternWhite.image),
-                                          borderColor: UIColor.lineGray,
-                                          containerColor: UIColor.white)
+        let errorStyle = ErrorViewCellStyle(backgroundColor: UIColor(patternImage: R.Asset.BackgroundsAndImages.patternWhite.image),
+                                            borderColor: .lineGray,
+                                            containerColor: .white)
+        listingListView.setupErrorView(withStyle: errorStyle)
+
         listingListView.scrollDelegate = self
         listingListView.headerDelegate = self
         listingListView.adsDelegate = self
@@ -494,8 +533,10 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         infoBubbleView.addGestureRecognizer(bubbleTap)
     }
     
-    private func addRecentItemsBubbleView() {
+    private func setupRecentItemsBubbleView() {
         view.addSubviewForAutoLayout(recentItemsBubbleView)
+        // trendingSearchesView should be up front of every view, as it is added the latest in addSubviews method
+        view.bringSubview(toFront: trendingSearchView)
         
         let recentItemsBubbleViewTopConstraint = recentItemsBubbleView.topAnchor.constraint(equalTo: infoBubbleView.bottomAnchor, constant: Metrics.shortMargin)
         let recentItemsBubbleViewTrailingConstraint = recentItemsBubbleView.trailingAnchor.constraint(greaterThanOrEqualTo: safeTrailingAnchor, constant: Metrics.bigMargin)
@@ -515,10 +556,6 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         let bubbleTap = UITapGestureRecognizer(target: self, action: #selector(onRecentItemsBubbleTapped))
         recentItemsBubbleView.addGestureRecognizer(bubbleTap)
     }
-    
-    private func removeRecentItemsBubble() {
-        recentItemsBubbleView.removeFromSuperview()
-    }
 
     @objc private func onBubbleTapped() {
         viewModel.bubbleTapped()
@@ -527,7 +564,6 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     @objc private func onRecentItemsBubbleTapped() {
         viewModel.recentItemsBubbleTapped()
         scrollToTop()
-        removeRecentItemsBubble()
     }
 
     private func setupSearchAndTrending() {
@@ -637,6 +673,10 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
         if shouldShowSearchAlertBanner {
             totalHeight += SearchAlertFeedHeader.viewHeight
         }
+        if viewModel.shouldShowCommunityBanner {
+            totalHeight += CommunityHeaderView.viewHeight
+        }
+
         return totalHeight
     }
 
@@ -665,11 +705,17 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
             }
         }
         
-        if shouldShowSearchAlertBanner, let searchAlertCreationData = viewModel.searchAlertCreationData.value {
+        if shouldShowSearchAlertBanner, let searchAlertCreationData = viewModel.currentSearchAlertCreationData.value {
             let searchAlertHeader = SearchAlertFeedHeader(searchAlertCreationData: searchAlertCreationData)
             searchAlertHeader.tag = 3
             searchAlertHeader.delegate = self
             header.addHeader(searchAlertHeader, height: SearchAlertFeedHeader.viewHeight)
+        }
+
+        if viewModel.shouldShowCommunityBanner {
+            let community = CommunityHeaderView()
+            community.delegate = self
+            header.addHeader(community, height: CommunityHeaderView.viewHeight)
         }
     }
 
@@ -698,7 +744,7 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
     }
 
     func searchAlertFeedHeaderDidEnableSearchAlert(fromEnabled: Bool) {
-        viewModel.triggerSearchAlert(fromEnabled: fromEnabled)
+        viewModel.triggerCurrentSearchAlert(fromEnabled: fromEnabled)
     }
 }
 
@@ -794,6 +840,12 @@ extension MainListingsViewController: TrendingSearchViewDelegate {
         viewModel.searchText.value = text
         navbarSearch.searchTextField.text = text
         navBarSearchTextFieldDidUpdate(text: text)
+    }
+}
+
+extension MainListingsViewController: CommunityHeaderViewDelegate {
+    func didTapCommunityHeader() {
+        viewModel.vmUserDidTapCommunity()
     }
 }
 

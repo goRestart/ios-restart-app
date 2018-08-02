@@ -4,7 +4,7 @@ import LGComponents
  Defines the tabs contained in the TabBarController
  */
 enum Tab {
-    case home, notifications, sell, chats, profile
+    case home, notifications, sell, chats, profile, community
 
     init?(index: Int,featureFlags: FeatureFlaggeable) {
         switch index {
@@ -17,7 +17,7 @@ enum Tab {
         case 3:
             self = .chats
         case 4:
-            self = .profile
+            self = featureFlags.community.shouldShowOnTab ? .community : .profile
         default: return nil
         }
     }
@@ -34,6 +34,8 @@ enum Tab {
             return R.Asset.IconsButtons.tabbarChats.image
         case .profile:
             return R.Asset.IconsButtons.tabbarProfile.image
+        case .community:
+            return R.Asset.IconsButtons.tabbarCommunity.image
         }
     }
 
@@ -47,7 +49,7 @@ enum Tab {
             return 2
         case .chats:
             return 3
-        case .profile:
+        case .profile, .community:
             return 4
         }
     }
@@ -62,12 +64,16 @@ enum Tab {
             return .tabBarThirdTab
         case .chats:
             return .tabBarFourthTab
-        case .profile:
+        case .profile, .community:
             return .tabBarFifthTab
         }
     }
 
     func all(_ featureFlags: FeatureFlaggeable) -> [Tab] {
-        return [.home, .notifications, .sell, .chats, .profile]
+        if featureFlags.community.shouldShowOnTab {
+            return [.home, .notifications, .sell, .chats, .community]
+        } else {
+            return [.home, .notifications, .sell, .chats, .profile]
+        }
     }
 }

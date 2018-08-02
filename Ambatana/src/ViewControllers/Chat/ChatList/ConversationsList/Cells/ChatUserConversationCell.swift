@@ -275,9 +275,14 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
         timeLastMessageLabel.set(accessibilityId: .conversationCellTimeLabel)
         pendingMessagesLabel.set(accessibilityId: .conversationCellBadgeLabel)
         listingImageView.set(accessibilityId: .conversationCellThumbnailImageView)
+        listingImageView.isAccessibilityElement = true
         userImageView.set(accessibilityId: .conversationCellAvatarImageView)
+        userImageView.isAccessibilityElement = true
         statusIcon.set(accessibilityId: .conversationCellStatusImageView)
-        assistantInfoContainerView.set(accessibilityId: .assistantConversationCellInfoLabel)
+        statusIcon.isAccessibilityElement = true
+        statusLabel.set(accessibilityId: .conversationCellStatusLabel)
+        assistantInfoContainerView.set(accessibilityId: .conversationCellAssistantInfoLabel)
+        proUserTagView.set(accessibilityId: .conversationCellProfessionalTag)
     }
 
     func resetUI() {
@@ -319,6 +324,10 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
 
         updateCellWith(status: data.status, userIsTyping: data.isTyping)
         updateCellFor(userType: data.userType)
+
+        set(accessibilityId: .conversationCellContainer(conversationId: data.conversationId))
+        userNameLabel.set(accessibilityId: .conversationCellUserLabel(interlocutorId: data.userId))
+        listingTitleLabel.set(accessibilityId: .conversationCellListingLabel(listingId: data.listingId))
     }
 
     private func setImageWith(url: URL?,

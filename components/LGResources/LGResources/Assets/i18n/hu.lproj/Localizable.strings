@@ -358,6 +358,7 @@
 "discarded_products_reason_poor_ad_quality" = "Nem felel meg a bevált módszereknek";
 "discarded_products_reason_reference_to_competitors" = "Más alkalmazásokra vagy weboldalakra hivatkozik";
 "discarded_products_reason_stock_photo_only" = "Csak hivatalos képeket tartalmaz";
+"edit_priceType_choose_title" = "Choose an option";
 "edit_product_feature_label_long_text" = "Emeld ki hirdetésedet, hogy gyorsabban elkeljen";
 "edit_product_feature_label_short_text" = "Add el gyorsabban";
 "edit_product_location_alert_text" = "A meghirdetés helyének módosításához hozzáférést kell adnod a tartózkodási helyedhez";
@@ -369,6 +370,7 @@
 "edit_product_title" = "Hirdetés szerkesztése";
 "edit_product_unsaved_changes_alert" = "Biztosan elveted a módosításokat?";
 "edit_product_unsaved_changes_alert_ok" = "Elvetés";
+"engagement_badging_feed_bubble" = "New items";
 "featured_info_view_increase_visibility" = "Tedd láthatóbbá";
 "featured_info_view_more_buyers" = "Szerezz több vásárlót";
 "featured_info_view_sell_faster" = "Add el gyorsabban";
@@ -440,8 +442,8 @@
 "filters_section_within" = "Közzétéve";
 "filters_service_subtype_not_set" = "Nincs Megadva";
 "filters_service_type_not_set" = "Nincs Megadva";
-"filters_services_services_list_max_selection_alert" = "Oops! You can't select more than 15 services.";
-"filters_services_services_list_search_placeholder" = "Handyman, Contracting…";
+"filters_services_services_list_max_selection_alert" = "Hoppá! Legfeljebb 15 szolgáltatást választhatsz.";
+"filters_services_services_list_search_placeholder" = "Ezermester, építőmunka...";
 "filters_services_services_list_title" = "Válassz kategóriát";
 "filters_size_wrong_range_error" = "A minimális méret nem lehet nagyobb a maximálisnál.";
 "filters_slider_any" = "Bármilyen";
@@ -724,6 +726,13 @@
 "post_queued_requests_state_listing_posted" = "Hirdetés feltöltve!";
 "post_queued_requests_state_posting_listing" = "Hirdetés feltöltése...";
 "posting_button_skip" = "Kihagy";
+"priceType_biweekly" = "Biweekly";
+"priceType_daily" = "Daily";
+"priceType_hourly" = "Hourly";
+"priceType_monthly" = "Monthly";
+"priceType_oneOff" = "One-time";
+"priceType_weekly" = "Weekly";
+"priceType_yearly" = "Yearly";
 "product_auto_generated_title_label" = "A címet a letgo hozta létre automatikusan";
 "product_auto_generated_translated_title_label" = "(és a Google fordította)";
 "product_bubble_favorite_button" = "Tudasd az eladóval!";
@@ -1176,7 +1185,7 @@
 "reporting_listing_update_feedback_good" = "Szuper!";
 "reporting_listing_update_feedback_medium" = "Köszönjük!";
 "reporting_listing_update_feedback_title" = "Milyen élmény volt?";
-"reporting_listing_update_text" = "Köszönjük, hogy névtelenül jelentetted nekünk a következő hirdetést: „%@”, feltöltője %@. Az ilyen visszajelzésekkel őrizhetjük meg a letgo közösségének biztonságát.\n\nAz ellenőrzés után úgy döntöttünk, hogy a hirdetést eltávolítjuk, mert megsértette Közösségi irányelveinket.";
+"reporting_listing_update_text" = "Köszönjük, hogy névtelenül jelentetted nekünk a következő hirdetést: „%1$@”, feltöltője %2$@. Az ilyen visszajelzésekkel őrizhetjük meg a letgo közösségének biztonságát.\n\nAz ellenőrzés után úgy döntöttünk, hogy a hirdetést eltávolítjuk, mert megsértette Közösségi irányelveinket.";
 "reporting_listing_update_title" = "Jelentésinformációk";
 "reporting_reason_bio" = "Bemutatkozás";
 "reporting_reason_counterfeit_money" = "Hamis pénzzel fizetett";
@@ -1242,6 +1251,7 @@
 "search_alert_enable_error_message" = "Hoppá! Hiba történt a keresési figyelmeztetés bekapcsolása során.";
 "search_alert_error_too_many_button_text" = "Értesítések kezelése";
 "search_alert_error_too_many_text" = "Hoppá! Elérted a keresési figyelmeztetések maximális számát";
+"search_alerts_disabled_oldest_message" = "Elérted a keresési értesítések maximális számát, ezért a legrégebbit kikapcsoltuk, hogy ezt aktiválhassuk.";
 "search_alerts_edit_button" = "Szerkesztés";
 "search_alerts_header_subtitle" = "Értesítéseket kaphatsz az új hirdetésekről";
 "search_alerts_list_title" = "Keresési figyelmeztetések";

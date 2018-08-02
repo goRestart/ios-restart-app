@@ -21,8 +21,10 @@ class NotificationsManagerSpec: QuickSpec {
 
         var sut: LGNotificationsManager!
         var sessionManager: MockSessionManager!
+        var locationManager: MockLocationManager!
         var myUserRepository: MockMyUserRepository!
         var chatRepository: MockChatRepository!
+        var listingRepository: MockListingRepository!
         var notificationsRepository: MockNotificationsRepository!
         var keyValueStorage: KeyValueStorage!
         var featureFlags: MockFeatureFlags!
@@ -39,8 +41,10 @@ class NotificationsManagerSpec: QuickSpec {
         describe("NotificationsManagerSpec") {
             func createNotificationsManager() {
                 sut = LGNotificationsManager(sessionManager: sessionManager,
+                                             locationManager: locationManager,
                                              chatRepository: chatRepository,
                                              notificationsRepository: notificationsRepository,
+                                             listingRepository: listingRepository,
                                              keyValueStorage: keyValueStorage,
                                              featureFlags: featureFlags,
                                              deepLinksRouter: deepLinksRouter)
@@ -88,7 +92,9 @@ class NotificationsManagerSpec: QuickSpec {
 
             beforeEach {
                 sessionManager = MockSessionManager()
+                locationManager = MockLocationManager()
                 chatRepository = MockChatRepository.makeMock()
+                listingRepository = MockListingRepository.makeMock()
                 notificationsRepository = MockNotificationsRepository.makeMock()
                 myUserRepository = MockMyUserRepository.makeMock()
                 keyValueStorage = KeyValueStorage(storage: MockKeyValueStorage(), myUserRepository: myUserRepository)
@@ -420,6 +426,62 @@ class NotificationsManagerSpec: QuickSpec {
                             it("unreadMessagesCount value becomes 7") {
                                 XCTAssertEqual(unreadMessagesObserver.events, [next(0, nil), next(0, 0), next(0, 7)])
                             }
+                        }
+                    }
+                }
+            }
+            describe("engagement badging") {
+                context("with app icon badge higher than 0") {
+                    beforeEach {
+                        populateCountersResults()
+                        createNotificationsManager()
+                        doLogin()
+                        sut.setup()
+                        expect(sut.unreadMessagesCount.value).toEventually(equal(7))
+                        expect(sut.unreadNotificationsCount.value).toEventually(equal(2))
+                    }
+                    context("lastSessionDate is higher than 1 hour")  {
+                        beforeEach {
+                            keyValueStorage[.lastSessionDate] = Date().addingTimeInterval(-TimeInterval.make(hours: 2))
+                            sut.updateEngagementBadgingNotifications()
+                        }
+                        it("makes engagementBadgingNotifications true") {
+                            expect(sut.engagementBadgingNotifications.value).toEventually(equal(true))
+                        }
+                    }
+                    context("lastSessionDate is minor than 1 hour") {
+                        beforeEach {
+                            keyValueStorage[.lastSessionDate] = Date().addingTimeInterval(-TimeInterval.make(minutes: 59))
+                            sut.updateEngagementBadgingNotifications()
+                        }
+                        it("makes engagementBadgingNotifications true") {
+                            expect(sut.engagementBadgingNotifications.value).toEventually(equal(false))
+                        }
+                    }
+                }
+                context("with app icon badge equal to 0") {
+                    beforeEach {
+                        populateEmptyCountersResults()
+                        createNotificationsManager()
+                        doLogin()
+                        sut.setup()
+                    }
+                    context("lastSessionDate is higher than 1 hour")  {
+                        beforeEach {
+                            keyValueStorage[.lastSessionDate] = Date().addingTimeInterval(-TimeInterval.make(hours: 2))
+                            sut.updateEngagementBadgingNotifications()
+                        }
+                        it("makes engagementBadgingNotifications true") {
+                            expect(sut.engagementBadgingNotifications.value).toEventually(equal(false))
+                        }
+                    }
+                    context("lastSessionDate is minor than 1 hour") {
+                        beforeEach {
+                            keyValueStorage[.lastSessionDate] = Date().addingTimeInterval(-TimeInterval.make(minutes: 59))
+                            sut.updateEngagementBadgingNotifications()
+                        }
+                        it("makes engagementBadgingNotifications true") {
+                            expect(sut.engagementBadgingNotifications.value).toEventually(equal(false))
                         }
                     }
                 }

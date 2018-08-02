@@ -164,7 +164,7 @@ extension ListingCategory {
         case .motorsAndAccessories:
             return .motorsAndAccessories
         case .services:
-            return featureFlags.showServicesFeatures.isActive ? .services : .otherItems(listingCategory: self)
+            return .services
         case .babyAndChild, .electronics, .fashionAndAccesories, .homeAndGarden, .moviesBooksAndMusic, .other,
              .sportsLeisureAndGames, .unassigned:
             return .otherItems(listingCategory: nil)

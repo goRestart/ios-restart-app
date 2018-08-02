@@ -137,6 +137,7 @@ extension AppDelegate: UIApplicationDelegate {
          when the user quits.*/
 
         keyValueStorage?[.didEnterBackground] = true
+        keyValueStorage?[.lastSessionDate] = Date()
         appIsActive.value = false
         LGCoreKit.applicationDidEnterBackground()
         listingRepository?.updateListingViewCounts()
@@ -164,7 +165,7 @@ extension AppDelegate: UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-
+        keyValueStorage?[.lastSessionDate] = Date()
     }
 
     func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String,

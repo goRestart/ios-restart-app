@@ -358,6 +358,7 @@
 "discarded_products_reason_poor_ad_quality" = "No respeta las prácticas recomendadas";
 "discarded_products_reason_reference_to_competitors" = "Referencias a otras apps o páginas web";
 "discarded_products_reason_stock_photo_only" = "Solo contiene imágenes de archivo";
+"edit_priceType_choose_title" = "Elige una opción";
 "edit_product_feature_label_long_text" = "Destaca tu anuncio para vender más rápido";
 "edit_product_feature_label_short_text" = "Vender más rápido";
 "edit_product_location_alert_text" = "Para cambiar dónde se publica tu anuncio, permite acceso a tu ubicación";
@@ -369,6 +370,7 @@
 "edit_product_title" = "Editar anuncio";
 "edit_product_unsaved_changes_alert" = "¿Estás seguro de querer descartar tus cambios?";
 "edit_product_unsaved_changes_alert_ok" = "Descartar";
+"engagement_badging_feed_bubble" = "Nuevos artículos";
 "featured_info_view_increase_visibility" = "Consigue más visibilidad";
 "featured_info_view_more_buyers" = "Atrae más compradores";
 "featured_info_view_sell_faster" = "Vende más rápido";
@@ -724,6 +726,13 @@
 "post_queued_requests_state_listing_posted" = "¡Anuncio publicado!";
 "post_queued_requests_state_posting_listing" = "Publicando anuncio...";
 "posting_button_skip" = "Saltar";
+"priceType_biweekly" = "Cada dos semanas";
+"priceType_daily" = "Cada día";
+"priceType_hourly" = "Cada hora";
+"priceType_monthly" = "Cada mes";
+"priceType_oneOff" = "Puntual";
+"priceType_weekly" = "Cada semana";
+"priceType_yearly" = "Cada año";
 "product_auto_generated_title_label" = "Título generado automáticamente por letgo";
 "product_auto_generated_translated_title_label" = "(y traducido por Google)";
 "product_bubble_favorite_button" = "¡Avisa al vendedor!";
@@ -1176,7 +1185,7 @@
 "reporting_listing_update_feedback_good" = "¡Genial!";
 "reporting_listing_update_feedback_medium" = "¡Gracias!";
 "reporting_listing_update_feedback_title" = "¿Qué te ha parecido esta experiencia?";
-"reporting_listing_update_text" = "Gracias por tu denuncia anónima de \"%@\" publicado por %@. Los comentarios como el tuyo nos ayudan a mantener segura la comunidad de letgo.\n\nTras revisar este artículo, lo hemos eliminado ya que incumple nuestras Normas de la comunidad.";
+"reporting_listing_update_text" = "Gracias por tu denuncia anónima de \"%1$@\" publicado por %2$@. Los comentarios como el tuyo nos ayudan a mantener segura la comunidad de letgo.\n\nTras revisar este artículo, lo hemos eliminado ya que incumple nuestras Normas de la comunidad.";
 "reporting_listing_update_title" = "Actualización sobre tu denuncia";
 "reporting_reason_bio" = "Bio";
 "reporting_reason_counterfeit_money" = "Pago con dinero falsificado";
@@ -1242,6 +1251,7 @@
 "search_alert_enable_error_message" = "¡Ups! Se ha producido un error al activar tu alerta de búsqueda.";
 "search_alert_error_too_many_button_text" = "Gestionar notificaciones";
 "search_alert_error_too_many_text" = "¡Ups! Has llegado al máximo de alertas de búsqueda";
+"search_alerts_disabled_oldest_message" = "Has llegado al número máximo de alertas de búsqueda, así que hemos apagado la más antigua y hemos activado esta.";
 "search_alerts_edit_button" = "Editar";
 "search_alerts_header_subtitle" = "Recibir notificaciones de nuevos anuncios";
 "search_alerts_list_title" = "Alertas de búsqueda";

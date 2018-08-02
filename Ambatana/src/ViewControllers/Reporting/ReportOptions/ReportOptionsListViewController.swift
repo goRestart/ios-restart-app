@@ -79,6 +79,7 @@ final class ReportOptionsListViewController: BaseViewController {
         super.viewDidLoad()
         setupUI()
         setupRx()
+        setupAccessibilityIds()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -205,6 +206,12 @@ final class ReportOptionsListViewController: BaseViewController {
                 }
             })
             .disposed(by: disposeBag)
+    }
+
+    private func setupAccessibilityIds() {
+        tableView.set(accessibilityId: .reportOptionsTable)
+        reportButton.set(accessibilityId: .reportOptionsButton)
+        additionalNotesTextView.set(accessibilityId: .reportOptionsAdditionalNotes)
     }
 
     @objc private func reportButtonTapped() {

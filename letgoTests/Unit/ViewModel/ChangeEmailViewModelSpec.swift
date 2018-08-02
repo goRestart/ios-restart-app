@@ -212,6 +212,7 @@ extension ChangeEmailViewModelSpec: ChangeEmailViewModelDelegate {
     
     func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction]) {}
     func vmShowActionSheet(_ cancelLabel: String, actions: [UIAction]) {}
+    func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction], withTitle title: String?) {}
     func ifLoggedInThen(_ source: LetGoGodMode.EventParameterLoginSourceValue, loggedInAction: () -> Void,
                         elsePresentSignUpWithSuccessAction afterLogInAction: @escaping () -> Void) {}
     func ifLoggedInThen(_ source: LetGoGodMode.EventParameterLoginSourceValue, loginStyle: LoginStyle, loggedInAction: () -> Void,
