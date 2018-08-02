@@ -8,8 +8,7 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
 
     private let chatRepository: ChatRepository
     private let sessionManager: SessionManager
-    private let reachability: ReachabilityProtocol
-    private let tracker: TrackerProxy
+    private let tracker: Tracker
     private let featureFlags: FeatureFlaggeable
     private var websocketWasClosedDuringCurrentSession = false
     
@@ -22,27 +21,16 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
     private let rx_filter = Variable<ChatConversationsListFilter>(.all)
     private let rx_inactiveConversationsCount = Variable<Int?>(nil)
     private let rx_wsChatStatus = Variable<WSChatStatus>(.closed)
-    private let rx_isReachable = Variable<Bool>(true)
     private var conversationsFilterBag: DisposeBag? = DisposeBag()
 
     // MARK: Lifecycle
-    
-    convenience override init() {
-        self.init(chatRepository: Core.chatRepository,
-                  sessionManager: Core.sessionManager,
-                  reachability: LGReachability(),
-                  featureFlags: FeatureFlags.sharedInstance,
-                  tracker: TrackerProxy.sharedInstance)
-    }
-    
-    init(chatRepository: ChatRepository,
-         sessionManager: SessionManager,
-         reachability: ReachabilityProtocol,
-         featureFlags: FeatureFlags,
-         tracker: TrackerProxy) {
+
+    init(chatRepository: ChatRepository = Core.chatRepository,
+         sessionManager: SessionManager = Core.sessionManager,
+         featureFlags: FeatureFlaggeable = FeatureFlags.sharedInstance,
+         tracker: Tracker = TrackerProxy.sharedInstance) {
         self.chatRepository = chatRepository
         self.sessionManager = sessionManager
-        self.reachability = reachability
         self.featureFlags = featureFlags
         self.tracker = tracker
         super.init()
@@ -52,7 +40,6 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
         super.didBecomeActive(firstTime)
         
         if firstTime {
-            setupReachability()
             setupChatRepositoryRx()
             setupRx()
         } else {
@@ -142,7 +129,7 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
     }
 
     func markAllConversationAsRead() {
-        tracker.trackEvent(TrackerEvent.chatMarkMessagesAsRead())
+        trackMarkAllConversationsAsRead()
         chatRepository.markAllConversationsAsRead(completion: nil)
     }
 
@@ -175,8 +162,7 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
         rx_vmPresentLoadingMessage.onNext(VMPresentLoadingMessage())
         chatRepository.archiveConversations([conversationId]) { [weak self] result in
             if let _ = result.value {
-                self?.tracker.trackEvent(TrackerEvent.chatDeleteComplete(numberOfConversations: 1,
-                                                                         isInactiveConversation: false))
+                self?.trackChatDeleteComplete()
                 self?.rx_vmDismissLoadingMessage.onNext(VMDismissLoadingMessage())
             } else if let _ = result.error {
                 self?.rx_vmDismissLoadingMessage.onNext(
@@ -187,18 +173,6 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
                 )
             }
         }
-    }
-
-    // MARK: Reachability
-    
-    private func setupReachability() {
-        reachability.reachableBlock = { [weak self] in
-            self?.rx_isReachable.value = true
-        }
-        reachability.unreachableBlock = { [weak self] in
-            self?.rx_isReachable.value = false
-        }
-        reachability.start()
     }
     
     // MARK: Rx
@@ -355,11 +329,7 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
     
     // MARK: Empty view models
     
-    func setEmptyState(emptyViewModel: LGEmptyViewModel) {
-        trackEmptyState(emptyViewModel: emptyViewModel)
-    }
-    
-    private var verificationPendingEmptyViewModel: LGEmptyViewModel {
+    var verificationPendingEmptyViewModel: LGEmptyViewModel {
         return LGEmptyViewModel(icon: R.Asset.IconsButtons.icBuildTrustBig.image,
                                 title: R.Strings.chatNotVerifiedStateTitle,
                                 body: R.Strings.chatNotVerifiedStateMessage,
@@ -373,7 +343,7 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
                                 errorDescription: nil)
     }
     
-    private func emptyViewModel(forFilter filter: ChatConversationsListFilter) -> LGEmptyViewModel {
+    func emptyViewModel(forFilter filter: ChatConversationsListFilter) -> LGEmptyViewModel {
         let openSellAction: (() -> Void)? = { [weak self] in
             let source: PostingSource = .chatList
             self?.trackStartSelling(source: source)
@@ -406,7 +376,7 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
                                 errorDescription: nil)
     }
     
-    private func emptyViewModel(forError error: RepositoryError) -> LGEmptyViewModel? {
+    func emptyViewModel(forError error: RepositoryError) -> LGEmptyViewModel? {
         return LGEmptyViewModel.map(from: error, action: { [weak self] in
             self?.retrieveFirstPage()
         })
@@ -427,5 +397,14 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
                                                          buttonName: source.buttonName,
                                                          sellButtonPosition: source.sellButtonPosition,
                                                          category: nil))
+    }
+    
+    private func trackMarkAllConversationsAsRead() {
+        tracker.trackEvent(TrackerEvent.chatMarkMessagesAsRead())
+    }
+    
+    private func trackChatDeleteComplete() {
+        tracker.trackEvent(TrackerEvent.chatDeleteComplete(numberOfConversations: 1,
+                                                           isInactiveConversation: false))
     }
 }
