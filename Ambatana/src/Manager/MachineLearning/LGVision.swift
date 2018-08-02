@@ -18,7 +18,7 @@ protocol MachineLearningVision {
 
 @available(iOS 11.0, *)
 final class LGVision: MachineLearningVision {
-    static let numberOfObservationsToReturn: Int = 3
+    private static let numberOfObservationsToReturn: Int = 3
 
     private lazy var model: VNCoreMLModel? = {
         return try? VNCoreMLModel(for: MobileNetLetgov7final().model)
@@ -36,8 +36,11 @@ final class LGVision: MachineLearningVision {
             if let observations = request.results as? [VNClassificationObservation] {
                 // The observations appear to be sorted by confidence already, so we
                 // take the top X and map them to an array of (String, Double) tuples.
-                let topObservations = observations.prefix(through: LGVision.numberOfObservationsToReturn-1)
-                    .map { MachineLearningVisionObservation(identifier: $0.identifier, confidence: Double($0.confidence)) }
+                let topObservations = observations
+                    .prefix(through: LGVision.numberOfObservationsToReturn-1)
+                    .map {
+                        MachineLearningVisionObservation(identifier: $0.identifier, confidence: Double($0.confidence))
+                    }
                 completion?(topObservations)
             } else {
                 completion?(nil)
