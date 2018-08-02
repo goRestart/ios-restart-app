@@ -336,30 +336,33 @@ extension TabCoordinator: ListingDetailNavigator {
                         bumpUpProductData: BumpUpProductData,
                         typePage: EventParameterTypePage?,
                         maxCountdown: TimeInterval) {
-        let bumpCoordinator = BumpUpCoordinator(listing: listing,
-                                                bumpUpProductData: bumpUpProductData,
-                                                typePage: typePage,
-                                                maxCountdown: maxCountdown)
-        openChild(coordinator: bumpCoordinator,
-                  parent: rootViewController,
-                  animated: true,
-                  forceCloseChild: true,
-                  completion: nil)
+        let assembly = LGBumpUpBuilder.modal(root: navigationController)
+        if case .socialMessage(let socialMessage) = bumpUpProductData.bumpUpPurchaseableData {
+            let vc = assembly.buildFreeBumpUp(forListing: listing,
+                                              socialMessage: socialMessage,
+                                              letgoItemId: bumpUpProductData.letgoItemId,
+                                              storeProductId: bumpUpProductData.storeProductId,
+                                              typePage: typePage,
+                                              maxCountdown: maxCountdown)
+            rootViewController.present(vc, animated: true, completion: nil)
+        }
     }
 
     func openPayBumpUp(forListing listing: Listing,
                        bumpUpProductData: BumpUpProductData,
                        typePage: EventParameterTypePage?,
                        maxCountdown: TimeInterval) {
-        let bumpCoordinator = BumpUpCoordinator(listing: listing,
-                                                bumpUpProductData: bumpUpProductData,
-                                                typePage: typePage,
-                                                maxCountdown: maxCountdown)
-        openChild(coordinator: bumpCoordinator,
-                  parent: rootViewController,
-                  animated: true,
-                  forceCloseChild: true,
-                  completion: nil)
+        let assembly = LGBumpUpBuilder.modal(root: navigationController)
+        if case .purchaseableProduct(let purchaseableProduct) = bumpUpProductData.bumpUpPurchaseableData {
+            let vc = assembly.buildPayBumpUp(forListing: listing,
+                                             purchaseableProduct: purchaseableProduct,
+                                             letgoItemId: bumpUpProductData.letgoItemId,
+                                             storeProductId: bumpUpProductData.storeProductId,
+                                             typePage: typePage,
+                                             maxCountdown: maxCountdown)
+            rootViewController.present(vc, animated: true, completion: nil)
+
+        }
     }
 
     func openBumpUpBoost(forListing listing: Listing,
@@ -367,12 +370,17 @@ extension TabCoordinator: ListingDetailNavigator {
                          typePage: EventParameterTypePage?,
                          timeSinceLastBump: TimeInterval,
                          maxCountdown: TimeInterval) {
-        let bumpCoordinator = BumpUpCoordinator(listing: listing,
-                                                bumpUpProductData: bumpUpProductData,
-                                                typePage: typePage,
-                                                timeSinceLastBump: timeSinceLastBump,
-                                                maxCountdown: maxCountdown)
-        openChild(coordinator: bumpCoordinator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
+        let assembly = LGBumpUpBuilder.modal(root: navigationController)
+        if case .purchaseableProduct(let purchaseableProduct) = bumpUpProductData.bumpUpPurchaseableData,
+            timeSinceLastBump > 0 {
+            let vc = assembly.buildBumpUpBoost(forListing: listing, purchaseableProduct: purchaseableProduct,
+                                               letgoItemId: bumpUpProductData.letgoItemId,
+                                               storeProductId: bumpUpProductData.storeProductId,
+                                               typePage: typePage,
+                                               timeSinceLastBump: timeSinceLastBump,
+                                               maxCountdown: maxCountdown)
+            rootViewController.present(vc, animated: true, completion: nil)
+        }
     }
 
     func selectBuyerToRate(source: RateUserSource,
@@ -488,7 +496,7 @@ extension TabCoordinator: ListingDetailNavigator {
                         withAction action: @escaping () -> ()) {
         let action = UIAction(interface: .button(R.Strings.productInterestedUndo, .terciary) , action: action)
         let data = BubbleNotificationData(text: message, action: action)
-        
+
         switch featureFlags.highlightedIAmInterestedInFeed {
         case .baseline, .control:
             bubbleNotificationManager.showBubble(data: data,
@@ -514,15 +522,14 @@ extension TabCoordinator: ListingDetailNavigator {
                                                        style: .dark)
         }
     }
-    
-    
+
     func openListingAttributeTable(withViewModel viewModel: ListingAttributeTableViewModel) {
         let viewController = ListingAttributeTableViewController(withViewModel: viewModel)
         rootViewController.present(viewController,
                                    animated: true,
                                    completion: nil)
     }
-    
+
     func closeListingAttributeTable() {
         rootViewController.dismiss(animated: true,
                                    completion: nil)
@@ -574,7 +581,7 @@ extension TabCoordinator: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController,
                               animationControllerFor operation: UINavigationControllerOperation,
                               from fromVC: UIViewController,
-                                  to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+                              to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if let animator = (toVC as? AnimatableTransition)?.animator, operation == .push {
             animator.pushing = true
             return animator
@@ -636,7 +643,7 @@ extension TabCoordinator: ExpressChatCoordinatorDelegate {
 }
 
 
-// MARK: - UserRatingCoordinatorDelegate 
+// MARK: - UserRatingCoordinatorDelegate
 
 extension TabCoordinator: UserRatingCoordinatorDelegate {
     func userRatingCoordinatorDidCancel() { }
@@ -651,7 +658,7 @@ extension TabCoordinator: EditListingCoordinatorDelegate {
     func editListingCoordinatorDidCancel(_ coordinator: EditListingCoordinator) {
 
     }
-    
+
     func editListingCoordinator(_ coordinator: EditListingCoordinator,
                                 didFinishWithListing listing: Listing,
                                 bumpUpProductData: BumpUpProductData?,

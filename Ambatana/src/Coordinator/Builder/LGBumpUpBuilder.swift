@@ -1,6 +1,21 @@
 import Foundation
 import LGCoreKit
 
+enum BumpUpPurchaseableData {
+    case socialMessage(message: SocialMessage)
+    case purchaseableProduct(product: PurchaseableProduct)
+}
+
+struct BumpUpProductData {
+    let bumpUpPurchaseableData: BumpUpPurchaseableData
+    let letgoItemId: String?
+    let storeProductId: String?
+
+    var hasPaymentId: Bool {
+        return letgoItemId != nil
+    }
+}
+
 protocol BumpUpAssembly {
     func buildFreeBumpUp(forListing listing: Listing,
                          socialMessage: SocialMessage,

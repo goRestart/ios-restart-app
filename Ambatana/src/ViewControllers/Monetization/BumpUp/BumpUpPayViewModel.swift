@@ -19,7 +19,7 @@ class BumpUpPayViewModel: BaseViewModel {
     private let purchasesShopper: PurchasesShopper
     private let tracker: Tracker
 
-    weak var navigator: BumpUpNavigator?
+    var navigator: BumpUpNavigator?
 
 
     // MARK: - Lifecycle
@@ -77,7 +77,6 @@ class BumpUpPayViewModel: BaseViewModel {
         navigator?.bumpUpDidFinish(completion: { [weak self] in
             self?.boostProduct()
         })
-
     }
 
     func closeActionPressed() {

@@ -13,7 +13,7 @@ class BumpUpFreeViewModel: BaseViewModel {
     private let tracker: Tracker
 
     weak var delegate: BaseViewModelDelegate?
-    weak var navigator: BumpUpNavigator?
+    var navigator: BumpUpNavigator?
 
     var socialMessage: SocialMessage
     var title: String
