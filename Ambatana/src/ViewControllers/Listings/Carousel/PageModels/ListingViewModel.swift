@@ -525,11 +525,14 @@ class ListingViewModel: BaseViewModel {
     }
 
     func refreshBumpeableBanner() {
-        guard isMine else { return }
+        guard featureFlags.freeBumpUpEnabled || featureFlags.pricedBumpUpEnabled else {
+            bumpUpBannerInfo.value = nil
+            return
+        }
         guard let listingId = listing.value.objectId,
             status.value.shouldRefreshBumpBanner,
             !isUpdatingBumpUpBanner,
-            (featureFlags.freeBumpUpEnabled || featureFlags.pricedBumpUpEnabled) else { return }
+            isMine else { return }
 
         let isBumpUpPending = purchasesShopper.isBumpUpPending(forListingId: listingId)
 
