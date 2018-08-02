@@ -788,7 +788,7 @@ extension R {
     public static let discardedProductsReasonReferenceToCompetitors = Strings.tr("Localizable", "discarded_products_reason_reference_to_competitors")
     /// Only contains stock photos
     public static let discardedProductsReasonStockPhotoOnly = Strings.tr("Localizable", "discarded_products_reason_stock_photo_only")
-    /// Choose one option
+    /// Choose an option
     public static let editPriceTypeChooseTitle = Strings.tr("Localizable", "edit_priceType_choose_title")
     /// Feature your listing to sell faster
     public static let editProductFeatureLabelLongText = Strings.tr("Localizable", "edit_product_feature_label_long_text")
@@ -2602,7 +2602,7 @@ extension R {
     public static let reportingListingUpdateFeedbackMedium = Strings.tr("Localizable", "reporting_listing_update_feedback_medium")
     /// How was this experience?
     public static let reportingListingUpdateFeedbackTitle = Strings.tr("Localizable", "reporting_listing_update_feedback_title")
-    /// Thanks for anonymously reporting "%@" posted by %@. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing this item, we have removed it because it violated our Community Guidelines.
+    /// Thanks for anonymously reporting "%1$@" posted by %2$@. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing this item, we have removed it because it violated our Community Guidelines.
     public static func reportingListingUpdateText(_ p1: String, _ p2: String) -> String {
       return Strings.tr("Localizable", "reporting_listing_update_text", p1, p2)
     }
