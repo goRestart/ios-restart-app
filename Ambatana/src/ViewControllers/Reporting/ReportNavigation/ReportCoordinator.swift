@@ -2,14 +2,6 @@ import Foundation
 import LGCoreKit
 import LGComponents
 
-// FIXME: Testing code until the Core is ready. Will be removed
-class TestRepo: ReportingRepository {
-    func createUserReport(to userId: String, reason: String, comment: String, completion: ReportingCompletion?) {}
-    func createListingReport(to listingId: String, reason: String, comment: String, completion: ReportingCompletion?) {}
-    func updateUserReport(reportId: String, score: Int, completion: ReportingCompletion?) {}
-    func updateListingReport(reportId: String, score: Int, completion: ReportingCompletion?) {}
-}
-
 enum ReportCoordinatorType {
     case product(listing: Listing)
     case user
@@ -56,7 +48,7 @@ final class ReportCoordinator: Coordinator {
                   featureFlags: FeatureFlags.sharedInstance,
                   tracker: TrackerProxy.sharedInstance,
                   sessionManager: Core.sessionManager,
-                  reportingRepository: TestRepo(), // TODO: Expose repository from Core DI
+                  reportingRepository: Core.reportingRepository,
                   type: type,
                   reportedId: reportedId,
                   source: source)

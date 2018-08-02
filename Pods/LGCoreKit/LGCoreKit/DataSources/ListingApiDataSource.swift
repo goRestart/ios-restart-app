@@ -132,7 +132,7 @@ final class ListingApiDataSource: ListingDataSource {
     }
     
     func createListingServices(userId: String, listingParams: [ListingCreationParams], completion: ListingsDataSourceCompletion?) {
-        let servicesParams: [[String : Any]] = listingParams.flatMap {
+        let servicesParams: [[String : Any]] = listingParams.compactMap {
             guard case .service(let serviceParam) = $0 else { return nil }
             return serviceParam.apiServiceCreationEncode(userId: userId)
         }
@@ -157,20 +157,12 @@ final class ListingApiDataSource: ListingDataSource {
             request = ListingRouter.updateRealEstate(listingId: realEstateParams.realEstateId, params: realEstateParams.apiEditionEncode())
             apiClient.request(request, decoder: ListingApiDataSource.realEstateDecoder, completion: completion)
         case .service(let serviceParams):
-            request = ListingRouter.update(listingId: serviceParams.serviceId, params: serviceParams.apiEditionEncode())
-            apiClient.request(request, decoder: ListingApiDataSource.productDecoder, completion: completion)
+            request = ListingRouter.updateService(listingId: serviceParams.serviceId,
+                                                  params: serviceParams.apiEditionEncode())
+            apiClient.request(request, decoder: ListingApiDataSource.serviceDecoder, completion: completion)
         }
     }
     
-    func updateListingService(listingParams: ListingEditionParams, completion: ListingDataSourceCompletion?) {
-        guard case .service(let serviceParams) = listingParams else {
-            completion?(Result(error: .badRequest(cause: .nonAcceptableParams)))
-            return
-        }
-        let request: URLRequestAuthenticable = ListingRouter.updateService(listingId: serviceParams.serviceId,
-                                                                           params: serviceParams.apiEditionEncode())
-        apiClient.request(request, decoder: ListingApiDataSource.serviceDecoder, completion: completion)
-    }
 
     // MARK: Sold / unsold
 

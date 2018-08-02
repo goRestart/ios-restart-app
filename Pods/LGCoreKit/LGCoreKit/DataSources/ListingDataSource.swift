@@ -59,7 +59,6 @@ protocol ListingDataSource {
     func updateListing(listingParams: ListingEditionParams, completion: ListingDataSourceCompletion?)
     
     func createListingServices(userId: String, listingParams: [ListingCreationParams], completion: ListingsDataSourceCompletion?)
-    func updateListingService(listingParams: ListingEditionParams, completion: ListingDataSourceCompletion?)
 
     func delete(_ listingId: String, completion: ListingDataSourceEmptyCompletion?)
 
