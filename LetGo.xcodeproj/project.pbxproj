@@ -283,6 +283,7 @@
 		0AF5EB6D1FD060B2001DFAE2 /* QuickChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF5EB6B1FD05EA8001DFAE2 /* QuickChatView.swift */; };
 		0AF5EB6F1FD0698B001DFAE2 /* QuickChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF5EB6E1FD0698B001DFAE2 /* QuickChatViewModel.swift */; };
 		0AF5EB701FD069C6001DFAE2 /* QuickChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF5EB6E1FD0698B001DFAE2 /* QuickChatViewModel.swift */; };
+		0AF64BDA2111EB6C004CA83D /* DeepLinkMailBoxSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF64BD92111EB6C004CA83D /* DeepLinkMailBoxSpec.swift */; };
 		0AF7CCBD1F8B525E00128303 /* OvalLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF7CCBC1F8B525E00128303 /* OvalLayer.swift */; };
 		0AF7CCBF1F8B533D00128303 /* OvalLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF7CCBC1F8B525E00128303 /* OvalLayer.swift */; };
 		0AFC21542063D35300C09B24 /* NSAttributedString+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFC21532063D35300C09B24 /* NSAttributedString+LG.swift */; };
@@ -2259,6 +2260,7 @@
 		0AF5EB671FD0118F001DFAE2 /* MapViewSnapShot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewSnapShot.swift; sourceTree = "<group>"; };
 		0AF5EB6B1FD05EA8001DFAE2 /* QuickChatView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickChatView.swift; sourceTree = "<group>"; };
 		0AF5EB6E1FD0698B001DFAE2 /* QuickChatViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickChatViewModel.swift; sourceTree = "<group>"; };
+		0AF64BD92111EB6C004CA83D /* DeepLinkMailBoxSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkMailBoxSpec.swift; sourceTree = "<group>"; };
 		0AF7CCBC1F8B525E00128303 /* OvalLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OvalLayer.swift; sourceTree = "<group>"; };
 		0AFC21532063D35300C09B24 /* NSAttributedString+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+LG.swift"; sourceTree = "<group>"; };
 		0AFE311D2056DCAB004B6781 /* ListingDeckImagePreviewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckImagePreviewCell.swift; sourceTree = "<group>"; };
@@ -3333,6 +3335,7 @@
 				0178CBD71F0E463D00620BA6 /* UriSchemeSpec.swift */,
 				0A6D88BE1F7CED6900819E89 /* DeepLinksRouterSpec.swift */,
 				01990F60203D90FE0080ADDD /* AppsFlyerDeepLinkSpec.swift */,
+				0AF64BD92111EB6C004CA83D /* DeepLinkMailBoxSpec.swift */,
 			);
 			name = DeepLinks;
 			sourceTree = "<group>";
@@ -7468,6 +7471,7 @@
 				2E132A1E1F16512D00C20127 /* PostListingDetailViewModelSpec.swift in Sources */,
 				012B73E61F54216600068537 /* QuickAnswerSpec.swift in Sources */,
 				6A7F9592205928530044D1AC /* UserProfileViewModelSpec.swift in Sources */,
+				0AF64BDA2111EB6C004CA83D /* DeepLinkMailBoxSpec.swift in Sources */,
 				50D08DCF1E69AF14009CC260 /* TrackerEventSpec.swift in Sources */,
 				2EC653B31E716C8800E23DDF /* Dictionary+FilterSpec.swift in Sources */,
 				50D08DB11E69AF14009CC260 /* MockCountryHelper.swift in Sources */,
