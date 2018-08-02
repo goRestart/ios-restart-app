@@ -234,15 +234,17 @@ extension FiltersViewController {
 
 extension FiltersViewController: FiltersViewModelDelegate {
     
-    func scrollToItem(atIndexPath indexPath: IndexPath) {
-        
+    func scrollToSection(atIndexPath indexPath: IndexPath) {
         guard numberOfSections(in: collectionView) > indexPath.section,
             collectionView(collectionView, numberOfItemsInSection: indexPath.section) > indexPath.item else {
                 return
         }
-        collectionView.scrollToItem(at: indexPath,
-                                    at: .top,
-                                    animated: true)
+        
+        collectionView.scrollToSupplementaryView(ofKind: UICollectionElementKindSectionHeader,
+                                                 atIndexPath: indexPath,
+                                                 atScrollPosition: .top,
+                                                 verticalOffset: topBarHeight,
+                                                 animated: true)
     }
     
     func vmDidUpdate() {

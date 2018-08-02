@@ -7,7 +7,7 @@ protocol FiltersViewModelDelegate: BaseViewModelDelegate {
     func vmDidUpdate()
     func vmForcePriceFix()
     func vmForceSizeFix()
-    func scrollToItem(atIndexPath indexPath: IndexPath)
+    func scrollToSection(atIndexPath indexPath: IndexPath)
 }
 
 protocol FiltersViewModelDataDelegate: class {
@@ -305,7 +305,13 @@ class FiltersViewModel: BaseViewModel {
             if let carSectionIndex = sections.index(of: .carsInfo),
                 listingCategory.isCar,
                 featureFlags.carExtraFieldsEnabled.isActive {
-                delegate?.scrollToItem(atIndexPath: IndexPath(row: 0, section: carSectionIndex))
+                delegate?.scrollToSection(atIndexPath: IndexPath(row: 0, section: carSectionIndex))
+            } else if let realEstateSectionIndex = sections.index(of: .realEstateInfo),
+                listingCategory.isRealEstate {
+                delegate?.scrollToSection(atIndexPath: IndexPath(row: 0, section: realEstateSectionIndex))
+            } else if let servicesSectionIndex = sections.index(of: .servicesInfo),
+                listingCategory.isServices {
+                delegate?.scrollToSection(atIndexPath: IndexPath(row: 0, section: servicesSectionIndex))
             }
         case .free: break
         }
