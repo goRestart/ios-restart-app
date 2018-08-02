@@ -9,12 +9,15 @@ enum ReportSentType {
     case userBasic
     case userBlockA
     case userBlockB
+    case userBlockAndReviewA
+    case userBlockAndReviewB
     case userLawEnforcement
     case userLawEnforcementBlock
 
     var allowsBlockUser: Bool {
         switch self {
-            case .userBlockA, .userBlockB, .userLawEnforcementBlock:
+            case .userBlockA, .userBlockB, .userBlockAndReviewA,
+                 .userBlockAndReviewB, .userLawEnforcementBlock:
             return true
         default:
             return false
@@ -24,13 +27,14 @@ enum ReportSentType {
     var title: String {
         switch self {
         case .productBasic: return R.Strings.reportingListingReportSentTitle
-        case .userBasic, .userBlockA, .userBlockB, .userLawEnforcement, .userLawEnforcementBlock:
+        case .userBasic, .userBlockA, .userBlockB, .userBlockAndReviewA,
+             .userBlockAndReviewB, .userLawEnforcement, .userLawEnforcementBlock:
             return R.Strings.reportingUserReportSentTitle
         }
     }
 
-    func attributedMessage(includingReviewText: Bool, userName: String) -> NSAttributedString {
-        let messageString = message(includingReviewText: includingReviewText, userName: userName)
+    func attributedMessage(userName: String) -> NSAttributedString {
+        let messageString = message(userName: userName)
         let string = NSMutableAttributedString(string: messageString,
                                                attributes: [.foregroundColor: UIColor.lgBlack,
                                                             .font: UIFont.bigBodyFont])
@@ -44,18 +48,20 @@ enum ReportSentType {
         return string
     }
 
-    private func message(includingReviewText: Bool, userName: String) -> String {
+    private func message(userName: String) -> String {
         switch self {
         case .productBasic:
             return R.Strings.reportingListingReportSentText
         case .userBasic:
             return R.Strings.reportingUserReportSentRedirectItemText
         case .userBlockA:
-            return includingReviewText ?
-                R.Strings.reportingUserReportSentBlockUserAWithReviewText : R.Strings.reportingUserReportSentBlockUserAText
+            return R.Strings.reportingUserReportSentBlockUserAText
         case .userBlockB:
-            return includingReviewText ?
-                R.Strings.reportingUserReportSentBlockUserBWithReviewText : R.Strings.reportingUserReportSentBlockUserBText
+            return R.Strings.reportingUserReportSentBlockUserBText
+        case .userBlockAndReviewA:
+            return R.Strings.reportingUserReportSentBlockUserAWithReviewText
+        case .userBlockAndReviewB:
+            return R.Strings.reportingUserReportSentBlockUserBWithReviewText
         case .userLawEnforcement:
             return R.Strings.reportingUserReportSentLawEnforcementText(userName)
         case .userLawEnforcementBlock:
