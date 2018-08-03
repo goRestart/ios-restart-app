@@ -842,7 +842,7 @@ fileprivate extension AppCoordinator {
 
 // MARK: - CustomLeanplumPresenter
 
-extension AppCoordinator: CustomLeanplumPresenter, LPMessageNavigator {
+extension AppCoordinator: CustomLeanplumPresenter {
 
     func setupLeanplumPopUp() {
         Leanplum.customLeanplumAlert(self)
@@ -855,8 +855,9 @@ extension AppCoordinator: CustomLeanplumPresenter, LPMessageNavigator {
     }
 
     func showLPMessageAlert(_ message: LPMessage) {
-        let coordinator = LeanplumCoordinator(leanplumMessage: message)
-        openChild(coordinator: coordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
+        let assembly = LGLeanplumBuilder.modal(root: tabBarCtl)
+        let vc = assembly.buildLeanplumMessage(with: message)
+        tabBarCtl.present(vc, animated: true, completion: nil)
     }
 
     func closeLPMessage() {
