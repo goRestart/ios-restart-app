@@ -406,13 +406,15 @@ extension TabCoordinator: ListingDetailNavigator {
                            listingId: String,
                            sourceRateBuyers: SourceRateBuyers?,
                            trackingInfo: MarkAsSoldTrackingInfo) {
-        let ratingCoordinator = UserRatingCoordinator(source: source,
-                                                      buyers: buyers,
-                                                      listingId: listingId,
-                                                      sourceRateBuyers: sourceRateBuyers,
-                                                      trackingInfo: trackingInfo)
-        ratingCoordinator.delegate = self
-        openChild(coordinator: ratingCoordinator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
+        let assembly = LGRateBuilder.modal(root: navigationController)
+        let nav = UINavigationController()
+        _ = assembly.buildRateBuyers(into: nav,
+                                     source: source,
+                                     buyers: buyers,
+                                     listingId: listingId,
+                                     sourceRateBuyers: sourceRateBuyers,
+                                     trackingInfo: trackingInfo)
+        navigationController.present(nav, animated: true, completion: nil)
     }
 
     func showProductFavoriteBubble(with data: BubbleNotificationData) {
@@ -647,12 +649,4 @@ extension TabCoordinator: UINavigationControllerDelegate {
         }
         return nil
     }
-}
-
-// MARK: - UserRatingCoordinatorDelegate
-
-extension TabCoordinator: UserRatingCoordinatorDelegate {
-    func userRatingCoordinatorDidCancel() { }
-
-    func userRatingCoordinatorDidFinish(withRating rating: Int?, ratedUserId: String?) { }
 }

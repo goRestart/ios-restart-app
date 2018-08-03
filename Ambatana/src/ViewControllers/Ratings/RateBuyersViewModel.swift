@@ -9,10 +9,10 @@ enum VisibilityFormat {
 
 protocol RateBuyersViewModelDelegate: BaseViewModelDelegate {}
 
-class RateBuyersViewModel: BaseViewModel {
+final class RateBuyersViewModel: BaseViewModel {
     static let maxItemsOnCompactFormat = 3
 
-    weak var navigator: RateBuyersNavigator?
+    var navigator: RateBuyersNavigator?
     weak var delegate: RateBuyersViewModelDelegate?
 
     let possibleBuyers: [UserListing]

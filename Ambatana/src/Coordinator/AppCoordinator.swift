@@ -436,9 +436,9 @@ extension AppCoordinator: AppNavigator {
     // MARK -
 
     func openUserRating(_ source: RateUserSource, data: RateUserData) {
-        let userRatingCoordinator = UserRatingCoordinator(source: source, data: data)
-        userRatingCoordinator.delegate = self
-        openChild(coordinator: userRatingCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
+        let assembly = LGRateBuilder.modal(root: tabBarCtl)
+        let vc = assembly.buildRateUser(source: source, data: data, showSkipButton: false)
+        tabBarCtl.present(vc, animated: true, completion: nil)
     }
 
     func openChangeLocation() {
@@ -568,19 +568,6 @@ extension AppCoordinator: OnboardingCoordinatorDelegate {
             trackStartSelling(source: source)
         } else {
             openHome()
-        }
-    }
-}
-
-
-// MARK: - UserRatingCoordinatorDelegate
-
-extension AppCoordinator: UserRatingCoordinatorDelegate {
-    func userRatingCoordinatorDidCancel() {}
-
-    func userRatingCoordinatorDidFinish(withRating rating: Int?, ratedUserId: String?) {
-        if rating == 5 {
-            openAppRating(.chat)
         }
     }
 }

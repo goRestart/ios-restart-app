@@ -7,12 +7,6 @@ protocol ChatAssembly {
     func buildExpressChat(listings: [Listing],
                           sourceProductId: String,
                           manualOpen: Bool) -> ExpressChatViewController
-    func buildRateUser(source: RateUserSource, data: RateUserData, showSkipButton: Bool) -> RateUserViewController
-    func buildRateBuyers(source: RateUserSource,
-                         buyers: [UserListing],
-                         listingId: String,
-                         sourceRateBuyers: SourceRateBuyers?,
-                         trackingInfo: MarkAsSoldTrackingInfo) -> RateBuyersViewController
     func buildChatFrom(listing: Listing,
                        source: EventParameterTypePage,
                        openChatAutomaticMessage: ChatWrapperMessageType?,
@@ -54,32 +48,6 @@ extension LGChatBuilder: ChatAssembly {
             let vm = ExpressChatViewModel(listings: listings, sourceProductId: sourceProductId, manualOpen: manualOpen)
             let vc = ExpressChatViewController(viewModel: vm)
             vm.navigator = ExpressChatRouter(root: nav)
-            return vc
-        }
-    }
-
-    func buildRateUser(source: RateUserSource, data: RateUserData, showSkipButton: Bool) -> RateUserViewController {
-        switch self {
-        case .standard(let nav):
-            let vm = RateUserViewModel(source: source, data: data)
-            let vc = RateUserViewController(viewModel: vm, showSkipButton: showSkipButton)
-            vm.navigator = RateUserRouter(navigationController: nav)
-            return vc
-        }
-    }
-    func buildRateBuyers(source: RateUserSource,
-                         buyers: [UserListing],
-                         listingId: String,
-                         sourceRateBuyers: SourceRateBuyers?,
-                         trackingInfo: MarkAsSoldTrackingInfo) -> RateBuyersViewController {
-        switch self {
-        case .standard(let nav):
-            let vm = RateBuyersViewModel(buyers: buyers,
-                                         listingId: listingId,
-                                         source: sourceRateBuyers,
-                                         trackingInfo: trackingInfo)
-            let vc = RateBuyersViewController(with: vm)
-            vm.navigator = RateBuyersRouter(navigationController: nav, source: source)
             return vc
         }
     }
