@@ -978,6 +978,7 @@ enum EventParameterTypePage: String {
     case nextItem = "next-item"
     case feed = "feed"
     case notificationCenter = "notification-center"
+    case report = "report"
 }
 
 enum EventParameterPermissionType: String {
