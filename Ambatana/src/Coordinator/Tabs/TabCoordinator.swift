@@ -566,9 +566,9 @@ extension TabCoordinator: ChatDetailNavigator {
     }
 
     func openExpressChat(_ listings: [Listing], sourceListingId: String, manualOpen: Bool) {
-        guard let expressChatCoordinator = ExpressChatCoordinator(listings: listings, sourceProductId: sourceListingId, manualOpen: manualOpen) else { return }
-        expressChatCoordinator.delegate = self
-        openChild(coordinator: expressChatCoordinator, parent: rootViewController, animated: true, forceCloseChild: false, completion: nil)
+        let assembly = LGChatBuilder.standard(nav: navigationController)
+        let vc = assembly.buildExpressChat(listings: listings, sourceProductId: sourceListingId, manualOpen: manualOpen)
+        navigationController.present(vc, animated: true, completion: nil)
     }
 
     func openLoginIfNeededFromChatDetail(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void)) {
@@ -648,18 +648,6 @@ extension TabCoordinator: UINavigationControllerDelegate {
         return nil
     }
 }
-
-
-// MARK: - ExpressChatCoordinatorDelegate
-
-extension TabCoordinator: ExpressChatCoordinatorDelegate {
-    func expressChatCoordinatorDidSentMessages(_ coordinator: ExpressChatCoordinator, count: Int) {
-        let message = count == 1 ? R.Strings.chatExpressOneMessageSentSuccessAlert :
-            R.Strings.chatExpressSeveralMessagesSentSuccessAlert
-        rootViewController.showAutoFadingOutMessageAlert(message: message)
-    }
-}
-
 
 // MARK: - UserRatingCoordinatorDelegate
 

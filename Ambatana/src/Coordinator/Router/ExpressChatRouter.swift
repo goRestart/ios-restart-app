@@ -1,4 +1,10 @@
 import Foundation
+import LGComponents
+
+protocol ExpressChatNavigator: class {
+    func closeExpressChat(_ showAgain: Bool, forProduct: String)
+    func sentMessage(_ forProduct: String, count: Int)
+}
 
 final class ExpressChatRouter: ExpressChatNavigator {
     private weak var root: UIViewController?
@@ -12,6 +18,11 @@ final class ExpressChatRouter: ExpressChatNavigator {
     }
 
     func sentMessage(_ forProduct: String, count: Int) {
-        root?.dismiss(animated: true, completion: nil)
+        let one = R.Strings.chatExpressOneMessageSentSuccessAlert
+        let more = R.Strings.chatExpressSeveralMessagesSentSuccessAlert
+        let message = count == 1 ? one : more
+        root?.dismiss(animated: true, completion: { [weak root] in
+            root?.showAutoFadingOutMessageAlert(message: message)
+        })
     }
 }
