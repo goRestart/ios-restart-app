@@ -63,6 +63,7 @@ protocol FeatureFlaggeable: class {
     var appInstallAdsInFeed: AppInstallAdsInFeed { get }
     var appInstallAdsInFeedAdUnit: String? { get }
     var alwaysShowBumpBannerWithLoading: AlwaysShowBumpBannerWithLoading { get }
+    var showSellFasterInProfileCells: ShowSellFasterInProfileCells { get }
     
     // MARK: Chat
     var showInactiveConversations: Bool { get }
@@ -473,6 +474,10 @@ extension AlwaysShowBumpBannerWithLoading {
 }
 
 extension SearchAlertsDisableOldestIfMaximumReached {
+    var isActive: Bool { return self == .active }
+}
+
+extension ShowSellFasterInProfileCells {
     var isActive: Bool { return self == .active }
 }
 
@@ -1051,6 +1056,13 @@ final class FeatureFlags: FeatureFlaggeable {
         return AlwaysShowBumpBannerWithLoading.fromPosition(abTests.alwaysShowBumpBannerWithLoading.value)
     }
 
+    var showSellFasterInProfileCells: ShowSellFasterInProfileCells {
+        if Bumper.enabled {
+            return Bumper.showSellFasterInProfileCells
+        }
+        return ShowSellFasterInProfileCells.fromPosition(abTests.showSellFasterInProfileCells.value)
+    }
+    
 
     // MARK: - Private
 

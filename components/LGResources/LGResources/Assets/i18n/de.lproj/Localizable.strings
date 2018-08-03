@@ -50,9 +50,11 @@
 "bump_up_view_boost_pay_button_title" = "Empfehle es erneut für %@";
 "bump_up_view_boost_subtitle_boost_listing" = "Da du dein Angebot in den letzten 24 Stunden bereits empfohlen hast, kannst du eine weitere Empfehlung zu einem günstigeren Preis kaufen!";
 "bump_up_view_boost_subtitle_cheaper" = "Kurbel dein Angebot jetzt an und erhalte einen Rabatt auf den normalen Empfehlungspreis";
+"bump_up_view_boost_subtitle_not_ready" = "You can add another boost in %@ to move it to the top and be featured for 24 additional hours";
 "bump_up_view_boost_subtitle_send_top" = "Dein Angebot wird weiterhin empfohlen, du kannst es jedoch zusätzlich ankurbeln. Es wird dann wieder an die Spitze der Liste gesetzt und ab jetzt für 24 Stunden empfohlen.";
 "bump_up_view_boost_title_boost_listing" = "Kurbel dein empfohlenes Angebot an";
 "bump_up_view_boost_title_cheaper_boost" = "Kurbel dein Angebot jetzt vergünstigt an";
+"bump_up_view_boost_title_not_ready" = "Your listing's still featured";
 "bump_up_view_boost_title_send_top" = "Schicke es wieder an den Anfang der Liste";
 "bump_up_view_free_subtitle" = "Je öfter du es teilst, umso sichtbarer wird dein Angebot";
 "bump_up_view_free_title" = "HOLE DEIN ANGEBOT HOCH";
@@ -358,6 +360,7 @@
 "discarded_products_reason_poor_ad_quality" = "Verstoß gegen unsere Angebotsregeln";
 "discarded_products_reason_reference_to_competitors" = "Verweis auf andere Apps oder Webseiten";
 "discarded_products_reason_stock_photo_only" = "Enthält nur Herstellerfotos";
+"edit_priceType_choose_title" = "Wähle eine Option";
 "edit_product_feature_label_long_text" = "Empfehle dein Angebot, um schneller zu verkaufen";
 "edit_product_feature_label_short_text" = "Jetzt schneller verkaufen";
 "edit_product_location_alert_text" = "Erlaube den Zugriff auf deinen Standort, um zu ändern, wo dein Angebot eingestellt wird";
@@ -369,6 +372,7 @@
 "edit_product_title" = "Angebot bearbeiten";
 "edit_product_unsaved_changes_alert" = "Bist du sicher, dass du diese Änderungen verwerfen möchtest?";
 "edit_product_unsaved_changes_alert_ok" = "Verwerfen";
+"engagement_badging_feed_bubble" = "Neue Artikel";
 "featured_info_view_increase_visibility" = "Mehr Sichtbarkeit verschaffen";
 "featured_info_view_more_buyers" = "Locke mehr Käufer an";
 "featured_info_view_sell_faster" = "Schneller verkaufen";
@@ -724,13 +728,13 @@
 "post_queued_requests_state_listing_posted" = "Angebot eingestellt!";
 "post_queued_requests_state_posting_listing" = "Angebot einstellen...";
 "posting_button_skip" = "Überspringen";
-"priceType_biweekly" = "Biweekly";
-"priceType_daily" = "Daily";
-"priceType_hourly" = "Hourly";
-"priceType_monthly" = "Monthly";
-"priceType_oneOff" = "One-time";
-"priceType_weekly" = "Weekly";
-"priceType_yearly" = "Yearly";
+"priceType_biweekly" = "Alle zwei Wochen";
+"priceType_daily" = "Pro Tag";
+"priceType_hourly" = "Pro Stunde";
+"priceType_monthly" = "Pro Monat";
+"priceType_oneOff" = "Einmalig";
+"priceType_weekly" = "Pro Woche";
+"priceType_yearly" = "Pro Jahr";
 "product_auto_generated_title_label" = "Der Titel wurde von letgo automatisch generiert";
 "product_auto_generated_translated_title_label" = "(und mit Google übersetzt)";
 "product_bubble_favorite_button" = "Sag dem Verkäufer Bescheid!";
@@ -1183,7 +1187,7 @@
 "reporting_listing_update_feedback_good" = "Super!";
 "reporting_listing_update_feedback_medium" = "Danke!";
 "reporting_listing_update_feedback_title" = "Wie war das Erlebnis?";
-"reporting_listing_update_text" = "Danke, dass du \"%@\" eingestellt von %@ anonym gemeldet hast. Solches Feedback hilft uns, die letgo-Gemeinschaft sicher zu halten.\n\nNachdem wir uns diesen Artikel angesehen haben, haben wir ihn entfernt, da er gegen unsere Gemeinschaftsleitlinien verstößt.";
+"reporting_listing_update_text" = "Danke, dass du \"%1$@\" eingestellt von %2$@ anonym gemeldet hast. Solches Feedback hilft uns, die letgo-Gemeinschaft sicher zu halten.\n\nNachdem wir uns diesen Artikel angesehen haben, haben wir ihn entfernt, da er gegen unsere Gemeinschaftsleitlinien verstößt.";
 "reporting_listing_update_title" = "Meldungsstatus";
 "reporting_reason_bio" = "Biografie";
 "reporting_reason_counterfeit_money" = "Hat mit Falschgeld bezahlt";

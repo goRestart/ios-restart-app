@@ -326,7 +326,6 @@ class BumpUpBanner: UIView {
     }
     
     func executeBannerInteractionBlock() {
-        guard readyToBump else { return }
         bannerInteractionBlock(maxCountdown-timeIntervalLeft.value)
     }
 

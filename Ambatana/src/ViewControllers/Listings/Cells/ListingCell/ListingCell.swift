@@ -16,6 +16,7 @@ protocol ListingCellDelegate: class {
     func interestedActionFor(_ listing: Listing)
     func openAskPhoneFor(_ listing: Listing, interlocutor: LocalUser)
     func getUserInfoFor(_ listing: Listing, completion: @escaping (User?) -> Void)
+    func bumpUpPressedFor(listing: Listing)
 }
 
 final class ListingCell: UICollectionViewCell, ReusableCell {
@@ -71,6 +72,23 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         let view = ProductPriceAndTitleView(textStyle: .whiteText)
         view.isHidden = true
         return view
+    }()
+
+    private let bumpUpIcon: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = R.Asset.Monetization.icLightning.image
+        return imageView
+    }()
+
+    private let bumpUpLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemBoldFont(size: 15)
+        label.text = R.Strings.bumpUpBannerPayTextImprovementEnglishC
+        label.textAlignment = .left
+        label.numberOfLines = 0
+        label.textColor = .blackText
+        return label
     }()
     
     // > Distance Labels
@@ -131,7 +149,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
-        cornerRadius = LGUIKitConstants.mediumCornerRadius
+        contentView.cornerRadius = LGUIKitConstants.mediumCornerRadius
         resetUI()
         setAccessibilityIds()
     }
@@ -222,32 +240,64 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     }
     
     // Product Detail Under Image
+
     func setupFeaturedListingInfoWith(price: String,
                                       priceType: String?,
                                       title: String?,
                                       isMine: Bool,
-                                      hideProductDetail: Bool) {
-        featureView = ProductPriceAndTitleView(textStyle: .darkText)
-        featureView?.configUI(title: title,
-                              price: price,
-                              priceType: priceType,
-                              style: hideProductDetail ? .whiteText : .darkText)
-        setupFeaturedListingChatButton()
-        layoutFeatureListArea(isMine: isMine, hideProductDetail: hideProductDetail)
+                                      hideProductDetail: Bool,
+                                      shouldShowBumpUpCTA: Bool) {
+        if shouldShowBumpUpCTA {
+            setupBumpUpCTA()
+        } else {
+            featureView = ProductPriceAndTitleView(textStyle: .darkText)
+            featureView?.configUI(title: title,
+                                  price: price,
+                                  priceType: priceType,
+                                  style: hideProductDetail ? .whiteText : .darkText)
+            setupFeaturedListingChatButton()
+            layoutFeatureListArea(isMine: isMine, hideProductDetail: hideProductDetail)
+        }
     }
     
     func setupNonFeaturedProductInfoUnderImage(price: String,
                                                priceType: String?,
                                                title: String?,
-                                               shouldShow: Bool) {
-        if shouldShow {
-            featureView = ProductPriceAndTitleView(textStyle: .darkText)
-            featureView?.configUI(title: title,
-                                  price: price,
-                                  priceType: priceType,
-                                  style: .darkText)
-            showDetail()
+                                               shouldShow: Bool, shouldShowBumpUpCTA: Bool) {
+        if shouldShowBumpUpCTA {
+            setupBumpUpCTA()
+        } else {
+            if shouldShow {
+                featureView = ProductPriceAndTitleView(textStyle: .darkText)
+                featureView?.configUI(title: title,
+                                      price: price,
+                                      priceType: priceType,
+                                      style: .darkText)
+                showDetail()
+            }
         }
+    }
+
+    func setupBumpUpCTA() {
+        featuredListingInfoView.addSubviewsForAutoLayout([bumpUpIcon, bumpUpLabel])
+        bumpUpIcon.layout(with: featuredListingInfoView).left(by: ListingCellMetrics.BumpUpIcon.leftMargin)
+        bumpUpIcon.layout().height(ListingCellMetrics.BumpUpIcon.iconHeight).widthProportionalToHeight()
+        bumpUpIcon.layout(with: bumpUpLabel).centerY().trailing(to: .leading, by: -ListingCellMetrics.BumpUpIcon.rightMargin)
+        bumpUpLabel.layout(with: featuredListingInfoView).right(by: -ListingCellMetrics.BumpUpLabel.rightMargin)
+            .centerY()
+            .top(relatedBy: NSLayoutRelation.greaterThanOrEqual)
+            .bottom(relatedBy: NSLayoutRelation.lessThanOrEqual)
+
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(bumpUpCTATapped))
+        featuredListingInfoView.addGestureRecognizer(tapRecognizer)
+
+        layer.masksToBounds = false
+        applyDefaultShadow()
+    }
+
+    @objc private func bumpUpCTATapped() {
+        guard let listing = listing else { return }
+        delegate?.bumpUpPressedFor(listing: listing)
     }
     
     // Product Detail In Image
@@ -568,7 +618,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         topDistanceInfoView.clearAll()
         bottomDistanceInfoView.clearAll()
         setupWith(interestedState: .none)
-        
+
         self.delegate = nil
         self.listing = nil
         

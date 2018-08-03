@@ -53,6 +53,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var appInstallAdsInFeed: AppInstallAdsInFeed = .control
     var appInstallAdsInFeedAdUnit: String? = ""
     var alwaysShowBumpBannerWithLoading: AlwaysShowBumpBannerWithLoading = .control
+    var showSellFasterInProfileCells: ShowSellFasterInProfileCells = .control
     
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false

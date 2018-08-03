@@ -2113,6 +2113,8 @@ extension MainListingsViewModel: ListingCellDelegate {
             completion(result.value)
         }
     }
+
+    func bumpUpPressedFor(listing: Listing) { }
 }
 
 extension NoAdsInFeedForNewUsers {

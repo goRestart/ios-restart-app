@@ -9,6 +9,7 @@ enum BumpUpSource {
     case promoted
     case edit(listing: Listing)
     case sellEdit(listing: Listing)
+    case profile
 
     var typePageParameter: EventParameterTypePage? {
         switch self {
@@ -20,6 +21,8 @@ enum BumpUpSource {
             return .edit
         case .sellEdit:
             return .sellEdit
+        case .profile:
+            return .profile
         }
     }
 }
@@ -600,7 +603,7 @@ fileprivate extension AppCoordinator {
 
     fileprivate func shouldRetrieveBumpeableInfoFor(source: BumpUpSource) -> Bool {
         switch source {
-        case .edit, .deepLink, .sellEdit:
+        case .edit, .deepLink, .sellEdit, .profile:
             return true
         case .promoted:
             return !promoteBumpShownInLastDay
@@ -660,7 +663,7 @@ fileprivate extension AppCoordinator {
             openEditForListing(listing: listing, bumpUpProductData: nil, maxCountdown: 0)
         case .edit(let listing):
             openEditForListing(listing: listing, bumpUpProductData: nil, maxCountdown: 0)
-        case .deepLink, .promoted:
+        case .deepLink, .promoted, .profile:
             break
         }
     }
@@ -1187,7 +1190,7 @@ extension AppCoordinator: BumpInfoRequesterDelegate {
                                                   letgoItemId: letgoItemId,
                                                   storeProductId: storeProductId)
         switch bumpUpSource {
-        case .deepLink:
+        case .deepLink, .profile:
             tabBarCtl.clearAllPresented(nil)
             openTab(.profile, force: false) { [weak self] in
                 var actionOnFirstAppear = ProductCarouselActionOnFirstAppear.triggerBumpUp(bumpUpProductData: bumpUpProductData,

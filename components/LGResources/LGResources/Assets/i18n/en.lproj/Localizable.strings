@@ -151,6 +151,9 @@
 // Title for payment bump up view variant 3
 "bump_up_view_boost_title_cheaper_boost" = "Get a cheaper boost now";
 
+// Title for payment bump view when boost is not ready yet
+"bump_up_view_boost_title_not_ready" = "Your listing's still featured";
+
 // Subtitle for payment bump up view variant 1
 "bump_up_view_boost_subtitle_send_top" = "Your listing's still featured, but you can add an extra boost. It'll move to the top and be featured for 24 hours starting now.";
 
@@ -159,6 +162,9 @@
 
 // Subtitle for payment bump up view variant 3
 "bump_up_view_boost_subtitle_cheaper" = "Boost your listing right now to get a discount off the typical feature price.";
+
+// Subtitle for payment bump view when boost is not ready yet
+"bump_up_view_boost_subtitle_not_ready" = "You can add another boost in %@ to move it to the top and be featured for 24 additional hours";
 
 // Text for boost success alert
 "bump_up_boost_success_alert_text" = "Your listing was boosted! It will be featured for the next 24 hours.";
@@ -1096,7 +1102,7 @@
 "edit_product_feature_label_long_text" = "Feature your listing to sell faster";
 
 // Edit price type, title of options list
-"edit_priceType_choose_title" = "Choose one option";
+"edit_priceType_choose_title" = "Choose an option";
 
 // Bubble title
 "engagement_badging_feed_bubble" = "New items";
@@ -3666,7 +3672,7 @@
 "reporting_listing_update_title" = "Report update";
 
 // Text shown in the Report Update view. Including the product name and the seller name
-"reporting_listing_update_text" = "Thanks for anonymously reporting \"%@\" posted by %@. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing this item, we have removed it because it violated our Community Guidelines.";
+"reporting_listing_update_text" = "Thanks for anonymously reporting \"%1$@\" posted by %2$@. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing this item, we have removed it because it violated our Community Guidelines.";
 
 // Title shown to ask the reporter for how the experience was
 "reporting_listing_update_feedback_title" = "How was this experience?";

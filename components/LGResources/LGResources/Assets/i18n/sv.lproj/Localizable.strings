@@ -50,9 +50,11 @@
 "bump_up_view_boost_pay_button_title" = "Topplista den igen för %@";
 "bump_up_view_boost_subtitle_boost_listing" = "Eftersom du redan har topplistat din annons det senaste dygnet erbjuder vi dig en rabatt om du förlänger den";
 "bump_up_view_boost_subtitle_cheaper" = "Boosta din annons nu för att få en rabatt på det vanliga priset.";
+"bump_up_view_boost_subtitle_not_ready" = "You can add another boost in %@ to move it to the top and be featured for 24 additional hours";
 "bump_up_view_boost_subtitle_send_top" = "Din annons är fortfarande topplistad, men du kan boosta den ännu mer. Det gör att den hamnar på toppen av listan i 24 timmar till från och med nu";
 "bump_up_view_boost_title_boost_listing" = "Boosta din topplistad annons";
 "bump_up_view_boost_title_cheaper_boost" = "Boosta billigare nu";
+"bump_up_view_boost_title_not_ready" = "Your listing's still featured";
 "bump_up_view_boost_title_send_top" = "Skicka den till toppen igen";
 "bump_up_view_free_subtitle" = "Ju fler delningar, desto mer synlighet kommer din produkt att få.";
 "bump_up_view_free_title" = "PUFFA DIN VARA UPPÅT";
@@ -358,6 +360,7 @@
 "discarded_products_reason_poor_ad_quality" = "Bryter mot våra användartips";
 "discarded_products_reason_reference_to_competitors" = "Hänvisar till andra appar eller webbplatser";
 "discarded_products_reason_stock_photo_only" = "Innehåller endast stockfoton";
+"edit_priceType_choose_title" = "Choose an option";
 "edit_product_feature_label_long_text" = "Topplista din annons för att sälja snabbare";
 "edit_product_feature_label_short_text" = "Sälj snabbare nu";
 "edit_product_location_alert_text" = "För att ändra plats på din annons, tillåt tillgång till din platsinfo";
@@ -369,6 +372,7 @@
 "edit_product_title" = "Redigera annons";
 "edit_product_unsaved_changes_alert" = "Är du säker på att du vill lämna sidan utan att spara ändringarna?";
 "edit_product_unsaved_changes_alert_ok" = "Släng";
+"engagement_badging_feed_bubble" = "New items";
 "featured_info_view_increase_visibility" = "Skaffa mera synlighet";
 "featured_info_view_more_buyers" = "Locka flera köpare";
 "featured_info_view_sell_faster" = "Sälj snabbare";
@@ -724,13 +728,13 @@
 "post_queued_requests_state_listing_posted" = "Annonsen har lagts upp!";
 "post_queued_requests_state_posting_listing" = "Publicerar annons...";
 "posting_button_skip" = "Rensa";
-"priceType_biweekly" = "Biweekly";
-"priceType_daily" = "Daily";
-"priceType_hourly" = "Hourly";
-"priceType_monthly" = "Monthly";
-"priceType_oneOff" = "One-time";
-"priceType_weekly" = "Weekly";
-"priceType_yearly" = "Yearly";
+"priceType_biweekly" = "Varannan vecka";
+"priceType_daily" = "Varje dag";
+"priceType_hourly" = "Varje timme";
+"priceType_monthly" = "Varje månad";
+"priceType_oneOff" = "Engångsbetalning";
+"priceType_weekly" = "Varje vecka";
+"priceType_yearly" = "Varje år";
 "product_auto_generated_title_label" = "Titeln har genererats automatiskt av letgo";
 "product_auto_generated_translated_title_label" = "(och översatts av Google)";
 "product_bubble_favorite_button" = "Låt säljaren veta!";
@@ -1183,7 +1187,7 @@
 "reporting_listing_update_feedback_good" = "Toppen!";
 "reporting_listing_update_feedback_medium" = "Tack!";
 "reporting_listing_update_feedback_title" = "Hur var din erfarenhet?";
-"reporting_listing_update_text" = "Tack för att ha anonymt anmält \"%@\" publicerad av %@. Feedback som denna hjälper oss att hålla letgo säkert.  \n \nEfter att ha granskat annonsen har vi valt att ta bort den eftersom den bryter mot letgos riktlinjer.";
+"reporting_listing_update_text" = "Tack för att ha anonymt anmält \"%1$@\" publicerad av %2$@. Feedback som denna hjälper oss att hålla letgo säkert.\n\nEfter att ha granskat annonsen har vi valt att ta bort den eftersom den bryter mot letgos riktlinjer.";
 "reporting_listing_update_title" = "Rapportuppdatering";
 "reporting_reason_bio" = "Bio";
 "reporting_reason_counterfeit_money" = "Betalade med falska pengar";

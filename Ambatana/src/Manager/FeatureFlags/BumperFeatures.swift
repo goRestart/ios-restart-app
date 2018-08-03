@@ -82,6 +82,7 @@ extension Bumper  {
         flags.append(AlwaysShowBumpBannerWithLoading.self)
         flags.append(ServicesPriceType.self)
         flags.append(SearchAlertsDisableOldestIfMaximumReached.self)
+        flags.append(ShowSellFasterInProfileCells.self)
         Bumper.initialize(flags)
     } 
 
@@ -939,6 +940,19 @@ extension Bumper  {
     static var searchAlertsDisableOldestIfMaximumReachedObservable: Observable<SearchAlertsDisableOldestIfMaximumReached> {
         return Bumper.observeValue(for: SearchAlertsDisableOldestIfMaximumReached.key).map {
             SearchAlertsDisableOldestIfMaximumReached(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var showSellFasterInProfileCells: ShowSellFasterInProfileCells {
+        guard let value = Bumper.value(for: ShowSellFasterInProfileCells.key) else { return .control }
+        return ShowSellFasterInProfileCells(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var showSellFasterInProfileCellsObservable: Observable<ShowSellFasterInProfileCells> {
+        return Bumper.observeValue(for: ShowSellFasterInProfileCells.key).map {
+            ShowSellFasterInProfileCells(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1967,6 +1981,22 @@ enum SearchAlertsDisableOldestIfMaximumReached: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "[RETENTION] Disable oldest search alert if a new one is created and the maximum has been reached" } 
     static func fromPosition(_ position: Int) -> SearchAlertsDisableOldestIfMaximumReached {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum ShowSellFasterInProfileCells: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return ShowSellFasterInProfileCells.control.rawValue }
+    static var enumValues: [ShowSellFasterInProfileCells] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[MONEY] Add CTA to bump up to profile listing cells" } 
+    static func fromPosition(_ position: Int) -> ShowSellFasterInProfileCells {
         switch position { 
             case 0: return .control
             case 1: return .baseline

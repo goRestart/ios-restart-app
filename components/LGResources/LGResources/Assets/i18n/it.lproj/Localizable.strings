@@ -50,9 +50,11 @@
 "bump_up_view_boost_pay_button_title" = "Sponsorizzalo di nuovo per %@";
 "bump_up_view_boost_subtitle_boost_listing" = "Per aver sponsorizzato il tuo annuncio nelle ultime 24 ore, ti offriamo la possibilità di acquistare un'altra funzione a un prezzo minore!";
 "bump_up_view_boost_subtitle_cheaper" = "Promuovi subito il tuo annuncio per ottenere uno sconto sul normale prezzo di acquisto.";
+"bump_up_view_boost_subtitle_not_ready" = "You can add another boost in %@ to move it to the top and be featured for 24 additional hours";
 "bump_up_view_boost_subtitle_send_top" = "Il tuo annuncio è ancora sponsorizzato, ma puoi comunque dargli una spinta extra. Si posizionerà in alto e resterà sponsorizzato per 24 ore a partire da ora.";
 "bump_up_view_boost_title_boost_listing" = "Promuovi il tuo annuncio sponsorizzato";
 "bump_up_view_boost_title_cheaper_boost" = "Promuovi subito in modo più economico";
+"bump_up_view_boost_title_not_ready" = "Your listing's still featured";
 "bump_up_view_boost_title_send_top" = "Fallo tornare di nuovo in alto";
 "bump_up_view_free_subtitle" = "Più condivisioni corrispondono a una maggiore visibilità per il tuo annuncio.";
 "bump_up_view_free_title" = "PROMUOVI IL TUO ANNUNCIO";
@@ -358,6 +360,7 @@
 "discarded_products_reason_poor_ad_quality" = "Non rispetta le procedure consigliate";
 "discarded_products_reason_reference_to_competitors" = "Riferimenti ad altre app o siti Web";
 "discarded_products_reason_stock_photo_only" = "Contiene solo foto da catalogo";
+"edit_priceType_choose_title" = "Choose an option";
 "edit_product_feature_label_long_text" = "Sponsorizza il tuo annuncio per vendere più velocemente";
 "edit_product_feature_label_short_text" = "Vendi più rapidamente";
 "edit_product_location_alert_text" = "Per modificare il luogo dal quale è stato pubblicato l'annuncio, consenti l'accesso alla tua posizione";
@@ -369,6 +372,7 @@
 "edit_product_title" = "Modifica annuncio";
 "edit_product_unsaved_changes_alert" = "Sei sicuro di voler eliminare queste modifiche?";
 "edit_product_unsaved_changes_alert_ok" = "Elimina";
+"engagement_badging_feed_bubble" = "New items";
 "featured_info_view_increase_visibility" = "Ottieni più visibilità";
 "featured_info_view_more_buyers" = "Attira più compratori";
 "featured_info_view_sell_faster" = "Vendi più velocemente";
@@ -1183,7 +1187,7 @@
 "reporting_listing_update_feedback_good" = "Fantastico!";
 "reporting_listing_update_feedback_medium" = "Grazie!";
 "reporting_listing_update_feedback_title" = "Come è stata questa esperienza?";
-"reporting_listing_update_text" = "Grazie per aver segnalato in modo anonimo \"%@\" pubblicato da %@. Questo tipo di feedback contribuisce a mantenere sicura la comunità di letgo.\n\nDopo aver esaminato questo articolo, abbiamo provveduto a rimuoverlo perché violava le linee guida della nostra comunità.";
+"reporting_listing_update_text" = "Grazie per aver segnalato in modo anonimo \"%1$@\" pubblicato da %2$@. Questo tipo di feedback contribuisce a mantenere sicura la comunità di letgo.\n\nDopo aver esaminato questo articolo, abbiamo provveduto a rimuoverlo perché violava le linee guida della nostra comunità.";
 "reporting_listing_update_title" = "Aggiornamento segnalazione";
 "reporting_reason_bio" = "Bio";
 "reporting_reason_counterfeit_money" = "Pagamento con denaro falso";

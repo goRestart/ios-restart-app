@@ -50,9 +50,11 @@
 "bump_up_view_boost_pay_button_title" = "Làm nổi bật lại cho %@";
 "bump_up_view_boost_subtitle_boost_listing" = "Vì bạn đã làm nổi bật bài đăng trong 24 giờ qua, chúng tôi sẽ để bạn mua tính năng khác với giá rẻ hơn!";
 "bump_up_view_boost_subtitle_cheaper" = "Đưa bài đăng của bạn lên ngay bây giờ để được giảm giá cho tính năng tiêu biểu.";
+"bump_up_view_boost_subtitle_not_ready" = "You can add another boost in %@ to move it to the top and be featured for 24 additional hours";
 "bump_up_view_boost_subtitle_send_top" = "Bài đăng của bạn vẫn đang được làm nổi bật, nhưng bạn có thể thêm một lần đẩy thêm. Bài đăng sẽ được đưa lên đầu và làm nổi bật trong 24 giờ bắt đầu từ bây giờ.";
 "bump_up_view_boost_title_boost_listing" = "Đẩy bài đăng nổi bật của bạn";
 "bump_up_view_boost_title_cheaper_boost" = "Đẩy với giá thấp hơn hơn ngay bây giờ";
+"bump_up_view_boost_title_not_ready" = "Your listing's still featured";
 "bump_up_view_boost_title_send_top" = "Đẩy lên đầu lần nữa";
 "bump_up_view_free_subtitle" = "Càng được chia sẻ nhiều, bài đăng của bạn càng dễ thấy.";
 "bump_up_view_free_title" = "ĐẨY BÀI ĐĂNG CỦA BẠN LÊN";
@@ -358,6 +360,7 @@
 "discarded_products_reason_poor_ad_quality" = "Không tuân theo thực hành tốt nhất";
 "discarded_products_reason_reference_to_competitors" = "Gợi ý tới ứng dụng hoặc trang web khác";
 "discarded_products_reason_stock_photo_only" = "Chỉ có ảnh trên mạng";
+"edit_priceType_choose_title" = "Choose an option";
 "edit_product_feature_label_long_text" = "Làm nổi bật bài đăng của bạn để bán nhanh hơn";
 "edit_product_feature_label_short_text" = "Bán nhanh hơn";
 "edit_product_location_alert_text" = "Để thay đổi địa điểm đăng sản phẩm, hãy cho phép truy cập địa điểm của bạn";
@@ -369,6 +372,7 @@
 "edit_product_title" = "Sửa bài đăng";
 "edit_product_unsaved_changes_alert" = "Bạn có chắc chắn muốn rời khỏi trang này? Thay đổi sẽ bị mất.";
 "edit_product_unsaved_changes_alert_ok" = "Rời";
+"engagement_badging_feed_bubble" = "New items";
 "featured_info_view_increase_visibility" = "Dễ nhìn hơn";
 "featured_info_view_more_buyers" = "Thu hút thêm người mua";
 "featured_info_view_sell_faster" = "Bán nhanh hơn";
@@ -1183,7 +1187,7 @@
 "reporting_listing_update_feedback_good" = "Tuyệt!";
 "reporting_listing_update_feedback_medium" = "Cảm ơn bạn!";
 "reporting_listing_update_feedback_title" = "Trải nghiệm này thế nào?";
-"reporting_listing_update_text" = "Cảm ơn bạn đã báo cáo ẩn danh \"%@\" đăng bởi %@. Những phản hồi như của bạn sẽ giúp chúng tôi giữ cho cộng đồng letgo được an toàn.\n\nSau khi xem xét món đồ, chúng tôi đã loại bỏ nó bởi món đồ đó đã vi phạm Hướng dẫn Cộng đồng của chúng tôi.";
+"reporting_listing_update_text" = "Cảm ơn bạn đã báo cáo ẩn danh \"%1$@\" đăng bởi %2$@. Những phản hồi như của bạn sẽ giúp chúng tôi giữ cho cộng đồng letgo được an toàn.\n\nSau khi xem xét món đồ, chúng tôi đã loại bỏ nó bởi món đồ đó đã vi phạm Hướng dẫn Cộng đồng của chúng tôi.";
 "reporting_listing_update_title" = "Báo cáo cập nhật";
 "reporting_reason_bio" = "Tiểu sử";
 "reporting_reason_counterfeit_money" = "Trả bằng tiền giả";

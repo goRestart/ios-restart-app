@@ -50,9 +50,11 @@
 "bump_up_view_boost_pay_button_title" = "Destaque-o agora por %@";
 "bump_up_view_boost_subtitle_boost_listing" = "Uma vez que já destacou o seu anúncio nas últimas 24 horas, deixámo-lo comprar outro destaque por menos!";
 "bump_up_view_boost_subtitle_cheaper" = "Impulsione o seu anúncio agora para receber um desconto sobre o preço do destaque habitual.";
+"bump_up_view_boost_subtitle_not_ready" = "You can add another boost in %@ to move it to the top and be featured for 24 additional hours";
 "bump_up_view_boost_subtitle_send_top" = "O seu anúncio ainda está destacado mas pode dar-lhe um impulso extra! Ele irá para o topo e ficará destacado durante 24 horas a partir de agora.";
 "bump_up_view_boost_title_boost_listing" = "Impulsione o seu anúncio destacado";
 "bump_up_view_boost_title_cheaper_boost" = "Obtenha agora um impulso económico";
+"bump_up_view_boost_title_not_ready" = "Your listing's still featured";
 "bump_up_view_boost_title_send_top" = "Envie-o de novo para o topo";
 "bump_up_view_free_subtitle" = "Quanto mais partilhar mais visibilidade a sua publicação terá.";
 "bump_up_view_free_title" = "DÊ PRIORIDADE À SUA PUBLICAÇÃO";
@@ -358,6 +360,7 @@
 "discarded_products_reason_poor_ad_quality" = "Não cumpre as melhores práticas";
 "discarded_products_reason_reference_to_competitors" = "Referências a outras apps ou sites";
 "discarded_products_reason_stock_photo_only" = "Contém apenas fotos de stocks";
+"edit_priceType_choose_title" = "Choose an option";
 "edit_product_feature_label_long_text" = "Destaque o seu anúncio para vender mais rápido";
 "edit_product_feature_label_short_text" = "Venda mais rápido";
 "edit_product_location_alert_text" = "Para alterar onde o seu anúncio é publicado, autorize o acesso à sua localização";
@@ -369,6 +372,7 @@
 "edit_product_title" = "Editar publicação";
 "edit_product_unsaved_changes_alert" = "Tem a certeza de que deseja rejeitar estas alterações?";
 "edit_product_unsaved_changes_alert_ok" = "Rejeitar";
+"engagement_badging_feed_bubble" = "New items";
 "featured_info_view_increase_visibility" = "Tenha mais visibilidade";
 "featured_info_view_more_buyers" = "Atraia mais compradores";
 "featured_info_view_sell_faster" = "Venda mais rápido";
@@ -724,13 +728,13 @@
 "post_queued_requests_state_listing_posted" = "Anúncio publicado!";
 "post_queued_requests_state_posting_listing" = "A publicar o anúncio...";
 "posting_button_skip" = "Pular";
-"priceType_biweekly" = "Biweekly";
-"priceType_daily" = "Daily";
-"priceType_hourly" = "Hourly";
-"priceType_monthly" = "Monthly";
-"priceType_oneOff" = "One-time";
-"priceType_weekly" = "Weekly";
-"priceType_yearly" = "Yearly";
+"priceType_biweekly" = "Quinzenal";
+"priceType_daily" = "Diário";
+"priceType_hourly" = "De hora em hora";
+"priceType_monthly" = "Mensal";
+"priceType_oneOff" = "Uma única vez";
+"priceType_weekly" = "Semanal";
+"priceType_yearly" = "Anual";
 "product_auto_generated_title_label" = "Título gerado automaticamente pelo letgo";
 "product_auto_generated_translated_title_label" = "(e traduzido pelo Google)";
 "product_bubble_favorite_button" = "Informe o vendedor!";
@@ -1183,7 +1187,7 @@
 "reporting_listing_update_feedback_good" = "Fantástico!";
 "reporting_listing_update_feedback_medium" = "Obrigado!";
 "reporting_listing_update_feedback_title" = "Como foi esta experiência?";
-"reporting_listing_update_text" = "Obrigado por ter denunciado de forma anónima \"%@\" publicado por %@. Os feedbacks como o seu ajudam-nos a manter a comunidade segura.\n\nApós termos revisto este item resolvemos removê-lo já que viola as nossas Diretrizes da Comunidade.";
+"reporting_listing_update_text" = "Obrigado por ter denunciado de forma anónima \"%1$@\" publicado por %2$@. Os feedbacks como o seu ajudam-nos a manter a comunidade segura.\n\nApós termos revisto este item resolvemos removê-lo já que viola as nossas Diretrizes da Comunidade.";
 "reporting_listing_update_title" = "Atualização da denúncia";
 "reporting_reason_bio" = "Bio";
 "reporting_reason_counterfeit_money" = "Pagou com dinheiro falso";

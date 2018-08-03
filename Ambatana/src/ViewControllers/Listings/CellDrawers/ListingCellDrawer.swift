@@ -21,7 +21,7 @@ final class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDr
     
     // MARK:- Public
     
-    func draw(_ model: ListingData, style: CellStyle, inCell cell: ListingCell) {
+    func draw(_ model: ListingData, style: CellStyle, inCell cell: ListingCell, isPrivateList: Bool) {
         cell.listing = model.listing
         cell.delegate = model.delegate
         
@@ -38,7 +38,7 @@ final class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDr
         }
         
         configThumbnailArea(model, style: style, inCell: cell)
-        configWhiteAreaUnderThumbnailImage(model, style: style, inCell: cell)
+        configWhiteAreaUnderThumbnailImage(model, style: style, inCell: cell, isPrivateList: isPrivateList)
         configDiscardedProduct(model, inCell: cell)
     }
     
@@ -79,24 +79,36 @@ final class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDr
         }
     }
     
-    private func configWhiteAreaUnderThumbnailImage(_ model: ListingData, style: CellStyle, inCell cell: ListingCell) {
+    private func configWhiteAreaUnderThumbnailImage(_ model: ListingData, style: CellStyle, inCell cell: ListingCell,
+                                                    isPrivateList: Bool) {
         guard style == .mainList || style == .serviceList else { return }
         let flag = featureFlags.addPriceTitleDistanceToListings
         let isServicesCell = style == .serviceList
         var hideProductDetail = flag.hideDetailInFeaturedArea
         if isServicesCell { hideProductDetail = false }
+
+        let listingCanBeBumped = model.listing?.status == .approved || model.listing?.status == .pending
+
+        let showBumpUpCTA = model.isMine &&
+            featureFlags.showSellFasterInProfileCells.isActive &&
+            featureFlags.pricedBumpUpEnabled &&
+            isPrivateList && listingCanBeBumped
+
         let canShowPriceType = featureFlags.servicesPriceType.isActive
+
         if model.isFeatured {
             cell.setupFeaturedListingInfoWith(price: model.price,
                                               priceType: canShowPriceType ? model.priceType : nil,
                                               title: model.title,
                                               isMine: model.isMine,
-                                              hideProductDetail: hideProductDetail)
+                                              hideProductDetail: hideProductDetail,
+                                              shouldShowBumpUpCTA: showBumpUpCTA)
         } else {
             cell.setupNonFeaturedProductInfoUnderImage(price: model.price,
                                                        priceType: canShowPriceType ? model.priceType : nil,
                                                        title: model.title,
-                                                       shouldShow: flag.showDetailInNormalCell || isServicesCell)
+                                                       shouldShow: flag.showDetailInNormalCell || isServicesCell,
+                                                       shouldShowBumpUpCTA: showBumpUpCTA)
         }
     }
 

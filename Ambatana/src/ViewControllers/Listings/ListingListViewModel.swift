@@ -326,7 +326,7 @@ final class ListingListViewModel: BaseViewModel {
         delegate?.vmReloadData(self)
     }
 
-    private var isPrivateList: Bool = false
+    var isPrivateList: Bool = false
     var listingInterestState: [String: InterestedState] = [:]
 
     func update(listing: Listing, interestedState: InterestedState) {
@@ -651,8 +651,18 @@ final class ListingListViewModel: BaseViewModel {
                                                   widthConstraint: widthConstraint)?.height else {
             return nil
         }
-        
-        if let isFeatured = listing.featured, isFeatured, featureFlags.pricedBumpUpEnabled {
+
+        let listingCanBeBumped = listing.status == .approved || listing.status == .pending
+
+        let showBumpUpCTA = listing.isMine(myUserRepository: myUserRepository) &&
+            featureFlags.showSellFasterInProfileCells.isActive &&
+            featureFlags.pricedBumpUpEnabled &&
+            isPrivateList && listingCanBeBumped
+
+        if showBumpUpCTA {
+            cellHeight += ListingCellMetrics.getTotalHeightForBumpUpCTA(text: R.Strings.bumpUpBannerPayTextImprovementEnglishC,
+                                                                        containerWidth: widthConstraint)
+        } else if let isFeatured = listing.featured, isFeatured, featureFlags.pricedBumpUpEnabled {
             if cellStyle == .serviceList {
                 cellHeight += actionButtonCellHeight(for: listing)
             } else  {

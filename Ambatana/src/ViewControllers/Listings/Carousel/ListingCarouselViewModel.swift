@@ -452,8 +452,8 @@ class ListingCarouselViewModel: BaseViewModel {
         }
     }
 
-    func showBumpUpView(bumpUpProductData: BumpUpProductData,
-                        bumpUpType: BumpUpType,
+    func showBumpUpView(bumpUpProductData: BumpUpProductData?,
+                        bumpUpType: BumpUpType?,
                         bumpUpSource: BumpUpSource?,
                         typePage: EventParameterTypePage?) {
         currentListingViewModel?.showBumpUpView(bumpUpProductData: bumpUpProductData,

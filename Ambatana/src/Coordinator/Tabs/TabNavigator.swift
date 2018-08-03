@@ -27,7 +27,10 @@ enum ProductCarouselActionOnFirstAppear {
     case nonexistent
     case showKeyboard
     case showShareSheet
-    case triggerBumpUp(bumpUpProductData: BumpUpProductData, bumpUpType: BumpUpType, triggerBumpUpSource: BumpUpSource, typePage: EventParameterTypePage?)
+    case triggerBumpUp(bumpUpProductData: BumpUpProductData?,
+        bumpUpType: BumpUpType?,
+        triggerBumpUpSource: BumpUpSource,
+        typePage: EventParameterTypePage?)
     case triggerMarkAsSold
     case edit
 }

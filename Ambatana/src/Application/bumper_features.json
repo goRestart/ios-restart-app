@@ -329,5 +329,10 @@
         "name": "SearchAlertsDisableOldestIfMaximumReached",
         "values": ["control", "baseline", "active"],
         "description": "[RETENTION] Disable oldest search alert if a new one is created and the maximum has been reached"
+    },
+    {
+        "name": "ShowSellFasterInProfileCells",
+        "values": ["control", "baseline", "active"],
+        "description": "[MONEY] Add CTA to bump up to profile listing cells"
     }
  ]

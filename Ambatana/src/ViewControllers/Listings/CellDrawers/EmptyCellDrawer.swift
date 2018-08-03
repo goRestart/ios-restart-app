@@ -11,5 +11,5 @@ import LGCoreKit
 class EmptyCellDrawer: BaseCollectionCellDrawer<EmptyCell>, GridCellDrawer {
     func willDisplay(_ model: LGEmptyViewModel, inCell cell: EmptyCell) { }
 
-    func draw(_ model: LGEmptyViewModel, style: CellStyle, inCell cell: EmptyCell) { }
+    func draw(_ model: LGEmptyViewModel, style: CellStyle, inCell cell: EmptyCell, isPrivateList: Bool = false) { }
 }

@@ -798,4 +798,14 @@ extension UserProfileViewModel: ListingCellDelegate {
     }
     
     func postNowButtonPressed(_ view: UIView) { }
+
+    func bumpUpPressedFor(listing: Listing) {
+        guard let id = listing.objectId else { return }
+        let data = ListingDetailData.id(listingId: id)
+        let actionOnFirstAppear = ProductCarouselActionOnFirstAppear.triggerBumpUp(bumpUpProductData: nil,
+                                                                                   bumpUpType: nil,
+                                                                                   triggerBumpUpSource: .profile,
+                                                                                   typePage: .profile)
+        navigator?.openListing(data, source: .profile, actionOnFirstAppear: actionOnFirstAppear)
+    }
 }

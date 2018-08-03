@@ -50,9 +50,11 @@
 "bump_up_view_boost_pay_button_title" = "Ismét kiemelheted %@ áron";
 "bump_up_view_boost_subtitle_boost_listing" = "Mivel hirdetésedet az elmúlt 24 órában már kiemelted, ezért kevesebbért vásárolhatsz újabb kiemelést!";
 "bump_up_view_boost_subtitle_cheaper" = "Fokozd hirdetésed kiemelését, hogy kedvezményt kaphass a szokványos kiemelés árából.";
+"bump_up_view_boost_subtitle_not_ready" = "You can add another boost in %@ to move it to the top and be featured for 24 additional hours";
 "bump_up_view_boost_subtitle_send_top" = "Hirdetésed még kiemelt állapotban van, de ezt tovább fokozhatod. A sor elejére kerül és 24 órára láthatóbb lesz.";
 "bump_up_view_boost_title_boost_listing" = "Fokozd a hirdetésed kiemelését";
 "bump_up_view_boost_title_cheaper_boost" = "Szerezz olcsóbb fokozást";
+"bump_up_view_boost_title_not_ready" = "Your listing's still featured";
 "bump_up_view_boost_title_send_top" = "Küldd ismét a sor elejére";
 "bump_up_view_free_subtitle" = "Minél többször osztod meg hirdetésedet, annál láthatóbb lesz.";
 "bump_up_view_free_title" = "UGRASZD FEL HIRDETÉSEDET";
@@ -358,6 +360,7 @@
 "discarded_products_reason_poor_ad_quality" = "Nem felel meg a bevált módszereknek";
 "discarded_products_reason_reference_to_competitors" = "Más alkalmazásokra vagy weboldalakra hivatkozik";
 "discarded_products_reason_stock_photo_only" = "Csak hivatalos képeket tartalmaz";
+"edit_priceType_choose_title" = "Choose an option";
 "edit_product_feature_label_long_text" = "Emeld ki hirdetésedet, hogy gyorsabban elkeljen";
 "edit_product_feature_label_short_text" = "Add el gyorsabban";
 "edit_product_location_alert_text" = "A meghirdetés helyének módosításához hozzáférést kell adnod a tartózkodási helyedhez";
@@ -369,6 +372,7 @@
 "edit_product_title" = "Hirdetés szerkesztése";
 "edit_product_unsaved_changes_alert" = "Biztosan elveted a módosításokat?";
 "edit_product_unsaved_changes_alert_ok" = "Elvetés";
+"engagement_badging_feed_bubble" = "New items";
 "featured_info_view_increase_visibility" = "Tedd láthatóbbá";
 "featured_info_view_more_buyers" = "Szerezz több vásárlót";
 "featured_info_view_sell_faster" = "Add el gyorsabban";
@@ -1183,7 +1187,7 @@
 "reporting_listing_update_feedback_good" = "Szuper!";
 "reporting_listing_update_feedback_medium" = "Köszönjük!";
 "reporting_listing_update_feedback_title" = "Milyen élmény volt?";
-"reporting_listing_update_text" = "Köszönjük, hogy névtelenül jelentetted nekünk a következő hirdetést: „%@”, feltöltője %@. Az ilyen visszajelzésekkel őrizhetjük meg a letgo közösségének biztonságát.\n\nAz ellenőrzés után úgy döntöttünk, hogy a hirdetést eltávolítjuk, mert megsértette Közösségi irányelveinket.";
+"reporting_listing_update_text" = "Köszönjük, hogy névtelenül jelentetted nekünk a következő hirdetést: „%1$@”, feltöltője %2$@. Az ilyen visszajelzésekkel őrizhetjük meg a letgo közösségének biztonságát.\n\nAz ellenőrzés után úgy döntöttünk, hogy a hirdetést eltávolítjuk, mert megsértette Közösségi irányelveinket.";
 "reporting_listing_update_title" = "Jelentésinformációk";
 "reporting_reason_bio" = "Bemutatkozás";
 "reporting_reason_counterfeit_money" = "Hamis pénzzel fizetett";

@@ -118,12 +118,18 @@ extension R {
     public static let bumpUpViewBoostSubtitleBoostListing = Strings.tr("Localizable", "bump_up_view_boost_subtitle_boost_listing")
     /// Boost your listing right now to get a discount off the typical feature price.
     public static let bumpUpViewBoostSubtitleCheaper = Strings.tr("Localizable", "bump_up_view_boost_subtitle_cheaper")
+    /// You can add another boost in %@ to move it to the top and be featured for 24 additional hours
+    public static func bumpUpViewBoostSubtitleNotReady(_ p1: String) -> String {
+      return Strings.tr("Localizable", "bump_up_view_boost_subtitle_not_ready", p1)
+    }
     /// Your listing's still featured, but you can add an extra boost. It'll move to the top and be featured for 24 hours starting now.
     public static let bumpUpViewBoostSubtitleSendTop = Strings.tr("Localizable", "bump_up_view_boost_subtitle_send_top")
     /// Boost your featured listing
     public static let bumpUpViewBoostTitleBoostListing = Strings.tr("Localizable", "bump_up_view_boost_title_boost_listing")
     /// Get a cheaper boost now
     public static let bumpUpViewBoostTitleCheaperBoost = Strings.tr("Localizable", "bump_up_view_boost_title_cheaper_boost")
+    /// Your listing's still featured
+    public static let bumpUpViewBoostTitleNotReady = Strings.tr("Localizable", "bump_up_view_boost_title_not_ready")
     /// Send it to the top again
     public static let bumpUpViewBoostTitleSendTop = Strings.tr("Localizable", "bump_up_view_boost_title_send_top")
     /// The more you share, the more visibility your listing will have.
@@ -788,7 +794,7 @@ extension R {
     public static let discardedProductsReasonReferenceToCompetitors = Strings.tr("Localizable", "discarded_products_reason_reference_to_competitors")
     /// Only contains stock photos
     public static let discardedProductsReasonStockPhotoOnly = Strings.tr("Localizable", "discarded_products_reason_stock_photo_only")
-    /// Choose one option
+    /// Choose an option
     public static let editPriceTypeChooseTitle = Strings.tr("Localizable", "edit_priceType_choose_title")
     /// Feature your listing to sell faster
     public static let editProductFeatureLabelLongText = Strings.tr("Localizable", "edit_product_feature_label_long_text")
@@ -2602,7 +2608,7 @@ extension R {
     public static let reportingListingUpdateFeedbackMedium = Strings.tr("Localizable", "reporting_listing_update_feedback_medium")
     /// How was this experience?
     public static let reportingListingUpdateFeedbackTitle = Strings.tr("Localizable", "reporting_listing_update_feedback_title")
-    /// Thanks for anonymously reporting "%@" posted by %@. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing this item, we have removed it because it violated our Community Guidelines.
+    /// Thanks for anonymously reporting "%1$@" posted by %2$@. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing this item, we have removed it because it violated our Community Guidelines.
     public static func reportingListingUpdateText(_ p1: String, _ p2: String) -> String {
       return Strings.tr("Localizable", "reporting_listing_update_text", p1, p2)
     }

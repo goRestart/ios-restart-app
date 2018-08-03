@@ -24,6 +24,7 @@ struct MoneyABGroup: ABGroupType {
         static let preventMessagesFromFeedToProUsers = "20180710PreventMessagesFromFeedToProUsers"
         static let appInstallAdsInFeed = "20180628AppInstallAdsInFeed"
         static let alwaysShowBumpBannerWithLoading = "20180725AlwaysShowBumpBannerWithLoading"
+        static let showSellFasterInProfileCells = "20180730ShowSellFasterInProfileCells"
     }
     let noAdsInFeedForNewUsers: LeanplumABVariable<Int>
     let copyForChatNowInTurkey: LeanplumABVariable<Int>
@@ -39,6 +40,7 @@ struct MoneyABGroup: ABGroupType {
     let preventMessagesFromFeedToProUsers: LeanplumABVariable<Int>
     let appInstallAdsInFeed: LeanplumABVariable<Int>
     let alwaysShowBumpBannerWithLoading: LeanplumABVariable<Int>
+    let showSellFasterInProfileCells: LeanplumABVariable<Int>
 
     let group: ABGroup = .money
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -59,7 +61,8 @@ struct MoneyABGroup: ABGroupType {
          fullScreenAdsWhenBrowsingForUS:LeanplumABVariable<Int>,
          preventMessagesFromFeedToProUsers:LeanplumABVariable<Int>,
          appInstallAdsInFeed:LeanplumABVariable<Int>,
-         alwaysShowBumpBannerWithLoading: LeanplumABVariable<Int>){
+         alwaysShowBumpBannerWithLoading: LeanplumABVariable<Int>,
+         showSellFasterInProfileCells: LeanplumABVariable<Int>){
         self.noAdsInFeedForNewUsers = noAdsInFeedForNewUsers
         self.copyForChatNowInTurkey = copyForChatNowInTurkey
         self.showProTagUserProfile = showProTagUserProfile
@@ -74,6 +77,7 @@ struct MoneyABGroup: ABGroupType {
         self.preventMessagesFromFeedToProUsers = preventMessagesFromFeedToProUsers
         self.appInstallAdsInFeed = appInstallAdsInFeed
         self.alwaysShowBumpBannerWithLoading = alwaysShowBumpBannerWithLoading
+        self.showSellFasterInProfileCells = showSellFasterInProfileCells
 
         intVariables.append(contentsOf: [noAdsInFeedForNewUsers,
                                          copyForChatNowInTurkey,
@@ -86,7 +90,8 @@ struct MoneyABGroup: ABGroupType {
                                          fullScreenAdsWhenBrowsingForUS,
                                          preventMessagesFromFeedToProUsers,
                                          appInstallAdsInFeed,
-                                         alwaysShowBumpBannerWithLoading])
+                                         alwaysShowBumpBannerWithLoading,
+                                         showSellFasterInProfileCells])
         boolVariables.append(contentsOf: [showProTagUserProfile,
                                           showExactLocationForPros])
     }
@@ -133,7 +138,10 @@ struct MoneyABGroup: ABGroupType {
                                                           groupType: .money),
                             alwaysShowBumpBannerWithLoading: .makeInt(key: Keys.alwaysShowBumpBannerWithLoading,
                                                                       defaultValue: 0,
-                                                                      groupType: .money)
+                                                                      groupType: .money),
+                            showSellFasterInProfileCells: .makeInt(key: Keys.showSellFasterInProfileCells,
+                                                                   defaultValue: 0,
+                                                                   groupType: .money)
         )
     }
 }
