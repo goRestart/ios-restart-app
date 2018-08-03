@@ -3,7 +3,7 @@ import LGComponents
 import LGCoreKit
 import RxSwift
 
-protocol ReportSentViewModelDelegate: BaseViewModelDelegate { }
+protocol ReportSentViewModelDelegate: BaseViewModelDelegate {}
 
 final class ReportSentViewModel: BaseViewModel {
 
@@ -33,7 +33,6 @@ final class ReportSentViewModel: BaseViewModel {
         self.userRatingRepository = userRatingRepository
         self.tracker = tracker
         super.init()
-        setupActions()
     }
 
     private func setupActions() {
@@ -53,18 +52,33 @@ final class ReportSentViewModel: BaseViewModel {
     }
 
     private func setupReviewAction() {
-        guard reportSentType.value == .userBlockAndReviewA ||
-            reportSentType.value == .userBlockAndReviewB else {
-            showReviewAction.value = true
-            return
-        }
+        let type = reportSentType.value
 
-        // Check if current user can leave a review of the reported user
-        userRatingRepository.show(reportedObjectId, listingId: nil, type: .conversation) { result in
-            print(result)
-        }
+        guard type == .userBlockAndReviewA ||
+            type == .userBlockAndReviewB else { return }
 
-        //showReviewAction.value = true
+        delegate?.vmShowLoading(nil)
+
+        // User review action is only available if a review between
+        // reported and current users exists without listing id.
+        userRatingRepository.index(reportedObjectId, type: .report) { [weak self] result in
+            self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
+            guard case let .success(ratings) = result else { return }
+
+            let canReviewUser = ratings.count == 0
+            self?.showReviewAction.value = canReviewUser
+
+            // Fallback to different ReportSentType to show different info
+            if !canReviewUser, type == .userBlockAndReviewA {
+                self?.reportSentType.value = .userBlockA
+            } else if !canReviewUser, type == .userBlockAndReviewB {
+                self?.reportSentType.value = .userBlockB
+            }
+        }
+    }
+
+    func viewWillAppear() {
+        setupActions()
     }
 
     func didTapClose() {

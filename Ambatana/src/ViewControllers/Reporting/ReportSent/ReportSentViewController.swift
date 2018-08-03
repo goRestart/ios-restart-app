@@ -86,6 +86,7 @@ final class ReportSentViewController: BaseViewController {
         super.viewWillAppearFromBackground(fromBackground)
         setNavBarBackgroundStyle(.transparent(substyle: .light))
         setNavBarBackButton(R.Asset.IconsButtons.navbarClose.image, selector: #selector(didTapClose))
+        viewModel.viewWillAppear()
     }
     
     @objc private func didTapClose() {
