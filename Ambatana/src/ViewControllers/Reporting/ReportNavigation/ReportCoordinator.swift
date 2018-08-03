@@ -109,13 +109,6 @@ extension ReportCoordinator: ReportNavigator {
         let vc = ReportSentViewController(viewModel: vm)
         vm.delegate = vc
         navCtl.pushViewController(vc, animated: true)
-
-//        guard let navCtl = viewController as? UINavigationController else { return }
-//        let rtype = ReportUpdateType.userB(username: "")
-//        let vm = ReportUpdateViewModel(type: rtype)
-//        vm.navigator = self
-//        let vc = ReportUpdateViewController(viewModel: vm)
-//        navCtl.pushViewController(vc, animated: true)
     }
 
     func closeReporting() {
