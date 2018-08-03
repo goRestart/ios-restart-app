@@ -38,8 +38,8 @@ public class ServicesCreationParams: BaseListingParams {
         if let subtypeId = serviceAttributes.subtypeId {
             servicesAttributesDict[CodingKeys.subTypeId.rawValue] = subtypeId
         }
-        if let priceType = serviceAttributes.priceType {
-            servicesAttributesDict[CodingKeys.priceType.rawValue] = priceType.rawValue
+        if let paymentFrequency = serviceAttributes.paymentFrequency {
+            servicesAttributesDict[CodingKeys.paymentFrequency.rawValue] = paymentFrequency.rawValue
         }
         params[CodingKeys.images.rawValue] = images.compactMap { $0.objectId }
         params[CodingKeys.priceFlag.rawValue] = price.priceFlag.rawValue
@@ -48,7 +48,7 @@ public class ServicesCreationParams: BaseListingParams {
     }
     
     enum CodingKeys: String {
-        case typeId, subTypeId, priceType, images, priceFlag, serviceAttributes
+        case typeId, subTypeId, paymentFrequency, images, priceFlag, serviceAttributes
         case legacyPriceFlag = "price_flag"
     }
 }

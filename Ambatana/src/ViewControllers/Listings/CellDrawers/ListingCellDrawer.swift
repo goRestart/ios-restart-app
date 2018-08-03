@@ -61,9 +61,9 @@ final class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDr
         switch featureFlags.addPriceTitleDistanceToListings {
         case .baseline, .control: break
         case .infoInImage:
-            let canShowPriceType = featureFlags.servicesPriceType.isActive
+            let canShowPaymentFrequency = featureFlags.servicesPaymentFrequency.isActive
             cell.showCompleteProductInfoInImage(price: model.price,
-                                                priceType: canShowPriceType ? model.priceType : nil,
+                                                paymentFrequency: canShowPaymentFrequency ? model.paymentFrequency : nil,
                                                 title: model.title,
                                                 distance: model.distanceToListing)
         case .infoWithWhiteBackground:
@@ -94,18 +94,18 @@ final class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDr
             featureFlags.pricedBumpUpEnabled &&
             isPrivateList && listingCanBeBumped
 
-        let canShowPriceType = featureFlags.servicesPriceType.isActive
+        let canShowPaymentFrequency = featureFlags.servicesPaymentFrequency.isActive
 
         if model.isFeatured {
             cell.setupFeaturedListingInfoWith(price: model.price,
-                                              priceType: canShowPriceType ? model.priceType : nil,
+                                              paymentFrequency: canShowPaymentFrequency ? model.paymentFrequency : nil,
                                               title: model.title,
                                               isMine: model.isMine,
                                               hideProductDetail: hideProductDetail,
                                               shouldShowBumpUpCTA: showBumpUpCTA)
         } else {
             cell.setupNonFeaturedProductInfoUnderImage(price: model.price,
-                                                       priceType: canShowPriceType ? model.priceType : nil,
+                                                       paymentFrequency: canShowPaymentFrequency ? model.paymentFrequency : nil,
                                                        title: model.title,
                                                        shouldShow: flag.showDetailInNormalCell || isServicesCell,
                                                        shouldShowBumpUpCTA: showBumpUpCTA)

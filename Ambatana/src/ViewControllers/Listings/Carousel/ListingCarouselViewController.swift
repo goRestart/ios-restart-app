@@ -685,12 +685,12 @@ extension ListingCarouselViewController {
             userInfo: ListingVMUserInfo?,
             isProfessional: Bool,
             userBadge: UserReputationBadge) in
-            let shouldShowPriceType = self?.viewModel.shouldShowPriceType ?? false
+            let shouldShowPaymentFrequency = self?.viewModel.shouldShowPaymentFrequency ?? false
             self?.userView.setupWith(userAvatar: userInfo?.avatar,
                                      userName: userInfo?.name,
                                      productTitle: productInfo?.title,
                                      productPrice: productInfo?.price,
-                                     productPriceType: shouldShowPriceType ? productInfo?.priceType : nil,
+                                     productPaymentFrequency: shouldShowPaymentFrequency ? productInfo?.paymentFrequency : nil,
                                      userId: userInfo?.userId,
                                      isProfessional: isProfessional,
                                      userBadge: userBadge)

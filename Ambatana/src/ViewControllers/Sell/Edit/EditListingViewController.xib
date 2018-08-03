@@ -68,16 +68,16 @@
                 <outlet property="loadingProgressView" destination="U7G-g9-Rhv" id="GjB-C1-Cfm"/>
                 <outlet property="loadingView" destination="0ZP-zJ-OwV" id="5bP-zo-5nJ"/>
                 <outlet property="locationChevron" destination="Hb4-WS-wfY" id="gv3-KN-qDc"/>
+                <outlet property="paymentFrequencyButton" destination="MPO-97-K6G" id="bMn-vb-dLq"/>
+                <outlet property="paymentFrequencyContainer" destination="z3L-eY-K56" id="wOa-3j-G2J"/>
+                <outlet property="paymentFrequencyLabel" destination="Bjs-pT-J25" id="9Fx-5K-bqd"/>
+                <outlet property="paymentFrequencyReverseChevronImageView" destination="E4C-4w-cW4" id="drk-4A-FbO"/>
+                <outlet property="paymentFrequencyWidthConstraint" destination="QWI-Du-arK" id="OrU-4T-ILu"/>
                 <outlet property="postFreeLabel" destination="KS3-nC-5kF" id="pxw-UM-Kqc"/>
                 <outlet property="postFreeView" destination="Emx-A9-HZ6" id="WRl-76-CIY"/>
                 <outlet property="postFreeViewHeightConstraint" destination="gRv-Ec-BLx" id="u0z-hQ-CTX"/>
                 <outlet property="priceContainerHeightConstraint" destination="lgf-q8-7Fi" id="iZh-Ig-xQk"/>
                 <outlet property="priceTextField" destination="toV-Ym-Hah" id="Oqr-Id-M30"/>
-                <outlet property="priceTypeButton" destination="MPO-97-K6G" id="bMn-vb-dLq"/>
-                <outlet property="priceTypeContainer" destination="z3L-eY-K56" id="wOa-3j-G2J"/>
-                <outlet property="priceTypeLabel" destination="Bjs-pT-J25" id="9Fx-5K-bqd"/>
-                <outlet property="priceTypeReverseChevronImageView" destination="E4C-4w-cW4" id="drk-4A-FbO"/>
-                <outlet property="priceTypeWidthConstraint" destination="QWI-Du-arK" id="OrU-4T-ILu"/>
                 <outlet property="priceView" destination="l4Q-8i-j8o" id="rlZ-9k-z9X"/>
                 <outlet property="priceViewSeparatorTopConstraint" destination="EFv-qm-TLS" id="Hpq-HD-9ga"/>
                 <outlet property="realEstateStandardContainer" destination="sTN-dB-k1n" id="PP2-xy-WQA"/>
@@ -297,11 +297,11 @@
                                                 <outlet property="delegate" destination="-1" id="vxD-hB-yYg"/>
                                             </connections>
                                         </textField>
-                                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z3L-eY-K56" userLabel="priceTypeView">
+                                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z3L-eY-K56" userLabel="paymentFrequencyView">
                                             <rect key="frame" x="272" y="0.0" width="120" height="50"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" text="_PriceType" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bjs-pT-J25">
-                                                    <rect key="frame" x="29" y="8" width="82" height="34"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" text="_Hourly" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bjs-pT-J25" userLabel="Payment FrequencyLabel">
+                                                    <rect key="frame" x="29" y="8" width="75" height="34"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -313,10 +313,10 @@
                                                         <constraint firstAttribute="width" constant="1" id="8UV-d5-ZfY"/>
                                                     </constraints>
                                                 </view>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MPO-97-K6G">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MPO-97-K6G" userLabel="Payment Frequency Button">
                                                     <rect key="frame" x="0.0" y="0.0" width="120" height="50"/>
                                                 </button>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="E4C-4w-cW4">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="E4C-4w-cW4" userLabel="Payment Frequency Reverse Chevron Image View">
                                                     <rect key="frame" x="8" y="21" width="13" height="8"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="13" id="BIU-TH-IUF"/>

@@ -78,7 +78,7 @@ protocol FeatureFlaggeable: class {
     var expressChatImprovement: ExpressChatImprovement { get }
 
     // MARK: Verticals
-    var servicesPriceType: ServicesPriceType { get }
+    var servicesPaymentFrequency: ServicesPaymentFrequency { get }
     var carExtraFieldsEnabled: CarExtraFieldsEnabled { get }
     var realEstateMapTooltip: RealEstateMapTooltip { get }
     var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen { get }
@@ -192,7 +192,7 @@ extension ServicesUnifiedFilterScreen {
     var isActive: Bool { return self == .active }
 }
 
-extension ServicesPriceType {
+extension ServicesPaymentFrequency {
     var isActive: Bool { return self == .active }
 }
 
@@ -1202,13 +1202,13 @@ extension FeatureFlags {
         return ServicesUnifiedFilterScreen.fromPosition(abTests.servicesUnifiedFilterScreen.value)
     }
     
-    var servicesPriceType: ServicesPriceType {
+    var servicesPaymentFrequency: ServicesPaymentFrequency {
         if Bumper.enabled {
-            return Bumper.servicesPriceType
+            return Bumper.servicesPaymentFrequency
         }
         return .control
         // FIXME: enable A/B test before beta - ABIOS-4685
-         return ServicesPriceType.fromPosition(abTests.servicesPriceType.value)
+        // return ServicesPaymentFrequency.fromPosition(abTests.servicesPaymentFrequency.value)
     }
 }
 

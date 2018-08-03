@@ -2,9 +2,9 @@
 import LGCoreKit
 import LGComponents
 
-extension PriceType {
+extension PaymentFrequency {
     
-    static var allCases: [PriceType] {
+    static var allCases: [PaymentFrequency] {
         return [.hourly, .daily, .biweekly, .weekly, .monthly, .yearly, .oneOff]
     }
     

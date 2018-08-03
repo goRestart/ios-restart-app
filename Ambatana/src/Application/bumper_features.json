@@ -321,9 +321,9 @@
         "description": "[MONEY] Always show bump banner with a loading till we get the info"
     },
     {
-         "name": "ServicesPriceType",
+         "name": "ServicesPaymentFrequency",
          "values": ["control", "baseline", "active"],
-         "description": "shows services priceType functionality (e.g 2 euro per day, etc.)"
+         "description": "[SERVICES] shows services paymentFrequency functionality (e.g 2 euro per day, etc.)"
     },
     {
         "name": "SearchAlertsDisableOldestIfMaximumReached",

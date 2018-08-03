@@ -80,7 +80,7 @@ extension Bumper  {
         flags.append(ShowCommunity.self)
         flags.append(ExpressChatImprovement.self)
         flags.append(AlwaysShowBumpBannerWithLoading.self)
-        flags.append(ServicesPriceType.self)
+        flags.append(ServicesPaymentFrequency.self)
         flags.append(SearchAlertsDisableOldestIfMaximumReached.self)
         flags.append(ShowSellFasterInProfileCells.self)
         Bumper.initialize(flags)
@@ -918,15 +918,15 @@ extension Bumper  {
     }
     #endif
 
-    static var servicesPriceType: ServicesPriceType {
-        guard let value = Bumper.value(for: ServicesPriceType.key) else { return .control }
-        return ServicesPriceType(rawValue: value) ?? .control 
+    static var servicesPaymentFrequency: ServicesPaymentFrequency {
+        guard let value = Bumper.value(for: ServicesPaymentFrequency.key) else { return .control }
+        return ServicesPaymentFrequency(rawValue: value) ?? .control 
     } 
 
     #if (RX_BUMPER)
-    static var servicesPriceTypeObservable: Observable<ServicesPriceType> {
-        return Bumper.observeValue(for: ServicesPriceType.key).map {
-            ServicesPriceType(rawValue: $0 ?? "") ?? .control
+    static var servicesPaymentFrequencyObservable: Observable<ServicesPaymentFrequency> {
+        return Bumper.observeValue(for: ServicesPaymentFrequency.key).map {
+            ServicesPaymentFrequency(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1958,13 +1958,13 @@ enum AlwaysShowBumpBannerWithLoading: String, BumperFeature  {
     }
 }
 
-enum ServicesPriceType: String, BumperFeature  {
+enum ServicesPaymentFrequency: String, BumperFeature  {
     case control, baseline, active
-    static var defaultValue: String { return ServicesPriceType.control.rawValue }
-    static var enumValues: [ServicesPriceType] { return [.control, .baseline, .active]}
+    static var defaultValue: String { return ServicesPaymentFrequency.control.rawValue }
+    static var enumValues: [ServicesPaymentFrequency] { return [.control, .baseline, .active]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "shows services priceType functionality (e.g 2 euro per day, etc.)" } 
-    static func fromPosition(_ position: Int) -> ServicesPriceType {
+    static var description: String { return "[SERVICES] shows services paymentFrequency functionality (e.g 2 euro per day, etc.)" } 
+    static func fromPosition(_ position: Int) -> ServicesPaymentFrequency {
         switch position { 
             case 0: return .control
             case 1: return .baseline

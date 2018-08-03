@@ -92,8 +92,8 @@ struct ListingData {
         return listing?.title
     }
     
-    var priceType: String? {
-        return listing?.service?.servicesAttributes.priceType?.localizedDisplayName
+    var paymentFrequency: String? {
+        return listing?.service?.servicesAttributes.paymentFrequency?.localizedDisplayName
     }
     
     var distanceToListing: Double? {

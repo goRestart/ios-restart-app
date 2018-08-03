@@ -165,6 +165,7 @@ enum CoreReportDataSource: ReportType {
         case preSignedUploadUrl
         case imagesId
         case serviceType
+        case report
 
         
         var type: Any.Type {
@@ -241,6 +242,8 @@ enum CoreReportDataSource: ReportType {
                 return LGPreSignedUploadUrl.self
             case .serviceType:
                 return LGServiceType.self
+            case .report:
+                return LGReport.self
             }
         }
     }

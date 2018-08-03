@@ -242,7 +242,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     // Product Detail Under Image
 
     func setupFeaturedListingInfoWith(price: String,
-                                      priceType: String?,
+                                      paymentFrequency: String?,
                                       title: String?,
                                       isMine: Bool,
                                       hideProductDetail: Bool,
@@ -253,7 +253,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
             featureView = ProductPriceAndTitleView(textStyle: .darkText)
             featureView?.configUI(title: title,
                                   price: price,
-                                  priceType: priceType,
+                                  paymentFrequency: paymentFrequency,
                                   style: hideProductDetail ? .whiteText : .darkText)
             setupFeaturedListingChatButton()
             layoutFeatureListArea(isMine: isMine, hideProductDetail: hideProductDetail)
@@ -261,9 +261,10 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     }
     
     func setupNonFeaturedProductInfoUnderImage(price: String,
-                                               priceType: String?,
+                                               paymentFrequency: String?,
                                                title: String?,
-                                               shouldShow: Bool, shouldShowBumpUpCTA: Bool) {
+                                               shouldShow: Bool,
+                                               shouldShowBumpUpCTA: Bool) {
         if shouldShowBumpUpCTA {
             setupBumpUpCTA()
         } else {
@@ -271,7 +272,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
                 featureView = ProductPriceAndTitleView(textStyle: .darkText)
                 featureView?.configUI(title: title,
                                       price: price,
-                                      priceType: priceType,
+                                      paymentFrequency: paymentFrequency,
                                       style: .darkText)
                 showDetail()
             }
@@ -302,10 +303,10 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     
     // Product Detail In Image
     func showCompleteProductInfoInImage(price: String,
-                                        priceType: String?,
+                                        paymentFrequency: String?,
                                         title: String?,
                                         distance: Double?) {
-        setupProductDetailInImage(price: price, priceType: priceType, title: title)
+        setupProductDetailInImage(price: price, paymentFrequency: paymentFrequency, title: title)
         if let distance = distance {
             addDistanceViewInImage(distance: distance, isOnTopLeft: true)
         }
@@ -467,10 +468,10 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
             ])
     }
     
-    private func setupProductDetailInImage(price: String, priceType: String?, title: String?) {
+    private func setupProductDetailInImage(price: String, paymentFrequency: String?, title: String?) {
         detailViewInImage.configUI(title: title,
                                    price: price,
-                                   priceType: priceType,
+                                   paymentFrequency: paymentFrequency,
                                    style: .whiteText)
         detailViewInImage.isHidden = false
         layoutProductDetailInImage(title: title)
