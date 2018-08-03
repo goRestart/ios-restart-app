@@ -28,7 +28,11 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
     }()
     private var tagIconWidth: NSLayoutConstraint?
 
-    private let tagLabel: UILabel = UILabel()
+    private let tagLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.mediumBodyFont
+        return label
+    }()
     private let closeButton: UIButton = {
         let button = UIButton.init(type: .custom)
         button.setImage(R.Asset.IconsButtons.filtersClearBtn.image, for: .normal)
@@ -90,6 +94,29 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
             return FilterTagCell.sizeForText(serviceType.name)
         case .serviceSubtype(let serviceSubtype):
             return FilterTagCell.sizeForText(serviceSubtype.name)
+        case .unifiedServiceType(let type, let selectedSubtypes):
+             return FilterTagCell.sizeForText("\(type.name) +\(selectedSubtypes.count)")
+        case .carBodyType(let bodyType):
+            return FilterTagCell.sizeForText(bodyType.title)
+        case .carFuelType(let fuelType):
+            return FilterTagCell.sizeForText(fuelType.title)
+        case .carTransmissionType(let transmissionType):
+            return FilterTagCell.sizeForText(transmissionType.title)
+        case .carDriveTrainType(let driveTrainType):
+            return FilterTagCell.sizeForText(driveTrainType.title)
+        case .mileageRange(let start, let end):
+            let numberFormatter = NumberFormatter.newMileageNumberFormatter()
+            let rangeString = FilterTagCell.stringForRange(fromValue: start,
+                                                           toValue: end,
+                                                           unit: DistanceType.systemDistanceType().localizedUnitType(),
+                                                           isUnboundedUpperLimit: true,
+                                                           numberFormatter: numberFormatter)
+            return FilterTagCell.sizeForText(rangeString)
+        case .numberOfSeats(let start, let end):
+            let rangeString = FilterTagCell.stringForRange(fromValue: start,
+                                                           toValue: end,
+                                                           unit: R.Strings.filterCarsSeatsTitle)
+            return FilterTagCell.sizeForText(rangeString)
         }
     }
     
@@ -124,7 +151,7 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
     }
 
     private static func stringForYearsRange(_ startYear: Int?, endYear: Int?) -> String {
-        var startText = R.Strings.filtersCarYearBeforeYear(SharedConstants.filterMinCarYear)
+        var startText = R.Strings.filtersCarYearBeforeYear("\(SharedConstants.filterMinCarYear)")
         var endText = String(Date().year)
 
         if let startYear = startYear {
@@ -144,6 +171,44 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
             // should never ever happen
             return ""
         }
+    }
+    
+    private static func stringForRange(fromValue: Int?,
+                                       toValue: Int?,
+                                       unit: String?,
+                                       isUnboundedUpperLimit: Bool = false,
+                                       numberFormatter: NumberFormatter? = nil) -> String {
+        
+        let startText = createStringForValue(value: fromValue, numberFormatter: numberFormatter)
+        let endText = createStringForValue(value: toValue, numberFormatter: numberFormatter)
+        var unitText = ""
+        let upperLimitPostfix = FormattedUnitRange.upperValuePostfixString(shouldAppendPostfixString: isUnboundedUpperLimit)
+        
+        if let unit = unit {
+            unitText = " \(unit)"
+        }
+        
+        if !startText.isEmpty && !endText.isEmpty {
+            return startText + " " + "-" + " " + endText + unitText
+        } else if !startText.isEmpty {
+            return R.Strings.filtersPriceFrom + " " + startText + unitText
+        } else if !endText.isEmpty {
+            return R.Strings.filtersPriceTo + " " + endText + upperLimitPostfix + unitText
+        } else {
+            return ""
+        }
+    }
+    
+    private static func createStringForValue(value: Int?,
+                                             numberFormatter: NumberFormatter?) -> String {
+        guard let value = value else { return "" }
+        
+        if let numberFormatter = numberFormatter,
+            let formattedValue = numberFormatter.string(from: NSNumber(value: value)) {
+            return formattedValue
+        }
+        
+        return String(value)
     }
     
     private static func stringForSizeRange(startSize: Int?, endSize: Int?) -> String {
@@ -236,7 +301,8 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
         case .location, .within, .orderBy, .category, .taxonomyChild, .secondaryTaxonomyChild, .priceRange,
              .freeStuff, .distance, .carSellerType, .make, .model, .yearsRange, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms,
              .realEstatePropertyType, .realEstateOfferType, .sizeSquareMetersRange, .realEstateNumberOfRooms,
-             .serviceType, .serviceSubtype:
+             .serviceType, .serviceSubtype, .unifiedServiceType, .carDriveTrainType, .carBodyType, .carFuelType, .carTransmissionType,
+             .mileageRange, .numberOfSeats:
             setDefaultCellStyle()
         }
     }
@@ -288,6 +354,14 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
             tagLabel.text = name
         case .model(_, let name):
             tagLabel.text = name
+        case .carDriveTrainType(let driveTrainType):
+            tagLabel.text = driveTrainType.title
+        case .carFuelType(let fuelType):
+            tagLabel.text = fuelType.title
+        case .carBodyType(let bodyType):
+            tagLabel.text = bodyType.title
+        case .carTransmissionType(let transmissionType):
+            tagLabel.text = transmissionType.title
         case .yearsRange(let startYear, let endYear):
             tagLabel.text = FilterTagCell.stringForYearsRange(startYear, endYear: endYear)
         case .realEstatePropertyType(let propertyType):
@@ -306,6 +380,19 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
             tagLabel.text = serviceType.name
         case .serviceSubtype(let subtype):
             tagLabel.text = subtype.name
+        case .unifiedServiceType(let type, let selectedSubtypes):
+            tagLabel.text = "\(type.name) +\(selectedSubtypes.count)"
+        case .mileageRange(let start, let end):
+            let numberFormatter = NumberFormatter.newMileageNumberFormatter()
+            tagLabel.text = FilterTagCell.stringForRange(fromValue: start,
+                                                         toValue: end,
+                                                         unit: DistanceType.systemDistanceType().localizedUnitType(),
+                                                         isUnboundedUpperLimit: true,
+                                                         numberFormatter: numberFormatter)
+        case .numberOfSeats(let start, let end):
+            tagLabel.text = FilterTagCell.stringForRange(fromValue: start,
+                                                         toValue: end,
+                                                         unit: R.Strings.filterCarsSeatsTitle)
         }
         set(accessibilityId: .filterTagCell(tag: tag))
     }

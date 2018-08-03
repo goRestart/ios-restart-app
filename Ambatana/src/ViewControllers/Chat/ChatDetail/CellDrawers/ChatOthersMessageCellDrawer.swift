@@ -15,8 +15,11 @@ class ChatOthersMessageCellDrawer: BaseChatCellDrawer<ChatOthersMessageCell> {
         super.init(autoHide: autoHide)
     }
 
-    override func draw(_ cell: ChatOthersMessageCell, message: ChatViewMessage) {
+    override func draw(_ cell: ChatOthersMessageCell, message: ChatViewMessage, bubbleColor: UIColor? = nil) {
         cell.set(text: message.value)
         cell.dateLabel.text = message.sentAt?.formattedTime()
+        cell.set(bubbleBackgroundColor: bubbleColor)
+        cell.set(userAvatar: message.userAvatarData?.avatarImage, avatarAction: message.userAvatarData?.avatarAction)
+        cell.configure(for: .individualCell)
     }
 }

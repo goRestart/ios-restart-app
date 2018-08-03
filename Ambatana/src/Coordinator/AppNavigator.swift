@@ -1,18 +1,11 @@
-//
-//  AppNavigator.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 29/04/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
+import LGComponents
 
 protocol AppNavigatorDelegate: class {
     func appNavigatorDidOpenApp()
 }
 
 protocol AppNavigator: class {
-    weak var delegate: AppNavigatorDelegate? { get }
+    var delegate: AppNavigatorDelegate? { get }
     
     func open()
     func openForceUpdateAlertIfNeeded()
@@ -29,7 +22,6 @@ protocol AppNavigator: class {
     func openPromoteBumpForListingId(listingId: String,
                                      bumpUpProductData: BumpUpProductData,
                                      typePage: EventParameterTypePage?)
-    func openMostSearchedItems(source: PostingSource, enableSearch: Bool)
     func openConfirmUsername(token: String)
     func canOpenOffensiveReportAlert() -> Bool
     func openOffensiveReportAlert()
@@ -37,4 +29,5 @@ protocol AppNavigator: class {
                                       duration: TimeInterval,
                                       alignment: BubbleNotificationView.Alignment,
                                       style: BubbleNotificationView.Style)
+    func openCommunityTab()
 }

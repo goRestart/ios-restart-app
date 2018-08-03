@@ -9,8 +9,10 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedListViewDelegate
                                  LGViewPagerDelegate, ScrollableToTop, ChatGroupedViewModelDelegate {
     // UI
     var viewPager: LGViewPager
-
     var validationPendingEmptyView: LGEmptyView = LGEmptyView()
+
+    private var statusViewHeightConstraint: NSLayoutConstraint = NSLayoutConstraint()
+    private let connectionStatusView = ChatConnectionStatusView()
 
     // Data
     fileprivate let viewModel: ChatGroupedViewModel
@@ -37,6 +39,8 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedListViewDelegate
         automaticallyAdjustsScrollViewInsets = false
         hidesBottomBarWhenPushed = false
         hasTabBar = true
+
+        self.showConnectionToastView = !featureFlags.showChatConnectionStatusBar.isActive
 
         for index in 0..<viewModel.chatListsCount {
             let page: ChatListView
@@ -246,8 +250,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedListViewDelegate
         viewPager.indicatorSelectedColor = UIColor.primaryColor
         viewPager.infoBadgeColor = UIColor.primaryColor
         viewPager.tabsSeparatorColor = UIColor.lineGray
-        viewPager.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(viewPager)
+        view.addSubviewForAutoLayout(viewPager)
 
         viewPager.reloadData()
     }
@@ -260,17 +263,27 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedListViewDelegate
     }
 
     private func setupConstraints() {
-        let top = NSLayoutConstraint(item: viewPager, attribute: .top, relatedBy: .equal,
-            toItem: topLayoutGuide, attribute: .bottom, multiplier: 1, constant: 0)
-
-        let bottom = NSLayoutConstraint(item: viewPager, attribute: .bottom, relatedBy: .equal,
-            toItem: bottomLayoutGuide, attribute: .bottom, multiplier: 1, constant: 0)
-        view.addConstraints([top, bottom])
-
-        let views = ["viewPager": viewPager]
-        let hConstraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|[viewPager]|",
-            options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
-        view.addConstraints(hConstraints)
+        if featureFlags.showChatConnectionStatusBar.isActive {
+            view.addSubviewForAutoLayout(connectionStatusView)
+            statusViewHeightConstraint = connectionStatusView.heightAnchor.constraint(equalToConstant: 0)
+            NSLayoutConstraint.activate([
+                statusViewHeightConstraint,
+                connectionStatusView.topAnchor.constraint(equalTo: safeTopAnchor),
+                connectionStatusView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                connectionStatusView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                viewPager.topAnchor.constraint(equalTo: connectionStatusView.bottomAnchor),
+                viewPager.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                viewPager.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                viewPager.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+                ])
+        } else {
+            NSLayoutConstraint.activate([
+                viewPager.topAnchor.constraint(equalTo: safeTopAnchor),
+                viewPager.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                viewPager.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                viewPager.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+                ])
+        }
     }
     
     private func setupMoreOptionsNavigationsBarButton() {
@@ -295,12 +308,31 @@ extension ChatGroupedViewController {
 
     fileprivate func setupRxBindings() {
         setupRxVerificationViewBindings()
+        setupConnectionStatusBarRx()
     }
 
     private func setupRxVerificationViewBindings() {
         viewModel.verificationPending.asObservable().bind(to: viewPager.rx.isHidden).disposed(by: disposeBag)
         viewModel.verificationPending.asObservable().map { !$0 }.bind(to: validationPendingEmptyView.rx.isHidden)
             .disposed(by: disposeBag)
+    }
+
+    private func setupConnectionStatusBarRx() {
+        viewModel.rx_connectionBarStatus.asDriver().skip(1).drive(onNext: { [weak self] status in
+            guard let _ = status.title else {
+                self?.animateStatusBar(visible: false)
+                return
+            }
+            self?.connectionStatusView.status = status
+            self?.animateStatusBar(visible: true)
+        }).disposed(by: disposeBag)
+    }
+
+    private func animateStatusBar(visible: Bool) {
+        statusViewHeightConstraint.constant = visible ? ChatConnectionStatusView.standardHeight : 0
+        UIView.animate(withDuration: 0.5) {
+            self.view.layoutIfNeeded()
+        }
     }
 }
 

@@ -1,18 +1,7 @@
-//
-//  ListingCarParams.swift
-//  LGCoreKit
-//
-//  Created by Tomas Cobo on 12/04/2018.
-//  Copyright © 2018 Ambatana Inc. All rights reserved.
-//
-
-
-private struct CarAttributesParamsKey {
-    static let userType = "userType"
-    static let makeId = "makeId"
-    static let modelId = "modelId"
-    static let minYear = "minYear"
-    static let maxYear = "maxYear"
+private enum CarAttributesCodingKey: String {
+    case userType, makeId, modelId, minYear, maxYear, bodyType, fuelType, transmission,
+        minMileage, maxMileage, mileageType, minSeats, maxSeats
+    case driveTrain = "drivetrain"
 }
 
 private struct CarSellerTypeParamsValue {
@@ -36,20 +25,29 @@ extension RetrieveListingParams {
         params[VerticalsParamsKeys.maxPrice] = maxPrice
         params[VerticalsParamsKeys.minPrice] = minPrice
         params[VerticalsParamsKeys.distanceRadius] = distanceRadius
-        params[VerticalsParamsKeys.distanceType] = distanceType?.string
+        params[VerticalsParamsKeys.distanceType] = distanceType?.rawValue
         params[VerticalsParamsKeys.numResults] = numListings
         params[VerticalsParamsKeys.offset] = offset
         params[VerticalsParamsKeys.sort] = sortCriteria?.string
-        params[VerticalsParamsKeys.since] = timeCriteria?.string
+        params[VerticalsParamsKeys.since] = timeCriteria?.parameterValue
         
         // Cars attributes
         if let userTypes = userTypes, userTypes.hasOnlyOneCarSellerType, let apiValue = userTypes.first?.apiValue {
-            params[CarAttributesParamsKey.userType] = [apiValue]
+            params[CarAttributesCodingKey.userType.rawValue] = [apiValue]
         }
-        params[CarAttributesParamsKey.makeId] = makeId?.value
-        params[CarAttributesParamsKey.modelId] = modelId?.value
-        params[CarAttributesParamsKey.minYear] = startYear?.value
-        params[CarAttributesParamsKey.maxYear] = endYear?.value
+        params[CarAttributesCodingKey.makeId.rawValue] = makeId
+        params[CarAttributesCodingKey.modelId.rawValue] = modelId
+        params[CarAttributesCodingKey.minYear.rawValue] = startYear
+        params[CarAttributesCodingKey.maxYear.rawValue] = endYear
+        params[CarAttributesCodingKey.bodyType.rawValue] = bodyType?.map { $0.rawValue }
+        params[CarAttributesCodingKey.driveTrain.rawValue] = drivetrain?.map { $0.rawValue }
+        params[CarAttributesCodingKey.fuelType.rawValue] = fuelType?.map { $0.rawValue }
+        params[CarAttributesCodingKey.transmission.rawValue] = transmision?.map { $0.rawValue }
+        params[CarAttributesCodingKey.minSeats.rawValue] = startNumberOfSeats
+        params[CarAttributesCodingKey.maxSeats.rawValue] = endNumberOfSeats
+        params[CarAttributesCodingKey.minMileage.rawValue] = startMileage
+        params[CarAttributesCodingKey.maxMileage.rawValue] = endMileage
+        params[CarAttributesCodingKey.mileageType.rawValue] = mileageType
         
         return params
     }
@@ -62,7 +60,7 @@ extension UserType {
             return CarSellerTypeParamsValue.user
         case .pro:
             return CarSellerTypeParamsValue.professional
-        case .dummy:
+        case .dummy, .unknown:
             return ""
         }
     }

@@ -33,6 +33,7 @@ ChatInactiveConversationsViewModelDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupRx()
         NotificationCenter.default.addObserver(self, selector: #selector(ChatViewController.menuControllerWillShow(_:)),
                                                name: NSNotification.Name.UIMenuControllerWillShowMenu, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(ChatViewController.menuControllerWillHide(_:)),
@@ -49,6 +50,12 @@ ChatInactiveConversationsViewModelDelegate {
         setupNavigationBar()
         setupRelationInfoView()
         setupTableView()
+    }
+
+    private func setupRx() {
+        viewModel.messages.asDriver().drive(onNext: { [weak self] _ in
+            self?.tableView.reloadData()
+        }).disposed(by: disposeBag)
     }
     
     private func setupNavigationBar() {
@@ -140,7 +147,7 @@ ChatInactiveConversationsViewModelDelegate {
         let drawer = ChatCellDrawerFactory.drawerForMessage(message, meetingsEnabled: viewModel.meetingsEnabled)
         let cell = drawer.cell(tableView, atIndexPath: indexPath)
         
-        drawer.draw(cell, message: message)
+        drawer.draw(cell, message: message, bubbleColor: nil)
         UIView.performWithoutAnimation {
             cell.transform = tableView.transform
         }

@@ -13,9 +13,7 @@ branch_type = get_branch_type "${env.BRANCH_NAME}"
 try {
 	parallel (
 		"Move Tickets": {
-			if (branch_type == 'pr') {
-				notifyChannelNewPR()
-			} else if (branch_type == "master") {
+			if (branch_type == "master") {
 				markJiraIssuesAsDone() 
 			} else if (branch_type == "release") {
 				def release_identifier = get_release_identifier "${env.BRANCH_NAME}"
@@ -34,25 +32,6 @@ try {
 	throw err
 } finally {
 	notifyBuildStatus(currentBuild.result)
-}
-
-def notifyChannelNewPR() {
-	node(node_name) { 
-		stage('New PR was created') {
-			def jobName = env.JOB_NAME.split('/')[0]
-			def jobBaseName = env.JOB_BASE_NAME
-			def prID = env.JOB_BASE_NAME.split('-')[1]
-			def prURL = 'https://github.com/letgoapp/letgo-ios/pull/' + prID
-			def slack_channel = "#ios-develop"
-			def green = '#228B22'
-			
-			sh "echo build number: ${currentBuild.number}"		
-			if (currentBuild.number == 1) {
-				slackSend (channel: slack_channel, color: green, message: prURL)
-				slackSend (channel: slack_channel, color: green, message: 'Yeah, we do PRs now. Please review 🔝')
-			}
-		}
-	}
 }
 
 ////// Stoping old running builds to release slots of executors
@@ -166,7 +145,7 @@ def get_release_identifier(String branch_name) {
 
 def notifyBuildStatus(String buildStatus = 'STARTED') {
   buildStatus =  buildStatus ?: 'SUCCESSFUL'
-  def slack_channel = "${env.SLACK_CHANNEL}"
+  def slack_channel = "${env.SLACK_CHANNEL_IOS}"
   def red = '#FF0000'
   def yellow = '#FFCC00'
   def green = '#228B22'

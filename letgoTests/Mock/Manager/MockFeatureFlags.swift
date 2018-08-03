@@ -1,16 +1,9 @@
-//
-//  MockFeatureFlags.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 18/11/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 @testable import LetGoGodMode
 import Foundation
 import RxSwift
 
 final class MockFeatureFlags: FeatureFlaggeable {
+
 
     var trackingData: Observable<[(String, ABGroup)]?> {
         return trackingDataVar.asObservable()
@@ -18,7 +11,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     func variablesUpdated() {}
     let trackingDataVar = Variable<[(String, ABGroup)]?>(nil)
 
-    var showNPSSurvey: Bool = false
     var surveyUrl: String = ""
     var surveyEnabled: Bool = false
 
@@ -32,25 +24,16 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var requestTimeOut: RequestsTimeOut = .thirty
     var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed = .control
     var showClockInDirectAnswer: ShowClockInDirectAnswer = .control
-    var mostSearchedDemandedItems: MostSearchedDemandedItems = .control
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers = .control
-
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio = .control
-    var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting = .control
     var realEstateNewCopy: RealEstateNewCopy = .control
-    var dummyUsersInfoProfile: DummyUsersInfoProfile = .control
     var searchImprovements: SearchImprovements = .control
     var relaxedSearch: RelaxedSearch = .control
     var bumpUpBoost: BumpUpBoost = .control
-    var increaseNumberOfPictures: IncreaseNumberOfPictures = .control
-    var onboardingIncentivizePosting: OnboardingIncentivizePosting = .control
     var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings = .control
     var showProTagUserProfile: Bool = false
-    var realEstateTutorial: RealEstateTutorial = .control
-    var summaryAsFirstStep: SummaryAsFirstStep = .control
     var sectionedMainFeed: SectionedMainFeed = .control
     var showExactLocationForPros: Bool = true
-    var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed = .control
     
     // Country dependant features
     var freePostingModeAllowed = false
@@ -67,6 +50,9 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var feedAdsProviderForTR: FeedAdsProviderForTR = .control
     var fullScreenAdsWhenBrowsingForUS: FullScreenAdsWhenBrowsingForUS = .control
     var fullScreenAdUnitId: String? = ""
+    var appInstallAdsInFeed: AppInstallAdsInFeed = .control
+    var appInstallAdsInFeedAdUnit: String? = ""
+    var alwaysShowBumpBannerWithLoading: AlwaysShowBumpBannerWithLoading = .control
     
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false
@@ -83,22 +69,23 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var showInactiveConversations: Bool = false
     var showChatSafetyTips: Bool = false
     var userIsTyping: UserIsTyping = .control
-    var markAllConversationsAsRead: MarkAllConversationsAsRead = .control
     var chatNorris: ChatNorris = .control
     var chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs = .control
+    var showChatConnectionStatusBar: ShowChatConnectionStatusBar = .control
+    var showChatHeaderWithoutListingForAssistant: Bool = true
+    var showChatHeaderWithoutUser: Bool = true
+    var enableCTAMessageType: Bool = true
+    var expressChatImprovement: ExpressChatImprovement = .control
     
     // MARK:  Verticals
-    var searchCarsIntoNewBackend: SearchCarsIntoNewBackend = .control
-    var realEstatePromoCell: RealEstatePromoCell = .control
-    var filterSearchCarSellerType: FilterSearchCarSellerType = .control
-    var createUpdateIntoNewBackend: CreateUpdateCarsIntoNewBackend = .control
-    var realEstateMap: RealEstateMap = .control
-    var showServicesFeatures: ShowServicesFeatures = .control
+    var servicesPriceType: ServicesPriceType = .control
+    var carExtraFieldsEnabled: CarExtraFieldsEnabled = .control
+    var realEstateMapTooltip: RealEstateMapTooltip = .control
+    var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen = .control
     
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed = .control
     var personalizedFeedABTestIntValue: Int? = nil
-    var searchBoxImprovements: SearchBoxImprovements = .control
     var multiContactAfterSearch: MultiContactAfterSearch = .control
     var emptySearchImprovements: EmptySearchImprovements = .control
     
@@ -107,14 +94,26 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var predictivePosting: PredictivePosting = .control
     var videoPosting: VideoPosting = .control
     var simplifiedChatButton: SimplifiedChatButton = .control
+    var frictionlessShare: FrictionlessShare = .control
 
     // MARK: Users
-    var showAdvancedReputationSystem: ShowAdvancedReputationSystem = .control
+    var advancedReputationSystem: AdvancedReputationSystem = .control
     var showPasswordlessLogin: ShowPasswordlessLogin = .control
     var emergencyLocate: EmergencyLocate = .control
     var offensiveReportAlert: OffensiveReportAlert = .control
+    var reportingFostaSesta: ReportingFostaSesta = .control
+    var community: ShowCommunity = .control
     
     // MARK: Money
     var preventMessagesFromFeedToProUsers: PreventMessagesFromFeedToProUsers = .control
+    
+    // MARK: Retention
+    var dummyUsersInfoProfile: DummyUsersInfoProfile = .control
+    var onboardingIncentivizePosting: OnboardingIncentivizePosting = .control
+    var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed = .control
+    var notificationSettings: NotificationSettings = .control
+    var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions = .control
+    var engagementBadging: EngagementBadging = .control
+    var searchAlertsDisableOldestIfMaximumReached: SearchAlertsDisableOldestIfMaximumReached = .control
 }
 

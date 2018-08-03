@@ -6,6 +6,9 @@ default_platform :ios
 
 platform :ios do
 
+build_output = "/tmp/letgo/"
+destination = "name=iPhone X"
+
 before_all do
 	ENV["LG_GITHUB_REPOSITORY"] = "letgoapp/letgo-ios"
 	# Forcing fastlane to launch simulator before all as a first step.
@@ -117,7 +120,7 @@ desc "Deploys a new version to App Store"
 lane :deploy_to_appstore do
 	UI.important ("\n\n ⚠️ \nThis lane will build release-x-x-x branch and send it to Apple. \n\n")
 	UI.message ("📝  Before we begin...").cyan
-	UI.importand ("Remember to merge this branch to master after uploading to the appstore via pull request.")
+	UI.important ("Remember to merge this branch to master after uploading to the appstore via pull request.")
 
 	release_branch = ask("Release branch to deploy (release-x.x.x): ".yellow)
 	channels = [ENV["BENDER_SLACK_DEFAULT_CHANNEL"]] 
@@ -127,7 +130,12 @@ lane :deploy_to_appstore do
 		clone_single_branch: false,
 		shallow_clone: false
 	)
-	lg_fetch_app_version
+	sh "git fetch origin"	
+	lg_fetch_app_version(
+		branch_name: release_branch,
+		repository_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER]
+	)
+
 	build_number = Actions.lane_context[Actions::SharedValues::LG_BUILD_NUMBER]
 	version_number = Actions.lane_context[Actions::SharedValues::LG_VERSION_NUMBER]
 	
@@ -204,17 +212,25 @@ lane :update_dsyms do |options|
 	build_number = options[:build_number] ||= Actions.lane_context[Actions::SharedValues::LG_BUILD_NUMBER]
 	version = options[:version] ||= Actions.lane_context[Actions::SharedValues::LG_VERSION_NUMBER]
    
-	binary_path = "com.letgo.ios-#{version}-#{build_number}.dSYM.zip"
+	dsym_path = "com.letgo.ios-#{version}-#{build_number}.dSYM.zip"
 	download_dsyms(version: version, build_number: build_number)
 	upload_symbols_to_crashlytics(
-		binary_path: '/Applications/Fabric.app/Contents/MacOS/upload-symbols',
+		dsym_path: dsym_path,
 		api_token: 'da82303e33e3a2dc304cdccaa4e19dba00334a34'
 	)
 	clean_build_artifacts
 end
 
-private_lane :add_version_badge do |options|     
-	add_badge(shield: "#{options[:version_number]}-#{options[:build_number]}-blue", dark: true, shield_gravity: "South", no_badge: true)
+private_lane :add_version_badge do |options|
+	shield = "#{options[:version_number]}-#{options[:build_number]}-blue"
+	path_to_repo = options[:path] ||= '.' # by default it will search in all the folders
+
+	# glob is a parameter we got from the script https://github.com/HazAT/badge/blob/master/lib/badge/runner.rb
+	add_badge(shield: shield, 
+				dark: true, 
+				shield_gravity: "South", 
+				no_badge: true,
+				glob: "/#{path_to_repo}/**/*.appiconset/*.{png,PNG}")
 end
 
 desc "Will make bender speak inside slack"
@@ -365,7 +381,7 @@ end
 
 desc "Builds LetgoGoDev for simulator to export it for automation process"
 lane :make_automation_build do
-	timestamp = Time.now.getutc.strftime("_%m_%d_%y_%I_%M_%p")
+	timestamp = make_timestamp()
 	output = "/tmp/xcbuild" + timestamp
 	message = 'Hey, your .app is waiting for you. Zipped in your desktop (I am talking to whoever runned the command). #hastaluego'
 	xcbuild(
@@ -399,102 +415,236 @@ end
 
 # Better lanes, better future.
 # We code because we care.
-	
-	desc "Upload build to appstore"
-	lane :upload_appstore do |options|
-		ipa_path = options[:beta_path]
-		version_number = options[:version_number]  
-		build_number = options[:build_number]
 
-		deliver(
-			username: "ios-automation@letgo.com",
-			app: "986339882",
-			skip_screenshots: true,
-			skip_metadata: true,
-			force: true,  # Set to true to skip PDF verification
-			submit_for_review: true,
-			automatic_release: false,
-			submission_information: {
-				export_compliance_encryption_updated: false,
-				add_id_info_uses_idfa: true,
-				add_id_info_serves_ads: false,
-				add_id_info_tracks_install: true,
-				add_id_info_tracks_action: true
-			}
+desc "Increases build number by 1 (unless a build number is passed) & leaves the version number still (unless a version is passed)"
+lane :update_version_and_build do |options|
+	repository_path = options[:repository_path] ||= '.' 
+	
+	sh "git fetch origin"
+	lg_fetch_app_version(
+		branch_name: options[:branch_name],
+		repository_path: repository_path
+	)
+
+	build_number = options[:build_number] ||= Actions.lane_context[Actions::SharedValues::LG_BUILD_NUMBER].to_i + 1 
+	version_number = options[:version_number] ||= Actions.lane_context[Actions::SharedValues::LG_VERSION_NUMBER]
+
+	rb_update_app_version(
+		branch_name: options[:branch_name],
+		version_number: version_number.to_s,
+		repository_path: repository_path,
+		update_json_files: true,
+		build_number: build_number.to_s
+	)
+end
+
+desc "Creates a new minor release branch"
+lane :release_minor do
+	lg_fetch_app_version # This populates two env variables with the new_build & new_version
+	new_version = Gem::Version.new(Actions.lane_context[Actions::SharedValues::LG_VERSION_NUMBER]).bump.to_s + '.0'
+	new_build = Actions.lane_context[Actions::SharedValues::LG_BUILD_NUMBER].to_i + 1
+	
+	release_beta(
+		new_version: new_version,
+		new_build: new_build,
+		base_branch: 'master'
+	)
+end
+
+desc "Creates a new patch from the last tag"
+lane :release_patch do |options|
+	lg_dependencies
+	lg_fetch_app_version # This populates two env variables with the new_build & new_version
+	
+	current_version = Actions.lane_context[Actions::SharedValues::LG_VERSION_NUMBER]
+	
+	segments = Gem::Version.new(current_version).segments
+	patch = segments[2].to_i + 1
+	new_version = Gem::Version.new(segments[0].to_s + "." + segments[1].to_s + "." + patch.to_s).to_s
+	new_build = options[:new_build] ||= Actions.lane_context[Actions::SharedValues::LG_BUILD_NUMBER].to_i + 1
+
+	release_beta(
+		new_version: new_version,
+		new_build: new_build,
+		base_branch: current_version
+	)
+end
+
+desc "Generates a new beta"
+lane :release_beta do |options|
+	lg_dependencies
+	
+	repository_path = 'tmp_lane_git_clone_folder'
+
+	lg_fetch_app_version # This populates two env variables with the new_build & new_version
+	new_version = options[:new_version] ||= Actions.lane_context[Actions::SharedValues::LG_VERSION_NUMBER]
+	new_build = options[:new_build] ||= Actions.lane_context[Actions::SharedValues::LG_BUILD_NUMBER].to_i + 1
+
+	message = "Crafting brand new version (#{new_version} - #{new_build})"
+	channels = [ENV["BENDER_SLACK_DEFAULT_CHANNEL"]]
+	bender(message: message, channels: channels)
+
+	release_branch = 'release-' + new_version.to_s
+		
+	if !options[:base_branch].nil?
+		base_branch_name = release_branch
+		rb_git_clone(branch_name: options[:base_branch])
+		# This will update the ENV RB_INFO_BRANCH_NAME to the new created branch
+		rb_git_create_branch(
+			branch_name: "release-" + new_version,
+			repository_path: repository_path
 		)
+	else
+		release_branch = sh("git symbolic-ref HEAD --short").gsub("\n").peek
+		if !release_branch.include?('release') 
+			UI.user_error!("You must be in a release branch")
+		end
+		rb_git_clone(branch_name: release_branch)    
+		base_branch_name = release_branch
 	end
-		
-	desc "Upload beta build to crashlytics"
-	lane :upload_crashlytics do |options|
-		ipa_path = options[:beta_path]
-		version_number = options[:version_number]
-		build_number = options[:build_number]
-		
-		changelog = "Beta #{version_number}-#{build_number}"
-		crashlytics(
-			api_token: 'da82303e33e3a2dc304cdccaa4e19dba00334a34',
-			build_secret: '964f1bd4540dbfa7d78d93439cf95e216ec156e046a4e46db36778084770ebbe',
-			ipa_path: ipa_path,
-			notes: "#{changelog}",
-			groups: "letgo-testers",
-			changelog: changelog
-    	)
-	end
+	
+	lg_fetch_app_version(
+		branch_name: base_branch_name,
+		repository_path: repository_path
+	)
+	
+	update_version_and_build(
+		branch_name: base_branch_name,
+		repository_path: repository_path, 
+		version_number: new_version.to_s, 
+		build_number: new_build.to_s
+	)
+
+	add_version_badge(
+		version_number: new_version.to_s, 
+		build_number: new_build.to_s,
+		path: repository_path
+	)
+
+	workspace = repository_path + "/" + ENV["LETGO_WORKSPACE"]
+	scheme = ENV["LETGO_PROD_SCHEME"]
+	build_beta(workspace: workspace, scheme: scheme)
+	
+	ipa_path = ENV["LG_LAST_BETA"]
+	upload_crashlytics(
+		beta_path: ipa_path, 
+		version_number: new_version.to_s, 
+		build_number: new_build.to_s
+	)
+
+	lg_push(
+		repository_path: repository_path,
+		version_number: new_version.to_s,
+		build_number: new_build.to_s
+	)
+	rb_git_clone_clean()
+	success = "Okey the new beta (#{new_version} - #{new_build}) is in crashlytics. Thanks for nothing. Oh my god I need a beer🍻"
+	bender(message: success, channels: channels)
+end
+	
+desc "Upload build to appstore"
+lane :upload_appstore do |options|
+	ipa_path = options[:ipa] ||= ENV['LAST_APPSTORE_BUILD']
+	
+	deliver(
+		username: "ios-automation@letgo.com",
+		app: "986339882",
+		skip_screenshots: true,
+		skip_metadata: true,
+		force: true,  # Set to true to skip PDF verification
+		submit_for_review: true,
+		automatic_release: false,
+		ipa: ipa_path,
+		submission_information: {
+			export_compliance_encryption_updated: false,
+			add_id_info_uses_idfa: true,
+			add_id_info_serves_ads: false,
+			add_id_info_tracks_install: true,
+			add_id_info_tracks_action: true
+		}
+	)
+end
+	
+desc "Upload beta build to crashlytics"
+lane :upload_crashlytics do |options|
+	repository_path = options[:repository_path] ||= '.'
+	lg_fetch_app_version(
+		branch_name: options[:branch_name],
+		repository_path: repository_path
+	)
+	
+	ipa_path = options[:beta_path] ||= ENV['LAST_BETA_BUILD']
+	version_number = options[:version_number] ||= Actions.lane_context[Actions::SharedValues::LG_VERSION_NUMBER]
+	build_number = options[:build_number] ||= Actions.lane_context[Actions::SharedValues::LG_BUILD_NUMBER]
+			
+	changelog = "Beta #{version_number}-#{build_number}"
+	crashlytics(
+		api_token: 'da82303e33e3a2dc304cdccaa4e19dba00334a34',
+		build_secret: '964f1bd4540dbfa7d78d93439cf95e216ec156e046a4e46db36778084770ebbe',
+		ipa_path: ipa_path,
+		notes: "#{changelog}",
+		groups: "letgo-testers"
+    )
+end
 	
 # Here there are our 3 ways of building staff (simulator, beta, appstore)
-	build_output = "/tmp/letgo/"
-	destination = "name=iPhone X"
 
-	desc "Does a beta build"
-	lane :build_beta do |options|
-		workspace = options[:workspace] ||= ENV["LETGO_WORKSPACE"]
-		scheme = options[:scheme] ||= "LetGoPROD" 
+desc "Does a beta build"
+lane :build_beta do |options|
+	workspace = options[:workspace] ||= ENV['LETGO_WORKSPACE']
+	scheme = options[:scheme] ||= 'LetGoPROD'
+	
+	timestamp = make_timestamp()
+	output = build_output + "/beta/#{timestamp}"
+	gym(
+		workspace: workspace,
+		output_directory: output,
+		configuration: "Adhoc",
+		scheme: scheme,
+		silent: false,
+		clean: true,
+		export_xcargs: "-allowProvisioningUpdates",
+		export_method: "ad-hoc"
+	)
+	ENV['LAST_BETA_BUILD'] = output 	
+end
 
-		timestamp = Time.now.getutc.strftime("_%m_%d_%y_%I_%M_%p")
-		output = build_output + "/beta/#{timestamp}"
-
-		gym(
-			workspace: workspace,
-			output_directory: output,
-			configuration: "Adhoc",
-			scheme: scheme,
-			silent: false,
-			clean: true,
-			export_xcargs: "-allowProvisioningUpdates",
-			export_method: "ad-hoc"
-		)
-		ENV['LAST_BETA_BUILD'] = output 	
-	end
-
-	desc "Does an appstore build"
-	lane :build_appstore do |options|
-		workspace = options[:workspace] ||= ENV["LETGO_WORKSPACE"] 
-		output = build_output + "/store/#{timestamp}"
-		gym(
-			workspace: workspace,
-			output_directory: output,
-			scheme: ENV["LETGO_APPSTORE_SCHEME"],
+desc "Does an appstore build"
+lane :build_appstore do |options|
+	timestamp = make_timestamp()
+	workspace = options[:workspace] ||= ENV["LETGO_WORKSPACE"] 
+	output = build_output + "/store/#{timestamp}"
+	gym(
+		workspace: workspace,
+		output_directory: output,
+		scheme: ENV["LETGO_APPSTORE_SCHEME"],
 			configuration: "Release",
 			export_xcargs: "-allowProvisioningUpdates",
 			include_bitcode: true
 		)	
-		ENV['LAST_APPSTORE_BUILD'] = output  
-	end 
+	ENV['LAST_APPSTORE_BUILD'] = output  
+end 
 
-	desc "Does a simulator build"
-	lane :build_sim do |options|
-		workspace = options[:workspace] ||= ENV["LETGO_WORKSPACE"]
-		scheme = options[:scheme] ||= "LetGoPROD"
-	
-		timestamp = Time.now.getutc.strftime("_%m_%d_%y_%I_%M_%p")
-	 	output = build_output + "simulator/#{timestamp}"
-		gym(
-			workspace: workspace,
-			scheme: scheme,
-			configuration: "Debug",
-			sdk: "iphonesimulator",
-			derivedDataPath: output
-		)
-		ENV['LAST_SIM_BUILD'] = output
-	end
+desc "Does a simulator build"
+lane :build_sim do |options|
+	workspace = options[:workspace] ||= ENV["LETGO_WORKSPACE"]
+	scheme = options[:scheme] ||= "LetGoPROD"
+
+	timestamp = make_timestamp()
+ 	output = build_output + "simulator/#{timestamp}"
+	gym(
+		workspace: workspace,
+		scheme: scheme,
+		configuration: "Debug",
+		sdk: "iphonesimulator",
+		derivedDataPath: output
+	)
+	ENV['LAST_SIM_BUILD'] = output
+end
+end
+
+## Functions
+
+def make_timestamp()
+	Time.now.getlocal.strftime("_%Y_%m_%d_%I_%M_%p")
 end

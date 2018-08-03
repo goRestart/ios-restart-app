@@ -10,8 +10,9 @@ import LGCoreKit
 
 extension RetrieveListingParams {
     
-    mutating func populate(with filters: ListingFilters?) {
-        categoryIds = filters?.selectedCategories.flatMap { $0.rawValue }
+    mutating func populate(with filters: ListingFilters?,
+                           featureFlags: FeatureFlaggeable) {
+        categoryIds = filters?.selectedCategories.compactMap { $0.rawValue }
         let idCategoriesFromTaxonomies = filters?.selectedTaxonomyChildren.getIds(withType: .category)
         categoryIds?.append(contentsOf: idCategoriesFromTaxonomies ?? [])
         superKeywordIds = filters?.selectedTaxonomyChildren.getIds(withType: .superKeyword)
@@ -28,43 +29,10 @@ extension RetrieveListingParams {
             superKeywordIds = selectedTaxonomy.children.getIds(withType: .superKeyword)
         }
         
-        timeCriteria = filters?.selectedWithin
+        timeCriteria = filters?.selectedWithin.listingTimeCriteria
         sortCriteria = filters?.selectedOrdering
         distanceRadius = filters?.distanceRadius
         distanceType = filters?.distanceType
-        
-        //  Car filters
-        userTypes = filters?.carSellerTypes
-        makeId = filters?.carMakeId
-        modelId = filters?.carModelId
-        startYear = filters?.carYearStart
-        endYear = filters?.carYearEnd
-        
-        if let propertyTypeValue = filters?.realEstatePropertyType?.rawValue {
-            propertyType = propertyTypeValue
-        }
-
-        offerType = filters?.realEstateOfferTypes.flatMap { $0.rawValue }
-        numberOfBedrooms = filters?.realEstateNumberOfBedrooms?.rawValue ?? filters?.realEstateNumberOfRooms?.numberOfBedrooms
-        numberOfLivingRooms = filters?.realEstateNumberOfRooms?.numberOfLivingRooms
-        numberOfBathrooms = filters?.realEstateNumberOfBathrooms?.rawValue
-        
-        sizeSquareMetersFrom = filters?.realEstateSizeRange.min
-        sizeSquareMetersTo = filters?.realEstateSizeRange.max
-        
-        //  Services
-        /*
-         Currently, we only support single-select on the app side for typeId, but the API requires an
-         array of typeIds. When we support Multiselect we can just update the filters servicesType parameter to
-         an array
-         */
-        if let typeId = filters?.servicesType?.id {
-            typeIds = [typeId]
-        } else {
-            typeIds = nil
-        }
-        subtypeIds = filters?.servicesSubtypes?.map( { $0.id } )
-
         
         if let priceRange = filters?.priceRange {
             switch priceRange {
@@ -75,6 +43,58 @@ extension RetrieveListingParams {
                 maxPrice = max
             }
         }
+        
+        applyVerticalFilters(with: filters?.verticalFilters,
+                             featureFlags: featureFlags)
     }
-
+    
+    mutating func applyVerticalFilters(with verticalFilters: VerticalFilters?,
+                                       featureFlags: FeatureFlaggeable) {
+        guard let verticalFilters = verticalFilters else { return }
+        
+        userTypes = verticalFilters.cars.sellerTypes
+        makeId = verticalFilters.cars.makeId
+        modelId = verticalFilters.cars.modelId
+        startYear = verticalFilters.cars.yearStart
+        endYear = verticalFilters.cars.yearEnd
+        bodyType = verticalFilters.cars.bodyTypes
+        fuelType = verticalFilters.cars.fuelTypes
+        transmision = verticalFilters.cars.transmissionTypes
+        drivetrain = verticalFilters.cars.driveTrainTypes
+        
+        startMileage = verticalFilters.cars.mileageStart
+        endMileage = verticalFilters.cars.mileageEnd
+        startNumberOfSeats = verticalFilters.cars.numberOfSeatsStart
+        endNumberOfSeats = verticalFilters.cars.numberOfSeatsEnd
+        mileageType = verticalFilters.cars.mileageType
+        
+        if let typeId = verticalFilters.services.type?.id {
+            typeIds = [typeId]
+        }
+        
+        if featureFlags.servicesUnifiedFilterScreen.isActive {
+            if let selectedServiceSubtypeCount = verticalFilters.services.subtypes?.count,
+                let serviceSubtypesCount = verticalFilters.services.type?.subTypes.count,
+                selectedServiceSubtypeCount < serviceSubtypesCount {
+                subtypeIds = verticalFilters.services.subtypes?.map( { $0.id } )
+            } else {
+                subtypeIds = nil
+            }
+        } else {
+            subtypeIds = verticalFilters.services.subtypes?.map( { $0.id } )
+        }
+    
+        if let propertyTypeValue = verticalFilters.realEstate.propertyType?.rawValue {
+            propertyType = propertyTypeValue
+        }
+        
+        offerType = verticalFilters.realEstate.offerTypes.map( { $0.rawValue })
+        numberOfBedrooms = verticalFilters.realEstate.numberOfBedrooms?.rawValue ?? verticalFilters.realEstate.numberOfRooms?.numberOfBedrooms
+        numberOfBathrooms = verticalFilters.realEstate.numberOfBathrooms?.rawValue
+        numberOfLivingRooms = verticalFilters.realEstate.numberOfRooms?.numberOfLivingRooms
+        
+        sizeSquareMetersFrom = verticalFilters.realEstate.sizeRange.min
+        sizeSquareMetersTo = verticalFilters.realEstate.sizeRange.max
+    }
+    
 }

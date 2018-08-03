@@ -40,6 +40,10 @@ public protocol DI: class {
     var preSignedUploadUrlRepository: PreSignedUploadUrlRepository { get }
     var imageMultiplierRepository: ImageMultiplierRepository { get }
     var servicesInfoRepository: ServicesInfoRepository { get }
+    var notificationSettingsPusherRepository: NotificationSettingsPusherRepository { get }
+    var notificationSettingsMailerRepository: NotificationSettingsMailerRepository { get }
+    var communityRepository: CommunityRepository { get }
+
     
     // Helper
     var dateFormatter: DateFormatter { get }

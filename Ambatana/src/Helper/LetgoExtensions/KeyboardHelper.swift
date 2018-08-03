@@ -8,7 +8,7 @@
 
 import RxSwift
 
-class KeyboardHelper {
+final class KeyboardHelper {
     
     private(set) var keyboardHeight: CGFloat = 0
     private(set) var keyboardOrigin: CGFloat = UIScreen.main.bounds.height

@@ -1,11 +1,6 @@
 
 [
     {
-		"name": "ShowNPSSurvey",
-		"values": ["No", "Yes"],
-		"description": "Show nps survey"
-	},
-    {
         "name": "SurveyEnabled",
         "values": ["No", "Yes"],
         "description": "Show qualitative survey"
@@ -13,12 +8,12 @@
     {
         "name": "FreeBumpUpEnabled",
         "values": ["No", "Yes"],
-        "description": "User can bump sharing"
+        "description": "[MONEY] User can bump sharing"
     },
     {
         "name": "PricedBumpUpEnabled",
         "values": ["No", "Yes"],
-        "description": "User can bump paying"
+        "description": "[MONEY] User can bump paying"
     },
     {
         "name": "UserReviewsReportEnabled",
@@ -51,24 +46,14 @@
         "description": "Show a clock until the message is delivered correctly"
     },
     {
-        "name": "MostSearchedDemandedItems",
-        "values": ["control", "baseline", "cameraBadge", "trendingButtonExpandableMenu", "subsetAboveExpandableMenu"],
-        "description": "Display a list of top seller items that inspire users to post new items"
-    },
-    {
         "name": "ShowAdsInFeedWithRatio",
         "values": ["control", "baseline", "ten", "fifteen", "twenty"],
-        "description": "show ads in feed every X cells"
+        "description": "[MONEY] show ads in feed every X cells"
     },
     {
         "name": "RealEstateFlowType",
         "values": ["standard", "turkish"],
         "description": "Real Estate Flow Type"
-    },
-    {
-        "name": "RemoveCategoryWhenClosingPosting",
-        "values": ["control", "baseline", "active"],
-        "description": "Remove category real estate if user closes posting"
     },
     {
         "name": "RealEstateNewCopy",
@@ -83,12 +68,12 @@
     {
         "name": "ShowInactiveConversations",
         "values": ["No", "Yes"],
-        "description": "Show button to access inactive conversations"
+        "description": "[CHAT] Show button to access inactive conversations"
     },
     {
         "name": "NoAdsInFeedForNewUsers",
         "values": ["control", "baseline", "AdsEverywhere", "NoAdsForNewUsers", "AdsForNewUsersOnlyInFeed"],
-        "description": "Change logic for showing ads to new users (2 weeks old)"
+        "description": "[MONEY] Change logic for showing ads to new users (2 weeks old)"
     },
     {
         "name": "SearchImprovements",
@@ -103,7 +88,7 @@
     {
         "name": "ShowChatSafetyTips",
         "values": ["no","yes"],
-        "description": "Show chat safety tips to new users"
+        "description": "[CHAT] Show chat safety tips to new users"
     },
     {
         "name": "OnboardingIncentivizePosting",
@@ -113,7 +98,7 @@
     {
         "name": "UserIsTyping",
         "values": ["control", "baseline", "active"],
-        "description": "Show user is typing status on chat"
+        "description": "[CHAT] Show user is typing status on chat"
     },
     {
         "name": "BumpUpBoost",
@@ -126,24 +111,9 @@
         "description": "Try different copies for Chat now button in Turkey"
     },
     {
-        "name": "IncreaseNumberOfPictures",
-        "values": ["control", "baseline", "active"],
-        "description": "Allow to include up to 10 pictures on listings"
-    },
-    {
-        "name": "RealEstateTutorial",
-        "values": ["control", "baseline", "oneScreen", "twoScreens", "threeScreens", "onlyBadge"],
-        "description": "Show real estate tutorial when user see Real estate category for first time"
-    },
-     {
-         "name": "RealEstatePromoCell",
-         "values": ["control", "baseline", "active"],
-         "description": "Real Estate - Show promo cell instead of top banner"
-     },
-    {
         "name": "ChatNorris",
         "values": ["control", "baseline", "redButton", "whiteButton", "greenButton"],
-        "description": "Show the create meeting option in chat detail view."
+        "description": "[CHAT] Show the create meeting option in chat detail view."
     },
     {
         "name": "AddPriceTitleDistanceToListings",
@@ -151,29 +121,14 @@
         "description": "Add price, title and distance to listings"
     },
     {
-        "name": "MarkAllConversationsAsRead",
-        "values": ["control", "baseline", "active"],
-        "description": "Show a button to mark all conversations as read"
-    },
-    {
         "name": "ShowProTagUserProfile",
         "values": ["no", "yes"],
         "description": "Show Professional tag in user profile"
     },
     {
-        "name": "SummaryAsFirstStep",
-        "values": ["control", "baseline", "active"],
-        "description": "Show directly summary screen instead of Real estate steps"
-    },
-    {
-        "name": "ShowAdvancedReputationSystem",
-        "values": ["control", "baseline", "active"],
-        "description": "Show the new advance reputation system and Karma Score"
-    },
-    {
         "name": "FeedAdsProviderForUS",
         "values": ["control", "baseline", "GoogleAdxForAllUsers", "GoogleAdxForOldUsers", "MoPubAdsForAllUsers", "MoPubAdsForOldUsers"],
-        "description": "Change logic for showing ads with diferent ads providers in the US"
+        "description": "[MONEY] Change logic for showing ads with diferent ads providers in the US"
     },
     {
         "name": "CopyForChatNowInEnglish",
@@ -183,27 +138,17 @@
     {
         "name": "FeedAdsProviderForTR",
         "values": ["control", "baseline", "MoPubAdsForAllUsers", "MoPubAdsForOldUsers"],
-        "description": "Change logic for showing ads with diferent ads providers in TR"
-    },
-    {
-        "name": "SearchCarsIntoNewBackend",
-        "values": ["control", "baseline", "active"],
-        "description": "Search cars into the new Search Car end point"
+        "description": "[MONEY] Change logic for showing ads with diferent ads providers in TR"
     },
     {
         "name": "SectionedMainFeed",
-        "values": ["control", "baseline", "active"],
-        "description": "A new fully sectioned main feed"
-    },
-    {
-        "name": "FilterSearchCarSellerType",
-        "values": ["control", "baseline", "variantA", "variantB", "variantC", "variantD"],
-        "description": "Include Search filter for Car Seller type"
+        "values": ["control", "baseline", "mediumHorizontalSection", "smallHorizontalSection"],
+        "description": "[Discovery] Sectioned feed"
     },
     {
         "name": "ShowExactLocationForPros",
         "values": ["yes", "no"],
-        "description": "Show exact location for professional delaers in listing detail map"
+        "description": "[MONEY] Show exact location for professional delaers in listing detail map"
     },
     {
       "name": "ShowPasswordlessLogin",
@@ -213,22 +158,12 @@
     {
         "name": "CopyForSellFasterNowInEnglish",
         "values": ["control", "baseline", "variantB", "variantC", "variantD"],
-        "description": "Try different copies for 'Sell faster now' banner in English"
-    },
-    {
-        "name": "CreateUpdateCarsIntoNewBackend",
-        "values": ["control", "baseline", "active"],
-        "description": "Create/Update cars into the new endpoint"
+        "description": "[MONEY] Try different copies for 'Sell faster now' banner in English"
     },
     {
         "name": "EmergencyLocate",
         "values": ["control", "baseline", "active"],
         "description": "Activate the Emergency Locate feature"
-    },
-    {
-        "name": "RealEstateMap",
-        "values": ["control", "baseline", "active"],
-        "description": "Show Real Estate Map"
     },
     {
         "name": "IAmInterestedFeed",
@@ -238,7 +173,7 @@
     {
         "name": "ChatConversationsListWithoutTabs",
         "values": ["control", "baseline", "active"],
-        "description": "Chat conversation list without tabs"
+        "description": "[CHAT] Chat conversation list without tabs"
     },
     {
         "name": "PersonalizedFeed",
@@ -248,27 +183,17 @@
     {
         "name": "ServicesCategoryOnSalchichasMenu",
         "values": ["control", "baseline", "VariantA", "VariantB", "VariantC"],
-        "description": "Show services category on salchichas menu"
-    },
-    {
-        "name": "SearchBoxImprovements",
-        "values": ["control", "baseline", "changeCopy", "biggerBox", "changeCopyAndBoxSize"],
-        "description": "Improve search box visibility by changing its size and copy"
+        "description": "[PRODUCTS] Show services category on salchichas menu"
     },
     {
         "name": "GoogleAdxForTR",
         "values": ["control", "baseline", "GoogleAdxForAllUsers", "GoogleAdxForOldUsers"],
-        "description": "Change logic for showing GoogleAdx in TR"
+        "description": "[MONEY] Change logic for showing GoogleAdx in TR"
     },
     {
         "name": "MultiContactAfterSearch",
         "values": ["control", "baseline", "photoAndInfo", "onlyPhoto"],
         "description": "MultiContact After Search"
-    },
-    {
-         "name": "ShowServicesFeatures",
-         "values": ["control", "baseline", "active"],
-         "description": "Show services features (search & filters, posting, editing)"
     },
     {
          "name": "EmptySearchImprovements",
@@ -288,25 +213,121 @@
     {
         "name": "FullScreenAdsWhenBrowsingForUS",
         "values": ["control", "baseline", "AdsForAllUsers", "AdsForOldUsers"],
-        "description": "Show full screen Interstitial while browsing through items"
-    },{
+        "description": "[MONEY] Show full screen Interstitial while browsing through items"
+    },
+    {
         "name": "VideoPosting",
         "values": ["control", "baseline", "active"],
-        "description": "Show video posting flow when pressing Other Items and Other Vehicles and Parts on salchichas menu"
+        "description": "[PRODUCTS] Show video posting flow when pressing Other Items and Other Vehicles and Parts on salchichas menu"
     },
     {
         "name": "PredictivePosting",
         "values": ["control", "baseline", "active"],
-        "description": "Show predictive posting flow when pressing Other Items on salchichas menu"
+        "description": "[PRODUCTS] Show predictive posting flow when pressing Other Items on salchichas menu"
     },
     {
         "name": "PreventMessagesFromFeedToProUsers",
         "values": ["control", "baseline", "active"],
-        "description": "If buyer taps 'I'm interested' button in the feed and the listing is from a PRO user, show the phone number request screen"
+        "description": "[MONEY] If buyer taps 'I'm interested' button in the feed and the listing is from a PRO user, show the phone number request screen"
     },
     {
         "name": "SimplifiedChatButton",
         "values": ["control", "baseline", "variantA", "variantB", "variantC", "variantD", "variantE", "variantF"],
-        "description": "Show a simplified chat button on item page"
+        "description": "[PRODUCTS] Show a simplified chat button on item page"
+    },
+    {
+        "name": "ShowChatConnectionStatusBar",
+        "values": ["control", "baseline", "active"],
+        "description": "[CHAT] Show a toast in the chat with the websocket and network connection status"
+    },
+    {
+         "name": "AdvancedReputationSystem",
+         "values": ["control", "baseline", "variantA", "variantB"],
+         "description": "Advance reputation system and Karma Score with SMS and tooltip"
+    },
+    {
+        "name": "NotificationSettings",
+        "values": ["control", "baseline", "differentLists", "sameList"],
+        "description": "Settings to enable or disable each type of notification"
+    },
+    {
+         "name": "CarExtraFieldsEnabled",
+         "values": ["control", "baseline", "active"],
+         "description": "allows user to see extra car fields (bodyType, fuelType, drivetrain, transmission, seats, mileage)"
+    },
+    {
+        "name": "ShowChatHeaderWithoutListingForAssistant",
+        "values": ["yes", "no"],
+        "description": "[CHAT] Use the new header WITHOUT LISTING for conversations with no listing related"
+    },
+    {
+        "name": "ReportingFostaSesta",
+        "values": ["control", "baseline", "withIcons", "withoutIcons"],
+        "description": "Show new user/product reporting flow (FOSTA-SESTA compliance)"
+    },
+    {
+        "name": "ShowChatHeaderWithoutUser",
+        "values": ["yes", "no"],
+        "description": "[CHAT] Use the new header WITHOUT USER in chat detail"
+    },
+    {
+        "name": "RealEstateMapTooltip",
+        "values": ["control", "baseline", "active"],
+        "description": "Show tooltip for Real Estate Map"
+    },
+    {
+        "name": "AppInstallAdsInFeed",
+        "values": ["control", "baseline", "active"],
+        "description": "[MONEY] Show App Install Ads from Google Adx in feed"
+    },
+    {
+        "name": "EnableCTAMessageType",
+        "values": ["no", "yes"],
+        "description": "[CHAT] Enable the CTA message type"
+    },
+    {
+        "name": "SearchAlertsInSearchSuggestions",
+        "values": ["control", "baseline", "active"],
+        "description": "Show search alerts in search suggestions view"
+    },
+    {
+        "name": "EngagementBadging",
+        "values": ["control", "baseline", "active"],
+        "description": "Show recent items bubble in feed basic approach"
+    },
+    {
+        "name": "ServicesUnifiedFilterScreen",
+        "values": ["control", "baseline", "active"],
+        "description": "Show new services filter screen"
+    },
+    {
+        "name": "FrictionlessShare",
+        "values": ["control", "baseline", "active"],
+        "description": "[PRODUCTS] Open facebook share dialog in congrats screen"
+    },
+    {
+        "name": "ShowCommunity",
+        "values": ["control", "baseline", "communityOnNavBar", "communityOnTabBar"],
+        "description": "[Users] Show button/tab to open the new Community feature"
+    },
+    {
+        "name": "ExpressChatImprovement",
+        "values": ["control", "baseline", "hideDontAsk", "newTitleAndHideDontAsk"],
+        "description": "[CHAT] Express chat improvements"
+    },
+    {
+        "name": "AlwaysShowBumpBannerWithLoading",
+        "values": ["control", "baseline", "active"],
+        "description": "[MONEY] Always show bump banner with a loading till we get the info"
+    },
+    {
+         "name": "ServicesPriceType",
+         "values": ["control", "baseline", "active"],
+         "description": "shows services priceType functionality (e.g 2 euro per day, etc.)"
+    },
+    {
+        "name": "SearchAlertsDisableOldestIfMaximumReached",
+        "values": ["control", "baseline", "active"],
+        "description": "[RETENTION] Disable oldest search alert if a new one is created and the maximum has been reached"
     }
  ]

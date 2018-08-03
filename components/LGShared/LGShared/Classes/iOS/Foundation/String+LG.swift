@@ -1,17 +1,9 @@
-//
-//  String+LG.swift
-//  LetGo
-//
-//  Created by Dídac on 17/11/15.
-//  Copyright © 2015 Ambatana. All rights reserved.
-//
-
 import UIKit
 import CommonCrypto // we can import this because JSONWebToken provides a .modulemap for it
 
-extension String {
+public extension String {
 
-    var sha256: Data? {
+    public var sha256: Data? {
         guard let messageData = self.data(using:String.Encoding.utf8) else { return nil }
         var digestData = Data(count: Int(CC_SHA256_DIGEST_LENGTH))
         _ = digestData.withUnsafeMutableBytes {digestBytes in
@@ -22,47 +14,28 @@ extension String {
         return digestData
     }
     
-    var trim: String {
+    public var trim: String {
         let trimSet = CharacterSet.whitespacesAndNewlines
         return trimmingCharacters(in: trimSet)
     }
 
-    var capitalizedFirstLetterOnly: String  {
+    public var capitalizedFirstLetterOnly: String  {
         guard !self.isEmpty else { return self }
         var result = self.localizedLowercase
         result.replaceSubrange(result.startIndex...result.startIndex, with: String(result[result.startIndex]).localizedCapitalized)
         return result
     }
 
-    // TODO: To be moved to the corresponding component when it is created
-//    var replacingHiddenTags: String {
-//        var result = self
-//        for tag in TextHiddenTags.allTags {
-//            result = result.replacingOccurrences(of: tag.rawValue, with: tag.localized)
-//        }
-//        return result
-//    }
-//
-//    var attributedHiddenTagsLinks: NSMutableAttributedString {
-//        var urlDict: [String : URL] = [:]
-//        for tag in TextHiddenTags.allTags {
-//            if let url = tag.linkURL {
-//                urlDict[tag.localized] = url
-//            }
-//        }
-//        return attributedHyperlinkedStringWithURLDict(urlDict, textColor: nil)
-//    }
-
-    var specialCharactersRemoved: String {
+    public var specialCharactersRemoved: String {
         let charactersToRemove = CharacterSet.alphanumerics.inverted
         return components(separatedBy: charactersToRemove).joined(separator: "")
     }
     
-    var ignoreHTMLTags: String {
+    public var ignoreHTMLTags: String {
         return replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
     }
 
-    func attributedHyperlinkedStringWithURLDict(_ urlDict: [String : URL], textColor: UIColor?)
+    public func attributedHyperlinkedStringWithURLDict(_ urlDict: [String : URL], textColor: UIColor?)
         -> NSMutableAttributedString {
         
             // Attributed string works with NSRange and NSRange != Range<String>
@@ -82,12 +55,12 @@ extension String {
             return resultText
     }
 
-    func isEmail() -> Bool {
+    public func isEmail() -> Bool {
         let regex = try? NSRegularExpression(pattern: "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]+$", options: .caseInsensitive)
         return regex?.firstMatch(in: self, options: [], range: NSMakeRange(0, count)) != nil
     }
 
-    func suggestEmail(domains: [String]) -> String? {
+    public func suggestEmail(domains: [String]) -> String? {
         guard let regex = try? NSRegularExpression(pattern: "^[A-Z0-9._%+-]+@",
                                                    options: .caseInsensitive) else { return nil }
         let mutableString = NSMutableString(string: self)
@@ -107,12 +80,12 @@ extension String {
         return nil
     }
 
-    func stringByReplacingFirstOccurrence(of findString: String, with: String, options: String.CompareOptions = []) -> String {
+    public func stringByReplacingFirstOccurrence(of findString: String, with: String, options: String.CompareOptions = []) -> String {
         guard let rangeOfFoundString = range(of: findString, options: options, range: nil, locale: nil) else { return self }
         return replacingOccurrences(of: findString, with: with, options: options, range: rangeOfFoundString)
     }
 
-    func makeUsernameFromEmail() -> String? {
+    public func makeUsernameFromEmail() -> String? {
         guard let atSignRange = range(of: "@"), isEmail() else { return nil }
         let emailUsername = String(self[..<atSignRange.lowerBound])
         var username = emailUsername
@@ -125,7 +98,7 @@ extension String {
         return username.localizedCapitalized
     }
 
-    func isValidLengthPrice(_ acceptsSeparator: Bool, locale: Locale = Locale.autoupdatingCurrent) -> Bool {
+    public func isValidLengthPrice(_ acceptsSeparator: Bool, locale: Locale = Locale.autoupdatingCurrent) -> Bool {
         let separator = components(separatedBy: CharacterSet.decimalDigits)
             .joined(separator: "")
         let formatter = NumberFormatter()
@@ -146,7 +119,7 @@ extension String {
                parts[1].count <= SharedConstants.maxPriceFractionalCharacters
     }
 
-    func toNameReduced(maxChars: Int) -> String {
+    public func toNameReduced(maxChars: Int) -> String {
         guard count > maxChars else { return self }
         let substring =  String(self[..<self.index(startIndex, offsetBy: maxChars)])
         let words = substring.byWords
@@ -156,13 +129,13 @@ extension String {
         return firstPart + " " + String(lastWordFirstChar) + "."
     }
 
-    func clipMoreThan(wordCount: Int) -> String {
+    public func clipMoreThan(wordCount: Int) -> String {
         let words = self.byWords
         if words.count <= wordCount { return self }
         return words.prefix(wordCount).joined(separator: " ")
     }
 
-    func toPriceDouble() -> Double {
+    public func toPriceDouble() -> Double {
         let formatter = NumberFormatter()
         formatter.numberStyle = NumberFormatter.Style.decimal
         formatter.locale = Locale.autoupdatingCurrent
@@ -177,7 +150,7 @@ extension String {
         return 0
     }
 
-    static func fromPriceDouble(_ price: Double) -> String {
+    public static func fromPriceDouble(_ price: Double) -> String {
         let numFormatter = NumberFormatter()
         numFormatter.numberStyle = NumberFormatter.Style.decimal
         numFormatter.usesGroupingSeparator = false
@@ -187,20 +160,20 @@ extension String {
         return ""
     }
 
-    func decomposeIdSlug() -> String? {
+    public func decomposeIdSlug() -> String? {
         let slugComponents = self.components(separatedBy: "_")
         guard slugComponents.count > 1 else { return nil }
         let slugId = slugComponents[slugComponents.count - 1]
         return slugId
     }
     
-    func trunc(_ length: Int, trailing: String? = "...") -> String {
+    public func trunc(_ length: Int, trailing: String? = "...") -> String {
         guard count > length else { return self }
         let substring = String(self[..<self.index(self.startIndex, offsetBy: length)])
         return substring + (trailing ?? "")
     }
     
-    func encodeString() -> String {
+    public func encodeString() -> String {
         let URLCombinedCharacterSet = NSMutableCharacterSet()
         URLCombinedCharacterSet.formUnion(with: .urlQueryAllowed)
         URLCombinedCharacterSet.removeCharacters(in: "+")
@@ -208,7 +181,7 @@ extension String {
         return urlEncoded ?? self
     }
 
-    var byWords: [String] {
+    public var byWords: [String] {
         var result:[String] = []
         let range = startIndex ..< endIndex
         enumerateSubstrings(in: range, options: .byWords) { (word, _, _, _) in
@@ -218,7 +191,7 @@ extension String {
         return result
     }
 
-    func containsLetgo() -> Bool {
+    public func containsLetgo() -> Bool {
         let lowercaseString = lowercased()
         return lowercaseString.range(of: "letgo") != nil ||
             lowercaseString.range(of: "ietgo") != nil ||
@@ -229,15 +202,8 @@ extension String {
             lowercaseString.range(of: "let g0") != nil ||
             lowercaseString.range(of: "iet g0") != nil
     }
-
-    // TODO: To be moved to the corresponding component when it is created
-//    func trimUserRatingTags() -> String {
-//        let strings = NegativeUserRatingTag.allValues.map { $0.localizedText } + PositiveUserRatingTag.allValues.map { $0.localizedText }
-//        let separator = ". "
-//        return trim(strings: strings, separator: separator)
-//    }
     
-    func trim(strings: [String], separator: String) -> String {
+    public func trim(strings: [String], separator: String) -> String {
         let actualSeparator = separator.trim
         return components(separatedBy: actualSeparator)
             .map { $0.trim }
@@ -246,7 +212,7 @@ extension String {
             .trim
     }
     
-    static func make(tagsString: [String], comment: String? = nil) -> String {
+    public static func make(tagsString: [String], comment: String? = nil) -> String {
         let components: [String]
         if let comment = comment {
             components = tagsString + [comment]
@@ -256,17 +222,17 @@ extension String {
         return make(components: components, separator: ". ")
     }
     
-    static func make(components: [String?], separator: String) -> String {
+    public static func make(components: [String?], separator: String) -> String {
         let allValues = components.flatMap { $0 }
         return allValues.joined(separator: separator)
     }
     
-    var isOnlyDigits: Bool {
+    public var isOnlyDigits: Bool {
         let nonNumberCharacters = CharacterSet.decimalDigits.inverted
         return rangeOfCharacter(from: nonNumberCharacters) == nil
     }
     
-    func makeBold(ignoringText: String, font: UIFont) -> NSAttributedString {
+    public func makeBold(ignoringText: String, font: UIFont) -> NSAttributedString {
         let attributedString = NSMutableAttributedString(string: self,
                                                          attributes: [NSAttributedStringKey.font: font])
         let ignoreTextCount = contains(ignoringText) ? ignoringText.count : 0
@@ -278,7 +244,7 @@ extension String {
         return attributedString
     }
 
-    func heightForWidth(width: CGFloat, maxLines: Int?, withFont font: UIFont) -> CGFloat {
+    public func heightForWidth(width: CGFloat, maxLines: Int?, withFont font: UIFont) -> CGFloat {
 
         guard !self.isEmpty else { return 0.0 }
 
@@ -304,8 +270,15 @@ extension String {
         }
         return finalHeight + interLineSpace
     }
+    
+    public func widthFor(height: CGFloat, font: UIFont) -> CGFloat {
+        let constraintRect = CGSize(width: CGFloat.greatestFiniteMagnitude, height: height)
+        return self.boundingRect(with: constraintRect,
+                            options: NSStringDrawingOptions.usesLineFragmentOrigin,
+                            attributes: [NSAttributedStringKey.font: font], context: nil).width
+    }
 
-    var isPhoneNumber: Bool {
+    public var isPhoneNumber: Bool {
         let noPlusOrHyphenString = self.components(separatedBy: ["+","-"]).joined(separator: "")
         guard let _ = Int(noPlusOrHyphenString) else {
             return false
@@ -313,11 +286,11 @@ extension String {
         return noPlusOrHyphenString.count == SharedConstants.usaPhoneNumberDigitsCount
     }
 
-    var addingSquareMeterUnit: String {
+    public var addingSquareMeterUnit: String {
         return self + " \(SharedConstants.sizeSquareMetersUnit)"
     }
 
-    func addUSPhoneFormatDashes() -> String {
+    public func addUSPhoneFormatDashes() -> String {
 
         guard self.count >= SharedConstants.usaFirstDashPosition else { return self }
 
@@ -343,4 +316,57 @@ extension String {
         }
         return outputString
     }
+
+    public func truncatedNameStringToInitials() -> String {
+        let words = self.byWords
+        guard words.count > 1 else { return self }
+        var name = words.first ?? ""
+        for (i, word) in words.enumerated() where i > 0 {
+            name = name + " " + word.prefix(1) + "."
+        }
+        return name
+    }
+}
+
+extension String {
+    
+    public func bicolorAttributedText(mainColor: UIColor,
+                                      colouredText: String,
+                                      otherColor: UIColor,
+                                      font: UIFont,
+                                      paragraphStyle: NSMutableParagraphStyle? = nil) -> NSMutableAttributedString {
+        
+        var mainAttributes: [NSAttributedStringKey : Any] = [.font : font]
+        if paragraphStyle != nil {
+            mainAttributes[.paragraphStyle] = paragraphStyle
+        }
+        mainAttributes[.foregroundColor] = mainColor
+        
+        let titleText = NSMutableAttributedString(string: self, attributes: mainAttributes)
+        
+        guard let range = range(of: colouredText) else { return titleText }
+        
+        var colouredAttributes = mainAttributes
+        colouredAttributes[.foregroundColor] = otherColor
+        titleText.setAttributes(colouredAttributes, range: NSRange(range, in: self))
+        
+        return titleText
+    }
+    
+    public func bifontAttributedText(highlightedText: String,
+                                     mainFont: UIFont,
+                                     mainColour: UIColor,
+                                     otherFont: UIFont,
+                                     otherColour: UIColor) -> NSAttributedString {
+        let mainAttributes: [NSAttributedStringKey: Any] = [.font: mainFont, .foregroundColor: mainColour]
+        let otherAttributes: [NSAttributedStringKey: Any] = [.font: otherFont, .foregroundColor: otherColour]
+        
+        let attributedString = NSMutableAttributedString(string: self, attributes: mainAttributes)
+        
+        guard let range = range(of: highlightedText) else { return attributedString }
+        attributedString.setAttributes(otherAttributes, range: NSRange(range, in: self))
+        
+        return attributedString
+    }
+    
 }

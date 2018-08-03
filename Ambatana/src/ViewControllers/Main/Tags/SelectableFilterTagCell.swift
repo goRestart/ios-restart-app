@@ -1,13 +1,6 @@
-//
-//  SelectableFilterTagCell.swift
-//  LetGo
-//
-//  Created by Raúl de Oñate Blanco on 18/10/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import UIKit
 import LGCoreKit
+import LGComponents
 
 class SelectableFilterTagCell: UICollectionViewCell {
     

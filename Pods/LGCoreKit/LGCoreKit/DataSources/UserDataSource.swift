@@ -40,7 +40,7 @@ protocol UserDataSource {
      - parameter userId:     caller User identifier
      - parameter completion: Completion closure
      */
-    func indexBlocked(_ userId: String, completion: UsersDataSourceCompletion?)
+    func indexBlocked(_ userId: String, limit: Int, offset: Int, completion: UsersDataSourceCompletion?)
 
     /**
      Blocks an user

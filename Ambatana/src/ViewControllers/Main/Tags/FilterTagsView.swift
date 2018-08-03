@@ -194,13 +194,14 @@ class FilterTagsView: UIView, UICollectionViewDataSource, UICollectionViewDelega
             case .cars:
                 for (i, tag) in tags.enumerated() {
                     switch tag {
-                    case .carSellerType, .make, .model, .yearsRange:
+                    case .carSellerType, .make, .model, .yearsRange,
+                         .carDriveTrainType, .carBodyType, .carFuelType, .carTransmissionType,
+                         .mileageRange, .numberOfSeats:
                         relatedIndexesToDelete.append(IndexPath(item: i, section: 0))
                     case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .taxonomyChild,
                          .taxonomy, .secondaryTaxonomyChild, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms,
                          .realEstatePropertyType, .realEstateOfferType, .sizeSquareMetersRange, .realEstateNumberOfRooms,
-                         .serviceType,
-                         .serviceSubtype:
+                         .serviceType, .serviceSubtype, .unifiedServiceType:
                         continue
                     }
                 }
@@ -213,7 +214,8 @@ class FilterTagsView: UIView, UICollectionViewDataSource, UICollectionViewDelega
                     case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .taxonomyChild,
                          .taxonomy, .secondaryTaxonomyChild, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms,
                          .realEstatePropertyType, .realEstateOfferType, .sizeSquareMetersRange, .realEstateNumberOfRooms,
-                         .carSellerType, .make, .model, .yearsRange:
+                         .carSellerType, .make, .model, .yearsRange, .carDriveTrainType, .carBodyType, .carFuelType, .carTransmissionType,
+                         .mileageRange, .numberOfSeats, .unifiedServiceType:
                         continue
                     }
                 }
@@ -228,7 +230,8 @@ class FilterTagsView: UIView, UICollectionViewDataSource, UICollectionViewDelega
                         relatedIndexesToDelete.append(IndexPath(item: i, section: 0))
                     case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category,
                          .taxonomyChild, .taxonomy, .secondaryTaxonomyChild, .carSellerType, .make, .model, .yearsRange, .serviceType,
-                         .serviceSubtype:
+                         .serviceSubtype, .unifiedServiceType, .carDriveTrainType, .carBodyType, .carFuelType, .carTransmissionType,
+                         .mileageRange, .numberOfSeats:
                         continue
                     }
                 }
@@ -242,7 +245,8 @@ class FilterTagsView: UIView, UICollectionViewDataSource, UICollectionViewDelega
                      .taxonomyChild, .taxonomy, .secondaryTaxonomyChild, .realEstateNumberOfBedrooms,
                      .realEstateNumberOfBathrooms, .realEstatePropertyType, .realEstateOfferType,
                      .sizeSquareMetersRange, .realEstateNumberOfRooms, .serviceType,
-                     .serviceSubtype:
+                     .serviceSubtype, .unifiedServiceType, .carDriveTrainType, .carBodyType, .carFuelType, .carTransmissionType,
+                     .mileageRange, .numberOfSeats:
                     continue
                 }
             }
@@ -254,7 +258,9 @@ class FilterTagsView: UIView, UICollectionViewDataSource, UICollectionViewDelega
                 case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .carSellerType, .make, .yearsRange,
                      .taxonomyChild, .taxonomy, .secondaryTaxonomyChild, .realEstateNumberOfBedrooms,
                      .realEstateNumberOfBathrooms, .realEstatePropertyType, .realEstateOfferType,
-                     .sizeSquareMetersRange, .realEstateNumberOfRooms, .serviceType, .model:
+                     .sizeSquareMetersRange, .realEstateNumberOfRooms, .serviceType, .model,
+                     .carDriveTrainType, .carBodyType, .carFuelType, .carTransmissionType,
+                     .mileageRange, .numberOfSeats, .unifiedServiceType:
                     continue
                 }
             }
@@ -266,14 +272,16 @@ class FilterTagsView: UIView, UICollectionViewDataSource, UICollectionViewDelega
                 case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .carSellerType, .model, .category, .make,
                      .yearsRange, .taxonomy, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType,
                      .realEstateOfferType, .sizeSquareMetersRange, .realEstateNumberOfRooms, .serviceType,
-                     .serviceSubtype:
+                     .serviceSubtype, .unifiedServiceType, .carDriveTrainType, .carBodyType, .carFuelType, .carTransmissionType,
+                     .mileageRange, .numberOfSeats:
                     continue
                 }
             }
         case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .carSellerType, .model, .yearsRange, .taxonomyChild,
              .secondaryTaxonomyChild, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType,
              .realEstateOfferType, .sizeSquareMetersRange, .realEstateNumberOfRooms,
-             .serviceSubtype:
+             .serviceSubtype, .unifiedServiceType, .carDriveTrainType, .carBodyType, .carFuelType, .carTransmissionType,
+             .mileageRange, .numberOfSeats:
             break
         }
         return relatedIndexesToDelete

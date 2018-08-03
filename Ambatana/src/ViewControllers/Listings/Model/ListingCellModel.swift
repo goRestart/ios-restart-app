@@ -11,7 +11,6 @@ enum ListingCellModel {
     case dfpAdvertisement(data: AdvertisementDFPData)
     case mopubAdvertisement(data: AdvertisementMoPubData)
     case adxAdvertisement(data: AdvertisementAdxData)
-    case mostSearchedItems(data: MostSearchedItemsCardData)
     case promo(data: PromoCellData, delegate: ListingCellDelegate?)
     
     init(listing: Listing) {
@@ -33,10 +32,6 @@ enum ListingCellModel {
         default:
             return nil
         }
-    }
-    
-    init(mostSearchedItemsData: MostSearchedItemsCardData) {
-        self = ListingCellModel.mostSearchedItems(data: mostSearchedItemsData)
     }
     
     init(promoData: PromoCellData, delegate: ListingCellDelegate?) {
@@ -95,6 +90,10 @@ struct ListingData {
 
     var title: String? {
         return listing?.title
+    }
+    
+    var priceType: String? {
+        return listing?.service?.servicesAttributes.priceType?.localizedDisplayName
     }
     
     var distanceToListing: Double? {
@@ -162,12 +161,6 @@ struct AdvertisementAdxData {
 enum AdProviderType {
     case dfp
     case moPub
-}
-
-struct MostSearchedItemsCardData {
-    let icon: UIImage? = R.Asset.IconsButtons.trendingIcon.image
-    let title: String = R.Strings.trendingItemsCardTitle
-    let actionTitle: String = R.Strings.trendingItemsCardAction
 }
 
 struct PromoCellData {

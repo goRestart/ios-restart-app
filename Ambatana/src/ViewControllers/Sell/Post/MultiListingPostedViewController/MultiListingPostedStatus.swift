@@ -7,7 +7,7 @@ enum MultiListingPostedStatus {
         images: [UIImage])
     case servicesPosting(params: [ListingCreationParams])
     case success(listings: [Listing])
-    case error(error: EventParameterPostListingError)
+    case error(error: EventParameterPostListingError, categoryId: Int?)
     
     var listings: [Listing] {
         switch self {
@@ -45,14 +45,14 @@ enum MultiListingPostedStatus {
         if let listings = listingsResult.value {
             self = .success(listings: listings)
         } else if let error = listingsResult.error {
-            self = .error(error: EventParameterPostListingError(error: error))
+            self = .error(error: EventParameterPostListingError(error: error), categoryId: nil)
         } else {
-            self = .error(error: .internalError(description: nil))
+            self = .error(error: .internalError(description: nil), categoryId: nil)
         }
     }
     
-    init(error: RepositoryError) {
+    init(error: RepositoryError, categoryId: Int?) {
         let eventParameterPostListingError = EventParameterPostListingError(error: error)
-        self = .error(error: eventParameterPostListingError)
+        self = .error(error: eventParameterPostListingError, categoryId: categoryId)
     }
 }

@@ -1,13 +1,6 @@
-//
-//  TourLoginViewModel.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 4/2/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 protocol TourLoginViewModelDelegate: BaseViewModelDelegate {
 }
@@ -93,6 +86,9 @@ extension TourLoginViewModel: SignUpViewModelDelegate {
     }
     func vmShowAlert(_ title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {
         delegate?.vmShowAlert(title, message: message, cancelLabel: cancelLabel, actions: actions)
+    }
+    func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction], withTitle title: String?) {
+        delegate?.vmShowActionSheet(cancelAction, actions: actions, withTitle: title)
     }
     func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction]) {
         delegate?.vmShowActionSheet(cancelAction, actions: actions)

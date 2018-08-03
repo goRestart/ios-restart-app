@@ -9,6 +9,10 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     UITextViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate,
     UINavigationControllerDelegate {
     
+    private enum Layout {
+        static let priceTypeWidth: CGFloat = 120
+    }
+    
     // UI
     private static let loadingTitleDisclaimerLeadingConstraint: CGFloat = 8
     private static let completeTitleDisclaimerLeadingConstraint: CGFloat = -20
@@ -18,14 +22,15 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     private static let separatorOptionsViewDistance = LGUIKitConstants.onePixelSize
     private static let viewOptionGenericHeight: CGFloat = 50
     private static let viewOptionVerticalCellHeight: CGFloat = 44
-    private static var carsInfoContainerHeight: CGFloat = 3*EditListingViewController.viewOptionVerticalCellHeight + 2
-    private static var realEstateInfoContainerHeight: CGFloat = 4*EditListingViewController.viewOptionVerticalCellHeight + 3
-    private static var realEstateTurkishContainerHeight: CGFloat = 4*EditListingViewController.viewOptionVerticalCellHeight + 3
-    private static var servicesInfoContainerHeight: CGFloat = 2*EditListingViewController.viewOptionVerticalCellHeight + 1
+    private static let carsInfoContainerWithExtraFieldsHeight: CGFloat = 9*EditListingViewController.viewOptionVerticalCellHeight + 8
+    private static let carsInfoContainerHeight: CGFloat = 3*EditListingViewController.viewOptionVerticalCellHeight + 3
+    private static let realEstateInfoContainerHeight: CGFloat = 4*EditListingViewController.viewOptionVerticalCellHeight + 3
+    private static let realEstateTurkishContainerHeight: CGFloat = 4*EditListingViewController.viewOptionVerticalCellHeight + 3
+    private static let servicesInfoContainerHeight: CGFloat = 2*EditListingViewController.viewOptionVerticalCellHeight + 1
 
     
     enum TextFieldTag: Int {
-        case listingTitle = 1000, listingPrice, listingDescription, sizeSquareMeters
+        case listingTitle = 1000, listingPrice, listingDescription, sizeSquareMeters, distance
     }
     
     @IBOutlet weak var scrollView: UIScrollView!
@@ -57,6 +62,12 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     @IBOutlet weak var currencyLabel: UILabel!
     @IBOutlet weak var priceTextField: LGTextField!
     
+    @IBOutlet weak var priceTypeContainer: UIView!
+    @IBOutlet weak var priceTypeLabel: UILabel!
+    @IBOutlet var priceTypeWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var priceTypeButton: UIButton!
+    @IBOutlet weak var priceTypeReverseChevronImageView: UIImageView!
+    
     @IBOutlet weak var descriptionView: UIView!
     @IBOutlet weak var descriptionCharCountLabel: UILabel!
     @IBOutlet weak var titleDisclaimerActivityIndicator: UIActivityIndicatorView!
@@ -78,6 +89,8 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     @IBOutlet weak var carInfoContainer: UIView!
     @IBOutlet weak var realEstateStandardContainer: UIView!
     @IBOutlet weak var realEstateTurkishContainer: UIView!
+    @IBOutlet weak var carExtraFieldsContainer: UIView!
+    
 
     @IBOutlet weak var carsMakeTitleLabel: UILabel!
     @IBOutlet weak var carsMakeSelectedLabel: UILabel!
@@ -89,10 +102,36 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     @IBOutlet weak var carsModelButton: UIButton!
     @IBOutlet weak var carsModelChevron: UIImageView!
     
+    
     @IBOutlet weak var carsYearTitleLabel: UILabel!
     @IBOutlet weak var carsYearSelectedLabel: UILabel!
     @IBOutlet weak var carsYearButton: UIButton!
     @IBOutlet weak var carsYearChevron: UIImageView!
+    @IBOutlet weak var carsDistanceField: LGTextField!
+    
+    @IBOutlet weak var carsDistanceLabel: UILabel!
+    @IBOutlet weak var carsBodyLabel: UILabel!
+    @IBOutlet weak var carsBodySelectedLabel: UILabel!
+    @IBOutlet weak var carsTransmissionLabel: UILabel!
+    @IBOutlet weak var carsTransmissionSelectedLabel: UILabel!
+    @IBOutlet weak var carsFuelLabel: UILabel!
+    @IBOutlet weak var carsFuelSelectedLabel: UILabel!
+    @IBOutlet weak var carsDrivetrainLabel: UILabel!
+    @IBOutlet weak var carsDrivetrainSelectedLabel: UILabel!
+    @IBOutlet weak var carsSeatLabel: UILabel!
+    @IBOutlet weak var carsSeatSelectedLabel: UILabel!
+    @IBOutlet weak var carsBodyChevron: UIImageView!
+    @IBOutlet weak var carsTransmissionChevron: UIImageView!
+    @IBOutlet weak var carsFuelChevron: UIImageView!
+    @IBOutlet weak var carsDrivetrainChevron: UIImageView!
+    @IBOutlet weak var carsSeatChevron: UIImageView!
+    
+    
+    @IBOutlet weak var carsBodyButton: UIButton!
+    @IBOutlet weak var carsTransmissionButton: UIButton!
+    @IBOutlet weak var carsFuelButton: UIButton!
+    @IBOutlet weak var carsSeatButton: UIButton!
+    @IBOutlet weak var carsDrivetrainButton: UIButton!
     
     @IBOutlet weak var realEstateStandardPropertyTypeTitleLabel: UILabel!
     @IBOutlet weak var realEstateStandardPropertyTypeSelectedLabel: UILabel!
@@ -260,7 +299,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
             viewModel.userFinishedEditingTitle(text)
         case .sizeSquareMeters:
             viewModel.realEstateSizeEditionFinished(value: text)
-        case .listingDescription, .listingPrice:
+        case .listingDescription, .listingPrice, .distance:
             break
         }
     }
@@ -291,6 +330,13 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
                 break
             case .sizeSquareMeters:
                 viewModel.realEstateSizeEditionFinished(value: text)
+            case .distance:
+                guard !text.isEmpty else {
+                    viewModel.carDistance.value = nil
+                    return true
+                }
+                guard let distance = Int(text) else { return false }
+                viewModel.carDistance.value = distance
             }
         }
         return true
@@ -488,6 +534,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     // MARK: - Private methods
 
     func setupUI() {
+        scrollView.keyboardDismissMode = .onDrag
         setupImages()
         setNavBarTitle(R.Strings.editProductTitle)
         let closeButton = UIBarButtonItem(image: R.Asset.IconsButtons.navbarClose.image, style: UIBarButtonItemStyle.plain,
@@ -515,6 +562,8 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         priceTextField.tag = TextFieldTag.listingPrice.rawValue
         priceTextField.insetX = 16.0
         
+        priceTypeLabel.textColor = .blackText
+        
         realEstateTurkishSizeTextField.placeholder = R.Strings.realEstateSummarySizeTitle
         realEstateTurkishSizeTextField.text = viewModel.realEstateSizeSquareMetersString
         realEstateTurkishSizeTextField.tag = TextFieldTag.sizeSquareMeters.rawValue
@@ -535,9 +584,21 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         categoryTitleLabel.text = R.Strings.sellCategorySelectionLabel
         categorySelectedLabel.text = viewModel.categoryName ?? ""
 
+        carsDistanceLabel.text = viewModel.carAttributes.mileageType?.rawValue.uppercased()
         carsMakeTitleLabel.text = R.Strings.postCategoryDetailCarMake
         carsModelTitleLabel.text = R.Strings.postCategoryDetailCarModel
         carsYearTitleLabel.text = R.Strings.postCategoryDetailCarYear
+        carsBodyLabel.text = R.Strings.filtersCarsBodytypeTitle
+        carsTransmissionLabel.text = R.Strings.filtersCarsTransmissionTitle
+        carsFuelLabel.text = R.Strings.filtersCarsFueltypeTitle
+        carsDrivetrainLabel.text = R.Strings.filtersCarsDrivetrainTitle
+        carsSeatLabel.text = R.Strings.filterCarsSeatsTitle
+        
+        if let carDistance = viewModel.carDistance.value {
+            carsDistanceField.text = String(carDistance)
+        }
+        carsDistanceField.placeholder = R.Strings.filterCarsMileage.capitalizedFirstLetterOnly
+        carsDistanceField.tag = TextFieldTag.distance.rawValue
         
         realEstateStandardPropertyTypeTitleLabel.text = R.Strings.realEstateTypePropertyTitle
         realEstateStandardOfferTypeTitleLabel.text = R.Strings.realEstateOfferTypeTitle
@@ -551,6 +612,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         
         serviceTypeTitleLabel.text = R.Strings.servicesServiceTypeTitle
         serviceSubtypeTitleLabel.text = R.Strings.servicesServiceSubtypeTitle
+        priceTypeLabel.text = ""
         
         sendButton.setTitle(R.Strings.editProductSendButton, for: .normal)
         sendButton.setStyle(.primary(fontSize:.big))
@@ -594,6 +656,11 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         carsMakeChevron.image = chevron
         carsModelChevron.image = chevron
         carsYearChevron.image = chevron
+        carsBodyChevron.image = chevron
+        carsFuelChevron.image = chevron
+        carsDrivetrainChevron.image = chevron
+        carsTransmissionChevron.image = chevron
+        carsSeatChevron.image = chevron
         realEstateStandardPropertyTypeChevron.image = chevron
         realEstateStandardOfferTypeChevron.image = chevron
         realEstateStandardNumberOfBedroomsChevron.image = chevron
@@ -603,6 +670,9 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         realEstateTurkishNumberOfRoomsChevron.image = chevron
         serviceChevron.image = chevron
         serviceSubtypeChevron.image = chevron
+        
+        let reverseChevron = R.Asset.IconsButtons.priceTypeDisclosureIndicator.image
+        priceTypeReverseChevronImageView.image = reverseChevron
     }
 
     fileprivate func setupRxBindings() {
@@ -719,6 +789,27 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
             self?.carsYearSelectedLabel.text = String(year)
         }.disposed(by: disposeBag)
         
+        viewModel.carBody.asObservable()
+            .map { $0?.title.capitalizedFirstLetterOnly }
+            .bind(to: carsBodySelectedLabel.rx.text)
+            .disposed(by: disposeBag)
+        viewModel.carTransmission.asObservable()
+            .map { $0?.title.capitalizedFirstLetterOnly }
+            .bind(to: carsTransmissionSelectedLabel.rx.text)
+            .disposed(by: disposeBag)
+        viewModel.carFuel.asObservable()
+            .map { $0?.title.capitalizedFirstLetterOnly }
+            .bind(to: carsFuelSelectedLabel.rx.text)
+            .disposed(by: disposeBag)
+        viewModel.carDrivetrain.asObservable()
+            .map { $0?.title.capitalizedFirstLetterOnly }
+            .bind(to: carsDrivetrainSelectedLabel.rx.text)
+            .disposed(by: disposeBag)
+        viewModel.carSeat.asObservable()
+            .map { $0?.title }
+            .bind(to: carsSeatSelectedLabel.rx.text)
+            .disposed(by: disposeBag)
+        
         viewModel.realEstateOfferType.asObservable()
             .map { $0?.localizedString }
             .bind(to: realEstateStandardOfferTypeSelectedLabel.rx.text)
@@ -763,6 +854,21 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         carsYearButton.rx.tap.bind { [weak self] in
             self?.viewModel.carYearButtonPressed()
             }.disposed(by: disposeBag)
+        carsBodyButton.rx.tap.bind { [weak self] in
+            self?.viewModel.carBodyButtonPressed()
+            }.disposed(by: disposeBag)
+        carsTransmissionButton.rx.tap.bind { [weak self] in
+            self?.viewModel.carTransmissionButtonPressed()
+            }.disposed(by: disposeBag)
+        carsFuelButton.rx.tap.bind { [weak self] in
+            self?.viewModel.carFuelButtonPressed()
+            }.disposed(by: disposeBag)
+        carsDrivetrainButton.rx.tap.bind { [weak self] in
+            self?.viewModel.carDrivetrainButtonPressed()
+            }.disposed(by: disposeBag)
+        carsSeatButton.rx.tap.bind { [weak self] in
+            self?.viewModel.carSeatButtonPressed()
+            }.disposed(by: disposeBag)
         
         realEstateStandardPropertyTypeButton.rx.tap.bind { [weak self] in
             self?.viewModel.realEstatePropertyTypeButtonPressed()
@@ -787,26 +893,33 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
             self?.viewModel.realEstateNumberOfRoomsButtonPressed()
             }.disposed(by: disposeBag)
         
-        if featureFlags.showServicesFeatures.isActive {
-            viewModel.serviceTypeId.asObservable().bind { [weak self] serviceTypeId in
-                guard let _ = serviceTypeId else {
-                    self?.disableServicesSubtypeField()
-                    return
-                }
-                self?.enableServicesSubtypeField()
-                }.disposed(by: disposeBag)
-            
-            viewModel.serviceTypeName.asObservable().bind(to: serviceTypeValueLabel.rx.text).disposed(by: disposeBag)
-            viewModel.serviceSubtypeName.asObservable().bind(to: serviceSubtypeValueLabel.rx.text).disposed(by: disposeBag)
-            
-            serviceTypeButton.rx.tap.bind { [weak self] in
-                self?.viewModel.serviceTypeButtonPressed()
-                }.disposed(by: disposeBag)
-            
-            serviceSubtypeButton.rx.tap.bind { [weak self] in
-                self?.viewModel.serviceSubtypeButtonPressed()
-                }.disposed(by: disposeBag)
-        }
+        viewModel.serviceTypeId.asObservable().bind { [weak self] serviceTypeId in
+            guard let _ = serviceTypeId else {
+                self?.disableServicesSubtypeField()
+                return
+            }
+            self?.enableServicesSubtypeField()
+            }.disposed(by: disposeBag)
+        
+        viewModel.serviceTypeName.asObservable().bind(to: serviceTypeValueLabel.rx.text).disposed(by: disposeBag)
+        viewModel.serviceSubtypeName.asObservable().bind(to: serviceSubtypeValueLabel.rx.text).disposed(by: disposeBag)
+        
+        viewModel.servicePriceType.asObservable()
+            .map({ $0?.localizedDisplayName })
+            .bind(to: priceTypeLabel.rx.text).disposed(by: disposeBag)
+        
+        serviceTypeButton.rx.tap.bind { [weak self] in
+            self?.viewModel.serviceTypeButtonPressed()
+            }.disposed(by: disposeBag)
+        
+        serviceSubtypeButton.rx.tap.bind { [weak self] in
+            self?.viewModel.serviceSubtypeButtonPressed()
+            }.disposed(by: disposeBag)
+        
+        priceTypeButton.rx.tap.bind { [weak self] in
+            self?.viewModel.priceTypeButtonPressed()
+            }.disposed(by: disposeBag)
+        
         
         viewModel.loadingProgress.asObservable().map { $0 == nil }.bind(to: loadingView.rx.isHidden).disposed(by: disposeBag)
         viewModel.loadingProgress.asObservable().ignoreNil().bind(to: loadingProgressView.rx.progress).disposed(by: disposeBag)
@@ -865,28 +978,33 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     
     private func updateVerticalFields(category: ListingCategory?) {
         guard let category = category else {
+            hidePriceTypeView()
             hideVerticalFields()
             return
         }
         switch category {
         case .cars:
+            hidePriceTypeView()
             hideRealEstateAttributesView()
             hideServicesAttributesView()
             showCarsAttributesView()
         case .realEstate:
+            hidePriceTypeView()
             hideCarsAttributesView()
             hideServicesAttributesView()
             showRealEstateAttributesView()
         case .services:
-            if featureFlags.showServicesFeatures.isActive {
-                hideCarsAttributesView()
-                hideRealEstateAttributesView()
-                showServicesAttributesView()
+            if viewModel.shouldShowPriceType {
+                showPriceTypeView()
             } else {
-                hideVerticalFields()
+                hidePriceTypeView()
             }
+            hideCarsAttributesView()
+            hideRealEstateAttributesView()
+            showServicesAttributesView()
         case .babyAndChild, .electronics, .fashionAndAccesories, .homeAndGarden, .motorsAndAccessories,
              .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .unassigned:
+            hidePriceTypeView()
             hideVerticalFields()
         }
         
@@ -927,8 +1045,11 @@ extension EditListingViewController {
     }
     
     private func showCarsAttributesView() {
+        let showExtraFields = featureFlags.carExtraFieldsEnabled.isActive
         carInfoContainer.isHidden = false
-        verticalFieldsContainerConstraint.constant = EditListingViewController.carsInfoContainerHeight
+        verticalFieldsContainerConstraint.constant = showExtraFields ? EditListingViewController.carsInfoContainerWithExtraFieldsHeight :
+            EditListingViewController.carsInfoContainerHeight
+        carExtraFieldsContainer.isHidden = !showExtraFields
     }
     
     private func hideCarsAttributesView() {
@@ -963,6 +1084,16 @@ extension EditListingViewController {
     private func hideServicesAttributesView() {
         servicesInfoContainer.isHidden = true
     }
+    
+    private func showPriceTypeView() {
+        priceTypeContainer.isHidden = false
+        priceTypeWidthConstraint.constant = Layout.priceTypeWidth
+    }
+    
+    private func hidePriceTypeView() {
+        priceTypeContainer.isHidden = true
+        priceTypeWidthConstraint.constant = 0
+    }
 }
 
 
@@ -989,6 +1120,12 @@ extension EditListingViewController: EditListingViewModelDelegate {
 
     func openCarAttributeSelectionsWithViewModel(attributesChoiceViewModel: CarAttributeSelectionViewModel) {
         let vc = CarAttributeSelectionViewController(viewModel: attributesChoiceViewModel)
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func openAttributesPicker(viewModel: ListingAttributePickerViewModel) {
+        let vc = ListingAttributePickerViewController(viewModel: viewModel)
+        viewModel.delegate = vc
         navigationController?.pushViewController(vc, animated: true)
     }
 
@@ -1039,6 +1176,7 @@ extension EditListingViewController {
         carsYearButton.set(accessibilityId: .editListingCarsYearButton)
         serviceTypeButton.set(accessibilityId: .editListingServicesTypeButton)
         serviceSubtypeButton.set(accessibilityId: .editListingServicesSubtypeButton)
+        priceTypeButton.set(accessibilityId: .editListingPriceTypeButton)
         sendButton.set(accessibilityId: .editListingSendButton)
         shareFBSwitch.set(accessibilityId: .editListingShareFBSwitch)
         loadingView.set(accessibilityId: .editListingLoadingView)

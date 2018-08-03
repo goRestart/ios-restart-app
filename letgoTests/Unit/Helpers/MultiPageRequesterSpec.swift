@@ -157,7 +157,7 @@ class MultipageRequesterSpec: QuickSpec {
                     }
 
                     it("calls the completion block with an error result") {
-                        expect(result.error).notTo(beNil())
+                        expect(result.error).notTo(beNil(  ))
                     }
                     it("calls the completion block with the failing page error") {
                         expect(result.error!._code) == RepositoryError.notFound._code

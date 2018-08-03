@@ -1,13 +1,6 @@
-//
-//  FiltersCoordinator.swift
-//  LetGo
-//
-//  Created by Nestor on 30/05/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
+import LGComponents
 
 final class FiltersCoordinator: Coordinator {
     
@@ -74,6 +67,11 @@ extension FiltersCoordinator: FiltersNavigator {
     func openListingAttributePicker(viewModel: ListingAttributePickerViewModel) {
         let vc = ListingAttributePickerViewController(viewModel: viewModel)
         viewModel.delegate = vc
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
+    func openServicesDropdown(viewModel: DropdownViewModel) {
+        let vc = DropdownViewController(withViewModel: viewModel)
         navigationController.pushViewController(vc, animated: true)
     }
 

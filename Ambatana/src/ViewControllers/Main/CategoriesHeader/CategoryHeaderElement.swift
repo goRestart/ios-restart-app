@@ -6,7 +6,6 @@ enum CategoryHeaderElement {
     case superKeyword(TaxonomyChild)
     case superKeywordGroup(Taxonomy)
     case showMore
-    case mostSearchedItems
     
     var name: String {
         switch self {
@@ -18,14 +17,12 @@ enum CategoryHeaderElement {
             return taxonomy.name
         case .showMore:
             return R.Strings.categoriesSuperKeywordsInFeedShowMore
-        case .mostSearchedItems:
-            return R.Strings.trendingItemsHeaderBubble
         }
     }
     
     var imageIconURL: URL? {
         switch self {
-        case .listingCategory, .showMore, .mostSearchedItems:
+        case .listingCategory, .showMore:
             return nil
         case .superKeyword(let taxonomyChild):
             return taxonomyChild.highlightIcon
@@ -42,8 +39,6 @@ enum CategoryHeaderElement {
             return nil
         case .showMore:
             return R.Asset.IconsButtons.CategoriesHeaderIcons.showMore.image
-        case .mostSearchedItems:
-            return R.Asset.IconsButtons.trendingIcon.image
         }
     }
     
@@ -51,14 +46,14 @@ enum CategoryHeaderElement {
         switch self {
         case .listingCategory(let listingCategory):
             return listingCategory.isCar
-        case .superKeyword, .superKeywordGroup, .showMore, .mostSearchedItems:
+        case .superKeyword, .superKeywordGroup, .showMore:
             return false
         }
     }
     
     var isSuperKeyword: Bool {
         switch self {
-        case .listingCategory, .superKeywordGroup, .showMore, .mostSearchedItems:
+        case .listingCategory, .superKeywordGroup, .showMore:
             return false
         case .superKeyword:
             return true
@@ -69,7 +64,7 @@ enum CategoryHeaderElement {
         switch self {
         case .listingCategory(let listingCategory):
             return listingCategory.isRealEstate
-        case .superKeyword, .superKeywordGroup, .showMore, .mostSearchedItems:
+        case .superKeyword, .superKeywordGroup, .showMore:
             return false
         }
     }

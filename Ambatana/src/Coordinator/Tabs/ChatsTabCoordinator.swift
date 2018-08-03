@@ -1,12 +1,5 @@
-//
-//  ChatsTabCoordinator.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 01/08/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
+import LGComponents
 
 final class ChatsTabCoordinator: TabCoordinator {
 
@@ -48,7 +41,8 @@ final class ChatsTabCoordinator: TabCoordinator {
                   tracker: tracker,
                   rootViewController: rootViewController,
                   featureFlags: featureFlags,
-                  sessionManager: sessionManager)
+                  sessionManager: sessionManager,
+                  deeplinkMailBox: LGDeepLinkMailBox.sharedInstance)
         
         chatGroupedViewModel.tabNavigator = self
         chatConversationsListViewModel.navigator = self

@@ -149,7 +149,7 @@ class LocalSuggestiveSearchSpec: QuickSpec {
                             expect(decodedSut).notTo(beNil())
                         }
                         it("decodes the same suggestive searches") {
-                            expect(decodedSut.flatMap { $0.suggestiveSearch }) == array.flatMap { $0.suggestiveSearch }
+                            expect(decodedSut.compactMap { $0.suggestiveSearch }) == array.compactMap { $0.suggestiveSearch }
                         }
                     }
                 }

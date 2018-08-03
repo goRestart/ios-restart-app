@@ -7,6 +7,8 @@ import LGComponents
 final class ChatViewController: TextViewController {
 
     private var cellMapViewer: CellMapViewer = CellMapViewer()
+    private let connectionStatusView = ChatConnectionStatusView()
+    private var connectionStatusViewTopConstraint: NSLayoutConstraint = NSLayoutConstraint()
 
     let navBarHeight: CGFloat = 64
     let inputBarHeight: CGFloat = 44
@@ -15,6 +17,7 @@ final class ChatViewController: TextViewController {
     let reputationTooltipMargin: CGFloat = 40
 
     let listingView: ChatListingView
+    let chatDetailHeader: ChatDetailNavBarInfoView
     var selectedCellIndexPath: IndexPath?
     let viewModel: ChatViewModel
     var keyboardShown: Bool = false
@@ -67,6 +70,7 @@ final class ChatViewController: TextViewController {
                   hidesBottomBar: Bool) {
         self.viewModel = viewModel
         self.listingView = ChatListingView.chatListingView()
+        self.chatDetailHeader = ChatDetailNavBarInfoView()
         self.relatedListingsView = ChatRelatedListingsView()
         self.directAnswersPresenter = DirectAnswersPresenter()
         self.stickersView = ChatStickersView()
@@ -79,6 +83,7 @@ final class ChatViewController: TextViewController {
         self.expressChatBanner.delegate = self
         self.professionalSellerBanner.delegate = self
         hidesBottomBarWhenPushed = hidesBottomBar
+        showConnectionToastView = !featureFlags.showChatConnectionStatusBar.isActive
     }
     
     required init(coder decoder: NSCoder) {
@@ -192,7 +197,7 @@ final class ChatViewController: TextViewController {
         
         if let patternBackground = UIColor.emptyViewBackgroundColor {
             tableView.backgroundColor = .clear
-            view.backgroundColor = patternBackground
+            view.backgroundColor = viewModel.showWhiteBackground ? .white : patternBackground
         }
         
         listingView.delegate = self
@@ -205,14 +210,18 @@ final class ChatViewController: TextViewController {
     }
 
     private func setupNavigationBar() {
-        listingView.height = navigationBarHeight
         listingView.letgoAssistantTag.isHidden = !viewModel.isUserDummy
-        listingView.layoutIfNeeded()
-
         setNavBarTitleStyle(.custom(listingView))
         setLetGoRightButtonWith(image: R.Asset.IconsButtons.icMoreOptions.image, selector: "optionsBtnPressed")
+        setNavBarBackgroundStyle(viewModel.showWhiteBackground ? .white : .default)
     }
-    
+
+    private func updateNavigationBarHeaderWith(view: UIView?) {
+        guard let view = view else { return }
+        setNavBarTitleStyle(.custom(view))
+    }
+
+
     private func addSubviews() {
         relationInfoView.translatesAutoresizingMaskIntoConstraints = false
         expressChatBanner.translatesAutoresizingMaskIntoConstraints = false
@@ -239,6 +248,20 @@ final class ChatViewController: TextViewController {
         expressChatBanner.layout().height(expressBannerHeight, relatedBy: .greaterThanOrEqual)
         expressChatBanner.layout(with: view).fillHorizontal()
         expressChatBanner.layout(with: relationInfoView).below(by: -relationInfoView.height, constraintBlock: { [weak self] in self?.expressChatBannerTopConstraint = $0 })
+
+        if featureFlags.showChatConnectionStatusBar.isActive {
+            view.addSubviewForAutoLayout(connectionStatusView)
+            connectionStatusViewTopConstraint = connectionStatusView.topAnchor.constraint(equalTo: safeTopAnchor, constant: Metrics.veryBigMargin)
+            NSLayoutConstraint.activate([
+                connectionStatusView.heightAnchor.constraint(equalToConstant: ChatConnectionStatusView.standardHeight),
+                connectionStatusView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                connectionStatusView.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: Metrics.margin),
+                connectionStatusView.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: Metrics.margin),
+                connectionStatusViewTopConstraint
+                ])
+            connectionStatusView.cornerRadius = ChatConnectionStatusView.standardHeight/2
+            connectionStatusView.alpha = 0
+        }
     }
 
     fileprivate func setupRelatedProducts() {
@@ -288,7 +311,7 @@ final class ChatViewController: TextViewController {
     fileprivate func setupProfessionalSellerBannerWithPhone(phoneNumber: String?) {
         var action: UIAction? = nil
         var buttonIcon: UIImage? = nil
-        if let phone = phoneNumber, phone.isPhoneNumber, viewModel.professionalBannerHasCallAction {
+        if phoneNumber != nil, viewModel.professionalBannerHasCallAction {
             action = UIAction(interface: .button(R.Strings.chatProfessionalBannerButtonTitle,
                                                  .primary(fontSize: .small)),
                               action: { [weak self] in
@@ -388,7 +411,7 @@ extension ChatViewController: UIGestureRecognizerDelegate {
         let kbAction = UIAction(interface: .image(image, nil), action: { [weak self] in
             guard let showing = self?.showingStickers else { return }
             showing ? self?.hideStickers() : self?.showStickers()
-        }, accessibilityId: .chatViewStickersButton)
+        }, accessibility: AccessibilityId.chatViewStickersButton)
         actions.append(kbAction)
 
         leftActions = actions
@@ -449,7 +472,38 @@ extension ChatViewController {
 
 fileprivate extension ChatViewController {
 
+    func animateStatusBar(visible: Bool) {
+        let existingTopOffset = blockedToastOffset + expressChatBannerOffset
+        connectionStatusViewTopConstraint.constant = visible ? Metrics.veryBigMargin + existingTopOffset : existingTopOffset
+        UIView.animate(withDuration: 0.5) { [weak self] in
+            self?.connectionStatusView.alpha = visible ? 1 : 0
+            self?.view.layoutIfNeeded()
+        }
+    }
+
+    func updateChatActions(enabled: Bool) {
+        directAnswersPresenter.enabled = enabled
+        navigationItem.rightBarButtonItem?.isEnabled = enabled
+        textView.isUserInteractionEnabled = enabled
+    }
+
     func setupRxBindings() {
+
+        viewModel.rx_connectionBarStatus.asDriver().drive(onNext: { [weak self] status in
+            guard let _ = status.title else {
+                self?.animateStatusBar(visible: false)
+                return
+            }
+            self?.connectionStatusView.status = status
+            self?.animateStatusBar(visible: true)
+            }).disposed(by: disposeBag)
+
+        viewModel.chatUserInteractionsEnabled.asDriver()
+            .distinctUntilChanged()
+            .drive(onNext: { [weak self] chatActionsEnabled in
+                self?.updateChatActions(enabled: chatActionsEnabled)
+            }).disposed(by: disposeBag)
+
         viewModel.chatEnabled.asObservable().bind { [weak self] enabled in
             self?.setTextViewBarHidden(!enabled, animated: false)
             self?.textView.isUserInteractionEnabled = enabled
@@ -510,6 +564,38 @@ fileprivate extension ChatViewController {
                 } else {
                     self?.listingView.userAvatar.image = placeholder
                 }
+            }.disposed(by: disposeBag)
+
+        Observable.combineLatest(viewModel.interlocutorAvatarURL.asObservable(),
+                                 viewModel.interlocutorName.asObservable())
+            .bind { [weak self] (avatarUrl, name) in
+                guard let vm = self?.viewModel, vm.isUserDummy else { return }
+                guard let showNoListingHeader = self?.featureFlags.showChatHeaderWithoutListingForAssistant,
+                    showNoListingHeader else { return }
+                self?.chatDetailHeader.setupWith(info: .assistant(name: name, imageUrl: avatarUrl)) { [weak self] in
+                    self?.viewModel.userInfoPressed()
+                }
+                self?.updateNavigationBarHeaderWith(view: self?.chatDetailHeader)
+            }.disposed(by: disposeBag)
+
+        Observable.combineLatest(viewModel.listingName.asObservable(),
+                                 viewModel.listingPrice.asObservable(),
+                                 viewModel.listingImageUrl.asObservable())
+            .bind { [weak self] (listingName, listingPrice, listingImageUrl) in
+                guard let strongSelf = self else { return }
+                let isAssistantWithNoProduct = strongSelf.viewModel.isUserDummy
+                    && strongSelf.featureFlags.showChatHeaderWithoutListingForAssistant
+                    && listingName.isEmpty
+                guard !isAssistantWithNoProduct else { return }
+                guard let showNoUserHeader = self?.featureFlags.showChatHeaderWithoutUser,
+                    showNoUserHeader else { return }
+                let chatNavBarInfo = ChatDetailNavBarInfo.listing(name: listingName,
+                                                                  price: listingPrice,
+                                                                  imageUrl: listingImageUrl)
+                self?.chatDetailHeader.setupWith(info: chatNavBarInfo) { [weak self] in
+                    self?.viewModel.listingInfoPressed()
+                }
+                self?.updateNavigationBarHeaderWith(view: self?.chatDetailHeader)
             }.disposed(by: disposeBag)
 
         viewModel.shouldShowExpressBanner.asObservable().skip(1).bind { [weak self] showBanner in
@@ -610,8 +696,10 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource  {
         
         let drawer = ChatCellDrawerFactory.drawerForMessage(message, meetingsEnabled: viewModel.meetingsEnabled)
         let cell = drawer.cell(tableView, atIndexPath: indexPath)
-        
-        drawer.draw(cell, message: message)
+
+        let bubbleColor: UIColor = viewModel.showWhiteBackground ? .chatOthersBubbleBgColorGray : .chatOthersBubbleBgColorWhite
+
+        drawer.draw(cell, message: message, bubbleColor: bubbleColor)
         UIView.performWithoutAnimation {
             cell.transform = tableView.transform
         }
@@ -623,6 +711,9 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource  {
         } else if let myMeetingCell = cell as? ChatMyMeetingCell {
             myMeetingCell.locationDelegate = self
             return myMeetingCell
+        } else if let ctaCell = cell as? ChatCallToActionCell {
+            ctaCell.delegate = self
+            return ctaCell
         }
 
         return cell
@@ -866,5 +957,12 @@ extension ChatViewController: MeetingCellImageDelegate, MKMapViewDelegate {
         cellMapViewer.openMapOnView(mainView: topView, fromInitialView: imageView, withCenterCoordinates: coordinates)
 
         textView.resignFirstResponder()
+    }
+}
+
+extension ChatViewController: ChatCallToActionCellDelegate {
+
+    func openDeeplink(url: URL, trackingKey: String) {
+        viewModel.openDeeplink(url: url, trackingKey: trackingKey)
     }
 }

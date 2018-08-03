@@ -149,7 +149,7 @@ extension ListingCategory {
     }
 
     static func categoriesFromString(_ categories: String) -> [ListingCategory] {
-        return categories.components(separatedBy: ",").flatMap {
+        return categories.components(separatedBy: ",").compactMap {
             guard let intValue = Int(String(describing: $0)) else { return nil }
             return ListingCategory(rawValue: intValue)
         }
@@ -164,7 +164,7 @@ extension ListingCategory {
         case .motorsAndAccessories:
             return .motorsAndAccessories
         case .services:
-            return featureFlags.showServicesFeatures.isActive ? .services : .otherItems(listingCategory: self)
+            return .services
         case .babyAndChild, .electronics, .fashionAndAccesories, .homeAndGarden, .moviesBooksAndMusic, .other,
              .sportsLeisureAndGames, .unassigned:
             return .otherItems(listingCategory: nil)

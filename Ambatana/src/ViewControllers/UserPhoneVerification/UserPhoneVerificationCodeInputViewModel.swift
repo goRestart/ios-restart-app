@@ -4,7 +4,7 @@ import LGComponents
 
 final class UserPhoneVerificationCodeInputViewModel: BaseViewModel {
 
-    weak var navigator: UserPhoneVerificationNavigator?
+    var navigator: UserPhoneVerificationNavigator?
     weak var delegate: BaseViewModelDelegate?
 
     private let callingCode: String

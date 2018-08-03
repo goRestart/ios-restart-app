@@ -14,11 +14,11 @@ extension RetrieveListingParams {
         params[VerticalsParamsKeys.maxPrice] = maxPrice
         params[VerticalsParamsKeys.minPrice] = minPrice
         params[VerticalsParamsKeys.distanceRadius] = distanceRadius
-        params[VerticalsParamsKeys.distanceType] = distanceType?.string
+        params[VerticalsParamsKeys.distanceType] = distanceType?.rawValue
         params[VerticalsParamsKeys.numResults] = numListings
         params[VerticalsParamsKeys.offset] = offset
         params[VerticalsParamsKeys.sort] = sortCriteria?.string
-        params[VerticalsParamsKeys.since] = timeCriteria?.string
+        params[VerticalsParamsKeys.since] = timeCriteria?.parameterValue
         
         params[ServicesAttributesParamsKey.typeId] = typeIds
         params[ServicesAttributesParamsKey.subtypeId] = subtypeIds

@@ -72,6 +72,11 @@ extension ChatOtherMeetingCell {
         updateStatus(status: status)
     }
 
+    func set(bubbleBackgroundColor: UIColor?) {
+        guard let bubbleBackgroundColor = bubbleBackgroundColor else { return }
+        meetingContainer.backgroundColor = bubbleBackgroundColor
+    }
+
     fileprivate func updateStatus(status: MeetingStatus) {
         switch status {
         case .pending:

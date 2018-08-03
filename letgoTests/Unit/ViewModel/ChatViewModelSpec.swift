@@ -108,7 +108,6 @@ class ChatViewModelSpec: BaseViewModelSpec {
                                     source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionManager,
                                     predefinedMessage: predefinedMessage, openChatAutomaticMessage: openChatAutomaticMessage,
                                     interlocutor: interlocutor, reputationTooltipManager: reputationTooltipManager)
-                
                 sut.delegate = self
                 disposeBag = DisposeBag()
                 sut.messages.observable.bind(to: messages).disposed(by: disposeBag)

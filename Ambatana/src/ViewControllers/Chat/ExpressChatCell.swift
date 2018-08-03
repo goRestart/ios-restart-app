@@ -23,13 +23,13 @@ class ExpressChatCell: UICollectionViewCell {
         }
     }
 
-    func configureCellWithTitle(_ title: String, imageUrl: URL?, price: String) {
+    func configureCellWithTitle(_ title: String, imageUrl: URL?, price: String, cornerRadius: CGFloat) {
         selectedImageView.layer.borderColor = UIColor.white.cgColor
         selectedImageView.setRoundedCorners()
         priceLabel.text = price
         titleLabel.text = title
 
-        cornerRadius = LGUIKitConstants.smallCornerRadius
+        self.cornerRadius = cornerRadius
         productImageView.image = R.Asset.IconsButtons.productPlaceholder.image
         if let imageURL = imageUrl {
             productImageView.lg_setImageWithURL(imageURL) { [weak self] (result, _ ) in

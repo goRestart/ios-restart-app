@@ -136,6 +136,7 @@ extension AppDelegate: UIApplicationDelegate {
          when the user quits.*/
 
         keyValueStorage?[.didEnterBackground] = true
+        keyValueStorage?[.lastSessionDate] = Date()
         appIsActive.value = false
         LGCoreKit.applicationDidEnterBackground()
         listingRepository?.updateListingViewCounts()
@@ -163,7 +164,7 @@ extension AppDelegate: UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-
+        keyValueStorage?[.lastSessionDate] = Date()
     }
 
     func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String,
@@ -238,8 +239,14 @@ fileprivate extension AppDelegate {
                         featureFlags: FeatureFlaggeable) {
 
         LGCacheManager().cleanIfNeeded()
-        let environmentHelper = EnvironmentsHelper()
-        EnvironmentProxy.sharedInstance.setEnvironmentType(environmentHelper.appEnvironment)
+        
+        #if GOD_MODE
+            let godmode = true
+        #else
+            let godmode = false
+        #endif
+        let environmentHelper = EnvironmentsHelper(godmode: godmode)
+        EnvironmentProxy.sharedInstance.setEnvironmentType(environmentHelper.appEnvironment, godmode: godmode)
 
         // Debug
         Debug.loggingOptions = [.navigation, .debug]
@@ -272,7 +279,7 @@ fileprivate extension AppDelegate {
         #endif
         
         // LGCoreKit
-        let coreEnvironment = environmentHelper.coreEnvironment
+        let coreEnvironment = environmentHelper.serverEnvironment
         let carsInfoJSONPath = Bundle.main.path(forResource: "CarsInfo", ofType: "json") ?? ""
         let taxonomiesJSONPath = Bundle.main.path(forResource: "Taxonomies", ofType: "json") ?? ""
         let servicesJSONPath = Bundle.main.path(forResource: "ServicesInfo", ofType: "json") ?? ""
@@ -305,7 +312,13 @@ fileprivate extension AppDelegate {
                                                 didFinishLaunchingWithOptions: launchOptions,
                                                 featureFlags: featureFlags)
         LGNotificationsManager.sharedInstance.setup()
-        StickersManager.sharedInstance.setup()
+        setupStripeManager()
+    }
+
+    private func setupStripeManager() {
+        let config = StripeManager.Config(apiKey: EnvironmentProxy.sharedInstance.stripeAPIKey,
+                                          appleMerchantId: EnvironmentProxy.sharedInstance.appleMerchantId)
+        StripeManager.setup(config: config)
     }
 }
 
@@ -326,7 +339,6 @@ fileprivate extension AppDelegate {
         appActiveAfterTour.subscribeNext { [weak self] enabled in
             guard let `self` = self else { return }
             if enabled {
-                let emergencyActive = self.featureFlags?.emergencyLocate.isActive ?? false
                 self.locationManager?.shouldAskForBackgroundLocationPermission = false
                 self.locationManager?.startSensorLocationUpdates()
             } else {

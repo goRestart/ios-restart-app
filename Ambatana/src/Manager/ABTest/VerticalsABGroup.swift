@@ -1,56 +1,36 @@
-//
-//  RealEstateABGroup.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 29/03/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
-import Foundation
-
 struct VerticalsABGroup: ABGroupType {
 
-    let searchCarsIntoNewBackend: LeanplumABVariable<Int>
-    let realEstatePromoCell: LeanplumABVariable<Int>
-    let filterSearchCarSellerType: LeanplumABVariable<Int>
-    let createUpdateIntoNewBackend: LeanplumABVariable<Int>
-    let realEstateMap: LeanplumABVariable<Int>
-    let showServicesFeatures: LeanplumABVariable<Int>
-
+    let carExtraFieldsEnabled: LeanplumABVariable<Int>
+    let realEstateMapTooltip: LeanplumABVariable<Int>
+    let servicesUnifiedFilterScreen: LeanplumABVariable<Int>
+    let servicesPriceType: LeanplumABVariable<Int>
+    
     let group: ABGroup = .verticals
     var intVariables: [LeanplumABVariable<Int>] = []
     var stringVariables: [LeanplumABVariable<String>] = []
     var floatVariables: [LeanplumABVariable<Float>] = []
     var boolVariables: [LeanplumABVariable<Bool>] = []
 
-    private init(searchCarsIntoNewBackend: LeanplumABVariable<Int>,
-                 realEstatePromoCell: LeanplumABVariable<Int>,
-                 filterSearchCarSellerType: LeanplumABVariable<Int>,
-                 createUpdateIntoNewBackend: LeanplumABVariable<Int>,
-                 realEstateMap: LeanplumABVariable<Int>,
-                 showServicesFeatures: LeanplumABVariable<Int>) {
-        self.searchCarsIntoNewBackend = searchCarsIntoNewBackend
-        self.realEstatePromoCell = realEstatePromoCell
-        self.filterSearchCarSellerType = filterSearchCarSellerType
-        self.createUpdateIntoNewBackend = createUpdateIntoNewBackend
-        self.realEstateMap = realEstateMap
-        self.showServicesFeatures = showServicesFeatures
-        
-        intVariables.append(contentsOf: [searchCarsIntoNewBackend,
-                                         realEstatePromoCell,
-                                         filterSearchCarSellerType,
-                                         createUpdateIntoNewBackend,
-                                         realEstateMap,
-                                         showServicesFeatures])
+    private init(carExtraFieldsEnabled: LeanplumABVariable<Int>,
+                 realEstateMapTooltip: LeanplumABVariable<Int>,
+                 servicesUnifiedFilterScreen: LeanplumABVariable<Int>,
+                 servicesPriceType: LeanplumABVariable<Int>) {
+        self.carExtraFieldsEnabled = carExtraFieldsEnabled
+        self.realEstateMapTooltip = realEstateMapTooltip
+        self.servicesUnifiedFilterScreen = servicesUnifiedFilterScreen
+        self.servicesPriceType = servicesPriceType
+
+        intVariables.append(contentsOf: [carExtraFieldsEnabled,
+                                         realEstateMapTooltip,
+                                         servicesUnifiedFilterScreen,
+                                         servicesPriceType])
     }
     
     static func make() -> VerticalsABGroup {
-        return VerticalsABGroup(searchCarsIntoNewBackend: verticalsIntFor(key: Keys.searchCarsIntoNewBackend),
-                                realEstatePromoCell: verticalsIntFor(key: Keys.realEstatePromoCell),
-                                filterSearchCarSellerType: verticalsIntFor(key: Keys.filterSearchCarSellerType),
-                                createUpdateIntoNewBackend: verticalsIntFor(key: Keys.createUpdateIntoNewBackend),
-                                realEstateMap: verticalsIntFor(key: Keys.realEstateMap),
-                                showServicesFeatures: verticalsIntFor(key: Keys.showServicesFeatures))
+        return VerticalsABGroup(carExtraFieldsEnabled: verticalsIntFor(key: Keys.carExtraFieldsEnabled),
+                                realEstateMapTooltip: verticalsIntFor(key: Keys.realEstateMapTooltip),
+                                servicesUnifiedFilterScreen: verticalsIntFor(key: Keys.servicesUnifiedFilterScreen),
+                                servicesPriceType: verticalsIntFor(key: Keys.servicesPriceType))
     }
     
     private static func verticalsIntFor(key: String) -> LeanplumABVariable<Int> {
@@ -59,10 +39,8 @@ struct VerticalsABGroup: ABGroupType {
 }
 
 private struct Keys {
-    static let searchCarsIntoNewBackend = "20180403searchCarsIntoNewBackend"
-    static let realEstatePromoCell = "20180410realEstatePromoCell"
-    static let filterSearchCarSellerType = "20180412filterSearchCarSellerType"
-    static let createUpdateIntoNewBackend = "20180424createUpdateIntoNewBackend"
-    static let realEstateMap = "20180427realEstateMap"
-    static let showServicesFeatures = "20180518showServicesFeatures"
+    static let carExtraFieldsEnabled = "20180628carExtraFieldsEnabled"
+    static let realEstateMapTooltip = "20180703realEstateMapTooltip"
+    static let servicesUnifiedFilterScreen = "20180717servicesUnifiedFilterScreen"
+    static let servicesPriceType = "20180730servicesPriceType"
 }

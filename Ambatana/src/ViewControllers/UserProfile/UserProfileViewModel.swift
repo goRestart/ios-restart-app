@@ -9,6 +9,7 @@ enum UserSource {
     case chat
     case notifications
     case link
+    case mainListing
 }
 
 struct UserViewHeaderAccounts {
@@ -29,11 +30,11 @@ final class UserProfileViewModel: BaseViewModel {
     // MARK: - Input
     let selectedTab = Variable<UserProfileTabType>(.selling)
 
-    weak var navigator: TabNavigator?
+    weak var navigator: PublicProfileNavigator?
     weak var profileNavigator: ProfileTabNavigator? {
         didSet {
             navigator = profileNavigator
-            ratingListViewModel.tabNavigator = navigator
+            ratingListViewModel.tabNavigator = profileNavigator
         }
     }
 
@@ -48,8 +49,7 @@ final class UserProfileViewModel: BaseViewModel {
     // Flag to define if there is a logged in user that allows special actions
     var isLoggedInUser: Bool { return sessionManager.loggedIn }
 
-    var isMostSearchedItemsAvailable: Bool { return featureFlags.mostSearchedDemandedItems.isActive }
-    var showMostSearchedItemsBanner: Bool { return isMostSearchedItemsAvailable && selectedTab.value == .selling }
+    var showCloseButtonInNavBar: Bool { return source == .mainListing }
 
     let arePushNotificationsEnabled = Variable<Bool?>(nil)
     var showPushPermissionsBanner: Bool {
@@ -58,7 +58,7 @@ final class UserProfileViewModel: BaseViewModel {
     }
 
     var showKarmaView: Bool {
-        return featureFlags.showAdvancedReputationSystem.isActive && isPrivateProfile
+        return featureFlags.advancedReputationSystem.isActive && isPrivateProfile
     }
 
     var userName: Driver<String?> { return user.asDriver().map {$0?.name} }
@@ -223,10 +223,14 @@ final class UserProfileViewModel: BaseViewModel {
 // MARK: - Public methods
 
 extension UserProfileViewModel {
+
+    func didTapCloseButton() {
+        profileNavigator?.closeProfile()
+    }
     
     func didTapKarmaScoreView() {
         guard isPrivateProfile else { return }
-        profileNavigator?.openVerificationView()
+        profileNavigator?.openUserVerificationView()
         trackVerifyAccountStart()
     }
 
@@ -244,7 +248,7 @@ extension UserProfileViewModel {
             verifyTypes.append(.google)
         }
         guard !verifyTypes.isEmpty else { return }
-        navigator?.openVerifyAccounts(verifyTypes,
+        profileNavigator?.openVerifyAccounts(verifyTypes,
                                       source: .profile(title: R.Strings.chatConnectAccountsTitle,
                                                        description: R.Strings.profileConnectAccountsMessage),
                                       completionBlock: nil)
@@ -390,7 +394,7 @@ extension UserProfileViewModel {
             guard let strongSelf = self, let user = user else { return .noBadge }
             if strongSelf.featureFlags.showProTagUserProfile && user.isProfessional {
                 return .pro
-            } else if strongSelf.featureFlags.showAdvancedReputationSystem.isActive {
+            } else if strongSelf.featureFlags.advancedReputationSystem.isActive {
                 return UserHeaderViewBadge(userBadge: user.reputationBadge)
             } else {
                 return .noBadge
@@ -541,19 +545,15 @@ extension UserProfileViewModel {
 
         let positive = UIAction(interface: .styledText(R.Strings.profilePermissionsAlertOk, .standard),
                                 action: positiveClosure,
-                                accessibilityId: .userPushPermissionOK)
+                                accessibility: AccessibilityId.userPushPermissionOK)
         let negative = UIAction(interface: .styledText(R.Strings.profilePermissionsAlertCancel, .cancel),
                                 action:negativeClosure,
-                                accessibilityId: .userPushPermissionCancel)
+                                accessibility: AccessibilityId.userPushPermissionCancel)
 
         delegate?.vmShowAlertWithTitle(R.Strings.profilePermissionsAlertTitle,
                                        text: R.Strings.profilePermissionsAlertMessage,
                                        alertType: .iconAlert(icon: R.Asset.IconsButtons.customPermissionProfile.image),
                                        actions: [negative, positive])
-    }
-
-    func didTapMostSearchedItems() {
-        navigator?.openMostSearchedItems(source: .mostSearchedUserProfile, enableSearch: false)
     }
 }
 
@@ -596,7 +596,6 @@ extension UserProfileViewModel: ListingListViewModelDataDelegate {
     func vmProcessReceivedListingPage(_ Listings: [ListingCellModel], page: UInt) -> [ListingCellModel] { return Listings }
     func vmDidSelectSellBanner(_ type: String) {}
     func vmDidSelectCollection(_ type: CollectionCellType) {}
-    func vmDidSelectMostSearchedItems() {}
 }
 
 // MARK: Error & Empty States
@@ -625,7 +624,7 @@ extension UserProfileViewModel {
         case let vm where vm === favoritesListingListViewModel:
             errTitle = R.Strings.profileFavouritesMyUserNoProductsLabel
             errButTitle = itsMe ? nil : R.Strings.profileFavouritesMyUserNoProductsButton
-            errButAction = { [weak self] in self?.navigator?.openHome() }
+            errButAction = { [weak self] in self?.profileNavigator?.openHome() }
         default:
             return nil
         }
@@ -688,6 +687,8 @@ extension UserProfileViewModel {
             typePage = .notifications
         case .link:
             typePage = .external
+        case .mainListing:
+            typePage = .listingList
         }
 
         let eventTab: EventParameterTab
@@ -771,7 +772,7 @@ extension UserProfileViewModel: ListingCellDelegate {
         return
     }
     
-    func openAskPhoneFor(_ listing: Listing, interlocutor: User) {}
+    func openAskPhoneFor(_ listing: Listing, interlocutor: LocalUser) {}
     
     func getUserInfoFor(_ listing: Listing, completion: @escaping (User?) -> Void) {}
 

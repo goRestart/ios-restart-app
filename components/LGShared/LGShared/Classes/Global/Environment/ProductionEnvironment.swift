@@ -1,18 +1,12 @@
-//
-//  ProductionEnvironment+AppEnvironment.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 07/05/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
 
-class ProductionEnvironment: AppEnvironment {
+final class ProductionEnvironment: AppEnvironment {
     
     static let amplitudeKey = "6d37fbd6c25243c57676e6d4ce7948bf"
     
     // General
     let appleAppId = "986339882"
     let facebookAppId = "699538486794082"
+    let appleMerchantId = "merchant.com.letgo.ios.payments"
     
     // AppsFlyer
     let appsFlyerAPIKey = "5EKnCjmwmNKjE2e7gYBo6T"
@@ -33,7 +27,6 @@ class ProductionEnvironment: AppEnvironment {
     // Website
     let websiteBaseUrl = "https://www.letgo.com"
     let websiteBaseUrlWithLocaleParams = "https://%@.letgo.com/%@"
-    let websiteBaseUrlWithLanguageParam = "https://%@.letgo.com"
     
     // Google Ads
     let adTestModeActive = false
@@ -44,13 +37,33 @@ class ProductionEnvironment: AppEnvironment {
     let feedAdUnitIdDFPUSA15Ratio = "/21666124832/us/iOS/feed/fluid_var_b"
     let feedAdUnitIdDFPUSA20Ratio = "/21666124832/us/iOS/feed/fluid_var_c"
     
-    var feedAdUnitIdAdxUSAForAllUsers = "/21666124832/us/iOS/feed/c_render_var_a"
-    var feedAdUnitIdAdxUSAForOldUsers = "/21666124832/us/iOS/feed/c_render_var_b"
+    let feedAdUnitIdAdxUSAForAllUsers = "/21666124832/us/iOS/feed/c_render_var_a"
+    let feedAdUnitIdAdxUSAForOldUsers = "/21666124832/us/iOS/feed/c_render_var_b"
+    let feedAdUnitIdAdxTRForAllUsers = "/21636273254/turkey/iOS/feed/c_render_var_a"
+    let feedAdUnitIdAdxTRForOldUsers = "/21636273254/turkey/iOS/feed/c_render_var_b"
+    
+    var feedAdUnitIdAdxInstallAppUSA = "/21666124832/us/iOS/feed/c_render_var_a"
+    var feedAdUnitIdAdxInstallAppTR = "/21636273254/turkey/iOS/feed/c_render_var_a"
+    
+    let fullScreenAdUnitIdAdxForAllUsersForUS = "/21666124832/us/iOS/interstitials/inter_var_a"
+    let fullScreenAdUnitIdAdxForOldUsersForUS = "/21666124832/us/iOS/interstitials/inter_var_b"
     
     // MoPub Ads
     let feedAdUnitIdMoPubUSAForAllUsers = "23d1d6db6b9848ba94f27887bb3585d2"
     let feedAdUnitIdMoPubUSAForOldUsers = "657d10ec0c1c48c3a280766a4dd821f4"
     let feedAdUnitIdMoPubTRForAllUsers = "05cf3847a6b24c389fc4127f595f5889"
     let feedAdUnitIdMoPubTRForOldUsers = "c6c5061b958949b0a90397d7346718aa"
+
+    // Stripe
+    let stripeAPIKey = "pk_live_reeoNOBIaAAXXS2qQgwvaAKE"
+
+    private let _godmode: Bool
     
+    required init(godmode: Bool) {
+        self._godmode = godmode
+    }
+    
+    var godmode: Bool {
+        return _godmode
+    }
 }

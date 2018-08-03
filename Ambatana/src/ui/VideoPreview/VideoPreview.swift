@@ -9,8 +9,28 @@
 import UIKit
 import AVFoundation
 import RxSwift
+import RxCocoa
 
 final class VideoPreview: UIView {
+
+    enum Status {
+        case unknown
+        case readyToPlay
+        case failed
+
+        init(status: AVPlayerStatus?) {
+            switch status {
+            case .unknown?:
+                self = .unknown
+            case .readyToPlay?:
+                self = .readyToPlay
+            case .failed?:
+                self = .failed
+            case .none:
+                self = .unknown
+            }
+        }
+    }
 
     override class var layerClass: AnyClass {
         return AVPlayerLayer.self
@@ -28,6 +48,7 @@ final class VideoPreview: UIView {
             player.replaceCurrentItem(with: playerItem)
         }
     }
+
     lazy private var player: AVPlayer = {
         let player = AVPlayer(playerItem: nil)
         player.actionAtItemEnd = .none
@@ -42,6 +63,13 @@ final class VideoPreview: UIView {
         }
         return layer
     }
+
+    private let activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.white)
+        activityIndicator.hidesWhenStopped = true
+        return activityIndicator
+    }()
+    private let disposeBag = DisposeBag()
 
     var duration: TimeInterval {
         guard let duration = player.currentItem?.duration else { return 0}
@@ -59,10 +87,24 @@ final class VideoPreview: UIView {
 
     var rx_progress = Variable<Float>(0.0)
 
+    var rx_status: Observable<Status> {
+        return player.rx.observe(AVPlayerStatus.self, #keyPath(AVPlayerItem.status)).map { Status(status: $0) }
+    }
+
     private var periodicTimeObserver: Any?
 
     deinit {
         NotificationCenter.default.removeObserver(self)
+    }
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupUI()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setupUI()
     }
 
     func play() {
@@ -90,5 +132,24 @@ final class VideoPreview: UIView {
         if let playerItem: AVPlayerItem = notification.object as? AVPlayerItem {
             playerItem.seek(to: kCMTimeZero, completionHandler: nil)
         }
+    }
+
+    private func setupUI() {
+        addSubviewForAutoLayout(activityIndicator)
+        setupConstraints()
+        setupRx()
+    }
+
+    private func setupConstraints() {
+        NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor)
+        ])
+    }
+
+    private func setupRx() {
+        rx_status.asDriver(onErrorJustReturn: .unknown).drive(onNext: { [weak self] status in
+            status == .unknown ? self?.activityIndicator.startAnimating() : self?.activityIndicator.stopAnimating()
+        }).disposed(by: disposeBag)
     }
 }

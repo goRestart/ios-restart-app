@@ -13,8 +13,11 @@ PODS:
   - Branch (0.22.5):
     - Branch/Core (= 0.22.5)
   - Branch/Core (0.22.5)
-  - bumper (1.1.0)
-  - CameraManager (4.0.1)
+  - bumper (1.3.1):
+    - bumper/Core (= 1.3.1)
+  - bumper/Core (1.3.1):
+    - RxCocoa (~> 4.0.0)
+    - RxSwift (~> 4.0.0)
   - CHTCollectionViewWaterfallLayout (0.9.7):
     - CHTCollectionViewWaterfallLayout/ObjC (= 0.9.7)
   - CHTCollectionViewWaterfallLayout/ObjC (0.9.7)
@@ -33,28 +36,33 @@ PODS:
   - FBSDKShareKit (4.29.0):
     - FBSDKCoreKit
   - FLEX (2.4.0)
-  - Google-Mobile-Ads-SDK (7.30.0)
+  - Google-Mobile-Ads-SDK (7.31.0)
   - GoogleIDFASupport (3.14.0)
   - GoogleSignIn (4.1.1):
-    - GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)
-    - GoogleToolboxForMac/NSString+URLArguments (~> 2.1)
+    - "GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)"
+    - "GoogleToolboxForMac/NSString+URLArguments (~> 2.1)"
     - GTMOAuth2 (~> 1.0)
     - GTMSessionFetcher/Core (~> 1.1)
   - GoogleToolboxForMac/DebugUtils (2.1.4):
     - GoogleToolboxForMac/Defines (= 2.1.4)
   - GoogleToolboxForMac/Defines (2.1.4)
-  - GoogleToolboxForMac/NSDictionary+URLArguments (2.1.4):
+  - "GoogleToolboxForMac/NSDictionary+URLArguments (2.1.4)":
     - GoogleToolboxForMac/DebugUtils (= 2.1.4)
     - GoogleToolboxForMac/Defines (= 2.1.4)
-    - GoogleToolboxForMac/NSString+URLArguments (= 2.1.4)
-  - GoogleToolboxForMac/NSString+URLArguments (2.1.4)
+    - "GoogleToolboxForMac/NSString+URLArguments (= 2.1.4)"
+  - "GoogleToolboxForMac/NSString+URLArguments (2.1.4)"
   - GTMOAuth2 (1.1.6):
     - GTMSessionFetcher (~> 1.1)
-  - GTMSessionFetcher (1.1.15):
-    - GTMSessionFetcher/Full (= 1.1.15)
-  - GTMSessionFetcher/Core (1.1.15)
-  - GTMSessionFetcher/Full (1.1.15):
-    - GTMSessionFetcher/Core (= 1.1.15)
+  - GTMSessionFetcher (1.2.0):
+    - GTMSessionFetcher/Full (= 1.2.0)
+  - GTMSessionFetcher/Core (1.2.0)
+  - GTMSessionFetcher/Full (1.2.0):
+    - GTMSessionFetcher/Core (= 1.2.0)
+  - IGListKit (3.4.0):
+    - IGListKit/Default (= 3.4.0)
+  - IGListKit/Default (3.4.0):
+    - IGListKit/Diffing
+  - IGListKit/Diffing (3.4.0)
   - JSONWebToken (2.2.0)
   - KeychainSwift (10.0.0)
   - KMPlaceholderTextView (1.3.0)
@@ -67,9 +75,11 @@ PODS:
   - LGComponents/LGAnalytics (1.0.0)
   - LGComponents/LGResources (1.0.0)
   - LGComponents/LGShared (1.0.0):
+    - AlamofireImage (= 3.3.0)
     - CocoaLumberjack/Swift (= 3.3.0)
-    - LGCoreKit (= 4.32.2)
-  - LGCoreKit (4.32.2):
+    - LGCoreKit (= 4.53.0)
+    - RxCocoa (= 4.0.0)
+  - LGCoreKit (4.53.0):
     - Alamofire (~> 4.5.1)
     - CocoaLumberjack/Swift (~> 3.3.0)
     - DeviceGuru (~> 3.0.1)
@@ -135,6 +145,7 @@ PODS:
   - RxTest (4.0.0):
     - RxSwift (~> 4.0)
   - SocketRocket (0.5.1)
+  - Stripe (13.0.3)
   - SwiftyGif (4.1.0)
   - SwiftyUserDefaults (3.0.1)
 
@@ -143,8 +154,7 @@ DEPENDENCIES:
   - Amplitude-iOS (= 4.0.4)
   - AppsFlyerFramework (= 4.8.4)
   - Branch (= 0.22.5)
-  - bumper (from `git@github.com:letgoapp/bumper.git`, commit `7ec04a070eca2337f058954d7f53c474d616d7b1`)
-  - CameraManager (from `git@github.com:letgoapp/CameraManager.git`, commit `7b32b50f8bdb1f94f1f1d0fdb6c99a9d21a7ee84`)
+  - bumper (= 1.3.1)
   - CHTCollectionViewWaterfallLayout (= 0.9.7)
   - CocoaLumberjack/Swift (= 3.3.0)
   - Crashlytics (= 3.9.3)
@@ -154,15 +164,16 @@ DEPENDENCIES:
   - FBSDKLoginKit (= 4.29.0)
   - FBSDKShareKit (= 4.29.0)
   - FLEX (= 2.4.0)
-  - Google-Mobile-Ads-SDK (= 7.30.0)
+  - Google-Mobile-Ads-SDK (= 7.31.0)
   - GoogleIDFASupport (= 3.14.0)
   - GoogleSignIn (= 4.1.1)
+  - IGListKit (= 3.4.0)
   - KeychainSwift (= 10.0.0)
   - KMPlaceholderTextView (from `https://github.com/letgoapp/KMPlaceholderTextView`, commit `426117c98e8da8fc7d64a7d3c2f0f45c48d595e6`)
   - Leanplum-iOS-SDK (= 2.0.5)
   - LGCollapsibleLabel (= 1.2.0)
   - LGComponents (from `components`)
-  - LGCoreKit (= 4.32.2)
+  - LGCoreKit (= 4.53.0)
   - lottie-ios (= 2.5.0)
   - mopub-ios-sdk (= 4.20.0)
   - NewRelicAgent (= 6.1.1)
@@ -176,16 +187,64 @@ DEPENDENCIES:
   - RxSwift (= 4.0.0)
   - RxSwiftExt (= 3.0.0)
   - RxTest (= 4.0.0)
+  - Stripe (= 13.0.3)
   - SwiftyGif (= 4.1.0)
   - SwiftyUserDefaults (= 3.0.1)
 
+SPEC REPOS:
+  "git@github.com:letgoapp/letgo-ios-specs.git":
+    - bumper
+    - LGCollapsibleLabel
+    - LGCoreKit
+  https://github.com/cocoapods/specs.git:
+    - Alamofire
+    - AlamofireImage
+    - Amplitude-iOS
+    - AppsFlyerFramework
+    - Bolts
+    - Branch
+    - CHTCollectionViewWaterfallLayout
+    - CocoaLumberjack
+    - Crashlytics
+    - DeviceGuru
+    - Differentiator
+    - Fabric
+    - FBSDKCoreKit
+    - FBSDKLoginKit
+    - FBSDKShareKit
+    - FLEX
+    - Google-Mobile-Ads-SDK
+    - GoogleIDFASupport
+    - GoogleSignIn
+    - GoogleToolboxForMac
+    - GTMOAuth2
+    - GTMSessionFetcher
+    - IGListKit
+    - JSONWebToken
+    - KeychainSwift
+    - Leanplum-iOS-SDK
+    - lottie-ios
+    - mopub-ios-sdk
+    - NewRelicAgent
+    - Nimble
+    - OHHTTPStubs
+    - Quick
+    - ReachabilitySwift
+    - Realm
+    - RealmSwift
+    - Result
+    - RxCocoa
+    - RxDataSources
+    - RxMKMapView
+    - RxSwift
+    - RxSwiftExt
+    - RxTest
+    - SocketRocket
+    - Stripe
+    - SwiftyGif
+    - SwiftyUserDefaults
+
 EXTERNAL SOURCES:
-  bumper:
-    :commit: 7ec04a070eca2337f058954d7f53c474d616d7b1
-    :git: git@github.com:letgoapp/bumper.git
-  CameraManager:
-    :commit: 7b32b50f8bdb1f94f1f1d0fdb6c99a9d21a7ee84
-    :git: git@github.com:letgoapp/CameraManager.git
   KMPlaceholderTextView:
     :commit: 426117c98e8da8fc7d64a7d3c2f0f45c48d595e6
     :git: https://github.com/letgoapp/KMPlaceholderTextView
@@ -193,12 +252,6 @@ EXTERNAL SOURCES:
     :path: components
 
 CHECKOUT OPTIONS:
-  bumper:
-    :commit: 7ec04a070eca2337f058954d7f53c474d616d7b1
-    :git: git@github.com:letgoapp/bumper.git
-  CameraManager:
-    :commit: 7b32b50f8bdb1f94f1f1d0fdb6c99a9d21a7ee84
-    :git: git@github.com:letgoapp/CameraManager.git
   KMPlaceholderTextView:
     :commit: 426117c98e8da8fc7d64a7d3c2f0f45c48d595e6
     :git: https://github.com/letgoapp/KMPlaceholderTextView
@@ -210,8 +263,7 @@ SPEC CHECKSUMS:
   AppsFlyerFramework: c45bbd289a6f9e9a19976ee270b44edea646aab6
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   Branch: 4f0482418d99e77d15b0e6065ef216c10e24797b
-  bumper: 8d5499e9774aa148763ab9a1eebcaf5e0ed7beff
-  CameraManager: 3680841b23453730bb4b2dbed0dd493ccb354c7d
+  bumper: f8d19f02bca78a960374877f07ce4072d5a35f17
   CHTCollectionViewWaterfallLayout: 9d11068fafecac106695bb5a5d6d0f738483b598
   CocoaLumberjack: 3c8c74683302f9012bb168e1c4b7ae3c0b558431
   Crashlytics: dbb07d01876c171c5ccbdf7826410380189e452c
@@ -222,19 +274,20 @@ SPEC CHECKSUMS:
   FBSDKLoginKit: 56a057ca6822535ea0faa25f57a7c41edb697fd4
   FBSDKShareKit: 18a2cd118aef11dd657fe7e8b64bae5c719088b2
   FLEX: bd1a39e55b56bb413b6f1b34b3c10a0dc44ef079
-  Google-Mobile-Ads-SDK: 7404f68120ae8682afeb5af001fbf4aad731c78e
+  Google-Mobile-Ads-SDK: 6e529e748b45507a2ca904e0b5a52669ba3920c4
   GoogleIDFASupport: aaf8c10bd429abb1c15349d5252244f5eda8ead1
   GoogleSignIn: 3fdaa34a2ba04dbd7a25d7db39aecb0da98d5bdc
   GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
   GTMOAuth2: c77fe325e4acd453837e72d91e3b5f13116857b2
-  GTMSessionFetcher: 5fa5b80fd20e439ef5f545fb2cb3ca6c6714caa2
+  GTMSessionFetcher: 0c4baf0a73acd0041bf9f71ea018deedab5ea84e
+  IGListKit: 7a5d788e9fb746bcd402baa8e8b24bc3bd2a5a07
   JSONWebToken: 6fae32489632658d563dd6952a5c34020ea813e4
   KeychainSwift: f9f7910449a0c0fd2cabc889121530dd2c477c33
   KMPlaceholderTextView: 2bbcd19a273648a80a61e1e48f9743a24d8930e3
   Leanplum-iOS-SDK: d7d387b7f3688e697f2893978bfe67092df5b7ca
   LGCollapsibleLabel: 2a5ebb0ff0ff3e1d7ab0c295a17c923db000f557
-  LGComponents: 55fa8c26cc843b769d0dd4654b32599774db9f7a
-  LGCoreKit: 8050fdc0bd6dcd4a43ec5d3019d1c8cf54a6b887
+  LGComponents: 5d4dea1c6afa8168b647ec7115c139adc5d1dffb
+  LGCoreKit: 60d73973be2528169fc86bbc246b238ad3493968
   lottie-ios: d699fdee68d7b63e721d949388b015fef1aaa4ac
   mopub-ios-sdk: 89c6ac9ca01d3b36e9fba16a6cfe31d3c290d354
   NewRelicAgent: 652434a627201e3745cd5849228feeb10afe1879
@@ -252,9 +305,10 @@ SPEC CHECKSUMS:
   RxSwiftExt: b06c47dff66cd33ca7683bba1e74b0c5c8e3592e
   RxTest: 0041e792cede35e53e4749f378d21482af0e9d12
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
+  Stripe: 76c203e21555089b708e6cbe972a3e3baf1ab4d8
   SwiftyGif: d36c6dfb52e2ca1e48fe349d225f50ec4123ec85
   SwiftyUserDefaults: 3d273b1739b68ada3145dc754a70ec775bc5c8be
 
-PODFILE CHECKSUM: 15fa08a6d9a26beca4570ae86157cc7703611c2a
+PODFILE CHECKSUM: a93217e2ecc6cf76a808150edf1c8cb8eaecf438
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.5.3

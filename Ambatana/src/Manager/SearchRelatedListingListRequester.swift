@@ -147,7 +147,7 @@ fileprivate extension SearchRelatedListingListRequester {
         params.coordinates = queryCoordinates
         params.queryString = queryString
         params.countryCode = countryCode
-        params.categoryIds = filters?.selectedCategories.flatMap { $0.rawValue }
+        params.categoryIds = filters?.selectedCategories.compactMap { $0.rawValue }
         
         let idCategoriesFromTaxonomies = filters?.selectedTaxonomyChildren.getIds(withType: .category)
         params.categoryIds?.append(contentsOf: idCategoriesFromTaxonomies ?? [])
@@ -165,31 +165,12 @@ fileprivate extension SearchRelatedListingListRequester {
             params.superKeywordIds = selectedTaxonomy.children.getIds(withType: .superKeyword)
         }
         
-        params.timeCriteria = filters?.selectedWithin
+        params.timeCriteria = filters?.selectedWithin.listingTimeCriteria
         params.sortCriteria = filters?.selectedOrdering
         params.distanceRadius = filters?.distanceRadius
         params.distanceType = filters?.distanceType
-        params.makeId = filters?.carMakeId
-        params.modelId = filters?.carModelId
-        params.startYear = filters?.carYearStart
-        params.endYear = filters?.carYearEnd
-        params.abtest = featureFlags.searchImprovements.stringValue
-
-        if let propertyType = filters?.realEstatePropertyType?.rawValue {
-            params.propertyType = propertyType
-        }
-
-        var offerTypeOptions: [String] = []
-        if let realEstateOfferType = filters?.realEstateOfferTypes {
-            realEstateOfferType.forEach { offerTypeOptions.append($0.rawValue) }
-            params.offerType = offerTypeOptions
-        }
-        params.numberOfBedrooms = filters?.realEstateNumberOfBedrooms?.rawValue ?? filters?.realEstateNumberOfRooms?.numberOfBedrooms
-        params.numberOfBathrooms = filters?.realEstateNumberOfBathrooms?.rawValue
-        params.numberOfLivingRooms = filters?.realEstateNumberOfRooms?.numberOfLivingRooms
         
-        params.sizeSquareMetersFrom = filters?.realEstateSizeRange.min
-        params.sizeSquareMetersTo = filters?.realEstateSizeRange.max
+        params.abtest = featureFlags.searchImprovements.stringValue
         
         if let priceRange = filters?.priceRange {
             switch priceRange {
@@ -201,18 +182,7 @@ fileprivate extension SearchRelatedListingListRequester {
             }
         }
         
-        /*
-         Currently, we only support multiselect on the app side, but the API requires an
-         array of typeIds. When we support Multiselect we can just update the filters servicesType parameter to
-         an array
-        */
-        if let typeId = filters?.servicesType?.id {
-            params.typeIds = [typeId]
-        } else {
-            params.typeIds = nil
-        }
-        
-        params.subtypeIds = filters?.servicesSubtypes?.map( { $0.id } )
+        params.applyVerticalFilters(with: filters?.verticalFilters, featureFlags: featureFlags)
         
         return params
     }

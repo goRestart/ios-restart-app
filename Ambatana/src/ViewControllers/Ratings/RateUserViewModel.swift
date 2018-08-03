@@ -313,11 +313,11 @@ fileprivate extension RateUserViewModel {
                 if userRating.value >= SharedConstants.userRatingMinStarsPositive {
                     let positiveTags = PositiveUserRatingTag.make(string: comment)
                     let allPositiveTags = PositiveUserRatingTag.allValues
-                    tagIdxs = positiveTags.flatMap { allPositiveTags.index(of: $0) }
+                    tagIdxs = positiveTags.compactMap { allPositiveTags.index(of: $0) }
                 } else {
                     let negativeTags = NegativeUserRatingTag.make(string: comment)
                     let allNegativeTags = NegativeUserRatingTag.allValues
-                    tagIdxs = negativeTags.flatMap { allNegativeTags.index(of: $0) }
+                    tagIdxs = negativeTags.compactMap { allNegativeTags.index(of: $0) }
                 }
             } else {
                 description = nil
@@ -392,6 +392,15 @@ fileprivate extension RateUserViewModel {
         let event = TrackerEvent.userRatingComplete(data.userId, typePage: EventParameterTypePage(source: source),
                                                     rating: rating.value, hasComments: hasComments)
         tracker.trackEvent(event)
+    }
+}
+
+private extension String {
+    
+    func trimUserRatingTags() -> String {
+        let strings = NegativeUserRatingTag.allValues.map { $0.localizedText } + PositiveUserRatingTag.allValues.map { $0.localizedText }
+        let separator = ". "
+        return trim(strings: strings, separator: separator)
     }
 }
 

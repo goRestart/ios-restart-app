@@ -312,6 +312,8 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
             navigationMakeButton.setTitleColor(UIColor.whiteTextLowAlpha, for: .normal)
             navigationModelButton.setTitleColor(UIColor.whiteTextLowAlpha, for: .normal)
             navigationYearButton.setTitleColor(UIColor.white, for: .normal)
+        case .distance, .body, .transmission, .fuel, .drivetrain, .seat:
+            break
         }
     }
     

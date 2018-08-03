@@ -1,51 +1,87 @@
-import Foundation
 import FLEX
 import bumper
 import LGCoreKit
 import LGComponents
 
-class AdminViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+final class AdminViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    private static let cellIdentifier = "AdminCell"
-    var tableView: UITableView = UITableView()
-    
-    static func canOpenAdminPanel() -> Bool {
-        var compiledInGodMode = false
-        #if GOD_MODE
-            compiledInGodMode = true
-        #endif
-        return compiledInGodMode || KeyValueStorage.sharedInstance[.isGod]
+    private enum Row {
+        case flex, bumper, environment(String), installationId, userId, pushToken, newInstall, removeAndInstall
+        
+        var title: String {
+            switch self {
+            case .flex: return "👾 FLEX"
+            case .bumper: return "🎪 Bumper Features"
+            case .environment: return "⚒ Server Environment"
+            case .installationId: return "📱 Installation id"
+            case .userId: return "😎 User id"
+            case .pushToken: return "📲 Push token"
+            case .newInstall: return "🌪 New install"
+            case .removeAndInstall: return "⏮ Remove & install"
+            }
+        }
+        
+        var subtitle: String {
+            let propertyNotFound = "None"
+            switch self {
+            case .environment(let value): return value
+            case .installationId: return Core.installationRepository.installation?.objectId ?? propertyNotFound
+            case .userId: return Core.myUserRepository.myUser?.objectId ?? propertyNotFound
+            case .pushToken: return Core.installationRepository.installation?.deviceToken ?? propertyNotFound
+            case .newInstall: return "Next start will be as a fresh install start (except system permissions)"
+            case .removeAndInstall: return "Next start will be as re-install (keeping installation_id)"
+            case .flex, .bumper: return ""
+            }
+        }
+        
+        func action(adminViewController: AdminViewController) {
+            switch self {
+            case .flex: adminViewController.openFlex()
+            case .bumper: adminViewController.openFeatureToggle()
+            case .newInstall: adminViewController.cleanInstall(keepInstallation: false)
+            case .removeAndInstall: adminViewController.cleanInstall(keepInstallation: true)
+            case .installationId, .userId, .pushToken: UIPasteboard.general.string = subtitle
+            case .environment: adminViewController.openServerEnvironmentPicker()
+            }
+        }
     }
     
+    private let isGodMode: Bool
+    private var rows: [Row] {
+        let env = currentServerEnvironment.rawValue.capitalizedFirstLetterOnly
+        if isGodMode {
+            return [.flex, .bumper, .environment(env), .installationId, .userId, .pushToken, .newInstall, .removeAndInstall]
+        }
+        return [.flex, .bumper, .environment(env), .installationId, .userId, .pushToken]
+    }
+    
+    private let tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.tableFooterView = UIView(frame: CGRect.zero)
+        tableView.backgroundColor = UIColor(white: 0.9, alpha: 1)
+        return tableView
+    }()
+    
+    private var currentServerEnvironment: EnvironmentType
     
     // MARK: - Lifecycle
     
+    private init(isGodMode: Bool) {
+        self.isGodMode = isGodMode
+        currentServerEnvironment = EnvironmentsHelper(godmode: isGodMode).serverEnvironment
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
-        tableView.frame = view.bounds
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.tableFooterView = UIView(frame: CGRect.zero)
-        tableView.backgroundColor = UIColor(white: 0.9, alpha: 1)
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: AdminViewController.cellIdentifier)
-        view.addSubview(tableView)
-        title = "🙏 God Panel 🙏"
-        
-        let closeButton = UIBarButtonItem(image: R.Asset.IconsButtons.navbarClose.image, style: UIBarButtonItemStyle.plain,
-            target: self, action: #selector(AdminViewController.closeButtonPressed))
-        self.navigationItem.leftBarButtonItem = closeButton;
+        super.viewDidLoad()
+        setup()
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        title = "🙏 God Panel 🙏"
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        title = "God Panel"
-    }
-
-    @objc func closeButtonPressed() {
+    @objc private func closeButtonPressed() {
         dismiss(animated: true, completion: nil)
     }
 
@@ -53,38 +89,34 @@ class AdminViewController: UIViewController, UITableViewDataSource, UITableViewD
     // MARK: - TableView
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: AdminViewController.cellIdentifier)
-        cell.textLabel?.text = titleForCellAtIndexPath(indexPath)
-        cell.detailTextLabel?.text = subtitleForCellAtIndexPath(indexPath)
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
+        cell.textLabel?.text = rows[indexPath.row].title
+        cell.detailTextLabel?.text = rows[indexPath.row].subtitle
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch indexPath.row {
-        case 0:
-            openFlex()
-        case 1:
-            openFeatureToggle()
-        case 5:
-            cleanInstall(keepInstallation: false)
-        case 6:
-            cleanInstall(keepInstallation: true)
-        default:
-            UIPasteboard.general.string = subtitleForCellAtIndexPath(indexPath)
-        }
+        rows[indexPath.row].action(adminViewController: self)
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        #if GOD_MODE
-            return 7
-        #else
-            return 5
-        #endif
-
+        return rows.count
     }
     
     // MARK: - Private
+    
+    private func setup() {
+        tableView.frame = view.bounds
+        tableView.delegate = self
+        tableView.dataSource = self
+        view.addSubview(tableView)
+        title = "God Panel"
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: R.Asset.IconsButtons.navbarClose.image,
+                                                           style: UIBarButtonItemStyle.plain,
+                                                           target: self,
+                                                           action: #selector(AdminViewController.closeButtonPressed))
+    }
     
     private func openFlex() {
         FLEXManager.shared().showExplorer()
@@ -94,17 +126,31 @@ class AdminViewController: UIViewController, UITableViewDataSource, UITableViewD
         let vc = BumperViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
+    
+    private func openServerEnvironmentPicker() {
+        let vc = ServerEnvironmentPicker(selectedEnvironment: currentServerEnvironment, onNewEnvironment: changeEnvironment)
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    private func changeEnvironment(to newEnvironment: EnvironmentType) {
+        KeyValueStorage.sharedInstance[.serverEnvironment] = newEnvironment.rawValue
+        currentServerEnvironment = newEnvironment
+        tableView.reloadData()
+        ask(message: "To take effect this change requires relaunching the app. Do you want to kill it now?") {
+            exit(0)
+        }
+    }
 
     private func cleanInstall(keepInstallation: Bool) {
         let message = keepInstallation ?
             "You're about to reset stored state and bumper information. (Push, location, photos and camera permissions will remain)" :
             "You're about to reset all stored state, bumper and keychain information, installation will be new. (Push, location, photos and camera permissions will remain)"
 
-        ask(message: message, andExecute: {
+        ask(message: message, andExecute: { [weak self] in
             GodModeManager.sharedInstance.setCleanInstallOnNextStart(keepingInstallation: keepInstallation)
-            #if GOD_MODE
+            if self?.isGodMode ?? false {
                 exit(0)
-            #endif
+            }
         })
     }
 
@@ -112,44 +158,25 @@ class AdminViewController: UIViewController, UITableViewDataSource, UITableViewD
         let cancelAction = UIAction(interface: .styledText("Cancel", .cancel), action: {})
         let okAction = UIAction(interface: .styledText("Do it!", .standard), action: action)
         showAlert(nil, message: message, actions: [cancelAction, okAction])
+    }    
+}
+
+extension AdminViewController {
+    
+    static func make() -> AdminViewController {
+        #if GOD_MODE
+        let isGodMode = true
+        #else
+        let isGodMode = false
+        #endif
+        return AdminViewController(isGodMode: isGodMode)
     }
     
-    private func titleForCellAtIndexPath(_ indexPath: IndexPath) -> String {
-        switch indexPath.row {
-        case 0:
-            return "👾 FLEX"
-        case 1:
-            return "🎪 Bumper Features"
-        case 2:
-            return "📱 Installation id"
-        case 3:
-            return "😎 User id"
-        case 4:
-            return "📲 Push token"
-        case 5:
-            return "🌪 New install"
-        case 6:
-            return "⏮ Remove & install"
-        default:
-            return "Not implemented"
-        }
-    }
-    
-    private func subtitleForCellAtIndexPath(_ indexPath: IndexPath) -> String {
-        let propertyNotFound = "None"
-        switch indexPath.row {
-        case 2:
-            return Core.installationRepository.installation?.objectId ?? propertyNotFound
-        case 3:
-            return Core.myUserRepository.myUser?.objectId ?? propertyNotFound
-        case 4:
-            return Core.installationRepository.installation?.deviceToken ?? propertyNotFound
-        case 5:
-            return "Next start will be as a fresh install start (except system permissions)"
-        case 6:
-            return "Next start will be as re-install (keeping installation_id)"
-        default:
-            return ""
-        }
+    static func canOpenAdminPanel() -> Bool {
+        var compiledInGodMode = false
+        #if GOD_MODE
+        compiledInGodMode = true
+        #endif
+        return compiledInGodMode || KeyValueStorage.sharedInstance[.isGod]
     }
 }

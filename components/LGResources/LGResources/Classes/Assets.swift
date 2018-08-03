@@ -59,7 +59,6 @@ extension R {
       public static let icBlockedWhiteLine = ImageAsset(name: "ic_blocked_white_line")
       public static let icDollarSold = ImageAsset(name: "ic_dollar_sold")
       public static let icSoldWhite = ImageAsset(name: "ic_sold_white")
-      public static let imgCallCenterGirl = ImageAsset(name: "img_call_center_girl")
       public static let inviteLetgo = ImageAsset(name: "invite_letgo")
       public static let itemLocation = ImageAsset(name: "itemLocation")
       public static let logoBig = ImageAsset(name: "logo-big")
@@ -96,7 +95,6 @@ extension R {
         icBlockedWhiteLine,
         icDollarSold,
         icSoldWhite,
-        imgCallCenterGirl,
         inviteLetgo,
         itemLocation,
         logoBig,
@@ -247,6 +245,12 @@ extension R {
         public static let showMore = ImageAsset(name: "showMore")
         public static let techFeed = ImageAsset(name: "tech_feed")
       }
+      public enum Community {
+        public static let icCommunityBanner = ImageAsset(name: "ic_community_banner")
+        public static let shapeBrightblue = ImageAsset(name: "shapeBrightblue")
+        public static let shapeDarkblue = ImageAsset(name: "shapeDarkblue")
+        public static let shapeYellow = ImageAsset(name: "shapeYellow")
+      }
       public enum IAmInterested {
         public static let icIamiSeeconv = ImageAsset(name: "ic_iami_seeconv")
         public static let icIamiSend = ImageAsset(name: "ic_iami_send")
@@ -273,6 +277,39 @@ extension R {
       public static let chevronDownGrey = ImageAsset(name: "chevron_down_grey")
       public static let customPermissionProfile = ImageAsset(name: "custom_permission_profile")
       public static let downChevronRed = ImageAsset(name: "down_chevron_red")
+      public enum FiltersCarExtrasIcons {
+        public enum Bodytype {
+          public static let bodyTypeHybrid = ImageAsset(name: "bodyTypeHybrid")
+          public static let convertible = ImageAsset(name: "convertible")
+          public static let coupe = ImageAsset(name: "coupe")
+          public static let hatchback = ImageAsset(name: "hatchback")
+          public static let minivan = ImageAsset(name: "minivan")
+          public static let other = ImageAsset(name: "other")
+          public static let sedan = ImageAsset(name: "sedan")
+          public static let suv = ImageAsset(name: "suv")
+          public static let truck = ImageAsset(name: "truck")
+          public static let wagon = ImageAsset(name: "wagon")
+        }
+        public enum Drivetrain {
+          public static let _4wd = ImageAsset(name: "4wd")
+          public static let awd = ImageAsset(name: "awd")
+          public static let fwd = ImageAsset(name: "fwd")
+          public static let rwd = ImageAsset(name: "rwd")
+        }
+        public enum Fueltype {
+          public static let diesel = ImageAsset(name: "diesel")
+          public static let electric = ImageAsset(name: "electric")
+          public static let flex = ImageAsset(name: "flex")
+          public static let fuelTypeHybrid = ImageAsset(name: "fuelTypeHybrid")
+          public static let gas = ImageAsset(name: "gas")
+        }
+        public static let mileage = ImageAsset(name: "mileage")
+        public static let seats = ImageAsset(name: "seats")
+        public enum Transmission {
+          public static let automatic = ImageAsset(name: "automatic")
+          public static let manual = ImageAsset(name: "manual")
+        }
+      }
       public enum FiltersCategoriesIcons {
         public static let categoriesBabiesInactive = ImageAsset(name: "categories_babies_inactive")
         public static let categoriesCarsInactive = ImageAsset(name: "categories_cars_inactive")
@@ -328,6 +365,7 @@ extension R {
       public static let icCheckboxSelected = ImageAsset(name: "ic_checkbox_selected")
       public static let icCheckmark = ImageAsset(name: "ic_checkmark")
       public static let icChevronRight = ImageAsset(name: "ic_chevron_right")
+      public static let icChevronUp = ImageAsset(name: "ic_chevron_up")
       public static let icCirlePlus = ImageAsset(name: "ic_cirle_plus")
       public static let icClose = ImageAsset(name: "ic_close")
       public static let icCloseCarousel = ImageAsset(name: "ic_close_carousel")
@@ -469,7 +507,6 @@ extension R {
       public static let itemShareWhatsapp = ImageAsset(name: "item_share_whatsapp")
       public static let itemShareWhatsappBig = ImageAsset(name: "item_share_whatsapp_big")
       public static let items = ImageAsset(name: "items")
-      public static let learnMoreChevron = ImageAsset(name: "learnMoreChevron")
       public static let listSearch = ImageAsset(name: "list_search")
       public static let listSearchGrey = ImageAsset(name: "list_search_grey")
       public enum Map {
@@ -494,14 +531,14 @@ extension R {
       public static let navbarSettingsRed = ImageAsset(name: "navbar_settings_red")
       public static let navbarShare = ImageAsset(name: "navbar_share")
       public static let navbarShareRed = ImageAsset(name: "navbar_share_red")
-      public static let npsBad = ImageAsset(name: "nps_bad")
-      public static let npsGood = ImageAsset(name: "nps_good")
       public static let oval = ImageAsset(name: "oval")
+      public static let priceTypeDisclosureIndicator = ImageAsset(name: "priceTypeDisclosureIndicator")
       public static let productPlaceholder = ImageAsset(name: "product_placeholder")
       public static let rightChevron = ImageAsset(name: "right_chevron")
       public static let searchAlertIcon = ImageAsset(name: "search_alert_icon")
       public static let servicesIcon = ImageAsset(name: "servicesIcon")
       public static let tabbarChats = ImageAsset(name: "tabbar_chats")
+      public static let tabbarCommunity = ImageAsset(name: "tabbar_community")
       public static let tabbarHome = ImageAsset(name: "tabbar_home")
       public static let tabbarNotifications = ImageAsset(name: "tabbar_notifications")
       public static let tabbarProfile = ImageAsset(name: "tabbar_profile")
@@ -509,7 +546,6 @@ extension R {
       public static let tooltipPeakCenterBlack = ImageAsset(name: "tooltip_peak_center_black")
       public static let tooltipPeakSideBlack = ImageAsset(name: "tooltip_peak_side_black")
       public static let trendingExpandable = ImageAsset(name: "trending_expandable")
-      public static let trendingIcon = ImageAsset(name: "trending_icon")
       public static let userPlaceholder = ImageAsset(name: "user_placeholder")
       public static let userProfileAddAvatar = ImageAsset(name: "user_profile_add_avatar")
       public static let userProfileEditAvatar = ImageAsset(name: "user_profile_edit_avatar")
@@ -539,6 +575,10 @@ extension R {
         CategoriesHeaderIcons.servicesFeed,
         CategoriesHeaderIcons.showMore,
         CategoriesHeaderIcons.techFeed,
+        Community.icCommunityBanner,
+        Community.shapeBrightblue,
+        Community.shapeDarkblue,
+        Community.shapeYellow,
         IAmInterested.icIamiSeeconv,
         IAmInterested.icIamiSend,
         NewItemPage.nitEdit,
@@ -557,6 +597,29 @@ extension R {
         chevronDownGrey,
         customPermissionProfile,
         downChevronRed,
+        FiltersCarExtrasIcons.Bodytype.bodyTypeHybrid,
+        FiltersCarExtrasIcons.Bodytype.convertible,
+        FiltersCarExtrasIcons.Bodytype.coupe,
+        FiltersCarExtrasIcons.Bodytype.hatchback,
+        FiltersCarExtrasIcons.Bodytype.minivan,
+        FiltersCarExtrasIcons.Bodytype.other,
+        FiltersCarExtrasIcons.Bodytype.sedan,
+        FiltersCarExtrasIcons.Bodytype.suv,
+        FiltersCarExtrasIcons.Bodytype.truck,
+        FiltersCarExtrasIcons.Bodytype.wagon,
+        FiltersCarExtrasIcons.Drivetrain._4wd,
+        FiltersCarExtrasIcons.Drivetrain.awd,
+        FiltersCarExtrasIcons.Drivetrain.fwd,
+        FiltersCarExtrasIcons.Drivetrain.rwd,
+        FiltersCarExtrasIcons.Fueltype.diesel,
+        FiltersCarExtrasIcons.Fueltype.electric,
+        FiltersCarExtrasIcons.Fueltype.flex,
+        FiltersCarExtrasIcons.Fueltype.fuelTypeHybrid,
+        FiltersCarExtrasIcons.Fueltype.gas,
+        FiltersCarExtrasIcons.mileage,
+        FiltersCarExtrasIcons.seats,
+        FiltersCarExtrasIcons.Transmission.automatic,
+        FiltersCarExtrasIcons.Transmission.manual,
         FiltersCategoriesIcons.categoriesBabiesInactive,
         FiltersCategoriesIcons.categoriesCarsInactive,
         FiltersCategoriesIcons.categoriesElectronicsInactive,
@@ -608,6 +671,7 @@ extension R {
         icCheckboxSelected,
         icCheckmark,
         icChevronRight,
+        icChevronUp,
         icCirlePlus,
         icClose,
         icCloseCarousel,
@@ -749,7 +813,6 @@ extension R {
         itemShareWhatsapp,
         itemShareWhatsappBig,
         items,
-        learnMoreChevron,
         listSearch,
         listSearchGrey,
         Map.icPin,
@@ -772,14 +835,14 @@ extension R {
         navbarSettingsRed,
         navbarShare,
         navbarShareRed,
-        npsBad,
-        npsGood,
         oval,
+        priceTypeDisclosureIndicator,
         productPlaceholder,
         rightChevron,
         searchAlertIcon,
         servicesIcon,
         tabbarChats,
+        tabbarCommunity,
         tabbarHome,
         tabbarNotifications,
         tabbarProfile,
@@ -787,7 +850,6 @@ extension R {
         tooltipPeakCenterBlack,
         tooltipPeakSideBlack,
         trendingExpandable,
-        trendingIcon,
         userPlaceholder,
         userProfileAddAvatar,
         userProfileEditAvatar,
@@ -902,13 +964,6 @@ extension R {
         public static let realEstatePromo6 = ImageAsset(name: "real-estate-promo-6")
         public static let realEstatePromo7 = ImageAsset(name: "real-estate-promo-7")
       }
-      public enum Tutorial {
-        public static let houseSale = ImageAsset(name: "houseSale")
-        public static let ilustraAroundMe = ImageAsset(name: "ilustraAroundMe")
-        public static let ilustraHouseSmall = ImageAsset(name: "ilustraHouseSmall")
-        public static let ilustraPhoneLocate = ImageAsset(name: "ilustraPhoneLocate")
-        public static let ilustraPhoneSmall = ImageAsset(name: "ilustraPhoneSmall")
-      }
 
       // swiftlint:disable trailing_comma
       public static let allColors: [ColorAsset] = [
@@ -921,11 +976,6 @@ extension R {
         Promo.realEstatePromo5,
         Promo.realEstatePromo6,
         Promo.realEstatePromo7,
-        Tutorial.houseSale,
-        Tutorial.ilustraAroundMe,
-        Tutorial.ilustraHouseSmall,
-        Tutorial.ilustraPhoneLocate,
-        Tutorial.ilustraPhoneSmall,
       ]
       // swiftlint:enable trailing_comma
       @available(*, deprecated, renamed: "allImages")

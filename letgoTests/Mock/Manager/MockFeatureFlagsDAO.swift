@@ -11,9 +11,10 @@
 class MockFeatureFlagsDAO: FeatureFlagsDAO {
     
     var timeoutForRequests: TimeInterval?
-    var showAdvancedReputationSystem: ShowAdvancedReputationSystem?
+    var advancedReputationSystem: AdvancedReputationSystem?
     var emergencyLocate: EmergencyLocate?
     var chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs?
+    var community: ShowCommunity?
 
     func retrieveTimeoutForRequests() -> TimeInterval? {
         return timeoutForRequests
@@ -23,12 +24,12 @@ class MockFeatureFlagsDAO: FeatureFlagsDAO {
         self.timeoutForRequests = timeoutForRequests
     }
 
-    func retrieveShowAdvanceReputationSystem() -> ShowAdvancedReputationSystem? {
-        return showAdvancedReputationSystem
+    func retrieveAdvanceReputationSystem() -> AdvancedReputationSystem? {
+        return advancedReputationSystem
     }
 
-    func save(showAdvanceReputationSystem: ShowAdvancedReputationSystem) {
-        self.showAdvancedReputationSystem = showAdvanceReputationSystem
+    func save(advanceReputationSystem: AdvancedReputationSystem) {
+        self.advancedReputationSystem = advanceReputationSystem
     }
 
     func retrieveEmergencyLocate() -> EmergencyLocate? {
@@ -45,5 +46,13 @@ class MockFeatureFlagsDAO: FeatureFlagsDAO {
     
     func save(chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs) {
         self.chatConversationsListWithoutTabs = chatConversationsListWithoutTabs
+    }
+
+    func retrieveCommunity() -> ShowCommunity? {
+        return community
+    }
+
+    func save(community: ShowCommunity) {
+        self.community = community
     }
 }

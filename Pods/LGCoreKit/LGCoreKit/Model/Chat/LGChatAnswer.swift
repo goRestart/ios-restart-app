@@ -25,10 +25,15 @@ struct LGChatAnswer: ChatAnswer, Decodable, Equatable {
     init(id: String,
          key: String,
          type: ChatAnswerType) {
-        
         self.id = id
         self.key = key
         self.type = type
+    }
+    
+    init(from chatAnswer: ChatAnswer) {
+        id = chatAnswer.id
+        key = chatAnswer.key
+        type = chatAnswer.type
     }
     
     // MARK: Decodable

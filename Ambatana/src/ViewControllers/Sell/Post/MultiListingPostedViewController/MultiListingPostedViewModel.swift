@@ -185,7 +185,7 @@ extension MultiListingPostedViewModel {
             guard let uploadedImages = uploadedImageResult.value,
                 let imageId = uploadedImages.first?.objectId else {
                 if let error = uploadedImageResult.error {
-                    let statusError = MultiListingPostedStatus(error: error)
+                    let statusError = MultiListingPostedStatus(error: error, categoryId: params.first?.category.rawValue)
                     self?.updateStatus(to: statusError)
                     self?.track(status: statusError)
                 }
@@ -226,13 +226,15 @@ extension MultiListingPostedViewModel {
     }
     
     private func showImageMultiplierError() {
-        let errorStatus = MultiListingPostedStatus(error: RepositoryError.internalError(message: "Images Multiplier Error"))
+        let errorStatus = MultiListingPostedStatus(error: RepositoryError.internalError(message: "Images Multiplier Error"),
+                                                   categoryId: nil)
         updateStatus(to: errorStatus)
         track(status: errorStatus)
     }
     
     private func showPostingMultiplierError() {
-        let errorStatus = MultiListingPostedStatus(error: RepositoryError.internalError(message: "Multipost params creation"))
+        let errorStatus = MultiListingPostedStatus(error: RepositoryError.internalError(message: "Multipost params creation"),
+                                                   categoryId: nil)
         updateStatus(to: errorStatus)
         track(status: errorStatus)
     }
@@ -284,13 +286,12 @@ extension MultiListingPostedViewModel {
     }
     
     private func editListing(listing: Listing) {
-        trackEditStart(for: listing)
         navigator?.openEdit(forListing: listing)
     }
     
     private func postAnotherListingTapped() {
         switch status {
-        case let .error(error):
+        case let .error(error, _):
             tracker.trackEvent(TrackerEvent.listingSellErrorPost(error))
         case .servicesPosting, .servicesImageUpload, .success:
             break
@@ -440,7 +441,7 @@ extension MultiListingPostedViewModel {
             return nil
         case .success:
             return R.Strings.postDetailsServicesCongratulationSubtitle
-        case let .error(error):
+        case let .error(error, _):
             switch error {
             case .forbidden(cause: .differentCountry):
                 return R.Strings.productPostDifferentCountryError
@@ -478,7 +479,6 @@ extension MultiListingPostedViewModel {
                                                      videoLength: trackingInfo.videoLength,
                                                      freePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                      typePage: trackingInfo.typePage,
-                                                     mostSearchedButton: trackingInfo.mostSearchedButton,
                                                      machineLearningTrackingInfo: trackingInfo.machineLearningInfo)
         tracker.trackEvent(event)
         
@@ -507,29 +507,21 @@ extension MultiListingPostedViewModel {
             break
         case let .success(listings):
             trackSellConfirmation(listings: listings)
-        case let .error(error):
-            tracker.trackEvent(TrackerEvent.listingSellError(error))
+        case let .error(error, categoryId):
+            tracker.trackEvent(TrackerEvent.listingSellError(error, withCategoryId: categoryId))
         }
     }
     
     private func trackSellConfirmation(listings: [Listing]) {
-        let listingsIds = listings.flatMap { $0.objectId }
+        let listingsIds = listings.compactMap { $0.objectId }
         tracker.trackEvent(TrackerEvent.listingsSellConfirmation(listingIds: listingsIds))
     }
     
-    private func trackEditStart(for listing: Listing) {
-        tracker.trackEvent(TrackerEvent.listingEditStart(nil,
-                                                         listing: listing,
-                                                         pageType: EventParameterTypePage.sell))
-    }
-    
     private func trackSellStart(forTrackingInfo trackingInfo: PostListingTrackingInfo) {
-        let event = TrackerEvent.listingSellStart(trackingInfo.typePage,
+        let event = TrackerEvent.listingSellStart(typePage: trackingInfo.typePage,
                                                   buttonName: trackingInfo.buttonName,
                                                   sellButtonPosition: trackingInfo.sellButtonPosition,
-                                                  category: nil,
-                                                  mostSearchedButton: trackingInfo.mostSearchedButton,
-                                                  predictiveFlow: false)
+                                                  category: nil)
         tracker.trackEvent(event)
     }
 

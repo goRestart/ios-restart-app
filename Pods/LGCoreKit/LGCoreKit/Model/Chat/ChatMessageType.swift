@@ -19,11 +19,12 @@ public enum ChatMessageType: Equatable {
     case multiAnswer(question: ChatQuestion, answers: [ChatAnswer])
     case unsupported(defaultText: String?)
     case interlocutorIsTyping
+    case cta(ctaData: ChatCallToActionData, ctas: [ChatCallToAction])
     
     // Some types of messages are not allowed to be sent from client
     var canSend: Bool {
         switch self {
-        case .text, .offer, .sticker, .quickAnswer, .expressChat, .favoritedListing, .interested, .phone, .meeting:
+        case .text, .offer, .sticker, .quickAnswer, .expressChat, .favoritedListing, .interested, .phone, .meeting, .cta:
             return true
         case .interlocutorIsTyping, .unsupported, .multiAnswer:
             return false
@@ -74,6 +75,17 @@ public enum ChatMessageType: Equatable {
             }
         case .interlocutorIsTyping:
             if case .interlocutorIsTyping = rhs { return true }
+        case let .cta(lhsCtaData, lhsCtas):
+            if case let .cta(rhsCtaData, rhsCtas) = rhs {
+                guard let lgLhsCtaData = lhsCtaData as? LGChatCallToActionData,
+                    let lgRhsCtaData = rhsCtaData as? LGChatCallToActionData else { return false }
+
+                let lgLhsCtas = lhsCtas.map { $0 as? LGChatCallToAction }
+                let lgRhsCtas = rhsCtas.map { $0 as? LGChatCallToAction }
+
+                return lgLhsCtaData == lgRhsCtaData &&
+                    lgLhsCtas == lgRhsCtas
+            }
         }
         return false
     }

@@ -23,7 +23,7 @@ def shared_pods
     pod "RxMKMapView",          "4.0.0"
 
     #Ads
-    pod "Google-Mobile-Ads-SDK","7.30.0"
+    pod "Google-Mobile-Ads-SDK","7.31.0"
 
     #Fabric
     pod "Fabric",               "1.7.2"     # Obj-c
@@ -36,22 +36,25 @@ def shared_pods
     pod "Leanplum-iOS-SDK",     "2.0.5"     # Obj-c
     pod "NewRelicAgent",        "6.1.1"     # Obj-c
 
+    # Stripe
+    pod "Stripe",               "13.0.3"
+
     # letgo components
     pod "LGComponents",            :path => "components"
 
 
     # letgo Core
 
-    pod "LGCoreKit",             "4.32.2", :inhibit_warnings => false
-    # pod "LGCoreKit",            :path => "../lgcorekit", :inhibit_warnings => false
-    # pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => 'd0aa85bf3cdbc0f487ccb080886e598e9748078f', :inhibit_warnings => false
+    pod "LGCoreKit",             "4.53.0", :inhibit_warnings => false
+#     pod "LGCoreKit",            :path => "../lgcorekit", :inhibit_warnings => false
+    #pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :branch => 'ABIOS-4676-modify-put-request-when-editing-a-service', :inhibit_warnings => false
 
     # letgo Collapsible label
-        pod "LGCollapsibleLabel",   "1.2.0", :inhibit_warnings => false     # :path => "../collapsiblelabel"
+    pod "LGCollapsibleLabel",   "1.2.0", :inhibit_warnings => false     # :path => "../collapsiblelabel"
 
     # letgo bumper (feature flags)
-#    pod "bumper",               "1.1.0"     #:path => "../bumper"
-    pod "bumper",            :git => 'git@github.com:letgoapp/bumper.git', :commit => '7ec04a070eca2337f058954d7f53c474d616d7b1', :inhibit_warnings => false
+	pod "bumper",               "1.3.1"     #:path => "../bumper"
+    # pod "bumper",            :git => 'git@github.com:letgoapp/bumper.git', :commit => '7ec04a070eca2337f058954d7f53c474d616d7b1', :inhibit_warnings => false
 
 
     # Collection View Custom Layout
@@ -64,11 +67,6 @@ def shared_pods
     pod "GoogleSignIn",         "4.1.1"     # Obj-c
 
     pod "GoogleIDFASupport",    "3.14.0"    # Obj-c
-
-    # Custom camera
-#    pod "CameraManager",        "4.0.1"
-#    pod "CameraManager",            :path => "../CameraManager"
-    pod "CameraManager",            :git => 'git@github.com:letgoapp/CameraManager.git', :commit => '7b32b50f8bdb1f94f1f1d0fdb6c99a9d21a7ee84', :inhibit_warnings => false
 
     # Logging
     pod "CocoaLumberjack/Swift", "3.3.0"
@@ -91,6 +89,9 @@ def shared_pods
 
     # Gifs
     pod "SwiftyGif",            "4.1.0"
+
+    # IGListKit
+    pod "IGListKit", "3.4.0"
 end
 
 target "LetGo" do

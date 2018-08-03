@@ -8,6 +8,7 @@
 
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 protocol SearchAlertSwitchCellDelegate: class {
     func didEnableSearchAlertWith(id: String, enable: Bool)
@@ -17,7 +18,7 @@ final class SearchAlertSwitchCell: UITableViewCell, ReusableCell {
     
     private let label = UILabel()
     private let activationSwitch = UISwitch()
-    private let topInsetView = UIView()
+    private var lines: [CALayer] = []
     
     private var searchAlert: SearchAlert?
     
@@ -43,6 +44,13 @@ final class SearchAlertSwitchCell: UITableViewCell, ReusableCell {
         resetUI()
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        lines.forEach { $0.removeFromSuperlayer() }
+        lines.removeAll()
+        lines.append(contentView.addBottomBorderWithWidth(1, color: UIColor.lineGray))
+    }
+    
     
     // MARK: - UI
     
@@ -52,9 +60,7 @@ final class SearchAlertSwitchCell: UITableViewCell, ReusableCell {
         label.textColor = UIColor.darkGray
         label.font = UIFont.systemRegularFont(size: 17)
 
-        activationSwitch.onTintColor = UIColor.primaryColor
-
-        topInsetView.backgroundColor = .grayLight
+        activationSwitch.onTintColor = .primaryColor
     }
 
     private func setupRx() {
@@ -68,11 +74,10 @@ final class SearchAlertSwitchCell: UITableViewCell, ReusableCell {
     private func resetUI() {
         searchAlert = nil
         label.text = nil
-        activationSwitch.isOn = false
     }
     
     private func setupConstraints() {
-        addSubviewsForAutoLayout([label, activationSwitch, topInsetView])
+        addSubviewsForAutoLayout([label, activationSwitch])
         
         let constraints = [
             label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metrics.margin),
@@ -82,18 +87,13 @@ final class SearchAlertSwitchCell: UITableViewCell, ReusableCell {
             activationSwitch.centerYAnchor.constraint(equalTo: centerYAnchor),
             activationSwitch.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metrics.margin),
             activationSwitch.leadingAnchor.constraint(equalTo: label.trailingAnchor, constant: Metrics.margin),
-            
-            topInsetView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            topInsetView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            topInsetView.topAnchor.constraint(equalTo: topAnchor),
-            topInsetView.heightAnchor.constraint(equalToConstant: 1)
         ]
         NSLayoutConstraint.activate(constraints)
     }
     
     private func setupAccessibilityIds() {
-        label.set(accessibilityId: .settingsNotificationsCellTitle)
-        activationSwitch.set(accessibilityId: .settingsNotificationsCellSwitch)
+        label.set(accessibilityId: .notificationSettingsCellTitle)
+        activationSwitch.set(accessibilityId: .notificationSettingsCellSwitch)
     }
     
     func setupWithSearchAlert(_ searchAlert: SearchAlert) {

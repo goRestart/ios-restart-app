@@ -245,9 +245,8 @@ struct LGBaseListing: BaseListingModel, Decodable {
             let imageURL = imagesArray.first(where:  { $0.id == media.snapshotId })
             let outputs = LGMediaOutputs(image: imageURL?.url ?? imagesArray.first?.url, imageThumbnail: media.outputs.imageThumbnail,
                                          video: media.outputs.video, videoThumbnail: media.outputs.videoThumbnail)
-            return LGMedia(type: media.type, snapshotId: media.snapshotId , outputs: outputs)
+            return LGMedia(objectId: nil, type: media.type, snapshotId: media.snapshotId, outputs: outputs)
         }
-
     }
 
     enum CodingKeysProductsApi: String, CodingKey {

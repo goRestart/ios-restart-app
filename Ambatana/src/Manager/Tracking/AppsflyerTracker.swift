@@ -1,13 +1,6 @@
-//
-//  AppsFlyerTracker.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 05/08/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
 import AppsFlyerLib
 import LGCoreKit
+import LGComponents
 
 fileprivate extension TrackerEvent {
     var shouldTrack: Bool {
@@ -15,18 +8,6 @@ fileprivate extension TrackerEvent {
             switch name {
             case .loginFB, .loginEmail, .loginGoogle, .signupEmail, .firstMessage,
                  .listingMarkAsSold, .listingSellStart, .listingSellComplete, .listingSellComplete24h:
-                return true
-            default:
-                return false
-            }
-        }
-    }
-
-    // Criteo: https://ambatana.atlassian.net/browse/ABIOS-1966 (2)
-    var shouldTrackRegisteredUIAchievement: Bool {
-        get {
-            switch name {
-            case .loginFB, .loginGoogle, .signupEmail:
                 return true
             default:
                 return false
@@ -71,7 +52,6 @@ final class AppsflyerTracker: Tracker {
         if let email = user.email {
             tracker?.setUserEmails([email], with: EmailCryptTypeSHA1)
         }
-        tracker?.trackEvent("af_user_status", withValues: ["ui_status": "login"])
         AppsFlyerTracker.shared().customerUserID = user.objectId
     }
     
@@ -79,9 +59,6 @@ final class AppsflyerTracker: Tracker {
         let tracker = AppsFlyerTracker.shared()
         if event.shouldTrack {
             tracker?.trackEvent(event.actualName, withValues: event.params?.stringKeyParams)
-        }
-        if event.shouldTrackRegisteredUIAchievement {
-            tracker?.trackEvent(AFEventAchievementUnlocked, withValues: ["ui_achievement": "registered"])
         }
     }
 

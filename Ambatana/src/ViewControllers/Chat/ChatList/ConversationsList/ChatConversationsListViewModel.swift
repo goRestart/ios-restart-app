@@ -2,113 +2,35 @@ import LGCoreKit
 import RxSwift
 import LGComponents
 
-enum ChatConnectionBarStatus {
-    case noNetwork
-    case wsClosed(reconnectBlock: (() -> Void)?)
-    case wsConnecting
-    case wsConnected
-
-    var title: NSAttributedString? {
-        switch self {
-        case .noNetwork:
-            return NSAttributedString(string: R.Strings.chatStatusViewNoNetwork)
-        case .wsClosed:
-            let tryAgain = R.Strings.chatStatusViewTryAgain
-            let tryAgainAttributes: [NSAttributedStringKey: Any] = [.foregroundColor : UIColor.macaroniAndCheese,
-                                                                    .underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
-                                                                    .underlineColor: UIColor.macaroniAndCheese]
-            let unableToConnectString = R.Strings.chatStatusViewUnableToConnect
-            let finalAttributtedString = NSMutableAttributedString(string: unableToConnectString)
-            let tryAgainRange = NSString(string: unableToConnectString).range(of: tryAgain)
-            print(tryAgainRange)
-            finalAttributtedString.setAttributes(tryAgainAttributes, range: tryAgainRange)
-            return finalAttributtedString
-        case .wsConnecting:
-            return NSAttributedString(string: R.Strings.chatStatusViewConnecting)
-        case .wsConnected:
-            return nil
-        }
-    }
-
-    var showActivityIndicator: Bool {
-        switch self {
-        case .noNetwork, .wsClosed, .wsConnected:
-            return false
-        case .wsConnecting:
-            return true
-        }
-    }
-
-    var actionBlock: (()->Void)? {
-        switch self {
-        case .noNetwork, .wsConnecting, .wsConnected:
-            return nil
-        case .wsClosed(let reconnectBlock):
-            return reconnectBlock
-        }
-    }
-}
-
-typealias NavigationActionSheet = (cancelTitle: String, actions: [UIAction])
-
-final class ChatConversationsListViewModel: BaseViewModel, Paginable {
-    
-    struct Localize {
-        static let deleteAlertConfirmationTitle = R.Strings.chatListDeleteAlertTitleOne
-        static let deleteAlertConfirmationMessage = R.Strings.chatListDeleteAlertTextOne
-        static let deleteAlertConfirmationButtonOk = R.Strings.chatListDeleteAlertSend
-        static let buttonCancel = R.Strings.commonCancel
-        static let deleteAlertDidStart = R.Strings.commonLoading
-        static let deleteAlertDidFailMessage = R.Strings.chatListDeleteErrorOne
-    }
+final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
     
     weak var navigator: ChatsTabNavigator?
 
     private let chatRepository: ChatRepository
     private let sessionManager: SessionManager
-    private let reachability: ReachabilityProtocol
-    private let tracker: TrackerProxy
+    private let tracker: Tracker
     private let featureFlags: FeatureFlaggeable
-    
-    var deleteConversationConfirmationBlock: ((ChatConversation) -> Void)?
-    var deleteConversationDidStartBlock: ((String) -> Void)?
-    var deleteConversationDidSuccessBlock: (() -> Void)?
-    var deleteConversationDidFailBlock: ((String) -> Void)?
     private var websocketWasClosedDuringCurrentSession = false
     
     let rx_navigationBarTitle = Variable<String?>(nil)
     let rx_navigationBarFilterButtonImage = Variable<UIImage>(R.Asset.IconsButtons.icChatFilter.image)
-    let rx_navigationActionSheet = PublishSubject<NavigationActionSheet>()
     let rx_isEditing = Variable<Bool>(false)
     let rx_conversations = Variable<[ChatConversation]>([])
     let rx_viewState = Variable<ViewState>(.loading)
+    let rx_connectionBarStatus = Variable<ChatConnectionBarStatus>(.wsConnected)
     private let rx_filter = Variable<ChatConversationsListFilter>(.all)
     private let rx_inactiveConversationsCount = Variable<Int?>(nil)
     private let rx_wsChatStatus = Variable<WSChatStatus>(.closed)
-    private let rx_isReachable = Variable<Bool>(true)
-    private let bag = DisposeBag()
     private var conversationsFilterBag: DisposeBag? = DisposeBag()
 
-    let rx_connectionBarStatus = Variable<ChatConnectionBarStatus>(.wsConnected)
-
     // MARK: Lifecycle
-    
-    convenience override init() {
-        self.init(chatRepository: Core.chatRepository,
-                  sessionManager: Core.sessionManager,
-                  reachability: LGReachability(),
-                  featureFlags: FeatureFlags.sharedInstance,
-                  tracker: TrackerProxy.sharedInstance)
-    }
-    
-    init(chatRepository: ChatRepository,
-         sessionManager: SessionManager,
-         reachability: ReachabilityProtocol,
-         featureFlags: FeatureFlags,
-         tracker: TrackerProxy) {
+
+    init(chatRepository: ChatRepository = Core.chatRepository,
+         sessionManager: SessionManager = Core.sessionManager,
+         featureFlags: FeatureFlaggeable = FeatureFlags.sharedInstance,
+         tracker: Tracker = TrackerProxy.sharedInstance) {
         self.chatRepository = chatRepository
         self.sessionManager = sessionManager
-        self.reachability = reachability
         self.featureFlags = featureFlags
         self.tracker = tracker
         super.init()
@@ -118,12 +40,18 @@ final class ChatConversationsListViewModel: BaseViewModel, Paginable {
         super.didBecomeActive(firstTime)
         
         if firstTime {
-            setupReachability()
             setupChatRepositoryRx()
             setupRx()
         } else {
             retrieveFirstPageIfNeeded()
         }
+    }
+    
+    private func reset() {
+        rx_viewState.value = .loading
+        rx_conversations.value = []
+        rx_isEditing.value = false
+        rx_inactiveConversationsCount.value = nil
     }
     
     // MARK: Navigation Bar
@@ -136,6 +64,23 @@ final class ChatConversationsListViewModel: BaseViewModel, Paginable {
     }
     
     // MARK: Navigation Bar Actions
+    
+    private func presentActionSheet(with actions: [UIAction]) {
+        switchEditMode(isEditing: false)
+        rx_vmPresentActionSheet.onNext(VMActionSheet(actions: actions))
+    }
+    
+    private func presentDeleteAlert(for conversation: ChatConversation) {
+        let cancelAction = VMAction(title: R.Strings.commonCancel,
+                                    style: .cancel)
+        let okAction = VMAction(title: R.Strings.chatListDeleteAlertSend,
+                                style: .destructive) { [weak self] in
+                                    self?.deleteConversation(conversation: conversation)
+        }
+        rx_vmPresentAlert.onNext(VMPresentAlert(title: R.Strings.chatListDeleteAlertTitleOne,
+                                                message: R.Strings.chatListDeleteAlertTextOne,
+                                                actions: [cancelAction, okAction]))
+    }
     
     func openOptionsActionSheet() {
         var deleteAction: UIAction {
@@ -161,14 +106,12 @@ final class ChatConversationsListViewModel: BaseViewModel, Paginable {
         
         var actions: [UIAction] = []
         actions.append(deleteAction)
-        if featureFlags.markAllConversationsAsRead.isActive {
-            actions.append(markAllConvesationsAsReadAction)
-        }
+        actions.append(markAllConvesationsAsReadAction)
         if featureFlags.showInactiveConversations {
             actions.append(showInactiveConversationsAction)
         }
         actions.append(showBlockedUsersAction)
-        rx_navigationActionSheet.onNext((cancelTitle: R.Strings.commonCancel, actions: actions))
+        presentActionSheet(with: actions)
     }
     
     func openFiltersActionSheet() {
@@ -178,7 +121,7 @@ final class ChatConversationsListViewModel: BaseViewModel, Paginable {
             actions.append(UIAction(interface: .text(filter.localizedString),
                                     action: { [weak self] in self?.rx_filter.value = filter }))
         }
-        rx_navigationActionSheet.onNext((cancelTitle: R.Strings.commonCancel, actions: actions))
+        presentActionSheet(with: actions)
     }
     
     func switchEditMode(isEditing: Bool) {
@@ -186,7 +129,7 @@ final class ChatConversationsListViewModel: BaseViewModel, Paginable {
     }
 
     func markAllConversationAsRead() {
-        tracker.trackEvent(TrackerEvent.chatMarkMessagesAsRead())
+        trackMarkAllConversationsAsRead()
         chatRepository.markAllConversationsAsRead(completion: nil)
     }
 
@@ -211,33 +154,25 @@ final class ChatConversationsListViewModel: BaseViewModel, Paginable {
     func tableViewDidDeleteItem(at indexPath: IndexPath) {
         guard rx_conversations.value.indices.contains(indexPath.row) else { return }
         let conversation = rx_conversations.value[indexPath.row]
-        deleteConversationConfirmationBlock?(conversation)
+        presentDeleteAlert(for: conversation)
     }
     
     func deleteConversation(conversation: ChatConversation) {
         guard let conversationId = conversation.objectId else { return }
-        deleteConversationDidStartBlock?(Localize.deleteAlertDidStart)
+        rx_vmPresentLoadingMessage.onNext(VMPresentLoadingMessage())
         chatRepository.archiveConversations([conversationId]) { [weak self] result in
             if let _ = result.value {
-                self?.tracker.trackEvent(TrackerEvent.chatDeleteComplete(numberOfConversations: 1,
-                                                                         isInactiveConversation: false))
-                self?.deleteConversationDidSuccessBlock?()
+                self?.trackChatDeleteComplete()
+                self?.rx_vmDismissLoadingMessage.onNext(VMDismissLoadingMessage())
             } else if let _ = result.error {
-                self?.deleteConversationDidFailBlock?(Localize.deleteAlertDidFailMessage)
+                self?.rx_vmDismissLoadingMessage.onNext(
+                    VMDismissLoadingMessage(endingMessage: R.Strings.chatListDeleteErrorOne,
+                                            completion: { [weak self] in
+                                                self?.retrieveFirstPage()
+                    })
+                )
             }
         }
-    }
-
-    // MARK: Reachability
-    
-    private func setupReachability() {
-        reachability.reachableBlock = { [weak self] in
-            self?.rx_isReachable.value = true
-        }
-        reachability.unreachableBlock = { [weak self] in
-            self?.rx_isReachable.value = false
-        }
-        reachability.start()
     }
     
     // MARK: Rx
@@ -251,6 +186,13 @@ final class ChatConversationsListViewModel: BaseViewModel, Paginable {
         chatRepository.chatStatus
             .asObservable()
             .bind(to: rx_wsChatStatus)
+            .disposed(by: bag)
+        
+        sessionManager.sessionEvents
+            .filter { return $0.isLogout }
+            .bind(onNext: { [weak self] _ in
+                self?.reset()
+            })
             .disposed(by: bag)
     }
     
@@ -283,7 +225,9 @@ final class ChatConversationsListViewModel: BaseViewModel, Paginable {
                 case .openAuthenticated, .openNotVerified:
                     self?.rx_connectionBarStatus.value = .wsConnected
                 case .closed, .closing:
-                    self?.rx_connectionBarStatus.value = .wsClosed { [weak self] in self?.retrieveFirstPage() }
+                    self?.rx_connectionBarStatus.value = .wsClosed(reconnectBlock: { [weak self] in
+                        self?.retrieveFirstPage()
+                    })
                 case .opening, .openNotAuthenticated:
                     self?.rx_connectionBarStatus.value = .wsConnecting
                 }
@@ -385,11 +329,7 @@ final class ChatConversationsListViewModel: BaseViewModel, Paginable {
     
     // MARK: Empty view models
     
-    func setEmptyState(emptyViewModel: LGEmptyViewModel) {
-        trackEmptyState(emptyViewModel: emptyViewModel)
-    }
-    
-    private var verificationPendingEmptyViewModel: LGEmptyViewModel {
+    var verificationPendingEmptyViewModel: LGEmptyViewModel {
         return LGEmptyViewModel(icon: R.Asset.IconsButtons.icBuildTrustBig.image,
                                 title: R.Strings.chatNotVerifiedStateTitle,
                                 body: R.Strings.chatNotVerifiedStateMessage,
@@ -403,9 +343,11 @@ final class ChatConversationsListViewModel: BaseViewModel, Paginable {
                                 errorDescription: nil)
     }
     
-    private func emptyViewModel(forFilter filter: ChatConversationsListFilter) -> LGEmptyViewModel {
+    func emptyViewModel(forFilter filter: ChatConversationsListFilter) -> LGEmptyViewModel {
         let openSellAction: (() -> Void)? = { [weak self] in
-            return self?.navigator?.openSell(source: .sellButton, postCategory: nil)
+            let source: PostingSource = .chatList
+            self?.trackStartSelling(source: source)
+            self?.navigator?.openSell(source: source, postCategory: nil)
         }
         let openHomeAction: (() -> Void)? = { [weak self] in
             return self?.navigator?.openHome()
@@ -434,19 +376,35 @@ final class ChatConversationsListViewModel: BaseViewModel, Paginable {
                                 errorDescription: nil)
     }
     
-    private func emptyViewModel(forError error: RepositoryError) -> LGEmptyViewModel? {
+    func emptyViewModel(forError error: RepositoryError) -> LGEmptyViewModel? {
         return LGEmptyViewModel.map(from: error, action: { [weak self] in
             self?.retrieveFirstPage()
         })
     }
-    
-    // MARK: Trackings
-    
+
+    // MARK: - Trackings
+
     private func trackEmptyState(emptyViewModel: LGEmptyViewModel) {
         guard let emptyReason = emptyViewModel.emptyReason else { return }
         tracker.trackEvent(TrackerEvent.emptyStateVisit(typePage: .chatList,
                                                         reason: emptyReason,
                                                         errorCode: emptyViewModel.errorCode,
                                                         errorDescription: emptyViewModel.errorDescription))
+    }
+
+    private func trackStartSelling(source: PostingSource) {
+        tracker.trackEvent(TrackerEvent.listingSellStart(typePage: source.typePage,
+                                                         buttonName: source.buttonName,
+                                                         sellButtonPosition: source.sellButtonPosition,
+                                                         category: nil))
+    }
+    
+    private func trackMarkAllConversationsAsRead() {
+        tracker.trackEvent(TrackerEvent.chatMarkMessagesAsRead())
+    }
+    
+    private func trackChatDeleteComplete() {
+        tracker.trackEvent(TrackerEvent.chatDeleteComplete(numberOfConversations: 1,
+                                                           isInactiveConversation: false))
     }
 }

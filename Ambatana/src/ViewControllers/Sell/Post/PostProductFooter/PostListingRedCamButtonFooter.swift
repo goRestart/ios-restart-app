@@ -8,6 +8,7 @@ final class PostListingRedCamButtonFooter: UIView {
     let galleryButton = UIButton()
     let photoButton = UIButton()
     let videoButton = UIButton()
+    let newBadgeLabel = UILabel()
     let cameraButton = UIButton()
     let infoButton = UIButton()
     private let infoButtonIncluded: Bool
@@ -33,7 +34,7 @@ final class PostListingRedCamButtonFooter: UIView {
     // MARK: - Overrides
 
     override open func point(inside point: CGPoint, with event: UIEvent?) -> Bool {       
-        return [galleryButton, cameraButton, infoButton].flatMap { $0 }.reduce(false) { (result, view) -> Bool in
+        return [galleryButton, cameraButton, infoButton].compactMap { $0 }.reduce(false) { (result, view) -> Bool in
             let convertedPoint = view.convert(point, from: self)
             return result || (!view.isHidden && view.point(inside: convertedPoint, with: event))
         }
@@ -70,7 +71,7 @@ extension PostListingRedCamButtonFooter: PostListingFooter {
         cameraButtonCenterXConstraint?.constant = movement * (1.0 - scroll)
     }
 
-    func updateVideoRecordingDurationProgress(progress: CGFloat, remainingTime: TimeInterval) {
+    func updateVideoRecordingDurationProgress(progress: CGFloat, recordingDuration: TimeInterval) {
         // This view doesn't implement video posting, check VPPostListingRedCamFooter
     }
 }

@@ -1,17 +1,9 @@
-//
-//  SignUpViewModelSpec.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 21/11/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 @testable import LetGoGodMode
 import LGCoreKit
 import Quick
 import Nimble
 import Result
-
+import LGComponents
 
 class SignUpViewModelSpec: QuickSpec {
     var loading: Bool = false
@@ -350,6 +342,7 @@ extension SignUpViewModelSpec: SignUpViewModelDelegate {
     func vmShowAlert(_ title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {}
     func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction]) {}
     func vmShowActionSheet(_ cancelLabel: String, actions: [UIAction]) {}
+    func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction], withTitle title: String?) {}
     func ifLoggedInThen(_ source: EventParameterLoginSourceValue, loggedInAction: () -> Void,
                         elsePresentSignUpWithSuccessAction afterLogInAction: @escaping () -> Void) {}
     func ifLoggedInThen(_ source: EventParameterLoginSourceValue, loginStyle: LoginStyle, loggedInAction: () -> Void,

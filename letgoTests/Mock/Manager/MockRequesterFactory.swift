@@ -2,7 +2,7 @@
 import Foundation
 
 class MockRequesterFactory: RequesterFactory {
-
+    
     private let featureFlags: FeatureFlaggeable
     private let productCounts: [Int]
 
@@ -43,6 +43,10 @@ class MockRequesterFactory: RequesterFactory {
         return zipped.map { (type, count) in
             (type, buildRequester(withProductCount: count))
         }
+    }
+    
+    func buildRecentListingsRequester() -> RecentListingsRequester {
+        return RecentListingsRequester()
     }
 }
 

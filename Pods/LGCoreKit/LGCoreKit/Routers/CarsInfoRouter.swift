@@ -1,14 +1,7 @@
 //
-//  CarsInfoRouter.swift
-//  LGCoreKit
-//
-//  Created by Dídac on 21/03/17.
-//  Copyright © 2017 Ambatana Inc. All rights reserved.
-//
-
 enum CarsInfoRouter: URLRequestAuthenticable {
 
-    static let carsMakeListURL = "/api/car-makes"
+    static let carsMakeListURL = "car-makes"
 
     case index(params: [String: Any])
 
@@ -31,7 +24,7 @@ enum CarsInfoRouter: URLRequestAuthenticable {
     func asURLRequest() throws -> URLRequest {
         switch self {
         case let .index(params):
-            return try Router<APIBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
+            return try Router<CarsBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
         }
     }
 }

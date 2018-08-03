@@ -21,6 +21,7 @@ final class PostListingCameraViewModel: BaseViewModel {
     let imageSelected = Variable<UIImage?>(nil)
     let videoRecorded = Variable<RecordedVideo?>(nil)
     let cameraMode = Variable<CameraMode>(.photo)
+    let videoRecordingErrorMessage = PublishSubject<String?>()
 
     let infoShown = Variable<Bool>(false)
     let infoTitle = Variable<String>("")
@@ -56,11 +57,6 @@ final class PostListingCameraViewModel: BaseViewModel {
             let text = NSAttributedString(string: R.Strings.realEstateCameraViewRealEstateLearnMore,
                                           attributes: titleAttributes)
             return text
-    }
-    
-    var learnMoreIsHidden: Bool {
-        guard let category = postCategory else { return true }
-        return !(category == .realEstate && featureFlags.realEstateTutorial.shouldShowLearnMoreButton)
     }
 
     let machineLearning: MachineLearning
@@ -164,17 +160,22 @@ final class PostListingCameraViewModel: BaseViewModel {
         cameraState.value = .recordingVideo
     }
 
-    func photoTaken(_ photo: UIImage) {
+    func photoTaken(_ photo: UIImage, camera: CameraSource) {
         imageSelected.value = photo
         cameraState.value = .previewPhoto
+        trackMediaCapture(source: .camera, camera: camera.eventParameter, predictiveFlow: machineLearningSupported)
     }
 
-    func videoRecorded(video: RecordedVideo) {
+    func videoRecorded(video: RecordedVideo, camera: CameraSource) {
         if video.duration > SharedConstants.videoMinRecordingDuration {
             videoRecorded.value = video
             cameraState.value = .previewVideo
+            trackMediaCapture(source: .videoCamera, camera: camera.eventParameter, predictiveFlow: machineLearningSupported)
         } else {
             backToCaptureMode()
+            let message = R.Strings.productPostCameraVideoRecordingMinDurationMessage(Int(SharedConstants.videoMinRecordingDuration))
+            videoRecordingErrorMessage.onNext(message)
+            trackMediaCapture(source: .videoCamera, camera: camera.eventParameter, hasError: true, predictiveFlow: machineLearningSupported)
         }
     }
 
@@ -218,10 +219,6 @@ final class PostListingCameraViewModel: BaseViewModel {
 
     func hideVerticalTextAlert() {
         shouldShowVerticalText.value = false
-    }
-    
-    func learnMorePressed() {
-        cameraDelegate?.productCameraLearnMoreButton()
     }
 
     // MARK: - Private methods
@@ -334,7 +331,7 @@ final class PostListingCameraViewModel: BaseViewModel {
                     }
                 }
                 let allTexts = [nameString, avgPriceString, medianDaysToSellString]
-                strongSelf.liveStatsText.value = allTexts.flatMap { $0 }.joined(separator: "\n")
+                strongSelf.liveStatsText.value = allTexts.compactMap { $0 }.joined(separator: "\n")
             }
             .disposed(by: disposeBag)
     }
@@ -388,8 +385,12 @@ final class PostListingCameraViewModel: BaseViewModel {
         mediaPermissions.requestVideoAccess { granted in
             //This is required :(, callback is not on main thread so app would crash otherwise.
             DispatchQueue.main.async { [weak self] in
-                self?.cameraState.value = granted ?
-                    .capture : .missingPermissions(R.Strings.productPostCameraPermissionsSubtitle)
+                if granted {
+                    self?.cameraState.value = .capture
+                    self?.trackPermissionsGrant()
+                } else {
+                    self?.cameraState.value = .missingPermissions(R.Strings.productPostCameraPermissionsSubtitle)
+                }
             }
         }
     }
@@ -440,12 +441,32 @@ final class PostListingCameraViewModel: BaseViewModel {
         isLiveStatsEnabled.value = enable
         machineLearning.liveStats.value = nil
     }
+
+    // MARK: - Trackings
+
+    private func trackPermissionsGrant() {
+        tracker.trackEvent(TrackerEvent.listingSellPermissionsGrant(type: .camera))
+    }
+
+    private func trackMediaCapture(source: EventParameterMediaSource,
+                                   camera: EventParameterCameraSide,
+                                   hasError: Bool = false,
+                                   predictiveFlow: Bool) {
+        tracker.trackEvent(TrackerEvent.listingSellMediaCapture(source: source,
+                                                                cameraSide: camera,
+                                                                hasError: EventParameterBoolean(bool: hasError),
+                                                                predictiveFlow: EventParameterBoolean(bool: predictiveFlow)))
+    }
 }
 
-
-fileprivate extension RealEstateTutorial {
-    var shouldShowLearnMoreButton: Bool {
-        return self == .oneScreen || self == .twoScreens || self == .threeScreens
+extension CameraSource {
+    var eventParameter: EventParameterCameraSide {
+        switch self {
+        case .front:
+            return .front
+        case .rear:
+            return .back
+        }
     }
 }
 

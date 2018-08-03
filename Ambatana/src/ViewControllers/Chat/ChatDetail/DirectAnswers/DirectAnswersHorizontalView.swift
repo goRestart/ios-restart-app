@@ -33,6 +33,7 @@ class DirectAnswersHorizontalView: UIView {
             if answersEnabled {
                 collectionView.deselectAll()
             }
+            collectionView.reloadData()
         }
     }
     var sideMargin: CGFloat = Layout.standardSideMargin {
@@ -93,7 +94,6 @@ class DirectAnswersHorizontalView: UIView {
 
         setupCollection(sideMargin: sideMargin)
     }
-
 }
 
 
@@ -139,7 +139,7 @@ extension DirectAnswersHorizontalView: UICollectionViewDataSource, UICollectionV
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DirectAnswerCell.reusableID,
                                                             for: indexPath) as? DirectAnswerCell else { return UICollectionViewCell() }
 
-        cell.setupWithDirectAnswer(answers[indexPath.row])
+        cell.setupWithDirectAnswer(answers[indexPath.row], answersEnabled: answersEnabled)
 
         return cell
     }

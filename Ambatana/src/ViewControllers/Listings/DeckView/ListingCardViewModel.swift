@@ -13,7 +13,7 @@ struct ListingCardViewModel {
     let listing: Listing
     var userName: String? { return listing.user.name }
     let isMine: Bool
-    var images: [URL] { get { return listing.images.flatMap { $0.fileURL } } }
+    var images: [URL] { get { return listing.images.compactMap { $0.fileURL } } }
     var avatar: URL? { get { return listing.user.avatar?.fileURL } }
 
     init(listing: Listing, isMine: Bool) {

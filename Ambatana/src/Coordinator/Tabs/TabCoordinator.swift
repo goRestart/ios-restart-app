@@ -21,6 +21,9 @@ class TabCoordinator: NSObject, Coordinator {
 
     var deckAnimator: DeckAnimator?
 
+    private let listingCoordinator: ListingCoordinator
+    private let userCoordinator: UserCoordinator
+
     let listingRepository: ListingRepository
     let userRepository: UserRepository
     let chatRepository: ChatRepository
@@ -30,6 +33,10 @@ class TabCoordinator: NSObject, Coordinator {
     let tracker: Tracker
     let featureFlags: FeatureFlaggeable
     let disposeBag = DisposeBag()
+
+    private let deeplinkMailBox: DeepLinkMailBox
+
+    private lazy var verificationAssembly: UserVerificationAssembly = LGUserVerificationBuilder.standard(nav: self.navigationController)
 
     weak var tabCoordinatorDelegate: TabCoordinatorDelegate?
     weak var appNavigator: AppNavigator?
@@ -42,7 +49,7 @@ class TabCoordinator: NSObject, Coordinator {
          myUserRepository: MyUserRepository, installationRepository: InstallationRepository,
          bubbleNotificationManager: BubbleNotificationManager,
          keyValueStorage: KeyValueStorage, tracker: Tracker, rootViewController: UIViewController,
-         featureFlags: FeatureFlaggeable, sessionManager: SessionManager) {
+         featureFlags: FeatureFlaggeable, sessionManager: SessionManager, deeplinkMailBox: DeepLinkMailBox) {
         self.listingRepository = listingRepository
         self.userRepository = userRepository
         self.chatRepository = chatRepository
@@ -55,8 +62,13 @@ class TabCoordinator: NSObject, Coordinator {
         self.featureFlags = featureFlags
         self.sessionManager = sessionManager
         self.navigationController = UINavigationController(rootViewController: rootViewController)
+        self.listingCoordinator = ListingCoordinator(navigationController: navigationController)
+        self.userCoordinator = UserCoordinator(navigationController: navigationController)
+        self.deeplinkMailBox = deeplinkMailBox
+
         super.init()
-        
+
+        self.listingCoordinator.listingDetailNavigator = self
         self.navigationController.delegate = self
     }
 
@@ -89,10 +101,6 @@ extension TabCoordinator: TabNavigator {
         appNavigator?.openSell(source: source, postCategory: postCategory, listingTitle: nil)
     }
 
-    func openAppRating(_ source: EventParameterRatingSource) {
-        appNavigator?.openAppRating(source)
-    }
-
     func openUserRating(_ source: RateUserSource, data: RateUserData) {
         appNavigator?.openUserRating(source, data: data)
     }
@@ -109,19 +117,7 @@ extension TabCoordinator: TabNavigator {
     }
 
     func openListing(_ data: ListingDetailData, source: EventParameterListingVisitSource, actionOnFirstAppear: ProductCarouselActionOnFirstAppear) {
-        switch data {
-        case let .id(listingId):
-            openListing(listingId: listingId, source: source, actionOnFirstAppear: actionOnFirstAppear)
-        case let .listingAPI(listing, thumbnailImage, originFrame):
-            openListing(listing: listing, thumbnailImage: thumbnailImage, originFrame: originFrame, source: source,
-                        index: 0, discover: false, actionOnFirstAppear: actionOnFirstAppear)
-        case let .listingList(listing, cellModels, requester, thumbnailImage, originFrame, showRelated, index):
-            openListing(listing, cellModels: cellModels, requester: requester, thumbnailImage: thumbnailImage,
-                        originFrame: originFrame, showRelated: showRelated, source: source,
-                        index: index)
-        case let .listingChat(chatConversation):
-            openListing(chatConversation: chatConversation, source: source)
-        }
+        listingCoordinator.openListing(data, source: source, actionOnFirstAppear: actionOnFirstAppear)
     }
 
     func openChat(_ data: ChatDetailData, source: EventParameterTypePage, predefinedMessage: String?) {
@@ -157,216 +153,29 @@ extension TabCoordinator: TabNavigator {
         navigationController.pushViewController(vc, animated: true)
     }
     
-    func openMostSearchedItems(source: PostingSource, enableSearch: Bool) {
-        appNavigator?.openMostSearchedItems(source: source, enableSearch: enableSearch)
-    }
-    
-    func openDeepLink(_ deeplink: DeepLink) {
+    private func openDeepLink(_ deeplink: DeepLink) {
         appNavigator?.openDeepLink(deepLink: deeplink)
     }
 
     func openUserVerificationView() {
-        let vm = UserVerificationViewModel()
-        vm.navigator = self
-        let vc = UserVerificationViewController(viewModel: vm)
+        let vc = verificationAssembly.buildUserVerification()
         navigationController.pushViewController(vc, animated: true)
+    }
+
+    func openUser(user: User, source: UserSource) {
+        userCoordinator.openUser(user: user, source: source)
     }
 
     var hidesBottomBarWhenPushed: Bool {
         return navigationController.viewControllers.count == 1
     }
+
+    func openCommunityTab() {
+        appNavigator?.openCommunityTab()
+    }
 }
 
 fileprivate extension TabCoordinator {
-    func openListing(listingId: String, source: EventParameterListingVisitSource, actionOnFirstAppear: ProductCarouselActionOnFirstAppear) {
-        navigationController.showLoadingMessageAlert()
-        listingRepository.retrieve(listingId) { [weak self] result in
-            if let listing = result.value {
-                self?.navigationController.dismissLoadingMessageAlert {
-                    self?.openListing(listing: listing, source: source, index: 0, discover: false,
-                                      actionOnFirstAppear: actionOnFirstAppear)
-                }
-            } else if let error = result.error {
-                switch error {
-                case .network:
-                    self?.navigationController.dismissLoadingMessageAlert {
-                        self?.navigationController.showAutoFadingOutMessageAlert(message: R.Strings.commonErrorConnectionFailed)
-                    }
-                case .internalError, .unauthorized, .tooManyRequests, .userNotVerified, .serverError,
-                     .wsChatError, .searchAlertError:
-                    self?.navigationController.dismissLoadingMessageAlert {
-                        self?.navigationController.showAutoFadingOutMessageAlert(message: R.Strings.commonProductNotAvailable)
-                    }
-                case .notFound, .forbidden:
-                    let relatedRequester = RelatedListingListRequester(listingId: listingId,
-                                                                       itemsPerPage: SharedConstants.numListingsPerPageDefault)
-                    relatedRequester.retrieveFirstPage { result in
-                        self?.navigationController.dismissLoadingMessageAlert {
-                            if let relatedListings = result.listingsResult.value, !relatedListings.isEmpty {
-                                self?.openRelatedListingsForNonExistentListing(listingId: listingId,
-                                                                               source: source,
-                                                                               requester: relatedRequester,
-                                                                               relatedListings: relatedListings)
-                            }
-                            self?.navigationController.showAutoFadingOutMessageAlert(message: R.Strings.commonProductNotAvailable)
-                        }
-                    }
-                }
-                self?.trackProductNotAvailable(source: source, repositoryError: error)
-            }
-        }
-    }
-
-    func openListing(listing: Listing, thumbnailImage: UIImage? = nil, originFrame: CGRect? = nil,
-                             source: EventParameterListingVisitSource, requester: ListingListRequester? = nil, index: Int,
-                             discover: Bool, actionOnFirstAppear: ProductCarouselActionOnFirstAppear) {
-        guard let listingId = listing.objectId else { return }
-        var requestersArray: [ListingListRequester] = []
-        let listingListRequester: ListingListRequester?
-        if discover {
-            listingListRequester = DiscoverListingListRequester(listingId: listingId,
-                                                                itemsPerPage: SharedConstants.numListingsPerPageDefault)
-        } else {
-            listingListRequester = RelatedListingListRequester(listing: listing,
-                                                               itemsPerPage: SharedConstants.numListingsPerPageDefault)
-        }
-        guard let relatedRequester = listingListRequester else { return }
-        requestersArray.append(relatedRequester)
-
-        // Adding product list after related
-        let listOffset = index + 1 // we need the product AFTER the current one
-        if let requester = requester {
-            let requesterCopy = requester.duplicate()
-            requesterCopy.updateInitialOffset(listOffset)
-            requestersArray.append(requesterCopy)
-        } else {
-            let filteredRequester = FilteredListingListRequester(itemsPerPage: SharedConstants.numListingsPerPageDefault, offset: listOffset)
-            requestersArray.append(filteredRequester)
-        }
-
-        let requester = ListingListMultiRequester(requesters: requestersArray)
-        if featureFlags.deckItemPage.isActive {
-            openListingNewItemPage(listing,
-                                   thumbnailImage: thumbnailImage,
-                                   cellModels: nil,
-                                   originFrame: nil,
-                                   requester: requester,
-                                   source: source,
-                                   actionOnFirstAppear: actionOnFirstAppear,
-                                   trackingIndex: nil)
-        } else {
-            let vm = ListingCarouselViewModel(listing: listing, thumbnailImage: thumbnailImage,
-                                              listingListRequester: requester, source: source,
-                                              actionOnFirstAppear: actionOnFirstAppear, trackingIndex: index)
-            vm.navigator = self
-            openListing(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, listingId: listingId)
-        }
-
-    }
-
-    func openListing(_ listing: Listing, cellModels: [ListingCellModel], requester: ListingListRequester,
-                     thumbnailImage: UIImage?, originFrame: CGRect?, showRelated: Bool,
-                     source: EventParameterListingVisitSource, index: Int) {
-        if showRelated {
-            //Same as single product opening
-            openListing(listing: listing,
-                        thumbnailImage: thumbnailImage,
-                        originFrame: originFrame,
-                        source: source,
-                        requester: requester,
-                        index: index,
-                        discover: false,
-                        actionOnFirstAppear: .nonexistent)
-        } else if featureFlags.deckItemPage.isActive {
-            openListingNewItemPage(listing,
-                                   thumbnailImage: thumbnailImage,
-                                   cellModels: cellModels,
-                                   originFrame: originFrame,
-                                   requester: requester,
-                                   source: source,
-                                   actionOnFirstAppear: .nonexistent,
-                                   trackingIndex: index)
-        } else {
-            let vm = ListingCarouselViewModel(productListModels: cellModels, initialListing: listing,
-                                              thumbnailImage: thumbnailImage, listingListRequester: requester, source: source,
-                                              actionOnFirstAppear: .nonexistent, trackingIndex: index,
-                                              firstProductSyncRequired: false)
-            vm.navigator = self
-            openListing(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, listingId: listing.objectId)
-        }
-    }
-
-    func openListing(chatConversation: ChatConversation, source: EventParameterListingVisitSource) {
-        guard let localProduct = LocalProduct(chatConversation: chatConversation, myUser: myUserRepository.myUser),
-            let listingId = localProduct.objectId else { return }
-        let relatedRequester = RelatedListingListRequester(listingId: listingId,
-                                                           itemsPerPage: SharedConstants.numListingsPerPageDefault)
-        let filteredRequester = FilteredListingListRequester( itemsPerPage: SharedConstants.numListingsPerPageDefault, offset: 0)
-        let requester = ListingListMultiRequester(requesters: [relatedRequester, filteredRequester])
-
-        if featureFlags.deckItemPage.isActive {
-            openListingNewItemPage(listing: .product(localProduct),
-                                   listingListRequester: requester,
-                                   source: source)
-        } else {
-            let vm = ListingCarouselViewModel(listing: .product(localProduct), listingListRequester: requester,
-                                              source: source, actionOnFirstAppear: .nonexistent, trackingIndex: nil)
-            vm.navigator = self
-            openListing(vm, thumbnailImage: nil, originFrame: nil, listingId: listingId)
-        }
-    }
-
-    func openListing(_ viewModel: ListingCarouselViewModel, thumbnailImage: UIImage?, originFrame: CGRect?,
-                     listingId: String?) {
-        let color = UIColor.placeholderBackgroundColor(listingId)
-        let animator = ListingCarouselPushAnimator(originFrame: originFrame, originThumbnail: thumbnailImage,
-                                                   backgroundColor: color)
-        let vc = ListingCarouselViewController(viewModel: viewModel, pushAnimator: animator)
-        navigationController.pushViewController(vc, animated: true)
-    }
-
-    func openListingNewItemPage(listing: Listing,
-                                listingListRequester: ListingListRequester,
-                                source: EventParameterListingVisitSource) {
-        openListingNewItemPage(listing,
-                               thumbnailImage: nil,
-                               cellModels: nil,
-                               originFrame: nil,
-                               requester: listingListRequester,
-                               source: source,
-                               actionOnFirstAppear: .nonexistent,
-                               trackingIndex: nil)
-    }
-
-    func openListingNewItemPage(_ listing: Listing,
-                                thumbnailImage: UIImage?,
-                                cellModels: [ListingCellModel]?,
-                                originFrame: CGRect?,
-                                requester: ListingListRequester,
-                                source: EventParameterListingVisitSource,
-                                actionOnFirstAppear: DeckActionOnFirstAppear,
-                                trackingIndex: Int?) {
-        if deckAnimator == nil {
-            let coordinator = DeckCoordinator(withNavigationController: navigationController)
-            deckAnimator = coordinator
-        }
-
-        let viewModel = ListingDeckViewModel(listModels: cellModels ?? [],
-                                             listing: listing,
-                                             listingListRequester: requester,
-                                             source: source,
-                                             detailNavigator: self,
-                                             actionOnFirstAppear: actionOnFirstAppear,
-                                             trackingIndex: trackingIndex)
-
-        let deckViewController = ListingDeckViewController(viewModel: viewModel)
-        viewModel.delegate = deckViewController
-        viewModel.navigator = self
-
-        deckAnimator?.setupWith(viewModel: viewModel)
-        navigationController.pushViewController(deckViewController, animated: true)
-    }
-
     func openUser(userId: String, source: UserSource) {
         navigationController.showLoadingMessageAlert()
         userRepository.show(userId) { [weak self] result in
@@ -390,21 +199,8 @@ fileprivate extension TabCoordinator {
         }
     }
 
-    func openUser(user: User, source: UserSource) {
-        // If it's me do not then open the user profile
-        guard myUserRepository.myUser?.objectId != user.objectId else { return }
-
-        let vm = UserProfileViewModel.makePublicProfile(user: user, source: source)
-        vm.navigator = self
-        let vc = UserProfileViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
-        navigationController.pushViewController(vc, animated: true)
-    }
-
     func openUser(_ interlocutor: ChatInterlocutor) {
-        let vm = UserProfileViewModel.makePublicProfile(chatInterlocutor: interlocutor, source: .chat)
-        vm.navigator = self
-        let vc = UserProfileViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
-        navigationController.pushViewController(vc, animated: true)
+        userCoordinator.openUser(interlocutor, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
     }
 
     func openConversation(_ conversation: ChatConversation, source: EventParameterTypePage, predefinedMessage: String?) {
@@ -467,98 +263,24 @@ fileprivate extension TabCoordinator {
         }
         navigationController.showAutoFadingOutMessageAlert(message: message)
     }
-
-
-    func openRelatedListingsForNonExistentListing(listingId: String,
-                                                          source: EventParameterListingVisitSource,
-                                                          requester: ListingListRequester,
-                                                          relatedListings: [Listing]) {
-        let simpleRelatedListingsVM = SimpleListingsViewModel(requester: requester,
-                                                              listings: relatedListings,
-                                                              title: R.Strings.relatedItemsTitle,
-                                                              listingVisitSource: .relatedListings)
-        simpleRelatedListingsVM.navigator = self
-        let simpleRelatedListingsVC = SimpleListingsViewController(viewModel: simpleRelatedListingsVM)
-        navigationController.pushViewController(simpleRelatedListingsVC, animated: true)
-        
-        trackRelatedListings(listingId: listingId,
-                             source: .notFound)
-    }
 }
+extension TabCoordinator: ChatInactiveConversationsListNavigator {}
 
-extension TabCoordinator: UserVerificationNavigator {
-    func closeUserVerification() {
-        navigationController.popViewController(animated: true)
-    }
-
-    func openEmailVerification() {
-        let vm = UserVerificationEmailViewModel()
-        vm.navigator = self
-        let vc = UserVerificationEmailViewController(viewModel: vm)
-        navigationController.pushViewController(vc, animated: true)
-    }
-
+extension TabCoordinator {
     func openEditUserBio() {
-        let vm = EditUserBioViewModel()
-        vm.navigator = self
-        let vc = EditUserBioViewController(viewModel: vm)
-        navigationController.pushViewController(vc, animated: true)
-    }
-
-    func openPhoneNumberVerification() {
-        let vm = UserPhoneVerificationNumberInputViewModel()
-        vm.navigator = self
-        let vc = UserPhoneVerificationNumberInputViewController(viewModel: vm)
-        vm.delegate = vc
-        navigationController.pushViewController(vc, animated: true)
-    }
-}
-
-extension TabCoordinator: EditUserBioNavigator {
-    func closeEditUserBio() {
-        navigationController.popViewController(animated: true)
-    }
-}
-
-extension TabCoordinator: VerifyUserEmailNavigator {
-    func closeEmailVerification() {
-        navigationController.popViewController(animated: true)
-    }
-}
-
-extension TabCoordinator: UserPhoneVerificationNavigator {
-    func openCountrySelector(withDelegate delegate: UserPhoneVerificationCountryPickerDelegate) {
-        let vm = UserPhoneVerificationCountryPickerViewModel()
-        vm.navigator = self
-        vm.delegate = delegate
-        let vc = UserPhoneVerificationCountryPickerViewController(viewModel: vm)
-        navigationController.pushViewController(vc, animated: true)
-    }
-
-    func closeCountrySelector() {
-        navigationController.popViewController(animated: true)
-    }
-
-    func openCodeInput(sentTo phoneNumber: String, with callingCode: String) {
-        let vm = UserPhoneVerificationCodeInputViewModel(callingCode: callingCode,
-                                                         phoneNumber: phoneNumber)
-        vm.navigator = self
-        let vc = UserPhoneVerificationCodeInputViewController(viewModel: vm)
-        vm.delegate = vc
-        navigationController.pushViewController(vc, animated: true)
-    }
-
-    func closePhoneVerificaction() {
-        guard let vc = navigationController.viewControllers
-            .filter({ $0 is UserVerificationViewController }).first else { return }
-        navigationController.popToViewController(vc, animated: true)
+        let router = UserVerificationRouter(navigationController: navigationController)
+        router.openEditUserBio()
     }
 }
 
 // MARK: > ListingDetailNavigator
 
 extension TabCoordinator: ListingDetailNavigator {
-    
+    func openAppRating(_ source: EventParameterRatingSource) {
+        guard let url = URL.makeAppRatingDeeplink(with: source) else { return }
+        deeplinkMailBox.push(convertible: url)
+    }
+
     func openVideoPlayer(atIndex index: Int, listingVM: ListingViewModel, source: EventParameterListingVisitSource) {
         guard let coordinator = VideoPlayerCoordinator(atIndex: index, listingVM: listingVM, source: source) else {
             return
@@ -603,7 +325,7 @@ extension TabCoordinator: ListingDetailNavigator {
             let action = UIAction(interface: .button(R.Strings.productDeletePostButtonTitle,
                                                      .primary(fontSize: .medium)), action: { [weak self] in
                                                         self?.openSell(source: .deleteListing, postCategory: nil)
-                }, accessibilityId: .postDeleteAlertButton)
+                }, accessibility: AccessibilityId.postDeleteAlertButton)
             navigationController.showAlertWithTitle(R.Strings.productDeletePostTitle,
                                                     text: R.Strings.productDeletePostSubtitle,
                                                     alertType: .plainAlertOld, actions: [action])
@@ -614,30 +336,33 @@ extension TabCoordinator: ListingDetailNavigator {
                         bumpUpProductData: BumpUpProductData,
                         typePage: EventParameterTypePage?,
                         maxCountdown: TimeInterval) {
-        let bumpCoordinator = BumpUpCoordinator(listing: listing,
-                                                bumpUpProductData: bumpUpProductData,
-                                                typePage: typePage,
-                                                maxCountdown: maxCountdown)
-        openChild(coordinator: bumpCoordinator,
-                  parent: rootViewController,
-                  animated: true,
-                  forceCloseChild: true,
-                  completion: nil)
+        let assembly = LGBumpUpBuilder.modal(root: navigationController)
+        if case .socialMessage(let socialMessage) = bumpUpProductData.bumpUpPurchaseableData {
+            let vc = assembly.buildFreeBumpUp(forListing: listing,
+                                              socialMessage: socialMessage,
+                                              letgoItemId: bumpUpProductData.letgoItemId,
+                                              storeProductId: bumpUpProductData.storeProductId,
+                                              typePage: typePage,
+                                              maxCountdown: maxCountdown)
+            rootViewController.present(vc, animated: true, completion: nil)
+        }
     }
 
     func openPayBumpUp(forListing listing: Listing,
                        bumpUpProductData: BumpUpProductData,
                        typePage: EventParameterTypePage?,
                        maxCountdown: TimeInterval) {
-        let bumpCoordinator = BumpUpCoordinator(listing: listing,
-                                                bumpUpProductData: bumpUpProductData,
-                                                typePage: typePage,
-                                                maxCountdown: maxCountdown)
-        openChild(coordinator: bumpCoordinator,
-                  parent: rootViewController,
-                  animated: true,
-                  forceCloseChild: true,
-                  completion: nil)
+        let assembly = LGBumpUpBuilder.modal(root: navigationController)
+        if case .purchaseableProduct(let purchaseableProduct) = bumpUpProductData.bumpUpPurchaseableData {
+            let vc = assembly.buildPayBumpUp(forListing: listing,
+                                             purchaseableProduct: purchaseableProduct,
+                                             letgoItemId: bumpUpProductData.letgoItemId,
+                                             storeProductId: bumpUpProductData.storeProductId,
+                                             typePage: typePage,
+                                             maxCountdown: maxCountdown)
+            rootViewController.present(vc, animated: true, completion: nil)
+
+        }
     }
 
     func openBumpUpBoost(forListing listing: Listing,
@@ -645,12 +370,17 @@ extension TabCoordinator: ListingDetailNavigator {
                          typePage: EventParameterTypePage?,
                          timeSinceLastBump: TimeInterval,
                          maxCountdown: TimeInterval) {
-        let bumpCoordinator = BumpUpCoordinator(listing: listing,
-                                                bumpUpProductData: bumpUpProductData,
-                                                typePage: typePage,
-                                                timeSinceLastBump: timeSinceLastBump,
-                                                maxCountdown: maxCountdown)
-        openChild(coordinator: bumpCoordinator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
+        let assembly = LGBumpUpBuilder.modal(root: navigationController)
+        if case .purchaseableProduct(let purchaseableProduct) = bumpUpProductData.bumpUpPurchaseableData,
+            timeSinceLastBump > 0 {
+            let vc = assembly.buildBumpUpBoost(forListing: listing, purchaseableProduct: purchaseableProduct,
+                                               letgoItemId: bumpUpProductData.letgoItemId,
+                                               storeProductId: bumpUpProductData.storeProductId,
+                                               typePage: typePage,
+                                               timeSinceLastBump: timeSinceLastBump,
+                                               maxCountdown: maxCountdown)
+            rootViewController.present(vc, animated: true, completion: nil)
+        }
     }
 
     func selectBuyerToRate(source: RateUserSource,
@@ -760,22 +490,13 @@ extension TabCoordinator: ListingDetailNavigator {
         let vc = ReportUsersViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
-    
-    func openRealEstateOnboarding(pages: [LGTutorialPage],
-                                  origin: EventParameterTypePage,
-                                  tutorialType: EventParameterTutorialType) {
-        guard pages.count > 0 else { return }
-        let viewModel = LGTutorialViewModel(pages: pages, origin: origin, tutorialType: tutorialType)
-        let viewController = LGTutorialViewController(viewModel: viewModel)
-        navigationController.present(viewController, animated: true, completion: nil)
-    }
 
     func showUndoBubble(withMessage message: String,
                         duration: TimeInterval,
                         withAction action: @escaping () -> ()) {
         let action = UIAction(interface: .button(R.Strings.productInterestedUndo, .terciary) , action: action)
         let data = BubbleNotificationData(text: message, action: action)
-        
+
         switch featureFlags.highlightedIAmInterestedInFeed {
         case .baseline, .control:
             bubbleNotificationManager.showBubble(data: data,
@@ -801,28 +522,29 @@ extension TabCoordinator: ListingDetailNavigator {
                                                        style: .dark)
         }
     }
-}
 
+    func openListingAttributeTable(withViewModel viewModel: ListingAttributeTableViewModel) {
+        let viewController = ListingAttributeTableViewController(withViewModel: viewModel)
+        rootViewController.present(viewController,
+                                   animated: true,
+                                   completion: nil)
+    }
 
-// MARK: SimpleProductsNavigator
-
-extension TabCoordinator: SimpleProductsNavigator {
-    func closeSimpleProducts() {
-        navigationController.popViewController(animated: true)
+    func closeListingAttributeTable() {
+        rootViewController.dismiss(animated: true,
+                                   completion: nil)
     }
 }
-
 
 // MARK: > ChatDetailNavigator
 
 extension TabCoordinator: ChatDetailNavigator {
+    func navigate(with convertible: DeepLinkConvertible) {
+        deeplinkMailBox.push(convertible: convertible)
+    }
+
     func closeChatDetail() {
         navigationController.popViewController(animated: true)
-    }
-    
-    func openDeeplink(url: URL) {
-        guard let deepLink = UriScheme.buildFromUrl(url)?.deepLink else { return }
-        openDeepLink(deepLink)
     }
 
     func openExpressChat(_ listings: [Listing], sourceListingId: String, manualOpen: Bool) {
@@ -859,7 +581,7 @@ extension TabCoordinator: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController,
                               animationControllerFor operation: UINavigationControllerOperation,
                               from fromVC: UIViewController,
-                                  to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+                              to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if let animator = (toVC as? AnimatableTransition)?.animator, operation == .push {
             animator.pushing = true
             return animator
@@ -921,7 +643,7 @@ extension TabCoordinator: ExpressChatCoordinatorDelegate {
 }
 
 
-// MARK: - UserRatingCoordinatorDelegate 
+// MARK: - UserRatingCoordinatorDelegate
 
 extension TabCoordinator: UserRatingCoordinatorDelegate {
     func userRatingCoordinatorDidCancel() { }
@@ -936,7 +658,7 @@ extension TabCoordinator: EditListingCoordinatorDelegate {
     func editListingCoordinatorDidCancel(_ coordinator: EditListingCoordinator) {
 
     }
-    
+
     func editListingCoordinator(_ coordinator: EditListingCoordinator,
                                 didFinishWithListing listing: Listing,
                                 bumpUpProductData: BumpUpProductData?,
@@ -958,42 +680,6 @@ extension TabCoordinator: EditListingCoordinatorDelegate {
                           typePage: .edit,
                           maxCountdown: maxCountdown)
         }
-    }
-}
-
-
-// MARK: - Tracking
-
-extension TabCoordinator {
-    func trackProductNotAvailable(source: EventParameterListingVisitSource, repositoryError: RepositoryError) {
-        var reason: EventParameterNotAvailableReason
-        switch repositoryError {
-        case .internalError, .wsChatError, .searchAlertError:
-            reason = .internalError
-        case .notFound:
-            reason = .notFound
-        case .unauthorized:
-            reason = .unauthorized
-        case .forbidden:
-            reason = .forbidden
-        case .tooManyRequests:
-            reason = .tooManyRequests
-        case .userNotVerified:
-            reason = .userNotVerified
-        case .serverError:
-            reason = .serverError
-        case .network:
-            reason = .network
-        }
-        let productNotAvailableEvent = TrackerEvent.listingNotAvailable( source, reason: reason)
-        tracker.trackEvent(productNotAvailableEvent)
-    }
-    
-    func trackRelatedListings(listingId: String,
-                              source: EventParameterRelatedListingsVisitSource) {
-        let relatedListings = TrackerEvent.relatedListings(listingId: listingId,
-                                                           source: source)
-        tracker.trackEvent(relatedListings)
     }
 }
 

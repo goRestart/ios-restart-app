@@ -1,14 +1,7 @@
-//
-//  ChatGroupedListViewModel.swift
-//  LetGo
-//
-//  Created by Dídac on 15/02/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import Result
 import RxSwift
+import LGComponents
 
 /**
 Defines the type shared across 'Chats' section lists.
@@ -48,7 +41,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
     fileprivate let tracker: Tracker
     let featureFlags: FeatureFlaggeable
     private let localChatCounter = Variable<Int>(0)
-    
+
     private let chatRepository: ChatRepository
     var inactiveConversationsCount: Int?
     
@@ -71,7 +64,8 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
     var shouldShowInactiveConversations: Bool {
         return featureFlags.showInactiveConversations
     }
-    
+
+
     // MARK: - Paginable
 
     let firstPage: Int = 1
@@ -169,7 +163,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
     }
 
     func selectedObjectsAtIndexes(_ indexes: [Int]) -> [T]? {
-        return indexes.filter { $0 < objectCount && $0 >= 0 }.flatMap { objects.value[$0] }
+        return indexes.filter { $0 < objectCount && $0 >= 0 }.compactMap { objects.value[$0] }
     }
 
     func index(_ page: Int, completion: ((Result<[T], RepositoryError>) -> ())?) {

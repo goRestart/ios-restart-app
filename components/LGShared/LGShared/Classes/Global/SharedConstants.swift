@@ -94,7 +94,7 @@ public struct SharedConstants {
 
     // Camera
     public static let videoMaxRecordingDuration: TimeInterval = 15
-    public static let videoMinRecordingDuration: TimeInterval = 2
+    public static let videoMinRecordingDuration: TimeInterval = 3
     public static let videoSnapshotTime: TimeInterval = 1
     public static let videoFileExtension: String = "mp4"
     public static let videoSettings: [String: Any] = [
@@ -156,6 +156,10 @@ public struct SharedConstants {
 
     // Cars
     public static let filterMinCarYear: Int = 1990
+    public static let filterMinCarSeatsNumber: Int = 1
+    public static let filterMaxCarSeatsNumber: Int = 9
+    public static let filterMinCarMileage: Int = 0
+    public static let filterMaxCarMileage: Int = 300000
 
     // Bump Ups
     public static let maxRetriesForBumpUpRestore = 20

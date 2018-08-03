@@ -11,7 +11,6 @@ import Foundation
 struct LegacyABGroup: ABGroupType {
     private struct Keys {
         static let marketingPush = "marketingPush"
-        static let showNPSSurvey = "showNPSSurvey"
         static let surveyURL = "surveyURL"
         static let surveyEnabled = "surveyEnabled"
         static let freeBumpUpEnabled = "freeBumpUpEnabled"
@@ -26,14 +25,11 @@ struct LegacyABGroup: ABGroupType {
         static let deckItemPage = "20180403NewItemPage"
         static let taxonomiesAndTaxonomyChildrenInFeed = "20171031TaxonomiesAndTaxonomyChildrenInFeed"
         static let showClockInDirectAnswer = "20171031ShowClockInDirectAnswer"
-        static let mostSearchedDemandedItems = "20180104MostSearchedDemandedItems"
         static let showAdsInFeedWithRatio = "20180111ShowAdsInFeedWithRatio"
-        static let removeCategoryWhenClosingPosting = "20180126RemoveCategoryWhenClosingPosting"
     }
     
     let marketingPush: LeanplumABVariable<Int>
     // Not an A/B just flags and variables for surveys
-    let showNPSSurvey: LeanplumABVariable<Bool>
     let surveyURL: LeanplumABVariable<String>
     let surveyEnabled: LeanplumABVariable<Bool>
     let freeBumpUpEnabled: LeanplumABVariable<Bool>
@@ -48,9 +44,7 @@ struct LegacyABGroup: ABGroupType {
     let newItemPage: LeanplumABVariable<Int>
     let taxonomiesAndTaxonomyChildrenInFeed: LeanplumABVariable<Int>
     let showClockInDirectAnswer: LeanplumABVariable<Int>
-    let mostSearchedDemandedItems: LeanplumABVariable<Int>
     let showAdsInFeedWithRatio: LeanplumABVariable<Int>
-    let removeCategoryWhenClosingPosting: LeanplumABVariable<Int>
     
     
     let group: ABGroup = .legacyABTests
@@ -60,7 +54,6 @@ struct LegacyABGroup: ABGroupType {
     var boolVariables: [LeanplumABVariable<Bool>] = []
     
     init(marketingPush: LeanplumABVariable<Int>,
-         showNPSSurvey: LeanplumABVariable<Bool>,
          surveyURL: LeanplumABVariable<String>,
          surveyEnabled: LeanplumABVariable<Bool>,
          freeBumpUpEnabled: LeanplumABVariable<Bool>,
@@ -75,12 +68,9 @@ struct LegacyABGroup: ABGroupType {
          newItemPage: LeanplumABVariable<Int>,
          taxonomiesAndTaxonomyChildrenInFeed: LeanplumABVariable<Int>,
          showClockInDirectAnswer: LeanplumABVariable<Int>,
-         mostSearchedDemandedItems: LeanplumABVariable<Int>,
-         showAdsInFeedWithRatio: LeanplumABVariable<Int>,
-         removeCategoryWhenClosingPosting: LeanplumABVariable<Int>) {
+         showAdsInFeedWithRatio: LeanplumABVariable<Int>) {
         
         self.marketingPush = marketingPush
-        self.showNPSSurvey = showNPSSurvey
         self.surveyURL = surveyURL
         self.surveyEnabled = surveyEnabled
         self.freeBumpUpEnabled = freeBumpUpEnabled
@@ -95,9 +85,7 @@ struct LegacyABGroup: ABGroupType {
         self.newItemPage = newItemPage
         self.taxonomiesAndTaxonomyChildrenInFeed = taxonomiesAndTaxonomyChildrenInFeed
         self.showClockInDirectAnswer = showClockInDirectAnswer
-        self.mostSearchedDemandedItems = mostSearchedDemandedItems
         self.showAdsInFeedWithRatio = showAdsInFeedWithRatio
-        self.removeCategoryWhenClosingPosting = removeCategoryWhenClosingPosting
         
         intVariables.append(contentsOf: [marketingPush,
                                          locationDataSourceType,
@@ -106,10 +94,8 @@ struct LegacyABGroup: ABGroupType {
                                          newItemPage,
                                          taxonomiesAndTaxonomyChildrenInFeed,
                                          showClockInDirectAnswer,
-                                         mostSearchedDemandedItems,
-                                         showAdsInFeedWithRatio,
-                                         removeCategoryWhenClosingPosting])
-        boolVariables.append(contentsOf: [showNPSSurvey, surveyEnabled, freeBumpUpEnabled,
+                                         showAdsInFeedWithRatio])
+        boolVariables.append(contentsOf: [surveyEnabled, freeBumpUpEnabled,
                                           pricedBumpUpEnabled, newCarsMultiRequesterEnabled, inAppRatingIOS10,
                                           userReviewsReportEnabled, appRatingDialogInactive])
         stringVariables.append(surveyURL)
@@ -118,7 +104,6 @@ struct LegacyABGroup: ABGroupType {
     
     static func make() -> LegacyABGroup {
         return LegacyABGroup(marketingPush: .makeInt(key: Keys.marketingPush, defaultValue: 0, groupType: .legacyABTests),
-                             showNPSSurvey: .makeBool(key: Keys.showNPSSurvey, defaultValue: false, groupType: .legacyABTests),
                              surveyURL: .makeString(key: Keys.surveyURL, defaultValue: "", groupType: .legacyABTests),
                              surveyEnabled: .makeBool(key: Keys.surveyEnabled, defaultValue: false, groupType: .legacyABTests),
                              freeBumpUpEnabled: .makeBool(key: Keys.freeBumpUpEnabled, defaultValue: false, groupType: .legacyABTests),
@@ -133,7 +118,6 @@ struct LegacyABGroup: ABGroupType {
                              newItemPage: .makeInt(key: Keys.deckItemPage, defaultValue: 0, groupType: .legacyABTests),
                              taxonomiesAndTaxonomyChildrenInFeed: .makeInt(key: Keys.taxonomiesAndTaxonomyChildrenInFeed, defaultValue: 0, groupType: .legacyABTests),
                              showClockInDirectAnswer: .makeInt(key: Keys.showClockInDirectAnswer, defaultValue: 0, groupType: .legacyABTests),
-                             mostSearchedDemandedItems: .makeInt(key: Keys.mostSearchedDemandedItems, defaultValue: 0, groupType: .retention), showAdsInFeedWithRatio: .makeInt(key: Keys.showAdsInFeedWithRatio, defaultValue: 0, groupType: .legacyABTests),
-                             removeCategoryWhenClosingPosting: .makeInt(key: Keys.removeCategoryWhenClosingPosting, defaultValue: 0, groupType: .legacyABTests))
+                             showAdsInFeedWithRatio: .makeInt(key: Keys.showAdsInFeedWithRatio, defaultValue: 0, groupType: .legacyABTests))
     }
 }

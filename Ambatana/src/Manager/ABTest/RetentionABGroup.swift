@@ -14,11 +14,19 @@ struct RetentionABGroup: ABGroupType {
         static let onboardingIncentivizePosting = "20180215OnboardingIncentivizePosting"
         static let iAmInterestedInFeed = "20180425iAmInterestedInFeed"
         static let highlightedIAmInterestedInFeed = "20180531HighlightedIAmInterestedInFeed"
+        static let notificationSettings = "20180608NotificationSettings"
+        static let searchAlertsInSearchSuggestions = "20180710SearchAlertsInSearchSuggestions"
+        static let engagementBadging = "20180613EngagementBadging"
+        static let searchAlertsDisableOldestIfMaximumReached = "201807SearchAlertsDisableOldestIfMaximumReached"
     }
     let dummyUsersInfoProfile: LeanplumABVariable<Int>
     let onboardingIncentivizePosting: LeanplumABVariable<Int>
     let iAmInterestedInFeed: LeanplumABVariable<Int>
     let highlightedIAmInterestedInFeed: LeanplumABVariable<Int>
+    let notificationSettings: LeanplumABVariable<Int>
+    let searchAlertsInSearchSuggestions: LeanplumABVariable<Int>
+    let engagementBadging: LeanplumABVariable<Int>
+    let searchAlertsDisableOldestIfMaximumReached: LeanplumABVariable<Int>
     
     let group: ABGroup = .retention
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -29,16 +37,28 @@ struct RetentionABGroup: ABGroupType {
     init(dummyUsersInfoProfile: LeanplumABVariable<Int>,
          onboardingIncentivizePosting: LeanplumABVariable<Int>,
          iAmInterestedInFeed: LeanplumABVariable<Int>,
-         highlightedIAmInterestedInFeed: LeanplumABVariable<Int>) {
+         highlightedIAmInterestedInFeed: LeanplumABVariable<Int>,
+         notificationSettings: LeanplumABVariable<Int>,
+         searchAlertsInSearchSuggestions: LeanplumABVariable<Int>,
+         engagementBadging: LeanplumABVariable<Int>,
+         searchAlertsDisableOldestIfMaximumReached: LeanplumABVariable<Int>) {
         self.dummyUsersInfoProfile = dummyUsersInfoProfile
         self.onboardingIncentivizePosting = onboardingIncentivizePosting
         self.iAmInterestedInFeed = iAmInterestedInFeed
         self.highlightedIAmInterestedInFeed = highlightedIAmInterestedInFeed
+        self.notificationSettings = notificationSettings
+        self.searchAlertsInSearchSuggestions = searchAlertsInSearchSuggestions
+        self.engagementBadging = engagementBadging
+        self.searchAlertsDisableOldestIfMaximumReached = searchAlertsDisableOldestIfMaximumReached
 
         intVariables.append(contentsOf: [dummyUsersInfoProfile,
                                         onboardingIncentivizePosting,
                                         iAmInterestedInFeed,
-                                        highlightedIAmInterestedInFeed])
+                                        highlightedIAmInterestedInFeed,
+                                        notificationSettings,
+                                        searchAlertsInSearchSuggestions,
+                                        engagementBadging,
+                                        searchAlertsDisableOldestIfMaximumReached])
     }
 
     static func make() -> RetentionABGroup {
@@ -53,6 +73,18 @@ struct RetentionABGroup: ABGroupType {
                                                               groupType: .retention),
                                 highlightedIAmInterestedInFeed: .makeInt(key: Keys.highlightedIAmInterestedInFeed,
                                                               defaultValue: 0,
-                                                              groupType: .retention))
+                                                              groupType: .retention),
+                                notificationSettings: .makeInt(key: Keys.notificationSettings,
+                                                               defaultValue: 0,
+                                                               groupType: .retention),
+                                searchAlertsInSearchSuggestions: .makeInt(key: Keys.searchAlertsInSearchSuggestions,
+                                                                          defaultValue: 0,
+                                                                          groupType: .retention),
+                                engagementBadging: .makeInt(key: Keys.engagementBadging,
+                                                            defaultValue: 0,
+                                                            groupType: .retention),
+                                searchAlertsDisableOldestIfMaximumReached: .makeInt(key: Keys.searchAlertsDisableOldestIfMaximumReached,
+                                                                                    defaultValue: 0,
+                                                                                    groupType: .retention))
     }
 }

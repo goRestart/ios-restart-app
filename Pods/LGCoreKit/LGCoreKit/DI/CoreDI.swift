@@ -12,6 +12,7 @@ import KeychainSwift
 import Reachability
 
 final class CoreDI: InternalDI {
+
     // MARK: - Lifecycle
     
     init() {
@@ -80,9 +81,6 @@ final class CoreDI: InternalDI {
                                                 locationRepository: locationRepository,
                                                 deviceLocationDAO: deviceLocationDAO,
                                                 countryHelper: countryHelper)
-
-        let suggestedLocationsApiDataSource = SuggestedLocationsApiDataSource(apiClient: apiClient)
-
         let carsInfoDataSource = CarsInfoApiDataSource(apiClient: apiClient)
         let carsInfoCache: CarsInfoDAO = CarsInfoRealmDAO() ?? CarsInfoMemoryDAO()
         let carsInfoRepository = LGCarsInfoRepository(dataSource: carsInfoDataSource,
@@ -183,6 +181,8 @@ final class CoreDI: InternalDI {
         let imageMultiplierDataSource = ImageMultiplierApiDataSource(apiClient: apiClient)
         imageMultiplierRepository = LGImageMultiplierRepository(dataSource: imageMultiplierDataSource)
 
+        communityRepository = LGCommunityRepository(tokenDAO: tokenDAO)
+
         self.reporter = ReporterProxy()
     }
 
@@ -239,8 +239,9 @@ final class CoreDI: InternalDI {
     var locationRepository: LocationRepository
     let imageMultiplierRepository: ImageMultiplierRepository
     let servicesInfoRepository: ServicesInfoRepository
-
     let listingRepository: ListingRepository
+    let communityRepository: CommunityRepository
+
     lazy var fileRepository: FileRepository = {
         let dataSource = FileApiDataSource(apiClient: self.apiClient)
         return LGFileRepository(myUserRepository: self.internalMyUserRepository, fileDataSource: dataSource)
@@ -270,7 +271,14 @@ final class CoreDI: InternalDI {
         let dataSource = LGPreSignedUploadUrlDataSource(apiClient: self.apiClient)
         return LGPreSignedUploadUrlRepository(dataSource: dataSource)
     }()
-
+    lazy var notificationSettingsPusherRepository: NotificationSettingsPusherRepository = {
+        let notificationSettingsPusherDataSource = NotificationSettingsPusherApiDataSource(apiClient: self.apiClient)
+        return LGNotificationSettingsPusherRepository(dataSource: notificationSettingsPusherDataSource)
+    }()
+    lazy var notificationSettingsMailerRepository: NotificationSettingsMailerRepository = {
+        let notificationSettingsMailerDataSource = NotificationSettingsMailerApiDataSource(apiClient: self.apiClient)
+        return LGNotificationSettingsMailerRepository(dataSource: notificationSettingsMailerDataSource)
+    }()
 
     // MARK: > DAO
 

@@ -1,4 +1,4 @@
- import UIKit
+import UIKit
 import LGCoreKit
 import SwiftyGif
 import LGComponents
@@ -14,7 +14,7 @@ protocol ListingCellDelegate: class {
     func moreOptionsPressedForDiscarded(listing: Listing)
     func postNowButtonPressed(_ view: UIView)
     func interestedActionFor(_ listing: Listing)
-    func openAskPhoneFor(_ listing: Listing, interlocutor: User)
+    func openAskPhoneFor(_ listing: Listing, interlocutor: LocalUser)
     func getUserInfoFor(_ listing: Listing, completion: @escaping (User?) -> Void)
 }
 
@@ -222,24 +222,40 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     }
     
     // Product Detail Under Image
-    func setupFeaturedListingInfoWith(price: String, title: String?, isMine: Bool, hideProductDetail: Bool) {
+    func setupFeaturedListingInfoWith(price: String,
+                                      priceType: String?,
+                                      title: String?,
+                                      isMine: Bool,
+                                      hideProductDetail: Bool) {
         featureView = ProductPriceAndTitleView(textStyle: .darkText)
-        featureView?.configUI(title: title, price: price, style: hideProductDetail ? .whiteText : .darkText)
+        featureView?.configUI(title: title,
+                              price: price,
+                              priceType: priceType,
+                              style: hideProductDetail ? .whiteText : .darkText)
         setupFeaturedListingChatButton()
         layoutFeatureListArea(isMine: isMine, hideProductDetail: hideProductDetail)
     }
     
-    func setupNonFeaturedProductInfoUnderImage(price: String, title: String?, shouldShow: Bool) {
+    func setupNonFeaturedProductInfoUnderImage(price: String,
+                                               priceType: String?,
+                                               title: String?,
+                                               shouldShow: Bool) {
         if shouldShow {
             featureView = ProductPriceAndTitleView(textStyle: .darkText)
-            featureView?.configUI(title: title, price: price, style: .darkText)
+            featureView?.configUI(title: title,
+                                  price: price,
+                                  priceType: priceType,
+                                  style: .darkText)
             showDetail()
         }
     }
     
     // Product Detail In Image
-    func showCompleteProductInfoInImage(price: String, title: String?, distance: Double?) {
-        setupProductDetailInImage(price: price, title: title)
+    func showCompleteProductInfoInImage(price: String,
+                                        priceType: String?,
+                                        title: String?,
+                                        distance: Double?) {
+        setupProductDetailInImage(price: price, priceType: priceType, title: title)
         if let distance = distance {
             addDistanceViewInImage(distance: distance, isOnTopLeft: true)
         }
@@ -270,7 +286,8 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
                                               featuredListingInfoView,
                                               stripeImageView, stripeInfoView,
                                               discardedView,
-                                              topDistanceInfoView, bottomDistanceInfoView,
+                                              topDistanceInfoView,
+                                              bottomDistanceInfoView,
                                               detailViewInImage])
         setupThumbnailImageViews()
         setupFeaturedListingInfoView()
@@ -400,15 +417,18 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
             ])
     }
     
-    private func setupProductDetailInImage(price: String, title: String?) {
-        detailViewInImage.configUI(title: title, price: price, style: .whiteText)
+    private func setupProductDetailInImage(price: String, priceType: String?, title: String?) {
+        detailViewInImage.configUI(title: title,
+                                   price: price,
+                                   priceType: priceType,
+                                   style: .whiteText)
         detailViewInImage.isHidden = false
         layoutProductDetailInImage(title: title)
     }
     
     private func addDistanceViewInImage(distance: Double, isOnTopLeft: Bool) {
         
-        let distanceString = String(describing: distance) + DistanceType.systemDistanceType().string
+        let distanceString = String(describing: distance) + DistanceType.systemDistanceType().rawValue
         
         if isOnTopLeft {
             topDistanceInfoView.isHidden = false
@@ -431,22 +451,37 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     @objc private func callDelegateInterestedState() {
         guard let listing = listing else { return }
         let featureFlags = FeatureFlags.sharedInstance
-        if featureFlags.preventMessagesFromFeedToProUsers.isActive  {
-            interestedButton.isHidden = true
-            activityIndicator.startAnimating()
-            delegate?.getUserInfoFor(listing, completion: { [weak self] user in
-                guard let strongSelf = self else { return }
-                strongSelf.interestedButton.isHidden = false
-                strongSelf.activityIndicator.stopAnimating()
-                if let user = user, user.isProfessional {
-                     strongSelf.delegate?.openAskPhoneFor(listing, interlocutor: user)
-                } else {
-                    strongSelf.delegate?.interestedActionFor(listing)
-                }
-            })
+        let category = listing.category
+        if shouldPreventMessagesFromFeedToProUsers(category: category, featureFlags: featureFlags) {
+            if listing.user.type != .unknown  {
+                let localUser = LocalUser.init(userListing: listing.user)
+                self.preventMessagesForProfessionals(localUser: localUser, listing: listing)
+            } else {
+                interestedButton.isHidden = true
+                activityIndicator.startAnimating()
+                delegate?.getUserInfoFor(listing, completion: { [weak self] user in
+                    guard let strongSelf = self else { return }
+                    strongSelf.interestedButton.isHidden = false
+                    strongSelf.activityIndicator.stopAnimating()
+                    strongSelf.preventMessagesForProfessionals(localUser: LocalUser.init(user: user), listing: listing)
+                })
+            }
         } else {
             delegate?.interestedActionFor(listing)
         }
+    }
+    
+    private func preventMessagesForProfessionals(localUser: LocalUser?, listing: Listing) {
+        if let localUser = localUser, localUser.type == .pro {
+            self.delegate?.openAskPhoneFor(listing, interlocutor: localUser)
+        } else {
+            self.delegate?.interestedActionFor(listing)
+        }
+    }
+    
+    private func shouldPreventMessagesFromFeedToProUsers(category: ListingCategory, featureFlags: FeatureFlags) -> Bool {
+        guard featureFlags.preventMessagesFromFeedToProUsers.isActive else { return false }
+        return category == .realEstate || category == .cars || category == .services
     }
     
     private func layoutFeatureListArea(isMine: Bool, hideProductDetail: Bool) {

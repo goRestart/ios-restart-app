@@ -1,14 +1,7 @@
-//
-//  BaseViewModelDelegate.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 07/03/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-import UIKit
 
 public protocol BaseViewModelDelegate: class {
     func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?)
+    func vmShowAutoFadingMessage(title: String, message: String, time: Double, completion: (() -> ())?)
 
     func vmShowLoading(_ loadingMessage: String?)
     func vmHideLoading(_ finishedMessage: String?, afterMessageCompletion: (() -> ())?)
@@ -21,19 +14,32 @@ public protocol BaseViewModelDelegate: class {
     func vmShowAlert(_ title: String?, message: String?, cancelLabel: String, actions: [UIAction])
     func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction])
     func vmShowActionSheet(_ cancelLabel: String, actions: [UIAction])
+    func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction], withTitle title: String?)
 
     func vmPop()
     func vmDismiss(_ completion: (() -> Void)?)
-    
+
     func vmOpenInAppWebViewWith(url: URL)
 }
 
 extension UIViewController: BaseViewModelDelegate {
-    public func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?) {
-        showAutoFadingOutMessageAlert(message, completion: completion)
+    @objc open func vmShowAutoFadingMessage(_ message: String,
+                                       completion: (() -> ())?) {
+        showAutoFadingOutMessageAlert(message: message,
+                                      completion: completion)
     }
 
-    public func vmShowLoading(_ loadingMessage: String?) {
+    @objc open func vmShowAutoFadingMessage(title: String,
+                                       message: String,
+                                       time: Double,
+                                       completion: (() -> ())?) {
+        showAutoFadingOutMessageAlert(title: title,
+                                      message: message,
+                                      time: time,
+                                      completion: completion)
+    }
+
+    @objc open func vmShowLoading(_ loadingMessage: String?) {
         showLoadingMessageAlert(loadingMessage)
     }
 
@@ -53,6 +59,16 @@ extension UIViewController: BaseViewModelDelegate {
         showActionSheet(cancelAction, actions: actions, barButtonItem: nil, completion: nil)
     }
 
+    public func vmShowActionSheet(_ cancelAction: UIAction,
+                                  actions: [UIAction],
+                                  withTitle title: String?) {
+        showActionSheet(cancelAction,
+                        title: title,
+                        actions: actions,
+                        barButtonItem: nil,
+                        completion: nil)
+    }
+    
     public func vmShowActionSheet(_ cancelLabel: String, actions: [UIAction]) {
         showActionSheet(cancelLabel, actions: actions, barButtonItem: nil)
     }

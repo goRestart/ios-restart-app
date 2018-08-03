@@ -333,7 +333,7 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
             return
         }
 
-        viewModel.bumpUpBannerShown(type: bumpUp.type)
+        viewModel.bumpUpBannerShown(bumpInfo: bumpUp)
         listingDeckView.updateBumpUp(withInfo: bumpUp)
         listingDeckView.bumpUpBanner.layoutIfNeeded()
         UIView.animate(withDuration: 0.3,
@@ -444,10 +444,6 @@ extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCard
         viewModel.didTapStatusView()
     }
 
-    func cardViewDidTapOnReputationTooltip(_ cardView: ListingCardView) {
-        viewModel.didTapReputationTooltip()
-    }
-
     // MARK: Chat
     override func resignFirstResponder() -> Bool {
         return quickChatView?.resignFirstResponder() ?? true
@@ -555,16 +551,6 @@ extension ListingDeckViewController: GADInterstitialDelegate {
     
     func interstitialWillLeaveApplication(_ ad: GADInterstitial) {
         viewModel.interstitialAdTapped(typePage: EventParameterTypePage.nextItem)
-    }
-    
-    func interstitial(_ ad: GADInterstitial, didFailToReceiveAdWithError error: GADRequestError) {
-        viewModel.interstitialDidFail(typePage: EventParameterTypePage.nextItem)
-        setupInterstitial()
-    }
-    
-    func interstitialDidFail(toPresentScreen ad: GADInterstitial) {
-        viewModel.interstitialDidFail(typePage: EventParameterTypePage.nextItem)
-        setupInterstitial()
     }
     
 }

@@ -3,18 +3,42 @@ import LGCoreKit
 import RxSwift
 import LGComponents
 
-class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewControllerModelDelegate, PostingDetailsViewModelDelegate {
+final class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewControllerModelDelegate, PostingDetailsViewModelDelegate {
     
     fileprivate static let titleHeight: CGFloat = 60
     fileprivate static let skipButtonMinimumWidth: CGFloat = 100
+    fileprivate static let topScrollMax: CGFloat = 160
     static let skipButtonHeight: CGFloat = 44
     
-    private let titleLabel: UILabel = UILabel()
-    private let subtitleLabel: UILabel = UILabel()
+    
+    private let headerView = UIView()
     private let contentView: UIView = UIView()
+    
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 2
+        label.font = UIFont.postingFlowHeadline
+        label.textColor = UIColor.white
+        return label
+    }()
+    
+    private let subtitleLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.postingFlowHeadlineSubtitle
+        label.textColor = UIColor.grayDark
+        return label
+    }()
+
     private var infoView: PostingViewConfigurable?
     private let buttonNext = LetgoButton()
     private var buttonNextBottomMargin = NSLayoutConstraint()
+    private var topHeaderConstraint: NSLayoutConstraint?
+    private var topHeaderInitialDistance: CGFloat = 0
+    
+    
+    // This view will match the bounds of the next button and absorb the touch to stop the tableView
+    // from taking the touch when the next button is disabled
+    private let buttonNextUnderView = UIView()
     
     private let viewModel: PostingDetailsViewModel
     
@@ -36,8 +60,8 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
         super.viewDidLoad()
         viewModel.delegate = self
         navigationController?.setNavigationBarHidden(false, animated: false)
-        setupConstraints()
         setupUI()
+        setupConstraints()
         setupRx()
         infoView?.setupView(viewModel: viewModel)
     }
@@ -55,22 +79,19 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
     
     private func setupUI() {
         view.clipsToBounds = true
+        view.backgroundColor = .clear
+        view.addSubviewsForAutoLayout([headerView, contentView, buttonNextUnderView, buttonNext])
+        headerView.addSubviewsForAutoLayout([titleLabel, subtitleLabel])
+
         
         titleLabel.text = viewModel.title
         subtitleLabel.text = viewModel.subtitle
-        titleLabel.numberOfLines = 2
         buttonNext.setTitle(viewModel.buttonTitle, for: .normal)
-        
-        view.backgroundColor = .clear
-        contentView.backgroundColor = .clear
-        
-        titleLabel.font = UIFont.postingFlowHeadline
-        titleLabel.textColor = UIColor.white
-        subtitleLabel.font = UIFont.postingFlowHeadlineSubtitle
-        subtitleLabel.textColor = UIColor.grayDark
         buttonNext.setStyle(viewModel.doneButtonStyle)
-        
         buttonNext.addTarget(self, action: #selector(nextButtonPressed), for: .touchUpInside)
+        
+
+        contentView.backgroundColor = .clear
     }
     
     func setupRx() {
@@ -79,6 +100,12 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
             strongSelf.buttonNext.setStyle(strongSelf.viewModel.doneButtonStyle)
             strongSelf.buttonNext.setTitle(strongSelf.viewModel.buttonTitle, for: .normal)
         }.disposed(by: disposeBag)
+        
+        viewModel.nextButtonEnabled.asObservable().bind { [weak self] (enabled) in
+            guard let strongSelf = self else { return }
+            strongSelf.buttonNext.isEnabled = enabled
+        }.disposed(by: disposeBag)
+        
     }
     
     private func setupNavigationBar() {
@@ -103,38 +130,30 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
     }
     
     private func setupConstraints() {
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-        buttonNext.translatesAutoresizingMaskIntoConstraints = false
+
+        headerView.layout(with: view).fillHorizontal()
         
-        view.addSubview(titleLabel)
-        view.addSubview(subtitleLabel)
-        titleLabel.layout(with: view).fillHorizontal(by: Metrics.bigMargin)
-        subtitleLabel.layout(with: view).fillHorizontal(by: Metrics.bigMargin)
-        let topAnchor: NSLayoutYAxisAnchor
-        let constant: CGFloat
-        if #available(iOS 11, *) {
-            topAnchor = view.safeAreaLayoutGuide.topAnchor
-            constant = Metrics.bigMargin
-        } else {
-            topAnchor = view.topAnchor
-            constant = PostingDetailsViewController.titleHeight
-        }
-        titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: constant).isActive = true
-        subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: constant).isActive = true
+        titleLabel.layout(with: headerView).top().fillHorizontal(by: Metrics.bigMargin)
+        subtitleLabel.layout(with: headerView).bottom().fillHorizontal(by: Metrics.bigMargin)
+        
         subtitleLabel.layout(with: titleLabel).below(by: Metrics.shortMargin)
         
-        view.addSubview(contentView)
-        contentView.layout(with: subtitleLabel).below(by: Metrics.bigMargin)
+        if #available(iOS 11, *) {
+            topHeaderInitialDistance =  Metrics.bigMargin
+        } else {
+            topHeaderInitialDistance =  PostingDetailsViewController.titleHeight
+        }
+        topHeaderConstraint = headerView.topAnchor.constraint(equalTo: safeTopAnchor, constant: topHeaderInitialDistance)
+        topHeaderConstraint?.isActive = true
+        
+        contentView.layout(with: headerView).below(by: Metrics.bigMargin)
         contentView.layout(with: view).fillHorizontal(by: Metrics.veryShortMargin)
         contentView.layout(with: view).bottom()
         
         
         infoView = viewModel.makeContentView(viewControllerDelegate: self)
         infoView?.setupContainerView(view: contentView)
-        
-        view.addSubview(buttonNext)
+
         buttonNext.layout(with: view).bottom(by: -Metrics.margin)
         buttonNext.layout().height(PostingDetailsViewController.skipButtonHeight)
         buttonNext.layout().width(PostingDetailsViewController.skipButtonMinimumWidth, relatedBy: .greaterThanOrEqual)
@@ -147,8 +166,31 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
             buttonNext.layout(with: keyboardView).left(by: Metrics.bigMargin)
         }
         buttonNext.layout(with: view).right(by: -Metrics.bigMargin)
+        
+        buttonNextUnderView.layout(with: buttonNext)
+            .centerX()
+            .centerY()
+        
+        buttonNextUnderView.layout(with: buttonNext).fill()
     }
     
+    func detailViewScrolled(contentOffsetY: CGFloat) {
+        if contentOffsetY <= 1 {
+            navigationController?.setNavigationBarHidden(false, animated: true)
+        } else if contentOffsetY < topHeaderInitialDistance {
+            navigationController?.setNavigationBarHidden(true, animated: true)
+        }
+        topHeaderConstraint?.constant = max(topHeaderInitialDistance - contentOffsetY,
+                                            topHeaderInitialDistance - PostingDetailsViewController.topScrollMax)
+    }
+    
+    func detailViewScrollToTop() {
+        navigationController?.setNavigationBarHidden(true, animated: true)
+        topHeaderConstraint?.constant = topHeaderInitialDistance - PostingDetailsViewController.topScrollMax
+        UIView.animate(withDuration: 0.6) {
+            self.view.layoutIfNeeded()
+        }
+    }
     
     // MARK: - UIActions
     

@@ -1,12 +1,5 @@
-//
-//  LGEmptyView.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 05/02/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
 class LGEmptyView: UIView {
 

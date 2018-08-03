@@ -1,5 +1,4 @@
 import LGComponents
-import CameraManager
 import Vision
 import CoreMedia
 import LGCoreKit
@@ -45,11 +44,7 @@ final class LGVision: MachineLearningVision {
         guard let request = request else { return }
         requestCompletion = completion
         let requestHandler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer)
-        do {
-            try requestHandler.perform([request])
-        } catch {
-            requestCompletion?(nil)
-        }
+        try? requestHandler.perform([request]) // no need to catch, requestDidComplete will also be called
     }
     
     func requestDidComplete(request: VNRequest, error: Error?) {

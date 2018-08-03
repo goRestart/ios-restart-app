@@ -129,6 +129,24 @@ struct CustomFeedBaseURL: BaseURL {
     static let contentTypeHeader: String? = nil
 }
 
+struct NotificationSettingsPusherBaseURL: BaseURL {
+    static let baseURL = EnvironmentProxy.sharedInstance.notificationSettingsPusherBaseURL
+    static let acceptHeader: String? = "application/json"
+    static let contentTypeHeader: String? = "application/json"
+}
+
+struct NotificationSettingsMailerBaseURL: BaseURL {
+    static let baseURL = EnvironmentProxy.sharedInstance.notificationSettingsMailerBaseURL
+    static let acceptHeader: String? = "application/json"
+    static let contentTypeHeader: String? = "application/json"
+}
+
+struct ReportingBaseURL: BaseURL {
+    static let baseURL = EnvironmentProxy.sharedInstance.reportingBaseURL
+    static let acceptHeader: String? = "application/vnd.api+json;version=1"
+    static let contentTypeHeader: String? = "application/vnd.api+json;version=1"
+}
+
 enum Encoding {
     case json, url
 }

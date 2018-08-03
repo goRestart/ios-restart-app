@@ -54,7 +54,7 @@ enum DirectAnswersState {
     case notAvailable, visible, hidden
 }
 
-class ChatViewModel: BaseViewModel {
+class ChatViewModel: ChatBaseViewModel {
     
     static let typingStartedThrottleTime: TimeInterval = 15
     static let userIsTypingTimeoutTime: TimeInterval = 10
@@ -63,7 +63,7 @@ class ChatViewModel: BaseViewModel {
     
     // Protocols
     weak var delegate: ChatViewModelDelegate?
-    weak var navigator: ChatDetailNavigator?
+    var navigator: ChatDetailNavigator?
     
     // Paginable
     var resultsPerPage: Int = SharedConstants.numMessagesPerPage
@@ -72,6 +72,11 @@ class ChatViewModel: BaseViewModel {
     var objectCount: Int {
         return messages.value.count
     }
+
+    // Connectivity
+    private let rx_wsChatStatus = Variable<WSChatStatus>(.closed)
+    let rx_connectionBarStatus = Variable<ChatConnectionBarStatus>(.wsConnected)
+
 
     // Public Model info
     let title = Variable<String>("")
@@ -99,10 +104,11 @@ class ChatViewModel: BaseViewModel {
     let interlocutorProfessionalInfo = Variable<InterlocutorProfessionalInfo>(InterlocutorProfessionalInfo(isProfessional: false, phoneNumber: nil))
     let lastMessageSentType = Variable<ChatWrapperMessageType?>(nil)
     let messagesDidFinishRefreshing = Variable<Bool>(false)
-    let interlocutorTypingChatViewMessage: ChatViewMessage
+    var interlocutorTypingChatViewMessage: ChatViewMessage?
     let chatBoxText = Variable<String>("")
     var userIsTypingTimeout: Timer?
     var stoppedTypingEventEnabled: Bool = true
+    let chatUserInteractionsEnabled = Variable<Bool>(true)
 
     var keyForTextCaching: String { return userDefaultsSubKey }
     
@@ -127,6 +133,10 @@ class ChatViewModel: BaseViewModel {
             return true
         }
         return false
+    }
+
+    var showWhiteBackground: Bool {
+        return featureFlags.showChatHeaderWithoutUser
     }
 
 
@@ -232,7 +242,13 @@ class ChatViewModel: BaseViewModel {
             return true
         }
     }
-    
+
+    private var interlocutorAvatar: UIImage?
+    private var defaultUserAvatarData: ChatMessageAvatarData {
+        return ChatMessageAvatarData(avatarImage: interlocutorAvatar) { [weak self] in
+            self?.userInfoPressed()
+        }
+    }
     
     // MARK: - Lifecycle
 
@@ -330,12 +346,11 @@ class ChatViewModel: BaseViewModel {
             self.interlocutorProfessionalInfo.value = InterlocutorProfessionalInfo(isProfessional: true,
                                                                                    phoneNumber: nil)
         }
-        interlocutorTypingChatViewMessage = chatViewMessageAdapter.createInterlocutorIsTyping()
         super.init()
         setupRx()
         loadStickers()
     }
-    
+
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
 
@@ -431,6 +446,29 @@ class ChatViewModel: BaseViewModel {
             self?.interlocutorName.value = conversation.interlocutor?.name ?? ""
             self?.interlocutorId.value = conversation.interlocutor?.objectId
         }.disposed(by: disposeBag)
+
+        let placeHolder = Observable.combineLatest(interlocutorId.asObservable(),
+                                                   interlocutorName.asObservable()) {
+                                                    (id, name) -> UIImage? in
+                                                    return LetgoAvatar.avatarWithID(id, name: name)
+        }
+        Observable.combineLatest(placeHolder, interlocutorAvatarURL.asObservable()) { ($0, $1) }
+            .bind { [weak self] (placeholder, avatarUrl) in
+                guard let showUserAvatarinCells = self?.featureFlags.showChatHeaderWithoutUser,
+                    showUserAvatarinCells else {
+                        self?.interlocutorAvatar = nil
+                        return
+                }
+                if let url = avatarUrl {
+                    do {
+                        self?.interlocutorAvatar = try UIImage.imageFrom(url: url)
+                    } catch {
+                        self?.interlocutorAvatar = placeholder
+                    }
+                } else {
+                    self?.interlocutorAvatar = placeholder
+                }
+            }.disposed(by: disposeBag)
 
         chatStatus.asObservable().subscribeNext { [weak self] status in
             guard let strongSelf = self else { return }
@@ -638,7 +676,12 @@ class ChatViewModel: BaseViewModel {
     }
 
     func setupChatEventsRx() {
-        chatRepository.chatStatus.bind { [weak self] wsChatStatus in
+        chatRepository.chatStatus
+            .asObservable()
+            .bind(to: rx_wsChatStatus)
+            .disposed(by: disposeBag)
+
+        rx_wsChatStatus.asObservable().bind { [weak self] wsChatStatus in
             guard let strongSelf = self else { return }
             switch wsChatStatus {
             case .openAuthenticated:
@@ -666,12 +709,39 @@ class ChatViewModel: BaseViewModel {
                 self?.conversation.value.interlocutorIsTyping.value = true
             case .interlocutorTypingStopped:
                 self?.conversation.value.interlocutorIsTyping.value = false
-            case .authenticationTokenExpired, .talkerUnauthenticated:
+            case .authenticationTokenExpired, .talkerUnauthenticated, .smartQuickAnswer(_):
                 break
             }
         }.disposed(by: disposeBag)
-    }
 
+        Observable.combineLatest(rx_wsChatStatus.asObservable(),
+                                 rx_isReachable.asObservable())
+            .asObservable()
+            .skip(1)
+            .bind { [weak self] (wsChatStatus, isReachable) in
+                guard isReachable else {
+                    self?.rx_connectionBarStatus.value = .noNetwork
+                    return
+                }
+                switch wsChatStatus {
+                case .openAuthenticated, .openNotVerified:
+                    self?.rx_connectionBarStatus.value = .wsConnected
+                case .closed, .closing:
+                    self?.rx_connectionBarStatus.value = .wsClosed(reconnectBlock: { [weak self] in
+                        self?.refreshMessages()
+                    })
+                case .opening, .openNotAuthenticated:
+                    self?.rx_connectionBarStatus.value = .wsConnecting
+                }
+            }
+            .disposed(by: disposeBag)
+
+        rx_connectionBarStatus
+            .asObservable()
+            .map { $0.chatUserInteractionsEnabled }
+            .bind(to: chatUserInteractionsEnabled)
+            .disposed(by: disposeBag)
+    }
     
     // MARK: - Public Methods
     
@@ -809,7 +879,7 @@ extension ChatViewModel {
         }
 
         let newMessage = chatRepository.createNewMessage(userId, text: message, type: type.chatType)
-        let viewMessage = chatViewMessageAdapter.adapt(newMessage)?.markAsSent()
+        let viewMessage = chatViewMessageAdapter.adapt(newMessage, userAvatarData: nil)?.markAsSent()
         guard let messageId = newMessage.objectId else { return }
         insertFirst(viewMessage: viewMessage)
         chatRepository.sendMessage(convId, messageId: messageId, type: type.websocketType, text: message, answerKey: type.quickAnswerKey) {
@@ -980,11 +1050,14 @@ extension ChatViewModel {
     }
     
     private func insertInterlocutorIsTypingMessage() {
-        messages.insert(interlocutorTypingChatViewMessage, atIndex: 0)
+        interlocutorTypingChatViewMessage = chatViewMessageAdapter.createInterlocutorIsTyping(userAvatarData: defaultUserAvatarData)
+        guard let interlocutorTypingMessage = interlocutorTypingChatViewMessage else { return }
+        messages.insert(interlocutorTypingMessage, atIndex: 0)
     }
     
     private func removeInterlocutorIsTypingMessage() {
-        if let index = messages.value.index(where: {$0 == interlocutorTypingChatViewMessage}) {
+        guard let interlocutorTypingMessage = interlocutorTypingChatViewMessage else { return }
+        if let index = messages.value.index(where: {$0 == interlocutorTypingMessage}) {
             messages.removeAtIndex(index)
         }
     }
@@ -1012,7 +1085,7 @@ extension ChatViewModel {
 
         updateMeetingsStatusAfterReceiving(message: message)
 
-        let viewMessage = chatViewMessageAdapter.adapt(message)?.markAsSent(date: sentAt).markAsReceived().markAsRead()
+        let viewMessage = chatViewMessageAdapter.adapt(message, userAvatarData: defaultUserAvatarData)?.markAsSent(date: sentAt).markAsReceived().markAsRead()
         insertFirst(viewMessage: viewMessage, fromInterlocutor: true)
         chatRepository.confirmRead(convId, messageIds: [messageId], completion: nil)
         if let securityMeetingIndex = securityMeetingIndex(for: messages.value) {
@@ -1034,7 +1107,8 @@ extension ChatViewModel {
     }
 
     fileprivate func sendProfessionalAutomaticAnswerWith(message: String, isPhone: Bool) {
-        guard let automaticAnswerMessage = chatViewMessageAdapter.createAutomaticAnswerWith(message: message) else { return }
+        guard let automaticAnswerMessage = chatViewMessageAdapter.createAutomaticAnswerWith(message: message,
+                                                                                            userAvatarData: defaultUserAvatarData) else { return }
         insertFirst(viewMessage: automaticAnswerMessage)
         hasSentAutomaticAnswerForPhoneMessage = isPhone
         hasSentAutomaticAnswerForOtherMessage = true
@@ -1042,7 +1116,8 @@ extension ChatViewModel {
 
     private func disableAskPhoneMessageButton() {
         guard let index = messages.value.index(where: { $0.type.isAskPhoneNumber }) else { return }
-        guard let newMessage = chatViewMessageAdapter.createAskPhoneMessageWith(action: nil) else { return }
+        guard let newMessage = chatViewMessageAdapter.createAskPhoneMessageWith(action: nil,
+                                                                                userAvatarData: defaultUserAvatarData) else { return }
         let range = index..<(index+1)
         messages.replace(range, with: [newMessage])
     }
@@ -1291,7 +1366,7 @@ extension ChatViewModel {
     }
 
     var userInfoMessage: ChatViewMessage? {
-        return chatViewMessageAdapter.createUserInfoMessage(interlocutor)
+        return chatViewMessageAdapter.createUserInfoMessage(interlocutor, userAvatarData: defaultUserAvatarData)
     }
 
     private var bottomDisclaimerMessage: ChatViewMessage? {
@@ -1324,7 +1399,7 @@ extension ChatViewModel {
             self?.tracker.trackEvent(TrackerEvent.phoneNumberRequest(typePage: .chat))
         }
         hasShownAskedPhoneMessage = true
-        return chatViewMessageAdapter.createAskPhoneMessageWith(action: askPhoneAction)
+        return chatViewMessageAdapter.createAskPhoneMessageWith(action: askPhoneAction, userAvatarData: defaultUserAvatarData)
     }
 
     private func downloadFirstPage(_ conversationId: String) {
@@ -1392,7 +1467,7 @@ extension ChatViewModel {
         guard let interlocutorId = conversation.value.interlocutor?.objectId else { return }
 
         let readIds: [String] = chatMessages.filter { return $0.talkerId == interlocutorId && $0.readAt == nil }
-            .flatMap { $0.objectId }
+            .compactMap { $0.objectId }
         if !readIds.isEmpty {
             chatRepository.confirmRead(convId, messageIds: readIds, completion: nil)
         }
@@ -1402,7 +1477,10 @@ extension ChatViewModel {
         markAsReadMessages(newMessages)
 
         // Add message disclaimer (message flagged)
-        let mappedChatMessages = newMessages.flatMap(chatViewMessageAdapter.adapt)
+        let mappedChatMessages = newMessages.compactMap { [weak self] message in
+            return self?.chatViewMessageAdapter.adapt(message, userAvatarData: self?.defaultUserAvatarData)
+        }
+
         var chatMessages = chatViewMessageAdapter.addDisclaimers(mappedChatMessages,
                                                                  disclaimerMessage: defaultDisclaimerMessage)
         // Add user info as 1st message
@@ -1424,8 +1502,11 @@ extension ChatViewModel {
                 messages.append(userInfoMessage)
             }
         }
-        
-        let newViewMessages = newMessages.flatMap(chatViewMessageAdapter.adapt)
+
+        let newViewMessages = newMessages.compactMap { [weak self] message in
+            return self?.chatViewMessageAdapter.adapt(message, userAvatarData: self?.defaultUserAvatarData)
+        }
+
         guard !newViewMessages.isEmpty else { return }
 
         // We need to remove extra messages & disclaimers to be able to merge correctly. Will be added back before returning
@@ -1473,7 +1554,7 @@ extension ChatViewModel {
                 switch $0.type {
                 case .disclaimer, .userInfo, .askPhoneNumber, .interlocutorIsTyping, .multiAnswer:
                     return false
-                case .offer, .sticker, .text, .meeting, .unsupported:
+                case .offer, .sticker, .text, .meeting, .unsupported, .cta:
                     return $0.talkerId != myUserRepository.myUser?.objectId
                 }
             }) else { return nil }
@@ -1510,7 +1591,10 @@ extension ChatViewModel {
         guard let myUserId = myUserRepository.myUser?.objectId else { return }
 
         let calendar = Calendar.current
-        guard let twoDaysAgo = (calendar as NSCalendar).date(byAdding: .day, value: -2, to: Date(), options: []) else { return }
+        guard let twoDaysAgo = (calendar as NSCalendar).date(byAdding: .day, value: -2, to: Date(), options: []) else {
+            sellerDidntAnswer.value = nil
+            return
+        }
 
         var hasOldMessages = false
         if let oldestMessageDate = messages.last?.sentAt {
@@ -1776,11 +1860,8 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
             onMeetingAssistantPressed()
         case .dynamic(let chatAnswer):
             send(quickAnswer: QuickAnswer.dynamic(chatAnswer: chatAnswer))
-            switch chatAnswer.type {
-            case .replyText:
-                break
-            case .callToAction(_, _, let deeplinkURL):
-                navigator?.openDeeplink(url: deeplinkURL)
+            if case .callToAction(_, _, let deeplinkURL) = chatAnswer.type {
+                navigator?.navigate(with: deeplinkURL)
             }
         }
     }
@@ -1882,6 +1963,13 @@ extension ChatViewModel: MeetingAssistantDataDelegate {
 
 
 extension ChatViewModel {
+
+    func openDeeplink(url: URL, trackingKey: String) {
+        let isLetgoAssistant = EventParameterBoolean(bool: isUserDummy)
+        let trackerEvent = TrackerEvent.chatCallToActionTapped(ctaKey: trackingKey, isLetgoAssistant: isLetgoAssistant)
+        tracker.trackEvent(trackerEvent)
+        navigator?.navigate(with: url)
+    }
 
     func acceptMeeting() {
         let acceptedMeeting = LGAssistantMeeting(meetingType: .accepted,

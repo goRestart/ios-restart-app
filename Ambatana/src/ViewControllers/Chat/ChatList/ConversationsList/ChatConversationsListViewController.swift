@@ -3,13 +3,11 @@ import RxDataSources
 import LGCoreKit
 import LGComponents
 
-final class ChatConversationsListViewController: BaseViewController {
+final class ChatConversationsListViewController: ChatBaseViewController, ScrollableToTop {
     
     private let viewModel: ChatConversationsListViewModel
     private let contentView = ChatConversationsListView()
-    private let connectionStatusView = ChatConnectionStatusView()
-    private var statusViewHeightConstraint: NSLayoutConstraint = NSLayoutConstraint()
-    
+
     private let featureFlags: FeatureFlaggeable
     
     private lazy var optionsButton: UIButton = {
@@ -26,8 +24,6 @@ final class ChatConversationsListViewController: BaseViewController {
         return button
     }()
     
-    private let bag = DisposeBag()
-    
     // MARK: Lifecycle
     
     convenience init(viewModel: ChatConversationsListViewModel) {
@@ -39,39 +35,34 @@ final class ChatConversationsListViewController: BaseViewController {
          featureFlags: FeatureFlaggeable) {
         self.viewModel = viewModel
         self.featureFlags = featureFlags
-        super.init(viewModel: viewModel, nibName: nil)
+        super.init(viewModel: viewModel, featureFlags: featureFlags)
         automaticallyAdjustsScrollViewInsets = false
         hidesBottomBarWhenPushed = false
         hasTabBar = true
+        showConnectionToastView = !featureFlags.showChatConnectionStatusBar.isActive
     }
     
     override func loadView() {
         view = UIView()
-        view.addSubviewsForAutoLayout([connectionStatusView, contentView])
-        statusViewHeightConstraint = connectionStatusView.heightAnchor.constraint(equalToConstant: ChatConnectionStatusView.standardHeight)
+        view.addSubviewForAutoLayout(contentView)
 
         NSLayoutConstraint.activate([
-            statusViewHeightConstraint,
-            connectionStatusView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            connectionStatusView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            safeTopAnchor.constraint(equalTo: connectionStatusView.topAnchor),
-            contentView.topAnchor.constraint(equalTo: connectionStatusView.bottomAnchor),
+            safeTopAnchor.constraint(equalTo: contentView.topAnchor),
             safeBottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             view.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             view.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
             ])
-
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setReachabilityEnabled(false)
-        setupViewModel()
         setupContentView()
         setupNavigationBarRx()
         setupViewStateRx()
         setupTableViewRx()
-        setupStatusBarRx()
+        if featureFlags.showChatConnectionStatusBar.isActive {
+            setupStatusBarRx()
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -88,37 +79,6 @@ final class ChatConversationsListViewController: BaseViewController {
         } else {
             setNavigationBarRightButtons([filtersButton, optionsButton],
                                          animated: true)
-        }
-    }
-    
-    // MARK: View model
-    
-    private func setupViewModel() {
-        viewModel.deleteConversationConfirmationBlock = { [weak self] conversation in
-            let alert = UIAlertController(title: ChatConversationsListViewModel.Localize.deleteAlertConfirmationTitle,
-                                          message: ChatConversationsListViewModel.Localize.deleteAlertConfirmationMessage,
-                                          preferredStyle: .alert)
-            let cancelAction = UIAlertAction(title: ChatConversationsListViewModel.Localize.buttonCancel,
-                                             style: .cancel,
-                                             handler: nil)
-            let okAction = UIAlertAction(title: ChatConversationsListViewModel.Localize.deleteAlertConfirmationButtonOk,
-                                              style: .destructive) { [weak self]  (_) -> Void in
-                self?.viewModel.deleteConversation(conversation: conversation)
-            }
-            alert.addAction(cancelAction)
-            alert.addAction(okAction)
-            self?.present(alert, animated: true, completion: nil)
-        }
-        viewModel.deleteConversationDidStartBlock = { [weak self] message in
-            self?.showLoadingMessageAlert(message)
-        }
-        viewModel.deleteConversationDidSuccessBlock = { [weak self] in
-            self?.dismissLoadingMessageAlert()
-        }
-        viewModel.deleteConversationDidFailBlock = { [weak self] message in
-            self?.dismissLoadingMessageAlert(message, afterMessageCompletion: { [weak self] in
-                self?.viewModel.retrieveFirstPage()
-            })
         }
     }
     
@@ -149,16 +109,9 @@ final class ChatConversationsListViewController: BaseViewController {
             })
             .disposed(by: bag)
         
-        viewModel.rx_navigationActionSheet
-            .asObservable()
-            .bind { [weak self] (cancelTitle, actions) in
-                self?.contentView.switchEditMode(isEditing: false)
-                self?.showActionSheet(cancelTitle, actions: actions)
-            }
-            .disposed(by: bag)
-        
         viewModel.rx_isEditing
             .asDriver()
+            .distinctUntilChanged()
             .drive(onNext: { [weak self] isEditing in
                 self?.setupNavigationBar(isEditing: isEditing)
                 self?.contentView.switchEditMode(isEditing: isEditing)
@@ -187,10 +140,22 @@ final class ChatConversationsListViewController: BaseViewController {
     private func setupTableViewRx() {
         let dataSource = RxTableViewSectionedAnimatedDataSource<ChatConversationsListSectionModel>(
             configureCell: { (_, tableView, indexPath, item) in
-                guard let cell = tableView.dequeueReusableCell(withIdentifier: ChatUserConversationCell.reusableID)
-                    as? ChatUserConversationCell else { return UITableViewCell() }
-                cell.setupCellWith(data: item.conversationCellData, indexPath: indexPath)
-                return cell
+
+                if let userType = item.conversationCellData.userType,
+                    userType == .dummy,
+                    item.conversationCellData.listingId == nil {
+                    guard let cell = tableView.dequeue(type: ChatAssistantConversationCell.self, for: indexPath) else {
+                        return UITableViewCell()
+                    }
+                    cell.setupCellWith(data: item.conversationCellData, indexPath: indexPath)
+                    return cell
+                } else {
+                    guard let cell = tableView.dequeue(type: ChatUserConversationCell.self, for: indexPath) else {
+                        return UITableViewCell()
+                    }
+                    cell.setupCellWith(data: item.conversationCellData, indexPath: indexPath)
+                    return cell
+                }
         },
             canEditRowAtIndexPath: { (_, _) in
             return true
@@ -230,21 +195,10 @@ final class ChatConversationsListViewController: BaseViewController {
     }
 
     private func setupStatusBarRx() {
-        viewModel.rx_connectionBarStatus.asObservable().bind { [weak self] status in
-            guard let _ = status.title else {
-                self?.connectionStatusBar(isVisible: false)
-                return
-            }
-            self?.connectionStatusView.status = status
-            self?.connectionStatusBar(isVisible: true)
-        }.disposed(by: bag)
-    }
-
-    private func connectionStatusBar(isVisible: Bool) {
-        statusViewHeightConstraint.constant = isVisible ? ChatConnectionStatusView.standardHeight : 0
-        UIView.animate(withDuration: 0.5) {
-            self.view.layoutIfNeeded()
-        }
+        viewModel.rx_connectionBarStatus
+            .asDriver()
+            .drive(contentView.connectionBarStatus)
+            .disposed(by: bag)
     }
 
 
@@ -260,5 +214,11 @@ final class ChatConversationsListViewController: BaseViewController {
     
     @objc private func navigationBarCancelButtonPressed() {
         viewModel.switchEditMode(isEditing: false)
+    }
+
+    // MARK: - ScrollableToTop
+
+    func scrollToTop() {
+        contentView.scrollToTop()
     }
 }

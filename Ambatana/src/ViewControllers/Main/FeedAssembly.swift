@@ -1,15 +1,13 @@
- //
-//  FeedAssembly.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 12/04/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 extension SectionedMainFeed {
-    var feedAssembly: FeedAssembly { return self == .active ? .pro : .classic }
+    
+    var isActive: Bool {
+        return self != .control && self != .baseline
+    }
+    
+    var feedAssembly: FeedAssembly { return isActive ? .pro : .classic }
 }
  
 enum FeedAssembly {

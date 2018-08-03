@@ -40,6 +40,7 @@ class MainListingsViewModelSpec: QuickSpec {
                                                 searchAlertsRepository: Core.searchAlertsRepository,
                                                 userRepository: Core.userRepository,
                                                 locationManager: Core.locationManager,
+                                                notificationsManager: MockNotificationsManager(),
                                                 currencyHelper: Core.currencyHelper,
                                                 tracker: TrackerProxy.sharedInstance,
                                                 searchType: nil,
@@ -61,6 +62,7 @@ class MainListingsViewModelSpec: QuickSpec {
                                                 searchAlertsRepository: Core.searchAlertsRepository,
                                                 userRepository: Core.userRepository,
                                                 locationManager: Core.locationManager,
+                                                notificationsManager: MockNotificationsManager(),
                                                 currencyHelper: Core.currencyHelper,
                                                 tracker: TrackerProxy.sharedInstance,
                                                 searchType: nil,
@@ -94,6 +96,7 @@ class MainListingsViewModelSpec: QuickSpec {
                                                 searchAlertsRepository: Core.searchAlertsRepository,
                                                 userRepository: Core.userRepository,
                                                 locationManager: Core.locationManager,
+                                                notificationsManager: MockNotificationsManager(),
                                                 currencyHelper: Core.currencyHelper,
                                                 tracker: TrackerProxy.sharedInstance,
                                                 searchType: nil,
@@ -156,6 +159,7 @@ class MainListingsViewModelSpec: QuickSpec {
                                                     searchAlertsRepository: Core.searchAlertsRepository,
                                                     userRepository: Core.userRepository,
                                                     locationManager: Core.locationManager,
+                                                    notificationsManager: MockNotificationsManager(),
                                                     currencyHelper: Core.currencyHelper,
                                                     tracker: mockTracker,
                                                     searchType: searchType,
@@ -167,11 +171,11 @@ class MainListingsViewModelSpec: QuickSpec {
                         sut.listingListVM(listingListViewModel, didSucceedRetrievingListingsPage: 0, withResultsCount: Int.random(), hasListings: true)
                     }
                     it("fires product list event") {
-                        let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
+                        let eventNames = mockTracker.trackedEvents.compactMap { $0.name }
                         expect(eventNames) == [.listingList]
                     }
                     it("fires product list event and feed source parameter is .home") {
-                        let eventParams = mockTracker.trackedEvents.flatMap { $0.params }.first
+                        let eventParams = mockTracker.trackedEvents.compactMap { $0.params }.first
                         expect(eventParams?.stringKeyParams["feed-source"] as? String) == "home"
                     }
                 }
@@ -190,6 +194,7 @@ class MainListingsViewModelSpec: QuickSpec {
                                                     searchAlertsRepository: Core.searchAlertsRepository,
                                                     userRepository: Core.userRepository,
                                                     locationManager: Core.locationManager,
+                                                    notificationsManager: MockNotificationsManager(),
                                                     currencyHelper: Core.currencyHelper,
                                                     tracker: mockTracker,
                                                     searchType: searchType,
@@ -201,11 +206,11 @@ class MainListingsViewModelSpec: QuickSpec {
                         sut.listingListVM(listingListViewModel, didSucceedRetrievingListingsPage: 0, withResultsCount: Int.random(), hasListings: true)
                     }
                     it("fires listing list event and search complete") {
-                        let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
+                        let eventNames = mockTracker.trackedEvents.compactMap { $0.name }
                         expect(eventNames) == [.listingList, .searchComplete]
                     }
                     it("fires listing list event and feed source parameter is .search") {
-                        let eventParams = mockTracker.trackedEvents.flatMap { $0.params }.first
+                        let eventParams = mockTracker.trackedEvents.compactMap { $0.params }.first
                         expect(eventParams?.stringKeyParams["feed-source"] as? String) == "search"
                     }
                 }
@@ -224,6 +229,7 @@ class MainListingsViewModelSpec: QuickSpec {
                                                     searchAlertsRepository: Core.searchAlertsRepository,
                                                     userRepository: Core.userRepository,
                                                     locationManager: Core.locationManager,
+                                                    notificationsManager: MockNotificationsManager(),
                                                     currencyHelper: Core.currencyHelper,
                                                     tracker: mockTracker,
                                                     searchType: searchType,
@@ -235,11 +241,11 @@ class MainListingsViewModelSpec: QuickSpec {
                         sut.listingListVM(listingListViewModel, didSucceedRetrievingListingsPage: 0, withResultsCount: Int.random(), hasListings: true)
                     }
                     it("fires product list event") {
-                        let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
+                        let eventNames = mockTracker.trackedEvents.compactMap { $0.name }
                         expect(eventNames) == [.listingList]
                     }
                     it("fires product list event and feed source parameter is .filter") {
-                        let eventParams = mockTracker.trackedEvents.flatMap { $0.params }.first
+                        let eventParams = mockTracker.trackedEvents.compactMap { $0.params }.first
                         expect(eventParams?.stringKeyParams["feed-source"] as? String) == "filter"
                     }
                 }
@@ -258,6 +264,7 @@ class MainListingsViewModelSpec: QuickSpec {
                                                     searchAlertsRepository: Core.searchAlertsRepository,
                                                     userRepository: Core.userRepository,
                                                     locationManager: Core.locationManager,
+                                                    notificationsManager: MockNotificationsManager(),
                                                     currencyHelper: Core.currencyHelper,
                                                     tracker: mockTracker,
                                                     searchType: searchType,
@@ -269,11 +276,11 @@ class MainListingsViewModelSpec: QuickSpec {
                         sut.listingListVM(listingListViewModel, didSucceedRetrievingListingsPage: 0, withResultsCount: Int.random(), hasListings: true)
                     }
                     it("fires product list event and search complete") {
-                        let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
+                        let eventNames = mockTracker.trackedEvents.compactMap { $0.name }
                         expect(eventNames) == [.listingList, .searchComplete]
                     }
                     it("fires product list event and feed source parameter is .search&filter") {
-                        let eventParams = mockTracker.trackedEvents.flatMap { $0.params }.first
+                        let eventParams = mockTracker.trackedEvents.compactMap { $0.params }.first
                         expect(eventParams?.stringKeyParams["feed-source"] as? String) == "search&filter"
                     }
                 }
@@ -292,6 +299,7 @@ class MainListingsViewModelSpec: QuickSpec {
                                                     searchAlertsRepository: Core.searchAlertsRepository,
                                                     userRepository: Core.userRepository,
                                                     locationManager: Core.locationManager,
+                                                    notificationsManager: MockNotificationsManager(),
                                                     currencyHelper: Core.currencyHelper,
                                                     tracker: mockTracker,
                                                     searchType: searchType,
@@ -303,11 +311,11 @@ class MainListingsViewModelSpec: QuickSpec {
                         sut.listingListVM(listingListViewModel, didSucceedRetrievingListingsPage: 0, withResultsCount: Int.random(), hasListings: true)
                     }
                     it("fires product list event") {
-                        let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
+                        let eventNames = mockTracker.trackedEvents.compactMap { $0.name }
                         expect(eventNames) == [.listingList]
                     }
                     it("fires product list event and feed source parameter is .collection") {
-                        let eventParams = mockTracker.trackedEvents.flatMap { $0.params }.first
+                        let eventParams = mockTracker.trackedEvents.compactMap { $0.params }.first
                         expect(eventParams?.stringKeyParams["feed-source"] as? String) == "collection"
                     }
                 }
@@ -329,6 +337,7 @@ class MainListingsViewModelSpec: QuickSpec {
                                                     searchAlertsRepository: Core.searchAlertsRepository,
                                                     userRepository: Core.userRepository,
                                                     locationManager: Core.locationManager,
+                                                    notificationsManager: MockNotificationsManager(),
                                                     currencyHelper: Core.currencyHelper,
                                                     tracker: mockTracker,
                                                     searchType: searchType,
@@ -338,26 +347,9 @@ class MainListingsViewModelSpec: QuickSpec {
                                                     bubbleTextGenerator: DistanceBubbleTextGenerator(),
                                                     chatWrapper: MockChatWrapper())
                     }
-                    
-                    context("receives listing page with promo cell not active") {
-                        beforeEach {
-                            totalListings = sut.vmProcessReceivedListingPage(listings, page: 0)
-                        }
-                        
-                        it("first cell is not promo") {
-                            expect({
-                                guard let firstListing = totalListings?.first,
-                                    case .promo = firstListing else {
-                                        return .succeeded
-                                }
-                                return .failed(reason: "wrong cell type")
-                            }).to(succeed())
-                        }
-                    }
-                    
+
                     context("receives listing page with promo cell active") {
                         beforeEach {
-                            mockFeatureFlags.realEstatePromoCell = .active
                             totalListings = sut.vmProcessReceivedListingPage(listings, page: 0)
                         }
                         
@@ -380,7 +372,7 @@ class MainListingsViewModelSpec: QuickSpec {
                 beforeEach {
                     var filters = ListingFilters()
                     filters.selectedCategories = [.cars]
-                    filters.carSellerTypes = [.user]
+                    filters.verticalFilters.cars.sellerTypes = [.user]
                     sut = MainListingsViewModel(sessionManager: Core.sessionManager,
                                                 myUserRepository: Core.myUserRepository,
                                                 searchRepository: Core.searchRepository,
@@ -390,6 +382,7 @@ class MainListingsViewModelSpec: QuickSpec {
                                                 searchAlertsRepository: Core.searchAlertsRepository,
                                                 userRepository: Core.userRepository,
                                                 locationManager: Core.locationManager,
+                                                notificationsManager: MockNotificationsManager(),
                                                 currencyHelper: Core.currencyHelper,
                                                 tracker: TrackerProxy.sharedInstance,
                                                 searchType: nil,
@@ -401,29 +394,13 @@ class MainListingsViewModelSpec: QuickSpec {
                 }
                 
                 context("cars new backend active") {
-                    beforeEach {
-                        mockFeatureFlags.searchCarsIntoNewBackend = .active
-                    }
                     
-                    context("car seller type multiple selection") {
-                        beforeEach {
-                            mockFeatureFlags.filterSearchCarSellerType = .variantA
-                        }
+                    context("car seller type") {
                         it("has right tags") {
                             expect(sut.primaryTags).to(contain(.carSellerType(type: .user,
-                                                                              name: R.Strings.filtersCarSellerTypePrivate)))
+                                                                              name: R.Strings.filtersCarSellerTypeInvidual)))
                         }
                         
-                    }
-                    
-                    context("car seller type single selection") {
-                        beforeEach {
-                            mockFeatureFlags.filterSearchCarSellerType = .variantC
-                        }
-                        it("has NOT All tag") {
-                            expect(sut.primaryTags).toNot(contain(.carSellerType(type: .user,
-                                                                                 name: R.Strings.filtersCarSellerTypeAll)))
-                        }
                     }
                 }
             }
@@ -444,6 +421,7 @@ class MainListingsViewModelSpec: QuickSpec {
                                                 searchAlertsRepository: Core.searchAlertsRepository,
                                                 userRepository: Core.userRepository,
                                                 locationManager: Core.locationManager,
+                                                notificationsManager: MockNotificationsManager(),
                                                 currencyHelper: Core.currencyHelper,
                                                 tracker: mockTracker,
                                                 searchType: nil,
@@ -459,11 +437,11 @@ class MainListingsViewModelSpec: QuickSpec {
                        sut.listingListMV(listingListViewModel, didFailRetrievingListingsPage: 0, hasListings: false, error:.tooManyRequests)
                     }
                     it("fires empty-state-error") {
-                        let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
+                        let eventNames = mockTracker.trackedEvents.compactMap { $0.name }
                         expect(eventNames) == [.emptyStateError]
                     }
                     it("fires empty-state-error with .tooManyRequests") {
-                        let eventParams = mockTracker.trackedEvents.flatMap { $0.params }.first
+                        let eventParams = mockTracker.trackedEvents.compactMap { $0.params }.first
                         expect(eventParams?.stringKeyParams["reason"] as? String) == "too-many-requests"
                     }
                 }
@@ -472,11 +450,11 @@ class MainListingsViewModelSpec: QuickSpec {
                         sut.listingListMV(listingListViewModel, didFailRetrievingListingsPage: 0, hasListings: false, error:.network(errorCode: -1, onBackground: false))
                     }
                     it("fires empty-state-error") {
-                        let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
+                        let eventNames = mockTracker.trackedEvents.compactMap { $0.name }
                         expect(eventNames) == [.emptyStateError]
                     }
                     it("fires empty-state-error with .no-internet-connection") {
-                        let eventParams = mockTracker.trackedEvents.flatMap { $0.params }.first
+                        let eventParams = mockTracker.trackedEvents.compactMap { $0.params }.first
                         expect(eventParams?.stringKeyParams["reason"] as? String) == "no-internet-connection"
                     }
                 }

@@ -47,7 +47,7 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
     private let tracker: Tracker
     private let images: [UIImage]
     private var listingCreationParams: ListingCreationParams
-    private let imageSource: EventParameterPictureSource
+    private let imageSource: EventParameterMediaSource
     private let postingSource: PostingSource
     private let featureFlags: FeatureFlaggeable
     
@@ -67,7 +67,7 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
 
     convenience init(images: [UIImage],
                      listingCreationParams: ListingCreationParams,
-                     imageSource: EventParameterPictureSource,
+                     imageSource: EventParameterMediaSource,
                      postingSource: PostingSource,
                      featureFlags: FeatureFlaggeable) {
         self.init(listingRepository: Core.listingRepository,
@@ -85,7 +85,7 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
          tracker: Tracker,
          images: [UIImage],
          listingCreationParams: ListingCreationParams,
-         imageSource: EventParameterPictureSource,
+         imageSource: EventParameterMediaSource,
          postingSource: PostingSource,
          featureFlags: FeatureFlaggeable) {
         self.listingRepository = listingRepository
@@ -187,9 +187,7 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
     }
     
     private func createListing() {
-        let shouldUseCarEndpoint = featureFlags.createUpdateIntoNewBackend.shouldUseCarEndpoint(with: listingCreationParams)
-        let createAction = listingRepository.createAction(shouldUseCarEndpoint)
-        createAction(listingCreationParams) { [weak self] result in
+        listingRepository.create(listingParams: listingCreationParams) { [weak self] result in
             self?.createListingResult.value = result
         }
     }
@@ -213,7 +211,10 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
     // MARK: - Tracker
     
     fileprivate func trackPostSellAbandon() {
-        let event = TrackerEvent.listingSellAbandon(abandonStep: .retry)
+        let event = TrackerEvent.listingSellAbandon(abandonStep: .retry,
+                                                    pictureUploaded: uploadImagesResult.value != nil ? .trueParameter : .falseParameter,
+                                                    loggedUser: .trueParameter,
+                                                    buttonName: .close)
         tracker.trackEvent(event)
     }
 }

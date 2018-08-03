@@ -62,8 +62,8 @@ class VersionChecker {
         guard let oldVersion = oldVersion else { return .newInstall }
         guard let newVersion = newVersion.version else { return .none }
 
-        var newVersionComps = newVersion.components(separatedBy: ".").flatMap { Int($0) }
-        var oldVersionComps = oldVersion.components(separatedBy: ".").flatMap { Int($0) }
+        var newVersionComps = newVersion.components(separatedBy: ".").compactMap { Int($0) }
+        var oldVersionComps = oldVersion.components(separatedBy: ".").compactMap { Int($0) }
 
         // If there's a components difference fill with zeroes
         let countDiff = newVersionComps.count - oldVersionComps.count

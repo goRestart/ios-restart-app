@@ -4,23 +4,15 @@ import UIKit
 import RxSwift
 import LGComponents
 
-class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , TagCollectionViewModelSelectionDelegate {
+class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate {
     
     static let distanceBetweenButtons: CGFloat = 10
-    static let multipleRowTagsCollectionViewHeightThreshold: CGFloat = 400
-    static let singleRowTagsCollectionViewHeight: CGFloat = 40
     
     private let viewModel: ExpandableCategorySelectionViewModel
     private var buttons: [UIButton] = []
     private var closeButton: UIButton = UIButton()
     private let newBadgeView: UIView = UIView()
     
-    private let tagCollectionViewModel: TagCollectionViewModel
-    private let tagsView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
     private let titleTagsLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -40,9 +32,6 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
     
     private var topConstraints: [NSLayoutConstraint] = []
     private let disposeBag: DisposeBag = DisposeBag()
-    private var canLayoutMultipleRowTagCollectionView: Bool {
-        return tagsView.height > ExpandableCategorySelectionView.multipleRowTagsCollectionViewHeightThreshold
-    }
     
     
     // MARK: - Lifecycle
@@ -52,11 +41,9 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
         self.buttonSpacing = buttonSpacing
         self.bottomDistance = bottomDistance
         self.viewModel = viewModel
-        self.tagCollectionViewModel = TagCollectionViewModel(tags: viewModel.tags, cellStyle: .whiteBackground)
         
         super.init(frame: frame)
         setupUI()
-        setupTagsView()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -102,12 +89,7 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
             guard let actionIndex = viewModel.categoriesAvailable.index(of: category) else { return }
             
             let button = LetgoButton()
-            switch category.style {
-            case .redBackground:
-                button.setStyle(.primary(fontSize: .medium))
-            case .whiteBackground:
-                button.setStyle(.secondary(fontSize: .medium, withBorder: false))
-            }
+            button.setStyle(.primary(fontSize: .medium))
             button.tag = actionIndex
             button.setImage(category.icon, for: .normal)
             button.setTitle(category.title, for: .normal)
@@ -191,47 +173,6 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
         closeButton.set(accessibilityId: .expandableCategorySelectionCloseButton)
     }
     
-    /// We choose the layout depending on the content size
-    private func collectionViewlayout() -> TagCollectionViewFlowLayout {
-        layoutIfNeeded()
-        
-        let flowLayout: TagCollectionViewFlowLayout
-        if canLayoutMultipleRowTagCollectionView {
-            flowLayout = TagCollectionViewFlowLayout.centerAligned
-        } else {
-            flowLayout = TagCollectionViewFlowLayout.singleRowWithScroll
-        }
-        return flowLayout
-    }
-    
-    private func setupTagsView() {
-        guard viewModel.tagsEnabled else { return }
-        tagCollectionViewModel.selectionDelegate = self
-
-        tagsView.addSubview(titleTagsLabel)
-        addSubview(tagsView)
-        
-        tagsView.layout(with: self).top().fillHorizontal()
-        if let highestButton = buttons.last {
-            tagsView.layout(with: highestButton).above(by: -Metrics.bigMargin)
-        }
-        titleTagsLabel.layout(with: tagsView).top(by: 40).fillHorizontal(by: Metrics.bigMargin)
-        titleTagsLabel.layout().height(15)
-
-        tagCollectionView = TagCollectionView(viewModel: tagCollectionViewModel, flowLayout: collectionViewlayout())
-        if let tagCollectionView = self.tagCollectionView {
-            tagsView.addSubview(tagCollectionView)
-            tagCollectionView.layout(with: tagsView).fillHorizontal()
-            if canLayoutMultipleRowTagCollectionView {
-                tagCollectionView.layout(with: titleTagsLabel).below(by: Metrics.bigMargin)
-                tagCollectionView.layout(with: tagsView).bottom(by: -Metrics.bigMargin)
-            } else {
-                tagCollectionView.layout(with: titleTagsLabel).below(by: Metrics.margin)
-                tagCollectionView.layout().height(ExpandableCategorySelectionView.singleRowTagsCollectionViewHeight)
-            }
-        }
-    }
-    
     
     // MARK: - Actions
     
@@ -252,7 +193,8 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
     }
     
     @objc fileprivate dynamic func tapOutside() {
-        closeButtonPressed()
+        shrink(animated: true)
+        viewModel.tapOutside()
     }
     
     @objc fileprivate dynamic func closeButtonPressed() {
@@ -264,7 +206,7 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
         let buttonIndex = button.tag
         guard 0..<viewModel.categoriesAvailable.count ~= buttonIndex else { return }
         shrink(animated: true)
-        viewModel.pressCategoryAction(category: viewModel.categoriesAvailable[buttonIndex])
+        viewModel.pressCategoryAction(listingCategory: viewModel.categoriesAvailable[buttonIndex])
     }
     
     
@@ -277,51 +219,33 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
         return touchView.isEqual(tagCollectionView) ||
             !touchView.isDescendant(of: tagCollectionView)
     }
-    
-    
-    // MARK: - TagCollectionViewModelSelectionDelegate
-    
-    func vm(_ vm: TagCollectionViewModel, didSelectTagAtIndex index: Int) {
-        shrink(animated: true)
-        viewModel.pressTagAtIndex(index)
-    }
 }
 
-fileprivate extension ExpandableCategory {
+fileprivate extension ListingCategory {
     var title: String {
         switch self {
-            case .listingCategory(let listingCategory):
-            switch listingCategory {
-            case .unassigned:
-                return R.Strings.categoriesUnassignedItems
-            case .motorsAndAccessories, .cars, .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .services:
-                return listingCategory.name
-            case .realEstate:
-                return FeatureFlags.sharedInstance.realEstateNewCopy.isActive ? R.Strings.productPostSelectCategoryRealEstate : R.Strings.productPostSelectCategoryHousing
-            }
-        case .mostSearchedItems:
-            return R.Strings.trendingItemsExpandableMenuButton
+        case .unassigned:
+            return R.Strings.categoriesUnassignedItems
+        case .motorsAndAccessories, .cars, .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .services:
+            return name
+        case .realEstate:
+            return FeatureFlags.sharedInstance.realEstateNewCopy.isActive ? R.Strings.productPostSelectCategoryRealEstate : R.Strings.productPostSelectCategoryHousing
         }
     }
     var icon: UIImage? {
         switch self {
-        case .listingCategory(let listingCategory):
-            switch listingCategory {
-            case .unassigned:
-                return R.Asset.IconsButtons.items.image
-            case .cars:
-                return R.Asset.IconsButtons.carIcon.image
-            case .motorsAndAccessories:
-                return R.Asset.IconsButtons.motorsAndAccesories.image
-            case .realEstate:
-                return R.Asset.IconsButtons.housingIcon.image
-            case .services:
-                return R.Asset.IconsButtons.servicesIcon.image
-            case .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames:
-                return listingCategory.image
-            }
-        case .mostSearchedItems:
-            return R.Asset.IconsButtons.trendingExpandable.image
+        case .unassigned:
+            return R.Asset.IconsButtons.items.image
+        case .cars:
+            return R.Asset.IconsButtons.carIcon.image
+        case .motorsAndAccessories:
+            return R.Asset.IconsButtons.motorsAndAccesories.image
+        case .realEstate:
+            return R.Asset.IconsButtons.housingIcon.image
+        case .services:
+            return R.Asset.IconsButtons.servicesIcon.image
+        case .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames:
+            return image
         }
     }
 }

@@ -57,12 +57,12 @@ final class WaterFallLayout: UICollectionViewLayout {
 
     private var hasStickyHeader: Bool {
         guard let collectionView = collectionView else { return false }
-        let headerTypes = (0 ..< numberOfSections).flatMap { section in
+        let headerTypes = (0 ..< numberOfSections).compactMap { section in
             return delegate?.collectionView(collectionView, headerStickynessForSectionAt: section)
         }
         return headerTypes.contains(.pinned) || headerTypes.contains(.sticky)
     }
-
+    
     private var shouldInvalidateCache: Bool {
         guard cachedSectionsIndexSet.count == numberOfSections else { return true }
         return cache[.cell]?.count != totalItemsCount
@@ -473,7 +473,7 @@ extension WaterFallLayout {
 }
 
 extension WaterFallLayout {
-    
+
     func nextColumnIndexForItem (_ item: Int, section: Int) -> Int {
         var index = 0
         let columnCount = self.columnCount(in: section)

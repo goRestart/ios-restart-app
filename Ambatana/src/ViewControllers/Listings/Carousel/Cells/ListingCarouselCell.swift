@@ -1,12 +1,5 @@
-//
-//  ListingCarouselCell.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 14/4/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
+import LGComponents
 import RxSwift
 
 protocol ListingCarouselCellDelegate: class {
@@ -16,6 +9,8 @@ protocol ListingCarouselCellDelegate: class {
     func didPullFromCellWith(_ offset: CGFloat, bottomLimit: CGFloat)
     func canScrollToNextPage() -> Bool
     func didEndDraggingCell()
+    func didChangeVideoProgress(progress: Float, atIndex index: Int)
+    func didChangeVideoStatus(status: VideoPreview.Status, pageAtIndex index: Int)
 }
 
 enum ListingCarouselTapSide {
@@ -27,6 +22,7 @@ final class ListingCarouselCell: UICollectionViewCell {
 
     static let identifier = "ListingCarouselCell"
     var collectionView: UICollectionView
+    var position: Int = 0
     
     fileprivate var productImages = [Media]()
     fileprivate var productBackgroundColor: UIColor?
@@ -41,8 +37,6 @@ final class ListingCarouselCell: UICollectionViewCell {
 
     var imageDownloader: ImageDownloaderType =  ImageDownloader.sharedInstance
 
-    private var disposeBag = DisposeBag()
-    
     override init(frame: CGRect) {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -85,6 +79,8 @@ final class ListingCarouselCell: UICollectionViewCell {
         collectionView.isDirectionalLockEnabled = true
         collectionView.register(ListingCarouselImageCell.self,
                                 forCellWithReuseIdentifier: ListingCarouselImageCell.reusableID)
+        collectionView.register(ListingCarouselVideoCell.self,
+                                forCellWithReuseIdentifier: ListingCarouselVideoCell.reusableID)
         
         let singleTap = UITapGestureRecognizer(target: self, action: #selector(doSingleTapAction))
         collectionView.addGestureRecognizer(singleTap)
@@ -92,7 +88,6 @@ final class ListingCarouselCell: UICollectionViewCell {
 
     override func prepareForReuse() {
         super.prepareForReuse()
-        disposeBag = DisposeBag()
         delegate = nil
         collectionView.setContentOffset(CGPoint.zero, animated: false)
     }
@@ -157,6 +152,11 @@ final class ListingCarouselCell: UICollectionViewCell {
         guard 0..<productImages.count ~= index else { return nil }
         return productImages[index].outputs.image
     }
+
+    private func mediaAtIndex(index: Int) -> Media? {
+        guard 0..<productImages.count ~= index else { return nil }
+        return productImages[index]
+    }
 }
 
 // MARK: - UICollectionViewDataSource & UICollectionViewDelegate 
@@ -168,41 +168,69 @@ extension ListingCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)
         -> UICollectionViewCell {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListingCarouselImageCell.reusableID,
-                                                          for: indexPath)
-            guard let imageCell = cell as? ListingCarouselImageCell else { return ListingCarouselImageCell() }
-            guard let imageURL = imageAtIndex(indexPath.row) else { return imageCell }
 
-            //Required to avoid missmatching when downloading images
-            let imageCellTag = (indexPath as NSIndexPath).hash
-            let productCarouselTag = self.tag
-            imageCell.tag = imageCellTag
-            imageCell.position = indexPath.row
-            imageCell.backgroundColor = productBackgroundColor
-            imageCell.delegate = self
+            guard let media = mediaAtIndex(index: indexPath.row) else { return ListingCarouselImageCell() }
 
-            if imageCell.imageURL != imageURL { //Avoid reloading same image in the cell
-                if let placeholder = placeholderImage, indexPath.row == 0 {
-                    imageCell.setImage(placeholder)
-                } else {
-                    imageCell.imageView.image = nil
-                }
+            if media.type == .image {
 
-                imageDownloader.downloadImageWithURL(imageURL) { [weak self, weak imageCell] (result, url) in
-                    if let value = result.value, self?.tag == productCarouselTag && cell.tag == imageCellTag {
-                        imageCell?.imageURL = imageURL
-                        imageCell?.setImage(value.image)
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListingCarouselImageCell.reusableID,
+                                                              for: indexPath)
+                guard let imageCell = cell as? ListingCarouselImageCell else { return ListingCarouselImageCell() }
+                guard let imageURL = imageAtIndex(indexPath.row) else { return imageCell }
+
+                //Required to avoid missmatching when downloading images
+                let imageCellTag = (indexPath as NSIndexPath).hash
+                let productCarouselTag = self.tag
+                imageCell.tag = imageCellTag
+                imageCell.position = indexPath.row
+                imageCell.backgroundColor = productBackgroundColor
+                imageCell.delegate = self
+
+                if imageCell.imageURL != imageURL { //Avoid reloading same image in the cell
+                    if let placeholder = placeholderImage, indexPath.row == 0 {
+                        imageCell.setImage(placeholder)
+                    } else {
+                        imageCell.imageView.image = nil
+                    }
+
+                    imageDownloader.downloadImageWithURL(imageURL) { [weak self, weak imageCell] (result, url) in
+                        if let value = result.value, self?.tag == productCarouselTag && cell.tag == imageCellTag {
+                            imageCell?.imageURL = imageURL
+                            imageCell?.setImage(value.image)
+                        }
                     }
                 }
+                return imageCell
+
+            } else if media.type == .video {
+
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListingCarouselVideoCell.reusableID,
+                                                              for: indexPath)
+                guard let videoCell = cell as? ListingCarouselVideoCell else { return ListingCarouselVideoCell() }
+                guard let videoURL = media.outputs.video else { return videoCell }
+                videoCell.setVideo(url: videoURL)
+                videoCell.position = indexPath.item
+                videoCell.delegate = self
+                return videoCell
+            } else {
+                return ListingCarouselImageCell()
             }
-            return imageCell
     }
 
     func collectionView(_ collectionView: UICollectionView,
                         willDisplay cell: UICollectionViewCell,
                         forItemAt indexPath: IndexPath) {
-        guard let imageCell = cell as? ListingCarouselImageCell else { return }
-        imageCell.resetZoom()
+        if let imageCell = cell as? ListingCarouselImageCell {
+            imageCell.resetZoom()
+        } else if let videoCell = cell as? ListingCarouselVideoCell {
+            videoCell.play()
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if let videoCell = cell as? ListingCarouselVideoCell {
+            videoCell.pause()
+        }
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -261,6 +289,17 @@ extension ListingCarouselCell: ListingCarouselImageCellDelegate {
     func isZooming(_ zooming: Bool, pageAtIndex index: Int) {
         guard index == currentPage else { return }
         delegate?.isZooming(zooming)
+    }
+}
+
+extension ListingCarouselCell: ListingCarouselVideoCellDelegate {
+    func didChangeVideoProgress(progress: Float, pageAtIndex index: Int) {
+        guard index == currentPage else { return }
+        delegate?.didChangeVideoProgress(progress: progress, atIndex: position)
+    }
+    func didChangeVideoStatus(status: VideoPreview.Status, pageAtIndex index: Int) {
+        guard index == currentPage else { return }
+        delegate?.didChangeVideoStatus(status: status, pageAtIndex: position)
     }
 }
 

@@ -166,7 +166,7 @@ class FilterDistanceSlider: UIView {
         } else if (currDist == positions.last) { // 100: distance "max"
             distanceLabel.text = R.Strings.commonMax
         } else {
-            distanceLabel.text = "\(distance) \(distanceType.string)"
+            distanceLabel.text = "\(distance) \(distanceType.rawValue)"
         }
     }
 }

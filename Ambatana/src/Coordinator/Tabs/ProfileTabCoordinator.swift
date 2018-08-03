@@ -1,13 +1,6 @@
-//
-//  ProfileTabCoordinator.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 01/08/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import SafariServices
+import LGComponents
 
 protocol ProfileCoordinatorSearchAlertsDelegate: class {
     func profileCoordinatorSearchAlertsOpenSearch()
@@ -17,7 +10,7 @@ final class ProfileTabCoordinator: TabCoordinator {
 
     weak var profileCoordinatorSearchAlertsDelegate: ProfileCoordinatorSearchAlertsDelegate?
 
-    convenience init() {
+    convenience init(source: UserSource = .tabBar) {
         let sessionManager = Core.sessionManager
         let listingRepository = Core.listingRepository
         let userRepository = Core.userRepository
@@ -28,7 +21,7 @@ final class ProfileTabCoordinator: TabCoordinator {
         let keyValueStorage = KeyValueStorage.sharedInstance
         let tracker = TrackerProxy.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
-        let viewModel = UserProfileViewModel.makePrivateProfile(source: .tabBar)
+        let viewModel = UserProfileViewModel.makePrivateProfile(source: source)
         let rootViewController = UserProfileViewController(viewModel: viewModel)
 
         self.init(listingRepository: listingRepository,
@@ -41,9 +34,19 @@ final class ProfileTabCoordinator: TabCoordinator {
                   tracker: tracker,
                   rootViewController: rootViewController,
                   featureFlags: featureFlags,
-                  sessionManager: sessionManager)
+                  sessionManager: sessionManager,
+                  deeplinkMailBox: LGDeepLinkMailBox.sharedInstance)
 
         viewModel.profileNavigator = self
+    }
+
+    override func presentViewController(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
+        guard viewController.parent == nil else { return }
+        parent.present(viewController, animated: animated, completion: completion)
+    }
+
+    override func dismissViewController(animated: Bool, completion: (() -> Void)?) {
+        viewController.dismissWithPresented(animated: animated, completion: completion)
     }
 }
 
@@ -64,12 +67,8 @@ extension ProfileTabCoordinator: ProfileTabNavigator {
                                                maxCountdown: 0)
         openChild(coordinator: navigator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
     }
-
-    func openVerificationView() {
-        let vm = UserVerificationViewModel()
-        vm.navigator = self
-        let vc = UserVerificationViewController(viewModel: vm)
-        navigationController.pushViewController(vc, animated: true)
+    func closeProfile() {
+        dismissViewController(animated: true, completion: nil)
     }
 }
 
@@ -110,10 +109,10 @@ extension ProfileTabCoordinator: SettingsNavigator {
         navigationController.pushViewController(vc, animated: true)
     }
 
-    func openSettingsNotifications() {
-        let vm = SettingsNotificationsViewModel()
+    func openNotificationSettings() {
+        let vm = NotificationSettingsViewModel()
         vm.navigator = self
-        let vc = SettingsNotificationsViewController(viewModel: vm)
+        let vc = NotificationSettingsViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
     
@@ -160,8 +159,8 @@ extension ProfileTabCoordinator: HelpNavigator {
     }
 }
 
-extension ProfileTabCoordinator: SettingsNotificationsNavigator {
-    func closeSettingsNotifications() {
+extension ProfileTabCoordinator: NotificationSettingsNavigator {
+    func closeNotificationSettings() {
         navigationController.popViewController(animated: true)
     }
 
@@ -169,6 +168,52 @@ extension ProfileTabCoordinator: SettingsNotificationsNavigator {
         let vm = SearchAlertsListViewModel()
         vm.navigator = self
         let vc = SearchAlertsListViewController(viewModel: vm)
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
+    func openNotificationSettingsList(notificationSettingsType: NotificationSettingsType) {
+        if featureFlags.notificationSettings == .differentLists {
+            openNotificationSettingsAccessorList(notificationSettingsType: notificationSettingsType)
+        } else if featureFlags.notificationSettings == .sameList {
+            openNotificationSettingsCompleteList(notificationSettingType: notificationSettingsType)
+        }
+    }
+    
+    private func openNotificationSettingsAccessorList(notificationSettingsType: NotificationSettingsType) {
+        let vm: NotificationSettingsAccessorListViewModel
+        switch notificationSettingsType {
+        case .push:
+            vm = NotificationSettingsAccessorListViewModel.makePusherNotificationSettingsListViewModel()
+        case .mail:
+            vm = NotificationSettingsAccessorListViewModel.makeMailerNotificationSettingsListViewModel()
+        case .marketing, .searchAlerts:
+            return
+        }
+        vm.navigator = self
+        let vc = NotificationSettingsAccessorListViewController(viewModel: vm)
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
+    private func openNotificationSettingsCompleteList(notificationSettingType: NotificationSettingsType) {
+        let vm: NotificationSettingsCompleteListViewModel
+        switch notificationSettingType {
+        case .push:
+            vm = NotificationSettingsCompleteListViewModel.makePusherNotificationSettingsListViewModel()
+        case .mail:
+            vm = NotificationSettingsCompleteListViewModel.makeMailerNotificationSettingsListViewModel()
+        case .marketing, .searchAlerts:
+            return
+        }
+        vm.navigator = self
+        let vc = NotificationSettingsCompleteListViewController(viewModel: vm)
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
+    func openNotificationSettingsListDetail(notificationSetting: NotificationSetting, notificationSettingsRepository: NotificationSettingsRepository) {
+        let vm = NotificationSettingsListDetailViewModel(notificationSetting: notificationSetting,
+                                                         notificationSettingsRepository: notificationSettingsRepository)
+        vm.navigator = self
+        let vc = NotificationSettingsListDetailViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
 }

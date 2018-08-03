@@ -1,15 +1,8 @@
-//
-//  MeetingAssistantViewModel.swift
-//  LetGo
-//
-//  Created by Dídac on 21/11/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
 import RxSwift
 import MapKit
+import LGComponents
 
 protocol MeetingAssistantDataDelegate: class {
     func sendMeeting(meeting: AssistantMeeting, isSuggestedPlace: Bool?)

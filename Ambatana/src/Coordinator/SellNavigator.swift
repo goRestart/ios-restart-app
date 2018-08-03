@@ -14,30 +14,32 @@ protocol PostListingNavigator: class {
     
     func startDetails(firstStep: PostingDetailStep,
                       postListingState: PostListingState,
-                      uploadedImageSource: EventParameterPictureSource?,
+                      uploadedImageSource: EventParameterMediaSource?,
                       uploadedVideoLength: TimeInterval?,
                       postingSource: PostingSource,
                       postListingBasicInfo: PostListingBasicDetailViewModel)
     func nextPostingDetailStep(step: PostingDetailStep,
                                postListingState: PostListingState,
-                               uploadedImageSource: EventParameterPictureSource?,
+                               uploadedImageSource: EventParameterMediaSource?,
                                uploadedVideoLength: TimeInterval?,
                                postingSource: PostingSource,
                                postListingBasicInfo: PostListingBasicDetailViewModel,
                                previousStepIsSummary: Bool)
     func closePostProductAndPostInBackground(params: ListingCreationParams,
-                                             trackingInfo: PostListingTrackingInfo)
+                                             trackingInfo: PostListingTrackingInfo,
+                                             shareAfterPost: Bool?)
     func closePostServicesAndPostInBackground(completion: @escaping (() -> Void))
     func closePostProductAndPostLater(params: ListingCreationParams,
                                       images: [UIImage]?,
                                       video: RecordedVideo?,
-                                      trackingInfo: PostListingTrackingInfo)
+                                      trackingInfo: PostListingTrackingInfo,
+                                      shareAfterPost: Bool?)
     func closePostServicesAndPostLater(params: [ListingCreationParams],
                                        images: [UIImage]?,
                                        trackingInfo: PostListingTrackingInfo)
     func openLoginIfNeededFromListingPosted(from: EventParameterLoginSourceValue,
                                             loggedInAction: @escaping (() -> Void), cancelAction: (() -> Void)?)
-    func showConfirmation(listingResult: ListingResult, trackingInfo: PostListingTrackingInfo, modalStyle: Bool)
+    func showConfirmation(listingResult: ListingResult, trackingInfo: PostListingTrackingInfo, shareAfterPost: Bool?, modalStyle: Bool)
     func showMultiListingPostConfirmation(listingResult: ListingsResult, trackingInfo: PostListingTrackingInfo, modalStyle: Bool)
     func openListingCreation(listingParams: ListingCreationParams, trackingInfo: PostListingTrackingInfo)
     func openListingsCreation(uploadedImageId: String,
@@ -47,10 +49,7 @@ protocol PostListingNavigator: class {
                               trackingInfo: PostListingTrackingInfo)
     func backToSummary()
     func openQueuedRequestsLoading(images: [UIImage], listingCreationParams: ListingCreationParams,
-                                   imageSource: EventParameterPictureSource, postingSource: PostingSource)
-    func openRealEstateOnboarding(pages: [LGTutorialPage],
-                                  origin: EventParameterTypePage,
-                                  tutorialType: EventParameterTutorialType)
+                                   imageSource: EventParameterMediaSource, postingSource: PostingSource)
 }
 
 protocol ListingPostedNavigator: class {
@@ -67,9 +66,9 @@ protocol MultiListingPostedNavigator: ListingPostedNavigator {
 
 protocol BlockingPostingNavigator: class {
     func openCamera()
-    func openPrice(listing: Listing, images: [UIImage], imageSource: EventParameterPictureSource, videoLength: TimeInterval?, postingSource: PostingSource)
-    func openListingEditionLoading(listingParams: ListingEditionParams, listing: Listing, images: [UIImage], imageSource: EventParameterPictureSource, videoLength: TimeInterval?, postingSource: PostingSource)
-    func openListingPosted(listing: Listing, images: [UIImage], imageSource: EventParameterPictureSource, videoLength: TimeInterval?, postingSource: PostingSource)
+    func openPrice(listing: Listing, images: [UIImage], imageSource: EventParameterMediaSource, videoLength: TimeInterval?, postingSource: PostingSource)
+    func openListingEditionLoading(listingParams: ListingEditionParams, listing: Listing, images: [UIImage], imageSource: EventParameterMediaSource, videoLength: TimeInterval?, postingSource: PostingSource)
+    func openListingPosted(listing: Listing, images: [UIImage], imageSource: EventParameterMediaSource, videoLength: TimeInterval?, postingSource: PostingSource)
     func openCategoriesPickerWith(selectedCategory: ListingCategory?, delegate: PostingCategoriesPickDelegate)
     func closeCategoriesPicker()
     func closePosting()

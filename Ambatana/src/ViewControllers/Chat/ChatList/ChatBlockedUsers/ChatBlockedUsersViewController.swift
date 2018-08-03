@@ -2,7 +2,7 @@ import UIKit
 import RxSwift
 import LGComponents
 
-final class ChatBlockedUsersViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource {
+final class ChatBlockedUsersViewController: ChatBaseViewController, UITableViewDelegate, UITableViewDataSource {
 
     private let tableView: UITableView = UITableView()
     private let emptyView: LGEmptyView = LGEmptyView()
@@ -15,13 +15,15 @@ final class ChatBlockedUsersViewController: BaseViewController, UITableViewDeleg
         button.set(accessibilityId: .chatConversationsListOptionsNavBarButton)
         return button
     }()
-    
+
+    private let refreshControl = UIRefreshControl()
+
     private let viewModel: ChatBlockedUsersViewModel
     private var disposeBag = DisposeBag()
 
     init(viewModel: ChatBlockedUsersViewModel) {
         self.viewModel = viewModel
-        super.init(viewModel: viewModel, nibName: nil)
+        super.init(viewModel: viewModel)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -69,6 +71,13 @@ final class ChatBlockedUsersViewController: BaseViewController, UITableViewDeleg
 
         tableView.delegate = self
         tableView.dataSource = self
+
+        if #available(iOS 10.0, *) {
+            tableView.refreshControl = refreshControl
+        } else {
+            tableView.addSubview(refreshControl)
+        }
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
     }
 
     private func setupRx() {
@@ -104,14 +113,6 @@ final class ChatBlockedUsersViewController: BaseViewController, UITableViewDeleg
                 self?.setupNavigationBar(isEditing: isEditing)
                 self?.tableView.isEditing = isEditing
             })
-            .disposed(by: disposeBag)
-        
-        viewModel.rx_navigationActionSheet
-            .asObservable()
-            .bind { [weak self] (cancelTitle, actions) in
-                self?.tableView.isEditing = false
-                self?.showActionSheet(cancelTitle, actions: actions)
-            }
             .disposed(by: disposeBag)
     }
     
@@ -157,10 +158,16 @@ final class ChatBlockedUsersViewController: BaseViewController, UITableViewDeleg
         viewModel.switchEditMode(isEditing: false)
     }
 
+    @objc private func refresh() {
+        viewModel.refreshFirstPage { [weak self] in
+            self?.refreshControl.endRefreshing()
+        }
+    }
+
     // MARK: - UITableViewDelegate & UITableViewDataSource
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.blockedUsersCount
+        return viewModel.objectCount
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

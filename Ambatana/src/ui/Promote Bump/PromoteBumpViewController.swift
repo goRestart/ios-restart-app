@@ -1,12 +1,5 @@
-//
-//  PromoteBumpViewController.swift
-//  LetGo
-//
-//  Created by Dídac on 10/11/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
 final class PromoteBumpViewController: BaseViewController {
 

@@ -1,4 +1,5 @@
 import UIKit
+import LGComponents
 
 final class ChatConnectionStatusView: UIView {
     private struct Layout {
@@ -13,7 +14,8 @@ final class ChatConnectionStatusView: UIView {
         }
     }
 
-    private var activityIndicatorWidthConstraint: NSLayoutConstraint?
+    private var activityIndicatorWidthConstraint: NSLayoutConstraint = NSLayoutConstraint()
+    private var activityIndicatorTrailingMarginConstraint: NSLayoutConstraint = NSLayoutConstraint()
     private var actionBlock: (()->Void)?
     private var containerView: UIView = UIView()
     private var titleLabel: UILabel = {
@@ -51,12 +53,19 @@ final class ChatConnectionStatusView: UIView {
         addSubviewForAutoLayout(containerView)
         containerView.addSubviewsForAutoLayout([activityIndicator, titleLabel])
 
-        activityIndicatorWidthConstraint = activityIndicator.widthAnchor.constraint(equalToConstant: Layout.activityIndicatorWidth)
+        activityIndicatorWidthConstraint = activityIndicator
+            .widthAnchor
+            .constraint(equalToConstant: Layout.activityIndicatorWidth)
+        activityIndicatorTrailingMarginConstraint = titleLabel
+            .leadingAnchor
+            .constraint(equalTo: activityIndicator.trailingAnchor, constant: Metrics.veryShortMargin)
+
         NSLayoutConstraint.activate([
             activityIndicator.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
             activityIndicator.topAnchor.constraint(equalTo: containerView.topAnchor),
             activityIndicator.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: activityIndicator.trailingAnchor, constant: Metrics.veryShortMargin),
+            activityIndicatorWidthConstraint,
+            activityIndicatorTrailingMarginConstraint,
             titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor),
             titleLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
@@ -80,10 +89,12 @@ final class ChatConnectionStatusView: UIView {
         titleLabel.attributedText = status.title
         activityIndicator.isHidden = !status.showActivityIndicator
         if status.showActivityIndicator {
-            activityIndicatorWidthConstraint?.constant = Layout.activityIndicatorWidth
+            activityIndicatorWidthConstraint.constant = Layout.activityIndicatorWidth
+            activityIndicatorTrailingMarginConstraint.constant = Metrics.veryShortMargin
             activityIndicator.startAnimating()
         } else {
-            activityIndicatorWidthConstraint?.constant = 0
+            activityIndicatorWidthConstraint.constant = 0
+            activityIndicatorTrailingMarginConstraint.constant = 0
             activityIndicator.stopAnimating()
         }
         actionBlock = status.actionBlock

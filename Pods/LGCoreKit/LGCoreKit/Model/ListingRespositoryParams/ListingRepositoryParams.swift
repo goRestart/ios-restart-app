@@ -1,22 +1,3 @@
-//
-//  ListingRepositoryParams.swift
-//  LGCoreKit
-//
-//  Created by Eli Kohen on 27/03/2017.
-//  Copyright © 2017 Ambatana Inc. All rights reserved.
-//
-
-// MARK: - PARAMS
-
-public struct RetrieveListingParam<T: Equatable> {
-    public let value: T
-    public let isNegated: Bool
-    
-    public init(value: T, isNegated: Bool) {
-        self.value = value
-        self.isNegated = isNegated
-    }
-}
 
 struct ApiProductsParamsKeys {
     static let numberOfResults = "num_results"
@@ -40,7 +21,6 @@ struct ApiProductsParamsKeys {
     static let startYear = "start_year"
     static let endYear = "end_year"
     static let attributes = "attributes"
-    static let negativeAttributes = "negative_attributes"
 }
 
 struct DiscoveryParamsKeys {
@@ -90,7 +70,7 @@ public struct RetrieveListingParams {
     public var distanceType: DistanceType?
     public var abtest: String?
     public var relaxParam: RelaxParam?
-    public var similarParam: SimilarParam?    
+    public var similarParam: SimilarParam?
     
     
     //  MARK: Discovery
@@ -98,16 +78,27 @@ public struct RetrieveListingParams {
     public var customFeedVariant: Int?
     
     
-    //  MARK: Verticals
-    
+    //  MARK: Car
     public var userTypes: [UserType]?
-    public var makeId: RetrieveListingParam<String>?
-    public var modelId: RetrieveListingParam<String>?
-    public var startYear: RetrieveListingParam<Int>?
-    public var endYear: RetrieveListingParam<Int>?
+    public var makeId: String?
+    public var modelId: String?
+    public var startYear: Int?
+    public var endYear: Int?
+    public var bodyType: [CarBodyType]?
+    public var drivetrain: [CarDriveTrainType]?
+    public var fuelType: [CarFuelType]?
+    public var transmision: [CarTransmissionType]?
+    public var startMileage: Int?
+    public var endMileage: Int?
+    public var mileageType: String?
+    public var startNumberOfSeats: Int?
+    public var endNumberOfSeats: Int?
+    
+    //  MARK: Services
     public var typeIds: [String]?
     public var subtypeIds: [String]?
     
+    //  MARK: Real Estate
     public var propertyType: String?
     public var offerType: [String]?
     public var numberOfBedrooms: Int?
@@ -162,11 +153,11 @@ public struct RetrieveListingParams {
         params[VerticalsParamsKeys.maxPrice] = maxPrice
         params[VerticalsParamsKeys.minPrice] = minPrice
         params[VerticalsParamsKeys.distanceRadius] = distanceRadius
-        params[VerticalsParamsKeys.distanceType] = distanceType?.string
+        params[VerticalsParamsKeys.distanceType] = distanceType?.rawValue
         params[VerticalsParamsKeys.numResults] = numListings
         params[VerticalsParamsKeys.offset] = offset
         params[VerticalsParamsKeys.sort] = sortCriteria?.string
-        params[VerticalsParamsKeys.since] = timeCriteria?.string
+        params[VerticalsParamsKeys.since] = timeCriteria?.parameterValue
         
         // Real Estate attributes
         if let propertyType = propertyType {
@@ -218,56 +209,33 @@ public struct RetrieveListingParams {
         params[ApiProductsParamsKeys.maxPrice] = maxPrice
         params[ApiProductsParamsKeys.minPrice] = minPrice
         params[ApiProductsParamsKeys.distanceRadius] = distanceRadius
-        params[ApiProductsParamsKeys.distanceType] = distanceType?.string
+        params[ApiProductsParamsKeys.distanceType] = distanceType?.rawValue
         params[ApiProductsParamsKeys.numberOfResults] = numListings
         params[ApiProductsParamsKeys.offset] = offset
         params[ApiProductsParamsKeys.sort] = sortCriteria?.string
-        params[ApiProductsParamsKeys.since] = timeCriteria?.string
+        params[ApiProductsParamsKeys.since] = timeCriteria?.parameterValue
         params[ApiProductsParamsKeys.abtest] = abtest
         
         // Car attributes
-        var carsPositiveAttrs = [String: Any]()
-        var carsNegativeAttrs = [String: Any]()
+        var carAttributes = [String: Any]()
         
         if let makeId = makeId {
-            let value = makeId.value
-            if makeId.isNegated {
-                carsNegativeAttrs[ApiProductsParamsKeys.make] = value
-            } else {
-                carsPositiveAttrs[ApiProductsParamsKeys.make] = value
-            }
+            carAttributes[ApiProductsParamsKeys.make] = makeId
         }
         if let modelId = modelId {
-            let value = modelId.value
-            if modelId.isNegated {
-                carsNegativeAttrs[ApiProductsParamsKeys.model] = value
-            } else {
-                carsPositiveAttrs[ApiProductsParamsKeys.model] = value
-            }
+            carAttributes[ApiProductsParamsKeys.model] = modelId
         }
         if let startYear = startYear {
-            let value = startYear.value
-            if startYear.isNegated {
-                carsNegativeAttrs[ApiProductsParamsKeys.startYear] = value
-            } else {
-                carsPositiveAttrs[ApiProductsParamsKeys.startYear] = value
-            }
+            carAttributes[ApiProductsParamsKeys.startYear] = startYear
         }
         if let endYear = endYear {
-            let value = endYear.value
-            if endYear.isNegated {
-                carsNegativeAttrs[ApiProductsParamsKeys.endYear] = value
-            } else {
-                carsPositiveAttrs[ApiProductsParamsKeys.endYear] = value
-            }
+            carAttributes[ApiProductsParamsKeys.endYear] = endYear
         }
         
-        if carsPositiveAttrs.keys.count > 0 {
-            params[ApiProductsParamsKeys.attributes] = carsPositiveAttrs
+        if carAttributes.keys.count > 0 {
+            params[ApiProductsParamsKeys.attributes] = carAttributes
         }
-        if carsNegativeAttrs.keys.count > 0 {
-            params[ApiProductsParamsKeys.negativeAttributes] = carsNegativeAttrs
-        }
+
         return params
     }
 }
@@ -349,9 +317,16 @@ public enum ListingSortCriteria: Int, Equatable {
     }
 }
 
-public enum ListingTimeCriteria: Int, Equatable {
-    case day = 1, week = 2, month = 3, all = 4
-    var string : String? {
+public enum ListingTimeCriteria: Equatable {
+    case day
+    case week
+    case month
+    case all
+    case date(date: Date)
+    
+    private static let dateFormatter = LGDateFormatter()
+    
+    var parameterValue: String? {
         switch self {
         case .day:
             return "day"
@@ -361,6 +336,8 @@ public enum ListingTimeCriteria: Int, Equatable {
             return "month"
         case .all:
             return nil
+        case .date(let date):
+            return ListingTimeCriteria.dateFormatter.string(from: date)
         }
     }
 }

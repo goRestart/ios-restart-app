@@ -8,15 +8,18 @@ enum BumpUpSource {
     case deepLink
     case promoted
     case edit(listing: Listing)
+    case sellEdit(listing: Listing)
 
     var typePageParameter: EventParameterTypePage? {
         switch self {
         case .deepLink:
-            return .pushNotification
+            return .notificationCenter
         case .promoted:
             return .sell
         case .edit:
             return .edit
+        case .sellEdit:
+            return .sellEdit
         }
     }
 }
@@ -38,6 +41,7 @@ final class AppCoordinator: NSObject, Coordinator {
     fileprivate let notificationsTabBarCoordinator: NotificationsTabCoordinator
     fileprivate let chatsTabBarCoordinator: ChatsTabCoordinator
     fileprivate let profileTabBarCoordinator: ProfileTabCoordinator
+    fileprivate let communityTabCoordinator: CommunityTabCoordinator
     fileprivate let tabCoordinators: [TabCoordinator]
 
     fileprivate let configManager: ConfigManager
@@ -47,6 +51,7 @@ final class AppCoordinator: NSObject, Coordinator {
     fileprivate let ratingManager: RatingManager
     fileprivate let tracker: Tracker
     fileprivate let deepLinksRouter: DeepLinksRouter
+    fileprivate let deeplinkMailBox: DeepLinkMailBox
 
     fileprivate let listingRepository: ListingRepository
     fileprivate let userRepository: UserRepository
@@ -80,6 +85,7 @@ final class AppCoordinator: NSObject, Coordinator {
                   pushPermissionsManager: LGPushPermissionsManager.sharedInstance,
                   ratingManager: LGRatingManager.sharedInstance,
                   deepLinksRouter: LGDeepLinksRouter.sharedInstance,
+                  deeplinkMailBox: LGDeepLinkMailBox.sharedInstance,
                   tracker: TrackerProxy.sharedInstance,
                   listingRepository: Core.listingRepository,
                   userRepository: Core.userRepository,
@@ -102,6 +108,7 @@ final class AppCoordinator: NSObject, Coordinator {
          pushPermissionsManager: PushPermissionsManager,
          ratingManager: RatingManager,
          deepLinksRouter: DeepLinksRouter,
+         deeplinkMailBox: DeepLinkMailBox,
          tracker: Tracker,
          listingRepository: ListingRepository,
          userRepository: UserRepository,
@@ -121,8 +128,15 @@ final class AppCoordinator: NSObject, Coordinator {
         self.notificationsTabBarCoordinator = NotificationsTabCoordinator()
         self.chatsTabBarCoordinator = ChatsTabCoordinator()
         self.profileTabBarCoordinator = ProfileTabCoordinator()
-        self.tabCoordinators = [mainTabBarCoordinator, notificationsTabBarCoordinator, chatsTabBarCoordinator,
-                                profileTabBarCoordinator]
+        self.communityTabCoordinator = CommunityTabCoordinator(source: .tabbar)
+
+        if featureFlags.community.shouldShowOnTab {
+            self.tabCoordinators = [mainTabBarCoordinator, notificationsTabBarCoordinator, chatsTabBarCoordinator,
+                                    communityTabCoordinator]
+        } else {
+            self.tabCoordinators = [mainTabBarCoordinator, notificationsTabBarCoordinator, chatsTabBarCoordinator,
+                                    profileTabBarCoordinator]
+        }
 
         self.configManager = configManager
         self.sessionManager = sessionManager
@@ -133,6 +147,7 @@ final class AppCoordinator: NSObject, Coordinator {
         self.tracker = tracker
 
         self.deepLinksRouter = deepLinksRouter
+        self.deeplinkMailBox = deeplinkMailBox
 
         self.listingRepository = listingRepository
         self.userRepository = userRepository
@@ -221,9 +236,7 @@ extension AppCoordinator: AppNavigator {
     func openSell(source: PostingSource, postCategory: PostCategory?, listingTitle: String?) {
         let forcedInitialTab: PostListingViewController.Tab?
         switch source {
-        case .tabBar, .sellButton, .deepLink, .notifications, .deleteListing, .realEstatePromo,
-             .mostSearchedTabBarCamera, .mostSearchedTrendingExpandable, .mostSearchedTagsExpandable,
-             .mostSearchedCategoryHeader, .mostSearchedCard, .mostSearchedUserProfile:
+        case .tabBar, .listingList, .profile, .deepLink, .notifications, .deleteListing, .realEstatePromo, .chatList:
             forcedInitialTab = nil
         case .onboardingButton, .onboardingCamera, .onboardingBlockingPosting:
             forcedInitialTab = .camera
@@ -235,16 +248,6 @@ extension AppCoordinator: AppNavigator {
                                               listingTitle: listingTitle)
         sellCoordinator.delegate = self
         openChild(coordinator: sellCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
-    }
-    
-    func openMostSearchedItems(source: PostingSource, enableSearch: Bool) {
-        let mostSearchedItemsCoordinator = MostSearchedItemsCoordinator(source: source, enableSearch: enableSearch)
-        mostSearchedItemsCoordinator.delegate = self
-        openChild(coordinator: mostSearchedItemsCoordinator,
-                  parent: tabBarCtl,
-                  animated: true,
-                  forceCloseChild: true,
-                  completion: nil)
     }
     
     func showBottomBubbleNotification(data: BubbleNotificationData,
@@ -303,12 +306,12 @@ extension AppCoordinator: AppNavigator {
                                                              .primary(fontSize: .medium))
         let reviewAlertAction = UIAction(interface: reviewActionInterface,
                                          action: reviewAction,
-                                         accessibilityId: .offensiveReportAlertOpenGuidelineButton)
+                                         accessibility: AccessibilityId.offensiveReportAlertOpenGuidelineButton)
         let skipActionInterface = UIActionInterface.button(R.Strings.offensiveReportAlertSecondaryAction,
                                                             .secondary(fontSize: .medium, withBorder: true))
         let skipAlertAction = UIAction(interface: skipActionInterface,
                                   action: {},
-                                  accessibilityId: .offensiveReportAlertSkipButton)
+                                  accessibility: AccessibilityId.offensiveReportAlertSkipButton)
         if let alert = LGAlertViewController(title: R.Strings.offensiveReportAlertTitle,
                                              text: R.Strings.offensiveReportAlertMessage,
                                              alertType: .plainAlert,
@@ -509,6 +512,10 @@ extension AppCoordinator: AppNavigator {
     func openInAppWebView(url: URL) {
         tabBarCtl.openInAppWebViewWith(url: url)
     }
+
+    func openCommunityTab() {
+        openTab(.community, completion: nil)
+    }
 }
 
 // MARK: - SellCoordinatorDelegate
@@ -522,7 +529,7 @@ extension AppCoordinator: SellCoordinatorDelegate {
     }
 
     func sellCoordinator(_ coordinator: SellCoordinator, closePostAndOpenEditForListing listing: Listing) {
-		openAfterSellDialogIfNeeded(forListing: listing, bumpUpSource: .edit(listing: listing))
+		openAfterSellDialogIfNeeded(forListing: listing, bumpUpSource: .sellEdit(listing: listing))
     }
 }
 
@@ -540,7 +547,7 @@ extension AppCoordinator: EditListingCoordinatorDelegate {
             bumpData.hasPaymentId else { return }
         openPromoteBumpForListingId(listingId: listingId,
                                     bumpUpProductData: bumpData,
-                                    typePage: .edit)
+                                    typePage: .sellEdit)
     }
 }
 
@@ -568,6 +575,7 @@ extension AppCoordinator: OnboardingCoordinatorDelegate {
         delegate?.appNavigatorDidOpenApp()
         if let source = source, posting {
             openSell(source: source, postCategory: nil, listingTitle: nil)
+            trackStartSelling(source: source)
         } else {
             openHome()
         }
@@ -605,7 +613,7 @@ fileprivate extension AppCoordinator {
 
     fileprivate func shouldRetrieveBumpeableInfoFor(source: BumpUpSource) -> Bool {
         switch source {
-        case .edit, .deepLink:
+        case .edit, .deepLink, .sellEdit:
             return true
         case .promoted:
             return !promoteBumpShownInLastDay
@@ -661,6 +669,8 @@ fileprivate extension AppCoordinator {
 
     private func bumpUpFallbackFor(source: BumpUpSource) {
         switch source {
+        case .sellEdit(let listing):
+            openEditForListing(listing: listing, bumpUpProductData: nil, maxCountdown: 0)
         case .edit(let listing):
             openEditForListing(listing: listing, bumpUpProductData: nil, maxCountdown: 0)
         case .deepLink, .promoted:
@@ -702,10 +712,14 @@ extension AppCoordinator: UITabBarControllerDelegate {
         let afterLogInSuccessful: () -> ()
 
         switch tab {
-        case .home, .notifications, .chats, .profile:
+        case .home, .notifications, .chats, .profile, .community:
             afterLogInSuccessful = { [weak self] in self?.openTab(tab, force: true, completion: nil) }
         case .sell:
-            afterLogInSuccessful = { [weak self] in self?.openSell(source: .tabBar, postCategory: nil, listingTitle: nil) }
+            afterLogInSuccessful = { [weak self] in
+                let source: PostingSource = .tabBar
+                self?.trackStartSelling(source: source)
+                self?.openSell(source: source, postCategory: nil, listingTitle: nil)
+            }
         }
 
         if let source = tab.logInSource, shouldOpenLogin {
@@ -713,17 +727,13 @@ extension AppCoordinator: UITabBarControllerDelegate {
             return false
         } else {
             switch tab {
-            case .home, .notifications, .chats, .profile:
+            case .home, .notifications, .chats, .profile, .community:
                 // tab is changed after returning from this method
                 return !shouldOpenLogin
             case .sell:
-                let shouldOpenMostSearchedItems = featureFlags.mostSearchedDemandedItems == .cameraBadge &&
-                    !keyValueStorage[.mostSearchedItemsCameraBadgeAlreadyShown]
-                if shouldOpenMostSearchedItems {
-                    openMostSearchedItems(source: .mostSearchedTabBarCamera, enableSearch: false)
-                } else {
-                    openSell(source: .tabBar, postCategory: nil, listingTitle: nil)
-                }
+                let source: PostingSource = .tabBar
+                openSell(source: source, postCategory: nil, listingTitle: nil)
+                trackStartSelling(source: source)
                 return false
             }
         }
@@ -756,6 +766,7 @@ fileprivate extension AppCoordinator {
         notificationsTabBarCoordinator.tabCoordinatorDelegate = self
         chatsTabBarCoordinator.tabCoordinatorDelegate = self
         profileTabBarCoordinator.tabCoordinatorDelegate = self
+        communityTabCoordinator.tabCoordinatorDelegate = self
 
         mainTabBarCoordinator.appNavigator = self
         notificationsTabBarCoordinator.appNavigator = self
@@ -772,6 +783,11 @@ fileprivate extension AppCoordinator {
                     self?.openExternalDeepLink(deepLink)
                 }
             }.disposed(by: disposeBag)
+
+        deeplinkMailBox.deeplinks
+            .subscribeNext { [weak self] (deeplink) in
+                self?.openDeepLink(deepLink: deeplink)
+        }.disposed(by: disposeBag)
     }
 
     func setupCoreEventsRx() {
@@ -836,7 +852,7 @@ fileprivate extension AppCoordinator {
 
 // MARK: - CustomLeanplumPresenter
 
-extension AppCoordinator: CustomLeanplumPresenter {
+extension AppCoordinator: CustomLeanplumPresenter, LPMessageNavigator {
 
     func setupLeanplumPopUp() {
         Leanplum.customLeanplumAlert(self)
@@ -846,6 +862,15 @@ extension AppCoordinator: CustomLeanplumPresenter {
         let alertIcon = UIImage(contentsOfFile: image)
         guard let alert = LGAlertViewController(title: title, text: text, alertType: .iconAlert(icon: alertIcon), actions: [action]) else { return }
         tabBarCtl.present(alert, animated: true, completion: nil)
+    }
+
+    func showLPMessageAlert(_ message: LPMessage) {
+        let coordinator = LeanplumCoordinator(leanplumMessage: message)
+        openChild(coordinator: coordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
+    }
+
+    func closeLPMessage() {
+        child?.closeCoordinator(animated: true, completion: nil)
     }
 }
 
@@ -929,13 +954,21 @@ fileprivate extension AppCoordinator {
     func triggerDeepLink(_ deepLink: DeepLink, initialDeepLink: Bool) {
         var afterDelayClosure: (() -> Void)?
         switch deepLink.action {
+        case .appRating(let source):
+            if let ratingSource = EventParameterRatingSource(rawValue: source) {
+                afterDelayClosure = { [weak self] in
+                    self?.openAppRating(ratingSource)
+                }
+            }
         case .home:
             afterDelayClosure = { [weak self] in
                 self?.openTab(.home, force: false, completion: nil)
             }
         case .sell:
             afterDelayClosure = { [weak self] in
-                self?.openSell(source: .deepLink, postCategory: nil, listingTitle: nil)
+                let source: PostingSource = .deepLink
+                self?.trackStartSelling(source: source)
+                self?.openSell(source: source, postCategory: nil, listingTitle: nil)
             }
         case let .listing(listingId):
             tabBarCtl.clearAllPresented(nil)
@@ -1060,7 +1093,7 @@ fileprivate extension AppCoordinator {
         switch deepLink.action {
         case .home, .sell, .listing, .listingShare, .listingBumpUp, .listingMarkAsSold, .listingEdit, .user,
              .conversations, .conversationWithMessage, .search, .resetPassword, .userRatings, .userRating,
-             .notificationCenter, .appStore, .passwordlessSignIn, .passwordlessConfirmUsername, .webView:
+             .notificationCenter, .appStore, .passwordlessSignIn, .passwordlessConfirmUsername, .webView, .appRating:
             return // Do nothing
         case let .conversation(data):
             showInappChatNotification(data, message: deepLink.origin.message)
@@ -1153,6 +1186,21 @@ fileprivate extension AppCoordinator {
             self?.showBubble(with: data, duration: SharedConstants.bubbleChatDuration)
         }
     }
+
+    // MARK: - Trackings
+
+    private func trackStartSelling(source: PostingSource) {
+        tracker.trackEvent(TrackerEvent.listingSellStart(typePage: source.typePage,
+                                                         buttonName: source.buttonName,
+                                                         sellButtonPosition: source.sellButtonPosition,
+                                                         category: nil))
+    }
+
+    private func trackSelectCategory(source: PostingSource, category: PostCategory) {
+        tracker.trackEvent(TrackerEvent.listingSellCategorySelect(typePage: source.typePage,
+                                                                  postingType: EventParameterPostingType(category: category),
+                                                                  category: category.listingCategory))
+    }
 }
 
 extension AppCoordinator: ChangePasswordNavigator {
@@ -1183,7 +1231,7 @@ extension AppCoordinator: BumpInfoRequesterDelegate {
                 var actionOnFirstAppear = ProductCarouselActionOnFirstAppear.triggerBumpUp(bumpUpProductData: bumpUpProductData,
                                                                                            bumpUpType: .priced,
                                                                                            triggerBumpUpSource: .deepLink,
-                                                                                           typePage: nil)
+                                                                                           typePage: .notificationCenter)
                 if let timeSinceLastBump = self?.timeSinceLastBump, timeSinceLastBump > 0 {
                     actionOnFirstAppear = ProductCarouselActionOnFirstAppear.nonexistent
                 }
@@ -1201,6 +1249,10 @@ extension AppCoordinator: BumpInfoRequesterDelegate {
                                         bumpUpProductData: bumpUpProductData,
                                         typePage: typePage)
         case .edit(let listing):
+            openEditForListing(listing: listing,
+                               bumpUpProductData: bumpUpProductData,
+                               maxCountdown: maxCountdown)
+        case .sellEdit(let listing):
             openEditForListing(listing: listing,
                                bumpUpProductData: bumpUpProductData,
                                maxCountdown: maxCountdown)
@@ -1230,18 +1282,6 @@ extension AppCoordinator: PromoteBumpCoordinatorDelegate {
 }
 
 
-extension AppCoordinator: MostSearchedItemsCoordinatorDelegate {
-    func openSell(source: PostingSource, mostSearchedItem: LocalMostSearchedItem) {
-        openSell(source: source,
-                 postCategory: mostSearchedItem.category,
-                 listingTitle: mostSearchedItem.name)
-    }
-    
-    func openSearchFor(listingTitle: String) {
-        mainTabBarCoordinator.openMainListings(withSearchType: .user(query: listingTitle), listingFilters: ListingFilters())
-    }
-}
-
 extension AppCoordinator: ProfileCoordinatorSearchAlertsDelegate {
     func profileCoordinatorSearchAlertsOpenSearch() {
         openTab(.home) { [weak self] in
@@ -1256,7 +1296,7 @@ extension AppCoordinator: ProfileCoordinatorSearchAlertsDelegate {
 fileprivate extension Tab {
     var logInRequired: Bool {
         switch self {
-        case .home, .sell:
+        case .home, .sell, .community:
             return false
         case .notifications, .chats, .profile:
             return true
@@ -1274,6 +1314,8 @@ fileprivate extension Tab {
             return .chats
         case .profile:
             return .profile
+        case .community:
+            return .community
         }
     }
 }

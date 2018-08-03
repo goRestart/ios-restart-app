@@ -1,18 +1,10 @@
-//
-//  ListingDeckViewModelBinderSpec.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 31/10/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 @testable import LetGoGodMode
 import RxTest
 import RxSwift
 import LGCoreKit
 import Quick
 import Nimble
-
+import LGComponents
 
 class ListingDeckViewModelBinderSpec: QuickSpec {
 
@@ -112,6 +104,7 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
 }
 
 extension ListingDeckViewModelBinderSpec: ListingDetailNavigator {
+    func openUser(user: User, source: UserSource) { }
     func openVideoPlayer(atIndex index: Int,
                          listingVM: ListingViewModel,
                          source: EventParameterListingVisitSource) { }
@@ -145,7 +138,6 @@ extension ListingDeckViewModelBinderSpec: ListingDetailNavigator {
                          timeSinceLastBump: TimeInterval,
                          maxCountdown: TimeInterval) { }
     func openAppInvite(myUserId: String?, myUserName: String?) { }
-    func openMostSearchedItems(source: PostingSource, enableSearch: Bool) {}
     func openHome() {}
     func openSell(source: PostingSource, postCategory: PostCategory?) {}
     func openAppRating(_ source: EventParameterRatingSource) {}
@@ -177,9 +169,9 @@ extension ListingDeckViewModelBinderSpec: ListingDetailNavigator {
     func openContactUs(forListing listing: Listing, contactUstype: ContactUsType) {}
     func openFeaturedInfo() {}
     func closeFeaturedInfo() {}
-    func openRealEstateOnboarding(pages: [LGTutorialPage],
-                                  origin: EventParameterTypePage,
-                                  tutorialType: EventParameterTutorialType) {}
     func openUserReport(source: EventParameterTypePage, userReportedId: String) {}
     func openUserVerificationView() {}
+    func openListingAttributeTable(withViewModel viewModel: ListingAttributeTableViewModel) {}
+    func closeListingAttributeTable() {}
+    func openCommunityTab() {}
 }

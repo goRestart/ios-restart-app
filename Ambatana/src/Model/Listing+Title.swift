@@ -1,12 +1,5 @@
-//
-//  Product+Title.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 15/04/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
+import LGComponents
 
 extension Listing {
 
@@ -73,5 +66,16 @@ class ListingHelper {
 
     static func descriptionWith(descr: String?) -> String? {
         return descr?.replacingHiddenTags
+    }
+}
+
+private extension String {
+    
+    var replacingHiddenTags: String {
+        var result = self
+        for tag in TextHiddenTags.allTags {
+            result = result.replacingOccurrences(of: tag.rawValue, with: tag.localized)
+        }
+        return result
     }
 }

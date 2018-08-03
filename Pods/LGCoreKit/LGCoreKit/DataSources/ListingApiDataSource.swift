@@ -1,11 +1,3 @@
-//
-//  ListingApiDataSource.swift
-//  LGCoreKit
-//
-//  Created by Isaac Roldan on 8/1/16.
-//  Copyright © 2016 Ambatana Inc. All rights reserved.
-//
-
 import Foundation
 import Result
 
@@ -102,25 +94,30 @@ final class ListingApiDataSource: ListingDataSource {
     }
 
     func retrieve(_ listingId: String, completion: ListingDataSourceCompletion?) {
-        let request = ListingRouter.show(listingId: listingId)
-        apiClient.request(request, decoder: ListingApiDataSource.decoder, completion: completion)
+        retrieve(with: ListingRouter.show(listingId: listingId), completion: completion)
+    }
+    
+    func retrieveCar(_ listingId: String, completion: ListingDataSourceCompletion?) {
+        retrieve(with: ListingRouter.showCar(listingId: listingId), completion: completion)
     }
     
     func retrieveRealEstate(_ listingId: String, completion: ListingDataSourceCompletion?) {
-        let request = ListingRouter.showRealEstate(listingId: listingId)
-        apiClient.request(request, decoder: ListingApiDataSource.decoder, completion: completion)
+        retrieve(with: ListingRouter.showRealEstate(listingId: listingId), completion: completion)
     }
     
     func retrieveService(_ listingId: String, completion: ListingDataSourceCompletion?) {
-        let request = ListingRouter.showService(listingId: listingId)
-        apiClient.request(request, decoder: ListingApiDataSource.decoder, completion: completion)
+        retrieve(with: ListingRouter.showService(listingId: listingId), completion: completion)
+    }
+    
+    private func retrieve(with router: ListingRouter, completion: ListingDataSourceCompletion?) {
+        apiClient.request(router, decoder: ListingApiDataSource.decoder, completion: completion)
     }
 
     func createListing(userId: String, listingParams: ListingCreationParams, completion: ListingDataSourceCompletion?) {
         let request: URLRequestAuthenticable
         switch listingParams {
         case .car(let carParams):
-            request = ListingRouter.create(params: carParams.apiCreationEncode(userId: userId))
+            request = ListingRouter.createCar(params: carParams.apiCreationEncode(userId: userId))
             apiClient.request(request, decoder: ListingApiDataSource.carDecoder, completion: completion)
         case .product(let productParams):
             request = ListingRouter.create(params: productParams.apiCreationEncode(userId: userId))
@@ -128,23 +125,14 @@ final class ListingApiDataSource: ListingDataSource {
         case .realEstate(let realEstateParams):
             request = ListingRouter.createRealEstate(params: realEstateParams.apiCreationEncode(userId: userId))
             apiClient.request(request, decoder: ListingApiDataSource.realEstateDecoder, completion: completion)
-        case .service(_):
-            completion?(Result(error: .badRequest(cause: .nonAcceptableParams)))
+        case .service(let serviceParams):
+            request = ListingRouter.create(params: serviceParams.apiCreationEncode(userId: userId))
+            apiClient.request(request, decoder: ListingApiDataSource.productDecoder, completion: completion)
         }
-    }
-    
-    // TODO: remove with ABIOS-4026
-    func createListingCar(userId: String, listingParams: ListingCreationParams, completion: ListingDataSourceCompletion?) {
-        guard case .car(let carParams) = listingParams else {
-            completion?(Result(error: .badRequest(cause: .nonAcceptableParams)))
-            return
-        }
-        let request: URLRequestAuthenticable = ListingRouter.createCar(params: carParams.apiCarCreationEncode(userId: userId))
-        apiClient.request(request, decoder: ListingApiDataSource.carDecoder, completion: completion)
     }
     
     func createListingServices(userId: String, listingParams: [ListingCreationParams], completion: ListingsDataSourceCompletion?) {
-        let servicesParams: [[String : Any]] = listingParams.flatMap {
+        let servicesParams: [[String : Any]] = listingParams.compactMap {
             guard case .service(let serviceParam) = $0 else { return nil }
             return serviceParam.apiServiceCreationEncode(userId: userId)
         }
@@ -160,7 +148,7 @@ final class ListingApiDataSource: ListingDataSource {
         let request: URLRequestAuthenticable
         switch listingParams {
         case .car(let carParams):
-            request = ListingRouter.update(listingId: carParams.carId, params: carParams.apiEditionEncode())
+            request = ListingRouter.updateCar(listingId: carParams.carId, params: carParams.apiEditionEncode())
             apiClient.request(request, decoder: ListingApiDataSource.carDecoder, completion: completion)
         case .product(let productParams):
             request = ListingRouter.update(listingId: productParams.productId, params: productParams.apiEditionEncode())
@@ -168,30 +156,13 @@ final class ListingApiDataSource: ListingDataSource {
         case .realEstate(let realEstateParams):
             request = ListingRouter.updateRealEstate(listingId: realEstateParams.realEstateId, params: realEstateParams.apiEditionEncode())
             apiClient.request(request, decoder: ListingApiDataSource.realEstateDecoder, completion: completion)
-        case .service(_):
-            completion?(Result(error: .badRequest(cause: .nonAcceptableParams)))
+        case .service(let serviceParams):
+            request = ListingRouter.updateService(listingId: serviceParams.serviceId,
+                                                  params: serviceParams.apiEditionEncode())
+            apiClient.request(request, decoder: ListingApiDataSource.serviceDecoder, completion: completion)
         }
     }
     
-    // TODO: remove with ABIOS-4026
-    func updateListingCar(listingParams: ListingEditionParams, completion: ListingDataSourceCompletion?) {
-        guard case .car(let carParams) = listingParams else {
-            completion?(Result(error: .badRequest(cause: .nonAcceptableParams)))
-            return
-        }
-        let request: URLRequestAuthenticable = ListingRouter.updateCar(listingId: carParams.carId, params: carParams.apiCarEditionEncode())
-        apiClient.request(request, decoder: ListingApiDataSource.carDecoder, completion: completion)
-    }
-    
-    func updateListingService(listingParams: ListingEditionParams, completion: ListingDataSourceCompletion?) {
-        guard case .service(let serviceParams) = listingParams else {
-            completion?(Result(error: .badRequest(cause: .nonAcceptableParams)))
-            return
-        }
-        let request: URLRequestAuthenticable = ListingRouter.updateService(listingId: serviceParams.serviceId,
-                                                                           params: serviceParams.apiEditionEncode())
-        apiClient.request(request, decoder: ListingApiDataSource.serviceDecoder, completion: completion)
-    }
 
     // MARK: Sold / unsold
 

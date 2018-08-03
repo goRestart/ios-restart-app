@@ -35,8 +35,7 @@ class ChatGroupedViewModel: BaseViewModel {
             }
         }
         
-        func markAllConversationAsReadButtonEnabled(isFeatureFlagEnabled: Bool) -> Bool {
-            guard isFeatureFlagEnabled else { return false }
+        var markAllConversationAsReadButtonEnabled: Bool {
             switch self {
             case .all, .selling, .buying:
                 return true
@@ -47,6 +46,19 @@ class ChatGroupedViewModel: BaseViewModel {
 
         static var allValues: [Tab] {
             return [.all, .selling, .buying, .blockedUsers]
+        }
+
+        var nameForTracking: EventParameterChatTabName {
+            switch self {
+            case .all:
+                return .all
+            case .selling:
+                return .selling
+            case .buying:
+                return .buying
+            case .blockedUsers:
+                return .blocked
+            }
         }
     }
 
@@ -73,6 +85,12 @@ class ChatGroupedViewModel: BaseViewModel {
 
     let verificationPending = Variable<Bool>(false)
 
+    // Connectivity
+    private let reachability: ReachabilityProtocol
+    private let rx_wsChatStatus = Variable<WSChatStatus>(.closed)
+    private let rx_isReachable = Variable<Bool>(true)
+    let rx_connectionBarStatus = Variable<ChatConnectionBarStatus>(.wsConnected)
+
     fileprivate let disposeBag: DisposeBag
 
 
@@ -82,18 +100,21 @@ class ChatGroupedViewModel: BaseViewModel {
         self.init(myUserRepository: Core.myUserRepository,
                   chatRepository: Core.chatRepository,
                   featureFlags: FeatureFlags.sharedInstance,
-                  tracker: TrackerProxy.sharedInstance)
+                  tracker: TrackerProxy.sharedInstance,
+                  reachability: LGReachability())
     }
 
     init(myUserRepository: MyUserRepository,
          chatRepository: ChatRepository,
          featureFlags: FeatureFlaggeable,
-         tracker: TrackerProxy) {
+         tracker: TrackerProxy,
+         reachability: ReachabilityProtocol) {
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
         self.featureFlags = featureFlags
         self.tracker = tracker
         self.chatListViewModels = []
+        self.reachability = reachability
         self.blockedUsersListViewModel = BlockedUsersListViewModel()
         self.disposeBag = DisposeBag()
         
@@ -122,6 +143,13 @@ class ChatGroupedViewModel: BaseViewModel {
         }
         setupRxBindings()
         setupVerificationPendingEmptyVM()
+    }
+
+    override func didBecomeActive(_ firstTime: Bool) {
+        super.didBecomeActive(firstTime)
+        if firstTime && featureFlags.showChatConnectionStatusBar.isActive {
+            setupReachability()
+        }
     }
 
     func setupVerificationPendingEmptyVM() {
@@ -238,7 +266,7 @@ class ChatGroupedViewModel: BaseViewModel {
             }))
         }
         
-        if currentTab.value.markAllConversationAsReadButtonEnabled(isFeatureFlagEnabled: featureFlags.markAllConversationsAsRead.isActive) {
+        if currentTab.value.markAllConversationAsReadButtonEnabled {
             actions.append(UIAction(interface: UIActionInterface.text(R.Strings.chatMarkConversationAsReadButton),
                                     action: { [weak self] in
                                         self?.markAllConversationAsRead()
@@ -272,7 +300,9 @@ class ChatGroupedViewModel: BaseViewModel {
             title: R.Strings.chatListAllEmptyTitle,
             body: nil, buttonTitle: R.Strings.chatListSellingEmptyButton,
             action: { [weak self] in
-                self?.tabNavigator?.openSell(source: .sellButton, postCategory: nil)
+                let source: PostingSource = .chatList
+                self?.trackStartSelling(source: source)
+                self?.tabNavigator?.openSell(source: source, postCategory: nil)
             },
             secondaryButtonTitle: R.Strings.chatListBuyingEmptyButton,
             secondaryAction: { [weak self] in
@@ -290,7 +320,9 @@ class ChatGroupedViewModel: BaseViewModel {
             title: R.Strings.chatListSellingEmptyTitle,
             body: nil, buttonTitle: R.Strings.chatListSellingEmptyButton,
             action: { [weak self] in
-                self?.tabNavigator?.openSell(source: .sellButton, postCategory: nil)
+                let source: PostingSource = .chatList
+                self?.trackStartSelling(source: source)
+                self?.tabNavigator?.openSell(source: source, postCategory: nil)
             },
             secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: nil, errorCode: nil, errorDescription: nil)
         let chatListViewModel: ChatListViewModel
@@ -313,6 +345,25 @@ class ChatGroupedViewModel: BaseViewModel {
         chatListViewModel.emptyStatusViewModel = emptyVM
         return chatListViewModel
     }
+
+    private func setupReachability() {
+        reachability.reachableBlock = { [weak self] in
+            self?.rx_isReachable.value = true
+        }
+        reachability.unreachableBlock = { [weak self] in
+            self?.rx_isReachable.value = false
+        }
+        reachability.start()
+    }
+
+    // MARK: - Trackings
+
+    private func trackStartSelling(source: PostingSource) {
+        tracker.trackEvent(TrackerEvent.listingSellStart(typePage: source.typePage,
+                                                         buttonName: source.buttonName,
+                                                         sellButtonPosition: source.sellButtonPosition,
+                                                         category: nil))
+    }
 }
 
 
@@ -328,6 +379,15 @@ extension ChatGroupedViewModel {
                 return self?.blockedUsersListViewModel
             }
         }.bind(to: currentPageViewModel).disposed(by: disposeBag)
+
+
+        currentTab.asObservable()
+            .skip(2)  // we skip the initial value and the 1st access to the chat window
+            .subscribeNext { [weak self] tab in
+                let openTabEvent = TrackerEvent.chatTabOpen(tabName: tab.nameForTracking)
+                self?.tracker.trackEvent(openTabEvent)
+            }
+            .disposed(by: disposeBag)
 
         // Observe current page view model changes
         currentPageViewModel.asObservable().subscribeNext { [weak self] viewModel in
@@ -364,5 +424,34 @@ extension ChatGroupedViewModel {
                     description: R.Strings.chatNotVerifiedAlertMessage),
                 completionBlock: nil)
         }.disposed(by: disposeBag)
+
+        if featureFlags.showChatConnectionStatusBar.isActive {
+            chatRepository.chatStatus
+                .asObservable()
+                .bind(to: rx_wsChatStatus)
+                .disposed(by: disposeBag)
+
+            Observable.combineLatest(rx_wsChatStatus.asObservable(),
+                                     rx_isReachable.asObservable())
+                .asObservable()
+                .skip(1)
+                .bind { [weak self] (wsChatStatus, isReachable) in
+                    guard isReachable else {
+                        self?.rx_connectionBarStatus.value = .noNetwork
+                        return
+                    }
+                    switch wsChatStatus {
+                    case .openAuthenticated, .openNotVerified:
+                        self?.rx_connectionBarStatus.value = .wsConnected
+                    case .closed, .closing:
+                        self?.rx_connectionBarStatus.value = .wsClosed(reconnectBlock: { [weak self] in
+                            self?.refreshCurrentPage()
+                        })
+                    case .opening, .openNotAuthenticated:
+                        self?.rx_connectionBarStatus.value = .wsConnecting
+                    }
+                }
+                .disposed(by: disposeBag)
+        }
     }
 }

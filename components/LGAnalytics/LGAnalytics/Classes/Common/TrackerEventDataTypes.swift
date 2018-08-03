@@ -951,6 +951,7 @@ public enum EventParameterAccountNetwork: String {
     case facebook = "facebook"
     case google = "google"
     case email = "email"
+    case passwordless = "passwordless"
 }
 
 public enum EventParameterBlockedAccountReason: String {

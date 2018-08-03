@@ -75,12 +75,18 @@ enum EventName: String {
     case listingSellConfirmationShareCancel = "product-sell-confirmation-share-cancel"
     case listingSellConfirmationShareComplete = "product-sell-confirmation-share-complete"
     case listingSellAbandon                 = "product-sell-abandon"
+    case listingSellCategorySelect          = "product-sell-type-select"
+    case listingSellPermissionsGrant        = "product-sell-permissions-grant"
+    case listingSellMediaSource             = "product-sell-media-source"
+    case listingSellMediaCapture            = "product-sell-media-capture"
+    case listingSellMediaChange             = "product-sell-media-change"
+    case listingSellMediaPublish            = "product-sell-media-publish"
     
     case listingEditStart                   = "product-edit-start"
     case listingEditFormValidationFailed    = "product-edit-form-validation-failed"
     case listingEditSharedFB                = "product-edit-shared-fb"
     case listingEditComplete                = "product-edit-complete"
-    
+    case listingEditError                   = "product-edit-error"
     case listingDeleteStart                 = "product-delete-start"
     case listingDeleteComplete              = "product-delete-complete"
     
@@ -143,8 +149,6 @@ enum EventName: String {
     case expressChatComplete                = "express-chat-complete"
     case expressChatDontAsk                 = "express-chat-dont-ask"
 
-    case npsStart                           = "nps-start"
-    case npsComplete                        = "nps-complete"
     case surveyStart                        = "survey-start"
     case surveyCompleted                    = "survey-completed"
 
@@ -208,6 +212,14 @@ enum EventName: String {
     case screenshot                         = "os-screenshot"
 
     case sessionOneMinuteFirstWeek          = "session-one-minute-first-week"
+    
+    case notificationsEditStart             = "notifications-edit-start"
+    case pushNotificationsEditStart         = "push-notifications-edit-start"
+    case emailNotificationsEditStart        = "email-notifications-edit-start"
+
+    case chatTabOpen                        = "chat-tab-open"
+    case chatCallToActionTapped             = "chat-call-to-action-tapped"
+
 
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
@@ -254,6 +266,7 @@ enum EventParameterName: String {
     case userZipCode          = "user-zipcode"
     case searchString         = "search-keyword"
     case searchSuccess        = "search-success"
+    case searchRelatedItems   = "search-related-items"
     case searchSuggestion     = "search-suggestion"
     case searchSuggestionPosition = "search-suggestion-position"
     case trendingSearch       = "trending-search"
@@ -298,6 +311,7 @@ enum EventParameterName: String {
     case campaign             = "campaign"
     case medium               = "medium"
     case source               = "source"
+    case previousSource       = "previous-source"
     case itemPosition         = "item-position"
     case expressConversations = "express-conversations"
     case collectionTitle      = "collection-title"
@@ -305,7 +319,6 @@ enum EventParameterName: String {
     case numberOfUsers        = "number-of-users"
     case priceFrom            = "price-from"
     case priceTo              = "price-to"
-    case npsScore             = "nps-score"
     case accountNetwork       = "account-network"
     case profileType          = "profile-type"
     case notificationClickArea = "notification-click-area"
@@ -344,11 +357,20 @@ enum EventParameterName: String {
     case year                 = "product-year"
     case yearStart            = "product-year-start"
     case yearEnd              = "product-year-end"
+    case mileage              = "mileage"
+    case mileageFrom          = "mileage-from"
+    case mileageTo            = "mileage-to"
+    case bodyType             = "body-type"
+    case transmission         = "transmission"
+    case fuelType             = "fuel-type"
+    case drivetrain           = "drivetrain"
+    case seats                = "seats"
+    case seatsFrom            = "seats-from"
+    case seatsTo              = "seats-to"
     case serviceType          = "service-type"
     case serviceSubtype       = "service-subtype"
     case verticalKeyword            = "vertical-keyword"
     case verticalMatchingFields     = "vertical-matching-fields"
-    case verticalNoMatchingFields   = "vertical-no-matching-fields"
     case verticalFields             = "vertical-fields"
     case bubblePosition       = "bubble-position"
     case bubbleName           = "bubble-name"
@@ -379,7 +401,6 @@ enum EventParameterName: String {
     case chatsDeleted         = "chats-deleted"
     case chatContainsEmoji    = "contain-emoji"
     case inactiveConversations = "inactive-conversations"
-    case mostSearchedButton   = "most-searched-button"
     case photoViewerNumberOfPhotos   = "number-photos"
     case abandonStep          = "abandon-step"
     case searchAlertSource    = "alert-source"
@@ -387,6 +408,21 @@ enum EventParameterName: String {
     case isVideo              = "is-video"
     case messageGoal          = "message-goal"
     case productCounter       = "product-counter"
+    case pictureUploaded      = "picture-uploaded"
+    case loggedUser           = "logged-user"
+    case mediaType            = "media-type"
+    case originalFileSize     = "original-file-size"    
+    case cameraSide           = "camera-side"
+    case hasError             = "has-error"
+    case fileCount            = "file-count"
+    
+    case marketingNotificationsEnabled  = "marketing-notifications-enabled"
+
+    case chatTabName          = "tab-name"
+
+    case messageActionKey     = "action-key"
+    case isLetgoAssistant     = "is-letgo-assistant"
+
     
     // Machine Learning
     case mlPredictiveFlow = "predictive-flow"
@@ -443,6 +479,7 @@ enum EventParameterLoginSourceValue: String {
     case directChat = "direct-chat"
     case directQuickAnswer = "direct-quick-answer"
     case chatProUser = "chat-pro-user"
+    case community = "community"
 }
 
 enum EventParameterProductItemType: String {
@@ -460,6 +497,8 @@ enum EventParameterButtonNameType: String {
     case sellYourStuff = "sell-your-stuff"
     case startMakingCash = "start-making-cash"
     case realEstatePromo = "real-estate-promo"
+    case cancelSelectType = "cancel-select-type"
+    case tapOutside = "tap-outside"
 }
 
 enum EventParameterButtonType: String {
@@ -499,10 +538,15 @@ enum EventParameterNegotiablePrice: String {
     case no = "no"
 }
 
-enum EventParameterPictureSource: String {
+enum EventParameterMediaSource: String {
     case camera = "camera"
     case gallery = "gallery"
     case videoCamera = "video-camera"
+}
+
+enum EventParameterCameraSide: String {
+    case front = "front"
+    case back = "back"
 }
 
 enum EventParameterSortBy: String {
@@ -545,9 +589,20 @@ enum EventParameterPostingAbandonStep: String {
     case retry = "retry"
     case summaryOnboarding = "summary-onboarding"
     case welcomeOnboarding = "welcome-onboarding"
+    case mostSearchItems = "most-search-items"
+    case productSellTypeSelect = "product-sell-type-select"
+
+    case capturePhoto = "capture-photo"
+    case imagePreview = "image-preview"
+    case uploadingImage = "uploading-image"
+    case uploadingVideo = "uploading-video"
+    case addingDetails = "adding-details"
+    case errorUpload = "error-upload"
+    case none = "N/A"
     
     static var allValues: [EventParameterPostingAbandonStep] {
-        return [.cameraPermissions, .retry, .summaryOnboarding, .welcomeOnboarding]
+        return [.cameraPermissions, .retry, .summaryOnboarding, .welcomeOnboarding, .mostSearchItems,
+                .productSellTypeSelect]
     }
 }
 
@@ -847,6 +902,13 @@ enum EventParameterChatError {
     }
 }
 
+enum EventParameterChatTabName: String {
+    case all
+    case selling
+    case buying
+    case blocked
+}
+
 enum EventParameterEditedFields: String {
     case picture = "picture"
     case title = "title"
@@ -859,6 +921,12 @@ enum EventParameterEditedFields: String {
     case make = "make"
     case model = "model"
     case year = "year"
+    case mileage              = "mileage"
+    case bodyType             = "body-type"
+    case transmission         = "transmission"
+    case fuelType             = "fuel-type"
+    case drivetrain           = "drivetrain"
+    case seats                = "seats"
 }
 
 enum EventParameterTypePage: String {
@@ -870,6 +938,7 @@ enum EventParameterTypePage: String {
     case chatList = "chat-list"
     case sell = "product-sell"
     case edit = "product-edit"
+    case sellEdit = "product-sell-edit"
     case listingDetail = "product-detail"
     case listingDetailMoreInfo = "product-detail-more-info"
     case settings = "settings"
@@ -889,7 +958,6 @@ enum EventParameterTypePage: String {
     case inAppNotification = "in-app-notification"
     case filter = "filter"
     case realEstatePromo = "real-estate-promo"
-    case mostSearched = "most-searched"
     case filterBubble = "filter-bubble"
     case postingIconInfo = "posting-icon-information"
     case postingLearnMore = "posting-learn-more-button"
@@ -898,12 +966,14 @@ enum EventParameterTypePage: String {
     case smsVerification = "sms-verification"
     case nextItem = "next-item"
     case feed = "feed"
+    case notificationCenter = "notification-center"
 }
 
 enum EventParameterPermissionType: String {
     case push = "push-notification"
     case location = "gps"
     case camera = "camera"
+    case gallery = "gallery"
 }
 
 enum EventParameterPermissionAlertType: String {
@@ -1168,6 +1238,7 @@ enum EventParameterBumpUpType: String {
     case free = "free"
     case paid = "paid"
     case retry = "retry"
+    case loading = "loading"
 
     init(bumpType: BumpUpType) {
         switch bumpType {
@@ -1177,6 +1248,8 @@ enum EventParameterBumpUpType: String {
             self = .paid
         case .restore:
             self = .retry
+        case .loading:
+            self = .loading
         }
     }
 }
@@ -1370,20 +1443,6 @@ enum EventParameterOptionSummary: String {
     }
 }
 
-enum EventParameterMostSearched: String {
-    case notApply                   = "N/A"
-    case tabBarCamera               = "tabbar-camera"
-    case trendingExpandableButton   = "trending-salchicha"
-    case postingTags                = "posting-tags"
-    case feedBubble                 = "feed-bubble"
-    case feedCard                   = "feed-card"
-    case userProfile                = "user-profile"
-    
-    static var allValues: [EventParameterMostSearched] {
-        return [.notApply, .tabBarCamera, .trendingExpandableButton, .postingTags, .feedBubble, .feedCard, .userProfile]
-    }
-}
-
 enum EventParameterTutorialType: String {
     case realEstate = "real-estate"
 }
@@ -1404,6 +1463,7 @@ enum EventParameterUserBadge: String {
 
 struct EventParameters {
     var params: [EventParameterName : Any] = [:]
+    var dynamicParams: [String : Any] = [:]
     
     // transforms the params to [String: Any]
     var stringKeyParams: [String: Any] {
@@ -1411,6 +1471,9 @@ struct EventParameters {
             var res = [String: Any]()
             for (paramName, value) in params {
                 res[paramName.rawValue] = value
+            }
+            for (paramName, value) in dynamicParams {
+                res[paramName] = value
             }
             return res
         }
@@ -1451,6 +1514,15 @@ struct EventParameters {
         }
         set(newValue) {
             params[paramName] = newValue
+        }
+    }
+    
+    internal subscript(dynamicParamName: String) -> Any? {
+        get {
+            return dynamicParams[dynamicParamName]
+        }
+        set(newValue) {
+            dynamicParams[dynamicParamName] = newValue
         }
     }
 }

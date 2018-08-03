@@ -2,7 +2,10 @@ import RxSwift
 import LGCoreKit
 import LGComponents
 
-protocol PostingDetailsViewModelDelegate: BaseViewModelDelegate {}
+protocol PostingDetailsViewModelDelegate: BaseViewModelDelegate {
+    func detailViewScrolled(contentOffsetY: CGFloat)
+    func detailViewScrollToTop()
+}
 
 class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDelegate, PostingAddDetailSummaryTableViewDelegate {
     
@@ -82,22 +85,22 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     }
     
     private var isPostingServices: Bool {
-        return featureFlags.showServicesFeatures.isActive && postListingState.category?.isService ?? false
+        return postListingState.category?.isService ?? false
     }
     
     func makeContentView(viewControllerDelegate: LGSearchMapViewControllerModelDelegate) -> PostingViewConfigurable? {
         var values: [String]
         switch step {
         case .bathrooms:
-            values = NumberOfBathrooms.allValues.flatMap { $0.localizedString }
+            values = NumberOfBathrooms.allValues.compactMap { $0.localizedString }
         case .bedrooms:
-            values = NumberOfBedrooms.allValues.flatMap { $0.localizedString }
+            values = NumberOfBedrooms.allValues.compactMap { $0.localizedString }
         case .rooms:
-            values = NumberOfRooms.allValues.flatMap { $0.localizedString }
+            values = NumberOfRooms.allValues.compactMap { $0.localizedString }
         case .offerType:
-            values = RealEstateOfferType.allValues.flatMap { $0.localizedString }
+            values = RealEstateOfferType.allValues.compactMap { $0.localizedString }
         case .propertyType:
-            values = RealEstatePropertyType.allValues(postingFlowType: featureFlags.postingFlowType).flatMap { $0.localizedString }
+            values = RealEstatePropertyType.allValues(postingFlowType: featureFlags.postingFlowType).compactMap { $0.localizedString }
         case .sizeSquareMeters:
             let sizeView = PostingAddDetailSizeView(frame: CGRect.zero)
             sizeView.sizeListingObservable.bind(to: sizeListing).disposed(by: disposeBag)
@@ -124,6 +127,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
                                                              theme: .light,
                                                              subtypes: serviceSubtypes)
             postServicesView.delegate = self
+            postServicesView.scrollDelegate = self
             return postServicesView
         }
         let view = PostingAttributePickerTableView(values: values, selectedIndexes: [], delegate: self)
@@ -146,6 +150,8 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         return sizeListing.asObservable()
     }
     
+    var nextButtonEnabled: Variable<Bool> = Variable(true)
+    
     private let tracker: Tracker
     private let currencyHelper: CurrencyHelper
     private let locationManager: LocationManager
@@ -157,7 +163,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     
     private let step: PostingDetailStep
     private var postListingState: PostListingState
-    private var uploadedImageSource: EventParameterPictureSource?
+    private var uploadedImageSource: EventParameterMediaSource?
     private var uploadedVideoLength: TimeInterval?
     private let postingSource: PostingSource
     private let postListingBasicInfo: PostListingBasicDetailViewModel
@@ -173,11 +179,13 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     weak var navigator: PostListingNavigator?
     private let disposeBag = DisposeBag()
     
+    
+    
     // MARK: - LifeCycle
     
     convenience init(step: PostingDetailStep,
                      postListingState: PostListingState,
-                     uploadedImageSource: EventParameterPictureSource?,
+                     uploadedImageSource: EventParameterMediaSource?,
                      uploadedVideoLength: TimeInterval?,
                      postingSource: PostingSource,
                      postListingBasicInfo: PostListingBasicDetailViewModel,
@@ -202,7 +210,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     
     init(step: PostingDetailStep,
          postListingState: PostListingState,
-         uploadedImageSource: EventParameterPictureSource?,
+         uploadedImageSource: EventParameterMediaSource?,
          uploadedVideoLength: TimeInterval?,
          postingSource: PostingSource,
          postListingBasicInfo: PostListingBasicDetailViewModel,
@@ -233,6 +241,9 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         self.imageMultiplierRepository = imageMultiplierRepository
         self.servicesInfoRepository = servicesInfoRepository
         self.listingRepository = listingRepository
+        
+        super.init()
+        updateNextbuttonEnabled()
     }
     
     func closeButtonPressed() {
@@ -261,9 +272,6 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     }
     
     private func closeAndPost() {
-        if featureFlags.removeCategoryWhenClosingPosting.isActive {
-            postListingState = postListingState.removeRealEstateCategory()
-        }
         if postListingState.pendingToUploadMedia {
             openPostAbandonAlertNotLoggedIn()
         } else {
@@ -276,7 +284,8 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
             guard let imageUploadedId = lastImagesUploaded.first?.objectId,
                 isPostingServices else {
                     navigator?.closePostProductAndPostInBackground(params: listingParams,
-                                                                   trackingInfo: postListingTrackingInfo)
+                                                                   trackingInfo: postListingTrackingInfo,
+                                                                   shareAfterPost: postListingState.shareAfterPost)
                     return
             }
                 
@@ -303,6 +312,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
                                             } else if let error = results.error {
                                                 self?.navigator?.showConfirmation(listingResult: ListingResult(error: error),
                                                                                   trackingInfo: trackingInfo,
+                                                                                  shareAfterPost: self?.postListingState.shareAfterPost,
                                                                                   modalStyle: true)
                                             }
                                         }
@@ -352,7 +362,6 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
                                        videoLength: uploadedVideoLength,
                                        price: String.fromPriceDouble(postListingState.price?.value ?? 0),
                                        typePage: postingSource.typePage,
-                                       mostSearchedButton: postingSource.mostSearchedButton,
                                        machineLearningInfo: MachineLearningTrackingInfo.defaultValues())
     }
     
@@ -375,7 +384,6 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
                                                    videoLength: uploadedVideoLength,
                                                    price: String.fromPriceDouble(postListingState.price?.value ?? 0),
                                                    typePage: postingSource.typePage,
-                                                   mostSearchedButton: postingSource.mostSearchedButton,
                                                    machineLearningInfo: MachineLearningTrackingInfo.defaultValues())
         if sessionManager.loggedIn {
             openListingPosting(trackingInfo: trackingInfo)
@@ -424,7 +432,8 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
             navigator?.closePostProductAndPostLater(params: listingParams,
                                                     images: images,
                                                     video: video,
-                                                    trackingInfo: trackingInfo)
+                                                    trackingInfo: trackingInfo,
+                                                    shareAfterPost: postListingState.shareAfterPost)
         }
     }
     
@@ -567,7 +576,8 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     
     // MARK: - PostingAddDetailSummaryTableViewDelegate
     
-    func postingAddDetailSummary(_ postingAddDetailSummary: PostingAddDetailSummaryTableView, didSelectIndex: PostingSummaryOption) {
+    func postingAddDetailSummary(_ postingAddDetailSummary: PostingAddDetailSummaryTableView,
+                                 didSelectIndex: PostingSummaryOption) {
         
         let event = TrackerEvent.openOptionOnSummary(fieldOpen: EventParameterOptionSummary(optionSelected: didSelectIndex),
                                                      postingType: EventParameterPostingType(category: postListingState.category ?? .otherItems(listingCategory: nil)))
@@ -623,7 +633,9 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         return postListingState.place?.postalAddress?.address ?? myUserRepository.myUser?.location?.postalAddress?.address ?? locationManager.currentLocation?.postalAddress?.address
     }
     
-    private func multipostParams(subtypes: [ServiceSubtype], newSubtypes: [String], imagesIds: [String]) -> [ListingCreationParams] {
+    private func multipostParams(subtypes: [ServiceSubtype],
+                                 newSubtypes: [String],
+                                 imagesIds: [String]) -> [ListingCreationParams] {
         guard let location = locationManager.currentLocation?.location else { return [] }
         
         let postalAddress = locationManager.currentLocation?.postalAddress ?? PostalAddress.emptyAddress()
@@ -635,7 +647,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
                                                                  currency: currency,
                                                                  postListingState: postListingState)
         
-        let multipostNewParams: [ListingCreationParams] = newSubtypes.enumerated().flatMap { (index, newSubtype) in
+        let multipostNewParams: [ListingCreationParams] = newSubtypes.enumerated().compactMap { (index, newSubtype) in
             guard let imageFileId = imagesIds[safeAt: index+multipostSubtypeParams.count] else { return nil }
             let serviceAttribute = ServiceAttributes()
             let imageFile = LGFile(id: imageFileId, url: nil)
@@ -652,41 +664,70 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
 }
 
 extension PostingDetailsViewModel: PostingMultiSelectionViewDelegate {
+    
     func add(service subtype: ServiceSubtype) {
         guard !multipostingSubtypes.contains(where: { $0.id == subtype.id }),
             selectedServicesIsLessThanMax else { return }
         multipostingSubtypes.append(subtype)
+        updateNextbuttonEnabled()
     }
     
     func remove(service subtype: ServiceSubtype) {
         guard let index = multipostingSubtypes.index(where: { $0.name == subtype.name }) else { return }
         multipostingSubtypes.remove(at: index)
+        updateNextbuttonEnabled()
     }
     
     func addNew(service name: String) {
         guard !multipostingNewSubtypes.contains(where: { $0 == name }),
             selectedServicesIsLessThanMax else { return }
         multipostingNewSubtypes.append(name)
+        updateNextbuttonEnabled()
     }
     
     func removeNew(service name: String) {
         guard let index = multipostingNewSubtypes.index(where: { $0 == name }) else { return }
         multipostingNewSubtypes.remove(at: index)
+        updateNextbuttonEnabled()
     }
     
     func showAlertMaxSelection() {
         let action = UIAction(interface: .button(R.Strings.commonOk, .primary(fontSize: .medium)),
                               action: { },
-                              accessibilityId: .postingDetailMaxServices)
+                              accessibility: AccessibilityId.postingDetailMaxServices)
         delegate?.vmShowAlertWithTitle(R.Strings.postDetailsServicesCreateMax,
                                        text: "",
                                        alertType: .plainAlert,
                                        actions: [action])
     }
+
+    //  MARK: - Private
     
     private var selectedServicesIsLessThanMax: Bool {
         return (multipostingSubtypes.count + multipostingNewSubtypes.count) <= SharedConstants.maxNumberMultiPosting
     }
     
+    private func updateNextbuttonEnabled() {
+        nextButtonEnabled.value = isNextButtonEnabled()
+    }
+    
+    private func isNextButtonEnabled() -> Bool {
+        guard step == PostingDetailStep.servicesSubtypes else {
+            return true
+        }
+        return multipostingSubtypes.count > 0 || multipostingNewSubtypes.count > 0
+    }
 }
 
+extension PostingDetailsViewModel: PostingMultiSelectionScrollDelegate {
+    
+    func scroll(_ scrollView: UIScrollView) {
+        if scrollView.isDragging || scrollView.isDecelerating {
+            delegate?.detailViewScrolled(contentOffsetY: scrollView.contentOffset.y)
+        }
+    }
+    
+    func scrollToTop() {
+        delegate?.detailViewScrollToTop()
+    }
+}

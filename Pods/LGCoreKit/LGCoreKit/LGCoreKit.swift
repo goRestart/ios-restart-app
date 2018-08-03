@@ -35,10 +35,7 @@ public class LGCoreKit {
     }
 
     public static func start() {
-        InternalCore.categoryRepository.refreshTaxonomiesCache()
         InternalCore.stickersRepository.show(nil) // Sync stickers to UserDefaults
-        InternalCore.carsInfoRepository.refreshCarsInfoFile()
-        InternalCore.servicesInfoRepository.refreshServicesFile()
     }
 
     public static func applicationDidEnterBackground() {

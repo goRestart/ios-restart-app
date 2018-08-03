@@ -12,13 +12,13 @@ final class ChatConversationsListView: UIView {
     
     struct Time {
         static let animationDuration: TimeInterval = 0.1
+        static let statusViewAnimationDuration: TimeInterval = 0.5
     }
     
     struct Layout {
         static let rowHeight: CGFloat = 80
     }
     
-    private let statusView = ChatStatusView()
     private let tableView = UITableView()
     private let emptyView = LGEmptyView()
     private let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
@@ -28,14 +28,28 @@ final class ChatConversationsListView: UIView {
     var rx_tableView: Reactive<UITableView> {
         return tableView.rx
     }
-    var indexPathsForVisibleRows: [IndexPath]? {
-        return tableView.indexPathsForVisibleRows
+    
+    let connectionBarStatus = Variable<ChatConnectionBarStatus>(.wsConnected)
+
+    private let connectionStatusView = ChatConnectionStatusView()
+    private var statusViewHeightConstraint: NSLayoutConstraint = NSLayoutConstraint()
+    private var statusViewHeight: CGFloat {
+        return featureFlags.showChatConnectionStatusBar.isActive ? ChatConnectionStatusView.standardHeight : 0
     }
     
+    private let featureFlags: FeatureFlaggeable
+
+    private let bag = DisposeBag()
+
     
     // MARK: Lifecycle
-    
-    init() {
+
+    convenience init() {
+        self.init(featureFlags: FeatureFlags.sharedInstance)
+    }
+
+    init(featureFlags: FeatureFlaggeable) {
+        self.featureFlags = featureFlags
         super.init(frame: CGRect.zero)
         setupUI()
         setupConstraints()
@@ -51,16 +65,31 @@ final class ChatConversationsListView: UIView {
         backgroundColor = UIColor.listBackgroundColor
         emptyView.alpha = 0
         setupTableView()
+        setupStatusBarRx()
         addRefreshControl()
+        removeLineSeparatorOnEmptyCells()
     }
     
     private func setupTableView() {
         tableView.register(ChatUserConversationCell.self, forCellReuseIdentifier: ChatUserConversationCell.reusableID)
+        tableView.register(type: ChatAssistantConversationCell.self)
+
         tableView.alpha = 0
         tableView.rowHeight = Layout.rowHeight
         tableView.separatorStyle = .singleLine
         tableView.layoutMargins = .zero
         tableView.separatorInset = .zero
+    }
+
+    private func setupStatusBarRx() {
+        connectionBarStatus.asDriver().drive(onNext: { [weak self] status in
+            guard let _ = status.title else {
+                self?.animateStatusBar(visible: false)
+                return
+            }
+            self?.connectionStatusView.status = status
+            self?.animateStatusBar(visible: true)
+        }).disposed(by: bag)
     }
     
     private func setupConstraints() {
@@ -78,9 +107,14 @@ final class ChatConversationsListView: UIView {
             trailingAnchor.constraint(equalTo: emptyView.trailingAnchor)
             ])
         
-        addSubviewForAutoLayout(tableView)
+        addSubviewsForAutoLayout([connectionStatusView, tableView])
+        statusViewHeightConstraint = connectionStatusView.heightAnchor.constraint(equalToConstant: statusViewHeight)
         NSLayoutConstraint.activate([
-            topAnchor.constraint(equalTo: tableView.topAnchor),
+            statusViewHeightConstraint,
+            topAnchor.constraint(equalTo: connectionStatusView.topAnchor),
+            leadingAnchor.constraint(equalTo: connectionStatusView.leadingAnchor),
+            trailingAnchor.constraint(equalTo: connectionStatusView.trailingAnchor),
+            tableView.topAnchor.constraint(equalTo: connectionStatusView.bottomAnchor),
             bottomAnchor.constraint(equalTo: tableView.bottomAnchor),
             leadingAnchor.constraint(equalTo: tableView.leadingAnchor),
             trailingAnchor.constraint(equalTo: tableView.trailingAnchor)
@@ -94,6 +128,17 @@ final class ChatConversationsListView: UIView {
             tableView.addSubview(refreshControl)
         }
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+    }
+    
+    private func removeLineSeparatorOnEmptyCells() {
+        tableView.tableFooterView = UIView()
+    }
+
+    private func animateStatusBar(visible: Bool) {
+        statusViewHeightConstraint.constant = visible ? ChatConnectionStatusView.standardHeight : 0
+        UIView.animate(withDuration: Time.statusViewAnimationDuration) {
+            self.layoutIfNeeded()
+        }
     }
 
     // MARK: Actions
@@ -131,5 +176,14 @@ final class ChatConversationsListView: UIView {
         emptyView.animateTo(alpha: 0, duration: Time.animationDuration)
         tableView.animateTo(alpha: 0, duration: Time.animationDuration)
         activityIndicatorView.startAnimating()
+    }
+
+    func scrollToTop() {
+        guard tableView.numberOfSections > 0 &&
+            tableView.numberOfRows(inSection: 0) > 0
+            else { return }
+        tableView.scrollToRow(at: IndexPath(row: 0, section: 0),
+                              at: .top,
+                              animated: true)
     }
 }

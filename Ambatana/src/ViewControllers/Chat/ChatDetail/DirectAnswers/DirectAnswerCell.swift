@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import LGComponents
 
 class DirectAnswerCell: UICollectionViewCell, ReusableCell {
 
@@ -66,12 +67,12 @@ class DirectAnswerCell: UICollectionViewCell, ReusableCell {
 
     // MARK: - Public methods
 
-    func setupWithDirectAnswer(_ quickAnswer: QuickAnswer) {
+    func setupWithDirectAnswer(_ quickAnswer: QuickAnswer, answersEnabled: Bool) {
         cellText.text = quickAnswer.textToShow
-
-        contentView.layer.backgroundColor = quickAnswer.bgColor.cgColor
         cellText.textColor = quickAnswer.textColor
         cellIcon.tintColor = quickAnswer.iconTintColor
+        isUserInteractionEnabled = answersEnabled
+        contentView.layer.backgroundColor = answersEnabled ? quickAnswer.bgColor.cgColor : quickAnswer.disabledBgColor.cgColor
 
         if let icon = quickAnswer.icon {
             cellIcon.isHidden = false
@@ -101,7 +102,6 @@ class DirectAnswerCell: UICollectionViewCell, ReusableCell {
     private func refreshBckgState() {
         guard let answer = quickAnswer, !answer.isMeetingAssistant else { return }
         let highlighedState = self.isHighlighted || self.isSelected
-        contentView.layer.backgroundColor = highlighedState ? UIColor.primaryColorHighlighted.cgColor :
-            UIColor.primaryColor.cgColor
+        contentView.layer.backgroundColor = highlighedState ? answer.disabledBgColor.cgColor : answer.bgColor.cgColor
     }
 }

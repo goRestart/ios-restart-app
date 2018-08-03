@@ -1,17 +1,9 @@
-//
-//  PostIncentiviserItemSpec.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 02/01/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
 @testable import LetGoGodMode
 import Quick
 import Nimble
 
-class PostIncentiviserItemSpec: QuickSpec {
+final class PostIncentiviserItemSpec: QuickSpec {
     override func spec() {
         var sut: [PostIncentiviserItem]!
         var date: Date!

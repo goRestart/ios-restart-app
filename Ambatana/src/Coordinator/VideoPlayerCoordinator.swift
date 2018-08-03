@@ -1,13 +1,6 @@
-//
-//  VideoPlayerCoordinator.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 24/04/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
+import LGComponents
 
 final class VideoPlayerCoordinator: Coordinator, PhotoViewerNavigator {
     var child: Coordinator?

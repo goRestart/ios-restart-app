@@ -1,4 +1,5 @@
 import RxSwift
+import LGComponents
 
 final class SellNavigationViewModel : BaseViewModel {
     let numberOfSteps = Variable<CGFloat>(0)
@@ -6,10 +7,10 @@ final class SellNavigationViewModel : BaseViewModel {
     let categorySelected = Variable<PostCategory?>(nil)
     var hideProgressHeader: Observable<Bool> {
         return currentStep.asObservable().map { [weak self] currentStep -> Bool in
-            guard let isActive = self?.featureFlags.summaryAsFirstStep.isActive, let totalSteps = self?.totalSteps else {
+            guard let totalSteps = self?.totalSteps else {
                 return false
             }
-            return isActive || currentStep == 0 || currentStep > totalSteps
+            return currentStep == 0 || currentStep > totalSteps
         }
     }
     private let disposeBag = DisposeBag()

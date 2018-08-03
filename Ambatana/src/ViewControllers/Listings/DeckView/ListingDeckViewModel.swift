@@ -1,15 +1,8 @@
-//
-//  ListingDeckViewModel.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 25/10/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
 import RxSwift
 import GoogleMobileAds
+import LGComponents
 
 struct Pagination {
     let first: Int
@@ -109,7 +102,7 @@ final class ListingDeckViewModel: BaseViewModel {
                      listing: Listing,
                      listingListRequester: ListingListRequester,
                      source: EventParameterListingVisitSource,
-                     detailNavigator: ListingDetailNavigator,
+                     detailNavigator: ListingDetailNavigator?,
                      actionOnFirstAppear: DeckActionOnFirstAppear,
                      trackingIndex: Int?) {
         let pagination = Pagination.makePagination(first: 0, next: 1, isLast: false)
@@ -137,7 +130,7 @@ final class ListingDeckViewModel: BaseViewModel {
     convenience init(listModels: [ListingCellModel],
                      initialListing: Listing?,
                      listingListRequester: ListingListRequester,
-                     detailNavigator: ListingDetailNavigator,
+                     detailNavigator: ListingDetailNavigator?,
                      source: EventParameterListingVisitSource,
                      imageDownloader: ImageDownloaderType,
                      listingViewModelMaker: ListingViewModelMaker,
@@ -170,7 +163,7 @@ final class ListingDeckViewModel: BaseViewModel {
     init(listModels: [ListingCellModel],
          initialListing: Listing?,
          listingListRequester: ListingListRequester,
-         detailNavigator: ListingDetailNavigator,
+         detailNavigator: ListingDetailNavigator?,
          source: EventParameterListingVisitSource,
          imageDownloader: ImageDownloaderType,
          listingViewModelMaker: ListingViewModelMaker,
@@ -207,7 +200,7 @@ final class ListingDeckViewModel: BaseViewModel {
             self.objects.appendContentsOf(filteredModels)
             self.pagination.isLast = listingListRequester.isLastPage(filteredModels.count)
         } else {
-            self.objects.appendContentsOf([initialListing].flatMap{ $0 }.map { .listingCell(listing: $0) })
+            self.objects.appendContentsOf([initialListing].compactMap{ $0 }.map { .listingCell(listing: $0) })
             self.pagination.isLast = false
         }
         if let listing = initialListing {
@@ -248,7 +241,7 @@ final class ListingDeckViewModel: BaseViewModel {
             prefetchNeighborsImages(index, movement: movement)
 
         // Tracking
-            let feedPosition = movement.feedPosition(for: trackingIndex)
+            let feedPosition = trackingFeedPosition
             if source == .relatedListings {
                 currentListingViewModel?.trackVisit(movement.visitUserAction,
                                                     source: movement.visitSource(source),
@@ -347,9 +340,11 @@ final class ListingDeckViewModel: BaseViewModel {
 
     // MARK: Tracking
 
-    func bumpUpBannerShown(type: BumpUpType) {
-        currentListingViewModel?.trackBumpUpBannerShown(type: type,
-                                                        storeProductId: currentListingViewModel?.storeProductId)
+    func bumpUpBannerShown(bumpInfo: BumpUpInfo) {
+        if bumpInfo.shouldTrackBumpBannerShown {
+            currentListingViewModel?.trackBumpUpBannerShown(type: bumpInfo.type,
+                                                            storeProductId: currentListingViewModel?.storeProductId)
+        }
     }
     
     func interstitialAdTapped(typePage: EventParameterTypePage) {
@@ -369,18 +364,6 @@ final class ListingDeckViewModel: BaseViewModel {
         let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
         let feedPosition: EventParameterFeedPosition = .position(index: currentIndex)
         let adShown = EventParameterBoolean(bool: true)
-        currentListingViewModel?.trackInterstitialAdShown(adType: adType,
-                                                          isMine: isMine,
-                                                          feedPosition: feedPosition,
-                                                          adShown: adShown,
-                                                          typePage: typePage)
-    }
-    
-    func interstitialDidFail(typePage: EventParameterTypePage) {
-        let adType = AdRequestType.interstitial.trackingParamValue
-        let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
-        let feedPosition: EventParameterFeedPosition = .position(index: currentIndex)
-        let adShown = EventParameterBoolean(bool: false)
         currentListingViewModel?.trackInterstitialAdShown(adType: adType,
                                                           isMine: isMine,
                                                           feedPosition: feedPosition,
@@ -419,10 +402,6 @@ final class ListingDeckViewModel: BaseViewModel {
     func didTapStatusView() {
         navigator?.openFeaturedInfo()
         currentListingViewModel?.trackOpenFeaturedInfo()
-    }
-
-    func didTapReputationTooltip() {
-        navigator?.openUserVerificationView()
     }
 
     func close() {
@@ -512,11 +491,8 @@ extension ListingDeckViewModel: ListingViewModelDelegate {
     }
 
     var trackingFeedPosition: EventParameterFeedPosition {
-        if let trackingIndex = trackingIndex, currentIndex == startIndex {
-            return .position(index: trackingIndex)
-        } else {
-            return .none
-        }
+        guard let trackingIndex = trackingIndex else { return .none }
+        return .position(index: trackingIndex)
     }
 
     func vmResetBumpUpBannerCountdown() {
@@ -560,6 +536,9 @@ extension ListingDeckViewModel: ListingViewModelDelegate {
     }
     func vmShowActionSheet(_ cancelLabel: String, actions: [UIAction]) {
         delegate?.vmShowActionSheet(cancelLabel, actions: actions)
+    }
+    func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction], withTitle title: String?) {
+        delegate?.vmShowActionSheet(cancelAction, actions: actions, withTitle: title)
     }
     func vmOpenInAppWebViewWith(url: URL) {
         delegate?.vmOpenInAppWebViewWith(url:url)

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import LGComponents
 
 struct WaterFallLayoutSettings {
 
@@ -26,6 +27,6 @@ struct WaterFallLayoutSettings {
     static let minimumLineSpacing: CGFloat = Metrics.shortMargin
     static let sectionInset: UIEdgeInsets = UIEdgeInsets(top: Metrics.shortMargin,
                                                          left: Metrics.shortMargin,
-                                                         bottom: Metrics.shortMargin,
+                                                         bottom: 0,
                                                          right: Metrics.shortMargin)
 }

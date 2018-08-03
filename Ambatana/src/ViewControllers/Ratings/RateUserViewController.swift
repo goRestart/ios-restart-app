@@ -1,4 +1,3 @@
-import UIKit
 import RxSwift
 import RxCocoa
 import LGComponents
@@ -28,7 +27,7 @@ final class RateUserViewController: KeyboardViewController {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var footerLabel: UILabel!
 
-    fileprivate let descrPlaceholderColor = UIColor.gray
+    fileprivate let descrPlaceholderColor = UIColor.grayRegular
     fileprivate static let sendButtonMargin: CGFloat = 15
     fileprivate let showSkipButton: Bool
 

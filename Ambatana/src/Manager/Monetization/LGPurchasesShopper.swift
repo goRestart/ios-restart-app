@@ -282,7 +282,8 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
                         appstoreProduct: PurchaseableProduct,
                         letgoItemId: String,
                         isBoost: Bool,
-                        maxCountdown: TimeInterval) {
+                        maxCountdown: TimeInterval,
+                        typePage: EventParameterTypePage?) {
         guard canMakePayments else { return }
         guard let appstoreProducts = letgoProductsDict[listingId],
             let appstoreChosenProduct = appstoreProduct as? SKProduct,
@@ -290,6 +291,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
             else { return }
 
         purchasesShopperState = .purchasing
+        currentBumpTypePage = typePage
 
         delegate?.pricedBumpDidStart(typePage: currentBumpTypePage, isBoost: isBoost)
 
@@ -455,6 +457,8 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         case .hidden, .free:
             // unlikely to happen
             retryCount = 1
+        case .loading:
+            retryCount = 0
         }
 
         recursiveRequestBumpWithPaymentInfo(listingId: listingId, transaction: transaction, type: type, currentBump: bump,
@@ -568,7 +572,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
     private func cleanCorruptedData() {
         // Payments queue cleaning
         let savedTransactions = paymentQueue.transactions
-        let savedTransactionIds = savedTransactions.flatMap { $0.transactionIdentifier }
+        let savedTransactionIds = savedTransactions.compactMap { $0.transactionIdentifier }
         let savedTransactionsDict = keyValueStorage.userPendingTransactionsListingIds.filter(keys: savedTransactionIds)
 
         for transaction in savedTransactions {
@@ -583,7 +587,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
 
         // with clean payments queue, we do "keyValueStorage.userPendingTransactionsListingIds" cleaning
         let cleanTransactions = paymentQueue.transactions
-        let cleanTransactionIds = cleanTransactions.flatMap { $0.transactionIdentifier }
+        let cleanTransactionIds = cleanTransactions.compactMap { $0.transactionIdentifier }
         let cleanTransactionsDict = savedTransactionsDict.filter(keys: cleanTransactionIds)
         keyValueStorage.userPendingTransactionsListingIds = cleanTransactionsDict
     }
@@ -622,7 +626,7 @@ extension LGPurchasesShopper: PurchaseableProductsRequestDelegate {
             report(AppReport.monetization(error: .invalidAppstoreProductIdentifiers), message: message)
         }
 
-        let appstoreProducts = response.purchaseableProducts.flatMap { $0 as? SKProduct }
+        let appstoreProducts = response.purchaseableProducts.compactMap { $0 as? SKProduct }
 
         // save valid products into appstore products cache
         appstoreProducts.forEach { product in

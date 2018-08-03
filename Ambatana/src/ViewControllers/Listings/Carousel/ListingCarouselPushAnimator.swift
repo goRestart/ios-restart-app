@@ -1,14 +1,5 @@
-//
-//  ListingCarouselPushAnimator.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 20/4/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
-
-import Foundation
 import UIKit
+import LGComponents
 
 protocol PushAnimator: UIViewControllerAnimatedTransitioning {
     var pushing: Bool { get set }

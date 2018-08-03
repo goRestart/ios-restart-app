@@ -1,10 +1,4 @@
-//
-//  ChatAvatarView.swift
-//  LetGo
-//
-//  Created by Dídac on 17/05/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
+import LGComponents
 
 enum ChatBadgeStyle {
     case topRight(height: CGFloat?)
@@ -127,6 +121,18 @@ final class ChatAvatarView: UIView {
 
     func setBadgeImage(badge: UIImage?) {
         badgeView.image = badge
+    }
+
+    func setCornerRadius(cornerRadius: ChatAvatarCornerRadius) {
+        mainCornerRadius = cornerRadius
+    }
+
+    func setBadgeStyle(badgeStyle: ChatBadgeStyle) {
+        self.badgeStyle = badgeStyle
+    }
+
+    func setShareBounds(shareBounds: Bool) {
+        self.shareBounds = shareBounds
     }
 
     func lg_setImageWithURL(_ url: URL, placeholderImage: UIImage? = nil, completion: ImageDownloadCompletion? = nil) {

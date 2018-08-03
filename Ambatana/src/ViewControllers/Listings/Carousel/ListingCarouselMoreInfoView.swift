@@ -19,99 +19,370 @@ protocol ProductCarouselMoreInfoDelegate: class {
     func rootViewControllerForDFPBanner() -> UIViewController
 }
 
-extension MKMapView {
-    // Create a unique isntance of MKMapView due to: http://stackoverflow.com/questions/36417350/mkmapview-using-a-lot-of-memory-each-time-i-load-its-view
-    @nonobjc static let sharedInstance = MKMapView()
-}
+final class ListingCarouselMoreInfoView: UIView {
 
-class ListingCarouselMoreInfoView: UIView {
-
-    private static let relatedItemsHeight: CGFloat = 80
-    private static let shareViewToMapMargin: CGFloat = 30
-    private static let navBarDefaultHeight: CGFloat = 64
-    private static let shareViewToBannerMargin = Metrics.margin
-    private static let dragViewVerticalExtraMargin: CGFloat = 2 // Center purposes to the custom navigation bar in carousel view
-    private static let mapViewBottomMargin: CGFloat = 8
     private static let mapPinAnnotationReuseId = "mapPin"
 
-    @IBOutlet weak var titleTextLabel: UILabel!
-    @IBOutlet weak var priceLabel: UILabel!
-    @IBOutlet weak var autoTitleLabel: UILabel!
-    @IBOutlet weak var transTitleLabel: UILabel!
-    @IBOutlet weak var addressLabel: UILabel!
-    @IBOutlet weak var distanceLabel: UILabel!
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var scrollViewContent: UIView!
-    @IBOutlet weak var scrollViewBottomConstraint: NSLayoutConstraint!
-    @IBOutlet weak var visualEffectView: UIVisualEffectView!
-    @IBOutlet weak var visualEffectViewBottom: NSLayoutConstraint!
-    @IBOutlet weak var descriptionLabel: LGCollapsibleLabel!
-    @IBOutlet weak var tagCollectionView: TagCollectionView!
-    @IBOutlet weak var statsContainerView: UIView!
-    @IBOutlet weak var statsContainerViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var statsContainerViewTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var dragView: UIView!
-    @IBOutlet weak var dragButton: UIView!
-    @IBOutlet weak var dragViewTitle: UILabel!
-    @IBOutlet weak var dragViewImage: UIImageView!
-
-    private let mapView: MKMapView = MKMapView.sharedInstance
-    private var vmRegion: MKCoordinateRegion? = nil
-    @IBOutlet weak var mapViewContainer: UIView!
-    private lazy var mapViewContainerExpandable = UIView()
-    private var mapViewTapGesture: UITapGestureRecognizer? = nil
-
-    @IBOutlet weak var bannerContainerView: UIView!
-    @IBOutlet weak var bannerContainerViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var bannerContainerViewLeftConstraint: NSLayoutConstraint!
-    @IBOutlet weak var bannerContainerViewRightConstraint: NSLayoutConstraint!
-
-    @IBOutlet var shareViewToMapTopConstraint: NSLayoutConstraint!
-    @IBOutlet var shareViewToBannerTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var scrollViewToSuperviewTopConstraint: NSLayoutConstraint!
+    //  MARK: - Subviews
     
-    var dfpBannerView: DFPBannerView?
+    private let visualEffectView: UIVisualEffectView = {
+       let visualEffect = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+        visualEffect.backgroundColor = .clear
+        return visualEffect
+    }()
 
-    @IBOutlet weak var socialShareContainer: UIView!
-    @IBOutlet weak var socialShareTitleLabel: UILabel!
-    @IBOutlet weak var socialShareView: SocialShareView!
-    @IBOutlet weak var addressIcon: UIImageView!
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.keyboardDismissMode = .onDrag
+        scrollView.backgroundColor = .clear
+        scrollView.alwaysBounceVertical = true
+        scrollView.set(accessibilityId: .listingCarouselMoreInfoScrollView)
+        return scrollView
+    }()
+
+    private let scrollViewContent = UIView()
+
+    let dragView = UIView()
+    
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.font = .productTitleFont
+        label.textAlignment = .left
+        label.numberOfLines = 0
+        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        label.set(accessibilityId: .listingCarouselMoreInfoTitleLabel)
+        return label
+    }()
+    
+    private let priceLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.textAlignment = .right
+        label.font = .productPriceFont
+        label.minimumScaleFactor = 0.8
+        label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        label.set(accessibilityId: .listingCarouselMoreInfoPriceLabel)
+        return label
+    }()
+    
+    private let autoTitleLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.font = .productTitleDisclaimersFont
+        label.alpha = 0.5
+        label.textAlignment = .left
+        return label
+    }()
+    
+    private let transTitleLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.font = .productTitleDisclaimersFont
+        label.alpha = 0.5
+        label.set(accessibilityId: .listingCarouselMoreInfoTransTitleLabel)
+        return label
+    }()
+    
+    private let descriptionLabel: LGCollapsibleLabel = {
+        let label = LGCollapsibleLabel()
+        label.linkTextAttributes = [:]
+        label.textColor = .grayLight
+        label.expandText = R.Strings.commonExpand.localizedUppercase
+        label.collapseText = R.Strings.commonCollapse.localizedUppercase
+        label.gradientColor = .clear
+        label.expandTextColor = .white
+        label.set(accessibilityId: .listingCarouselMoreInfoDescriptionLabel)
+        return label
+    }()
+    
+    private let attributeGridView = ListingCarouselMoreInfoViewAttributeGridView(frame: .zero)
+    
+    private var tagCollectionViewModel = TagCollectionViewModel(cellStyle: .blackBackground)
+    private lazy var tagCollectionView: TagCollectionView = {
+        let tagCollectionView = TagCollectionView(viewModel: tagCollectionViewModel, flowLayout: .leftAligned)
+        tagCollectionView.register(type: TagCollectionViewCell.self)
+        tagCollectionView.defaultSetup()
+        return tagCollectionView
+    }()
+    
+    private let statsContainerView = UIView()
+    private let statsView = ListingStatsView.make()
+    
+    private let addressLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor.white
+        label.font = .productAddresFont
+        label.set(accessibilityId: .listingCarouselMoreInfoAddressLabel)
+        return label
+    }()
+    
+    private let addressIcon: UIImageView = {
+        let imageView = UIImageView(image: R.Asset.IconsButtons.itemLocationWhite.image)
+        imageView.clipsToBounds = true
+        return imageView
+    }()
+
+    private let distanceLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.font = .productDistanceFont
+        label.set(accessibilityId: .listingCarouselMoreInfoDistanceLabel)
+        return label
+    }()
+    
+    private let mapViewContainer = UIView()
+    private lazy var mapViewContainerExpandable = UIView()
+    
+    private let mapView: MKMapView = {
+        let mapView = MKMapView.sharedInstance
+        mapView.set(accessibilityId: .listingCarouselMoreInfoMapView)
+        mapView.cornerRadius = LGUIKitConstants.bigCornerRadius
+        mapView.cornerRadius = LGUIKitConstants.bigCornerRadius
+        return mapView
+    }()
+    
+    private let bannerContainerView = UIView()
+    private let socialShareContainer = UIView()
+    
+    private let socialShareTitleLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.font = .productSocialShareTitleFont
+        label.text = R.Strings.productShareTitleLabel
+        label.set(accessibilityId: .listingCarouselMoreInfoSocialShareTitleLabel)
+        return label
+    }()
+    
+    private let socialShareView: SocialShareView = {
+        let view = SocialShareView()
+        view.style = .grid
+        view.gridColumns = Layout.SocialShare.columns
+        switch DeviceFamily.current {
+        case .iPhone4, .iPhone5:
+            view.buttonsSide = Layout.SocialShare.buttonSideSort
+        default: break
+        }
+        view.set(accessibilityId: .listingCarouselMoreInfoSocialShareView)
+        return view
+    }()
+    
+    private let dragButton: UIView = {
+        let view = UIView()
+        view.clipsToBounds = true
+        view.backgroundColor = .clear
+        view.cornerRadius = Layout.DragView.height/2
+        view.applyShadow(withOpacity: 0.5, radius: 1)
+        view.layer.borderColor = UIColor.white.cgColor
+        view.layer.borderWidth = 1
+        view.layer.masksToBounds = false
+        return view
+    }()
+    
+    private let dragViewTitle: UILabel = {
+        let label = UILabel()
+        label.text = R.Strings.productMoreInfoOpenButton
+        label.textColor = .white
+        label.font = .systemSemiBoldFont(size: 13)
+        label.applyShadow(withOpacity: 0.5, radius: 1)
+        label.layer.masksToBounds = false
+        return label
+    }()
+    
+    private let dragViewImage: UIImageView = {
+        let imageView = UIImageView(image: R.Asset.IconsButtons.icArrowDown.image)
+        imageView.contentMode = .scaleAspectFit
+        imageView.applyShadow(withOpacity: 0.5, radius: 1)
+        return imageView
+    }()
+    
+    //  MARK: - Constraints
+    
+    private var scrollViewBottomConstraint: NSLayoutConstraint?
+    private var visualEffectViewBottom: NSLayoutConstraint?
+    private var statsContainerViewHeightConstraint: NSLayoutConstraint?
+    private var attributeGridViewHeightConstraint: NSLayoutConstraint?
+    private var bannerContainerViewHeightConstraint: NSLayoutConstraint?
+    private var bannerContainerViewLeftConstraint: NSLayoutConstraint?
+    private var bannerContainerViewRightConstraint: NSLayoutConstraint?
+    private var shareViewToMapTopConstraint: NSLayoutConstraint?
+    private var shareViewToBannerTopConstraint: NSLayoutConstraint?
+    
+
+    
     
     private let disposeBag = DisposeBag()
+    
     private var locationZone: MKOverlay?
+    private var vmRegion: MKCoordinateRegion? = nil
+    private var mapViewTapGesture: UITapGestureRecognizer? = nil
     private var mapPinCustomAnnotation: MKPointAnnotation?
-    private let bigMapMargin: CGFloat = 85
-    private let bigMapBottomMargin: CGFloat = 85
     private(set) var mapExpanded: Bool = false
     private var mapZoomBlocker: MapZoomBlocker?
-    private var statsView: ListingStatsView?
 
-    private let statsContainerViewHeight: CGFloat = 24
-    private let statsContainerViewTop: CGFloat = 26
-    private var initialDragYposition: CGFloat = 0
-
+    var dfpBannerView: DFPBannerView?
     weak var viewModel: ListingCarouselViewModel?
     weak var delegate: ProductCarouselMoreInfoDelegate?
-    
-    private var tagCollectionViewModel: TagCollectionViewModel?
-
-    static func moreInfoView() -> ListingCarouselMoreInfoView {
-        guard let view = Bundle.main.loadNibNamed("ListingCarouselMoreInfoView", owner: self, options: nil)?.first
-            as? ListingCarouselMoreInfoView else { return ListingCarouselMoreInfoView() }
-        view.setupUI()
-        view.setupTagCollectionView()
-        view.setupStatsView()
-        view.setAccessibilityIds()
-        view.addGestures()
-        return view
-    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setupUI()
+        setupConstraints()
+        setAccessibilityIds()
+        addGestures()
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+    required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+    
+    private func setupUI() {
+        report(AppReport.uikit(error: .breadcrumb), message: "MoreInfoView-SetupUI-start")
+        addSubviews()
+        setupMapView(inside: mapViewContainer)
+        setupSocialShareView()
+        setupDescriptionLabel()
+        scrollView.delegate = self
+        report(AppReport.uikit(error: .breadcrumb), message: "MoreInfoView-SetupUI-end")
+    }
+    
+    private func addSubviews() {
+        addSubviewsForAutoLayout([visualEffectView, scrollView, dragView])
+        scrollView.addSubviewForAutoLayout(scrollViewContent)
+        scrollViewContent.addSubviewsForAutoLayout([titleLabel, priceLabel, autoTitleLabel, transTitleLabel,
+                                                    descriptionLabel, attributeGridView, tagCollectionView, statsContainerView,
+                                                    addressLabel,addressIcon, distanceLabel, mapViewContainer, bannerContainerView, socialShareContainer])
+        if let statsView = statsView {
+            statsContainerView.addSubviewForAutoLayout(statsView)
+        }
+        socialShareContainer.addSubviewsForAutoLayout([socialShareTitleLabel, socialShareView])
+        
+        dragView.addSubviewsForAutoLayout([dragButton])
+        dragButton.addSubviewsForAutoLayout([dragViewTitle, dragViewImage])
+    }
+    
+    private func setupDescriptionLabel() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(toggleDescriptionState))
+        descriptionLabel.delegate = self
+        descriptionLabel.addGestureRecognizer(tapGesture)
+    }
+    
+    private func setupConstraints() {
+        
+        //  VisualEffect
+        visualEffectView.layout(with: self)
+            .fillHorizontal().top(by: Layout.VisualEffect.top)
+        visualEffectViewBottom = visualEffectView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
+        visualEffectViewBottom?.isActive = true
+        
+        //  ScrollView
+        
+        scrollView.layout(with: self)
+            .fillHorizontal()
+        scrollViewBottomConstraint = bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
+        
+        if #available(iOS 11, *) {
+            scrollView.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor,
+                                            constant: safeAreaInsets.top).isActive = true
+        } else {
+            scrollView.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor,
+                                            constant: Layout.ScrollView.top).isActive = true
+        }
+        scrollViewBottomConstraint?.isActive = true
+        
+        scrollViewContent.layout(with: scrollView)
+            .leading().proportionalWidth().top().bottom()
+
+        titleLabel.layout(with: scrollViewContent)
+            .leading(by: Metrics.margin).top(by: Metrics.margin)
+
+        priceLabel.layout(with: scrollViewContent)
+            .trailing(by: -Metrics.margin)
+        priceLabel.layout(with: titleLabel).toLeft(by: Metrics.shortMargin).firstBaseline()
+
+        autoTitleLabel.layout(with: titleLabel)
+            .leading().below()
+        autoTitleLabel.layout(with: scrollViewContent).trailing()
+        
+        transTitleLabel.layout(with: autoTitleLabel)
+            .leading().below()
+        transTitleLabel.layout(with: scrollViewContent).trailing()
+
+        descriptionLabel.layout(with: scrollViewContent)
+            .fillHorizontal(by: Metrics.shortMargin)
+        descriptionLabel.layout(with: transTitleLabel).below(by: Metrics.shortMargin)
+        
+        attributeGridView.layout(with: scrollViewContent)
+            .fillHorizontal()
+        attributeGridViewHeightConstraint = attributeGridView.heightAnchor.constraint(equalToConstant: Layout.AttributeGrid.height)
+        attributeGridViewHeightConstraint?.isActive = true
+        attributeGridView.layout(with: descriptionLabel)
+            .below(by: Metrics.veryBigMargin)
+
+        tagCollectionView.layout(with: scrollViewContent)
+            .fillHorizontal(by: Metrics.margin)
+        tagCollectionView.layout(with: attributeGridView)
+            .below(by: Metrics.veryBigMargin)
+        
+        statsContainerView.layout(with: scrollViewContent).fillHorizontal(by: Metrics.margin)
+        statsContainerViewHeightConstraint = statsContainerView.heightAnchor.constraint(equalToConstant: Layout.Stats.height)
+        statsContainerViewHeightConstraint?.isActive = true
+        statsContainerView.layout(with: descriptionLabel)
+            .below(by: Metrics.veryBigMargin, relatedBy: .greaterThanOrEqual, priority: .defaultLow)
+        statsContainerView.layout(with: tagCollectionView)
+            .below(by: Metrics.veryBigMargin, relatedBy: .greaterThanOrEqual, priority: .defaultLow)
+        statsView?.layout(with: statsContainerView).fill()
+        
+        addressLabel.layout(with: addressIcon).toLeft(by: Metrics.veryShortMargin)
+        addressLabel.layout(with: statsContainerView).below(by: Metrics.veryBigMargin)
+        
+        addressIcon.layout(with: scrollViewContent).leading(by: Metrics.margin)
+        addressIcon.layout(with: addressLabel).centerY()
+
+        distanceLabel.layout(with: scrollViewContent).trailing(by: -Metrics.margin)
+        distanceLabel.layout(with: addressLabel).centerY()
+        
+        mapViewContainer.layout(with: scrollViewContent).fillHorizontal(by: Metrics.margin)
+        mapViewContainer.layout().height(Layout.Map.height)
+        mapViewContainer.layout(with: distanceLabel).below(by: Metrics.shortMargin)
+        
+        bannerContainerViewLeftConstraint = bannerContainerView.leadingAnchor.constraint(equalTo: scrollViewContent.leadingAnchor)
+        bannerContainerViewRightConstraint = bannerContainerView.trailingAnchor.constraint(equalTo: scrollViewContent.trailingAnchor)
+        bannerContainerViewHeightConstraint = bannerContainerView.heightAnchor.constraint(equalToConstant: 0)
+        
+        bannerContainerViewLeftConstraint?.isActive = true
+        bannerContainerViewRightConstraint?.isActive = true
+        bannerContainerViewHeightConstraint?.isActive = true
+        
+        bannerContainerView.layout(with: mapViewContainer).below(by: Metrics.margin)
+        
+        socialShareContainer.layout(with: scrollViewContent)
+            .fillHorizontal(by: Metrics.margin).bottom(by: -Metrics.shortMargin)
+        socialShareContainer.layout().height(Layout.SocialShare.height)
+        
+        shareViewToMapTopConstraint = socialShareContainer.topAnchor.constraint(greaterThanOrEqualTo: mapViewContainer.bottomAnchor, constant: Layout.SocialShare.bottom)
+        shareViewToBannerTopConstraint = socialShareContainer.topAnchor.constraint(equalTo: bannerContainerView.bottomAnchor, constant: Metrics.margin)
+        shareViewToMapTopConstraint?.isActive = true
+        shareViewToBannerTopConstraint?.isActive = true
+        
+        socialShareTitleLabel.layout(with: socialShareContainer).fillHorizontal().top()
+        socialShareView.layout(with: socialShareContainer).fillHorizontal()
+        socialShareView.layout(with: socialShareTitleLabel).below(by: Metrics.shortMargin)
+
+        //  DragView
+        
+        dragView.layout(with: self)
+            .bottom().centerX()
+        dragButton.layout().height(Layout.DragView.height)
+        dragButton.layout(with: dragView)
+            .centerX()
+            .top(by: Metrics.veryShortMargin).bottom(by: -Layout.DragView.bottom)
+        
+        dragView.layout(with: dragButton).proportionalWidth()
+        
+        dragViewTitle.layout(with: dragButton)
+            .leading(by: Metrics.margin).fillVertical()
+        dragViewImage.layout(with: dragButton).trailing(by: -Metrics.margin).centerY()
+        dragViewImage.layout(with: dragViewTitle).toLeft(by: Metrics.veryShortMargin)
+ 
     }
 
     func setupWith(viewModel: ListingCarouselViewModel) {
@@ -131,8 +402,8 @@ class ListingCarouselMoreInfoView: UIView {
             if let adBannerTrackingStatus = viewModel?.adBannerTrackingStatus {
                 viewModel?.adAlreadyRequestedWithStatus(adBannerTrackingStatus: adBannerTrackingStatus)
             } else {
-                shareViewToMapTopConstraint.isActive = true
-                shareViewToBannerTopConstraint.isActive = true
+                shareViewToMapTopConstraint?.isActive = true
+                shareViewToBannerTopConstraint?.isActive = true
                 loadDFPRequest()
             }
         } else {
@@ -145,13 +416,10 @@ class ListingCarouselMoreInfoView: UIView {
         // We need to call invalidateLayout in the CollectionView to fix what appears to be an iOS 10 UIKit bug:
         // https://stackoverflow.com/a/44467194
         tagCollectionView.collectionViewLayout.invalidateLayout()
-        mapView.cornerRadius = LGUIKitConstants.bigCornerRadius
-        dragButton.setRoundedCorners()
-        mapView.cornerRadius = LGUIKitConstants.bigCornerRadius
     }
 
     func dismissed() {
-        scrollView.contentOffset = CGPoint.zero
+        scrollView.contentOffset = .zero
         descriptionLabel.collapsed = true
     }
 
@@ -160,10 +428,8 @@ class ListingCarouselMoreInfoView: UIView {
         cleanMapView()
     }
 
-    // MARK: - UI
-
     func updateBottomAreaMargin(with value: CGFloat) {
-        self.scrollViewBottomConstraint.constant = value
+        self.scrollViewBottomConstraint?.constant = value
     }
 }
 
@@ -184,18 +450,19 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
 
     func setupMapViewIfNeeded() {
         let container = mapExpanded ? mapViewContainerExpandable : mapViewContainer
-        guard let theContainer = container, mapView.superview != theContainer else { return }
-        setupMapView(inside: theContainer)
+        guard mapView.superview != container else { return }
+        setupMapView(inside: container)
     }
     
     func setupMapView(inside container: UIView) {
         report(AppReport.uikit(error: .breadcrumb), message: "MoreInfoView-SetupMapView-start")
+        mapView.clipsToBounds = true
         layoutMapView(inside: container)
         addMapGestures()
         report(AppReport.uikit(error: .breadcrumb), message: "MoreInfoView-SetupMapView-end")
     }
 
-    fileprivate func setupMapRx(viewModel: ListingCarouselViewModel) {
+    private func setupMapRx(viewModel: ListingCarouselViewModel) {
 
         let productLocation = viewModel.productInfo.asObservable().map { $0?.location }.unwrap()
         let mapInfo = Observable.combineLatest(productLocation.asObservable(),
@@ -229,7 +496,7 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
         mapView.layout(with: container)
             .fillHorizontal()
             .top()
-            .bottom(by: -ListingCarouselMoreInfoView.mapViewBottomMargin)
+            .bottom(by: -Metrics.shortMargin)
 
         report(AppReport.uikit(error: .breadcrumb), message: "MoreInfoView-LayoutMapView-end")
     }
@@ -276,7 +543,7 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
         }
     }
     
-    func expandMap() {
+    private func expandMap() {
         guard !mapExpanded else { return }
         addSubview(mapViewContainerExpandable)
         mapViewContainerExpandable.frame = convert(mapViewContainer.frame, from: scrollViewContent)
@@ -288,8 +555,8 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
 
         self.delegate?.request(fullScreen: true)
         var expandedFrame = mapViewContainerExpandable.frame
-        expandedFrame.origin.y = bigMapMargin
-        expandedFrame.size.height = height - (bigMapMargin + bigMapBottomMargin)
+        expandedFrame.origin.y = Layout.BigMap.margin
+        expandedFrame.size.height = height - (Layout.BigMap.margin + Layout.BigMap.bottom)
         UIView.animate(withDuration: 0.3, animations: { [weak self] in
             self?.mapViewContainerExpandable.frame = expandedFrame
             self?.mapViewContainerExpandable.layoutIfNeeded()
@@ -344,13 +611,9 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
 
 extension ListingCarouselMoreInfoView: UIScrollViewDelegate {
 
-    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        initialDragYposition = min(max(scrollView.contentOffset.y, 0), bottomScrollLimit)
-    }
-
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let bottomOverScroll = max(scrollView.contentOffset.y - bottomScrollLimit, 0)
-        visualEffectViewBottom.constant = -bottomOverScroll
+        visualEffectViewBottom?.constant = -bottomOverScroll
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
@@ -367,128 +630,37 @@ extension ListingCarouselMoreInfoView: UIScrollViewDelegate {
 
 // MARK: - Private
 
-fileprivate extension ListingCarouselMoreInfoView {
-    func setupUI() {
-        addressIcon.image = R.Asset.IconsButtons.itemLocationWhite.image
-        dragViewImage.image = R.Asset.IconsButtons.icArrowDown.image
-        
-        report(AppReport.uikit(error: .breadcrumb), message: "MoreInfoView-SetupUI-start")
-        setupMapView(inside: mapViewContainer)
+private extension ListingCarouselMoreInfoView {
 
-        mapView.clipsToBounds = true
-
-        titleTextLabel.textColor = .white
-        titleTextLabel.font = .productTitleFont
-        titleTextLabel.textAlignment = .left
-        titleTextLabel.numberOfLines = 0
-
-        priceLabel.textColor = .white
-        priceLabel.font = .productPriceFont
-
-        autoTitleLabel.textColor = .white
-        autoTitleLabel.font = .productTitleDisclaimersFont
-        autoTitleLabel.alpha = 0.5
-
-        transTitleLabel.textColor = .white
-        transTitleLabel.font = .productTitleDisclaimersFont
-        transTitleLabel.alpha = 0.5
-
-        addressLabel.textColor = UIColor.white
-        addressLabel.font = .productAddresFont
-
-        distanceLabel.textColor = .white
-        distanceLabel.font = .productDistanceFont
-
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(toggleDescriptionState))
-        descriptionLabel.delegate = self
-        descriptionLabel.linkTextAttributes = [:]
-        descriptionLabel.textColor = UIColor.grayLight
-
-        descriptionLabel.addGestureRecognizer(tapGesture)
-        descriptionLabel.expandText = R.Strings.commonExpand.localizedUppercase
-        descriptionLabel.collapseText = R.Strings.commonCollapse.localizedUppercase
-        descriptionLabel.gradientColor = .clear
-        descriptionLabel.expandTextColor = UIColor.white
-
-        setupSocialShareView()
-
-        dragView.backgroundColor = .clear
-        dragButton.clipsToBounds = true
-        dragButton.layer.borderColor = UIColor.white.cgColor
-        dragButton.layer.borderWidth = 1
-        dragButton.backgroundColor = .clear
-        
-        dragViewTitle.text = R.Strings.productMoreInfoOpenButton
-        dragViewTitle.textColor = .white
-        dragViewTitle.font = .systemSemiBoldFont(size: 13)
-
-        [dragButton, dragViewTitle, dragViewImage].forEach { view in
-            view?.layer.shadowColor = UIColor.black.cgColor
-            view?.layer.shadowOpacity = 0.5
-            view?.layer.shadowRadius = 1
-            view?.layer.shadowOffset = CGSize.zero
-            view?.layer.masksToBounds = false
+    func setupAttributeGridView(withTitle title: String?,
+                                items: [ListingAttributeGridItem]?,
+                                showExtraCardFields: Bool = false) {
+        guard let items = items, items.count > 0, showExtraCardFields else {
+                attributeGridViewHeightConstraint?.constant = 0.0
+                return
         }
-
-        if #available(iOS 11, *) {
-            scrollViewToSuperviewTopConstraint.constant = safeAreaInsets.top
-        } else {
-            scrollViewToSuperviewTopConstraint.constant = ListingCarouselMoreInfoView.navBarDefaultHeight
-        }
-
-        scrollView.delegate = self
-        report(AppReport.uikit(error: .breadcrumb), message: "MoreInfoView-SetupUI-end")
-    }
-    
-    func setupTagCollectionView() {
-        tagCollectionViewModel = TagCollectionViewModel(tags: [], cellStyle: .blackBackground, delegate: tagCollectionView)
-        tagCollectionView.register(TagCollectionViewCell.self, forCellWithReuseIdentifier: TagCollectionViewCell.reusableID)
-        tagCollectionView.dataSource = tagCollectionViewModel
-        tagCollectionView.defaultSetup()
-    }
-
-    func setupStatsView() {
-        statsContainerViewHeightConstraint.constant = 0.0
-        statsContainerViewTopConstraint.constant = 0.0
-
-        guard let statsView = ListingStatsView.make() else { return }
-        self.statsView = statsView
-        statsContainerView.addSubview(statsView)
-
-        statsView.translatesAutoresizingMaskIntoConstraints = false
-        let top = NSLayoutConstraint(item: statsView, attribute: .top, relatedBy: .equal, toItem: statsContainerView,
-                                     attribute: .top, multiplier: 1, constant: 0)
-        let right = NSLayoutConstraint(item: statsView, attribute: .trailing, relatedBy: .equal, toItem: statsContainerView,
-                                       attribute: .trailing, multiplier: 1, constant: 0)
-        let left = NSLayoutConstraint(item: statsView, attribute: .leading, relatedBy: .equal, toItem: statsContainerView,
-                                       attribute: .leading, multiplier: 1, constant: 0)
-        let bottom = NSLayoutConstraint(item: statsView, attribute: .bottom, relatedBy: .equal, toItem: statsContainerView,
-                                     attribute: .bottom, multiplier: 1, constant: 0)
-        statsContainerView.addConstraints([top, right, left, bottom])
+        
+        attributeGridViewHeightConstraint?.constant = Layout.AttributeGrid.height
+        attributeGridView.setup(withTitle: title,
+                                items: items,
+                                tapAction: { [weak self] in
+                                    guard let wself = self,
+                                        let items = wself.viewModel?.productInfo.value?.attributeGridItems else { return }
+                                    wself.viewModel?.listingAttributeGridTapped(forItems: items)
+        })
     }
 
     func setupSocialShareView() {
         report(AppReport.uikit(error: .breadcrumb), message: "MoreInfoView-setupSocialShareView-start")
-        socialShareTitleLabel.textColor = UIColor.white
-        socialShareTitleLabel.font = UIFont.productSocialShareTitleFont
-        socialShareTitleLabel.text = R.Strings.productShareTitleLabel
-
         socialShareView.delegate = self
-        socialShareView.style = .grid
-        socialShareView.gridColumns = 5
-        switch DeviceFamily.current {
-        case .iPhone4, .iPhone5:
-            socialShareView.buttonsSide = 50
-        default: break
-        }
         report(AppReport.uikit(error: .breadcrumb), message: "MoreInfoView-setupSocialShareView-end")
     }
 
-    fileprivate func hideAdsBanner() {
+    func hideAdsBanner() {
         bannerContainerView.isHidden = true
-        bannerContainerViewHeightConstraint.constant = 0
-        if shareViewToMapTopConstraint.isActive {
-            shareViewToMapTopConstraint.constant = ListingCarouselMoreInfoView.shareViewToMapMargin
+        bannerContainerViewHeightConstraint?.constant = 0
+        if shareViewToMapTopConstraint?.isActive ?? false {
+            shareViewToMapTopConstraint?.constant = Layout.SocialShare.top
         }
     }
 
@@ -501,18 +673,53 @@ fileprivate extension ListingCarouselMoreInfoView {
             self?.scrollView.contentInset = UIEdgeInsets(top: 0, left: 0,
                                                          bottom: status.scrollBottomInset(chatEnabled: chatEnabled), right: 0)
         }.disposed(by: disposeBag)
-
+        
+        let showCarExtraFields = viewModel.extraFieldsGridEnabled
+        let showPriceType = viewModel.shouldShowPriceType
+        
         viewModel.productInfo.asObservable().unwrap().bind { [weak self] info in
-            self?.titleTextLabel.attributedText = info.styledTitle?.stringByRemovingLinks
-            self?.priceLabel.text = info.price
+            self?.titleLabel.attributedText = info.styledTitle?.stringByRemovingLinks
+            self?.updatePriceLabel(withInfo: info, shouldShowPriceType: showPriceType)
             self?.autoTitleLabel.text = info.titleAutoGenerated ? R.Strings.productAutoGeneratedTitleLabel : nil
             self?.transTitleLabel.text = info.titleAutoTranslated ? R.Strings.productAutoGeneratedTranslatedTitleLabel : nil
             self?.addressLabel.text = info.address
             self?.distanceLabel.text = info.distance
             self?.descriptionLabel.mainAttributedText = info.styledDescription
             self?.descriptionLabel.setNeedsLayout()
-            self?.tagCollectionViewModel?.tags = info.attributeTags ?? []
+            self?.updateTags(tags: info.attributeTags)
+            self?.setupAttributeGridView(withTitle: info.attributeGridTitle,
+                                         items: info.attributeGridItems,
+                                         showExtraCardFields: showCarExtraFields)
         }.disposed(by: disposeBag)
+    }
+    
+    private func updatePriceLabel(withInfo info: ListingVMProductInfo,
+                                  shouldShowPriceType: Bool) {
+        guard shouldShowPriceType,
+            let priceAttributedString = priceAttributedString(forPrice: info.price,
+                                                              priceType: info.priceType) else {
+            priceLabel.text = info.price
+            return
+        }
+        
+        priceLabel.attributedText = priceAttributedString
+    }
+    
+    private func priceAttributedString(forPrice price: String,
+                                       priceType: String?) -> NSAttributedString? {
+        guard let priceType = priceType else { return nil }
+        
+        let text = "\(price) \(priceType)"
+        return text.bifontAttributedText(highlightedText: priceType,
+                                         mainFont: .productPriceFont,
+                                         mainColour: .white,
+                                         otherFont: .productTitleFont,
+                                         otherColour: .white)
+    }
+    
+    private func updateTags(tags: [String]?) {
+        tagCollectionViewModel.tags = tags ?? []
+        tagCollectionView.reloadData()
     }
     
     func setupStatsRx(viewModel: ListingCarouselViewModel) {
@@ -522,8 +729,7 @@ fileprivate extension ListingCarouselMoreInfoView {
             return stats.viewsCount >= SharedConstants.minimumStatsCountToShow || stats.favouritesCount >= SharedConstants.minimumStatsCountToShow || creation != nil
         }
         statsViewVisible.asObservable().distinctUntilChanged().bind { [weak self] visible in
-            self?.statsContainerViewHeightConstraint.constant = visible ? self?.statsContainerViewHeight ?? 0 : 0
-            self?.statsContainerViewTopConstraint.constant = visible ? self?.statsContainerViewTop ?? 0 : 0
+            self?.statsContainerViewHeightConstraint?.constant = visible ? Layout.Stats.height : 0
         }.disposed(by: disposeBag)
 
         statsAndCreation.bind { [weak self] (stats, creation) in
@@ -549,17 +755,16 @@ fileprivate extension ListingCarouselMoreInfoView {
             dfpBanner.rootViewController = delegate?.rootViewControllerForDFPBanner()
             dfpBanner.delegate = self
 
-            bannerContainerView.addSubview(dfpBanner)
-            dfpBanner.translatesAutoresizingMaskIntoConstraints = false
+            bannerContainerView.addSubviewForAutoLayout(dfpBanner)
             dfpBanner.layout(with: bannerContainerView).top().bottom().centerX()
 
             dfpBanner.delegate = self
     }
 
     func loadDFPRequest() {
-        bannerContainerViewHeightConstraint.constant = kGADAdSizeLargeBanner.size.height
-        shareViewToMapTopConstraint.isActive = true
-        shareViewToBannerTopConstraint.isActive = false
+        bannerContainerViewHeightConstraint?.constant = kGADAdSizeLargeBanner.size.height
+        shareViewToMapTopConstraint?.isActive = true
+        shareViewToBannerTopConstraint?.isActive = false
 
         dfpBannerView?.adUnitID = viewModel?.dfpAdUnitId
         let dfpRequest = DFPRequest()
@@ -579,10 +784,10 @@ extension ListingCarouselMoreInfoView: GADAdSizeDelegate, GADBannerViewDelegate 
                               width: sizeFromAdSize.width,
                               height: sizeFromAdSize.height)
         bannerView.frame = newFrame
-        bannerContainerViewHeightConstraint.constant = sizeFromAdSize.height
+        bannerContainerViewHeightConstraint?.constant = sizeFromAdSize.height
         if let sideMargin = viewModel?.sideMargin {
-            bannerContainerViewLeftConstraint.constant = sideMargin
-            bannerContainerViewRightConstraint.constant = sideMargin
+            bannerContainerViewLeftConstraint?.constant = sideMargin
+            bannerContainerViewRightConstraint?.constant = sideMargin
         }
         if sizeFromAdSize.height > 0 {
             let absolutePosition = scrollView.convert(bannerContainerView.frame.origin, to: nil)
@@ -597,8 +802,8 @@ extension ListingCarouselMoreInfoView: GADAdSizeDelegate, GADBannerViewDelegate 
     func adViewDidReceiveAd(_ bannerView: GADBannerView) {
         bannerContainerView.isHidden = false
 
-        bannerContainerViewHeightConstraint.constant = bannerView.height
-        shareViewToMapTopConstraint.constant = bannerView.height + ListingCarouselMoreInfoView.shareViewToMapMargin
+        bannerContainerViewHeightConstraint?.constant = bannerView.height
+        shareViewToMapTopConstraint?.constant = bannerView.height + Layout.SocialShare.top
 
         if bannerView.frame.size.height > 0 {
             let absolutePosition = scrollView.convert(bannerContainerView.frame.origin, to: nil)
@@ -612,9 +817,9 @@ extension ListingCarouselMoreInfoView: GADAdSizeDelegate, GADBannerViewDelegate 
 
     func adView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError) {
         logMessage(.info, type: .monetization, message: "MoreInfo banner failed with error: \(error.localizedDescription)")
-        bannerContainerViewHeightConstraint.constant = 0
-        bannerContainerViewLeftConstraint.constant = 0
-        bannerContainerViewRightConstraint.constant = 0
+        bannerContainerViewHeightConstraint?.constant = 0
+        bannerContainerViewLeftConstraint?.constant = 0
+        bannerContainerViewRightConstraint?.constant = 0
 
         viewModel?.didFailToReceiveAd(withErrorCode: GADErrorCode(rawValue: error.code) ?? .internalError)
     }
@@ -663,17 +868,7 @@ extension ListingCarouselMoreInfoView: SocialShareViewDelegate {
 // MARK: - Accessibility ids
 
 extension ListingCarouselMoreInfoView {
-    fileprivate func setAccessibilityIds() {
-        scrollView.set(accessibilityId: .listingCarouselMoreInfoScrollView)
-        titleTextLabel.set(accessibilityId: .listingCarouselMoreInfoTitleLabel)
-        priceLabel.set(accessibilityId: .listingCarouselMoreInfoPriceLabel)
-        transTitleLabel.set(accessibilityId: .listingCarouselMoreInfoTransTitleLabel)
-        addressLabel.set(accessibilityId: .listingCarouselMoreInfoAddressLabel)
-        distanceLabel.set(accessibilityId: .listingCarouselMoreInfoDistanceLabel)
-        mapView.set(accessibilityId: .listingCarouselMoreInfoMapView)
-        socialShareTitleLabel.set(accessibilityId: .listingCarouselMoreInfoSocialShareTitleLabel)
-        socialShareView.set(accessibilityId: .listingCarouselMoreInfoSocialShareView)
-        descriptionLabel.set(accessibilityId: .listingCarouselMoreInfoDescriptionLabel)
+    private func setAccessibilityIds() {
         statsView?.set(accessibilityId: .listingCarouselMoreInfoStatsView)
     }
 }
@@ -722,5 +917,41 @@ fileprivate extension ListingViewModelStatus {
                 return CarouselUI.buttonHeight + CarouselUI.itemsMargin
             }
         }
+    }
+}
+
+private struct Layout {
+    struct VisualEffect {
+        static let top: CGFloat = -500
+    }
+    struct ScrollView {
+        static let bottom: CGFloat = 88
+        static let top: CGFloat = 64
+    }
+    struct AttributeGrid {
+        static let height: CGFloat = 150
+    }
+    struct Map {
+        static let height: CGFloat = 150
+    }
+    struct BigMap {
+        static let margin: CGFloat = 85
+        static let bottom: CGFloat = 85
+    }
+    struct DragView {
+        static let height: CGFloat = 30
+        static let bottom: CGFloat = 7
+        static let imageSize: CGFloat = 24
+    }
+    struct Stats {
+        static let height: CGFloat = 24
+    }
+    struct SocialShare {
+        static let height: CGFloat = 135
+        static let bottom: CGFloat = 30
+        static let top: CGFloat = 30
+        static let buttonSideSort: CGFloat = 50
+        static let buttonSideLong: CGFloat = 56
+        static let columns = 5
     }
 }

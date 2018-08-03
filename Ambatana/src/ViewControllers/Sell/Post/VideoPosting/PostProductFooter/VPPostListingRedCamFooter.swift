@@ -2,12 +2,25 @@ import UIKit
 import LGComponents
 
 final class VPPostListingRedCamFooter: UIView {
-    static let galleryIconSide: CGFloat = 70
-    static let cameraIconSide: CGFloat = 80
+
+    private struct FooterMetrics {
+        static let galleryIconSide: CGFloat = 70
+        static let cameraIconSide: CGFloat = 80
+        static let newBadgeInsets: UIEdgeInsets = UIEdgeInsetsMake(4, 6, 4, 6)
+    }
 
     let galleryButton: UIButton = UIButton()
     let photoButton: UIButton = UIButton()
     let videoButton: UIButton = UIButton()
+    let newBadgeLabel: UILabel = {
+        let label = UIRoundedLabelWithPadding()
+        label.text = R.Strings.productPostCameraVideoModeButtonNewBadge
+        label.backgroundColor = UIColor.Camera.cameraButton
+        label.font = UIFont.systemBoldFont(size: 11)
+        label.textColor = UIColor.white
+        label.padding = FooterMetrics.newBadgeInsets
+        return label
+    }()
     let cameraButton: UIButton = CameraButton()
     let infoButton: UIButton = UIButton()
     private let infoButtonIncluded: Bool
@@ -36,7 +49,7 @@ final class VPPostListingRedCamFooter: UIView {
     // MARK: - Overrides
 
     override open func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-        return [galleryButton, photoButton, videoButton, cameraButton, infoButton].flatMap { $0 }.reduce(false) { (result, view) -> Bool in
+        return [galleryButton, photoButton, videoButton, cameraButton, infoButton].compactMap { $0 }.reduce(false) { (result, view) -> Bool in
             let convertedPoint = view.convert(point, from: self)
             return result || (!view.isHidden && view.point(inside: convertedPoint, with: event))
         }
@@ -52,6 +65,7 @@ extension VPPostListingRedCamFooter: PostListingFooter {
         galleryButton.alpha = scroll
         photoButton.alpha = scroll
         videoButton.alpha = scroll
+        newBadgeLabel.alpha = scroll
         infoButton.alpha = scroll
         recordVideoHintLabel.alpha = scroll
 
@@ -100,13 +114,13 @@ extension VPPostListingRedCamFooter: PostListingFooter {
         recordingTooltip.isHidden = true
     }
 
-    func updateVideoRecordingDurationProgress(progress: CGFloat, remainingTime: TimeInterval) {
+    func updateVideoRecordingDurationProgress(progress: CGFloat, recordingDuration: TimeInterval) {
 
         guard progress > 0, isRecording else { return }
         guard let cameraButton = cameraButton as? CameraButton else { return }
         cameraButton.progress = progress
 
-        recordingTooltip.label.text = String(format: "0:%02d", Int(ceil(remainingTime)))
+        recordingTooltip.label.text = String(format: "0:%02d", Int(floor(recordingDuration)))
 
         if recordingTooltip.isHidden {
             recordingTooltip.isHidden = false
@@ -164,7 +178,8 @@ fileprivate extension VPPostListingRedCamFooter {
         recordingTooltip.label.font = UIFont.systemBoldFont(size: 21)
         recordingTooltip.label.textColor = UIColor.white
 
-        addSubviewsForAutoLayout([galleryButton, photoButton, videoButton, cameraButton, infoButton, recordVideoHintLabel, recordingTooltip])
+        addSubviewsForAutoLayout([galleryButton, photoButton, videoButton, cameraButton, infoButton,
+                                  recordVideoHintLabel, recordingTooltip, newBadgeLabel])
     }
 
     func setupAccessibilityIds() {
@@ -181,7 +196,7 @@ fileprivate extension VPPostListingRedCamFooter {
             .top(relatedBy: .greaterThanOrEqual)
             .bottom()
         infoButton.layout()
-            .width(VPPostListingRedCamFooter.galleryIconSide)
+            .width(FooterMetrics.galleryIconSide)
             .widthProportionalToHeight()
 
         galleryButton.layout(with: self)
@@ -199,11 +214,15 @@ fileprivate extension VPPostListingRedCamFooter {
             .top(relatedBy: .greaterThanOrEqual)
             .bottom(by: -Metrics.margin)
 
+        newBadgeLabel.layout(with: videoButton)
+            .trailing(to: .leading, by: -Metrics.veryShortMargin)
+            .centerY()
+
         cameraButton.layout(with: self)
             .centerX(constraintBlock: { [weak self] constraint in self?.cameraButtonCenterXConstraint = constraint })
             .top(relatedBy: .greaterThanOrEqual)
             .bottom(by: -(Metrics.margin + 60))
-        cameraButton.layout().width(VPPostListingRedCamFooter.cameraIconSide).widthProportionalToHeight()
+        cameraButton.layout().width(FooterMetrics.cameraIconSide).widthProportionalToHeight()
 
         infoButton.isHidden = !infoButtonIncluded
 

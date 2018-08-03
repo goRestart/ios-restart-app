@@ -1,13 +1,6 @@
-//
-//  OnboardingCoordinator.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 13/09/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import SafariServices
+import LGComponents
 
 protocol OnboardingCoordinatorDelegate: class {
     func onboardingCoordinator(_ coordinator: OnboardingCoordinator, didFinishPosting posting: Bool, source: PostingSource?)
