@@ -431,6 +431,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     }
 
     private func setLeftNavBarButtons() {
+        guard isRootViewController() else { return }
         if viewModel.shouldShowCommunityButton {
             setCommunityButton()
         } else if viewModel.shouldShowUserProfileButton {
