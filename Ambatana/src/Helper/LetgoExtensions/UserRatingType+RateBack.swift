@@ -5,11 +5,10 @@ extension UserRatingType {
     var rateBackType: UserRatingType {
         get {
             switch self {
-            case .conversation: return .conversation
+            case .conversation, .report: return .conversation
             case .seller: return .buyer
             case .buyer: return .seller
             }
-            
         }
     }
 }
