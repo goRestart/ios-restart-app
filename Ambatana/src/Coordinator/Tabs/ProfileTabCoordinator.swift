@@ -59,21 +59,25 @@ extension ProfileTabCoordinator: ProfileTabNavigator {
     }
 
     func editListing(_ listing: Listing, pageType: EventParameterTypePage?) {
-        let navigator = EditListingCoordinator(listing: listing,
-                                               bumpUpProductData: nil,
-                                               pageType: pageType,
-                                               listingCanBeBoosted: false,
-                                               timeSinceLastBump: nil,
-                                               maxCountdown: 0)
-        openChild(coordinator: navigator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
+        let nav = UINavigationController()
+        let assembly = LGListingBuilder.standard(navigationController: navigationController)
+        let vc = assembly.buildEditView(listing: listing,
+                                        pageType: pageType,
+                                        bumpUpProductData: nil,
+                                        listingCanBeBoosted: false,
+                                        timeSinceLastBump: nil,
+                                        maxCountdown: 0,
+                                        onEditAction: nil)
+        nav.viewControllers = [vc]
+        navigationController.present(nav, animated: true)
     }
+
     func closeProfile() {
         dismissViewController(animated: true, completion: nil)
     }
 }
 
 extension ProfileTabCoordinator: SettingsNavigator {
-
     func openEditUserName() {
         let vm = ChangeUsernameViewModel()
         vm.navigator = self

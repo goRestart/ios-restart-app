@@ -490,14 +490,28 @@ extension AppCoordinator: AppNavigator {
     func openEditForListing(listing: Listing,
                             bumpUpProductData: BumpUpProductData?,
                             maxCountdown: TimeInterval) {
-        let editCoordinator = EditListingCoordinator(listing: listing,
-                                                     bumpUpProductData: bumpUpProductData,
-                                                     pageType: nil,
-                                                     listingCanBeBoosted: false,
-                                                     timeSinceLastBump: nil,
-                                                     maxCountdown: maxCountdown)
-        editCoordinator.delegate = self
-        openChild(coordinator: editCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: false, completion: nil)
+        let nav = UINavigationController()
+        let assembly = LGListingBuilder.standard(navigationController: nav)
+        let vc = assembly.buildEditView(listing: listing,
+                                        pageType: nil,
+                                        bumpUpProductData: bumpUpProductData,
+                                        listingCanBeBoosted: false,
+                                        timeSinceLastBump: nil,
+                                        maxCountdown: 0,
+                                        onEditAction: onEdit)
+        nav.viewControllers = [vc]
+        tabBarCtl.present(nav, animated: true)
+    }
+
+    private func onEdit(listing: Listing,
+                           bumpData: BumpUpProductData?,
+                           timeSinceLastBump: TimeInterval?,
+                           maxCountdown: TimeInterval) {
+        refreshSelectedListingsRefreshable()
+        guard let listingId = listing.objectId, let bumpData = bumpData, bumpData.hasPaymentId else { return }
+        openPromoteBumpForListingId(listingId: listingId,
+                                    bumpUpProductData: bumpData,
+                                    typePage: .sellEdit)
     }
     
     func openInAppWebView(url: URL) {
@@ -521,24 +535,6 @@ extension AppCoordinator: SellCoordinatorDelegate {
 
     func sellCoordinator(_ coordinator: SellCoordinator, closePostAndOpenEditForListing listing: Listing) {
 		openAfterSellDialogIfNeeded(forListing: listing, bumpUpSource: .sellEdit(listing: listing))
-    }
-}
-
-extension AppCoordinator: EditListingCoordinatorDelegate {
-    func editListingCoordinatorDidCancel(_ coordinator: EditListingCoordinator) {}
-
-    func editListingCoordinator(_ coordinator: EditListingCoordinator,
-                                didFinishWithListing listing: Listing,
-                                bumpUpProductData: BumpUpProductData?,
-                                timeSinceLastBump: TimeInterval?,
-                                maxCountdown: TimeInterval) {
-        refreshSelectedListingsRefreshable()
-        guard let listingId = listing.objectId,
-            let bumpData = bumpUpProductData,
-            bumpData.hasPaymentId else { return }
-        openPromoteBumpForListingId(listingId: listingId,
-                                    bumpUpProductData: bumpData,
-                                    typePage: .sellEdit)
     }
 }
 

@@ -301,18 +301,36 @@ extension TabCoordinator: ListingDetailNavigator {
                      listingCanBeBoosted: Bool,
                      timeSinceLastBump: TimeInterval?,
                      maxCountdown: TimeInterval) {
-        let navigator = EditListingCoordinator(listing: listing,
-                                               bumpUpProductData: bumpUpProductData,
-                                               pageType: nil,
-                                               listingCanBeBoosted: listingCanBeBoosted,
-                                               timeSinceLastBump: timeSinceLastBump,
-                                               maxCountdown: maxCountdown)
-        navigator.delegate = self
-        openChild(coordinator: navigator,
-                  parent: rootViewController,
-                  animated: true,
-                  forceCloseChild: true,
-                  completion: nil)
+        let nav = UINavigationController()
+        let assembly = LGListingBuilder.standard(navigationController: nav)
+        let vc = assembly.buildEditView(listing: listing,
+                                        pageType: nil,
+                                        bumpUpProductData: bumpUpProductData,
+                                        listingCanBeBoosted: listingCanBeBoosted,
+                                        timeSinceLastBump: timeSinceLastBump,
+                                        maxCountdown: maxCountdown,
+                                        onEditAction: onEdit)
+        nav.viewControllers = [vc]
+        navigationController.present(nav, animated: true, completion: nil)
+    }
+
+    private func onEdit(listing: Listing,
+                bumpData: BumpUpProductData?,
+                timeSinceLastBump: TimeInterval?,
+                maxCountdown: TimeInterval) {
+        guard let bumpData = bumpData, bumpData.hasPaymentId else { return }
+        if let timeSinceLastBump = timeSinceLastBump, timeSinceLastBump > 0, featureFlags.bumpUpBoost.isActive {
+            openBumpUpBoost(forListing: listing,
+                            bumpUpProductData: bumpData,
+                            typePage: .edit,
+                            timeSinceLastBump: timeSinceLastBump,
+                            maxCountdown: maxCountdown)
+        } else {
+            openPayBumpUp(forListing: listing,
+                          bumpUpProductData: bumpData,
+                          typePage: .edit,
+                          maxCountdown: maxCountdown)
+        }
     }
 
     func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?) {
@@ -650,36 +668,3 @@ extension TabCoordinator: UserRatingCoordinatorDelegate {
 
     func userRatingCoordinatorDidFinish(withRating rating: Int?, ratedUserId: String?) { }
 }
-
-
-// MARK: - EditListingCoordinatorDelegate
-
-extension TabCoordinator: EditListingCoordinatorDelegate {
-    func editListingCoordinatorDidCancel(_ coordinator: EditListingCoordinator) {
-
-    }
-
-    func editListingCoordinator(_ coordinator: EditListingCoordinator,
-                                didFinishWithListing listing: Listing,
-                                bumpUpProductData: BumpUpProductData?,
-                                timeSinceLastBump: TimeInterval?,
-                                maxCountdown: TimeInterval) {
-        guard let bumpData = bumpUpProductData,
-            bumpData.hasPaymentId else { return }
-        if let timeSinceLastBump = timeSinceLastBump,
-            timeSinceLastBump > 0,
-            featureFlags.bumpUpBoost.isActive {
-            openBumpUpBoost(forListing: listing,
-                            bumpUpProductData: bumpData,
-                            typePage: .edit,
-                            timeSinceLastBump: timeSinceLastBump,
-                            maxCountdown: maxCountdown)
-        } else {
-            openPayBumpUp(forListing: listing,
-                          bumpUpProductData: bumpData,
-                          typePage: .edit,
-                          maxCountdown: maxCountdown)
-        }
-    }
-}
-
