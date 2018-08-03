@@ -32,7 +32,6 @@ protocol FeatureFlaggeable: class {
     var searchImprovements: SearchImprovements { get }
     var relaxedSearch: RelaxedSearch { get }
     var bumpUpBoost: BumpUpBoost { get }
-    var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings { get }
     var showProTagUserProfile: Bool { get }
     var sectionedMainFeed: SectionedMainFeed { get }
     var showExactLocationForPros: Bool { get }
@@ -221,20 +220,6 @@ extension BumpUpBoost {
 
 extension DeckItemPage {
     var isActive: Bool {get { return self == .active }}
-}
-
-extension AddPriceTitleDistanceToListings {
-    var hideDetailInFeaturedArea: Bool {
-        return self == .infoInImage
-    }
-    
-    var showDetailInNormalCell: Bool {
-        return self == .infoWithWhiteBackground
-    }
-    
-    var showDetailInImage: Bool {
-        return self == .infoInImage
-    }
 }
 
 extension CopyForChatNowInTurkey {
@@ -655,13 +640,6 @@ final class FeatureFlags: FeatureFlaggeable {
         return RelaxedSearch.fromPosition(abTests.relaxedSearch.value)
     }
     
-    var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings {
-        if Bumper.enabled {
-            return Bumper.addPriceTitleDistanceToListings
-        }
-        return AddPriceTitleDistanceToListings.fromPosition(abTests.addPriceTitleDistanceToListings.value)
-    }
-
     var bumpUpBoost: BumpUpBoost {
         if Bumper.enabled {
             return Bumper.bumpUpBoost

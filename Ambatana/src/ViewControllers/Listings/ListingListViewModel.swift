@@ -41,10 +41,14 @@ struct VerticalTrackingInfo {
     let matchingFields: [String]
 }
 
+private enum Layout {
+    static let  minCellHeight: CGFloat = 80
+}
 
 final class ListingListViewModel: BaseViewModel {
 
-    private let cellMinHeight: CGFloat = 80.0
+    private let cellMinHeight: CGFloat = Layout.minCellHeight
+    
     private var cellAspectRatio: CGFloat {
         return 198.0 / cellMinHeight
     }
@@ -591,10 +595,12 @@ final class ListingListViewModel: BaseViewModel {
         })
     }
     
-    private func featuredInfoAdditionalCellHeight(for listing: Listing, width: CGFloat, infoInImage: Bool) -> CGFloat {
-        var height: CGFloat = actionButtonCellHeight(for: listing)
-        height += infoInImage ? 0 : ListingCellMetrics.getTotalHeightForPriceAndTitleView(listing.title, containerWidth: width)
-        return height
+    private func featuredInfoAdditionalCellHeight(for listing: Listing, width: CGFloat) -> CGFloat {
+        return actionButtonCellHeight(for: listing)
+            + ListingCellMetrics.getTotalHeightForPriceAndTitleView(
+                listing.title,
+                containerWidth: width
+        )
     }
     
     private func actionButtonCellHeight(for listing: Listing) -> CGFloat {
@@ -609,26 +615,8 @@ final class ListingListViewModel: BaseViewModel {
         return minCellHeight - height
     }
     
-    private func additionalImageHeightWithProductDetail(for listing: Listing,
-                                                  toHeight height: CGFloat,
-                                                  variant: AddPriceTitleDistanceToListings) -> CGFloat {
-        let minCellHeight: CGFloat = ListingCellMetrics.minThumbnailHeightWithContent
-        guard variant.showDetailInImage, height < minCellHeight else { return 0 }
-        return minCellHeight - height
-    }
-    
-    private func normalCellAdditionalHeight(for listing: Listing,
-                                            width: CGFloat,
-                                            variant: AddPriceTitleDistanceToListings) -> CGFloat {
-        if let isFeatured = listing.featured, isFeatured { return 0 }
-        guard variant.showDetailInNormalCell else { return 0 }
-        return ListingCellMetrics.getTotalHeightForPriceAndTitleView(listing.title, containerWidth: width)
-    }
-    
     private func thumbImageViewSize(for listing: Listing, widthConstraint: CGFloat) -> CGSize? {
         let maxPortraitAspectRatio = AspectRatio.w1h2
-        let addPriceInPhotoFlag = featureFlags.addPriceTitleDistanceToListings
-        let minCellHeight: CGFloat = addPriceInPhotoFlag.showDetailInImage ? ListingCellMetrics.minThumbnailHeightWithContent : 80.0
         
         guard let originalThumbSize = listing.thumbnailSize?.toCGSize, originalThumbSize.height != 0 && originalThumbSize.width != 0 else {
             return nil
@@ -641,7 +629,7 @@ final class ListingListViewModel: BaseViewModel {
             cellAspectRatio = originalThumbnailAspectRatio
         }
         var thumbHeight = round(cellAspectRatio.size(setting: widthConstraint, in: .width).height)
-        thumbHeight = max(minCellHeight, thumbHeight)
+        thumbHeight = max(Layout.minCellHeight, thumbHeight)
         let thumbSize = CGSize(width: widthConstraint, height: thumbHeight)
         return thumbSize
     }
@@ -666,9 +654,7 @@ final class ListingListViewModel: BaseViewModel {
             if cellStyle == .serviceList {
                 cellHeight += actionButtonCellHeight(for: listing)
             } else  {
-                cellHeight += featuredInfoAdditionalCellHeight(for: listing,
-                                                               width: widthConstraint,
-                                                               infoInImage: featureFlags.addPriceTitleDistanceToListings == .infoInImage)
+                cellHeight += featuredInfoAdditionalCellHeight(for: listing, width: widthConstraint)
             }
         }
         
@@ -676,10 +662,8 @@ final class ListingListViewModel: BaseViewModel {
         
         if cellStyle == .serviceList {
             cellHeight += ListingCellMetrics.getTotalHeightForPriceAndTitleView(listing.title, containerWidth: widthConstraint)
-        } else {
-            cellHeight += normalCellAdditionalHeight(for: listing, width: widthConstraint,
-                                                     variant: featureFlags.addPriceTitleDistanceToListings)
         }
+        
         return CGSize(width: widthConstraint, height: cellHeight)
     }
     

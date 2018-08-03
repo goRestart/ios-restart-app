@@ -39,7 +39,6 @@ extension Bumper  {
         flags.append(BumpUpBoost.self)
         flags.append(CopyForChatNowInTurkey.self)
         flags.append(ChatNorris.self)
-        flags.append(AddPriceTitleDistanceToListings.self)
         flags.append(ShowProTagUserProfile.self)
         flags.append(FeedAdsProviderForUS.self)
         flags.append(CopyForChatNowInEnglish.self)
@@ -381,19 +380,6 @@ extension Bumper  {
     static var chatNorrisObservable: Observable<ChatNorris> {
         return Bumper.observeValue(for: ChatNorris.key).map {
             ChatNorris(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings {
-        guard let value = Bumper.value(for: AddPriceTitleDistanceToListings.key) else { return .control }
-        return AddPriceTitleDistanceToListings(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var addPriceTitleDistanceToListingsObservable: Observable<AddPriceTitleDistanceToListings> {
-        return Bumper.observeValue(for: AddPriceTitleDistanceToListings.key).map {
-            AddPriceTitleDistanceToListings(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1302,23 +1288,6 @@ enum ChatNorris: String, BumperFeature  {
             case 2: return .redButton
             case 3: return .whiteButton
             case 4: return .greenButton
-            default: return .control
-        }
-    }
-}
-
-enum AddPriceTitleDistanceToListings: String, BumperFeature  {
-    case control, baseline, infoInImage, infoWithWhiteBackground
-    static var defaultValue: String { return AddPriceTitleDistanceToListings.control.rawValue }
-    static var enumValues: [AddPriceTitleDistanceToListings] { return [.control, .baseline, .infoInImage, .infoWithWhiteBackground]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Add price, title and distance to listings" } 
-    static func fromPosition(_ position: Int) -> AddPriceTitleDistanceToListings {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .infoInImage
-            case 3: return .infoWithWhiteBackground
             default: return .control
         }
     }

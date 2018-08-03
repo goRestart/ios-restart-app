@@ -116,11 +116,6 @@
         "description": "[CHAT] Show the create meeting option in chat detail view."
     },
     {
-        "name": "AddPriceTitleDistanceToListings",
-        "values": ["control", "baseline", "infoInImage", "infoWithWhiteBackground"],
-        "description": "Add price, title and distance to listings"
-    },
-    {
         "name": "ShowProTagUserProfile",
         "values": ["no", "yes"],
         "description": "Show Professional tag in user profile"

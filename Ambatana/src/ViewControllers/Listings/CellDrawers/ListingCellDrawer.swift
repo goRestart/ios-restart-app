@@ -52,23 +52,6 @@ final class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDr
 
     private func configThumbnailArea(_ model: ListingData, style: CellStyle, inCell cell: ListingCell) {
         configStrips(model, inCell: cell)
-        configProductInfoInImage(model, style: style, inCell: cell)
-    }
-    
-    private func configProductInfoInImage(_ model: ListingData, style: CellStyle, inCell cell: ListingCell) {
-        guard style == .mainList else { return }
-        
-        switch featureFlags.addPriceTitleDistanceToListings {
-        case .baseline, .control: break
-        case .infoInImage:
-            let canShowPaymentFrequency = featureFlags.servicesPaymentFrequency.isActive
-            cell.showCompleteProductInfoInImage(price: model.price,
-                                                paymentFrequency: canShowPaymentFrequency ? model.paymentFrequency : nil,
-                                                title: model.title,
-                                                distance: model.distanceToListing)
-        case .infoWithWhiteBackground:
-            cell.showDistanceOnlyInImage(distance: model.distanceToListing)
-        }
     }
     
     private func configStrips(_ model: ListingData, inCell cell: ListingCell) {
@@ -82,33 +65,30 @@ final class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDr
     private func configWhiteAreaUnderThumbnailImage(_ model: ListingData, style: CellStyle, inCell cell: ListingCell,
                                                     isPrivateList: Bool) {
         guard style == .mainList || style == .serviceList else { return }
-        let flag = featureFlags.addPriceTitleDistanceToListings
-        let isServicesCell = style == .serviceList
-        var hideProductDetail = flag.hideDetailInFeaturedArea
-        if isServicesCell { hideProductDetail = false }
-
         let listingCanBeBumped = model.listing?.status == .approved || model.listing?.status == .pending
-
+        
         let showBumpUpCTA = model.isMine &&
-            featureFlags.showSellFasterInProfileCells.isActive &&
-            featureFlags.pricedBumpUpEnabled &&
-            isPrivateList && listingCanBeBumped
-
+        featureFlags.showSellFasterInProfileCells.isActive &&
+        featureFlags.pricedBumpUpEnabled &&
+        isPrivateList && listingCanBeBumped
+        
         let canShowPaymentFrequency = featureFlags.servicesPaymentFrequency.isActive
-
+        
         if model.isFeatured {
+            // According to the bussines login all the featured items (services, cards, real estates, etc),
+            // must show the title, the description and the red button, that the reason of the hideProductDetail: false.
             cell.setupFeaturedListingInfoWith(price: model.price,
                                               paymentFrequency: canShowPaymentFrequency ? model.paymentFrequency : nil,
                                               title: model.title,
                                               isMine: model.isMine,
-                                              hideProductDetail: hideProductDetail,
+                                              hideProductDetail: false,
                                               shouldShowBumpUpCTA: showBumpUpCTA)
         } else {
             cell.setupNonFeaturedProductInfoUnderImage(price: model.price,
                                                        paymentFrequency: canShowPaymentFrequency ? model.paymentFrequency : nil,
                                                        title: model.title,
-                                                       shouldShow: flag.showDetailInNormalCell || isServicesCell,
-                                                       shouldShowBumpUpCTA: showBumpUpCTA)
+                                                       shouldShow: (style == .serviceList),
+                                                       shouldShowBumpUpCTA: showBumpUpCTA);
         }
     }
 
