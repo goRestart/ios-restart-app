@@ -8,6 +8,7 @@
 
 import Foundation
 import LGCoreKit
+import LGComponents
 
 class PasswordlessUsernameCoordinator: Coordinator, PasswordlessUsernameNavigator {
     var child: Coordinator?
