@@ -817,7 +817,7 @@ fileprivate extension AppCoordinator {
 
         let yesAction = UIAction(interface: .styledText(R.Strings.commonOk, .standard), action: { [weak self] in
             self?.openLoginIfNeeded(from: .profile) { [weak self] in
-                self?.openTab(.profile) { [weak self] in
+                self?.openUserProfile() { [weak self] in
                     self?.openChangeLocation()
                 }
             }
@@ -977,7 +977,7 @@ fileprivate extension AppCoordinator {
             }
         case let .user(userId):
             if userId == myUserRepository.myUser?.objectId {
-                openTab(.profile, force: false, completion: nil)
+                openUserProfile()
             } else {
                 tabBarCtl.clearAllPresented(nil)
                 afterDelayClosure = { [weak self] in
@@ -1019,13 +1019,13 @@ fileprivate extension AppCoordinator {
             }
         case .userRatings:
             afterDelayClosure = { [weak self] in
-                self?.openTab(.profile) { [weak self] in
+                self?.openUserProfile() { [weak self] in
                     self?.openMyUserRatings()
                 }
             }
         case let .userRating(ratingId):
             afterDelayClosure = { [weak self] in
-                self?.openTab(.profile) { [weak self] in
+                self?.openUserProfile() { [weak self] in
                     self?.openUserRatingForUserFromRating(ratingId)
                 }
             }
@@ -1047,7 +1047,6 @@ fileprivate extension AppCoordinator {
             }
         }
     }
-
 
     /**
      A deeplink has been received while the app is active. It means the user was already inside the app and the deeplink
@@ -1115,6 +1114,15 @@ fileprivate extension AppCoordinator {
         }
     }
 
+    func openUserProfile(completion: (()->Void)? = nil) {
+        if featureFlags.community.shouldShowOnTab {
+            let coord = ProfileTabCoordinator(source: .mainListing)
+            openChild(coordinator: coord, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: completion)
+        } else {
+            openTab(.profile, force: false, completion: completion)
+        }
+    }
+
     func showInappChatNotification(_ conversationId: String, message: String) {
         guard sessionManager.loggedIn else { return }
         //Avoid showing notification if user is already in that conversation.
@@ -1178,7 +1186,7 @@ extension AppCoordinator: BumpInfoRequesterDelegate {
         switch bumpUpSource {
         case .deepLink:
             tabBarCtl.clearAllPresented(nil)
-            openTab(.profile, force: false) { [weak self] in
+            openUserProfile() { [weak self] in
                 var actionOnFirstAppear = ProductCarouselActionOnFirstAppear.triggerBumpUp(bumpUpProductData: bumpUpProductData,
                                                                                            bumpUpType: .priced,
                                                                                            triggerBumpUpSource: .deepLink,
@@ -1216,7 +1224,7 @@ extension AppCoordinator: PromoteBumpCoordinatorDelegate {
                         bumpUpProductData: BumpUpProductData,
                         typePage: EventParameterTypePage?) {
         tabBarCtl.clearAllPresented(nil)
-        openTab(.profile, force: false) { [weak self] in
+        openUserProfile() { [weak self] in
 
             let triggerBumpOnAppear = ProductCarouselActionOnFirstAppear.triggerBumpUp(bumpUpProductData: bumpUpProductData,
                                                                                        bumpUpType: .priced,
