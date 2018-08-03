@@ -30,7 +30,7 @@ enum ReportOptionType: String {
     // Step 2A (from suspiciousBehaviour)
     case notRespondingToMessages = "not_responding"
     case offeringToTradeInsteadOfPayingInCash = "trade_offered"
-    case offeringRoPayWithWesternUnionOrPaypal = "watern_paypal_offered"
+    case offeringToPayWithWesternUnionOrPaypal = "western_paypal_offered"
     case spamAccount = "spam_account"
     case otherSuspiciousBehaviour = "other_suspicious"
 
@@ -71,7 +71,7 @@ enum ReportOptionType: String {
         case .unrealisticPriceOrOffers: return R.Strings.reportingReasonUnrealisticPrice
         case .notRespondingToMessages: return R.Strings.reportingReasonNotResponding
         case .offeringToTradeInsteadOfPayingInCash: return R.Strings.reportingReasonOfferedTrade
-        case .offeringRoPayWithWesternUnionOrPaypal: return R.Strings.reportingReasonOfferedWesternUnionOrPaypañ
+        case .offeringToPayWithWesternUnionOrPaypal: return R.Strings.reportingReasonOfferedWesternUnionOrPaypañ
         case .spamAccount: return R.Strings.reportingReasonSpamAccount
         case .otherSuspiciousBehaviour: return R.Strings.reportingReasonOther
         case .inappropriateProfilePhoto: return R.Strings.reportingReasonProfilePhoto
@@ -107,7 +107,7 @@ enum ReportOptionType: String {
             case .unrealisticPriceOrOffers: return R.Asset.Reporting.unrealisticPrice.image
             case .notRespondingToMessages: return R.Asset.Reporting.noAnswerChat.image
             case .offeringToTradeInsteadOfPayingInCash: return R.Asset.Reporting.trade.image
-            case .offeringRoPayWithWesternUnionOrPaypal: return R.Asset.Reporting.onlinePayment.image
+            case .offeringToPayWithWesternUnionOrPaypal: return R.Asset.Reporting.onlinePayment.image
             case .spamAccount: return R.Asset.Reporting.spam.image
             case .otherSuspiciousBehaviour: return R.Asset.Reporting.other.image
             case .inappropriateProfilePhoto: return R.Asset.Reporting.inappropriatePhoto.image
@@ -131,7 +131,7 @@ enum ReportOptionType: String {
              .drugsAlcoholOrTobacco, .weaponsOrViolentContent, .otherReasonItShouldntBeOnLetgo,
              .sellingSomethingInappropriate, .suspiciousBehaviour, .inappropriateProfilePhotoOrBio, .problemDuringMeetup,
              .inappropriateChatMessages, .unrealisticPriceOrOffers, .notRespondingToMessages,
-             .offeringToTradeInsteadOfPayingInCash, .offeringRoPayWithWesternUnionOrPaypal, .robberyOrViolentIncident,
+             .offeringToTradeInsteadOfPayingInCash, .offeringToPayWithWesternUnionOrPaypal, .robberyOrViolentIncident,
              .paidWithCounterfeitMoney, .didntShowUp, .itemDefectiveOrNotAsDescribed, .threateningViolence:
             return false
         case .spamAccount, .otherSuspiciousBehaviour, .inappropriateProfilePhoto, .inappropriateBio,
@@ -153,7 +153,7 @@ enum ReportOptionType: String {
             return ReportSentType.userBasic
         case .notRespondingToMessages, .offeringToTradeInsteadOfPayingInCash, .didntShowUp, .itemDefectiveOrNotAsDescribed:
             return ReportSentType.userBlockA
-        case .offeringRoPayWithWesternUnionOrPaypal, .spamAccount, .otherSuspiciousBehaviour, .inappropriateProfilePhoto,
+        case .offeringToPayWithWesternUnionOrPaypal, .spamAccount, .otherSuspiciousBehaviour, .inappropriateProfilePhoto,
              .inappropriateBio, .otherProblemDuringMeetup, .rudeOrOffensiveLanguage, .suspiciousOrScammyBehavior,
              .sexualOrObsceneLanguage, .otherReasonInnappropriateChatMessages, .unrealisticPriceOrOffers:
             return ReportSentType.userBlockB

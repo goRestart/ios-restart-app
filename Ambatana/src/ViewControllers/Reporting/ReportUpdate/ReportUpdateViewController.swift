@@ -187,7 +187,6 @@ final class ReportUpdateViewController: BaseViewController {
         }
         updateFeedbackTitle(type: sender.type)
         viewModel.updateReport(with: sender.type)
-        // TODO: Communicate with ViewModel to send feedback
     }
 
     private func updateFeedbackTitle(type: ReportUpdateButtonType) {
