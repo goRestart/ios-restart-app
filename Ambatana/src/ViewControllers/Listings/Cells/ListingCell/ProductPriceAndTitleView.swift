@@ -87,7 +87,7 @@ final class ProductPriceAndTitleView: UIView {
                   price: String,
                   priceType: String?,
                   style: DisplayStyle) {
-        priceLabel.text = price
+
         titleLabel.text = title
         
         priceLabel.textColor = priceLabelColour(forDisplayStyle: style)
@@ -104,33 +104,24 @@ final class ProductPriceAndTitleView: UIView {
             applyShadow(withOpacity: 0.5, radius: 5, color: UIColor.black.cgColor)
         }
         
-        configurePriceLabelAttributedText(forPrice: price,
-                                          withPriceType: priceType,
-                                          style: style)
+        if let attributedText = priceAttributedString(forPrice: price, priceType: priceType, style: style) {
+            priceLabel.attributedText = attributedText
+        } else {
+            priceLabel.text = price
+        }
     }
     
-    private func configurePriceLabelAttributedText(forPrice price: String,
-                                                   withPriceType priceType: String?,
-                                                   style: DisplayStyle) {
-        guard let priceType = priceType else {
-            return
-        }
+    private func priceAttributedString(forPrice price: String,
+                                       priceType: String?,
+                                       style: DisplayStyle) -> NSAttributedString? {
+        guard let priceType = priceType else { return nil }
         
-        let priceColour = priceLabelColour(forDisplayStyle: style)
-        let priceTypeColour = priceTypeForegroundColor(forDisplayStyle: style)
-        
-        
-        let attributedPriceString = NSAttributedString(string: "\(price) ",
-                                                       attributes: [.font: ListingCellMetrics.PriceLabel.font,
-                                                                    .foregroundColor: priceColour])
-        let attributedPriceTypeString = NSAttributedString(string: priceType,
-                                                           attributes: [.font: UIFont.systemFont(ofSize: FontSize.priceType),
-                                                                        .foregroundColor: priceTypeColour])
-        
-        let attributedString = NSMutableAttributedString(attributedString: attributedPriceString)
-        attributedString.append(attributedPriceTypeString)
-        
-        priceLabel.attributedText = attributedString
+        let text = "\(price) \(priceType)"
+        return text.bifontAttributedText(highlightedText: priceType,
+                                         mainFont: ListingCellMetrics.PriceLabel.font,
+                                         mainColour: priceLabelColour(forDisplayStyle: style),
+                                         otherFont: UIFont.systemFont(ofSize: FontSize.priceType),
+                                         otherColour: priceTypeForegroundColor(forDisplayStyle: style))
     }
     
     private func priceTypeForegroundColor(forDisplayStyle displayStyle: DisplayStyle) -> UIColor {

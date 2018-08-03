@@ -61,8 +61,9 @@ final class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDr
         switch featureFlags.addPriceTitleDistanceToListings {
         case .baseline, .control: break
         case .infoInImage:
+            let canShowPriceType = featureFlags.servicesPriceType.isActive
             cell.showCompleteProductInfoInImage(price: model.price,
-                                                priceType: model.priceType,
+                                                priceType: canShowPriceType ? model.priceType : nil,
                                                 title: model.title,
                                                 distance: model.distanceToListing)
         case .infoWithWhiteBackground:
@@ -84,15 +85,16 @@ final class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDr
         let isServicesCell = style == .serviceList
         var hideProductDetail = flag.hideDetailInFeaturedArea
         if isServicesCell { hideProductDetail = false }
+        let canShowPriceType = featureFlags.servicesPriceType.isActive
         if model.isFeatured {
             cell.setupFeaturedListingInfoWith(price: model.price,
-                                              priceType: model.priceType,
+                                              priceType: canShowPriceType ? model.priceType : nil,
                                               title: model.title,
                                               isMine: model.isMine,
                                               hideProductDetail: hideProductDetail)
         } else {
             cell.setupNonFeaturedProductInfoUnderImage(price: model.price,
-                                                       priceType: model.priceType,
+                                                       priceType: canShowPriceType ? model.priceType : nil,
                                                        title: model.title,
                                                        shouldShow: flag.showDetailInNormalCell || isServicesCell)
         }

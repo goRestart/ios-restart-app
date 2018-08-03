@@ -94,6 +94,10 @@ class ListingCarouselViewModel: BaseViewModel {
         return !keyValueStorage[.listingMoreInfoTooltipDismissed]
     }
     
+    var shouldShowPriceType: Bool {
+        return featureFlags.servicesPriceType.isActive
+    }
+    
     let actionOnFirstAppear: ProductCarouselActionOnFirstAppear
 
     let productInfo = Variable<ListingVMProductInfo?>(nil)
