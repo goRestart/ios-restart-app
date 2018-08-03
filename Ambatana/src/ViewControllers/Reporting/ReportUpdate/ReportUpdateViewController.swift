@@ -85,6 +85,7 @@ final class ReportUpdateViewController: BaseViewController {
     init(viewModel: ReportUpdateViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
+        self.viewModel.delegate = self
         setupUI()
         setupAccessibilityIds()
     }
@@ -185,6 +186,7 @@ final class ReportUpdateViewController: BaseViewController {
             button.set(selected: button == sender)
         }
         updateFeedbackTitle(type: sender.type)
+        viewModel.updateReport(with: sender.type)
         // TODO: Communicate with ViewModel to send feedback
     }
 

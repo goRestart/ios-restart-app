@@ -2,7 +2,7 @@ import Foundation
 import LGComponents
 
 enum ReportUpdateButtonType: Int {
-    case verySad
+    case verySad = 1
     case sad
     case neutral
     case happy

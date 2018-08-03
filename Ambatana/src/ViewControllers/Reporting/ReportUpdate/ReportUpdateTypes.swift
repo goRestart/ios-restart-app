@@ -16,6 +16,15 @@ enum ReportUpdateType {
         }
     }
 
+    var isProductReport: Bool {
+        switch self {
+        case .product:
+            return true
+        case .userA, .userB, .userC:
+            return false
+        }
+    }
+
     var attributedText: NSAttributedString {
         switch self {
         case .product(let productname, let username):
