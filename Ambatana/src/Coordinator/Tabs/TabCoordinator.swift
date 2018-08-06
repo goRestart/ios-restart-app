@@ -286,14 +286,12 @@ extension TabCoordinator: ListingDetailNavigator {
     }
 
     func openVideoPlayer(atIndex index: Int, listingVM: ListingViewModel, source: EventParameterListingVisitSource) {
-        guard let coordinator = VideoPlayerCoordinator(atIndex: index, listingVM: listingVM, source: source) else {
+        let assembly = LGListingBuilder.standard(navigationController: navigationController)
+        let nav = UINavigationController()
+        guard let _ = assembly.buildVideoPlayer(into: nav, atIndex: index, listingVM: listingVM, source: source) else {
             return
         }
-        openChild(coordinator: coordinator,
-                  parent: rootViewController,
-                  animated: true,
-                  forceCloseChild: true,
-                  completion: nil)
+        navigationController.present(nav, animated: true, completion: nil)
     }
 
     func closeProductDetail() {

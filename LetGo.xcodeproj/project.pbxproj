@@ -151,8 +151,6 @@
 		0A4AD7FB203DDACA002625B7 /* UILayoutPriority.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4AD7F9203DD9B8002625B7 /* UILayoutPriority.swift */; };
 		0A4C69D820C92D5100B89022 /* RecaptchaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4C69D720C92D5100B89022 /* RecaptchaView.swift */; };
 		0A4C69D920C92E4E00B89022 /* RecaptchaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4C69D720C92D5100B89022 /* RecaptchaView.swift */; };
-		0A5333D0208F53BC000D3F42 /* VideoPlayerCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5333CF208F53BC000D3F42 /* VideoPlayerCoordinator.swift */; };
-		0A5333D1208F5508000D3F42 /* VideoPlayerCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5333CF208F53BC000D3F42 /* VideoPlayerCoordinator.swift */; };
 		0A561AE220C81FF00082D551 /* UICollectionView+ReusableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A561AE120C81FF00082D551 /* UICollectionView+ReusableCell.swift */; };
 		0A561AE320C8203F0082D551 /* UICollectionView+ReusableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A561AE120C81FF00082D551 /* UICollectionView+ReusableCell.swift */; };
 		0A60CAA71FB0C4EF00BE1EFE /* ListingCardUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A63DFC21FB0B7AC00C065F2 /* ListingCardUserView.swift */; };
@@ -240,6 +238,8 @@
 		0AC489441F9DE2C000CD6C53 /* ListingCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC489421F9DE15000CD6C53 /* ListingCardView.swift */; };
 		0AC489461F9DE31400CD6C53 /* ListingDeckCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC489451F9DE31400CD6C53 /* ListingDeckCollectionViewLayout.swift */; };
 		0AC489471F9DE41A00CD6C53 /* ListingDeckCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC489451F9DE31400CD6C53 /* ListingDeckCollectionViewLayout.swift */; };
+		0ACA8F3D21148AC900243850 /* PhotoViewerRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACA8F3C21148AC900243850 /* PhotoViewerRouter.swift */; };
+		0ACA8F3E21148C0300243850 /* PhotoViewerRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACA8F3C21148AC900243850 /* PhotoViewerRouter.swift */; };
 		0ACA8F3421145ECB00243850 /* LGRateBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACA8F3321145ECB00243850 /* LGRateBuilder.swift */; };
 		0ACA8F3521145F4600243850 /* LGRateBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACA8F3321145ECB00243850 /* LGRateBuilder.swift */; };
 		0ACA8F37211484A600243850 /* LGLeanplumBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACA8F36211484A600243850 /* LGLeanplumBuilder.swift */; };
@@ -2192,7 +2192,6 @@
 		0A4766CA1FC5BB2A005B176F /* ProductStatusView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductStatusView.swift; sourceTree = "<group>"; };
 		0A4AD7F9203DD9B8002625B7 /* UILayoutPriority.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILayoutPriority.swift; sourceTree = "<group>"; };
 		0A4C69D720C92D5100B89022 /* RecaptchaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecaptchaView.swift; sourceTree = "<group>"; };
-		0A5333CF208F53BC000D3F42 /* VideoPlayerCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerCoordinator.swift; sourceTree = "<group>"; };
 		0A561AE120C81FF00082D551 /* UICollectionView+ReusableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+ReusableCell.swift"; sourceTree = "<group>"; };
 		0A63DFBF1FB0A9A600C065F2 /* ListingCardDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardDetailsView.swift; sourceTree = "<group>"; };
 		0A63DFC21FB0B7AC00C065F2 /* ListingCardUserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardUserView.swift; sourceTree = "<group>"; };
@@ -2241,6 +2240,7 @@
 		0AC110482003C99E00D23246 /* ListingCardDetailsViewBinderSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingCardDetailsViewBinderSpec.swift; sourceTree = "<group>"; };
 		0AC489421F9DE15000CD6C53 /* ListingCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardView.swift; sourceTree = "<group>"; };
 		0AC489451F9DE31400CD6C53 /* ListingDeckCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckCollectionViewLayout.swift; sourceTree = "<group>"; };
+		0ACA8F3C21148AC900243850 /* PhotoViewerRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewerRouter.swift; sourceTree = "<group>"; };
 		0ACA8F3321145ECB00243850 /* LGRateBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGRateBuilder.swift; sourceTree = "<group>"; };
 		0ACA8F36211484A600243850 /* LGLeanplumBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGLeanplumBuilder.swift; sourceTree = "<group>"; };
 		0ACA8F38211484FA00243850 /* LPMessageRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LPMessageRouter.swift; sourceTree = "<group>"; };
@@ -3519,6 +3519,7 @@
 				0A21C645210F41210093A86C /* VerifyUserEmailRouter.swift */,
 				0A21C652210F47CA0093A86C /* SimpleProductsRouter.swift */,
 				0ADD39DD21133AED0071DF87 /* EditListingRouter.swift */,
+				0ACA8F3C21148AC900243850 /* PhotoViewerRouter.swift */,
 				0ACA8F38211484FA00243850 /* LPMessageRouter.swift */,
 			);
 			path = Router;
@@ -4438,7 +4439,6 @@
 				2E4BDE6B1EDC528800CBDC8C /* QuickLocationFiltersNavigator.swift */,
 				2E6691B11FBDF2D000FC2A77 /* PromoteBumpNavigator.swift */,
 				2E6691B41FBDF2E100FC2A77 /* PromoteBumpCoordinator.swift */,
-				0A5333CF208F53BC000D3F42 /* VideoPlayerCoordinator.swift */,
 				F53EE57A20EA69AF00D27EE0 /* Coordinator+Login.swift */,
 				0AE6F4FD20F8DE2A00D58BCE /* SearchNavigator.swift */,
 			);
@@ -7547,7 +7547,6 @@
 				2EBC92181E0ABCDF007F0F82 /* PurchaseableProductsRequest.swift in Sources */,
 				C74234061D59EC680082D1CD /* LocalMessage.swift in Sources */,
 				0AA7DB5B2110A7B800B2B657 /* DeeplinkMailBox.swift in Sources */,
-				0A5333D0208F53BC000D3F42 /* VideoPlayerCoordinator.swift in Sources */,
 				504652F21CC0F0B3003F5070 /* Listing+Title.swift in Sources */,
 				0A63DFC31FB0B7AC00C065F2 /* ListingCardUserView.swift in Sources */,
 				2E0F26501E0ACB3B00D97898 /* PurchaseableProductsRequestFactory.swift in Sources */,
@@ -7595,6 +7594,7 @@
 				F5F2113620EE59E700CD137A /* DefaultKeys+Admin.swift in Sources */,
 				427CAB8A206A827300112D58 /* TrendingSearchView.swift in Sources */,
 				50EC64041C64B05500DC04C5 /* LGEmptyView.swift in Sources */,
+				0ACA8F3D21148AC900243850 /* PhotoViewerRouter.swift in Sources */,
 				0187407D1FD594B6009C1363 /* BlockingPostingQueuedRequestsViewModel.swift in Sources */,
 				C7B5882B1CE1DE1C009B3975 /* BlockedUsersListViewModel.swift in Sources */,
 				50D4C3221F8CBF39000E8069 /* SuggestiveSearch+LG.swift in Sources */,
@@ -8419,7 +8419,6 @@
 				2EBC92191E0ABCDF007F0F82 /* PurchaseableProductsRequest.swift in Sources */,
 				504652F31CC0F398003F5070 /* Listing+Title.swift in Sources */,
 				0AA7DB5C2110A7B800B2B657 /* DeeplinkMailBox.swift in Sources */,
-				0A5333D1208F5508000D3F42 /* VideoPlayerCoordinator.swift in Sources */,
 				C7F18AA01C89D62600D23319 /* GalleryImageCell.swift in Sources */,
 				0A60CAA71FB0C4EF00BE1EFE /* ListingCardUserView.swift in Sources */,
 				2E0F26511E0ACD5D00D97898 /* PurchaseableProductsRequestFactory.swift in Sources */,
@@ -8467,6 +8466,7 @@
 				F5F2113720EE59E700CD137A /* DefaultKeys+Admin.swift in Sources */,
 				C7C328421C907267008078EC /* PostListingGalleryViewModel.swift in Sources */,
 				42566BF320ED217800120431 /* TooltipConfiguration.swift in Sources */,
+				0ACA8F3E21148C0300243850 /* PhotoViewerRouter.swift in Sources */,
 				C707D44B1E96799000042C03 /* TextHiddenTags.swift in Sources */,
 				50EC64051C64B05500DC04C5 /* LGEmptyView.swift in Sources */,
 				509CFF361DCCE8DF0068E518 /* CGPoint+LG.swift in Sources */,
