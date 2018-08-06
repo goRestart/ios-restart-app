@@ -309,6 +309,16 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
                 }
             }
             .disposed(by: bag)
+        
+        rx_conversations
+            .asObservable()
+            .filter { $0.count > 0 }
+            .bind { [weak self] _ in
+                if let viewState = self?.rx_viewState.value, viewState != .data {
+                   self?.rx_viewState.value = .data
+                }
+            }
+            .disposed(by: bag)
     }
     
     private func setupRx(for filter: ChatConversationsListFilter) {
@@ -389,7 +399,7 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
         if websocketWasClosedDuringCurrentSession {
             websocketWasClosedDuringCurrentSession = false
             retrieveFirstPage()
-        } else if rx_wsChatStatus.value != .openAuthenticated || objectCount == 0 {
+        } else if rx_wsChatStatus.value != .openAuthenticated || rx_viewState.value != .data {
             retrieveFirstPage()
         }
     }
