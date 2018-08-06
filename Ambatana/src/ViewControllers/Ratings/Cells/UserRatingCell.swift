@@ -6,12 +6,14 @@ extension UserRatingType {
 
     func ratingTypeText(_ userName: String) -> String {
         switch self {
-        case .conversation, .report:
+        case .conversation:
             return R.Strings.ratingListRatingTypeConversationTextLabel(userName)
         case .seller:
             return R.Strings.ratingListRatingTypeBuyerTextLabel(userName)
         case .buyer:
             return R.Strings.ratingListRatingTypeSellerTextLabel(userName)
+        case .report:
+            return ""
         }
     }
 

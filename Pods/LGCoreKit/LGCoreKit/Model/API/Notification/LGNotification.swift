@@ -35,7 +35,8 @@ struct LGNotification: NotificationModel, Decodable {
     public init(from decoder: Decoder) throws {
         let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
         objectId = try keyedContainer.decodeIfPresent(String.self, forKey: .objectId)
-        createdAt = try keyedContainer.decode(Date.self, forKey: .createdAt)
+        let createdAtTimestamp = try keyedContainer.decode(TimeInterval.self, forKey: .createdAt)
+        createdAt = Date(timeIntervalSince1970: createdAtTimestamp.epochInSeconds())
         isRead = try keyedContainer.decode(Bool.self, forKey: .isRead)
         campaignType = try keyedContainer.decodeIfPresent(String.self, forKey: .campaignType)
         modules = try keyedContainer.decode(LGNotificationModular.self, forKey: .modules)

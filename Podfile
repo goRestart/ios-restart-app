@@ -45,7 +45,7 @@ def shared_pods
 
     # letgo Core
 
-    pod "LGCoreKit",             "4.54.0", :inhibit_warnings => false
+    pod "LGCoreKit",             "4.57.0", :inhibit_warnings => false
     # pod "LGCoreKit",            :path => "../lgcorekit", :inhibit_warnings => false
     #pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :branch => 'ABIOS-4676-modify-put-request-when-editing-a-service', :inhibit_warnings => false
 
