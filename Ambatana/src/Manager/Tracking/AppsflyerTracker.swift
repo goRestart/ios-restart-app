@@ -7,7 +7,8 @@ fileprivate extension TrackerEvent {
         get {
             switch name {
             case .loginFB, .loginEmail, .loginGoogle, .signupEmail, .firstMessage,
-                 .listingMarkAsSold, .listingSellStart, .listingSellComplete, .listingSellComplete24h:
+                 .listingMarkAsSold, .listingSellStart, .listingSellComplete, .listingSellComplete24h,
+                 .sessionOneMinuteFirstWeek:
                 return true
             default:
                 return false
