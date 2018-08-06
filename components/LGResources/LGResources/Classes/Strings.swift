@@ -794,6 +794,10 @@ extension R {
     public static let discardedProductsReasonReferenceToCompetitors = Strings.tr("Localizable", "discarded_products_reason_reference_to_competitors")
     /// Only contains stock photos
     public static let discardedProductsReasonStockPhotoOnly = Strings.tr("Localizable", "discarded_products_reason_stock_photo_only")
+    /// Frequency
+    public static let editPaymentFrequencyPlaceholder = Strings.tr("Localizable", "edit_paymentFrequency_placeholder")
+    /// Frequency
+    public static let editPaymentFrequencyTitle = Strings.tr("Localizable", "edit_paymentFrequency_title")
     /// Choose an option
     public static let editPriceTypeChooseTitle = Strings.tr("Localizable", "edit_priceType_choose_title")
     /// Feature your listing to sell faster
@@ -1244,6 +1248,14 @@ extension R {
     public static let mlOnboardingNewText = Strings.tr("Localizable", "ml_onboarding_new_text")
     /// OK
     public static let mlOnboardingOkText = Strings.tr("Localizable", "ml_onboarding_ok_text")
+    /// 
+    public static let notificationsCellDateDaysAgo = Strings.tr("Localizable", "notifications_cell_date_days_ago")
+    /// 
+    public static let notificationsCellDateHoursAgo = Strings.tr("Localizable", "notifications_cell_date_hours_ago")
+    /// 
+    public static let notificationsCellDateMinsAgo = Strings.tr("Localizable", "notifications_cell_date_mins_ago")
+    /// 
+    public static let notificationsCellDateWeeksAgo = Strings.tr("Localizable", "notifications_cell_date_weeks_ago")
     /// Post something for sale to start seeing some activity here
     public static let notificationsEmptySubtitle = Strings.tr("Localizable", "notifications_empty_subtitle")
     /// NO NOTIFICATIONS (YET!)

@@ -1184,9 +1184,7 @@ extension FeatureFlags {
         if Bumper.enabled {
             return Bumper.servicesPaymentFrequency
         }
-        return .control
-        // FIXME: enable A/B test before beta - ABIOS-4685
-        // return ServicesPaymentFrequency.fromPosition(abTests.servicesPaymentFrequency.value)
+         return ServicesPaymentFrequency.fromPosition(abTests.servicesPaymentFrequency.value)
     }
 }
 

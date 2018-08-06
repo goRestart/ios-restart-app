@@ -1104,6 +1104,12 @@
 // Edit price type, title of options list
 "edit_priceType_choose_title" = "Choose an option";
 
+// Placeholder value for paymentFrequency/PriceType
+"edit_paymentFrequency_placeholder" = "Frequency";
+
+// Title for paymentFrequency edit field
+"edit_paymentFrequency_title" = "Frequency";
+
 // Bubble title
 "engagement_badging_feed_bubble" = "New items";
 
@@ -1818,6 +1824,18 @@
 
 // Notification center section with n months ago title
 "notifications_section_months_ago" = "%i months ago";
+
+// Notification cell date with n mins ago
+"notifications_cell_date_mins_ago" = "";
+
+// Notification cell date with n hours ago
+"notifications_cell_date_hours_ago" = "";
+
+// Notification cell date with n days ago
+"notifications_cell_date_days_ago" = "";
+
+// Notification cell date with n weeks ago
+"notifications_cell_date_weeks_ago" = "";
 
 // Title of notifications section
 "notifications_title" = "Notifications";

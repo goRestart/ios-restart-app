@@ -360,6 +360,7 @@
 "discarded_products_reason_poor_ad_quality" = "Doesn’t comply with best practices";
 "discarded_products_reason_reference_to_competitors" = "References to other apps or websites";
 "discarded_products_reason_stock_photo_only" = "Only contains stock photos";
+"edit_paymentFrequency_placeholder" = "Frequency";
 "edit_priceType_choose_title" = "Choose an option";
 "edit_product_feature_label_long_text" = "Feature your listing to sell faster";
 "edit_product_feature_label_short_text" = "Sell faster now";

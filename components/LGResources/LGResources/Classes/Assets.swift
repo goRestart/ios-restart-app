@@ -531,7 +531,6 @@ extension R {
       public static let navbarShare = ImageAsset(name: "navbar_share")
       public static let navbarShareRed = ImageAsset(name: "navbar_share_red")
       public static let oval = ImageAsset(name: "oval")
-      public static let paymentFrequencyDisclosureIndicator = ImageAsset(name: "paymentFrequencyDisclosureIndicator")
       public static let productPlaceholder = ImageAsset(name: "product_placeholder")
       public static let rightChevron = ImageAsset(name: "right_chevron")
       public static let searchAlertIcon = ImageAsset(name: "search_alert_icon")
@@ -834,7 +833,6 @@ extension R {
         navbarShare,
         navbarShareRed,
         oval,
-        paymentFrequencyDisclosureIndicator,
         productPlaceholder,
         rightChevron,
         searchAlertIcon,

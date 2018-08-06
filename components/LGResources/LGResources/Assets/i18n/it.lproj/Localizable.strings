@@ -50,7 +50,7 @@
 "bump_up_view_boost_pay_button_title" = "Sponsorizzalo di nuovo per %@";
 "bump_up_view_boost_subtitle_boost_listing" = "Per aver sponsorizzato il tuo annuncio nelle ultime 24 ore, ti offriamo la possibilità di acquistare un'altra funzione a un prezzo minore!";
 "bump_up_view_boost_subtitle_cheaper" = "Promuovi subito il tuo annuncio per ottenere uno sconto sul normale prezzo di acquisto.";
-"bump_up_view_boost_subtitle_not_ready" = "You can add another boost in %@ to move it to the top and be featured for 24 additional hours";
+"bump_up_view_boost_subtitle_not_ready" = "Puoi promuovere di nuovo %@ per spostarlo in alto e lasciarlo sponsorizzato per altre 24 ore";
 "bump_up_view_boost_subtitle_send_top" = "Il tuo annuncio è ancora sponsorizzato, ma puoi comunque dargli una spinta extra. Si posizionerà in alto e resterà sponsorizzato per 24 ore a partire da ora.";
 "bump_up_view_boost_title_boost_listing" = "Promuovi il tuo annuncio sponsorizzato";
 "bump_up_view_boost_title_cheaper_boost" = "Promuovi subito in modo più economico";
@@ -360,6 +360,7 @@
 "discarded_products_reason_poor_ad_quality" = "Non rispetta le procedure consigliate";
 "discarded_products_reason_reference_to_competitors" = "Riferimenti ad altre app o siti Web";
 "discarded_products_reason_stock_photo_only" = "Contiene solo foto da catalogo";
+"edit_paymentFrequency_placeholder" = "Frequency";
 "edit_priceType_choose_title" = "Choose an option";
 "edit_product_feature_label_long_text" = "Sponsorizza il tuo annuncio per vendere più velocemente";
 "edit_product_feature_label_short_text" = "Vendi più rapidamente";

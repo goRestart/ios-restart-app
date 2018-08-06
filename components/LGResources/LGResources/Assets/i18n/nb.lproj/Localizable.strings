@@ -50,7 +50,7 @@
 "bump_up_view_boost_pay_button_title" = "Promoter den igjen for %@";
 "bump_up_view_boost_subtitle_boost_listing" = "Ettersom du allerede har promotert annonsen din i løpet av de siste 24 timene lar vi deg kjøpe mer promotering til lavere pris!";
 "bump_up_view_boost_subtitle_cheaper" = "Promoter din annonse nå for å få rabatt på vanlig pris.";
-"bump_up_view_boost_subtitle_not_ready" = "You can add another boost in %@ to move it to the top and be featured for 24 additional hours";
+"bump_up_view_boost_subtitle_not_ready" = "Du kan legge til ekstra promotering om %@ for å flytte den til toppen og bli promotert for 24 timer ekstra";
 "bump_up_view_boost_subtitle_send_top" = "Din annonse er fortsatt promotert, men du kan legge til ekstra promotering. Den vil flyttes til toppen og være promotert i 24 timer fra nå.";
 "bump_up_view_boost_title_boost_listing" = "Fremhev din promoterte annonse";
 "bump_up_view_boost_title_cheaper_boost" = "Skaff deg billigere promotering nå";
@@ -360,6 +360,7 @@
 "discarded_products_reason_poor_ad_quality" = "Dette overholder ikke optimal praksis";
 "discarded_products_reason_reference_to_competitors" = "Referanser til andre apper eller nettsider";
 "discarded_products_reason_stock_photo_only" = "Inneholder kun bilder som er tatt av andre (stockphoto)";
+"edit_paymentFrequency_placeholder" = "Frequency";
 "edit_priceType_choose_title" = "Choose an option";
 "edit_product_feature_label_long_text" = "Promoter din annonse for å selge raskere";
 "edit_product_feature_label_short_text" = "Selg raskere nå";
@@ -835,7 +836,7 @@
 "product_post_camera_video_mode_button" = "VIDEO";
 "product_post_camera_video_mode_button_new_badge" = "Ny!";
 "product_post_camera_video_recording_min_duration_message" = "Vennligst ta opp i minst %d sekunder";
-"product_post_camera_video_recording_tooltip" = "%@ for å gjøre et videopptak";
+"product_post_camera_video_recording_tooltip" = "%@ for å gjøre et opptak";
 "product_post_camera_video_recording_tooltip_highlighted_word" = "Hold inne";
 "product_post_close_alert_close_button" = "Forkaste";
 "product_post_close_alert_description" = "Ønsker du fortsatt å selge produktet?";
@@ -1195,7 +1196,7 @@
 "reporting_reason_drugs" = "Rus, alkohol, eller tobakk";
 "reporting_reason_duplicate_listing" = "Det er en duplikat annonse";
 "reporting_reason_inappropiate_chat_messages" = "Upassende meldinger";
-"reporting_reason_inappropiate_photo_or_bio" = "Upassende profilbilde eller bio";
+"reporting_reason_inappropiate_photo_or_bio" = "Upassende profilbilde eller biografi";
 "reporting_reason_item_defective" = "Produkt var ødelagt eller ikke som beskrevet";
 "reporting_reason_its_scam" = "Jeg tror det er svindel";
 "reporting_reason_not_responding" = "Svarer ikke på meldinger";

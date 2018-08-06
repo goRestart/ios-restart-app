@@ -50,11 +50,11 @@
 "bump_up_view_boost_pay_button_title" = "Plaats het opnieuw als uitgelicht voor %@";
 "bump_up_view_boost_subtitle_boost_listing" = "Aangezien je je advertentie als uitgelicht hebt geplaatst in de afgelopen 24 uur, kun je nog een uitgelichte advertentie kopen voor minder!";
 "bump_up_view_boost_subtitle_cheaper" = "Boost nu je advertentie om korting te krijgen op de normale uitgelicht prijs.";
-"bump_up_view_boost_subtitle_not_ready" = "You can add another boost in %@ to move it to the top and be featured for 24 additional hours";
+"bump_up_view_boost_subtitle_not_ready" = "Je kunt nog een boost toevoegen over %@ om het bovenaan en als uitgelicht te plaatsen voor 24 uur";
 "bump_up_view_boost_subtitle_send_top" = "Jouw advertentie is nog steeds als uitgelicht geplaatst, maar je kunt een extra boost toevoegen. Het zal vanaf nu voor 24 uur bovenaan geplaatst worden.";
 "bump_up_view_boost_title_boost_listing" = "Boost je uitgelichte advertentie";
 "bump_up_view_boost_title_cheaper_boost" = "Krijg nu een voordelige boost";
-"bump_up_view_boost_title_not_ready" = "Your listing's still featured";
+"bump_up_view_boost_title_not_ready" = "Je advertentie is nog steeds als uitgelicht geplaatst";
 "bump_up_view_boost_title_send_top" = "Zet het weer bovenaan";
 "bump_up_view_free_subtitle" = "Hoe vaker gedeeld, hoe meer zichtbaarheid jouw item zal hebben.";
 "bump_up_view_free_title" = "JE ITEM OMHOOG PLAATSEN";
@@ -360,7 +360,8 @@
 "discarded_products_reason_poor_ad_quality" = "Voldoet niet aan Best Practices";
 "discarded_products_reason_reference_to_competitors" = "Verwijzingen naar andere apps of websites";
 "discarded_products_reason_stock_photo_only" = "Bevat enkel voorraadfoto's";
-"edit_priceType_choose_title" = "Choose an option";
+"edit_paymentFrequency_placeholder" = "Frequency";
+"edit_priceType_choose_title" = "Kies een optie";
 "edit_product_feature_label_long_text" = "Plaats je advertentie als uitgelicht om sneller te verkopen";
 "edit_product_feature_label_short_text" = "Verkoop nu sneller";
 "edit_product_location_alert_text" = "Om te wijzigen waar je advertentie is geplaatst, geef toegang tot jouw locatie";
@@ -372,7 +373,7 @@
 "edit_product_title" = "Advertentie bewerken";
 "edit_product_unsaved_changes_alert" = "Weet je zeker dat je deze wijzigingen wilt verwijderen?";
 "edit_product_unsaved_changes_alert_ok" = "Verwijderen";
-"engagement_badging_feed_bubble" = "New items";
+"engagement_badging_feed_bubble" = "Nieuwe items";
 "featured_info_view_increase_visibility" = "Meer zichtbaar krijgen";
 "featured_info_view_more_buyers" = "Meer kopers aantrekken";
 "featured_info_view_sell_faster" = "Sneller verkopen";

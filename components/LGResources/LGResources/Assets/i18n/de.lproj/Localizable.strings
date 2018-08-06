@@ -50,7 +50,7 @@
 "bump_up_view_boost_pay_button_title" = "Empfehle es erneut für %@";
 "bump_up_view_boost_subtitle_boost_listing" = "Da du dein Angebot in den letzten 24 Stunden bereits empfohlen hast, kannst du eine weitere Empfehlung zu einem günstigeren Preis kaufen!";
 "bump_up_view_boost_subtitle_cheaper" = "Kurbel dein Angebot jetzt an und erhalte einen Rabatt auf den normalen Empfehlungspreis";
-"bump_up_view_boost_subtitle_not_ready" = "You can add another boost in %@ to move it to the top and be featured for 24 additional hours";
+"bump_up_view_boost_subtitle_not_ready" = "Du kannst es in %@ erneut ankurbeln, um es an die Spitze zu bewegen und es für weitere 24 Stunden zu empfehlen";
 "bump_up_view_boost_subtitle_send_top" = "Dein Angebot wird weiterhin empfohlen, du kannst es jedoch zusätzlich ankurbeln. Es wird dann wieder an die Spitze der Liste gesetzt und ab jetzt für 24 Stunden empfohlen.";
 "bump_up_view_boost_title_boost_listing" = "Kurbel dein empfohlenes Angebot an";
 "bump_up_view_boost_title_cheaper_boost" = "Kurbel dein Angebot jetzt vergünstigt an";
@@ -360,6 +360,7 @@
 "discarded_products_reason_poor_ad_quality" = "Verstoß gegen unsere Angebotsregeln";
 "discarded_products_reason_reference_to_competitors" = "Verweis auf andere Apps oder Webseiten";
 "discarded_products_reason_stock_photo_only" = "Enthält nur Herstellerfotos";
+"edit_paymentFrequency_placeholder" = "Frequency";
 "edit_priceType_choose_title" = "Wähle eine Option";
 "edit_product_feature_label_long_text" = "Empfehle dein Angebot, um schneller zu verkaufen";
 "edit_product_feature_label_short_text" = "Jetzt schneller verkaufen";

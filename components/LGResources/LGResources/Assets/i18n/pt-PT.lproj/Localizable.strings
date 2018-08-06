@@ -50,7 +50,7 @@
 "bump_up_view_boost_pay_button_title" = "Destaque-o agora por %@";
 "bump_up_view_boost_subtitle_boost_listing" = "Uma vez que já destacou o seu anúncio nas últimas 24 horas, deixámo-lo comprar outro destaque por menos!";
 "bump_up_view_boost_subtitle_cheaper" = "Impulsione o seu anúncio agora para receber um desconto sobre o preço do destaque habitual.";
-"bump_up_view_boost_subtitle_not_ready" = "You can add another boost in %@ to move it to the top and be featured for 24 additional hours";
+"bump_up_view_boost_subtitle_not_ready" = "Poderá enviá-lo para o topo de novo em %@ e destacá-lo por mais 24 horas";
 "bump_up_view_boost_subtitle_send_top" = "O seu anúncio ainda está destacado mas pode dar-lhe um impulso extra! Ele irá para o topo e ficará destacado durante 24 horas a partir de agora.";
 "bump_up_view_boost_title_boost_listing" = "Impulsione o seu anúncio destacado";
 "bump_up_view_boost_title_cheaper_boost" = "Obtenha agora um impulso económico";
@@ -360,6 +360,7 @@
 "discarded_products_reason_poor_ad_quality" = "Não cumpre as melhores práticas";
 "discarded_products_reason_reference_to_competitors" = "Referências a outras apps ou sites";
 "discarded_products_reason_stock_photo_only" = "Contém apenas fotos de stocks";
+"edit_paymentFrequency_placeholder" = "Frequency";
 "edit_priceType_choose_title" = "Choose an option";
 "edit_product_feature_label_long_text" = "Destaque o seu anúncio para vender mais rápido";
 "edit_product_feature_label_short_text" = "Venda mais rápido";

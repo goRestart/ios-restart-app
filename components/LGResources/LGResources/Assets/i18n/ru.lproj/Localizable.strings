@@ -50,11 +50,11 @@
 "bump_up_view_boost_pay_button_title" = "Выделите еще раз за %@";
 "bump_up_view_boost_subtitle_boost_listing" = "Так как вы уже выделяли свое объявление за последние 24 часа, мы предлагаем приобрести следующее выделение дешевле!";
 "bump_up_view_boost_subtitle_cheaper" = "Продвиньте объявление сейчас, чтобы получить скидку от обычной цены выделения.";
-"bump_up_view_boost_subtitle_not_ready" = "You can add another boost in %@ to move it to the top and be featured for 24 additional hours";
+"bump_up_view_boost_subtitle_not_ready" = "Вы можете поднять объявление еще раз через %@, чтобы поднять его наверх и выделить на 24 часа";
 "bump_up_view_boost_subtitle_send_top" = "Ваше объявление все еще выделено, но вы можете добавить экстра продвижение. Объявление поднимется наверх и будет выделено в течение 24 часов.";
 "bump_up_view_boost_title_boost_listing" = "Поднимите выделенное объявление";
 "bump_up_view_boost_title_cheaper_boost" = "Использовать продвижение подешевле";
-"bump_up_view_boost_title_not_ready" = "Your listing's still featured";
+"bump_up_view_boost_title_not_ready" = "Ваше объявление все еще выделено";
 "bump_up_view_boost_title_send_top" = "Поднять наверх еще раз";
 "bump_up_view_free_subtitle" = "Чем больше вы делитесь ссылкой на объявление, тем больше людей его видят.";
 "bump_up_view_free_title" = "ПОДНИМИТЕ ВАШЕ ОБЪЯВЛЕНИЕ";
@@ -360,7 +360,8 @@
 "discarded_products_reason_poor_ad_quality" = "Не соответствует лучшей практике";
 "discarded_products_reason_reference_to_competitors" = "Ссылки на другие приложения и сайты";
 "discarded_products_reason_stock_photo_only" = "Содержит только фото из сети";
-"edit_priceType_choose_title" = "Choose an option";
+"edit_paymentFrequency_placeholder" = "Frequency";
+"edit_priceType_choose_title" = "Выберите опцию";
 "edit_product_feature_label_long_text" = "Выделите свое объявление, чтобы продать быстрее";
 "edit_product_feature_label_short_text" = "Продайте быстрее";
 "edit_product_location_alert_text" = "Для изменение местоположения объявления разрешите доступ к геолокации";
@@ -372,7 +373,7 @@
 "edit_product_title" = "Редактировать объявление";
 "edit_product_unsaved_changes_alert" = "Вы точно не хотите сохранять эти изменения?";
 "edit_product_unsaved_changes_alert_ok" = "Не сохранять";
-"engagement_badging_feed_bubble" = "New items";
+"engagement_badging_feed_bubble" = "Новые товары";
 "featured_info_view_increase_visibility" = "Улучшить видимость";
 "featured_info_view_more_buyers" = "Привлечь больше покупателей";
 "featured_info_view_sell_faster" = "Продать быстрее";

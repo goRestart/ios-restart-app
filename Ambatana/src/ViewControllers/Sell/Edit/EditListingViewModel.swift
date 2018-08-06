@@ -390,7 +390,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
                 self.serviceSubtypeName.value = services.servicesAttributes.subtypeTitle
                     ?? servicesInfoRepository.serviceSubtype(forServiceSubtypeId: serviceSubtypeId)?.name
             }
-            self.servicePaymentFrequency.value = services.servicesAttributes.paymentFrequency ?? .hourly
+            self.servicePaymentFrequency.value = services.servicesAttributes.paymentFrequency
         }
 
         self.shouldShareInFB = false
@@ -1031,6 +1031,10 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
 // MARK:- Services
 extension EditListingViewModel {
+    
+    var paymentFrequencyText: String {
+        return servicePaymentFrequency.value?.localizedDisplayName ?? R.Strings.editPaymentFrequencyPlaceholder
+    }
     
     var shouldShowPaymentFrequency: Bool {
         return featureFlags.servicesPaymentFrequency.isActive
