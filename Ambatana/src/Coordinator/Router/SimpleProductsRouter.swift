@@ -17,7 +17,10 @@ final class SimpleProductsRouter: SimpleProductsNavigator {
                      source: EventParameterListingVisitSource,
                      actionOnFirstAppear: ProductCarouselActionOnFirstAppear) {
         guard let navCtl = navigationController else { return }
-        let listingCoordinator = ListingCoordinator(navigationController: navCtl)
+        let userCoordinator = UserCoordinator(navigationController: navCtl)
+        let listingCoordinator = ListingCoordinator(navigationController: navCtl, userCoordinator: userCoordinator)
+        userCoordinator.listingCoordinator = listingCoordinator
+
         listingCoordinator.listingDetailNavigator = detailNavigator
         listingCoordinator.openListing(data, source: source, actionOnFirstAppear: actionOnFirstAppear)
     }

@@ -72,7 +72,10 @@ final class ChatDetailRouter: ChatDetailNavigator {
                      source: EventParameterListingVisitSource,
                      actionOnFirstAppear: ProductCarouselActionOnFirstAppear) {
         guard let nav = navigationController else { return }
-        let listingCoordinator = ListingCoordinator(navigationController: nav)
+        let userCoordinator = UserCoordinator(navigationController: nav)
+        let listingCoordinator = ListingCoordinator(navigationController: nav, userCoordinator: userCoordinator)
+        userCoordinator.listingCoordinator = listingCoordinator
+
         listingCoordinator.openListing(data, source: source, actionOnFirstAppear: actionOnFirstAppear)
     }
 
