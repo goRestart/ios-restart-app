@@ -464,11 +464,14 @@ extension AppCoordinator: AppNavigator {
     }
 
     func openSurveyIfNeeded() {
+        guard featureFlags.surveyEnabled else { return }
+        guard !featureFlags.surveyUrl.isEmpty, let url = URL(string: featureFlags.surveyUrl) else { return }
+
         delay(3) { [weak self] in
-            guard let surveysCoordinator = SurveysCoordinator() else { return }
-            guard let parent = self?.tabBarCtl else { return }
-            surveysCoordinator.delegate = self
-            self?.openChild(coordinator: surveysCoordinator, parent: parent, animated: true, forceCloseChild: false, completion: nil)
+            guard let tab = self?.tabBarCtl else { return }
+            let assembly = LGSurveyBuilder.modal(root: tab)
+            let vc = assembly.buildWebSurvey(with: url)
+            tab.present(vc, animated: true, completion: nil)
         }
     }
 
