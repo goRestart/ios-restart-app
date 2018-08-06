@@ -1354,6 +1354,9 @@ extension EditListingViewModel {
         if let carEdited = initialListing.car?.carAttributes.editedFieldsTracker(newCarAttributes: listing.car?.carAttributes) {
             editedFields.append(contentsOf: carEdited)
         }
+        if let servicesEdit = initialListing.service?.servicesAttributes.editedFieldsTracker(newServicesAttributes: listing.service?.servicesAttributes) {
+            editedFields.append(contentsOf: servicesEdit)
+        }
         return editedFields
     }
 

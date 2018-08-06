@@ -238,14 +238,14 @@
 		0AC489441F9DE2C000CD6C53 /* ListingCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC489421F9DE15000CD6C53 /* ListingCardView.swift */; };
 		0AC489461F9DE31400CD6C53 /* ListingDeckCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC489451F9DE31400CD6C53 /* ListingDeckCollectionViewLayout.swift */; };
 		0AC489471F9DE41A00CD6C53 /* ListingDeckCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC489451F9DE31400CD6C53 /* ListingDeckCollectionViewLayout.swift */; };
-		0ACA8F3D21148AC900243850 /* PhotoViewerRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACA8F3C21148AC900243850 /* PhotoViewerRouter.swift */; };
-		0ACA8F3E21148C0300243850 /* PhotoViewerRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACA8F3C21148AC900243850 /* PhotoViewerRouter.swift */; };
 		0ACA8F3421145ECB00243850 /* LGRateBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACA8F3321145ECB00243850 /* LGRateBuilder.swift */; };
 		0ACA8F3521145F4600243850 /* LGRateBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACA8F3321145ECB00243850 /* LGRateBuilder.swift */; };
 		0ACA8F37211484A600243850 /* LGLeanplumBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACA8F36211484A600243850 /* LGLeanplumBuilder.swift */; };
 		0ACA8F39211484FA00243850 /* LPMessageRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACA8F38211484FA00243850 /* LPMessageRouter.swift */; };
 		0ACA8F3A211485A000243850 /* LPMessageRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACA8F38211484FA00243850 /* LPMessageRouter.swift */; };
 		0ACA8F3B2114864E00243850 /* LGLeanplumBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACA8F36211484A600243850 /* LGLeanplumBuilder.swift */; };
+		0ACA8F3D21148AC900243850 /* PhotoViewerRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACA8F3C21148AC900243850 /* PhotoViewerRouter.swift */; };
+		0ACA8F3E21148C0300243850 /* PhotoViewerRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACA8F3C21148AC900243850 /* PhotoViewerRouter.swift */; };
 		0ACA8F502114B5C000243850 /* GoogleAdxNativeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E28A829207B85C70070A7A6 /* GoogleAdxNativeContentView.swift */; };
 		0ACDD2EA1FD1426800616F53 /* QuickChatViewBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACDD2E91FD1426800616F53 /* QuickChatViewBinder.swift */; };
 		0ACDD2EC1FD1450300616F53 /* QuickChatViewBinderSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACDD2EB1FD1450300616F53 /* QuickChatViewBinderSpec.swift */; };
@@ -1441,6 +1441,8 @@
 		C690704A21009E2300AF27E4 /* DropdownShowMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C690704921009E2300AF27E4 /* DropdownShowMoreView.swift */; };
 		C690704B21009E2300AF27E4 /* DropdownShowMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C690704921009E2300AF27E4 /* DropdownShowMoreView.swift */; };
 		C69070502107130E00AF27E4 /* DropdownViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = C690704F2107130E00AF27E4 /* DropdownViewModelSpec.swift */; };
+		C6977E7D2118441200B57E54 /* ServiceAttributes+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6977E7C2118441200B57E54 /* ServiceAttributes+LG.swift */; };
+		C6977E7E2118441200B57E54 /* ServiceAttributes+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6977E7C2118441200B57E54 /* ServiceAttributes+LG.swift */; };
 		C6A5CC5720E245D400610A3A /* ListingAttributeGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A5CC5620E245D400610A3A /* ListingAttributeGridView.swift */; };
 		C6A5CC5820E245D400610A3A /* ListingAttributeGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A5CC5620E245D400610A3A /* ListingAttributeGridView.swift */; };
 		C6A5CC5A20E2465000610A3A /* ListingAttributeGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A5CC5920E2465000610A3A /* ListingAttributeGridItem.swift */; };
@@ -2240,10 +2242,10 @@
 		0AC110482003C99E00D23246 /* ListingCardDetailsViewBinderSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingCardDetailsViewBinderSpec.swift; sourceTree = "<group>"; };
 		0AC489421F9DE15000CD6C53 /* ListingCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardView.swift; sourceTree = "<group>"; };
 		0AC489451F9DE31400CD6C53 /* ListingDeckCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckCollectionViewLayout.swift; sourceTree = "<group>"; };
-		0ACA8F3C21148AC900243850 /* PhotoViewerRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewerRouter.swift; sourceTree = "<group>"; };
 		0ACA8F3321145ECB00243850 /* LGRateBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGRateBuilder.swift; sourceTree = "<group>"; };
 		0ACA8F36211484A600243850 /* LGLeanplumBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGLeanplumBuilder.swift; sourceTree = "<group>"; };
 		0ACA8F38211484FA00243850 /* LPMessageRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LPMessageRouter.swift; sourceTree = "<group>"; };
+		0ACA8F3C21148AC900243850 /* PhotoViewerRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewerRouter.swift; sourceTree = "<group>"; };
 		0ACDD2E91FD1426800616F53 /* QuickChatViewBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickChatViewBinder.swift; sourceTree = "<group>"; };
 		0ACDD2EB1FD1450300616F53 /* QuickChatViewBinderSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickChatViewBinderSpec.swift; sourceTree = "<group>"; };
 		0ACE7DAC1FD2C3A10068E47B /* DeckCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckCoordinator.swift; sourceTree = "<group>"; };
@@ -2955,6 +2957,7 @@
 		C690704921009E2300AF27E4 /* DropdownShowMoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownShowMoreView.swift; sourceTree = "<group>"; };
 		C690704C21021E7A00AF27E4 /* DropdownSectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownSectionViewModel.swift; sourceTree = "<group>"; };
 		C690704F2107130E00AF27E4 /* DropdownViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownViewModelSpec.swift; sourceTree = "<group>"; };
+		C6977E7C2118441200B57E54 /* ServiceAttributes+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ServiceAttributes+LG.swift"; sourceTree = "<group>"; };
 		C6A5CC4D20E23EC100610A3A /* ListingAttributeGridItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingAttributeGridItem.swift; sourceTree = "<group>"; };
 		C6A5CC5620E245D400610A3A /* ListingAttributeGridView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingAttributeGridView.swift; sourceTree = "<group>"; };
 		C6A5CC5920E2465000610A3A /* ListingAttributeGridItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingAttributeGridItem.swift; sourceTree = "<group>"; };
@@ -5203,6 +5206,7 @@
 				C611D65D20DD396100955BF4 /* CarExtras+LG.swift */,
 				C63A589920EE22A1007C0816 /* CarAttributes+LG.swift */,
 				C64DD44E211089CD003E5EC2 /* PriceType+LG.swift */,
+				C6977E7C2118441200B57E54 /* ServiceAttributes+LG.swift */,
 			);
 			path = LetgoExtensions;
 			sourceTree = "<group>";
@@ -8263,6 +8267,7 @@
 				6A6C756E207B83B500845A88 /* UserVerificationEmailViewModel.swift in Sources */,
 				C73189C91DBE3847005A93EE /* ListHeaderContainer.swift in Sources */,
 				2E423784205A7AA00077B62A /* BumpUpTimerBarView.swift in Sources */,
+				C6977E7D2118441200B57E54 /* ServiceAttributes+LG.swift in Sources */,
 				2E1BC3FD1E648C0A0063D1A7 /* ReceiptURLProvider.swift in Sources */,
 				0AF0A46120EA58C100E9176F /* LPCenterPopupView.swift in Sources */,
 				727EF06C1E0BE16D0037DA4E /* CountryCode.swift in Sources */,
@@ -8320,9 +8325,7 @@
 				8E0C9DF41E96924F00768D27 /* PostCategoryDetailProgressView.swift in Sources */,
 				72854D1A1F8E002100E54530 /* RealEstateOfferType+LG.swift in Sources */,
 				5011938E20C553FE00FA7C20 /* AnalyticsSessionData.swift in Sources */,
-				8E28A82A207B85C70070A7A6 /* GoogleAdxNativeContentView.swift in Sources */,
 				0A21C651210F47640093A86C /* LGSimpleListingsBuilder.swift in Sources */,
-				8E28A82A207B85C70070A7A6 /* GoogleAdxNativeContentView.swift in Sources */,
 				0AE6F4EC20F88B0C00D58BCE /* TrendingSearchesViewModel.swift in Sources */,
 				C788EED71CC7847400B9E26F /* FilteredListingListRequester.swift in Sources */,
 				509273361B172D5B00A346F9 /* PushManager.swift in Sources */,
@@ -9109,6 +9112,7 @@
 				F51A082C2031B5380008D744 /* AspectRatio.swift in Sources */,
 				C7B5889B1CE1E025009B3975 /* ConversationCell.swift in Sources */,
 				0AA03206210B1A3400728A1A /* UserVerificationRouter.swift in Sources */,
+				C6977E7E2118441200B57E54 /* ServiceAttributes+LG.swift in Sources */,
 				C73FABB71DD37968008F4519 /* SettingsLogoutCell.swift in Sources */,
 				0A21C658210F54680093A86C /* LGBumpUpBuilder.swift in Sources */,
 				C6E770972099A36F002CFA99 /* PushPermissionsTracker.swift in Sources */,
@@ -9191,7 +9195,6 @@
 				015E4FDF204FFC090094FF20 /* BlockingPostingLoadingView.swift in Sources */,
 				8E0C9DF51E96924F00768D27 /* PostCategoryDetailProgressView.swift in Sources */,
 				72854D1B1F8E002100E54530 /* RealEstateOfferType+LG.swift in Sources */,
-				8E28A82B207B85C70070A7A6 /* GoogleAdxNativeContentView.swift in Sources */,
 				0A21C654210F4A830093A86C /* LGSimpleListingsBuilder.swift in Sources */,
 				5011938F20C553FE00FA7C20 /* AnalyticsSessionData.swift in Sources */,
 				6AF75D051CF3600D00EACCF0 /* ChatStickerCell.swift in Sources */,
