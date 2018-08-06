@@ -299,7 +299,7 @@ class LGChatRepository: InternalChatRepository {
         var finalResult = result
         if let messages = result.value, let myUserId = myUserRepository.myUser?.objectId {
             let receptionIds: [String] = messages.filter { return $0.talkerId != myUserId && $0.receivedAt == nil }
-                .flatMap{ $0.objectId }
+                .compactMap{ $0.objectId }
             if !receptionIds.isEmpty {
                 confirmReception(conversationId, messageIds: receptionIds, completion: nil)
                 finalResult = ChatWebSocketMessagesResult(messages.map{ $0.markReceived() })

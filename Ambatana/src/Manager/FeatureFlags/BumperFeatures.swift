@@ -39,7 +39,6 @@ extension Bumper  {
         flags.append(BumpUpBoost.self)
         flags.append(CopyForChatNowInTurkey.self)
         flags.append(ChatNorris.self)
-        flags.append(AddPriceTitleDistanceToListings.self)
         flags.append(ShowProTagUserProfile.self)
         flags.append(FeedAdsProviderForUS.self)
         flags.append(CopyForChatNowInEnglish.self)
@@ -55,7 +54,6 @@ extension Bumper  {
         flags.append(ServicesCategoryOnSalchichasMenu.self)
         flags.append(GoogleAdxForTR.self)
         flags.append(MultiContactAfterSearch.self)
-        flags.append(ShowServicesFeatures.self)
         flags.append(EmptySearchImprovements.self)
         flags.append(OffensiveReportAlert.self)
         flags.append(HighlightedIAmInterestedFeed.self)
@@ -81,7 +79,9 @@ extension Bumper  {
         flags.append(ShowCommunity.self)
         flags.append(ExpressChatImprovement.self)
         flags.append(AlwaysShowBumpBannerWithLoading.self)
+        flags.append(ServicesPaymentFrequency.self)
         flags.append(SearchAlertsDisableOldestIfMaximumReached.self)
+        flags.append(ShowSellFasterInProfileCells.self)
         Bumper.initialize(flags)
     } 
 
@@ -384,19 +384,6 @@ extension Bumper  {
     }
     #endif
 
-    static var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings {
-        guard let value = Bumper.value(for: AddPriceTitleDistanceToListings.key) else { return .control }
-        return AddPriceTitleDistanceToListings(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var addPriceTitleDistanceToListingsObservable: Observable<AddPriceTitleDistanceToListings> {
-        return Bumper.observeValue(for: AddPriceTitleDistanceToListings.key).map {
-            AddPriceTitleDistanceToListings(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
     static var showProTagUserProfile: Bool {
         guard let value = Bumper.value(for: ShowProTagUserProfile.key) else { return false }
         return ShowProTagUserProfile(rawValue: value)?.asBool ?? false
@@ -588,19 +575,6 @@ extension Bumper  {
     static var multiContactAfterSearchObservable: Observable<MultiContactAfterSearch> {
         return Bumper.observeValue(for: MultiContactAfterSearch.key).map {
             MultiContactAfterSearch(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var showServicesFeatures: ShowServicesFeatures {
-        guard let value = Bumper.value(for: ShowServicesFeatures.key) else { return .control }
-        return ShowServicesFeatures(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var showServicesFeaturesObservable: Observable<ShowServicesFeatures> {
-        return Bumper.observeValue(for: ShowServicesFeatures.key).map {
-            ShowServicesFeatures(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -930,6 +904,19 @@ extension Bumper  {
     }
     #endif
 
+    static var servicesPaymentFrequency: ServicesPaymentFrequency {
+        guard let value = Bumper.value(for: ServicesPaymentFrequency.key) else { return .control }
+        return ServicesPaymentFrequency(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var servicesPaymentFrequencyObservable: Observable<ServicesPaymentFrequency> {
+        return Bumper.observeValue(for: ServicesPaymentFrequency.key).map {
+            ServicesPaymentFrequency(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
     static var searchAlertsDisableOldestIfMaximumReached: SearchAlertsDisableOldestIfMaximumReached {
         guard let value = Bumper.value(for: SearchAlertsDisableOldestIfMaximumReached.key) else { return .control }
         return SearchAlertsDisableOldestIfMaximumReached(rawValue: value) ?? .control 
@@ -939,6 +926,19 @@ extension Bumper  {
     static var searchAlertsDisableOldestIfMaximumReachedObservable: Observable<SearchAlertsDisableOldestIfMaximumReached> {
         return Bumper.observeValue(for: SearchAlertsDisableOldestIfMaximumReached.key).map {
             SearchAlertsDisableOldestIfMaximumReached(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var showSellFasterInProfileCells: ShowSellFasterInProfileCells {
+        guard let value = Bumper.value(for: ShowSellFasterInProfileCells.key) else { return .control }
+        return ShowSellFasterInProfileCells(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var showSellFasterInProfileCellsObservable: Observable<ShowSellFasterInProfileCells> {
+        return Bumper.observeValue(for: ShowSellFasterInProfileCells.key).map {
+            ShowSellFasterInProfileCells(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1293,23 +1293,6 @@ enum ChatNorris: String, BumperFeature  {
     }
 }
 
-enum AddPriceTitleDistanceToListings: String, BumperFeature  {
-    case control, baseline, infoInImage, infoWithWhiteBackground
-    static var defaultValue: String { return AddPriceTitleDistanceToListings.control.rawValue }
-    static var enumValues: [AddPriceTitleDistanceToListings] { return [.control, .baseline, .infoInImage, .infoWithWhiteBackground]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Add price, title and distance to listings" } 
-    static func fromPosition(_ position: Int) -> AddPriceTitleDistanceToListings {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .infoInImage
-            case 3: return .infoWithWhiteBackground
-            default: return .control
-        }
-    }
-}
-
 enum ShowProTagUserProfile: String, BumperFeature  {
     case no, yes
     static var defaultValue: String { return ShowProTagUserProfile.no.rawValue }
@@ -1544,22 +1527,6 @@ enum MultiContactAfterSearch: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .photoAndInfo
             case 3: return .onlyPhoto
-            default: return .control
-        }
-    }
-}
-
-enum ShowServicesFeatures: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return ShowServicesFeatures.control.rawValue }
-    static var enumValues: [ShowServicesFeatures] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show services features (search & filters, posting, editing)" } 
-    static func fromPosition(_ position: Int) -> ShowServicesFeatures {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
             default: return .control
         }
     }
@@ -1959,6 +1926,23 @@ enum AlwaysShowBumpBannerWithLoading: String, BumperFeature  {
         }
     }
 }
+
+enum ServicesPaymentFrequency: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return ServicesPaymentFrequency.control.rawValue }
+    static var enumValues: [ServicesPaymentFrequency] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[SERVICES] shows services paymentFrequency functionality (e.g 2 euro per day, etc.)" } 
+    static func fromPosition(_ position: Int) -> ServicesPaymentFrequency {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
 enum SearchAlertsDisableOldestIfMaximumReached: String, BumperFeature  {
     case control, baseline, active
     static var defaultValue: String { return SearchAlertsDisableOldestIfMaximumReached.control.rawValue }
@@ -1966,6 +1950,22 @@ enum SearchAlertsDisableOldestIfMaximumReached: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "[RETENTION] Disable oldest search alert if a new one is created and the maximum has been reached" } 
     static func fromPosition(_ position: Int) -> SearchAlertsDisableOldestIfMaximumReached {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum ShowSellFasterInProfileCells: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return ShowSellFasterInProfileCells.control.rawValue }
+    static var enumValues: [ShowSellFasterInProfileCells] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[MONEY] Add CTA to bump up to profile listing cells" } 
+    static func fromPosition(_ position: Int) -> ShowSellFasterInProfileCells {
         switch position { 
             case 0: return .control
             case 1: return .baseline

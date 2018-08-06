@@ -92,6 +92,10 @@ struct ListingData {
         return listing?.title
     }
     
+    var paymentFrequency: String? {
+        return listing?.service?.servicesAttributes.paymentFrequency?.localizedDisplayName
+    }
+    
     var distanceToListing: Double? {
         guard let listingPosition = listing?.location,
               let userLocation = currentLocation?.location else { return nil }

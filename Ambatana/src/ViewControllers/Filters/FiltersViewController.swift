@@ -234,6 +234,19 @@ extension FiltersViewController {
 
 extension FiltersViewController: FiltersViewModelDelegate {
     
+    func scrollToSection(atIndexPath indexPath: IndexPath) {
+        guard numberOfSections(in: collectionView) > indexPath.section,
+            collectionView(collectionView, numberOfItemsInSection: indexPath.section) > indexPath.item else {
+                return
+        }
+        
+        collectionView.scrollToSupplementaryView(ofKind: UICollectionElementKindSectionHeader,
+                                                 atIndexPath: indexPath,
+                                                 atScrollPosition: .top,
+                                                 verticalOffset: topBarHeight,
+                                                 animated: true)
+    }
+    
     func vmDidUpdate() {
         collectionView.reloadData()
     }
@@ -771,7 +784,7 @@ extension FiltersViewController {
                        isUserInteractionEnabled: viewModel.serviceSubtypeCellEnabled)
         case .unified:
             cell.setup(withTitle: viewModel.currentServiceTypeName ?? serviceSection.title,
-                       subtitle: viewModel.selectedServiceSubtypesDisplayName ?? R.Strings.filtersServiceTypeNotSet)
+                       subtitle: viewModel.selectedServiceSubtypesDisplayName)
         }
         return cell
     }

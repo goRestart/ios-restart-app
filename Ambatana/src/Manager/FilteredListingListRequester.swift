@@ -86,8 +86,7 @@ class FilteredListingListRequester: ListingListRequester {
     
     private func retrieve(_ completion: ListingsCompletion?) {
         if let category = filters?.selectedCategories.first {
-            let action = category.index(listingRepository: listingRepository,
-                                        searchServicesEnabled: featureFlags.showServicesFeatures.isActive)
+            let action = category.index(listingRepository: listingRepository)
             action(retrieveListingsParams, completion)
         } else if shouldUseSimilarQuery, queryString != nil {
             listingRepository.indexSimilar(retrieveListingsParams, completion: completion)
@@ -330,15 +329,14 @@ private extension EmptySearchImprovements {
 }
 
 private extension ListingCategory {
-    func index(listingRepository: ListingRepository,
-               searchServicesEnabled: Bool) -> ((RetrieveListingParams, ListingsCompletion?) -> ()) {
+    func index(listingRepository: ListingRepository) -> ((RetrieveListingParams, ListingsCompletion?) -> ()) {
         switch self {
         case .realEstate:
             return listingRepository.indexRealEstate
         case .cars:
             return listingRepository.indexCars
         case .services:
-            return searchServicesEnabled ? listingRepository.indexServices : listingRepository.index
+            return listingRepository.indexServices
         case .babyAndChild, .electronics, .fashionAndAccesories, .homeAndGarden, .motorsAndAccessories,
              .moviesBooksAndMusic, .other, .sportsLeisureAndGames,
              .unassigned:

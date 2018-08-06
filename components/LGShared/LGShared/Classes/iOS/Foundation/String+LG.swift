@@ -353,4 +353,20 @@ extension String {
         return titleText
     }
     
+    public func bifontAttributedText(highlightedText: String,
+                                     mainFont: UIFont,
+                                     mainColour: UIColor,
+                                     otherFont: UIFont,
+                                     otherColour: UIColor) -> NSAttributedString {
+        let mainAttributes: [NSAttributedStringKey: Any] = [.font: mainFont, .foregroundColor: mainColour]
+        let otherAttributes: [NSAttributedStringKey: Any] = [.font: otherFont, .foregroundColor: otherColour]
+        
+        let attributedString = NSMutableAttributedString(string: self, attributes: mainAttributes)
+        
+        guard let range = range(of: highlightedText) else { return attributedString }
+        attributedString.setAttributes(otherAttributes, range: NSRange(range, in: self))
+        
+        return attributedString
+    }
+    
 }

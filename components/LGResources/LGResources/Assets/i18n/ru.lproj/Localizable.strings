@@ -50,9 +50,11 @@
 "bump_up_view_boost_pay_button_title" = "Выделите еще раз за %@";
 "bump_up_view_boost_subtitle_boost_listing" = "Так как вы уже выделяли свое объявление за последние 24 часа, мы предлагаем приобрести следующее выделение дешевле!";
 "bump_up_view_boost_subtitle_cheaper" = "Продвиньте объявление сейчас, чтобы получить скидку от обычной цены выделения.";
+"bump_up_view_boost_subtitle_not_ready" = "You can add another boost in %@ to move it to the top and be featured for 24 additional hours";
 "bump_up_view_boost_subtitle_send_top" = "Ваше объявление все еще выделено, но вы можете добавить экстра продвижение. Объявление поднимется наверх и будет выделено в течение 24 часов.";
 "bump_up_view_boost_title_boost_listing" = "Поднимите выделенное объявление";
 "bump_up_view_boost_title_cheaper_boost" = "Использовать продвижение подешевле";
+"bump_up_view_boost_title_not_ready" = "Your listing's still featured";
 "bump_up_view_boost_title_send_top" = "Поднять наверх еще раз";
 "bump_up_view_free_subtitle" = "Чем больше вы делитесь ссылкой на объявление, тем больше людей его видят.";
 "bump_up_view_free_title" = "ПОДНИМИТЕ ВАШЕ ОБЪЯВЛЕНИЕ";
@@ -358,6 +360,7 @@
 "discarded_products_reason_poor_ad_quality" = "Не соответствует лучшей практике";
 "discarded_products_reason_reference_to_competitors" = "Ссылки на другие приложения и сайты";
 "discarded_products_reason_stock_photo_only" = "Содержит только фото из сети";
+"edit_priceType_choose_title" = "Choose an option";
 "edit_product_feature_label_long_text" = "Выделите свое объявление, чтобы продать быстрее";
 "edit_product_feature_label_short_text" = "Продайте быстрее";
 "edit_product_location_alert_text" = "Для изменение местоположения объявления разрешите доступ к геолокации";
@@ -369,6 +372,7 @@
 "edit_product_title" = "Редактировать объявление";
 "edit_product_unsaved_changes_alert" = "Вы точно не хотите сохранять эти изменения?";
 "edit_product_unsaved_changes_alert_ok" = "Не сохранять";
+"engagement_badging_feed_bubble" = "New items";
 "featured_info_view_increase_visibility" = "Улучшить видимость";
 "featured_info_view_more_buyers" = "Привлечь больше покупателей";
 "featured_info_view_sell_faster" = "Продать быстрее";
@@ -724,6 +728,13 @@
 "post_queued_requests_state_listing_posted" = "Объявление размещено!";
 "post_queued_requests_state_posting_listing" = "Размещаем объявление...";
 "posting_button_skip" = "Пропустить";
+"priceType_biweekly" = "Каждые две недели";
+"priceType_daily" = "Ежедневно";
+"priceType_hourly" = "Ежечасно";
+"priceType_monthly" = "Ежемесячно";
+"priceType_oneOff" = "Единовременно";
+"priceType_weekly" = "Еженедельно";
+"priceType_yearly" = "Ежегодно";
 "product_auto_generated_title_label" = "Заголовок автоматически задан letgo";
 "product_auto_generated_translated_title_label" = "(и переведен Яндексом)";
 "product_bubble_favorite_button" = "Дайте знать продавцу!";
@@ -1176,7 +1187,7 @@
 "reporting_listing_update_feedback_good" = "Отлично!";
 "reporting_listing_update_feedback_medium" = "Спасибо!";
 "reporting_listing_update_feedback_title" = "Каков ваш опыт?";
-"reporting_listing_update_text" = "Спасибо за анонимную жалобу \"%@\", размещенную %@. Такие отзывы помогают нам делать сообщество letgo безопасным. \n\nМы удалили этот товар после проверки, так как он нарушает Правила Пользования.";
+"reporting_listing_update_text" = "Спасибо за анонимную жалобу \"%1$@\", размещенную %2$@. Такие отзывы помогают нам делать сообщество letgo безопасным.\n\nМы удалили этот товар после проверки, так как он нарушает Правила Пользования.";
 "reporting_listing_update_title" = "Обновление жалобы";
 "reporting_reason_bio" = "Информация";
 "reporting_reason_counterfeit_money" = "Оплата фальшивыми деньгами";
@@ -1242,7 +1253,7 @@
 "search_alert_enable_error_message" = "Упс! При включении поискового уведомления произошла ошибка";
 "search_alert_error_too_many_button_text" = "Управления уведомлениями";
 "search_alert_error_too_many_text" = "Упс! Вы достигли максимального количества поисковых уведомлений";
-"search_alerts_disabled_oldest_message" = "You’ve reached the max number of search alerts, so we’ve turned your oldest one off and activated this one.";
+"search_alerts_disabled_oldest_message" = "Вы достигли максимального количества поисковых уведомлений, поэтому можете выключить самое старое и включить это.";
 "search_alerts_edit_button" = "Редактировать";
 "search_alerts_header_subtitle" = "Получать уведомления о новых объявлениях";
 "search_alerts_list_title" = "Поисковые уведомления";

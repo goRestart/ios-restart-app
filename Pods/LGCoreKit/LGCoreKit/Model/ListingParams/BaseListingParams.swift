@@ -57,7 +57,7 @@ public class BaseListingParams {
         params["address"] = postalAddress.address
         params["zipCode"] = postalAddress.zipCode
         
-        let tokensString = images.flatMap{$0.objectId}.map{"\"" + $0 + "\""}.joined(separator: ",")
+        let tokensString = images.compactMap{$0.objectId}.map{"\"" + $0 + "\""}.joined(separator: ",")
         params["images"] = "[" + tokensString + "]"
 
         let paramsVideos: [[String: Any]] = videos.map { ["path": $0.path, "snapshot": $0.snapshot] }

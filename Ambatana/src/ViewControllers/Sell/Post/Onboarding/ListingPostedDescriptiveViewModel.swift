@@ -161,9 +161,8 @@ class ListingPostedDescriptiveViewModel: BaseViewModel, PostingCategoriesPickDel
                 updatedParams = .product(productParams)
             }
             
-            let shouldUseServicesEndpoint = featureFlags.showServicesFeatures.isActive
-            let updateAction = listingRepository.updateAction(forParams: updatedParams, shouldUseServicesEndpoint: shouldUseServicesEndpoint)
-            updateAction(updatedParams, nil)
+            listingRepository.update(listingParams: updatedParams,
+                                     completion: nil)
         }
     }
 

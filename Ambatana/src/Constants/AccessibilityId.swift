@@ -313,6 +313,7 @@ enum AccessibilityId: Equatable, Accessible {
     case editListingFeatureSwitch
     case editListingServicesTypeButton
     case editListingServicesSubtypeButton
+    case editListingPaymentFrequencyButton
     
     // ReportUser
     case reportUserCollection
@@ -1397,6 +1398,8 @@ enum AccessibilityId: Equatable, Accessible {
             return "editListingServicesTypeButton"
         case .editListingServicesSubtypeButton:
             return "editListingServicesSubtypeButton"
+        case .editListingPaymentFrequencyButton:
+            return "editListingPaymentFrequencyButton"
 
             
         // ReportUser

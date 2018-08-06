@@ -58,7 +58,8 @@ final class MainTabCoordinator: TabCoordinator, FeedNavigator {
                    tracker: tracker,
                    rootViewController: vc,
                    featureFlags: featureFlags,
-                   sessionManager: sessionManager)
+                   sessionManager: sessionManager,
+                   deeplinkMailBox: LGDeepLinkMailBox.sharedInstance)
         vm.navigator = self
     }
     

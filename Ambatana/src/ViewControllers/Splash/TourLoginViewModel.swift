@@ -87,6 +87,9 @@ extension TourLoginViewModel: SignUpViewModelDelegate {
     func vmShowAlert(_ title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {
         delegate?.vmShowAlert(title, message: message, cancelLabel: cancelLabel, actions: actions)
     }
+    func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction], withTitle title: String?) {
+        delegate?.vmShowActionSheet(cancelAction, actions: actions, withTitle: title)
+    }
     func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction]) {
         delegate?.vmShowActionSheet(cancelAction, actions: actions)
     }

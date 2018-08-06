@@ -108,8 +108,8 @@ class GridDrawerManager {
     func draw(_ model: ListingCellModel,
               inCell cell: UICollectionViewCell,
               delegate: ListingCellDelegate?,
-              imageSize: CGSize)
-    {
+              imageSize: CGSize,
+              isPrivateList: Bool) {
         switch model {
         case let .listingCell(listing) where cell is ListingCell:
             guard let cell = cell as? ListingCell else { return }
@@ -129,7 +129,7 @@ class GridDrawerManager {
                                    imageSize: imageSize,
                                    currentLocation: locationManager.currentLocation,
                                    interestedState: .send(enabled: true))
-            return listingDrawer.draw(data, style: cellStyle, inCell: cell)
+            return listingDrawer.draw(data, style: cellStyle, inCell: cell, isPrivateList: isPrivateList)
         case .collectionCell(let style) where cell is CollectionCell:
             guard let cell = cell as? CollectionCell else { return }
             return collectionDrawer.draw(style, style: cellStyle, inCell: cell)

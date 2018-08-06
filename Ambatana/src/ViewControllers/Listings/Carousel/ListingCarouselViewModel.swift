@@ -94,6 +94,10 @@ class ListingCarouselViewModel: BaseViewModel {
         return !keyValueStorage[.listingMoreInfoTooltipDismissed]
     }
     
+    var shouldShowPaymentFrequency: Bool {
+        return featureFlags.servicesPaymentFrequency.isActive
+    }
+    
     let actionOnFirstAppear: ProductCarouselActionOnFirstAppear
 
     let productInfo = Variable<ListingVMProductInfo?>(nil)
@@ -448,8 +452,8 @@ class ListingCarouselViewModel: BaseViewModel {
         }
     }
 
-    func showBumpUpView(bumpUpProductData: BumpUpProductData,
-                        bumpUpType: BumpUpType,
+    func showBumpUpView(bumpUpProductData: BumpUpProductData?,
+                        bumpUpType: BumpUpType?,
                         bumpUpSource: BumpUpSource?,
                         typePage: EventParameterTypePage?) {
         currentListingViewModel?.showBumpUpView(bumpUpProductData: bumpUpProductData,
@@ -875,6 +879,9 @@ extension ListingCarouselViewModel: ListingViewModelDelegate {
     }
     func vmShowActionSheet(_ cancelLabel: String, actions: [UIAction]) {
         delegate?.vmShowActionSheet(cancelLabel, actions: actions)
+    }
+    func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction], withTitle title: String?) {
+        delegate?.vmShowActionSheet(cancelAction, actions: actions, withTitle: title)
     }
     func vmOpenInAppWebViewWith(url: URL) {
         delegate?.vmOpenInAppWebViewWith(url:url)

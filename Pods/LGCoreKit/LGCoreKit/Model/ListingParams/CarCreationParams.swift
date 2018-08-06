@@ -28,9 +28,10 @@ public class CarCreationParams: BaseListingParams {
     override func apiCreationEncode(userId: String) -> [String: Any] {
         var params = super.apiCreationEncode(userId: userId)
         params.removeValue(forKey: "price_flag")
-        params[CodingKeys.carAttributes.rawValue] = carAttributes.dictionaryEncoded
-        params[CodingKeys.images.rawValue] = images.flatMap { $0.objectId }
         params[CodingKeys.priceFlag.rawValue] = price.priceFlag.rawValue
+
+        params[CodingKeys.carAttributes.rawValue] = carAttributes.dictionaryEncoded
+        params[CodingKeys.images.rawValue] = images.compactMap { $0.objectId }
         return params
     }
     

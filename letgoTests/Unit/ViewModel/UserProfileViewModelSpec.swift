@@ -224,15 +224,6 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
                         expect(self.showAlertCalled) == true
                     }
                 }
-
-                context("open verifications view") {
-                    beforeEach {
-                        sut.didTapKarmaScoreView()
-                    }
-                    it("calls navigator to open verifications view") {
-                        expect(self.openVerificationsViewCalled) == true
-                    }
-                }
             }
 
             context("Init with public profile") {
@@ -327,10 +318,6 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
     }
     override func openUserReport(source: EventParameterTypePage, userReportedId: String) {
         openUserReportCalled = true
-    }
-
-    func openVerificationView() {
-        openVerificationsViewCalled = true
     }
 
     override func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, actions: [UIAction]?) {

@@ -50,9 +50,11 @@
 "bump_up_view_boost_pay_button_title" = "Promoter den igjen for %@";
 "bump_up_view_boost_subtitle_boost_listing" = "Ettersom du allerede har promotert annonsen din i løpet av de siste 24 timene lar vi deg kjøpe mer promotering til lavere pris!";
 "bump_up_view_boost_subtitle_cheaper" = "Promoter din annonse nå for å få rabatt på vanlig pris.";
+"bump_up_view_boost_subtitle_not_ready" = "You can add another boost in %@ to move it to the top and be featured for 24 additional hours";
 "bump_up_view_boost_subtitle_send_top" = "Din annonse er fortsatt promotert, men du kan legge til ekstra promotering. Den vil flyttes til toppen og være promotert i 24 timer fra nå.";
 "bump_up_view_boost_title_boost_listing" = "Fremhev din promoterte annonse";
 "bump_up_view_boost_title_cheaper_boost" = "Skaff deg billigere promotering nå";
+"bump_up_view_boost_title_not_ready" = "Your listing's still featured";
 "bump_up_view_boost_title_send_top" = "Send den til toppen igjen";
 "bump_up_view_free_subtitle" = "Jo mere du deler, desto mer synlig blir din annonse.";
 "bump_up_view_free_title" = "PROMOTER DIN ANNONSE";
@@ -358,6 +360,7 @@
 "discarded_products_reason_poor_ad_quality" = "Dette overholder ikke optimal praksis";
 "discarded_products_reason_reference_to_competitors" = "Referanser til andre apper eller nettsider";
 "discarded_products_reason_stock_photo_only" = "Inneholder kun bilder som er tatt av andre (stockphoto)";
+"edit_priceType_choose_title" = "Choose an option";
 "edit_product_feature_label_long_text" = "Promoter din annonse for å selge raskere";
 "edit_product_feature_label_short_text" = "Selg raskere nå";
 "edit_product_location_alert_text" = "Gi tilgang til din plassering for å kunne endre hvor din annonse publiseres fra";
@@ -369,6 +372,7 @@
 "edit_product_title" = "Endre annonse";
 "edit_product_unsaved_changes_alert" = "Er du sikker på at du vil forkaste endringene?";
 "edit_product_unsaved_changes_alert_ok" = "Forkast";
+"engagement_badging_feed_bubble" = "New items";
 "featured_info_view_increase_visibility" = "Få mer synlighet";
 "featured_info_view_more_buyers" = "Tiltrekk flere kjøpere";
 "featured_info_view_sell_faster" = "Selg raskere";
@@ -724,6 +728,13 @@
 "post_queued_requests_state_listing_posted" = "Annonsen er publisert!";
 "post_queued_requests_state_posting_listing" = "Publiserer annonse...";
 "posting_button_skip" = "Hopp over";
+"priceType_biweekly" = "Annenhver uke";
+"priceType_daily" = "Daglig";
+"priceType_hourly" = "Timebasert";
+"priceType_monthly" = "Månedlig";
+"priceType_oneOff" = "Engangsbeløp";
+"priceType_weekly" = "Ukentlig";
+"priceType_yearly" = "Årlig";
 "product_auto_generated_title_label" = "Automatisk generert tittel av letgo";
 "product_auto_generated_translated_title_label" = "(og oversatt av Google)";
 "product_bubble_favorite_button" = "Informer selgeren!";
@@ -1176,7 +1187,7 @@
 "reporting_listing_update_feedback_good" = "Flott!";
 "reporting_listing_update_feedback_medium" = "Takk!";
 "reporting_listing_update_feedback_title" = "Hvordan var denne opplevelsen?";
-"reporting_listing_update_text" = "Takk for din anonyme rapportering om «%@» publisert av %@. Tilbakemeldinger som din bidrar til å holde letgo-fellesskapet trygt.\n\nEtter å ha sett på dette produktet, har vi fjernet det fordi det er i strid med våre Retningslinjer for letgos fellesskap.";
+"reporting_listing_update_text" = "Takk for din anonyme rapportering om «%1$@» publisert av %2$@. Tilbakemeldinger som din bidrar til å holde letgo-fellesskapet trygt.\n\nEtter å ha sett på dette produktet, har vi fjernet det fordi det er i strid med våre Retningslinjer for letgos fellesskap.";
 "reporting_listing_update_title" = "Oppdatering for rapportering";
 "reporting_reason_bio" = "Biografi";
 "reporting_reason_counterfeit_money" = "Betalt med falske penger";

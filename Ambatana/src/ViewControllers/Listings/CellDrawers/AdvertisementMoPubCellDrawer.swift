@@ -13,7 +13,8 @@ import LGCoreKit
 final class AdvertisementMoPubCellDrawer: BaseCollectionCellDrawer<AdvertisementCell>, GridCellDrawer {
     func willDisplay(_ model: AdvertisementMoPubData, inCell cell: AdvertisementCell) { }
     
-    func draw(_ model: AdvertisementMoPubData, style: CellStyle, inCell cell: AdvertisementCell) {
+    func draw(_ model: AdvertisementMoPubData, style: CellStyle, inCell cell: AdvertisementCell,
+              isPrivateList: Bool = false) {
         cell.setupWith(moPubData: model)
     }
 

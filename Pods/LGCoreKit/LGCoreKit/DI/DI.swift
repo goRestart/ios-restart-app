@@ -43,6 +43,7 @@ public protocol DI: class {
     var notificationSettingsPusherRepository: NotificationSettingsPusherRepository { get }
     var notificationSettingsMailerRepository: NotificationSettingsMailerRepository { get }
     var communityRepository: CommunityRepository { get }
+    var reportingRepository: ReportingRepository { get }
 
     
     // Helper

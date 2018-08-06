@@ -32,7 +32,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     }
     
     private var cellStyle: CellStyle {
-        let showServiceCell = featureFlags.showServicesFeatures.isActive && filters.hasSelectedCategory(.services)
+        let showServiceCell = filters.hasSelectedCategory(.services)
         return showServiceCell ? .serviceList : .mainList
     }
     
@@ -925,20 +925,14 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         } else {
             categoryHeaderElements.append(contentsOf: ListingCategory.visibleValuesInFeed(servicesIncluded: true,
                                                                                           realEstateIncluded: featureFlags.realEstateEnabled.isActive,
-                                                                                          servicesHighlighted: featureFlags.showServicesFeatures.isActive)
+                                                                                          servicesHighlighted: true)
                 .map { CategoryHeaderElement.listingCategory($0) })
         }
         return categoryHeaderElements
     }
     
     var categoryHeaderHighlighted: CategoryHeaderElement {
-        if featureFlags.showServicesFeatures.isActive {
-            return CategoryHeaderElement.listingCategory(.services)
-        } else if featureFlags.realEstateEnabled.isActive {
-            return CategoryHeaderElement.listingCategory(.realEstate)
-        } else {
-            return CategoryHeaderElement.listingCategory(.cars)
-        }
+        return CategoryHeaderElement.listingCategory(.services)
     }
     
     
@@ -2119,6 +2113,8 @@ extension MainListingsViewModel: ListingCellDelegate {
             completion(result.value)
         }
     }
+
+    func bumpUpPressedFor(listing: Listing) { }
 }
 
 extension NoAdsInFeedForNewUsers {

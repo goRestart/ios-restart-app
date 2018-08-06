@@ -34,7 +34,8 @@ final class ProfileTabCoordinator: TabCoordinator {
                   tracker: tracker,
                   rootViewController: rootViewController,
                   featureFlags: featureFlags,
-                  sessionManager: sessionManager)
+                  sessionManager: sessionManager,
+                  deeplinkMailBox: LGDeepLinkMailBox.sharedInstance)
 
         viewModel.profileNavigator = self
     }
@@ -58,20 +59,17 @@ extension ProfileTabCoordinator: ProfileTabNavigator {
     }
 
     func editListing(_ listing: Listing, pageType: EventParameterTypePage?) {
-        let navigator = EditListingCoordinator(listing: listing,
-                                               bumpUpProductData: nil,
-                                               pageType: pageType,
-                                               listingCanBeBoosted: false,
-                                               timeSinceLastBump: nil,
-                                               maxCountdown: 0)
-        openChild(coordinator: navigator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
-    }
-
-    func openVerificationView() {
-        let vm = UserVerificationViewModel()
-        vm.navigator = self
-        let vc = UserVerificationViewController(viewModel: vm)
-        navigationController.pushViewController(vc, animated: true)
+        let nav = UINavigationController()
+        let assembly = LGListingBuilder.standard(navigationController: navigationController)
+        let vc = assembly.buildEditView(listing: listing,
+                                        pageType: pageType,
+                                        bumpUpProductData: nil,
+                                        listingCanBeBoosted: false,
+                                        timeSinceLastBump: nil,
+                                        maxCountdown: 0,
+                                        onEditAction: nil)
+        nav.viewControllers = [vc]
+        navigationController.present(nav, animated: true)
     }
 
     func closeProfile() {
@@ -80,7 +78,6 @@ extension ProfileTabCoordinator: ProfileTabNavigator {
 }
 
 extension ProfileTabCoordinator: SettingsNavigator {
-
     func openEditUserName() {
         let vm = ChangeUsernameViewModel()
         vm.navigator = self

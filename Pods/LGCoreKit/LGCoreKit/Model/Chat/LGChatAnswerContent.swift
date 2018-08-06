@@ -21,7 +21,6 @@ struct LGChatAnswerContent: ChatAnswerContent, Decodable, Equatable {
     init(textToShow: String,
          textToReply: String,
          deeplinkURL: URL?) {
-        
         self.textToShow = textToShow
         self.textToReply = textToReply
         self.deeplinkURL = deeplinkURL

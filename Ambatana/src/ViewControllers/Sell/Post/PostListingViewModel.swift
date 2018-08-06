@@ -505,9 +505,8 @@ fileprivate extension PostListingViewModel {
     func setupRx() {
         category.asObservable().subscribeNext { [weak self] category in
             guard let strongSelf = self, let category = category else { return }
-            strongSelf.state.value = strongSelf.state.value.updating(category: category,
-                                                                     showServicesFeatures: strongSelf.featureFlags.showServicesFeatures.isActive)
-        }.disposed(by: disposeBag)
+            strongSelf.state.value = strongSelf.state.value.updating(category: category)
+            }.disposed(by: disposeBag)
         
         state.asObservable().filter { $0.step == .finished }.bind { [weak self] _ in
             self?.postListing()
@@ -579,7 +578,7 @@ fileprivate extension PostListingViewModel {
     func openPostingDetails() {
         let firstStep: PostingDetailStep
         if let category = state.value.category,
-            category.isService, featureFlags.showServicesFeatures.isActive {
+            category.isService {
             firstStep = .servicesSubtypes
         } else {
             firstStep = .summary

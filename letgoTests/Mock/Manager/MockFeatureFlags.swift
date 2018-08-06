@@ -30,7 +30,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var searchImprovements: SearchImprovements = .control
     var relaxedSearch: RelaxedSearch = .control
     var bumpUpBoost: BumpUpBoost = .control
-    var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings = .control
     var showProTagUserProfile: Bool = false
     var sectionedMainFeed: SectionedMainFeed = .control
     var showExactLocationForPros: Bool = true
@@ -53,6 +52,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var appInstallAdsInFeed: AppInstallAdsInFeed = .control
     var appInstallAdsInFeedAdUnit: String? = ""
     var alwaysShowBumpBannerWithLoading: AlwaysShowBumpBannerWithLoading = .control
+    var showSellFasterInProfileCells: ShowSellFasterInProfileCells = .control
     
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false
@@ -78,7 +78,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var expressChatImprovement: ExpressChatImprovement = .control
     
     // MARK:  Verticals
-    var showServicesFeatures: ShowServicesFeatures = .control
+    var servicesPaymentFrequency: ServicesPaymentFrequency = .control
     var carExtraFieldsEnabled: CarExtraFieldsEnabled = .control
     var realEstateMapTooltip: RealEstateMapTooltip = .control
     var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen = .control

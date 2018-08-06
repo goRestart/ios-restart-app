@@ -111,8 +111,7 @@ private extension RelatedListingListRequester {
         case .car:
             return listingRepository.indexRelatedCars
         case .service:
-            return featureFlags.showServicesFeatures.isActive ?
-                listingRepository.indexRelatedServices : listingRepository.indexRelated
+            return listingRepository.indexRelatedServices
         }
     }
 }

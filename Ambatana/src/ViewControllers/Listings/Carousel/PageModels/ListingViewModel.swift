@@ -218,6 +218,7 @@ class ListingViewModel: BaseViewModel {
     var storeProductId: String?
     private var userIsSoftBlocked: Bool = false
     private var bumpUpSource: BumpUpSource?
+    private var shouldExecuteBumpBannerAction: Bool = false
 
     fileprivate var alreadyTrackedFirstMessageSent: Bool = false
     fileprivate static let bubbleTagGroup = "favorite.bubble.group"
@@ -488,8 +489,20 @@ class ListingViewModel: BaseViewModel {
             .bind(to: showExactLocationOnMap)
             .disposed(by: disposeBag)
 
+        bumpUpBannerInfo.asObservable().bind { [weak self] bumpUpBannerInfo in
+            guard let strongSelf = self else { return }
+            guard let bumpInfo = bumpUpBannerInfo,
+                bumpInfo.type != .loading,
+                strongSelf.shouldExecuteBumpBannerAction else { return }
+
+
+            let timeLeft = strongSelf.bumpMaxCountdown - bumpInfo.timeSinceLastBump
+            bumpInfo.bannerInteractionBlock(timeLeft)
+            strongSelf.shouldExecuteBumpBannerAction = false
+
+            }.disposed(by: disposeBag)
     }
-    
+
     private func distanceString(_ listing: Listing) -> String? {
         guard let userLocation = locationManager.currentLocation?.location else { return nil }
         let distance = listing.location.distanceTo(userLocation)
@@ -734,10 +747,15 @@ class ListingViewModel: BaseViewModel {
         navigator?.openVideoPlayer(atIndex: index, listingVM: self, source: source)
     }
 
-    func showBumpUpView(bumpUpProductData: BumpUpProductData,
-                        bumpUpType: BumpUpType,
+    func showBumpUpView(bumpUpProductData: BumpUpProductData?,
+                        bumpUpType: BumpUpType?,
                         bumpUpSource: BumpUpSource?,
                         typePage: EventParameterTypePage?) {
+        guard let bumpUpProductData = bumpUpProductData, let bumpUpType = bumpUpType else {
+            shouldExecuteBumpBannerAction = true
+            return
+        }
+
         self.bumpUpSource = bumpUpSource
         switch bumpUpType {
         case .priced, .boost:

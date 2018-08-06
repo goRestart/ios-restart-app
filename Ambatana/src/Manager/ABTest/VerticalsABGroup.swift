@@ -1,36 +1,36 @@
 struct VerticalsABGroup: ABGroupType {
 
-    let showServicesFeatures: LeanplumABVariable<Int>
     let carExtraFieldsEnabled: LeanplumABVariable<Int>
     let realEstateMapTooltip: LeanplumABVariable<Int>
     let servicesUnifiedFilterScreen: LeanplumABVariable<Int>
-
+    let servicesPaymentFrequency: LeanplumABVariable<Int>
+    
     let group: ABGroup = .verticals
     var intVariables: [LeanplumABVariable<Int>] = []
     var stringVariables: [LeanplumABVariable<String>] = []
     var floatVariables: [LeanplumABVariable<Float>] = []
     var boolVariables: [LeanplumABVariable<Bool>] = []
 
-    private init(showServicesFeatures: LeanplumABVariable<Int>,
-                 carExtraFieldsEnabled: LeanplumABVariable<Int>,
+    private init(carExtraFieldsEnabled: LeanplumABVariable<Int>,
                  realEstateMapTooltip: LeanplumABVariable<Int>,
-                 servicesUnifiedFilterScreen: LeanplumABVariable<Int>) {
-        self.showServicesFeatures = showServicesFeatures
+                 servicesUnifiedFilterScreen: LeanplumABVariable<Int>,
+                 servicesPaymentFrequency: LeanplumABVariable<Int>) {
         self.carExtraFieldsEnabled = carExtraFieldsEnabled
         self.realEstateMapTooltip = realEstateMapTooltip
         self.servicesUnifiedFilterScreen = servicesUnifiedFilterScreen
-        
-        intVariables.append(contentsOf: [showServicesFeatures,
-                                         carExtraFieldsEnabled,
+        self.servicesPaymentFrequency = servicesPaymentFrequency
+
+        intVariables.append(contentsOf: [carExtraFieldsEnabled,
                                          realEstateMapTooltip,
-                                         servicesUnifiedFilterScreen])
+                                         servicesUnifiedFilterScreen,
+                                         servicesPaymentFrequency])
     }
     
     static func make() -> VerticalsABGroup {
-        return VerticalsABGroup(showServicesFeatures: verticalsIntFor(key: Keys.showServicesFeatures),
-                                carExtraFieldsEnabled: verticalsIntFor(key: Keys.carExtraFieldsEnabled),
+        return VerticalsABGroup(carExtraFieldsEnabled: verticalsIntFor(key: Keys.carExtraFieldsEnabled),
                                 realEstateMapTooltip: verticalsIntFor(key: Keys.realEstateMapTooltip),
-                                servicesUnifiedFilterScreen: verticalsIntFor(key: Keys.servicesUnifiedFilterScreen))
+                                servicesUnifiedFilterScreen: verticalsIntFor(key: Keys.servicesUnifiedFilterScreen),
+                                servicesPaymentFrequency: verticalsIntFor(key: Keys.servicesPaymentFrequency))
     }
     
     private static func verticalsIntFor(key: String) -> LeanplumABVariable<Int> {
@@ -39,8 +39,8 @@ struct VerticalsABGroup: ABGroupType {
 }
 
 private struct Keys {
-    static let showServicesFeatures = "20180518showServicesFeatures"
     static let carExtraFieldsEnabled = "20180628carExtraFieldsEnabled"
     static let realEstateMapTooltip = "20180703realEstateMapTooltip"
     static let servicesUnifiedFilterScreen = "20180717servicesUnifiedFilterScreen"
+    static let servicesPaymentFrequency = "20180730servicesPriceType"
 }

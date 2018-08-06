@@ -9,6 +9,7 @@ enum BumpUpSource {
     case promoted
     case edit(listing: Listing)
     case sellEdit(listing: Listing)
+    case profile
 
     var typePageParameter: EventParameterTypePage? {
         switch self {
@@ -20,6 +21,8 @@ enum BumpUpSource {
             return .edit
         case .sellEdit:
             return .sellEdit
+        case .profile:
+            return .profile
         }
     }
 }
@@ -51,6 +54,7 @@ final class AppCoordinator: NSObject, Coordinator {
     fileprivate let ratingManager: RatingManager
     fileprivate let tracker: Tracker
     fileprivate let deepLinksRouter: DeepLinksRouter
+    fileprivate let deeplinkMailBox: DeepLinkMailBox
 
     fileprivate let listingRepository: ListingRepository
     fileprivate let userRepository: UserRepository
@@ -84,6 +88,7 @@ final class AppCoordinator: NSObject, Coordinator {
                   pushPermissionsManager: LGPushPermissionsManager.sharedInstance,
                   ratingManager: LGRatingManager.sharedInstance,
                   deepLinksRouter: LGDeepLinksRouter.sharedInstance,
+                  deeplinkMailBox: LGDeepLinkMailBox.sharedInstance,
                   tracker: TrackerProxy.sharedInstance,
                   listingRepository: Core.listingRepository,
                   userRepository: Core.userRepository,
@@ -106,6 +111,7 @@ final class AppCoordinator: NSObject, Coordinator {
          pushPermissionsManager: PushPermissionsManager,
          ratingManager: RatingManager,
          deepLinksRouter: DeepLinksRouter,
+         deeplinkMailBox: DeepLinkMailBox,
          tracker: Tracker,
          listingRepository: ListingRepository,
          userRepository: UserRepository,
@@ -144,6 +150,7 @@ final class AppCoordinator: NSObject, Coordinator {
         self.tracker = tracker
 
         self.deepLinksRouter = deepLinksRouter
+        self.deeplinkMailBox = deeplinkMailBox
 
         self.listingRepository = listingRepository
         self.userRepository = userRepository
@@ -429,9 +436,9 @@ extension AppCoordinator: AppNavigator {
     // MARK -
 
     func openUserRating(_ source: RateUserSource, data: RateUserData) {
-        let userRatingCoordinator = UserRatingCoordinator(source: source, data: data)
-        userRatingCoordinator.delegate = self
-        openChild(coordinator: userRatingCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
+        let assembly = LGRateBuilder.modal(root: tabBarCtl)
+        let vc = assembly.buildRateUser(source: source, data: data, showSkipButton: false)
+        tabBarCtl.present(vc, animated: true, completion: nil)
     }
 
     func openChangeLocation() {
@@ -486,14 +493,28 @@ extension AppCoordinator: AppNavigator {
     func openEditForListing(listing: Listing,
                             bumpUpProductData: BumpUpProductData?,
                             maxCountdown: TimeInterval) {
-        let editCoordinator = EditListingCoordinator(listing: listing,
-                                                     bumpUpProductData: bumpUpProductData,
-                                                     pageType: nil,
-                                                     listingCanBeBoosted: false,
-                                                     timeSinceLastBump: nil,
-                                                     maxCountdown: maxCountdown)
-        editCoordinator.delegate = self
-        openChild(coordinator: editCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: false, completion: nil)
+        let nav = UINavigationController()
+        let assembly = LGListingBuilder.standard(navigationController: nav)
+        let vc = assembly.buildEditView(listing: listing,
+                                        pageType: nil,
+                                        bumpUpProductData: bumpUpProductData,
+                                        listingCanBeBoosted: false,
+                                        timeSinceLastBump: nil,
+                                        maxCountdown: 0,
+                                        onEditAction: onEdit)
+        nav.viewControllers = [vc]
+        tabBarCtl.present(nav, animated: true)
+    }
+
+    private func onEdit(listing: Listing,
+                           bumpData: BumpUpProductData?,
+                           timeSinceLastBump: TimeInterval?,
+                           maxCountdown: TimeInterval) {
+        refreshSelectedListingsRefreshable()
+        guard let listingId = listing.objectId, let bumpData = bumpData, bumpData.hasPaymentId else { return }
+        openPromoteBumpForListingId(listingId: listingId,
+                                    bumpUpProductData: bumpData,
+                                    typePage: .sellEdit)
     }
     
     func openInAppWebView(url: URL) {
@@ -517,24 +538,6 @@ extension AppCoordinator: SellCoordinatorDelegate {
 
     func sellCoordinator(_ coordinator: SellCoordinator, closePostAndOpenEditForListing listing: Listing) {
 		openAfterSellDialogIfNeeded(forListing: listing, bumpUpSource: .sellEdit(listing: listing))
-    }
-}
-
-extension AppCoordinator: EditListingCoordinatorDelegate {
-    func editListingCoordinatorDidCancel(_ coordinator: EditListingCoordinator) {}
-
-    func editListingCoordinator(_ coordinator: EditListingCoordinator,
-                                didFinishWithListing listing: Listing,
-                                bumpUpProductData: BumpUpProductData?,
-                                timeSinceLastBump: TimeInterval?,
-                                maxCountdown: TimeInterval) {
-        refreshSelectedListingsRefreshable()
-        guard let listingId = listing.objectId,
-            let bumpData = bumpUpProductData,
-            bumpData.hasPaymentId else { return }
-        openPromoteBumpForListingId(listingId: listingId,
-                                    bumpUpProductData: bumpData,
-                                    typePage: .sellEdit)
     }
 }
 
@@ -569,19 +572,6 @@ extension AppCoordinator: OnboardingCoordinatorDelegate {
     }
 }
 
-
-// MARK: - UserRatingCoordinatorDelegate
-
-extension AppCoordinator: UserRatingCoordinatorDelegate {
-    func userRatingCoordinatorDidCancel() {}
-
-    func userRatingCoordinatorDidFinish(withRating rating: Int?, ratedUserId: String?) {
-        if rating == 5 {
-            openAppRating(.chat)
-        }
-    }
-}
-
 fileprivate extension AppCoordinator {
     func refreshSelectedListingsRefreshable() {
         guard let selectedVC = tabBarCtl.selectedViewController else { return }
@@ -600,7 +590,7 @@ fileprivate extension AppCoordinator {
 
     fileprivate func shouldRetrieveBumpeableInfoFor(source: BumpUpSource) -> Bool {
         switch source {
-        case .edit, .deepLink, .sellEdit:
+        case .edit, .deepLink, .sellEdit, .profile:
             return true
         case .promoted:
             return !promoteBumpShownInLastDay
@@ -660,7 +650,7 @@ fileprivate extension AppCoordinator {
             openEditForListing(listing: listing, bumpUpProductData: nil, maxCountdown: 0)
         case .edit(let listing):
             openEditForListing(listing: listing, bumpUpProductData: nil, maxCountdown: 0)
-        case .deepLink, .promoted:
+        case .deepLink, .promoted, .profile:
             break
         }
     }
@@ -770,6 +760,11 @@ fileprivate extension AppCoordinator {
                     self?.openExternalDeepLink(deepLink)
                 }
             }.disposed(by: disposeBag)
+
+        deeplinkMailBox.deeplinks
+            .subscribeNext { [weak self] (deeplink) in
+                self?.openDeepLink(deepLink: deeplink)
+        }.disposed(by: disposeBag)
     }
 
     func setupCoreEventsRx() {
@@ -834,7 +829,7 @@ fileprivate extension AppCoordinator {
 
 // MARK: - CustomLeanplumPresenter
 
-extension AppCoordinator: CustomLeanplumPresenter, LPMessageNavigator {
+extension AppCoordinator: CustomLeanplumPresenter {
 
     func setupLeanplumPopUp() {
         Leanplum.customLeanplumAlert(self)
@@ -847,8 +842,9 @@ extension AppCoordinator: CustomLeanplumPresenter, LPMessageNavigator {
     }
 
     func showLPMessageAlert(_ message: LPMessage) {
-        let coordinator = LeanplumCoordinator(leanplumMessage: message)
-        openChild(coordinator: coordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
+        let assembly = LGLeanplumBuilder.modal(root: tabBarCtl)
+        let vc = assembly.buildLeanplumMessage(with: message)
+        tabBarCtl.present(vc, animated: true, completion: nil)
     }
 
     func closeLPMessage() {
@@ -936,6 +932,12 @@ fileprivate extension AppCoordinator {
     func triggerDeepLink(_ deepLink: DeepLink, initialDeepLink: Bool) {
         var afterDelayClosure: (() -> Void)?
         switch deepLink.action {
+        case .appRating(let source):
+            if let ratingSource = EventParameterRatingSource(rawValue: source) {
+                afterDelayClosure = { [weak self] in
+                    self?.openAppRating(ratingSource)
+                }
+            }
         case .home:
             afterDelayClosure = { [weak self] in
                 self?.openTab(.home, force: false, completion: nil)
@@ -1061,7 +1063,7 @@ fileprivate extension AppCoordinator {
         switch deepLink.action {
         case .home, .sell, .listing, .listingShare, .listingBumpUp, .listingMarkAsSold, .listingEdit, .user,
              .conversations, .conversationWithMessage, .search, .resetPassword, .userRatings, .userRating,
-             .notificationCenter, .appStore, .webView:
+             .notificationCenter, .appStore, .webView, .appRating:
             return // Do nothing
         case let .conversation(data):
             showInappChatNotification(data, message: deepLink.origin.message)
@@ -1176,7 +1178,7 @@ extension AppCoordinator: BumpInfoRequesterDelegate {
                                                   letgoItemId: letgoItemId,
                                                   storeProductId: storeProductId)
         switch bumpUpSource {
-        case .deepLink:
+        case .deepLink, .profile:
             tabBarCtl.clearAllPresented(nil)
             openTab(.profile, force: false) { [weak self] in
                 var actionOnFirstAppear = ProductCarouselActionOnFirstAppear.triggerBumpUp(bumpUpProductData: bumpUpProductData,

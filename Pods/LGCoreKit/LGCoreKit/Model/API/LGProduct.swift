@@ -101,7 +101,7 @@ struct LGProduct: Product, Decodable {
     
     init(chatListing: ChatListing, chatInterlocutor: ChatInterlocutor) {
         let user = LGUserListing(chatInterlocutor: chatInterlocutor)
-        let images = [chatListing.image].flatMap{$0}
+        let images = [chatListing.image].compactMap{$0}
         let location = LGLocationCoordinates2D(latitude: 0, longitude: 0)
         let postalAddress = PostalAddress.emptyAddress()
         let category = ListingCategory.other
@@ -154,7 +154,7 @@ struct LGProduct: Product, Decodable {
         let actualCurrency = Currency.currencyWithCode(currency)
         let actualCategory = ListingCategory(rawValue: category) ?? .other
         let actualThumbnail = LGFile(id: nil, urlString: thumbnail)
-        let actualImages = images.flatMap { $0 as File }
+        let actualImages = images.compactMap { $0 as File }
         let listingPrice = ListingPrice.fromPrice(price, andFlag: priceFlag)
         
         return self.init(objectId: objectId,

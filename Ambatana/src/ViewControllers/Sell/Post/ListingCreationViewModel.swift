@@ -99,8 +99,7 @@ final class ListingCreationViewModel : BaseViewModel {
     }
     
     func createListing() {
-        if featureFlags.showServicesFeatures.isActive,
-            !uploadedImageId.isEmpty,
+        if !uploadedImageId.isEmpty,
             numberOfSelectedServicesSubtypes > 0 {
             fetchImagesAndCreateListings()
         } else {

@@ -34,7 +34,8 @@ final class CommunityTabCoordinator: TabCoordinator {
                    chatRepository: chatRepository, myUserRepository: myUserRepository,
                    installationRepository: installationRepository, bubbleNotificationManager: bubbleNotificationManager,
                    keyValueStorage: keyValueStorage, tracker: tracker,
-                   rootViewController: rootViewController, featureFlags: featureFlags, sessionManager: sessionManager)
+                   rootViewController: rootViewController, featureFlags: featureFlags,
+                   sessionManager: sessionManager, deeplinkMailBox: LGDeepLinkMailBox.sharedInstance)
 
         viewModel.navigator = self
     }

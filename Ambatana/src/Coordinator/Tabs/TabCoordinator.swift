@@ -34,6 +34,10 @@ class TabCoordinator: NSObject, Coordinator {
     let featureFlags: FeatureFlaggeable
     let disposeBag = DisposeBag()
 
+    private let deeplinkMailBox: DeepLinkMailBox
+
+    private lazy var verificationAssembly: UserVerificationAssembly = LGUserVerificationBuilder.standard(nav: self.navigationController)
+
     weak var tabCoordinatorDelegate: TabCoordinatorDelegate?
     weak var appNavigator: AppNavigator?
 
@@ -45,7 +49,7 @@ class TabCoordinator: NSObject, Coordinator {
          myUserRepository: MyUserRepository, installationRepository: InstallationRepository,
          bubbleNotificationManager: BubbleNotificationManager,
          keyValueStorage: KeyValueStorage, tracker: Tracker, rootViewController: UIViewController,
-         featureFlags: FeatureFlaggeable, sessionManager: SessionManager) {
+         featureFlags: FeatureFlaggeable, sessionManager: SessionManager, deeplinkMailBox: DeepLinkMailBox) {
         self.listingRepository = listingRepository
         self.userRepository = userRepository
         self.chatRepository = chatRepository
@@ -60,6 +64,7 @@ class TabCoordinator: NSObject, Coordinator {
         self.navigationController = UINavigationController(rootViewController: rootViewController)
         self.listingCoordinator = ListingCoordinator(navigationController: navigationController)
         self.userCoordinator = UserCoordinator(navigationController: navigationController)
+        self.deeplinkMailBox = deeplinkMailBox
 
         super.init()
 
@@ -94,10 +99,6 @@ extension TabCoordinator: TabNavigator {
 
     func openSell(source: PostingSource, postCategory: PostCategory?) {
         appNavigator?.openSell(source: source, postCategory: postCategory, listingTitle: nil)
-    }
-
-    func openAppRating(_ source: EventParameterRatingSource) {
-        appNavigator?.openAppRating(source)
     }
 
     func openUserRating(_ source: RateUserSource, data: RateUserData) {
@@ -152,14 +153,12 @@ extension TabCoordinator: TabNavigator {
         navigationController.pushViewController(vc, animated: true)
     }
     
-    func openDeepLink(_ deeplink: DeepLink) {
+    private func openDeepLink(_ deeplink: DeepLink) {
         appNavigator?.openDeepLink(deepLink: deeplink)
     }
 
     func openUserVerificationView() {
-        let vm = UserVerificationViewModel()
-        vm.navigator = self
-        let vc = UserVerificationViewController(viewModel: vm)
+        let vc = verificationAssembly.buildUserVerification()
         navigationController.pushViewController(vc, animated: true)
     }
 
@@ -265,74 +264,23 @@ fileprivate extension TabCoordinator {
         navigationController.showAutoFadingOutMessageAlert(message: message)
     }
 }
+extension TabCoordinator: ChatInactiveConversationsListNavigator {}
 
-extension TabCoordinator: UserVerificationNavigator {
-    func closeUserVerification() {
-        let router = UserVerificationRouter(navigationController: navigationController)
-        router.closeUserVerification()
-    }
-
-    func openEmailVerification() {
-        let router = UserVerificationRouter(navigationController: navigationController)
-        router.openEmailVerification(verifyUserNavigator: self)
-    }
-
+extension TabCoordinator {
     func openEditUserBio() {
         let router = UserVerificationRouter(navigationController: navigationController)
-        router.openEditUserBio(navigator: self)
-    }
-
-    func openPhoneNumberVerification() {
-        let router = UserVerificationRouter(navigationController: navigationController)
-        router.openPhoneNumberVerification(navigator: self)
-    }
-}
-
-extension TabCoordinator: EditUserBioNavigator {
-    func closeEditUserBio() {
-        navigationController.popViewController(animated: true)
-    }
-}
-
-extension TabCoordinator: VerifyUserEmailNavigator {
-    func closeEmailVerification() {
-        navigationController.popViewController(animated: true)
-    }
-}
-
-extension TabCoordinator: UserPhoneVerificationNavigator {
-    func openCountrySelector(withDelegate delegate: UserPhoneVerificationCountryPickerDelegate) {
-        let vm = UserPhoneVerificationCountryPickerViewModel()
-        vm.navigator = self
-        vm.delegate = delegate
-        let vc = UserPhoneVerificationCountryPickerViewController(viewModel: vm)
-        navigationController.pushViewController(vc, animated: true)
-    }
-
-    func closeCountrySelector() {
-        navigationController.popViewController(animated: true)
-    }
-
-    func openCodeInput(sentTo phoneNumber: String, with callingCode: String) {
-        let vm = UserPhoneVerificationCodeInputViewModel(callingCode: callingCode,
-                                                         phoneNumber: phoneNumber)
-        vm.navigator = self
-        let vc = UserPhoneVerificationCodeInputViewController(viewModel: vm)
-        vm.delegate = vc
-        navigationController.pushViewController(vc, animated: true)
-    }
-
-    func closePhoneVerificaction() {
-        guard let vc = navigationController.viewControllers
-            .filter({ $0 is UserVerificationViewController }).first else { return }
-        navigationController.popToViewController(vc, animated: true)
+        router.openEditUserBio()
     }
 }
 
 // MARK: > ListingDetailNavigator
 
 extension TabCoordinator: ListingDetailNavigator {
-    
+    func openAppRating(_ source: EventParameterRatingSource) {
+        guard let url = URL.makeAppRatingDeeplink(with: source) else { return }
+        deeplinkMailBox.push(convertible: url)
+    }
+
     func openVideoPlayer(atIndex index: Int, listingVM: ListingViewModel, source: EventParameterListingVisitSource) {
         guard let coordinator = VideoPlayerCoordinator(atIndex: index, listingVM: listingVM, source: source) else {
             return
@@ -353,18 +301,36 @@ extension TabCoordinator: ListingDetailNavigator {
                      listingCanBeBoosted: Bool,
                      timeSinceLastBump: TimeInterval?,
                      maxCountdown: TimeInterval) {
-        let navigator = EditListingCoordinator(listing: listing,
-                                               bumpUpProductData: bumpUpProductData,
-                                               pageType: nil,
-                                               listingCanBeBoosted: listingCanBeBoosted,
-                                               timeSinceLastBump: timeSinceLastBump,
-                                               maxCountdown: maxCountdown)
-        navigator.delegate = self
-        openChild(coordinator: navigator,
-                  parent: rootViewController,
-                  animated: true,
-                  forceCloseChild: true,
-                  completion: nil)
+        let nav = UINavigationController()
+        let assembly = LGListingBuilder.standard(navigationController: nav)
+        let vc = assembly.buildEditView(listing: listing,
+                                        pageType: nil,
+                                        bumpUpProductData: bumpUpProductData,
+                                        listingCanBeBoosted: listingCanBeBoosted,
+                                        timeSinceLastBump: timeSinceLastBump,
+                                        maxCountdown: maxCountdown,
+                                        onEditAction: onEdit)
+        nav.viewControllers = [vc]
+        navigationController.present(nav, animated: true, completion: nil)
+    }
+
+    private func onEdit(listing: Listing,
+                bumpData: BumpUpProductData?,
+                timeSinceLastBump: TimeInterval?,
+                maxCountdown: TimeInterval) {
+        guard let bumpData = bumpData, bumpData.hasPaymentId else { return }
+        if let timeSinceLastBump = timeSinceLastBump, timeSinceLastBump > 0, featureFlags.bumpUpBoost.isActive {
+            openBumpUpBoost(forListing: listing,
+                            bumpUpProductData: bumpData,
+                            typePage: .edit,
+                            timeSinceLastBump: timeSinceLastBump,
+                            maxCountdown: maxCountdown)
+        } else {
+            openPayBumpUp(forListing: listing,
+                          bumpUpProductData: bumpData,
+                          typePage: .edit,
+                          maxCountdown: maxCountdown)
+        }
     }
 
     func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?) {
@@ -388,30 +354,33 @@ extension TabCoordinator: ListingDetailNavigator {
                         bumpUpProductData: BumpUpProductData,
                         typePage: EventParameterTypePage?,
                         maxCountdown: TimeInterval) {
-        let bumpCoordinator = BumpUpCoordinator(listing: listing,
-                                                bumpUpProductData: bumpUpProductData,
-                                                typePage: typePage,
-                                                maxCountdown: maxCountdown)
-        openChild(coordinator: bumpCoordinator,
-                  parent: rootViewController,
-                  animated: true,
-                  forceCloseChild: true,
-                  completion: nil)
+        let assembly = LGBumpUpBuilder.modal(root: navigationController)
+        if case .socialMessage(let socialMessage) = bumpUpProductData.bumpUpPurchaseableData {
+            let vc = assembly.buildFreeBumpUp(forListing: listing,
+                                              socialMessage: socialMessage,
+                                              letgoItemId: bumpUpProductData.letgoItemId,
+                                              storeProductId: bumpUpProductData.storeProductId,
+                                              typePage: typePage,
+                                              maxCountdown: maxCountdown)
+            rootViewController.present(vc, animated: true, completion: nil)
+        }
     }
 
     func openPayBumpUp(forListing listing: Listing,
                        bumpUpProductData: BumpUpProductData,
                        typePage: EventParameterTypePage?,
                        maxCountdown: TimeInterval) {
-        let bumpCoordinator = BumpUpCoordinator(listing: listing,
-                                                bumpUpProductData: bumpUpProductData,
-                                                typePage: typePage,
-                                                maxCountdown: maxCountdown)
-        openChild(coordinator: bumpCoordinator,
-                  parent: rootViewController,
-                  animated: true,
-                  forceCloseChild: true,
-                  completion: nil)
+        let assembly = LGBumpUpBuilder.modal(root: navigationController)
+        if case .purchaseableProduct(let purchaseableProduct) = bumpUpProductData.bumpUpPurchaseableData {
+            let vc = assembly.buildPayBumpUp(forListing: listing,
+                                             purchaseableProduct: purchaseableProduct,
+                                             letgoItemId: bumpUpProductData.letgoItemId,
+                                             storeProductId: bumpUpProductData.storeProductId,
+                                             typePage: typePage,
+                                             maxCountdown: maxCountdown)
+            rootViewController.present(vc, animated: true, completion: nil)
+
+        }
     }
 
     func openBumpUpBoost(forListing listing: Listing,
@@ -419,12 +388,17 @@ extension TabCoordinator: ListingDetailNavigator {
                          typePage: EventParameterTypePage?,
                          timeSinceLastBump: TimeInterval,
                          maxCountdown: TimeInterval) {
-        let bumpCoordinator = BumpUpCoordinator(listing: listing,
-                                                bumpUpProductData: bumpUpProductData,
-                                                typePage: typePage,
-                                                timeSinceLastBump: timeSinceLastBump,
-                                                maxCountdown: maxCountdown)
-        openChild(coordinator: bumpCoordinator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
+        let assembly = LGBumpUpBuilder.modal(root: navigationController)
+        if case .purchaseableProduct(let purchaseableProduct) = bumpUpProductData.bumpUpPurchaseableData,
+            timeSinceLastBump > 0 {
+            let vc = assembly.buildBumpUpBoost(forListing: listing, purchaseableProduct: purchaseableProduct,
+                                               letgoItemId: bumpUpProductData.letgoItemId,
+                                               storeProductId: bumpUpProductData.storeProductId,
+                                               typePage: typePage,
+                                               timeSinceLastBump: timeSinceLastBump,
+                                               maxCountdown: maxCountdown)
+            rootViewController.present(vc, animated: true, completion: nil)
+        }
     }
 
     func selectBuyerToRate(source: RateUserSource,
@@ -432,13 +406,15 @@ extension TabCoordinator: ListingDetailNavigator {
                            listingId: String,
                            sourceRateBuyers: SourceRateBuyers?,
                            trackingInfo: MarkAsSoldTrackingInfo) {
-        let ratingCoordinator = UserRatingCoordinator(source: source,
-                                                      buyers: buyers,
-                                                      listingId: listingId,
-                                                      sourceRateBuyers: sourceRateBuyers,
-                                                      trackingInfo: trackingInfo)
-        ratingCoordinator.delegate = self
-        openChild(coordinator: ratingCoordinator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
+        let assembly = LGRateBuilder.modal(root: navigationController)
+        let nav = UINavigationController()
+        _ = assembly.buildRateBuyers(into: nav,
+                                     source: source,
+                                     buyers: buyers,
+                                     listingId: listingId,
+                                     sourceRateBuyers: sourceRateBuyers,
+                                     trackingInfo: trackingInfo)
+        navigationController.present(nav, animated: true, completion: nil)
     }
 
     func showProductFavoriteBubble(with data: BubbleNotificationData) {
@@ -540,7 +516,7 @@ extension TabCoordinator: ListingDetailNavigator {
                         withAction action: @escaping () -> ()) {
         let action = UIAction(interface: .button(R.Strings.productInterestedUndo, .terciary) , action: action)
         let data = BubbleNotificationData(text: message, action: action)
-        
+
         switch featureFlags.highlightedIAmInterestedInFeed {
         case .baseline, .control:
             bubbleNotificationManager.showBubble(data: data,
@@ -566,47 +542,35 @@ extension TabCoordinator: ListingDetailNavigator {
                                                        style: .dark)
         }
     }
-    
-    
+
     func openListingAttributeTable(withViewModel viewModel: ListingAttributeTableViewModel) {
         let viewController = ListingAttributeTableViewController(withViewModel: viewModel)
         rootViewController.present(viewController,
                                    animated: true,
                                    completion: nil)
     }
-    
+
     func closeListingAttributeTable() {
         rootViewController.dismiss(animated: true,
                                    completion: nil)
     }
 }
 
-
-// MARK: SimpleProductsNavigator
-
-extension TabCoordinator: SimpleProductsNavigator {
-    func closeSimpleProducts() {
-        navigationController.popViewController(animated: true)
-    }
-}
-
-
 // MARK: > ChatDetailNavigator
 
 extension TabCoordinator: ChatDetailNavigator {
+    func navigate(with convertible: DeepLinkConvertible) {
+        deeplinkMailBox.push(convertible: convertible)
+    }
+
     func closeChatDetail() {
         navigationController.popViewController(animated: true)
     }
-    
-    func openDeeplink(url: URL) {
-        guard let deepLink = UriScheme.buildFromUrl(url)?.deepLink else { return }
-        openDeepLink(deepLink)
-    }
 
     func openExpressChat(_ listings: [Listing], sourceListingId: String, manualOpen: Bool) {
-        guard let expressChatCoordinator = ExpressChatCoordinator(listings: listings, sourceProductId: sourceListingId, manualOpen: manualOpen) else { return }
-        expressChatCoordinator.delegate = self
-        openChild(coordinator: expressChatCoordinator, parent: rootViewController, animated: true, forceCloseChild: false, completion: nil)
+        let assembly = LGChatBuilder.standard(nav: navigationController)
+        let vc = assembly.buildExpressChat(listings: listings, sourceProductId: sourceListingId, manualOpen: manualOpen)
+        navigationController.present(vc, animated: true, completion: nil)
     }
 
     func openLoginIfNeededFromChatDetail(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void)) {
@@ -637,7 +601,7 @@ extension TabCoordinator: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController,
                               animationControllerFor operation: UINavigationControllerOperation,
                               from fromVC: UIViewController,
-                                  to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+                              to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if let animator = (toVC as? AnimatableTransition)?.animator, operation == .push {
             animator.pushing = true
             return animator
@@ -686,56 +650,3 @@ extension TabCoordinator: UINavigationControllerDelegate {
         return nil
     }
 }
-
-
-// MARK: - ExpressChatCoordinatorDelegate
-
-extension TabCoordinator: ExpressChatCoordinatorDelegate {
-    func expressChatCoordinatorDidSentMessages(_ coordinator: ExpressChatCoordinator, count: Int) {
-        let message = count == 1 ? R.Strings.chatExpressOneMessageSentSuccessAlert :
-            R.Strings.chatExpressSeveralMessagesSentSuccessAlert
-        rootViewController.showAutoFadingOutMessageAlert(message: message)
-    }
-}
-
-
-// MARK: - UserRatingCoordinatorDelegate 
-
-extension TabCoordinator: UserRatingCoordinatorDelegate {
-    func userRatingCoordinatorDidCancel() { }
-
-    func userRatingCoordinatorDidFinish(withRating rating: Int?, ratedUserId: String?) { }
-}
-
-
-// MARK: - EditListingCoordinatorDelegate
-
-extension TabCoordinator: EditListingCoordinatorDelegate {
-    func editListingCoordinatorDidCancel(_ coordinator: EditListingCoordinator) {
-
-    }
-    
-    func editListingCoordinator(_ coordinator: EditListingCoordinator,
-                                didFinishWithListing listing: Listing,
-                                bumpUpProductData: BumpUpProductData?,
-                                timeSinceLastBump: TimeInterval?,
-                                maxCountdown: TimeInterval) {
-        guard let bumpData = bumpUpProductData,
-            bumpData.hasPaymentId else { return }
-        if let timeSinceLastBump = timeSinceLastBump,
-            timeSinceLastBump > 0,
-            featureFlags.bumpUpBoost.isActive {
-            openBumpUpBoost(forListing: listing,
-                            bumpUpProductData: bumpData,
-                            typePage: .edit,
-                            timeSinceLastBump: timeSinceLastBump,
-                            maxCountdown: maxCountdown)
-        } else {
-            openPayBumpUp(forListing: listing,
-                          bumpUpProductData: bumpData,
-                          typePage: .edit,
-                          maxCountdown: maxCountdown)
-        }
-    }
-}
-

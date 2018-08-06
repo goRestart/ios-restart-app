@@ -50,9 +50,11 @@
 "bump_up_view_boost_pay_button_title" = "Mettez-le de nouveau en vedette pour %@";
 "bump_up_view_boost_subtitle_boost_listing" = "Puisque vous avez déjà mis votre annonce en vedette au cours des dernières 24 heures, nous vous permettons d'acheter une autre mise en vedette pour moins cher !";
 "bump_up_view_boost_subtitle_cheaper" = "Boostez votre annonce dès maintenant pour obtenir un rabais sur le prix d'une mise en vedette classique.";
+"bump_up_view_boost_subtitle_not_ready" = "You can add another boost in %@ to move it to the top and be featured for 24 additional hours";
 "bump_up_view_boost_subtitle_send_top" = "Votre annonce est toujours mise en vedette, mais vous pouvez ajouter un extra boost. Cela va envoyer votre annonce en haut de la liste et elle sera mise en valeur pendant 24 heures à compter de maintenant.";
 "bump_up_view_boost_title_boost_listing" = "Boostez votre annonce mise en vedette";
 "bump_up_view_boost_title_cheaper_boost" = "Obtenez un boost moins cher dès maintenant";
+"bump_up_view_boost_title_not_ready" = "Your listing's still featured";
 "bump_up_view_boost_title_send_top" = "Renvoyez-le de nouveau vers le haut";
 "bump_up_view_free_subtitle" = "Plus votre annonce est partagée, plus elle sera visible.";
 "bump_up_view_free_title" = "RENVOYEZ VOTRE ANNONCE VERS LE HAUT";
@@ -358,6 +360,7 @@
 "discarded_products_reason_poor_ad_quality" = "N'est pas conforme aux meilleures pratiques";
 "discarded_products_reason_reference_to_competitors" = "Références à d'autres applis ou sites internet";
 "discarded_products_reason_stock_photo_only" = "Ne contient que des photos provenant de banques d'images";
+"edit_priceType_choose_title" = "Choose an option";
 "edit_product_feature_label_long_text" = "Mettez votre annonce en vedette pour vendre plus vite";
 "edit_product_feature_label_short_text" = "Vendez au plus vite !";
 "edit_product_location_alert_text" = "Pour changer le lieu de publication de votre annonce, autorisez l'accès à votre localisation.";
@@ -369,6 +372,7 @@
 "edit_product_title" = "Modifier l'annonce";
 "edit_product_unsaved_changes_alert" = "Êtes-vous certain de vouloir quitter la page ? Tous les changements seront perdus.";
 "edit_product_unsaved_changes_alert_ok" = "Quitter";
+"engagement_badging_feed_bubble" = "New items";
 "featured_info_view_increase_visibility" = "Gagnez en visibilité";
 "featured_info_view_more_buyers" = "Attirez plus d'acheteurs";
 "featured_info_view_sell_faster" = "Vendez plus vite";
@@ -724,6 +728,13 @@
 "post_queued_requests_state_listing_posted" = "Annonce publiée !";
 "post_queued_requests_state_posting_listing" = "Publication de l'annonce...";
 "posting_button_skip" = "Passer";
+"priceType_biweekly" = "Bi-hebdomadaire";
+"priceType_daily" = "Quotidien";
+"priceType_hourly" = "Horaire";
+"priceType_monthly" = "Mensuel";
+"priceType_oneOff" = "Unique";
+"priceType_weekly" = "Hebdomadaire";
+"priceType_yearly" = "Annuel";
 "product_auto_generated_title_label" = "Titre généré automatiquement par letgo";
 "product_auto_generated_translated_title_label" = "(et traduit par Google)";
 "product_bubble_favorite_button" = "Informez le vendeur !";
@@ -1176,7 +1187,7 @@
 "reporting_listing_update_feedback_good" = "Fantastique !";
 "reporting_listing_update_feedback_medium" = "Merci !";
 "reporting_listing_update_feedback_title" = "Que pensez-vous de cette expérience ?";
-"reporting_listing_update_text" = "Merci d'avoir signalé de manière anonyme \"%@\" publié par %@. Des commentaires comme le vôtre nous aident à faire de la communauté letgo un endroit sécuritaire.\n\nAprès avoir évalué ce produit, nous l'avons retiré car il violait nos Directives Communautaires.";
+"reporting_listing_update_text" = "Merci d'avoir signalé de manière anonyme \"%1$@\" publié par %2$@. Des commentaires comme le vôtre nous aident à faire de la communauté letgo un endroit sécuritaire.\n\nAprès avoir évalué ce produit, nous l'avons retiré car il violait nos Directives Communautaires.";
 "reporting_listing_update_title" = "Suivi du signalement";
 "reporting_reason_bio" = "Bio";
 "reporting_reason_counterfeit_money" = "Payé avec de l'argent contrefait";
@@ -1242,7 +1253,7 @@
 "search_alert_enable_error_message" = "Oups ! Une erreur est survenue au moment d'activer votre alerte de recherche.";
 "search_alert_error_too_many_button_text" = "Gérer les Notifications";
 "search_alert_error_too_many_text" = "Oups ! Vous avez atteint le nombre maximum d'alertes de recherche";
-"search_alerts_disabled_oldest_message" = "You’ve reached the max number of search alerts, so we’ve turned your oldest one off and activated this one.";
+"search_alerts_disabled_oldest_message" = "Vous avez atteint le nombre maximum d'alertes de recherche. Nous avons donc désactivé la plus ancienne afin d'activer celle-ci.";
 "search_alerts_edit_button" = "Modifier";
 "search_alerts_header_subtitle" = "Recevez des notifications à propos des nouvelles annonces";
 "search_alerts_list_title" = "Alertes de Recherche";

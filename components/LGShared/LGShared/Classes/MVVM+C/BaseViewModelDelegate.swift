@@ -14,6 +14,7 @@ public protocol BaseViewModelDelegate: class {
     func vmShowAlert(_ title: String?, message: String?, cancelLabel: String, actions: [UIAction])
     func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction])
     func vmShowActionSheet(_ cancelLabel: String, actions: [UIAction])
+    func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction], withTitle title: String?)
 
     func vmPop()
     func vmDismiss(_ completion: (() -> Void)?)
@@ -58,6 +59,16 @@ extension UIViewController: BaseViewModelDelegate {
         showActionSheet(cancelAction, actions: actions, barButtonItem: nil, completion: nil)
     }
 
+    public func vmShowActionSheet(_ cancelAction: UIAction,
+                                  actions: [UIAction],
+                                  withTitle title: String?) {
+        showActionSheet(cancelAction,
+                        title: title,
+                        actions: actions,
+                        barButtonItem: nil,
+                        completion: nil)
+    }
+    
     public func vmShowActionSheet(_ cancelLabel: String, actions: [UIAction]) {
         showActionSheet(cancelLabel, actions: actions, barButtonItem: nil)
     }
