@@ -37,6 +37,7 @@ class NotificationsManagerSpec: QuickSpec {
         var globalCountObserver: TestableObserver<Int>!
         var marketingNotificationsObserver: TestableObserver<Bool>!
         var loggedInMarketingNotificationsObserver: TestableObserver<Bool>!
+        var engagementBadgingNotificationsObserver: TestableObserver<Bool>!
 
         describe("NotificationsManagerSpec") {
             func createNotificationsManager() {
@@ -56,6 +57,7 @@ class NotificationsManagerSpec: QuickSpec {
                 sut.globalCount.bind(to: globalCountObserver).disposed(by: disposeBag)
                 sut.marketingNotifications.asObservable().bind(to: marketingNotificationsObserver).disposed(by: disposeBag)
                 sut.loggedInMktNofitications.asObservable().bind(to: loggedInMarketingNotificationsObserver).disposed(by: disposeBag)
+                sut.engagementBadgingNotifications.asObservable().bind(to: engagementBadgingNotificationsObserver).disposed(by: disposeBag)
             }
 
             func setMyUser() {
@@ -109,6 +111,7 @@ class NotificationsManagerSpec: QuickSpec {
                 globalCountObserver = scheduler.createObserver(Int.self)
                 marketingNotificationsObserver = scheduler.createObserver(Bool.self)
                 loggedInMarketingNotificationsObserver = scheduler.createObserver(Bool.self)
+                engagementBadgingNotificationsObserver = scheduler.createObserver(Bool.self)
             }
 
             describe("initialisation (setup)") {
@@ -446,7 +449,7 @@ class NotificationsManagerSpec: QuickSpec {
                             sut.updateEngagementBadgingNotifications()
                         }
                         it("makes engagementBadgingNotifications true") {
-                            expect(sut.engagementBadgingNotifications.value).toEventually(equal(true))
+                            expect(engagementBadgingNotificationsObserver.eventValues).toEventually(equal([false, true]))
                         }
                     }
                     context("lastSessionDate is minor than 1 hour") {
@@ -455,7 +458,7 @@ class NotificationsManagerSpec: QuickSpec {
                             sut.updateEngagementBadgingNotifications()
                         }
                         it("makes engagementBadgingNotifications true") {
-                            expect(sut.engagementBadgingNotifications.value).toEventually(equal(false))
+                            expect(engagementBadgingNotificationsObserver.eventValues).toEventually(equal([false]))
                         }
                     }
                 }
@@ -472,7 +475,7 @@ class NotificationsManagerSpec: QuickSpec {
                             sut.updateEngagementBadgingNotifications()
                         }
                         it("makes engagementBadgingNotifications true") {
-                            expect(sut.engagementBadgingNotifications.value).toEventually(equal(false))
+                            expect(engagementBadgingNotificationsObserver.eventValues).toEventually(equal([false]))
                         }
                     }
                     context("lastSessionDate is minor than 1 hour") {
@@ -481,7 +484,7 @@ class NotificationsManagerSpec: QuickSpec {
                             sut.updateEngagementBadgingNotifications()
                         }
                         it("makes engagementBadgingNotifications true") {
-                            expect(sut.engagementBadgingNotifications.value).toEventually(equal(false))
+                            expect(engagementBadgingNotificationsObserver.eventValues).toEventually(equal([false]))
                         }
                     }
                 }
