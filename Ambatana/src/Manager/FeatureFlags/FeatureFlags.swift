@@ -32,7 +32,6 @@ protocol FeatureFlaggeable: class {
     var searchImprovements: SearchImprovements { get }
     var relaxedSearch: RelaxedSearch { get }
     var bumpUpBoost: BumpUpBoost { get }
-    var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings { get }
     var showProTagUserProfile: Bool { get }
     var sectionedMainFeed: SectionedMainFeed { get }
     var showExactLocationForPros: Bool { get }
@@ -63,6 +62,7 @@ protocol FeatureFlaggeable: class {
     var appInstallAdsInFeed: AppInstallAdsInFeed { get }
     var appInstallAdsInFeedAdUnit: String? { get }
     var alwaysShowBumpBannerWithLoading: AlwaysShowBumpBannerWithLoading { get }
+    var showSellFasterInProfileCells: ShowSellFasterInProfileCells { get }
     
     // MARK: Chat
     var showInactiveConversations: Bool { get }
@@ -77,7 +77,7 @@ protocol FeatureFlaggeable: class {
     var expressChatImprovement: ExpressChatImprovement { get }
 
     // MARK: Verticals
-    var servicesPriceType: ServicesPriceType { get }
+    var servicesPaymentFrequency: ServicesPaymentFrequency { get }
     var carExtraFieldsEnabled: CarExtraFieldsEnabled { get }
     var realEstateMapTooltip: RealEstateMapTooltip { get }
     var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen { get }
@@ -192,7 +192,7 @@ extension ServicesUnifiedFilterScreen {
     var isActive: Bool { return self == .active }
 }
 
-extension ServicesPriceType {
+extension ServicesPaymentFrequency {
     var isActive: Bool { return self == .active }
 }
 
@@ -221,20 +221,6 @@ extension BumpUpBoost {
 
 extension DeckItemPage {
     var isActive: Bool {get { return self == .active }}
-}
-
-extension AddPriceTitleDistanceToListings {
-    var hideDetailInFeaturedArea: Bool {
-        return self == .infoInImage
-    }
-    
-    var showDetailInNormalCell: Bool {
-        return self == .infoWithWhiteBackground
-    }
-    
-    var showDetailInImage: Bool {
-        return self == .infoInImage
-    }
 }
 
 extension CopyForChatNowInTurkey {
@@ -481,6 +467,10 @@ extension SearchAlertsDisableOldestIfMaximumReached {
     var isActive: Bool { return self == .active }
 }
 
+extension ShowSellFasterInProfileCells {
+    var isActive: Bool { return self == .active }
+}
+
 final class FeatureFlags: FeatureFlaggeable {
     
     static let sharedInstance: FeatureFlags = FeatureFlags()
@@ -655,13 +645,6 @@ final class FeatureFlags: FeatureFlaggeable {
         return RelaxedSearch.fromPosition(abTests.relaxedSearch.value)
     }
     
-    var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings {
-        if Bumper.enabled {
-            return Bumper.addPriceTitleDistanceToListings
-        }
-        return AddPriceTitleDistanceToListings.fromPosition(abTests.addPriceTitleDistanceToListings.value)
-    }
-
     var bumpUpBoost: BumpUpBoost {
         if Bumper.enabled {
             return Bumper.bumpUpBoost
@@ -1062,6 +1045,13 @@ final class FeatureFlags: FeatureFlaggeable {
         return AlwaysShowBumpBannerWithLoading.fromPosition(abTests.alwaysShowBumpBannerWithLoading.value)
     }
 
+    var showSellFasterInProfileCells: ShowSellFasterInProfileCells {
+        if Bumper.enabled {
+            return Bumper.showSellFasterInProfileCells
+        }
+        return ShowSellFasterInProfileCells.fromPosition(abTests.showSellFasterInProfileCells.value)
+    }
+    
 
     // MARK: - Private
 
@@ -1201,13 +1191,11 @@ extension FeatureFlags {
         return ServicesUnifiedFilterScreen.fromPosition(abTests.servicesUnifiedFilterScreen.value)
     }
     
-    var servicesPriceType: ServicesPriceType {
+    var servicesPaymentFrequency: ServicesPaymentFrequency {
         if Bumper.enabled {
-            return Bumper.servicesPriceType
+            return Bumper.servicesPaymentFrequency
         }
-        return .control
-        // FIXME: enable A/B test before beta - ABIOS-4685
-         return ServicesPriceType.fromPosition(abTests.servicesPriceType.value)
+         return ServicesPaymentFrequency.fromPosition(abTests.servicesPaymentFrequency.value)
     }
 }
 

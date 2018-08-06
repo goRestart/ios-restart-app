@@ -24,6 +24,11 @@ final class CommunityViewController: BaseViewController {
         loadWeb()
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        viewModel.didAppear()
+    }
+
     private func setupUI() {
         view.backgroundColor = .white
         view.addSubviewForAutoLayout(webView)

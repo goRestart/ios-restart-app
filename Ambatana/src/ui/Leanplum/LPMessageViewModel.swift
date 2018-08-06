@@ -4,7 +4,7 @@ import RxSwift
 
 final class LPMessageViewModel: BaseViewModel {
 
-    weak var navigator: LPMessageNavigator?
+    var navigator: LPMessageNavigator?
 
     let type: LPMessageType
     let action: UIAction

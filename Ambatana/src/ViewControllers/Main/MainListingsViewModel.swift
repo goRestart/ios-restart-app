@@ -960,7 +960,6 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                         if strongSelf.shouldDisableOldestSearchAlertIfMaximumReached {
                             strongSelf.disableOldestSearchAlert {
                                 strongSelf.createSearchAlert(fromEnable: fromEnable)
-                                strongSelf.delegate?.vmShowAutoFadingMessage(R.Strings.searchAlertsDisabledOldestMessage, completion: nil)
                             }
                         } else {
                             if fromEnable {
@@ -2113,6 +2112,8 @@ extension MainListingsViewModel: ListingCellDelegate {
             completion(result.value)
         }
     }
+
+    func bumpUpPressedFor(listing: Listing) { }
 }
 
 extension NoAdsInFeedForNewUsers {

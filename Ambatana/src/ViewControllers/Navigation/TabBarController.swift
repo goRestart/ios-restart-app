@@ -8,7 +8,7 @@ protocol ScrollableToTop {
     func scrollToTop()
 }
 
-protocol ListingsRefreshable {
+protocol ListingsRefreshable: class {
     func listingsRefresh()
 }
 

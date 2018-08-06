@@ -586,7 +586,7 @@ final class LGListingRepository: ListingRepository {
                                                                       subtypeId: service.servicesAttributes.subtypeId,
                                                                       typeTitle: serviceType,
                                                                       subtypeTitle: serviceSubtype,
-                                                                      priceType: service.servicesAttributes.priceType))
+                                                                      paymentFrequency: service.servicesAttributes.paymentFrequency))
     }
     
     private func retrieveIndexWithRelax(_ queryString: String, _ params: RetrieveListingParams, _ relaxParam: RelaxParam, completion: ListingsCompletion?) {

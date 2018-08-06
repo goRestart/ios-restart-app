@@ -48,7 +48,7 @@ final class LGMachineLearning: MachineLearning {
     init(machineLearningRepository: MachineLearningRepository) {
         self.machineLearningRepository = machineLearningRepository
         if #available(iOS 11, *) {
-            machineLearningVision = LGVision.shared
+            machineLearningVision = LGVision()
         } else {
             machineLearningVision = nil
         }

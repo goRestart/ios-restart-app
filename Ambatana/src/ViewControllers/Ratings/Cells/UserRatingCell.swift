@@ -12,12 +12,14 @@ extension UserRatingType {
             return R.Strings.ratingListRatingTypeBuyerTextLabel(userName)
         case .buyer:
             return R.Strings.ratingListRatingTypeSellerTextLabel(userName)
+        case .report:
+            return ""
         }
     }
 
     var ratingTypeTextColor: UIColor {
         switch self {
-        case .conversation:
+        case .conversation, .report:
             return UIColor.blackText
         case .seller:
             return UIColor.soldText

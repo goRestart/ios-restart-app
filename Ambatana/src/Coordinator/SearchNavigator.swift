@@ -23,7 +23,8 @@ final class SearchCoordinator: NSObject, Coordinator, SearchNavigator {
     let sessionManager: SessionManager
 
     private let bumpAssembly: BumpUpAssembly
-    private lazy var listingCoordinator = ListingCoordinator(navigationController: navigationController)
+    private let listingCoordinator: ListingCoordinator
+
     private let navigationController: UINavigationController
 
     convenience init(searchType: SearchType?, query: String?) {
@@ -48,6 +49,10 @@ final class SearchCoordinator: NSObject, Coordinator, SearchNavigator {
         let vc = UINavigationController.init(rootViewController: SearchViewController.init(vm: vm))
         self.navigationController = vc
         self.viewController = vc
+        let userCoordinator = UserCoordinator(navigationController: navigationController)
+        self.listingCoordinator = ListingCoordinator(navigationController: vc,
+                                                     userCoordinator: userCoordinator)
+        userCoordinator.listingCoordinator = listingCoordinator
         self.bumpAssembly = LGBumpUpBuilder.standard(nav: vc)
 
         self.bubbleNotificationManager = bubbleNotificationManager

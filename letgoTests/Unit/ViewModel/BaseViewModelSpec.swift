@@ -37,6 +37,14 @@ class BaseViewModelSpec: QuickSpec, BaseViewModelDelegate, TabNavigator {
             completion?()
         }
     }
+    
+    func vmShowAutoFadingMessage(message: String, time: Double, completion: (() -> ())?) {
+        delegateReceivedShowAutoFadingMessage = true
+        lastAutofadingMessageShown = message
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(50)) {
+            completion?()
+        }
+    }
 
     func vmShowAutoFadingMessage(title: String, message: String, time: Double, completion: (() -> ())?) {
         delegateReceivedShowAutoFadingMessage = true

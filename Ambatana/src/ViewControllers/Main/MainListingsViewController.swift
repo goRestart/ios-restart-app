@@ -350,7 +350,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     @objc private func endEdit() {
         trendingSearchView.isHidden = true
         setFiltersNavBarButton()
-        setInviteNavBarButton()
+        setLeftNavBarButtons()
         navbarSearch.cancelEdit()
     }
 
@@ -431,6 +431,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     }
 
     private func setLeftNavBarButtons() {
+        guard isRootViewController() else { return }
         if viewModel.shouldShowCommunityButton {
             setCommunityButton()
         } else if viewModel.shouldShowUserProfileButton {

@@ -6,10 +6,10 @@ protocol ChatInactiveConversationsViewModelDelegate: BaseViewModelDelegate {
     func vmDidNotifyMessage(_ message: String, completion: (() -> ())?)
 }
 
-class ChatInactiveConversationDetailsViewModel: BaseViewModel {
+final class ChatInactiveConversationDetailsViewModel: BaseViewModel {
     
     weak var delegate: ChatInactiveConversationsViewModelDelegate?
-    weak var navigator: ChatInactiveDetailNavigator?
+    var navigator: ChatInactiveDetailNavigator?
     
     private let chatRepository: ChatRepository
     private let myUserRepository: MyUserRepository

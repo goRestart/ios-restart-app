@@ -50,9 +50,11 @@
 "bump_up_view_boost_pay_button_title" = "Topplista den igen för %@";
 "bump_up_view_boost_subtitle_boost_listing" = "Eftersom du redan har topplistat din annons det senaste dygnet erbjuder vi dig en rabatt om du förlänger den";
 "bump_up_view_boost_subtitle_cheaper" = "Boosta din annons nu för att få en rabatt på det vanliga priset.";
+"bump_up_view_boost_subtitle_not_ready" = "Du kan boosta din annons inom %@ för att topplista den ytterligare 24 timmar";
 "bump_up_view_boost_subtitle_send_top" = "Din annons är fortfarande topplistad, men du kan boosta den ännu mer. Det gör att den hamnar på toppen av listan i 24 timmar till från och med nu";
 "bump_up_view_boost_title_boost_listing" = "Boosta din topplistad annons";
 "bump_up_view_boost_title_cheaper_boost" = "Boosta billigare nu";
+"bump_up_view_boost_title_not_ready" = "Din annons är fortfarande topplistad";
 "bump_up_view_boost_title_send_top" = "Skicka den till toppen igen";
 "bump_up_view_free_subtitle" = "Ju fler delningar, desto mer synlighet kommer din produkt att få.";
 "bump_up_view_free_title" = "PUFFA DIN VARA UPPÅT";
@@ -358,7 +360,9 @@
 "discarded_products_reason_poor_ad_quality" = "Bryter mot våra användartips";
 "discarded_products_reason_reference_to_competitors" = "Hänvisar till andra appar eller webbplatser";
 "discarded_products_reason_stock_photo_only" = "Innehåller endast stockfoton";
-"edit_priceType_choose_title" = "Choose an option";
+"edit_paymentFrequency_placeholder" = "Frekvens";
+"edit_paymentFrequency_title" = "Frekvens";
+"edit_priceType_choose_title" = "Välj ett alternativ";
 "edit_product_feature_label_long_text" = "Topplista din annons för att sälja snabbare";
 "edit_product_feature_label_short_text" = "Sälj snabbare nu";
 "edit_product_location_alert_text" = "För att ändra plats på din annons, tillåt tillgång till din platsinfo";
@@ -370,7 +374,7 @@
 "edit_product_title" = "Redigera annons";
 "edit_product_unsaved_changes_alert" = "Är du säker på att du vill lämna sidan utan att spara ändringarna?";
 "edit_product_unsaved_changes_alert_ok" = "Släng";
-"engagement_badging_feed_bubble" = "New items";
+"engagement_badging_feed_bubble" = "Nya varor";
 "featured_info_view_increase_visibility" = "Skaffa mera synlighet";
 "featured_info_view_more_buyers" = "Locka flera köpare";
 "featured_info_view_sell_faster" = "Sälj snabbare";

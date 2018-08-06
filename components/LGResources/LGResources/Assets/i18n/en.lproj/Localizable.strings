@@ -151,6 +151,9 @@
 // Title for payment bump up view variant 3
 "bump_up_view_boost_title_cheaper_boost" = "Get a cheaper boost now";
 
+// Title for payment bump view when boost is not ready yet
+"bump_up_view_boost_title_not_ready" = "Your listing's still featured";
+
 // Subtitle for payment bump up view variant 1
 "bump_up_view_boost_subtitle_send_top" = "Your listing's still featured, but you can add an extra boost. It'll move to the top and be featured for 24 hours starting now.";
 
@@ -159,6 +162,9 @@
 
 // Subtitle for payment bump up view variant 3
 "bump_up_view_boost_subtitle_cheaper" = "Boost your listing right now to get a discount off the typical feature price.";
+
+// Subtitle for payment bump view when boost is not ready yet
+"bump_up_view_boost_subtitle_not_ready" = "You can add another boost in %@ to move it to the top and be featured for 24 additional hours";
 
 // Text for boost success alert
 "bump_up_boost_success_alert_text" = "Your listing was boosted! It will be featured for the next 24 hours.";
@@ -1098,6 +1104,12 @@
 // Edit price type, title of options list
 "edit_priceType_choose_title" = "Choose an option";
 
+// Placeholder value for paymentFrequency/PriceType
+"edit_paymentFrequency_placeholder" = "Frequency";
+
+// Title for paymentFrequency edit field
+"edit_paymentFrequency_title" = "Frequency";
+
 // Bubble title
 "engagement_badging_feed_bubble" = "New items";
 
@@ -1812,6 +1824,18 @@
 
 // Notification center section with n months ago title
 "notifications_section_months_ago" = "%i months ago";
+
+// Notification cell date with n mins ago
+"notifications_cell_date_mins_ago" = "%im";
+
+// Notification cell date with n hours ago
+"notifications_cell_date_hours_ago" = "%ih";
+
+// Notification cell date with n days ago
+"notifications_cell_date_days_ago" = "%id";
+
+// Notification cell date with n weeks ago
+"notifications_cell_date_weeks_ago" = "%iw";
 
 // Title of notifications section
 "notifications_title" = "Notifications";

@@ -50,9 +50,11 @@
 "bump_up_view_boost_pay_button_title" = "Destácalo de nuevo por %@";
 "bump_up_view_boost_subtitle_boost_listing" = "Como ya has destacado tu anuncio en las últimas 24 horas, ¡te ofrecemos destacarlo de nuevo por menos dinero!";
 "bump_up_view_boost_subtitle_cheaper" = "Dale un impulso extra a tu anuncio para obtener un descuento sobre el precio habitual.";
+"bump_up_view_boost_subtitle_not_ready" = "Puedes añadir otro impulso dentro de %@ para moverlo arriba y que esté destacado otras 24 horas";
 "bump_up_view_boost_subtitle_send_top" = "Tu anuncio todavía está destacado, pero puedes añadir un impulso extra. Volverá arriba y estará destacado durante 24h desde ahora.";
 "bump_up_view_boost_title_boost_listing" = "Impulsa tu anuncio destacado";
 "bump_up_view_boost_title_cheaper_boost" = "Destácalo por menos dinero";
+"bump_up_view_boost_title_not_ready" = "Tu anuncio todavía está destacado";
 "bump_up_view_boost_title_send_top" = "Envíalo arriba otra vez";
 "bump_up_view_free_subtitle" = "Cuanto más compartes, más visibilidad tiene tu anuncio.";
 "bump_up_view_free_title" = "DESTACA TU ANUNCIO";
@@ -358,6 +360,8 @@
 "discarded_products_reason_poor_ad_quality" = "No respeta las prácticas recomendadas";
 "discarded_products_reason_reference_to_competitors" = "Referencias a otras apps o páginas web";
 "discarded_products_reason_stock_photo_only" = "Solo contiene imágenes de archivo";
+"edit_paymentFrequency_placeholder" = "Frecuencia";
+"edit_paymentFrequency_title" = "Frecuencia";
 "edit_priceType_choose_title" = "Elige una opción";
 "edit_product_feature_label_long_text" = "Destaca tu anuncio para vender más rápido";
 "edit_product_feature_label_short_text" = "Vender más rápido";

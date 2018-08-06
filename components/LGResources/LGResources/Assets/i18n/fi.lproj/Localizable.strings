@@ -50,9 +50,11 @@
 "bump_up_view_boost_pay_button_title" = "Nosta uudelleen hintaan %@";
 "bump_up_view_boost_subtitle_boost_listing" = "Koska nostit ilmoituksesi esiin viimeisen 24 tunnin aikana, annamme sinun ostaa toisen noston halvemmalla!";
 "bump_up_view_boost_subtitle_cheaper" = "Anna ilmoituksellesi boostia saman tien saadaksesi alennusta noston normaalista hinnasta.";
+"bump_up_view_boost_subtitle_not_ready" = "Voit nostaa ilmoituksen esiin uudelleen %@ kuluttua ja olla listan kärjessä vielä 24 tuntia lisää";
 "bump_up_view_boost_subtitle_send_top" = "Ilmoituksesi on edelleen nostettu esiin, mutta voit antaa sille lisäboostia. Tällöin ilmoitus siirtyy listan kärkeen ja on nostettuna esiin 24 tuntia tästä eteenpäin.";
 "bump_up_view_boost_title_boost_listing" = "Anna esiin nostetulle ilmoituksellesi boostia";
 "bump_up_view_boost_title_cheaper_boost" = "Nyt saat halvemman boostin";
+"bump_up_view_boost_title_not_ready" = "Ilmoituksesi on edelleen nostettu esiin";
 "bump_up_view_boost_title_send_top" = "Lähetä se jälleen listan kärkeen";
 "bump_up_view_free_subtitle" = "Mitä enemmän jaat, sitä enemmän näkyvyyttä tuotteesi saa.";
 "bump_up_view_free_title" = "NOSTA TUOTTEESI";
@@ -358,7 +360,9 @@
 "discarded_products_reason_poor_ad_quality" = "Ei noudata toimintaohjeita";
 "discarded_products_reason_reference_to_competitors" = "Viittaukset muihin sovelluksiin tai sivustolle";
 "discarded_products_reason_stock_photo_only" = "Sisältää vain mallikuvia";
-"edit_priceType_choose_title" = "Choose an option";
+"edit_paymentFrequency_placeholder" = "Maksuväli";
+"edit_paymentFrequency_title" = "Maksuväli";
+"edit_priceType_choose_title" = "Valitse vaihtoehto";
 "edit_product_feature_label_long_text" = "Nosta ilmoituksesi esiin tehdäksesi kaupat nopeammin";
 "edit_product_feature_label_short_text" = "Myy nopeammin nyt";
 "edit_product_location_alert_text" = "Vaihtaaksesi sijainnin, josta ilmoituksesi julkaistaan, anna lupa käyttää sijaintiasi";
@@ -370,7 +374,7 @@
 "edit_product_title" = "Muokkaa ilmoitusta";
 "edit_product_unsaved_changes_alert" = "Haluatko varmasti hylätä nämä muutokset?";
 "edit_product_unsaved_changes_alert_ok" = "Hylkää";
-"engagement_badging_feed_bubble" = "New items";
+"engagement_badging_feed_bubble" = "Uudet kohteet";
 "featured_info_view_increase_visibility" = "Saat lisää näkyvyyttä";
 "featured_info_view_more_buyers" = "Houkuttele enemmän ostajia";
 "featured_info_view_sell_faster" = "Myy nopeammin";

@@ -50,9 +50,11 @@
 "bump_up_view_boost_pay_button_title" = "Promoter den igjen for %@";
 "bump_up_view_boost_subtitle_boost_listing" = "Ettersom du allerede har promotert annonsen din i løpet av de siste 24 timene lar vi deg kjøpe mer promotering til lavere pris!";
 "bump_up_view_boost_subtitle_cheaper" = "Promoter din annonse nå for å få rabatt på vanlig pris.";
+"bump_up_view_boost_subtitle_not_ready" = "Du kan legge til ekstra promotering om %@ for å flytte den til toppen og bli promotert i 24 ekstra timer";
 "bump_up_view_boost_subtitle_send_top" = "Din annonse er fortsatt promotert, men du kan legge til ekstra promotering. Den vil flyttes til toppen og være promotert i 24 timer fra nå.";
 "bump_up_view_boost_title_boost_listing" = "Fremhev din promoterte annonse";
 "bump_up_view_boost_title_cheaper_boost" = "Skaff deg billigere promotering nå";
+"bump_up_view_boost_title_not_ready" = "Your listing's still featured";
 "bump_up_view_boost_title_send_top" = "Send den til toppen igjen";
 "bump_up_view_free_subtitle" = "Jo mere du deler, desto mer synlig blir din annonse.";
 "bump_up_view_free_title" = "PROMOTER DIN ANNONSE";
@@ -297,7 +299,7 @@
 "common_user_not_available" = "Oops! Fant ikke bruker.";
 "common_user_review_not_available" = "Oops! Kunne ikke finne vurderingen.";
 "common_yes" = "Ja";
-"community_banner_title" = "Bli med i letgo-fellesskapet!";
+"community_banner_title" = "Bli med i letgo's fellesskap!";
 "contact_subject_option_location" = "Problemer for plassering";
 "contact_subject_option_login" = "Innloggingstilgang";
 "contact_subject_option_other" = "Andre problemer";
@@ -358,6 +360,8 @@
 "discarded_products_reason_poor_ad_quality" = "Dette overholder ikke optimal praksis";
 "discarded_products_reason_reference_to_competitors" = "Referanser til andre apper eller nettsider";
 "discarded_products_reason_stock_photo_only" = "Inneholder kun bilder som er tatt av andre (stockphoto)";
+"edit_paymentFrequency_placeholder" = "Frequency";
+"edit_paymentFrequency_title" = "Frequency";
 "edit_priceType_choose_title" = "Choose an option";
 "edit_product_feature_label_long_text" = "Promoter din annonse for å selge raskere";
 "edit_product_feature_label_short_text" = "Selg raskere nå";
@@ -443,7 +447,7 @@
 "filters_service_subtype_not_set" = "Ikke Satt";
 "filters_service_type_not_set" = "Ikke Satt";
 "filters_services_services_list_max_selection_alert" = "Oops! Du kan ikke velge mer enn 15 tjenester.";
-"filters_services_services_list_search_placeholder" = "Håndverker, Entreprenør …";
+"filters_services_services_list_search_placeholder" = "Håndverker, Entreprenør…";
 "filters_services_services_list_title" = "Velg en kategori";
 "filters_size_wrong_range_error" = "Minimum størrelse kan ikke være høyere enn maksimum størrelse.";
 "filters_slider_any" = "Alle";
@@ -728,7 +732,7 @@
 "posting_button_skip" = "Hopp over";
 "priceType_biweekly" = "Annenhver uke";
 "priceType_daily" = "Daglig";
-"priceType_hourly" = "Timebasert";
+"priceType_hourly" = "Hver time";
 "priceType_monthly" = "Månedlig";
 "priceType_oneOff" = "Engangsbeløp";
 "priceType_weekly" = "Ukentlig";
@@ -833,7 +837,7 @@
 "product_post_camera_video_mode_button" = "VIDEO";
 "product_post_camera_video_mode_button_new_badge" = "Ny!";
 "product_post_camera_video_recording_min_duration_message" = "Vennligst ta opp i minst %d sekunder";
-"product_post_camera_video_recording_tooltip" = "%@ for å gjøre et videopptak";
+"product_post_camera_video_recording_tooltip" = "%@ for å ta opp video";
 "product_post_camera_video_recording_tooltip_highlighted_word" = "Hold inne";
 "product_post_close_alert_close_button" = "Forkaste";
 "product_post_close_alert_description" = "Ønsker du fortsatt å selge produktet?";
@@ -1185,7 +1189,7 @@
 "reporting_listing_update_feedback_good" = "Flott!";
 "reporting_listing_update_feedback_medium" = "Takk!";
 "reporting_listing_update_feedback_title" = "Hvordan var denne opplevelsen?";
-"reporting_listing_update_text" = "Takk for din anonyme rapportering om «%1$@» publisert av %2$@. Tilbakemeldinger som din bidrar til å holde letgo-fellesskapet trygt.\n\nEtter å ha sett på dette produktet, har vi fjernet det fordi det er i strid med våre Retningslinjer for letgos fellesskap.";
+"reporting_listing_update_text" = "Takk for din anonyme rapportering av «%1$@» publisert av %2$@. Tilbakemeldinger som din bidrar til å holde letgo's fellesskap trygt.\n\nEtter å ha sett på dette produktet, har vi fjernet det fordi det er i strid med våre Retningslinjer for letgo's fellesskap.";
 "reporting_listing_update_title" = "Oppdatering for rapportering";
 "reporting_reason_bio" = "Biografi";
 "reporting_reason_counterfeit_money" = "Betalt med falske penger";
@@ -1193,7 +1197,7 @@
 "reporting_reason_drugs" = "Rus, alkohol, eller tobakk";
 "reporting_reason_duplicate_listing" = "Det er en duplikat annonse";
 "reporting_reason_inappropiate_chat_messages" = "Upassende meldinger";
-"reporting_reason_inappropiate_photo_or_bio" = "Upassende profilbilde eller bio";
+"reporting_reason_inappropiate_photo_or_bio" = "Upassende profilbilde eller biografi";
 "reporting_reason_item_defective" = "Produkt var ødelagt eller ikke som beskrevet";
 "reporting_reason_its_scam" = "Jeg tror det er svindel";
 "reporting_reason_not_responding" = "Svarer ikke på meldinger";
@@ -1207,7 +1211,7 @@
 "reporting_reason_selling_inappropiate" = "Selger noe upassende";
 "reporting_reason_sexual_content" = "Seksuelt innhold";
 "reporting_reason_sexual_language" = "Seksuelt eller uanstendig språk";
-"reporting_reason_should_not_be_on_letgo" = "Den burde ikke være på letgo";
+"reporting_reason_should_not_be_on_letgo" = "Dette burde ikke være på letgo";
 "reporting_reason_spam_account" = "Spamkonto";
 "reporting_reason_suspicious_behavior" = "Mistenkelig eller svindlersk oppførsel";
 "reporting_reason_suspiciously" = "Oppfører seg mistenkelig";
@@ -1226,16 +1230,16 @@
 "reporting_user_report_sent_block_user_B_with_review_text" = "Takk for din anonyme rapportering og for at du hjelper oss med å gjøre letgo til det beste stedet for å kjøpe og selge lokalt.\n\nIkke glem å legge igjen en vurdering av selgeren for å la andre få vite om din opplevelse.\n\nTeamet vårt vil undersøke påstanden din. I mellomtiden kan du når som helst blokkere en bruker for å sikre at de ikke lenger kan se dine produkter eller chatte med deg.";
 "reporting_user_report_sent_block_user_big_button_title" = "Blokker rapportert bruker";
 "reporting_user_report_sent_block_user_small_button_title" = "Blokker";
-"reporting_user_report_sent_law_enforcement_and_block_text" = "Vi beklager for opplevelsen din, men takknemlig for at du nå er trygg. Vi anbefaler sterkt at du kontakter politiet og leverer en politianmeldelse så fort som mulig (om ikke du allerede har gjort det). \n \nVennligst minn politiet på å kontakte letgos politimyndighetsteam på lawenforcement@letgo.com, slik at vi kan hjelpe med deres etterforskning. Vi kan dele relevant informasjon om %@ med politiet, men grunnet strenge personvernregler må de sende oss en gyldig ransakingsordre eller stevning først. I mellomtiden kan du gi ytterligere informasjon, slik at teamet vårt kan undersøke påstanden din.\n\nHusk at du kan når som helst blokkere en bruker for å sikre at de ikke lenger kan se dine produkter eller chatte med deg.";
-"reporting_user_report_sent_law_enforcement_text" = "Vi beklager for opplevelsen din, men takknemlig for at du nå er trygg.\n\nVi anbefaler sterkt at du kontakter politiet og leverer en politianmeldelse så fort som mulig (om ikke du allerede har gjort det).\n\nVennligst minn politiet på å kontakte letgos politimyndighetsteam på lawenforcement@letgo.com, slik at vi kan hjelpe med deres etterforskning.\n\nVi kan dele relevant informasjon om %@ med politiet, men grunnet strenge personvernregler må de sende oss en gyldig ransakingsordre eller stevning først.";
-"reporting_user_report_sent_redirect_item_text" = "Takk for at du hjelper oss med å gjøre letgo til det beste stedet for å kjøpe og selge lokalt.\n\nVennligst gå til annonsen og flagg produktet, og vi vil se raskt gjennom det.";
+"reporting_user_report_sent_law_enforcement_and_block_text" = "Vi beklager for opplevelsen din, men takknemlig for at du nå er trygg. Vi anbefaler sterkt at du kontakter politiet og leverer en politianmeldelse så fort som mulig (om ikke du allerede har gjort det). \n \nVennligst minn politiet på å kontakte letgo's politimyndighetsteam på lawenforcement@letgo.com, slik at vi kan hjelpe til i deres etterforskning. Vi kan dele relevant informasjon om %@ med politiet, men grunnet strenge personvernregler må de sende oss en gyldig ransakingsordre eller stevning først. I mellomtiden kan du gi ytterligere informasjon, slik at teamet vårt kan undersøke påstanden din.\n\nHusk at du kan når som helst blokkere en bruker for å sikre at de ikke lenger kan se dine produkter eller chatte med deg.";
+"reporting_user_report_sent_law_enforcement_text" = "Vi beklager for opplevelsen din, men vi er takknemlige for at du nå er trygg.\n\nVi anbefaler sterkt at du kontakter politiet og leverer en politianmeldelse så fort som mulig (om ikke du allerede har gjort det).\n\nVennligst påminn politiet å kontakte letgo's politimyndighetsteam på lawenforcement@letgo.com, slik at vi kan hjelpe til i deres etterforskning.\n\nVi kan dele relevant informasjon om %@ med politiet, men grunnet strenge personvernregler må de sende oss en gyldig ransakingsordre eller stevning først.";
+"reporting_user_report_sent_redirect_item_text" = "Takk for at du hjelper oss med å gjøre letgo til det beste stedet for å kjøpe og selge lokalt.\n\nVennligst gå til annonsen og rapporter produktet, og vi vil se raskt gjennom det.";
 "reporting_user_report_sent_review_button_title" = "Vurder";
 "reporting_user_report_sent_title" = "Rapport er sendt!";
 "reporting_user_suspicious_behavior_header" = "HVA SKJEDDE?";
 "reporting_user_title" = "Rapporter bruker";
 "reporting_user_update_text_A" = "Takk for at du rapporterer %@ anonymt. Tilbakemeldinger som din bidrar til å holde letgo-fellesskapet trygt.\n\nEtter å ha sett på dette produktet, har vi fjernet det fordi det er i strid med våre Retningslinjer for letgos fellesskap.";
 "reporting_user_update_text_B" = "Takk for at du rapporterer %@s profilbilde anonymt. Tilbakemeldinger som din bidrar til å holde letgo-fellesskapet trygt.\n\nEtter å ha sett på bildet, har vi fjernet det fordi det er i strid med våre Retningslinjer for letgos fellesskap.";
-"reporting_user_update_text_C" = "Takk for at du rapporterer %@s bio anonymt. Tilbakemeldinger som din bidrar til å holde letgo-fellesskapet trygt.\n\nEtter å ha sett på bioen, har vi fjernet den fordi den er i strid med våre Retningslinjer for letgos fellesskap.";
+"reporting_user_update_text_C" = "Takk for at du rapporterer %@s biografi anonymt. Tilbakemeldinger som din bidrar til å holde letgo-fellesskapet trygt.\n\nEtter å ha sett på bioen, har vi fjernet den fordi den er i strid med våre Retningslinjer for letgos fellesskap.";
 "reporting_user_update_title" = "Oppdatering for rapportering";
 "reset_password_email_field_hint" = "Legg inn din e-postadresse";
 "reset_password_instructions" = "Vennligst fyll inn din e-postadresse og vi sender deg en e-post for tilbakestilling av ditt passord.";

@@ -1,5 +1,10 @@
 import Foundation
 
+protocol BumpUpNavigator: class {
+    func bumpUpDidCancel()
+    func bumpUpDidFinish(completion: (() -> Void)?)
+}
+
 final class BumpUpsModalRouter: BumpUpNavigator {
     private weak var root: UIViewController?
 
