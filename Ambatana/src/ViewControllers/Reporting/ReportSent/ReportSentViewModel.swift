@@ -61,11 +61,18 @@ final class ReportSentViewModel: BaseViewModel {
 
         // User review action is only available if a review between
         // reported and current users exists without listing id.
-        userRatingRepository.index(reportedObjectId, type: .report) { [weak self] result in
+        userRatingRepository.show(reportedObjectId, listingId: nil, type: .buyer) { [weak self] result in
             self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
-            guard case let .success(ratings) = result else { return }
 
-            let canReviewUser = ratings.count == 0
+            var canReviewUser = false
+            if let _ = result.value {
+                canReviewUser = false
+            } else if let error = result.error, error.errorCode == RepositoryError.notFound.errorCode {
+                canReviewUser = true
+            } else {
+                return
+            }
+
             self?.showReviewAction.value = canReviewUser
 
             // Fallback to different ReportSentType to show different info
