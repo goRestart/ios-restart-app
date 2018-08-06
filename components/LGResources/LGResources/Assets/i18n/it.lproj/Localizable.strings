@@ -358,6 +358,7 @@
 "discarded_products_reason_poor_ad_quality" = "Non rispetta le procedure consigliate";
 "discarded_products_reason_reference_to_competitors" = "Riferimenti ad altre app o siti Web";
 "discarded_products_reason_stock_photo_only" = "Contiene solo foto da catalogo";
+"edit_priceType_choose_title" = "Choose an option";
 "edit_product_feature_label_long_text" = "Sponsorizza il tuo annuncio per vendere più velocemente";
 "edit_product_feature_label_short_text" = "Vendi più rapidamente";
 "edit_product_location_alert_text" = "Per modificare il luogo dal quale è stato pubblicato l'annuncio, consenti l'accesso alla tua posizione";
@@ -369,6 +370,7 @@
 "edit_product_title" = "Modifica annuncio";
 "edit_product_unsaved_changes_alert" = "Sei sicuro di voler eliminare queste modifiche?";
 "edit_product_unsaved_changes_alert_ok" = "Elimina";
+"engagement_badging_feed_bubble" = "New items";
 "featured_info_view_increase_visibility" = "Ottieni più visibilità";
 "featured_info_view_more_buyers" = "Attira più compratori";
 "featured_info_view_sell_faster" = "Vendi più velocemente";
@@ -440,7 +442,7 @@
 "filters_section_within" = "Periodo di pubblicazione";
 "filters_service_subtype_not_set" = "Non Impostato";
 "filters_service_type_not_set" = "Non Impostato";
-"filters_services_services_list_max_selection_alert" = "Oops! You can't select more than 15 services.";
+"filters_services_services_list_max_selection_alert" = "Ops! Non puoi selezionare più di 15 servizi.";
 "filters_services_services_list_search_placeholder" = "Tuttofare, agenti...";
 "filters_services_services_list_title" = "Seleziona una categoria";
 "filters_size_wrong_range_error" = "La dimensione minima non può essere superiore a quella massima.";
@@ -724,6 +726,13 @@
 "post_queued_requests_state_listing_posted" = "Annuncio pubblicato!";
 "post_queued_requests_state_posting_listing" = "Pubblicazione annuncio...";
 "posting_button_skip" = "Salta";
+"priceType_biweekly" = "Biweekly";
+"priceType_daily" = "Daily";
+"priceType_hourly" = "Hourly";
+"priceType_monthly" = "Monthly";
+"priceType_oneOff" = "One-time";
+"priceType_weekly" = "Weekly";
+"priceType_yearly" = "Yearly";
 "product_auto_generated_title_label" = "Titolo generato automaticamente da letgo";
 "product_auto_generated_translated_title_label" = "(e tradotto da Google)";
 "product_bubble_favorite_button" = "Fallo sapere al venditore!";
@@ -1176,7 +1185,7 @@
 "reporting_listing_update_feedback_good" = "Fantastico!";
 "reporting_listing_update_feedback_medium" = "Grazie!";
 "reporting_listing_update_feedback_title" = "Come è stata questa esperienza?";
-"reporting_listing_update_text" = "Grazie per aver segnalato in modo anonimo \"%@\" pubblicato da %@. Questo tipo di feedback contribuisce a mantenere sicura la comunità di letgo.\n\nDopo aver esaminato questo articolo, abbiamo provveduto a rimuoverlo perché violava le linee guida della nostra comunità.";
+"reporting_listing_update_text" = "Grazie per aver segnalato in modo anonimo \"%1$@\" pubblicato da %2$@. Questo tipo di feedback contribuisce a mantenere sicura la comunità di letgo.\n\nDopo aver esaminato questo articolo, abbiamo provveduto a rimuoverlo perché violava le linee guida della nostra comunità.";
 "reporting_listing_update_title" = "Aggiornamento segnalazione";
 "reporting_reason_bio" = "Bio";
 "reporting_reason_counterfeit_money" = "Pagamento con denaro falso";
@@ -1242,6 +1251,7 @@
 "search_alert_enable_error_message" = "Ops! Si è verificato un errore durante l'attivazione dei tuoi avvisi di ricerca.";
 "search_alert_error_too_many_button_text" = "Gestisci notifiche";
 "search_alert_error_too_many_text" = "Ops! Hai raggiunto il numero massimo di avvisi di ricerca";
+"search_alerts_disabled_oldest_message" = "Hai raggiunto il numero massimo di avvisi di ricerca. Abbiamo provveduto a disattivare quelli più vecchi e a attivare questo.";
 "search_alerts_edit_button" = "Modifica";
 "search_alerts_header_subtitle" = "Ricevi notifiche su nuovi annunci";
 "search_alerts_list_title" = "Avvisi di ricerca";

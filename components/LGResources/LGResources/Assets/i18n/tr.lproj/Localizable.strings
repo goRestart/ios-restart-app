@@ -358,6 +358,7 @@
 "discarded_products_reason_poor_ad_quality" = "Uygulama kullanım kurallarına aykırı";
 "discarded_products_reason_reference_to_competitors" = "Diğer web sitesi ya da uygulamalara referans";
 "discarded_products_reason_stock_photo_only" = "Sadece stok fotoğraf kullanılması";
+"edit_priceType_choose_title" = "Choose an option";
 "edit_product_feature_label_long_text" = "Daha hızlı satmak için ilanını öne çıkar";
 "edit_product_feature_label_short_text" = "Hemen sat";
 "edit_product_location_alert_text" = "İlanının yayınlanmış olduğu yeri değiştirmek için, konum bilgine ulaşılmasına izin ver";
@@ -369,6 +370,7 @@
 "edit_product_title" = "İlanı düzenle";
 "edit_product_unsaved_changes_alert" = "Bu değişiklikleri silmek istediğine emin misin?";
 "edit_product_unsaved_changes_alert_ok" = "Sil";
+"engagement_badging_feed_bubble" = "New items";
 "featured_info_view_increase_visibility" = "Daha çok kişi görsün";
 "featured_info_view_more_buyers" = "Daha çok alıcıyı çek";
 "featured_info_view_sell_faster" = "Hemen sat";
@@ -724,6 +726,13 @@
 "post_queued_requests_state_listing_posted" = "İlan yüklendi!";
 "post_queued_requests_state_posting_listing" = "İlan yükleniyor...";
 "posting_button_skip" = "Geç";
+"priceType_biweekly" = "İki haftada bir";
+"priceType_daily" = "Günlük";
+"priceType_hourly" = "Saatlik";
+"priceType_monthly" = "Aylık";
+"priceType_oneOff" = "Bir kerelik";
+"priceType_weekly" = "Haftalık";
+"priceType_yearly" = "Yıllık";
 "product_auto_generated_title_label" = "Başlık letgo tarafından otomatik olarak belirlendi";
 "product_auto_generated_translated_title_label" = "(Yandex ile çevrildi)";
 "product_bubble_favorite_button" = "Satıcıyı haberdar et!";
@@ -1176,7 +1185,7 @@
 "reporting_listing_update_feedback_good" = "Harika!";
 "reporting_listing_update_feedback_medium" = "Teşekkürler!";
 "reporting_listing_update_feedback_title" = "Bu nasıl bir deneyimdi?";
-"reporting_listing_update_text" = "%@ tarafından yayınanan \"%@\" ilanını isimsiz olarak rapor ettiğin için teşekkürler. Bu değerlendirmeler letgo topluluğunu güvende tutmamıza yardımcı oluyor. \n\nBu ürünü gözden geçirdikten sonra kaldırdık, çünkü Topluluk Kurallarımızı ilan ediyordu.";
+"reporting_listing_update_text" = "%2$@ tarafından yayınanan \"%1$@\" ilanını isimsiz olarak rapor ettiğin için teşekkürler. Bu değerlendirmeler letgo topluluğunu güvende tutmamıza yardımcı oluyor.\n\nBu ürünü gözden geçirdikten sonra kaldırdık, çünkü Topluluk Kurallarımızı ilan ediyordu.";
 "reporting_listing_update_title" = "Rapor Güncellemesi";
 "reporting_reason_bio" = "Biyografi";
 "reporting_reason_counterfeit_money" = "Sahte parayla ödeme yaptı";
@@ -1242,6 +1251,7 @@
 "search_alert_enable_error_message" = "Oops! Arama alarmına izin verilirken bir hata oluştu.";
 "search_alert_error_too_many_button_text" = "Bildirimleri Yönet";
 "search_alert_error_too_many_text" = "Oops! Maksimum arama uyarısı sayısına ulaştın";
+"search_alerts_disabled_oldest_message" = "Maksimum arama alarmı sayısına ulaştın, o yüzden en eski alarmını kapattık ve bunu etkinleştirdik.";
 "search_alerts_edit_button" = "Düzelt";
 "search_alerts_header_subtitle" = "Yeni ilanlarla ilgili bildirim al";
 "search_alerts_list_title" = "Arama Uyarıları";
@@ -1258,7 +1268,7 @@
 "sell_picture_image_source_camera_roll_button" = "Fotoğraf galerisi";
 "sell_picture_image_source_cancel_button" = "İptal et";
 "sell_picture_image_source_title" = "Fotoğraf kaynağını seç";
-"sell_picture_label" = "Resim";
+"sell_picture_label" = "Görsel";
 "sell_picture_save_into_camera_roll_error_generic" = "Görsel, fotoğraf galerisine kaydedilirken bir hata oluştu. Lütfen telefonunun ayarlarından, letgo'nun fotoğraflarına erişebilmesine izin verdiğinden emin ol.";
 "sell_picture_save_into_camera_roll_loading" = "Fotoğraf galeriye kaydediliyor...";
 "sell_picture_save_into_camera_roll_ok" = "Fotoğraf galeriye kaydedildi.";

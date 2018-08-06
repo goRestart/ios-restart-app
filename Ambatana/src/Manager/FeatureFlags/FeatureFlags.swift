@@ -62,6 +62,7 @@ protocol FeatureFlaggeable: class {
     var fullScreenAdUnitId: String? { get }
     var appInstallAdsInFeed: AppInstallAdsInFeed { get }
     var appInstallAdsInFeedAdUnit: String? { get }
+    var alwaysShowBumpBannerWithLoading: AlwaysShowBumpBannerWithLoading { get }
     
     // MARK: Chat
     var showInactiveConversations: Bool { get }
@@ -76,7 +77,7 @@ protocol FeatureFlaggeable: class {
     var expressChatImprovement: ExpressChatImprovement { get }
 
     // MARK: Verticals
-    var showServicesFeatures: ShowServicesFeatures { get }
+    var servicesPriceType: ServicesPriceType { get }
     var carExtraFieldsEnabled: CarExtraFieldsEnabled { get }
     var realEstateMapTooltip: RealEstateMapTooltip { get }
     var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen { get }
@@ -111,6 +112,7 @@ protocol FeatureFlaggeable: class {
     var notificationSettings: NotificationSettings { get }
     var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions { get }
     var engagementBadging: EngagementBadging { get }
+    var searchAlertsDisableOldestIfMaximumReached: SearchAlertsDisableOldestIfMaximumReached { get }
 }
 
 extension FeatureFlaggeable {
@@ -186,11 +188,11 @@ extension OnboardingIncentivizePosting {
     var isActive: Bool { return self == .blockingPosting || self == .blockingPostingSkipWelcome }
 }
 
-extension ShowServicesFeatures {
+extension ServicesUnifiedFilterScreen {
     var isActive: Bool { return self == .active }
 }
 
-extension ServicesUnifiedFilterScreen {
+extension ServicesPriceType {
     var isActive: Bool { return self == .active }
 }
 
@@ -262,6 +264,7 @@ extension AdvancedReputationSystem {
 extension ShowCommunity {
     var isActive: Bool {  return self != .baseline && self != .control }
     var shouldShowOnTab: Bool { return self == .communityOnTabBar }
+    var shouldShowOnNavBar: Bool { return self == .communityOnNavBar }
 }
 
 extension ShowPasswordlessLogin {
@@ -386,6 +389,11 @@ extension NotificationSettings {
     var isActive: Bool { return self == .differentLists || self == .sameList }
 }
 
+extension EngagementBadging {
+    var isActive: Bool { return self == .active }
+}
+
+
 // MARK: Products
 
 extension ServicesCategoryOnSalchichasMenu {
@@ -462,6 +470,14 @@ extension PreventMessagesFromFeedToProUsers {
 }
 
 extension AppInstallAdsInFeed {
+    var isActive: Bool { return self == .active }
+}
+
+extension AlwaysShowBumpBannerWithLoading {
+    var isActive: Bool { return self == .active }
+}
+
+extension SearchAlertsDisableOldestIfMaximumReached {
     var isActive: Bool { return self == .active }
 }
 
@@ -639,13 +655,6 @@ final class FeatureFlags: FeatureFlaggeable {
         return RelaxedSearch.fromPosition(abTests.relaxedSearch.value)
     }
     
-    var onboardingIncentivizePosting: OnboardingIncentivizePosting {
-        if Bumper.enabled {
-            return Bumper.onboardingIncentivizePosting
-        }
-        return OnboardingIncentivizePosting.fromPosition(abTests.onboardingIncentivizePosting.value)
-    }
-    
     var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings {
         if Bumper.enabled {
             return Bumper.addPriceTitleDistanceToListings
@@ -711,13 +720,6 @@ final class FeatureFlags: FeatureFlaggeable {
         let cached = dao.retrieveEmergencyLocate()
         return cached ?? EmergencyLocate.fromPosition(abTests.emergencyLocate.value)
     }
-    
-    var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed {
-        if Bumper.enabled {
-            return Bumper.highlightedIAmInterestedFeed
-        }
-        return HighlightedIAmInterestedFeed.fromPosition(abTests.highlightedIAmInterestedInFeed.value)
-    }
 
     var offensiveReportAlert: OffensiveReportAlert {
         if Bumper.enabled {
@@ -726,34 +728,12 @@ final class FeatureFlags: FeatureFlaggeable {
         return OffensiveReportAlert.fromPosition(abTests.offensiveReportAlert.value)
     }
 
-    var notificationSettings: NotificationSettings {
-        if Bumper.enabled {
-            return Bumper.notificationSettings
-        }
-        return NotificationSettings.fromPosition(abTests.notificationSettings.value)
-    }
-
     var reportingFostaSesta: ReportingFostaSesta {
         if Bumper.enabled {
             return Bumper.reportingFostaSesta
         }
         return ReportingFostaSesta.fromPosition(abTests.reportingFostaSesta.value)
-    }
-    
-    var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions {
-        if Bumper.enabled {
-            return Bumper.searchAlertsInSearchSuggestions
-        }
-        return SearchAlertsInSearchSuggestions.fromPosition(abTests.searchAlertsInSearchSuggestions.value)
-    }
-    
-    
-    var engagementBadging: EngagementBadging {
-        if Bumper.enabled {
-            return Bumper.engagementBadging
-        }
-        return EngagementBadging.fromPosition(abTests.engagementBadging.value)
-    }
+    }    
     
     // MARK: - Country features
 
@@ -1074,7 +1054,15 @@ final class FeatureFlags: FeatureFlaggeable {
         }
         return AppInstallAdsInFeed.fromPosition(abTests.appInstallAdsInFeed.value)
     }
-    
+
+    var alwaysShowBumpBannerWithLoading: AlwaysShowBumpBannerWithLoading {
+        if Bumper.enabled {
+            return Bumper.alwaysShowBumpBannerWithLoading
+        }
+        return AlwaysShowBumpBannerWithLoading.fromPosition(abTests.alwaysShowBumpBannerWithLoading.value)
+    }
+
+
     // MARK: - Private
 
     private var locationCountryCode: CountryCode? {
@@ -1192,13 +1180,6 @@ extension FeatureFlags {
 
 extension FeatureFlags {
     
-    var showServicesFeatures: ShowServicesFeatures {
-        if Bumper.enabled {
-            return Bumper.showServicesFeatures
-        }
-        return ShowServicesFeatures.fromPosition(abTests.showServicesFeatures.value)
-    }
-    
     var carExtraFieldsEnabled: CarExtraFieldsEnabled {
         if Bumper.enabled {
             return Bumper.carExtraFieldsEnabled
@@ -1217,8 +1198,16 @@ extension FeatureFlags {
         if Bumper.enabled {
             return Bumper.servicesUnifiedFilterScreen
         }
+        return ServicesUnifiedFilterScreen.fromPosition(abTests.servicesUnifiedFilterScreen.value)
+    }
+    
+    var servicesPriceType: ServicesPriceType {
+        if Bumper.enabled {
+            return Bumper.servicesPriceType
+        }
         return .control
-//        return ServicesUnifiedFilterScreen.fromPosition(abTests.servicesUnifiedFilterScreen.value)
+        // FIXME: enable A/B test before beta - ABIOS-4685
+         return ServicesPriceType.fromPosition(abTests.servicesPriceType.value)
     }
 }
 
@@ -1336,5 +1325,53 @@ extension FeatureFlags {
             return Bumper.preventMessagesFromFeedToProUsers
         }
         return PreventMessagesFromFeedToProUsers.fromPosition(abTests.preventMessagesFromFeedToProUsers.value)
+    }
+}
+
+
+// MARK: Retention
+
+extension FeatureFlags {
+    
+    var onboardingIncentivizePosting: OnboardingIncentivizePosting {
+        if Bumper.enabled {
+            return Bumper.onboardingIncentivizePosting
+        }
+        return OnboardingIncentivizePosting.fromPosition(abTests.onboardingIncentivizePosting.value)
+    }
+    
+    var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed {
+        if Bumper.enabled {
+            return Bumper.highlightedIAmInterestedFeed
+        }
+        return HighlightedIAmInterestedFeed.fromPosition(abTests.highlightedIAmInterestedInFeed.value)
+    }
+    
+    var notificationSettings: NotificationSettings {
+        if Bumper.enabled {
+            return Bumper.notificationSettings
+        }
+        return NotificationSettings.fromPosition(abTests.notificationSettings.value)
+    }
+    
+    var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions {
+        if Bumper.enabled {
+            return Bumper.searchAlertsInSearchSuggestions
+        }
+        return SearchAlertsInSearchSuggestions.fromPosition(abTests.searchAlertsInSearchSuggestions.value)
+    }
+    
+    var engagementBadging: EngagementBadging {
+        if Bumper.enabled {
+            return Bumper.engagementBadging
+        }
+        return EngagementBadging.fromPosition(abTests.engagementBadging.value)
+    }
+    
+    var searchAlertsDisableOldestIfMaximumReached: SearchAlertsDisableOldestIfMaximumReached {
+        if Bumper.enabled {
+            return Bumper.searchAlertsDisableOldestIfMaximumReached
+        }
+        return SearchAlertsDisableOldestIfMaximumReached.fromPosition(abTests.searchAlertsDisableOldestIfMaximumReached.value)
     }
 }

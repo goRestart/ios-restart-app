@@ -32,7 +32,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     }
     
     private var cellStyle: CellStyle {
-        let showServiceCell = featureFlags.showServicesFeatures.isActive && filters.hasSelectedCategory(.services)
+        let showServiceCell = filters.hasSelectedCategory(.services)
         return showServiceCell ? .serviceList : .mainList
     }
     
@@ -85,6 +85,10 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         return filters.selectedCategories.contains(.services)
     }
     
+    var isEngagementBadgingEnabled: Bool {
+        return featureFlags.engagementBadging.isActive
+    }
+    
     var rightBarButtonsItems: [(image: UIImage, selector: Selector)] {
         var rightButtonItems: [(image: UIImage, selector: Selector)] = []
         if isRealEstateSelected {
@@ -111,6 +115,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     let recentItemsBubbleVisible = Variable<Bool>(false)
     let recentItemsBubbleText = Variable<String>(R.Strings.engagementBadgingFeedBubble)
     let errorMessage = Variable<String?>(nil)
+    let containsListings = Variable<Bool>(false)
+    let isShowingCategoriesHeader = Variable<Bool>(false)
     
     private static let firstVersionNumber = 1
     
@@ -210,7 +216,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                 if let serviceType = servicesFilters.type {
                     
                     if let serviceSubtypes = servicesFilters.subtypes {
-                        if serviceType.subTypes.count == serviceSubtypes.count {
+                        if serviceType.subTypes.count == serviceSubtypes.count ||
+                            serviceSubtypes.count == 0 {
                             resultTags.append(.serviceType(serviceType))
                         } else {
                             resultTags.append(.unifiedServiceType(type: serviceType,
@@ -248,6 +255,18 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     
     var shouldShowInviteButton: Bool {
         return navigator?.canOpenAppInvite() ?? false
+    }
+
+    var shouldShowCommunityButton: Bool {
+        return featureFlags.community.shouldShowOnNavBar
+    }
+
+    var shouldShowUserProfileButton: Bool {
+        return featureFlags.community.shouldShowOnTab
+    }
+
+    var shouldShowCommunityBanner: Bool {
+        return featureFlags.community.isActive && !listViewModel.isListingListEmpty.value
     }
     
     private var carSelectedWithFilters: Bool {
@@ -301,12 +320,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         guard shouldShowRealEstateMapTooltip else { return }
         keyValueStorage[.realEstateTooltipMapShown] = true
     }
-    
-    var shouldShowSearchAlertBanner: Bool {
-        let isThereLoggedUser = myUserRepository.myUser != nil
-        let hasSearchQuery = searchType?.text != nil
-        return isThereLoggedUser && hasSearchQuery
-    }
+
     
     let mainListingsHeader = Variable<MainListingsHeader>([])
     let filterTitle = Variable<String?>(nil)
@@ -319,6 +333,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     fileprivate let listingRepository: ListingRepository
     fileprivate let monetizationRepository: MonetizationRepository
     fileprivate let locationManager: LocationManager
+    private let notificationsManager: NotificationsManager
     fileprivate let currencyHelper: CurrencyHelper
     fileprivate let bubbleTextGenerator: DistanceBubbleTextGenerator
     fileprivate let categoryRepository: CategoryRepository
@@ -394,7 +409,17 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     
     fileprivate let disposeBag = DisposeBag()
     
-    var searchAlertCreationData = Variable<SearchAlertCreationData?>(nil)
+    var currentSearchAlertCreationData = Variable<SearchAlertCreationData?>(nil)
+    private var searchAlerts: [SearchAlert] = []
+    var shouldShowSearchAlertBanner: Bool {
+        let isThereLoggedUser = myUserRepository.myUser != nil
+        let hasSearchQuery = searchType?.text != nil
+        return isThereLoggedUser && hasSearchQuery
+    }
+    private var shouldDisableOldestSearchAlertIfMaximumReached: Bool {
+        return featureFlags.searchAlertsDisableOldestIfMaximumReached.isActive
+    }
+    
     private let requesterFactory: RequesterFactory
     private let requesterDependencyContainer: RequesterDependencyContainer
     
@@ -409,6 +434,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
          searchAlertsRepository: SearchAlertsRepository,
          userRepository: UserRepository,
          locationManager: LocationManager,
+         notificationsManager: NotificationsManager,
          currencyHelper: CurrencyHelper,
          tracker: Tracker,
          searchType: SearchType? = nil,
@@ -426,6 +452,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         self.searchAlertsRepository = searchAlertsRepository
         self.userRepository = userRepository
         self.locationManager = locationManager
+        self.notificationsManager = notificationsManager
         self.currencyHelper = currencyHelper
         self.tracker = tracker
         self.searchType = searchType
@@ -471,6 +498,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         let searchAlertsRepository = Core.searchAlertsRepository
         let userRepository = Core.userRepository
         let locationManager = Core.locationManager
+        let notificationsManager = LGNotificationsManager.sharedInstance
         let currencyHelper = Core.currencyHelper
         let tracker = TrackerProxy.sharedInstance
         let keyValueStorage = KeyValueStorage.sharedInstance
@@ -486,6 +514,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                   searchAlertsRepository: searchAlertsRepository,
                   userRepository: userRepository,
                   locationManager: locationManager,
+                  notificationsManager: notificationsManager,
                   currencyHelper: currencyHelper,
                   tracker: tracker,
                   searchType: searchType,
@@ -516,6 +545,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         }
         if firstTime {
             setupRx()
+            notificationsManager.updateEngagementBadgingNotifications()
         }
         if let currentLocation = locationManager.currentLocation {
             retrieveProductsIfNeededWithNewLocation(currentLocation)
@@ -807,6 +837,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     
     func recentItemsBubbleTapped() {
         listViewModel.retrieveRecentItems()
+        notificationsManager.hideEngagementBadgingNotifications()
     }
 
     func updateSelectedTaxonomyChildren(taxonomyChildren: [TaxonomyChild]) {
@@ -827,7 +858,13 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     private func setupRx() {
         listViewModel.isListingListEmpty.asObservable().bind { [weak self] _ in
             self?.updateCategoriesHeader()
-            }.disposed(by: disposeBag)
+        }.disposed(by: disposeBag)
+        
+        Observable.combineLatest(notificationsManager.engagementBadgingNotifications.asObservable(),
+                                 containsListings.asObservable(),
+                                 isShowingCategoriesHeader.asObservable()) { $0 && $1 && $2 }
+            .bind(to: recentItemsBubbleVisible)
+            .disposed(by: disposeBag)
     }
     
     /**
@@ -888,20 +925,14 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         } else {
             categoryHeaderElements.append(contentsOf: ListingCategory.visibleValuesInFeed(servicesIncluded: true,
                                                                                           realEstateIncluded: featureFlags.realEstateEnabled.isActive,
-                                                                                          servicesHighlighted: featureFlags.showServicesFeatures.isActive)
+                                                                                          servicesHighlighted: true)
                 .map { CategoryHeaderElement.listingCategory($0) })
         }
         return categoryHeaderElements
     }
     
     var categoryHeaderHighlighted: CategoryHeaderElement {
-        if featureFlags.showServicesFeatures.isActive {
-            return CategoryHeaderElement.listingCategory(.services)
-        } else if featureFlags.realEstateEnabled.isActive {
-            return CategoryHeaderElement.listingCategory(.realEstate)
-        } else {
-            return CategoryHeaderElement.listingCategory(.cars)
-        }
+        return CategoryHeaderElement.listingCategory(.services)
     }
     
     
@@ -910,29 +941,37 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     private func createSearchAlert(fromEnable: Bool) {
         guard let searchType = searchType, let query = searchType.text else { return }
         searchAlertsRepository.create(query: query) { [weak self] result in
+            guard let strongSelf = self else { return }
             if let value = result.value {
-                self?.searchAlertCreationData.value = value
-                self?.updateSearchAlertsHeader()
+                strongSelf.currentSearchAlertCreationData.value = value
+                strongSelf.updateSearchAlertsHeader()
             } else if let error = result.error {
                 switch error {
                 case .searchAlertError(let searchAlertError):
                     switch searchAlertError {
                     case .alreadyExists:
-                        self?.retrieveSearchAlert(withQuery: query) { listResult in
+                        strongSelf.retrieveSearchAlert(withQuery: query) { listResult in
                             if let value = listResult.value {
-                                self?.searchAlertCreationData.value = value
-                                self?.updateSearchAlertsHeader()
+                                strongSelf.currentSearchAlertCreationData.value = value
+                                strongSelf.updateSearchAlertsHeader()
                             }
                         }
                     case .limitReached:
-                        if fromEnable {
-                            self?.showSearchAlertsLimitReachedAlert()
+                        if strongSelf.shouldDisableOldestSearchAlertIfMaximumReached {
+                            strongSelf.disableOldestSearchAlert {
+                                strongSelf.createSearchAlert(fromEnable: fromEnable)
+                                strongSelf.delegate?.vmShowAutoFadingMessage(R.Strings.searchAlertsDisabledOldestMessage, completion: nil)
+                            }
+                        } else {
+                            if fromEnable {
+                                strongSelf.showSearchAlertsLimitReachedAlert()
+                            }
+                            strongSelf.currentSearchAlertCreationData.value = SearchAlertCreationData(objectId: nil,
+                                                                                                      query: query,
+                                                                                                      isCreated: false,
+                                                                                                      isEnabled: false)
+                            strongSelf.updateSearchAlertsHeader()
                         }
-                        self?.searchAlertCreationData.value = SearchAlertCreationData(objectId: nil,
-                                                                                      query: query,
-                                                                                      isCreated: false,
-                                                                                      isEnabled: false)
-                        self?.updateSearchAlertsHeader()
                     case .apiError:
                         break
                     }
@@ -944,58 +983,74 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         }
     }
     
-    func triggerSearchAlert(fromEnabled: Bool) {
-        if searchAlertCreationData.value?.isCreated ?? false {
+    func triggerCurrentSearchAlert(fromEnabled: Bool) {
+        if currentSearchAlertCreationData.value?.isCreated ?? false {
             if fromEnabled {
-                enableSearchAlert()
+                enableCurrentSearchAlert(comesAfterDisablingOldestOne: false)
             } else {
-                disableSearchAlert()
+                disableCurrentSearchAlert()
             }
         } else {
             createSearchAlert(fromEnable: true)
         }
         
         let trackerEvent = TrackerEvent.searchAlertSwitchChanged(userId: myUserRepository.myUser?.objectId,
-                                                                 searchKeyword: searchAlertCreationData.value?.query,
+                                                                 searchKeyword: currentSearchAlertCreationData.value?.query,
                                                                  enabled: EventParameterBoolean(bool: fromEnabled),
                                                                  source: .search)
         tracker.trackEvent(trackerEvent)
     }
     
-    private func enableSearchAlert() {
-        guard let searchAlertId = searchAlertCreationData.value?.objectId else { return }
+    private func enableCurrentSearchAlert(comesAfterDisablingOldestOne: Bool) {
+        guard let searchAlertId = currentSearchAlertCreationData.value?.objectId else { return }
         searchAlertsRepository.enable(searchAlertId: searchAlertId) { [weak self] result in
-            self?.searchAlertCreationData.value?.isEnabled = result.value != nil
-            self?.updateSearchAlertsHeader()
+            guard let strongSelf = self else { return }
+            if result.value != nil {
+                strongSelf.currentSearchAlertCreationData.value?.isEnabled = true
+                strongSelf.updateSearchAlertsHeader()
+                if comesAfterDisablingOldestOne {
+                    strongSelf.delegate?.vmShowAutoFadingMessage(R.Strings.searchAlertsDisabledOldestMessage, completion: nil)
+                }
+            }
             if let error = result.error {
-                
                 switch error {
                 case .searchAlertError(let searchAlertError):
                     switch searchAlertError {
                     case .alreadyExists, .apiError:
-                        self?.delegate?.vmShowAutoFadingMessage(R.Strings.searchAlertEnableErrorMessage, completion: nil)
+                        strongSelf.keepCurrentSearchAlertDisabled()
+                        strongSelf.delegate?.vmShowAutoFadingMessage(R.Strings.searchAlertEnableErrorMessage, completion: nil)
                     case .limitReached:
-                        self?.showSearchAlertsLimitReachedAlert()
-                        if let currentSearchAlert = self?.searchAlertCreationData.value {
-                            self?.searchAlertCreationData.value = SearchAlertCreationData(objectId: currentSearchAlert.objectId,
-                                                                                          query: currentSearchAlert.query,
-                                                                                          isCreated: false,
-                                                                                          isEnabled: false)
-                            self?.updateSearchAlertsHeader()
+                        if strongSelf.shouldDisableOldestSearchAlertIfMaximumReached {
+                            strongSelf.enableCurrentSearchAlertDisablingOldestOne()
+                        } else {
+                            strongSelf.keepCurrentSearchAlertDisabled()
+                            strongSelf.showSearchAlertsLimitReachedAlert()
                         }
                     }
                 case .tooManyRequests, .network, .forbidden, .internalError, .notFound, .unauthorized, .userNotVerified,
                      .serverError, .wsChatError:
-                    self?.delegate?.vmShowAutoFadingMessage(R.Strings.searchAlertEnableErrorMessage, completion: nil)
+                    strongSelf.keepCurrentSearchAlertDisabled()
+                    strongSelf.delegate?.vmShowAutoFadingMessage(R.Strings.searchAlertEnableErrorMessage, completion: nil)
                 }
             }
         }
     }
     
-    private func disableSearchAlert() {
-        guard let searchAlertId = searchAlertCreationData.value?.objectId else { return }
+    private func enableCurrentSearchAlertDisablingOldestOne() {
+        disableOldestSearchAlert { [weak self] in
+            self?.enableCurrentSearchAlert(comesAfterDisablingOldestOne: true)
+        }
+    }
+    
+    private func keepCurrentSearchAlertDisabled() {
+        currentSearchAlertCreationData.value?.isEnabled = false
+        updateSearchAlertsHeader()
+    }
+    
+    private func disableCurrentSearchAlert() {
+        guard let searchAlertId = currentSearchAlertCreationData.value?.objectId else { return }
         searchAlertsRepository.disable(searchAlertId: searchAlertId) { [weak self] result in
-            self?.searchAlertCreationData.value?.isEnabled = result.value == nil
+            self?.currentSearchAlertCreationData.value?.isEnabled = result.value == nil
             self?.updateSearchAlertsHeader()
             if let _ = result.error {
                 self?.delegate?.vmShowAutoFadingMessage(R.Strings.searchAlertDisableErrorMessage, completion: nil)
@@ -1003,6 +1058,27 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         }
     }
     
+    private func disableOldestSearchAlert(completion: @escaping (() -> Void)) {
+        retrieveSearchAlerts { [weak self] in
+            guard let strongSelf = self else { return }
+            guard let firstSearchAlert = strongSelf.searchAlerts.first else { return }
+            let oldestEnabledSearchAlert = strongSelf.searchAlerts.filter({ $0.enabled })
+                .reduce(firstSearchAlert, { $0.createdAt < $1.createdAt ? $0 : $1 })
+            if let searchAlertId = oldestEnabledSearchAlert.objectId {
+                self?.disableSearchAlert(withId: searchAlertId, completion: {
+                    completion()
+                })
+            }
+        }
+    }
+    
+    private func disableSearchAlert(withId searchAlertId: String, completion: @escaping (() -> Void)) {
+        searchAlertsRepository.disable(searchAlertId: searchAlertId) { [weak self] result in
+            guard result.error != nil else { return completion() }
+            self?.delegate?.vmShowAutoFadingMessage(R.Strings.searchAlertDisableErrorMessage, completion: nil)
+        }
+    }
+
     private func showSearchAlertsLimitReachedAlert() {
         let alertAction = UIAction(interface: .styledText(R.Strings.searchAlertErrorTooManyButtonText, .destructive), action: { [weak self] in
             self?.navigator?.openSearchAlertsList()
@@ -1015,15 +1091,26 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                               actions: [alertAction, cancelAction])
     }
     
+    private func retrieveSearchAlerts(completion: @escaping () -> Void) {
+        searchAlertsRepository.index(limit: MainListingsViewModel.searchAlertLimit, offset: 0) { [weak self] result in
+            if let value = result.value {
+                self?.searchAlerts = value
+                completion()
+            } else if let _ = result.error {
+                self?.delegate?.vmShowAutoFadingMessage(R.Strings.searchAlertsPlaceholderErrorText, completion: nil)
+            }
+        }
+    }
+
     private func retrieveSearchAlert(withQuery query: String, completion: SearchAlertsCreateCompletion?) {
         searchAlertsRepository.index(limit: MainListingsViewModel.searchAlertLimit, offset: 0) { result in
             if let searchAlerts = result.value,
                 let searchAlert = searchAlerts.filter({$0.query == query}).first {
-                let searchAlertCreationData = SearchAlertCreationData(objectId: searchAlert.objectId,
+                let currentSearchAlertCreationData = SearchAlertCreationData(objectId: searchAlert.objectId,
                                                                       query: searchAlert.query,
                                                                       isCreated: true,
                                                                       isEnabled: searchAlert.enabled)
-                completion?(SearchAlertsCreateResult(value: searchAlertCreationData))
+                completion?(SearchAlertsCreateResult(value: currentSearchAlertCreationData))
             }
         }
     }
@@ -1136,7 +1223,8 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                 listViewModel.setEmptyState(emptyViewModel)
                 filterDescription.value = nil
                 filterTitle.value = nil
-                trackRequestSuccess(page: page, resultsCount: resultsCount, hasListings: hasListings, searchRelatedItems: false)
+                
+                trackRequestSuccess(page: page, resultsCount: resultsCount, hasListings: hasListings, searchRelatedItems: featureFlags.emptySearchImprovements.isActive)
             } else {
                 listViewModel.retrieveListingsNextPage()
             }
@@ -1152,14 +1240,19 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                 filterDescription.value = featureFlags.emptySearchImprovements.filterDescription
                 filterTitle.value = filterTitleString(forRequesterType: requesterType)
                 updateCategoriesHeader()
+            } else {
+                trackRequestSuccess(page: page, resultsCount: resultsCount, hasListings: hasListings, searchRelatedItems: false)
             }
         } else {
             trackRequestSuccess(page: page, resultsCount: resultsCount, hasListings: hasListings, searchRelatedItems: false)
         }
         
         errorMessage.value = nil
+        
+        containsListings.value = hasListings
+        isShowingCategoriesHeader.value = showCategoriesCollectionBanner
         infoBubbleVisible.value = hasListings && filters.infoBubblePresent
-        recentItemsBubbleVisible.value = showCategoriesCollectionBanner
+        
         if(page == 0) {
             bubbleDistance = 1
         }
@@ -1191,8 +1284,10 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             }
         }
         errorMessage.value = errorString
+        
+        containsListings.value = hasProducts
+        isShowingCategoriesHeader.value = showCategoriesCollectionBanner
         infoBubbleVisible.value = hasProducts && filters.infoBubblePresent
-        recentItemsBubbleVisible.value = showCategoriesCollectionBanner
     }
     
     func listingListVM(_ viewModel: ListingListViewModel, didSelectItemAtIndex index: Int,
@@ -1234,6 +1329,14 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
 
     func vmUserDidTapInvite() {
         navigator?.openAppInvite(myUserId: myUserId, myUserName: myUserName)
+    }
+
+    func vmUserDidTapCommunity() {
+        navigator?.openCommunity()
+    }
+
+    func vmUserDidTapUserProfile() {
+        navigator?.openPrivateUserProfile()
     }
     
     func vmDidSelectSellBanner(_ type: String) {}
@@ -1790,7 +1893,7 @@ fileprivate extension MainListingsViewModel {
         
         if let searchType = searchType, let searchQuery = searchType.query, shouldTrackSearch {
             shouldTrackSearch = false
-            let successValue = searchRelatedItems ? EventParameterSearchCompleteSuccess.fail : EventParameterSearchCompleteSuccess.success
+            let successValue = searchRelatedItems || !hasListings ? EventParameterSearchCompleteSuccess.fail : EventParameterSearchCompleteSuccess.success
             tracker.trackEvent(TrackerEvent.searchComplete(myUserRepository.myUser, searchQuery: searchQuery,
                                                            isTrending: searchType.isTrending,
                                                            success: successValue,
@@ -1823,6 +1926,13 @@ fileprivate extension MainListingsViewModel {
         let trackerEvent = TrackerEvent.permissionAlertCancel(.push, typePage: .listingListBanner, alertType: .custom,
                                                               permissionGoToSettings: goToSettings)
         tracker.trackEvent(trackerEvent)
+    }
+
+    private func trackStartSelling(source: PostingSource, category: PostCategory) {
+        tracker.trackEvent(TrackerEvent.listingSellStart(typePage: source.typePage,
+                                                         buttonName: source.buttonName,
+                                                         sellButtonPosition: source.sellButtonPosition,
+                                                         category: category.listingCategory))
     }
 }
 
@@ -1973,7 +2083,10 @@ extension MainListingsViewModel: ListingCellDelegate {
     func moreOptionsPressedForDiscarded(listing: Listing) {}
     
     func postNowButtonPressed(_ view: UIView) {
-        navigator?.openSell(source: .realEstatePromo, postCategory: .realEstate)
+        let postCategory: PostCategory = .realEstate
+        let source: PostingSource = .realEstatePromo
+        navigator?.openSell(source: source, postCategory: postCategory)
+        trackStartSelling(source: source, category: postCategory)
     }
     
     func openAskPhoneFor(_ listing: Listing, interlocutor: LocalUser) {
@@ -2000,7 +2113,6 @@ extension MainListingsViewModel: ListingCellDelegate {
             completion(result.value)
         }
     }
-    
 }
 
 extension NoAdsInFeedForNewUsers {

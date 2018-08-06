@@ -315,6 +315,14 @@ class ListingViewModel: BaseViewModel {
 
         if isMine {
             seller.value = myUserRepository.myUser
+            if featureFlags.alwaysShowBumpBannerWithLoading.isActive {
+                bumpUpBannerInfo.value = BumpUpInfo(type: .loading,
+                                                    timeSinceLastBump: 0,
+                                                    maxCountdown: 0,
+                                                    price: nil,
+                                                    bannerInteractionBlock: { _ in },
+                                                    buttonBlock: { _ in })
+            }
         } else if let userId = userInfo.value.userId {
             userRepository.show(userId) { [weak self] result in
                 guard let strongSelf = self else { return }
@@ -357,7 +365,7 @@ class ListingViewModel: BaseViewModel {
         purchasesShopper.delegate = self
         purchasesShopper.bumpInfoRequesterDelegate = self
 
-        if bumpUpBannerInfo.value == nil {
+        if bumpUpBannerInfo.value == nil || bumpUpBannerInfo.value?.type == .loading {
             refreshBumpeableBanner()
         }
 
@@ -541,7 +549,10 @@ class ListingViewModel: BaseViewModel {
                     guard let strongSelf = self else { return }
                     let parameterTypePage = strongSelf.getParameterTypePage()
                     strongSelf.isUpdatingBumpUpBanner = false
-                    guard let bumpeableProduct = result.value else { return }
+                    guard let bumpeableProduct = result.value else {
+                        strongSelf.bumpUpBannerInfo.value = nil
+                        return
+                    }
 
                     strongSelf.timeSinceLastBump = bumpeableProduct.timeSinceLastBump
                     strongSelf.bumpMaxCountdown = bumpeableProduct.maxCountdown
@@ -686,6 +697,9 @@ class ListingViewModel: BaseViewModel {
             }
             bannerInteractionBlock = hiddenBlock
             buttonBlock = hiddenBlock
+        case .loading:
+            bannerInteractionBlock = { _ in }
+            buttonBlock = { _ in }
         }
 
         bumpUpBannerInfo.value = BumpUpInfo(type: bumpUpType,
@@ -730,7 +744,7 @@ class ListingViewModel: BaseViewModel {
             guard bumpUpProductData.hasPaymentId else { return }
             openPricedBumpUpView(bumpUpProductData: bumpUpProductData,
                                  typePage: typePage)
-        case .free, .hidden, .restore:
+        case .free, .hidden, .restore, .loading:
             break
         }
     }
@@ -985,7 +999,7 @@ extension ListingViewModel {
 
     fileprivate func reportProduct() {
         if featureFlags.reportingFostaSesta.isActive, let productId = listing.value.objectId {
-            navigator?.openListingReport(source: .listingDetail, productId: productId)
+            navigator?.openListingReport(source: .listingDetail, listing: listing.value, productId: productId)
         } else {
             confirmToReportProduct()
         }

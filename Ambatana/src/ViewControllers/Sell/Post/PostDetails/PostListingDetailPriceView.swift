@@ -89,7 +89,7 @@ class PostListingDetailPriceView: BaseView {
         let tap = UITapGestureRecognizer(target: self, action: #selector(freeCellPressed))
         postFreeViewContainer.addGestureRecognizer(tap)
 
-        if viewModel.shareOnFacebookAvailable {
+        if viewModel.showShareOnFacebook {
             doneButtonTopConstraint.isActive = false
             setupShareOnFacebook()
         }
@@ -180,7 +180,7 @@ final class ShareOnFacebookView: BaseView {
     }()
     private let footerLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemRegularFont(size: 9)
+        label.font = UIFont.smallBodyFont
         label.textColor = UIColor.white
         label.text = R.Strings.sellShareOnFacebookFooterLabel
         label.textAlignment = .center

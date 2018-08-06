@@ -81,9 +81,6 @@ final class CoreDI: InternalDI {
                                                 locationRepository: locationRepository,
                                                 deviceLocationDAO: deviceLocationDAO,
                                                 countryHelper: countryHelper)
-
-        let suggestedLocationsApiDataSource = SuggestedLocationsApiDataSource(apiClient: apiClient)
-
         let carsInfoDataSource = CarsInfoApiDataSource(apiClient: apiClient)
         let carsInfoCache: CarsInfoDAO = CarsInfoRealmDAO() ?? CarsInfoMemoryDAO()
         let carsInfoRepository = LGCarsInfoRepository(dataSource: carsInfoDataSource,
@@ -186,6 +183,9 @@ final class CoreDI: InternalDI {
 
         communityRepository = LGCommunityRepository(tokenDAO: tokenDAO)
 
+        let reportingDataSource = ReportingApiDataSource(apiClient: self.apiClient)
+        reportingRepository = LGReportingRepository(dataSource: reportingDataSource, myUserRepository: myUserRepository)
+
         self.reporter = ReporterProxy()
     }
 
@@ -244,6 +244,7 @@ final class CoreDI: InternalDI {
     let servicesInfoRepository: ServicesInfoRepository
     let listingRepository: ListingRepository
     let communityRepository: CommunityRepository
+    let reportingRepository: ReportingRepository
 
     lazy var fileRepository: FileRepository = {
         let dataSource = FileApiDataSource(apiClient: self.apiClient)

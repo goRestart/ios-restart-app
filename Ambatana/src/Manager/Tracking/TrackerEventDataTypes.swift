@@ -52,8 +52,6 @@ enum EventName: String {
     case listingMarkAsSoldAtLetgo           = "product-detail-sold-at-letgo"
     case listingMarkAsSoldOutsideLetgo      = "product-detail-sold-outside-letgo"
     case listingMarkAsUnsold                = "product-detail-unsold"
-    case listingReport                      = "product-detail-report"
-    case listingReportError                 = "product-detail-report-error"
 
     case productDetailPlayVideo             = "product-detail-play-video"
     
@@ -73,6 +71,12 @@ enum EventName: String {
     case listingSellConfirmationShareCancel = "product-sell-confirmation-share-cancel"
     case listingSellConfirmationShareComplete = "product-sell-confirmation-share-complete"
     case listingSellAbandon                 = "product-sell-abandon"
+    case listingSellCategorySelect          = "product-sell-type-select"
+    case listingSellPermissionsGrant        = "product-sell-permissions-grant"
+    case listingSellMediaSource             = "product-sell-media-source"
+    case listingSellMediaCapture            = "product-sell-media-capture"
+    case listingSellMediaChange             = "product-sell-media-change"
+    case listingSellMediaPublish            = "product-sell-media-publish"
     
     case listingEditStart                   = "product-edit-start"
     case listingEditFormValidationFailed    = "product-edit-form-validation-failed"
@@ -101,7 +105,6 @@ enum EventName: String {
     case profileEditEditName                = "profile-edit-edit-name"
     case profileEditEditLocationStart       = "profile-edit-edit-location-start"
     case profileEditEditPicture             = "profile-edit-edit-picture"
-    case profileReport                      = "profile-report"
     case profileBlock                       = "profile-block"
     case profileUnblock                     = "profile-unblock"
     case profileShareStart                  = "profile-share-start"
@@ -212,6 +215,13 @@ enum EventName: String {
     case chatTabOpen                        = "chat-tab-open"
     case chatCallToActionTapped             = "chat-call-to-action-tapped"
 
+    case profileReport                      = "profile-report"
+    case profileReportUpdateSent            = "profile-report-update-sent"
+    case profileReportUpdateComplete        = "profile-report-update-complete"
+    case listingReport                      = "product-detail-report"
+    case listingReportError                 = "product-detail-report-error"
+    case productReportUpdateSent            = "product-report-update-sent"
+    case productReportUpdateComplete        = "product-report-update-complete"
 
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
@@ -303,6 +313,7 @@ enum EventParameterName: String {
     case campaign             = "campaign"
     case medium               = "medium"
     case source               = "source"
+    case previousSource       = "previous-source"
     case itemPosition         = "item-position"
     case expressConversations = "express-conversations"
     case collectionTitle      = "collection-title"
@@ -399,6 +410,13 @@ enum EventParameterName: String {
     case isVideo              = "is-video"
     case messageGoal          = "message-goal"
     case productCounter       = "product-counter"
+    case pictureUploaded      = "picture-uploaded"
+    case loggedUser           = "logged-user"
+    case mediaType            = "media-type"
+    case originalFileSize     = "original-file-size"    
+    case cameraSide           = "camera-side"
+    case hasError             = "has-error"
+    case fileCount            = "file-count"
     
     case marketingNotificationsEnabled  = "marketing-notifications-enabled"
 
@@ -429,6 +447,15 @@ enum EventParameterName: String {
     case returnedResults    = "returned-results"
     case featuredResults    = "featured-results"
     case action             = "action"
+
+    // Reporting (fosta-sesta)
+    case profileReportReason = "profile-report-reason"
+    case profileReportSubReason = "profile-report-subreason"
+    case comment = "comment"
+    case productReportReason = "product-report-reason"
+    case productReportSubReason = "product-report-subreason"
+    case experienceRating = "experience-rating"
+
 }
 
 enum EventParameterBoolean: String {
@@ -463,6 +490,7 @@ enum EventParameterLoginSourceValue: String {
     case directChat = "direct-chat"
     case directQuickAnswer = "direct-quick-answer"
     case chatProUser = "chat-pro-user"
+    case community = "community"
 }
 
 enum EventParameterProductItemType: String {
@@ -480,6 +508,8 @@ enum EventParameterButtonNameType: String {
     case sellYourStuff = "sell-your-stuff"
     case startMakingCash = "start-making-cash"
     case realEstatePromo = "real-estate-promo"
+    case cancelSelectType = "cancel-select-type"
+    case tapOutside = "tap-outside"
 }
 
 enum EventParameterButtonType: String {
@@ -519,10 +549,15 @@ enum EventParameterNegotiablePrice: String {
     case no = "no"
 }
 
-enum EventParameterPictureSource: String {
+enum EventParameterMediaSource: String {
     case camera = "camera"
     case gallery = "gallery"
     case videoCamera = "video-camera"
+}
+
+enum EventParameterCameraSide: String {
+    case front = "front"
+    case back = "back"
 }
 
 enum EventParameterSortBy: String {
@@ -565,9 +600,20 @@ enum EventParameterPostingAbandonStep: String {
     case retry = "retry"
     case summaryOnboarding = "summary-onboarding"
     case welcomeOnboarding = "welcome-onboarding"
+    case mostSearchItems = "most-search-items"
+    case productSellTypeSelect = "product-sell-type-select"
+
+    case capturePhoto = "capture-photo"
+    case imagePreview = "image-preview"
+    case uploadingImage = "uploading-image"
+    case uploadingVideo = "uploading-video"
+    case addingDetails = "adding-details"
+    case errorUpload = "error-upload"
+    case none = "N/A"
     
     static var allValues: [EventParameterPostingAbandonStep] {
-        return [.cameraPermissions, .retry, .summaryOnboarding, .welcomeOnboarding]
+        return [.cameraPermissions, .retry, .summaryOnboarding, .welcomeOnboarding, .mostSearchItems,
+                .productSellTypeSelect]
     }
 }
 
@@ -932,12 +978,14 @@ enum EventParameterTypePage: String {
     case nextItem = "next-item"
     case feed = "feed"
     case notificationCenter = "notification-center"
+    case report = "report"
 }
 
 enum EventParameterPermissionType: String {
     case push = "push-notification"
     case location = "gps"
     case camera = "camera"
+    case gallery = "gallery"
 }
 
 enum EventParameterPermissionAlertType: String {
@@ -1202,6 +1250,7 @@ enum EventParameterBumpUpType: String {
     case free = "free"
     case paid = "paid"
     case retry = "retry"
+    case loading = "loading"
 
     init(bumpType: BumpUpType) {
         switch bumpType {
@@ -1211,6 +1260,8 @@ enum EventParameterBumpUpType: String {
             self = .paid
         case .restore:
             self = .retry
+        case .loading:
+            self = .loading
         }
     }
 }
@@ -1418,6 +1469,24 @@ enum EventParameterUserBadge: String {
         case .noBadge: self = .noBadge
         case .gold: self = .gold
         case .silver: self = .silver
+        }
+    }
+}
+
+enum EventParameterReportingRating: Int {
+    case verySad = 1
+    case sad = 2
+    case neutral = 3
+    case happy = 4
+    case veryHappy = 5
+
+    init(reportType: ReportUpdateButtonType) {
+        switch reportType {
+        case .verySad: self = .verySad
+        case .sad: self = .sad
+        case .neutral: self = .neutral
+        case .happy: self = .happy
+        case .veryHappy: self = .veryHappy
         }
     }
 }

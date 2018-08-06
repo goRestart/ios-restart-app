@@ -35,6 +35,6 @@ final class StickersUDDAO: StickersDAO {
     */
     private func fetch() -> [Sticker] {
         guard let array = userDefaults.array(forKey: StickersUDDAO.StickersKey) as? [[String: Any]] else { return [] }
-        return array.flatMap { LGSticker.decode($0) }
+        return array.compactMap { LGSticker.decode($0) }
     }
 }

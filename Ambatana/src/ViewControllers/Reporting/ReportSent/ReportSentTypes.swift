@@ -24,6 +24,15 @@ enum ReportSentType {
         }
     }
 
+    var isForProduct: Bool {
+        switch self {
+        case .productBasic:
+            return true
+        case .userBasic, .userBlockA, .userBlockB, .userLawEnforcement, .userLawEnforcementBlock:
+            return false
+        }
+    }
+
     var title: String {
         switch self {
         case .productBasic: return R.Strings.reportingListingReportSentTitle

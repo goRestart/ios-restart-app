@@ -1095,6 +1095,9 @@
 // Edit product, long version copy to feature item
 "edit_product_feature_label_long_text" = "Feature your listing to sell faster";
 
+// Edit price type, title of options list
+"edit_priceType_choose_title" = "Choose an option";
+
 // Bubble title
 "engagement_badging_feed_bubble" = "New items";
 
@@ -1794,6 +1797,21 @@
 
 // Button to accept push notifications permissions
 "notifications_permissions_yes_button" = "Yes, Notify Me";
+
+// Notification center section with today title
+"notifications_section_today" = "Today";
+
+// Notification center section with yesterday title
+"notifications_section_yesterday" = "Yesterday";
+
+// Notification center section with n days ago title
+"notifications_section_days_ago" = "%i days ago";
+
+// Notification center section with n weeks ago title
+"notifications_section_weeks_ago" = "%i weeks ago";
+
+// Notification center section with n months ago title
+"notifications_section_months_ago" = "%i months ago";
 
 // Title of notifications section
 "notifications_title" = "Notifications";
@@ -2995,6 +3013,27 @@
 // Text shown as a placeholder in the textfield to search a country in the country list.
 "phone_verification_country_picker_view_search_placeholder" = "Search";
 
+// Text shown for references to Hourly price type
+"priceType_hourly" = "Hourly";
+
+// Text shown for references to Daily price type
+"priceType_daily" = "Daily";
+
+// Text shown for references to Biweekly price type
+"priceType_biweekly" = "Biweekly";
+
+// Text shown for references to Weekly price type
+"priceType_weekly" = "Weekly";
+
+// Text shown for references to Monthly price type
+"priceType_monthly" = "Monthly";
+
+// Text shown for references to Yearly price type
+"priceType_yearly" = "Yearly";
+
+// Text shown for references to OneOff price type
+"priceType_oneOff" = "One-time";
+
 // Text in a tooltip shown when the current user sees a user with a badge for the first time
 "profile_reputation_tooltip_title" = "Verified user! Tap if you want to be verified too.";
 
@@ -3627,7 +3666,7 @@
 "reporting_listing_update_title" = "Report update";
 
 // Text shown in the Report Update view. Including the product name and the seller name
-"reporting_listing_update_text" = "Thanks for anonymously reporting \"%@\" posted by %@. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing this item, we have removed it because it violated our Community Guidelines.";
+"reporting_listing_update_text" = "Thanks for anonymously reporting \"%1$@\" posted by %2$@. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing this item, we have removed it because it violated our Community Guidelines.";
 
 // Title shown to ask the reporter for how the experience was
 "reporting_listing_update_feedback_title" = "How was this experience?";

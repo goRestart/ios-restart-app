@@ -13,7 +13,7 @@ public class ServicesEditionParams: ServicesCreationParams {
         guard let serviceId = service.objectId, let userId = service.user.objectId else { return nil }
         self.serviceId = serviceId
         self.userId = userId
-        let videos: [Video] = service.media.flatMap(LGVideo.init)
+        let videos: [Video] = service.media.compactMap(LGVideo.init)
         super.init(name: service.name,
                    description: service.descr,
                    price: service.price,

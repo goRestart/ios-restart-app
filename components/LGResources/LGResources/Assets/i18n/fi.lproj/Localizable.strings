@@ -358,6 +358,7 @@
 "discarded_products_reason_poor_ad_quality" = "Ei noudata toimintaohjeita";
 "discarded_products_reason_reference_to_competitors" = "Viittaukset muihin sovelluksiin tai sivustolle";
 "discarded_products_reason_stock_photo_only" = "Sisältää vain mallikuvia";
+"edit_priceType_choose_title" = "Choose an option";
 "edit_product_feature_label_long_text" = "Nosta ilmoituksesi esiin tehdäksesi kaupat nopeammin";
 "edit_product_feature_label_short_text" = "Myy nopeammin nyt";
 "edit_product_location_alert_text" = "Vaihtaaksesi sijainnin, josta ilmoituksesi julkaistaan, anna lupa käyttää sijaintiasi";
@@ -369,6 +370,7 @@
 "edit_product_title" = "Muokkaa ilmoitusta";
 "edit_product_unsaved_changes_alert" = "Haluatko varmasti hylätä nämä muutokset?";
 "edit_product_unsaved_changes_alert_ok" = "Hylkää";
+"engagement_badging_feed_bubble" = "New items";
 "featured_info_view_increase_visibility" = "Saat lisää näkyvyyttä";
 "featured_info_view_more_buyers" = "Houkuttele enemmän ostajia";
 "featured_info_view_sell_faster" = "Myy nopeammin";
@@ -724,6 +726,13 @@
 "post_queued_requests_state_listing_posted" = "Ilmoitus julkaistu!";
 "post_queued_requests_state_posting_listing" = "Julkaistaan ilmoitusta...";
 "posting_button_skip" = "Ohita";
+"priceType_biweekly" = "Kahden viikon taksa";
+"priceType_daily" = "Päivätaksa";
+"priceType_hourly" = "Tuntitaksa";
+"priceType_monthly" = "Kuukausitaksa";
+"priceType_oneOff" = "Kertamaksu";
+"priceType_weekly" = "Viikkotaksa";
+"priceType_yearly" = "Vuositaksa";
 "product_auto_generated_title_label" = "letgon automaattisesti luoma otsikko";
 "product_auto_generated_translated_title_label" = "(ja Googlen kääntämä)";
 "product_bubble_favorite_button" = "Kerro myyjälle asiasta!";
@@ -1176,7 +1185,7 @@
 "reporting_listing_update_feedback_good" = "Mahtavaa!";
 "reporting_listing_update_feedback_medium" = "Kiitos!";
 "reporting_listing_update_feedback_title" = "Millainen tämä kokemus oli?";
-"reporting_listing_update_text" = "Kiitos, että ilmiannoit käyttäjän %@ julkaiseman \"%@\". Tämänlainen palaute auttaa meitä pitämään letgon yhteisön turvallisena.\n\nTarkastettuamme tämän kohteen olemme poistaneet sen, koska se rikkoi yhteisömme ohjesääntöjä.";
+"reporting_listing_update_text" = "Kiitos, että ilmiannoit käyttäjän %2$@ julkaiseman \"%1$@\". Tämänlainen palaute auttaa meitä pitämään letgon yhteisön turvallisena.\n\nTarkastettuamme tämän kohteen olemme poistaneet sen, koska se rikkoi yhteisömme ohjesääntöjä.";
 "reporting_listing_update_title" = "Ilmianna päivitys";
 "reporting_reason_bio" = "Biografia";
 "reporting_reason_counterfeit_money" = "Maksoi väärennetyllä rahalla";
@@ -1242,6 +1251,7 @@
 "search_alert_enable_error_message" = "Hups! Hakuvahtiasi aktivoitaessa tapahtui virhe.";
 "search_alert_error_too_many_button_text" = "Hallinnoi ilmoituksia";
 "search_alert_error_too_many_text" = "Hups! Sinulla on jo käytössäsi maksimimäärä hakuvahteja";
+"search_alerts_disabled_oldest_message" = "Hakuvahtiesi maksimäärä on ylittynyt, joten kytkimme vanhimman pois päältä ja aktivoimme tämän vahdin.";
 "search_alerts_edit_button" = "Muokkaa";
 "search_alerts_header_subtitle" = "Saa ilmoituksia uusista ilmoituksista";
 "search_alerts_list_title" = "Hakuvahdit";

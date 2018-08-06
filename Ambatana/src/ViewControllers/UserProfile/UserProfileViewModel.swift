@@ -9,6 +9,7 @@ enum UserSource {
     case chat
     case notifications
     case link
+    case mainListing
 }
 
 struct UserViewHeaderAccounts {
@@ -47,6 +48,8 @@ final class UserProfileViewModel: BaseViewModel {
 
     // Flag to define if there is a logged in user that allows special actions
     var isLoggedInUser: Bool { return sessionManager.loggedIn }
+
+    var showCloseButtonInNavBar: Bool { return source == .mainListing }
 
     let arePushNotificationsEnabled = Variable<Bool?>(nil)
     var showPushPermissionsBanner: Bool {
@@ -220,10 +223,14 @@ final class UserProfileViewModel: BaseViewModel {
 // MARK: - Public methods
 
 extension UserProfileViewModel {
+
+    func didTapCloseButton() {
+        profileNavigator?.closeProfile()
+    }
     
     func didTapKarmaScoreView() {
         guard isPrivateProfile else { return }
-        profileNavigator?.openVerificationView()
+        profileNavigator?.openUserVerificationView()
         trackVerifyAccountStart()
     }
 
@@ -680,6 +687,8 @@ extension UserProfileViewModel {
             typePage = .notifications
         case .link:
             typePage = .external
+        case .mainListing:
+            typePage = .listingList
         }
 
         let eventTab: EventParameterTab

@@ -5,19 +5,30 @@ import LGComponents
 class TabBarViewModel: BaseViewModel {
     weak var navigator: AppNavigator?
 
+    static let engagementBadgingIndicatorValue = "·"
+    
     var notificationsBadge = Variable<String?>(nil)
     var chatsBadge = Variable<String?>(nil)
     var sellBadge = Variable<String?>(nil)
+    var homeBadge = Variable<String?>(nil)
     
     var shouldShowRealEstateTooltip: Bool {
         return featureFlags.realEstateEnabled.isActive &&
             !keyValueStorage[.realEstateTooltipSellButtonAlreadyShown]
+    }
+    var shouldShowHomeBadge: Bool {
+        return featureFlags.engagementBadging.isActive
+    }
+    var userIsLoggedIn: Bool {
+        return sessionManager.loggedIn
     }
 
     private let notificationsManager: NotificationsManager
     private let myUserRepository: MyUserRepository
     private let keyValueStorage: KeyValueStorage
     private let featureFlags: FeatureFlaggeable
+    private let tracker: Tracker
+    private let sessionManager: SessionManager
     
     private let disposeBag = DisposeBag()
 
@@ -28,17 +39,23 @@ class TabBarViewModel: BaseViewModel {
         self.init(notificationsManager: LGNotificationsManager.sharedInstance,
                   myUserRepository: Core.myUserRepository,
                   keyValueStorage: KeyValueStorage.sharedInstance,
-                  featureFlags: FeatureFlags.sharedInstance)
+                  featureFlags: FeatureFlags.sharedInstance,
+                  tracker: TrackerProxy.sharedInstance,
+                  sessionManager: Core.sessionManager)
     }
 
     init(notificationsManager: NotificationsManager,
          myUserRepository: MyUserRepository,
          keyValueStorage: KeyValueStorage,
-         featureFlags: FeatureFlaggeable) {
+         featureFlags: FeatureFlaggeable,
+         tracker: Tracker,
+         sessionManager: SessionManager) {
         self.notificationsManager = notificationsManager
         self.myUserRepository = myUserRepository
         self.keyValueStorage = keyValueStorage
         self.featureFlags = featureFlags
+        self.tracker = tracker
+        self.sessionManager = sessionManager
         super.init()
         setupRx()
     }
@@ -46,13 +63,10 @@ class TabBarViewModel: BaseViewModel {
 
     // MARK: - Public methods
 
-    func sellButtonPressed() {
-        navigator?.openSell(source: .sellButton, postCategory: nil, listingTitle: nil)
-    }
-    
-    func expandableButtonPressed(listingCategory: ListingCategory) {
+    func expandableButtonPressed(listingCategory: ListingCategory, source: PostingSource) {
         let postCategory = listingCategory.postingCategory(with: featureFlags)
-        navigator?.openSell(source: .sellButton, postCategory: postCategory, listingTitle: nil)
+        trackSelectCategory(source: source, category: postCategory)
+        navigator?.openSell(source: source, postCategory: postCategory, listingTitle: nil)
     }
     
     func realEstateTooltipText() -> NSMutableAttributedString {
@@ -100,5 +114,18 @@ class TabBarViewModel: BaseViewModel {
                 return count.flatMap { $0 > 0 ? String($0) : nil }
             }).bind(to: notificationsBadge)
             .disposed(by: disposeBag)
+
+        notificationsManager.engagementBadgingNotifications.asObservable()
+            .map { $0 ? TabBarViewModel.engagementBadgingIndicatorValue : nil }
+            .bind(to: homeBadge)
+            .disposed(by: disposeBag)
+    }
+
+    // MARK: - Trackings
+
+    private func trackSelectCategory(source:PostingSource, category: PostCategory) {
+        tracker.trackEvent(TrackerEvent.listingSellCategorySelect(typePage: source.typePage,
+                                                                  postingType: EventParameterPostingType(category: category),
+                                                                  category: category.listingCategory))
     }
 }

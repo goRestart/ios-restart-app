@@ -11,7 +11,7 @@ import Foundation
 class ChatModelsMapper {
     static func messagesFromDict(_ dict: [AnyHashable : Any]) -> [ChatMessage] {
         guard let array = dict["messages"] as? [[AnyHashable : Any]] else { return [] }
-        return array.map(messageFromDict).flatMap{$0}
+        return array.map(messageFromDict).compactMap{$0}
     }
     
     static func messageFromDict(_ dict: [AnyHashable : Any]) -> ChatMessage? {
@@ -27,7 +27,7 @@ class ChatModelsMapper {
     
     static func conversationsFromDict(_ dict: [AnyHashable : Any]) -> [ChatConversation] {
         guard let array = dict["conversations"] as? [[AnyHashable : Any]] else { return [] }
-        return array.map(conversationFromDict).flatMap{$0}
+        return array.map(conversationFromDict).compactMap{$0}
     }
     
     static func conversationFromDict(_ dict: [AnyHashable : Any]) -> ChatConversation? {
@@ -65,7 +65,7 @@ class ChatModelsMapper {
             logMessage(.debug, type: .parsing, message: "could not parse inactiveConversationCount - key: inactive_conversations - \(dict)")
             return []
         }
-        return array.flatMap(inactiveConversation)
+        return array.compactMap(inactiveConversation)
     }
     
     static func inactiveConversation(from dict: [AnyHashable : Any]) -> ChatInactiveConversation? {

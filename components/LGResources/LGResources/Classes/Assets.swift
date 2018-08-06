@@ -247,6 +247,12 @@ extension R {
         public static let showMore = ImageAsset(name: "showMore")
         public static let techFeed = ImageAsset(name: "tech_feed")
       }
+      public enum Community {
+        public static let icCommunityBanner = ImageAsset(name: "ic_community_banner")
+        public static let shapeBrightblue = ImageAsset(name: "shapeBrightblue")
+        public static let shapeDarkblue = ImageAsset(name: "shapeDarkblue")
+        public static let shapeYellow = ImageAsset(name: "shapeYellow")
+      }
       public enum IAmInterested {
         public static let icIamiSeeconv = ImageAsset(name: "ic_iami_seeconv")
         public static let icIamiSend = ImageAsset(name: "ic_iami_send")
@@ -361,6 +367,7 @@ extension R {
       public static let icCheckboxSelected = ImageAsset(name: "ic_checkbox_selected")
       public static let icCheckmark = ImageAsset(name: "ic_checkmark")
       public static let icChevronRight = ImageAsset(name: "ic_chevron_right")
+      public static let icChevronUp = ImageAsset(name: "ic_chevron_up")
       public static let icCirlePlus = ImageAsset(name: "ic_cirle_plus")
       public static let icClose = ImageAsset(name: "ic_close")
       public static let icCloseCarousel = ImageAsset(name: "ic_close_carousel")
@@ -526,11 +533,13 @@ extension R {
       public static let navbarShare = ImageAsset(name: "navbar_share")
       public static let navbarShareRed = ImageAsset(name: "navbar_share_red")
       public static let oval = ImageAsset(name: "oval")
+      public static let priceTypeDisclosureIndicator = ImageAsset(name: "priceTypeDisclosureIndicator")
       public static let productPlaceholder = ImageAsset(name: "product_placeholder")
       public static let rightChevron = ImageAsset(name: "right_chevron")
       public static let searchAlertIcon = ImageAsset(name: "search_alert_icon")
       public static let servicesIcon = ImageAsset(name: "servicesIcon")
       public static let tabbarChats = ImageAsset(name: "tabbar_chats")
+      public static let tabbarCommunity = ImageAsset(name: "tabbar_community")
       public static let tabbarHome = ImageAsset(name: "tabbar_home")
       public static let tabbarNotifications = ImageAsset(name: "tabbar_notifications")
       public static let tabbarProfile = ImageAsset(name: "tabbar_profile")
@@ -567,6 +576,10 @@ extension R {
         CategoriesHeaderIcons.servicesFeed,
         CategoriesHeaderIcons.showMore,
         CategoriesHeaderIcons.techFeed,
+        Community.icCommunityBanner,
+        Community.shapeBrightblue,
+        Community.shapeDarkblue,
+        Community.shapeYellow,
         IAmInterested.icIamiSeeconv,
         IAmInterested.icIamiSend,
         NewItemPage.nitEdit,
@@ -659,6 +672,7 @@ extension R {
         icCheckboxSelected,
         icCheckmark,
         icChevronRight,
+        icChevronUp,
         icCirlePlus,
         icClose,
         icCloseCarousel,
@@ -822,11 +836,13 @@ extension R {
         navbarShare,
         navbarShareRed,
         oval,
+        priceTypeDisclosureIndicator,
         productPlaceholder,
         rightChevron,
         searchAlertIcon,
         servicesIcon,
         tabbarChats,
+        tabbarCommunity,
         tabbarHome,
         tabbarNotifications,
         tabbarProfile,

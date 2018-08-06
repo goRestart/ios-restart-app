@@ -20,7 +20,9 @@ final class NotificationsTabCoordinator: TabCoordinator {
                   chatRepository: chatRepository, myUserRepository: myUserRepository,
                   installationRepository: installationRepository, bubbleNotificationManager: bubbleNotificationManager,
                   keyValueStorage: keyValueStorage, tracker: tracker,
-                  rootViewController: rootViewController, featureFlags: featureFlags, sessionManager: sessionManager)
+                  rootViewController: rootViewController, featureFlags: featureFlags,
+                  sessionManager: sessionManager,
+                  deeplinkMailBox: LGDeepLinkMailBox.sharedInstance)
 
         viewModel.navigator = self
     }
@@ -40,6 +42,6 @@ extension NotificationsTabCoordinator: NotificationsTabNavigator {
     }
     
     func openNotificationDeepLink(deepLink: DeepLink) {
-        openDeepLink(deepLink)
+        navigate(with: deepLink)
     }
 }

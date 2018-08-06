@@ -117,7 +117,7 @@ final class ReportSentViewModel: BaseViewModel {
     }
 
     private func trackBlock(_ userId: String) {
-        let event = TrackerEvent.profileBlock(.profile, blockedUsersIds: [userId], buttonPosition: .others)
+        let event = TrackerEvent.profileBlock(.report, blockedUsersIds: [userId], buttonPosition: .others)
         tracker.trackEvent(event)
     }
 }

@@ -34,6 +34,10 @@ class TabCoordinator: NSObject, Coordinator {
     let featureFlags: FeatureFlaggeable
     let disposeBag = DisposeBag()
 
+    private let deeplinkMailBox: DeepLinkMailBox
+
+    private lazy var verificationAssembly: UserVerificationAssembly = LGUserVerificationBuilder.standard(nav: self.navigationController)
+
     weak var tabCoordinatorDelegate: TabCoordinatorDelegate?
     weak var appNavigator: AppNavigator?
 
@@ -45,7 +49,7 @@ class TabCoordinator: NSObject, Coordinator {
          myUserRepository: MyUserRepository, installationRepository: InstallationRepository,
          bubbleNotificationManager: BubbleNotificationManager,
          keyValueStorage: KeyValueStorage, tracker: Tracker, rootViewController: UIViewController,
-         featureFlags: FeatureFlaggeable, sessionManager: SessionManager) {
+         featureFlags: FeatureFlaggeable, sessionManager: SessionManager, deeplinkMailBox: DeepLinkMailBox) {
         self.listingRepository = listingRepository
         self.userRepository = userRepository
         self.chatRepository = chatRepository
@@ -60,6 +64,7 @@ class TabCoordinator: NSObject, Coordinator {
         self.navigationController = UINavigationController(rootViewController: rootViewController)
         self.listingCoordinator = ListingCoordinator(navigationController: navigationController)
         self.userCoordinator = UserCoordinator(navigationController: navigationController)
+        self.deeplinkMailBox = deeplinkMailBox
 
         super.init()
 
@@ -95,10 +100,6 @@ extension TabCoordinator: TabNavigator {
 
     func openSell(source: PostingSource, postCategory: PostCategory?) {
         appNavigator?.openSell(source: source, postCategory: postCategory, listingTitle: nil)
-    }
-
-    func openAppRating(_ source: EventParameterRatingSource) {
-        appNavigator?.openAppRating(source)
     }
 
     func openUserRating(_ source: RateUserSource, data: RateUserData) {
@@ -153,14 +154,12 @@ extension TabCoordinator: TabNavigator {
         navigationController.pushViewController(vc, animated: true)
     }
     
-    func openDeepLink(_ deeplink: DeepLink) {
+    private func openDeepLink(_ deeplink: DeepLink) {
         appNavigator?.openDeepLink(deepLink: deeplink)
     }
 
     func openUserVerificationView() {
-        let vm = UserVerificationViewModel()
-        vm.navigator = self
-        let vc = UserVerificationViewController(viewModel: vm)
+        let vc = verificationAssembly.buildUserVerification()
         navigationController.pushViewController(vc, animated: true)
     }
 
@@ -170,6 +169,10 @@ extension TabCoordinator: TabNavigator {
 
     var hidesBottomBarWhenPushed: Bool {
         return navigationController.viewControllers.count == 1
+    }
+
+    func openCommunityTab() {
+        appNavigator?.openCommunityTab()
     }
 }
 
@@ -263,73 +266,21 @@ fileprivate extension TabCoordinator {
     }
 }
 
-extension TabCoordinator: UserVerificationNavigator {
-    func closeUserVerification() {
-        let router = UserVerificationRouter(navigationController: navigationController)
-        router.closeUserVerification()
-    }
-
-    func openEmailVerification() {
-        let router = UserVerificationRouter(navigationController: navigationController)
-        router.openEmailVerification(verifyUserNavigator: self)
-    }
-
+extension TabCoordinator {
     func openEditUserBio() {
         let router = UserVerificationRouter(navigationController: navigationController)
-        router.openEditUserBio(navigator: self)
-    }
-
-    func openPhoneNumberVerification() {
-        let router = UserVerificationRouter(navigationController: navigationController)
-        router.openPhoneNumberVerification(navigator: self)
-    }
-}
-
-extension TabCoordinator: EditUserBioNavigator {
-    func closeEditUserBio() {
-        navigationController.popViewController(animated: true)
-    }
-}
-
-extension TabCoordinator: VerifyUserEmailNavigator {
-    func closeEmailVerification() {
-        navigationController.popViewController(animated: true)
-    }
-}
-
-extension TabCoordinator: UserPhoneVerificationNavigator {
-    func openCountrySelector(withDelegate delegate: UserPhoneVerificationCountryPickerDelegate) {
-        let vm = UserPhoneVerificationCountryPickerViewModel()
-        vm.navigator = self
-        vm.delegate = delegate
-        let vc = UserPhoneVerificationCountryPickerViewController(viewModel: vm)
-        navigationController.pushViewController(vc, animated: true)
-    }
-
-    func closeCountrySelector() {
-        navigationController.popViewController(animated: true)
-    }
-
-    func openCodeInput(sentTo phoneNumber: String, with callingCode: String) {
-        let vm = UserPhoneVerificationCodeInputViewModel(callingCode: callingCode,
-                                                         phoneNumber: phoneNumber)
-        vm.navigator = self
-        let vc = UserPhoneVerificationCodeInputViewController(viewModel: vm)
-        vm.delegate = vc
-        navigationController.pushViewController(vc, animated: true)
-    }
-
-    func closePhoneVerificaction() {
-        guard let vc = navigationController.viewControllers
-            .filter({ $0 is UserVerificationViewController }).first else { return }
-        navigationController.popToViewController(vc, animated: true)
+        router.openEditUserBio()
     }
 }
 
 // MARK: > ListingDetailNavigator
 
 extension TabCoordinator: ListingDetailNavigator {
-    
+    func openAppRating(_ source: EventParameterRatingSource) {
+        guard let url = URL.makeAppRatingDeeplink(with: source) else { return }
+        deeplinkMailBox.push(convertible: url)
+    }
+
     func openVideoPlayer(atIndex index: Int, listingVM: ListingViewModel, source: EventParameterListingVisitSource) {
         guard let coordinator = VideoPlayerCoordinator(atIndex: index, listingVM: listingVM, source: source) else {
             return
@@ -528,7 +479,7 @@ extension TabCoordinator: ListingDetailNavigator {
 
     func openUserReport(source: EventParameterTypePage, userReportedId: String) {
         if featureFlags.reportingFostaSesta.isActive {
-            let child = ReportCoordinator(type: .user, reportedId: userReportedId)
+            let child = ReportCoordinator(type: .user, reportedId: userReportedId, source: source)
             openChild(coordinator: child, parent: rootViewController, animated: true, forceCloseChild: false, completion: nil)
         } else {
             let vm = ReportUsersViewModel(origin: source, userReportedId: userReportedId)
@@ -537,8 +488,8 @@ extension TabCoordinator: ListingDetailNavigator {
         }
     }
 
-    func openListingReport(source: EventParameterTypePage, productId: String) {
-        let child = ReportCoordinator(type: .product, reportedId: productId)
+    func openListingReport(source: EventParameterTypePage, listing: Listing, productId: String) {
+        let child = ReportCoordinator(type: .product(listing: listing), reportedId: productId, source: source)
         openChild(coordinator: child, parent: rootViewController, animated: true, forceCloseChild: false, completion: nil)
     }
 
@@ -588,26 +539,15 @@ extension TabCoordinator: ListingDetailNavigator {
     }
 }
 
-
-// MARK: SimpleProductsNavigator
-
-extension TabCoordinator: SimpleProductsNavigator {
-    func closeSimpleProducts() {
-        navigationController.popViewController(animated: true)
-    }
-}
-
-
 // MARK: > ChatDetailNavigator
 
 extension TabCoordinator: ChatDetailNavigator {
+    func navigate(with convertible: DeepLinkConvertible) {
+        deeplinkMailBox.push(convertible: convertible)
+    }
+
     func closeChatDetail() {
         navigationController.popViewController(animated: true)
-    }
-    
-    func openDeeplink(url: URL) {
-        guard let deepLink = UriScheme.buildFromUrl(url)?.deepLink else { return }
-        openDeepLink(deepLink)
     }
 
     func openExpressChat(_ listings: [Listing], sourceListingId: String, manualOpen: Bool) {

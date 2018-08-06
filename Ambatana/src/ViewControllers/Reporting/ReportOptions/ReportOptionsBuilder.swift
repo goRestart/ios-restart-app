@@ -80,7 +80,7 @@ final class ReportOptionsBuilder {
             options: [
                 ReportOption(type: .notRespondingToMessages),
                 ReportOption(type: .offeringToTradeInsteadOfPayingInCash),
-                ReportOption(type: .offeringRoPayWithWesternUnionOrPaypal),
+                ReportOption(type: .offeringToPayWithWesternUnionOrPaypal),
                 ReportOption(type: .spamAccount),
                 ReportOption(type: .otherSuspiciousBehaviour)]
         )

@@ -35,7 +35,6 @@ enum ProductCarouselActionOnFirstAppear {
 protocol TabNavigator: class {
     func openHome()
     func openSell(source: PostingSource, postCategory: PostCategory?)
-    func openAppRating(_ source: EventParameterRatingSource)
     func openUserRating(_ source: RateUserSource, data: RateUserData)
     func openUser(_ data: UserDetailData)
     func openUser(user: User, source: UserSource)
@@ -46,11 +45,12 @@ protocol TabNavigator: class {
     func canOpenAppInvite() -> Bool
     func openRatingList(_ userId: String)
     func openUserReport(source: EventParameterTypePage, userReportedId: String)
-    func openListingReport(source: EventParameterTypePage, productId: String)
+    func openListingReport(source: EventParameterTypePage, listing: Listing, productId: String)
     func showUndoBubble(withMessage message: String,
                         duration: TimeInterval,
                         withAction action: @escaping () -> ())
     func openUserVerificationView()
+    func openCommunityTab()
 }
 
 protocol ListingDetailNavigator: class {
@@ -108,7 +108,7 @@ protocol ListingDetailNavigator: class {
     
     func openListingAttributeTable(withViewModel viewModel: ListingAttributeTableViewModel)
     func closeListingAttributeTable()
-    func openListingReport(source: EventParameterTypePage, productId: String)
+    func openListingReport(source: EventParameterTypePage, listing: Listing, productId: String)
 }
 
 protocol SimpleProductsNavigator: class {
@@ -116,9 +116,9 @@ protocol SimpleProductsNavigator: class {
     func openListing(_ data: ListingDetailData, source: EventParameterListingVisitSource, actionOnFirstAppear: ProductCarouselActionOnFirstAppear)
 }
 
-protocol ChatDetailNavigator: TabNavigator {
+protocol ChatDetailNavigator: TabNavigator, DeepLinkNavigator {
     func closeChatDetail()
-    func openDeeplink(url: URL)
+    func openAppRating(_ source: EventParameterRatingSource)
     func openExpressChat(_ listings: [Listing], sourceListingId: String, manualOpen: Bool)
     func selectBuyerToRate(source: RateUserSource,
                            buyers: [UserListing],

@@ -792,7 +792,7 @@ class LGWebSocketClient: WebSocketClient, WebSocketLibraryDelegate {
         case .authenticationTokenExpired: // -> Don't forward this event to the App
             renewUserToken()
         case .interlocutorMessageSent, .interlocutorReadConfirmed, .interlocutorReceptionConfirmed,
-             .interlocutorTypingStarted, .interlocutorTypingStopped:
+             .interlocutorTypingStarted, .interlocutorTypingStopped, .smartQuickAnswer:
             eventBus.onNext(event)
         case .talkerUnauthenticated: // -> Don't forward this event to the App
             authenticateWebSocket()

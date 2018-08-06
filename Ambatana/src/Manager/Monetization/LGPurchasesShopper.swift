@@ -457,6 +457,8 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         case .hidden, .free:
             // unlikely to happen
             retryCount = 1
+        case .loading:
+            retryCount = 0
         }
 
         recursiveRequestBumpWithPaymentInfo(listingId: listingId, transaction: transaction, type: type, currentBump: bump,

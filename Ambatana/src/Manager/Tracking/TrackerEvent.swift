@@ -512,17 +512,16 @@ struct TrackerEvent {
         return TrackerEvent(name: .listingReportError, params: params)
     }
 
-    static func listingSellStart(_ typePage: EventParameterTypePage,
+    static func listingSellStart(typePage: EventParameterTypePage,
                                  buttonName: EventParameterButtonNameType?,
                                  sellButtonPosition: EventParameterSellButtonPosition,
-                                 category: ListingCategory?,
-                                 predictiveFlow: Bool) -> TrackerEvent {
+                                 category: ListingCategory?) -> TrackerEvent {
         var params = EventParameters()
         params[.typePage] = typePage.rawValue
+        params[.listingVisitSource] = typePage.rawValue
         params[.buttonName] = buttonName?.rawValue
         params[.sellButtonPosition] = sellButtonPosition.rawValue
         params[.categoryId] = category?.rawValue ?? TrackerEvent.notApply
-        params[.mlPredictiveFlow] = predictiveFlow
         return TrackerEvent(name: .listingSellStart, params: params)
     }
     
@@ -530,7 +529,7 @@ struct TrackerEvent {
                                     buttonName: EventParameterButtonNameType?,
                                     sellButtonPosition: EventParameterSellButtonPosition?,
                                     negotiable: EventParameterNegotiablePrice?,
-                                    pictureSource: EventParameterPictureSource?,
+                                    pictureSource: EventParameterMediaSource?,
                                     videoLength: TimeInterval?,
                                     freePostingModeAllowed: Bool,
                                     typePage: EventParameterTypePage,
@@ -711,11 +710,70 @@ struct TrackerEvent {
             return TrackerEvent(name: .listingSellConfirmationShareComplete, params: params)
     }
     
-    static func listingSellAbandon(abandonStep: EventParameterPostingAbandonStep) -> TrackerEvent {
+    static func listingSellAbandon(abandonStep: EventParameterPostingAbandonStep,
+                                   pictureUploaded: EventParameterBoolean,
+                                   loggedUser: EventParameterBoolean,
+                                   buttonName: EventParameterButtonNameType) -> TrackerEvent {
         var params = EventParameters()
         params[.abandonStep] = abandonStep.rawValue
+        params[.pictureUploaded] = pictureUploaded.rawValue
+        params[.loggedUser] = loggedUser.rawValue
+        params[.buttonName] = buttonName.rawValue
         return TrackerEvent(name: .listingSellAbandon, params: params)
     }
+
+    static func listingSellPermissionsGrant(type: EventParameterPermissionType) -> TrackerEvent {
+        var params = EventParameters()
+        params[.permissionType] = type.rawValue
+        return TrackerEvent(name: .listingSellPermissionsGrant, params: params)
+    }
+
+    static func listingSellCategorySelect(typePage: EventParameterTypePage,
+                                          postingType: EventParameterPostingType,
+                                          category: ListingCategory) -> TrackerEvent {
+        var params = EventParameters()
+        params[.listingVisitSource] = typePage.rawValue
+        params[.postingType] = postingType.rawValue
+        params[.categoryId] = category.rawValue
+        return TrackerEvent(name: .listingSellCategorySelect, params: params)
+    }
+
+    static func listingSellMediaSource(source: EventParameterMediaSource,
+                                       previousSource: EventParameterMediaSource?,
+                                       predictiveFlow: Bool) -> TrackerEvent {
+        var params = EventParameters()
+        params[.source] = source.rawValue
+        params[.previousSource] = previousSource?.rawValue ?? ""
+        params[.mlPredictiveFlow] = EventParameterBoolean(bool: predictiveFlow).rawValue
+        return TrackerEvent(name: .listingSellMediaSource, params: params)
+    }
+
+    static func listingSellMediaCapture(source: EventParameterMediaSource,
+                                        cameraSide: EventParameterCameraSide? = nil,
+                                        fileCount: Int = 1,
+                                        hasError: EventParameterBoolean = .falseParameter,
+                                        predictiveFlow: EventParameterBoolean) -> TrackerEvent {
+        var params = EventParameters()
+        params[.mediaType] = source.rawValue
+        params[.cameraSide] = cameraSide?.rawValue ?? ""
+        params[.hasError] = hasError.rawValue
+        params[.fileCount] = fileCount
+        params[.mlPredictiveFlow] = predictiveFlow.rawValue
+        return TrackerEvent(name: .listingSellMediaCapture, params: params)
+    }
+
+    static func listingSellMediaChange(source: EventParameterMediaSource) -> TrackerEvent {
+        var params = EventParameters()
+        params[.mediaType] = source.rawValue
+        return TrackerEvent(name: .listingSellMediaChange, params: params)
+    }
+
+    static func listingSellMediaPublish(source: EventParameterMediaSource, size: Int?) -> TrackerEvent {
+        var params = EventParameters()
+        params[.mediaType] = source.rawValue
+        params[.originalFileSize] = size ?? 0
+        return TrackerEvent(name: .listingSellMediaPublish, params: params)
+    }    
     
     static func listingEditError(_ user: User?,
                                  listing: Listing?,
@@ -1557,7 +1615,76 @@ struct TrackerEvent {
         let dynamicParams = TrackerEvent.makeDynamicEventParameters(dynamicParameters: dynamicParameters)
         return TrackerEvent(name: .emailNotificationsEditStart, params: dynamicParams)
     }
-    
+
+    static func productReport(listing: Listing,
+                              reason: ReportOptionType,
+                              subreason: ReportOptionType?,
+                              hasComment: EventParameterBoolean) -> TrackerEvent {
+        var params = EventParameters()
+        params.addListingParams(listing)
+        params[.productReportReason] = reason.rawValue
+        if let subreason = subreason {
+            params[.productReportSubReason] = subreason.rawValue
+        }
+        params[.comment] = hasComment.rawValue
+        return TrackerEvent(name: .listingReport, params: params)
+    }
+
+    static func userReport(typePage: EventParameterTypePage,
+                           reportedUserId: String,
+                           reason: ReportOptionType,
+                           subreason: ReportOptionType?,
+                           hasComment: EventParameterBoolean) -> TrackerEvent {
+        var params = EventParameters()
+        params[.typePage] = typePage.rawValue
+        params[.userToId] = reportedUserId
+        params[.profileReportReason] = reason.rawValue
+        if let subreason = subreason {
+            params[.profileReportSubReason] = subreason.rawValue
+        }
+        params[.comment] = hasComment.rawValue
+        return TrackerEvent(name: .profileReport, params: params)
+    }
+
+    static func profileReportUpdateSent(userId: String, reportedUserId: String) -> TrackerEvent {
+        var params = EventParameters()
+        params[.userId] = userId
+        params[.userToId] = reportedUserId
+        return TrackerEvent(name: .profileReportUpdateSent, params: params)
+    }
+
+    static func profileReportUpdateCompleted(userId: String,
+                                             reportedUserId: String,
+                                             rating: EventParameterReportingRating) -> TrackerEvent {
+        var params = EventParameters()
+        params[.userId] = userId
+        params[.userToId] = reportedUserId
+        params[.experienceRating] = rating.rawValue
+        return TrackerEvent(name: .profileReportUpdateComplete, params: params)
+    }
+
+    static func productReportUpdateSent(userId: String,
+                                        reportedUserId: String,
+                                        listingId: String) -> TrackerEvent {
+        var params = EventParameters()
+        params[.userId] = userId
+        params[.userToId] = reportedUserId
+        params[.listingId] = listingId
+        return TrackerEvent(name: .productReportUpdateSent, params: params)
+    }
+
+    static func producReportUpdateCompleted(userId: String,
+                                            reportedUserId: String,
+                                            listingId: String,
+                                            rating: EventParameterReportingRating) -> TrackerEvent {
+        var params = EventParameters()
+        params[.userId] = userId
+        params[.userToId] = reportedUserId
+        params[.listingId] = listingId
+        params[.experienceRating] = rating.rawValue
+        return TrackerEvent(name: .productReportUpdateComplete, params: params)
+    }
+
     static private func makeDynamicEventParameters(dynamicParameters: [String: Bool]) -> EventParameters {
         var dynamicParams = EventParameters()
         let parameterEnabledAddition = "-enabled"
@@ -1566,7 +1693,6 @@ struct TrackerEvent {
         }
         return dynamicParams
     }
-
 
     // MARK: - Private methods
     

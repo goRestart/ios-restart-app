@@ -48,6 +48,9 @@ public struct MockChatEvent: ChatEvent {
         case .talkerUnauthenticated:
             result[typeRawValue] = ChatEventTypeDecodable.talkerUnauthenticated.rawValue
             result[dataRawValue] = makeTalkerAuthenticatedData(talkerId: talkerId)
+        case .smartQuickAnswer(let chatSmartQuickAnswer):
+            result[typeRawValue] = ChatEventTypeDecodable.smartQuickAnswer.rawValue
+            result[dataRawValue] = MockChatSmartQuickAnswers(from: chatSmartQuickAnswer).makeDictionary()
         }
         return result
     }

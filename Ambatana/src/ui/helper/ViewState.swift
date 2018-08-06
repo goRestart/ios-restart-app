@@ -8,7 +8,7 @@
 
 import LGCoreKit
 
-enum ViewState {
+enum ViewState: Equatable {
     case loading
     case data
     case empty(LGEmptyViewModel)
@@ -37,6 +37,15 @@ enum ViewState {
         case .empty:
             return true
         case .data, .error, .loading:
+            return false
+        }
+    }
+    
+    var isError: Bool {
+        switch self {
+        case .error:
+            return true
+        case .data, .empty, .loading:
             return false
         }
     }

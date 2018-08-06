@@ -1,36 +1,35 @@
 import Foundation
 
-final class UserVerificationRouter {
+final class UserVerificationRouter: UserVerificationNavigator {
+    private weak var navigationController: UINavigationController?
+    private let assembly: UserVerificationAssembly
 
-    let navigationController: UINavigationController
+    convenience init(navigationController: UINavigationController) {
+        self.init(navigationController: navigationController,
+                  assembly: LGUserVerificationBuilder.standard(nav: navigationController))
+    }
 
-    init(navigationController: UINavigationController) {
+    init(navigationController: UINavigationController, assembly: UserVerificationAssembly) {
         self.navigationController = navigationController
+        self.assembly = assembly
     }
 
     func closeUserVerification() {
-        navigationController.popViewController(animated: true)
+        navigationController?.popViewController(animated: true)
     }
 
-    func openEmailVerification(verifyUserNavigator: VerifyUserEmailNavigator?) {
-        let vm = UserVerificationEmailViewModel()
-        vm.navigator = verifyUserNavigator
-        let vc = UserVerificationEmailViewController(viewModel: vm)
-        navigationController.pushViewController(vc, animated: true)
+    func openEmailVerification() {
+        let vc = assembly.buildEmailVerification()
+        navigationController?.pushViewController(vc, animated: true)
     }
 
-    func openEditUserBio(navigator: EditUserBioNavigator?) {
-        let vm = EditUserBioViewModel()
-        vm.navigator = navigator
-        let vc = EditUserBioViewController(viewModel: vm)
-        navigationController.pushViewController(vc, animated: true)
+    func openEditUserBio() {
+        let vc = assembly.buildEditUserBio()
+        navigationController?.pushViewController(vc, animated: true)
     }
 
-    func openPhoneNumberVerification(navigator: UserPhoneVerificationNavigator?) {
-        let vm = UserPhoneVerificationNumberInputViewModel()
-        vm.navigator = navigator
-        let vc = UserPhoneVerificationNumberInputViewController(viewModel: vm)
-        vm.delegate = vc
-        navigationController.pushViewController(vc, animated: true)
+    func openPhoneNumberVerification() {
+        let vc = assembly.buildPhoneNumberVerification()
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

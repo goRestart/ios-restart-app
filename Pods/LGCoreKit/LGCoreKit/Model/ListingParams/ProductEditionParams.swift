@@ -25,7 +25,7 @@ public class ProductEditionParams: ProductCreationParams {
         guard let productId = product.objectId, let userId = product.user.objectId else { return nil }
         self.productId = productId
         self.userId = userId
-        let videos: [Video] = product.media.flatMap(LGVideo.init)
+        let videos: [Video] = product.media.compactMap(LGVideo.init)
         super.init(name: product.name,
                    description: product.descr,
                    price: product.price,

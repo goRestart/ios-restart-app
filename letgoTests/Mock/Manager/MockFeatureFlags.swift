@@ -52,6 +52,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var fullScreenAdUnitId: String? = ""
     var appInstallAdsInFeed: AppInstallAdsInFeed = .control
     var appInstallAdsInFeedAdUnit: String? = ""
+    var alwaysShowBumpBannerWithLoading: AlwaysShowBumpBannerWithLoading = .control
     
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false
@@ -77,7 +78,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var expressChatImprovement: ExpressChatImprovement = .control
     
     // MARK:  Verticals
-    var showServicesFeatures: ShowServicesFeatures = .control
+    var servicesPriceType: ServicesPriceType = .control
     var carExtraFieldsEnabled: CarExtraFieldsEnabled = .control
     var realEstateMapTooltip: RealEstateMapTooltip = .control
     var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen = .control
@@ -113,5 +114,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var notificationSettings: NotificationSettings = .control
     var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions = .control
     var engagementBadging: EngagementBadging = .control
+    var searchAlertsDisableOldestIfMaximumReached: SearchAlertsDisableOldestIfMaximumReached = .control
 }
 
