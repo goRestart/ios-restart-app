@@ -218,6 +218,7 @@ enum EventName: String {
     case chatTabOpen                        = "chat-tab-open"
     case chatCallToActionTapped             = "chat-call-to-action-tapped"
 
+    case openCommunity                      = "open-community"
 
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
@@ -443,6 +444,10 @@ enum EventParameterName: String {
     case returnedResults    = "returned-results"
     case featuredResults    = "featured-results"
     case action             = "action"
+
+    // Community
+    case showingBanner      = "showing-banner"
+    case bannerType         = "banner-type"
 }
 
 enum EventParameterBoolean: String {
@@ -1457,6 +1462,10 @@ enum EventParameterUserBadge: String {
         case .silver: self = .silver
         }
     }
+}
+
+enum EventBannerType: String {
+    case joinCommunity = "join-community"
 }
 
 struct EventParameters {

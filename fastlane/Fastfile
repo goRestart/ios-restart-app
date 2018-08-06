@@ -482,7 +482,7 @@ lane :release_beta do |options|
 
 	message = "Crafting brand new version (#{new_version} - #{new_build})"
 	channels = [ENV["BENDER_SLACK_DEFAULT_CHANNEL"]]
-	bender(message: message, channels: channels)
+	#bender(message: message, channels: channels)
 
 	release_branch = 'release-' + new_version.to_s
 		
@@ -495,7 +495,9 @@ lane :release_beta do |options|
 			repository_path: repository_path
 		)
 	else
-		release_branch = sh("git symbolic-ref HEAD --short").gsub("\n").peek
+		release_branch = sh("git symbolic-ref HEAD --short").chop
+		UI.message "Currently in..."
+		UI.message release_branch
 		if !release_branch.include?('release') 
 			UI.user_error!("You must be in a release branch")
 		end
@@ -525,7 +527,7 @@ lane :release_beta do |options|
 	scheme = ENV["LETGO_PROD_SCHEME"]
 	build_beta(workspace: workspace, scheme: scheme)
 	
-	ipa_path = ENV["LG_LAST_BETA"]
+	ipa_path = ENV["LAST_BETA_BUILD"]
 	upload_crashlytics(
 		beta_path: ipa_path, 
 		version_number: new_version.to_s, 

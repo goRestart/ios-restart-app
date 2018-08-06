@@ -114,6 +114,7 @@
 		0A0CD7F81FD97FBB00B0BACF /* FilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0CD7F71FD97FBB00B0BACF /* FilterCell.swift */; };
 		0A0CD7F91FD9806C00B0BACF /* FilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0CD7F71FD97FBB00B0BACF /* FilterCell.swift */; };
 		0A104696206CFB99003F1577 /* ABTestsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A104695206CFB99003F1577 /* ABTestsSpec.swift */; };
+		0A2077AE2114C05700BFD3D7 /* GoogleAdxNativeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E28A829207B85C70070A7A6 /* GoogleAdxNativeContentView.swift */; };
 		0A2117D92100939B005C4C08 /* UserCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2117D82100939B005C4C08 /* UserCoordinator.swift */; };
 		0A2117DA2100941B005C4C08 /* UserCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2117D82100939B005C4C08 /* UserCoordinator.swift */; };
 		0A21C651210F47640093A86C /* LGSimpleListingsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A21C650210F47640093A86C /* LGSimpleListingsBuilder.swift */; };
@@ -245,6 +246,7 @@
 		0ACA8F39211484FA00243850 /* LPMessageRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACA8F38211484FA00243850 /* LPMessageRouter.swift */; };
 		0ACA8F3A211485A000243850 /* LPMessageRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACA8F38211484FA00243850 /* LPMessageRouter.swift */; };
 		0ACA8F3B2114864E00243850 /* LGLeanplumBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACA8F36211484A600243850 /* LGLeanplumBuilder.swift */; };
+		0ACA8F502114B5C000243850 /* GoogleAdxNativeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E28A829207B85C70070A7A6 /* GoogleAdxNativeContentView.swift */; };
 		0ACDD2EA1FD1426800616F53 /* QuickChatViewBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACDD2E91FD1426800616F53 /* QuickChatViewBinder.swift */; };
 		0ACDD2EC1FD1450300616F53 /* QuickChatViewBinderSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACDD2EB1FD1450300616F53 /* QuickChatViewBinderSpec.swift */; };
 		0ACDD2ED1FD1451A00616F53 /* QuickChatViewBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACDD2E91FD1426800616F53 /* QuickChatViewBinder.swift */; };
@@ -1294,8 +1296,6 @@
 		8E26E95A1ED5AF9A0086D3EC /* FilterDistanceSlider.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8E26E9581ED5AF9A0086D3EC /* FilterDistanceSlider.xib */; };
 		8E26E95C1ED5B5B90086D3EC /* FilterDistanceSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26E95B1ED5B5B90086D3EC /* FilterDistanceSlider.swift */; };
 		8E26E95D1ED5B5B90086D3EC /* FilterDistanceSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26E95B1ED5B5B90086D3EC /* FilterDistanceSlider.swift */; };
-		8E28A82A207B85C70070A7A6 /* GoogleAdxNativeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E28A829207B85C70070A7A6 /* GoogleAdxNativeContentView.swift */; };
-		8E28A82B207B85C70070A7A6 /* GoogleAdxNativeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E28A829207B85C70070A7A6 /* GoogleAdxNativeContentView.swift */; };
 		8E28A82D207BC5E70070A7A6 /* AdvertisementAdxCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E28A82C207BC5E70070A7A6 /* AdvertisementAdxCellDrawer.swift */; };
 		8E28A82E207BC5E70070A7A6 /* AdvertisementAdxCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E28A82C207BC5E70070A7A6 /* AdvertisementAdxCellDrawer.swift */; };
 		8E56D74520A2ED1300097B61 /* ChatConversationsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E56D74420A2ED1300097B61 /* ChatConversationsListView.swift */; };
@@ -7639,6 +7639,7 @@
 				8E2600731E2FB15D00242B3F /* ChangeEmailViewModel.swift in Sources */,
 				509F79AF1ED6E54D00AF2F70 /* CenterAlignedCollectionViewFlowLayout.swift in Sources */,
 				2E423790205BE2930077B62A /* ChatMyMeetingCell.swift in Sources */,
+				0A2077AE2114C05700BFD3D7 /* GoogleAdxNativeContentView.swift in Sources */,
 				6A5E19DE1D548F5400F92692 /* FBLoginHelper.swift in Sources */,
 				0ADD39E121133E040071DF87 /* LGListingBuilder.swift in Sources */,
 				C77593E11BF0B8C60097D62F /* FiltersViewModel.swift in Sources */,
@@ -8512,6 +8513,7 @@
 				C77D64691CBD250700A22510 /* Tab.swift in Sources */,
 				8E15D7981E9B97D3000A99C0 /* PostCategoryDetailRowView.swift in Sources */,
 				C72794371D549342009C25AB /* ChangePasswordViewController.swift in Sources */,
+				0ACA8F502114B5C000243850 /* GoogleAdxNativeContentView.swift in Sources */,
 				8E2600741E2FB15D00242B3F /* ChangeEmailViewModel.swift in Sources */,
 				509F79B01ED6E54D00AF2F70 /* CenterAlignedCollectionViewFlowLayout.swift in Sources */,
 				2E423796205C00460077B62A /* ChatMyMeetingCell.swift in Sources */,
