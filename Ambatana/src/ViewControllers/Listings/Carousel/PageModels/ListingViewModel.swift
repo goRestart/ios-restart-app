@@ -495,9 +495,7 @@ class ListingViewModel: BaseViewModel {
                 bumpInfo.type != .loading,
                 strongSelf.shouldExecuteBumpBannerAction else { return }
 
-
-            let timeLeft = strongSelf.bumpMaxCountdown - bumpInfo.timeSinceLastBump
-            bumpInfo.bannerInteractionBlock(timeLeft)
+            bumpInfo.bannerInteractionBlock(bumpInfo.timeSinceLastBump)
             strongSelf.shouldExecuteBumpBannerAction = false
 
             }.disposed(by: disposeBag)
