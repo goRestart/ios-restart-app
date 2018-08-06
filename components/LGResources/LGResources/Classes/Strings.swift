@@ -794,13 +794,10 @@ extension R {
     public static let discardedProductsReasonReferenceToCompetitors = Strings.tr("Localizable", "discarded_products_reason_reference_to_competitors")
     /// Only contains stock photos
     public static let discardedProductsReasonStockPhotoOnly = Strings.tr("Localizable", "discarded_products_reason_stock_photo_only")
-<<<<<<< HEAD
-=======
     /// Frequency
     public static let editPaymentFrequencyPlaceholder = Strings.tr("Localizable", "edit_paymentFrequency_placeholder")
     /// Frequency
     public static let editPaymentFrequencyTitle = Strings.tr("Localizable", "edit_paymentFrequency_title")
->>>>>>> master
     /// Choose an option
     public static let editPriceTypeChooseTitle = Strings.tr("Localizable", "edit_priceType_choose_title")
     /// Feature your listing to sell faster
@@ -1251,14 +1248,22 @@ extension R {
     public static let mlOnboardingNewText = Strings.tr("Localizable", "ml_onboarding_new_text")
     /// OK
     public static let mlOnboardingOkText = Strings.tr("Localizable", "ml_onboarding_ok_text")
-    /// 
-    public static let notificationsCellDateDaysAgo = Strings.tr("Localizable", "notifications_cell_date_days_ago")
-    /// 
-    public static let notificationsCellDateHoursAgo = Strings.tr("Localizable", "notifications_cell_date_hours_ago")
-    /// 
-    public static let notificationsCellDateMinsAgo = Strings.tr("Localizable", "notifications_cell_date_mins_ago")
-    /// 
-    public static let notificationsCellDateWeeksAgo = Strings.tr("Localizable", "notifications_cell_date_weeks_ago")
+    /// %id
+    public static func notificationsCellDateDaysAgo(_ p1: Int) -> String {
+      return Strings.tr("Localizable", "notifications_cell_date_days_ago", p1)
+    }
+    /// %ih
+    public static func notificationsCellDateHoursAgo(_ p1: Int) -> String {
+      return Strings.tr("Localizable", "notifications_cell_date_hours_ago", p1)
+    }
+    /// %im
+    public static func notificationsCellDateMinsAgo(_ p1: Int) -> String {
+      return Strings.tr("Localizable", "notifications_cell_date_mins_ago", p1)
+    }
+    /// %iw
+    public static func notificationsCellDateWeeksAgo(_ p1: Int) -> String {
+      return Strings.tr("Localizable", "notifications_cell_date_weeks_ago", p1)
+    }
     /// Post something for sale to start seeing some activity here
     public static let notificationsEmptySubtitle = Strings.tr("Localizable", "notifications_empty_subtitle")
     /// NO NOTIFICATIONS (YET!)
