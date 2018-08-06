@@ -75,6 +75,7 @@ protocol FeatureFlaggeable: class {
     var showChatHeaderWithoutUser: Bool { get }
     var enableCTAMessageType: Bool { get }
     var expressChatImprovement: ExpressChatImprovement { get }
+    var smartQuickAnswers: SmartQuickAnswers { get }
 
     // MARK: Verticals
     var jobsAndServicesEnabled: EnableJobsAndServicesCategory { get }
@@ -1086,6 +1087,10 @@ extension ExpressChatImprovement {
     var isActive: Bool { return self == .hideDontAsk || self == .newTitleAndHideDontAsk }
 }
 
+extension SmartQuickAnswers {
+    var isActive: Bool { return self == .active }
+}
+
 extension FeatureFlags {
     
     var showInactiveConversations: Bool {
@@ -1157,6 +1162,13 @@ extension FeatureFlags {
             return Bumper.expressChatImprovement
         }
         return  ExpressChatImprovement.fromPosition(abTests.expressChatImprovement.value)
+    }
+    
+    var smartQuickAnswers: SmartQuickAnswers {
+        if Bumper.enabled {
+            return Bumper.smartQuickAnswers
+        }
+        return SmartQuickAnswers.fromPosition(abTests.smartQuickAnswers.value)
     }
 }
 

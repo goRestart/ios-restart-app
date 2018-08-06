@@ -75,6 +75,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var showChatHeaderWithoutUser: Bool = true
     var enableCTAMessageType: Bool = true
     var expressChatImprovement: ExpressChatImprovement = .control
+    var smartQuickAnswers: SmartQuickAnswers = .control
     
     // MARK:  Verticals
     var servicesPaymentFrequency: ServicesPaymentFrequency = .control

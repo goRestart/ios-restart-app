@@ -12,6 +12,7 @@ struct ChatABGroup: ABGroupType {
         static let showChatHeaderWithoutUser = "20180702ShowChatHeaderWithoutUser"
         static let enableCTAMessageType = "20180716enableCTAMessageType"
         static let expressChatImprovement = "20180719ExpressChatImprovement"
+        static let smartQuickAnswers = "20180806SmartQuickAnswers"
     }
 
     let showInactiveConversations: LeanplumABVariable<Bool>
@@ -24,6 +25,7 @@ struct ChatABGroup: ABGroupType {
     let showChatHeaderWithoutUser: LeanplumABVariable<Bool>
     let enableCTAMessageType: LeanplumABVariable<Bool>
     let expressChatImprovement: LeanplumABVariable<Int>
+    let smartQuickAnswers: LeanplumABVariable<Int>
 
     let group: ABGroup = .chat
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -40,7 +42,8 @@ struct ChatABGroup: ABGroupType {
          showChatHeaderWithoutListingForAssistant: LeanplumABVariable<Bool>,
          showChatHeaderWithoutUser: LeanplumABVariable<Bool>,
          enableCTAMessageType: LeanplumABVariable<Bool>,
-         expressChatImprovement: LeanplumABVariable<Int>) {
+         expressChatImprovement: LeanplumABVariable<Int>,
+         smartQuickAnswers: LeanplumABVariable<Int>) {
         self.showInactiveConversations = showInactiveConversations
         self.showChatSafetyTips = showChatSafetyTips
         self.userIsTyping = userIsTyping
@@ -51,12 +54,14 @@ struct ChatABGroup: ABGroupType {
         self.showChatHeaderWithoutUser = showChatHeaderWithoutUser
         self.enableCTAMessageType = enableCTAMessageType
         self.expressChatImprovement = expressChatImprovement
+        self.smartQuickAnswers = smartQuickAnswers
 
         intVariables.append(contentsOf: [userIsTyping,
                                          chatNorris,
                                          chatConversationsListWithoutTabs,
                                          showChatConnectionStatusBar,
-                                         expressChatImprovement])
+                                         expressChatImprovement,
+                                         smartQuickAnswers])
 
         boolVariables.append(contentsOf: [showInactiveConversations,
                                           showChatSafetyTips,
@@ -95,7 +100,10 @@ struct ChatABGroup: ABGroupType {
                                                            groupType: .chat),
                            expressChatImprovement: .makeInt(key: Keys.expressChatImprovement,
                                                             defaultValue: 0,
-                                                            groupType: .chat)
+                                                            groupType: .chat),
+                           smartQuickAnswers: .makeInt(key: Keys.smartQuickAnswers,
+                                                       defaultValue: 0,
+                                                       groupType: .chat)
         )
     }
 }

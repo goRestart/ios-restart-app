@@ -311,6 +311,11 @@
         "description": "[CHAT] Express chat improvements"
     },
     {
+        "name": "SmartQuickAnswers",
+        "values": ["control", "baseline", "active"],
+        "description": "Show smart quick answer events"
+    },
+    {
         "name": "AlwaysShowBumpBannerWithLoading",
         "values": ["control", "baseline", "active"],
         "description": "[MONEY] Always show bump banner with a loading till we get the info"

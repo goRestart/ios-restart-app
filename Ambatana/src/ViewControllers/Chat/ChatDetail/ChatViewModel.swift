@@ -712,7 +712,9 @@ class ChatViewModel: ChatBaseViewModel {
             case .authenticationTokenExpired, .talkerUnauthenticated:
                 break
             case .smartQuickAnswer(let sqa):
-                guard let isDummy = self?.isUserDummy, !isDummy else { return }
+                guard let smartQuickAnswersActive = self?.featureFlags.smartQuickAnswers.isActive, smartQuickAnswersActive,
+                    let isDummy = self?.isUserDummy, !isDummy
+                    else { return }
                 self?.shouldUpdateQuickAnswers.value = QuickAnswer.quickAnswers(for: sqa)
             }
         }.disposed(by: disposeBag)

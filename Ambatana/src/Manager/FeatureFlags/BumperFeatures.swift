@@ -78,6 +78,7 @@ extension Bumper  {
         flags.append(FrictionlessShare.self)
         flags.append(ShowCommunity.self)
         flags.append(ExpressChatImprovement.self)
+        flags.append(SmartQuickAnswers.self)
         flags.append(AlwaysShowBumpBannerWithLoading.self)
         flags.append(ServicesPaymentFrequency.self)
         flags.append(SearchAlertsDisableOldestIfMaximumReached.self)
@@ -888,6 +889,19 @@ extension Bumper  {
     static var expressChatImprovementObservable: Observable<ExpressChatImprovement> {
         return Bumper.observeValue(for: ExpressChatImprovement.key).map {
             ExpressChatImprovement(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var smartQuickAnswers: SmartQuickAnswers {
+        guard let value = Bumper.value(for: SmartQuickAnswers.key) else { return .control }
+        return SmartQuickAnswers(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var smartQuickAnswersObservable: Observable<SmartQuickAnswers> {
+        return Bumper.observeValue(for: SmartQuickAnswers.key).map {
+            SmartQuickAnswers(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1920,6 +1934,22 @@ enum ExpressChatImprovement: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .hideDontAsk
             case 3: return .newTitleAndHideDontAsk
+            default: return .control
+        }
+    }
+}
+
+enum SmartQuickAnswers: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return SmartQuickAnswers.control.rawValue }
+    static var enumValues: [SmartQuickAnswers] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show smart quick answer events" } 
+    static func fromPosition(_ position: Int) -> SmartQuickAnswers {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
             default: return .control
         }
     }
