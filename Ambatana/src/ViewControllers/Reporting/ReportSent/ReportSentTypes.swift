@@ -28,7 +28,7 @@ enum ReportSentType {
         switch self {
         case .productBasic:
             return true
-        case .userBasic, .userBlockA, .userBlockB, .userLawEnforcement, .userLawEnforcementBlock:
+        case .userBasic, .userBlockA, .userBlockB, .userBlockAndReviewA, .userBlockAndReviewB, .userLawEnforcement, .userLawEnforcementBlock:
             return false
         }
     }

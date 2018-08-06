@@ -114,4 +114,10 @@ extension ReportCoordinator: ReportNavigator {
     func closeReporting() {
         closeCoordinator(animated: true, completion: nil)
     }
+
+    func openReviewUser(userId: String, userAvatar: File?, userName: String?) {
+        let data = RateUserData(userId: userId, userAvatar: userAvatar, userName: userName, listingId: nil, ratingType: .report)
+        let child = UserRatingCoordinator(source: .report, data: data)
+        openChild(coordinator: child, parent: viewController, animated: true, forceCloseChild: false, completion: nil)
+    }
 }

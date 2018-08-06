@@ -17,10 +17,18 @@ struct RateUserData {
         self.listingId = listingId
         self.ratingType = ratingType
     }
+
+    init(userId: String, userAvatar: File?, userName: String?, listingId: String?, ratingType: UserRatingType) {
+        self.userId = userId
+        self.userAvatar = userAvatar?.fileURL
+        self.userName = userName
+        self.listingId = listingId
+        self.ratingType = ratingType
+    }
 }
 
 enum RateUserSource {
-    case chat, deepLink, userRatingList, markAsSold
+    case chat, deepLink, userRatingList, markAsSold, report
 }
 
 enum RateUserState: Equatable {
@@ -377,6 +385,8 @@ fileprivate extension EventParameterTypePage {
             self = .userRatingList
         case .markAsSold:
             self = .listingSold
+        case .report:
+            self = .report
         }
     }
 }

@@ -153,7 +153,7 @@ enum ReportOptionType: String {
             return ReportSentType.userBasic
         case .notRespondingToMessages, .offeringToTradeInsteadOfPayingInCash, .didntShowUp:
             return .userBlockA
-        case .offeringRoPayWithWesternUnionOrPaypal, .spamAccount, .otherSuspiciousBehaviour, .inappropriateProfilePhoto,
+        case .offeringToPayWithWesternUnionOrPaypal, .spamAccount, .otherSuspiciousBehaviour, .inappropriateProfilePhoto,
              .inappropriateBio, .rudeOrOffensiveLanguage, .suspiciousOrScammyBehavior,
              .sexualOrObsceneLanguage, .otherReasonInnappropriateChatMessages, .unrealisticPriceOrOffers:
             return .userBlockB

@@ -61,14 +61,14 @@ final class ReportSentViewModel: BaseViewModel {
 
         // User review action is only available if a review between
         // reported and current users exists without listing id.
-        userRatingRepository.show(reportedObjectId, listingId: nil, type: .buyer) { [weak self] result in
+        userRatingRepository.show(reportedObjectId, listingId: nil, type: .report) { [weak self] result in
             self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
 
             var canReviewUser = false
             if let _ = result.value {
-                canReviewUser = false
+                canReviewUser = false // A Review for this User already exist
             } else if let error = result.error, error.errorCode == RepositoryError.notFound.errorCode {
-                canReviewUser = true
+                canReviewUser = true // This user was never reviewed in a Report
             } else {
                 return
             }
@@ -113,7 +113,7 @@ final class ReportSentViewModel: BaseViewModel {
     }
 
     func didTapReview() {
-        
+        navigator?.openReviewUser(userId: "String", userAvatar: nil, userName: nil)
     }
 
     private func trackBlock(_ userId: String) {
