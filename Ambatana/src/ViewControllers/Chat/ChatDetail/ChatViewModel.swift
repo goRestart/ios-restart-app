@@ -100,7 +100,7 @@ class ChatViewModel: ChatBaseViewModel {
     var shouldTrackFirstMessage: Bool = false
     let shouldShowExpressBanner = Variable<Bool>(false)
     let relatedListingsState = Variable<ChatRelatedItemsState>(.loading)
-    let shouldUpdateQuickAnswers = Variable<Bool>(false)
+    let shouldUpdateQuickAnswers = Variable<[QuickAnswer]?>(nil)
     let interlocutorProfessionalInfo = Variable<InterlocutorProfessionalInfo>(InterlocutorProfessionalInfo(isProfessional: false, phoneNumber: nil))
     let lastMessageSentType = Variable<ChatWrapperMessageType?>(nil)
     let messagesDidFinishRefreshing = Variable<Bool>(false)
@@ -440,7 +440,7 @@ class ChatViewModel: ChatBaseViewModel {
             }
             self?.listingIsFree.value = conversation.listing?.price.isFree ?? false
             if let _ = conversation.listing {
-                self?.shouldUpdateQuickAnswers.value = true
+                self?.shouldUpdateQuickAnswers.value = self?.directAnswers
             }
             self?.interlocutorAvatarURL.value = conversation.interlocutor?.avatar?.fileURL
             self?.interlocutorName.value = conversation.interlocutor?.name ?? ""
@@ -709,8 +709,11 @@ class ChatViewModel: ChatBaseViewModel {
                 self?.conversation.value.interlocutorIsTyping.value = true
             case .interlocutorTypingStopped:
                 self?.conversation.value.interlocutorIsTyping.value = false
-            case .authenticationTokenExpired, .talkerUnauthenticated, .smartQuickAnswer(_):
+            case .authenticationTokenExpired, .talkerUnauthenticated:
                 break
+            case .smartQuickAnswer(let sqa):
+                guard let isDummy = self?.isUserDummy, !isDummy else { return }
+                self?.shouldUpdateQuickAnswers.value = QuickAnswer.quickAnswers(for: sqa)
             }
         }.disposed(by: disposeBag)
 
@@ -1074,7 +1077,7 @@ extension ChatViewModel {
         } else {
             messages.insert(viewMessage, atIndex: 0)
         }
-        shouldUpdateQuickAnswers.value = true
+        shouldUpdateQuickAnswers.value = directAnswers
         trackLetgoServiceMessageReceived()
     }
 
@@ -1421,7 +1424,7 @@ extension ChatViewModel {
                 strongSelf.delegate?.vmDidFailRetrievingChatMessages()
             }
             strongSelf.setupInterlocutorIsTypingRx()
-            strongSelf.shouldUpdateQuickAnswers.value = true
+            strongSelf.shouldUpdateQuickAnswers.value = strongSelf.directAnswers
             strongSelf.trackLetgoServiceMessageReceived()
         }
     }
