@@ -8,6 +8,7 @@ extension UserRatingType {
             case .conversation: return .conversation
             case .seller: return .buyer
             case .buyer: return .seller
+            case .report: return .report
             }
             
         }
