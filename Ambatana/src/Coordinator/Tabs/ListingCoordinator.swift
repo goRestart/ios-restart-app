@@ -248,8 +248,8 @@ final class ListingCoordinator {
         navigationController.pushViewController(deckViewController, animated: true)
     }
 
-    func openUser(userId: String, source: UserSource) {
-        userCoordinator.openUser(userId: userId, source: source)
+    func openUser(userId: String, source: UserSource, hidesBottomBarWhenPushed: Bool) {
+        userCoordinator.openUser(userId: userId, source: source, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
     }
 }
 
