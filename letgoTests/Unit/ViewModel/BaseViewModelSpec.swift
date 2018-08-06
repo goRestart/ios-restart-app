@@ -5,7 +5,6 @@ import Nimble
 import LGComponents
 
 class BaseViewModelSpec: QuickSpec, BaseViewModelDelegate, TabNavigator {
-
     var delegateReceivedShowAutoFadingMessage = false
     var delegateReceivedShowLoading = false
     var delegateReceivedHideLoading = false
@@ -124,6 +123,6 @@ class BaseViewModelSpec: QuickSpec, BaseViewModelDelegate, TabNavigator {
     func openRatingList(_ userId: String) {}
     func openUserReport(source: EventParameterTypePage, userReportedId: String) {}
     func openUserVerificationView() {}
-    func openListingReport(source: EventParameterTypePage, productId: String) {}
+    func openListingReport(source: EventParameterTypePage, listing: Listing, productId: String) {}
     func openCommunityTab() {}
 }

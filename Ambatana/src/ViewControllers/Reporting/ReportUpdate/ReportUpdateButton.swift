@@ -2,13 +2,13 @@ import Foundation
 import LGComponents
 
 enum ReportUpdateButtonType: Int {
-    case verySad
+    case verySad = 1
     case sad
     case neutral
     case happy
     case veryHappy
 
-    var image: UIImage {
+    fileprivate var image: UIImage {
         switch self {
         case .verySad: return R.Asset.Reporting.feedbackVerySad.image
         case .sad: return R.Asset.Reporting.feedbackSad.image
@@ -18,7 +18,7 @@ enum ReportUpdateButtonType: Int {
         }
     }
 
-    var disabledImage: UIImage {
+    fileprivate var disabledImage: UIImage {
         switch self {
         case .verySad: return R.Asset.Reporting.feedbackVerySadDisabled.image
         case .sad: return R.Asset.Reporting.feedbackSadDisabled.image

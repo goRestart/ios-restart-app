@@ -171,7 +171,7 @@ extension ListingDeckViewModelBinderSpec: ListingDetailNavigator {
     func closeFeaturedInfo() {}
     func openUserReport(source: EventParameterTypePage, userReportedId: String) {}
     func openUserVerificationView() {}
-    func openListingReport(source: EventParameterTypePage, productId: String) {}
+    func openListingReport(source: EventParameterTypePage, listing: Listing, productId: String) {}
     func openListingAttributeTable(withViewModel viewModel: ListingAttributeTableViewModel) {}
     func closeListingAttributeTable() {}
     func openCommunityTab() {}
