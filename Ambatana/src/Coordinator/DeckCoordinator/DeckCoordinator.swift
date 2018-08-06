@@ -2,10 +2,6 @@ import Foundation
 import LGCoreKit
 import LGComponents
 
-protocol PhotoViewerNavigator: class {
-    func closePhotoViewer()
-}
-
 protocol DeckNavigator: class {
     func openPhotoViewer(listingViewModel: ListingViewModel,
                          source: EventParameterListingVisitSource,

@@ -27,7 +27,10 @@ enum ProductCarouselActionOnFirstAppear {
     case nonexistent
     case showKeyboard
     case showShareSheet
-    case triggerBumpUp(bumpUpProductData: BumpUpProductData, bumpUpType: BumpUpType, triggerBumpUpSource: BumpUpSource, typePage: EventParameterTypePage?)
+    case triggerBumpUp(bumpUpProductData: BumpUpProductData?,
+        bumpUpType: BumpUpType?,
+        triggerBumpUpSource: BumpUpSource,
+        typePage: EventParameterTypePage?)
     case triggerMarkAsSold
     case edit
 }
@@ -114,21 +117,4 @@ protocol ListingDetailNavigator: class {
 protocol SimpleProductsNavigator: class {
     func closeSimpleProducts()
     func openListing(_ data: ListingDetailData, source: EventParameterListingVisitSource, actionOnFirstAppear: ProductCarouselActionOnFirstAppear)
-}
-
-protocol ChatDetailNavigator: TabNavigator, DeepLinkNavigator {
-    func closeChatDetail()
-    func openAppRating(_ source: EventParameterRatingSource)
-    func openExpressChat(_ listings: [Listing], sourceListingId: String, manualOpen: Bool)
-    func selectBuyerToRate(source: RateUserSource,
-                           buyers: [UserListing],
-                           listingId: String,
-                           sourceRateBuyers: SourceRateBuyers?,
-                           trackingInfo: MarkAsSoldTrackingInfo)
-    func openLoginIfNeededFromChatDetail(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void))
-    func openAssistantFor(listingId: String, dataDelegate: MeetingAssistantDataDelegate)
-}
-
-protocol ChatInactiveDetailNavigator: TabNavigator {
-    func closeChatInactiveDetail()
 }

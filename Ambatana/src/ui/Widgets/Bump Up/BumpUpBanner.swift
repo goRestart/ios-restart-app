@@ -174,10 +174,11 @@ class BumpUpBanner: UIView {
 
 
     private var bannerHeightConstraint: NSLayoutConstraint = NSLayoutConstraint()
+    private var bannerTopConstraint: NSLayoutConstraint = NSLayoutConstraint()
 
     // Boost elements
     private var progressView: BumpUpTimerBarView = BumpUpTimerBarView()
-    private var progressViewHeightConstraint: NSLayoutConstraint = NSLayoutConstraint()
+    private var progressViewBottomConstraint: NSLayoutConstraint = NSLayoutConstraint()
 
     private var maxCountdown: TimeInterval = 0
     private var timer: Timer = Timer()
@@ -258,7 +259,7 @@ class BumpUpBanner: UIView {
 
         UIView.animate(withDuration: 0.3, animations: { [weak self] in
             self?.layoutIfNeeded()
-            self?.loadingLabel.alpha = 0
+            self?.loadingContainerView.isHidden = true
         }) { [weak self] (finished) in
             self?.animateSellFasterIcon()
         }
@@ -275,7 +276,7 @@ class BumpUpBanner: UIView {
     }
 
     private func updateInfoForLoadingBanner() {
-        loadingLabel.alpha = 1
+        loadingContainerView.isHidden = false
         loadingContainerCenterYConstraint.constant = 0
         textContainerCenterYConstraint.constant = BumpUpBanner.bannerHeight/2
         activityIndicator.startAnimating()
@@ -284,6 +285,7 @@ class BumpUpBanner: UIView {
     }
 
     private func updateInfoForFreeBanner() {
+        loadingContainerView.isHidden = true
         activityIndicator.stopAnimating()
         bumpButtonWidthConstraint.isActive = false
         bumpButton.isHidden = true
@@ -291,6 +293,7 @@ class BumpUpBanner: UIView {
     }
 
     private func updateInfoForPricedBannerWith(price: String?) {
+        loadingContainerView.isHidden = true
         activityIndicator.stopAnimating()
         bumpButtonWidthConstraint.isActive = false
         bumpButton.isHidden = true
@@ -302,6 +305,7 @@ class BumpUpBanner: UIView {
     }
 
     private func updateInfoForRestoreBanner() {
+        loadingContainerView.isHidden = true
         activityIndicator.stopAnimating()
         bumpButton.isHidden = false
         bumpButtonWidthConstraint.isActive = true
@@ -309,6 +313,7 @@ class BumpUpBanner: UIView {
     }
 
     private func updateInfoForBoostBannerWith(bannerIsVisible: Bool) {
+        loadingContainerView.isHidden = true
         activityIndicator.stopAnimating()
         bumpButtonWidthConstraint.isActive = false
         bumpButton.isHidden = true
@@ -326,7 +331,6 @@ class BumpUpBanner: UIView {
     }
     
     func executeBannerInteractionBlock() {
-        guard readyToBump else { return }
         bannerInteractionBlock(maxCountdown-timeIntervalLeft.value)
     }
 
@@ -480,17 +484,18 @@ class BumpUpBanner: UIView {
     }
 
     private func setupConstraints() {
-
-        let mainViews: [UIView] = [containerView, progressView]
+        let mainViews: [UIView] = [progressView, containerView]
         addSubviewsForAutoLayout(mainViews)
         
-        progressView.layout().height(BumpUpTimerBarViewMetrics.height, constraintBlock: { [weak self] in
-            self?.progressViewHeightConstraint = $0
-        })
+        progressView.layout().height(BumpUpTimerBarViewMetrics.height)
         progressView.layout(with: self).left().right().top()
-        progressView.layout(with: containerView).above()
-        containerView.layout(with: self).left().right().bottom()
-        containerView.layout().height(BumpUpTimerBarViewMetrics.height, constraintBlock: { [weak self] in
+        progressView.layout(with: containerView).above(constraintBlock: { [weak self] in
+            self?.progressViewBottomConstraint = $0
+        })
+        containerView.layout(with: self).left().right().bottom().top(constraintBlock: { [weak self] in
+            self?.bannerTopConstraint = $0
+        })
+        containerView.layout().height(CarouselUI.bannerHeight, constraintBlock: { [weak self] in
             self?.bannerHeightConstraint = $0
         })
 
@@ -614,16 +619,18 @@ class BumpUpBanner: UIView {
     }
 
     private func showProgressBar(itHasBanner: Bool) {
-        progressViewHeightConstraint.constant = BumpUpTimerBarViewMetrics.height
+        progressViewBottomConstraint.constant = 0
         bannerHeightConstraint.constant = itHasBanner ? CarouselUI.bannerHeight : 0
+        bannerTopConstraint.constant = itHasBanner ? CarouselUI.bannerHeight : 0
         containerView.isHidden = !itHasBanner
         progressView.isHidden = false
         layoutIfNeeded()
     }
 
     private func hideProgressBar() {
-        progressViewHeightConstraint.constant = 0
+        progressViewBottomConstraint.constant = -BumpUpTimerBarViewMetrics.height
         bannerHeightConstraint.constant = CarouselUI.bannerHeight
+        bannerTopConstraint.constant = 0
         containerView.isHidden = false
         progressView.isHidden = true
         layoutIfNeeded()

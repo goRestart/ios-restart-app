@@ -70,6 +70,26 @@ enum UserViewStyle {
             return UIColor.white
         }
     }
+    
+    var subtitleSuffixFont: UIFont {
+        switch self {
+        case .full:
+            return UIFont.systemRegularFont(size: 13)
+        case .compactShadow, .compactBorder:
+            return UIFont.systemRegularFont(size: 11)
+        case .withProductInfo:
+            return UIFont.systemRegularFont(size: 17)
+        }
+    }
+    
+    var subtitleSuffixColor: UIColor {
+        switch self {
+        case .full:
+            return UIColor.lgBlack
+        case .compactShadow, .compactBorder, .withProductInfo:
+            return UIColor.white
+        }
+    }
 
     var avatarBorderColor: UIColor? {
         switch self {
@@ -139,27 +159,59 @@ final class UserView: UIView {
     
     // MARK: - Public methods
 
-    func setupWith(userAvatar avatar: URL?, userName: String?, userId: String?, isProfessional: Bool,
+    func setupWith(userAvatar avatar: URL?,
+                   userName: String?,
+                   userId: String?,
+                   isProfessional: Bool,
                    userBadge: UserReputationBadge) {
-        setupWith(userAvatar: avatar, userName: userName, subtitle: nil, userId: userId, isProfessional: isProfessional,
+        setupWith(userAvatar: avatar,
+                  userName: userName,
+                  subtitle: nil,
+                  userId: userId,
+                  isProfessional: isProfessional,
                   userBadge: userBadge)
     }
 
-    func setupWith(userAvatar avatar: URL?, userName: String?, subtitle: String?, userId: String?, isProfessional: Bool,
+    func setupWith(userAvatar avatar: URL?,
+                   userName: String?,
+                   subtitle: String?,
+                   userId: String?,
+                   isProfessional: Bool,
                    userBadge: UserReputationBadge) {
         let placeholder = LetgoAvatar.avatarWithID(userId, name: userName)
-        setupWith(userAvatar: avatar, placeholder: placeholder, userName: userName, subtitle: subtitle,
-                  isProfessional: isProfessional, userBadge: userBadge)
+        setupWith(userAvatar: avatar,
+                  placeholder: placeholder,
+                  userName: userName,
+                  subtitle: subtitle,
+                  subtitleSuffix: nil,
+                  isProfessional: isProfessional,
+                  userBadge: userBadge)
     }
     
-    func setupWith(userAvatar avatar: URL?, userName: String?, productTitle: String?, productPrice: String?,
-                   userId: String?, isProfessional: Bool, userBadge: UserReputationBadge) {
+    func setupWith(userAvatar avatar: URL?,
+                   userName: String?,
+                   productTitle: String?,
+                   productPrice: String?,
+                   productPaymentFrequency: String?,
+                   userId: String?,
+                   isProfessional: Bool,
+                   userBadge: UserReputationBadge) {
         let placeholder = LetgoAvatar.avatarWithID(userId, name: userName)
-        setupWith(userAvatar: avatar, placeholder: placeholder, userName: productTitle, subtitle: productPrice,
-                  isProfessional: isProfessional, userBadge: userBadge)
+        setupWith(userAvatar: avatar,
+                  placeholder: placeholder,
+                  userName: productTitle,
+                  subtitle: productPrice,
+                  subtitleSuffix: productPaymentFrequency,
+                  isProfessional: isProfessional,
+                  userBadge: userBadge)
     }
 
-    func setupWith(userAvatar avatar: URL?, placeholder: UIImage?, userName: String?, subtitle: String?, isProfessional: Bool,
+    private func setupWith(userAvatar avatar: URL?,
+                   placeholder: UIImage?,
+                   userName: String?,
+                   subtitle: String?,
+                   subtitleSuffix: String?,
+                   isProfessional: Bool,
                    userBadge: UserReputationBadge) {
         if let avatar = avatar, avatar != avatarURL {
             avatarURL = avatar
@@ -173,7 +225,13 @@ final class UserView: UIView {
             avatarURL = nil
         }
         titleLabel.text = userName
-        subtitleLabel.text = subtitle
+        
+        if let attributedSubtitleText = subtitleAttributedString(forSubtitle: subtitle,
+                                                                 subtitleSuffix: subtitleSuffix) {
+            subtitleLabel.attributedText = attributedSubtitleText
+        } else {
+            subtitleLabel.text = subtitle
+        }
         proImageView.isHidden = !isProfessional
         userBadgeImageView.isHidden = userBadge == .noBadge
         if style.textHasShadow {
@@ -184,6 +242,19 @@ final class UserView: UIView {
                 label?.layer.shadowOpacity = 0.5
             }
         }
+    }
+    
+    private func subtitleAttributedString(forSubtitle subtitle: String?,
+                                          subtitleSuffix: String?) -> NSAttributedString? {
+        guard let subtitle = subtitle,
+            let subtitleSuffix = subtitleSuffix else { return nil }
+        
+        let text = "\(subtitle) \(subtitleSuffix)"
+        return text.bifontAttributedText(highlightedText: subtitleSuffix,
+                                         mainFont: style.subtitleLabelFont,
+                                         mainColour: style.subtitleLabelColor,
+                                         otherFont: style.subtitleSuffixFont,
+                                         otherColour: style.subtitleSuffixColor)
     }
     
     func showShadow(_ show: Bool) {

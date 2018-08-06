@@ -63,7 +63,7 @@ class ChatViewModel: ChatBaseViewModel {
     
     // Protocols
     weak var delegate: ChatViewModelDelegate?
-    weak var navigator: ChatDetailNavigator?
+    var navigator: ChatDetailNavigator?
     
     // Paginable
     var resultsPerPage: Int = SharedConstants.numMessagesPerPage
@@ -1221,7 +1221,13 @@ extension ChatViewModel {
     
     private func reportUserAction() {
         guard let userID = conversation.value.interlocutor?.objectId else { return }
-        navigator?.openUserReport(source: .chat, userReportedId: userID)
+        if featureFlags.reportingFostaSesta.isActive {
+            // FIXME: Open New User Report modally
+            // navigator?.openUserReport(source: .chat, userReportedId: userID)
+        } else {
+            let reportVM = ReportUsersViewModel(origin: .chat, userReportedId: userID)
+            delegate?.vmDidPressReportUser(reportVM)
+        }
     }
     
     fileprivate func blockUserAction(buttonPosition: EventParameterBlockButtonPosition) {

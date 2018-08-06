@@ -223,6 +223,8 @@ enum EventName: String {
     case productReportUpdateSent            = "product-report-update-sent"
     case productReportUpdateComplete        = "product-report-update-complete"
 
+    case openCommunity                      = "open-community"
+
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
     
@@ -456,6 +458,9 @@ enum EventParameterName: String {
     case productReportSubReason = "product-report-subreason"
     case experienceRating = "experience-rating"
 
+    // Community
+    case showingBanner      = "showing-banner"
+    case bannerType         = "banner-type"
 }
 
 enum EventParameterBoolean: String {
@@ -1489,6 +1494,10 @@ enum EventParameterReportingRating: Int {
         case .veryHappy: self = .veryHappy
         }
     }
+}
+
+enum EventBannerType: String {
+    case joinCommunity = "join-community"
 }
 
 struct EventParameters {

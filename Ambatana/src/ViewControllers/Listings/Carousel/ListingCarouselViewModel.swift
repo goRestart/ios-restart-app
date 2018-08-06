@@ -94,6 +94,10 @@ class ListingCarouselViewModel: BaseViewModel {
         return !keyValueStorage[.listingMoreInfoTooltipDismissed]
     }
     
+    var shouldShowPaymentFrequency: Bool {
+        return featureFlags.servicesPaymentFrequency.isActive
+    }
+    
     let actionOnFirstAppear: ProductCarouselActionOnFirstAppear
 
     let productInfo = Variable<ListingVMProductInfo?>(nil)
@@ -448,8 +452,8 @@ class ListingCarouselViewModel: BaseViewModel {
         }
     }
 
-    func showBumpUpView(bumpUpProductData: BumpUpProductData,
-                        bumpUpType: BumpUpType,
+    func showBumpUpView(bumpUpProductData: BumpUpProductData?,
+                        bumpUpType: BumpUpType?,
                         bumpUpSource: BumpUpSource?,
                         typePage: EventParameterTypePage?) {
         currentListingViewModel?.showBumpUpView(bumpUpProductData: bumpUpProductData,
@@ -845,6 +849,9 @@ extension ListingCarouselViewModel: ListingViewModelDelegate {
     }
     func vmShowAutoFadingMessage(title: String, message: String, time: Double, completion: (() -> ())?) {
         delegate?.vmShowAutoFadingMessage(title: title, message: message, time: time, completion: completion)
+    }
+    func vmShowAutoFadingMessage(message: String, time: Double, completion: (() -> ())?) {
+        delegate?.vmShowAutoFadingMessage(message: message, time: time, completion: completion)
     }
     func vmShowLoading(_ loadingMessage: String?) {
         delegate?.vmShowLoading(loadingMessage)

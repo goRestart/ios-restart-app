@@ -50,9 +50,11 @@
 "bump_up_view_boost_pay_button_title" = "%@ karşılığında tekrar öne çıkar";
 "bump_up_view_boost_subtitle_boost_listing" = "Son 24 saat içinde ilanını öne çıkardığın için bir sonraki öne çıkarma hizmetini satın alırken sana indirim veriyoruz!";
 "bump_up_view_boost_subtitle_cheaper" = "Normal öne çıkarma hizmetini indirimli almak için hemen ilanına doping uygula.";
+"bump_up_view_boost_subtitle_not_ready" = "%@ içinde ilanın yukarılara çıksın diye ek bir doping ekleyebilir ve 24 saat daha öne çıkarılmasını sağlayabilirsin";
 "bump_up_view_boost_subtitle_send_top" = "İlanın zaten öne çıkarıldı fakat ekstra doping ekleyebilirsin. Üste çıkarılacak ve şu andan itibaren 24 saat süreyle öne çıkarılacak.";
 "bump_up_view_boost_title_boost_listing" = "Öne çıkan ilanına doping uygula";
 "bump_up_view_boost_title_cheaper_boost" = "Hemen daha ucuz bir doping al";
+"bump_up_view_boost_title_not_ready" = "İlanın hala öne çıkarılmış durumda";
 "bump_up_view_boost_title_send_top" = "Tekrar üste çıkar";
 "bump_up_view_free_subtitle" = "Ne kadar çok paylaşırsan ürününü o kadar fazla kişi görür.";
 "bump_up_view_free_title" = "ÜRÜNÜNÜ ÜSTE ÇIKAR";
@@ -358,7 +360,9 @@
 "discarded_products_reason_poor_ad_quality" = "Uygulama kullanım kurallarına aykırı";
 "discarded_products_reason_reference_to_competitors" = "Diğer web sitesi ya da uygulamalara referans";
 "discarded_products_reason_stock_photo_only" = "Sadece stok fotoğraf kullanılması";
-"edit_priceType_choose_title" = "Choose an option";
+"edit_paymentFrequency_placeholder" = "Sıklık";
+"edit_paymentFrequency_title" = "Sıklık";
+"edit_priceType_choose_title" = "Bir seçim yap";
 "edit_product_feature_label_long_text" = "Daha hızlı satmak için ilanını öne çıkar";
 "edit_product_feature_label_short_text" = "Hemen sat";
 "edit_product_location_alert_text" = "İlanının yayınlanmış olduğu yeri değiştirmek için, konum bilgine ulaşılmasına izin ver";
@@ -370,7 +374,7 @@
 "edit_product_title" = "İlanı düzenle";
 "edit_product_unsaved_changes_alert" = "Bu değişiklikleri silmek istediğine emin misin?";
 "edit_product_unsaved_changes_alert_ok" = "Sil";
-"engagement_badging_feed_bubble" = "New items";
+"engagement_badging_feed_bubble" = "Yeni ürünler";
 "featured_info_view_increase_visibility" = "Daha çok kişi görsün";
 "featured_info_view_more_buyers" = "Daha çok alıcıyı çek";
 "featured_info_view_sell_faster" = "Hemen sat";

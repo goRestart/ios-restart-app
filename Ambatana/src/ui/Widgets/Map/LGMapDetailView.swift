@@ -17,7 +17,7 @@ protocol LGMapDetailViewDelegate: class {
     func mapDetailTapped(_ listing: Listing, originImageView: UIImageView?)
 }
 
-final class LGMapDetailView: UIView {
+final class LGMapDetailView: UIView, UICollectionViewDelegate, UICollectionViewDataSource {
     
     private let disposeBag = DisposeBag()
 
@@ -36,6 +36,7 @@ final class LGMapDetailView: UIView {
         self.imageDownloader = imageDownloader
         setupUI()
         setupRx()
+        setupTagCollectionView()
     }
     
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
@@ -83,8 +84,17 @@ final class LGMapDetailView: UIView {
         return label
     }()
     
-    private var tagCollectionViewModel = TagCollectionViewModel(cellStyle: .grayBorder)
-    private var tagCollectionView: TagCollectionView?
+    private let tagCollectionView: UICollectionView = {
+        let flowLayout = TagCollectionViewFlowLayout.leftAligned.collectionFlowLayout
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.isScrollEnabled = false
+        collectionView.backgroundColor = .clear
+        collectionView.register(type: TagCollectionViewCell.self)
+        
+        return collectionView
+    }()
+    
     
     //  MARK: - Private
     
@@ -94,17 +104,11 @@ final class LGMapDetailView: UIView {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(detailTapped(_:)))
         addGestureRecognizer(tapGesture)
         
-        tagCollectionView = TagCollectionView(viewModel: tagCollectionViewModel, flowLayout: .leftAligned)
-        
         detailStackView.addArrangedSubview(titleLabel)
         detailStackView.addArrangedSubview(priceLabel)
         
         imageView.addSubviewForAutoLayout(ribbonView)
-        addSubviewsForAutoLayout([imageView, detailStackView])
-        
-        if let tagCollectionView = tagCollectionView {
-            addSubviewForAutoLayout(tagCollectionView)
-        }
+        addSubviewsForAutoLayout([imageView, detailStackView, tagCollectionView])
         
         ribbonView.layout(with: imageView).fill()
         imageView.layout(with: self)
@@ -119,11 +123,11 @@ final class LGMapDetailView: UIView {
             .trailing(by: -Metrics.margin)
         detailStackView.layout(with: imageView).toLeft(by: Metrics.margin)
         
-        tagCollectionView?.layout(with: detailStackView)
+        tagCollectionView.layout(with: detailStackView)
             .below(by: Metrics.shortMargin)
-        tagCollectionView?.layout(with: self)
+        tagCollectionView.layout(with: self)
             .trailing(by: -Metrics.margin)
-        tagCollectionView?.layout(with: imageView)
+        tagCollectionView.layout(with: imageView)
             .lastBaseline()
             .toLeft(by: Metrics.margin)
     }
@@ -138,8 +142,7 @@ final class LGMapDetailView: UIView {
         tagsVariable
             .asDriver()
             .drive(onNext: { [weak self] tags in
-                self?.tagCollectionViewModel.tags = tags
-                self?.tagCollectionView?.reloadData()
+                self?.tagCollectionView.reloadData()
             }).disposed(by: disposeBag)
     }
     
@@ -154,6 +157,11 @@ final class LGMapDetailView: UIView {
             guard url == imageUrl else { return }
             self?.imageView.image = result.value?.image
         }
+    }
+    
+    private func setupTagCollectionView() {
+        tagCollectionView.delegate = self
+        tagCollectionView.dataSource = self
     }
     
     //  MARK: - Public
@@ -172,4 +180,27 @@ final class LGMapDetailView: UIView {
         return CGSize(width: UIViewNoIntrinsicMetric, height: LGMapDetailViewMetrics.height)
     }
     
+    
+    
+    //  MARK: - UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
+        return tagsVariable.value.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeue(type: TagCollectionViewCell.self, for: indexPath),
+            let tag = tagsVariable.value[safeAt: indexPath.row] else { return UICollectionViewCell() }
+        cell.setupWith(style: .grayBorder)
+        cell.configure(with: tag)
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        guard let cellText = tagsVariable.value[safeAt: indexPath.row] else { return .zero }
+        return TagCollectionViewWithCloseCell.cellSizeForText(text: cellText, style: .grayBorder)
+    }
 }

@@ -49,9 +49,9 @@ protocol RateUserViewModelDelegate: BaseViewModelDelegate {
     func vmUpdateTags()
 }
 
-class RateUserViewModel: BaseViewModel {
+final class RateUserViewModel: BaseViewModel {
     weak var delegate: RateUserViewModelDelegate?
-    weak var navigator: RateUserNavigator?
+    var navigator: RateUserNavigator?
 
     var userAvatar: URL? {
         return data.userAvatar

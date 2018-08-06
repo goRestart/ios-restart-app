@@ -153,7 +153,6 @@ extension ABTests {
 
 extension ABTests {
     var searchImprovements: LeanplumABVariable<Int> { return core.searchImprovements }
-    var addPriceTitleDistanceToListings: LeanplumABVariable<Int> { return core.addPriceTitleDistanceToListings }
     var relaxedSearch: LeanplumABVariable<Int> { return core.relaxedSearch }
 }
 
@@ -189,6 +188,8 @@ extension ABTests {
     var preventMessagesFromFeedToProUsers: LeanplumABVariable<Int> { return money.preventMessagesFromFeedToProUsers }
     var appInstallAdsInFeed: LeanplumABVariable<Int> { return money.appInstallAdsInFeed }
     var alwaysShowBumpBannerWithLoading: LeanplumABVariable<Int> { return money.alwaysShowBumpBannerWithLoading }
+    var showSellFasterInProfileCells: LeanplumABVariable<Int> { return money.showSellFasterInProfileCells }
+
 }
 
 //  MARK: Retention
@@ -214,7 +215,7 @@ extension ABTests {
 //  MARK: Verticals
 
 extension ABTests {
-    var servicesPriceType: LeanplumABVariable<Int> { return verticals.servicesPriceType }
+    var servicesPaymentFrequency: LeanplumABVariable<Int> { return verticals.servicesPaymentFrequency }
     var carExtraFieldsEnabled: LeanplumABVariable<Int> { return verticals.carExtraFieldsEnabled }
     var realEstateMapTooltip: LeanplumABVariable<Int> { return verticals.realEstateMapTooltip }
     var servicesUnifiedFilterScreen: LeanplumABVariable<Int> { return verticals.servicesUnifiedFilterScreen }

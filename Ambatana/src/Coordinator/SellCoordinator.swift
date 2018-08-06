@@ -375,41 +375,29 @@ extension SellCoordinator: MultiListingPostedNavigator {
     }
     
     func openEdit(forListing listing: Listing) {
-        
-        let editListingNavigator = EditListingCoordinator(listing: listing,
-                                                          bumpUpProductData: nil,
-                                                          pageType: nil,
-                                                          listingCanBeBoosted: false,
-                                                          timeSinceLastBump: nil,
-                                                          maxCountdown: 0)
-        editListingNavigator.delegate = self
-        openChild(coordinator: editListingNavigator,
-                  parent: viewController,
-                  animated: true,
-                  forceCloseChild: false,
-                  completion: nil)
+        let nav = UINavigationController()
+        let assembly = LGListingBuilder.standard(navigationController: nav)
+        let vc = assembly.buildEditView(listing: listing,
+                                        pageType: nil,
+                                        bumpUpProductData: nil,
+                                        listingCanBeBoosted: false,
+                                        timeSinceLastBump: nil,
+                                        maxCountdown: 0,
+                                        onEditAction: onEdit)
+        nav.viewControllers = [vc]
+        navigationController.present(nav, animated: true)
     }
-}
 
-
-// MARK: - EditListingCoordinatorDelegate
-extension SellCoordinator: EditListingCoordinatorDelegate {
-    func editListingCoordinatorDidCancel(_ coordinator: EditListingCoordinator) {
-        // Do nothing, esta canela fina
-    }
-    
-    func editListingCoordinator(_ coordinator: EditListingCoordinator,
-                                didFinishWithListing listing: Listing,
-                                bumpUpProductData: BumpUpProductData?,
-                                timeSinceLastBump: TimeInterval?,
-                                maxCountdown: TimeInterval) {
+    private func onEdit(listing: Listing,
+                        bumpData: BumpUpProductData?,
+                        timeSinceLastBump: TimeInterval?,
+                        maxCountdown: TimeInterval) {
         guard let multiListingVC = viewController as? MultiListingPostedViewController else {
             return
         }
         multiListingVC.listingEdited(listing: listing)
     }
 }
-
 
 // MARK: - BlockingPostingNavigator
 

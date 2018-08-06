@@ -228,7 +228,8 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         drawerManager.draw(item,
                            inCell: cell,
                            delegate: viewModel.listingCellDelegate,
-                           imageSize: viewModel.imageViewSizeForItem(at: indexPath.row))
+                           imageSize: viewModel.imageViewSizeForItem(at: indexPath.row),
+                           isPrivateList: viewModel.isPrivateList)
         return cell
     }
 

@@ -20,8 +20,7 @@ class ExpressChatViewModel: BaseViewModel {
     let messageText = Variable<String>(R.Strings.chatExpressTextFieldText)
     let sendButtonEnabled = Variable<Bool>(false)
 
-    weak var navigator: ExpressChatNavigator?
-
+    var navigator: ExpressChatNavigator?
     weak var delegate: BaseViewModelDelegate?
 
     private let chatWrapper: ChatWrapper

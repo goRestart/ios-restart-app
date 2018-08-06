@@ -784,7 +784,7 @@ extension FiltersViewController {
                        isUserInteractionEnabled: viewModel.serviceSubtypeCellEnabled)
         case .unified:
             cell.setup(withTitle: viewModel.currentServiceTypeName ?? serviceSection.title,
-                       subtitle: viewModel.selectedServiceSubtypesDisplayName ?? R.Strings.filtersServiceTypeNotSet)
+                       subtitle: viewModel.selectedServiceSubtypesDisplayName)
         }
         return cell
     }

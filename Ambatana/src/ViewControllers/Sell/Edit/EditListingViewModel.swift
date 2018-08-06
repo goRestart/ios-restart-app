@@ -211,7 +211,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     let serviceTypeName = Variable<String?>(nil)
     let serviceSubtypeId = Variable<String?>(nil)
     let serviceSubtypeName = Variable<String?>(nil)
-    let servicePriceType = Variable<PriceType?>(nil)
+    let servicePaymentFrequency = Variable<PaymentFrequency?>(nil)
     
     var shouldFeatureItemAfterEdit = Variable<Bool>(true)
     
@@ -390,7 +390,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
                 self.serviceSubtypeName.value = services.servicesAttributes.subtypeTitle
                     ?? servicesInfoRepository.serviceSubtype(forServiceSubtypeId: serviceSubtypeId)?.name
             }
-            self.servicePriceType.value = services.servicesAttributes.priceType ?? .hourly
+            self.servicePaymentFrequency.value = services.servicesAttributes.paymentFrequency
         }
 
         self.shouldShareInFB = false
@@ -483,7 +483,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
                                  subtypeId: serviceSubtypeId.value,
                                  typeTitle: serviceTypeName.value,
                                  subtypeTitle: serviceSubtypeName.value,
-                                 priceType: servicePriceType.value)
+                                 paymentFrequency: servicePaymentFrequency.value)
     }
 
     var descriptionCharCount: Int {
@@ -792,7 +792,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
                                                                serviceTypeName.asObservable().distinctUntilChanged(),
                                                                serviceSubtypeId.asObservable().distinctUntilChanged(),
                                                                serviceSubtypeName.asObservable().distinctUntilChanged(),
-                                                               servicePriceType.asObservable().distinctUntilChanged())
+                                                               servicePaymentFrequency.asObservable().distinctUntilChanged())
         
         let checkAllChanges = Observable.combineLatest(checkingCarChanges.asObservable(),
                                                        checkingCarExtraFieldsChanges.asObservable(),
@@ -1032,8 +1032,12 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 // MARK:- Services
 extension EditListingViewModel {
     
-    var shouldShowPriceType: Bool {
-        return featureFlags.servicesPriceType.isActive
+    var paymentFrequencyText: String {
+        return servicePaymentFrequency.value?.localizedDisplayName ?? R.Strings.editPaymentFrequencyPlaceholder
+    }
+    
+    var shouldShowPaymentFrequency: Bool {
+        return featureFlags.servicesPaymentFrequency.isActive
     }
     
     func serviceTypeButtonPressed() {
@@ -1076,11 +1080,11 @@ extension EditListingViewModel {
         navigator?.openListingAttributePicker(viewModel: vm)
     }
     
-    func priceTypeButtonPressed() {
-        let priceTypeActions = PriceType.allCases.map({ [weak self] priceType in
-            return UIAction(interface: UIActionInterface.text(priceType.localizedDisplayName),
+    func paymentFrequencyButtonPressed() {
+        let paymentFrequencyActions = PaymentFrequency.allCases.map({ [weak self] paymentFrequency in
+            return UIAction(interface: UIActionInterface.text(paymentFrequency.localizedDisplayName),
                              action: {
-                                self?.servicePriceType.value = priceType
+                                self?.servicePaymentFrequency.value = paymentFrequency
             })
         })
         
@@ -1088,7 +1092,7 @@ extension EditListingViewModel {
                                     action: {})
 
         delegate?.vmShowActionSheet(cancelAction,
-                                    actions: priceTypeActions,
+                                    actions: paymentFrequencyActions,
                                     withTitle: R.Strings.editPriceTypeChooseTitle)
     }
 

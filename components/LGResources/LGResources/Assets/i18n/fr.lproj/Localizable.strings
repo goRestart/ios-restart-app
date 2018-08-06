@@ -50,9 +50,11 @@
 "bump_up_view_boost_pay_button_title" = "Mettez-le de nouveau en vedette pour %@";
 "bump_up_view_boost_subtitle_boost_listing" = "Puisque vous avez déjà mis votre annonce en vedette au cours des dernières 24 heures, nous vous permettons d'acheter une autre mise en vedette pour moins cher !";
 "bump_up_view_boost_subtitle_cheaper" = "Boostez votre annonce dès maintenant pour obtenir un rabais sur le prix d'une mise en vedette classique.";
+"bump_up_view_boost_subtitle_not_ready" = "Vous pouvez ajouter un autre boost dans %@ pour la renvoyer vers le haut et la mettre en vedette pour 24 heures de plus";
 "bump_up_view_boost_subtitle_send_top" = "Votre annonce est toujours mise en vedette, mais vous pouvez ajouter un extra boost. Cela va envoyer votre annonce en haut de la liste et elle sera mise en valeur pendant 24 heures à compter de maintenant.";
 "bump_up_view_boost_title_boost_listing" = "Boostez votre annonce mise en vedette";
 "bump_up_view_boost_title_cheaper_boost" = "Obtenez un boost moins cher dès maintenant";
+"bump_up_view_boost_title_not_ready" = "Votre annonce est toujours en vedette";
 "bump_up_view_boost_title_send_top" = "Renvoyez-le de nouveau vers le haut";
 "bump_up_view_free_subtitle" = "Plus vous partagez, plus votre annonce sera visible.";
 "bump_up_view_free_title" = "RENVOYEZ VOTRE ANNONCE VERS LE HAUT";
@@ -358,7 +360,9 @@
 "discarded_products_reason_poor_ad_quality" = "N'est pas conforme aux meilleures pratiques";
 "discarded_products_reason_reference_to_competitors" = "Références à d'autres applis ou sites internet";
 "discarded_products_reason_stock_photo_only" = "Ne contient que des photos provenant de banques d'images";
-"edit_priceType_choose_title" = "Choose an option";
+"edit_paymentFrequency_placeholder" = "Frequency";
+"edit_paymentFrequency_title" = "Frequency";
+"edit_priceType_choose_title" = "Choisissez une option";
 "edit_product_feature_label_long_text" = "Mettez votre annonce en vedette pour vendre plus vite";
 "edit_product_feature_label_short_text" = "Vendez au plus vite !";
 "edit_product_location_alert_text" = "Pour changer le lieu de publication de votre annonce, autorisez l'accès à votre localisation.";
@@ -370,7 +374,7 @@
 "edit_product_title" = "Modifier annonce";
 "edit_product_unsaved_changes_alert" = "Êtes-vous certain de vouloir annuler ces changements ?";
 "edit_product_unsaved_changes_alert_ok" = "Oui";
-"engagement_badging_feed_bubble" = "New items";
+"engagement_badging_feed_bubble" = "Nouveaux produits";
 "featured_info_view_increase_visibility" = "Gagnez en visibilité";
 "featured_info_view_more_buyers" = "Attirez plus d'acheteurs";
 "featured_info_view_sell_faster" = "Vendez plus vite";

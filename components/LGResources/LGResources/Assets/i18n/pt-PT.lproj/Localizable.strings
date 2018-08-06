@@ -50,9 +50,11 @@
 "bump_up_view_boost_pay_button_title" = "Destaque-o agora por %@";
 "bump_up_view_boost_subtitle_boost_listing" = "Uma vez que já destacou o seu anúncio nas últimas 24 horas, deixámo-lo comprar outro destaque por menos!";
 "bump_up_view_boost_subtitle_cheaper" = "Impulsione o seu anúncio agora para receber um desconto sobre o preço do destaque habitual.";
+"bump_up_view_boost_subtitle_not_ready" = "Poderá enviá-lo para o topo de novo em %@ e destacá-lo por mais 24 horas";
 "bump_up_view_boost_subtitle_send_top" = "O seu anúncio ainda está destacado mas pode dar-lhe um impulso extra! Ele irá para o topo e ficará destacado durante 24 horas a partir de agora.";
 "bump_up_view_boost_title_boost_listing" = "Impulsione o seu anúncio destacado";
 "bump_up_view_boost_title_cheaper_boost" = "Obtenha agora um impulso económico";
+"bump_up_view_boost_title_not_ready" = "O seu anúncio ainda está destacado";
 "bump_up_view_boost_title_send_top" = "Envie-o de novo para o topo";
 "bump_up_view_free_subtitle" = "Quanto mais partilhar mais visibilidade a sua publicação terá.";
 "bump_up_view_free_title" = "DÊ PRIORIDADE À SUA PUBLICAÇÃO";
@@ -358,7 +360,9 @@
 "discarded_products_reason_poor_ad_quality" = "Não cumpre as melhores práticas";
 "discarded_products_reason_reference_to_competitors" = "Referências a outras apps ou sites";
 "discarded_products_reason_stock_photo_only" = "Contém apenas fotos de stocks";
-"edit_priceType_choose_title" = "Choose an option";
+"edit_paymentFrequency_placeholder" = "Frequência";
+"edit_paymentFrequency_title" = "Frequência";
+"edit_priceType_choose_title" = "Escolha uma opção";
 "edit_product_feature_label_long_text" = "Destaque o seu anúncio para vender mais rápido";
 "edit_product_feature_label_short_text" = "Venda mais rápido";
 "edit_product_location_alert_text" = "Para alterar onde o seu anúncio é publicado, autorize o acesso à sua localização";
@@ -370,7 +374,7 @@
 "edit_product_title" = "Editar publicação";
 "edit_product_unsaved_changes_alert" = "Tem a certeza de que deseja rejeitar estas alterações?";
 "edit_product_unsaved_changes_alert_ok" = "Rejeitar";
-"engagement_badging_feed_bubble" = "New items";
+"engagement_badging_feed_bubble" = "Novos itens";
 "featured_info_view_increase_visibility" = "Tenha mais visibilidade";
 "featured_info_view_more_buyers" = "Atraia mais compradores";
 "featured_info_view_sell_faster" = "Venda mais rápido";

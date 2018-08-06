@@ -9,9 +9,9 @@ final class UserCoordinator {
     
     weak var tabNavigator: TabNavigator?
 
-    private lazy var listingCoordinator = ListingCoordinator(navigationController: navigationController)
+    weak var listingCoordinator: ListingCoordinator?
 
-    convenience init(navigationController: UINavigationController){
+    convenience init(navigationController: UINavigationController) {
         self.init(navigationController: navigationController,
                   userRepository: Core.userRepository,
                   myUserRepository: Core.myUserRepository)
@@ -24,6 +24,17 @@ final class UserCoordinator {
 
         self.userRepository = userRepository
         self.myUserRepository = myUserRepository
+    }
+
+    func openUser(_ data: UserDetailData) {
+        switch data {
+        case let .id(userId, source):
+            openUser(userId: userId, source: source)
+        case let .userAPI(user, source):
+            openUser(user: user, source: source)
+        case let .userChat(user):
+            openUser(user, hidesBottomBarWhenPushed: navigationController.viewControllers.count == 1)
+        }
     }
 
     func openUser(userId: String, source: UserSource) {
@@ -75,6 +86,6 @@ extension UserCoordinator: PublicProfileNavigator {
     func openListing(_ data: ListingDetailData,
                      source: EventParameterListingVisitSource,
                      actionOnFirstAppear: ProductCarouselActionOnFirstAppear) {
-        listingCoordinator.openListing(data, source: source, actionOnFirstAppear: actionOnFirstAppear)
+        listingCoordinator?.openListing(data, source: source, actionOnFirstAppear: actionOnFirstAppear)
     }
 }

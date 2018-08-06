@@ -195,4 +195,8 @@ final class ChatBlockedUsersViewController: ChatBaseViewController, UITableViewD
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         return viewModel.tableViewRowActions()
     }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        viewModel.setCurrentIndex(indexPath.row)
+    }
 }
