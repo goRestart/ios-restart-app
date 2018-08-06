@@ -77,6 +77,7 @@ protocol FeatureFlaggeable: class {
     var expressChatImprovement: ExpressChatImprovement { get }
 
     // MARK: Verticals
+    var jobsAndServicesEnabled: EnableJobsAndServicesCategory { get }
     var servicesPaymentFrequency: ServicesPaymentFrequency { get }
     var carExtraFieldsEnabled: CarExtraFieldsEnabled { get }
     var realEstateMapTooltip: RealEstateMapTooltip { get }
@@ -188,6 +189,10 @@ extension OnboardingIncentivizePosting {
 }
 
 extension ServicesUnifiedFilterScreen {
+    var isActive: Bool { return self == .active }
+}
+
+extension EnableJobsAndServicesCategory {
     var isActive: Bool { return self == .active }
 }
 
@@ -1184,7 +1189,16 @@ extension FeatureFlags {
         if Bumper.enabled {
             return Bumper.servicesPaymentFrequency
         }
-         return ServicesPaymentFrequency.fromPosition(abTests.servicesPaymentFrequency.value)
+        return ServicesPaymentFrequency.fromPosition(abTests.servicesPaymentFrequency.value)
+    }
+    
+    var jobsAndServicesEnabled: EnableJobsAndServicesCategory {
+        if Bumper.enabled {
+            return Bumper.enableJobsAndServicesCategory
+        }
+        
+        return .control
+        // FIXME: Enable A/B Test
     }
 }
 

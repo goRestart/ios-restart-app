@@ -329,5 +329,10 @@
         "name": "ShowSellFasterInProfileCells",
         "values": ["control", "baseline", "active"],
         "description": "[MONEY] Add CTA to bump up to profile listing cells"
-    }
+ },
+     {
+         "name": "EnableJobsAndServicesCategory",
+         "values": ["control", "baseline", "active"],
+         "description": "[SERVICES] Services category becomes Jobs & Services, enables features related to jobs"
+     }
  ]

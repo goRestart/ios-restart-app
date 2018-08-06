@@ -82,6 +82,7 @@ extension Bumper  {
         flags.append(ServicesPaymentFrequency.self)
         flags.append(SearchAlertsDisableOldestIfMaximumReached.self)
         flags.append(ShowSellFasterInProfileCells.self)
+        flags.append(EnableJobsAndServicesCategory.self)
         Bumper.initialize(flags)
     } 
 
@@ -939,6 +940,19 @@ extension Bumper  {
     static var showSellFasterInProfileCellsObservable: Observable<ShowSellFasterInProfileCells> {
         return Bumper.observeValue(for: ShowSellFasterInProfileCells.key).map {
             ShowSellFasterInProfileCells(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var enableJobsAndServicesCategory: EnableJobsAndServicesCategory {
+        guard let value = Bumper.value(for: EnableJobsAndServicesCategory.key) else { return .control }
+        return EnableJobsAndServicesCategory(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var enableJobsAndServicesCategoryObservable: Observable<EnableJobsAndServicesCategory> {
+        return Bumper.observeValue(for: EnableJobsAndServicesCategory.key).map {
+            EnableJobsAndServicesCategory(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1966,6 +1980,22 @@ enum ShowSellFasterInProfileCells: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "[MONEY] Add CTA to bump up to profile listing cells" } 
     static func fromPosition(_ position: Int) -> ShowSellFasterInProfileCells {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum EnableJobsAndServicesCategory: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return EnableJobsAndServicesCategory.control.rawValue }
+    static var enumValues: [EnableJobsAndServicesCategory] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[SERVICES] Services category becomes Jobs & Services, enables features related to jobs" } 
+    static func fromPosition(_ position: Int) -> EnableJobsAndServicesCategory {
         switch position { 
             case 0: return .control
             case 1: return .baseline
