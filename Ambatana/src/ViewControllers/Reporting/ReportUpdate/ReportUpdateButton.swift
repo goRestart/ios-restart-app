@@ -67,6 +67,7 @@ final class ReportUpdateButton: UIButton {
                 self.setImage(self.type.disabledImage, for: .normal)
             }, completion: nil)
         }
+        self.isUserInteractionEnabled = false
     }
 
     private func shake(times: Int, currentTimes: Int, direction: CGFloat, duration: TimeInterval, delta: CGFloat) {
