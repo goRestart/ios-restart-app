@@ -257,7 +257,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         }) { [weak self] _ in
             self?.mapTooltip?.removeFromSuperview()
             self?.mapTooltip = nil
-            self?.viewModel.tooltipMapHidden()
+            self?.viewModel.tooltipDidHide()
         }
     }
 

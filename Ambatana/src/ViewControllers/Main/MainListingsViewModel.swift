@@ -69,6 +69,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     var shouldHideCategoryAfterSearch = false
     var activeRequesterType: RequesterType?
     
+    private var isMapTooltipAdded = false
+    
     var hasFilters: Bool {
         return !filters.isDefault()
     }
@@ -294,7 +296,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     }
     
     private var shouldShowRealEstateMapTooltip: Bool {
-        return featureFlags.realEstateMapTooltip.isActive && !keyValueStorage[.realEstateTooltipMapShown]
+        return featureFlags.realEstateMapTooltip.isActive && !keyValueStorage[.realEstateTooltipMapShown] && !isMapTooltipAdded
     }
     
     private func showTooltipMap() {
@@ -311,13 +313,14 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                                                         peakOnTop: true,
                                                         actionBlock: {},
                                                         closeBlock:{ [weak self] in
+                                                            self?.isMapTooltipAdded = false
                                                             self?.delegate?.vmHideMapToolTip()
         })
+        isMapTooltipAdded = true
         delegate?.vmShowMapToolTip(with: tooltipConfiguration)
     }
     
-    func tooltipMapHidden() {
-        guard shouldShowRealEstateMapTooltip else { return }
+    func tooltipDidHide() {
         keyValueStorage[.realEstateTooltipMapShown] = true
     }
 
