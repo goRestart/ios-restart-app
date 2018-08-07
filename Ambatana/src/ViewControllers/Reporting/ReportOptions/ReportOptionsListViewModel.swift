@@ -18,6 +18,7 @@ final class ReportOptionsListViewModel: BaseViewModel {
 
     var navigator: ReportNavigator?
     private var selectedOption: ReportOption?
+    weak var delegate: BaseViewModelDelegate?
 
     init(optionGroup: ReportOptionsGroup,
          title: String,
@@ -52,20 +53,30 @@ final class ReportOptionsListViewModel: BaseViewModel {
     func didTapReport(with additionalNotes: String?) {
         guard let option = selectedOption else { return }
         guard let type = option.type.reportSentType else { return }
+
+        let completion: (ReportingEmptyResult) -> Void = { [weak self] result in
+            self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
+            if let _ = result.value {
+                self?.trackReportSent(withAdditionalNotes: additionalNotes != nil)
+                self?.navigator?.openReportSentScreen(type: type)
+            } else if let _ = result.error {
+                self?.delegate?.vmShowAlert(R.Strings.commonErrorTitle,
+                                            message: R.Strings.commonErrorGenericBody,
+                                            cancelLabel: R.Strings.commonOk, actions: [])
+            }
+        }
+
+        self.delegate?.vmShowLoading(nil)
         if type.isForProduct {
             reportingRepository.createListingReport(to: reportedId,
                                                     reason: option.type.rawValue,
-                                                    comment: additionalNotes ?? "") { [weak self] result in
-                                                        self?.trackReportSent(withAdditionalNotes: additionalNotes != nil)
-                                                        self?.navigator?.openReportSentScreen(type: type)
-            }
+                                                    comment: additionalNotes ?? "",
+                                                    completion: completion)
         } else {
             reportingRepository.createUserReport(to: reportedId,
                                                  reason: option.type.rawValue,
-                                                 comment: additionalNotes ?? "") { [weak self] result in
-                                                    self?.trackReportSent(withAdditionalNotes: additionalNotes != nil)
-                                                    self?.navigator?.openReportSentScreen(type: type)
-            }
+                                                 comment: additionalNotes ?? "",
+                                                 completion: completion)
         }
     }
 

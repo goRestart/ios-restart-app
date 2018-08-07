@@ -73,6 +73,7 @@ final class ReportOptionsListViewController: BaseViewController {
     init(viewModel: ReportOptionsListViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
+        self.viewModel.delegate = self
     }
 
     override func viewDidLoad() {
