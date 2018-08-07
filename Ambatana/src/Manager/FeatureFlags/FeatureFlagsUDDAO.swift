@@ -21,30 +21,20 @@ final class FeatureFlagsUDDAO: FeatureFlagsDAO {
 
     fileprivate var dictionary: [String: Any]
     fileprivate let userDefaults: UserDefaults
-    fileprivate var networkDAO: NetworkDAO
     
     // MARK: - Lifecycle
     
     convenience init() {
-        self.init(userDefaults: UserDefaults.standard, networkDAO: NetworkDefaultsDAO())
+        self.init(userDefaults: UserDefaults.standard)
     }
     
-    init(userDefaults: UserDefaults, networkDAO: NetworkDAO) {
+    init(userDefaults: UserDefaults) {
         self.userDefaults = userDefaults
-        self.networkDAO = networkDAO
         self.dictionary = FeatureFlagsUDDAO.fetch(userDefaults: userDefaults) ?? [:]
     }
     
     
     // MARK: - FeatureFlagsDAO
-
-    func retrieveTimeoutForRequests() -> TimeInterval? {
-        return networkDAO.timeoutIntervalForRequests
-    }
-
-    func save(timeoutForRequests: TimeInterval) {
-        networkDAO.timeoutIntervalForRequests = timeoutForRequests
-    }
 
     func retrieveAdvanceReputationSystem() -> AdvancedReputationSystem? {
         guard let rawValue: String = retrieve(key: .advancedReputationSystemEnabled) else { return nil }

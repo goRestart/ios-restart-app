@@ -21,7 +21,6 @@ extension Bumper  {
         flags.append(PricedBumpUpEnabled.self)
         flags.append(UserReviewsReportEnabled.self)
         flags.append(RealEstateEnabled.self)
-        flags.append(RequestsTimeOut.self)
         flags.append(TaxonomiesAndTaxonomyChildrenInFeed.self)
         flags.append(DeckItemPage.self)
         flags.append(ShowClockInDirectAnswer.self)
@@ -148,19 +147,6 @@ extension Bumper  {
     static var realEstateEnabledObservable: Observable<RealEstateEnabled> {
         return Bumper.observeValue(for: RealEstateEnabled.key).map {
             RealEstateEnabled(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var requestsTimeOut: RequestsTimeOut {
-        guard let value = Bumper.value(for: RequestsTimeOut.key) else { return .baseline }
-        return RequestsTimeOut(rawValue: value) ?? .baseline 
-    } 
-
-    #if (RX_BUMPER)
-    static var requestsTimeOutObservable: Observable<RequestsTimeOut> {
-        return Bumper.observeValue(for: RequestsTimeOut.key).map {
-            RequestsTimeOut(rawValue: $0 ?? "") ?? .baseline
         }
     }
     #endif
@@ -1021,24 +1007,6 @@ enum RealEstateEnabled: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .active
             default: return .control
-        }
-    }
-}
-
-enum RequestsTimeOut: String, BumperFeature  {
-    case baseline, thirty, forty_five, sixty, hundred_and_twenty
-    static var defaultValue: String { return RequestsTimeOut.baseline.rawValue }
-    static var enumValues: [RequestsTimeOut] { return [.baseline, .thirty, .forty_five, .sixty, .hundred_and_twenty]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "API requests timeout" } 
-    static func fromPosition(_ position: Int) -> RequestsTimeOut {
-        switch position { 
-            case 0: return .baseline
-            case 1: return .thirty
-            case 2: return .forty_five
-            case 3: return .sixty
-            case 4: return .hundred_and_twenty
-            default: return .baseline
         }
     }
 }

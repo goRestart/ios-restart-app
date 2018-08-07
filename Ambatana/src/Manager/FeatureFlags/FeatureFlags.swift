@@ -22,7 +22,6 @@ protocol FeatureFlaggeable: class {
     var pricedBumpUpEnabled: Bool { get }
     var userReviewsReportEnabled: Bool { get }
     var realEstateEnabled: RealEstateEnabled { get }
-    var requestTimeOut: RequestsTimeOut { get }
     var taxonomiesAndTaxonomyChildrenInFeed : TaxonomiesAndTaxonomyChildrenInFeed { get }
     var showClockInDirectAnswer : ShowClockInDirectAnswer { get }
     var deckItemPage: DeckItemPage { get }
@@ -476,8 +475,6 @@ final class FeatureFlags: FeatureFlaggeable {
     
     static let sharedInstance: FeatureFlags = FeatureFlags()
 
-    let requestTimeOut: RequestsTimeOut
-
     private let locale: Locale
     private var locationManager: LocationManager
     private let carrierCountryInfo: CountryConfigurable
@@ -492,13 +489,6 @@ final class FeatureFlags: FeatureFlaggeable {
         Bumper.initialize()
 
         // Initialize all vars that shouldn't change over application lifetime
-        if Bumper.enabled {
-            self.requestTimeOut = Bumper.requestsTimeOut
-        } else {
-            self.requestTimeOut = RequestsTimeOut.buildFromTimeout(dao.retrieveTimeoutForRequests())
-                ?? RequestsTimeOut.fromPosition(abTests.requestsTimeOut.value)
-        }
-
         self.locale = locale
         self.locationManager = locationManager
         self.carrierCountryInfo = countryInfo
@@ -529,16 +519,13 @@ final class FeatureFlags: FeatureFlaggeable {
     }
 
     func variablesUpdated() {
-        if Bumper.enabled {
-            dao.save(timeoutForRequests: TimeInterval(Bumper.requestsTimeOut.timeout))
-        } else {
-            dao.save(timeoutForRequests: TimeInterval(abTests.requestsTimeOut.value))
-            dao.save(advanceReputationSystem: AdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value))
-            dao.save(emergencyLocate: EmergencyLocate.fromPosition(abTests.emergencyLocate.value))
-            dao.save(chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs.fromPosition(abTests.chatConversationsListWithoutTabs.value))
-            dao.save(community: ShowCommunity.fromPosition(abTests.community.value))
-        }
-        abTests.variablesUpdated()
+        defer { abTests.variablesUpdated() }
+        guard Bumper.enabled else { return }
+        
+        dao.save(advanceReputationSystem: AdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value))
+        dao.save(emergencyLocate: EmergencyLocate.fromPosition(abTests.emergencyLocate.value))
+        dao.save(chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs.fromPosition(abTests.chatConversationsListWithoutTabs.value))
+        dao.save(community: ShowCommunity.fromPosition(abTests.community.value))
     }
     
     var surveyUrl: String {
