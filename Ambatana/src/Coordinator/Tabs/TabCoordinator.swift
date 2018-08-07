@@ -508,9 +508,9 @@ extension TabCoordinator: ListingDetailNavigator {
                                                animated: false)
     }
 
-    func openUserReport(source: EventParameterTypePage, userReportedId: String) {
+    func openUserReport(source: EventParameterTypePage, userReportedId: String, rateData: RateUserData) {
         if featureFlags.reportingFostaSesta.isActive {
-            let child = ReportCoordinator(type: .user, reportedId: userReportedId, source: source)
+            let child = ReportCoordinator(type: .user(rateData: rateData), reportedId: userReportedId, source: source)
             openChild(coordinator: child, parent: rootViewController, animated: true, forceCloseChild: false, completion: nil)
         } else {
             let vm = ReportUsersViewModel(origin: source, userReportedId: userReportedId)

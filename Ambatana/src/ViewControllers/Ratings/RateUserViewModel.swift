@@ -18,10 +18,20 @@ struct RateUserData {
         self.ratingType = ratingType
     }
 
-    init(userId: String, userAvatar: File?, userName: String?, listingId: String?, ratingType: UserRatingType) {
+    init?(user: User, listingId: String?, ratingType: UserRatingType) {
+        guard let userId = user.objectId else { return nil }
         self.userId = userId
-        self.userAvatar = userAvatar?.fileURL
-        self.userName = userName
+        self.userAvatar = user.avatar?.fileURL
+        self.userName = user.name
+        self.listingId = listingId
+        self.ratingType = ratingType
+    }
+
+    init?(user: ChatInterlocutor, listingId: String?, ratingType: UserRatingType) {
+        guard let userId = user.objectId else { return nil }
+        self.userId = userId
+        self.userAvatar = user.avatar?.fileURL
+        self.userName = user.name
         self.listingId = listingId
         self.ratingType = ratingType
     }

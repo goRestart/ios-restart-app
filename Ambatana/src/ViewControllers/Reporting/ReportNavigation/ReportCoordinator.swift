@@ -4,7 +4,7 @@ import LGComponents
 
 enum ReportCoordinatorType {
     case product(listing: Listing)
-    case user
+    case user(rateData: RateUserData)
 
     fileprivate var options: ReportOptionsGroup {
         switch self {
@@ -24,6 +24,13 @@ enum ReportCoordinatorType {
         switch self {
         case .product(let listing): return listing
         case .user: return nil
+        }
+    }
+
+    var rateData: RateUserData? {
+        switch self {
+        case .product: return nil
+        case .user(let data): return data
         }
     }
 }
@@ -91,7 +98,6 @@ final class ReportCoordinator: Coordinator {
 }
 
 extension ReportCoordinator: ReportNavigator {
-
     func openNextStep(with options: ReportOptionsGroup, from: ReportOptionType) {
         guard let navCtl = viewController as? UINavigationController else { return }
         let vm = ReportOptionsListViewModel(optionGroup: options, title: type.title, tracker: tracker,
@@ -102,9 +108,9 @@ extension ReportCoordinator: ReportNavigator {
         navCtl.pushViewController(vc, animated: true)
     }
 
-    func openReportSentScreen(type: ReportSentType) {
+    func openReportSentScreen(type sentType: ReportSentType) {
         guard let navCtl = viewController as? UINavigationController else { return }
-        let vm = ReportSentViewModel(reportSentType: type, reportedObjectId: reportedId)
+        let vm = ReportSentViewModel(reportSentType: sentType, reportedObjectId: reportedId)
         vm.navigator = self
         let vc = ReportSentViewController(viewModel: vm)
         vm.delegate = vc
@@ -115,9 +121,11 @@ extension ReportCoordinator: ReportNavigator {
         closeCoordinator(animated: true, completion: nil)
     }
 
-    func openReviewUser(userId: String, userAvatar: File?, userName: String?) {
-        let data = RateUserData(userId: userId, userAvatar: userAvatar, userName: userName, listingId: nil, ratingType: .report)
-        let child = UserRatingCoordinator(source: .report, data: data)
-        openChild(coordinator: child, parent: viewController, animated: true, forceCloseChild: false, completion: nil)
+    func openReviewUser() {
+        guard let rate = type.rateData else { return }
+        let assembly = LGRateBuilder.modal(root: viewController)
+        let vc = assembly.buildRateUser(source: .report, data: rate, showSkipButton: false)
+        let nav = UINavigationController(rootViewController: vc)
+        viewController.present(nav, animated: true, completion: nil)
     }
 }

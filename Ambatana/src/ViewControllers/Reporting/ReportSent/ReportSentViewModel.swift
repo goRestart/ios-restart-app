@@ -113,7 +113,7 @@ final class ReportSentViewModel: BaseViewModel {
     }
 
     func didTapReview() {
-        navigator?.openReviewUser(userId: "String", userAvatar: nil, userName: nil)
+        navigator?.openReviewUser()
     }
 
     private func trackBlock(_ userId: String) {

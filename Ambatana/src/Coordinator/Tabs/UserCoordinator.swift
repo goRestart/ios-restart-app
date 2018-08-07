@@ -79,8 +79,8 @@ final class UserCoordinator {
 }
 
 extension UserCoordinator: PublicProfileNavigator {
-    func openUserReport(source: EventParameterTypePage, userReportedId: String) {
-        tabNavigator?.openUserReport(source: source, userReportedId: userReportedId)
+    func openUserReport(source: EventParameterTypePage, userReportedId: String, rateData: RateUserData) {
+        tabNavigator?.openUserReport(source: source, userReportedId: userReportedId, rateData: rateData)
     }
 
     func openListing(_ data: ListingDetailData,
