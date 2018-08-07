@@ -166,11 +166,6 @@
         "description": "Show an I am interested button in the main feed"
     },
     {
-        "name": "ChatConversationsListWithoutTabs",
-        "values": ["control", "baseline", "active"],
-        "description": "[CHAT] Chat conversation list without tabs"
-    },
-    {
         "name": "PersonalizedFeed",
         "values": ["control", "baseline", "personalized"],
         "description": "Personalize the feed"

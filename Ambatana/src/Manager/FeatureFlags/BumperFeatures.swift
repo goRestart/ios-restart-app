@@ -48,7 +48,6 @@ extension Bumper  {
         flags.append(CopyForSellFasterNowInEnglish.self)
         flags.append(EmergencyLocate.self)
         flags.append(IAmInterestedFeed.self)
-        flags.append(ChatConversationsListWithoutTabs.self)
         flags.append(PersonalizedFeed.self)
         flags.append(ServicesCategoryOnSalchichasMenu.self)
         flags.append(GoogleAdxForTR.self)
@@ -498,19 +497,6 @@ extension Bumper  {
     static var iAmInterestedFeedObservable: Observable<IAmInterestedFeed> {
         return Bumper.observeValue(for: IAmInterestedFeed.key).map {
             IAmInterestedFeed(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs {
-        guard let value = Bumper.value(for: ChatConversationsListWithoutTabs.key) else { return .control }
-        return ChatConversationsListWithoutTabs(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var chatConversationsListWithoutTabsObservable: Observable<ChatConversationsListWithoutTabs> {
-        return Bumper.observeValue(for: ChatConversationsListWithoutTabs.key).map {
-            ChatConversationsListWithoutTabs(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1439,22 +1425,6 @@ enum IAmInterestedFeed: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .hidden
-            default: return .control
-        }
-    }
-}
-
-enum ChatConversationsListWithoutTabs: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return ChatConversationsListWithoutTabs.control.rawValue }
-    static var enumValues: [ChatConversationsListWithoutTabs] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "[CHAT] Chat conversation list without tabs" } 
-    static func fromPosition(_ position: Int) -> ChatConversationsListWithoutTabs {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
             default: return .control
         }
     }

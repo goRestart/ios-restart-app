@@ -6,7 +6,6 @@ struct ChatABGroup: ABGroupType {
         static let showChatSafetyTips = "20180226ShowChatSafetyTips"
         static let userIsTyping = "20180305UserIsTyping"
         static let chatNorris = "20180319ChatNorris"
-        static let chatConversationsListWithoutTabs = "20180509ChatConversationsListWithoutTabs"
         static let showChatConnectionStatusBar = "20180621ShowChatConnectionStatusBar"
         static let showChatHeaderWithoutListingForAssistant = "20180629ShowChatHeaderWithoutListingForAssistant"
         static let showChatHeaderWithoutUser = "20180702ShowChatHeaderWithoutUser"
@@ -19,7 +18,6 @@ struct ChatABGroup: ABGroupType {
     let showChatSafetyTips: LeanplumABVariable<Bool>
     let userIsTyping: LeanplumABVariable<Int>
     let chatNorris: LeanplumABVariable<Int>
-    let chatConversationsListWithoutTabs: LeanplumABVariable<Int>
     let showChatConnectionStatusBar: LeanplumABVariable<Int>
     let showChatHeaderWithoutListingForAssistant: LeanplumABVariable<Bool>
     let showChatHeaderWithoutUser: LeanplumABVariable<Bool>
@@ -37,7 +35,6 @@ struct ChatABGroup: ABGroupType {
          showChatSafetyTips: LeanplumABVariable<Bool>,
          userIsTyping: LeanplumABVariable<Int>,
          chatNorris: LeanplumABVariable<Int>,
-         chatConversationsListWithoutTabs: LeanplumABVariable<Int>,
          showChatConnectionStatusBar: LeanplumABVariable<Int>,
          showChatHeaderWithoutListingForAssistant: LeanplumABVariable<Bool>,
          showChatHeaderWithoutUser: LeanplumABVariable<Bool>,
@@ -48,7 +45,6 @@ struct ChatABGroup: ABGroupType {
         self.showChatSafetyTips = showChatSafetyTips
         self.userIsTyping = userIsTyping
         self.chatNorris = chatNorris
-        self.chatConversationsListWithoutTabs = chatConversationsListWithoutTabs
         self.showChatConnectionStatusBar = showChatConnectionStatusBar
         self.showChatHeaderWithoutListingForAssistant = showChatHeaderWithoutListingForAssistant
         self.showChatHeaderWithoutUser = showChatHeaderWithoutUser
@@ -58,7 +54,6 @@ struct ChatABGroup: ABGroupType {
 
         intVariables.append(contentsOf: [userIsTyping,
                                          chatNorris,
-                                         chatConversationsListWithoutTabs,
                                          showChatConnectionStatusBar,
                                          expressChatImprovement,
                                          smartQuickAnswers])
@@ -83,9 +78,6 @@ struct ChatABGroup: ABGroupType {
                            chatNorris: .makeInt(key: Keys.chatNorris,
                                                 defaultValue: 0,
                                                 groupType: .chat),
-                           chatConversationsListWithoutTabs: .makeInt(key: Keys.chatConversationsListWithoutTabs,
-                                                                      defaultValue: 0,
-                                                                      groupType: .chat),
                            showChatConnectionStatusBar: .makeInt(key: Keys.showChatConnectionStatusBar,
                                                                  defaultValue: 0,
                                                                  groupType: .chat),

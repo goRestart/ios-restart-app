@@ -68,7 +68,6 @@ protocol FeatureFlaggeable: class {
     var showChatSafetyTips: Bool { get }
     var userIsTyping: UserIsTyping { get }
     var chatNorris: ChatNorris { get }
-    var chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs { get }
     var showChatConnectionStatusBar: ShowChatConnectionStatusBar { get }
     var showChatHeaderWithoutListingForAssistant: Bool { get }
     var showChatHeaderWithoutUser: Bool { get }
@@ -524,7 +523,6 @@ final class FeatureFlags: FeatureFlaggeable {
         
         dao.save(advanceReputationSystem: AdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value))
         dao.save(emergencyLocate: EmergencyLocate.fromPosition(abTests.emergencyLocate.value))
-        dao.save(chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs.fromPosition(abTests.chatConversationsListWithoutTabs.value))
         dao.save(community: ShowCommunity.fromPosition(abTests.community.value))
     }
     
@@ -1062,10 +1060,6 @@ extension ChatNorris {
     var isActive: Bool { return self == .redButton || self == .whiteButton || self == .greenButton }
 }
 
-extension ChatConversationsListWithoutTabs {
-    var isActive: Bool { return self == .active }
-}
-
 extension ShowChatConnectionStatusBar {
     var isActive: Bool { return self == .active }
 }
@@ -1108,14 +1102,6 @@ extension FeatureFlags {
         return  ChatNorris.fromPosition(abTests.chatNorris.value)
     }
     
-    var chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs {
-        if Bumper.enabled {
-            return Bumper.chatConversationsListWithoutTabs
-        }
-        let cached = dao.retrieveChatConversationsListWithoutTabs()
-        return cached ?? ChatConversationsListWithoutTabs.fromPosition(abTests.chatConversationsListWithoutTabs.value)
-    }
-
     var showChatConnectionStatusBar: ShowChatConnectionStatusBar {
         if Bumper.enabled {
             return Bumper.showChatConnectionStatusBar

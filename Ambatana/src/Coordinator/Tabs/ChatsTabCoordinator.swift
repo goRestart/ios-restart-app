@@ -24,12 +24,7 @@ final class ChatsTabCoordinator: TabCoordinator {
         let featureFlags = FeatureFlags.sharedInstance
         self.chatGroupedViewModel = chatGroupedViewModel
         self.chatConversationsListViewModel = chatConversationsListViewModel
-        let rootViewController: UIViewController
-        if featureFlags.chatConversationsListWithoutTabs.isActive {
-            rootViewController = ChatConversationsListViewController(viewModel: chatConversationsListViewModel)
-        } else {
-            rootViewController = ChatGroupedViewController(viewModel: chatGroupedViewModel)
-        }
+        let rootViewController = ChatConversationsListViewController(viewModel: chatConversationsListViewModel)
         let sessionManager = Core.sessionManager
         super.init(listingRepository: listingRepository,
                   userRepository: userRepository,
@@ -53,9 +48,7 @@ final class ChatsTabCoordinator: TabCoordinator {
     }
     
     func setNeedsRefreshConversations() {
-        if rootViewController.isKind(of: ChatGroupedViewController.self) {
-            chatGroupedViewModel.setNeedsRefreshConversations()
-        }
+        
     }
 }
 
