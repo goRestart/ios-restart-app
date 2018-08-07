@@ -62,6 +62,7 @@ protocol FeatureFlaggeable: class {
     var appInstallAdsInFeedAdUnit: String? { get }
     var alwaysShowBumpBannerWithLoading: AlwaysShowBumpBannerWithLoading { get }
     var showSellFasterInProfileCells: ShowSellFasterInProfileCells { get }
+    var bumpInEditCopys: BumpInEditCopys { get }
     
     // MARK: Chat
     var showInactiveConversations: Bool { get }
@@ -468,6 +469,21 @@ extension SearchAlertsDisableOldestIfMaximumReached {
 
 extension ShowSellFasterInProfileCells {
     var isActive: Bool { return self == .active }
+}
+
+extension BumpInEditCopys {
+    var variantString: String {
+        switch self {
+        case .control, .baseline:
+            return R.Strings.editProductFeatureLabelLongText
+        case .attractMoreBuyers:
+            return R.Strings.editProductFeatureLabelVariantB
+        case .attractMoreBuyersToSellFast:
+            return R.Strings.editProductFeatureLabelVariantC
+        case .showMeHowToAttract:
+            return R.Strings.editProductFeatureLabelVariantD
+        }
+    }
 }
 
 final class FeatureFlags: FeatureFlaggeable {
@@ -1031,7 +1047,13 @@ final class FeatureFlags: FeatureFlaggeable {
         }
         return ShowSellFasterInProfileCells.fromPosition(abTests.showSellFasterInProfileCells.value)
     }
-    
+
+    var bumpInEditCopys: BumpInEditCopys {
+        if Bumper.enabled {
+            return Bumper.bumpInEditCopys
+        }
+        return BumpInEditCopys.fromPosition(abTests.bumpInEditCopys.value)
+    }
 
     // MARK: - Private
 

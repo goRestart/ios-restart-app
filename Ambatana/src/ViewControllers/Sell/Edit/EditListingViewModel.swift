@@ -100,11 +100,11 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
 	
 	struct EditProductFeatureUI {
-		static let editProductFeaturelabelText: String = R.Strings.editProductFeatureLabelLongText
 		static let editProductFeatureTextColor: UIColor = UIColor.primaryColor
 		static let editProductFeatureFont: UIFont = UIFont.systemBoldFont(size: 15)
 		static let editProductFeatureBoostIcon: UIImage = R.Asset.Monetization.icLightning.image
 	}
+
 
     // real time cloudsight
     let proposedTitle = Variable<String>("")
@@ -166,7 +166,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
     private(set) var listingCanBeFeatured: Bool
     var featureLabelText: String? {
-        return listingCanBeBoosted ? BoostCellUI.boostLabelText : EditProductFeatureUI.editProductFeaturelabelText
+        return listingCanBeBoosted ? BoostCellUI.boostLabelText : featureFlags.bumpInEditCopys.variantString
     }
     var featureLabelTextColor: UIColor? {
         return listingCanBeBoosted ? BoostCellUI.boostLabelTextColor : EditProductFeatureUI.editProductFeatureTextColor

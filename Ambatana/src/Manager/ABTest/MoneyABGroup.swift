@@ -25,6 +25,7 @@ struct MoneyABGroup: ABGroupType {
         static let appInstallAdsInFeed = "20180628AppInstallAdsInFeed"
         static let alwaysShowBumpBannerWithLoading = "20180725AlwaysShowBumpBannerWithLoading"
         static let showSellFasterInProfileCells = "20180730ShowSellFasterInProfileCells"
+        static let bumpInEditCopys = "20180806BumpInEditCopys"
     }
     let noAdsInFeedForNewUsers: LeanplumABVariable<Int>
     let copyForChatNowInTurkey: LeanplumABVariable<Int>
@@ -41,6 +42,7 @@ struct MoneyABGroup: ABGroupType {
     let appInstallAdsInFeed: LeanplumABVariable<Int>
     let alwaysShowBumpBannerWithLoading: LeanplumABVariable<Int>
     let showSellFasterInProfileCells: LeanplumABVariable<Int>
+    let bumpInEditCopys: LeanplumABVariable<Int>
 
     let group: ABGroup = .money
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -62,7 +64,8 @@ struct MoneyABGroup: ABGroupType {
          preventMessagesFromFeedToProUsers:LeanplumABVariable<Int>,
          appInstallAdsInFeed:LeanplumABVariable<Int>,
          alwaysShowBumpBannerWithLoading: LeanplumABVariable<Int>,
-         showSellFasterInProfileCells: LeanplumABVariable<Int>){
+         showSellFasterInProfileCells: LeanplumABVariable<Int>,
+         bumpInEditCopys: LeanplumABVariable<Int>){
         self.noAdsInFeedForNewUsers = noAdsInFeedForNewUsers
         self.copyForChatNowInTurkey = copyForChatNowInTurkey
         self.showProTagUserProfile = showProTagUserProfile
@@ -78,6 +81,7 @@ struct MoneyABGroup: ABGroupType {
         self.appInstallAdsInFeed = appInstallAdsInFeed
         self.alwaysShowBumpBannerWithLoading = alwaysShowBumpBannerWithLoading
         self.showSellFasterInProfileCells = showSellFasterInProfileCells
+        self.bumpInEditCopys = bumpInEditCopys
 
         intVariables.append(contentsOf: [noAdsInFeedForNewUsers,
                                          copyForChatNowInTurkey,
@@ -91,7 +95,8 @@ struct MoneyABGroup: ABGroupType {
                                          preventMessagesFromFeedToProUsers,
                                          appInstallAdsInFeed,
                                          alwaysShowBumpBannerWithLoading,
-                                         showSellFasterInProfileCells])
+                                         showSellFasterInProfileCells,
+                                         bumpInEditCopys])
         boolVariables.append(contentsOf: [showProTagUserProfile,
                                           showExactLocationForPros])
     }
@@ -141,7 +146,10 @@ struct MoneyABGroup: ABGroupType {
                                                                       groupType: .money),
                             showSellFasterInProfileCells: .makeInt(key: Keys.showSellFasterInProfileCells,
                                                                    defaultValue: 0,
-                                                                   groupType: .money)
+                                                                   groupType: .money),
+                            bumpInEditCopys: .makeInt(key: Keys.bumpInEditCopys,
+                                                      defaultValue: 0,
+                                                      groupType: .money)
         )
     }
 }

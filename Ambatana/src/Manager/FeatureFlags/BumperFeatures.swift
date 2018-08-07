@@ -81,6 +81,7 @@ extension Bumper  {
         flags.append(ServicesPaymentFrequency.self)
         flags.append(SearchAlertsDisableOldestIfMaximumReached.self)
         flags.append(ShowSellFasterInProfileCells.self)
+        flags.append(BumpInEditCopys.self)
         flags.append(EnableJobsAndServicesCategory.self)
         Bumper.initialize(flags)
     } 
@@ -926,6 +927,19 @@ extension Bumper  {
     static var showSellFasterInProfileCellsObservable: Observable<ShowSellFasterInProfileCells> {
         return Bumper.observeValue(for: ShowSellFasterInProfileCells.key).map {
             ShowSellFasterInProfileCells(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var bumpInEditCopys: BumpInEditCopys {
+        guard let value = Bumper.value(for: BumpInEditCopys.key) else { return .control }
+        return BumpInEditCopys(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var bumpInEditCopysObservable: Observable<BumpInEditCopys> {
+        return Bumper.observeValue(for: BumpInEditCopys.key).map {
+            BumpInEditCopys(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1952,6 +1966,24 @@ enum ShowSellFasterInProfileCells: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum BumpInEditCopys: String, BumperFeature  {
+    case control, baseline, attractMoreBuyers, attractMoreBuyersToSellFast, showMeHowToAttract
+    static var defaultValue: String { return BumpInEditCopys.control.rawValue }
+    static var enumValues: [BumpInEditCopys] { return [.control, .baseline, .attractMoreBuyers, .attractMoreBuyersToSellFast, .showMeHowToAttract]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[MONEY] Test different variants for bump up in edit listing screen" } 
+    static func fromPosition(_ position: Int) -> BumpInEditCopys {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .attractMoreBuyers
+            case 3: return .attractMoreBuyersToSellFast
+            case 4: return .showMeHowToAttract
             default: return .control
         }
     }

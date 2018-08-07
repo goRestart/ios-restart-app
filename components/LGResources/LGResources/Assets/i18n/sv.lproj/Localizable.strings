@@ -365,9 +365,15 @@
 "edit_priceType_choose_title" = "Välj ett alternativ";
 "edit_product_feature_label_long_text" = "Topplista din annons för att sälja snabbare";
 "edit_product_feature_label_short_text" = "Sälj snabbare nu";
+<<<<<<< HEAD
+"edit_product_feature_label_variant_B" = "Attract more buyers";
+"edit_product_feature_label_variant_C" = "Attract more buyers to sell faster";
+"edit_product_feature_label_variant_D" = "Show me how to attract more buyers";
+=======
 "edit_product_feature_label_variant_B" = "Sälj snabbare nu";
 "edit_product_feature_label_variant_C" = "Locka fler säljare för att sälja snabbare";
 "edit_product_feature_label_variant_D" = "Visa mig hur jag kan locka fler köpare";
+>>>>>>> master
 "edit_product_location_alert_text" = "För att ändra plats på din annons, tillåt tillgång till din platsinfo";
 "edit_product_location_alert_title" = "BYT PLATS";
 "edit_product_send_button" = "Spara ändringar";
