@@ -360,10 +360,14 @@
 "discarded_products_reason_poor_ad_quality" = "Ei noudata toimintaohjeita";
 "discarded_products_reason_reference_to_competitors" = "Viittaukset muihin sovelluksiin tai sivustolle";
 "discarded_products_reason_stock_photo_only" = "Sisältää vain mallikuvia";
-"edit_paymentFrequency_placeholder" = "Frequency";
+"edit_paymentFrequency_placeholder" = "Maksuväli";
+"edit_paymentFrequency_title" = "Maksuväli";
 "edit_priceType_choose_title" = "Valitse vaihtoehto";
 "edit_product_feature_label_long_text" = "Nosta ilmoituksesi esiin tehdäksesi kaupat nopeammin";
 "edit_product_feature_label_short_text" = "Myy nopeammin nyt";
+"edit_product_feature_label_variant_B" = "Myy nopeammin nyt";
+"edit_product_feature_label_variant_C" = "Houkuttele enemmän ostajia myydäksesi nopeammin";
+"edit_product_feature_label_variant_D" = "Näytä minulle, miten voin houkutella enemmän ostajia";
 "edit_product_location_alert_text" = "Vaihtaaksesi sijainnin, josta ilmoituksesi julkaistaan, anna lupa käyttää sijaintiasi";
 "edit_product_location_alert_title" = "VAIHDA SIJAINTI";
 "edit_product_send_button" = "Tallenna muutokset";
@@ -729,6 +733,7 @@
 "post_queued_requests_state_listing_posted" = "Ilmoitus julkaistu!";
 "post_queued_requests_state_posting_listing" = "Julkaistaan ilmoitusta...";
 "posting_button_skip" = "Ohita";
+"posting_flow_jobs_and_services_category_button_text" = "Jobs & Services";
 "priceType_biweekly" = "Kahden viikon taksa";
 "priceType_daily" = "Päivätaksa";
 "priceType_hourly" = "Tuntitaksa";

@@ -360,10 +360,14 @@
 "discarded_products_reason_poor_ad_quality" = "Bryter mot våra användartips";
 "discarded_products_reason_reference_to_competitors" = "Hänvisar till andra appar eller webbplatser";
 "discarded_products_reason_stock_photo_only" = "Innehåller endast stockfoton";
-"edit_paymentFrequency_placeholder" = "Frequency";
+"edit_paymentFrequency_placeholder" = "Frekvens";
+"edit_paymentFrequency_title" = "Frekvens";
 "edit_priceType_choose_title" = "Välj ett alternativ";
 "edit_product_feature_label_long_text" = "Topplista din annons för att sälja snabbare";
 "edit_product_feature_label_short_text" = "Sälj snabbare nu";
+"edit_product_feature_label_variant_B" = "Sälj snabbare nu";
+"edit_product_feature_label_variant_C" = "Locka fler säljare för att sälja snabbare";
+"edit_product_feature_label_variant_D" = "Visa mig hur jag kan locka fler köpare";
 "edit_product_location_alert_text" = "För att ändra plats på din annons, tillåt tillgång till din platsinfo";
 "edit_product_location_alert_title" = "BYT PLATS";
 "edit_product_send_button" = "Spara ändringar";
@@ -729,6 +733,7 @@
 "post_queued_requests_state_listing_posted" = "Annonsen har lagts upp!";
 "post_queued_requests_state_posting_listing" = "Publicerar annons...";
 "posting_button_skip" = "Rensa";
+"posting_flow_jobs_and_services_category_button_text" = "Jobs & Services";
 "priceType_biweekly" = "Varannan vecka";
 "priceType_daily" = "Varje dag";
 "priceType_hourly" = "Varje timme";

@@ -360,10 +360,14 @@
 "discarded_products_reason_poor_ad_quality" = "Uygulama kullanım kurallarına aykırı";
 "discarded_products_reason_reference_to_competitors" = "Diğer web sitesi ya da uygulamalara referans";
 "discarded_products_reason_stock_photo_only" = "Sadece stok fotoğraf kullanılması";
-"edit_paymentFrequency_placeholder" = "Frequency";
+"edit_paymentFrequency_placeholder" = "Sıklık";
+"edit_paymentFrequency_title" = "Sıklık";
 "edit_priceType_choose_title" = "Bir seçim yap";
 "edit_product_feature_label_long_text" = "Daha hızlı satmak için ilanını öne çıkar";
 "edit_product_feature_label_short_text" = "Hemen sat";
+"edit_product_feature_label_variant_B" = "Hemen sat";
+"edit_product_feature_label_variant_C" = "Daha hızlı satış yapmak için daha fazla alıcının ilgisini çek";
+"edit_product_feature_label_variant_D" = "Bana daha fazla alıcının ilgisini nasıl çekeceğimi göster";
 "edit_product_location_alert_text" = "İlanının yayınlanmış olduğu yeri değiştirmek için, konum bilgine ulaşılmasına izin ver";
 "edit_product_location_alert_title" = "KONUM DEĞİŞTİR";
 "edit_product_send_button" = "Değişiklikleri kaydet";
@@ -729,6 +733,7 @@
 "post_queued_requests_state_listing_posted" = "İlan yüklendi!";
 "post_queued_requests_state_posting_listing" = "İlan yükleniyor...";
 "posting_button_skip" = "Geç";
+"posting_flow_jobs_and_services_category_button_text" = "Jobs & Services";
 "priceType_biweekly" = "İki haftada bir";
 "priceType_daily" = "Günlük";
 "priceType_hourly" = "Saatlik";

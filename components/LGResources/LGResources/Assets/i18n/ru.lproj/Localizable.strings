@@ -360,10 +360,14 @@
 "discarded_products_reason_poor_ad_quality" = "Не соответствует лучшей практике";
 "discarded_products_reason_reference_to_competitors" = "Ссылки на другие приложения и сайты";
 "discarded_products_reason_stock_photo_only" = "Содержит только фото из сети";
-"edit_paymentFrequency_placeholder" = "Frequency";
+"edit_paymentFrequency_placeholder" = "Частота";
+"edit_paymentFrequency_title" = "Частота";
 "edit_priceType_choose_title" = "Выберите опцию";
 "edit_product_feature_label_long_text" = "Выделите свое объявление, чтобы продать быстрее";
 "edit_product_feature_label_short_text" = "Продайте быстрее";
+"edit_product_feature_label_variant_B" = "Продайте быстрее";
+"edit_product_feature_label_variant_C" = "Привлеките больше покупателей, чтобы продать быстрее";
+"edit_product_feature_label_variant_D" = "Расскажите, как привлечь больше покупателей";
 "edit_product_location_alert_text" = "Для изменение местоположения объявления разрешите доступ к геолокации";
 "edit_product_location_alert_title" = "СМЕНИТЬ МЕСТОПОЛОЖЕНИЕ";
 "edit_product_send_button" = "Сохранить изменения";
@@ -729,6 +733,7 @@
 "post_queued_requests_state_listing_posted" = "Объявление размещено!";
 "post_queued_requests_state_posting_listing" = "Размещаем объявление...";
 "posting_button_skip" = "Пропустить";
+"posting_flow_jobs_and_services_category_button_text" = "Jobs & Services";
 "priceType_biweekly" = "Каждые две недели";
 "priceType_daily" = "Ежедневно";
 "priceType_hourly" = "Ежечасно";

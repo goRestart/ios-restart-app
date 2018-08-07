@@ -54,7 +54,7 @@
 "bump_up_view_boost_subtitle_send_top" = "O seu anúncio ainda está destacado mas pode dar-lhe um impulso extra! Ele irá para o topo e ficará destacado durante 24 horas a partir de agora.";
 "bump_up_view_boost_title_boost_listing" = "Impulsione o seu anúncio destacado";
 "bump_up_view_boost_title_cheaper_boost" = "Obtenha agora um impulso económico";
-"bump_up_view_boost_title_not_ready" = "Your listing's still featured";
+"bump_up_view_boost_title_not_ready" = "O seu anúncio ainda está destacado";
 "bump_up_view_boost_title_send_top" = "Envie-o de novo para o topo";
 "bump_up_view_free_subtitle" = "Quanto mais partilhar mais visibilidade a sua publicação terá.";
 "bump_up_view_free_title" = "DÊ PRIORIDADE À SUA PUBLICAÇÃO";
@@ -360,10 +360,14 @@
 "discarded_products_reason_poor_ad_quality" = "Não cumpre as melhores práticas";
 "discarded_products_reason_reference_to_competitors" = "Referências a outras apps ou sites";
 "discarded_products_reason_stock_photo_only" = "Contém apenas fotos de stocks";
-"edit_paymentFrequency_placeholder" = "Frequency";
-"edit_priceType_choose_title" = "Choose an option";
+"edit_paymentFrequency_placeholder" = "Frequência";
+"edit_paymentFrequency_title" = "Frequência";
+"edit_priceType_choose_title" = "Escolha uma opção";
 "edit_product_feature_label_long_text" = "Destaque o seu anúncio para vender mais rápido";
 "edit_product_feature_label_short_text" = "Venda mais rápido";
+"edit_product_feature_label_variant_B" = "Venda mais rápido";
+"edit_product_feature_label_variant_C" = "Atraia mais compradores para vender mais rápido";
+"edit_product_feature_label_variant_D" = "Mostre-me como atrair mais compradores";
 "edit_product_location_alert_text" = "Para alterar onde o seu anúncio é publicado, autorize o acesso à sua localização";
 "edit_product_location_alert_title" = "ALTERAR LOCALIZAÇÃO";
 "edit_product_send_button" = "Guardar alterações";
@@ -373,7 +377,7 @@
 "edit_product_title" = "Editar publicação";
 "edit_product_unsaved_changes_alert" = "Tem a certeza de que deseja rejeitar estas alterações?";
 "edit_product_unsaved_changes_alert_ok" = "Rejeitar";
-"engagement_badging_feed_bubble" = "New items";
+"engagement_badging_feed_bubble" = "Novos itens";
 "featured_info_view_increase_visibility" = "Tenha mais visibilidade";
 "featured_info_view_more_buyers" = "Atraia mais compradores";
 "featured_info_view_sell_faster" = "Venda mais rápido";
@@ -729,6 +733,7 @@
 "post_queued_requests_state_listing_posted" = "Anúncio publicado!";
 "post_queued_requests_state_posting_listing" = "A publicar o anúncio...";
 "posting_button_skip" = "Pular";
+"posting_flow_jobs_and_services_category_button_text" = "Jobs & Services";
 "priceType_biweekly" = "Quinzenal";
 "priceType_daily" = "Diário";
 "priceType_hourly" = "De hora em hora";

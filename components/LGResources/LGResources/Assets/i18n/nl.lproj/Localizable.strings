@@ -360,10 +360,14 @@
 "discarded_products_reason_poor_ad_quality" = "Voldoet niet aan Best Practices";
 "discarded_products_reason_reference_to_competitors" = "Verwijzingen naar andere apps of websites";
 "discarded_products_reason_stock_photo_only" = "Bevat enkel voorraadfoto's";
-"edit_paymentFrequency_placeholder" = "Frequency";
+"edit_paymentFrequency_placeholder" = "Frequentie";
+"edit_paymentFrequency_title" = "Frequentie";
 "edit_priceType_choose_title" = "Kies een optie";
 "edit_product_feature_label_long_text" = "Plaats je advertentie als uitgelicht om sneller te verkopen";
 "edit_product_feature_label_short_text" = "Verkoop nu sneller";
+"edit_product_feature_label_variant_B" = "Verkoop nu sneller";
+"edit_product_feature_label_variant_C" = "Trek meer kopers aan om sneller te verkopen";
+"edit_product_feature_label_variant_D" = "Laat me zien hoe ik meer kopers kan aantrekken";
 "edit_product_location_alert_text" = "Om te wijzigen waar je advertentie is geplaatst, geef toegang tot jouw locatie";
 "edit_product_location_alert_title" = "WIJZIG LOCATIE";
 "edit_product_send_button" = "Wijzigingen opslaan";
@@ -729,6 +733,7 @@
 "post_queued_requests_state_listing_posted" = "Advertentie geplaatst!";
 "post_queued_requests_state_posting_listing" = "Advertentie plaatsen...";
 "posting_button_skip" = "Overslaan";
+"posting_flow_jobs_and_services_category_button_text" = "Jobs & Services";
 "priceType_biweekly" = "Per twee weken";
 "priceType_daily" = "Per dag";
 "priceType_hourly" = "Per uur";

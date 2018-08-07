@@ -361,9 +361,13 @@
 "discarded_products_reason_reference_to_competitors" = "Gợi ý tới ứng dụng hoặc trang web khác";
 "discarded_products_reason_stock_photo_only" = "Chỉ có ảnh trên mạng";
 "edit_paymentFrequency_placeholder" = "Mức độ thường xuyên";
+"edit_paymentFrequency_title" = "Mức độ thường xuyên";
 "edit_priceType_choose_title" = "Chọn một tùy chọn";
 "edit_product_feature_label_long_text" = "Làm nổi bật bài đăng của bạn để bán nhanh hơn";
 "edit_product_feature_label_short_text" = "Bán nhanh hơn";
+"edit_product_feature_label_variant_B" = "Dễ nhìn hơn";
+"edit_product_feature_label_variant_C" = "Thu hút nhiều người mua để bán nhanh hơn";
+"edit_product_feature_label_variant_D" = "Chỉ cho tôi cách để thu hút nhiều người mua hơn";
 "edit_product_location_alert_text" = "Để thay đổi địa điểm đăng sản phẩm, hãy cho phép truy cập địa điểm của bạn";
 "edit_product_location_alert_title" = "THAY ĐỔI ĐỊA ĐIỂM";
 "edit_product_send_button" = "Lưu thay đổi";
@@ -729,6 +733,7 @@
 "post_queued_requests_state_listing_posted" = "Bài đã được đăng!";
 "post_queued_requests_state_posting_listing" = "Đang đăng bài…";
 "posting_button_skip" = "Bỏ qua";
+"posting_flow_jobs_and_services_category_button_text" = "Jobs & Services";
 "priceType_biweekly" = "Mỗi hai tuần";
 "priceType_daily" = "Mỗi ngày";
 "priceType_hourly" = "Mỗi giờ";

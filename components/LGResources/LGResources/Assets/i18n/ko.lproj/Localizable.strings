@@ -360,10 +360,14 @@
 "discarded_products_reason_poor_ad_quality" = "가장 적절한 예를 따르고 있지 않습니다";
 "discarded_products_reason_reference_to_competitors" = "다른 앱이나 웹사이트로 이끄는 행위";
 "discarded_products_reason_stock_photo_only" = "상품 사진들만 포함하세요";
-"edit_paymentFrequency_placeholder" = "Frequency";
+"edit_paymentFrequency_placeholder" = "자주 사용하는 기능";
+"edit_paymentFrequency_title" = "자주 사용하는 기능";
 "edit_priceType_choose_title" = "옵션을 선택하세요";
 "edit_product_feature_label_long_text" = "빠르게 판매하기 위해 게시글을 강조해보세요";
 "edit_product_feature_label_short_text" = "지금 빨리 판매하기";
+"edit_product_feature_label_variant_B" = "지금 빨리 판매하기";
+"edit_product_feature_label_variant_C" = "더 빠르게 많은 구매자들의 이목을 끌어보세요";
+"edit_product_feature_label_variant_D" = "더 많은 구매자들의 이목을 끄는 방법을 알려주세요";
 "edit_product_location_alert_text" = "당신의 상품 게시글이 등록된 지역을 변경하기 위해서, 위치 탐색을 허가해주세요";
 "edit_product_location_alert_title" = "위치 변경하기";
 "edit_product_send_button" = "변경사항 저장하기";
@@ -729,6 +733,7 @@
 "post_queued_requests_state_listing_posted" = "게시글이 등록되었습니다!";
 "post_queued_requests_state_posting_listing" = "상품 목록 게시 중...";
 "posting_button_skip" = "넘기기";
+"posting_flow_jobs_and_services_category_button_text" = "Jobs & Services";
 "priceType_biweekly" = "격주제";
 "priceType_daily" = "일당제";
 "priceType_hourly" = "시간제";

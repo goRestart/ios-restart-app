@@ -360,10 +360,14 @@
 "discarded_products_reason_poor_ad_quality" = "No respeta las prácticas recomendadas";
 "discarded_products_reason_reference_to_competitors" = "Referencias a otras apps o páginas web";
 "discarded_products_reason_stock_photo_only" = "Solo contiene imágenes de archivo";
-"edit_paymentFrequency_placeholder" = "Frequency";
+"edit_paymentFrequency_placeholder" = "Frecuencia";
+"edit_paymentFrequency_title" = "Frecuencia";
 "edit_priceType_choose_title" = "Elige una opción";
 "edit_product_feature_label_long_text" = "Destaca tu anuncio para vender más rápido";
 "edit_product_feature_label_short_text" = "Vender más rápido";
+"edit_product_feature_label_variant_B" = "Vender más rápido";
+"edit_product_feature_label_variant_C" = "Atrae a más compradores para vender más rápido";
+"edit_product_feature_label_variant_D" = "Muéstrame cómo atraer a más compradores";
 "edit_product_location_alert_text" = "Para cambiar dónde se publica tu anuncio, permite acceso a tu ubicación";
 "edit_product_location_alert_title" = "CAMBIAR UBICACIÓN";
 "edit_product_send_button" = "Guardar cambios";
@@ -729,6 +733,7 @@
 "post_queued_requests_state_listing_posted" = "¡Anuncio publicado!";
 "post_queued_requests_state_posting_listing" = "Publicando anuncio...";
 "posting_button_skip" = "Saltar";
+"posting_flow_jobs_and_services_category_button_text" = "Jobs & Services";
 "priceType_biweekly" = "Cada dos semanas";
 "priceType_daily" = "Cada día";
 "priceType_hourly" = "Cada hora";

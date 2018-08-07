@@ -360,10 +360,14 @@
 "discarded_products_reason_poor_ad_quality" = "Δε συμβαδίζει με τις καλύτερες πρακτικές για προχωρημένους";
 "discarded_products_reason_reference_to_competitors" = "Αναφορές σε άλλες εφαρμογές ή ιστοσελίδες";
 "discarded_products_reason_stock_photo_only" = "Περιέχει μόνο πρότυπα φωτογραφιών";
-"edit_paymentFrequency_placeholder" = "Frequency";
+"edit_paymentFrequency_placeholder" = "Συχνότητα";
+"edit_paymentFrequency_title" = "Συχνότητα";
 "edit_priceType_choose_title" = "Κάντε μια επιλογή";
 "edit_product_feature_label_long_text" = "Προωθήστε την καταχώρησή σας για να πουλήσετε γρηγορότερα";
 "edit_product_feature_label_short_text" = "Πουλήστε τώρα γρηγορότερα";
+"edit_product_feature_label_variant_B" = "Πουλήστε τώρα γρηγορότερα";
+"edit_product_feature_label_variant_C" = "Προσελκύστε περισσότερους αγοραστές για να πουλήσετε γρηγορότερα";
+"edit_product_feature_label_variant_D" = "Δείξτε μου πως να προσελκύσω περισσότερους αγοραστές";
 "edit_product_location_alert_text" = "Για να αλλάξετε το που δημοσιεύτηκε η καταχώρησή σας, επιτρέψτε την πρόσβαση στην τοποθεσία σας";
 "edit_product_location_alert_title" = "ΑΛΛΑΓΗ ΤΟΠΟΘΕΣΙΑΣ";
 "edit_product_send_button" = "Αποθήκευση αλλαγών";
@@ -729,6 +733,7 @@
 "post_queued_requests_state_listing_posted" = "Η καταχώρηση δημοσιεύτηκε!";
 "post_queued_requests_state_posting_listing" = "Δημοσίευση καταχώρησης...";
 "posting_button_skip" = "Παράλειψη";
+"posting_flow_jobs_and_services_category_button_text" = "Jobs & Services";
 "priceType_biweekly" = "Δύο φορές την εβδομάδα";
 "priceType_daily" = "Ημερήσια";
 "priceType_hourly" = "Ωριαία";

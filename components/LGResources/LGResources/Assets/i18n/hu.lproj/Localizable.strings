@@ -360,10 +360,14 @@
 "discarded_products_reason_poor_ad_quality" = "Nem felel meg a bevált módszereknek";
 "discarded_products_reason_reference_to_competitors" = "Más alkalmazásokra vagy weboldalakra hivatkozik";
 "discarded_products_reason_stock_photo_only" = "Csak hivatalos képeket tartalmaz";
-"edit_paymentFrequency_placeholder" = "Frequency";
+"edit_paymentFrequency_placeholder" = "Gyakoriság";
+"edit_paymentFrequency_title" = "Gyakoriság";
 "edit_priceType_choose_title" = "Válassz egy lehetőséget";
 "edit_product_feature_label_long_text" = "Emeld ki hirdetésedet, hogy gyorsabban elkeljen";
 "edit_product_feature_label_short_text" = "Add el gyorsabban";
+"edit_product_feature_label_variant_B" = "Tedd láthatóbbá";
+"edit_product_feature_label_variant_C" = "Több érdeklődővel gyorsabban eladhatod";
+"edit_product_feature_label_variant_D" = "Mutasd, hogyan lehet több érdeklődőm";
 "edit_product_location_alert_text" = "A meghirdetés helyének módosításához hozzáférést kell adnod a tartózkodási helyedhez";
 "edit_product_location_alert_title" = "TARTÓZKODÁSI HELY MÓDOSÍTÁSA";
 "edit_product_send_button" = "Módosítások mentése";
@@ -729,6 +733,7 @@
 "post_queued_requests_state_listing_posted" = "Hirdetés feltöltve!";
 "post_queued_requests_state_posting_listing" = "Hirdetés feltöltése...";
 "posting_button_skip" = "Kihagy";
+"posting_flow_jobs_and_services_category_button_text" = "Jobs & Services";
 "priceType_biweekly" = "Kétheti";
 "priceType_daily" = "Napi";
 "priceType_hourly" = "Óránkénti";

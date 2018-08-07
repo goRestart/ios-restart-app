@@ -54,7 +54,7 @@
 "bump_up_view_boost_subtitle_send_top" = "Dein Angebot wird weiterhin empfohlen, du kannst es jedoch zusätzlich ankurbeln. Es wird dann wieder an die Spitze der Liste gesetzt und ab jetzt für 24 Stunden empfohlen.";
 "bump_up_view_boost_title_boost_listing" = "Kurbel dein empfohlenes Angebot an";
 "bump_up_view_boost_title_cheaper_boost" = "Kurbel dein Angebot jetzt vergünstigt an";
-"bump_up_view_boost_title_not_ready" = "Your listing's still featured";
+"bump_up_view_boost_title_not_ready" = "Dein Angebot wird immer noch empfohlen";
 "bump_up_view_boost_title_send_top" = "Schicke es wieder an den Anfang der Liste";
 "bump_up_view_free_subtitle" = "Je öfter du es teilst, umso sichtbarer wird dein Angebot";
 "bump_up_view_free_title" = "HOLE DEIN ANGEBOT HOCH";
@@ -157,7 +157,7 @@
 "chat_express_contact_various_button_text" = "Kontaktiere %@ Verkäufer";
 "chat_express_dont_ask_again_button" = "Nicht erneut fragen";
 "chat_express_dont_miss_label" = "Verpasse keines dieser Angebote";
-"chat_express_high_demand_label" = "Sehr gefragt! Lass dir diese Schnäppchen nicht entgehen.";
+"chat_express_high_demand_label" = "Sehr gefragt! Lass dir diese Schnäppchen nicht entgehen";
 "chat_express_one_message_sent_success_alert" = "Deine Nachricht wurde verschickt!";
 "chat_express_several_messages_sent_success_alert" = "Deine Nachrichten wurden verschickt!";
 "chat_express_text_field_text" = "Ist das noch zu haben?";
@@ -360,10 +360,14 @@
 "discarded_products_reason_poor_ad_quality" = "Verstoß gegen unsere Angebotsregeln";
 "discarded_products_reason_reference_to_competitors" = "Verweis auf andere Apps oder Webseiten";
 "discarded_products_reason_stock_photo_only" = "Enthält nur Herstellerfotos";
-"edit_paymentFrequency_placeholder" = "Frequency";
+"edit_paymentFrequency_placeholder" = "Häufigkeit";
+"edit_paymentFrequency_title" = "Häufigkeit";
 "edit_priceType_choose_title" = "Wähle eine Option";
 "edit_product_feature_label_long_text" = "Empfehle dein Angebot, um schneller zu verkaufen";
 "edit_product_feature_label_short_text" = "Jetzt schneller verkaufen";
+"edit_product_feature_label_variant_B" = "Locke mehr Käufer an";
+"edit_product_feature_label_variant_C" = "Locke mehr Käufer an, um schneller zu verkaufen";
+"edit_product_feature_label_variant_D" = "Zeig mir, wie ich mehr Käufer anlocken kann";
 "edit_product_location_alert_text" = "Erlaube den Zugriff auf deinen Standort, um zu ändern, wo dein Angebot eingestellt wird";
 "edit_product_location_alert_title" = "STANDORT ÄNDERN";
 "edit_product_send_button" = "Änderungen speichern";
@@ -729,6 +733,7 @@
 "post_queued_requests_state_listing_posted" = "Angebot eingestellt!";
 "post_queued_requests_state_posting_listing" = "Angebot einstellen...";
 "posting_button_skip" = "Überspringen";
+"posting_flow_jobs_and_services_category_button_text" = "Jobs & Services";
 "priceType_biweekly" = "Alle zwei Wochen";
 "priceType_daily" = "Pro Tag";
 "priceType_hourly" = "Pro Stunde";
