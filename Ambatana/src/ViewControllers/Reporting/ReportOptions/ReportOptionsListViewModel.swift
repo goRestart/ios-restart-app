@@ -15,10 +15,14 @@ final class ReportOptionsListViewModel: BaseViewModel {
     private let listing: Listing?
     private let source: EventParameterTypePage
     private let reportingRepository: ReportingRepository
+    private let featureFlags: FeatureFlaggeable
 
     var navigator: ReportNavigator?
     private var selectedOption: ReportOption?
     weak var delegate: BaseViewModelDelegate?
+    var shouldShowIcons: Bool {
+        return featureFlags.reportingFostaSesta.shouldShowIcons
+    }
 
     init(optionGroup: ReportOptionsGroup,
          title: String,
@@ -26,6 +30,7 @@ final class ReportOptionsListViewModel: BaseViewModel {
          reportedId: String,
          source: EventParameterTypePage,
          reportingRepository: ReportingRepository,
+         featureFlags: FeatureFlaggeable,
          superReason: ReportOptionType? = nil,
          listing: Listing? = nil) {
         self.optionGroup = optionGroup
@@ -36,6 +41,7 @@ final class ReportOptionsListViewModel: BaseViewModel {
         self.listing = listing
         self.source = source
         self.reportingRepository = reportingRepository
+        self.featureFlags = featureFlags
         super.init()
     }
 
@@ -53,7 +59,7 @@ final class ReportOptionsListViewModel: BaseViewModel {
     func didTapReport(with additionalNotes: String?) {
         guard let option = selectedOption else { return }
         guard let type = option.type.reportSentType else { return }
-        
+
         let completion: (ReportingEmptyResult) -> Void = { [weak self] result in
             self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
             if let _ = result.value {

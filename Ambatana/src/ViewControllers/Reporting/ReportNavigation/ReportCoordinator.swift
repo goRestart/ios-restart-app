@@ -80,7 +80,7 @@ final class ReportCoordinator: Coordinator {
 
         let vm = ReportOptionsListViewModel(optionGroup: type.options, title: type.title, tracker: tracker,
                                             reportedId: reportedId, source: source, reportingRepository: reportingRepository,
-                                            superReason: nil, listing: type.listing)
+                                            featureFlags: featureFlags, superReason: nil, listing: type.listing)
         let vc = ReportOptionsListViewController(viewModel: vm)
         let nav = UINavigationController(rootViewController: vc)
         viewController = nav
@@ -102,7 +102,7 @@ extension ReportCoordinator: ReportNavigator {
         guard let navCtl = viewController as? UINavigationController else { return }
         let vm = ReportOptionsListViewModel(optionGroup: options, title: type.title, tracker: tracker,
                                             reportedId: reportedId, source: source, reportingRepository: reportingRepository,
-                                            superReason: from, listing: type.listing)
+                                            featureFlags: featureFlags, superReason: from, listing: type.listing)
         vm.navigator = self
         let vc = ReportOptionsListViewController(viewModel: vm)
         navCtl.pushViewController(vc, animated: true)

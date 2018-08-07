@@ -45,13 +45,6 @@ final class ReportOptionCell: UITableViewCell, ReusableCell {
         return imageView
     }()
 
-    var shouldShowIcon: Bool = true {
-        didSet {
-            iconImageView.isHidden = !shouldShowIcon
-            titleLabelLeftConstraint?.constant = shouldShowIcon ? Layout.labelLeftBigMargin : Layout.labelLeftSmallMargin
-        }
-    }
-
     private var titleLabelLeftConstraint: NSLayoutConstraint?
     private var canShowCheckMark: Bool = true
 
@@ -65,11 +58,13 @@ final class ReportOptionCell: UITableViewCell, ReusableCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure(with option: ReportOption) {
+    func configure(with option: ReportOption, showingIcon: Bool) {
         titleLabel.text = option.type.text
         iconImageView.image = option.type.icon
         accessoryImageView.isHidden = option.childOptions == nil
         canShowCheckMark = option.childOptions == nil
+        iconImageView.isHidden = !showingIcon
+        titleLabelLeftConstraint?.constant = showingIcon ? Layout.labelLeftBigMargin : Layout.labelLeftSmallMargin
     }
 
     private func setupUI() {
