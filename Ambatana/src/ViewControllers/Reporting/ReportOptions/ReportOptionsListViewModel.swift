@@ -53,10 +53,7 @@ final class ReportOptionsListViewModel: BaseViewModel {
     func didTapReport(with additionalNotes: String?) {
         guard let option = selectedOption else { return }
         guard let type = option.type.reportSentType else { return }
-
-        navigator?.openReportSentScreen(type: type)
-        return
-
+        
         let completion: (ReportingEmptyResult) -> Void = { [weak self] result in
             self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
             if let _ = result.value {
