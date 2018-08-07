@@ -88,7 +88,7 @@ final class ReportSentViewController: BaseViewController {
         setNavBarBackButton(R.Asset.IconsButtons.navbarClose.image, selector: #selector(didTapClose))
         viewModel.viewWillAppear()
     }
-    
+
     @objc private func didTapClose() {
         viewModel.didTapClose()
     }

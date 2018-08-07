@@ -572,6 +572,12 @@ extension TabCoordinator: ListingDetailNavigator {
 // MARK: > ChatDetailNavigator
 
 extension TabCoordinator: ChatDetailNavigator {
+    func openUserReport(user: ChatInterlocutor, source: EventParameterTypePage) {
+        guard let userId = user.objectId else { return }
+        guard let data = RateUserData(user: user, listingId: nil, ratingType: .report) else { return }
+        openUserReport(source: source, userReportedId: userId, rateData: data)
+    }
+
     func navigate(with convertible: DeepLinkConvertible) {
         deeplinkMailBox.push(convertible: convertible)
     }
