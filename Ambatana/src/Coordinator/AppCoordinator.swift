@@ -674,11 +674,6 @@ extension AppCoordinator: TabCoordinatorDelegate {
 extension AppCoordinator: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController,
                           shouldSelect viewController: UIViewController) -> Bool {
-
-        defer {
-            chatsTabBarCoordinator.setNeedsRefreshConversations()
-        }
-
         let topVC = topViewControllerInController(viewController)
         let selectedViewController = tabBarController.selectedViewController
 

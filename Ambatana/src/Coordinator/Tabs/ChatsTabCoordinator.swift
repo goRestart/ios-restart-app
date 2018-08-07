@@ -3,16 +3,13 @@ import LGComponents
 
 final class ChatsTabCoordinator: TabCoordinator {
 
-    let chatGroupedViewModel: ChatGroupedViewModel
     let chatConversationsListViewModel: ChatConversationsListViewModel
     
     convenience init() {
-        self.init(chatGroupedViewModel: ChatGroupedViewModel(),
-                  chatConversationsListViewModel: ChatConversationsListViewModel())
+        self.init(chatConversationsListViewModel: ChatConversationsListViewModel())
     }
     
-    init(chatGroupedViewModel: ChatGroupedViewModel,
-         chatConversationsListViewModel: ChatConversationsListViewModel) {
+    init(chatConversationsListViewModel: ChatConversationsListViewModel) {
         let listingRepository = Core.listingRepository
         let userRepository = Core.userRepository
         let chatRepository = Core.chatRepository
@@ -22,7 +19,6 @@ final class ChatsTabCoordinator: TabCoordinator {
         let keyValueStorage = KeyValueStorage.sharedInstance
         let tracker = TrackerProxy.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
-        self.chatGroupedViewModel = chatGroupedViewModel
         self.chatConversationsListViewModel = chatConversationsListViewModel
         let rootViewController = ChatConversationsListViewController(viewModel: chatConversationsListViewModel)
         let sessionManager = Core.sessionManager
@@ -39,16 +35,11 @@ final class ChatsTabCoordinator: TabCoordinator {
                   sessionManager: sessionManager,
                   deeplinkMailBox: LGDeepLinkMailBox.sharedInstance)
         
-        chatGroupedViewModel.tabNavigator = self
         chatConversationsListViewModel.navigator = self
     }
 
     override func shouldHideSellButtonAtViewController(_ viewController: UIViewController) -> Bool {
         return true
-    }
-    
-    func setNeedsRefreshConversations() {
-        
     }
 }
 
