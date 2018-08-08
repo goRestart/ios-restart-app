@@ -129,7 +129,7 @@ class BaseViewModelSpec: QuickSpec, BaseViewModelDelegate, TabNavigator {
     func openAppInvite(myUserId: String?, myUserName: String?) {}
     func canOpenAppInvite() -> Bool { return false }
     func openRatingList(_ userId: String) {}
-    func openUserReport(source: EventParameterTypePage, userReportedId: String) {}
+    func openUserReport(source: EventParameterTypePage, userReportedId: String, rateData: RateUserData) {}
     func openUserVerificationView() {}
     func openListingReport(source: EventParameterTypePage, listing: Listing, productId: String) {}
     func openCommunityTab() {}

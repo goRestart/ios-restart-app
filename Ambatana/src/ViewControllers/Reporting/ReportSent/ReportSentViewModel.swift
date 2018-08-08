@@ -3,38 +3,98 @@ import LGComponents
 import LGCoreKit
 import RxSwift
 
-protocol ReportSentViewModelDelegate: BaseViewModelDelegate { }
+protocol ReportSentViewModelDelegate: BaseViewModelDelegate {}
 
 final class ReportSentViewModel: BaseViewModel {
 
-    let type: ReportSentType
     var navigator: ReportNavigator?
     weak var delegate: ReportSentViewModelDelegate?
 
+    let title = Variable<String>("")
+    let message = Variable<NSAttributedString>(NSAttributedString(string: ""))
     let showBlockAction = Variable<Bool>(false)
     let showReviewAction = Variable<Bool>(false)
 
+    private let reportSentType: Variable<ReportSentType>
     private let reportedObjectId: String
+    private let username: String
     private let userRepository: UserRepository
+    private let userRatingRepository: UserRatingRepository
     private let tracker: Tracker
+    private let disposeBag = DisposeBag()
 
-    init(type: ReportSentType,
+    init(reportSentType: ReportSentType,
          reportedObjectId: String,
+         username: String,
          userRepository: UserRepository = Core.userRepository,
+         userRatingRepository: UserRatingRepository = Core.userRatingRepository,
          tracker: Tracker = TrackerProxy.sharedInstance) {
-        self.type = type
+        self.reportSentType = Variable<ReportSentType>(reportSentType)
         self.reportedObjectId = reportedObjectId
+        self.username = username
         self.userRepository = userRepository
+        self.userRatingRepository = userRatingRepository
         self.tracker = tracker
         super.init()
-        setupActions()
     }
 
     private func setupActions() {
-        showBlockAction.value = type.allowsBlockUser
-        showReviewAction.value = true
+        setupBlockAction()
+        setupReviewAction()
+    }
 
-        // Check if current user can leave a review of the reported user
+    private func setupBlockAction() {
+        reportSentType
+            .asObservable()
+            .subscribeNext(onNext: { [weak self] type in
+                guard let strongSelf = self else { return }
+                self?.showBlockAction.value = type.allowsBlockUser
+                self?.title.value = type.title
+                self?.message.value = type.attributedMessage(userName: strongSelf.username)
+            })
+            .disposed(by: disposeBag)
+    }
+
+    private func setupReviewAction() {
+        let type = reportSentType.value
+
+        guard type == .userBlockAndReviewA ||
+            type == .userBlockAndReviewB else { return }
+
+        delegate?.vmShowLoading(nil)
+
+        // User review action is only available if we haven't reviewed
+        // the other user yet with a review of type .report
+        userRatingRepository.show(reportedObjectId, listingId: nil, type: .report) { [weak self] result in
+            self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
+
+            var canReviewUser = false
+            if let _ = result.value {
+                canReviewUser = false // A Review for this User already exist
+            } else if let error = result.error, error.errorCode == RepositoryError.notFound.errorCode {
+                canReviewUser = true // This user was never reviewed in a Report
+            } else {
+                return
+            }
+
+            self?.showReviewAction.value = canReviewUser
+
+            if !canReviewUser {
+                self?.applyFallbackType()
+            }
+        }
+    }
+
+    func applyFallbackType() {
+        if reportSentType.value == .userBlockAndReviewA {
+            reportSentType.value = .userBlockA
+        } else if reportSentType.value == .userBlockAndReviewB {
+            reportSentType.value = .userBlockB
+        }
+    }
+
+    func viewWillAppear() {
+        setupActions()
     }
 
     func didTapClose() {
@@ -62,7 +122,7 @@ final class ReportSentViewModel: BaseViewModel {
     }
 
     func didTapReview() {
-        
+        navigator?.openReviewUser()
     }
 
     private func trackBlock(_ userId: String) {

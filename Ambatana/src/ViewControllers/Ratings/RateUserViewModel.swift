@@ -17,10 +17,28 @@ struct RateUserData {
         self.listingId = listingId
         self.ratingType = ratingType
     }
+
+    init?(user: User, listingId: String?, ratingType: UserRatingType) {
+        guard let userId = user.objectId else { return nil }
+        self.userId = userId
+        self.userAvatar = user.avatar?.fileURL
+        self.userName = user.name
+        self.listingId = listingId
+        self.ratingType = ratingType
+    }
+
+    init?(user: ChatInterlocutor, listingId: String?, ratingType: UserRatingType) {
+        guard let userId = user.objectId else { return nil }
+        self.userId = userId
+        self.userAvatar = user.avatar?.fileURL
+        self.userName = user.name
+        self.listingId = listingId
+        self.ratingType = ratingType
+    }
 }
 
 enum RateUserSource {
-    case chat, deepLink, userRatingList, markAsSold
+    case chat, deepLink, userRatingList, markAsSold, report
 }
 
 enum RateUserState: Equatable {
@@ -377,6 +395,8 @@ fileprivate extension EventParameterTypePage {
             self = .userRatingList
         case .markAsSold:
             self = .listingSold
+        case .report:
+            self = .report
         }
     }
 }

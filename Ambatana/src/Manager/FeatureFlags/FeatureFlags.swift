@@ -267,6 +267,7 @@ extension OffensiveReportAlert {
 
 extension ReportingFostaSesta {
     var isActive: Bool { return self != .baseline && self != .control }
+    var shouldShowIcons: Bool { return self == .withIcons }
 }
 
 extension FeedAdsProviderForUS {

@@ -34,15 +34,19 @@ final class ReportUpdateViewModel: BaseViewModel {
     }
 
     private func retrieveReport() {
-        // TODO: Show loading
+        delegate?.vmShowLoading(nil)
         let completion: (ReportingResult) -> Void = { [weak self] result in
+            self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
             self?.report.value = result.value
             if let value = result.value {
+                // Check if the user already provided feedback for this Report or not.
                 if value.score == nil {
                     self?.trackUpdateSent()
+                } else {
+                    self?.automaticClose()
                 }
             } else if let _ = result.error {
-                // TODO: Show an error
+                self?.showErrorAlert()
             }
         }
 
@@ -53,9 +57,22 @@ final class ReportUpdateViewModel: BaseViewModel {
         }
     }
 
-    func updateReport(with score: ReportUpdateButtonType) {
-        let completion: (ReportingResult) -> Void = { [weak self] _ in
-            self?.trackUpdateCompleted(score: score)
+    func showErrorAlert() {
+        delegate?.vmShowAlert(R.Strings.commonErrorTitle,
+                                    message: R.Strings.commonErrorGenericBody,
+                                    cancelLabel: R.Strings.commonOk,
+                                    actions: [])
+    }
+
+    func updateReport(with score: ReportUpdateButtonType, errorBlock: (() -> Void)?) {
+        let completion: (ReportingResult) -> Void = { [weak self] result in
+            if let _ = result.value {
+                self?.trackUpdateCompleted(score: score)
+                self?.automaticClose()
+            } else {
+                self?.showErrorAlert()
+                errorBlock?()
+            }
         }
 
         if type.isProductReport {
@@ -98,6 +115,8 @@ final class ReportUpdateViewModel: BaseViewModel {
     }
 
     private func automaticClose() {
-        // TODO: Close after 1 second
+        delay(1) {
+            // TODO: Close once we know how this view will be opened
+        }
     }
 }

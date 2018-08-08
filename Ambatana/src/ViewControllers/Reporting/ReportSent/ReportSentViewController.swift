@@ -86,8 +86,9 @@ final class ReportSentViewController: BaseViewController {
         super.viewWillAppearFromBackground(fromBackground)
         setNavBarBackgroundStyle(.transparent(substyle: .light))
         setNavBarBackButton(R.Asset.IconsButtons.navbarClose.image, selector: #selector(didTapClose))
+        viewModel.viewWillAppear()
     }
-    
+
     @objc private func didTapClose() {
         viewModel.didTapClose()
     }
@@ -99,8 +100,6 @@ final class ReportSentViewController: BaseViewController {
         scrollView.addSubviewsForAutoLayout([imageView, titleLabel, messageLabel])
         setupConstraints()
 
-        titleLabel.text = viewModel.type.title
-        messageLabel.attributedText = viewModel.type.attributedMessage(includingReviewText: true, userName: "Isaac R.")
         imageView.image = R.Asset.Reporting.rocket.image
     }
 
@@ -140,6 +139,18 @@ final class ReportSentViewController: BaseViewController {
             .drive(onNext: { [weak self] (showBlockAction, showReviewAction) in
                 self?.setupActions(showBlockAction: showBlockAction, showReviewAction: showReviewAction)
             })
+            .disposed(by: disposeBag)
+
+        viewModel
+            .title
+            .asObservable()
+            .bind(to: titleLabel.rx.text)
+            .disposed(by: disposeBag)
+
+        viewModel
+            .message
+            .asObservable()
+            .bind(to: messageLabel.rx.attributedText)
             .disposed(by: disposeBag)
     }
 

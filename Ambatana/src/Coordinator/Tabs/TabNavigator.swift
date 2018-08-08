@@ -47,7 +47,7 @@ protocol TabNavigator: class {
     func openAppInvite(myUserId: String?, myUserName: String?)
     func canOpenAppInvite() -> Bool
     func openRatingList(_ userId: String)
-    func openUserReport(source: EventParameterTypePage, userReportedId: String)
+    func openUserReport(source: EventParameterTypePage, userReportedId: String, rateData: RateUserData)
     func openListingReport(source: EventParameterTypePage, listing: Listing, productId: String)
     func showUndoBubble(withMessage message: String,
                         duration: TimeInterval,

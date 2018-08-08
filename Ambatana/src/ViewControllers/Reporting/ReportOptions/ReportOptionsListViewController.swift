@@ -73,6 +73,7 @@ final class ReportOptionsListViewController: BaseViewController {
     init(viewModel: ReportOptionsListViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
+        self.viewModel.delegate = self
     }
 
     override func viewDidLoad() {
@@ -265,7 +266,7 @@ extension ReportOptionsListViewController: UITableViewDelegate, UITableViewDataS
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeue(type: ReportOptionCell.self, for: indexPath) else { return UITableViewCell() }
         let option = viewModel.optionGroup.options[indexPath.row]
-        cell.configure(with: option)
+        cell.configure(with: option, showingIcon: viewModel.shouldShowIcons)
         return cell
     }
 

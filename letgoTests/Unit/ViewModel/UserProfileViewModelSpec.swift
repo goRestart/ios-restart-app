@@ -316,7 +316,8 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
     override func openVerifyAccounts(_ types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?) {
         openVerifyAccountsCalled = true
     }
-    override func openUserReport(source: EventParameterTypePage, userReportedId: String) {
+
+    override func openUserReport(source: EventParameterTypePage, userReportedId: String, rateData: RateUserData) {
         openUserReportCalled = true
     }
 

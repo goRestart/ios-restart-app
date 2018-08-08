@@ -16,7 +16,7 @@ protocol ProfileTabNavigator: TabNavigator, PublicProfileNavigator {
 }
 
 protocol PublicProfileNavigator: class {
-    func openUserReport(source: EventParameterTypePage, userReportedId: String)
+    func openUserReport(source: EventParameterTypePage, userReportedId: String, rateData: RateUserData)
     func openListing(_ data: ListingDetailData,
                      source: EventParameterListingVisitSource,
                      actionOnFirstAppear: ProductCarouselActionOnFirstAppear)

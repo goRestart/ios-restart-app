@@ -18,6 +18,7 @@ protocol ChatDetailNavigator: DeepLinkNavigator {
                            trackingInfo: MarkAsSoldTrackingInfo)
     func openLoginIfNeededFromChatDetail(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void))
     func openAssistantFor(listingId: String, dataDelegate: MeetingAssistantDataDelegate)
+    func openUserReport(user: ChatInterlocutor, source: EventParameterTypePage)
 }
 
 final class ChatDetailRouter: ChatDetailNavigator {
@@ -116,5 +117,13 @@ final class ChatDetailRouter: ChatDetailNavigator {
     func openAssistantFor(listingId: String,
                           dataDelegate: MeetingAssistantDataDelegate) {
 
+    }
+
+    func openUserReport(user: ChatInterlocutor, source: EventParameterTypePage) {
+        guard let parent = navigationController else { return }
+        guard let userId = user.objectId else { return }
+        guard let data = RateUserData(user: user, listingId: nil, ratingType: .report) else { return }
+        let coord = ReportCoordinator(type: .user(rateData: data), reportedId: userId, source: source)
+        coord.presentViewController(parent: parent, animated: true, completion: nil)
     }
 }

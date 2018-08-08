@@ -4,7 +4,7 @@ import LGComponents
 
 enum ReportCoordinatorType {
     case product(listing: Listing)
-    case user
+    case user(rateData: RateUserData)
 
     fileprivate var options: ReportOptionsGroup {
         switch self {
@@ -24,6 +24,13 @@ enum ReportCoordinatorType {
         switch self {
         case .product(let listing): return listing
         case .user: return nil
+        }
+    }
+
+    var rateData: RateUserData? {
+        switch self {
+        case .product: return nil
+        case .user(let data): return data
         }
     }
 }
@@ -73,7 +80,7 @@ final class ReportCoordinator: Coordinator {
 
         let vm = ReportOptionsListViewModel(optionGroup: type.options, title: type.title, tracker: tracker,
                                             reportedId: reportedId, source: source, reportingRepository: reportingRepository,
-                                            superReason: nil, listing: type.listing)
+                                            featureFlags: featureFlags, superReason: nil, listing: type.listing)
         let vc = ReportOptionsListViewController(viewModel: vm)
         let nav = UINavigationController(rootViewController: vc)
         viewController = nav
@@ -91,20 +98,20 @@ final class ReportCoordinator: Coordinator {
 }
 
 extension ReportCoordinator: ReportNavigator {
-
     func openNextStep(with options: ReportOptionsGroup, from: ReportOptionType) {
         guard let navCtl = viewController as? UINavigationController else { return }
         let vm = ReportOptionsListViewModel(optionGroup: options, title: type.title, tracker: tracker,
                                             reportedId: reportedId, source: source, reportingRepository: reportingRepository,
-                                            superReason: from, listing: type.listing)
+                                            featureFlags: featureFlags, superReason: from, listing: type.listing)
         vm.navigator = self
         let vc = ReportOptionsListViewController(viewModel: vm)
         navCtl.pushViewController(vc, animated: true)
     }
 
-    func openReportSentScreen(type: ReportSentType) {
+    func openReportSentScreen(type sentType: ReportSentType) {
         guard let navCtl = viewController as? UINavigationController else { return }
-        let vm = ReportSentViewModel(type: type, reportedObjectId: reportedId)
+        guard let username = type.rateData?.userName else { return }
+        let vm = ReportSentViewModel(reportSentType: sentType, reportedObjectId: reportedId, username: username)
         vm.navigator = self
         let vc = ReportSentViewController(viewModel: vm)
         vm.delegate = vc
@@ -113,5 +120,13 @@ extension ReportCoordinator: ReportNavigator {
 
     func closeReporting() {
         closeCoordinator(animated: true, completion: nil)
+    }
+
+    func openReviewUser() {
+        guard let rate = type.rateData else { return }
+        let assembly = LGRateBuilder.modal(root: viewController)
+        let vc = assembly.buildRateUser(source: .report, data: rate, showSkipButton: false)
+        let nav = UINavigationController(rootViewController: vc)
+        viewController.present(nav, animated: true, completion: nil)
     }
 }

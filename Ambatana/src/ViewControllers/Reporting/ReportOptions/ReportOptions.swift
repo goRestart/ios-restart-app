@@ -148,19 +148,23 @@ enum ReportOptionType: String {
             return nil
         case .iThinkItsAScam, .iTsADuplicateListing, .itsInTheWrongCategory, .sexualContent,
              .drugsAlcoholOrTobacco, .weaponsOrViolentContent, .otherReasonItShouldntBeOnLetgo:
-            return ReportSentType.productBasic
+            return .productBasic
         case .sellingSomethingInappropriate:
             return ReportSentType.userBasic
-        case .notRespondingToMessages, .offeringToTradeInsteadOfPayingInCash, .didntShowUp, .itemDefectiveOrNotAsDescribed:
-            return ReportSentType.userBlockA
+        case .notRespondingToMessages, .offeringToTradeInsteadOfPayingInCash, .didntShowUp:
+            return .userBlockA
         case .offeringToPayWithWesternUnionOrPaypal, .spamAccount, .otherSuspiciousBehaviour, .inappropriateProfilePhoto,
-             .inappropriateBio, .otherProblemDuringMeetup, .rudeOrOffensiveLanguage, .suspiciousOrScammyBehavior,
+             .inappropriateBio, .rudeOrOffensiveLanguage, .suspiciousOrScammyBehavior,
              .sexualOrObsceneLanguage, .otherReasonInnappropriateChatMessages, .unrealisticPriceOrOffers:
-            return ReportSentType.userBlockB
+            return .userBlockB
+        case .itemDefectiveOrNotAsDescribed:
+            return .userBlockAndReviewA
+        case .otherProblemDuringMeetup:
+            return .userBlockAndReviewB
         case .robberyOrViolentIncident, .paidWithCounterfeitMoney:
-            return ReportSentType.userLawEnforcement
+            return .userLawEnforcement
         case .threateningViolence:
-            return ReportSentType.userLawEnforcementBlock
+            return .userLawEnforcementBlock
         }
     }
 }
