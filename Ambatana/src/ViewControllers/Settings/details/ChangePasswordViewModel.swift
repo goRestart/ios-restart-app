@@ -38,7 +38,8 @@ protocol ChangePasswordViewModelDelegate: class {
 class ChangePasswordViewModel: BaseViewModel {
    
     weak var delegate : ChangePasswordViewModelDelegate?
-    weak var navigator: ChangePasswordNavigator?
+    
+    var router: ChangePasswordRouter?
     
     private let myUserRepository: MyUserRepository
     private var token: String?
@@ -75,7 +76,7 @@ class ChangePasswordViewModel: BaseViewModel {
     }
     
     override func backButtonPressed() -> Bool {
-        navigator?.closeChangePassword()
+        router?.closeChangePassword()
         return true
     }
     
@@ -150,7 +151,7 @@ class ChangePasswordViewModel: BaseViewModel {
 
     
     func passwordChangedCorrectly() {
-        navigator?.closeChangePassword()
+        router?.closeChangePassword()
     }
     
     

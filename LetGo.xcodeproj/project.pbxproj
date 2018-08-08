@@ -1220,8 +1220,6 @@
 		72C7A1C41FA73AC80089F175 /* ListingPrice+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C7A1C21FA73AC80089F175 /* ListingPrice+LG.swift */; };
 		72C7A1C61FAB31EF0089F175 /* PostingAddDetailSummaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C7A1C51FAB31EF0089F175 /* PostingAddDetailSummaryTableViewCell.swift */; };
 		72C7A1C71FAB31EF0089F175 /* PostingAddDetailSummaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C7A1C51FAB31EF0089F175 /* PostingAddDetailSummaryTableViewCell.swift */; };
-		72C99E9C1DED7417006361C1 /* ChangePasswordCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C99E9B1DED7417006361C1 /* ChangePasswordCoordinator.swift */; };
-		72C99E9D1DED7417006361C1 /* ChangePasswordCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C99E9B1DED7417006361C1 /* ChangePasswordCoordinator.swift */; };
 		72CD80CA203469FB0042E1E0 /* LGTutorialCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72CD80C5203469FA0042E1E0 /* LGTutorialCollectionViewCell.swift */; };
 		72CD80CB203469FB0042E1E0 /* LGTutorialCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72CD80C5203469FA0042E1E0 /* LGTutorialCollectionViewCell.swift */; };
 		72CD80CC203469FB0042E1E0 /* LGTutorialLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72CD80C6203469FA0042E1E0 /* LGTutorialLayout.swift */; };
@@ -1377,6 +1375,17 @@
 		8EF1CDB02010F11F00D324F6 /* ChatInactiveConversationDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1CDAE2010F11F00D324F6 /* ChatInactiveConversationDetailsViewModel.swift */; };
 		8EF1CDB22010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1CDB12010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift */; };
 		8EF1CDB32010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1CDB12010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift */; };
+		A4E0936721187FB9002235FC /* ChangePasswordRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E0936621187FB9002235FC /* ChangePasswordRouter.swift */; };
+		A4E0936821187FB9002235FC /* ChangePasswordRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E0936621187FB9002235FC /* ChangePasswordRouter.swift */; };
+		A4E0936A2118850A002235FC /* LGChangePasswordBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E093692118850A002235FC /* LGChangePasswordBuilder.swift */; };
+		A4E0936B2118850A002235FC /* LGChangePasswordBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E093692118850A002235FC /* LGChangePasswordBuilder.swift */; };
+		A4E0936E211898E8002235FC /* ChangePasswordModalRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E0936D211898E8002235FC /* ChangePasswordModalRouter.swift */; };
+		A4E0936F211898E8002235FC /* ChangePasswordModalRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E0936D211898E8002235FC /* ChangePasswordModalRouter.swift */; };
+		A4E093712118990A002235FC /* ChangePasswordStandardRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E093702118990A002235FC /* ChangePasswordStandardRouter.swift */; };
+		A4E093722118990A002235FC /* ChangePasswordStandardRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E093702118990A002235FC /* ChangePasswordStandardRouter.swift */; };
+		A4E0937621198CC2002235FC /* ChangePasswordModalRouterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E0937521198CC2002235FC /* ChangePasswordModalRouterSpec.swift */; };
+		A4E0937821198CD7002235FC /* ChangePasswordStandardRouterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E0937721198CD7002235FC /* ChangePasswordStandardRouterSpec.swift */; };
+		A4E0937B21199440002235FC /* LGChangePasswordBuilderSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E0937A21199440002235FC /* LGChangePasswordBuilderSpec.swift */; };
 		C202E3F921005A2500E1A5E5 /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = C202E3F821005A2500E1A5E5 /* Checkbox.swift */; };
 		C202E3FA21005A2500E1A5E5 /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = C202E3F821005A2500E1A5E5 /* Checkbox.swift */; };
 		C21E6074208A8828008A1956 /* RecordedVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C21E6073208A8828008A1956 /* RecordedVideo.swift */; };
@@ -2814,7 +2823,6 @@
 		72C7A1C01FA0F4E90089F175 /* PostingDetailsStepSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostingDetailsStepSpec.swift; sourceTree = "<group>"; };
 		72C7A1C21FA73AC80089F175 /* ListingPrice+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ListingPrice+LG.swift"; sourceTree = "<group>"; };
 		72C7A1C51FAB31EF0089F175 /* PostingAddDetailSummaryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostingAddDetailSummaryTableViewCell.swift; path = Ambatana/src/ViewControllers/Sell/Post/PostingAddDetailSummaryTableViewCell.swift; sourceTree = SOURCE_ROOT; };
-		72C99E9B1DED7417006361C1 /* ChangePasswordCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordCoordinator.swift; sourceTree = "<group>"; };
 		72CD80C5203469FA0042E1E0 /* LGTutorialCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGTutorialCollectionViewCell.swift; sourceTree = "<group>"; };
 		72CD80C6203469FA0042E1E0 /* LGTutorialLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGTutorialLayout.swift; sourceTree = "<group>"; };
 		72CD80C7203469FA0042E1E0 /* LGTutorialViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGTutorialViewModel.swift; sourceTree = "<group>"; };
@@ -2904,6 +2912,13 @@
 		8EF1CDB12010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInactiveConversationDetailsViewController.swift; sourceTree = "<group>"; };
 		9DB1684F7DACC5DAD148649F /* Pods_letgoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_letgoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A00FF2637A49FDC98C3FB781 /* Pods-LetGoGodMode.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.release.xcconfig"; sourceTree = "<group>"; };
+		A4E0936621187FB9002235FC /* ChangePasswordRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordRouter.swift; sourceTree = "<group>"; };
+		A4E093692118850A002235FC /* LGChangePasswordBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGChangePasswordBuilder.swift; sourceTree = "<group>"; };
+		A4E0936D211898E8002235FC /* ChangePasswordModalRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordModalRouter.swift; sourceTree = "<group>"; };
+		A4E093702118990A002235FC /* ChangePasswordStandardRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordStandardRouter.swift; sourceTree = "<group>"; };
+		A4E0937521198CC2002235FC /* ChangePasswordModalRouterSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordModalRouterSpec.swift; sourceTree = "<group>"; };
+		A4E0937721198CD7002235FC /* ChangePasswordStandardRouterSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordStandardRouterSpec.swift; sourceTree = "<group>"; };
+		A4E0937A21199440002235FC /* LGChangePasswordBuilderSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGChangePasswordBuilderSpec.swift; sourceTree = "<group>"; };
 		C202E3F821005A2500E1A5E5 /* Checkbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checkbox.swift; sourceTree = "<group>"; };
 		C21E6073208A8828008A1956 /* RecordedVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordedVideo.swift; sourceTree = "<group>"; };
 		C21E6077208A89AF008A1956 /* VideoPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPreview.swift; sourceTree = "<group>"; };
@@ -3480,6 +3495,7 @@
 		0AA031E32109D02D00728A1A /* Router */ = {
 			isa = PBXGroup;
 			children = (
+				A4E0936C211898CC002235FC /* ChangePassword */,
 				0ADD39D2211318430071DF87 /* ChatInactiveDetailRouter.swift */,
 				0ADD39C6211316640071DF87 /* ChatDetailRouter.swift */,
 				0ADD39C8211316650071DF87 /* ChatRouter.swift */,
@@ -3514,6 +3530,7 @@
 				0ADD39E021133E040071DF87 /* LGListingBuilder.swift */,
 				0ACA8F3F2114920B00243850 /* LGSurverBuilder.swift */,
 				0ACA8F36211484A600243850 /* LGLeanplumBuilder.swift */,
+				A4E093692118850A002235FC /* LGChangePasswordBuilder.swift */,
 			);
 			path = Builder;
 			sourceTree = "<group>";
@@ -4404,7 +4421,6 @@
 				506846461CD390CA00FA00C2 /* AppNavigator.swift */,
 				50D67B991D182EE9003AC0A5 /* SellCoordinator.swift */,
 				50D67B9C1D182F07003AC0A5 /* SellNavigator.swift */,
-				72C99E9B1DED7417006361C1 /* ChangePasswordCoordinator.swift */,
 				55FABE122076288D004B0DBD /* UserPhoneVerificationNavigator.swift */,
 				C7732F711D883C7700EAD5B7 /* OnboardingCoordinator.swift */,
 				C7732F741D8842B800EAD5B7 /* OnboardingNavigator.swift */,
@@ -4813,6 +4829,8 @@
 		50D08D741E69AF14009CC260 /* Unit */ = {
 			isa = PBXGroup;
 			children = (
+				A4E0937921199426002235FC /* Builder */,
+				A4E0937321198C66002235FC /* Router */,
 				C627573A20A3495700B401E7 /* Protocols */,
 				720C558F1F44555600554048 /* Widgets */,
 				50D08D751E69AF14009CC260 /* Helpers */,
@@ -5459,6 +5477,41 @@
 				8EF1CDAE2010F11F00D324F6 /* ChatInactiveConversationDetailsViewModel.swift */,
 			);
 			path = Details;
+			sourceTree = "<group>";
+		};
+		A4E0936C211898CC002235FC /* ChangePassword */ = {
+			isa = PBXGroup;
+			children = (
+				A4E0936621187FB9002235FC /* ChangePasswordRouter.swift */,
+				A4E0936D211898E8002235FC /* ChangePasswordModalRouter.swift */,
+				A4E093702118990A002235FC /* ChangePasswordStandardRouter.swift */,
+			);
+			path = ChangePassword;
+			sourceTree = "<group>";
+		};
+		A4E0937321198C66002235FC /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				A4E0937421198C89002235FC /* ChangePassword */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		A4E0937421198C89002235FC /* ChangePassword */ = {
+			isa = PBXGroup;
+			children = (
+				A4E0937521198CC2002235FC /* ChangePasswordModalRouterSpec.swift */,
+				A4E0937721198CD7002235FC /* ChangePasswordStandardRouterSpec.swift */,
+			);
+			path = ChangePassword;
+			sourceTree = "<group>";
+		};
+		A4E0937921199426002235FC /* Builder */ = {
+			isa = PBXGroup;
+			children = (
+				A4E0937A21199440002235FC /* LGChangePasswordBuilderSpec.swift */,
+			);
+			path = Builder;
 			sourceTree = "<group>";
 		};
 		ABA47C14BB52140048297810 /* Frameworks */ = {
@@ -7364,6 +7417,7 @@
 				C765EE471E7FE58200063750 /* MockDeepLinksRouter.swift in Sources */,
 				50D08DDF1E69AF14009CC260 /* MainListingsViewModelSpec.swift in Sources */,
 				72FE68B31ED6BDF8003F5E71 /* RateBuyersViewModelSpec.swift in Sources */,
+				A4E0937B21199440002235FC /* LGChangePasswordBuilderSpec.swift in Sources */,
 				721A83141E82B52C00507E47 /* MockMediaPermissions.swift in Sources */,
 				720C55911F44559400554048 /* PostCarDetailsViewSpec.swift in Sources */,
 				C6FFC47720F49C5500B9F53A /* NumberFormatter+LGSpec.swift in Sources */,
@@ -7396,7 +7450,9 @@
 				0A653BC01FAB7C8600C2AA77 /* ListingDeckViewModelSpec.swift in Sources */,
 				50D08DC01E69AF14009CC260 /* CGFloat+LGSpec.swift in Sources */,
 				724D77A71FC338E200DB43C0 /* RealEstateAttributes+LGSpec.swift in Sources */,
+				A4E0937621198CC2002235FC /* ChangePasswordModalRouterSpec.swift in Sources */,
 				425BB9FB20888CF500FE9BB8 /* UserType+LGSpec.swift in Sources */,
+				A4E0937821198CD7002235FC /* ChangePasswordStandardRouterSpec.swift in Sources */,
 				72D928D81E83D1C60030F4C3 /* ChatViewModelSpec.swift in Sources */,
 				72D928E71E83ED300030F4C3 /* MockRatingManager.swift in Sources */,
 				50D08DCB1E69AF14009CC260 /* CrashManagerSpec.swift in Sources */,
@@ -7656,6 +7712,7 @@
 				F57D3A2D1FED017A006F2CA4 /* UIRoundedLabelWithPadding.swift in Sources */,
 				50F681F21C8F4586001F33A3 /* RxPaginable.swift in Sources */,
 				2E2208E81DD4BD1100FB2483 /* EmptyCell.swift in Sources */,
+				A4E0936A2118850A002235FC /* LGChangePasswordBuilder.swift in Sources */,
 				C783D97C1C64BB90000EE5CA /* ReportUsersViewController.swift in Sources */,
 				724D77AB1FC7085000DB43C0 /* ListingCreationViewController.swift in Sources */,
 				50BA5C061C3C093E00F34042 /* AppDelegate.swift in Sources */,
@@ -8142,6 +8199,7 @@
 				2E4BDE6C1EDC528800CBDC8C /* QuickLocationFiltersNavigator.swift in Sources */,
 				C743FEB31E44CFEC00B4E912 /* RateBuyersViewModel.swift in Sources */,
 				C7BAC9C81E49D316005BD0AF /* PurchasesShopper.swift in Sources */,
+				A4E0936E211898E8002235FC /* ChangePasswordModalRouter.swift in Sources */,
 				0AFE31212056DCAB004B6781 /* ListingDeckImagePreviewLayout.swift in Sources */,
 				2E9716AE1D5B2C59009B3A32 /* ChatWrapper.swift in Sources */,
 				329ACF4720EA89CF00A1C6A4 /* SectionTitleHeaderView.swift in Sources */,
@@ -8153,7 +8211,6 @@
 				42566BF220ED217800120431 /* TooltipConfiguration.swift in Sources */,
 				502191101B2F1DC100ABD31F /* RememberPasswordViewModel.swift in Sources */,
 				F5A836AB1FD1AE32009E636D /* ListingAttributePickerViewController.swift in Sources */,
-				72C99E9C1DED7417006361C1 /* ChangePasswordCoordinator.swift in Sources */,
 				C7415ED61DE880BD0003D6C1 /* SimpleListingsViewController.swift in Sources */,
 				0A4AD7FA203DD9B8002625B7 /* UILayoutPriority.swift in Sources */,
 				50C59BDB1CE0DB6400377124 /* NSUserDefaults+KeyValueStorage.swift in Sources */,
@@ -8234,6 +8291,7 @@
 				C611B06A20C92A0700D7DD89 /* MultiListingPostedStatus.swift in Sources */,
 				326C730A20908148009D21DB /* CategoriesFeedCell.swift in Sources */,
 				0ADD39D0211316670071DF87 /* RateBuyersRouter.swift in Sources */,
+				A4E0936721187FB9002235FC /* ChangePasswordRouter.swift in Sources */,
 				0A01C35E2100A2CB00B0129F /* ListingCoordinator.swift in Sources */,
 				F57D3A271FECFD2D006F2CA4 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
 				72854D101F8515BB00E54530 /* PostingDetailsViewController.swift in Sources */,
@@ -8311,6 +8369,7 @@
 				0A04D5D520760A9D00471B9D /* RealEstateABGroup.swift in Sources */,
 				C7F4CBA61C92CC5A008E40D6 /* LGViewPagerPage.swift in Sources */,
 				C7BB25CE1E3613D500649396 /* VersionChecker.swift in Sources */,
+				A4E093712118990A002235FC /* ChangePasswordStandardRouter.swift in Sources */,
 				C7126BE11E6596B200038CC4 /* ListingVMProductInfo.swift in Sources */,
 				4252685920C82FC500A6E191 /* PostAddNewCell.swift in Sources */,
 				2E373FA81D3D01AE00AC811C /* UserRatingListViewModel.swift in Sources */,
@@ -8372,6 +8431,7 @@
 				0A60CAA71FB0C4EF00BE1EFE /* ListingCardUserView.swift in Sources */,
 				2E0F26511E0ACD5D00D97898 /* PurchaseableProductsRequestFactory.swift in Sources */,
 				42F0688220FF3A9A009AC898 /* DropdownCellViewModel.swift in Sources */,
+				A4E0936B2118850A002235FC /* LGChangePasswordBuilder.swift in Sources */,
 				C75B5DC81D59E09500112368 /* ListingDetailOnboardingView.swift in Sources */,
 				5555531E203D92F900C913D2 /* UserProfileViewModel.swift in Sources */,
 				2ECB417120065FB200482EF7 /* BumpUpPayViewModel.swift in Sources */,
@@ -8399,6 +8459,7 @@
 				8E80005E20B5CBFA0043A077 /* ChatConversationsListModel.swift in Sources */,
 				509F79AD1ED6CD1C00AF2F70 /* UserRatingTagCell.swift in Sources */,
 				C6BEE65C20EE6F69008AEA0B /* ListingAttributeTableViewModel.swift in Sources */,
+				A4E093722118990A002235FC /* ChangePasswordStandardRouter.swift in Sources */,
 				C7126BC81E6052E300038CC4 /* CustomTouchesTableView.swift in Sources */,
 				6A38A9A92077610400F3B292 /* UserVerificationSectionHeader.swift in Sources */,
 				3201486F20FF6EDA003445DA /* PushMessageBannerView.swift in Sources */,
@@ -8533,6 +8594,7 @@
 				2E2208E91DD4BD1100FB2483 /* EmptyCell.swift in Sources */,
 				2E5C1C391FB60C56002AFD40 /* PromoteBumpViewController.swift in Sources */,
 				C7DB41B21C5138B500400945 /* MediaPickerManager.swift in Sources */,
+				A4E0936F211898E8002235FC /* ChangePasswordModalRouter.swift in Sources */,
 				50F681F31C8F4586001F33A3 /* RxPaginable.swift in Sources */,
 				C783D97D1C64BB90000EE5CA /* ReportUsersViewController.swift in Sources */,
 				C7DB41B41C5138B500400945 /* AppDelegate.swift in Sources */,
@@ -8769,6 +8831,7 @@
 				0A4766CC1FC5BFE8005B176F /* ProductStatusView.swift in Sources */,
 				C7DB41F61C5138B500400945 /* UITabBarController+Animations.swift in Sources */,
 				0AF5EB6A1FD012A4001DFAE2 /* MapViewSnapShot.swift in Sources */,
+				A4E0936821187FB9002235FC /* ChangePasswordRouter.swift in Sources */,
 				42566BF420ED218200120431 /* TooltipStyle.swift in Sources */,
 				8E28A82E207BC5E70070A7A6 /* AdvertisementAdxCellDrawer.swift in Sources */,
 				72C7A1C41FA73AC80089F175 /* ListingPrice+LG.swift in Sources */,
@@ -9038,7 +9101,6 @@
 				72D928DB1E83DD330030F4C3 /* ConfigManager.swift in Sources */,
 				0AA03203210A293700728A1A /* LGUserVerificationBuilder.swift in Sources */,
 				55FABE1720762E4B004B0DBD /* UserPhoneVerificationCodeInputViewController.swift in Sources */,
-				72C99E9D1DED7417006361C1 /* ChangePasswordCoordinator.swift in Sources */,
 				72E8A5871EB2FF15000524E6 /* CategoriesHeaderCollectionView.swift in Sources */,
 				C7415ED71DE880BD0003D6C1 /* SimpleListingsViewController.swift in Sources */,
 				2E9716AA1D5A284F009B3A32 /* ExpressChatViewController.swift in Sources */,

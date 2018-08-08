@@ -454,13 +454,8 @@ extension AppCoordinator: AppNavigator {
     }
 
     func openResetPassword(_ token: String) {
-        let changePasswordCoordinator = ChangePasswordCoordinator(token: token)
-        if let onboardingCoordinator = child as? ChangePasswordPresenter {
-            onboardingCoordinator.openChangePassword(coordinator: changePasswordCoordinator)
-            return
-        }
-
-        openChild(coordinator: changePasswordCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
+        let vc = LGChangePasswordBuilder.modal.buildChangePassword(withToken: token)
+        tabBarCtl.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
     }
 
     func openSurveyIfNeeded() {
@@ -1159,15 +1154,6 @@ fileprivate extension AppCoordinator {
         tracker.trackEvent(TrackerEvent.listingSellCategorySelect(typePage: source.typePage,
                                                                   postingType: EventParameterPostingType(category: category),
                                                                   category: category.listingCategory))
-    }
-}
-
-extension AppCoordinator: ChangePasswordNavigator {
-    func closeChangePassword() {
-        tabBarCtl.dismiss(animated: true, completion: nil)
-    }
-    func passwordSaved() {
-        tabBarCtl.dismiss(animated: true, completion: nil)
     }
 }
 
