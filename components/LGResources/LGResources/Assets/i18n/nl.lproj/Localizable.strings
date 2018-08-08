@@ -365,6 +365,9 @@
 "edit_priceType_choose_title" = "Kies een optie";
 "edit_product_feature_label_long_text" = "Plaats je advertentie als uitgelicht om sneller te verkopen";
 "edit_product_feature_label_short_text" = "Verkoop nu sneller";
+"edit_product_feature_label_variant_B" = "Verkoop nu sneller";
+"edit_product_feature_label_variant_C" = "Trek meer kopers aan om sneller te verkopen";
+"edit_product_feature_label_variant_D" = "Laat me zien hoe ik meer kopers kan aantrekken";
 "edit_product_location_alert_text" = "Om te wijzigen waar je advertentie is geplaatst, geef toegang tot jouw locatie";
 "edit_product_location_alert_title" = "WIJZIG LOCATIE";
 "edit_product_send_button" = "Wijzigingen opslaan";
@@ -706,8 +709,13 @@
 "post_description_info_title" = "ADVERTENTIE INFORMATIE";
 "post_description_name_placeholder" = "Naam";
 "post_description_save_button_text" = "Bewaar deze advertentie!";
+"post_details_jobs_services_step_option_jobs_prefix" = "Looking to hire someone for a";
+"post_details_jobs_services_step_option_services_prefix" = "Advertising a";
+"post_details_jobs_services_step_title" = "I'm...";
+"post_details_listingType_job_display_name" = "job";
+"post_details_listingType_service_display_name" = "service";
 "post_details_services_add_new" = "Voeg een nieuwe dienst toe";
-"post_details_services_camera_message" = "Post een foto van jezelf of het logo van je bedrijf";
+"post_details_services_camera_message" = "Plaats het logo van je bedrijf of een foto die de aangeboden dienst toont";
 "post_details_services_congratulation_people_near" = "Mensen om je heen zijn op zoek naar deze diensten, heb jij deze vaardigheden?";
 "post_details_services_congratulation_post_another" = "Plaats nog een advertentie";
 "post_details_services_congratulation_review" = "Controleer je advertenties en voeg meer details toe";
@@ -730,6 +738,7 @@
 "post_queued_requests_state_listing_posted" = "Advertentie geplaatst!";
 "post_queued_requests_state_posting_listing" = "Advertentie plaatsen...";
 "posting_button_skip" = "Overslaan";
+"posting_flow_jobs_and_services_category_button_text" = "Banen & Diensten";
 "priceType_biweekly" = "Per twee weken";
 "priceType_daily" = "Per dag";
 "priceType_hourly" = "Per uur";

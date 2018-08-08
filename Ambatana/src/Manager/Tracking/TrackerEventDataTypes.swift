@@ -373,6 +373,7 @@ enum EventParameterName: String {
     case seatsTo              = "seats-to"
     case serviceType          = "service-type"
     case serviceSubtype       = "service-subtype"
+    case paymentFrequency     = "payment-frequency"
     case verticalKeyword            = "vertical-keyword"
     case verticalMatchingFields     = "vertical-matching-fields"
     case verticalFields             = "vertical-fields"
@@ -943,6 +944,10 @@ enum EventParameterEditedFields: String {
     case fuelType             = "fuel-type"
     case drivetrain           = "drivetrain"
     case seats                = "seats"
+    case serviceType          = "service-type"
+    case serviceSubtype       = "service-subtype"
+    case paymentFrequency     = "payment-frequency"
+    
 }
 
 enum EventParameterTypePage: String {

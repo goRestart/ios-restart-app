@@ -22,7 +22,6 @@ protocol FeatureFlaggeable: class {
     var pricedBumpUpEnabled: Bool { get }
     var userReviewsReportEnabled: Bool { get }
     var realEstateEnabled: RealEstateEnabled { get }
-    var requestTimeOut: RequestsTimeOut { get }
     var taxonomiesAndTaxonomyChildrenInFeed : TaxonomiesAndTaxonomyChildrenInFeed { get }
     var showClockInDirectAnswer : ShowClockInDirectAnswer { get }
     var deckItemPage: DeckItemPage { get }
@@ -63,20 +62,22 @@ protocol FeatureFlaggeable: class {
     var appInstallAdsInFeedAdUnit: String? { get }
     var alwaysShowBumpBannerWithLoading: AlwaysShowBumpBannerWithLoading { get }
     var showSellFasterInProfileCells: ShowSellFasterInProfileCells { get }
+    var bumpInEditCopys: BumpInEditCopys { get }
     
     // MARK: Chat
     var showInactiveConversations: Bool { get }
     var showChatSafetyTips: Bool { get }
     var userIsTyping: UserIsTyping { get }
     var chatNorris: ChatNorris { get }
-    var chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs { get }
     var showChatConnectionStatusBar: ShowChatConnectionStatusBar { get }
     var showChatHeaderWithoutListingForAssistant: Bool { get }
     var showChatHeaderWithoutUser: Bool { get }
     var enableCTAMessageType: Bool { get }
     var expressChatImprovement: ExpressChatImprovement { get }
+    var smartQuickAnswers: SmartQuickAnswers { get }
 
     // MARK: Verticals
+    var jobsAndServicesEnabled: EnableJobsAndServicesCategory { get }
     var servicesPaymentFrequency: ServicesPaymentFrequency { get }
     var carExtraFieldsEnabled: CarExtraFieldsEnabled { get }
     var realEstateMapTooltip: RealEstateMapTooltip { get }
@@ -189,6 +190,10 @@ extension OnboardingIncentivizePosting {
 }
 
 extension ServicesUnifiedFilterScreen {
+    var isActive: Bool { return self == .active }
+}
+
+extension EnableJobsAndServicesCategory {
     var isActive: Bool { return self == .active }
 }
 
@@ -472,11 +477,24 @@ extension ShowSellFasterInProfileCells {
     var isActive: Bool { return self == .active }
 }
 
+extension BumpInEditCopys {
+    var variantString: String {
+        switch self {
+        case .control, .baseline:
+            return R.Strings.editProductFeatureLabelLongText
+        case .attractMoreBuyers:
+            return R.Strings.editProductFeatureLabelVariantB
+        case .attractMoreBuyersToSellFast:
+            return R.Strings.editProductFeatureLabelVariantC
+        case .showMeHowToAttract:
+            return R.Strings.editProductFeatureLabelVariantD
+        }
+    }
+}
+
 final class FeatureFlags: FeatureFlaggeable {
     
     static let sharedInstance: FeatureFlags = FeatureFlags()
-
-    let requestTimeOut: RequestsTimeOut
 
     private let locale: Locale
     private var locationManager: LocationManager
@@ -492,13 +510,6 @@ final class FeatureFlags: FeatureFlaggeable {
         Bumper.initialize()
 
         // Initialize all vars that shouldn't change over application lifetime
-        if Bumper.enabled {
-            self.requestTimeOut = Bumper.requestsTimeOut
-        } else {
-            self.requestTimeOut = RequestsTimeOut.buildFromTimeout(dao.retrieveTimeoutForRequests())
-                ?? RequestsTimeOut.fromPosition(abTests.requestsTimeOut.value)
-        }
-
         self.locale = locale
         self.locationManager = locationManager
         self.carrierCountryInfo = countryInfo
@@ -529,16 +540,12 @@ final class FeatureFlags: FeatureFlaggeable {
     }
 
     func variablesUpdated() {
-        if Bumper.enabled {
-            dao.save(timeoutForRequests: TimeInterval(Bumper.requestsTimeOut.timeout))
-        } else {
-            dao.save(timeoutForRequests: TimeInterval(abTests.requestsTimeOut.value))
-            dao.save(advanceReputationSystem: AdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value))
-            dao.save(emergencyLocate: EmergencyLocate.fromPosition(abTests.emergencyLocate.value))
-            dao.save(chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs.fromPosition(abTests.chatConversationsListWithoutTabs.value))
-            dao.save(community: ShowCommunity.fromPosition(abTests.community.value))
-        }
-        abTests.variablesUpdated()
+        defer { abTests.variablesUpdated() }
+        guard Bumper.enabled else { return }
+        
+        dao.save(advanceReputationSystem: AdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value))
+        dao.save(emergencyLocate: EmergencyLocate.fromPosition(abTests.emergencyLocate.value))
+        dao.save(community: ShowCommunity.fromPosition(abTests.community.value))
     }
     
     var surveyUrl: String {
@@ -1052,7 +1059,13 @@ final class FeatureFlags: FeatureFlaggeable {
         }
         return ShowSellFasterInProfileCells.fromPosition(abTests.showSellFasterInProfileCells.value)
     }
-    
+
+    var bumpInEditCopys: BumpInEditCopys {
+        if Bumper.enabled {
+            return Bumper.bumpInEditCopys
+        }
+        return BumpInEditCopys.fromPosition(abTests.bumpInEditCopys.value)
+    }
 
     // MARK: - Private
 
@@ -1081,16 +1094,16 @@ extension ChatNorris {
     var isActive: Bool { return self == .redButton || self == .whiteButton || self == .greenButton }
 }
 
-extension ChatConversationsListWithoutTabs {
-    var isActive: Bool { return self == .active }
-}
-
 extension ShowChatConnectionStatusBar {
     var isActive: Bool { return self == .active }
 }
 
 extension ExpressChatImprovement {
     var isActive: Bool { return self == .hideDontAsk || self == .newTitleAndHideDontAsk }
+}
+
+extension SmartQuickAnswers {
+    var isActive: Bool { return self == .active }
 }
 
 extension FeatureFlags {
@@ -1123,14 +1136,6 @@ extension FeatureFlags {
         return  ChatNorris.fromPosition(abTests.chatNorris.value)
     }
     
-    var chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs {
-        if Bumper.enabled {
-            return Bumper.chatConversationsListWithoutTabs
-        }
-        let cached = dao.retrieveChatConversationsListWithoutTabs()
-        return cached ?? ChatConversationsListWithoutTabs.fromPosition(abTests.chatConversationsListWithoutTabs.value)
-    }
-
     var showChatConnectionStatusBar: ShowChatConnectionStatusBar {
         if Bumper.enabled {
             return Bumper.showChatConnectionStatusBar
@@ -1165,6 +1170,13 @@ extension FeatureFlags {
         }
         return  ExpressChatImprovement.fromPosition(abTests.expressChatImprovement.value)
     }
+    
+    var smartQuickAnswers: SmartQuickAnswers {
+        if Bumper.enabled {
+            return Bumper.smartQuickAnswers
+        }
+        return SmartQuickAnswers.fromPosition(abTests.smartQuickAnswers.value)
+    }
 }
 
 // MARK: Verticals
@@ -1196,7 +1208,16 @@ extension FeatureFlags {
         if Bumper.enabled {
             return Bumper.servicesPaymentFrequency
         }
-         return ServicesPaymentFrequency.fromPosition(abTests.servicesPaymentFrequency.value)
+        return ServicesPaymentFrequency.fromPosition(abTests.servicesPaymentFrequency.value)
+    }
+    
+    var jobsAndServicesEnabled: EnableJobsAndServicesCategory {
+        if Bumper.enabled {
+            return Bumper.enableJobsAndServicesCategory
+        }
+        
+        return .control
+        // FIXME: Enable A/B Test
     }
 }
 

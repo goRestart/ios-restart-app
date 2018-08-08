@@ -365,6 +365,9 @@
 "edit_priceType_choose_title" = "Elige una opción";
 "edit_product_feature_label_long_text" = "Destaca tu anuncio para vender más rápido";
 "edit_product_feature_label_short_text" = "Vender más rápido";
+"edit_product_feature_label_variant_B" = "Vender más rápido";
+"edit_product_feature_label_variant_C" = "Atrae a más compradores para vender más rápido";
+"edit_product_feature_label_variant_D" = "Muéstrame cómo atraer a más compradores";
 "edit_product_location_alert_text" = "Para cambiar dónde se publica tu anuncio, permite acceso a tu ubicación";
 "edit_product_location_alert_title" = "CAMBIAR UBICACIÓN";
 "edit_product_send_button" = "Guardar cambios";
@@ -706,8 +709,13 @@
 "post_description_info_title" = "INFORMACIÓN DEL ANUNCIO";
 "post_description_name_placeholder" = "Nombre";
 "post_description_save_button_text" = "¡Guardar este anuncio!";
+"post_details_jobs_services_step_option_jobs_prefix" = "Looking to hire someone for a";
+"post_details_jobs_services_step_option_services_prefix" = "Advertising a";
+"post_details_jobs_services_step_title" = "I'm...";
+"post_details_listingType_job_display_name" = "job";
+"post_details_listingType_service_display_name" = "service";
 "post_details_services_add_new" = "Añadir otro servicio";
-"post_details_services_camera_message" = "Publica una foto de ti mismo o el logo de tu empresa";
+"post_details_services_camera_message" = "Publica el logo de tu empresa o una foto que muestre el servicio que ofreces";
 "post_details_services_congratulation_people_near" = "Alrededor de ti se buscan estos servicios, ¿tienes estas habilidades?";
 "post_details_services_congratulation_post_another" = "Publicar otro anuncio";
 "post_details_services_congratulation_review" = "Revisa tus anuncios y añade más detalles";
@@ -730,6 +738,7 @@
 "post_queued_requests_state_listing_posted" = "¡Anuncio publicado!";
 "post_queued_requests_state_posting_listing" = "Publicando anuncio...";
 "posting_button_skip" = "Saltar";
+"posting_flow_jobs_and_services_category_button_text" = "Empleo & Servicios";
 "priceType_biweekly" = "Cada dos semanas";
 "priceType_daily" = "Cada día";
 "priceType_hourly" = "Cada hora";

@@ -365,6 +365,9 @@
 "edit_priceType_choose_title" = "Escolha uma opção";
 "edit_product_feature_label_long_text" = "Destaque o seu anúncio para vender mais rápido";
 "edit_product_feature_label_short_text" = "Venda mais rápido";
+"edit_product_feature_label_variant_B" = "Venda mais rápido";
+"edit_product_feature_label_variant_C" = "Atraia mais compradores para vender mais rápido";
+"edit_product_feature_label_variant_D" = "Mostre-me como atrair mais compradores";
 "edit_product_location_alert_text" = "Para alterar onde o seu anúncio é publicado, autorize o acesso à sua localização";
 "edit_product_location_alert_title" = "ALTERAR LOCALIZAÇÃO";
 "edit_product_send_button" = "Guardar alterações";
@@ -706,6 +709,11 @@
 "post_description_info_title" = "DADOS DA PUBLICAÇÃO";
 "post_description_name_placeholder" = "Alterar nome";
 "post_description_save_button_text" = "Guardar este anúncio!";
+"post_details_jobs_services_step_option_jobs_prefix" = "Looking to hire someone for a";
+"post_details_jobs_services_step_option_services_prefix" = "Advertising a";
+"post_details_jobs_services_step_title" = "I'm...";
+"post_details_listingType_job_display_name" = "job";
+"post_details_listingType_service_display_name" = "service";
 "post_details_services_add_new" = "Adicionar um novo serviço";
 "post_details_services_camera_message" = "Publique uma fotografia de si mesmo ou o logótipo da sua empresa";
 "post_details_services_congratulation_people_near" = "Pessoas à sua volta procuram estes serviços. Tem estas habilidades?";
@@ -730,6 +738,7 @@
 "post_queued_requests_state_listing_posted" = "Anúncio publicado!";
 "post_queued_requests_state_posting_listing" = "A publicar o anúncio...";
 "posting_button_skip" = "Pular";
+"posting_flow_jobs_and_services_category_button_text" = "Jobs & Services";
 "priceType_biweekly" = "Quinzenal";
 "priceType_daily" = "Diário";
 "priceType_hourly" = "De hora em hora";

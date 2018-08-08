@@ -365,6 +365,9 @@
 "edit_priceType_choose_title" = "Выберите опцию";
 "edit_product_feature_label_long_text" = "Выделите свое объявление, чтобы продать быстрее";
 "edit_product_feature_label_short_text" = "Продайте быстрее";
+"edit_product_feature_label_variant_B" = "Продайте быстрее";
+"edit_product_feature_label_variant_C" = "Привлеките больше покупателей, чтобы продать быстрее";
+"edit_product_feature_label_variant_D" = "Расскажите, как привлечь больше покупателей";
 "edit_product_location_alert_text" = "Для изменение местоположения объявления разрешите доступ к геолокации";
 "edit_product_location_alert_title" = "СМЕНИТЬ МЕСТОПОЛОЖЕНИЕ";
 "edit_product_send_button" = "Сохранить изменения";
@@ -706,6 +709,11 @@
 "post_description_info_title" = "ИНФОРМАЦИЯ ОБ ОБЪЯВЛЕНИИ";
 "post_description_name_placeholder" = "Изменить имя";
 "post_description_save_button_text" = "Сохранить это объявление!";
+"post_details_jobs_services_step_option_jobs_prefix" = "Looking to hire someone for a";
+"post_details_jobs_services_step_option_services_prefix" = "Advertising a";
+"post_details_jobs_services_step_title" = "I'm...";
+"post_details_listingType_job_display_name" = "job";
+"post_details_listingType_service_display_name" = "service";
 "post_details_services_add_new" = "Добавить новую услугу";
 "post_details_services_camera_message" = "Разместите свое фото или логотип компании";
 "post_details_services_congratulation_people_near" = "Люди рядом с вами ищут эти услуги, вы можете их предложить?";
@@ -730,6 +738,7 @@
 "post_queued_requests_state_listing_posted" = "Объявление размещено!";
 "post_queued_requests_state_posting_listing" = "Размещаем объявление...";
 "posting_button_skip" = "Пропустить";
+"posting_flow_jobs_and_services_category_button_text" = "Jobs & Services";
 "priceType_biweekly" = "Каждые две недели";
 "priceType_daily" = "Ежедневно";
 "priceType_hourly" = "Ежечасно";

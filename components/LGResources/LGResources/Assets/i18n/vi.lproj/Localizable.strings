@@ -365,6 +365,9 @@
 "edit_priceType_choose_title" = "Chọn một tùy chọn";
 "edit_product_feature_label_long_text" = "Làm nổi bật bài đăng của bạn để bán nhanh hơn";
 "edit_product_feature_label_short_text" = "Bán nhanh hơn";
+"edit_product_feature_label_variant_B" = "Dễ nhìn hơn";
+"edit_product_feature_label_variant_C" = "Thu hút nhiều người mua để bán nhanh hơn";
+"edit_product_feature_label_variant_D" = "Chỉ cho tôi cách để thu hút nhiều người mua hơn";
 "edit_product_location_alert_text" = "Để thay đổi địa điểm đăng sản phẩm, hãy cho phép truy cập địa điểm của bạn";
 "edit_product_location_alert_title" = "THAY ĐỔI ĐỊA ĐIỂM";
 "edit_product_send_button" = "Lưu thay đổi";
@@ -706,6 +709,11 @@
 "post_description_info_title" = "THÔNG TIN BÀI ĐĂNG";
 "post_description_name_placeholder" = "Tên";
 "post_description_save_button_text" = "Lưu bài đăng này!";
+"post_details_jobs_services_step_option_jobs_prefix" = "Looking to hire someone for a";
+"post_details_jobs_services_step_option_services_prefix" = "Advertising a";
+"post_details_jobs_services_step_title" = "I'm...";
+"post_details_listingType_job_display_name" = "job";
+"post_details_listingType_service_display_name" = "service";
 "post_details_services_add_new" = "Thêm một dịch vụ mới";
 "post_details_services_camera_message" = "Đăng một ảnh của chính bạn hoặc logo công ty của bạn";
 "post_details_services_congratulation_people_near" = "Mọi người xung quanh bạn đang tìm kiếm các dịch vụ này, bạn có những kĩ năng đó?";
@@ -730,6 +738,7 @@
 "post_queued_requests_state_listing_posted" = "Bài đã được đăng!";
 "post_queued_requests_state_posting_listing" = "Đang đăng bài…";
 "posting_button_skip" = "Bỏ qua";
+"posting_flow_jobs_and_services_category_button_text" = "Jobs & Services";
 "priceType_biweekly" = "Mỗi hai tuần";
 "priceType_daily" = "Mỗi ngày";
 "priceType_hourly" = "Mỗi giờ";

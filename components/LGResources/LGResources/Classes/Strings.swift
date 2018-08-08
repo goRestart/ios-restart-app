@@ -804,6 +804,12 @@ extension R {
     public static let editProductFeatureLabelLongText = Strings.tr("Localizable", "edit_product_feature_label_long_text")
     /// Sell faster now
     public static let editProductFeatureLabelShortText = Strings.tr("Localizable", "edit_product_feature_label_short_text")
+    /// Attract more buyers
+    public static let editProductFeatureLabelVariantB = Strings.tr("Localizable", "edit_product_feature_label_variant_B")
+    /// Attract more buyers to sell faster
+    public static let editProductFeatureLabelVariantC = Strings.tr("Localizable", "edit_product_feature_label_variant_C")
+    /// Show me how to attract more buyers
+    public static let editProductFeatureLabelVariantD = Strings.tr("Localizable", "edit_product_feature_label_variant_D")
     /// To change where your listing is posted, allow access to your location
     public static let editProductLocationAlertText = Strings.tr("Localizable", "edit_product_location_alert_text")
     /// CHANGE LOCATION
@@ -1574,7 +1580,7 @@ extension R {
     public static let postDescriptionSaveButtonText = Strings.tr("Localizable", "post_description_save_button_text")
     /// Add a new service
     public static let postDetailsServicesAddNew = Strings.tr("Localizable", "post_details_services_add_new")
-    /// Post a picture of yourself or your company’s logo
+    /// Post your company’s logo or a photo that shows the service you offer
     public static let postDetailsServicesCameraMessage = Strings.tr("Localizable", "post_details_services_camera_message")
     /// People around you are looking for these services, have these skills?
     public static let postDetailsServicesCongratulationPeopleNear = Strings.tr("Localizable", "post_details_services_congratulation_people_near")
@@ -1622,6 +1628,8 @@ extension R {
     public static let postQueuedRequestsStatePostingListing = Strings.tr("Localizable", "post_queued_requests_state_posting_listing")
     /// Skip
     public static let postingButtonSkip = Strings.tr("Localizable", "posting_button_skip")
+    /// Jobs & Services
+    public static let postingFlowJobsAndServicesCategoryButtonText = Strings.tr("Localizable", "posting_flow_jobs_and_services_category_button_text")
     /// Biweekly
     public static let priceTypeBiweekly = Strings.tr("Localizable", "priceType_biweekly")
     /// Daily

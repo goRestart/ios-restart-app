@@ -157,7 +157,7 @@
 "chat_express_contact_various_button_text" = "Kontaktiere %@ Verkäufer";
 "chat_express_dont_ask_again_button" = "Nicht erneut fragen";
 "chat_express_dont_miss_label" = "Verpasse keines dieser Angebote";
-"chat_express_high_demand_label" = "Sehr gefragt! Lass dir diese Schnäppchen nicht entgehen.";
+"chat_express_high_demand_label" = "Sehr gefragt! Lass dir diese Schnäppchen nicht entgehen";
 "chat_express_one_message_sent_success_alert" = "Deine Nachricht wurde verschickt!";
 "chat_express_several_messages_sent_success_alert" = "Deine Nachrichten wurden verschickt!";
 "chat_express_text_field_text" = "Ist das noch zu haben?";
@@ -365,6 +365,9 @@
 "edit_priceType_choose_title" = "Wähle eine Option";
 "edit_product_feature_label_long_text" = "Empfehle dein Angebot, um schneller zu verkaufen";
 "edit_product_feature_label_short_text" = "Jetzt schneller verkaufen";
+"edit_product_feature_label_variant_B" = "Locke mehr Käufer an";
+"edit_product_feature_label_variant_C" = "Locke mehr Käufer an, um schneller zu verkaufen";
+"edit_product_feature_label_variant_D" = "Zeig mir, wie ich mehr Käufer anlocken kann";
 "edit_product_location_alert_text" = "Erlaube den Zugriff auf deinen Standort, um zu ändern, wo dein Angebot eingestellt wird";
 "edit_product_location_alert_title" = "STANDORT ÄNDERN";
 "edit_product_send_button" = "Änderungen speichern";
@@ -706,6 +709,11 @@
 "post_description_info_title" = "ANGEBOTSINFORMATIONEN";
 "post_description_name_placeholder" = "Name";
 "post_description_save_button_text" = "Dieses Angebot speichern!";
+"post_details_jobs_services_step_option_jobs_prefix" = "Looking to hire someone for a";
+"post_details_jobs_services_step_option_services_prefix" = "Advertising a";
+"post_details_jobs_services_step_title" = "I'm...";
+"post_details_listingType_job_display_name" = "job";
+"post_details_listingType_service_display_name" = "service";
 "post_details_services_add_new" = "Füge eine neue Dienstleistung hinzu";
 "post_details_services_camera_message" = "Stelle ein Foto von dir oder deinem Firmenlogo ein";
 "post_details_services_congratulation_people_near" = "Leute in deiner Nähe suchen nach diesen Dienstleistungen, besitzt du diese Fähigkeiten?";
@@ -730,6 +738,7 @@
 "post_queued_requests_state_listing_posted" = "Angebot eingestellt!";
 "post_queued_requests_state_posting_listing" = "Angebot einstellen...";
 "posting_button_skip" = "Überspringen";
+"posting_flow_jobs_and_services_category_button_text" = "Jobs & Services";
 "priceType_biweekly" = "Alle zwei Wochen";
 "priceType_daily" = "Pro Tag";
 "priceType_hourly" = "Pro Stunde";

@@ -273,8 +273,8 @@ final class ChatViewController: TextViewController {
         }.disposed(by: disposeBag)
     }
 
-    fileprivate func setupDirectAnswers() {
-        directAnswersPresenter.hidden = viewModel.directAnswersState.value != .visible
+    fileprivate func setupDirectAnswers(_ quickAnswers: [QuickAnswer]) {
+        guard quickAnswers.count > 0 else { return }
         guard let parentView = relatedListingsView.superview else { return }
         directAnswersPresenter.horizontalView?.removeFromSuperview()
         let defaultHeight = DirectAnswersHorizontalView.Layout.Height.standard
@@ -289,7 +289,7 @@ final class ChatViewController: TextViewController {
         directAnswers.layout(with: parentView).leading().trailing()
         directAnswers.layout(with: relatedListingsView).bottom(to: .top, by: -DirectAnswersHorizontalView.Layout.standardSideMargin)
         directAnswersPresenter.horizontalView = directAnswers
-        directAnswersPresenter.setDirectAnswers(viewModel.directAnswers)
+        directAnswersPresenter.setDirectAnswers(quickAnswers)
         directAnswersPresenter.delegate = viewModel
     }
 
@@ -548,9 +548,14 @@ fileprivate extension ChatViewController {
             guard let url = imageUrl else { return }
             self?.listingView.listingImage.lg_setImageWithURL(url)
             }.disposed(by: disposeBag)
-        viewModel.shouldUpdateQuickAnswers.asObservable().filter{ $0 }.subscribeNext { [weak self] _ in
-            self?.setupDirectAnswers()
-        }.disposed(by: disposeBag)
+        viewModel.shouldUpdateQuickAnswers
+            .asObservable()
+            .ignoreNil()
+            .distinctUntilChanged()
+            .subscribeNext { [weak self] quickAnswers in
+                self?.setupDirectAnswers(quickAnswers)
+            }
+            .disposed(by: disposeBag)
         
         let placeHolder = Observable.combineLatest(viewModel.interlocutorId.asObservable(),
                                                    viewModel.interlocutorName.asObservable()) {

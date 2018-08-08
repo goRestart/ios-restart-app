@@ -166,11 +166,6 @@
         "description": "Show an I am interested button in the main feed"
     },
     {
-        "name": "ChatConversationsListWithoutTabs",
-        "values": ["control", "baseline", "active"],
-        "description": "[CHAT] Chat conversation list without tabs"
-    },
-    {
         "name": "PersonalizedFeed",
         "values": ["control", "baseline", "personalized"],
         "description": "Personalize the feed"
@@ -311,6 +306,11 @@
         "description": "[CHAT] Express chat improvements"
     },
     {
+        "name": "SmartQuickAnswers",
+        "values": ["control", "baseline", "active"],
+        "description": "Show smart quick answer events"
+    },
+    {
         "name": "AlwaysShowBumpBannerWithLoading",
         "values": ["control", "baseline", "active"],
         "description": "[MONEY] Always show bump banner with a loading till we get the info"
@@ -329,5 +329,15 @@
         "name": "ShowSellFasterInProfileCells",
         "values": ["control", "baseline", "active"],
         "description": "[MONEY] Add CTA to bump up to profile listing cells"
+    },
+    {
+        "name": "BumpInEditCopys",
+        "values": ["control", "baseline", "attractMoreBuyers", "attractMoreBuyersToSellFast", "showMeHowToAttract"],
+        "description": "[MONEY] Test different variants for bump up in edit listing screen"
+    },
+    {
+        "name": "EnableJobsAndServicesCategory",
+        "values": ["control", "baseline", "active"],
+        "description": "[SERVICES] Services category becomes Jobs & Services, enables features related to jobs"
     }
  ]

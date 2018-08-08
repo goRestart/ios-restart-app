@@ -6,7 +6,7 @@ class WebSurveyViewModel: BaseViewModel {
 
     private static let submitRedirect = "letgo.com"
 
-    weak var navigator: WebSurveyNavigator?
+    var navigator: WebSurveyNavigator?
 
     var url: URL {
         var params = "?os=ios"

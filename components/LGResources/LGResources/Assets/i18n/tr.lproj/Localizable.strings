@@ -365,6 +365,9 @@
 "edit_priceType_choose_title" = "Bir seçim yap";
 "edit_product_feature_label_long_text" = "Daha hızlı satmak için ilanını öne çıkar";
 "edit_product_feature_label_short_text" = "Hemen sat";
+"edit_product_feature_label_variant_B" = "Hemen sat";
+"edit_product_feature_label_variant_C" = "Daha hızlı satış yapmak için daha fazla alıcının ilgisini çek";
+"edit_product_feature_label_variant_D" = "Bana daha fazla alıcının ilgisini nasıl çekeceğimi göster";
 "edit_product_location_alert_text" = "İlanının yayınlanmış olduğu yeri değiştirmek için, konum bilgine ulaşılmasına izin ver";
 "edit_product_location_alert_title" = "KONUM DEĞİŞTİR";
 "edit_product_send_button" = "Değişiklikleri kaydet";
@@ -706,8 +709,13 @@
 "post_description_info_title" = "İLAN BİLGİSİ";
 "post_description_name_placeholder" = "İsim";
 "post_description_save_button_text" = "Bu ilanı kaydet!";
+"post_details_jobs_services_step_option_jobs_prefix" = "Looking to hire someone for a";
+"post_details_jobs_services_step_option_services_prefix" = "Advertising a";
+"post_details_jobs_services_step_title" = "I'm...";
+"post_details_listingType_job_display_name" = "job";
+"post_details_listingType_service_display_name" = "service";
 "post_details_services_add_new" = "Yeni bir hizmet ekle";
-"post_details_services_camera_message" = "Kendinin ya da şirketinin logosunun fotoğrafını koy";
+"post_details_services_camera_message" = "Şirketinin logosunu veya sunduğun hizmeti gösteren bir fotoğraf koy";
 "post_details_services_congratulation_people_near" = "Etrafındaki insanlar bu hizmetleri arıyorlar. Bu yeteneklere sahip misin?";
 "post_details_services_congratulation_post_another" = "Başka bir ilan yükle";
 "post_details_services_congratulation_review" = "İlanlarını gözden geçir ve daha fazla detay ekle";
@@ -730,6 +738,7 @@
 "post_queued_requests_state_listing_posted" = "İlan yüklendi!";
 "post_queued_requests_state_posting_listing" = "İlan yükleniyor...";
 "posting_button_skip" = "Geç";
+"posting_flow_jobs_and_services_category_button_text" = "İşler & Hizmetler";
 "priceType_biweekly" = "İki haftada bir";
 "priceType_daily" = "Günlük";
 "priceType_hourly" = "Saatlik";

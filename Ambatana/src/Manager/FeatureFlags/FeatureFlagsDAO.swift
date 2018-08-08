@@ -7,14 +7,10 @@
 //
 
 protocol FeatureFlagsDAO {
-    func retrieveTimeoutForRequests() -> TimeInterval?
-    func save(timeoutForRequests: TimeInterval)
     func retrieveAdvanceReputationSystem() -> AdvancedReputationSystem?
     func save(advanceReputationSystem: AdvancedReputationSystem)
     func retrieveEmergencyLocate() -> EmergencyLocate?
     func save(emergencyLocate: EmergencyLocate)
-    func retrieveChatConversationsListWithoutTabs() -> ChatConversationsListWithoutTabs?
-    func save(chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs)
     func retrieveCommunity() -> ShowCommunity?
     func save(community: ShowCommunity)
 }

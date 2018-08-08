@@ -434,26 +434,3 @@ fileprivate extension AppDelegate {
     }
 }
 
-extension RequestsTimeOut {
-    
-    var timeout: TimeInterval {
-        switch self {
-        case .thirty: return TimeInterval(30)
-        case .baseline: return TimeInterval(30)
-        case .forty_five: return TimeInterval(45)
-        case .sixty: return TimeInterval(60)
-        case .hundred_and_twenty: return TimeInterval(120)
-        }
-    }
-
-    static func buildFromTimeout(_ timeout: TimeInterval?) -> RequestsTimeOut? {
-        guard let timeInterval = timeout else { return nil }
-        switch timeInterval {
-        case TimeInterval(30): return .thirty
-        case TimeInterval(45): return .forty_five
-        case TimeInterval(60): return .sixty
-        case TimeInterval(120): return .hundred_and_twenty
-        default: return nil
-        }
-    }
-}

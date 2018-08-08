@@ -842,6 +842,7 @@ struct TrackerEvent {
         if let servicesAttributes = listing.service?.servicesAttributes {
             params[.serviceType] = servicesAttributes.typeId ?? SharedConstants.parameterNotApply
             params[.serviceSubtype] = servicesAttributes.subtypeId ?? SharedConstants.parameterNotApply
+            params[.paymentFrequency] = servicesAttributes.paymentFrequency?.rawValue
         }
         
         if let realEstateAttributes = listing.realEstate?.realEstateAttributes {

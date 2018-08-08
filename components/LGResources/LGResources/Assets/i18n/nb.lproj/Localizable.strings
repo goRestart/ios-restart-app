@@ -365,6 +365,9 @@
 "edit_priceType_choose_title" = "Choose an option";
 "edit_product_feature_label_long_text" = "Promoter din annonse for å selge raskere";
 "edit_product_feature_label_short_text" = "Selg raskere nå";
+"edit_product_feature_label_variant_B" = "Selg raskere nå";
+"edit_product_feature_label_variant_C" = "Tiltrekk flere kjøpere for å selge raskere";
+"edit_product_feature_label_variant_D" = "Vis meg hvordan jeg kan tiltrekke flere kjøpere";
 "edit_product_location_alert_text" = "Gi tilgang til din plassering for å kunne endre hvor din annonse publiseres fra";
 "edit_product_location_alert_title" = "ENDRE PLASSERING";
 "edit_product_send_button" = "Lagre endringer";
@@ -706,6 +709,11 @@
 "post_description_info_title" = "ANNONSEINFORMASJON";
 "post_description_name_placeholder" = "Navn";
 "post_description_save_button_text" = "Lagre denne annonsen!";
+"post_details_jobs_services_step_option_jobs_prefix" = "Looking to hire someone for a";
+"post_details_jobs_services_step_option_services_prefix" = "Advertising a";
+"post_details_jobs_services_step_title" = "I'm...";
+"post_details_listingType_job_display_name" = "job";
+"post_details_listingType_service_display_name" = "service";
 "post_details_services_add_new" = "Legg til en ny tjeneste";
 "post_details_services_camera_message" = "Publiser et bilde av deg selv eller av bedriftens logo";
 "post_details_services_congratulation_people_near" = "Personer rundt deg ser etter disse tjenestene, har du disse erfaringene?";
@@ -730,6 +738,7 @@
 "post_queued_requests_state_listing_posted" = "Annonsen er publisert!";
 "post_queued_requests_state_posting_listing" = "Publiserer annonse...";
 "posting_button_skip" = "Hopp over";
+"posting_flow_jobs_and_services_category_button_text" = "Jobs & Services";
 "priceType_biweekly" = "Annenhver uke";
 "priceType_daily" = "Daglig";
 "priceType_hourly" = "Hver time";
