@@ -21,6 +21,7 @@ extension Bumper  {
         flags.append(PricedBumpUpEnabled.self)
         flags.append(UserReviewsReportEnabled.self)
         flags.append(RealEstateEnabled.self)
+        flags.append(RequestsTimeOut.self)
         flags.append(TaxonomiesAndTaxonomyChildrenInFeed.self)
         flags.append(DeckItemPage.self)
         flags.append(ShowClockInDirectAnswer.self)
@@ -70,6 +71,7 @@ extension Bumper  {
         flags.append(RealEstateMapTooltip.self)
         flags.append(AppInstallAdsInFeed.self)
         flags.append(EnableCTAMessageType.self)
+        flags.append(OpenChatFromUserProfile.self)
         flags.append(SearchAlertsInSearchSuggestions.self)
         flags.append(EngagementBadging.self)
         flags.append(ServicesUnifiedFilterScreen.self)
@@ -147,6 +149,19 @@ extension Bumper  {
     static var realEstateEnabledObservable: Observable<RealEstateEnabled> {
         return Bumper.observeValue(for: RealEstateEnabled.key).map {
             RealEstateEnabled(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var requestsTimeOut: RequestsTimeOut {
+        guard let value = Bumper.value(for: RequestsTimeOut.key) else { return .baseline }
+        return RequestsTimeOut(rawValue: value) ?? .baseline 
+    } 
+
+    #if (RX_BUMPER)
+    static var requestsTimeOutObservable: Observable<RequestsTimeOut> {
+        return Bumper.observeValue(for: RequestsTimeOut.key).map {
+            RequestsTimeOut(rawValue: $0 ?? "") ?? .baseline
         }
     }
     #endif
@@ -788,6 +803,19 @@ extension Bumper  {
     }
     #endif
 
+    static var openChatFromUserProfile: OpenChatFromUserProfile {
+        guard let value = Bumper.value(for: OpenChatFromUserProfile.key) else { return .control }
+        return OpenChatFromUserProfile(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var openChatFromUserProfileObservable: Observable<OpenChatFromUserProfile> {
+        return Bumper.observeValue(for: OpenChatFromUserProfile.key).map {
+            OpenChatFromUserProfile(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
     static var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions {
         guard let value = Bumper.value(for: SearchAlertsInSearchSuggestions.key) else { return .control }
         return SearchAlertsInSearchSuggestions(rawValue: value) ?? .control 
@@ -1007,6 +1035,24 @@ enum RealEstateEnabled: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .active
             default: return .control
+        }
+    }
+}
+
+enum RequestsTimeOut: String, BumperFeature  {
+    case baseline, thirty, forty_five, sixty, hundred_and_twenty
+    static var defaultValue: String { return RequestsTimeOut.baseline.rawValue }
+    static var enumValues: [RequestsTimeOut] { return [.baseline, .thirty, .forty_five, .sixty, .hundred_and_twenty]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "API requests timeout" } 
+    static func fromPosition(_ position: Int) -> RequestsTimeOut {
+        switch position { 
+            case 0: return .baseline
+            case 1: return .thirty
+            case 2: return .forty_five
+            case 3: return .sixty
+            case 4: return .hundred_and_twenty
+            default: return .baseline
         }
     }
 }
@@ -1791,6 +1837,23 @@ enum EnableCTAMessageType: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "[CHAT] Enable the CTA message type" } 
     var asBool: Bool { return self == .yes }
+}
+
+enum OpenChatFromUserProfile: String, BumperFeature  {
+    case control, baseline, vatiant1NoQuickAnswers, variant2WithOneTimeQuickAnswers
+    static var defaultValue: String { return OpenChatFromUserProfile.control.rawValue }
+    static var enumValues: [OpenChatFromUserProfile] { return [.control, .baseline, .vatiant1NoQuickAnswers, .variant2WithOneTimeQuickAnswers]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[CHAT] Open a chat from the user profile" } 
+    static func fromPosition(_ position: Int) -> OpenChatFromUserProfile {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .vatiant1NoQuickAnswers
+            case 3: return .variant2WithOneTimeQuickAnswers
+            default: return .control
+        }
+    }
 }
 
 enum SearchAlertsInSearchSuggestions: String, BumperFeature  {

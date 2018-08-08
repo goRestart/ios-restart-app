@@ -75,6 +75,7 @@ protocol FeatureFlaggeable: class {
     var enableCTAMessageType: Bool { get }
     var expressChatImprovement: ExpressChatImprovement { get }
     var smartQuickAnswers: SmartQuickAnswers { get }
+    var openChatFromUserProfile: OpenChatFromUserProfile { get }
 
     // MARK: Verticals
     var jobsAndServicesEnabled: EnableJobsAndServicesCategory { get }
@@ -1164,6 +1165,13 @@ extension FeatureFlags {
             return Bumper.smartQuickAnswers
         }
         return SmartQuickAnswers.fromPosition(abTests.smartQuickAnswers.value)
+    }
+    
+    var openChatFromUserProfile: OpenChatFromUserProfile {
+        if Bumper.enabled {
+            return Bumper.openChatFromUserProfile
+        }
+        return OpenChatFromUserProfile.fromPosition(abTests.openChatFromUserProfile.value)
     }
 }
 

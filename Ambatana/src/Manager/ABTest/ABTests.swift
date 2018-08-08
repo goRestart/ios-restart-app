@@ -169,6 +169,7 @@ extension ABTests {
     var enableCTAMessageType: LeanplumABVariable<Bool> { return chat.enableCTAMessageType }
     var expressChatImprovement: LeanplumABVariable<Int> { return chat.expressChatImprovement }
     var smartQuickAnswers: LeanplumABVariable<Int> { return chat.smartQuickAnswers }
+    var openChatFromUserProfile: LeanplumABVariable<Int> { return chat.openChatFromUserProfile }
 }
 
 //  MARK: Money

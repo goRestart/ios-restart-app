@@ -276,6 +276,11 @@
         "description": "[CHAT] Enable the CTA message type"
     },
     {
+        "name": "OpenChatFromUserProfile",
+        "values": ["control", "baseline", "vatiant1NoQuickAnswers", "variant2WithOneTimeQuickAnswers"],
+        "description": "[CHAT] Open a chat from the user profile"
+    },
+    {
         "name": "SearchAlertsInSearchSuggestions",
         "values": ["control", "baseline", "active"],
         "description": "Show search alerts in search suggestions view"
