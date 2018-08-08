@@ -77,7 +77,6 @@ protocol InternalDI: DI {
     var installationDAO: InstallationDAO { get }
     var myUserDAO: MyUserDAO { get }
     var listingsLimboDAO: ListingsLimboDAO { get }
-    var networkDAO: NetworkDAO { get }
 
     // Reachability
     var reachability: ReachabilityProtocol? { get }

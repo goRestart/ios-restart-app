@@ -584,6 +584,7 @@ final class LGListingRepository: ListingRepository {
         
         return service.updating(servicesAttributes: ServiceAttributes(typeId: service.servicesAttributes.typeId,
                                                                       subtypeId: service.servicesAttributes.subtypeId,
+                                                                      listingType: service.servicesAttributes.listingType,
                                                                       typeTitle: serviceType,
                                                                       subtypeTitle: serviceSubtype,
                                                                       paymentFrequency: service.servicesAttributes.paymentFrequency))
