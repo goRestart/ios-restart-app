@@ -251,13 +251,15 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
 
     }
     
-    func vmHideMapToolTip() {
+    func vmHideMapToolTip(hideForever: Bool) {
         UIView.animate(withDuration: 0.3, animations: {
             self.mapTooltip?.alpha = 0.0
         }) { [weak self] _ in
             self?.mapTooltip?.removeFromSuperview()
             self?.mapTooltip = nil
-            self?.viewModel.tooltipDidHide()
+            if hideForever {
+                self?.viewModel.tooltipDidHide()
+            }
         }
     }
 
@@ -374,7 +376,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     
     @objc func openMap(_ sender: AnyObject) {
         navbarSearch.searchTextField.resignFirstResponder()
-        vmHideMapToolTip()
+        vmHideMapToolTip(hideForever: true)
         viewModel.showMap()
     }
     

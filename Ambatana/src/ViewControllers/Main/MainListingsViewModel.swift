@@ -11,7 +11,7 @@ protocol MainListingsViewModelDelegate: BaseViewModelDelegate {
     func vmShowTags(primaryTags: [FilterTag], secondaryTags: [FilterTag])
     func vmFiltersChanged()
     func vmShowMapToolTip(with configuration: TooltipConfiguration)
-    func vmHideMapToolTip()
+    func vmHideMapToolTip(hideForever: Bool)
 }
 
 protocol MainListingsAdsDelegate: class {
@@ -98,6 +98,9 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             if shouldShowRealEstateMapTooltip {
                 showTooltipMap()
             }
+        } else {
+            isMapTooltipAdded = false
+            delegate?.vmHideMapToolTip(hideForever: false)
         }
         rightButtonItems.append((image: hasFilters ? R.Asset.IconsButtons.icFiltersActive.image : R.Asset.IconsButtons.icFilters.image, selector: #selector(MainListingsViewController.openFilters)))
         return rightButtonItems
@@ -314,7 +317,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                                                         actionBlock: {},
                                                         closeBlock:{ [weak self] in
                                                             self?.isMapTooltipAdded = false
-                                                            self?.delegate?.vmHideMapToolTip()
+                                                            self?.delegate?.vmHideMapToolTip(hideForever: true)
         })
         isMapTooltipAdded = true
         delegate?.vmShowMapToolTip(with: tooltipConfiguration)
