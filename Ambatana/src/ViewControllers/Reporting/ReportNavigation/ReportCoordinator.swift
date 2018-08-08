@@ -110,7 +110,8 @@ extension ReportCoordinator: ReportNavigator {
 
     func openReportSentScreen(type sentType: ReportSentType) {
         guard let navCtl = viewController as? UINavigationController else { return }
-        let vm = ReportSentViewModel(reportSentType: sentType, reportedObjectId: reportedId)
+        guard let username = type.rateData?.userName else { return }
+        let vm = ReportSentViewModel(reportSentType: sentType, reportedObjectId: reportedId, username: username)
         vm.navigator = self
         let vc = ReportSentViewController(viewModel: vm)
         vm.delegate = vc

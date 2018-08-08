@@ -17,6 +17,7 @@ final class ReportSentViewModel: BaseViewModel {
 
     private let reportSentType: Variable<ReportSentType>
     private let reportedObjectId: String
+    private let username: String
     private let userRepository: UserRepository
     private let userRatingRepository: UserRatingRepository
     private let tracker: Tracker
@@ -24,11 +25,13 @@ final class ReportSentViewModel: BaseViewModel {
 
     init(reportSentType: ReportSentType,
          reportedObjectId: String,
+         username: String,
          userRepository: UserRepository = Core.userRepository,
          userRatingRepository: UserRatingRepository = Core.userRatingRepository,
          tracker: Tracker = TrackerProxy.sharedInstance) {
         self.reportSentType = Variable<ReportSentType>(reportSentType)
         self.reportedObjectId = reportedObjectId
+        self.username = username
         self.userRepository = userRepository
         self.userRatingRepository = userRatingRepository
         self.tracker = tracker
@@ -44,9 +47,10 @@ final class ReportSentViewModel: BaseViewModel {
         reportSentType
             .asObservable()
             .subscribeNext(onNext: { [weak self] type in
+                guard let strongSelf = self else { return }
                 self?.showBlockAction.value = type.allowsBlockUser
                 self?.title.value = type.title
-                self?.message.value = type.attributedMessage(userName: "Fuuu") // FIXME: fix user name
+                self?.message.value = type.attributedMessage(userName: strongSelf.username)
             })
             .disposed(by: disposeBag)
     }
@@ -59,8 +63,8 @@ final class ReportSentViewModel: BaseViewModel {
 
         delegate?.vmShowLoading(nil)
 
-        // User review action is only available if a review between
-        // reported and current users exists without listing id.
+        // User review action is only available if we haven't reviewed
+        // the other user yet with a review of type .report
         userRatingRepository.show(reportedObjectId, listingId: nil, type: .report) { [weak self] result in
             self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
 
@@ -75,12 +79,17 @@ final class ReportSentViewModel: BaseViewModel {
 
             self?.showReviewAction.value = canReviewUser
 
-            // Fallback to different ReportSentType to show different info
-            if !canReviewUser, type == .userBlockAndReviewA {
-                self?.reportSentType.value = .userBlockA
-            } else if !canReviewUser, type == .userBlockAndReviewB {
-                self?.reportSentType.value = .userBlockB
+            if !canReviewUser {
+                self?.applyFallbackType()
             }
+        }
+    }
+
+    func applyFallbackType() {
+        if reportSentType.value == .userBlockAndReviewA {
+            reportSentType.value = .userBlockA
+        } else if reportSentType.value == .userBlockAndReviewB {
+            reportSentType.value = .userBlockB
         }
     }
 
