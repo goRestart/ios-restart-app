@@ -64,6 +64,7 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
     private let onboardingView = MLPostingOnboardingView()
     private let keyValueStorage: KeyValueStorageable
     private let tracker: Tracker
+    private let featureFlags: FeatureFlaggeable
 
 
     // MARK: - Lifecycle
@@ -74,14 +75,16 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
                   forcedInitialTab: forcedInitialTab,
                   keyboardHelper: KeyboardHelper(),
                   keyValueStorage: KeyValueStorage.sharedInstance,
-                  tracker: TrackerProxy.sharedInstance)
+                  tracker: TrackerProxy.sharedInstance,
+                  featureFlags: FeatureFlags.sharedInstance)
     }
 
     required init(viewModel: PostListingViewModel,
                   forcedInitialTab: Tab?,
                   keyboardHelper: KeyboardHelper,
                   keyValueStorage: KeyValueStorageable,
-                  tracker: Tracker) {
+                  tracker: Tracker,
+                  featureFlags: FeatureFlaggeable) {
         
         let tabPosition: LGViewPagerTabPosition = .hidden
         var postFooter: UIView & PostListingFooter
@@ -102,9 +105,10 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
         self.viewModel = viewModel
         self.forcedInitialTab = forcedInitialTab        
         self.galleryView = PostListingGalleryView(viewModel: viewModel.postListingGalleryViewModel)
+        self.featureFlags = featureFlags
         
         self.priceView = PostListingDetailPriceView(viewModel: viewModel.postDetailViewModel)
-        self.categorySelectionView = PostCategorySelectionView(categoriesAvailables: viewModel.availablePostCategories)
+        self.categorySelectionView = PostCategorySelectionView(categoriesAvailables: viewModel.availablePostCategories, featureFlags: featureFlags)
         self.carDetailsView = PostCarDetailsView(initialValues: viewModel.carInfo(forDetail: .make).carInfoWrappers)
         super.init(viewModel: viewModel, nibName: "PostListingViewController",
                    statusBarStyle: UIApplication.shared.statusBarStyle)
@@ -648,7 +652,8 @@ private extension PostListingState {
     
     var postErrorLabelText: String? {
         switch step {
-        case .imageSelection, .detailsSelection, .categorySelection, .uploadingImage, .uploadingVideo, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
+        case .imageSelection, .detailsSelection, .categorySelection, .uploadingImage,
+             .uploadingVideo, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
             return nil
         case let .errorUpload(message), let .errorVideoUpload(message):
             return message

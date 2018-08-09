@@ -360,7 +360,7 @@
 "discarded_products_reason_poor_ad_quality" = "Không tuân theo thực hành tốt nhất";
 "discarded_products_reason_reference_to_competitors" = "Gợi ý tới ứng dụng hoặc trang web khác";
 "discarded_products_reason_stock_photo_only" = "Chỉ có ảnh trên mạng";
-"edit_paymentFrequency_placeholder" = "Mức độ thường xuyên";
+"edit_paymentFrequency_placeholder" = "Chưa cài đặt";
 "edit_paymentFrequency_title" = "Mức độ thường xuyên";
 "edit_priceType_choose_title" = "Chọn một tùy chọn";
 "edit_product_feature_label_long_text" = "Làm nổi bật bài đăng của bạn để bán nhanh hơn";
@@ -709,6 +709,11 @@
 "post_description_info_title" = "THÔNG TIN BÀI ĐĂNG";
 "post_description_name_placeholder" = "Tên";
 "post_description_save_button_text" = "Lưu bài đăng này!";
+"post_details_jobs_services_step_option_jobs_prefix" = "Looking to hire someone for a";
+"post_details_jobs_services_step_option_services_prefix" = "Advertising a";
+"post_details_jobs_services_step_title" = "I'm...";
+"post_details_listingType_job_display_name" = "job";
+"post_details_listingType_service_display_name" = "service";
 "post_details_services_add_new" = "Thêm một dịch vụ mới";
 "post_details_services_camera_message" = "Đăng một ảnh của chính bạn hoặc logo công ty của bạn";
 "post_details_services_congratulation_people_near" = "Mọi người xung quanh bạn đang tìm kiếm các dịch vụ này, bạn có những kĩ năng đó?";

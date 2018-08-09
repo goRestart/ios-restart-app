@@ -360,7 +360,7 @@
 "discarded_products_reason_poor_ad_quality" = "N'est pas conforme aux meilleures pratiques";
 "discarded_products_reason_reference_to_competitors" = "Références à d'autres applis ou sites internet";
 "discarded_products_reason_stock_photo_only" = "Ne contient que des photos provenant de banques d'images";
-"edit_paymentFrequency_placeholder" = "Fréquence";
+"edit_paymentFrequency_placeholder" = "Aucun";
 "edit_paymentFrequency_title" = "Fréquence";
 "edit_priceType_choose_title" = "Choisissez une option";
 "edit_product_feature_label_long_text" = "Mettez votre annonce en vedette pour vendre plus vite";
@@ -709,8 +709,13 @@
 "post_description_info_title" = "INFORMATIONS SUR L'ANNONCE";
 "post_description_name_placeholder" = "Nom";
 "post_description_save_button_text" = "Sauvegarder cette annonce !";
+"post_details_jobs_services_step_option_jobs_prefix" = "Looking to hire someone for a";
+"post_details_jobs_services_step_option_services_prefix" = "Advertising a";
+"post_details_jobs_services_step_title" = "I'm...";
+"post_details_listingType_job_display_name" = "job";
+"post_details_listingType_service_display_name" = "service";
 "post_details_services_add_new" = "Ajoutez un nouveau service";
-"post_details_services_camera_message" = "Publiez une photo de vous-même ou le logo de votre entreprise";
+"post_details_services_camera_message" = "Publiez le logo de votre entreprise ou une photo qui présente le service que vous offrez";
 "post_details_services_congratulation_people_near" = "Des gens près de chez vous recherchent ces services, possédez-vous ces compétences ?";
 "post_details_services_congratulation_post_another" = "Publier une autre annonce";
 "post_details_services_congratulation_review" = "Révisez vos annonces et ajoutez plus de détails";
@@ -733,7 +738,7 @@
 "post_queued_requests_state_listing_posted" = "Annonce publiée !";
 "post_queued_requests_state_posting_listing" = "Publication de l'annonce...";
 "posting_button_skip" = "Passer";
-"posting_flow_jobs_and_services_category_button_text" = "Jobs & Services";
+"posting_flow_jobs_and_services_category_button_text" = "Emplois & Services";
 "priceType_biweekly" = "Bi-hebdomadaire";
 "priceType_daily" = "Quotidien";
 "priceType_hourly" = "Horaire";

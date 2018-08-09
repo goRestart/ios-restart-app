@@ -360,20 +360,14 @@
 "discarded_products_reason_poor_ad_quality" = "Bryter mot våra användartips";
 "discarded_products_reason_reference_to_competitors" = "Hänvisar till andra appar eller webbplatser";
 "discarded_products_reason_stock_photo_only" = "Innehåller endast stockfoton";
-"edit_paymentFrequency_placeholder" = "Frekvens";
+"edit_paymentFrequency_placeholder" = "Ej vald";
 "edit_paymentFrequency_title" = "Frekvens";
 "edit_priceType_choose_title" = "Välj ett alternativ";
 "edit_product_feature_label_long_text" = "Topplista din annons för att sälja snabbare";
 "edit_product_feature_label_short_text" = "Sälj snabbare nu";
-<<<<<<< HEAD
-"edit_product_feature_label_variant_B" = "Attract more buyers";
-"edit_product_feature_label_variant_C" = "Attract more buyers to sell faster";
-"edit_product_feature_label_variant_D" = "Show me how to attract more buyers";
-=======
 "edit_product_feature_label_variant_B" = "Sälj snabbare nu";
 "edit_product_feature_label_variant_C" = "Locka fler säljare för att sälja snabbare";
 "edit_product_feature_label_variant_D" = "Visa mig hur jag kan locka fler köpare";
->>>>>>> master
 "edit_product_location_alert_text" = "För att ändra plats på din annons, tillåt tillgång till din platsinfo";
 "edit_product_location_alert_title" = "BYT PLATS";
 "edit_product_send_button" = "Spara ändringar";
@@ -715,8 +709,13 @@
 "post_description_info_title" = "INFORMATION";
 "post_description_name_placeholder" = "Namn";
 "post_description_save_button_text" = "Spara annonsen!";
+"post_details_jobs_services_step_option_jobs_prefix" = "Behöver anlita någon för";
+"post_details_jobs_services_step_option_services_prefix" = "Annonserar...";
+"post_details_jobs_services_step_title" = "Jag är...";
+"post_details_listingType_job_display_name" = "ett jobb";
+"post_details_listingType_service_display_name" = "en tjänst";
 "post_details_services_add_new" = "Lägg till en ny tjänst";
-"post_details_services_camera_message" = "Lägg upp en bild på dig själv eller din företagslogo";
+"post_details_services_camera_message" = "Lägg upp din företagslogga eller en bild som visar vilken tjänst du erbjuder";
 "post_details_services_congratulation_people_near" = "Dessa tjänster är efterfrågade i ditt område, kan du leverera dem?";
 "post_details_services_congratulation_post_another" = "Lägg upp en annan annons";
 "post_details_services_congratulation_review" = "Kontrollera din annons och lägg till fler detaljer";
@@ -739,7 +738,7 @@
 "post_queued_requests_state_listing_posted" = "Annonsen har lagts upp!";
 "post_queued_requests_state_posting_listing" = "Publicerar annons...";
 "posting_button_skip" = "Rensa";
-"posting_flow_jobs_and_services_category_button_text" = "Jobs & Services";
+"posting_flow_jobs_and_services_category_button_text" = "Jobb & Tjänster";
 "priceType_biweekly" = "Varannan vecka";
 "priceType_daily" = "Varje dag";
 "priceType_hourly" = "Varje timme";

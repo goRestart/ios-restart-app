@@ -65,6 +65,7 @@ class PostListingState {
         guard let category = category, category == .realEstate else { return false }
         return true
     }
+    
     var isService: Bool {
         return category?.isService ?? false
     }
@@ -184,7 +185,8 @@ class PostListingState {
         switch step {
         case .imageSelection, .errorUpload:
             break
-        case .uploadingImage, .uploadingVideo, .errorVideoUpload, .detailsSelection, .categorySelection, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
+        case .uploadingImage, .uploadingVideo, .errorVideoUpload, .detailsSelection,
+             .categorySelection, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
             return self
         }
         return PostListingState(step: .uploadingImage,
@@ -563,7 +565,8 @@ class PostListingState {
                                 shareAfterPost: shareAfterPost)
     }
     
-    func updating(servicesInfo: ServiceAttributes, uploadedImages: [File]) -> PostListingState {
+    func updating(servicesInfo: ServiceAttributes,
+                  uploadedImages: [File]) -> PostListingState {
         guard step == .addingDetails else { return self }
         return PostListingState(step: .addingDetails,
                                 previousStep: step,
@@ -571,6 +574,24 @@ class PostListingState {
                                 pendingToUploadImages: pendingToUploadImages,
                                 pendingToUploadVideo: pendingToUploadVideo,
                                 lastImagesUploadResult: FilesResult(value: uploadedImages),
+                                uploadingVideo: uploadingVideo,
+                                uploadedVideo: uploadedVideo,
+                                price: price,
+                                verticalAttributes: .serviceInfo(servicesInfo),
+                                place: place,
+                                title: title,
+                                predictionData: predictionData,
+                                shareAfterPost: shareAfterPost)
+    }
+    
+    func updating(servicesInfo: ServiceAttributes) -> PostListingState {
+        guard step == .addingDetails else { return self }
+        return PostListingState(step: .addingDetails,
+                                previousStep: step,
+                                category: category,
+                                pendingToUploadImages: pendingToUploadImages,
+                                pendingToUploadVideo: pendingToUploadVideo,
+                                lastImagesUploadResult: lastImagesUploadResult,
                                 uploadingVideo: uploadingVideo,
                                 uploadedVideo: uploadedVideo,
                                 price: price,

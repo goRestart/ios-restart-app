@@ -794,7 +794,7 @@ extension R {
     public static let discardedProductsReasonReferenceToCompetitors = Strings.tr("Localizable", "discarded_products_reason_reference_to_competitors")
     /// Only contains stock photos
     public static let discardedProductsReasonStockPhotoOnly = Strings.tr("Localizable", "discarded_products_reason_stock_photo_only")
-    /// Frequency
+    /// Not set
     public static let editPaymentFrequencyPlaceholder = Strings.tr("Localizable", "edit_paymentFrequency_placeholder")
     /// Frequency
     public static let editPaymentFrequencyTitle = Strings.tr("Localizable", "edit_paymentFrequency_title")
@@ -1578,6 +1578,16 @@ extension R {
     public static let postDescriptionNamePlaceholder = Strings.tr("Localizable", "post_description_name_placeholder")
     /// Save this listing!
     public static let postDescriptionSaveButtonText = Strings.tr("Localizable", "post_description_save_button_text")
+    /// Looking to hire someone for a
+    public static let postDetailsJobsServicesStepOptionJobsPrefix = Strings.tr("Localizable", "post_details_jobs_services_step_option_jobs_prefix")
+    /// Advertising a
+    public static let postDetailsJobsServicesStepOptionServicesPrefix = Strings.tr("Localizable", "post_details_jobs_services_step_option_services_prefix")
+    /// I'm...
+    public static let postDetailsJobsServicesStepTitle = Strings.tr("Localizable", "post_details_jobs_services_step_title")
+    /// job
+    public static let postDetailsListingTypeJobDisplayName = Strings.tr("Localizable", "post_details_listingType_job_display_name")
+    /// service
+    public static let postDetailsListingTypeServiceDisplayName = Strings.tr("Localizable", "post_details_listingType_service_display_name")
     /// Add a new service
     public static let postDetailsServicesAddNew = Strings.tr("Localizable", "post_details_services_add_new")
     /// Post your company’s logo or a photo that shows the service you offer
@@ -2010,6 +2020,8 @@ extension R {
     public static let productPostSelectCategoryCars = Strings.tr("Localizable", "product_post_select_category_cars")
     /// Housing for Rent / Sale
     public static let productPostSelectCategoryHousing = Strings.tr("Localizable", "product_post_select_category_housing")
+    /// Jobs & Services
+    public static let productPostSelectCategoryJobsServices = Strings.tr("Localizable", "product_post_select_category_jobs_services")
     /// Other Vehicles and Parts
     public static let productPostSelectCategoryMotorsAndAccessories = Strings.tr("Localizable", "product_post_select_category_motors_and_accessories")
     /// Other items

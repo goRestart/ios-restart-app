@@ -360,7 +360,7 @@
 "discarded_products_reason_poor_ad_quality" = "Verstoß gegen unsere Angebotsregeln";
 "discarded_products_reason_reference_to_competitors" = "Verweis auf andere Apps oder Webseiten";
 "discarded_products_reason_stock_photo_only" = "Enthält nur Herstellerfotos";
-"edit_paymentFrequency_placeholder" = "Häufigkeit";
+"edit_paymentFrequency_placeholder" = "Nicht Eingestellt";
 "edit_paymentFrequency_title" = "Häufigkeit";
 "edit_priceType_choose_title" = "Wähle eine Option";
 "edit_product_feature_label_long_text" = "Empfehle dein Angebot, um schneller zu verkaufen";
@@ -709,6 +709,11 @@
 "post_description_info_title" = "ANGEBOTSINFORMATIONEN";
 "post_description_name_placeholder" = "Name";
 "post_description_save_button_text" = "Dieses Angebot speichern!";
+"post_details_jobs_services_step_option_jobs_prefix" = "Looking to hire someone for a";
+"post_details_jobs_services_step_option_services_prefix" = "Advertising a";
+"post_details_jobs_services_step_title" = "I'm...";
+"post_details_listingType_job_display_name" = "job";
+"post_details_listingType_service_display_name" = "service";
 "post_details_services_add_new" = "Füge eine neue Dienstleistung hinzu";
 "post_details_services_camera_message" = "Stelle ein Foto von dir oder deinem Firmenlogo ein";
 "post_details_services_congratulation_people_near" = "Leute in deiner Nähe suchen nach diesen Dienstleistungen, besitzt du diese Fähigkeiten?";

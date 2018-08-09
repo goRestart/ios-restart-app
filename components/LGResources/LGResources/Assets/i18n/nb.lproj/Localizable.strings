@@ -360,7 +360,7 @@
 "discarded_products_reason_poor_ad_quality" = "Dette overholder ikke optimal praksis";
 "discarded_products_reason_reference_to_competitors" = "Referanser til andre apper eller nettsider";
 "discarded_products_reason_stock_photo_only" = "Inneholder kun bilder som er tatt av andre (stockphoto)";
-"edit_paymentFrequency_placeholder" = "Frequency";
+"edit_paymentFrequency_placeholder" = "ikke satt";
 "edit_paymentFrequency_title" = "Frequency";
 "edit_priceType_choose_title" = "Choose an option";
 "edit_product_feature_label_long_text" = "Promoter din annonse for å selge raskere";
@@ -709,6 +709,11 @@
 "post_description_info_title" = "ANNONSEINFORMASJON";
 "post_description_name_placeholder" = "Navn";
 "post_description_save_button_text" = "Lagre denne annonsen!";
+"post_details_jobs_services_step_option_jobs_prefix" = "Looking to hire someone for a";
+"post_details_jobs_services_step_option_services_prefix" = "Advertising a";
+"post_details_jobs_services_step_title" = "I'm...";
+"post_details_listingType_job_display_name" = "job";
+"post_details_listingType_service_display_name" = "service";
 "post_details_services_add_new" = "Legg til en ny tjeneste";
 "post_details_services_camera_message" = "Publiser et bilde av deg selv eller av bedriftens logo";
 "post_details_services_congratulation_people_near" = "Personer rundt deg ser etter disse tjenestene, har du disse erfaringene?";

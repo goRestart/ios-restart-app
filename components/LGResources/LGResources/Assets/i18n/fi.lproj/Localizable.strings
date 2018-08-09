@@ -709,8 +709,13 @@
 "post_description_info_title" = "ILMOITUKSEN TIEDOT";
 "post_description_name_placeholder" = "Nimi";
 "post_description_save_button_text" = "Tallenna tämä ilmoitus!";
+"post_details_jobs_services_step_option_jobs_prefix" = "Looking to hire someone for a";
+"post_details_jobs_services_step_option_services_prefix" = "Advertising a";
+"post_details_jobs_services_step_title" = "I'm...";
+"post_details_listingType_job_display_name" = "job";
+"post_details_listingType_service_display_name" = "service";
 "post_details_services_add_new" = "Lisää uusi palvelu";
-"post_details_services_camera_message" = "Julkaise kuva itsestäsi tai yrityksesi logosta";
+"post_details_services_camera_message" = "Julkaise yrityksesi logo tai kuva, jossa näkyy tarjoamasi palvelu";
 "post_details_services_congratulation_people_near" = "Lähistölläsi olevat ihmiset etsivät näitä palveluita, omaatko näitä taitoja?";
 "post_details_services_congratulation_post_another" = "Julkaise toinen ilmoitus";
 "post_details_services_congratulation_review" = "Tarkasta ilmoituksesi ja lisää tietoja";
@@ -733,7 +738,7 @@
 "post_queued_requests_state_listing_posted" = "Ilmoitus julkaistu!";
 "post_queued_requests_state_posting_listing" = "Julkaistaan ilmoitusta...";
 "posting_button_skip" = "Ohita";
-"posting_flow_jobs_and_services_category_button_text" = "Jobs & Services";
+"posting_flow_jobs_and_services_category_button_text" = "Työpaikat & palvelut";
 "priceType_biweekly" = "Kahden viikon taksa";
 "priceType_daily" = "Päivätaksa";
 "priceType_hourly" = "Tuntitaksa";

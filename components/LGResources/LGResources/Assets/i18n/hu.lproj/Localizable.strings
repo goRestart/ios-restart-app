@@ -709,6 +709,11 @@
 "post_description_info_title" = "HIRDETÉSINFORMÁCIÓK";
 "post_description_name_placeholder" = "Név";
 "post_description_save_button_text" = "Mentsd el a hirdetést!";
+"post_details_jobs_services_step_option_jobs_prefix" = "Looking to hire someone for a";
+"post_details_jobs_services_step_option_services_prefix" = "Advertising a";
+"post_details_jobs_services_step_title" = "I'm...";
+"post_details_listingType_job_display_name" = "job";
+"post_details_listingType_service_display_name" = "service";
 "post_details_services_add_new" = "Új szolgáltatás hozzáadása";
 "post_details_services_camera_message" = "Tölts fel képet magadról vagy a céged logójáról";
 "post_details_services_congratulation_people_near" = "A környékbeliek ezeket a szolgáltatásokat keresik. Értesz valamelyikhez?";

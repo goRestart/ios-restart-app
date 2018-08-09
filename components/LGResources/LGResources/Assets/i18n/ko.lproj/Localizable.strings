@@ -360,7 +360,7 @@
 "discarded_products_reason_poor_ad_quality" = "가장 적절한 예를 따르고 있지 않습니다";
 "discarded_products_reason_reference_to_competitors" = "다른 앱이나 웹사이트로 이끄는 행위";
 "discarded_products_reason_stock_photo_only" = "상품 사진들만 포함하세요";
-"edit_paymentFrequency_placeholder" = "자주 사용하는 기능";
+"edit_paymentFrequency_placeholder" = "설치되지 않음";
 "edit_paymentFrequency_title" = "자주 사용하는 기능";
 "edit_priceType_choose_title" = "옵션을 선택하세요";
 "edit_product_feature_label_long_text" = "빠르게 판매하기 위해 게시글을 강조해보세요";
@@ -709,8 +709,13 @@
 "post_description_info_title" = "상품 목록 정보";
 "post_description_name_placeholder" = "이름";
 "post_description_save_button_text" = "해당 상품 목록 저장하기!";
+"post_details_jobs_services_step_option_jobs_prefix" = "Looking to hire someone for a";
+"post_details_jobs_services_step_option_services_prefix" = "Advertising a";
+"post_details_jobs_services_step_title" = "I'm...";
+"post_details_listingType_job_display_name" = "job";
+"post_details_listingType_service_display_name" = "service";
 "post_details_services_add_new" = "새러운 서비스 추가하기";
-"post_details_services_camera_message" = "본인 사진이나 기업 로고를 게시해주세요";
+"post_details_services_camera_message" = "기업 로고나 제공하는 서비스를 보여줄 수 있는 사진을 게시해주세요";
 "post_details_services_congratulation_people_near" = "당신 주변 사람들은 이러한 서비스를 찾고 있거나 이런 기술을 가지고 있나요?";
 "post_details_services_congratulation_post_another" = "다른 글 작성하기";
 "post_details_services_congratulation_review" = "당신의 게시글을 검토하고 더 많은 상세 내역을 추가해보세요";
@@ -733,7 +738,7 @@
 "post_queued_requests_state_listing_posted" = "게시글이 등록되었습니다!";
 "post_queued_requests_state_posting_listing" = "상품 목록 게시 중...";
 "posting_button_skip" = "넘기기";
-"posting_flow_jobs_and_services_category_button_text" = "Jobs & Services";
+"posting_flow_jobs_and_services_category_button_text" = "구직 & 서비스";
 "priceType_biweekly" = "격주제";
 "priceType_daily" = "일당제";
 "priceType_hourly" = "시간제";

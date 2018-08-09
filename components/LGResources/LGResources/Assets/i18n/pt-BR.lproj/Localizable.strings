@@ -360,7 +360,7 @@
 "discarded_products_reason_poor_ad_quality" = "Doesn’t comply with best practices";
 "discarded_products_reason_reference_to_competitors" = "References to other apps or websites";
 "discarded_products_reason_stock_photo_only" = "Only contains stock photos";
-"edit_paymentFrequency_placeholder" = "Frequency";
+"edit_paymentFrequency_placeholder" = "Not set";
 "edit_paymentFrequency_title" = "Frequency";
 "edit_priceType_choose_title" = "Choose an option";
 "edit_product_feature_label_long_text" = "Feature your listing to sell faster";
@@ -709,6 +709,11 @@
 "post_description_info_title" = "LISTING INFORMATION";
 "post_description_name_placeholder" = "Name";
 "post_description_save_button_text" = "Save this listing!";
+"post_details_jobs_services_step_option_jobs_prefix" = "Looking to hire someone for a";
+"post_details_jobs_services_step_option_services_prefix" = "Advertising a";
+"post_details_jobs_services_step_title" = "I'm...";
+"post_details_listingType_job_display_name" = "job";
+"post_details_listingType_service_display_name" = "service";
 "post_details_services_add_new" = "Add a new service";
 "post_details_services_camera_message" = "Post your company’s logo or a photo that shows the service you offer";
 "post_details_services_congratulation_people_near" = "People around you are looking for these services, have these skills?";

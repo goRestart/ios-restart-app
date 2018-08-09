@@ -709,6 +709,11 @@
 "post_description_info_title" = "INFORMAZIONI ANNUNCIO";
 "post_description_name_placeholder" = "Nome";
 "post_description_save_button_text" = "Salva questo annuncio!";
+"post_details_jobs_services_step_option_jobs_prefix" = "Looking to hire someone for a";
+"post_details_jobs_services_step_option_services_prefix" = "Advertising a";
+"post_details_jobs_services_step_title" = "I'm...";
+"post_details_listingType_job_display_name" = "job";
+"post_details_listingType_service_display_name" = "service";
 "post_details_services_add_new" = "Aggiungi un nuovo servizio";
 "post_details_services_camera_message" = "Pubblica una tua foto o il logo della tua azienda";
 "post_details_services_congratulation_people_near" = "Persone nella tua zona sono alla ricerca di questi servizi. Hai da offrire il tuo contributo?";
