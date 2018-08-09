@@ -41,8 +41,7 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
                                                                   purchasesShopper: MockPurchasesShopper(),
                                                                   monetizationRepository: MockMonetizationRepository(),
                                                                   tracker: MockTracker(),
-                                                                  keyValueStorage: MockKeyValueStorage(),
-                                                                  reputationTooltipManager: MockReputationTooltipManager())
+                                                                  keyValueStorage: MockKeyValueStorage())
 
                 listingDeckViewModel = MockListingDeckViewModelType()
 
