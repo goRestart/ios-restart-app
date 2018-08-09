@@ -360,7 +360,7 @@
 "discarded_products_reason_poor_ad_quality" = "Δε συμβαδίζει με τις καλύτερες πρακτικές για προχωρημένους";
 "discarded_products_reason_reference_to_competitors" = "Αναφορές σε άλλες εφαρμογές ή ιστοσελίδες";
 "discarded_products_reason_stock_photo_only" = "Περιέχει μόνο πρότυπα φωτογραφιών";
-"edit_paymentFrequency_placeholder" = "Συχνότητα";
+"edit_paymentFrequency_placeholder" = "Δεν έχει καθοριστεί";
 "edit_paymentFrequency_title" = "Συχνότητα";
 "edit_priceType_choose_title" = "Κάντε μια επιλογή";
 "edit_product_feature_label_long_text" = "Προωθήστε την καταχώρησή σας για να πουλήσετε γρηγορότερα";
@@ -904,6 +904,7 @@
 "product_post_retry_button" = "Προσπαθήστε Ξανά";
 "product_post_select_category_cars" = "Αυτοκίνητα";
 "product_post_select_category_housing" = "Σπίτι για Ενοικίαση / Πώληση";
+"product_post_select_category_jobs_services" = "Jobs & Services";
 "product_post_select_category_motors_and_accessories" = "Άλλα Οχήματα και Εξαρτήματα";
 "product_post_select_category_other" = "Άλλα αντικείμενα";
 "product_post_select_category_real_estate" = "Μεσιτικά";

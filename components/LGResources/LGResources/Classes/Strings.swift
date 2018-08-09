@@ -1494,6 +1494,18 @@ extension R {
     public static let passwordlessUsernameInputTextfieldPlaceholder = Strings.tr("Localizable", "passwordless_username_input_textfield_placeholder")
     /// Choose your username
     public static let passwordlessUsernameInputTitle = Strings.tr("Localizable", "passwordless_username_input_title")
+    /// 2 weeks
+    public static let paymentFrequencyPerBiweek = Strings.tr("Localizable", "payment_frequency_per_biweek")
+    /// day
+    public static let paymentFrequencyPerDay = Strings.tr("Localizable", "payment_frequency_per_day")
+    /// hour
+    public static let paymentFrequencyPerHour = Strings.tr("Localizable", "payment_frequency_per_hour")
+    /// month
+    public static let paymentFrequencyPerMonth = Strings.tr("Localizable", "payment_frequency_per_month")
+    /// week
+    public static let paymentFrequencyPerWeek = Strings.tr("Localizable", "payment_frequency_per_week")
+    /// year
+    public static let paymentFrequencyPerYear = Strings.tr("Localizable", "payment_frequency_per_year")
     /// Didn't get the code?
     public static let phoneVerificationCodeInputViewContentSubaction = Strings.tr("Localizable", "phone_verification_code_input_view_content_subaction")
     /// You can request another code if you don't receive it within %@

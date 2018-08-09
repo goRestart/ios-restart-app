@@ -360,7 +360,7 @@
 "discarded_products_reason_poor_ad_quality" = "Не соответствует лучшей практике";
 "discarded_products_reason_reference_to_competitors" = "Ссылки на другие приложения и сайты";
 "discarded_products_reason_stock_photo_only" = "Содержит только фото из сети";
-"edit_paymentFrequency_placeholder" = "Частота";
+"edit_paymentFrequency_placeholder" = "не установлен";
 "edit_paymentFrequency_title" = "Частота";
 "edit_priceType_choose_title" = "Выберите опцию";
 "edit_product_feature_label_long_text" = "Выделите свое объявление, чтобы продать быстрее";
@@ -709,13 +709,13 @@
 "post_description_info_title" = "ИНФОРМАЦИЯ ОБ ОБЪЯВЛЕНИИ";
 "post_description_name_placeholder" = "Изменить имя";
 "post_description_save_button_text" = "Сохранить это объявление!";
-"post_details_jobs_services_step_option_jobs_prefix" = "Looking to hire someone for a";
-"post_details_jobs_services_step_option_services_prefix" = "Advertising a";
-"post_details_jobs_services_step_title" = "I'm...";
-"post_details_listingType_job_display_name" = "job";
-"post_details_listingType_service_display_name" = "service";
+"post_details_jobs_services_step_option_jobs_prefix" = "Хочу нанять кого-нибудь для";
+"post_details_jobs_services_step_option_services_prefix" = "Реклама";
+"post_details_jobs_services_step_title" = "Я...";
+"post_details_listingType_job_display_name" = "работа";
+"post_details_listingType_service_display_name" = "услуга";
 "post_details_services_add_new" = "Добавить новую услугу";
-"post_details_services_camera_message" = "Разместите свое фото или логотип компании";
+"post_details_services_camera_message" = "Разместите логотип компании или фото, демонстрирующее ваши услуги";
 "post_details_services_congratulation_people_near" = "Люди рядом с вами ищут эти услуги, вы можете их предложить?";
 "post_details_services_congratulation_post_another" = "Разместить другое объявление";
 "post_details_services_congratulation_review" = "Посмотрите свои объявления и добавьте детали";
@@ -738,7 +738,7 @@
 "post_queued_requests_state_listing_posted" = "Объявление размещено!";
 "post_queued_requests_state_posting_listing" = "Размещаем объявление...";
 "posting_button_skip" = "Пропустить";
-"posting_flow_jobs_and_services_category_button_text" = "Jobs & Services";
+"posting_flow_jobs_and_services_category_button_text" = "Работы и услуги";
 "priceType_biweekly" = "Каждые две недели";
 "priceType_daily" = "Ежедневно";
 "priceType_hourly" = "Ежечасно";
@@ -904,6 +904,7 @@
 "product_post_retry_button" = "Попробовать еще";
 "product_post_select_category_cars" = "Машины";
 "product_post_select_category_housing" = "Жилье в аренду / на продажу";
+"product_post_select_category_jobs_services" = "Jobs & Services";
 "product_post_select_category_motors_and_accessories" = "Транспорт и запчасти";
 "product_post_select_category_other" = "Другие товары";
 "product_post_select_category_real_estate" = "Недвижимость";

@@ -360,7 +360,7 @@
 "discarded_products_reason_poor_ad_quality" = "Voldoet niet aan Best Practices";
 "discarded_products_reason_reference_to_competitors" = "Verwijzingen naar andere apps of websites";
 "discarded_products_reason_stock_photo_only" = "Bevat enkel voorraadfoto's";
-"edit_paymentFrequency_placeholder" = "Frequentie";
+"edit_paymentFrequency_placeholder" = "Niet Ingesteld";
 "edit_paymentFrequency_title" = "Frequentie";
 "edit_priceType_choose_title" = "Kies een optie";
 "edit_product_feature_label_long_text" = "Plaats je advertentie als uitgelicht om sneller te verkopen";
@@ -904,6 +904,7 @@
 "product_post_retry_button" = "Probeer het nogmaals";
 "product_post_select_category_cars" = "Auto’s";
 "product_post_select_category_housing" = "Woningen te Huur / te Koop";
+"product_post_select_category_jobs_services" = "Jobs & Services";
 "product_post_select_category_motors_and_accessories" = "Overige Voertuigen en Onderdelen";
 "product_post_select_category_other" = "Overige items";
 "product_post_select_category_real_estate" = "Onroerend Goed";

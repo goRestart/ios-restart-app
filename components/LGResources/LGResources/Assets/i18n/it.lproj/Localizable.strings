@@ -360,7 +360,7 @@
 "discarded_products_reason_poor_ad_quality" = "Non rispetta le procedure consigliate";
 "discarded_products_reason_reference_to_competitors" = "Riferimenti ad altre app o siti Web";
 "discarded_products_reason_stock_photo_only" = "Contiene solo foto da catalogo";
-"edit_paymentFrequency_placeholder" = "Frequenza";
+"edit_paymentFrequency_placeholder" = "Non impostato";
 "edit_paymentFrequency_title" = "Frequenza";
 "edit_priceType_choose_title" = "Scegli un'opzione";
 "edit_product_feature_label_long_text" = "Sponsorizza il tuo annuncio per vendere più velocemente";
@@ -904,6 +904,7 @@
 "product_post_retry_button" = "Riprova";
 "product_post_select_category_cars" = "Auto";
 "product_post_select_category_housing" = "Alloggi in vendita o affitto";
+"product_post_select_category_jobs_services" = "Jobs & Services";
 "product_post_select_category_motors_and_accessories" = "Altri veicoli e ricambi";
 "product_post_select_category_other" = "Altri articoli";
 "product_post_select_category_real_estate" = "Immobili";

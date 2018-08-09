@@ -360,7 +360,7 @@
 "discarded_products_reason_poor_ad_quality" = "N'est pas conforme aux meilleures pratiques";
 "discarded_products_reason_reference_to_competitors" = "Références à d'autres applis ou sites internet";
 "discarded_products_reason_stock_photo_only" = "Ne contient que des photos provenant de banques d'images";
-"edit_paymentFrequency_placeholder" = "Aucun";
+"edit_paymentFrequency_placeholder" = "Non Communiqué";
 "edit_paymentFrequency_title" = "Fréquence";
 "edit_priceType_choose_title" = "Choisissez une option";
 "edit_product_feature_label_long_text" = "Mettez votre annonce en vedette pour vendre plus vite";
@@ -709,10 +709,10 @@
 "post_description_info_title" = "INFORMATIONS SUR L'ANNONCE";
 "post_description_name_placeholder" = "Nom";
 "post_description_save_button_text" = "Sauvegarder cette annonce !";
-"post_details_jobs_services_step_option_jobs_prefix" = "Looking to hire someone for a";
-"post_details_jobs_services_step_option_services_prefix" = "Advertising a";
-"post_details_jobs_services_step_title" = "I'm...";
-"post_details_listingType_job_display_name" = "job";
+"post_details_jobs_services_step_option_jobs_prefix" = "Cherchant à recruter quelqu'un pour un";
+"post_details_jobs_services_step_option_services_prefix" = "Annonçant un";
+"post_details_jobs_services_step_title" = "Je suis...";
+"post_details_listingType_job_display_name" = "emploi";
 "post_details_listingType_service_display_name" = "service";
 "post_details_services_add_new" = "Ajoutez un nouveau service";
 "post_details_services_camera_message" = "Publiez le logo de votre entreprise ou une photo qui présente le service que vous offrez";
@@ -904,6 +904,7 @@
 "product_post_retry_button" = "Réessayer";
 "product_post_select_category_cars" = "Des voitures";
 "product_post_select_category_housing" = "Logements à Louer / Vendre";
+"product_post_select_category_jobs_services" = "Jobs & Services";
 "product_post_select_category_motors_and_accessories" = "Autres Véhicules et Accessoires";
 "product_post_select_category_other" = "Autres produits";
 "product_post_select_category_real_estate" = "Immobilier";

@@ -360,7 +360,7 @@
 "discarded_products_reason_poor_ad_quality" = "Bryter mot våra användartips";
 "discarded_products_reason_reference_to_competitors" = "Hänvisar till andra appar eller webbplatser";
 "discarded_products_reason_stock_photo_only" = "Innehåller endast stockfoton";
-"edit_paymentFrequency_placeholder" = "Ej vald";
+"edit_paymentFrequency_placeholder" = "Ej Vald";
 "edit_paymentFrequency_title" = "Frekvens";
 "edit_priceType_choose_title" = "Välj ett alternativ";
 "edit_product_feature_label_long_text" = "Topplista din annons för att sälja snabbare";
@@ -797,7 +797,7 @@
 "product_mark_as_sold_alert_confirm" = "Ja";
 "product_mark_as_sold_alert_message" = "Denna åtgärd kan inte ändras. Välj endast detta alternativ om du har mött köparen i person och fått betald. Vill du fortsätta?";
 "product_mark_as_sold_alert_title" = "Markera som såld";
-"product_mark_as_sold_button" = "Markera som såld";
+"product_mark_as_sold_button" = "Markera som Såld";
 "product_mark_as_sold_confirm_cancel_button" = "Avbryt";
 "product_mark_as_sold_confirm_message" = "Är du säker på att du vill markera denna annons som såld?";
 "product_mark_as_sold_confirm_ok_button" = "Markera som såld";
@@ -904,6 +904,7 @@
 "product_post_retry_button" = "Försök igen";
 "product_post_select_category_cars" = "Bilar";
 "product_post_select_category_housing" = "Bostad Uthyres / Säljes";
+"product_post_select_category_jobs_services" = "Jobb & Tjänster";
 "product_post_select_category_motors_and_accessories" = "Andra Fordon och Reservdelar";
 "product_post_select_category_other" = "Något annat";
 "product_post_select_category_real_estate" = "Bostad";
@@ -980,7 +981,7 @@
 "profile_karma_unverified_points_subtitle" = "%@ poäng";
 "profile_karma_unverified_subtitle" = "Samla %@ för att stämplas som Verifierad Användare";
 "profile_karma_verified_subtitle" = "Du har fått din stämpel!";
-"profile_karma_visibility_title" = "Endast synlig för dig";
+"profile_karma_visibility_title" = "Endast synligt för dig";
 "profile_permissions_alert_cancel" = "Inte nu";
 "profile_permissions_alert_message" = "Vill du tillåta notiser för nya meddelanden nu?";
 "profile_permissions_alert_ok" = "Tillåt";
@@ -1005,7 +1006,7 @@
 "profile_verifications_view_extra_section_title" = "KÖP & SÄLJ";
 "profile_verifications_view_facebook_title" = "Facebook";
 "profile_verifications_view_google_title" = "Google";
-"profile_verifications_view_mark_as_sold_subtitle" = "+2 poäng för var annons (upp till 10 p)";
+"profile_verifications_view_mark_as_sold_subtitle" = "+2 poäng för varje annons (upp till 10 p)";
 "profile_verifications_view_mark_as_sold_title" = "Markera som såld";
 "profile_verifications_view_phone_number_title" = "Telefonnummer";
 "profile_verifications_view_photo_id_title" = "ID-foto";

@@ -709,11 +709,11 @@
 "post_description_info_title" = "INFORMACIÓN DEL ANUNCIO";
 "post_description_name_placeholder" = "Nombre";
 "post_description_save_button_text" = "¡Guardar este anuncio!";
-"post_details_jobs_services_step_option_jobs_prefix" = "Looking to hire someone for a";
-"post_details_jobs_services_step_option_services_prefix" = "Advertising a";
-"post_details_jobs_services_step_title" = "I'm...";
-"post_details_listingType_job_display_name" = "job";
-"post_details_listingType_service_display_name" = "service";
+"post_details_jobs_services_step_option_jobs_prefix" = "Buscando contratar a alguien para un";
+"post_details_jobs_services_step_option_services_prefix" = "Anunciando un";
+"post_details_jobs_services_step_title" = "Estoy";
+"post_details_listingType_job_display_name" = "empleo";
+"post_details_listingType_service_display_name" = "servicio";
 "post_details_services_add_new" = "Añadir otro servicio";
 "post_details_services_camera_message" = "Publica el logo de tu empresa o una foto que muestre el servicio que ofreces";
 "post_details_services_congratulation_people_near" = "Alrededor de ti se buscan estos servicios, ¿tienes estas habilidades?";
@@ -904,6 +904,7 @@
 "product_post_retry_button" = "Vuelve a intentarlo";
 "product_post_select_category_cars" = "Coches";
 "product_post_select_category_housing" = "Viviendas en Alquiler / Venta";
+"product_post_select_category_jobs_services" = "Jobs & Services";
 "product_post_select_category_motors_and_accessories" = "Otros Vehículos y Accesorios";
 "product_post_select_category_other" = "Otros artículos";
 "product_post_select_category_real_estate" = "Inmobiliaria";

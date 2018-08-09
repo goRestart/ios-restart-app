@@ -360,7 +360,7 @@
 "discarded_products_reason_poor_ad_quality" = "Dette overholder ikke optimal praksis";
 "discarded_products_reason_reference_to_competitors" = "Referanser til andre apper eller nettsider";
 "discarded_products_reason_stock_photo_only" = "Inneholder kun bilder som er tatt av andre (stockphoto)";
-"edit_paymentFrequency_placeholder" = "ikke satt";
+"edit_paymentFrequency_placeholder" = "Ikke Satt";
 "edit_paymentFrequency_title" = "Frequency";
 "edit_priceType_choose_title" = "Choose an option";
 "edit_product_feature_label_long_text" = "Promoter din annonse for å selge raskere";
@@ -904,6 +904,7 @@
 "product_post_retry_button" = "Prøv igjen";
 "product_post_select_category_cars" = "Biler";
 "product_post_select_category_housing" = "Bolig til utleie / salgs";
+"product_post_select_category_jobs_services" = "Jobs & Services";
 "product_post_select_category_motors_and_accessories" = "Andre kjøretøyer og bildeler";
 "product_post_select_category_other" = "Andre produkter";
 "product_post_select_category_real_estate" = "Real Estate";

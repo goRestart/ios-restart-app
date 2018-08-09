@@ -360,7 +360,7 @@
 "discarded_products_reason_poor_ad_quality" = "Uygulama kullanım kurallarına aykırı";
 "discarded_products_reason_reference_to_competitors" = "Diğer web sitesi ya da uygulamalara referans";
 "discarded_products_reason_stock_photo_only" = "Sadece stok fotoğraf kullanılması";
-"edit_paymentFrequency_placeholder" = "Sıklık";
+"edit_paymentFrequency_placeholder" = "Belirlenmedi";
 "edit_paymentFrequency_title" = "Sıklık";
 "edit_priceType_choose_title" = "Bir seçim yap";
 "edit_product_feature_label_long_text" = "Daha hızlı satmak için ilanını öne çıkar";
@@ -709,11 +709,11 @@
 "post_description_info_title" = "İLAN BİLGİSİ";
 "post_description_name_placeholder" = "İsim";
 "post_description_save_button_text" = "Bu ilanı kaydet!";
-"post_details_jobs_services_step_option_jobs_prefix" = "Looking to hire someone for a";
-"post_details_jobs_services_step_option_services_prefix" = "Advertising a";
-"post_details_jobs_services_step_title" = "I'm...";
-"post_details_listingType_job_display_name" = "job";
-"post_details_listingType_service_display_name" = "service";
+"post_details_jobs_services_step_option_jobs_prefix" = "Şunun için işe alacak birini arıyorum:";
+"post_details_jobs_services_step_option_services_prefix" = "Şunun ilanını veriyorum:";
+"post_details_jobs_services_step_title" = "Ben";
+"post_details_listingType_job_display_name" = "iş";
+"post_details_listingType_service_display_name" = "hizmet";
 "post_details_services_add_new" = "Yeni bir hizmet ekle";
 "post_details_services_camera_message" = "Şirketinin logosunu veya sunduğun hizmeti gösteren bir fotoğraf koy";
 "post_details_services_congratulation_people_near" = "Etrafındaki insanlar bu hizmetleri arıyorlar. Bu yeteneklere sahip misin?";
@@ -904,6 +904,7 @@
 "product_post_retry_button" = "Tekrar dene";
 "product_post_select_category_cars" = "Araba";
 "product_post_select_category_housing" = "Satılık / Kiralık Emlak";
+"product_post_select_category_jobs_services" = "Jobs & Services";
 "product_post_select_category_motors_and_accessories" = "Diğer Araçlar ve Yedek Parça";
 "product_post_select_category_other" = "Diğer eşyalar";
 "product_post_select_category_real_estate" = "Emlak";

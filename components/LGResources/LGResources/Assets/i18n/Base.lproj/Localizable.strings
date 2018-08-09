@@ -2059,6 +2059,24 @@
 // Button title for the screen where user inserts the username
 "passwordless_username_input_done_button" = "Done";
 
+// for use as the "hour" in "/hour"
+"payment_frequency_per_hour" = "hour";
+
+// for use as the "week" in "/week"
+"payment_frequency_per_week" = "week";
+
+// for use as the "day" in "/day"
+"payment_frequency_per_day" = "day";
+
+// for use as the "biweek" value in "/2 weeks"
+"payment_frequency_per_biweek" = "2 weeks";
+
+// for use as the "month" in "/month"
+"payment_frequency_per_month" = "month";
+
+// for use as the "year" in "/year"
+"payment_frequency_per_year" = "year";
+
 // Button to initiate chat from the full screen photo viewer
 "photo_viewer_chat_button" = "Chat";
 

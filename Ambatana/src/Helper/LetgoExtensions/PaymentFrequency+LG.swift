@@ -9,7 +9,6 @@ extension PaymentFrequency {
     }
     
     var localizedDisplayName: String {
-        
         switch self {
         case .hourly:
             return R.Strings.priceTypeHourly
@@ -25,6 +24,25 @@ extension PaymentFrequency {
             return R.Strings.priceTypeYearly
         case .oneOff:
             return R.Strings.priceTypeOneOff
+        }
+    }
+    
+    var perValueDisplayName: String? {
+        switch self {
+        case .hourly:
+            return "/"+R.Strings.paymentFrequencyPerHour
+        case .daily:
+            return "/"+R.Strings.paymentFrequencyPerDay
+        case .biweekly:
+            return "/"+R.Strings.paymentFrequencyPerBiweek
+        case .weekly:
+            return "/"+R.Strings.paymentFrequencyPerWeek
+        case .monthly:
+            return "/"+R.Strings.paymentFrequencyPerMonth
+        case .yearly:
+            return "/"+R.Strings.paymentFrequencyPerYear
+        case .oneOff:
+            return nil
         }
     }
 }

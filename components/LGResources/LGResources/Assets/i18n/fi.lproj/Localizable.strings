@@ -360,7 +360,7 @@
 "discarded_products_reason_poor_ad_quality" = "Ei noudata toimintaohjeita";
 "discarded_products_reason_reference_to_competitors" = "Viittaukset muihin sovelluksiin tai sivustolle";
 "discarded_products_reason_stock_photo_only" = "Sisältää vain mallikuvia";
-"edit_paymentFrequency_placeholder" = "Maksuväli";
+"edit_paymentFrequency_placeholder" = "Ei Rajattu";
 "edit_paymentFrequency_title" = "Maksuväli";
 "edit_priceType_choose_title" = "Valitse vaihtoehto";
 "edit_product_feature_label_long_text" = "Nosta ilmoituksesi esiin tehdäksesi kaupat nopeammin";
@@ -904,6 +904,7 @@
 "product_post_retry_button" = "Yritä uudelleen";
 "product_post_select_category_cars" = "Autoja";
 "product_post_select_category_housing" = "Vuokrattavat/myytävät asunnot";
+"product_post_select_category_jobs_services" = "Jobs & Services";
 "product_post_select_category_motors_and_accessories" = "Muut ajoneuvot ja varusteet";
 "product_post_select_category_other" = "Muut tuotteet";
 "product_post_select_category_real_estate" = "Kiinteistöt";

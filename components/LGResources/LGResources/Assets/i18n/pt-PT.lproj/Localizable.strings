@@ -360,7 +360,7 @@
 "discarded_products_reason_poor_ad_quality" = "Não cumpre as melhores práticas";
 "discarded_products_reason_reference_to_competitors" = "Referências a outras apps ou sites";
 "discarded_products_reason_stock_photo_only" = "Contém apenas fotos de stocks";
-"edit_paymentFrequency_placeholder" = "Frequência";
+"edit_paymentFrequency_placeholder" = "Não Definido";
 "edit_paymentFrequency_title" = "Frequência";
 "edit_priceType_choose_title" = "Escolha uma opção";
 "edit_product_feature_label_long_text" = "Destaque o seu anúncio para vender mais rápido";
@@ -904,6 +904,7 @@
 "product_post_retry_button" = "Tente novamente";
 "product_post_select_category_cars" = "Viaturas";
 "product_post_select_category_housing" = "Imobiliário para Arrendar / Vender";
+"product_post_select_category_jobs_services" = "Jobs & Services";
 "product_post_select_category_motors_and_accessories" = "Outros Veículos e Peças";
 "product_post_select_category_other" = "Outros itens";
 "product_post_select_category_real_estate" = "Imobiliário";

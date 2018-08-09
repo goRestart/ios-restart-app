@@ -360,7 +360,7 @@
 "discarded_products_reason_poor_ad_quality" = "가장 적절한 예를 따르고 있지 않습니다";
 "discarded_products_reason_reference_to_competitors" = "다른 앱이나 웹사이트로 이끄는 행위";
 "discarded_products_reason_stock_photo_only" = "상품 사진들만 포함하세요";
-"edit_paymentFrequency_placeholder" = "설치되지 않음";
+"edit_paymentFrequency_placeholder" = "설정하지 않기";
 "edit_paymentFrequency_title" = "자주 사용하는 기능";
 "edit_priceType_choose_title" = "옵션을 선택하세요";
 "edit_product_feature_label_long_text" = "빠르게 판매하기 위해 게시글을 강조해보세요";
@@ -904,6 +904,7 @@
 "product_post_retry_button" = "다시 시도하기";
 "product_post_select_category_cars" = "자동차";
 "product_post_select_category_housing" = "매매/임대용 부동산";
+"product_post_select_category_jobs_services" = "Jobs & Services";
 "product_post_select_category_motors_and_accessories" = "다른 운송 수단들과 부품들";
 "product_post_select_category_other" = "기타 제품";
 "product_post_select_category_real_estate" = "부동산";

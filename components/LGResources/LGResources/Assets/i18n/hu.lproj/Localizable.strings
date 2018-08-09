@@ -360,7 +360,7 @@
 "discarded_products_reason_poor_ad_quality" = "Nem felel meg a bevált módszereknek";
 "discarded_products_reason_reference_to_competitors" = "Más alkalmazásokra vagy weboldalakra hivatkozik";
 "discarded_products_reason_stock_photo_only" = "Csak hivatalos képeket tartalmaz";
-"edit_paymentFrequency_placeholder" = "Gyakoriság";
+"edit_paymentFrequency_placeholder" = "Nincs Megadva";
 "edit_paymentFrequency_title" = "Gyakoriság";
 "edit_priceType_choose_title" = "Válassz egy lehetőséget";
 "edit_product_feature_label_long_text" = "Emeld ki hirdetésedet, hogy gyorsabban elkeljen";
@@ -709,13 +709,13 @@
 "post_description_info_title" = "HIRDETÉSINFORMÁCIÓK";
 "post_description_name_placeholder" = "Név";
 "post_description_save_button_text" = "Mentsd el a hirdetést!";
-"post_details_jobs_services_step_option_jobs_prefix" = "Looking to hire someone for a";
-"post_details_jobs_services_step_option_services_prefix" = "Advertising a";
-"post_details_jobs_services_step_title" = "I'm...";
-"post_details_listingType_job_display_name" = "job";
-"post_details_listingType_service_display_name" = "service";
+"post_details_jobs_services_step_option_jobs_prefix" = "felbérelni valakit, hogy nyújtson egy";
+"post_details_jobs_services_step_option_services_prefix" = "hirdetni egy";
+"post_details_jobs_services_step_title" = "Szeretnék...";
+"post_details_listingType_job_display_name" = "munkát";
+"post_details_listingType_service_display_name" = "szolgáltatást";
 "post_details_services_add_new" = "Új szolgáltatás hozzáadása";
-"post_details_services_camera_message" = "Tölts fel képet magadról vagy a céged logójáról";
+"post_details_services_camera_message" = "Töltsd fel a céged logóját vagy egy képet a nyújtott szolgáltatásról";
 "post_details_services_congratulation_people_near" = "A környékbeliek ezeket a szolgáltatásokat keresik. Értesz valamelyikhez?";
 "post_details_services_congratulation_post_another" = "Újabb hirdetés";
 "post_details_services_congratulation_review" = "Tekintsd át hirdetéseidet és bővítsd őket részletekkel";
@@ -738,7 +738,7 @@
 "post_queued_requests_state_listing_posted" = "Hirdetés feltöltve!";
 "post_queued_requests_state_posting_listing" = "Hirdetés feltöltése...";
 "posting_button_skip" = "Kihagy";
-"posting_flow_jobs_and_services_category_button_text" = "Jobs & Services";
+"posting_flow_jobs_and_services_category_button_text" = "Munkák és szolgáltatások";
 "priceType_biweekly" = "Kétheti";
 "priceType_daily" = "Napi";
 "priceType_hourly" = "Óránkénti";
@@ -904,6 +904,7 @@
 "product_post_retry_button" = "Ismét";
 "product_post_select_category_cars" = "Autó";
 "product_post_select_category_housing" = "Kiadó és eladó ingatlan";
+"product_post_select_category_jobs_services" = "Jobs & Services";
 "product_post_select_category_motors_and_accessories" = "Más járművek és alkatrészek";
 "product_post_select_category_other" = "Valami más";
 "product_post_select_category_real_estate" = "Ingatlan";
