@@ -683,7 +683,7 @@ class ListingCarouselViewModel: BaseViewModel {
             guard let user = seller else { return }
             self?.ownerIsProfessional.value = user.isProfessional
             self?.ownerPhoneNumber.value = user.phone
-            if let flags = self?.featureFlags, flags.advancedReputationSystem.isActive, !user.isProfessional {
+            if !user.isProfessional {
                 self?.ownerBadge.value = user.reputationBadge
             }
         }.disposed(by: activeDisposeBag)

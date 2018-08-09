@@ -10,7 +10,6 @@ import Foundation
 
 struct UsersABGroup: ABGroupType {
     private struct Keys {
-        static let advancedReputationSystem = "20180621AdvancedReputationSystem"
         static let showPasswordlessLogin = "20180417ShowPasswordlessLogin"
         static let emergencyLocate = "20180425EmergencyLocate"
         static let offensiveReportAlert = "20180525OffensiveReportAlert"
@@ -18,7 +17,6 @@ struct UsersABGroup: ABGroupType {
         static let community = "20180720Community"
     }
 
-    let advancedReputationSystem: LeanplumABVariable<Int>
     let showPasswordlessLogin: LeanplumABVariable<Int>
     let emergencyLocate: LeanplumABVariable<Int>
     let offensiveReportAlert: LeanplumABVariable<Int>
@@ -31,20 +29,17 @@ struct UsersABGroup: ABGroupType {
     var floatVariables: [LeanplumABVariable<Float>] = []
     var boolVariables: [LeanplumABVariable<Bool>] = []
 
-    init(advancedReputationSystem: LeanplumABVariable<Int>,
-         showPasswordlessLogin: LeanplumABVariable<Int>,
+    init(showPasswordlessLogin: LeanplumABVariable<Int>,
          emergencyLocate: LeanplumABVariable<Int>,
          offensiveReportAlert: LeanplumABVariable<Int>,
          reportingFostaSesta: LeanplumABVariable<Int>,
          community: LeanplumABVariable<Int>) {
-        self.advancedReputationSystem = advancedReputationSystem
         self.showPasswordlessLogin = showPasswordlessLogin
         self.emergencyLocate = emergencyLocate
         self.offensiveReportAlert = offensiveReportAlert
         self.reportingFostaSesta = reportingFostaSesta
         self.community = community
-        intVariables.append(contentsOf: [advancedReputationSystem,
-                                         showPasswordlessLogin,
+        intVariables.append(contentsOf: [showPasswordlessLogin,
                                          emergencyLocate,
                                          offensiveReportAlert,
                                          reportingFostaSesta,
@@ -52,10 +47,7 @@ struct UsersABGroup: ABGroupType {
     }
 
     static func make() -> UsersABGroup {
-        return UsersABGroup(advancedReputationSystem: .makeInt(key: Keys.advancedReputationSystem,
-                                                               defaultValue: 0,
-                                                               groupType: .users),
-                            showPasswordlessLogin: .makeInt(key: Keys.showPasswordlessLogin,
+        return UsersABGroup(showPasswordlessLogin: .makeInt(key: Keys.showPasswordlessLogin,
                                                             defaultValue: 0,
                                                             groupType: .users),
                             emergencyLocate: .makeInt(key: Keys.emergencyLocate,

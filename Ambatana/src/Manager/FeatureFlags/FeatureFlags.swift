@@ -98,7 +98,6 @@ protocol FeatureFlaggeable: class {
     var frictionlessShare: FrictionlessShare { get }
 
     // MARK: Users
-    var advancedReputationSystem: AdvancedReputationSystem { get }
     var emergencyLocate: EmergencyLocate { get }
     var offensiveReportAlert: OffensiveReportAlert { get }
     var community: ShowCommunity { get }
@@ -245,11 +244,6 @@ extension CopyForChatNowInTurkey {
             return R.Strings.bumpUpProductCellChatNowButtonD
         }
     }
-}
-
-extension AdvancedReputationSystem {
-    var isActive: Bool { return self != .baseline && self != .control  }
-    var shouldShowTooltip: Bool { return self == .variantB }
 }
 
 extension ShowCommunity {
@@ -538,7 +532,6 @@ final class FeatureFlags: FeatureFlaggeable {
         defer { abTests.variablesUpdated() }
         guard Bumper.enabled else { return }
         
-        dao.save(advanceReputationSystem: AdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value))
         dao.save(emergencyLocate: EmergencyLocate.fromPosition(abTests.emergencyLocate.value))
         dao.save(community: ShowCommunity.fromPosition(abTests.community.value))
     }
@@ -660,14 +653,6 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.showProTagUserProfile
         }
         return abTests.showProTagUserProfile.value
-    }
-
-    var advancedReputationSystem: AdvancedReputationSystem {
-        if Bumper.enabled {
-            return Bumper.advancedReputationSystem
-        }
-        let cached = dao.retrieveAdvanceReputationSystem()
-        return cached ?? AdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value)
     }
 
     var community: ShowCommunity {

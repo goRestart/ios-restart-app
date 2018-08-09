@@ -62,7 +62,6 @@ extension Bumper  {
         flags.append(PreventMessagesFromFeedToProUsers.self)
         flags.append(SimplifiedChatButton.self)
         flags.append(ShowChatConnectionStatusBar.self)
-        flags.append(AdvancedReputationSystem.self)
         flags.append(NotificationSettings.self)
         flags.append(CarExtraFieldsEnabled.self)
         flags.append(ShowChatHeaderWithoutListingForAssistant.self)
@@ -682,19 +681,6 @@ extension Bumper  {
     static var showChatConnectionStatusBarObservable: Observable<ShowChatConnectionStatusBar> {
         return Bumper.observeValue(for: ShowChatConnectionStatusBar.key).map {
             ShowChatConnectionStatusBar(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var advancedReputationSystem: AdvancedReputationSystem {
-        guard let value = Bumper.value(for: AdvancedReputationSystem.key) else { return .control }
-        return AdvancedReputationSystem(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var advancedReputationSystemObservable: Observable<AdvancedReputationSystem> {
-        return Bumper.observeValue(for: AdvancedReputationSystem.key).map {
-            AdvancedReputationSystem(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1708,23 +1694,6 @@ enum ShowChatConnectionStatusBar: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
-            default: return .control
-        }
-    }
-}
-
-enum AdvancedReputationSystem: String, BumperFeature  {
-    case control, baseline, variantA, variantB
-    static var defaultValue: String { return AdvancedReputationSystem.control.rawValue }
-    static var enumValues: [AdvancedReputationSystem] { return [.control, .baseline, .variantA, .variantB]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Advance reputation system and Karma Score with SMS and tooltip" } 
-    static func fromPosition(_ position: Int) -> AdvancedReputationSystem {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .variantA
-            case 3: return .variantB
             default: return .control
         }
     }

@@ -58,7 +58,7 @@ final class UserProfileViewModel: BaseViewModel {
     }
 
     var showKarmaView: Bool {
-        return featureFlags.advancedReputationSystem.isActive && isPrivateProfile
+        return isPrivateProfile
     }
 
     var userName: Driver<String?> { return user.asDriver().map {$0?.name} }
@@ -394,10 +394,8 @@ extension UserProfileViewModel {
             guard let strongSelf = self, let user = user else { return .noBadge }
             if strongSelf.featureFlags.showProTagUserProfile && user.isProfessional {
                 return .pro
-            } else if strongSelf.featureFlags.advancedReputationSystem.isActive {
-                return UserHeaderViewBadge(userBadge: user.reputationBadge)
             } else {
-                return .noBadge
+                return UserHeaderViewBadge(userBadge: user.reputationBadge)
             }
         }
     }

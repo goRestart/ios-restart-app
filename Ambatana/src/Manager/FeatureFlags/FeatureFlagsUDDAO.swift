@@ -13,7 +13,6 @@ final class FeatureFlagsUDDAO: FeatureFlagsDAO {
     
     fileprivate enum Key: String {
         case newUserProfileEnabled = "newUserProfileEnabled"
-        case advancedReputationSystemEnabled = "advancedReputationSystemEnabled"
         case emergencyLocate = "emergencyLocate"
         case community = "community"
     }
@@ -34,16 +33,6 @@ final class FeatureFlagsUDDAO: FeatureFlagsDAO {
     
     
     // MARK: - FeatureFlagsDAO
-
-    func retrieveAdvanceReputationSystem() -> AdvancedReputationSystem? {
-        guard let rawValue: String = retrieve(key: .advancedReputationSystemEnabled) else { return nil }
-        return AdvancedReputationSystem(rawValue: rawValue)
-    }
-
-    func save(advanceReputationSystem: AdvancedReputationSystem) {
-        save(key: .advancedReputationSystemEnabled, value: advanceReputationSystem.rawValue)
-        sync()
-    }
 
     func retrieveEmergencyLocate() -> EmergencyLocate? {
         guard let rawValue: String = retrieve(key: .emergencyLocate) else { return nil }

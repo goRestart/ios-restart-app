@@ -22,8 +22,7 @@ final class LGReputationTooltipManager: ReputationTooltipManager {
 
     func shouldShowTooltip() -> Bool {
         guard let myUser = myUserRepository.myUser,
-            !myUser.hasBadge,
-            featureFlags.advancedReputationSystem.shouldShowTooltip else { return false }
+            !myUser.hasBadge else { return false }
         if !keyValueStorage[.reputationTooltipShown] { return true }
         guard let lastShownDate = keyValueStorage[.lastShownReputationTooltipDate] else { return true }
         return lastShownDate.isOlderThan(days: 30)
