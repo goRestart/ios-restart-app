@@ -45,6 +45,7 @@
 "bump_up_product_cell_chat_now_button_english_b" = "Contact";
 "bump_up_product_cell_chat_now_button_english_c" = "Contact seller";
 "bump_up_product_cell_chat_now_button_english_d" = "Start chat";
+"bump_up_product_cell_feature_it_label" = "Feature it";
 "bump_up_product_cell_featured_stripe" = "Featured";
 "bump_up_product_detail_featured_label" = "FEATURED";
 "bump_up_view_boost_pay_button_title" = "Feature it again for %@";
@@ -360,9 +361,14 @@
 "discarded_products_reason_poor_ad_quality" = "Doesn’t comply with best practices";
 "discarded_products_reason_reference_to_competitors" = "References to other apps or websites";
 "discarded_products_reason_stock_photo_only" = "Only contains stock photos";
+"edit_paymentFrequency_placeholder" = "Not set";
+"edit_paymentFrequency_title" = "Frequency";
 "edit_priceType_choose_title" = "Choose an option";
 "edit_product_feature_label_long_text" = "Feature your listing to sell faster";
 "edit_product_feature_label_short_text" = "Sell faster now";
+"edit_product_feature_label_variant_B" = "Attract more buyers";
+"edit_product_feature_label_variant_C" = "Attract more buyers to sell faster";
+"edit_product_feature_label_variant_D" = "Show me how to attract more buyers";
 "edit_product_location_alert_text" = "To change where your listing is posted, allow access to your location";
 "edit_product_location_alert_title" = "CHANGE LOCATION";
 "edit_product_send_button" = "Save changes";
@@ -704,8 +710,13 @@
 "post_description_info_title" = "LISTING INFORMATION";
 "post_description_name_placeholder" = "Name";
 "post_description_save_button_text" = "Save this listing!";
+"post_details_jobs_services_step_option_jobs_prefix" = "Looking to hire someone for a";
+"post_details_jobs_services_step_option_services_prefix" = "Advertising a";
+"post_details_jobs_services_step_title" = "I'm...";
+"post_details_listingType_job_display_name" = "job";
+"post_details_listingType_service_display_name" = "service";
 "post_details_services_add_new" = "Add a new service";
-"post_details_services_camera_message" = "Post a picture of yourself or your company’s logo";
+"post_details_services_camera_message" = "Post your company’s logo or a photo that shows the service you offer";
 "post_details_services_congratulation_people_near" = "People around you are looking for these services, have these skills?";
 "post_details_services_congratulation_post_another" = "Post another listing";
 "post_details_services_congratulation_review" = "Review your listings and add more details";
@@ -728,6 +739,7 @@
 "post_queued_requests_state_listing_posted" = "Listing posted!";
 "post_queued_requests_state_posting_listing" = "Posting listing...";
 "posting_button_skip" = "Skip";
+"posting_flow_jobs_and_services_category_button_text" = "Jobs & Services";
 "priceType_biweekly" = "Biweekly";
 "priceType_daily" = "Daily";
 "priceType_hourly" = "Hourly";
@@ -893,6 +905,7 @@
 "product_post_retry_button" = "Try Again";
 "product_post_select_category_cars" = "Cars";
 "product_post_select_category_housing" = "Housing for Rent / Sale";
+"product_post_select_category_jobs_services" = "Jobs & Services";
 "product_post_select_category_motors_and_accessories" = "Other Vehicles and Parts";
 "product_post_select_category_other" = "Other items";
 "product_post_select_category_real_estate" = "Real Estate";

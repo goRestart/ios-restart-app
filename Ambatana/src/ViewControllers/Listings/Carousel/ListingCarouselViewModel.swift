@@ -368,6 +368,7 @@ class ListingCarouselViewModel: BaseViewModel {
         currentListingViewModel = viewModel
         currentListingViewModel?.delegate = self
         currentListingViewModel?.active = active
+        currentListingViewModel?.shouldExecuteBumpBannerAction = actionOnFirstAppear.actionIsTriggerBumpUp
         currentIndex = index
         lastMovement = movement
         setupCurrentProductVMRxBindings(forIndex: index)
