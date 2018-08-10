@@ -12,10 +12,12 @@ struct CoreABGroup: ABGroupType {
     private struct Keys {
         static let searchImprovements = "20180313SearchImprovements"
         static let relaxedSearch = "20180319RelaxedSearch"
-    }
+        static let cachedFeed = "20180809CachedFeed"
 
+    }
     let searchImprovements: LeanplumABVariable<Int>
     let relaxedSearch: LeanplumABVariable<Int>
+    let cachedFeed: LeanplumABVariable<Int>
 
     let group: ABGroup = .retention
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -24,11 +26,14 @@ struct CoreABGroup: ABGroupType {
     var boolVariables: [LeanplumABVariable<Bool>] = []
     
     init(searchImprovements: LeanplumABVariable<Int>,
-         relaxedSearch: LeanplumABVariable<Int>) {
+         relaxedSearch: LeanplumABVariable<Int>,
+         cachedFeed: LeanplumABVariable<Int>) {
         self.searchImprovements = searchImprovements
         self.relaxedSearch = relaxedSearch
+        self.cachedFeed = cachedFeed
         intVariables.append(contentsOf: [searchImprovements,
-                                         relaxedSearch])
+                                         relaxedSearch,
+                                         cachedFeed])
     }
     
     static func make() -> CoreABGroup {
@@ -37,6 +42,9 @@ struct CoreABGroup: ABGroupType {
                                                         groupType: .core),
                            relaxedSearch: .makeInt(key: Keys.relaxedSearch,
                                                    defaultValue: 0,
-                                                   groupType: .core))
+                                                   groupType: .core),
+                           cachedFeed: .makeInt(key: Keys.cachedFeed,
+                                                defaultValue: 0,
+                                                groupType: .core))
     }
 }

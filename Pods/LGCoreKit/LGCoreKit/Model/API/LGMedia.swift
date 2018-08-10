@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum MediaType: String, Decodable {
+public enum MediaType: String, Codable {
     case image
     case video
 
@@ -25,7 +25,7 @@ public protocol MediaThumbnail {
     var size: LGSize? { get }
 }
 
-public struct LGMediaThumbnail: MediaThumbnail, Decodable {
+public struct LGMediaThumbnail: MediaThumbnail, Codable {
     public var file: File
     public let type: MediaType
     public let size: LGSize?
@@ -52,6 +52,14 @@ public struct LGMediaThumbnail: MediaThumbnail, Decodable {
         }
     }
 
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(file.fileURL?.absoluteString, forKey: .url)
+        try container.encodeIfPresent(type.rawValue, forKey: .type)
+        try container.encodeIfPresent(size?.width, forKey: .width)
+        try container.encodeIfPresent(size?.height, forKey: .height)
+    }
+
     enum CodingKeys: String, CodingKey {
         case url = "url"
         case type = "media_type"
@@ -72,7 +80,7 @@ public protocol MediaOutputs {
     var videoThumbnail: URL? { get }
 }
 
-public struct LGMediaOutputs: MediaOutputs, Decodable {
+public struct LGMediaOutputs: MediaOutputs, Equatable, Codable {
     public let image: URL?
     public let imageThumbnail: URL?
     public let video: URL?
@@ -94,6 +102,14 @@ public struct LGMediaOutputs: MediaOutputs, Decodable {
         videoThumbnail = try keyedContainer.decodeIfPresent(URL.self, forKey: .videoThumbnail)
     }
 
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(image, forKey: .image)
+        try container.encodeIfPresent(imageThumbnail, forKey: .imageThumbnail)
+        try container.encodeIfPresent(video, forKey: .video)
+        try container.encodeIfPresent(videoThumbnail, forKey: .videoThumbnail)
+    }
+
     enum CodingKeys: String, CodingKey {
         case image = "image"
         case imageThumbnail = "image_thumb"
@@ -112,7 +128,7 @@ public protocol Media: BaseModel {
     var outputs: MediaOutputs { get }
 }
 
-public struct LGMedia: Media, Decodable {
+public struct LGMedia: Media, Codable {
     public var objectId: String?
     public let type: MediaType
     public let snapshotId: String
@@ -136,6 +152,14 @@ public struct LGMedia: Media, Decodable {
         snapshotId = try keyedContainer.decode(String.self, forKey: .snapshotId)
         type = try keyedContainer.decode(MediaType.self, forKey: .type)
         outputs = try keyedContainer.decode(LGMediaOutputs.self, forKey: .outputs)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(objectId, forKey: .objectId)
+        try container.encodeIfPresent(snapshotId, forKey: .snapshotId)
+        try container.encodeIfPresent(type, forKey: .type)
+        try container.encodeIfPresent(outputs as? LGMediaOutputs, forKey: .outputs)
     }
 
     enum CodingKeys: String, CodingKey {

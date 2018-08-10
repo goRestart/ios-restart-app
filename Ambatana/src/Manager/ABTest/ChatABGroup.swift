@@ -62,7 +62,6 @@ struct ChatABGroup: ABGroupType {
                                          expressChatImprovement,
                                          smartQuickAnswers,
                                          openChatFromUserProfile])
-
         boolVariables.append(contentsOf: [showInactiveConversations,
                                           showChatSafetyTips,
                                           showChatHeaderWithoutListingForAssistant,

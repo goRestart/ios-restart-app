@@ -154,6 +154,7 @@ extension ABTests {
 extension ABTests {
     var searchImprovements: LeanplumABVariable<Int> { return core.searchImprovements }
     var relaxedSearch: LeanplumABVariable<Int> { return core.relaxedSearch }
+    var cachedFeed: LeanplumABVariable<Int> { return core.cachedFeed }
 }
 
 //  MARK: Chat

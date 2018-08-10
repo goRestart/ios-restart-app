@@ -13,7 +13,7 @@ public enum UserType: String {
     case unknown = "unknown"
 }
 
-extension UserType: Decodable {}
+extension UserType: Codable {}
 
 extension UserType {
     public var isProfessional: Bool { return self == .pro }

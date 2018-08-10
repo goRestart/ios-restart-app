@@ -79,6 +79,10 @@ class SimpleListingsViewModel: BaseViewModel, ListingListViewModelDataDelegate {
         navigator?.openListing(data, source: listingVisitSource, actionOnFirstAppear: .nonexistent)
     }
 
+    func listingListVMDidSucceedRetrievingCache(viewModel: ListingListViewModel) {
+        // 🤷‍♂️
+    }
+
     func vmProcessReceivedListingPage(_ listings: [ListingCellModel],
                                       page: UInt) -> [ListingCellModel] {
         return listings

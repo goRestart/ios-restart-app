@@ -36,6 +36,8 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     private let filterTitleHeaderView = FilterTitleHeaderView()
     private let infoBubbleView = InfoBubbleView(style: .light)
     private let recentItemsBubbleView = InfoBubbleView(style: .reddish)
+    private let freshFeedBubble = ActivityIndicatorView()
+
     private let navbarSearch: LGNavBarSearchField
     private var trendingSearchView = TrendingSearchView()
     private var filterTagsView = FilterTagsView()
@@ -61,6 +63,9 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     private var filterDescriptionTopConstraint: NSLayoutConstraint?
     private var tagsContainerHeightConstraint: NSLayoutConstraint?
     private var infoBubbleTopConstraint: NSLayoutConstraint?
+    private var freshFeedBubbleTopConstraint: NSLayoutConstraint?
+
+    private var activityTopConstraint: NSLayoutConstraint?
 
     private var primaryTagsShowing: Bool = false
     private var secondaryTagsShowing: Bool = false
@@ -124,6 +129,9 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
 
         setupFilterHeaders()
         setupListingView()
+        if viewModel.shouldShowFreshBubble {
+            setupFreshFeedBuble()
+        }
         setupInfoBubble()
         if viewModel.isEngagementBadgingEnabled {
             setupRecentItemsBubbleView()
@@ -159,7 +167,6 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         guard didCallViewDidLoaded else { return }
         listingListView.scrollToTop(true)
     }
-    
 
     // MARK: - ListingListViewScrollDelegate
     
@@ -209,6 +216,8 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         let offset: CGFloat = topInset.value
         let delta = listingListView.headerBottom - offset
         infoBubbleTopConstraint?.constant = infoBubbleTopMargin + max(0, delta)
+        freshFeedBubbleTopConstraint?.constant = infoBubbleTopMargin + max(0, delta)
+        activityTopConstraint?.constant = infoBubbleTopMargin + max(0, delta)
     }
     
     // MARK: - MainListingsViewModelDelegate
@@ -297,9 +306,13 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     
     func addSubViews() {
         addSubview(listingListView)
-        view.addSubviewsForAutoLayout([filterDescriptionHeaderView, filterTitleHeaderView,
-                                       listingListView, infoBubbleView,
-                                       tagsContainerView, trendingSearchView])
+        view.addSubviewsForAutoLayout([filterDescriptionHeaderView,
+                                       filterTitleHeaderView,
+                                       listingListView,
+                                       freshFeedBubble,
+                                       infoBubbleView,
+                                       tagsContainerView,
+                                       trendingSearchView])
     }
     
     private func setupStatusTopView() {
@@ -514,9 +527,23 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
             ])
         view.sendSubview(toBack: listingListView)
     }
-    
+
+    private func setupFreshFeedBuble() {
+        freshFeedBubble.isUserInteractionEnabled = false
+        let freshFeedBubbleTopConstraint = freshFeedBubble.topAnchor.constraint(equalTo: filterTitleHeaderView.bottomAnchor)
+        freshFeedBubbleTopConstraint.priority = UILayoutPriority.defaultLow
+
+        freshFeedBubble.layer.cornerRadius = Layout.FreshBubble.height / 2
+        NSLayoutConstraint.activate([
+            freshFeedBubbleTopConstraint,
+            freshFeedBubble.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            freshFeedBubble.heightAnchor.constraint(equalToConstant: Layout.FreshBubble.height),
+            freshFeedBubble.widthAnchor.constraint(equalToConstant: Layout.FreshBubble.height)
+        ])
+        self.freshFeedBubbleTopConstraint = freshFeedBubbleTopConstraint
+    }
+
     private func setupInfoBubble() {
-        
         let infoBubbleTopConstraint = infoBubbleView.topAnchor.constraint(equalTo: filterTitleHeaderView.bottomAnchor)
         let infoBubbleLeadingConstraint = infoBubbleView.leadingAnchor.constraint(greaterThanOrEqualTo: safeLeadingAnchor, constant: Metrics.bigMargin)
         let infoBubbleTrailingConstraint = infoBubbleView.trailingAnchor.constraint(greaterThanOrEqualTo: safeTrailingAnchor, constant: Metrics.bigMargin)
@@ -590,9 +617,20 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
             .bind(to: infoBubbleView.rx.isHidden)
             .disposed(by: disposeBag)
         
-        viewModel.recentItemsBubbleText.asObservable()
+        viewModel.recentItemsBubbleText
+            .asObservable()
             .bind(to: recentItemsBubbleView.title.rx.text)
             .disposed(by: disposeBag)
+
+        viewModel.isFreshBubbleVisible
+            .asDriver()
+            .drive(onNext: { [weak self] isVisible in
+                guard let isVisible = isVisible else {
+                    self?.freshFeedBubble.alpha = 0
+                    return
+                }
+                self?.updateFreshBubble(with: isVisible)
+        }).disposed(by: disposeBag)
         viewModel.recentItemsBubbleVisible.asObservable().map { !$0 }
             .bind(to: recentItemsBubbleView.rx.isHidden)
             .disposed(by: disposeBag)
@@ -649,6 +687,23 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     func navBarSearchTextFieldDidUpdate(text: String) {
         viewModel.searchTextFieldDidUpdate(text: text)
     }
+
+    private func updateFreshBubble(with visibility: Bool) {
+        let normal = CGAffineTransform.identity.scaledBy(x: 1, y: 1)
+        let hidden = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
+        UIView.animate(withDuration: visibility ? 0.4 : 0,
+                       delay: 0,
+                       options: .curveEaseIn,
+                       animations: { [weak self] in
+                        self?.freshFeedBubble.alpha = visibility ? 1.0 : 0
+                        self?.freshFeedBubble.transform = visibility ? normal : hidden
+        }, completion: nil)
+        if visibility {
+            freshFeedBubble.startAnimating()
+        } else {
+            freshFeedBubble.stopAnimating()
+        }
+    }
     
     private struct Layout {
         struct ToolTipMap  {
@@ -656,6 +711,9 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
             static let right: CGFloat = -60
             static let buttonHeight: CGFloat = 32
             static let buttonSidePadding: CGFloat = 20
+        }
+        struct FreshBubble {
+            static let height: CGFloat = 45
         }
     }
 }

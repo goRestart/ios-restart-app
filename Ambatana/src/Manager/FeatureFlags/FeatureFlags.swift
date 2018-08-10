@@ -63,6 +63,9 @@ protocol FeatureFlaggeable: class {
     var alwaysShowBumpBannerWithLoading: AlwaysShowBumpBannerWithLoading { get }
     var showSellFasterInProfileCells: ShowSellFasterInProfileCells { get }
     var bumpInEditCopys: BumpInEditCopys { get }
+    // MARK: Core
+    var cachedFeed: CachedFeed { get }
+
     var copyForSellFasterNowInTurkish: CopyForSellFasterNowInTurkish { get }
     
     // MARK: Chat
@@ -1205,7 +1208,6 @@ extension FeatureFlags {
         }
         return SmartQuickAnswers.fromPosition(abTests.smartQuickAnswers.value)
     }
-    
     var openChatFromUserProfile: OpenChatFromUserProfile {
         if Bumper.enabled {
             return Bumper.openChatFromUserProfile
@@ -1296,6 +1298,11 @@ extension FeatureFlags {
         if Bumper.enabled { return Bumper.emptySearchImprovements }
         return EmptySearchImprovements.fromPosition(abTests.emptySearchImprovements.value)
     }
+
+    var cachedFeed: CachedFeed {
+        if Bumper.enabled { return Bumper.cachedFeed }
+        return CachedFeed.fromPosition(abTests.cachedFeed.value)
+    }
 }
 
 extension EmptySearchImprovements {
@@ -1319,6 +1326,10 @@ extension EmptySearchImprovements {
         case .popularNearYou, .similarQueries, .similarQueriesWhenFewResults, .alwaysSimilar: return R.Strings.listingShowSimilarResultsDescription
         }
     }
+}
+
+extension CachedFeed {
+    var isActive: Bool { return self == .active }
 }
 
 // MARK: Products

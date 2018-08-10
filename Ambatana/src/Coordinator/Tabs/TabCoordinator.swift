@@ -513,6 +513,14 @@ extension TabCoordinator: ListingDetailNavigator {
         navigationController.pushViewController(vc, animated: true)
     }
 
+    func showFailBubble(withMessage message: String, duration: TimeInterval) {
+        let data = BubbleNotificationData(text: message, action: nil)
+        appNavigator?.showBottomBubbleNotification(data: data,
+                                                   duration: duration,
+                                                   alignment: .bottom,
+                                                   style: .dark)
+    }
+
     func showUndoBubble(withMessage message: String,
                         duration: TimeInterval,
                         withAction action: @escaping () -> ()) {
