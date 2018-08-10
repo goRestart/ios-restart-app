@@ -22,6 +22,9 @@
 "bump_up_banner_pay_text_improvement_english_b" = "Get more visibility";
 "bump_up_banner_pay_text_improvement_english_c" = "Attract more buyers";
 "bump_up_banner_pay_text_improvement_english_d" = "Attract 2x more buyers";
+"bump_up_banner_pay_text_improvement_turkish_b" = "Attract more buyers";
+"bump_up_banner_pay_text_improvement_turkish_c" = "Attract more buyers";
+"bump_up_banner_pay_text_improvement_turkish_d" = "Attract more buyers";
 "bump_up_banner_wait_text" = "to feature again";
 "bump_up_boost_success_alert_text" = "Your listing was boosted! It will be featured for the next 24 hours.";
 "bump_up_error_bump_generic" = "An error occurred while featuring your listing. Please try again.";

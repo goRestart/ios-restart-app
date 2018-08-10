@@ -1614,7 +1614,11 @@ extension R {
     public static let postDetailsJobsServicesStepOptionServicesPrefix = Strings.tr("Localizable", "post_details_jobs_services_step_option_services_prefix")
     /// I'm...
     public static let postDetailsJobsServicesStepTitle = Strings.tr("Localizable", "post_details_jobs_services_step_title")
+<<<<<<< HEAD
+    /// Select just one option
+=======
     /// Choose one
+>>>>>>> origin/master
     public static let postDetailsJobsSubtitle = Strings.tr("Localizable", "post_details_jobs_subtitle")
     /// What kind of job are you offering?
     public static let postDetailsJobsTitle = Strings.tr("Localizable", "post_details_jobs_title")

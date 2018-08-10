@@ -1504,6 +1504,12 @@
 // Button to confirm the data in summary and request the ID verification
 "id_verification_summary_button_title" = "OK";
 
+// Text to show on services listing titles. The "Offering" in "Offering: Translation Services"
+"jobs_services_offering_text" = "Offering";
+
+// Text to show on jobs listing titles. The "Wanted" in "Wanted: Translation Services"
+"jobs_services_wanted_text" = "Wanted";
+
 // Title for Listings Map View
 "listings_map_title" = "Map view";
 

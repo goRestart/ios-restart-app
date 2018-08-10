@@ -14,11 +14,25 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     weak var delegate: PostingDetailsViewModelDelegate?
     
     var title: String {
-        return step.title
+        switch step {
+        case .servicesSubtypes:
+            return servicesSubtypesTitle(forListingType: postListingState.serviceAttributes.listingType)
+        case .bathrooms, .bedrooms, .rooms, .sizeSquareMeters,
+             .offerType, .price, .propertyType, .make, .model,
+             .year, .summary, .servicesListingType, .location:
+            return step.title
+        }
     }
     
     var subtitle: String? {
-        return step.subtitle
+        switch step {
+        case .servicesSubtypes:
+            return servicesSubtypesSubtitle(forListingType: postListingState.serviceAttributes.listingType)
+        case .bathrooms, .bedrooms, .rooms, .sizeSquareMeters,
+             .offerType, .price, .propertyType, .make, .model,
+             .year, .summary, .servicesListingType, .location:
+            return step.subtitle
+        }
     }
     
     var showsNextButton: Bool {
@@ -707,6 +721,34 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
 }
 
 
+extension PostingDetailsViewModel {
+    
+    private func servicesSubtypesTitle(forListingType listingType: ServiceListingType?) -> String {
+        guard let listingType = listingType else {
+            return R.Strings.postDetailsServicesTitle
+        }
+        switch listingType {
+        case .service:
+            return R.Strings.postDetailsServicesTitle
+        case .job:
+            return R.Strings.postDetailsJobsTitle
+        }
+    }
+    
+    private func servicesSubtypesSubtitle(forListingType listingType: ServiceListingType?) -> String {
+        guard let listingType = listingType else {
+            return R.Strings.postDetailsServicesSubtitle
+        }
+        switch listingType {
+        case .service:
+            return R.Strings.postDetailsServicesSubtitle
+        case .job:
+            return R.Strings.postDetailsJobsSubtitle
+        }
+    }
+}
+
+
 // MARK: - PostingServicesListingTypeSelectionViewDelegate Implementation
 
 extension PostingDetailsViewModel: PostingServicesListingTypeSelectionViewDelegate {
@@ -721,6 +763,14 @@ extension PostingDetailsViewModel: PostingServicesListingTypeSelectionViewDelega
 // MARK: - PostingMultiSelectionViewDelegate Implementation
 
 extension PostingDetailsViewModel: PostingMultiSelectionViewDelegate {
+    
+    func removeAllServices() {
+        multipostingSubtypes.removeAll()
+    }
+    
+    func removeAllNew() {
+        multipostingNewSubtypes.removeAll()
+    }
     
     func add(service subtype: ServiceSubtype) {
         guard !multipostingSubtypes.contains(where: { $0.id == subtype.id }),
