@@ -84,12 +84,16 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     private let bumpUpLabel: UILabel = {
         let label = UILabel()
         label.font = .systemBoldFont(size: 15)
-        label.text = R.Strings.bumpUpBannerPayTextImprovementEnglishC
+        label.text = R.Strings.bumpUpProductCellFeatureItLabel
         label.textAlignment = .left
         label.numberOfLines = 0
         label.textColor = .blackText
+        label.setContentHuggingPriority(.defaultLow, for: .horizontal)
         return label
     }()
+
+    private let bumpUpContainer = UIView()
+
     
     // > Distance Labels
     
@@ -280,20 +284,29 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     }
 
     func setupBumpUpCTA() {
-        featuredListingInfoView.addSubviewsForAutoLayout([bumpUpIcon, bumpUpLabel])
-        bumpUpIcon.layout(with: featuredListingInfoView).left(by: ListingCellMetrics.BumpUpIcon.leftMargin)
+
+        bumpUpContainer.addSubviewsForAutoLayout([bumpUpIcon, bumpUpLabel])
+        bumpUpIcon.layout(with: bumpUpContainer).left(by: ListingCellMetrics.BumpUpIcon.leftMargin)
         bumpUpIcon.layout().height(ListingCellMetrics.BumpUpIcon.iconHeight).widthProportionalToHeight()
         bumpUpIcon.layout(with: bumpUpLabel).centerY().trailing(to: .leading, by: -ListingCellMetrics.BumpUpIcon.rightMargin)
-        bumpUpLabel.layout(with: featuredListingInfoView).right(by: -ListingCellMetrics.BumpUpLabel.rightMargin)
-            .centerY()
-            .top(relatedBy: NSLayoutRelation.greaterThanOrEqual)
-            .bottom(relatedBy: NSLayoutRelation.lessThanOrEqual)
+        bumpUpLabel.layout(with: bumpUpContainer).right(by: -ListingCellMetrics.BumpUpLabel.rightMargin)
+            .top()
+            .bottom()
+
+        featuredListingInfoView.addSubviewForAutoLayout(bumpUpContainer)
+        bumpUpContainer.layout(with: featuredListingInfoView)
+            .center()
+            .left(relatedBy: .greaterThanOrEqual)
+            .right(relatedBy: .lessThanOrEqual)
 
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(bumpUpCTATapped))
         featuredListingInfoView.addGestureRecognizer(tapRecognizer)
 
         layer.masksToBounds = false
-        applyDefaultShadow()
+        applyShadow(withOpacity: 1,
+                    radius: 4,
+                    color: UIColor.black.withAlphaComponent(0.1).cgColor,
+                    offset: CGSize(width: 0, height: 2))
     }
 
     @objc private func bumpUpCTATapped() {

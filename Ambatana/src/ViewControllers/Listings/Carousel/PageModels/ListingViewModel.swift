@@ -218,7 +218,7 @@ class ListingViewModel: BaseViewModel {
     var storeProductId: String?
     private var userIsSoftBlocked: Bool = false
     private var bumpUpSource: BumpUpSource?
-    private var shouldExecuteBumpBannerAction: Bool = false
+    var shouldExecuteBumpBannerAction: Bool = false
 
     fileprivate var alreadyTrackedFirstMessageSent: Bool = false
     fileprivate static let bubbleTagGroup = "favorite.bubble.group"
@@ -495,9 +495,7 @@ class ListingViewModel: BaseViewModel {
                 bumpInfo.type != .loading,
                 strongSelf.shouldExecuteBumpBannerAction else { return }
 
-
-            let timeLeft = strongSelf.bumpMaxCountdown - bumpInfo.timeSinceLastBump
-            bumpInfo.bannerInteractionBlock(timeLeft)
+            bumpInfo.bannerInteractionBlock(bumpInfo.timeSinceLastBump)
             strongSelf.shouldExecuteBumpBannerAction = false
 
             }.disposed(by: disposeBag)
@@ -551,7 +549,7 @@ class ListingViewModel: BaseViewModel {
 
         if isBumpUpPending {
             createBumpeableBanner(forListingId: listingId, withPrice: nil, letgoItemId: nil, storeProductId: nil,
-                                  bumpUpType: .restore)
+                                  bumpUpType: .restore, typePage: .listingDetail)
         } else if let recentBumpInfo = purchasesShopper.timeSinceRecentBumpFor(listingId: listingId) {
             createBumpeableBannerForRecent(listingId: listingId,
                                            bumpUpType: bumpUpType,
@@ -596,7 +594,8 @@ class ListingViewModel: BaseViewModel {
                                                          withPrice: nil,
                                                          letgoItemId: strongSelf.letgoItemId,
                                                          storeProductId: strongSelf.storeProductId,
-                                                         bumpUpType: .free)
+                                                         bumpUpType: .free,
+                                                         typePage: parameterTypePage)
                     } else if !hiddenItems.isEmpty, strongSelf.featureFlags.pricedBumpUpEnabled {
                         strongSelf.userIsSoftBlocked = true
                         // for hidden items we follow THE SAME FLOW we do for PAID items
@@ -626,7 +625,9 @@ class ListingViewModel: BaseViewModel {
                                            withPrice: String?,
                                            letgoItemId: String?,
                                            storeProductId: String?,
-                                           bumpUpType: BumpUpType) {
+                                           bumpUpType: BumpUpType,
+                                           typePage: EventParameterTypePage) {
+        let actualTypePage = shouldExecuteBumpBannerAction ? typePage : .listingDetail
         var bannerInteractionBlock: (TimeInterval?) -> Void
         var buttonBlock: (TimeInterval?) -> Void
         switch bumpUpType {
@@ -642,7 +643,7 @@ class ListingViewModel: BaseViewModel {
                                                           storeProductId: storeProductId)
                 self?.navigator?.openFreeBumpUp(forListing: listing,
                                                 bumpUpProductData: bumpUpProductData,
-                                                typePage: .listingDetail,
+                                                typePage: actualTypePage,
                                                 maxCountdown: strongSelf.bumpMaxCountdown)
             }
             bannerInteractionBlock = freeBlock
@@ -658,7 +659,7 @@ class ListingViewModel: BaseViewModel {
                                                           storeProductId: storeProductId)
 
                 self?.openPricedBumpUpView(bumpUpProductData: bumpUpProductData,
-                                           typePage: .listingDetail)
+                                           typePage: actualTypePage)
             }
             buttonBlock = { [weak self] _ in
                 self?.bumpUpProduct(productId: listingId, isBoost: false)
@@ -674,7 +675,7 @@ class ListingViewModel: BaseViewModel {
                                                           storeProductId: storeProductId)
 
                 self?.openBoostBumpUpView(bumpUpProductData: bumpUpProductData,
-                                          typePage: .listingDetail,
+                                          typePage: actualTypePage,
                                           timeSinceLastBump: timeSinceLastBump)
             }
             buttonBlock = { [weak self] _ in
@@ -725,6 +726,7 @@ class ListingViewModel: BaseViewModel {
                                             bannerInteractionBlock: bannerInteractionBlock,
                                             buttonBlock: buttonBlock)
     }
+
     fileprivate func createBumpeableBannerForRecent(listingId: String,
                                                     bumpUpType: BumpUpType,
                                                     withTime: TimeInterval,
@@ -754,12 +756,9 @@ class ListingViewModel: BaseViewModel {
                         bumpUpType: BumpUpType?,
                         bumpUpSource: BumpUpSource?,
                         typePage: EventParameterTypePage?) {
-        guard let bumpUpProductData = bumpUpProductData, let bumpUpType = bumpUpType else {
-            shouldExecuteBumpBannerAction = true
-            return
-        }
-
         self.bumpUpSource = bumpUpSource
+        guard let bumpUpProductData = bumpUpProductData, let bumpUpType = bumpUpType else { return }
+        
         switch bumpUpType {
         case .priced, .boost:
             guard bumpUpProductData.hasPaymentId else { return }
@@ -1460,7 +1459,8 @@ extension ListingViewModel: BumpInfoRequesterDelegate {
                               withPrice: bumpUpPurchaseableProduct?.formattedCurrencyPrice,
                               letgoItemId: letgoItemId,
                               storeProductId: storeProductId,
-                              bumpUpType: bumpUpType)
+                              bumpUpType: bumpUpType,
+                              typePage: typePage ?? .listingDetail)
     }
 
     var bumpUpType: BumpUpType {

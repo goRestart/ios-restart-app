@@ -589,6 +589,12 @@
 "ml_onboarding_description_text" = "Mostrami un oggetto e ti dirò quanto potrai guadagnare";
 "ml_onboarding_new_text" = "NOVITÀ!";
 "ml_onboarding_ok_text" = "OK";
+"notification_section_one_month_ago" = "1 month ago";
+"notification_section_one_week_ago" = "1 week ago";
+"notifications_cell_date_days_ago" = "%id";
+"notifications_cell_date_hours_ago" = "%ih";
+"notifications_cell_date_mins_ago" = "%im";
+"notifications_cell_date_weeks_ago" = "%iw";
 "notifications_empty_subtitle" = "Pubblica qualcosa da vendere per iniziare a vedere delle attività";
 "notifications_empty_title" = "ANCORA NESSUNA NOTIFICA!";
 "notifications_permissions_1_push" = "Francesca: il tuo telefono mi interessa molto. Me lo lasci per 100€?";
@@ -609,6 +615,12 @@
 "notifications_permissions_settings_title_chat" = "Non perdere neanche una risposta!";
 "notifications_permissions_settings_yes_button" = "Sì, Attiva";
 "notifications_permissions_yes_button" = "Sì, Avvisami";
+"notifications_section_days_ago" = "%i days ago";
+"notifications_section_months_ago" = "%i months ago";
+"notifications_section_one_day_ago" = "1 day ago";
+"notifications_section_today" = "Today";
+"notifications_section_weeks_ago" = "%i weeks ago";
+"notifications_section_yesterday" = "Yesterday";
 "notifications_title" = "Notifiche";
 "notifications_type_buyers_interested" = "%d acquirenti potrebbero essere interessati al tuo annuncio";
 "notifications_type_buyers_interested_button" = "Scopri chi sono";

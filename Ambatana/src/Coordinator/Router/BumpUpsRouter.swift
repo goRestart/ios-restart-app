@@ -16,7 +16,7 @@ final class BumpUpsModalRouter: BumpUpNavigator {
         root?.dismiss(animated: true, completion: nil)
     }
     func bumpUpDidFinish(completion: (() -> Void)?) {
-        root?.dismiss(animated: true, completion: nil)
+        root?.dismiss(animated: true, completion: completion)
     }
 }
 
@@ -30,6 +30,6 @@ final class BumpUpsNavigationRouter: BumpUpNavigator {
         navigationController?.popViewController(animated: true)
     }
     func bumpUpDidFinish(completion: (() -> Void)?) {
-        navigationController?.popViewController(animated: true)
+        navigationController?.popViewController(animated: true, completion: completion)
     }
 }

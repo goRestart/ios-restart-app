@@ -11,7 +11,7 @@ protocol MainListingsViewModelDelegate: BaseViewModelDelegate {
     func vmShowTags(primaryTags: [FilterTag], secondaryTags: [FilterTag])
     func vmFiltersChanged()
     func vmShowMapToolTip(with configuration: TooltipConfiguration)
-    func vmHideMapToolTip()
+    func vmHideMapToolTip(hideForever: Bool)
 }
 
 protocol MainListingsAdsDelegate: class {
@@ -69,6 +69,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     var shouldHideCategoryAfterSearch = false
     var activeRequesterType: RequesterType?
     
+    private var isMapTooltipAdded = false
+    
     var hasFilters: Bool {
         return !filters.isDefault()
     }
@@ -96,6 +98,9 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             if shouldShowRealEstateMapTooltip {
                 showTooltipMap()
             }
+        } else {
+            isMapTooltipAdded = false
+            delegate?.vmHideMapToolTip(hideForever: false)
         }
         rightButtonItems.append((image: hasFilters ? R.Asset.IconsButtons.icFiltersActive.image : R.Asset.IconsButtons.icFilters.image, selector: #selector(MainListingsViewController.openFilters)))
         return rightButtonItems
@@ -296,7 +301,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     }
     
     private var shouldShowRealEstateMapTooltip: Bool {
-        return featureFlags.realEstateMapTooltip.isActive && !keyValueStorage[.realEstateTooltipMapShown]
+        return featureFlags.realEstateMapTooltip.isActive && !keyValueStorage[.realEstateTooltipMapShown] && !isMapTooltipAdded
     }
     
     private func showTooltipMap() {
@@ -313,13 +318,14 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                                                         peakOnTop: true,
                                                         actionBlock: {},
                                                         closeBlock:{ [weak self] in
-                                                            self?.delegate?.vmHideMapToolTip()
+                                                            self?.isMapTooltipAdded = false
+                                                            self?.delegate?.vmHideMapToolTip(hideForever: true)
         })
+        isMapTooltipAdded = true
         delegate?.vmShowMapToolTip(with: tooltipConfiguration)
     }
     
-    func tooltipMapHidden() {
-        guard shouldShowRealEstateMapTooltip else { return }
+    func tooltipDidHide() {
         keyValueStorage[.realEstateTooltipMapShown] = true
     }
 

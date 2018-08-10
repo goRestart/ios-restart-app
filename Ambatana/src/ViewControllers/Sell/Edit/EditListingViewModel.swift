@@ -260,7 +260,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
     // Delegate
     weak var delegate: EditListingViewModelDelegate?
-    weak var navigator: EditListingNavigator?
+    var navigator: EditListingNavigator?
 
     // Rx
     let disposeBag = DisposeBag()

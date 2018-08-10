@@ -482,7 +482,7 @@ lane :release_beta do |options|
 
 	message = "Crafting brand new version (#{new_version} - #{new_build})"
 	channels = [ENV["BENDER_SLACK_DEFAULT_CHANNEL"]]
-	#bender(message: message, channels: channels)
+	bender(message: message, channels: channels)
 
 	release_branch = 'release-' + new_version.to_s
 		
@@ -608,7 +608,7 @@ lane :build_beta do |options|
 		export_xcargs: "-allowProvisioningUpdates",
 		export_method: "ad-hoc"
 	)
-	ENV['LAST_BETA_BUILD'] = output 	
+	ENV['LAST_BETA_BUILD'] = output + '/LetGoGodMode.ipa'
 end
 
 desc "Does an appstore build"

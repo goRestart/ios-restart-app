@@ -33,6 +33,13 @@ enum ProductCarouselActionOnFirstAppear {
         typePage: EventParameterTypePage?)
     case triggerMarkAsSold
     case edit
+
+    var actionIsTriggerBumpUp: Bool {
+        if case .triggerBumpUp = self {
+            return true
+        }
+        return false
+    }
 }
 
 protocol TabNavigator: class {

@@ -589,6 +589,12 @@
 "ml_onboarding_description_text" = "Cho tôi xem một món đồ và tôi sẽ cho bạn biết bạn sẽ kiếm được bao nhiêu";
 "ml_onboarding_new_text" = "MỚI!";
 "ml_onboarding_ok_text" = "OK";
+"notification_section_one_month_ago" = "1 month ago";
+"notification_section_one_week_ago" = "1 week ago";
+"notifications_cell_date_days_ago" = "%id";
+"notifications_cell_date_hours_ago" = "%ih";
+"notifications_cell_date_mins_ago" = "%im";
+"notifications_cell_date_weeks_ago" = "%iw";
 "notifications_empty_subtitle" = "Đăng bán sản phẩm nào đó để bắt đầu xem hoạt động tại đây";
 "notifications_empty_title" = "KHÔNG (CHƯA) CÓ THÔNG BÁO NÀO!";
 "notifications_permissions_1_push" = "Phương: Mình thích chiếc điện thoại. 3 triệu đồng có được không?";
@@ -609,6 +615,12 @@
 "notifications_permissions_settings_title_chat" = "Đừng bỏ lỡ tin nhắn trả lời nào!";
 "notifications_permissions_settings_yes_button" = "Có, hãy Kích hoạt";
 "notifications_permissions_yes_button" = "Có, hãy Thông báo cho tôi";
+"notifications_section_days_ago" = "%i days ago";
+"notifications_section_months_ago" = "%i months ago";
+"notifications_section_one_day_ago" = "1 day ago";
+"notifications_section_today" = "Today";
+"notifications_section_weeks_ago" = "%i weeks ago";
+"notifications_section_yesterday" = "Yesterday";
 "notifications_title" = "Thông báo";
 "notifications_type_buyers_interested" = "%d người mua có thể quan tâm đến bài đăng của bạn";
 "notifications_type_buyers_interested_button" = "Tìm ra họ là ai";
