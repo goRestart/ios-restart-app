@@ -479,11 +479,12 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
     
     var servicesAttributes: ServiceAttributes {
+        let paymentFrequencyValue: PaymentFrequency? = !(isFreePosting.value) ? servicePaymentFrequency.value : nil
         return ServiceAttributes(typeId: serviceTypeId.value,
                                  subtypeId: serviceSubtypeId.value,
                                  typeTitle: serviceTypeName.value,
                                  subtypeTitle: serviceSubtypeName.value,
-                                 paymentFrequency: servicePaymentFrequency.value)
+                                 paymentFrequency: paymentFrequencyValue)
     }
 
     var descriptionCharCount: Int {
@@ -1037,7 +1038,7 @@ extension EditListingViewModel {
     }
     
     var shouldShowPaymentFrequency: Bool {
-        return featureFlags.servicesPaymentFrequency.isActive
+        return featureFlags.servicesPaymentFrequency.isActive && !(isFreePosting.value)
     }
     
     func serviceTypeButtonPressed() {
