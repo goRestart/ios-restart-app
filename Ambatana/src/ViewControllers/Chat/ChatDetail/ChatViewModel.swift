@@ -713,7 +713,9 @@ class ChatViewModel: ChatBaseViewModel {
                 break
             case .smartQuickAnswer(let sqa):
                 guard let smartQuickAnswersActive = self?.featureFlags.smartQuickAnswers.isActive, smartQuickAnswersActive,
-                    let isDummy = self?.isUserDummy, !isDummy
+                    let isDummy = self?.isUserDummy, !isDummy,
+                    let myUserId = self?.myUserRepository.myUser?.objectId, sqa.talkerId == myUserId,
+                    let lastMessage = self?.messages.value.first, lastMessage.objectId == sqa.messageId
                     else { return }
                 self?.shouldUpdateQuickAnswers.value = QuickAnswer.quickAnswers(for: sqa)
             }
@@ -883,7 +885,10 @@ extension ChatViewModel {
             delegate?.vmDidSendMessage()
         }
 
-        let newMessage = chatRepository.createNewMessage(userId, text: message, type: type.chatType)
+        let newMessage = chatRepository.createNewMessage(messageId: nil,
+                                                         talkerId: userId,
+                                                         text: message,
+                                                         type: type.chatType)
         let viewMessage = chatViewMessageAdapter.adapt(newMessage, userAvatarData: nil)?.markAsSent()
         guard let messageId = newMessage.objectId else { return }
         insertFirst(viewMessage: viewMessage)
@@ -1086,8 +1091,10 @@ extension ChatViewModel {
     fileprivate func handleNewMessageFromInterlocutor(_ messageId: String, sentAt: Date, text: String?, type: ChatMessageType) {
         guard let convId = conversation.value.objectId else { return }
         guard let interlocutorId = conversation.value.interlocutor?.objectId else { return }
-        let message: ChatMessage = chatRepository.createNewMessage(interlocutorId, text: text, type: type)
-
+        let message: ChatMessage = chatRepository.createNewMessage(messageId: messageId,
+                                                                   talkerId: interlocutorId,
+                                                                   text: text,
+                                                                   type: type)
         updateMeetingsStatusAfterReceiving(message: message)
 
         let viewMessage = chatViewMessageAdapter.adapt(message, userAvatarData: defaultUserAvatarData)?.markAsSent(date: sentAt).markAsReceived().markAsRead()

@@ -166,6 +166,7 @@ enum CoreReportDataSource: ReportType {
         case imagesId
         case serviceType
         case report
+        case availableFeaturePurchases
 
         
         var type: Any.Type {
@@ -244,6 +245,8 @@ enum CoreReportDataSource: ReportType {
                 return LGServiceType.self
             case .report:
                 return LGReport.self
+            case .availableFeaturePurchases:
+                return LGAvailableFeaturePurchases.self
             }
         }
     }

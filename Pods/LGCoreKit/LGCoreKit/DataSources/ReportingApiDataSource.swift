@@ -46,18 +46,18 @@ final class ReportingApiDataSource: ReportingDataSource {
         apiClient.request(request, completion: completion)
     }
 
-    func updateUserReport(reportId: String, score: Int, completion: ReportingDataSourceCompletion?) {
+    func updateUserReport(reportId: String, score: Int, completion: ReportingDataSourceEmptyCompletion?) {
         let attributes: [String: Any] = [Keys.score: score]
         let params: [String: Any] = JsonApi.usersReports.makeUpdateRequest(id: reportId, attributes: attributes)
         let request = ReportingRouter.updateUserReport(id: reportId, params: params)
-        apiClient.request(request, decoder: ReportingApiDataSource.decoder, completion: completion)
+        apiClient.request(request, completion: completion)
     }
 
-    func updateListingReport(reportId: String, score: Int, completion: ReportingDataSourceCompletion?) {
+    func updateListingReport(reportId: String, score: Int, completion: ReportingDataSourceEmptyCompletion?) {
         let attributes: [String: Any] = [Keys.score: score]
         let params: [String: Any] = JsonApi.listingsReports.makeUpdateRequest(id: reportId, attributes: attributes)
         let request = ReportingRouter.updateListingReport(id: reportId, params: params)
-        apiClient.request(request, decoder: ReportingApiDataSource.decoder, completion: completion)
+        apiClient.request(request, completion: completion)
     }
 }
 

@@ -45,13 +45,13 @@ final class LGReportingRepository: ReportingRepository {
         }
     }
 
-    func updateUserReport(reportId: String, score: Int, completion: ReportingCompletion?) {
+    func updateUserReport(reportId: String, score: Int, completion: ReportingEmptyCompletion?) {
         dataSource.updateUserReport(reportId: reportId, score: score) { result in
             handleApiResult(result, completion: completion)
         }
     }
 
-    func updateListingReport(reportId: String, score: Int, completion: ReportingCompletion?) {
+    func updateListingReport(reportId: String, score: Int, completion: ReportingEmptyCompletion?) {
         dataSource.updateUserReport(reportId: reportId, score: score) { result in
             handleApiResult(result, completion: completion)
         }
