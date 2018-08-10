@@ -14,11 +14,11 @@ protocol FiltersViewModelDataDelegate: class {
     func viewModelDidUpdateFilters(_ viewModel: FiltersViewModel, filters: ListingFilters)
 }
 
-class FiltersViewModel: BaseViewModel {
+final class FiltersViewModel: BaseViewModel {
     
     weak var delegate: FiltersViewModelDelegate?
     weak var dataDelegate: FiltersViewModelDataDelegate?
-    weak var navigator: FiltersNavigator?
+    var navigator: FiltersRouter?
 
     var sections: [FilterSection]
 
