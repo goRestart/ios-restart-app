@@ -77,7 +77,7 @@ final class PasswordlessEmailSentViewController: BaseViewController {
     }
 
     private func setupNavBarActions() {
-        let closeButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_close_red"),
+        let closeButton = UIBarButtonItem(image: R.Asset.IconsButtons.navbarClose.image,
                                           style: .plain,
                                           target: self,
                                           action: #selector(didTapClose))

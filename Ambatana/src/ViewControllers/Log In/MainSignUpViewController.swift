@@ -189,6 +189,7 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
         logoBigImageView.image = R.Asset.BackgroundsAndImages.logoBig.image
         logoFacebook.image = R.Asset.IconsButtons.icFacebookRounded.image
         logoGoogle.image = R.Asset.IconsButtons.icGoogleRounded.image
+        emailImageView.image = R.Asset.IconsButtons.icPasswordlessEmail.image
     }
 
     private func setupRx() {

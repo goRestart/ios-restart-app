@@ -417,6 +417,7 @@ extension R {
       public static let icPasswordActive = ImageAsset(name: "ic_password_active")
       public static let icPasswordActiveDark = ImageAsset(name: "ic_password_active_dark")
       public static let icPasswordDark = ImageAsset(name: "ic_password_dark")
+      public static let icPasswordlessEmail = ImageAsset(name: "ic_passwordless_email")
       public static let icPendingModeration = ImageAsset(name: "ic_pending_moderation")
       public static let icPostClose = ImageAsset(name: "ic_post_close")
       public static let icPostCorner = ImageAsset(name: "ic_post_corner")
@@ -723,6 +724,7 @@ extension R {
         icPasswordActive,
         icPasswordActiveDark,
         icPasswordDark,
+        icPasswordlessEmail,
         icPendingModeration,
         icPostClose,
         icPostCorner,
