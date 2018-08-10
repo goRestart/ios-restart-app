@@ -454,21 +454,19 @@ extension AppCoordinator: AppNavigator {
     }
 
     func openResetPassword(_ token: String) {
-        let changePasswordCoordinator = ChangePasswordCoordinator(token: token)
-        if let onboardingCoordinator = child as? ChangePasswordPresenter {
-            onboardingCoordinator.openChangePassword(coordinator: changePasswordCoordinator)
-            return
-        }
-
-        openChild(coordinator: changePasswordCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
+        let vc = LGChangePasswordBuilder.modal.buildChangePassword(withToken: token)
+        tabBarCtl.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
     }
 
     func openSurveyIfNeeded() {
+        guard featureFlags.surveyEnabled else { return }
+        guard !featureFlags.surveyUrl.isEmpty, let url = URL(string: featureFlags.surveyUrl) else { return }
+
         delay(3) { [weak self] in
-            guard let surveysCoordinator = SurveysCoordinator() else { return }
-            guard let parent = self?.tabBarCtl else { return }
-            surveysCoordinator.delegate = self
-            self?.openChild(coordinator: surveysCoordinator, parent: parent, animated: true, forceCloseChild: false, completion: nil)
+            guard let tab = self?.tabBarCtl else { return }
+            let assembly = LGSurveyBuilder.modal(root: tab)
+            let vc = assembly.buildWebSurvey(with: url)
+            tab.present(vc, animated: true, completion: nil)
         }
     }
 
@@ -671,11 +669,6 @@ extension AppCoordinator: TabCoordinatorDelegate {
 extension AppCoordinator: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController,
                           shouldSelect viewController: UIViewController) -> Bool {
-
-        defer {
-            chatsTabBarCoordinator.setNeedsRefreshConversations()
-        }
-
         let topVC = topViewControllerInController(viewController)
         let selectedViewController = tabBarController.selectedViewController
 
@@ -1161,15 +1154,6 @@ fileprivate extension AppCoordinator {
         tracker.trackEvent(TrackerEvent.listingSellCategorySelect(typePage: source.typePage,
                                                                   postingType: EventParameterPostingType(category: category),
                                                                   category: category.listingCategory))
-    }
-}
-
-extension AppCoordinator: ChangePasswordNavigator {
-    func closeChangePassword() {
-        tabBarCtl.dismiss(animated: true, completion: nil)
-    }
-    func passwordSaved() {
-        tabBarCtl.dismiss(animated: true, completion: nil)
     }
 }
 

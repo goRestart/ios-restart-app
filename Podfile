@@ -45,9 +45,9 @@ def shared_pods
 
     # letgo Core
 
-    pod "LGCoreKit",             "4.56.0", :inhibit_warnings => false
+    pod "LGCoreKit",             "4.62.0", :inhibit_warnings => false
     # pod "LGCoreKit",            :path => "../lgcorekit", :inhibit_warnings => false
-    # pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :branch => 'ABIOS-4710-priceType-to-paymentFrequency', :inhibit_warnings => false
+    # pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :branch => 'ABIOS-show-only-services-when-filtering-in-baseline', :inhibit_warnings => false
 
     # letgo Collapsible label
     pod "LGCollapsibleLabel",   "1.2.0", :inhibit_warnings => false     # :path => "../collapsiblelabel"

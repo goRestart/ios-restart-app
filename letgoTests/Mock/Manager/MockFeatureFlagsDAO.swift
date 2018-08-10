@@ -13,7 +13,6 @@ class MockFeatureFlagsDAO: FeatureFlagsDAO {
     var timeoutForRequests: TimeInterval?
     var advancedReputationSystem: AdvancedReputationSystem?
     var emergencyLocate: EmergencyLocate?
-    var chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs?
     var community: ShowCommunity?
 
     func retrieveTimeoutForRequests() -> TimeInterval? {
@@ -40,14 +39,6 @@ class MockFeatureFlagsDAO: FeatureFlagsDAO {
         self.emergencyLocate = emergencyLocate
     }
     
-    func retrieveChatConversationsListWithoutTabs() -> ChatConversationsListWithoutTabs? {
-        return chatConversationsListWithoutTabs
-    }
-    
-    func save(chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs) {
-        self.chatConversationsListWithoutTabs = chatConversationsListWithoutTabs
-    }
-
     func retrieveCommunity() -> ShowCommunity? {
         return community
     }

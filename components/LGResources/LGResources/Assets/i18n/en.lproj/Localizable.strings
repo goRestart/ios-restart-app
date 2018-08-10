@@ -55,6 +55,15 @@
 // Text for bubble in payment bump improvement. Variant D (only in English): Attract 2x more buyers
 "bump_up_banner_pay_text_improvement_english_d" = "Attract 2x more buyers";
 
+// Text for bubble in payment bump improvement. Variant B (only in Turkish): Daha çok kişi görsün
+"bump_up_banner_pay_text_improvement_turkish_b" = "Attract more buyers";
+
+// Text for bubble in payment bump improvement. Variant C (only in Turkish): Daha çok alıcıyı çek
+"bump_up_banner_pay_text_improvement_turkish_c" = "Attract more buyers";
+
+// Text for bubble in payment bump improvement. Variant D (only in Turkish): İlanına 2 kat daha fazla alıcı çek
+"bump_up_banner_pay_text_improvement_turkish_d" = "Attract more buyers";
+
 // Text for bubble while waiting for next bump
 "bump_up_banner_wait_text" = "to feature again";
 
@@ -186,6 +195,12 @@
 
 // Conatct Us button for alert when bump is not allowed
 "bump_up_not_allowed_alert_contact_button" = "Contact Us";
+
+// Text for telling the user that the refresh of new listings has failed.
+"cached_feed_error" = "An error occurred while loading new listings";
+
+// Text for telling the user that there are fresh listings.
+"cached_feed_new_listings" = "New items";
 
 // Categories baby and child. Check attached image "categories (2).png"
 "categories_baby_and_child" = "Baby and Child";
@@ -1489,6 +1504,12 @@
 // Button to confirm the data in summary and request the ID verification
 "id_verification_summary_button_title" = "OK";
 
+// Text to show on services listing titles. The "Offering" in "Offering: Translation Services"
+"jobs_services_offering_text" = "Offering";
+
+// Text to show on jobs listing titles. The "Wanted" in "Wanted: Translation Services"
+"jobs_services_wanted_text" = "Wanted";
+
 // Title for Listings Map View
 "listings_map_title" = "Map view";
 
@@ -1828,11 +1849,20 @@
 // Notification center section with yesterday title
 "notifications_section_yesterday" = "Yesterday";
 
+// Notification center section with 1 days ago title _ Not used, using yesterday
+"notifications_section_one_day_ago" = "1 day ago";
+
 // Notification center section with n days ago title
 "notifications_section_days_ago" = "%i days ago";
 
+// Notification center section with 1 weeks ago title
+"notification_section_one_week_ago" = "1 week ago";
+
 // Notification center section with n weeks ago title
 "notifications_section_weeks_ago" = "%i weeks ago";
+
+// Notification center section with 1 months ago title
+"notification_section_one_month_ago" = "1 month ago";
 
 // Notification center section with n months ago title
 "notifications_section_months_ago" = "%i months ago";
@@ -2178,6 +2208,12 @@
 
 // post subtitle for services screen
 "post_details_services_subtitle" = "Start making money!";
+
+// post title for job type selection screen
+"post_details_jobs_title" = "What kind of job are you offering?";
+
+// post subtitle for jobs screen
+"post_details_jobs_subtitle" = "Choose one";
 
 // placeholder for search bar in posting services
 "post_details_services_search_placeholder" = "Search or choose from the list";

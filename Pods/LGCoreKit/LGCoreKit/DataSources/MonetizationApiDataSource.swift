@@ -80,6 +80,16 @@ class MonetizationApiDataSource : MonetizationDataSource {
         apiClient.request(request, completion: completion)
     }
 
+
+    func retrieveAvailablePurchasesFor(listingId: String,
+                                       completion: MonetizationDataSourceAvailableFeaturePurchasesCompletion?) {
+        let params: [String:Any] = [MonetizationApiDataSource.platformNameKey:MonetizationApiDataSource.platformNameValue]
+        let request = MonetizationRouter.showAvailablePurchases(listingId: listingId,
+                                                                params: params)
+        apiClient.request(request, decoder: MonetizationApiDataSource.decoderAvailableFeaturePurchases, completion: completion)
+    }
+
+
     // Private methods
 
     private static func decoderBumpeableListing(object: Any) -> BumpeableListing? {
@@ -90,6 +100,18 @@ class MonetizationApiDataSource : MonetizationDataSource {
         } catch {
             logAndReportParseError(object: object, entity: .bumpeableListing,
                                    comment: "could not parse LGBumpeableListing")
+        }
+        return nil
+    }
+
+    private static func decoderAvailableFeaturePurchases(object: Any) -> AvailableFeaturePurchases? {
+        guard let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) else { return nil }
+        do {
+            let availablePurchases = try LGAvailableFeaturePurchases.decode(jsonData: data)
+            return availablePurchases
+        } catch {
+            logAndReportParseError(object: object, entity: .availableFeaturePurchases,
+                                   comment: "could not parse LGAvailableFeaturePurchases")
         }
         return nil
     }

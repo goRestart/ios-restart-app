@@ -83,6 +83,21 @@ extension RetrieveListingParams {
         } else {
             subtypeIds = verticalFilters.services.subtypes?.map( { $0.id } )
         }
+        
+        if featureFlags.jobsAndServicesEnabled.isActive {
+            // FIXME: Implement this in ABIOS-4741
+        } else {
+            // More info here: ABIOS-4795
+            if let categoryIds = categoryIds,
+                categoryIds.contains(where: { $0 == ListingCategory.services.rawValue }) {
+                switch featureFlags.jobsAndServicesEnabled {
+                case .baseline, .control:
+                    serviceListingTypes = [ServiceListingType.service]
+                case .active:
+                    break
+                }
+            }
+        }
     
         if let propertyTypeValue = verticalFilters.realEstate.propertyType?.rawValue {
             propertyType = propertyTypeValue

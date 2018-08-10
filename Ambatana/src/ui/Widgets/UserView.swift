@@ -207,12 +207,12 @@ final class UserView: UIView {
     }
 
     private func setupWith(userAvatar avatar: URL?,
-                   placeholder: UIImage?,
-                   userName: String?,
-                   subtitle: String?,
-                   subtitleSuffix: String?,
-                   isProfessional: Bool,
-                   userBadge: UserReputationBadge) {
+                           placeholder: UIImage?,
+                           userName: String?,
+                           subtitle: String?,
+                           subtitleSuffix: String?,
+                           isProfessional: Bool,
+                           userBadge: UserReputationBadge) {
         if let avatar = avatar, avatar != avatarURL {
             avatarURL = avatar
             userAvatarImageView.image = placeholder

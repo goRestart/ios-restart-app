@@ -22,6 +22,9 @@
 "bump_up_banner_pay_text_improvement_english_b" = "Sälj snabbare nu";
 "bump_up_banner_pay_text_improvement_english_c" = "Sälj snabbare nu";
 "bump_up_banner_pay_text_improvement_english_d" = "Sälj snabbare nu";
+"bump_up_banner_pay_text_improvement_turkish_b" = "Sälj snabbare nu";
+"bump_up_banner_pay_text_improvement_turkish_c" = "Sälj snabbare nu";
+"bump_up_banner_pay_text_improvement_turkish_d" = "Sälj snabbare nu";
 "bump_up_banner_wait_text" = "till nästa topplistning";
 "bump_up_boost_success_alert_text" = "Du har boostat din annons! Den kommer att vara topplistad i 24 timmar.";
 "bump_up_error_bump_generic" = "Ett fel uppstod när din annons skulle topplistas. Vänligen försök igen.";
@@ -45,7 +48,7 @@
 "bump_up_product_cell_chat_now_button_english_b" = "Chatta nu";
 "bump_up_product_cell_chat_now_button_english_c" = "Chatta nu";
 "bump_up_product_cell_chat_now_button_english_d" = "Chatta nu";
-"bump_up_product_cell_feature_it_label" = "Feature it";
+"bump_up_product_cell_feature_it_label" = "Topplista den";
 "bump_up_product_cell_featured_stripe" = "Topplistad";
 "bump_up_product_detail_featured_label" = "TOPPLISTAD";
 "bump_up_view_boost_pay_button_title" = "Topplista den igen för %@";
@@ -62,6 +65,8 @@
 "bump_up_view_pay_button_title" = "Topplista för %@";
 "bump_up_view_pay_subtitle" = "Din annons kommer att vara topplistad i 24 timmar vilket innebär att fler köpare kommer att se den och att dina chanser att sälja ökar";
 "bump_up_view_pay_title" = "Nå ut till dubbelt så många köpare";
+"cached_feed_error" = "Ett fel inträffade när de nya annonserna skulle läggas upp.";
+"cached_feed_new_listings" = "Nya varor";
 "categories_baby_and_child" = "Bebis och barn";
 "categories_car" = "Bilar";
 "categories_cars_and_motors" = "Motorer och tillbehör";
@@ -498,6 +503,8 @@
 "id_verification_third_step_subtitle" = "Försäkra dig att bilden är skarp och att du får med hela dokumentet";
 "id_verification_third_step_title" = "Ta en bild av framsidan av dokumentet";
 "id_verification_update_avatar_message" = "Vill du använda denna bild som profilbild?";
+"jobs_services_offering_text" = "Offering";
+"jobs_services_wanted_text" = "Wanted";
 "kilometer_unit_suffix" = "km";
 "listing_chat_button" = "Chatta nu";
 "listing_interested_button_A" = "Jag är intresserad!";
@@ -582,6 +589,12 @@
 "ml_onboarding_description_text" = "Visa mig en produkt så berättar jag hur mycket du kan tjäna";
 "ml_onboarding_new_text" = "NY!";
 "ml_onboarding_ok_text" = "Ok";
+"notification_section_one_month_ago" = "1 month ago";
+"notification_section_one_week_ago" = "1 week ago";
+"notifications_cell_date_days_ago" = "%id";
+"notifications_cell_date_hours_ago" = "%ih";
+"notifications_cell_date_mins_ago" = "%im";
+"notifications_cell_date_weeks_ago" = "%iw";
 "notifications_empty_subtitle" = "Lägg upp något till försäljning för att börja se lite aktivitet här";
 "notifications_empty_title" = "INGA NOTISER (ÄNNU!)";
 "notifications_permissions_1_push" = "Isabella: Jag är väldigt intresserad av din mobil. let go för 800 kr?";
@@ -602,6 +615,12 @@
 "notifications_permissions_settings_title_chat" = "Missa inga svar!";
 "notifications_permissions_settings_yes_button" = "Ja, aktivera";
 "notifications_permissions_yes_button" = "Ja, Informera Mig";
+"notifications_section_days_ago" = "%i days ago";
+"notifications_section_months_ago" = "%i months ago";
+"notifications_section_one_day_ago" = "1 day ago";
+"notifications_section_today" = "Today";
+"notifications_section_weeks_ago" = "%i weeks ago";
+"notifications_section_yesterday" = "Yesterday";
 "notifications_title" = "Notiser";
 "notifications_type_buyers_interested" = "%d köpare skulle kunna vara intresserade av din annons";
 "notifications_type_buyers_interested_button" = "Se vem de är";
@@ -672,6 +691,12 @@
 "passwordless_username_input_done_button" = "Klar";
 "passwordless_username_input_textfield_placeholder" = "Användarnamn";
 "passwordless_username_input_title" = "Välj ditt användarnamn";
+"payment_frequency_per_biweek" = "2 weeks";
+"payment_frequency_per_day" = "day";
+"payment_frequency_per_hour" = "hour";
+"payment_frequency_per_month" = "month";
+"payment_frequency_per_week" = "week";
+"payment_frequency_per_year" = "År";
 "phone_verification_code_input_view_content_subaction" = "Har du inte fått koden?";
 "phone_verification_code_input_view_content_subtext" = "Du kan begära en ny kod om du inte har fått den inom %@";
 "phone_verification_code_input_view_content_subtitle" = "Vi har skickat den till %@";
@@ -713,6 +738,8 @@
 "post_details_jobs_services_step_option_jobs_prefix" = "Behöver anlita någon för";
 "post_details_jobs_services_step_option_services_prefix" = "Annonserar...";
 "post_details_jobs_services_step_title" = "Jag är...";
+"post_details_jobs_subtitle" = "Choose one";
+"post_details_jobs_title" = "What kind of job are you offering?";
 "post_details_listingType_job_display_name" = "ett jobb";
 "post_details_listingType_service_display_name" = "en tjänst";
 "post_details_services_add_new" = "Lägg till en ny tjänst";

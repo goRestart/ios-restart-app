@@ -354,3 +354,11 @@ public extension UIColor {
 public extension UIColor {
     static let toastBackground = UIColor.grayDarker
 }
+
+
+// MARK: > Posting Flow Colors
+
+public extension UIColor {
+    static var serviceTypeRed: UIColor { return existentialDoubtRed }
+    fileprivate static let existentialDoubtRed = UIColor(rgb: 0xfc7d91) // (252, 125, 145)
+}

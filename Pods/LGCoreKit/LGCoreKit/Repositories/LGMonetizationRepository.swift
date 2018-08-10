@@ -67,4 +67,11 @@ class LGMonetizationRepository : MonetizationRepository {
             }
         }
     }
+
+    func retrieveAvailablePurchasesFor(listingId: String,
+                                       completion: AvailableFeaturePurchasesCompletion?) {
+        dataSource.retrieveAvailablePurchasesFor(listingId: listingId) { result in
+            handleApiResult(result, completion: completion)
+        }
+    }
 }

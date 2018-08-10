@@ -14,11 +14,36 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     weak var delegate: PostingDetailsViewModelDelegate?
     
     var title: String {
-        return step.title
+        switch step {
+        case .servicesSubtypes:
+            return servicesSubtypesTitle(forListingType: postListingState.serviceAttributes.listingType)
+        case .bathrooms, .bedrooms, .rooms, .sizeSquareMeters,
+             .offerType, .price, .propertyType, .make, .model,
+             .year, .summary, .servicesListingType, .location:
+            return step.title
+        }
     }
     
     var subtitle: String? {
-        return step.subtitle
+        switch step {
+        case .servicesSubtypes:
+            return servicesSubtypesSubtitle(forListingType: postListingState.serviceAttributes.listingType)
+        case .bathrooms, .bedrooms, .rooms, .sizeSquareMeters,
+             .offerType, .price, .propertyType, .make, .model,
+             .year, .summary, .servicesListingType, .location:
+            return step.subtitle
+        }
+    }
+    
+    var showsNextButton: Bool {
+        switch step {
+        case .bathrooms, .bedrooms, .rooms, .sizeSquareMeters,
+             .offerType, .price, .propertyType, .make, .model,
+             .year, .summary, .servicesSubtypes, .location:
+            return true
+        case .servicesListingType:
+            return false
+        }
     }
     
     var buttonTitle: String {
@@ -34,14 +59,17 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
             return sizeListing.value == nil ? value : R.Strings.productPostDone
         case .servicesSubtypes:
             return R.Strings.productPostUsePhoto
+        case .servicesListingType:
+            return ""
         }
     }
     
     var shouldFollowKeyboard: Bool {
         switch step {
-        case .bathrooms, .bedrooms, .rooms, .sizeSquareMeters, .offerType, .price, .propertyType, .make, .model, .year, .summary, .servicesSubtypes:
+        case .bathrooms, .bedrooms, .rooms, .sizeSquareMeters,
+             .offerType, .price, .propertyType, .make, .model, .year, .summary, .servicesSubtypes:
             return  true
-        case .location:
+        case .location, .servicesListingType:
             return false
         }
     }
@@ -57,9 +85,10 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     
     var doneButtonStyle: ButtonStyle {
         switch step {
-        case .bathrooms, .bedrooms, .rooms, .offerType, .propertyType, .make, .model, .year:
+        case .bathrooms, .bedrooms, .rooms, .offerType,
+             .propertyType, .make, .model, .year:
             return .postingFlow
-        case .location, .summary, .price, .servicesSubtypes:
+        case .location, .summary, .price, .servicesSubtypes, .servicesListingType:
             return .primary(fontSize: .medium)
         case .sizeSquareMeters:
             return sizeListing.value == nil ? .postingFlow : .primary(fontSize: .medium)
@@ -68,7 +97,8 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     
     var buttonFullWidth: Bool {
         switch step {
-        case .bathrooms, .bedrooms, .rooms, .sizeSquareMeters, .offerType, .propertyType, .make, .model, .year, .price, .servicesSubtypes:
+        case .bathrooms, .bedrooms, .rooms, .sizeSquareMeters, .offerType,
+             .propertyType, .make, .model, .year, .price, .servicesSubtypes, .servicesListingType:
             return false
         case .location, .summary:
             return true
@@ -123,12 +153,18 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
             return nil
         case .servicesSubtypes:
             let serviceSubtypes = servicesInfoRepository.serviceAllSubtypesSorted()
+            let listingType: ServiceListingType? = featureFlags.jobsAndServicesEnabled.isActive ?
+                postListingState.verticalAttributes?.serviceAttributes?.listingType : nil
             let postServicesView = PostingMultiSelectionView(keyboardHelper: KeyboardHelper(),
                                                              theme: .light,
-                                                             subtypes: serviceSubtypes)
+                                                             subtypes: serviceSubtypes,
+                                                             serviceListingType: listingType)
             postServicesView.delegate = self
             postServicesView.scrollDelegate = self
             return postServicesView
+        case .servicesListingType:
+            return PostingServicesListingTypeSelectionView(withDelegate: self,
+                                                           items: ServiceListingType.allCases)
         }
         let view = PostingAttributePickerTableView(values: values, selectedIndexes: [], delegate: self)
         return view
@@ -175,6 +211,8 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
 
     private var multipostingSubtypes: [ServiceSubtype] = []
     private var multipostingNewSubtypes: [String] = []
+    
+    private var selectedServiceListingType: ServiceListingType?
     
     weak var navigator: PostListingNavigator?
     private let disposeBag = DisposeBag()
@@ -251,20 +289,27 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     }
     
     func nextbuttonPressed() {
+        completeCurrentStep()
+    }
+    
+    func completeCurrentStep() {
         guard let next = step.nextStep(postingFlowType: featureFlags.postingFlowType) else {
             postListing(buttonNameType: .summary)
             return
         }
         switch step {
         case .price:
-        if priceListing.value != SharedConstants.defaultPrice || previousStepIsSummary {
-            set(price: priceListing.value)
-        }
+            if priceListing.value != SharedConstants.defaultPrice || previousStepIsSummary {
+                set(price: priceListing.value)
+            }
         case .location:
             update(place: placeSelected.value)
         case .sizeSquareMeters:
             update(sizeSquareMeters: sizeListing.value)
-        case .bathrooms, .bedrooms, .make, .model, .year, .offerType, .propertyType, .summary, .rooms, .servicesSubtypes:
+        case .servicesListingType:
+            update(serviceListingType: selectedServiceListingType)
+        case .bathrooms, .bedrooms, .make, .model, .year, .offerType,
+             .propertyType, .summary, .rooms, .servicesSubtypes:
             break
         }
         let nextStep = previousStepIsSummary ? .summary : next
@@ -438,9 +483,12 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     }
     
     private func advanceNextStep(next: PostingDetailStep) {
-        navigator?.nextPostingDetailStep(step: next, postListingState: postListingState,
-                                         uploadedImageSource: uploadedImageSource, uploadedVideoLength: uploadedVideoLength,
-                                         postingSource: postingSource, postListingBasicInfo: postListingBasicInfo,
+        navigator?.nextPostingDetailStep(step: next,
+                                         postListingState: postListingState,
+                                         uploadedImageSource: uploadedImageSource,
+                                         uploadedVideoLength: uploadedVideoLength,
+                                         postingSource: postingSource,
+                                         postListingBasicInfo: postListingBasicInfo,
                                          previousStepIsSummary: false)
     }
     
@@ -473,6 +521,12 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         postListingState = postListingState.updating(realEstateInfo: realEstateAttributes)
     }
     
+    private func update(serviceListingType: ServiceListingType?) {
+        var serviceAttributes = postListingState.verticalAttributes?.serviceAttributes ?? ServiceAttributes.emptyServicesAttributes()
+        serviceAttributes = serviceAttributes.updating(listingType: serviceListingType)
+        postListingState = postListingState.updating(servicesInfo: serviceAttributes)
+    }
+    
     // MARK: - PostingAddDetailTableViewDelegate 
     
     func indexSelected(index: Int) {
@@ -494,7 +548,8 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
             realEstateOfferType = RealEstateOfferType.allValues[index]
         case .propertyType:
             realEstatePropertyType = RealEstatePropertyType.allValues(postingFlowType: featureFlags.postingFlowType)[index]
-        case .price, .sizeSquareMeters, .summary, .location, .make, .model, .year, .servicesSubtypes:
+        case .price, .sizeSquareMeters, .summary, .location,
+             .make, .model, .year, .servicesSubtypes, .servicesListingType:
             return
         }
         
@@ -532,7 +587,8 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         case .rooms:
             removeBedrooms = true
             removeLivingRooms = true
-        case .price, .sizeSquareMeters, .summary, .location, .make, .model, .year, .servicesSubtypes:
+        case .price, .sizeSquareMeters, .summary, .location,
+             .make, .model, .year, .servicesSubtypes, .servicesListingType:
             return
         }
         if let realEstateInfo = postListingState.verticalAttributes?.realEstateAttributes {
@@ -567,7 +623,8 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
             if let bathrooms = postListingState.verticalAttributes?.realEstateAttributes?.bathrooms {
                 positionSelected = NumberOfBathrooms(rawValue:bathrooms)?.position
             }
-        case .price, .make, .model, .sizeSquareMeters, .year, .location, .summary, .servicesSubtypes:
+        case .price, .make, .model, .sizeSquareMeters, .year,
+             .location, .summary, .servicesSubtypes, .servicesListingType:
             return nil
         }
         return positionSelected
@@ -649,7 +706,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         
         let multipostNewParams: [ListingCreationParams] = newSubtypes.enumerated().compactMap { (index, newSubtype) in
             guard let imageFileId = imagesIds[safeAt: index+multipostSubtypeParams.count] else { return nil }
-            let serviceAttribute = ServiceAttributes()
+            let serviceAttribute = postListingState.verticalAttributes?.serviceAttributes ?? ServiceAttributes()
             let imageFile = LGFile(id: imageFileId, url: nil)
 
             return ListingCreationParams.make(title: newSubtype,
@@ -663,7 +720,57 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     }
 }
 
+
+extension PostingDetailsViewModel {
+    
+    private func servicesSubtypesTitle(forListingType listingType: ServiceListingType?) -> String {
+        guard let listingType = listingType else {
+            return R.Strings.postDetailsServicesTitle
+        }
+        switch listingType {
+        case .service:
+            return R.Strings.postDetailsServicesTitle
+        case .job:
+            return R.Strings.postDetailsJobsTitle
+        }
+    }
+    
+    private func servicesSubtypesSubtitle(forListingType listingType: ServiceListingType?) -> String {
+        guard let listingType = listingType else {
+            return R.Strings.postDetailsServicesSubtitle
+        }
+        switch listingType {
+        case .service:
+            return R.Strings.postDetailsServicesSubtitle
+        case .job:
+            return R.Strings.postDetailsJobsSubtitle
+        }
+    }
+}
+
+
+// MARK: - PostingServicesListingTypeSelectionViewDelegate Implementation
+
+extension PostingDetailsViewModel: PostingServicesListingTypeSelectionViewDelegate {
+    
+    func didSelectServicesListingType(type: ServiceListingType) {
+        selectedServiceListingType = type
+        completeCurrentStep()
+    }
+}
+
+
+// MARK: - PostingMultiSelectionViewDelegate Implementation
+
 extension PostingDetailsViewModel: PostingMultiSelectionViewDelegate {
+    
+    func removeAllServices() {
+        multipostingSubtypes.removeAll()
+    }
+    
+    func removeAllNew() {
+        multipostingNewSubtypes.removeAll()
+    }
     
     func add(service subtype: ServiceSubtype) {
         guard !multipostingSubtypes.contains(where: { $0.id == subtype.id }),

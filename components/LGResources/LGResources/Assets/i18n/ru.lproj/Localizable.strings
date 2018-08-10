@@ -22,6 +22,9 @@
 "bump_up_banner_pay_text_improvement_english_b" = "Продайте быстрее";
 "bump_up_banner_pay_text_improvement_english_c" = "Продайте быстрее";
 "bump_up_banner_pay_text_improvement_english_d" = "Продайте быстрее";
+"bump_up_banner_pay_text_improvement_turkish_b" = "Продайте быстрее";
+"bump_up_banner_pay_text_improvement_turkish_c" = "Продайте быстрее";
+"bump_up_banner_pay_text_improvement_turkish_d" = "Продайте быстрее";
 "bump_up_banner_wait_text" = "до нового продвижения";
 "bump_up_boost_success_alert_text" = "Ваше объявление продвинуто! Оно будет выделено следующие 24 часа.";
 "bump_up_error_bump_generic" = "При выделении объявления произошла ошибка. Пожалуйста, попробуйте еще раз.";
@@ -45,7 +48,7 @@
 "bump_up_product_cell_chat_now_button_english_b" = "Пообщаться";
 "bump_up_product_cell_chat_now_button_english_c" = "Пообщаться";
 "bump_up_product_cell_chat_now_button_english_d" = "Пообщаться";
-"bump_up_product_cell_feature_it_label" = "Feature it";
+"bump_up_product_cell_feature_it_label" = "Выделить его";
 "bump_up_product_cell_featured_stripe" = "Популярное";
 "bump_up_product_detail_featured_label" = "ПОПУЛЯРНОЕ";
 "bump_up_view_boost_pay_button_title" = "Выделите еще раз за %@";
@@ -62,6 +65,8 @@
 "bump_up_view_pay_button_title" = "Выделить за %@";
 "bump_up_view_pay_subtitle" = "Мы выделим ваше объявление на 24 часа, чтобы больше покупателей увидели его и продажа прошла быстрее";
 "bump_up_view_pay_title" = "Привлекайте в 2 раза больше покупателей";
+"cached_feed_error" = "При загрузке новых объявлений произошла ошибка";
+"cached_feed_new_listings" = "Новые товары";
 "categories_baby_and_child" = "Все для детей";
 "categories_car" = "Машины";
 "categories_cars_and_motors" = "Запчасти и Аксессуары";
@@ -498,6 +503,8 @@
 "id_verification_third_step_subtitle" = "Убедитесь, что документ четко видно и он попадает в рамку";
 "id_verification_third_step_title" = "Сделайте фото лицевой стороны документа";
 "id_verification_update_avatar_message" = "Хотите сделать это фото изображением профиля?";
+"jobs_services_offering_text" = "Offering";
+"jobs_services_wanted_text" = "Wanted";
 "kilometer_unit_suffix" = "км";
 "listing_chat_button" = "Пообщаться";
 "listing_interested_button_A" = "Я заинтересован";
@@ -582,6 +589,12 @@
 "ml_onboarding_description_text" = "Покажите мне товар, и я скажу, сколько вы можете получить";
 "ml_onboarding_new_text" = "НОВОЕ!";
 "ml_onboarding_ok_text" = "OK";
+"notification_section_one_month_ago" = "1 month ago";
+"notification_section_one_week_ago" = "1 week ago";
+"notifications_cell_date_days_ago" = "%id";
+"notifications_cell_date_hours_ago" = "%ih";
+"notifications_cell_date_mins_ago" = "%im";
+"notifications_cell_date_weeks_ago" = "%iw";
 "notifications_empty_subtitle" = "Разместите что-нибудь на продажу для получения уведомлений";
 "notifications_empty_title" = "НЕТ УВЕДОМЛЕНИЙ (ПОКА!)";
 "notifications_permissions_1_push" = "Ирина: Очень понравился ваш телефон. Отдадите за 5000р?";
@@ -602,6 +615,12 @@
 "notifications_permissions_settings_title_chat" = "Не пропустите ответ!";
 "notifications_permissions_settings_yes_button" = "Да, активировать";
 "notifications_permissions_yes_button" = "Да, уведомлять меня";
+"notifications_section_days_ago" = "%i days ago";
+"notifications_section_months_ago" = "%i months ago";
+"notifications_section_one_day_ago" = "1 day ago";
+"notifications_section_today" = "Today";
+"notifications_section_weeks_ago" = "%i weeks ago";
+"notifications_section_yesterday" = "Yesterday";
 "notifications_title" = "Уведомления";
 "notifications_type_buyers_interested" = "%d покупателей может заинтересовать ваше объявление";
 "notifications_type_buyers_interested_button" = "Посмотрите, кто они";
@@ -672,6 +691,12 @@
 "passwordless_username_input_done_button" = "Готово";
 "passwordless_username_input_textfield_placeholder" = "Имя пользователя";
 "passwordless_username_input_title" = "Выберите логин";
+"payment_frequency_per_biweek" = "2 weeks";
+"payment_frequency_per_day" = "day";
+"payment_frequency_per_hour" = "hour";
+"payment_frequency_per_month" = "month";
+"payment_frequency_per_week" = "week";
+"payment_frequency_per_year" = "Год";
 "phone_verification_code_input_view_content_subaction" = "Не получили код?";
 "phone_verification_code_input_view_content_subtext" = "Вы можете запросить другой код, если не получили его в течение %@";
 "phone_verification_code_input_view_content_subtitle" = "Мы отправили его на %@";
@@ -713,6 +738,8 @@
 "post_details_jobs_services_step_option_jobs_prefix" = "Хочу нанять кого-нибудь для";
 "post_details_jobs_services_step_option_services_prefix" = "Реклама";
 "post_details_jobs_services_step_title" = "Я...";
+"post_details_jobs_subtitle" = "Choose one";
+"post_details_jobs_title" = "What kind of job are you offering?";
 "post_details_listingType_job_display_name" = "работа";
 "post_details_listingType_service_display_name" = "услуга";
 "post_details_services_add_new" = "Добавить новую услугу";
@@ -905,7 +932,7 @@
 "product_post_retry_button" = "Попробовать еще";
 "product_post_select_category_cars" = "Машины";
 "product_post_select_category_housing" = "Жилье в аренду / на продажу";
-"product_post_select_category_jobs_services" = "Jobs & Services";
+"product_post_select_category_jobs_services" = "Работы и услуги";
 "product_post_select_category_motors_and_accessories" = "Транспорт и запчасти";
 "product_post_select_category_other" = "Другие товары";
 "product_post_select_category_real_estate" = "Недвижимость";

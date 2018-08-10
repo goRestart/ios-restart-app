@@ -63,10 +63,12 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     @IBOutlet weak var priceTextField: LGTextField!
     
     @IBOutlet weak var paymentFrequencyContainer: UIView!
+    @IBOutlet weak var paymentFrequencyTitleLabel: UILabel!
     @IBOutlet weak var paymentFrequencyLabel: UILabel!
-    @IBOutlet var paymentFrequencyWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var paymentFrequencyButton: UIButton!
-    @IBOutlet weak var paymentFrequencyReverseChevronImageView: UIImageView!
+    @IBOutlet weak var paymentFrequencyChevronImageView: UIImageView!
+    @IBOutlet weak var paymentFrequencyHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var paymentFrequencyTopConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var descriptionView: UIView!
     @IBOutlet weak var descriptionCharCountLabel: UILabel!
@@ -562,8 +564,6 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         priceTextField.tag = TextFieldTag.listingPrice.rawValue
         priceTextField.insetX = 16.0
         
-        paymentFrequencyLabel.textColor = .blackText
-        
         realEstateTurkishSizeTextField.placeholder = R.Strings.realEstateSummarySizeTitle
         realEstateTurkishSizeTextField.text = viewModel.realEstateSizeSquareMetersString
         realEstateTurkishSizeTextField.tag = TextFieldTag.sizeSquareMeters.rawValue
@@ -612,6 +612,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         
         serviceTypeTitleLabel.text = R.Strings.servicesServiceTypeTitle
         serviceSubtypeTitleLabel.text = R.Strings.servicesServiceSubtypeTitle
+        paymentFrequencyTitleLabel.text = R.Strings.editPaymentFrequencyTitle
         paymentFrequencyLabel.text = ""
         
         sendButton.setTitle(R.Strings.editProductSendButton, for: .normal)
@@ -670,9 +671,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         realEstateTurkishNumberOfRoomsChevron.image = chevron
         serviceChevron.image = chevron
         serviceSubtypeChevron.image = chevron
-        
-        let reverseChevron = R.Asset.IconsButtons.paymentFrequencyDisclosureIndicator.image
-        paymentFrequencyReverseChevronImageView.image = reverseChevron
+        paymentFrequencyChevronImageView.image = chevron
     }
 
     fileprivate func setupRxBindings() {
@@ -905,7 +904,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         viewModel.serviceSubtypeName.asObservable().bind(to: serviceSubtypeValueLabel.rx.text).disposed(by: disposeBag)
         
         viewModel.servicePaymentFrequency.asObservable()
-            .map({ $0?.localizedDisplayName })
+            .map({ [weak self] _ in self?.viewModel.paymentFrequencyText })
             .bind(to: paymentFrequencyLabel.rx.text).disposed(by: disposeBag)
         
         serviceTypeButton.rx.tap.bind { [weak self] in
@@ -967,9 +966,13 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         if active {
             priceContainerHeightConstraint.constant = 0
             priceViewSeparatorTopConstraint.constant = 0
+            hidePaymentFrequencyView()
         } else {
             priceContainerHeightConstraint.constant = EditListingViewController.viewOptionGenericHeight
             priceViewSeparatorTopConstraint.constant = EditListingViewController.separatorOptionsViewDistance
+            if viewModel.shouldShowPaymentFrequency {
+                showPaymentFrequencyView()
+            }
         }
         UIView.animate(withDuration: 0.3, animations: {
             self.view.layoutIfNeeded()
@@ -1086,13 +1089,15 @@ extension EditListingViewController {
     }
     
     private func showPaymentFrequencyView() {
-        paymentFrequencyContainer.isHidden = false
-        paymentFrequencyWidthConstraint.constant = Layout.paymentFrequencyWidth
+        paymentFrequencyHeightConstraint.constant = EditListingViewController.viewOptionGenericHeight
+        paymentFrequencyTopConstraint.constant = EditListingViewController.separatorOptionsViewDistance
+        paymentFrequencyContainer.isUserInteractionEnabled = true
     }
     
     private func hidePaymentFrequencyView() {
-        paymentFrequencyContainer.isHidden = true
-        paymentFrequencyWidthConstraint.constant = 0
+        paymentFrequencyHeightConstraint.constant = 0
+        paymentFrequencyTopConstraint.constant = 0
+        paymentFrequencyContainer.isUserInteractionEnabled = false
     }
 }
 

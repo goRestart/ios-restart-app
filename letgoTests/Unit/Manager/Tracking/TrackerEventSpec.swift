@@ -3454,7 +3454,7 @@ class TrackerEventSpec: QuickSpec {
                         product.price = .normal(20)
                         product.images = MockFile.makeMocks(count: 2)
                         product.descr = String.makeRandom()
-                        sut = TrackerEvent.listingEditComplete(nil, listing: .product(product), category: .homeAndGarden, editedFields: [.title, .category], pageType: .profile)
+                        sut = TrackerEvent.listingEditComplete(nil, listing: .product(product), category: .homeAndGarden, editedFields: [.title, .category, .serviceType, .serviceSubtype, .paymentFrequency], pageType: .profile)
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("product-edit-complete"))
@@ -3475,7 +3475,7 @@ class TrackerEventSpec: QuickSpec {
                     it ("containts product-id") {
                         expect(sut.params!.stringKeyParams["edited-fields"]).notTo(beNil())
                         let editedFields = sut.params!.stringKeyParams["edited-fields"] as? String
-                        expect(editedFields).to(equal("title,category"))
+                        expect(editedFields).to(equal("title,category,service-type,service-subtype,payment-frequency"))
                     }
                     it("contains property type") {
                         let data = sut.params!.stringKeyParams["property-type"] as? String
@@ -3627,7 +3627,8 @@ class TrackerEventSpec: QuickSpec {
                         let servicesAttributes = ServiceAttributes(typeId: "0123",
                                                                    subtypeId: "4567",
                                                                    typeTitle: String.makeRandom(),
-                                                                   subtypeTitle: String.makeRandom())
+                                                                   subtypeTitle: String.makeRandom(),
+                                                                   paymentFrequency: PaymentFrequency.biweekly)
                         services.servicesAttributes = servicesAttributes
                         sut = TrackerEvent.listingEditComplete(nil,
                                                                listing: .service(services),
@@ -3663,6 +3664,10 @@ class TrackerEventSpec: QuickSpec {
                     it("contains service-subtype") {
                         let data = sut.params!.stringKeyParams["service-subtype"] as? String
                         expect(data).to(equal("4567"))
+                    }
+                    it("contains payment-frequency") {
+                        let data = sut.params!.stringKeyParams["payment-frequency"] as? String
+                        expect(data).to(equal("biweekly"))
                     }
                 }
             }

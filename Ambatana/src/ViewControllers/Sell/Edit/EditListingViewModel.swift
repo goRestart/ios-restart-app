@@ -100,11 +100,11 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
 	
 	struct EditProductFeatureUI {
-		static let editProductFeaturelabelText: String = R.Strings.editProductFeatureLabelLongText
 		static let editProductFeatureTextColor: UIColor = UIColor.primaryColor
 		static let editProductFeatureFont: UIFont = UIFont.systemBoldFont(size: 15)
 		static let editProductFeatureBoostIcon: UIImage = R.Asset.Monetization.icLightning.image
 	}
+
 
     // real time cloudsight
     let proposedTitle = Variable<String>("")
@@ -166,7 +166,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
     private(set) var listingCanBeFeatured: Bool
     var featureLabelText: String? {
-        return listingCanBeBoosted ? BoostCellUI.boostLabelText : EditProductFeatureUI.editProductFeaturelabelText
+        return listingCanBeBoosted ? BoostCellUI.boostLabelText : featureFlags.bumpInEditCopys.variantString
     }
     var featureLabelTextColor: UIColor? {
         return listingCanBeBoosted ? BoostCellUI.boostLabelTextColor : EditProductFeatureUI.editProductFeatureTextColor
@@ -390,7 +390,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
                 self.serviceSubtypeName.value = services.servicesAttributes.subtypeTitle
                     ?? servicesInfoRepository.serviceSubtype(forServiceSubtypeId: serviceSubtypeId)?.name
             }
-            self.servicePaymentFrequency.value = services.servicesAttributes.paymentFrequency ?? .hourly
+            self.servicePaymentFrequency.value = services.servicesAttributes.paymentFrequency
         }
 
         self.shouldShareInFB = false
@@ -479,11 +479,12 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
     
     var servicesAttributes: ServiceAttributes {
+        let paymentFrequencyValue: PaymentFrequency? = !(isFreePosting.value) ? servicePaymentFrequency.value : nil
         return ServiceAttributes(typeId: serviceTypeId.value,
                                  subtypeId: serviceSubtypeId.value,
                                  typeTitle: serviceTypeName.value,
                                  subtypeTitle: serviceSubtypeName.value,
-                                 paymentFrequency: servicePaymentFrequency.value)
+                                 paymentFrequency: paymentFrequencyValue)
     }
 
     var descriptionCharCount: Int {
@@ -1032,8 +1033,12 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 // MARK:- Services
 extension EditListingViewModel {
     
+    var paymentFrequencyText: String {
+        return servicePaymentFrequency.value?.localizedDisplayName ?? R.Strings.editPaymentFrequencyPlaceholder
+    }
+    
     var shouldShowPaymentFrequency: Bool {
-        return featureFlags.servicesPaymentFrequency.isActive
+        return featureFlags.servicesPaymentFrequency.isActive && !(isFreePosting.value)
     }
     
     func serviceTypeButtonPressed() {
@@ -1349,6 +1354,9 @@ extension EditListingViewModel {
         }
         if let carEdited = initialListing.car?.carAttributes.editedFieldsTracker(newCarAttributes: listing.car?.carAttributes) {
             editedFields.append(contentsOf: carEdited)
+        }
+        if let servicesEdit = initialListing.service?.servicesAttributes.editedFieldsTracker(newServicesAttributes: listing.service?.servicesAttributes) {
+            editedFields.append(contentsOf: servicesEdit)
         }
         return editedFields
     }

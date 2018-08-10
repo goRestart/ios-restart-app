@@ -40,12 +40,12 @@ class ExpandableCategorySelectionViewModel: BaseViewModel {
     weak var delegate: ExpandableCategorySelectionDelegate?
     let categoriesAvailable: [ListingCategory]
     private(set) var newBadgeCategory: ListingCategory?
-
+    private let featureFlags: FeatureFlaggeable
     
     // MARK: - View lifecycle
     
     init(featureFlags: FeatureFlaggeable) {
-
+        self.featureFlags = featureFlags
         let servicesEnabled = featureFlags.servicesCategoryOnSalchichasMenu.isActive
         let realEstateEnabled = featureFlags.realEstateEnabled.isActive
 
@@ -69,6 +69,43 @@ class ExpandableCategorySelectionViewModel: BaseViewModel {
             self.newBadgeCategory = .realEstate
         }
         super.init()
+    }
+    
+    func buttonTitle(forCategory category: ListingCategory) -> String? {
+        
+        switch category {
+        case .unassigned:
+            return R.Strings.categoriesUnassignedItems
+        case .motorsAndAccessories, .cars, .homeAndGarden, .babyAndChild,
+             .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames:
+            return category.name
+        case .realEstate:
+            return featureFlags.realEstateNewCopy.isActive ? R.Strings.productPostSelectCategoryRealEstate : R.Strings.productPostSelectCategoryHousing
+        case .services:
+            if featureFlags.jobsAndServicesEnabled.isActive {
+                return R.Strings.postingFlowJobsAndServicesCategoryButtonText
+            }
+            return category.name
+        }
+    }
+    
+    func buttonIcon(forCategory category: ListingCategory) -> UIImage? {
+        
+        switch category {
+        case .unassigned:
+            return R.Asset.IconsButtons.items.image
+        case .cars:
+            return R.Asset.IconsButtons.carIcon.image
+        case .motorsAndAccessories:
+            return R.Asset.IconsButtons.motorsAndAccesories.image
+        case .realEstate:
+            return R.Asset.IconsButtons.housingIcon.image
+        case .services:
+            return R.Asset.IconsButtons.servicesIcon.image
+        case .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories,
+             .moviesBooksAndMusic, .other, .sportsLeisureAndGames:
+            return category.image
+        }
     }
     
     

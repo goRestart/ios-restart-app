@@ -49,7 +49,6 @@ extension Bumper  {
         flags.append(CopyForSellFasterNowInEnglish.self)
         flags.append(EmergencyLocate.self)
         flags.append(IAmInterestedFeed.self)
-        flags.append(ChatConversationsListWithoutTabs.self)
         flags.append(PersonalizedFeed.self)
         flags.append(ServicesCategoryOnSalchichasMenu.self)
         flags.append(GoogleAdxForTR.self)
@@ -72,16 +71,21 @@ extension Bumper  {
         flags.append(RealEstateMapTooltip.self)
         flags.append(AppInstallAdsInFeed.self)
         flags.append(EnableCTAMessageType.self)
+        flags.append(OpenChatFromUserProfile.self)
         flags.append(SearchAlertsInSearchSuggestions.self)
         flags.append(EngagementBadging.self)
         flags.append(ServicesUnifiedFilterScreen.self)
         flags.append(FrictionlessShare.self)
         flags.append(ShowCommunity.self)
         flags.append(ExpressChatImprovement.self)
+        flags.append(SmartQuickAnswers.self)
         flags.append(AlwaysShowBumpBannerWithLoading.self)
         flags.append(ServicesPaymentFrequency.self)
         flags.append(SearchAlertsDisableOldestIfMaximumReached.self)
         flags.append(ShowSellFasterInProfileCells.self)
+        flags.append(BumpInEditCopys.self)
+        flags.append(EnableJobsAndServicesCategory.self)
+        flags.append(CopyForSellFasterNowInTurkish.self)
         Bumper.initialize(flags)
     } 
 
@@ -514,19 +518,6 @@ extension Bumper  {
     }
     #endif
 
-    static var chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs {
-        guard let value = Bumper.value(for: ChatConversationsListWithoutTabs.key) else { return .control }
-        return ChatConversationsListWithoutTabs(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var chatConversationsListWithoutTabsObservable: Observable<ChatConversationsListWithoutTabs> {
-        return Bumper.observeValue(for: ChatConversationsListWithoutTabs.key).map {
-            ChatConversationsListWithoutTabs(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
     static var personalizedFeed: PersonalizedFeed {
         guard let value = Bumper.value(for: PersonalizedFeed.key) else { return .control }
         return PersonalizedFeed(rawValue: value) ?? .control 
@@ -813,6 +804,19 @@ extension Bumper  {
     }
     #endif
 
+    static var openChatFromUserProfile: OpenChatFromUserProfile {
+        guard let value = Bumper.value(for: OpenChatFromUserProfile.key) else { return .control }
+        return OpenChatFromUserProfile(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var openChatFromUserProfileObservable: Observable<OpenChatFromUserProfile> {
+        return Bumper.observeValue(for: OpenChatFromUserProfile.key).map {
+            OpenChatFromUserProfile(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
     static var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions {
         guard let value = Bumper.value(for: SearchAlertsInSearchSuggestions.key) else { return .control }
         return SearchAlertsInSearchSuggestions(rawValue: value) ?? .control 
@@ -891,6 +895,19 @@ extension Bumper  {
     }
     #endif
 
+    static var smartQuickAnswers: SmartQuickAnswers {
+        guard let value = Bumper.value(for: SmartQuickAnswers.key) else { return .control }
+        return SmartQuickAnswers(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var smartQuickAnswersObservable: Observable<SmartQuickAnswers> {
+        return Bumper.observeValue(for: SmartQuickAnswers.key).map {
+            SmartQuickAnswers(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
     static var alwaysShowBumpBannerWithLoading: AlwaysShowBumpBannerWithLoading {
         guard let value = Bumper.value(for: AlwaysShowBumpBannerWithLoading.key) else { return .control }
         return AlwaysShowBumpBannerWithLoading(rawValue: value) ?? .control 
@@ -939,6 +956,45 @@ extension Bumper  {
     static var showSellFasterInProfileCellsObservable: Observable<ShowSellFasterInProfileCells> {
         return Bumper.observeValue(for: ShowSellFasterInProfileCells.key).map {
             ShowSellFasterInProfileCells(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var bumpInEditCopys: BumpInEditCopys {
+        guard let value = Bumper.value(for: BumpInEditCopys.key) else { return .control }
+        return BumpInEditCopys(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var bumpInEditCopysObservable: Observable<BumpInEditCopys> {
+        return Bumper.observeValue(for: BumpInEditCopys.key).map {
+            BumpInEditCopys(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var enableJobsAndServicesCategory: EnableJobsAndServicesCategory {
+        guard let value = Bumper.value(for: EnableJobsAndServicesCategory.key) else { return .control }
+        return EnableJobsAndServicesCategory(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var enableJobsAndServicesCategoryObservable: Observable<EnableJobsAndServicesCategory> {
+        return Bumper.observeValue(for: EnableJobsAndServicesCategory.key).map {
+            EnableJobsAndServicesCategory(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var copyForSellFasterNowInTurkish: CopyForSellFasterNowInTurkish {
+        guard let value = Bumper.value(for: CopyForSellFasterNowInTurkish.key) else { return .control }
+        return CopyForSellFasterNowInTurkish(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var copyForSellFasterNowInTurkishObservable: Observable<CopyForSellFasterNowInTurkish> {
+        return Bumper.observeValue(for: CopyForSellFasterNowInTurkish.key).map {
+            CopyForSellFasterNowInTurkish(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1448,22 +1504,6 @@ enum IAmInterestedFeed: String, BumperFeature  {
     }
 }
 
-enum ChatConversationsListWithoutTabs: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return ChatConversationsListWithoutTabs.control.rawValue }
-    static var enumValues: [ChatConversationsListWithoutTabs] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "[CHAT] Chat conversation list without tabs" } 
-    static func fromPosition(_ position: Int) -> ChatConversationsListWithoutTabs {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
 enum PersonalizedFeed: String, BumperFeature  {
     case control, baseline, personalized
     static var defaultValue: String { return PersonalizedFeed.control.rawValue }
@@ -1813,6 +1853,23 @@ enum EnableCTAMessageType: String, BumperFeature  {
     var asBool: Bool { return self == .yes }
 }
 
+enum OpenChatFromUserProfile: String, BumperFeature  {
+    case control, baseline, vatiant1NoQuickAnswers, variant2WithOneTimeQuickAnswers
+    static var defaultValue: String { return OpenChatFromUserProfile.control.rawValue }
+    static var enumValues: [OpenChatFromUserProfile] { return [.control, .baseline, .vatiant1NoQuickAnswers, .variant2WithOneTimeQuickAnswers]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[CHAT] Open a chat from the user profile" } 
+    static func fromPosition(_ position: Int) -> OpenChatFromUserProfile {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .vatiant1NoQuickAnswers
+            case 3: return .variant2WithOneTimeQuickAnswers
+            default: return .control
+        }
+    }
+}
+
 enum SearchAlertsInSearchSuggestions: String, BumperFeature  {
     case control, baseline, active
     static var defaultValue: String { return SearchAlertsInSearchSuggestions.control.rawValue }
@@ -1911,6 +1968,22 @@ enum ExpressChatImprovement: String, BumperFeature  {
     }
 }
 
+enum SmartQuickAnswers: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return SmartQuickAnswers.control.rawValue }
+    static var enumValues: [SmartQuickAnswers] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show smart quick answer events" } 
+    static func fromPosition(_ position: Int) -> SmartQuickAnswers {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
 enum AlwaysShowBumpBannerWithLoading: String, BumperFeature  {
     case control, baseline, active
     static var defaultValue: String { return AlwaysShowBumpBannerWithLoading.control.rawValue }
@@ -1970,6 +2043,58 @@ enum ShowSellFasterInProfileCells: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum BumpInEditCopys: String, BumperFeature  {
+    case control, baseline, attractMoreBuyers, attractMoreBuyersToSellFast, showMeHowToAttract
+    static var defaultValue: String { return BumpInEditCopys.control.rawValue }
+    static var enumValues: [BumpInEditCopys] { return [.control, .baseline, .attractMoreBuyers, .attractMoreBuyersToSellFast, .showMeHowToAttract]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[MONEY] Test different variants for bump up in edit listing screen" } 
+    static func fromPosition(_ position: Int) -> BumpInEditCopys {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .attractMoreBuyers
+            case 3: return .attractMoreBuyersToSellFast
+            case 4: return .showMeHowToAttract
+            default: return .control
+        }
+    }
+}
+
+enum EnableJobsAndServicesCategory: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return EnableJobsAndServicesCategory.control.rawValue }
+    static var enumValues: [EnableJobsAndServicesCategory] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[SERVICES] Services category becomes Jobs & Services, enables features related to jobs" } 
+    static func fromPosition(_ position: Int) -> EnableJobsAndServicesCategory {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum CopyForSellFasterNowInTurkish: String, BumperFeature  {
+    case control, baseline, variantB, variantC, variantD
+    static var defaultValue: String { return CopyForSellFasterNowInTurkish.control.rawValue }
+    static var enumValues: [CopyForSellFasterNowInTurkish] { return [.control, .baseline, .variantB, .variantC, .variantD]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[MONEY] Try different copies for 'Sell faster now' banner in Turkish" } 
+    static func fromPosition(_ position: Int) -> CopyForSellFasterNowInTurkish {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .variantB
+            case 3: return .variantC
+            case 4: return .variantD
             default: return .control
         }
     }

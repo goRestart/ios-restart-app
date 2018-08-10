@@ -101,11 +101,15 @@ extension MainTabCoordinator: MainTabNavigator {
 
     func openFilters(withListingFilters listingFilters: ListingFilters,
                      filtersVMDataDelegate: FiltersViewModelDataDelegate?) {
-        let vm = FiltersViewModel(currentFilters: listingFilters)
-        vm.dataDelegate = filtersVMDataDelegate
-        let filtersCoordinator = FiltersCoordinator(viewModel: vm)
-        openChild(coordinator: filtersCoordinator, parent: navigationController,
-                  animated: true, forceCloseChild: true, completion: nil)
+        let vc = LGFiltersBuilder.modal.buildFilters(
+            filters: listingFilters,
+            dataDelegate: filtersVMDataDelegate
+        )
+        navigationController.present(
+            UINavigationController(rootViewController: vc),
+            animated: true,
+            completion: nil
+        )
     }
 
     func openLocationSelection(initialPlace: Place?,
