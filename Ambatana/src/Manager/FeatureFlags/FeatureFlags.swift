@@ -63,6 +63,7 @@ protocol FeatureFlaggeable: class {
     var alwaysShowBumpBannerWithLoading: AlwaysShowBumpBannerWithLoading { get }
     var showSellFasterInProfileCells: ShowSellFasterInProfileCells { get }
     var bumpInEditCopys: BumpInEditCopys { get }
+    var copyForSellFasterNowInTurkish: CopyForSellFasterNowInTurkish { get }
     
     // MARK: Chat
     var showInactiveConversations: Bool { get }
@@ -360,6 +361,25 @@ extension CopyForSellFasterNowInEnglish {
             return R.Strings.bumpUpBannerPayTextImprovementEnglishC
         case .variantD:
             return R.Strings.bumpUpBannerPayTextImprovementEnglishD
+        }
+    }
+}
+
+extension CopyForSellFasterNowInTurkish {
+    var isActive: Bool { return self != .control && self != .baseline }
+
+    var variantString: String {
+        switch self {
+        case .control:
+            return R.Strings.bumpUpBannerPayTextImprovement
+        case .baseline:
+            return R.Strings.bumpUpBannerPayTextImprovement
+        case .variantB:
+            return R.Strings.bumpUpBannerPayTextImprovementTurkishB
+        case .variantC:
+            return R.Strings.bumpUpBannerPayTextImprovementTurkishC
+        case .variantD:
+            return R.Strings.bumpUpBannerPayTextImprovementTurkishD
         }
     }
 }
@@ -964,7 +984,7 @@ final class FeatureFlags: FeatureFlaggeable {
             return false
         }
     }
-    
+
     var copyForSellFasterNowInEnglish: CopyForSellFasterNowInEnglish {
         if Bumper.enabled {
             return Bumper.copyForSellFasterNowInEnglish
@@ -1054,6 +1074,25 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.bumpInEditCopys
         }
         return BumpInEditCopys.fromPosition(abTests.bumpInEditCopys.value)
+    }
+
+    var shouldChangeSellFasterNowCopyInTurkish: Bool {
+        if Bumper.enabled {
+            return Bumper.copyForSellFasterNowInTurkish.isActive
+        }
+        switch (localeCountryCode) {
+        case .turkey?:
+            return true
+        default:
+            return false
+        }
+    }
+
+    var copyForSellFasterNowInTurkish: CopyForSellFasterNowInTurkish {
+        if Bumper.enabled {
+            return Bumper.copyForSellFasterNowInTurkish
+        }
+        return CopyForSellFasterNowInTurkish.fromPosition(abTests.copyForSellFasterNowInTurkish.value)
     }
 
     // MARK: - Private

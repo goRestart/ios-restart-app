@@ -45,6 +45,7 @@
 "bump_up_product_cell_chat_now_button_english_b" = "Chatear";
 "bump_up_product_cell_chat_now_button_english_c" = "Chatear";
 "bump_up_product_cell_chat_now_button_english_d" = "Chatear";
+"bump_up_product_cell_feature_it_label" = "Destácalo";
 "bump_up_product_cell_featured_stripe" = "Destacado";
 "bump_up_product_detail_featured_label" = "DESTACADO";
 "bump_up_view_boost_pay_button_title" = "Destácalo de nuevo por %@";
@@ -61,6 +62,8 @@
 "bump_up_view_pay_button_title" = "Activar por %@";
 "bump_up_view_pay_subtitle" = "Destacaremos tu anuncio durante 24 horas para que lo vean más compradores y lo vendas más rápido";
 "bump_up_view_pay_title" = "Atrae al doble de compradores";
+"cached_feed_error" = "Se ha producido un error al cargar nuevos anuncios";
+"cached_feed_new_listings" = "Nuevos anuncios";
 "categories_baby_and_child" = "Niños y Bebés";
 "categories_car" = "Coches";
 "categories_cars_and_motors" = "Otros Vehículos y Accesorios";
@@ -671,6 +674,12 @@
 "passwordless_username_input_done_button" = "Listo";
 "passwordless_username_input_textfield_placeholder" = "Nombre de usuario";
 "passwordless_username_input_title" = "Elige tu nombre de usuario";
+"payment_frequency_per_biweek" = "2 weeks";
+"payment_frequency_per_day" = "day";
+"payment_frequency_per_hour" = "hour";
+"payment_frequency_per_month" = "month";
+"payment_frequency_per_week" = "week";
+"payment_frequency_per_year" = "year";
 "phone_verification_code_input_view_content_subaction" = "¿No has recibido el código?";
 "phone_verification_code_input_view_content_subtext" = "Puedes pedir otro código si no lo recibes en %@";
 "phone_verification_code_input_view_content_subtitle" = "Enviado a %@";
@@ -712,6 +721,8 @@
 "post_details_jobs_services_step_option_jobs_prefix" = "Buscando contratar a alguien para un";
 "post_details_jobs_services_step_option_services_prefix" = "Anunciando un";
 "post_details_jobs_services_step_title" = "Estoy";
+"post_details_jobs_subtitle" = "Choose one";
+"post_details_jobs_title" = "What kind of job are you offering?";
 "post_details_listingType_job_display_name" = "empleo";
 "post_details_listingType_service_display_name" = "servicio";
 "post_details_services_add_new" = "Añadir otro servicio";
@@ -904,7 +915,7 @@
 "product_post_retry_button" = "Vuelve a intentarlo";
 "product_post_select_category_cars" = "Coches";
 "product_post_select_category_housing" = "Viviendas en Alquiler / Venta";
-"product_post_select_category_jobs_services" = "Jobs & Services";
+"product_post_select_category_jobs_services" = "Empleo & Servicios";
 "product_post_select_category_motors_and_accessories" = "Otros Vehículos y Accesorios";
 "product_post_select_category_other" = "Otros artículos";
 "product_post_select_category_real_estate" = "Inmobiliaria";

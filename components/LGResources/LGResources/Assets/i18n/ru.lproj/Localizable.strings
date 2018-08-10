@@ -45,6 +45,7 @@
 "bump_up_product_cell_chat_now_button_english_b" = "Пообщаться";
 "bump_up_product_cell_chat_now_button_english_c" = "Пообщаться";
 "bump_up_product_cell_chat_now_button_english_d" = "Пообщаться";
+"bump_up_product_cell_feature_it_label" = "Выделить его";
 "bump_up_product_cell_featured_stripe" = "Популярное";
 "bump_up_product_detail_featured_label" = "ПОПУЛЯРНОЕ";
 "bump_up_view_boost_pay_button_title" = "Выделите еще раз за %@";
@@ -61,6 +62,8 @@
 "bump_up_view_pay_button_title" = "Выделить за %@";
 "bump_up_view_pay_subtitle" = "Мы выделим ваше объявление на 24 часа, чтобы больше покупателей увидели его и продажа прошла быстрее";
 "bump_up_view_pay_title" = "Привлекайте в 2 раза больше покупателей";
+"cached_feed_error" = "При загрузке новых объявлений произошла ошибка";
+"cached_feed_new_listings" = "Новые товары";
 "categories_baby_and_child" = "Все для детей";
 "categories_car" = "Машины";
 "categories_cars_and_motors" = "Запчасти и Аксессуары";
@@ -671,6 +674,12 @@
 "passwordless_username_input_done_button" = "Готово";
 "passwordless_username_input_textfield_placeholder" = "Имя пользователя";
 "passwordless_username_input_title" = "Выберите логин";
+"payment_frequency_per_biweek" = "2 weeks";
+"payment_frequency_per_day" = "day";
+"payment_frequency_per_hour" = "hour";
+"payment_frequency_per_month" = "month";
+"payment_frequency_per_week" = "week";
+"payment_frequency_per_year" = "year";
 "phone_verification_code_input_view_content_subaction" = "Не получили код?";
 "phone_verification_code_input_view_content_subtext" = "Вы можете запросить другой код, если не получили его в течение %@";
 "phone_verification_code_input_view_content_subtitle" = "Мы отправили его на %@";
@@ -712,6 +721,8 @@
 "post_details_jobs_services_step_option_jobs_prefix" = "Хочу нанять кого-нибудь для";
 "post_details_jobs_services_step_option_services_prefix" = "Реклама";
 "post_details_jobs_services_step_title" = "Я...";
+"post_details_jobs_subtitle" = "Choose one";
+"post_details_jobs_title" = "What kind of job are you offering?";
 "post_details_listingType_job_display_name" = "работа";
 "post_details_listingType_service_display_name" = "услуга";
 "post_details_services_add_new" = "Добавить новую услугу";
@@ -904,7 +915,7 @@
 "product_post_retry_button" = "Попробовать еще";
 "product_post_select_category_cars" = "Машины";
 "product_post_select_category_housing" = "Жилье в аренду / на продажу";
-"product_post_select_category_jobs_services" = "Jobs & Services";
+"product_post_select_category_jobs_services" = "Работы и услуги";
 "product_post_select_category_motors_and_accessories" = "Транспорт и запчасти";
 "product_post_select_category_other" = "Другие товары";
 "product_post_select_category_real_estate" = "Недвижимость";

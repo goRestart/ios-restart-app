@@ -344,5 +344,10 @@
         "name": "EnableJobsAndServicesCategory",
         "values": ["control", "baseline", "active"],
         "description": "[SERVICES] Services category becomes Jobs & Services, enables features related to jobs"
+    },
+    {
+        "name": "CopyForSellFasterNowInTurkish",
+        "values": ["control", "baseline", "variantB", "variantC", "variantD"],
+        "description": "[MONEY] Try different copies for 'Sell faster now' banner in Turkish"
     }
  ]

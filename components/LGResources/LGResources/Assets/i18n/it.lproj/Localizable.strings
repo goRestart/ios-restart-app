@@ -45,6 +45,7 @@
 "bump_up_product_cell_chat_now_button_english_b" = "Chatta subito";
 "bump_up_product_cell_chat_now_button_english_c" = "Chatta subito";
 "bump_up_product_cell_chat_now_button_english_d" = "Chatta subito";
+"bump_up_product_cell_feature_it_label" = "Sponsorizzalo";
 "bump_up_product_cell_featured_stripe" = "In evidenza";
 "bump_up_product_detail_featured_label" = "IN EVIDENZA";
 "bump_up_view_boost_pay_button_title" = "Sponsorizzalo di nuovo per %@";
@@ -61,6 +62,8 @@
 "bump_up_view_pay_button_title" = "Sponsorizzalo per %@";
 "bump_up_view_pay_subtitle" = "Sponsorizzeremo il tuo annuncio per 24 ore, così sarà visto da più acquirenti e potrai vendere più rapidamente";
 "bump_up_view_pay_title" = "Attrai il doppio di acquirenti";
+"cached_feed_error" = "An error occurred while loading new listings";
+"cached_feed_new_listings" = "Nuovi articoli";
 "categories_baby_and_child" = "Bambino e Ragazzo";
 "categories_car" = "Auto";
 "categories_cars_and_motors" = "Auto e accessori";
@@ -671,6 +674,12 @@
 "passwordless_username_input_done_button" = "Fatto";
 "passwordless_username_input_textfield_placeholder" = "Nome Utente";
 "passwordless_username_input_title" = "Scegli il nome utente";
+"payment_frequency_per_biweek" = "2 weeks";
+"payment_frequency_per_day" = "day";
+"payment_frequency_per_hour" = "hour";
+"payment_frequency_per_month" = "month";
+"payment_frequency_per_week" = "week";
+"payment_frequency_per_year" = "year";
 "phone_verification_code_input_view_content_subaction" = "Non hai ricevuto il codice?";
 "phone_verification_code_input_view_content_subtext" = "Se non ricevi il codice, puoi richiederne un altro entro %@";
 "phone_verification_code_input_view_content_subtitle" = "Lo abbiamo inviato al %@";
@@ -712,6 +721,8 @@
 "post_details_jobs_services_step_option_jobs_prefix" = "Looking to hire someone for a";
 "post_details_jobs_services_step_option_services_prefix" = "Advertising a";
 "post_details_jobs_services_step_title" = "I'm...";
+"post_details_jobs_subtitle" = "Choose one";
+"post_details_jobs_title" = "What kind of job are you offering?";
 "post_details_listingType_job_display_name" = "job";
 "post_details_listingType_service_display_name" = "service";
 "post_details_services_add_new" = "Aggiungi un nuovo servizio";

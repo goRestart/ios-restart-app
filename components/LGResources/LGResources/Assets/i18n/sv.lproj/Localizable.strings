@@ -45,6 +45,7 @@
 "bump_up_product_cell_chat_now_button_english_b" = "Chatta nu";
 "bump_up_product_cell_chat_now_button_english_c" = "Chatta nu";
 "bump_up_product_cell_chat_now_button_english_d" = "Chatta nu";
+"bump_up_product_cell_feature_it_label" = "Topplista den";
 "bump_up_product_cell_featured_stripe" = "Topplistad";
 "bump_up_product_detail_featured_label" = "TOPPLISTAD";
 "bump_up_view_boost_pay_button_title" = "Topplista den igen för %@";
@@ -61,6 +62,8 @@
 "bump_up_view_pay_button_title" = "Topplista för %@";
 "bump_up_view_pay_subtitle" = "Din annons kommer att vara topplistad i 24 timmar vilket innebär att fler köpare kommer att se den och att dina chanser att sälja ökar";
 "bump_up_view_pay_title" = "Nå ut till dubbelt så många köpare";
+"cached_feed_error" = "Ett fel inträffade när de nya annonserna skulle läggas upp.";
+"cached_feed_new_listings" = "Nya varor";
 "categories_baby_and_child" = "Bebis och barn";
 "categories_car" = "Bilar";
 "categories_cars_and_motors" = "Motorer och tillbehör";
@@ -671,6 +674,12 @@
 "passwordless_username_input_done_button" = "Klar";
 "passwordless_username_input_textfield_placeholder" = "Användarnamn";
 "passwordless_username_input_title" = "Välj ditt användarnamn";
+"payment_frequency_per_biweek" = "2 weeks";
+"payment_frequency_per_day" = "day";
+"payment_frequency_per_hour" = "hour";
+"payment_frequency_per_month" = "month";
+"payment_frequency_per_week" = "week";
+"payment_frequency_per_year" = "year";
 "phone_verification_code_input_view_content_subaction" = "Har du inte fått koden?";
 "phone_verification_code_input_view_content_subtext" = "Du kan begära en ny kod om du inte har fått den inom %@";
 "phone_verification_code_input_view_content_subtitle" = "Vi har skickat den till %@";
@@ -712,6 +721,8 @@
 "post_details_jobs_services_step_option_jobs_prefix" = "Behöver anlita någon för";
 "post_details_jobs_services_step_option_services_prefix" = "Annonserar...";
 "post_details_jobs_services_step_title" = "Jag är...";
+"post_details_jobs_subtitle" = "Choose one";
+"post_details_jobs_title" = "What kind of job are you offering?";
 "post_details_listingType_job_display_name" = "ett jobb";
 "post_details_listingType_service_display_name" = "en tjänst";
 "post_details_services_add_new" = "Lägg till en ny tjänst";

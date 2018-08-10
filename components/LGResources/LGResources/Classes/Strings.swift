@@ -58,6 +58,12 @@ extension R {
     public static let bumpUpBannerPayTextImprovementEnglishC = Strings.tr("Localizable", "bump_up_banner_pay_text_improvement_english_c")
     /// Attract 2x more buyers
     public static let bumpUpBannerPayTextImprovementEnglishD = Strings.tr("Localizable", "bump_up_banner_pay_text_improvement_english_d")
+    /// Attract more buyers
+    public static let bumpUpBannerPayTextImprovementTurkishB = Strings.tr("Localizable", "bump_up_banner_pay_text_improvement_turkish_b")
+    /// Attract more buyers
+    public static let bumpUpBannerPayTextImprovementTurkishC = Strings.tr("Localizable", "bump_up_banner_pay_text_improvement_turkish_c")
+    /// Attract more buyers
+    public static let bumpUpBannerPayTextImprovementTurkishD = Strings.tr("Localizable", "bump_up_banner_pay_text_improvement_turkish_d")
     /// to feature again
     public static let bumpUpBannerWaitText = Strings.tr("Localizable", "bump_up_banner_wait_text")
     /// Your listing was boosted! It will be featured for the next 24 hours.
@@ -106,6 +112,8 @@ extension R {
     public static let bumpUpProductCellChatNowButtonEnglishC = Strings.tr("Localizable", "bump_up_product_cell_chat_now_button_english_c")
     /// Start chat
     public static let bumpUpProductCellChatNowButtonEnglishD = Strings.tr("Localizable", "bump_up_product_cell_chat_now_button_english_d")
+    /// Feature it
+    public static let bumpUpProductCellFeatureItLabel = Strings.tr("Localizable", "bump_up_product_cell_feature_it_label")
     /// Featured
     public static let bumpUpProductCellFeaturedStripe = Strings.tr("Localizable", "bump_up_product_cell_featured_stripe")
     /// FEATURED
@@ -144,6 +152,10 @@ extension R {
     public static let bumpUpViewPaySubtitle = Strings.tr("Localizable", "bump_up_view_pay_subtitle")
     /// Attract 2x more buyers
     public static let bumpUpViewPayTitle = Strings.tr("Localizable", "bump_up_view_pay_title")
+    /// An error occurred while loading new listings
+    public static let cachedFeedError = Strings.tr("Localizable", "cached_feed_error")
+    /// New items
+    public static let cachedFeedNewListings = Strings.tr("Localizable", "cached_feed_new_listings")
     /// Baby and Child
     public static let categoriesBabyAndChild = Strings.tr("Localizable", "categories_baby_and_child")
     /// Cars
@@ -1254,6 +1266,10 @@ extension R {
     public static let mlOnboardingNewText = Strings.tr("Localizable", "ml_onboarding_new_text")
     /// OK
     public static let mlOnboardingOkText = Strings.tr("Localizable", "ml_onboarding_ok_text")
+    /// 1 month ago
+    public static let notificationSectionOneMonthAgo = Strings.tr("Localizable", "notification_section_one_month_ago")
+    /// 1 week ago
+    public static let notificationSectionOneWeekAgo = Strings.tr("Localizable", "notification_section_one_week_ago")
     /// %id
     public static func notificationsCellDateDaysAgo(_ p1: Int) -> String {
       return Strings.tr("Localizable", "notifications_cell_date_days_ago", p1)
@@ -1318,6 +1334,8 @@ extension R {
     public static func notificationsSectionMonthsAgo(_ p1: Int) -> String {
       return Strings.tr("Localizable", "notifications_section_months_ago", p1)
     }
+    /// 1 day ago
+    public static let notificationsSectionOneDayAgo = Strings.tr("Localizable", "notifications_section_one_day_ago")
     /// Today
     public static let notificationsSectionToday = Strings.tr("Localizable", "notifications_section_today")
     /// %i weeks ago
@@ -1596,6 +1614,10 @@ extension R {
     public static let postDetailsJobsServicesStepOptionServicesPrefix = Strings.tr("Localizable", "post_details_jobs_services_step_option_services_prefix")
     /// I'm...
     public static let postDetailsJobsServicesStepTitle = Strings.tr("Localizable", "post_details_jobs_services_step_title")
+    /// Choose one
+    public static let postDetailsJobsSubtitle = Strings.tr("Localizable", "post_details_jobs_subtitle")
+    /// What kind of job are you offering?
+    public static let postDetailsJobsTitle = Strings.tr("Localizable", "post_details_jobs_title")
     /// job
     public static let postDetailsListingTypeJobDisplayName = Strings.tr("Localizable", "post_details_listingType_job_display_name")
     /// service

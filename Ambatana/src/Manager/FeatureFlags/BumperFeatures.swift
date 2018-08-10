@@ -85,6 +85,7 @@ extension Bumper  {
         flags.append(ShowSellFasterInProfileCells.self)
         flags.append(BumpInEditCopys.self)
         flags.append(EnableJobsAndServicesCategory.self)
+        flags.append(CopyForSellFasterNowInTurkish.self)
         Bumper.initialize(flags)
     } 
 
@@ -981,6 +982,19 @@ extension Bumper  {
     static var enableJobsAndServicesCategoryObservable: Observable<EnableJobsAndServicesCategory> {
         return Bumper.observeValue(for: EnableJobsAndServicesCategory.key).map {
             EnableJobsAndServicesCategory(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var copyForSellFasterNowInTurkish: CopyForSellFasterNowInTurkish {
+        guard let value = Bumper.value(for: CopyForSellFasterNowInTurkish.key) else { return .control }
+        return CopyForSellFasterNowInTurkish(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var copyForSellFasterNowInTurkishObservable: Observable<CopyForSellFasterNowInTurkish> {
+        return Bumper.observeValue(for: CopyForSellFasterNowInTurkish.key).map {
+            CopyForSellFasterNowInTurkish(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -2063,6 +2077,24 @@ enum EnableJobsAndServicesCategory: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum CopyForSellFasterNowInTurkish: String, BumperFeature  {
+    case control, baseline, variantB, variantC, variantD
+    static var defaultValue: String { return CopyForSellFasterNowInTurkish.control.rawValue }
+    static var enumValues: [CopyForSellFasterNowInTurkish] { return [.control, .baseline, .variantB, .variantC, .variantD]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[MONEY] Try different copies for 'Sell faster now' banner in Turkish" } 
+    static func fromPosition(_ position: Int) -> CopyForSellFasterNowInTurkish {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .variantB
+            case 3: return .variantC
+            case 4: return .variantD
             default: return .control
         }
     }

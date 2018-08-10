@@ -45,6 +45,7 @@
 "bump_up_product_cell_chat_now_button_english_b" = "지금 대화하기";
 "bump_up_product_cell_chat_now_button_english_c" = "지금 대화하기";
 "bump_up_product_cell_chat_now_button_english_d" = "지금 대화하기";
+"bump_up_product_cell_feature_it_label" = "상품 강조하기";
 "bump_up_product_cell_featured_stripe" = "주요";
 "bump_up_product_detail_featured_label" = "주요";
 "bump_up_view_boost_pay_button_title" = "%@에 상품을 다시 강조해보세요";
@@ -61,6 +62,8 @@
 "bump_up_view_pay_button_title" = "%@ 상품 강조하기";
 "bump_up_view_pay_subtitle" = "더 많은 사용자가 상품 목록을 확인하고 판매를 빠르게 진행할 수 있도록 사용자 분의 상품 목록은 24시간 동안 강조됩니다.";
 "bump_up_view_pay_title" = "2배 더 많은 구매자들의 관심을 끌어보세요";
+"cached_feed_error" = "An error occurred while loading new listings";
+"cached_feed_new_listings" = "새 상품";
 "categories_baby_and_child" = "유아동";
 "categories_car" = "자동차";
 "categories_cars_and_motors" = "다른 운송 수단들과 부품들";
@@ -671,6 +674,12 @@
 "passwordless_username_input_done_button" = "완료";
 "passwordless_username_input_textfield_placeholder" = "사용자";
 "passwordless_username_input_title" = "사용자 이름을 선택하세요";
+"payment_frequency_per_biweek" = "2 weeks";
+"payment_frequency_per_day" = "day";
+"payment_frequency_per_hour" = "hour";
+"payment_frequency_per_month" = "month";
+"payment_frequency_per_week" = "week";
+"payment_frequency_per_year" = "year";
 "phone_verification_code_input_view_content_subaction" = "코드를 받지 못하셨나요?";
 "phone_verification_code_input_view_content_subtext" = "%@ 이내에 메시지를 받지 못하셨다면, 다른 코드를 요청하실 수 있습니다";
 "phone_verification_code_input_view_content_subtitle" = "%@로 발송해드렸습니다";
@@ -712,6 +721,8 @@
 "post_details_jobs_services_step_option_jobs_prefix" = "Looking to hire someone for a";
 "post_details_jobs_services_step_option_services_prefix" = "Advertising a";
 "post_details_jobs_services_step_title" = "I'm...";
+"post_details_jobs_subtitle" = "Choose one";
+"post_details_jobs_title" = "What kind of job are you offering?";
 "post_details_listingType_job_display_name" = "job";
 "post_details_listingType_service_display_name" = "service";
 "post_details_services_add_new" = "새러운 서비스 추가하기";
@@ -904,7 +915,7 @@
 "product_post_retry_button" = "다시 시도하기";
 "product_post_select_category_cars" = "자동차";
 "product_post_select_category_housing" = "매매/임대용 부동산";
-"product_post_select_category_jobs_services" = "Jobs & Services";
+"product_post_select_category_jobs_services" = "구직 & 서비스";
 "product_post_select_category_motors_and_accessories" = "다른 운송 수단들과 부품들";
 "product_post_select_category_other" = "기타 제품";
 "product_post_select_category_real_estate" = "부동산";
