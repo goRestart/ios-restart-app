@@ -339,6 +339,11 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         refreshUIWithState(state)
     }
 
+    func vmDidFinishLoadingCache(_ vm: ListingListViewModel) {
+        guard viewModel === vm else { return }
+        reloadData()
+    }
+
     func vmDidFinishLoading(_ vm: ListingListViewModel, page: UInt, indexes: [Int]) {
         guard viewModel === vm else { return }
         if page == 0 {

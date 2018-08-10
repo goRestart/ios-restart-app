@@ -22,9 +22,9 @@
 "bump_up_banner_pay_text_improvement_english_b" = "Πουλήστε τώρα γρηγορότερα";
 "bump_up_banner_pay_text_improvement_english_c" = "Πουλήστε τώρα γρηγορότερα";
 "bump_up_banner_pay_text_improvement_english_d" = "Πουλήστε τώρα γρηγορότερα";
-"bump_up_banner_pay_text_improvement_turkish_b" = "Attract more buyers";
-"bump_up_banner_pay_text_improvement_turkish_c" = "Attract more buyers";
-"bump_up_banner_pay_text_improvement_turkish_d" = "Attract more buyers";
+"bump_up_banner_pay_text_improvement_turkish_b" = "Πουλήστε τώρα γρηγορότερα";
+"bump_up_banner_pay_text_improvement_turkish_c" = "Πουλήστε τώρα γρηγορότερα";
+"bump_up_banner_pay_text_improvement_turkish_d" = "Πουλήστε τώρα γρηγορότερα";
 "bump_up_banner_wait_text" = "για να προωθήσετε ξανά";
 "bump_up_boost_success_alert_text" = "Η καταχώρησή σας προωθήθηκε! Θα προωθείται για τις επόμενες 24 ώρες.";
 "bump_up_error_bump_generic" = "Παρουσιάστηκε σφάλμα κατά την προώθηση της καταχώρησής σας. Παρακαλώ δοκιμάστε ξανά.";
@@ -503,6 +503,8 @@
 "id_verification_third_step_subtitle" = "Βεβαιωθείτε πως η ταυτότητά σας φαίνεται ξεκάθαρα και είναι καλά εστιασμένη στην οθόνη";
 "id_verification_third_step_title" = "Τραβήξτε μια φωτογραφία της μπροστινής όψης της ταυτότητάς σας";
 "id_verification_update_avatar_message" = "Θέλετε να την κάνετε εικόνα προφίλ;";
+"jobs_services_offering_text" = "Offering";
+"jobs_services_wanted_text" = "Wanted";
 "kilometer_unit_suffix" = "χλμ";
 "listing_chat_button" = "Συνομιλήστε Τώρα";
 "listing_interested_button_A" = "Ενδιαφέρομαι";
@@ -682,7 +684,7 @@
 "payment_frequency_per_hour" = "hour";
 "payment_frequency_per_month" = "month";
 "payment_frequency_per_week" = "week";
-"payment_frequency_per_year" = "year";
+"payment_frequency_per_year" = "Χρονολογία";
 "phone_verification_code_input_view_content_subaction" = "Δε λάβατε τον κωδικό;";
 "phone_verification_code_input_view_content_subtext" = "Μπορείτε να αιτηθείτε έναν άλλο κωδικό αν δεν το λάβατε μέσα σε %@";
 "phone_verification_code_input_view_content_subtitle" = "Το στείλαμε στο %@";

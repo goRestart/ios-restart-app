@@ -22,9 +22,9 @@
 "bump_up_banner_pay_text_improvement_english_b" = "Jetzt schneller verkaufen";
 "bump_up_banner_pay_text_improvement_english_c" = "Jetzt schneller verkaufen";
 "bump_up_banner_pay_text_improvement_english_d" = "Jetzt schneller verkaufen";
-"bump_up_banner_pay_text_improvement_turkish_b" = "Attract more buyers";
-"bump_up_banner_pay_text_improvement_turkish_c" = "Attract more buyers";
-"bump_up_banner_pay_text_improvement_turkish_d" = "Attract more buyers";
+"bump_up_banner_pay_text_improvement_turkish_b" = "Locke mehr Käufer an";
+"bump_up_banner_pay_text_improvement_turkish_c" = "Locke mehr Käufer an";
+"bump_up_banner_pay_text_improvement_turkish_d" = "Locke mehr Käufer an";
 "bump_up_banner_wait_text" = "um es wieder zu empfehlen";
 "bump_up_boost_success_alert_text" = "Dein Angebot wurde angekurbelt! Es wird nun für die nächsten 24 Stunden empfohlen.";
 "bump_up_error_bump_generic" = "Wir konnten dein Angebot nicht empfehlen. Bitte versuche es erneut.";
@@ -503,6 +503,8 @@
 "id_verification_third_step_subtitle" = "Stelle sicher, dass dein Ausweis gut lesbar und innerhalb des Rechtecks des Suchers ist";
 "id_verification_third_step_title" = "Nimm ein Bild von der Vorderseite deines Ausweises auf";
 "id_verification_update_avatar_message" = "Möchtest du es als Profilbild nutzen?";
+"jobs_services_offering_text" = "Offering";
+"jobs_services_wanted_text" = "Wanted";
 "kilometer_unit_suffix" = "km";
 "listing_chat_button" = "Jetzt ansprechen";
 "listing_interested_button_A" = "Ich bin interessiert";
@@ -682,7 +684,7 @@
 "payment_frequency_per_hour" = "hour";
 "payment_frequency_per_month" = "month";
 "payment_frequency_per_week" = "week";
-"payment_frequency_per_year" = "year";
+"payment_frequency_per_year" = "Baujahr";
 "phone_verification_code_input_view_content_subaction" = "Code nicht bekommen?";
 "phone_verification_code_input_view_content_subtext" = "Du kannst dir einen weiteren Code zuschicken lassen, falls du ihn nicht innerhalb von %@ erhältst";
 "phone_verification_code_input_view_content_subtitle" = "Wir haben ihn an %@ geschickt";

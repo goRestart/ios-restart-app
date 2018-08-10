@@ -22,9 +22,9 @@
 "bump_up_banner_pay_text_improvement_english_b" = "지금 빨리 판매하기";
 "bump_up_banner_pay_text_improvement_english_c" = "지금 빨리 판매하기";
 "bump_up_banner_pay_text_improvement_english_d" = "지금 빨리 판매하기";
-"bump_up_banner_pay_text_improvement_turkish_b" = "Attract more buyers";
-"bump_up_banner_pay_text_improvement_turkish_c" = "Attract more buyers";
-"bump_up_banner_pay_text_improvement_turkish_d" = "Attract more buyers";
+"bump_up_banner_pay_text_improvement_turkish_b" = "지금 빨리 판매하기";
+"bump_up_banner_pay_text_improvement_turkish_c" = "지금 빨리 판매하기";
+"bump_up_banner_pay_text_improvement_turkish_d" = "지금 빨리 판매하기";
 "bump_up_banner_wait_text" = "다시 강조하기";
 "bump_up_boost_success_alert_text" = "상품이 강조되었습니다! 상품은 24시간 동안 강조되어 집니다.";
 "bump_up_error_bump_generic" = "상품 목록을 강조하는 동안 오류가 발생했습니다. 다시 시도해주세요.";
@@ -503,6 +503,8 @@
 "id_verification_third_step_subtitle" = "신분증이 명확하며 뷰파인더 내부의 상자에 있는지 확인해주세요";
 "id_verification_third_step_title" = "신분증의 정면 사진을 촬영하세요";
 "id_verification_update_avatar_message" = "다음 사진을 프로필 사진으로 정하시겠습니까?";
+"jobs_services_offering_text" = "Offering";
+"jobs_services_wanted_text" = "Wanted";
 "kilometer_unit_suffix" = "km";
 "listing_chat_button" = "지금 채팅하기";
 "listing_interested_button_A" = "관심있습니다";
@@ -682,7 +684,7 @@
 "payment_frequency_per_hour" = "hour";
 "payment_frequency_per_month" = "month";
 "payment_frequency_per_week" = "week";
-"payment_frequency_per_year" = "year";
+"payment_frequency_per_year" = "연식";
 "phone_verification_code_input_view_content_subaction" = "코드를 받지 못하셨나요?";
 "phone_verification_code_input_view_content_subtext" = "%@ 이내에 메시지를 받지 못하셨다면, 다른 코드를 요청하실 수 있습니다";
 "phone_verification_code_input_view_content_subtitle" = "%@로 발송해드렸습니다";

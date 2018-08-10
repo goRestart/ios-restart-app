@@ -560,6 +560,10 @@ extension UserProfileViewModel {
 // MARK: - ListingList Data Delegate
 
 extension UserProfileViewModel: ListingListViewModelDataDelegate {
+    func listingListVMDidSucceedRetrievingCache(viewModel: ListingListViewModel) {
+        // 🤷‍♂️
+    }
+
     func listingListMV(_ viewModel: ListingListViewModel,
                        didFailRetrievingListingsPage page: UInt,
                        hasListings: Bool,

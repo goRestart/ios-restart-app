@@ -22,9 +22,9 @@
 "bump_up_banner_pay_text_improvement_english_b" = "Vendi più rapidamente";
 "bump_up_banner_pay_text_improvement_english_c" = "Vendi più rapidamente";
 "bump_up_banner_pay_text_improvement_english_d" = "Vendi più rapidamente";
-"bump_up_banner_pay_text_improvement_turkish_b" = "Attract more buyers";
-"bump_up_banner_pay_text_improvement_turkish_c" = "Attract more buyers";
-"bump_up_banner_pay_text_improvement_turkish_d" = "Attract more buyers";
+"bump_up_banner_pay_text_improvement_turkish_b" = "Attira più compratori";
+"bump_up_banner_pay_text_improvement_turkish_c" = "Attira più compratori";
+"bump_up_banner_pay_text_improvement_turkish_d" = "Attira più compratori";
 "bump_up_banner_wait_text" = "per promuovere di nuovo";
 "bump_up_boost_success_alert_text" = "Il tuo annuncio è stato promosso! Resterà sponsorizzato per le prossime 24 ore.";
 "bump_up_error_bump_generic" = "Si è verificato un errore durante il tentativo di sponsorizzare l'annuncio. Riprova.";
@@ -503,6 +503,8 @@
 "id_verification_third_step_subtitle" = "Assicurati che il documento sia visibile e all'interno del riquadro";
 "id_verification_third_step_title" = "Fai una foto della parte frontale del documento";
 "id_verification_update_avatar_message" = "Desideri impostarla come immagine del profilo?";
+"jobs_services_offering_text" = "Offering";
+"jobs_services_wanted_text" = "Wanted";
 "kilometer_unit_suffix" = "km";
 "listing_chat_button" = "Chatta subito";
 "listing_interested_button_A" = "Sono interessato!";
@@ -682,7 +684,7 @@
 "payment_frequency_per_hour" = "hour";
 "payment_frequency_per_month" = "month";
 "payment_frequency_per_week" = "week";
-"payment_frequency_per_year" = "year";
+"payment_frequency_per_year" = "Anno";
 "phone_verification_code_input_view_content_subaction" = "Non hai ricevuto il codice?";
 "phone_verification_code_input_view_content_subtext" = "Se non ricevi il codice, puoi richiederne un altro entro %@";
 "phone_verification_code_input_view_content_subtitle" = "Lo abbiamo inviato al %@";

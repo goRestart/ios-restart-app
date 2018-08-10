@@ -6,7 +6,7 @@
 //  Copyright © 2016 Ambatana Inc. All rights reserved.
 //
 
-public enum UserStatus: String, Decodable {
+public enum UserStatus: String, Codable {
     case active = "active"
     case inactive = "inactive"
     case pendingDelete = "to_be_deleted"

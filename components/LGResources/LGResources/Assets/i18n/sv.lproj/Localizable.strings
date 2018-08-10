@@ -22,9 +22,9 @@
 "bump_up_banner_pay_text_improvement_english_b" = "Sälj snabbare nu";
 "bump_up_banner_pay_text_improvement_english_c" = "Sälj snabbare nu";
 "bump_up_banner_pay_text_improvement_english_d" = "Sälj snabbare nu";
-"bump_up_banner_pay_text_improvement_turkish_b" = "Attract more buyers";
-"bump_up_banner_pay_text_improvement_turkish_c" = "Attract more buyers";
-"bump_up_banner_pay_text_improvement_turkish_d" = "Attract more buyers";
+"bump_up_banner_pay_text_improvement_turkish_b" = "Sälj snabbare nu";
+"bump_up_banner_pay_text_improvement_turkish_c" = "Sälj snabbare nu";
+"bump_up_banner_pay_text_improvement_turkish_d" = "Sälj snabbare nu";
 "bump_up_banner_wait_text" = "till nästa topplistning";
 "bump_up_boost_success_alert_text" = "Du har boostat din annons! Den kommer att vara topplistad i 24 timmar.";
 "bump_up_error_bump_generic" = "Ett fel uppstod när din annons skulle topplistas. Vänligen försök igen.";
@@ -503,6 +503,8 @@
 "id_verification_third_step_subtitle" = "Försäkra dig att bilden är skarp och att du får med hela dokumentet";
 "id_verification_third_step_title" = "Ta en bild av framsidan av dokumentet";
 "id_verification_update_avatar_message" = "Vill du använda denna bild som profilbild?";
+"jobs_services_offering_text" = "Offering";
+"jobs_services_wanted_text" = "Wanted";
 "kilometer_unit_suffix" = "km";
 "listing_chat_button" = "Chatta nu";
 "listing_interested_button_A" = "Jag är intresserad!";
@@ -682,7 +684,7 @@
 "payment_frequency_per_hour" = "hour";
 "payment_frequency_per_month" = "month";
 "payment_frequency_per_week" = "week";
-"payment_frequency_per_year" = "year";
+"payment_frequency_per_year" = "År";
 "phone_verification_code_input_view_content_subaction" = "Har du inte fått koden?";
 "phone_verification_code_input_view_content_subtext" = "Du kan begära en ny kod om du inte har fått den inom %@";
 "phone_verification_code_input_view_content_subtitle" = "Vi har skickat den till %@";

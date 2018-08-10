@@ -22,9 +22,9 @@
 "bump_up_banner_pay_text_improvement_english_b" = "Bán nhanh hơn";
 "bump_up_banner_pay_text_improvement_english_c" = "Bán nhanh hơn";
 "bump_up_banner_pay_text_improvement_english_d" = "Bán nhanh hơn";
-"bump_up_banner_pay_text_improvement_turkish_b" = "Attract more buyers";
-"bump_up_banner_pay_text_improvement_turkish_c" = "Attract more buyers";
-"bump_up_banner_pay_text_improvement_turkish_d" = "Attract more buyers";
+"bump_up_banner_pay_text_improvement_turkish_b" = "Dễ nhìn hơn";
+"bump_up_banner_pay_text_improvement_turkish_c" = "Dễ nhìn hơn";
+"bump_up_banner_pay_text_improvement_turkish_d" = "Dễ nhìn hơn";
 "bump_up_banner_wait_text" = "để làm nổi bật lại";
 "bump_up_boost_success_alert_text" = "Bài đăng của bạn đã được đẩy lên! Bài đăng sẽ được làm nổi bật trong 24 giờ tới.";
 "bump_up_error_bump_generic" = "Có lỗi trong khi làm nổi bật bài đăng của bạn. Xin vui lòng thử lại.";
@@ -503,6 +503,8 @@
 "id_verification_third_step_subtitle" = "Cần đảm bảo rằng giấy tờ tùy thân của bạn rõ ràng và trong tầm kính ngắm";
 "id_verification_third_step_title" = "Chụp ảnh mặt trước giấy tờ tùy thân của bạn";
 "id_verification_update_avatar_message" = "Bạn có muốn lấy ảnh này làm ảnh hồ sơ không?";
+"jobs_services_offering_text" = "Offering";
+"jobs_services_wanted_text" = "Wanted";
 "kilometer_unit_suffix" = "km";
 "listing_chat_button" = "Trò chuyện Bây giờ";
 "listing_interested_button_A" = "Tôi quan tâm";
@@ -682,7 +684,7 @@
 "payment_frequency_per_hour" = "hour";
 "payment_frequency_per_month" = "month";
 "payment_frequency_per_week" = "week";
-"payment_frequency_per_year" = "year";
+"payment_frequency_per_year" = "Năm";
 "phone_verification_code_input_view_content_subaction" = "Không nhận được mã?";
 "phone_verification_code_input_view_content_subtext" = "Bạn có thể yêu cầu một mã khác nếu bạn không nhận được mã trong %@";
 "phone_verification_code_input_view_content_subtitle" = "Chúng tôi vừa gửi tới %@";

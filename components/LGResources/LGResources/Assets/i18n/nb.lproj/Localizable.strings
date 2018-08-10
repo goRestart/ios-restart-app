@@ -22,9 +22,9 @@
 "bump_up_banner_pay_text_improvement_english_b" = "Selg raskere nå";
 "bump_up_banner_pay_text_improvement_english_c" = "Selg raskere nå";
 "bump_up_banner_pay_text_improvement_english_d" = "Selg raskere nå";
-"bump_up_banner_pay_text_improvement_turkish_b" = "Attract more buyers";
-"bump_up_banner_pay_text_improvement_turkish_c" = "Attract more buyers";
-"bump_up_banner_pay_text_improvement_turkish_d" = "Attract more buyers";
+"bump_up_banner_pay_text_improvement_turkish_b" = "Selg raskere nå";
+"bump_up_banner_pay_text_improvement_turkish_c" = "Selg raskere nå";
+"bump_up_banner_pay_text_improvement_turkish_d" = "Selg raskere nå";
 "bump_up_banner_wait_text" = "for å promotere på nytt";
 "bump_up_boost_success_alert_text" = "Din annonse ble fremhevet! Den promoteres i de neste 24 timene.";
 "bump_up_error_bump_generic" = "En feil oppstod ved promotering av din annonse. Vennligst prøv igjen.";
@@ -503,6 +503,8 @@
 "id_verification_third_step_subtitle" = "Sørg for at din ID er tydelig og at hele vises i bildevinduet";
 "id_verification_third_step_title" = "Ta et bilde av forsiden av din ID";
 "id_verification_update_avatar_message" = "Ønsker du å velge dette som ditt profilbilde?";
+"jobs_services_offering_text" = "Offering";
+"jobs_services_wanted_text" = "Wanted";
 "kilometer_unit_suffix" = "km";
 "listing_chat_button" = "Chat nå";
 "listing_interested_button_A" = "Jeg er interessert";
@@ -682,7 +684,7 @@
 "payment_frequency_per_hour" = "hour";
 "payment_frequency_per_month" = "month";
 "payment_frequency_per_week" = "week";
-"payment_frequency_per_year" = "year";
+"payment_frequency_per_year" = "År";
 "phone_verification_code_input_view_content_subaction" = "Fikk du ikke koden?";
 "phone_verification_code_input_view_content_subtext" = "Du kan be om en ny kode hvis du ikke mottar den innen %@";
 "phone_verification_code_input_view_content_subtitle" = "Vi har sendt den til %@";

@@ -503,6 +503,8 @@
 "id_verification_third_step_subtitle" = "Make sure your ID is clear and inside the box in the viewfinder";
 "id_verification_third_step_title" = "Take a picture of the front of your ID";
 "id_verification_update_avatar_message" = "Do you want to make this your profile picture?";
+"jobs_services_offering_text" = "Offering";
+"jobs_services_wanted_text" = "Wanted";
 "kilometer_unit_suffix" = "km";
 "listing_chat_button" = "Chat Now";
 "listing_interested_button_A" = "I'm interested";

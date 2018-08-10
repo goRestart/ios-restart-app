@@ -22,9 +22,9 @@
 "bump_up_banner_pay_text_improvement_english_b" = "Add el gyorsabban";
 "bump_up_banner_pay_text_improvement_english_c" = "Add el gyorsabban";
 "bump_up_banner_pay_text_improvement_english_d" = "Add el gyorsabban";
-"bump_up_banner_pay_text_improvement_turkish_b" = "Attract more buyers";
-"bump_up_banner_pay_text_improvement_turkish_c" = "Attract more buyers";
-"bump_up_banner_pay_text_improvement_turkish_d" = "Attract more buyers";
+"bump_up_banner_pay_text_improvement_turkish_b" = "Tedd láthatóbbá";
+"bump_up_banner_pay_text_improvement_turkish_c" = "Tedd láthatóbbá";
+"bump_up_banner_pay_text_improvement_turkish_d" = "Tedd láthatóbbá";
 "bump_up_banner_wait_text" = "a következő kiemelésig";
 "bump_up_boost_success_alert_text" = "Hirdetésed láthatóságát fokoztad! A következő 24 órában kiemelt hirdetés lesz.";
 "bump_up_error_bump_generic" = "Hiba történt a hirdetésed kiemelése során. Próbálkozz újra.";
@@ -503,6 +503,8 @@
 "id_verification_third_step_subtitle" = "Jól látszódjon az igazolvány, és a képernyőn látható dobozon belül legyen";
 "id_verification_third_step_title" = "Készíts egy képet az igazolványod elejéről";
 "id_verification_update_avatar_message" = "Szeretnéd, hogy ez legyen a profilképed?";
+"jobs_services_offering_text" = "Offering";
+"jobs_services_wanted_text" = "Wanted";
 "kilometer_unit_suffix" = "km";
 "listing_chat_button" = "Csevegés";
 "listing_interested_button_A" = "Érdekel";
@@ -682,7 +684,7 @@
 "payment_frequency_per_hour" = "hour";
 "payment_frequency_per_month" = "month";
 "payment_frequency_per_week" = "week";
-"payment_frequency_per_year" = "year";
+"payment_frequency_per_year" = "Évjárat";
 "phone_verification_code_input_view_content_subaction" = "Nem kaptad meg a kódot?";
 "phone_verification_code_input_view_content_subtext" = "Új kódot kérhetsz, ha %@ után sem érkezik meg";
 "phone_verification_code_input_view_content_subtitle" = "Ide küldtük: %@";

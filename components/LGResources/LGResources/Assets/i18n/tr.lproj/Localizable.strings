@@ -22,9 +22,9 @@
 "bump_up_banner_pay_text_improvement_english_b" = "Hemen sat";
 "bump_up_banner_pay_text_improvement_english_c" = "Hemen sat";
 "bump_up_banner_pay_text_improvement_english_d" = "Hemen sat";
-"bump_up_banner_pay_text_improvement_turkish_b" = "Attract more buyers";
-"bump_up_banner_pay_text_improvement_turkish_c" = "Attract more buyers";
-"bump_up_banner_pay_text_improvement_turkish_d" = "Attract more buyers";
+"bump_up_banner_pay_text_improvement_turkish_b" = "Daha çok kişi görsün";
+"bump_up_banner_pay_text_improvement_turkish_c" = "Daha çok alıcıyı çek";
+"bump_up_banner_pay_text_improvement_turkish_d" = "İlanına 2 kat daha fazla alıcı çek";
 "bump_up_banner_wait_text" = "tekrar öne çıkarmak için";
 "bump_up_boost_success_alert_text" = "İlanına doping uygulandı! 24 saat boyunca öne çıkarılacak.";
 "bump_up_error_bump_generic" = "İlanın öne çıkarılırken bir hata oluştu. Lütfen tekrar dene.";
@@ -503,6 +503,8 @@
 "id_verification_third_step_subtitle" = "Kimliğinin net olduğundan ve görüntü bulucunun kutusunun içinde olduğundan emin ol";
 "id_verification_third_step_title" = "Kimliğinin ön kısmının fotoğrafını çek";
 "id_verification_update_avatar_message" = "Bunu profil fotoğrafın yapmak ister misin?";
+"jobs_services_offering_text" = "Offering";
+"jobs_services_wanted_text" = "Wanted";
 "kilometer_unit_suffix" = "km";
 "listing_chat_button" = "Mesajlaş";
 "listing_interested_button_A" = "İlgileniyorum";
@@ -682,7 +684,7 @@
 "payment_frequency_per_hour" = "hour";
 "payment_frequency_per_month" = "month";
 "payment_frequency_per_week" = "week";
-"payment_frequency_per_year" = "year";
+"payment_frequency_per_year" = "Yıl";
 "phone_verification_code_input_view_content_subaction" = "Kodu almadın mı?";
 "phone_verification_code_input_view_content_subtext" = "%@ içinde almazsan başka bir kod talep edebilirsin";
 "phone_verification_code_input_view_content_subtitle" = "%@ numarasına gönderdik";

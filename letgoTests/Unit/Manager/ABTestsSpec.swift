@@ -54,7 +54,7 @@ class ABTestsSpec: QuickSpec {
                     sut.registerVariables()
                 }
                 it("registers all the variables") {
-                    expect(syncer.syncedCount) == 74
+                    expect(syncer.syncedCount) == 75
                 }
             }
 
@@ -271,7 +271,7 @@ class ABTestsSpec: QuickSpec {
 
             context("registering all the core variables") {
                 it("the core int variable registered are 3") {
-                    expect(core.intVariables.count) == 2
+                    expect(core.intVariables.count) == 3
                 }
 
                 it("the core bool variable registered are 0") {
@@ -295,7 +295,7 @@ class ABTestsSpec: QuickSpec {
                     syncer.sync(variables: core.floatVariables)
                 }
                 it("the variables registered are 3") {
-                    expect(syncer.syncedCount) == 2
+                    expect(syncer.syncedCount) == 3
                 }
             }
 
@@ -328,7 +328,7 @@ class ABTestsSpec: QuickSpec {
                     expect(syncer.syncedCount) == 6
                 }
             }
-                    
+
             context("registering all products variables") {
                 it("the products int variable registered are 5") {
                     expect(products.intVariables.count) == 5
@@ -360,23 +360,24 @@ class ABTestsSpec: QuickSpec {
             }
         }
     }
+}
 
-    private class LeamplumSyncerCounter: LeamplumSyncerType {
-        var syncedCount: Int = 0
-        var trackingCount: Int = 0
+private class LeamplumSyncerCounter: LeamplumSyncerType {
+    var syncedCount: Int = 0
+    var trackingCount: Int = 0
 
-        func clear() {
-            syncedCount = 0
-            trackingCount = 0
-        }
+    func clear() {
+        syncedCount = 0
+        trackingCount = 0
+    }
 
-        func sync(variables: [ABRegistrable]) {
-            syncedCount += variables.count
-        }
-        func trackingData(variables: [ABTrackable]) -> [(String, ABGroup)] {
-            trackingCount += variables.count
-            return variables.map { _ in return ("I don't care", ABGroup.core) }
-        }
+    func sync(variables: [ABRegistrable]) {
+        syncedCount += variables.count
+    }
+    func trackingData(variables: [ABTrackable]) -> [(String, ABGroup)] {
+        trackingCount += variables.count
+        return variables.map { _ in return ("I don't care", ABGroup.core) }
     }
 }
+
 

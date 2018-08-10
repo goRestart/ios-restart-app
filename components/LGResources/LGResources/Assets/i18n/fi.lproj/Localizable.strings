@@ -22,9 +22,9 @@
 "bump_up_banner_pay_text_improvement_english_b" = "Myy nopeammin nyt";
 "bump_up_banner_pay_text_improvement_english_c" = "Myy nopeammin nyt";
 "bump_up_banner_pay_text_improvement_english_d" = "Myy nopeammin nyt";
-"bump_up_banner_pay_text_improvement_turkish_b" = "Attract more buyers";
-"bump_up_banner_pay_text_improvement_turkish_c" = "Attract more buyers";
-"bump_up_banner_pay_text_improvement_turkish_d" = "Attract more buyers";
+"bump_up_banner_pay_text_improvement_turkish_b" = "Myy nopeammin nyt";
+"bump_up_banner_pay_text_improvement_turkish_c" = "Myy nopeammin nyt";
+"bump_up_banner_pay_text_improvement_turkish_d" = "Myy nopeammin nyt";
 "bump_up_banner_wait_text" = "seuraavaan nostoon";
 "bump_up_boost_success_alert_text" = "Ilmoituksesi nostettiin uudelleen! Se on nostettuna esiin seuraavat 24 tuntia.";
 "bump_up_error_bump_generic" = "Nostettaessa ilmoitustasi esiin tapahtui virhe. Ole hyvä ja yritä uudelleen.";
@@ -503,6 +503,8 @@
 "id_verification_third_step_subtitle" = "Varmista, että henkilöllisyystodistuksesi näkyy selvästi ja on tähtäinlaatikon sisällä";
 "id_verification_third_step_title" = "Ota kuva henkilöllisyystodistuksesi etupuolesta";
 "id_verification_update_avatar_message" = "Haluatko tehdä tästä profiilikuvasi?";
+"jobs_services_offering_text" = "Offering";
+"jobs_services_wanted_text" = "Wanted";
 "kilometer_unit_suffix" = "km";
 "listing_chat_button" = "Keskustele nyt";
 "listing_interested_button_A" = "Olen kiinnostunut";
@@ -682,7 +684,7 @@
 "payment_frequency_per_hour" = "hour";
 "payment_frequency_per_month" = "month";
 "payment_frequency_per_week" = "week";
-"payment_frequency_per_year" = "year";
+"payment_frequency_per_year" = "Vuosimalli";
 "phone_verification_code_input_view_content_subaction" = "Etkö saanut koodia?";
 "phone_verification_code_input_view_content_subtext" = "Voit pyytää uutta koodia, jos et saa koodia %@ sisällä";
 "phone_verification_code_input_view_content_subtitle" = "Lähetimme viestin numeroon %@";

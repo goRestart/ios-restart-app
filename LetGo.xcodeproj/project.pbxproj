@@ -128,6 +128,8 @@
 		0A24AFED1FCF0CDE00F1CA6B /* ListingCardDetailMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2D69DF1FC6BA6900F072A1 /* ListingCardDetailMapView.swift */; };
 		0A25E8122019C87900E6A72E /* OnBoardingAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A25E8112019C87900E6A72E /* OnBoardingAnimator.swift */; };
 		0A25E8132019C88C00E6A72E /* OnBoardingAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A25E8112019C87900E6A72E /* OnBoardingAnimator.swift */; };
+		0A26CF27211C39AC00BCF84C /* ListingListCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A26CF26211C39AC00BCF84C /* ListingListCache.swift */; };
+		0A26CF28211C39AC00BCF84C /* ListingListCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A26CF26211C39AC00BCF84C /* ListingListCache.swift */; };
 		0A2D42C220E6473C001EA068 /* LPInterstitialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2D42C120E6473C001EA068 /* LPInterstitialView.swift */; };
 		0A2D42C320E6473C001EA068 /* LPInterstitialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2D42C120E6473C001EA068 /* LPInterstitialView.swift */; };
 		0A2D69DE1FC5DB0300F072A1 /* Bounceable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2D69DC1FC5DA8700F072A1 /* Bounceable.swift */; };
@@ -153,6 +155,8 @@
 		0A4C69D920C92E4E00B89022 /* RecaptchaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4C69D720C92D5100B89022 /* RecaptchaView.swift */; };
 		0A561AE220C81FF00082D551 /* UICollectionView+ReusableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A561AE120C81FF00082D551 /* UICollectionView+ReusableCell.swift */; };
 		0A561AE320C8203F0082D551 /* UICollectionView+ReusableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A561AE120C81FF00082D551 /* UICollectionView+ReusableCell.swift */; };
+		0A5FB036211D921D0015797B /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5FB035211D921D0015797B /* ActivityIndicator.swift */; };
+		0A5FB037211D925F0015797B /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5FB035211D921D0015797B /* ActivityIndicator.swift */; };
 		0A60CAA71FB0C4EF00BE1EFE /* ListingCardUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A63DFC21FB0B7AC00C065F2 /* ListingCardUserView.swift */; };
 		0A63DFC01FB0A9A600C065F2 /* ListingCardDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A63DFBF1FB0A9A600C065F2 /* ListingCardDetailsView.swift */; };
 		0A63DFC11FB0A9D000C065F2 /* ListingCardDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A63DFBF1FB0A9A600C065F2 /* ListingCardDetailsView.swift */; };
@@ -2186,6 +2190,7 @@
 		0A21C656210F52D60093A86C /* LGBumpUpBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGBumpUpBuilder.swift; sourceTree = "<group>"; };
 		0A21C659210F55C80093A86C /* BumpUpsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BumpUpsRouter.swift; sourceTree = "<group>"; };
 		0A25E8112019C87900E6A72E /* OnBoardingAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingAnimator.swift; sourceTree = "<group>"; };
+		0A26CF26211C39AC00BCF84C /* ListingListCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingListCache.swift; sourceTree = "<group>"; };
 		0A2D42C120E6473C001EA068 /* LPInterstitialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LPInterstitialView.swift; sourceTree = "<group>"; };
 		0A2D69DC1FC5DA8700F072A1 /* Bounceable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bounceable.swift; sourceTree = "<group>"; };
 		0A2D69DF1FC6BA6900F072A1 /* ListingCardDetailMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardDetailMapView.swift; sourceTree = "<group>"; };
@@ -2197,6 +2202,7 @@
 		0A4AD7F9203DD9B8002625B7 /* UILayoutPriority.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILayoutPriority.swift; sourceTree = "<group>"; };
 		0A4C69D720C92D5100B89022 /* RecaptchaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecaptchaView.swift; sourceTree = "<group>"; };
 		0A561AE120C81FF00082D551 /* UICollectionView+ReusableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+ReusableCell.swift"; sourceTree = "<group>"; };
+		0A5FB035211D921D0015797B /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		0A63DFBF1FB0A9A600C065F2 /* ListingCardDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardDetailsView.swift; sourceTree = "<group>"; };
 		0A63DFC21FB0B7AC00C065F2 /* ListingCardUserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardUserView.swift; sourceTree = "<group>"; };
 		0A653BBF1FAB7C8600C2AA77 /* ListingDeckViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckViewModelSpec.swift; sourceTree = "<group>"; };
@@ -4352,6 +4358,7 @@
 				C7415ED51DE880BD0003D6C1 /* SimpleListingsViewController.xib */,
 				C7415EDA1DE898580003D6C1 /* SimpleListingsViewModel.swift */,
 				0A6E56AD1F8E233500419DDC /* RelatedListingsViewModel.swift */,
+				0A26CF26211C39AC00BCF84C /* ListingListCache.swift */,
 			);
 			path = Listings;
 			sourceTree = "<group>";
@@ -5212,6 +5219,7 @@
 				C2E7F41F20DB90BC0092A1F9 /* Locale+LG.swift */,
 				C611D65D20DD396100955BF4 /* CarExtras+LG.swift */,
 				C63A589920EE22A1007C0816 /* CarAttributes+LG.swift */,
+				C64DD44E211089CD003E5EC2 /* PriceType+LG.swift */,
 				C64DD44E211089CD003E5EC2 /* PaymentFrequency+LG.swift */,
 				C6977E882119F4E900B57E54 /* ServiceListingType+LG.swift */,
 				C6977E7C2118441200B57E54 /* ServiceAttributes+LG.swift */,
@@ -6342,6 +6350,7 @@
 				503996D31C60C258004D2E09 /* LGViewPagerTab */,
 				505B06A41B15A9910049F9CD /* Widgets */,
 				0AA6A5661FFFBCD600F72F4A /* LGCGAffineTransform.swift */,
+				0A5FB035211D921D0015797B /* ActivityIndicator.swift */,
 			);
 			path = ui;
 			sourceTree = "<group>";
@@ -7666,6 +7675,7 @@
 				2E4B43EA1E7810C00048214B /* PaymentEnqueuable.swift in Sources */,
 				C7AFFB011E7054590052A9CA /* WebSurveyViewController.swift in Sources */,
 				50AB5F221ED4447200E9909D /* UserRatingTag.swift in Sources */,
+				C64DD44F211089CD003E5EC2 /* PriceType+LG.swift in Sources */,
 				C64DD44F211089CD003E5EC2 /* PaymentFrequency+LG.swift in Sources */,
 				724D77A41FC3251E00DB43C0 /* RealEstateAttributes+LG.swift in Sources */,
 				8EEC7F5A206AA62800616858 /* AdvertisementMoPubCellDrawer.swift in Sources */,
@@ -7907,6 +7917,7 @@
 				426CB13620C58820009A065F /* PostMultiSelectionCell.swift in Sources */,
 				F53EE57B20EA69AF00D27EE0 /* Coordinator+Login.swift in Sources */,
 				50582C291D6C7F4F00787E91 /* AccessibilityId.swift in Sources */,
+				0A26CF27211C39AC00BCF84C /* ListingListCache.swift in Sources */,
 				0A760FF11FA0B7480055F2B6 /* ListingDeckViewModel.swift in Sources */,
 				4245B6EF2084D47A00EF8162 /* UserType+LG.swift in Sources */,
 				0A21C653210F47CA0093A86C /* SimpleProductsRouter.swift in Sources */,
@@ -8122,6 +8133,7 @@
 				6AA26CFD1CFDBA7600546063 /* ChatDisclaimerCellDrawer.swift in Sources */,
 				50A8DC821BA06BB1008296B0 /* ChatSafetyTipsView.swift in Sources */,
 				0AEB4FF02018AA93003365DE /* ListingDeckOnBoardingViewModel.swift in Sources */,
+				0A5FB036211D921D0015797B /* ActivityIndicator.swift in Sources */,
 				2E131C6B1DEDE998004D26DC /* LGPurchasesShopper.swift in Sources */,
 				6A3F3B9B20AD81A000E2881F /* LetgoTooltip.swift in Sources */,
 				6A38A998207618DE00F3B292 /* UserProfileKarmaScoreView.swift in Sources */,
@@ -8515,6 +8527,7 @@
 				50146BDA1D4F90E500B0F635 /* ChatsTabNavigator.swift in Sources */,
 				F5F2113720EE59E700CD137A /* DefaultKeys+Admin.swift in Sources */,
 				C7C328421C907267008078EC /* PostListingGalleryViewModel.swift in Sources */,
+				0A5FB037211D925F0015797B /* ActivityIndicator.swift in Sources */,
 				42566BF320ED217800120431 /* TooltipConfiguration.swift in Sources */,
 				0ACA8F3E21148C0300243850 /* PhotoViewerRouter.swift in Sources */,
 				C707D44B1E96799000042C03 /* TextHiddenTags.swift in Sources */,
@@ -8723,6 +8736,7 @@
 				C7DB41C91C5138B500400945 /* ListingSortCriteria+LG.swift in Sources */,
 				C730FD0F1E76F93000175C27 /* CacheManager.swift in Sources */,
 				C7DB41CC1C5138B500400945 /* ListingCellDrawer.swift in Sources */,
+				0A26CF28211C39AC00BCF84C /* ListingListCache.swift in Sources */,
 				2E373FAB1D3E6F3900AC811C /* UserRatingListViewController.swift in Sources */,
 				C78BB50C1C5A314700614096 /* AppShareViewController.swift in Sources */,
 				72D928E51E83EBC10030F4C3 /* LGRatingManager.swift in Sources */,

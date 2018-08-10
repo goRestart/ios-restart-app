@@ -1086,6 +1086,10 @@ extension R {
     public static let idVerificationThirdStepTitle = Strings.tr("Localizable", "id_verification_third_step_title")
     /// Do you want to make this your profile picture?
     public static let idVerificationUpdateAvatarMessage = Strings.tr("Localizable", "id_verification_update_avatar_message")
+    /// Offering
+    public static let jobsServicesOfferingText = Strings.tr("Localizable", "jobs_services_offering_text")
+    /// Wanted
+    public static let jobsServicesWantedText = Strings.tr("Localizable", "jobs_services_wanted_text")
     /// km
     public static let kilometerUnitSuffix = Strings.tr("Localizable", "kilometer_unit_suffix")
     /// Chat Now
@@ -1614,11 +1618,7 @@ extension R {
     public static let postDetailsJobsServicesStepOptionServicesPrefix = Strings.tr("Localizable", "post_details_jobs_services_step_option_services_prefix")
     /// I'm...
     public static let postDetailsJobsServicesStepTitle = Strings.tr("Localizable", "post_details_jobs_services_step_title")
-<<<<<<< HEAD
-    /// Select just one option
-=======
     /// Choose one
->>>>>>> origin/master
     public static let postDetailsJobsSubtitle = Strings.tr("Localizable", "post_details_jobs_subtitle")
     /// What kind of job are you offering?
     public static let postDetailsJobsTitle = Strings.tr("Localizable", "post_details_jobs_title")

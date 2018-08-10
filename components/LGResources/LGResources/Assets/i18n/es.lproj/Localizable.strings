@@ -22,9 +22,9 @@
 "bump_up_banner_pay_text_improvement_english_b" = "Vender más rápido";
 "bump_up_banner_pay_text_improvement_english_c" = "Vender más rápido";
 "bump_up_banner_pay_text_improvement_english_d" = "Vender más rápido";
-"bump_up_banner_pay_text_improvement_turkish_b" = "Attract more buyers";
-"bump_up_banner_pay_text_improvement_turkish_c" = "Attract more buyers";
-"bump_up_banner_pay_text_improvement_turkish_d" = "Attract more buyers";
+"bump_up_banner_pay_text_improvement_turkish_b" = "Vender más rápido";
+"bump_up_banner_pay_text_improvement_turkish_c" = "Vender más rápido";
+"bump_up_banner_pay_text_improvement_turkish_d" = "Vender más rápido";
 "bump_up_banner_wait_text" = "para destacar de nuevo";
 "bump_up_boost_success_alert_text" = "¡Tu anuncio ha sido impulsado! Estará destacado durante las próximas 24 horas.";
 "bump_up_error_bump_generic" = "Se ha producido un error al destacar tu anuncio. Por favor, inténtalo de nuevo.";
@@ -503,6 +503,8 @@
 "id_verification_third_step_subtitle" = "Asegúrate que tu documento se ve claramente y encaja en los bordes de la caja";
 "id_verification_third_step_title" = "Haz una foto de la cara frontal de tu documento de identidad";
 "id_verification_update_avatar_message" = "¿Quieres que sea tu foto de perfil?";
+"jobs_services_offering_text" = "Offering";
+"jobs_services_wanted_text" = "Wanted";
 "kilometer_unit_suffix" = "km";
 "listing_chat_button" = "Chatear Ahora";
 "listing_interested_button_A" = "Me interesa";
@@ -682,7 +684,7 @@
 "payment_frequency_per_hour" = "hour";
 "payment_frequency_per_month" = "month";
 "payment_frequency_per_week" = "week";
-"payment_frequency_per_year" = "year";
+"payment_frequency_per_year" = "Año";
 "phone_verification_code_input_view_content_subaction" = "¿No has recibido el código?";
 "phone_verification_code_input_view_content_subtext" = "Puedes pedir otro código si no lo recibes en %@";
 "phone_verification_code_input_view_content_subtitle" = "Enviado a %@";

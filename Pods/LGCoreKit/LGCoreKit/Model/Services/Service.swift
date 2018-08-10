@@ -169,7 +169,7 @@ struct LGService: Service {
     
 }
 
-extension LGService: Decodable {
+extension LGService: Codable {
     
     public init(from decoder: Decoder) throws {
         let baseListing = try LGBaseListing(from: decoder)
@@ -202,7 +202,32 @@ extension LGService: Decodable {
             servicesAttributes = try searchContainer.decodeIfPresent(ServiceAttributes.self, forKey: .attributes)
                 ?? ServiceAttributes.emptyServicesAttributes()
         }
-        
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        let baseListing = LGBaseListing(objectId: objectId,
+                                        updatedAt: updatedAt,
+                                        createdAt: createdAt,
+                                        name: name,
+                                        nameAuto: nameAuto,
+                                        descr: descr,
+                                        price: price,
+                                        currency: currency,
+                                        location: location,
+                                        postalAddress: postalAddress,
+                                        languageCode: languageCode,
+                                        category: category,
+                                        status: status,
+                                        thumbnail: thumbnail,
+                                        thumbnailSize: thumbnailSize,
+                                        images: images,
+                                        media: media,
+                                        mediaThumbnail: mediaThumbnail,
+                                        user: user,
+                                        featured: featured,
+                                        carAttributes: nil)
+        // We don't sync services attributes on purpose, we can sync them again later
+        try baseListing.encode(to: encoder)
     }
     
     enum CodingKeys: String, CodingKey {

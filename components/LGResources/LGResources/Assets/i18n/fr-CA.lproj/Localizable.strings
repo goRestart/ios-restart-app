@@ -22,9 +22,9 @@
 "bump_up_banner_pay_text_improvement_english_b" = "Vendez au plus vite !";
 "bump_up_banner_pay_text_improvement_english_c" = "Vendez au plus vite !";
 "bump_up_banner_pay_text_improvement_english_d" = "Vendez au plus vite !";
-"bump_up_banner_pay_text_improvement_turkish_b" = "Attract more buyers";
-"bump_up_banner_pay_text_improvement_turkish_c" = "Attract more buyers";
-"bump_up_banner_pay_text_improvement_turkish_d" = "Attract more buyers";
+"bump_up_banner_pay_text_improvement_turkish_b" = "Gagnez en visibilité";
+"bump_up_banner_pay_text_improvement_turkish_c" = "Gagnez en visibilité";
+"bump_up_banner_pay_text_improvement_turkish_d" = "Gagnez en visibilité";
 "bump_up_banner_wait_text" = "avant de remettre en vedette";
 "bump_up_boost_success_alert_text" = "Votre annonce a été boostée ! Elle sera mise en vedette pour les prochaines 24 heures.";
 "bump_up_error_bump_generic" = "Une erreur est survenue lors de la mise en vedette de votre annonce. Veuillez réessayer.";
@@ -503,6 +503,8 @@
 "id_verification_third_step_subtitle" = "Assurez-vous que votre pièce d'identité soit claire et à l'intérieur de l'espace prévu à cet effet";
 "id_verification_third_step_title" = "Prenez une photo du recto de votre pièce d'identité";
 "id_verification_update_avatar_message" = "Voulez-vous que cela devienne votre photo de profil ?";
+"jobs_services_offering_text" = "Offering";
+"jobs_services_wanted_text" = "Wanted";
 "kilometer_unit_suffix" = "km";
 "listing_chat_button" = "Clavardez Maintenant";
 "listing_interested_button_A" = "Je suis intéressé(e)";
@@ -682,7 +684,7 @@
 "payment_frequency_per_hour" = "hour";
 "payment_frequency_per_month" = "month";
 "payment_frequency_per_week" = "week";
-"payment_frequency_per_year" = "year";
+"payment_frequency_per_year" = "Année";
 "phone_verification_code_input_view_content_subaction" = "Vous n'avez pas reçu le code ?";
 "phone_verification_code_input_view_content_subtext" = "Vous pouvez demander un autre code si vous ne le recevez pas dans les prochaines %@";
 "phone_verification_code_input_view_content_subtitle" = "Nous l'avons envoyé à %@";
