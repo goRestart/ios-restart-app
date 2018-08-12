@@ -12,7 +12,10 @@ destination = "name=iPhone X"
 before_all do
 	ENV["LG_GITHUB_REPOSITORY"] = "letgoapp/letgo-ios"
 	# Forcing fastlane to launch simulator before all as a first step.
-	ENV["FASTLANE_EXPLICIT_OPEN_SIMULATOR"] = "2"
+	ENV["FASTLANE_EXPLICIT_OPEN_SIMULATOR"] = "2
+	# Related this kind of errors: [Transporter Error Output]: Could not start delivery: all transports failed diagnostics
+	# to https://github.com/fastlane/fastlane/issues/6990"
+	ENV['DELIVER_ITMSTRANSPORTER_ADDITIONAL_UPLOAD_PARAMETERS'] = '-t DAV'
 end
 
 desc "Will clone master, create a new `release-x.x.x` branch from, update the build info, push it and do a deploy of that to crashlytics"
