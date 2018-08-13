@@ -341,6 +341,11 @@
         "description": "[MONEY] Test different variants for bump up in edit listing screen"
     },
     {
+        "name": "MultiAdRequestMoreInfo",
+        "values": ["control", "baseline", "active"],
+        "description": "[MONEY] Test different ad sizes in more info view"
+    },
+    {
         "name": "EnableJobsAndServicesCategory",
         "values": ["control", "baseline", "active"],
         "description": "[SERVICES] Services category becomes Jobs & Services, enables features related to jobs"

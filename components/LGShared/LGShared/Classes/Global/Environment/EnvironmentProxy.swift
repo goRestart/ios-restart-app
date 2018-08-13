@@ -149,6 +149,14 @@ public final class EnvironmentProxy: AppEnvironment {
         return environment.feedAdUnitIdAdxTRForOldUsers
     }
 
+    public var moreInfoMultiAdUnitIdDFP: String {
+        return environment.moreInfoMultiAdUnitIdDFP
+    }
+
+    public var moreInfoMultiAdUnitIdDFPUSA: String {
+        return environment.moreInfoMultiAdUnitIdDFPUSA
+    }
+
     public var stripeAPIKey: String {
         return environment.stripeAPIKey
     }

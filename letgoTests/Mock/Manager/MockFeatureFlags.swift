@@ -52,6 +52,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var alwaysShowBumpBannerWithLoading: AlwaysShowBumpBannerWithLoading = .control
     var showSellFasterInProfileCells: ShowSellFasterInProfileCells = .control
     var bumpInEditCopys: BumpInEditCopys = .control
+    var multiAdRequestMoreInfo: MultiAdRequestMoreInfo = .control
     var cachedFeed: CachedFeed = .control
 
     func collectionsAllowedFor(countryCode: String?) -> Bool {

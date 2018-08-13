@@ -1343,11 +1343,27 @@ enum EventParamenterLocationTypePage: String {
     case automatic  = "automatic"
 }
 
-enum EventParameterAdType: String {
-    case dfp = "dfp"
-    case moPub = "moPub"
-    case adx = "adx"
-    case interstitial = "interstitial"
+enum EventParameterAdType {
+    case dfp
+    case moPub
+    case adx
+    case interstitial
+    case variableSize(size: CGSize)
+
+    var stringValue: String {
+        switch self {
+        case .variableSize(let size):
+            return "\(Int(size.width))x\(Int(size.height))"
+        case .dfp:
+            return "dfp"
+        case .moPub:
+            return "moPub"
+        case .adx:
+            return "adx"
+        case .interstitial:
+            return "interstitial"
+        }
+    }
 }
 
 enum EventParameterAdQueryType: String {

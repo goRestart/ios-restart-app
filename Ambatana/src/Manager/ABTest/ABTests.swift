@@ -193,6 +193,7 @@ extension ABTests {
     var showSellFasterInProfileCells: LeanplumABVariable<Int> { return money.showSellFasterInProfileCells }
     var bumpInEditCopys: LeanplumABVariable<Int> { return money.bumpInEditCopys }
     var copyForSellFasterNowInTurkish : LeanplumABVariable<Int> { return money.copyForSellFasterNowInTurkish }
+    var multiAdRequestMoreInfo: LeanplumABVariable<Int> { return money.multiAdRequestMoreInfo }
 }
 
 //  MARK: Retention

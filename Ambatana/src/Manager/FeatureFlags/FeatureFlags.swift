@@ -67,6 +67,7 @@ protocol FeatureFlaggeable: class {
     var cachedFeed: CachedFeed { get }
 
     var copyForSellFasterNowInTurkish: CopyForSellFasterNowInTurkish { get }
+    var multiAdRequestMoreInfo: MultiAdRequestMoreInfo { get }
     
     // MARK: Chat
     var showInactiveConversations: Bool { get }
@@ -510,6 +511,11 @@ extension BumpInEditCopys {
     }
 }
 
+extension MultiAdRequestMoreInfo {
+    var isActive: Bool { return self == .active }
+
+}
+
 final class FeatureFlags: FeatureFlaggeable {
     
     static let sharedInstance: FeatureFlags = FeatureFlags()
@@ -814,9 +820,11 @@ final class FeatureFlags: FeatureFlaggeable {
     var moreInfoDFPAdUnitId: String {
         switch sensorLocationCountryCode {
         case .usa?:
-            return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdDFPUSA
+            return multiAdRequestMoreInfo.isActive ? EnvironmentProxy.sharedInstance.moreInfoMultiAdUnitIdDFPUSA :
+                EnvironmentProxy.sharedInstance.moreInfoAdUnitIdDFPUSA
         default:
-            return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdDFP
+            return multiAdRequestMoreInfo.isActive ? EnvironmentProxy.sharedInstance.moreInfoMultiAdUnitIdDFP :
+                EnvironmentProxy.sharedInstance.moreInfoAdUnitIdDFP
         }
     }
 
@@ -1078,7 +1086,7 @@ final class FeatureFlags: FeatureFlaggeable {
         }
         return BumpInEditCopys.fromPosition(abTests.bumpInEditCopys.value)
     }
-
+  
     var shouldChangeSellFasterNowCopyInTurkish: Bool {
         if Bumper.enabled {
             return Bumper.copyForSellFasterNowInTurkish.isActive
@@ -1096,6 +1104,13 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.copyForSellFasterNowInTurkish
         }
         return CopyForSellFasterNowInTurkish.fromPosition(abTests.copyForSellFasterNowInTurkish.value)
+    }
+  
+    var multiAdRequestMoreInfo: MultiAdRequestMoreInfo {
+        if Bumper.enabled {
+            return Bumper.multiAdRequestMoreInfo
+        }
+        return MultiAdRequestMoreInfo.fromPosition(abTests.multiAdRequestMoreInfo.value)
     }
 
     // MARK: - Private

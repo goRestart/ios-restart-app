@@ -84,6 +84,7 @@ extension Bumper  {
         flags.append(SearchAlertsDisableOldestIfMaximumReached.self)
         flags.append(ShowSellFasterInProfileCells.self)
         flags.append(BumpInEditCopys.self)
+        flags.append(MultiAdRequestMoreInfo.self)
         flags.append(EnableJobsAndServicesCategory.self)
         flags.append(CachedFeed.self)
         flags.append(CopyForSellFasterNowInTurkish.self)
@@ -970,6 +971,19 @@ extension Bumper  {
     static var bumpInEditCopysObservable: Observable<BumpInEditCopys> {
         return Bumper.observeValue(for: BumpInEditCopys.key).map {
             BumpInEditCopys(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var multiAdRequestMoreInfo: MultiAdRequestMoreInfo {
+        guard let value = Bumper.value(for: MultiAdRequestMoreInfo.key) else { return .control }
+        return MultiAdRequestMoreInfo(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var multiAdRequestMoreInfoObservable: Observable<MultiAdRequestMoreInfo> {
+        return Bumper.observeValue(for: MultiAdRequestMoreInfo.key).map {
+            MultiAdRequestMoreInfo(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -2075,6 +2089,22 @@ enum BumpInEditCopys: String, BumperFeature  {
             case 2: return .attractMoreBuyers
             case 3: return .attractMoreBuyersToSellFast
             case 4: return .showMeHowToAttract
+            default: return .control
+        }
+    }
+}
+
+enum MultiAdRequestMoreInfo: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return MultiAdRequestMoreInfo.control.rawValue }
+    static var enumValues: [MultiAdRequestMoreInfo] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[MONEY] Test different ad sizes in more info view" } 
+    static func fromPosition(_ position: Int) -> MultiAdRequestMoreInfo {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
             default: return .control
         }
     }

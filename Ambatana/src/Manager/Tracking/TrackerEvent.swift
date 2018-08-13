@@ -364,7 +364,7 @@ struct TrackerEvent {
 
         params[.isMine] = isMine.rawValue
         params[.adShown] = adShown.rawValue
-        params[.adType] = adType?.rawValue ?? TrackerEvent.notApply
+        params[.adType] = adType?.stringValue ?? TrackerEvent.notApply
         params[.adQueryType] = queryType?.rawValue ?? TrackerEvent.notApply
         params[.adQuery] = query ?? TrackerEvent.notApply
         params[.adVisibility] = visibility?.rawValue ?? TrackerEvent.notApply
@@ -385,7 +385,7 @@ struct TrackerEvent {
         var params = EventParameters()
 
         params[.listingId] = listingId ?? TrackerEvent.notApply
-        params[.adType] = adType?.rawValue ?? TrackerEvent.notApply
+        params[.adType] = adType?.stringValue ?? TrackerEvent.notApply
         params[.isMine] = isMine.rawValue
         params[.adQueryType] = queryType?.rawValue ?? TrackerEvent.notApply
         params[.adQuery] = query ?? TrackerEvent.notApply
@@ -409,7 +409,7 @@ struct TrackerEvent {
         var params = EventParameters()
         
         params[.listingId] = listingId ?? TrackerEvent.notApply
-        params[.adType] = adType?.rawValue ?? TrackerEvent.notApply
+        params[.adType] = adType?.stringValue ?? TrackerEvent.notApply
         params[.isMine] = isMine.rawValue
         params[.adQueryType] = queryType?.rawValue ?? TrackerEvent.notApply
         params[.adQuery] = query ?? TrackerEvent.notApply
