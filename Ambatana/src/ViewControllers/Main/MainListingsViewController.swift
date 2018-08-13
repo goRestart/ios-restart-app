@@ -776,6 +776,7 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
         if viewModel.shouldShowCommunityBanner {
             let community = CommunityHeaderView()
             community.delegate = self
+            community.tag = 4
             header.addHeader(community, height: CommunityHeaderView.viewHeight)
         }
     }
