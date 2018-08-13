@@ -415,8 +415,11 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         return filters.selectedCategories == [.realEstate]
     }
 
-    private var shouldShowSnackbarIfRetrieveFails: Bool = false {
-        didSet { isFreshBubbleVisible.value = shouldShowSnackbarIfRetrieveFails }
+    private var isCurrentFeedACachedFeed: Bool = false {
+        didSet {
+            guard featureFlags.cachedFeed.isActive else { return }
+            isFreshBubbleVisible.value = isCurrentFeedACachedFeed
+        }
     }
     
     fileprivate let disposeBag = DisposeBag()
@@ -1207,16 +1210,14 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
     // MARK: > ListingListViewModelDataDelegate
 
     func listingListVMDidSucceedRetrievingCache(viewModel: ListingListViewModel) {
-        shouldShowSnackbarIfRetrieveFails = true
+        isCurrentFeedACachedFeed = true
     }
 
     func listingListVM(_ viewModel: ListingListViewModel,
                        didSucceedRetrievingListingsPage page: UInt,
                        withResultsCount resultsCount: Int,
                        hasListings: Bool) {
-        if featureFlags.cachedFeed.isActive {
-            shouldShowSnackbarIfRetrieveFails = false
-        }
+        isCurrentFeedACachedFeed = false
 
         // Only save the string when there is products and we are not searching a collection
         if let search = searchType, hasListings {
@@ -1283,7 +1284,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                        didFailRetrievingListingsPage page: UInt,
                        hasListings hasProducts: Bool,
                        error: RepositoryError) {
-        if page == 0 && shouldShowSnackbarIfRetrieveFails {
+        if page == 0 && isCurrentFeedACachedFeed {
             isFreshBubbleVisible.value = false
             navigator?.showFailBubble(withMessage: R.Strings.cachedFeedError, duration: 3)
         }
@@ -1572,7 +1573,7 @@ extension MainListingsViewModel {
     }
     
     fileprivate func retrieveProductsIfNeededWithNewLocation(_ newLocation: LGLocation) {
-        if featureFlags.cachedFeed.isActive {
+        if featureFlags.cachedFeed.isActive && !isCurrentFeedACachedFeed && listViewModel.isListingListEmpty.value {
             listViewModel.fetchFromCache()
         }
         

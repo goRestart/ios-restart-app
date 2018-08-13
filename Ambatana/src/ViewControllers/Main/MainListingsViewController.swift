@@ -36,7 +36,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     private let filterTitleHeaderView = FilterTitleHeaderView()
     private let infoBubbleView = InfoBubbleView(style: .light)
     private let recentItemsBubbleView = InfoBubbleView(style: .reddish)
-    private let freshFeedBubble = ActivityIndicatorView()
+    private let freshFeedBubble = RoundedActivityIndicatorView()
 
     private let navbarSearch: LGNavBarSearchField
     private var trendingSearchView = TrendingSearchView()
@@ -624,6 +624,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
 
         viewModel.isFreshBubbleVisible
             .asDriver()
+            .distinctUntilChanged()
             .drive(onNext: { [weak self] isVisible in
                 guard let isVisible = isVisible else {
                     self?.freshFeedBubble.alpha = 0
@@ -688,17 +689,17 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         viewModel.searchTextFieldDidUpdate(text: text)
     }
 
-    private func updateFreshBubble(with visibility: Bool) {
+    private func updateFreshBubble(with isVisible: Bool) {
         let normal = CGAffineTransform.identity.scaledBy(x: 1, y: 1)
         let hidden = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
-        UIView.animate(withDuration: visibility ? 0.4 : 0,
+        UIView.animate(withDuration: isVisible ? 0.4 : 0,
                        delay: 0,
                        options: .curveEaseIn,
                        animations: { [weak self] in
-                        self?.freshFeedBubble.alpha = visibility ? 1.0 : 0
-                        self?.freshFeedBubble.transform = visibility ? normal : hidden
+                        self?.freshFeedBubble.alpha = isVisible ? 1.0 : 0
+                        self?.freshFeedBubble.transform = isVisible ? normal : hidden
         }, completion: nil)
-        if visibility {
+        if isVisible {
             freshFeedBubble.startAnimating()
         } else {
             freshFeedBubble.stopAnimating()
