@@ -455,7 +455,7 @@ extension AppCoordinator: AppNavigator {
 
     func openResetPassword(_ token: String) {
         let vc = LGChangePasswordBuilder.modal.buildChangePassword(withToken: token)
-        tabBarCtl.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
+        tabBarCtl.present(vc, animated: true, completion: nil)
     }
 
     func openSurveyIfNeeded() {

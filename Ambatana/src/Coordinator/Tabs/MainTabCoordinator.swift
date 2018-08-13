@@ -106,7 +106,7 @@ extension MainTabCoordinator: MainTabNavigator {
             dataDelegate: filtersVMDataDelegate
         )
         navigationController.present(
-            UINavigationController(rootViewController: vc),
+            vc,
             animated: true,
             completion: nil
         )
