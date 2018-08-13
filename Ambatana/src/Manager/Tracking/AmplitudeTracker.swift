@@ -16,6 +16,12 @@ final class AmplitudeTracker: Tracker {
     private static let userPropReputationBadge = "reputation-badge"
     private static let userPropInstallationIdKey = "installation-id"
 
+    // device properties
+    enum Device {
+        static let width = "device-width"
+        static let height = "device-height"
+    }
+
     // enabled permissions
     private static let userPropPushEnabled = "push-enabled"
     private static let userPropGpsEnabled = "gps-enabled"
@@ -76,7 +82,6 @@ final class AmplitudeTracker: Tracker {
     func setUser(_ user: MyUser?) {
         // https://ambatana.atlassian.net/browse/ABIOS-3984
         // https://ambatana.atlassian.net/browse/ABIOS-4000
-
         let identify = AMPIdentify()
         loggedIn = user != nil
 
@@ -94,6 +99,13 @@ final class AmplitudeTracker: Tracker {
             let reputationBadge = NSString(string: loggedUser.reputationBadge.rawValue)
             identify.set(AmplitudeTracker.userPropReputationBadge, value: reputationBadge)
         }
+
+        let width = NSNumber(value: Float(UIScreen.main.bounds.width))
+        let height = NSNumber(value: Float(UIScreen.main.bounds.height))
+
+        identify.set(AmplitudeTracker.Device.width, value: width)
+        identify.set(AmplitudeTracker.Device.height, value: height)
+
         if let pendingLoginEvent = pendingLoginEvent {
             trackEvent(pendingLoginEvent)
         }
