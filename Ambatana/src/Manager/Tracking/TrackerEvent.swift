@@ -372,7 +372,7 @@ struct TrackerEvent {
 
         params[.isMine] = isMine.rawValue
         params[.adShown] = adShown.rawValue
-        params[.adType] = adType?.rawValue ?? TrackerEvent.notApply
+        params[.adType] = adType?.stringValue ?? TrackerEvent.notApply
         params[.adQueryType] = queryType?.rawValue ?? TrackerEvent.notApply
         params[.adQuery] = query ?? TrackerEvent.notApply
         params[.adVisibility] = visibility?.rawValue ?? TrackerEvent.notApply
@@ -393,7 +393,7 @@ struct TrackerEvent {
         var params = EventParameters()
 
         params[.listingId] = listingId ?? TrackerEvent.notApply
-        params[.adType] = adType?.rawValue ?? TrackerEvent.notApply
+        params[.adType] = adType?.stringValue ?? TrackerEvent.notApply
         params[.isMine] = isMine.rawValue
         params[.adQueryType] = queryType?.rawValue ?? TrackerEvent.notApply
         params[.adQuery] = query ?? TrackerEvent.notApply
@@ -417,7 +417,7 @@ struct TrackerEvent {
         var params = EventParameters()
         
         params[.listingId] = listingId ?? TrackerEvent.notApply
-        params[.adType] = adType?.rawValue ?? TrackerEvent.notApply
+        params[.adType] = adType?.stringValue ?? TrackerEvent.notApply
         params[.isMine] = isMine.rawValue
         params[.adQueryType] = queryType?.rawValue ?? TrackerEvent.notApply
         params[.adQuery] = query ?? TrackerEvent.notApply
@@ -850,6 +850,7 @@ struct TrackerEvent {
         if let servicesAttributes = listing.service?.servicesAttributes {
             params[.serviceType] = servicesAttributes.typeId ?? SharedConstants.parameterNotApply
             params[.serviceSubtype] = servicesAttributes.subtypeId ?? SharedConstants.parameterNotApply
+            params[.paymentFrequency] = servicesAttributes.paymentFrequency?.rawValue
         }
         
         if let realEstateAttributes = listing.realEstate?.realEstateAttributes {
@@ -1623,7 +1624,18 @@ struct TrackerEvent {
         let dynamicParams = TrackerEvent.makeDynamicEventParameters(dynamicParameters: dynamicParameters)
         return TrackerEvent(name: .emailNotificationsEditStart, params: dynamicParams)
     }
+
+    static func openCommunityFromProductList(showingBanner: Bool, bannerType: EventBannerType) -> TrackerEvent {
+        var params = EventParameters()
+        params[.showingBanner] = EventParameterBoolean(bool: showingBanner).rawValue
+        params[.bannerType] = bannerType.rawValue
+        return TrackerEvent(name: .openCommunity, params: params)
+    }
     
+    static func openCommunityFromTabBar() -> TrackerEvent {
+        return TrackerEvent(name: .openCommunity, params: nil)
+    }
+
     static private func makeDynamicEventParameters(dynamicParameters: [String: Bool]) -> EventParameters {
         var dynamicParams = EventParameters()
         let parameterEnabledAddition = "-enabled"

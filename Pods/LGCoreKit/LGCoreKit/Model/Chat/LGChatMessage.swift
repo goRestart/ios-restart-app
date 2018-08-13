@@ -66,9 +66,9 @@ struct LGChatMessage: ChatMessage, Decodable {
         self.assistantMeeting = content.type == .meeting ? LGAssistantMeeting.makeMeeting(from: content.text) : nil
     }
     
-    static func make(talkerId: String, text: String?, type: ChatMessageType) -> ChatMessage {
+    static func make(messageId: String?, talkerId: String, text: String?, type: ChatMessageType) -> ChatMessage {
         // if the message type is QuickAnswer with a key, we need to send it as the message_id (blame our backend/tracking requirements)
-        return LGChatMessage(objectId: type.quickAnswerId ?? LGUUID().UUIDString,
+        return LGChatMessage(objectId: type.quickAnswerId ?? messageId ?? LGUUID().UUIDString,
                              talkerId: talkerId,
                              sentAt: nil,
                              receivedAt: nil,

@@ -10,7 +10,7 @@ public protocol Car: BaseListingModel {
     var carAttributes: CarAttributes { get }
 }
 
-struct LGCar: Car, Decodable {
+struct LGCar: Car, Codable {
 
     let objectId: String?
     let updatedAt: Date?
@@ -341,7 +341,31 @@ struct LGCar: Car, Decodable {
         } else {
             carAttributes = try keyedContainerVerticals.decodeIfPresent(CarAttributes.self, forKey: .carAttributes) ?? CarAttributes.emptyCarAttributes()
         }
-        
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        let baseListing = LGBaseListing(objectId: objectId,
+                                        updatedAt: updatedAt,
+                                        createdAt: createdAt,
+                                        name: name,
+                                        nameAuto: nameAuto,
+                                        descr: descr,
+                                        price: price,
+                                        currency: currency,
+                                        location: location,
+                                        postalAddress: postalAddress,
+                                        languageCode: languageCode,
+                                        category: category,
+                                        status: status,
+                                        thumbnail: thumbnail,
+                                        thumbnailSize: thumbnailSize,
+                                        images: images,
+                                        media: media,
+                                        mediaThumbnail: mediaThumbnail,
+                                        user: user,
+                                        featured: featured,
+                                        carAttributes: nil) // this is on purpose because we can sync them again
+        try baseListing.encode(to: encoder)
     }
     
     enum CodingKeysApi: String, CodingKey {

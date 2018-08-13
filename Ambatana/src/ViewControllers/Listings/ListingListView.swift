@@ -228,7 +228,8 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         drawerManager.draw(item,
                            inCell: cell,
                            delegate: viewModel.listingCellDelegate,
-                           imageSize: viewModel.imageViewSizeForItem(at: indexPath.row))
+                           imageSize: viewModel.imageViewSizeForItem(at: indexPath.row),
+                           isPrivateList: viewModel.isPrivateList)
         return cell
     }
 
@@ -336,6 +337,11 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     func vmDidUpdateState(_ vm: ListingListViewModel, state: ViewState) {
         guard viewModel === vm else { return }
         refreshUIWithState(state)
+    }
+
+    func vmDidFinishLoadingCache(_ vm: ListingListViewModel) {
+        guard viewModel === vm else { return }
+        reloadData()
     }
 
     func vmDidFinishLoading(_ vm: ListingListViewModel, page: UInt, indexes: [Int]) {

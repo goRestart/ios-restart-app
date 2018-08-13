@@ -15,36 +15,25 @@ final class FeatureFlagsUDDAO: FeatureFlagsDAO {
         case newUserProfileEnabled = "newUserProfileEnabled"
         case advancedReputationSystemEnabled = "advancedReputationSystemEnabled"
         case emergencyLocate = "emergencyLocate"
-        case chatConversationsListWithoutTabs = "chatConversationsListWithoutTabs"
         case community = "community"
     }
 
     fileprivate var dictionary: [String: Any]
     fileprivate let userDefaults: UserDefaults
-    fileprivate var networkDAO: NetworkDAO
     
     // MARK: - Lifecycle
     
     convenience init() {
-        self.init(userDefaults: UserDefaults.standard, networkDAO: NetworkDefaultsDAO())
+        self.init(userDefaults: UserDefaults.standard)
     }
     
-    init(userDefaults: UserDefaults, networkDAO: NetworkDAO) {
+    init(userDefaults: UserDefaults) {
         self.userDefaults = userDefaults
-        self.networkDAO = networkDAO
         self.dictionary = FeatureFlagsUDDAO.fetch(userDefaults: userDefaults) ?? [:]
     }
     
     
     // MARK: - FeatureFlagsDAO
-
-    func retrieveTimeoutForRequests() -> TimeInterval? {
-        return networkDAO.timeoutIntervalForRequests
-    }
-
-    func save(timeoutForRequests: TimeInterval) {
-        networkDAO.timeoutIntervalForRequests = timeoutForRequests
-    }
 
     func retrieveAdvanceReputationSystem() -> AdvancedReputationSystem? {
         guard let rawValue: String = retrieve(key: .advancedReputationSystemEnabled) else { return nil }
@@ -63,16 +52,6 @@ final class FeatureFlagsUDDAO: FeatureFlagsDAO {
 
     func save(emergencyLocate: EmergencyLocate) {
         save(key: .emergencyLocate, value: emergencyLocate.rawValue)
-        sync()
-    }
-
-    func retrieveChatConversationsListWithoutTabs() -> ChatConversationsListWithoutTabs? {
-        guard let rawValue: String = retrieve(key: .chatConversationsListWithoutTabs) else { return nil }
-        return ChatConversationsListWithoutTabs(rawValue: rawValue)
-    }
-    
-    func save(chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs) {
-        save(key: .chatConversationsListWithoutTabs, value: chatConversationsListWithoutTabs.rawValue)
         sync()
     }
 

@@ -80,17 +80,21 @@ final class PostingDetailsViewController: KeyboardViewController, LGSearchMapVie
     private func setupUI() {
         view.clipsToBounds = true
         view.backgroundColor = .clear
-        view.addSubviewsForAutoLayout([headerView, contentView, buttonNextUnderView, buttonNext])
+        
+        if viewModel.showsNextButton {
+            view.addSubviewsForAutoLayout([headerView, contentView, buttonNextUnderView, buttonNext])
+            buttonNext.setTitle(viewModel.buttonTitle, for: .normal)
+            buttonNext.setStyle(viewModel.doneButtonStyle)
+            buttonNext.addTarget(self, action: #selector(nextButtonPressed), for: .touchUpInside)
+        } else {
+            view.addSubviewsForAutoLayout([headerView, contentView])
+        }
+        
         headerView.addSubviewsForAutoLayout([titleLabel, subtitleLabel])
 
-        
         titleLabel.text = viewModel.title
         subtitleLabel.text = viewModel.subtitle
-        buttonNext.setTitle(viewModel.buttonTitle, for: .normal)
-        buttonNext.setStyle(viewModel.doneButtonStyle)
-        buttonNext.addTarget(self, action: #selector(nextButtonPressed), for: .touchUpInside)
-        
-
+       
         contentView.backgroundColor = .clear
     }
     
@@ -154,24 +158,27 @@ final class PostingDetailsViewController: KeyboardViewController, LGSearchMapVie
         infoView = viewModel.makeContentView(viewControllerDelegate: self)
         infoView?.setupContainerView(view: contentView)
 
-        buttonNext.layout(with: view).bottom(by: -Metrics.margin)
-        buttonNext.layout().height(PostingDetailsViewController.skipButtonHeight)
-        buttonNext.layout().width(PostingDetailsViewController.skipButtonMinimumWidth, relatedBy: .greaterThanOrEqual)
-        if viewModel.shouldFollowKeyboard {
-            buttonNext.layout(with: keyboardView).bottom(to: .top, by: -Metrics.bigMargin)
-        } else {
-            buttonNext.layout(with: view).bottom(by: -Metrics.bigMargin)
+        if viewModel.showsNextButton {
+            buttonNext.layout(with: view).bottom(by: -Metrics.margin)
+            buttonNext.layout().height(PostingDetailsViewController.skipButtonHeight)
+            buttonNext.layout().width(PostingDetailsViewController.skipButtonMinimumWidth, relatedBy: .greaterThanOrEqual)
+            if viewModel.shouldFollowKeyboard {
+                buttonNext.layout(with: keyboardView).bottom(to: .top, by: -Metrics.bigMargin)
+            } else {
+                buttonNext.layout(with: view).bottom(by: -Metrics.bigMargin)
+            }
+            if viewModel.buttonFullWidth {
+                buttonNext.layout(with: keyboardView).left(by: Metrics.bigMargin)
+            }
+            buttonNext.layout(with: view).right(by: -Metrics.bigMargin)
+            
+            buttonNextUnderView.layout(with: buttonNext)
+                .centerX()
+                .centerY()
+            
+            buttonNextUnderView.layout(with: buttonNext).fill()
         }
-        if viewModel.buttonFullWidth {
-            buttonNext.layout(with: keyboardView).left(by: Metrics.bigMargin)
-        }
-        buttonNext.layout(with: view).right(by: -Metrics.bigMargin)
-        
-        buttonNextUnderView.layout(with: buttonNext)
-            .centerX()
-            .centerY()
-        
-        buttonNextUnderView.layout(with: buttonNext).fill()
+
     }
     
     func detailViewScrolled(contentOffsetY: CGFloat) {

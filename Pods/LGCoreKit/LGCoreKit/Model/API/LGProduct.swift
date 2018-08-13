@@ -8,7 +8,7 @@
 
 public protocol Product: BaseListingModel {}
 
-struct LGProduct: Product, Decodable {
+struct LGProduct: Product, Codable {
 
     let objectId: String?
     let updatedAt: Date?
@@ -300,5 +300,30 @@ struct LGProduct: Product, Decodable {
         mediaThumbnail = baseListing.mediaThumbnail
         user = baseListing.user
         featured = baseListing.featured
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        let baseListing = LGBaseListing(objectId: objectId,
+                                        updatedAt: updatedAt,
+                                        createdAt: createdAt,
+                                        name: name,
+                                        nameAuto: nameAuto,
+                                        descr: descr,
+                                        price: price,
+                                        currency: currency,
+                                        location: location,
+                                        postalAddress: postalAddress,
+                                        languageCode: languageCode,
+                                        category: category,
+                                        status: status,
+                                        thumbnail: thumbnail,
+                                        thumbnailSize: thumbnailSize,
+                                        images: images,
+                                        media: media,
+                                        mediaThumbnail: mediaThumbnail,
+                                        user: user,
+                                        featured: featured,
+                                        carAttributes: nil)
+        try baseListing.encode(to: encoder)
     }
 }

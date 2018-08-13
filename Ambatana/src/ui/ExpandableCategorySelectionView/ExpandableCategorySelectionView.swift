@@ -36,7 +36,9 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate {
     
     // MARK: - Lifecycle
     
-    init(frame: CGRect, buttonSpacing: CGFloat, bottomDistance: CGFloat,
+    init(frame: CGRect,
+         buttonSpacing: CGFloat,
+         bottomDistance: CGFloat,
          viewModel: ExpandableCategorySelectionViewModel) {
         self.buttonSpacing = buttonSpacing
         self.bottomDistance = bottomDistance
@@ -91,8 +93,11 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate {
             let button = LetgoButton()
             button.setStyle(.primary(fontSize: .medium))
             button.tag = actionIndex
-            button.setImage(category.icon, for: .normal)
-            button.setTitle(category.title, for: .normal)
+            
+            let title = viewModel.buttonTitle(forCategory: category)
+            let icon = viewModel.buttonIcon(forCategory: category)
+            button.setImage(icon, for: .normal)
+            button.setTitle(title, for: .normal)
             button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
             button.set(accessibilityId: .expandableCategorySelectionButton)
             button.translatesAutoresizingMaskIntoConstraints = false
@@ -218,34 +223,5 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate {
         // Ignore touches explicitly in tagCollectionView cells
         return touchView.isEqual(tagCollectionView) ||
             !touchView.isDescendant(of: tagCollectionView)
-    }
-}
-
-fileprivate extension ListingCategory {
-    var title: String {
-        switch self {
-        case .unassigned:
-            return R.Strings.categoriesUnassignedItems
-        case .motorsAndAccessories, .cars, .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .services:
-            return name
-        case .realEstate:
-            return FeatureFlags.sharedInstance.realEstateNewCopy.isActive ? R.Strings.productPostSelectCategoryRealEstate : R.Strings.productPostSelectCategoryHousing
-        }
-    }
-    var icon: UIImage? {
-        switch self {
-        case .unassigned:
-            return R.Asset.IconsButtons.items.image
-        case .cars:
-            return R.Asset.IconsButtons.carIcon.image
-        case .motorsAndAccessories:
-            return R.Asset.IconsButtons.motorsAndAccesories.image
-        case .realEstate:
-            return R.Asset.IconsButtons.housingIcon.image
-        case .services:
-            return R.Asset.IconsButtons.servicesIcon.image
-        case .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames:
-            return image
-        }
     }
 }

@@ -12,6 +12,6 @@ import LGCoreKit
 protocol GridCellDrawer {
     associatedtype T: UICollectionViewCell
     associatedtype M
-    func draw(_ model: M, style: CellStyle, inCell cell: T)
+    func draw(_ model: M, style: CellStyle, inCell cell: T, isPrivateList: Bool)
     func willDisplay(_ model: M, inCell cell: T)
 }

@@ -100,11 +100,11 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
 	
 	struct EditProductFeatureUI {
-		static let editProductFeaturelabelText: String = R.Strings.editProductFeatureLabelLongText
 		static let editProductFeatureTextColor: UIColor = UIColor.primaryColor
 		static let editProductFeatureFont: UIFont = UIFont.systemBoldFont(size: 15)
 		static let editProductFeatureBoostIcon: UIImage = R.Asset.Monetization.icLightning.image
 	}
+
 
     // real time cloudsight
     let proposedTitle = Variable<String>("")
@@ -166,7 +166,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
     private(set) var listingCanBeFeatured: Bool
     var featureLabelText: String? {
-        return listingCanBeBoosted ? BoostCellUI.boostLabelText : EditProductFeatureUI.editProductFeaturelabelText
+        return listingCanBeBoosted ? BoostCellUI.boostLabelText : featureFlags.bumpInEditCopys.variantString
     }
     var featureLabelTextColor: UIColor? {
         return listingCanBeBoosted ? BoostCellUI.boostLabelTextColor : EditProductFeatureUI.editProductFeatureTextColor
@@ -211,7 +211,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     let serviceTypeName = Variable<String?>(nil)
     let serviceSubtypeId = Variable<String?>(nil)
     let serviceSubtypeName = Variable<String?>(nil)
-    let servicePriceType = Variable<PriceType?>(nil)
+    let servicePaymentFrequency = Variable<PaymentFrequency?>(nil)
     
     var shouldFeatureItemAfterEdit = Variable<Bool>(true)
     
@@ -260,7 +260,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
     // Delegate
     weak var delegate: EditListingViewModelDelegate?
-    weak var navigator: EditListingNavigator?
+    var navigator: EditListingNavigator?
 
     // Rx
     let disposeBag = DisposeBag()
@@ -390,7 +390,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
                 self.serviceSubtypeName.value = services.servicesAttributes.subtypeTitle
                     ?? servicesInfoRepository.serviceSubtype(forServiceSubtypeId: serviceSubtypeId)?.name
             }
-            self.servicePriceType.value = services.servicesAttributes.priceType ?? .hourly
+            self.servicePaymentFrequency.value = services.servicesAttributes.paymentFrequency
         }
 
         self.shouldShareInFB = false
@@ -479,11 +479,12 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
     
     var servicesAttributes: ServiceAttributes {
+        let paymentFrequencyValue: PaymentFrequency? = !(isFreePosting.value) ? servicePaymentFrequency.value : nil
         return ServiceAttributes(typeId: serviceTypeId.value,
                                  subtypeId: serviceSubtypeId.value,
                                  typeTitle: serviceTypeName.value,
                                  subtypeTitle: serviceSubtypeName.value,
-                                 priceType: servicePriceType.value)
+                                 paymentFrequency: paymentFrequencyValue)
     }
 
     var descriptionCharCount: Int {
@@ -792,7 +793,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
                                                                serviceTypeName.asObservable().distinctUntilChanged(),
                                                                serviceSubtypeId.asObservable().distinctUntilChanged(),
                                                                serviceSubtypeName.asObservable().distinctUntilChanged(),
-                                                               servicePriceType.asObservable().distinctUntilChanged())
+                                                               servicePaymentFrequency.asObservable().distinctUntilChanged())
         
         let checkAllChanges = Observable.combineLatest(checkingCarChanges.asObservable(),
                                                        checkingCarExtraFieldsChanges.asObservable(),
@@ -1032,8 +1033,12 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 // MARK:- Services
 extension EditListingViewModel {
     
-    var shouldShowPriceType: Bool {
-        return featureFlags.servicesPriceType.isActive
+    var paymentFrequencyText: String {
+        return servicePaymentFrequency.value?.localizedDisplayName ?? R.Strings.editPaymentFrequencyPlaceholder
+    }
+    
+    var shouldShowPaymentFrequency: Bool {
+        return featureFlags.servicesPaymentFrequency.isActive && !(isFreePosting.value)
     }
     
     func serviceTypeButtonPressed() {
@@ -1076,11 +1081,11 @@ extension EditListingViewModel {
         navigator?.openListingAttributePicker(viewModel: vm)
     }
     
-    func priceTypeButtonPressed() {
-        let priceTypeActions = PriceType.allCases.map({ [weak self] priceType in
-            return UIAction(interface: UIActionInterface.text(priceType.localizedDisplayName),
+    func paymentFrequencyButtonPressed() {
+        let paymentFrequencyActions = PaymentFrequency.allCases.map({ [weak self] paymentFrequency in
+            return UIAction(interface: UIActionInterface.text(paymentFrequency.localizedDisplayName),
                              action: {
-                                self?.servicePriceType.value = priceType
+                                self?.servicePaymentFrequency.value = paymentFrequency
             })
         })
         
@@ -1088,7 +1093,7 @@ extension EditListingViewModel {
                                     action: {})
 
         delegate?.vmShowActionSheet(cancelAction,
-                                    actions: priceTypeActions,
+                                    actions: paymentFrequencyActions,
                                     withTitle: R.Strings.editPriceTypeChooseTitle)
     }
 
@@ -1349,6 +1354,9 @@ extension EditListingViewModel {
         }
         if let carEdited = initialListing.car?.carAttributes.editedFieldsTracker(newCarAttributes: listing.car?.carAttributes) {
             editedFields.append(contentsOf: carEdited)
+        }
+        if let servicesEdit = initialListing.service?.servicesAttributes.editedFieldsTracker(newServicesAttributes: listing.service?.servicesAttributes) {
+            editedFields.append(contentsOf: servicesEdit)
         }
         return editedFields
     }

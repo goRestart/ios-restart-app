@@ -348,7 +348,7 @@ final class ListingDeckViewModel: BaseViewModel {
     }
     
     func interstitialAdTapped(typePage: EventParameterTypePage) {
-        let adType = AdRequestType.interstitial.trackingParamValue
+        let adType = AdRequestType.interstitial.trackingParamValueFor(size: nil)
         let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
         let feedPosition: EventParameterFeedPosition = .position(index: currentIndex)
         let willLeave = EventParameterBoolean(bool: true)
@@ -360,7 +360,7 @@ final class ListingDeckViewModel: BaseViewModel {
     }
     
     func interstitialAdShown(typePage: EventParameterTypePage) {
-        let adType = AdRequestType.interstitial.trackingParamValue
+        let adType = AdRequestType.interstitial.trackingParamValueFor(size: nil)
         let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
         let feedPosition: EventParameterFeedPosition = .position(index: currentIndex)
         let adShown = EventParameterBoolean(bool: true)
@@ -471,7 +471,7 @@ final class ListingDeckViewModel: BaseViewModel {
 // MARK: ListingViewModelDelegate
 
 extension ListingDeckViewModel: ListingViewModelDelegate {
-
+    
     var listingOrigin: ListingOrigin {
         let result: ListingOrigin
         switch lastMovement {
@@ -506,6 +506,9 @@ extension ListingDeckViewModel: ListingViewModelDelegate {
     }
     func vmShowAutoFadingMessage(title: String, message: String, time: Double, completion: (() -> ())?) {
         delegate?.vmShowAutoFadingMessage(title: title, message: message, time: time, completion: completion)
+    }
+    func vmShowAutoFadingMessage(message: String, time: Double, completion: (() -> ())?) {
+        delegate?.vmShowAutoFadingMessage(message: message, time: time, completion: completion)
     }
     func vmShowLoading(_ loadingMessage: String?) {
         delegate?.vmShowLoading(loadingMessage)

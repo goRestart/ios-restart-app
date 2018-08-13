@@ -116,11 +116,6 @@
         "description": "[CHAT] Show the create meeting option in chat detail view."
     },
     {
-        "name": "AddPriceTitleDistanceToListings",
-        "values": ["control", "baseline", "infoInImage", "infoWithWhiteBackground"],
-        "description": "Add price, title and distance to listings"
-    },
-    {
         "name": "ShowProTagUserProfile",
         "values": ["no", "yes"],
         "description": "Show Professional tag in user profile"
@@ -169,11 +164,6 @@
         "name": "IAmInterestedFeed",
         "values": ["control", "baseline", "hidden"],
         "description": "Show an I am interested button in the main feed"
-    },
-    {
-        "name": "ChatConversationsListWithoutTabs",
-        "values": ["control", "baseline", "active"],
-        "description": "[CHAT] Chat conversation list without tabs"
     },
     {
         "name": "PersonalizedFeed",
@@ -286,6 +276,11 @@
         "description": "[CHAT] Enable the CTA message type"
     },
     {
+        "name": "OpenChatFromUserProfile",
+        "values": ["control", "baseline", "vatiant1NoQuickAnswers", "variant2WithOneTimeQuickAnswers"],
+        "description": "[CHAT] Open a chat from the user profile"
+    },
+    {
         "name": "SearchAlertsInSearchSuggestions",
         "values": ["control", "baseline", "active"],
         "description": "Show search alerts in search suggestions view"
@@ -316,18 +311,53 @@
         "description": "[CHAT] Express chat improvements"
     },
     {
+        "name": "SmartQuickAnswers",
+        "values": ["control", "baseline", "active"],
+        "description": "Show smart quick answer events"
+    },
+    {
         "name": "AlwaysShowBumpBannerWithLoading",
         "values": ["control", "baseline", "active"],
         "description": "[MONEY] Always show bump banner with a loading till we get the info"
     },
     {
-         "name": "ServicesPriceType",
+         "name": "ServicesPaymentFrequency",
          "values": ["control", "baseline", "active"],
-         "description": "shows services priceType functionality (e.g 2 euro per day, etc.)"
+         "description": "[SERVICES] shows services paymentFrequency functionality (e.g 2 euro per day, etc.)"
     },
     {
         "name": "SearchAlertsDisableOldestIfMaximumReached",
         "values": ["control", "baseline", "active"],
         "description": "[RETENTION] Disable oldest search alert if a new one is created and the maximum has been reached"
+    },
+    {
+        "name": "ShowSellFasterInProfileCells",
+        "values": ["control", "baseline", "active"],
+        "description": "[MONEY] Add CTA to bump up to profile listing cells"
+    },
+    {
+        "name": "BumpInEditCopys",
+        "values": ["control", "baseline", "attractMoreBuyers", "attractMoreBuyersToSellFast", "showMeHowToAttract"],
+        "description": "[MONEY] Test different variants for bump up in edit listing screen"
+    },
+    {
+        "name": "MultiAdRequestMoreInfo",
+        "values": ["control", "baseline", "active"],
+        "description": "[MONEY] Test different ad sizes in more info view"
+    },
+    {
+        "name": "EnableJobsAndServicesCategory",
+        "values": ["control", "baseline", "active"],
+        "description": "[SERVICES] Services category becomes Jobs & Services, enables features related to jobs"
+    },
+    {
+        "name": "CachedFeed",
+        "values": ["control", "baseline", "active"],
+        "description": "[CORE] Show cached feed before requesting for a fresh one"
+    },
+    {
+        "name": "CopyForSellFasterNowInTurkish",
+        "values": ["control", "baseline", "variantB", "variantC", "variantD"],
+        "description": "[MONEY] Try different copies for 'Sell faster now' banner in Turkish"
     }
  ]

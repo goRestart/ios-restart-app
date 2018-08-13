@@ -16,17 +16,19 @@ final class CoreDI: InternalDI {
     // MARK: - Lifecycle
     
     init() {
-        self.networkDAO = NetworkDefaultsDAO()
-        let timeoutInterval = networkDAO.timeoutIntervalForRequests ?? LGCoreKitConstants.timeoutIntervalForRequest
         let userAgentBuilder = LGUserAgentBuilder()
         if ProcessInfo.processInfo.environment["isRunningUnitTests"] != nil {
-            networkManager = Alamofire.SessionManager.make(backgroundEnabled: false,
-                                                           userAgentBuilder: userAgentBuilder,
-                                                           timeoutIntervalForRequest: timeoutInterval)
+            networkManager = Alamofire.SessionManager.make(
+                backgroundEnabled: false,
+                userAgentBuilder: userAgentBuilder,
+                timeoutIntervalForRequest: LGCoreKitConstants.timeoutIntervalForRequest
+            )
         } else {
-            networkManager = Alamofire.SessionManager.make(backgroundEnabled: true,
-                                                           userAgentBuilder: userAgentBuilder,
-                                                           timeoutIntervalForRequest: timeoutInterval)
+            networkManager = Alamofire.SessionManager.make(
+                backgroundEnabled: true,
+                userAgentBuilder: userAgentBuilder,
+                timeoutIntervalForRequest: LGCoreKitConstants.timeoutIntervalForRequest
+            )
         }
 
         keychain = KeychainSwift()
@@ -41,7 +43,7 @@ final class CoreDI: InternalDI {
         self.webSocketLibrary = webSocketLibrary
         let webSocketClient = LGWebSocketClient(webSocket: webSocketLibrary,
                                                 reachability: reachability)
-        webSocketClient.timeoutIntervalForRequest = timeoutInterval
+        webSocketClient.timeoutIntervalForRequest = LGCoreKitConstants.timeoutIntervalForRequest
 
         let appVersion = Bundle.main
         let locale = Locale.autoupdatingCurrent
@@ -183,6 +185,9 @@ final class CoreDI: InternalDI {
 
         communityRepository = LGCommunityRepository(tokenDAO: tokenDAO)
 
+        let reportingDataSource = ReportingApiDataSource(apiClient: self.apiClient)
+        reportingRepository = LGReportingRepository(dataSource: reportingDataSource, myUserRepository: myUserRepository)
+
         self.reporter = ReporterProxy()
     }
 
@@ -241,6 +246,7 @@ final class CoreDI: InternalDI {
     let servicesInfoRepository: ServicesInfoRepository
     let listingRepository: ListingRepository
     let communityRepository: CommunityRepository
+    let reportingRepository: ReportingRepository
 
     lazy var fileRepository: FileRepository = {
         let dataSource = FileApiDataSource(apiClient: self.apiClient)
@@ -288,7 +294,6 @@ final class CoreDI: InternalDI {
     let myUserDAO: MyUserDAO
     let stickersDAO: StickersDAO
     let listingsLimboDAO: ListingsLimboDAO
-    let networkDAO: NetworkDAO
 
     // MARK: > Reachability
 

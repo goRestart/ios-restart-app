@@ -4,7 +4,6 @@ import RxSwift
 
 final class MockFeatureFlags: FeatureFlaggeable {
 
-
     var trackingData: Observable<[(String, ABGroup)]?> {
         return trackingDataVar.asObservable()
     }
@@ -21,7 +20,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var userReviewsReportEnabled: Bool = true
     var deckItemPage: DeckItemPage = .control
     var realEstateEnabled: RealEstateEnabled = .control
-    var requestTimeOut: RequestsTimeOut = .thirty
     var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed = .control
     var showClockInDirectAnswer: ShowClockInDirectAnswer = .control
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers = .control
@@ -30,7 +28,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var searchImprovements: SearchImprovements = .control
     var relaxedSearch: RelaxedSearch = .control
     var bumpUpBoost: BumpUpBoost = .control
-    var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings = .control
     var showProTagUserProfile: Bool = false
     var sectionedMainFeed: SectionedMainFeed = .control
     var showExactLocationForPros: Bool = true
@@ -53,7 +50,11 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var appInstallAdsInFeed: AppInstallAdsInFeed = .control
     var appInstallAdsInFeedAdUnit: String? = ""
     var alwaysShowBumpBannerWithLoading: AlwaysShowBumpBannerWithLoading = .control
-    
+    var showSellFasterInProfileCells: ShowSellFasterInProfileCells = .control
+    var bumpInEditCopys: BumpInEditCopys = .control
+    var multiAdRequestMoreInfo: MultiAdRequestMoreInfo = .control
+    var cachedFeed: CachedFeed = .control
+
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false
     }
@@ -64,24 +65,27 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var copyForSellFasterNowInEnglish: CopyForSellFasterNowInEnglish = .control
     var shouldShowIAmInterestedInFeed: IAmInterestedFeed = .control
     var googleAdxForTR: GoogleAdxForTR = .control
+    var copyForSellFasterNowInTurkish: CopyForSellFasterNowInTurkish = .control
 
     // MARK: Chat
     var showInactiveConversations: Bool = false
     var showChatSafetyTips: Bool = false
     var userIsTyping: UserIsTyping = .control
     var chatNorris: ChatNorris = .control
-    var chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs = .control
     var showChatConnectionStatusBar: ShowChatConnectionStatusBar = .control
     var showChatHeaderWithoutListingForAssistant: Bool = true
     var showChatHeaderWithoutUser: Bool = true
     var enableCTAMessageType: Bool = true
     var expressChatImprovement: ExpressChatImprovement = .control
+    var smartQuickAnswers: SmartQuickAnswers = .control
+    var openChatFromUserProfile: OpenChatFromUserProfile = .control
     
     // MARK:  Verticals
-    var servicesPriceType: ServicesPriceType = .control
+    var servicesPaymentFrequency: ServicesPaymentFrequency = .control
     var carExtraFieldsEnabled: CarExtraFieldsEnabled = .control
     var realEstateMapTooltip: RealEstateMapTooltip = .control
     var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen = .control
+    var jobsAndServicesEnabled: EnableJobsAndServicesCategory = .control
     
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed = .control

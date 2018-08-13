@@ -7,7 +7,7 @@ enum RateBuyersSection: Int {
     case otherActions = 1
 }
 
-class RateBuyersViewController: BaseViewController, RateBuyersViewModelDelegate {
+final class RateBuyersViewController: BaseViewController, RateBuyersViewModelDelegate {
     
     static fileprivate let headerTableViewHeight: CGFloat = 200
     static fileprivate let numberOfSections = 2

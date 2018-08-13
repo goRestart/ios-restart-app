@@ -59,21 +59,25 @@ extension ProfileTabCoordinator: ProfileTabNavigator {
     }
 
     func editListing(_ listing: Listing, pageType: EventParameterTypePage?) {
-        let navigator = EditListingCoordinator(listing: listing,
-                                               bumpUpProductData: nil,
-                                               pageType: pageType,
-                                               listingCanBeBoosted: false,
-                                               timeSinceLastBump: nil,
-                                               maxCountdown: 0)
-        openChild(coordinator: navigator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
+        let nav = UINavigationController()
+        let assembly = LGListingBuilder.standard(navigationController: navigationController)
+        let vc = assembly.buildEditView(listing: listing,
+                                        pageType: pageType,
+                                        bumpUpProductData: nil,
+                                        listingCanBeBoosted: false,
+                                        timeSinceLastBump: nil,
+                                        maxCountdown: 0,
+                                        onEditAction: nil)
+        nav.viewControllers = [vc]
+        navigationController.present(nav, animated: true)
     }
+
     func closeProfile() {
         dismissViewController(animated: true, completion: nil)
     }
 }
 
 extension ProfileTabCoordinator: SettingsNavigator {
-
     func openEditUserName() {
         let vm = ChangeUsernameViewModel()
         vm.navigator = self
@@ -96,9 +100,8 @@ extension ProfileTabCoordinator: SettingsNavigator {
     }
 
     func openChangePassword() {
-        let vm = ChangePasswordViewModel()
-        vm.navigator = self
-        let vc = ChangePasswordViewController(viewModel: vm)
+        let vc = LGChangePasswordBuilder.standard(
+            root: navigationController).buildChangePassword()
         navigationController.pushViewController(vc, animated: true)
     }
 
@@ -138,13 +141,6 @@ extension ProfileTabCoordinator: ChangeEmailNavigator {
 extension ProfileTabCoordinator: EditLocationNavigator {
 
     func closeEditLocation() {
-        navigationController.popViewController(animated: true)
-    }
-}
-
-extension ProfileTabCoordinator: ChangePasswordNavigator {
-
-    func closeChangePassword() {
         navigationController.popViewController(animated: true)
     }
 }

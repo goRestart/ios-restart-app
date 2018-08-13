@@ -97,6 +97,7 @@ public struct RetrieveListingParams {
     //  MARK: Services
     public var typeIds: [String]?
     public var subtypeIds: [String]?
+    public var serviceListingTypes: [ServiceListingType]?
     
     //  MARK: Real Estate
     public var propertyType: String?

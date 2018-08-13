@@ -23,7 +23,8 @@ final class SearchCoordinator: NSObject, Coordinator, SearchNavigator {
     let sessionManager: SessionManager
 
     private let bumpAssembly: BumpUpAssembly
-    private lazy var listingCoordinator = ListingCoordinator(navigationController: navigationController)
+    private let listingCoordinator: ListingCoordinator
+
     private let navigationController: UINavigationController
 
     convenience init(searchType: SearchType?, query: String?) {
@@ -48,6 +49,10 @@ final class SearchCoordinator: NSObject, Coordinator, SearchNavigator {
         let vc = UINavigationController.init(rootViewController: SearchViewController.init(vm: vm))
         self.navigationController = vc
         self.viewController = vc
+        let userCoordinator = UserCoordinator(navigationController: navigationController)
+        self.listingCoordinator = ListingCoordinator(navigationController: vc,
+                                                     userCoordinator: userCoordinator)
+        userCoordinator.listingCoordinator = listingCoordinator
         self.bumpAssembly = LGBumpUpBuilder.standard(nav: vc)
 
         self.bubbleNotificationManager = bubbleNotificationManager
@@ -87,11 +92,11 @@ extension SearchCoordinator {
     }
 
     func openFilters(with listingFilters: ListingFilters, dataDelegate: FiltersViewModelDataDelegate?) {
-        let vm = FiltersViewModel(currentFilters: listingFilters)
-        vm.dataDelegate = dataDelegate
-        vm.navigator = self
-        let vc = FiltersViewController(viewModel: vm)
-        vm.delegate = vc
+        let vc = LGFiltersBuilder.standard(navigationController: navigationController)
+            .buildFilters(
+                filters: listingFilters,
+                dataDelegate: dataDelegate
+            )
         navigationController.pushViewController(vc, animated: true)
     }
     func openLocationSelection(with place: Place?, distanceRadius: Int?, locationDelegate: EditLocationDelegate) {
@@ -122,38 +127,6 @@ extension SearchCoordinator: ListingsMapNavigator {
                      source: EventParameterListingVisitSource,
                      actionOnFirstAppear: ProductCarouselActionOnFirstAppear) {
         listingCoordinator.openListing(data, source: source, actionOnFirstAppear: actionOnFirstAppear)
-    }
-}
-
-extension SearchCoordinator: FiltersNavigator {
-    func openServicesDropdown(viewModel: DropdownViewModel) {
-        let vc = DropdownViewController(withViewModel: viewModel)
-        navigationController.pushViewController(vc, animated: true)
-    }
-
-    func openEditLocation(withViewModel viewModel: EditLocationViewModel) {
-        let vc = EditLocationViewController(viewModel: viewModel)
-        navigationController.pushViewController(vc, animated: true)
-    }
-
-    func openCarAttributeSelection(withViewModel viewModel: CarAttributeSelectionViewModel) {
-        let vc = CarAttributeSelectionViewController(viewModel: viewModel)
-        navigationController.pushViewController(vc, animated: true)
-    }
-
-    func openTaxonomyList(withViewModel viewModel: TaxonomiesViewModel) {
-        let vc = TaxonomiesViewController(viewModel: viewModel)
-        navigationController.pushViewController(vc, animated: true)
-    }
-
-    func openListingAttributePicker(viewModel: ListingAttributePickerViewModel) {
-        let vc = ListingAttributePickerViewController(viewModel: viewModel)
-        viewModel.delegate = vc
-        navigationController.pushViewController(vc, animated: true)
-    }
-
-    func closeFilters() {
-        navigationController.popViewController(animated: true)
     }
 }
 

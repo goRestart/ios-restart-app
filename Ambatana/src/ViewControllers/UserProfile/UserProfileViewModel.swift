@@ -30,7 +30,7 @@ final class UserProfileViewModel: BaseViewModel {
     // MARK: - Input
     let selectedTab = Variable<UserProfileTabType>(.selling)
 
-    weak var navigator: PublicProfileNavigator?
+    var navigator: PublicProfileNavigator?
     weak var profileNavigator: ProfileTabNavigator? {
         didSet {
             navigator = profileNavigator
@@ -560,6 +560,10 @@ extension UserProfileViewModel {
 // MARK: - ListingList Data Delegate
 
 extension UserProfileViewModel: ListingListViewModelDataDelegate {
+    func listingListVMDidSucceedRetrievingCache(viewModel: ListingListViewModel) {
+        // 🤷‍♂️
+    }
+
     func listingListMV(_ viewModel: ListingListViewModel,
                        didFailRetrievingListingsPage page: UInt,
                        hasListings: Bool,
@@ -798,4 +802,14 @@ extension UserProfileViewModel: ListingCellDelegate {
     }
     
     func postNowButtonPressed(_ view: UIView) { }
+
+    func bumpUpPressedFor(listing: Listing) {
+        guard let id = listing.objectId else { return }
+        let data = ListingDetailData.id(listingId: id)
+        let actionOnFirstAppear = ProductCarouselActionOnFirstAppear.triggerBumpUp(bumpUpProductData: nil,
+                                                                                   bumpUpType: nil,
+                                                                                   triggerBumpUpSource: .profile,
+                                                                                   typePage: .profile)
+        navigator?.openListing(data, source: .profile, actionOnFirstAppear: actionOnFirstAppear)
+    }
 }

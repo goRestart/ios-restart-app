@@ -4,6 +4,8 @@ extension ServiceAttributes: MockFactory {
     public static func makeMock() -> ServiceAttributes {
         return ServiceAttributes(typeId: String.makeRandom(),
                                  subtypeId: String.makeRandom(),
-                                 priceType: PriceType.oneOff)
+                                 listingType: ServiceListingType.job,
+                                 paymentFrequency: PaymentFrequency.oneOff)
     }
 }
+

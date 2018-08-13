@@ -220,6 +220,7 @@ enum EventName: String {
     case chatTabOpen                        = "chat-tab-open"
     case chatCallToActionTapped             = "chat-call-to-action-tapped"
 
+    case openCommunity                      = "open-community"
 
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
@@ -369,6 +370,7 @@ enum EventParameterName: String {
     case seatsTo              = "seats-to"
     case serviceType          = "service-type"
     case serviceSubtype       = "service-subtype"
+    case paymentFrequency     = "payment-frequency"
     case verticalKeyword            = "vertical-keyword"
     case verticalMatchingFields     = "vertical-matching-fields"
     case verticalFields             = "vertical-fields"
@@ -445,6 +447,10 @@ enum EventParameterName: String {
     case returnedResults    = "returned-results"
     case featuredResults    = "featured-results"
     case action             = "action"
+
+    // Community
+    case showingBanner      = "showing-banner"
+    case bannerType         = "banner-type"
 }
 
 enum EventParameterBoolean: String {
@@ -927,6 +933,10 @@ enum EventParameterEditedFields: String {
     case fuelType             = "fuel-type"
     case drivetrain           = "drivetrain"
     case seats                = "seats"
+    case serviceType          = "service-type"
+    case serviceSubtype       = "service-subtype"
+    case paymentFrequency     = "payment-frequency"
+    
 }
 
 enum EventParameterTypePage: String {
@@ -1335,11 +1345,27 @@ enum EventParamenterLocationTypePage: String {
     case automatic  = "automatic"
 }
 
-enum EventParameterAdType: String {
-    case dfp = "dfp"
-    case moPub = "moPub"
-    case adx = "adx"
-    case interstitial = "interstitial"
+enum EventParameterAdType {
+    case dfp
+    case moPub
+    case adx
+    case interstitial
+    case variableSize(size: CGSize)
+
+    var stringValue: String {
+        switch self {
+        case .variableSize(let size):
+            return "\(Int(size.width))x\(Int(size.height))"
+        case .dfp:
+            return "dfp"
+        case .moPub:
+            return "moPub"
+        case .adx:
+            return "adx"
+        case .interstitial:
+            return "interstitial"
+        }
+    }
 }
 
 enum EventParameterAdQueryType: String {
@@ -1459,6 +1485,10 @@ enum EventParameterUserBadge: String {
         case .silver: self = .silver
         }
     }
+}
+
+enum EventBannerType: String {
+    case joinCommunity = "join-community"
 }
 
 struct EventParameters {

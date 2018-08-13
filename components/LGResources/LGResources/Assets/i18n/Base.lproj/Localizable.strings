@@ -55,6 +55,15 @@
 // Text for bubble in payment bump improvement. Variant D (only in English): Attract 2x more buyers
 "bump_up_banner_pay_text_improvement_english_d" = "Attract 2x more buyers";
 
+// Text for bubble in payment bump improvement. Variant B (only in Turkish): Daha çok kişi görsün
+"bump_up_banner_pay_text_improvement_turkish_b" = "Attract more buyers";
+
+// Text for bubble in payment bump improvement. Variant C (only in Turkish): Daha çok alıcıyı çek
+"bump_up_banner_pay_text_improvement_turkish_c" = "Attract more buyers";
+
+// Text for bubble in payment bump improvement. Variant D (only in Turkish): İlanına 2 kat daha fazla alıcı çek
+"bump_up_banner_pay_text_improvement_turkish_d" = "Attract more buyers";
+
 // Text for bubble while waiting for next bump
 "bump_up_banner_wait_text" = "to feature again";
 
@@ -93,6 +102,9 @@
 
 // Text for stripe in featured products cells
 "bump_up_product_cell_featured_stripe" = "Featured";
+
+// Text for feature call to action in product cell
+"bump_up_product_cell_feature_it_label" = "Feature it";
 
 // Featured product cell chat now button
 "bump_up_product_cell_chat_now_button" = "Chat Now";
@@ -151,6 +163,9 @@
 // Title for payment bump up view variant 3
 "bump_up_view_boost_title_cheaper_boost" = "Get a cheaper boost now";
 
+// Title for payment bump view when boost is not ready yet
+"bump_up_view_boost_title_not_ready" = "Your listing's still featured";
+
 // Subtitle for payment bump up view variant 1
 "bump_up_view_boost_subtitle_send_top" = "Your listing's still featured, but you can add an extra boost. It'll move to the top and be featured for 24 hours starting now.";
 
@@ -159,6 +174,9 @@
 
 // Subtitle for payment bump up view variant 3
 "bump_up_view_boost_subtitle_cheaper" = "Boost your listing right now to get a discount off the typical feature price.";
+
+// Subtitle for payment bump view when boost is not ready yet
+"bump_up_view_boost_subtitle_not_ready" = "You can add another boost in %@ to move it to the top and be featured for 24 additional hours";
 
 // Text for boost success alert
 "bump_up_boost_success_alert_text" = "Your listing was boosted! It will be featured for the next 24 hours.";
@@ -177,6 +195,12 @@
 
 // Conatct Us button for alert when bump is not allowed
 "bump_up_not_allowed_alert_contact_button" = "Contact Us";
+
+// Text for telling the user that the refresh of new listings has failed.
+"cached_feed_error" = "An error occurred while loading new listings";
+
+// Text for telling the user that there are fresh listings.
+"cached_feed_new_listings" = "New items";
 
 // Categories baby and child. Check attached image "categories (2).png"
 "categories_baby_and_child" = "Baby and Child";
@@ -1095,8 +1119,23 @@
 // Edit product, long version copy to feature item
 "edit_product_feature_label_long_text" = "Feature your listing to sell faster";
 
+// Edit product, copy to feature item test version B
+"edit_product_feature_label_variant_B" = "Attract more buyers";
+
+// Edit product, copy to feature item test version C
+"edit_product_feature_label_variant_C" = "Attract more buyers to sell faster";
+
+// Edit product, copy to feature item test version D
+"edit_product_feature_label_variant_D" = "Show me how to attract more buyers";
+
 // Edit price type, title of options list
-"edit_priceType_choose_title" = "Choose one option";
+"edit_priceType_choose_title" = "Choose an option";
+
+// Placeholder value for paymentFrequency/PriceType
+"edit_paymentFrequency_placeholder" = "Not set";
+
+// Title for paymentFrequency edit field
+"edit_paymentFrequency_title" = "Frequency";
 
 // Bubble title
 "engagement_badging_feed_bubble" = "New items";
@@ -1465,6 +1504,12 @@
 // Button to confirm the data in summary and request the ID verification
 "id_verification_summary_button_title" = "OK";
 
+// Text to show on services listing titles. The "Offering" in "Offering: Translation Services"
+"jobs_services_offering_text" = "Offering";
+
+// Text to show on jobs listing titles. The "Wanted" in "Wanted: Translation Services"
+"jobs_services_wanted_text" = "Wanted";
+
 // Title for Listings Map View
 "listings_map_title" = "Map view";
 
@@ -1804,14 +1849,35 @@
 // Notification center section with yesterday title
 "notifications_section_yesterday" = "Yesterday";
 
+// Notification center section with 1 days ago title _ Not used, using yesterday
+"notifications_section_one_day_ago" = "1 day ago";
+
 // Notification center section with n days ago title
 "notifications_section_days_ago" = "%i days ago";
+
+// Notification center section with 1 weeks ago title
+"notification_section_one_week_ago" = "1 week ago";
 
 // Notification center section with n weeks ago title
 "notifications_section_weeks_ago" = "%i weeks ago";
 
+// Notification center section with 1 months ago title
+"notification_section_one_month_ago" = "1 month ago";
+
 // Notification center section with n months ago title
 "notifications_section_months_ago" = "%i months ago";
+
+// Notification cell date with n mins ago
+"notifications_cell_date_mins_ago" = "%im";
+
+// Notification cell date with n hours ago
+"notifications_cell_date_hours_ago" = "%ih";
+
+// Notification cell date with n days ago
+"notifications_cell_date_days_ago" = "%id";
+
+// Notification cell date with n weeks ago
+"notifications_cell_date_weeks_ago" = "%iw";
 
 // Title of notifications section
 "notifications_title" = "Notifications";
@@ -2026,6 +2092,24 @@
 // Button title for the screen where user inserts the username
 "passwordless_username_input_done_button" = "Done";
 
+// for use as the "hour" in "/hour"
+"payment_frequency_per_hour" = "hour";
+
+// for use as the "week" in "/week"
+"payment_frequency_per_week" = "week";
+
+// for use as the "day" in "/day"
+"payment_frequency_per_day" = "day";
+
+// for use as the "biweek" value in "/2 weeks"
+"payment_frequency_per_biweek" = "2 weeks";
+
+// for use as the "month" in "/month"
+"payment_frequency_per_month" = "month";
+
+// for use as the "year" in "/year"
+"payment_frequency_per_year" = "year";
+
 // Button to initiate chat from the full screen photo viewer
 "photo_viewer_chat_button" = "Chat";
 
@@ -2125,6 +2209,12 @@
 // post subtitle for services screen
 "post_details_services_subtitle" = "Start making money!";
 
+// post title for job type selection screen
+"post_details_jobs_title" = "What kind of job are you offering?";
+
+// post subtitle for jobs screen
+"post_details_jobs_subtitle" = "Choose one";
+
 // placeholder for search bar in posting services
 "post_details_services_search_placeholder" = "Search or choose from the list";
 
@@ -2150,7 +2240,22 @@
 "post_details_services_create_max" = "Oops! You can only select 15 services at a time.";
 
 // Posting Camera title for services
-"post_details_services_camera_message" = "Post a picture of yourself or your company’s logo";
+"post_details_services_camera_message" = "Post your company’s logo or a photo that shows the service you offer";
+
+// Title for Jobs/Services posting flow title
+"post_details_jobs_services_step_title" = "I'm...";
+
+// Prefix for services listingType option
+"post_details_jobs_services_step_option_services_prefix" = "Advertising a";
+
+// Listing type service display name
+"post_details_listingType_service_display_name" = "service";
+
+// Prefix for jobs listingType option
+"post_details_jobs_services_step_option_jobs_prefix" = "Looking to hire someone for a";
+
+// Listing type jobs display name
+"post_details_listingType_job_display_name" = "job";
 
 // Product detail auto gen title disclaimer label.
 "product_auto_generated_title_label" = "Title automatically generated by letgo";
@@ -2665,6 +2770,9 @@
 // Product post category selection services button
 "product_post_select_category_services" = "Services";
 
+// Product post category selection jobs & services button
+"product_post_select_category_jobs_services" = "Jobs & Services";
+
 // Product post category selection real Estate button
 "product_post_select_category_real_estate" = "Real Estate";
 
@@ -3075,6 +3183,9 @@
 
 // Promote bump up later button text
 "promote_bump_later_button" = "Later";
+
+// Jobs & Services post button text
+"posting_flow_jobs_and_services_category_button_text" = "Jobs & Services";
 
 // Navigation bar title "Set Location"
 "quick_filter_location_title" = "Change Location";
@@ -3666,7 +3777,7 @@
 "reporting_listing_update_title" = "Report update";
 
 // Text shown in the Report Update view. Including the product name and the seller name
-"reporting_listing_update_text" = "Thanks for anonymously reporting \"%@\" posted by %@. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing this item, we have removed it because it violated our Community Guidelines.";
+"reporting_listing_update_text" = "Thanks for anonymously reporting \"%1$@\" posted by %2$@. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing this item, we have removed it because it violated our Community Guidelines.";
 
 // Title shown to ask the reporter for how the experience was
 "reporting_listing_update_feedback_title" = "How was this experience?";

@@ -192,7 +192,7 @@ final class UserView: UIView {
                    userName: String?,
                    productTitle: String?,
                    productPrice: String?,
-                   productPriceType: String?,
+                   productPaymentFrequency: String?,
                    userId: String?,
                    isProfessional: Bool,
                    userBadge: UserReputationBadge) {
@@ -201,18 +201,18 @@ final class UserView: UIView {
                   placeholder: placeholder,
                   userName: productTitle,
                   subtitle: productPrice,
-                  subtitleSuffix: productPriceType,
+                  subtitleSuffix: productPaymentFrequency,
                   isProfessional: isProfessional,
                   userBadge: userBadge)
     }
 
     private func setupWith(userAvatar avatar: URL?,
-                   placeholder: UIImage?,
-                   userName: String?,
-                   subtitle: String?,
-                   subtitleSuffix: String?,
-                   isProfessional: Bool,
-                   userBadge: UserReputationBadge) {
+                           placeholder: UIImage?,
+                           userName: String?,
+                           subtitle: String?,
+                           subtitleSuffix: String?,
+                           isProfessional: Bool,
+                           userBadge: UserReputationBadge) {
         if let avatar = avatar, avatar != avatarURL {
             avatarURL = avatar
             userAvatarImageView.image = placeholder

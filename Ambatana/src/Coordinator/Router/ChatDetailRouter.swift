@@ -72,7 +72,10 @@ final class ChatDetailRouter: ChatDetailNavigator {
                      source: EventParameterListingVisitSource,
                      actionOnFirstAppear: ProductCarouselActionOnFirstAppear) {
         guard let nav = navigationController else { return }
-        let listingCoordinator = ListingCoordinator(navigationController: nav)
+        let userCoordinator = UserCoordinator(navigationController: nav)
+        let listingCoordinator = ListingCoordinator(navigationController: nav, userCoordinator: userCoordinator)
+        userCoordinator.listingCoordinator = listingCoordinator
+
         listingCoordinator.openListing(data, source: source, actionOnFirstAppear: actionOnFirstAppear)
     }
 
@@ -94,12 +97,16 @@ final class ChatDetailRouter: ChatDetailNavigator {
                            listingId: String,
                            sourceRateBuyers: SourceRateBuyers?,
                            trackingInfo: MarkAsSoldTrackingInfo) {
-        let vc = chatAssembly.buildRateBuyers(source: source,
-                                              buyers: buyers,
-                                              listingId: listingId,
-                                              sourceRateBuyers: sourceRateBuyers,
-                                              trackingInfo: trackingInfo)
-        navigationController?.pushViewController(vc, animated: true)
+        guard let nav = navigationController else { return }
+        let assembly = LGRateBuilder.modal(root: nav)
+        let toPresentNav = UINavigationController()
+        _ = assembly.buildRateBuyers(into: toPresentNav,
+                                     source: source,
+                                     buyers: buyers,
+                                     listingId: listingId,
+                                     sourceRateBuyers: sourceRateBuyers,
+                                     trackingInfo: trackingInfo)
+        nav.pushViewController(toPresentNav, animated: true)
     }
 
     func openLoginIfNeededFromChatDetail(from: EventParameterLoginSourceValue,

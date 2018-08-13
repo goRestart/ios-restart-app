@@ -11,7 +11,7 @@ import UIKit
 final class ProductPriceAndTitleView: UIView {
     
     private enum FontSize {
-        static let priceType: CGFloat = 15.0
+        static let paymentFrequency: CGFloat = 15.0
     }
     
     enum DisplayStyle {
@@ -85,7 +85,7 @@ final class ProductPriceAndTitleView: UIView {
     
     func configUI(title: String?,
                   price: String,
-                  priceType: String?,
+                  paymentFrequency: String?,
                   style: DisplayStyle) {
 
         titleLabel.text = title
@@ -104,27 +104,29 @@ final class ProductPriceAndTitleView: UIView {
             applyShadow(withOpacity: 0.5, radius: 5, color: UIColor.black.cgColor)
         }
         
-        if let attributedText = priceAttributedString(forPrice: price, priceType: priceType, style: style) {
+        if let attributedText = paymentFrequencyAttributedString(forPrice: price,
+                                                                 paymentFrequency: paymentFrequency,
+                                                                 style: style) {
             priceLabel.attributedText = attributedText
         } else {
             priceLabel.text = price
         }
     }
     
-    private func priceAttributedString(forPrice price: String,
-                                       priceType: String?,
-                                       style: DisplayStyle) -> NSAttributedString? {
-        guard let priceType = priceType else { return nil }
+    private func paymentFrequencyAttributedString(forPrice price: String,
+                                                  paymentFrequency: String?,
+                                                  style: DisplayStyle) -> NSAttributedString? {
+        guard let paymentFrequency = paymentFrequency else { return nil }
         
-        let text = "\(price) \(priceType)"
-        return text.bifontAttributedText(highlightedText: priceType,
+        let text = "\(price) \(paymentFrequency)"
+        return text.bifontAttributedText(highlightedText: paymentFrequency,
                                          mainFont: ListingCellMetrics.PriceLabel.font,
                                          mainColour: priceLabelColour(forDisplayStyle: style),
-                                         otherFont: UIFont.systemFont(ofSize: FontSize.priceType),
-                                         otherColour: priceTypeForegroundColor(forDisplayStyle: style))
+                                         otherFont: UIFont.systemFont(ofSize: FontSize.paymentFrequency),
+                                         otherColour: paymentFrequencyForegroundColor(forDisplayStyle: style))
     }
     
-    private func priceTypeForegroundColor(forDisplayStyle displayStyle: DisplayStyle) -> UIColor {
+    private func paymentFrequencyForegroundColor(forDisplayStyle displayStyle: DisplayStyle) -> UIColor {
         switch displayStyle {
         case .darkText:
             return .grayDark

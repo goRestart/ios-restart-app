@@ -100,7 +100,7 @@ class ChatViewModel: ChatBaseViewModel {
     var shouldTrackFirstMessage: Bool = false
     let shouldShowExpressBanner = Variable<Bool>(false)
     let relatedListingsState = Variable<ChatRelatedItemsState>(.loading)
-    let shouldUpdateQuickAnswers = Variable<Bool>(false)
+    let shouldUpdateQuickAnswers = Variable<[QuickAnswer]?>(nil)
     let interlocutorProfessionalInfo = Variable<InterlocutorProfessionalInfo>(InterlocutorProfessionalInfo(isProfessional: false, phoneNumber: nil))
     let lastMessageSentType = Variable<ChatWrapperMessageType?>(nil)
     let messagesDidFinishRefreshing = Variable<Bool>(false)
@@ -440,7 +440,7 @@ class ChatViewModel: ChatBaseViewModel {
             }
             self?.listingIsFree.value = conversation.listing?.price.isFree ?? false
             if let _ = conversation.listing {
-                self?.shouldUpdateQuickAnswers.value = true
+                self?.shouldUpdateQuickAnswers.value = self?.directAnswers
             }
             self?.interlocutorAvatarURL.value = conversation.interlocutor?.avatar?.fileURL
             self?.interlocutorName.value = conversation.interlocutor?.name ?? ""
@@ -709,8 +709,15 @@ class ChatViewModel: ChatBaseViewModel {
                 self?.conversation.value.interlocutorIsTyping.value = true
             case .interlocutorTypingStopped:
                 self?.conversation.value.interlocutorIsTyping.value = false
-            case .authenticationTokenExpired, .talkerUnauthenticated, .smartQuickAnswer(_):
+            case .authenticationTokenExpired, .talkerUnauthenticated:
                 break
+            case .smartQuickAnswer(let sqa):
+                guard let smartQuickAnswersActive = self?.featureFlags.smartQuickAnswers.isActive, smartQuickAnswersActive,
+                    let isDummy = self?.isUserDummy, !isDummy,
+                    let myUserId = self?.myUserRepository.myUser?.objectId, sqa.talkerId == myUserId,
+                    let lastMessage = self?.messages.value.first, lastMessage.objectId == sqa.messageId
+                    else { return }
+                self?.shouldUpdateQuickAnswers.value = QuickAnswer.quickAnswers(for: sqa)
             }
         }.disposed(by: disposeBag)
 
@@ -878,7 +885,10 @@ extension ChatViewModel {
             delegate?.vmDidSendMessage()
         }
 
-        let newMessage = chatRepository.createNewMessage(userId, text: message, type: type.chatType)
+        let newMessage = chatRepository.createNewMessage(messageId: nil,
+                                                         talkerId: userId,
+                                                         text: message,
+                                                         type: type.chatType)
         let viewMessage = chatViewMessageAdapter.adapt(newMessage, userAvatarData: nil)?.markAsSent()
         guard let messageId = newMessage.objectId else { return }
         insertFirst(viewMessage: viewMessage)
@@ -1074,15 +1084,17 @@ extension ChatViewModel {
         } else {
             messages.insert(viewMessage, atIndex: 0)
         }
-        shouldUpdateQuickAnswers.value = true
+        shouldUpdateQuickAnswers.value = directAnswers
         trackLetgoServiceMessageReceived()
     }
 
     fileprivate func handleNewMessageFromInterlocutor(_ messageId: String, sentAt: Date, text: String?, type: ChatMessageType) {
         guard let convId = conversation.value.objectId else { return }
         guard let interlocutorId = conversation.value.interlocutor?.objectId else { return }
-        let message: ChatMessage = chatRepository.createNewMessage(interlocutorId, text: text, type: type)
-
+        let message: ChatMessage = chatRepository.createNewMessage(messageId: messageId,
+                                                                   talkerId: interlocutorId,
+                                                                   text: text,
+                                                                   type: type)
         updateMeetingsStatusAfterReceiving(message: message)
 
         let viewMessage = chatViewMessageAdapter.adapt(message, userAvatarData: defaultUserAvatarData)?.markAsSent(date: sentAt).markAsReceived().markAsRead()
@@ -1421,7 +1433,7 @@ extension ChatViewModel {
                 strongSelf.delegate?.vmDidFailRetrievingChatMessages()
             }
             strongSelf.setupInterlocutorIsTypingRx()
-            strongSelf.shouldUpdateQuickAnswers.value = true
+            strongSelf.shouldUpdateQuickAnswers.value = strongSelf.directAnswers
             strongSelf.trackLetgoServiceMessageReceived()
         }
     }

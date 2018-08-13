@@ -10,6 +10,8 @@ protocol ListingListViewModelDelegate: class {
     func vmDidUpdateState(_ vm: ListingListViewModel, state: ViewState)
     func vmDidFinishLoading(_ vm: ListingListViewModel, page: UInt, indexes: [Int])
     func vmReloadItemAtIndexPath(indexPath: IndexPath)
+
+    func vmDidFinishLoadingCache(_ vm: ListingListViewModel)
 }
 
 protocol ListingListViewModelDataDelegate: class {
@@ -21,6 +23,8 @@ protocol ListingListViewModelDataDelegate: class {
     func vmProcessReceivedListingPage(_ Listings: [ListingCellModel], page: UInt) -> [ListingCellModel]
     func vmDidSelectSellBanner(_ type: String)
     func vmDidSelectCollection(_ type: CollectionCellType)
+
+    func listingListVMDidSucceedRetrievingCache(viewModel: ListingListViewModel)
 }
 
 struct ListingsRequesterResult {
@@ -41,10 +45,14 @@ struct VerticalTrackingInfo {
     let matchingFields: [String]
 }
 
+private enum Layout {
+    static let  minCellHeight: CGFloat = 80
+}
 
 final class ListingListViewModel: BaseViewModel {
 
-    private let cellMinHeight: CGFloat = 80.0
+    private let cellMinHeight: CGFloat = Layout.minCellHeight
+    
     private var cellAspectRatio: CGFloat {
         return 198.0 / cellMinHeight
     }
@@ -66,7 +74,9 @@ final class ListingListViewModel: BaseViewModel {
     private let imageDownloader: ImageDownloaderType
 
     // Requesters
-    
+
+    private let listingCache: ListingListCache
+
     /// A list of requester to try in sequence in case the previous
     /// requester returns empty or insufficient results.
     /// If the view model is initialized with a special requester, the
@@ -97,6 +107,8 @@ final class ListingListViewModel: BaseViewModel {
             currentActiveRequester = requesterSequence.first
         }
     }
+
+    private let disk = FileManagerDisk()
 
     //State
     private(set) var pageNumber: UInt
@@ -185,6 +197,7 @@ final class ListingListViewModel: BaseViewModel {
         self.featureFlags = featureFlags
         self.myUserRepository = myUserRepository
         self.searchType = searchType
+        self.listingCache = isPrivateList ? PrivateListCache() : PublicListCache(disk: disk)
         super.init()
         let cellHeight = cellWidth * cellAspectRatio
         self.defaultCellSize = CGSize(width: cellWidth, height: cellHeight)
@@ -264,9 +277,39 @@ final class ListingListViewModel: BaseViewModel {
     private func setCurrentFallbackRequester() {
         currentActiveRequester = requesterSequence.first
     }
-   
+
+    private func saveToCache(listings: [Listing]) {
+        guard listings.count > 0 else { return }
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            do {
+                try self?.disk.save(listings, to: .caches, with: .feed)
+            } catch let e {
+                // TODO: track this?
+            }
+        }
+    }
+
     // MARK: - Public methods
     // MARK: > Requests
+
+    func fetchFromCache() {
+        listingCache.fetch { [weak self] (cache) in
+            guard let strSelf = self else { return }
+
+            switch cache {
+            case .empty: return
+            case .data(let listings):
+                strSelf.dataDelegate?.listingListVMDidSucceedRetrievingCache(viewModel: strSelf)
+
+                let cellModels = strSelf.mapListingsToCellModels(listings,
+                                                                 pageNumber: nil,
+                                                                 shouldBeProcessed: false)
+                _ = strSelf.updateListingIndices(isFirstPage: true, with: cellModels)
+                strSelf.state = .data
+                strSelf.delegate?.vmDidFinishLoadingCache(strSelf)
+            }
+        }
+    }
 
     func refresh() {
         refreshing = true
@@ -326,7 +369,7 @@ final class ListingListViewModel: BaseViewModel {
         delegate?.vmReloadData(self)
     }
 
-    private var isPrivateList: Bool = false
+    var isPrivateList: Bool = false
     var listingInterestState: [String: InterestedState] = [:]
 
     func update(listing: Listing, interestedState: InterestedState) {
@@ -381,7 +424,7 @@ final class ListingListViewModel: BaseViewModel {
             state = .loading
             indexToTitleMapping = [:]
         }
-        
+
         let completion: ListingsRequesterCompletion = { [weak self] result in
             guard let strongSelf = self else { return }
             let nextPageNumber = isFirstPage ? 0 : strongSelf.pageNumber + 1
@@ -392,6 +435,10 @@ final class ListingListViewModel: BaseViewModel {
                     strongSelf.processError(error, nextPageNumber: nextPageNumber)
                 }
                 return
+            }
+
+            if isFirstPage && !strongSelf.isPrivateList && (self?.featureFlags.cachedFeed.isActive ?? false) {
+                strongSelf.saveToCache(listings: newListings)
             }
 
             strongSelf.applyNewListingInfo(hasNewListing: !newListings.isEmpty,
@@ -426,12 +473,12 @@ final class ListingListViewModel: BaseViewModel {
             }
             strongSelf.state = .data
             strongSelf.delegate?.vmDidFinishLoading(strongSelf, page: nextPageNumber, indexes: indexes)
-            strongSelf.dataDelegate?.listingListVM(strongSelf, didSucceedRetrievingListingsPage: nextPageNumber,
+            strongSelf.dataDelegate?.listingListVM(strongSelf,
+                                                   didSucceedRetrievingListingsPage: nextPageNumber,
                                                    withResultsCount: newListings.count,
                                                    hasListings: hasListings)
             strongSelf.currentRequesterIndex = 0
         }
-
         if isFirstPage {
             currentRequester.retrieveFirstPage(completion)
         } else {
@@ -483,9 +530,14 @@ final class ListingListViewModel: BaseViewModel {
     private func processError(_ error: RepositoryError, nextPageNumber: UInt) {
         isOnErrorState = true
         let hasListings = objects.count > 0
-        delegate?.vmDidFinishLoading(self, page: nextPageNumber, indexes: [])
-        dataDelegate?.listingListMV(self, didFailRetrievingListingsPage: nextPageNumber,
-                                               hasListings: hasListings, error: error)
+        let haveCache = hasListings && (nextPageNumber == 0)
+        if !haveCache {
+            delegate?.vmDidFinishLoading(self, page: nextPageNumber, indexes: [])
+        }
+        dataDelegate?.listingListMV(self,
+                                    didFailRetrievingListingsPage: nextPageNumber,
+                                    hasListings: hasListings,
+                                    error: error)
     }
 
     func selectedItemAtIndex(_ index: Int, thumbnailImage: UIImage?, originFrame: CGRect?) {
@@ -591,10 +643,12 @@ final class ListingListViewModel: BaseViewModel {
         })
     }
     
-    private func featuredInfoAdditionalCellHeight(for listing: Listing, width: CGFloat, infoInImage: Bool) -> CGFloat {
-        var height: CGFloat = actionButtonCellHeight(for: listing)
-        height += infoInImage ? 0 : ListingCellMetrics.getTotalHeightForPriceAndTitleView(listing.title, containerWidth: width)
-        return height
+    private func featuredInfoAdditionalCellHeight(for listing: Listing, width: CGFloat) -> CGFloat {
+        return actionButtonCellHeight(for: listing)
+            + ListingCellMetrics.getTotalHeightForPriceAndTitleView(
+                listing.title,
+                containerWidth: width
+        )
     }
     
     private func actionButtonCellHeight(for listing: Listing) -> CGFloat {
@@ -609,26 +663,8 @@ final class ListingListViewModel: BaseViewModel {
         return minCellHeight - height
     }
     
-    private func additionalImageHeightWithProductDetail(for listing: Listing,
-                                                  toHeight height: CGFloat,
-                                                  variant: AddPriceTitleDistanceToListings) -> CGFloat {
-        let minCellHeight: CGFloat = ListingCellMetrics.minThumbnailHeightWithContent
-        guard variant.showDetailInImage, height < minCellHeight else { return 0 }
-        return minCellHeight - height
-    }
-    
-    private func normalCellAdditionalHeight(for listing: Listing,
-                                            width: CGFloat,
-                                            variant: AddPriceTitleDistanceToListings) -> CGFloat {
-        if let isFeatured = listing.featured, isFeatured { return 0 }
-        guard variant.showDetailInNormalCell else { return 0 }
-        return ListingCellMetrics.getTotalHeightForPriceAndTitleView(listing.title, containerWidth: width)
-    }
-    
     private func thumbImageViewSize(for listing: Listing, widthConstraint: CGFloat) -> CGSize? {
         let maxPortraitAspectRatio = AspectRatio.w1h2
-        let addPriceInPhotoFlag = featureFlags.addPriceTitleDistanceToListings
-        let minCellHeight: CGFloat = addPriceInPhotoFlag.showDetailInImage ? ListingCellMetrics.minThumbnailHeightWithContent : 80.0
         
         guard let originalThumbSize = listing.thumbnailSize?.toCGSize, originalThumbSize.height != 0 && originalThumbSize.width != 0 else {
             return nil
@@ -641,7 +677,7 @@ final class ListingListViewModel: BaseViewModel {
             cellAspectRatio = originalThumbnailAspectRatio
         }
         var thumbHeight = round(cellAspectRatio.size(setting: widthConstraint, in: .width).height)
-        thumbHeight = max(minCellHeight, thumbHeight)
+        thumbHeight = max(Layout.minCellHeight, thumbHeight)
         let thumbSize = CGSize(width: widthConstraint, height: thumbHeight)
         return thumbSize
     }
@@ -651,14 +687,22 @@ final class ListingListViewModel: BaseViewModel {
                                                   widthConstraint: widthConstraint)?.height else {
             return nil
         }
-        
-        if let isFeatured = listing.featured, isFeatured, featureFlags.pricedBumpUpEnabled {
+
+        let listingCanBeBumped = listing.status == .approved || listing.status == .pending
+
+        let showBumpUpCTA = listing.isMine(myUserRepository: myUserRepository) &&
+            featureFlags.showSellFasterInProfileCells.isActive &&
+            featureFlags.pricedBumpUpEnabled &&
+            isPrivateList && listingCanBeBumped
+
+        if showBumpUpCTA {
+            cellHeight += ListingCellMetrics.getTotalHeightForBumpUpCTA(text: R.Strings.bumpUpBannerPayTextImprovementEnglishC,
+                                                                        containerWidth: widthConstraint)
+        } else if let isFeatured = listing.featured, isFeatured, featureFlags.pricedBumpUpEnabled {
             if cellStyle == .serviceList {
                 cellHeight += actionButtonCellHeight(for: listing)
             } else  {
-                cellHeight += featuredInfoAdditionalCellHeight(for: listing,
-                                                               width: widthConstraint,
-                                                               infoInImage: featureFlags.addPriceTitleDistanceToListings == .infoInImage)
+                cellHeight += featuredInfoAdditionalCellHeight(for: listing, width: widthConstraint)
             }
         }
         
@@ -666,10 +710,8 @@ final class ListingListViewModel: BaseViewModel {
         
         if cellStyle == .serviceList {
             cellHeight += ListingCellMetrics.getTotalHeightForPriceAndTitleView(listing.title, containerWidth: widthConstraint)
-        } else {
-            cellHeight += normalCellAdditionalHeight(for: listing, width: widthConstraint,
-                                                     variant: featureFlags.addPriceTitleDistanceToListings)
         }
+        
         return CGSize(width: widthConstraint, height: cellHeight)
     }
     

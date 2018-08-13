@@ -62,8 +62,12 @@ class TabCoordinator: NSObject, Coordinator {
         self.featureFlags = featureFlags
         self.sessionManager = sessionManager
         self.navigationController = UINavigationController(rootViewController: rootViewController)
-        self.listingCoordinator = ListingCoordinator(navigationController: navigationController)
-        self.userCoordinator = UserCoordinator(navigationController: navigationController)
+
+        let userCoordinator = UserCoordinator(navigationController: navigationController)
+        self.userCoordinator = userCoordinator
+        self.listingCoordinator = ListingCoordinator(navigationController: navigationController,
+                                                     userCoordinator: userCoordinator)
+        userCoordinator.listingCoordinator = listingCoordinator
         self.deeplinkMailBox = deeplinkMailBox
 
         super.init()
@@ -282,14 +286,12 @@ extension TabCoordinator: ListingDetailNavigator {
     }
 
     func openVideoPlayer(atIndex index: Int, listingVM: ListingViewModel, source: EventParameterListingVisitSource) {
-        guard let coordinator = VideoPlayerCoordinator(atIndex: index, listingVM: listingVM, source: source) else {
+        let assembly = LGListingBuilder.standard(navigationController: navigationController)
+        let nav = UINavigationController()
+        guard let _ = assembly.buildVideoPlayer(into: nav, atIndex: index, listingVM: listingVM, source: source) else {
             return
         }
-        openChild(coordinator: coordinator,
-                  parent: rootViewController,
-                  animated: true,
-                  forceCloseChild: true,
-                  completion: nil)
+        navigationController.present(nav, animated: true, completion: nil)
     }
 
     func closeProductDetail() {
@@ -301,18 +303,36 @@ extension TabCoordinator: ListingDetailNavigator {
                      listingCanBeBoosted: Bool,
                      timeSinceLastBump: TimeInterval?,
                      maxCountdown: TimeInterval) {
-        let navigator = EditListingCoordinator(listing: listing,
-                                               bumpUpProductData: bumpUpProductData,
-                                               pageType: nil,
-                                               listingCanBeBoosted: listingCanBeBoosted,
-                                               timeSinceLastBump: timeSinceLastBump,
-                                               maxCountdown: maxCountdown)
-        navigator.delegate = self
-        openChild(coordinator: navigator,
-                  parent: rootViewController,
-                  animated: true,
-                  forceCloseChild: true,
-                  completion: nil)
+        let nav = UINavigationController()
+        let assembly = LGListingBuilder.standard(navigationController: nav)
+        let vc = assembly.buildEditView(listing: listing,
+                                        pageType: nil,
+                                        bumpUpProductData: bumpUpProductData,
+                                        listingCanBeBoosted: listingCanBeBoosted,
+                                        timeSinceLastBump: timeSinceLastBump,
+                                        maxCountdown: maxCountdown,
+                                        onEditAction: onEdit)
+        nav.viewControllers = [vc]
+        navigationController.present(nav, animated: true, completion: nil)
+    }
+
+    private func onEdit(listing: Listing,
+                bumpData: BumpUpProductData?,
+                timeSinceLastBump: TimeInterval?,
+                maxCountdown: TimeInterval) {
+        guard let bumpData = bumpData, bumpData.hasPaymentId else { return }
+        if let timeSinceLastBump = timeSinceLastBump, timeSinceLastBump > 0, featureFlags.bumpUpBoost.isActive {
+            openBumpUpBoost(forListing: listing,
+                            bumpUpProductData: bumpData,
+                            typePage: .edit,
+                            timeSinceLastBump: timeSinceLastBump,
+                            maxCountdown: maxCountdown)
+        } else {
+            openPayBumpUp(forListing: listing,
+                          bumpUpProductData: bumpData,
+                          typePage: .edit,
+                          maxCountdown: maxCountdown)
+        }
     }
 
     func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?) {
@@ -388,13 +408,15 @@ extension TabCoordinator: ListingDetailNavigator {
                            listingId: String,
                            sourceRateBuyers: SourceRateBuyers?,
                            trackingInfo: MarkAsSoldTrackingInfo) {
-        let ratingCoordinator = UserRatingCoordinator(source: source,
-                                                      buyers: buyers,
-                                                      listingId: listingId,
-                                                      sourceRateBuyers: sourceRateBuyers,
-                                                      trackingInfo: trackingInfo)
-        ratingCoordinator.delegate = self
-        openChild(coordinator: ratingCoordinator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
+        let assembly = LGRateBuilder.modal(root: navigationController)
+        let nav = UINavigationController()
+        _ = assembly.buildRateBuyers(into: nav,
+                                     source: source,
+                                     buyers: buyers,
+                                     listingId: listingId,
+                                     sourceRateBuyers: sourceRateBuyers,
+                                     trackingInfo: trackingInfo)
+        navigationController.present(nav, animated: true, completion: nil)
     }
 
     func showProductFavoriteBubble(with data: BubbleNotificationData) {
@@ -491,6 +513,14 @@ extension TabCoordinator: ListingDetailNavigator {
         navigationController.pushViewController(vc, animated: true)
     }
 
+    func showFailBubble(withMessage message: String, duration: TimeInterval) {
+        let data = BubbleNotificationData(text: message, action: nil)
+        appNavigator?.showBottomBubbleNotification(data: data,
+                                                   duration: duration,
+                                                   alignment: .bottom,
+                                                   style: .dark)
+    }
+
     func showUndoBubble(withMessage message: String,
                         duration: TimeInterval,
                         withAction action: @escaping () -> ()) {
@@ -548,9 +578,9 @@ extension TabCoordinator: ChatDetailNavigator {
     }
 
     func openExpressChat(_ listings: [Listing], sourceListingId: String, manualOpen: Bool) {
-        guard let expressChatCoordinator = ExpressChatCoordinator(listings: listings, sourceProductId: sourceListingId, manualOpen: manualOpen) else { return }
-        expressChatCoordinator.delegate = self
-        openChild(coordinator: expressChatCoordinator, parent: rootViewController, animated: true, forceCloseChild: false, completion: nil)
+        let assembly = LGChatBuilder.standard(nav: navigationController)
+        let vc = assembly.buildExpressChat(listings: listings, sourceProductId: sourceListingId, manualOpen: manualOpen)
+        navigationController.present(vc, animated: true, completion: nil)
     }
 
     func openLoginIfNeededFromChatDetail(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void)) {
@@ -630,56 +660,3 @@ extension TabCoordinator: UINavigationControllerDelegate {
         return nil
     }
 }
-
-
-// MARK: - ExpressChatCoordinatorDelegate
-
-extension TabCoordinator: ExpressChatCoordinatorDelegate {
-    func expressChatCoordinatorDidSentMessages(_ coordinator: ExpressChatCoordinator, count: Int) {
-        let message = count == 1 ? R.Strings.chatExpressOneMessageSentSuccessAlert :
-            R.Strings.chatExpressSeveralMessagesSentSuccessAlert
-        rootViewController.showAutoFadingOutMessageAlert(message: message)
-    }
-}
-
-
-// MARK: - UserRatingCoordinatorDelegate
-
-extension TabCoordinator: UserRatingCoordinatorDelegate {
-    func userRatingCoordinatorDidCancel() { }
-
-    func userRatingCoordinatorDidFinish(withRating rating: Int?, ratedUserId: String?) { }
-}
-
-
-// MARK: - EditListingCoordinatorDelegate
-
-extension TabCoordinator: EditListingCoordinatorDelegate {
-    func editListingCoordinatorDidCancel(_ coordinator: EditListingCoordinator) {
-
-    }
-
-    func editListingCoordinator(_ coordinator: EditListingCoordinator,
-                                didFinishWithListing listing: Listing,
-                                bumpUpProductData: BumpUpProductData?,
-                                timeSinceLastBump: TimeInterval?,
-                                maxCountdown: TimeInterval) {
-        guard let bumpData = bumpUpProductData,
-            bumpData.hasPaymentId else { return }
-        if let timeSinceLastBump = timeSinceLastBump,
-            timeSinceLastBump > 0,
-            featureFlags.bumpUpBoost.isActive {
-            openBumpUpBoost(forListing: listing,
-                            bumpUpProductData: bumpData,
-                            typePage: .edit,
-                            timeSinceLastBump: timeSinceLastBump,
-                            maxCountdown: maxCountdown)
-        } else {
-            openPayBumpUp(forListing: listing,
-                          bumpUpProductData: bumpData,
-                          typePage: .edit,
-                          maxCountdown: maxCountdown)
-        }
-    }
-}
-

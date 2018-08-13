@@ -55,6 +55,7 @@ enum SearchAlertsState {
 final class SearchAlertsListViewModel: BaseViewModel {
 
     private static let searchAlertLimit = 20
+    static let disableOldestSearchAlertFadeOutDelay: TimeInterval = 4
 
     weak var navigator: SearchAlertsListNavigator?
     weak var delegate: BaseViewModelDelegate?
@@ -141,7 +142,8 @@ final class SearchAlertsListViewModel: BaseViewModel {
                                                                                        fromSearchAlerts: newSearchAlerts) {
                     strongSelf.searchAlerts.value = newSearchAlerts
                     if comesAfterDisablingOldestOne {
-                        strongSelf.delegate?.vmShowAutoFadingMessage(R.Strings.searchAlertsDisabledOldestMessage,
+                        strongSelf.delegate?.vmShowAutoFadingMessage(message: R.Strings.searchAlertsDisabledOldestMessage,
+                                                                     time: SearchAlertsListViewModel.disableOldestSearchAlertFadeOutDelay,
                                                                      completion: nil)
                     }
                 }

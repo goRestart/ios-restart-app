@@ -13,7 +13,19 @@ final class LGReportingRepository: ReportingRepository {
         self.myUserRepository = myUserRepository
     }
 
-    func createUserReport(to userId: String, reason: String, comment: String, completion: ReportingCompletion?) {
+    func retrieveUserReport(reportId: String, completion: ReportingCompletion?) {
+        dataSource.retrieveUserReport(reportId: reportId) { result in
+            handleApiResult(result, completion: completion)
+        }
+    }
+
+    func retrieveProductReport(reportId: String, completion: ReportingCompletion?) {
+        dataSource.retrieveUserReport(reportId: reportId) { result in
+            handleApiResult(result, completion: completion)
+        }
+    }
+
+    func createUserReport(to userId: String, reason: String, comment: String, completion: ReportingEmptyCompletion?) {
         guard let myUserId = myUserRepository.myUser?.objectId else {
             completion?(Result<Void, RepositoryError>(error: .internalError(message: "Missing MyUser objectId")))
             return
@@ -23,7 +35,7 @@ final class LGReportingRepository: ReportingRepository {
         }
     }
 
-    func createListingReport(to listingId: String, reason: String, comment: String, completion: ReportingCompletion?) {
+    func createListingReport(to listingId: String, reason: String, comment: String, completion: ReportingEmptyCompletion?) {
         guard let myUserId = myUserRepository.myUser?.objectId else {
             completion?(Result<Void, RepositoryError>(error: .internalError(message: "Missing MyUser objectId")))
             return
@@ -33,13 +45,13 @@ final class LGReportingRepository: ReportingRepository {
         }
     }
 
-    func updateUserReport(reportId: String, score: Int, completion: ReportingCompletion?) {
+    func updateUserReport(reportId: String, score: Int, completion: ReportingEmptyCompletion?) {
         dataSource.updateUserReport(reportId: reportId, score: score) { result in
             handleApiResult(result, completion: completion)
         }
     }
 
-    func updateListingReport(reportId: String, score: Int, completion: ReportingCompletion?) {
+    func updateListingReport(reportId: String, score: Int, completion: ReportingEmptyCompletion?) {
         dataSource.updateUserReport(reportId: reportId, score: score) { result in
             handleApiResult(result, completion: completion)
         }

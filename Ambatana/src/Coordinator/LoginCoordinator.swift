@@ -12,7 +12,7 @@ protocol RecaptchaTokenDelegate: class {
     func recaptchaTokenObtained(token: String, action: LoginActionType)
 }
 
-final class LoginCoordinator: Coordinator, ChangePasswordPresenter {
+final class LoginCoordinator: Coordinator {
     var child: Coordinator?
     var viewController: UIViewController
     weak var coordinatorDelegate: CoordinatorDelegate?
@@ -84,11 +84,7 @@ final class LoginCoordinator: Coordinator, ChangePasswordPresenter {
         }
         viewModel.navigator = self
     }
-
-    func openChangePassword(coordinator: ChangePasswordCoordinator) {
-        openChild(coordinator: coordinator, parent: topPresentedController(), animated: true, forceCloseChild: true, completion: nil)
-    }
-
+    
     func presentViewController(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
         guard viewController.parent == nil else { return }
 

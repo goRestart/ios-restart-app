@@ -65,16 +65,16 @@ extension ListingCreationParams {
                                                           videos: videos)
                 listingCreationParams = ListingCreationParams.product(productParams)
             case .services:
-                let serviceParams =  ServicesCreationParams(name: title,
-                                                            description: description,
-                                                            price: postListingState.price ?? SharedConstants.defaultPrice,
-                                                            category: category.listingCategory,
-                                                            currency: currency,
-                                                            location: location,
-                                                            postalAddress: postalAddress,
-                                                            images: images,
-                                                            videos: videos,
-                                                            serviceAttributes: postListingState.serviceAttributes)
+                let serviceParams = ServicesCreationParams(name: title,
+                                                           description: description,
+                                                           price: postListingState.price ?? SharedConstants.defaultPrice,
+                                                           category: category.listingCategory,
+                                                           currency: currency,
+                                                           location: location,
+                                                           postalAddress: postalAddress,
+                                                           images: images,
+                                                           videos: videos,
+                                                           serviceAttributes: postListingState.serviceAttributes)
                 listingCreationParams = ListingCreationParams.service(serviceParams)
             }
         } else {

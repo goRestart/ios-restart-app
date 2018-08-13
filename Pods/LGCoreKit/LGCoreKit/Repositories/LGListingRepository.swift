@@ -584,9 +584,10 @@ final class LGListingRepository: ListingRepository {
         
         return service.updating(servicesAttributes: ServiceAttributes(typeId: service.servicesAttributes.typeId,
                                                                       subtypeId: service.servicesAttributes.subtypeId,
+                                                                      listingType: service.servicesAttributes.listingType,
                                                                       typeTitle: serviceType,
                                                                       subtypeTitle: serviceSubtype,
-                                                                      priceType: service.servicesAttributes.priceType))
+                                                                      paymentFrequency: service.servicesAttributes.paymentFrequency))
     }
     
     private func retrieveIndexWithRelax(_ queryString: String, _ params: RetrieveListingParams, _ relaxParam: RelaxParam, completion: ListingsCompletion?) {

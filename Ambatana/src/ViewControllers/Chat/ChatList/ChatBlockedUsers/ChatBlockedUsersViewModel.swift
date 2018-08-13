@@ -81,7 +81,7 @@ final class ChatBlockedUsersViewModel: ChatBaseViewModel, Paginable {
             guard let strongSelf = self else { return }
             strongSelf.isLoading = false
             if let blockedUsers = result.value {
-                if hasEmptyData {
+                if isFirstPage {
                     strongSelf.blockedUserList.value = blockedUsers
                 } else {
                     strongSelf.blockedUserList.value.append(contentsOf: blockedUsers)

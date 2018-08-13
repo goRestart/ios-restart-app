@@ -112,9 +112,17 @@ public extension CarAttributes {
         return allValues.filter { $0 != nil }.isEmpty
     }
     
-    public func updating(makeId: String? = nil, make: String? = nil, modelId: String? = nil, model: String? = nil, year: Int? = nil,
-                         mileage: Int? = nil, mileageType: DistanceType? = nil, bodyType: CarBodyType? = nil,
-                         transmission: CarTransmissionType? = nil, fuelType: CarFuelType? = nil, driveTrain: CarDriveTrainType? = nil,
+    public func updating(makeId: String? = nil,
+                         make: String? = nil,
+                         modelId: String? = nil,
+                         model: String? = nil,
+                         year: Int? = nil,
+                         mileage: Int? = nil,
+                         mileageType: DistanceType? = nil,
+                         bodyType: CarBodyType? = nil,
+                         transmission: CarTransmissionType? = nil,
+                         fuelType: CarFuelType? = nil,
+                         driveTrain: CarDriveTrainType? = nil,
                          seats: Int? = nil) -> CarAttributes {
         
         return CarAttributes(makeId: makeId ?? self.makeId,

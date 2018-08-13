@@ -23,9 +23,10 @@ enum AdRequestType {
     case moPub
     case interstitial
 
-    var trackingParamValue: EventParameterAdType {
+    func trackingParamValueFor(size: CGSize?) -> EventParameterAdType {
         switch self {
         case .dfp:
+            if let size = size { return .variableSize(size: size) }
             return .dfp
         case .moPub:
             return .moPub
@@ -94,8 +95,8 @@ class ListingCarouselViewModel: BaseViewModel {
         return !keyValueStorage[.listingMoreInfoTooltipDismissed]
     }
     
-    var shouldShowPriceType: Bool {
-        return featureFlags.servicesPriceType.isActive
+    var shouldShowPaymentFrequency: Bool {
+        return featureFlags.servicesPaymentFrequency.isActive
     }
     
     let actionOnFirstAppear: ProductCarouselActionOnFirstAppear
@@ -187,6 +188,9 @@ class ListingCarouselViewModel: BaseViewModel {
     }
     var adActive: Bool {
         return !isMyListing && userShouldSeeAds
+    }
+    var multiAdRequestActive: Bool {
+        return featureFlags.multiAdRequestMoreInfo.isActive
     }
 
     var userShouldSeeAds: Bool {
@@ -368,6 +372,7 @@ class ListingCarouselViewModel: BaseViewModel {
         currentListingViewModel = viewModel
         currentListingViewModel?.delegate = self
         currentListingViewModel?.active = active
+        currentListingViewModel?.shouldExecuteBumpBannerAction = actionOnFirstAppear.actionIsTriggerBumpUp
         currentIndex = index
         lastMovement = movement
         setupCurrentProductVMRxBindings(forIndex: index)
@@ -452,8 +457,8 @@ class ListingCarouselViewModel: BaseViewModel {
         }
     }
 
-    func showBumpUpView(bumpUpProductData: BumpUpProductData,
-                        bumpUpType: BumpUpType,
+    func showBumpUpView(bumpUpProductData: BumpUpProductData?,
+                        bumpUpType: BumpUpType?,
                         bumpUpSource: BumpUpSource?,
                         typePage: EventParameterTypePage?) {
         currentListingViewModel?.showBumpUpView(bumpUpProductData: bumpUpProductData,
@@ -470,11 +475,14 @@ class ListingCarouselViewModel: BaseViewModel {
         currentListingViewModel?.bumpUpBoostSucceeded()
     }
 
-    func didReceiveAd(bannerTopPosition: CGFloat, bannerBottomPosition: CGFloat, screenHeight: CGFloat) {
+    func didReceiveAd(bannerTopPosition: CGFloat,
+                      bannerBottomPosition: CGFloat,
+                      screenHeight: CGFloat,
+                      bannerSize: CGSize) {
 
         let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
         let adShown: EventParameterBoolean = .trueParameter
-        let adType = currentAdRequestType?.trackingParamValue
+        let adType = currentAdRequestType?.trackingParamValueFor(size: multiAdRequestActive ? bannerSize : nil)
         let queryType = currentAdRequestQueryType?.trackingParamValue
         let query = adRequestQuery
         let visibility = EventParameterAdVisibility(bannerTopPosition: bannerTopPosition,
@@ -499,11 +507,11 @@ class ListingCarouselViewModel: BaseViewModel {
                                                     errorReason: errorReason)
     }
 
-    func didFailToReceiveAd(withErrorCode code: GADErrorCode) {
+    func didFailToReceiveAd(withErrorCode code: GADErrorCode, bannerSize: CGSize) {
 
         let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
         let adShown: EventParameterBoolean = .falseParameter
-        let adType = currentAdRequestType?.trackingParamValue
+        let adType = currentAdRequestType?.trackingParamValueFor(size: multiAdRequestActive ? bannerSize : nil)
         let queryType = currentAdRequestQueryType?.trackingParamValue
         let query = adRequestQuery
         let visibility: EventParameterAdVisibility? = nil
@@ -536,8 +544,8 @@ class ListingCarouselViewModel: BaseViewModel {
                                                     errorReason: status.errorReason)
     }
 
-    func adTapped(typePage: EventParameterTypePage, willLeaveApp: Bool) {
-        let adType = currentAdRequestType?.trackingParamValue
+    func adTapped(typePage: EventParameterTypePage, willLeaveApp: Bool, bannerSize: CGSize) {
+        let adType = currentAdRequestType?.trackingParamValueFor(size: multiAdRequestActive ? bannerSize : nil)
         let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
         let queryType = currentAdRequestQueryType?.trackingParamValue
         let query = adRequestQuery
@@ -559,7 +567,7 @@ class ListingCarouselViewModel: BaseViewModel {
     }
     
     func interstitialAdTapped(typePage: EventParameterTypePage) {
-        let adType = AdRequestType.interstitial.trackingParamValue
+        let adType = AdRequestType.interstitial.trackingParamValueFor(size: nil)
         let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
         let feedPosition: EventParameterFeedPosition = .position(index: currentIndex)
         let willLeave = EventParameterBoolean(bool: true)
@@ -571,7 +579,7 @@ class ListingCarouselViewModel: BaseViewModel {
     }
     
     func interstitialAdShown(typePage: EventParameterTypePage) {
-        let adType = AdRequestType.interstitial.trackingParamValue
+        let adType = AdRequestType.interstitial.trackingParamValueFor(size: nil)
         let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
         let feedPosition: EventParameterFeedPosition = .position(index: currentIndex)
         let adShown = EventParameterBoolean(bool: true)
@@ -849,6 +857,9 @@ extension ListingCarouselViewModel: ListingViewModelDelegate {
     }
     func vmShowAutoFadingMessage(title: String, message: String, time: Double, completion: (() -> ())?) {
         delegate?.vmShowAutoFadingMessage(title: title, message: message, time: time, completion: completion)
+    }
+    func vmShowAutoFadingMessage(message: String, time: Double, completion: (() -> ())?) {
+        delegate?.vmShowAutoFadingMessage(message: message, time: time, completion: completion)
     }
     func vmShowLoading(_ loadingMessage: String?) {
         delegate?.vmShowLoading(loadingMessage)

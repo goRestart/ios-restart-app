@@ -9,7 +9,7 @@ protocol OnboardingCoordinatorDelegate: class {
     func onboardingCoordinatorDidFinishTour(_ coordinator: OnboardingCoordinator)
 }
 
-final class OnboardingCoordinator: Coordinator, ChangePasswordPresenter {
+final class OnboardingCoordinator: Coordinator {
     var child: Coordinator?
     let viewController: UIViewController
     weak var coordinatorDelegate: CoordinatorDelegate?
@@ -78,10 +78,6 @@ final class OnboardingCoordinator: Coordinator, ChangePasswordPresenter {
         } else {
             viewController.dismissWithPresented(animated: animated, completion: completion)
         }
-    }
-
-    func openChangePassword(coordinator: ChangePasswordCoordinator) {
-        openChild(coordinator: coordinator, parent: topPresentedController(), animated: true, forceCloseChild: true, completion: nil)
     }
 
     fileprivate func finish(withPosting posting: Bool, source: PostingSource?) {

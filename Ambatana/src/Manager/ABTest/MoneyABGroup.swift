@@ -24,6 +24,10 @@ struct MoneyABGroup: ABGroupType {
         static let preventMessagesFromFeedToProUsers = "20180710PreventMessagesFromFeedToProUsers"
         static let appInstallAdsInFeed = "20180628AppInstallAdsInFeed"
         static let alwaysShowBumpBannerWithLoading = "20180725AlwaysShowBumpBannerWithLoading"
+        static let showSellFasterInProfileCells = "20180730ShowSellFasterInProfileCells"
+        static let bumpInEditCopys = "20180806BumpInEditCopys"
+        static let copyForSellFasterNowInTurkish = "20180810CopyForSellFasterNowInTurkish"
+        static let multiAdRequestMoreInfo = "20180810MultiAdRequestMoreInfo"
     }
     let noAdsInFeedForNewUsers: LeanplumABVariable<Int>
     let copyForChatNowInTurkey: LeanplumABVariable<Int>
@@ -39,6 +43,10 @@ struct MoneyABGroup: ABGroupType {
     let preventMessagesFromFeedToProUsers: LeanplumABVariable<Int>
     let appInstallAdsInFeed: LeanplumABVariable<Int>
     let alwaysShowBumpBannerWithLoading: LeanplumABVariable<Int>
+    let showSellFasterInProfileCells: LeanplumABVariable<Int>
+    let bumpInEditCopys: LeanplumABVariable<Int>
+    let copyForSellFasterNowInTurkish: LeanplumABVariable<Int>
+    let multiAdRequestMoreInfo: LeanplumABVariable<Int>
 
     let group: ABGroup = .money
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -59,7 +67,11 @@ struct MoneyABGroup: ABGroupType {
          fullScreenAdsWhenBrowsingForUS:LeanplumABVariable<Int>,
          preventMessagesFromFeedToProUsers:LeanplumABVariable<Int>,
          appInstallAdsInFeed:LeanplumABVariable<Int>,
-         alwaysShowBumpBannerWithLoading: LeanplumABVariable<Int>){
+         alwaysShowBumpBannerWithLoading: LeanplumABVariable<Int>,
+         showSellFasterInProfileCells: LeanplumABVariable<Int>,
+         bumpInEditCopys: LeanplumABVariable<Int>,
+         copyForSellFasterNowInTurkish: LeanplumABVariable<Int>,
+         multiAdRequestMoreInfo: LeanplumABVariable<Int>){
         self.noAdsInFeedForNewUsers = noAdsInFeedForNewUsers
         self.copyForChatNowInTurkey = copyForChatNowInTurkey
         self.showProTagUserProfile = showProTagUserProfile
@@ -74,6 +86,10 @@ struct MoneyABGroup: ABGroupType {
         self.preventMessagesFromFeedToProUsers = preventMessagesFromFeedToProUsers
         self.appInstallAdsInFeed = appInstallAdsInFeed
         self.alwaysShowBumpBannerWithLoading = alwaysShowBumpBannerWithLoading
+        self.showSellFasterInProfileCells = showSellFasterInProfileCells
+        self.bumpInEditCopys = bumpInEditCopys
+        self.copyForSellFasterNowInTurkish = copyForSellFasterNowInTurkish
+        self.multiAdRequestMoreInfo = multiAdRequestMoreInfo
 
         intVariables.append(contentsOf: [noAdsInFeedForNewUsers,
                                          copyForChatNowInTurkey,
@@ -86,7 +102,11 @@ struct MoneyABGroup: ABGroupType {
                                          fullScreenAdsWhenBrowsingForUS,
                                          preventMessagesFromFeedToProUsers,
                                          appInstallAdsInFeed,
-                                         alwaysShowBumpBannerWithLoading])
+                                         alwaysShowBumpBannerWithLoading,
+                                         showSellFasterInProfileCells,
+                                         bumpInEditCopys,
+                                         copyForSellFasterNowInTurkish,
+                                         multiAdRequestMoreInfo])
         boolVariables.append(contentsOf: [showProTagUserProfile,
                                           showExactLocationForPros])
     }
@@ -133,7 +153,20 @@ struct MoneyABGroup: ABGroupType {
                                                           groupType: .money),
                             alwaysShowBumpBannerWithLoading: .makeInt(key: Keys.alwaysShowBumpBannerWithLoading,
                                                                       defaultValue: 0,
-                                                                      groupType: .money)
+                                                                      groupType: .money),
+                            showSellFasterInProfileCells: .makeInt(key: Keys.showSellFasterInProfileCells,
+                                                                   defaultValue: 0,
+                                                                   groupType: .money),
+                            bumpInEditCopys: .makeInt(key: Keys.bumpInEditCopys,
+                                                      defaultValue: 0,
+                                                      groupType: .money),
+                            copyForSellFasterNowInTurkish: .makeInt(key: Keys.copyForSellFasterNowInTurkish,
+                                                                    defaultValue: 0,
+                                                                    groupType: .money),
+                            multiAdRequestMoreInfo: .makeInt(key: Keys.multiAdRequestMoreInfo,
+                                                             defaultValue: 0,
+                                                             groupType: .money)
         )
     }
 }
+
