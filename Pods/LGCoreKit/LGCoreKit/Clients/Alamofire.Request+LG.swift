@@ -19,13 +19,15 @@ extension DataRequest {
 
         let responseSerializer = DataResponseSerializer<T> { (request, response, data, error) in
             if let error = error { return .failure(error) }
+            let emptyJSONObject: [String: Any] = [:]
 
             var serializationResult: Result<Any>
             if let data = data, data.count > 0 {
                 let jsonResponseSerializer = DataRequest.jsonResponseSerializer(options: .allowFragments)
                 serializationResult = jsonResponseSerializer.serializeResponse(request, response, data, error)
             } else {
-                serializationResult = .success("")
+                DataRequest.trackEmptyRequest(request, response: response)
+                serializationResult = .success(emptyJSONObject)
             }
 
             switch serializationResult {
@@ -36,16 +38,23 @@ extension DataRequest {
                     return .failure(DataRequest.serializationError(value))
                 }
             case .failure(let error):
+                DataRequest.trackEmptyRequest(request, response: response)
                 //Checking anyway just in case decoder doesn't care about response body
-                if let responseObject = decoder("") {
+                if let responseObject = decoder(emptyJSONObject) {
                     return .success(responseObject)
                 } else {
                     return .failure(error)
                 }
             }
         }
-
         return response(responseSerializer: responseSerializer, completionHandler: completionHandler)
+    }
+
+    private static func trackEmptyRequest(_ request: URLRequest?, response: HTTPURLResponse?) {
+        let requestStr = request?.url?.absoluteString ?? "unknown request"
+        let responseStr = response?.debugDescription ?? "unknown response"
+        let message = "request: \(requestStr), response: \(responseStr)"
+        report(CoreReportJSONSerialization.decoding, message: message)
     }
 
     private static func serializationError(_ responseObject: Any) -> Error {

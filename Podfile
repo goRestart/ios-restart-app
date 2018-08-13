@@ -45,7 +45,7 @@ def shared_pods
 
     # letgo Core
 
-    pod "LGCoreKit",             "4.62.0", :inhibit_warnings => false
+    pod "LGCoreKit",             "4.63.0", :inhibit_warnings => false
     # pod "LGCoreKit",            :path => "../lgcorekit", :inhibit_warnings => false
     # pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :branch => 'ABIOS-show-only-services-when-filtering-in-baseline', :inhibit_warnings => false
 

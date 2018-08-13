@@ -262,3 +262,18 @@ enum CoreReportDataSource: ReportType {
         }
     }
 }
+
+// 600000..<700000
+enum CoreReportJSONSerialization: ReportType {
+    case decoding
+
+    var domain: String {
+        return coreDomain
+    }
+    var code: Int {
+        let baseCode = 600000
+        switch self {
+        case .decoding: return baseCode
+        }
+    }
+}
