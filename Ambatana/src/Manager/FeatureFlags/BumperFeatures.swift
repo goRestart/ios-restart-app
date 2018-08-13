@@ -88,6 +88,7 @@ extension Bumper  {
         flags.append(EnableJobsAndServicesCategory.self)
         flags.append(CachedFeed.self)
         flags.append(CopyForSellFasterNowInTurkish.self)
+        flags.append(NotificationCenterRedesign.self)
         Bumper.initialize(flags)
     } 
 
@@ -1023,6 +1024,19 @@ extension Bumper  {
     static var copyForSellFasterNowInTurkishObservable: Observable<CopyForSellFasterNowInTurkish> {
         return Bumper.observeValue(for: CopyForSellFasterNowInTurkish.key).map {
             CopyForSellFasterNowInTurkish(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var notificationCenterRedesign: NotificationCenterRedesign {
+        guard let value = Bumper.value(for: NotificationCenterRedesign.key) else { return .control }
+        return NotificationCenterRedesign(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var notificationCenterRedesignObservable: Observable<NotificationCenterRedesign> {
+        return Bumper.observeValue(for: NotificationCenterRedesign.key).map {
+            NotificationCenterRedesign(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -2155,6 +2169,22 @@ enum CopyForSellFasterNowInTurkish: String, BumperFeature  {
             case 2: return .variantB
             case 3: return .variantC
             case 4: return .variantD
+            default: return .control
+        }
+    }
+}
+
+enum NotificationCenterRedesign: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return NotificationCenterRedesign.control.rawValue }
+    static var enumValues: [NotificationCenterRedesign] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[RETENTION] Notification center redesign with sections and modern UI design" } 
+    static func fromPosition(_ position: Int) -> NotificationCenterRedesign {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
             default: return .control
         }
     }

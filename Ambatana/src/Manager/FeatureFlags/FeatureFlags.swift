@@ -119,6 +119,7 @@ protocol FeatureFlaggeable: class {
     var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions { get }
     var engagementBadging: EngagementBadging { get }
     var searchAlertsDisableOldestIfMaximumReached: SearchAlertsDisableOldestIfMaximumReached { get }
+    var notificationCenterRedesign: NotificationCenterRedesign { get }
 }
 
 extension FeatureFlaggeable {
@@ -1444,5 +1445,12 @@ extension FeatureFlags {
             return Bumper.searchAlertsDisableOldestIfMaximumReached
         }
         return SearchAlertsDisableOldestIfMaximumReached.fromPosition(abTests.searchAlertsDisableOldestIfMaximumReached.value)
+    }
+    
+    var notificationCenterRedesign: NotificationCenterRedesign {
+        if Bumper.enabled {
+            return Bumper.notificationCenterRedesign
+        }
+        return NotificationCenterRedesign.fromPosition(abTests.notificationCenterRedesign.value)
     }
 }

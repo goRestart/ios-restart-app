@@ -2,6 +2,14 @@ import Foundation
 import LGComponents
 
 extension Date {
+    
+    enum DateDescriptor {
+        static let maximumMinutesInAHour = 60
+        static let maximumHoursInADay = 24
+        static let maximumDaysInAWeek = 7
+        static let maximumDaysInAMonth = 31
+        static let maximumWeeksInAMonth = 5
+    }
 
     private var secondsInADay: TimeInterval { return 86400 }
 
@@ -19,6 +27,10 @@ extension Date {
 
     var isToday: Bool {
         return Calendar.current.isDateInToday(self)
+    }
+    
+    var isYesterday: Bool {
+        return Calendar.current.isDateInYesterday(self)
     }
 
     /**

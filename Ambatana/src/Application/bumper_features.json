@@ -359,5 +359,10 @@
         "name": "CopyForSellFasterNowInTurkish",
         "values": ["control", "baseline", "variantB", "variantC", "variantD"],
         "description": "[MONEY] Try different copies for 'Sell faster now' banner in Turkish"
+    },
+    {
+        "name": "NotificationCenterRedesign",
+        "values": ["control", "baseline", "active"],
+        "description": "[RETENTION] Notification center redesign with sections and modern UI design"
     }
  ]

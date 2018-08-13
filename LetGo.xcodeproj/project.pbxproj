@@ -14,10 +14,16 @@
 		0125F39520F7C02100A87BC7 /* RecentListingsRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0125F39420F7C02100A87BC7 /* RecentListingsRequester.swift */; };
 		0125F39620F7C02100A87BC7 /* RecentListingsRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0125F39420F7C02100A87BC7 /* RecentListingsRequester.swift */; };
 		012B73E61F54216600068537 /* QuickAnswerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012B73E51F54216600068537 /* QuickAnswerSpec.swift */; };
+		013013E9211B49BF00FFC309 /* NotificationCenterModularCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0144C3F521130A5000D811C8 /* NotificationCenterModularCell.swift */; };
+		013013EA211B49C000FFC309 /* NotificationCenterModularCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0144C3F521130A5000D811C8 /* NotificationCenterModularCell.swift */; };
+		013013EC211B5B6C00FFC309 /* NotificationCenterThumbnailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013013EB211B5B6C00FFC309 /* NotificationCenterThumbnailCell.swift */; };
+		013013ED211B5B6C00FFC309 /* NotificationCenterThumbnailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013013EB211B5B6C00FFC309 /* NotificationCenterThumbnailCell.swift */; };
 		01337B952085F55D00AC8385 /* NotificationSettingsSwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01337B942085F55D00AC8385 /* NotificationSettingsSwitchCell.swift */; };
 		01337B962085F55D00AC8385 /* NotificationSettingsSwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01337B942085F55D00AC8385 /* NotificationSettingsSwitchCell.swift */; };
 		013489F820D3FEF900E543C2 /* NotificationSettingCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013489F720D3FEF900E543C2 /* NotificationSettingCellType.swift */; };
 		013489F920D3FEF900E543C2 /* NotificationSettingCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013489F720D3FEF900E543C2 /* NotificationSettingCellType.swift */; };
+		014448392110BEF900A459F9 /* NotificationCenterHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014448382110BEF900A459F9 /* NotificationCenterHeader.swift */; };
+		0144483A2110BEF900A459F9 /* NotificationCenterHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014448382110BEF900A459F9 /* NotificationCenterHeader.swift */; };
 		0150866B20520BFF0007E792 /* MockEventParameterPostingAbandonStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0150866A20520BFF0007E792 /* MockEventParameterPostingAbandonStep.swift */; };
 		015E4FDE204FFC090094FF20 /* BlockingPostingLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015E4FDD204FFC090094FF20 /* BlockingPostingLoadingView.swift */; };
 		015E4FDF204FFC090094FF20 /* BlockingPostingLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015E4FDD204FFC090094FF20 /* BlockingPostingLoadingView.swift */; };
@@ -2127,8 +2133,11 @@
 		0114DBF720CEA61E00C6DD0B /* NotificationSettingsAccessorListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsAccessorListViewController.swift; sourceTree = "<group>"; };
 		0125F39420F7C02100A87BC7 /* RecentListingsRequester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentListingsRequester.swift; sourceTree = "<group>"; };
 		012B73E51F54216600068537 /* QuickAnswerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickAnswerSpec.swift; sourceTree = "<group>"; };
+		013013EB211B5B6C00FFC309 /* NotificationCenterThumbnailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenterThumbnailCell.swift; sourceTree = "<group>"; };
 		01337B942085F55D00AC8385 /* NotificationSettingsSwitchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsSwitchCell.swift; sourceTree = "<group>"; };
 		013489F720D3FEF900E543C2 /* NotificationSettingCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingCellType.swift; sourceTree = "<group>"; };
+		014448382110BEF900A459F9 /* NotificationCenterHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenterHeader.swift; sourceTree = "<group>"; };
+		0144C3F521130A5000D811C8 /* NotificationCenterModularCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenterModularCell.swift; sourceTree = "<group>"; };
 		0150866A20520BFF0007E792 /* MockEventParameterPostingAbandonStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockEventParameterPostingAbandonStep.swift; sourceTree = "<group>"; };
 		015E4FDD204FFC090094FF20 /* BlockingPostingLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BlockingPostingLoadingView.swift; path = Onboarding/BlockingPostingLoadingView.swift; sourceTree = "<group>"; };
 		01616CC51F975C2E00F412D7 /* Taxonomy+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Taxonomy+LG.swift"; sourceTree = "<group>"; };
@@ -5854,6 +5863,7 @@
 				C727FBBC1CCFC4ED002BC643 /* NotificationsViewController.swift */,
 				C727FBBD1CCFC4ED002BC643 /* NotificationsViewController.xib */,
 				C727FBC21CCFC545002BC643 /* NotificationsViewModel.swift */,
+				014448382110BEF900A459F9 /* NotificationCenterHeader.swift */,
 			);
 			name = Notifications;
 			path = Ambatana/src/ViewControllers/Notifications;
@@ -5863,6 +5873,8 @@
 			isa = PBXGroup;
 			children = (
 				72EB705E1E65C63900BF709B /* ModularNotificationCell.swift */,
+				0144C3F521130A5000D811C8 /* NotificationCenterModularCell.swift */,
+				013013EB211B5B6C00FFC309 /* NotificationCenterThumbnailCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -7969,10 +7981,12 @@
 				C6687F3620C820BF008C1922 /* MultiListingPostedCongratsCell.swift in Sources */,
 				42F64F7F20AAE99900CF97AD /* ListingFilters+LG.swift in Sources */,
 				42E17F8720FCAC8300E565C2 /* MKMapView+Shared.swift in Sources */,
+				014448392110BEF900A459F9 /* NotificationCenterHeader.swift in Sources */,
 				32059FDB20B5CDF30042713A /* ListingsRequesterProtocol.swift in Sources */,
 				F5A836AD1FD1AEB1009E636D /* ListingAttributePickerViewModel.swift in Sources */,
 				72CD80CC203469FB0042E1E0 /* LGTutorialLayout.swift in Sources */,
 				2EBC92121E0ABC4A007F0F82 /* PurchaseableProduct.swift in Sources */,
+				013013EC211B5B6C00FFC309 /* NotificationCenterThumbnailCell.swift in Sources */,
 				D412E0861B4F179F00683FFD /* ListingListView.swift in Sources */,
 				0A04D5DD20760A9D00471B9D /* LegacyABGroup.swift in Sources */,
 				C6977E892119F4E900B57E54 /* ServiceListingType+LG.swift in Sources */,
@@ -8103,6 +8117,7 @@
 				42CA899C2097498900CE7B5B /* LGMapView.swift in Sources */,
 				C6FFC49320F7478D00B9F53A /* VerticalFilters.swift in Sources */,
 				C74016DF1D6468A7004C1E9D /* PostListingBasicDetailViewModel.swift in Sources */,
+				013013E9211B49BF00FFC309 /* NotificationCenterModularCell.swift in Sources */,
 				4287173D20655B0600EE334C /* LGNavBarMetrics.swift in Sources */,
 				0A90350A1FCC18E800FDE795 /* PhotoViewerTransitionAnimator.swift in Sources */,
 				C7F3F1E11DE5A95F00652447 /* ChatRelatedListingsView.swift in Sources */,
@@ -8779,6 +8794,7 @@
 				8EEC7F5F206AA63000616858 /* MoPubNativeView.swift in Sources */,
 				0AE6F4FC20F8CE7A00D58BCE /* UIViewController+Childs.swift in Sources */,
 				8E56D74620A2F0A300097B61 /* ChatConversationsListView.swift in Sources */,
+				013013EA211B49C000FFC309 /* NotificationCenterModularCell.swift in Sources */,
 				2EE47D2A20177653004B04EE /* ChatAskPhoneNumberCell.swift in Sources */,
 				01BDE97B2050B1820081B670 /* BlockingPostingHeaderStep.swift in Sources */,
 				720A8FAA1F1F94E700DCBAD8 /* FilterTextFieldIntCell.swift in Sources */,
@@ -8847,6 +8863,7 @@
 				55DFCDDA2073790D00AC5E09 /* UserPhoneVerificationNumberInputViewController.swift in Sources */,
 				72854D1E1F8E252600E54530 /* RealEstatePropertyType+LG.swift in Sources */,
 				C7BAC9C41E49CEA1005BD0AF /* NotificationsManager.swift in Sources */,
+				0144483A2110BEF900A459F9 /* NotificationCenterHeader.swift in Sources */,
 				F56651F2203C886C00B43DD7 /* DiscardedReason+LG.swift in Sources */,
 				32D85F4F209356580080D143 /* FilterTagFeedHeaderCell.swift in Sources */,
 				C7DB41EB1C5138B500400945 /* SignUpViewModel.swift in Sources */,
@@ -8854,6 +8871,7 @@
 				C6687F3720C820BF008C1922 /* MultiListingPostedCongratsCell.swift in Sources */,
 				0AC489471F9DE41A00CD6C53 /* ListingDeckCollectionViewLayout.swift in Sources */,
 				42F64F8020AAE99900CF97AD /* ListingFilters+LG.swift in Sources */,
+				013013ED211B5B6C00FFC309 /* NotificationCenterThumbnailCell.swift in Sources */,
 				C7732F731D883C7700EAD5B7 /* OnboardingCoordinator.swift in Sources */,
 				32059FDC20B5CDF30042713A /* ListingsRequesterProtocol.swift in Sources */,
 				F5A836AF1FD1BA13009E636D /* ListingAttributePickerViewModel.swift in Sources */,

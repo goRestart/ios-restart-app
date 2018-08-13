@@ -1310,7 +1310,7 @@ struct TrackerEvent {
     static func notificationCenterComplete(source: EventParameterNotificationClickArea, cardAction: String?,
                                            notificationCampaign: String?) -> TrackerEvent {
         var params = EventParameters()
-        params[.notificationClickArea] = source.rawValue
+        params[.notificationClickArea] = source.name
         // cardAction is passed as string instead of EventParameterCardAction type as retention could send anything on the query parameter.
         params[.notificationAction] = cardAction ?? TrackerEvent.notApply
         params[.notificationCampaign] = notificationCampaign ?? TrackerEvent.notApply
@@ -1616,6 +1616,15 @@ struct TrackerEvent {
         let dynamicParams = TrackerEvent.makeDynamicEventParameters(dynamicParameters: dynamicParameters)
         return TrackerEvent(name: .emailNotificationsEditStart, params: dynamicParams)
     }
+    
+    static private func makeDynamicEventParameters(dynamicParameters: [String: Bool]) -> EventParameters {
+        var dynamicParams = EventParameters()
+        let parameterEnabledAddition = "-enabled"
+        for (parameterName, boolValue) in dynamicParameters {
+            dynamicParams["\(parameterName)\(parameterEnabledAddition)"] = boolValue
+        }
+        return dynamicParams
+    }
 
     static func openCommunityFromProductList(showingBanner: Bool, bannerType: EventBannerType) -> TrackerEvent {
         var params = EventParameters()
@@ -1627,17 +1636,8 @@ struct TrackerEvent {
     static func openCommunityFromTabBar() -> TrackerEvent {
         return TrackerEvent(name: .openCommunity, params: nil)
     }
-
-    static private func makeDynamicEventParameters(dynamicParameters: [String: Bool]) -> EventParameters {
-        var dynamicParams = EventParameters()
-        let parameterEnabledAddition = "-enabled"
-        for (parameterName, boolValue) in dynamicParameters {
-            dynamicParams["\(parameterName)\(parameterEnabledAddition)"] = boolValue
-        }
-        return dynamicParams
-    }
-
-
+    
+    
     // MARK: - Private methods
     
     static func eventParameterFreePostingWithPriceRange(_ freePostingModeAllowed: Bool,
