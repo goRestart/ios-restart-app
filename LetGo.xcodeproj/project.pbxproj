@@ -37,6 +37,7 @@
 		0171FA9C2087444C00CAFE36 /* NotificationSettingsAccessorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0171FA9A2087444C00CAFE36 /* NotificationSettingsAccessorCell.swift */; };
 		01772B5F204F0F340037FD5F /* BlockingPostingStepHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01772B5E204F0F340037FD5F /* BlockingPostingStepHeaderView.swift */; };
 		01772B60204F0F340037FD5F /* BlockingPostingStepHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01772B5E204F0F340037FD5F /* BlockingPostingStepHeaderView.swift */; };
+		01789DDF2123336200F248EC /* DeepLinkSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01789DDE2123336200F248EC /* DeepLinkSpec.swift */; };
 		0178CBD81F0E463D00620BA6 /* UriSchemeSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0178CBD71F0E463D00620BA6 /* UriSchemeSpec.swift */; };
 		017E607F20D15D39007025C0 /* NotificationSettingsListDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017E607E20D15D39007025C0 /* NotificationSettingsListDetailViewModel.swift */; };
 		017E608020D15D39007025C0 /* NotificationSettingsListDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017E607E20D15D39007025C0 /* NotificationSettingsListDetailViewModel.swift */; };
@@ -2131,6 +2132,7 @@
 		016328F420DBCFF000FA618B /* NotificationSettingsPlaceholderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationSettingsPlaceholderView.swift; sourceTree = "<group>"; };
 		0171FA9A2087444C00CAFE36 /* NotificationSettingsAccessorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsAccessorCell.swift; sourceTree = "<group>"; };
 		01772B5E204F0F340037FD5F /* BlockingPostingStepHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BlockingPostingStepHeaderView.swift; path = Onboarding/BlockingPostingStepHeaderView.swift; sourceTree = "<group>"; };
+		01789DDE2123336200F248EC /* DeepLinkSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DeepLinkSpec.swift; path = DeepLinks/DeepLinkSpec.swift; sourceTree = "<group>"; };
 		0178CBD71F0E463D00620BA6 /* UriSchemeSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UriSchemeSpec.swift; path = DeepLinks/UriSchemeSpec.swift; sourceTree = "<group>"; };
 		017E607E20D15D39007025C0 /* NotificationSettingsListDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsListDetailViewModel.swift; sourceTree = "<group>"; };
 		017E608120D15D4F007025C0 /* NotificationSettingsListDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsListDetailViewController.swift; sourceTree = "<group>"; };
@@ -3344,6 +3346,7 @@
 				0A6D88BE1F7CED6900819E89 /* DeepLinksRouterSpec.swift */,
 				01990F60203D90FE0080ADDD /* AppsFlyerDeepLinkSpec.swift */,
 				0AF64BD92111EB6C004CA83D /* DeepLinkMailBoxSpec.swift */,
+				01789DDE2123336200F248EC /* DeepLinkSpec.swift */,
 			);
 			name = DeepLinks;
 			sourceTree = "<group>";
@@ -7448,6 +7451,7 @@
 				721A83141E82B52C00507E47 /* MockMediaPermissions.swift in Sources */,
 				720C55911F44559400554048 /* PostCarDetailsViewSpec.swift in Sources */,
 				C6FFC47720F49C5500B9F53A /* NumberFormatter+LGSpec.swift in Sources */,
+				01789DDF2123336200F248EC /* DeepLinkSpec.swift in Sources */,
 				50D08DDC1E69AF14009CC260 /* ChangeEmailViewModelSpec.swift in Sources */,
 				50D08DC61E69AF14009CC260 /* ShowFeaturedStripeHelperSpec.swift in Sources */,
 				C7978D791E924593008CF5BB /* CountryCodeSpec.swift in Sources */,

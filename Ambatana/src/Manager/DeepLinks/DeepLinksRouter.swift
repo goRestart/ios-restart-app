@@ -216,12 +216,24 @@ class LGDeepLinksRouter: NSObject, DeepLinksRouter {
 
         let splittedCategory = campaign.components(separatedBy: AppInstallKeys.category)
         if splittedCategory.count == 2, let category = splittedCategory.last {
-            return DeepLink.appInstall(.search(query: "", categories: category),
+            return DeepLink.appInstall(.search(query: "",
+                                               categories: category,
+                                               distanceRadius: nil,
+                                               sortCriteria: nil,
+                                               priceFlag: nil,
+                                               minPrice: nil,
+                                               maxPrice: nil),
                                        source: .external(source: AppInstallKeys.Provider.appsflyer))
         }
         let splittedSearch = campaign.components(separatedBy: AppInstallKeys.search)
         if splittedSearch.count == 2, let queryString = splittedSearch.last {
-            return DeepLink.appInstall(.search(query: queryString, categories: nil),
+            return DeepLink.appInstall(.search(query: queryString,
+                                               categories: nil,
+                                               distanceRadius: nil,
+                                               sortCriteria: nil,
+                                               priceFlag: nil,
+                                               minPrice: nil,
+                                               maxPrice: nil),
                                        source: .external(source: AppInstallKeys.Provider.appsflyer))
         }
         let splittedListing = campaign.components(separatedBy: AppInstallKeys.listing)
