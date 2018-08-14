@@ -1038,9 +1038,9 @@ fileprivate extension AppCoordinator {
             afterDelayClosure = { [weak self] in
                 self?.openInAppWebView(url: url)
             }
-        case .report(let reportId, let username, let reason, let product):
+        case .report(let reportId, let username, let reason, let userId, let product):
             afterDelayClosure = { [weak self] in
-                self?.openReportUpdate(reportId: reportId, username: username, reason: reason, product: product)
+                self?.openReportUpdate(reportId: reportId, username: username, reason: reason, userId: userId, product: product)
             }
         }
 
@@ -1149,9 +1149,9 @@ fileprivate extension AppCoordinator {
         }
     }
 
-    func openReportUpdate(reportId: String, username: String, reason: ReportOptionType, product: String?) {
+    func openReportUpdate(reportId: String, username: String, reason: ReportOptionType, userId: String, product: String?) {
         let updateType = ReportUpdateType(reason: reason, username: username, productName: product)
-        let viewModel = ReportUpdateViewModel(type: updateType, reportId: reportId, reportedUserId: "",
+        let viewModel = ReportUpdateViewModel(type: updateType, reportId: reportId, reportedUserId: userId,
                                               reportingRepository: Core.reportingRepository, tracker: tracker)
         viewModel.navigator = self
         let viewController = ReportUpdateViewController(viewModel: viewModel)

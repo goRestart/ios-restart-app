@@ -170,10 +170,11 @@ struct UriScheme {
          guard let reportId = components.first,
             let username = params["username"],
             let reasonString = params["reason"],
+            let userId = params["userid"],
             let reason = ReportOptionType(rawValue: reasonString)
             else { return nil }
          let product = params["product"]
-         let action = DeepLinkAction.report(reportId: reportId, username: username, reason: reason, product: product)
+         let action = DeepLinkAction.report(reportId: reportId, username: username, reason: reason, userId: userId, product: product)
          return UriScheme(deepLink: DeepLink.link(action, campaign: campaign, medium: medium, source: source, cardActionParameter: cardActionParameter))
       }
    }
