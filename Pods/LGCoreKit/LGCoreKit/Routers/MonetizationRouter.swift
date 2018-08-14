@@ -11,8 +11,10 @@ enum MonetizationRouter: URLRequestAuthenticable {
     case showBumpeable(listingId: String, params: [String : Any])
     case freeBump(params: [String : Any])
     case pricedBump(params: [String : Any])
+    case showAvailablePurchases(listingId: String, params: [String : Any])
 
     static let bumpeableBaseUrl = "/api/bumpeable-products"
+    static let availablePurchasesUrl = "/api/available-purchases"
     static let freePaymentBaseUrl = "letgo"
     static let pricedPaymentBaseUrl = "apple"
 
@@ -24,6 +26,8 @@ enum MonetizationRouter: URLRequestAuthenticable {
             return MonetizationRouter.freePaymentBaseUrl
         case .pricedBump:
             return MonetizationRouter.pricedPaymentBaseUrl
+        case let .showAvailablePurchases(listingId, _):
+            return MonetizationRouter.availablePurchasesUrl + "/\(listingId)"
         }
     }
 
@@ -31,7 +35,7 @@ enum MonetizationRouter: URLRequestAuthenticable {
 
     var requiredAuthLevel: AuthLevel {
         switch self {
-        case .showBumpeable, .freeBump, .pricedBump:
+        case .showBumpeable, .freeBump, .pricedBump, .showAvailablePurchases:
             return .user
         }
     }
@@ -44,6 +48,8 @@ enum MonetizationRouter: URLRequestAuthenticable {
             return try Router<PaymentsBaseURL>.create(endpoint: endpoint, params: params, encoding: .json).asURLRequest()
         case let .pricedBump(params: params):
             return try Router<PaymentsBaseURL>.create(endpoint: endpoint, params: params, encoding: .json).asURLRequest()
+        case let .showAvailablePurchases(_, params):
+            return try Router<APIBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
         }
     }
 }

@@ -154,6 +154,7 @@ extension ABTests {
 extension ABTests {
     var searchImprovements: LeanplumABVariable<Int> { return core.searchImprovements }
     var relaxedSearch: LeanplumABVariable<Int> { return core.relaxedSearch }
+    var cachedFeed: LeanplumABVariable<Int> { return core.cachedFeed }
 }
 
 //  MARK: Chat
@@ -169,6 +170,7 @@ extension ABTests {
     var enableCTAMessageType: LeanplumABVariable<Bool> { return chat.enableCTAMessageType }
     var expressChatImprovement: LeanplumABVariable<Int> { return chat.expressChatImprovement }
     var smartQuickAnswers: LeanplumABVariable<Int> { return chat.smartQuickAnswers }
+    var openChatFromUserProfile: LeanplumABVariable<Int> { return chat.openChatFromUserProfile }
 }
 
 //  MARK: Money
@@ -190,6 +192,8 @@ extension ABTests {
     var alwaysShowBumpBannerWithLoading: LeanplumABVariable<Int> { return money.alwaysShowBumpBannerWithLoading }
     var showSellFasterInProfileCells: LeanplumABVariable<Int> { return money.showSellFasterInProfileCells }
     var bumpInEditCopys: LeanplumABVariable<Int> { return money.bumpInEditCopys }
+    var copyForSellFasterNowInTurkish : LeanplumABVariable<Int> { return money.copyForSellFasterNowInTurkish }
+    var multiAdRequestMoreInfo: LeanplumABVariable<Int> { return money.multiAdRequestMoreInfo }
 }
 
 //  MARK: Retention
@@ -203,6 +207,7 @@ extension ABTests {
     var searchAlertsInSearchSuggestions: LeanplumABVariable<Int> { return retention.searchAlertsInSearchSuggestions }
     var engagementBadging: LeanplumABVariable<Int> { return retention.engagementBadging }
     var searchAlertsDisableOldestIfMaximumReached: LeanplumABVariable<Int> { return retention.searchAlertsDisableOldestIfMaximumReached }
+    var notificationCenterRedesign: LeanplumABVariable<Int> { return retention.notificationCenterRedesign }
 }
 
 //  MARK: RealEstate

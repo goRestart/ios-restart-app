@@ -22,6 +22,9 @@
 "bump_up_banner_pay_text_improvement_english_b" = "Vendez au plus vite !";
 "bump_up_banner_pay_text_improvement_english_c" = "Vendez au plus vite !";
 "bump_up_banner_pay_text_improvement_english_d" = "Vendez au plus vite !";
+"bump_up_banner_pay_text_improvement_turkish_b" = "Gagnez en visibilité";
+"bump_up_banner_pay_text_improvement_turkish_c" = "Gagnez en visibilité";
+"bump_up_banner_pay_text_improvement_turkish_d" = "Gagnez en visibilité";
 "bump_up_banner_wait_text" = "avant de remettre en vedette";
 "bump_up_boost_success_alert_text" = "Votre annonce a été boostée ! Elle sera mise en vedette pour les prochaines 24 heures.";
 "bump_up_error_bump_generic" = "Une erreur est survenue lors de la mise en vedette de votre annonce. Veuillez réessayer.";
@@ -45,6 +48,7 @@
 "bump_up_product_cell_chat_now_button_english_b" = "Chattez";
 "bump_up_product_cell_chat_now_button_english_c" = "Chattez";
 "bump_up_product_cell_chat_now_button_english_d" = "Chattez";
+"bump_up_product_cell_feature_it_label" = "Mettez-le en vedette";
 "bump_up_product_cell_featured_stripe" = "Spécial";
 "bump_up_product_detail_featured_label" = "SPÉCIAL";
 "bump_up_view_boost_pay_button_title" = "Mettez-le de nouveau en vedette pour %@";
@@ -61,6 +65,8 @@
 "bump_up_view_pay_button_title" = "Mettez-le en vedette pour %@";
 "bump_up_view_pay_subtitle" = "En mettant votre annonce en vedette pendant 24 heures, plus d'acheteurs voient votre annonce et vous vendez plus vite";
 "bump_up_view_pay_title" = "Attirez deux fois plus d'acheteurs";
+"cached_feed_error" = "Une erreur est survenue au moment de charger de nouvelles annonces";
+"cached_feed_new_listings" = "Nouveaux produits";
 "categories_baby_and_child" = "Bébé et Enfant";
 "categories_car" = "Voitures";
 "categories_cars_and_motors" = "Autres Véhicules et Accessoires";
@@ -360,7 +366,7 @@
 "discarded_products_reason_poor_ad_quality" = "N'est pas conforme aux meilleures pratiques";
 "discarded_products_reason_reference_to_competitors" = "Références à d'autres applis ou sites internet";
 "discarded_products_reason_stock_photo_only" = "Ne contient que des photos provenant de banques d'images";
-"edit_paymentFrequency_placeholder" = "Fréquence";
+"edit_paymentFrequency_placeholder" = "Non Communiqué";
 "edit_paymentFrequency_title" = "Fréquence";
 "edit_priceType_choose_title" = "Choisissez une option";
 "edit_product_feature_label_long_text" = "Mettez votre annonce en vedette pour vendre plus vite";
@@ -497,6 +503,8 @@
 "id_verification_third_step_subtitle" = "Assurez-vous que votre pièce d'identité soit claire et à l'intérieur de l'espace prévu à cet effet";
 "id_verification_third_step_title" = "Prenez une photo du recto de votre pièce d'identité";
 "id_verification_update_avatar_message" = "Voulez-vous que cela devienne votre photo de profil ?";
+"jobs_services_offering_text" = "Offre";
+"jobs_services_wanted_text" = "Demande";
 "kilometer_unit_suffix" = "km";
 "listing_chat_button" = "Clavardez Maintenant";
 "listing_interested_button_A" = "Je suis intéressé(e)";
@@ -581,6 +589,12 @@
 "ml_onboarding_description_text" = "Montrez-moi un produit et je vous dirai combien vous allez gagner";
 "ml_onboarding_new_text" = "NOUVEAU !";
 "ml_onboarding_ok_text" = "OK";
+"notification_section_one_month_ago" = "Il y a 1 mois";
+"notification_section_one_week_ago" = "Il y a 1 semaine";
+"notifications_cell_date_days_ago" = "%ij";
+"notifications_cell_date_hours_ago" = "%ih";
+"notifications_cell_date_mins_ago" = "%im";
+"notifications_cell_date_weeks_ago" = "%is";
 "notifications_empty_subtitle" = "Publiez quelque chose à vendre pour qu'il y ait un peu d'action par ici";
 "notifications_empty_title" = "AUCUNE NOTIFICATION (POUR LE MOMENT !)";
 "notifications_permissions_1_push" = "Lucie : Je suis très intéressé par votre téléphone ! Pouvez-vous me le laisser pour $100 ?";
@@ -601,6 +615,12 @@
 "notifications_permissions_settings_title_chat" = "Ne manquez pas une réponse !";
 "notifications_permissions_settings_yes_button" = "Oui, Activer";
 "notifications_permissions_yes_button" = "Oui, Me Notifier";
+"notifications_section_days_ago" = "Il y a %i jours";
+"notifications_section_months_ago" = "Il y a %i mois";
+"notifications_section_one_day_ago" = "Il y a 1 jour";
+"notifications_section_today" = "Aujourd'hui";
+"notifications_section_weeks_ago" = "Il y a %i semaines";
+"notifications_section_yesterday" = "Hier";
 "notifications_title" = "Notifications";
 "notifications_type_buyers_interested" = "%d acheteurs pourraient être intéressés par votre annonce";
 "notifications_type_buyers_interested_button" = "Découvrez qui ils sont";
@@ -671,6 +691,12 @@
 "passwordless_username_input_done_button" = "Terminé";
 "passwordless_username_input_textfield_placeholder" = "Nom d'utilisateur";
 "passwordless_username_input_title" = "Choisissez votre nom d'utilisateur";
+"payment_frequency_per_biweek" = "2 semaines";
+"payment_frequency_per_day" = "jour";
+"payment_frequency_per_hour" = "heure";
+"payment_frequency_per_month" = "mois";
+"payment_frequency_per_week" = "semaine";
+"payment_frequency_per_year" = "année";
 "phone_verification_code_input_view_content_subaction" = "Vous n'avez pas reçu le code ?";
 "phone_verification_code_input_view_content_subtext" = "Vous pouvez demander un autre code si vous ne le recevez pas dans les prochaines %@";
 "phone_verification_code_input_view_content_subtitle" = "Nous l'avons envoyé à %@";
@@ -709,10 +735,12 @@
 "post_description_info_title" = "INFORMATIONS SUR L'ANNONCE";
 "post_description_name_placeholder" = "Nom";
 "post_description_save_button_text" = "Sauvegarder cette annonce !";
-"post_details_jobs_services_step_option_jobs_prefix" = "Looking to hire someone for a";
-"post_details_jobs_services_step_option_services_prefix" = "Advertising a";
-"post_details_jobs_services_step_title" = "I'm...";
-"post_details_listingType_job_display_name" = "job";
+"post_details_jobs_services_step_option_jobs_prefix" = "Cherchant à recruter quelqu'un pour un";
+"post_details_jobs_services_step_option_services_prefix" = "Annonçant un";
+"post_details_jobs_services_step_title" = "Je suis...";
+"post_details_jobs_subtitle" = "Choisissez-en un";
+"post_details_jobs_title" = "Quelle sorte d'emploi offrez-vous ?";
+"post_details_listingType_job_display_name" = "emploi";
 "post_details_listingType_service_display_name" = "service";
 "post_details_services_add_new" = "Ajoutez un nouveau service";
 "post_details_services_camera_message" = "Publiez le logo de votre entreprise ou une photo qui présente le service que vous offrez";
@@ -904,6 +932,7 @@
 "product_post_retry_button" = "Réessayer";
 "product_post_select_category_cars" = "Des voitures";
 "product_post_select_category_housing" = "Logements à Louer / Vendre";
+"product_post_select_category_jobs_services" = "Emplois & Services";
 "product_post_select_category_motors_and_accessories" = "Autres Véhicules et Accessoires";
 "product_post_select_category_other" = "Autres produits";
 "product_post_select_category_real_estate" = "Immobilier";
@@ -1247,7 +1276,7 @@
 "reporting_user_suspicious_behavior_header" = "QUE S'EST-IL PASSÉ ?";
 "reporting_user_title" = "Signaler Utilisateur";
 "reporting_user_update_text_A" = "Merci d'avoir anonymement signalé %@. Des commentaires comme le vôtre nous aident à faire de letgo une communauté sécuritaire.\n\nAprès avoir évalué ce compte, nous l'avons retiré, car il violait nos Directives Communautaires.";
-"reporting_user_update_text_B" = "Merci d'avoir anonymement signalé la photo de profil de %@. Des commentaires comme le vôtre nous aident à faire de letgo une communauté sécuritaire. \n\nAprès avoir évalué la photo, nous l'avons retirée, car elle violait nos Directives Communautaires.";
+"reporting_user_update_text_B" = "Merci d'avoir anonymement signalé la photo de profil de %@. Des commentaires comme le vôtre nous aident à faire de letgo une communauté sécuritaire.\n\nAprès avoir évalué la photo, nous l'avons retirée, car elle violait nos Directives Communautaires.";
 "reporting_user_update_text_C" = "Merci d'avoir anonymement signalé la bio de %@. Des commentaires comme le vôtre nous aident à faire de letgo une communauté sécuritaire. \n\nAprès avoir évalué cette bio, nous l'avons retirée, car elle violait nos Directives Communautaires.";
 "reporting_user_update_title" = "Suivi du signalement";
 "reset_password_email_field_hint" = "Indiquez votre adresse courriel";

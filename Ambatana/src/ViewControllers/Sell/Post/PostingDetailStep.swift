@@ -13,6 +13,7 @@ enum PostingDetailStep {
     case make
     case model
     case year
+    case servicesListingType
     case servicesSubtypes
     case summary
     
@@ -42,6 +43,8 @@ enum PostingDetailStep {
             return R.Strings.postCategoryDetailCarModel
         case .year:
             return R.Strings.postCategoryDetailCarYear
+        case .servicesListingType:
+            return R.Strings.postDetailsJobsServicesStepTitle
         case .servicesSubtypes:
             return R.Strings.postDetailsServicesTitle
         }
@@ -50,7 +53,7 @@ enum PostingDetailStep {
     var subtitle: String? {
         switch self {
         case .price, .propertyType, .offerType, .bedrooms, .rooms, .sizeSquareMeters, .bathrooms, .summary, .location ,
-             .make, .model, .year:
+             .make, .model, .year, .servicesListingType:
             return nil
         case .servicesSubtypes:
             return R.Strings.postDetailsServicesSubtitle
@@ -83,6 +86,8 @@ enum PostingDetailStep {
             return .year
         case .year:
             return .summary
+        case .servicesListingType:
+            return .servicesSubtypes
         }
     }
 }

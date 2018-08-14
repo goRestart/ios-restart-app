@@ -15,6 +15,8 @@ enum BumpUpType: Equatable {
         case .free, .priced, .hidden:
             if FeatureFlags.sharedInstance.shouldChangeSellFasterNowCopyInEnglish {
                 return FeatureFlags.sharedInstance.copyForSellFasterNowInEnglish.variantString
+            } else if FeatureFlags.sharedInstance.shouldChangeSellFasterNowCopyInTurkish {
+                return FeatureFlags.sharedInstance.copyForSellFasterNowInTurkish.variantString
             } else {
                 return R.Strings.bumpUpBannerPayTextImprovement
             }

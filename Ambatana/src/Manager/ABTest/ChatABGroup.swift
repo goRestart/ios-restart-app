@@ -12,6 +12,7 @@ struct ChatABGroup: ABGroupType {
         static let enableCTAMessageType = "20180716enableCTAMessageType"
         static let expressChatImprovement = "20180719ExpressChatImprovement"
         static let smartQuickAnswers = "20180806SmartQuickAnswers"
+        static let openChatFromUserProfile = "20180807OpenChatFromUserProfile"
     }
 
     let showInactiveConversations: LeanplumABVariable<Bool>
@@ -24,6 +25,7 @@ struct ChatABGroup: ABGroupType {
     let enableCTAMessageType: LeanplumABVariable<Bool>
     let expressChatImprovement: LeanplumABVariable<Int>
     let smartQuickAnswers: LeanplumABVariable<Int>
+    let openChatFromUserProfile: LeanplumABVariable<Int>
 
     let group: ABGroup = .chat
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -40,7 +42,8 @@ struct ChatABGroup: ABGroupType {
          showChatHeaderWithoutUser: LeanplumABVariable<Bool>,
          enableCTAMessageType: LeanplumABVariable<Bool>,
          expressChatImprovement: LeanplumABVariable<Int>,
-         smartQuickAnswers: LeanplumABVariable<Int>) {
+         smartQuickAnswers: LeanplumABVariable<Int>,
+         openChatFromUserProfile: LeanplumABVariable<Int>) {
         self.showInactiveConversations = showInactiveConversations
         self.showChatSafetyTips = showChatSafetyTips
         self.userIsTyping = userIsTyping
@@ -51,13 +54,14 @@ struct ChatABGroup: ABGroupType {
         self.enableCTAMessageType = enableCTAMessageType
         self.expressChatImprovement = expressChatImprovement
         self.smartQuickAnswers = smartQuickAnswers
+        self.openChatFromUserProfile = openChatFromUserProfile
 
         intVariables.append(contentsOf: [userIsTyping,
                                          chatNorris,
                                          showChatConnectionStatusBar,
                                          expressChatImprovement,
-                                         smartQuickAnswers])
-
+                                         smartQuickAnswers,
+                                         openChatFromUserProfile])
         boolVariables.append(contentsOf: [showInactiveConversations,
                                           showChatSafetyTips,
                                           showChatHeaderWithoutListingForAssistant,
@@ -95,7 +99,9 @@ struct ChatABGroup: ABGroupType {
                                                             groupType: .chat),
                            smartQuickAnswers: .makeInt(key: Keys.smartQuickAnswers,
                                                        defaultValue: 0,
-                                                       groupType: .chat)
-        )
+                                                       groupType: .chat),
+                           openChatFromUserProfile: .makeInt(key: Keys.openChatFromUserProfile,
+                                                            defaultValue: 0,
+                                                            groupType: .chat))
     }
 }

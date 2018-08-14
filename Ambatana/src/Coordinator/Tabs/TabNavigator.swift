@@ -33,6 +33,13 @@ enum ProductCarouselActionOnFirstAppear {
         typePage: EventParameterTypePage?)
     case triggerMarkAsSold
     case edit
+
+    var actionIsTriggerBumpUp: Bool {
+        if case .triggerBumpUp = self {
+            return true
+        }
+        return false
+    }
 }
 
 protocol TabNavigator: class {
@@ -52,6 +59,7 @@ protocol TabNavigator: class {
     func showUndoBubble(withMessage message: String,
                         duration: TimeInterval,
                         withAction action: @escaping () -> ())
+    func showFailBubble(withMessage message: String, duration: TimeInterval)
     func openUserVerificationView()
     func openCommunityTab()
 }

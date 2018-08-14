@@ -6,7 +6,7 @@
 //  Copyright © 2017 Ambatana Inc. All rights reserved.
 //
 
-struct LGListingImage: Decodable {
+struct LGListingImage: Codable {
     let id: String
     let url: URL
     

@@ -6,7 +6,7 @@
 //  Copyright © 2017 Ambatana Inc. All rights reserved.
 //
 
-struct LGUserListing: UserListing, Decodable {
+struct LGUserListing: UserListing, Codable {
     private static let statusDefaultValue = UserStatus.active
     
     let objectId: String?
@@ -102,6 +102,22 @@ struct LGUserListing: UserListing, Decodable {
         let statusValue = try keyedContainer.decodeIfPresent(String.self, forKey: .status) ?? LGUserListing.statusDefaultValue.rawValue
         self.status = UserStatus(rawValue: statusValue) ?? LGUserListing.statusDefaultValue
         self.type = try keyedContainer.decodeIfPresent(UserType.self, forKey: .type) ?? UserType.unknown
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        // arbitrarily choose camelCase 🐪🐫
+        var camelContainer = encoder.container(keyedBy: CodingKeysCamelCase.self)
+
+        try container.encodeIfPresent(objectId, forKey: .id)
+        try container.encodeIfPresent(name, forKey: .name)
+
+        try camelContainer.encodeIfPresent(avatar?.fileURL?.absoluteString, forKey: .avatarURL)
+        try postalAddress.encode(to: encoder)
+        try camelContainer.encodeIfPresent(isDummy, forKey: .isDummy)
+        try container.encodeIfPresent(banned, forKey: .isBanned)
+        try container.encodeIfPresent(status.rawValue, forKey: .status)
+        try container.encodeIfPresent(type.rawValue, forKey: .type)
     }
     
     enum CodingKeys: String, CodingKey {

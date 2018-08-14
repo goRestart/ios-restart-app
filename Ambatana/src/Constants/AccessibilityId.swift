@@ -220,6 +220,10 @@ enum AccessibilityId: Equatable, Accessible {
     case notificationsModularTextBodyLabel
     case notificationsModularBasicImageView
     case notificationsModularHeroImageView
+    case notificationsModularIconImageView
+    case notificationsModularThumbnailCollectionView
+    case notificationsModularThumbnailCollectionViewCell
+    case notificationsModularThumbnailView
     case notificationsModularThumbnailView1
     case notificationsModularThumbnailView2
     case notificationsModularThumbnailView3
@@ -1230,6 +1234,14 @@ enum AccessibilityId: Equatable, Accessible {
             return "notificationsModularTextBodyLabel"
         case .notificationsModularBasicImageView:
             return "notificationsModularBasicImageView"
+        case .notificationsModularIconImageView:
+            return "notificationsModularIconImageView"
+        case .notificationsModularThumbnailCollectionView:
+            return "notificationsModularThumbnailCollectionView"
+        case .notificationsModularThumbnailCollectionViewCell:
+            return "notificationsModularThumbnailCollectionViewCell"
+        case .notificationsModularThumbnailView:
+            return "notificationsModularThumbnailView"
         case .notificationsModularHeroImageView:
             return "notificationsModularHeroImageView"
         case .notificationsModularThumbnailView1:

@@ -749,16 +749,24 @@ private extension ListingCarouselMoreInfoView {
     }
 
     func setupAdBannerWith(viewModel: ListingCarouselViewModel) {
-            dfpBannerView = DFPBannerView(adSize: kGADAdSizeLargeBanner)
 
-            guard let dfpBanner = dfpBannerView else { return }
-            dfpBanner.rootViewController = delegate?.rootViewControllerForDFPBanner()
-            dfpBanner.delegate = self
+        dfpBannerView = DFPBannerView(adSize: kGADAdSizeLargeBanner)
 
-            bannerContainerView.addSubviewForAutoLayout(dfpBanner)
-            dfpBanner.layout(with: bannerContainerView).top().bottom().centerX()
+        guard let dfpBanner = dfpBannerView else { return }
+        dfpBanner.rootViewController = delegate?.rootViewControllerForDFPBanner()
+        dfpBanner.delegate = self
 
-            dfpBanner.delegate = self
+        if viewModel.multiAdRequestActive {
+            dfpBanner.adSizeDelegate = self
+            var validSizes: [NSValue] = []
+            validSizes.append(NSValueFromGADAdSize(kGADAdSizeBanner)) // 320x50
+            validSizes.append(NSValueFromGADAdSize(kGADAdSizeLargeBanner)) // 320x100
+            validSizes.append(NSValueFromGADAdSize(kGADAdSizeMediumRectangle)) // 300x250
+            dfpBanner.validAdSizes = validSizes
+        }
+
+        bannerContainerView.addSubviewForAutoLayout(dfpBanner)
+        dfpBanner.layout(with: bannerContainerView).top().bottom().centerX()
     }
 
     func loadDFPRequest() {
@@ -787,7 +795,7 @@ extension ListingCarouselMoreInfoView: GADAdSizeDelegate, GADBannerViewDelegate 
         bannerContainerViewHeightConstraint?.constant = sizeFromAdSize.height
         if let sideMargin = viewModel?.sideMargin {
             bannerContainerViewLeftConstraint?.constant = sideMargin
-            bannerContainerViewRightConstraint?.constant = sideMargin
+            bannerContainerViewRightConstraint?.constant = -sideMargin
         }
         if sizeFromAdSize.height > 0 {
             let absolutePosition = scrollView.convert(bannerContainerView.frame.origin, to: nil)
@@ -795,7 +803,8 @@ extension ListingCarouselMoreInfoView: GADAdSizeDelegate, GADBannerViewDelegate 
             let bannerBottom = bannerTop + sizeFromAdSize.height
             viewModel?.didReceiveAd(bannerTopPosition: bannerTop,
                                     bannerBottomPosition: bannerBottom,
-                                    screenHeight: UIScreen.main.bounds.height)
+                                    screenHeight: UIScreen.main.bounds.height,
+                                    bannerSize: bannerView.adSize.size)
         }
     }
 
@@ -811,7 +820,8 @@ extension ListingCarouselMoreInfoView: GADAdSizeDelegate, GADBannerViewDelegate 
             let bannerBottom = bannerTop + bannerView.frame.size.height
             viewModel?.didReceiveAd(bannerTopPosition: bannerTop,
                                     bannerBottomPosition: bannerBottom,
-                                    screenHeight: UIScreen.main.bounds.height)
+                                    screenHeight: UIScreen.main.bounds.height,
+                                    bannerSize: bannerView.adSize.size)
         }
     }
 
@@ -821,15 +831,18 @@ extension ListingCarouselMoreInfoView: GADAdSizeDelegate, GADBannerViewDelegate 
         bannerContainerViewLeftConstraint?.constant = 0
         bannerContainerViewRightConstraint?.constant = 0
 
-        viewModel?.didFailToReceiveAd(withErrorCode: GADErrorCode(rawValue: error.code) ?? .internalError)
+        viewModel?.didFailToReceiveAd(withErrorCode: GADErrorCode(rawValue: error.code) ?? .internalError,
+                                      bannerSize: bannerView.adSize.size)
     }
 
     func adViewWillPresentScreen(_ bannerView: GADBannerView) {
-        viewModel?.adTapped(typePage: EventParameterTypePage.listingDetailMoreInfo, willLeaveApp: false)
+        viewModel?.adTapped(typePage: EventParameterTypePage.listingDetailMoreInfo, willLeaveApp: false,
+                            bannerSize: bannerView.adSize.size)
     }
 
     func adViewWillLeaveApplication(_ bannerView: GADBannerView) {
-        viewModel?.adTapped(typePage: EventParameterTypePage.listingDetailMoreInfo, willLeaveApp: true)
+        viewModel?.adTapped(typePage: EventParameterTypePage.listingDetailMoreInfo, willLeaveApp: true,
+                            bannerSize: bannerView.adSize.size)
     }
 }
 

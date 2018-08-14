@@ -276,6 +276,11 @@
         "description": "[CHAT] Enable the CTA message type"
     },
     {
+        "name": "OpenChatFromUserProfile",
+        "values": ["control", "baseline", "vatiant1NoQuickAnswers", "variant2WithOneTimeQuickAnswers"],
+        "description": "[CHAT] Open a chat from the user profile"
+    },
+    {
         "name": "SearchAlertsInSearchSuggestions",
         "values": ["control", "baseline", "active"],
         "description": "Show search alerts in search suggestions view"
@@ -336,8 +341,28 @@
         "description": "[MONEY] Test different variants for bump up in edit listing screen"
     },
     {
+        "name": "MultiAdRequestMoreInfo",
+        "values": ["control", "baseline", "active"],
+        "description": "[MONEY] Test different ad sizes in more info view"
+    },
+    {
         "name": "EnableJobsAndServicesCategory",
         "values": ["control", "baseline", "active"],
         "description": "[SERVICES] Services category becomes Jobs & Services, enables features related to jobs"
+    },
+    {
+        "name": "CachedFeed",
+        "values": ["control", "baseline", "active"],
+        "description": "[CORE] Show cached feed before requesting for a fresh one"
+    },
+    {
+        "name": "CopyForSellFasterNowInTurkish",
+        "values": ["control", "baseline", "variantB", "variantC", "variantD"],
+        "description": "[MONEY] Try different copies for 'Sell faster now' banner in Turkish"
+    },
+    {
+        "name": "NotificationCenterRedesign",
+        "values": ["control", "baseline", "active"],
+        "description": "[RETENTION] Notification center redesign with sections and modern UI design"
     }
  ]

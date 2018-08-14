@@ -93,7 +93,7 @@ struct ListingData {
     }
     
     var paymentFrequency: String? {
-        return listing?.service?.servicesAttributes.paymentFrequency?.localizedDisplayName
+        return listing?.service?.servicesAttributes.paymentFrequency?.perValueDisplayName
     }
     
     var distanceToListing: Double? {

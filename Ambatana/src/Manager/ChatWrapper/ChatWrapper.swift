@@ -77,7 +77,10 @@ class LGChatWrapper: ChatWrapper {
                     return
                 }
 
-                let message = self?.chatRepository.createNewMessage(userId, text: text, type: type.chatType)
+                let message = self?.chatRepository.createNewMessage(messageId: nil,
+                                                                    talkerId: userId,
+                                                                    text: text,
+                                                                    type: type.chatType)
                 
                 guard let messageId = message?.objectId else {
                     completion?(Result(error: .internalError(message: "There's no message info")))

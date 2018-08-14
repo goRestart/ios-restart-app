@@ -11,7 +11,7 @@ protocol MainListingsViewModelDelegate: BaseViewModelDelegate {
     func vmShowTags(primaryTags: [FilterTag], secondaryTags: [FilterTag])
     func vmFiltersChanged()
     func vmShowMapToolTip(with configuration: TooltipConfiguration)
-    func vmHideMapToolTip()
+    func vmHideMapToolTip(hideForever: Bool)
 }
 
 protocol MainListingsAdsDelegate: class {
@@ -69,6 +69,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     var shouldHideCategoryAfterSearch = false
     var activeRequesterType: RequesterType?
     
+    private var isMapTooltipAdded = false
+    
     var hasFilters: Bool {
         return !filters.isDefault()
     }
@@ -96,6 +98,9 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             if shouldShowRealEstateMapTooltip {
                 showTooltipMap()
             }
+        } else {
+            isMapTooltipAdded = false
+            delegate?.vmHideMapToolTip(hideForever: false)
         }
         rightButtonItems.append((image: hasFilters ? R.Asset.IconsButtons.icFiltersActive.image : R.Asset.IconsButtons.icFilters.image, selector: #selector(MainListingsViewController.openFilters)))
         return rightButtonItems
@@ -114,6 +119,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     let infoBubbleText = Variable<String>(R.Strings.productPopularNearYou)
     let recentItemsBubbleVisible = Variable<Bool>(false)
     let recentItemsBubbleText = Variable<String>(R.Strings.engagementBadgingFeedBubble)
+    let isFreshBubbleVisible = Variable<Bool?>(nil)
+
     let errorMessage = Variable<String?>(nil)
     let containsListings = Variable<Bool>(false)
     let isShowingCategoriesHeader = Variable<Bool>(false)
@@ -294,7 +301,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     }
     
     private var shouldShowRealEstateMapTooltip: Bool {
-        return featureFlags.realEstateMapTooltip.isActive && !keyValueStorage[.realEstateTooltipMapShown]
+        return featureFlags.realEstateMapTooltip.isActive && !keyValueStorage[.realEstateTooltipMapShown] && !isMapTooltipAdded
     }
     
     private func showTooltipMap() {
@@ -311,13 +318,14 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                                                         peakOnTop: true,
                                                         actionBlock: {},
                                                         closeBlock:{ [weak self] in
-                                                            self?.delegate?.vmHideMapToolTip()
+                                                            self?.isMapTooltipAdded = false
+                                                            self?.delegate?.vmHideMapToolTip(hideForever: true)
         })
+        isMapTooltipAdded = true
         delegate?.vmShowMapToolTip(with: tooltipConfiguration)
     }
     
-    func tooltipMapHidden() {
-        guard shouldShowRealEstateMapTooltip else { return }
+    func tooltipDidHide() {
         keyValueStorage[.realEstateTooltipMapShown] = true
     }
 
@@ -406,6 +414,10 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     private var isRealEstateSearch: Bool {
         return filters.selectedCategories == [.realEstate]
     }
+
+    private var shouldShowSnackbarIfRetrieveFails: Bool = false {
+        didSet { isFreshBubbleVisible.value = shouldShowSnackbarIfRetrieveFails }
+    }
     
     fileprivate let disposeBag = DisposeBag()
     
@@ -416,6 +428,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         let hasSearchQuery = searchType?.text != nil
         return isThereLoggedUser && hasSearchQuery
     }
+    var shouldShowFreshBubble: Bool { return featureFlags.cachedFeed.isActive }
+
     private var shouldDisableOldestSearchAlertIfMaximumReached: Bool {
         return featureFlags.searchAlertsDisableOldestIfMaximumReached.isActive
     }
@@ -1191,11 +1205,19 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
     }
     
     // MARK: > ListingListViewModelDataDelegate
-    
+
+    func listingListVMDidSucceedRetrievingCache(viewModel: ListingListViewModel) {
+        shouldShowSnackbarIfRetrieveFails = true
+    }
+
     func listingListVM(_ viewModel: ListingListViewModel,
                        didSucceedRetrievingListingsPage page: UInt,
                        withResultsCount resultsCount: Int,
                        hasListings: Bool) {
+        if featureFlags.cachedFeed.isActive {
+            shouldShowSnackbarIfRetrieveFails = false
+        }
+
         // Only save the string when there is products and we are not searching a collection
         if let search = searchType, hasListings {
             updateLastSearchStored(lastSearch: search)
@@ -1257,8 +1279,15 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         }
     }
     
-    func listingListMV(_ viewModel: ListingListViewModel, didFailRetrievingListingsPage page: UInt,
-                       hasListings hasProducts: Bool, error: RepositoryError) {
+    func listingListMV(_ viewModel: ListingListViewModel,
+                       didFailRetrievingListingsPage page: UInt,
+                       hasListings hasProducts: Bool,
+                       error: RepositoryError) {
+        if page == 0 && shouldShowSnackbarIfRetrieveFails {
+            isFreshBubbleVisible.value = false
+            navigator?.showFailBubble(withMessage: R.Strings.cachedFeedError, duration: 3)
+        }
+
         if shouldRetryLoad {
             shouldRetryLoad = false
             listViewModel.retrieveListings()
@@ -1266,7 +1295,8 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         }
         
         if page == 0 && !hasProducts {
-            if let emptyViewModel = LGEmptyViewModel.map(from: error, action: { [weak viewModel] in viewModel?.refresh() }) {
+            if let emptyViewModel = LGEmptyViewModel.map(from: error,
+                                                         action: { [weak viewModel] in viewModel?.refresh() }) {
                 listViewModel.setErrorState(emptyViewModel)
             }
         }
@@ -1542,6 +1572,9 @@ extension MainListingsViewModel {
     }
     
     fileprivate func retrieveProductsIfNeededWithNewLocation(_ newLocation: LGLocation) {
+        if featureFlags.cachedFeed.isActive {
+            listViewModel.fetchFromCache()
+        }
         
         var shouldUpdate = false
         if listViewModel.canRetrieveListings {

@@ -1181,19 +1181,51 @@ enum EventParameterProfileType: String {
     case privateParameter = "private"
 }
 
-enum EventParameterNotificationClickArea: String {
-    case basicImage = "basic-image"
-    case heroImage = "hero-image"
-    case text = "text"
-    case thumbnail1 = "thumbnail-1"
-    case thumbnail2 = "thumbnail-2"
-    case thumbnail3 = "thumbnail-3"
-    case thumbnail4 = "thumbnail-4"
-    case cta1 = "cta-1"
-    case cta2 = "cta-2"
-    case cta3 = "cta-3"
-    case main = "main"
-    case unknown = "N/A"
+enum EventParameterNotificationClickArea {
+    case basicImage
+    case heroImage
+    case text
+    case thumbnail1
+    case thumbnail2
+    case thumbnail3
+    case thumbnail4
+    case cta1
+    case cta2
+    case cta3
+    case main
+    case unknown
+    case thumbnail(index: Int)
+    
+    var name: String {
+        switch self {
+        case .basicImage:
+            return "basic-image"
+        case .heroImage:
+            return "hero-image"
+        case .text:
+            return "text"
+        case .thumbnail1:
+            return "thumbnail-1"
+        case .thumbnail2:
+            return "thumbnail-2"
+        case .thumbnail3:
+            return "thumbnail-3"
+        case .thumbnail4:
+            return "thumbnail-4"
+        case .cta1:
+            return "cta-1"
+        case .cta2:
+            return "cta-2"
+        case .cta3:
+            return "cta-3"
+        case .main:
+            return "main"
+        case .unknown:
+            return "N/A"
+        case .thumbnail(let index):
+            return String(format: "thumbnail-%i", index)
+        }
+    }
 }
 
 enum EventParameterNotificationAction: String {
@@ -1357,11 +1389,27 @@ enum EventParamenterLocationTypePage: String {
     case automatic  = "automatic"
 }
 
-enum EventParameterAdType: String {
-    case dfp = "dfp"
-    case moPub = "moPub"
-    case adx = "adx"
-    case interstitial = "interstitial"
+enum EventParameterAdType {
+    case dfp
+    case moPub
+    case adx
+    case interstitial
+    case variableSize(size: CGSize)
+
+    var stringValue: String {
+        switch self {
+        case .variableSize(let size):
+            return "\(Int(size.width))x\(Int(size.height))"
+        case .dfp:
+            return "dfp"
+        case .moPub:
+            return "moPub"
+        case .adx:
+            return "adx"
+        case .interstitial:
+            return "interstitial"
+        }
+    }
 }
 
 enum EventParameterAdQueryType: String {

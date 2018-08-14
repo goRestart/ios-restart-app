@@ -40,7 +40,7 @@ class NotificationsViewModelSpec: BaseViewModelSpec {
                         }
                         // no notifications from backend
                         it ("notifications data has not any item") {
-                         expect(sut.dataCount).toEventually(equal(0))
+                         expect(sut.dataCount()).toEventually(equal(0))
                         }
                         it("tracks empty-state-error event") {
                             expect(tracker.trackedEvents.compactMap { $0.name })

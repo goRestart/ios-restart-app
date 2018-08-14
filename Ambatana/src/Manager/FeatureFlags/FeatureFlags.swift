@@ -63,6 +63,11 @@ protocol FeatureFlaggeable: class {
     var alwaysShowBumpBannerWithLoading: AlwaysShowBumpBannerWithLoading { get }
     var showSellFasterInProfileCells: ShowSellFasterInProfileCells { get }
     var bumpInEditCopys: BumpInEditCopys { get }
+    // MARK: Core
+    var cachedFeed: CachedFeed { get }
+
+    var copyForSellFasterNowInTurkish: CopyForSellFasterNowInTurkish { get }
+    var multiAdRequestMoreInfo: MultiAdRequestMoreInfo { get }
     
     // MARK: Chat
     var showInactiveConversations: Bool { get }
@@ -75,6 +80,7 @@ protocol FeatureFlaggeable: class {
     var enableCTAMessageType: Bool { get }
     var expressChatImprovement: ExpressChatImprovement { get }
     var smartQuickAnswers: SmartQuickAnswers { get }
+    var openChatFromUserProfile: OpenChatFromUserProfile { get }
 
     // MARK: Verticals
     var jobsAndServicesEnabled: EnableJobsAndServicesCategory { get }
@@ -114,6 +120,7 @@ protocol FeatureFlaggeable: class {
     var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions { get }
     var engagementBadging: EngagementBadging { get }
     var searchAlertsDisableOldestIfMaximumReached: SearchAlertsDisableOldestIfMaximumReached { get }
+    var notificationCenterRedesign: NotificationCenterRedesign { get }
 }
 
 extension FeatureFlaggeable {
@@ -369,6 +376,25 @@ extension CopyForSellFasterNowInEnglish {
     }
 }
 
+extension CopyForSellFasterNowInTurkish {
+    var isActive: Bool { return self != .control && self != .baseline }
+
+    var variantString: String {
+        switch self {
+        case .control:
+            return R.Strings.bumpUpBannerPayTextImprovement
+        case .baseline:
+            return R.Strings.bumpUpBannerPayTextImprovement
+        case .variantB:
+            return R.Strings.bumpUpBannerPayTextImprovementTurkishB
+        case .variantC:
+            return R.Strings.bumpUpBannerPayTextImprovementTurkishC
+        case .variantD:
+            return R.Strings.bumpUpBannerPayTextImprovementTurkishD
+        }
+    }
+}
+
 extension IAmInterestedFeed {
     var isVisible: Bool { return self == .control || self == .baseline }
 }
@@ -490,6 +516,11 @@ extension BumpInEditCopys {
             return R.Strings.editProductFeatureLabelVariantD
         }
     }
+}
+
+extension MultiAdRequestMoreInfo {
+    var isActive: Bool { return self == .active }
+
 }
 
 final class FeatureFlags: FeatureFlaggeable {
@@ -802,9 +833,11 @@ final class FeatureFlags: FeatureFlaggeable {
     var moreInfoDFPAdUnitId: String {
         switch sensorLocationCountryCode {
         case .usa?:
-            return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdDFPUSA
+            return multiAdRequestMoreInfo.isActive ? EnvironmentProxy.sharedInstance.moreInfoMultiAdUnitIdDFPUSA :
+                EnvironmentProxy.sharedInstance.moreInfoAdUnitIdDFPUSA
         default:
-            return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdDFP
+            return multiAdRequestMoreInfo.isActive ? EnvironmentProxy.sharedInstance.moreInfoMultiAdUnitIdDFP :
+                EnvironmentProxy.sharedInstance.moreInfoAdUnitIdDFP
         }
     }
 
@@ -975,7 +1008,7 @@ final class FeatureFlags: FeatureFlaggeable {
             return false
         }
     }
-    
+
     var copyForSellFasterNowInEnglish: CopyForSellFasterNowInEnglish {
         if Bumper.enabled {
             return Bumper.copyForSellFasterNowInEnglish
@@ -1065,6 +1098,32 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.bumpInEditCopys
         }
         return BumpInEditCopys.fromPosition(abTests.bumpInEditCopys.value)
+    }
+  
+    var shouldChangeSellFasterNowCopyInTurkish: Bool {
+        if Bumper.enabled {
+            return Bumper.copyForSellFasterNowInTurkish.isActive
+        }
+        switch (localeCountryCode) {
+        case .turkey?:
+            return true
+        default:
+            return false
+        }
+    }
+
+    var copyForSellFasterNowInTurkish: CopyForSellFasterNowInTurkish {
+        if Bumper.enabled {
+            return Bumper.copyForSellFasterNowInTurkish
+        }
+        return CopyForSellFasterNowInTurkish.fromPosition(abTests.copyForSellFasterNowInTurkish.value)
+    }
+  
+    var multiAdRequestMoreInfo: MultiAdRequestMoreInfo {
+        if Bumper.enabled {
+            return Bumper.multiAdRequestMoreInfo
+        }
+        return MultiAdRequestMoreInfo.fromPosition(abTests.multiAdRequestMoreInfo.value)
     }
 
     // MARK: - Private
@@ -1177,6 +1236,12 @@ extension FeatureFlags {
         }
         return SmartQuickAnswers.fromPosition(abTests.smartQuickAnswers.value)
     }
+    var openChatFromUserProfile: OpenChatFromUserProfile {
+        if Bumper.enabled {
+            return Bumper.openChatFromUserProfile
+        }
+        return OpenChatFromUserProfile.fromPosition(abTests.openChatFromUserProfile.value)
+    }
 }
 
 // MARK: Verticals
@@ -1261,6 +1326,11 @@ extension FeatureFlags {
         if Bumper.enabled { return Bumper.emptySearchImprovements }
         return EmptySearchImprovements.fromPosition(abTests.emptySearchImprovements.value)
     }
+
+    var cachedFeed: CachedFeed {
+        if Bumper.enabled { return Bumper.cachedFeed }
+        return CachedFeed.fromPosition(abTests.cachedFeed.value)
+    }
 }
 
 extension EmptySearchImprovements {
@@ -1284,6 +1354,10 @@ extension EmptySearchImprovements {
         case .popularNearYou, .similarQueries, .similarQueriesWhenFewResults, .alwaysSimilar: return R.Strings.listingShowSimilarResultsDescription
         }
     }
+}
+
+extension CachedFeed {
+    var isActive: Bool { return self == .active }
 }
 
 // MARK: Products
@@ -1383,5 +1457,12 @@ extension FeatureFlags {
             return Bumper.searchAlertsDisableOldestIfMaximumReached
         }
         return SearchAlertsDisableOldestIfMaximumReached.fromPosition(abTests.searchAlertsDisableOldestIfMaximumReached.value)
+    }
+    
+    var notificationCenterRedesign: NotificationCenterRedesign {
+        if Bumper.enabled {
+            return Bumper.notificationCenterRedesign
+        }
+        return NotificationCenterRedesign.fromPosition(abTests.notificationCenterRedesign.value)
     }
 }

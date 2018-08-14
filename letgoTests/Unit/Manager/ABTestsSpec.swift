@@ -54,7 +54,7 @@ class ABTestsSpec: QuickSpec {
                     sut.registerVariables()
                 }
                 it("registers all the variables") {
-                    expect(syncer.syncedCount) == 72
+                    expect(syncer.syncedCount) == 77
                 }
             }
 
@@ -179,8 +179,8 @@ class ABTestsSpec: QuickSpec {
             }
 
             context("registering all the retention variables") {
-                it("the retention int variable registered are 8") {
-                    expect(retention.intVariables.count) == 8
+                it("the retention int variable registered are 9") {
+                    expect(retention.intVariables.count) == 9
                 }
 
                 it("the retention bool variable registered are 0") {
@@ -204,14 +204,14 @@ class ABTestsSpec: QuickSpec {
                     syncer.sync(variables: retention.floatVariables)
                 }
 
-                it("the variables registered are 8") {
-                    expect(syncer.syncedCount) == 8
+                it("the variables registered are 9") {
+                    expect(syncer.syncedCount) == 9
                 }
             }
 
             context("registering all the money variables") {
-                it("the money int variable registered are 14") {
-                    expect(money.intVariables.count) == 14
+                it("the money int variable registered are 16") {
+                    expect(money.intVariables.count) == 16
                 }
 
                 it("the money bool variable registered are 2") {
@@ -234,14 +234,14 @@ class ABTestsSpec: QuickSpec {
                     syncer.sync(variables: money.stringVariables)
                     syncer.sync(variables: money.floatVariables)
                 }
-                it("the variables registered are 16") {
-                    expect(syncer.syncedCount) == 16
+                it("the variables registered are 18") {
+                    expect(syncer.syncedCount) == 18
                 }
             }
 
             context("registering all the chat variables") {
-                it("the chat int variable registered is 5") {
-                    expect(chat.intVariables.count) == 5
+                it("the chat int variable registered is 6") {
+                    expect(chat.intVariables.count) == 6
                 }
 
                 it("the chat bool variable registered are 5") {
@@ -264,14 +264,14 @@ class ABTestsSpec: QuickSpec {
                     syncer.sync(variables: chat.stringVariables)
                     syncer.sync(variables: chat.floatVariables)
                 }
-                it("the variables registered are 10") {
-                    expect(syncer.syncedCount) == 10
+                it("the variables registered are 11") {
+                    expect(syncer.syncedCount) == 11
                 }
             }
 
             context("registering all the core variables") {
                 it("the core int variable registered are 3") {
-                    expect(core.intVariables.count) == 2
+                    expect(core.intVariables.count) == 3
                 }
 
                 it("the core bool variable registered are 0") {
@@ -295,7 +295,7 @@ class ABTestsSpec: QuickSpec {
                     syncer.sync(variables: core.floatVariables)
                 }
                 it("the variables registered are 3") {
-                    expect(syncer.syncedCount) == 2
+                    expect(syncer.syncedCount) == 3
                 }
             }
 
@@ -328,7 +328,7 @@ class ABTestsSpec: QuickSpec {
                     expect(syncer.syncedCount) == 6
                 }
             }
-                    
+
             context("registering all products variables") {
                 it("the products int variable registered are 5") {
                     expect(products.intVariables.count) == 5
@@ -360,23 +360,24 @@ class ABTestsSpec: QuickSpec {
             }
         }
     }
+}
 
-    private class LeamplumSyncerCounter: LeamplumSyncerType {
-        var syncedCount: Int = 0
-        var trackingCount: Int = 0
+private class LeamplumSyncerCounter: LeamplumSyncerType {
+    var syncedCount: Int = 0
+    var trackingCount: Int = 0
 
-        func clear() {
-            syncedCount = 0
-            trackingCount = 0
-        }
+    func clear() {
+        syncedCount = 0
+        trackingCount = 0
+    }
 
-        func sync(variables: [ABRegistrable]) {
-            syncedCount += variables.count
-        }
-        func trackingData(variables: [ABTrackable]) -> [(String, ABGroup)] {
-            trackingCount += variables.count
-            return variables.map { _ in return ("I don't care", ABGroup.core) }
-        }
+    func sync(variables: [ABRegistrable]) {
+        syncedCount += variables.count
+    }
+    func trackingData(variables: [ABTrackable]) -> [(String, ABGroup)] {
+        trackingCount += variables.count
+        return variables.map { _ in return ("I don't care", ABGroup.core) }
     }
 }
+
 

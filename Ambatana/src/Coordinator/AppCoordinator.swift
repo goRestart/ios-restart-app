@@ -1198,6 +1198,9 @@ extension AppCoordinator: BumpInfoRequesterDelegate {
                                bumpUpProductData: bumpUpProductData,
                                maxCountdown: maxCountdown)
         case .sellEdit(let listing):
+            let promoteBumpEvent = TrackerEvent.bumpUpPromo()
+            tracker.trackEvent(promoteBumpEvent)
+
             openEditForListing(listing: listing,
                                bumpUpProductData: bumpUpProductData,
                                maxCountdown: maxCountdown)

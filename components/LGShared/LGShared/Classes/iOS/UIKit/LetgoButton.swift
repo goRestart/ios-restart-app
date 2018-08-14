@@ -5,6 +5,7 @@ public enum ButtonFontSize {
     case medium
     case small
     case verySmall
+    case verySmallBold
 }
 
 public enum ButtonStyle {
@@ -113,6 +114,8 @@ public enum ButtonStyle {
             return UIFont.smallButtonFont
         case .verySmall:
             return UIFont.verySmallButtonFont
+        case .verySmallBold:
+            return UIFont.verySmallBoldButtonFont
         }
     }
     
@@ -192,7 +195,7 @@ public enum ButtonStyle {
             return 15
         case .primary, .terciary, .google, .facebook, .dark, .darkField, .lightField, .logout, .secondary, .pinkish:
             switch fontSize {
-            case .big:
+            case .big, .verySmallBold:
                 return 15
             case .medium, .small, .verySmall:
                 return 10

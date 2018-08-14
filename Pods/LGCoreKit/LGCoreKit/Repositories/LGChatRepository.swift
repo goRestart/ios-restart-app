@@ -130,8 +130,8 @@ class LGChatRepository: InternalChatRepository {
     // MARK: > Public Methods
     // MARK: - Messages
     
-    func createNewMessage(_ talkerId: String, text: String?, type: ChatMessageType) -> ChatMessage {
-        return LGChatMessage.make(talkerId: talkerId, text: text, type: type)
+    func createNewMessage(messageId: String?, talkerId: String, text: String?, type: ChatMessageType) -> ChatMessage {
+        return LGChatMessage.make(messageId: messageId, talkerId: talkerId, text: text, type: type)
     }
     
     func indexMessages(_ conversationId: String, numResults: Int, offset: Int,

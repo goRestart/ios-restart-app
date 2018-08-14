@@ -268,7 +268,7 @@ extension ListingCreationViewModel {
         
         let multipostNewParams: [ListingCreationParams] = newSubtypes.enumerated().compactMap { (index, newSubtype) in
             guard let imageFileId = imagesIds[safeAt: index+multipostSubtypeParams.count] else { return nil }
-            let serviceAttribute = ServiceAttributes()
+            let serviceAttribute = postListingState.verticalAttributes?.serviceAttributes ?? ServiceAttributes()
             let imageFile = LGFile(id: imageFileId, url: nil)
             
             return ListingCreationParams.make(title: newSubtype,

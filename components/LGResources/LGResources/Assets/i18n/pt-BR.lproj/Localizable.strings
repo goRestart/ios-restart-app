@@ -22,6 +22,9 @@
 "bump_up_banner_pay_text_improvement_english_b" = "Get more visibility";
 "bump_up_banner_pay_text_improvement_english_c" = "Attract more buyers";
 "bump_up_banner_pay_text_improvement_english_d" = "Attract 2x more buyers";
+"bump_up_banner_pay_text_improvement_turkish_b" = "Attract more buyers";
+"bump_up_banner_pay_text_improvement_turkish_c" = "Attract more buyers";
+"bump_up_banner_pay_text_improvement_turkish_d" = "Attract more buyers";
 "bump_up_banner_wait_text" = "to feature again";
 "bump_up_boost_success_alert_text" = "Your listing was boosted! It will be featured for the next 24 hours.";
 "bump_up_error_bump_generic" = "An error occurred while featuring your listing. Please try again.";
@@ -45,6 +48,7 @@
 "bump_up_product_cell_chat_now_button_english_b" = "Contact";
 "bump_up_product_cell_chat_now_button_english_c" = "Contact seller";
 "bump_up_product_cell_chat_now_button_english_d" = "Start chat";
+"bump_up_product_cell_feature_it_label" = "Feature it";
 "bump_up_product_cell_featured_stripe" = "Featured";
 "bump_up_product_detail_featured_label" = "FEATURED";
 "bump_up_view_boost_pay_button_title" = "Feature it again for %@";
@@ -61,6 +65,8 @@
 "bump_up_view_pay_button_title" = "Feature it for %@";
 "bump_up_view_pay_subtitle" = "We’ll feature your listing for 24 hours so more buyers will see your listing and you’ll sell faster";
 "bump_up_view_pay_title" = "Attract 2x more buyers";
+"cached_feed_error" = "An error occurred while loading new listings";
+"cached_feed_new_listings" = "New items";
 "categories_baby_and_child" = "Baby and Child";
 "categories_car" = "Cars";
 "categories_cars_and_motors" = "Other Vehicles and Parts";
@@ -497,6 +503,8 @@
 "id_verification_third_step_subtitle" = "Make sure your ID is clear and inside the box in the viewfinder";
 "id_verification_third_step_title" = "Take a picture of the front of your ID";
 "id_verification_update_avatar_message" = "Do you want to make this your profile picture?";
+"jobs_services_offering_text" = "Offering";
+"jobs_services_wanted_text" = "Wanted";
 "kilometer_unit_suffix" = "km";
 "listing_chat_button" = "Chat Now";
 "listing_interested_button_A" = "I'm interested";
@@ -581,6 +589,12 @@
 "ml_onboarding_description_text" = "Show me an item and I'll tell you how much you'll make";
 "ml_onboarding_new_text" = "NEW!";
 "ml_onboarding_ok_text" = "OK";
+"notification_section_one_month_ago" = "1 month ago";
+"notification_section_one_week_ago" = "1 week ago";
+"notifications_cell_date_days_ago" = "%id";
+"notifications_cell_date_hours_ago" = "%ih";
+"notifications_cell_date_mins_ago" = "%im";
+"notifications_cell_date_weeks_ago" = "%iw";
 "notifications_empty_subtitle" = "Post something for sale to start seeing some activity here";
 "notifications_empty_title" = "NO NOTIFICATIONS (YET!)";
 "notifications_permissions_1_push" = "Isabella: I'm very interested in your phone. Can you let go of it for $100?";
@@ -601,6 +615,12 @@
 "notifications_permissions_settings_title_chat" = "Don't miss a reply!";
 "notifications_permissions_settings_yes_button" = "Yes, Activate";
 "notifications_permissions_yes_button" = "Yes, Notify Me";
+"notifications_section_days_ago" = "%i days ago";
+"notifications_section_months_ago" = "%i months ago";
+"notifications_section_one_day_ago" = "1 day ago";
+"notifications_section_today" = "Today";
+"notifications_section_weeks_ago" = "%i weeks ago";
+"notifications_section_yesterday" = "Yesterday";
 "notifications_title" = "Notifications";
 "notifications_type_buyers_interested" = "%d buyers might be interested in your listing";
 "notifications_type_buyers_interested_button" = "Find out who they are";
@@ -671,6 +691,12 @@
 "passwordless_username_input_done_button" = "Done";
 "passwordless_username_input_textfield_placeholder" = "Username";
 "passwordless_username_input_title" = "Choose your username";
+"payment_frequency_per_biweek" = "2 weeks";
+"payment_frequency_per_day" = "day";
+"payment_frequency_per_hour" = "hour";
+"payment_frequency_per_month" = "month";
+"payment_frequency_per_week" = "week";
+"payment_frequency_per_year" = "year";
 "phone_verification_code_input_view_content_subaction" = "Didn't get the code?";
 "phone_verification_code_input_view_content_subtext" = "You can request another code if you don't receive it within %@";
 "phone_verification_code_input_view_content_subtitle" = "We've sent it to %@";
@@ -712,6 +738,8 @@
 "post_details_jobs_services_step_option_jobs_prefix" = "Looking to hire someone for a";
 "post_details_jobs_services_step_option_services_prefix" = "Advertising a";
 "post_details_jobs_services_step_title" = "I'm...";
+"post_details_jobs_subtitle" = "Choose one";
+"post_details_jobs_title" = "What kind of job are you offering?";
 "post_details_listingType_job_display_name" = "job";
 "post_details_listingType_service_display_name" = "service";
 "post_details_services_add_new" = "Add a new service";
@@ -904,6 +932,7 @@
 "product_post_retry_button" = "Try Again";
 "product_post_select_category_cars" = "Cars";
 "product_post_select_category_housing" = "Housing for Rent / Sale";
+"product_post_select_category_jobs_services" = "Jobs & Services";
 "product_post_select_category_motors_and_accessories" = "Other Vehicles and Parts";
 "product_post_select_category_other" = "Other items";
 "product_post_select_category_real_estate" = "Real Estate";
