@@ -522,6 +522,10 @@ extension AppCoordinator: AppNavigator {
     func openCommunityTab() {
         openTab(.community, completion: nil)
     }
+
+    func dismissPresentedController() {
+        tabBarCtl.dismiss(animated: true, completion: nil)
+    }
 }
 
 // MARK: - SellCoordinatorDelegate
@@ -1034,6 +1038,10 @@ fileprivate extension AppCoordinator {
             afterDelayClosure = { [weak self] in
                 self?.openInAppWebView(url: url)
             }
+        case .report(let reportId, let username, let reason, let product):
+            afterDelayClosure = { [weak self] in
+                self?.openReportUpdate(reportId: reportId, username: username, reason: reason, product: product)
+            }
         }
 
         if let afterDelayClosure = afterDelayClosure {
@@ -1055,7 +1063,7 @@ fileprivate extension AppCoordinator {
         switch deepLink.action {
         case .home, .sell, .listing, .listingShare, .listingBumpUp, .listingMarkAsSold, .listingEdit, .user,
              .conversations, .conversationWithMessage, .search, .resetPassword, .userRatings, .userRating,
-             .notificationCenter, .appStore, .webView, .appRating:
+             .notificationCenter, .appStore, .webView, .appRating, .report:
             return // Do nothing
         case let .conversation(data):
             showInappChatNotification(data, message: deepLink.origin.message)
@@ -1139,6 +1147,16 @@ fileprivate extension AppCoordinator {
                                               iconImage: R.Asset.IconsButtons.userPlaceholder.image)
             self?.showBubble(with: data, duration: SharedConstants.bubbleChatDuration)
         }
+    }
+
+    func openReportUpdate(reportId: String, username: String, reason: ReportOptionType, product: String?) {
+        let updateType = ReportUpdateType(reason: reason, username: username, productName: product)
+        let viewModel = ReportUpdateViewModel(type: updateType, reportId: reportId, reportedUserId: "",
+                                              reportingRepository: Core.reportingRepository, tracker: tracker)
+        viewModel.navigator = self
+        let viewController = ReportUpdateViewController(viewModel: viewModel)
+        let nav = UINavigationController(rootViewController: viewController)
+        tabBarCtl.present(nav, animated: true, completion: nil)
     }
 
     // MARK: - Trackings

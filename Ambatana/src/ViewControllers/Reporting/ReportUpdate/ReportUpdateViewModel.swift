@@ -6,7 +6,7 @@ import RxSwift
 final class ReportUpdateViewModel: BaseViewModel {
 
     let type: ReportUpdateType
-    var navigator: ReportNavigator?
+    var navigator: AppNavigator?
     var report: Variable<Report?> = Variable<Report?>(nil)
 
     private let reportingRepository: ReportingRepository
@@ -30,7 +30,7 @@ final class ReportUpdateViewModel: BaseViewModel {
     }
 
     func didTapClose() {
-        navigator?.closeReporting()
+        navigator?.dismissPresentedController()
     }
 
     private func retrieveReport() {
@@ -46,7 +46,9 @@ final class ReportUpdateViewModel: BaseViewModel {
                     self?.automaticClose()
                 }
             } else if let _ = result.error {
-                self?.showErrorAlert()
+                self?.showErrorAlert(completion: { [weak self] in
+                    self?.automaticClose()
+                })
             }
         }
 
@@ -57,11 +59,11 @@ final class ReportUpdateViewModel: BaseViewModel {
         }
     }
 
-    func showErrorAlert() {
-        delegate?.vmShowAlert(R.Strings.commonErrorTitle,
-                                    message: R.Strings.commonErrorGenericBody,
-                                    cancelLabel: R.Strings.commonOk,
-                                    actions: [])
+    func showErrorAlert(completion: (()->Void)? = nil) {
+        let action = UIAction(interface: UIActionInterface.text(R.Strings.commonOk), action: {})
+        delegate?.vmShowAlertWithTitle(R.Strings.commonErrorTitle,
+                                       text: R.Strings.commonErrorGenericBody,
+                                       alertType: AlertType.plainAlert, actions: [action], dismissAction: completion)
     }
 
     func updateReport(with score: ReportUpdateButtonType, errorBlock: (() -> Void)?) {
@@ -115,8 +117,8 @@ final class ReportUpdateViewModel: BaseViewModel {
     }
 
     private func automaticClose() {
-        delay(1) {
-            // TODO: Close once we know how this view will be opened
+        delay(1) { [weak self] in
+            self?.navigator?.dismissPresentedController()
         }
     }
 }
