@@ -20,16 +20,7 @@ public enum ChatMessageType: Equatable {
     case unsupported(defaultText: String?)
     case interlocutorIsTyping
     case cta(ctaData: ChatCallToActionData, ctas: [ChatCallToAction])
-    
-    // Some types of messages are not allowed to be sent from client
-    var canSend: Bool {
-        switch self {
-        case .text, .offer, .sticker, .quickAnswer, .expressChat, .favoritedListing, .interested, .phone, .meeting, .cta:
-            return true
-        case .interlocutorIsTyping, .unsupported, .multiAnswer:
-            return false
-        }
-    }
+    case carousel(cards: [ChatCarouselCard], answers: [ChatAnswer])
     
     var quickAnswerId: String? {
         if case .quickAnswer(let id, _) = self {
@@ -85,6 +76,15 @@ public enum ChatMessageType: Equatable {
 
                 return lgLhsCtaData == lgRhsCtaData &&
                     lgLhsCtas == lgRhsCtas
+            }
+        case .carousel(let lhsCards, let lhsAnswers):
+            if case .carousel(let rhsCards, let rhsAnswers) = rhs {
+                guard let lgLhsAnswers = lhsAnswers as? [LGChatAnswer],
+                    let lgRhsAnswers = rhsAnswers as? [LGChatAnswer],
+                    let lgLhsCards = lhsCards as? [LGChatCarouselCard],
+                    let lgRhsCards = rhsCards as? [LGChatCarouselCard]
+                    else { return false }
+                return lgLhsAnswers == lgRhsAnswers && lgLhsCards == lgRhsCards
             }
         }
         return false

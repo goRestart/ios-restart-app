@@ -79,7 +79,7 @@ struct LGInactiveInterlocutor: InactiveInterlocutor, Decodable {
     public init(from decoder: Decoder) throws {
         let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
         objectId = try keyedContainer.decode(String.self, forKey: .objectId)
-        name = try keyedContainer.decode(String.self, forKey: .name)
+        name = try keyedContainer.decodeIfPresent(String.self, forKey: .name) ?? ""
         if let avatarStringURL = try? keyedContainer.decode(String.self, forKey: .avatar) {
             avatar = LGFile(id: nil, urlString: avatarStringURL)
         } else {

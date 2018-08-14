@@ -147,6 +147,12 @@ struct ReportingBaseURL: BaseURL {
     static let contentTypeHeader: String? = "application/vnd.api+json;version=1"
 }
 
+struct FeedBaseURL: BaseURL {
+    static let baseURL = EnvironmentProxy.sharedInstance.customFeedBaseURL
+    static let acceptHeader: String? = "application/vnd.api+json;version=1"
+    static let contentTypeHeader: String? = nil
+}
+
 enum Encoding {
     case json, url
 }

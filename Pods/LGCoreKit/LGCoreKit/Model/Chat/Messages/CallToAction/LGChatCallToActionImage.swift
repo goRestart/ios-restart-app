@@ -5,17 +5,18 @@ public enum ChatCallToActionImagePosition: String {
 }
 
 public protocol ChatCallToActionImage {
-    var url: String { get }
+    var imageURL: URL? { get }
     var position: ChatCallToActionImagePosition { get }
 }
 
 struct LGChatCallToActionImage: ChatCallToActionImage, Decodable, Equatable {
 
-    let url: String
+    let imageURL: URL?
     let position: ChatCallToActionImagePosition
 
-    init(url: String, position: ChatCallToActionImagePosition) {
-        self.url = url
+    init(imageURL: URL?,
+         position: ChatCallToActionImagePosition) {
+        self.imageURL = imageURL
         self.position = position
     }
 
@@ -28,7 +29,8 @@ struct LGChatCallToActionImage: ChatCallToActionImage, Decodable, Equatable {
 
     init(from decoder: Decoder) throws {
         let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
-        url = try keyedContainer.decode(String.self, forKey: .url)
+        let imageURLString = try keyedContainer.decode(String.self, forKey: .url)
+        imageURL = URL(string: imageURLString) ?? nil
         let positionValue = try keyedContainer.decode(String.self, forKey: .position)
         position = ChatCallToActionImagePosition(rawValue: positionValue) ?? .up
     }
@@ -41,6 +43,6 @@ struct LGChatCallToActionImage: ChatCallToActionImage, Decodable, Equatable {
     // MARK: Equatable
 
     static func ==(lhs: LGChatCallToActionImage, rhs: LGChatCallToActionImage) -> Bool {
-        return lhs.url == rhs.url && lhs.position == rhs.position
+        return lhs.imageURL == rhs.imageURL && lhs.position == rhs.position
     }
 }

@@ -18,6 +18,7 @@ enum ChatMessageTypeDecodable: String, Decodable {
     case meeting = "chat_norris"
     case multiAnswer = "multi_answer"
     case cta = "call_to_action"
+    case carousel = "carousel"
 }
 
 public protocol ChatMessageContent {
@@ -89,32 +90,22 @@ struct LGChatMessageContent: ChatMessageContent, Decodable, Equatable {
                 type = .meeting
                 text = textValue
             case .multiAnswer:
+                text = nil
                 if let answers = try? keyedContainer.decode([LGChatAnswer].self, forKey: .answers) {
                     let questionKey = try keyedContainer.decodeIfPresent(String.self, forKey: .key)
                     let questionString = try keyedContainer.decode(String.self, forKey: .text)
                     let question = LGChatQuestion(key: questionKey, text: questionString)
                     type = .multiAnswer(question: question, answers: answers)
-                    text = nil
                 } else {
                     type = .unsupported(defaultText: defaultText)
-                    text = nil
                 }
             case .cta:
-
-                // FIXME: Apply the correct code once the feature is implemented on backend
-                //        and can be propperly tested.  Until then will be mapped as "unsupported"
-                //        task: https://ambatana.atlassian.net/browse/ABIOS-4600
-                
-                type = .unsupported(defaultText: defaultText)
-                text = nil
-
-                /*
                 if let ctas = try? keyedContainer.decode([LGChatCallToAction].self, forKey: .cta) {
 
                     let ctaDataKey = try keyedContainer.decodeIfPresent(String.self, forKey: .key)
-                    let ctaDataTitle = try keyedContainer.decode(String.self, forKey: .title)
-                    let ctaDataText = try keyedContainer.decode(String.self, forKey: .text)
-                    let ctaDataImage = try keyedContainer.decode(LGChatCallToActionImage.self, forKey: .image)
+                    let ctaDataTitle = try keyedContainer.decodeIfPresent(String.self, forKey: .title)
+                    let ctaDataText = try keyedContainer.decodeIfPresent(String.self, forKey: .text)
+                    let ctaDataImage = try keyedContainer.decodeIfPresent(LGChatCallToActionImage.self, forKey: .image)
 
                     let ctaData = LGChatCallToActionData(key: ctaDataKey,
                                                          title: ctaDataTitle,
@@ -126,7 +117,14 @@ struct LGChatMessageContent: ChatMessageContent, Decodable, Equatable {
                     type = .unsupported(defaultText: defaultText)
                     text = nil
                 }
-                 */
+            case .carousel:
+                text = nil
+                let answers = try keyedContainer.decodeIfPresent([LGChatAnswer].self, forKey: .answers) ?? []
+                if let cards = try? keyedContainer.decode([LGChatCarouselCard].self, forKey: .card) {
+                    type = .carousel(cards: cards, answers: answers)
+                } else {
+                    type = .unsupported(defaultText: defaultText)
+                }
             }
         } else {
             type = .unsupported(defaultText: defaultText)
@@ -143,6 +141,7 @@ struct LGChatMessageContent: ChatMessageContent, Decodable, Equatable {
         case cta
         case title
         case image
+        case card
     }
     
     // MARK: Equatable

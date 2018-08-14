@@ -161,6 +161,9 @@ final class CoreDI: InternalDI {
         let userRatingDataSource = UserRatingApiDataSource(apiClient: self.apiClient)
         self.userRatingRepository = LGUserRatingRepository(dataSource: userRatingDataSource,
                                                            myUserRepository: myUserRepository)
+        
+        let feedDataSource = FeedApiDataSource(apiClient: apiClient)
+        feedRepository = LGFeedRepository(datasource: feedDataSource)
 
         self.deviceIdDAO = deviceIdDAO
         self.installationDAO = installationDAO
@@ -238,6 +241,7 @@ final class CoreDI: InternalDI {
     var locationRepository: LocationRepository
     let imageMultiplierRepository: ImageMultiplierRepository
     let servicesInfoRepository: ServicesInfoRepository
+    let feedRepository: FeedRepository
     let listingRepository: ListingRepository
     let communityRepository: CommunityRepository
     let reportingRepository: ReportingRepository

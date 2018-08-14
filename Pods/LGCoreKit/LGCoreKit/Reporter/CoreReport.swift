@@ -164,6 +164,7 @@ enum CoreReportDataSource: ReportType {
         case preSignedUploadUrl
         case imagesId
         case serviceType
+        case feed
         case report
         case availableFeaturePurchases
 
@@ -240,6 +241,8 @@ enum CoreReportDataSource: ReportType {
                 return LGPreSignedUploadUrl.self
             case .serviceType:
                 return LGServiceType.self
+            case .feed:
+                return LGFeed.self
             case .report:
                 return LGReport.self
             case .availableFeaturePurchases:

@@ -45,8 +45,8 @@ def shared_pods
 
     # letgo Core
 
-    pod "LGCoreKit",             "4.64.0", :inhibit_warnings => false
-    # pod "LGCoreKit",            :path => "../lgcorekit", :inhibit_warnings => false
+    pod "LGCoreKit",             "4.66.0", :inhibit_warnings => false
+#     pod "LGCoreKit",            :path => "../lgcorekit", :inhibit_warnings => false
     #pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :branch => 'ABIOS-4648-remove-taxonomies', :inhibit_warnings => false
 
     # letgo Collapsible label

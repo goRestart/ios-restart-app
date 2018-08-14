@@ -8,7 +8,8 @@
 
 import Foundation
 
-public enum MediaType: String, Codable {
+public enum MediaType: String, Equatable, Codable {
+
     case image
     case video
 
