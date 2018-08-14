@@ -24,7 +24,3 @@ protocol TourPostingNavigator: class {
     func tourPostingClose()
     func tourPostingPost(fromCamera: Bool)
 }
-
-protocol TourCategoriesNavigator: class {
-    func tourCategoriesFinish(withCategories categories: [TaxonomyChild])
-}

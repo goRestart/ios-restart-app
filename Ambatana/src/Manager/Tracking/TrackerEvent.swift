@@ -173,13 +173,13 @@ struct TrackerEvent {
         return TrackerEvent(name: .loginBlockedAccountKeepBrowsing, params: params)
     }
 
-    static func listingList(_ user: User?, categories: [ListingCategory]?, taxonomy: TaxonomyChild?, searchQuery: String?,
+    static func listingList(_ user: User?, categories: [ListingCategory]?, searchQuery: String?,
                             resultsCount: ItemsCount?, feedSource: EventParameterFeedSource, success: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
 
         params[.feedSource] = feedSource.rawValue
         params[.categoryId] = (categories ?? [.unassigned]).trackValue
-        params[.keywordName] = taxonomy?.name ?? TrackerEvent.notApply
+        params[.keywordName] = TrackerEvent.notApply
         // Search query
         if let actualSearchQuery = searchQuery {
             params[.searchString] = actualSearchQuery
@@ -364,7 +364,7 @@ struct TrackerEvent {
 
         params[.isMine] = isMine.rawValue
         params[.adShown] = adShown.rawValue
-        params[.adType] = adType?.rawValue ?? TrackerEvent.notApply
+        params[.adType] = adType?.stringValue ?? TrackerEvent.notApply
         params[.adQueryType] = queryType?.rawValue ?? TrackerEvent.notApply
         params[.adQuery] = query ?? TrackerEvent.notApply
         params[.adVisibility] = visibility?.rawValue ?? TrackerEvent.notApply
@@ -385,7 +385,7 @@ struct TrackerEvent {
         var params = EventParameters()
 
         params[.listingId] = listingId ?? TrackerEvent.notApply
-        params[.adType] = adType?.rawValue ?? TrackerEvent.notApply
+        params[.adType] = adType?.stringValue ?? TrackerEvent.notApply
         params[.isMine] = isMine.rawValue
         params[.adQueryType] = queryType?.rawValue ?? TrackerEvent.notApply
         params[.adQuery] = query ?? TrackerEvent.notApply
@@ -409,7 +409,7 @@ struct TrackerEvent {
         var params = EventParameters()
         
         params[.listingId] = listingId ?? TrackerEvent.notApply
-        params[.adType] = adType?.rawValue ?? TrackerEvent.notApply
+        params[.adType] = adType?.stringValue ?? TrackerEvent.notApply
         params[.isMine] = isMine.rawValue
         params[.adQueryType] = queryType?.rawValue ?? TrackerEvent.notApply
         params[.adQuery] = query ?? TrackerEvent.notApply
@@ -1310,7 +1310,7 @@ struct TrackerEvent {
     static func notificationCenterComplete(source: EventParameterNotificationClickArea, cardAction: String?,
                                            notificationCampaign: String?) -> TrackerEvent {
         var params = EventParameters()
-        params[.notificationClickArea] = source.rawValue
+        params[.notificationClickArea] = source.name
         // cardAction is passed as string instead of EventParameterCardAction type as retention could send anything on the query parameter.
         params[.notificationAction] = cardAction ?? TrackerEvent.notApply
         params[.notificationCampaign] = notificationCampaign ?? TrackerEvent.notApply
@@ -1497,13 +1497,6 @@ struct TrackerEvent {
         return TrackerEvent(name: .filterBubble, params: params)
     }
     
-    static func onboardingInterestsComplete(superKeywords: [Int]) -> TrackerEvent {
-        var params = EventParameters()
-        params[.superKeywordsTotal] = superKeywords.count
-        params[.superKeywordsIds] = superKeywords
-        return TrackerEvent(name: .onboardingInterestsComplete, params: params)
-    }
-    
     static func categoriesStart(source: EventParameterTypePage) -> TrackerEvent {
         var params = EventParameters()
         params[.typePage] = source.rawValue
@@ -1616,6 +1609,15 @@ struct TrackerEvent {
         let dynamicParams = TrackerEvent.makeDynamicEventParameters(dynamicParameters: dynamicParameters)
         return TrackerEvent(name: .emailNotificationsEditStart, params: dynamicParams)
     }
+    
+    static private func makeDynamicEventParameters(dynamicParameters: [String: Bool]) -> EventParameters {
+        var dynamicParams = EventParameters()
+        let parameterEnabledAddition = "-enabled"
+        for (parameterName, boolValue) in dynamicParameters {
+            dynamicParams["\(parameterName)\(parameterEnabledAddition)"] = boolValue
+        }
+        return dynamicParams
+    }
 
     static func openCommunityFromProductList(showingBanner: Bool, bannerType: EventBannerType) -> TrackerEvent {
         var params = EventParameters()
@@ -1627,17 +1629,8 @@ struct TrackerEvent {
     static func openCommunityFromTabBar() -> TrackerEvent {
         return TrackerEvent(name: .openCommunity, params: nil)
     }
-
-    static private func makeDynamicEventParameters(dynamicParameters: [String: Bool]) -> EventParameters {
-        var dynamicParams = EventParameters()
-        let parameterEnabledAddition = "-enabled"
-        for (parameterName, boolValue) in dynamicParameters {
-            dynamicParams["\(parameterName)\(parameterEnabledAddition)"] = boolValue
-        }
-        return dynamicParams
-    }
-
-
+    
+    
     // MARK: - Private methods
     
     static func eventParameterFreePostingWithPriceRange(_ freePostingModeAllowed: Bool,

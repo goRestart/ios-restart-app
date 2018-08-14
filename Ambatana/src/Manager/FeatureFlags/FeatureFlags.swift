@@ -22,7 +22,6 @@ protocol FeatureFlaggeable: class {
     var pricedBumpUpEnabled: Bool { get }
     var userReviewsReportEnabled: Bool { get }
     var realEstateEnabled: RealEstateEnabled { get }
-    var taxonomiesAndTaxonomyChildrenInFeed : TaxonomiesAndTaxonomyChildrenInFeed { get }
     var showClockInDirectAnswer : ShowClockInDirectAnswer { get }
     var deckItemPage: DeckItemPage { get }
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio { get }
@@ -67,6 +66,7 @@ protocol FeatureFlaggeable: class {
     var cachedFeed: CachedFeed { get }
 
     var copyForSellFasterNowInTurkish: CopyForSellFasterNowInTurkish { get }
+    var multiAdRequestMoreInfo: MultiAdRequestMoreInfo { get }
     
     // MARK: Chat
     var showInactiveConversations: Bool { get }
@@ -118,16 +118,13 @@ protocol FeatureFlaggeable: class {
     var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions { get }
     var engagementBadging: EngagementBadging { get }
     var searchAlertsDisableOldestIfMaximumReached: SearchAlertsDisableOldestIfMaximumReached { get }
+    var notificationCenterRedesign: NotificationCenterRedesign { get }
 }
 
 extension FeatureFlaggeable {
     var syncedData: Observable<Bool> {
         return trackingData.map { $0 != nil }
     }
-}
-
-extension TaxonomiesAndTaxonomyChildrenInFeed {
-    var isActive: Bool { return self == .active }
 }
 
 extension RealEstateEnabled {
@@ -510,6 +507,11 @@ extension BumpInEditCopys {
     }
 }
 
+extension MultiAdRequestMoreInfo {
+    var isActive: Bool { return self == .active }
+
+}
+
 final class FeatureFlags: FeatureFlaggeable {
     
     static let sharedInstance: FeatureFlags = FeatureFlags()
@@ -613,13 +615,6 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.deckItemPage
         }
         return DeckItemPage.fromPosition(abTests.deckItemPage.value)
-    }
-    
-    var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed {
-        if Bumper.enabled {
-            return Bumper.taxonomiesAndTaxonomyChildrenInFeed
-        }
-        return TaxonomiesAndTaxonomyChildrenInFeed.fromPosition(abTests.taxonomiesAndTaxonomyChildrenInFeed.value)
     }
     
     var showClockInDirectAnswer: ShowClockInDirectAnswer {
@@ -814,9 +809,11 @@ final class FeatureFlags: FeatureFlaggeable {
     var moreInfoDFPAdUnitId: String {
         switch sensorLocationCountryCode {
         case .usa?:
-            return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdDFPUSA
+            return multiAdRequestMoreInfo.isActive ? EnvironmentProxy.sharedInstance.moreInfoMultiAdUnitIdDFPUSA :
+                EnvironmentProxy.sharedInstance.moreInfoAdUnitIdDFPUSA
         default:
-            return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdDFP
+            return multiAdRequestMoreInfo.isActive ? EnvironmentProxy.sharedInstance.moreInfoMultiAdUnitIdDFP :
+                EnvironmentProxy.sharedInstance.moreInfoAdUnitIdDFP
         }
     }
 
@@ -1078,7 +1075,7 @@ final class FeatureFlags: FeatureFlaggeable {
         }
         return BumpInEditCopys.fromPosition(abTests.bumpInEditCopys.value)
     }
-
+  
     var shouldChangeSellFasterNowCopyInTurkish: Bool {
         if Bumper.enabled {
             return Bumper.copyForSellFasterNowInTurkish.isActive
@@ -1096,6 +1093,13 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.copyForSellFasterNowInTurkish
         }
         return CopyForSellFasterNowInTurkish.fromPosition(abTests.copyForSellFasterNowInTurkish.value)
+    }
+  
+    var multiAdRequestMoreInfo: MultiAdRequestMoreInfo {
+        if Bumper.enabled {
+            return Bumper.multiAdRequestMoreInfo
+        }
+        return MultiAdRequestMoreInfo.fromPosition(abTests.multiAdRequestMoreInfo.value)
     }
 
     // MARK: - Private
@@ -1429,5 +1433,12 @@ extension FeatureFlags {
             return Bumper.searchAlertsDisableOldestIfMaximumReached
         }
         return SearchAlertsDisableOldestIfMaximumReached.fromPosition(abTests.searchAlertsDisableOldestIfMaximumReached.value)
+    }
+    
+    var notificationCenterRedesign: NotificationCenterRedesign {
+        if Bumper.enabled {
+            return Bumper.notificationCenterRedesign
+        }
+        return NotificationCenterRedesign.fromPosition(abTests.notificationCenterRedesign.value)
     }
 }

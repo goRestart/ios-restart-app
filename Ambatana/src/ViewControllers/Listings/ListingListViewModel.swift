@@ -647,7 +647,8 @@ final class ListingListViewModel: BaseViewModel {
     private func featuredInfoAdditionalCellHeight(for listing: Listing, width: CGFloat) -> CGFloat {
         return actionButtonCellHeight(for: listing)
             + ListingCellMetrics.getTotalHeightForPriceAndTitleView(
-                listing.title,
+                titleViewModel: ListingTitleViewModel(listing: listing,
+                                                      featureFlags: featureFlags),
                 containerWidth: width
         )
     }
@@ -710,7 +711,9 @@ final class ListingListViewModel: BaseViewModel {
         cellHeight += discardedProductAdditionalHeight(for: listing, toHeight: cellHeight)
         
         if cellStyle == .serviceList {
-            cellHeight += ListingCellMetrics.getTotalHeightForPriceAndTitleView(listing.title, containerWidth: widthConstraint)
+            cellHeight += ListingCellMetrics.getTotalHeightForPriceAndTitleView(titleViewModel: ListingTitleViewModel(listing: listing,
+                                                                                                                      featureFlags: featureFlags),
+                                                                                containerWidth: widthConstraint)
         }
         
         return CGSize(width: widthConstraint, height: cellHeight)

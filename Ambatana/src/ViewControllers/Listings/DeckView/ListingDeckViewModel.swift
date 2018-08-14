@@ -348,7 +348,7 @@ final class ListingDeckViewModel: BaseViewModel {
     }
     
     func interstitialAdTapped(typePage: EventParameterTypePage) {
-        let adType = AdRequestType.interstitial.trackingParamValue
+        let adType = AdRequestType.interstitial.trackingParamValueFor(size: nil)
         let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
         let feedPosition: EventParameterFeedPosition = .position(index: currentIndex)
         let willLeave = EventParameterBoolean(bool: true)
@@ -360,7 +360,7 @@ final class ListingDeckViewModel: BaseViewModel {
     }
     
     func interstitialAdShown(typePage: EventParameterTypePage) {
-        let adType = AdRequestType.interstitial.trackingParamValue
+        let adType = AdRequestType.interstitial.trackingParamValueFor(size: nil)
         let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
         let feedPosition: EventParameterFeedPosition = .position(index: currentIndex)
         let adShown = EventParameterBoolean(bool: true)

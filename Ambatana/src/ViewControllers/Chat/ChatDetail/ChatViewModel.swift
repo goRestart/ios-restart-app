@@ -1564,9 +1564,9 @@ extension ChatViewModel {
         var firstInterlocutorMessageIndex: Int? {
             guard let i = messages.reversed().index(where: {
                 switch $0.type {
-                case .disclaimer, .userInfo, .askPhoneNumber, .interlocutorIsTyping, .multiAnswer:
+                case .disclaimer, .userInfo, .askPhoneNumber, .interlocutorIsTyping, .multiAnswer, .cta:
                     return false
-                case .offer, .sticker, .text, .meeting, .unsupported, .cta:
+                case .offer, .sticker, .text, .meeting, .unsupported:
                     return $0.talkerId != myUserRepository.myUser?.objectId
                 }
             }) else { return nil }

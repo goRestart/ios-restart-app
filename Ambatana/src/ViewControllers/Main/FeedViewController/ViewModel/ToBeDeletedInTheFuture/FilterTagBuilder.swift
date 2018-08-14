@@ -25,15 +25,11 @@ struct FilterTagBuilder {
         self.featureFlags = featureFlags
     }
     
-    var primaryTags: [FilterTag] {
+    var tags: [FilterTag] {
         var resultTags: [FilterTag] = []
         
         for prodCat in filters.selectedCategories {
             resultTags.append(.category(prodCat))
-        }
-        
-        if let taxonomyChild = filters.selectedTaxonomyChildren.last {
-            resultTags.append(.taxonomyChild(taxonomyChild))
         }
         
         if filters.selectedWithin.listingTimeCriteria != ListingTimeFilter.defaultOption.listingTimeCriteria {
@@ -56,7 +52,7 @@ struct FilterTagBuilder {
             }
         }
         
-        if filters.selectedCategories.contains(.cars) || filters.selectedTaxonomyChildren.containsCarsTaxonomy {
+        if filters.selectedCategories.contains(.cars) {
             let carFilters = filters.verticalFilters.cars
             if let makeId = carFilters.makeId, let makeName = carFilters.makeName {
                 resultTags.append(.make(id: makeId, name: makeName.localizedUppercase))
@@ -96,17 +92,6 @@ struct FilterTagBuilder {
             }
         }
         
-        return resultTags
-    }
-    
-    var secondaryTags: [FilterTag] {
-        var resultTags: [FilterTag] = []
-        if let taxonomyChildren = filters.selectedTaxonomy?.children,
-            filters.selectedTaxonomyChildren.count <= 0 {
-            for secondaryTaxonomyChild in taxonomyChildren {
-                resultTags.append(.secondaryTaxonomyChild(secondaryTaxonomyChild))
-            }
-        }
         return resultTags
     }
 }

@@ -243,18 +243,7 @@ extension FeedViewModel {
     }
     
     func updateFilters(fromCategoryHeaderInfo categoryHeaderInfo: CategoryHeaderInfo) {
-        switch categoryHeaderInfo.categoryHeaderElement {
-        case .listingCategory(let listingCategory):
-            filters.selectedCategories = [listingCategory]
-        case .superKeywordGroup(let taxonomy):
-            filters.selectedTaxonomy = taxonomy
-        case .showMore:
-            trackFilterCategoryHeaderSelection(with: categoryHeaderInfo)
-            return // do not update any filters
-        case .superKeyword:
-            return
-        }
-        
+        filters.selectedCategories = [categoryHeaderInfo.listingCategory]
         trackFilterCategoryHeaderSelection(with: categoryHeaderInfo)
         refreshFiltersVar()
         refreshFeed()
@@ -271,12 +260,12 @@ extension FeedViewModel {
 
 extension FeedViewModel {
     
-    private var primaryTags: [FilterTag] {
-        return FilterTagBuilder(filters: filters).primaryTags
+    private var tags: [FilterTag] {
+        return FilterTagBuilder(filters: filters).tags
     }
     
     var shouldShowCategoriesSection: Bool {
-        return primaryTags.isEmpty // FIXME: Add && !listViewModel.isListingListEmpty.value && !isSearchAlertsEnabled
+        return tags.isEmpty // FIXME: Add && !listViewModel.isListingListEmpty.value && !isSearchAlertsEnabled
     }
 }
 
@@ -284,45 +273,9 @@ extension FeedViewModel {
 // MARK:- CategoryPresenterDelegate conformance
 
 extension FeedViewModel: CategoriesHeaderCollectionViewDelegate {
-    
-    private func getTaxonomies() -> [Taxonomy] {
-        return categoryRepository.indexTaxonomies()
-    }
-    
-    private func getTaxonomyChildren() -> [TaxonomyChild] {
-        return getTaxonomies().flatMap { $0.children }
-    }
-    
-    func openTaxonomyList() {
-        let taxonomiesViewModel = TaxonomiesViewModel(taxonomies: getTaxonomies(),
-                                                      taxonomySelected: nil,
-                                                      taxonomyChildSelected: nil,
-                                                      source: .listingList)
-        taxonomiesViewModel.taxonomiesDelegate = self
-        navigator?.openTaxonomyList(withViewModel: taxonomiesViewModel)
-    }
-    
+
     func categoryHeaderDidSelect(categoryHeaderInfo: CategoryHeaderInfo) {
         updateFilters(fromCategoryHeaderInfo: categoryHeaderInfo)
-    }
-}
-
-
-// MARK:- TaxonomiesDelegate conformance
-
-extension FeedViewModel: TaxonomiesDelegate {
-    
-    func didSelect(taxonomy: Taxonomy) {
-        filters.selectedTaxonomy = taxonomy
-        filters.selectedTaxonomyChildren = []
-        refreshFiltersVar()
-        refreshFeed()
-    }
-    
-    func didSelect(taxonomyChild: TaxonomyChild) {
-        filters.selectedTaxonomyChildren = [taxonomyChild]
-        refreshFiltersVar()
-        refreshFeed()
     }
 }
 

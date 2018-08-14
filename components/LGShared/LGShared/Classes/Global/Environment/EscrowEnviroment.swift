@@ -43,11 +43,14 @@ final class EscrowEnvironment: AppEnvironment {
     let feedAdUnitIdAdxTRForAllUsers = ""
     let feedAdUnitIdAdxTRForOldUsers = ""
     
-    var feedAdUnitIdAdxInstallAppUSA = ""
-    var feedAdUnitIdAdxInstallAppTR = ""
+    let feedAdUnitIdAdxInstallAppUSA = ""
+    let feedAdUnitIdAdxInstallAppTR = ""
     
     let fullScreenAdUnitIdAdxForAllUsersForUS = ""
     let fullScreenAdUnitIdAdxForOldUsersForUS = ""
+
+    let moreInfoMultiAdUnitIdDFP = ""
+    let moreInfoMultiAdUnitIdDFPUSA = ""
     
     // MoPub Ads
     let feedAdUnitIdMoPubUSAForAllUsers = ""

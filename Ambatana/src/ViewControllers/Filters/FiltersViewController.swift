@@ -194,9 +194,7 @@ extension FiltersViewController {
         collectionView.register(type: FilterDistanceCell.self)
         collectionView.register(type: FilterDisclosureCell.self)
         collectionView.register(type: FilterSliderYearCell.self)
-        collectionView.register(type: FilterRangePriceCell.self)
         collectionView.register(type: FilterTextFieldIntCell.self)
-        collectionView.register(type: FilterFreeCell.self)
         collectionView.register(type: FilterAttributeGridCell.self)
         collectionView.register(type: FilterSliderCell.self)
         
@@ -254,14 +252,9 @@ extension FiltersViewController: FiltersViewModelDelegate {
     func vmForcePriceFix() {
         // make sure the "to price" cell exists
         guard let priceSectionIndex = viewModel.sections.index(of: .price) else { return }
-        let indexPath = IndexPath(item: 1,section: priceSectionIndex)
-        if viewModel.isTaxonomiesAndTaxonomyChildrenInFeedEnabled {
-            guard let maxPriceCell = collectionView.cellForItem(at: indexPath) as? FilterRangePriceCell else { return }
-            maxPriceCell.textFieldTo.becomeFirstResponder()
-        } else {
-            guard let maxPriceCell = collectionView.cellForItem(at: indexPath) as? FilterTextFieldIntCell else { return }
-            maxPriceCell.textField.becomeFirstResponder()
-        }
+        let indexPath = IndexPath(item: 1, section: priceSectionIndex)
+        guard let maxPriceCell = collectionView.cellForItem(at: indexPath) as? FilterTextFieldIntCell else { return }
+        maxPriceCell.textField.becomeFirstResponder()
         
         // move to "to price" cell
         collectionView.scrollRectToVisible(priceToCellFrame, animated: false)
@@ -289,9 +282,9 @@ extension FiltersViewController: FilterDistanceSliderDelegate {
 }
 
 
-// MARK: - FilterPriceCellDelegate / FilterRangePriceCellDelegate Implementation
+// MARK: - FilterPriceCellDelegate / Implementation
 
-extension FiltersViewController: FilterRangePriceCellDelegate, FilterPriceCellDelegate {
+extension FiltersViewController: FilterPriceCellDelegate {
     
     func priceTextFieldValueChanged(_ value: String?, tag: Int) {
         switch tag {
@@ -351,7 +344,7 @@ extension FiltersViewController: UICollectionViewDataSource {
         case .location, .distance:
             return 1
         case .categories:
-            return viewModel.isTaxonomiesAndTaxonomyChildrenInFeedEnabled ? 1 : viewModel.numOfCategories
+            return viewModel.numOfCategories
         case .carsInfo:
             return viewModel.carSections.count
         case .within:
@@ -446,11 +439,7 @@ extension FiltersViewController: UICollectionViewDelegate {
         case .location:
             viewModel.locationButtonPressed()
         case .categories:
-            if viewModel.isTaxonomiesAndTaxonomyChildrenInFeedEnabled {
-                viewModel.categoriesButtonPressed()
-            } else {
-                viewModel.selectCategoryAtIndex(indexPath.row)
-            }
+            viewModel.selectCategoryAtIndex(indexPath.row)
         case .carsInfo:
             let carSection = viewModel.carSections[indexPath.item]
             switch carSection {
@@ -512,9 +501,8 @@ extension FiltersViewController: UICollectionViewDelegateFlowLayout {
         case .distance:
             return CGSize(width: view.bounds.width, height: Layout.distanceHeight)
         case .categories:
-            let viewWidth = view.width
-            let width = viewModel.isTaxonomiesAndTaxonomyChildrenInFeedEnabled ? viewWidth : viewWidth * 0.5
-            return CGSize(width: width, height: Layout.categoryHeight)
+            let viewWidth = view.width * 0.5
+            return CGSize(width: viewWidth, height: Layout.categoryHeight)
         case .carsInfo:
             let carSection = viewModel.carSections[indexPath.item]
             switch carSection {
@@ -560,69 +548,35 @@ extension FiltersViewController {
     
     private func newCategoryCell(forIndexPath indexPath: IndexPath,
                                  inCollectionView collectionView: UICollectionView) -> UICollectionViewCell {
-        if viewModel.isTaxonomiesAndTaxonomyChildrenInFeedEnabled {
-            guard let cell = collectionView.dequeue(type: FilterDisclosureCell.self,
-                                                    for: indexPath) else { return UICollectionViewCell() }
-            cell.setup(withTitle: R.Strings.categoriesTitle,
-                       subtitle: viewModel.currentCategoryNameSelected)
-            return cell
-        } else {
-            guard let cell = collectionView.dequeue(type: FilterCategoryCell.self,
-                                                    for: indexPath) else { return UICollectionViewCell() }
-            cell.titleLabel.text = viewModel.categoryTextAtIndex(indexPath.row)
-            cell.categoryIcon.image = viewModel.categoryIconAtIndex(indexPath.row)
-            let colorText = viewModel.categoryColorAtIndex(indexPath.row)
-            let colorIcon = viewModel.categoryIconColorAtIndex(indexPath.row)
-            cell.categoryIcon.tintColor = colorIcon
-            cell.titleLabel.textColor = colorText
-            cell.rightSeparator?.isHidden = indexPath.row % 2 == 1
-            cell.isSelected = viewModel.categorySelectedAtIndex(indexPath.row)
-            return cell
-        }
+        guard let cell = collectionView.dequeue(type: FilterCategoryCell.self,
+                                                for: indexPath) else { return UICollectionViewCell() }
+        cell.titleLabel.text = viewModel.categoryTextAtIndex(indexPath.row)
+        cell.categoryIcon.image = viewModel.categoryIconAtIndex(indexPath.row)
+        let colorText = viewModel.categoryColorAtIndex(indexPath.row)
+        let colorIcon = viewModel.categoryIconColorAtIndex(indexPath.row)
+        cell.categoryIcon.tintColor = colorIcon
+        cell.titleLabel.textColor = colorText
+        cell.rightSeparator?.isHidden = indexPath.row % 2 == 1
+        cell.isSelected = viewModel.categorySelectedAtIndex(indexPath.row)
+        return cell
     }
     
     private func newPriceCell(forIndexPath indexPath: IndexPath,
                               inCollectionView collectionView: UICollectionView) -> UICollectionViewCell {
-        if viewModel.isTaxonomiesAndTaxonomyChildrenInFeedEnabled {
-            if indexPath.row == 0 {
-                guard let cell = collectionView.dequeue(type: FilterFreeCell.self,
-                                                        for: indexPath) else { return UICollectionViewCell() }
-                cell.bottomSeparator?.isHidden = true
-                cell.topSeparator?.isHidden = false
-                cell.titleLabel.text = R.Strings.filtersSectionPriceFreeTitle
-                cell.delegate = viewModel
-                cell.freeSwitch.setOn(viewModel.isFreeActive, animated: false)
-                return cell
-            } else if indexPath.row == 1 {
-                guard let cell = collectionView.dequeue(type: FilterRangePriceCell.self,
-                                                        for: indexPath) else { return UICollectionViewCell() }
-                cell.titleLabelFrom.text = R.Strings.filtersPriceFrom
-                cell.titleLabelTo.text = R.Strings.filtersPriceTo
-                cell.bottomSeparator?.isHidden =  false
-                cell.topSeparator?.isHidden =  false
-                cell.textFieldFrom.text = viewModel.minPriceString
-                cell.textFieldTo.text = viewModel.maxPriceString
-                cell.delegate = self
-                return cell
-            } else {
-                return UICollectionViewCell()
-            }
-        } else {
-            guard let cell = collectionView.dequeue(type: FilterTextFieldIntCell.self,
-                                                    for: indexPath) else { return UICollectionViewCell() }
-            cell.tag = indexPath.row
-            cell.textField.placeholder = R.Strings.filtersSectionPrice
-            cell.titleLabel.text = indexPath.row == 0 ? R.Strings.filtersPriceFrom :
-                R.Strings.filtersPriceTo
-            cell.bottomSeparator?.isHidden =  indexPath.row == 0
-            cell.topSeparator?.isHidden =  indexPath.row != 0
-            cell.textField.text = indexPath.row == 0 ? viewModel.minPriceString : viewModel.maxPriceString
-            cell.delegate = self
-            if indexPath.row == 1 {
-                priceToCellFrame = cell.frame
-            }
-            return cell
+        guard let cell = collectionView.dequeue(type: FilterTextFieldIntCell.self,
+                                                for: indexPath) else { return UICollectionViewCell() }
+        cell.tag = indexPath.row
+        cell.textField.placeholder = R.Strings.filtersSectionPrice
+        cell.titleLabel.text = indexPath.row == 0 ? R.Strings.filtersPriceFrom :
+            R.Strings.filtersPriceTo
+        cell.bottomSeparator?.isHidden =  indexPath.row == 0
+        cell.topSeparator?.isHidden =  indexPath.row != 0
+        cell.textField.text = indexPath.row == 0 ? viewModel.minPriceString : viewModel.maxPriceString
+        cell.delegate = self
+        if indexPath.row == 1 {
+            priceToCellFrame = cell.frame
         }
+        return cell
     }
     
     private func newCarCell(forIndexPath indexPath: IndexPath,

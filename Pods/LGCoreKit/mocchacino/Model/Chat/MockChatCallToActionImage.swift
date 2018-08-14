@@ -1,21 +1,21 @@
 public struct MockChatCallToActionImage: ChatCallToActionImage {
-    public var url: String
+    public var imageURL: URL?
     public var position: ChatCallToActionImagePosition
 
-    public init(url: String,
+    public init(imageURL: URL?,
                 position: ChatCallToActionImagePosition) {
-        self.url = url
+        self.imageURL = imageURL
         self.position = position
     }
 
     init(from chatCallToActionImage: ChatCallToActionImage) {
-        self.url = chatCallToActionImage.url
+        self.imageURL = chatCallToActionImage.imageURL
         self.position = chatCallToActionImage.position
     }
 
     public func makeDictionary() -> [String: Any] {
         var result = [String: Any]()
-        result[LGChatCallToActionImage.CodingKeys.url.rawValue] = url
+        result[LGChatCallToActionImage.CodingKeys.url.rawValue] = imageURL
         result[LGChatCallToActionImage.CodingKeys.position.rawValue] = position.rawValue
         return result
     }

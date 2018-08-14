@@ -1014,7 +1014,7 @@
 "profile_permissions_alert_message" = "Vill du tillåta notiser för nya meddelanden nu?";
 "profile_permissions_alert_ok" = "Tillåt";
 "profile_permissions_alert_title" = "MISSA INGA SVAR!";
-"profile_permissions_header_message" = "Tillåt meddelandenotifieringar";
+"profile_permissions_header_message" = "Tillåt notiser om meddelanden";
 "profile_reputation_tooltip_title" = "Verifierad användare! Klicka om du också vill verifiera dig";
 "profile_reviews_count" = "Omdömen";
 "profile_reviews_empty_label" = "INGA OMDÖMEN (ÄN)!";
@@ -1275,9 +1275,9 @@
 "reporting_user_report_sent_title" = "Anmälan har skickats!";
 "reporting_user_suspicious_behavior_header" = "VAD HÄNDE?";
 "reporting_user_title" = "Rapportera användare";
-"reporting_user_update_text_A" = "Tack för att ha anmält %@ anonymt. Feedback som denna hjälper oss att hålla letgo säkert. \n\nEfter att ha granskat kontot har vi beslutat att stänga av det eftersom det bryter mot letgos riktlinjer.";
-"reporting_user_update_text_B" = "Tack för att ha anmält %@s profilbild anonymt. Feedback som denna hjälper oss att hålla letgo säkert. \n\nEfter att ha granskat bilden har vi valt att ta bort den eftersom den bryter mot letgos riktlinjer.";
-"reporting_user_update_text_C" = "Tack för att ha anmält %@s bio anonymt. Feedback som denna hjälper oss att hålla letgo säkert.  \n \nEfter att ha granskat biografin har vi valt att ta bort den eftersom den bryter mot letgos riktlinjer.";
+"reporting_user_update_text_A" = "Tack för att ha anmält %@ anonymt. Feedback som denna hjälper oss att hålla letgo säkert.\n\nEfter att ha granskat kontot har vi beslutat att stänga av det eftersom det bryter mot letgos riktlinjer.";
+"reporting_user_update_text_B" = "Tack för att ha anmält %@s profilbild anonymt. Feedback som denna hjälper oss att hålla letgo säkert.\n\nEfter att ha granskat bilden har vi valt att ta bort den eftersom den bryter mot letgos riktlinjer.";
+"reporting_user_update_text_C" = "Tack för att ha anmält %@s bio anonymt. Feedback som denna hjälper oss att hålla letgo säkert.\n\nEfter att ha granskat biografin har vi valt att ta bort den eftersom den bryter mot letgos riktlinjer.";
 "reporting_user_update_title" = "Rapportuppdatering";
 "reset_password_email_field_hint" = "Ange din e-postadress";
 "reset_password_instructions" = "Vänligen skriv in din e-postadress så skickar vi dig ett e-mejl för att återskapa ditt lösenord";

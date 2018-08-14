@@ -87,6 +87,7 @@ public extension UIColor {
     static var grayRegular: UIColor { return UIColor(rgb: 0xbdbdbd) } // (189,189,189)
     static var grayLight: UIColor { return UIColor(rgb: 0xdddddd) } // (221,221,221)
     static var grayLighter: UIColor { return UIColor(rgb: 0xede9e9) } // (237,233,233)
+    static var veryLightGray: UIColor { return UIColor(rgb: 0xeeeeee) } // (238,238,238)
     static var grayBackground: UIColor { return UIColor(rgb: 0xF7F3F3) } // (247,143,243)
     static var graySeparator: UIColor { return UIColor(rgb: 0x979797) } // (151, 151, 151)
     static var grayDisclaimerText: UIColor { return UIColor(rgb: 0x9b9b9b) } // (155, 155, 155)
@@ -304,24 +305,6 @@ public extension UIColor {
     }
 }
 
-// MARK: > Superkeyword groups
-
-public extension UIColor {
-    struct Taxonomy {
-        public static var electronics: UIColor { return paleTeal }
-        public static var vehiclesAndBicycles: UIColor { return celestialBlue }
-        public static var homeAndGarden: UIColor { return cyanBlueAzure }
-        public static var hobbiesAndEntertainment: UIColor { return budGreen }
-        public static var fashionAndAccessories: UIColor { return rosa }
-        public static var family: UIColor { return amber }
-        public static var others: UIColor { return earthYellow }
-        
-        fileprivate static let amber = UIColor(rgb: 0x538fd1) // (83, 143, 209)
-        fileprivate static let cyanBlueAzure = UIColor(rgb: 0xf5cd77) // (245, 205, 119)
-        fileprivate static let earthYellow = UIColor(rgb: 0xcd1a960) // (205, 26, 150)
-    }
-}
-
 // MARK: - Camera
 
 public extension UIColor {
@@ -335,6 +318,7 @@ public extension UIColor {
         fileprivate static let almostWatermelonDarker = UIColor(rgb: 0xa93f56) // (169, 63, 86)
     }
 }
+
 // MARK: > Edit User Bio
 
 public extension UIColor {

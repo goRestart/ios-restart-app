@@ -153,7 +153,6 @@ enum CoreReportDataSource: ReportType {
         case searchSuggestion
         case suggestiveSearch
         case stickers
-        case taxonomies
         case user
         case users
         case userRelation
@@ -165,6 +164,7 @@ enum CoreReportDataSource: ReportType {
         case preSignedUploadUrl
         case imagesId
         case serviceType
+        case feed
         case report
         case availableFeaturePurchases
 
@@ -221,8 +221,6 @@ enum CoreReportDataSource: ReportType {
                 return [SuggestiveSearch].self
             case .stickers:
                 return [LGSticker].self
-            case .taxonomies:
-                return [LGTaxonomy].self
             case .user:
                 return LGUser.self
             case .users:
@@ -243,6 +241,8 @@ enum CoreReportDataSource: ReportType {
                 return LGPreSignedUploadUrl.self
             case .serviceType:
                 return LGServiceType.self
+            case .feed:
+                return LGFeed.self
             case .report:
                 return LGReport.self
             case .availableFeaturePurchases:

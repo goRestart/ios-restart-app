@@ -7,8 +7,6 @@ struct ListingFilters {
     var distanceRadius: Int?
     var distanceType: DistanceType
     var selectedCategories: [ListingCategory]
-    var selectedTaxonomyChildren: [TaxonomyChild]
-    var selectedTaxonomy: Taxonomy?
     var selectedWithin: ListingTimeFilter
     var selectedOrdering: ListingSortCriteria?
     var filterCoordinates: LGLocationCoordinates2D? {
@@ -39,8 +37,6 @@ struct ListingFilters {
                   distanceRadius: SharedConstants.distanceSliderDefaultPosition,
                   distanceType: DistanceType.systemDistanceType(),
                   selectedCategories: [],
-                  selectedTaxonomyChildren: [],
-                  selectedTaxonomy: nil,
                   selectedWithin: ListingTimeFilter.defaultOption,
                   selectedOrdering: ListingSortCriteria.defaultOption,
                   priceRange: .priceRange(min: nil, max: nil),
@@ -51,8 +47,6 @@ struct ListingFilters {
          distanceRadius: Int,
          distanceType: DistanceType,
          selectedCategories: [ListingCategory],
-         selectedTaxonomyChildren: [TaxonomyChild],
-         selectedTaxonomy: Taxonomy?,
          selectedWithin: ListingTimeFilter,
          selectedOrdering: ListingSortCriteria?,
          priceRange: FilterPriceRange,
@@ -61,8 +55,6 @@ struct ListingFilters {
         self.distanceRadius = distanceRadius > 0 ? distanceRadius : nil
         self.distanceType = distanceType
         self.selectedCategories = selectedCategories
-        self.selectedTaxonomyChildren = selectedTaxonomyChildren
-        self.selectedTaxonomy = selectedTaxonomy
         self.selectedWithin = selectedWithin
         self.selectedOrdering = selectedOrdering
         self.priceRange = priceRange
@@ -74,8 +66,6 @@ struct ListingFilters {
                               distanceRadius: distanceRadius ?? SharedConstants.distanceSliderDefaultPosition,
                               distanceType: distanceType,
                               selectedCategories: selectedCategories,
-                              selectedTaxonomyChildren: selectedTaxonomyChildren,
-                              selectedTaxonomy: selectedTaxonomy,
                               selectedWithin: selectedWithin,
                               selectedOrdering: selectedOrdering,
                               priceRange: priceRange,
@@ -87,8 +77,6 @@ struct ListingFilters {
                               distanceRadius: distanceRadius ?? SharedConstants.distanceSliderDefaultPosition,
                               distanceType: distanceType,
                               selectedCategories: selectedCategories,
-                              selectedTaxonomyChildren: selectedTaxonomyChildren,
-                              selectedTaxonomy: selectedTaxonomy,
                               selectedWithin: selectedWithin,
                               selectedOrdering: selectedOrdering,
                               priceRange: priceRange,
@@ -113,8 +101,6 @@ struct ListingFilters {
         if let _ = place { return false } //Default is nil
         if let _ = distanceRadius { return false } //Default is nil
         if !selectedCategories.isEmpty { return false }
-        if !selectedTaxonomyChildren.isEmpty { return false }
-        if let _ = selectedTaxonomy { return false } //Default is nil
         if selectedWithin != ListingTimeFilter.defaultOption { return false }
         if selectedOrdering != ListingSortCriteria.defaultOption { return false }
         if priceRange != .priceRange(min: nil, max: nil) { return false }
@@ -138,16 +124,10 @@ extension Place: Equatable {
 
 extension ListingFilters: Equatable {
     static func ==(a: ListingFilters, b: ListingFilters) -> Bool {
-        guard a.selectedTaxonomyChildren.count == b.selectedTaxonomyChildren.count else { return false }
-        for (index, element) in a.selectedTaxonomyChildren.enumerated() {
-            guard element == b.selectedTaxonomyChildren[index] else { return false }
-        }
-        
         return a.place == b.place &&
             a.distanceRadius == b.distanceRadius &&
             a.distanceType == b.distanceType &&
             a.selectedCategories == b.selectedCategories &&
-            a.selectedTaxonomy == b.selectedTaxonomy &&
             a.selectedWithin == b.selectedWithin &&
             a.selectedOrdering == b.selectedOrdering &&
             a.filterCoordinates == b.filterCoordinates &&
