@@ -120,8 +120,8 @@ final class ChatConversationsListViewController: ChatBaseViewController, Scrolla
     }
     
     private func setupViewStateRx() {
-        viewModel.rx_viewState
-            .asDriver()
+        viewModel
+            .viewState
             .drive(onNext: { [weak self] viewState in
                 switch viewState {
                 case .loading:

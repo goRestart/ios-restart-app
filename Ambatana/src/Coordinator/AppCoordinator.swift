@@ -288,6 +288,9 @@ extension AppCoordinator: AppNavigator {
                                      bumpUpProductData: BumpUpProductData,
                                      typePage: EventParameterTypePage?) {
 
+        let promoteBumpEvent = TrackerEvent.bumpUpPromo()
+        tracker.trackEvent(promoteBumpEvent)
+
         let promoteBumpCoordinator = PromoteBumpCoordinator(listingId: listingId,
                                                             bumpUpProductData: bumpUpProductData,
                                                             typePage: typePage)
@@ -1186,10 +1189,6 @@ extension AppCoordinator: BumpInfoRequesterDelegate {
             }
         case .promoted:
             tabBarCtl.clearAllPresented(nil)
-
-            let promoteBumpEvent = TrackerEvent.bumpUpPromo()
-            tracker.trackEvent(promoteBumpEvent)
-
             openPromoteBumpForListingId(listingId: requestListingId,
                                         bumpUpProductData: bumpUpProductData,
                                         typePage: typePage)
@@ -1198,9 +1197,6 @@ extension AppCoordinator: BumpInfoRequesterDelegate {
                                bumpUpProductData: bumpUpProductData,
                                maxCountdown: maxCountdown)
         case .sellEdit(let listing):
-            let promoteBumpEvent = TrackerEvent.bumpUpPromo()
-            tracker.trackEvent(promoteBumpEvent)
-
             openEditForListing(listing: listing,
                                bumpUpProductData: bumpUpProductData,
                                maxCountdown: maxCountdown)

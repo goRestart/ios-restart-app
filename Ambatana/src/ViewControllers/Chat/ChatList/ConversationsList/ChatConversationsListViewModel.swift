@@ -1,5 +1,6 @@
 import LGCoreKit
 import RxSwift
+import RxCocoa
 import LGComponents
 
 final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
@@ -17,6 +18,7 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
     let rx_isEditing = Variable<Bool>(false)
     let rx_conversations = Variable<[ChatConversation]>([])
     let rx_viewState = Variable<ViewState>(.loading)
+    var viewState: Driver<ViewState> { return rx_viewState.asDriver().distinctUntilChanged() }
     let rx_connectionBarStatus = Variable<ChatConnectionBarStatus>(.wsConnected)
     private let rx_filter = Variable<ChatConversationsListFilter>(.all)
     private let rx_inactiveConversationsCount = Variable<Int?>(nil)
@@ -242,6 +244,16 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
                 }
             }
             .disposed(by: bag)
+        
+        rx_conversations
+            .asObservable()
+            .filter { $0.count > 0 }
+            .bind { [weak self] _ in
+                if let viewState = self?.rx_viewState.value, viewState != .data {
+                   self?.rx_viewState.value = .data
+                }
+            }
+            .disposed(by: bag)
     }
     
     private func setupRx(for filter: ChatConversationsListFilter) {
@@ -322,7 +334,7 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
         if websocketWasClosedDuringCurrentSession {
             websocketWasClosedDuringCurrentSession = false
             retrieveFirstPage()
-        } else if rx_wsChatStatus.value != .openAuthenticated || objectCount == 0 {
+        } else if rx_wsChatStatus.value != .openAuthenticated || rx_viewState.value != .data {
             retrieveFirstPage()
         }
     }

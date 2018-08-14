@@ -207,6 +207,7 @@
 		0A9035111FCC18E800FDE795 /* PhotoViewerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9035091FCC18E800FDE795 /* PhotoViewerViewModel.swift */; };
 		0A9035141FCC6E0600FDE795 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9035131FCC6E0600FDE795 /* GradientView.swift */; };
 		0A9035151FCC6E0600FDE795 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9035131FCC6E0600FDE795 /* GradientView.swift */; };
+		0A93AC61211AEA94008B5996 /* DropdownSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C690704C21021E7A00AF27E4 /* DropdownSectionViewModel.swift */; };
 		0A93E2001FCE94B700955A3A /* PhotoViewerViewControllerBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A93E1FF1FCE94B700955A3A /* PhotoViewerViewControllerBinder.swift */; };
 		0A93E2021FCE95A000955A3A /* PhotoViewerViewControllerBinderSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A93E2011FCE95A000955A3A /* PhotoViewerViewControllerBinderSpec.swift */; };
 		0A93E2031FCE9A1600955A3A /* PhotoViewerViewControllerBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A93E1FF1FCE94B700955A3A /* PhotoViewerViewControllerBinder.swift */; };
@@ -8134,6 +8135,7 @@
 				0171FA9B2087444C00CAFE36 /* NotificationSettingsAccessorCell.swift in Sources */,
 				502047151EE1BB22006C0EC2 /* MarkAsSoldTrackingInfo.swift in Sources */,
 				32CBAC8520F7826000F6BD34 /* CategoryViewModel.swift in Sources */,
+				0A93AC61211AEA94008B5996 /* DropdownSectionViewModel.swift in Sources */,
 				329ACF4B20EA8A1500A1C6A4 /* SimpleImageListingCell.swift in Sources */,
 				7224D7E81F581EE7004E3B49 /* ExpandableCategorySelectionView.swift in Sources */,
 				01A824AA203B328D00DF5007 /* BlockingPostingAddPriceViewModel.swift in Sources */,
