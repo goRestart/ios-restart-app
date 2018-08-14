@@ -1,7 +1,7 @@
 import Foundation
 import LGComponents
 
-final class ActivityIndicatorView: UIView {
+final class RoundedActivityIndicatorView: UIView {
 
     private let activity: UIActivityIndicatorView = {
         let activity = UIActivityIndicatorView(activityIndicatorStyle: .white)
@@ -13,7 +13,6 @@ final class ActivityIndicatorView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-
         setupUI()
     }
 

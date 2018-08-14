@@ -2,7 +2,7 @@ import Foundation
 
 protocol FiltersAssembly {
     func buildFilters(filters: ListingFilters,
-                      dataDelegate: FiltersViewModelDataDelegate?) -> FiltersViewController
+                      dataDelegate: FiltersViewModelDataDelegate?) -> UIViewController
 }
 
 enum LGFiltersBuilder {
@@ -12,7 +12,7 @@ enum LGFiltersBuilder {
 
 extension LGFiltersBuilder: FiltersAssembly {
     func buildFilters(filters: ListingFilters,
-                      dataDelegate: FiltersViewModelDataDelegate?) -> FiltersViewController {
+                      dataDelegate: FiltersViewModelDataDelegate?) -> UIViewController {
         let vm = FiltersViewModel(currentFilters: filters)
         vm.dataDelegate = dataDelegate
         let vc = FiltersViewController(viewModel: vm)
@@ -20,9 +20,11 @@ extension LGFiltersBuilder: FiltersAssembly {
         switch self {
         case .standard(let navigationController):
             vm.navigator = FiltersStandardRouter(controller: navigationController)
+            return vc
         case .modal:
-            vm.navigator = FiltersModalRouter(controller: vc)
+            let nav = UINavigationController(rootViewController: vc)
+            vm.navigator = FiltersModalRouter(controller: vc, navigationController: nav)
+            return nav
         }
-        return vc
     }
 }

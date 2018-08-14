@@ -32,7 +32,7 @@ final class FiltersModalRouterSpec: QuickSpec {
         beforeEach {
             controller = MockViewController(nibName: nil, bundle: nil)
             navigationSubject = MockNavigationController(rootViewController: controller!)
-            subject = FiltersModalRouter(controller: controller!)
+            subject = FiltersModalRouter(controller: controller!, navigationController: navigationSubject!)
         }
         
         describe("closeFilters") {

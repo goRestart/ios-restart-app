@@ -399,8 +399,11 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         return filters.selectedCategories == [.realEstate]
     }
 
-    private var shouldShowSnackbarIfRetrieveFails: Bool = false {
-        didSet { isFreshBubbleVisible.value = shouldShowSnackbarIfRetrieveFails }
+    private var isCurrentFeedACachedFeed: Bool = false {
+        didSet {
+            guard featureFlags.cachedFeed.isActive else { return }
+            isFreshBubbleVisible.value = isCurrentFeedACachedFeed
+        }
     }
     
     fileprivate let disposeBag = DisposeBag()
@@ -412,7 +415,12 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         let hasSearchQuery = searchType?.text != nil
         return isThereLoggedUser && hasSearchQuery
     }
-    var shouldShowFreshBubble: Bool { return featureFlags.cachedFeed.isActive }
+    var shouldSetupFeedBubble: Bool { return featureFlags.cachedFeed.isActive }
+    private var shouldFetchCache: Bool {
+        let abTestActive = featureFlags.cachedFeed.isActive
+        let isEmpty = listViewModel.isListingListEmpty.value
+        return abTestActive && !isCurrentFeedACachedFeed && (isEmpty || !hasFilters)
+    }
 
     private var shouldDisableOldestSearchAlertIfMaximumReached: Bool {
         return featureFlags.searchAlertsDisableOldestIfMaximumReached.isActive
@@ -824,9 +832,10 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     private func viewModelForSearch(_ searchType: SearchType) -> MainListingsViewModel {
         return MainListingsViewModel(searchType: searchType, filters: filters)
     }
+
+
     
     fileprivate func updateListView() {
-        
         if filters.selectedOrdering == ListingSortCriteria.defaultOption {
             infoBubbleText.value = defaultBubbleText
         }
@@ -845,7 +854,11 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         errorMessage.value = nil
         listViewModel.cellStyle = cellStyle
         listViewModel.resetUI()
-        listViewModel.refresh()
+        listViewModel.refresh(shouldSaveToCache: !hasFilters)
+
+        if shouldFetchCache {
+            listViewModel.fetchFromCache()
+        }
     }
     
     
@@ -1064,7 +1077,8 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         monetizationRepository.events.bind { [weak self] event in
             switch event {
             case .freeBump, .pricedBump:
-                self?.listViewModel.refresh()
+                let hasFilters = self?.hasFilters ?? false
+                self?.listViewModel.refresh(shouldSaveToCache: !hasFilters)
             }
             }.disposed(by: disposeBag)
     }
@@ -1106,16 +1120,14 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
     // MARK: > ListingListViewModelDataDelegate
 
     func listingListVMDidSucceedRetrievingCache(viewModel: ListingListViewModel) {
-        shouldShowSnackbarIfRetrieveFails = true
+        isCurrentFeedACachedFeed = true
     }
 
     func listingListVM(_ viewModel: ListingListViewModel,
                        didSucceedRetrievingListingsPage page: UInt,
                        withResultsCount resultsCount: Int,
                        hasListings: Bool) {
-        if featureFlags.cachedFeed.isActive {
-            shouldShowSnackbarIfRetrieveFails = false
-        }
+        isCurrentFeedACachedFeed = false
 
         // Only save the string when there is products and we are not searching a collection
         if let search = searchType, hasListings {
@@ -1182,7 +1194,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                        didFailRetrievingListingsPage page: UInt,
                        hasListings hasProducts: Bool,
                        error: RepositoryError) {
-        if page == 0 && shouldShowSnackbarIfRetrieveFails {
+        if page == 0 && isCurrentFeedACachedFeed {
             isFreshBubbleVisible.value = false
             navigator?.showFailBubble(withMessage: R.Strings.cachedFeedError, duration: 3)
         }
@@ -1192,10 +1204,13 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             listViewModel.retrieveListings()
             return
         }
-        
+
+
         if page == 0 && !hasProducts {
+            let hasFilters = !self.hasFilters
             if let emptyViewModel = LGEmptyViewModel.map(from: error,
-                                                         action: { [weak viewModel] in viewModel?.refresh() }) {
+                                                         action: { [weak viewModel] in
+                                                            viewModel?.refresh(shouldSaveToCache: !hasFilters) }) {
                 listViewModel.setErrorState(emptyViewModel)
             }
         }
@@ -1471,7 +1486,7 @@ extension MainListingsViewModel {
     }
     
     fileprivate func retrieveProductsIfNeededWithNewLocation(_ newLocation: LGLocation) {
-        if featureFlags.cachedFeed.isActive {
+        if shouldFetchCache {
             listViewModel.fetchFromCache()
         }
         

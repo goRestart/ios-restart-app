@@ -610,6 +610,8 @@ class ListingViewModel: BaseViewModel {
                                                                                          maxCountdown: bumpeableProduct.maxCountdown,
                                                                                          typePage: parameterTypePage)
                         }
+                    } else {
+                        strongSelf.bumpUpBannerInfo.value = nil
                     }
             })
         }

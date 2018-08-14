@@ -561,7 +561,7 @@ extension UserProfileViewModel {
 
 extension UserProfileViewModel: ListingListViewModelDataDelegate {
     func listingListVMDidSucceedRetrievingCache(viewModel: ListingListViewModel) {
-        // 🤷‍♂️
+        // No cache for profile for now
     }
 
     func listingListMV(_ viewModel: ListingListViewModel,
