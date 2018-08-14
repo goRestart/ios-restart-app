@@ -141,6 +141,7 @@
 		0A31CF631FA1ECCE00FE84E0 /* ListingDeckViewModelBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A31CF611FA1EBEB00FE84E0 /* ListingDeckViewModelBinder.swift */; };
 		0A38625420EB7E8500DD997F /* LPMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A38625320EB7E8500DD997F /* LPMessageViewModel.swift */; };
 		0A38625520EB7E8C00DD997F /* LPMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A38625320EB7E8500DD997F /* LPMessageViewModel.swift */; };
+		0A3C143121232FBD00C836F7 /* PaymentFrequency+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C64DD44E211089CD003E5EC2 /* PaymentFrequency+LG.swift */; };
 		0A3E5FED207FAB9A00577670 /* FeedAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3E5FEC207FAB9A00577670 /* FeedAssembly.swift */; };
 		0A3E5FEE207FAC1A00577670 /* FeedAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3E5FEC207FAB9A00577670 /* FeedAssembly.swift */; };
 		0A3F3FEB210B75A50070F6A1 /* DropdownSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C690704C21021E7A00AF27E4 /* DropdownSectionViewModel.swift */; };
@@ -1447,7 +1448,6 @@
 		C63A589B20EE22A1007C0816 /* CarAttributes+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63A589920EE22A1007C0816 /* CarAttributes+LG.swift */; };
 		C64D26C420ED1DD900EC43A1 /* ListingAttributeGridLayoutBehaviour.swift in Sources */ = {isa = PBXBuildFile; fileRef = C64D26C320ED1DD900EC43A1 /* ListingAttributeGridLayoutBehaviour.swift */; };
 		C64D26C520ED1EF800EC43A1 /* ListingAttributeGridLayoutBehaviour.swift in Sources */ = {isa = PBXBuildFile; fileRef = C64D26C320ED1DD900EC43A1 /* ListingAttributeGridLayoutBehaviour.swift */; };
-		C64DD44F211089CD003E5EC2 /* PaymentFrequency+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C64DD44E211089CD003E5EC2 /* PaymentFrequency+LG.swift */; };
 		C64DD450211089CD003E5EC2 /* PaymentFrequency+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C64DD44E211089CD003E5EC2 /* PaymentFrequency+LG.swift */; };
 		C650DEA220C595A500D47C4A /* MultiListingPostedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C650DEA120C595A500D47C4A /* MultiListingPostedViewModel.swift */; };
 		C650DEA320C595A500D47C4A /* MultiListingPostedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C650DEA120C595A500D47C4A /* MultiListingPostedViewModel.swift */; };
@@ -7666,8 +7666,6 @@
 				2E4B43EA1E7810C00048214B /* PaymentEnqueuable.swift in Sources */,
 				C7AFFB011E7054590052A9CA /* WebSurveyViewController.swift in Sources */,
 				50AB5F221ED4447200E9909D /* UserRatingTag.swift in Sources */,
-				C64DD44F211089CD003E5EC2 /* PaymentFrequency+LG.swift in Sources */,
-				C64DD44F211089CD003E5EC2 /* PaymentFrequency+LG.swift in Sources */,
 				724D77A41FC3251E00DB43C0 /* RealEstateAttributes+LG.swift in Sources */,
 				8EEC7F5A206AA62800616858 /* AdvertisementMoPubCellDrawer.swift in Sources */,
 				6A5691531D255D27000B7365 /* ListingCellModel.swift in Sources */,
@@ -7747,6 +7745,7 @@
 				C7111F021CA438AC000C5C5A /* UniversalLink.swift in Sources */,
 				7285C95B1F83C75F00BD16E9 /* SellNavigationController.swift in Sources */,
 				C72794281D549334009C25AB /* SettingsCell.swift in Sources */,
+				0A3C143121232FBD00C836F7 /* PaymentFrequency+LG.swift in Sources */,
 				F57D3A2D1FED017A006F2CA4 /* UIRoundedLabelWithPadding.swift in Sources */,
 				50F681F21C8F4586001F33A3 /* RxPaginable.swift in Sources */,
 				2E2208E81DD4BD1100FB2483 /* EmptyCell.swift in Sources */,
