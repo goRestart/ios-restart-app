@@ -60,7 +60,7 @@ enum DeepLinkAction: Equatable {
     case userRating(ratingId: String)
     case notificationCenter
     case appStore
-    case passwordlessConfirmUsername(token: String)
+    case passwordlessSignup(token: String)
     case passwordlessSignIn(token: String)
     case webView(url: URL)
     

@@ -36,6 +36,7 @@ final class PasswordlessUsernameViewController: BaseViewController {
     init(viewModel: PasswordlessUsernameViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
+        self.viewModel.delegate = self
     }
 
     required init?(coder aDecoder: NSCoder) {

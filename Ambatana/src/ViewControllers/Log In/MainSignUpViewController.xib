@@ -204,7 +204,7 @@
                                 <action selector="logInButtonPressed:" destination="-1" eventType="touchUpInside" id="Cke-Ov-ife"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9zN-BQ-beT" userLabel="Continue With Email Button" customClass="LetgoButton" customModule="LetGo" customModuleProvider="target">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9zN-BQ-beT" userLabel="Continue With Email Button" customClass="LetgoButton" customModule="LGComponents">
                             <rect key="frame" x="15" y="213" width="345" height="50"/>
                             <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>

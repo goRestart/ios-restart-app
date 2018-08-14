@@ -71,6 +71,19 @@ struct UniversalLink {
             default: break
             }
         }
+        if let firstParam = queryParams.first {
+            switch firstParam.key {
+            case "passwordlessSignup":
+                let string = firstParam.value.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics)!
+                let action = DeepLinkAction.passwordlessSignup(token: string)
+                return UniversalLink(deepLink: DeepLink.link(action, campaign: campaign, medium: medium, source: source, cardActionParameter: cardAction))
+            case "passwordlessSignin":
+                let action = DeepLinkAction.passwordlessSignIn(token: firstParam.value)
+                return UniversalLink(deepLink: DeepLink.link(action, campaign: campaign, medium: medium, source: source, cardActionParameter: cardAction))
+            default:
+                break
+            }
+        }
         if let schemeHost = components.first, let uriSchemeHost = UriSchemeHost(rawValue: schemeHost) {
             // the ones same as uri scheme but with {whatever}.letgo.com/ instead of letgo://
             var schemeComponents = components
