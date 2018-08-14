@@ -431,7 +431,12 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         let hasSearchQuery = searchType?.text != nil
         return isThereLoggedUser && hasSearchQuery
     }
-    var shouldShowFreshBubble: Bool { return featureFlags.cachedFeed.isActive }
+    var shouldSetupFeedBubble: Bool { return featureFlags.cachedFeed.isActive }
+    private var shouldFetchCache: Bool {
+        let abTestActive = featureFlags.cachedFeed.isActive
+        let isEmpty = listViewModel.isListingListEmpty.value
+        return abTestActive && !isCurrentFeedACachedFeed && (isEmpty || !hasFilters)
+    }
 
     private var shouldDisableOldestSearchAlertIfMaximumReached: Bool {
         return featureFlags.searchAlertsDisableOldestIfMaximumReached.isActive
@@ -892,9 +897,10 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     private func viewModelForSearch(_ searchType: SearchType) -> MainListingsViewModel {
         return MainListingsViewModel(searchType: searchType, filters: filters)
     }
+
+
     
     fileprivate func updateListView() {
-        
         if filters.selectedOrdering == ListingSortCriteria.defaultOption {
             infoBubbleText.value = defaultBubbleText
         }
@@ -913,7 +919,11 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         errorMessage.value = nil
         listViewModel.cellStyle = cellStyle
         listViewModel.resetUI()
-        listViewModel.refresh()
+        listViewModel.refresh(shouldSaveToCache: !hasFilters)
+
+        if shouldFetchCache {
+            listViewModel.fetchFromCache()
+        }
     }
     
     // MARK: - Taxonomies
@@ -1168,7 +1178,8 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         monetizationRepository.events.bind { [weak self] event in
             switch event {
             case .freeBump, .pricedBump:
-                self?.listViewModel.refresh()
+                let hasFilters = self?.hasFilters ?? false
+                self?.listViewModel.refresh(shouldSaveToCache: !hasFilters)
             }
             }.disposed(by: disposeBag)
     }
@@ -1294,10 +1305,13 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             listViewModel.retrieveListings()
             return
         }
-        
+
+
         if page == 0 && !hasProducts {
+            let hasFilters = !self.hasFilters
             if let emptyViewModel = LGEmptyViewModel.map(from: error,
-                                                         action: { [weak viewModel] in viewModel?.refresh() }) {
+                                                         action: { [weak viewModel] in
+                                                            viewModel?.refresh(shouldSaveToCache: !hasFilters) }) {
                 listViewModel.setErrorState(emptyViewModel)
             }
         }
@@ -1573,7 +1587,7 @@ extension MainListingsViewModel {
     }
     
     fileprivate func retrieveProductsIfNeededWithNewLocation(_ newLocation: LGLocation) {
-        if featureFlags.cachedFeed.isActive && !isCurrentFeedACachedFeed && listViewModel.isListingListEmpty.value {
+        if shouldFetchCache {
             listViewModel.fetchFromCache()
         }
         

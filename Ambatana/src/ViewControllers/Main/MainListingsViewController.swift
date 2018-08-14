@@ -129,7 +129,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
 
         setupFilterHeaders()
         setupListingView()
-        if viewModel.shouldShowFreshBubble {
+        if viewModel.shouldSetupFeedBubble {
             setupFreshFeedBuble()
         }
         setupInfoBubble()
