@@ -16,7 +16,6 @@ protocol MainTabNavigator: TabNavigator, FeedNavigator {
     func openLocationSelection(initialPlace: Place?,
                                distanceRadius: Int?,
                                locationDelegate: EditLocationDelegate)
-    func openTaxonomyList(withViewModel viewModel: TaxonomiesViewModel)
     func openLoginIfNeeded(infoMessage: String, then loggedAction: @escaping (() -> Void))
     func openSearchAlertsList()
     func openMap(requester: ListingListMultiRequester,

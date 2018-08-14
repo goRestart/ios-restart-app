@@ -206,14 +206,6 @@ extension OnboardingCoordinator: TourPostingNavigator {
 }
 
 
-// MARK: - TourCategoriesNavigator
-
-extension OnboardingCoordinator: TourCategoriesNavigator {
-    func tourCategoriesFinish(withCategories categories: [TaxonomyChild]) {
-        openTourPermissions()
-    }
-}
-
 // MARK: - MainSignUpNavigator
 
 extension OnboardingCoordinator: MainSignUpNavigator {

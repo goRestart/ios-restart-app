@@ -153,7 +153,6 @@ enum CoreReportDataSource: ReportType {
         case searchSuggestion
         case suggestiveSearch
         case stickers
-        case taxonomies
         case user
         case users
         case userRelation
@@ -221,8 +220,6 @@ enum CoreReportDataSource: ReportType {
                 return [SuggestiveSearch].self
             case .stickers:
                 return [LGSticker].self
-            case .taxonomies:
-                return [LGTaxonomy].self
             case .user:
                 return LGUser.self
             case .users:
@@ -259,6 +256,21 @@ enum CoreReportDataSource: ReportType {
         switch self {
         case .parsing(let entity):
             return baseCode + entity.rawValue
+        }
+    }
+}
+
+// 600000..<700000
+enum CoreReportJSONSerialization: ReportType {
+    case decoding
+
+    var domain: String {
+        return coreDomain
+    }
+    var code: Int {
+        let baseCode = 600000
+        switch self {
+        case .decoding: return baseCode
         }
     }
 }

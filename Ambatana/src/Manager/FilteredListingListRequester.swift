@@ -127,7 +127,7 @@ class FilteredListingListRequester: ListingListRequester {
     
     private var requesterTitle: String? {
         guard let filters = filters,
-            filters.selectedCategories.contains(.cars) || filters.selectedTaxonomyChildren.containsCarsTaxonomy else { return nil }
+            filters.selectedCategories.contains(.cars) else { return nil }
         
         let carFilters = filters.verticalFilters.cars
         var titleFromFilters: String = ""

@@ -13,9 +13,6 @@ enum FilterTag: Equatable {
     case within(ListingTimeFilter)
     case orderBy(ListingSortCriteria)
     case category(ListingCategory)
-    case taxonomyChild(TaxonomyChild)
-    case taxonomy(Taxonomy)
-    case secondaryTaxonomyChild(TaxonomyChild)
     case priceRange(from: Int?, to: Int?, currency: Currency?)
     case freeStuff
     case distance(distance: Int)
@@ -43,44 +40,12 @@ enum FilterTag: Equatable {
     case unifiedServiceType(type: ServiceType, selectedSubtypes: [ServiceSubtype])
 }
 
-extension FilterTag {
-    var isTaxonomy: Bool {
-        switch self {
-    case .location, .within, .orderBy, .category, .taxonomyChild, .secondaryTaxonomyChild, .priceRange, .freeStuff, .distance, .carSellerType, .make, .model, .yearsRange, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType, .realEstateOfferType, .realEstateNumberOfRooms, .sizeSquareMetersRange, .serviceType, .serviceSubtype, .unifiedServiceType,
-         .carBodyType, .carTransmissionType, .carFuelType, .carDriveTrainType,
-         .mileageRange, .numberOfSeats:
-            return false
-        case .taxonomy:
-            return true
-        }
-    }
-    
-    var taxonomyChild: TaxonomyChild? {
-        switch self {
-        case .location, .within, .orderBy, .category, .taxonomy, .priceRange, .freeStuff, .distance,
-             .carSellerType, .make, .model, .yearsRange,
-             .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType,
-             .realEstateOfferType, .realEstateNumberOfRooms, .sizeSquareMetersRange, .serviceType, .serviceSubtype,
-             .unifiedServiceType, .carBodyType, .carTransmissionType, .carFuelType, .carDriveTrainType,
-             .mileageRange, .numberOfSeats:
-            return nil
-        case .taxonomyChild(let taxonomyChild):
-            return taxonomyChild
-        case .secondaryTaxonomyChild(let taxonomyChild):
-            return taxonomyChild
-        }
-    }
-}
-
 func ==(a: FilterTag, b: FilterTag) -> Bool {
     switch (a, b) {
     case (.location, .location): return true
     case (.within(let a),   .within(let b))   where a == b: return true
     case (.orderBy(let a),   .orderBy(let b))   where a == b: return true
     case (.category(let a), .category(let b)) where a == b: return true
-    case (.taxonomyChild(let a), .taxonomyChild(let b)) where a == b: return true
-    case (.taxonomy(let a), .taxonomy(let b)) where a == b: return true
-    case (.secondaryTaxonomyChild(let a), .secondaryTaxonomyChild(let b)) where a == b: return true
     case (.priceRange(let a, let b, _), .priceRange(let c, let d, _)) where a == c && b == d: return true
     case (.freeStuff, .freeStuff): return true
     case (.distance(let distanceA), .distance(let distanceB)) where distanceA == distanceB: return true

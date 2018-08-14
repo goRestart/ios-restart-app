@@ -22,7 +22,6 @@ protocol FeatureFlaggeable: class {
     var pricedBumpUpEnabled: Bool { get }
     var userReviewsReportEnabled: Bool { get }
     var realEstateEnabled: RealEstateEnabled { get }
-    var taxonomiesAndTaxonomyChildrenInFeed : TaxonomiesAndTaxonomyChildrenInFeed { get }
     var showClockInDirectAnswer : ShowClockInDirectAnswer { get }
     var deckItemPage: DeckItemPage { get }
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio { get }
@@ -126,10 +125,6 @@ extension FeatureFlaggeable {
     var syncedData: Observable<Bool> {
         return trackingData.map { $0 != nil }
     }
-}
-
-extension TaxonomiesAndTaxonomyChildrenInFeed {
-    var isActive: Bool { return self == .active }
 }
 
 extension RealEstateEnabled {
@@ -620,13 +615,6 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.deckItemPage
         }
         return DeckItemPage.fromPosition(abTests.deckItemPage.value)
-    }
-    
-    var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed {
-        if Bumper.enabled {
-            return Bumper.taxonomiesAndTaxonomyChildrenInFeed
-        }
-        return TaxonomiesAndTaxonomyChildrenInFeed.fromPosition(abTests.taxonomiesAndTaxonomyChildrenInFeed.value)
     }
     
     var showClockInDirectAnswer: ShowClockInDirectAnswer {

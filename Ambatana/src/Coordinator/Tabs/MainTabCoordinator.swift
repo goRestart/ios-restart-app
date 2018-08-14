@@ -125,13 +125,7 @@ extension MainTabCoordinator: MainTabNavigator {
                   forceCloseChild: true,
                   completion: nil)
     }
-
-    func openTaxonomyList(withViewModel viewModel: TaxonomiesViewModel) {
-        let vc = TaxonomiesViewController(viewModel: viewModel)
-        navigationController.pushViewController(vc, animated: true)
-    }
     
-
     func showPushPermissionsAlert(withPositiveAction positiveAction: @escaping (() -> Void), negativeAction: @escaping (() -> Void)) {
         
         let positive: UIAction = UIAction(interface: .styledText(R.Strings.profilePermissionsAlertOk, .standard),
