@@ -60,7 +60,13 @@ class AppsFlyerDeepLinkSpec: QuickSpec {
                         appsFlyerDeepLink = AppsFlyerDeepLink.buildFromUrl(url)
                     }
                     it("action is parsed correctly") {
-                        expect(appsFlyerDeepLink.deepLink.action).to(equal(DeepLinkAction.search(query: "leptop", categories: nil)))
+                        expect(appsFlyerDeepLink.deepLink.action).to(equal(DeepLinkAction.search(query: "leptop",
+                                                                                                 categories: nil,
+                                                                                                 distanceRadius: nil,
+                                                                                                 sortCriteria: nil,
+                                                                                                 priceFlag: nil,
+                                                                                                 minPrice: nil,
+                                                                                                 maxPrice: nil)))
                     }
                     it("parses utm_medium correctly") {
                         expect(appsFlyerDeepLink.deepLink.medium).to(equal("transactional"))

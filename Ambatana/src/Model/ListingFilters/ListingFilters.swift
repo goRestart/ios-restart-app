@@ -43,6 +43,66 @@ struct ListingFilters {
                   verticalFilters: VerticalFilters.create())
     }
     
+    init(categoriesString: String?,
+         distanceRadiusString: String?,
+         sortCriteriaString: String?,
+         priceFlagString: String?,
+         minPriceString: String?,
+         maxPriceString: String?) {
+        let categories: [ListingCategory]
+        if let categoriesString = categoriesString {
+            categories = ListingCategory.categoriesFromString(categoriesString)
+        } else {
+            categories = []
+        }
+        
+        let distanceRadius: Int
+        if let distanceRadiusString = distanceRadiusString, let distanceRadiusInt = Int(distanceRadiusString) {
+            distanceRadius = distanceRadiusInt
+        } else {
+            distanceRadius = SharedConstants.distanceSliderDefaultPosition
+        }
+
+        let sortCriteria: ListingSortCriteria?
+        if let sortCriteriaString = sortCriteriaString,
+            let deepLinkSortCriteria = DeepLinkSortCriteria.init(rawValue: sortCriteriaString) {
+            sortCriteria = ListingSortCriteria.init(rawValue: deepLinkSortCriteria.intValue)
+        } else {
+            sortCriteria = ListingSortCriteria.defaultOption
+        }
+        
+        let priceFlag: FilterPriceRange
+        if let priceFlagString = priceFlagString,
+            let priceFlagInt = Int(priceFlagString),
+            let deepLinkPriceFlag = DeepLinkPriceFlag.init(rawValue: priceFlagInt),
+            deepLinkPriceFlag.isFree {
+            priceFlag = .freePrice
+        } else {
+            let minPrice: Int?
+            if let minPriceString = minPriceString {
+                minPrice = Int(minPriceString)
+            } else {
+                minPrice = nil
+            }
+            let maxPrice: Int?
+            if let maxPriceString = maxPriceString {
+                maxPrice = Int(maxPriceString)
+            } else {
+                maxPrice = nil
+            }
+            priceFlag = .priceRange(min: minPrice, max: maxPrice)
+        }
+
+        self.init(place: nil,
+                  distanceRadius: distanceRadius,
+                  distanceType: DistanceType.systemDistanceType(),
+                  selectedCategories: categories,
+                  selectedWithin: ListingTimeFilter.defaultOption,
+                  selectedOrdering: sortCriteria,
+                  priceRange: priceFlag,
+                  verticalFilters: VerticalFilters.create())
+    }
+    
     init(place: Place?,
          distanceRadius: Int,
          distanceType: DistanceType,
