@@ -65,7 +65,7 @@ final class ReportUpdateViewModel: BaseViewModel {
     }
 
     func updateReport(with score: ReportUpdateButtonType, errorBlock: (() -> Void)?) {
-        let completion: (ReportingResult) -> Void = { [weak self] result in
+        let completion: (ReportingEmptyResult) -> Void = { [weak self] result in
             if let _ = result.value {
                 self?.trackUpdateCompleted(score: score)
                 self?.automaticClose()
