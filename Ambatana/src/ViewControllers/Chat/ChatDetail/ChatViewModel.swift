@@ -175,7 +175,6 @@ class ChatViewModel: ChatBaseViewModel {
     fileprivate var afterRetrieveMessagesCompletion: (() -> Void)?
 
     fileprivate var showingSendMessageError = false
-    fileprivate var showingVerifyAccounts = false
 
     fileprivate let disposeBag = DisposeBag()
     fileprivate var userIsTypingDisposeBag: DisposeBag? = DisposeBag()
