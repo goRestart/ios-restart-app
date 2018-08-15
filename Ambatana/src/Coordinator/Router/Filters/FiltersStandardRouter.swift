@@ -26,13 +26,6 @@ final class FiltersStandardRouter: FiltersRouter {
         )
     }
     
-    func openTaxonomyList(withViewModel viewModel: TaxonomiesViewModel) {
-        navigationController?.pushViewController(
-            TaxonomiesViewController(viewModel: viewModel),
-            animated: true
-        )
-    }
-    
     func openListingAttributePicker(viewModel: ListingAttributePickerViewModel) {
         let vc = ListingAttributePickerViewController(viewModel: viewModel)
         viewModel.delegate = vc

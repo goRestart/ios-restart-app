@@ -22,7 +22,6 @@ extension Bumper  {
         flags.append(UserReviewsReportEnabled.self)
         flags.append(RealEstateEnabled.self)
         flags.append(RequestsTimeOut.self)
-        flags.append(TaxonomiesAndTaxonomyChildrenInFeed.self)
         flags.append(DeckItemPage.self)
         flags.append(ShowClockInDirectAnswer.self)
         flags.append(ShowAdsInFeedWithRatio.self)
@@ -88,6 +87,7 @@ extension Bumper  {
         flags.append(EnableJobsAndServicesCategory.self)
         flags.append(CachedFeed.self)
         flags.append(CopyForSellFasterNowInTurkish.self)
+        flags.append(NotificationCenterRedesign.self)
         Bumper.initialize(flags)
     } 
 
@@ -165,19 +165,6 @@ extension Bumper  {
     static var requestsTimeOutObservable: Observable<RequestsTimeOut> {
         return Bumper.observeValue(for: RequestsTimeOut.key).map {
             RequestsTimeOut(rawValue: $0 ?? "") ?? .baseline
-        }
-    }
-    #endif
-
-    static var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed {
-        guard let value = Bumper.value(for: TaxonomiesAndTaxonomyChildrenInFeed.key) else { return .control }
-        return TaxonomiesAndTaxonomyChildrenInFeed(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var taxonomiesAndTaxonomyChildrenInFeedObservable: Observable<TaxonomiesAndTaxonomyChildrenInFeed> {
-        return Bumper.observeValue(for: TaxonomiesAndTaxonomyChildrenInFeed.key).map {
-            TaxonomiesAndTaxonomyChildrenInFeed(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1026,6 +1013,19 @@ extension Bumper  {
         }
     }
     #endif
+
+    static var notificationCenterRedesign: NotificationCenterRedesign {
+        guard let value = Bumper.value(for: NotificationCenterRedesign.key) else { return .control }
+        return NotificationCenterRedesign(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var notificationCenterRedesignObservable: Observable<NotificationCenterRedesign> {
+        return Bumper.observeValue(for: NotificationCenterRedesign.key).map {
+            NotificationCenterRedesign(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
 }
 
 
@@ -1095,22 +1095,6 @@ enum RequestsTimeOut: String, BumperFeature  {
             case 3: return .sixty
             case 4: return .hundred_and_twenty
             default: return .baseline
-        }
-    }
-}
-
-enum TaxonomiesAndTaxonomyChildrenInFeed: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return TaxonomiesAndTaxonomyChildrenInFeed.control.rawValue }
-    static var enumValues: [TaxonomiesAndTaxonomyChildrenInFeed] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Taxonomies and taxonomy children in feed as filter tags" } 
-    static func fromPosition(_ position: Int) -> TaxonomiesAndTaxonomyChildrenInFeed {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
         }
     }
 }
@@ -2155,6 +2139,22 @@ enum CopyForSellFasterNowInTurkish: String, BumperFeature  {
             case 2: return .variantB
             case 3: return .variantC
             case 4: return .variantD
+            default: return .control
+        }
+    }
+}
+
+enum NotificationCenterRedesign: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return NotificationCenterRedesign.control.rawValue }
+    static var enumValues: [NotificationCenterRedesign] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[RETENTION] Notification center redesign with sections and modern UI design" } 
+    static func fromPosition(_ position: Int) -> NotificationCenterRedesign {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
             default: return .control
         }
     }

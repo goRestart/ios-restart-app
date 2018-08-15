@@ -36,11 +36,6 @@ extension FilterSection {
     }
 
     static func allValues(priceAsLast: Bool) -> [FilterSection] {
-        
-        if priceAsLast {
-            return [.location, .categories, .carsInfo, .realEstateInfo, .servicesInfo, .distance, .sortBy, .within, .price]
-        } else {
-            return [.location, .distance, .categories, .price, .carsInfo, .realEstateInfo, .servicesInfo, .sortBy, .within]
-        }
+        return [.location, .categories, .carsInfo, .realEstateInfo, .servicesInfo, .distance, .sortBy, .within, .price]
     }
 }

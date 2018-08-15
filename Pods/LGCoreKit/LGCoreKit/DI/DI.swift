@@ -42,9 +42,10 @@ public protocol DI: class {
     var servicesInfoRepository: ServicesInfoRepository { get }
     var notificationSettingsPusherRepository: NotificationSettingsPusherRepository { get }
     var notificationSettingsMailerRepository: NotificationSettingsMailerRepository { get }
+    var feedRepository: FeedRepository { get }
     var communityRepository: CommunityRepository { get }
     var reportingRepository: ReportingRepository { get }
-
+    
     
     // Helper
     var dateFormatter: DateFormatter { get }

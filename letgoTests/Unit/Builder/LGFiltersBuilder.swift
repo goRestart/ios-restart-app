@@ -14,7 +14,7 @@ final class LGFiltersBuilderSpec: QuickSpec {
             }
             
             describe("buildFilters") {
-                var controller: FiltersViewController?
+                var controller: UIViewController?
                 
                 beforeEach {
                     controller = subject?.buildFilters(
@@ -34,7 +34,7 @@ final class LGFiltersBuilderSpec: QuickSpec {
             }
             
             describe("buildChangePassword") {
-                var controller: FiltersViewController?
+                var controller: UIViewController?
                 
                 beforeEach {
                     controller = subject?.buildFilters(

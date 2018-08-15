@@ -2,9 +2,9 @@ final class FiltersModalRouter: FiltersRouter {
     private weak var controller: UIViewController?
     private weak var navigationController: UINavigationController?
     
-    init(controller: UIViewController) {
+    init(controller: UIViewController, navigationController: UINavigationController) {
         self.controller = controller
-        navigationController = controller.navigationController
+        self.navigationController = navigationController
     }
     
     func openServicesDropdown(viewModel: DropdownViewModel) {
@@ -24,13 +24,6 @@ final class FiltersModalRouter: FiltersRouter {
     func openCarAttributeSelection(withViewModel viewModel: CarAttributeSelectionViewModel) {
         navigationController?.pushViewController(
             CarAttributeSelectionViewController(viewModel: viewModel),
-            animated: true
-        )
-    }
-    
-    func openTaxonomyList(withViewModel viewModel: TaxonomiesViewModel) {
-        navigationController?.pushViewController(
-            TaxonomiesViewController(viewModel: viewModel),
             animated: true
         )
     }

@@ -3,6 +3,9 @@ import LGCoreKit
 import LGComponents
 
 struct ListingVMProductInfo {
+    
+    private let listing: Listing
+    
     let title: String?
     let titleAuto: String?
     let linkedTitle: NSAttributedString?
@@ -26,6 +29,7 @@ struct ListingVMProductInfo {
          distance: String?,
          freeModeAllowed: Bool,
          postingFlowType: PostingFlowType) {
+        self.listing = listing
         self.title = listing.title
         self.titleAuto = listing.nameAuto
         self.linkedTitle = listing.title?.attributedHiddenTagsLinks
@@ -77,6 +81,11 @@ extension ListingVMProductInfo {
         case .realEstate, .product, .service:
             return nil
         }
+    }
+    
+    func titleViewModel(featureFlags: FeatureFlaggeable) -> ListingTitleViewModel? {
+        return ListingTitleViewModel(listing: listing,
+                                     featureFlags: featureFlags)
     }
 }
 

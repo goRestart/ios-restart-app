@@ -9,8 +9,7 @@ protocol ChatCallToActionCellDelegate: class {
 final class ChatCallToActionCell: ChatBubbleCell, ReusableCell {
 
     private enum Layout {
-        static let bubbleWidth: CGFloat = 250
-        static let ctaImageHeight: CGFloat = 80
+        static let ctaImageHeight: CGFloat = 150
         static let actionButtonsHeight: CGFloat = 30
         static let separatorLineHeight: CGFloat = 1
     }
@@ -72,10 +71,10 @@ final class ChatCallToActionCell: ChatBubbleCell, ReusableCell {
 
     private let ctasContainer: UIStackView = {
         let stackView = UIStackView.vertical()
-        stackView.alignment = .center
+        stackView.alignment = .leading
         stackView.distribution = .fill
         stackView.isLayoutMarginsRelativeArrangement = true
-        stackView.spacing = Metrics.shortMargin
+        stackView.spacing = Metrics.veryShortMargin
         return stackView
     }()
 
@@ -92,6 +91,7 @@ final class ChatCallToActionCell: ChatBubbleCell, ReusableCell {
     }()
 
     private var ctas: [ChatCallToAction]?
+    private var ctaData: ChatCallToActionData?
 
     weak var delegate: ChatCallToActionCellDelegate?
 
@@ -121,13 +121,16 @@ final class ChatCallToActionCell: ChatBubbleCell, ReusableCell {
 
     func setupWith(ctaData: ChatCallToActionData, ctas: [ChatCallToAction], dateText: String?) {
         self.ctas = ctas
+        self.ctaData = ctaData
         createButtonsFor(ctas: ctas)
         self.titleLabel.text = ctaData.title
         self.messageLabel.text = ctaData.text
         self.dateLabel.text = dateText
 
-        guard let ctaImageUrl = URL(string: ctaData.image.url) else { return }
-        updateImageConstraints(imagePosition: ctaData.image.position)
+        guard let ctaImageUrl = ctaData.image?.imageURL,
+            let imagePosition = ctaData.image?.position else { return }
+        
+        updateImageConstraints(imagePosition: imagePosition)
         ctaImageView.lg_setImageWithURL(ctaImageUrl, placeholderImage: nil) { [weak self] (result, url) in
             guard let strongSelf = self else { return }
             if let image = result.value?.image {
@@ -172,7 +175,6 @@ final class ChatCallToActionCell: ChatBubbleCell, ReusableCell {
             avatarImageView.widthAnchor.constraint(equalToConstant: ChatBubbleLayout.avatarSize),
             avatarImageView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: ChatBubbleLayout.margin),
             avatarImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            bubbleView.widthAnchor.constraint(equalToConstant: Layout.bubbleWidth),
             bubbleView.topAnchor.constraint(equalTo: contentView.topAnchor),
             bubbleView.rightAnchor.constraint(lessThanOrEqualTo: contentView.rightAnchor,
                                               constant: -ChatBubbleLayout.minBubbleMargin),
@@ -184,7 +186,7 @@ final class ChatCallToActionCell: ChatBubbleCell, ReusableCell {
             titleLabel.leftAnchor.constraint(equalTo: titleContainer.leftAnchor, constant: ChatBubbleLayout.bigMargin),
             titleLabel.rightAnchor.constraint(equalTo: titleContainer.rightAnchor, constant: -ChatBubbleLayout.bigMargin),
             ctaImageView.leftAnchor.constraint(equalTo: bubbleView.leftAnchor, constant: ChatBubbleLayout.bigMargin),
-            ctaImageView.rightAnchor.constraint(lessThanOrEqualTo: bubbleView.rightAnchor, constant: -ChatBubbleLayout.bigMargin),
+            ctaImageView.rightAnchor.constraint(equalTo: bubbleView.rightAnchor, constant: -ChatBubbleLayout.bigMargin),
             messageLabel.leftAnchor.constraint(equalTo: bubbleView.leftAnchor, constant: ChatBubbleLayout.bigMargin),
             messageLabel.rightAnchor.constraint(equalTo: bubbleView.rightAnchor, constant: -ChatBubbleLayout.margin),
             dateLabel.heightAnchor.constraint(equalToConstant: ChatBubbleLayout.dateHeight),
@@ -270,13 +272,11 @@ final class ChatCallToActionCell: ChatBubbleCell, ReusableCell {
     private func createButtonsFor(ctas: [ChatCallToAction]) {
         ctas.enumerated().forEach { [weak self] (index, cta) in
             guard cta.content.deeplinkURL != nil else { return }
-            let button = UIButton(type: .custom)
-            button.setTitleColor(.primaryColor, for: .normal)
+            let button = LetgoButton(withStyle: .primary(fontSize: .small))
             button.setTitle(cta.content.text, for: .normal)
-            button.titleLabel?.font = UIFont.mediumBodyFont
             button.tag = index
             button.addTarget(self, action: #selector(ctaButtonPressed(sender:)), for: .touchUpInside)
-            button.heightAnchor.constraint(equalToConstant: Layout.actionButtonsHeight)
+            button.heightAnchor.constraint(equalToConstant: Layout.actionButtonsHeight).isActive = true
             self?.ctasContainer.addArrangedSubview(button)
         }
     }

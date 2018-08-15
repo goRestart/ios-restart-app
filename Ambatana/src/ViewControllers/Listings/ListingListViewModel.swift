@@ -74,7 +74,7 @@ final class ListingListViewModel: BaseViewModel {
     private let imageDownloader: ImageDownloaderType
 
     // Requesters
-
+    private var shouldSaveToCache = false
     private let listingCache: ListingListCache
 
     /// A list of requester to try in sequence in case the previous
@@ -311,8 +311,9 @@ final class ListingListViewModel: BaseViewModel {
         }
     }
 
-    func refresh() {
+    func refresh(shouldSaveToCache: Bool = false) {
         refreshing = true
+        self.shouldSaveToCache = shouldSaveToCache
         if !retrieveListings() {
             refreshing = false
             delegate?.vmDidFinishLoading(self, page: 0, indexes: [])
@@ -333,7 +334,7 @@ final class ListingListViewModel: BaseViewModel {
     }
 
     func refreshControlTriggered() {
-        refresh()
+        refresh(shouldSaveToCache: shouldSaveToCache)
     }
 
     func reloadData() {
@@ -437,7 +438,7 @@ final class ListingListViewModel: BaseViewModel {
                 return
             }
 
-            if isFirstPage && !strongSelf.isPrivateList && (self?.featureFlags.cachedFeed.isActive ?? false) {
+            if isFirstPage && !strongSelf.isPrivateList && strongSelf.shouldSaveToCache {
                 strongSelf.saveToCache(listings: newListings)
             }
 
@@ -646,7 +647,8 @@ final class ListingListViewModel: BaseViewModel {
     private func featuredInfoAdditionalCellHeight(for listing: Listing, width: CGFloat) -> CGFloat {
         return actionButtonCellHeight(for: listing)
             + ListingCellMetrics.getTotalHeightForPriceAndTitleView(
-                listing.title,
+                titleViewModel: ListingTitleViewModel(listing: listing,
+                                                      featureFlags: featureFlags),
                 containerWidth: width
         )
     }
@@ -709,7 +711,9 @@ final class ListingListViewModel: BaseViewModel {
         cellHeight += discardedProductAdditionalHeight(for: listing, toHeight: cellHeight)
         
         if cellStyle == .serviceList {
-            cellHeight += ListingCellMetrics.getTotalHeightForPriceAndTitleView(listing.title, containerWidth: widthConstraint)
+            cellHeight += ListingCellMetrics.getTotalHeightForPriceAndTitleView(titleViewModel: ListingTitleViewModel(listing: listing,
+                                                                                                                      featureFlags: featureFlags),
+                                                                                containerWidth: widthConstraint)
         }
         
         return CGSize(width: widthConstraint, height: cellHeight)

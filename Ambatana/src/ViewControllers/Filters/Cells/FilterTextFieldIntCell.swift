@@ -1,16 +1,15 @@
-//
-//  FilterPriceCell.swift
-//  LetGo
-//
-//  Created by Dídac on 26/08/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
 
 protocol FilterPriceCellDelegate: class {
     func priceTextFieldValueActive()
     func priceTextFieldValueChanged(_ value: String?, tag: Int)
+}
+
+enum TextFieldNumberType: Int {
+    case priceFrom = 0
+    case priceTo = 1
+    case sizeFrom = 2
+    case sizeTo = 3
 }
 
 class FilterTextFieldIntCell: UICollectionViewCell, FilterCell, ReusableCell {

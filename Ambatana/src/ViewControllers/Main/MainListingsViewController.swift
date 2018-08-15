@@ -36,7 +36,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     private let filterTitleHeaderView = FilterTitleHeaderView()
     private let infoBubbleView = InfoBubbleView(style: .light)
     private let recentItemsBubbleView = InfoBubbleView(style: .reddish)
-    private let freshFeedBubble = ActivityIndicatorView()
+    private let freshFeedBubble = RoundedActivityIndicatorView()
 
     private let navbarSearch: LGNavBarSearchField
     private var trendingSearchView = TrendingSearchView()
@@ -67,8 +67,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
 
     private var activityTopConstraint: NSLayoutConstraint?
 
-    private var primaryTagsShowing: Bool = false
-    private var secondaryTagsShowing: Bool = false
+    private var tagsShowing: Bool = false
 
     private let topInset = Variable<CGFloat>(0)
 
@@ -77,11 +76,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     private var categoriesHeader: CategoriesHeaderCollectionView?
 
     private var filterTagsViewHeight: CGFloat {
-        if viewModel.secondaryTags.isEmpty || viewModel.filters.selectedTaxonomyChildren.count > 0 {
-            return FilterTagsView.collectionViewHeight
-        } else {
-            return FilterTagsView.collectionViewHeight * 2
-        }
+        return FilterTagsView.collectionViewHeight
     }
     private var filterHeadersHeight: CGFloat {
         return filterDescriptionHeaderView.height + filterTitleHeaderView.height
@@ -129,7 +124,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
 
         setupFilterHeaders()
         setupListingView()
-        if viewModel.shouldShowFreshBubble {
+        if viewModel.shouldSetupFeedBubble {
             setupFreshFeedBuble()
         }
         setupInfoBubble()
@@ -154,7 +149,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         // we want to show the selected tags when the user closes the product detail too.  Also:
         // ⚠️ not showing the tags collection view causes a crash when trying to reload the collection data
         // ⚠️ while not visible (ABIOS-2696)
-        showTagsView(showPrimaryTags: viewModel.primaryTags.count > 0, showSecondaryTags: viewModel.secondaryTags.count > 0, updateInsets: true)
+        showTagsView(showTags: viewModel.tags.count > 0, updateInsets: true)
         endEdit()
     }
     
@@ -179,7 +174,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
            listingListView.collectionView.contentOffset.y <= -topHeadersHeight  {
             // Move tags view along iwth tab bar
             if !filterTagsView.tags.isEmpty {
-                showTagsView(showPrimaryTags: !scrollDown, showSecondaryTags: !scrollDown && viewModel.filters.selectedTaxonomyChildren.count <= 0, updateInsets: false)
+                showTagsView(showTags: !scrollDown, updateInsets: false)
             }
             setBars(hidden: scrollDown)
         }
@@ -226,8 +221,8 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         trendingSearchView.isHidden = true
     }
 
-    func vmShowTags(primaryTags: [FilterTag], secondaryTags: [FilterTag]) {
-        updateTagsView(primaryTags: primaryTags, secondaryTags: secondaryTags)
+    func vmShowTags(tags: [FilterTag]) {
+        updateTagsView(tags: tags)
     }
 
     func vmFiltersChanged() {
@@ -344,14 +339,11 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     
     func filterTagsViewDidRemoveTag(_ tag: FilterTag, remainingTags: [FilterTag]) {
         viewModel.updateFiltersFromTags(remainingTags, removedTag: tag)
-        updateTagsView(primaryTags: viewModel.primaryTags, secondaryTags: viewModel.secondaryTags)
+        updateTagsView(tags: viewModel.tags)
     }
     
     func filterTagsViewDidSelectTag(_ tag: FilterTag) {
-        if let taxonomyChild = tag.taxonomyChild {
-            viewModel.updateSelectedTaxonomyChildren(taxonomyChildren: [taxonomyChild])
-        }
-        updateTagsView(primaryTags: viewModel.primaryTags, secondaryTags: viewModel.secondaryTags)
+        updateTagsView(tags: viewModel.tags)
     }
     
     
@@ -413,15 +405,13 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         filterTagsView.delegate = self
         filterTagsView.layout(with: tagsContainerView).fill()
         
-        updateTagsView(primaryTags: viewModel.primaryTags, secondaryTags: viewModel.secondaryTags)
+        updateTagsView(tags: viewModel.tags)
     }
     
-    private func updateTagsView(primaryTags: [FilterTag], secondaryTags: [FilterTag]) {
-        filterTagsView.updateTags(primaryTags)
-        filterTagsView.updateSecondaryTags(secondaryTags)
-        let showPrimaryTags = primaryTags.count > 0
-        let showSecondaryTags = secondaryTags.count > 0
-        showTagsView(showPrimaryTags: showPrimaryTags, showSecondaryTags: showSecondaryTags, updateInsets: true)
+    private func updateTagsView(tags: [FilterTag]) {
+        filterTagsView.updateTags(tags)
+        let showTags = tags.count > 0
+        showTagsView(showTags: showTags, updateInsets: true)
         
         //Update tags button
         setFiltersNavBarButton()
@@ -484,20 +474,19 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         viewModel.vmUserDidTapInvite()
     }
     
-    private func showTagsView(showPrimaryTags: Bool, showSecondaryTags: Bool, updateInsets: Bool) {
-        if primaryTagsShowing == showPrimaryTags && secondaryTagsShowing == showSecondaryTags {
+    private func showTagsView(showTags: Bool, updateInsets: Bool) {
+        if tagsShowing == showTags {
             return
         }
-        primaryTagsShowing = showPrimaryTags
-        secondaryTagsShowing = showSecondaryTags
+        tagsShowing = showTags
 
-        tagsContainerHeightConstraint?.constant = showPrimaryTags ? filterTagsViewHeight : 0
+        tagsContainerHeightConstraint?.constant = showTags ? filterTagsViewHeight : 0
         if updateInsets {
             updateTopInset()
         }
         view.layoutIfNeeded()
         
-        tagsContainerView.isHidden = !showPrimaryTags
+        tagsContainerView.isHidden = !showTags
     }
     
     private func setupListingView() {
@@ -624,6 +613,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
 
         viewModel.isFreshBubbleVisible
             .asDriver()
+            .distinctUntilChanged()
             .drive(onNext: { [weak self] isVisible in
                 guard let isVisible = isVisible else {
                     self?.freshFeedBubble.alpha = 0
@@ -676,7 +666,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     }
 
     private func updateTopInset() {
-        let tagsHeight = primaryTagsShowing ? filterTagsViewHeight : 0
+        let tagsHeight = tagsShowing ? filterTagsViewHeight : 0
         if isSafeAreaAvailable {
             topInset.value = tagsHeight + filterHeadersHeight
         } else {
@@ -688,17 +678,17 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         viewModel.searchTextFieldDidUpdate(text: text)
     }
 
-    private func updateFreshBubble(with visibility: Bool) {
+    private func updateFreshBubble(with isVisible: Bool) {
         let normal = CGAffineTransform.identity.scaledBy(x: 1, y: 1)
         let hidden = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
-        UIView.animate(withDuration: visibility ? 0.4 : 0,
+        UIView.animate(withDuration: isVisible ? 0.4 : 0,
                        delay: 0,
                        options: .curveEaseIn,
                        animations: { [weak self] in
-                        self?.freshFeedBubble.alpha = visibility ? 1.0 : 0
-                        self?.freshFeedBubble.transform = visibility ? normal : hidden
+                        self?.freshFeedBubble.alpha = isVisible ? 1.0 : 0
+                        self?.freshFeedBubble.transform = isVisible ? normal : hidden
         }, completion: nil)
-        if visibility {
+        if isVisible {
             freshFeedBubble.startAnimating()
         } else {
             freshFeedBubble.stopAnimating()
@@ -753,7 +743,7 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
         if shouldShowCategoryCollectionBanner {
             categoriesHeader = CategoriesHeaderCollectionView()
             categoriesHeader?.configure(with: viewModel.categoryHeaderElements,
-                                        categoryHighlighted: viewModel.categoryHeaderHighlighted)
+                                        categoryHighlighted: viewModel.categoryHighlighted)
             categoriesHeader?.delegateCategoryHeader = viewModel
             categoriesHeader?.categorySelected.asObservable().bind { [weak self] categoryHeaderInfo in
                 guard let category = categoryHeaderInfo else { return }
@@ -776,6 +766,7 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
         if viewModel.shouldShowCommunityBanner {
             let community = CommunityHeaderView()
             community.delegate = self
+            community.tag = 4
             header.addHeader(community, height: CommunityHeaderView.viewHeight)
         }
     }

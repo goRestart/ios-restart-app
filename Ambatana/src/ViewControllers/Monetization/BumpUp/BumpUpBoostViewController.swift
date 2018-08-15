@@ -314,7 +314,8 @@ final class BumpUpBoostViewController: BaseViewController {
                                                   constant: -BoostViewMetrics.bottomAnchorConstant).isActive = true
         }
         timerProgressView.layout(with: view).left().right()
-
+        timerProgressView.layout().height(BumpUpTimerBarViewMetrics.height)
+        
         closeButton.layout().width(Metrics.closeButtonWidth).height(Metrics.closeButtonHeight)
         closeButton.layout(with: view).left()
         closeButton.layout(with: timerProgressView).below()

@@ -593,7 +593,7 @@
 "notification_section_one_week_ago" = "1 week ago";
 "notifications_cell_date_days_ago" = "%id";
 "notifications_cell_date_hours_ago" = "%ih";
-"notifications_cell_date_mins_ago" = "%im";
+"notifications_cell_date_mins_ago" = "%imn";
 "notifications_cell_date_weeks_ago" = "%iw";
 "notifications_empty_subtitle" = "Coloque algo à venda para começar a ver alguma atividade por aqui";
 "notifications_empty_title" = "SEM NOTIFICAÇÕES (AINDA)!";
@@ -618,9 +618,9 @@
 "notifications_section_days_ago" = "%i days ago";
 "notifications_section_months_ago" = "%i months ago";
 "notifications_section_one_day_ago" = "1 day ago";
-"notifications_section_today" = "Today";
+"notifications_section_today" = "Hoje";
 "notifications_section_weeks_ago" = "%i weeks ago";
-"notifications_section_yesterday" = "Yesterday";
+"notifications_section_yesterday" = "Ontem";
 "notifications_title" = "Notificações";
 "notifications_type_buyers_interested" = "%d compradores poderão estar interessados na sua publicação";
 "notifications_type_buyers_interested_button" = "Descubra quem são";
@@ -1275,9 +1275,9 @@
 "reporting_user_report_sent_title" = "Denúncia enviada!";
 "reporting_user_suspicious_behavior_header" = "O QUE ACONTECEU?";
 "reporting_user_title" = "Denunciar utilizador";
-"reporting_user_update_text_A" = "Obrigado por ter denunciado de forma anónima %@. Os feedbacks como o seu ajudam-nos a manter a comunidade segura. \n\nApós termos revisto esta conta resolvemos removê-la pois viola as nossas Diretrizes da Comunidade.";
-"reporting_user_update_text_B" = "Obrigado por ter denunciado de forma anónima a foto do perfil de %@. Os feedbacks como o seu ajudam-nos a manter a comunidade segura. \n\nApós termos revisto a foto resolvemos removê-la pois viola as nossas Diretrizes da Comunidade.";
-"reporting_user_update_text_C" = "Obrigado por ter denunciado de forma anónima a bio de %@. Os feedbacks como o seu ajudam-nos a manter a comunidade segura. \n\nApós termos revisto a bio resolvemos removê-la pois viola as nossas Diretrizes da Comunidade.";
+"reporting_user_update_text_A" = "Obrigado por ter denunciado de forma anónima %@. Os feedbacks como o seu ajudam-nos a manter a comunidade segura.\n\nApós termos revisto esta conta resolvemos removê-la pois viola as nossas Diretrizes da Comunidade.";
+"reporting_user_update_text_B" = "Obrigado por ter denunciado de forma anónima a foto do perfil de %@. Os feedbacks como o seu ajudam-nos a manter a comunidade segura.\n\nApós termos revisto a foto resolvemos removê-la pois viola as nossas Diretrizes da Comunidade.";
+"reporting_user_update_text_C" = "Obrigado por ter denunciado de forma anónima a bio de %@. Os feedbacks como o seu ajudam-nos a manter a comunidade segura.\n\nApós termos revisto a bio resolvemos removê-la pois viola as nossas Diretrizes da Comunidade.";
 "reporting_user_update_title" = "Atualização da denúncia";
 "reset_password_email_field_hint" = "Insira o seu endereço de email";
 "reset_password_instructions" = "Por favor insira o seu endereço de email. Iremos enviar-lhe um email para redefinir a sua password.";

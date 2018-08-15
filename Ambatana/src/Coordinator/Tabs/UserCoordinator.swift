@@ -27,20 +27,22 @@ final class UserCoordinator {
     func openUser(_ data: UserDetailData) {
         switch data {
         case let .id(userId, source):
-            openUser(userId: userId, source: source)
+            openUser(userId: userId, source: source,
+                     hidesBottomBarWhenPushed: navigationController.viewControllers.count == 1)
         case let .userAPI(user, source):
-            openUser(user: user, source: source)
+            openUser(user: user, source: source,
+                     hidesBottomBarWhenPushed: navigationController.viewControllers.count == 1)
         case let .userChat(user):
             openUser(user, hidesBottomBarWhenPushed: navigationController.viewControllers.count == 1)
         }
     }
 
-    func openUser(userId: String, source: UserSource) {
+    func openUser(userId: String, source: UserSource, hidesBottomBarWhenPushed: Bool) {
         navigationController.showLoadingMessageAlert()
         userRepository.show(userId) { [weak self] result in
             if let user = result.value {
                 self?.navigationController.dismissLoadingMessageAlert {
-                    self?.openUser(user: user, source: source)
+                    self?.openUser(user: user, source: source, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
                 }
             } else if let error = result.error {
                 let message: String
@@ -58,13 +60,13 @@ final class UserCoordinator {
         }
     }
 
-    func openUser(user: User, source: UserSource) {
+    func openUser(user: User, source: UserSource, hidesBottomBarWhenPushed: Bool) {
         // If it's me do not then open the user profile
         guard myUserRepository.myUser?.objectId != user.objectId else { return }
 
         let vm = UserProfileViewModel.makePublicProfile(user: user, source: source)
         vm.navigator = self
-        let vc = UserProfileViewController(viewModel: vm, hidesBottomBarWhenPushed: false)
+        let vc = UserProfileViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
         navigationController.pushViewController(vc, animated: true)
     }
 

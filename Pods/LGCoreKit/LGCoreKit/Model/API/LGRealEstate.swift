@@ -126,6 +126,30 @@ struct LGRealEstate: RealEstate, Codable {
                   realEstateAttributes: nil)
     }
     
+    init(baseListing: BaseListingModel, attributes: RealEstateAttributes?) {
+        self.init(objectId: baseListing.objectId,
+                  updatedAt: baseListing.updatedAt,
+                  createdAt: baseListing.createdAt,
+                  name: baseListing.name,
+                  nameAuto: baseListing.nameAuto,
+                  descr: baseListing.descr,
+                  price: baseListing.price,
+                  currency: baseListing.currency,
+                  location: baseListing.location,
+                  postalAddress: baseListing.postalAddress,
+                  languageCode: baseListing.languageCode,
+                  category: baseListing.category,
+                  status: baseListing.status,
+                  thumbnail: baseListing.thumbnail,
+                  thumbnailSize: baseListing.thumbnailSize,
+                  images: baseListing.images,
+                  media: baseListing.media,
+                  mediaThumbnail: baseListing.mediaThumbnail,
+                  user: baseListing.user,
+                  featured: baseListing.featured,
+                  realEstateAttributes: attributes)
+    }
+    
     init(chatListing: ChatListing, chatInterlocutor: ChatInterlocutor) {
         let user = LGUserListing(chatInterlocutor: chatInterlocutor)
         let images = [chatListing.image].compactMap{$0}

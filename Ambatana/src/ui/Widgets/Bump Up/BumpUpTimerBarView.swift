@@ -86,7 +86,6 @@ class BumpUpTimerBarView: UIView {
             .centerX()
 
         progressBar.layout(with: self)
-            .bottom(by: -Metrics.margin)
             .fillHorizontal(by: Metrics.bigMargin)
 
         progressBar.layout().height(BumpUpTimerBarViewMetrics.progressBarHeight)

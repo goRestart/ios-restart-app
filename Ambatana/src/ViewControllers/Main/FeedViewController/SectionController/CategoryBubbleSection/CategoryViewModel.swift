@@ -1,8 +1,8 @@
 import LGCoreKit
 
 protocol CategoriesBubblePresentable: CategoriesHeaderCollectionViewDelegate {
-    var categories: [CategoryHeaderElement] { get }
-    var categoryHighlighted: CategoryHeaderElement { get }
+    var categories: [ListingCategory] { get }
+    var categoryHighlighted: ListingCategory { get }
 }
 
 final class CategoryViewModel: CategoriesBubblePresentable {
@@ -14,27 +14,22 @@ final class CategoryViewModel: CategoriesBubblePresentable {
         self.featureFlags = featureFlags
     }
     
-    var categories: [CategoryHeaderElement] {
+    var categories: [ListingCategory] {
         return ListingCategory.visibleValuesInFeed(servicesIncluded: true,
                                                    realEstateIncluded: featureFlags.realEstateEnabled.isActive,
                                                    servicesHighlighted: true)
-            .map { CategoryHeaderElement.listingCategory($0) }
     }
     
-    var categoryHighlighted: CategoryHeaderElement {
+    var categoryHighlighted: ListingCategory {
         if featureFlags.realEstateEnabled.isActive {
-            return CategoryHeaderElement.listingCategory(.realEstate)
+            return .realEstate
         } else {
-            return CategoryHeaderElement.listingCategory(.cars)
+            return .cars
         }
     }
 }
 
 extension CategoryViewModel {
-    
-    func openTaxonomyList() {
-        delegate?.openTaxonomyList()
-    }
     
     func categoryHeaderDidSelect(categoryHeaderInfo: CategoryHeaderInfo) {
         delegate?.categoryHeaderDidSelect(categoryHeaderInfo: categoryHeaderInfo)

@@ -397,7 +397,7 @@ class MainListingsViewModelSpec: QuickSpec {
                     
                     context("car seller type") {
                         it("has right tags") {
-                            expect(sut.primaryTags).to(contain(.carSellerType(type: .user,
+                            expect(sut.tags).to(contain(.carSellerType(type: .user,
                                                                               name: R.Strings.filtersCarSellerTypeInvidual)))
                         }
                         

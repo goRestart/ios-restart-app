@@ -1,13 +1,13 @@
 public struct MockChatCallToActionData: ChatCallToActionData {
     public var key: String?
-    public var title: String
-    public var text: String
-    public var image: ChatCallToActionImage
+    public var title: String?
+    public var text: String?
+    public var image: ChatCallToActionImage?
 
     public init(key: String?,
-                title: String,
-                text: String,
-                image: ChatCallToActionImage) {
+                title: String?,
+                text: String?,
+                image: ChatCallToActionImage?) {
         self.key = key
         self.title = title
         self.text = text
@@ -27,7 +27,7 @@ public struct MockChatCallToActionData: ChatCallToActionData {
         result[MockChatCallToActionData.CodingKeys.title.rawValue] = title
         result[MockChatCallToActionData.CodingKeys.text.rawValue] = text
 
-        let image = MockChatCallToActionImage(url: self.image.url, position: self.image.position)
+        let image = MockChatCallToActionImage(imageURL: self.image?.imageURL, position: self.image?.position ?? .down)
         result[MockChatCallToActionData.CodingKeys.image.rawValue] = image.makeDictionary()
 
         return result

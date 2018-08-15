@@ -32,7 +32,7 @@ final class FiltersModalRouterSpec: QuickSpec {
         beforeEach {
             controller = MockViewController(nibName: nil, bundle: nil)
             navigationSubject = MockNavigationController(rootViewController: controller!)
-            subject = FiltersModalRouter(controller: controller!)
+            subject = FiltersModalRouter(controller: controller!, navigationController: navigationSubject!)
         }
         
         describe("closeFilters") {
@@ -94,44 +94,6 @@ final class FiltersModalRouterSpec: QuickSpec {
             
             it("should push the correct view type") {
                 expect(navigationSubject?.viewControllers[1] is CarAttributeSelectionViewController) == true
-            }
-        }
-        
-        describe("openTaxonomyList") {
-            beforeEach {
-                subject?.openTaxonomyList(withViewModel: TaxonomiesViewModel(
-                    taxonomies: [],
-                    taxonomySelected: nil,
-                    taxonomyChildSelected: nil,
-                    source: .chat
-                ))
-            }
-            
-            it("should push the view") {
-                expect(navigationSubject?.pushWasCalled) == true
-            }
-            
-            it("should push the correct view type") {
-                expect(navigationSubject?.viewControllers[1] is TaxonomiesViewController) == true
-            }
-        }
-        
-        describe("openTaxonomyList") {
-            beforeEach {
-                subject?.openTaxonomyList(withViewModel: TaxonomiesViewModel(
-                    taxonomies: [],
-                    taxonomySelected: nil,
-                    taxonomyChildSelected: nil,
-                    source: .chat
-                ))
-            }
-            
-            it("should push the view") {
-                expect(navigationSubject?.pushWasCalled) == true
-            }
-            
-            it("should push the correct view type") {
-                expect(navigationSubject?.viewControllers[1] is TaxonomiesViewController) == true
             }
         }
     }
