@@ -187,15 +187,6 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
                     }
                 }
 
-                context("press edit bio button") {
-                    beforeEach {
-                        sut.didTapEditBioButton()
-                    }
-                    it("calls navigator to open settings") {
-                        expect(self.openEditBioCalled) == true
-                    }
-                }
-
                 context("press report user button") {
                     beforeEach {
                         sut.didTapReportUserButton()
@@ -234,15 +225,6 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
                     }
                     it("doesn't calls navigator to open settings") {
                         expect(self.openSettingsCalled) == false
-                    }
-                }
-
-                context("press edit bio button") {
-                    beforeEach {
-                        sut.didTapEditBioButton()
-                    }
-                    it("doesn't calls navigator to open settings") {
-                        expect(self.openEditBioCalled) == false
                     }
                 }
 

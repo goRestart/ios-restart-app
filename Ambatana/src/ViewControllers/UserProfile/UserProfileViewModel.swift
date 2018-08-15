@@ -278,11 +278,6 @@ extension UserProfileViewModel {
         profileNavigator?.openSettings()
     }
 
-    func didTapEditBioButton() {
-        guard isPrivateProfile else { return }
-        profileNavigator?.openEditUserBio()
-    }
-
     func didTapBlockUserButton() {
         guard let userId = user.value?.objectId else { return }
         delegate?.vmShowLoading(R.Strings.commonLoading)
