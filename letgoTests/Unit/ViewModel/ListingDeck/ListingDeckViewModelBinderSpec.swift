@@ -144,7 +144,6 @@ extension ListingDeckViewModelBinderSpec: ListingDetailNavigator {
     func openUser(_ data: UserDetailData) {}
     func openListing(_ data: ListingDetailData, source: EventParameterListingVisitSource, actionOnFirstAppear: ProductCarouselActionOnFirstAppear) {}
     func openChat(_ data: ChatDetailData, source: EventParameterTypePage, predefinedMessage: String?) {}
-    func openVerifyAccounts(_ types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?) {}
     func openAppInvite() {}
     func canOpenAppInvite() -> Bool { return true }
     func openRatingList(_ userId: String) {}

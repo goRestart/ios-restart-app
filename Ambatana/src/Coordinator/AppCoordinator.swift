@@ -445,14 +445,6 @@ extension AppCoordinator: AppNavigator {
         profileTabBarCoordinator.openEditLocation(withDistanceRadius: nil)
     }
 
-    func openVerifyAccounts(_ types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?) {
-        let viewModel = VerifyAccountsViewModel(verificationTypes: types, source: source, completionBlock: completionBlock)
-        let viewController = VerifyAccountsViewController(viewModel: viewModel)
-        viewController.setupForModalWithNonOpaqueBackground()
-        viewController.modalTransitionStyle = .crossDissolve
-        tabBarCtl.present(viewController, animated: true, completion: nil)
-    }
-
     func openResetPassword(_ token: String) {
         let vc = LGChangePasswordBuilder.modal.buildChangePassword(withToken: token)
         tabBarCtl.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)

@@ -12,7 +12,6 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
     var openSettingsCalled: Bool = false
     var openEditBioCalled: Bool = false
     var openUserReportCalled: Bool = false
-    var openVerifyAccountsCalled: Bool = false
     var openVerificationsViewCalled: Bool = false
     var showAlertCalled: Bool = false
     var showNativeShareCalled: Bool = false
@@ -74,7 +73,6 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
                 self.openSettingsCalled = false
                 self.openEditBioCalled = false
                 self.openUserReportCalled = false
-                self.openVerifyAccountsCalled = false
                 self.showAlertCalled = false
                 self.showNativeShareCalled = false
                 self.openVerificationsViewCalled = false
@@ -207,15 +205,6 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
                     }
                 }
 
-                context("open verify accounts") {
-                    beforeEach {
-                        sut.didTapBuildTrustButton()
-                    }
-                    it("calls navigator to open verify accounts") {
-                        expect(self.openVerifyAccountsCalled) == true
-                    }
-                }
-
                 context("open push permission alert") {
                     beforeEach {
                         sut.didTapPushPermissionsBanner()
@@ -266,15 +255,6 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
                     }
                 }
 
-                context("open verify accounts") {
-                    beforeEach {
-                        sut.didTapBuildTrustButton()
-                    }
-                    it("doesn't calls navigator to open verify accounts") {
-                        expect(self.openVerifyAccountsCalled) == false
-                    }
-                }
-
                 context("open share") {
                     beforeEach {
                         sut.didTapShareButton()
@@ -313,9 +293,6 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
         openEditBioCalled = true
     }
 
-    override func openVerifyAccounts(_ types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?) {
-        openVerifyAccountsCalled = true
-    }
     override func openUserReport(source: EventParameterTypePage, userReportedId: String) {
         openUserReportCalled = true
     }

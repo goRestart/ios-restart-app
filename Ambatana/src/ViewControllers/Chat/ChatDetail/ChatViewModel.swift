@@ -681,9 +681,7 @@ class ChatViewModel: ChatBaseViewModel {
                 if strongSelf.active {
                     self?.refreshMessages()
                 }
-            case .openNotVerified:
-                self?.showUserNotVerifiedAlert()
-            case .closed, .closing, .opening, .openNotAuthenticated:
+            case .closed, .closing, .opening, .openNotAuthenticated, .openNotVerified:
                 break
             }
         }.disposed(by: disposeBag)
@@ -799,18 +797,6 @@ extension ChatViewModel {
     func isMatchingConversationId(_ conversationId: String) -> Bool {
         return conversationId == conversation.value.objectId
     }
-
-    fileprivate func showUserNotVerifiedAlert() {
-        guard !showingVerifyAccounts else { return }
-        showingVerifyAccounts = true
-        navigator?.openVerifyAccounts([.facebook, .google, .email(myUserRepository.myUser?.email)],
-                                         source: .chat(title: R.Strings.chatConnectAccountsTitle,
-                                         description: R.Strings.chatNotVerifiedAlertMessage),
-                                         completionBlock: { [weak self] in
-                                            self?.navigator?.closeChatDetail()
-                                            self?.showingVerifyAccounts = false
-        })
-    }
 }
 
 
@@ -885,17 +871,13 @@ extension ChatViewModel {
                 switch error {
                 case let .wsChatError(chatRepositoryError):
                     switch chatRepositoryError {
-                    case .userNotVerified:
-                        self?.showUserNotVerifiedAlert()
-                    case .notAuthenticated, .userBlocked, .internalError, .network, .apiError:
+                    case .notAuthenticated, .userBlocked, .internalError, .network, .apiError, .userNotVerified:
                         self?.showSendMessageError(withText: R.Strings.chatSendErrorGeneric)
                     case .differentCountry:
                         self?.showSendMessageError(withText: R.Strings.chatSendErrorDifferentCountry)
                     }
-                case .userNotVerified:
-                    self?.showUserNotVerifiedAlert()
                 case .forbidden, .internalError, .network, .notFound, .tooManyRequests, .unauthorized, .serverError,
-                     .searchAlertError:
+                     .searchAlertError, .userNotVerified:
                     self?.showSendMessageError(withText: R.Strings.chatSendErrorGeneric)
                 }
             }

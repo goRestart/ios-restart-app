@@ -234,27 +234,6 @@ extension UserProfileViewModel {
         trackVerifyAccountStart()
     }
 
-    func didTapBuildTrustButton() {
-        guard isPrivateProfile else { return }
-        let userAccounts = buildAccountsModel(user.value)
-        var verifyTypes: [VerificationType] = []
-        if !userAccounts.emailVerified {
-            verifyTypes.append(.email(myUserRepository.myUser?.email))
-        }
-        if !userAccounts.facebookVerified {
-            verifyTypes.append(.facebook)
-        }
-        if !userAccounts.googleVerified {
-            verifyTypes.append(.google)
-        }
-        guard !verifyTypes.isEmpty else { return }
-        profileNavigator?.openVerifyAccounts(verifyTypes,
-                                      source: .profile(title: R.Strings.chatConnectAccountsTitle,
-                                                       description: R.Strings.profileConnectAccountsMessage),
-                                      completionBlock: nil)
-        trackVerifyAccountStart()
-    }
-
     func updateAvatar(with image: UIImage) {
         guard let imageData = image.dataForAvatar() else { return }
         myUserRepository.updateAvatar(imageData,
