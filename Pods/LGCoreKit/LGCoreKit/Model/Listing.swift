@@ -6,7 +6,7 @@
 //  Copyright © 2017 Ambatana Inc. All rights reserved.
 //
 
-public enum Listing: BaseListingModel, Priceable, Decodable {
+public enum Listing: BaseListingModel, Priceable, Codable {
     case product(Product)
     case car(Car)
     case realEstate(RealEstate)
@@ -360,6 +360,29 @@ public enum Listing: BaseListingModel, Priceable, Decodable {
         case .services:
             let service = try LGService(from: decoder)
             self = .service(service)
+        }
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(category.rawValue, forKey: .categoryIdFeedAndProductsAndCars)
+        switch self {
+        case .product(let product):
+            if let product = product as? LGProduct {
+                try product.encode(to: encoder)
+            }
+        case .car(let car):
+            if let car = car as? LGCar {
+                try car.encode(to: encoder)
+            }
+        case .realEstate(let realEstate):
+            if let realEstate = realEstate as? LGRealEstate {
+                try realEstate.encode(to: encoder)
+            }
+        case .service(let service):
+            if let service = service as? LGService {
+                try service.encode(to: encoder)
+            }
         }
     }
     

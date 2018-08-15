@@ -242,7 +242,6 @@ extension R {
         public static let motorsFeed = ImageAsset(name: "motors_feed")
         public static let othersFeed = ImageAsset(name: "others_feed")
         public static let servicesFeed = ImageAsset(name: "services_feed")
-        public static let showMore = ImageAsset(name: "showMore")
         public static let techFeed = ImageAsset(name: "tech_feed")
       }
       public enum Community {
@@ -340,7 +339,6 @@ extension R {
         public static let categoriesServicesTag = ImageAsset(name: "categories_services_tag")
         public static let categoriesSportsTag = ImageAsset(name: "categories_sports_tag")
       }
-      public static let filtersTaxonomyClearBtn = ImageAsset(name: "filters_taxonomy_clear_btn")
       public static let freeSwitchActive = ImageAsset(name: "free_switch_active")
       public static let freeSwitchInactive = ImageAsset(name: "free_switch_inactive")
       public static let housingIcon = ImageAsset(name: "housingIcon")
@@ -571,7 +569,6 @@ extension R {
         CategoriesHeaderIcons.motorsFeed,
         CategoriesHeaderIcons.othersFeed,
         CategoriesHeaderIcons.servicesFeed,
-        CategoriesHeaderIcons.showMore,
         CategoriesHeaderIcons.techFeed,
         Community.icCommunityBanner,
         Community.shapeBrightblue,
@@ -644,7 +641,6 @@ extension R {
         FiltersTagCategories.categoriesOthersTag,
         FiltersTagCategories.categoriesServicesTag,
         FiltersTagCategories.categoriesSportsTag,
-        filtersTaxonomyClearBtn,
         freeSwitchActive,
         freeSwitchInactive,
         housingIcon,

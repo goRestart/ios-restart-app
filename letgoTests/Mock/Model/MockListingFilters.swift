@@ -9,8 +9,6 @@ extension ListingFilters: MockFactory {
                               distanceRadius: 10,
                               distanceType: DistanceType.km,
                               selectedCategories: [ListingCategory.electronics, ListingCategory.motorsAndAccessories],
-                              selectedTaxonomyChildren: [],
-                              selectedTaxonomy: nil,
                               selectedWithin: ListingTimeFilter.day,
                               selectedOrdering: ListingSortCriteria.distance,
                               priceRange: FilterPriceRange.priceRange(min: 5, max: 100),

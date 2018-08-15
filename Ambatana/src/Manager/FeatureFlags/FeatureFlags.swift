@@ -22,7 +22,6 @@ protocol FeatureFlaggeable: class {
     var pricedBumpUpEnabled: Bool { get }
     var userReviewsReportEnabled: Bool { get }
     var realEstateEnabled: RealEstateEnabled { get }
-    var taxonomiesAndTaxonomyChildrenInFeed : TaxonomiesAndTaxonomyChildrenInFeed { get }
     var showClockInDirectAnswer : ShowClockInDirectAnswer { get }
     var deckItemPage: DeckItemPage { get }
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio { get }
@@ -63,6 +62,11 @@ protocol FeatureFlaggeable: class {
     var alwaysShowBumpBannerWithLoading: AlwaysShowBumpBannerWithLoading { get }
     var showSellFasterInProfileCells: ShowSellFasterInProfileCells { get }
     var bumpInEditCopys: BumpInEditCopys { get }
+    // MARK: Core
+    var cachedFeed: CachedFeed { get }
+
+    var copyForSellFasterNowInTurkish: CopyForSellFasterNowInTurkish { get }
+    var multiAdRequestMoreInfo: MultiAdRequestMoreInfo { get }
     
     // MARK: Chat
     var showInactiveConversations: Bool { get }
@@ -113,16 +117,13 @@ protocol FeatureFlaggeable: class {
     var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions { get }
     var engagementBadging: EngagementBadging { get }
     var searchAlertsDisableOldestIfMaximumReached: SearchAlertsDisableOldestIfMaximumReached { get }
+    var notificationCenterRedesign: NotificationCenterRedesign { get }
 }
 
 extension FeatureFlaggeable {
     var syncedData: Observable<Bool> {
         return trackingData.map { $0 != nil }
     }
-}
-
-extension TaxonomiesAndTaxonomyChildrenInFeed {
-    var isActive: Bool { return self == .active }
 }
 
 extension RealEstateEnabled {
@@ -358,6 +359,25 @@ extension CopyForSellFasterNowInEnglish {
     }
 }
 
+extension CopyForSellFasterNowInTurkish {
+    var isActive: Bool { return self != .control && self != .baseline }
+
+    var variantString: String {
+        switch self {
+        case .control:
+            return R.Strings.bumpUpBannerPayTextImprovement
+        case .baseline:
+            return R.Strings.bumpUpBannerPayTextImprovement
+        case .variantB:
+            return R.Strings.bumpUpBannerPayTextImprovementTurkishB
+        case .variantC:
+            return R.Strings.bumpUpBannerPayTextImprovementTurkishC
+        case .variantD:
+            return R.Strings.bumpUpBannerPayTextImprovementTurkishD
+        }
+    }
+}
+
 extension IAmInterestedFeed {
     var isVisible: Bool { return self == .control || self == .baseline }
 }
@@ -481,6 +501,11 @@ extension BumpInEditCopys {
     }
 }
 
+extension MultiAdRequestMoreInfo {
+    var isActive: Bool { return self == .active }
+
+}
+
 final class FeatureFlags: FeatureFlaggeable {
     
     static let sharedInstance: FeatureFlags = FeatureFlags()
@@ -583,13 +608,6 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.deckItemPage
         }
         return DeckItemPage.fromPosition(abTests.deckItemPage.value)
-    }
-    
-    var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed {
-        if Bumper.enabled {
-            return Bumper.taxonomiesAndTaxonomyChildrenInFeed
-        }
-        return TaxonomiesAndTaxonomyChildrenInFeed.fromPosition(abTests.taxonomiesAndTaxonomyChildrenInFeed.value)
     }
     
     var showClockInDirectAnswer: ShowClockInDirectAnswer {
@@ -776,9 +794,11 @@ final class FeatureFlags: FeatureFlaggeable {
     var moreInfoDFPAdUnitId: String {
         switch sensorLocationCountryCode {
         case .usa?:
-            return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdDFPUSA
+            return multiAdRequestMoreInfo.isActive ? EnvironmentProxy.sharedInstance.moreInfoMultiAdUnitIdDFPUSA :
+                EnvironmentProxy.sharedInstance.moreInfoAdUnitIdDFPUSA
         default:
-            return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdDFP
+            return multiAdRequestMoreInfo.isActive ? EnvironmentProxy.sharedInstance.moreInfoMultiAdUnitIdDFP :
+                EnvironmentProxy.sharedInstance.moreInfoAdUnitIdDFP
         }
     }
 
@@ -949,7 +969,7 @@ final class FeatureFlags: FeatureFlaggeable {
             return false
         }
     }
-    
+
     var copyForSellFasterNowInEnglish: CopyForSellFasterNowInEnglish {
         if Bumper.enabled {
             return Bumper.copyForSellFasterNowInEnglish
@@ -1039,6 +1059,32 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.bumpInEditCopys
         }
         return BumpInEditCopys.fromPosition(abTests.bumpInEditCopys.value)
+    }
+  
+    var shouldChangeSellFasterNowCopyInTurkish: Bool {
+        if Bumper.enabled {
+            return Bumper.copyForSellFasterNowInTurkish.isActive
+        }
+        switch (localeCountryCode) {
+        case .turkey?:
+            return true
+        default:
+            return false
+        }
+    }
+
+    var copyForSellFasterNowInTurkish: CopyForSellFasterNowInTurkish {
+        if Bumper.enabled {
+            return Bumper.copyForSellFasterNowInTurkish
+        }
+        return CopyForSellFasterNowInTurkish.fromPosition(abTests.copyForSellFasterNowInTurkish.value)
+    }
+  
+    var multiAdRequestMoreInfo: MultiAdRequestMoreInfo {
+        if Bumper.enabled {
+            return Bumper.multiAdRequestMoreInfo
+        }
+        return MultiAdRequestMoreInfo.fromPosition(abTests.multiAdRequestMoreInfo.value)
     }
 
     // MARK: - Private
@@ -1151,7 +1197,6 @@ extension FeatureFlags {
         }
         return SmartQuickAnswers.fromPosition(abTests.smartQuickAnswers.value)
     }
-    
     var openChatFromUserProfile: OpenChatFromUserProfile {
         if Bumper.enabled {
             return Bumper.openChatFromUserProfile
@@ -1242,6 +1287,11 @@ extension FeatureFlags {
         if Bumper.enabled { return Bumper.emptySearchImprovements }
         return EmptySearchImprovements.fromPosition(abTests.emptySearchImprovements.value)
     }
+
+    var cachedFeed: CachedFeed {
+        if Bumper.enabled { return Bumper.cachedFeed }
+        return CachedFeed.fromPosition(abTests.cachedFeed.value)
+    }
 }
 
 extension EmptySearchImprovements {
@@ -1265,6 +1315,10 @@ extension EmptySearchImprovements {
         case .popularNearYou, .similarQueries, .similarQueriesWhenFewResults, .alwaysSimilar: return R.Strings.listingShowSimilarResultsDescription
         }
     }
+}
+
+extension CachedFeed {
+    var isActive: Bool { return self == .active }
 }
 
 // MARK: Products
@@ -1364,5 +1418,12 @@ extension FeatureFlags {
             return Bumper.searchAlertsDisableOldestIfMaximumReached
         }
         return SearchAlertsDisableOldestIfMaximumReached.fromPosition(abTests.searchAlertsDisableOldestIfMaximumReached.value)
+    }
+    
+    var notificationCenterRedesign: NotificationCenterRedesign {
+        if Bumper.enabled {
+            return Bumper.notificationCenterRedesign
+        }
+        return NotificationCenterRedesign.fromPosition(abTests.notificationCenterRedesign.value)
     }
 }

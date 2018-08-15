@@ -4,6 +4,8 @@ import LGCoreKit
 // MARK:- Spy Delegate
 
 final class SpyListingListViewModelDataDelegate: ListingListViewModelDataDelegate {
+    func listingListVMDidSucceedRetrievingCache(viewModel: ListingListViewModel) { }
+
     
     var count = 0
     var requesterType: RequesterType?

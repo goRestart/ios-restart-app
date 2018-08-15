@@ -314,7 +314,7 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         textTitleLeftMargin.constant = basicImageIncluded ? Metrics.margin : 0
         textBodyLabel.font = UIFont.notificationSubtitleFont(read: isRead)
         if isRead {
-            textBodyLabel.setHTMLFromString(htmlText: body)
+            textBodyLabel.boldStyledHTML(htmlBuffer: body)
         } else {
             textBodyLabel.text = body.ignoreHTMLTags
         }

@@ -22,6 +22,9 @@
 "bump_up_banner_pay_text_improvement_english_b" = "Myy nopeammin nyt";
 "bump_up_banner_pay_text_improvement_english_c" = "Myy nopeammin nyt";
 "bump_up_banner_pay_text_improvement_english_d" = "Myy nopeammin nyt";
+"bump_up_banner_pay_text_improvement_turkish_b" = "Myy nopeammin nyt";
+"bump_up_banner_pay_text_improvement_turkish_c" = "Myy nopeammin nyt";
+"bump_up_banner_pay_text_improvement_turkish_d" = "Myy nopeammin nyt";
 "bump_up_banner_wait_text" = "seuraavaan nostoon";
 "bump_up_boost_success_alert_text" = "Ilmoituksesi nostettiin uudelleen! Se on nostettuna esiin seuraavat 24 tuntia.";
 "bump_up_error_bump_generic" = "Nostettaessa ilmoitustasi esiin tapahtui virhe. Ole hyvä ja yritä uudelleen.";
@@ -45,6 +48,7 @@
 "bump_up_product_cell_chat_now_button_english_b" = "Lähetä viestiä nyt";
 "bump_up_product_cell_chat_now_button_english_c" = "Lähetä viestiä nyt";
 "bump_up_product_cell_chat_now_button_english_d" = "Lähetä viestiä nyt";
+"bump_up_product_cell_feature_it_label" = "Nosta se esiin";
 "bump_up_product_cell_featured_stripe" = "Suositeltu";
 "bump_up_product_detail_featured_label" = "SUOSITELTU";
 "bump_up_view_boost_pay_button_title" = "Nosta uudelleen hintaan %@";
@@ -61,6 +65,8 @@
 "bump_up_view_pay_button_title" = "Nosta esiin hintaan %@";
 "bump_up_view_pay_subtitle" = "Nostamme ilmoituksesi esille 24 tunniksi, joten useampi ostaja näkee ilmoituksesi ja teet kaupat nopeammin";
 "bump_up_view_pay_title" = "Houkuttele tuplasti enemmän ostajia";
+"cached_feed_error" = "Uusia ilmoituksia ladattaessa tapahtui virhe";
+"cached_feed_new_listings" = "Uudet kohteet";
 "categories_baby_and_child" = "Vauvat ja lapset";
 "categories_car" = "Autot";
 "categories_cars_and_motors" = "Ajoneuvot ja varusteet";
@@ -360,7 +366,7 @@
 "discarded_products_reason_poor_ad_quality" = "Ei noudata toimintaohjeita";
 "discarded_products_reason_reference_to_competitors" = "Viittaukset muihin sovelluksiin tai sivustolle";
 "discarded_products_reason_stock_photo_only" = "Sisältää vain mallikuvia";
-"edit_paymentFrequency_placeholder" = "Maksuväli";
+"edit_paymentFrequency_placeholder" = "Ei Rajattu";
 "edit_paymentFrequency_title" = "Maksuväli";
 "edit_priceType_choose_title" = "Valitse vaihtoehto";
 "edit_product_feature_label_long_text" = "Nosta ilmoituksesi esiin tehdäksesi kaupat nopeammin";
@@ -497,6 +503,8 @@
 "id_verification_third_step_subtitle" = "Varmista, että henkilöllisyystodistuksesi näkyy selvästi ja on tähtäinlaatikon sisällä";
 "id_verification_third_step_title" = "Ota kuva henkilöllisyystodistuksesi etupuolesta";
 "id_verification_update_avatar_message" = "Haluatko tehdä tästä profiilikuvasi?";
+"jobs_services_offering_text" = "Tarjolla";
+"jobs_services_wanted_text" = "Etsitään";
 "kilometer_unit_suffix" = "km";
 "listing_chat_button" = "Keskustele nyt";
 "listing_interested_button_A" = "Olen kiinnostunut";
@@ -581,6 +589,12 @@
 "ml_onboarding_description_text" = "Näytä minulle kohde ja kerron, paljonko tienaat";
 "ml_onboarding_new_text" = "UUSI!";
 "ml_onboarding_ok_text" = "OK";
+"notification_section_one_month_ago" = "1 kuukausi sitten";
+"notification_section_one_week_ago" = "1 viikko sitten";
+"notifications_cell_date_days_ago" = "%i pv";
+"notifications_cell_date_hours_ago" = "%it";
+"notifications_cell_date_mins_ago" = "%imin";
+"notifications_cell_date_weeks_ago" = "%i vko";
 "notifications_empty_subtitle" = "Julkaise jotakin myytäväksi, jotta täällä alkaa tapahtua";
 "notifications_empty_title" = "EI ILMOITUKSIA (VIELÄ!)";
 "notifications_permissions_1_push" = "Liisa: Olen todella kiinnostunut puhelimestasi. Myytkö sen 100 eurolla?";
@@ -601,6 +615,12 @@
 "notifications_permissions_settings_title_chat" = "Älä missaa vastausta!";
 "notifications_permissions_settings_yes_button" = "Kyllä, aktivoi";
 "notifications_permissions_yes_button" = "Kyllä, lähetä ilmoituksia";
+"notifications_section_days_ago" = "%i päivää sitten";
+"notifications_section_months_ago" = "%i kuukautta sitten";
+"notifications_section_one_day_ago" = "1 päivä sitten";
+"notifications_section_today" = "Tänään";
+"notifications_section_weeks_ago" = "%i viikkoa sitten";
+"notifications_section_yesterday" = "Eilen";
 "notifications_title" = "Ilmoitukset";
 "notifications_type_buyers_interested" = "%d ostajaa saattaisi olla kiinnostunut ilmoituksestasi";
 "notifications_type_buyers_interested_button" = "Katso keitä he ovat";
@@ -671,6 +691,12 @@
 "passwordless_username_input_done_button" = "Valmis";
 "passwordless_username_input_textfield_placeholder" = "Käyttäjänimi";
 "passwordless_username_input_title" = "Valitse käyttäjänimesi";
+"payment_frequency_per_biweek" = "2 viikkoa";
+"payment_frequency_per_day" = "päivä";
+"payment_frequency_per_hour" = "tunti";
+"payment_frequency_per_month" = "kuukausi";
+"payment_frequency_per_week" = "viikko";
+"payment_frequency_per_year" = "vuosi";
 "phone_verification_code_input_view_content_subaction" = "Etkö saanut koodia?";
 "phone_verification_code_input_view_content_subtext" = "Voit pyytää uutta koodia, jos et saa koodia %@ sisällä";
 "phone_verification_code_input_view_content_subtitle" = "Lähetimme viestin numeroon %@";
@@ -709,8 +735,15 @@
 "post_description_info_title" = "ILMOITUKSEN TIEDOT";
 "post_description_name_placeholder" = "Nimi";
 "post_description_save_button_text" = "Tallenna tämä ilmoitus!";
+"post_details_jobs_services_step_option_jobs_prefix" = "Haluan palkata jonkun";
+"post_details_jobs_services_step_option_services_prefix" = "mainostamassa";
+"post_details_jobs_services_step_title" = "Olen...";
+"post_details_jobs_subtitle" = "Valitse yksi";
+"post_details_jobs_title" = "Millaista työtä olet tarjoamassa?";
+"post_details_listingType_job_display_name" = "työhön";
+"post_details_listingType_service_display_name" = "palvelua";
 "post_details_services_add_new" = "Lisää uusi palvelu";
-"post_details_services_camera_message" = "Julkaise kuva itsestäsi tai yrityksesi logosta";
+"post_details_services_camera_message" = "Julkaise yrityksesi logo tai kuva, jossa näkyy tarjoamasi palvelu";
 "post_details_services_congratulation_people_near" = "Lähistölläsi olevat ihmiset etsivät näitä palveluita, omaatko näitä taitoja?";
 "post_details_services_congratulation_post_another" = "Julkaise toinen ilmoitus";
 "post_details_services_congratulation_review" = "Tarkasta ilmoituksesi ja lisää tietoja";
@@ -733,7 +766,7 @@
 "post_queued_requests_state_listing_posted" = "Ilmoitus julkaistu!";
 "post_queued_requests_state_posting_listing" = "Julkaistaan ilmoitusta...";
 "posting_button_skip" = "Ohita";
-"posting_flow_jobs_and_services_category_button_text" = "Jobs & Services";
+"posting_flow_jobs_and_services_category_button_text" = "Työpaikat & palvelut";
 "priceType_biweekly" = "Kahden viikon taksa";
 "priceType_daily" = "Päivätaksa";
 "priceType_hourly" = "Tuntitaksa";
@@ -899,6 +932,7 @@
 "product_post_retry_button" = "Yritä uudelleen";
 "product_post_select_category_cars" = "Autoja";
 "product_post_select_category_housing" = "Vuokrattavat/myytävät asunnot";
+"product_post_select_category_jobs_services" = "Työpaikat & palvelut";
 "product_post_select_category_motors_and_accessories" = "Muut ajoneuvot ja varusteet";
 "product_post_select_category_other" = "Muut tuotteet";
 "product_post_select_category_real_estate" = "Kiinteistöt";

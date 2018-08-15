@@ -120,12 +120,14 @@ final class PostCategorySelectionView: UIView {
         return selectedCategoryPublishSubject.asObservable()
     }
     fileprivate let selectedCategoryPublishSubject = PublishSubject<PostCategory>()
-        
+    private let featureFlags: FeatureFlaggeable
     
     // MARK: - Lifecycle
     
-    init(categoriesAvailables: [PostCategory]) {
+    init(categoriesAvailables: [PostCategory],
+         featureFlags: FeatureFlaggeable) {
         self.categoriesAvailables = categoriesAvailables
+        self.featureFlags = featureFlags
         super.init(frame: CGRect.zero)
         setupUI()
         setupAccessibilityIds()
@@ -194,11 +196,19 @@ fileprivate extension PostCategorySelectionView {
                           postCategoryLink: .realEstate)
             case .services:
                 addButton(button: servicesCategoryButton,
-                          title: R.Strings.productPostSelectCategoryServices,
+                          title: servicesCategoryTitle(),
                           image: R.Asset.IconsButtons.FiltersCategoriesIcons.categoriesServicesInactive.image,
                           postCategoryLink: .services)
             }
         }
+    }
+    
+    private func servicesCategoryTitle() -> String {
+        if featureFlags.jobsAndServicesEnabled.isActive {
+            return R.Strings.productPostSelectCategoryJobsServices
+        }
+        
+        return R.Strings.productPostSelectCategoryServices
     }
     
     func setupAccessibilityIds() {

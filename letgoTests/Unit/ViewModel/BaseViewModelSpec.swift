@@ -5,7 +5,6 @@ import Nimble
 import LGComponents
 
 class BaseViewModelSpec: QuickSpec, BaseViewModelDelegate, TabNavigator {
-
     var delegateReceivedShowAutoFadingMessage = false
     var delegateReceivedShowLoading = false
     var delegateReceivedHideLoading = false
@@ -26,10 +25,8 @@ class BaseViewModelSpec: QuickSpec, BaseViewModelDelegate, TabNavigator {
         lastAutofadingMessageShown = nil
         lastAlertTextShown = nil
     }
-
-    func showUndoBubble(withMessage message: String, duration: TimeInterval, withAction action: @escaping () -> ()) {
-        // not tested
-    }
+    func showFailBubble(withMessage message: String, duration: TimeInterval) { }
+    func showUndoBubble(withMessage message: String, duration: TimeInterval, withAction action: @escaping () -> ()) {}
 
     func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?) {
         delegateReceivedShowAutoFadingMessage = true

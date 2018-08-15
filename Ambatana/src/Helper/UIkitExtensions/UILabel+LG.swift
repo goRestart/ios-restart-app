@@ -50,6 +50,28 @@ extension UILabel {
         }
     }
     
+    func boldStyledHTML(htmlBuffer: String) {
+        guard let font = self.font else { return }
+        
+        let styledChunks = HTMLBoldParser.parse(htmlBuffer: htmlBuffer)
+        let attrStr = NSMutableAttributedString()
+        
+        for chunk in styledChunks {
+            switch chunk {
+            case .normal(let text):
+                attrStr.append(NSAttributedString(string: text))
+            case .bold(let text):
+                attrStr.append(NSAttributedString(
+                    string: text, attributes: [
+                        .font : UIFont.boldSystemFont(ofSize: font.pointSize)
+                    ]
+                ))
+            }
+        }
+        
+        attributedText = attrStr
+    }
+    
     func addKern(value: NSNumber) {
         guard let text = text, !text.isEmpty else { return }
         let attributedString = NSMutableAttributedString(string: text)

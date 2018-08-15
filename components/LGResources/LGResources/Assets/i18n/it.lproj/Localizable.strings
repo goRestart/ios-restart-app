@@ -22,6 +22,9 @@
 "bump_up_banner_pay_text_improvement_english_b" = "Vendi più rapidamente";
 "bump_up_banner_pay_text_improvement_english_c" = "Vendi più rapidamente";
 "bump_up_banner_pay_text_improvement_english_d" = "Vendi più rapidamente";
+"bump_up_banner_pay_text_improvement_turkish_b" = "Attira più compratori";
+"bump_up_banner_pay_text_improvement_turkish_c" = "Attira più compratori";
+"bump_up_banner_pay_text_improvement_turkish_d" = "Attira più compratori";
 "bump_up_banner_wait_text" = "per promuovere di nuovo";
 "bump_up_boost_success_alert_text" = "Il tuo annuncio è stato promosso! Resterà sponsorizzato per le prossime 24 ore.";
 "bump_up_error_bump_generic" = "Si è verificato un errore durante il tentativo di sponsorizzare l'annuncio. Riprova.";
@@ -45,6 +48,7 @@
 "bump_up_product_cell_chat_now_button_english_b" = "Chatta subito";
 "bump_up_product_cell_chat_now_button_english_c" = "Chatta subito";
 "bump_up_product_cell_chat_now_button_english_d" = "Chatta subito";
+"bump_up_product_cell_feature_it_label" = "Sponsorizzalo";
 "bump_up_product_cell_featured_stripe" = "In evidenza";
 "bump_up_product_detail_featured_label" = "IN EVIDENZA";
 "bump_up_view_boost_pay_button_title" = "Sponsorizzalo di nuovo per %@";
@@ -61,6 +65,8 @@
 "bump_up_view_pay_button_title" = "Sponsorizzalo per %@";
 "bump_up_view_pay_subtitle" = "Sponsorizzeremo il tuo annuncio per 24 ore, così sarà visto da più acquirenti e potrai vendere più rapidamente";
 "bump_up_view_pay_title" = "Attrai il doppio di acquirenti";
+"cached_feed_error" = "Si è verificato un errore durante il caricamento di nuovi annunci";
+"cached_feed_new_listings" = "Nuovi articoli";
 "categories_baby_and_child" = "Bambino e Ragazzo";
 "categories_car" = "Auto";
 "categories_cars_and_motors" = "Auto e accessori";
@@ -360,7 +366,7 @@
 "discarded_products_reason_poor_ad_quality" = "Non rispetta le procedure consigliate";
 "discarded_products_reason_reference_to_competitors" = "Riferimenti ad altre app o siti Web";
 "discarded_products_reason_stock_photo_only" = "Contiene solo foto da catalogo";
-"edit_paymentFrequency_placeholder" = "Frequenza";
+"edit_paymentFrequency_placeholder" = "Non impostato";
 "edit_paymentFrequency_title" = "Frequenza";
 "edit_priceType_choose_title" = "Scegli un'opzione";
 "edit_product_feature_label_long_text" = "Sponsorizza il tuo annuncio per vendere più velocemente";
@@ -497,6 +503,8 @@
 "id_verification_third_step_subtitle" = "Assicurati che il documento sia visibile e all'interno del riquadro";
 "id_verification_third_step_title" = "Fai una foto della parte frontale del documento";
 "id_verification_update_avatar_message" = "Desideri impostarla come immagine del profilo?";
+"jobs_services_offering_text" = "Offerta";
+"jobs_services_wanted_text" = "Richiesta";
 "kilometer_unit_suffix" = "km";
 "listing_chat_button" = "Chatta subito";
 "listing_interested_button_A" = "Sono interessato!";
@@ -581,6 +589,12 @@
 "ml_onboarding_description_text" = "Mostrami un oggetto e ti dirò quanto potrai guadagnare";
 "ml_onboarding_new_text" = "NOVITÀ!";
 "ml_onboarding_ok_text" = "OK";
+"notification_section_one_month_ago" = "1 mese fa";
+"notification_section_one_week_ago" = "1 settimana fa";
+"notifications_cell_date_days_ago" = "%id";
+"notifications_cell_date_hours_ago" = "%ih";
+"notifications_cell_date_mins_ago" = "%imin";
+"notifications_cell_date_weeks_ago" = "%iw";
 "notifications_empty_subtitle" = "Pubblica qualcosa da vendere per iniziare a vedere delle attività";
 "notifications_empty_title" = "ANCORA NESSUNA NOTIFICA!";
 "notifications_permissions_1_push" = "Francesca: il tuo telefono mi interessa molto. Me lo lasci per 100€?";
@@ -601,6 +615,12 @@
 "notifications_permissions_settings_title_chat" = "Non perdere neanche una risposta!";
 "notifications_permissions_settings_yes_button" = "Sì, Attiva";
 "notifications_permissions_yes_button" = "Sì, Avvisami";
+"notifications_section_days_ago" = "%i giorni fa";
+"notifications_section_months_ago" = "%i mesi fa";
+"notifications_section_one_day_ago" = "1 giorno fa";
+"notifications_section_today" = "Oggi";
+"notifications_section_weeks_ago" = "%i settimane fa";
+"notifications_section_yesterday" = "Ieri";
 "notifications_title" = "Notifiche";
 "notifications_type_buyers_interested" = "%d acquirenti potrebbero essere interessati al tuo annuncio";
 "notifications_type_buyers_interested_button" = "Scopri chi sono";
@@ -671,6 +691,12 @@
 "passwordless_username_input_done_button" = "Fatto";
 "passwordless_username_input_textfield_placeholder" = "Nome Utente";
 "passwordless_username_input_title" = "Scegli il nome utente";
+"payment_frequency_per_biweek" = "2 settimane";
+"payment_frequency_per_day" = "giorno";
+"payment_frequency_per_hour" = "ora";
+"payment_frequency_per_month" = "mese";
+"payment_frequency_per_week" = "settimana";
+"payment_frequency_per_year" = "anno";
 "phone_verification_code_input_view_content_subaction" = "Non hai ricevuto il codice?";
 "phone_verification_code_input_view_content_subtext" = "Se non ricevi il codice, puoi richiederne un altro entro %@";
 "phone_verification_code_input_view_content_subtitle" = "Lo abbiamo inviato al %@";
@@ -709,8 +735,15 @@
 "post_description_info_title" = "INFORMAZIONI ANNUNCIO";
 "post_description_name_placeholder" = "Nome";
 "post_description_save_button_text" = "Salva questo annuncio!";
+"post_details_jobs_services_step_option_jobs_prefix" = "Alla ricerca di assumere qualcuno per un";
+"post_details_jobs_services_step_option_services_prefix" = "Pubblicizza un";
+"post_details_jobs_services_step_title" = "Sono un/una...";
+"post_details_jobs_subtitle" = "Scegline uno";
+"post_details_jobs_title" = "Che tipo di lavoro offri?";
+"post_details_listingType_job_display_name" = "lavoro";
+"post_details_listingType_service_display_name" = "servizio";
 "post_details_services_add_new" = "Aggiungi un nuovo servizio";
-"post_details_services_camera_message" = "Pubblica una tua foto o il logo della tua azienda";
+"post_details_services_camera_message" = "Pubblica il logo della tua azienda o una foto che mostri il servizio offerto";
 "post_details_services_congratulation_people_near" = "Persone nella tua zona sono alla ricerca di questi servizi. Hai da offrire il tuo contributo?";
 "post_details_services_congratulation_post_another" = "Pubblica un altro annuncio";
 "post_details_services_congratulation_review" = "Controlla gli annunci e aggiungi ulteriori dettagli";
@@ -733,7 +766,7 @@
 "post_queued_requests_state_listing_posted" = "Annuncio pubblicato!";
 "post_queued_requests_state_posting_listing" = "Pubblicazione annuncio...";
 "posting_button_skip" = "Salta";
-"posting_flow_jobs_and_services_category_button_text" = "Jobs & Services";
+"posting_flow_jobs_and_services_category_button_text" = "Lavori e servizi";
 "priceType_biweekly" = "Bisettimanale";
 "priceType_daily" = "Giornaliero";
 "priceType_hourly" = "Orario";
@@ -899,6 +932,7 @@
 "product_post_retry_button" = "Riprova";
 "product_post_select_category_cars" = "Auto";
 "product_post_select_category_housing" = "Alloggi in vendita o affitto";
+"product_post_select_category_jobs_services" = "Lavori e servizi";
 "product_post_select_category_motors_and_accessories" = "Altri veicoli e ricambi";
 "product_post_select_category_other" = "Altri articoli";
 "product_post_select_category_real_estate" = "Immobili";

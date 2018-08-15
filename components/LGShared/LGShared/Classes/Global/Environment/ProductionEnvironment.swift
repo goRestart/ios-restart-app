@@ -47,6 +47,9 @@ final class ProductionEnvironment: AppEnvironment {
     
     let fullScreenAdUnitIdAdxForAllUsersForUS = "/21666124832/us/iOS/interstitials/inter_var_a"
     let fullScreenAdUnitIdAdxForOldUsersForUS = "/21666124832/us/iOS/interstitials/inter_var_b"
+
+    let moreInfoMultiAdUnitIdDFP = "/21636273254/turkey/iOS/moreinfo/300x250_var_a"
+    let moreInfoMultiAdUnitIdDFPUSA = "/21666124832/us/iOS/moreinfo/300x250_var_a"
     
     // MoPub Ads
     let feedAdUnitIdMoPubUSAForAllUsers = "23d1d6db6b9848ba94f27887bb3585d2"

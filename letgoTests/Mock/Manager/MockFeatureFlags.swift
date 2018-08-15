@@ -20,7 +20,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var userReviewsReportEnabled: Bool = true
     var deckItemPage: DeckItemPage = .control
     var realEstateEnabled: RealEstateEnabled = .control
-    var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed = .control
     var showClockInDirectAnswer: ShowClockInDirectAnswer = .control
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers = .control
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio = .control
@@ -52,7 +51,9 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var alwaysShowBumpBannerWithLoading: AlwaysShowBumpBannerWithLoading = .control
     var showSellFasterInProfileCells: ShowSellFasterInProfileCells = .control
     var bumpInEditCopys: BumpInEditCopys = .control
-    
+    var multiAdRequestMoreInfo: MultiAdRequestMoreInfo = .control
+    var cachedFeed: CachedFeed = .control
+
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false
     }
@@ -63,6 +64,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var copyForSellFasterNowInEnglish: CopyForSellFasterNowInEnglish = .control
     var shouldShowIAmInterestedInFeed: IAmInterestedFeed = .control
     var googleAdxForTR: GoogleAdxForTR = .control
+    var copyForSellFasterNowInTurkish: CopyForSellFasterNowInTurkish = .control
 
     // MARK: Chat
     var showInactiveConversations: Bool = false
@@ -115,5 +117,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions = .control
     var engagementBadging: EngagementBadging = .control
     var searchAlertsDisableOldestIfMaximumReached: SearchAlertsDisableOldestIfMaximumReached = .control
+    var notificationCenterRedesign: NotificationCenterRedesign = .control
 }
 

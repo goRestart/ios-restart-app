@@ -92,11 +92,9 @@ class ChatViewMessageAdapter {
         case .multiAnswer(let question, let answers):
             type = ChatViewMessageType.multiAnswer(question: question, answers: answers)
         case .cta(let ctaData, let ctas):
-            if featureFlags.enableCTAMessageType {
-                type = ChatViewMessageType.cta(ctaData: ctaData, ctas: ctas)
-            } else {
-                type = ChatViewMessageType.unsupported(text: R.Strings.chatMessageTypeNotSupported)
-            }
+            type = ChatViewMessageType.cta(ctaData: ctaData, ctas: ctas)
+        case .carousel:
+            type = ChatViewMessageType.unsupported(text: R.Strings.chatMessageTypeNotSupported)
         }
         return ChatViewMessage(objectId: message.objectId, talkerId: message.talkerId, sentAt: message.sentAt,
                                receivedAt: message.receivedAt, readAt: message.readAt, type: type,
@@ -137,6 +135,8 @@ class ChatViewMessageAdapter {
             }
         case .unsupported(let defaultText):
             type = ChatViewMessageType.unsupported(text: defaultText ?? R.Strings.chatMessageTypeNotSupported)
+        case .carousel:
+            type = ChatViewMessageType.unsupported(text: R.Strings.chatMessageTypeNotSupported)
         }
         return ChatViewMessage(objectId: message.objectId,
                                talkerId: message.talkerId,

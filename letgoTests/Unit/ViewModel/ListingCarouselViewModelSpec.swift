@@ -243,7 +243,8 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                         buildSut(initialProduct: product)
                         sut.active = true
                         sut.moreInfoState.value = .shown
-                        sut.didReceiveAd(bannerTopPosition: 0, bannerBottomPosition: 0, screenHeight: UIScreen.main.bounds.height)
+                        sut.didReceiveAd(bannerTopPosition: 0, bannerBottomPosition: 0, screenHeight: UIScreen.main.bounds.height,
+                                         bannerSize: CGSize.zero)
                     }
                     it("tracks more info visit") {
                         expect(tracker.trackedEvents.last?.actualName) == "product-detail-visit-more-info"
@@ -285,7 +286,8 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                             buildSut(initialProduct: product)
                             sut.active = true
                             sut.moreInfoState.value = .shown
-                            sut.didReceiveAd(bannerTopPosition: 0, bannerBottomPosition: 0, screenHeight: UIScreen.main.bounds.height)
+                            sut.didReceiveAd(bannerTopPosition: 0, bannerBottomPosition: 0, screenHeight: UIScreen.main.bounds.height,
+                                             bannerSize: CGSize.zero)
                         }
                         it("tracks more info visit") {
                             expect(tracker.trackedEvents.last?.actualName) == "product-detail-visit-more-info"

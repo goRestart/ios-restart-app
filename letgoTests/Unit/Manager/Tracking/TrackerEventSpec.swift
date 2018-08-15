@@ -808,12 +808,16 @@ class TrackerEventSpec: QuickSpec {
             
             describe("listingList") {
                 let categories: [ListingCategory] = [.homeAndGarden, .motorsAndAccessories]
-                let taxonomy: TaxonomyChild = MockTaxonomyChild.makeMock()
                 let searchQuery = "iPhone"
                 let count = Int.random()
 
                 beforeEach {
-                    sut = TrackerEvent.listingList(nil, categories: categories, taxonomy: taxonomy, searchQuery: searchQuery, resultsCount: count, feedSource: .home, success: .trueParameter)
+                    sut = TrackerEvent.listingList(nil,
+                                                   categories: categories,
+                                                   searchQuery: searchQuery,
+                                                   resultsCount: count,
+                                                   feedSource: .home,
+                                                   success: .trueParameter)
                 }
                 
                 it("has its event name") {
@@ -833,9 +837,6 @@ class TrackerEventSpec: QuickSpec {
                 it("contains list-success parameter") {
                     let listSuccess = sut.params!.stringKeyParams["list-success"] as? String
                     expect(listSuccess).to(equal("true"))
-                }
-                it("contains keyword-name parameter") {
-                    expect(sut.params!.stringKeyParams["keyword-name"] as? String).to(equal(taxonomy.name))
                 }
                 it("contains number-of-items parameter") {
                     if count >= 50 {
@@ -5202,22 +5203,6 @@ class TrackerEventSpec: QuickSpec {
                 it("contains bubble name parameter") {
                     let param = sut.params!.stringKeyParams["bubble-name"] as? String
                     expect(param) == "cars"
-                }
-            }
-            describe("onboarding interests complete") {
-                beforeEach {
-                    sut = TrackerEvent.onboardingInterestsComplete(superKeywords: [2, 3])
-                }
-                it("has its event name") {
-                    expect(sut.name.rawValue).to(equal("onboarding-interests-complete"))
-                }
-                it("contains superkeyword-total parameter") {
-                    let param = sut.params!.stringKeyParams["superkeyword-total"] as? Int
-                    expect(param) == 2
-                }
-                it("contains superkeyword-ids parameter") {
-                    let param = sut.params!.stringKeyParams["superkeyword-ids"] as? [Int]
-                    expect(param) == [2, 3]
                 }
             }
             describe("categories start") {

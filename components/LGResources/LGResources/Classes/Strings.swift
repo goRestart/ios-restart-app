@@ -58,6 +58,12 @@ extension R {
     public static let bumpUpBannerPayTextImprovementEnglishC = Strings.tr("Localizable", "bump_up_banner_pay_text_improvement_english_c")
     /// Attract 2x more buyers
     public static let bumpUpBannerPayTextImprovementEnglishD = Strings.tr("Localizable", "bump_up_banner_pay_text_improvement_english_d")
+    /// Attract more buyers
+    public static let bumpUpBannerPayTextImprovementTurkishB = Strings.tr("Localizable", "bump_up_banner_pay_text_improvement_turkish_b")
+    /// Attract more buyers
+    public static let bumpUpBannerPayTextImprovementTurkishC = Strings.tr("Localizable", "bump_up_banner_pay_text_improvement_turkish_c")
+    /// Attract more buyers
+    public static let bumpUpBannerPayTextImprovementTurkishD = Strings.tr("Localizable", "bump_up_banner_pay_text_improvement_turkish_d")
     /// to feature again
     public static let bumpUpBannerWaitText = Strings.tr("Localizable", "bump_up_banner_wait_text")
     /// Your listing was boosted! It will be featured for the next 24 hours.
@@ -106,6 +112,8 @@ extension R {
     public static let bumpUpProductCellChatNowButtonEnglishC = Strings.tr("Localizable", "bump_up_product_cell_chat_now_button_english_c")
     /// Start chat
     public static let bumpUpProductCellChatNowButtonEnglishD = Strings.tr("Localizable", "bump_up_product_cell_chat_now_button_english_d")
+    /// Feature it
+    public static let bumpUpProductCellFeatureItLabel = Strings.tr("Localizable", "bump_up_product_cell_feature_it_label")
     /// Featured
     public static let bumpUpProductCellFeaturedStripe = Strings.tr("Localizable", "bump_up_product_cell_featured_stripe")
     /// FEATURED
@@ -144,6 +152,10 @@ extension R {
     public static let bumpUpViewPaySubtitle = Strings.tr("Localizable", "bump_up_view_pay_subtitle")
     /// Attract 2x more buyers
     public static let bumpUpViewPayTitle = Strings.tr("Localizable", "bump_up_view_pay_title")
+    /// An error occurred while loading new listings
+    public static let cachedFeedError = Strings.tr("Localizable", "cached_feed_error")
+    /// New items
+    public static let cachedFeedNewListings = Strings.tr("Localizable", "cached_feed_new_listings")
     /// Baby and Child
     public static let categoriesBabyAndChild = Strings.tr("Localizable", "categories_baby_and_child")
     /// Cars
@@ -794,7 +806,7 @@ extension R {
     public static let discardedProductsReasonReferenceToCompetitors = Strings.tr("Localizable", "discarded_products_reason_reference_to_competitors")
     /// Only contains stock photos
     public static let discardedProductsReasonStockPhotoOnly = Strings.tr("Localizable", "discarded_products_reason_stock_photo_only")
-    /// Frequency
+    /// Not set
     public static let editPaymentFrequencyPlaceholder = Strings.tr("Localizable", "edit_paymentFrequency_placeholder")
     /// Frequency
     public static let editPaymentFrequencyTitle = Strings.tr("Localizable", "edit_paymentFrequency_title")
@@ -1074,6 +1086,10 @@ extension R {
     public static let idVerificationThirdStepTitle = Strings.tr("Localizable", "id_verification_third_step_title")
     /// Do you want to make this your profile picture?
     public static let idVerificationUpdateAvatarMessage = Strings.tr("Localizable", "id_verification_update_avatar_message")
+    /// Offering
+    public static let jobsServicesOfferingText = Strings.tr("Localizable", "jobs_services_offering_text")
+    /// Wanted
+    public static let jobsServicesWantedText = Strings.tr("Localizable", "jobs_services_wanted_text")
     /// km
     public static let kilometerUnitSuffix = Strings.tr("Localizable", "kilometer_unit_suffix")
     /// Chat Now
@@ -1254,6 +1270,10 @@ extension R {
     public static let mlOnboardingNewText = Strings.tr("Localizable", "ml_onboarding_new_text")
     /// OK
     public static let mlOnboardingOkText = Strings.tr("Localizable", "ml_onboarding_ok_text")
+    /// 1 month ago
+    public static let notificationSectionOneMonthAgo = Strings.tr("Localizable", "notification_section_one_month_ago")
+    /// 1 week ago
+    public static let notificationSectionOneWeekAgo = Strings.tr("Localizable", "notification_section_one_week_ago")
     /// %id
     public static func notificationsCellDateDaysAgo(_ p1: Int) -> String {
       return Strings.tr("Localizable", "notifications_cell_date_days_ago", p1)
@@ -1318,6 +1338,8 @@ extension R {
     public static func notificationsSectionMonthsAgo(_ p1: Int) -> String {
       return Strings.tr("Localizable", "notifications_section_months_ago", p1)
     }
+    /// 1 day ago
+    public static let notificationsSectionOneDayAgo = Strings.tr("Localizable", "notifications_section_one_day_ago")
     /// Today
     public static let notificationsSectionToday = Strings.tr("Localizable", "notifications_section_today")
     /// %i weeks ago
@@ -1494,6 +1516,18 @@ extension R {
     public static let passwordlessUsernameInputTextfieldPlaceholder = Strings.tr("Localizable", "passwordless_username_input_textfield_placeholder")
     /// Choose your username
     public static let passwordlessUsernameInputTitle = Strings.tr("Localizable", "passwordless_username_input_title")
+    /// 2 weeks
+    public static let paymentFrequencyPerBiweek = Strings.tr("Localizable", "payment_frequency_per_biweek")
+    /// day
+    public static let paymentFrequencyPerDay = Strings.tr("Localizable", "payment_frequency_per_day")
+    /// hour
+    public static let paymentFrequencyPerHour = Strings.tr("Localizable", "payment_frequency_per_hour")
+    /// month
+    public static let paymentFrequencyPerMonth = Strings.tr("Localizable", "payment_frequency_per_month")
+    /// week
+    public static let paymentFrequencyPerWeek = Strings.tr("Localizable", "payment_frequency_per_week")
+    /// year
+    public static let paymentFrequencyPerYear = Strings.tr("Localizable", "payment_frequency_per_year")
     /// Didn't get the code?
     public static let phoneVerificationCodeInputViewContentSubaction = Strings.tr("Localizable", "phone_verification_code_input_view_content_subaction")
     /// You can request another code if you don't receive it within %@
@@ -1578,6 +1612,20 @@ extension R {
     public static let postDescriptionNamePlaceholder = Strings.tr("Localizable", "post_description_name_placeholder")
     /// Save this listing!
     public static let postDescriptionSaveButtonText = Strings.tr("Localizable", "post_description_save_button_text")
+    /// Looking to hire someone for a
+    public static let postDetailsJobsServicesStepOptionJobsPrefix = Strings.tr("Localizable", "post_details_jobs_services_step_option_jobs_prefix")
+    /// Advertising a
+    public static let postDetailsJobsServicesStepOptionServicesPrefix = Strings.tr("Localizable", "post_details_jobs_services_step_option_services_prefix")
+    /// I'm...
+    public static let postDetailsJobsServicesStepTitle = Strings.tr("Localizable", "post_details_jobs_services_step_title")
+    /// Choose one
+    public static let postDetailsJobsSubtitle = Strings.tr("Localizable", "post_details_jobs_subtitle")
+    /// What kind of job are you offering?
+    public static let postDetailsJobsTitle = Strings.tr("Localizable", "post_details_jobs_title")
+    /// job
+    public static let postDetailsListingTypeJobDisplayName = Strings.tr("Localizable", "post_details_listingType_job_display_name")
+    /// service
+    public static let postDetailsListingTypeServiceDisplayName = Strings.tr("Localizable", "post_details_listingType_service_display_name")
     /// Add a new service
     public static let postDetailsServicesAddNew = Strings.tr("Localizable", "post_details_services_add_new")
     /// Post your company’s logo or a photo that shows the service you offer
@@ -2010,6 +2058,8 @@ extension R {
     public static let productPostSelectCategoryCars = Strings.tr("Localizable", "product_post_select_category_cars")
     /// Housing for Rent / Sale
     public static let productPostSelectCategoryHousing = Strings.tr("Localizable", "product_post_select_category_housing")
+    /// Jobs & Services
+    public static let productPostSelectCategoryJobsServices = Strings.tr("Localizable", "product_post_select_category_jobs_services")
     /// Other Vehicles and Parts
     public static let productPostSelectCategoryMotorsAndAccessories = Strings.tr("Localizable", "product_post_select_category_motors_and_accessories")
     /// Other items

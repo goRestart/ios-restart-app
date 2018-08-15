@@ -14,7 +14,9 @@ class ModularNotificationCellDrawer: BaseTableCellDrawer<ModularNotificationCell
     
     func draw(_ cell: UITableViewCell, data: NotificationData, delegate: ModularNotificationCellDelegate?) {
         guard let modularNotificationCell = cell as? ModularNotificationCell else { return }
-        modularNotificationCell.addModularData(with: data.modules, isRead: data.isRead, notificationCampaign: data.campaignType)
+        modularNotificationCell.addModularData(with: data.modules,
+                                               isRead: data.isRead,
+                                               notificationCampaign: data.campaignType)
         modularNotificationCell.delegate = delegate
     }
 }

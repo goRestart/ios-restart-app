@@ -288,6 +288,9 @@ extension AppCoordinator: AppNavigator {
                                      bumpUpProductData: BumpUpProductData,
                                      typePage: EventParameterTypePage?) {
 
+        let promoteBumpEvent = TrackerEvent.bumpUpPromo()
+        tracker.trackEvent(promoteBumpEvent)
+
         let promoteBumpCoordinator = PromoteBumpCoordinator(listingId: listingId,
                                                             bumpUpProductData: bumpUpProductData,
                                                             typePage: typePage)
@@ -447,7 +450,7 @@ extension AppCoordinator: AppNavigator {
 
     func openResetPassword(_ token: String) {
         let vc = LGChangePasswordBuilder.modal.buildChangePassword(withToken: token)
-        tabBarCtl.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
+        tabBarCtl.present(vc, animated: true, completion: nil)
     }
 
     func openSurveyIfNeeded() {
@@ -1178,10 +1181,6 @@ extension AppCoordinator: BumpInfoRequesterDelegate {
             }
         case .promoted:
             tabBarCtl.clearAllPresented(nil)
-
-            let promoteBumpEvent = TrackerEvent.bumpUpPromo()
-            tracker.trackEvent(promoteBumpEvent)
-
             openPromoteBumpForListingId(listingId: requestListingId,
                                         bumpUpProductData: bumpUpProductData,
                                         typePage: typePage)

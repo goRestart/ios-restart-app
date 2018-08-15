@@ -163,7 +163,7 @@ extension TabCoordinator: TabNavigator {
     }
 
     func openUser(user: User, source: UserSource) {
-        userCoordinator.openUser(user: user, source: source)
+        userCoordinator.openUser(user: user, source: source, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
     }
 
     var hidesBottomBarWhenPushed: Bool {
@@ -507,6 +507,14 @@ extension TabCoordinator: ListingDetailNavigator {
         let vm = ReportUsersViewModel(origin: source, userReportedId: userReportedId)
         let vc = ReportUsersViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
+    }
+
+    func showFailBubble(withMessage message: String, duration: TimeInterval) {
+        let data = BubbleNotificationData(text: message, action: nil)
+        appNavigator?.showBottomBubbleNotification(data: data,
+                                                   duration: duration,
+                                                   alignment: .bottom,
+                                                   style: .dark)
     }
 
     func showUndoBubble(withMessage message: String,

@@ -8,7 +8,7 @@
 
 public protocol Product: BaseListingModel {}
 
-struct LGProduct: Product, Decodable {
+struct LGProduct: Product, Codable {
 
     let objectId: String?
     let updatedAt: Date?
@@ -53,6 +53,29 @@ struct LGProduct: Product, Decodable {
                   mediaThumbnail: product.mediaThumbnail,
                   user: product.user,
                   featured: product.featured)
+    }
+    
+    init(baseListing: BaseListingModel) {
+        self.init(objectId: baseListing.objectId,
+                  updatedAt: baseListing.updatedAt,
+                  createdAt: baseListing.createdAt,
+                  name: baseListing.name,
+                  nameAuto: baseListing.nameAuto,
+                  descr: baseListing.descr,
+                  price: baseListing.price,
+                  currency: baseListing.currency,
+                  location: baseListing.location,
+                  postalAddress: baseListing.postalAddress,
+                  languageCode: baseListing.languageCode,
+                  category: baseListing.category,
+                  status: baseListing.status,
+                  thumbnail: baseListing.thumbnail,
+                  thumbnailSize: baseListing.thumbnailSize,
+                  images: baseListing.images,
+                  media: baseListing.media,
+                  mediaThumbnail: baseListing.mediaThumbnail,
+                  user: baseListing.user,
+                  featured: baseListing.featured)
     }
 
     init(objectId: String?,
@@ -300,5 +323,30 @@ struct LGProduct: Product, Decodable {
         mediaThumbnail = baseListing.mediaThumbnail
         user = baseListing.user
         featured = baseListing.featured
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        let baseListing = LGBaseListing(objectId: objectId,
+                                        updatedAt: updatedAt,
+                                        createdAt: createdAt,
+                                        name: name,
+                                        nameAuto: nameAuto,
+                                        descr: descr,
+                                        price: price,
+                                        currency: currency,
+                                        location: location,
+                                        postalAddress: postalAddress,
+                                        languageCode: languageCode,
+                                        category: category,
+                                        status: status,
+                                        thumbnail: thumbnail,
+                                        thumbnailSize: thumbnailSize,
+                                        images: images,
+                                        media: media,
+                                        mediaThumbnail: mediaThumbnail,
+                                        user: user,
+                                        featured: featured,
+                                        carAttributes: nil)
+        try baseListing.encode(to: encoder)
     }
 }

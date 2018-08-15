@@ -87,19 +87,20 @@ struct ListingData {
     var mediaThumbType: MediaType? {
         return listing?.mediaThumbnail?.type
     }
-
-    var title: String? {
-        return listing?.title
-    }
     
     var paymentFrequency: String? {
-        return listing?.service?.servicesAttributes.paymentFrequency?.localizedDisplayName
+        return listing?.service?.servicesAttributes.paymentFrequency?.perValueDisplayName
     }
     
     var distanceToListing: Double? {
         guard let listingPosition = listing?.location,
               let userLocation = currentLocation?.location else { return nil }
         return userLocation.distanceTo(listingPosition).roundNearest(0.1)
+    }
+    
+    func titleViewModel(featureFlags: FeatureFlaggeable) -> ListingTitleViewModel? {
+        return ListingTitleViewModel(listing: listing,
+                                     featureFlags: featureFlags)
     }
 }
 

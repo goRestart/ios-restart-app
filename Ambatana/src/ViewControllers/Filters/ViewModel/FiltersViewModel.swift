@@ -14,11 +14,11 @@ protocol FiltersViewModelDataDelegate: class {
     func viewModelDidUpdateFilters(_ viewModel: FiltersViewModel, filters: ListingFilters)
 }
 
-class FiltersViewModel: BaseViewModel {
+final class FiltersViewModel: BaseViewModel {
     
     weak var delegate: FiltersViewModelDelegate?
     weak var dataDelegate: FiltersViewModelDataDelegate?
-    weak var navigator: FiltersNavigator?
+    var navigator: FiltersRouter?
 
     var sections: [FilterSection]
 
@@ -60,7 +60,7 @@ class FiltersViewModel: BaseViewModel {
     }
 
     var isPriceCellEnabled: Bool {
-        return featureFlags.taxonomiesAndTaxonomyChildrenInFeed.isActive || !productFilter.priceRange.free
+        return !productFilter.priceRange.free
     }
 
     var numOfWithinTimes : Int {
@@ -116,28 +116,6 @@ class FiltersViewModel: BaseViewModel {
     
     var isFreeActive: Bool {
         return productFilter.priceRange.free
-    }
-    
-    var isTaxonomiesAndTaxonomyChildrenInFeedEnabled: Bool {
-        return featureFlags.taxonomiesAndTaxonomyChildrenInFeed.isActive
-    }
-    
-    var currentTaxonomySelected: Taxonomy? {
-        return productFilter.selectedTaxonomy
-    }
-    
-    var currentTaxonomyChildSelected: TaxonomyChild? {
-        return productFilter.selectedTaxonomyChildren.last
-    }
-    
-    var currentCategoryNameSelected: String? {
-        if let taxonomyChild = productFilter.selectedTaxonomyChildren.last {
-            return taxonomyChild.name
-        } else if let taxonomy = productFilter.selectedTaxonomy {
-            return taxonomy.name
-        } else {
-            return nil
-        }
     }
     
     var filterCarSellerSelectedSections: [FilterCarSection] = []
@@ -197,7 +175,7 @@ class FiltersViewModel: BaseViewModel {
     // MARK: - Actions
 
     fileprivate func generateSections() -> [FilterSection] {
-        let updatedSections = FilterSection.allValues(priceAsLast: !featureFlags.taxonomiesAndTaxonomyChildrenInFeed.isActive)
+        let updatedSections = FilterSection.allValues(priceAsLast: true)
 
         return updatedSections.filter { $0 != .price || isPriceCellEnabled }
             .filter { $0 != .carsInfo || isCarsInfoCellEnabled }
@@ -211,12 +189,6 @@ class FiltersViewModel: BaseViewModel {
                                                distanceRadius: productFilter.distanceRadius)
         locationVM.locationDelegate = self
         navigator?.openEditLocation(withViewModel: locationVM)
-    }
-    
-    func categoriesButtonPressed() {
-        let taxonomiesVM = TaxonomiesViewModel(taxonomies: categoryRepository.indexTaxonomies(), taxonomySelected: currentTaxonomySelected, taxonomyChildSelected: currentTaxonomyChildSelected, source: .filter)
-        taxonomiesVM.taxonomiesDelegate = self
-        navigator?.openTaxonomyList(withViewModel: taxonomiesVM)
     }
     
     func resetFilters() {
@@ -272,7 +244,7 @@ class FiltersViewModel: BaseViewModel {
     private func buildFilterCategoryItemsWithCategories(_ categories: [ListingCategory]) -> [FilterCategoryItem] {
 
         var filterCatItems: [FilterCategoryItem] = [.category(category: .cars)]
-        if featureFlags.freePostingModeAllowed && !featureFlags.taxonomiesAndTaxonomyChildrenInFeed.isActive {
+        if featureFlags.freePostingModeAllowed {
             filterCatItems.append(.free)
         }
         let builtCategories = categories.map { FilterCategoryItem(category: $0) }
@@ -478,35 +450,6 @@ extension FiltersViewModel: EditLocationDelegate {
 }
 
 
-// MARK: TaxonomiesDelegate
-
-extension FiltersViewModel: TaxonomiesDelegate {
-    
-    func didSelect(taxonomy: Taxonomy) {
-        productFilter.selectedTaxonomy = taxonomy
-        productFilter.selectedTaxonomyChildren = []
-        sections = generateSections()
-        delegate?.vmDidUpdate()
-    }
-    
-    func didSelect(taxonomyChild: TaxonomyChild) {
-        productFilter.selectedTaxonomyChildren = [taxonomyChild]
-        sections = generateSections()
-        delegate?.vmDidUpdate()
-    }
-}
-
-// MARK: FilterFreeCellDelegate
-
-extension FiltersViewModel: FilterFreeCellDelegate {
-    
-    func freeSwitchChanged(isOn: Bool) {
-        productFilter.priceRange = isOn ? .freePrice : .priceRange(min: nil, max: nil)
-        delegate?.vmDidUpdate()
-    }
-}
-
-
 // MARK: Real Estate
 
 extension FiltersViewModel {
@@ -646,8 +589,7 @@ extension FiltersViewModel: CarAttributeSelectionDelegate {
     }
     
     var isCarsInfoCellEnabled: Bool {
-        let isTaxonomyCars = productFilter.selectedTaxonomyChildren.contains(where: { $0.isCarsTaxonomy } )
-        return productFilter.selectedCategories.contains(.cars) || isTaxonomyCars
+        return productFilter.selectedCategories.contains(.cars)
     }
     
     var currentCarMakeName: String? {

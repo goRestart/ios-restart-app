@@ -6,7 +6,8 @@
 //  Copyright © 2017 Ambatana Inc. All rights reserved.
 //
 
-struct LGBaseListing: BaseListingModel, Decodable {
+struct LGBaseListing: BaseListingModel, Codable {
+    private static let dateFormatter = LGDateFormatter()
 
     let objectId: String?
     let updatedAt: Date?
@@ -87,31 +88,31 @@ struct LGBaseListing: BaseListingModel, Decodable {
      "currency": "USD",
      "status": 1,
      "geo": {
-     "lat": 40.733637875435,
-     "lng": -73.982275536568,
-     "country_code": "US",
-     "city": "New York",
-     "zip_code": "10003",
-     "distance": 11.90776294472
+      "lat": 40.733637875435,
+      "lng": -73.982275536568,
+      "country_code": "US",
+      "city": "New York",
+      "zip_code": "10003",
+      "distance": 11.90776294472
      },
      "owner": {
-     "id": "56da24a0-88d4-4956-a568-74739787051f",
-     "name": "GeralD1507",
-     "avatar_url": null,
-     "zip_code": "10003",
-     "country_code": "US",
-     "is_richy": false,
-     "city": "New York",
-     "banned": null
+      "id": "56da24a0-88d4-4956-a568-74739787051f",
+      "name": "GeralD1507",
+      "avatar_url": null,
+      "zip_code": "10003",
+      "country_code": "US",
+      "is_richy": false,
+      "city": "New York",
+      "banned": null
      },
      "images": [{
-     "url": "http:\/\/cdn.letgo.com\/images\/59\/1d\/f8\/22\/591df822060703afad9834d095ed4c2f.jpg",
-     "id": "8ecdfe97-a7ed-4068-b4b8-c68a5ae63540"
+      "url": "http:\/\/cdn.letgo.com\/images\/59\/1d\/f8\/22\/591df822060703afad9834d095ed4c2f.jpg",
+      "id": "8ecdfe97-a7ed-4068-b4b8-c68a5ae63540"
      }],
      "thumb": {
-     "url": "http:\/\/cdn.letgo.com\/images\/59\/1d\/f8\/22\/591df822060703afad9834d095ed4c2f_thumb.jpg",
-     "width": 576,
-     "height": 1024
+      "url": "http:\/\/cdn.letgo.com\/images\/59\/1d\/f8\/22\/591df822060703afad9834d095ed4c2f_thumb.jpg",
+      "width": 576,
+      "height": 1024
      },
      "created_at": "2016-04-11T12:49:52+00:00",
      "updated_at": "2016-04-11T13:13:23+00:00",
@@ -125,7 +126,7 @@ struct LGBaseListing: BaseListingModel, Decodable {
         let keyedContainerProductsApi = try decoder.container(keyedBy: CodingKeysProductsApi.self)
         let keyedContainerVerticalsApi = try decoder.container(keyedBy: CodingKeysVerticalsApi.self)
         let keyedContainerBase = try decoder.container(keyedBy: CodingKeys.self)
-        let dateFormatter = LGDateFormatter()
+        let dateFormatter = LGBaseListing.dateFormatter
 
         objectId = try keyedContainerBase.decodeIfPresent(String.self, forKey: .objectId)
         
@@ -249,6 +250,57 @@ struct LGBaseListing: BaseListingModel, Decodable {
         }
     }
 
+    public func encode(to encoder: Encoder) throws {
+        var productsContainer = encoder.container(keyedBy: CodingKeysProductsApi.self)
+
+        var baseContainer = encoder.container(keyedBy: CodingKeys.self)
+
+        try baseContainer.encodeIfPresent(objectId, forKey: .objectId)
+        try baseContainer.encodeIfPresent(name, forKey: .name)
+        try baseContainer.encodeIfPresent(descr, forKey: .descr)
+        try baseContainer.encodeIfPresent(price.value, forKey: .price)
+        try baseContainer.encode(currency.code, forKey: .currency)
+        try baseContainer.encode(status.apiCode, forKey: .status)
+        try baseContainer.encodeIfPresent(featured, forKey: .featured)
+
+        try baseContainer.encodeIfPresent(user as? LGUserListing, forKey: .user)
+
+        let latitude = location.latitude
+        let longitude = location.longitude
+
+        let geo = ListingGEO(latitude: latitude, longitude: longitude, postalAddress: postalAddress)
+        try baseContainer.encode(geo, forKey: .location)
+
+        if let url = thumbnail?.fileURL?.absoluteString,
+            let width = thumbnailSize?.width,
+            let height = thumbnailSize?.height {
+            try baseContainer.encodeIfPresent(ListingThumbnail(url: url, width: width, height: height),
+                                              forKey: .thumbnail)
+        }
+
+        var discardedReason: String?
+        if case let .discarded(reason) = status {
+            discardedReason = reason?.rawValue
+        }
+
+        let updated: String? = LGBaseListing.dateFormatter.stringFrom(updatedAt)
+        let created: String? = LGBaseListing.dateFormatter.stringFrom(createdAt)
+
+        try productsContainer.encodeIfPresent(updated, forKey: .updatedAt)
+        try productsContainer.encodeIfPresent(created, forKey: .createdAt)
+        try productsContainer.encodeIfPresent(nameAuto, forKey: .nameAuto)
+        try productsContainer.encodeIfPresent(price.priceFlag.rawValue, forKey: .priceFlag)
+        try productsContainer.encodeIfPresent(languageCode, forKey: .languageCode)
+        try productsContainer.encodeIfPresent(category.rawValue, forKey: .categoryId)
+        try productsContainer.encodeIfPresent(discardedReason, forKey: .discardedReason)
+
+        let listingImages = LGFile.mapToImages(images as? [LGFile] ?? [])
+        try baseContainer.encodeIfPresent(listingImages, forKey: .images)
+
+        try baseContainer.encodeIfPresent(media as? [LGMedia], forKey: .media)
+        try baseContainer.encodeIfPresent(mediaThumbnail as? LGMediaThumbnail, forKey: .mediaThumbnail)
+    }
+
     enum CodingKeysProductsApi: String, CodingKey {
         case updatedAt = "updated_at"
         case createdAt = "created_at"
@@ -305,5 +357,39 @@ struct LGBaseListing: BaseListingModel, Decodable {
         case url
         case width
         case height
+    }
+
+    // This is to nest encode things
+    struct ListingGEO: Encodable {
+        let latitude: Double
+        let longitude: Double
+        let postalAddress: PostalAddress
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: LocationCodingKeysVerticalsApi.self)
+            try container.encode(latitude, forKey: .latitude)
+            try container.encode(longitude, forKey: .longitude)
+            try postalAddress.encode(to: encoder)
+        }
+    }
+
+    struct ListingThumbnail: Encodable {
+        let url: String
+        let width: Float
+        let height: Float
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: ThumbnailCodingKeys.self)
+            try container.encode(url, forKey: .url)
+            try container.encode(width, forKey: .width)
+            try container.encode(height, forKey: .height)
+        }
+    }
+}
+
+private extension DateFormatter {
+    func stringFrom(_ date: Date?) -> String? {
+        guard let date = date else { return nil }
+        return string(from: date)
     }
 }

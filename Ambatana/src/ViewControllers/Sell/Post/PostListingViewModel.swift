@@ -576,13 +576,7 @@ fileprivate extension PostListingViewModel {
     }
     
     func openPostingDetails() {
-        let firstStep: PostingDetailStep
-        if let category = state.value.category,
-            category.isService {
-            firstStep = .servicesSubtypes
-        } else {
-            firstStep = .summary
-        }
+        let firstStep = createFirstStep(forCategory: state.value.category)
         
         navigator?.startDetails(firstStep: firstStep,
                                 postListingState: state.value,
@@ -590,6 +584,15 @@ fileprivate extension PostListingViewModel {
                                 uploadedVideoLength: uploadedVideoLength,
                                 postingSource: postingSource,
                                 postListingBasicInfo: postDetailViewModel)
+    }
+    
+    private func createFirstStep(forCategory category: PostCategory?) -> PostingDetailStep {
+        guard let category = category, category.isService else { return .summary }
+        
+        if featureFlags.jobsAndServicesEnabled.isActive {
+            return .servicesListingType
+        }
+        return .servicesSubtypes
     }
     
     func makeListingParams() -> ListingCreationParams? {

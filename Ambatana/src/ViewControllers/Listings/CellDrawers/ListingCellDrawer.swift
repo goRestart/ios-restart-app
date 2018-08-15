@@ -62,7 +62,9 @@ final class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDr
         }
     }
     
-    private func configWhiteAreaUnderThumbnailImage(_ model: ListingData, style: CellStyle, inCell cell: ListingCell,
+    private func configWhiteAreaUnderThumbnailImage(_ model: ListingData,
+                                                    style: CellStyle,
+                                                    inCell cell: ListingCell,
                                                     isPrivateList: Bool) {
         guard style == .mainList || style == .serviceList else { return }
         let listingCanBeBumped = model.listing?.status == .approved || model.listing?.status == .pending
@@ -77,16 +79,16 @@ final class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDr
         if model.isFeatured {
             // According to the bussines login all the featured items (services, cards, real estates, etc),
             // must show the title, the description and the red button, that the reason of the hideProductDetail: false.
-            cell.setupFeaturedListingInfoWith(price: model.price,
-                                              paymentFrequency: canShowPaymentFrequency ? model.paymentFrequency : nil,
-                                              title: model.title,
-                                              isMine: model.isMine,
-                                              hideProductDetail: false,
-                                              shouldShowBumpUpCTA: showBumpUpCTA)
+            cell.setupFeaturedListingInfo(withPrice: model.price,
+                                          paymentFrequency: canShowPaymentFrequency ? model.paymentFrequency : nil,
+                                          titleViewModel: model.titleViewModel(featureFlags: featureFlags),
+                                          isMine: model.isMine,
+                                          hideProductDetail: false,
+                                          shouldShowBumpUpCTA: showBumpUpCTA)
         } else {
             cell.setupNonFeaturedProductInfoUnderImage(price: model.price,
                                                        paymentFrequency: canShowPaymentFrequency ? model.paymentFrequency : nil,
-                                                       title: model.title,
+                                                       titleViewModel: model.titleViewModel(featureFlags: featureFlags),
                                                        shouldShow: (style == .serviceList),
                                                        shouldShowBumpUpCTA: showBumpUpCTA);
         }

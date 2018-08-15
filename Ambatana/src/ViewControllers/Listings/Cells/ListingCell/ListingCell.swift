@@ -69,7 +69,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     private var featureView: ProductPriceAndTitleView?
     
     private let detailViewInImage: ProductPriceAndTitleView = {
-        let view = ProductPriceAndTitleView(textStyle: .whiteText)
+        let view = ProductPriceAndTitleView()
         view.isHidden = true
         return view
     }()
@@ -84,12 +84,16 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     private let bumpUpLabel: UILabel = {
         let label = UILabel()
         label.font = .systemBoldFont(size: 15)
-        label.text = R.Strings.bumpUpBannerPayTextImprovementEnglishC
+        label.text = R.Strings.bumpUpProductCellFeatureItLabel
         label.textAlignment = .left
         label.numberOfLines = 0
         label.textColor = .blackText
+        label.setContentHuggingPriority(.defaultLow, for: .horizontal)
         return label
     }()
+
+    private let bumpUpContainer = UIView()
+
     
     // > Distance Labels
     
@@ -241,17 +245,17 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     
     // Product Detail Under Image
 
-    func setupFeaturedListingInfoWith(price: String,
-                                      paymentFrequency: String?,
-                                      title: String?,
-                                      isMine: Bool,
-                                      hideProductDetail: Bool,
-                                      shouldShowBumpUpCTA: Bool) {
+    func setupFeaturedListingInfo(withPrice price: String,
+                                  paymentFrequency: String?,
+                                  titleViewModel: ListingTitleViewModel?,
+                                  isMine: Bool,
+                                  hideProductDetail: Bool,
+                                  shouldShowBumpUpCTA: Bool) {
         if shouldShowBumpUpCTA {
             setupBumpUpCTA()
         } else {
-            featureView = ProductPriceAndTitleView(textStyle: .darkText)
-            featureView?.configUI(title: title,
+            featureView = ProductPriceAndTitleView()
+            featureView?.configUI(titleViewModel: titleViewModel,
                                   price: price,
                                   paymentFrequency: paymentFrequency,
                                   style: hideProductDetail ? .whiteText : .darkText)
@@ -262,15 +266,15 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     
     func setupNonFeaturedProductInfoUnderImage(price: String,
                                                paymentFrequency: String?,
-                                               title: String?,
+                                               titleViewModel: ListingTitleViewModel?,
                                                shouldShow: Bool,
                                                shouldShowBumpUpCTA: Bool) {
         if shouldShowBumpUpCTA {
             setupBumpUpCTA()
         } else {
             if shouldShow {
-                featureView = ProductPriceAndTitleView(textStyle: .darkText)
-                featureView?.configUI(title: title,
+                featureView = ProductPriceAndTitleView()
+                featureView?.configUI(titleViewModel: titleViewModel,
                                       price: price,
                                       paymentFrequency: paymentFrequency,
                                       style: .darkText)
@@ -280,20 +284,29 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     }
 
     func setupBumpUpCTA() {
-        featuredListingInfoView.addSubviewsForAutoLayout([bumpUpIcon, bumpUpLabel])
-        bumpUpIcon.layout(with: featuredListingInfoView).left(by: ListingCellMetrics.BumpUpIcon.leftMargin)
+
+        bumpUpContainer.addSubviewsForAutoLayout([bumpUpIcon, bumpUpLabel])
+        bumpUpIcon.layout(with: bumpUpContainer).left(by: ListingCellMetrics.BumpUpIcon.leftMargin)
         bumpUpIcon.layout().height(ListingCellMetrics.BumpUpIcon.iconHeight).widthProportionalToHeight()
         bumpUpIcon.layout(with: bumpUpLabel).centerY().trailing(to: .leading, by: -ListingCellMetrics.BumpUpIcon.rightMargin)
-        bumpUpLabel.layout(with: featuredListingInfoView).right(by: -ListingCellMetrics.BumpUpLabel.rightMargin)
-            .centerY()
-            .top(relatedBy: NSLayoutRelation.greaterThanOrEqual)
-            .bottom(relatedBy: NSLayoutRelation.lessThanOrEqual)
+        bumpUpLabel.layout(with: bumpUpContainer).right(by: -ListingCellMetrics.BumpUpLabel.rightMargin)
+            .top()
+            .bottom()
+
+        featuredListingInfoView.addSubviewForAutoLayout(bumpUpContainer)
+        bumpUpContainer.layout(with: featuredListingInfoView)
+            .center()
+            .left(relatedBy: .greaterThanOrEqual)
+            .right(relatedBy: .lessThanOrEqual)
 
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(bumpUpCTATapped))
         featuredListingInfoView.addGestureRecognizer(tapRecognizer)
 
         layer.masksToBounds = false
-        applyDefaultShadow()
+        applyShadow(withOpacity: 1,
+                    radius: 4,
+                    color: UIColor.black.withAlphaComponent(0.1).cgColor,
+                    offset: CGSize(width: 0, height: 2))
     }
 
     @objc private func bumpUpCTATapped() {
@@ -302,15 +315,6 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     }
     
     // Product Detail In Image
-    func showCompleteProductInfoInImage(price: String,
-                                        paymentFrequency: String?,
-                                        title: String?,
-                                        distance: Double?) {
-        setupProductDetailInImage(price: price, paymentFrequency: paymentFrequency, title: title)
-        if let distance = distance {
-            addDistanceViewInImage(distance: distance, isOnTopLeft: true)
-        }
-    }
     
     func showDistanceOnlyInImage(distance: Double?) {
         if let distance = distance {
@@ -468,15 +472,6 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
             ])
     }
     
-    private func setupProductDetailInImage(price: String, paymentFrequency: String?, title: String?) {
-        detailViewInImage.configUI(title: title,
-                                   price: price,
-                                   paymentFrequency: paymentFrequency,
-                                   style: .whiteText)
-        detailViewInImage.isHidden = false
-        layoutProductDetailInImage(title: title)
-    }
-    
     private func addDistanceViewInImage(distance: Double, isOnTopLeft: Bool) {
         
         let distanceString = String(describing: distance) + DistanceType.systemDistanceType().rawValue
@@ -541,11 +536,6 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         } else {
             showDetailAndChatButton(isMine: isMine)
         }
-    }
-    
-    private func layoutProductDetailInImage(title: String?) {
-        let height = ListingCellMetrics.getTotalHeightForPriceAndTitleView(title, containerWidth: contentView.width)
-        detailViewInImageHeightConstraints?.constant = height
     }
     
     private func showChatButton(isMine: Bool) {

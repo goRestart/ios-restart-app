@@ -12,7 +12,10 @@ destination = "name=iPhone X"
 before_all do
 	ENV["LG_GITHUB_REPOSITORY"] = "letgoapp/letgo-ios"
 	# Forcing fastlane to launch simulator before all as a first step.
-	ENV["FASTLANE_EXPLICIT_OPEN_SIMULATOR"] = "2"
+	ENV["FASTLANE_EXPLICIT_OPEN_SIMULATOR"] = "2
+	# Related this kind of errors: [Transporter Error Output]: Could not start delivery: all transports failed diagnostics
+	# to https://github.com/fastlane/fastlane/issues/6990"
+	ENV['DELIVER_ITMSTRANSPORTER_ADDITIONAL_UPLOAD_PARAMETERS'] = '-t DAV'
 end
 
 desc "Will clone master, create a new `release-x.x.x` branch from, update the build info, push it and do a deploy of that to crashlytics"
@@ -482,7 +485,7 @@ lane :release_beta do |options|
 
 	message = "Crafting brand new version (#{new_version} - #{new_build})"
 	channels = [ENV["BENDER_SLACK_DEFAULT_CHANNEL"]]
-	#bender(message: message, channels: channels)
+	bender(message: message, channels: channels)
 
 	release_branch = 'release-' + new_version.to_s
 		
@@ -608,7 +611,7 @@ lane :build_beta do |options|
 		export_xcargs: "-allowProvisioningUpdates",
 		export_method: "ad-hoc"
 	)
-	ENV['LAST_BETA_BUILD'] = output 	
+	ENV['LAST_BETA_BUILD'] = output + '/LetGoGodMode.ipa'
 end
 
 desc "Does an appstore build"
