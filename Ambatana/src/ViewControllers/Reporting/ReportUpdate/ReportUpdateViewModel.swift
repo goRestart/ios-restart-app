@@ -6,7 +6,7 @@ import RxSwift
 final class ReportUpdateViewModel: BaseViewModel {
 
     let type: ReportUpdateType
-    var navigator: AppNavigator?
+    var navigator: ReportUpdateNavigator?
     var report: Variable<Report?> = Variable<Report?>(nil)
 
     private let reportingRepository: ReportingRepository
@@ -18,8 +18,8 @@ final class ReportUpdateViewModel: BaseViewModel {
     init(type: ReportUpdateType,
          reportId: String,
          reportedUserId: String,
-         reportingRepository: ReportingRepository,
-         tracker: Tracker) {
+         reportingRepository: ReportingRepository = Core.reportingRepository,
+         tracker: Tracker = TrackerProxy.sharedInstance) {
         self.type = type
         self.reportId = reportId
         self.reportedUserId = reportedUserId
@@ -30,7 +30,7 @@ final class ReportUpdateViewModel: BaseViewModel {
     }
 
     func didTapClose() {
-        navigator?.dismissPresentedController()
+        navigator?.closeReportUpdate()
     }
 
     private func retrieveReport() {
@@ -118,7 +118,7 @@ final class ReportUpdateViewModel: BaseViewModel {
 
     private func automaticClose() {
         delay(1) { [weak self] in
-            self?.navigator?.dismissPresentedController()
+            self?.navigator?.closeReportUpdate()
         }
     }
 }

@@ -522,10 +522,6 @@ extension AppCoordinator: AppNavigator {
     func openCommunityTab() {
         openTab(.community, completion: nil)
     }
-
-    func dismissPresentedController() {
-        tabBarCtl.dismiss(animated: true, completion: nil)
-    }
 }
 
 // MARK: - SellCoordinatorDelegate
@@ -1150,12 +1146,9 @@ fileprivate extension AppCoordinator {
     }
 
     func openReportUpdate(reportId: String, username: String, reason: ReportOptionType, userId: String, product: String?) {
-        let updateType = ReportUpdateType(reason: reason, username: username, productName: product)
-        let viewModel = ReportUpdateViewModel(type: updateType, reportId: reportId, reportedUserId: userId,
-                                              reportingRepository: Core.reportingRepository, tracker: tracker)
-        viewModel.navigator = self
-        let viewController = ReportUpdateViewController(viewModel: viewModel)
-        let nav = UINavigationController(rootViewController: viewController)
+        let assembly = LGReportUpdateBuilder.modal(root: tabBarCtl)
+        let vc = assembly.buildReportUpdate(reportId: reportId, reason: reason, userId: userId, username: username, product: product)
+        let nav = UINavigationController(rootViewController: vc)
         tabBarCtl.present(nav, animated: true, completion: nil)
     }
 
