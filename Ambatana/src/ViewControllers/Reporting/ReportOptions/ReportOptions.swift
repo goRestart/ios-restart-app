@@ -6,7 +6,7 @@ enum ReportOptionType: String {
     // Report Product
 
     // Step 1
-    case itShouldntBeOnLetgo = "should_not_be_on_letgo"
+    case itShouldntBeOnLetgo = "inappropriate"
     case iThinkItsAScam = "scam"
     case iTsADuplicateListing = "duplicate"
     case itsInTheWrongCategory = "wrong_category"
@@ -21,10 +21,10 @@ enum ReportOptionType: String {
 
     // Step 1
     case sellingSomethingInappropriate = "inappropriate_sell"
-    case suspiciousBehaviour = "behaving_suspiciously"
-    case inappropriateProfilePhotoOrBio = "inappropriate_profile_photo_or_bio"
-    case problemDuringMeetup = "meetup_problem"
-    case inappropriateChatMessages = "innapropriate_chat_messages"
+    case suspiciousBehaviour = "behaviour"
+    case inappropriateProfilePhotoOrBio = "profile"
+    case problemDuringMeetup = "meetup"
+    case inappropriateChatMessages = "chat"
     case unrealisticPriceOrOffers = "unrealistic_offer"
 
     // Step 2A (from suspiciousBehaviour)
