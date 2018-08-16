@@ -70,6 +70,11 @@ final class ReportUpdateButton: UIButton {
         self.isUserInteractionEnabled = false
     }
 
+    func reset() {
+        setup()
+        self.isUserInteractionEnabled = true
+    }
+
     private func shake(times: Int, currentTimes: Int, direction: CGFloat, duration: TimeInterval, delta: CGFloat) {
         UIView.animate(withDuration: duration, animations: {
             let translation = CGAffineTransform.init(translationX: delta * direction, y: delta * direction)

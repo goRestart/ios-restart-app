@@ -1034,6 +1034,10 @@ fileprivate extension AppCoordinator {
             afterDelayClosure = { [weak self] in
                 self?.openInAppWebView(url: url)
             }
+        case .report(let reportId, let username, let reason, let userId, let product):
+            afterDelayClosure = { [weak self] in
+                self?.openReportUpdate(reportId: reportId, username: username, reason: reason, userId: userId, product: product)
+            }
         }
 
         if let afterDelayClosure = afterDelayClosure {
@@ -1055,7 +1059,7 @@ fileprivate extension AppCoordinator {
         switch deepLink.action {
         case .home, .sell, .listing, .listingShare, .listingBumpUp, .listingMarkAsSold, .listingEdit, .user,
              .conversations, .conversationWithMessage, .search, .resetPassword, .userRatings, .userRating,
-             .notificationCenter, .appStore, .webView, .appRating:
+             .notificationCenter, .appStore, .webView, .appRating, .report:
             return // Do nothing
         case let .conversation(data):
             showInappChatNotification(data, message: deepLink.origin.message)
@@ -1139,6 +1143,13 @@ fileprivate extension AppCoordinator {
                                               iconImage: R.Asset.IconsButtons.userPlaceholder.image)
             self?.showBubble(with: data, duration: SharedConstants.bubbleChatDuration)
         }
+    }
+
+    func openReportUpdate(reportId: String, username: String, reason: ReportOptionType, userId: String, product: String?) {
+        let assembly = LGReportUpdateBuilder.modal(root: tabBarCtl)
+        let vc = assembly.buildReportUpdate(reportId: reportId, reason: reason, userId: userId, username: username, product: product)
+        let nav = UINavigationController(rootViewController: vc)
+        tabBarCtl.present(nav, animated: true, completion: nil)
     }
 
     // MARK: - Trackings

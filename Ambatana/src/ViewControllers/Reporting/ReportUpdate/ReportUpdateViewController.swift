@@ -97,7 +97,7 @@ final class ReportUpdateViewController: BaseViewController {
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
         setNavBarBackgroundStyle(.white)
-        setNavBarBackButton(R.Asset.IconsButtons.navbarClose.image, selector: #selector(didTapClose))
+        setNavBarCloseButton(#selector(didTapClose))
     }
 
     @objc private func didTapClose() {
@@ -193,8 +193,7 @@ final class ReportUpdateViewController: BaseViewController {
 
     private func resetButtons() {
         feedbackButtons.forEach { button in
-            button.set(selected: false)
-            button.isUserInteractionEnabled = true
+            button.reset()
         }
     }
 

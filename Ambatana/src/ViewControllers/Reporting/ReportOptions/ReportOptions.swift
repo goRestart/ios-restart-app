@@ -6,51 +6,51 @@ enum ReportOptionType: String {
     // Report Product
 
     // Step 1
-    case itShouldntBeOnLetgo = "should_not_be_on_letgo"
-    case iThinkItsAScam = "is_scam"
-    case iTsADuplicateListing = "duplicate_listing"
+    case itShouldntBeOnLetgo = "inappropriate"
+    case iThinkItsAScam = "scam"
+    case iTsADuplicateListing = "duplicate"
     case itsInTheWrongCategory = "wrong_category"
 
     // Step 2 (from itShouldntBeOnLetgo)
-    case sexualContent = "sexual_content"
-    case drugsAlcoholOrTobacco = "drugs_alcohol_or_tobacco"
-    case weaponsOrViolentContent = "weapons_or_violent_content"
-    case otherReasonItShouldntBeOnLetgo = "other_reason"
+    case sexualContent = "inappropriate_obscene"
+    case drugsAlcoholOrTobacco = "inappropriate_drugs"
+    case weaponsOrViolentContent = "inappropriate_violent"
+    case otherReasonItShouldntBeOnLetgo = "inappropriate_other"
 
     // Report User
 
     // Step 1
-    case sellingSomethingInappropriate = "inappropriate_product"
-    case suspiciousBehaviour = "behaving_suspiciously"
-    case inappropriateProfilePhotoOrBio = "inappropriate_profile_photo_or_bio"
-    case problemDuringMeetup = "meetup_problem"
-    case inappropriateChatMessages = "innapropriate_chat_messages"
-    case unrealisticPriceOrOffers = "unrealistic_price"
+    case sellingSomethingInappropriate = "inappropriate_sell"
+    case suspiciousBehaviour = "behaviour"
+    case inappropriateProfilePhotoOrBio = "profile"
+    case problemDuringMeetup = "meetup"
+    case inappropriateChatMessages = "chat"
+    case unrealisticPriceOrOffers = "unrealistic_offer"
 
     // Step 2A (from suspiciousBehaviour)
-    case notRespondingToMessages = "not_responding"
-    case offeringToTradeInsteadOfPayingInCash = "trade_offered"
-    case offeringToPayWithWesternUnionOrPaypal = "western_paypal_offered"
-    case spamAccount = "spam_account"
-    case otherSuspiciousBehaviour = "other_suspicious"
+    case notRespondingToMessages = "behaviour_unresponding"
+    case offeringToTradeInsteadOfPayingInCash = "behaviour_trading"
+    case offeringToPayWithWesternUnionOrPaypal = "behaviour_payment"
+    case spamAccount = "behaviour_spam"
+    case otherSuspiciousBehaviour = "behaviour_other"
 
     // Step 2B (from inappropriateProfilePhotoOrBio)
-    case inappropriateProfilePhoto = "inappropriate_photo"
-    case inappropriateBio = "inapprpriate_bio"
+    case inappropriateProfilePhoto = "profile_photo"
+    case inappropriateBio = "profile_bio"
 
     // Step 2C (from problemDuringMeetup)
-    case robberyOrViolentIncident = "robbery_or_violent"
-    case paidWithCounterfeitMoney = "paid_counterfeit"
-    case didntShowUp = "no_show"
-    case itemDefectiveOrNotAsDescribed = "item_defectivec_or_not_as_described"
-    case otherProblemDuringMeetup = "other_problem"
+    case robberyOrViolentIncident = "meetup_violent"
+    case paidWithCounterfeitMoney = "meetup_false_money"
+    case didntShowUp = "meetup_did_not_show"
+    case itemDefectiveOrNotAsDescribed = "meetup_faulty_item"
+    case otherProblemDuringMeetup = "meetup_other"
 
     // Step 2D (from inappropriateChatmessages)
-    case threateningViolence = "threatening_violence"
-    case rudeOrOffensiveLanguage = "rude_offensive_language"
-    case suspiciousOrScammyBehavior = "suspicious_behaviour"
-    case sexualOrObsceneLanguage = "sexual_or_obscene"
-    case otherReasonInnappropriateChatMessages = "other_inappropriate"
+    case threateningViolence = "chat_violence"
+    case rudeOrOffensiveLanguage = "chat_offensive"
+    case suspiciousOrScammyBehavior = "chat_scam"
+    case sexualOrObsceneLanguage = "chat_obscene"
+    case otherReasonInnappropriateChatMessages = "chat_other"
 
 
     var text: String {

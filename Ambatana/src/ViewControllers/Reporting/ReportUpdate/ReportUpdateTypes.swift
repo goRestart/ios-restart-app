@@ -57,4 +57,23 @@ enum ReportUpdateType {
         }
         return attrString
     }
+
+    init(reason: ReportOptionType, username: String, productName: String?) {
+        switch reason {
+        case .itShouldntBeOnLetgo, .iThinkItsAScam, .iTsADuplicateListing, .itsInTheWrongCategory, .sexualContent,
+             .drugsAlcoholOrTobacco, .weaponsOrViolentContent, .otherReasonItShouldntBeOnLetgo:
+            self = .product(productname: productName ?? "", username: username)
+        case .inappropriateProfilePhoto:
+            self = .userB(username: username)
+        case .inappropriateBio:
+            self = .userC(username: username)
+        case .sellingSomethingInappropriate, .suspiciousBehaviour, .inappropriateProfilePhotoOrBio, .problemDuringMeetup,
+             .inappropriateChatMessages, .unrealisticPriceOrOffers, .notRespondingToMessages,
+             .offeringToTradeInsteadOfPayingInCash, .offeringToPayWithWesternUnionOrPaypal, .robberyOrViolentIncident,
+             .paidWithCounterfeitMoney, .didntShowUp, .itemDefectiveOrNotAsDescribed, .threateningViolence,
+             .spamAccount, .otherSuspiciousBehaviour, .otherProblemDuringMeetup, .rudeOrOffensiveLanguage,
+             .suspiciousOrScammyBehavior, .sexualOrObsceneLanguage, .otherReasonInnappropriateChatMessages:
+            self = .userA(username: username)
+        }
+    }
 }
