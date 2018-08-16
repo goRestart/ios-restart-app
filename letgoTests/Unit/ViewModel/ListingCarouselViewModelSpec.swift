@@ -40,7 +40,6 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
         var notificationsManager: MockNotificationsManager!
         var monetizationRepository: MockMonetizationRepository!
         var tracker: MockTracker!
-        var reputationTooltipManager: MockReputationTooltipManager!
 
         var disposeBag: DisposeBag!
         var scheduler: TestScheduler!
@@ -93,8 +92,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                                                listingViewModelMaker: listingViewModelMaker,
                                                adsRequester: AdsRequester(),
                                                locationManager: locationManager,
-                                               myUserRepository: myUserRepository,
-                                               reputationTooltipManager: reputationTooltipManager)
+                                               myUserRepository: myUserRepository)
                 sut.delegate = self
 
                 disposeBag = DisposeBag()
@@ -135,7 +133,6 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                 notificationsManager = MockNotificationsManager()
                 monetizationRepository = MockMonetizationRepository.makeMock()
                 tracker = MockTracker()
-                reputationTooltipManager = MockReputationTooltipManager()
 
                 listingListRequester = MockListingListRequester(canRetrieve: true, offset: 0, pageSize: 20)
                 keyValueStorage = MockKeyValueStorage()
@@ -151,8 +148,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                                                                   purchasesShopper: purchasesShopper,
                                                                   monetizationRepository: monetizationRepository,
                                                                   tracker: tracker,
-                                                                  keyValueStorage: keyValueStorage,
-                                                                  reputationTooltipManager: reputationTooltipManager)
+                                                                  keyValueStorage: keyValueStorage)
 
                 scheduler = TestScheduler(initialClock: 0)
                 scheduler.start()

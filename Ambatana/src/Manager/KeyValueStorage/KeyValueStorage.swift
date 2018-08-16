@@ -64,9 +64,6 @@ extension DefaultsKeys {
 
     static let showOffensiveReportOnNextStart = DefaultsKey<Bool>("showOffensiveReportOnNextStart")
 
-    static let lastShownReputationTooltipDate = DefaultsKey<Date?>("lastShownReputationTooltipDate")
-    static let reputationTooltipShown = DefaultsKey<Bool>("reputationTooltipShown")
-
     static let machineLearningOnboardingShown = DefaultsKey<Bool>("machineLearningOnboardingShown")
 
     static let analyticsSessionData = DefaultsKey<AnalyticsSessionData>("analyticsSessionData")

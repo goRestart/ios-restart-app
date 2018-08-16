@@ -30,8 +30,6 @@ protocol ListingCardViewCellModel: ListingCardDetailsViewModel {
     var cardDirectChatMessages: Observable<CollectionChange<ChatViewMessage>> { get }
     var cardDirectChatPlaceholder: String { get }
     var cardBumpUpBannerInfo: Observable<BumpUpInfo?> { get }
-    var shouldShowReputationTooltip: Driver<Bool> { get }
-    func reputationTooltipShown()
 }
 
 extension ListingViewModel: ListingCardViewCellModel {
@@ -61,15 +59,4 @@ extension ListingViewModel: ListingCardViewCellModel {
     var cardBumpUpBannerInfo: Observable<BumpUpInfo?> { return bumpUpBannerInfo.asObservable() }
 
     var cardShowExactLocationOnMap: Observable<Bool> { return showExactLocationOnMap.asObservable() }
-
-    var shouldShowReputationTooltip: Driver<Bool> {
-        return userInfo.asDriver().map { [weak self] in
-            guard let strongSelf = self else { return false }
-            return $0.badge != .noBadge && strongSelf.reputationTooltipManager.shouldShowTooltip()
-        }
-    }
-
-    func reputationTooltipShown() {
-        reputationTooltipManager.didShowTooltip()
-    }
 }

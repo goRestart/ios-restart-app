@@ -312,9 +312,6 @@ final class UserProfileViewController: BaseViewController {
 
     private func setupContent() {
         headerView.delegate = self
-        bioAndTrustView.delegate = self
-        bioAndTrustView.buildTrustButtonTitle = R.Strings.profileBuildTrustButton
-        bioAndTrustView.addBioButtonTitle = "+ " + R.Strings.profileBioAddButton
         bioAndTrustView.verifiedTitleText = R.Strings.profileVerifiedAccountsTitle
         bioAndTrustView.moreBioButtonTitle = R.Strings.profileBioShowMoreButton
 
@@ -447,17 +444,6 @@ extension UserProfileViewController: UserProfileTabsViewDelegate {
     }
 }
 
-// MARK: - Bio And Trust Delegate
-
-extension UserProfileViewController: UserProfileBioAndTrustDelegate {
-    func didTapBuildTrust() {
-        viewModel.didTapBuildTrustButton()
-    }
-
-    func didTapAddBio() {
-        viewModel.didTapEditBioButton()
-    }
-}
 
 // MARK: - Header Delegate
 

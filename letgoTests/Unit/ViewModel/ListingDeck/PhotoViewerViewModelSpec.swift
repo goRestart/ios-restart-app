@@ -39,8 +39,7 @@ final class PhotoViewerViewModelSpec: QuickSpec {
                                                                   purchasesShopper: MockPurchasesShopper(),
                                                                   monetizationRepository: MockMonetizationRepository(),
                                                                   tracker: MockTracker(),
-                                                                  keyValueStorage: MockKeyValueStorage(),
-                                                                  reputationTooltipManager: MockReputationTooltipManager())
+                                                                  keyValueStorage: MockKeyValueStorage())
             }
             afterEach {
                 urls.removeAll()

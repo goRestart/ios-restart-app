@@ -4,6 +4,10 @@ import RxSwift
 import RxCocoa
 import LGComponents
 
+enum VerificationType {
+    case facebook, google, email(String?)
+}
+
 protocol UserVerificationViewModelDelegate: BaseViewModelDelegate {
     func startAvatarSelection()
 }
@@ -269,44 +273,6 @@ fileprivate extension UserVerificationViewModel {
     func trackUpdateAvatarComplete() {
         let trackerEvent = TrackerEvent.profileEditEditPicture()
         tracker.trackEvent(trackerEvent)
-    }
-}
-
-fileprivate extension VerifyAccountsSource {
-    var typePage: EventParameterTypePage {
-        switch self {
-        case .chat:
-            return .chat
-        case .profile:
-            return .profile
-        }
-    }
-
-    var loginSource: EventParameterLoginSourceValue {
-        switch self {
-        case .chat:
-            return .chats
-        case .profile:
-            return .profile
-        }
-    }
-
-    var title: String {
-        switch self {
-        case let .chat(title, _):
-            return title
-        case let .profile(title, _):
-            return title
-        }
-    }
-
-    var description: String {
-        switch self {
-        case let .chat(_, description):
-            return description
-        case let .profile(_, description):
-            return description
-        }
     }
 }
 
