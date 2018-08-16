@@ -31,7 +31,7 @@ enum ReportOptionType: String {
     case notRespondingToMessages = "behaviour_unresponding"
     case offeringToTradeInsteadOfPayingInCash = "behaviour_trading"
     case offeringToPayWithWesternUnionOrPaypal = "behaviour_payment"
-    case spamAccount = "behaviour_scam"
+    case spamAccount = "behaviour_spam"
     case otherSuspiciousBehaviour = "behaviour_other"
 
     // Step 2B (from inappropriateProfilePhotoOrBio)
