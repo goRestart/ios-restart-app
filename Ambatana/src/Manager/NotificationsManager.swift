@@ -24,6 +24,6 @@ protocol NotificationsManager {
     func updateChatCounters()
     func updateNotificationCounters()
     func clearNewSellFeatureIndicator()
-    func updateEngagementBadgingNotifications()
-    func hideEngagementBadgingNotifications()
+    func showEngagementBadge()
+    func hideEngagementBadge()
 }

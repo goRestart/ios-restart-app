@@ -1836,6 +1836,9 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
             if case .callToAction(_, _, let deeplinkURL) = chatAnswer.type {
                 navigator?.navigate(with: deeplinkURL)
             }
+        case .dynamicInterested:
+            // Ignore. At the moment this case does not appear in chat
+            break
         }
     }
     

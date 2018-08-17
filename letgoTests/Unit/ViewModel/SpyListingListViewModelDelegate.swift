@@ -11,7 +11,7 @@ final class SpyListingListViewModelDataDelegate: ListingListViewModelDataDelegat
     var requesterType: RequesterType?
     var hasListing: Bool?
     
-    func listingListVM(_ viewModel: ListingListViewModel, didSucceedRetrievingListingsPage page: UInt, withResultsCount resultsCount: Int, hasListings: Bool) {
+    func listingListVM(_ viewModel: ListingListViewModel, didSucceedRetrievingListingsPage page: UInt, withResultsCount resultsCount: Int, hasListings: Bool, containsRecentListings: Bool) {
         count = resultsCount
         requesterType = viewModel.currentRequesterType
         hasListing = hasListings

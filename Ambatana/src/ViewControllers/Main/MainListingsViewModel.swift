@@ -331,6 +331,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     fileprivate let categoryRepository: CategoryRepository
     private let searchAlertsRepository: SearchAlertsRepository
     fileprivate let userRepository: UserRepository
+    private let feedBadgingSynchronizer: FeedBadgingSynchronizer
     
     fileprivate let tracker: Tracker
     fileprivate let searchType: SearchType? // The initial search
@@ -448,7 +449,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
          keyValueStorage: KeyValueStorage,
          featureFlags: FeatureFlaggeable,
          bubbleTextGenerator: DistanceBubbleTextGenerator,
-         chatWrapper: ChatWrapper) {
+         chatWrapper: ChatWrapper,
+         feedBadgingSynchronizer: FeedBadgingSynchronizer) {
         self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
         self.searchRepository = searchRepository
@@ -468,6 +470,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         self.featureFlags = featureFlags
         self.bubbleTextGenerator = bubbleTextGenerator
         self.chatWrapper = chatWrapper
+        self.feedBadgingSynchronizer = feedBadgingSynchronizer
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
         let columns = show3Columns ? 3 : 2
         let itemsPerPage = show3Columns ? SharedConstants.numListingsPerPageBig : SharedConstants.numListingsPerPageDefault
@@ -511,6 +514,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         let featureFlags = FeatureFlags.sharedInstance
         let bubbleTextGenerator = DistanceBubbleTextGenerator()
         let chatWrapper = LGChatWrapper()
+        let feedBadgingSynchronizer = LGFeedBadgingSynchronizer()
         self.init(sessionManager: sessionManager,
                   myUserRepository: myUserRepository,
                   searchRepository: searchRepository,
@@ -528,7 +532,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                   keyValueStorage: keyValueStorage,
                   featureFlags: featureFlags,
                   bubbleTextGenerator: bubbleTextGenerator,
-                  chatWrapper: chatWrapper)
+                  chatWrapper: chatWrapper,
+                  feedBadgingSynchronizer: feedBadgingSynchronizer)
     }
     
     convenience init(searchType: SearchType? = nil, tabNavigator: TabNavigator?) {
@@ -547,7 +552,6 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         updateCategoriesHeader()
         if firstTime {
             setupRx()
-            notificationsManager.updateEngagementBadgingNotifications()
         }
         if let currentLocation = locationManager.currentLocation {
             retrieveProductsIfNeededWithNewLocation(currentLocation)
@@ -798,8 +802,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     }
     
     func recentItemsBubbleTapped() {
-        listViewModel.retrieveRecentItems()
-        notificationsManager.hideEngagementBadgingNotifications()
+        listViewModel.showRecentListings()
+        feedBadgingSynchronizer.hideBadge()
     }
     
     
@@ -1126,7 +1130,8 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
     func listingListVM(_ viewModel: ListingListViewModel,
                        didSucceedRetrievingListingsPage page: UInt,
                        withResultsCount resultsCount: Int,
-                       hasListings: Bool) {
+                       hasListings: Bool,
+                       containsRecentListings: Bool) {
         isCurrentFeedACachedFeed = false
 
         // Only save the string when there is products and we are not searching a collection
@@ -1174,9 +1179,11 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                 updateCategoriesHeader()
             } else {
                 trackRequestSuccess(page: page, resultsCount: resultsCount, hasListings: hasListings, searchRelatedItems: false)
+
             }
         } else {
             trackRequestSuccess(page: page, resultsCount: resultsCount, hasListings: hasListings, searchRelatedItems: false)
+
         }
         
         errorMessage.value = nil
@@ -1188,6 +1195,26 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         if(page == 0) {
             bubbleDistance = 1
         }
+        
+        let isDefaultFeed = !hasFilters && searchType == nil
+        let shouldShowRecentItems = (requester?.multiIsFirstPage == true) &&
+            isDefaultFeed &&
+            hasListings &&
+            !containsRecentListings &&
+        isEngagementBadgingEnabled
+        if shouldShowRecentItems {
+            // If recent listings have not been retrieved, retrieve them and show badge if necessary
+            if listViewModel.recentListings.count == 0 {
+                feedBadgingSynchronizer.retrieveRecentListings { [weak self] recentListings in
+                    guard recentListings.count > 0 else { return }
+                    self?.listViewModel.addRecentListings(recentListings)
+                }
+            } else if listViewModel.hasPreviouslyShownRecentListings {
+                // If already retrieved before, we should show them directly
+                listViewModel.showRecentListings()
+            }
+        }
+
     }
     
     func listingListMV(_ viewModel: ListingListViewModel,
@@ -1834,6 +1861,7 @@ fileprivate extension MainListingsViewModel {
                                                     categories: filters.selectedCategories,
                                                     searchQuery: queryString, resultsCount: resultsCount,
                                                     feedSource: feedSource, success: successParameter)
+
         tracker.trackEvent(trackerEvent)
         
         if let searchType = searchType, let searchQuery = searchType.query, shouldTrackSearch {
@@ -1961,7 +1989,13 @@ extension MainListingsViewModel: ListingCellDelegate {
     private func sendInterestedMessage(forListing listing: Listing, atIndex index: Int, withID identifier: String) {
         interestingListingIDs.update(with: identifier)
         syncInterestingListings(interestingListingIDs)
-        let type: ChatWrapperMessageType = ChatWrapperMessageType.interested(QuickAnswer.interested.textToReply)
+        let type: ChatWrapperMessageType
+        if featureFlags.randomImInterestedMessages.isActive {
+            type = ChatWrapperMessageType.interested(QuickAnswer.dynamicInterested(
+                interestedMessage: QuickAnswer.InterestedMessage.makeRandom()).textToReply)
+        } else {
+            type = ChatWrapperMessageType.interested(QuickAnswer.interested.textToReply)
+        }
         let trackingInfo = SendMessageTrackingInfo.makeWith(type: type,
                                                             listing: listing,
                                                             freePostingAllowed: featureFlags.freePostingModeAllowed)
