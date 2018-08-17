@@ -338,6 +338,7 @@
 		2E151D7420A49BB20038D7C7 /* ChatBlockedUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E151D7220A49BB20038D7C7 /* ChatBlockedUsersViewController.swift */; };
 		2E151D7620A5D3370038D7C7 /* ChatBlockedUsersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E151D7520A5D3370038D7C7 /* ChatBlockedUsersCell.swift */; };
 		2E151D7720A5D3370038D7C7 /* ChatBlockedUsersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E151D7520A5D3370038D7C7 /* ChatBlockedUsersCell.swift */; };
+		2E1711F0212708F7001F92AA /* HTMLBoldParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A41195F621219B9300EBB210 /* HTMLBoldParser.swift */; };
 		2E1BC3FD1E648C0A0063D1A7 /* ReceiptURLProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1BC3FC1E648C0A0063D1A7 /* ReceiptURLProvider.swift */; };
 		2E1BC4001E6492230063D1A7 /* ReceiptURLProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1BC3FC1E648C0A0063D1A7 /* ReceiptURLProvider.swift */; };
 		2E200D2020BEEB630054F053 /* ChatConnectionStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E200D1F20BEEB630054F053 /* ChatConnectionStatusView.swift */; };
@@ -1358,7 +1359,6 @@
 		8EF1CDB02010F11F00D324F6 /* ChatInactiveConversationDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1CDAE2010F11F00D324F6 /* ChatInactiveConversationDetailsViewModel.swift */; };
 		8EF1CDB22010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1CDB12010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift */; };
 		8EF1CDB32010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1CDB12010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift */; };
-		A41195F721219B9300EBB210 /* HTMLBoldParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A41195F621219B9300EBB210 /* HTMLBoldParser.swift */; };
 		A41195F821219B9300EBB210 /* HTMLBoldParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A41195F621219B9300EBB210 /* HTMLBoldParser.swift */; };
 		A41195FB2121B71600EBB210 /* HTMLBoldParserSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = A41195FA2121B71600EBB210 /* HTMLBoldParserSpec.swift */; };
 		A4E0936721187FB9002235FC /* ChangePasswordRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E0936621187FB9002235FC /* ChangePasswordRouter.swift */; };
@@ -2955,7 +2955,6 @@
 		C6977E882119F4E900B57E54 /* ServiceListingType+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ServiceListingType+LG.swift"; sourceTree = "<group>"; };
 		C6977E8B21218B8300B57E54 /* ListingTitleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingTitleViewModel.swift; sourceTree = "<group>"; };
 		C6977E902121B17200B57E54 /* OverlayDisplayStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayDisplayStyle.swift; sourceTree = "<group>"; };
-		C6A5CC4D20E23EC100610A3A /* ListingAttributeGridItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingAttributeGridItem.swift; sourceTree = "<group>"; };
 		C6A5CC5620E245D400610A3A /* ListingAttributeGridView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingAttributeGridView.swift; sourceTree = "<group>"; };
 		C6A5CC5920E2465000610A3A /* ListingAttributeGridItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingAttributeGridItem.swift; sourceTree = "<group>"; };
 		C6A5CC5C20E3A22500610A3A /* FilterSliderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSliderCell.swift; sourceTree = "<group>"; };
@@ -8149,6 +8148,7 @@
 				C74016D91D6467C9004C1E9D /* PostListingDetailPriceView.swift in Sources */,
 				01A171C0208DD1B900C98D4C /* SearchAlertsListViewModel.swift in Sources */,
 				50146BD31D4F5FC700B0F635 /* ProfileTabCoordinator.swift in Sources */,
+				2E1711F0212708F7001F92AA /* HTMLBoldParser.swift in Sources */,
 				C743FEAD1E449EA600B4E912 /* RateBuyersViewController.swift in Sources */,
 				C7F22D801DB7A3A200353803 /* RecaptchaViewController.swift in Sources */,
 				42059D11207E31DF00083438 /* FilterCarSection.swift in Sources */,
