@@ -74,7 +74,7 @@ final class ListingListViewModel: BaseViewModel {
     private let imageDownloader: ImageDownloaderType
 
     // Requesters
-    private var shouldSaveToCache = false
+    private lazy var shouldSaveToCache = featureFlags.cachedFeed.isActive
     private let listingCache: ListingListCache
 
     /// A list of requester to try in sequence in case the previous
@@ -284,7 +284,7 @@ final class ListingListViewModel: BaseViewModel {
             do {
                 try self?.disk.save(listings, to: .caches, with: .feed)
             } catch let e {
-                // TODO: track this?
+                // do nothing, know nothing
             }
         }
     }

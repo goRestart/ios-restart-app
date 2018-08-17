@@ -419,7 +419,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     private var shouldFetchCache: Bool {
         let abTestActive = featureFlags.cachedFeed.isActive
         let isEmpty = listViewModel.isListingListEmpty.value
-        return abTestActive && !isCurrentFeedACachedFeed && (isEmpty || !hasFilters)
+        return abTestActive && !isCurrentFeedACachedFeed && isEmpty && !hasFilters
     }
 
     private var shouldDisableOldestSearchAlertIfMaximumReached: Bool {
@@ -490,7 +490,6 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         super.init()
         
         self.listViewModel.listingCellDelegate = self
-        
         setup()
     }
     
@@ -854,11 +853,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         errorMessage.value = nil
         listViewModel.cellStyle = cellStyle
         listViewModel.resetUI()
-        listViewModel.refresh(shouldSaveToCache: !hasFilters)
 
-        if shouldFetchCache {
-            listViewModel.fetchFromCache()
-        }
+        listViewModel.refresh(shouldSaveToCache: !hasFilters)
     }
     
     
