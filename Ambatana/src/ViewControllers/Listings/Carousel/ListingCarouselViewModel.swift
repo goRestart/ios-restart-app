@@ -135,9 +135,6 @@ class ListingCarouselViewModel: BaseViewModel {
 
     let socialMessage = Variable<SocialMessage?>(nil)
     let socialSharer = Variable<SocialSharer>(SocialSharer())
-    var shouldShowReputationTooltip: Driver<Bool> {
-        return ownerBadge.asDriver().map{ $0 != .noBadge && self.reputationTooltipManager.shouldShowTooltip() }
-    }
     let isInterested = Variable<Bool>(false)
 
     // UI - Input
@@ -170,7 +167,6 @@ class ListingCarouselViewModel: BaseViewModel {
     let featureFlags: FeatureFlaggeable
     fileprivate let locationManager: LocationManager
     fileprivate let myUserRepository: MyUserRepository
-    fileprivate let reputationTooltipManager: ReputationTooltipManager
 
     fileprivate let disposeBag = DisposeBag()
 
@@ -279,8 +275,7 @@ class ListingCarouselViewModel: BaseViewModel {
                   listingViewModelMaker: ListingViewModel.ConvenienceMaker(),
                   adsRequester: AdsRequester(),
                   locationManager: Core.locationManager,
-                  myUserRepository: Core.myUserRepository,
-                  reputationTooltipManager: LGReputationTooltipManager.sharedInstance)
+                  myUserRepository: Core.myUserRepository)
     }
 
     init(productListModels: [ListingCellModel]?,
@@ -297,8 +292,7 @@ class ListingCarouselViewModel: BaseViewModel {
          listingViewModelMaker: ListingViewModelMaker,
          adsRequester: AdsRequester,
          locationManager: LocationManager,
-         myUserRepository: MyUserRepository,
-         reputationTooltipManager: ReputationTooltipManager) {
+         myUserRepository: MyUserRepository) {
         if let productListModels = productListModels {
             let listingCarouselCellModels = productListModels
                 .compactMap(ListingCarouselCellModel.adapter)
@@ -324,7 +318,6 @@ class ListingCarouselViewModel: BaseViewModel {
         self.adsRequester = adsRequester
         self.locationManager = locationManager
         self.myUserRepository = myUserRepository
-        self.reputationTooltipManager = reputationTooltipManager
         if let initialListing = initialListing {
             self.startIndex = objects.value.index(where: { $0.listing.objectId == initialListing.objectId}) ?? 0
         } else {
@@ -601,14 +594,6 @@ class ListingCarouselViewModel: BaseViewModel {
         currentListingViewModel?.trackCallTapped(source: source, feedPosition: trackingFeedPosition)
     }
 
-    func reputationTooltipTapped() {
-        navigator?.openUserVerificationView()
-    }
-
-    func reputationTooltipShown() {
-        reputationTooltipManager.didShowTooltip()
-    }
-
     func itemIsPlayable(at index: Int) -> Bool {
         guard let media = currentListingViewModel?.productMedia.value else { return false }
         return media[safeAt: index]?.isPlayable ?? false
@@ -691,7 +676,7 @@ class ListingCarouselViewModel: BaseViewModel {
             guard let user = seller else { return }
             self?.ownerIsProfessional.value = user.isProfessional
             self?.ownerPhoneNumber.value = user.phone
-            if let flags = self?.featureFlags, flags.advancedReputationSystem.isActive, !user.isProfessional {
+            if !user.isProfessional {
                 self?.ownerBadge.value = user.reputationBadge
             }
         }.disposed(by: activeDisposeBag)

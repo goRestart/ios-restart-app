@@ -7,8 +7,6 @@
 //
 
 protocol FeatureFlagsDAO {
-    func retrieveAdvanceReputationSystem() -> AdvancedReputationSystem?
-    func save(advanceReputationSystem: AdvancedReputationSystem)
     func retrieveEmergencyLocate() -> EmergencyLocate?
     func save(emergencyLocate: EmergencyLocate)
     func retrieveCommunity() -> ShowCommunity?

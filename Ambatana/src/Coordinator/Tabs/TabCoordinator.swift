@@ -138,10 +138,6 @@ extension TabCoordinator: TabNavigator {
             openChatFromConversationId(conversationId, source: source, predefinedMessage: predefinedMessage)
         }
     }
-
-    func openVerifyAccounts(_ types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?) {
-        appNavigator?.openVerifyAccounts(types, source: source, completionBlock: completionBlock)
-    }
     
     func openAppInvite(myUserId: String?, myUserName: String?) {
         appNavigator?.openAppInvite(myUserId: myUserId, myUserName: myUserName)

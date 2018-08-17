@@ -4,14 +4,9 @@ import RxCocoa
 import LGComponents
 
 private struct Layout {
-    static let buttonHeight: CGFloat = 30
-    static let buildTrustSeparatorSpace: CGFloat = 30
     static let buttonInset: CGFloat = 15
     static let buttonTitleInset: CGFloat = 10
-    static let sideMargin: CGFloat = 20.0
     static let logoSeparation: CGFloat = 6
-    static let buttonSeparation: CGFloat = 10
-    static let buttonContainerHeight: CGFloat = 60
     static let verifiedContainerHeight: CGFloat = 80
     static let verifiedTitleTopMargin: CGFloat = 15
     static let verifiedLogosTopMargin: CGFloat = 10
@@ -21,21 +16,12 @@ private struct Layout {
     static let iconRotatedTransform: CGAffineTransform = CGAffineTransform(scaleX: -1.0, y: 1.0).rotated(by: CGFloat(Double.pi * 0.999))
 }
 
-protocol UserProfileBioAndTrustDelegate: class {
-    func didTapAddBio()
-    func didTapBuildTrust()
-}
-
 final class UserProfileBioAndTrustView: UIView {
-    weak var delegate: UserProfileBioAndTrustDelegate?
     let isAnimatingResize = Variable<Bool>(false)
 
-    private let buildTrustButton = LetgoButton()
-    private let addBioButton = LetgoButton()
     private let verifiedTitle = UILabel()
     private let moreBioButton = UIButton()
     private let bioLabel = UILabel()
-    private let buttonContainer = UIStackView()
     private let verifiedContainer = UIView()
     private let verifiedLogosStackView = UIStackView()
     private let stackView = UIStackView()
@@ -43,18 +29,6 @@ final class UserProfileBioAndTrustView: UIView {
     let isPrivate: Bool
 
     var onlyShowBioText: Bool = false
-
-    var buildTrustButtonTitle: String? {
-        didSet {
-            buildTrustButton.setTitle(buildTrustButtonTitle, for: .normal)
-        }
-    }
-
-    var addBioButtonTitle: String? {
-        didSet {
-            addBioButton.setTitle(addBioButtonTitle, for: .normal)
-        }
-    }
 
     var verifiedTitleText: String? {
         didSet {
@@ -120,24 +94,12 @@ final class UserProfileBioAndTrustView: UIView {
 
     private func setupView() {
         addSubviewForAutoLayout(stackView)
-        buttonContainer.addArrangedSubview(buildTrustButton)
-        buttonContainer.addArrangedSubview(addBioButton)
-
-        buttonContainer.alignment = .center
-        buttonContainer.axis = .horizontal
-        buttonContainer.distribution = .equalSpacing
-        buttonContainer.spacing = Layout.buttonSeparation
 
         verifiedContainer.addSubviewForAutoLayout(verifiedTitle)
         verifiedContainer.addSubviewForAutoLayout(verifiedLogosStackView)
-        stackView.addArrangedSubview(buttonContainer)
         stackView.addArrangedSubview(verifiedContainer)
         stackView.addArrangedSubview(moreBioButton)
         stackView.addArrangedSubview(bioLabel)
-
-        addBioButton.setStyle(.secondary(fontSize: .small, withBorder: true))
-        addBioButton.layer.cornerRadius = Layout.buttonHeight / 2
-        setupBuildTrustButton()
 
         stackView.alignment = .leading
         stackView.axis = .vertical
@@ -158,8 +120,6 @@ final class UserProfileBioAndTrustView: UIView {
         bioLabel.isHidden = true
 
         moreBioButton.addTarget(self, action: #selector(toggleBioLabel), for: .touchUpInside)
-        addBioButton.addTarget(self, action: #selector(didTapAddBio), for: .touchUpInside)
-        buildTrustButton.addTarget(self, action: #selector(didTapBuildTrust), for: .touchUpInside)
 
         setupMoreBioButton()
         updateBioVisibility()
@@ -174,9 +134,6 @@ final class UserProfileBioAndTrustView: UIView {
             stackView.leftAnchor.constraint(equalTo: leftAnchor),
             stackView.rightAnchor.constraint(equalTo: rightAnchor),
 
-            buttonContainer.heightAnchor.constraint(equalToConstant: Layout.buttonContainerHeight),
-            addBioButton.heightAnchor.constraint(equalToConstant: Layout.buttonHeight),
-            buildTrustButton.heightAnchor.constraint(equalToConstant: Layout.buttonHeight),
             verifiedContainer.heightAnchor.constraint(equalToConstant: Layout.verifiedContainerHeight),
 
             verifiedTitle.topAnchor.constraint(equalTo: verifiedContainer.topAnchor, constant: Layout.verifiedTitleTopMargin),
@@ -192,8 +149,6 @@ final class UserProfileBioAndTrustView: UIView {
     }
 
     private func setupAccessibilityIds() {
-        addBioButton.set(accessibilityId: .userProfileAddBioButton)
-        buildTrustButton.set(accessibilityId: .userProfileBuildTrustButton)
         verifiedTitle.set(accessibilityId: .userProfileVerifiedTitle)
         moreBioButton.set(accessibilityId: .userProfileMoreBioTitle)
         bioLabel.set(accessibilityId: .userProfileBioLabel)
@@ -215,8 +170,6 @@ final class UserProfileBioAndTrustView: UIView {
         }
 
         verifiedContainer.isHidden = !verifiedAccountsVisible
-        buildTrustButton.isHidden = !buildTrustButtonVisible
-        updateButtonContainerVisibility()
     }
 
     private func addVerifiedAccountWith(image: UIImage, accessibilityId: AccessibilityId) {
@@ -230,27 +183,7 @@ final class UserProfileBioAndTrustView: UIView {
 
     private func updateBioVisibility() {
         moreBioButton.isHidden = !showMoreBioButtonVisible
-        addBioButton.isHidden = !addBioButtonVisible
         bioLabel.text = userBio
-        updateButtonContainerVisibility()
-    }
-
-    private func updateButtonContainerVisibility() {
-        buttonContainer.isHidden = !buildTrustButtonVisible && !addBioButtonVisible
-    }
-
-    private func setupBuildTrustButton() {
-        buildTrustButton.setStyle(.secondary(fontSize: .small, withBorder: true))
-        buildTrustButton.contentEdgeInsets = UIEdgeInsets(top: 0,
-                                                          left: Layout.buttonInset,
-                                                          bottom: 0,
-                                                          right: Layout.buttonInset + Layout.buttonTitleInset)
-        buildTrustButton.titleEdgeInsets = UIEdgeInsets(top: 0,
-                                                        left: Layout.buttonTitleInset,
-                                                        bottom: 0,
-                                                        right: -Layout.buttonTitleInset)
-        buildTrustButton.layer.cornerRadius = Layout.buttonHeight / 2
-        buildTrustButton.setImage(R.Asset.IconsButtons.icBuildTrustSmall.image, for: .normal)
     }
 
     private func setupMoreBioButton() {
@@ -264,19 +197,10 @@ final class UserProfileBioAndTrustView: UIView {
                                                      left: Layout.buttonTitleInset,
                                                      bottom: 0,
                                                      right: -Layout.buttonTitleInset)
-        moreBioButton.layer.cornerRadius = Layout.buttonHeight / 2
         moreBioButton.setImage(R.Asset.IconsButtons.chevronDownGrey.image, for: .normal)
         moreBioButton.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
         moreBioButton.titleLabel?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
         moreBioButton.imageView?.transform = Layout.iconDefaultTransform
-    }
-
-    @objc private func didTapAddBio() {
-        delegate?.didTapAddBio()
-    }
-
-    @objc private func didTapBuildTrust() {
-        delegate?.didTapBuildTrust()
     }
 
     @objc private func toggleBioLabel() {

@@ -551,14 +551,6 @@ enum AccessibilityId: Equatable, Accessible {
     case userProfileVerifiedWithGoogle
     case userProfileVerifiedWithEmail
 
-    // Verify Accounts popup
-    case verifyAccountsBackgroundButton
-    case verifyAccountsFacebookButton
-    case verifyAccountsGoogleButton
-    case verifyAccountsEmailButton
-    case verifyAccountsEmailTextField
-    case verifyAccountsEmailTextFieldButton
-
     // Verifications view
     case verificationsOptionsTitle
     case verificationsFacebookOption
@@ -1824,20 +1816,6 @@ enum AccessibilityId: Equatable, Accessible {
             return "userProfileVerifiedWithGoogle"
         case .userProfileVerifiedWithEmail:
             return "userProfileVerifiedWithEmail"
-            
-        // Verify Accounts popup
-        case .verifyAccountsBackgroundButton:
-            return "verifyAccountsBackgroundButton"
-        case .verifyAccountsFacebookButton:
-            return "verifyAccountsFacebookButton"
-        case .verifyAccountsGoogleButton:
-            return "verifyAccountsGoogleButton"
-        case .verifyAccountsEmailButton:
-            return "verifyAccountsEmailButton"
-        case .verifyAccountsEmailTextField:
-            return "verifyAccountsEmailTextField"
-        case .verifyAccountsEmailTextFieldButton:
-            return "verifyAccountsEmailTextFieldButton"
 
         // Verifications view
         case .verificationsOptionsTitle:
