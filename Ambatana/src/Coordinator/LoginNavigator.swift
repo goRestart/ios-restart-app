@@ -41,4 +41,6 @@ protocol PasswordlessNavigator: class {
     func openPasswordlessEmailSentTo(email: String)
     func closePasswordlessEmailSent()
     func openHelpFromPasswordless()
+    func closeSignUpLogInAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork)
+    func closeSignUpLogInAndOpenDeviceNotAllowedAlert(contactURL: URL, network: EventParameterAccountNetwork)
 }

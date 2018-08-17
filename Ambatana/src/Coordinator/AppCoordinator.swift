@@ -1046,7 +1046,7 @@ fileprivate extension AppCoordinator {
             afterDelayClosure = { [weak self] in
                 self?.openConfirmUsername(token: token)
             }
-        case .passwordlessSignIn(let token):
+        case .passwordlessLogin(let token):
             afterDelayClosure = { [weak self] in
                 self?.loginPasswordlessWith(token: token)
             }
@@ -1075,7 +1075,7 @@ fileprivate extension AppCoordinator {
         switch deepLink.action {
         case .home, .sell, .listing, .listingShare, .listingBumpUp, .listingMarkAsSold, .listingEdit, .user,
              .conversations, .conversationWithMessage, .search, .resetPassword, .userRatings, .userRating,
-             .notificationCenter, .appStore, .passwordlessSignIn, .passwordlessSignup, .webView, .appRating:
+             .notificationCenter, .appStore, .passwordlessLogin, .passwordlessSignup, .webView, .appRating:
             return // Do nothing
         case let .conversation(data):
             showInappChatNotification(data, message: deepLink.origin.message)

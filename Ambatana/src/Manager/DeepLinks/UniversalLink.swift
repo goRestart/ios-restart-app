@@ -30,6 +30,8 @@ struct UniversalLink {
      {country}.letgo.com/<language_code>/reset-password-renew?token=<token> -> Reset Password
      {country}.letgo.com/<language_code>/account-chat-conversation/<conversation_id> -> specific chat
      {country}.letgo.com/<language_code>/account-chat-list -> chats tab
+     {country}.letgo.com/<language_code>/?passwordlessLogin={token} -> Automatic login
+     {country}.letgo.com/<language_code>/?passwordlessSignup={token} -> Select username screen
 
      Or same as uri schemes but startig with {whatever}.letgo.com, such as:
      {country}.letgo.com/products/{product_id} is the same as letgo://products/{product_id}
@@ -74,11 +76,10 @@ struct UniversalLink {
         if let firstParam = queryParams.first {
             switch firstParam.key {
             case "passwordlessSignup":
-                let string = firstParam.value.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics)!
-                let action = DeepLinkAction.passwordlessSignup(token: string)
+                let action = DeepLinkAction.passwordlessSignup(token: firstParam.value)
                 return UniversalLink(deepLink: DeepLink.link(action, campaign: campaign, medium: medium, source: source, cardActionParameter: cardAction))
-            case "passwordlessSignin":
-                let action = DeepLinkAction.passwordlessSignIn(token: firstParam.value)
+            case "passwordlessLogin":
+                let action = DeepLinkAction.passwordlessLogin(token: firstParam.value)
                 return UniversalLink(deepLink: DeepLink.link(action, campaign: campaign, medium: medium, source: source, cardActionParameter: cardAction))
             default:
                 break

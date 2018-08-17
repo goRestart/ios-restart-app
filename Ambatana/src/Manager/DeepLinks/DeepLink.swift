@@ -61,7 +61,7 @@ enum DeepLinkAction: Equatable {
     case notificationCenter
     case appStore
     case passwordlessSignup(token: String)
-    case passwordlessSignIn(token: String)
+    case passwordlessLogin(token: String)
     case webView(url: URL)
     
     static public func ==(lhs: DeepLinkAction, rhs: DeepLinkAction) -> Bool {
