@@ -8,7 +8,6 @@ enum RequesterType: String {
 protocol RequesterFactory: class {
     func buildRequesterList() -> [ListingListRequester]
     func buildIndexedRequesterList() -> [(RequesterType, ListingListRequester)]
-    func buildRecentListingsRequester() -> RecentListingsRequester
 }
 
 final class SearchRequesterFactory: RequesterFactory {
@@ -41,10 +40,6 @@ final class SearchRequesterFactory: RequesterFactory {
     
     func buildRequesterList() -> [ListingListRequester] {
         return requesterTypes.compactMap { build(with: $0) }
-    }
-    
-    func buildRecentListingsRequester() -> RecentListingsRequester {
-        return RecentListingsRequester()
     }
     
     private func build(with requesterType: RequesterType) -> ListingListRequester {
