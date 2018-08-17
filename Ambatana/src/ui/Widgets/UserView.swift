@@ -110,7 +110,8 @@ enum UserViewStyle {
     }
 }
 
-final class UserView: UIView {
+final class UserView: UIView, ListingTitleFontDescriptor {
+
     @IBOutlet weak var userAvatarImageView: UIImageView!
     @IBOutlet var avatarMarginConstraints: [NSLayoutConstraint]!
     @IBOutlet weak var textInfoContainer: UIView!
@@ -138,6 +139,26 @@ final class UserView: UIView {
     override var intrinsicContentSize: CGSize {
         return UILayoutFittingExpandedSize
     }
+    
+    
+    // ListingTitleFontDescriptor Implementation
+    
+    var titleFont: UIFont {
+        return style.usernameLabelFont
+    }
+    
+    var titleColor: UIColor {
+        return style.usernameLabelColor
+    }
+    
+    var titlePrefixFont: UIFont {
+        let fontSize = titleFont.pointSize
+        return UIFont.boldSystemFont(ofSize: fontSize)
+    }
+    
+    var titlePrefixColor: UIColor {
+        return style.usernameLabelColor
+    }
 
     
     // MARK: - Lifecycle
@@ -158,39 +179,10 @@ final class UserView: UIView {
 
     
     // MARK: - Public methods
-
-    func setupWith(userAvatar avatar: URL?,
-                   userName: String?,
-                   userId: String?,
-                   isProfessional: Bool,
-                   userBadge: UserReputationBadge) {
-        setupWith(userAvatar: avatar,
-                  userName: userName,
-                  subtitle: nil,
-                  userId: userId,
-                  isProfessional: isProfessional,
-                  userBadge: userBadge)
-    }
-
-    func setupWith(userAvatar avatar: URL?,
-                   userName: String?,
-                   subtitle: String?,
-                   userId: String?,
-                   isProfessional: Bool,
-                   userBadge: UserReputationBadge) {
-        let placeholder = LetgoAvatar.avatarWithID(userId, name: userName)
-        setupWith(userAvatar: avatar,
-                  placeholder: placeholder,
-                  userName: userName,
-                  subtitle: subtitle,
-                  subtitleSuffix: nil,
-                  isProfessional: isProfessional,
-                  userBadge: userBadge)
-    }
     
     func setupWith(userAvatar avatar: URL?,
                    userName: String?,
-                   productTitle: String?,
+                   productTitle: ListingTitleViewModel?,
                    productPrice: String?,
                    productPaymentFrequency: String?,
                    userId: String?,
@@ -199,7 +191,7 @@ final class UserView: UIView {
         let placeholder = LetgoAvatar.avatarWithID(userId, name: userName)
         setupWith(userAvatar: avatar,
                   placeholder: placeholder,
-                  userName: productTitle,
+                  title: productTitle,
                   subtitle: productPrice,
                   subtitleSuffix: productPaymentFrequency,
                   isProfessional: isProfessional,
@@ -208,7 +200,7 @@ final class UserView: UIView {
 
     private func setupWith(userAvatar avatar: URL?,
                            placeholder: UIImage?,
-                           userName: String?,
+                           title: ListingTitleViewModel?,
                            subtitle: String?,
                            subtitleSuffix: String?,
                            isProfessional: Bool,
@@ -224,8 +216,8 @@ final class UserView: UIView {
             userAvatarImageView.image = placeholder
             avatarURL = nil
         }
-        titleLabel.text = userName
         
+        setupTitle(withTitleViewModel: title)
         if let attributedSubtitleText = subtitleAttributedString(forSubtitle: subtitle,
                                                                  subtitleSuffix: subtitleSuffix) {
             subtitleLabel.attributedText = attributedSubtitleText
@@ -241,6 +233,22 @@ final class UserView: UIView {
                 label?.layer.shadowRadius = 2.0
                 label?.layer.shadowOpacity = 0.5
             }
+        }
+    }
+    
+    
+    func setupTitle(withTitleViewModel titleViewModel: ListingTitleViewModel?) {
+        guard let titleViewModel = titleViewModel else {
+            titleLabel.text = nil
+            return
+        }
+        
+        if titleViewModel.shouldUseAttributedTitle {
+            titleLabel.attributedText = titleViewModel.createTitleAttributedString(withFontDescriptor: self)
+        } else {
+            titleLabel.font = titleFont
+            titleLabel.textColor = titleColor
+            titleLabel.text = titleViewModel.title
         }
     }
     
@@ -277,8 +285,6 @@ final class UserView: UIView {
         showShadow(true)
 
         backgroundColor = style.bgColor
-        titleLabel.font = style.usernameLabelFont
-        titleLabel.textColor = style.usernameLabelColor
         subtitleLabel.font = style.subtitleLabelFont
         subtitleLabel.textColor = style.subtitleLabelColor
 

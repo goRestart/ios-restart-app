@@ -7,7 +7,6 @@ final class ListingCarouselViewController: KeyboardViewController, AnimatableTra
     private struct Layout {
         static let pageControlArbitraryTopMargin: CGFloat = 40
         static let pageControlArbitraryWidth: CGFloat = 50
-        static let reputationTooltipMargin: CGFloat = 40
         static let videoProgressViewHeight: CGFloat = 4.0
     }
     @IBOutlet weak var imageBackground: UIImageView!
@@ -98,7 +97,6 @@ final class ListingCarouselViewController: KeyboardViewController, AnimatableTra
     private var pageControlTopMargin: NSLayoutConstraint?
 
     private var moreInfoTooltip: Tooltip?
-    private var reputationTooltip: LetgoTooltip?
 
     private let collectionContentOffset = Variable<CGPoint>(CGPoint.zero)
     private let itemsAlpha = Variable<CGFloat>(1)
@@ -686,19 +684,16 @@ extension ListingCarouselViewController {
             isProfessional: Bool,
             userBadge: UserReputationBadge) in
             let shouldShowPaymentFrequency = self?.viewModel.shouldShowPaymentFrequency ?? false
+            let featureFlags = self?.viewModel.featureFlags ?? FeatureFlags.sharedInstance
             self?.userView.setupWith(userAvatar: userInfo?.avatar,
                                      userName: userInfo?.name,
-                                     productTitle: productInfo?.title,
+                                     productTitle: productInfo?.titleViewModel(featureFlags: featureFlags),
                                      productPrice: productInfo?.price,
                                      productPaymentFrequency: shouldShowPaymentFrequency ? productInfo?.paymentFrequency : nil,
                                      userId: userInfo?.userId,
                                      isProfessional: isProfessional,
                                      userBadge: userBadge)
         }.disposed(by: disposeBag)
-
-        viewModel.shouldShowReputationTooltip.drive(onNext: { [weak self] shouldShowTooltip in
-            shouldShowTooltip ? self?.showReputationTooltip() : self?.hideReputationTooltip()
-        }).disposed(by: disposeBag)
 
         viewModel.userInfo.asObservable().bind { [weak self] userInfo in
             self?.fullScreenAvatarView.alpha = 0
@@ -1177,7 +1172,7 @@ extension ListingCarouselViewController: ProductCarouselMoreInfoDelegate {
 
 // MARK: > ToolTip
 
-extension ListingCarouselViewController: LetgoTooltipDelegate {
+extension ListingCarouselViewController {
 
     fileprivate func setupMoreInfoTooltip() {
         guard viewModel.shouldShowMoreInfoTooltip else { return }
@@ -1193,29 +1188,6 @@ extension ListingCarouselViewController: LetgoTooltipDelegate {
     fileprivate func removeMoreInfoTooltip() {
         moreInfoTooltip?.removeFromSuperview()
         moreInfoTooltip = nil
-    }
-
-    fileprivate func showReputationTooltip() {
-        guard reputationTooltip == nil else { return }
-        let tooltip = LetgoTooltip()
-        view.addSubviewForAutoLayout(tooltip)
-        tooltip.setupWith(peakOnTop: false, peakOffsetFromLeft: Layout.reputationTooltipMargin,
-                          message: R.Strings.profileReputationTooltipTitle)
-        tooltip.leftAnchor.constraint(equalTo: userView.leftAnchor).isActive = true
-        tooltip.bottomAnchor.constraint(equalTo: userView.topAnchor, constant: Metrics.veryBigMargin).isActive = true
-        tooltip.delegate = self
-        reputationTooltip = tooltip
-        viewModel.reputationTooltipShown()
-    }
-
-    fileprivate func hideReputationTooltip() {
-        reputationTooltip?.removeFromSuperview()
-        reputationTooltip = nil
-    }
-
-    func didTapTooltip() {
-        hideReputationTooltip()
-        viewModel.reputationTooltipTapped()
     }
 }
 

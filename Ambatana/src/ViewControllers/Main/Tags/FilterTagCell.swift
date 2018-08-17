@@ -56,12 +56,6 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
             return FilterTagCell.sizeForText(timeOption.name)
         case .category:
             return CGSize(width: Layout.Width.icon + Layout.Width.fixedSpace, height: Layout.Height.cell)
-        case .taxonomyChild(let taxonomyChild):
-            return FilterTagCell.sizeForText(taxonomyChild.name)
-        case .taxonomy(let taxonomy):
-            return FilterTagCell.sizeForText(taxonomy.name)
-        case .secondaryTaxonomyChild(let secondaryTaxonomyChild):
-            return FilterTagCell.sizeForText(secondaryTaxonomyChild.name)
         case .priceRange(let minPrice, let maxPrice, let currency):
             let priceRangeString = FilterTagCell.stringForPriceRange(minPrice, max: maxPrice, withCurrency: currency)
             return FilterTagCell.sizeForText(priceRangeString)
@@ -257,6 +251,11 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
         contentView.layer.backgroundColor = UIColor.white.cgColor
         setupConstraints()
         closeButton.addTarget(self, action: #selector(onCloseBtn), for: .touchUpInside)
+        
+        tagLabel.textColor = .black
+        contentView.backgroundColor = .white
+        closeButton.setImage(R.Asset.IconsButtons.filtersClearBtn.image, for: .normal)
+        closeButton.setImage(R.Asset.IconsButtons.filtersClearBtn.image, for: .highlighted)
     }
     
     private func setupConstraints() {
@@ -294,19 +293,6 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
         contentView.backgroundColor = .white
     }
     
-    private func applyCellStyle(tag: FilterTag) {
-        switch tag {
-        case .taxonomy(let taxonomy):
-            setColoredCellStyle(taxonomy.color)
-        case .location, .within, .orderBy, .category, .taxonomyChild, .secondaryTaxonomyChild, .priceRange,
-             .freeStuff, .distance, .carSellerType, .make, .model, .yearsRange, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms,
-             .realEstatePropertyType, .realEstateOfferType, .sizeSquareMetersRange, .realEstateNumberOfRooms,
-             .serviceType, .serviceSubtype, .unifiedServiceType, .carDriveTrainType, .carBodyType, .carFuelType, .carTransmissionType,
-             .mileageRange, .numberOfSeats:
-            setDefaultCellStyle()
-        }
-    }
-    
     private func setAccessibilityIds() {
         tagIcon.set(accessibilityId: .filterTagCellTagIcon)
         tagLabel.set(accessibilityId: .filterTagCellTagLabel)
@@ -324,7 +310,6 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
     
     func setupWithTag(_ tag : FilterTag) {
         filterTag = tag
-        applyCellStyle(tag: tag)
         switch tag {
         case .location(let place):
             tagLabel.text = place.fullText(showAddress: false)
@@ -335,12 +320,6 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
         case .category(let category):
             tagIconWidth?.constant = Layout.Width.icon
             tagIcon.image = category.imageTag
-        case .taxonomyChild(let taxonomyChild):
-            tagLabel.text = taxonomyChild.name
-        case .taxonomy(let taxonomy):
-            tagLabel.text = taxonomy.name
-        case .secondaryTaxonomyChild(let secondaryTaxonomyChild):
-            tagLabel.text = secondaryTaxonomyChild.name
         case .priceRange(let minPrice, let maxPrice, let currency):
             tagLabel.text = FilterTagCell.stringForPriceRange(minPrice, max: maxPrice, withCurrency: currency)
         case .freeStuff:
@@ -395,22 +374,5 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
                                                          unit: R.Strings.filterCarsSeatsTitle)
         }
         set(accessibilityId: .filterTagCell(tag: tag))
-    }
-
-
-    // MARK: - Private methods
-    
-    private func setDefaultCellStyle() {
-        tagLabel.textColor = .black
-        contentView.backgroundColor = .white
-        closeButton.setImage(R.Asset.IconsButtons.filtersClearBtn.image, for: .normal)
-        closeButton.setImage(R.Asset.IconsButtons.filtersClearBtn.image, for: .highlighted)
-    }
-    
-    private func setColoredCellStyle(_ color: UIColor) {
-        tagLabel.textColor = .white
-        contentView.backgroundColor = color
-        closeButton.setImage(R.Asset.IconsButtons.filtersTaxonomyClearBtn.image, for: .normal)
-        closeButton.setImage(R.Asset.IconsButtons.filtersTaxonomyClearBtn.image, for: .highlighted)
     }
 }

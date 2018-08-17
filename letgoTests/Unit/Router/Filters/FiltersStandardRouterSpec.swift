@@ -84,43 +84,5 @@ final class FiltersStandardRouterSpec: QuickSpec {
                 expect(navigationSubject?.viewControllers[0] is CarAttributeSelectionViewController) == true
             }
         }
-        
-        describe("openTaxonomyList") {
-            beforeEach {
-                subject?.openTaxonomyList(withViewModel: TaxonomiesViewModel(
-                    taxonomies: [],
-                    taxonomySelected: nil,
-                    taxonomyChildSelected: nil,
-                    source: .chat
-                ))
-            }
-            
-            it("should push the view") {
-                expect(navigationSubject?.pushWasCalled) == true
-            }
-            
-            it("should push the correct view type") {
-                expect(navigationSubject?.viewControllers[0] is TaxonomiesViewController) == true
-            }
-        }
-        
-        describe("openTaxonomyList") {
-            beforeEach {
-                subject?.openTaxonomyList(withViewModel: TaxonomiesViewModel(
-                    taxonomies: [],
-                    taxonomySelected: nil,
-                    taxonomyChildSelected: nil,
-                    source: .chat
-                ))
-            }
-            
-            it("should push the view") {
-                expect(navigationSubject?.pushWasCalled) == true
-            }
-            
-            it("should push the correct view type") {
-                expect(navigationSubject?.viewControllers[0] is TaxonomiesViewController) == true
-            }
-        }
     }
 }

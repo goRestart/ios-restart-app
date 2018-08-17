@@ -148,23 +148,6 @@ fileprivate extension SearchRelatedListingListRequester {
         params.queryString = queryString
         params.countryCode = countryCode
         params.categoryIds = filters?.selectedCategories.compactMap { $0.rawValue }
-        
-        let idCategoriesFromTaxonomies = filters?.selectedTaxonomyChildren.getIds(withType: .category)
-        params.categoryIds?.append(contentsOf: idCategoriesFromTaxonomies ?? [])
-        params.superKeywordIds = filters?.selectedTaxonomyChildren.getIds(withType: .superKeyword)
-        
-        if let selectedTaxonomyChild = filters?.selectedTaxonomyChildren.first {
-            switch selectedTaxonomyChild.type {
-            case .category:
-                params.categoryIds = [selectedTaxonomyChild.id]
-            case .superKeyword:
-                params.superKeywordIds = [selectedTaxonomyChild.id]
-            }
-        } else if let selectedTaxonomy = filters?.selectedTaxonomy {
-            params.categoryIds = selectedTaxonomy.children.getIds(withType: .category)
-            params.superKeywordIds = selectedTaxonomy.children.getIds(withType: .superKeyword)
-        }
-        
         params.timeCriteria = filters?.selectedWithin.listingTimeCriteria
         params.sortCriteria = filters?.selectedOrdering
         params.distanceRadius = filters?.distanceRadius

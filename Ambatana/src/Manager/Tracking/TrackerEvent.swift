@@ -173,13 +173,13 @@ struct TrackerEvent {
         return TrackerEvent(name: .loginBlockedAccountKeepBrowsing, params: params)
     }
 
-    static func listingList(_ user: User?, categories: [ListingCategory]?, taxonomy: TaxonomyChild?, searchQuery: String?,
+    static func listingList(_ user: User?, categories: [ListingCategory]?, searchQuery: String?,
                             resultsCount: ItemsCount?, feedSource: EventParameterFeedSource, success: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
 
         params[.feedSource] = feedSource.rawValue
         params[.categoryId] = (categories ?? [.unassigned]).trackValue
-        params[.keywordName] = taxonomy?.name ?? TrackerEvent.notApply
+        params[.keywordName] = TrackerEvent.notApply
         // Search query
         if let actualSearchQuery = searchQuery {
             params[.searchString] = actualSearchQuery
@@ -1495,13 +1495,6 @@ struct TrackerEvent {
         params[.bubblePosition] = position
         params[.bubbleName] = name
         return TrackerEvent(name: .filterBubble, params: params)
-    }
-    
-    static func onboardingInterestsComplete(superKeywords: [Int]) -> TrackerEvent {
-        var params = EventParameters()
-        params[.superKeywordsTotal] = superKeywords.count
-        params[.superKeywordsIds] = superKeywords
-        return TrackerEvent(name: .onboardingInterestsComplete, params: params)
     }
     
     static func categoriesStart(source: EventParameterTypePage) -> TrackerEvent {

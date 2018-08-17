@@ -54,6 +54,29 @@ struct LGProduct: Product, Codable {
                   user: product.user,
                   featured: product.featured)
     }
+    
+    init(baseListing: BaseListingModel) {
+        self.init(objectId: baseListing.objectId,
+                  updatedAt: baseListing.updatedAt,
+                  createdAt: baseListing.createdAt,
+                  name: baseListing.name,
+                  nameAuto: baseListing.nameAuto,
+                  descr: baseListing.descr,
+                  price: baseListing.price,
+                  currency: baseListing.currency,
+                  location: baseListing.location,
+                  postalAddress: baseListing.postalAddress,
+                  languageCode: baseListing.languageCode,
+                  category: baseListing.category,
+                  status: baseListing.status,
+                  thumbnail: baseListing.thumbnail,
+                  thumbnailSize: baseListing.thumbnailSize,
+                  images: baseListing.images,
+                  media: baseListing.media,
+                  mediaThumbnail: baseListing.mediaThumbnail,
+                  user: baseListing.user,
+                  featured: baseListing.featured)
+    }
 
     init(objectId: String?,
          updatedAt: Date?,

@@ -282,11 +282,9 @@ fileprivate extension AppDelegate {
         // LGCoreKit
         let coreEnvironment = environmentHelper.serverEnvironment
         let carsInfoJSONPath = Bundle.main.path(forResource: "CarsInfo", ofType: "json") ?? ""
-        let taxonomiesJSONPath = Bundle.main.path(forResource: "Taxonomies", ofType: "json") ?? ""
         let servicesJSONPath = Bundle.main.path(forResource: "ServicesInfo", ofType: "json") ?? ""
         let coreKitConfig = LGCoreKitConfig(environmentType: coreEnvironment,
                                             carsInfoAppJSONURL: URL(fileURLWithPath: carsInfoJSONPath),
-                                            taxonomiesAppJSONURL: URL(fileURLWithPath: taxonomiesJSONPath),
                                             servicesInfoAppJSONURL: URL(fileURLWithPath: servicesJSONPath))
         LGCoreKit.initialize(config: coreKitConfig)
 

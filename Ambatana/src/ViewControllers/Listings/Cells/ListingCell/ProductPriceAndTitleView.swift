@@ -10,12 +10,47 @@ import UIKit
 
 final class ProductPriceAndTitleView: UIView {
     
-    private enum FontSize {
-        static let paymentFrequency: CGFloat = 15.0
+    struct TitleFontDescriptor: ListingTitleFontDescriptor {
+        private let displayStyle: OverlayDisplayStyle
+        
+        init(withDisplayStyle displayStyle: OverlayDisplayStyle = .darkText) {
+            self.displayStyle = displayStyle
+        }
+        
+        var titleFont: UIFont {
+            switch displayStyle {
+            case .darkText:
+                return ListingCellMetrics.TitleLabel.fontMedium
+            case .whiteText:
+                return ListingCellMetrics.TitleLabel.fontBold
+            }
+        }
+        
+        var titleColor: UIColor {
+            switch displayStyle {
+            case .darkText:
+                return .darkGrayText
+            case .whiteText:
+                return .white
+            }
+        }
+        
+        var titlePrefixFont: UIFont {
+            return ListingCellMetrics.TitleLabel.prefixFont
+        }
+        
+        var titlePrefixColor: UIColor {
+            switch displayStyle {
+            case .darkText:
+                return .blackText
+            case .whiteText:
+                return .white
+            }
+        }
     }
     
-    enum DisplayStyle {
-        case whiteText, darkText
+    private enum FontSize {
+        static let paymentFrequency: CGFloat = 15.0
     }
     
     private let priceLabel: UILabel = {
@@ -42,30 +77,35 @@ final class ProductPriceAndTitleView: UIView {
         return label
     }()
     
-    init(textStyle: DisplayStyle = .darkText) {
+    init() {
         super.init(frame: .zero)
-        alignSubViews(style: textStyle)
+        alignSubViews()
         setAccessibilityIds()
         isOpaque = true
         clipsToBounds = true
     }
     
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     func clearLabelTexts() {
         priceLabel.attributedText = nil
         priceLabel.text = nil
+        titleLabel.attributedText = nil
         titleLabel.text = nil
     }
     
     
     // MARK: - Private
 
-    private func alignSubViews(style: DisplayStyle) {
+    private func alignSubViews() {
         addSubviewsForAutoLayout([priceLabel, titleLabel])
-        layoutPriceLabel(style: style)
+        layoutPriceLabel()
         layoutTitleLabel()
     }
     
-    private func layoutPriceLabel(style: DisplayStyle) {
+    private func layoutPriceLabel() {
         priceLabel.layout(with: self)
             .fillHorizontal(by: ListingCellMetrics.sideMargin)
         
@@ -83,39 +123,43 @@ final class ProductPriceAndTitleView: UIView {
         ])
     }
     
-    func configUI(title: String?,
+    func configUI(titleViewModel: ListingTitleViewModel?,
                   price: String,
                   paymentFrequency: String?,
-                  style: DisplayStyle) {
-
-        titleLabel.text = title
-        
-        priceLabel.textColor = priceLabelColour(forDisplayStyle: style)
+                  style: OverlayDisplayStyle) {
 
         switch style {
         case .darkText:
-            titleLabel.textColor = .darkGrayText
             backgroundColor = .clear
-            titleLabel.font = ListingCellMetrics.TitleLabel.fontMedium
             priceLabel.layout(with: self).top(by: ListingCellMetrics.PriceLabel.topMargin)
         case .whiteText:
-            titleLabel.textColor = .white
-            titleLabel.font = ListingCellMetrics.TitleLabel.fontBold
             applyShadow(withOpacity: 0.5, radius: 5, color: UIColor.black.cgColor)
         }
         
-        if let attributedText = paymentFrequencyAttributedString(forPrice: price,
-                                                                 paymentFrequency: paymentFrequency,
-                                                                 style: style) {
-            priceLabel.attributedText = attributedText
+        if let titleViewModel = titleViewModel {
+            let fontDescriptor = TitleFontDescriptor(withDisplayStyle: style)
+            if titleViewModel.shouldUseAttributedTitle {
+                titleLabel.attributedText = titleViewModel.createTitleAttributedString(withFontDescriptor: fontDescriptor)
+            } else {
+                titleLabel.font = fontDescriptor.titleFont
+                titleLabel.textColor = fontDescriptor.titleColor
+                titleLabel.text = titleViewModel.title
+            }
+        }
+        
+        if let attributedPriceText = paymentFrequencyAttributedString(forPrice: price,
+                                                                      paymentFrequency: paymentFrequency,
+                                                                      style: style) {
+            priceLabel.attributedText = attributedPriceText
         } else {
             priceLabel.text = price
+            priceLabel.textColor = priceLabelColour(forDisplayStyle: style)
         }
     }
     
     private func paymentFrequencyAttributedString(forPrice price: String,
                                                   paymentFrequency: String?,
-                                                  style: DisplayStyle) -> NSAttributedString? {
+                                                  style: OverlayDisplayStyle) -> NSAttributedString? {
         guard let paymentFrequency = paymentFrequency else { return nil }
         
         let text = "\(price) \(paymentFrequency)"
@@ -126,7 +170,7 @@ final class ProductPriceAndTitleView: UIView {
                                          otherColour: paymentFrequencyForegroundColor(forDisplayStyle: style))
     }
     
-    private func paymentFrequencyForegroundColor(forDisplayStyle displayStyle: DisplayStyle) -> UIColor {
+    private func paymentFrequencyForegroundColor(forDisplayStyle displayStyle: OverlayDisplayStyle) -> UIColor {
         switch displayStyle {
         case .darkText:
             return .grayDark
@@ -135,7 +179,7 @@ final class ProductPriceAndTitleView: UIView {
         }
     }
     
-    private func priceLabelColour(forDisplayStyle displayStyle: DisplayStyle) -> UIColor {
+    private func priceLabelColour(forDisplayStyle displayStyle: OverlayDisplayStyle) -> UIColor {
         switch displayStyle {
         case .darkText:
             return .blackText
@@ -147,9 +191,5 @@ final class ProductPriceAndTitleView: UIView {
     private func setAccessibilityIds() {
         priceLabel.set(accessibilityId: .listingCellFeaturedPrice)
         titleLabel.set(accessibilityId: .listingCellFeaturedTitle)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

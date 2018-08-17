@@ -12,7 +12,6 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
     var openSettingsCalled: Bool = false
     var openEditBioCalled: Bool = false
     var openUserReportCalled: Bool = false
-    var openVerifyAccountsCalled: Bool = false
     var openVerificationsViewCalled: Bool = false
     var showAlertCalled: Bool = false
     var showNativeShareCalled: Bool = false
@@ -74,7 +73,6 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
                 self.openSettingsCalled = false
                 self.openEditBioCalled = false
                 self.openUserReportCalled = false
-                self.openVerifyAccountsCalled = false
                 self.showAlertCalled = false
                 self.showNativeShareCalled = false
                 self.openVerificationsViewCalled = false
@@ -189,30 +187,12 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
                     }
                 }
 
-                context("press edit bio button") {
-                    beforeEach {
-                        sut.didTapEditBioButton()
-                    }
-                    it("calls navigator to open settings") {
-                        expect(self.openEditBioCalled) == true
-                    }
-                }
-
                 context("press report user button") {
                     beforeEach {
                         sut.didTapReportUserButton()
                     }
                     it("doesn't calls navigator to open user report") {
                         expect(self.openUserReportCalled) == true
-                    }
-                }
-
-                context("open verify accounts") {
-                    beforeEach {
-                        sut.didTapBuildTrustButton()
-                    }
-                    it("calls navigator to open verify accounts") {
-                        expect(self.openVerifyAccountsCalled) == true
                     }
                 }
 
@@ -248,30 +228,12 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
                     }
                 }
 
-                context("press edit bio button") {
-                    beforeEach {
-                        sut.didTapEditBioButton()
-                    }
-                    it("doesn't calls navigator to open settings") {
-                        expect(self.openEditBioCalled) == false
-                    }
-                }
-
                 context("press report user button") {
                     beforeEach {
                         sut.didTapReportUserButton()
                     }
                     it("calls navigator to open report") {
                         expect(self.openUserReportCalled) == true
-                    }
-                }
-
-                context("open verify accounts") {
-                    beforeEach {
-                        sut.didTapBuildTrustButton()
-                    }
-                    it("doesn't calls navigator to open verify accounts") {
-                        expect(self.openVerifyAccountsCalled) == false
                     }
                 }
 
@@ -311,10 +273,6 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
 
     func openEditUserBio() {
         openEditBioCalled = true
-    }
-
-    override func openVerifyAccounts(_ types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?) {
-        openVerifyAccountsCalled = true
     }
 
     override func openUserReport(source: EventParameterTypePage, userReportedId: String, rateData: RateUserData) {

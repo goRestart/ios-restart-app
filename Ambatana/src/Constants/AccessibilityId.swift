@@ -78,10 +78,6 @@ enum AccessibilityId: Equatable, Accessible {
     case filterTagCell(tag: FilterTag)
     case filterTagCellTagIcon
     case filterTagCellTagLabel
-    case selectableFilterTagCellTagLabel
-    
-    // Taxonomies
-    case taxonomiesTableView
     
     // CategoriesHeader Cells
     case categoriesHeaderCollectionView
@@ -131,13 +127,6 @@ enum AccessibilityId: Equatable, Accessible {
     case filterTextFieldIntCell
     case filterTextFieldIntCellTitleLabel
     case filterTextFieldIntCellTextField
-    case filterTextFieldIntCellTitleLabelFrom
-    case filterTextFieldIntCellTitleLabelTo
-    case filterTextFieldIntCellTextFieldFrom
-    case filterTextFieldIntCellTextFieldTo
-    
-    case filterFreeCell
-    case filterFreeCellTitleLabel
 
     // Listing Detail
     case listingDetailOnboarding
@@ -566,14 +555,6 @@ enum AccessibilityId: Equatable, Accessible {
     case userProfileVerifiedWithGoogle
     case userProfileVerifiedWithEmail
 
-    // Verify Accounts popup
-    case verifyAccountsBackgroundButton
-    case verifyAccountsFacebookButton
-    case verifyAccountsGoogleButton
-    case verifyAccountsEmailButton
-    case verifyAccountsEmailTextField
-    case verifyAccountsEmailTextFieldButton
-
     // Verifications view
     case verificationsOptionsTitle
     case verificationsFacebookOption
@@ -913,12 +894,6 @@ enum AccessibilityId: Equatable, Accessible {
                 idSuffix = "OrderBy-\(sortCriteria.rawValue)"
             case let .category(category):
                 idSuffix = "Category-\(category.rawValue)"
-            case let .taxonomyChild(taxonomyChild):
-                idSuffix = "TaxonomyChild-\(taxonomyChild.id)"
-            case let .taxonomy(taxonomy):
-                idSuffix = "Taxonomy-\(taxonomy.name)"
-            case let .secondaryTaxonomyChild(taxonomyChild):
-                idSuffix = "SecondaryTaxonomyChild-\(String(taxonomyChild.id))"
             case let .priceRange(from, to, currency):
                 var params = [String]()
                 if let from = from {
@@ -987,12 +962,6 @@ enum AccessibilityId: Equatable, Accessible {
             return "filterTagCellTagIcon"
         case .filterTagCellTagLabel:
             return "filterTagCellTagLabel"
-        case .selectableFilterTagCellTagLabel:
-            return "selectableFilterTagCellTagLabel"
-            
-        // Taxonomies
-        case .taxonomiesTableView:
-            return "taxonomiesTableView"
             
         // CategoriesHeader Cells
         case .categoriesHeaderCollectionView:
@@ -1077,19 +1046,6 @@ enum AccessibilityId: Equatable, Accessible {
             return "filterTextFieldIntCellTitleLabel"
         case .filterTextFieldIntCellTextField:
             return "filterTextFieldIntCellTextField"
-        case .filterTextFieldIntCellTitleLabelFrom:
-            return "filterTextFieldIntCellTitleLabelFrom"
-        case .filterTextFieldIntCellTitleLabelTo:
-            return "filterTextFieldIntCellTitleLabelTo"
-        case .filterTextFieldIntCellTextFieldFrom:
-            return "filterTextFieldIntCellTextFieldFrom"
-        case .filterTextFieldIntCellTextFieldTo:
-            return "filterTextFieldIntCellTextFieldTo"
-            
-        case .filterFreeCell:
-            return "filterFreeCell"
-        case .filterFreeCellTitleLabel:
-            return "filterFreeCellTitleLabel"
             
         // Listing Detail
         case .listingDetailOnboarding:
@@ -1870,20 +1826,6 @@ enum AccessibilityId: Equatable, Accessible {
             return "userProfileVerifiedWithGoogle"
         case .userProfileVerifiedWithEmail:
             return "userProfileVerifiedWithEmail"
-            
-        // Verify Accounts popup
-        case .verifyAccountsBackgroundButton:
-            return "verifyAccountsBackgroundButton"
-        case .verifyAccountsFacebookButton:
-            return "verifyAccountsFacebookButton"
-        case .verifyAccountsGoogleButton:
-            return "verifyAccountsGoogleButton"
-        case .verifyAccountsEmailButton:
-            return "verifyAccountsEmailButton"
-        case .verifyAccountsEmailTextField:
-            return "verifyAccountsEmailTextField"
-        case .verifyAccountsEmailTextFieldButton:
-            return "verifyAccountsEmailTextFieldButton"
 
         // Verifications view
         case .verificationsOptionsTitle:

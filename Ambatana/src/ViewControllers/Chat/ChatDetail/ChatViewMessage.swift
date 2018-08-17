@@ -191,7 +191,7 @@ struct ChatViewMessage: BaseModel {
         case .interlocutorIsTyping:
             return "..."
         case .cta(let ctaData, _):
-            return ctaData.text
+            return ctaData.title ?? ctaData.text ?? ""
         case .unsupported(let text):
             return text
         }

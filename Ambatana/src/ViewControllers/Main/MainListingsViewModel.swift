@@ -8,7 +8,7 @@ import LGComponents
 
 protocol MainListingsViewModelDelegate: BaseViewModelDelegate {
     func vmDidSearch()
-    func vmShowTags(primaryTags: [FilterTag], secondaryTags: [FilterTag])
+    func vmShowTags(tags: [FilterTag])
     func vmFiltersChanged()
     func vmShowMapToolTip(with configuration: TooltipConfiguration)
     func vmHideMapToolTip(hideForever: Bool)
@@ -75,10 +75,6 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         return !filters.isDefault()
     }
     
-    var isTaxonomiesAndTaxonomyChildrenInFeedEnabled: Bool {
-        return featureFlags.taxonomiesAndTaxonomyChildrenInFeed.isActive
-    }
-    
     private var isRealEstateSelected: Bool {
         return filters.selectedCategories.contains(.realEstate)
     }
@@ -112,9 +108,6 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         return bubbleTextGenerator.bubbleInfoText(forDistance: distance, type: type, distanceRadius: filters.distanceRadius, place: filters.place)
     }
     
-    var taxonomies: [Taxonomy] = []
-    var taxonomyChildren: [TaxonomyChild] = []
-    
     let infoBubbleVisible = Variable<Bool>(false)
     let infoBubbleText = Variable<String>(R.Strings.productPopularNearYou)
     let recentItemsBubbleVisible = Variable<Bool>(false)
@@ -125,20 +118,23 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     let containsListings = Variable<Bool>(false)
     let isShowingCategoriesHeader = Variable<Bool>(false)
     
+    var categoryHeaderElements: [ListingCategory] {
+        return ListingCategory.visibleValuesInFeed(servicesIncluded: true,
+                                                   realEstateIncluded: featureFlags.realEstateEnabled.isActive,
+                                                   servicesHighlighted: true)
+    }
+    
+    var categoryHighlighted: ListingCategory {
+        return .services
+    }
+    
     private static let firstVersionNumber = 1
     
-    var primaryTags: [FilterTag] {
+    var tags: [FilterTag] {
         
         var resultTags : [FilterTag] = []
         for prodCat in filters.selectedCategories {
             resultTags.append(.category(prodCat))
-        }
-        
-        if isTaxonomiesAndTaxonomyChildrenInFeedEnabled, let taxonomy = filters.selectedTaxonomy {
-            resultTags.append(.taxonomy(taxonomy))
-        }
-        if let taxonomyChild = filters.selectedTaxonomyChildren.last {
-            resultTags.append(.taxonomyChild(taxonomyChild))
         }
 
         if filters.selectedWithin.listingTimeCriteria != ListingTimeFilter.defaultOption.listingTimeCriteria {
@@ -161,7 +157,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             }
         }
         
-        if filters.selectedCategories.contains(.cars) || filters.selectedTaxonomyChildren.containsCarsTaxonomy {
+        if filters.selectedCategories.contains(.cars) {
             let carFilters = filters.verticalFilters.cars
             if let makeId = carFilters.makeId, let makeName = carFilters.makeName {
                 resultTags.append(.make(id: makeId, name: makeName.localizedUppercase))
@@ -248,18 +244,6 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         return resultTags
     }
     
-    var secondaryTags: [FilterTag] {
-        var resultTags: [FilterTag] = []
-        
-        if let taxonomyChildren = filters.selectedTaxonomy?.children, filters.selectedTaxonomyChildren.count <= 0 {
-            for secondaryTaxonomyChild in taxonomyChildren {
-                resultTags.append(.secondaryTaxonomyChild(secondaryTaxonomyChild))
-            }
-        }
-        
-        return resultTags
-    }
-    
     var shouldShowInviteButton: Bool {
         return navigator?.canOpenAppInvite() ?? false
     }
@@ -277,7 +261,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     }
     
     private var carSelectedWithFilters: Bool {
-        guard filters.selectedCategories.contains(.cars) || filters.selectedTaxonomyChildren.containsCarsTaxonomy else { return false }
+        guard filters.selectedCategories.contains(.cars) else { return false }
         return filters.hasAnyCarAttributes
     }
     
@@ -415,8 +399,11 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         return filters.selectedCategories == [.realEstate]
     }
 
-    private var shouldShowSnackbarIfRetrieveFails: Bool = false {
-        didSet { isFreshBubbleVisible.value = shouldShowSnackbarIfRetrieveFails }
+    private var isCurrentFeedACachedFeed: Bool = false {
+        didSet {
+            guard featureFlags.cachedFeed.isActive else { return }
+            isFreshBubbleVisible.value = isCurrentFeedACachedFeed
+        }
     }
     
     fileprivate let disposeBag = DisposeBag()
@@ -428,7 +415,12 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         let hasSearchQuery = searchType?.text != nil
         return isThereLoggedUser && hasSearchQuery
     }
-    var shouldShowFreshBubble: Bool { return featureFlags.cachedFeed.isActive }
+    var shouldSetupFeedBubble: Bool { return featureFlags.cachedFeed.isActive }
+    private var shouldFetchCache: Bool {
+        let abTestActive = featureFlags.cachedFeed.isActive
+        let isEmpty = listViewModel.isListingListEmpty.value
+        return abTestActive && !isCurrentFeedACachedFeed && (isEmpty || !hasFilters)
+    }
 
     private var shouldDisableOldestSearchAlertIfMaximumReached: Bool {
         return featureFlags.searchAlertsDisableOldestIfMaximumReached.isActive
@@ -552,11 +544,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         super.didBecomeActive(firstTime)
         interestingListingIDs = keyValueStorage.interestingListingIDs
         updatePermissionsWarning()
-        taxonomyChildren = filterSuperKeywordsHighlighted(taxonomies: getTaxonomyChildren())
         updateCategoriesHeader()
-        if isTaxonomiesAndTaxonomyChildrenInFeedEnabled {
-            taxonomies = getTaxonomies()
-        }
         if firstTime {
             setupRx()
             notificationsManager.updateEngagementBadgingNotifications()
@@ -627,9 +615,6 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     func updateFiltersFromTags(_ tags: [FilterTag],
                                removedTag: FilterTag?) {
         var categories: [FilterCategoryItem] = []
-        var taxonomyChild: TaxonomyChild? = nil
-        var taxonomy: Taxonomy? = nil
-        var secondaryTaxonomyChild: TaxonomyChild? = nil
         var orderBy = ListingSortCriteria.defaultOption
         var within = ListingTimeFilter.defaultOption
         var minPrice: Int? = nil
@@ -667,12 +652,6 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                 break
             case .category(let prodCategory):
                 categories.append(FilterCategoryItem(category: prodCategory))
-            case .taxonomyChild(let taxonomyChildSelected):
-                taxonomyChild = taxonomyChildSelected
-            case .taxonomy(let taxonomySelected):
-                taxonomy = taxonomySelected
-            case .secondaryTaxonomyChild(let secondaryTaxonomySelected):
-                secondaryTaxonomyChild = secondaryTaxonomySelected
             case .orderBy(let prodSortOption):
                 orderBy = prodSortOption
             case .within(let prodTimeOption):
@@ -741,26 +720,6 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             }
         }
         
-        if let taxonomyValue = taxonomy {
-            filters.selectedTaxonomy = taxonomyValue
-        } else {
-            filters.selectedTaxonomy = nil
-        }
-        
-        if let secondaryTaxonomyChildValue = secondaryTaxonomyChild,
-            filters.selectedTaxonomy != nil {
-            filters.selectedTaxonomyChildren = [secondaryTaxonomyChildValue]
-        } else if let taxonomyChildValue = taxonomyChild,
-            filters.selectedTaxonomy != nil {
-            filters.selectedTaxonomyChildren = [taxonomyChildValue]
-        } else {
-            filters.selectedTaxonomyChildren = []
-        }
-        
-        if let removedTag = removedTag, removedTag.isTaxonomy {
-            filters.selectedTaxonomyChildren = []
-        }
-        
         filters.selectedOrdering = orderBy
         filters.selectedWithin = within
         if free {
@@ -813,24 +772,13 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     func applyFilters(_ categoryHeaderInfo: CategoryHeaderInfo) {
         tracker.trackEvent(TrackerEvent.filterCategoryHeaderSelected(position: categoryHeaderInfo.position,
                                                                      name: categoryHeaderInfo.name))
-        delegate?.vmShowTags(primaryTags: primaryTags, secondaryTags: secondaryTags)
+        delegate?.vmShowTags(tags: tags)
         updateCategoriesHeader()
         updateListView()
     }
     
     func updateFiltersFromHeaderCategories(_ categoryHeaderInfo: CategoryHeaderInfo) {
-        switch categoryHeaderInfo.categoryHeaderElement {
-        case .listingCategory(let listingCategory):
-            filters.selectedCategories = [listingCategory]
-        case .superKeyword(let taxonomyChild):
-            filters.selectedTaxonomyChildren = [taxonomyChild]
-        case .superKeywordGroup(let taxonomy):
-            filters.selectedTaxonomy = taxonomy
-        case .showMore:
-            tracker.trackEvent(TrackerEvent.filterCategoryHeaderSelected(position: categoryHeaderInfo.position,
-                                                                         name: categoryHeaderInfo.name))
-            return // do not update any filters
-        }
+        filters.selectedCategories = [categoryHeaderInfo.listingCategory]
         applyFilters(categoryHeaderInfo)
     }
     
@@ -853,12 +801,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         listViewModel.retrieveRecentItems()
         notificationsManager.hideEngagementBadgingNotifications()
     }
-
-    func updateSelectedTaxonomyChildren(taxonomyChildren: [TaxonomyChild]) {
-        filters.selectedTaxonomyChildren = taxonomyChildren
-        updateCategoriesHeader()
-        updateListView()
-    }
+    
     
     // MARK: - Private methods
     
@@ -889,9 +832,10 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     private func viewModelForSearch(_ searchType: SearchType) -> MainListingsViewModel {
         return MainListingsViewModel(searchType: searchType, filters: filters)
     }
+
+
     
     fileprivate func updateListView() {
-        
         if filters.selectedOrdering == ListingSortCriteria.defaultOption {
             infoBubbleText.value = defaultBubbleText
         }
@@ -910,43 +854,11 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         errorMessage.value = nil
         listViewModel.cellStyle = cellStyle
         listViewModel.resetUI()
-        listViewModel.refresh()
-    }
-    
-    // MARK: - Taxonomies
-    
-    fileprivate func getTaxonomies() -> [Taxonomy] {
-        return categoryRepository.indexTaxonomies()
-    }
-    
-    private func getTaxonomyChildren() -> [TaxonomyChild] {
-        return getTaxonomies().flatMap { $0.children }
-    }
-    
-    private func filterSuperKeywordsHighlighted(taxonomies: [TaxonomyChild]) ->  [TaxonomyChild] {
-        let highlightedTaxonomies: [TaxonomyChild] = taxonomies.filter { $0.highlightOrder != nil }
-        let sortedArray = highlightedTaxonomies.sorted(by: {
-            guard let firstValue = $0.highlightOrder, let secondValue = $1.highlightOrder else { return false }
-            return firstValue < secondValue
-        })
-        return sortedArray
-    }
-    
-    var categoryHeaderElements: [CategoryHeaderElement] {
-        var categoryHeaderElements: [CategoryHeaderElement] = []
-        if isTaxonomiesAndTaxonomyChildrenInFeedEnabled {
-            categoryHeaderElements.append(contentsOf: taxonomies.map { CategoryHeaderElement.superKeywordGroup($0) })
-        } else {
-            categoryHeaderElements.append(contentsOf: ListingCategory.visibleValuesInFeed(servicesIncluded: true,
-                                                                                          realEstateIncluded: featureFlags.realEstateEnabled.isActive,
-                                                                                          servicesHighlighted: true)
-                .map { CategoryHeaderElement.listingCategory($0) })
+        listViewModel.refresh(shouldSaveToCache: !hasFilters)
+
+        if shouldFetchCache {
+            listViewModel.fetchFromCache()
         }
-        return categoryHeaderElements
-    }
-    
-    var categoryHeaderHighlighted: CategoryHeaderElement {
-        return CategoryHeaderElement.listingCategory(.services)
     }
     
     
@@ -1136,7 +1048,7 @@ extension MainListingsViewModel: FiltersViewModelDataDelegate {
     
     func viewModelDidUpdateFilters(_ viewModel: FiltersViewModel, filters: ListingFilters) {
         self.filters = filters
-        delegate?.vmShowTags(primaryTags: primaryTags, secondaryTags: secondaryTags)
+        delegate?.vmShowTags(tags: tags)
         updateListView()
     }
 }
@@ -1165,7 +1077,8 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         monetizationRepository.events.bind { [weak self] event in
             switch event {
             case .freeBump, .pricedBump:
-                self?.listViewModel.refresh()
+                let hasFilters = self?.hasFilters ?? false
+                self?.listViewModel.refresh(shouldSaveToCache: !hasFilters)
             }
             }.disposed(by: disposeBag)
     }
@@ -1207,16 +1120,14 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
     // MARK: > ListingListViewModelDataDelegate
 
     func listingListVMDidSucceedRetrievingCache(viewModel: ListingListViewModel) {
-        shouldShowSnackbarIfRetrieveFails = true
+        isCurrentFeedACachedFeed = true
     }
 
     func listingListVM(_ viewModel: ListingListViewModel,
                        didSucceedRetrievingListingsPage page: UInt,
                        withResultsCount resultsCount: Int,
                        hasListings: Bool) {
-        if featureFlags.cachedFeed.isActive {
-            shouldShowSnackbarIfRetrieveFails = false
-        }
+        isCurrentFeedACachedFeed = false
 
         // Only save the string when there is products and we are not searching a collection
         if let search = searchType, hasListings {
@@ -1283,7 +1194,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                        didFailRetrievingListingsPage page: UInt,
                        hasListings hasProducts: Bool,
                        error: RepositoryError) {
-        if page == 0 && shouldShowSnackbarIfRetrieveFails {
+        if page == 0 && isCurrentFeedACachedFeed {
             isFreshBubbleVisible.value = false
             navigator?.showFailBubble(withMessage: R.Strings.cachedFeedError, duration: 3)
         }
@@ -1293,10 +1204,13 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             listViewModel.retrieveListings()
             return
         }
-        
+
+
         if page == 0 && !hasProducts {
+            let hasFilters = !self.hasFilters
             if let emptyViewModel = LGEmptyViewModel.map(from: error,
-                                                         action: { [weak viewModel] in viewModel?.refresh() }) {
+                                                         action: { [weak viewModel] in
+                                                            viewModel?.refresh(shouldSaveToCache: !hasFilters) }) {
                 listViewModel.setErrorState(emptyViewModel)
             }
         }
@@ -1572,7 +1486,7 @@ extension MainListingsViewModel {
     }
     
     fileprivate func retrieveProductsIfNeededWithNewLocation(_ newLocation: LGLocation) {
-        if featureFlags.cachedFeed.isActive {
+        if shouldFetchCache {
             listViewModel.fetchFromCache()
         }
         
@@ -1768,7 +1682,7 @@ extension MainListingsViewModel {
     var showCategoriesCollectionBanner: Bool {
         let isSearchAlertsBannerHidden = !shouldShowSearchAlertBanner
         let isShowingListings = !listViewModel.isListingListEmpty.value
-        return primaryTags.isEmpty && isShowingListings && isSearchAlertsBannerHidden
+        return tags.isEmpty && isShowingListings && isSearchAlertsBannerHidden
     }
     
     func pushPermissionsHeaderPressed() {
@@ -1918,7 +1832,6 @@ fileprivate extension MainListingsViewModel {
         let successParameter: EventParameterBoolean = hasListings ? .trueParameter : .falseParameter
         let trackerEvent = TrackerEvent.listingList(myUserRepository.myUser,
                                                     categories: filters.selectedCategories,
-                                                    taxonomy: filters.selectedTaxonomyChildren.first,
                                                     searchQuery: queryString, resultsCount: resultsCount,
                                                     feedSource: feedSource, success: successParameter)
         tracker.trackEvent(trackerEvent)
@@ -1987,33 +1900,8 @@ extension MainListingsViewModel: CategoriesHeaderCollectionViewDelegate {
         // This feed uses the `selectedCategory` variable in the CategoriesHeaderView
         // To handle this functionality
     }
-    
-    func openTaxonomyList() {
-        let vm = TaxonomiesViewModel(taxonomies: getTaxonomies(), taxonomySelected: nil, taxonomyChildSelected: nil, source: .listingList)
-        vm.taxonomiesDelegate = self
-        navigator?.openTaxonomyList(withViewModel: vm)
-    }
 }
 
-
-// MARK: TaxonomiesDelegate
-
-extension MainListingsViewModel: TaxonomiesDelegate {
-    func didSelect(taxonomy: Taxonomy) {
-        filters.selectedTaxonomy = taxonomy
-        filters.selectedTaxonomyChildren = []
-        delegate?.vmShowTags(primaryTags: primaryTags, secondaryTags: secondaryTags)
-        updateCategoriesHeader()
-        updateListView()
-    }
-    
-    func didSelect(taxonomyChild: TaxonomyChild) {
-        filters.selectedTaxonomyChildren = [taxonomyChild]
-        delegate?.vmShowTags(primaryTags: primaryTags, secondaryTags: secondaryTags)
-        updateCategoriesHeader()
-        updateListView()
-    }
-}
 
 // MARK: ListingCellDelegate
 

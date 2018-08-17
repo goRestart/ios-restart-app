@@ -22,7 +22,6 @@ protocol FeatureFlaggeable: class {
     var pricedBumpUpEnabled: Bool { get }
     var userReviewsReportEnabled: Bool { get }
     var realEstateEnabled: RealEstateEnabled { get }
-    var taxonomiesAndTaxonomyChildrenInFeed : TaxonomiesAndTaxonomyChildrenInFeed { get }
     var showClockInDirectAnswer : ShowClockInDirectAnswer { get }
     var deckItemPage: DeckItemPage { get }
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio { get }
@@ -103,7 +102,6 @@ protocol FeatureFlaggeable: class {
     var frictionlessShare: FrictionlessShare { get }
 
     // MARK: Users
-    var advancedReputationSystem: AdvancedReputationSystem { get }
     var emergencyLocate: EmergencyLocate { get }
     var offensiveReportAlert: OffensiveReportAlert { get }
     var reportingFostaSesta: ReportingFostaSesta { get }
@@ -127,10 +125,6 @@ extension FeatureFlaggeable {
     var syncedData: Observable<Bool> {
         return trackingData.map { $0 != nil }
     }
-}
-
-extension TaxonomiesAndTaxonomyChildrenInFeed {
-    var isActive: Bool { return self == .active }
 }
 
 extension RealEstateEnabled {
@@ -252,11 +246,6 @@ extension CopyForChatNowInTurkey {
             return R.Strings.bumpUpProductCellChatNowButtonD
         }
     }
-}
-
-extension AdvancedReputationSystem {
-    var isActive: Bool { return self != .baseline && self != .control  }
-    var shouldShowTooltip: Bool { return self == .variantB }
 }
 
 extension ShowCommunity {
@@ -574,7 +563,6 @@ final class FeatureFlags: FeatureFlaggeable {
         defer { abTests.variablesUpdated() }
         guard Bumper.enabled else { return }
         
-        dao.save(advanceReputationSystem: AdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value))
         dao.save(emergencyLocate: EmergencyLocate.fromPosition(abTests.emergencyLocate.value))
         dao.save(community: ShowCommunity.fromPosition(abTests.community.value))
     }
@@ -626,13 +614,6 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.deckItemPage
         }
         return DeckItemPage.fromPosition(abTests.deckItemPage.value)
-    }
-    
-    var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed {
-        if Bumper.enabled {
-            return Bumper.taxonomiesAndTaxonomyChildrenInFeed
-        }
-        return TaxonomiesAndTaxonomyChildrenInFeed.fromPosition(abTests.taxonomiesAndTaxonomyChildrenInFeed.value)
     }
     
     var showClockInDirectAnswer: ShowClockInDirectAnswer {
@@ -696,14 +677,6 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.showProTagUserProfile
         }
         return abTests.showProTagUserProfile.value
-    }
-
-    var advancedReputationSystem: AdvancedReputationSystem {
-        if Bumper.enabled {
-            return Bumper.advancedReputationSystem
-        }
-        let cached = dao.retrieveAdvanceReputationSystem()
-        return cached ?? AdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value)
     }
 
     var community: ShowCommunity {

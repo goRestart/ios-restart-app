@@ -141,7 +141,6 @@ extension ABTests {
 //  MARK: Users
 
 extension ABTests {
-    var advancedReputationSystem: LeanplumABVariable<Int> { return users.advancedReputationSystem }
     var showPasswordlessLogin: LeanplumABVariable<Int> { return users.showPasswordlessLogin }
     var emergencyLocate: LeanplumABVariable<Int> { return users.emergencyLocate }
     var offensiveReportAlert: LeanplumABVariable<Int> { return users.offensiveReportAlert }
@@ -253,7 +252,6 @@ extension ABTests {
     var locationDataSourceType: LeanplumABVariable<Int> { return legacy.locationDataSourceType }
     var realEstateEnabled: LeanplumABVariable<Int> { return legacy.realEstateEnabled }
     var deckItemPage: LeanplumABVariable<Int> { return legacy.newItemPage }
-    var taxonomiesAndTaxonomyChildrenInFeed: LeanplumABVariable<Int> { return legacy.taxonomiesAndTaxonomyChildrenInFeed }
     var showClockInDirectAnswer: LeanplumABVariable<Int> { return legacy.showClockInDirectAnswer }
     var showAdsInFeedWithRatio: LeanplumABVariable<Int> { return legacy.showAdsInFeedWithRatio }
 }

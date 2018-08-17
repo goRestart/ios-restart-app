@@ -14,7 +14,6 @@ final class ChatViewController: TextViewController {
     let inputBarHeight: CGFloat = 44
     let expressBannerHeight: CGFloat = 44
     let professionalSellerBannerHeight: CGFloat = 44
-    let reputationTooltipMargin: CGFloat = 40
 
     let listingView: ChatListingView
     let chatDetailHeader: ChatDetailNavBarInfoView
@@ -34,7 +33,6 @@ final class ChatViewController: TextViewController {
     var professionalSellerBannerTopConstraint: NSLayoutConstraint = NSLayoutConstraint()
     var featureFlags: FeatureFlaggeable
     var pushPermissionManager: PushPermissionsManager
-    var tooltip: LetgoTooltip?
 
     var blockedToastOffset: CGFloat {
         return relationInfoView.isHidden ? 0 : RelationInfoView.defaultHeight
@@ -648,10 +646,6 @@ fileprivate extension ChatViewController {
             self?.listingView.badgeImageView.isHidden = !verified
         }).disposed(by: disposeBag)
 
-        viewModel.shouldShowReputationTooltip.asDriver().drive(onNext: { [weak self] showTooltip in
-            showTooltip ? self?.showReputationTooltip() : self?.hideReputationTooltip()
-        }).disposed(by: disposeBag)
-
         textView.rx.text
             .orEmpty
             .skip(1)
@@ -659,32 +653,6 @@ fileprivate extension ChatViewController {
             .disposed(by: disposeBag)
     }
 }
-
-extension ChatViewController: LetgoTooltipDelegate {
-    fileprivate func showReputationTooltip() {
-        guard tooltip == nil else { return }
-        let reputationTooltip = LetgoTooltip()
-        view.addSubviewForAutoLayout(reputationTooltip)
-        reputationTooltip.setupWith(peakOnTop: true, peakOffsetFromLeft: reputationTooltipMargin,
-                                    message: R.Strings.profileReputationTooltipTitle)
-        reputationTooltip.delegate = self
-        reputationTooltip.layout(with: topLayoutGuide).below(by: Metrics.veryShortMargin)
-        reputationTooltip.layout(with: view).leading(by: reputationTooltipMargin)
-        tooltip = reputationTooltip
-        viewModel.reputationTooltipShown()
-    }
-
-    fileprivate func hideReputationTooltip() {
-        tooltip?.removeFromSuperview()
-        tooltip = nil
-    }
-
-    func didTapTooltip() {
-        hideReputationTooltip()
-        viewModel.reputationTooltipTapped()
-    }
-}
-
 
 // MARK: - TableView Delegate & DataSource
 

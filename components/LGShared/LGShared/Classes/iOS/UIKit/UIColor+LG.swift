@@ -305,24 +305,6 @@ public extension UIColor {
     }
 }
 
-// MARK: > Superkeyword groups
-
-public extension UIColor {
-    struct Taxonomy {
-        public static var electronics: UIColor { return paleTeal }
-        public static var vehiclesAndBicycles: UIColor { return celestialBlue }
-        public static var homeAndGarden: UIColor { return cyanBlueAzure }
-        public static var hobbiesAndEntertainment: UIColor { return budGreen }
-        public static var fashionAndAccessories: UIColor { return rosa }
-        public static var family: UIColor { return amber }
-        public static var others: UIColor { return earthYellow }
-        
-        fileprivate static let amber = UIColor(rgb: 0x538fd1) // (83, 143, 209)
-        fileprivate static let cyanBlueAzure = UIColor(rgb: 0xf5cd77) // (245, 205, 119)
-        fileprivate static let earthYellow = UIColor(rgb: 0xcd1a960) // (205, 26, 150)
-    }
-}
-
 // MARK: - Camera
 
 public extension UIColor {
@@ -336,6 +318,7 @@ public extension UIColor {
         fileprivate static let almostWatermelonDarker = UIColor(rgb: 0xa93f56) // (169, 63, 86)
     }
 }
+
 // MARK: > Edit User Bio
 
 public extension UIColor {

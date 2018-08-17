@@ -139,10 +139,6 @@ extension TabCoordinator: TabNavigator {
             openChatFromConversationId(conversationId, source: source, predefinedMessage: predefinedMessage)
         }
     }
-
-    func openVerifyAccounts(_ types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?) {
-        appNavigator?.openVerifyAccounts(types, source: source, completionBlock: completionBlock)
-    }
     
     func openAppInvite(myUserId: String?, myUserName: String?) {
         appNavigator?.openAppInvite(myUserId: myUserId, myUserName: myUserName)
@@ -168,7 +164,7 @@ extension TabCoordinator: TabNavigator {
     }
 
     func openUser(user: User, source: UserSource) {
-        userCoordinator.openUser(user: user, source: source)
+        userCoordinator.openUser(user: user, source: source, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
     }
 
     var hidesBottomBarWhenPushed: Bool {

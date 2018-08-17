@@ -26,9 +26,6 @@ public class LGCoreKit {
 
         // Fill cars Info cache with local data
         InternalCore.carsInfoRepository.loadFirstRunCacheIfNeeded(jsonURL: config.carsInfoAppJSONURL)
-
-        // Fill taxonomies cache with local data
-        InternalCore.categoryRepository.loadFirstRunCacheIfNeeded(jsonURL: config.taxonomiesAppJSONURL)
         
         // Fill services cache with local data
         InternalCore.servicesInfoRepository.loadFirstRunCacheIfNeeded(jsonURL: config.servicesInfoAppJSONURL)

@@ -288,6 +288,9 @@ extension AppCoordinator: AppNavigator {
                                      bumpUpProductData: BumpUpProductData,
                                      typePage: EventParameterTypePage?) {
 
+        let promoteBumpEvent = TrackerEvent.bumpUpPromo()
+        tracker.trackEvent(promoteBumpEvent)
+
         let promoteBumpCoordinator = PromoteBumpCoordinator(listingId: listingId,
                                                             bumpUpProductData: bumpUpProductData,
                                                             typePage: typePage)
@@ -445,17 +448,9 @@ extension AppCoordinator: AppNavigator {
         profileTabBarCoordinator.openEditLocation(withDistanceRadius: nil)
     }
 
-    func openVerifyAccounts(_ types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?) {
-        let viewModel = VerifyAccountsViewModel(verificationTypes: types, source: source, completionBlock: completionBlock)
-        let viewController = VerifyAccountsViewController(viewModel: viewModel)
-        viewController.setupForModalWithNonOpaqueBackground()
-        viewController.modalTransitionStyle = .crossDissolve
-        tabBarCtl.present(viewController, animated: true, completion: nil)
-    }
-
     func openResetPassword(_ token: String) {
         let vc = LGChangePasswordBuilder.modal.buildChangePassword(withToken: token)
-        tabBarCtl.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
+        tabBarCtl.present(vc, animated: true, completion: nil)
     }
 
     func openSurveyIfNeeded() {
@@ -1197,10 +1192,6 @@ extension AppCoordinator: BumpInfoRequesterDelegate {
             }
         case .promoted:
             tabBarCtl.clearAllPresented(nil)
-
-            let promoteBumpEvent = TrackerEvent.bumpUpPromo()
-            tracker.trackEvent(promoteBumpEvent)
-
             openPromoteBumpForListingId(listingId: requestListingId,
                                         bumpUpProductData: bumpUpProductData,
                                         typePage: typePage)
@@ -1209,9 +1200,6 @@ extension AppCoordinator: BumpInfoRequesterDelegate {
                                bumpUpProductData: bumpUpProductData,
                                maxCountdown: maxCountdown)
         case .sellEdit(let listing):
-            let promoteBumpEvent = TrackerEvent.bumpUpPromo()
-            tracker.trackEvent(promoteBumpEvent)
-
             openEditForListing(listing: listing,
                                bumpUpProductData: bumpUpProductData,
                                maxCountdown: maxCountdown)

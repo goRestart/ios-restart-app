@@ -45,7 +45,7 @@ final class ChatConversationsListViewModelSpec: QuickSpec {
                 var viewStateObserver: TestableObserver<ViewState>!
                 beforeEach {
                     viewStateObserver = scheduler.createObserver(ViewState.self)
-                    sut.rx_viewState
+                    sut.viewState
                         .asObservable()
                         .bind(to: viewStateObserver)
                         .disposed(by: bag)
@@ -58,8 +58,8 @@ final class ChatConversationsListViewModelSpec: QuickSpec {
                         
                         sut.active = true
                     }
-                    it("forwwards viewState events: .loading (default), .loading, .data") {
-                        expect(viewStateObserver.eventValues).toEventually(equal([.loading, .loading, .data]))
+                    it("forwards viewState events: .loading, .data") {
+                        expect(viewStateObserver.eventValues).toEventually(equal([.loading, .data]))
                     }
                     it("has X conversations") {
                         expect(sut.rx_conversations.value.count).toEventually(equal(conversations.count))
@@ -72,9 +72,9 @@ final class ChatConversationsListViewModelSpec: QuickSpec {
                         
                         sut.active = true
                     }
-                    it("forwwards viewState events: .loading (default), .loading, .empty") {
+                    it("forwards viewState events: .loading, .empty") {
                         expect(viewStateObserver.eventValues)
-                            .toEventually(equal([.loading, .loading, .empty(sut.emptyViewModel(forFilter: .all))]))
+                            .toEventually(equal([ .loading, .empty(sut.emptyViewModel(forFilter: .all))]))
                     }
                     it("has 0 conversations") {
                         expect(sut.rx_conversations.value.count).toEventually(equal(0))
@@ -89,10 +89,9 @@ final class ChatConversationsListViewModelSpec: QuickSpec {
                         
                         sut.active = true
                     }
-                    it("forwwards viewState events: .loading (default), .loading, .error") {
+                    it("forwards viewState events: .loading, .error") {
                         expect(viewStateObserver.eventValues)
                             .toEventually(equal([.loading,
-                                                 .loading,
                                                  ViewState.error(sut.emptyViewModel(forError: repositoryError)!)]))
                     }
                     it("has 0 conversations") {

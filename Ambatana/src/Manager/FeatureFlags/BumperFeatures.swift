@@ -22,7 +22,6 @@ extension Bumper  {
         flags.append(UserReviewsReportEnabled.self)
         flags.append(RealEstateEnabled.self)
         flags.append(RequestsTimeOut.self)
-        flags.append(TaxonomiesAndTaxonomyChildrenInFeed.self)
         flags.append(DeckItemPage.self)
         flags.append(ShowClockInDirectAnswer.self)
         flags.append(ShowAdsInFeedWithRatio.self)
@@ -62,7 +61,6 @@ extension Bumper  {
         flags.append(PreventMessagesFromFeedToProUsers.self)
         flags.append(SimplifiedChatButton.self)
         flags.append(ShowChatConnectionStatusBar.self)
-        flags.append(AdvancedReputationSystem.self)
         flags.append(NotificationSettings.self)
         flags.append(CarExtraFieldsEnabled.self)
         flags.append(ShowChatHeaderWithoutListingForAssistant.self)
@@ -166,19 +164,6 @@ extension Bumper  {
     static var requestsTimeOutObservable: Observable<RequestsTimeOut> {
         return Bumper.observeValue(for: RequestsTimeOut.key).map {
             RequestsTimeOut(rawValue: $0 ?? "") ?? .baseline
-        }
-    }
-    #endif
-
-    static var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed {
-        guard let value = Bumper.value(for: TaxonomiesAndTaxonomyChildrenInFeed.key) else { return .control }
-        return TaxonomiesAndTaxonomyChildrenInFeed(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var taxonomiesAndTaxonomyChildrenInFeedObservable: Observable<TaxonomiesAndTaxonomyChildrenInFeed> {
-        return Bumper.observeValue(for: TaxonomiesAndTaxonomyChildrenInFeed.key).map {
-            TaxonomiesAndTaxonomyChildrenInFeed(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -690,19 +675,6 @@ extension Bumper  {
     }
     #endif
 
-    static var advancedReputationSystem: AdvancedReputationSystem {
-        guard let value = Bumper.value(for: AdvancedReputationSystem.key) else { return .control }
-        return AdvancedReputationSystem(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var advancedReputationSystemObservable: Observable<AdvancedReputationSystem> {
-        return Bumper.observeValue(for: AdvancedReputationSystem.key).map {
-            AdvancedReputationSystem(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
     static var notificationSettings: NotificationSettings {
         guard let value = Bumper.value(for: NotificationSettings.key) else { return .control }
         return NotificationSettings(rawValue: value) ?? .control 
@@ -1109,22 +1081,6 @@ enum RequestsTimeOut: String, BumperFeature  {
             case 3: return .sixty
             case 4: return .hundred_and_twenty
             default: return .baseline
-        }
-    }
-}
-
-enum TaxonomiesAndTaxonomyChildrenInFeed: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return TaxonomiesAndTaxonomyChildrenInFeed.control.rawValue }
-    static var enumValues: [TaxonomiesAndTaxonomyChildrenInFeed] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Taxonomies and taxonomy children in feed as filter tags" } 
-    static func fromPosition(_ position: Int) -> TaxonomiesAndTaxonomyChildrenInFeed {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
         }
     }
 }
@@ -1764,23 +1720,6 @@ enum ShowChatConnectionStatusBar: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
-            default: return .control
-        }
-    }
-}
-
-enum AdvancedReputationSystem: String, BumperFeature  {
-    case control, baseline, variantA, variantB
-    static var defaultValue: String { return AdvancedReputationSystem.control.rawValue }
-    static var enumValues: [AdvancedReputationSystem] { return [.control, .baseline, .variantA, .variantB]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Advance reputation system and Karma Score with SMS and tooltip" } 
-    static func fromPosition(_ position: Int) -> AdvancedReputationSystem {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .variantA
-            case 3: return .variantB
             default: return .control
         }
     }

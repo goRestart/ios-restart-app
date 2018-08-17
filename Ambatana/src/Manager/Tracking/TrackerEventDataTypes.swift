@@ -379,8 +379,6 @@ enum EventParameterName: String {
     case verticalFields             = "vertical-fields"
     case bubblePosition       = "bubble-position"
     case bubbleName           = "bubble-name"
-    case superKeywordsTotal   = "superkeyword-total"
-    case superKeywordsIds     = "superkeyword-ids"
     case keywordName          = "keyword-name"
     case relatedSource        = "related-source"
     case adShown              = "ad-shown"

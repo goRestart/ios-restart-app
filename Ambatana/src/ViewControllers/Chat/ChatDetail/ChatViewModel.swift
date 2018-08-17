@@ -88,7 +88,6 @@ class ChatViewModel: ChatBaseViewModel {
     let interlocutorName = Variable<String>("")
     let interlocutorId = Variable<String?>(nil)
     let interlocutorIsVerified = Variable<Bool>(false)
-    let shouldShowReputationTooltip = Variable<Bool>(false)
     let stickers = Variable<[Sticker]>([])
     let chatStatus = Variable<ChatInfoViewStatus>(.available)
     let chatEnabled = Variable<Bool>(true)
@@ -154,7 +153,6 @@ class ChatViewModel: ChatBaseViewModel {
     fileprivate let source: EventParameterTypePage
     fileprivate let pushPermissionsManager: PushPermissionsManager
     fileprivate let ratingManager: RatingManager
-    fileprivate let reputationTooltipManager: ReputationTooltipManager
     fileprivate let keyValueStorage: KeyValueStorageable
 
     fileprivate let firstInteractionDone = Variable<Bool>(false)
@@ -177,7 +175,6 @@ class ChatViewModel: ChatBaseViewModel {
     fileprivate var afterRetrieveMessagesCompletion: (() -> Void)?
 
     fileprivate var showingSendMessageError = false
-    fileprivate var showingVerifyAccounts = false
 
     fileprivate let disposeBag = DisposeBag()
     fileprivate var userIsTypingDisposeBag: DisposeBag? = DisposeBag()
@@ -268,15 +265,13 @@ class ChatViewModel: ChatBaseViewModel {
         let keyValueStorage = KeyValueStorage.sharedInstance
         let ratingManager = LGRatingManager.sharedInstance
         let pushPermissionsManager = LGPushPermissionsManager.sharedInstance
-        let reputationTooltipManager = LGReputationTooltipManager.sharedInstance
 
         self.init(conversation: conversation, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   listingRepository: listingRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository, tracker: tracker, configManager: configManager,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
                   source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager,
-                  predefinedMessage: predefinedMessage, openChatAutomaticMessage: nil, interlocutor: nil,
-                  reputationTooltipManager: reputationTooltipManager)
+                  predefinedMessage: predefinedMessage, openChatAutomaticMessage: nil, interlocutor: nil)
     }
     
     convenience init?(listing: Listing,
@@ -298,7 +293,6 @@ class ChatViewModel: ChatBaseViewModel {
         let featureFlags = FeatureFlags.sharedInstance
         let ratingManager = LGRatingManager.sharedInstance
         let pushPermissionsManager = LGPushPermissionsManager.sharedInstance
-        let reputationTooltipManager = LGReputationTooltipManager.sharedInstance
         let amISelling = myUserRepository.myUser?.objectId == sellerId
         let empty = EmptyConversation(objectId: nil, unreadMessageCount: 0, lastMessageSentAt: nil, amISelling: amISelling,
                                       listing: nil, interlocutor: nil)
@@ -307,8 +301,7 @@ class ChatViewModel: ChatBaseViewModel {
                   stickersRepository: stickersRepository ,tracker: tracker, configManager: configManager,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
                   source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager, predefinedMessage: nil,
-                  openChatAutomaticMessage: openChatAutomaticMessage, interlocutor: interlocutor,
-                  reputationTooltipManager: reputationTooltipManager)
+                  openChatAutomaticMessage: openChatAutomaticMessage, interlocutor: interlocutor)
         self.setupConversationFrom(listing: listing)
     }
     
@@ -317,7 +310,7 @@ class ChatViewModel: ChatBaseViewModel {
           tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, keyValueStorage: KeyValueStorageable,
           navigator: ChatDetailNavigator?, featureFlags: FeatureFlaggeable, source: EventParameterTypePage,
           ratingManager: RatingManager, pushPermissionsManager: PushPermissionsManager, predefinedMessage: String?,
-          openChatAutomaticMessage: ChatWrapperMessageType?, interlocutor: User?, reputationTooltipManager: ReputationTooltipManager) {
+          openChatAutomaticMessage: ChatWrapperMessageType?, interlocutor: User?) {
         self.conversation = Variable<ChatConversation>(conversation)
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
@@ -338,7 +331,6 @@ class ChatViewModel: ChatBaseViewModel {
         self.predefinedMessage = predefinedMessage
         self.openChatAutomaticMessage = openChatAutomaticMessage
         self.interlocutor = interlocutor
-        self.reputationTooltipManager = reputationTooltipManager
         if let isProfessional = interlocutor?.isProfessional {
             self.interlocutorProfessionalInfo.value = InterlocutorProfessionalInfo(isProfessional: isProfessional,
                                                                                    phoneNumber: interlocutor?.phone)
@@ -543,7 +535,6 @@ class ChatViewModel: ChatBaseViewModel {
                 guard let user = result.value else { return }
                 strongSelf.interlocutor = user
                 strongSelf.interlocutorIsVerified.value = user.hasBadge
-                strongSelf.shouldShowReputationTooltip.value = user.hasBadge && strongSelf.reputationTooltipManager.shouldShowTooltip()
                 let proInfo = InterlocutorProfessionalInfo(isProfessional: user.isProfessional, phoneNumber: user.phone)
                 strongSelf.interlocutorProfessionalInfo.value = proInfo
                 if let userInfoMessage = strongSelf.userInfoMessage, strongSelf.shouldShowOtherUserInfo {
@@ -689,9 +680,7 @@ class ChatViewModel: ChatBaseViewModel {
                 if strongSelf.active {
                     self?.refreshMessages()
                 }
-            case .openNotVerified:
-                self?.showUserNotVerifiedAlert()
-            case .closed, .closing, .opening, .openNotAuthenticated:
+            case .closed, .closing, .opening, .openNotAuthenticated, .openNotVerified:
                 break
             }
         }.disposed(by: disposeBag)
@@ -799,14 +788,6 @@ class ChatViewModel: ChatBaseViewModel {
 
         trackCallSeller()
     }
-
-    func reputationTooltipTapped() {
-        navigator?.openUserVerificationView()
-    }
-
-    func reputationTooltipShown() {
-        reputationTooltipManager.didShowTooltip()
-    }
 }
 
 
@@ -816,18 +797,6 @@ extension ChatViewModel {
     
     func isMatchingConversationId(_ conversationId: String) -> Bool {
         return conversationId == conversation.value.objectId
-    }
-
-    fileprivate func showUserNotVerifiedAlert() {
-        guard !showingVerifyAccounts else { return }
-        showingVerifyAccounts = true
-        navigator?.openVerifyAccounts([.facebook, .google, .email(myUserRepository.myUser?.email)],
-                                         source: .chat(title: R.Strings.chatConnectAccountsTitle,
-                                         description: R.Strings.chatNotVerifiedAlertMessage),
-                                         completionBlock: { [weak self] in
-                                            self?.navigator?.closeChatDetail()
-                                            self?.showingVerifyAccounts = false
-        })
     }
 }
 
@@ -906,17 +875,13 @@ extension ChatViewModel {
                 switch error {
                 case let .wsChatError(chatRepositoryError):
                     switch chatRepositoryError {
-                    case .userNotVerified:
-                        self?.showUserNotVerifiedAlert()
-                    case .notAuthenticated, .userBlocked, .internalError, .network, .apiError:
+                    case .notAuthenticated, .userBlocked, .internalError, .network, .apiError, .userNotVerified:
                         self?.showSendMessageError(withText: R.Strings.chatSendErrorGeneric)
                     case .differentCountry:
                         self?.showSendMessageError(withText: R.Strings.chatSendErrorDifferentCountry)
                     }
-                case .userNotVerified:
-                    self?.showUserNotVerifiedAlert()
                 case .forbidden, .internalError, .network, .notFound, .tooManyRequests, .unauthorized, .serverError,
-                     .searchAlertError:
+                     .searchAlertError, .userNotVerified:
                     self?.showSendMessageError(withText: R.Strings.chatSendErrorGeneric)
                 }
             }
@@ -1568,9 +1533,9 @@ extension ChatViewModel {
         var firstInterlocutorMessageIndex: Int? {
             guard let i = messages.reversed().index(where: {
                 switch $0.type {
-                case .disclaimer, .userInfo, .askPhoneNumber, .interlocutorIsTyping, .multiAnswer:
+                case .disclaimer, .userInfo, .askPhoneNumber, .interlocutorIsTyping, .multiAnswer, .cta:
                     return false
-                case .offer, .sticker, .text, .meeting, .unsupported, .cta:
+                case .offer, .sticker, .text, .meeting, .unsupported:
                     return $0.talkerId != myUserRepository.myUser?.objectId
                 }
             }) else { return nil }

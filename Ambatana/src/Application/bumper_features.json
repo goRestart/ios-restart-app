@@ -31,11 +31,6 @@
          "description": "API requests timeout"
     },
     {
-        "name": "TaxonomiesAndTaxonomyChildrenInFeed",
-        "values": ["control", "baseline", "active"],
-        "description": "Taxonomies and taxonomy children in feed as filter tags"
-    },
-    {
         "name": "DeckItemPage",
         "values": ["control", "baseline", "active"],
         "description": "Deck item page with card appearance and different navigation"
@@ -229,11 +224,6 @@
         "name": "ShowChatConnectionStatusBar",
         "values": ["control", "baseline", "active"],
         "description": "[CHAT] Show a toast in the chat with the websocket and network connection status"
-    },
-    {
-         "name": "AdvancedReputationSystem",
-         "values": ["control", "baseline", "variantA", "variantB"],
-         "description": "Advance reputation system and Karma Score with SMS and tooltip"
     },
     {
         "name": "NotificationSettings",

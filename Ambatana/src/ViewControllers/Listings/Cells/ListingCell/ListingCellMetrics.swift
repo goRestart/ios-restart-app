@@ -38,6 +38,11 @@ struct ListingCellMetrics {
             let fontSize: CGFloat = DeviceFamily.current.shouldShow3Columns() ? 13 : 15
             return UIFont.systemFont(ofSize: fontSize, weight: .bold)
         }
+        
+        static var prefixFont: UIFont {
+            let fontSize: CGFloat = DeviceFamily.current.shouldShow3Columns() ? 13 : 15
+            return UIFont.systemFont(ofSize: fontSize, weight: .bold)
+        }
     }
     
     struct ActionButton {
@@ -75,11 +80,16 @@ struct ListingCellMetrics {
         }
     }
     
-    static func getTotalHeightForPriceAndTitleView(_ title: String?, containerWidth: CGFloat, font: UIFont = TitleLabel.fontMedium, maxLines: Int = 2) -> CGFloat {
+    static func getTotalHeightForPriceAndTitleView(titleViewModel: ListingTitleViewModel?,
+                                                   containerWidth: CGFloat,
+                                                   maxLines: Int = 2) -> CGFloat {
         let priceHeight = minPriceAreaHeight
-        guard let title = title else { return priceHeight }
-        let labelWidth = containerWidth - 2 * sideMargin
-        let titleHeight = title.heightForWidth(width: labelWidth, maxLines: maxLines, withFont: font)
+        guard let titleViewModel = titleViewModel else { return priceHeight }
+        let sideMarginOffset: CGFloat = 5.0
+        let labelWidth = containerWidth - ((2 * sideMargin)+sideMarginOffset)
+        let titleHeight = titleViewModel.height(forWidth: labelWidth,
+                                                maxLines: maxLines,
+                                                fontDescriptor: ProductPriceAndTitleView.TitleFontDescriptor())
         return priceHeight + titleHeight + TitleLabel.bottomMargin
     }
 

@@ -10,23 +10,19 @@ import LGCoreKit
 import LGComponents
 
 protocol FilterTagFeedPresentable: FilterTagsViewDelegate {
-    var primaryTags: [FilterTag] { get }
-    var secondaryTags: [FilterTag] { get }
+    var tags: [FilterTag] { get }
 }
 
 final class FilterTagFeedPresenter: BaseViewModel {
     
-    let primaryTags: [FilterTag]
-    let secondaryTags: [FilterTag]
+    let tags: [FilterTag]
     
     private weak var delegate: FilterTagsViewDelegate?
     
     init(delegate: FilterTagsViewDelegate,
-         primaryTags: [FilterTag],
-         secondaryTags: [FilterTag]) {
+         tags: [FilterTag]) {
         self.delegate = delegate
-        self.primaryTags = primaryTags
-        self.secondaryTags = secondaryTags
+        self.tags = tags
     }
 }
 

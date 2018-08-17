@@ -100,8 +100,7 @@ extension ProfileTabCoordinator: SettingsNavigator {
     }
 
     func openChangePassword() {
-        let vc = LGChangePasswordBuilder.standard(
-            root: navigationController).buildChangePassword()
+        let vc = LGChangePasswordBuilder.standard(navigationController).buildChangePassword()
         navigationController.pushViewController(vc, animated: true)
     }
 

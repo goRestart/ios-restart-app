@@ -39,8 +39,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
         var source: LetGoGodMode.EventParameterTypePage!
         var pushPermissionManager: MockPushPermissionsManager!
         var ratingManager: MockRatingManager!
-        var reputationTooltipManager: MockReputationTooltipManager!
-        
+
         // Vars to modify on tests:
         var mockMyUser: MockMyUser!
         var chatMessages: [MockChatMessage]!
@@ -107,7 +106,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                                     keyValueStorage: keyValueStorage, navigator: nil, featureFlags: featureFlags,
                                     source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionManager,
                                     predefinedMessage: predefinedMessage, openChatAutomaticMessage: openChatAutomaticMessage,
-                                    interlocutor: interlocutor, reputationTooltipManager: reputationTooltipManager)
+                                    interlocutor: interlocutor)
                 sut.delegate = self
                 disposeBag = DisposeBag()
                 sut.messages.observable.bind(to: messages).disposed(by: disposeBag)
@@ -132,7 +131,6 @@ class ChatViewModelSpec: BaseViewModelSpec {
                 source = .chat
                 pushPermissionManager = MockPushPermissionsManager()
                 ratingManager = MockRatingManager()
-                reputationTooltipManager = MockReputationTooltipManager()
 
                 scheduler = TestScheduler(initialClock: 0)
                 scheduler.start()

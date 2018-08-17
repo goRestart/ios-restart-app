@@ -109,8 +109,6 @@ public struct LGLocationCoordinates2D: Equatable {
         return binValuesToQuadKey(latBin, longBin: longBin)
     }
 
-
-
 }
 
 public func ==(lhs: LGLocationCoordinates2D, rhs: LGLocationCoordinates2D) -> Bool {

@@ -29,8 +29,7 @@ final class FilterTagFeedHeaderCell: UICollectionReusableView, ReusableCell {
     }
     
     func configure(with feedPresenter: FilterTagFeedPresentable) {
-        filterTagsView.updateTags(feedPresenter.primaryTags)
-        filterTagsView.updateSecondaryTags(feedPresenter.secondaryTags)
+        filterTagsView.updateTags(feedPresenter.tags)
         filterTagsView.delegate = feedPresenter
     }
 }
