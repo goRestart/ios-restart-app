@@ -22,7 +22,6 @@ struct LegacyABGroup: ABGroupType {
         static let locationDataSourceType = "20170830LocationDataSourceType"
         static let realEstateEnabled = "20171228realEstateEnabled"
         static let deckItemPage = "20180403NewItemPage"
-        static let showClockInDirectAnswer = "20171031ShowClockInDirectAnswer"
         static let showAdsInFeedWithRatio = "20180111ShowAdsInFeedWithRatio"
     }
     
@@ -39,7 +38,6 @@ struct LegacyABGroup: ABGroupType {
     let locationDataSourceType: LeanplumABVariable<Int>
     let realEstateEnabled: LeanplumABVariable<Int>
     let newItemPage: LeanplumABVariable<Int>
-    let showClockInDirectAnswer: LeanplumABVariable<Int>
     let showAdsInFeedWithRatio: LeanplumABVariable<Int>
     
     
@@ -61,7 +59,6 @@ struct LegacyABGroup: ABGroupType {
          locationDataSourceType: LeanplumABVariable<Int>,
          realEstateEnabled: LeanplumABVariable<Int>,
          newItemPage: LeanplumABVariable<Int>,
-         showClockInDirectAnswer: LeanplumABVariable<Int>,
          showAdsInFeedWithRatio: LeanplumABVariable<Int>) {
         
         self.marketingPush = marketingPush
@@ -76,14 +73,12 @@ struct LegacyABGroup: ABGroupType {
         self.locationDataSourceType = locationDataSourceType
         self.realEstateEnabled = realEstateEnabled
         self.newItemPage = newItemPage
-        self.showClockInDirectAnswer = showClockInDirectAnswer
         self.showAdsInFeedWithRatio = showAdsInFeedWithRatio
         
         intVariables.append(contentsOf: [marketingPush,
                                          locationDataSourceType,
                                          realEstateEnabled,
                                          newItemPage,
-                                         showClockInDirectAnswer,
                                          showAdsInFeedWithRatio])
         boolVariables.append(contentsOf: [surveyEnabled, freeBumpUpEnabled,
                                           pricedBumpUpEnabled, newCarsMultiRequesterEnabled, inAppRatingIOS10,
@@ -105,7 +100,6 @@ struct LegacyABGroup: ABGroupType {
                              locationDataSourceType: .makeInt(key: Keys.locationDataSourceType, defaultValue: 0, groupType: .legacyABTests),
                              realEstateEnabled: .makeInt(key: Keys.realEstateEnabled, defaultValue: 0, groupType: .legacyABTests),
                              newItemPage: .makeInt(key: Keys.deckItemPage, defaultValue: 0, groupType: .legacyABTests),
-                             showClockInDirectAnswer: .makeInt(key: Keys.showClockInDirectAnswer, defaultValue: 0, groupType: .legacyABTests),
                              showAdsInFeedWithRatio: .makeInt(key: Keys.showAdsInFeedWithRatio, defaultValue: 0, groupType: .legacyABTests))
     }
 }
