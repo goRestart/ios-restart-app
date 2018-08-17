@@ -87,6 +87,7 @@ extension Bumper  {
         flags.append(CachedFeed.self)
         flags.append(CopyForSellFasterNowInTurkish.self)
         flags.append(NotificationCenterRedesign.self)
+        flags.append(RandomImInterestedMessages.self)
         Bumper.initialize(flags)
     } 
 
@@ -1012,6 +1013,19 @@ extension Bumper  {
         }
     }
     #endif
+
+    static var randomImInterestedMessages: RandomImInterestedMessages {
+        guard let value = Bumper.value(for: RandomImInterestedMessages.key) else { return .control }
+        return RandomImInterestedMessages(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var randomImInterestedMessagesObservable: Observable<RandomImInterestedMessages> {
+        return Bumper.observeValue(for: RandomImInterestedMessages.key).map {
+            RandomImInterestedMessages(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
 }
 
 
@@ -1264,7 +1278,7 @@ enum OnboardingIncentivizePosting: String, BumperFeature  {
     static var defaultValue: String { return OnboardingIncentivizePosting.control.rawValue }
     static var enumValues: [OnboardingIncentivizePosting] { return [.control, .baseline, .blockingPosting, .blockingPostingSkipWelcome]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Leads the user through the posting feature and onboarding improvements" } 
+    static var description: String { return "[RETENTION] Leads the user through the posting feature and onboarding improvements" } 
     static func fromPosition(_ position: Int) -> OnboardingIncentivizePosting {
         switch position { 
             case 0: return .control
@@ -1610,7 +1624,7 @@ enum HighlightedIAmInterestedFeed: String, BumperFeature  {
     static var defaultValue: String { return HighlightedIAmInterestedFeed.control.rawValue }
     static var enumValues: [HighlightedIAmInterestedFeed] { return [.control, .baseline, .lightBottom, .darkTop, .darkBottom]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show an I am interested highlighted undo button in the main feed more" } 
+    static var description: String { return "[RETENTION] Show an I am interested highlighted undo button in the main feed more" } 
     static func fromPosition(_ position: Int) -> HighlightedIAmInterestedFeed {
         switch position { 
             case 0: return .control
@@ -1730,7 +1744,7 @@ enum NotificationSettings: String, BumperFeature  {
     static var defaultValue: String { return NotificationSettings.control.rawValue }
     static var enumValues: [NotificationSettings] { return [.control, .baseline, .differentLists, .sameList]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Settings to enable or disable each type of notification" } 
+    static var description: String { return "[RETENTION] Settings to enable or disable each type of notification" } 
     static func fromPosition(_ position: Int) -> NotificationSettings {
         switch position { 
             case 0: return .control
@@ -1856,7 +1870,7 @@ enum SearchAlertsInSearchSuggestions: String, BumperFeature  {
     static var defaultValue: String { return SearchAlertsInSearchSuggestions.control.rawValue }
     static var enumValues: [SearchAlertsInSearchSuggestions] { return [.control, .baseline, .active]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show search alerts in search suggestions view" } 
+    static var description: String { return "[RETENTION] Show search alerts in search suggestions view" } 
     static func fromPosition(_ position: Int) -> SearchAlertsInSearchSuggestions {
         switch position { 
             case 0: return .control
@@ -1872,7 +1886,7 @@ enum EngagementBadging: String, BumperFeature  {
     static var defaultValue: String { return EngagementBadging.control.rawValue }
     static var enumValues: [EngagementBadging] { return [.control, .baseline, .active]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show recent items bubble in feed basic approach" } 
+    static var description: String { return "[RETENTION] Show recent items bubble in feed basic approach" } 
     static func fromPosition(_ position: Int) -> EngagementBadging {
         switch position { 
             case 0: return .control
@@ -2120,6 +2134,22 @@ enum NotificationCenterRedesign: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "[RETENTION] Notification center redesign with sections and modern UI design" } 
     static func fromPosition(_ position: Int) -> NotificationCenterRedesign {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum RandomImInterestedMessages: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return RandomImInterestedMessages.control.rawValue }
+    static var enumValues: [RandomImInterestedMessages] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[RETENTION] Random Im Interested messages from listing list" } 
+    static func fromPosition(_ position: Int) -> RandomImInterestedMessages {
         switch position { 
             case 0: return .control
             case 1: return .baseline

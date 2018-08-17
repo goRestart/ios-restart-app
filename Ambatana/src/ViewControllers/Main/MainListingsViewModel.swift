@@ -1989,7 +1989,13 @@ extension MainListingsViewModel: ListingCellDelegate {
     private func sendInterestedMessage(forListing listing: Listing, atIndex index: Int, withID identifier: String) {
         interestingListingIDs.update(with: identifier)
         syncInterestingListings(interestingListingIDs)
-        let type: ChatWrapperMessageType = ChatWrapperMessageType.interested(QuickAnswer.interested.textToReply)
+        let type: ChatWrapperMessageType
+        if featureFlags.randomImInterestedMessages.isActive {
+            type = ChatWrapperMessageType.interested(QuickAnswer.dynamicInterested(
+                interestedMessage: QuickAnswer.InterestedMessage.makeRandom()).textToReply)
+        } else {
+            type = ChatWrapperMessageType.interested(QuickAnswer.interested.textToReply)
+        }
         let trackingInfo = SendMessageTrackingInfo.makeWith(type: type,
                                                             listing: listing,
                                                             freePostingAllowed: featureFlags.freePostingModeAllowed)

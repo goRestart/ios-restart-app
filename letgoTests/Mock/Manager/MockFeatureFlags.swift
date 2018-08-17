@@ -118,5 +118,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var engagementBadging: EngagementBadging = .control
     var searchAlertsDisableOldestIfMaximumReached: SearchAlertsDisableOldestIfMaximumReached = .control
     var notificationCenterRedesign: NotificationCenterRedesign = .control
+    var randomImInterestedMessages: RandomImInterestedMessages = .control
 }
 

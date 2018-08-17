@@ -2,6 +2,62 @@ import LGCoreKit
 import LGComponents
 
 enum QuickAnswer: Equatable {
+    
+    enum InterestedMessage {
+        case imInterested
+        case imInterestedInThisItem
+        case imInterestedInBuyingIt
+        case idLikeToBuyIt
+        case isThisAvailable
+        case isThisStillAvailable
+        case isItStillAvailable
+        case doYouStillHaveIt
+        case isItStillForSale
+        case hasItSold
+        case areYouStillSellingIt
+        case whatConditionIsItIn
+        
+        static func all() -> [InterestedMessage] {
+            return [.imInterested, .imInterestedInThisItem, .imInterestedInBuyingIt, .idLikeToBuyIt,
+                    .isThisAvailable, .isThisStillAvailable, .isItStillAvailable, .doYouStillHaveIt,
+                    .isItStillForSale, .hasItSold, .areYouStillSellingIt, .whatConditionIsItIn]
+        }
+        
+        static func makeRandom() -> InterestedMessage {
+            let allInterestedMessages = all()
+            let randomIndex = Int.makeRandom(min: 0, max: allInterestedMessages.count-1)
+            return allInterestedMessages[randomIndex]
+        }
+        
+        var string: String {
+            switch self {
+            case .imInterested:
+                return R.Strings.directAnswerInterested
+            case .imInterestedInThisItem:
+                return R.Strings.directAnswerInterestedInThisItem
+            case .imInterestedInBuyingIt:
+                return R.Strings.directAnswerInterestedInBuyingIt
+            case .idLikeToBuyIt:
+                return R.Strings.directAnswerInterestedBuyIt
+            case .isThisAvailable:
+                return R.Strings.directAnswerInterestedIsThisAvailable
+            case .isThisStillAvailable:
+                return R.Strings.directAnswerInterestedIsThisStillAvailable
+            case .isItStillAvailable:
+                return R.Strings.directAnswerInterestedIsItStillAvailable
+            case .doYouStillHaveIt:
+                return R.Strings.directAnswerInterestedStillHaveIt
+            case .isItStillForSale:
+                return R.Strings.directAnswerInterestedIsItStillForSale
+            case .hasItSold:
+                return R.Strings.directAnswerInterestedHasItSold
+            case .areYouStillSellingIt:
+                return R.Strings.directAnswerInterestedStillSellingIt
+            case .whatConditionIsItIn:
+                return R.Strings.directAnswerInterestedWhatCondition
+            }
+        }
+    }
 
     case interested
     case notInterested
@@ -22,6 +78,8 @@ enum QuickAnswer: Equatable {
 
     case meetingAssistant(chatNorrisABtestVersion: ChatNorris)
     case dynamic(chatAnswer: ChatAnswer)
+
+    case dynamicInterested(interestedMessage: InterestedMessage)
     
 
     static public func ==(lhs: QuickAnswer, rhs: QuickAnswer) -> Bool {
@@ -77,6 +135,10 @@ enum QuickAnswer: Equatable {
                     }
                 }
             }
+        case .dynamicInterested(let lhsInterestedMessage):
+            if case .dynamicInterested(let rhsInterestedMessage) = rhs {
+                return lhsInterestedMessage == rhsInterestedMessage
+            }
         }
         return false
     }
@@ -124,14 +186,16 @@ enum QuickAnswer: Equatable {
             case .callToAction(let textToShow, _, _):
                 return textToShow
             }
+        case .dynamicInterested(let interestedMessage):
+            return interestedMessage.string
         }
     }
     
     var textToReply: String {
         switch self {
-        case .interested, .notInterested, .meetUp, .stillAvailable, .isNegotiable, .likeToBuy,
-             .listingCondition, .listingStillForSale, .listingSold, .whatsOffer, .negotiableYes,
-             .negotiableNo, .freeStillHave, .freeYours, .freeAvailable, .freeNotAvailable, .meetingAssistant:
+        case .interested, .notInterested, .meetUp, .stillAvailable, .isNegotiable, .likeToBuy, .listingCondition,
+             .listingStillForSale, .listingSold, .whatsOffer, .negotiableYes, .negotiableNo, .freeStillHave,
+             .freeYours, .freeAvailable, .freeNotAvailable, .meetingAssistant, .dynamicInterested:
             return textToShow
         case .dynamic(let chatAnswer):
             switch chatAnswer.type {
@@ -147,7 +211,7 @@ enum QuickAnswer: Equatable {
         switch self {
         case .interested, .notInterested, .meetUp, .stillAvailable, .isNegotiable, .likeToBuy, .listingCondition,
             .listingStillForSale, .listingSold, .whatsOffer, .negotiableYes, .negotiableNo, .freeStillHave,
-            .freeYours, .freeAvailable, .freeNotAvailable, .meetingAssistant:
+            .freeYours, .freeAvailable, .freeNotAvailable, .meetingAssistant, .dynamicInterested:
             return nil
         case .dynamic(let chatAnswer):
             return chatAnswer.id
@@ -158,7 +222,7 @@ enum QuickAnswer: Equatable {
         switch self {
         case .interested, .notInterested, .meetUp, .stillAvailable, .isNegotiable, .likeToBuy, .listingCondition,
              .listingStillForSale, .listingSold, .whatsOffer, .negotiableYes, .negotiableNo, .freeStillHave,
-             .freeYours, .freeAvailable, .freeNotAvailable, .meetingAssistant:
+             .freeYours, .freeAvailable, .freeNotAvailable, .meetingAssistant, .dynamicInterested:
             return nil
         case .dynamic(let chatAnswer):
             return chatAnswer.key
@@ -167,7 +231,7 @@ enum QuickAnswer: Equatable {
 
     var quickAnswerTypeParameter: String? {
         switch self {
-        case .interested:
+        case .interested, .dynamicInterested:
             return EventParameterQuickAnswerType.interested.rawValue
         case .notInterested:
             return EventParameterQuickAnswerType.notInterested.rawValue
