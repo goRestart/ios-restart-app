@@ -85,7 +85,7 @@ class ListingViewModel: BaseViewModel {
                                             postingFlowType: featureFlags.postingFlowType)
 
             var badge: UserReputationBadge = .noBadge
-            if let reputationBadge = seller?.reputationBadge, featureFlags.advancedReputationSystem.isActive {
+            if let reputationBadge = seller?.reputationBadge {
                 badge = reputationBadge
             }
 
@@ -122,8 +122,7 @@ class ListingViewModel: BaseViewModel {
                                     purchasesShopper: LGPurchasesShopper.sharedInstance,
                                     monetizationRepository: Core.monetizationRepository,
                                     tracker: TrackerProxy.sharedInstance,
-                                    keyValueStorage: KeyValueStorage.sharedInstance,
-                                    reputationTooltipManager: LGReputationTooltipManager.sharedInstance)
+                                    keyValueStorage: KeyValueStorage.sharedInstance)
         }
 
         func make(listing: Listing, navigator: ListingDetailNavigator?,
@@ -243,7 +242,6 @@ class ListingViewModel: BaseViewModel {
     fileprivate let showFeaturedStripeHelper: ShowFeaturedStripeHelper
     fileprivate let visitSource: EventParameterListingVisitSource
     fileprivate let keyValueStorage: KeyValueStorageable
-    let reputationTooltipManager: ReputationTooltipManager
 
     lazy var isShowingFeaturedStripe = Variable<Bool>(false)
     fileprivate lazy var isListingDetailsCompleted = Variable<Bool>(false)
@@ -278,8 +276,7 @@ class ListingViewModel: BaseViewModel {
          purchasesShopper: PurchasesShopper,
          monetizationRepository: MonetizationRepository,
          tracker: Tracker,
-         keyValueStorage: KeyValueStorageable,
-         reputationTooltipManager: ReputationTooltipManager) {
+         keyValueStorage: KeyValueStorageable) {
         self.listing = Variable<Listing>(listing)
         self.visitSource = visitSource
         self.socialSharer = socialSharer
@@ -296,7 +293,6 @@ class ListingViewModel: BaseViewModel {
         self.purchasesShopper = purchasesShopper
         self.monetizationRepository = monetizationRepository
         self.showFeaturedStripeHelper = ShowFeaturedStripeHelper(featureFlags: featureFlags, myUserRepository: myUserRepository)
-        self.reputationTooltipManager = reputationTooltipManager
         self.userInfo = Variable<ListingVMUserInfo>(ListingVMUserInfo(userListing: listing.user,
                                                                       myUser: myUserRepository.myUser,
                                                                       sellerBadge: .noBadge))
@@ -330,10 +326,9 @@ class ListingViewModel: BaseViewModel {
                 if let value = result.value {
                     strongSelf.seller.value = value
                     strongSelf.sellerAverageUserRating = value.ratingAverage
-                    let badge = strongSelf.featureFlags.advancedReputationSystem.isActive ? value.reputationBadge : .noBadge
                     strongSelf.userInfo.value = ListingVMUserInfo(userListing: strongSelf.listing.value.user,
                                                                   myUser: strongSelf.myUserRepository.myUser,
-                                                                  sellerBadge: badge)
+                                                                  sellerBadge: value.reputationBadge)
                 }
             }
         }

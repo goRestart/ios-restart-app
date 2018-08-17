@@ -58,7 +58,7 @@ final class UserProfileViewModel: BaseViewModel {
     }
 
     var showKarmaView: Bool {
-        return featureFlags.advancedReputationSystem.isActive && isPrivateProfile
+        return isPrivateProfile
     }
 
     var userName: Driver<String?> { return user.asDriver().map {$0?.name} }
@@ -234,27 +234,6 @@ extension UserProfileViewModel {
         trackVerifyAccountStart()
     }
 
-    func didTapBuildTrustButton() {
-        guard isPrivateProfile else { return }
-        let userAccounts = buildAccountsModel(user.value)
-        var verifyTypes: [VerificationType] = []
-        if !userAccounts.emailVerified {
-            verifyTypes.append(.email(myUserRepository.myUser?.email))
-        }
-        if !userAccounts.facebookVerified {
-            verifyTypes.append(.facebook)
-        }
-        if !userAccounts.googleVerified {
-            verifyTypes.append(.google)
-        }
-        guard !verifyTypes.isEmpty else { return }
-        profileNavigator?.openVerifyAccounts(verifyTypes,
-                                      source: .profile(title: R.Strings.chatConnectAccountsTitle,
-                                                       description: R.Strings.profileConnectAccountsMessage),
-                                      completionBlock: nil)
-        trackVerifyAccountStart()
-    }
-
     func updateAvatar(with image: UIImage) {
         guard let imageData = image.dataForAvatar() else { return }
         myUserRepository.updateAvatar(imageData,
@@ -297,11 +276,6 @@ extension UserProfileViewModel {
     func didTapSettingsButton() {
         guard isPrivateProfile else { return }
         profileNavigator?.openSettings()
-    }
-
-    func didTapEditBioButton() {
-        guard isPrivateProfile else { return }
-        profileNavigator?.openEditUserBio()
     }
 
     func didTapBlockUserButton() {
@@ -394,10 +368,8 @@ extension UserProfileViewModel {
             guard let strongSelf = self, let user = user else { return .noBadge }
             if strongSelf.featureFlags.showProTagUserProfile && user.isProfessional {
                 return .pro
-            } else if strongSelf.featureFlags.advancedReputationSystem.isActive {
-                return UserHeaderViewBadge(userBadge: user.reputationBadge)
             } else {
-                return .noBadge
+                return UserHeaderViewBadge(userBadge: user.reputationBadge)
             }
         }
     }
@@ -576,7 +548,8 @@ extension UserProfileViewModel: ListingListViewModelDataDelegate {
     func listingListVM(_ viewModel: ListingListViewModel,
                        didSucceedRetrievingListingsPage page: UInt,
                        withResultsCount resultsCount: Int,
-                       hasListings: Bool) {
+                       hasListings: Bool,
+                       containsRecentListings: Bool) {
         guard !hasListings && page == 0,
             let emptyState = makeEmptyState(for: viewModel) else { return }
         viewModel.setEmptyState(emptyState)

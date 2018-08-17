@@ -64,7 +64,8 @@ class SimpleListingsViewModel: BaseViewModel, ListingListViewModelDataDelegate {
     func listingListVM(_ viewModel: ListingListViewModel,
                        didSucceedRetrievingListingsPage page: UInt,
                        withResultsCount resultsCount: Int,
-                       hasListings: Bool) {
+                       hasListings: Bool,
+                       containsRecentListings: Bool) {
 
     }
     func listingListVM(_ viewModel: ListingListViewModel, 

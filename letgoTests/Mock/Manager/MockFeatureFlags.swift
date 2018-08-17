@@ -100,7 +100,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var frictionlessShare: FrictionlessShare = .control
 
     // MARK: Users
-    var advancedReputationSystem: AdvancedReputationSystem = .control
     var showPasswordlessLogin: ShowPasswordlessLogin = .control
     var emergencyLocate: EmergencyLocate = .control
     var offensiveReportAlert: OffensiveReportAlert = .control
@@ -119,5 +118,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var engagementBadging: EngagementBadging = .control
     var searchAlertsDisableOldestIfMaximumReached: SearchAlertsDisableOldestIfMaximumReached = .control
     var notificationCenterRedesign: NotificationCenterRedesign = .control
+    var randomImInterestedMessages: RandomImInterestedMessages = .control
 }
 

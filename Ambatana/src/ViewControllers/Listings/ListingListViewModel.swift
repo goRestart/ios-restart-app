@@ -17,7 +17,11 @@ protocol ListingListViewModelDelegate: class {
 protocol ListingListViewModelDataDelegate: class {
     func listingListMV(_ viewModel: ListingListViewModel, didFailRetrievingListingsPage page: UInt, hasListings: Bool,
                          error: RepositoryError)
-    func listingListVM(_ viewModel: ListingListViewModel, didSucceedRetrievingListingsPage page: UInt, withResultsCount resultsCount: Int, hasListings: Bool)
+    func listingListVM(_ viewModel: ListingListViewModel,
+                       didSucceedRetrievingListingsPage page: UInt,
+                       withResultsCount resultsCount: Int,
+                       hasListings: Bool,
+                       containsRecentListings: Bool)
     func listingListVM(_ viewModel: ListingListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
                        originFrame: CGRect?)
     func vmProcessReceivedListingPage(_ Listings: [ListingCellModel], page: UInt) -> [ListingCellModel]
@@ -99,8 +103,6 @@ final class ListingListViewModel: BaseViewModel {
         return tuple?.0
     }
     
-    var recentListingsRequester: RecentListingsRequester?
-    
     private var requesterFactory: RequesterFactory? {
         didSet {
             requesterSequence = requesterFactory?.buildRequesterList() ?? []
@@ -170,6 +172,10 @@ final class ListingListViewModel: BaseViewModel {
     
     let numberOfColumns: Int
     private var searchType: SearchType?
+    
+    var recentListings: [Listing] = []
+    var isShowingRecentListings = false
+    var hasPreviouslyShownRecentListings = false
 
     // MARK: - Lifecycle
     
@@ -237,9 +243,6 @@ final class ListingListViewModel: BaseViewModel {
                   searchType: searchType)
         self.requesterFactory = requesterFactory
         requesterSequence = requesterFactory.buildRequesterList()
-        if featureFlags.engagementBadging.isActive {
-            self.recentListingsRequester = requesterFactory.buildRecentListingsRequester()
-        }
         setCurrentFallbackRequester()
     }
     
@@ -445,6 +448,7 @@ final class ListingListViewModel: BaseViewModel {
             strongSelf.applyNewListingInfo(hasNewListing: !newListings.isEmpty,
                                            context: result.context,
                                            verticalTracking: result.verticalTrackingInfo)
+            
             let cellModels = strongSelf.mapListingsToCellModels(newListings,
                                                                 pageNumber: nextPageNumber,
                                                                 shouldBeProcessed: true)
@@ -477,7 +481,8 @@ final class ListingListViewModel: BaseViewModel {
             strongSelf.dataDelegate?.listingListVM(strongSelf,
                                                    didSucceedRetrievingListingsPage: nextPageNumber,
                                                    withResultsCount: newListings.count,
-                                                   hasListings: hasListings)
+                                                   hasListings: hasListings,
+                                                   containsRecentListings: false)
             strongSelf.currentRequesterIndex = 0
         }
         if isFirstPage {
@@ -569,27 +574,28 @@ final class ListingListViewModel: BaseViewModel {
         imageDownloader.downloadImagesWithURLs(urls)
     }
 
-    func retrieveRecentItems() {
-        isLoading = true
-        recentListingsRequester?.retrieveRecentItems { [weak self] result in
-            guard let strongSelf = self else { return }
-            defer { strongSelf.isLoading = false }
-            guard let newListings = result.listingsResult.value else { return }
-
-            let cellModels = strongSelf.mapListingsToCellModels(newListings,
-                                                                pageNumber: nil,
-                                                                shouldBeProcessed: false)
-            let indexes = strongSelf.updateFirstListingIndexes(withCellModels: cellModels)
-            
-            strongSelf.state = .data
-            strongSelf.delegate?.vmDidFinishLoading(strongSelf,
-                                                    page: 0,
-                                                    indexes: indexes)
-            strongSelf.dataDelegate?.listingListVM(strongSelf,
-                                                   didSucceedRetrievingListingsPage: 0,
-                                                   withResultsCount: newListings.count,
-                                                   hasListings: true)
-        }
+    func addRecentListings(_ recentListings: [Listing]) {
+        self.recentListings = recentListings
+    }
+    
+    func showRecentListings() {
+        let cellModels = mapListingsToCellModels(recentListings,
+                                                 pageNumber: nil,
+                                                 shouldBeProcessed: false)
+        let indexes = updateFirstListingIndexes(withCellModels: cellModels)
+        
+        state = .data
+        delegate?.vmDidFinishLoading(self,
+                                     page: 0,
+                                     indexes: indexes)
+        dataDelegate?.listingListVM(self,
+                                    didSucceedRetrievingListingsPage: 0,
+                                    withResultsCount: recentListings.count,
+                                    hasListings: true,
+                                    containsRecentListings: true)
+        
+        isShowingRecentListings = true
+        hasPreviouslyShownRecentListings = true
     }
     
 
@@ -597,6 +603,7 @@ final class ListingListViewModel: BaseViewModel {
 
     func clearList() {
         objects = []
+        isShowingRecentListings = false
         delegate?.vmReloadData(self)
     }
     

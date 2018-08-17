@@ -141,7 +141,6 @@ extension ABTests {
 //  MARK: Users
 
 extension ABTests {
-    var advancedReputationSystem: LeanplumABVariable<Int> { return users.advancedReputationSystem }
     var showPasswordlessLogin: LeanplumABVariable<Int> { return users.showPasswordlessLogin }
     var emergencyLocate: LeanplumABVariable<Int> { return users.emergencyLocate }
     var offensiveReportAlert: LeanplumABVariable<Int> { return users.offensiveReportAlert }
@@ -208,6 +207,7 @@ extension ABTests {
     var engagementBadging: LeanplumABVariable<Int> { return retention.engagementBadging }
     var searchAlertsDisableOldestIfMaximumReached: LeanplumABVariable<Int> { return retention.searchAlertsDisableOldestIfMaximumReached }
     var notificationCenterRedesign: LeanplumABVariable<Int> { return retention.notificationCenterRedesign }
+    var randomImInterestedMessages: LeanplumABVariable<Int> { return retention.randomImInterestedMessages }
 }
 
 //  MARK: RealEstate

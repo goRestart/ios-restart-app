@@ -6,7 +6,6 @@ protocol ChatDetailNavigator: DeepLinkNavigator {
                      source: EventParameterListingVisitSource,
                      actionOnFirstAppear: ProductCarouselActionOnFirstAppear)
     func openUserVerificationView()
-    func openVerifyAccounts(_ types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?)
     func openUser(_ data: UserDetailData)
     func closeChatDetail()
     func openAppRating(_ source: EventParameterRatingSource)
@@ -83,13 +82,6 @@ final class ChatDetailRouter: ChatDetailNavigator {
         guard let nav = navigationController else { return }
         let userCoordinator = UserCoordinator(navigationController: nav)
         userCoordinator.openUser(data)
-    }
-
-    func openVerifyAccounts(_ types: [VerificationType],
-                            source: VerifyAccountsSource,
-                            completionBlock: (() -> Void)?) {
-        // TODO: This should be deleted so we won't implement it
-        // https://ambatana.atlassian.net/browse/ABIOS-4661
     }
 
     func selectBuyerToRate(source: RateUserSource,
