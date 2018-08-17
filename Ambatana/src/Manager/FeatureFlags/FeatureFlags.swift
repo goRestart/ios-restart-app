@@ -71,7 +71,6 @@ protocol FeatureFlaggeable: class {
     // MARK: Chat
     var showInactiveConversations: Bool { get }
     var showChatSafetyTips: Bool { get }
-    var userIsTyping: UserIsTyping { get }
     var chatNorris: ChatNorris { get }
     var showChatConnectionStatusBar: ShowChatConnectionStatusBar { get }
     var showChatHeaderWithoutListingForAssistant: Bool { get }
@@ -1106,10 +1105,6 @@ final class FeatureFlags: FeatureFlaggeable {
 
 // MARK: Chat
 
-extension UserIsTyping {
-    var isActive: Bool { return self == .active }
-}
-
 extension ChatNorris {
     var isActive: Bool { return self == .redButton || self == .whiteButton || self == .greenButton }
 }
@@ -1140,13 +1135,6 @@ extension FeatureFlags {
             return Bumper.showChatSafetyTips
         }
         return abTests.showChatSafetyTips.value
-    }
-    
-    var userIsTyping: UserIsTyping {
-        if Bumper.enabled {
-            return Bumper.userIsTyping
-        }
-        return UserIsTyping.fromPosition(abTests.userIsTyping.value)
     }
     
     var chatNorris: ChatNorris {

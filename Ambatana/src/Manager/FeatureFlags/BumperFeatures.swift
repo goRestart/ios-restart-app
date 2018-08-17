@@ -34,7 +34,6 @@ extension Bumper  {
         flags.append(RelaxedSearch.self)
         flags.append(ShowChatSafetyTips.self)
         flags.append(OnboardingIncentivizePosting.self)
-        flags.append(UserIsTyping.self)
         flags.append(BumpUpBoost.self)
         flags.append(CopyForChatNowInTurkey.self)
         flags.append(ChatNorris.self)
@@ -320,19 +319,6 @@ extension Bumper  {
     static var onboardingIncentivizePostingObservable: Observable<OnboardingIncentivizePosting> {
         return Bumper.observeValue(for: OnboardingIncentivizePosting.key).map {
             OnboardingIncentivizePosting(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var userIsTyping: UserIsTyping {
-        guard let value = Bumper.value(for: UserIsTyping.key) else { return .control }
-        return UserIsTyping(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var userIsTypingObservable: Observable<UserIsTyping> {
-        return Bumper.observeValue(for: UserIsTyping.key).map {
-            UserIsTyping(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1271,22 +1257,6 @@ enum OnboardingIncentivizePosting: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .blockingPosting
             case 3: return .blockingPostingSkipWelcome
-            default: return .control
-        }
-    }
-}
-
-enum UserIsTyping: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return UserIsTyping.control.rawValue }
-    static var enumValues: [UserIsTyping] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "[CHAT] Show user is typing status on chat" } 
-    static func fromPosition(_ position: Int) -> UserIsTyping {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
             default: return .control
         }
     }
