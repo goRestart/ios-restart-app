@@ -997,10 +997,16 @@ fileprivate extension AppCoordinator {
                                                           predefinedMessage: nil)
                 }
             }
-        case .search(let query, let categories):
+        case .search(let query, let categories, let distanceRadius, let sortCriteria, let priceFlag, let minPrice, let maxPrice):
             afterDelayClosure = { [weak self] in
                 self?.openTab(.home, force: false) { [weak self] in
-                    self?.mainTabBarCoordinator.openSearch(query, categoriesString: categories)
+                    self?.mainTabBarCoordinator.openSearch(query: query,
+                                                           categories: categories,
+                                                           distanceRadius: distanceRadius,
+                                                           sortCriteria: sortCriteria,
+                                                           priceFlag: priceFlag,
+                                                           minPrice: minPrice,
+                                                           maxPrice: maxPrice)
                 }
             }
         case .resetPassword(let token):

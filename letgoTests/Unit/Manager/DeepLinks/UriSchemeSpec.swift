@@ -130,6 +130,55 @@ class UriSchemeSpec: QuickSpec {
                 }
             }
             
+            describe("with a search deeplink") {
+                var url: URL!
+                context("with a query parameter") {
+                    beforeEach {
+                        url = URL(string: "letgo://search?query=value")
+                        sut = UriScheme.buildFromUrl(url)
+                    }
+                    it("is not nil") {
+                        expect(sut).toNot(beNil())
+                    }
+                    it("has a search deeplink with a query parameter value") {
+                        expect(sut.deepLink.action) == DeepLinkAction.search(query: "value",
+                                                                             categories: nil,
+                                                                             distanceRadius: nil,
+                                                                             sortCriteria: nil,
+                                                                             priceFlag: nil,
+                                                                             minPrice: nil,
+                                                                             maxPrice: nil)
+                    }
+                }
+                context("with free price flag") {
+                    beforeEach {
+                        url = URL(string: "letgo://search?price_flag=1")
+                        sut = UriScheme.buildFromUrl(url)
+                    }
+                    it("is not nil") {
+                        expect(sut).toNot(beNil())
+                    }
+                    it("has a search deeplink with a price flag parameter value") {
+                        expect(sut.deepLink.action) == DeepLinkAction.search(query: nil,
+                                                                             categories: nil,
+                                                                             distanceRadius: nil,
+                                                                             sortCriteria: nil,
+                                                                             priceFlag: "1",
+                                                                             minPrice: nil,
+                                                                             maxPrice: nil)
+                    }
+                }
+                context("without parameters") {
+                    beforeEach {
+                        url = URL(string: "letgo://search")
+                        sut = UriScheme.buildFromUrl(url)
+                    }
+                    it("is nil") {
+                        expect(sut).to(beNil())
+                    }
+                }
+            }
+            
             describe("queryParameters getter from URL") {
                 context("decode percent encoded URL") {
                     var decodedMessage: String!
