@@ -17,4 +17,3 @@ extension PrimitiveSequence where Trait == MaybeTrait {
     return asObservable().asCompletable()
   }
 }
-
