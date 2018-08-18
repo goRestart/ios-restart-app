@@ -29,8 +29,6 @@
 		1C40D8CD1FFD4388006D5BE4 /* register.invalid_password.conflict.json in Resources */ = {isa = PBXBuildFile; fileRef = 1C40D8CC1FFD4388006D5BE4 /* register.invalid_password.conflict.json */; };
 		1C40D8CF1FFD43A3006D5BE4 /* register.email_already_registered.conflict.json in Resources */ = {isa = PBXBuildFile; fileRef = 1C40D8CE1FFD43A3006D5BE4 /* register.email_already_registered.conflict.json */; };
 		1C89D6FE1FF3CFBF00B3FA98 /* AuthToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C89D6FD1FF3CFBF00B3FA98 /* AuthToken.swift */; };
-		1C89D7441FF3DD1900B3FA98 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C89D7431FF3DD1000B3FA98 /* Domain.framework */; };
-		1C89D74E1FF3DD3500B3FA98 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C89D74B1FF3DD2F00B3FA98 /* Core.framework */; };
 		1C9139FF1FF0607600646884 /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C9139F51FF0607600646884 /* Data.framework */; };
 		1C913A061FF0607600646884 /* Data.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C9139F81FF0607600646884 /* Data.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1C913A1A1FF0656800646884 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C913A191FF0656800646884 /* AuthService.swift */; };
@@ -54,23 +52,10 @@
 		1CC209B61FF2C2F500EE0B5B /* Assembly+Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC209B51FF2C2F500EE0B5B /* Assembly+Repository.swift */; };
 		1CE92E9F1FF31E5600F762E5 /* Fixture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CE92E9E1FF31E5600F762E5 /* Fixture.swift */; };
 		1CE92EA11FF320DF00F762E5 /* auth.unauthorized.json in Resources */ = {isa = PBXBuildFile; fileRef = 1CE92EA01FF320DF00F762E5 /* auth.unauthorized.json */; };
+		2ECA1F1A21285542001A3167 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2ECA1F1921285542001A3167 /* Domain.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		1C89D7421FF3DD1000B3FA98 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1C89D73E1FF3DD1000B3FA98 /* Domain.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1C89D6D01FF3CEDF00B3FA98;
-			remoteInfo = Domain;
-		};
-		1C89D74A1FF3DD2F00B3FA98 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1C89D7451FF3DD2F00B3FA98 /* Core.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1C913A4C1FF2C1C700646884;
-			remoteInfo = Core;
-		};
 		1C913A001FF0607600646884 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1C9139EC1FF0607600646884 /* Project object */;
@@ -103,14 +88,11 @@
 		1C40D8CC1FFD4388006D5BE4 /* register.invalid_password.conflict.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = register.invalid_password.conflict.json; sourceTree = "<group>"; };
 		1C40D8CE1FFD43A3006D5BE4 /* register.email_already_registered.conflict.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = register.email_already_registered.conflict.json; sourceTree = "<group>"; };
 		1C89D6FD1FF3CFBF00B3FA98 /* AuthToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthToken.swift; sourceTree = "<group>"; };
-		1C89D73E1FF3DD1000B3FA98 /* Domain.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Domain.xcodeproj; path = ../Domain/Domain.xcodeproj; sourceTree = "<group>"; };
-		1C89D7451FF3DD2F00B3FA98 /* Core.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Core.xcodeproj; path = ../Core/Core.xcodeproj; sourceTree = "<group>"; };
 		1C9139F51FF0607600646884 /* Data.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Data.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C9139F81FF0607600646884 /* Data.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Data.h; sourceTree = "<group>"; };
 		1C9139F91FF0607600646884 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1C9139FE1FF0607600646884 /* DataTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DataTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C913A051FF0607600646884 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1C913A101FF060FB00646884 /* Moya.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Moya.framework; path = ../../../../Carthage/Build/iOS/Moya.framework; sourceTree = "<group>"; };
 		1C913A191FF0656800646884 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		1C913A281FF0670300646884 /* AuthRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRepository.swift; sourceTree = "<group>"; };
 		1C913A2E1FF2B2D400646884 /* AuthDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthDataSource.swift; sourceTree = "<group>"; };
@@ -120,10 +102,8 @@
 		1C913A3D1FF2BB4200646884 /* AuthenticateEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticateEndpoint.swift; sourceTree = "<group>"; };
 		1C93E0C72040ACA30029AD2B /* ListingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingService.swift; sourceTree = "<group>"; };
 		1C93E0CD2040AD690029AD2B /* PublishProductEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishProductEndpoint.swift; sourceTree = "<group>"; };
-		1CACCE6A1FF2D01E0001B321 /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = ../../../../Carthage/Build/iOS/RxSwift.framework; sourceTree = "<group>"; };
 		1CACCE791FF2D6320001B321 /* ErrorAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAdapter.swift; sourceTree = "<group>"; };
 		1CACCE7C1FF2D69E0001B321 /* AuthenticateErrorAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticateErrorAdapter.swift; sourceTree = "<group>"; };
-		1CACCE851FF300EC0001B321 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = ../../../../Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		1CACCE891FF309E60001B321 /* PrimitiveSequence+CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PrimitiveSequence+CustomError.swift"; sourceTree = "<group>"; };
 		1CACCE901FF30BA60001B321 /* AuthApiDataSourceSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthApiDataSourceSpec.swift; sourceTree = "<group>"; };
 		1CACCE931FF31D6A0001B321 /* auth.ok.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = auth.ok.json; sourceTree = "<group>"; };
@@ -134,6 +114,7 @@
 		1CC209B51FF2C2F500EE0B5B /* Assembly+Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+Repository.swift"; sourceTree = "<group>"; };
 		1CE92E9E1FF31E5600F762E5 /* Fixture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fixture.swift; sourceTree = "<group>"; };
 		1CE92EA01FF320DF00F762E5 /* auth.unauthorized.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = auth.unauthorized.json; sourceTree = "<group>"; };
+		2ECA1F1921285542001A3167 /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,8 +122,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1C89D74E1FF3DD3500B3FA98 /* Core.framework in Frameworks */,
-				1C89D7441FF3DD1900B3FA98 /* Domain.framework in Frameworks */,
+				2ECA1F1A21285542001A3167 /* Domain.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,27 +321,9 @@
 			path = Auth;
 			sourceTree = "<group>";
 		};
-		1C89D73F1FF3DD1000B3FA98 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				1C89D7431FF3DD1000B3FA98 /* Domain.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		1C89D7461FF3DD2F00B3FA98 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				1C89D74B1FF3DD2F00B3FA98 /* Core.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		1C9139EB1FF0607600646884 = {
 			isa = PBXGroup;
 			children = (
-				1C89D7451FF3DD2F00B3FA98 /* Core.xcodeproj */,
-				1C89D73E1FF3DD1000B3FA98 /* Domain.xcodeproj */,
 				1C9139F71FF0607600646884 /* Data */,
 				1C913A021FF0607600646884 /* DataTests */,
 				1C9139F61FF0607600646884 /* Products */,
@@ -401,9 +363,7 @@
 		1C913A0F1FF060FB00646884 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				1CACCE851FF300EC0001B321 /* Alamofire.framework */,
-				1CACCE6A1FF2D01E0001B321 /* RxSwift.framework */,
-				1C913A101FF060FB00646884 /* Moya.framework */,
+				2ECA1F1921285542001A3167 /* Domain.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -731,7 +691,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0920;
-				LastUpgradeCheck = 0920;
+				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = Skydev;
 				TargetAttributes = {
 					1C9139F41FF0607600646884 = {
@@ -756,16 +716,6 @@
 			mainGroup = 1C9139EB1FF0607600646884;
 			productRefGroup = 1C9139F61FF0607600646884 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 1C89D7461FF3DD2F00B3FA98 /* Products */;
-					ProjectRef = 1C89D7451FF3DD2F00B3FA98 /* Core.xcodeproj */;
-				},
-				{
-					ProductGroup = 1C89D73F1FF3DD1000B3FA98 /* Products */;
-					ProjectRef = 1C89D73E1FF3DD1000B3FA98 /* Domain.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				1C9139F41FF0607600646884 /* Data */,
@@ -773,23 +723,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		1C89D7431FF3DD1000B3FA98 /* Domain.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Domain.framework;
-			remoteRef = 1C89D7421FF3DD1000B3FA98 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		1C89D74B1FF3DD2F00B3FA98 /* Core.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Core.framework;
-			remoteRef = 1C89D74A1FF3DD2F00B3FA98 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		1C9139F31FF0607600646884 /* Resources */ = {
@@ -933,6 +866,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -940,6 +874,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -994,6 +929,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -1001,6 +937,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
