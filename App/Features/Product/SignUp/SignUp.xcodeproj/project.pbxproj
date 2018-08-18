@@ -16,8 +16,6 @@
 		1C1D22771FFEBFE900BC0316 /* SignUpViewBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1D22761FFEBFE900BC0316 /* SignUpViewBinder.swift */; };
 		1C1D228A1FFED9F800BC0316 /* Login.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1C1D228C1FFED9F800BC0316 /* Login.strings */; };
 		1C1D228D1FFED9FB00BC0316 /* NotLogged.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1C1D228F1FFED9FB00BC0316 /* NotLogged.strings */; };
-		1C1D22901FFEDA0A00BC0316 /* Login.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1C1D228C1FFED9F800BC0316 /* Login.strings */; };
-		1C1D22911FFEDA0D00BC0316 /* NotLogged.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1C1D228F1FFED9FB00BC0316 /* NotLogged.strings */; };
 		1C1D22931FFEDC4A00BC0316 /* SignUpViewSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1D22921FFEDC4A00BC0316 /* SignUpViewSpec.swift */; };
 		1C7B83B51FFFA10E00EE5CAC /* SignUpViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7B83B41FFFA10E00EE5CAC /* SignUpViewModelSpec.swift */; };
 		1C7B83B81FFFA3A100EE5CAC /* RegisterUserStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7B83B71FFFA3A100EE5CAC /* RegisterUserStub.swift */; };
@@ -31,7 +29,6 @@
 		1C7F4C801FFC4980001BEB62 /* NotLoggedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7F4C7F1FFC4980001BEB62 /* NotLoggedView.swift */; };
 		1C7F4C821FFC4ADA001BEB62 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C7F4C811FFC4ADA001BEB62 /* Assets.xcassets */; };
 		1C7F4C841FFC4E49001BEB62 /* Assembly+NotLogged.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7F4C831FFC4E49001BEB62 /* Assembly+NotLogged.swift */; };
-		1C7F4C851FFC4EC2001BEB62 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C7F4C811FFC4ADA001BEB62 /* Assets.xcassets */; };
 		1C7F4C9B1FFC6405001BEB62 /* NotLoggedViewSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7F4C9A1FFC6405001BEB62 /* NotLoggedViewSpec.swift */; };
 		1C7F4C9C1FFC643E001BEB62 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C7F4C811FFC4ADA001BEB62 /* Assets.xcassets */; };
 		1C7F4C9F1FFCF14B001BEB62 /* NotLoggedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7F4C9E1FFCF14B001BEB62 /* NotLoggedViewModel.swift */; };
@@ -40,14 +37,9 @@
 		1CACD9D51FF66F8000538B78 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CACD9D41FF66F8000538B78 /* LoginViewController.swift */; };
 		1CACD9DC1FF6703200538B78 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CACD9DB1FF6703200538B78 /* LoginViewModel.swift */; };
 		1CACD9E61FF67C3400538B78 /* Assembly+Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CACD9E51FF67C3400538B78 /* Assembly+Login.swift */; };
-		1CACDA1E1FF6808B00538B78 /* SignUp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C7DD97F1FF66C41009C574E /* SignUp.framework */; };
-		1CACDA1F1FF6808B00538B78 /* SignUp.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1C7DD97F1FF66C41009C574E /* SignUp.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1CACDA3D1FF68DF900538B78 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CACDA3C1FF68DF900538B78 /* LoginView.swift */; };
 		1CACDA491FF6949F00538B78 /* SignUp.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1CACDA4B1FF6949F00538B78 /* SignUp.strings */; };
 		1CACDA4E1FF698E100538B78 /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CACDA4D1FF698E100538B78 /* Table.swift */; };
-		1CACDA4F1FF69AB100538B78 /* SignUp.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1CACDA4B1FF6949F00538B78 /* SignUp.strings */; };
-		1CACDA611FF69B8C00538B78 /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CACDA621FF69B8C00538B78 /* Data.framework */; };
-		1CACDA631FF69BA900538B78 /* Data.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1CACDA621FF69B8C00538B78 /* Data.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2ECA1F1C21285556001A3167 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2ECA1F1B21285556001A3167 /* Domain.framework */; };
 		2ECA1F1E21285562001A3167 /* Application.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2ECA1F1D21285562001A3167 /* Application.framework */; };
 /* End PBXBuildFile section */
@@ -60,29 +52,7 @@
 			remoteGlobalIDString = 1C7DD97E1FF66C41009C574E;
 			remoteInfo = SignUp;
 		};
-		1CACDA201FF6808B00538B78 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1C7DD9761FF66C41009C574E /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 1C7DD97E1FF66C41009C574E;
-			remoteInfo = SignUp;
-		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		1CACDA221FF6808B00538B78 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				1CACDA631FF69BA900538B78 /* Data.framework in Embed Frameworks */,
-				1CACDA1F1FF6808B00538B78 /* SignUp.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1C1D225E1FFD8F4600BC0316 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
@@ -117,7 +87,6 @@
 		1CACD9D41FF66F8000538B78 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		1CACD9DB1FF6703200538B78 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		1CACD9E51FF67C3400538B78 /* Assembly+Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+Login.swift"; sourceTree = "<group>"; };
-		1CACDA0C1FF67FB900538B78 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1CACDA3C1FF68DF900538B78 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		1CACDA4A1FF6949F00538B78 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/SignUp.strings; sourceTree = "<group>"; };
 		1CACDA4D1FF698E100538B78 /* Table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Table.swift; sourceTree = "<group>"; };
@@ -141,15 +110,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1C7DD9891FF66C41009C574E /* SignUp.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		1CACDA091FF67FB900538B78 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				1CACDA611FF69B8C00538B78 /* Data.framework in Frameworks */,
-				1CACDA1E1FF6808B00538B78 /* SignUp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,7 +209,6 @@
 			children = (
 				1C7DD97F1FF66C41009C574E /* SignUp.framework */,
 				1C7DD9881FF66C41009C574E /* SignUpTests.xctest */,
-				1CACDA0C1FF67FB900538B78 /* Example.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -500,26 +459,6 @@
 			productReference = 1C7DD9881FF66C41009C574E /* SignUpTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		1CACDA0B1FF67FB900538B78 /* Example */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 1CACDA1B1FF67FB900538B78 /* Build configuration list for PBXNativeTarget "Example" */;
-			buildPhases = (
-				1CACDA081FF67FB900538B78 /* Sources */,
-				1CACDA091FF67FB900538B78 /* Frameworks */,
-				1CACDA0A1FF67FB900538B78 /* Resources */,
-				1CACDA221FF6808B00538B78 /* Embed Frameworks */,
-				1CACDA251FF683EF00538B78 /* [Carthage] - Copy frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				1CACDA211FF6808B00538B78 /* PBXTargetDependency */,
-			);
-			name = Example;
-			productName = Example;
-			productReference = 1CACDA0C1FF67FB900538B78 /* Example.app */;
-			productType = "com.apple.product-type.application";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -540,10 +479,6 @@
 						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 					};
-					1CACDA0B1FF67FB900538B78 = {
-						CreatedOnToolsVersion = 9.2;
-						ProvisioningStyle = Automatic;
-					};
 				};
 			};
 			buildConfigurationList = 1C7DD9791FF66C41009C574E /* Build configuration list for PBXProject "SignUp" */;
@@ -561,7 +496,6 @@
 			targets = (
 				1C7DD97E1FF66C41009C574E /* SignUp */,
 				1C7DD9871FF66C41009C574E /* SignUpTests */,
-				1CACDA0B1FF67FB900538B78 /* Example */,
 			);
 		};
 /* End PBXProject section */
@@ -586,17 +520,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		1CACDA0A1FF67FB900538B78 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				1CACDA4F1FF69AB100538B78 /* SignUp.strings in Resources */,
-				1C7F4C851FFC4EC2001BEB62 /* Assets.xcassets in Resources */,
-				1C1D22901FFEDA0A00BC0316 /* Login.strings in Resources */,
-				1C1D22911FFEDA0D00BC0316 /* NotLogged.strings in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -607,27 +530,6 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/../../../../Carthage/Build/iOS/RxSwift.framework",
-			);
-			name = "[Carthage] - Copy frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
-		};
-		1CACDA251FF683EF00538B78 /* [Carthage] - Copy frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/../../../../Carthage/Build/iOS/RxSwift.framework",
-				"$(SRCROOT)/../../../../Carthage/Build/iOS/RxCocoa.framework",
-				"$(SRCROOT)/../../../../Carthage/Build/iOS/Moya.framework",
-				"$(SRCROOT)/../../../../Carthage/Build/iOS/SnapKit.framework",
-				"$(SRCROOT)/../../../../Carthage/Build/iOS/RxMoya.framework",
-				"$(SRCROOT)/../../../../Carthage/Build/iOS/Alamofire.framework",
-				"$(SRCROOT)/../../../../Carthage/Build/iOS/Result.framework",
 			);
 			name = "[Carthage] - Copy frameworks";
 			outputPaths = (
@@ -679,13 +581,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		1CACDA081FF67FB900538B78 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -693,11 +588,6 @@
 			isa = PBXTargetDependency;
 			target = 1C7DD97E1FF66C41009C574E /* SignUp */;
 			targetProxy = 1C7DD98A1FF66C41009C574E /* PBXContainerItemProxy */;
-		};
-		1CACDA211FF6808B00538B78 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 1C7DD97E1FF66C41009C574E /* SignUp */;
-			targetProxy = 1CACDA201FF6808B00538B78 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -928,42 +818,6 @@
 			};
 			name = Release;
 		};
-		1CACDA1C1FF67FB900538B78 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3ZGLM2XX3U;
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../../Carthage/Build/iOS\"";
-				INFOPLIST_FILE = Example/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = in.skydev.SignUpTest;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = 1;
-			};
-			name = Debug;
-		};
-		1CACDA1D1FF67FB900538B78 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3ZGLM2XX3U;
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../../Carthage/Build/iOS\"";
-				INFOPLIST_FILE = Example/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = in.skydev.SignUpTest;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = 1;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -990,15 +844,6 @@
 			buildConfigurations = (
 				1C7DD9971FF66C41009C574E /* Debug */,
 				1C7DD9981FF66C41009C574E /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		1CACDA1B1FF67FB900538B78 /* Build configuration list for PBXNativeTarget "Example" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				1CACDA1C1FF67FB900538B78 /* Debug */,
-				1CACDA1D1FF67FB900538B78 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
