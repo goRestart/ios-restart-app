@@ -29,11 +29,11 @@ final class SignUpViewModelSpec: XCTestCase {
     super.tearDown()
   }
   
-  func test_viewmodel_initial_state_is_correct() {
-    XCTAssertEqual("", sut.output.username.value)
-    XCTAssertEqual("", sut.output.email.value)
-    XCTAssertEqual("", sut.output.password.value)
-    XCTAssertEqual(.idle, sut.output.state.value)
+  func test_viewmodel_initial_state_is_correct() throws {
+    XCTAssertEqual("", try sut.output.username.value())
+    XCTAssertEqual("", try sut.output.email.value())
+    XCTAssertEqual("", try sut.output.password.value())
+    XCTAssertEqual(.idle, try sut.output.state.value())
     
     let signUpEnabledObserver = scheduler.createObserver(Bool.self)
     let userInteractionDisabledObserver = scheduler.createObserver(Bool.self)
@@ -49,9 +49,9 @@ final class SignUpViewModelSpec: XCTestCase {
     let signUpEnabledObserver = scheduler.createObserver(Bool.self)
     _ = sut.output.signUpEnabled.bind(to: signUpEnabledObserver)
     
-    sut.output.username.value = "restart"
-    sut.output.email.value = "invalid@.com"
-    sut.output.password.value = "1234567"
+    sut.output.username.onNext("restart")
+    sut.output.email.onNext("invalid@.com")
+    sut.output.password.onNext("1234567")
     
     let expectedValues = [
       next(0, false),
@@ -67,10 +67,10 @@ final class SignUpViewModelSpec: XCTestCase {
     let signUpEnabledObserver = scheduler.createObserver(Bool.self)
     _ = sut.output.signUpEnabled.bind(to: signUpEnabledObserver)
     
-    sut.output.username.value = "restart"
-    sut.output.email.value = "test@test.com"
-    sut.output.password.value = "1234567"
-    
+    sut.output.username.onNext("restart")
+    sut.output.email.onNext("test@test.com")
+    sut.output.password.onNext("1234567")
+
     let expectedValues = [
       next(0, false),
       next(0, false),
@@ -85,10 +85,10 @@ final class SignUpViewModelSpec: XCTestCase {
     let signUpEnabledObserver = scheduler.createObserver(Bool.self)
     _ = sut.output.signUpEnabled.bind(to: signUpEnabledObserver)
     
-    sut.output.username.value = "restart"
-    sut.output.email.value = "test@test.com"
-    sut.output.password.value = "1234567"
-    sut.output.username.value = "as"
+    sut.output.username.onNext("restart")
+    sut.output.email.onNext("test@test.com")
+    sut.output.password.onNext("1234567")
+    sut.output.username.onNext("as")
     
     let expectedValues = [
       next(0, false),
@@ -105,11 +105,11 @@ final class SignUpViewModelSpec: XCTestCase {
     let signUpEnabledObserver = scheduler.createObserver(Bool.self)
     _ = sut.output.signUpEnabled.bind(to: signUpEnabledObserver)
     
-    sut.output.username.value = "restart"
-    sut.output.email.value = "test@test.com"
-    sut.output.password.value = "1234567"
-    sut.output.username.value = "as"
-    sut.output.username.value = "astro"
+    sut.output.username.onNext("restart")
+    sut.output.email.onNext("test@test.com")
+    sut.output.password.onNext("1234567")
+    sut.output.username.onNext("as")
+    sut.output.username.onNext("astro")
     
     let expectedValues = [
       next(0, false),
@@ -127,9 +127,9 @@ final class SignUpViewModelSpec: XCTestCase {
     let signUpState = scheduler.createObserver(SignUpState.self)
     _ = sut.output.state.asObservable().bind(to: signUpState)
   
-    sut.output.username.value = "restart"
-    sut.output.email.value = "test@test.com"
-    sut.output.password.value = "1234567"
+    sut.output.username.onNext("restart")
+    sut.output.email.onNext("test@test.com")
+    sut.output.password.onNext("1234567")
     
     registerUser.responseError = .invalidUsername
     

@@ -3,7 +3,7 @@ import SnapKit
 import Domain
 import RxSwift
 
-private struct ViewLayout {
+private enum ViewLayout {
   static let scrollViewBottomSpace = CGFloat(80)
   static let inputHeight = CGFloat(48)
 }
@@ -164,4 +164,3 @@ final class SignUpView: View {
     }
   }
 }
-
