@@ -7,27 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		192F6FC528C5B65226721A80 /* Pods_Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E94BF8AB55B0FEBA67B9E8BB /* Pods_Data.framework */; };
 		1C30D70A2009603C00E0A501 /* GameService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C30D7092009603C00E0A501 /* GameService.swift */; };
 		1C30D70D200960CB00E0A501 /* GetGameConsolesEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C30D70C200960CB00E0A501 /* GetGameConsolesEndpoint.swift */; };
 		1C30D70F200963E600E0A501 /* SearchGamesEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C30D70E200963E600E0A501 /* SearchGamesEndpoint.swift */; };
 		1C30D7182009658D00E0A501 /* GameDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C30D7172009658D00E0A501 /* GameDataSource.swift */; };
 		1C30D71A2009661900E0A501 /* GameApiDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C30D7192009661900E0A501 /* GameApiDataSource.swift */; };
 		1C30D71C2009686400E0A501 /* GameRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C30D71B2009686400E0A501 /* GameRepository.swift */; };
-		1C40D8A71FFD18C3006D5BE4 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40D8A61FFD18C3006D5BE4 /* UserService.swift */; };
-		1C40D8AA1FFD1914006D5BE4 /* RegisterUserEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40D8A91FFD1914006D5BE4 /* RegisterUserEndpoint.swift */; };
 		1C40D8B01FFD354B006D5BE4 /* UserDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40D8AF1FFD354B006D5BE4 /* UserDataSource.swift */; };
-		1C40D8B21FFD3594006D5BE4 /* UserApiDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40D8B11FFD3594006D5BE4 /* UserApiDataSource.swift */; };
-		1C40D8B51FFD35C4006D5BE4 /* RegisterUserErrorAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40D8B41FFD35C4006D5BE4 /* RegisterUserErrorAdapter.swift */; };
 		1C40D8B81FFD369B006D5BE4 /* EmptyResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40D8B71FFD369B006D5BE4 /* EmptyResponse.swift */; };
 		1C40D8BA1FFD38CA006D5BE4 /* Assembly+Moya.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40D8B91FFD38CA006D5BE4 /* Assembly+Moya.swift */; };
 		1C40D8BC1FFD3940006D5BE4 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40D8BB1FFD3940006D5BE4 /* UserRepository.swift */; };
-		1C40D8C21FFD3B26006D5BE4 /* UserApiDataSourceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40D8C11FFD3B26006D5BE4 /* UserApiDataSourceSpec.swift */; };
-		1C40D8C51FFD3BD1006D5BE4 /* register.ok.json in Resources */ = {isa = PBXBuildFile; fileRef = 1C40D8C41FFD3BD1006D5BE4 /* register.ok.json */; };
-		1C40D8C71FFD3CC6006D5BE4 /* register.username_already_registered.conflict.json in Resources */ = {isa = PBXBuildFile; fileRef = 1C40D8C61FFD3CC6006D5BE4 /* register.username_already_registered.conflict.json */; };
-		1C40D8C91FFD4315006D5BE4 /* register.invalid_username.conflict.json in Resources */ = {isa = PBXBuildFile; fileRef = 1C40D8C81FFD4315006D5BE4 /* register.invalid_username.conflict.json */; };
-		1C40D8CB1FFD434A006D5BE4 /* register.invalid_email.conflict.json in Resources */ = {isa = PBXBuildFile; fileRef = 1C40D8CA1FFD434A006D5BE4 /* register.invalid_email.conflict.json */; };
-		1C40D8CD1FFD4388006D5BE4 /* register.invalid_password.conflict.json in Resources */ = {isa = PBXBuildFile; fileRef = 1C40D8CC1FFD4388006D5BE4 /* register.invalid_password.conflict.json */; };
-		1C40D8CF1FFD43A3006D5BE4 /* register.email_already_registered.conflict.json in Resources */ = {isa = PBXBuildFile; fileRef = 1C40D8CE1FFD43A3006D5BE4 /* register.email_already_registered.conflict.json */; };
 		1C89D6FE1FF3CFBF00B3FA98 /* AuthToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C89D6FD1FF3CFBF00B3FA98 /* AuthToken.swift */; };
 		1C9139FF1FF0607600646884 /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C9139F51FF0607600646884 /* Data.framework */; };
 		1C913A061FF0607600646884 /* Data.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C9139F81FF0607600646884 /* Data.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -52,6 +42,12 @@
 		1CC209B61FF2C2F500EE0B5B /* Assembly+Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC209B51FF2C2F500EE0B5B /* Assembly+Repository.swift */; };
 		1CE92E9F1FF31E5600F762E5 /* Fixture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CE92E9E1FF31E5600F762E5 /* Fixture.swift */; };
 		1CE92EA11FF320DF00F762E5 /* auth.unauthorized.json in Resources */ = {isa = PBXBuildFile; fileRef = 1CE92EA01FF320DF00F762E5 /* auth.unauthorized.json */; };
+		2E2F7AB42129CECF00CDED0F /* UserFirebaseDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2F7AB32129CECF00CDED0F /* UserFirebaseDataSource.swift */; };
+		2E2F7AB62129D23800CDED0F /* DataModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2F7AB52129D23800CDED0F /* DataModule.swift */; };
+		2E2F7AB92129F46100CDED0F /* Auth+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2F7AB82129F46100CDED0F /* Auth+Rx.swift */; };
+		2E2F7ABC2129F71600CDED0F /* RegisterUserFirebaseErrorAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2F7ABB2129F71600CDED0F /* RegisterUserFirebaseErrorAdapter.swift */; };
+		2E2F7ABF2129F83000CDED0F /* RegisterUserFirebaseAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2F7ABE2129F83000CDED0F /* RegisterUserFirebaseAction.swift */; };
+		2E2F7AC12129FA1B00CDED0F /* Assembly+User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2F7AC02129FA1B00CDED0F /* Assembly+User.swift */; };
 		2ECA1F1A21285542001A3167 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2ECA1F1921285542001A3167 /* Domain.framework */; };
 /* End PBXBuildFile section */
 
@@ -72,21 +68,10 @@
 		1C30D7172009658D00E0A501 /* GameDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDataSource.swift; sourceTree = "<group>"; };
 		1C30D7192009661900E0A501 /* GameApiDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameApiDataSource.swift; sourceTree = "<group>"; };
 		1C30D71B2009686400E0A501 /* GameRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameRepository.swift; sourceTree = "<group>"; };
-		1C40D8A61FFD18C3006D5BE4 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
-		1C40D8A91FFD1914006D5BE4 /* RegisterUserEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUserEndpoint.swift; sourceTree = "<group>"; };
 		1C40D8AF1FFD354B006D5BE4 /* UserDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataSource.swift; sourceTree = "<group>"; };
-		1C40D8B11FFD3594006D5BE4 /* UserApiDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserApiDataSource.swift; sourceTree = "<group>"; };
-		1C40D8B41FFD35C4006D5BE4 /* RegisterUserErrorAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUserErrorAdapter.swift; sourceTree = "<group>"; };
 		1C40D8B71FFD369B006D5BE4 /* EmptyResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyResponse.swift; sourceTree = "<group>"; };
 		1C40D8B91FFD38CA006D5BE4 /* Assembly+Moya.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+Moya.swift"; sourceTree = "<group>"; };
 		1C40D8BB1FFD3940006D5BE4 /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
-		1C40D8C11FFD3B26006D5BE4 /* UserApiDataSourceSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserApiDataSourceSpec.swift; sourceTree = "<group>"; };
-		1C40D8C41FFD3BD1006D5BE4 /* register.ok.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = register.ok.json; sourceTree = "<group>"; };
-		1C40D8C61FFD3CC6006D5BE4 /* register.username_already_registered.conflict.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = register.username_already_registered.conflict.json; sourceTree = "<group>"; };
-		1C40D8C81FFD4315006D5BE4 /* register.invalid_username.conflict.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = register.invalid_username.conflict.json; sourceTree = "<group>"; };
-		1C40D8CA1FFD434A006D5BE4 /* register.invalid_email.conflict.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = register.invalid_email.conflict.json; sourceTree = "<group>"; };
-		1C40D8CC1FFD4388006D5BE4 /* register.invalid_password.conflict.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = register.invalid_password.conflict.json; sourceTree = "<group>"; };
-		1C40D8CE1FFD43A3006D5BE4 /* register.email_already_registered.conflict.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = register.email_already_registered.conflict.json; sourceTree = "<group>"; };
 		1C89D6FD1FF3CFBF00B3FA98 /* AuthToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthToken.swift; sourceTree = "<group>"; };
 		1C9139F51FF0607600646884 /* Data.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Data.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C9139F81FF0607600646884 /* Data.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Data.h; sourceTree = "<group>"; };
@@ -114,7 +99,16 @@
 		1CC209B51FF2C2F500EE0B5B /* Assembly+Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+Repository.swift"; sourceTree = "<group>"; };
 		1CE92E9E1FF31E5600F762E5 /* Fixture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fixture.swift; sourceTree = "<group>"; };
 		1CE92EA01FF320DF00F762E5 /* auth.unauthorized.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = auth.unauthorized.json; sourceTree = "<group>"; };
+		2E2F7AB32129CECF00CDED0F /* UserFirebaseDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFirebaseDataSource.swift; sourceTree = "<group>"; };
+		2E2F7AB52129D23800CDED0F /* DataModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModule.swift; sourceTree = "<group>"; };
+		2E2F7AB82129F46100CDED0F /* Auth+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Auth+Rx.swift"; sourceTree = "<group>"; };
+		2E2F7ABB2129F71600CDED0F /* RegisterUserFirebaseErrorAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUserFirebaseErrorAdapter.swift; sourceTree = "<group>"; };
+		2E2F7ABE2129F83000CDED0F /* RegisterUserFirebaseAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUserFirebaseAction.swift; sourceTree = "<group>"; };
+		2E2F7AC02129FA1B00CDED0F /* Assembly+User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+User.swift"; sourceTree = "<group>"; };
 		2ECA1F1921285542001A3167 /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E94BF8AB55B0FEBA67B9E8BB /* Pods_Data.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Data.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		ED19D6395F3123B537246E7F /* Pods-Data.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Data.release.xcconfig"; path = "../../../Pods/Target Support Files/Pods-Data/Pods-Data.release.xcconfig"; sourceTree = "<group>"; };
+		FC88FD02DC6BC15A5C6BADB9 /* Pods-Data.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Data.debug.xcconfig"; path = "../../../Pods/Target Support Files/Pods-Data/Pods-Data.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +117,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2ECA1F1A21285542001A3167 /* Domain.framework in Frameworks */,
+				192F6FC528C5B65226721A80 /* Pods_Data.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -181,23 +176,6 @@
 			path = Api;
 			sourceTree = "<group>";
 		};
-		1C40D8A31FFD18B2006D5BE4 /* User */ = {
-			isa = PBXGroup;
-			children = (
-				1C40D8A61FFD18C3006D5BE4 /* UserService.swift */,
-				1C40D8A81FFD1908006D5BE4 /* Endpoints */,
-			);
-			path = User;
-			sourceTree = "<group>";
-		};
-		1C40D8A81FFD1908006D5BE4 /* Endpoints */ = {
-			isa = PBXGroup;
-			children = (
-				1C40D8A91FFD1914006D5BE4 /* RegisterUserEndpoint.swift */,
-			);
-			path = Endpoints;
-			sourceTree = "<group>";
-		};
 		1C40D8AB1FFD34FB006D5BE4 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
@@ -220,26 +198,9 @@
 			isa = PBXGroup;
 			children = (
 				1C40D8AF1FFD354B006D5BE4 /* UserDataSource.swift */,
-				1C40D8AE1FFD353D006D5BE4 /* Api */,
+				2E2F7AB22129CEC300CDED0F /* Firebase */,
 			);
 			path = "Data Source";
-			sourceTree = "<group>";
-		};
-		1C40D8AE1FFD353D006D5BE4 /* Api */ = {
-			isa = PBXGroup;
-			children = (
-				1C40D8B11FFD3594006D5BE4 /* UserApiDataSource.swift */,
-				1C40D8B31FFD35AA006D5BE4 /* Error */,
-			);
-			path = Api;
-			sourceTree = "<group>";
-		};
-		1C40D8B31FFD35AA006D5BE4 /* Error */ = {
-			isa = PBXGroup;
-			children = (
-				1C40D8B41FFD35C4006D5BE4 /* RegisterUserErrorAdapter.swift */,
-			);
-			path = Error;
 			sourceTree = "<group>";
 		};
 		1C40D8B61FFD3692006D5BE4 /* Response */ = {
@@ -256,44 +217,6 @@
 				1CACCE8E1FF30B910001B321 /* Data Source */,
 			);
 			path = Auth;
-			sourceTree = "<group>";
-		};
-		1C40D8BE1FFD3AEE006D5BE4 /* User */ = {
-			isa = PBXGroup;
-			children = (
-				1C40D8BF1FFD3B0B006D5BE4 /* Data Source */,
-			);
-			path = User;
-			sourceTree = "<group>";
-		};
-		1C40D8BF1FFD3B0B006D5BE4 /* Data Source */ = {
-			isa = PBXGroup;
-			children = (
-				1C40D8C01FFD3B0B006D5BE4 /* Api */,
-			);
-			path = "Data Source";
-			sourceTree = "<group>";
-		};
-		1C40D8C01FFD3B0B006D5BE4 /* Api */ = {
-			isa = PBXGroup;
-			children = (
-				1C40D8C11FFD3B26006D5BE4 /* UserApiDataSourceSpec.swift */,
-				1C40D8C31FFD3BBA006D5BE4 /* Fixture */,
-			);
-			path = Api;
-			sourceTree = "<group>";
-		};
-		1C40D8C31FFD3BBA006D5BE4 /* Fixture */ = {
-			isa = PBXGroup;
-			children = (
-				1C40D8C41FFD3BD1006D5BE4 /* register.ok.json */,
-				1C40D8C61FFD3CC6006D5BE4 /* register.username_already_registered.conflict.json */,
-				1C40D8C81FFD4315006D5BE4 /* register.invalid_username.conflict.json */,
-				1C40D8CA1FFD434A006D5BE4 /* register.invalid_email.conflict.json */,
-				1C40D8CC1FFD4388006D5BE4 /* register.invalid_password.conflict.json */,
-				1C40D8CE1FFD43A3006D5BE4 /* register.email_already_registered.conflict.json */,
-			);
-			path = Fixture;
 			sourceTree = "<group>";
 		};
 		1C89D6FA1FF3CF9F00B3FA98 /* Domain */ = {
@@ -328,6 +251,7 @@
 				1C913A021FF0607600646884 /* DataTests */,
 				1C9139F61FF0607600646884 /* Products */,
 				1C913A0F1FF060FB00646884 /* Frameworks */,
+				A68C8B87A51153B07520E2DC /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -343,6 +267,7 @@
 		1C9139F71FF0607600646884 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				2E2F7AB52129D23800CDED0F /* DataModule.swift */,
 				1C89D6FA1FF3CF9F00B3FA98 /* Domain */,
 				1C913A1C1FF065AF00646884 /* Infrastructure */,
 				1C913A151FF064C700646884 /* Resources */,
@@ -364,6 +289,7 @@
 			isa = PBXGroup;
 			children = (
 				2ECA1F1921285542001A3167 /* Domain.framework */,
+				E94BF8AB55B0FEBA67B9E8BB /* Pods_Data.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -390,7 +316,6 @@
 			children = (
 				1CACCE8B1FF30A380001B321 /* Protocol */,
 				1C913A181FF0652000646884 /* Auth */,
-				1C40D8A31FFD18B2006D5BE4 /* User */,
 				1C30D7062009603000E0A501 /* Game */,
 				1CB6494D2009C708009B7CC1 /* Image */,
 				1C93E0C42040AC900029AD2B /* Listing */,
@@ -458,6 +383,7 @@
 		1C913A381FF2BA7700646884 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				2E2F7AB72129F3A500CDED0F /* Firebase */,
 				1CC209BF1FF2C4B700EE0B5B /* RxSwift */,
 				1C913A391FF2BA7700646884 /* Moya */,
 			);
@@ -534,7 +460,6 @@
 			isa = PBXGroup;
 			children = (
 				1C40D8BD1FFD3ACA006D5BE4 /* Auth */,
-				1C40D8BE1FFD3AEE006D5BE4 /* User */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -603,6 +528,7 @@
 			isa = PBXGroup;
 			children = (
 				1CC209B51FF2C2F500EE0B5B /* Assembly+Repository.swift */,
+				2E2F7AC02129FA1B00CDED0F /* Assembly+User.swift */,
 				1C40D8B91FFD38CA006D5BE4 /* Assembly+Moya.swift */,
 			);
 			path = Assembly;
@@ -632,6 +558,49 @@
 			path = Fixture;
 			sourceTree = "<group>";
 		};
+		2E2F7AB22129CEC300CDED0F /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				2E2F7AB32129CECF00CDED0F /* UserFirebaseDataSource.swift */,
+				2E2F7ABD2129F82000CDED0F /* Action */,
+				2E2F7ABA2129F6F900CDED0F /* Error */,
+			);
+			path = Firebase;
+			sourceTree = "<group>";
+		};
+		2E2F7AB72129F3A500CDED0F /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				2E2F7AB82129F46100CDED0F /* Auth+Rx.swift */,
+			);
+			path = Firebase;
+			sourceTree = "<group>";
+		};
+		2E2F7ABA2129F6F900CDED0F /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				2E2F7ABB2129F71600CDED0F /* RegisterUserFirebaseErrorAdapter.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
+		2E2F7ABD2129F82000CDED0F /* Action */ = {
+			isa = PBXGroup;
+			children = (
+				2E2F7ABE2129F83000CDED0F /* RegisterUserFirebaseAction.swift */,
+			);
+			path = Action;
+			sourceTree = "<group>";
+		};
+		A68C8B87A51153B07520E2DC /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				FC88FD02DC6BC15A5C6BADB9 /* Pods-Data.debug.xcconfig */,
+				ED19D6395F3123B537246E7F /* Pods-Data.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -650,6 +619,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1C913A091FF0607600646884 /* Build configuration list for PBXNativeTarget "Data" */;
 			buildPhases = (
+				4E70F89C9DA7FC68D45C3672 /* [CP] Check Pods Manifest.lock */,
 				1C9139F01FF0607600646884 /* Sources */,
 				1C9139F11FF0607600646884 /* Frameworks */,
 				1C9139F21FF0607600646884 /* Headers */,
@@ -736,14 +706,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1C40D8C51FFD3BD1006D5BE4 /* register.ok.json in Resources */,
-				1C40D8CB1FFD434A006D5BE4 /* register.invalid_email.conflict.json in Resources */,
-				1C40D8C91FFD4315006D5BE4 /* register.invalid_username.conflict.json in Resources */,
-				1C40D8CF1FFD43A3006D5BE4 /* register.email_already_registered.conflict.json in Resources */,
 				1CE92EA11FF320DF00F762E5 /* auth.unauthorized.json in Resources */,
-				1C40D8CD1FFD4388006D5BE4 /* register.invalid_password.conflict.json in Resources */,
 				1CACCE941FF31D6A0001B321 /* auth.ok.json in Resources */,
-				1C40D8C71FFD3CC6006D5BE4 /* register.username_already_registered.conflict.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -789,6 +753,24 @@
 			shellPath = /bin/sh;
 			shellScript = "/usr/local/bin/carthage copy-frameworks";
 		};
+		4E70F89C9DA7FC68D45C3672 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Data-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -796,28 +778,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E2F7ABF2129F83000CDED0F /* RegisterUserFirebaseAction.swift in Sources */,
 				1C30D71A2009661900E0A501 /* GameApiDataSource.swift in Sources */,
 				1C913A2F1FF2B2D400646884 /* AuthDataSource.swift in Sources */,
 				1CB649512009C717009B7CC1 /* ImageService.swift in Sources */,
-				1C40D8B51FFD35C4006D5BE4 /* RegisterUserErrorAdapter.swift in Sources */,
 				1C913A321FF2B30A00646884 /* AuthApiDataSource.swift in Sources */,
 				1C93E0C82040ACA30029AD2B /* ListingService.swift in Sources */,
-				1C40D8AA1FFD1914006D5BE4 /* RegisterUserEndpoint.swift in Sources */,
 				1CC209B61FF2C2F500EE0B5B /* Assembly+Repository.swift in Sources */,
+				2E2F7AB92129F46100CDED0F /* Auth+Rx.swift in Sources */,
 				1CB6495E2009CA79009B7CC1 /* ImageRepository.swift in Sources */,
 				1C913A3E1FF2BB4200646884 /* AuthenticateEndpoint.swift in Sources */,
 				1C30D71C2009686400E0A501 /* GameRepository.swift in Sources */,
+				2E2F7AB42129CECF00CDED0F /* UserFirebaseDataSource.swift in Sources */,
 				1C30D70F200963E600E0A501 /* SearchGamesEndpoint.swift in Sources */,
+				2E2F7AB62129D23800CDED0F /* DataModule.swift in Sources */,
 				1CACCE8A1FF309E60001B321 /* PrimitiveSequence+CustomError.swift in Sources */,
-				1C40D8B21FFD3594006D5BE4 /* UserApiDataSource.swift in Sources */,
 				1C89D6FE1FF3CFBF00B3FA98 /* AuthToken.swift in Sources */,
-				1C40D8A71FFD18C3006D5BE4 /* UserService.swift in Sources */,
 				1C93E0CE2040AD690029AD2B /* PublishProductEndpoint.swift in Sources */,
 				1CB649592009C964009B7CC1 /* ImageDataSource.swift in Sources */,
 				1C40D8B01FFD354B006D5BE4 /* UserDataSource.swift in Sources */,
 				1C30D7182009658D00E0A501 /* GameDataSource.swift in Sources */,
 				1C913A351FF2B65300646884 /* Endpoint.swift in Sources */,
 				1C40D8B81FFD369B006D5BE4 /* EmptyResponse.swift in Sources */,
+				2E2F7ABC2129F71600CDED0F /* RegisterUserFirebaseErrorAdapter.swift in Sources */,
 				1C913A1A1FF0656800646884 /* AuthService.swift in Sources */,
 				1C40D8BA1FFD38CA006D5BE4 /* Assembly+Moya.swift in Sources */,
 				1C30D70A2009603C00E0A501 /* GameService.swift in Sources */,
@@ -825,6 +808,7 @@
 				1CB6495C2009C9CA009B7CC1 /* ImageApiDataSource.swift in Sources */,
 				1C913A3B1FF2BA8B00646884 /* TargetType+Default.swift in Sources */,
 				1CACCE7D1FF2D69E0001B321 /* AuthenticateErrorAdapter.swift in Sources */,
+				2E2F7AC12129FA1B00CDED0F /* Assembly+User.swift in Sources */,
 				1C30D70D200960CB00E0A501 /* GetGameConsolesEndpoint.swift in Sources */,
 				1C40D8BC1FFD3940006D5BE4 /* UserRepository.swift in Sources */,
 				1CACCE7A1FF2D6320001B321 /* ErrorAdapter.swift in Sources */,
@@ -837,7 +821,6 @@
 			files = (
 				1CACCE911FF30BA60001B321 /* AuthApiDataSourceSpec.swift in Sources */,
 				1CE92E9F1FF31E5600F762E5 /* Fixture.swift in Sources */,
-				1C40D8C21FFD3B26006D5BE4 /* UserApiDataSourceSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -973,6 +956,7 @@
 		};
 		1C913A0A1FF0607600646884 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FC88FD02DC6BC15A5C6BADB9 /* Pods-Data.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -982,7 +966,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../../Carthage/Build/iOS\"";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../Carthage/Build/iOS\"",
+				);
 				INFOPLIST_FILE = Data/Resources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -998,6 +985,7 @@
 		};
 		1C913A0B1FF0607600646884 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = ED19D6395F3123B537246E7F /* Pods-Data.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -1007,7 +995,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../../Carthage/Build/iOS\"";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../Carthage/Build/iOS\"",
+				);
 				INFOPLIST_FILE = Data/Resources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;

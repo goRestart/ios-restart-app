@@ -1,16 +1,15 @@
 import Domain
-import Core
 import RxSwift
 
 public struct UserRepository {
   
-  private let apiDataSource: UserDataSource
+  private let firebaseDataSource: UserDataSource
   
-  init(apiDataSource: UserDataSource) {
-    self.apiDataSource = apiDataSource
+  init(firebaseDataSource: UserDataSource) {
+    self.firebaseDataSource = firebaseDataSource
   }
   
   public func register(with credentials: UserCredentials) -> Completable {
-    return apiDataSource.register(with: credentials)
+    return firebaseDataSource.register(with: credentials)
   }
 }

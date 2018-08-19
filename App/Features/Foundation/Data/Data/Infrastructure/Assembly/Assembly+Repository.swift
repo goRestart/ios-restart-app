@@ -21,27 +21,6 @@ extension Assembly {
   }
 }
 
-// MARK: - User
-
-extension Assembly {
-  public var userRepository: UserRepository {
-    return UserRepository(
-      apiDataSource: userApiDataSource
-    )
-  }
-  
-  private var userApiDataSource: UserDataSource {
-    return UserApiDataSource(
-      provider: moyaProvider(),
-      errorAdapter: userErrorAdapter
-    )
-  }
-  
-  private var userErrorAdapter: RegisterUserErrorAdapter {
-    return RegisterUserErrorAdapter()
-  }
-}
-
 // MARK: - Game
 
 extension Assembly {
