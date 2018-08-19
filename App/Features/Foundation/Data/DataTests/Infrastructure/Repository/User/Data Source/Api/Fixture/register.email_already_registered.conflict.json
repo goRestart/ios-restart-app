@@ -1,4 +1,0 @@
-{
-  "message": "Email `test@test.com` is already registered",
-  "identifier": "user.error.email.already_registered"
-}

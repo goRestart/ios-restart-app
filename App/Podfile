@@ -1,0 +1,19 @@
+platform :ios, '9.0'
+ 
+workspace '../Restart.xcworkspace'
+
+def firebase 
+  pod 'Firebase/Auth', '~> 5.6.0'
+end
+
+target 'Restart' do
+  use_frameworks!
+  firebase
+end
+
+target 'Data' do 
+  use_frameworks!
+  project 'Features/Foundation/Data/Data.xcodeproj' 
+  
+  firebase
+end

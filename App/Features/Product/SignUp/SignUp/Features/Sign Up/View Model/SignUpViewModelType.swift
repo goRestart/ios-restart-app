@@ -11,11 +11,11 @@ protocol SignUpViewModelInput {
 }
 
 protocol SignUpViewModelOutput {
-  var username: Variable<String> { get }
-  var email: Variable<String> { get }
-  var password: Variable<String> { get }
-  var state: Variable<SignUpState> { get }
-  var error: Variable<RegisterUserError?> { get }
+  var username: BehaviorSubject<String> { get }
+  var email: BehaviorSubject<String> { get }
+  var password: BehaviorSubject<String> { get }
+  var state: BehaviorSubject<SignUpState> { get }
+  var error: BehaviorSubject<RegisterUserError?> { get }
   
   var userInteractionEnabled: Observable<Bool> { get }
   var signUpEnabled: Observable<Bool> { get }

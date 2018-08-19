@@ -3,7 +3,7 @@ import RxSwift
 import Domain
 import Core
 
-private struct LoginViewModelConstraints {
+private enum LoginViewModelConstraints {
   static let minUsernameLenght = 3
   static let minPasswordLenght = 6
 }
@@ -23,21 +23,22 @@ struct SignUpViewModel: SignUpViewModelType, SignUpViewModelInput, SignUpViewMod
     self.emailValidator = emailValidator
     self.registerUser = registerUser
   }
-
+  
   // MARK: - Output
   
-  var username = Variable<String>("")
-  var password = Variable<String>("")
-  var email = Variable<String>("")
-  var state = Variable<SignUpState>(.idle)
-  var error = Variable<RegisterUserError?>(nil)
+  var username = BehaviorSubject<String>(value: "")
+  var password = BehaviorSubject<String>(value: "")
+  var email = BehaviorSubject<String>(value: "")
+  var state = BehaviorSubject<SignUpState>(value: .idle)
+  var error = BehaviorSubject<RegisterUserError?>(value: nil)
   
   var signUpEnabled: Observable<Bool> {
     return Observable.combineLatest(
-    username.asObservable(), email.asObservable(), password.asObservable()) { username, email, password in
+    username.asObservable(), email.asObservable(), password.asObservable()) {
+      username, email, password in
       return username.count >= LoginViewModelConstraints.minUsernameLenght &&
-        self.emailValidator.validate(email) &&
-        password.count >= LoginViewModelConstraints.minPasswordLenght
+        password.count >= LoginViewModelConstraints.minPasswordLenght &&
+        self.emailValidator.validate(email)
     }
   }
   
@@ -48,12 +49,12 @@ struct SignUpViewModel: SignUpViewModelType, SignUpViewModelInput, SignUpViewMod
   // MARK: - Input
   
   func signInButtonPressed() {
-    state.value = .loading
+    state.onNext(.loading)
     
     let credentials = UserCredentials(
-      username: username.value,
-      email: email.value,
-      password: password.value
+      username: try! username.value(),
+      email: try! email.value(),
+      password: try! password.value()
     )
     
     registerUser.execute(with: credentials)
@@ -61,7 +62,7 @@ struct SignUpViewModel: SignUpViewModelType, SignUpViewModelInput, SignUpViewMod
         print("User created correctly ✅") // TODO: Handle user creation
       }) { error in
         self.handle(error)
-    }.disposed(by: bag)
+      }.disposed(by: bag)
   }
   
   private func handle(_ error: Error) {
@@ -69,7 +70,7 @@ struct SignUpViewModel: SignUpViewModelType, SignUpViewModelInput, SignUpViewMod
       // TODO: Show generic error
       return
     }
-    self.error.value = error
-    self.state.value = .idle
+    self.error.onNext(error)
+    self.state.onNext(.idle)
   }
 }
