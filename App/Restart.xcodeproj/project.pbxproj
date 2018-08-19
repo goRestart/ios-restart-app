@@ -28,6 +28,7 @@
 		1CAF0F78200436E3004046A9 /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CAF0F77200436E3004046A9 /* TabBar.swift */; };
 		1CAF0F7A200438A6004046A9 /* Assembly+ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CAF0F79200438A6004046A9 /* Assembly+ViewController.swift */; };
 		2E2F7AB12129CC6C00CDED0F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2E2F7AB02129CC6C00CDED0F /* GoogleService-Info.plist */; };
+		2E2F7AF1212A071500CDED0F /* SignUp.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2E2F7AEF212A071500CDED0F /* SignUp.strings */; };
 		2F986A221FC3FC2A3887AF0C /* Pods_Restart.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA3B077726B435A78625501D /* Pods_Restart.framework */; };
 /* End PBXBuildFile section */
 
@@ -68,6 +69,9 @@
 		1CAF0F77200436E3004046A9 /* TabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
 		1CAF0F79200438A6004046A9 /* Assembly+ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+ViewController.swift"; sourceTree = "<group>"; };
 		2E2F7AB02129CC6C00CDED0F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		2E2F7AEB212A06EC00CDED0F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Login.strings; sourceTree = "<group>"; };
+		2E2F7AED212A06F200CDED0F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/NotLogged.strings; sourceTree = "<group>"; };
+		2E2F7AF0212A071500CDED0F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/SignUp.strings; sourceTree = "<group>"; };
 		C8F64BDE6FEF6B8E05B33FEA /* Pods-Restart.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Restart.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Restart/Pods-Restart.debug.xcconfig"; sourceTree = "<group>"; };
 		DA3B077726B435A78625501D /* Pods_Restart.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Restart.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBEBFC161A71DE5C63A92027 /* Pods-Restart.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Restart.release.xcconfig"; path = "Pods/Target Support Files/Pods-Restart/Pods-Restart.release.xcconfig"; sourceTree = "<group>"; };
@@ -124,6 +128,7 @@
 			children = (
 				2E2F7AB02129CC6C00CDED0F /* GoogleService-Info.plist */,
 				1C3B454D1FEFCC54008B7B87 /* Info.plist */,
+				2E2F7AC2212A06B100CDED0F /* Languages */,
 				1CAF0F65200431FD004046A9 /* Assets */,
 				1CAF0F63200431E8004046A9 /* Storyboards */,
 			);
@@ -188,6 +193,16 @@
 				1CAF0F77200436E3004046A9 /* TabBar.swift */,
 			);
 			path = Tabbar;
+			sourceTree = "<group>";
+		};
+		2E2F7AC2212A06B100CDED0F /* Languages */ = {
+			isa = PBXGroup;
+			children = (
+				2E2F7AEF212A071500CDED0F /* SignUp.strings */,
+				2E2F7AEC212A06EC00CDED0F /* Login.strings */,
+				2E2F7AEE212A06F200CDED0F /* NotLogged.strings */,
+			);
+			path = Languages;
 			sourceTree = "<group>";
 		};
 		33B833E5CD9AFE167B3E165E /* Frameworks */ = {
@@ -276,6 +291,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E2F7AF1212A071500CDED0F /* SignUp.strings in Resources */,
 				1C3B454C1FEFCC54008B7B87 /* LaunchScreen.storyboard in Resources */,
 				1C3B45491FEFCC54008B7B87 /* Assets.xcassets in Resources */,
 				2E2F7AB12129CC6C00CDED0F /* GoogleService-Info.plist in Resources */,
@@ -369,6 +385,30 @@
 				1C3B454B1FEFCC54008B7B87 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		2E2F7AEC212A06EC00CDED0F /* Login.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2E2F7AEB212A06EC00CDED0F /* en */,
+			);
+			name = Login.strings;
+			sourceTree = "<group>";
+		};
+		2E2F7AEE212A06F200CDED0F /* NotLogged.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2E2F7AED212A06F200CDED0F /* en */,
+			);
+			name = NotLogged.strings;
+			sourceTree = "<group>";
+		};
+		2E2F7AEF212A071500CDED0F /* SignUp.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2E2F7AF0212A071500CDED0F /* en */,
+			);
+			name = SignUp.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
