@@ -21,6 +21,7 @@ final class UserVerificationViewController: BaseViewController, GIDSignInUIDeleg
     private struct Layout {
         static let defaultRowHeight: CGFloat = 70
         static let markAsSoldRowHeight: CGFloat = 82
+        static let navBarScoreSize = CGSize(width: 72, height: 32)
     }
 
     init(viewModel: UserVerificationViewModel) {
@@ -65,6 +66,10 @@ final class UserVerificationViewController: BaseViewController, GIDSignInUIDeleg
 
     private func setupConstraints() {
         tableView.layout(with: view).fill()
+
+        if #available(iOS 11.0, *) {} else {
+            navBarView.frame.size = Layout.navBarScoreSize
+        }
     }
 
     private func bindRx() {
