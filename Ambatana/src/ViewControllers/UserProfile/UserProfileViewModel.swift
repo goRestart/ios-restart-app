@@ -133,12 +133,18 @@ final class UserProfileViewModel: BaseViewModel {
                                                                          itemsPerPage: SharedConstants.numListingsPerPageDefault)
         self.favoritesListingListRequester = UserFavoritesListingListRequester()
 
+        let sellingSource: ListingListViewModel.ListingListViewContainer = isPrivateProfile ? .privateProfileSelling : .publicProfileSelling
+        let soldSource: ListingListViewModel.ListingListViewContainer = isPrivateProfile ? .privateProfileSold : .publicProfileSold
+        let favoritesSource: ListingListViewModel.ListingListViewContainer = .privateProfileFavorites // Other profiles favorites can not be seen
         self.sellingListingListViewModel = ListingListViewModel(requester: self.sellingListingListRequester,
-                                                                isPrivateList: true)
+                                                                isPrivateList: true,
+                                                                source: sellingSource)
         self.soldListingListViewModel = ListingListViewModel(requester: self.soldListingListRequester,
-                                                             isPrivateList: true)
+                                                             isPrivateList: true,
+                                                             source: soldSource)
         self.favoritesListingListViewModel = ListingListViewModel(requester: self.favoritesListingListRequester,
-                                                                  isPrivateList: true)
+                                                                  isPrivateList: true,
+                                                                  source: .publicProfileSelling)
         self.ratingListViewModel = UserRatingListViewModel(userId: user?.objectId ?? "", tabNavigator: nil)
 
         self.disposeBag = DisposeBag()

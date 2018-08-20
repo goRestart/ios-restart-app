@@ -90,7 +90,8 @@ final class UserProfileViewController: BaseViewController {
         self.disposeBag = DisposeBag()
         self.headerView = UserProfileHeaderView(isPrivate: viewModel.isPrivateProfile)
         self.bioAndTrustView = UserProfileBioAndTrustView(isPrivate: viewModel.isPrivateProfile)
-        self.listingView = ListingListView(viewModel: ListingListViewModel(),
+        let source: ListingListViewModel.ListingListViewContainer = viewModel.isPrivateProfile ? .privateProfileSelling : .publicProfileSelling
+        self.listingView = ListingListView(viewModel: ListingListViewModel(source: source),
                                            featureFlags: FeatureFlags.sharedInstance)
         self.socialSharer = socialSharer
         self.socialSharer.delegate = viewModel

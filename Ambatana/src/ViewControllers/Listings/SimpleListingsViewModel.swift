@@ -35,7 +35,8 @@ class SimpleListingsViewModel: BaseViewModel, ListingListViewModelDataDelegate {
         let columns = show3Columns ? 3 : 2
         self.listingListViewModel = ListingListViewModel(requester: requester,
                                                          listings: listings,
-                                                         numberOfColumns: columns)
+                                                         numberOfColumns: columns,
+                                                         source: .simpleListings)
         self.featureFlags = featureFlags
         super.init()
         listingListViewModel.dataDelegate = self
