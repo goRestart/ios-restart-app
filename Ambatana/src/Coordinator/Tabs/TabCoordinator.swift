@@ -523,30 +523,10 @@ extension TabCoordinator: ListingDetailNavigator {
         let action = UIAction(interface: .button(R.Strings.productInterestedUndo, .terciary) , action: action)
         let data = BubbleNotificationData(text: message, action: action)
 
-        switch featureFlags.highlightedIAmInterestedInFeed {
-        case .baseline, .control:
-            bubbleNotificationManager.showBubble(data: data,
-                                                 duration: duration,
-                                                 view: navigationController.view,
-                                                 alignment: .top(offset: viewController.statusBarHeight),
-                                                 style: .light)
-        case .darkTop:
-            bubbleNotificationManager.showBubble(data: data,
-                                                 duration: duration,
-                                                 view: navigationController.view,
-                                                 alignment: .top(offset: viewController.statusBarHeight),
-                                                 style: .dark)
-        case .lightBottom:
-            appNavigator?.showBottomBubbleNotification(data: data,
-                                                       duration: duration,
-                                                       alignment: .bottom,
-                                                       style: .light)
-        case .darkBottom:
-            appNavigator?.showBottomBubbleNotification(data: data,
-                                                       duration: duration,
-                                                       alignment: .bottom,
-                                                       style: .dark)
-        }
+        appNavigator?.showBottomBubbleNotification(data: data,
+                                                   duration: duration,
+                                                   alignment: .bottom,
+                                                   style: .light)
     }
 
     func openListingAttributeTable(withViewModel viewModel: ListingAttributeTableViewModel) {

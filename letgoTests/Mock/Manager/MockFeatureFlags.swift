@@ -109,7 +109,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     // MARK: Retention
     var dummyUsersInfoProfile: DummyUsersInfoProfile = .control
     var onboardingIncentivizePosting: OnboardingIncentivizePosting = .control
-    var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed = .control
     var notificationSettings: NotificationSettings = .control
     var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions = .control
     var engagementBadging: EngagementBadging = .control
