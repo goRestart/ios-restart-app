@@ -1159,6 +1159,10 @@ extension ChatViewModel {
             }
         }
 
+        // FIXME: Remove this action and use the final production version before merging this branch into develop (@juolgon)
+        let p2pPaymentsFlowAction = actionForP2PPaymentsFlowTesting()
+        actions.append(p2pPaymentsFlowAction)
+
         delegate?.vmShowActionSheet(R.Strings.commonCancel, actions: actions)
     }
     
@@ -1304,6 +1308,18 @@ extension ChatViewModel {
     }
 }
 
+// MARK: - P2P Payments Testing
+
+// FIXME: Change this code for the final production code before merging the feature branch into develop (@juolgon)
+extension ChatViewModel {
+    private func actionForP2PPaymentsFlowTesting() -> UIAction {
+        return UIAction(interface: UIActionInterface.text("P2P Payments"), action: openP2PPaymentsFlow)
+    }
+
+    private func openP2PPaymentsFlow() {
+        // TODO: Start P2P Payments flow here (@juolgon)
+    }
+}
 
 // MARK: - Paginable
 
