@@ -20,7 +20,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var userReviewsReportEnabled: Bool = true
     var deckItemPage: DeckItemPage = .control
     var realEstateEnabled: RealEstateEnabled = .control
-    var showClockInDirectAnswer: ShowClockInDirectAnswer = .control
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers = .control
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio = .control
     var realEstateNewCopy: RealEstateNewCopy = .control

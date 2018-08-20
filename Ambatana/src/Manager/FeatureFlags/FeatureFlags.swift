@@ -22,7 +22,6 @@ protocol FeatureFlaggeable: class {
     var pricedBumpUpEnabled: Bool { get }
     var userReviewsReportEnabled: Bool { get }
     var realEstateEnabled: RealEstateEnabled { get }
-    var showClockInDirectAnswer : ShowClockInDirectAnswer { get }
     var deckItemPage: DeckItemPage { get }
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio { get }
     var realEstateNewCopy: RealEstateNewCopy { get }
@@ -613,14 +612,7 @@ final class FeatureFlags: FeatureFlaggeable {
         }
         return DeckItemPage.fromPosition(abTests.deckItemPage.value)
     }
-    
-    var showClockInDirectAnswer: ShowClockInDirectAnswer {
-        if Bumper.enabled {
-            return Bumper.showClockInDirectAnswer
-        }
-        return ShowClockInDirectAnswer.fromPosition(abTests.showClockInDirectAnswer.value)
-    }
-    
+
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio {
         if Bumper.enabled {
             return Bumper.showAdsInFeedWithRatio
