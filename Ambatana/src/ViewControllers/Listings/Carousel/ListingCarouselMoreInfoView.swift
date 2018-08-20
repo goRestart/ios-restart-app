@@ -436,7 +436,7 @@ final class ListingCarouselMoreInfoView: UIView, ListingTitleFontDescriptor {
         // We need to call invalidateLayout in the CollectionView to fix what appears to be an iOS 10 UIKit bug:
         // https://stackoverflow.com/a/44467194
         tagCollectionView.collectionViewLayout.invalidateLayout()
-        tagCollectionView.layoutSubviews()
+        tagCollectionView.layoutIfNeeded()
     }
 
     func dismissed() {
@@ -755,7 +755,7 @@ private extension ListingCarouselMoreInfoView {
  
         if (isIOSBuggyVersion()) {
             tagCollectionView.collectionViewLayout.invalidateLayout()
-            tagCollectionView.layoutSubviews()
+            tagCollectionView.layoutIfNeeded()
         }
     }
  
