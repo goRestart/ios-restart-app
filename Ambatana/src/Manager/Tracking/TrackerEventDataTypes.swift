@@ -101,6 +101,7 @@ enum EventName: String {
     case undoMessageSent                    = "undo-sent-message"
     case chatUpdateAppWarningShow           = "chat-update-app-warning-show"
     case chatLetgoServiceQuestionReceived   = "chat-letgo-service-question-received"
+    case chatLetgoServiceCTAReceived        = "chat-letgo-service-call-to-action-received"
 
     case profileVisit                       = "profile-visit"
     case profileEditStart                   = "profile-edit-start"
