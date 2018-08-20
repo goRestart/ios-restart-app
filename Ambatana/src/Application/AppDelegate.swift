@@ -90,6 +90,9 @@ extension AppDelegate: UIApplicationDelegate {
         let window = UIWindow(frame: UIScreen.main.bounds)
         window.backgroundColor = UIColor.white
         window.rootViewController = appCoordinator.tabBarCtl
+
+        window.rootViewController = P2PPaymentsOnboardingViewController(viewModel: nil, nibName: nil)
+
         self.window = window
 
         window.makeKeyAndVisible()

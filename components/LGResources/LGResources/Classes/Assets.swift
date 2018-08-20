@@ -919,19 +919,19 @@ extension R {
       public static let allValues: [AssetType] = allImages
     }
     public enum P2PPayments {
-      public static let icnClose = ImageAsset(name: "icnClose")
-      public static let makeOfferIcn = ImageAsset(name: "makeOfferIcn")
-      public static let meetBuyer = ImageAsset(name: "meetBuyer")
-      public static let offerAccepted = ImageAsset(name: "offerAccepted")
+      public static let close = ImageAsset(name: "close")
+      public static let onboardingStep1 = ImageAsset(name: "onboardingStep1")
+      public static let onboardingStep2 = ImageAsset(name: "onboardingStep2")
+      public static let onboardingStep3 = ImageAsset(name: "onboardingStep3")
 
       // swiftlint:disable trailing_comma
       public static let allColors: [ColorAsset] = [
       ]
       public static let allImages: [ImageAsset] = [
-        icnClose,
-        makeOfferIcn,
-        meetBuyer,
-        offerAccepted,
+        close,
+        onboardingStep1,
+        onboardingStep2,
+        onboardingStep3,
       ]
       // swiftlint:enable trailing_comma
       @available(*, deprecated, renamed: "allImages")
