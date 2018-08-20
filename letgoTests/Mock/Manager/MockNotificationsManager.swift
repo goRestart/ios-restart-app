@@ -39,6 +39,6 @@ class MockNotificationsManager: NotificationsManager {
     func decreaseFavoriteCounter() { }
     func clearFavoriteCounter() { }
     func clearNewSellFeatureIndicator() { }
-    func updateEngagementBadgingNotifications() { }
-    func hideEngagementBadgingNotifications() { }
+    func showEngagementBadge() { }
+    func hideEngagementBadge() { }
 }

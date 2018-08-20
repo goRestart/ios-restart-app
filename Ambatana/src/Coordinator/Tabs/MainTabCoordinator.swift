@@ -64,12 +64,26 @@ final class MainTabCoordinator: TabCoordinator, FeedNavigator {
     }
     
 
-    func openSearch(_ query: String, categoriesString: String?) {
-        var filters = ListingFilters()
-        if let categoriesString = categoriesString {
-            filters.selectedCategories = ListingCategory.categoriesFromString(categoriesString)
+    func openSearch(query: String?,
+                    categories: String?,
+                    distanceRadius: String?,
+                    sortCriteria: String?,
+                    priceFlag: String?,
+                    minPrice: String?,
+                    maxPrice: String?) {
+        let filters = ListingFilters(categoriesString: categories,
+                                     distanceRadiusString: distanceRadius,
+                                     sortCriteriaString: sortCriteria,
+                                     priceFlagString: priceFlag,
+                                     minPriceString: minPrice,
+                                     maxPriceString: maxPrice)
+        let searchType: SearchType?
+        if let query = query {
+            searchType = .user(query: query)
+        } else {
+            searchType = nil
         }
-        let viewModel = MainListingsViewModel(searchType: .user(query: query), filters: filters)
+        let viewModel = MainListingsViewModel(searchType: searchType, filters: filters)
         viewModel.navigator = self
         let vc = MainListingsViewController(viewModel: viewModel)
 

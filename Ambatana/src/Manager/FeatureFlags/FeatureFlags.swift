@@ -70,7 +70,6 @@ protocol FeatureFlaggeable: class {
     // MARK: Chat
     var showInactiveConversations: Bool { get }
     var showChatSafetyTips: Bool { get }
-    var userIsTyping: UserIsTyping { get }
     var chatNorris: ChatNorris { get }
     var showChatConnectionStatusBar: ShowChatConnectionStatusBar { get }
     var showChatHeaderWithoutListingForAssistant: Bool { get }
@@ -117,6 +116,7 @@ protocol FeatureFlaggeable: class {
     var engagementBadging: EngagementBadging { get }
     var searchAlertsDisableOldestIfMaximumReached: SearchAlertsDisableOldestIfMaximumReached { get }
     var notificationCenterRedesign: NotificationCenterRedesign { get }
+    var randomImInterestedMessages: RandomImInterestedMessages { get }
 }
 
 extension FeatureFlaggeable {
@@ -482,6 +482,10 @@ extension SearchAlertsDisableOldestIfMaximumReached {
 }
 
 extension ShowSellFasterInProfileCells {
+    var isActive: Bool { return self == .active }
+}
+
+extension RandomImInterestedMessages {
     var isActive: Bool { return self == .active }
 }
 
@@ -1098,10 +1102,6 @@ final class FeatureFlags: FeatureFlaggeable {
 
 // MARK: Chat
 
-extension UserIsTyping {
-    var isActive: Bool { return self == .active }
-}
-
 extension ChatNorris {
     var isActive: Bool { return self == .redButton || self == .whiteButton || self == .greenButton }
 }
@@ -1132,13 +1132,6 @@ extension FeatureFlags {
             return Bumper.showChatSafetyTips
         }
         return abTests.showChatSafetyTips.value
-    }
-    
-    var userIsTyping: UserIsTyping {
-        if Bumper.enabled {
-            return Bumper.userIsTyping
-        }
-        return UserIsTyping.fromPosition(abTests.userIsTyping.value)
     }
     
     var chatNorris: ChatNorris {
@@ -1417,5 +1410,12 @@ extension FeatureFlags {
             return Bumper.notificationCenterRedesign
         }
         return NotificationCenterRedesign.fromPosition(abTests.notificationCenterRedesign.value)
+    }
+    
+    var randomImInterestedMessages: RandomImInterestedMessages {
+        if Bumper.enabled {
+            return Bumper.randomImInterestedMessages
+        }
+        return RandomImInterestedMessages.fromPosition(abTests.randomImInterestedMessages.value)
     }
 }

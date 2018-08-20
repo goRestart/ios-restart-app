@@ -194,6 +194,8 @@ extension R {
     public static let categoriesInFeedServices = Strings.tr("Localizable", "categories_inFeed_services")
     /// Leisure
     public static let categoriesInFeedSportsLeisureGames = Strings.tr("Localizable", "categories_inFeed_sports_leisure_games")
+    /// Jobs & Services
+    public static let categoriesJobsServices = Strings.tr("Localizable", "categories_jobs_services")
     /// Movies, Books and Music
     public static let categoriesMoviesBooksAndMusic = Strings.tr("Localizable", "categories_movies_books_and_music")
     /// Other
@@ -728,8 +730,30 @@ extension R {
     public static let directAnswerHowMuchAsking = Strings.tr("Localizable", "direct_answer_how_much_asking")
     /// I'm interested!
     public static let directAnswerInterested = Strings.tr("Localizable", "direct_answer_interested")
+    /// I'd like to buy it
+    public static let directAnswerInterestedBuyIt = Strings.tr("Localizable", "direct_answer_interested_buy_it")
+    /// Has it sold?
+    public static let directAnswerInterestedHasItSold = Strings.tr("Localizable", "direct_answer_interested_has_it_sold")
+    /// I'm interested in buying it
+    public static let directAnswerInterestedInBuyingIt = Strings.tr("Localizable", "direct_answer_interested_in_buying_it")
+    /// I'm interested in this item
+    public static let directAnswerInterestedInThisItem = Strings.tr("Localizable", "direct_answer_interested_in_this_item")
+    /// Is it still available?
+    public static let directAnswerInterestedIsItStillAvailable = Strings.tr("Localizable", "direct_answer_interested_is_it_still_available")
+    /// Is it still for sale?
+    public static let directAnswerInterestedIsItStillForSale = Strings.tr("Localizable", "direct_answer_interested_is_it_still_for_sale")
+    /// Is this available?
+    public static let directAnswerInterestedIsThisAvailable = Strings.tr("Localizable", "direct_answer_interested_is_this_available")
+    /// Is this still available?
+    public static let directAnswerInterestedIsThisStillAvailable = Strings.tr("Localizable", "direct_answer_interested_is_this_still_available")
+    /// Do you still have it?
+    public static let directAnswerInterestedStillHaveIt = Strings.tr("Localizable", "direct_answer_interested_still_have_it")
+    /// Are you still selling it?
+    public static let directAnswerInterestedStillSellingIt = Strings.tr("Localizable", "direct_answer_interested_still_selling_it")
     /// Interested...
     public static let directAnswerInterestedTitle = Strings.tr("Localizable", "direct_answer_interested_title")
+    /// What condition is it in?
+    public static let directAnswerInterestedWhatCondition = Strings.tr("Localizable", "direct_answer_interested_what_condition")
     /// Is the price negotiable?
     public static let directAnswerIsNegotiable = Strings.tr("Localizable", "direct_answer_is_negotiable")
     /// Let's meet
@@ -806,6 +830,16 @@ extension R {
     public static let discardedProductsReasonReferenceToCompetitors = Strings.tr("Localizable", "discarded_products_reason_reference_to_competitors")
     /// Only contains stock photos
     public static let discardedProductsReasonStockPhotoOnly = Strings.tr("Localizable", "discarded_products_reason_stock_photo_only")
+    /// Jobs
+    public static let editJobsServicesJobsOptionTitle = Strings.tr("Localizable", "edit_jobsServices_jobs_option_title")
+    /// Type of listing
+    public static let editJobsServicesListingTypeTitle = Strings.tr("Localizable", "edit_jobsServices_listingType_title")
+    /// Services
+    public static let editJobsServicesServicesOptionTitle = Strings.tr("Localizable", "edit_jobsServices_services_option_title")
+    /// Subtype
+    public static let editJobsServicesServiceSubtypeTitle = Strings.tr("Localizable", "edit_jobsServices_serviceSubtype_title")
+    /// Type
+    public static let editJobsServicesServiceTypeTitle = Strings.tr("Localizable", "edit_jobsServices_serviceType_title")
     /// Not set
     public static let editPaymentFrequencyPlaceholder = Strings.tr("Localizable", "edit_paymentFrequency_placeholder")
     /// Frequency

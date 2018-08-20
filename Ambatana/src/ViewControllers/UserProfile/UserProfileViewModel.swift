@@ -548,7 +548,8 @@ extension UserProfileViewModel: ListingListViewModelDataDelegate {
     func listingListVM(_ viewModel: ListingListViewModel,
                        didSucceedRetrievingListingsPage page: UInt,
                        withResultsCount resultsCount: Int,
-                       hasListings: Bool) {
+                       hasListings: Bool,
+                       containsRecentListings: Bool) {
         guard !hasListings && page == 0,
             let emptyState = makeEmptyState(for: viewModel) else { return }
         viewModel.setEmptyState(emptyState)

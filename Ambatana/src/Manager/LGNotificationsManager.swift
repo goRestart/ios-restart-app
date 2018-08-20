@@ -43,37 +43,28 @@ class LGNotificationsManager: NotificationsManager {
     fileprivate var loggedIn: Variable<Bool>
     private var requestingChat = false
     private var requestingNotifications = false
-
-    private let listingRepository: ListingRepository
-    private let locationManager: LocationManager
     
 
     // MARK: - Lifecycle
 
     convenience init() {
         self.init(sessionManager: Core.sessionManager,
-                  locationManager: Core.locationManager,
                   chatRepository: Core.chatRepository,
                   notificationsRepository: Core.notificationsRepository,
-                  listingRepository: Core.listingRepository,
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   featureFlags: FeatureFlags.sharedInstance,
                   deepLinksRouter: LGDeepLinksRouter.sharedInstance)
     }
 
     init(sessionManager: SessionManager,
-         locationManager: LocationManager,
          chatRepository: ChatRepository,
          notificationsRepository: NotificationsRepository,
-         listingRepository: ListingRepository,
          keyValueStorage: KeyValueStorage,
          featureFlags: FeatureFlaggeable,
          deepLinksRouter: DeepLinksRouter) {
         self.sessionManager = sessionManager
-        self.locationManager = locationManager
         self.chatRepository = chatRepository
         self.notificationsRepository = notificationsRepository
-        self.listingRepository = listingRepository
         self.keyValueStorage = keyValueStorage
         self.featureFlags = featureFlags
         self.deepLinksRouter = deepLinksRouter
@@ -184,27 +175,12 @@ class LGNotificationsManager: NotificationsManager {
             self?.unreadNotificationsCount.value = notificationCounts
         }
     }
-        
-    func updateEngagementBadgingNotifications() {
-        guard let lastSessionDate = keyValueStorage[.lastSessionDate] else { return }
-        let previousSessionLongerThan1Hour = Date().timeIntervalSince(lastSessionDate) > TimeInterval.make(hours: 1)
-        let hasAppIconBadge = UIApplication.shared.applicationIconBadgeNumber > 0
-        
-        if hasAppIconBadge && previousSessionLongerThan1Hour {
-            var params = RetrieveListingParams()
-            if let currentLocation = locationManager.currentLocation {
-                params.coordinates = LGLocationCoordinates2D(location: currentLocation)
-            }
-            params.timeCriteria = ListingTimeCriteria.date(date: lastSessionDate)
-
-            listingRepository.index(params) { [weak self] result in
-                guard let recentListings = result.value, !recentListings.isEmpty else { return }
-                self?.engagementBadgingNotifications.value = true
-            }
-        }
+    
+    func showEngagementBadge() {
+        engagementBadgingNotifications.value = true
     }
     
-    func hideEngagementBadgingNotifications() {
+    func hideEngagementBadge() {
         engagementBadgingNotifications.value = false
     }
 }

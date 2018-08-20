@@ -68,7 +68,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     // MARK: Chat
     var showInactiveConversations: Bool = false
     var showChatSafetyTips: Bool = false
-    var userIsTyping: UserIsTyping = .control
     var chatNorris: ChatNorris = .control
     var showChatConnectionStatusBar: ShowChatConnectionStatusBar = .control
     var showChatHeaderWithoutListingForAssistant: Bool = true
@@ -117,5 +116,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var engagementBadging: EngagementBadging = .control
     var searchAlertsDisableOldestIfMaximumReached: SearchAlertsDisableOldestIfMaximumReached = .control
     var notificationCenterRedesign: NotificationCenterRedesign = .control
+    var randomImInterestedMessages: RandomImInterestedMessages = .control
 }
 

@@ -83,12 +83,7 @@
     {
         "name": "OnboardingIncentivizePosting",
         "values": ["control", "baseline", "blockingPosting", "blockingPostingSkipWelcome"],
-        "description": "Leads the user through the posting feature and onboarding improvements"
-    },
-    {
-        "name": "UserIsTyping",
-        "values": ["control", "baseline", "active"],
-        "description": "[CHAT] Show user is typing status on chat"
+        "description": "[RETENTION] Leads the user through the posting feature and onboarding improvements"
     },
     {
         "name": "BumpUpBoost",
@@ -188,7 +183,7 @@
     {
          "name": "HighlightedIAmInterestedFeed",
          "values": ["control", "baseline", "lightBottom", "darkTop", "darkBottom"],
-         "description": "Show an I am interested highlighted undo button in the main feed more"
+         "description": "[RETENTION] Show an I am interested highlighted undo button in the main feed more"
     },
     {
         "name": "FullScreenAdsWhenBrowsingForUS",
@@ -223,7 +218,7 @@
     {
         "name": "NotificationSettings",
         "values": ["control", "baseline", "differentLists", "sameList"],
-        "description": "Settings to enable or disable each type of notification"
+        "description": "[RETENTION] Settings to enable or disable each type of notification"
     },
     {
          "name": "CarExtraFieldsEnabled",
@@ -268,12 +263,12 @@
     {
         "name": "SearchAlertsInSearchSuggestions",
         "values": ["control", "baseline", "active"],
-        "description": "Show search alerts in search suggestions view"
+        "description": "[RETENTION] Show search alerts in search suggestions view"
     },
     {
         "name": "EngagementBadging",
         "values": ["control", "baseline", "active"],
-        "description": "Show recent items bubble in feed basic approach"
+        "description": "[RETENTION] Show recent items bubble in feed basic approach"
     },
     {
         "name": "ServicesUnifiedFilterScreen",
@@ -349,5 +344,10 @@
         "name": "NotificationCenterRedesign",
         "values": ["control", "baseline", "active"],
         "description": "[RETENTION] Notification center redesign with sections and modern UI design"
+    },
+    {
+        "name": "RandomImInterestedMessages",
+        "values": ["control", "baseline", "active"],
+        "description": "[RETENTION] Random Im Interested messages from listing list"
     }
  ]

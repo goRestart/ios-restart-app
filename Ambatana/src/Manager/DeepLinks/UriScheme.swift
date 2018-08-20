@@ -119,9 +119,15 @@ struct UriScheme {
                                                   source: source,
                                                   cardActionParameter: cardActionParameter))
       case .search:
-         guard let query = params["query"] else { return nil }
-         return UriScheme(deepLink: DeepLink.link(.search(query: query,
-                                                          categories: params["categories"]),
+         // Checking we have at least one parameter to search or filter by
+         guard params.count > 0 else { return nil }
+         return UriScheme(deepLink: DeepLink.link(.search(query: params[DeepLinkAction.SearchDeepLinkQueryParameters.query.rawValue],
+                                                          categories: params[DeepLinkAction.SearchDeepLinkQueryParameters.categories.rawValue],
+                                                          distanceRadius: params[DeepLinkAction.SearchDeepLinkQueryParameters.distanceRadius.rawValue],
+                                                          sortCriteria: params[DeepLinkAction.SearchDeepLinkQueryParameters.sortCriteria.rawValue],
+                                                          priceFlag: params[DeepLinkAction.SearchDeepLinkQueryParameters.priceFlag.rawValue],
+                                                          minPrice: params[DeepLinkAction.SearchDeepLinkQueryParameters.minPrice.rawValue],
+                                                          maxPrice: params[DeepLinkAction.SearchDeepLinkQueryParameters.maxPrice.rawValue]),
                                                   campaign: campaign,
                                                   medium: medium,
                                                   source: source,
