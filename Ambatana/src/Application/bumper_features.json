@@ -36,11 +36,6 @@
         "description": "Deck item page with card appearance and different navigation"
     },
     {
-        "name": "ShowClockInDirectAnswer",
-        "values": ["control", "baseline", "active"],
-        "description": "Show a clock until the message is delivered correctly"
-    },
-    {
         "name": "ShowAdsInFeedWithRatio",
         "values": ["control", "baseline", "ten", "fifteen", "twenty"],
         "description": "[MONEY] show ads in feed every X cells"
@@ -89,11 +84,6 @@
         "name": "OnboardingIncentivizePosting",
         "values": ["control", "baseline", "blockingPosting", "blockingPostingSkipWelcome"],
         "description": "[RETENTION] Leads the user through the posting feature and onboarding improvements"
-    },
-    {
-        "name": "UserIsTyping",
-        "values": ["control", "baseline", "active"],
-        "description": "[CHAT] Show user is typing status on chat"
     },
     {
         "name": "BumpUpBoost",
@@ -234,11 +224,6 @@
          "name": "CarExtraFieldsEnabled",
          "values": ["control", "baseline", "active"],
          "description": "allows user to see extra car fields (bodyType, fuelType, drivetrain, transmission, seats, mileage)"
-    },
-    {
-        "name": "ShowChatHeaderWithoutListingForAssistant",
-        "values": ["yes", "no"],
-        "description": "[CHAT] Use the new header WITHOUT LISTING for conversations with no listing related"
     },
     {
         "name": "ReportingFostaSesta",

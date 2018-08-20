@@ -23,7 +23,6 @@ extension Bumper  {
         flags.append(RealEstateEnabled.self)
         flags.append(RequestsTimeOut.self)
         flags.append(DeckItemPage.self)
-        flags.append(ShowClockInDirectAnswer.self)
         flags.append(ShowAdsInFeedWithRatio.self)
         flags.append(RealEstateFlowType.self)
         flags.append(RealEstateNewCopy.self)
@@ -34,7 +33,6 @@ extension Bumper  {
         flags.append(RelaxedSearch.self)
         flags.append(ShowChatSafetyTips.self)
         flags.append(OnboardingIncentivizePosting.self)
-        flags.append(UserIsTyping.self)
         flags.append(BumpUpBoost.self)
         flags.append(CopyForChatNowInTurkey.self)
         flags.append(ChatNorris.self)
@@ -63,7 +61,6 @@ extension Bumper  {
         flags.append(ShowChatConnectionStatusBar.self)
         flags.append(NotificationSettings.self)
         flags.append(CarExtraFieldsEnabled.self)
-        flags.append(ShowChatHeaderWithoutListingForAssistant.self)
         flags.append(ReportingFostaSesta.self)
         flags.append(ShowChatHeaderWithoutUser.self)
         flags.append(RealEstateMapTooltip.self)
@@ -178,19 +175,6 @@ extension Bumper  {
     static var deckItemPageObservable: Observable<DeckItemPage> {
         return Bumper.observeValue(for: DeckItemPage.key).map {
             DeckItemPage(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var showClockInDirectAnswer: ShowClockInDirectAnswer {
-        guard let value = Bumper.value(for: ShowClockInDirectAnswer.key) else { return .control }
-        return ShowClockInDirectAnswer(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var showClockInDirectAnswerObservable: Observable<ShowClockInDirectAnswer> {
-        return Bumper.observeValue(for: ShowClockInDirectAnswer.key).map {
-            ShowClockInDirectAnswer(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -321,19 +305,6 @@ extension Bumper  {
     static var onboardingIncentivizePostingObservable: Observable<OnboardingIncentivizePosting> {
         return Bumper.observeValue(for: OnboardingIncentivizePosting.key).map {
             OnboardingIncentivizePosting(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var userIsTyping: UserIsTyping {
-        guard let value = Bumper.value(for: UserIsTyping.key) else { return .control }
-        return UserIsTyping(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var userIsTypingObservable: Observable<UserIsTyping> {
-        return Bumper.observeValue(for: UserIsTyping.key).map {
-            UserIsTyping(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -698,19 +669,6 @@ extension Bumper  {
     static var carExtraFieldsEnabledObservable: Observable<CarExtraFieldsEnabled> {
         return Bumper.observeValue(for: CarExtraFieldsEnabled.key).map {
             CarExtraFieldsEnabled(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var showChatHeaderWithoutListingForAssistant: Bool {
-        guard let value = Bumper.value(for: ShowChatHeaderWithoutListingForAssistant.key) else { return true }
-        return ShowChatHeaderWithoutListingForAssistant(rawValue: value)?.asBool ?? true
-    } 
-
-    #if (RX_BUMPER)
-    static var showChatHeaderWithoutListingForAssistantObservable: Observable<Bool> {
-        return Bumper.observeValue(for: ShowChatHeaderWithoutListingForAssistant.key).map {
-            ShowChatHeaderWithoutListingForAssistant(rawValue: $0 ?? "")?.asBool ?? true
         }
     }
     #endif
@@ -1115,22 +1073,6 @@ enum DeckItemPage: String, BumperFeature  {
     }
 }
 
-enum ShowClockInDirectAnswer: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return ShowClockInDirectAnswer.control.rawValue }
-    static var enumValues: [ShowClockInDirectAnswer] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show a clock until the message is delivered correctly" } 
-    static func fromPosition(_ position: Int) -> ShowClockInDirectAnswer {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
 enum ShowAdsInFeedWithRatio: String, BumperFeature  {
     case control, baseline, ten, fifteen, twenty
     static var defaultValue: String { return ShowAdsInFeedWithRatio.control.rawValue }
@@ -1285,22 +1227,6 @@ enum OnboardingIncentivizePosting: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .blockingPosting
             case 3: return .blockingPostingSkipWelcome
-            default: return .control
-        }
-    }
-}
-
-enum UserIsTyping: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return UserIsTyping.control.rawValue }
-    static var enumValues: [UserIsTyping] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "[CHAT] Show user is typing status on chat" } 
-    static func fromPosition(_ position: Int) -> UserIsTyping {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
             default: return .control
         }
     }
@@ -1770,15 +1696,6 @@ enum CarExtraFieldsEnabled: String, BumperFeature  {
             default: return .control
         }
     }
-}
-
-enum ShowChatHeaderWithoutListingForAssistant: String, BumperFeature  {
-    case yes, no
-    static var defaultValue: String { return ShowChatHeaderWithoutListingForAssistant.yes.rawValue }
-    static var enumValues: [ShowChatHeaderWithoutListingForAssistant] { return [.yes, .no]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "[CHAT] Use the new header WITHOUT LISTING for conversations with no listing related" } 
-    var asBool: Bool { return self == .yes }
 }
 
 enum ReportingFostaSesta: String, BumperFeature  {

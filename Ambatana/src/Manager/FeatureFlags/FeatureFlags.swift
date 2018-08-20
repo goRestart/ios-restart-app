@@ -22,7 +22,6 @@ protocol FeatureFlaggeable: class {
     var pricedBumpUpEnabled: Bool { get }
     var userReviewsReportEnabled: Bool { get }
     var realEstateEnabled: RealEstateEnabled { get }
-    var showClockInDirectAnswer : ShowClockInDirectAnswer { get }
     var deckItemPage: DeckItemPage { get }
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio { get }
     var realEstateNewCopy: RealEstateNewCopy { get }
@@ -71,10 +70,8 @@ protocol FeatureFlaggeable: class {
     // MARK: Chat
     var showInactiveConversations: Bool { get }
     var showChatSafetyTips: Bool { get }
-    var userIsTyping: UserIsTyping { get }
     var chatNorris: ChatNorris { get }
     var showChatConnectionStatusBar: ShowChatConnectionStatusBar { get }
-    var showChatHeaderWithoutListingForAssistant: Bool { get }
     var showChatHeaderWithoutUser: Bool { get }
     var enableCTAMessageType: Bool { get }
     var expressChatImprovement: ExpressChatImprovement { get }
@@ -614,14 +611,7 @@ final class FeatureFlags: FeatureFlaggeable {
         }
         return DeckItemPage.fromPosition(abTests.deckItemPage.value)
     }
-    
-    var showClockInDirectAnswer: ShowClockInDirectAnswer {
-        if Bumper.enabled {
-            return Bumper.showClockInDirectAnswer
-        }
-        return ShowClockInDirectAnswer.fromPosition(abTests.showClockInDirectAnswer.value)
-    }
-    
+
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio {
         if Bumper.enabled {
             return Bumper.showAdsInFeedWithRatio
@@ -1111,10 +1101,6 @@ final class FeatureFlags: FeatureFlaggeable {
 
 // MARK: Chat
 
-extension UserIsTyping {
-    var isActive: Bool { return self == .active }
-}
-
 extension ChatNorris {
     var isActive: Bool { return self == .redButton || self == .whiteButton || self == .greenButton }
 }
@@ -1147,13 +1133,6 @@ extension FeatureFlags {
         return abTests.showChatSafetyTips.value
     }
     
-    var userIsTyping: UserIsTyping {
-        if Bumper.enabled {
-            return Bumper.userIsTyping
-        }
-        return UserIsTyping.fromPosition(abTests.userIsTyping.value)
-    }
-    
     var chatNorris: ChatNorris {
         if Bumper.enabled {
             return Bumper.chatNorris
@@ -1166,13 +1145,6 @@ extension FeatureFlags {
             return Bumper.showChatConnectionStatusBar
         }
         return  ShowChatConnectionStatusBar.fromPosition(abTests.showChatConnectionStatusBar.value)
-    }
-
-    var showChatHeaderWithoutListingForAssistant: Bool {
-        if Bumper.enabled {
-            return Bumper.showChatHeaderWithoutListingForAssistant
-        }
-        return abTests.showChatHeaderWithoutListingForAssistant.value
     }
 
     var showChatHeaderWithoutUser: Bool {

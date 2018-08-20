@@ -571,8 +571,6 @@ class ChatViewModel: ChatBaseViewModel {
     }
     
     private func setupInterlocutorIsTypingRx() {
-        guard featureFlags.userIsTyping.isActive else { return }
-        
         // show interlocutor is typing bubble in chat
         conversation.value.interlocutorIsTyping.asObservable()
             .distinctUntilChanged()
@@ -583,8 +581,6 @@ class ChatViewModel: ChatBaseViewModel {
     }
     
     private func setupUserIsTypingRx() {
-        guard featureFlags.userIsTyping.isActive else { return }
-        
         // send typing events to websocket & stop userIsTypingTimeout if needed
         userIsTyping.asObservable()
             .skip(1)

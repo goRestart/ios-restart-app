@@ -3,7 +3,7 @@ import Foundation
 import RxSwift
 
 final class MockFeatureFlags: FeatureFlaggeable {
-
+ 
     var trackingData: Observable<[(String, ABGroup)]?> {
         return trackingDataVar.asObservable()
     }
@@ -20,7 +20,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var userReviewsReportEnabled: Bool = true
     var deckItemPage: DeckItemPage = .control
     var realEstateEnabled: RealEstateEnabled = .control
-    var showClockInDirectAnswer: ShowClockInDirectAnswer = .control
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers = .control
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio = .control
     var realEstateNewCopy: RealEstateNewCopy = .control
@@ -69,10 +68,8 @@ final class MockFeatureFlags: FeatureFlaggeable {
     // MARK: Chat
     var showInactiveConversations: Bool = false
     var showChatSafetyTips: Bool = false
-    var userIsTyping: UserIsTyping = .control
     var chatNorris: ChatNorris = .control
     var showChatConnectionStatusBar: ShowChatConnectionStatusBar = .control
-    var showChatHeaderWithoutListingForAssistant: Bool = true
     var showChatHeaderWithoutUser: Bool = true
     var enableCTAMessageType: Bool = true
     var expressChatImprovement: ExpressChatImprovement = .control
