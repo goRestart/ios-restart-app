@@ -469,6 +469,8 @@
 		2E75EC501FA86F6E00C5F48F /* AdBannerTrackingStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E75EC4E1FA86F6D00C5F48F /* AdBannerTrackingStatus.swift */; };
 		2E75EC531FA89F5B00C5F48F /* AdsRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E75EC521FA89F5B00C5F48F /* AdsRequester.swift */; };
 		2E75EC541FA89F5B00C5F48F /* AdsRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E75EC521FA89F5B00C5F48F /* AdsRequester.swift */; };
+		2E79430B212B008900CBC5CB /* ProcessInfo+Extended.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E79430A212B008900CBC5CB /* ProcessInfo+Extended.swift */; };
+		2E79430C212B008900CBC5CB /* ProcessInfo+Extended.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E79430A212B008900CBC5CB /* ProcessInfo+Extended.swift */; };
 		2E7F4A462074FB7200A05728 /* lottie_bump_up_boost_success_animation.json in Resources */ = {isa = PBXBuildFile; fileRef = 2E7F4A452074FB7100A05728 /* lottie_bump_up_boost_success_animation.json */; };
 		2E7F4A472074FB7200A05728 /* lottie_bump_up_boost_success_animation.json in Resources */ = {isa = PBXBuildFile; fileRef = 2E7F4A452074FB7100A05728 /* lottie_bump_up_boost_success_animation.json */; };
 		2E8097EF206660FC00E19FC0 /* MeetingSafetyTipsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8097EE206660FC00E19FC0 /* MeetingSafetyTipsViewController.swift */; };
@@ -2358,6 +2360,7 @@
 		2E6B6E3C1D2BC0A500C10A20 /* PostIncentiviserItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostIncentiviserItem.swift; sourceTree = "<group>"; };
 		2E75EC4E1FA86F6D00C5F48F /* AdBannerTrackingStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdBannerTrackingStatus.swift; sourceTree = "<group>"; };
 		2E75EC521FA89F5B00C5F48F /* AdsRequester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AdsRequester.swift; path = Ads/AdsRequester.swift; sourceTree = "<group>"; };
+		2E79430A212B008900CBC5CB /* ProcessInfo+Extended.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProcessInfo+Extended.swift"; sourceTree = "<group>"; };
 		2E7F4A452074FB7100A05728 /* lottie_bump_up_boost_success_animation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = lottie_bump_up_boost_success_animation.json; sourceTree = "<group>"; };
 		2E8097EE206660FC00E19FC0 /* MeetingSafetyTipsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingSafetyTipsViewController.swift; sourceTree = "<group>"; };
 		2E8097F12066610B00E19FC0 /* MeetingSafetyTipsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingSafetyTipsViewModel.swift; sourceTree = "<group>"; };
@@ -5052,7 +5055,9 @@
 				ABA47C14BB52140048297810 /* Frameworks */,
 				4624A7DDBDADD7F8BDB5921F /* Pods */,
 			);
+			indentWidth = 4;
 			sourceTree = "<group>";
+			tabWidth = 4;
 		};
 		6608E0371A820FBD005895ED /* Products */ = {
 			isa = PBXGroup;
@@ -6256,6 +6261,7 @@
 				507532E11FEA47D400FCF9D5 /* UILabel+Rx.swift */,
 				2EE47D3020178835004B04EE /* PhoneCallsHelper.swift */,
 				8ED3C522204811E90078BE39 /* LGAnimation.swift */,
+				2E79430A212B008900CBC5CB /* ProcessInfo+Extended.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -8002,6 +8008,7 @@
 				50C9E4C31B723E7B001E4E92 /* AppsflyerTracker.swift in Sources */,
 				72FE02D61F95FCE5005BD672 /* PostingDetailStep.swift in Sources */,
 				F5E79A68210E3AE6003101D4 /* ListingErrorCell.swift in Sources */,
+				2E79430B212B008900CBC5CB /* ProcessInfo+Extended.swift in Sources */,
 				C75B5DD11D59E0C500112368 /* ListingCarouselCell.swift in Sources */,
 				01A171BD208DD1A300C98D4C /* SearchAlertsListViewController.swift in Sources */,
 				F59755FD20B5AA2F00C5103F /* ABGroup+AnalyticsABTestGroupIdentifier.swift in Sources */,
@@ -8870,6 +8877,7 @@
 				C6F3CEF320FF457A00AF4D38 /* LGCheckboxView.swift in Sources */,
 				328E8E3320C0467000BBF639 /* MainListingsHeader.swift in Sources */,
 				2E423794205C003D0077B62A /* ChatMyMeetingCellDrawer.swift in Sources */,
+				2E79430C212B008900CBC5CB /* ProcessInfo+Extended.swift in Sources */,
 				C613D0F320BFF3F600344CF2 /* LGPickerSearchBar.swift in Sources */,
 				8E69F3F31E9E30EE00E14F12 /* CategoryDetailTableView.swift in Sources */,
 				2E212C6620FCC55400FB42B3 /* ChatCallToActionCell.swift in Sources */,
