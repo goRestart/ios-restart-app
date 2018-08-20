@@ -91,11 +91,6 @@
         "description": "[RETENTION] Leads the user through the posting feature and onboarding improvements"
     },
     {
-        "name": "UserIsTyping",
-        "values": ["control", "baseline", "active"],
-        "description": "[CHAT] Show user is typing status on chat"
-    },
-    {
         "name": "BumpUpBoost",
         "values": ["control", "baseline", "sendTop5Mins", "sendTop1hour", "boostListing1hour", "cheaperBoost5Mins"],
         "description": "Ability to boost ongoing bump ups"
