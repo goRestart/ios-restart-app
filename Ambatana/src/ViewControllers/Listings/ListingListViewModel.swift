@@ -386,7 +386,6 @@ final class ListingListViewModel: BaseViewModel {
 
     func interestStateFor(listingAtIndex index: Int) -> InterestedState? {
         guard !isPrivateList else { return .none }
-        guard featureFlags.shouldShowIAmInterestedInFeed.isVisible else { return nil }
         guard let listingID = objects[index].listing?.objectId else { return nil }
         return listingInterestState[listingID] ?? .send(enabled: true)
     }
