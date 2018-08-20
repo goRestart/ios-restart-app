@@ -24,7 +24,7 @@ final class UserVerificationNavBarView: UIView {
         return CGSize(width: 0, height: Layout.viewHeight)
     }
 
-    private struct Layout {
+    private enum Layout {
         static let avatarSize: CGFloat = 24
         static let scoreLabelLeftMargin: CGFloat = 4
         static let scoreLabelRightMargin: CGFloat = 8
