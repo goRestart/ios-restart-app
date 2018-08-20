@@ -10,9 +10,9 @@ protocol LoginViewModelInput {
 }
 
 protocol LoginViewModelOutput {
-  var username: Variable<String> { get }
-  var password: Variable<String> { get }
-  var state: Variable<LoginState> { get }
+  var username: BehaviorSubject<String> { get }
+  var password: BehaviorSubject<String> { get }
+  var state: BehaviorSubject<LoginState> { get }
   
   var userInteractionEnabled: Observable<Bool> { get }
   var signInEnabled: Observable<Bool> { get }

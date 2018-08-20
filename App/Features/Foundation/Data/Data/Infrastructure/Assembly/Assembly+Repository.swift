@@ -1,26 +1,5 @@
 import Core
 
-// MARK: - Auth
-
-extension Assembly {
-  public var authRepository: AuthRepository {
-    return AuthRepository(
-      apiDataSource: authApiDataSource
-    )
-  }
-  
-  private var authApiDataSource: AuthDataSource {
-    return AuthApiDataSource(
-      provider: moyaProvider(),
-      errorAdapter: authErrorAdapter
-    )
-  }
-  
-  private var authErrorAdapter: AuthenticateErrorAdapter {
-    return AuthenticateErrorAdapter()
-  }
-}
-
 // MARK: - Game
 
 extension Assembly {

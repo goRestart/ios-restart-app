@@ -21,9 +21,9 @@ struct LoginViewModel: LoginViewModelType, LoginViewModelInput, LoginViewModelOu
   
   // MARK: - Output
   
-  var username = Variable<String>("")
-  var password = Variable<String>("")
-  var state = Variable<LoginState>(.idle)
+  var username = BehaviorSubject<String>(value: "")
+  var password = BehaviorSubject<String>(value: "")
+  var state = BehaviorSubject<LoginState>(value: .idle)
   
   var signInEnabled: Observable<Bool> {
     return Observable.combineLatest(
@@ -40,18 +40,18 @@ struct LoginViewModel: LoginViewModelType, LoginViewModelInput, LoginViewModelOu
   // MARK: - Input
   
   func signUpButtonPressed() {
-    state.value = .loading
+    state.onNext(.loading)
     
     let credentials = BasicCredentials(
-      username: username.value,
-      password: password.value
+      username: try! username.value(),
+      password: try! password.value()
     )
     
     authenticate.execute(with: credentials).subscribe(onCompleted: {
       print("Welcome :)")
     }) { error in
       print("Error :(")
-      self.state.value = .idle
+      self.state.onNext(.idle)
     }.disposed(by: bag)
   }
 }

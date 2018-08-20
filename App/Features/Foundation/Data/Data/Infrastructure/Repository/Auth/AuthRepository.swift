@@ -4,13 +4,13 @@ import RxSwift
 
 public struct AuthRepository {
   
-  private let apiDataSource: AuthDataSource
+  private let firebaseDataSource: AuthDataSource
   
-  init(apiDataSource: AuthDataSource) {
-    self.apiDataSource = apiDataSource
+  init(firebaseDataSource: AuthDataSource) {
+    self.firebaseDataSource = firebaseDataSource
   }
   
   public func authenticate(with credentials: BasicCredentials) -> Completable {
-    return apiDataSource.authenticate(with: credentials).asCompletable()
+    return firebaseDataSource.authenticate(with: credentials)
   }
 }

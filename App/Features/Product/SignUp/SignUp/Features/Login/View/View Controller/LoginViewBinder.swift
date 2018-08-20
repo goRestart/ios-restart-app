@@ -40,7 +40,7 @@ struct LoginViewBinder {
     
     viewModel.output.state
       .asObservable()
-      .map { $0 == .loading}
+      .map { $0 == .loading }
       .bind(to: view.signInButton.rx.isLoading)
       .disposed(by: bag)
     

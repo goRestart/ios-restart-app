@@ -29,6 +29,8 @@
 		1CAF0F7A200438A6004046A9 /* Assembly+ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CAF0F79200438A6004046A9 /* Assembly+ViewController.swift */; };
 		2E2F7AB12129CC6C00CDED0F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2E2F7AB02129CC6C00CDED0F /* GoogleService-Info.plist */; };
 		2E2F7AF1212A071500CDED0F /* SignUp.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2E2F7AEF212A071500CDED0F /* SignUp.strings */; };
+		2EB2B140212B2C9500705ACA /* Login.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2E2F7AEC212A06EC00CDED0F /* Login.strings */; };
+		2EB2B141212B2C9800705ACA /* NotLogged.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2E2F7AEE212A06F200CDED0F /* NotLogged.strings */; };
 		2F986A221FC3FC2A3887AF0C /* Pods_Restart.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA3B077726B435A78625501D /* Pods_Restart.framework */; };
 /* End PBXBuildFile section */
 
@@ -294,6 +296,8 @@
 				2E2F7AF1212A071500CDED0F /* SignUp.strings in Resources */,
 				1C3B454C1FEFCC54008B7B87 /* LaunchScreen.storyboard in Resources */,
 				1C3B45491FEFCC54008B7B87 /* Assets.xcassets in Resources */,
+				2EB2B140212B2C9500705ACA /* Login.strings in Resources */,
+				2EB2B141212B2C9800705ACA /* NotLogged.strings in Resources */,
 				2E2F7AB12129CC6C00CDED0F /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
