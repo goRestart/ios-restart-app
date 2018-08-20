@@ -24,8 +24,8 @@ final class UserVerificationNavBarView: UIView {
         return CGSize(width: 0, height: Layout.viewHeight)
     }
 
-    private struct Layout {
-        static let avatarHeight: CGFloat = 24
+    private enum Layout {
+        static let avatarSize: CGFloat = 24
         static let scoreLabelLeftMargin: CGFloat = 4
         static let scoreLabelRightMargin: CGFloat = 8
         static let viewHeight: CGFloat = 32
@@ -55,13 +55,15 @@ final class UserVerificationNavBarView: UIView {
 
 
     private func setupUI() {
-        addSubviewsForAutoLayout([container, avatarImageView, scoreLabel])
+        addSubviewForAutoLayout(container)
+        container.addSubviewsForAutoLayout([avatarImageView, scoreLabel])
 
-        avatarImageView.cornerRadius = Layout.avatarHeight / 2
+        avatarImageView.cornerRadius = Layout.avatarSize / 2
         avatarImageView.contentMode = .scaleAspectFill
 
         scoreLabel.font = UIFont.profileKarmaOpenVerificationFont
         scoreLabel.textColor = UIColor.verificationGreen
+        scoreLabel.textAlignment = .right
         setupConstraints()
     }
 
@@ -82,12 +84,12 @@ final class UserVerificationNavBarView: UIView {
             container.rightAnchor.constraint(equalTo: rightAnchor),
             container.bottomAnchor.constraint(equalTo: bottomAnchor),
             avatarImageView.leftAnchor.constraint(equalTo: container.leftAnchor, constant: Metrics.veryShortMargin),
-            avatarImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            avatarImageView.heightAnchor.constraint(equalToConstant: Layout.avatarHeight),
-            avatarImageView.widthAnchor.constraint(equalTo: avatarImageView.heightAnchor),
+            avatarImageView.centerYAnchor.constraint(equalTo: container.centerYAnchor),
+            avatarImageView.heightAnchor.constraint(equalToConstant: Layout.avatarSize),
+            avatarImageView.widthAnchor.constraint(equalToConstant: Layout.avatarSize),
             scoreLabel.leftAnchor.constraint(equalTo: avatarImageView.rightAnchor, constant: Layout.scoreLabelLeftMargin),
-            scoreLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -Layout.scoreLabelRightMargin),
-            scoreLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
+            scoreLabel.rightAnchor.constraint(equalTo: container.rightAnchor, constant: -Layout.scoreLabelRightMargin),
+            scoreLabel.centerYAnchor.constraint(equalTo: container.centerYAnchor)
         ]
 
         NSLayoutConstraint.activate(constraints)
