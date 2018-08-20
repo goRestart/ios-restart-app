@@ -1,5 +1,7 @@
 import UIKit
 import LGComponents
+import RxSwift
+import RxCocoa
 
 // TODO: @juolgon Localize all texts
 
@@ -11,7 +13,7 @@ final class P2PPaymentsOnboardingView: UIView {
         static let buttonHeight: CGFloat = 55
     }
 
-    private let closeButton: UIButton = {
+    fileprivate let closeButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(R.Asset.P2PPayments.close.image, for: .normal)
         return button
@@ -49,7 +51,7 @@ final class P2PPaymentsOnboardingView: UIView {
         return stackView
     }()
 
-    private let makeAnOfferButton: LetgoButton = {
+    fileprivate let makeAnOfferButton: LetgoButton = {
         let button = LetgoButton()
         button.setStyle(.primary(fontSize: .big))
         button.setTitle("Make an offer", for: .normal)
@@ -162,5 +164,17 @@ private extension P2PPaymentsOnboardingView {
                 subtitleLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
             ])
         }
+    }
+}
+
+// MARK: - P2PPaymentsOnboardingView + Rx
+
+extension Reactive where Base: P2PPaymentsOnboardingView {
+    var closeButtonTap: ControlEvent<Void> {
+        return base.closeButton.rx.tap
+    }
+
+    var makeAnOfferButtonTap: ControlEvent<Void> {
+        return base.makeAnOfferButton.rx.tap
     }
 }
