@@ -7,10 +7,13 @@ import RxCocoa
 
 final class P2PPaymentsOnboardingView: UIView {
     private enum Layout {
-        static let closeButtonTopMargin: CGFloat = 8
+        static let closeButtonTopMargin: CGFloat = 28
         static let closeButtonLeadingMargin: CGFloat = 8
-        static let titleTopMargin: CGFloat = 8
+        static let titleTopMargin: CGFloat = 28
         static let buttonHeight: CGFloat = 55
+        static let buttonHorizontalMargin: CGFloat = 24
+        static let buttonBottomMargin: CGFloat = 16
+        static let stackViewMaxHeightDiff: CGFloat = 120
     }
 
     fileprivate let closeButton: UIButton = {
@@ -75,30 +78,25 @@ final class P2PPaymentsOnboardingView: UIView {
 
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            closeButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
-            closeButton.topAnchor.constraint(equalTo: topAnchor, constant: 28),
+            closeButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Layout.closeButtonLeadingMargin),
+            closeButton.topAnchor.constraint(equalTo: topAnchor, constant: Layout.closeButtonTopMargin),
             titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 28),
+            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: Layout.titleTopMargin),
             traitsScrollView.leadingAnchor.constraint(equalTo: leadingAnchor),
             traitsScrollView.trailingAnchor.constraint(equalTo: trailingAnchor),
             traitsScrollView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
             traitsScrollView.bottomAnchor.constraint(equalTo: makeAnOfferButton.topAnchor),
-            makeAnOfferButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
-            makeAnOfferButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
-            makeAnOfferButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
+            makeAnOfferButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Layout.buttonHorizontalMargin),
+            makeAnOfferButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Layout.buttonHorizontalMargin),
+            makeAnOfferButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Layout.buttonBottomMargin),
             makeAnOfferButton.heightAnchor.constraint(equalToConstant: Layout.buttonHeight),
             traitsStackView.leadingAnchor.constraint(equalTo: traitsScrollView.leadingAnchor),
             traitsStackView.trailingAnchor.constraint(equalTo: traitsScrollView.trailingAnchor),
             traitsStackView.topAnchor.constraint(equalTo: traitsScrollView.topAnchor),
             traitsStackView.bottomAnchor.constraint(equalTo: traitsScrollView.bottomAnchor),
             traitsStackView.widthAnchor.constraint(equalTo: widthAnchor),
-            traitsStackView.heightAnchor.constraint(greaterThanOrEqualTo: traitsScrollView.heightAnchor, constant: -120)
+            traitsStackView.heightAnchor.constraint(greaterThanOrEqualTo: traitsScrollView.heightAnchor, constant: -Layout.stackViewMaxHeightDiff)
         ])
-    }
-
-    @available(iOS, deprecated: 11.0, message: "No need to call this after iOS 11.0")
-    func configureLayoutGuides() {
-        if #available(iOS 11, *) { return }
     }
 }
 

@@ -17,7 +17,6 @@ final class P2PPaymentsOnboardingViewController: BaseViewController {
 
     override func loadView() {
         let onboardingView = P2PPaymentsOnboardingView()
-        onboardingView.configureLayoutGuides()
         onboardingView.rx
             .closeButtonTap
             .subscribe(onNext: { [viewModel] () in
