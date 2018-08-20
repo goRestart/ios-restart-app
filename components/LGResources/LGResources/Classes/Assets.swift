@@ -918,6 +918,25 @@ extension R {
       @available(*, deprecated, renamed: "allImages")
       public static let allValues: [AssetType] = allImages
     }
+    public enum P2PPayments {
+      public static let icnClose = ImageAsset(name: "icnClose")
+      public static let makeOfferIcn = ImageAsset(name: "makeOfferIcn")
+      public static let meetBuyer = ImageAsset(name: "meetBuyer")
+      public static let offerAccepted = ImageAsset(name: "offerAccepted")
+
+      // swiftlint:disable trailing_comma
+      public static let allColors: [ColorAsset] = [
+      ]
+      public static let allImages: [ImageAsset] = [
+        icnClose,
+        makeOfferIcn,
+        meetBuyer,
+        offerAccepted,
+      ]
+      // swiftlint:enable trailing_comma
+      @available(*, deprecated, renamed: "allImages")
+      public static let allValues: [AssetType] = allImages
+    }
     public enum ProductCellBanners {
       public static let collectionYou = ImageAsset(name: "collection_you")
 
