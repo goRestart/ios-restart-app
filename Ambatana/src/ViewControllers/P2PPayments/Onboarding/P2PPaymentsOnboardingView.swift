@@ -7,8 +7,9 @@ import RxCocoa
 
 final class P2PPaymentsOnboardingView: UIView {
     private enum Layout {
-        static let closeButtonTopMargin: CGFloat = 28
-        static let closeButtonLeadingMargin: CGFloat = 8
+        static let closeButtonTopMargin: CGFloat = 20
+        static let closeButtonLeadingMargin: CGFloat = 0
+        static let closeButtonSize: CGFloat = 45
         static let titleTopMargin: CGFloat = 28
         static let buttonHeight: CGFloat = 55
         static let buttonHorizontalMargin: CGFloat = 24
@@ -46,8 +47,7 @@ final class P2PPaymentsOnboardingView: UIView {
         let thirdTrait = TraitView(title: "Meet in person and release the payment",
                                    subtitle: "When you have the item, release the payment to the seller",
                                    image: R.Asset.P2PPayments.onboardingStep3.image)
-        let stackView = UIStackView(arrangedSubviews: [firsTrait, secondTrait, thirdTrait])
-        stackView.axis = .vertical
+        let stackView = UIStackView.vertical([firsTrait, secondTrait, thirdTrait])
         stackView.alignment = .fill
         stackView.distribution = .equalSpacing
         stackView.spacing = 16
@@ -55,8 +55,7 @@ final class P2PPaymentsOnboardingView: UIView {
     }()
 
     fileprivate let makeAnOfferButton: LetgoButton = {
-        let button = LetgoButton()
-        button.setStyle(.primary(fontSize: .big))
+        let button = LetgoButton(withStyle: .primary(fontSize: .big))
         button.setTitle("Make an offer", for: .normal)
         return button
     }()
@@ -80,6 +79,8 @@ final class P2PPaymentsOnboardingView: UIView {
         NSLayoutConstraint.activate([
             closeButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Layout.closeButtonLeadingMargin),
             closeButton.topAnchor.constraint(equalTo: topAnchor, constant: Layout.closeButtonTopMargin),
+            closeButton.heightAnchor.constraint(equalToConstant: Layout.closeButtonSize),
+            closeButton.widthAnchor.constraint(equalToConstant: Layout.closeButtonSize),
             titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: Layout.titleTopMargin),
             traitsScrollView.leadingAnchor.constraint(equalTo: leadingAnchor),

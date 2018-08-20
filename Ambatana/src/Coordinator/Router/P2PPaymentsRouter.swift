@@ -1,6 +1,6 @@
 import Foundation
 
-protocol P2PPaymentsNavigator: class {
+protocol P2PPaymentsNavigator {
     func closeOnboarding()
 }
 
