@@ -10,7 +10,6 @@ enum LGP2PPaymentsBuilder {
 
 extension LGP2PPaymentsBuilder: P2PPaymentsAssembly {
     func buildOnboarding() -> UIViewController {
-        return UIViewController()
         switch self {
         case .modal(root: let root):
             let vm = P2PPaymentsOnboardingViewModel()
