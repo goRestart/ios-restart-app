@@ -50,7 +50,6 @@ final class UserVerificationViewController: BaseViewController, GIDSignInUIDeleg
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = .none
-        tableView.sectionHeaderHeight = Layout.sectionHeaderHeight
         tableView.contentInset = UIEdgeInsetsMake(0, 0, Metrics.bigMargin, 0)
         tableView.backgroundColor = .white
         tableView.register(UserVerificationCell.self, forCellReuseIdentifier: UserVerificationCell.reusableID)
