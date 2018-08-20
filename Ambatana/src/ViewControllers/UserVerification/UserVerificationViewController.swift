@@ -22,6 +22,7 @@ final class UserVerificationViewController: BaseViewController, GIDSignInUIDeleg
         static let defaultRowHeight: CGFloat = 70
         static let markAsSoldRowHeight: CGFloat = 82
         static let navBarScoreSize = CGSize(width: 72, height: 32)
+        static let sectionHeaderHeight: CGFloat = 66
     }
 
     init(viewModel: UserVerificationViewModel) {
@@ -49,7 +50,7 @@ final class UserVerificationViewController: BaseViewController, GIDSignInUIDeleg
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = .none
-        tableView.sectionHeaderHeight = 66
+        tableView.sectionHeaderHeight = Layout.sectionHeaderHeight
         tableView.contentInset = UIEdgeInsetsMake(0, 0, Metrics.bigMargin, 0)
         tableView.backgroundColor = .white
         tableView.register(UserVerificationCell.self, forCellReuseIdentifier: UserVerificationCell.reusableID)
@@ -102,34 +103,8 @@ extension UserVerificationViewController: UITableViewDelegate, UITableViewDataSo
         return items.count
     }
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard section < items.count else { return 0 }
-        return items[section].count
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: UserVerificationCell.reusableID,
-                                                                       for: indexPath)
-        guard let verifyCell = cell as? UserVerificationCell else { return UITableViewCell() }
-        let item = items[indexPath.section][indexPath.row]
-        verifyCell.configure(with: item)
-        setAccessibilityIdTo(cell: cell, with: item)
-        return verifyCell
-    }
-
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let section = UserVerificationTableViewSections(rawValue: indexPath.section) else { return 0 }
-        switch section {
-        case .personalInfo, .verifications: return Layout.defaultRowHeight
-        case .buyAndSell: return Layout.markAsSoldRowHeight
-        }
-    }
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        let item = items[indexPath.section][indexPath.row]
-        guard item.canBeSelected else { return }
-        viewModel.didSelect(item: item)
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return Layout.sectionHeaderHeight
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -149,6 +124,36 @@ extension UserVerificationViewController: UITableViewDelegate, UITableViewDataSo
             view.title = R.Strings.profileVerificationsViewExtraSectionTitle
             return view
         }
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard section < items.count else { return 0 }
+        return items[section].count
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        guard let section = UserVerificationTableViewSections(rawValue: indexPath.section) else { return 0 }
+        switch section {
+        case .personalInfo, .verifications: return Layout.defaultRowHeight
+        case .buyAndSell: return Layout.markAsSoldRowHeight
+        }
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: UserVerificationCell.reusableID,
+                                                                       for: indexPath)
+        guard let verifyCell = cell as? UserVerificationCell else { return UITableViewCell() }
+        let item = items[indexPath.section][indexPath.row]
+        verifyCell.configure(with: item)
+        setAccessibilityIdTo(cell: cell, with: item)
+        return verifyCell
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let item = items[indexPath.section][indexPath.row]
+        guard item.canBeSelected else { return }
+        viewModel.didSelect(item: item)
     }
 
     private func setAccessibilityIdTo(cell: UITableViewCell, with item: UserVerificationItem) {
