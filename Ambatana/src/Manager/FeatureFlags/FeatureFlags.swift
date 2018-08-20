@@ -82,7 +82,6 @@ protocol FeatureFlaggeable: class {
     var jobsAndServicesEnabled: EnableJobsAndServicesCategory { get }
     var servicesPaymentFrequency: ServicesPaymentFrequency { get }
     var carExtraFieldsEnabled: CarExtraFieldsEnabled { get }
-    var realEstateMapTooltip: RealEstateMapTooltip { get }
     var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen { get }
     
     // MARK: Discovery
@@ -1192,14 +1191,7 @@ extension FeatureFlags {
         }
         return CarExtraFieldsEnabled.fromPosition(abTests.carExtraFieldsEnabled.value)
     }
-    
-    var realEstateMapTooltip: RealEstateMapTooltip {
-        if Bumper.enabled {
-            return Bumper.realEstateMapTooltip
-        }
-        return RealEstateMapTooltip.fromPosition(abTests.realEstateMapTooltip.value)
-    }
-    
+
     var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen {
         if Bumper.enabled {
             return Bumper.servicesUnifiedFilterScreen

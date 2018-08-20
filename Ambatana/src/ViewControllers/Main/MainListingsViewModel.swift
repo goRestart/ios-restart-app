@@ -285,7 +285,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     }
     
     private var shouldShowRealEstateMapTooltip: Bool {
-        return featureFlags.realEstateMapTooltip.isActive && !keyValueStorage[.realEstateTooltipMapShown] && !isMapTooltipAdded
+        return keyValueStorage[.realEstateTooltipMapShown] && !isMapTooltipAdded
     }
     
     private func showTooltipMap() {
