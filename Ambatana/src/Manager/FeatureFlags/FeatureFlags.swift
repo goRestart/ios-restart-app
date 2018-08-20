@@ -71,7 +71,6 @@ protocol FeatureFlaggeable: class {
     var showChatSafetyTips: Bool { get }
     var chatNorris: ChatNorris { get }
     var showChatConnectionStatusBar: ShowChatConnectionStatusBar { get }
-    var showChatHeaderWithoutListingForAssistant: Bool { get }
     var showChatHeaderWithoutUser: Bool { get }
     var enableCTAMessageType: Bool { get }
     var expressChatImprovement: ExpressChatImprovement { get }
@@ -1137,13 +1136,6 @@ extension FeatureFlags {
             return Bumper.showChatConnectionStatusBar
         }
         return  ShowChatConnectionStatusBar.fromPosition(abTests.showChatConnectionStatusBar.value)
-    }
-
-    var showChatHeaderWithoutListingForAssistant: Bool {
-        if Bumper.enabled {
-            return Bumper.showChatHeaderWithoutListingForAssistant
-        }
-        return abTests.showChatHeaderWithoutListingForAssistant.value
     }
 
     var showChatHeaderWithoutUser: Bool {

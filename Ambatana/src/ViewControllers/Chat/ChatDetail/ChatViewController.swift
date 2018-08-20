@@ -573,8 +573,6 @@ fileprivate extension ChatViewController {
                                  viewModel.interlocutorName.asObservable())
             .bind { [weak self] (avatarUrl, name) in
                 guard let vm = self?.viewModel, vm.isUserDummy else { return }
-                guard let showNoListingHeader = self?.featureFlags.showChatHeaderWithoutListingForAssistant,
-                    showNoListingHeader else { return }
                 self?.chatDetailHeader.setupWith(info: .assistant(name: name, imageUrl: avatarUrl)) { [weak self] in
                     self?.viewModel.userInfoPressed()
                 }
@@ -587,7 +585,6 @@ fileprivate extension ChatViewController {
             .bind { [weak self] (listingName, listingPrice, listingImageUrl) in
                 guard let strongSelf = self else { return }
                 let isAssistantWithNoProduct = strongSelf.viewModel.isUserDummy
-                    && strongSelf.featureFlags.showChatHeaderWithoutListingForAssistant
                     && listingName.isEmpty
                 guard !isAssistantWithNoProduct else { return }
                 guard let showNoUserHeader = self?.featureFlags.showChatHeaderWithoutUser,

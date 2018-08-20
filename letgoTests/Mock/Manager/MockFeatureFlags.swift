@@ -3,7 +3,7 @@ import Foundation
 import RxSwift
 
 final class MockFeatureFlags: FeatureFlaggeable {
-
+ 
     var trackingData: Observable<[(String, ABGroup)]?> {
         return trackingDataVar.asObservable()
     }
@@ -69,7 +69,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var showChatSafetyTips: Bool = false
     var chatNorris: ChatNorris = .control
     var showChatConnectionStatusBar: ShowChatConnectionStatusBar = .control
-    var showChatHeaderWithoutListingForAssistant: Bool = true
     var showChatHeaderWithoutUser: Bool = true
     var enableCTAMessageType: Bool = true
     var expressChatImprovement: ExpressChatImprovement = .control
