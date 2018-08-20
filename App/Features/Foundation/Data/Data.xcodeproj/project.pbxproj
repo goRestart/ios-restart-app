@@ -31,15 +31,12 @@
 		1C93E0CE2040AD690029AD2B /* PublishProductEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93E0CD2040AD690029AD2B /* PublishProductEndpoint.swift */; };
 		1CACCE7A1FF2D6320001B321 /* ErrorAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CACCE791FF2D6320001B321 /* ErrorAdapter.swift */; };
 		1CACCE8A1FF309E60001B321 /* PrimitiveSequence+CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CACCE891FF309E60001B321 /* PrimitiveSequence+CustomError.swift */; };
-		1CACCE911FF30BA60001B321 /* AuthApiDataSourceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CACCE901FF30BA60001B321 /* AuthApiDataSourceSpec.swift */; };
-		1CACCE941FF31D6A0001B321 /* auth.ok.json in Resources */ = {isa = PBXBuildFile; fileRef = 1CACCE931FF31D6A0001B321 /* auth.ok.json */; };
 		1CB649512009C717009B7CC1 /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB649502009C717009B7CC1 /* ImageService.swift */; };
 		1CB649592009C964009B7CC1 /* ImageDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB649582009C964009B7CC1 /* ImageDataSource.swift */; };
 		1CB6495C2009C9CA009B7CC1 /* ImageApiDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB6495B2009C9CA009B7CC1 /* ImageApiDataSource.swift */; };
 		1CB6495E2009CA79009B7CC1 /* ImageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB6495D2009CA79009B7CC1 /* ImageRepository.swift */; };
 		1CC209B61FF2C2F500EE0B5B /* Assembly+Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC209B51FF2C2F500EE0B5B /* Assembly+Repository.swift */; };
 		1CE92E9F1FF31E5600F762E5 /* Fixture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CE92E9E1FF31E5600F762E5 /* Fixture.swift */; };
-		1CE92EA11FF320DF00F762E5 /* auth.unauthorized.json in Resources */ = {isa = PBXBuildFile; fileRef = 1CE92EA01FF320DF00F762E5 /* auth.unauthorized.json */; };
 		2E2F7AB42129CECF00CDED0F /* UserFirebaseDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2F7AB32129CECF00CDED0F /* UserFirebaseDataSource.swift */; };
 		2E2F7AB62129D23800CDED0F /* DataModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2F7AB52129D23800CDED0F /* DataModule.swift */; };
 		2E2F7AB92129F46100CDED0F /* Auth+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2F7AB82129F46100CDED0F /* Auth+Rx.swift */; };
@@ -90,15 +87,12 @@
 		1C93E0CD2040AD690029AD2B /* PublishProductEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishProductEndpoint.swift; sourceTree = "<group>"; };
 		1CACCE791FF2D6320001B321 /* ErrorAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAdapter.swift; sourceTree = "<group>"; };
 		1CACCE891FF309E60001B321 /* PrimitiveSequence+CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PrimitiveSequence+CustomError.swift"; sourceTree = "<group>"; };
-		1CACCE901FF30BA60001B321 /* AuthApiDataSourceSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthApiDataSourceSpec.swift; sourceTree = "<group>"; };
-		1CACCE931FF31D6A0001B321 /* auth.ok.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = auth.ok.json; sourceTree = "<group>"; };
 		1CB649502009C717009B7CC1 /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
 		1CB649582009C964009B7CC1 /* ImageDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDataSource.swift; sourceTree = "<group>"; };
 		1CB6495B2009C9CA009B7CC1 /* ImageApiDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageApiDataSource.swift; sourceTree = "<group>"; };
 		1CB6495D2009CA79009B7CC1 /* ImageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRepository.swift; sourceTree = "<group>"; };
 		1CC209B51FF2C2F500EE0B5B /* Assembly+Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+Repository.swift"; sourceTree = "<group>"; };
 		1CE92E9E1FF31E5600F762E5 /* Fixture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fixture.swift; sourceTree = "<group>"; };
-		1CE92EA01FF320DF00F762E5 /* auth.unauthorized.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = auth.unauthorized.json; sourceTree = "<group>"; };
 		2E2F7AB32129CECF00CDED0F /* UserFirebaseDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFirebaseDataSource.swift; sourceTree = "<group>"; };
 		2E2F7AB52129D23800CDED0F /* DataModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModule.swift; sourceTree = "<group>"; };
 		2E2F7AB82129F46100CDED0F /* Auth+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Auth+Rx.swift"; sourceTree = "<group>"; };
@@ -215,14 +209,6 @@
 			path = Response;
 			sourceTree = "<group>";
 		};
-		1C40D8BD1FFD3ACA006D5BE4 /* Auth */ = {
-			isa = PBXGroup;
-			children = (
-				1CACCE8E1FF30B910001B321 /* Data Source */,
-			);
-			path = Auth;
-			sourceTree = "<group>";
-		};
 		1C89D6FA1FF3CF9F00B3FA98 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
@@ -282,7 +268,6 @@
 		1C913A021FF0607600646884 /* DataTests */ = {
 			isa = PBXGroup;
 			children = (
-				1CACCE8C1FF30B7A0001B321 /* Infrastructure */,
 				1CE92E9C1FF31E4900F762E5 /* Utils */,
 				1C913A051FF0607600646884 /* Info.plist */,
 			);
@@ -433,48 +418,6 @@
 				1C913A331FF2B64600646884 /* Endpoint */,
 			);
 			path = Protocol;
-			sourceTree = "<group>";
-		};
-		1CACCE8C1FF30B7A0001B321 /* Infrastructure */ = {
-			isa = PBXGroup;
-			children = (
-				1CACCE8D1FF30B910001B321 /* Repository */,
-			);
-			path = Infrastructure;
-			sourceTree = "<group>";
-		};
-		1CACCE8D1FF30B910001B321 /* Repository */ = {
-			isa = PBXGroup;
-			children = (
-				1C40D8BD1FFD3ACA006D5BE4 /* Auth */,
-			);
-			path = Repository;
-			sourceTree = "<group>";
-		};
-		1CACCE8E1FF30B910001B321 /* Data Source */ = {
-			isa = PBXGroup;
-			children = (
-				1CACCE8F1FF30B910001B321 /* Api */,
-			);
-			path = "Data Source";
-			sourceTree = "<group>";
-		};
-		1CACCE8F1FF30B910001B321 /* Api */ = {
-			isa = PBXGroup;
-			children = (
-				1CACCE901FF30BA60001B321 /* AuthApiDataSourceSpec.swift */,
-				1CACCE921FF31D380001B321 /* Fixture */,
-			);
-			path = Api;
-			sourceTree = "<group>";
-		};
-		1CACCE921FF31D380001B321 /* Fixture */ = {
-			isa = PBXGroup;
-			children = (
-				1CACCE931FF31D6A0001B321 /* auth.ok.json */,
-				1CE92EA01FF320DF00F762E5 /* auth.unauthorized.json */,
-			);
-			path = Fixture;
 			sourceTree = "<group>";
 		};
 		1CB6494D2009C708009B7CC1 /* Image */ = {
@@ -720,8 +663,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1CE92EA11FF320DF00F762E5 /* auth.unauthorized.json in Resources */,
-				1CACCE941FF31D6A0001B321 /* auth.ok.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -835,7 +776,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1CACCE911FF30BA60001B321 /* AuthApiDataSourceSpec.swift in Sources */,
 				1CE92E9F1FF31E5600F762E5 /* Fixture.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

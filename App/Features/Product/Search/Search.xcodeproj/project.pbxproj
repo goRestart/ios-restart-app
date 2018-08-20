@@ -19,6 +19,7 @@
 		1C93BF30200A537E00DDF249 /* SearchViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93BF2F200A537E00DDF249 /* SearchViewModelSpec.swift */; };
 		1C93BF36200A540100DDF249 /* SearchGamesStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93BF35200A540100DDF249 /* SearchGamesStub.swift */; };
 		1C93BF42200AA25700DDF249 /* Assembly+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93BF41200AA25700DDF249 /* Assembly+Search.swift */; };
+		2EB2B19A212B58B200705ACA /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EB2B199212B58B200705ACA /* Domain.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		1C93BF2F200A537E00DDF249 /* SearchViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModelSpec.swift; sourceTree = "<group>"; };
 		1C93BF35200A540100DDF249 /* SearchGamesStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGamesStub.swift; sourceTree = "<group>"; };
 		1C93BF41200AA25700DDF249 /* Assembly+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+Search.swift"; sourceTree = "<group>"; };
+		2EB2B199212B58B200705ACA /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EB2B19A212B58B200705ACA /* Domain.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -182,6 +185,7 @@
 		1C93BF17200A3E2A00DDF249 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2EB2B199212B58B200705ACA /* Domain.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
