@@ -61,7 +61,6 @@ extension Bumper  {
         flags.append(ShowChatConnectionStatusBar.self)
         flags.append(NotificationSettings.self)
         flags.append(CarExtraFieldsEnabled.self)
-        flags.append(ShowChatHeaderWithoutListingForAssistant.self)
         flags.append(ReportingFostaSesta.self)
         flags.append(ShowChatHeaderWithoutUser.self)
         flags.append(RealEstateMapTooltip.self)
@@ -670,19 +669,6 @@ extension Bumper  {
     static var carExtraFieldsEnabledObservable: Observable<CarExtraFieldsEnabled> {
         return Bumper.observeValue(for: CarExtraFieldsEnabled.key).map {
             CarExtraFieldsEnabled(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var showChatHeaderWithoutListingForAssistant: Bool {
-        guard let value = Bumper.value(for: ShowChatHeaderWithoutListingForAssistant.key) else { return true }
-        return ShowChatHeaderWithoutListingForAssistant(rawValue: value)?.asBool ?? true
-    } 
-
-    #if (RX_BUMPER)
-    static var showChatHeaderWithoutListingForAssistantObservable: Observable<Bool> {
-        return Bumper.observeValue(for: ShowChatHeaderWithoutListingForAssistant.key).map {
-            ShowChatHeaderWithoutListingForAssistant(rawValue: $0 ?? "")?.asBool ?? true
         }
     }
     #endif
@@ -1710,15 +1696,6 @@ enum CarExtraFieldsEnabled: String, BumperFeature  {
             default: return .control
         }
     }
-}
-
-enum ShowChatHeaderWithoutListingForAssistant: String, BumperFeature  {
-    case yes, no
-    static var defaultValue: String { return ShowChatHeaderWithoutListingForAssistant.yes.rawValue }
-    static var enumValues: [ShowChatHeaderWithoutListingForAssistant] { return [.yes, .no]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "[CHAT] Use the new header WITHOUT LISTING for conversations with no listing related" } 
-    var asBool: Bool { return self == .yes }
 }
 
 enum ReportingFostaSesta: String, BumperFeature  {
