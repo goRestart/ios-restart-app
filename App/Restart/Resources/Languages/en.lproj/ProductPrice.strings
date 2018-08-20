@@ -1,2 +1,6 @@
+/*
+ Product Price
+ */
+
 "product_price.title" = "How much?";
 "product_price.price.input.placeholder" = "Don't be too greedy";

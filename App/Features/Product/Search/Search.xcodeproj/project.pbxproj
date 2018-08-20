@@ -13,17 +13,11 @@
 		1C4725172016610D00B2046C /* GameSuggestionViewRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C4725162016610D00B2046C /* GameSuggestionViewRender.swift */; };
 		1C93BEBA200A3C9800DDF249 /* Search.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C93BEB0200A3C9800DDF249 /* Search.framework */; };
 		1C93BEC1200A3C9800DDF249 /* Search.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C93BEB3200A3C9800DDF249 /* Search.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1C93BF18200A3E2A00DDF249 /* Application.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C93BF16200A3E2100DDF249 /* Application.framework */; };
-		1C93BF19200A3E2A00DDF249 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C93BF01200A3E0F00DDF249 /* Core.framework */; };
-		1C93BF1A200A3E2A00DDF249 /* UI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C93BF08200A3E1900DDF249 /* UI.framework */; };
 		1C93BF24200A3F3A00DDF249 /* SearchViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93BF23200A3F3A00DDF249 /* SearchViewModelType.swift */; };
 		1C93BF29200A40A700DDF249 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93BF28200A40A700DDF249 /* SearchViewModel.swift */; };
 		1C93BF2C200A43C800DDF249 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93BF2B200A43C800DDF249 /* SearchView.swift */; };
 		1C93BF30200A537E00DDF249 /* SearchViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93BF2F200A537E00DDF249 /* SearchViewModelSpec.swift */; };
 		1C93BF36200A540100DDF249 /* SearchGamesStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93BF35200A540100DDF249 /* SearchGamesStub.swift */; };
-		1C93BF3B200A5D9600DDF249 /* UI.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1C93BF08200A3E1900DDF249 /* UI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		1C93BF3C200A5D9600DDF249 /* Core.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1C93BF01200A3E0F00DDF249 /* Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		1C93BF3D200A5D9600DDF249 /* Application.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1C93BF16200A3E2100DDF249 /* Application.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1C93BF42200AA25700DDF249 /* Assembly+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93BF41200AA25700DDF249 /* Assembly+Search.swift */; };
 /* End PBXBuildFile section */
 
@@ -35,34 +29,6 @@
 			remoteGlobalIDString = 1C93BEAF200A3C9800DDF249;
 			remoteInfo = Search;
 		};
-		1C93BF00200A3E0F00DDF249 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1C93BEFC200A3E0F00DDF249 /* Core.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1C913A4C1FF2C1C700646884;
-			remoteInfo = Core;
-		};
-		1C93BF07200A3E1900DDF249 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1C93BF02200A3E1900DDF249 /* UI.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1C89D7B31FF427B600B3FA98;
-			remoteInfo = UI;
-		};
-		1C93BF09200A3E1900DDF249 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1C93BF02200A3E1900DDF249 /* UI.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1C89D7BC1FF427B700B3FA98;
-			remoteInfo = UITests;
-		};
-		1C93BF15200A3E2100DDF249 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1C93BF0B200A3E2100DDF249 /* Application.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1C89D7181FF3D63100B3FA98;
-			remoteInfo = Application;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -72,9 +38,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				1C93BF3B200A5D9600DDF249 /* UI.framework in CopyFiles */,
-				1C93BF3C200A5D9600DDF249 /* Core.framework in CopyFiles */,
-				1C93BF3D200A5D9600DDF249 /* Application.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,9 +53,6 @@
 		1C93BEB4200A3C9800DDF249 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1C93BEB9200A3C9800DDF249 /* SearchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SearchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C93BEC0200A3C9800DDF249 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1C93BEFC200A3E0F00DDF249 /* Core.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Core.xcodeproj; path = ../../Foundation/Core/Core.xcodeproj; sourceTree = "<group>"; };
-		1C93BF02200A3E1900DDF249 /* UI.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = UI.xcodeproj; path = ../../Foundation/UI/UI.xcodeproj; sourceTree = "<group>"; };
-		1C93BF0B200A3E2100DDF249 /* Application.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Application.xcodeproj; path = ../../Foundation/Application/Application.xcodeproj; sourceTree = "<group>"; };
 		1C93BF23200A3F3A00DDF249 /* SearchViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModelType.swift; sourceTree = "<group>"; };
 		1C93BF28200A40A700DDF249 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		1C93BF2B200A43C800DDF249 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
@@ -106,9 +66,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1C93BF18200A3E2A00DDF249 /* Application.framework in Frameworks */,
-				1C93BF19200A3E2A00DDF249 /* Core.framework in Frameworks */,
-				1C93BF1A200A3E2A00DDF249 /* UI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -160,9 +117,6 @@
 		1C93BEA6200A3C9800DDF249 = {
 			isa = PBXGroup;
 			children = (
-				1C93BF0B200A3E2100DDF249 /* Application.xcodeproj */,
-				1C93BF02200A3E1900DDF249 /* UI.xcodeproj */,
-				1C93BEFC200A3E0F00DDF249 /* Core.xcodeproj */,
 				1C93BEB2200A3C9800DDF249 /* Search */,
 				1C93BEBD200A3C9800DDF249 /* SearchTests */,
 				1C93BEB1200A3C9800DDF249 /* Products */,
@@ -223,31 +177,6 @@
 				1C93BF40200AA24C00DDF249 /* Assembly */,
 			);
 			path = Infrastructure;
-			sourceTree = "<group>";
-		};
-		1C93BEFD200A3E0F00DDF249 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				1C93BF01200A3E0F00DDF249 /* Core.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		1C93BF03200A3E1900DDF249 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				1C93BF08200A3E1900DDF249 /* UI.framework */,
-				1C93BF0A200A3E1900DDF249 /* UITests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		1C93BF0C200A3E2100DDF249 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				1C93BF16200A3E2100DDF249 /* Application.framework */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		1C93BF17200A3E2A00DDF249 /* Frameworks */ = {
@@ -367,7 +296,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0920;
-				LastUpgradeCheck = 0920;
+				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = Skydev;
 				TargetAttributes = {
 					1C93BEAF200A3C9800DDF249 = {
@@ -392,20 +321,6 @@
 			mainGroup = 1C93BEA6200A3C9800DDF249;
 			productRefGroup = 1C93BEB1200A3C9800DDF249 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 1C93BF0C200A3E2100DDF249 /* Products */;
-					ProjectRef = 1C93BF0B200A3E2100DDF249 /* Application.xcodeproj */;
-				},
-				{
-					ProductGroup = 1C93BEFD200A3E0F00DDF249 /* Products */;
-					ProjectRef = 1C93BEFC200A3E0F00DDF249 /* Core.xcodeproj */;
-				},
-				{
-					ProductGroup = 1C93BF03200A3E1900DDF249 /* Products */;
-					ProjectRef = 1C93BF02200A3E1900DDF249 /* UI.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				1C93BEAF200A3C9800DDF249 /* Search */,
@@ -413,37 +328,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		1C93BF01200A3E0F00DDF249 /* Core.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Core.framework;
-			remoteRef = 1C93BF00200A3E0F00DDF249 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		1C93BF08200A3E1900DDF249 /* UI.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = UI.framework;
-			remoteRef = 1C93BF07200A3E1900DDF249 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		1C93BF0A200A3E1900DDF249 /* UITests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = UITests.xctest;
-			remoteRef = 1C93BF09200A3E1900DDF249 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		1C93BF16200A3E2100DDF249 /* Application.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Application.framework;
-			remoteRef = 1C93BF15200A3E2100DDF249 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		1C93BEAE200A3C9800DDF249 /* Resources */ = {
@@ -531,6 +415,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -538,6 +423,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -591,6 +477,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -598,6 +485,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;

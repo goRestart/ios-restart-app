@@ -1,2 +1,6 @@
+/*
+ Product Description
+ */
+
 "product_description.title" = "Description";
 "product_description.input.placeholder" = "Describe the product as detailed as possible";
