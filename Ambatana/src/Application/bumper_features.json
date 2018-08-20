@@ -346,6 +346,11 @@
         "description": "[RETENTION] Notification center redesign with sections and modern UI design"
     },
     {
+        "name": "TurkeyFreePosting",
+        "values": ["control", "baseline", "active"],
+        "description": "[PRODUCTS] Enable Leanplum driven Turkey free posting"
+    },
+    {
         "name": "RandomImInterestedMessages",
         "values": ["control", "baseline", "active"],
         "description": "[RETENTION] Random Im Interested messages from listing list"

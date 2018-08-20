@@ -1138,12 +1138,11 @@ extension EditListingViewModel {
     }
 
     fileprivate func setupCategories() {
-        categoryRepository.index(servicesIncluded: false,
-                                 carsIncluded: true,
-                                 realEstateIncluded: featureFlags.realEstateEnabled.isActive) { [weak self] result in
-                                    
+        let realEstateActive = featureFlags.realEstateEnabled.isActive
+        let toFilter: [ListingCategory] = realEstateActive ? [.cars, .unassigned] : [.cars, .realEstate, .unassigned]
+        categoryRepository.index { [weak self] result in
             guard let categories = result.value else { return }
-            self?.categories = categories
+            self?.categories = categories.filteringBy(toFilter)
         }
     }
 }

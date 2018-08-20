@@ -236,6 +236,7 @@ extension R {
         public static let childFeed = ImageAsset(name: "child_feed")
         public static let entretainmentFeed = ImageAsset(name: "entretainment_feed")
         public static let fashionFeed = ImageAsset(name: "fashion_feed")
+        public static let freeFeed = ImageAsset(name: "free_feed")
         public static let homeFeed = ImageAsset(name: "home_feed")
         public static let housingFeed = ImageAsset(name: "housing_feed")
         public static let leisureFeed = ImageAsset(name: "leisure_feed")
@@ -563,6 +564,7 @@ extension R {
         CategoriesHeaderIcons.childFeed,
         CategoriesHeaderIcons.entretainmentFeed,
         CategoriesHeaderIcons.fashionFeed,
+        CategoriesHeaderIcons.freeFeed,
         CategoriesHeaderIcons.homeFeed,
         CategoriesHeaderIcons.housingFeed,
         CategoriesHeaderIcons.leisureFeed,

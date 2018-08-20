@@ -27,6 +27,15 @@ enum FilterCategoryItem: Equatable {
             return R.Asset.IconsButtons.FiltersCategoriesIcons.categoriesFreeInactive.image
         }
     }
+
+    var imageInFeed: UIImage? {
+        switch self {
+        case let .category(category: category):
+            return category.imageInFeed
+        case .free:
+            return R.Asset.IconsButtons.CategoriesHeaderIcons.freeFeed.image
+        }
+    }
 }
 
 func ==(a: FilterCategoryItem, b: FilterCategoryItem) -> Bool {

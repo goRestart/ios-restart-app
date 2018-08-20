@@ -39,12 +39,6 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         return label
     }()
     
-    private let stripeIcon: UIImageView = {
-        let iv = UIImageView()
-        iv.contentMode = .scaleAspectFit
-        return iv
-    }()
-    
     // > Thumbnail Image and background
     
     private let thumbnailBgColorView = UIView()
@@ -120,8 +114,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     
     private var detailViewInImageHeightConstraints: NSLayoutConstraint?
     private var thumbnailImageViewHeight: NSLayoutConstraint?
-    private var stripeIconWidth: NSLayoutConstraint?
-    
+
     var listing: Listing?
     weak var delegate: ListingCellDelegate?
     
@@ -224,20 +217,18 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     }
     
     func setupFreeStripe() {
-        stripeIconWidth?.constant = ListingCellMetrics.stripeIconWidth
         stripeImageView.image = R.Asset.BackgroundsAndImages.stripeWhite.image
-        stripeIcon.image = R.Asset.IconsButtons.icHeart.image
         stripeLabel.text = R.Strings.productFreePrice
+        stripeLabel.textAlignment = .center
         stripeLabel.textColor = UIColor.primaryColor
         stripeImageView.isHidden = false
         stripeInfoView.isHidden = false
     }
     
     func setupFeaturedStripe(withTextColor textColor: UIColor) {
-        stripeIconWidth?.constant = 0
         stripeImageView.image = R.Asset.BackgroundsAndImages.stripeWhite.image
-        stripeIcon.image = nil
         stripeLabel.text = R.Strings.bumpUpProductCellFeaturedStripe
+        stripeLabel.textAlignment = .left
         stripeLabel.textColor = textColor
         stripeImageView.isHidden = false
         stripeInfoView.isHidden = false
@@ -453,22 +444,14 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     }
     
     private func setupStripeInfoContainerSubviews() {
-        stripeInfoInnerContainerView.addSubviewsForAutoLayout([stripeLabel, stripeIcon])
+        stripeInfoInnerContainerView.addSubviewsForAutoLayout([stripeLabel])
         
         NSLayoutConstraint.activate([
             stripeLabel.trailingAnchor.constraint(equalTo: stripeInfoInnerContainerView.trailingAnchor),
             stripeLabel.bottomAnchor.constraint(equalTo: stripeInfoInnerContainerView.bottomAnchor),
             stripeLabel.topAnchor.constraint(equalTo: stripeInfoInnerContainerView.topAnchor),
             stripeLabel.heightAnchor.constraint(equalToConstant: Layout.stripeHeight),
-            stripeLabel.leadingAnchor.constraint(equalTo: stripeIcon.trailingAnchor, constant: 3)
-            ])
-        
-        stripeIconWidth = stripeIcon.widthAnchor.constraint(equalToConstant: 14)
-        stripeIconWidth?.isActive = true
-        NSLayoutConstraint.activate([
-            stripeIcon.leadingAnchor.constraint(equalTo: stripeInfoInnerContainerView.leadingAnchor),
-            stripeIcon.bottomAnchor.constraint(equalTo: stripeInfoInnerContainerView.bottomAnchor, constant: -Metrics.veryShortMargin),
-            stripeIcon.topAnchor.constraint(equalTo: stripeInfoInnerContainerView.topAnchor, constant: Metrics.veryShortMargin)
+            stripeLabel.leadingAnchor.constraint(equalTo: stripeInfoInnerContainerView.leadingAnchor)
             ])
     }
     
@@ -604,7 +587,6 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         thumbnailImageView.image = nil
         stripeImageView.image = nil
         stripeLabel.text = ""
-        stripeIcon.image = nil
         detailViewInImage.clearLabelTexts()
         topDistanceInfoView.clearAll()
         bottomDistanceInfoView.clearAll()
@@ -625,7 +607,6 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         thumbnailGifImageView.set(accessibilityId: .listingCellThumbnailImageView)
         stripeImageView.set(accessibilityId: .listingCellStripeImageView)
         stripeLabel.set(accessibilityId: .listingCellStripeLabel)
-        stripeIcon.set(accessibilityId: .listingCellStripeIcon)
         featuredListingChatButton.set(accessibilityId: .listingCellFeaturedChatButton)
     }
     

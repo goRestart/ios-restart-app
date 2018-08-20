@@ -118,14 +118,14 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     let containsListings = Variable<Bool>(false)
     let isShowingCategoriesHeader = Variable<Bool>(false)
     
-    var categoryHeaderElements: [ListingCategory] {
-        return ListingCategory.visibleValuesInFeed(servicesIncluded: true,
-                                                   realEstateIncluded: featureFlags.realEstateEnabled.isActive,
-                                                   servicesHighlighted: true)
-    }
+    var categoryHeaderElements: [FilterCategoryItem] { return FilterCategoryItem.makeForFeed(with: featureFlags) }
     
-    var categoryHighlighted: ListingCategory {
-        return .services
+    var categoryHighlighted: FilterCategoryItem {
+        if featureFlags.shouldHightlightFreeFilterInFeed {
+            return .free
+        } else {
+            return FilterCategoryItem(category: .services)
+        }
     }
     
     private static let firstVersionNumber = 1
@@ -781,7 +781,12 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     }
     
     func updateFiltersFromHeaderCategories(_ categoryHeaderInfo: CategoryHeaderInfo) {
-        filters.selectedCategories = [categoryHeaderInfo.listingCategory]
+        switch categoryHeaderInfo.filterCategoryItem {
+        case .category(let category):
+            filters.selectedCategories = [category]
+        case .free:
+            filters.priceRange = .freePrice
+        }
         applyFilters(categoryHeaderInfo)
     }
     
