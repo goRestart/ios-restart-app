@@ -24,14 +24,12 @@
 		1C913A1A1FF0656800646884 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C913A191FF0656800646884 /* AuthService.swift */; };
 		1C913A291FF0670300646884 /* AuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C913A281FF0670300646884 /* AuthRepository.swift */; };
 		1C913A2F1FF2B2D400646884 /* AuthDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C913A2E1FF2B2D400646884 /* AuthDataSource.swift */; };
-		1C913A321FF2B30A00646884 /* AuthApiDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C913A311FF2B30A00646884 /* AuthApiDataSource.swift */; };
 		1C913A351FF2B65300646884 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C913A341FF2B65300646884 /* Endpoint.swift */; };
 		1C913A3B1FF2BA8B00646884 /* TargetType+Default.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C913A3A1FF2BA8B00646884 /* TargetType+Default.swift */; };
 		1C913A3E1FF2BB4200646884 /* AuthenticateEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C913A3D1FF2BB4200646884 /* AuthenticateEndpoint.swift */; };
 		1C93E0C82040ACA30029AD2B /* ListingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93E0C72040ACA30029AD2B /* ListingService.swift */; };
 		1C93E0CE2040AD690029AD2B /* PublishProductEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93E0CD2040AD690029AD2B /* PublishProductEndpoint.swift */; };
 		1CACCE7A1FF2D6320001B321 /* ErrorAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CACCE791FF2D6320001B321 /* ErrorAdapter.swift */; };
-		1CACCE7D1FF2D69E0001B321 /* AuthenticateErrorAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CACCE7C1FF2D69E0001B321 /* AuthenticateErrorAdapter.swift */; };
 		1CACCE8A1FF309E60001B321 /* PrimitiveSequence+CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CACCE891FF309E60001B321 /* PrimitiveSequence+CustomError.swift */; };
 		1CACCE911FF30BA60001B321 /* AuthApiDataSourceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CACCE901FF30BA60001B321 /* AuthApiDataSourceSpec.swift */; };
 		1CACCE941FF31D6A0001B321 /* auth.ok.json in Resources */ = {isa = PBXBuildFile; fileRef = 1CACCE931FF31D6A0001B321 /* auth.ok.json */; };
@@ -48,6 +46,10 @@
 		2E2F7ABC2129F71600CDED0F /* RegisterUserFirebaseErrorAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2F7ABB2129F71600CDED0F /* RegisterUserFirebaseErrorAdapter.swift */; };
 		2E2F7ABF2129F83000CDED0F /* RegisterUserFirebaseAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2F7ABE2129F83000CDED0F /* RegisterUserFirebaseAction.swift */; };
 		2E2F7AC12129FA1B00CDED0F /* Assembly+User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2F7AC02129FA1B00CDED0F /* Assembly+User.swift */; };
+		2EB2B144212B2EF500705ACA /* AuthFirebaseDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB2B143212B2EF500705ACA /* AuthFirebaseDataSource.swift */; };
+		2EB2B147212B2F5700705ACA /* SignInUserFirebaseAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB2B146212B2F5700705ACA /* SignInUserFirebaseAction.swift */; };
+		2EB2B14A212B2F8900705ACA /* SignInUserFirebaseErrorAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB2B149212B2F8900705ACA /* SignInUserFirebaseErrorAdapter.swift */; };
+		2EB2B14C212B305000705ACA /* Assembly+Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB2B14B212B305000705ACA /* Assembly+Auth.swift */; };
 		2ECA1F1A21285542001A3167 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2ECA1F1921285542001A3167 /* Domain.framework */; };
 /* End PBXBuildFile section */
 
@@ -81,14 +83,12 @@
 		1C913A191FF0656800646884 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		1C913A281FF0670300646884 /* AuthRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRepository.swift; sourceTree = "<group>"; };
 		1C913A2E1FF2B2D400646884 /* AuthDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthDataSource.swift; sourceTree = "<group>"; };
-		1C913A311FF2B30A00646884 /* AuthApiDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthApiDataSource.swift; sourceTree = "<group>"; };
 		1C913A341FF2B65300646884 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		1C913A3A1FF2BA8B00646884 /* TargetType+Default.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TargetType+Default.swift"; sourceTree = "<group>"; };
 		1C913A3D1FF2BB4200646884 /* AuthenticateEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticateEndpoint.swift; sourceTree = "<group>"; };
 		1C93E0C72040ACA30029AD2B /* ListingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingService.swift; sourceTree = "<group>"; };
 		1C93E0CD2040AD690029AD2B /* PublishProductEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishProductEndpoint.swift; sourceTree = "<group>"; };
 		1CACCE791FF2D6320001B321 /* ErrorAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAdapter.swift; sourceTree = "<group>"; };
-		1CACCE7C1FF2D69E0001B321 /* AuthenticateErrorAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticateErrorAdapter.swift; sourceTree = "<group>"; };
 		1CACCE891FF309E60001B321 /* PrimitiveSequence+CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PrimitiveSequence+CustomError.swift"; sourceTree = "<group>"; };
 		1CACCE901FF30BA60001B321 /* AuthApiDataSourceSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthApiDataSourceSpec.swift; sourceTree = "<group>"; };
 		1CACCE931FF31D6A0001B321 /* auth.ok.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = auth.ok.json; sourceTree = "<group>"; };
@@ -105,6 +105,10 @@
 		2E2F7ABB2129F71600CDED0F /* RegisterUserFirebaseErrorAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUserFirebaseErrorAdapter.swift; sourceTree = "<group>"; };
 		2E2F7ABE2129F83000CDED0F /* RegisterUserFirebaseAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUserFirebaseAction.swift; sourceTree = "<group>"; };
 		2E2F7AC02129FA1B00CDED0F /* Assembly+User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+User.swift"; sourceTree = "<group>"; };
+		2EB2B143212B2EF500705ACA /* AuthFirebaseDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFirebaseDataSource.swift; sourceTree = "<group>"; };
+		2EB2B146212B2F5700705ACA /* SignInUserFirebaseAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInUserFirebaseAction.swift; sourceTree = "<group>"; };
+		2EB2B149212B2F8900705ACA /* SignInUserFirebaseErrorAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInUserFirebaseErrorAdapter.swift; sourceTree = "<group>"; };
+		2EB2B14B212B305000705ACA /* Assembly+Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+Auth.swift"; sourceTree = "<group>"; };
 		2ECA1F1921285542001A3167 /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E94BF8AB55B0FEBA67B9E8BB /* Pods_Data.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Data.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED19D6395F3123B537246E7F /* Pods-Data.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Data.release.xcconfig"; path = "../../../Pods/Target Support Files/Pods-Data/Pods-Data.release.xcconfig"; sourceTree = "<group>"; };
@@ -358,18 +362,9 @@
 			isa = PBXGroup;
 			children = (
 				1C913A2E1FF2B2D400646884 /* AuthDataSource.swift */,
-				1C913A301FF2B2FC00646884 /* Api */,
+				2EB2B142212B2EE500705ACA /* Firebase */,
 			);
 			path = "Data Source";
-			sourceTree = "<group>";
-		};
-		1C913A301FF2B2FC00646884 /* Api */ = {
-			isa = PBXGroup;
-			children = (
-				1C913A311FF2B30A00646884 /* AuthApiDataSource.swift */,
-				1CACCE7B1FF2D6920001B321 /* Error */,
-			);
-			path = Api;
 			sourceTree = "<group>";
 		};
 		1C913A331FF2B64600646884 /* Endpoint */ = {
@@ -427,14 +422,6 @@
 			isa = PBXGroup;
 			children = (
 				1CACCE791FF2D6320001B321 /* ErrorAdapter.swift */,
-			);
-			path = Error;
-			sourceTree = "<group>";
-		};
-		1CACCE7B1FF2D6920001B321 /* Error */ = {
-			isa = PBXGroup;
-			children = (
-				1CACCE7C1FF2D69E0001B321 /* AuthenticateErrorAdapter.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";
@@ -528,6 +515,7 @@
 			isa = PBXGroup;
 			children = (
 				1CC209B51FF2C2F500EE0B5B /* Assembly+Repository.swift */,
+				2EB2B14B212B305000705ACA /* Assembly+Auth.swift */,
 				2E2F7AC02129FA1B00CDED0F /* Assembly+User.swift */,
 				1C40D8B91FFD38CA006D5BE4 /* Assembly+Moya.swift */,
 			);
@@ -590,6 +578,32 @@
 				2E2F7ABE2129F83000CDED0F /* RegisterUserFirebaseAction.swift */,
 			);
 			path = Action;
+			sourceTree = "<group>";
+		};
+		2EB2B142212B2EE500705ACA /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				2EB2B143212B2EF500705ACA /* AuthFirebaseDataSource.swift */,
+				2EB2B145212B2F4000705ACA /* Action */,
+				2EB2B148212B2F7300705ACA /* Error */,
+			);
+			path = Firebase;
+			sourceTree = "<group>";
+		};
+		2EB2B145212B2F4000705ACA /* Action */ = {
+			isa = PBXGroup;
+			children = (
+				2EB2B146212B2F5700705ACA /* SignInUserFirebaseAction.swift */,
+			);
+			path = Action;
+			sourceTree = "<group>";
+		};
+		2EB2B148212B2F7300705ACA /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				2EB2B149212B2F8900705ACA /* SignInUserFirebaseErrorAdapter.swift */,
+			);
+			path = Error;
 			sourceTree = "<group>";
 		};
 		A68C8B87A51153B07520E2DC /* Pods */ = {
@@ -782,7 +796,6 @@
 				1C30D71A2009661900E0A501 /* GameApiDataSource.swift in Sources */,
 				1C913A2F1FF2B2D400646884 /* AuthDataSource.swift in Sources */,
 				1CB649512009C717009B7CC1 /* ImageService.swift in Sources */,
-				1C913A321FF2B30A00646884 /* AuthApiDataSource.swift in Sources */,
 				1C93E0C82040ACA30029AD2B /* ListingService.swift in Sources */,
 				1CC209B61FF2C2F500EE0B5B /* Assembly+Repository.swift in Sources */,
 				2E2F7AB92129F46100CDED0F /* Auth+Rx.swift in Sources */,
@@ -796,6 +809,7 @@
 				1C89D6FE1FF3CFBF00B3FA98 /* AuthToken.swift in Sources */,
 				1C93E0CE2040AD690029AD2B /* PublishProductEndpoint.swift in Sources */,
 				1CB649592009C964009B7CC1 /* ImageDataSource.swift in Sources */,
+				2EB2B14A212B2F8900705ACA /* SignInUserFirebaseErrorAdapter.swift in Sources */,
 				1C40D8B01FFD354B006D5BE4 /* UserDataSource.swift in Sources */,
 				1C30D7182009658D00E0A501 /* GameDataSource.swift in Sources */,
 				1C913A351FF2B65300646884 /* Endpoint.swift in Sources */,
@@ -806,12 +820,14 @@
 				1C30D70A2009603C00E0A501 /* GameService.swift in Sources */,
 				1C913A291FF0670300646884 /* AuthRepository.swift in Sources */,
 				1CB6495C2009C9CA009B7CC1 /* ImageApiDataSource.swift in Sources */,
+				2EB2B144212B2EF500705ACA /* AuthFirebaseDataSource.swift in Sources */,
 				1C913A3B1FF2BA8B00646884 /* TargetType+Default.swift in Sources */,
-				1CACCE7D1FF2D69E0001B321 /* AuthenticateErrorAdapter.swift in Sources */,
 				2E2F7AC12129FA1B00CDED0F /* Assembly+User.swift in Sources */,
 				1C30D70D200960CB00E0A501 /* GetGameConsolesEndpoint.swift in Sources */,
 				1C40D8BC1FFD3940006D5BE4 /* UserRepository.swift in Sources */,
 				1CACCE7A1FF2D6320001B321 /* ErrorAdapter.swift in Sources */,
+				2EB2B147212B2F5700705ACA /* SignInUserFirebaseAction.swift in Sources */,
+				2EB2B14C212B305000705ACA /* Assembly+Auth.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
