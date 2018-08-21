@@ -19,7 +19,6 @@
 		1CC119182041A8B500ED6369 /* ProductPriceViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC119172041A8B500ED6369 /* ProductPriceViewModelType.swift */; };
 		1CC1191A2041AA7F00ED6369 /* ProductPriceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC119192041AA7F00ED6369 /* ProductPriceViewModel.swift */; };
 		1CC1191E2041ADEA00ED6369 /* ProductPriceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC1191D2041ADEA00ED6369 /* ProductPriceView.swift */; };
-		1CC119212041AE7600ED6369 /* ProductPrice.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1CC119232041AE7600ED6369 /* ProductPrice.strings */; };
 		1CC119252041C42100ED6369 /* ProductPriceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC119242041C42100ED6369 /* ProductPriceViewController.swift */; };
 		1CC119272041C4B000ED6369 /* ProductPriceViewBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC119262041C4B000ED6369 /* ProductPriceViewBinder.swift */; };
 		1CC119292041C62100ED6369 /* Assembly+ProductPrice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC119282041C62100ED6369 /* Assembly+ProductPrice.swift */; };
@@ -27,14 +26,12 @@
 		1CC119302041CB7000ED6369 /* ProductDescriptionViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC1192F2041CB7000ED6369 /* ProductDescriptionViewModelType.swift */; };
 		1CC119322041CC4600ED6369 /* ProductDescriptionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC119312041CC4600ED6369 /* ProductDescriptionViewModel.swift */; };
 		1CC119352041CD2C00ED6369 /* ProductDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC119342041CD2C00ED6369 /* ProductDescriptionView.swift */; };
-		1CC119392041CE7B00ED6369 /* ProductDescription.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1CC1193B2041CE7B00ED6369 /* ProductDescription.strings */; };
 		1CC1193D2041CF2100ED6369 /* ProductDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC1193C2041CF2100ED6369 /* ProductDescriptionViewController.swift */; };
 		1CC1193F2041CF4F00ED6369 /* ProductDescriptionViewBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC1193E2041CF4F00ED6369 /* ProductDescriptionViewBinder.swift */; };
 		1CC119412041CFFF00ED6369 /* Assembly+ProductDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC119402041CFFF00ED6369 /* Assembly+ProductDescription.swift */; };
 		1CC5A6142040D0B20082BE80 /* Assembly+ProductSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC5A6132040D0B20082BE80 /* Assembly+ProductSelector.swift */; };
-		1CC5A6192040D2DB0082BE80 /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC5A6182040D2DB0082BE80 /* Table.swift */; };
-		1CC5A61A2040D3540082BE80 /* ProductSelector.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1CC5A61C2040D3540082BE80 /* ProductSelector.strings */; };
 		1CC8412E2040DE7000FD0228 /* Bundle+Framework.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC8412D2040DE7000FD0228 /* Bundle+Framework.swift */; };
+		2EB2B189212B4B5700705ACA /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB2B188212B4B5700705ACA /* Table.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,7 +49,6 @@
 		1CC119172041A8B500ED6369 /* ProductPriceViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductPriceViewModelType.swift; sourceTree = "<group>"; };
 		1CC119192041AA7F00ED6369 /* ProductPriceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductPriceViewModel.swift; sourceTree = "<group>"; };
 		1CC1191D2041ADEA00ED6369 /* ProductPriceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductPriceView.swift; sourceTree = "<group>"; };
-		1CC119222041AE7600ED6369 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ProductPrice.strings; sourceTree = "<group>"; };
 		1CC119242041C42100ED6369 /* ProductPriceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductPriceViewController.swift; sourceTree = "<group>"; };
 		1CC119262041C4B000ED6369 /* ProductPriceViewBinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductPriceViewBinder.swift; sourceTree = "<group>"; };
 		1CC119282041C62100ED6369 /* Assembly+ProductPrice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+ProductPrice.swift"; sourceTree = "<group>"; };
@@ -60,14 +56,12 @@
 		1CC1192F2041CB7000ED6369 /* ProductDescriptionViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDescriptionViewModelType.swift; sourceTree = "<group>"; };
 		1CC119312041CC4600ED6369 /* ProductDescriptionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDescriptionViewModel.swift; sourceTree = "<group>"; };
 		1CC119342041CD2C00ED6369 /* ProductDescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDescriptionView.swift; sourceTree = "<group>"; };
-		1CC1193A2041CE7B00ED6369 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ProductDescription.strings; sourceTree = "<group>"; };
 		1CC1193C2041CF2100ED6369 /* ProductDescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDescriptionViewController.swift; sourceTree = "<group>"; };
 		1CC1193E2041CF4F00ED6369 /* ProductDescriptionViewBinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDescriptionViewBinder.swift; sourceTree = "<group>"; };
 		1CC119402041CFFF00ED6369 /* Assembly+ProductDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+ProductDescription.swift"; sourceTree = "<group>"; };
 		1CC5A6132040D0B20082BE80 /* Assembly+ProductSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+ProductSelector.swift"; sourceTree = "<group>"; };
-		1CC5A6182040D2DB0082BE80 /* Table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Table.swift; sourceTree = "<group>"; };
-		1CC5A61B2040D3540082BE80 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ProductSelector.strings; sourceTree = "<group>"; };
 		1CC8412D2040DE7000FD0228 /* Bundle+Framework.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Framework.swift"; sourceTree = "<group>"; };
+		2EB2B188212B4B5700705ACA /* Table.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Table.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,7 +135,7 @@
 		1C93E0E82040B34B0029AD2B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				1CC5A6152040D2BF0082BE80 /* Languages */,
+				2EB2B188212B4B5700705ACA /* Table.swift */,
 				1C93E0E02040B33D0029AD2B /* Listing.h */,
 				1C93E0E12040B33D0029AD2B /* Info.plist */,
 			);
@@ -277,17 +271,6 @@
 			path = Assembly;
 			sourceTree = "<group>";
 		};
-		1CC5A6152040D2BF0082BE80 /* Languages */ = {
-			isa = PBXGroup;
-			children = (
-				1CC119232041AE7600ED6369 /* ProductPrice.strings */,
-				1CC5A61C2040D3540082BE80 /* ProductSelector.strings */,
-				1CC1193B2041CE7B00ED6369 /* ProductDescription.strings */,
-				1CC5A6182040D2DB0082BE80 /* Table.swift */,
-			);
-			path = Languages;
-			sourceTree = "<group>";
-		};
 		1CC8412B2040DE5F00FD0228 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
@@ -343,7 +326,7 @@
 		1C93E0D42040B33D0029AD2B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0920;
+				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = Skydev;
 				TargetAttributes = {
 					1C93E0DC2040B33D0029AD2B = {
@@ -375,9 +358,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1CC119392041CE7B00ED6369 /* ProductDescription.strings in Resources */,
-				1CC119212041AE7600ED6369 /* ProductPrice.strings in Resources */,
-				1CC5A61A2040D3540082BE80 /* ProductSelector.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -394,8 +374,8 @@
 				1CC119352041CD2C00ED6369 /* ProductDescriptionView.swift in Sources */,
 				1CC119252041C42100ED6369 /* ProductPriceViewController.swift in Sources */,
 				1CC119302041CB7000ED6369 /* ProductDescriptionViewModelType.swift in Sources */,
+				2EB2B189212B4B5700705ACA /* Table.swift in Sources */,
 				1CC1191A2041AA7F00ED6369 /* ProductPriceViewModel.swift in Sources */,
-				1CC5A6192040D2DB0082BE80 /* Table.swift in Sources */,
 				1C05A2192040B5EB007DB1DA /* ProductSelectorViewModelType.swift in Sources */,
 				1CC8412E2040DE7000FD0228 /* Bundle+Framework.swift in Sources */,
 				1CC1193F2041CF4F00ED6369 /* ProductDescriptionViewBinder.swift in Sources */,
@@ -413,33 +393,6 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXVariantGroup section */
-		1CC119232041AE7600ED6369 /* ProductPrice.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1CC119222041AE7600ED6369 /* en */,
-			);
-			name = ProductPrice.strings;
-			sourceTree = "<group>";
-		};
-		1CC1193B2041CE7B00ED6369 /* ProductDescription.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1CC1193A2041CE7B00ED6369 /* en */,
-			);
-			name = ProductDescription.strings;
-			sourceTree = "<group>";
-		};
-		1CC5A61C2040D3540082BE80 /* ProductSelector.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1CC5A61B2040D3540082BE80 /* en */,
-			);
-			name = ProductSelector.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
 		1C93E0E32040B33D0029AD2B /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -455,6 +408,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -462,6 +416,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -515,6 +470,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -522,6 +478,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;

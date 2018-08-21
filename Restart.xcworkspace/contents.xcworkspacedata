@@ -23,6 +23,12 @@
       location = "group:App/Features/Product/SignUp/SignUp.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:App/Features/Product/Search/Search.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:App/Features/Product/Listing/Listing/Listing.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:App/Pods/Pods.xcodeproj">
    </FileRef>
 </Workspace>

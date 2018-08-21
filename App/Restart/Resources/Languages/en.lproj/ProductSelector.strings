@@ -1,2 +1,6 @@
+/*
+ Product Selector
+ */
+
 "product_selector.title" = "What do you want to sell?";
 "product_selector.search.input.placeholder" = "Title";
