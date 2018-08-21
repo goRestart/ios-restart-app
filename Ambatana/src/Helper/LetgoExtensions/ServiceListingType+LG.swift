@@ -8,6 +8,15 @@ extension ServiceListingType {
         return [.service, .job]
     }
     
+    static func allCases(withFirstItem firstItem: ServiceListingType) -> [ServiceListingType] {
+        switch firstItem {
+        case .service:
+            return allCases
+        case .job:
+            return [.job, .service]
+        }
+    }
+    
     var displayPrefix: String {
         switch self {
         case .job:

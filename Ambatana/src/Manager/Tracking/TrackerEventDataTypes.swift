@@ -369,6 +369,7 @@ enum EventParameterName: String {
     case seatsTo              = "seats-to"
     case serviceType          = "service-type"
     case serviceSubtype       = "service-subtype"
+    case serviceListingType   = "service-listing-type"
     case paymentFrequency     = "payment-frequency"
     case verticalKeyword            = "vertical-keyword"
     case verticalMatchingFields     = "vertical-matching-fields"

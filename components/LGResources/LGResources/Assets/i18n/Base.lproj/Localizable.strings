@@ -1450,6 +1450,18 @@
 // Alert to display to user that the max amount of services have already been selected
 "filters_services_services_list_max_selection_alert" = "Oops! You can't select more than 15 services.";
 
+// Section header for jobs and services toggle
+"filters_jobs_services_toggle_header" = "Looking for...";
+
+// Section header text for jobs and services filters
+"filters_jobs_services_header" = "Job & Service Info";
+
+// Title for Jobs and Services Type filter
+"filters_jobs_services_type_title" = "Type";
+
+// Title for Jobs and Services Subtype filter
+"filters_jobs_services_subtype_title" = "Subtype";
+
 // Unit suffix for miles (e.g. the mi in "400,000 mi")
 "mile_unit_suffix" = "mi";
 

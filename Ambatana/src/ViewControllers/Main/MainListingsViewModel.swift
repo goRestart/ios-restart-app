@@ -214,6 +214,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         
         if isServicesSelected {
             let servicesFilters = filters.verticalFilters.services
+            servicesFilters.listingTypes.forEach({ resultTags.append(.serviceListingType($0)) })
 
             if featureFlags.servicesUnifiedFilterScreen.isActive {
                 if let serviceType = servicesFilters.type {
@@ -648,6 +649,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         
         var servicesServiceType: ServiceType? = nil
         var servicesServiceSubtype: [ServiceSubtype] = []
+        var servicesListingTypes: [ServiceListingType] = []
         
         for filterTag in tags {
             switch filterTag {
@@ -697,6 +699,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             case .unifiedServiceType(let type, let selectedSubtypes):
                 servicesServiceType = type
                 servicesServiceSubtype = selectedSubtypes
+            case .serviceListingType(let listingType):
+                servicesListingTypes.append(listingType)
             case .carBodyType(let bodyType):
                 carBodyTypes.append(bodyType)
             case .carFuelType(let fuelType):
@@ -768,6 +772,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             filters.verticalFilters.services.subtypes = nil
         }
         
+        filters.verticalFilters.services.listingTypes = servicesListingTypes
+
         updateCategoriesHeader()
         updateListView()
     }
