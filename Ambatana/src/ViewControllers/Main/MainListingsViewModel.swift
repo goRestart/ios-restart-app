@@ -61,6 +61,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     
     private let interestingUndoTimeout: TimeInterval = 5
     private let chatWrapper: ChatWrapper
+    private let interestedStateUpdater: InterestedStateUpdater
 
     let bannerCellPosition: Int = 8
     let suggestedSearchesLimit: Int = 10
@@ -450,6 +451,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
          featureFlags: FeatureFlaggeable,
          bubbleTextGenerator: DistanceBubbleTextGenerator,
          chatWrapper: ChatWrapper,
+         interestedStateUpdater: InterestedStateUpdater,
          feedBadgingSynchronizer: FeedBadgingSynchronizer) {
         self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
@@ -470,6 +472,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         self.featureFlags = featureFlags
         self.bubbleTextGenerator = bubbleTextGenerator
         self.chatWrapper = chatWrapper
+        self.interestedStateUpdater = interestedStateUpdater
         self.feedBadgingSynchronizer = feedBadgingSynchronizer
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
         let columns = show3Columns ? 3 : 2
@@ -513,6 +516,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         let featureFlags = FeatureFlags.sharedInstance
         let bubbleTextGenerator = DistanceBubbleTextGenerator()
         let chatWrapper = LGChatWrapper()
+        let interestedStateUpdater = InterestedStateUpdater()
         let feedBadgingSynchronizer = LGFeedBadgingSynchronizer()
         self.init(sessionManager: sessionManager,
                   myUserRepository: myUserRepository,
@@ -532,6 +536,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                   featureFlags: featureFlags,
                   bubbleTextGenerator: bubbleTextGenerator,
                   chatWrapper: chatWrapper,
+                  interestedStateUpdater: interestedStateUpdater,
                   feedBadgingSynchronizer: feedBadgingSynchronizer)
     }
     

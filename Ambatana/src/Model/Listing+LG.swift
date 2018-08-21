@@ -65,3 +65,23 @@ extension Product {
     }
 }
 
+extension Listing {
+    func interestedState(myUserRepository: MyUserRepository,
+                         listingInterestStates: Set<String>) -> InterestedState {
+        guard let listingId = objectId else { return .none  }
+        guard !isMine(myUserRepository: myUserRepository) else { return .none }
+        guard !listingInterestStates.contains(listingId) else { return .seeConversation }
+        return .send(enabled: true)
+    }
+    
+    func listingUser(userRepository: UserRepository, completion: @escaping (User?) -> Void) {
+        guard let userId = user.objectId else {
+            completion(nil)
+            return
+        }
+        userRepository.show(userId) { result in
+            completion(result.value)
+        }
+    }
+}
+
