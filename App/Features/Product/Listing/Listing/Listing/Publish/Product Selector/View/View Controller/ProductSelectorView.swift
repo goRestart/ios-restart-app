@@ -14,7 +14,7 @@ final class ProductSelectorView: View {
 
   private var inputTextField: UITextField = {
     let textField = UITextField()
-    textField.placeholder = Localize("product_selector.search.input.placeholder", table: Table.productSelector, in: .framework)
+    textField.placeholder = Localize("product_selector.search.input.placeholder", table: Table.productSelector)
     textField.font = .h2
     textField.textColor = .darkScript
     return textField

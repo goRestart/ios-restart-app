@@ -4,7 +4,7 @@ final class ProductDescriptionView: View {
 
   var inputTextField: UITextField = {
     let textField = UITextField()
-    textField.placeholder = Localize("product_description.input.placeholder", table: Table.productDescription, in: .framework)
+    textField.placeholder = Localize("product_description.input.placeholder", table: Table.productDescription)
     textField.font = .h2
     textField.textColor = .darkScript
     return textField
