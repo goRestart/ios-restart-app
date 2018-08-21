@@ -1668,6 +1668,9 @@ fileprivate extension ChatViewModel {
         if case .multiAnswer(let question, _) = lastMessage.type,
             let questionKey = question.key {
             tracker.trackEvent(TrackerEvent.chatLetgoServiceQuestionReceived(questionKey: questionKey, listingId: listingId))
+        } else if case .cta(let data, _) = lastMessage.type,
+            let key = data.key {
+            tracker.trackEvent(TrackerEvent.chatLetgoServiceCTAReceived(questionKey: key, listingId: listingId))
         }
     }
     
