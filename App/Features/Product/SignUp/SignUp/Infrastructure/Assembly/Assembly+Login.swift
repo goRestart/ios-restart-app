@@ -1,8 +1,12 @@
 import Core
 import Application
 
-extension Assembly {
-  public func makeLogin() -> LoginViewController {
+protocol LoginProvider {
+  func makeLogin() -> UIViewController
+}
+
+extension Assembly: LoginProvider {
+  func makeLogin() -> UIViewController {
     let viewController = LoginViewController(
       viewBinder: viewBinder
     )
@@ -25,6 +29,9 @@ extension Assembly {
   }
   
   func loginRouter(from view: UIViewController) -> LoginRouter {
-    return LoginRouter(from: view)
+    return LoginRouter(
+      from: view,
+      loginProvider: self
+    )
   }
 }

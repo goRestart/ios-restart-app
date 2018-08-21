@@ -19,7 +19,7 @@ final class ProductPriceViewController: ViewController {
 
   public override func viewDidLoad() {
     super.viewDidLoad()
-    title = Localize("product_price.title", table: Table.productPrice, in: .framework)
+    title = Localize("product_price.title", table: Table.productPrice)
   }
 
   override public func bindViewModel() {

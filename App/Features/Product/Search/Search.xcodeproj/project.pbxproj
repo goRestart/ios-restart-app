@@ -20,6 +20,8 @@
 		1C93BF36200A540100DDF249 /* SearchGamesStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93BF35200A540100DDF249 /* SearchGamesStub.swift */; };
 		1C93BF42200AA25700DDF249 /* Assembly+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93BF41200AA25700DDF249 /* Assembly+Search.swift */; };
 		2EB2B19A212B58B200705ACA /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EB2B199212B58B200705ACA /* Domain.framework */; };
+		2EE4A3AE212C8E5000380467 /* UI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EE4A3AD212C8E5000380467 /* UI.framework */; };
+		2EE4A3B0212C8E7A00380467 /* Application.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EE4A3AF212C8E7A00380467 /* Application.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +63,8 @@
 		1C93BF35200A540100DDF249 /* SearchGamesStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGamesStub.swift; sourceTree = "<group>"; };
 		1C93BF41200AA25700DDF249 /* Assembly+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+Search.swift"; sourceTree = "<group>"; };
 		2EB2B199212B58B200705ACA /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2EE4A3AD212C8E5000380467 /* UI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = UI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2EE4A3AF212C8E7A00380467 /* Application.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Application.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +72,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EE4A3B0212C8E7A00380467 /* Application.framework in Frameworks */,
+				2EE4A3AE212C8E5000380467 /* UI.framework in Frameworks */,
 				2EB2B19A212B58B200705ACA /* Domain.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -185,6 +191,8 @@
 		1C93BF17200A3E2A00DDF249 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2EE4A3AF212C8E7A00380467 /* Application.framework */,
+				2EE4A3AD212C8E5000380467 /* UI.framework */,
 				2EB2B199212B58B200705ACA /* Domain.framework */,
 			);
 			name = Frameworks;
@@ -263,7 +271,6 @@
 				1C93BEAC200A3C9800DDF249 /* Frameworks */,
 				1C93BEAD200A3C9800DDF249 /* Headers */,
 				1C93BEAE200A3C9800DDF249 /* Resources */,
-				1C93BF1E200A3E7700DDF249 /* [Carthage] - Copy frameworks */,
 			);
 			buildRules = (
 			);
@@ -349,25 +356,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		1C93BF1E200A3E7700DDF249 /* [Carthage] - Copy frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/../../../../Carthage/Build/iOS/RxSwift.framework",
-				"$(SRCROOT)/../../../../Carthage/Build/iOS/SnapKit.framework",
-			);
-			name = "[Carthage] - Copy frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1C93BEAB200A3C9800DDF249 /* Sources */ = {

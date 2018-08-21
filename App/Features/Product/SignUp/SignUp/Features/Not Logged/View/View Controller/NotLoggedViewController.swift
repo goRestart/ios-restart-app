@@ -3,21 +3,21 @@ import RxCocoa
 import RxSwift
 import UI
 
-public final class NotLoggedViewController: ViewController {
+final class NotLoggedViewController: ViewController {
   
   var viewModel: NotLoggedViewModelType!
   
   private let notLoggedView = NotLoggedView()
   
-  public override func loadView() {
+  override func loadView() {
     self.view = notLoggedView
   }
   
-  public override func viewDidLoad() {
+  override func viewDidLoad() {
     super.viewDidLoad()
   }
   
-  override public func bindViewModel() {
+  override func bindViewModel() {
     notLoggedView.signInButton.rx.tap
       .subscribe(onNext: { [weak self] _ in
         self?.viewModel.input.signInButtonPressed()

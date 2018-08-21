@@ -1,7 +1,11 @@
 import Core
 
-extension Assembly {
-  public func makeNotLogged() -> UINavigationController {
+public protocol NotLoggedProvider {
+  func makeNotLogged() -> UIViewController
+}
+
+extension Assembly: NotLoggedProvider {
+  public func makeNotLogged() -> UIViewController {
     let viewController = NotLoggedViewController()
     viewController.viewModel = viewModel(for: viewController)
     

@@ -9,7 +9,7 @@ final class GameSuggestionSectionController: ListSectionController {
 
   weak var delegate: GameSuggestionSectionControllerDelegate?
 
-  private let suggestion: GameSuggestionViewRender
+  private var suggestion: GameSuggestionViewRender
   
   init(suggestion: GameSuggestionViewRender) {
     self.suggestion = suggestion
@@ -30,5 +30,10 @@ final class GameSuggestionSectionController: ListSectionController {
     guard let cell = collectionContext!.dequeueReusableCell(of: GameSuggestionCell.self, for: self, at: index) as? GameSuggestionCell else { fatalError() }
     cell.configure(with: suggestion)
     return cell
+  }
+  
+  override func didUpdate(to object: Any) {
+    guard let object = object as? GameSuggestionViewRender else { return }
+    self.suggestion = object
   }
 }

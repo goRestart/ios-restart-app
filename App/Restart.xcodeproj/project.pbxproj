@@ -34,6 +34,7 @@
 		2EB2B190212B4BCC00705ACA /* ProductSelector.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2EB2B18A212B4BCC00705ACA /* ProductSelector.strings */; };
 		2EB2B191212B4BCC00705ACA /* ProductPrice.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2EB2B18C212B4BCC00705ACA /* ProductPrice.strings */; };
 		2EB2B192212B4BCC00705ACA /* ProductDescription.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2EB2B18E212B4BCC00705ACA /* ProductDescription.strings */; };
+		2EE4A3B2212C938100380467 /* Listing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EE4A3B1212C938100380467 /* Listing.framework */; };
 		2F986A221FC3FC2A3887AF0C /* Pods_Restart.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA3B077726B435A78625501D /* Pods_Restart.framework */; };
 /* End PBXBuildFile section */
 
@@ -80,6 +81,7 @@
 		2EB2B18B212B4BCC00705ACA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ProductSelector.strings; sourceTree = "<group>"; };
 		2EB2B18D212B4BCC00705ACA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ProductPrice.strings; sourceTree = "<group>"; };
 		2EB2B18F212B4BCC00705ACA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ProductDescription.strings; sourceTree = "<group>"; };
+		2EE4A3B1212C938100380467 /* Listing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Listing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8F64BDE6FEF6B8E05B33FEA /* Pods-Restart.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Restart.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Restart/Pods-Restart.debug.xcconfig"; sourceTree = "<group>"; };
 		DA3B077726B435A78625501D /* Pods_Restart.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Restart.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBEBFC161A71DE5C63A92027 /* Pods-Restart.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Restart.release.xcconfig"; path = "Pods/Target Support Files/Pods-Restart/Pods-Restart.release.xcconfig"; sourceTree = "<group>"; };
@@ -90,6 +92,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EE4A3B2212C938100380467 /* Listing.framework in Frameworks */,
 				1CAD06D520043D4E00CAE9C5 /* Domain.framework in Frameworks */,
 				1CAF0F692004326F004046A9 /* Core.framework in Frameworks */,
 				1CAD06DA20043EA400CAE9C5 /* UI.framework in Frameworks */,
@@ -219,6 +222,7 @@
 		33B833E5CD9AFE167B3E165E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2EE4A3B1212C938100380467 /* Listing.framework */,
 				1CAD06DB20043EA400CAE9C5 /* UI.framework */,
 				1CAD06D620043D4E00CAE9C5 /* Domain.framework */,
 				1CAD06D320043D1A00CAE9C5 /* Application.framework */,
@@ -330,6 +334,7 @@
 				"$(SRCROOT)/../Carthage/Build/iOS/Moya.framework",
 				"$(SRCROOT)/../Carthage/Build/iOS/RxMoya.framework",
 				"$(SRCROOT)/../Carthage/Build/iOS/Result.framework",
+				"$(SRCROOT)/../Carthage/Build/iOS/IGListKit.framework",
 			);
 			name = "[Carthage] - Copy frameworks";
 			outputPaths = (
@@ -340,6 +345,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Moya.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxMoya.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IGListKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
