@@ -441,7 +441,6 @@
 				1C89D7AF1FF427B600B3FA98 /* Frameworks */,
 				1C89D7B01FF427B600B3FA98 /* Headers */,
 				1C89D7B11FF427B600B3FA98 /* Resources */,
-				1C15A1EC1FF42EE400FA0E47 /* [Carthage] - Copy frameworks */,
 			);
 			buildRules = (
 			);
@@ -530,22 +529,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1C15A1EC1FF42EE400FA0E47 /* [Carthage] - Copy frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/../../../../Carthage/Build/iOS/SnapKit.framework",
-				"$(SRCROOT)/../../../../Carthage/Build/iOS/RxSwift.framework",
-			);
-			name = "[Carthage] - Copy frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
-		};
 		1C15A1F11FF42F8700FA0E47 /* [Carthage] - Copy frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
