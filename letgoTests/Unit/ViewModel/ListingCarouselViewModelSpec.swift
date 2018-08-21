@@ -90,7 +90,6 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                                                keyValueStorage: keyValueStorage,
                                                imageDownloader: imageDownloader,
                                                listingViewModelMaker: listingViewModelMaker,
-                                               adsRequester: AdsRequester(),
                                                locationManager: locationManager,
                                                myUserRepository: myUserRepository)
                 sut.delegate = self

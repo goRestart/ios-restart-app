@@ -1,7 +1,6 @@
 import LGCoreKit
 import RxSwift
 import LGComponents
-import GoogleMobileAds
 
 final class ListingCarouselViewController: KeyboardViewController, AnimatableTransition {
     private struct Layout {
@@ -143,10 +142,7 @@ final class ListingCarouselViewController: KeyboardViewController, AnimatableTra
     }
     
     private var shouldHideStatusBar = true
-
-    private var interstitial: GADInterstitial?
-    private var firstAdShowed = false
-    private var lastIndexAd = -1
+    
     
     // MARK: - Lifecycle
 
@@ -197,7 +193,6 @@ final class ListingCarouselViewController: KeyboardViewController, AnimatableTra
         setupZoomRx()
         setupProgressViewButton()
         setAccessibilityIds()
-        setupInterstitial()
     }
 
     private func setupProgressViewButton() {
@@ -495,13 +490,6 @@ final class ListingCarouselViewController: KeyboardViewController, AnimatableTra
             }.disposed(by: disposeBag)
     }
     
-    private func setupInterstitial() {
-        interstitial = viewModel.createAndLoadInterstitial()
-        if let interstitial = interstitial {
-            interstitial.delegate = self
-        }
-    }
-    
     private func setupAlphaRxBindings() {
         itemsAlpha.asObservable().bind(to: buttonBottom.rx.alpha).disposed(by: disposeBag)
         itemsAlpha.asObservable().bind(to: buttonTop.rx.alpha).disposed(by: disposeBag)
@@ -581,9 +569,6 @@ final class ListingCarouselViewController: KeyboardViewController, AnimatableTra
                 }
                 if movement != .initial {
                     self?.viewModel.moveToProductAtIndex(index, movement: movement)
-                }
-                if let rootViewController = self?.parent, movement == .tap || movement == .swipeRight {
-                    self?.viewModel.presentInterstitial(self?.interstitial, index: index, fromViewController: rootViewController)
                 }
                 if movement == .tap {
                     self?.finishedTransition()
@@ -1446,23 +1431,4 @@ fileprivate extension ListingCarouselViewController {
         directChatTable.accessibilityInspectionEnabled = false
         progressView.set(accessibilityId: .listingCarouselVideoProgressView)
     }
-}
-
-// MARK: - GADIntertitialDelegate
-
-extension ListingCarouselViewController: GADInterstitialDelegate {
-    
-    /// Tells the delegate the interstitial had been animated off the screen.
-    func interstitialDidDismissScreen(_ ad: GADInterstitial) {
-        setupInterstitial()
-    }
-    
-    func interstitialWillPresentScreen(_ ad: GADInterstitial) {
-        viewModel.interstitialAdShown(typePage: EventParameterTypePage.nextItem)
-    }
-    
-    func interstitialWillLeaveApplication(_ ad: GADInterstitial) {
-        viewModel.interstitialAdTapped(typePage: EventParameterTypePage.nextItem)
-    }
-    
 }

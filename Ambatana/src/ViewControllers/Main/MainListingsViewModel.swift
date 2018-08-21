@@ -2,8 +2,6 @@ import CoreLocation
 import LGCoreKit
 import Result
 import RxSwift
-import GoogleMobileAds
-import MoPub
 import LGComponents
 
 protocol MainListingsViewModelDelegate: BaseViewModelDelegate {
@@ -14,18 +12,12 @@ protocol MainListingsViewModelDelegate: BaseViewModelDelegate {
     func vmHideMapToolTip(hideForever: Bool)
 }
 
-protocol MainListingsAdsDelegate: class {
-    func rootViewControllerForAds() -> UIViewController
-}
-
 final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     
     weak var searchNavigator: SearchNavigator?
-    
-    static let adInFeedInitialPosition = 3
-    private static let adsInFeedRatio = 20
+
     private static let searchAlertLimit = 20
-    
+
     // > Input
     var searchString: String? {
         return searchType?.text
@@ -344,8 +336,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     
     // > Delegate
     weak var delegate: MainListingsViewModelDelegate?
-    weak var adsDelegate: MainListingsAdsDelegate?
-    
+
     // > Navigator
     weak var navigator: MainTabNavigator?
     var feedNavigator: FeedNavigator? { return navigator }
@@ -362,8 +353,6 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     fileprivate var shouldRetryLoad = false
     fileprivate var lastReceivedLocation: LGLocation?
     fileprivate var bubbleDistance: Float = 1
-    fileprivate var lastAdPosition: Int = 0
-    fileprivate var previousPagesAdsOffset: Int = 0
     
     // Search tracking state
     fileprivate var shouldTrackSearch = false
@@ -1277,12 +1266,6 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         totalListings = addCollections(to: totalListings, page: page)
         totalListings = addRealEstatePromoItem(to: totalListings)
         let myUserCreationDate: Date? = myUserRepository.myUser?.creationDate
-        if featureFlags.showAdsInFeedWithRatio.isActive ||
-            featureFlags.feedAdsProviderForUS.shouldShowAdsInFeedForUser(createdIn: myUserCreationDate) ||
-            featureFlags.feedAdsProviderForTR.shouldShowAdsInFeedForUser(createdIn: myUserCreationDate) ||
-            featureFlags.googleAdxForTR.shouldShowAdsInFeedForUser(createdIn: myUserCreationDate) {
-            totalListings = addAds(to: totalListings, page: page)
-        }
         return totalListings
     }
     
@@ -1318,108 +1301,6 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         }
         return cellModels
     }
-
-    private func setupAdsCellModelForMoPub(adsDelegate: MainListingsAdsDelegate) -> ListingCellModel? {
-        let settings = MPStaticNativeAdRendererSettings()
-        guard let feedAdUnitId = featureFlags.feedAdUnitId,
-            let config = MPStaticNativeAdRenderer.rendererConfiguration(with: settings) else { return nil }
-        settings.renderingViewClass = MoPubNativeView.self
-        let configurations: [MPNativeAdRendererConfiguration] = [config]
-        let nativeAdRequest = MPNativeAdRequest.init(adUnitIdentifier: feedAdUnitId,
-                                                     rendererConfigurations: configurations)
-        let adData = AdvertisementMoPubData(adUnitId: feedAdUnitId,
-                                            rootViewController: adsDelegate.rootViewControllerForAds(),
-                                            adPosition: lastAdPosition,
-                                            bannerHeight: LGUIKitConstants.advertisementCellDefaultHeight,
-                                            adRequested: false,
-                                            categories: filters.selectedCategories,
-                                            nativeAdRequest: nativeAdRequest,
-                                            moPubNativeAd: nil,
-                                            moPubView: NativeAdBlankStateView())
-       return ListingCellModel.mopubAdvertisement(data: adData)
-    }
-    
-    private func setupAdsCellModelForGoogleAdx(adsDelegate: MainListingsAdsDelegate) -> ListingCellModel? {
-        guard var feedAdUnitId = featureFlags.feedAdUnitId else { return nil }
-        var adTypes: [GADAdLoaderAdType] = [.nativeContent]
-        if featureFlags.appInstallAdsInFeed.isActive {
-            guard let appInstallAdUnit = featureFlags.appInstallAdsInFeedAdUnit else { return nil }
-            feedAdUnitId = appInstallAdUnit
-            adTypes.append(.nativeAppInstall)
-        }
-        let adLoader = GADAdLoader(adUnitID: feedAdUnitId,
-                                   rootViewController: adsDelegate.rootViewControllerForAds(),
-                                   adTypes: adTypes,
-                                   options: nil)
-        let adData = AdvertisementAdxData(adUnitId: feedAdUnitId,
-                                          rootViewController: adsDelegate.rootViewControllerForAds(),
-                                          adPosition: lastAdPosition,
-                                          bannerHeight: LGUIKitConstants.advertisementCellDefaultHeight,
-                                          adRequested: false,
-                                          categories: filters.selectedCategories,
-                                          adLoader: adLoader,
-                                          adxNativeView: NativeAdBlankStateView())
-        return ListingCellModel.adxAdvertisement(data: adData)
-    }
-    
-    private func setupAdsCellModelForDFP(adsDelegate: MainListingsAdsDelegate) -> ListingCellModel? {
-        guard let feedAdUnitId = featureFlags.feedDFPAdUnitId else { return nil }
-        let request = DFPRequest()
-        var customTargetingValue = ""
-        if featureFlags.showAdsInFeedWithRatio.isActive {
-            customTargetingValue = featureFlags.showAdsInFeedWithRatio.customTargetingValueFor(position: lastAdPosition)
-        } else if featureFlags.noAdsInFeedForNewUsers.shouldShowAdsInFeed {
-            customTargetingValue = featureFlags.noAdsInFeedForNewUsers.customTargetingValueFor(position: lastAdPosition)
-        }
-        request.customTargeting = [SharedConstants.adInFeedCustomTargetingKey: customTargetingValue]
-        let adData = AdvertisementDFPData(adUnitId: feedAdUnitId,
-                                          rootViewController: adsDelegate.rootViewControllerForAds(),
-                                          adPosition: lastAdPosition,
-                                          bannerHeight: LGUIKitConstants.advertisementCellPlaceholderHeight,
-                                          adRequested: false,
-                                          categories: filters.selectedCategories,
-                                          adRequest: request,
-                                          bannerView: nil)
-        return ListingCellModel.dfpAdvertisement(data: adData)
-    }
-    
-    private func addAds(to listings: [ListingCellModel], page: UInt) -> [ListingCellModel] {
-        if page == 0 {
-            lastAdPosition = MainListingsViewModel.adInFeedInitialPosition
-            previousPagesAdsOffset = 0
-        }
-        guard let adsDelegate = adsDelegate else { return listings }
-        let adsActive = featureFlags.showAdsInFeedWithRatio.isActive ||
-            featureFlags.feedAdsProviderForUS.shouldShowAdsInFeed ||
-            featureFlags.feedAdsProviderForTR.shouldShowAdsInFeed ||
-            featureFlags.googleAdxForTR.shouldShowAdsInFeed
-        var cellModels = listings
-        var canInsertAds = true
-
-        guard let _ = featureFlags.feedAdUnitId, adsActive else { return listings }
-        while canInsertAds {
-            
-            let adPositionInPage = lastAdPosition-previousPagesAdsOffset
-            guard let adRelativePosition = adPositionRelativeToPage(page: page,
-                                                                    itemsInPage: cellModels.count,
-                                                                    pageSize: listingListRequester.itemsPerPage,
-                                                                    adPosition: adPositionInPage) else { break }
-            var adsCellModel: ListingCellModel?
-            if featureFlags.feedAdsProviderForUS.shouldShowGoogleAdxAds || featureFlags.googleAdxForTR.shouldShowGoogleAdxAds {
-                adsCellModel = setupAdsCellModelForGoogleAdx(adsDelegate: adsDelegate)
-            } else if featureFlags.feedAdsProviderForUS.shouldShowMoPubAds || featureFlags.feedAdsProviderForTR.shouldShowMoPubAds {
-                adsCellModel = setupAdsCellModelForMoPub(adsDelegate: adsDelegate)
-            } else {
-                adsCellModel = setupAdsCellModelForDFP(adsDelegate: adsDelegate)
-            }
-            guard let listingCellModel = adsCellModel else { return listings }
-            cellModels.insert(listingCellModel, at: adRelativePosition)
-            lastAdPosition = adAbsolutePosition()
-            canInsertAds = adRelativePosition < cellModels.count
-        }
-        previousPagesAdsOffset += (cellModels.count - listings.count + collections.count)
-        return cellModels
-    }
     
     private func addRealEstatePromoItem(to listings: [ListingCellModel]) -> [ListingCellModel] {
         guard isRealEstateSearch, !listings.isEmpty
@@ -1431,31 +1312,6 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         var cellModels = listings
         cellModels.insert(ListingCellModel.promo(data: PromoCellConfiguration.randomCellData,  delegate: self), at: 0)
         return cellModels
-    }
-    
-    private func adAbsolutePosition() -> Int {
-        var adPosition = 0
-        if lastAdPosition == 0 {
-            adPosition = MainListingsViewModel.adInFeedInitialPosition
-        } else {
-            let ratio: Int
-            if featureFlags.showAdsInFeedWithRatio.isActive {
-                ratio = featureFlags.showAdsInFeedWithRatio.ratio
-            } else {
-                ratio = MainListingsViewModel.adsInFeedRatio
-            }
-            adPosition = lastAdPosition + ratio
-        }
-        return adPosition
-    }
-    
-    private func adPositionRelativeToPage(page: UInt, itemsInPage: Int, pageSize: Int, adPosition: Int) -> Int? {
-        let pageInt = Int(page)
-        let adRelativePosition = adPosition - (pageInt*pageSize)
-        if 0..<itemsInPage ~= adRelativePosition {
-            return adRelativePosition
-        }
-        return nil
     }
     
     private func filterTitleString(forRequesterType type: RequesterType) -> String? {
@@ -2065,46 +1921,4 @@ extension MainListingsViewModel: ListingCellDelegate {
     }
 
     func bumpUpPressedFor(listing: Listing) { }
-}
-
-extension NoAdsInFeedForNewUsers {
-    var ratio: Int {
-        return shouldShowAdsInFeed ? 20 : 0
-    }
-    
-    func customTargetingValueFor(position: Int) -> String {
-        guard self.ratio != 0 else { return "" }
-        let numberOfAd = ((position - MainListingsViewModel.adInFeedInitialPosition)/self.ratio) + 1
-        return "var_c_pos_\(numberOfAd)"
-    }
-}
-
-extension ShowAdsInFeedWithRatio {
-    var ratio: Int {
-        switch self {
-        case .control, .baseline:
-            return 0
-        case .ten:
-            return 10
-        case .fifteen:
-            return 15
-        case .twenty:
-            return 20
-        }
-    }
-    
-    func customTargetingValueFor(position: Int) -> String {
-        guard self.ratio != 0 else { return "" }
-        let numberOfAd = ((position - MainListingsViewModel.adInFeedInitialPosition)/self.ratio) + 1
-        switch self {
-        case .control, .baseline:
-            return ""
-        case .ten:
-            return "var_a_pos_\(numberOfAd)"
-        case .fifteen:
-            return "var_b_pos_\(numberOfAd)"
-        case .twenty:
-            return "var_c_pos_\(numberOfAd)"
-        }
-    }
 }

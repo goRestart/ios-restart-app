@@ -1,6 +1,5 @@
 import LGCoreKit
 import RxSwift
-import GoogleMobileAds
 import RxCocoa
 import LGComponents
 
@@ -176,19 +175,6 @@ class ListingCarouselViewModel: BaseViewModel {
         }
     }
 
-    fileprivate let adsRequester: AdsRequester
-
-    // Ads
-    var dfpAdUnitId: String {
-        return featureFlags.moreInfoDFPAdUnitId
-    }
-    var adActive: Bool {
-        return !isMyListing && userShouldSeeAds
-    }
-    var multiAdRequestActive: Bool {
-        return featureFlags.multiAdRequestMoreInfo.isActive
-    }
-
     var userShouldSeeAds: Bool {
         let myUserCreationDate: Date? = myUserRepository.myUser?.creationDate
         return featureFlags.noAdsInFeedForNewUsers.shouldShowAdsInMoreInfoForUser(createdIn: myUserCreationDate)
@@ -204,12 +190,6 @@ class ListingCarouselViewModel: BaseViewModel {
         return term
     }
 
-    var currentAdRequestType: AdRequestType? {
-        return adActive ? .dfp : nil
-    }
-    var currentAdRequestQueryType: AdRequestQueryType? = nil
-    var adRequestQuery: String? = nil
-    var adBannerTrackingStatus: AdBannerTrackingStatus? = nil
     let sideMargin: CGFloat = DeviceFamily.current.isWiderOrEqualThan(.iPhone6) ? Metrics.margin : 0
 
     var meetingsEnabled: Bool {
@@ -273,7 +253,6 @@ class ListingCarouselViewModel: BaseViewModel {
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   imageDownloader: ImageDownloader.sharedInstance,
                   listingViewModelMaker: ListingViewModel.ConvenienceMaker(),
-                  adsRequester: AdsRequester(),
                   locationManager: Core.locationManager,
                   myUserRepository: Core.myUserRepository)
     }
@@ -290,7 +269,6 @@ class ListingCarouselViewModel: BaseViewModel {
          keyValueStorage: KeyValueStorageable,
          imageDownloader: ImageDownloaderType,
          listingViewModelMaker: ListingViewModelMaker,
-         adsRequester: AdsRequester,
          locationManager: LocationManager,
          myUserRepository: MyUserRepository) {
         if let productListModels = productListModels {
@@ -315,7 +293,6 @@ class ListingCarouselViewModel: BaseViewModel {
         self.imageDownloader = imageDownloader
         self.listingViewModelMaker = listingViewModelMaker
         self.featureFlags = featureFlags
-        self.adsRequester = adsRequester
         self.locationManager = locationManager
         self.myUserRepository = myUserRepository
         if let initialListing = initialListing {
@@ -359,7 +336,6 @@ class ListingCarouselViewModel: BaseViewModel {
 
     func moveToProductAtIndex(_ index: Int, movement: CarouselMovement) {
         guard let viewModel = viewModelAt(index: index) else { return }
-        adBannerTrackingStatus = nil
         currentListingViewModel?.active = false
         currentListingViewModel?.delegate = nil
         currentListingViewModel = viewModel
@@ -468,121 +444,6 @@ class ListingCarouselViewModel: BaseViewModel {
         currentListingViewModel?.bumpUpBoostSucceeded()
     }
 
-    func didReceiveAd(bannerTopPosition: CGFloat,
-                      bannerBottomPosition: CGFloat,
-                      screenHeight: CGFloat,
-                      bannerSize: CGSize) {
-
-        let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
-        let adShown: EventParameterBoolean = .trueParameter
-        let adType = currentAdRequestType?.trackingParamValueFor(size: multiAdRequestActive ? bannerSize : nil)
-        let queryType = currentAdRequestQueryType?.trackingParamValue
-        let query = adRequestQuery
-        let visibility = EventParameterAdVisibility(bannerTopPosition: bannerTopPosition,
-                                                    bannerBottomPosition: bannerBottomPosition,
-                                                    screenHeight: screenHeight)
-        let errorReason: EventParameterAdSenseRequestErrorReason? = nil
-
-        adBannerTrackingStatus = AdBannerTrackingStatus(isMine: isMine,
-                                                    adShown: adShown,
-                                                    adType: adType,
-                                                    queryType: queryType,
-                                                    query: query,
-                                                    visibility: visibility,
-                                                    errorReason: errorReason)
-
-        currentListingViewModel?.trackVisitMoreInfo(isMine: isMine,
-                                                    adShown: adShown,
-                                                    adType: adType,
-                                                    queryType: queryType,
-                                                    query: query,
-                                                    visibility: visibility,
-                                                    errorReason: errorReason)
-    }
-
-    func didFailToReceiveAd(withErrorCode code: GADErrorCode, bannerSize: CGSize) {
-
-        let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
-        let adShown: EventParameterBoolean = .falseParameter
-        let adType = currentAdRequestType?.trackingParamValueFor(size: multiAdRequestActive ? bannerSize : nil)
-        let queryType = currentAdRequestQueryType?.trackingParamValue
-        let query = adRequestQuery
-        let visibility: EventParameterAdVisibility? = nil
-        let errorReason: EventParameterAdSenseRequestErrorReason? = EventParameterAdSenseRequestErrorReason(errorCode: code)
-        
-        adBannerTrackingStatus = AdBannerTrackingStatus(isMine: isMine,
-                                                    adShown: adShown,
-                                                    adType: adType,
-                                                    queryType: queryType,
-                                                    query: query,
-                                                    visibility: visibility,
-                                                    errorReason: errorReason)
-
-        currentListingViewModel?.trackVisitMoreInfo(isMine: isMine,
-                                                    adShown: adShown,
-                                                    adType: adType,
-                                                    queryType: queryType,
-                                                    query: query,
-                                                    visibility: visibility,
-                                                    errorReason: errorReason)
-    }
-
-    func adAlreadyRequestedWithStatus(adBannerTrackingStatus status: AdBannerTrackingStatus) {
-        currentListingViewModel?.trackVisitMoreInfo(isMine: status.isMine,
-                                                    adShown: status.adShown,
-                                                    adType: status.adType,
-                                                    queryType: status.queryType,
-                                                    query: status.query,
-                                                    visibility: status.visibility,
-                                                    errorReason: status.errorReason)
-    }
-
-    func adTapped(typePage: EventParameterTypePage, willLeaveApp: Bool, bannerSize: CGSize) {
-        let adType = currentAdRequestType?.trackingParamValueFor(size: multiAdRequestActive ? bannerSize : nil)
-        let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
-        let queryType = currentAdRequestQueryType?.trackingParamValue
-        let query = adRequestQuery
-        let willLeave = EventParameterBoolean(bool: willLeaveApp)
-        currentListingViewModel?.trackAdTapped(adType: adType,
-                                               isMine: isMine,
-                                               queryType: queryType,
-                                               query: query,
-                                               willLeaveApp: willLeave,
-                                               typePage: typePage)
-    }
-    
-    func createAndLoadInterstitial() -> GADInterstitial? {
-        return adsRequester.createAndLoadInterstitialForUserRepository(myUserRepository)
-    }
-    
-    func presentInterstitial(_ interstitial: GADInterstitial?, index: Int, fromViewController: UIViewController) {
-        adsRequester.presentInterstitial(interstitial, index: index, fromViewController: fromViewController)
-    }
-    
-    func interstitialAdTapped(typePage: EventParameterTypePage) {
-        let adType = AdRequestType.interstitial.trackingParamValueFor(size: nil)
-        let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
-        let feedPosition: EventParameterFeedPosition = .position(index: currentIndex)
-        let willLeave = EventParameterBoolean(bool: true)
-        currentListingViewModel?.trackInterstitialAdTapped(adType: adType,
-                                                           isMine: isMine,
-                                                           feedPosition: feedPosition,
-                                                           willLeaveApp: willLeave,
-                                                           typePage: typePage)
-    }
-    
-    func interstitialAdShown(typePage: EventParameterTypePage) {
-        let adType = AdRequestType.interstitial.trackingParamValueFor(size: nil)
-        let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
-        let feedPosition: EventParameterFeedPosition = .position(index: currentIndex)
-        let adShown = EventParameterBoolean(bool: true)
-        currentListingViewModel?.trackInterstitialAdShown(adType: adType,
-                                                           isMine: isMine,
-                                                           feedPosition: feedPosition,
-                                                           adShown: adShown,
-                                                           typePage: typePage)
-    }
-
     func statusLabelTapped() {
         navigator?.openFeaturedInfo()
         currentListingViewModel?.trackOpenFeaturedInfo()
@@ -622,16 +483,11 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     private func setupRxBindings() {
-        moreInfoState.asObservable().map { $0 == .shown }.distinctUntilChanged().filter { $0 }.bind { [weak self] _ in
-            if let adActive = self?.adActive, !adActive {
-                self?.currentListingViewModel?.trackVisitMoreInfo(isMine: EventParameterBoolean(bool: self?.currentListingViewModel?.isMine),
-                                                                  adShown: .notAvailable,
-                                                                  adType: nil,
-                                                                  queryType: nil,
-                                                                  query: nil,
-                                                                  visibility: nil,
-                                                                  errorReason: nil)
-            }
+        moreInfoState.asObservable()
+            .map { $0 == .shown }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .bind { [weak self] _ in
             self?.keyValueStorage[.listingMoreInfoTooltipDismissed] = true
             self?.delegate?.vmRemoveMoreInfoTooltip()
         }.disposed(by: disposeBag)
@@ -727,23 +583,6 @@ class ListingCarouselViewModel: BaseViewModel {
             for change in changes {
                 performCollectionChange(change: change)
             }
-        }
-    }
-
-    private func makeAFShRequestQuery() -> String {
-
-        if let title = productInfo.value?.title {
-            currentAdRequestQueryType = .listingTitle
-            return title
-        } else if let autoTitle = productInfo.value?.titleAuto {
-            currentAdRequestQueryType = .listingAutoTitle
-            return autoTitle
-        } else if let category = productInfo.value?.category, category != .other {
-            currentAdRequestQueryType = .listingCategory
-            return category.name
-        } else {
-            currentAdRequestQueryType = .hardcoded
-            return randomHardcodedAdQuery
         }
     }
 }

@@ -1,6 +1,3 @@
-#if DEBUG
-    import AdSupport
-#endif
 import AppsFlyerLib
 import Branch
 import Crashlytics
@@ -310,13 +307,6 @@ fileprivate extension AppDelegate {
                                                 didFinishLaunchingWithOptions: launchOptions,
                                                 featureFlags: featureFlags)
         LGNotificationsManager.sharedInstance.setup()
-        setupStripeManager()
-    }
-
-    private func setupStripeManager() {
-        let config = StripeManager.Config(apiKey: EnvironmentProxy.sharedInstance.stripeAPIKey,
-                                          appleMerchantId: EnvironmentProxy.sharedInstance.appleMerchantId)
-        StripeManager.setup(config: config)
     }
 }
 

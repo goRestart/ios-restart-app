@@ -36,7 +36,6 @@ PODS:
   - FBSDKShareKit (4.29.0):
     - FBSDKCoreKit
   - FLEX (2.4.0)
-  - Google-Mobile-Ads-SDK (7.31.0)
   - GoogleIDFASupport (3.14.0)
   - GoogleSignIn (4.1.1):
     - "GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)"
@@ -92,17 +91,6 @@ PODS:
     - RxSwiftExt (~> 3.0.0)
     - SocketRocket (= 0.5.1)
   - lottie-ios (2.5.0)
-  - mopub-ios-sdk (4.20.0):
-    - mopub-ios-sdk/MoPubSDK (= 4.20.0)
-  - mopub-ios-sdk/Avid (4.20.0):
-    - mopub-ios-sdk/Core
-  - mopub-ios-sdk/Core (4.20.0)
-  - mopub-ios-sdk/Moat (4.20.0):
-    - mopub-ios-sdk/Core
-  - mopub-ios-sdk/MoPubSDK (4.20.0):
-    - mopub-ios-sdk/Avid
-    - mopub-ios-sdk/Core
-    - mopub-ios-sdk/Moat
   - NewRelicAgent (6.1.1)
   - Nimble (7.0.2)
   - OHHTTPStubs (5.2.3):
@@ -145,7 +133,6 @@ PODS:
   - RxTest (4.0.0):
     - RxSwift (~> 4.0)
   - SocketRocket (0.5.1)
-  - Stripe (13.0.3)
   - SwiftyGif (4.1.0)
   - SwiftyUserDefaults (3.0.1)
 
@@ -164,7 +151,6 @@ DEPENDENCIES:
   - FBSDKLoginKit (= 4.29.0)
   - FBSDKShareKit (= 4.29.0)
   - FLEX (= 2.4.0)
-  - Google-Mobile-Ads-SDK (= 7.31.0)
   - GoogleIDFASupport (= 3.14.0)
   - GoogleSignIn (= 4.1.1)
   - IGListKit (= 3.4.0)
@@ -175,7 +161,6 @@ DEPENDENCIES:
   - LGComponents (from `components`)
   - LGCoreKit (= 4.66.0)
   - lottie-ios (= 2.5.0)
-  - mopub-ios-sdk (= 4.20.0)
   - NewRelicAgent (= 6.1.1)
   - Nimble (= 7.0.2)
   - OHHTTPStubs (= 5.2.3)
@@ -187,7 +172,6 @@ DEPENDENCIES:
   - RxSwift (= 4.0.0)
   - RxSwiftExt (= 3.0.0)
   - RxTest (= 4.0.0)
-  - Stripe (= 13.0.3)
   - SwiftyGif (= 4.1.0)
   - SwiftyUserDefaults (= 3.0.1)
 
@@ -213,7 +197,6 @@ SPEC REPOS:
     - FBSDKLoginKit
     - FBSDKShareKit
     - FLEX
-    - Google-Mobile-Ads-SDK
     - GoogleIDFASupport
     - GoogleSignIn
     - GoogleToolboxForMac
@@ -224,7 +207,6 @@ SPEC REPOS:
     - KeychainSwift
     - Leanplum-iOS-SDK
     - lottie-ios
-    - mopub-ios-sdk
     - NewRelicAgent
     - Nimble
     - OHHTTPStubs
@@ -240,7 +222,6 @@ SPEC REPOS:
     - RxSwiftExt
     - RxTest
     - SocketRocket
-    - Stripe
     - SwiftyGif
     - SwiftyUserDefaults
 
@@ -274,7 +255,6 @@ SPEC CHECKSUMS:
   FBSDKLoginKit: 56a057ca6822535ea0faa25f57a7c41edb697fd4
   FBSDKShareKit: 18a2cd118aef11dd657fe7e8b64bae5c719088b2
   FLEX: bd1a39e55b56bb413b6f1b34b3c10a0dc44ef079
-  Google-Mobile-Ads-SDK: 6e529e748b45507a2ca904e0b5a52669ba3920c4
   GoogleIDFASupport: aaf8c10bd429abb1c15349d5252244f5eda8ead1
   GoogleSignIn: 3fdaa34a2ba04dbd7a25d7db39aecb0da98d5bdc
   GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
@@ -289,7 +269,6 @@ SPEC CHECKSUMS:
   LGComponents: 605084607d9ebf91399b4b11f5bc9c48c1260177
   LGCoreKit: 171f9a2e52a29d6d275126f5b9f0892e1e945512
   lottie-ios: d699fdee68d7b63e721d949388b015fef1aaa4ac
-  mopub-ios-sdk: 89c6ac9ca01d3b36e9fba16a6cfe31d3c290d354
   NewRelicAgent: 652434a627201e3745cd5849228feeb10afe1879
   Nimble: bfe1f814edabba69ff145cb1283e04ed636a67f2
   OHHTTPStubs: e238cd5b66d8efa51c861db45895de8fe079f4a7
@@ -305,10 +284,9 @@ SPEC CHECKSUMS:
   RxSwiftExt: b06c47dff66cd33ca7683bba1e74b0c5c8e3592e
   RxTest: 0041e792cede35e53e4749f378d21482af0e9d12
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
-  Stripe: 76c203e21555089b708e6cbe972a3e3baf1ab4d8
   SwiftyGif: d36c6dfb52e2ca1e48fe349d225f50ec4123ec85
   SwiftyUserDefaults: 3d273b1739b68ada3145dc754a70ec775bc5c8be
 
-PODFILE CHECKSUM: d67d94b8fd6eb2b0326a29069c090d2a1762feb8
+PODFILE CHECKSUM: 36a4738a1bfde9222462d8a8312c0364d6f27c1a
 
 COCOAPODS: 1.5.3

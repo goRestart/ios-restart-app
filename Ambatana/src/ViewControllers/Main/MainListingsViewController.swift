@@ -25,7 +25,7 @@ enum SearchSuggestionType {
 }
 
 class MainListingsViewController: BaseViewController, ListingListViewScrollDelegate, MainListingsViewModelDelegate,
-    FilterTagsViewDelegate, UITextFieldDelegate, ScrollableToTop, MainListingsAdsDelegate {
+    FilterTagsViewDelegate, UITextFieldDelegate, ScrollableToTop {
     
     // ViewModel
     var viewModel: MainListingsViewModel
@@ -95,7 +95,6 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
         viewModel.delegate = self
-        viewModel.adsDelegate = self
         hidesBottomBarWhenPushed = false
         floatingSellButtonHidden = false
         hasTabBar = true
@@ -266,13 +265,6 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
             }
         }
     }
-
-    // MARK: - MainListingsAdsDelegate
-
-    func rootViewControllerForAds() -> UIViewController {
-        return self
-    }
-
 
     // MARK: UITextFieldDelegate Methods
 
@@ -500,7 +492,6 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
 
         listingListView.scrollDelegate = self
         listingListView.headerDelegate = self
-        listingListView.adsDelegate = self
         listingListView.cellsDelegate = viewModel
         listingListView.switchViewModel(viewModel.listViewModel)
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)

@@ -1,7 +1,6 @@
 import Foundation
 import LGCoreKit
 import RxSwift
-import GoogleMobileAds
 import LGComponents
 
 struct Pagination {
@@ -95,9 +94,7 @@ final class ListingDeckViewModel: BaseViewModel {
         return !userHasScrolled && !keyValueStorage[.didShowDeckOnBoarding]
     }
     private let keyValueStorage: KeyValueStorageable
-    
-    fileprivate let adsRequester: AdsRequester
-    
+
     convenience init(listModels: [ListingCellModel],
                      listing: Listing,
                      listingListRequester: ListingListRequester,
@@ -123,8 +120,7 @@ final class ListingDeckViewModel: BaseViewModel {
                   actionOnFirstAppear: actionOnFirstAppear,
                   trackingIndex: trackingIndex,
                   keyValueStorage: KeyValueStorage.sharedInstance,
-                  featureFlags: FeatureFlags.sharedInstance,
-                  adsRequester: AdsRequester())
+                  featureFlags: FeatureFlags.sharedInstance)
     }
 
     convenience init(listModels: [ListingCellModel],
@@ -156,8 +152,7 @@ final class ListingDeckViewModel: BaseViewModel {
                   actionOnFirstAppear: actionOnFirstAppear,
                   trackingIndex: trackingIndex,
                   keyValueStorage: KeyValueStorage.sharedInstance,
-                  featureFlags: FeatureFlags.sharedInstance,
-                  adsRequester: AdsRequester())
+                  featureFlags: FeatureFlags.sharedInstance)
     }
 
     init(listModels: [ListingCellModel],
@@ -176,8 +171,7 @@ final class ListingDeckViewModel: BaseViewModel {
          actionOnFirstAppear: DeckActionOnFirstAppear,
          trackingIndex: Int?,
          keyValueStorage: KeyValueStorageable,
-         featureFlags: FeatureFlaggeable,
-         adsRequester: AdsRequester) {
+         featureFlags: FeatureFlaggeable) {
         self.imageDownloader = imageDownloader
         self.pagination = pagination
         self.prefetching = prefetching
@@ -192,7 +186,6 @@ final class ListingDeckViewModel: BaseViewModel {
         self.trackingIndex = trackingIndex
         self.keyValueStorage = keyValueStorage
         self.featureFlags = featureFlags
-        self.adsRequester = adsRequester
 
         let filteredModels = listModels.filter(ListingDeckViewModel.isListable)
 
@@ -329,15 +322,7 @@ final class ListingDeckViewModel: BaseViewModel {
         let cellModel: ListingCellModel = .listingCell(listing: listing)
         objects.replace(index, with: cellModel)
     }
-
-    func createAndLoadInterstitial() -> GADInterstitial? {
-        return adsRequester.createAndLoadInterstitialForUserRepository(userRepository)
-    }
     
-    func presentInterstitial(_ interstitial: GADInterstitial?, index: Int, fromViewController: UIViewController) {
-        adsRequester.presentInterstitial(interstitial, index: index, fromViewController: fromViewController)
-    }
-
     // MARK: Tracking
 
     func bumpUpBannerShown(bumpInfo: BumpUpInfo) {
@@ -345,30 +330,6 @@ final class ListingDeckViewModel: BaseViewModel {
             currentListingViewModel?.trackBumpUpBannerShown(type: bumpInfo.type,
                                                             storeProductId: currentListingViewModel?.storeProductId)
         }
-    }
-    
-    func interstitialAdTapped(typePage: EventParameterTypePage) {
-        let adType = AdRequestType.interstitial.trackingParamValueFor(size: nil)
-        let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
-        let feedPosition: EventParameterFeedPosition = .position(index: currentIndex)
-        let willLeave = EventParameterBoolean(bool: true)
-        currentListingViewModel?.trackInterstitialAdTapped(adType: adType,
-                                                           isMine: isMine,
-                                                           feedPosition: feedPosition,
-                                                           willLeaveApp: willLeave,
-                                                           typePage: typePage)
-    }
-    
-    func interstitialAdShown(typePage: EventParameterTypePage) {
-        let adType = AdRequestType.interstitial.trackingParamValueFor(size: nil)
-        let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
-        let feedPosition: EventParameterFeedPosition = .position(index: currentIndex)
-        let adShown = EventParameterBoolean(bool: true)
-        currentListingViewModel?.trackInterstitialAdShown(adType: adType,
-                                                          isMine: isMine,
-                                                          feedPosition: feedPosition,
-                                                          adShown: adShown,
-                                                          typePage: typePage)
     }
 
     // MARK: Paginable
@@ -446,13 +407,7 @@ final class ListingDeckViewModel: BaseViewModel {
 
     func didShowMoreInfo() {
         let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
-        currentListingViewModel?.trackVisitMoreInfo(isMine: isMine,
-                                                          adShown: .notAvailable,
-                                                          adType: nil,
-                                                          queryType: nil,
-                                                          query: nil,
-                                                          visibility: nil,
-                                                          errorReason: nil)
+        currentListingViewModel?.trackVisitMoreInfo(isMine: isMine)
     }
 
     func showBumpUpView(_ action: DeckActionOnFirstAppear) {

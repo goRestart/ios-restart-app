@@ -44,58 +44,8 @@ extension ListingViewModel {
                                containsVideo: containsVideo)
     }
 
-    func trackVisitMoreInfo(isMine: EventParameterBoolean,
-                            adShown: EventParameterBoolean,
-                            adType: EventParameterAdType?,
-                            queryType: EventParameterAdQueryType?,
-                            query: String?,
-                            visibility: EventParameterAdVisibility?,
-                            errorReason: EventParameterAdSenseRequestErrorReason?) {
-        trackHelper.trackVisitMoreInfo(isMine: isMine,
-                                       adShown: adShown,
-                                       adType: adType,
-                                       queryType: queryType,
-                                       query: query,
-                                       visibility: visibility,
-                                       errorReason: errorReason)
-    }
-
-    func trackAdTapped(adType: EventParameterAdType?,
-                       isMine: EventParameterBoolean,
-                       queryType: EventParameterAdQueryType?,
-                       query: String?,
-                       willLeaveApp: EventParameterBoolean,
-                       typePage: EventParameterTypePage) {
-        trackHelper.trackAdTapped(adType: adType,
-                                  isMine: isMine,
-                                  queryType: queryType,
-                                  query: query,
-                                  willLeaveApp: willLeaveApp,
-                                  typePage: typePage)
-    }
-    
-    func trackInterstitialAdTapped(adType: EventParameterAdType?,
-                                   isMine: EventParameterBoolean,
-                                   feedPosition: EventParameterFeedPosition,
-                                   willLeaveApp: EventParameterBoolean,
-                                   typePage: EventParameterTypePage) {
-        trackHelper.trackInterstitialAdTapped(adType: adType,
-                                              isMine: isMine,
-                                              feedPosition: feedPosition,
-                                              willLeaveApp: willLeaveApp,
-                                              typePage: typePage)
-    }
-    
-    func trackInterstitialAdShown(adType: EventParameterAdType?,
-                                   isMine: EventParameterBoolean,
-                                   feedPosition: EventParameterFeedPosition,
-                                   adShown: EventParameterBoolean,
-                                   typePage: EventParameterTypePage) {
-        trackHelper.trackInterstitialAdShown(adType: adType,
-                                              isMine: isMine,
-                                              feedPosition: feedPosition,
-                                              adShown: adShown,
-                                              typePage: typePage)
+    func trackVisitMoreInfo(isMine: EventParameterBoolean) {
+        trackHelper.trackVisitMoreInfo(isMine: isMine)
     }
     
     func trackCallTapped(source: EventParameterListingVisitSource,
@@ -325,79 +275,10 @@ extension ProductVMTrackHelper {
         tracker.trackEvent(trackerEvent)
     }
 
-    func trackVisitMoreInfo(isMine: EventParameterBoolean,
-                            adShown: EventParameterBoolean,
-                            adType: EventParameterAdType?,
-                            queryType: EventParameterAdQueryType?,
-                            query: String?,
-                            visibility: EventParameterAdVisibility?,
-                            errorReason: EventParameterAdSenseRequestErrorReason?) {
-
-        let trackerEvent = TrackerEvent.listingDetailVisitMoreInfo(listing,
-                                                                   isMine: isMine,
-                                                                   adShown: adShown,
-                                                                   adType: adType,
-                                                                   queryType: queryType,
-                                                                   query: query,
-                                                                   visibility: visibility,
-                                                                   errorReason: errorReason)
+    func trackVisitMoreInfo(isMine: EventParameterBoolean) {
+        let trackerEvent = TrackerEvent.listingDetailVisitMoreInfo(listing, isMine: isMine)
         tracker.trackEvent(trackerEvent)
     }
-
-    func trackAdTapped(adType: EventParameterAdType?,
-                       isMine: EventParameterBoolean,
-                       queryType: EventParameterAdQueryType?,
-                       query: String?,
-                       willLeaveApp: EventParameterBoolean,
-                       typePage: EventParameterTypePage) {
-        let trackerEvent = TrackerEvent.adTapped(listingId: listing.objectId,
-                                                         adType: adType,
-                                                         isMine: isMine,
-                                                         queryType: queryType,
-                                                         query: query,
-                                                         willLeaveApp: willLeaveApp,
-                                                         typePage: typePage,
-                                                         categories: nil,
-                                                         feedPosition: .none)
-        tracker.trackEvent(trackerEvent)
-    }
-    
-    func trackInterstitialAdTapped(adType: EventParameterAdType?,
-                       isMine: EventParameterBoolean,
-                       feedPosition: EventParameterFeedPosition,
-                       willLeaveApp: EventParameterBoolean,
-                       typePage: EventParameterTypePage) {
-        let trackerEvent = TrackerEvent.adTapped(listingId: listing.objectId,
-                                                 adType: adType,
-                                                 isMine: isMine,
-                                                 queryType: nil,
-                                                 query: nil,
-                                                 willLeaveApp: willLeaveApp,
-                                                 typePage: typePage,
-                                                 categories: nil,
-                                                 feedPosition: feedPosition)
-        tracker.trackEvent(trackerEvent)
-    }
-    
-    func trackInterstitialAdShown(adType: EventParameterAdType?,
-                                   isMine: EventParameterBoolean,
-                                   feedPosition: EventParameterFeedPosition,
-                                   adShown: EventParameterBoolean,
-                                   typePage: EventParameterTypePage) {
-        let trackerEvent = TrackerEvent.adShown(listingId: listing.objectId,
-                                                 adType: adType,
-                                                 isMine: isMine,
-                                                 queryType: nil,
-                                                 query: nil,
-                                                 adShown: adShown,
-                                                 typePage: typePage,
-                                                 categories: nil,
-                                                 feedPosition: feedPosition)
-        tracker.trackEvent(trackerEvent)
-    }
-    
-    
-
     func trackCallTapped(source: EventParameterListingVisitSource,
                          sellerAverageUserRating: Float?,
                          feedPosition: EventParameterFeedPosition,

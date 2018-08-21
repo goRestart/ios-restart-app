@@ -2,8 +2,6 @@ import LGComponents
 import CHTCollectionViewWaterfallLayout
 import RxSwift
 import LGCoreKit
-import GoogleMobileAds
-import MoPub
 
 
 protocol ListingListViewScrollDelegate: class {
@@ -88,9 +86,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     weak var cellsDelegate: ListingListViewCellsDelegate?
     weak var headerDelegate: ListingListViewHeaderDelegate? {
         didSet { dataView.collectionView.reloadData() }
-    }
-    weak var adsDelegate: MainListingsAdsDelegate?
-    
+    }    
     // MARK: - Lifecycle
     convenience init() {
         self.init(viewModel: ListingListViewModel(), featureFlags: FeatureFlags.sharedInstance)
@@ -221,7 +217,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         }
         
         guard let item = viewModel.itemAtIndex(indexPath.row) else { return UICollectionViewCell() }
-        requestAdFor(cellModel: item, inPosition: indexPath.row)
         let cell = drawerManager.cell(item, collectionView: collectionView, atIndexPath: indexPath)
         cell.tag = (indexPath as NSIndexPath).hash
         drawerManager.cellStyle = viewModel.cellStyle
@@ -521,42 +516,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         }
     }
 
-    fileprivate func requestAdFor(cellModel: ListingCellModel, inPosition: Int) {
-        switch cellModel {
-        case .dfpAdvertisement(let data):
-            guard !data.adRequested else { return }
-            // DFP Ads
-            let banner = DFPBannerView(adSize: kGADAdSizeFluid)
-            banner.adUnitID = data.adUnitId
-            banner.rootViewController = data.rootViewController
-            banner.adSizeDelegate = self
-            banner.delegate = self
-            banner.validAdSizes = [NSValueFromGADAdSize(kGADAdSizeFluid)]
-            banner.tag = data.adPosition
-            banner.load(data.adRequest)
-            viewModel.updateAdvertisementRequestedIn(position: inPosition, bannerView: banner)
-            break
-        case .mopubAdvertisement(let data):
-            guard !data.adRequested else { return }
-            MoPubAdsRequester.startMoPubRequestWith(data: data, completion: { (nativeAd, moPubView) in
-                guard let nativeAd = nativeAd, let moPubView = moPubView else { return }
-                nativeAd.delegate = self
-                moPubView.tag = data.adPosition
-                self.viewModel.updateAdvertisementRequestedIn(position: inPosition, moPubNativeAd: nativeAd, moPubView: moPubView)
-            })
-            break
-        case .adxAdvertisement(let data):
-            guard !data.adRequested else { return }
-            let adLoader = data.adLoader
-            adLoader.delegate = self
-            adLoader.position = data.adPosition
-            adLoader.load(GADRequest())
-            break
-        case .collectionCell, .emptyCell, .listingCell, .promo:
-            break
-        }
-    }
-    
     enum Layout {
         static let errorCellHeigh: CGFloat = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus) ? 130 : 180
     }
@@ -582,129 +541,6 @@ extension ListingListView {
         collectionView.set(accessibilityId: .listingListViewCollection)
     }
 }
-
-
-// MARK: - GADBannerViewDelegate, GADAdSizeDelegate
-
-extension ListingListView: GADBannerViewDelegate, GADAdSizeDelegate {
-
-    func adView(_ bannerView: GADBannerView, willChangeAdSizeTo size: GADAdSize) {
-        let sizeFromAdSize = CGSizeFromGADAdSize(size)
-        viewModel.updateAdCellHeight(newHeight: sizeFromAdSize.height, forPosition: bannerView.tag, withBannerView: bannerView)
-    }
-
-    func adViewDidReceiveAd(_ bannerView: GADBannerView) { }
-
-    func adView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError) {
-        logMessage(.info, type: .monetization, message: "Feed banner in position \(bannerView.tag) failed with error: \(error.localizedDescription)")
-        viewModel.updateAdCellHeight(newHeight: 0, forPosition: bannerView.tag, withBannerView: bannerView)
-    }
-
-    func adViewWillPresentScreen(_ bannerView: GADBannerView) {
-        let feedPosition: EventParameterFeedPosition = .position(index: bannerView.tag)
-        viewModel.bannerWasTapped(adType: .dfp,
-                                  willLeaveApp: .falseParameter,
-                                  categories: viewModel.categoriesForBannerIn(position: bannerView.tag),
-                                  feedPosition: feedPosition)
-    }
-
-    func adViewWillLeaveApplication(_ bannerView: GADBannerView) {
-        let feedPosition: EventParameterFeedPosition = .position(index: bannerView.tag)
-        viewModel.bannerWasTapped(adType: .dfp,
-                                  willLeaveApp: .trueParameter,
-                                  categories: viewModel.categoriesForBannerIn(position: bannerView.tag),
-                                  feedPosition: feedPosition)
-    }
-}
-
-extension ListingListView: MPNativeAdDelegate {
-    func viewControllerForPresentingModalView() -> UIViewController! {
-        return adsDelegate?.rootViewControllerForAds()
-    }
-    
-    func willLeaveApplication(from nativeAd: MPNativeAd?) {
-        guard let nativeAd = nativeAd else { return }
-        let feedPosition: EventParameterFeedPosition = .position(index: nativeAd.associatedView.tag)
-        viewModel.bannerWasTapped(adType: .moPub,
-                                  willLeaveApp: .trueParameter,
-                                  categories: viewModel.categoriesForBannerIn(position: nativeAd.associatedView.tag),
-                                  feedPosition: feedPosition)
-    }
-    
-    func willPresentModal(for nativeAd: MPNativeAd?) {
-        guard let nativeAd = nativeAd else { return }
-        let feedPosition: EventParameterFeedPosition = .position(index: nativeAd.associatedView.tag)
-        viewModel.bannerWasTapped(adType: .moPub,
-                                  willLeaveApp: .falseParameter,
-                                  categories: viewModel.categoriesForBannerIn(position: nativeAd.associatedView.tag),
-                                  feedPosition: feedPosition)
-    }
-    
-}
-
-// MARK: - GADNativeContentAdLoaderDelegate
-extension ListingListView: GADNativeContentAdLoaderDelegate, GADAdLoaderDelegate, GADNativeAdDelegate {
-    public func adLoader(_ adLoader: GADAdLoader, didReceive nativeContentAd: GADNativeContentAd) {
-        guard let position = adLoader.position else { return }
-        nativeContentAd.delegate = self
-        nativeContentAd.position = position
-        viewModel.updateAdvertisementRequestedIn(position: position, nativeAd: nativeContentAd)
-    }
-    
-    public func adLoader(_ adLoader: GADAdLoader, didFailToReceiveAdWithError error: GADRequestError) {
-        logMessage(.info, type: .monetization, message: "Google Adx failed with error: \(error.localizedDescription)")
-    }
-
-    public func nativeAdWillLeaveApplication(_ nativeAd: GADNativeAd) {
-        guard let position = nativeAd.position else { return }
-        let feedPosition: EventParameterFeedPosition = .position(index: position)
-        viewModel.bannerWasTapped(adType: .adx,
-                                  willLeaveApp: .trueParameter,
-                                  categories: viewModel.categoriesForBannerIn(position: position),
-                                  feedPosition: feedPosition)
-    }
-    
-}
-
-// MARK: - GADNativeAppInstallAdLoaderDelegate
-extension ListingListView: GADNativeAppInstallAdLoaderDelegate {
-
-    public func adLoader(_ adLoader: GADAdLoader, didReceive nativeAppInstallAd: GADNativeAppInstallAd) {
-        guard let position = adLoader.position else { return }
-        nativeAppInstallAd.delegate = self
-        nativeAppInstallAd.position = position
-        viewModel.updateAdvertisementRequestedIn(position: position, nativeAd: nativeAppInstallAd)
-    }
-}
-
-extension GADAdLoader {
-    var position: Int? {
-        get  {
-            guard let accessibilityValue = accessibilityValue else { return -1 }
-            return Int(accessibilityValue)
-        }
-        
-        set (newPosition) {
-            guard let newPosition = newPosition else { return }
-            accessibilityValue = newPosition.description
-        }
-    }
-}
-
-extension GADNativeAd {
-    var position: Int? {
-        get  {
-            guard let accessibilityValue = accessibilityValue else { return -1 }
-            return Int(accessibilityValue)
-        }
-        
-        set (newPosition) {
-            guard let newPosition = newPosition else { return }
-            accessibilityValue = newPosition.description
-        }
-    }
-}
-
 
 extension ListingListView {
     var collectionView: UICollectionView { return dataView.collectionView }

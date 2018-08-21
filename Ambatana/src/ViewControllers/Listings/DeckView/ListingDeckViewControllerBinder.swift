@@ -2,7 +2,6 @@ import Foundation
 import LGCoreKit
 import RxCocoa
 import RxSwift
-import GoogleMobileAds
 import LGComponents
 
 protocol ListingDeckViewControllerBinderType: class {
@@ -27,8 +26,6 @@ protocol ListingDeckViewControllerBinderType: class {
     func updateViewWithActions(_ actions: [UIAction])
 
     func turnNavigationBar(_ on: Bool)
-    
-    func presentInterstitialAtIndex(_ index: Int)
 }
 
 protocol ListingDeckViewType: class {
@@ -215,7 +212,6 @@ final class ListingDeckViewControllerBinder {
             viewController?.didMoveToItemAtIndex(page)
             if let currentIndex = viewModel?.currentIndex, currentIndex < page {
                 viewModel?.moveToListingAtIndex(page, movement: .swipeRight)
-                viewController?.presentInterstitialAtIndex(page)
             } else if let currentIndex = viewModel?.currentIndex, currentIndex > page {
                 viewModel?.moveToListingAtIndex(page, movement: .swipeLeft)
             }

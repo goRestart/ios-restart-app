@@ -22,9 +22,6 @@ def shared_pods
     pod "RxCocoa",              "4.0.0"
     pod "RxMKMapView",          "4.0.0"
 
-    #Ads
-    pod "Google-Mobile-Ads-SDK","7.31.0"
-
     #Fabric
     pod "Fabric",               "1.7.2"     # Obj-c
     pod "Crashlytics",          "3.9.3"     # Obj-c
@@ -35,9 +32,6 @@ def shared_pods
     pod "AppsFlyerFramework",   "4.8.4"     # Obj-c
     pod "Leanplum-iOS-SDK",     "2.0.5"     # Obj-c
     pod "NewRelicAgent",        "6.1.1"     # Obj-c
-
-    # Stripe
-    pod "Stripe",               "13.0.3"
 
     # letgo components
     pod "LGComponents",            :path => "components"
@@ -65,7 +59,6 @@ def shared_pods
 
     # Google
     pod "GoogleSignIn",         "4.1.1"     # Obj-c
-
     pod "GoogleIDFASupport",    "3.14.0"    # Obj-c
 
     # Logging
@@ -83,9 +76,6 @@ def shared_pods
     pod "KeychainSwift",        "10.0.0"
     
     pod 'lottie-ios',           "2.5.0" # Obj-c
-    
-    # MoPub Ads
-    pod "mopub-ios-sdk",        "4.20.0" # Obj-c
 
     # Gifs
     pod "SwiftyGif",            "4.1.0"

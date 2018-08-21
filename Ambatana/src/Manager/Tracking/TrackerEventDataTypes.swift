@@ -1,6 +1,5 @@
 import LGComponents
 import LGCoreKit
-import GoogleMobileAds
 
 enum EventName: String {
     case location                           = "location"
@@ -1415,26 +1414,6 @@ enum EventParameterAdVisibility: String {
             self = .notVisible
         } else {
             self = .partial
-        }
-    }
-}
-
-enum EventParameterAdSenseRequestErrorReason: String {
-    case invalidRequest = "invalid-request"
-    case noAdsToShow = "no-fill"
-    case networkError = "network"
-    case internalError = "internal"
-
-    init(errorCode: GADErrorCode) {
-        switch errorCode {
-        case .invalidRequest:
-            self = .invalidRequest
-        case .noFill:
-            self = .noAdsToShow
-        case .networkError:
-            self = .networkError
-        default:
-            self = .internalError
         }
     }
 }

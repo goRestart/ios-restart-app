@@ -2,8 +2,6 @@ import LGComponents
 import LGCoreKit
 import Result
 import RxSwift
-import GoogleMobileAds
-import MoPub
 
 protocol ListingListViewModelDelegate: class {
     func vmReloadData(_ vm: ListingListViewModel)
@@ -554,7 +552,7 @@ final class ListingListViewModel: BaseViewModel {
                                         originFrame: originFrame)
         case .collectionCell(let type):
             dataDelegate?.vmDidSelectCollection(type)
-        case .emptyCell, .dfpAdvertisement, .mopubAdvertisement, .promo, .adxAdvertisement:
+        case .emptyCell, .promo:
             return
         }
     }
@@ -567,7 +565,7 @@ final class ListingListViewModel: BaseViewModel {
                 if let thumbnailURL = listing.thumbnail?.fileURL {
                     urls.append(thumbnailURL)
                 }
-            case .emptyCell, .collectionCell, .dfpAdvertisement, .mopubAdvertisement, .promo, .adxAdvertisement:
+            case .emptyCell, .collectionCell, .promo:
                 break
             }
         }
@@ -635,7 +633,7 @@ final class ListingListViewModel: BaseViewModel {
         switch item {
         case let .listingCell(listing):
             return listing
-        case .collectionCell, .emptyCell, .dfpAdvertisement, .mopubAdvertisement, .promo, .adxAdvertisement:
+        case .collectionCell, .emptyCell, .promo:
             return nil
         }
     }
@@ -645,7 +643,7 @@ final class ListingListViewModel: BaseViewModel {
             switch cellModel {
             case let .listingCell(listing):
                 return listing.objectId == listingId
-            case .collectionCell, .emptyCell, .dfpAdvertisement, .mopubAdvertisement, .promo, .adxAdvertisement:
+            case .collectionCell, .emptyCell, .promo:
                 return false
             }
         })
@@ -743,15 +741,6 @@ final class ListingListViewModel: BaseViewModel {
             size = bannerAspectRatio.size(setting: cellWidth, in: .width)
         case .emptyCell:
             size = CGSize(width: cellWidth, height: 1)
-        case .dfpAdvertisement(let adData):
-            guard adData.adPosition == index else { return CGSize(width: cellWidth, height: 0) }
-            size = CGSize(width: cellWidth, height: adData.bannerHeight)
-        case .mopubAdvertisement(let adData):
-            guard adData.adPosition == index else { return CGSize(width: cellWidth, height: 0) }
-            size = CGSize(width: cellWidth, height: adData.bannerHeight)
-        case .adxAdvertisement(let adData):
-            guard adData.adPosition == index else { return CGSize(width: cellWidth, height: 0) }
-            size = CGSize(width: cellWidth, height: adData.bannerHeight)
         case .promo:
             return CGSize(width: cellWidth, height: PromoCellMetrics.height)
         }
@@ -780,108 +769,6 @@ final class ListingListViewModel: BaseViewModel {
         }
         return nil
     }
-
-    func categoriesForBannerIn(position: Int) -> [ListingCategory]? {
-        guard 0..<objects.count ~= position else { return nil }
-        var categories: [ListingCategory]? = nil
-        let cellModel = objects[position]
-        switch cellModel {
-        case .dfpAdvertisement(let data):
-            categories = data.categories
-        case .mopubAdvertisement(let data):
-            categories = data.categories
-        case .adxAdvertisement(let data):
-            categories = data.categories
-        case .listingCell, .collectionCell, .emptyCell, .promo:
-            break
-        }
-        return categories
-    }
-
-    func updateAdvertisementRequestedIn(position: Int, bannerView: GADBannerView) {
-        guard 0..<objects.count ~= position else { return }
-        let modelToBeUpdated = objects[position]
-        switch modelToBeUpdated {
-        case .dfpAdvertisement(let data):
-            guard data.adPosition == position else { return }
-                let newAdData = AdvertisementDFPData(adUnitId: data.adUnitId,
-                                                     rootViewController: data.rootViewController,
-                                                     adPosition: data.adPosition,
-                                                     bannerHeight: data.bannerHeight,
-                                                     adRequested: true,
-                                                     categories: data.categories,
-                                                     adRequest: data.adRequest,
-                                                     bannerView: bannerView)
-                objects[position] = ListingCellModel.dfpAdvertisement(data: newAdData)
-
-        case .listingCell, .collectionCell, .emptyCell, .mopubAdvertisement, .promo, .adxAdvertisement:
-            break
-        }
-    }
-    
-    func updateAdvertisementRequestedIn(position: Int, moPubNativeAd: MPNativeAd?, moPubView: UIView) {
-        guard 0..<objects.count ~= position else { return }
-        let modelToBeUpdated = objects[position]
-        switch modelToBeUpdated {
-        case .mopubAdvertisement(let data):
-            guard data.adPosition == position else { return }
-            let newAdData = AdvertisementMoPubData(adUnitId: data.adUnitId,
-                                                   rootViewController: data.rootViewController,
-                                                   adPosition: data.adPosition,
-                                                   bannerHeight: data.bannerHeight,
-                                                   adRequested: true,
-                                                   categories: data.categories,
-                                                   nativeAdRequest: data.nativeAdRequest,
-                                                   moPubNativeAd: moPubNativeAd,
-                                                   moPubView: moPubView)
-            objects[position] = ListingCellModel.mopubAdvertisement(data: newAdData)
-            delegate?.vmReloadItemAtIndexPath(indexPath: IndexPath(row: position, section: 0))
-            
-        case .listingCell, .collectionCell, .emptyCell, .dfpAdvertisement, .promo, .adxAdvertisement:
-            break
-        }
-    }
-    
-    func updateAdvertisementRequestedIn(position: Int, nativeAd: GADNativeAd) {
-        guard 0..<objects.count ~= position else { return }
-        let modelToBeUpdated = objects[position]
-        switch modelToBeUpdated {
-        case .adxAdvertisement(let data):
-            guard data.adPosition == position,
-                let newAdData = updateAdvertisementAdxDataFor(data: data, nativeAd: nativeAd) else { return }
-            objects[position] = ListingCellModel.adxAdvertisement(data: newAdData)
-            delegate?.vmReloadItemAtIndexPath(indexPath: IndexPath(row: position, section: 0))
-        case .listingCell, .collectionCell, .emptyCell, .dfpAdvertisement, .mopubAdvertisement, .promo:
-            break
-        }
-    }
-    
-    private func updateAdvertisementAdxDataFor(data: AdvertisementAdxData, nativeAd: GADNativeAd) -> AdvertisementAdxData? {
-        var adxNativeView = UIView()
-        if let nativeContentAd = nativeAd as? GADNativeContentAd {
-            let adxNativeContentView = GoogleAdxNativeContentView()
-            adxNativeContentView.nativeContentAd = nativeContentAd
-            adxNativeView = adxNativeContentView
-        } else if let nativeAppInstallAd = nativeAd as? GADNativeAppInstallAd {
-            let adxNativeAppInstallView = GoogleAdxNativeAppInstallView()
-            adxNativeAppInstallView.nativeAppInstallAd = nativeAppInstallAd
-            adxNativeView = adxNativeAppInstallView
-        } else {
-            return nil
-        }
-        let size = adxNativeView.systemLayoutSizeFitting(CGSize.init(width: cellWidth,
-                                                                     height: LGUIKitConstants.advertisementCellDefaultHeight),
-                                                         withHorizontalFittingPriority: .required,
-                                                         verticalFittingPriority: .fittingSizeLevel)
-        return AdvertisementAdxData(adUnitId: data.adUnitId,
-                                    rootViewController: data.rootViewController,
-                                    adPosition: data.adPosition,
-                                    bannerHeight: size.height,
-                                    adRequested: true,
-                                    categories: data.categories,
-                                    adLoader: data.adLoader,
-                                    adxNativeView: adxNativeView)
-    }
 }
 
 // MARK: - Tracking
@@ -902,45 +789,6 @@ extension ListingListViewModel {
                                                      keywords: info.keywords,
                                                      matchingFields: info.matchingFields)
         tracker.trackEvent(event)
-    }
-}
-
-extension ListingListViewModel {
-    func updateAdCellHeight(newHeight: CGFloat, forPosition: Int, withBannerView bannerView: GADBannerView) {
-        guard 0..<objects.count ~= forPosition else { return }
-        let modelToBeUpdated = objects[forPosition]
-        switch modelToBeUpdated {
-        case .dfpAdvertisement(let data):
-            guard data.adPosition == forPosition else { return }
-                let newAdData = AdvertisementDFPData(adUnitId: data.adUnitId,
-                                                  rootViewController: data.rootViewController,
-                                                  adPosition: data.adPosition,
-                                                  bannerHeight: newHeight,
-                                                  adRequested: data.adRequested,
-                                                  categories: data.categories,
-                                                  adRequest: data.adRequest,
-                                                  bannerView: bannerView)
-                objects[forPosition] = ListingCellModel.dfpAdvertisement(data: newAdData)
-                delegate?.vmReloadItemAtIndexPath(indexPath: IndexPath(item: forPosition, section: 0))
-        case .listingCell, .collectionCell, .emptyCell, .mopubAdvertisement, .promo, .adxAdvertisement:
-            break
-        }
-    }
-
-    func bannerWasTapped(adType: EventParameterAdType,
-                         willLeaveApp: EventParameterBoolean,
-                         categories: [ListingCategory]?,
-                         feedPosition: EventParameterFeedPosition) {
-        let trackerEvent = TrackerEvent.adTapped(listingId: nil,
-                                                 adType: adType,
-                                                 isMine: .notAvailable,
-                                                 queryType: nil,
-                                                 query: nil,
-                                                 willLeaveApp: willLeaveApp,
-                                                 typePage: .listingList,
-                                                 categories: categories,
-                                                 feedPosition: feedPosition)
-        tracker.trackEvent(trackerEvent)
     }
 }
 

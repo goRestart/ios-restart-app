@@ -1,16 +1,11 @@
 import Foundation
 import LGCoreKit
-import GoogleMobileAds
-import MoPub
 import LGComponents
 
 enum ListingCellModel {
     case listingCell(listing: Listing)
     case collectionCell(type: CollectionCellType)
     case emptyCell(vm: LGEmptyViewModel)
-    case dfpAdvertisement(data: AdvertisementDFPData)
-    case mopubAdvertisement(data: AdvertisementMoPubData)
-    case adxAdvertisement(data: AdvertisementAdxData)
     case promo(data: PromoCellData, delegate: ListingCellDelegate?)
     
     init(listing: Listing) {
@@ -120,48 +115,6 @@ enum CollectionCellType: String {
             return R.Strings.collectionYouTitle
         }
     }
-}
-
-struct AdvertisementDFPData {
-    var adUnitId: String
-    var rootViewController: UIViewController
-    var adPosition: Int
-    var bannerHeight: CGFloat
-    var adRequested: Bool
-    var categories: [ListingCategory]?
-    
-    var adRequest: DFPRequest
-    var bannerView: GADBannerView?
-}
-
-struct AdvertisementMoPubData {
-    var adUnitId: String
-    var rootViewController: UIViewController
-    var adPosition: Int
-    var bannerHeight: CGFloat
-    var adRequested: Bool
-    var categories: [ListingCategory]?
-    
-    var nativeAdRequest: MPNativeAdRequest?
-    var moPubNativeAd: MPNativeAd?
-    var moPubView: UIView?
-}
-
-struct AdvertisementAdxData {
-    let adUnitId: String
-    let rootViewController: UIViewController
-    let adPosition: Int
-    let bannerHeight: CGFloat
-    let adRequested: Bool
-    let categories: [ListingCategory]?
-    
-    let adLoader: GADAdLoader
-    let adxNativeView: UIView?
-}
-
-enum AdProviderType {
-    case dfp
-    case moPub
 }
 
 struct PromoCellData {

@@ -2,7 +2,6 @@ import MapKit
 import LGCoreKit
 import RxSwift
 import LGCollapsibleLabel
-import GoogleMobileAds
 import LGComponents
 
 // This might go away if the new design ABIOS-3100 wins
@@ -220,7 +219,6 @@ final class ListingCarouselMoreInfoView: UIView, ListingTitleFontDescriptor {
     private(set) var mapExpanded: Bool = false
     private var mapZoomBlocker: MapZoomBlocker?
 
-    var dfpBannerView: DFPBannerView?
     weak var viewModel: ListingCarouselViewModel?
     weak var delegate: ProductCarouselMoreInfoDelegate?
     
@@ -411,25 +409,9 @@ final class ListingCarouselMoreInfoView: UIView, ListingTitleFontDescriptor {
         setupStatsRx(viewModel: viewModel)
         setupBottomPanelRx(viewModel: viewModel)
         self.viewModel = viewModel
-        if viewModel.adActive {
-            setupAdBannerWith(viewModel: viewModel)
-        }
     }
 
-    func viewWillShow() {
-        setupMapViewIfNeeded()
-        if let adActive = viewModel?.adActive, adActive {
-            if let adBannerTrackingStatus = viewModel?.adBannerTrackingStatus {
-                viewModel?.adAlreadyRequestedWithStatus(adBannerTrackingStatus: adBannerTrackingStatus)
-            } else {
-                shareViewToMapTopConstraint?.isActive = true
-                shareViewToBannerTopConstraint?.isActive = true
-                loadDFPRequest()
-            }
-        } else {
-            hideAdsBanner()
-        }
-    }
+    func viewWillShow() { }
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -778,105 +760,7 @@ private extension ListingCarouselMoreInfoView {
             self?.socialShareView.isHidden = socialMessage == nil
         }.disposed(by: disposeBag)
     }
-
-    func setupAdBannerWith(viewModel: ListingCarouselViewModel) {
-
-        dfpBannerView = DFPBannerView(adSize: kGADAdSizeLargeBanner)
-
-        guard let dfpBanner = dfpBannerView else { return }
-        dfpBanner.rootViewController = delegate?.rootViewControllerForDFPBanner()
-        dfpBanner.delegate = self
-
-        if viewModel.multiAdRequestActive {
-            dfpBanner.adSizeDelegate = self
-            var validSizes: [NSValue] = []
-            validSizes.append(NSValueFromGADAdSize(kGADAdSizeBanner)) // 320x50
-            validSizes.append(NSValueFromGADAdSize(kGADAdSizeLargeBanner)) // 320x100
-            validSizes.append(NSValueFromGADAdSize(kGADAdSizeMediumRectangle)) // 300x250
-            dfpBanner.validAdSizes = validSizes
-        }
-
-        bannerContainerView.addSubviewForAutoLayout(dfpBanner)
-        dfpBanner.layout(with: bannerContainerView).top().bottom().centerX()
-    }
-
-    func loadDFPRequest() {
-        bannerContainerViewHeightConstraint?.constant = kGADAdSizeLargeBanner.size.height
-        shareViewToMapTopConstraint?.isActive = true
-        shareViewToBannerTopConstraint?.isActive = false
-
-        dfpBannerView?.adUnitID = viewModel?.dfpAdUnitId
-        let dfpRequest = DFPRequest()
-        dfpRequest.contentURL = viewModel?.dfpContentURL
-        dfpBannerView?.load(dfpRequest)
-    }
 }
-
-
-// MARK: - GADAdSizeDelegate, GADBannerViewDelegate
-
-extension ListingCarouselMoreInfoView: GADAdSizeDelegate, GADBannerViewDelegate {
-    func adView(_ bannerView: GADBannerView, willChangeAdSizeTo size: GADAdSize) {
-        let sizeFromAdSize = CGSizeFromGADAdSize(size)
-        let newFrame = CGRect(x: bannerView.frame.origin.x,
-                              y: bannerView.frame.origin.y,
-                              width: sizeFromAdSize.width,
-                              height: sizeFromAdSize.height)
-        bannerView.frame = newFrame
-        bannerContainerViewHeightConstraint?.constant = sizeFromAdSize.height
-        if let sideMargin = viewModel?.sideMargin {
-            bannerContainerViewLeftConstraint?.constant = sideMargin
-            bannerContainerViewRightConstraint?.constant = -sideMargin
-        }
-        if sizeFromAdSize.height > 0 {
-            let absolutePosition = scrollView.convert(bannerContainerView.frame.origin, to: nil)
-            let bannerTop = absolutePosition.y
-            let bannerBottom = bannerTop + sizeFromAdSize.height
-            viewModel?.didReceiveAd(bannerTopPosition: bannerTop,
-                                    bannerBottomPosition: bannerBottom,
-                                    screenHeight: UIScreen.main.bounds.height,
-                                    bannerSize: bannerView.adSize.size)
-        }
-    }
-
-    func adViewDidReceiveAd(_ bannerView: GADBannerView) {
-        bannerContainerView.isHidden = false
-
-        bannerContainerViewHeightConstraint?.constant = bannerView.height
-        shareViewToMapTopConstraint?.constant = bannerView.height + Layout.SocialShare.top
-
-        if bannerView.frame.size.height > 0 {
-            let absolutePosition = scrollView.convert(bannerContainerView.frame.origin, to: nil)
-            let bannerTop = absolutePosition.y
-            let bannerBottom = bannerTop + bannerView.frame.size.height
-            viewModel?.didReceiveAd(bannerTopPosition: bannerTop,
-                                    bannerBottomPosition: bannerBottom,
-                                    screenHeight: UIScreen.main.bounds.height,
-                                    bannerSize: bannerView.adSize.size)
-        }
-    }
-
-    func adView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError) {
-        logMessage(.info, type: .monetization, message: "MoreInfo banner failed with error: \(error.localizedDescription)")
-        bannerContainerViewHeightConstraint?.constant = 0
-        bannerContainerViewLeftConstraint?.constant = 0
-        bannerContainerViewRightConstraint?.constant = 0
-
-        viewModel?.didFailToReceiveAd(withErrorCode: GADErrorCode(rawValue: error.code) ?? .internalError,
-                                      bannerSize: bannerView.adSize.size)
-    }
-
-    func adViewWillPresentScreen(_ bannerView: GADBannerView) {
-        viewModel?.adTapped(typePage: EventParameterTypePage.listingDetailMoreInfo, willLeaveApp: false,
-                            bannerSize: bannerView.adSize.size)
-    }
-
-    func adViewWillLeaveApplication(_ bannerView: GADBannerView) {
-        viewModel?.adTapped(typePage: EventParameterTypePage.listingDetailMoreInfo, willLeaveApp: true,
-                            bannerSize: bannerView.adSize.size)
-    }
-}
-
 
 // MARK: - LGCollapsibleLabel
 
