@@ -1335,13 +1335,7 @@ class TrackerEventSpec: QuickSpec {
                         countryCode: "US", country: nil)
 
                     sut = TrackerEvent.listingDetailVisitMoreInfo(.product(product),
-                                                                  isMine: .falseParameter,
-                                                                  adShown: .falseParameter,
-                                                                  adType: nil,
-                                                                  queryType: nil,
-                                                                  query: nil,
-                                                                  visibility: nil,
-                                                                  errorReason: nil)
+                                                                  isMine: .falseParameter)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-detail-visit-more-info"))
@@ -1378,26 +1372,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains is-mine false") {
                     expect(sut.params!.stringKeyParams["is-mine"] as? String) == "false"
-                }
-                it("contains ad-shown false") {
-                    expect(sut.params!.stringKeyParams["ad-shown"] as? String) == "false"
-                }
-                it("contains ad-type N/A") {
-                    expect(sut.params!.stringKeyParams["ad-type"] as? String) == TrackerEvent.notApply
-                }
-                it("contains ad-query-type N/A") {
-                    expect(sut.params!.stringKeyParams["ad-query-type"] as? String) == TrackerEvent.notApply
-                }
-                it("contains ad-query-text N/A") {
-                    expect(sut.params!.stringKeyParams["ad-query-text"] as? String) == TrackerEvent.notApply
-                }
-                it("contains ad-visibility N/A") {
-                    expect(sut.params!.stringKeyParams["ad-visibility"] as? String) == TrackerEvent.notApply
-                }
-                it("contains reason N/A") {
-                    expect(sut.params!.stringKeyParams["reason"] as? String) == TrackerEvent.notApply
-                }
-            }
+                }            }
 
             describe("listingDetailCall") {
                 beforeEach {

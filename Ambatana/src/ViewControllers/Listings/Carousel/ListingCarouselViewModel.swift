@@ -483,11 +483,9 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     private func setupRxBindings() {
-        moreInfoState.asObservable()
-            .map { $0 == .shown }
-            .distinctUntilChanged()
-            .filter { $0 }
-            .bind { [weak self] _ in
+        moreInfoState.asObservable().map { $0 == .shown }.distinctUntilChanged().filter { $0 }.bind { [weak self] _ in
+            let isMine = self?.currentListingViewModel?.isMine
+            self?.currentListingViewModel?.trackVisitMoreInfo(isMine: EventParameterBoolean(bool: isMine))
             self?.keyValueStorage[.listingMoreInfoTooltipDismissed] = true
             self?.delegate?.vmRemoveMoreInfoTooltip()
         }.disposed(by: disposeBag)
