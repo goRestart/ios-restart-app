@@ -220,6 +220,8 @@ enum EventName: String {
 
     case openCommunity                      = "open-community"
 
+    case showNewItemsBadge                  = "show-new-items-badge"
+    
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
     
@@ -447,6 +449,9 @@ enum EventParameterName: String {
     // Community
     case showingBanner      = "showing-banner"
     case bannerType         = "banner-type"
+    
+    // Engagement badging
+    case recentItems        = "recent-items"
 }
 
 enum EventParameterBoolean: String {

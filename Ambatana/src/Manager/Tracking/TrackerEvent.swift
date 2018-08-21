@@ -173,8 +173,13 @@ struct TrackerEvent {
         return TrackerEvent(name: .loginBlockedAccountKeepBrowsing, params: params)
     }
 
-    static func listingList(_ user: User?, categories: [ListingCategory]?, searchQuery: String?,
-                            resultsCount: ItemsCount?, feedSource: EventParameterFeedSource, success: EventParameterBoolean) -> TrackerEvent {
+    static func listingList(_ user: User?,
+                            categories: [ListingCategory]?,
+                            searchQuery: String?,
+                            resultsCount: ItemsCount?,
+                            feedSource: EventParameterFeedSource,
+                            success: EventParameterBoolean,
+                            recentItems: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
 
         params[.feedSource] = feedSource.rawValue
@@ -188,6 +193,7 @@ struct TrackerEvent {
             params[.numberOfItems] = count.value
         }
         params[.listSuccess] = success.rawValue
+        params[.recentItems] = recentItems.rawValue
         return TrackerEvent(name: .listingList, params: params)
     }
     
@@ -1637,6 +1643,10 @@ struct TrackerEvent {
                                                                 priceRange: FilterPriceRange) -> EventParameterBoolean {
         guard freePostingModeAllowed else {return .notAvailable}
         return priceRange.free ? .trueParameter : .falseParameter
+    }
+    
+    static func showNewItemsBadge() -> TrackerEvent {
+        return TrackerEvent(name: .showNewItemsBadge, params: nil)
     }
 }
 

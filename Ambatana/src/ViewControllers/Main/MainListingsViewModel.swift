@@ -1162,7 +1162,12 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                 filterDescription.value = nil
                 filterTitle.value = nil
                 
-                trackRequestSuccess(page: page, resultsCount: resultsCount, hasListings: hasListings, searchRelatedItems: featureFlags.emptySearchImprovements.isActive)
+                trackRequestSuccess(page: page,
+                                    resultsCount: resultsCount,
+                                    hasListings: hasListings,
+                                    searchRelatedItems: featureFlags.emptySearchImprovements.isActive,
+                                    recentItems: containsRecentListings)
+
             } else {
                 listViewModel.retrieveListingsNextPage()
             }
@@ -1173,18 +1178,28 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             let isFirstRequesterInAlwaysSimilarCase = featureFlags.emptySearchImprovements == .alwaysSimilar && requesterType == .nonFilteredFeed
             let isFirstRequesterInOtherCases = featureFlags.emptySearchImprovements != .alwaysSimilar && requesterType != .search
             if isFirstRequesterInAlwaysSimilarCase || isFirstRequesterInOtherCases {
-                trackRequestSuccess(page: page, resultsCount: resultsCount, hasListings: hasListings, searchRelatedItems: true)
+                trackRequestSuccess(page: page,
+                                    resultsCount: resultsCount,
+                                    hasListings: hasListings,
+                                    searchRelatedItems: true,
+                                    recentItems: containsRecentListings)
                 shouldHideCategoryAfterSearch = true
                 filterDescription.value = featureFlags.emptySearchImprovements.filterDescription
                 filterTitle.value = filterTitleString(forRequesterType: requesterType)
                 updateCategoriesHeader()
             } else {
-                trackRequestSuccess(page: page, resultsCount: resultsCount, hasListings: hasListings, searchRelatedItems: false)
-
+                trackRequestSuccess(page: page,
+                                    resultsCount: resultsCount,
+                                    hasListings: hasListings,
+                                    searchRelatedItems: false,
+                                    recentItems: containsRecentListings)
             }
         } else {
-            trackRequestSuccess(page: page, resultsCount: resultsCount, hasListings: hasListings, searchRelatedItems: false)
-
+            trackRequestSuccess(page: page,
+                                resultsCount: resultsCount,
+                                hasListings: hasListings,
+                                searchRelatedItems: false,
+                                recentItems: containsRecentListings)
         }
         
         errorMessage.value = nil
@@ -1209,13 +1224,13 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                 feedBadgingSynchronizer.retrieveRecentListings { [weak self] recentListings in
                     guard recentListings.count > 0 else { return }
                     self?.listViewModel.addRecentListings(recentListings)
+                    self?.trackShowNewItemsBadge()
                 }
             } else if listViewModel.hasPreviouslyShownRecentListings {
                 // If already retrieved before, we should show them directly
                 listViewModel.showRecentListings()
             }
         }
-
     }
     
     func listingListMV(_ viewModel: ListingListViewModel,
@@ -1855,13 +1870,21 @@ fileprivate extension MainListingsViewModel {
         return .home
     }
 
-    private func trackRequestSuccess(page: UInt, resultsCount: Int, hasListings: Bool, searchRelatedItems: Bool) {
+    private func trackRequestSuccess(page: UInt,
+                                     resultsCount: Int,
+                                     hasListings: Bool,
+                                     searchRelatedItems: Bool,
+                                     recentItems: Bool) {
         guard page == 0 else { return }
         let successParameter: EventParameterBoolean = hasListings ? .trueParameter : .falseParameter
+        let recentItemsParameter: EventParameterBoolean = recentItems ? .trueParameter : .falseParameter
         let trackerEvent = TrackerEvent.listingList(myUserRepository.myUser,
                                                     categories: filters.selectedCategories,
-                                                    searchQuery: queryString, resultsCount: resultsCount,
-                                                    feedSource: feedSource, success: successParameter)
+                                                    searchQuery: queryString,
+                                                    resultsCount: resultsCount,
+                                                    feedSource: feedSource,
+                                                    success: successParameter,
+                                                    recentItems: recentItemsParameter)
 
         tracker.trackEvent(trackerEvent)
         
@@ -1907,6 +1930,11 @@ fileprivate extension MainListingsViewModel {
                                                          buttonName: source.buttonName,
                                                          sellButtonPosition: source.sellButtonPosition,
                                                          category: category.listingCategory))
+    }
+    
+    func trackShowNewItemsBadge() {
+        let trackerEvent = TrackerEvent.showNewItemsBadge()
+        tracker.trackEvent(trackerEvent)
     }
 }
 
