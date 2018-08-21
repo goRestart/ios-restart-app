@@ -2,8 +2,12 @@ import Core
 import Application
 import Domain
 
-extension Assembly {
-  public func makeSignUp() -> SignUpViewController {
+protocol SignUpProvider {
+  func makeSignUp() -> UIViewController
+}
+
+extension Assembly: SignUpProvider {
+  func makeSignUp() -> UIViewController {
     let viewController = SignUpViewController(
       viewBinder: viewBinder
     )
@@ -31,6 +35,9 @@ extension Assembly {
   }
   
   func signUpRouter(from view: UIViewController) -> SignUpRouter {
-    return SignUpRouter(from: view)
+    return SignUpRouter(
+      from: view,
+      signUpProvider: self
+    )
   }
 }

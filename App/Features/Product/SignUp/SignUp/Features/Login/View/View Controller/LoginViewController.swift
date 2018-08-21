@@ -1,7 +1,7 @@
 import UIKit
 import UI
 
-public final class LoginViewController: ViewController {
+final class LoginViewController: ViewController {
  
   var viewModel: LoginViewModelType!
   
@@ -13,18 +13,18 @@ public final class LoginViewController: ViewController {
     super.init(nibName: nil, bundle: nil)
   }
   
-  required public init?(coder aDecoder: NSCoder) { fatalError() }
+  required init?(coder aDecoder: NSCoder) { fatalError() }
   
-  public override func loadView() {
+  override func loadView() {
     self.view = loginView
   }
   
-  public override func viewDidLoad() {
+  override func viewDidLoad() {
     super.viewDidLoad()
     title = Localize("login.title", table: Table.login)
   }
   
-  override public func bindViewModel() {
+  override func bindViewModel() {
     viewBinder.bind(view: loginView, to: viewModel, using: bag)
   }
 }

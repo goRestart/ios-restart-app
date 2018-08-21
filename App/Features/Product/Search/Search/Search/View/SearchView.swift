@@ -1,6 +1,7 @@
 import UI
 import SnapKit
 import RxSwift
+import RxCocoa
 import IGListKit
 import Domain
 
@@ -71,6 +72,8 @@ public final class SearchView: View {
     return elements.map { GameSuggestionViewRender(suggestion: $0) }
   }
 }
+
+// MARK: - GameSuggestionListAdapterDelegate
 
 extension SearchView: GameSuggestionListAdapterDelegate {
   func didSelectGameSuggestion(with id: Identifier<Game>) {
