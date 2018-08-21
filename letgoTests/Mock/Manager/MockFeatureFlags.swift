@@ -61,7 +61,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var shouldChangeChatNowCopyInEnglish = false
     var shouldChangeSellFasterNowCopyInEnglish = false
     var copyForSellFasterNowInEnglish: CopyForSellFasterNowInEnglish = .control
-    var shouldShowIAmInterestedInFeed: IAmInterestedFeed = .control
     var googleAdxForTR: GoogleAdxForTR = .control
     var copyForSellFasterNowInTurkish: CopyForSellFasterNowInTurkish = .control
 
@@ -109,7 +108,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     // MARK: Retention
     var dummyUsersInfoProfile: DummyUsersInfoProfile = .control
     var onboardingIncentivizePosting: OnboardingIncentivizePosting = .control
-    var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed = .control
     var notificationSettings: NotificationSettings = .control
     var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions = .control
     var engagementBadging: EngagementBadging = .control

@@ -5320,6 +5320,23 @@ class TrackerEventSpec: QuickSpec {
                     expect(param) == "1234"
                 }
             }
+            
+            describe("chat letgo service cta received") {
+                beforeEach {
+                    sut = TrackerEvent.chatLetgoServiceCTAReceived(questionKey: "key", listingId: "1234")
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("chat-letgo-service-call-to-action-received"))
+                }
+                it("contains the key") {
+                    let param = sut.params!.stringKeyParams["message-goal"] as? String
+                    expect(param) == "key"
+                }
+                it("contains the listing id") {
+                    let param = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(param) == "1234"
+                }
+            }
 
             describe("chat message call to action tapped") {
                 beforeEach {

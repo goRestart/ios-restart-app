@@ -52,7 +52,6 @@ protocol FeatureFlaggeable: class {
     var feedAdsProviderForTR:  FeedAdsProviderForTR { get }
     var shouldChangeSellFasterNowCopyInEnglish: Bool { get }
     var copyForSellFasterNowInEnglish: CopyForSellFasterNowInEnglish { get }
-    var shouldShowIAmInterestedInFeed: IAmInterestedFeed { get }
     var googleAdxForTR: GoogleAdxForTR { get }
     var fullScreenAdsWhenBrowsingForUS: FullScreenAdsWhenBrowsingForUS { get }
     var fullScreenAdUnitId: String? { get }
@@ -108,7 +107,6 @@ protocol FeatureFlaggeable: class {
     // MARK: Retention
     var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
     var onboardingIncentivizePosting: OnboardingIncentivizePosting { get }
-    var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed { get }
     var notificationSettings: NotificationSettings { get }
     var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions { get }
     var engagementBadging: EngagementBadging { get }
@@ -937,13 +935,6 @@ final class FeatureFlags: FeatureFlaggeable {
         }
         return CopyForChatNowInEnglish.fromPosition(abTests.copyForChatNowInEnglish.value)
     }
-
-    var shouldShowIAmInterestedInFeed: IAmInterestedFeed {
-        if Bumper.enabled {
-            return Bumper.iAmInterestedFeed
-        }
-        return IAmInterestedFeed.fromPosition(abTests.iAmInterestedInFeed.value)
-    }
     
     var feedAdsProviderForTR: FeedAdsProviderForTR {
         if Bumper.enabled {
@@ -1352,13 +1343,6 @@ extension FeatureFlags {
             return Bumper.onboardingIncentivizePosting
         }
         return OnboardingIncentivizePosting.fromPosition(abTests.onboardingIncentivizePosting.value)
-    }
-    
-    var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed {
-        if Bumper.enabled {
-            return Bumper.highlightedIAmInterestedFeed
-        }
-        return HighlightedIAmInterestedFeed.fromPosition(abTests.highlightedIAmInterestedInFeed.value)
     }
     
     var notificationSettings: NotificationSettings {
