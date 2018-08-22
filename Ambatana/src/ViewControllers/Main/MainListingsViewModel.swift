@@ -25,6 +25,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     static let adInFeedInitialPosition = 3
     private static let adsInFeedRatio = 20
     private static let searchAlertLimit = 20
+    private static let interestingUndoTimeout: TimeInterval = 5
     
     // > Input
     var searchString: String? {
@@ -1935,15 +1936,129 @@ extension MainListingsViewModel: CategoriesHeaderCollectionViewDelegate {
 // MARK: ListingCellDelegate
 
 extension MainListingsViewModel: ListingCellDelegate {
-    func interestedActionFor(_ listing: Listing) {
-        guard let identifier = listing.objectId else { return }
-        guard let index = listViewModel.indexFor(listingId: identifier) else { return }
-        if let state = listViewModel.listingInterestState[identifier],
-            case .send(let enabled) = state, !enabled {
-            return
+//    func interestedActionFor(_ listing: Listing) {
+//        //
+//    }
+    
+    func interestedActionFor(_ listing: Listing, userListing: LocalUser?, completion: @escaping (InterestedState) -> Void) {
+        if let user = userListing, user.isProfessional {
+            interestedActionForProUser(forListing: listing, interlocutor: user)
+        } else {
+            interestedActionForNormalUser(listing, completion: completion)
         }
-        markListingWithUndoableInterest(listing, atIndex: index)
     }
+    
+    private func openChat(withData data: ChatDetailData) {
+        navigator?.openChat(data,
+                            source: .listingListFeatured,
+                            predefinedMessage: nil)
+    }
+    
+    private func interestedActionForProUser(forListing listing: Listing, interlocutor: LocalUser) {
+        openLoginIfNeeded(message: R.Strings.chatLoginPopupText) { [weak self] in
+            guard let shouldOpenProChat = self?.interestedStateUpdater.hasContactedProListing(listing),
+                shouldOpenProChat else {
+                    self?.navigator?.openAskPhoneFromMainFeedFor(listing: listing,
+                                                                 interlocutor: interlocutor)
+                    return
+            }
+            self?.openProChat(listing, interlocutor: interlocutor)
+        }
+    }
+    
+    private func interestedActionForNormalUser(_ listing: Listing, completion: @escaping (InterestedState) -> Void) {
+        guard !interestedStateUpdater.interestedIsDisabled(forListing: listing) else { return }
+        openLoginIfNeeded(message: R.Strings.chatLoginPopupText) { [weak self] in
+            guard let strSelf = self else { return }
+            let shouldOpenChat = strSelf.interestedStateUpdater.hasContactedListing(listing)
+            guard !shouldOpenChat else {
+                //strSelf.refreshFeed() !
+                completion(.seeConversation)
+                let chatDetailData = ChatDetailData.listingAPI(listing: listing)
+                strSelf.openChat(withData: chatDetailData)
+                return
+            }
+            strSelf.handleCancellableInterestedAction(listing, completion: completion)
+        }
+    }
+    
+    private func handleCancellableInterestedAction(_ listing: Listing, completion: @escaping (InterestedState) -> Void) {
+        let (cancellable, timer) = LGTimer.cancellableWait(MainListingsViewModel.interestingUndoTimeout)
+        
+        showUndoBubble(withMessage: R.Strings.productInterestedBubbleMessage,
+                       duration: MainListingsViewModel.interestingUndoTimeout) {
+                        cancellable.cancel()
+        }
+        
+        timer.subscribe { [weak self] (event) in
+            //defer { self?.refreshFeed() }
+            guard event.error == nil else {
+                completion(.seeConversation)
+                self?.sendMessage(forListing: listing)
+                return
+            }
+            completion(.send(enabled: true))
+            self?.undoSendingInterestedMessage(forListing: listing)
+            }.disposed(by: disposeBag)
+    }
+    
+    private func openLoginIfNeeded(message: String, then action: @escaping () -> Void) {
+        navigator?.openLoginIfNeeded(infoMessage: message, then: action)
+    }
+    
+    private func openProChat(_ listing: Listing, interlocutor: LocalUser) {
+        let trackHelper = ProductVMTrackHelper(tracker: tracker,
+                                               listing: listing,
+                                               featureFlags: featureFlags)
+        trackHelper.trackChatWithSeller(.feed)
+        navigator?.openListingChat(listing,
+                                   source: .listingList,
+                                   interlocutor: interlocutor)
+    }
+    
+    private func showUndoBubble(withMessage message: String,
+                                duration: TimeInterval,
+                                then action: @escaping () -> ()) {
+        navigator?.showUndoBubble(withMessage: message,
+                                  duration: duration,
+                                  withAction: action)
+    }
+    
+    private func undoSendingInterestedMessage(forListing listing: Listing) {
+        tracker.trackEvent(TrackerEvent.undoSentMessage())
+    }
+    
+    private func sendMessage(forListing listing: Listing) {
+        let type = ChatWrapperMessageType.interested(QuickAnswer.interested.textToReply)
+        interestedStateUpdater.addInterestedState(forListing: listing)
+        let trackingInfo = SendMessageTrackingInfo
+            .makeWith(type: type, listing: listing, freePostingAllowed: featureFlags.freePostingModeAllowed)
+            .set(typePage: .listingList)
+            .set(isBumpedUp: .falseParameter)
+            .set(containsEmoji: false)
+        tracker.trackEvent(.userMessageSent(info: trackingInfo, isProfessional: nil))
+        chatWrapper.sendMessageFor(listing: listing, type: type) { [weak self] isFirstMessage in
+            let isFirstMessage = isFirstMessage.value ?? false
+            guard isFirstMessage else { return }
+            let event = TrackerEvent.firstMessage(info: trackingInfo,
+                                                  listingVisitSource: .listingList,
+                                                  feedPosition: .none,
+                                                  userBadge: .noBadge,
+                                                  containsVideo: EventParameterBoolean(bool: listing.containsVideo()),
+                                                  isProfessional: nil)
+            self?.tracker.trackEvent(event)
+        }
+    }
+    
+//    func interestedActionFor(_ listing: Listing) {
+//        guard let identifier = listing.objectId else { return }
+//        guard let index = listViewModel.indexFor(listingId: identifier) else { return }
+//        if let state = listViewModel.listingInterestState[identifier],
+//            case .send(let enabled) = state, !enabled {
+//            return
+//        }
+//        markListingWithUndoableInterest(listing, atIndex: index)
+//    }
     
     private func markListingWithUndoableInterest(_ listing: Listing, atIndex index: Int) {
         guard let identifier = listing.objectId else { return }

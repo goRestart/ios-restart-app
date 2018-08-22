@@ -13,7 +13,7 @@ protocol ListingCellDelegate: class {
     func editPressedForDiscarded(listing: Listing)
     func moreOptionsPressedForDiscarded(listing: Listing)
     func postNowButtonPressed(_ view: UIView)
-    func interestedActionFor(_ listing: Listing)
+    func interestedActionFor(_ listing: Listing, userListing: LocalUser?, completion: @escaping (InterestedState) -> Void)
     func openAskPhoneFor(_ listing: Listing, interlocutor: LocalUser)
     func getUserInfoFor(_ listing: Listing, completion: @escaping (User?) -> Void)
     func bumpUpPressedFor(listing: Listing)
@@ -208,7 +208,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
             interestedButton.widthAnchor.constraint(equalToConstant: InterestedLayout.width)
         ])
         interestedButton.removeTarget(self, action: nil, for: .allEvents)
-        interestedButton.addTarget(self, action: #selector(callDelegateInterestedState), for: .touchUpInside)
+        interestedButton.addTarget(self, action: #selector(interestedButtonTapped), for: .touchUpInside)
         setupActivityIndicator(inside: view, preventMessagesToPro: preventMessagesToPro)
     }
     
@@ -494,36 +494,84 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         interestedButton.isUserInteractionEnabled = action != .none
     }
     
-    @objc private func callDelegateInterestedState() {
+    
+    @objc private func interestedButtonTapped() {
+        updateInterestedButton(withState: .send(enabled: false))
+        //let featureFlags = FeatureFlags.sharedInstance
+        //guard feedListingData.preventMessageToProUsers else {
         guard let listing = listing else { return }
         let featureFlags = FeatureFlags.sharedInstance
         let category = listing.category
-        if shouldPreventMessagesFromFeedToProUsers(category: category, featureFlags: featureFlags) {
-            if listing.user.type != .unknown  {
-                let localUser = LocalUser.init(userListing: listing.user)
-                self.preventMessagesForProfessionals(localUser: localUser, listing: listing)
-            } else {
-                interestedButton.isHidden = true
-                activityIndicator.startAnimating()
-                delegate?.getUserInfoFor(listing, completion: { [weak self] user in
-                    guard let strongSelf = self else { return }
-                    strongSelf.interestedButton.isHidden = false
-                    strongSelf.activityIndicator.stopAnimating()
-                    strongSelf.preventMessagesForProfessionals(localUser: LocalUser.init(user: user), listing: listing)
-                })
-            }
-        } else {
-            delegate?.interestedActionFor(listing)
+        //guard feedListingData.preventMessageToProUsers else {
+        guard shouldPreventMessagesFromFeedToProUsers(category: category, featureFlags: featureFlags) else {
+            //return delegate?.interestActionFor(listing: listing!, userListing: nil)
+            interestActionFor(listing: listing, userListing: nil)
+            return
+        }
+        
+        guard listing.user.type == .unknown else {
+//            return delegate?.interestActionFor(listing: listing,
+//                                               userListing: LocalUser(userListing: listing.user))
+            interestActionFor(listing: listing,
+                                userListing: LocalUser(userListing: listing.user))
+            return
+        }
+        
+        interestedButton.isHidden = true
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
+        delegate?.getUserInfoFor(listing) { [weak self] user in
+            self?.interestedButton.isHidden = false
+            self?.activityIndicator.stopAnimating()
+//            self?.interestActionFor(listing: listing,
+//                                    userListing: LocalUser(userListing: listing.user))
+            self?.interestActionFor(listing: listing,
+                                                userListing: LocalUser(userListing: listing.user))
         }
     }
     
-    private func preventMessagesForProfessionals(localUser: LocalUser?, listing: Listing) {
-        if let localUser = localUser, localUser.type == .pro {
-            self.delegate?.openAskPhoneFor(listing, interlocutor: localUser)
-        } else {
-            self.delegate?.interestedActionFor(listing)
+    private func interestActionFor(listing: Listing, userListing: LocalUser?) {
+        delegate?.interestedActionFor(listing, userListing: userListing) { [weak self] state in
+            self?.updateInterestedButton(withState: state)
         }
     }
+    
+    private func updateInterestedButton(withState state: InterestedState) {
+        interestedButton.setImage(state.image, for: .normal)
+        interestedButton.isUserInteractionEnabled = (state != .none && state != .send(enabled: false))
+    }
+    
+    
+//    @objc private func callDelegateInterestedState() {
+//        guard let listing = listing else { return }
+//        let featureFlags = FeatureFlags.sharedInstance
+//        let category = listing.category
+//        if shouldPreventMessagesFromFeedToProUsers(category: category, featureFlags: featureFlags) {
+//            if listing.user.type != .unknown  {
+//                let localUser = LocalUser.init(userListing: listing.user)
+//                self.preventMessagesForProfessionals(localUser: localUser, listing: listing)
+//            } else {
+//                interestedButton.isHidden = true
+//                activityIndicator.startAnimating()
+//                delegate?.getUserInfoFor(listing, completion: { [weak self] user in
+//                    guard let strongSelf = self else { return }
+//                    strongSelf.interestedButton.isHidden = false
+//                    strongSelf.activityIndicator.stopAnimating()
+//                    strongSelf.preventMessagesForProfessionals(localUser: LocalUser.init(user: user), listing: listing)
+//                })
+//            }
+//        } else {
+//            delegate?.interestedActionFor(listing)
+//        }
+//    }
+    
+//    private func preventMessagesForProfessionals(localUser: LocalUser?, listing: Listing) {
+//        if let localUser = localUser, localUser.type == .pro {
+//            self.delegate?.openAskPhoneFor(listing, interlocutor: localUser)
+//        } else {
+//            self.delegate?.interestedActionFor(listing)
+//        }
+//    }
     
     private func shouldPreventMessagesFromFeedToProUsers(category: ListingCategory, featureFlags: FeatureFlags) -> Bool {
         guard featureFlags.preventMessagesFromFeedToProUsers.isActive else { return false }

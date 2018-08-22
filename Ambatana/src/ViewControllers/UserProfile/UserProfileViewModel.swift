@@ -744,7 +744,7 @@ extension UserProfileViewModel {
 }
 
 extension UserProfileViewModel: ListingCellDelegate {
-    func interestedActionFor(_ listing: Listing) {
+    func interestedActionFor(_ listing: Listing, userListing: LocalUser?, completion: @escaping (InterestedState) -> Void) {
         // this is just meant to be inside the MainFeed
         return
     }
