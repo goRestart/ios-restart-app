@@ -1,8 +1,9 @@
 import UI
+import RxSwift
+import RxCocoa
 
 final class ProductDescriptionView: View {
-
-  var inputTextField: UITextField = {
+  fileprivate var inputTextField: UITextField = {
     let textField = UITextField()
     textField.placeholder = Localize("product_description.input.placeholder", table: Table.productDescription)
     textField.font = .h2
@@ -21,5 +22,13 @@ final class ProductDescriptionView: View {
       make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(Margin.medium)
       make.trailing.equalTo(self).offset(-Margin.medium)
     }
+  }
+}
+
+// MARK: - View bindings
+
+extension Reactive where Base: ProductDescriptionView {
+  var productDescription: ControlProperty<String> {
+    return base.inputTextField.rx.value.orEmpty
   }
 }

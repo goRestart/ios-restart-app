@@ -20,9 +20,7 @@ final class ProductSelectorView: View {
     return textField
   }()
 
-  private var searchView: SearchView = {
-    return resolver.searchView
-  }()
+  private var searchView = resolver.searchView
 
   override func setupView() {
     addSubview(inputTextField)
