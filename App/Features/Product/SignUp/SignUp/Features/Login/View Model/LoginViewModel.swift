@@ -34,7 +34,9 @@ struct LoginViewModel: LoginViewModelType, LoginViewModelInput, LoginViewModelOu
   }
 
   var userInteractionEnabled: Observable<Bool> {
-    return state.asObservable().map { $0 == .idle }
+    return .just(
+      try! state.value() == .idle
+    )
   }
   
   // MARK: - Input
