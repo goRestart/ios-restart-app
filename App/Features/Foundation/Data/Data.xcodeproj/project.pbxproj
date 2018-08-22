@@ -8,11 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		192F6FC528C5B65226721A80 /* Pods_Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E94BF8AB55B0FEBA67B9E8BB /* Pods_Data.framework */; };
-		1C30D70A2009603C00E0A501 /* GameService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C30D7092009603C00E0A501 /* GameService.swift */; };
-		1C30D70D200960CB00E0A501 /* GetGameConsolesEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C30D70C200960CB00E0A501 /* GetGameConsolesEndpoint.swift */; };
-		1C30D70F200963E600E0A501 /* SearchGamesEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C30D70E200963E600E0A501 /* SearchGamesEndpoint.swift */; };
 		1C30D7182009658D00E0A501 /* GameDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C30D7172009658D00E0A501 /* GameDataSource.swift */; };
-		1C30D71A2009661900E0A501 /* GameApiDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C30D7192009661900E0A501 /* GameApiDataSource.swift */; };
 		1C30D71C2009686400E0A501 /* GameRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C30D71B2009686400E0A501 /* GameRepository.swift */; };
 		1C40D8B01FFD354B006D5BE4 /* UserDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40D8AF1FFD354B006D5BE4 /* UserDataSource.swift */; };
 		1C40D8B81FFD369B006D5BE4 /* EmptyResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40D8B71FFD369B006D5BE4 /* EmptyResponse.swift */; };
@@ -48,6 +44,10 @@
 		2EB2B14A212B2F8900705ACA /* SignInUserFirebaseErrorAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB2B149212B2F8900705ACA /* SignInUserFirebaseErrorAdapter.swift */; };
 		2EB2B14C212B305000705ACA /* Assembly+Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB2B14B212B305000705ACA /* Assembly+Auth.swift */; };
 		2ECA1F1A21285542001A3167 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2ECA1F1921285542001A3167 /* Domain.framework */; };
+		2EE4A3B5212C9D0F00380467 /* Algolia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE4A3B4212C9D0F00380467 /* Algolia.swift */; };
+		2EE4A3B8212CA55800380467 /* GameAlgoliaDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE4A3B7212CA55800380467 /* GameAlgoliaDataSource.swift */; };
+		2EE4A3BB212CA63C00380467 /* Algolia+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE4A3BA212CA63C00380467 /* Algolia+Rx.swift */; };
+		2EE4A3BE212CABEE00380467 /* GameSuggestionMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE4A3BD212CABEE00380467 /* GameSuggestionMapper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,11 +61,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1C30D7092009603C00E0A501 /* GameService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameService.swift; sourceTree = "<group>"; };
-		1C30D70C200960CB00E0A501 /* GetGameConsolesEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetGameConsolesEndpoint.swift; sourceTree = "<group>"; };
-		1C30D70E200963E600E0A501 /* SearchGamesEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGamesEndpoint.swift; sourceTree = "<group>"; };
 		1C30D7172009658D00E0A501 /* GameDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDataSource.swift; sourceTree = "<group>"; };
-		1C30D7192009661900E0A501 /* GameApiDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameApiDataSource.swift; sourceTree = "<group>"; };
 		1C30D71B2009686400E0A501 /* GameRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameRepository.swift; sourceTree = "<group>"; };
 		1C40D8AF1FFD354B006D5BE4 /* UserDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataSource.swift; sourceTree = "<group>"; };
 		1C40D8B71FFD369B006D5BE4 /* EmptyResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyResponse.swift; sourceTree = "<group>"; };
@@ -104,6 +100,10 @@
 		2EB2B149212B2F8900705ACA /* SignInUserFirebaseErrorAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInUserFirebaseErrorAdapter.swift; sourceTree = "<group>"; };
 		2EB2B14B212B305000705ACA /* Assembly+Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+Auth.swift"; sourceTree = "<group>"; };
 		2ECA1F1921285542001A3167 /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2EE4A3B4212C9D0F00380467 /* Algolia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Algolia.swift; sourceTree = "<group>"; };
+		2EE4A3B7212CA55800380467 /* GameAlgoliaDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameAlgoliaDataSource.swift; sourceTree = "<group>"; };
+		2EE4A3BA212CA63C00380467 /* Algolia+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Algolia+Rx.swift"; sourceTree = "<group>"; };
+		2EE4A3BD212CABEE00380467 /* GameSuggestionMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSuggestionMapper.swift; sourceTree = "<group>"; };
 		E94BF8AB55B0FEBA67B9E8BB /* Pods_Data.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Data.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED19D6395F3123B537246E7F /* Pods-Data.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Data.release.xcconfig"; path = "../../../Pods/Target Support Files/Pods-Data/Pods-Data.release.xcconfig"; sourceTree = "<group>"; };
 		FC88FD02DC6BC15A5C6BADB9 /* Pods-Data.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Data.debug.xcconfig"; path = "../../../Pods/Target Support Files/Pods-Data/Pods-Data.debug.xcconfig"; sourceTree = "<group>"; };
@@ -130,24 +130,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1C30D7062009603000E0A501 /* Game */ = {
-			isa = PBXGroup;
-			children = (
-				1C30D7092009603C00E0A501 /* GameService.swift */,
-				1C30D70B200960BF00E0A501 /* Endpoint */,
-			);
-			path = Game;
-			sourceTree = "<group>";
-		};
-		1C30D70B200960BF00E0A501 /* Endpoint */ = {
-			isa = PBXGroup;
-			children = (
-				1C30D70C200960CB00E0A501 /* GetGameConsolesEndpoint.swift */,
-				1C30D70E200963E600E0A501 /* SearchGamesEndpoint.swift */,
-			);
-			path = Endpoint;
-			sourceTree = "<group>";
-		};
 		1C30D7122009656400E0A501 /* Game */ = {
 			isa = PBXGroup;
 			children = (
@@ -161,17 +143,9 @@
 			isa = PBXGroup;
 			children = (
 				1C30D7172009658D00E0A501 /* GameDataSource.swift */,
-				1C30D7162009658500E0A501 /* Api */,
+				2EE4A3B6212CA54700380467 /* Algolia */,
 			);
 			path = "Data Source";
-			sourceTree = "<group>";
-		};
-		1C30D7162009658500E0A501 /* Api */ = {
-			isa = PBXGroup;
-			children = (
-				1C30D7192009661900E0A501 /* GameApiDataSource.swift */,
-			);
-			path = Api;
 			sourceTree = "<group>";
 		};
 		1C40D8AB1FFD34FB006D5BE4 /* Auth */ = {
@@ -295,6 +269,7 @@
 		1C913A161FF064EB00646884 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				2EE4A3B3212C9D0300380467 /* Algolia */,
 				1C913A171FF0650600646884 /* Network */,
 			);
 			path = Service;
@@ -305,7 +280,6 @@
 			children = (
 				1CACCE8B1FF30A380001B321 /* Protocol */,
 				1C913A181FF0652000646884 /* Auth */,
-				1C30D7062009603000E0A501 /* Game */,
 				1CB6494D2009C708009B7CC1 /* Image */,
 				1C93E0C42040AC900029AD2B /* Listing */,
 			);
@@ -364,6 +338,7 @@
 			isa = PBXGroup;
 			children = (
 				2E2F7AB72129F3A500CDED0F /* Firebase */,
+				2EE4A3B9212CA63000380467 /* Algolia */,
 				1CC209BF1FF2C4B700EE0B5B /* RxSwift */,
 				1C913A391FF2BA7700646884 /* Moya */,
 			);
@@ -549,6 +524,39 @@
 			path = Error;
 			sourceTree = "<group>";
 		};
+		2EE4A3B3212C9D0300380467 /* Algolia */ = {
+			isa = PBXGroup;
+			children = (
+				2EE4A3B4212C9D0F00380467 /* Algolia.swift */,
+			);
+			path = Algolia;
+			sourceTree = "<group>";
+		};
+		2EE4A3B6212CA54700380467 /* Algolia */ = {
+			isa = PBXGroup;
+			children = (
+				2EE4A3B7212CA55800380467 /* GameAlgoliaDataSource.swift */,
+				2EE4A3BC212CABD900380467 /* Mapper */,
+			);
+			path = Algolia;
+			sourceTree = "<group>";
+		};
+		2EE4A3B9212CA63000380467 /* Algolia */ = {
+			isa = PBXGroup;
+			children = (
+				2EE4A3BA212CA63C00380467 /* Algolia+Rx.swift */,
+			);
+			path = Algolia;
+			sourceTree = "<group>";
+		};
+		2EE4A3BC212CABD900380467 /* Mapper */ = {
+			isa = PBXGroup;
+			children = (
+				2EE4A3BD212CABEE00380467 /* GameSuggestionMapper.swift */,
+			);
+			path = Mapper;
+			sourceTree = "<group>";
+		};
 		A68C8B87A51153B07520E2DC /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -715,7 +723,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E2F7ABF2129F83000CDED0F /* RegisterUserFirebaseAction.swift in Sources */,
-				1C30D71A2009661900E0A501 /* GameApiDataSource.swift in Sources */,
 				1C913A2F1FF2B2D400646884 /* AuthDataSource.swift in Sources */,
 				1CB649512009C717009B7CC1 /* ImageService.swift in Sources */,
 				1C93E0C82040ACA30029AD2B /* ListingService.swift in Sources */,
@@ -725,7 +732,6 @@
 				1C913A3E1FF2BB4200646884 /* AuthenticateEndpoint.swift in Sources */,
 				1C30D71C2009686400E0A501 /* GameRepository.swift in Sources */,
 				2E2F7AB42129CECF00CDED0F /* UserFirebaseDataSource.swift in Sources */,
-				1C30D70F200963E600E0A501 /* SearchGamesEndpoint.swift in Sources */,
 				2E2F7AB62129D23800CDED0F /* DataModule.swift in Sources */,
 				1CACCE8A1FF309E60001B321 /* PrimitiveSequence+CustomError.swift in Sources */,
 				1C89D6FE1FF3CFBF00B3FA98 /* AuthToken.swift in Sources */,
@@ -734,18 +740,20 @@
 				2EB2B14A212B2F8900705ACA /* SignInUserFirebaseErrorAdapter.swift in Sources */,
 				1C40D8B01FFD354B006D5BE4 /* UserDataSource.swift in Sources */,
 				1C30D7182009658D00E0A501 /* GameDataSource.swift in Sources */,
+				2EE4A3BE212CABEE00380467 /* GameSuggestionMapper.swift in Sources */,
 				1C913A351FF2B65300646884 /* Endpoint.swift in Sources */,
+				2EE4A3BB212CA63C00380467 /* Algolia+Rx.swift in Sources */,
 				1C40D8B81FFD369B006D5BE4 /* EmptyResponse.swift in Sources */,
 				2E2F7ABC2129F71600CDED0F /* RegisterUserFirebaseErrorAdapter.swift in Sources */,
 				1C913A1A1FF0656800646884 /* AuthService.swift in Sources */,
 				1C40D8BA1FFD38CA006D5BE4 /* Assembly+Moya.swift in Sources */,
-				1C30D70A2009603C00E0A501 /* GameService.swift in Sources */,
+				2EE4A3B8212CA55800380467 /* GameAlgoliaDataSource.swift in Sources */,
 				1C913A291FF0670300646884 /* AuthRepository.swift in Sources */,
+				2EE4A3B5212C9D0F00380467 /* Algolia.swift in Sources */,
 				1CB6495C2009C9CA009B7CC1 /* ImageApiDataSource.swift in Sources */,
 				2EB2B144212B2EF500705ACA /* AuthFirebaseDataSource.swift in Sources */,
 				1C913A3B1FF2BA8B00646884 /* TargetType+Default.swift in Sources */,
 				2E2F7AC12129FA1B00CDED0F /* Assembly+User.swift in Sources */,
-				1C30D70D200960CB00E0A501 /* GetGameConsolesEndpoint.swift in Sources */,
 				1C40D8BC1FFD3940006D5BE4 /* UserRepository.swift in Sources */,
 				1CACCE7A1FF2D6320001B321 /* ErrorAdapter.swift in Sources */,
 				2EB2B147212B2F5700705ACA /* SignInUserFirebaseAction.swift in Sources */,

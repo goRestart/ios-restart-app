@@ -4,17 +4,13 @@ import RxSwift
 
 public struct GameRepository {
   
-  private let apiDataSource: GameDataSource
+  private let algoliaDataSource: GameDataSource
   
-  init(apiDataSource: GameDataSource) {
-    self.apiDataSource = apiDataSource
+  init(algoliaDataSource: GameDataSource) {
+    self.algoliaDataSource = algoliaDataSource
   }
   
   public func search(with query: String) -> Single<[GameSearchSuggestion]> {
-    return apiDataSource.search(with: query)
-  }
-  
-  public func getGameConsoles() -> Single<[GameConsole]> {
-    return apiDataSource.getGameConsoles()
+    return algoliaDataSource.search(with: query)
   }
 }

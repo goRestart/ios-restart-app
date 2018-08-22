@@ -1,3 +1,4 @@
 github "ReactiveX/RxSwift" ~> 4.2
 github "Moya/Moya" ~> 11.0
 github "Instagram/IGListKit" ~> 3.4
+github "algolia/algoliasearch-client-swift" ~> 5.1
