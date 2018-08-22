@@ -4,14 +4,15 @@ import Domain
 final class ProductSelectorViewController: ViewController {
 
   var viewModel: ProductSelectorViewModelType!
+  
+  private let productSelectorView = ProductSelectorView()
 
   init() { super.init(nibName: nil, bundle: nil) }
-  public required init?(coder aDecoder: NSCoder) { fatalError() }
+  required init?(coder aDecoder: NSCoder) { fatalError() }
 
-  override func loadView() {
-    let view = ProductSelectorView()
-    view.delegate = self
-    self.view = view
+ override func loadView() {
+    productSelectorView.delegate = self
+    self.view = productSelectorView
   }
 
   override func viewDidLoad() {
