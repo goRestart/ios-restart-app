@@ -34,7 +34,7 @@ struct LoginViewBinder {
       view.resignFirstResponder()
     }.disposed(by: bag)
     
-    view.rx.signInbuttonWasTapped.subscribe { _ in
+    view.rx.signInButtonWasTapped.subscribe { _ in
       viewModel.input.signUpButtonPressed()
     }.disposed(by: bag)
   }

@@ -29,8 +29,8 @@ struct SignUpViewModel: SignUpViewModelType, SignUpViewModelInput, SignUpViewMod
   var username = BehaviorSubject<String>(value: "")
   var password = BehaviorSubject<String>(value: "")
   var email = BehaviorSubject<String>(value: "")
-  var state = BehaviorSubject<SignUpState>(value: .idle)
-  var error = BehaviorSubject<RegisterUserError?>(value: nil)
+  var state = PublishSubject<SignUpState>()
+  var error = PublishSubject<RegisterUserError?>()
   
   var signUpEnabled: Observable<Bool> {
     return Observable.combineLatest(

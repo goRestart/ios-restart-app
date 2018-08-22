@@ -34,9 +34,7 @@ struct LoginViewModel: LoginViewModelType, LoginViewModelInput, LoginViewModelOu
   }
 
   var userInteractionEnabled: Observable<Bool> {
-    return .just(
-      try! state.value() == .idle
-    )
+    return state.asObservable().map { $0 == .idle }
   }
   
   // MARK: - Input
@@ -48,7 +46,7 @@ struct LoginViewModel: LoginViewModelType, LoginViewModelInput, LoginViewModelOu
       username: try! username.value(),
       password: try! password.value()
     )
-    
+
     authenticate.execute(with: credentials).subscribe(onCompleted: {
       print("Welcome :)")
     }) { error in

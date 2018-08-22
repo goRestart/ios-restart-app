@@ -2,6 +2,7 @@ import UI
 import SnapKit
 import Domain
 import RxSwift
+import RxCocoa
 
 private enum ViewLayout {
   static let scrollViewBottomSpace = CGFloat(80)
@@ -9,12 +10,9 @@ private enum ViewLayout {
 }
 
 final class SignUpView: View {
-  private let scrollView: UIScrollView = {
-    let scrollView = UIScrollView()
-    return scrollView
-  }()
-
-  let usernameTextField: InputTextField = {
+  private let scrollView = UIScrollView()
+  
+  fileprivate let usernameTextField: InputTextField = {
     let textField = InputTextField()
     textField.input.autocapitalizationType = .none
     textField.input.textContentType = .username
@@ -24,7 +22,7 @@ final class SignUpView: View {
     return textField
   }()
   
-  let emailTextField: InputTextField = {
+  fileprivate let emailTextField: InputTextField = {
     let textField = InputTextField()
     textField.input.autocapitalizationType = .none
     textField.input.keyboardType = .emailAddress
@@ -35,7 +33,7 @@ final class SignUpView: View {
     return textField
   }()
   
-  let passwordTextField: InputTextField = {
+  fileprivate let passwordTextField: InputTextField = {
     let textField = InputTextField()
     textField.input.isSecureTextEntry = true
     textField.input.textContentType = .password
@@ -45,7 +43,7 @@ final class SignUpView: View {
     return textField
   }()
 
-  let signUpButton: FullWidthButton = {
+  fileprivate let signUpButton: FullWidthButton = {
     let button = FullWidthButton()
     let title = Localize("signup.button.signup.title", Table.signUp).uppercased()
     button.setTitle(title, for: .normal)
@@ -62,7 +60,7 @@ final class SignUpView: View {
   
   private let bag = DisposeBag()
   
-  func set(_ error: RegisterUserError?) {
+  fileprivate func set(_ error: RegisterUserError?) {
     guard let error = error else { cleanErrors(); return }
     cleanErrors()
     
@@ -103,6 +101,8 @@ final class SignUpView: View {
 
     addSubview(scrollView)
     addSubview(signUpButton)
+    
+    usernameTextField.becomeFirstResponder()
   }
   
   override func setupConstraints() {
@@ -139,7 +139,8 @@ final class SignUpView: View {
         make.height.equalTo(FullWidthButton.Layout.height)
       }
 
-      UIView.animate(withDuration: keyboard.animationDuration, delay: 0, options: .curveEaseIn , animations: { [weak self] in
+      UIView.animate(withDuration: keyboard.animationDuration,
+                     delay: 0, options: .curveEaseIn, animations: { [weak self] in
         self?.signUpButton.radiusDisabled = keyboard.event == .willHide ? false : true
         self?.layoutIfNeeded()
       })
@@ -162,5 +163,80 @@ final class SignUpView: View {
         make.right.equalTo(self).offset(-Margin.medium)
       }
     }
+  }
+}
+
+// MARK: - Actions
+
+extension SignUpView {
+  func onUsernameEndEditing() {
+    emailTextField.becomeFirstResponder()
+  }
+  
+  func onEmailEndEditing() {
+    passwordTextField.becomeFirstResponder()
+  }
+}
+
+// MARK: - View bindings
+
+extension Reactive where Base: SignUpView {
+  var error: Binder<RegisterUserError?> {
+    return Binder(self.base) { base, error in
+      base.set(error)
+    }
+  }
+  
+  var username: ControlProperty<String> {
+    return base.usernameTextField.input.rx.value.orEmpty
+  }
+  
+  var email: ControlProperty<String> {
+    return base.emailTextField.input.rx.value.orEmpty
+  }
+  
+  var password: ControlProperty<String> {
+    return base.passwordTextField.input.rx.value.orEmpty
+  }
+  
+  var usernameEndEditing: ControlEvent<Void> {
+    return base.passwordTextField.input.rx.controlEvent(.editingDidEndOnExit)
+  }
+  
+  var emailEndEditing: ControlEvent<Void> {
+    return base.passwordTextField.input.rx.controlEvent(.editingDidEndOnExit)
+  }
+  
+  var signUpButtonEnabled: Binder<Bool> {
+    return Binder(self.base) { view, enabled in
+      view.signUpButton.isEnabled = enabled
+    }
+  }
+  
+  var signUpButtonIsLoading: Binder<SignUpState> {
+    return Binder(self.base) { base, state in
+      base.signUpButton.isLoading = state == .loading
+    }
+  }
+
+  var signUpButtonWasTapped: Observable<Void> {
+    return base.signUpButton.rx
+      .controlEvent(.touchUpInside)
+      .debounce(0.2, scheduler: MainScheduler.instance)
+  }
+  
+  var userInteractionEnabled: Binder<Bool> {
+    return Binder(self.base) { view, enabled in
+      view.usernameTextField.isUserInteractionEnabled = enabled
+      view.emailTextField.isUserInteractionEnabled = enabled
+      view.passwordTextField.isUserInteractionEnabled = enabled
+      view.signUpButton.isUserInteractionEnabled = enabled
+    }
+  }
+  
+  var viewWasTapped: ControlEvent<UITapGestureRecognizer> {
+    let tapGestureRecognizer = UITapGestureRecognizer()
+    base.addGestureRecognizer(tapGestureRecognizer)
+    return tapGestureRecognizer.rx.event
   }
 }
