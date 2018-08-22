@@ -375,7 +375,20 @@ class ChatViewModel: ChatBaseViewModel {
         guard isBuyer else { return }
         guard !relatedListings.isEmpty else { return }
         guard let listingId = conversation.value.listing?.objectId else { return }
+        guard userHasExpressChatEnabled() else { return }
+        guard !userHasSeenExpressChat(for: listingId) else { return }
         navigator?.openExpressChat(relatedListings, sourceListingId: listingId, manualOpen: false)
+    }
+    
+    private func userHasExpressChatEnabled() -> Bool {
+        return keyValueStorage.userShouldShowExpressChat
+    }
+    
+    private func userHasSeenExpressChat(for listingId: String) -> Bool {
+        for productShownId in keyValueStorage.userProductsWithExpressChatAlreadyShown {
+            if productShownId == listingId { return true }
+        }
+        return false
     }
 
     func setupConversationFrom(listing: Listing) {
