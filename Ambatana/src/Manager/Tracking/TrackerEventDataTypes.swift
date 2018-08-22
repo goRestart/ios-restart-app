@@ -933,8 +933,8 @@ enum EventParameterEditedFields: String {
     case seats                = "seats"
     case serviceType          = "service-type"
     case serviceSubtype       = "service-subtype"
+    case serviceListingType   = "service-listing-type"
     case paymentFrequency     = "payment-frequency"
-    
 }
 
 enum EventParameterTypePage: String {

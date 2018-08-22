@@ -1113,8 +1113,11 @@ class TrackerEventSpec: QuickSpec {
                     it ("service-subtype") {
                         expect(sut.params!.stringKeyParams["service-subtype"] as? String).notTo(beNil())
                     }
+                    it ("service-listing-type") {
+                        expect(sut.params!.stringKeyParams["service-listing-type"] as? String).notTo(beNil())
+                    }
                     it ("vertical fields") {
-                        expect(sut.params!.stringKeyParams["vertical-fields"] as? String) == "product-make,product-model,product-year-start,product-year-end,mileage-from,mileage-to,body-type,transmission,fuel-type,drivetrain,seats-from,seats-to,service-subtype,service-type,deal-type,property-type,bedroom-number,bathroom-number,room-number,size-from"
+                        expect(sut.params!.stringKeyParams["vertical-fields"] as? String) == "product-make,product-model,product-year-start,product-year-end,mileage-from,mileage-to,body-type,transmission,fuel-type,drivetrain,seats-from,seats-to,service-subtype,service-type,service-listing-type,deal-type,property-type,bedroom-number,bathroom-number,room-number,size-from"
                     }
                 }
                 context("not receiving all params, contains the default params") {
@@ -3627,6 +3630,7 @@ class TrackerEventSpec: QuickSpec {
                         services.descr = String.makeRandom()
                         let servicesAttributes = ServiceAttributes(typeId: "0123",
                                                                    subtypeId: "4567",
+                                                                   listingType: ServiceListingType.job,
                                                                    typeTitle: String.makeRandom(),
                                                                    subtypeTitle: String.makeRandom(),
                                                                    paymentFrequency: PaymentFrequency.biweekly)
@@ -3634,7 +3638,7 @@ class TrackerEventSpec: QuickSpec {
                         sut = TrackerEvent.listingEditComplete(nil,
                                                                listing: .service(services),
                                                                category: nil,
-                                                               editedFields: [.title, .category],
+                                                               editedFields: [.title, .category, .serviceListingType],
                                                                pageType: .profile)
                     }
                     it("has its event name") {
@@ -3654,9 +3658,9 @@ class TrackerEventSpec: QuickSpec {
                     it ("contains edited-fields") {
                         expect(sut.params!.stringKeyParams["edited-fields"]).notTo(beNil())
                     }
-                    it ("contains title and category fields") {
+                    it ("contains title category and service-listing-type fields") {
                         let editedFields = sut.params!.stringKeyParams["edited-fields"] as? String
-                        expect(editedFields).to(equal("title,category"))
+                        expect(editedFields).to(equal("title,category,service-listing-type"))
                     }
                     it("contains service-type") {
                         let data = sut.params!.stringKeyParams["service-type"] as? String
@@ -3665,6 +3669,10 @@ class TrackerEventSpec: QuickSpec {
                     it("contains service-subtype") {
                         let data = sut.params!.stringKeyParams["service-subtype"] as? String
                         expect(data).to(equal("4567"))
+                    }
+                    it("contains service-listing-type") {
+                        let data = sut.params!.stringKeyParams["service-listing-type"] as? String
+                        expect(data).to(equal("job"))
                     }
                     it("contains payment-frequency") {
                         let data = sut.params!.stringKeyParams["payment-frequency"] as? String
@@ -5524,7 +5532,7 @@ class TrackerEventSpec: QuickSpec {
                         expect(sut.params!.stringKeyParams["service-subtype"] as? String).notTo(beNil())
                     }
                     it ("vertical fields") {
-                        expect(sut.params!.stringKeyParams["vertical-fields"] as? String) == "product-make,product-model,product-year-start,product-year-end,mileage-from,mileage-to,body-type,transmission,fuel-type,drivetrain,seats-from,seats-to,service-subtype,service-type,deal-type,property-type,bedroom-number,bathroom-number,room-number,size-from"
+                        expect(sut.params!.stringKeyParams["vertical-fields"] as? String) == "product-make,product-model,product-year-start,product-year-end,mileage-from,mileage-to,body-type,transmission,fuel-type,drivetrain,seats-from,seats-to,service-subtype,service-type,service-listing-type,deal-type,property-type,bedroom-number,bathroom-number,room-number,size-from"
                     }
                 }
             }
