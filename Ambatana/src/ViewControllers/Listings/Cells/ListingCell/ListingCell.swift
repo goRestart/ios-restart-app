@@ -23,6 +23,9 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     private struct Layout {
         static let stripeHeight: CGFloat = 34
     }
+    
+    private let featureFlags: FeatureFlaggeable
+    
     private lazy var interestedButton: UIButton = UIButton()
     private let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView.init(activityIndicatorStyle: .white)
     // > Stripe area
@@ -151,6 +154,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     }
     
     override init(frame: CGRect) {
+        self.featureFlags = FeatureFlags.sharedInstance
         super.init(frame: frame)
         setupUI()
         contentView.cornerRadius = LGUIKitConstants.mediumCornerRadius
@@ -494,27 +498,15 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         interestedButton.isUserInteractionEnabled = action != .none
     }
     
-    
     @objc private func interestedButtonTapped() {
-        updateInterestedButton(withState: .send(enabled: false))
-        //let featureFlags = FeatureFlags.sharedInstance
-        //guard feedListingData.preventMessageToProUsers else {
+        defer { updateInterestedButton(withState: .send(enabled: false)) }
         guard let listing = listing else { return }
-        let featureFlags = FeatureFlags.sharedInstance
-        let category = listing.category
-        //guard feedListingData.preventMessageToProUsers else {
-        guard shouldPreventMessagesFromFeedToProUsers(category: category, featureFlags: featureFlags) else {
-            //return delegate?.interestActionFor(listing: listing!, userListing: nil)
-            interestActionFor(listing: listing, userListing: nil)
-            return
+        guard shouldPreventMessagesFromFeedToProUsers(category: listing.category) else {
+            return interestActionFor(listing: listing, userListing: nil)
         }
-        
         guard listing.user.type == .unknown else {
-//            return delegate?.interestActionFor(listing: listing,
-//                                               userListing: LocalUser(userListing: listing.user))
-            interestActionFor(listing: listing,
+            return interestActionFor(listing: listing,
                                 userListing: LocalUser(userListing: listing.user))
-            return
         }
         
         interestedButton.isHidden = true
@@ -523,10 +515,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         delegate?.getUserInfoFor(listing) { [weak self] user in
             self?.interestedButton.isHidden = false
             self?.activityIndicator.stopAnimating()
-//            self?.interestActionFor(listing: listing,
-//                                    userListing: LocalUser(userListing: listing.user))
-            self?.interestActionFor(listing: listing,
-                                                userListing: LocalUser(userListing: listing.user))
+            self?.interestActionFor(listing: listing, userListing: LocalUser(userListing: listing.user))
         }
     }
     
@@ -540,40 +529,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         interestedButton.setImage(state.image, for: .normal)
         interestedButton.isUserInteractionEnabled = (state != .none && state != .send(enabled: false))
     }
-    
-    
-//    @objc private func callDelegateInterestedState() {
-//        guard let listing = listing else { return }
-//        let featureFlags = FeatureFlags.sharedInstance
-//        let category = listing.category
-//        if shouldPreventMessagesFromFeedToProUsers(category: category, featureFlags: featureFlags) {
-//            if listing.user.type != .unknown  {
-//                let localUser = LocalUser.init(userListing: listing.user)
-//                self.preventMessagesForProfessionals(localUser: localUser, listing: listing)
-//            } else {
-//                interestedButton.isHidden = true
-//                activityIndicator.startAnimating()
-//                delegate?.getUserInfoFor(listing, completion: { [weak self] user in
-//                    guard let strongSelf = self else { return }
-//                    strongSelf.interestedButton.isHidden = false
-//                    strongSelf.activityIndicator.stopAnimating()
-//                    strongSelf.preventMessagesForProfessionals(localUser: LocalUser.init(user: user), listing: listing)
-//                })
-//            }
-//        } else {
-//            delegate?.interestedActionFor(listing)
-//        }
-//    }
-    
-//    private func preventMessagesForProfessionals(localUser: LocalUser?, listing: Listing) {
-//        if let localUser = localUser, localUser.type == .pro {
-//            self.delegate?.openAskPhoneFor(listing, interlocutor: localUser)
-//        } else {
-//            self.delegate?.interestedActionFor(listing)
-//        }
-//    }
-    
-    private func shouldPreventMessagesFromFeedToProUsers(category: ListingCategory, featureFlags: FeatureFlags) -> Bool {
+    private func shouldPreventMessagesFromFeedToProUsers(category: ListingCategory) -> Bool {
         guard featureFlags.preventMessagesFromFeedToProUsers.isActive else { return false }
         return category == .realEstate || category == .cars || category == .services
     }

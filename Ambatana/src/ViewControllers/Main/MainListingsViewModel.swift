@@ -1936,9 +1936,6 @@ extension MainListingsViewModel: CategoriesHeaderCollectionViewDelegate {
 // MARK: ListingCellDelegate
 
 extension MainListingsViewModel: ListingCellDelegate {
-//    func interestedActionFor(_ listing: Listing) {
-//        //
-//    }
     
     func interestedActionFor(_ listing: Listing, userListing: LocalUser?, completion: @escaping (InterestedState) -> Void) {
         if let user = userListing, user.isProfessional {
@@ -1972,7 +1969,6 @@ extension MainListingsViewModel: ListingCellDelegate {
             guard let strSelf = self else { return }
             let shouldOpenChat = strSelf.interestedStateUpdater.hasContactedListing(listing)
             guard !shouldOpenChat else {
-                //strSelf.refreshFeed() !
                 completion(.seeConversation)
                 let chatDetailData = ChatDetailData.listingAPI(listing: listing)
                 strSelf.openChat(withData: chatDetailData)
@@ -1991,7 +1987,6 @@ extension MainListingsViewModel: ListingCellDelegate {
         }
         
         timer.subscribe { [weak self] (event) in
-            //defer { self?.refreshFeed() }
             guard event.error == nil else {
                 completion(.seeConversation)
                 self?.sendMessage(forListing: listing)
@@ -2048,96 +2043,6 @@ extension MainListingsViewModel: ListingCellDelegate {
                                                   isProfessional: nil)
             self?.tracker.trackEvent(event)
         }
-    }
-    
-//    func interestedActionFor(_ listing: Listing) {
-//        guard let identifier = listing.objectId else { return }
-//        guard let index = listViewModel.indexFor(listingId: identifier) else { return }
-//        if let state = listViewModel.listingInterestState[identifier],
-//            case .send(let enabled) = state, !enabled {
-//            return
-//        }
-//        markListingWithUndoableInterest(listing, atIndex: index)
-//    }
-    
-    private func markListingWithUndoableInterest(_ listing: Listing, atIndex index: Int) {
-        guard let identifier = listing.objectId else { return }
-        
-        let action: () -> () = { [weak self] in
-            guard let strSelf = self else { return }
-            guard !strSelf.interestingListingIDs.contains(identifier) else {
-                strSelf.navigator?.openChat(.listingAPI(listing: listing),
-                                            source: .listingList,
-                                            predefinedMessage: nil)
-                return
-            }
-            
-            strSelf.listViewModel.update(listing: listing, interestedState: .send(enabled: false))
-            let (cancellable, timer) = LGTimer.cancellableWait(strSelf.interestingUndoTimeout)
-            strSelf.showCancellableInterestedBubbleWith(duration: strSelf.interestingUndoTimeout) {
-                cancellable.cancel()
-            }
-            timer.subscribe { [weak self] (event) in
-                guard let strSelf = self else { return }
-                guard event.error == nil else {
-                    strSelf.sendInterestedMessage(forListing: listing, atIndex: index, withID: identifier)
-                    return
-                }
-                strSelf.undoInterestingMessageFor(listing: listing, withID: identifier)
-                }.disposed(by: strSelf.disposeBag)
-        }
-        navigator?.openLoginIfNeeded(infoMessage: R.Strings.chatLoginPopupText, then: action)
-    }
-    
-    private func undoInterestingMessageFor(listing: Listing, withID identifier: String) {
-        tracker.trackEvent(TrackerEvent.undoSentMessage())
-        interestingListingIDs.remove(identifier)
-        syncInterestingListings(interestingListingIDs)
-        listViewModel.update(listing: listing, interestedState: .send(enabled: true))
-        
-    }
-    
-    private func syncInterestingListings(_ interestingListingIDs: Set<String>?) {
-        guard let set = interestingListingIDs else { return }
-        keyValueStorage.interestingListingIDs = set
-    }
-    
-    private func sendInterestedMessage(forListing listing: Listing, atIndex index: Int, withID identifier: String) {
-        interestingListingIDs.update(with: identifier)
-        syncInterestingListings(interestingListingIDs)
-        let type: ChatWrapperMessageType
-        if featureFlags.randomImInterestedMessages.isActive {
-            type = ChatWrapperMessageType.interested(QuickAnswer.dynamicInterested(
-                interestedMessage: QuickAnswer.InterestedMessage.makeRandom()).textToReply)
-        } else {
-            type = ChatWrapperMessageType.interested(QuickAnswer.interested.textToReply)
-        }
-        let trackingInfo = SendMessageTrackingInfo.makeWith(type: type,
-                                                            listing: listing,
-                                                            freePostingAllowed: featureFlags.freePostingModeAllowed)
-            .set(typePage: .listingList)
-            .set(isBumpedUp: .falseParameter)
-            .set(containsEmoji: false)
-        
-        let containsVideo = EventParameterBoolean(bool: listing.containsVideo())
-        tracker.trackEvent(TrackerEvent.userMessageSent(info: trackingInfo, isProfessional: nil))
-        chatWrapper.sendMessageFor(listing: listing,
-                                   type: type,
-                                   completion: { [weak self] isFirstMessage in
-                                    if isFirstMessage.value ?? false {
-                                        self?.tracker.trackEvent(TrackerEvent.firstMessage(info: trackingInfo,
-                                                                                           listingVisitSource: .listingList,
-                                                                                           feedPosition: .none,
-                                                                                           userBadge: .noBadge,
-                                                                                           containsVideo: containsVideo, isProfessional: nil))
-                                    }
-        })
-        listViewModel.update(listing: listing, interestedState: .seeConversation)
-    }
-    
-    private func showCancellableInterestedBubbleWith(duration: TimeInterval, then action: @escaping ()->()) {
-        let message = R.Strings.productInterestedBubbleMessage
-        navigator?.showUndoBubble(withMessage: message, duration: duration, withAction: action)
     }
     
     func chatButtonPressedFor(listing: Listing) {
