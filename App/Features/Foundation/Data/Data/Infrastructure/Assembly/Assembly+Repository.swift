@@ -2,17 +2,24 @@ import Core
 
 // MARK: - Game
 
-extension Assembly {
+extension Assembly: GameSuggestionMapperProvider {
   public var gameRepository: GameRepository {
     return GameRepository(
-      apiDataSource: gameApiDataSource
+      algoliaDataSource: gameAlgoliaDataSource
     )
   }
   
-  private var gameApiDataSource: GameDataSource {
-    return GameApiDataSource(
-      provider: moyaProvider()
+  private var gameAlgoliaDataSource: GameDataSource {
+    return GameAlgoliaDataSource(
+      gamesIndex: AlgoliaIndice.games,
+      gameSuggestionMapperProvider: self
     )
+  }
+  
+  // MARK: - GameSuggestionMapperProvider
+  
+  func gameSuggestionMapper(with query: String) -> GameSuggestionMapper {
+    return GameSuggestionMapper(query: query)
   }
 }
 

@@ -13,8 +13,7 @@ extension Reactive where Base: InstantSearchClient.Index  {
           event(.error(error))
         }
       }
-       
-      
+
       return Disposables.create {
         search.cancel()
       }

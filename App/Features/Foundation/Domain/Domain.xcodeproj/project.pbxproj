@@ -11,7 +11,6 @@
 		1C30D510200931BC00E0A501 /* GameConsole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C30D50F200931BC00E0A501 /* GameConsole.swift */; };
 		1C30D512200931D500E0A501 /* Manufacturer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C30D511200931D500E0A501 /* Manufacturer.swift */; };
 		1C30D514200931FC00E0A501 /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C30D513200931FC00E0A501 /* Genre.swift */; };
-		1C30D71F2009708E00E0A501 /* GetGameConsolesUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C30D71E2009708E00E0A501 /* GetGameConsolesUseCase.swift */; };
 		1C30D721200970EE00E0A501 /* SearchGamesUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C30D720200970EE00E0A501 /* SearchGamesUseCase.swift */; };
 		1C30D7352009765000E0A501 /* Identifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C30D7342009765000E0A501 /* Identifier.swift */; };
 		1C40D8971FFD16F9006D5BE4 /* UserCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40D8961FFD16F9006D5BE4 /* UserCredentials.swift */; };
@@ -33,7 +32,6 @@
 		1C30D50F200931BC00E0A501 /* GameConsole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameConsole.swift; sourceTree = "<group>"; };
 		1C30D511200931D500E0A501 /* Manufacturer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manufacturer.swift; sourceTree = "<group>"; };
 		1C30D513200931FC00E0A501 /* Genre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
-		1C30D71E2009708E00E0A501 /* GetGameConsolesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetGameConsolesUseCase.swift; sourceTree = "<group>"; };
 		1C30D720200970EE00E0A501 /* SearchGamesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGamesUseCase.swift; sourceTree = "<group>"; };
 		1C30D7342009765000E0A501 /* Identifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Identifier.swift; sourceTree = "<group>"; };
 		1C40D8961FFD16F9006D5BE4 /* UserCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCredentials.swift; sourceTree = "<group>"; };
@@ -78,7 +76,6 @@
 		1C30D71D20096E0900E0A501 /* Game */ = {
 			isa = PBXGroup;
 			children = (
-				1C30D71E2009708E00E0A501 /* GetGameConsolesUseCase.swift */,
 				1C30D720200970EE00E0A501 /* SearchGamesUseCase.swift */,
 			);
 			path = Game;
@@ -326,7 +323,6 @@
 				1C89D6F91FF3CF3A00B3FA98 /* BasicCredentials.swift in Sources */,
 				1C89D6F61FF3CF3A00B3FA98 /* AuthenticateUseCase.swift in Sources */,
 				1C30D512200931D500E0A501 /* Manufacturer.swift in Sources */,
-				1C30D71F2009708E00E0A501 /* GetGameConsolesUseCase.swift in Sources */,
 				1CB87BC120150CD20058BA99 /* GameSearchSuggestion.swift in Sources */,
 				1C30D514200931FC00E0A501 /* Genre.swift in Sources */,
 				1C30D721200970EE00E0A501 /* SearchGamesUseCase.swift in Sources */,

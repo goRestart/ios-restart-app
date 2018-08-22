@@ -335,6 +335,7 @@
 				"$(SRCROOT)/../Carthage/Build/iOS/RxMoya.framework",
 				"$(SRCROOT)/../Carthage/Build/iOS/Result.framework",
 				"$(SRCROOT)/../Carthage/Build/iOS/IGListKit.framework",
+				"$(SRCROOT)/../Carthage/Build/iOS/InstantSearchClient.framework",
 			);
 			name = "[Carthage] - Copy frameworks";
 			outputPaths = (
@@ -346,6 +347,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxMoya.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IGListKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/InstantSearchClient.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
