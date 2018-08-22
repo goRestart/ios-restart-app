@@ -1,63 +1,14 @@
 import LGCoreKit
 
-final class InterestedStateUpdater {
+protocol InterestedStateUpdater {
+    var myUserRepository: MyUserRepository { get }
+    var keyValueStorage: KeyValueStorageable { get }
+    var listingInterestStates: Set<String> { get set }
+    var contactedProSellerList: [String] { get }
     
-    private let myUserRepository: MyUserRepository
-    private let keyValueStorage: KeyValueStorageable
-    
-    private(set) var listingInterestStates: Set<String> {
-        didSet {
-            keyValueStorage.interestingListingIDs = listingInterestStates
-        }
-    }
-    
-    private let contactedProSellerList: [String]
-    
-    init(myUserRepository: MyUserRepository = Core.myUserRepository,
-         keyValueStorage: KeyValueStorageable = KeyValueStorage.sharedInstance) {
-        self.myUserRepository = myUserRepository
-        self.listingInterestStates = keyValueStorage.interestingListingIDs
-        self.contactedProSellerList = keyValueStorage.proSellerAlreadySentPhoneInChat
-        self.keyValueStorage = keyValueStorage
-    }
-}
-
-extension InterestedStateUpdater {
-    
-    func hasContactedProListing(_ listing: Listing) -> Bool {
-        guard let listingId = listing.objectId else { return false }
-        return contactedProSellerList.contains(listingId)
-    }
-    
-    func hasContactedListing(_ listing: Listing) -> Bool {
-        guard let listingId = listing.objectId else { return false }
-        return listingInterestStates.contains(listingId)
-    }
-    
-    func interestedIsDisabled(forListing listing: Listing) -> Bool {
-        return listing.interestedState(myUserRepository: myUserRepository,
-                                       listingInterestStates: listingInterestStates).isDisabled
-    }
-    
-    func addInterestedState(forListing listing: Listing, completion: (()-> Void)? = nil) {
-        guard let listingId = listing.objectId else { return }
-        listingInterestStates.update(with: listingId)
-        completion?()
-    }
-    
-    func removeInterestedState(forListing listing: Listing, completion: (()-> Void)? = nil) {
-        guard let listingId = listing.objectId else { return }
-        listingInterestStates.remove(listingId)
-        completion?()
-    }
-}
-
-private extension InterestedState {
-    var isDisabled: Bool {
-        switch self {
-        case .send(enabled: let enabled):
-            return !enabled
-        case .none, .seeConversation: return false
-        }
-    }
+    func hasContactedProListing(_ listing: Listing) -> Bool
+    func hasContactedListing(_ listing: Listing) -> Bool
+    func interestedIsDisabled(forListing listing: Listing) -> Bool
+    func addInterestedState(forListing listing: Listing, completion: (()-> Void)?)
+    func removeInterestedState(forListing listing: Listing, completion: (()-> Void)?)
 }

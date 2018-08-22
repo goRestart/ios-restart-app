@@ -517,7 +517,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         let featureFlags = FeatureFlags.sharedInstance
         let bubbleTextGenerator = DistanceBubbleTextGenerator()
         let chatWrapper = LGChatWrapper()
-        let interestedStateUpdater = InterestedStateUpdater()
+        let interestedStateUpdater = LGInterestedStateUpdater()
         let feedBadgingSynchronizer = LGFeedBadgingSynchronizer()
         self.init(sessionManager: sessionManager,
                   myUserRepository: myUserRepository,
@@ -2025,7 +2025,7 @@ extension MainListingsViewModel: ListingCellDelegate {
     
     private func sendMessage(forListing listing: Listing) {
         let type = ChatWrapperMessageType.interested(QuickAnswer.interested.textToReply)
-        interestedStateUpdater.addInterestedState(forListing: listing)
+        interestedStateUpdater.addInterestedState(forListing: listing, completion: nil)
         let trackingInfo = SendMessageTrackingInfo
             .makeWith(type: type, listing: listing, freePostingAllowed: featureFlags.freePostingModeAllowed)
             .set(typePage: .listingList)

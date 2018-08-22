@@ -16,13 +16,13 @@ final class InterestedStateUpdaterSpec: QuickSpec {
                 
                 it("should insert listing Id to keyvalue storage") {
                     let listing = makeListing(withObjectId: "8")
-                    sut.addInterestedState(forListing: listing)
+                    sut.addInterestedState(forListing: listing, completion: nil)
                     expect(keyValueStorage.interestingListingIDs.contains("8")).to(beTrue())
                 }
                 
                 it("should delete listing Id from keyvalue storage"){
                     let listing = makeListing(withObjectId: "2")
-                    sut.removeInterestedState(forListing: listing)
+                    sut.removeInterestedState(forListing: listing, completion: nil)
                     expect(keyValueStorage.interestingListingIDs.contains("2")).toNot(beTrue())
                 }
             }
@@ -75,7 +75,7 @@ final class InterestedStateUpdaterSpec: QuickSpec {
                                               myUserRepository: myUserRepository)
             keyValueStorage.interestingListingIDs = Set(interestedIds)
             keyValueStorage.proSellerAlreadySentPhoneInChat = contactedProUsersIds
-            return InterestedStateUpdater(myUserRepository: myUserRepository, keyValueStorage: keyValueStorage)
+            return LGInterestedStateUpdater(myUserRepository: myUserRepository, keyValueStorage: keyValueStorage)
         }
         
         func makeListing(withObjectId id: String) -> Listing {
@@ -84,18 +84,5 @@ final class InterestedStateUpdaterSpec: QuickSpec {
             return Listing.product(product)
         }
         
-        func makeFeedListingData(withObjectId id: String) -> FeedListingData {
-            return FeedListingData(listing: makeListing(withObjectId: id),
-                                   isFree: false,
-                                   isFeatured: true,
-                                   isMine: false,
-                                   price: "19",
-                                   imageSize: .zero,
-                                   imageHasFixedSize: true,
-                                   interestedState: .send(enabled: true),
-                                   isDiscarded: false,
-                                   preventMessageToProUsers: false,
-                                   chatNowTitle: "Chat Now")
-        }
     }
 }
