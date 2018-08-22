@@ -1,17 +1,17 @@
 import LGCoreKit
 
-final class InterestedStateUpdater {
+final class LGInterestedStateUpdater: InterestedStateUpdater {
     
-    private let myUserRepository: MyUserRepository
-    private let keyValueStorage: KeyValueStorageable
+    let myUserRepository: MyUserRepository
+    let keyValueStorage: KeyValueStorageable
     
-    private(set) var listingInterestStates: Set<String> {
+    var listingInterestStates: Set<String> {
         didSet {
             keyValueStorage.interestingListingIDs = listingInterestStates
         }
     }
     
-    private let contactedProSellerList: [String]
+    let contactedProSellerList: [String]
     
     init(myUserRepository: MyUserRepository = Core.myUserRepository,
          keyValueStorage: KeyValueStorageable = KeyValueStorage.sharedInstance) {
@@ -22,7 +22,7 @@ final class InterestedStateUpdater {
     }
 }
 
-extension InterestedStateUpdater {
+extension LGInterestedStateUpdater {
     
     func hasContactedProListing(_ listing: Listing) -> Bool {
         guard let listingId = listing.objectId else { return false }
@@ -39,20 +39,20 @@ extension InterestedStateUpdater {
                                        listingInterestStates: listingInterestStates).isDisabled
     }
     
-    func addInterestedState(forListing listing: Listing, completion: (()-> Void)? = nil) {
+    func addInterestedState(forListing listing: Listing, completion: (()-> Void)?) {
         guard let listingId = listing.objectId else { return }
         listingInterestStates.update(with: listingId)
         completion?()
     }
     
-    func removeInterestedState(forListing listing: Listing, completion: (()-> Void)? = nil) {
+    func removeInterestedState(forListing listing: Listing, completion: (()-> Void)?) {
         guard let listingId = listing.objectId else { return }
         listingInterestStates.remove(listingId)
         completion?()
     }
 }
 
-private extension InterestedState {
+extension InterestedState {
     var isDisabled: Bool {
         switch self {
         case .send(enabled: let enabled):
