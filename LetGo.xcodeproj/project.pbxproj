@@ -202,6 +202,7 @@
 		0A8275131F7D1A1100A6A0C5 /* DeferredDeepLinkFacebookTargetSearchQuery.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A82750D1F7D190A00A6A0C5 /* DeferredDeepLinkFacebookTargetSearchQuery.json */; };
 		0A8275141F7D1A1100A6A0C5 /* DeferredDeepLinkFacebookTargetCategory.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A82750F1F7D194800A6A0C5 /* DeferredDeepLinkFacebookTargetCategory.json */; };
 		0A8275151F7D1A1100A6A0C5 /* DeferredDeepLinkFacebookTargetListing.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A8275111F7D196700A6A0C5 /* DeferredDeepLinkFacebookTargetListing.json */; };
+		0A83720E212D4B7D00FF4540 /* HTMLBoldParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A41195F621219B9300EBB210 /* HTMLBoldParser.swift */; };
 		0A85BD9B2074D48200A850AF /* MockProduct+MockFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A85BD9A2074D48200A850AF /* MockProduct+MockFactory.swift */; };
 		0A8823AA2052BBD3004414CA /* ZoomableImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8823A92052BBD3004414CA /* ZoomableImageView.swift */; };
 		0A8823AB2052BCDE004414CA /* ZoomableImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8823A92052BBD3004414CA /* ZoomableImageView.swift */; };
@@ -8261,6 +8262,7 @@
 				0AEB4FF22018C25F003365DE /* ListingDeckOnBoardingBinder.swift in Sources */,
 				0A3E5FED207FAB9A00577670 /* FeedAssembly.swift in Sources */,
 				C21E6074208A8828008A1956 /* RecordedVideo.swift in Sources */,
+				0A83720E212D4B7D00FF4540 /* HTMLBoldParser.swift in Sources */,
 				0AE6F4FE20F8DE2A00D58BCE /* SearchNavigator.swift in Sources */,
 				727463B21FB0AEAB00AD8261 /* LGSearchMap.swift in Sources */,
 				0183BB21203C8BEE00204383 /* PostingGetStartedViewController.swift in Sources */,
