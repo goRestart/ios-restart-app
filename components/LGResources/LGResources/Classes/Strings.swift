@@ -970,6 +970,14 @@ extension R {
     public static let filtersCarsTransmissionTitle = Strings.tr("Localizable", "filters_cars_transmission_title")
     /// not set
     public static let filtersDistanceNotSet = Strings.tr("Localizable", "filters_distance_not_set")
+    /// Job & Service Info
+    public static let filtersJobsServicesHeader = Strings.tr("Localizable", "filters_jobs_services_header")
+    /// Subtype
+    public static let filtersJobsServicesSubtypeTitle = Strings.tr("Localizable", "filters_jobs_services_subtype_title")
+    /// Looking for...
+    public static let filtersJobsServicesToggleHeader = Strings.tr("Localizable", "filters_jobs_services_toggle_header")
+    /// Type
+    public static let filtersJobsServicesTypeTitle = Strings.tr("Localizable", "filters_jobs_services_type_title")
     /// Mileage
     public static let filtersMileageSliderTitle = Strings.tr("Localizable", "filters_mileage_slider_title")
     /// Reset

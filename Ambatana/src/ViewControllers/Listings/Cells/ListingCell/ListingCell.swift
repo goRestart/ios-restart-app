@@ -22,6 +22,7 @@ protocol ListingCellDelegate: class {
 final class ListingCell: UICollectionViewCell, ReusableCell {
     private struct Layout {
         static let stripeHeight: CGFloat = 34
+        static let extraInfoTrailing: CGFloat = 30
     }
     private lazy var interestedButton: UIButton = UIButton()
     private let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView.init(activityIndicatorStyle: .white)
@@ -91,6 +92,8 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         label.setContentHuggingPriority(.defaultLow, for: .horizontal)
         return label
     }()
+    
+    private let extraInfoTagView: ExtraInfoTagView = ExtraInfoTagView(withColour: .white)
 
     private let bumpUpContainer = UIView()
 
@@ -282,6 +285,10 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
             }
         }
     }
+    
+    func setupExtraInfoTag(withText text: String) {
+        setupExtraInfoTagView(withText: text)
+    }
 
     func setupBumpUpCTA() {
 
@@ -315,12 +322,6 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     }
     
     // Product Detail In Image
-    
-    func showDistanceOnlyInImage(distance: Double?) {
-        if let distance = distance {
-            addDistanceViewInImage(distance: distance, isOnTopLeft: false)
-        }
-    }
     
     func show(isDiscarded: Bool, reason: String? = nil) {
         discardedView.isHidden = !isDiscarded
@@ -472,19 +473,17 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
             ])
     }
     
-    private func addDistanceViewInImage(distance: Double, isOnTopLeft: Bool) {
+    private func setupExtraInfoTagView(withText text: String) {
+        extraInfoTagView.removeFromSuperview()
+        extraInfoTagView.text = text
+        contentView.addSubviewsForAutoLayout([extraInfoTagView])
         
-        let distanceString = String(describing: distance) + DistanceType.systemDistanceType().rawValue
-        
-        if isOnTopLeft {
-            topDistanceInfoView.isHidden = false
-            bottomDistanceInfoView.isHidden = true
-            topDistanceInfoView.setDistance(distanceString)
-        } else {
-            topDistanceInfoView.isHidden = true
-            bottomDistanceInfoView.isHidden = false
-            bottomDistanceInfoView.setDistance(distanceString)
-        }
+        let trailing: CGFloat = interestedButton.isHidden ? 0 : Layout.extraInfoTrailing
+        NSLayoutConstraint.activate([
+            extraInfoTagView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metrics.shortMargin),
+            extraInfoTagView.bottomAnchor.constraint(equalTo: featuredListingInfoView.topAnchor, constant: -Metrics.shortMargin),
+            extraInfoTagView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -trailing)
+            ])
     }
     
     func setupWith(interestedState action: InterestedState) {
@@ -616,6 +615,8 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         for featuredInfoSubview in featuredListingInfoView.subviews {
             featuredInfoSubview.removeFromSuperview()
         }
+        
+        extraInfoTagView.removeFromSuperview()
     }
     
     

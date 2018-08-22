@@ -196,7 +196,7 @@ final class NotificationsViewModel: BaseViewModel {
         var sections: [NotificationCenterSection] = []
         for notificationData in notificationsData {
             let dateSection = notificationData.date.notificationCenterSectionTitle()
-            var found = sections.index(where: { $0.sectionDate == dateSection })
+            let found = sections.index(where: { $0.sectionDate == dateSection })
             if let found = found {
                 sections[found].notifications.append(notificationData)
             } else {

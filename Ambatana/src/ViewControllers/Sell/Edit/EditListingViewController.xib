@@ -117,6 +117,13 @@
                 <outlet property="scrollView" destination="eiL-oq-GEV" id="z8N-fc-MOp"/>
                 <outlet property="sendButton" destination="hgl-q6-NPc" id="9Zb-L5-cVr"/>
                 <outlet property="serviceChevron" destination="kaw-Av-DxJ" id="1kw-9G-iHU"/>
+                <outlet property="serviceListingButton" destination="6LU-Os-2vo" id="Ura-Vl-R6w"/>
+                <outlet property="serviceListingChevron" destination="Qak-Aq-vQm" id="QGf-Su-gtJ"/>
+                <outlet property="serviceListingTitleLabel" destination="7JM-KP-d85" id="Nxl-7J-ycB"/>
+                <outlet property="serviceListingTypeContainer" destination="h0t-2S-Lg0" id="F5y-4I-Sm2"/>
+                <outlet property="serviceListingTypeHeightConstraint" destination="fs5-X9-s7A" id="WmP-Dv-tZc"/>
+                <outlet property="serviceListingTypeTopConstraint" destination="WzV-20-una" id="opF-KH-aOr"/>
+                <outlet property="serviceListingValueLabel" destination="EDB-aU-SeT" id="as6-9N-u7J"/>
                 <outlet property="serviceSubtypeButton" destination="yZQ-vd-BK5" id="3M4-CA-Vpw"/>
                 <outlet property="serviceSubtypeChevron" destination="M6C-EH-BZk" id="09h-jH-AAx"/>
                 <outlet property="serviceSubtypeTitleLabel" destination="T6f-pV-hQO" id="hSl-Uf-GC1"/>
@@ -1622,8 +1629,71 @@
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xwj-52-rkW" userLabel="Services Info View">
                                             <rect key="frame" x="0.0" y="0.0" width="400" height="404"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sAg-cz-3Qg" userLabel="serviceTypeView">
+                                                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h0t-2S-Lg0" userLabel="serviceListingTypeView">
                                                     <rect key="frame" x="0.0" y="0.0" width="400" height="44"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="_ Listing type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7JM-KP-d85" userLabel="_ Listing type">
+                                                            <rect key="frame" x="16" y="12" width="101" height="21"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="_ Service" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EDB-aU-SeT" userLabel="_ Pets">
+                                                            <rect key="frame" x="137" y="12" width="224" height="21"/>
+                                                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
+                                                            <color key="textColor" red="0.45882352939999999" green="0.45882352939999999" blue="0.45882352939999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Qak-Aq-vQm">
+                                                            <rect key="frame" x="376" y="16" width="8" height="13"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="13" id="4Hn-vC-DNE"/>
+                                                                <constraint firstAttribute="width" constant="8" id="Xul-A6-73X"/>
+                                                                <constraint firstAttribute="width" constant="12" id="inU-zC-Zg3"/>
+                                                            </constraints>
+                                                            <variation key="default">
+                                                                <mask key="constraints">
+                                                                    <exclude reference="inU-zC-Zg3"/>
+                                                                </mask>
+                                                            </variation>
+                                                        </imageView>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6LU-Os-2vo" userLabel="Services Type Button">
+                                                            <rect key="frame" x="0.0" y="0.0" width="400" height="44"/>
+                                                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="44" id="nfo-xL-1ur"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <inset key="contentEdgeInsets" minX="16" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                            <state key="normal">
+                                                                <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            </state>
+                                                            <variation key="default">
+                                                                <mask key="constraints">
+                                                                    <exclude reference="nfo-xL-1ur"/>
+                                                                </mask>
+                                                            </variation>
+                                                        </button>
+                                                    </subviews>
+                                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <constraints>
+                                                        <constraint firstItem="7JM-KP-d85" firstAttribute="centerY" secondItem="h0t-2S-Lg0" secondAttribute="centerY" id="0Kr-jj-wyb"/>
+                                                        <constraint firstAttribute="bottom" secondItem="6LU-Os-2vo" secondAttribute="bottom" id="6CW-KA-JOu"/>
+                                                        <constraint firstItem="EDB-aU-SeT" firstAttribute="centerY" secondItem="h0t-2S-Lg0" secondAttribute="centerY" id="A3q-1D-Lwu"/>
+                                                        <constraint firstItem="Qak-Aq-vQm" firstAttribute="leading" secondItem="EDB-aU-SeT" secondAttribute="trailing" constant="15" id="Is5-sN-YPw"/>
+                                                        <constraint firstItem="6LU-Os-2vo" firstAttribute="top" secondItem="h0t-2S-Lg0" secondAttribute="top" id="Pap-O9-Z9f"/>
+                                                        <constraint firstItem="EDB-aU-SeT" firstAttribute="leading" secondItem="7JM-KP-d85" secondAttribute="trailing" constant="20" id="Pgk-IU-dlg"/>
+                                                        <constraint firstItem="Qak-Aq-vQm" firstAttribute="centerY" secondItem="h0t-2S-Lg0" secondAttribute="centerY" id="WfF-p9-VW8"/>
+                                                        <constraint firstAttribute="trailing" secondItem="6LU-Os-2vo" secondAttribute="trailing" id="eHb-au-wpM"/>
+                                                        <constraint firstAttribute="trailing" secondItem="Qak-Aq-vQm" secondAttribute="trailing" constant="16" id="fM4-gR-IOz"/>
+                                                        <constraint firstAttribute="height" constant="44" id="fs5-X9-s7A"/>
+                                                        <constraint firstItem="7JM-KP-d85" firstAttribute="leading" secondItem="h0t-2S-Lg0" secondAttribute="leading" constant="16" id="o5p-AA-52T"/>
+                                                        <constraint firstItem="6LU-Os-2vo" firstAttribute="leading" secondItem="h0t-2S-Lg0" secondAttribute="leading" id="zOf-QT-H83"/>
+                                                    </constraints>
+                                                </view>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sAg-cz-3Qg" userLabel="serviceTypeView">
+                                                    <rect key="frame" x="0.0" y="45" width="400" height="44"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="_ Service type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aRX-kD-YAm" userLabel="_ Service type">
                                                             <rect key="frame" x="16" y="12" width="107" height="21"/>
@@ -1685,8 +1755,8 @@
                                                         <constraint firstItem="4e9-XL-CaU" firstAttribute="top" secondItem="sAg-cz-3Qg" secondAttribute="top" id="y4F-tb-rTb"/>
                                                     </constraints>
                                                 </view>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sGY-7f-jKM" userLabel="serviceSubypeView">
-                                                    <rect key="frame" x="0.0" y="45" width="400" height="44"/>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sGY-7f-jKM" userLabel="serviceSubtypeView">
+                                                    <rect key="frame" x="0.0" y="90" width="400" height="44"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="_ Service subtype" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T6f-pV-hQO" userLabel="_ Service subtype">
                                                             <rect key="frame" x="16" y="12" width="135" height="21"/>
@@ -1750,11 +1820,14 @@
                                                 </view>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="sAg-cz-3Qg" firstAttribute="top" secondItem="xwj-52-rkW" secondAttribute="top" id="7Up-Ly-8iA"/>
+                                                <constraint firstItem="sAg-cz-3Qg" firstAttribute="top" secondItem="h0t-2S-Lg0" secondAttribute="bottom" constant="1" id="7Up-Ly-8iA"/>
+                                                <constraint firstItem="h0t-2S-Lg0" firstAttribute="leading" secondItem="xwj-52-rkW" secondAttribute="leading" id="IdP-N6-Y3X"/>
                                                 <constraint firstAttribute="trailing" secondItem="sAg-cz-3Qg" secondAttribute="trailing" id="Q8e-R5-Gg9"/>
                                                 <constraint firstItem="sGY-7f-jKM" firstAttribute="leading" secondItem="xwj-52-rkW" secondAttribute="leading" id="V7l-pe-gti"/>
+                                                <constraint firstItem="h0t-2S-Lg0" firstAttribute="top" secondItem="xwj-52-rkW" secondAttribute="top" id="WzV-20-una"/>
                                                 <constraint firstItem="sAg-cz-3Qg" firstAttribute="leading" secondItem="xwj-52-rkW" secondAttribute="leading" id="dWe-3B-eDo"/>
                                                 <constraint firstAttribute="trailing" secondItem="sGY-7f-jKM" secondAttribute="trailing" id="jLR-se-hx8"/>
+                                                <constraint firstAttribute="trailing" secondItem="h0t-2S-Lg0" secondAttribute="trailing" id="l0P-Um-9Ka"/>
                                                 <constraint firstItem="sGY-7f-jKM" firstAttribute="top" secondItem="sAg-cz-3Qg" secondAttribute="bottom" constant="1" id="xkU-bI-h9c"/>
                                             </constraints>
                                         </view>

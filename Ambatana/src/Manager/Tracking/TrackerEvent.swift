@@ -609,6 +609,7 @@ struct TrackerEvent {
         
         params[.serviceType] = listing.service?.servicesAttributes.typeId ?? SharedConstants.parameterNotApply
         params[.serviceSubtype] = listing.service?.servicesAttributes.subtypeId ?? SharedConstants.parameterNotApply
+        params[.serviceListingType] = listing.service?.servicesAttributes.listingType?.rawValue ?? SharedConstants.parameterNotApply
         
         return TrackerEvent(name: .listingSellComplete, params: params)
     }
@@ -842,6 +843,7 @@ struct TrackerEvent {
         if let servicesAttributes = listing.service?.servicesAttributes {
             params[.serviceType] = servicesAttributes.typeId ?? SharedConstants.parameterNotApply
             params[.serviceSubtype] = servicesAttributes.subtypeId ?? SharedConstants.parameterNotApply
+            params[.serviceListingType] = servicesAttributes.listingType?.rawValue ?? SharedConstants.parameterNotApply
             params[.paymentFrequency] = servicesAttributes.paymentFrequency?.rawValue
         }
         
@@ -962,6 +964,13 @@ struct TrackerEvent {
         params[.messageGoal] = questionKey
         params[.listingId] = listingId
         return TrackerEvent(name: .chatLetgoServiceQuestionReceived, params: params)
+    }
+    
+    static func chatLetgoServiceCTAReceived(questionKey: String, listingId: String) -> TrackerEvent {
+        var params = EventParameters()
+        params[.messageGoal] = questionKey
+        params[.listingId] = listingId
+        return TrackerEvent(name: .chatLetgoServiceCTAReceived, params: params)
     }
 
     static func chatCallToActionTapped(ctaKey: String, isLetgoAssistant: EventParameterBoolean) -> TrackerEvent {

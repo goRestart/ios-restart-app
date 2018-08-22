@@ -163,7 +163,6 @@ extension ABTests {
     var showChatSafetyTips: LeanplumABVariable<Bool> { return chat.showChatSafetyTips }
     var chatNorris: LeanplumABVariable<Int> { return chat.chatNorris }
     var showChatConnectionStatusBar: LeanplumABVariable<Int> { return chat.showChatConnectionStatusBar }
-    var showChatHeaderWithoutListingForAssistant: LeanplumABVariable<Bool> { return chat.showChatHeaderWithoutListingForAssistant }
     var showChatHeaderWithoutUser: LeanplumABVariable<Bool> { return chat.showChatHeaderWithoutUser }
     var enableCTAMessageType: LeanplumABVariable<Bool> { return chat.enableCTAMessageType }
     var expressChatImprovement: LeanplumABVariable<Int> { return chat.expressChatImprovement }
@@ -199,8 +198,6 @@ extension ABTests {
 extension ABTests {
     var dummyUsersInfoProfile: LeanplumABVariable<Int> { return retention.dummyUsersInfoProfile }
     var onboardingIncentivizePosting: LeanplumABVariable<Int> { return retention.onboardingIncentivizePosting }
-    var iAmInterestedInFeed: LeanplumABVariable<Int> { return retention.iAmInterestedInFeed }
-    var highlightedIAmInterestedInFeed: LeanplumABVariable<Int> { return retention.highlightedIAmInterestedInFeed }
     var notificationSettings: LeanplumABVariable<Int> { return retention.notificationSettings }
     var searchAlertsInSearchSuggestions: LeanplumABVariable<Int> { return retention.searchAlertsInSearchSuggestions }
     var engagementBadging: LeanplumABVariable<Int> { return retention.engagementBadging }
@@ -222,7 +219,6 @@ extension ABTests {
     var jobsAndServicesEnabled: LeanplumABVariable<Int> { return verticals.jobsAndServicesEnabled }
     var servicesPaymentFrequency: LeanplumABVariable<Int> { return verticals.servicesPaymentFrequency }
     var carExtraFieldsEnabled: LeanplumABVariable<Int> { return verticals.carExtraFieldsEnabled }
-    var realEstateMapTooltip: LeanplumABVariable<Int> { return verticals.realEstateMapTooltip }
     var servicesUnifiedFilterScreen: LeanplumABVariable<Int> { return verticals.servicesUnifiedFilterScreen }
 }
 

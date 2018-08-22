@@ -50,7 +50,8 @@ extension ServicesFilters: MockFactory {
     
     public static func makeMock() -> ServicesFilters {
         return ServicesFilters(type: MockServiceType.makeMock(),
-                               subtypes: MockServiceSubtype.makeMocks())
+                               subtypes: MockServiceSubtype.makeMocks(),
+                               listingTypes: [ServiceListingType.job])
     }
 }
 
