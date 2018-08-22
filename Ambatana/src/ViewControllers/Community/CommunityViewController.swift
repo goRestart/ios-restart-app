@@ -32,6 +32,8 @@ final class CommunityViewController: BaseViewController {
     private func setupUI() {
         view.backgroundColor = .white
         view.addSubviewForAutoLayout(webView)
+        webView.navigationDelegate = self
+        webView.allowsBackForwardNavigationGestures = true
         setupNavBar()
         setupConstraints()
     }
