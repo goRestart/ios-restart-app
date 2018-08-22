@@ -94,6 +94,7 @@ final class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDr
         }
         
         if let serviceListingTypeText = model.serviceListingTypeDisplayText,
+            style == .serviceList,
             featureFlags.jobsAndServicesEnabled.isActive {
             cell.setupExtraInfoTag(withText: serviceListingTypeText)
         }
