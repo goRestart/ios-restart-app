@@ -22,22 +22,12 @@ protocol ListingCellDelegate: class {
 final class ListingCell: UICollectionViewCell, ReusableCell {
     private struct Layout {
         static let stripeHeight: CGFloat = 34
+        static let stripWidth: CGFloat = 70
     }
     private lazy var interestedButton: UIButton = UIButton()
     private let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView.init(activityIndicatorStyle: .white)
-    // > Stripe area
-    
-    private let stripeImageView = UIImageView()
-    private let stripeInfoView = UIView()
-    private let stripeInfoInnerContainerView = UIView()
-    
-    private let stripeLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemMediumFont(size: 12)
-        label.minimumScaleFactor = 0.6
-        label.adjustsFontSizeToFitWidth = true
-        return label
-    }()
+
+    private let ribbonView = LGRibbonView()
     
     // > Thumbnail Image and background
     
@@ -217,21 +207,19 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     }
     
     func setupFreeStripe() {
-        stripeImageView.image = R.Asset.BackgroundsAndImages.stripeWhite.image
-        stripeLabel.text = R.Strings.productFreePrice
-        stripeLabel.textAlignment = .center
-        stripeLabel.textColor = UIColor.primaryColor
-        stripeImageView.isHidden = false
-        stripeInfoView.isHidden = false
+        let ribbonConfiguration = LGRibbonConfiguration(title: R.Strings.productFreePrice,
+                                                        icon: nil,
+                                                        titleColor: .orangeFree)
+        ribbonView.setupRibbon(configuration: ribbonConfiguration)
+        ribbonView.isHidden = false
     }
     
     func setupFeaturedStripe(withTextColor textColor: UIColor) {
-        stripeImageView.image = R.Asset.BackgroundsAndImages.stripeWhite.image
-        stripeLabel.text = R.Strings.bumpUpProductCellFeaturedStripe
-        stripeLabel.textAlignment = .left
-        stripeLabel.textColor = textColor
-        stripeImageView.isHidden = false
-        stripeInfoView.isHidden = false
+        let ribbonConfiguration = LGRibbonConfiguration(title: R.Strings.bumpUpProductCellFeaturedStripe,
+                                                        icon: nil,
+                                                        titleColor: textColor)
+        ribbonView.setupRibbon(configuration: ribbonConfiguration)
+        ribbonView.isHidden = false
     }
     
     // Product Detail Under Image
@@ -330,7 +318,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
                                               thumbnailImageView,
                                               thumbnailGifImageView,
                                               featuredListingInfoView,
-                                              stripeImageView, stripeInfoView,
+                                              ribbonView,
                                               discardedView,
                                               topDistanceInfoView,
                                               bottomDistanceInfoView,
@@ -378,13 +366,12 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     }
     
     private func setupStripArea() {
-        layoutStripArea()
-        let rotation = CGFloat(Double.pi/4)
-        stripeInfoView.transform = CGAffineTransform(rotationAngle: rotation)
-        stripeLabel.textColor = UIColor.redText
-        
-        stripeInfoView.isHidden = true
-        stripeImageView.isHidden = true
+        NSLayoutConstraint.activate([
+            ribbonView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            ribbonView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            ribbonView.widthAnchor.constraint(equalToConstant: Layout.stripWidth),
+            ribbonView.heightAnchor.constraint(equalTo: ribbonView.widthAnchor)
+        ])
     }
     
     private func setupDiscardedView() {
@@ -415,46 +402,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
             bottomDistanceInfoView.heightAnchor.constraint(equalToConstant: height)
             ])
     }
-    
-    private func layoutStripArea() {
-        NSLayoutConstraint.activate([
-            stripeImageView.widthAnchor.constraint(equalToConstant: 70),
-            stripeImageView.heightAnchor.constraint(equalToConstant: 70),
-            stripeImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 2),
-            stripeImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: -2),
-            
-            stripeInfoView.widthAnchor.constraint(equalToConstant: 63),
-            stripeInfoView.heightAnchor.constraint(equalToConstant: Layout.stripeHeight),
-            stripeInfoView.leadingAnchor.constraint(equalTo: stripeImageView.leadingAnchor, constant: 16),
-            stripeInfoView.centerYAnchor.constraint(equalTo: stripeImageView.centerYAnchor, constant: -7)
-            ])
-        setupStripInfoView()
-    }
-    
-    private func setupStripInfoView() {
-        stripeInfoView.addSubviewForAutoLayout(stripeInfoInnerContainerView)
-        NSLayoutConstraint.activate([
-            stripeInfoInnerContainerView.centerXAnchor.constraint(equalTo: stripeInfoView.centerXAnchor, constant: 2),
-            stripeInfoInnerContainerView.leadingAnchor.constraint(greaterThanOrEqualTo: stripeInfoView.leadingAnchor),
-            stripeInfoInnerContainerView.trailingAnchor.constraint(greaterThanOrEqualTo: stripeInfoView.trailingAnchor),
-            stripeInfoInnerContainerView.bottomAnchor.constraint(equalTo: stripeInfoView.bottomAnchor),
-            stripeInfoInnerContainerView.topAnchor.constraint(equalTo: stripeInfoView.topAnchor)
-            ])
-        setupStripeInfoContainerSubviews()
-    }
-    
-    private func setupStripeInfoContainerSubviews() {
-        stripeInfoInnerContainerView.addSubviewsForAutoLayout([stripeLabel])
-        
-        NSLayoutConstraint.activate([
-            stripeLabel.trailingAnchor.constraint(equalTo: stripeInfoInnerContainerView.trailingAnchor),
-            stripeLabel.bottomAnchor.constraint(equalTo: stripeInfoInnerContainerView.bottomAnchor),
-            stripeLabel.topAnchor.constraint(equalTo: stripeInfoInnerContainerView.topAnchor),
-            stripeLabel.heightAnchor.constraint(equalToConstant: Layout.stripeHeight),
-            stripeLabel.leadingAnchor.constraint(equalTo: stripeInfoInnerContainerView.leadingAnchor)
-            ])
-    }
-    
+
     private func addDistanceViewInImage(distance: Double, isOnTopLeft: Bool) {
         
         let distanceString = String(describing: distance) + DistanceType.systemDistanceType().rawValue
@@ -585,8 +533,8 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         setupBackgroundColor(id: nil)
         thumbnailGifImageView.clear()
         thumbnailImageView.image = nil
-        stripeImageView.image = nil
-        stripeLabel.text = ""
+        ribbonView.clear()
+        ribbonView.isHidden = true
         detailViewInImage.clearLabelTexts()
         topDistanceInfoView.clearAll()
         bottomDistanceInfoView.clearAll()
@@ -605,8 +553,6 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     private func setAccessibilityIds() {
         thumbnailImageView.set(accessibilityId: .listingCellThumbnailImageView)
         thumbnailGifImageView.set(accessibilityId: .listingCellThumbnailImageView)
-        stripeImageView.set(accessibilityId: .listingCellStripeImageView)
-        stripeLabel.set(accessibilityId: .listingCellStripeLabel)
         featuredListingChatButton.set(accessibilityId: .listingCellFeaturedChatButton)
     }
     

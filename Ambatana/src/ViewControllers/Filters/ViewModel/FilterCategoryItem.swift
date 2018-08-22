@@ -15,7 +15,7 @@ enum FilterCategoryItem: Equatable {
         case let .category(category: category):
             return category.name
         case .free:
-            return R.Strings.categoriesFree
+            return R.Strings.productFreePrice
         }
     }
     

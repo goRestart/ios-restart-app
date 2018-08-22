@@ -119,14 +119,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     let isShowingCategoriesHeader = Variable<Bool>(false)
     
     var categoryHeaderElements: [FilterCategoryItem] { return FilterCategoryItem.makeForFeed(with: featureFlags) }
-    
-    var categoryHighlighted: FilterCategoryItem {
-        if featureFlags.shouldHightlightFreeFilterInFeed {
-            return .free
-        } else {
-            return FilterCategoryItem(category: .services)
-        }
-    }
+    var categoryHighlighted: FilterCategoryItem { return FilterCategoryItem(category: .services) }
     
     private static let firstVersionNumber = 1
     
