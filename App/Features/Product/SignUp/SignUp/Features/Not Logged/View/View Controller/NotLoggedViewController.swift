@@ -8,6 +8,14 @@ final class NotLoggedViewController: ViewController {
   var viewModel: NotLoggedViewModelType!
   
   private let notLoggedView = NotLoggedView()
+  private let viewBinder: NotLoggedViewBinder
+
+  init(viewBinder: NotLoggedViewBinder) {
+    self.viewBinder = viewBinder
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder aDecoder: NSCoder) { fatalError() }
   
   override func loadView() {
     self.view = notLoggedView
@@ -18,16 +26,6 @@ final class NotLoggedViewController: ViewController {
   }
   
   override func bindViewModel() {
-    notLoggedView.signInButton.rx.tap
-      .subscribe(onNext: { [weak self] _ in
-        self?.viewModel.input.signInButtonPressed()
-      })
-      .disposed(by: bag)
-    
-    notLoggedView.signUpButton.rx.tap
-      .subscribe(onNext: { [weak self] _ in
-        self?.viewModel.input.signUpButtonPressed()
-      })
-      .disposed(by: bag)
+    viewBinder.bind(view: notLoggedView, to: viewModel, using: bag)
   }
 }

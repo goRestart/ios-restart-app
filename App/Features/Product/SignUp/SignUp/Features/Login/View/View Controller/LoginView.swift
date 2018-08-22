@@ -151,9 +151,7 @@ extension Reactive where Base: LoginView {
   }
   
   var signInButtonWasTapped: Observable<Void> {
-    return base.signInButton.rx
-      .controlEvent(.touchUpInside)
-      .debounce(0.2, scheduler: MainScheduler.instance)
+    return base.signInButton.rx.buttonWasTapped
   }
   
   var userInteractionEnabled: Binder<Bool> {

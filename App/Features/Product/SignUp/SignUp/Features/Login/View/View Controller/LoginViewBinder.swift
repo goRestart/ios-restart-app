@@ -2,7 +2,6 @@ import RxCocoa
 import RxSwift
 
 struct LoginViewBinder {
-
   func bind(view: LoginView, to viewModel: LoginViewModelType, using bag: DisposeBag) {
     view.rx.username
       .asDriver()
