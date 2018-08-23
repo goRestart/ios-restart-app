@@ -46,7 +46,7 @@ struct LoginViewModel: LoginViewModelType, LoginViewModelInput, LoginViewModelOu
       username: try! username.value(),
       password: try! password.value()
     )
-    
+
     authenticate.execute(with: credentials).subscribe(onCompleted: {
       print("Welcome :)")
     }) { error in

@@ -10,7 +10,7 @@
 		1C0500A9200B6BD300E60633 /* GameSuggestionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0500A8200B6BD300E60633 /* GameSuggestionCell.swift */; };
 		1C0500B2200B75CB00E60633 /* GameSuggestionSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0500B1200B75CB00E60633 /* GameSuggestionSectionController.swift */; };
 		1C0500B4200B766800E60633 /* GameSuggestionListAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0500B3200B766800E60633 /* GameSuggestionListAdapter.swift */; };
-		1C4725172016610D00B2046C /* GameSuggestionViewRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C4725162016610D00B2046C /* GameSuggestionViewRender.swift */; };
+		1C4725172016610D00B2046C /* GameSuggestionUIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C4725162016610D00B2046C /* GameSuggestionUIModel.swift */; };
 		1C93BEBA200A3C9800DDF249 /* Search.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C93BEB0200A3C9800DDF249 /* Search.framework */; };
 		1C93BEC1200A3C9800DDF249 /* Search.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C93BEB3200A3C9800DDF249 /* Search.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1C93BF24200A3F3A00DDF249 /* SearchViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93BF23200A3F3A00DDF249 /* SearchViewModelType.swift */; };
@@ -50,7 +50,7 @@
 		1C0500A8200B6BD300E60633 /* GameSuggestionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSuggestionCell.swift; sourceTree = "<group>"; };
 		1C0500B1200B75CB00E60633 /* GameSuggestionSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSuggestionSectionController.swift; sourceTree = "<group>"; };
 		1C0500B3200B766800E60633 /* GameSuggestionListAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSuggestionListAdapter.swift; sourceTree = "<group>"; };
-		1C4725162016610D00B2046C /* GameSuggestionViewRender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSuggestionViewRender.swift; sourceTree = "<group>"; };
+		1C4725162016610D00B2046C /* GameSuggestionUIModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSuggestionUIModel.swift; sourceTree = "<group>"; };
 		1C93BEB0200A3C9800DDF249 /* Search.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Search.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C93BEB3200A3C9800DDF249 /* Search.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Search.h; sourceTree = "<group>"; };
 		1C93BEB4200A3C9800DDF249 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -109,7 +109,7 @@
 		1C0500AD200B6DC400E60633 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
-				1C4725162016610D00B2046C /* GameSuggestionViewRender.swift */,
+				1C4725162016610D00B2046C /* GameSuggestionUIModel.swift */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -368,7 +368,7 @@
 				1C93BF42200AA25700DDF249 /* Assembly+Search.swift in Sources */,
 				1C93BF2C200A43C800DDF249 /* SearchView.swift in Sources */,
 				1C93BF24200A3F3A00DDF249 /* SearchViewModelType.swift in Sources */,
-				1C4725172016610D00B2046C /* GameSuggestionViewRender.swift in Sources */,
+				1C4725172016610D00B2046C /* GameSuggestionUIModel.swift in Sources */,
 				1C0500B2200B75CB00E60633 /* GameSuggestionSectionController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

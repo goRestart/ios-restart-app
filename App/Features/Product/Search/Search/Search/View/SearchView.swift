@@ -5,13 +5,17 @@ import RxCocoa
 import IGListKit
 import Domain
 
-public final class SearchView: View {
+public enum GameSuggestionEvent {
+  case gameSelected(Identifier<Game>)
+}
 
+public final class SearchView: View {
+  
+  fileprivate var state = PublishSubject<GameSuggestionEvent>()
+  
   private var listAdapterDataSource: GameSuggestionListAdapter?
   private let updater = ListAdapterUpdater()
   private var listAdapter: ListAdapter!
-  public typealias GameSelectionBlock = (Identifier<Game>) -> Void
-  private var onGameSelection: GameSelectionBlock?
 
   private let collectionView: UICollectionView = {
     let collectionViewLayout = ListCollectionViewLayout(stickyHeaders: false, topContentInset: 0, stretchToEdge: false)
@@ -21,7 +25,7 @@ public final class SearchView: View {
   }()
   
   private let bag = DisposeBag()
-  private var viewModel: SearchViewModelType!
+  fileprivate var viewModel: SearchViewModelType!
 
   init(viewModel: SearchViewModelType) {
     self.viewModel = viewModel
@@ -31,9 +35,8 @@ public final class SearchView: View {
   public override func setupView() {
     addSubview(collectionView)
 
-    listAdapterDataSource = GameSuggestionListAdapter()
-    listAdapterDataSource?.delegate = self
-
+    listAdapterDataSource = GameSuggestionListAdapter(state: state)
+    
     listAdapter = ListAdapter(updater: updater, viewController: nil)
     listAdapter.collectionView = collectionView
     listAdapter.dataSource = listAdapterDataSource
@@ -48,35 +51,25 @@ public final class SearchView: View {
     }
   }
   
-  public func bind(textField: UITextField, _ onGameSelection: @escaping GameSelectionBlock) {
-    let textFieldObserver = textField.rx.value
-      .orEmpty
-      .distinctUntilChanged()
-      .debounce(0.3, scheduler: MainScheduler.instance)
-      .asObservable()
-
-    viewModel.output.bind(to: textFieldObserver)
-    
+  public func bind(_ query: Observable<String>) {
+    viewModel.output.bind(to: query)
     viewModel.output.results
-      .asObservable()
-      .map(mapToView)
+      .map(toUIModel)
       .subscribe(onNext: { [weak self] suggestions in
         self?.listAdapterDataSource?.suggestions = suggestions
         self?.listAdapter.performUpdates(animated: true)
       }).disposed(by: bag)
-
-    self.onGameSelection = onGameSelection
   }
 
-  private func mapToView(_ elements: [GameSearchSuggestion]) -> [GameSuggestionViewRender] {
-    return elements.map { GameSuggestionViewRender(suggestion: $0) }
+  private func toUIModel(_ elements: [GameSearchSuggestion]) -> [GameSuggestionUIModel] {
+    return elements.map { GameSuggestionUIModel(suggestion: $0) }
   }
 }
 
-// MARK: - GameSuggestionListAdapterDelegate
+// MARK: - View bindings
 
-extension SearchView: GameSuggestionListAdapterDelegate {
-  func didSelectGameSuggestion(with id: Identifier<Game>) {
-    onGameSelection?(id)
+extension Reactive where Base: SearchView {
+  public var state: PublishSubject<GameSuggestionEvent> {
+    return base.state
   }
 }

@@ -1,5 +1,6 @@
 import Domain
 import IGListKit
+import RxSwift
 
 protocol GameSuggestionSectionControllerDelegate: class {
   func didSelectGameSuggestion(with id: Identifier<Game>)
@@ -9,10 +10,14 @@ final class GameSuggestionSectionController: ListSectionController {
 
   weak var delegate: GameSuggestionSectionControllerDelegate?
 
-  private var suggestion: GameSuggestionViewRender
+  private var suggestion: GameSuggestionUIModel
+  private let state: PublishSubject<GameSuggestionEvent>
   
-  init(suggestion: GameSuggestionViewRender) {
+  init(suggestion: GameSuggestionUIModel,
+       state: PublishSubject<GameSuggestionEvent>)
+  {
     self.suggestion = suggestion
+    self.state = state
   }
   
   override func sizeForItem(at index: Int) -> CGSize {
@@ -23,7 +28,7 @@ final class GameSuggestionSectionController: ListSectionController {
   }
 
   override func didSelectItem(at index: Int) {
-    delegate?.didSelectGameSuggestion(with: suggestion.gameId)
+    state.onNext(.gameSelected(suggestion.gameId))
   }
 
   override func cellForItem(at index: Int) -> UICollectionViewCell {
@@ -33,7 +38,7 @@ final class GameSuggestionSectionController: ListSectionController {
   }
   
   override func didUpdate(to object: Any) {
-    guard let object = object as? GameSuggestionViewRender else { return }
+    guard let object = object as? GameSuggestionUIModel else { return }
     self.suggestion = object
   }
 }

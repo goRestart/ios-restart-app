@@ -2,86 +2,52 @@ import RxCocoa
 import RxSwift
 
 struct SignUpViewBinder {
-  
-  func bind(view: SignUpView, to viewModel: SignUpViewModelType, using bag: DisposeBag)
-  {
-    view.usernameTextField.input.rx.value
-      .orEmpty
-      .bind(to: viewModel.output.username)
+  func bind(view: SignUpView, to viewModel: SignUpViewModelType, using bag: DisposeBag) {
+    view.rx.username
+      .asDriver()
+      .drive(viewModel.output.username)
+      .disposed(by: bag)
+
+    view.rx.email
+      .asDriver()
+      .drive(viewModel.output.email)
       .disposed(by: bag)
     
-    view.emailTextField.input.rx.value
-      .orEmpty
-      .bind(to: viewModel.output.email)
+    view.rx.password
+      .asDriver()
+      .drive(viewModel.output.password)
       .disposed(by: bag)
-    
-    view.passwordTextField.input.rx.value
-      .orEmpty
-      .bind(to: viewModel.output.password)
-      .disposed(by: bag)
-    
-    view.usernameTextField.input.rx
-      .controlEvent(.editingDidEndOnExit)
-      .subscribe(onNext: { _ in
-        view.emailTextField.becomeFirstResponder()
-      })
-      .disposed(by: bag)
-    
-    view.emailTextField.input.rx
-      .controlEvent(.editingDidEndOnExit)
-      .subscribe(onNext: { _ in
-        view.passwordTextField.becomeFirstResponder()
-      })
-      .disposed(by: bag)
-    
-    let tapGestureRecognizer = UITapGestureRecognizer()
-    view.addGestureRecognizer(tapGestureRecognizer)
-    
-    tapGestureRecognizer.rx.event
-      .subscribe(onNext: { _ in
-        view.resignFirstResponder()
-      })
-      .disposed(by: bag)
-    
+
     viewModel.output.userInteractionEnabled
-      .bind(to: view.usernameTextField.rx.isUserInteractionEnabled)
-      .disposed(by: bag)
-    
-    viewModel.output.userInteractionEnabled
-      .bind(to: view.emailTextField.rx.isUserInteractionEnabled)
-      .disposed(by: bag)
-    
-    viewModel.output.userInteractionEnabled
-      .bind(to: view.passwordTextField.rx.isUserInteractionEnabled)
+      .bind(to: view.rx.userInteractionEnabled)
       .disposed(by: bag)
     
     viewModel.output.state
-      .asObservable()
-      .map { $0 == .loading}
-      .bind(to: view.signUpButton.rx.isLoading)
-      .disposed(by: bag)
-    
-    viewModel.output.signUpEnabled
-      .asObservable()
-      .bind(to: view.signUpButton.rx.isEnabled)
-      .disposed(by: bag)
-    
-    viewModel.output.userInteractionEnabled
-      .bind(to: view.signUpButton.rx.isUserInteractionEnabled)
-      .disposed(by: bag)
-    
-    view.signUpButton.rx.tap
-      .debounce(0.1, scheduler: MainScheduler.instance)
-      .subscribe(onNext: { _ in
-        viewModel.input.signInButtonPressed()
-      })
+      .bind(to: view.rx.signUpButtonIsLoading)
       .disposed(by: bag)
     
     viewModel.output.error
-      .asObservable()
-      .subscribe(onNext: { error in
-        view.set(error)
-      })
+      .bind(to: view.rx.error)
       .disposed(by: bag)
+    
+    viewModel.output.signUpEnabled
+      .bind(to: view.rx.signUpButtonEnabled)
+      .disposed(by: bag)
+
+    view.rx.usernameEndEditing.subscribe { _ in
+      view.onUsernameEndEditing()
+    }.disposed(by: bag)
+    
+    view.rx.emailEndEditing.subscribe { _ in
+      view.onEmailEndEditing()
+    }.disposed(by: bag)
+    
+    view.rx.viewWasTapped.subscribe { _ in
+      view.resignFirstResponder()
+    }.disposed(by: bag)
+    
+    view.rx.signUpButtonWasTapped.subscribe { _ in
+      viewModel.input.signInButtonPressed()
+    }.disposed(by: bag)
   }
 }

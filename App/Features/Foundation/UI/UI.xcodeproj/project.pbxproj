@@ -39,6 +39,7 @@
 		1CD7A9A41FF5635900CB895D /* GradientSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD7A9A31FF5635900CB895D /* GradientSpec.swift */; };
 		1CD7A9A81FF5654700CB895D /* FullWidthButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD7A9A71FF5654700CB895D /* FullWidthButton.swift */; };
 		1CDF7DCA1FF5CAF70033770D /* InputTextFieldSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CDF7DC91FF5CAF70033770D /* InputTextFieldSpec.swift */; };
+		2E07F2FD212DEEB400C63BE1 /* UIButton+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E07F2FC212DEEB400C63BE1 /* UIButton+Rx.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,6 +91,7 @@
 		1CD7A9A71FF5654700CB895D /* FullWidthButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FullWidthButton.swift; sourceTree = "<group>"; };
 		1CD7A9B01FF56A7900CB895D /* Playground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Playground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		1CDF7DC91FF5CAF70033770D /* InputTextFieldSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputTextFieldSpec.swift; sourceTree = "<group>"; };
+		2E07F2FC212DEEB400C63BE1 /* UIButton+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Rx.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -293,6 +295,7 @@
 		1CD52B11204742F300F13E5F /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				2E07F2FB212DEEAB00C63BE1 /* UIButton */,
 				1CD52B12204742F300F13E5F /* Bundle */,
 			);
 			path = Extension;
@@ -417,6 +420,14 @@
 				1CDF7DC91FF5CAF70033770D /* InputTextFieldSpec.swift */,
 			);
 			path = Input;
+			sourceTree = "<group>";
+		};
+		2E07F2FB212DEEAB00C63BE1 /* UIButton */ = {
+			isa = PBXGroup;
+			children = (
+				2E07F2FC212DEEB400C63BE1 /* UIButton+Rx.swift */,
+			);
+			path = UIButton;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -573,6 +584,7 @@
 				1CD7A9951FF55BD900CB895D /* UIFont+Fontable.swift in Sources */,
 				1C0263541FF57B3A0040346B /* Margin.swift in Sources */,
 				1CD7A9A81FF5654700CB895D /* FullWidthButton.swift in Sources */,
+				2E07F2FD212DEEB400C63BE1 /* UIButton+Rx.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

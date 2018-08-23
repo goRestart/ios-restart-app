@@ -14,8 +14,8 @@ protocol SignUpViewModelOutput {
   var username: BehaviorSubject<String> { get }
   var email: BehaviorSubject<String> { get }
   var password: BehaviorSubject<String> { get }
-  var state: BehaviorSubject<SignUpState> { get }
-  var error: BehaviorSubject<RegisterUserError?> { get }
+  var state: PublishSubject<SignUpState> { get }
+  var error: PublishSubject<RegisterUserError?> { get }
   
   var userInteractionEnabled: Observable<Bool> { get }
   var signUpEnabled: Observable<Bool> { get }

@@ -6,12 +6,16 @@ final class ProductSelectorViewController: ViewController {
   var viewModel: ProductSelectorViewModelType!
   
   private let productSelectorView = ProductSelectorView()
-
-  init() { super.init(nibName: nil, bundle: nil) }
+  private let viewBinder: ProductSelectorViewBinder
+  
+  init(viewBinder: ProductSelectorViewBinder) {
+    self.viewBinder = viewBinder
+    super.init(nibName: nil, bundle: nil)
+  }
+  
   required init?(coder aDecoder: NSCoder) { fatalError() }
 
- override func loadView() {
-    productSelectorView.delegate = self
+  override func loadView() {
     self.view = productSelectorView
   }
 
@@ -19,12 +23,8 @@ final class ProductSelectorViewController: ViewController {
     super.viewDidLoad()
     title = Localize("product_selector.title", table: Table.productSelector)
   }
-}
-
-// MARK: - ProductSelectorViewDelegate
-
-extension ProductSelectorViewController: ProductSelectorViewDelegate {
-  func onGameSelected(with id: Identifier<Game>) {
-    viewModel.input.onGameSelected(with: id)
+  
+  override func bindViewModel() {
+    viewBinder.bind(view: productSelectorView, to: viewModel, using: bag)
   }
 }

@@ -31,7 +31,7 @@ final class GameSuggestionCell: CollectionViewCell {
     }
   }
   
-  func configure(with suggestion: GameSuggestionViewRender) {
+  func configure(with suggestion: GameSuggestionUIModel) {
     suggestionLabel.attributedText = suggestion.attributedTitle
   }
 }

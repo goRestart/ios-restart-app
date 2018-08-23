@@ -31,6 +31,7 @@
 		1CC119412041CFFF00ED6369 /* Assembly+ProductDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC119402041CFFF00ED6369 /* Assembly+ProductDescription.swift */; };
 		1CC5A6142040D0B20082BE80 /* Assembly+ProductSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC5A6132040D0B20082BE80 /* Assembly+ProductSelector.swift */; };
 		1CC8412E2040DE7000FD0228 /* Bundle+Framework.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC8412D2040DE7000FD0228 /* Bundle+Framework.swift */; };
+		2E8F012B212F417800DA65E6 /* ProductSelectorViewBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8F012A212F417800DA65E6 /* ProductSelectorViewBinder.swift */; };
 		2EB2B189212B4B5700705ACA /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB2B188212B4B5700705ACA /* Table.swift */; };
 /* End PBXBuildFile section */
 
@@ -61,6 +62,7 @@
 		1CC119402041CFFF00ED6369 /* Assembly+ProductDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+ProductDescription.swift"; sourceTree = "<group>"; };
 		1CC5A6132040D0B20082BE80 /* Assembly+ProductSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+ProductSelector.swift"; sourceTree = "<group>"; };
 		1CC8412D2040DE7000FD0228 /* Bundle+Framework.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Framework.swift"; sourceTree = "<group>"; };
+		2E8F012A212F417800DA65E6 /* ProductSelectorViewBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductSelectorViewBinder.swift; sourceTree = "<group>"; };
 		2EB2B188212B4B5700705ACA /* Table.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Table.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -101,6 +103,7 @@
 			children = (
 				1C05A21E2040BA20007DB1DA /* ProductSelectorViewController.swift */,
 				1C05A2202040BA51007DB1DA /* ProductSelectorView.swift */,
+				2E8F012A212F417800DA65E6 /* ProductSelectorViewBinder.swift */,
 			);
 			path = "View Controller";
 			sourceTree = "<group>";
@@ -385,6 +388,7 @@
 				1CC119182041A8B500ED6369 /* ProductPriceViewModelType.swift in Sources */,
 				1C05A21B2040B879007DB1DA /* ProductSelectorViewModel.swift in Sources */,
 				1C05A21F2040BA20007DB1DA /* ProductSelectorViewController.swift in Sources */,
+				2E8F012B212F417800DA65E6 /* ProductSelectorViewBinder.swift in Sources */,
 				1CC119292041C62100ED6369 /* Assembly+ProductPrice.swift in Sources */,
 				1CC1192C2041C9E000ED6369 /* String+Floatable.swift in Sources */,
 				1CC5A6142040D0B20082BE80 /* Assembly+ProductSelector.swift in Sources */,

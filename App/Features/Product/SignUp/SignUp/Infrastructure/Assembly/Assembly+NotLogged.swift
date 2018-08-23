@@ -6,7 +6,9 @@ public protocol NotLoggedProvider {
 
 extension Assembly: NotLoggedProvider {
   public func makeNotLogged() -> UIViewController {
-    let viewController = NotLoggedViewController()
+    let viewController = NotLoggedViewController(
+      viewBinder: viewBinder
+    )
     viewController.viewModel = viewModel(for: viewController)
     
     let navigationController = UINavigationController(
@@ -23,5 +25,9 @@ extension Assembly: NotLoggedProvider {
       loginRouter: loginRouter,
       signUpRouter: signUpRouter
     )
+  }
+  
+  private var viewBinder: NotLoggedViewBinder {
+    return NotLoggedViewBinder()
   }
 }

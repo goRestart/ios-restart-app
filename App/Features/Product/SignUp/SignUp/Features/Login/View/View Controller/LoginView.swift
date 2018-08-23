@@ -1,19 +1,17 @@
 import UI
 import SnapKit
 import RxSwift
+import RxCocoa
 
-private struct ViewLayout {
+private enum ViewLayout {
   static let scrollViewBottomSpace = CGFloat(80)
   static let inputHeight = CGFloat(48)
 }
 
 final class LoginView: View {
-  private let scrollView: UIScrollView = {
-    let scrollView = UIScrollView()
-    return scrollView
-  }()
+  private let scrollView = UIScrollView()
 
-  let usernameInput: Input = {
+  fileprivate let usernameInput: Input = {
     let input = Input()
     input.autocapitalizationType = .none
     input.autocorrectionType = .no
@@ -23,7 +21,7 @@ final class LoginView: View {
     return input
   }()
   
-  let passwordInput: Input = {
+  fileprivate let passwordInput: Input = {
     let input = Input()
     input.isSecureTextEntry = true
     input.textContentType = .password
@@ -32,7 +30,7 @@ final class LoginView: View {
     return input
   }()
   
-  let signInButton: FullWidthButton = {
+  fileprivate let signInButton: FullWidthButton = {
     let button = FullWidthButton()
     let title = Localize("login.button.signin.title", Table.login).uppercased()
     button.setTitle(title, for: .normal)
@@ -64,6 +62,8 @@ final class LoginView: View {
     
     addSubview(scrollView)
     addSubview(signInButton)
+    
+    usernameInput.becomeFirstResponder()
   }
   
   override func setupConstraints() {    
@@ -87,7 +87,9 @@ final class LoginView: View {
         make.height.equalTo(FullWidthButton.Layout.height)
       }
       
-      UIView.animate(withDuration: keyboard.animationDuration, delay: 0, options: .curveEaseIn , animations: { [weak self] in
+      UIView.animate(withDuration: keyboard.animationDuration,
+                     delay: 0,
+                     options: .curveEaseIn , animations: { [weak self] in
         self?.signInButton.radiusDisabled = keyboard.event == .willHide ? false : true
         self?.layoutIfNeeded()
       })
@@ -110,5 +112,59 @@ final class LoginView: View {
         make.height.equalTo(ViewLayout.inputHeight)
       }
     }
+  }
+}
+
+// MARK: - Actions
+
+extension LoginView {
+  func onUsernameEndEditing() {
+    passwordInput.becomeFirstResponder()
+  }
+}
+
+// MARK: - View bindings
+
+extension Reactive where Base: LoginView {
+  var username: ControlProperty<String> {
+    return base.usernameInput.rx.value.orEmpty
+  }
+  
+  var password: ControlProperty<String> {
+    return base.passwordInput.rx.value.orEmpty
+  }
+  
+  var usernameEndEditing: ControlEvent<Void> {
+    return base.usernameInput.rx.controlEvent(.editingDidEndOnExit)
+  }
+  
+  var signInButtonEnabled: Binder<Bool> {
+    return Binder(self.base) { view, enabled in
+      view.signInButton.isEnabled = enabled
+    }
+  }
+  
+  var signInButtonIsLoading: Binder<LoginState> {
+    return Binder(self.base) { base, state in
+      base.signInButton.isLoading = state == .loading
+    }
+  }
+  
+  var signInButtonWasTapped: Observable<Void> {
+    return base.signInButton.rx.buttonWasTapped
+  }
+  
+  var userInteractionEnabled: Binder<Bool> {
+    return Binder(self.base) { view, enabled in
+      view.usernameInput.isUserInteractionEnabled = enabled
+      view.passwordInput.isUserInteractionEnabled = enabled
+      view.signInButton.isUserInteractionEnabled = enabled
+    }
+  }
+  
+  var viewWasTapped: ControlEvent<UITapGestureRecognizer> {
+    let tapGestureRecognizer = UITapGestureRecognizer()
+    base.addGestureRecognizer(tapGestureRecognizer)
+    return tapGestureRecognizer.rx.event
   }
 }

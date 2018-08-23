@@ -1,14 +1,15 @@
 import UI
 import SnapKit
+import RxSwift
+import RxCocoa
 
-private struct ViewLayout {
+private enum ViewLayout {
   static let logoWidth = 65.8
   static let logoHeight = 79.2
   static let buttonHeight = 48.0
 }
 
 final class NotLoggedView: View {
-  
   private let logoImageView: UIImageView = {
     let bundle = Bundle(for: NotLoggedView.self)
     let image = UIImage(named: "icon_logo", in: bundle, compatibleWith: nil)
@@ -27,14 +28,14 @@ final class NotLoggedView: View {
     return label
   }()
 
-  let signUpButton: LargeButton = {
+  fileprivate let signUpButton: LargeButton = {
     let button = LargeButton()
     let title = Localize("not_logged.button.signup.title", Table.notLogged).uppercased()
     button.setTitle(title, for: .normal)
     return button
   }()
   
-  let signInButton: LargeButton = {
+  fileprivate let signInButton: LargeButton = {
     let button = LargeButton()
     button.type = .alt
     let title = Localize("not_logged.button.signin.title", Table.notLogged).uppercased()
@@ -102,5 +103,17 @@ final class NotLoggedView: View {
     stackView.snp.makeConstraints { make in
       make.center.equalTo(self)
     }
+  }
+}
+
+// MARK: - View bindings
+
+extension Reactive where Base: NotLoggedView {
+  var signInButtonWasTapped: Observable<Void> {
+    return base.signInButton.rx.buttonWasTapped
+  }
+  
+  var signUpButtonWasTapped: Observable<Void> {
+    return base.signUpButton.rx.buttonWasTapped
   }
 }

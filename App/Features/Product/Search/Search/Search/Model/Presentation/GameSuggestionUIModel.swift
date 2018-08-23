@@ -1,7 +1,7 @@
 import Domain
 import IGListKit
 
-final class GameSuggestionViewRender: NSObject, ListDiffable {
+final class GameSuggestionUIModel: NSObject, ListDiffable {
 
   private let suggestion: GameSearchSuggestion
 
@@ -42,7 +42,7 @@ final class GameSuggestionViewRender: NSObject, ListDiffable {
   }
   
   func isEqual(toDiffableObject object: ListDiffable?) -> Bool {
-    guard let object = object as? GameSuggestionViewRender else {
+    guard let object = object as? GameSuggestionUIModel else {
       return false
     }
     return object.suggestion == suggestion

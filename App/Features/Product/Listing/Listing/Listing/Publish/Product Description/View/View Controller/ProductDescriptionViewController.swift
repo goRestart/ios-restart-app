@@ -11,18 +11,18 @@ final class ProductDescriptionViewController: ViewController {
     self.viewBinder = viewBinder
     super.init(nibName: nil, bundle: nil)
   }
-  required public init?(coder aDecoder: NSCoder) { fatalError() }
+  required init?(coder aDecoder: NSCoder) { fatalError() }
 
-  public override func loadView() {
+  override func loadView() {
     self.view = productDescriptionView
   }
 
-  public override func viewDidLoad() {
+  override func viewDidLoad() {
     super.viewDidLoad()
     title = Localize("product_description.title", table: Table.productDescription)
   }
 
-  override public func bindViewModel() {
+  override func bindViewModel() {
     viewBinder.bind(view: productDescriptionView, to: viewModel, using: bag)
   }
 }
