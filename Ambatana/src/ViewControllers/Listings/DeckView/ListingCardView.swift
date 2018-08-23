@@ -6,13 +6,18 @@ import LGComponents
 
 protocol ListingCardViewDelegate: class {
     func cardViewDidTapOnStatusView(_ cardView: ListingCardView)
+<<<<<<< HEAD
     func cardViewDidTapOnReputationTooltip(_ cardView: ListingCardView)
+=======
+    func cardViewDidTapOnPreview(_ cardView: ListingCardView)
+    func cardViewDidShowMoreInfo(_ cardView: ListingCardView)
+    func cardViewDidScroll(_ cardView: ListingCardView, contentOffset: CGFloat)
+>>>>>>> master
 }
 
 final class ListingCardView: UICollectionViewCell, ReusableCell {
     weak var delegate: ListingCardViewDelegate?
 
-    private var reputationTooltip: LetgoTooltip?
     private let binder = ListingCardViewBinder()
 
     private let statusView = ProductStatusView()
@@ -127,6 +132,7 @@ final class ListingCardView: UICollectionViewCell, ReusableCell {
         previewImageView.layer.cornerRadius = Metrics.margin
     }
 }
+<<<<<<< HEAD
 extension ListingCardView: LetgoTooltipDelegate {
     func showReputationTooltip() {
         // TODO: See if this still makes sense
@@ -151,3 +157,5 @@ extension ListingCardView: LetgoTooltipDelegate {
         delegate?.cardViewDidTapOnReputationTooltip(self)
     }
 }
+=======
+>>>>>>> master

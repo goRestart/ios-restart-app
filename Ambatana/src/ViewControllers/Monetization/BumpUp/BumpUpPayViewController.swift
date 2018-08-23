@@ -96,6 +96,8 @@ final class BumpUpPayViewController: BaseViewController {
         subtitleLabel.text = R.Strings.bumpUpViewPaySubtitle
         if FeatureFlags.sharedInstance.shouldChangeSellFasterNowCopyInEnglish {
             viewTitleLabel.text = FeatureFlags.sharedInstance.copyForSellFasterNowInEnglish.variantString
+        } else if FeatureFlags.sharedInstance.shouldChangeSellFasterNowCopyInTurkish {
+            viewTitleLabel.text = FeatureFlags.sharedInstance.copyForSellFasterNowInTurkish.variantString
         } else {
             viewTitleLabel.text = R.Strings.bumpUpBannerPayTextImprovement
         }

@@ -23,9 +23,10 @@ enum AdRequestType {
     case moPub
     case interstitial
 
-    var trackingParamValue: EventParameterAdType {
+    func trackingParamValueFor(size: CGSize?) -> EventParameterAdType {
         switch self {
         case .dfp:
+            if let size = size { return .variableSize(size: size) }
             return .dfp
         case .moPub:
             return .moPub
@@ -94,6 +95,10 @@ class ListingCarouselViewModel: BaseViewModel {
         return !keyValueStorage[.listingMoreInfoTooltipDismissed]
     }
     
+    var shouldShowPaymentFrequency: Bool {
+        return featureFlags.servicesPaymentFrequency.isActive
+    }
+    
     let actionOnFirstAppear: ProductCarouselActionOnFirstAppear
 
     let productInfo = Variable<ListingVMProductInfo?>(nil)
@@ -130,9 +135,6 @@ class ListingCarouselViewModel: BaseViewModel {
 
     let socialMessage = Variable<SocialMessage?>(nil)
     let socialSharer = Variable<SocialSharer>(SocialSharer())
-    var shouldShowReputationTooltip: Driver<Bool> {
-        return ownerBadge.asDriver().map{ $0 != .noBadge && self.reputationTooltipManager.shouldShowTooltip() }
-    }
     let isInterested = Variable<Bool>(false)
 
     // UI - Input
@@ -151,8 +153,6 @@ class ListingCarouselViewModel: BaseViewModel {
         return currentListingViewModel?.isMine ?? false
     }
 
-    var isPlayable: Bool { return currentListingViewModel?.isPlayable ?? false }
-
     fileprivate var trackingIndex: Int?
     fileprivate var initialThumbnail: UIImage?
 
@@ -167,7 +167,6 @@ class ListingCarouselViewModel: BaseViewModel {
     let featureFlags: FeatureFlaggeable
     fileprivate let locationManager: LocationManager
     fileprivate let myUserRepository: MyUserRepository
-    fileprivate let reputationTooltipManager: ReputationTooltipManager
 
     fileprivate let disposeBag = DisposeBag()
 
@@ -185,6 +184,9 @@ class ListingCarouselViewModel: BaseViewModel {
     }
     var adActive: Bool {
         return !isMyListing && userShouldSeeAds
+    }
+    var multiAdRequestActive: Bool {
+        return featureFlags.multiAdRequestMoreInfo.isActive
     }
 
     var userShouldSeeAds: Bool {
@@ -212,6 +214,10 @@ class ListingCarouselViewModel: BaseViewModel {
 
     var meetingsEnabled: Bool {
         return featureFlags.chatNorris.isActive
+    }
+    
+    var extraFieldsGridEnabled: Bool {
+        return featureFlags.carExtraFieldsEnabled.isActive
     }
 
     // MARK: - Init
@@ -269,8 +275,7 @@ class ListingCarouselViewModel: BaseViewModel {
                   listingViewModelMaker: ListingViewModel.ConvenienceMaker(),
                   adsRequester: AdsRequester(),
                   locationManager: Core.locationManager,
-                  myUserRepository: Core.myUserRepository,
-                  reputationTooltipManager: LGReputationTooltipManager.sharedInstance)
+                  myUserRepository: Core.myUserRepository)
     }
 
     init(productListModels: [ListingCellModel]?,
@@ -287,8 +292,7 @@ class ListingCarouselViewModel: BaseViewModel {
          listingViewModelMaker: ListingViewModelMaker,
          adsRequester: AdsRequester,
          locationManager: LocationManager,
-         myUserRepository: MyUserRepository,
-         reputationTooltipManager: ReputationTooltipManager) {
+         myUserRepository: MyUserRepository) {
         if let productListModels = productListModels {
             let listingCarouselCellModels = productListModels
                 .compactMap(ListingCarouselCellModel.adapter)
@@ -314,7 +318,6 @@ class ListingCarouselViewModel: BaseViewModel {
         self.adsRequester = adsRequester
         self.locationManager = locationManager
         self.myUserRepository = myUserRepository
-        self.reputationTooltipManager = reputationTooltipManager
         if let initialListing = initialListing {
             self.startIndex = objects.value.index(where: { $0.listing.objectId == initialListing.objectId}) ?? 0
         } else {
@@ -335,8 +338,6 @@ class ListingCarouselViewModel: BaseViewModel {
         if firstTime && shouldShowOnboarding {
             delegate?.vmShowOnboarding()
         }
-
-        // Tracking
         currentListingViewModel?.trackVisit(.none, source: source, feedPosition: trackingFeedPosition)
     }
         
@@ -364,6 +365,7 @@ class ListingCarouselViewModel: BaseViewModel {
         currentListingViewModel = viewModel
         currentListingViewModel?.delegate = self
         currentListingViewModel?.active = active
+        currentListingViewModel?.shouldExecuteBumpBannerAction = actionOnFirstAppear.actionIsTriggerBumpUp
         currentIndex = index
         lastMovement = movement
         setupCurrentProductVMRxBindings(forIndex: index)
@@ -372,7 +374,7 @@ class ListingCarouselViewModel: BaseViewModel {
         if active {
             currentListingViewModel?.trackVisit(movement.visitUserAction,
                                                 source: movement.visitSource(source),
-                                                feedPosition: movement.feedPosition(for: trackingIndex))
+                                                feedPosition: trackingFeedPosition)
         }
     }
 
@@ -384,6 +386,12 @@ class ListingCarouselViewModel: BaseViewModel {
     func thumbnailAtIndex(_ index: Int) -> UIImage? {
         if index == startIndex { return initialThumbnail }
         return nil
+    }
+    
+    func listingAttributeGridTapped(forItems items: [ListingAttributeGridItem]) {
+        let viewModel = ListingAttributeTableViewModel(withItems: items)
+        viewModel.navigator = navigator
+        navigator?.openListingAttributeTable(withViewModel: viewModel)
     }
 
     func userAvatarPressed() {
@@ -435,12 +443,15 @@ class ListingCarouselViewModel: BaseViewModel {
         currentListingViewModel?.descriptionURLPressed(url)
     }
 
-    func bumpUpBannerShown(type: BumpUpType) {
-        currentListingViewModel?.trackBumpUpBannerShown(type: type, storeProductId: currentListingViewModel?.storeProductId)
+    func bumpUpBannerShown(bumpInfo: BumpUpInfo) {
+        if bumpInfo.shouldTrackBumpBannerShown {
+            currentListingViewModel?.trackBumpUpBannerShown(type: bumpInfo.type,
+                                                            storeProductId: currentListingViewModel?.storeProductId)
+        }
     }
 
-    func showBumpUpView(bumpUpProductData: BumpUpProductData,
-                        bumpUpType: BumpUpType,
+    func showBumpUpView(bumpUpProductData: BumpUpProductData?,
+                        bumpUpType: BumpUpType?,
                         bumpUpSource: BumpUpSource?,
                         typePage: EventParameterTypePage?) {
         currentListingViewModel?.showBumpUpView(bumpUpProductData: bumpUpProductData,
@@ -457,11 +468,14 @@ class ListingCarouselViewModel: BaseViewModel {
         currentListingViewModel?.bumpUpBoostSucceeded()
     }
 
-    func didReceiveAd(bannerTopPosition: CGFloat, bannerBottomPosition: CGFloat, screenHeight: CGFloat) {
+    func didReceiveAd(bannerTopPosition: CGFloat,
+                      bannerBottomPosition: CGFloat,
+                      screenHeight: CGFloat,
+                      bannerSize: CGSize) {
 
         let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
         let adShown: EventParameterBoolean = .trueParameter
-        let adType = currentAdRequestType?.trackingParamValue
+        let adType = currentAdRequestType?.trackingParamValueFor(size: multiAdRequestActive ? bannerSize : nil)
         let queryType = currentAdRequestQueryType?.trackingParamValue
         let query = adRequestQuery
         let visibility = EventParameterAdVisibility(bannerTopPosition: bannerTopPosition,
@@ -486,11 +500,11 @@ class ListingCarouselViewModel: BaseViewModel {
                                                     errorReason: errorReason)
     }
 
-    func didFailToReceiveAd(withErrorCode code: GADErrorCode) {
+    func didFailToReceiveAd(withErrorCode code: GADErrorCode, bannerSize: CGSize) {
 
         let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
         let adShown: EventParameterBoolean = .falseParameter
-        let adType = currentAdRequestType?.trackingParamValue
+        let adType = currentAdRequestType?.trackingParamValueFor(size: multiAdRequestActive ? bannerSize : nil)
         let queryType = currentAdRequestQueryType?.trackingParamValue
         let query = adRequestQuery
         let visibility: EventParameterAdVisibility? = nil
@@ -523,8 +537,8 @@ class ListingCarouselViewModel: BaseViewModel {
                                                     errorReason: status.errorReason)
     }
 
-    func adTapped(typePage: EventParameterTypePage, willLeaveApp: Bool) {
-        let adType = currentAdRequestType?.trackingParamValue
+    func adTapped(typePage: EventParameterTypePage, willLeaveApp: Bool, bannerSize: CGSize) {
+        let adType = currentAdRequestType?.trackingParamValueFor(size: multiAdRequestActive ? bannerSize : nil)
         let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
         let queryType = currentAdRequestQueryType?.trackingParamValue
         let query = adRequestQuery
@@ -546,7 +560,7 @@ class ListingCarouselViewModel: BaseViewModel {
     }
     
     func interstitialAdTapped(typePage: EventParameterTypePage) {
-        let adType = AdRequestType.interstitial.trackingParamValue
+        let adType = AdRequestType.interstitial.trackingParamValueFor(size: nil)
         let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
         let feedPosition: EventParameterFeedPosition = .position(index: currentIndex)
         let willLeave = EventParameterBoolean(bool: true)
@@ -558,7 +572,7 @@ class ListingCarouselViewModel: BaseViewModel {
     }
     
     func interstitialAdShown(typePage: EventParameterTypePage) {
-        let adType = AdRequestType.interstitial.trackingParamValue
+        let adType = AdRequestType.interstitial.trackingParamValueFor(size: nil)
         let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
         let feedPosition: EventParameterFeedPosition = .position(index: currentIndex)
         let adShown = EventParameterBoolean(bool: true)
@@ -580,12 +594,9 @@ class ListingCarouselViewModel: BaseViewModel {
         currentListingViewModel?.trackCallTapped(source: source, feedPosition: trackingFeedPosition)
     }
 
-    func reputationTooltipTapped() {
-        navigator?.openUserVerificationView()
-    }
-
-    func reputationTooltipShown() {
-        reputationTooltipManager.didShowTooltip()
+    func itemIsPlayable(at index: Int) -> Bool {
+        guard let media = currentListingViewModel?.productMedia.value else { return false }
+        return media[safeAt: index]?.isPlayable ?? false
     }
 
     // MARK: - Private Methods
@@ -665,7 +676,7 @@ class ListingCarouselViewModel: BaseViewModel {
             guard let user = seller else { return }
             self?.ownerIsProfessional.value = user.isProfessional
             self?.ownerPhoneNumber.value = user.phone
-            if let flags = self?.featureFlags, flags.advancedReputationSystem.isActive, !user.isProfessional {
+            if !user.isProfessional {
                 self?.ownerBadge.value = user.reputationBadge
             }
         }.disposed(by: activeDisposeBag)
@@ -803,11 +814,8 @@ extension ListingCarouselViewModel: ListingViewModelDelegate {
     }
 
     var trackingFeedPosition: EventParameterFeedPosition {
-        if let trackingIndex = trackingIndex, currentIndex == startIndex {
-            return .position(index: trackingIndex)
-        } else {
-            return .none
-        }
+        guard let trackingIndex = trackingIndex else { return .none }
+        return .position(index: trackingIndex)
     }
     
     var listingOrigin: ListingOrigin {
@@ -834,6 +842,9 @@ extension ListingCarouselViewModel: ListingViewModelDelegate {
     }
     func vmShowAutoFadingMessage(title: String, message: String, time: Double, completion: (() -> ())?) {
         delegate?.vmShowAutoFadingMessage(title: title, message: message, time: time, completion: completion)
+    }
+    func vmShowAutoFadingMessage(message: String, time: Double, completion: (() -> ())?) {
+        delegate?.vmShowAutoFadingMessage(message: message, time: time, completion: completion)
     }
     func vmShowLoading(_ loadingMessage: String?) {
         delegate?.vmShowLoading(loadingMessage)
@@ -864,6 +875,9 @@ extension ListingCarouselViewModel: ListingViewModelDelegate {
     }
     func vmShowActionSheet(_ cancelLabel: String, actions: [UIAction]) {
         delegate?.vmShowActionSheet(cancelLabel, actions: actions)
+    }
+    func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction], withTitle title: String?) {
+        delegate?.vmShowActionSheet(cancelAction, actions: actions, withTitle: title)
     }
     func vmOpenInAppWebViewWith(url: URL) {
         delegate?.vmOpenInAppWebViewWith(url:url)
@@ -901,15 +915,6 @@ extension CarouselMovement {
             return .swipeRight
         case .initial:
             return .none
-        }
-    }
-    func feedPosition(for index: Int?) -> EventParameterFeedPosition {
-        guard let index = index else  { return .none }
-        switch self {
-        case .tap, .swipeLeft, .swipeRight:
-            return .none
-        case .initial:
-            return .position(index: index)
         }
     }
 }

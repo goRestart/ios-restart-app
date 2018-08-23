@@ -58,17 +58,32 @@ final class MainTabCoordinator: TabCoordinator, FeedNavigator {
                    tracker: tracker,
                    rootViewController: vc,
                    featureFlags: featureFlags,
-                   sessionManager: sessionManager)
+                   sessionManager: sessionManager,
+                   deeplinkMailBox: LGDeepLinkMailBox.sharedInstance)
         vm.navigator = self
     }
     
 
-    func openSearch(_ query: String, categoriesString: String?) {
-        var filters = ListingFilters()
-        if let categoriesString = categoriesString {
-            filters.selectedCategories = ListingCategory.categoriesFromString(categoriesString)
+    func openSearch(query: String?,
+                    categories: String?,
+                    distanceRadius: String?,
+                    sortCriteria: String?,
+                    priceFlag: String?,
+                    minPrice: String?,
+                    maxPrice: String?) {
+        let filters = ListingFilters(categoriesString: categories,
+                                     distanceRadiusString: distanceRadius,
+                                     sortCriteriaString: sortCriteria,
+                                     priceFlagString: priceFlag,
+                                     minPriceString: minPrice,
+                                     maxPriceString: maxPrice)
+        let searchType: SearchType?
+        if let query = query {
+            searchType = .user(query: query)
+        } else {
+            searchType = nil
         }
-        let viewModel = MainListingsViewModel(searchType: .user(query: query), filters: filters)
+        let viewModel = MainListingsViewModel(searchType: searchType, filters: filters)
         viewModel.navigator = self
         let vc = MainListingsViewController(viewModel: viewModel)
 
@@ -100,11 +115,15 @@ extension MainTabCoordinator: MainTabNavigator {
 
     func openFilters(withListingFilters listingFilters: ListingFilters,
                      filtersVMDataDelegate: FiltersViewModelDataDelegate?) {
-        let vm = FiltersViewModel(currentFilters: listingFilters)
-        vm.dataDelegate = filtersVMDataDelegate
-        let filtersCoordinator = FiltersCoordinator(viewModel: vm)
-        openChild(coordinator: filtersCoordinator, parent: navigationController,
-                  animated: true, forceCloseChild: true, completion: nil)
+        let vc = LGFiltersBuilder.modal.buildFilters(
+            filters: listingFilters,
+            dataDelegate: filtersVMDataDelegate
+        )
+        navigationController.present(
+            vc,
+            animated: true,
+            completion: nil
+        )
     }
 
     func openLocationSelection(initialPlace: Place?,
@@ -120,13 +139,7 @@ extension MainTabCoordinator: MainTabNavigator {
                   forceCloseChild: true,
                   completion: nil)
     }
-
-    func openTaxonomyList(withViewModel viewModel: TaxonomiesViewModel) {
-        let vc = TaxonomiesViewController(viewModel: viewModel)
-        navigationController.pushViewController(vc, animated: true)
-    }
     
-
     func showPushPermissionsAlert(withPositiveAction positiveAction: @escaping (() -> Void), negativeAction: @escaping (() -> Void)) {
         
         let positive: UIAction = UIAction(interface: .styledText(R.Strings.profilePermissionsAlertOk, .standard),
@@ -157,11 +170,7 @@ extension MainTabCoordinator: MainTabNavigator {
                  listingFilters: ListingFilters,
                  locationManager: LocationManager) {
         let viewModel = ListingsMapViewModel(navigator: self,
-                                             tracker: tracker,
-                                             myUserRepository: myUserRepository,
-                                             locationManager: locationManager,
-                                             currentFilters: listingFilters,
-                                             featureFlags: featureFlags)
+                                             currentFilters: listingFilters)
         let viewController = ListingsMapViewController(viewModel: viewModel)
         navigationController.pushViewController(viewController, animated: true)
     }
@@ -177,7 +186,33 @@ extension MainTabCoordinator: MainTabNavigator {
         navigationController.present(askNumVC, animated: true, completion: nil)
     }
 
-} 
+    func openPrivateUserProfile() {
+        openLoginIfNeeded(from: .profile, style: .fullScreen, loggedInAction: {
+            let coord = ProfileTabCoordinator(source: .mainListing)
+            self.openChild(coordinator: coord, parent: self.rootViewController, animated: true, forceCloseChild: true, completion: nil)
+        }, cancelAction: nil)
+    }
+
+    func openCommunity() {
+        guard featureFlags.community.isActive else { return }
+        if featureFlags.community.shouldShowOnTab {
+            openCommunityTab()
+        } else {
+            let coord = CommunityTabCoordinator(source: .navBar)
+            openChild(coordinator: coord, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
+        }
+    }
+
+    func openSearches() {
+        openChild(coordinator: SearchCoordinator(),
+                  parent: rootViewController,
+                  animated: true,
+                  forceCloseChild: true,
+                  completion: nil)
+    }
+}
+
+extension MainTabCoordinator: ListingsMapNavigator { }
 
 extension MainTabCoordinator: SearchAlertsListNavigator {
     func closeSearchAlertsList() {
@@ -189,4 +224,3 @@ extension MainTabCoordinator: SearchAlertsListNavigator {
         readyToSearch()
     }
 }
-

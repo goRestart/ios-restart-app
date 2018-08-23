@@ -15,7 +15,9 @@ final class ChatBlockedUsersViewController: ChatBaseViewController, UITableViewD
         button.set(accessibilityId: .chatConversationsListOptionsNavBarButton)
         return button
     }()
-    
+
+    private let refreshControl = UIRefreshControl()
+
     private let viewModel: ChatBlockedUsersViewModel
     private var disposeBag = DisposeBag()
 
@@ -69,6 +71,13 @@ final class ChatBlockedUsersViewController: ChatBaseViewController, UITableViewD
 
         tableView.delegate = self
         tableView.dataSource = self
+
+        if #available(iOS 10.0, *) {
+            tableView.refreshControl = refreshControl
+        } else {
+            tableView.addSubview(refreshControl)
+        }
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
     }
 
     private func setupRx() {
@@ -149,10 +158,16 @@ final class ChatBlockedUsersViewController: ChatBaseViewController, UITableViewD
         viewModel.switchEditMode(isEditing: false)
     }
 
+    @objc private func refresh() {
+        viewModel.refreshFirstPage { [weak self] in
+            self?.refreshControl.endRefreshing()
+        }
+    }
+
     // MARK: - UITableViewDelegate & UITableViewDataSource
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.blockedUsersCount
+        return viewModel.objectCount
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -179,5 +194,9 @@ final class ChatBlockedUsersViewController: ChatBaseViewController, UITableViewD
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         return viewModel.tableViewRowActions()
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        viewModel.setCurrentIndex(indexPath.row)
     }
 }

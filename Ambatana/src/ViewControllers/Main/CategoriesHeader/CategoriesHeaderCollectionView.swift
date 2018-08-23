@@ -1,36 +1,23 @@
-//
-//  CategoryHeaderCollectionViewController.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 28/04/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import RxSwift
 import LGCoreKit
 
 
 struct CategoryHeaderInfo {
-    let categoryHeaderElement: CategoryHeaderElement
+    let listingCategory: ListingCategory
     let position: Int
     let name: String
 }
 
 protocol CategoriesHeaderCollectionViewDelegate: class {
-    func openTaxonomyList()
-    func openMostSearchedItems()
+    func categoryHeaderDidSelect(categoryHeaderInfo: CategoryHeaderInfo)
 }
 
 final class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    fileprivate var categoryHeaderElements: [CategoryHeaderElement] = []
-    fileprivate var categoryHighlighted: CategoryHeaderElement?
+    private var categoryElements: [ListingCategory] = []
+    private var categoryHighlighted: ListingCategory?
     
     weak var delegateCategoryHeader: CategoriesHeaderCollectionViewDelegate?
-    
-    fileprivate var isShowingSuperKeywords: Bool {
-        return categoryHeaderElements.first?.isSuperKeyword ?? false
-    }
     
     var categorySelected = Variable<CategoryHeaderInfo?>(nil)
     
@@ -47,15 +34,9 @@ final class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDe
         setAccessibilityIds()
     }
     
-    func configure(with categories: [CategoryHeaderElement], categoryHighlighted: CategoryHeaderElement, isMostSearchedItemsEnabled: Bool) {
-        self.categoryHeaderElements = categories
+    func configure(with categories: [ListingCategory], categoryHighlighted: ListingCategory) {
+        self.categoryElements = categories
         self.categoryHighlighted = categoryHighlighted
-        if isShowingSuperKeywords {
-            categoryHeaderElements.append(CategoryHeaderElement.showMore)
-        }
-        if isMostSearchedItemsEnabled {
-            categoryHeaderElements.insert(CategoryHeaderElement.mostSearchedItems, at: 0)
-        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -71,43 +52,33 @@ final class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDe
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return categoryHeaderElements.count
+        return categoryElements.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryHeaderCell.reuseIdentifier, for: indexPath) as? CategoryHeaderCell else { return UICollectionViewCell() }
-            let categoryHeaderElement = categoryHeaderElements[indexPath.row]
-            cell.categoryTitle.text = categoryHeaderElement.name.localizedUppercase
-            cell.categoryTitle.addKern(value: -0.30)
-            switch categoryHeaderElement {
-            case .listingCategory, .showMore, .mostSearchedItems:
-                cell.categoryIcon.image = categoryHeaderElement.imageIcon
-            case .superKeyword, .superKeywordGroup:
-                if let url = categoryHeaderElement.imageIconURL {
-                    cell.categoryIcon.lg_setImageWithURL(url)
-                }
-            }
-            if let categoryHighlighted = self.categoryHighlighted, categoryHeaderElement == categoryHighlighted {
-                cell.addNewTagToCategory()
-            }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryHeaderCell.reuseIdentifier,
+                                                            for: indexPath) as? CategoryHeaderCell else { return UICollectionViewCell() }
+        let categoryHeaderElement = categoryElements[indexPath.row]
+        cell.categoryTitle.text = categoryHeaderElement.name.localizedUppercase
+        cell.categoryTitle.addKern(value: -0.30)
+        cell.categoryIcon.image = categoryHeaderElement.imageInFeed
+        if let categoryHighlighted = self.categoryHighlighted, categoryHeaderElement == categoryHighlighted {
+            cell.addNewTagToCategory()
+        }
         return cell
     }
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
        
-        let categoryHeaderElement = categoryHeaderElements[indexPath.row]
-        switch categoryHeaderElement {
-        case .showMore:
-            delegateCategoryHeader?.openTaxonomyList()
-        case .mostSearchedItems:
-            delegateCategoryHeader?.openMostSearchedItems()
-        case .listingCategory, .superKeyword, .superKeywordGroup:
-            categorySelected.value = CategoryHeaderInfo(categoryHeaderElement: categoryHeaderElement,
-                                                        position: indexPath.row + 1,
-                                                        name: categoryHeaderElement.name)
-        }
+        let categoryHeaderElement = categoryElements[indexPath.row]
+        let headerInfo = CategoryHeaderInfo(listingCategory: categoryHeaderElement,
+                                            position: indexPath.row + 1,
+                                            name: categoryHeaderElement.name)
+        
+        categorySelected.value = headerInfo
+        delegateCategoryHeader?.categoryHeaderDidSelect(categoryHeaderInfo: headerInfo)
     }
 
     

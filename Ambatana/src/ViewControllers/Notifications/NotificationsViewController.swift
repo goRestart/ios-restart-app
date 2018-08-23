@@ -41,6 +41,7 @@ class NotificationsViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        tableView.register(type: NotificationCenterModularCell.self)
         setupUI()
         setupRX()
         setAccesibilityIds()
@@ -51,15 +52,18 @@ class NotificationsViewController: BaseViewController {
 
     private func setupUI() {
         setNavBarTitle(R.Strings.notificationsTitle)
-        view.backgroundColor = UIColor.listBackgroundColor
-
-        // Enable refresh control
-        refreshControl.addTarget(self, action: #selector(refreshControlTriggered),
-                                 for: UIControlEvents.valueChanged)
-        tableView.addSubview(refreshControl)
+        
+        if viewModel.isNotificationCenterRedesign {
+            tableView.backgroundColor = .white
+        } else {
+            tableView.backgroundColor = UIColor.listBackgroundColor
+        }
+        
+        enableRefreshControl()
+        
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = ModularNotificationCellDrawer.estimatedRowHeight
-        tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
+        tableView.contentInset = UIEdgeInsets.zero
 
         ModularNotificationCellDrawer.registerClassCell(tableView)
     }
@@ -101,24 +105,56 @@ class NotificationsViewController: BaseViewController {
         tableView.isHidden = true
         emptyView.setupWithModel(emptyViewModel)
     }
+    
+    private func enableRefreshControl() {
+        refreshControl.addTarget(self, action: #selector(refreshControlTriggered),
+                                 for: UIControlEvents.valueChanged)
+        tableView.addSubview(refreshControl)
+    }
 }
 
 
 // MARK: - UITableViewDelegate, UITableViewDataSource
 
 extension NotificationsViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return viewModel.numberOfSections
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        guard viewModel.isNotificationCenterRedesign else { return CGFloat.leastNormalMagnitude }
+        return NotificationCenterHeader.Layout.totalHeight
+    }
+
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard viewModel.isNotificationCenterRedesign else { return nil }
+        let header = NotificationCenterHeader()
+        let title = viewModel.sections[section].sectionDate.title
+        header.setup(withTitle: title)
+        return header
+    }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.dataCount
+        return viewModel.dataCount(atSection: section)
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cellData = viewModel.dataAtIndex(indexPath.row) else { return UITableViewCell() }
-        let cellDrawer = ModularNotificationCellDrawer()
-        let cell = cellDrawer.cell(tableView, atIndexPath: indexPath)
-        cellDrawer.draw(cell, data: cellData, delegate: viewModel)
-
-        return cell
+        guard let cellData = viewModel.data(atSection: indexPath.section, atIndex: indexPath.row)
+            else { return UITableViewCell() }
+        if viewModel.isNotificationCenterRedesign {
+            guard let cell = tableView.dequeue(type: NotificationCenterModularCell.self, for: indexPath)
+                else { return UITableViewCell() }
+            cell.addModularData(with: cellData.modules, isRead: cellData.isRead, notificationCampaign: cellData.campaignType, date: cellData.date)
+            cell.delegate = viewModel
+            return cell
+        } else {
+            let cellDrawer = ModularNotificationCellDrawer()
+            let cell = cellDrawer.cell(tableView, atIndexPath: indexPath)
+            cellDrawer.draw(cell, data: cellData, delegate: viewModel)
+            return cell
+        }
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

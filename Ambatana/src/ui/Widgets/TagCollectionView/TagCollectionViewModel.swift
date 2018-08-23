@@ -12,17 +12,15 @@ class TagCollectionViewModel: NSObject {
     let cellStyle: TagCollectionViewCellStyle
     weak var delegate: TagCollectionViewModelDelegate?
     weak var selectionDelegate: TagCollectionViewModelSelectionDelegate?
-    var tags: [String] {
+    var tags: [String] = [] {
         didSet {
             delegate?.vmDidReloadData(self)
         }
     }
     
-    init(tags: [String],
-         cellStyle: TagCollectionViewCellStyle,
+    init(cellStyle: TagCollectionViewCellStyle,
          delegate: TagCollectionViewModelDelegate? = nil) {
         self.delegate = delegate
-        self.tags = tags
         self.cellStyle = cellStyle
     }
 }

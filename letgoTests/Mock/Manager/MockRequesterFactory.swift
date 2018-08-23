@@ -2,7 +2,7 @@
 import Foundation
 
 class MockRequesterFactory: RequesterFactory {
-
+    
     private let featureFlags: FeatureFlaggeable
     private let productCounts: [Int]
 

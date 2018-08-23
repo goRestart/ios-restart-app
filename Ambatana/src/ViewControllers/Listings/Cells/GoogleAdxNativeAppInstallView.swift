@@ -4,6 +4,8 @@ import LGComponents
 
 final class GoogleAdxNativeAppInstallView: GADNativeAppInstallAdView {
     
+    private let tappableOverlayView = UIView()
+    
     private let adTitleLabel: UILabel = {
         let adTitleLabel = UILabel()
         adTitleLabel.font = UIFont.adTitleFont
@@ -93,7 +95,11 @@ final class GoogleAdxNativeAppInstallView: GADNativeAppInstallAdView {
         adCTALabel.layout()
             .height(LGUIKitConstants.advertisementCallToActionHeight)
         adCTALabel.layout(with: adTextLabel).above(by: -Metrics.veryShortMargin)
-        callToActionView = adCTALabel
+    }
+    
+    private func setupTappableOverlayView() {
+        tappableOverlayView.layout(with: self).fill()
+        callToActionView = tappableOverlayView
     }
     
     private func setupTitleLabel() {
@@ -139,13 +145,14 @@ final class GoogleAdxNativeAppInstallView: GADNativeAppInstallAdView {
     private func setupUI() {
         cornerRadius = LGUIKitConstants.smallCornerRadius
         backgroundColor = UIColor.white
-        addSubviewsForAutoLayout([adIconImageView, adTitleLabel, adMainImageView, adMainTextLabel, adCTALabel, adTextLabel])
+        addSubviewsForAutoLayout([adIconImageView, adTitleLabel, adMainImageView, adMainTextLabel, adCTALabel, adTextLabel, tappableOverlayView])
         setupIconImage()
         setupTitleLabel()
         setupMainImage()
         setupMainTextLabel()
         setupCTALabel()
         setupAdTextLabel()
+        setupTappableOverlayView()
     }
 
 }

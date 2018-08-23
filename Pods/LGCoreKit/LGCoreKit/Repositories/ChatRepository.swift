@@ -54,7 +54,7 @@ public protocol ChatRepository: class {
     
     // MARK: > Messages
     
-    func createNewMessage(_ talkerId: String, text: String?, type: ChatMessageType) -> ChatMessage
+    func createNewMessage(messageId: String?, talkerId: String, text: String?, type: ChatMessageType) -> ChatMessage
     func indexMessages(_ conversationId: String, numResults: Int, offset: Int, completion: ChatMessagesCompletion?)
     func indexMessagesNewerThan(_ messageId: String, conversationId: String, completion: ChatMessagesCompletion?)
     func indexMessagesOlderThan(_ messageId: String, conversationId: String, numResults: Int,

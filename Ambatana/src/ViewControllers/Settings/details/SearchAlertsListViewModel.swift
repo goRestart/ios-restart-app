@@ -55,6 +55,7 @@ enum SearchAlertsState {
 final class SearchAlertsListViewModel: BaseViewModel {
 
     private static let searchAlertLimit = 20
+    static let disableOldestSearchAlertFadeOutDelay: TimeInterval = 4
 
     weak var navigator: SearchAlertsListNavigator?
     weak var delegate: BaseViewModelDelegate?
@@ -62,9 +63,13 @@ final class SearchAlertsListViewModel: BaseViewModel {
     private let searchAlertsRepository: SearchAlertsRepository
     private let myUserRepository: MyUserRepository
     private let tracker: Tracker
+    private let featureFlags: FeatureFlaggeable
 
     var searchAlertsState = Variable<SearchAlertsState>(.refreshing)
     var searchAlerts = Variable<[SearchAlert]>([])
+    private var shouldDisableOldestSearchAlertIfMaximumReached: Bool {
+        return featureFlags.searchAlertsDisableOldestIfMaximumReached.isActive
+    }
     
     
     // MARK: - Lifecycle
@@ -72,13 +77,18 @@ final class SearchAlertsListViewModel: BaseViewModel {
     convenience override init() {
         self.init(searchAlertsRepository: Core.searchAlertsRepository,
                   myUserRepository: Core.myUserRepository,
-                  tracker: TrackerProxy.sharedInstance)
+                  tracker: TrackerProxy.sharedInstance,
+                  featureFlags: FeatureFlags.sharedInstance)
     }
     
-    init(searchAlertsRepository: SearchAlertsRepository, myUserRepository: MyUserRepository, tracker: Tracker) {
+    init(searchAlertsRepository: SearchAlertsRepository,
+         myUserRepository: MyUserRepository,
+         tracker: Tracker,
+         featureFlags: FeatureFlaggeable) {
         self.searchAlertsRepository = searchAlertsRepository
         self.myUserRepository = myUserRepository
         self.tracker = tracker
+        self.featureFlags = featureFlags
         super.init()
     }
     
@@ -105,7 +115,7 @@ final class SearchAlertsListViewModel: BaseViewModel {
 
     func triggerEnableOrDisable(searchAlertId: String, enable: Bool) {
         if enable {
-            enableSearchAlert(withId: searchAlertId)
+            enableSearchAlert(withId: searchAlertId, mutatedSearchAlerts: nil, comesAfterDisablingOldestOne: false)
         } else {
             disableSearchAlert(withId: searchAlertId)
         }
@@ -116,37 +126,87 @@ final class SearchAlertsListViewModel: BaseViewModel {
         tracker.trackEvent(trackerEvent)
     }
     
-    private func enableSearchAlert(withId id: String) {
+    private func enableSearchAlert(withId id: String,
+                                   mutatedSearchAlerts: [SearchAlert]?,
+                                   comesAfterDisablingOldestOne: Bool) {
         searchAlertsRepository.enable(searchAlertId: id) { [weak self] result in
+            guard let strongSelf = self else { return }
             if let _ = result.value {
-                self?.updateEnableValueOfSearchAlertWith(alertId: id)
-            } else if let error = result.error {
-                var errorMessage: String
-                switch error {
-                case .searchAlertError(let searchAlertError):
-                    switch searchAlertError {
-                    case .alreadyExists, .apiError:
-                        errorMessage = R.Strings.searchAlertEnableErrorMessage
-                    case .limitReached:
-                        errorMessage = R.Strings.searchAlertErrorTooManyText
-                    }
-                case .tooManyRequests, .network, .forbidden, .internalError, .notFound, .unauthorized, .userNotVerified,
-                     .serverError, .wsChatError:
-                    errorMessage = R.Strings.searchAlertEnableErrorMessage
+                var newSearchAlerts: [SearchAlert]
+                if let mutatedBulkSearchAlerts = mutatedSearchAlerts {
+                    newSearchAlerts = mutatedBulkSearchAlerts
+                } else {
+                    newSearchAlerts = strongSelf.searchAlerts.value
                 }
-                self?.delegate?.vmShowAutoFadingMessage(errorMessage) { [weak self] in
-                    self?.retrieveSearchAlerts()
+                if let newSearchAlerts = strongSelf.updateEnableValueOfSearchAlertWith(alertId: id,
+                                                                                       fromSearchAlerts: newSearchAlerts) {
+                    strongSelf.searchAlerts.value = newSearchAlerts
+                    if comesAfterDisablingOldestOne {
+                        strongSelf.delegate?.vmShowAutoFadingMessage(message: R.Strings.searchAlertsDisabledOldestMessage,
+                                                                     time: SearchAlertsListViewModel.disableOldestSearchAlertFadeOutDelay,
+                                                                     completion: nil)
+                    }
+                }
+            } else if let error = result.error {
+                if error.isSearchAlertLimitReachedError &&
+                    strongSelf.shouldDisableOldestSearchAlertIfMaximumReached &&
+                    !comesAfterDisablingOldestOne {
+                    strongSelf.disableOldestSearchAlert { [weak self] mutatedSearchAlerts in
+                        self?.enableSearchAlert(withId: id,
+                                                mutatedSearchAlerts: mutatedSearchAlerts,
+                                                comesAfterDisablingOldestOne: true)
+                    }
+                } else {
+                    strongSelf.reSyncSearchAlertsAfterShowingErrorMessage(error: error)
                 }
             }
         }
     }
     
-    private func disableSearchAlert(withId id: String) {
+    private func reSyncSearchAlertsAfterShowingErrorMessage(error: RepositoryError) {
+        var errorMessage: String
+        switch error {
+        case .searchAlertError(let searchAlertError):
+            switch searchAlertError {
+            case .alreadyExists, .apiError:
+                errorMessage = R.Strings.searchAlertEnableErrorMessage
+            case .limitReached:
+                errorMessage = R.Strings.searchAlertErrorTooManyText
+            }
+        case .tooManyRequests, .network, .forbidden, .internalError, .notFound, .unauthorized, .userNotVerified,
+             .serverError, .wsChatError:
+            errorMessage = R.Strings.searchAlertEnableErrorMessage
+        }
+        delegate?.vmShowAutoFadingMessage(errorMessage) { [weak self] in
+            self?.retrieveSearchAlerts()
+        }
+    }
+    
+    private func disableOldestSearchAlert(completion: (([SearchAlert]) -> Void)?) {
+        guard let firstSearchAlert = searchAlerts.value.first else { return }
+        let oldestEnabledSearchAlert = searchAlerts.value
+            .filter { $0.enabled }
+            .reduce(firstSearchAlert, { $0.createdAt < $1.createdAt ? $0 : $1 })
+        if let searchAlertId = oldestEnabledSearchAlert.objectId {
+            disableSearchAlert(withId: searchAlertId, completion: completion)
+        }
+    }
+    
+    private func disableSearchAlert(withId id: String, completion: (([SearchAlert]) -> Void)? = nil) {
         searchAlertsRepository.disable(searchAlertId: id) { [weak self] result in
+            guard let strongSelf = self else { return }
             if let _ = result.value {
-                self?.updateEnableValueOfSearchAlertWith(alertId: id)
+                if let mutatedSearchAlerts =
+                    strongSelf.updateEnableValueOfSearchAlertWith(alertId: id,
+                                                                  fromSearchAlerts: strongSelf.searchAlerts.value) {
+                    if let completion = completion {
+                        completion(mutatedSearchAlerts)
+                    } else {
+                        strongSelf.searchAlerts.value = mutatedSearchAlerts
+                    }
+                }
             } else if let _ = result.error {
-                self?.delegate?.vmShowAutoFadingMessage(R.Strings.searchAlertDisableErrorMessage) { [weak self] in
+                strongSelf.delegate?.vmShowAutoFadingMessage(R.Strings.searchAlertDisableErrorMessage) { [weak self] in
                     self?.retrieveSearchAlerts()
                 }
             }
@@ -174,13 +234,17 @@ final class SearchAlertsListViewModel: BaseViewModel {
         return searchAlert?.query
     }
 
-    private func updateEnableValueOfSearchAlertWith(alertId: String)  {
-        let optionalSearchAlert = searchAlerts.value.filter { $0.objectId == alertId }.first
-        guard let searchAlert = optionalSearchAlert as? LGSearchAlert else { return }
+    private func updateEnableValueOfSearchAlertWith(alertId: String,
+                                                    fromSearchAlerts searchAlerts: [SearchAlert]) -> [SearchAlert]? {
+        guard let searchAlert = searchAlerts.filter({ $0.objectId == alertId }).first as? LGSearchAlert else { return nil }
         let newAlert = searchAlert.updating(enabled: !searchAlert.enabled)
-        let optIndex = searchAlerts.value.index { $0.objectId == newAlert.objectId }
+        let optIndex = searchAlerts.index { $0.objectId == newAlert.objectId }
         if let index = optIndex {
-            searchAlerts.value[index] = newAlert
+            var mutatedSearchAlerts = searchAlerts
+            mutatedSearchAlerts[index] = newAlert
+            return mutatedSearchAlerts
+        } else {
+            return nil
         }
     }
     
@@ -194,3 +258,18 @@ final class SearchAlertsListViewModel: BaseViewModel {
     }
 }
 
+extension RepositoryError {
+    var isSearchAlertLimitReachedError: Bool {
+        switch self {
+        case .searchAlertError(let searchAlertError):
+            switch searchAlertError {
+            case .limitReached:
+                return true
+            default:
+                return false
+            }
+        default:
+            return false
+        }
+    }
+}

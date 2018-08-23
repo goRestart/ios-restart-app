@@ -6,4 +6,5 @@ public struct MockUserListing: UserListing {
     public var status: UserStatus
     public var banned: Bool?
     public var isDummy: Bool
+    public var type: UserType
 }

@@ -39,8 +39,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
         var source: LetGoGodMode.EventParameterTypePage!
         var pushPermissionManager: MockPushPermissionsManager!
         var ratingManager: MockRatingManager!
-        var reputationTooltipManager: MockReputationTooltipManager!
-        
+
         // Vars to modify on tests:
         var mockMyUser: MockMyUser!
         var chatMessages: [MockChatMessage]!
@@ -100,7 +99,6 @@ class ChatViewModelSpec: BaseViewModelSpec {
 
                 conversation = chatConversation
                 let predefinedMessage = String.makeRandom()
-                let reachability = LGReachability()
                 sut = ChatViewModel(conversation: conversation, myUserRepository: myUserRepository,
                                     chatRepository: chatRepository, listingRepository: listingRepository,
                                     userRepository: userRepository, stickersRepository: stickersRepository,
@@ -108,8 +106,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                                     keyValueStorage: keyValueStorage, navigator: nil, featureFlags: featureFlags,
                                     source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionManager,
                                     predefinedMessage: predefinedMessage, openChatAutomaticMessage: openChatAutomaticMessage,
-                                    interlocutor: interlocutor, reputationTooltipManager: reputationTooltipManager,
-                                    reachability: reachability)
+                                    interlocutor: interlocutor)
                 sut.delegate = self
                 disposeBag = DisposeBag()
                 sut.messages.observable.bind(to: messages).disposed(by: disposeBag)
@@ -134,7 +131,6 @@ class ChatViewModelSpec: BaseViewModelSpec {
                 source = .chat
                 pushPermissionManager = MockPushPermissionsManager()
                 ratingManager = MockRatingManager()
-                reputationTooltipManager = MockReputationTooltipManager()
 
                 scheduler = TestScheduler(initialClock: 0)
                 scheduler.start()
@@ -335,7 +331,6 @@ class ChatViewModelSpec: BaseViewModelSpec {
                                 expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "product-detail-ask-question", "user-sent-message"]
                             }
                             it("should not clean textField") {
-
                                 expect(self.textFieldCleaned) == false
                             }
                         }
@@ -788,11 +783,17 @@ extension ChatViewModelSpec {
         var messages: [MockChatMessage] = []
         for _ in 0..<myMessagesNumber {
             var chatMessage = MockChatMessage.makeMock()
+            chatMessage.content = MockChatMessageContent(type: .text,
+                                                         defaultText: String.makeRandom(),
+                                                         text: String.makeRandom())
             chatMessage.talkerId = myUserId
             messages.append(chatMessage)
         }
         for _ in 0..<interlocutorNumberMessages {
             var chatMessage = MockChatMessage.makeMock()
+            chatMessage.content = MockChatMessageContent(type: .text,
+                                                         defaultText: String.makeRandom(),
+                                                         text: String.makeRandom())
             chatMessage.talkerId = interlocutorId
             messages.append(chatMessage)
         }

@@ -27,32 +27,46 @@ enum ProductCarouselActionOnFirstAppear {
     case nonexistent
     case showKeyboard
     case showShareSheet
-    case triggerBumpUp(bumpUpProductData: BumpUpProductData, bumpUpType: BumpUpType, triggerBumpUpSource: BumpUpSource, typePage: EventParameterTypePage?)
+    case triggerBumpUp(bumpUpProductData: BumpUpProductData?,
+        bumpUpType: BumpUpType?,
+        triggerBumpUpSource: BumpUpSource,
+        typePage: EventParameterTypePage?)
     case triggerMarkAsSold
     case edit
+
+    var actionIsTriggerBumpUp: Bool {
+        if case .triggerBumpUp = self {
+            return true
+        }
+        return false
+    }
 }
 
 protocol TabNavigator: class {
     func openHome()
     func openSell(source: PostingSource, postCategory: PostCategory?)
-    func openAppRating(_ source: EventParameterRatingSource)
     func openUserRating(_ source: RateUserSource, data: RateUserData)
     func openUser(_ data: UserDetailData)
+    func openUser(user: User, source: UserSource)
     func openListing(_ data: ListingDetailData, source: EventParameterListingVisitSource, actionOnFirstAppear: ProductCarouselActionOnFirstAppear)
     func openChat(_ data: ChatDetailData, source: EventParameterTypePage, predefinedMessage: String?)
-    func openVerifyAccounts(_ types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?)
     func openAppInvite(myUserId: String?, myUserName: String?)
     func canOpenAppInvite() -> Bool
     func openRatingList(_ userId: String)
-    func openMostSearchedItems(source: PostingSource, enableSearch: Bool)
     func openUserReport(source: EventParameterTypePage, userReportedId: String)
     func showUndoBubble(withMessage message: String,
                         duration: TimeInterval,
                         withAction action: @escaping () -> ())
+    func showFailBubble(withMessage message: String, duration: TimeInterval)
     func openUserVerificationView()
+    func openCommunityTab()
 }
 
-protocol ListingDetailNavigator: TabNavigator {
+protocol ListingDetailNavigator: class {
+    func openAppRating(_ source: EventParameterRatingSource)
+    func openUser(_ data: UserDetailData)
+    func openUserVerificationView()
+
     func closeProductDetail()
     func editListing(_ listing: Listing,
                      bumpUpProductData: BumpUpProductData?,
@@ -99,27 +113,13 @@ protocol ListingDetailNavigator: TabNavigator {
                           source: EventParameterTypePage,
                           interlocutor: User?)
 
-    func openVideoPlayer(atIndex index: Int, listingVM: ListingViewModel, source: EventParameterListingVisitSource) 
+    func openVideoPlayer(atIndex index: Int, listingVM: ListingViewModel, source: EventParameterListingVisitSource)
+    
+    func openListingAttributeTable(withViewModel viewModel: ListingAttributeTableViewModel)
+    func closeListingAttributeTable()
 }
 
 protocol SimpleProductsNavigator: class {
     func closeSimpleProducts()
     func openListing(_ data: ListingDetailData, source: EventParameterListingVisitSource, actionOnFirstAppear: ProductCarouselActionOnFirstAppear)
-}
-
-protocol ChatDetailNavigator: TabNavigator {
-    func closeChatDetail()
-    func openDeeplink(url: URL)
-    func openExpressChat(_ listings: [Listing], sourceListingId: String, manualOpen: Bool)
-    func selectBuyerToRate(source: RateUserSource,
-                           buyers: [UserListing],
-                           listingId: String,
-                           sourceRateBuyers: SourceRateBuyers?,
-                           trackingInfo: MarkAsSoldTrackingInfo)
-    func openLoginIfNeededFromChatDetail(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void))
-    func openAssistantFor(listingId: String, dataDelegate: MeetingAssistantDataDelegate)
-}
-
-protocol ChatInactiveDetailNavigator: TabNavigator {
-    func closeChatInactiveDetail()
 }

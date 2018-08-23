@@ -18,10 +18,11 @@ extension RetrieveListingParams {
         params[VerticalsParamsKeys.numResults] = numListings
         params[VerticalsParamsKeys.offset] = offset
         params[VerticalsParamsKeys.sort] = sortCriteria?.string
-        params[VerticalsParamsKeys.since] = timeCriteria?.string
+        params[VerticalsParamsKeys.since] = timeCriteria?.parameterValue
         
         params[ServicesAttributesParamsKey.typeId] = typeIds
         params[ServicesAttributesParamsKey.subtypeId] = subtypeIds
+        params[ServicesAttributesParamsKey.listingType] = serviceListingTypes?.map({ return $0.rawValue })
         
         return params
     }
@@ -30,4 +31,5 @@ extension RetrieveListingParams {
 private struct ServicesAttributesParamsKey {
     static let typeId = "typeId"
     static let subtypeId = "subTypeId"
+    static let listingType = "listingType"
 }

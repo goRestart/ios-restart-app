@@ -29,21 +29,32 @@ public class ServicesCreationParams: BaseListingParams {
     
     func apiServiceCreationEncode(userId: String) -> [String: Any] {
         var params = super.apiCreationEncode(userId: userId)
-        params.removeValue(forKey: "price_flag")
+        params.removeValue(forKey: CodingKeys.legacyPriceFlag.rawValue)
         
         var servicesAttributesDict: [String: Any] = [:]
         if let typeId = serviceAttributes.typeId {
-            servicesAttributesDict["typeId"] = typeId
+            servicesAttributesDict[CodingKeys.typeId.rawValue] = typeId
         }
         if let subtypeId = serviceAttributes.subtypeId {
-            servicesAttributesDict["subTypeId"] = subtypeId
+            servicesAttributesDict[CodingKeys.subTypeId.rawValue] = subtypeId
         }
-        params["images"] = images.flatMap { $0.objectId }
-        params["priceFlag"] = price.priceFlag.rawValue
-        params["serviceAttributes"] = servicesAttributesDict
+        if let listingType = serviceAttributes.listingType {
+            servicesAttributesDict[CodingKeys.listingType.rawValue] = listingType.rawValue
+        }
+        if let paymentFrequency = serviceAttributes.paymentFrequency {
+            servicesAttributesDict[CodingKeys.paymentFrequency.rawValue] = paymentFrequency.rawValue
+        }
+        
+        params[CodingKeys.images.rawValue] = images.compactMap { $0.objectId }
+        params[CodingKeys.priceFlag.rawValue] = price.priceFlag.rawValue
+        params[CodingKeys.serviceAttributes.rawValue] = servicesAttributesDict
         return params
     }
     
+    enum CodingKeys: String {
+        case typeId, subTypeId, listingType, paymentFrequency, images, priceFlag, serviceAttributes
+        case legacyPriceFlag = "price_flag"
+    }
 }
 
 extension Array where Element == ServicesCreationParams {

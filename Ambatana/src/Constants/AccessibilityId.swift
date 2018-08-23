@@ -78,10 +78,6 @@ enum AccessibilityId: Equatable, Accessible {
     case filterTagCell(tag: FilterTag)
     case filterTagCellTagIcon
     case filterTagCellTagLabel
-    case selectableFilterTagCellTagLabel
-    
-    // Taxonomies
-    case taxonomiesTableView
     
     // CategoriesHeader Cells
     case categoriesHeaderCollectionView
@@ -131,13 +127,6 @@ enum AccessibilityId: Equatable, Accessible {
     case filterTextFieldIntCell
     case filterTextFieldIntCellTitleLabel
     case filterTextFieldIntCellTextField
-    case filterTextFieldIntCellTitleLabelFrom
-    case filterTextFieldIntCellTitleLabelTo
-    case filterTextFieldIntCellTextFieldFrom
-    case filterTextFieldIntCellTextFieldTo
-    
-    case filterFreeCell
-    case filterFreeCellTitleLabel
 
     // Listing Detail
     case listingDetailOnboarding
@@ -159,6 +148,7 @@ enum AccessibilityId: Equatable, Accessible {
     case listingCarouselInterestedButton
     case listingCarouselStatusView
     case listingCarouselPlayButton
+    case listingCarouselVideoProgressView
 
     case listingCarouselNavBarCloseButton
     case listingCarouselNavBarEditButton
@@ -192,6 +182,8 @@ enum AccessibilityId: Equatable, Accessible {
     case listingCarouselCellPlaceholderImage
     case listingCarouselImageCell
     case listingCarouselImageCellImageView
+    case listingCarouselVideoCell
+    case listingCarouselVideoCellVideoPreview
 
     // listing Carousel Post Delete screens
     case postDeleteAlertButton
@@ -217,6 +209,10 @@ enum AccessibilityId: Equatable, Accessible {
     case notificationsModularTextBodyLabel
     case notificationsModularBasicImageView
     case notificationsModularHeroImageView
+    case notificationsModularIconImageView
+    case notificationsModularThumbnailCollectionView
+    case notificationsModularThumbnailCollectionViewCell
+    case notificationsModularThumbnailView
     case notificationsModularThumbnailView1
     case notificationsModularThumbnailView2
     case notificationsModularThumbnailView3
@@ -280,6 +276,9 @@ enum AccessibilityId: Equatable, Accessible {
     case postingAddDetailTableView
     case postingAddDetailSearchBar
     case postingDetailMaxServices
+    case postingDetailShareOnFacebookTitleLabel
+    case postingDetailShareOnFacebookFooterLabel
+    case postingDetailShareOnFacebookCheckbox
 
     // Editlisting
     case editListingCloseButton
@@ -307,6 +306,8 @@ enum AccessibilityId: Equatable, Accessible {
     case editListingFeatureSwitch
     case editListingServicesTypeButton
     case editListingServicesSubtypeButton
+    case editListingServicesListingTypeButton
+    case editListingPaymentFrequencyButton
     
     // ReportUser
     case reportUserCollection
@@ -415,8 +416,12 @@ enum AccessibilityId: Equatable, Accessible {
     case conversationCellThumbnailImageView
     case conversationCellAvatarImageView
     case conversationCellStatusImageView
+    case conversationCellStatusLabel
+    case conversationCellAssistantInfoLabel
+    case conversationCellProfessionalTag
 
     // Chat Assistant Conversation Cell
+    case assistantConversationCellContainer(conversationId: String?)
     case assistantConversationCellNameLabel
     case assistantConversationCellAvatarImageView
     case assistantConversationCellInfoLabel
@@ -460,6 +465,7 @@ enum AccessibilityId: Equatable, Accessible {
     case chatCellContainer(type: ChatBubbleCellType)
     case chatCellMessageLabel
     case chatCellDateLabel
+    case chatCellAvatar
 
     // ChatStickerCell
     case chatStickerCellContainer
@@ -473,6 +479,9 @@ enum AccessibilityId: Equatable, Accessible {
     // ChatOtherInfoCell
     case chatOtherInfoCellContainer
     case chatOtherInfoCellNameLabel
+
+    // ChatInterlocutorTypingCell
+    case chatInterlocutorTypingCell
 
     // TourLogin
     case tourLoginCloseButton
@@ -529,14 +538,6 @@ enum AccessibilityId: Equatable, Accessible {
     case userProfileVerifiedWithFacebook
     case userProfileVerifiedWithGoogle
     case userProfileVerifiedWithEmail
-
-    // Verify Accounts popup
-    case verifyAccountsBackgroundButton
-    case verifyAccountsFacebookButton
-    case verifyAccountsGoogleButton
-    case verifyAccountsEmailButton
-    case verifyAccountsEmailTextField
-    case verifyAccountsEmailTextFieldButton
 
     // Verifications view
     case verificationsOptionsTitle
@@ -610,6 +611,7 @@ enum AccessibilityId: Equatable, Accessible {
     case expressChatCollection
     case expressChatSendButton
     case expressChatDontAskButton
+    case expressChatMoreOptionsButton
 
     // Express chat cell
     case expressChatCell
@@ -733,6 +735,14 @@ enum AccessibilityId: Equatable, Accessible {
     // Letgo Tooltip
     case letgoTooltipButton
     case letgoTooltipText
+    
+    
+    // DropdownTableView
+    
+    case dropdownViewControllerTableView
+    case dropdownViewControllerSearchBar
+    case dropdownViewControllerApplyButton
+    case dropdownViewControllerResetButton
     
     static func ==(lhs: AccessibilityId, rhs: AccessibilityId) -> Bool {
         return lhs.identifier == rhs.identifier
@@ -863,17 +873,11 @@ enum AccessibilityId: Equatable, Accessible {
             case .location:
                 idSuffix = "Location"
             case let .within(timeCriteria):
-                idSuffix = "WithinTime-\(timeCriteria.rawValue)"
+                idSuffix = "WithinTime-\(timeCriteria.accessibilityId)"
             case let .orderBy(sortCriteria):
                 idSuffix = "OrderBy-\(sortCriteria.rawValue)"
             case let .category(category):
                 idSuffix = "Category-\(category.rawValue)"
-            case let .taxonomyChild(taxonomyChild):
-                idSuffix = "TaxonomyChild-\(taxonomyChild.id)"
-            case let .taxonomy(taxonomy):
-                idSuffix = "Taxonomy-\(taxonomy.name)"
-            case let .secondaryTaxonomyChild(taxonomyChild):
-                idSuffix = "SecondaryTaxonomyChild-\(String(taxonomyChild.id))"
             case let .priceRange(from, to, currency):
                 var params = [String]()
                 if let from = from {
@@ -930,22 +934,20 @@ enum AccessibilityId: Equatable, Accessible {
                 idSuffix = "ServicesServiceType-\(serviceType.name)"
             case let .serviceSubtype(serviceSubtype):
                 idSuffix = "ServicesServiceSubtype-\(serviceSubtype.name)"
+            case let .unifiedServiceType(serviceType, subtypes):
+                idSuffix = "ServicesServiceType-\(serviceType.name)+\(subtypes.count)"
             case let .sizeSquareMetersRange(from, to):
                 idSuffix = AccessibilityId.rangeIdentifier(forRange: AccessibilityRange(withLowerBound: from,
                                                                                         upperBound: to),
                                                            identifierPrefix: "RealEstateSizeSquareMetersRange")
+            case let .serviceListingType(listingType):
+                idSuffix = "ServicesListingType-\(listingType.rawValue)"
             }
             return idPrefix + idSuffix
         case .filterTagCellTagIcon:
             return "filterTagCellTagIcon"
         case .filterTagCellTagLabel:
             return "filterTagCellTagLabel"
-        case .selectableFilterTagCellTagLabel:
-            return "selectableFilterTagCellTagLabel"
-            
-        // Taxonomies
-        case .taxonomiesTableView:
-            return "taxonomiesTableView"
             
         // CategoriesHeader Cells
         case .categoriesHeaderCollectionView:
@@ -1030,19 +1032,6 @@ enum AccessibilityId: Equatable, Accessible {
             return "filterTextFieldIntCellTitleLabel"
         case .filterTextFieldIntCellTextField:
             return "filterTextFieldIntCellTextField"
-        case .filterTextFieldIntCellTitleLabelFrom:
-            return "filterTextFieldIntCellTitleLabelFrom"
-        case .filterTextFieldIntCellTitleLabelTo:
-            return "filterTextFieldIntCellTitleLabelTo"
-        case .filterTextFieldIntCellTextFieldFrom:
-            return "filterTextFieldIntCellTextFieldFrom"
-        case .filterTextFieldIntCellTextFieldTo:
-            return "filterTextFieldIntCellTextFieldTo"
-            
-        case .filterFreeCell:
-            return "filterFreeCell"
-        case .filterFreeCellTitleLabel:
-            return "filterFreeCellTitleLabel"
             
         // Listing Detail
         case .listingDetailOnboarding:
@@ -1081,6 +1070,8 @@ enum AccessibilityId: Equatable, Accessible {
             return "listingCarouselStatusView"
         case .listingCarouselPlayButton:
             return "listingCarouselPlayButton"
+        case .listingCarouselVideoProgressView:
+            return "listingCarouselVideoProgressView"
             
         case .listingCarouselNavBarCloseButton:
             return "listingCarouselNavBarCloseButton"
@@ -1141,6 +1132,10 @@ enum AccessibilityId: Equatable, Accessible {
             return "listingCarouselImageCell"
         case .listingCarouselImageCellImageView:
             return "listingCarouselImageCellImageView"
+        case .listingCarouselVideoCell:
+            return "listingCarouselVideoCell"
+        case .listingCarouselVideoCellVideoPreview:
+            return "listingCarouselVideoCellVideoPreview"
             
         // listing Carousel Post Delete screens
         case .postDeleteAlertButton:
@@ -1181,6 +1176,14 @@ enum AccessibilityId: Equatable, Accessible {
             return "notificationsModularTextBodyLabel"
         case .notificationsModularBasicImageView:
             return "notificationsModularBasicImageView"
+        case .notificationsModularIconImageView:
+            return "notificationsModularIconImageView"
+        case .notificationsModularThumbnailCollectionView:
+            return "notificationsModularThumbnailCollectionView"
+        case .notificationsModularThumbnailCollectionViewCell:
+            return "notificationsModularThumbnailCollectionViewCell"
+        case .notificationsModularThumbnailView:
+            return "notificationsModularThumbnailView"
         case .notificationsModularHeroImageView:
             return "notificationsModularHeroImageView"
         case .notificationsModularThumbnailView1:
@@ -1308,6 +1311,12 @@ enum AccessibilityId: Equatable, Accessible {
             return "postingAddDetailSearchBar"
         case .postingDetailMaxServices:
             return "postingDetailMaxServices"
+        case .postingDetailShareOnFacebookTitleLabel:
+            return "postingDetailShareOnFacebookTitleLabel"
+        case .postingDetailShareOnFacebookFooterLabel:
+            return "postingDetailShareOnFacebookFooterLabel"
+        case .postingDetailShareOnFacebookCheckbox:
+            return "postingDetailShareOnFacebookCheckbox"
             
         // Editlisting
         case .editListingCloseButton:
@@ -1360,6 +1369,10 @@ enum AccessibilityId: Equatable, Accessible {
             return "editListingServicesTypeButton"
         case .editListingServicesSubtypeButton:
             return "editListingServicesSubtypeButton"
+        case .editListingServicesListingTypeButton:
+            return "editListingServicesListingTypeButton"
+        case .editListingPaymentFrequencyButton:
+            return "editListingPaymentFrequencyButton"
 
             
         // ReportUser
@@ -1548,9 +1561,16 @@ enum AccessibilityId: Equatable, Accessible {
             return "conversationCellAvatarImageView"
         case .conversationCellStatusImageView:
             return "conversationCellStatusImageView"
+        case .conversationCellStatusLabel:
+            return "conversationCellStatusLabel"
+        case .conversationCellAssistantInfoLabel:
+            return "conversationCellAssistantInfoLabel"
+        case .conversationCellProfessionalTag:
+            return "conversationCellProfessionalTag"
 
         // Chat Assistant Conversation Cell
-
+        case let .assistantConversationCellContainer(conversationId):
+            return "assistantConversationCellContainer-\(conversationId ?? "")"
         case .assistantConversationCellNameLabel:
             return "assistantConversationCellNameLabel"
         case .assistantConversationCellAvatarImageView:
@@ -1626,12 +1646,16 @@ enum AccessibilityId: Equatable, Accessible {
                 suffix = "OthersMessage"
             case .askPhoneNumber:
                 suffix = "AskPhoneNumber"
+            case .callToAction:
+                suffix = "CallToAction"
             }
             return "chatCellContainer\(suffix)"
         case .chatCellMessageLabel:
             return "chatCellMessageLabel"
         case .chatCellDateLabel:
             return "chatCellDateLabel"
+        case .chatCellAvatar:
+            return "chatCellAvatar"
             
         // ChatStickerCell
         case .chatStickerCellContainer:
@@ -1652,7 +1676,11 @@ enum AccessibilityId: Equatable, Accessible {
             return "chatOtherInfoCellContainer"
         case .chatOtherInfoCellNameLabel:
             return "chatOtherInfoCellNameLabel"
-            
+
+        // ChatInterlocutorTypingCell
+        case .chatInterlocutorTypingCell:
+            return "chatInterlocutorTypingCell"
+
         // TourLogin
         case .tourLoginCloseButton:
             return "tourLoginCloseButton"
@@ -1754,20 +1782,6 @@ enum AccessibilityId: Equatable, Accessible {
             return "userProfileVerifiedWithGoogle"
         case .userProfileVerifiedWithEmail:
             return "userProfileVerifiedWithEmail"
-            
-        // Verify Accounts popup
-        case .verifyAccountsBackgroundButton:
-            return "verifyAccountsBackgroundButton"
-        case .verifyAccountsFacebookButton:
-            return "verifyAccountsFacebookButton"
-        case .verifyAccountsGoogleButton:
-            return "verifyAccountsGoogleButton"
-        case .verifyAccountsEmailButton:
-            return "verifyAccountsEmailButton"
-        case .verifyAccountsEmailTextField:
-            return "verifyAccountsEmailTextField"
-        case .verifyAccountsEmailTextFieldButton:
-            return "verifyAccountsEmailTextFieldButton"
 
         // Verifications view
         case .verificationsOptionsTitle:
@@ -1892,6 +1906,8 @@ enum AccessibilityId: Equatable, Accessible {
             return "expressChatSendButton"
         case .expressChatDontAskButton:
             return "expressChatDontAskButton"
+        case .expressChatMoreOptionsButton:
+            return "expressChatMoreOptionsButton"
             
         // Express chat cell
         case .expressChatCell:
@@ -2090,6 +2106,17 @@ enum AccessibilityId: Equatable, Accessible {
             return "letgoTooltipButton"
         case .letgoTooltipText:
             return "letgoTooltipText"
+            
+            
+        // DropdownTableView
+        case .dropdownViewControllerTableView:
+            return "dropdownViewControllerTableView"
+        case .dropdownViewControllerSearchBar:
+            return "dropdownViewControllerSearchBar"
+        case .dropdownViewControllerApplyButton:
+            return "dropdownViewControllerApplyButton"
+        case .dropdownViewControllerResetButton:
+            return "dropdownViewControllerResetButton"
         }
     }
     

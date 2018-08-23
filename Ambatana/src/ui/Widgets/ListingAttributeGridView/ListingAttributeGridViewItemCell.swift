@@ -9,8 +9,6 @@ final class ListingAttributeGridViewItemCell: UICollectionViewCell, ReusableCell
         static let titleLabelToIconImageView: CGFloat = 4.0
         static let titleLabelHorizontalInset: CGFloat = 2.0
         static let titleLabelFontSize: CGFloat = 13.0
-        static let selectedTintColour: UIColor = .redText
-        static let defaultTintColour: UIColor = .gray
     }
     
     private let iconImageView: UIImageView = {
@@ -38,32 +36,39 @@ final class ListingAttributeGridViewItemCell: UICollectionViewCell, ReusableCell
     }
     
     func setup(withItem item: ListingAttributeGridItem,
+               theme: ListingAttributeGridTheme,
                isSelected: Bool) {
+        backgroundColor = .clear
         titleLabel.text = item.title
         iconImageView.image = item.icon
-        updateSelectedState(isSelected: isSelected)
+        updateSelectedState(isSelected: isSelected,
+                            theme: theme)
     }
     
     func updateSelectedState(isSelected: Bool,
+                             theme: ListingAttributeGridTheme,
                              performSelectionAnimation: Bool = false) {
         
         if performSelectionAnimation {
             performIconSelectionAnimation()
             UIView.animate(withDuration: 0.25) { [weak self] in
-                self?.updateTintColour(isSelected: isSelected)
+                self?.updateTintColour(isSelected: isSelected,
+                                       theme: theme)
             }
         } else {
-            updateTintColour(isSelected: isSelected)
+            updateTintColour(isSelected: isSelected,
+                             theme: theme)
         }
     }
     
-    private func updateTintColour(isSelected: Bool) {
+    private func updateTintColour(isSelected: Bool,
+                                  theme: ListingAttributeGridTheme) {
         if isSelected {
-            iconImageView.tintColor = Layout.selectedTintColour
-            titleLabel.textColor = Layout.selectedTintColour
+            iconImageView.tintColor = theme.selectedTintColour
+            titleLabel.textColor = theme.selectedTintColour
         } else {
-            iconImageView.tintColor = Layout.defaultTintColour
-            titleLabel.textColor = Layout.defaultTintColour
+            iconImageView.tintColor = theme.defaultTintColour
+            titleLabel.textColor = theme.defaultTintColour
         }
     }
 

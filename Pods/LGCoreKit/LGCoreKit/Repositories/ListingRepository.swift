@@ -118,7 +118,6 @@ public protocol ListingRepository {
     func update(listingParams: ListingEditionParams, completion: ListingCompletion?)
     
     func createServices(listingParams: [ListingCreationParams], completion: ListingsCompletion?)
-    func updateService(listingParams: ListingEditionParams, completion: ListingCompletion?)
 
     func delete(listingId: String, completion: ListingVoidCompletion?)
     

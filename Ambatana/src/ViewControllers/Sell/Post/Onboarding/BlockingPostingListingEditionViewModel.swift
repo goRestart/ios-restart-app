@@ -33,7 +33,7 @@ class BlockingPostingListingEditionViewModel: BaseViewModel {
     private let listingParams: ListingEditionParams
     private var listing: Listing
     private let images: [UIImage]
-    private let imageSource: EventParameterPictureSource
+    private let imageSource: EventParameterMediaSource
     private let videoLength: TimeInterval?
     private let postingSource: PostingSource
     
@@ -45,7 +45,7 @@ class BlockingPostingListingEditionViewModel: BaseViewModel {
     // MARK: - Lifecycle
 
     convenience init(listingParams: ListingEditionParams, listing: Listing, images: [UIImage],
-                     imageSource: EventParameterPictureSource, videoLength: TimeInterval?, postingSource: PostingSource) {
+                     imageSource: EventParameterMediaSource, videoLength: TimeInterval?, postingSource: PostingSource) {
         self.init(listingRepository: Core.listingRepository,
                   tracker: TrackerProxy.sharedInstance,
                   featureFlags: FeatureFlags.sharedInstance,
@@ -63,7 +63,7 @@ class BlockingPostingListingEditionViewModel: BaseViewModel {
          listingParams: ListingEditionParams,
          listing: Listing,
          images: [UIImage],
-         imageSource: EventParameterPictureSource,
+         imageSource: EventParameterMediaSource,
          videoLength: TimeInterval?,
          postingSource: PostingSource) {
         self.listingRepository = listingRepository
@@ -83,17 +83,15 @@ class BlockingPostingListingEditionViewModel: BaseViewModel {
     
     func updateListing() {
         state.value = .updatingListing
-        let shouldUseServicesEndpoint = featureFlags.showServicesFeatures.isActive
-        let updateAction = listingRepository.updateAction(forParams: listingParams,
-                                                          shouldUseServicesEndpoint: shouldUseServicesEndpoint)
-        updateAction(listingParams) { [weak self] result in
-            if let responseListing = result.value {
-                self?.listing = responseListing
-                self?.state.value = .success
-            } else if let _ = result.error {
-                self?.state.value = .error
-            }
-        }
+        listingRepository.update(listingParams: listingParams,
+                                 completion: { [weak self] result in
+                                    if let responseListing = result.value {
+                                        self?.listing = responseListing
+                                        self?.state.value = .success
+                                    } else if let _ = result.error {
+                                        self?.state.value = .error
+                                    }
+        })
     }
     
     
@@ -122,7 +120,6 @@ class BlockingPostingListingEditionViewModel: BaseViewModel {
                                                    videoLength: videoLength,
                                                    price: String.fromPriceDouble(listing.price.value),
                                                    typePage: postingSource.typePage,
-                                                   mostSearchedButton: postingSource.mostSearchedButton,
                                                    machineLearningInfo: MachineLearningTrackingInfo.defaultValues())
         
         let event = TrackerEvent.listingSellComplete(listing,
@@ -133,7 +130,6 @@ class BlockingPostingListingEditionViewModel: BaseViewModel {
                                                      videoLength: trackingInfo.videoLength,
                                                      freePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                      typePage: trackingInfo.typePage,
-                                                     mostSearchedButton: trackingInfo.mostSearchedButton,
                                                      machineLearningTrackingInfo: trackingInfo.machineLearningInfo)
         tracker.trackEvent(event)
     }

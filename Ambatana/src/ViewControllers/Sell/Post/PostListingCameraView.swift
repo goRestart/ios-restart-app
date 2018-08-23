@@ -172,7 +172,7 @@ final class PostListingCameraView: BaseView, LGViewPagerPage, MLPredictionDetail
         takePhotoEnabled.value = false
         camera.capturePhoto { [weak self] result in
             if let image = result.value {
-                self?.viewModel.photoTaken(image)
+                self?.viewModel.photoTaken(image, camera: self?.camera.cameraPosition ?? .rear)
             } else {
                 self?.viewModel.retryPhotoButtonPressed()
             }
@@ -188,7 +188,7 @@ final class PostListingCameraView: BaseView, LGViewPagerPage, MLPredictionDetail
         camera.startRecordingVideo(maxRecordingDuration: maxDuration) { [weak self] result in
             self?.stopListeningVideoDuration()
             if let recordedVideo = result.value {
-                self?.viewModel.videoRecorded(video: recordedVideo)
+                self?.viewModel.videoRecorded(video: recordedVideo, camera: self?.camera.cameraPosition ?? .rear)
             } else {
                 self?.viewModel.videoRecordingFailed()
             }

@@ -88,7 +88,7 @@ extension QuickChatViewController: UITableViewDataSource, UITableViewDelegate {
                                                             meetingsEnabled: featureFlags.chatNorris.isActive)
         let cell = drawer.cell(tableView, atIndexPath: indexPath)
 
-        drawer.draw(cell, message: message)
+        drawer.draw(cell, message: message, bubbleColor: nil)
         cell.transform = tableView.transform
 
         return cell

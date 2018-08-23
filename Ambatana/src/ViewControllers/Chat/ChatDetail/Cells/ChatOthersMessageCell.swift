@@ -1,11 +1,3 @@
-//
-//  ChatOthersMessageCell.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 19/05/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
 import UIKit
 import LGComponents
 
@@ -16,7 +8,7 @@ class ChatOthersMessageCell: ChatBubbleCell, ReusableCell {
         view.cornerRadius = LGUIKitConstants.mediumCornerRadius
         view.layer.shouldRasterize = true
         view.layer.rasterizationScale = UIScreen.main.scale
-        view.backgroundColor = .chatOthersBubbleBgColor
+        view.backgroundColor = .chatOthersBubbleBgColorWhite
         return view
     }()
 
@@ -35,7 +27,9 @@ class ChatOthersMessageCell: ChatBubbleCell, ReusableCell {
         return label
     }()
 
-    let avatarImageView: UIImageView = {
+    private var avatarAction: (()->Void)?
+
+    private let avatarImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = ChatBubbleLayout.avatarSize / 2
         imageView.clipsToBounds = true
@@ -44,6 +38,8 @@ class ChatOthersMessageCell: ChatBubbleCell, ReusableCell {
         imageView.isHidden = true
         return imageView
     }()
+
+    private var bubbleBackgroundColor: UIColor = .chatOthersBubbleBgColorWhite
 
     var bubbleBottomMargin: NSLayoutConstraint?
     var bubbleLeftMargin: NSLayoutConstraint?
@@ -61,14 +57,31 @@ class ChatOthersMessageCell: ChatBubbleCell, ReusableCell {
 
     func configure(for position: ChatBubbleCellPosition) {
         configure(for: position, type: .othersMessage)
-        // FIXME: activate when the user image is included in the data
-        // avatarImageView.isHidden = !position.showOtherUserAvatar
-        // Change bubbleLeftMargin to leave room for the avatar
+
+        avatarImageView.isHidden = avatarImageView.image != nil ? !position.showOtherUserAvatar : true
+        let avatarSpace = (2 * ChatBubbleLayout.margin + ChatBubbleLayout.avatarSize)
+        bubbleLeftMargin?.constant = avatarImageView.image != nil ? avatarSpace : ChatBubbleLayout.margin
+    }
+
+    func set(bubbleBackgroundColor: UIColor?) {
+        guard let bubbleBackgroundColor = bubbleBackgroundColor else { return }
+        self.bubbleBackgroundColor = bubbleBackgroundColor
+        bubbleView.backgroundColor = bubbleBackgroundColor
+    }
+
+    func set(userAvatar: UIImage?, avatarAction: (()->Void)?) {
+        avatarImageView.image = userAvatar
+        self.avatarAction = avatarAction
+        if let _ = avatarAction {
+            avatarImageView.isUserInteractionEnabled = true
+            let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(avatarTapped))
+            avatarImageView.addGestureRecognizer(tapRecognizer)
+        }
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        bubbleView.backgroundColor = selected ? UIColor.chatOthersBubbleBgColorSelected : UIColor.chatOthersBubbleBgColor
+        bubbleView.backgroundColor = selected ? UIColor.chatOthersBubbleBgColorSelected : bubbleBackgroundColor
     }
 
     private func setupUI() {
@@ -108,5 +121,10 @@ class ChatOthersMessageCell: ChatBubbleCell, ReusableCell {
     private func setAccessibilityIds() {
         setDefaultAccessibilityIds()
         set(accessibilityId: .chatCellContainer(type: .othersMessage))
+        avatarImageView.set(accessibilityId: .chatCellAvatar)
+    }
+
+    @objc private func avatarTapped() {
+        avatarAction?()
     }
 }

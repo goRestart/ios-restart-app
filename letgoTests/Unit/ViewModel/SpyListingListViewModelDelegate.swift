@@ -4,12 +4,14 @@ import LGCoreKit
 // MARK:- Spy Delegate
 
 final class SpyListingListViewModelDataDelegate: ListingListViewModelDataDelegate {
+    func listingListVMDidSucceedRetrievingCache(viewModel: ListingListViewModel) { }
+
     
     var count = 0
     var requesterType: RequesterType?
     var hasListing: Bool?
     
-    func listingListVM(_ viewModel: ListingListViewModel, didSucceedRetrievingListingsPage page: UInt, withResultsCount resultsCount: Int, hasListings: Bool) {
+    func listingListVM(_ viewModel: ListingListViewModel, didSucceedRetrievingListingsPage page: UInt, withResultsCount resultsCount: Int, hasListings: Bool, containsRecentListings: Bool) {
         count = resultsCount
         requesterType = viewModel.currentRequesterType
         hasListing = hasListings
@@ -22,8 +24,6 @@ final class SpyListingListViewModelDataDelegate: ListingListViewModelDataDelegat
     func vmDidSelectSellBanner(_ type: String) { }
     
     func vmDidSelectCollection(_ type: CollectionCellType) { }
-    
-    func vmDidSelectMostSearchedItems() { }
     
     func listingListMV(_ viewModel: ListingListViewModel, didFailRetrievingListingsPage page: UInt, hasListings: Bool, error: RepositoryError) { }
     

@@ -14,7 +14,8 @@ import LGCoreKit
 final class AdvertisementDFPCellDrawer: BaseCollectionCellDrawer<AdvertisementCell>, GridCellDrawer {
     func willDisplay(_ model: AdvertisementDFPData, inCell cell: AdvertisementCell) { }
 
-    func draw(_ model: AdvertisementDFPData, style: CellStyle, inCell cell: AdvertisementCell) {
+    func draw(_ model: AdvertisementDFPData, style: CellStyle, inCell cell: AdvertisementCell,
+              isPrivateList: Bool = false) {
         cell.setupWith(dfpData: model)
     }
 }

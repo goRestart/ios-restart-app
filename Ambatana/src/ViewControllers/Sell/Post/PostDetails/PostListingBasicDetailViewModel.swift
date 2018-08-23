@@ -16,6 +16,7 @@ class PostListingBasicDetailViewModel: BaseViewModel {
 
     // In&Out variables
     let isFree = Variable<Bool>(false)
+    let shareOnFacebook = Variable<Bool>(false)
     
     // Out variables
     var listingPrice: ListingPrice {
@@ -26,18 +27,19 @@ class PostListingBasicDetailViewModel: BaseViewModel {
     var listingTitle: String? {
         return title.value.isEmpty ? nil : title.value
     }
-
     var listingDescription: String? {
         return description.value.isEmpty ? nil : description.value
     }
-
-    var featureFlags: FeatureFlaggeable
     let currencySymbol: String?
-
+    private let featureFlags: FeatureFlaggeable
+    private let keyValueStorage: KeyValueStorageable
+    private let disposeBag = DisposeBag()
     var freeOptionAvailable: Bool {
         return featureFlags.freePostingModeAllowed
     }
-    private let disposeBag = DisposeBag()
+    var showShareOnFacebook: Bool {
+        return featureFlags.frictionlessShare.isActive
+    }
 
     override convenience  init() {
         var currencySymbol: String? = nil
@@ -45,13 +47,24 @@ class PostListingBasicDetailViewModel: BaseViewModel {
         if let countryCode = Core.locationManager.currentLocation?.countryCode {
             currencySymbol = Core.currencyHelper.currencyWithCountryCode(countryCode).symbol
         }
-        self.init(currencySymbol: currencySymbol, featureFlags: featureFlags)
+        let keyValueStorage = KeyValueStorage.sharedInstance
+        self.init(currencySymbol: currencySymbol, featureFlags: featureFlags, keyValueStorage: keyValueStorage)
     }
 
-    init(currencySymbol: String?, featureFlags: FeatureFlaggeable) {
+    init(currencySymbol: String?, featureFlags: FeatureFlaggeable, keyValueStorage: KeyValueStorageable) {
         self.currencySymbol = currencySymbol
         self.featureFlags = featureFlags
+        self.keyValueStorage = keyValueStorage
         super.init()
+        updateShareOnFacebookFromKeyValueStorage()
+    }
+
+    private func updateShareOnFacebookFromKeyValueStorage() {
+        guard showShareOnFacebook else { return }
+        shareOnFacebook.value = keyValueStorage[.sellAutoShareOnFacebook] ?? true
+        shareOnFacebook.asObservable().subscribeNext { [weak self] shareOnFacebook in
+            self?.keyValueStorage[.sellAutoShareOnFacebook] = shareOnFacebook
+        }.disposed(by: disposeBag)
     }
 
     func freeCellPressed() {
@@ -60,5 +73,9 @@ class PostListingBasicDetailViewModel: BaseViewModel {
 
     func doneButtonPressed() {
         delegate?.postListingDetailDone(self)
+    }
+
+    func shareOnFacebookPressed() {
+        shareOnFacebook.value = !shareOnFacebook.value
     }
 }

@@ -34,7 +34,10 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     private let listingListView = ListingListView()
     private let filterDescriptionHeaderView = FilterDescriptionHeaderView()
     private let filterTitleHeaderView = FilterTitleHeaderView()
-    private let infoBubbleView = InfoBubbleView()
+    private let infoBubbleView = InfoBubbleView(style: .light)
+    private let recentItemsBubbleView = InfoBubbleView(style: .reddish)
+    private let freshFeedBubble = RoundedActivityIndicatorView()
+
     private let navbarSearch: LGNavBarSearchField
     private var trendingSearchView = TrendingSearchView()
     private var filterTagsView = FilterTagsView()
@@ -52,15 +55,19 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         return view
     }()
     
+    private var mapTooltip: Tooltip?
+    
 
     // MARK: - Constraints
     
     private var filterDescriptionTopConstraint: NSLayoutConstraint?
     private var tagsContainerHeightConstraint: NSLayoutConstraint?
     private var infoBubbleTopConstraint: NSLayoutConstraint?
+    private var freshFeedBubbleTopConstraint: NSLayoutConstraint?
 
-    private var primaryTagsShowing: Bool = false
-    private var secondaryTagsShowing: Bool = false
+    private var activityTopConstraint: NSLayoutConstraint?
+
+    private var tagsShowing: Bool = false
 
     private let topInset = Variable<CGFloat>(0)
 
@@ -69,11 +76,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     private var categoriesHeader: CategoriesHeaderCollectionView?
 
     private var filterTagsViewHeight: CGFloat {
-        if viewModel.secondaryTags.isEmpty || viewModel.filters.selectedTaxonomyChildren.count > 0 {
-            return FilterTagsView.collectionViewHeight
-        } else {
-            return FilterTagsView.collectionViewHeight * 2
-        }
+        return FilterTagsView.collectionViewHeight
     }
     private var filterHeadersHeight: CGFloat {
         return filterDescriptionHeaderView.height + filterTitleHeaderView.height
@@ -121,11 +124,17 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
 
         setupFilterHeaders()
         setupListingView()
+        if viewModel.shouldSetupFeedBubble {
+            setupFreshFeedBuble()
+        }
         setupInfoBubble()
+        if viewModel.isEngagementBadgingEnabled {
+            setupRecentItemsBubbleView()
+        }
         setupTagsView()
         setupSearchAndTrending()
         setFiltersNavBarButton()
-        setInviteNavBarButton()
+        setLeftNavBarButtons()
         setupRxBindings()
         setAccessibilityIds()
     }
@@ -140,7 +149,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         // we want to show the selected tags when the user closes the product detail too.  Also:
         // ⚠️ not showing the tags collection view causes a crash when trying to reload the collection data
         // ⚠️ while not visible (ABIOS-2696)
-        showTagsView(showPrimaryTags: viewModel.primaryTags.count > 0, showSecondaryTags: viewModel.secondaryTags.count > 0, updateInsets: true)
+        showTagsView(showTags: viewModel.tags.count > 0, updateInsets: true)
         endEdit()
     }
     
@@ -153,7 +162,6 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         guard didCallViewDidLoaded else { return }
         listingListView.scrollToTop(true)
     }
-    
 
     // MARK: - ListingListViewScrollDelegate
     
@@ -166,7 +174,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
            listingListView.collectionView.contentOffset.y <= -topHeadersHeight  {
             // Move tags view along iwth tab bar
             if !filterTagsView.tags.isEmpty {
-                showTagsView(showPrimaryTags: !scrollDown, showSecondaryTags: !scrollDown && viewModel.filters.selectedTaxonomyChildren.count <= 0, updateInsets: false)
+                showTagsView(showTags: !scrollDown, updateInsets: false)
             }
             setBars(hidden: scrollDown)
         }
@@ -203,6 +211,8 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         let offset: CGFloat = topInset.value
         let delta = listingListView.headerBottom - offset
         infoBubbleTopConstraint?.constant = infoBubbleTopMargin + max(0, delta)
+        freshFeedBubbleTopConstraint?.constant = infoBubbleTopMargin + max(0, delta)
+        activityTopConstraint?.constant = infoBubbleTopMargin + max(0, delta)
     }
     
     // MARK: - MainListingsViewModelDelegate
@@ -211,14 +221,51 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         trendingSearchView.isHidden = true
     }
 
-    func vmShowTags(primaryTags: [FilterTag], secondaryTags: [FilterTag]) {
-        updateTagsView(primaryTags: primaryTags, secondaryTags: secondaryTags)
+    func vmShowTags(tags: [FilterTag]) {
+        updateTagsView(tags: tags)
     }
 
     func vmFiltersChanged() {
         setFiltersNavBarButton()
     }
+    
+    func vmShowMapToolTip(with configuration: TooltipConfiguration) {
+        guard let mapButton = navigationItem.rightBarButtonItems?.first?.customView else { return }
+        
+        let tryNowButton = LetgoButton(withStyle: .transparent(fontSize: .verySmall, sidePadding: Layout.ToolTipMap.buttonSidePadding))
+        tryNowButton.setTitle(R.Strings.realEstateMapTooltipButtonTitle, for: .normal)
+        tryNowButton.addTarget(self, action: #selector(openMap(_:)), for: UIControlEvents.touchUpInside)
 
+        let tooltip = Tooltip(targetView: mapButton,
+                              superView: view,
+                              button: tryNowButton,
+                              configuration: configuration)
+
+        tooltip.alpha = 0.0
+        tooltip.targetViewCenter = mapButton.convert(mapButton.frame.center, to: view)
+        view.addSubviewForAutoLayout(tooltip)
+        NSLayoutConstraint.activate([tryNowButton.heightAnchor.constraint(equalToConstant: Layout.ToolTipMap.buttonHeight),
+                                     tooltip.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: Layout.ToolTipMap.right),
+                                     tooltip.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: Layout.ToolTipMap.left),
+                                     tooltip.topAnchor.constraint(lessThanOrEqualTo: safeTopAnchor)])
+        self.mapTooltip = tooltip
+        UIView.animate(withDuration: 0.3) {
+            self.mapTooltip?.alpha = 1.0
+        }
+
+    }
+    
+    func vmHideMapToolTip(hideForever: Bool) {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.mapTooltip?.alpha = 0.0
+        }) { [weak self] _ in
+            self?.mapTooltip?.removeFromSuperview()
+            self?.mapTooltip = nil
+            if hideForever {
+                self?.viewModel.tooltipDidHide()
+            }
+        }
+    }
 
     // MARK: - MainListingsAdsDelegate
 
@@ -254,9 +301,13 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     
     func addSubViews() {
         addSubview(listingListView)
-        view.addSubviewsForAutoLayout([filterDescriptionHeaderView, filterTitleHeaderView,
-                                       listingListView, infoBubbleView,
-                                       tagsContainerView, trendingSearchView])
+        view.addSubviewsForAutoLayout([filterDescriptionHeaderView,
+                                       filterTitleHeaderView,
+                                       listingListView,
+                                       freshFeedBubble,
+                                       infoBubbleView,
+                                       tagsContainerView,
+                                       trendingSearchView])
     }
     
     private func setupStatusTopView() {
@@ -270,6 +321,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
                 ])
         }
     }
+    
     
     // MARK: - FilterHeaders
     
@@ -287,14 +339,11 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     
     func filterTagsViewDidRemoveTag(_ tag: FilterTag, remainingTags: [FilterTag]) {
         viewModel.updateFiltersFromTags(remainingTags, removedTag: tag)
-        updateTagsView(primaryTags: viewModel.primaryTags, secondaryTags: viewModel.secondaryTags)
+        updateTagsView(tags: viewModel.tags)
     }
     
     func filterTagsViewDidSelectTag(_ tag: FilterTag) {
-        if let taxonomyChild = tag.taxonomyChild {
-            viewModel.updateSelectedTaxonomyChildren(taxonomyChildren: [taxonomyChild])
-        }
-        updateTagsView(primaryTags: viewModel.primaryTags, secondaryTags: viewModel.secondaryTags)
+        updateTagsView(tags: viewModel.tags)
     }
     
     
@@ -308,7 +357,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     @objc private func endEdit() {
         trendingSearchView.isHidden = true
         setFiltersNavBarButton()
-        setInviteNavBarButton()
+        setLeftNavBarButtons()
         navbarSearch.cancelEdit()
     }
 
@@ -332,6 +381,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     
     @objc func openMap(_ sender: AnyObject) {
         navbarSearch.searchTextField.resignFirstResponder()
+        vmHideMapToolTip(hideForever: true)
         viewModel.showMap()
     }
     
@@ -355,15 +405,13 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         filterTagsView.delegate = self
         filterTagsView.layout(with: tagsContainerView).fill()
         
-        updateTagsView(primaryTags: viewModel.primaryTags, secondaryTags: viewModel.secondaryTags)
+        updateTagsView(tags: viewModel.tags)
     }
     
-    private func updateTagsView(primaryTags: [FilterTag], secondaryTags: [FilterTag]) {
-        filterTagsView.updateTags(primaryTags)
-        filterTagsView.updateSecondaryTags(secondaryTags)
-        let showPrimaryTags = primaryTags.count > 0
-        let showSecondaryTags = secondaryTags.count > 0
-        showTagsView(showPrimaryTags: showPrimaryTags, showSecondaryTags: showSecondaryTags, updateInsets: true)
+    private func updateTagsView(tags: [FilterTag]) {
+        filterTagsView.updateTags(tags)
+        let showTags = tags.count > 0
+        showTagsView(showTags: showTags, updateInsets: true)
         
         //Update tags button
         setFiltersNavBarButton()
@@ -386,34 +434,70 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
 
         navigationItem.setLeftBarButtonItems([invite, spacing], animated: false)
     }
+
+    private func setLeftNavBarButtons() {
+        guard isRootViewController() else { return }
+        if viewModel.shouldShowCommunityButton {
+            setCommunityButton()
+        } else if viewModel.shouldShowUserProfileButton {
+            setUserProfileButton()
+        } else {
+            setInviteNavBarButton()
+        }
+    }
+
+    private func setCommunityButton() {
+        let button = UIBarButtonItem(image: R.Asset.IconsButtons.tabbarCommunity.image,
+                                     style: .plain,
+                                     target: self,
+                                     action: #selector(didTapCommunity))
+        navigationItem.setLeftBarButton(button, animated: false)
+    }
+
+    private func setUserProfileButton() {
+        let button = UIBarButtonItem(image: R.Asset.IconsButtons.tabbarProfile.image,
+                                     style: .plain,
+                                     target: self,
+                                     action: #selector(didTapUserProfile))
+        navigationItem.setLeftBarButton(button, animated: false)
+    }
+
+    @objc private func didTapCommunity() {
+        viewModel.vmUserDidTapCommunity()
+    }
+
+    @objc private func didTapUserProfile() {
+        viewModel.vmUserDidTapUserProfile()
+    }
     
     @objc private func openInvite() {
         viewModel.vmUserDidTapInvite()
     }
     
-    private func showTagsView(showPrimaryTags: Bool, showSecondaryTags: Bool, updateInsets: Bool) {
-        if primaryTagsShowing == showPrimaryTags && secondaryTagsShowing == showSecondaryTags {
+    private func showTagsView(showTags: Bool, updateInsets: Bool) {
+        if tagsShowing == showTags {
             return
         }
-        primaryTagsShowing = showPrimaryTags
-        secondaryTagsShowing = showSecondaryTags
+        tagsShowing = showTags
 
-        tagsContainerHeightConstraint?.constant = showPrimaryTags ? filterTagsViewHeight : 0
+        tagsContainerHeightConstraint?.constant = showTags ? filterTagsViewHeight : 0
         if updateInsets {
             updateTopInset()
         }
         view.layoutIfNeeded()
         
-        tagsContainerView.isHidden = !showPrimaryTags
+        tagsContainerView.isHidden = !showTags
     }
     
     private func setupListingView() {
         listingListView.collectionViewContentInset.bottom = tabBarHeight
             + LGUIKitConstants.tabBarSellFloatingButtonHeight
             + LGUIKitConstants.tabBarSellFloatingButtonDistance
-        listingListView.setErrorViewStyle(bgColor: UIColor(patternImage: R.Asset.BackgroundsAndImages.patternWhite.image),
-                                          borderColor: UIColor.lineGray,
-                                          containerColor: UIColor.white)
+        let errorStyle = ErrorViewCellStyle(backgroundColor: UIColor(patternImage: R.Asset.BackgroundsAndImages.patternWhite.image),
+                                            borderColor: .lineGray,
+                                            containerColor: .white)
+        listingListView.setupErrorView(withStyle: errorStyle)
+
         listingListView.scrollDelegate = self
         listingListView.headerDelegate = self
         listingListView.adsDelegate = self
@@ -432,9 +516,23 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
             ])
         view.sendSubview(toBack: listingListView)
     }
-    
+
+    private func setupFreshFeedBuble() {
+        freshFeedBubble.isUserInteractionEnabled = false
+        let freshFeedBubbleTopConstraint = freshFeedBubble.topAnchor.constraint(equalTo: filterTitleHeaderView.bottomAnchor)
+        freshFeedBubbleTopConstraint.priority = UILayoutPriority.defaultLow
+
+        freshFeedBubble.layer.cornerRadius = Layout.FreshBubble.height / 2
+        NSLayoutConstraint.activate([
+            freshFeedBubbleTopConstraint,
+            freshFeedBubble.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            freshFeedBubble.heightAnchor.constraint(equalToConstant: Layout.FreshBubble.height),
+            freshFeedBubble.widthAnchor.constraint(equalToConstant: Layout.FreshBubble.height)
+        ])
+        self.freshFeedBubbleTopConstraint = freshFeedBubbleTopConstraint
+    }
+
     private func setupInfoBubble() {
-        
         let infoBubbleTopConstraint = infoBubbleView.topAnchor.constraint(equalTo: filterTitleHeaderView.bottomAnchor)
         let infoBubbleLeadingConstraint = infoBubbleView.leadingAnchor.constraint(greaterThanOrEqualTo: safeLeadingAnchor, constant: Metrics.bigMargin)
         let infoBubbleTrailingConstraint = infoBubbleView.trailingAnchor.constraint(greaterThanOrEqualTo: safeTrailingAnchor, constant: Metrics.bigMargin)
@@ -453,9 +551,38 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         let bubbleTap = UITapGestureRecognizer(target: self, action: #selector(onBubbleTapped))
         infoBubbleView.addGestureRecognizer(bubbleTap)
     }
+    
+    private func setupRecentItemsBubbleView() {
+        view.addSubviewForAutoLayout(recentItemsBubbleView)
+        // trendingSearchesView should be up front of every view, as it is added the latest in addSubviews method
+        view.bringSubview(toFront: trendingSearchView)
+        
+        let recentItemsBubbleViewTopConstraint = recentItemsBubbleView.topAnchor.constraint(equalTo: infoBubbleView.bottomAnchor, constant: Metrics.shortMargin)
+        let recentItemsBubbleViewTrailingConstraint = recentItemsBubbleView.trailingAnchor.constraint(greaterThanOrEqualTo: safeTrailingAnchor, constant: Metrics.bigMargin)
+        recentItemsBubbleViewTopConstraint.priority = UILayoutPriority.defaultLow
+        recentItemsBubbleViewTrailingConstraint.priority = UILayoutPriority.defaultLow
+        
+        NSLayoutConstraint.activate([
+            recentItemsBubbleViewTopConstraint,
+            recentItemsBubbleView.centerXAnchor.constraint(equalTo: view.centerXAnchor,
+                                                           constant: 0),
+            recentItemsBubbleView.heightAnchor.constraint(equalToConstant: InfoBubbleView.bubbleHeight),
+            recentItemsBubbleView.leadingAnchor.constraint(greaterThanOrEqualTo: safeLeadingAnchor,
+                                                           constant: Metrics.bigMargin),
+            recentItemsBubbleViewTrailingConstraint
+            ])
+
+        let bubbleTap = UITapGestureRecognizer(target: self, action: #selector(onRecentItemsBubbleTapped))
+        recentItemsBubbleView.addGestureRecognizer(bubbleTap)
+    }
 
     @objc private func onBubbleTapped() {
         viewModel.bubbleTapped()
+    }
+    
+    @objc private func onRecentItemsBubbleTapped() {
+        viewModel.recentItemsBubbleTapped()
+        scrollToTop()
     }
 
     private func setupSearchAndTrending() {
@@ -472,8 +599,31 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
                 self?.infoBubbleView.invalidateIntrinsicContentSize()
             }.disposed(by: disposeBag)
         
-        viewModel.infoBubbleText.asObservable().bind(to: infoBubbleView.title.rx.text).disposed(by: disposeBag)
-        viewModel.infoBubbleVisible.asObservable().map { !$0 }.bind(to: infoBubbleView.rx.isHidden).disposed(by: disposeBag)
+        viewModel.infoBubbleText.asObservable()
+            .bind(to: infoBubbleView.title.rx.text)
+            .disposed(by: disposeBag)
+        viewModel.infoBubbleVisible.asObservable().map { !$0 }
+            .bind(to: infoBubbleView.rx.isHidden)
+            .disposed(by: disposeBag)
+        
+        viewModel.recentItemsBubbleText
+            .asObservable()
+            .bind(to: recentItemsBubbleView.title.rx.text)
+            .disposed(by: disposeBag)
+
+        viewModel.isFreshBubbleVisible
+            .asDriver()
+            .distinctUntilChanged()
+            .drive(onNext: { [weak self] isVisible in
+                guard let isVisible = isVisible else {
+                    self?.freshFeedBubble.alpha = 0
+                    return
+                }
+                self?.updateFreshBubble(with: isVisible)
+        }).disposed(by: disposeBag)
+        viewModel.recentItemsBubbleVisible.asObservable().map { !$0 }
+            .bind(to: recentItemsBubbleView.rx.isHidden)
+            .disposed(by: disposeBag)
 
         topInset.asObservable()
             .bind { [weak self] topInset in
@@ -516,7 +666,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     }
 
     private func updateTopInset() {
-        let tagsHeight = primaryTagsShowing ? filterTagsViewHeight : 0
+        let tagsHeight = tagsShowing ? filterTagsViewHeight : 0
         if isSafeAreaAvailable {
             topInset.value = tagsHeight + filterHeadersHeight
         } else {
@@ -526,6 +676,35 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     
     func navBarSearchTextFieldDidUpdate(text: String) {
         viewModel.searchTextFieldDidUpdate(text: text)
+    }
+
+    private func updateFreshBubble(with isVisible: Bool) {
+        let normal = CGAffineTransform.identity.scaledBy(x: 1, y: 1)
+        let hidden = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
+        UIView.animate(withDuration: isVisible ? 0.4 : 0,
+                       delay: 0,
+                       options: .curveEaseIn,
+                       animations: { [weak self] in
+                        self?.freshFeedBubble.alpha = isVisible ? 1.0 : 0
+                        self?.freshFeedBubble.transform = isVisible ? normal : hidden
+        }, completion: nil)
+        if isVisible {
+            freshFeedBubble.startAnimating()
+        } else {
+            freshFeedBubble.stopAnimating()
+        }
+    }
+    
+    private struct Layout {
+        struct ToolTipMap  {
+            static let left: CGFloat = 50
+            static let right: CGFloat = -60
+            static let buttonHeight: CGFloat = 32
+            static let buttonSidePadding: CGFloat = 20
+        }
+        struct FreshBubble {
+            static let height: CGFloat = 45
+        }
     }
 }
 
@@ -545,6 +724,10 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
         if shouldShowSearchAlertBanner {
             totalHeight += SearchAlertFeedHeader.viewHeight
         }
+        if viewModel.shouldShowCommunityBanner {
+            totalHeight += CommunityHeaderView.viewHeight
+        }
+
         return totalHeight
     }
 
@@ -559,7 +742,8 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
        
         if shouldShowCategoryCollectionBanner {
             categoriesHeader = CategoriesHeaderCollectionView()
-            categoriesHeader?.configure(with: viewModel.categoryHeaderElements, categoryHighlighted: viewModel.categoryHeaderHighlighted, isMostSearchedItemsEnabled: viewModel.isMostSearchedItemsEnabled)
+            categoriesHeader?.configure(with: viewModel.categoryHeaderElements,
+                                        categoryHighlighted: viewModel.categoryHighlighted)
             categoriesHeader?.delegateCategoryHeader = viewModel
             categoriesHeader?.categorySelected.asObservable().bind { [weak self] categoryHeaderInfo in
                 guard let category = categoryHeaderInfo else { return }
@@ -572,11 +756,18 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
             }
         }
         
-        if shouldShowSearchAlertBanner, let searchAlertCreationData = viewModel.searchAlertCreationData.value {
+        if shouldShowSearchAlertBanner, let searchAlertCreationData = viewModel.currentSearchAlertCreationData.value {
             let searchAlertHeader = SearchAlertFeedHeader(searchAlertCreationData: searchAlertCreationData)
             searchAlertHeader.tag = 3
             searchAlertHeader.delegate = self
             header.addHeader(searchAlertHeader, height: SearchAlertFeedHeader.viewHeight)
+        }
+
+        if viewModel.shouldShowCommunityBanner {
+            let community = CommunityHeaderView()
+            community.delegate = self
+            community.tag = 4
+            header.addHeader(community, height: CommunityHeaderView.viewHeight)
         }
     }
 
@@ -605,7 +796,7 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
     }
 
     func searchAlertFeedHeaderDidEnableSearchAlert(fromEnabled: Bool) {
-        viewModel.triggerSearchAlert(fromEnabled: fromEnabled)
+        viewModel.triggerCurrentSearchAlert(fromEnabled: fromEnabled)
     }
 }
 
@@ -701,6 +892,12 @@ extension MainListingsViewController: TrendingSearchViewDelegate {
         viewModel.searchText.value = text
         navbarSearch.searchTextField.text = text
         navBarSearchTextFieldDidUpdate(text: text)
+    }
+}
+
+extension MainListingsViewController: CommunityHeaderViewDelegate {
+    func didTapCommunityHeader() {
+        viewModel.vmUserDidTapCommunity()
     }
 }
 

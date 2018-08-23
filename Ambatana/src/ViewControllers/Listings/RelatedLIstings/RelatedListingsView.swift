@@ -132,7 +132,7 @@ extension RelatedListingsView: UICollectionViewDelegate, UICollectionViewDataSou
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let item = itemAtIndex(indexPath.row) else { return UICollectionViewCell() }
         let cell = drawerManager.cell(item, collectionView: collectionView, atIndexPath: indexPath)
-        drawerManager.draw(item, inCell: cell, delegate: nil, imageSize: layoutCellSize)
+        drawerManager.draw(item, inCell: cell, delegate: nil, imageSize: layoutCellSize, isPrivateList: false)
         cell.tag = (indexPath as NSIndexPath).hash
         return cell
     }
@@ -152,7 +152,7 @@ extension RelatedListingsView: UICollectionViewDelegate, UICollectionViewDataSou
             delegate?.relatedListingsView(self, showListing: listing, atIndex: indexPath.row,
                                           listingListModels: objects, requester: requester,
                                           thumbnailImage: thumbnailImage, originFrame: originFrame)
-        case .collectionCell, .emptyCell, .dfpAdvertisement, .mopubAdvertisement, .mostSearchedItems, .promo, .adxAdvertisement:
+        case .collectionCell, .emptyCell, .dfpAdvertisement, .mopubAdvertisement, .promo, .adxAdvertisement:
             // No banners or collections here
             break
         }

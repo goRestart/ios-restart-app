@@ -42,7 +42,10 @@ public protocol DI: class {
     var servicesInfoRepository: ServicesInfoRepository { get }
     var notificationSettingsPusherRepository: NotificationSettingsPusherRepository { get }
     var notificationSettingsMailerRepository: NotificationSettingsMailerRepository { get }
-
+    var feedRepository: FeedRepository { get }
+    var communityRepository: CommunityRepository { get }
+    var reportingRepository: ReportingRepository { get }
+    
     
     // Helper
     var dateFormatter: DateFormatter { get }
@@ -75,7 +78,6 @@ protocol InternalDI: DI {
     var installationDAO: InstallationDAO { get }
     var myUserDAO: MyUserDAO { get }
     var listingsLimboDAO: ListingsLimboDAO { get }
-    var networkDAO: NetworkDAO { get }
 
     // Reachability
     var reachability: ReachabilityProtocol? { get }

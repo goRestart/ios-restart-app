@@ -98,7 +98,7 @@ final class ListingDeckViewModel: BaseViewModel {
                      listing: Listing,
                      listingListRequester: ListingListRequester,
                      source: EventParameterListingVisitSource,
-                     detailNavigator: ListingDetailNavigator,
+                     detailNavigator: ListingDetailNavigator?,
                      actionOnFirstAppear: DeckActionOnFirstAppear,
                      trackingIndex: Int?) {
         let pagination = Pagination.makePagination(first: 0, next: 1, isLast: false)
@@ -126,7 +126,7 @@ final class ListingDeckViewModel: BaseViewModel {
     convenience init(listModels: [ListingCellModel],
                      initialListing: Listing,
                      listingListRequester: ListingListRequester,
-                     detailNavigator: ListingDetailNavigator,
+                     detailNavigator: ListingDetailNavigator?,
                      source: EventParameterListingVisitSource,
                      imageDownloader: ImageDownloaderType,
                      listingViewModelMaker: ListingViewModelMaker,
@@ -159,7 +159,7 @@ final class ListingDeckViewModel: BaseViewModel {
     init(listModels: [ListingCellModel],
          initialListing: Listing,
          listingListRequester: ListingListRequester,
-         detailNavigator: ListingDetailNavigator,
+         detailNavigator: ListingDetailNavigator?,
          source: EventParameterListingVisitSource,
          imageDownloader: ImageDownloaderType,
          listingViewModelMaker: ListingViewModelMaker,
@@ -288,15 +288,17 @@ final class ListingDeckViewModel: BaseViewModel {
 
     // TODO: Tracking ABIOS-4531
 
-    func bumpUpBannerShown(type: BumpUpType) {
+    func bumpUpBannerShown(bumpInfo: BumpUpInfo) {
+        guard bumpInfo.shouldTrackBumpBannerShown else { return }
         guard let listing = currentListingViewModel?.listing.value else { return }
         listingTracker.trackBumpUpBannerShown(listing,
-                                              type: type,
+                                              type: bumpInfo.type,
                                               storeProductId: currentListingViewModel?.storeProductId)
     }
-    
+
     func interstitialAdTapped(typePage: EventParameterTypePage) {
-        let adType = AdRequestType.interstitial.trackingParamValue
+        let adType = AdRequestType.interstitial.trackingParamValueFor(size: nil)
+        let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
         let feedPosition: EventParameterFeedPosition = .position(index: currentIndex)
         let willLeave = EventParameterBoolean(bool: true)
 
@@ -309,7 +311,8 @@ final class ListingDeckViewModel: BaseViewModel {
     }
     
     func interstitialAdShown(typePage: EventParameterTypePage) {
-        let adType = AdRequestType.interstitial.trackingParamValue
+        let adType = AdRequestType.interstitial.trackingParamValueFor(size: nil)
+        let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
         let feedPosition: EventParameterFeedPosition = .position(index: currentIndex)
         let adShown = EventParameterBoolean(bool: true)
 
@@ -409,7 +412,7 @@ final class ListingDeckViewModel: BaseViewModel {
 // MARK: ListingViewModelDelegate
 
 extension ListingDeckViewModel: ListingViewModelDelegate {
-
+    
     var listingOrigin: ListingOrigin {
         let result: ListingOrigin
         switch lastMovement {
@@ -429,11 +432,8 @@ extension ListingDeckViewModel: ListingViewModelDelegate {
     }
 
     var trackingFeedPosition: EventParameterFeedPosition {
-        if let trackingIndex = trackingIndex, currentIndex == startIndex {
-            return .position(index: trackingIndex)
-        } else {
-            return .none
-        }
+        guard let trackingIndex = trackingIndex else { return .none }
+        return .position(index: trackingIndex)
     }
 
     func vmResetBumpUpBannerCountdown() {
@@ -447,6 +447,9 @@ extension ListingDeckViewModel: ListingViewModelDelegate {
     }
     func vmShowAutoFadingMessage(title: String, message: String, time: Double, completion: (() -> ())?) {
         delegate?.vmShowAutoFadingMessage(title: title, message: message, time: time, completion: completion)
+    }
+    func vmShowAutoFadingMessage(message: String, time: Double, completion: (() -> ())?) {
+        delegate?.vmShowAutoFadingMessage(message: message, time: time, completion: completion)
     }
     func vmShowLoading(_ loadingMessage: String?) {
         delegate?.vmShowLoading(loadingMessage)
@@ -477,6 +480,9 @@ extension ListingDeckViewModel: ListingViewModelDelegate {
     }
     func vmShowActionSheet(_ cancelLabel: String, actions: [UIAction]) {
         delegate?.vmShowActionSheet(cancelLabel, actions: actions)
+    }
+    func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction], withTitle title: String?) {
+        delegate?.vmShowActionSheet(cancelAction, actions: actions, withTitle: title)
     }
     func vmOpenInAppWebViewWith(url: URL) {
         delegate?.vmOpenInAppWebViewWith(url:url)

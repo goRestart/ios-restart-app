@@ -4,7 +4,7 @@ import LGComponents
 
 enum ChatDetailNavBarInfo {
     case assistant(name: String, imageUrl: URL?)
-    case listing(listing: ChatListing)
+    case listing(name: String?, price: String, imageUrl: URL?)
 }
 
 final class ChatDetailNavBarInfoView: UIView {
@@ -16,7 +16,8 @@ final class ChatDetailNavBarInfoView: UIView {
         static let assistantBadgeHeight: CGFloat = 14
         static let transactionBadgeHeight: CGFloat = 24
         static let arrowHeight: CGFloat = 12
-        static let listingImageCornerRadius: CGFloat = 10
+        static let listingImageCornerRadius: CGFloat = 5
+        static let topBottomMargin: CGFloat = 2
     }
 
     private var imageView: ChatAvatarView = ChatAvatarView(mainCornerRadius: .round,
@@ -25,7 +26,7 @@ final class ChatDetailNavBarInfoView: UIView {
 
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemBoldFont(size: 13)
+        label.font = .systemBoldFont(size: 15)
         label.textColor = UIColor.blackText
         label.textAlignment = .left
         return label
@@ -69,8 +70,8 @@ final class ChatDetailNavBarInfoView: UIView {
         NSLayoutConstraint.activate([
             imageView.heightAnchor.constraint(equalToConstant: Layout.imageHeight),
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor),
-            imageView.topAnchor.constraint(equalTo: topAnchor),
-            imageView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            imageView.topAnchor.constraint(equalTo: topAnchor, constant: Layout.topBottomMargin),
+            imageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Layout.topBottomMargin),
             imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: Metrics.margin),
             titleLabel.topAnchor.constraint(equalTo: imageView.topAnchor),
@@ -101,15 +102,15 @@ final class ChatDetailNavBarInfoView: UIView {
                                 titleText: name,
                                 subtitleText: R.Strings.chatConversationsListLetgoAssistantTag,
                                 showArrow: false)
-        case .listing(let listing):
+        case .listing(let name, let price, let url):
 
             setupHeaderViewWith(imageCornerRadius: .custom(radius: Layout.listingImageCornerRadius),
                                 imageBadgeStyle: .topLeft(height: Layout.transactionBadgeHeight),
                                 badgeImage: nil,
                                 placeholderImage: R.Asset.IconsButtons.productPlaceholder.image,
-                                imageURL: listing.image?.fileURL,
-                                titleText: listing.name,
-                                subtitleText: listing.formattedPrice(),
+                                imageURL: url,
+                                titleText: name,
+                                subtitleText: price,
                                 showArrow: true)
         }
     }

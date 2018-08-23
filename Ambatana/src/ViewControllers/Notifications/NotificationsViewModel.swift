@@ -2,7 +2,42 @@ import LGCoreKit
 import RxSwift
 import LGComponents
 
-class NotificationsViewModel: BaseViewModel {
+enum NotificationCenterSectionDate: Equatable {
+    case today
+    case yesterday
+    case daysAgo(days: Int)
+    case oneWeekAgo
+    case weeksAgo(weeks: Int)
+    case oneMonthAgo
+    case monthsAgo(months: Int)
+    
+    var title: String {
+        switch self {
+        case .today:
+            return R.Strings.notificationsSectionToday
+        case .yesterday:
+            return R.Strings.notificationsSectionYesterday
+        case .daysAgo(let days):
+            return R.Strings.notificationsSectionDaysAgo(days)
+        case .oneWeekAgo:
+            return R.Strings.notificationSectionOneWeekAgo
+        case .weeksAgo(let weeks):
+            return R.Strings.notificationsSectionWeeksAgo(weeks)
+        case .oneMonthAgo:
+            return R.Strings.notificationSectionOneMonthAgo
+        case .monthsAgo(let months):
+            return R.Strings.notificationsSectionMonthsAgo(months)
+        }
+    }
+}
+
+struct NotificationCenterSection {
+    let sectionDate: NotificationCenterSectionDate
+    var notifications: [NotificationData]
+}
+
+
+final class NotificationsViewModel: BaseViewModel {
 
     weak var navigator: NotificationsTabNavigator?
 
@@ -13,12 +48,18 @@ class NotificationsViewModel: BaseViewModel {
     private let notificationsRepository: NotificationsRepository
     private let listingRepository: ListingRepository
     private let userRepository: UserRepository
-    fileprivate let myUserRepository: MyUserRepository
+    private let myUserRepository: MyUserRepository
     private let notificationsManager: NotificationsManager
-    fileprivate let locationManager: LocationManager
-    fileprivate let tracker: Tracker
-    fileprivate let featureFlags: FeatureFlaggeable
+    private let locationManager: LocationManager
+    private let tracker: Tracker
+    private let featureFlags: FeatureFlaggeable
     private let disposeBag = DisposeBag()
+    
+    var sections: [NotificationCenterSection] = []
+    
+    var isNotificationCenterRedesign: Bool {
+        return featureFlags.notificationCenterRedesign == .active
+    }
 
     convenience override init() {
         self.init(notificationsRepository: Core.notificationsRepository,
@@ -57,13 +98,27 @@ class NotificationsViewModel: BaseViewModel {
 
     // MARK: - Public
 
-    var dataCount: Int {
-        return notificationsData.count
+    var numberOfSections: Int {
+        return isNotificationCenterRedesign ? sections.count : 1
+    }
+    
+    func dataCount(atSection section: Int = 0) -> Int {
+        if isNotificationCenterRedesign {
+            guard section < sections.count else { return 0 }
+            return sections[section].notifications.count
+        } else {
+            return notificationsData.count
+        }
     }
 
-    func dataAtIndex(_ index: Int) -> NotificationData? {
-        guard 0..<dataCount ~= index else { return nil }
-        return notificationsData[index]
+    func data(atSection section: Int = 0, atIndex index: Int) -> NotificationData? {
+        if isNotificationCenterRedesign {
+            guard 0..<dataCount(atSection: section) ~= index else { return nil }
+            return sections[safeAt: section]?.notifications[safeAt: index]
+        } else {
+            guard 0..<dataCount(atSection: section) ~= index else { return nil }
+            return notificationsData[safeAt: index]
+        }
     }
 
     func refresh() {
@@ -71,7 +126,7 @@ class NotificationsViewModel: BaseViewModel {
     }
 
     func selectedItemAtIndex(_ index: Int) {
-        guard let data = dataAtIndex(index) else { return }
+        guard let data = data(atIndex: index) else { return }
         data.primaryAction?()
     }
     
@@ -91,11 +146,18 @@ class NotificationsViewModel: BaseViewModel {
             if let notifications = result.value {
                 let remoteNotifications = notifications.compactMap{ strongSelf.buildNotification($0) }
                 strongSelf.notificationsData = remoteNotifications
+                if strongSelf.isNotificationCenterRedesign {
+                    strongSelf.populateNotificationSections()
+                }
                 if strongSelf.notificationsData.isEmpty {
                     let emptyViewModel = LGEmptyViewModel(icon: R.Asset.IconsButtons.icNotificationsEmpty.image,
                         title:  R.Strings.notificationsEmptyTitle,
                         body: R.Strings.notificationsEmptySubtitle, buttonTitle: R.Strings.tabBarToolTip,
-                        action: { [weak self] in self?.navigator?.openSell(source: .notifications, postCategory: nil) },
+                        action: { [weak self] in
+                            let source: PostingSource = .notifications
+                            self?.trackStartSelling(source: source)
+                            self?.navigator?.openSell(source: source, postCategory: nil)
+                        },
                         secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: .emptyResults, errorCode: nil,
                         errorDescription: nil)
 
@@ -128,6 +190,22 @@ class NotificationsViewModel: BaseViewModel {
                 }
             }
         }
+    }
+    
+    private func populateNotificationSections() {
+        var sections: [NotificationCenterSection] = []
+        for notificationData in notificationsData {
+            let dateSection = notificationData.date.notificationCenterSectionTitle()
+            let found = sections.index(where: { $0.sectionDate == dateSection })
+            if let found = found {
+                sections[found].notifications.append(notificationData)
+            } else {
+                let newSection = NotificationCenterSection(sectionDate: dateSection, notifications: [notificationData])
+                sections.append(newSection)
+            }
+        }
+        
+        self.sections = sections
     }
 
     private func afterReloadOk() {
@@ -178,9 +256,31 @@ extension NotificationsViewModel: ModularNotificationCellDelegate {
 }
 
 
+// MARK: - NotificationCenterModularCellDelegate
+
+extension NotificationsViewModel: NotificationCenterModularCellDelegate {
+    func triggerModularNotification(deeplink: String,
+                                    source: EventParameterNotificationClickArea,
+                                    notificationCampaign: String?) {
+        guard let deepLinkURL = URL(string: deeplink) else { return }
+        guard let deepLink = UriScheme.buildFromUrl(deepLinkURL)?.deepLink else { return }
+        trackItemPressed(source: source, cardAction: deepLink.cardActionParameter,
+                         notificationCampaign: notificationCampaign)
+        navigator?.openNotificationDeepLink(deepLink: deepLink)
+    }
+}
+
+
 // MARK: - Trackings
 
 fileprivate extension NotificationsViewModel {
+    private func trackStartSelling(source: PostingSource) {
+        tracker.trackEvent(TrackerEvent.listingSellStart(typePage: source.typePage,
+                                                         buttonName: source.buttonName,
+                                                         sellButtonPosition: source.sellButtonPosition,
+                                                         category: nil))
+    }
+
     func trackVisit() {
         let event = TrackerEvent.notificationCenterStart()
         tracker.trackEvent(event)
@@ -197,5 +297,42 @@ fileprivate extension NotificationsViewModel {
                                                  errorCode: errorCode,
                                                  errorDescription: errorDescription)
         tracker.trackEvent(event)
+    }
+}
+
+
+fileprivate extension Date {
+    func notificationCenterSectionTitle() -> NotificationCenterSectionDate {
+        if isToday {
+            return .today
+        } else if isYesterday {
+            return .yesterday
+        }
+        
+        let calendar = NSCalendar.current
+        let startOfNow = calendar.startOfDay(for: Date())
+        let startOfTimeStamp = calendar.startOfDay(for: self)
+        let days = calendar.dateComponents([.day], from: startOfNow, to: startOfTimeStamp).day
+        let weeks = calendar.dateComponents([.weekOfMonth], from: startOfNow, to: startOfTimeStamp).weekOfMonth
+        let months = calendar.dateComponents([.month], from: startOfNow, to: startOfTimeStamp).month
+        
+        switch (days, weeks, months) {
+        case (.some(let days), _, _) where abs(days) < DateDescriptor.maximumDaysInAWeek:
+            return .daysAgo(days: abs(days))
+        case (_, .some(let weeks), _) where abs(weeks) < DateDescriptor.maximumWeeksInAMonth:
+            let totalWeeks = abs(weeks)
+            if totalWeeks == 1 {
+                return .oneWeekAgo
+            }
+            return .weeksAgo(weeks: abs(totalWeeks))
+        case (_, _, .some(let months)):
+            let totalMonths = abs(months)
+            if totalMonths == 1 {
+                return .oneMonthAgo
+            }
+            return .monthsAgo(months: totalMonths)
+        default:
+            return .today
+        }
     }
 }

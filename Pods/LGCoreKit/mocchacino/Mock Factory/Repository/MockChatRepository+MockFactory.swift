@@ -11,7 +11,7 @@ extension MockChatRepository: MockFactory {
         mockChatRepository.sendMessageCommandResult = ChatCommandResult(value: Void())
         mockChatRepository.unreadMessagesResult = ChatUnreadMessagesResult(value: MockChatUnreadMessages.makeMock())
         mockChatRepository.fetchInactiveConversationsCountResult = ChatCountResult(value: Int.makeRandom())
-        mockChatRepository.fetchInactiveConversationsResult = ChatInactiveConversationsResult(value: MockChatInactiveConversation.makeMocks())
+        mockChatRepository.fetchInactiveConversationsResult = ChatInactiveConversationsResult(value: MockChatInactiveConversation.makeMocks(count: Int.makeRandom(min: 0, max: 10)))
         return mockChatRepository
     }
 }

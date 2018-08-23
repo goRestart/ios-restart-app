@@ -12,7 +12,7 @@ open class MockMonetizationRepository: MonetizationRepository {
     
     public var retrieveResult: BumpeableListingResult!
     public var bumpResult: BumpResult!
-
+    public var availablePurchasesResult: AvailableFeaturePurchasesResult!
 
     // MARK: - Lifecycle
 
@@ -36,5 +36,10 @@ open class MockMonetizationRepository: MonetizationRepository {
                            itemId: String, itemPrice: String, itemCurrency: String, amplitudeId: String?, appsflyerId: String?,
                            idfa: String?, bundleId: String?, completion: BumpCompletion?) {
         delay(result: bumpResult, completion: completion)
+    }
+
+    public func retrieveAvailablePurchasesFor(listingId: String,
+                                              completion: AvailableFeaturePurchasesCompletion?) {
+        delay(result: availablePurchasesResult, completion: completion)
     }
 }

@@ -1,19 +1,16 @@
 import LGCoreKit
 
-class RelatedListingListRequester: ListingListRequester {
+final class RelatedListingListRequester: ListingListRequester {
     
-    fileprivate enum ListingType {
-        case product, realEstate, car, service
-    }
-    
-    fileprivate let listingType: ListingType
     let itemsPerPage: Int
-    fileprivate let listingObjectId: String
-    fileprivate let listingRepository: ListingRepository
-    fileprivate var offset: Int = 0
-    fileprivate let featureFlags: FeatureFlags
+    
+    private let listingType: ListingType
+    private let listingObjectId: String
+    private let listingRepository: ListingRepository
+    private var offset: Int = 0
+    private let featureFlags: FeatureFlags
 
-    fileprivate var retrieveListingParams: RetrieveListingParams {
+    private var retrieveListingParams: RetrieveListingParams {
         var params = RetrieveListingParams()
         params.numListings = itemsPerPage
         params.offset = offset
@@ -30,22 +27,14 @@ class RelatedListingListRequester: ListingListRequester {
     
     convenience init?(listing: Listing, itemsPerPage: Int) {
         guard let objectId = listing.objectId else { return nil }
-        let type: RelatedListingListRequester.ListingType
-        if listing.isCar {
-            type = .car
-        } else if listing.isRealEstate {
-            type = .realEstate
-        } else {
-            type = .product
-        }
-        self.init(listingType: type,
+        self.init(listingType: listing.listingType,
                   listingId: objectId,
                   itemsPerPage: itemsPerPage,
                   listingRepository: Core.listingRepository,
                   featureFlags: FeatureFlags.sharedInstance)
     }
 
-    fileprivate init(listingType: ListingType,
+    private init(listingType: ListingType,
          listingId: String,
          itemsPerPage: Int,
          listingRepository: ListingRepository,
@@ -101,45 +90,47 @@ class RelatedListingListRequester: ListingListRequester {
     }
 }
 
-fileprivate extension RelatedListingListRequester {
+private extension RelatedListingListRequester {
     
     func listingsRetrieval(_ completion: ListingsRequesterCompletion?) {
-        let requestCompletion: ListingsCompletion = { [weak self] result in
+        index(listingObjectId, retrieveListingParams) { [weak self] result in
             if let value = result.value {
                 self?.offset += value.count
             }
             completion?(ListingsRequesterResult(listingsResult: result, context: nil))
         }
+    }
+    
+    private var index: ((String, RetrieveListingParams, ListingsCompletion?) -> ()) {
+        switch listingType {
+        case .product:
+            return listingRepository.indexRelated
+        case .realEstate:
+            return featureFlags.realEstateEnabled.isActive ?
+                listingRepository.indexRelatedRealEstate : listingRepository.indexRelated
+        case .car:
+            return listingRepository.indexRelatedCars
+        case .service:
+            return listingRepository.indexRelatedServices
+        }
+    }
+}
 
-        switch (listingType, featureFlags.realEstateEnabled.isActive) {
-        case (.product, _), (.realEstate, false):
-            listingRepository.indexRelated(listingId: listingObjectId,
-                                           params: retrieveListingParams,
-                                           completion: requestCompletion)
-        case (.realEstate, true):
-            listingRepository.indexRelatedRealEstate(listingId: listingObjectId,
-                                                     params: retrieveListingParams,
-                                                     completion: requestCompletion)
-        case (.car, _):
-            if featureFlags.searchCarsIntoNewBackend.isActive {
-                listingRepository.indexRelatedCars(listingId: listingObjectId,
-                                                   params: retrieveListingParams,
-                                                   completion: requestCompletion)
-            } else {
-                listingRepository.indexRelated(listingId: listingObjectId,
-                                               params: retrieveListingParams,
-                                               completion: requestCompletion)
-            }
-        case (.service, _):
-            if featureFlags.showServicesFeatures.isActive {
-                listingRepository.indexRelatedServices(listingId: listingObjectId,
-                                                   params: retrieveListingParams,
-                                                   completion: requestCompletion)
-            } else {
-                listingRepository.indexRelated(listingId: listingObjectId,
-                                               params: retrieveListingParams,
-                                               completion: requestCompletion)
-            }
+private enum ListingType {
+    case product, realEstate, car, service
+}
+
+private extension Listing {
+    var listingType: ListingType {
+        switch self {
+        case .car:
+            return .car
+        case .service:
+            return .service
+        case .realEstate:
+            return .realEstate
+        case .product:
+            return .product
         }
     }
 }

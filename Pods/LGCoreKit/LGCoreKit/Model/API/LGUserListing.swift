@@ -6,7 +6,7 @@
 //  Copyright © 2017 Ambatana Inc. All rights reserved.
 //
 
-struct LGUserListing: UserListing, Decodable {
+struct LGUserListing: UserListing, Codable {
     private static let statusDefaultValue = UserStatus.active
     
     let objectId: String?
@@ -16,6 +16,7 @@ struct LGUserListing: UserListing, Decodable {
     let isDummy: Bool
     let banned: Bool?
     let status: UserStatus
+    let type: UserType
     
     
     // MARK: - Lifecycle
@@ -26,7 +27,8 @@ struct LGUserListing: UserListing, Decodable {
          postalAddress: PostalAddress,
          isDummy: Bool,
          banned: Bool?,
-         status: UserStatus?) {
+         status: UserStatus?,
+         type: UserType) {
         self.objectId = objectId
         self.name = name
         self.avatar = LGFile(id: nil, urlString: avatar)
@@ -34,6 +36,7 @@ struct LGUserListing: UserListing, Decodable {
         self.isDummy = isDummy
         self.banned = banned
         self.status = status ?? LGUserListing.statusDefaultValue
+        self.type = type
     }
     
     init(chatInterlocutor: ChatInterlocutor) {
@@ -44,7 +47,8 @@ struct LGUserListing: UserListing, Decodable {
                   postalAddress: postalAddress,
                   isDummy: false,
                   banned: false,
-                  status: chatInterlocutor.status)
+                  status: chatInterlocutor.status,
+                  type: chatInterlocutor.userType)
     }
     
     init(user: User) {
@@ -54,7 +58,8 @@ struct LGUserListing: UserListing, Decodable {
                   postalAddress: user.postalAddress,
                   isDummy: user.isDummy,
                   banned: false,
-                  status: user.status)
+                  status: user.status,
+                  type: user.type)
     }
     
     
@@ -96,14 +101,28 @@ struct LGUserListing: UserListing, Decodable {
         self.banned = try keyedContainer.decodeIfPresent(Bool.self, forKey: .isBanned)
         let statusValue = try keyedContainer.decodeIfPresent(String.self, forKey: .status) ?? LGUserListing.statusDefaultValue.rawValue
         self.status = UserStatus(rawValue: statusValue) ?? LGUserListing.statusDefaultValue
+        self.type = try keyedContainer.decodeIfPresent(UserType.self, forKey: .type) ?? UserType.unknown
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        // arbitrarily choose camelCase 🐪🐫
+        var camelContainer = encoder.container(keyedBy: CodingKeysCamelCase.self)
+
+        try container.encodeIfPresent(objectId, forKey: .id)
+        try container.encodeIfPresent(name, forKey: .name)
+
+        try camelContainer.encodeIfPresent(avatar?.fileURL?.absoluteString, forKey: .avatarURL)
+        try postalAddress.encode(to: encoder)
+        try camelContainer.encodeIfPresent(isDummy, forKey: .isDummy)
+        try container.encodeIfPresent(banned, forKey: .isBanned)
+        try container.encodeIfPresent(status.rawValue, forKey: .status)
+        try container.encodeIfPresent(type.rawValue, forKey: .type)
     }
     
     enum CodingKeys: String, CodingKey {
-        case id = "id"
-        case name = "name"
-        case status = "status"
+        case id, name, status, type
         case isBanned = "banned"
-        
     }
     
     enum CodingKeysCamelCase: String, CodingKey {

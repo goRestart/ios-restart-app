@@ -1,14 +1,12 @@
 import LGComponents
 
 enum FilterSection: Int {
-    case location, categories, carsInfo, distance, sortBy, within, price, realEstateInfo, servicesInfo
+    case location, categories, carsInfo, distance, sortBy, within, price, realEstateInfo, servicesInfo, jobsServicesToggle
 }
-
-
 
 extension FilterSection {
     
-    var name : String {
+    var name: String {
         switch(self) {
         case .location:
             return R.Strings.filtersSectionLocation.localizedUppercase
@@ -27,7 +25,9 @@ extension FilterSection {
         case .realEstateInfo:
             return R.Strings.filtersSectionRealEstateInfo.localizedUppercase
         case .servicesInfo:
-            return R.Strings.filtersSectionServicesInfo.localizedUppercase
+            return FeatureFlags.sharedInstance.jobsAndServicesEnabled.isActive ? R.Strings.filtersJobsServicesHeader.localizedUppercase : R.Strings.filtersSectionServicesInfo.localizedUppercase
+        case .jobsServicesToggle:
+            return R.Strings.filtersJobsServicesToggleHeader.localizedUppercase
         }
     }
     
@@ -36,11 +36,6 @@ extension FilterSection {
     }
 
     static func allValues(priceAsLast: Bool) -> [FilterSection] {
-        
-        if priceAsLast {
-            return [.location, .categories, .carsInfo, .realEstateInfo, .servicesInfo, .distance, .sortBy, .within, .price]
-        } else {
-            return [.location, .distance, .categories, .price, .carsInfo, .realEstateInfo, .servicesInfo, .sortBy, .within]
-        }
+        return [.location, .categories, .carsInfo, .realEstateInfo, .jobsServicesToggle, .servicesInfo, .distance, .sortBy, .within, .price]
     }
 }

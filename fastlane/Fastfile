@@ -12,7 +12,10 @@ destination = "name=iPhone X"
 before_all do
 	ENV["LG_GITHUB_REPOSITORY"] = "letgoapp/letgo-ios"
 	# Forcing fastlane to launch simulator before all as a first step.
-	ENV["FASTLANE_EXPLICIT_OPEN_SIMULATOR"] = "2"
+	ENV["FASTLANE_EXPLICIT_OPEN_SIMULATOR"] = "2
+	# Related this kind of errors: [Transporter Error Output]: Could not start delivery: all transports failed diagnostics
+	# to https://github.com/fastlane/fastlane/issues/6990"
+	ENV['DELIVER_ITMSTRANSPORTER_ADDITIONAL_UPLOAD_PARAMETERS'] = '-t DAV'
 end
 
 desc "Will clone master, create a new `release-x.x.x` branch from, update the build info, push it and do a deploy of that to crashlytics"
@@ -212,10 +215,10 @@ lane :update_dsyms do |options|
 	build_number = options[:build_number] ||= Actions.lane_context[Actions::SharedValues::LG_BUILD_NUMBER]
 	version = options[:version] ||= Actions.lane_context[Actions::SharedValues::LG_VERSION_NUMBER]
    
-	binary_path = "com.letgo.ios-#{version}-#{build_number}.dSYM.zip"
+	dsym_path = "com.letgo.ios-#{version}-#{build_number}.dSYM.zip"
 	download_dsyms(version: version, build_number: build_number)
 	upload_symbols_to_crashlytics(
-		binary_path: '/Applications/Fabric.app/Contents/MacOS/upload-symbols',
+		dsym_path: dsym_path,
 		api_token: 'da82303e33e3a2dc304cdccaa4e19dba00334a34'
 	)
 	clean_build_artifacts
@@ -495,7 +498,9 @@ lane :release_beta do |options|
 			repository_path: repository_path
 		)
 	else
-		release_branch = sh("git symbolic-ref HEAD --short").gsub("\n")
+		release_branch = sh("git symbolic-ref HEAD --short").chop
+		UI.message "Currently in..."
+		UI.message release_branch
 		if !release_branch.include?('release') 
 			UI.user_error!("You must be in a release branch")
 		end
@@ -525,7 +530,7 @@ lane :release_beta do |options|
 	scheme = ENV["LETGO_PROD_SCHEME"]
 	build_beta(workspace: workspace, scheme: scheme)
 	
-	ipa_path = ENV["LG_LAST_BETA"]
+	ipa_path = ENV["LAST_BETA_BUILD"]
 	upload_crashlytics(
 		beta_path: ipa_path, 
 		version_number: new_version.to_s, 
@@ -606,7 +611,7 @@ lane :build_beta do |options|
 		export_xcargs: "-allowProvisioningUpdates",
 		export_method: "ad-hoc"
 	)
-	ENV['LAST_BETA_BUILD'] = output 	
+	ENV['LAST_BETA_BUILD'] = output + '/LetGoGodMode.ipa'
 end
 
 desc "Does an appstore build"

@@ -105,7 +105,7 @@ final class SellCoordinator: Coordinator {
 
 // MARK: - PostListingNavigator
 
-extension SellCoordinator: PostListingNavigator {    
+extension SellCoordinator: PostListingNavigator {
 
     func cancelPostListing() {
         closeCoordinator(animated: true) { [weak self] in
@@ -115,18 +115,23 @@ extension SellCoordinator: PostListingNavigator {
     }
     
     func closePostProductAndPostInBackground(params: ListingCreationParams,
-                                             trackingInfo: PostListingTrackingInfo) {
+                                             trackingInfo: PostListingTrackingInfo,
+                                             shareAfterPost: Bool?) {
         dismissViewController(animated: true) { [weak self] in
             self?.listingRepository.create(listingParams: params) { [weak self] result in
                 if let listing = result.value {
                     self?.trackPost(withListing: listing, trackingInfo: trackingInfo)
                     self?.keyValueStorage.userPostProductPostedPreviously = true
                     self?.showConfirmation(listingResult: ListingResult(value: listing),
-                                           trackingInfo: trackingInfo, modalStyle: true)
+                                           trackingInfo: trackingInfo,
+                                           shareAfterPost: shareAfterPost,
+                                           modalStyle: true)
                 } else if let error = result.error {
                     self?.trackListingPostedInBackground(withError: error)
                     self?.showConfirmation(listingResult: ListingResult(error: error),
-                                           trackingInfo: trackingInfo, modalStyle: true)
+                                           trackingInfo: trackingInfo,
+                                           shareAfterPost: shareAfterPost,
+                                           modalStyle: true)
                 }
             }
         }
@@ -139,7 +144,7 @@ extension SellCoordinator: PostListingNavigator {
     
     func startDetails(firstStep: PostingDetailStep,
                       postListingState: PostListingState,
-                      uploadedImageSource: EventParameterPictureSource?,
+                      uploadedImageSource: EventParameterMediaSource?,
                       uploadedVideoLength: TimeInterval?,
                       postingSource: PostingSource,
                       postListingBasicInfo: PostListingBasicDetailViewModel) {
@@ -164,7 +169,7 @@ extension SellCoordinator: PostListingNavigator {
     
     func nextPostingDetailStep(step: PostingDetailStep,
                                postListingState: PostListingState,
-                               uploadedImageSource: EventParameterPictureSource?,
+                               uploadedImageSource: EventParameterMediaSource?,
                                uploadedVideoLength: TimeInterval?,
                                postingSource: PostingSource,
                                postListingBasicInfo: PostListingBasicDetailViewModel,
@@ -212,10 +217,13 @@ extension SellCoordinator: PostListingNavigator {
 
     func showConfirmation(listingResult: ListingResult,
                           trackingInfo: PostListingTrackingInfo,
+                          shareAfterPost: Bool?,
                           modalStyle: Bool) {
         guard let parentVC = parentViewController else { return }
         
-        let listingPostedVM = ListingPostedViewModel(listingResult: listingResult, trackingInfo: trackingInfo)
+        let listingPostedVM = ListingPostedViewModel(listingResult: listingResult,
+                                                     trackingInfo: trackingInfo,
+                                                     shareAfterPost: shareAfterPost)
         listingPostedVM.navigator = self
         let listingPostedVC = ListingPostedViewController(viewModel: listingPostedVM)
         showCongrats(listingPostedVC, modalStyle, parentVC)
@@ -247,14 +255,16 @@ extension SellCoordinator: PostListingNavigator {
     func closePostProductAndPostLater(params: ListingCreationParams,
                                       images: [UIImage]?,
                                       video: RecordedVideo?,
-                                      trackingInfo: PostListingTrackingInfo) {
+                                      trackingInfo: PostListingTrackingInfo,
+                                      shareAfterPost: Bool?) {
         guard let parentVC = parentViewController else { return }
 
         dismissViewController(animated: true) { [weak self] in
             let listingPostedVM = ListingPostedViewModel(postParams: params,
                                                          listingImages: images,
                                                          video: video,
-                                                         trackingInfo: trackingInfo)
+                                                         trackingInfo: trackingInfo,
+                                                         shareAfterPost: shareAfterPost)
             listingPostedVM.navigator = self
             let listingPostedVC = ListingPostedViewController(viewModel: listingPostedVM)
             self?.viewController = listingPostedVC
@@ -289,7 +299,7 @@ extension SellCoordinator: PostListingNavigator {
     }
     
     func openQueuedRequestsLoading(images: [UIImage], listingCreationParams: ListingCreationParams,
-                                   imageSource: EventParameterPictureSource, postingSource: PostingSource) {
+                                   imageSource: EventParameterMediaSource, postingSource: PostingSource) {
         let viewModel = BlockingPostingQueuedRequestsViewModel(images: images,
                                                                listingCreationParams: listingCreationParams,
                                                                imageSource: imageSource,
@@ -365,41 +375,29 @@ extension SellCoordinator: MultiListingPostedNavigator {
     }
     
     func openEdit(forListing listing: Listing) {
-        
-        let editListingNavigator = EditListingCoordinator(listing: listing,
-                                                          bumpUpProductData: nil,
-                                                          pageType: nil,
-                                                          listingCanBeBoosted: false,
-                                                          timeSinceLastBump: nil,
-                                                          maxCountdown: 0)
-        editListingNavigator.delegate = self
-        openChild(coordinator: editListingNavigator,
-                  parent: viewController,
-                  animated: true,
-                  forceCloseChild: false,
-                  completion: nil)
+        let nav = UINavigationController()
+        let assembly = LGListingBuilder.standard(navigationController: nav)
+        let vc = assembly.buildEditView(listing: listing,
+                                        pageType: nil,
+                                        bumpUpProductData: nil,
+                                        listingCanBeBoosted: false,
+                                        timeSinceLastBump: nil,
+                                        maxCountdown: 0,
+                                        onEditAction: onEdit)
+        nav.viewControllers = [vc]
+        navigationController.present(nav, animated: true)
     }
-}
 
-
-// MARK: - EditListingCoordinatorDelegate
-extension SellCoordinator: EditListingCoordinatorDelegate {
-    func editListingCoordinatorDidCancel(_ coordinator: EditListingCoordinator) {
-        // Do nothing, todo esta canela fina
-    }
-    
-    func editListingCoordinator(_ coordinator: EditListingCoordinator,
-                                didFinishWithListing listing: Listing,
-                                bumpUpProductData: BumpUpProductData?,
-                                timeSinceLastBump: TimeInterval?,
-                                maxCountdown: TimeInterval) {
+    private func onEdit(listing: Listing,
+                        bumpData: BumpUpProductData?,
+                        timeSinceLastBump: TimeInterval?,
+                        maxCountdown: TimeInterval) {
         guard let multiListingVC = viewController as? MultiListingPostedViewController else {
             return
         }
         multiListingVC.listingEdited(listing: listing)
     }
 }
-
 
 // MARK: - BlockingPostingNavigator
 
@@ -417,7 +415,7 @@ extension SellCoordinator: BlockingPostingNavigator  {
         navigationController.pushViewController(postListingVC, animated: true)
     }
     
-    func openPrice(listing: Listing, images: [UIImage], imageSource: EventParameterPictureSource, videoLength: TimeInterval?, postingSource: PostingSource) {
+    func openPrice(listing: Listing, images: [UIImage], imageSource: EventParameterMediaSource, videoLength: TimeInterval?, postingSource: PostingSource) {
         let viewModel = BlockingPostingAddPriceViewModel(listing: listing,
                                                          images: images,
                                                          imageSource: imageSource,
@@ -428,7 +426,7 @@ extension SellCoordinator: BlockingPostingNavigator  {
         navigationController.pushViewController(vc, animated: true)
     }
     
-    func openListingPosted(listing: Listing, images: [UIImage], imageSource: EventParameterPictureSource, videoLength: TimeInterval?, postingSource: PostingSource) {
+    func openListingPosted(listing: Listing, images: [UIImage], imageSource: EventParameterMediaSource, videoLength: TimeInterval?, postingSource: PostingSource) {
         let viewModel = ListingPostedDescriptiveViewModel(listing: listing,
                                                           listingImages: images,
                                                           imageSource: imageSource,
@@ -466,7 +464,7 @@ extension SellCoordinator: BlockingPostingNavigator  {
     func openListingEditionLoading(listingParams: ListingEditionParams,
                                    listing: Listing,
                                    images: [UIImage],
-                                   imageSource: EventParameterPictureSource,
+                                   imageSource: EventParameterMediaSource,
                                    videoLength: TimeInterval?,
                                    postingSource: PostingSource) {
         let viewModel = BlockingPostingListingEditionViewModel(listingParams: listingParams,
@@ -494,7 +492,6 @@ fileprivate extension SellCoordinator {
                                                      videoLength: trackingInfo.videoLength,
                                                      freePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                      typePage: trackingInfo.typePage,
-                                                     mostSearchedButton: trackingInfo.mostSearchedButton,
                                                      machineLearningTrackingInfo: trackingInfo.machineLearningInfo)
 
         tracker.trackEvent(event)

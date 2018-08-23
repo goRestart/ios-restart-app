@@ -3,16 +3,13 @@ import LGComponents
 
 final class ChatsTabCoordinator: TabCoordinator {
 
-    let chatGroupedViewModel: ChatGroupedViewModel
     let chatConversationsListViewModel: ChatConversationsListViewModel
     
     convenience init() {
-        self.init(chatGroupedViewModel: ChatGroupedViewModel(),
-                  chatConversationsListViewModel: ChatConversationsListViewModel())
+        self.init(chatConversationsListViewModel: ChatConversationsListViewModel())
     }
     
-    init(chatGroupedViewModel: ChatGroupedViewModel,
-         chatConversationsListViewModel: ChatConversationsListViewModel) {
+    init(chatConversationsListViewModel: ChatConversationsListViewModel) {
         let listingRepository = Core.listingRepository
         let userRepository = Core.userRepository
         let chatRepository = Core.chatRepository
@@ -22,14 +19,8 @@ final class ChatsTabCoordinator: TabCoordinator {
         let keyValueStorage = KeyValueStorage.sharedInstance
         let tracker = TrackerProxy.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
-        self.chatGroupedViewModel = chatGroupedViewModel
         self.chatConversationsListViewModel = chatConversationsListViewModel
-        let rootViewController: UIViewController
-        if featureFlags.chatConversationsListWithoutTabs.isActive {
-            rootViewController = ChatConversationsListViewController(viewModel: chatConversationsListViewModel)
-        } else {
-            rootViewController = ChatGroupedViewController(viewModel: chatGroupedViewModel)
-        }
+        let rootViewController = ChatConversationsListViewController(viewModel: chatConversationsListViewModel)
         let sessionManager = Core.sessionManager
         super.init(listingRepository: listingRepository,
                   userRepository: userRepository,
@@ -41,20 +32,14 @@ final class ChatsTabCoordinator: TabCoordinator {
                   tracker: tracker,
                   rootViewController: rootViewController,
                   featureFlags: featureFlags,
-                  sessionManager: sessionManager)
+                  sessionManager: sessionManager,
+                  deeplinkMailBox: LGDeepLinkMailBox.sharedInstance)
         
-        chatGroupedViewModel.tabNavigator = self
         chatConversationsListViewModel.navigator = self
     }
 
     override func shouldHideSellButtonAtViewController(_ viewController: UIViewController) -> Bool {
         return true
-    }
-    
-    func setNeedsRefreshConversations() {
-        if rootViewController.isKind(of: ChatGroupedViewController.self) {
-            chatGroupedViewModel.setNeedsRefreshConversations()
-        }
     }
 }
 

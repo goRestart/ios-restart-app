@@ -13,8 +13,6 @@ class LGNotificationsManager: NotificationsManager {
 
     // Singleton
     static let sharedInstance = LGNotificationsManager()
-
-    static let newSellFeatureIndicatorValue = " "
     
     // Rx
     let unreadMessagesCount = Variable<Int?>(nil)
@@ -30,6 +28,7 @@ class LGNotificationsManager: NotificationsManager {
     }
     let marketingNotifications: Variable<Bool>
     let loggedInMktNofitications: Variable<Bool>
+    let engagementBadgingNotifications = Variable<Bool>(false)
 
     fileprivate let disposeBag = DisposeBag()
 
@@ -45,11 +44,6 @@ class LGNotificationsManager: NotificationsManager {
     private var requestingChat = false
     private var requestingNotifications = false
     
-    var shouldShowNewSellFeatureIndicator: Bool {
-        return featureFlags.mostSearchedDemandedItems == .cameraBadge &&
-            !keyValueStorage[.mostSearchedItemsCameraBadgeAlreadyShown]
-    }
-
 
     // MARK: - Lifecycle
 
@@ -95,7 +89,6 @@ class LGNotificationsManager: NotificationsManager {
     func updateCounters() {
         requestChatCounters()
         requestNotificationCounters()
-        requestNewSellFeatureIndicators()
     }
 
     func updateChatCounters() {
@@ -125,7 +118,8 @@ class LGNotificationsManager: NotificationsManager {
 
         sessionManager.sessionEvents.map { $0.isLogin }.bind(to: loggedIn).disposed(by: disposeBag)
 
-        globalCount.bind { count in
+        // Skipping first event because it sets to 0 the badge number until the API requests finishes
+        globalCount.skip(1).bind { count in
             UIApplication.shared.applicationIconBadgeNumber = count
         }.disposed(by: disposeBag)
 
@@ -182,9 +176,12 @@ class LGNotificationsManager: NotificationsManager {
         }
     }
     
-    private func requestNewSellFeatureIndicators() {
-        guard shouldShowNewSellFeatureIndicator else { return }
-        newSellFeatureIndicator.value = LGNotificationsManager.newSellFeatureIndicatorValue
+    func showEngagementBadge() {
+        engagementBadgingNotifications.value = true
+    }
+    
+    func hideEngagementBadge() {
+        engagementBadgingNotifications.value = false
     }
 }
 

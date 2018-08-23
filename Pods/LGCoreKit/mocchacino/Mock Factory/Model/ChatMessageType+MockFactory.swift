@@ -17,7 +17,10 @@ extension ChatMessageType: MockFactory {
                                             .phone,
                                             .meeting,
                                             .unsupported(defaultText: String?.makeRandom()),
-                                            .interlocutorIsTyping]
+                                            .interlocutorIsTyping,
+                                            .cta(ctaData: MockChatCallToActionData.makeMock(),
+                                                 ctas: MockChatCallToAction.makeMocks())
+        ]
         return allValues.random()!
     }
 }

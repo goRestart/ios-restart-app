@@ -10,9 +10,10 @@ public enum UserType: String {
     case pro = "professional"
     case user = "user"
     case dummy = "dummy"
+    case unknown = "unknown"
 }
 
-extension UserType: Decodable {}
+extension UserType: Codable {}
 
 extension UserType {
     public var isProfessional: Bool { return self == .pro }

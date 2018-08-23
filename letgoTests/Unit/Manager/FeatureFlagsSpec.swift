@@ -128,10 +128,6 @@ class FeatureFlagsSpec: QuickSpec {
                                                abTests: abTests,
                                                dao: dao)
                         }
-
-                        it("returns timeout ab test value") {
-                            expect(sut.requestTimeOut.timeout) == RequestsTimeOut.fromPosition(abTests.requestsTimeOut.value).timeout
-                        }
                     }
                 }
             }

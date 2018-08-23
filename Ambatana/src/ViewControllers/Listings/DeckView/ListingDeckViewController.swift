@@ -285,7 +285,7 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
             return
         }
 
-        viewModel.bumpUpBannerShown(type: bumpUp.type)
+        viewModel.bumpUpBannerShown(bumpInfo: bumpUp)
         listingDeckView.updateBumpUp(withInfo: bumpUp)
         listingDeckView.bumpUpBanner.layoutIfNeeded()
         UIView.animate(withDuration: 0.3,

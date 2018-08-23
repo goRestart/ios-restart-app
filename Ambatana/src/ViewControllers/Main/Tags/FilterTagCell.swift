@@ -56,12 +56,6 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
             return FilterTagCell.sizeForText(timeOption.name)
         case .category:
             return CGSize(width: Layout.Width.icon + Layout.Width.fixedSpace, height: Layout.Height.cell)
-        case .taxonomyChild(let taxonomyChild):
-            return FilterTagCell.sizeForText(taxonomyChild.name)
-        case .taxonomy(let taxonomy):
-            return FilterTagCell.sizeForText(taxonomy.name)
-        case .secondaryTaxonomyChild(let secondaryTaxonomyChild):
-            return FilterTagCell.sizeForText(secondaryTaxonomyChild.name)
         case .priceRange(let minPrice, let maxPrice, let currency):
             let priceRangeString = FilterTagCell.stringForPriceRange(minPrice, max: maxPrice, withCurrency: currency)
             return FilterTagCell.sizeForText(priceRangeString)
@@ -94,6 +88,10 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
             return FilterTagCell.sizeForText(serviceType.name)
         case .serviceSubtype(let serviceSubtype):
             return FilterTagCell.sizeForText(serviceSubtype.name)
+        case .serviceListingType(let listingType):
+            return FilterTagCell.sizeForText(listingType.pluralDisplayName)
+        case .unifiedServiceType(let type, let selectedSubtypes):
+             return FilterTagCell.sizeForText("\(type.name) +\(selectedSubtypes.count)")
         case .carBodyType(let bodyType):
             return FilterTagCell.sizeForText(bodyType.title)
         case .carFuelType(let fuelType):
@@ -103,9 +101,12 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
         case .carDriveTrainType(let driveTrainType):
             return FilterTagCell.sizeForText(driveTrainType.title)
         case .mileageRange(let start, let end):
+            let numberFormatter = NumberFormatter.newMileageNumberFormatter()
             let rangeString = FilterTagCell.stringForRange(fromValue: start,
-                                                      toValue: end,
-                                                      unit: DistanceType.systemDistanceType().localizedUnitType())
+                                                           toValue: end,
+                                                           unit: DistanceType.systemDistanceType().localizedUnitType(),
+                                                           isUnboundedUpperLimit: true,
+                                                           numberFormatter: numberFormatter)
             return FilterTagCell.sizeForText(rangeString)
         case .numberOfSeats(let start, let end):
             let rangeString = FilterTagCell.stringForRange(fromValue: start,
@@ -146,7 +147,7 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
     }
 
     private static func stringForYearsRange(_ startYear: Int?, endYear: Int?) -> String {
-        var startText = R.Strings.filtersCarYearBeforeYear(SharedConstants.filterMinCarYear)
+        var startText = R.Strings.filtersCarYearBeforeYear("\(SharedConstants.filterMinCarYear)")
         var endText = String(Date().year)
 
         if let startYear = startYear {
@@ -170,17 +171,14 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
     
     private static func stringForRange(fromValue: Int?,
                                        toValue: Int?,
-                                       unit: String?) -> String {
-        var startText = ""
-        var endText = ""
-        var unitText = ""
+                                       unit: String?,
+                                       isUnboundedUpperLimit: Bool = false,
+                                       numberFormatter: NumberFormatter? = nil) -> String {
         
-        if let fromValue = fromValue {
-            startText = String(fromValue)
-        }
-        if let toValue = toValue {
-            endText = String(toValue)
-        }
+        let startText = createStringForValue(value: fromValue, numberFormatter: numberFormatter)
+        let endText = createStringForValue(value: toValue, numberFormatter: numberFormatter)
+        var unitText = ""
+        let upperLimitPostfix = FormattedUnitRange.upperValuePostfixString(shouldAppendPostfixString: isUnboundedUpperLimit)
         
         if let unit = unit {
             unitText = " \(unit)"
@@ -191,10 +189,22 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
         } else if !startText.isEmpty {
             return R.Strings.filtersPriceFrom + " " + startText + unitText
         } else if !endText.isEmpty {
-            return R.Strings.filtersPriceTo + " " + endText + unitText
+            return R.Strings.filtersPriceTo + " " + endText + upperLimitPostfix + unitText
         } else {
             return ""
         }
+    }
+    
+    private static func createStringForValue(value: Int?,
+                                             numberFormatter: NumberFormatter?) -> String {
+        guard let value = value else { return "" }
+        
+        if let numberFormatter = numberFormatter,
+            let formattedValue = numberFormatter.string(from: NSNumber(value: value)) {
+            return formattedValue
+        }
+        
+        return String(value)
     }
     
     private static func stringForSizeRange(startSize: Int?, endSize: Int?) -> String {
@@ -243,6 +253,11 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
         contentView.layer.backgroundColor = UIColor.white.cgColor
         setupConstraints()
         closeButton.addTarget(self, action: #selector(onCloseBtn), for: .touchUpInside)
+        
+        tagLabel.textColor = .black
+        contentView.backgroundColor = .white
+        closeButton.setImage(R.Asset.IconsButtons.filtersClearBtn.image, for: .normal)
+        closeButton.setImage(R.Asset.IconsButtons.filtersClearBtn.image, for: .highlighted)
     }
     
     private func setupConstraints() {
@@ -280,19 +295,6 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
         contentView.backgroundColor = .white
     }
     
-    private func applyCellStyle(tag: FilterTag) {
-        switch tag {
-        case .taxonomy(let taxonomy):
-            setColoredCellStyle(taxonomy.color)
-        case .location, .within, .orderBy, .category, .taxonomyChild, .secondaryTaxonomyChild, .priceRange,
-             .freeStuff, .distance, .carSellerType, .make, .model, .yearsRange, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms,
-             .realEstatePropertyType, .realEstateOfferType, .sizeSquareMetersRange, .realEstateNumberOfRooms,
-             .serviceType, .serviceSubtype, .carDriveTrainType, .carBodyType, .carFuelType, .carTransmissionType,
-             .mileageRange, .numberOfSeats:
-            setDefaultCellStyle()
-        }
-    }
-    
     private func setAccessibilityIds() {
         tagIcon.set(accessibilityId: .filterTagCellTagIcon)
         tagLabel.set(accessibilityId: .filterTagCellTagLabel)
@@ -310,7 +312,6 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
     
     func setupWithTag(_ tag : FilterTag) {
         filterTag = tag
-        applyCellStyle(tag: tag)
         switch tag {
         case .location(let place):
             tagLabel.text = place.fullText(showAddress: false)
@@ -321,12 +322,6 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
         case .category(let category):
             tagIconWidth?.constant = Layout.Width.icon
             tagIcon.image = category.imageTag
-        case .taxonomyChild(let taxonomyChild):
-            tagLabel.text = taxonomyChild.name
-        case .taxonomy(let taxonomy):
-            tagLabel.text = taxonomy.name
-        case .secondaryTaxonomyChild(let secondaryTaxonomyChild):
-            tagLabel.text = secondaryTaxonomyChild.name
         case .priceRange(let minPrice, let maxPrice, let currency):
             tagLabel.text = FilterTagCell.stringForPriceRange(minPrice, max: maxPrice, withCurrency: currency)
         case .freeStuff:
@@ -366,32 +361,22 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
             tagLabel.text = serviceType.name
         case .serviceSubtype(let subtype):
             tagLabel.text = subtype.name
+        case .serviceListingType(let listingType):
+            tagLabel.text = listingType.pluralDisplayName
+        case .unifiedServiceType(let type, let selectedSubtypes):
+            tagLabel.text = "\(type.name) +\(selectedSubtypes.count)"
         case .mileageRange(let start, let end):
+            let numberFormatter = NumberFormatter.newMileageNumberFormatter()
             tagLabel.text = FilterTagCell.stringForRange(fromValue: start,
                                                          toValue: end,
-                                                         unit: DistanceType.systemDistanceType().localizedUnitType())
+                                                         unit: DistanceType.systemDistanceType().localizedUnitType(),
+                                                         isUnboundedUpperLimit: true,
+                                                         numberFormatter: numberFormatter)
         case .numberOfSeats(let start, let end):
             tagLabel.text = FilterTagCell.stringForRange(fromValue: start,
                                                          toValue: end,
                                                          unit: R.Strings.filterCarsSeatsTitle)
         }
         set(accessibilityId: .filterTagCell(tag: tag))
-    }
-
-
-    // MARK: - Private methods
-    
-    private func setDefaultCellStyle() {
-        tagLabel.textColor = .black
-        contentView.backgroundColor = .white
-        closeButton.setImage(R.Asset.IconsButtons.filtersClearBtn.image, for: .normal)
-        closeButton.setImage(R.Asset.IconsButtons.filtersClearBtn.image, for: .highlighted)
-    }
-    
-    private func setColoredCellStyle(_ color: UIColor) {
-        tagLabel.textColor = .white
-        contentView.backgroundColor = color
-        closeButton.setImage(R.Asset.IconsButtons.filtersTaxonomyClearBtn.image, for: .normal)
-        closeButton.setImage(R.Asset.IconsButtons.filtersTaxonomyClearBtn.image, for: .highlighted)
     }
 }

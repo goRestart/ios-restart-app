@@ -21,10 +21,7 @@ struct LegacyABGroup: ABGroupType {
         static let appRatingDialogInactive = "20170831AppRatingDialogInactive"
         static let locationDataSourceType = "20170830LocationDataSourceType"
         static let realEstateEnabled = "20171228realEstateEnabled"
-        static let requestTimeOut = "20170929RequestTimeOut"
-        static let taxonomiesAndTaxonomyChildrenInFeed = "20171031TaxonomiesAndTaxonomyChildrenInFeed"
-        static let showClockInDirectAnswer = "20171031ShowClockInDirectAnswer"
-        static let mostSearchedDemandedItems = "20180104MostSearchedDemandedItems"
+        static let deckItemPage = "20180403NewItemPage"
         static let showAdsInFeedWithRatio = "20180111ShowAdsInFeedWithRatio"
     }
     
@@ -40,10 +37,7 @@ struct LegacyABGroup: ABGroupType {
     let appRatingDialogInactive: LeanplumABVariable<Bool>
     let locationDataSourceType: LeanplumABVariable<Int>
     let realEstateEnabled: LeanplumABVariable<Int>
-    let requestsTimeOut: LeanplumABVariable<Int>
-    let taxonomiesAndTaxonomyChildrenInFeed: LeanplumABVariable<Int>
-    let showClockInDirectAnswer: LeanplumABVariable<Int>
-    let mostSearchedDemandedItems: LeanplumABVariable<Int>
+    let newItemPage: LeanplumABVariable<Int>
     let showAdsInFeedWithRatio: LeanplumABVariable<Int>
     
     
@@ -64,10 +58,7 @@ struct LegacyABGroup: ABGroupType {
          appRatingDialogInactive: LeanplumABVariable<Bool>,
          locationDataSourceType: LeanplumABVariable<Int>,
          realEstateEnabled: LeanplumABVariable<Int>,
-         requestsTimeOut: LeanplumABVariable<Int>,
-         taxonomiesAndTaxonomyChildrenInFeed: LeanplumABVariable<Int>,
-         showClockInDirectAnswer: LeanplumABVariable<Int>,
-         mostSearchedDemandedItems: LeanplumABVariable<Int>,
+         newItemPage: LeanplumABVariable<Int>,
          showAdsInFeedWithRatio: LeanplumABVariable<Int>) {
         
         self.marketingPush = marketingPush
@@ -81,19 +72,13 @@ struct LegacyABGroup: ABGroupType {
         self.appRatingDialogInactive = appRatingDialogInactive
         self.locationDataSourceType = locationDataSourceType
         self.realEstateEnabled = realEstateEnabled
-        self.requestsTimeOut = requestsTimeOut
-        self.taxonomiesAndTaxonomyChildrenInFeed = taxonomiesAndTaxonomyChildrenInFeed
-        self.showClockInDirectAnswer = showClockInDirectAnswer
-        self.mostSearchedDemandedItems = mostSearchedDemandedItems
+        self.newItemPage = newItemPage
         self.showAdsInFeedWithRatio = showAdsInFeedWithRatio
         
         intVariables.append(contentsOf: [marketingPush,
                                          locationDataSourceType,
                                          realEstateEnabled,
-                                         requestsTimeOut,
-                                         taxonomiesAndTaxonomyChildrenInFeed,
-                                         showClockInDirectAnswer,
-                                         mostSearchedDemandedItems,
+                                         newItemPage,
                                          showAdsInFeedWithRatio])
         boolVariables.append(contentsOf: [surveyEnabled, freeBumpUpEnabled,
                                           pricedBumpUpEnabled, newCarsMultiRequesterEnabled, inAppRatingIOS10,
@@ -114,9 +99,7 @@ struct LegacyABGroup: ABGroupType {
                              appRatingDialogInactive: .makeBool(key: Keys.appRatingDialogInactive, defaultValue: false, groupType: .legacyABTests),
                              locationDataSourceType: .makeInt(key: Keys.locationDataSourceType, defaultValue: 0, groupType: .legacyABTests),
                              realEstateEnabled: .makeInt(key: Keys.realEstateEnabled, defaultValue: 0, groupType: .legacyABTests),
-                             requestsTimeOut: .makeInt(key: Keys.requestTimeOut, defaultValue: 30, groupType: .legacyABTests),
-                             taxonomiesAndTaxonomyChildrenInFeed: .makeInt(key: Keys.taxonomiesAndTaxonomyChildrenInFeed, defaultValue: 0, groupType: .legacyABTests),
-                             showClockInDirectAnswer: .makeInt(key: Keys.showClockInDirectAnswer, defaultValue: 0, groupType: .legacyABTests),
-                             mostSearchedDemandedItems: .makeInt(key: Keys.mostSearchedDemandedItems, defaultValue: 0, groupType: .retention), showAdsInFeedWithRatio: .makeInt(key: Keys.showAdsInFeedWithRatio, defaultValue: 0, groupType: .legacyABTests))
+                             newItemPage: .makeInt(key: Keys.deckItemPage, defaultValue: 0, groupType: .legacyABTests),
+                             showAdsInFeedWithRatio: .makeInt(key: Keys.showAdsInFeedWithRatio, defaultValue: 0, groupType: .legacyABTests))
     }
 }

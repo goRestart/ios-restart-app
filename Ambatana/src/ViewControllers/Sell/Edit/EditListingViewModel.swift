@@ -100,11 +100,11 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
 	
 	struct EditProductFeatureUI {
-		static let editProductFeaturelabelText: String = R.Strings.editProductFeatureLabelLongText
 		static let editProductFeatureTextColor: UIColor = UIColor.primaryColor
 		static let editProductFeatureFont: UIFont = UIFont.systemBoldFont(size: 15)
 		static let editProductFeatureBoostIcon: UIImage = R.Asset.Monetization.icLightning.image
 	}
+
 
     // real time cloudsight
     let proposedTitle = Variable<String>("")
@@ -166,7 +166,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
     private(set) var listingCanBeFeatured: Bool
     var featureLabelText: String? {
-        return listingCanBeBoosted ? BoostCellUI.boostLabelText : EditProductFeatureUI.editProductFeaturelabelText
+        return listingCanBeBoosted ? BoostCellUI.boostLabelText : featureFlags.bumpInEditCopys.variantString
     }
     var featureLabelTextColor: UIColor? {
         return listingCanBeBoosted ? BoostCellUI.boostLabelTextColor : EditProductFeatureUI.editProductFeatureTextColor
@@ -211,6 +211,8 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     let serviceTypeName = Variable<String?>(nil)
     let serviceSubtypeId = Variable<String?>(nil)
     let serviceSubtypeName = Variable<String?>(nil)
+    let servicePaymentFrequency = Variable<PaymentFrequency?>(nil)
+    let serviceListingType = Variable<ServiceListingType?>(nil)
     
     var shouldFeatureItemAfterEdit = Variable<Bool>(true)
     
@@ -246,19 +248,20 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
 
     // Repositories
-    let myUserRepository: MyUserRepository
-    let listingRepository: ListingRepository
-    let fileRepository: FileRepository
-    let categoryRepository: CategoryRepository
-    let carsInfoRepository: CarsInfoRepository
-    let servicesInfoRepository: ServicesInfoRepository
-    let locationManager: LocationManager
-    let tracker: Tracker
-    let featureFlags: FeatureFlaggeable
+    private let myUserRepository: MyUserRepository
+    private let listingRepository: ListingRepository
+    private let fileRepository: FileRepository
+    private let categoryRepository: CategoryRepository
+    private let carsInfoRepository: CarsInfoRepository
+    private let servicesInfoRepository: ServicesInfoRepository
+    private let locationManager: LocationManager
+    private let tracker: Tracker
+    private let featureFlags: FeatureFlaggeable
+    private let purchasesShopper: PurchasesShopper
 
     // Delegate
     weak var delegate: EditListingViewModelDelegate?
-    weak var navigator: EditListingNavigator?
+    var navigator: EditListingNavigator?
 
     // Rx
     let disposeBag = DisposeBag()
@@ -286,7 +289,8 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
                   featureFlags: FeatureFlags.sharedInstance,
                   listingCanBeBoosted: listingCanBeBoosted,
                   timeSinceLastBump: timeSinceLastBump,
-                  maxCountdown: maxCountdown)
+                  maxCountdown: maxCountdown,
+                  purchasesShopper: LGPurchasesShopper.sharedInstance)
     }
     
     init(listing: Listing,
@@ -303,7 +307,8 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
          featureFlags: FeatureFlaggeable,
          listingCanBeBoosted: Bool,
          timeSinceLastBump: TimeInterval?,
-         maxCountdown: TimeInterval) {
+         maxCountdown: TimeInterval,
+         purchasesShopper: PurchasesShopper) {
         self.myUserRepository = myUserRepository
         self.listingRepository = listingRepository
         self.fileRepository = fileRepository
@@ -314,6 +319,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         self.tracker = tracker
         self.featureFlags = featureFlags
         self.initialListing = listing
+        self.purchasesShopper = purchasesShopper
 
         self.title = listing.title
         
@@ -342,10 +348,14 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
         switch listing {
         case .car(let car):
+            let carMakeName = car.carAttributes.make ?? carsInfoRepository.retrieveMakeName(with: car.carAttributes.makeId)
+            let carModelName = car.carAttributes.model ??
+                carsInfoRepository.retrieveModelName(with: car.carAttributes.makeId, modelId: car.carAttributes.modelId)
+            
             self.carMakeId.value = car.carAttributes.makeId
-            self.carMakeName.value = car.carAttributes.make
+            self.carMakeName.value = carMakeName
             self.carModelId.value = car.carAttributes.modelId
-            self.carModelName.value = car.carAttributes.model
+            self.carModelName.value = carModelName
             self.carYear.value = car.carAttributes.year
             self.carDistance.value = car.carAttributes.mileage
             self.carBody.value = car.carAttributes.bodyType
@@ -371,18 +381,18 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
             }
             self.realEstateSizeSquareMeters.value = realEstate.realEstateAttributes.sizeSquareMeters
         case .service(let services):
-            if featureFlags.showServicesFeatures.isActive {
-                if let serviceTypeId = services.servicesAttributes.typeId {
-                    self.serviceTypeId.value = serviceTypeId
-                    self.serviceTypeName.value = services.servicesAttributes.typeTitle
-                        ?? servicesInfoRepository.serviceType(forServiceTypeId: serviceTypeId)?.name
-                }
-                if let serviceSubtypeId = services.servicesAttributes.subtypeId {
-                    self.serviceSubtypeId.value = serviceSubtypeId
-                    self.serviceSubtypeName.value = services.servicesAttributes.subtypeTitle
-                        ?? servicesInfoRepository.serviceSubtype(forServiceSubtypeId: serviceSubtypeId)?.name
-                }
+            if let serviceTypeId = services.servicesAttributes.typeId {
+                self.serviceTypeId.value = serviceTypeId
+                self.serviceTypeName.value = services.servicesAttributes.typeTitle
+                    ?? servicesInfoRepository.serviceType(forServiceTypeId: serviceTypeId)?.name
             }
+            if let serviceSubtypeId = services.servicesAttributes.subtypeId {
+                self.serviceSubtypeId.value = serviceSubtypeId
+                self.serviceSubtypeName.value = services.servicesAttributes.subtypeTitle
+                    ?? servicesInfoRepository.serviceSubtype(forServiceSubtypeId: serviceSubtypeId)?.name
+            }
+            self.servicePaymentFrequency.value = services.servicesAttributes.paymentFrequency
+            self.serviceListingType.value = services.servicesAttributes.listingType
         }
 
         self.shouldShareInFB = false
@@ -395,7 +405,13 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         self.timeSinceLastBump = timeSinceLastBump
         self.maxCountdown = maxCountdown
 
-        let listingCanBeBumped = !(listing.featured ?? false)
+        var listingCanBeBumped = !(listing.featured ?? false)
+        
+        if let featured = listing.featured, !featured,
+            let listingId = listing.objectId,
+            let timeOfRecentBump = purchasesShopper.timeSinceRecentBumpFor(listingId: listingId) {
+            listingCanBeBumped = !(timeOfRecentBump.timeDifference > 0.0)
+        }
 
         self.listingCanBeFeatured = (listingCanBeBumped || listingCanBeBoosted) && listingHasPaymentInfo
 
@@ -465,10 +481,13 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
     
     var servicesAttributes: ServiceAttributes {
+        let paymentFrequencyValue: PaymentFrequency? = !(isFreePosting.value) ? servicePaymentFrequency.value : nil
         return ServiceAttributes(typeId: serviceTypeId.value,
                                  subtypeId: serviceSubtypeId.value,
+                                 listingType: serviceListingType.value,
                                  typeTitle: serviceTypeName.value,
-                                 subtypeTitle: serviceSubtypeName.value)
+                                 subtypeTitle: serviceSubtypeName.value,
+                                 paymentFrequency: paymentFrequencyValue)
     }
 
     var descriptionCharCount: Int {
@@ -524,23 +543,23 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
     
     func carBodyButtonPressed() {
-        openCarEditOption(selectedOption: carBody.value?.rawValue, type: .body)
+        openCarEditOption(selectedOption: carBody.value?.title, type: .body)
     }
     
     func carTransmissionButtonPressed() {
-        openCarEditOption(selectedOption: carTransmission.value?.rawValue, type: .transmission)
+        openCarEditOption(selectedOption: carTransmission.value?.title, type: .transmission)
     }
     
     func carFuelButtonPressed() {
-        openCarEditOption(selectedOption: carFuel.value?.rawValue, type: .fuel)
+        openCarEditOption(selectedOption: carFuel.value?.title, type: .fuel)
     }
     
     func carDrivetrainButtonPressed() {
-        openCarEditOption(selectedOption: carDrivetrain.value?.rawValue, type: .drivetrain)
+        openCarEditOption(selectedOption: carDrivetrain.value?.title, type: .drivetrain)
     }
     
     func carSeatButtonPressed() {
-        openCarEditOption(selectedOption: carDrivetrain.value?.rawValue, type: .seat)
+        openCarEditOption(selectedOption: carDrivetrain.value?.title, type: .seat)
     }
     
     private func openCarEditOption(selectedOption: String?, type: CarDetailType) {
@@ -775,28 +794,20 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
                                                                  realEstateNumberOfLivingRooms.asObservable().distinctUntilChanged())
         let checkingServicesChanges = Observable.combineLatest(serviceTypeId.asObservable().distinctUntilChanged(),
                                                                serviceTypeName.asObservable().distinctUntilChanged(),
+                                                               serviceListingType.asObservable().distinctUntilChanged(),
                                                                serviceSubtypeId.asObservable().distinctUntilChanged(),
-                                                               serviceSubtypeName.asObservable().distinctUntilChanged())
+                                                               serviceSubtypeName.asObservable().distinctUntilChanged(),
+                                                               servicePaymentFrequency.asObservable().distinctUntilChanged())
         
-        if featureFlags.showServicesFeatures.isActive {
-            let checkAllChanges = Observable.combineLatest(checkingCarChanges.asObservable(),
-                                                           checkingCarExtraFieldsChanges.asObservable(),
-                                                           checkingRealEstateChanges.asObservable(),
-                                                           checkingServicesChanges.asObservable())
-            
-            checkAllChanges.bind { [weak self] _ in
-                self?.checkChanges()
-                }.disposed(by: disposeBag)
-            
-        } else {
-            let checkAllChanges = Observable.combineLatest(checkingCarChanges.asObservable(),
-                                                           checkingCarExtraFieldsChanges.asObservable(),
-                                                           checkingRealEstateChanges.asObservable())
-            
-            checkAllChanges.bind { [weak self] _ in
-                self?.checkChanges()
-                }.disposed(by: disposeBag)
-        }
+        let checkAllChanges = Observable.combineLatest(checkingCarChanges.asObservable(),
+                                                       checkingCarExtraFieldsChanges.asObservable(),
+                                                       checkingRealEstateChanges.asObservable(),
+                                                       checkingServicesChanges.asObservable())
+        
+        checkAllChanges.bind { [weak self] _ in
+            self?.checkChanges()
+            }.disposed(by: disposeBag)
+        
     }
     
     private func checkChanges() {
@@ -823,10 +834,10 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
             hasChanges = true
         }
         else if initialListing.isCar {
-            hasChanges = initialListing.car?.carAttributes != carAttributes
+            hasChanges = initialListing.car?.carAttributes.updating(mileageType: carDistanceType) != carAttributes
         } else if initialListing.isRealEstate {
             hasChanges = initialListing.realEstate?.realEstateAttributes != realEstateAttributes
-        } else if initialListing.isService, featureFlags.showServicesFeatures.isActive {
+        } else if initialListing.isService {
             hasChanges = initialListing.service?.servicesAttributes != servicesAttributes
         }
         saveButtonEnabled.value = hasChanges
@@ -888,30 +899,17 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
             }
             editParams = .realEstate(realEstateEditParams)
         case .services:
-            if featureFlags.showServicesFeatures.isActive {
-                guard let servicesEditParams = ServicesEditionParams(listing: listing) else { return }
-                servicesEditParams.serviceAttributes = servicesAttributes
-                servicesEditParams.category = .services
-                servicesEditParams.name = title ?? ""
-                servicesEditParams.descr = (descr ?? "")
-                servicesEditParams.price = generatePrice()
-                if let updatedLocation = location, let updatedPostalAddress = postalAddress {
-                    servicesEditParams.location = updatedLocation
-                    servicesEditParams.postalAddress = updatedPostalAddress
-                }
-                editParams = .service(servicesEditParams)
-            } else {
-                guard let productEditParams = ProductEditionParams(listing: listing) else { return }
-                productEditParams.category = category
-                productEditParams.name = title ?? ""
-                productEditParams.descr = (descr ?? "")
-                productEditParams.price = generatePrice()
-                if let updatedLocation = location, let updatedPostalAddress = postalAddress {
-                    productEditParams.location = updatedLocation
-                    productEditParams.postalAddress = updatedPostalAddress
-                }
-                editParams = .product(productEditParams)
-            }  
+            guard let servicesEditParams = ServicesEditionParams(listing: listing) else { return }
+            servicesEditParams.serviceAttributes = servicesAttributes
+            servicesEditParams.category = .services
+            servicesEditParams.name = title ?? ""
+            servicesEditParams.descr = (descr ?? "")
+            servicesEditParams.price = generatePrice()
+            if let updatedLocation = location, let updatedPostalAddress = postalAddress {
+                servicesEditParams.location = updatedLocation
+                servicesEditParams.postalAddress = updatedPostalAddress
+            }
+            editParams = .service(servicesEditParams)
         }
 
         delegate?.vmHideKeyboard()
@@ -932,23 +930,19 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
                 let updatedParams = editParams.updating(images: newImages + remoteImages + videoSnapshots)
                     .updating(videos: remoteVideos)
 
-                let shouldUseServicesEndpoint = strongSelf.featureFlags.showServicesFeatures.isActive
-                
-                let updateAction = strongSelf.listingRepository.updateAction(forParams: updatedParams,
-                                                                             shouldUseServicesEndpoint: shouldUseServicesEndpoint)
-                
-                updateAction(updatedParams) { result in
-                    self?.loadingProgress.value = nil
-                    if let responseListing = result.value {
-                        self?.savedListing = responseListing
-                        self?.trackComplete(responseListing)
-                        self?.finishedSaving()
-                    } else if let error = result.error {
-                        self?.trackError(errorDescription: error.localizedDescription,
-                                         forListing: self?.initialListing)
-                        self?.showError(ListingCreateValidationError(repoError: error))
-                    }
-                }
+                strongSelf.listingRepository.update(listingParams: updatedParams,
+                                                    completion: { result in
+                                                        self?.loadingProgress.value = nil
+                                                        if let responseListing = result.value {
+                                                            self?.savedListing = responseListing
+                                                            self?.trackComplete(responseListing)
+                                                            self?.finishedSaving()
+                                                        } else if let error = result.error {
+                                                            self?.trackError(errorDescription: error.localizedDescription,
+                                                                             forListing: self?.initialListing)
+                                                            self?.showError(ListingCreateValidationError(repoError: error))
+                                                        }
+                })
             } else if let error = imagesResult.error {
                 self?.trackError(errorDescription: error.localizedDescription,
                            forListing: self?.initialListing)
@@ -1043,6 +1037,26 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 // MARK:- Services
 extension EditListingViewModel {
     
+    var paymentFrequencyText: String {
+        return servicePaymentFrequency.value?.localizedDisplayName ?? R.Strings.editPaymentFrequencyPlaceholder
+    }
+    
+    var shouldShowPaymentFrequency: Bool {
+        return featureFlags.servicesPaymentFrequency.isActive && !(isFreePosting.value)
+    }
+    
+    var shouldShowListingType: Bool {
+        return featureFlags.jobsAndServicesEnabled.isActive
+    }
+    
+    var serviceTypeTitleText: String {
+        return shouldShowListingType ? R.Strings.editJobsServicesServiceTypeTitle : R.Strings.servicesServiceTypeTitle
+    }
+    
+    var serviceSubtypeTitleText: String {
+        return shouldShowListingType ? R.Strings.editJobsServicesServiceSubtypeTitle : R.Strings.servicesServiceSubtypeTitle
+    }
+    
     func serviceTypeButtonPressed() {
         let serviceTypes = servicesInfoRepository.retrieveServiceTypes()
         let serviceTypeNames = serviceTypes.map( { $0.name } )
@@ -1082,6 +1096,37 @@ extension EditListingViewModel {
         }
         navigator?.openListingAttributePicker(viewModel: vm)
     }
+    
+    func paymentFrequencyButtonPressed() {
+        let paymentFrequencyActions = PaymentFrequency.allCases.map({ [weak self] paymentFrequency in
+            return UIAction(interface: UIActionInterface.text(paymentFrequency.localizedDisplayName),
+                             action: {
+                                self?.servicePaymentFrequency.value = paymentFrequency
+            })
+        })
+        
+        let cancelAction = UIAction(interface: UIActionInterface.text(R.Strings.commonCancel),
+                                    action: {})
+
+        delegate?.vmShowActionSheet(cancelAction,
+                                    actions: paymentFrequencyActions,
+                                    withTitle: R.Strings.editPriceTypeChooseTitle)
+    }
+    
+    func serviceListingTypeButtonPressed() {
+        let listingTypes = ServiceListingType.allCases
+        let listingTypeNames = listingTypes.map( { $0.pluralDisplayName } )
+        let selectedListingType = serviceListingType.value?.pluralDisplayName
+        
+        let vm = ListingAttributeSingleSelectPickerViewModel(title: R.Strings.editJobsServicesListingTypeTitle,
+                                                             attributes: listingTypeNames,
+                                                             selectedAttribute: selectedListingType) { [weak self] selectedIndex in
+                                                                if let selectedIndex = selectedIndex {
+                                                                    self?.updateListingType(withListingType: listingTypes[selectedIndex])
+                                                                }
+        }
+        navigator?.openListingAttributePicker(viewModel: vm)
+    }
 
     private func updateServiceType(withServiceType serviceType: ServiceType?) {
         clearServiceSubtype()
@@ -1093,6 +1138,10 @@ extension EditListingViewModel {
     private func updateServiceSubtype(withServiceSubtype serviceSubtype: ServiceSubtype?) {
         serviceSubtypeName.value = serviceSubtype?.name
         serviceSubtypeId.value = serviceSubtype?.id
+    }
+    
+    private func updateListingType(withListingType listingType: ServiceListingType?) {
+        serviceListingType.value = listingType
     }
     
     private func clearServiceType() {
@@ -1112,11 +1161,6 @@ extension EditListingViewModel {
     var numberOfCategories: Int {
         return categories.count
     }
-
-    private var shouldShowServicesSection: Bool {
-        // Do not show services category when this feature set is active
-        return !featureFlags.showServicesFeatures.isActive
-    }
     
     func categoryNameAtIndex(_ index: Int) -> String {
         guard 0..<categories.count ~= index else { return "" }
@@ -1129,7 +1173,7 @@ extension EditListingViewModel {
     }
 
     fileprivate func setupCategories() {
-        categoryRepository.index(servicesIncluded: shouldShowServicesSection,
+        categoryRepository.index(servicesIncluded: false,
                                  carsIncluded: true,
                                  realEstateIncluded: featureFlags.realEstateEnabled.isActive) { [weak self] result in
                                     
@@ -1343,17 +1387,11 @@ extension EditListingViewModel {
         if initialListing.price.isFree != listing.price.isFree {
             editedFields.append(.freePosting)
         }
-        // listing was a car and is still a car
-        if let carAttributes = initialListing.car?.carAttributes, let newCarAttributes = listing.car?.carAttributes {
-            if carAttributes.makeId != newCarAttributes.makeId {
-                editedFields.append(.make)
-            }
-            if carAttributes.modelId != newCarAttributes.modelId {
-                editedFields.append(.model)
-            }
-            if carAttributes.year != newCarAttributes.year {
-                editedFields.append(.year)
-            }
+        if let carEdited = initialListing.car?.carAttributes.editedFieldsTracker(newCarAttributes: listing.car?.carAttributes) {
+            editedFields.append(contentsOf: carEdited)
+        }
+        if let servicesEdit = initialListing.service?.servicesAttributes.editedFieldsTracker(newServicesAttributes: listing.service?.servicesAttributes) {
+            editedFields.append(contentsOf: servicesEdit)
         }
         return editedFields
     }

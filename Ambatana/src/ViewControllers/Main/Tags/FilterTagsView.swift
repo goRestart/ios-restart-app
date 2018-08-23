@@ -18,10 +18,8 @@ class FilterTagsView: UIView, UICollectionViewDataSource, UICollectionViewDelega
     private static var collectionContentInset = UIEdgeInsets(top: 10, left: 5, bottom: 10, right: 5)
     
     private var collectionView: UICollectionView?
-    private var secondaryCollectionView: UICollectionView?
     
     var tags: [FilterTag] = []
-    var secondaryTags: [FilterTag] = []
     
     weak var delegate: FilterTagsViewDelegate?
     
@@ -63,35 +61,6 @@ class FilterTagsView: UIView, UICollectionViewDataSource, UICollectionViewDelega
         }
     }
     
-    private func setupSecondaryCollectionView() {
-        guard secondaryTags.count > 0 else {
-            secondaryCollectionView?.removeFromSuperview()
-            return
-        }
-        guard secondaryCollectionView == nil || secondaryCollectionView?.superview == nil else { return }
-        
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.sectionInset = FilterTagsView.collectionContentInset
-        flowLayout.minimumInteritemSpacing = FilterTagsView.minimumInteritemSpacing
-        secondaryCollectionView = UICollectionView(frame: frame, collectionViewLayout: flowLayout)
-        guard let secondaryCollectionView = secondaryCollectionView else { return }
-        secondaryCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        secondaryCollectionView.backgroundColor = .clear
-        secondaryCollectionView.showsHorizontalScrollIndicator = false
-        addSubview(secondaryCollectionView)
-        
-        secondaryCollectionView.dataSource = self
-        secondaryCollectionView.delegate = self
-        secondaryCollectionView.scrollsToTop = false
-        secondaryCollectionView.register(SelectableFilterTagCell.self, forCellWithReuseIdentifier: "SelectableFilterTagCell")
-        if let layout = secondaryCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            layout.scrollDirection = UICollectionViewScrollDirection.horizontal
-        }
-        
-        secondaryCollectionView.layout(with: self).fillHorizontal().bottom()
-        secondaryCollectionView.layout().height(FilterTagsView.collectionViewHeight)
-    }
-    
     
     // MARK: - Public methods
     
@@ -100,55 +69,29 @@ class FilterTagsView: UIView, UICollectionViewDataSource, UICollectionViewDelega
         collectionView?.reloadData()
     }
     
-    func updateSecondaryTags(_ newTags: [FilterTag]) {
-        secondaryTags = newTags
-        setupSecondaryCollectionView()
-        secondaryCollectionView?.reloadData()
-    }
-    
     
     // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
 
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if collectionView == self.collectionView {
-            return FilterTagCell.cellSizeForTag(tags[indexPath.row])
-        } else {
-            return SelectableFilterTagCell.cellSizeForTag(secondaryTags[indexPath.row])
-        }
+        guard collectionView == self.collectionView else { return CGSize.zero }
+        return FilterTagCell.cellSizeForTag(tags[indexPath.row])
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if collectionView == self.collectionView {
-            return tags.count
-        } else {
-            return secondaryTags.count
-        }
+        guard collectionView == self.collectionView else { return 0 }
+        return tags.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if collectionView == self.collectionView {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterTagCell", for: indexPath) as? FilterTagCell else { return UICollectionViewCell() }
-            cell.delegate = self
-            cell.setupWithTag(tags[indexPath.row])
-            return cell
-        } else if collectionView == self.secondaryCollectionView {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SelectableFilterTagCell", for: indexPath) as? SelectableFilterTagCell else { return UICollectionViewCell() }
-            cell.setupWithTag(secondaryTags[indexPath.row])
-            return cell
-        }
-        return UICollectionViewCell()
+        guard collectionView == self.collectionView else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterTagCell", for: indexPath) as? FilterTagCell else { return UICollectionViewCell() }
+        cell.delegate = self
+        cell.setupWithTag(tags[indexPath.row])
+        return cell
     }
-    
-    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        if collectionView == self.secondaryCollectionView {
-            delegate?.filterTagsViewDidSelectTag(secondaryTags[indexPath.row])
-            return true
-        } else {
-            return false
-        }
-    }
+
     
     // MARK: - FilterTagCellDelegate
     
@@ -198,11 +141,10 @@ class FilterTagsView: UIView, UICollectionViewDataSource, UICollectionViewDelega
                          .carDriveTrainType, .carBodyType, .carFuelType, .carTransmissionType,
                          .mileageRange, .numberOfSeats:
                         relatedIndexesToDelete.append(IndexPath(item: i, section: 0))
-                    case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .taxonomyChild,
-                         .taxonomy, .secondaryTaxonomyChild, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms,
-                         .realEstatePropertyType, .realEstateOfferType, .sizeSquareMetersRange, .realEstateNumberOfRooms,
-                         .serviceType,
-                         .serviceSubtype:
+                    case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category,
+                         .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType,
+                         .realEstateOfferType, .sizeSquareMetersRange, .realEstateNumberOfRooms,
+                         .serviceType, .serviceSubtype, .unifiedServiceType, .serviceListingType:
                         continue
                     }
                 }
@@ -210,13 +152,14 @@ class FilterTagsView: UIView, UICollectionViewDataSource, UICollectionViewDelega
                 for (i, tag) in tags.enumerated() {
                     switch tag {
                     case .serviceType,
-                         .serviceSubtype:
+                         .serviceSubtype,
+                         .serviceListingType:
                         relatedIndexesToDelete.append(IndexPath(item: i, section: 0))
-                    case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .taxonomyChild,
-                         .taxonomy, .secondaryTaxonomyChild, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms,
-                         .realEstatePropertyType, .realEstateOfferType, .sizeSquareMetersRange, .realEstateNumberOfRooms,
-                         .carSellerType, .make, .model, .yearsRange, .carDriveTrainType, .carBodyType, .carFuelType, .carTransmissionType,
-                         .mileageRange, .numberOfSeats:
+                    case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category,
+                         .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType,
+                         .realEstateOfferType, .sizeSquareMetersRange, .realEstateNumberOfRooms,
+                         .carSellerType, .make, .model, .yearsRange, .carDriveTrainType, .carBodyType, .carFuelType,
+                         .carTransmissionType, .mileageRange, .numberOfSeats, .unifiedServiceType:
                         continue
                     }
                 }
@@ -230,8 +173,9 @@ class FilterTagsView: UIView, UICollectionViewDataSource, UICollectionViewDelega
                          .realEstateOfferType, .sizeSquareMetersRange, .realEstateNumberOfRooms:
                         relatedIndexesToDelete.append(IndexPath(item: i, section: 0))
                     case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category,
-                         .taxonomyChild, .taxonomy, .secondaryTaxonomyChild, .carSellerType, .make, .model, .yearsRange, .serviceType,
-                         .serviceSubtype, .carDriveTrainType, .carBodyType, .carFuelType, .carTransmissionType,
+                         .carSellerType, .make, .model, .yearsRange,
+                         .serviceType, .serviceSubtype, .unifiedServiceType, .serviceListingType,
+                         .carDriveTrainType, .carBodyType, .carFuelType, .carTransmissionType,
                          .mileageRange, .numberOfSeats:
                         continue
                     }
@@ -242,11 +186,11 @@ class FilterTagsView: UIView, UICollectionViewDataSource, UICollectionViewDelega
                 switch tag {
                 case .model:
                     relatedIndexesToDelete.append(IndexPath(item: i, section: 0))
-                case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .carSellerType, .make, .yearsRange,
-                     .taxonomyChild, .taxonomy, .secondaryTaxonomyChild, .realEstateNumberOfBedrooms,
+                case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .carSellerType,
+                     .make, .yearsRange, .realEstateNumberOfBedrooms,
                      .realEstateNumberOfBathrooms, .realEstatePropertyType, .realEstateOfferType,
-                     .sizeSquareMetersRange, .realEstateNumberOfRooms, .serviceType,
-                     .serviceSubtype, .carDriveTrainType, .carBodyType, .carFuelType, .carTransmissionType,
+                     .sizeSquareMetersRange, .realEstateNumberOfRooms, .serviceType, .serviceListingType,
+                     .serviceSubtype, .unifiedServiceType, .carDriveTrainType, .carBodyType, .carFuelType, .carTransmissionType,
                      .mileageRange, .numberOfSeats:
                     continue
                 }
@@ -256,33 +200,19 @@ class FilterTagsView: UIView, UICollectionViewDataSource, UICollectionViewDelega
                 switch tag {
                 case .serviceSubtype:
                     relatedIndexesToDelete.append(IndexPath(item: i, section: 0))
-                case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .carSellerType, .make, .yearsRange,
-                     .taxonomyChild, .taxonomy, .secondaryTaxonomyChild, .realEstateNumberOfBedrooms,
-                     .realEstateNumberOfBathrooms, .realEstatePropertyType, .realEstateOfferType,
-                     .sizeSquareMetersRange, .realEstateNumberOfRooms, .serviceType, .model,
-                     .carDriveTrainType, .carBodyType, .carFuelType, .carTransmissionType,
-                     .mileageRange, .numberOfSeats:
+                case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .carSellerType,
+                     .make, .yearsRange, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms,
+                     .realEstatePropertyType, .realEstateOfferType, .sizeSquareMetersRange, .realEstateNumberOfRooms,
+                     .serviceType, .model, .carDriveTrainType, .carBodyType, .carFuelType, .carTransmissionType,
+                     .mileageRange, .numberOfSeats, .unifiedServiceType, .serviceListingType:
                     continue
                 }
             }
-        case .taxonomy:
-            for (i, tag) in tags.enumerated() {
-                switch tag {
-                case .secondaryTaxonomyChild, .taxonomyChild:
-                    relatedIndexesToDelete.append(IndexPath(item: i, section: 0))
-                case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .carSellerType, .model, .category, .make,
-                     .yearsRange, .taxonomy, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType,
-                     .realEstateOfferType, .sizeSquareMetersRange, .realEstateNumberOfRooms, .serviceType,
-                     .serviceSubtype, .carDriveTrainType, .carBodyType, .carFuelType, .carTransmissionType,
-                     .mileageRange, .numberOfSeats:
-                    continue
-                }
-            }
-        case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .carSellerType, .model, .yearsRange, .taxonomyChild,
-             .secondaryTaxonomyChild, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType,
+        case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .carSellerType, .model, .yearsRange,
+             .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType,
              .realEstateOfferType, .sizeSquareMetersRange, .realEstateNumberOfRooms,
-             .serviceSubtype, .carDriveTrainType, .carBodyType, .carFuelType, .carTransmissionType,
-             .mileageRange, .numberOfSeats:
+             .serviceSubtype, .unifiedServiceType, .carDriveTrainType, .carBodyType, .carFuelType, .carTransmissionType,
+             .mileageRange, .numberOfSeats, .serviceListingType:
             break
         }
         return relatedIndexesToDelete

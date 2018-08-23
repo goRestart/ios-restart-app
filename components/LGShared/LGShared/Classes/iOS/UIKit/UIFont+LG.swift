@@ -38,6 +38,7 @@ public extension UIFont {
     static var mediumButtonFont: UIFont { return systemMediumFont(size: 17) }
     static var smallButtonFont: UIFont { return systemMediumFont(size: 15) }
     static var verySmallButtonFont: UIFont { return systemMediumFont(size: 14) }
+    static var verySmallBoldButtonFont: UIFont { return systemSemiBoldFont(size: 14) }
     
     // Posting Flow
     static var postingFlowHeadline: UIFont { return systemBoldFont(size: 35) }
@@ -52,6 +53,9 @@ public extension UIFont {
 
     // Letgo Tooltip
     static var tooltipMessageFont: UIFont { return systemBoldFont(size: 17) }
+
+    // Community Banner
+    static var communityBannerTitleFont: UIFont { return systemBoldFont(size: 22) }
 
     // MARK: Private methods
 

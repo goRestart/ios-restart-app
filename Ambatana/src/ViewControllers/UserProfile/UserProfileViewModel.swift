@@ -9,6 +9,7 @@ enum UserSource {
     case chat
     case notifications
     case link
+    case mainListing
 }
 
 struct UserViewHeaderAccounts {
@@ -29,11 +30,11 @@ final class UserProfileViewModel: BaseViewModel {
     // MARK: - Input
     let selectedTab = Variable<UserProfileTabType>(.selling)
 
-    weak var navigator: TabNavigator?
+    var navigator: PublicProfileNavigator?
     weak var profileNavigator: ProfileTabNavigator? {
         didSet {
             navigator = profileNavigator
-            ratingListViewModel.tabNavigator = navigator
+            ratingListViewModel.tabNavigator = profileNavigator
         }
     }
 
@@ -48,8 +49,7 @@ final class UserProfileViewModel: BaseViewModel {
     // Flag to define if there is a logged in user that allows special actions
     var isLoggedInUser: Bool { return sessionManager.loggedIn }
 
-    var isMostSearchedItemsAvailable: Bool { return featureFlags.mostSearchedDemandedItems.isActive }
-    var showMostSearchedItemsBanner: Bool { return isMostSearchedItemsAvailable && selectedTab.value == .selling }
+    var showCloseButtonInNavBar: Bool { return source == .mainListing }
 
     let arePushNotificationsEnabled = Variable<Bool?>(nil)
     var showPushPermissionsBanner: Bool {
@@ -58,7 +58,7 @@ final class UserProfileViewModel: BaseViewModel {
     }
 
     var showKarmaView: Bool {
-        return featureFlags.advancedReputationSystem.isActive && isPrivateProfile
+        return isPrivateProfile
     }
 
     var userName: Driver<String?> { return user.asDriver().map {$0?.name} }
@@ -223,31 +223,14 @@ final class UserProfileViewModel: BaseViewModel {
 // MARK: - Public methods
 
 extension UserProfileViewModel {
+
+    func didTapCloseButton() {
+        profileNavigator?.closeProfile()
+    }
     
     func didTapKarmaScoreView() {
         guard isPrivateProfile else { return }
-        profileNavigator?.openVerificationView()
-        trackVerifyAccountStart()
-    }
-
-    func didTapBuildTrustButton() {
-        guard isPrivateProfile else { return }
-        let userAccounts = buildAccountsModel(user.value)
-        var verifyTypes: [VerificationType] = []
-        if !userAccounts.emailVerified {
-            verifyTypes.append(.email(myUserRepository.myUser?.email))
-        }
-        if !userAccounts.facebookVerified {
-            verifyTypes.append(.facebook)
-        }
-        if !userAccounts.googleVerified {
-            verifyTypes.append(.google)
-        }
-        guard !verifyTypes.isEmpty else { return }
-        navigator?.openVerifyAccounts(verifyTypes,
-                                      source: .profile(title: R.Strings.chatConnectAccountsTitle,
-                                                       description: R.Strings.profileConnectAccountsMessage),
-                                      completionBlock: nil)
+        profileNavigator?.openUserVerificationView()
         trackVerifyAccountStart()
     }
 
@@ -293,11 +276,6 @@ extension UserProfileViewModel {
     func didTapSettingsButton() {
         guard isPrivateProfile else { return }
         profileNavigator?.openSettings()
-    }
-
-    func didTapEditBioButton() {
-        guard isPrivateProfile else { return }
-        profileNavigator?.openEditUserBio()
     }
 
     func didTapBlockUserButton() {
@@ -390,10 +368,8 @@ extension UserProfileViewModel {
             guard let strongSelf = self, let user = user else { return .noBadge }
             if strongSelf.featureFlags.showProTagUserProfile && user.isProfessional {
                 return .pro
-            } else if strongSelf.featureFlags.advancedReputationSystem.isActive {
-                return UserHeaderViewBadge(userBadge: user.reputationBadge)
             } else {
-                return .noBadge
+                return UserHeaderViewBadge(userBadge: user.reputationBadge)
             }
         }
     }
@@ -551,15 +527,15 @@ extension UserProfileViewModel {
                                        alertType: .iconAlert(icon: R.Asset.IconsButtons.customPermissionProfile.image),
                                        actions: [negative, positive])
     }
-
-    func didTapMostSearchedItems() {
-        navigator?.openMostSearchedItems(source: .mostSearchedUserProfile, enableSearch: false)
-    }
 }
 
 // MARK: - ListingList Data Delegate
 
 extension UserProfileViewModel: ListingListViewModelDataDelegate {
+    func listingListVMDidSucceedRetrievingCache(viewModel: ListingListViewModel) {
+        // No cache for profile for now
+    }
+
     func listingListMV(_ viewModel: ListingListViewModel,
                        didFailRetrievingListingsPage page: UInt,
                        hasListings: Bool,
@@ -572,7 +548,8 @@ extension UserProfileViewModel: ListingListViewModelDataDelegate {
     func listingListVM(_ viewModel: ListingListViewModel,
                        didSucceedRetrievingListingsPage page: UInt,
                        withResultsCount resultsCount: Int,
-                       hasListings: Bool) {
+                       hasListings: Bool,
+                       containsRecentListings: Bool) {
         guard !hasListings && page == 0,
             let emptyState = makeEmptyState(for: viewModel) else { return }
         viewModel.setEmptyState(emptyState)
@@ -596,7 +573,6 @@ extension UserProfileViewModel: ListingListViewModelDataDelegate {
     func vmProcessReceivedListingPage(_ Listings: [ListingCellModel], page: UInt) -> [ListingCellModel] { return Listings }
     func vmDidSelectSellBanner(_ type: String) {}
     func vmDidSelectCollection(_ type: CollectionCellType) {}
-    func vmDidSelectMostSearchedItems() {}
 }
 
 // MARK: Error & Empty States
@@ -625,7 +601,7 @@ extension UserProfileViewModel {
         case let vm where vm === favoritesListingListViewModel:
             errTitle = R.Strings.profileFavouritesMyUserNoProductsLabel
             errButTitle = itsMe ? nil : R.Strings.profileFavouritesMyUserNoProductsButton
-            errButAction = { [weak self] in self?.navigator?.openHome() }
+            errButAction = { [weak self] in self?.profileNavigator?.openHome() }
         default:
             return nil
         }
@@ -688,6 +664,8 @@ extension UserProfileViewModel {
             typePage = .notifications
         case .link:
             typePage = .external
+        case .mainListing:
+            typePage = .listingList
         }
 
         let eventTab: EventParameterTab
@@ -766,12 +744,12 @@ extension UserProfileViewModel {
 }
 
 extension UserProfileViewModel: ListingCellDelegate {
-    func interestedActionFor(_ listing: Listing) {
+    func interestedActionFor(_ listing: Listing, userListing: LocalUser?, completion: @escaping (InterestedState) -> Void) {
         // this is just meant to be inside the MainFeed
         return
     }
     
-    func openAskPhoneFor(_ listing: Listing, interlocutor: User) {}
+    func openAskPhoneFor(_ listing: Listing, interlocutor: LocalUser) {}
     
     func getUserInfoFor(_ listing: Listing, completion: @escaping (User?) -> Void) {}
 
@@ -797,4 +775,14 @@ extension UserProfileViewModel: ListingCellDelegate {
     }
     
     func postNowButtonPressed(_ view: UIView) { }
+
+    func bumpUpPressedFor(listing: Listing) {
+        guard let id = listing.objectId else { return }
+        let data = ListingDetailData.id(listingId: id)
+        let actionOnFirstAppear = ProductCarouselActionOnFirstAppear.triggerBumpUp(bumpUpProductData: nil,
+                                                                                   bumpUpType: nil,
+                                                                                   triggerBumpUpSource: .profile,
+                                                                                   typePage: .profile)
+        navigator?.openListing(data, source: .profile, actionOnFirstAppear: actionOnFirstAppear)
+    }
 }

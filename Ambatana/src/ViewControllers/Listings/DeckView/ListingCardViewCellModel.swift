@@ -44,4 +44,6 @@ extension ListingViewModel: ListingCardViewCellModel {
     var cardDirectChatMessages: Observable<CollectionChange<ChatViewMessage>> { return directChatMessages.changesObservable }
 
     var cardBumpUpBannerInfo: Observable<BumpUpInfo?> { return bumpUpBannerInfo.asObservable() }
+
+    var cardShowExactLocationOnMap: Observable<Bool> { return showExactLocationOnMap.asObservable() }
 }

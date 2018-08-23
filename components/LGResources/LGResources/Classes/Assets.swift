@@ -242,8 +242,13 @@ extension R {
         public static let motorsFeed = ImageAsset(name: "motors_feed")
         public static let othersFeed = ImageAsset(name: "others_feed")
         public static let servicesFeed = ImageAsset(name: "services_feed")
-        public static let showMore = ImageAsset(name: "showMore")
         public static let techFeed = ImageAsset(name: "tech_feed")
+      }
+      public enum Community {
+        public static let icCommunityBanner = ImageAsset(name: "ic_community_banner")
+        public static let shapeBrightblue = ImageAsset(name: "shapeBrightblue")
+        public static let shapeDarkblue = ImageAsset(name: "shapeDarkblue")
+        public static let shapeYellow = ImageAsset(name: "shapeYellow")
       }
       public enum IAmInterested {
         public static let icIamiSeeconv = ImageAsset(name: "ic_iami_seeconv")
@@ -274,10 +279,10 @@ extension R {
       public static let downChevronRed = ImageAsset(name: "down_chevron_red")
       public enum FiltersCarExtrasIcons {
         public enum Bodytype {
+          public static let bodyTypeHybrid = ImageAsset(name: "bodyTypeHybrid")
           public static let convertible = ImageAsset(name: "convertible")
           public static let coupe = ImageAsset(name: "coupe")
           public static let hatchback = ImageAsset(name: "hatchback")
-          public static let hybrid = ImageAsset(name: "hybrid")
           public static let minivan = ImageAsset(name: "minivan")
           public static let other = ImageAsset(name: "other")
           public static let sedan = ImageAsset(name: "sedan")
@@ -295,9 +300,11 @@ extension R {
           public static let diesel = ImageAsset(name: "diesel")
           public static let electric = ImageAsset(name: "electric")
           public static let flex = ImageAsset(name: "flex")
+          public static let fuelTypeHybrid = ImageAsset(name: "fuelTypeHybrid")
           public static let gas = ImageAsset(name: "gas")
-          public static let hybrid = ImageAsset(name: "hybrid")
         }
+        public static let mileage = ImageAsset(name: "mileage")
+        public static let seats = ImageAsset(name: "seats")
         public enum Transmission {
           public static let automatic = ImageAsset(name: "automatic")
           public static let manual = ImageAsset(name: "manual")
@@ -333,7 +340,6 @@ extension R {
         public static let categoriesServicesTag = ImageAsset(name: "categories_services_tag")
         public static let categoriesSportsTag = ImageAsset(name: "categories_sports_tag")
       }
-      public static let filtersTaxonomyClearBtn = ImageAsset(name: "filters_taxonomy_clear_btn")
       public static let freeSwitchActive = ImageAsset(name: "free_switch_active")
       public static let freeSwitchInactive = ImageAsset(name: "free_switch_inactive")
       public static let housingIcon = ImageAsset(name: "housingIcon")
@@ -358,6 +364,7 @@ extension R {
       public static let icCheckboxSelected = ImageAsset(name: "ic_checkbox_selected")
       public static let icCheckmark = ImageAsset(name: "ic_checkmark")
       public static let icChevronRight = ImageAsset(name: "ic_chevron_right")
+      public static let icChevronUp = ImageAsset(name: "ic_chevron_up")
       public static let icCirlePlus = ImageAsset(name: "ic_cirle_plus")
       public static let icClose = ImageAsset(name: "ic_close")
       public static let icCloseCarousel = ImageAsset(name: "ic_close_carousel")
@@ -528,6 +535,7 @@ extension R {
       public static let searchAlertIcon = ImageAsset(name: "search_alert_icon")
       public static let servicesIcon = ImageAsset(name: "servicesIcon")
       public static let tabbarChats = ImageAsset(name: "tabbar_chats")
+      public static let tabbarCommunity = ImageAsset(name: "tabbar_community")
       public static let tabbarHome = ImageAsset(name: "tabbar_home")
       public static let tabbarNotifications = ImageAsset(name: "tabbar_notifications")
       public static let tabbarProfile = ImageAsset(name: "tabbar_profile")
@@ -535,7 +543,6 @@ extension R {
       public static let tooltipPeakCenterBlack = ImageAsset(name: "tooltip_peak_center_black")
       public static let tooltipPeakSideBlack = ImageAsset(name: "tooltip_peak_side_black")
       public static let trendingExpandable = ImageAsset(name: "trending_expandable")
-      public static let trendingIcon = ImageAsset(name: "trending_icon")
       public static let userPlaceholder = ImageAsset(name: "user_placeholder")
       public static let userProfileAddAvatar = ImageAsset(name: "user_profile_add_avatar")
       public static let userProfileEditAvatar = ImageAsset(name: "user_profile_edit_avatar")
@@ -563,8 +570,11 @@ extension R {
         CategoriesHeaderIcons.motorsFeed,
         CategoriesHeaderIcons.othersFeed,
         CategoriesHeaderIcons.servicesFeed,
-        CategoriesHeaderIcons.showMore,
         CategoriesHeaderIcons.techFeed,
+        Community.icCommunityBanner,
+        Community.shapeBrightblue,
+        Community.shapeDarkblue,
+        Community.shapeYellow,
         IAmInterested.icIamiSeeconv,
         IAmInterested.icIamiSend,
         NewItemPage.nitEdit,
@@ -584,10 +594,10 @@ extension R {
         chevronDownGrey,
         customPermissionProfile,
         downChevronRed,
+        FiltersCarExtrasIcons.Bodytype.bodyTypeHybrid,
         FiltersCarExtrasIcons.Bodytype.convertible,
         FiltersCarExtrasIcons.Bodytype.coupe,
         FiltersCarExtrasIcons.Bodytype.hatchback,
-        FiltersCarExtrasIcons.Bodytype.hybrid,
         FiltersCarExtrasIcons.Bodytype.minivan,
         FiltersCarExtrasIcons.Bodytype.other,
         FiltersCarExtrasIcons.Bodytype.sedan,
@@ -601,8 +611,10 @@ extension R {
         FiltersCarExtrasIcons.Fueltype.diesel,
         FiltersCarExtrasIcons.Fueltype.electric,
         FiltersCarExtrasIcons.Fueltype.flex,
+        FiltersCarExtrasIcons.Fueltype.fuelTypeHybrid,
         FiltersCarExtrasIcons.Fueltype.gas,
-        FiltersCarExtrasIcons.Fueltype.hybrid,
+        FiltersCarExtrasIcons.mileage,
+        FiltersCarExtrasIcons.seats,
         FiltersCarExtrasIcons.Transmission.automatic,
         FiltersCarExtrasIcons.Transmission.manual,
         FiltersCategoriesIcons.categoriesBabiesInactive,
@@ -631,7 +643,6 @@ extension R {
         FiltersTagCategories.categoriesOthersTag,
         FiltersTagCategories.categoriesServicesTag,
         FiltersTagCategories.categoriesSportsTag,
-        filtersTaxonomyClearBtn,
         freeSwitchActive,
         freeSwitchInactive,
         housingIcon,
@@ -656,6 +667,7 @@ extension R {
         icCheckboxSelected,
         icCheckmark,
         icChevronRight,
+        icChevronUp,
         icCirlePlus,
         icClose,
         icCloseCarousel,
@@ -824,6 +836,7 @@ extension R {
         searchAlertIcon,
         servicesIcon,
         tabbarChats,
+        tabbarCommunity,
         tabbarHome,
         tabbarNotifications,
         tabbarProfile,
@@ -831,7 +844,6 @@ extension R {
         tooltipPeakCenterBlack,
         tooltipPeakSideBlack,
         trendingExpandable,
-        trendingIcon,
         userPlaceholder,
         userProfileAddAvatar,
         userProfileEditAvatar,

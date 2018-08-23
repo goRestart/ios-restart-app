@@ -55,6 +55,15 @@
 // Text for bubble in payment bump improvement. Variant D (only in English): Attract 2x more buyers
 "bump_up_banner_pay_text_improvement_english_d" = "Attract 2x more buyers";
 
+// Text for bubble in payment bump improvement. Variant B (only in Turkish): Daha çok kişi görsün
+"bump_up_banner_pay_text_improvement_turkish_b" = "Attract more buyers";
+
+// Text for bubble in payment bump improvement. Variant C (only in Turkish): Daha çok alıcıyı çek
+"bump_up_banner_pay_text_improvement_turkish_c" = "Attract more buyers";
+
+// Text for bubble in payment bump improvement. Variant D (only in Turkish): İlanına 2 kat daha fazla alıcı çek
+"bump_up_banner_pay_text_improvement_turkish_d" = "Attract more buyers";
+
 // Text for bubble while waiting for next bump
 "bump_up_banner_wait_text" = "to feature again";
 
@@ -66,6 +75,9 @@
 
 // Title for bubble button
 "bump_up_banner_free_button_title" = "Bump Up";
+
+// Text for the loading bump up banner
+"bump_up_banner_loading_text" = "Loading more info…";
 
 // Free bump up success message
 "bump_up_free_success" = "Bumped Up! Keep Bumping Up your listing and it'll be even more visible.";
@@ -90,6 +102,9 @@
 
 // Text for stripe in featured products cells
 "bump_up_product_cell_featured_stripe" = "Featured";
+
+// Text for feature call to action in product cell
+"bump_up_product_cell_feature_it_label" = "Feature it";
 
 // Featured product cell chat now button
 "bump_up_product_cell_chat_now_button" = "Chat Now";
@@ -148,6 +163,9 @@
 // Title for payment bump up view variant 3
 "bump_up_view_boost_title_cheaper_boost" = "Get a cheaper boost now";
 
+// Title for payment bump view when boost is not ready yet
+"bump_up_view_boost_title_not_ready" = "Your listing's still featured";
+
 // Subtitle for payment bump up view variant 1
 "bump_up_view_boost_subtitle_send_top" = "Your listing's still featured, but you can add an extra boost. It'll move to the top and be featured for 24 hours starting now.";
 
@@ -156,6 +174,9 @@
 
 // Subtitle for payment bump up view variant 3
 "bump_up_view_boost_subtitle_cheaper" = "Boost your listing right now to get a discount off the typical feature price.";
+
+// Subtitle for payment bump view when boost is not ready yet
+"bump_up_view_boost_subtitle_not_ready" = "You can add another boost in %@ to move it to the top and be featured for 24 additional hours";
 
 // Text for boost success alert
 "bump_up_boost_success_alert_text" = "Your listing was boosted! It will be featured for the next 24 hours.";
@@ -174,6 +195,12 @@
 
 // Conatct Us button for alert when bump is not allowed
 "bump_up_not_allowed_alert_contact_button" = "Contact Us";
+
+// Text for telling the user that the refresh of new listings has failed.
+"cached_feed_error" = "An error occurred while loading new listings";
+
+// Text for telling the user that there are fresh listings.
+"cached_feed_new_listings" = "New items";
 
 // Categories baby and child. Check attached image "categories (2).png"
 "categories_baby_and_child" = "Baby and Child";
@@ -207,6 +234,9 @@
 
 // Categories services
 "categories_services" = "Services";
+
+// Cateogries Jobs & Services
+"categories_jobs_services" = "Jobs & Services";
 
 // Categories sports leisure and games. Check image @ "categories_cars_and_motors" segment
 "categories_sports_leisure_and_games" = "Sports, Leisure and Games";
@@ -487,6 +517,12 @@
 
 // Alert text for express chat messages send success
 "chat_express_several_messages_sent_success_alert" = "Your messages have been sent!";
+
+// Express chat jsut contact button title
+"chat_express_contact_only_button_text" = "Contact";
+
+// In high demand label text
+"chat_express_high_demand_label" = "In high demand! Don't miss out on these deals";
 
 // text in chat professional banner action button
 "chat_professional_banner_button_title" = "Call";
@@ -871,6 +907,9 @@
 // Common display for time
 "common_hours_mins_secs" = "%@h %@m %@s";
 
+// Text shown in the Community Banner
+"community_banner_title" = "Join the letgo community!";
+
 // Contact subject option location. Check attached image @ "contact_email_field_hint" segment
 "contact_subject_option_location" = "Location issues";
 
@@ -906,6 +945,39 @@
 
 // Chat direct answer as buyer
 "direct_answer_interested" = "I'm interested!";
+
+// Chat direct answer as buyer
+"direct_answer_interested_in_this_item" = "I'm interested in this item";
+
+// Chat direct answer as buyer
+"direct_answer_interested_in_buying_it" = "I'm interested in buying it";
+
+// Chat direct answer as buyer
+"direct_answer_interested_buy_it" = "I'd like to buy it";
+
+// Chat direct answer as buyer
+"direct_answer_interested_is_this_available" = "Is this available?";
+
+// Chat direct answer as buyer
+"direct_answer_interested_is_this_still_available" = "Is this still available?";
+
+// Chat direct answer as buyer
+"direct_answer_interested_is_it_still_available" = "Is it still available?";
+
+// Chat direct answer as buyer
+"direct_answer_interested_still_have_it" = "Do you still have it?";
+
+// Chat direct answer as buyer
+"direct_answer_interested_is_it_still_for_sale" = "Is it still for sale?";
+
+// Chat direct answer as buyer
+"direct_answer_interested_has_it_sold" = "Has it sold?";
+
+// Chat direct answer as buyer
+"direct_answer_interested_still_selling_it" = "Are you still selling it?";
+
+// Chat direct answer as buyer
+"direct_answer_interested_what_condition" = "What condition is it in?";
 
 // Chat direct answer as buyer
 "direct_answer_is_negotiable" = "Is the price negotiable?";
@@ -1083,6 +1155,42 @@
 // Edit product, long version copy to feature item
 "edit_product_feature_label_long_text" = "Feature your listing to sell faster";
 
+// Edit product, copy to feature item test version B
+"edit_product_feature_label_variant_B" = "Attract more buyers";
+
+// Edit product, copy to feature item test version C
+"edit_product_feature_label_variant_C" = "Attract more buyers to sell faster";
+
+// Edit product, copy to feature item test version D
+"edit_product_feature_label_variant_D" = "Show me how to attract more buyers";
+
+// Edit price type, title of options list
+"edit_priceType_choose_title" = "Choose an option";
+
+// Placeholder value for paymentFrequency/PriceType
+"edit_paymentFrequency_placeholder" = "Not set";
+
+// Title for paymentFrequency edit field
+"edit_paymentFrequency_title" = "Frequency";
+
+// Title for when Jobs is selected
+"edit_jobsServices_jobs_option_title" = "Jobs";
+
+// Title for when Services is selected
+"edit_jobsServices_services_option_title" = "Services";
+
+// Title for Job/Service listing type title
+"edit_jobsServices_listingType_title" = "Type of listing";
+
+// Type field title for when Jobs & Services is active
+"edit_jobsServices_serviceType_title" = "Type";
+
+// Subtype field title for when Jobs & Services is active
+"edit_jobsServices_serviceSubtype_title" = "Subtype";
+
+// Bubble title
+"engagement_badging_feed_bubble" = "New items";
+
 // featured info view, title
 "featured_info_view_title" = "Featured Listing";
 
@@ -1198,7 +1306,7 @@
 "filters_car_year_any_year" = "Any Year";
 
 // Filters For Year, before year X
-"filters_car_year_before_year" = "Before %i";
+"filters_car_year_before_year" = "Before %@";
 
 // Filters section title
 "filters_section_real_estate_info" = "Property info";
@@ -1330,6 +1438,30 @@
 // Text to display when no min or max value is selected
 "filters_slider_any" = "Any";
 
+// Text to display to show more items
+"filter_services_services_list_show_more" = "Show more";
+
+// Title for filters services list
+"filters_services_services_list_title" = "Select a Category";
+
+// Placeholder text shown inside the Search Box to filter the service types
+"filters_services_services_list_search_placeholder" = "Handyman, Contracting…";
+
+// Alert to display to user that the max amount of services have already been selected
+"filters_services_services_list_max_selection_alert" = "Oops! You can't select more than 15 services.";
+
+// Section header for jobs and services toggle
+"filters_jobs_services_toggle_header" = "Looking for...";
+
+// Section header text for jobs and services filters
+"filters_jobs_services_header" = "Job or Service Info";
+
+// Title for Jobs and Services Type filter
+"filters_jobs_services_type_title" = "Type";
+
+// Title for Jobs and Services Subtype filter
+"filters_jobs_services_subtype_title" = "Subtype";
+
 // Unit suffix for miles (e.g. the mi in "400,000 mi")
 "mile_unit_suffix" = "mi";
 
@@ -1434,6 +1566,12 @@
 
 // Button to confirm the data in summary and request the ID verification
 "id_verification_summary_button_title" = "OK";
+
+// Text to show on services listing titles. The "Offering" in "Offering: Translation Services"
+"jobs_services_offering_text" = "Offering";
+
+// Text to show on jobs listing titles. The "Wanted" in "Wanted: Translation Services"
+"jobs_services_wanted_text" = "Wanted";
 
 // Title for Listings Map View
 "listings_map_title" = "Map view";
@@ -1682,7 +1820,7 @@
 "meeting_creation_view_suggest_cell_selected" = "Selected";
 
 // custom location cell title
-"meeting_creation_view_search_cell_title" = "Search another location";
+"meeting_creation_view_search_cell_title" = "Search for another location";
 
 // custom location cell button text
 "meeting_creation_view_search_cell_search" = "Search";
@@ -1767,6 +1905,42 @@
 
 // Button to accept push notifications permissions
 "notifications_permissions_yes_button" = "Yes, Notify Me";
+
+// Notification center section with today title
+"notifications_section_today" = "Today";
+
+// Notification center section with yesterday title
+"notifications_section_yesterday" = "Yesterday";
+
+// Notification center section with 1 days ago title _ Not used, using yesterday
+"notifications_section_one_day_ago" = "1 day ago";
+
+// Notification center section with n days ago title
+"notifications_section_days_ago" = "%i days ago";
+
+// Notification center section with 1 weeks ago title
+"notification_section_one_week_ago" = "1 week ago";
+
+// Notification center section with n weeks ago title
+"notifications_section_weeks_ago" = "%i weeks ago";
+
+// Notification center section with 1 months ago title
+"notification_section_one_month_ago" = "1 month ago";
+
+// Notification center section with n months ago title
+"notifications_section_months_ago" = "%i months ago";
+
+// Notification cell date with n mins ago
+"notifications_cell_date_mins_ago" = "%im";
+
+// Notification cell date with n hours ago
+"notifications_cell_date_hours_ago" = "%ih";
+
+// Notification cell date with n days ago
+"notifications_cell_date_days_ago" = "%id";
+
+// Notification cell date with n weeks ago
+"notifications_cell_date_weeks_ago" = "%iw";
 
 // Title of notifications section
 "notifications_title" = "Notifications";
@@ -1967,7 +2141,7 @@
 "passwordless_email_sent_screen_title" = "Check your email inbox";
 
 // Title in the screen where app explains email has been sent
-"passwordless_email_sent_title" = "To sign in, click the 'magic link' we just sent you.";
+"passwordless_email_sent_title" = "To sign in, click the \"magic link\" we just sent you.";
 
 // Subtitle in the screen where app explains email has been sent
 "passwordless_email_sent_subtitle" = "Email address: %@";
@@ -1980,6 +2154,24 @@
 
 // Button title for the screen where user inserts the username
 "passwordless_username_input_done_button" = "Done";
+
+// for use as the "hour" in "/hour"
+"payment_frequency_per_hour" = "hour";
+
+// for use as the "week" in "/week"
+"payment_frequency_per_week" = "week";
+
+// for use as the "day" in "/day"
+"payment_frequency_per_day" = "day";
+
+// for use as the "biweek" value in "/2 weeks"
+"payment_frequency_per_biweek" = "2 weeks";
+
+// for use as the "month" in "/month"
+"payment_frequency_per_month" = "month";
+
+// for use as the "year" in "/year"
+"payment_frequency_per_year" = "year";
 
 // Button to initiate chat from the full screen photo viewer
 "photo_viewer_chat_button" = "Chat";
@@ -2080,6 +2272,12 @@
 // post subtitle for services screen
 "post_details_services_subtitle" = "Start making money!";
 
+// post title for job type selection screen
+"post_details_jobs_title" = "What kind of job are you offering?";
+
+// post subtitle for jobs screen
+"post_details_jobs_subtitle" = "Choose one";
+
 // placeholder for search bar in posting services
 "post_details_services_search_placeholder" = "Search or choose from the list";
 
@@ -2105,7 +2303,25 @@
 "post_details_services_create_max" = "Oops! You can only select 15 services at a time.";
 
 // Posting Camera title for services
-"post_details_services_camera_message" = "Post a picture of yourself or your company’s logo";
+"post_details_services_camera_message" = "Post your company’s logo or a photo that shows the service you offer";
+
+// Posting camera title for jobs & services
+"post_details_jobs_services_camera_message" = "Post your company’s logo or a photo that shows the service or job you’re offering";
+
+// Title for Jobs/Services posting flow title
+"post_details_jobs_services_step_title" = "I'm...";
+
+// Prefix for services listingType option
+"post_details_jobs_services_step_option_services_prefix" = "Advertising a";
+
+// Listing type service display name
+"post_details_listingType_service_display_name" = "service";
+
+// Prefix for jobs listingType option
+"post_details_jobs_services_step_option_jobs_prefix" = "Looking to hire someone for a";
+
+// Listing type jobs display name
+"post_details_listingType_job_display_name" = "job";
 
 // Product detail auto gen title disclaimer label.
 "product_auto_generated_title_label" = "Title automatically generated by letgo";
@@ -2408,7 +2624,7 @@
 "product_post_camera_permissions_title" = "Allow access to Camera";
 
 // Video posting, tooltip: hold to record a video
-"product_post_camera_video_recording_tooltip" = "%@ to record a video";
+"product_post_camera_video_recording_tooltip" = "%@ to record video";
 
 // Video posting, tooltip: hold to record a video, highlighted hold
 "product_post_camera_video_recording_tooltip_highlighted_word" = "Hold";
@@ -2619,6 +2835,9 @@
 
 // Product post category selection services button
 "product_post_select_category_services" = "Services";
+
+// Product post category selection jobs & services button
+"product_post_select_category_jobs_services" = "Jobs & Services";
 
 // Product post category selection real Estate button
 "product_post_select_category_real_estate" = "Real Estate";
@@ -2968,6 +3187,27 @@
 // Text shown as a placeholder in the textfield to search a country in the country list.
 "phone_verification_country_picker_view_search_placeholder" = "Search";
 
+// Text shown for references to Hourly price type
+"priceType_hourly" = "Hourly";
+
+// Text shown for references to Daily price type
+"priceType_daily" = "Daily";
+
+// Text shown for references to Biweekly price type
+"priceType_biweekly" = "Biweekly";
+
+// Text shown for references to Weekly price type
+"priceType_weekly" = "Weekly";
+
+// Text shown for references to Monthly price type
+"priceType_monthly" = "Monthly";
+
+// Text shown for references to Yearly price type
+"priceType_yearly" = "Yearly";
+
+// Text shown for references to OneOff price type
+"priceType_oneOff" = "One-time";
+
 // Text in a tooltip shown when the current user sees a user with a badge for the first time
 "profile_reputation_tooltip_title" = "Verified user! Tap if you want to be verified too.";
 
@@ -3009,6 +3249,9 @@
 
 // Promote bump up later button text
 "promote_bump_later_button" = "Later";
+
+// Jobs & Services post button text
+"posting_flow_jobs_and_services_category_button_text" = "Jobs & Services";
 
 // Navigation bar title "Set Location"
 "quick_filter_location_title" = "Change Location";
@@ -3497,6 +3740,192 @@
 // Title for report user screen
 "report_user_title" = "Report User";
 
+// Reporting Reason for when the user thinks a product shouldn't be on letgo
+"reporting_reason_should_not_be_on_letgo" = "It shouldn't be on letgo";
+
+// Reporting Product Reason: the user think the product is scam
+"reporting_reason_its_scam" = "I think it's a scam";
+
+// Reporitng Product reason: it's duplicate
+"reporting_reason_duplicate_listing" = "It's a duplicate listing";
+
+// Reporting Product reason: the product is in a wrong category
+"reporting_reason_wrong_category" = "It's in the wrong category";
+
+// Reporting Product reason: it has sexual content
+"reporting_reason_sexual_content" = "Sexual content";
+
+// Reporting Product reason: the product is drugs, alcohol or tobacco
+"reporting_reason_drugs" = "Drugs, alcohol or tobacco";
+
+// Reporting Product reason: the product is a weapon
+"reporting_reason_weapons" = "Weapons or violent content";
+
+// Reporting User reason: The user is selling something inappropiate
+"reporting_reason_selling_inappropiate" = "Selling something inappropriate";
+
+// Reporting User reason: The user is behaving suspiciouly
+"reporting_reason_suspiciously" = "Behaving suspiciously";
+
+// Reporting User reason: The user has an inappropriate bio or photo
+"reporting_reason_inappropiate_photo_or_bio" = "Inappropriate profile photo or bio";
+
+// Reporting User reason: There was a problem during meeting
+"reporting_reason_problem_meetup" = "Problem during our meetup";
+
+// Reporting User reason: The User sent inappropriate chat messages
+"reporting_reason_inappropiate_chat_messages" = "Inappropriate chat messages";
+
+// Reporting User reason: The user set unrealistic price or offers for products
+"reporting_reason_unrealistic_price" = "Unrealistic price or offers";
+
+// Reporting User reason: The user stopped responding chat messages
+"reporting_reason_not_responding" = "Not responding to messages";
+
+// Reporting User reason: The user offered to trade instead of cash
+"reporting_reason_offered_trade" = "Offering to trade instead of paying in cash";
+
+// Reporting User reason: The user offered to pay with western union or paypal
+"reporting_reason_offered_western_union_or_paypañ" = "Offering to pay with Western Union or Paypal";
+
+// Reporting User reason: The user is a spam account
+"reporting_reason_spam_account" = "Spam account";
+
+// Reporting User reason: The user has an inappropriate photo
+"reporting_reason_profile_photo" = "Profile photo";
+
+// Reporting User reason: The user has an inappropriate bio
+"reporting_reason_bio" = "Bio";
+
+// Reporting User reason: There was a robbery or violent incident
+"reporting_reason_robbery" = "Robbery or violent incident";
+
+// Reporting User reason: The user paid with counterfait money
+"reporting_reason_counterfeit_money" = "Paid with counterfeit money";
+
+// Reporting User reason: The user didn't show up for the meetup
+"reporting_reason_didn't_show_up" = "Didn't show up";
+
+// Reporting User reason: The user was selling a defective item
+"reporting_reason_item_defective" = "Item defective or not as described";
+
+// Reporting User reason: The user threatened with violence
+"reporting_reason_threating_violence" = "Threatening violence";
+
+// Reporting User reason: The user used rude or offensive language
+"reporting_reason_rude_offensive_language" = "Rude or offensive language";
+
+// Reporting User reason: The user had suspicious behavior
+"reporting_reason_suspicious_behavior" = "Suspicious or scammy behavior";
+
+// Reporting User reason: The user used sexual or obscene language
+"reporting_reason_sexual_language" = "Sexual or obscene language";
+
+// Reporting reason: Other reason
+"reporting_reason_other" = "Other";
+
+// Title for the Report listing view
+"reporting_listing_title" = "Report listing";
+
+// Header text for the Report lsting view
+"reporting_listing_list_header" = "WHY ARE YOU REPORTING THIS LISTING?";
+
+// Header text for the Report listing "shouldn't be on letgo" option
+"reporting_listing_shouldnt_be_on_letgo_header" = "WHY SHOULDN'T IT BE ON LETGO?";
+
+// Title for the Report Sent view
+"reporting_listing_report_sent_title" = "Report sent!";
+
+// Text for the Repott Sent view
+"reporting_listing_report_sent_text" = "Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.";
+
+// Title for the Report Update view
+"reporting_listing_update_title" = "Report update";
+
+// Text shown in the Report Update view. Including the product name and the seller name
+"reporting_listing_update_text" = "Thanks for anonymously reporting \"%1$@\" posted by %2$@. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing this item, we have removed it because it violated our Community Guidelines.";
+
+// Title shown to ask the reporter for how the experience was
+"reporting_listing_update_feedback_title" = "How was this experience?";
+
+// Title shown When the user gives bad feedback about the experience
+"reporting_listing_update_feedback_bad" = "We're sorry to hear that.";
+
+// Title shown when the user gives a medium value feedback
+"reporting_listing_update_feedback_medium" = "Thanks!";
+
+// Title shown when the user gives good feedback
+"reporting_listing_update_feedback_good" = "Awesome!";
+
+// Title for the Report User view
+"reporting_user_title" = "Report user";
+
+// Header text for the Report user list view
+"reporting_user_list_header" = "WHY ARE YOU REPORTING THIS USER?";
+
+// Header text for the report user "suspicious behavior" option list
+"reporting_user_suspicious_behavior_header" = "WHAT HAPPENED?";
+
+// Header text for the report user "inappropriate photo or bio" option list
+"reporting_user_inappropriate_photo_or_bio_header" = "WHICH ONE?";
+
+// Header text for the report user "Problem during meetup" option list
+"reporting_user_problem_meetup_header" = "WHAT HAPPENED?";
+
+// Header text for the report user "inappropriate chat" option list
+"reporting_user_inappropriate_chat_header" = "WHAT HAPPENED?";
+
+// Title Shown on the Report Sent view
+"reporting_user_report_sent_title" = "Report sent!";
+
+// Text shown in the "Redirect to item" thank you screen
+"reporting_user_report_sent_redirect_item_text" = "Thanks for helping us make letgo the best place to buy and sell locally.\n\nPlease go to the listing and flag the item and we will quickly review it.";
+
+// Text Shown in the "block user" thank you screen (version A)
+"reporting_user_report_sent_block_user_A_text" = "Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nYou can always block a user to make sure they can no longer see your items or chat with you.";
+
+// Text Shown in the "block user" thank you screen when the user can leave a review (version A)
+"reporting_user_report_sent_block_user_A_with_review_text" = "Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nBe sure to leave a review of this seller to let others know about your experience.\n\nYou can always block a user to make sure they can no longer see your items or chat with you.";
+
+// Text Shown in the "block user" thank you screen (version B)
+"reporting_user_report_sent_block_user_B_text" = "Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nOur team will investigate your claim, in the meantime, you can always block a user to make sure they can no longer see your items or chat with you.";
+
+// Text Shown in the "block user" thank you screen when the user can leave a review (version A)
+"reporting_user_report_sent_block_user_B_with_review_text" = "Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nBe sure to leave a review of this user to let others know about your experience.\n\nOur team will investigate your claim, in the meantime,  you can always block a user to make sure they can no longer see your items or chat with you.";
+
+// Text Shown in the "Law enforcement" thank you screen
+"reporting_user_report_sent_law_enforcement_text" = "We're very sorry about your experience but thankful that you are now safe.\n\nWe strongly encourage you to reach out to local law enforcement and file a police report as soon as possible (if you haven't already done so).\n\nPlease remind the police to contact letgo’s law enforcement team at lawenforcement@letgo.com so we can help with their investigation.\n\nWe can share relevant information about %@ with police but, due to strict privacy protection laws, we need them to send us a valid search warrant or subpoena first.";
+
+// Text Shown in the "Law enforcement & block" thank you screen
+"reporting_user_report_sent_law_enforcement_and_block_text" = "We're very sorry about your experience. We strongly encourage you to reach out to local law enforcement and file a police report as soon as possible (if you haven't already done so).\n\nPlease remind the police to contact letgo’s law enforcement team at lawenforcement@letgo.com so we can help with their investigation. We can share relevant information about %@ with police but, due to strict privacy protection laws, we need them to send us a valid search warrant or subpoena first. In the meantime, please provide additonal information so our team can investigate your claim.\n\nRemember, you can always block a user to make sure they can no longer see your items or chat with you.";
+
+// Button to block the reported user
+"reporting_user_report_sent_block_user_big_button_title" = "Block reported user";
+
+// Button to block the reported user
+"reporting_user_report_sent_block_user_small_button_title" = "Block";
+
+// Button to review the reported user
+"reporting_user_report_sent_review_button_title" = "Review";
+
+// Title for the user report update screen
+"reporting_user_update_title" = "Report update";
+
+// Text for the user report update screen (version A)
+"reporting_user_update_text_A" = "Thanks for anonymously reporting %@. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing this account, we've removed it because it violated our Community Guidelines.";
+
+// Text for the user report update screen (version B)
+"reporting_user_update_text_B" = "Thanks for anonymously reporting %@'s profile photo. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing the photo, we've removed it because it violated our Community Guidelines.";
+
+// Text for the user report update screen (version C)
+"reporting_user_update_text_C" = "Thanks for anonymously reporting %@'s bio. Feedback like yours helps us keep the letgo community safe.\n\nAfter reviewing the bio, we've removed it because it violated our Community Guidelines.";
+
+// Placeholder shown if the seleted option allows additional notes
+"reporting_additional_notes_placeholder" = "Add any additional notes that may help us to resolve this issue";
+
+// Button title to send the report
+"reporting_send_report_button" = "Report";
+
 // Reset password email field hint. Check attached image "reset_password.png"
 "reset_password_email_field_hint" = "Enter your email address";
 
@@ -3556,6 +3985,9 @@
 
 // text for error alert button when max search alerts reached
 "search_alert_error_too_many_button_text" = "Manage notifications";
+
+// Alert message when enabled a new search alert but the limit has been reached
+"search_alerts_disabled_oldest_message" = "You’ve reached the max number of search alerts, so we’ve turned your oldest one off and activated this one.";
 
 // text shown in feed search bar
 "search_letgo" = "Search letgo";
@@ -3635,6 +4067,9 @@
 // Sell share on facebook label
 "sell_share_on_facebook_label" = "Share on Facebook";
 
+// Sell share on facebook footer label
+"sell_share_on_facebook_footer_label" = "Get more visibility and sell faster";
+
 // Sell edit title autogenerated & autotranslated
 "sell_title_autogen_autotrans_label" = "Title suggested by letgo and translated by Google";
 
@@ -3658,6 +4093,9 @@
 
 // Title for list of service subtypes
 "services_service_subtype_list_title" = "Service";
+
+// Filter title for unified "services" filter
+"services_unified_filter_title" = "Select a category";
 
 // Settings change location button. Check image @ "settings_change_password_button" segment
 "settings_change_location_button" = "Location";

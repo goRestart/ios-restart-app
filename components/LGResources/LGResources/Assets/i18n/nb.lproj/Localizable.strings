@@ -15,12 +15,22 @@
 "bump_up_banner_boost_text" = "Legg til ekstra promotering!";
 "bump_up_banner_free_button_title" = "Promoter ditt produkt";
 "bump_up_banner_free_text" = "Promoter gratis for å selge raskere";
+<<<<<<< HEAD
+=======
+"bump_up_banner_loading_text" = "Laster mer info…";
+>>>>>>> master
 "bump_up_banner_pay_text" = "Selg raskere nå";
 "bump_up_banner_pay_text_improvement" = "Selg raskere nå";
 "bump_up_banner_pay_text_improvement_english_a" = "Selg raskere nå";
 "bump_up_banner_pay_text_improvement_english_b" = "Selg raskere nå";
 "bump_up_banner_pay_text_improvement_english_c" = "Selg raskere nå";
 "bump_up_banner_pay_text_improvement_english_d" = "Selg raskere nå";
+<<<<<<< HEAD
+=======
+"bump_up_banner_pay_text_improvement_turkish_b" = "Selg raskere nå";
+"bump_up_banner_pay_text_improvement_turkish_c" = "Selg raskere nå";
+"bump_up_banner_pay_text_improvement_turkish_d" = "Selg raskere nå";
+>>>>>>> master
 "bump_up_banner_wait_text" = "for å promotere på nytt";
 "bump_up_boost_success_alert_text" = "Din annonse ble fremhevet! Den promoteres i de neste 24 timene.";
 "bump_up_error_bump_generic" = "En feil oppstod ved promotering av din annonse. Vennligst prøv igjen.";
@@ -44,20 +54,37 @@
 "bump_up_product_cell_chat_now_button_english_b" = "Chat nå";
 "bump_up_product_cell_chat_now_button_english_c" = "Chat nå";
 "bump_up_product_cell_chat_now_button_english_d" = "Chat nå";
+<<<<<<< HEAD
+=======
+"bump_up_product_cell_feature_it_label" = "Promoter den";
+>>>>>>> master
 "bump_up_product_cell_featured_stripe" = "Aktuelle";
 "bump_up_product_detail_featured_label" = "AKTUELLE";
 "bump_up_view_boost_pay_button_title" = "Promoter den igjen for %@";
 "bump_up_view_boost_subtitle_boost_listing" = "Ettersom du allerede har promotert annonsen din i løpet av de siste 24 timene lar vi deg kjøpe mer promotering til lavere pris!";
 "bump_up_view_boost_subtitle_cheaper" = "Promoter din annonse nå for å få rabatt på vanlig pris.";
+<<<<<<< HEAD
 "bump_up_view_boost_subtitle_send_top" = "Din annonse er fortsatt promotert, men du kan legge til ekstra promotering. Den vil flyttes til toppen og være promotert i 24 timer fra nå.";
 "bump_up_view_boost_title_boost_listing" = "Fremhev din promoterte annonse";
 "bump_up_view_boost_title_cheaper_boost" = "Skaff deg billigere promotering nå";
+=======
+"bump_up_view_boost_subtitle_not_ready" = "Du kan legge til ekstra promotering om %@ for å flytte den til toppen og bli promotert i 24 ekstra timer";
+"bump_up_view_boost_subtitle_send_top" = "Din annonse er fortsatt promotert, men du kan legge til ekstra promotering. Den vil flyttes til toppen og være promotert i 24 timer fra nå.";
+"bump_up_view_boost_title_boost_listing" = "Fremhev din promoterte annonse";
+"bump_up_view_boost_title_cheaper_boost" = "Skaff deg billigere promotering nå";
+"bump_up_view_boost_title_not_ready" = "Din annonser er fortsatt feilaktig";
+>>>>>>> master
 "bump_up_view_boost_title_send_top" = "Send den til toppen igjen";
 "bump_up_view_free_subtitle" = "Jo mere du deler, desto mer synlig blir din annonse.";
 "bump_up_view_free_title" = "PROMOTER DIN ANNONSE";
 "bump_up_view_pay_button_title" = "Fremhev annonsen i %@";
 "bump_up_view_pay_subtitle" = "Vi vil fremheve din annonse i 24 timer slik at flere kjøpere ser ditt produkt og du vil selge raskere";
 "bump_up_view_pay_title" = "Tiltrekk deg dobbelt så mange kjøpere";
+<<<<<<< HEAD
+=======
+"cached_feed_error" = "En feil oppstod ved lasting av nye annonser";
+"cached_feed_new_listings" = "Nye produkter";
+>>>>>>> master
 "categories_baby_and_child" = "Baby og barn";
 "categories_car" = "Biler";
 "categories_cars_and_motors" = "Andre kjøretøyer og bildeler";
@@ -77,6 +104,10 @@
 "categories_inFeed_real_estate_title" = "Real Estate";
 "categories_inFeed_services" = "Tjenester";
 "categories_inFeed_sports_leisure_games" = "Fritid";
+<<<<<<< HEAD
+=======
+"categories_jobs_services" = "Jobber & tjenester";
+>>>>>>> master
 "categories_movies_books_and_music" = "Film, bøker og musikk";
 "categories_other" = "Annet";
 "categories_real_estate" = "Bolig";
@@ -149,10 +180,18 @@
 "chat_express_banner_button_title" = "Se dealer";
 "chat_express_banner_title" = "Relaterte dealer i ditt område";
 "chat_express_contact_one_button_text" = "Kontakt 1 selger";
+<<<<<<< HEAD
+=======
+"chat_express_contact_only_button_text" = "Kontakt";
+>>>>>>> master
 "chat_express_contact_sellers_label" = "Kontakt disse selgere før andre kjøpere får sjansen!";
 "chat_express_contact_various_button_text" = "Kontakt %@ selgere";
 "chat_express_dont_ask_again_button" = "Ikke spør meg igjen";
 "chat_express_dont_miss_label" = "Ikke gå glipp av disse tilbudene";
+<<<<<<< HEAD
+=======
+"chat_express_high_demand_label" = "Veldig populært! Ikke gå glipp av disse tilbudene";
+>>>>>>> master
 "chat_express_one_message_sent_success_alert" = "Din melding er sendt!";
 "chat_express_several_messages_sent_success_alert" = "Dine meldinger er sendt!";
 "chat_express_text_field_text" = "Er det fortsatt til salgs?";
@@ -294,6 +333,10 @@
 "common_user_not_available" = "Oops! Fant ikke bruker.";
 "common_user_review_not_available" = "Oops! Kunne ikke finne vurderingen.";
 "common_yes" = "Ja";
+<<<<<<< HEAD
+=======
+"community_banner_title" = "Bli med i letgo's fellesskap!";
+>>>>>>> master
 "contact_subject_option_location" = "Problemer for plassering";
 "contact_subject_option_login" = "Innloggingstilgang";
 "contact_subject_option_other" = "Andre problemer";
@@ -315,7 +358,22 @@
 "direct_answer_good_condition" = "Har produktet god kvalitetstilstand?";
 "direct_answer_how_much_asking" = "Hvilken pris forlanger du?";
 "direct_answer_interested" = "Jeg er interessert!";
+<<<<<<< HEAD
 "direct_answer_interested_title" = "Interessert...";
+=======
+"direct_answer_interested_buy_it" = "Jeg vil gjerne kjøpe produktet";
+"direct_answer_interested_has_it_sold" = "Er det solgt?";
+"direct_answer_interested_in_buying_it" = "Jeg er interessert i å kjøpe dette produktet";
+"direct_answer_interested_in_this_item" = "Jeg er interessert i dette produktet";
+"direct_answer_interested_is_it_still_available" = "Er det fortsatt tilgjengelig?";
+"direct_answer_interested_is_it_still_for_sale" = "Er det fortsatt til salgs?";
+"direct_answer_interested_is_this_available" = "Er det tilgjengelig?";
+"direct_answer_interested_is_this_still_available" = "Er det fortsatt tilgjengelig?";
+"direct_answer_interested_still_have_it" = "Har du det fortsatt?";
+"direct_answer_interested_still_selling_it" = "Selger du det fortsatt?";
+"direct_answer_interested_title" = "Interessert...";
+"direct_answer_interested_what_condition" = "I hvilken tilstand er denne?";
+>>>>>>> master
 "direct_answer_is_negotiable" = "Kan prisen diskuteres?";
 "direct_answer_lets_meet" = "La oss møtes";
 "direct_answer_like_to_buy" = "Hei! Jeg vil gjerne kjøpe produktet";
@@ -354,8 +412,24 @@
 "discarded_products_reason_poor_ad_quality" = "Dette overholder ikke optimal praksis";
 "discarded_products_reason_reference_to_competitors" = "Referanser til andre apper eller nettsider";
 "discarded_products_reason_stock_photo_only" = "Inneholder kun bilder som er tatt av andre (stockphoto)";
+<<<<<<< HEAD
 "edit_product_feature_label_long_text" = "Promoter din annonse for å selge raskere";
 "edit_product_feature_label_short_text" = "Selg raskere nå";
+=======
+"edit_jobsServices_jobs_option_title" = "Jobber";
+"edit_jobsServices_listingType_title" = "Annonsetype";
+"edit_jobsServices_serviceSubtype_title" = "Undertype";
+"edit_jobsServices_serviceType_title" = "Type";
+"edit_jobsServices_services_option_title" = "Tjenester";
+"edit_paymentFrequency_placeholder" = "Ikke valgt";
+"edit_paymentFrequency_title" = "Betalingsfrekvens";
+"edit_priceType_choose_title" = "Velg et alternativ";
+"edit_product_feature_label_long_text" = "Promoter din annonse for å selge raskere";
+"edit_product_feature_label_short_text" = "Selg raskere nå";
+"edit_product_feature_label_variant_B" = "Selg raskere nå";
+"edit_product_feature_label_variant_C" = "Tiltrekk flere kjøpere for å selge raskere";
+"edit_product_feature_label_variant_D" = "Vis meg hvordan jeg kan tiltrekke flere kjøpere";
+>>>>>>> master
 "edit_product_location_alert_text" = "Gi tilgang til din plassering for å kunne endre hvor din annonse publiseres fra";
 "edit_product_location_alert_title" = "ENDRE PLASSERING";
 "edit_product_send_button" = "Lagre endringer";
@@ -365,6 +439,10 @@
 "edit_product_title" = "Endre annonse";
 "edit_product_unsaved_changes_alert" = "Er du sikker på at du vil forkaste endringene?";
 "edit_product_unsaved_changes_alert_ok" = "Forkast";
+<<<<<<< HEAD
+=======
+"engagement_badging_feed_bubble" = "Nye produkter";
+>>>>>>> master
 "featured_info_view_increase_visibility" = "Få mer synlighet";
 "featured_info_view_more_buyers" = "Tiltrekk flere kjøpere";
 "featured_info_view_sell_faster" = "Selg raskere";
@@ -373,6 +451,10 @@
 "filter_cars_seats_title" = "Seter";
 "filter_results_cars_no_matches" = "Ingen eksakte resultater ble funnet.\n Vis liknende resultater. ";
 "filter_results_cars_other_results" = "Nylig publisert i ditt nærområde";
+<<<<<<< HEAD
+=======
+"filter_services_services_list_show_more" = "Vis mer";
+>>>>>>> master
 "filters_car_make_not_set" = "Ikke valgt";
 "filters_car_model_not_set" = "Ikke valgt";
 "filters_car_seller_type_all" = "Alle";
@@ -381,7 +463,11 @@
 "filters_car_seller_type_private" = "Privat";
 "filters_car_seller_type_professional" = "Profesjonell";
 "filters_car_year_any_year" = "Alle år";
+<<<<<<< HEAD
 "filters_car_year_before_year" = "Før %i";
+=======
+"filters_car_year_before_year" = "Før %@";
+>>>>>>> master
 "filters_cars_bodytype_convertible" = "Cabriolet";
 "filters_cars_bodytype_coupe" = "kupé";
 "filters_cars_bodytype_hatchback" = "Kombi";
@@ -408,6 +494,13 @@
 "filters_cars_transmission_manual" = "Manuell";
 "filters_cars_transmission_title" = "Girkasse";
 "filters_distance_not_set" = "ikke satt";
+<<<<<<< HEAD
+=======
+"filters_jobs_services_header" = "Jobb- eller tjenesteinfo";
+"filters_jobs_services_subtype_title" = "Undertype";
+"filters_jobs_services_toggle_header" = "Leter etter...";
+"filters_jobs_services_type_title" = "Type";
+>>>>>>> master
 "filters_mileage_slider_title" = "Kilometerstand";
 "filters_navbar_reset" = "Tilbakestill";
 "filters_numberOfSeats_slider_title" = "Seter";
@@ -435,6 +528,12 @@
 "filters_section_within" = "Publisert";
 "filters_service_subtype_not_set" = "Ikke Satt";
 "filters_service_type_not_set" = "Ikke Satt";
+<<<<<<< HEAD
+=======
+"filters_services_services_list_max_selection_alert" = "Oops! Du kan ikke velge mer enn 15 tjenester.";
+"filters_services_services_list_search_placeholder" = "Håndverker, Entreprenør…";
+"filters_services_services_list_title" = "Velg en kategori";
+>>>>>>> master
 "filters_size_wrong_range_error" = "Minimum størrelse kan ikke være høyere enn maksimum størrelse.";
 "filters_slider_any" = "Alle";
 "filters_sort_closest" = "Nærmest først";
@@ -480,6 +579,11 @@
 "id_verification_third_step_subtitle" = "Sørg for at din ID er tydelig og at hele vises i bildevinduet";
 "id_verification_third_step_title" = "Ta et bilde av forsiden av din ID";
 "id_verification_update_avatar_message" = "Ønsker du å velge dette som ditt profilbilde?";
+<<<<<<< HEAD
+=======
+"jobs_services_offering_text" = "Tilbyr";
+"jobs_services_wanted_text" = "Ønskes";
+>>>>>>> master
 "kilometer_unit_suffix" = "km";
 "listing_chat_button" = "Chat nå";
 "listing_interested_button_A" = "Jeg er interessert";
@@ -564,6 +668,15 @@
 "ml_onboarding_description_text" = "Vis meg et produkt og jeg vil fortelle deg hvor mye du kan tjene";
 "ml_onboarding_new_text" = "NYHET!";
 "ml_onboarding_ok_text" = "Ok";
+<<<<<<< HEAD
+=======
+"notification_section_one_month_ago" = "1 måned siden";
+"notification_section_one_week_ago" = "1 uke siden";
+"notifications_cell_date_days_ago" = "%id";
+"notifications_cell_date_hours_ago" = "%i t";
+"notifications_cell_date_mins_ago" = "%i m";
+"notifications_cell_date_weeks_ago" = "%iu";
+>>>>>>> master
 "notifications_empty_subtitle" = "Publiser noe for salg for å få i gang aktiviteten her";
 "notifications_empty_title" = "INGEN VARSLINGER (ENDA!)";
 "notifications_permissions_1_push" = "Ida: Jeg er veldig interessert i din mobil. Kan du la den gå for 900,-?";
@@ -584,6 +697,15 @@
 "notifications_permissions_settings_title_chat" = "Ikke gå glipp av et svar!";
 "notifications_permissions_settings_yes_button" = "Ja, aktiver";
 "notifications_permissions_yes_button" = "Ja, Varsle Meg";
+<<<<<<< HEAD
+=======
+"notifications_section_days_ago" = "%i dager siden";
+"notifications_section_months_ago" = "%i måneder siden";
+"notifications_section_one_day_ago" = "1 dag siden";
+"notifications_section_today" = "I dag";
+"notifications_section_weeks_ago" = "%i uker siden";
+"notifications_section_yesterday" = "I går";
+>>>>>>> master
 "notifications_title" = "Varslinger";
 "notifications_type_buyers_interested" = "%d kjøpere kan være interesserte i din annonse";
 "notifications_type_buyers_interested_button" = "Finn ut hvem de er";
@@ -654,6 +776,15 @@
 "passwordless_username_input_done_button" = "Fullfør";
 "passwordless_username_input_textfield_placeholder" = "Brukernavn";
 "passwordless_username_input_title" = "Angi ditt brukernavn";
+<<<<<<< HEAD
+=======
+"payment_frequency_per_biweek" = "2 uker";
+"payment_frequency_per_day" = "dag";
+"payment_frequency_per_hour" = "time";
+"payment_frequency_per_month" = "måned";
+"payment_frequency_per_week" = "uke";
+"payment_frequency_per_year" = "år";
+>>>>>>> master
 "phone_verification_code_input_view_content_subaction" = "Fikk du ikke koden?";
 "phone_verification_code_input_view_content_subtext" = "Du kan be om en ny kode hvis du ikke mottar den innen %@";
 "phone_verification_code_input_view_content_subtitle" = "Vi har sendt den til %@";
@@ -692,8 +823,20 @@
 "post_description_info_title" = "ANNONSEINFORMASJON";
 "post_description_name_placeholder" = "Navn";
 "post_description_save_button_text" = "Lagre denne annonsen!";
+<<<<<<< HEAD
 "post_details_services_add_new" = "Legg til en ny tjeneste";
 "post_details_services_camera_message" = "Publiser et bilde av deg selv eller av bedriftens logo";
+=======
+"post_details_jobs_services_step_option_jobs_prefix" = "Ser etter å ansette noen for en";
+"post_details_jobs_services_step_option_services_prefix" = "Annonserer for en";
+"post_details_jobs_services_step_title" = "Jeg er...";
+"post_details_jobs_subtitle" = "Velg en";
+"post_details_jobs_title" = "Hvilken type jobb tilbyr du?";
+"post_details_listingType_job_display_name" = "jobb";
+"post_details_listingType_service_display_name" = "tjeneste";
+"post_details_services_add_new" = "Legg til en ny tjeneste";
+"post_details_services_camera_message" = "Publiser bedriftens logo eller et bilde som viser tjenesten du tilbyr";
+>>>>>>> master
 "post_details_services_congratulation_people_near" = "Personer rundt deg ser etter disse tjenestene, har du disse erfaringene?";
 "post_details_services_congratulation_post_another" = "Publiser en ny annonse";
 "post_details_services_congratulation_review" = "Gjennomgå dine annonser og legg til flere detaljer";
@@ -716,6 +859,17 @@
 "post_queued_requests_state_listing_posted" = "Annonsen er publisert!";
 "post_queued_requests_state_posting_listing" = "Publiserer annonse...";
 "posting_button_skip" = "Hopp over";
+<<<<<<< HEAD
+=======
+"posting_flow_jobs_and_services_category_button_text" = "Jobber & tjenester";
+"priceType_biweekly" = "Annenhver uke";
+"priceType_daily" = "Daglig";
+"priceType_hourly" = "Hver time";
+"priceType_monthly" = "Månedlig";
+"priceType_oneOff" = "Engangsbeløp";
+"priceType_weekly" = "Ukentlig";
+"priceType_yearly" = "Årlig";
+>>>>>>> master
 "product_auto_generated_title_label" = "Automatisk generert tittel av letgo";
 "product_auto_generated_translated_title_label" = "(og oversatt av Google)";
 "product_bubble_favorite_button" = "Informer selgeren!";
@@ -796,8 +950,13 @@
 "product_new_onboarding_tap_right_highlighted_label" = "Trykk på høyre side";
 "product_new_onboarding_tap_right_highlighted_label_2" = "i midten";
 "product_new_onboarding_tap_right_label" = "%@ eller %@ for å se neste bilde";
+<<<<<<< HEAD
 "product_nit_onboarding_next_picture" = "Next picture";
 "product_nit_onboarding_previous_picture" = "Previous picture";
+=======
+"product_nit_onboarding_next_picture" = "Neste bilde";
+"product_nit_onboarding_previous_picture" = "Forrige bilde";
+>>>>>>> master
 "product_onboarding_finger_scroll_label" = "Scroll for å se flere bilder";
 "product_onboarding_finger_swipe_label" = "Swipe for å gå til neste eller forrige annonse";
 "product_onboarding_finger_tap_label" = "Trykk for å gå til neste annonse";
@@ -816,7 +975,11 @@
 "product_post_camera_video_mode_button" = "VIDEO";
 "product_post_camera_video_mode_button_new_badge" = "Ny!";
 "product_post_camera_video_recording_min_duration_message" = "Vennligst ta opp i minst %d sekunder";
+<<<<<<< HEAD
 "product_post_camera_video_recording_tooltip" = "%@ for å gjøre et videopptak";
+=======
+"product_post_camera_video_recording_tooltip" = "%@ for å ta gjøre et videoopptak";
+>>>>>>> master
 "product_post_camera_video_recording_tooltip_highlighted_word" = "Hold inne";
 "product_post_close_alert_close_button" = "Forkaste";
 "product_post_close_alert_description" = "Ønsker du fortsatt å selge produktet?";
@@ -874,6 +1037,10 @@
 "product_post_retry_button" = "Prøv igjen";
 "product_post_select_category_cars" = "Biler";
 "product_post_select_category_housing" = "Bolig til utleie / salgs";
+<<<<<<< HEAD
+=======
+"product_post_select_category_jobs_services" = "Jobber & tjenester";
+>>>>>>> master
 "product_post_select_category_motors_and_accessories" = "Andre kjøretøyer og bildeler";
 "product_post_select_category_other" = "Andre produkter";
 "product_post_select_category_real_estate" = "Real Estate";
@@ -1158,6 +1325,71 @@
 "report_user_suspcious" = "Mistenkelig oppførsel";
 "report_user_text_placeholder" = "Legg til kommentar (valgfritt)";
 "report_user_title" = "Rapporter bruker";
+<<<<<<< HEAD
+=======
+"reporting_additional_notes_placeholder" = "Legg til ytterligere informasjon som kan hjelpe oss med å løse dette problemet";
+"reporting_listing_list_header" = "HVORFOR RAPPORTERER DU DENNE ANNONSEN?";
+"reporting_listing_report_sent_text" = "Takk for at din anonyme rapport og for at du hjelper oss med å gjøre letgo til det beste stedet for å kjøpe og selge lokalt.";
+"reporting_listing_report_sent_title" = "Rapport er sendt!";
+"reporting_listing_shouldnt_be_on_letgo_header" = "HVORFOR SKAL DEN IKKE VÆRE PÅ LETGO?";
+"reporting_listing_title" = "Rapporter annonse";
+"reporting_listing_update_feedback_bad" = "Vi er lei oss for å høre dette.";
+"reporting_listing_update_feedback_good" = "Flott!";
+"reporting_listing_update_feedback_medium" = "Takk!";
+"reporting_listing_update_feedback_title" = "Hvordan var denne opplevelsen?";
+"reporting_listing_update_text" = "Takk for din anonyme rapportering av «%1$@» publisert av %2$@. Tilbakemeldinger som din bidrar til å holde letgo's fellesskap trygt.\n\nEtter å ha sett på dette produktet, har vi fjernet det fordi det er i strid med våre Retningslinjer for letgo's fellesskap.";
+"reporting_listing_update_title" = "Oppdatering for rapportering";
+"reporting_reason_bio" = "Biografi";
+"reporting_reason_counterfeit_money" = "Betalt med falske penger";
+"reporting_reason_didn't_show_up" = "Møtte ikke opp";
+"reporting_reason_drugs" = "Rus, alkohol, eller tobakk";
+"reporting_reason_duplicate_listing" = "Det er en duplikat annonse";
+"reporting_reason_inappropiate_chat_messages" = "Upassende meldinger";
+"reporting_reason_inappropiate_photo_or_bio" = "Upassende profilbilde eller biografi";
+"reporting_reason_item_defective" = "Produkt var ødelagt eller ikke som beskrevet";
+"reporting_reason_its_scam" = "Jeg tror det er svindel";
+"reporting_reason_not_responding" = "Svarer ikke på meldinger";
+"reporting_reason_offered_trade" = "Tilbyr å bytte i stedet for å betale kontant";
+"reporting_reason_offered_western_union_or_paypañ" = "Tilbyr å betale med Western Union eller Paypal";
+"reporting_reason_other" = "Annet";
+"reporting_reason_problem_meetup" = "Problem i løpet av møtet vårt";
+"reporting_reason_profile_photo" = "Profilbilde";
+"reporting_reason_robbery" = "Tyveri eller voldelig episode";
+"reporting_reason_rude_offensive_language" = "Uhøflig eller støtende språk";
+"reporting_reason_selling_inappropiate" = "Selger noe upassende";
+"reporting_reason_sexual_content" = "Seksuelt innhold";
+"reporting_reason_sexual_language" = "Seksuelt eller uanstendig språk";
+"reporting_reason_should_not_be_on_letgo" = "Dette burde ikke være på letgo";
+"reporting_reason_spam_account" = "Spamkonto";
+"reporting_reason_suspicious_behavior" = "Mistenkelig eller svindlersk oppførsel";
+"reporting_reason_suspiciously" = "Oppfører seg mistenkelig";
+"reporting_reason_threating_violence" = "Truer med vold";
+"reporting_reason_unrealistic_price" = "Urealistisk pris eller tilbud";
+"reporting_reason_weapons" = "Våpen eller voldelig innhold";
+"reporting_reason_wrong_category" = "Den er i feil kategori";
+"reporting_send_report_button" = "Rapporter";
+"reporting_user_inappropriate_chat_header" = "HVA SKJEDDE?";
+"reporting_user_inappropriate_photo_or_bio_header" = "HVILKEN?";
+"reporting_user_list_header" = "HVORFOR RAPPORTERER DU DENNE BRUKEREN?";
+"reporting_user_problem_meetup_header" = "HVA SKJEDDE?";
+"reporting_user_report_sent_block_user_A_text" = "Takk for din anonyme rapportering og for at du hjelper oss med å gjøre letgo til det beste stedet for å kjøpe og selge lokalt.\n\nDu kan når som helst blokkere en bruker for å sikre at de ikke lenger kan se dine produkter eller chatte med deg.";
+"reporting_user_report_sent_block_user_A_with_review_text" = "Takk for din anonyme rapportering og for at du hjelper oss med å gjøre letgo til det beste stedet for å kjøpe og selge lokalt.\n\nIkke glem å legge igjen en vurdering av selgeren for å la andre få vite om din opplevelse.\n\nDu kan når som helst blokkere en bruker for å sikre at de ikke lenger kan se dine produkter eller chatte med deg.";
+"reporting_user_report_sent_block_user_B_text" = "Takk for din anonyme rapportering og for at du hjelper oss med å gjøre letgo til det beste stedet for å kjøpe og selge lokalt.\n\nTeamet vårt vil undersøke påstanden din. I mellomtiden kan du når som helst blokkere en bruker for å sikre at de ikke lenger kan se dine produkter eller chatte med deg.";
+"reporting_user_report_sent_block_user_B_with_review_text" = "Takk for din anonyme rapportering og for at du hjelper oss med å gjøre letgo til det beste stedet for å kjøpe og selge lokalt.\n\nIkke glem å legge igjen en vurdering av selgeren for å la andre få vite om din opplevelse.\n\nTeamet vårt vil undersøke påstanden din. I mellomtiden kan du når som helst blokkere en bruker for å sikre at de ikke lenger kan se dine produkter eller chatte med deg.";
+"reporting_user_report_sent_block_user_big_button_title" = "Blokker rapportert bruker";
+"reporting_user_report_sent_block_user_small_button_title" = "Blokker";
+"reporting_user_report_sent_law_enforcement_and_block_text" = "Vi beklager for opplevelsen din, men takknemlig for at du nå er trygg. Vi anbefaler sterkt at du kontakter politiet og leverer en politianmeldelse så fort som mulig (om ikke du allerede har gjort det). \n \nVennligst påminn politiet å kontakte letgo's politimyndighetsteam på lawenforcement@letgo.com, slik at vi kan hjelpe til i deres etterforskning. Vi kan dele relevant informasjon om %@ med politiet, men grunnet strenge personvernregler må de sende oss en gyldig ransakingsordre eller stevning først. I mellomtiden kan du gi ytterligere informasjon, slik at teamet vårt kan undersøke påstanden din.\n\nHusk at du kan når som helst blokkere en bruker for å sikre at de ikke lenger kan se dine produkter eller chatte med deg.";
+"reporting_user_report_sent_law_enforcement_text" = "Vi beklager for opplevelsen din, men vi er takknemlige for at du nå er trygg.\n\nVi anbefaler sterkt at du kontakter politiet og leverer en politianmeldelse så fort som mulig (om ikke du allerede har gjort det).\n\nVennligst påminn politiet å kontakte letgo's politimyndighetsteam på lawenforcement@letgo.com, slik at vi kan hjelpe til i deres etterforskning.\n\nVi kan dele relevant informasjon om %@ med politiet, men grunnet strenge personvernregler må de sende oss en gyldig ransakingsordre eller stevning først.";
+"reporting_user_report_sent_redirect_item_text" = "Takk for at du hjelper oss med å gjøre letgo til det beste stedet for å kjøpe og selge lokalt.\n\nVennligst gå til annonsen og rapporter produktet, og vi vil se raskt gjennom det.";
+"reporting_user_report_sent_review_button_title" = "Vurder";
+"reporting_user_report_sent_title" = "Rapport er sendt!";
+"reporting_user_suspicious_behavior_header" = "HVA SKJEDDE?";
+"reporting_user_title" = "Rapporter bruker";
+"reporting_user_update_text_A" = "Takk for at du rapporterer %@ anonymt. Tilbakemeldinger som din bidrar til å holde letgo-fellesskapet trygt.\n\nEtter å ha sett på dette produktet, har vi fjernet det fordi det er i strid med våre Retningslinjer for letgos fellesskap.";
+"reporting_user_update_text_B" = "Takk for at du rapporterer %@s profilbilde anonymt. Tilbakemeldinger som din bidrar til å holde letgo-fellesskapet trygt.\n\nEtter å ha sett på bildet, har vi fjernet det fordi det er i strid med våre Retningslinjer for letgos fellesskap.";
+"reporting_user_update_text_C" = "Takk for at du rapporterer %@s biografi anonymt. Tilbakemeldinger som din bidrar til å holde letgo-fellesskapet trygt.\n\nEtter å ha sett på bioen, har vi fjernet den fordi den er i strid med våre Retningslinjer for letgos fellesskap.";
+"reporting_user_update_title" = "Oppdatering for rapportering";
+>>>>>>> master
 "reset_password_email_field_hint" = "Legg inn din e-postadresse";
 "reset_password_instructions" = "Vennligst fyll inn din e-postadresse og vi sender deg en e-post for tilbakestilling av ditt passord.";
 "reset_password_send_button" = "Send e-post";
@@ -1172,6 +1404,10 @@
 "search_alert_enable_error_message" = "Oops! En feil oppstod ved aktivering av din søkevarsling.";
 "search_alert_error_too_many_button_text" = "Behandle varslinger";
 "search_alert_error_too_many_text" = "Oops! Du har nådd dine maksimale antall søkevarslinger";
+<<<<<<< HEAD
+=======
+"search_alerts_disabled_oldest_message" = "Du har nådd maks antall søkevarslinger, så vi har deaktivert det eldste søket og aktivert dette.";
+>>>>>>> master
 "search_alerts_edit_button" = "Endre";
 "search_alerts_header_subtitle" = "Få varslinger om nye annonser";
 "search_alerts_list_title" = "Søkevarslinger";
@@ -1204,6 +1440,10 @@
 "sell_send_error_invalid_price" = "Vennligst legg til gyldig pris for din annonse. Prisen kan kun inneholde tall.";
 "sell_send_error_invalid_title" = "Vennligst legg inn et gyldig tittel for din annonse.";
 "sell_send_error_sharing_facebook" = "En feil oppstod ved Facebook-deling. Vennligst prøv igjen.";
+<<<<<<< HEAD
+=======
+"sell_share_on_facebook_footer_label" = "Få mer synlighet og selg raskere";
+>>>>>>> master
 "sell_share_on_facebook_label" = "Del på Facebook";
 "sell_title_autogen_autotrans_label" = "Tittel foreslått av letgo og oversatt av Google";
 "sell_title_autogen_label" = "Foreslått tittel av letgo";
@@ -1213,6 +1453,10 @@
 "services_service_subtype_title" = "Tjeneste";
 "services_service_type_list_title" = "Tjenestekategori";
 "services_service_type_title" = "Tjenestekategori";
+<<<<<<< HEAD
+=======
+"services_unified_filter_title" = "Velg en kategori";
+>>>>>>> master
 "settings_change_email_button" = "E-post";
 "settings_change_location_button" = "Plassering";
 "settings_change_password_button" = "Passord";

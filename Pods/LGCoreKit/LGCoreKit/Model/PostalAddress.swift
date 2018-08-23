@@ -1,6 +1,6 @@
 import Foundation
 
-public struct PostalAddress: Equatable, Decodable {
+public struct PostalAddress: Equatable, Codable {
     
     public let address: String?
     public let city: String?
@@ -72,6 +72,20 @@ public struct PostalAddress: Equatable, Decodable {
         }
         
         country = try keyedContainer.decodeIfPresent(String.self, forKey: .country)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        // arbitrary choose camel 🐪 🐫
+        var camel = encoder.container(keyedBy: CodingKeysCamelCase.self)
+
+        try container.encodeIfPresent(address, forKey: .address)
+        try container.encodeIfPresent(city, forKey: .city)
+        try container.encodeIfPresent(state, forKey: .state)
+        try container.encodeIfPresent(country, forKey: .country)
+
+        try camel.encodeIfPresent(zipCode, forKey: .zipCode)
+        try camel.encodeIfPresent(countryCode, forKey: .countryCode)
     }
     
     enum CodingKeys: String, CodingKey {

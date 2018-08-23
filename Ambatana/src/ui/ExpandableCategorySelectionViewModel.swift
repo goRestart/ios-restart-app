@@ -1,131 +1,111 @@
 import LGCoreKit
 import LGComponents
 
-enum ExpandableCategoryStyle {
-    case redBackground
-    case whiteBackground
-}
-
-enum ExpandableCategory: Equatable {
-    case listingCategory(listingCategory: ListingCategory)
-    case mostSearchedItems
-    
-    var listingCategory: ListingCategory? {
-        switch self {
-        case .listingCategory(let listingCategory):
-            return listingCategory
-        case .mostSearchedItems:
-            return nil
-        }
-    }
-    
-    var style: ExpandableCategoryStyle {
-        switch self {
-        case .listingCategory(_):
-            return .redBackground
-        case .mostSearchedItems:
-            return .whiteBackground
-        }
-    }
-    
-    static public func ==(lhs: ExpandableCategory, rhs: ExpandableCategory) -> Bool {
-        switch (lhs, rhs) {
-        case (.listingCategory(let lListingCategory), .listingCategory(let rListingCategory)):
-            return lListingCategory == rListingCategory
-        case (.mostSearchedItems, .mostSearchedItems):
-            return true
-        default:
-            return false
-        }
-    }
-}
-
-extension ExpandableCategory {
-
+extension ListingCategory {
     func sortWeight(featureFlags: FeatureFlaggeable) -> Int {
         switch self {
-        case .listingCategory(let listingCategory):
-            switch listingCategory {
-            case .cars:
-                return 100
-            case .motorsAndAccessories:
-                return 80
-            case .realEstate:
-                return 60
-            case .services:
-                switch featureFlags.servicesCategoryOnSalchichasMenu {
-                case .variantA:
-                    return 110  // Should appear above cars
-                case .variantB:
-                    return 70   // Should appear below motors and accesories
-                case .variantC:
-                    return 50   // Should appear below real estate
-                default:
-                    return 10 // Not active, should never happen
-                }
-            case .unassigned:
-                return 0    // Usually at bottom
+        case .cars:
+            return 100
+        case .motorsAndAccessories:
+            return 80
+        case .realEstate:
+            return 60
+        case .services:
+            switch featureFlags.servicesCategoryOnSalchichasMenu {
+            case .variantA:
+                return 110  // Should appear above cars
+            case .variantB:
+                return 70   // Should appear below motors and accesories
+            case .variantC:
+                return 50   // Should appear below real estate
             default:
-                return 10
+                return 10 // Not active, should never happen
             }
-        case .mostSearchedItems:
-            return -10
+        case .unassigned:
+            return 0    // Usually at bottom
+        default:
+            return 10
         }
     }
 }
 
 protocol ExpandableCategorySelectionDelegate: class {
     func didPressCloseButton()
-    func didPressCategory(_ category: ExpandableCategory)
-    func didPressTag(_ mostSearchedItem: LocalMostSearchedItem)
+    func tapOutside()
+    func didPressCategory(_ listingCategory: ListingCategory)
 }
 
 class ExpandableCategorySelectionViewModel: BaseViewModel {
     
     weak var delegate: ExpandableCategorySelectionDelegate?
-    let categoriesAvailable: [ExpandableCategory]
-    let tagsEnabled: Bool
-    private(set) var newBadgeCategory: ExpandableCategory?
-    
-    var mostSearchedItems: [LocalMostSearchedItem] {
-        return LocalMostSearchedItem.allValues
-    }
-    var tags: [String] {
-        return mostSearchedItems.map { $0.name }
-    }
+    let categoriesAvailable: [ListingCategory]
+    private(set) var newBadgeCategory: ListingCategory?
+    private let featureFlags: FeatureFlaggeable
     
     // MARK: - View lifecycle
     
     init(featureFlags: FeatureFlaggeable) {
-
+        self.featureFlags = featureFlags
         let servicesEnabled = featureFlags.servicesCategoryOnSalchichasMenu.isActive
         let realEstateEnabled = featureFlags.realEstateEnabled.isActive
-        let trendingButtonEnabled = featureFlags.mostSearchedDemandedItems == .trendingButtonExpandableMenu
 
-        var categories: [ExpandableCategory] = []
-        categories.append(.listingCategory(listingCategory: .unassigned))
-        categories.append(.listingCategory(listingCategory: .motorsAndAccessories))
-        categories.append(.listingCategory(listingCategory: .cars))
+        var categories: [ListingCategory] = []
+        categories.append(.unassigned)
+        categories.append(.motorsAndAccessories)
+        categories.append(.cars)
 
         if realEstateEnabled {
-            categories.append(.listingCategory(listingCategory: .realEstate))
+            categories.append(.realEstate)
         }
         if servicesEnabled {
-            categories.append(.listingCategory(listingCategory: .services))
-        }
-        if trendingButtonEnabled {
-            categories.append(.mostSearchedItems)
+            categories.append(.services)
         }
         self.categoriesAvailable = categories.sorted(by: {
             $0.sortWeight(featureFlags: featureFlags) < $1.sortWeight(featureFlags: featureFlags)
         })
         if servicesEnabled {
-            self.newBadgeCategory = .listingCategory(listingCategory: .services)
+            self.newBadgeCategory = .services
         } else if featureFlags.realEstateEnabled.isActive {
-            self.newBadgeCategory = .listingCategory(listingCategory: .realEstate)
+            self.newBadgeCategory = .realEstate
         }
-        self.tagsEnabled = featureFlags.mostSearchedDemandedItems == .subsetAboveExpandableMenu
         super.init()
+    }
+    
+    func buttonTitle(forCategory category: ListingCategory) -> String? {
+        
+        switch category {
+        case .unassigned:
+            return R.Strings.categoriesUnassignedItems
+        case .motorsAndAccessories, .cars, .homeAndGarden, .babyAndChild,
+             .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames:
+            return category.name
+        case .realEstate:
+            return featureFlags.realEstateNewCopy.isActive ? R.Strings.productPostSelectCategoryRealEstate : R.Strings.productPostSelectCategoryHousing
+        case .services:
+            if featureFlags.jobsAndServicesEnabled.isActive {
+                return R.Strings.postingFlowJobsAndServicesCategoryButtonText
+            }
+            return category.name
+        }
+    }
+    
+    func buttonIcon(forCategory category: ListingCategory) -> UIImage? {
+        
+        switch category {
+        case .unassigned:
+            return R.Asset.IconsButtons.items.image
+        case .cars:
+            return R.Asset.IconsButtons.carIcon.image
+        case .motorsAndAccessories:
+            return R.Asset.IconsButtons.motorsAndAccesories.image
+        case .realEstate:
+            return R.Asset.IconsButtons.housingIcon.image
+        case .services:
+            return R.Asset.IconsButtons.servicesIcon.image
+        case .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories,
+             .moviesBooksAndMusic, .other, .sportsLeisureAndGames:
+            return category.image
+        }
     }
     
     
@@ -134,13 +114,12 @@ class ExpandableCategorySelectionViewModel: BaseViewModel {
     func closeButtonAction() {
         delegate?.didPressCloseButton()
     }
-    
-    func pressCategoryAction(category: ExpandableCategory) {
-        delegate?.didPressCategory(category)
+
+    func tapOutside() {
+        delegate?.tapOutside()
     }
     
-    func pressTagAtIndex(_ index: Int) {
-        let mostSearchedItem = mostSearchedItems[index]
-        delegate?.didPressTag(mostSearchedItem)
+    func pressCategoryAction(listingCategory: ListingCategory) {
+        delegate?.didPressCategory(listingCategory)
     }
 }

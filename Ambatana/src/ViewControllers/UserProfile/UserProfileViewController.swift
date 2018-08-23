@@ -63,6 +63,8 @@ final class UserProfileViewController: BaseViewController {
         }
     }
 
+    private var tabsContentOffsetState = [CGPoint](repeating: CGPoint(x: 0, y: -Layout.tabsHeight), count: 4)
+
     private let userNavBarAnimationDelta: CGFloat = 40.0
     private let userNavBarAnimationStartOffset: CGFloat = 44.0
 
@@ -197,6 +199,9 @@ final class UserProfileViewController: BaseViewController {
     private func setupNavBar() {
         let backIcon = R.Asset.IconsButtons.navbarBackRed.image
         setNavBarBackButton(backIcon)
+        if viewModel.showCloseButtonInNavBar {
+            setNavBarCloseButton(#selector(close))
+        }
 
         self.navigationItem.titleView = navBarUserView
 
@@ -207,6 +212,10 @@ final class UserProfileViewController: BaseViewController {
             .distinctUntilChanged()
             .drive(onNext: setupNavBarRightActions)
             .disposed(by: disposeBag)
+    }
+
+    @objc func close() {
+        viewModel.didTapCloseButton()
     }
 
     func setupNavBarRightActions(isMyUser: Bool) {
@@ -305,9 +314,6 @@ final class UserProfileViewController: BaseViewController {
 
     private func setupContent() {
         headerView.delegate = self
-        bioAndTrustView.delegate = self
-        bioAndTrustView.buildTrustButtonTitle = R.Strings.profileBuildTrustButton
-        bioAndTrustView.addBioButtonTitle = "+ " + R.Strings.profileBioAddButton
         bioAndTrustView.verifiedTitleText = R.Strings.profileVerifiedAccountsTitle
         bioAndTrustView.moreBioButtonTitle = R.Strings.profileBioShowMoreButton
 
@@ -323,7 +329,6 @@ final class UserProfileViewController: BaseViewController {
         navBarUserView.userNameLabel.set(accessibilityId: .userHeaderCollapsedNameLabel)
         listingView.firstLoadView.set(accessibilityId: .userListingsFirstLoad)
         listingView.collectionView.set(accessibilityId: .userListingsList)
-        listingView.errorView.set(accessibilityId: .userListingsError)
     }
 
     // MARK: - UI
@@ -348,7 +353,10 @@ final class UserProfileViewController: BaseViewController {
         tableView.contentInset = scrollableContentInset
         listingView.collectionViewContentInset = scrollableContentInset
         listingView.firstLoadPadding = scrollableContentInset
-        listingView.setErrorViewStyle(bgColor: .white, borderColor: .clear, containerColor: .white)
+        let errorStyle = ErrorViewCellStyle(backgroundColor: .white,
+                                        borderColor: .clear,
+                                        containerColor: .white)
+        listingView.setupErrorView(withStyle: errorStyle)
 
         let contentInset: UIEdgeInsets
         let contentOffset: CGPoint
@@ -431,24 +439,24 @@ extension UserProfileViewController {
 // MARK: - Tabs Delegate
 
 extension UserProfileViewController: UserProfileTabsViewDelegate {
-    func didSelect(tab: UserProfileTabType) {
-        viewModel.selectedTab.value = tab
-        listingView.isHidden = tab == .reviews
-        tableView.isHidden = tab != .reviews
+    func didSelect(tab newTab: UserProfileTabType) {
+        // Store current tab offset state
+        let scrollView = newTab == .reviews ? tableView : listingView.collectionView
+        let previousTab = viewModel.selectedTab.value
+        tabsContentOffsetState[previousTab.rawValue] = CGPoint(x: 0, y: max(scrollView.contentOffset.y, -Layout.tabsHeight))
+
+        // Handle tab content visibility
+        viewModel.selectedTab.value = newTab
+        listingView.isHidden = newTab == .reviews
+        tableView.isHidden = newTab != .reviews
+
+        // Set new tab offset state (previously stored)
+        if scrollView.contentOffset.y >= -Layout.tabsHeight {
+            scrollView.setContentOffset(tabsContentOffsetState[newTab.rawValue], animated: false)
+        }
     }
 }
 
-// MARK: - Bio And Trust Delegate
-
-extension UserProfileViewController: UserProfileBioAndTrustDelegate {
-    func didTapBuildTrust() {
-        viewModel.didTapBuildTrustButton()
-    }
-
-    func didTapAddBio() {
-        viewModel.didTapEditBioButton()
-    }
-}
 
 // MARK: - Header Delegate
 
@@ -714,14 +722,13 @@ extension UserProfileViewController: UserProfileViewModelDelegate {
     }
 }
 
-// MARK: - PushPermissions and MostSearched Banners
+// MARK: - PushPermissions
 
-extension UserProfileViewController: ListingListViewHeaderDelegate, PushPermissionsHeaderDelegate, MostSearchedItemsUserHeaderDelegate {
+extension UserProfileViewController: ListingListViewHeaderDelegate, PushPermissionsHeaderDelegate {
 
     func totalHeaderHeight() -> CGFloat {
         var totalHeight: CGFloat = 0
         totalHeight += viewModel.showPushPermissionsBanner ? PushPermissionsHeader.viewHeight : 0
-        totalHeight += viewModel.showMostSearchedItemsBanner ? MostSearchedItemsUserHeader.viewHeight : 0
         return totalHeight
     }
 
@@ -733,19 +740,9 @@ extension UserProfileViewController: ListingListViewHeaderDelegate, PushPermissi
             pushHeader.delegate = self
             header.addHeader(pushHeader, height: PushPermissionsHeader.viewHeight, style: .bubble)
         }
-        if viewModel.showMostSearchedItemsBanner {
-            let mostSearchedItemsHeader = MostSearchedItemsUserHeader()
-            mostSearchedItemsHeader.tag = 1
-            mostSearchedItemsHeader.delegate = self
-            header.addHeader(mostSearchedItemsHeader, height: MostSearchedItemsUserHeader.viewHeight)
-        }
     }
 
     func pushPermissionHeaderPressed() {
         viewModel.didTapPushPermissionsBanner()
-    }
-
-    func didTapMostSearchedItemsHeader() {
-        viewModel.didTapMostSearchedItems()
     }
 }

@@ -47,4 +47,13 @@ enum NotificationSettingCellType {
             return nil
         }
     }
+    
+    var isSwitcher: Bool {
+        switch self {
+        case .switcher:
+            return true
+        case .marketing, .accessor:
+            return false
+        }
+    }
 }

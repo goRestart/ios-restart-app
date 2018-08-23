@@ -1,0 +1,4432 @@
+// When a user Account is deactivated because is a scammer
+"account_pending_moderation" = "Compte en attente de modération";
+
+// When a user Account is deactivated because is a scammer (includes user name)
+"account_pending_moderation_w_name" = "Le compte de %@ est en attente de modération";
+
+// Text of the link that will go to the appstore
+"app_share_download_text" = "Télécharger";
+
+// App share email button
+"app_share_email_button" = "Inviter via Email";
+
+// App share facebook messenger button
+"app_share_fbmessenger_button" = "Inviter via Messenger";
+
+// App share message sent when sharing (above the actual share link)
+"app_share_message_text" = "Essayez l'appli letgo et gagnez de l'argent en vendant vos affaires que vous n'utilisez plus !";
+
+// App share subject (when sending mail)
+"app_share_subject_text" = "Découvrez letgo";
+
+// App share dialog subtitle
+"app_share_subtitle" = "Partagez letgo avec vos amis et aidez-nous à faire grandir notre communauté !";
+
+// App share dialog title
+"app_share_title" = "INVITEZ VOS AMIS";
+
+// App share whatsapp button
+"app_share_whatsapp_button" = "Inviter via Whatsapp";
+
+// In app notification reply button (reception of message of another user)
+"app_notification_reply" = "Répondre";
+
+// Text for unsuccessful user block
+"block_user_error_generic" = "Une erreur est survenue lors du blocage de cet utilisateur.";
+
+// Text for bubble in free bump
+"bump_up_banner_free_text" = "Renvoyez vers le haut gratuitement pour vendre plus vite";
+
+// Text for bubble in payment bump
+"bump_up_banner_pay_text" = "Vendez au plus vite !";
+
+// Text for bubble in payment bump improvement.
+"bump_up_banner_pay_text_improvement" = "Vendre !";
+
+// Text for bubble in payment bump improvement. Variant A (only in English): Sell faster now
+"bump_up_banner_pay_text_improvement_english_a" = "Vendez au plus vite !";
+
+// Text for bubble in payment bump improvement. Variant B (only in English): Get more visibility
+"bump_up_banner_pay_text_improvement_english_b" = "Vendez au plus vite !";
+
+// Text for bubble in payment bump improvement. Variant C (only in English): Attract more buyers
+"bump_up_banner_pay_text_improvement_english_c" = "Vendez au plus vite !";
+
+// Text for bubble in payment bump improvement. Variant D (only in English): Attract 2x more buyers
+"bump_up_banner_pay_text_improvement_english_d" = "Vendez au plus vite !";
+
+// Text for bubble in payment bump improvement. Variant B (only in Turkish): Daha çok kişi görsün
+"bump_up_banner_pay_text_improvement_turkish_b" = "Gagnez en visibilité";
+
+// Text for bubble in payment bump improvement. Variant C (only in Turkish): Daha çok alıcıyı çek
+"bump_up_banner_pay_text_improvement_turkish_c" = "Gagnez en visibilité";
+
+// Text for bubble in payment bump improvement. Variant D (only in Turkish): İlanına 2 kat daha fazla alıcı çek
+"bump_up_banner_pay_text_improvement_turkish_d" = "Gagnez en visibilité";
+
+// Text for bubble while waiting for next bump
+"bump_up_banner_wait_text" = "avant de remettre en vedette";
+
+// Text for bubble when boost is enabled
+"bump_up_banner_boost_text" = "Ajouter Extra Boost";
+
+// Text for the timer progress view, this text is followed by the time left (e.g.: 2h 32m 15s)
+"bump_up_banner_boost_progress_title" = "Mis en vedette pour";
+
+// Title for bubble button
+"bump_up_banner_free_button_title" = "Renvoyer vers le haut";
+
+// Text for the loading bump up banner
+"bump_up_banner_loading_text" = "Chargement de plus d'informations…";
+
+// Free bump up success message
+"bump_up_free_success" = "Renvoyé vers le haut ! Continuez de renvoyer vos annonces vers le haut pour toujours plus de visibilité.";
+
+// Payment bump up success message
+"bump_up_pay_success" = "Mise en vedette ! Votre annonce bénéficie maintenant d'une meilleure visibilité.";
+
+// Error when bumping
+"bump_up_error_bump_generic" = "Une erreur est survenue lors de la mise en vedette de votre annonce. Veuillez réessayer.";
+
+// Token error when bumping
+"bump_up_error_bump_token" = "Votre paiement a été effectué, mais l'annonce n'a pas été mise en vedette.";
+
+// Error shown when payment fails
+"bump_up_error_payment_failed" = "Impossible de se connecter à l'App Store. Votre paiement n'a pas été traité. Veuillez réessayer.";
+
+// Text for loading view while processing free bump
+"bump_up_processing_free_text" = "En traitement...";
+
+// Text for loading view while processing bump with a price
+"bump_up_processing_priced_text" = "Paiement en cours...";
+
+// Text for stripe in featured products cells
+"bump_up_product_cell_featured_stripe" = "Spécial";
+
+// Text for feature call to action in product cell
+"bump_up_product_cell_feature_it_label" = "Mettez-le en vedette";
+
+// Featured product cell chat now button
+"bump_up_product_cell_chat_now_button" = "Chattez";
+
+// Featured product cell chat now button variant A (only in turkish): Sohbet Et
+"bump_up_product_cell_chat_now_button_a" = "Chattez";
+
+// Featured product cell chat now button variant B (only in turkish): Mesaj Gönder
+"bump_up_product_cell_chat_now_button_b" = "Chattez";
+
+// Featured product cell chat now button variant C (only in turkish): Mesajlaş
+"bump_up_product_cell_chat_now_button_c" = "Chattez";
+
+// Featured product cell chat now button variant D (only in turkish): İletişime Geç
+"bump_up_product_cell_chat_now_button_d" = "Chattez";
+
+// Featured product cell chat now button variant A (only in English): Chat Now
+"bump_up_product_cell_chat_now_button_english_a" = "Chattez";
+
+// Featured product cell chat now button variant B (only in English): Contact
+"bump_up_product_cell_chat_now_button_english_b" = "Chattez";
+
+// Featured product cell chat now button variant C (only in English): Contact seller
+"bump_up_product_cell_chat_now_button_english_c" = "Chattez";
+
+// Featured product cell chat now button variant D (only in English): Start chat
+"bump_up_product_cell_chat_now_button_english_d" = "Chattez";
+
+// Text for label in featured products detail
+"bump_up_product_detail_featured_label" = "SPÉCIAL";
+
+// Title for free bump up view
+"bump_up_view_free_title" = "RENVOYEZ VOTRE ANNONCE VERS LE HAUT";
+
+// Subtitle for free bump up view
+"bump_up_view_free_subtitle" = "Plus vous partagez, plus votre annonce sera visible.";
+
+// Title for payment bump up view
+"bump_up_view_pay_title" = "Attirez deux fois plus d'acheteurs";
+
+// Subtitle for payment bump up view
+"bump_up_view_pay_subtitle" = "En mettant votre annonce en vedette pendant 24 heures, plus d'acheteurs voient votre annonce et vous vendez plus vite";
+
+// Button title for payment bump up view
+"bump_up_view_pay_button_title" = "Mettez-le en vedette pour %@";
+
+// Button title for payment bump up boost view
+"bump_up_view_boost_pay_button_title" = "Mettez-le de nouveau en vedette pour %@";
+
+// Title for payment bump up view variant 1
+"bump_up_view_boost_title_send_top" = "Renvoyez-le de nouveau vers le haut";
+
+// Title for payment bump up view variant 2
+"bump_up_view_boost_title_boost_listing" = "Boostez votre annonce mise en vedette";
+
+// Title for payment bump up view variant 3
+"bump_up_view_boost_title_cheaper_boost" = "Obtenez un boost moins cher dès maintenant";
+
+// Title for payment bump view when boost is not ready yet
+"bump_up_view_boost_title_not_ready" = "Votre annonce est toujours en vedette";
+
+// Subtitle for payment bump up view variant 1
+"bump_up_view_boost_subtitle_send_top" = "Votre annonce est toujours mise en vedette, mais vous pouvez ajouter un extra boost. Cela va envoyer votre annonce en haut de la liste et elle sera mise en valeur pendant 24 heures à compter de maintenant.";
+
+// Subtitle for payment bump up view variant 2
+"bump_up_view_boost_subtitle_boost_listing" = "Puisque vous avez déjà mis votre annonce en vedette au cours des dernières 24 heures, nous vous permettons d'acheter une autre mise en vedette pour moins cher !";
+
+// Subtitle for payment bump up view variant 3
+"bump_up_view_boost_subtitle_cheaper" = "Boostez votre annonce dès maintenant pour obtenir un rabais sur le prix d'une mise en vedette classique.";
+
+// Subtitle for payment bump view when boost is not ready yet
+"bump_up_view_boost_subtitle_not_ready" = "Vous pouvez ajouter un autre boost dans %@ pour la renvoyer vers le haut et la mettre en vedette pour 24 heures de plus";
+
+// Text for boost success alert
+"bump_up_boost_success_alert_text" = "Votre annonce a été boostée ! Elle sera mise en vedette pour les prochaines 24 heures.";
+
+// Title for payment bump up view
+"bump_up_old_view_pay_title" = "VENDRE RAPIDEMENT";
+
+// Subtitle for payment bump up view
+"bump_up_old_view_pay_subtitle" = "Attirez plus d'acheteurs en donnant plus de visibilité à votre annonce.";
+
+// Button title for payment bump up view
+"bump_up_old_view_pay_button_title" = "Activez-le pour %@";
+
+// Text for alert when bump is not allowed
+"bump_up_not_allowed_alert_text" = "Mettre cette annonce en vedette est impossible pour le moment. Pour plus d'informations, contactez-nous.";
+
+// Conatct Us button for alert when bump is not allowed
+"bump_up_not_allowed_alert_contact_button" = "Contactez-nous";
+
+// Text for telling the user that the refresh of new listings has failed.
+"cached_feed_error" = "Une erreur est survenue au moment de charger de nouvelles annonces";
+
+// Text for telling the user that there are fresh listings.
+"cached_feed_new_listings" = "Nouveaux produits";
+
+// Categories baby and child. Check attached image "categories (2).png"
+"categories_baby_and_child" = "Bébé et Enfant";
+
+// Categories cars and motors. Check attached image "categories (1).png"
+"categories_cars_and_motors" = "Véhicules et accessoires";
+
+// Categories electronics. Check image @ "categories_cars_and_motors" segment
+"categories_electronics" = "Electroniques";
+
+// Categories fashion and accessories. Check image @ "categories_cars_and_motors" segment
+"categories_fashion_and_accessories" = "Mode et Accessoires";
+
+// Categories free. Check image @ "categories_cars_and_motors" segment
+"categories_free" = "Gratuit";
+
+// Categories home and garden. Check image @ "categories_cars_and_motors" segment
+"categories_home_and_garden" = "Maison et Jardin";
+
+// Categories movies books and music. Check image @ "categories_cars_and_motors" segment
+"categories_movies_books_and_music" = "Films, Livres et Musique";
+
+// Categories other. Check image @ "categories_baby_and_child" segment
+"categories_other" = "Autre";
+
+// Categories real Estate
+"categories_real_estate" = "Immobilier";
+
+// Categories real Estate
+"categories_real_estate_title" = "Immobilier";
+
+// Categories services
+"categories_services" = "Services";
+
+// Cateogries Jobs & Services
+"categories_jobs_services" = "Emplois & Services";
+
+// Categories sports leisure and games. Check image @ "categories_cars_and_motors" segment
+"categories_sports_leisure_and_games" = "Sports, Loisirs et Jeux";
+
+// Categories title. Check attached image "categories (2).png"
+"categories_title" = "Catégories";
+
+// Text for non assigned category
+"categories_unassigned" = "Non sélectionnée";
+
+// Text for posting with no category assigned
+"categories_unassigned_items" = "Autres biens";
+
+// Category "Cars"
+"categories_car" = "Voitures";
+
+// Category "Tech"
+"categories_inFeed_electronics" = "Électronique";
+
+// Category "Motors"
+"categories_inFeed_motors" = "Véhicules";
+
+// Category "Leisure"
+"categories_inFeed_sports_leisure_games" = "Loisirs";
+
+// Category "Services"
+"categories_inFeed_services" = "Services";
+
+// Category "Home"
+"categories_inFeed_home" = "Maison";
+
+// Category "Entertainment"
+"categories_inFeed_books_movies" = "Divertissements";
+
+// Category "Fashion"
+"categories_inFeed_fashion" = "Mode";
+
+// Category "Child"
+"categories_inFeed_baby_child" = "Enfants";
+
+// Category "Other"
+"categories_inFeed_others" = "Autre";
+
+// Category "Cars"
+"categories_inFeed_cars" = "Voitures";
+
+// Category "Housing"
+"categories_inFeed_real_estate" = "Immobilier";
+
+// Category "Real Estate"
+"categories_inFeed_real_estate_title" = "Immobilier";
+
+// Show more header element
+"categories_super_keywords_inFeed_show_more" = "Afficher plus";
+
+// Change Bio placeholder text
+"change_bio_placeholder" = "Ajoutez une bio qui décrit qui vous êtes. Partagez vos centres d'intérêt ou un fait amusant à propos de vous.";
+
+// Change Bio view title
+"change_bio_title" = "À propos de moi";
+
+// Change Bio save button title
+"change_bio_save_button" = "Sauver";
+
+// Change Bio error shown when new bio contains invalid info
+"change_bio_error_message" = "Une erreur est survenue lors de la sauvegarde de votre bio. Veuillez vous assurer qu'elle ne comporte aucune coordonnée personnelle.";
+
+// Change location apply button. Check image @ "change_location_title" segment
+"change_location_apply_button" = "Configurer une localisation";
+
+// Change location approximate location label. Check image @ "change_location_title" segment
+"change_location_approximate_location_label" = "Indiquer la localisation approximative";
+
+// Change location alert, error country alert message
+"change_location_error_country_alert_message" = "Veuillez choisir une localisation dans le pays où vous vous situez actuellement.";
+
+// Change location error searching location message. Message displayal is like the other error messages
+"change_location_error_search_location_message" = "Nous n'avons pas trouvé ce lieu. Veuillez réessayer.";
+
+// Change location unknown location message. Message displayal is like the other error messages
+"change_location_error_unknown_location_message" = "Pas de résultat pour %@";
+
+// Change location error updating location message. Message displayal is like the other error messages
+"change_location_error_updating_location_message" = "Une erreur est survenue lors de la mise à jour de votre localisation";
+
+// Change location unknown location message. Message displayal is like the other error messages
+"change_location_recommend_update_location_message" = "Nous vous recommandons de mettre à jour votre position pour voir les meilleures offres près de vous !";
+
+// Change location search field hint. Check image @ "change_location_title" segment
+"change_location_search_field_hint" = "Entrez une ville ou un code postal";
+
+// Change location title. Check attached image "change_location.png"
+"change_location_title" = "Changer la localisation";
+
+// Change Location with Zip code Zipcode placeholder
+"change_location_zip_placeholder" = "Code postal";
+
+// Change Location with Zip code error message
+"change_location_zip_not_found_error_message" = "Nous n'avons pas pu trouver d'emplacement correspondant au code postal que vous avez entré.\nVeuillez le vérifier et essayer de nouveau.";
+
+// Change password confirm password field hint. Check attached image "change_password.png"
+"change_password_confirm_password_field_hint" = "Confirmer le mot de passe";
+
+// Change password new password field hint. Check image @ "change_password_confirm_password_field_hint" segment
+"change_password_new_password_field_hint" = "Nouveau mot de passe";
+
+// Change password send error generic. Check attached image "change_password_send_error.png"
+"change_password_send_error_generic" = "Une erreur est survenue lors du changement de mot de passe. Veuillez réessayer.";
+
+// Change password send error invalid password. Check image @ "change_password_send_error_generic" segment
+"change_password_send_error_invalid_password_with_max" = "Veuillez entrer un mot de passe valide. Il doit contenir entre %d et %d caractères.";
+
+// Change password send error passwords mismatch. Check image @ "change_password_send_error_generic" segment
+"change_password_send_error_passwords_mismatch" = "Les mots de passe ne correspondent pas. Veuillez réessayer.";
+
+// Change password send error link expired (when trying to reset a pwd through an expired email link)
+"change_password_send_error_link_expired" = "Oups ! Ce lien a expiré !";
+
+// Change password send ok. Check image @ "change_password_send_error_generic" segment
+"change_password_send_ok" = "Mot de passe modifié !";
+
+// Change password title. Check image @ "change_password_confirm_password_field_hint" segment
+"change_password_title" = "Changer le mot de passe";
+
+// Change name invalid name error.  Check image @ "change_username_title" segment
+"change_username_error_invalid_username" = "Veuillez entrer un nom d'utilisateur valide. Il doit comporter au moins %d caractères.";
+
+// Change name invalid username letgo. Check image @ "change_username_title" segment
+"change_username_error_invalid_username_letgo" = "Un autre compte utilise %@";
+
+// Change name hint.  Check image @ "change_username_title" segment
+"change_username_field_hint" = "Nom complet";
+
+// Change name loading message. Check image @ "change_username_title" segment
+"change_username_loading" = "Enregistrement de votre nom d'utilisateur...";
+
+// Change name save button.  Check image @ "change_username_title" segment
+"change_username_save_button" = "Enregistrer";
+
+// Change username send ok. Check image @ "change_username_title" segment
+"change_username_send_ok" = "Nom d'utilisateur modifié !";
+
+// Change name title.  Check attached image "change_username.png"
+"change_username_title" = "Changer le Nom";
+
+// Change email navigation bar title
+"change_email_title" = "Changer email";
+
+// Change email current email text
+"change_email_current_email_label" = "EMAIL ACTUEL :";
+
+// Change email success message
+"change_email_send_ok" = "Votre email a été changé %@. Vérifiez votre boite de reception pour le confirmer.";
+
+// Change email message while loading
+"change_email_loading" = "Sauvegarde de l'email...";
+
+// Change email text field placeholder
+"change_email_field_hint" = "Nouvel email (email@domain.com)";
+
+// Change email invalid email
+"change_email_error_invalid_email" = "Veuillez entrer une adresse email valide.";
+
+// Change email already registered
+"change_email_error_already_registered" = "Cette adresse email est déjà utilisée. Veuillez entrer une adresse différente.";
+
+"chat_conversations_list_filter_all" = "Tous";
+
+"chat_conversations_list_filter_selling" = "Vente";
+
+"chat_conversations_list_filter_buying" = "Achat";
+
+"chat_conversations_list_blocked_users_button" = "Voir les utilisateurs bloqués";
+
+// Tag for the letgo assistant conversation cells
+"chat_conversations_list_letgo_assistant_tag" = "assistant letgo";
+
+// Information regarding the asssitant of letgo
+"chat_user_info_letgo_assistant" = "Je suis une assistante virtuelle qui vous donne des conseils et vous aide à vendre.";
+
+"chat_message_type_not_supported" = "Ce message n'est pas compatible avec la version de l'appli que vous utilisez. Mettez à jour votre appli dès maintenant pour déverrouiller les nouvelles fonctions !";
+
+// Chat inactive conversations cell
+"chat_inactive_conversations_explanation_label" = "Les chats vieux de plus de 3 mois sont automatiquement archivés.";
+
+// Chat inactive conversations cell
+"chat_inactive_conversations_button" = "Voir les chats archivés";
+
+// Chat message shown on top of all inactive conversations
+"chat_inactive_conversation_relation_explanation" = "Archivé par letgo car aucune activité n'a eu lieu au cours des 3 derniers mois.";
+
+// When a user asked to delete his account (short info message)
+"chat_account_deleted_w_name" = "Le compte de %@ a été supprimé";
+
+// When a user asked to delete his account (short info message)
+"chat_account_deleted_wo_name" = "Ce compté a été supprimé";
+
+// Chat block user action
+"chat_block_user" = "Bloquer l'Utilisateur";
+
+// Chat block user alert block button
+"chat_block_user_alert_block_button" = "Bloquer";
+
+// Chat block user alert text
+"chat_block_user_alert_text" = "Bloquer une personne bloque toute communication entre vous.";
+
+// Chat block user alert title
+"chat_block_user_alert_title" = "Bloquer l'Utilisateur";
+
+// Chat detail, you blocked this user label
+"chat_blocked_by_me_label" = "Vous avez bloqué cet utilisateur";
+
+// Chat detail, you blocked this user label (includes username)
+"chat_blocked_by_me_label_w_name" = "Vous avez bloqué %@";
+
+// Chat detail, this user blocked you label
+"chat_blocked_by_other_label" = "Vous avez été bloqué par cet utilisateur";
+
+// Title showing LETGO TEAM
+"chat_disclaimer_letgo_team" = "EQUIPE LETGO";
+
+// Chat detail, conversation blocked, disclaimer on bottom. Safety tips text is appended.
+"chat_blocked_disclaimer_scammer_append_safety_tips" = "Tapez ici pour vérifier nos %@.";
+
+// Chat detail, conversation blocked, disclaimer on bottom. Safety tips keyword.
+"chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "conseils de sécurité";
+
+// Chat detail, conversation blocked, disclaimer on bottom when scammer (missing username)
+"chat_blocked_disclaimer_scammer_wo_name" = "Pour des raisons se sécurité, ce compté a été supprimé par l'équipe letgo et ces messages ont été supprimés.";
+
+// Message to a seller when is chatting with a scammer
+"chat_forbidden_disclaimer_seller_wo_name" = "Il semble que cet utilisateur ne soit plus intéressé par votre annonce.";
+
+// Message to a seller when is chatting with a scammer (with buyer name)
+"chat_forbidden_disclaimer_seller_w_name" = "Il semble que %@ ne soit plus intéressé(e) par votre annonce.";
+
+// Message to a buyer when is chatting with a scammer
+"chat_forbidden_disclaimer_buyer_wo_name" = "Ce compte est en cours de vérification par l'équipe letgo.";
+
+// Message to a buyer when is chatting with a scammer (with seller name)
+"chat_forbidden_disclaimer_buyer_w_name" = "Le compte de %@ est en cours de vérification par l'équipe letgo.";
+
+// Message to a user to encourage verifying social accounts (button)
+"chat_connect_account_disclaimer_button" = "Vérifier maintenant !";
+
+// When a user asked to delete his account (disclaimer message)
+"chat_deleted_disclaimer_w_name" = "Vous ne pouvez pas continuer cette discussion car le compte de %@ n'est plus actif.";
+
+// When a user asked to delete his account (disclaimer message)
+"chat_deleted_disclaimer_wo_name" = "Vous ne pouvez plus continuer cette discussion car ce compte n'est plus actif.";
+
+// text in chat express banner action button
+"chat_express_banner_button_title" = "Voir les Affaires";
+
+// text in chat express banner title label
+"chat_express_banner_title" = "Affaires similaires près de chez vous";
+
+// Express chat, don't miss out label text
+"chat_express_dont_miss_label" = "Ne manquez pas ces bonnes affaires";
+
+// Express chat, contact these sellers label text
+"chat_express_contact_sellers_label" = "Contactez ces vendeurs avant que d'autres acheteurs ne le fassent !";
+
+// Express chat, "still available?" text
+"chat_express_text_field_text" = "Toujours disponible ?";
+
+// Express chat contact 1 seller button title
+"chat_express_contact_one_button_text" = "Contacter 1 vendeur";
+
+// Express chat contact several sellers button title
+"chat_express_contact_various_button_text" = "Contacter %@ vendeurs";
+
+// Express chat don't ask me again button title
+"chat_express_dont_ask_again_button" = "Ne pas me redemander";
+
+// Alert text for express chat single message send success
+"chat_express_one_message_sent_success_alert" = "Votre message a été envoyé !";
+
+// Alert text for express chat messages send success
+"chat_express_several_messages_sent_success_alert" = "Vos messages ont été envoyés !";
+
+// Express chat jsut contact button title
+"chat_express_contact_only_button_text" = "Contact";
+
+// In high demand label text
+"chat_express_high_demand_label" = "En forte demande ! Ne manquez pas ces aubaines";
+
+// text in chat professional banner action button
+"chat_professional_banner_button_title" = "Appel";
+
+// text in chat professional banner title label
+"chat_professional_banner_title" = "Vous parlez à un concessionnaire automobile professionnel";
+
+// When a user asked to delete his account (state)
+"chat_list_account_deleted" = "Compte supprimé";
+
+// Text to put on the username field when user is deleted
+"chat_list_account_deleted_username" = "Inactif";
+
+// Chat List all-chats title
+"chat_list_all_empty_title" = "AUCUN CHAT (POUR LE MOMENT !)";
+
+// Chat List all-chats filter title
+"chat_list_all_title" = "TOUS";
+
+// Chat List Archive error when archiving multiple chats
+"chat_list_archive_error_multiple" = "Une erreur est survenue lors de l'archivage de ces conversations. Veuillez réessayer.";
+
+// Chat List Blocked Users empty body
+"chat_list_blocked_empty_body" = "Sélectionner \"Bloquer l'Utilisateur\" depuis le menu dans le chat";
+
+// Chat List Blocked Users empty title
+"chat_list_blocked_empty_title" = "BLOQUER UTILISATEURS";
+
+// Chat list blocked user cell "blocked" label
+"chat_list_blocked_user_label" = "Bloqué";
+
+// Chat list blocked users title
+"chat_list_blocked_users_title" = "UTILISATEURS BLOQUES";
+
+// Chat List buying button
+"chat_list_buying_empty_button" = "Parcourir les annonces";
+
+// Chat List buying title
+"chat_list_buying_empty_title" = "AUCUN CHAT (POUR LE MOMENT !)";
+
+// Chat list buying filter title
+"chat_list_buying_title" = "ACHAT";
+
+// Chat list delete (top bar)
+"chat_list_delete" = "Supprimer";
+
+// Chat list delete confirmation alert submit button
+"chat_list_delete_alert_send" = "Supprimer";
+
+// Chat list delete confirmation alert text (multiple)
+"chat_list_delete_alert_text_multiple" = "Vous êtes sur le point de supprimer ces clavardages de façon permanente";
+
+// Chat list delete confirmation alert text (single)
+"chat_list_delete_alert_text_one" = "Vous êtes sur le point de supprimer ce clavardage de façon permanente";
+
+// Chat list delete confirmation alert title (multiple)
+"chat_list_delete_alert_title_multiple" = "Supprimer les chats";
+
+// Chat list delete confirmation alert title (single)
+"chat_list_delete_alert_title_one" = "Supprimer le chat";
+
+// Chat list delete error (single)
+"chat_list_delete_error_one" = "Une erreur est survenue lors de la suppression du chat. Veuillez réessayer.";
+
+// Chat list delete success (single)
+"chat_list_delete_ok_one" = "Le chat a été supprimé !";
+
+// Chat List selling button
+"chat_list_selling_empty_button" = "Vendez Vos Affaires";
+
+// Chat List selling title
+"chat_list_selling_empty_title" = "AUCUN CHAT (POUR LE MOMENT !)";
+
+// Chat list selling filter title
+"chat_list_selling_title" = "VENTE";
+
+// Chat list title, Check attached image "chat_list (full).png"
+"chat_list_title" = "Chats";
+
+// Chat List Unarchive error when archiving multiple chats
+"chat_list_unarchive_error_multiple" = "Une erreur est survenue lors de la désarchivation de ces conversations. Veuillez réessayer.";
+
+// Chat list Unblock
+"chat_list_unblock" = "Débloquer";
+
+// Inactive chats screen title
+"chat_inactive_list_title" = "Clavardages inactifs";
+
+// Login info when trying to chat logged-out
+"chat_login_popup_text" = "Pour commencer à chatter, vous devez vous connecter";
+
+// Disclaimer message shown on the first message receive from the interlocutor
+"chat_message_disclaimer_meeting_security" = "Essayez d'effectuer les rencontres dans des lieux comme les cafés ou les halls de banques. Ce sont des endroits pratiques et sécuritaires.";
+
+// Disclaimer shown for each suspicious message received in chat with no blocked user
+"chat_message_disclaimer_scammer_base_blocked" = "Soyez très prudents lorsque vous donnez votre email/téléphone. Les fraudeurs demandent souvent de communiquer en dehors de letgo. %@";
+
+// Disclaimer shown for each suspicious message received in chat with blocked user
+"chat_message_disclaimer_scammer_append_blocked" = "Cliquez-ici pour bloquer cet utilisateur.";
+
+// Chat message field hint. Check attached image "chat.png"
+"chat_message_field_hint" = "Entrez votre message ici";
+
+// Chat detail, the product is given away.
+"chat_product_given_away_label" = "Donné";
+
+// Chat message load generic error. Message displayal is like the other error messages.
+"chat_message_load_generic_error" = "Une erreur est survenue lors de la récupération de vos données de conversation. Veuillez réessayer.";
+
+// Chat detail, the product is sold
+"chat_product_sold_label" = "Vendu";
+
+// Section inside chat that offers related products
+"chat_related_products_title" = "VOUS POURRIEZ ETRE INTERESSE PAR";
+
+// Chat safety tips.
+"chat_safety_tips" = "Conseils de sécurité";
+
+// Chat safety tips full message
+"chat_safety_tips_message" = "• Rencontrez en personne et payez en liquide.\n\n• Chattez dans l'appli letgo.\n\n• Si cela semble trop beau pour être vrai, méfiez-vous !";
+
+// Chat safety tips title. Check attached image "chat_safety_tips.png"
+"chat_safety_tips_title" = "CONSEILS DE SECURITÉ";
+
+// Chat send button. Check image @ "chat_list_title" segment
+"chat_send_button" = "Envoyer";
+
+// Chat send error generic. Message displayal is like the other error messages
+"chat_send_error_generic" = "Une erreur est survenue lors de l'envoi du message. Veuillez réessayer.";
+
+// Chat send error, users in different country
+"chat_send_error_different_country" = "Vous ne pouvez pas démarrer un clavardage pour une annonce postée dans un autre pays.";
+
+// Chat connection status bar connecting
+"chat_status_view_connecting" = "Connexion en cours...";
+
+// Chat connection status bar no network connection
+"chat_status_view_no_network" = "Pas de connexion réseau";
+
+// Chat connection status bar unable to connect
+"chat_status_view_unable_to_connect" = "Impossible de se connecter. Veuillez réessayer";
+
+// This text will not be shown, but IT HAS TO BE EXACTLY like the "try again" in the "chat_status_view_unable_to_connect" string
+"chat_status_view_try_again" = "Veuillez réessayer";
+
+// Chat tooltip add stickers "NEW"
+"chat_stickers_tooltip_new" = "NOUVEAU !";
+
+// Chat unblock user action
+"chat_unblock_user" = "Débloquer l'Utilisateur";
+
+// User info bubble to show information about the other user
+"chat_user_info_name" = "Bonjour, je m'appelle %@";
+
+// User info bubble to show information about the other user
+"chat_user_info_verified_with" = "Vérifié avec :";
+
+// Text for the review user button tooltip
+"chat_user_rating_button_tooltip" = "Notez cet utilisateur";
+
+// Alert when an unverified user tries to chat
+"chat_verify_alert_ok_button" = "Ok";
+
+// Alert when an unverified user tries to chat
+"chat_verify_alert_title" = "Vérifiez votre email pour chatter";
+
+// Alert encouraging users to connect facebook & google
+"chat_connect_accounts_title" = "INSPIREZ CONFIANCE";
+
+// Background text on chat list when user is not verified
+"chat_not_verified_state_title" = "AVEZ-VOUS ÉTÉ VÉRIFIÉ ?";
+
+// Background text on chat list when user is not verified
+"chat_not_verified_state_message" = "Assurez-vous d'être vérifié pour commencer à chatter.";
+
+// Background text on chat list when user is not verified
+"chat_not_verified_state_check_button" = "Vérifier";
+
+// Alert to encourage user to verify
+"chat_not_verified_alert_message" = "Connectez-vous avec Facebook, Google ou par Email pour vérifier votre identité.";
+
+// Alert to show when user started chat with himself
+"chat_with_yourself_alert_msg" = "Vous ne pouvez pas démarrer une conversation à propos de votre propre annonce.";
+
+// Button in chat conversation list to mark all conversations as read
+"chat_mark_conversation_as_read_button" = "Tous les indiquer comme lus";
+
+// meeting cell title
+"chat_meeting_cell_title" = "Rencontrons-nous à :";
+
+// decline button text
+"chat_meeting_cell_decline_button" = "Refuser";
+
+// accept button text
+"chat_meeting_cell_accept_button" = "Accepter";
+
+// pending meeting status text
+"chat_meeting_cell_status_pending" = "En attente";
+
+// accepted meeting status text
+"chat_meeting_cell_status_accepted" = "Accepté";
+
+// declined meeting status text
+"chat_meeting_cell_status_declined" = "Refusé";
+
+// Title of transport collection
+"collection_transport_title" = "Voyagez avec style";
+
+// Title of furniture collection
+"collection_furniture_title" = "Un bon chez-soi";
+
+// Title of selected for you collection
+"collection_you_title" = "Sélectionnés pour vous";
+
+// Explore button on collection cell
+"collection_explore_button" = "Explorer";
+
+// commercializer display share alert
+"commercializer_display_share_alert" = "";
+
+// commercializer display share button for my videos
+"commercializer_display_share_my_video_button" = "";
+
+// Title for the commercializer display view
+"commercializer_display_title_label" = "";
+
+// player couldn't load the video
+"commercializer_load_video_failed_error_message" = "";
+
+// Commercializer ready title
+"commercializer_preview_title" = "";
+
+// commercializer processing video title label
+"commercializer_processing_title_label" = "";
+
+// Empty view shown when the list of commercializable items is empty
+"commercializer_product_list_empty_body" = "";
+
+// Empty view shown when the list of commercializable items is empty
+"commercializer_product_list_empty_title" = "";
+
+// Commercializer main screen intro button (tutorial overlay)
+"commercializer_promote_intro_button" = "";
+
+// Commercializer main screen navigation bar title
+"commercializer_promote_navigation_title" = "";
+
+// commercializer main screen theme already used
+"commercializer_promote_theme_already_used" = "";
+
+// commercializer share message text
+"commercializer_share_message_text" = "";
+
+// Common cancel
+"common_cancel" = "Annuler";
+
+// Common chat not available
+"common_chat_not_available" = "Oops ! Chat non trouvé.";
+
+// Common collapse
+"common_collapse" = "Afficher moins";
+
+// Common Confirm
+"common_confirm" = "Confirmer";
+
+// Common Done
+"common_done" = "Terminé";
+
+// Common Edit
+"common_edit" = "Modifier";
+
+// Common error
+"common_error" = "Erreur";
+
+// Common error connection failed
+"common_error_connection_failed" = "Une erreur est survenue. Veuillez vérifier votre connexion Internet.";
+
+// Common error generic body
+"common_error_generic_body" = "Une erreur est survenue.";
+
+// Common error list retry button
+"common_error_list_retry_button" = "Réessayer";
+
+// Common error network body
+"common_error_network_body" = "Vérifiez votre connexion et réessayez";
+
+// Common error retry button
+"common_error_retry_button" = "Réessayez";
+
+// Common error title
+"common_error_title" = "OOPS !";
+
+// Error when loading image
+"common_error_posting_loaded_image" = "Oups ! Votre annonce n'a pas été publiée. Veuillez vérifier vos paramètres de connexion.";
+
+// Common expand
+"common_expand" = "Afficher plus";
+
+// Common loading. Check attached image "common_loading.png"
+"common_loading" = "Chargement...";
+
+// Common max (Abbreviation from maximum)
+"common_max" = "max";
+
+// Common no
+"common_no" = "Non";
+
+// Common new
+"common_new" = "NOUVEAU !";
+
+// Common ok
+"common_ok" = "OK";
+
+// Common product given away
+"common_product_given_away" = "Donné";
+
+// Common product not available.
+"common_product_not_available" = "Oups ! Cette annonce n'est plus disponible";
+
+// Common product sold.
+"common_product_sold" = "Vendu";
+
+// Common settings
+"common_settings" = "Réglages";
+
+"common_short_time_day_ago_label" = "%d jour";
+
+"common_short_time_days_ago_label" = "%d jours";
+
+"common_short_time_hours_ago_label" = "%d h";
+
+"common_short_time_minutes_ago_label" = "%d m";
+
+"common_short_time_more_than_one_month_ago_label" = "1+ month";
+
+"common_short_time_week_ago_label" = "%d semaine";
+
+"common_short_time_weeks_ago_label" = "%d semaines";
+
+// Common time a minute ago label
+"common_time_a_minute_ago_label" = "il y a une minute";
+
+// Common time day ago label
+"common_time_day_ago_label" = "il y a un jour";
+
+// Common time days ago label
+"common_time_days_ago_label" = "il y a %d jours";
+
+// Common time hour ago label
+"common_time_hour_ago_label" = "il y a une heure";
+
+// Common time hours ago label
+"common_time_hours_ago_label" = "il y a %d heures";
+
+// Common time minutes ago label
+"common_time_minutes_ago_label" = "il y a %d minutes";
+
+// Common time more than one month ago label
+"common_time_more_than_one_month_ago_label" = "il y a plus d'un mois";
+
+// Common time now label
+"common_time_now_label" = "maintenant";
+
+// Common time seconds ago label
+"common_time_seconds_ago_label" = "il y a %d secondes";
+
+// Common time week ago label
+"common_time_week_ago_label" = "il y a une semaine";
+
+// Common time weeks ago label
+"common_time_weeks_ago_label" = "il y a %d semaines";
+
+// Common user not available
+"common_user_not_available" = "Oops ! Utilisateur non trouvé.";
+
+// Common user review not available
+"common_user_review_not_available" = "Oups ! Note introuvable.";
+
+// Common yes
+"common_yes" = "Oui";
+
+// Common display for time
+"common_hours_mins_secs" = "%@h %@m %@s";
+
+// Text shown in the Community Banner
+"community_banner_title" = "Faites partie de la communauté letgo !";
+
+// Contact subject option location. Check attached image @ "contact_email_field_hint" segment
+"contact_subject_option_location" = "Problèmes de localisation";
+
+// Contact subject option login. Check attached image @ "contact_email_field_hint" segment
+"contact_subject_option_login" = "Accès de connexion";
+
+// Contact subject option other. Check attached image @ "contact_email_field_hint" segment
+"contact_subject_option_other" = "Autre problème";
+
+// Contact subject option product edit. Check attached image @ "contact_email_field_hint" segment
+"contact_subject_option_product_edit" = "Modifier ou supprimer l'annonce";
+
+// Contact subject option profile edit. Check attached image @ "contact_email_field_hint" segment
+"contact_subject_option_profile_edit" = "Modifier/supprimer le profil";
+
+// Contact subject option report. Check attached image @ "contact_email_field_hint" segment
+"contact_subject_option_report" = "Signaler utilisateur/spam";
+
+// Chat direct answer as buyer
+"direct_answer_condition" = "Est-ce en bon état ?";
+
+// Chat direct answer as a seller - free listing. yours
+"direct_answer_free_yours" = "Il est à vous !";
+
+// Chat direct answer as a seller - free listing- still available
+"direct_answer_free_available" = "Oui, c'est toujours disponible";
+
+// Chat direct answer as a seller - free listing- no available
+"direct_answer_free_no_available" = "Désolé, je l'ai déjà donné !";
+
+// Chat direct answer as buyer - still have it
+"direct_answer_free_still_have" = "L'avez-vous toujours ?";
+
+// Chat direct answer as buyer
+"direct_answer_interested" = "Je suis intéressé !";
+
+// Chat direct answer as buyer
+"direct_answer_interested_in_this_item" = "Je suis intéressé(e) par ce produit";
+
+// Chat direct answer as buyer
+"direct_answer_interested_in_buying_it" = "J'aimerais l'acheter";
+
+// Chat direct answer as buyer
+"direct_answer_interested_buy_it" = "J'aimerais acheter votre bien";
+
+// Chat direct answer as buyer
+"direct_answer_interested_is_this_available" = "Est-ce disponible ?";
+
+// Chat direct answer as buyer
+"direct_answer_interested_is_this_still_available" = "Est-ce toujours disponible ?";
+
+// Chat direct answer as buyer
+"direct_answer_interested_is_it_still_available" = "Est-ce toujours disponible ?";
+
+// Chat direct answer as buyer
+"direct_answer_interested_still_have_it" = "L'avez-vous toujours ?";
+
+// Chat direct answer as buyer
+"direct_answer_interested_is_it_still_for_sale" = "Est-ce toujours en vente ?";
+
+// Chat direct answer as buyer
+"direct_answer_interested_has_it_sold" = "A-t'il été vendu ?";
+
+// Chat direct answer as buyer
+"direct_answer_interested_still_selling_it" = "Le vendez-vous toujours ?";
+
+// Chat direct answer as buyer
+"direct_answer_interested_what_condition" = "Est-ce en bon état ?";
+
+// Chat direct answer as buyer
+"direct_answer_is_negotiable" = "Le prix est-il négociable ?";
+
+// Chat direct answer as buyer
+"direct_answer_like_to_buy" = "Bonjour ! J'aimerais acheter votre bien";
+
+// Chat direct answer as buyer
+"direct_answer_meet_up" = "Où pouvons-nous nous rencontrer ?";
+
+// Chat direct answer as seller
+"direct_answer_negotiable_no" = "Non, ce n'est pas négociable";
+
+// Chat direct answer as seller
+"direct_answer_negotiable_yes" = "Oui, c'est négociable";
+
+// Chat direct answer as buyer or seller
+"direct_answer_not_interested" = "Je ne suis pas intéressé";
+
+// Chat direct answer as seller
+"direct_answer_product_sold" = "Désolé, ceci a été vendu !";
+
+// Alert to ask the user to mark the product as sold - message
+"direct_answer_sold_question_message" = "Indiquez « vendu » sur votre annonce pour informer tous les utilisateurs de letgo";
+
+// Alert to ask the user to mark the product as given away - message
+"direct_answer_given_away_question_message" = "Indiquez que votre produit a été donné pour que tous les utilisateurs letgo le sachent";
+
+// Alert to ask the user to mark the product as sold - possitive btn
+"direct_answer_sold_question_ok" = "Marquer \"Vendu\"";
+
+// Alert to ask the user to mark the product as given away - possitive btn
+"direct_answer_given_away_question_ok" = "Je l'ai donné";
+
+// Chat direct answer as buyer
+"direct_answer_still_available" = "Est-ce toujours disponible ?";
+
+// Alert to ask the user to mark the product as sold - title
+"direct_answer_sold_question_title" = "Déjà vendu ?";
+
+// Chat direct answer as seller
+"direct_answer_still_for_sale" = "Oui, toujours en vente";
+
+// Chat direct answer as seller
+"direct_answer_whats_offer" = "Quelle est votre offre ?";
+
+// option button to hide quick answers
+"direct_answers_hide" = "Masquer Réponses Rapides";
+
+// option button to show quick answers
+"direct_answers_show" = "Afficher Réponses Rapides";
+
+// Alert to ask the user to mark the product as given away - title
+"direct_answer_given_away_question_title" = "Déjà donné ?";
+
+// Chat direct answer as buyer
+"direct_answer_still_for_sale_buyer" = "Est-ce toujours en vente ?";
+
+// Chat direct answer as buyer
+"direct_answer_price_firm" = "Est-ce que le prix est ferme ?";
+
+// Chat direct answer as buyer
+"direct_answer_willing_to_negotiate" = "Seriez-vous ouvert à négocier le prix ?";
+
+// Chat direct answer as buyer
+"direct_answer_how_much_asking" = "Quel est le prix que vous demandez ?";
+
+// Chat direct answer as buyer
+"direct_answer_good_condition" = "Est-ce en bon état ?";
+
+// Chat direct answer as buyer
+"direct_answer_describe_condition" = "Pouvez-vous décrire son état ?";
+
+// Chat direct answer a buyer or seller
+"direct_answer_where_meet_up" = "À quel endroit voulez-vous que l'on se rencontre ?";
+
+// Chat direct answer a buyer or seller
+"direct_answer_where_located" = "À quel endroit êtes-vous ?";
+
+// Chat direct availability title
+"direct_answer_availability_title" = "Disponibilité...";
+
+// Chat direct price title
+"direct_answer_price_title" = "Prix...";
+
+// Chat direct condition title
+"direct_answer_condition_title" = "État...";
+
+// Chat direct meet up title
+"direct_answer_meet_up_title" = "Rencontre...";
+
+// Chat direct interested title
+"direct_answer_interested_title" = "Intéressé...";
+
+// Chat direct not interested title
+"direct_answer_not_interested_title" = "Pas intéressé...";
+
+// Chat direct sold title
+"direct_answer_sold_title" = "Vendu...";
+
+// Chat direct given away title
+"direct_answer_given_away_title" = "Donné...";
+
+// Chat direct negotiable title
+"direct_answer_negotiable_title" = "Négociable...";
+
+// Chat direct not negotiable title
+"direct_answer_not_negotiable_title" = "Non négociable...";
+
+"direct_answer_lets_meet" = "Rencontrons-nous";
+
+// Show user a product is discarded
+"discarded" = "Rejeté";
+
+// Rejected reason: breach of bad manners
+"discarded_products_reason_good_manners" = "N'est pas conforme aux meilleures pratiques";
+
+// Rejected reason: duplicated
+"discarded_products_reason_duplicated" = "Dupliquer l'annonce";
+
+// Rejected reason: No realistic price
+"discarded_products_reason_non_realistic_price" = "Prix surréaliste";
+
+// Rejected reason: Poor Ad Quality
+"discarded_products_reason_poor_ad_quality" = "N'est pas conforme aux meilleures pratiques";
+
+// Rejected reason: Photo not clear
+"discarded_products_reason_photo_not_clear" = "Photo floue ou imprécise";
+
+// Rejected reason: Reference to competitors
+"discarded_products_reason_reference_to_competitors" = "Références à d'autres applis ou sites internet";
+
+// Rejected reason: Stock photo only
+"discarded_products_reason_stock_photo_only" = "Ne contient que des photos provenant de banques d'images";
+
+// Allow user to edit a discarded product
+"discarded_products_edit" = "Modifier";
+
+// Allow users to delete a discarded product
+"discarded_products_delete" = "Supprimer";
+
+// Confirm discarded product deletion
+"discarded_products_delete_confirmation" = "Etes-vous certain de vouloir supprimer cette annonce ?";
+
+// Text for Edit Product Location Alert
+"edit_product_location_alert_text" = "Pour changer le lieu de publication de votre annonce, autorisez l'accès à votre localisation.";
+
+// Title for Edit Product Location Alert
+"edit_product_location_alert_title" = "CHANGER LA LOCALISATION";
+
+// Edit product send button. Check image @ "sell_send_error_invalid_category" segment
+"edit_product_send_button" = "Sauvegarder les changements";
+
+// Edit product send error uploading product. Message displayal is like the other error messages.
+"edit_product_send_error_uploading_product" = "Une erreur est survenue lors de la modification de votre annonce.";
+
+// Edit product send ok. Message displayal is like the other messages.
+"edit_product_send_ok" = "Félicitations ! Votre annonce a été mise à jour.";
+
+// Text for title disclaimer when suggesting title
+"edit_product_suggesting_title" = "Suggestion de titre...";
+
+// Edit product title. Check image @ "sell_send_error_invalid_category" segment
+"edit_product_title" = "Modifier annonce";
+
+// When closing edit product with unsaved changes
+"edit_product_unsaved_changes_alert" = "Êtes-vous certain de vouloir annuler ces changements ?";
+
+// When closing edit product with unsaved changes -> Ok button
+"edit_product_unsaved_changes_alert_ok" = "Oui";
+
+// Edit product, short version copy to feature item
+"edit_product_feature_label_short_text" = "Vendez au plus vite !";
+
+// Edit product, long version copy to feature item
+"edit_product_feature_label_long_text" = "Mettez votre annonce en vedette pour vendre plus vite";
+
+// Edit product, copy to feature item test version B
+"edit_product_feature_label_variant_B" = "Gagnez en visibilité";
+
+// Edit product, copy to feature item test version C
+"edit_product_feature_label_variant_C" = "Attirez plus d'acheteurs pour vendre plus vite";
+
+// Edit product, copy to feature item test version D
+"edit_product_feature_label_variant_D" = "Montrez-moi comment attirer plus d'acheteurs";
+
+// Edit price type, title of options list
+"edit_priceType_choose_title" = "Choisissez une option";
+
+// Placeholder value for paymentFrequency/PriceType
+"edit_paymentFrequency_placeholder" = "Non configuré";
+
+// Title for paymentFrequency edit field
+"edit_paymentFrequency_title" = "Fréquence";
+
+// Title for when Jobs is selected
+"edit_jobsServices_jobs_option_title" = "Emplois";
+
+// Title for when Services is selected
+"edit_jobsServices_services_option_title" = "Services";
+
+// Title for Job/Service listing type title
+"edit_jobsServices_listingType_title" = "Type d'annonce";
+
+// Type field title for when Jobs & Services is active
+"edit_jobsServices_serviceType_title" = "Type";
+
+// Subtype field title for when Jobs & Services is active
+"edit_jobsServices_serviceSubtype_title" = "Sous-type";
+
+// Bubble title
+"engagement_badging_feed_bubble" = "Nouveaux produits";
+
+// featured info view, title
+"featured_info_view_title" = "Annonce en Vedette";
+
+// featured info view sell faster text
+"featured_info_view_sell_faster" = "Vendez plus vite";
+
+// featured info view increase visibility text
+"featured_info_view_increase_visibility" = "Gagnez en visibilité";
+
+// featured info view more buyers text
+"featured_info_view_more_buyers" = "Attirez plus d'acheteurs";
+
+// When there's no distance filter set
+"filters_distance_not_set" = "Aucun";
+
+// Filters navbar reset
+"filters_navbar_reset" = "Reset";
+
+// Filters save button
+"filters_save_button" = "Sauvegarder les filtres";
+
+// Filters section car info
+"filters_section_car_info" = "Informations sur la voiture";
+
+// Filters section categories
+"filters_section_categories" = "Catégories";
+
+// Filters section distance
+"filters_section_distance" = "Distance";
+
+// Filters section location
+"filters_section_location" = "Localisation";
+
+// Filters Section Price
+"filters_section_price" = "Prix";
+
+// Filters section sort-by
+"filters_section_sortby" = "Trier par";
+
+// Filters secion within (within which time we want the products)
+"filters_section_within" = "Posté lors des";
+
+// Label to select only free items
+"filters_section_price_free_title" = "Afficher uniquement les produits gratuits";
+
+// Filters Section From price
+"filters_price_from" = "De";
+
+// Filters Section To price
+"filters_price_to" = "À";
+
+// From price in the selected filter cell shown in feed
+"filters_price_from_feed_filter_cell" = "De";
+
+// To price in the selected filter cell shown in feed
+"filters_price_to_feed_filter_cell" = "À";
+
+// Alert text when min price is higher than max price
+"filters_price_wrong_range_error" = "Le prix minimum ne peux pas être supérieur au prix maximum.";
+
+// Alert text when min size is higher than max size
+"filters_size_wrong_range_error" = "La grandeur minimum ne peut pas être plus élevée que la grandeur maximum";
+
+// Filters sort option closest
+"filters_sort_closest" = "Le plus près en premier";
+
+// Filters sort option newest
+"filters_sort_newest" = "Le plus récent en premier";
+
+// Filters sort option price ascending
+"filters_sort_price_asc" = "Prix croissants";
+
+// Filters sort option price descending
+"filters_sort_price_desc" = "Prix décroissants";
+
+// Filters title
+"filters_title" = "Filtres";
+
+// Filters within option All
+"filters_within_all" = "Toutes les annonces";
+
+// Filters within option 1 day
+"filters_within_day" = "Dernières 24h";
+
+// Filters within option 30 days
+"filters_within_month" = "Dernier 30 jours";
+
+// Filters within option 7 days
+"filters_within_week" = "Dernier 7 jours";
+
+// Filters Car seller type: private
+"filters_car_seller_type_private" = "Privé";
+
+// Filters Car seller type: professional
+"filters_car_seller_type_professional" = "Professionnel";
+
+// Filters Car seller type: individual
+"filters_car_seller_type_invidual" = "Particulier";
+
+// Filters Car seller type: dealership
+"filters_car_seller_type_dealership" = "Concessionnaire";
+
+// Filters Car seller type: all
+"filters_car_seller_type_all" = "Tous";
+
+// Filters Make not set
+"filters_car_make_not_set" = "Non Communiqué";
+
+// Filters Model Not Set
+"filters_car_model_not_set" = "Non Communiqué";
+
+// Filters for Year, full range
+"filters_car_year_any_year" = "Toutes les Années";
+
+// Filters For Year, before year X
+"filters_car_year_before_year" = "Avant %@";
+
+// Filters section title
+"filters_section_real_estate_info" = "Informations sur la propriété";
+
+// Filters Services section title
+"filters_section_services_info" = "Information sur le service";
+
+// Filters ServiceType not set
+"filters_service_type_not_set" = "Aucun";
+
+// Filters ServiceSubtype not set
+"filters_service_subtype_not_set" = "Aucun";
+
+// Filters property type not set
+"filters_real_estate_property_type_not_set" = "Aucun";
+
+// Filters Type of Listing not set
+"filters_real_estate_offer_type_not_set" = "Aucun";
+
+// Filters Nº of Bedrooms type not set
+"filters_real_estate_bedrooms_not_set" = "Aucun";
+
+// Filters Nº of Bathrooms not set
+"filters_real_estate_bathrooms_not_set" = "Aucun";
+
+// From price in the selected filter cell shown in feed
+"filters_real_estate_size_from_feed_filter_cell" = "De";
+
+// To price in the selected filter cell shown in feed
+"filters_real_estate_size_to_feed_filter_cell" = "À";
+
+// Selected location text when there is no postal address.
+"filters_tag_location_selected" = "Localisation sélectionnée";
+
+"filter_results_cars_no_matches" = "Aucune réponse exacte à votre recherche.\nAffichage de résultats similaires. ";
+
+"filter_results_cars_other_results" = "Publié récemment dans votre secteur";
+
+// Title for bodytype filter section
+"filters_cars_bodytype_title" = "Type de Silhouette";
+
+// Title for transmission filter section
+"filters_cars_transmission_title" = "Boite de vitesse";
+
+// Title for fueltype filter section
+"filters_cars_fueltype_title" = "Type de Carburant";
+
+// Title for drivetrain filter section
+"filters_cars_drivetrain_title" = "Transmission";
+
+// Title for seat filter section
+"filter_cars_seats_title" = "Sièges";
+
+// Mileage
+"filter_cars_mileage" = "Kilométrage";
+
+// Coupe car type
+"filters_cars_bodytype_coupe" = "Coupé";
+
+// Sedan car type
+"filters_cars_bodytype_sedan" = "Berline";
+
+// Hybrid car type
+"filters_cars_bodytype_hybrid" = "Hybride";
+
+// Hatchback car type
+"filters_cars_bodytype_hatchback" = "À hayon";
+
+// Convertible car type
+"filters_cars_bodytype_convertible" = "Cabriolet";
+
+// Wagon car type
+"filters_cars_bodytype_wagon" = "Voiture";
+
+// Minivan car type
+"filters_cars_bodytype_minivan" = "Monospace";
+
+// SUV car type
+"filters_cars_bodytype_suv" = "SUV";
+
+// Truck car type
+"filters_cars_bodytype_truck" = "Camion";
+
+// Other car type
+"filters_cars_bodytype_other" = "Autres";
+
+// AWD drive train
+"filters_cars_drivetrain_awd" = "AWD";
+
+// FWD drive train
+"filters_cars_drivetrain_fwd" = "FWD";
+
+// 4WD drive train
+"filters_cars_drivetrain_4wd" = "4WD";
+
+// RWD drive train
+"filters_cars_drivetrain_rwd" = "RWD";
+
+// Diesel Fuel type
+"filters_cars_fueltype_diesel" = "Diesel";
+
+// Electric Fuel type
+"filters_cars_fueltype_electric" = "Électrique";
+
+// Flex Fuel type
+"filters_cars_fueltype_flex" = "Flex Fuel";
+
+// gas Fuel type
+"filters_cars_fueltype_gas" = "Essence";
+
+// Hybrid fuel type
+"filters_cars_fueltype_hybrid" = "Hybride";
+
+// Automatic transmission type
+"filters_cars_transmission_automatic" = "Automatique";
+
+// Manual transmission type
+"filters_cars_transmission_manual" = "Manuelle";
+
+// Title for Mileage slider
+"filters_mileage_slider_title" = "Kilométrage";
+
+// Title for number of seats slider
+"filters_numberOfSeats_slider_title" = "Sièges";
+
+// Text to display when no min or max value is selected
+"filters_slider_any" = "Tout";
+
+// Text to display to show more items
+"filter_services_services_list_show_more" = "Afficher plus";
+
+// Title for filters services list
+"filters_services_services_list_title" = "Sélectionner une catégorie";
+
+// Placeholder text shown inside the Search Box to filter the service types
+"filters_services_services_list_search_placeholder" = "Homme à tout faire, Travailleur à contrat…";
+
+// Alert to display to user that the max amount of services have already been selected
+"filters_services_services_list_max_selection_alert" = "Oups ! Vous ne pouvez pas sélectionner plus de 15 services.";
+
+// Section header for jobs and services toggle
+"filters_jobs_services_toggle_header" = "À la recherche de...";
+
+// Section header text for jobs and services filters
+"filters_jobs_services_header" = "Information sur l'Emploi ou le Service";
+
+// Title for Jobs and Services Type filter
+"filters_jobs_services_type_title" = "Type";
+
+// Title for Jobs and Services Subtype filter
+"filters_jobs_services_subtype_title" = "Sous-type";
+
+// Unit suffix for miles (e.g. the mi in "400,000 mi")
+"mile_unit_suffix" = "mi";
+
+// Unit suffix for kilometers (e.g. the km in "400,000 km")
+"kilometer_unit_suffix" = "km";
+
+// Forced update message.
+"forced_update_message" = "Une nouvelle version de letgo est disponible. Veuillez mettre à jour maintenant.";
+
+// Forced update title.
+"forced_update_title" = "Mise à jour disponible";
+
+// Forced update appstore button.
+"forced_update_update_button" = "Mettre à jour";
+
+// Privacy Policy button link
+"help_terms_conditions_privacy_part" = "Politique de Confidentialité";
+
+// Help title.
+"help_title" = "Aide";
+
+// Replacement of [EMAIL_HIDDEN]
+"hidden_email_tag" = "[EMAIL MASQUÉ]";
+
+// Replacement of [TL_HIDDEN]
+"hidden_phone_tag" = "[NUMÉRO DE TELEPHONE MASQUÉ]";
+
+// Alert when clicked hidden_something text
+"hidden_text_alert_title" = "SOYEZ PRUDENT";
+
+// Alert when clicked hidden_something text
+"hidden_text_alert_description" = "Nous masquons les informations de contact pour vous aider à acheter et vendre en toute sécurité. Chatter dans letgo est facile et plus sécurisé.";
+
+// Title of the first step of the ID Verification
+"id_verification_first_step_title" = "Tout d'abord, nous avons besoin d'une photo de vous !";
+
+// Subtitle of the first step of the ID Verification
+"id_verification_first_step_subtitle" = "Retirez vos lunettes et votre chapeau et prenez un selfie.";
+
+// Title of the second step of the ID Verification
+"id_verification_second_step_title" = "Maintenant, nous avons besoin de scanner votre pièce d'identité";
+
+// Subtitle of the second step of the ID Verification
+"id_verification_second_step_subtitle" = "Sélectionnez le type de pièce d'identité et l'état";
+
+// Title of the list of types of ID to select
+"id_verification_second_step_section_title" = "TYPE DE PIÈCE D'IDENTITÉ";
+
+// Message for the alert shown after taking the selfie to update the user profile
+"id_verification_update_avatar_message" = "Voulez-vous que cela devienne votre photo de profil ?";
+
+// Button title to finish step 2 after selecting the Type of ID
+"id_verification_second_step_button_title" = "Continuer";
+
+// Title of the view to choose the user State
+"id_verification_select_state_title" = "État";
+
+// Placeholder text shown inside the Search Box to filter the States
+"id_verification_select_state_search_placeholder" = "Chercher";
+
+// Title of the third step of the ID Verification
+"id_verification_third_step_title" = "Prenez une photo du recto de votre pièce d'identité";
+
+// Subtitle of the third step of the ID Verification
+"id_verification_third_step_subtitle" = "Assurez-vous que votre pièce d'identité soit claire et à l'intérieur de l'espace prévu à cet effet";
+
+// Title of the fourth step of the ID Verification
+"id_verification_fourth_step_title" = "Prenez une photo du verso de votre pièce d'identité";
+
+// Subtitle of the fourth step of the ID Verification
+"id_verification_fourth_step_subtitle" = "Assurez-vous que votre pièce d'identité soit claire et à l'intérieur de l'espace prévu à cet effet";
+
+// Title of the summary view with all the ID data of the four steps
+"id_verification_summary_title" = "Résumé";
+
+// Subtitle of the summary view
+"id_verification_summary_subtitle" = "Vérifiez vos informations et sélectionnez OK pour finaliser";
+
+// Title of the list with the info the user selected in the previous steps
+"id_verification_summary_section_title" = "INFORMATIONS DE VÉRIFICATION D'IDENTITÉ";
+
+// Type of ID passport that can be chosen by the user
+"id_verification_option_passport" = "Passeport";
+
+// Type of ID Driver's License that can be chosen by the user
+"id_verification_option_drivers_license" = "Permis de conduire";
+
+// Row of the summary with the selected user picture
+"id_verification_option_user_picture" = "Votre photo";
+
+// Row of the summary with the selected type of ID
+"id_verification_option_id_type" = "Type de pièce d'identité";
+
+// Row of the summary with the selected State
+"id_verification_option_state" = "État";
+
+// Row of the summary with the selected picture of the ID Front
+"id_verification_option_id_front" = "Recto de votre pièce d'identité";
+
+// Row of the summary with the selected picture of the ID Back
+"id_verification_option_id_back" = "Verso de votre pièce d'identité";
+
+// Button to confirm the data in summary and request the ID verification
+"id_verification_summary_button_title" = "OK";
+
+// Text to show on services listing titles. The "Offering" in "Offering: Translation Services"
+"jobs_services_offering_text" = "Offre";
+
+// Text to show on jobs listing titles. The "Wanted" in "Wanted: Translation Services"
+"jobs_services_wanted_text" = "Demande";
+
+// Title for Listings Map View
+"listings_map_title" = "Vue de la carte";
+
+// Message for no results in Listings Map View
+"listings_map_no_results_message" = "Aucun réponse exacte à votre recherche. Essayez de chercher dans un autre secteur ou en utilisant d'autres filtres.";
+
+// Button to refresh a search when user changes the location
+"listing_map_redo_search" = "Chercher dans ce secteur";
+
+// Show similar listings if search results were empty
+"listing_show_similar_results" = "Afficher les résultats pour des recherches similaires";
+
+// Long description for showing similar results when search results were empty
+"listing_show_similar_results_description" = "Aucun résultat exact pour votre recherche.\nAssurez-vous que ce soit la bonne orthographe ou utilisez différents mots-clés et filtres.";
+
+// Interested button on item page. Variant A
+"listing_interested_button_A" = "Je suis intéressé !";
+
+// Interested button on item page. Variant B
+"listing_interested_button_B" = "Intéressé";
+
+// Interested button on item page. Variant C
+"listing_interested_button_C" = "Demander plus de détails";
+
+// Interested button on item page. Variant D
+"listing_interested_button_D" = "Demander plus de détails";
+
+// Interested button footer on item page.
+"listing_interested_footer" = "Envoie automatiquement un message au vendeur pour demander si c'est disponible.";
+
+// Chat button on item page
+"listing_chat_button" = "Chattez";
+
+// Fake distance shown in a bubble in a fake product list in onboarding
+"location_permissions_bubble" = "à 0.1 km de vous";
+
+// Button to accept asking for location permission
+"location_permissions_button" = "Oui, Utiliser ma Localisation";
+
+// Title asking for Location permission in onboarding (2nd version)
+"location_permissions_title_v2" = "Localisation";
+
+// Subtitle asking for Location permission in onboarding
+"location_permissons_subtitle" = "Souhaitez-vous voir les annonces publiées près de vous ?";
+
+// Allow button on the example to allow location permissions
+"location_permissions_allow_button" = "Autoriser";
+
+// Log in error send error generic. Check attached image "log_in_error_send.png"
+"log_in_error_send_error_generic" = "Une erreur est survenue lors de la connexion. Veuillez réessayer.";
+
+// Log in error send error invalid email. Check image @ "log_in_error_send_error_generic" segment
+"log_in_error_send_error_invalid_email" = "Veuillez entrer une adresse email valide.";
+
+// Log in error send error user not found or wrong password. Check image @ "log_in_error_send_error_generic" segment
+"log_in_error_send_error_user_not_found_or_wrong_password" = "Email ou mot de passe invalide. Veuillez réessayer.";
+
+// Log in reset password button. Check image @ "log_in_email_field_hint" segment
+"log_in_reset_password_button" = "Mot de passe oublié ?";
+
+// Log in send button. Check image @ "log_in_email_field_hint" segment
+"log_in_send_button" = "Se Connecter";
+
+// Log in title. Check image @ "log_in_email_field_hint" segment
+"log_in_title" = "Se Connecter avec email";
+
+// Alert shown to users that fail to login due to scammer error
+"login_scammer_alert_title" = "COMPTE EN COURS DE VÉRIFICATION";
+
+// Alert shown to users that fail to login due to scammer error
+"login_scammer_alert_message" = "Votre compte est en cours de vérification par l'équipe letgo. Si vous pensez qu'il s'agit d'une erreur, contactez-nous.";
+
+// Alert shown to users that fail to login due to scammer error
+"login_scammer_alert_contact_button" = "Contactez Nous";
+
+// Alert shown to users that fail to login due to scammer error
+"login_scammer_alert_keep_browsing_button" = "Passer";
+
+// Alert shown to users that fail to login due to device not allowed error
+"login_device_not_allowed_alert_title" = "VÉRIFIER CONNEXION";
+
+// Alert shown to users that fail to login due to device not allowed error
+"login_device_not_allowed_alert_message" = "Vous ne vous êtes jamais connecté avec cet appareil. Nous vous avons envoyé un email de vérification donc consultez votre boite de réception pour continuer.";
+
+// Alert shown to users that fail to login due to device not allowed error
+"login_device_not_allowed_alert_contact_button" = "Contactez Nous";
+
+// Alert shown to users that fail to login due to device not allowed error
+"login_device_not_allowed_alert_ok_button" = "OK";
+
+// Login v2. Log in w email help button
+"log_in_email_help_button" = "Aide";
+
+// Login v2. Log in w email password field hint
+"log_in_email_password_field_hint" = "Mot de passe";
+
+// Login v2. Lg in w email footer
+"log_in_email_footer" = "Vous n'avez pas de compte ? Inscrivez-vous";
+
+// Login v2. Log in w email wrong password alert title
+"log_in_email_wrong_password_alert_title" = "Mot de passe incorrect";
+
+// Login v2. Log in w email wrong password alert cancel button
+"log_in_email_wrong_password_alert_cancel_action" = "Réessayer";
+
+// Login v2. Log in w email forgot password alert title
+"log_in_email_forgot_password_alert_title" = "Mot de passe oublié ?";
+
+// Login v2. Log in w email forgot password alert msg
+"log_in_email_forgot_password_alert_message" = "Nous pouvons envoyer un email à %@ pour vous aider à retrouver accès à votre compte.";
+
+// Login v2. Log in w email forgot password alert cancel action
+"log_in_email_forgot_password_alert_cancel_action" = "Réessayer";
+
+// Login v2. Log in w email forgot password alert remember action
+"log_in_email_forgot_password_alert_remember_action" = "Envoyer Courriel";
+
+// machine learning MVP
+"ml_onboarding_new_text" = "NOUVEAU !";
+
+// machine learning MVP
+"ml_onboarding_description_text" = "Montrez-moi un produit et je vous dirai combien vous allez gagner";
+
+// machine learning MVP
+"ml_onboarding_ok_text" = "OK";
+
+// machine learning MVP
+"ml_camera_sells_for_text" = "Se vend généralement %d$";
+
+// machine learning MVP
+"ml_camera_in_about_days_text" = "en %d jours environ";
+
+// machine learning MVP
+"ml_camera_in_more_than_days_text" = "en plus de %d jours";
+
+// machine learning MVP
+"ml_details_suggested_details_text" = "DÉTAILS SUGGÉRÉS";
+
+// machine learning MVP
+"ml_details_title_text" = "Titre :";
+
+// machine learning MVP
+"ml_details_price_text" = "Prix :";
+
+// machine learning MVP
+"ml_category_text" = "Catégorie :";
+
+// Login v2. Sign up w email step 1 title
+"sign_up_email_step1_title" = "Créer un nouveau compte";
+
+// Login v2. Sign up w email step 1 email field hint
+"sign_up_email_step1_email_field_hint" = "Email";
+
+// Login v2. Sign up w email step 1 continue button
+"sign_up_email_step1_continue_button" = "Continuer";
+
+// Login v2. Sign up w email step 1 login keyword to look for in footer to look for and highlight
+"sign_up_email_step1_footer_log_in_kw" = "Connectez-vous";
+
+// Login v2. Sign up w email step 1 help button
+"sign_up_email_step2_help_button" = "Aide";
+
+// Login v2. Sign up w email step 2 name
+"sign_up_email_step2_name_field_hint" = "Nom complet";
+
+// Login v2. Sign up w email step 2 "Privacy Policy" keyword to look for and highlight
+"sign_up_email_step2_terms_conditions_privacy_kw" = "Politique de Confidentialité";
+
+// Login v2. Sign up w email step 2 receive newsleter checkbox
+"sign_up_email_step2_newsletter" = "Je souhaite recevoir la newsletter letgo";
+
+// Main sign up claim label. Check image @ "main_sign_up_already_registered_label" segment
+"main_sign_up_claim_label" = "Achetez et vendez rapidement, de manière sûre et localement.";
+
+// Main sign up facebook connect button. Check image @ "main_sign_up_already_registered_label" segment
+"main_sign_up_facebook_connect_button" = "Continuer avec Facebook";
+
+// Main sign up facebook connect button with user name. Check image @ "main_sign_up_already_registered_label" segment
+"main_sign_up_facebook_connect_button_w_name" = "Se connecter en tant que %@";
+
+// Main sign up fb connect error email taken. Message displayal is like the other error messages
+"main_sign_up_fb_connect_error_email_taken" = "Votre adresse email est déjà enregistrée. Utilisez-là pour vous connecter.";
+
+// Main sign up fb connect error generic. Message displayal is like the other error messages
+"main_sign_up_fb_connect_error_generic" = "Impossible de se connecter. Veuillez réessayer.";
+
+// Main sign up error email invalid. Message displayal is like the other error messages
+"main_sign_up_error_user_rejected" = "L'email que vous avez entré est incorrect. Veuillez le vérifier et réessayer.";
+
+// Main sign up error request already sent. Message displayal is like the other error messages
+"main_sign_up_error_request_already_sent" = "Votre demande a déjà été traitée. Veuillez attendre avant de réessayer.";
+
+// Main sign up google connect button. Check image @ "main_sign_up_already_registered_label" segment
+"main_sign_up_google_connect_button" = "Continuer avec Google";
+
+// Main sign up google connect button with user name. Check image @ "main_sign_up_already_registered_label" segment
+"main_sign_up_google_connect_button_w_name" = "Se connecter en tant que %@";
+
+// Main sign up help button. Check image @ "main_sign_up_already_registered_label" segment
+"main_sign_up_help_button" = "Aide";
+
+// Main sign up log in label. Check image @ "main_sign_up_already_registered_label" segment
+"main_sign_up_log_in_label" = "Se Connecter";
+
+// Main sign up or label. Check image @ "main_sign_up_already_registered_label" segment
+"main_sign_up_or_label" = "OU UTILISEZ VOTRE EMAIL";
+
+// Main sign up quickly label. Check image @ "main_sign_up_already_registered_label" segment
+"main_sign_up_quickly_label" = "SE CONNECTER RAPIDEMENT AVEC";
+
+// Main sign up sign up button. Check image @ "main_sign_up_already_registered_label" segment
+"main_sign_up_sign_up_button" = "S'inscrire";
+
+// Main terms and conditions complete text
+"main_sign_up_terms_conditions" = "En vous inscrivant ou vous connectant, vous acceptez nos Conditions d'Utilisation et Politique de Confidentialité";
+
+// Privacy Policy" Part of the complete text
+"main_sign_up_terms_conditions_privacy_part" = "Politique de Confidentialité";
+
+// "Terms of Service" Part of the complete text
+"main_sign_up_terms_conditions_terms_part" = "Conditions d'Utilisation";
+
+// Navigation bar button 'Invite''
+"main_products_invite_navigation_bar_button" = "Inviter";
+
+// Title for meeting creation view
+"meeting_creation_view_title" = "Planifier une rencontre";
+
+// place header for meeting creation view
+"meeting_creation_view_place" = "LIEU";
+
+// select location label for meeting creation view
+"meeting_creation_view_select_location" = "Sélectionner un lieu";
+
+// date header for meeting creation view
+"meeting_creation_view_date_time" = "JOUR & HEURE";
+
+// select date label for meeting creation view
+"meeting_creation_view_select_date_time" = "Sélectionner le jour et l'heure";
+
+// suggestion cell select button text
+"meeting_creation_view_suggest_cell_select" = "Sélectionner";
+
+// suggestion cell selected button text
+"meeting_creation_view_suggest_cell_selected" = "Sélectionné";
+
+// custom location cell title
+"meeting_creation_view_search_cell_title" = "Chercher un autre endroit";
+
+// custom location cell button text
+"meeting_creation_view_search_cell_search" = "Chercher";
+
+// send meeting button text
+"meeting_creation_view_send_button" = "Envoyer rendez-vous";
+
+// safety tips view title
+"meeting_creation_tips_view_title" = "Choisissez un lieu de rencontre sécuritaire et pratique";
+
+// safety tips view subtitle
+"meeting_creation_tips_view_subtitle" = "Nous recommandons d'effectuer les rencontres pendant la journée dans un endroit public, fréquenté et bien éclairé comme un café ou le hall d'une banque.";
+
+// send meeting button text
+"meeting_creation_tips_view_send_button" = "Envoyer rendez-vous";
+
+// change meeting button text
+"meeting_creation_tips_view_change_button" = "Changer le rendez-vous";
+
+// no changes and close button text
+"meeting_creation_tips_view_gotit_button" = "COMPRIS";
+
+// MoPub and Google Adx advertising indicator "Ad"
+"advertising_text" = "Publicité";
+
+// Subtitle text for empty notifications center
+"notifications_empty_subtitle" = "Postez un bien à vendre pour que cette section s'anime un peu plus";
+
+// Title text for empty notifications center
+"notifications_empty_title" = "PAS (ENCORE) DE NOTIFICATION";
+
+// Message shown inside a fake push notification in onboarding
+"notifications_permissions_1_push" = "Lucie : Je suis intéressée! Pouvez-vous me le laisser à 100€ ?";
+
+// Subtitle asking for Push notifications in onboarding
+"notifications_permissions_1_subtitle" = "Souhaitez-vous être notifié lorsqu'un autre utilisateur vous envoi un message ?";
+
+// Title for asking for Push notifications in onboarding (2nd version)
+"notifications_permissions_1_title_v2" = "Accepter les notifications";
+
+// Message shown inside a fake push notification after writing a chat message
+"notifications_permissions_3_push" = "Jamie : Votre offre semble parfaite. 17H est ok pour moi, à tout à l'heure !";
+
+// Subtitle asking for Push notifications after writing a chat message
+"notifications_permissions_3_subtitle" = "Souhaitez-vous être notifié lorsqu'un vendeur vous envoi un message ?";
+
+// Title asking for Push notifications after writing a chat message
+"notifications_permissions_3_title" = "Soyez au courant";
+
+// Message shown inside a fake push notification after posting a product
+"notifications_permissions_4_push" = "Laura : Je vous propose 100€. Pouvons-nous nous rencontrer cet après-midi ?";
+
+// Subtitle asking for Push notifications after posting a product
+"notifications_permissions_4_subtitle" = "Souhaitez-vous être notifié lorsqu'un acheteur vous envoi un message ?";
+
+// Title asking for Push notifications after posting a product
+"notifications_permissions_4_title" = "Vendez Plus Rapidement";
+
+// Title of Cell where the user should tap (Notifications)
+"notifications_permissions_settings_cell1" = "Notifications";
+
+// Title of cell where the user can activate Push Notifications
+"notifications_permissions_settings_cell2" = "Autoriser les notifications";
+
+// First section title showing how to navigate to the Notifications settings
+"notifications_permissions_settings_section1" = "Tapez sur Notifications";
+
+// Second section title showing how to activate Push notifications from settings
+"notifications_permissions_settings_section2" = "Activez les Notifications";
+
+// subtitle to ask the user to activate Push Notifications redirecting him to the system settings
+"notifications_permissions_settings_subtitle" = "Suivez ces étapes pour être notifié lorsqu'un utilisateur vous envoi un message";
+
+// Title to ask the user to activate Push Notifications redirecting him to the system settings
+"notifications_permissions_settings_title" = "Ne manquez pas une vente !";
+
+// Title to ask the user to activate Push Notifications redirecting him to the system settings
+"notifications_permissions_settings_title_chat" = "Ne manquez pas une réponse !";
+
+// Button to activate Push notifications (redirecting the user)
+"notifications_permissions_settings_yes_button" = "Oui, Activer";
+
+// Button to accept push notifications permissions
+"notifications_permissions_yes_button" = "Oui, me Notifier";
+
+// Notification center section with today title
+"notifications_section_today" = "Aujourd'hui";
+
+// Notification center section with yesterday title
+"notifications_section_yesterday" = "Hier";
+
+// Notification center section with 1 days ago title _ Not used, using yesterday
+"notifications_section_one_day_ago" = "Il y a 1 jour";
+
+// Notification center section with n days ago title
+"notifications_section_days_ago" = "Il y a %i jours";
+
+// Notification center section with 1 weeks ago title
+"notification_section_one_week_ago" = "Il y a 1 semaine";
+
+// Notification center section with n weeks ago title
+"notifications_section_weeks_ago" = "Il y a %i semaines";
+
+// Notification center section with 1 months ago title
+"notification_section_one_month_ago" = "Il y a 1 mois";
+
+// Notification center section with n months ago title
+"notifications_section_months_ago" = "Il y a %i mois";
+
+// Notification cell date with n mins ago
+"notifications_cell_date_mins_ago" = "%im";
+
+// Notification cell date with n hours ago
+"notifications_cell_date_hours_ago" = "%ih";
+
+// Notification cell date with n days ago
+"notifications_cell_date_days_ago" = "%ij";
+
+// Notification cell date with n weeks ago
+"notifications_cell_date_weeks_ago" = "%is";
+
+// Title of notifications section
+"notifications_title" = "Notifications";
+
+// User likes your product
+"notifications_type_like_w_name" = "%@ a mis votre annonce en favori";
+
+// User likes your product
+"notifications_type_like_w_name_w_title" = "%1$@ a mis votre annonce \"%2$@\" en favori";
+
+// User likes your product
+"notifications_type_like_button" = "Découvrez son profil";
+
+// User sold a product you favorited
+"notifications_type_sold" = "Une annonce que vous aviez mise en favori a été vendu";
+
+// User sold a product you favorited
+"notifications_type_sold_button" = "Voir l'annonce";
+
+// User has rated you
+"notifications_type_rating" = "%@ vous a noté";
+
+// User has rated you
+"notifications_type_rating_button" = "Voir vos notes";
+
+// User has updated your rating
+"notifications_type_rating_updated" = "%@ a modifié votre note";
+
+// Notifications product suggested
+"notifications_type_product_suggested" = "%@ vient de publier une annonce qui pourrait vous intéresser";
+
+// Notifications product suggested
+"notifications_type_product_suggested_w_title" = "%1$@ vient de publier une annonce qui pourrait vous intéresser : \"%2$@\"";
+
+// Notifications product suggested button
+"notifications_type_product_suggested_button" = "Voir l'annonce";
+
+// Notifications buyers interested
+"notifications_type_buyers_interested" = "%d acheteurs pourraient être intéressés par votre annonce";
+
+// Notifications buyers interested
+"notifications_type_buyers_interested_w_title" = "%1$d acheteurs pourraient être intéressés par votre annonce : \"%2$@\"";
+
+// Notifications buyers interested button
+"notifications_type_buyers_interested_button" = "Découvrez qui ils sont";
+
+// Notifications buyers interested button action has been performed
+"notifications_type_buyers_interested_button_done" = "Acheteurs contactés !";
+
+// Notifications Facebook friend text
+"notifications_type_facebook_friend" = "Votre ami Facebook %1$@ a rejoint letgo en tant que %2$@";
+
+// Notifications Facebook friend button action
+"notifications_type_facebook_friend_button" = "Voir le Profil";
+
+// Welcome notification subtitle
+"notifications_type_welcome_subtitle_w_city" = "Gagnez de l'argent en vendant ce dont vous n'avez pas besoin et trouvez de bonnes affaires sur %@";
+
+// Welcome notification button
+"notifications_type_welcome_button" = "Commencer à vendre";
+
+// Title shown in the NPS Survey view
+"nps_survey_title" = "NOUS AIMERIONS SAVOIR";
+
+// Subtitle for the NPS Survey view to explain how it works
+"nps_survey_subtitle" = "Sur une échelle de 1 à 10, quelles sont les chances que vous recommandiez letgo à l'un de vos amis ?";
+
+// NPS survey worst option possible
+"nps_survey_very_bad" = "Improbable";
+
+// NPS Survey best option possible
+"nps_survey_very_good" = "Très certainement";
+
+// Survey confirmation message
+"survey_confirmation" = "Merci ! Votre retour nous aide à nous améliorer.";
+
+// Title to select categories on onboarding
+"onboarding_categories_title" = "À quoi vous intéressez-vous ?";
+
+// Button title when no category selected
+"onboarding_categories_button_title_initial" = "Choisissez au moins %i catégories";
+
+// Button title when at least one  category is selected
+"onboarding_categories_button_countdown" = "Choisissez au moins %i de plus";
+
+// Button title when all categories needed are selected.
+"onboarding_categories_button_title_finish" = "Suivant";
+
+// Onboarding direct camera subtitle
+"onboarding_direct_camera_alert_subtitle" = "Postez votre première annonce et commencez à vendre aux personnes près de chez vous";
+
+// Onboarding incentivize posting variant A title
+"onboarding_posting_title_a" = "Commencez à Gagner de l'Argent !";
+
+// Onboarding incentivize posting variant B title
+"onboarding_posting_title_b" = "Publiez votre première annonce";
+
+// Onboarding incentivize posting variant A subtitle
+"onboarding_posting_subtitle_a" = "Postez votre première annonce et commencez à vendre aux personnes près de chez vous";
+
+// Onboarding incentivize posting variant B subtitle
+"onboarding_posting_subtitle_b" = "Vendez les affaires dont vous n'avez plus besoin et gagnez de l'argent !";
+
+// Onboarding incentivize posting variant A button
+"onboarding_posting_button_a" = "Vendez vos biens";
+
+// Onboarding incentivize posting variant B button
+"onboarding_posting_button_b" = "Commencer";
+
+// Onbarding improvement copies variant B title
+"onboarding_posting_improvement_b_title" = "Vendre, c'est facile. Faites un essai !";
+
+// Onbarding improvement copies variant C title
+"onboarding_posting_improvement_c_title" = "Vendre, c'est facile. Faites un essai !";
+
+// Onbarding improvement copies variant D title
+"onboarding_posting_improvement_d_title" = "Une seule étape pour publier : prenez simplement une photo !";
+
+// Onbarding improvement copies variant E title
+"onboarding_posting_improvement_e_title" = "Vendre, c'est facile : prenez simplement une photo et nous ferons le reste !";
+
+// Onbarding improvement copies variant F title
+"onboarding_posting_improvement_f_title" = "Publiez une annonce en quelques secondes seulement !";
+
+// Onbarding improvement copies variant C button
+"onboarding_posting_improvement_c_button" = "Faites l'essai !";
+
+// Onboarding shows alert if user click on close permission request.
+"onboarding_location_permissions_alert_title" = "Êtes-vous certain(e) ?";
+
+// Onboarding shows alert if user click on close permission request.
+"onboarding_location_permissions_alert_subtitle" = "Vous verrez des annonces publiées partout plutôt que près de chez vous";
+
+// Onboarding shows alert if user click on close permission request.
+"onboarding_notifications_permissions_alert_title" = "Êtes-vous certain(e) ?";
+
+// Onboarding shows alert if user click on close permission request.
+"onboarding_notifications_permissions_alert_subtitle" = "Vous devrez ouvrir letgo pour voir si vous avez de nouveaux messages";
+
+// Onboarding shows alert if user click on close permission request.
+"onboarding_posting_alert_title" = "Voulez-vous essayer en publiant une montre, un livre, vos lunettes... ?";
+
+// Onboarding shows alert if user click on close permission request.
+"onboarding_posting_alert_subtitle" = "Vous pouvez le supprimer plus tard si vous ne voulez pas vraiment le vendre";
+
+// Onboarding shows alert if user click on close permission request.
+"onboarding_alert_yes" = "Oui";
+
+// Onboarding shows alert if user click on close permission request.
+"onboarding_alert_no" = "Non";
+
+// Title of the offensive report alert
+"offensive_report_alert_title" = "Reconsidérez les Consignes de la Communauté";
+
+// Text message of the offensive report alert
+"offensive_report_alert_message" = "Nous avons été avisés de messages potentiellement inappropriés en provenance de votre compte.\n\nDes infractions répétées peuvent conduire à la clôture de votre compte.";
+
+// Title of the primary action of the offensive report alert
+"offensive_report_alert_primary_action" = "Reconsidérez les Consignes";
+
+// Title of the secondary action of the offensive report alert
+"offensive_report_alert_secondary_action" = "Passer";
+
+// Passive buyers screen for seller
+"passive_buyers_title" = "CES ACHETEURS POURRAIENT ÊTRE INTÉRESSÉS";
+
+// Passive buyers screen for seller
+"passive_buyers_message" = "Contactez ces acheteurs qui sont intéressés par des biens similaires";
+
+// Passive buyers screen for seller
+"passive_buyers_button" = "Contactez %d acheteurs";
+
+// Passive buyers screen for seller load error
+"passive_buyers_not_available" = "Oups ! Acheteurs introuvables.";
+
+// Passive buyers screen for seller -> Contact error
+"passive_buyers_contact_error" = "Une erreur est survenue lors du contact avec les acheteurs. Veuillez réessayer.";
+
+// Passive buyers screen for seller -> Contact success
+"passive_buyers_contact_success" = "Acheteurs contactés !";
+
+// Button in main sign up screen to access the passwordless screen
+"passwordless_main_signup_button" = "Continuer avec votre courriel";
+
+// Title in the screen where user inserts the email to receive the magic link
+"passwordless_email_input_title" = "Continuer avec votre courriel";
+
+// Description in the screen where user inserts the email to receive the magic link
+"passwordless_email_input_description" = "Entrez votre adresse courriel pour vous connecter ou créer un compte, et nous enverrons un « lien magique » dans votre boîte de réception.";
+
+// Placeholder for the textField where the user inserts the email to receive the magic link
+"passwordless_email_input_textfield_placeholder" = "Email";
+
+// Text in the button of the screen where user inserts email to receive magic link
+"passwordless_email_input_button" = "Envoyer le lien magique";
+
+// Title in the navigation bar for the Email Sent screen after sending magic link
+"passwordless_email_sent_screen_title" = "Vérifiez votre boîte de réception de courriels";
+
+// Title in the screen where app explains email has been sent
+"passwordless_email_sent_title" = "Pour vous connecter, cliquez sur le « lien magique » que nous venons de vous envoyer.";
+
+// Subtitle in the screen where app explains email has been sent
+"passwordless_email_sent_subtitle" = "Adresse email : %@";
+
+// Title in the screen where user has to define a username
+"passwordless_username_input_title" = "Choisissez votre nom d'utilisateur";
+
+// Placeholder for the textField where the user inserts the username
+"passwordless_username_input_textfield_placeholder" = "Nom d'utilisateur";
+
+// Button title for the screen where user inserts the username
+"passwordless_username_input_done_button" = "Terminé";
+
+// for use as the "hour" in "/hour"
+"payment_frequency_per_hour" = "heure";
+
+// for use as the "week" in "/week"
+"payment_frequency_per_week" = "semaine";
+
+// for use as the "day" in "/day"
+"payment_frequency_per_day" = "jour";
+
+// for use as the "biweek" value in "/2 weeks"
+"payment_frequency_per_biweek" = "2 semaines";
+
+// for use as the "month" in "/month"
+"payment_frequency_per_month" = "mois";
+
+// for use as the "year" in "/year"
+"payment_frequency_per_year" = "année";
+
+// Button to initiate chat from the full screen photo viewer
+"photo_viewer_chat_button" = "Chat";
+
+// Add Details navigation title
+"post_category_details_navigation_title" = "Ajouter des Détails";
+
+// Add listing details description
+"post_category_details_description" = "Les annonces avec des informations détaillées attirent 20% plus d'acheteurs potentiels";
+
+// car make title
+"post_category_detail_car_make" = "Marque";
+
+// car model title
+"post_category_detail_car_model" = "Modèle";
+
+// car year title
+"post_category_detail_car_year" = "Année";
+
+// ok navigation bar button
+"post_category_detail_ok_button" = "OK";
+
+// progress mark, var is "83%"
+"post_category_details_progress" = "%@ complété";
+
+// progress mark when it's at 100%
+"post_category_details_progress_100" = "Magnifique !";
+
+// Search text inside search bar
+"post_category_detail_search_placeholder" = "Recherche";
+
+// Add make option
+"post_category_detail_add_make" = "Ajouter Marque";
+
+// Add model option
+"post_category_detail_add_model" = "Ajouter Modèle";
+
+// Take picture title
+"post_header_step_take_picture" = "Prenez une photo";
+
+// Confirm picture title
+"post_header_step_confirm_picture" = "Validez la photo";
+
+// Add price title
+"post_header_step_add_price" = "Ajouter un prix";
+
+// Generating title message
+"post_queued_requests_state_generating_title" = "Création du titre...";
+
+// Categorizing listing message
+"post_queued_requests_state_categorizing_listing" = "Catégorisation de l'annonce...";
+
+// Posting listing message
+"post_queued_requests_state_posting_listing" = "Publication de l'annonce...";
+
+// Listing posted message
+"post_queued_requests_state_listing_posted" = "Annonce publiée !";
+
+// Welcome for the user
+"post_get_started_welcome_user_text" = "Bienvenue, %@!";
+
+// Welcome when no user name is provided
+"post_get_started_welcome_letgo_text" = "Bienvenue sur letgo";
+
+// INtroductory text
+"post_get_started_intro_text" = "Découvrez comme il est facile de vendre sur letgo. Publiez quelque chose que vous avez à portée de main.";
+
+// Get Started button text
+"post_get_started_button_text" = "Commencez";
+
+// discard text
+"post_get_started_discard_text" = "Vous pouvez le retirer plus tard si vous ne voulez pas le vendre.";
+
+// post finished done text
+"post_description_done_text" = "C'est fait ! C'était facile, n'est-ce pas ?";
+
+// post finished button save text
+"post_description_save_button_text" = "Sauvegarder cette annonce !";
+
+// post finished button discard text
+"post_description_discard_button_text" = "Oui";
+
+// post finished title
+"post_description_info_title" = "INFORMATIONS SUR L'ANNONCE";
+
+// post finished product name placeholder
+"post_description_name_placeholder" = "Nom";
+
+// post finished product category placeholder
+"post_description_category_title" = "Catégorie";
+
+// post finished product description placeholder
+"post_description_description_placeholder" = "Description (optionnel)";
+
+// post title for services screen
+"post_details_services_title" = "Que savez-vous faire ?";
+
+// post subtitle for services screen
+"post_details_services_subtitle" = "Commencez à gagner de l'argent !";
+
+// post title for job type selection screen
+"post_details_jobs_title" = "Quelle sorte d'emploi offrez-vous ?";
+
+// post subtitle for jobs screen
+"post_details_jobs_subtitle" = "Choisissez-en un";
+
+// placeholder for search bar in posting services
+"post_details_services_search_placeholder" = "Recherchez ou choisissez dans la liste";
+
+// Congratulation Page - title
+"post_details_services_congratulation_title" = "Félicitations !";
+
+// Congratulation Page - subtitle
+"post_details_services_congratulation_subtitle" = "Vos annonces ont été publiées.";
+
+// Congratulation Page - button post more items
+"post_details_services_congratulation_post_another" = "Publier une autre annonce";
+
+// Congratulation Page - review and add more detail
+"post_details_services_congratulation_review" = "Révisez vos annonces et ajoutez plus de détails";
+
+// Congratulation Page - people near you have posted...
+"post_details_services_congratulation_people_near" = "Des gens près de chez vous recherchent ces services, possédez-vous ces compétences ?";
+
+// Add new service button when it's not available
+"post_details_services_add_new" = "Ajoutez un nouveau service";
+
+// Alert message - the user is not able to create more than 15 services at the time
+"post_details_services_create_max" = "Oups ! Vous pouvez seulement sélectionner 15 services à la fois.";
+
+// Posting Camera title for services
+"post_details_services_camera_message" = "Publiez le logo de votre entreprise ou une photo qui présente le service que vous offrez";
+
+// Title for Jobs/Services posting flow title
+"post_details_jobs_services_step_title" = "Je suis...";
+
+// Prefix for services listingType option
+"post_details_jobs_services_step_option_services_prefix" = "Annonçant un";
+
+// Listing type service display name
+"post_details_listingType_service_display_name" = "Service";
+
+// Prefix for jobs listingType option
+"post_details_jobs_services_step_option_jobs_prefix" = "Cherchant à recruter quelqu'un pour un";
+
+// Listing type jobs display name
+"post_details_listingType_job_display_name" = "emploi";
+
+// Product detail auto gen title disclaimer label.
+"product_auto_generated_title_label" = "Titre généré automatiquement par letgo";
+
+// Product detail auto gen title translated disclaimer label.
+"product_auto_generated_translated_title_label" = "(et traduit par Google)";
+
+// product detail added to favorites notification description
+"product_bubble_favorite_text" = "Cette annonce a été ajoutée à vos favoris !";
+
+// product detail added to favorites notification action button text
+"product_bubble_favorite_button" = "Informez le vendeur !";
+
+// Error shown when one user blocked the other
+"product_chat_direct_error_blocked_user_message" = "Oups ! Vous ne pouvez pas débuter un chat avec cet utilisateur.";
+
+// direct message "sending", goes on a "loading" popup view
+"product_chat_direct_message_sending" = "Envoi...";
+
+// product chat with the seller button title including seller name
+"product_chat_with_seller_name_button" = "Chatter avec %@";
+
+// product continue chatting button title
+"product_continue_chatting_button" = "Continuer le chat";
+
+// Product distance from you. Check image @ "product_ask_a_question_button" segment
+"product_date_more_than_X_months_ago" = "Posté il y a plus de %i mois";
+
+// Product distance from you. Check image @ "product_ask_a_question_button" segment
+"product_date_one_day_ago" = "Posté il y a un jour";
+
+// Product distance from you. Check image @ "product_ask_a_question_button" segment
+"product_date_one_hour_ago" = "Posté il y a une heure";
+
+// Product date 1 min ago. Check image @ "product_ask_a_question_button" segment
+"product_date_one_minute_ago" = "Posté il y a une minute";
+
+// Product distance from you. Check image @ "product_ask_a_question_button" segment
+"product_date_one_month_ago" = "Posté il y a un mois";
+
+// Product distance from you. Check image @ "product_ask_a_question_button" segment
+"product_date_X_days_ago" = "Posté il y a %i jours";
+
+// Product distance from you. Check image @ "product_ask_a_question_button" segment
+"product_date_X_hours_ago" = "Posté il y a %i heures";
+
+// Product distance from you. Check image @ "product_ask_a_question_button" segment
+"product_date_X_minutes_ago" = "Posté il y a %i minutes";
+
+// Product distance from you. Check image @ "product_ask_a_question_button" segment
+"product_date_X_months_ago" = "Posté il y a %i mois";
+
+// Product delete alert cancel button. Check attached image "delete.png"
+"product_delete_confirm_cancel_button" = "Annuler";
+
+// Product delete alert message. Check attached image @ segment "product_delete_confirm_cancel_button"
+"product_delete_confirm_message" = "Pourquoi souhaitez-vous supprimer votre annonce ?";
+
+// Product delete alert ok button. Check attached image @ segment "product_delete_confirm_cancel_button"
+"product_delete_confirm_ok_button" = "Je ne veux pas le vendre";
+
+// Product delete alert mark as sold button. Check attached image @ segment "product_delete_confirm_cancel_button"
+"product_delete_confirm_sold_button" = "Je l'ai déjà vendu";
+
+// Product delete alert title. Check attached image @ segment "product_delete_confirm_cancel_button"
+"product_delete_confirm_title" = "Supprimer l'annonce";
+
+// Product delete send error generic. Message displayal is like the other error messages.
+"product_delete_send_error_generic" = "Oups ! Une erreur est survenue lors de la suppression de votre annonce. Veuillez réessayer.";
+
+// Product delete when product is already sold.
+"product_delete_sold_confirm_message" = "Etes-vous certain de vouloir supprimer cette annonce ?";
+
+// Incentivate post after delete fullscreen button title
+"product_delete_post_button_title" = "Poster un autre bien";
+
+// Incentivate post after delete fullscreen text title
+"product_delete_post_title" = "MEILLEURE CHANCE LA PROCHAINE FOIS !";
+
+// Incentivate post after delete fullscreen text subtitle
+"product_delete_post_subtitle" = "Essayez de poster autre chose et commencez à gagner de l'argent.";
+
+// OnBoarding for explaining new item page functionality
+"product_detail_swipe_to_see_related" = "Faites glisser pour voir les annonces connexes";
+
+// Product distance from you. Check image @ "product_ask_a_question_button" segment
+"product_distance_X_from_you" = "à %@";
+
+// Product distance. "More than X mi"
+"product_distance_more_than" = "À plus de %@";
+
+// Product distance. "Near you"
+"product_distance_near_you" = "Près de vous";
+
+// Product distance. "Custom location"
+"product_distance_custom_location" = "Localisation personnalisée";
+
+// direct message on product favorite
+"product_favorite_direct_message" = "Le bien est-il toujours disponible ?";
+
+// Message to show on Free product
+"product_free_price" = "Gratuit";
+
+// Text to be shown inside the bubble (similar as a push) to inform that a message was sent to the seller
+"product_interested_bubble_message" = "Nous avons informé le vendeur de votre intérêt pour ceci";
+
+// Text to be shown inside the bubble (similar as a push) to undo the message to the seller
+"product_interested_undo" = "Annuler";
+
+// Text for chat with professional users button
+"product_professional_chat_button" = "Chat";
+
+// Text for call professional users button
+"product_professional_call_button" = "Appel";
+
+// Product mark as ready to give away button
+"product_sell_again_free_button" = "Redonner";
+
+// Cancel
+"product_sell_again_free_confirm_cancel_button" = "Annuler";
+
+// Alert message when product is mark as ready to give away (mark as available)
+"product_sell_again_free_confirm_message" = "Voulez-vous indiquer que votre produit est disponible ?";
+
+// Product ready to give away again ok button. (mark as available)
+"product_sell_again_free_confirm_ok_button" = "Oui";
+
+// Confirmation message when product is again available to give away
+"product_sell_again_free_success_message" = "Félicitations ! Votre produit est de nouveau disponible pour être donné.";
+
+// Alert title when product is mark as ready to give away (mark as available)
+"product_sell_again_free_confirm_title" = "Marquez comme disponible";
+
+// Product shown already as given away.
+"product_list_item_given_away_status_label" = "Déjà donné";
+
+// Product list item sold status label. Check attached image "product_list_item_sold_status_label.png"
+"product_list_item_sold_status_label" = "VENDU";
+
+// Product list item how long new item in hours label
+"product_list_item_time_hour_label" = "%ih";
+
+// Product list item how long new item in minutes label
+"product_list_item_time_minute_label" = "%im";
+
+// Product list no products body.
+"product_list_no_products_body" = "Vous êtes le premier dans votre ville. Bienvenue !";
+
+// <strong>SEE SCREENSHOT</strong> Product list no products title.
+"product_list_no_products_title" = "VILLE DÉBLOQUÉE !";
+
+// Cancel button on alert when Product is mark as Given away
+"product_mark_as_sold_free_confirm_cancel_button" = "Annuler";
+
+// Product mark as given away button.
+"product_mark_as_sold_free_button" = "Marquer comme donné";
+
+// Title fo the alert  to let the seller know that can not undo the action of mark as sold
+"product_mark_as_sold_alert_title" = "Marquer \"Vendu\"";
+
+// Message to let the seller know that can not undo the action of mark as sold
+"product_mark_as_sold_alert_message" = "Ceci ne peux pas être annulé. Sélectionnez seulement lorsque vous avez rencontré l'acheteur et reçu le paiement. Continuer ?";
+
+// Cancel button on alert to mark as sold.
+"product_mark_as_sold_alert_cancel" = "Non";
+
+// Accept button on alert to mark as sold.
+"product_mark_as_sold_alert_confirm" = "Oui";
+
+// Title fo the alert  to let the seller know that can not undo the action of mark as given away
+"product_mark_as_given_away_alert_title" = "Indiquer le produit comme donné";
+
+// Message to let the seller know that can not undo the action of mark as sold
+"product_mark_as_given_away_alert_message" = "Cette action ne peux pas être annulée. Sélectionnez ceci après avoir rencontré l'acheteur et donné le bien. Continuer ?";
+
+// Alert message when product is mark as given away
+"product_mark_as_sold_free_confirm_message" = "Marquez votre produit comme déjà donné";
+
+// Product marked as given away ok button
+"product_mark_as_sold_free_confirm_ok_button" = "Marquer";
+
+// Alert title when product is mark as given away
+"product_mark_as_sold_free_confirm_title" = "Le marquer comme donné";
+
+// Confirmation message when product has been set as given away again
+"product_mark_as_sold_free_success_message" = "Félicitations ! Votre produit a été marqué comme donné.";
+
+// Product mark as sold button. Check attached image "product (seller).png"
+"product_mark_as_sold_button" = "Marquer comme vendu";
+
+// Product mark as sold confirm cancel button. Check attached image "product_mark_as_sold.png"
+"product_mark_as_sold_confirm_cancel_button" = "Annuler";
+
+// Product mark as sold confirm message. Check image @ "product_mark_as_sold_confirm_cancel_button" segment
+"product_mark_as_sold_confirm_message" = "Êtes-vous certain de vouloir indiquer « vendu » sur votre annonce ?";
+
+// Product mark as sold confirm ok button. Check image @ "product_mark_as_sold_confirm_cancel_button" segment
+"product_mark_as_sold_confirm_ok_button" = "Marquer comme vendu";
+
+// Product mark as sold confirm title. Check image @ "product_mark_as_sold_confirm_cancel_button" segment
+"product_mark_as_sold_confirm_title" = "Marquer comme vendu";
+
+// Product mark as sold error generic. Message displayal is like the other error messages
+"product_mark_as_sold_error_generic" = "Une erreur est survenue lors de l'ajout de la mention « vendu » sur votre annonce. Veuillez réessayer.";
+
+// Product mark as sold success message. Message displayal is like the other error messages
+"product_mark_as_sold_success_message" = "Félicitations, la mention « vendu» a été ajoutée à votre annonce !";
+
+// Rate the buyer when product is marked as sold.
+"product_menu_rate_buyer" = "Évaluer l'acheteur";
+
+// Tooltip to see more info on snapchat, just the "tap" text
+"product_more_info_tooltip_part_1" = "Tapez";
+
+// Tooltip to see more info on snapchat, just the "to see more info" text
+"product_more_info_tooltip_part_2" = "%@ pour plus d'infos";
+
+// Button to open the More Info view tapping or dragging it
+"product_more_info_open_button" = "PLUS D'INFOS";
+
+// View more related items button on product more info
+"product_more_info_related_view_more" = "Voir plus";
+
+// Text when price is 0$
+"product_negotiable_price" = "Négociable";
+
+// Product onboarding, scroll to see gallery label
+"product_onboarding_finger_scroll_label" = "Scrollez pour voir plus de photos";
+
+// Product onboarding, swipe to go to next or previous product label
+"product_onboarding_finger_swipe_label" = "Glissez pour voir l'annonce suivante ou précédente";
+
+// Product onboarding, tap to go to next product label
+"product_onboarding_finger_tap_label" = "Tapez pour voir l'annonce suivante";
+
+// Button to show again the Onboarding in the new Product Detail
+"product_onboarding_show_again_button_title" = "Comment Naviguer";
+
+// Product new onboarding, keep swipping to go to next or previous product regular text
+"product_new_onboarding_finger_keep_swipe_label" = "%@ vers l'arrière ou vers l'avant pour aller à l'annonce précédente ou suivante";
+
+// Product new onboarding, swipe to see more pictures label regular text
+"product_new_onboarding_finger_swipe_label" = "%@ pour voir plus d'images";
+
+// Product new onboarding, tap to go to next product label regular text
+"product_new_onboarding_finger_tap_label" = "%@ pour aller à l'annonce suivante";
+
+// Product new onboarding, tap left to go to the next image
+"product_new_onboarding_tap_right_label" = "%@ ou %@ pour voir l'image suivante";
+
+// Product new onboarding, tap left to go to the next image highlighted right
+"product_new_onboarding_tap_right_highlighted_label" = "Touchez sur la droite";
+
+// Product new onboarding, tap left to go to the next image highlighted middle
+"product_new_onboarding_tap_right_highlighted_label_2" = "au milieu";
+
+// Product new onboarding, tap left to go to the previous image
+"product_new_onboarding_tap_left_label" = "%@ pour voir l'image précédente";
+
+// Product new onboarding, tap left to go to the previous image highlighted left
+"product_new_onboarding_tap_left_label_highlighted" = "Touchez sur la gauche";
+
+// Product new onboarding, swipe to go to next or previous product
+"product_new_onboarding_finger_swipe_next_product_label" = "%@ pour aller à la prochaine annonce ou à la précédente";
+
+// Product new onboarding, swipe to go to next or previous product highlighted swipe
+"product_new_onboarding_finger_swipe_next_product_highlighted_label" = "Faire glisser";
+
+// New item Page -- Onboarding over cards to tap to see previous picture
+"product_nit_onboarding_previous_picture" = "Photo précédente";
+
+// New item Page -- Onboarding over cards to tap to see next picture
+"product_nit_onboarding_next_picture" = "Photo suivante";
+
+// Option to edit product
+"product_option_edit" = "Modifier annonce";
+
+// Option button to share product
+"product_option_share" = "Partager l'annonce";
+
+// Info bubble on product list when 'newest' ordering is selected
+"product_popular_near_you" = "Populaire à proximité";
+
+// Secondary text when the camera posting appears
+"product_post_camera_first_time_alert_subtitle" = "Prenez une bonne photo et gagnez de l'argent !";
+
+// Main text when the camera posting appears
+"product_post_camera_first_time_alert_title" = "Que vendez-vous ?";
+
+// Button text when user didn't allow access to camera
+"product_post_camera_permissions_button" = "Autoriser";
+
+// Message subtitle when user didn't allow access to camera
+"product_post_camera_permissions_subtitle" = "Pour prendre une photo, vous devez autoriser l'accès à l'App. Photo";
+
+// Message title when user didn't allow access to camera
+"product_post_camera_permissions_title" = "Autoriser l'accès à l'App. Photo";
+
+// Video posting, tooltip: hold to record a video
+"product_post_camera_video_recording_tooltip" = "%@ pour enregistrer une vidéo";
+
+// Video posting, tooltip: hold to record a video, highlighted hold
+"product_post_camera_video_recording_tooltip_highlighted_word" = "Maintenez appuyé";
+
+// Message when the user records a video shorter than min duration
+"product_post_camera_video_recording_min_duration_message" = "Veuillez enregistrer au moins %d secondes";
+
+// Video posting, button to set camera in photo mode
+"product_post_camera_photo_mode_button" = "PHOTO";
+
+// Video posting, button to set camera in video mode
+"product_post_camera_video_mode_button" = "VIDÉO";
+
+// Badge in video button which indicate the new feature
+"product_post_camera_video_mode_button_new_badge" = "NOUVEAU !";
+
+// Video posting, button to select photos from the gallery
+"product_post_camera_gallery_text_button" = "BIBLIOTHÈQUE";
+
+// Camera tab on posting
+"product_post_camera_tab_v2" = "APPAREIL PHOTO";
+
+// When closing without posting alert close button
+"product_post_close_alert_close_button" = "Annuler";
+
+// When closing without posting alert description
+"product_post_close_alert_description" = "Souhaitez-vous toujours le laisser en vente ?";
+
+// When closing without posting alert ok button
+"product_post_close_alert_ok_button" = "Publiez l'annonce";
+
+// When closing without posting alert title
+"product_post_close_alert_title" = "Annonce non publiée";
+
+// Post another item separator
+"product_post_confirmation_another" = "Ou";
+
+// Post another item button
+"product_post_confirmation_another_button" = "Postez un autre bien";
+
+// Post another listing button
+"product_post_confirmation_another_listing_button" = "Publier une autre annonce";
+
+// Add more details button (max 20 chars)
+"product_post_confirmation_edit" = "Ajouter plus de détails";
+
+// Done button after setting (or not) a price
+"product_post_done" = "Terminé";
+
+// Button text when there are no photos on gallery
+"product_post_empty_gallery_button" = "Prendre une Photo";
+
+// Message subtitle when there are no photos on gallery
+"product_post_empty_gallery_subtitle" = "Prenez une photo de ce que vous souhaitez publier";
+
+// Message title when there are no photos on gallery
+"product_post_empty_gallery_title" = "Aucune photo trouvée";
+
+// Message subtitle when camera appears on free posting.
+"product_post_free_camera_first_time_alert_subtitle" = "Prenez une bonne photo pour attirer plus d'acheteurs !";
+
+// Pos another item button (free Version)
+"product_post_free_confirmation_another_button" = "Donner un autre bien";
+
+// Message subtitle when loading an image (from iCloud) fails
+"product_post_gallery_load_image_error_subtitle" = "Choisissez une autre photo et réessayez.";
+
+// Message title when loading an image (from iCloud) fails
+"product_post_gallery_load_image_error_title" = "La photo ne peux pas être chargée";
+
+// Title for the gallery in multiple selection
+"product_post_gallery_multiple_pics_selected" = "%i photos sélectionnées";
+
+// Button text when user didn't allow access to gallery
+"product_post_gallery_permissions_button" = "Autoriser";
+
+// Message subtitle when user didn't allow access to gallery
+"product_post_gallery_permissions_subtitle" = "Pour choisir une photo existante, vous devez allouer l'accès aux Photos";
+
+// Message title when user didn't allow access to gallery
+"product_post_gallery_permissions_title" = "Permettre l'accès aux Photos";
+
+// Title message to ask user to select a picture or more
+"product_post_gallery_select_pictures_title" = "Choisir une photo";
+
+// Subtitle message to ask user to select a picture or more
+"product_post_gallery_select_pictures_subtitle" = "Sélectionnez jusqu'à 5 images à uploader";
+
+// Subtitle message to ask user to select a picture or more with params
+"product_post_gallery_select_pictures_subtitle_params" = "Sélectionnez jusqu'à %d images à uploader";
+
+// Gallery tab on posting
+"product_post_gallery_tab" = "BIBLIOTHÈQUE";
+
+// When posting failed but it's our fault
+"product_post_generic_error" = "Une erreur est survenue lors de la publication de votre annonce.";
+
+// product name bikes
+"product_post_incentive_bike" = "Vélos";
+
+// product name cars
+"product_post_incentive_car" = "Voitures";
+
+// product name dressers
+"product_post_incentive_dresser" = "Commodes";
+
+// product name furniture
+"product_post_incentive_furniture" = "Mobilier";
+
+// !!!! -> this text will go at the place of the variable %@ in "product_post_incentive_looking_for"
+"product_post_incentive_got_any" = "En avez-vous à vendre ?";
+
+// !!!! -> this text will go at the place of the variable %@ in "product_post_incentive_looking_for"
+"product_post_incentive_got_any_free" = "vous en avez à donner ?";
+
+// !!!! -> this text will go at the place of the variable %@ in "product_post_incentive_looking_for_services"
+"product_post_incentive_got_any_services" = "possédez-vous ces compétences ?";
+
+// product name kid's clothes
+"product_post_incentive_kids_clothes" = "Vêtements d'enfants";
+
+// 1st part of the incentivation text
+"product_post_incentive_looking_for" = "Des gens près de vous recherchent ces biens, %@";
+
+// 1st part of the services incentivation text
+"product_post_incentive_looking_for_services" = "Des gens près de chez vous recherchent ces services, %@";
+
+// product name motorcycle
+"product_post_incentive_motorcycle" = "Motos";
+
+// product name ps4
+"product_post_incentive_ps4" = "PS4s";
+
+// After posting, real confirmation subtitle
+"product_post_incentive_subtitle" = "Votre bien est en ligne !";
+
+// After posting, real confirmation subtitle
+"product_post_incentive_subtitle_free" = "Vous allez rendre quelqu'un heureux";
+
+// After posting, real confirmation
+"product_post_incentive_title" = "FÉLICITATIONS !";
+
+// product name toys
+"product_post_incentive_toys" = "Jouets";
+
+// product name Tvs
+"product_post_incentive_tv" = "Télés";
+
+// product name cleaning
+"product_post_incentive_cleaning" = "Entretien";
+
+// product name lessons
+"product_post_incentive_lessons" = "Cours";
+
+// product name creative
+"product_post_incentive_creative" = "Créatifs";
+
+// Login message when asking for login
+"product_post_login_message" = "Pour vendre vos affaires, vous devez vous connecter";
+
+// When posting failed due to ip and location countriesare different
+"product_post_different_country_error" = "Vous ne pouvez pas poster une annonce dans un pays où vous n'êtes pas situé.";
+
+// When posting failed due to network connection errors
+"product_post_network_error" = "Votre annonce n'a pas été publiée.\nVeuillez vérifier vos paramètres réseau.";
+
+// Question to add a price
+"product_post_price_label" = "Vous souhaitez ajouter un prix ?";
+
+// Confirmation BEFORE setting the price
+"product_post_product_posted" = "Annonce publiée. Bravo !";
+
+// Confirmation BEFORE setting the price when not logged in
+"product_post_product_posted_not_logged" = "Photo uploadée !";
+
+// Confirmation BEFORE setting the price when not logged in (video posting)
+"product_post_product_posted_not_logged_video_posting" = "Vidéo téléchargée !";
+
+// Retake photo button
+"product_post_retake" = "Reprendre";
+
+// After failure, the text of the "try again" button
+"product_post_retry_button" = "Réessayer";
+
+// Use Photo button
+"product_post_use_photo" = "Poster";
+
+// User photo button when not logged in
+"product_post_use_photo_not_logged" = "Utiliser la photo";
+
+// User video button when not logged in
+"product_post_use_video_not_logged" = "Utiliser la vidéo";
+
+// Product post category selection title
+"product_post_select_category_title" = "Que postez-vous ?";
+
+// Product post category selection cars button
+"product_post_select_category_cars" = "Voitures";
+
+// Product post category selection motors and accesories button
+"product_post_select_category_motors_and_accessories" = "Autres véhicules et accessoires";
+
+// Product post category selection others button
+"product_post_select_category_other" = "Autres biens";
+
+// Product post category selection real Estate button
+"product_post_select_category_housing" = "Logements à Louer / Vendre";
+
+// Product post category selection services button
+"product_post_select_category_services" = "Services";
+
+// Product post category selection jobs & services button
+"product_post_select_category_jobs_services" = "Emplois & Services";
+
+// Product post category selection real Estate button
+"product_post_select_category_real_estate" = "Immobilier";
+
+// Product report confirm message. Message displayal is like the other dialog messages
+"product_report_confirm_message" = "Êtes-vous certain de vouloir signaler cette annonce ?";
+
+// Product report confirm title. Message displayal is like the other dialog messages
+"product_report_confirm_title" = "Signaler l'annonce";
+
+// Product report product button. Check image @ "product_ask_a_question_button" segment
+"product_report_product_button" = "Signaler l'annonce";
+
+// Product reported fail message. Message displayal is like the other dialog messages
+"product_reported_error_generic" = "Une erreur est survenue lors du signalement de l'annonce. Veuillez réessayer.";
+
+// Product reported success message. Message displayal is like the other dialog messages
+"product_reported_success_message" = "Cette annonce a été signalée. Merci !";
+
+// Product reporting laoding message. Message displayal is like the other dialog messages
+"product_reporting_loading_message" = "Signalement de l'annonce...";
+
+// Product search no products body.
+"product_search_no_products_body" = "Essayez de rechercher quelque chose d'autre ou vérifiez à nouveau prochainement !";
+
+// Product search no products title.
+"product_search_no_products_title" = "OOPS ! AUCUN RÉSULTAT PRES DE VOUS";
+
+// Product sell again button. Check image @ "product_mark_as_sold_button" segment
+"product_sell_again_button" = "Le vendre à nouveau";
+
+// Product sell again confirm cancel button. Check attached image "product_mark_as_sold.png"
+"product_sell_again_confirm_cancel_button" = "Annuler";
+
+// Product sell again confirm message. Check image @ "product_mark_as_sold_confirm_cancel_button" segment
+"product_sell_again_confirm_message" = "Souhaitez-vous indiquer que cette annonce est disponible afin que les acheteurs puissent la voir à nouveau ?";
+
+// Product sell again confirm ok button. Check image @ "product_mark_as_sold_confirm_cancel_button" segment
+"product_sell_again_confirm_ok_button" = "Le vendre à nouveau";
+
+// Product sell again confirm title. Check image @ "product_mark_as_sold_confirm_cancel_button" segment
+"product_sell_again_confirm_title" = "Le vendre à nouveau";
+
+// Product sell again error generic. Message displayal is like the other error messages
+"product_sell_again_error_generic" = "Une erreur est survenue lors de l'identification de votre annonce comme disponible. Veuillez réessayer.";
+
+// Product sell again success message. Message displayal is like the other error messages
+"product_sell_again_success_message" = "Félicitations, votre annonce a été identifiée comme disponible !";
+
+// Ask the user to activate Camera access in setting because it was denied before
+"product_sell_camera_permissions_error" = "Pour prendre une photo, donner accès à votre appareil photo à letgo dans les réglages.";
+
+// Error shown when the camera access is restricted in the Device
+"product_sell_camera_restricted_error" = "L'accès à votre appareil photo est restreint. Veuillez vérifier vos réglages et réessayer.";
+
+// Ask the user to activate Photo library access in setting because it was denied before
+"product_sell_photolibrary_permissions_error" = "Pour uploader une photo, donnez l'accès à votre galerie d'images à letgo dans vos réglages.";
+
+// Error shown when the photo library access is restricted in the Device
+"product_sell_photolibrary_restricted_error" = "L'accès à votre galerie d'images est restreint. Veuillez vérifier vos réglages et réessayer.";
+
+// Share on product detail
+"product_share_navbar_button" = "Partager";
+
+// Product share body
+"product_share_body" = "Regarde ce que j'ai trouvé sur letgo !";
+
+// Product share body, for MY products
+"product_is_mine_share_body" = "Découvrez ce que je vend sur letgo !";
+
+// Product share body, for MY free products
+"product_is_mine_share_body_free" = "Regardez ce que je donne sur letgo !";
+
+// Product share via copy_link success
+"product_share_copylink_ok" = "Votre lien a été copié !";
+
+// Product share email error. Message displayal is like the other error messages
+"product_share_email_error" = "Oups ! Il semble que vous n'ayez pas paramétré de compte dans l'application Courriel.";
+
+// Product share generic OK. Message displayal is like the other error messages
+"product_share_generic_ok" = "Annonce partagée !";
+
+// Product share via sms error message
+"product_share_sms_error" = "Une erreur est survenue lors de l'envoi du message.";
+
+// Product share via sms success message
+"product_share_sms_ok" = "Envoi...";
+
+// Product detail share title label.
+"product_share_title_label" = "PARTAGER CETTE ANNONCE";
+
+// String to add at the end of the body when the product is from other people
+"product_share_posted_by" = "posté par %@";
+
+// Share product title including `on letgo!`
+"product_share_title_on_letgo" = "%@ sur letgo !";
+
+// Message when you select sticker to send from a product detail
+"product_stickers_selection_wo_name" = "Sélectionnez le sticker que vous voulez envoyer au vendeur.";
+
+// Login message when asking for login after clicking on favorite
+"product_favorite_login_popup_text" = "Pour mettre cette annonce en favori, vous devez vous connecter";
+
+// Login message when asking for login after clicking on report
+"product_report_login_popup_text" = "Pour signaler une annonce, vous devez vous connecter";
+
+// Ask phone number dealer intro text
+"professional_dealer_ask_phone_intro_text" = "Je suis un concessionnaire automobile professionnel et j'aimerais vous aider en personne. Veuillez partager votre numéro de téléphone afin que je vous fasse profiter des meilleures aubaines !";
+
+// Ask phone number not now button title
+"professional_dealer_ask_phone_not_now_button" = "Pas maintenant";
+
+// Ask phone number let's talk label text
+"professional_dealer_ask_phone_lets_talk_text" = "Parlons-en";
+
+// Ask phone number text field placeholder
+"professional_dealer_ask_phone_textfield_placeholder" = "Entrer numéro de téléphone";
+
+// Ask phone number send phone button title
+"professional_dealer_ask_phone_send_phone_button" = "Envoyer numéro de téléphone";
+
+// Ask phone number automatic message
+"professional_dealer_ask_phone_chat_message" = "Mon numéro de téléphone est %@";
+
+// Request phone cell text message text
+"professional_dealer_ask_phone_add_phone_cell_message" = "Appelez maintenant ou ajoutez votre numéro de téléphone pour que l'on puisse vous appeler";
+
+// Request phone cell text button text
+"professional_dealer_ask_phone_add_phone_cell_button" = "Ajoutez votre numéro";
+
+// Automatic message thanks for leaving phone text
+"professional_dealer_ask_phone_thanks_phone_cell_message" = "Merci d'avoir ajouté votre numéro de téléphone ! Il est toujours mieux de nous appeler en utilisant le bouton d'appel ci-dessus.";
+
+// Automatic message thanks for contacting text
+"professional_dealer_ask_phone_thanks_other_cell_message" = "Merci de prendre contact avec nous ! Veuillez s'il vous plaît nous téléphoner ou ajouter votre numéro pour que nous puissions vous appeler.";
+
+// Ask phone alert title
+"professional_dealer_ask_phone_alert_enter_phone" = "Ajoutez votre numéro de téléphone";
+
+// Not valid phone number error alert text
+"professional_dealer_ask_phone_alert_not_valid_phone" = "Veuillez indiquer un numéro de téléphone valide";
+
+// Button asking the user to add a Bio
+"profile_bio_add_button" = "Ajouter bio";
+
+// Button to show/hide the user Bio
+"profile_bio_show_more_button" = "PLUS À PROPOS DE MOI";
+
+// Profile, you blocked this user label (wo username)
+"profile_blocked_by_me_label" = "Vous avez bloqué cet utilisateur";
+
+// Profile, you blocked this user label (includes username)
+"profile_blocked_by_me_label_w_name" = "Vous avez bloqué %@";
+
+// Profile, this user blocked you label
+"profile_blocked_by_other_label" = "Vous avez été bloqué par cet utilisateur";
+
+// Profile favourites my user no products button. Check attached image "profile (empty).png"
+"profile_favourites_my_user_no_products_button" = "Continuer à naviguer";
+
+// Profile favourites my user no products title. Check attached image "profile (empty).png"
+"profile_favourites_my_user_no_products_label" = "PAS (ENCORE !) DE FAVORIS";
+
+// Profile favourites products tab. Check attached image "profile (full).png"
+"profile_favourites_products_tab" = "Favoris";
+
+// Alert to encourage the user to enable push notifications
+"profile_permissions_alert_cancel" = "Pas maintenant";
+
+// Alert to encourage the user to enable push notifications
+"profile_permissions_alert_message" = "Souhaitez-vous activer les notifications de message maintenant ?";
+
+// Alert to encourage the user to enable push notifications
+"profile_permissions_alert_ok" = "Activer";
+
+// Alert to encourage the user to enable push notifications
+"profile_permissions_alert_title" = "NE MANQUEZ PAS UNE RÉPONSE !";
+
+// Message on profile when user has push disabled
+"profile_permissions_header_message" = "Activer les notifications de message";
+
+// Profile Reviews Tab title
+"profile_reviews_tab" = "Notes";
+
+// Profile Reviews tab has no reviews
+"profile_reviews_empty_label" = "AUCUNE ÉVALUATION (POUR LE MOMENT!)";
+
+// Profile reviews count (appears below review count number)
+"profile_reviews_count" = "Notes";
+
+// Profile selling tab (both my user and other user) empty title.
+"profile_selling_no_products_label" = "AUCUNE ANNONCE (POUR LE MOMENT !)";
+
+// Profile selling tab (other user) empty button.
+"profile_selling_other_user_no_products_button" = "Continuer à naviguer";
+
+// Profile selling products tab. Check image @ "profile_favourites_products_tab" segment
+"profile_selling_products_tab" = "En Vente";
+
+// Profile sold tab (both my user and other user) empty title.
+"profile_sold_no_products_label" = "AUCUNE ANNONCE (POUR LE MOMENT !)";
+
+// Profile sold tab (other user) empty button.
+"profile_sold_other_no_products_button" = "Continuer à naviguer";
+
+// Profile sold products tab. Check image @ "profile_favourites_products_tab" segment
+"profile_sold_products_tab" = "Vendu";
+
+// Profile verified accounts (other user), at least 1 account verified
+"profile_verified_accounts_other_user" = "VÉRIFIÉ AVEC :";
+
+// Profile verified accounts, at least 1 account verified
+"profile_verified_accounts_title" = "VÉRIFIÉ AVEC";
+
+// Verify popup to link with email
+"profile_verify_email_button" = "Envoyer email";
+
+// Verify popup to link with email
+"profile_verify_email_message_present" = "Tapez \"Envoyer Email\" pour envoyer un nouveau lien de vérification à %@";
+
+// Verify popup to link with email success message
+"profile_verify_email_success" = "Vérifiez vos emails pour vérifier votre compte. Ce lien va expirer dans 48 heures.";
+
+// Verify popup to link with email failure too many requests
+"profile_verify_email_too_many_requests" = "Nous vous avons déjà envoyé un email de vérification. Veuillez vérifier votre boite de réception !";
+
+// Verify popup to link with facebook
+"profile_verify_facebook_button" = "Facebook";
+
+// Verify popup to link with facebook
+"profile_verify_facebook_title" = "FACEBOOK";
+
+// Verify popup to link with google
+"profile_verify_google_button" = "Google";
+
+// Verify popup to link with google
+"profile_verify_google_title" = "GOOGLE";
+
+// TItle shown in the verifications screen
+"profile_verifications_view_title" = "Comment gagner des points";
+
+// Title for the section with the possible verification methods
+"profile_verifications_view_verify_section_title" = "VÉRIFIER AVEC";
+
+// Subtitle for the section with the possible verificationn methods
+"profile_verifications_view_verify_section_subtitle" = "Vos informations personnelles ne seront pas partagées avec les autres utilisateurs";
+
+// Option to verify with Facebook title
+"profile_verifications_view_facebook_title" = "Facebook";
+
+// Option to verify with Google title
+"profile_verifications_view_google_title" = "Google";
+
+// Option to verify with Email
+"profile_verifications_view_email_title" = "Email";
+
+// Option to verify phone number
+"profile_verifications_view_phone_number_title" = "Numéro de Téléphone";
+
+// Option to verify with personal ID
+"profile_verifications_view_photo_id_title" = "Pièce d'identité avec photo";
+
+// Title for the section with the options to add info to increase karma
+"profile_verifications_view_add_info_section_title" = "AJOUTER VOTRE";
+
+// Option to add Profile Picture
+"profile_verifications_view_profile_picture_title" = "Image de profil";
+
+// Option to add a Biography
+"profile_verifications_view_bio_title" = "Bio";
+
+// Section for exta options to increase Karma score
+"profile_verifications_view_extra_section_title" = "ACHETER & VENDRE";
+
+// cell explaining that marking items as sold, increases Karma score
+"profile_verifications_view_mark_as_sold_title" = "Marquer \"Vendu\"";
+
+// cell explaining that marking items as sold, increases Karma score
+"profile_verifications_view_mark_as_sold_subtitle" = "+2 pts par annonce (jusqu'à 10 pts)";
+
+// Title of the view to verify the email. The user can write its email to send a verification link
+"profile_verifications_email_view_title" = "Vérifiez votre courriel";
+
+// Placeholder for the enter email field
+"profile_verifications_email_placeholder" = "Email";
+
+// Button to confirm email and send a verification link
+"profile_verifications_send_button" = "Envoyer";
+
+// Title shown in the navigation bar as a screen title in the first screen of the phone verification.
+"phone_verification_number_input_view_title" = "Vérification du numéro";
+
+// Text shown to explain the screen in the first screen of the phone verification process.
+"phone_verification_number_input_view_description" = "Inspirez confiance en vérifiant votre numéro de téléphone";
+
+// Placeholder shown in the textfield to insert the phone number.
+"phone_verification_number_input_view_textfield_placeholder" = "Numéro de Téléphone";
+
+// Text shown in the button to 'continue' and go the next phone verification step.
+"phone_verification_number_input_view_continue_button" = "Continuer";
+
+// Text shown when sms is being sent (as a loding state)
+"phone_verification_number_input_view_sending_message" = "Envoi du message texte en cours…";
+
+// Title shown in the alert to explain that the sms has been sent.
+"phone_verification_number_input_view_confirmation_title" = "Merci !";
+
+// Text shown in the alert to explain that the sms has been sent. (+34 611111111)
+"phone_verification_number_input_view_confirmation_message" = "Nous avons envoyé un message-texte avec un code de vérification à +%@ %@";
+
+// Text shown when something goes wrong trying to send a sms to the user
+"phone_verification_number_input_view_error_message" = "Oups ! Une erreur est survenue au moment d'envoyer le message texte. Veuillez réessayer.";
+
+// Title shown in the navigation bar as a screen title in the second screen of the phone verification.
+"phone_verification_code_input_view_title" = "Vérification du numéro";
+
+// Title shown in the content of the 2nd step in the phone verification process.
+"phone_verification_code_input_view_content_title" = "Entrez le code à 6 chiffres";
+
+// Subtitle shown in the content of the 2nd step. (%s = phone number)
+"phone_verification_code_input_view_content_subtitle" = "Nous l'avons envoyé à %@";
+
+// Text shown below the code textfield as a contextual information.
+"phone_verification_code_input_view_content_subtext" = "Vous pouvez demander un autre code si vous ne le recevez pas dans les prochaines %@";
+
+// Text shown in the button below the code textfield to request a code again.
+"phone_verification_code_input_view_content_subaction" = "Vous n'avez pas reçu le code ?";
+
+// Text shown when sms code is being validated by backend.
+"phone_verification_code_input_view_validating_message" = "Validation du code...";
+
+// Text shown when sms code has been verified successfully.
+"phone_verification_code_input_view_validated_success" = "Numéro de téléphone vérifié !";
+
+// Text shown when sms code has been verified unsuccessfully.
+"phone_verification_code_input_view_validated_failure" = "Le code de vérification que vous avez entré est incorrect.";
+
+// Text shown when something goes wrong trying to validate the code
+"phone_verification_code_input_view_error_message" = "Oups! Une erreur est survenue au moment de valider le code. Veuillez réessayer.";
+
+// Text shown in the navigation bar  as a screen title in the country picker view.
+"phone_verification_country_picker_view_title" = "Liste de pays";
+
+// Text shown as a placeholder in the textfield to search a country in the country list.
+"phone_verification_country_picker_view_search_placeholder" = "Chercher";
+
+// Text shown for references to Hourly price type
+"priceType_hourly" = "Horaire";
+
+// Text shown for references to Daily price type
+"priceType_daily" = "Quotidien";
+
+// Text shown for references to Biweekly price type
+"priceType_biweekly" = "Bi-hebdomadaire";
+
+// Text shown for references to Weekly price type
+"priceType_weekly" = "Hebdomadaire";
+
+// Text shown for references to Monthly price type
+"priceType_monthly" = "Mensuel";
+
+// Text shown for references to Yearly price type
+"priceType_yearly" = "Annuel";
+
+// Text shown for references to OneOff price type
+"priceType_oneOff" = "Unique";
+
+// Text in a tooltip shown when the current user sees a user with a badge for the first time
+"profile_reputation_tooltip_title" = "Utilisateur vérifié ! Sélectionnez si vous souhaitez vous aussi être vérifié(e).";
+
+// Disclaimer text telling the user this section is only visibile to him/her
+"profile_karma_visibility_title" = "Visible seulement par vous";
+
+// Text button to open the verifications screen to improve the user score
+"profile_karma_improve_score" = "Améliorez votre Score";
+
+// Subtitle shown when the user is not verified yet (indicating how many points needs)
+"profile_karma_unverified_subtitle" = "Gagnez %@ pour obtenir le badge d'Utilisateur Vérifié";
+
+// number of points -> This will be inside "Earn %@ to get the Verified User Badge"
+"profile_karma_unverified_points_subtitle" = "%@ points";
+
+// Subtitle shown when the user has enough points and is verified
+"profile_karma_verified_subtitle" = "Vous avez le badge !";
+
+// Verification score text inside the private karma view
+"profile_karma_title" = "Score de vérification : %@";
+
+// number of points -> This will be inside "Verification Score: %@"
+"profile_karma_points_title" = "%@ pts";
+
+// Button to verify accounts
+"profile_build_trust_button" = "Inspirez Confiance";
+
+// Text to verify accounts
+"profile_connect_accounts_message" = "Vous n'avez toujours pas vérifié votre compte avec :";
+
+// Text for dummy user info
+"profile_dummy_user_info" = "Bonjour ! Je suis %@ de letgo. Je suis là pour vous aider à améliorer votre annonce et commencer à vendre.";
+
+// Promote bump up title text
+"promote_bump_title" = "Attirez plus d'acheteurs";
+
+// Promote bump up main button text
+"promote_bump_sell_faster_button" = "Vendez plus vite";
+
+// Promote bump up later button text
+"promote_bump_later_button" = "Plus tard";
+
+// Jobs & Services post button text
+"posting_flow_jobs_and_services_category_button_text" = "Emplois & Services";
+
+// Navigation bar title "Set Location"
+"quick_filter_location_title" = "Changer la localisation";
+
+// Screen to select which buyer you sold the item before rating him/her
+"rate_buyers_message" = "Félicitations !";
+
+// Screen to select which buyer you sold the item before rating him/her
+"rate_buyers_sub_message" = "À qui l'avez-vous vendu ?";
+
+// Screen to select which buyer you sold the item before rating him/her
+"rate_buyers_will_do_later_title" = "Je le ferai plus tard";
+
+// Screen to select which buyer you sold the item before rating him/her
+"rate_buyers_will_do_later_subtitle" = "Évaluer l'acheteur plus tard";
+
+// Screen to select which buyer you sold the item before rating him/her
+"rate_buyers_not_on_letgo_title_button" = "Je l'ai vendu ailleurs";
+
+// Screen to select which buyer you sold the item before rating him/her
+"rate_buyers_see_x_more" = "Afficher plus";
+
+// Screen to select which buyer you sold the item before rating him/her
+"rate_buyers_see_less" = "Afficher moins";
+
+// Screen to select which buyer you sold the item before rating him/her
+"rate_buyers_not_on_letgo_button" = "Je ne l'ai pas vendu sur letgo";
+
+// Rate user quick response negative
+"rate_user_negative_not_polite" = "Impoli(e)";
+
+// Rate user quick response negative
+"rate_user_negative_didnt_show_up" = "Absent(e) au rendez-vous";
+
+// Rate user quick response negative
+"rate_user_negative_slow_responses" = "Réponses lentes";
+
+// Rate user quick response negative
+"rate_user_negative_unfair_price" = "Prix abusifs";
+
+// Rate user quick response negative
+"rate_user_negative_not_trustworthy" = "Non fiable";
+
+// Rate user quick response negative
+"rate_user_negative_item_not_as_advertised" = "Bien non conforme à l'annonce";
+
+// Rate user quick response positive
+"rate_user_positive_polite" = "Poli(e)";
+
+// Rate user quick response positive
+"rate_user_positive_showed_up_on_time" = "S'est présenté(e) à l'heure";
+
+// Rate user quick response positive
+"rate_user_positive_quick_responses" = "Réponses rapides";
+
+// Rate user quick response positive
+"rate_user_positive_fair_prices" = "Prix raisonnables";
+
+// Rate user quick response positive
+"rate_user_positive_helpful" = "Serviable";
+
+// Rate user quick response positive
+"rate_user_positive_trustworthy" = "Fiable";
+
+// Alert asking if the user is enjoying Letgo
+"rating_app_enjoying_alert_title" = "Appréciez-vous letgo ?";
+
+// Alert asking to rate the Letgo app
+"rating_app_rate_alert_title" = "Pourriez-vous nous noter ? Cela ne prendra que deux secondes";
+
+// Alert asking to rate the Letgo app - button Yes
+"rating_app_rate_alert_yes_button" = "Bien sûr !";
+
+// Alert asking to rate the Letgo app - button No
+"rating_app_rate_alert_no_button" = "Non, merci";
+
+// Alert asking is user would like to give feedback for the app
+"rating_app_feedback_title" = "Souhaitez-vous nous faire part de vos impressions ?";
+
+// Alert asking is user would like to give feedback for the app - button Yes
+"rating_app_feedback_yes_button" = "Bien sûr !";
+
+// Alert asking is user would like to give feedback for the app - button No
+"rating_app_feedback_no_button" = "Non, merci";
+
+// action for user to report a review by another user
+"rating_list_action_report_review" = "Signaler une note";
+
+"rating_list_action_report_review_error_message" = "Une erreur est survenue lors de l'envoi du signalement.";
+
+"rating_list_action_report_review_success_message" = "Votre signalement a été envoyé !";
+
+// action for user to review another user
+"rating_list_action_review_user" = "Noter utilisateur";
+
+// Text for loading error at user ratings list
+"rating_list_loading_error_message" = "Une erreur est survenue lors du chargement des notes.";
+
+// Text for rating of type "buyer" ( %s will be the username)
+"rating_list_rating_type_buyer_text_label" = "%@ a acheté quelque chose";
+
+// Text for rating of type "conversation" ( %s will be the username)
+"rating_list_rating_type_conversation_text_label" = "%@ a clavardé à propos d'une annonce";
+
+// Text for rating of type "seller" ( %s will be the username)
+"rating_list_rating_type_seller_text_label" = "%@ a vendu quelque chose";
+
+// Text when a rating is pending review
+"rating_list_rating_status_pending" = "Cette note est en cours de vérification";
+
+// Title for rating list view
+"rating_list_title" = "Notes";
+
+// Rating view rate us label.  Check image @ "rating_view_title_label" segment
+"rating_view_rate_us_label" = "Notez-nous :";
+
+// Rating view remind me later button.  Check image @ "rating_view_title_label" segment
+"rating_view_remind_later_button" = "Me rappeler plus tard";
+
+// Rating view title label.  Check attached image "rating_view.png" (but uppercase)
+"rating_view_title_label_uppercase" = "DONNEZ-NOUS 5 ETOILES !";
+
+// Real Estate location title
+"real_estate_location_title" = "Lieu";
+
+// Real estate notification
+"real_estate_location_notification_message" = "Nous n'indiquons jamais votre localisation exacte aux autres utilisateurs";
+
+// Real Estate summary title
+"real_estate_summary_title" = "Résumé";
+
+// Real Estate price title
+"real_estate_price_title" = "Prix";
+
+// Real Estate offer type title
+"real_estate_offer_type_title" = "Type d'annonce";
+
+// Real Estate offer type rent
+"real_estate_offer_type_rent" = "À louer";
+
+// Real Estate offer type sale
+"real_estate_offer_type_sale" = "À vendre";
+
+// Skip button
+"posting_button_skip" = "Passer";
+
+// Real Estate property type title
+"real_estate_type_property_title" = "Type de propriété";
+
+// Real Estate property type apartment
+"real_estate_type_property_apartment" = "Appartement";
+
+// Real Estate property type house
+"real_estate_type_property_house" = "Maison";
+
+// Real Estate property type room
+"real_estate_type_property_room" = "Chambre";
+
+// Real Estate property type commercial
+"real_estate_type_property_commercial" = "Publicité";
+
+// Real Estate property type others
+"real_estate_type_property_others" = "Autre";
+
+// Real Estate property type flat
+"real_estate_type_property_flat" = "Appartement";
+
+// Real Estate property type land
+"real_estate_type_property_land" = "Terrain";
+
+// Real Estate property type villa
+"real_estate_type_property_villa" = "Maison unifamiliale / Villa";
+
+// Real Estate number of bathrooms title
+"real_estate_bathrooms_title" = "Salles de bains (nb)";
+
+// Real Estate number of bathrooms 0
+"real_estate_bathrooms_0" = "Aucune";
+
+// Real Estate number of bathrooms 1
+"real_estate_bathrooms_1" = "1";
+
+// Real Estate number of bathrooms 1.5
+"real_estate_bathrooms_1_5" = "1.5";
+
+// Real Estate number of bathrooms 2
+"real_estate_bathrooms_2" = "2";
+
+// Real Estate number of bathrooms 2.5
+"real_estate_bathrooms_2_5" = "2.5";
+
+// Real Estate number of bathrooms 3
+"real_estate_bathrooms_3" = "3";
+
+// Real Estate number of bathrooms 3.5
+"real_estate_bathrooms_3_5" = "3.5";
+
+// Real Estate number of bathrooms 4
+"real_estate_bathrooms_4" = "Plus de 4";
+
+// bathroom
+"real_estate_summary_bathroom_title" = "salle de bains";
+
+// bathrooms
+"real_estate_summary_bathrooms_title" = "salles de bains";
+
+// Ral Estate number of bedrooms Title
+"real_estate_bedrooms_title" = "Chambres (nb)";
+
+// Real Estate number of bedrooms 0
+"real_estate_bedrooms_0" = "Studio";
+
+// Real Estate number of bedrooms 1
+"real_estate_bedrooms_1" = "1";
+
+// Real Estate number of bedrooms 2
+"real_estate_bedrooms_2" = "2";
+
+// Real Estate number of bedrooms 3
+"real_estate_bedrooms_3" = "3";
+
+// Real Estate number of bedrooms 4
+"real_estate_bedrooms_4" = "Plus de 4";
+
+"real_estate_rooms_title" = "Nombre de pièces";
+
+"real_estate_rooms_studio" = "Studio (1+0)";
+
+"real_estate_rooms_over_ten" = "Plus de 10";
+
+// Real estate number of rooms depend on bedrooms and living rooms
+"real_estate_rooms_value" = "%d + %d";
+
+// Size square meters title
+"real_estate_size_square_meters_title" = "Grandeur";
+
+// Size square meters placeHolder
+"real_estate_size_square_meters_placeholder" = "Ajouter";
+
+// bedroom
+"real_estate_summary_bedroom_title" = "chambre";
+
+// bedrooms
+"real_estate_summary_bedrooms_title" = "chambres";
+
+// rooms
+"real_estate_summary_rooms_title" = "pièces";
+
+// Rooms empty
+"real_estate_summary_rooms_empty" = "Ajouter des pièces";
+
+// Size
+"real_estate_summary_size_title" = "Grandeur";
+
+// size empty
+"real_estate_summary_size_empty" = "Ajouter grandeur";
+
+// Real Estate summary price empty value
+"real_estate_summary_price_empty" = "Ajouter prix";
+
+// Real Estate summary property type empty value
+"real_estate_summary_type_property_empty" = "Ajouter type de propriété";
+
+// Real Estate summary offer type empty value
+"real_estate_summary_offer_type_empty" = "Ajouter type d'annonce";
+
+// Real Estate summary bedrooms empty value
+"real_estate_summary_bedrooms_emtpy" = "Ajouter nombre de chambres";
+
+// Real Estate summary bathrooms empty value
+"real_estate_summary_bathrooms_empty" = "Ajouter nombre de salles de bains";
+
+// title of price in summary screen
+"real_estate_summary_price_title" = "Prix : %@";
+
+// Real Estate summary location empty value
+"real_estate_summary_location_empty" = "Localisation : non configurée";
+
+// Real estate apartment short version for title.
+"real_estate_title_generator_property_type_apartment" = "App";
+
+// Real estate room short version for title.
+"real_estate_title_generator_property_type_room" = "Chambre";
+
+// Real estate house short version for title.
+"real_estate_title_generator_property_type_house" = "Maison";
+
+// Real estate other short version for title.
+"real_estate_title_generator_property_type_other" = "Autre";
+
+// Real estate commercial short version for title.
+"real_estate_title_generator_property_type_commercial" = "Publicité";
+
+// Real estate sale short version for title.
+"real_estate_title_generator_offer_type_sale" = "À vendre";
+
+// Real estate rent short version for title.
+"real_estate_title_generator_offer_type_rent" = "À louer";
+
+// Real estate studio short version for title.
+"real_estate_title_generator_bedrooms_studio" = "Studio";
+
+// Real estate one bedroom short version for title.
+"real_estate_title_generator_bedrooms_one" = "1CH";
+
+// Real estate two bedroom short version for title.
+"real_estate_title_generator_bedrooms_two" = "2CH";
+
+// Real estate three bedroom short version for title.
+"real_estate_title_generator_bedrooms_three" = "3CH";
+
+// Real estate four bedroom short version for title.
+"real_estate_title_generator_bedrooms_four" = "+4CH";
+
+// Real Estate number of bathrooms 0 short version
+"real_estate_title_generator_bathrooms_0" = "Aucune";
+
+// Real Estate number of bathrooms 1 short version
+"real_estate_title_generator_bathrooms_1" = "1SDB";
+
+// Real Estate number of bathrooms 1.5 short version
+"real_estate_title_generator_bathrooms_1_5" = "1.5SDB";
+
+// Real Estate number of bathrooms 2 short version
+"real_estate_title_generator_bathrooms_2" = "2SDB";
+
+// Real Estate number of bathrooms 2.5 short version
+"real_estate_title_generator_bathrooms_2_5" = "2.5SDB";
+
+// Real Estate number of bathrooms 3 short version
+"real_estate_title_generator_bathrooms_3" = "3SDB";
+
+// Real Estate number of bathrooms 3.5 short version
+"real_estate_title_generator_bathrooms_3_5" = "3.5SDB";
+
+// Real Estate number of bathrooms 4 short version
+"real_estate_title_generator_bathrooms_4" = "+4SDB";
+
+// Real Estate number of bathrooms 0 for attributes tag
+"real_estate_attribute_tag_bathroom_0" = "0SDB";
+
+// Show the current step of total steps
+"real_estate_current_step_of_total" = "%d de %d";
+
+// Title for section on related search.
+"real_estate_related_search_title" = "Résultats associés";
+
+// Tooltip text included on sell button
+"real_estate_tooltip_sell_button" = "Publiez des propriétés à vendre ou à louer dans notre nouvelle catégorie Logements";
+
+// Tooltip text included on sell button with real estate
+"real_estate_tooltip_sell_button_title" = "Publiez une propriété à vendre ou à louer dans notre nouvelle catégorie Immobilier";
+
+// Message inside expandable sell your stuff menu to announce RE
+"real_estate_tooltip_overlay_expandable_menu" = "Si vous publiez une propriété à vendre ou à louer, essayez notre nouvelle catégorie Immobilier !";
+
+// Message inside gallery view to explain about picture selection on RE
+"real_estate_gallery_view_subtitle" = "Sélectionnez jusqu'à 5 images de la propriété que vous voulez vendre ou louer";
+
+// Message inside gallery view to explain about picture selection on RE
+"real_estate_gallery_view_subtitle_params" = "Sélectionnez jusqu'à %d images de la propriété que vous voulez vendre ou louer. La première sera votre photo mise en vedette, assurez-vous que ce soit une bonne !";
+
+// Message inside camera view to explain about picture selection on RE
+"real_estate_camera_view_real_estate_message" = "Prenez une photo de la propriété que vous voulez vendre ou louer";
+
+// Message inside camera view to open real estate onboarding
+"real_estate_camera_view_real_estate_learn_more" = "En savoir plus";
+
+// Title for empty state when search for real estate
+"real_estate_empty_state_search_title" = "OUPS ! AUCUNE MAISON PUBLIÉE PRÈS DE CHEZ VOUS";
+
+// Subtitle for empty state when search for real estate
+"real_estate_empty_state_search_subtitle" = "Soyez le premier/la première à publier une propriété à vendre / louer dans votre secteur ou revenez vérifier prochainement !";
+
+// Title for page on real estate tutorial
+"real_estate_tutorial_new" = "NOUVEAU";
+
+// Title for first section on first option for real estate onboarding
+"real_estate_tutorial_one_page_first_section_title" = "Vendez une propriété ou trouvez un locataire pour votre chambre supplémentaire";
+
+// Title for second section on first option for real estate onboarding
+"real_estate_tutorial_one_page_second_section_title" = "Publiez rapidement une annonce avec tous les détails que les acheteurs veulent connaître";
+
+// Title for first section on first page for real estate onboarding
+"real_estate_tutorial_two_pages_first_section_first_page_title" = "Nouveauté ! Vendez une propriété ou trouvez un locataire pour votre chambre supplémentaire";
+
+// Title for first section on second page for real estate onboarding
+"real_estate_tutorial_two_pages_first_section_second_page_title" = "Publiez rapidement une annonce avec tous les détails que les acheteurs veulent connaître";
+
+// Title for first page on three page option.
+"real_estate_tutorial_three_pages_first_page_title" = "Nouveauté ! Vendez, achetez ou louez une propriété";
+
+// Description for first page on three page option.
+"real_estate_tutorial_three_pages_first_page_description" = "Publiez une propriété à vendre ou à louer dans notre nouvelle catégorie Immobilier. 90% des acheteurs utilisent les ressources en ligne pour trouver leur prochain logement !";
+
+// Title for second page on three page option.
+"real_estate_tutorial_three_pages_second_page_title" = "Les détails ne sont pas que des détails";
+
+// Description for second page on three page option.
+"real_estate_tutorial_three_pages_second_page_decription" = "Les décisions concernant une propriété sont prises en fonction de son emplacement et du nombre de chambres et de salles de bains; assurez-vous donc que ces détails soient dans votre annonce !";
+
+// Title for third page on three page option.
+"real_estate_tutorial_three_pages_third_page_title" = "Vendez ou louez en un clin d'oeil";
+
+// Description for third page on three page option.
+"real_estate_tutorial_three_pages_third_page_description" = "Les annonces complètes attirent 20% plus de visiteurs et vous vendrez donc plus vite. N'oubliez pas de doubler votre visibilité en mettant votre annonce en vedette !";
+
+// Title for Promo Cell in real estate Listing - Version 1
+"real_estate_promo_title_version_1" = "Publier des Annonces Immobilières";
+
+// Title for Promo Cell in real estate Listing - Version 2
+"real_estate_promo_title_version_2" = "Nouveau ! Publier des propriétés à vendre et à louer";
+
+// Title for Promo Cell in real estate Listing - Version 3
+"real_estate_promo_title_version_3" = "Nouveau ! Vendez ou louez une propriété";
+
+// Title for Promo Cell in real estate Listing - Version 4
+"real_estate_promo_title_version_4" = "Vendre ou louer une propriété";
+
+// Title for Promo Cell in real estate Listing - Version 5
+"real_estate_promo_title_version_5" = "Vous pouvez désormais publier des annonces immobilières";
+
+// Title for Promo Cell in real estate Listing - Version 6
+"real_estate_promo_title_version_6" = "Nouveau ! Des annonces immobilières sur letgo";
+
+// Title for Promo Cell in real estate Listing - Version 7
+"real_estate_promo_title_version_7" = "Immobilier - Ventes et locations";
+
+// Title for Button in Promo Cell real estate Listing
+"real_estate_promo_post_button_title" = "Publier Maintenant";
+
+// Title for tooltip for real estate map
+"real_estate_map_tooltip_title" = "Nouveau ! Découvrez les propriétés sur une carte.";
+
+// Title for button in tooltip for real estate map
+"real_estate_map_tooltip_button_title" = "Essayez Maintenant";
+
+// Title when showing list of related items
+"related_items_title" = "Annonces associées";
+
+// Type Counterfeit items
+"report_user_counterfeit" = "Contrefaçons";
+
+// Error reporting the user because you already reported him
+"report_user_error_already_reported" = "Vous avez déjà signalé cet utilisateur !";
+
+// Type inactive
+"report_user_inactive" = "Inactif";
+
+// Type Missing in 'action'
+"report_user_mia" = "Absent au RDV";
+
+// Type offensive behaviour
+"report_user_offensive" = "Comportement abusif";
+
+// Type other
+"report_user_others" = "Autre";
+
+// Type items prohibited
+"report_user_prohibited_items" = "Vente de biens interdits";
+
+// Type scammer
+"report_user_scammer" = "Arnaque";
+
+// Send button text
+"report_user_send_button" = "Envoyer";
+
+// Error sending report
+"report_user_send_failure" = "Une erreur est survenue lors de l'envoi du signalement";
+
+// Confirmation after sending report
+"report_user_send_ok" = "Votre signalement a été envoyé !";
+
+// Type spammer
+"report_user_spammer" = "Spammeur";
+
+// Type Suspicious behaviour
+"report_user_suspcious" = "Comportement suspect";
+
+// Information comment on the text area
+"report_user_text_placeholder" = "Ajouter un commentaire (facultatif)";
+
+// Title for report user screen
+"report_user_title" = "Signaler l'utilisateur";
+
+// Reporting Reason for when the user thinks a product shouldn't be on letgo
+"reporting_reason_should_not_be_on_letgo" = "Ça ne devrait pas être sur letgo";
+
+// Reporting Product Reason: the user think the product is scam
+"reporting_reason_its_scam" = "Je pense que c'est une arnaque";
+
+// Reporitng Product reason: it's duplicate
+"reporting_reason_duplicate_listing" = "C'est une annonce en double";
+
+// Reporting Product reason: the product is in a wrong category
+"reporting_reason_wrong_category" = "C'est dans la mauvaise catégorie";
+
+// Reporting Product reason: it has sexual content
+"reporting_reason_sexual_content" = "Contenu sexuel";
+
+// Reporting Product reason: the product is drugs, alcohol or tobacco
+"reporting_reason_drugs" = "Drogues, alcool ou tabac";
+
+// Reporting Product reason: the product is a weapon
+"reporting_reason_weapons" = "Armes ou contenu violent";
+
+// Reporting User reason: The user is selling something inappropiate
+"reporting_reason_selling_inappropiate" = "Il vend quelque chose d'inapproprié";
+
+// Reporting User reason: The user is behaving suspiciouly
+"reporting_reason_suspiciously" = "Il agit de manière suspecte";
+
+// Reporting User reason: The user has an inappropriate bio or photo
+"reporting_reason_inappropiate_photo_or_bio" = "Sa bio ou sa photo de profil sont inappropriées";
+
+// Reporting User reason: There was a problem during meeting
+"reporting_reason_problem_meetup" = "Il y a eu un problème lors de notre rencontre";
+
+// Reporting User reason: The User sent inappropriate chat messages
+"reporting_reason_inappropiate_chat_messages" = "Clavardages inappropriés";
+
+// Reporting User reason: The user set unrealistic price or offers for products
+"reporting_reason_unrealistic_price" = "Prix ou offres non-réalistes";
+
+// Reporting User reason: The user stopped responding chat messages
+"reporting_reason_not_responding" = "Il ne répond pas aux messages";
+
+// Reporting User reason: The user offered to trade instead of cash
+"reporting_reason_offered_trade" = "Il propose un échange au lieu de payer comptant";
+
+// Reporting User reason: The user offered to pay with western union or paypal
+"reporting_reason_offered_western_union_or_paypañ" = "Il propose de payer avec Western Union ou PayPal";
+
+// Reporting User reason: The user is a spam account
+"reporting_reason_spam_account" = "Compte de spam";
+
+// Reporting User reason: The user has an inappropriate photo
+"reporting_reason_profile_photo" = "Photo de profil";
+
+// Reporting User reason: The user has an inappropriate bio
+"reporting_reason_bio" = "Bio";
+
+// Reporting User reason: There was a robbery or violent incident
+"reporting_reason_robbery" = "Vol ou incident violent";
+
+// Reporting User reason: The user paid with counterfait money
+"reporting_reason_counterfeit_money" = "Payé avec de l'argent contrefait";
+
+// Reporting User reason: The user didn't show up for the meetup
+"reporting_reason_didn't_show_up" = "Absent(e) au rendez-vous";
+
+// Reporting User reason: The user was selling a defective item
+"reporting_reason_item_defective" = "Produit défectueux ou non-conforme à ce qui a été décrit";
+
+// Reporting User reason: The user threatened with violence
+"reporting_reason_threating_violence" = "Menace de violence";
+
+// Reporting User reason: The user used rude or offensive language
+"reporting_reason_rude_offensive_language" = "Langage rude ou agressif";
+
+// Reporting User reason: The user had suspicious behavior
+"reporting_reason_suspicious_behavior" = "Comportement suspect ou qui sent l'arnaque";
+
+// Reporting User reason: The user used sexual or obscene language
+"reporting_reason_sexual_language" = "Langage obscène ou sexuel";
+
+// Reporting reason: Other reason
+"reporting_reason_other" = "Autre";
+
+// Title for the Report listing view
+"reporting_listing_title" = "Signaler l'annonce";
+
+// Header text for the Report lsting view
+"reporting_listing_list_header" = "POURQUOI SIGNALEZ-VOUS CETTE ANNONCE ?";
+
+// Header text for the Report listing "shouldn't be on letgo" option
+"reporting_listing_shouldnt_be_on_letgo_header" = "POURQUOI CECI NE DEVRAIT PAS SE TROUVER SUR LETGO ?";
+
+// Title for the Report Sent view
+"reporting_listing_report_sent_title" = "Information envoyée !";
+
+// Text for the Repott Sent view
+"reporting_listing_report_sent_text" = "Merci pour votre envoi anonyme d'informations ainsi que pour nous aider à faire de letgo le meilleur endroit pour acheter et vendre localement.";
+
+// Title for the Report Update view
+"reporting_listing_update_title" = "Suivi du signalement";
+
+// Text shown in the Report Update view. Including the product name and the seller name
+"reporting_listing_update_text" = "Merci d'avoir signalé de manière anonyme \"%1$@\" publié par %2$@. Des commentaires comme le vôtre nous aident à faire de la communauté letgo un endroit sécuritaire.\n\nAprès avoir évalué ce produit, nous l'avons retiré car il violait nos Directives Communautaires.";
+
+// Title shown to ask the reporter for how the experience was
+"reporting_listing_update_feedback_title" = "Que pensez-vous de cette expérience ?";
+
+// Title shown When the user gives bad feedback about the experience
+"reporting_listing_update_feedback_bad" = "Nous sommes désolés d'apprendre cette nouvelle.";
+
+// Title shown when the user gives a medium value feedback
+"reporting_listing_update_feedback_medium" = "Merci !";
+
+// Title shown when the user gives good feedback
+"reporting_listing_update_feedback_good" = "Fantastique !";
+
+// Title for the Report User view
+"reporting_user_title" = "Signaler Utilisateur";
+
+// Header text for the Report user list view
+"reporting_user_list_header" = "POURQUOI SIGNALEZ-VOUS CET UTILISATEUR ?";
+
+// Header text for the report user "suspicious behavior" option list
+"reporting_user_suspicious_behavior_header" = "QUE S'EST-IL PASSÉ ?";
+
+// Header text for the report user "inappropriate photo or bio" option list
+"reporting_user_inappropriate_photo_or_bio_header" = "LEQUEL ?";
+
+// Header text for the report user "Problem during meetup" option list
+"reporting_user_problem_meetup_header" = "QUE S'EST-IL PASSÉ ?";
+
+// Header text for the report user "inappropriate chat" option list
+"reporting_user_inappropriate_chat_header" = "QUE S'EST-IL PASSÉ ?";
+
+// Title Shown on the Report Sent view
+"reporting_user_report_sent_title" = "Information envoyée !";
+
+// Text shown in the "Redirect to item" thank you screen
+"reporting_user_report_sent_redirect_item_text" = "Merci de nous aider à faire de letgo le meilleur endroit pour vendre et acheter localement.\n\nVeuillez vous rendre sur l'annonce et marquer le produit. Nous l'évaluerons au plus vite.";
+
+// Text Shown in the "block user" thank you screen (version A)
+"reporting_user_report_sent_block_user_A_text" = "Merci pour votre signalement anonyme qui nous aide à faire de letgo le meilleur endroit pour vendre et acheter localement.\n\nVous pouvez toujours bloquer un utilisateur pour vous assurer qu'il ne puisse plus voir vos produits ou clavarder avec vous.";
+
+// Text Shown in the "block user" thank you screen when the user can leave a review (version A)
+"reporting_user_report_sent_block_user_A_with_review_text" = "Merci pour votre signalement anonyme qui nous aide à faire de letgo le meilleur endroit pour vendre et acheter localement.\n\nAssurez-vous de laisser une évaluation de ce vendeur pour que les autres puissent bénéficier de votre expérience.\n\nVous pouvez toujours bloquer un utilisateur pour vous assurer qu'il ne puisse plus voir vos produits ou clavarder avec vous.";
+
+// Text Shown in the "block user" thank you screen (version B)
+"reporting_user_report_sent_block_user_B_text" = "Merci pour votre signalement anonyme qui nous aide à faire de letgo le meilleur endroit pour vendre et acheter localement.\n\nNotre équipe va enquêter suite à votre plainte. Entre-temps, vous pouvez toujours bloquer un utilisateur pour vous assurer qu'il ne puisse plus voir vos produits ou clavarder avec vous.";
+
+// Text Shown in the "block user" thank you screen when the user can leave a review (version A)
+"reporting_user_report_sent_block_user_B_with_review_text" = "Merci pour votre signalement anonyme qui nous aide à faire de letgo le meilleur endroit pour vendre et acheter localement. \n \nAssurez-vous de laisser une évaluation de ce vendeur pour que les autres puissent bénéficier de votre expérience. \n \nNotre équipe va enquêter suite à votre plainte. Entre-temps, vous pouvez toujours bloquer un utilisateur pour vous assurer qu'il ne puisse plus voir vos produits ou clavarder avec vous.";
+
+// Text Shown in the "Law enforcement" thank you screen
+"reporting_user_report_sent_law_enforcement_text" = "Nous sommes désolés d'apprendre que vous avez vécu une mauvaise expérience, mais heureusement vous êtes maintenant en sécurité.\n\nNous vous encourageons vivement à contacter les autorités locales et à déposer plainte auprès de la police dès que possible (si ce n'est déjà fait).\n\nVeuillez rappeler à la police de contacter le service juridique de letgo à lawenforcement@letgo.con afin que nous puissions les aider dans leur enquête.\n\nNous pouvons partager avec la police des informations pertinentes à propos de %@ mais, en raison des lois très strictes concernant la protection de la vie privée, nous avons besoin qu'ils nous envoient tout d'abord un mandat de perquisition ou une assignation.";
+
+// Text Shown in the "Law enforcement & block" thank you screen
+"reporting_user_report_sent_law_enforcement_and_block_text" = "Nous sommes désolés d'apprendre que vous avez vécu une mauvaise expérience. Nous vous encourageons vivement à contacter les autorités locales et à déposer plainte auprès de la police dès que possible (si ce n'est déjà fait).\n\nVeuillez rappeler à la police de contacter le service juridique de letgo à lawenforcement@letgo.con afin que nous puissions les aider dans leur enquête. Nous pouvons partager avec la police des informations pertinentes à propos de %@ mais, en raison des lois très strictes concernant la protection de la vie privée, nous avons besoin qu'ils nous envoient tout d'abord un mandat de perquisition ou une assignation. Entre-temps, veuillez fournir des informations additionnelles afin que notre équipe puisse enquêter suite à votre plainte.\n\nSouvenez-vous que vous pouvez toujours bloquer un utilisateur pour vous assurer qu'il ne puisse plus voir vos produits ni clavarder avec vous.";
+
+// Button to block the reported user
+"reporting_user_report_sent_block_user_big_button_title" = "Bloquer l'utilisateur signalé";
+
+// Button to block the reported user
+"reporting_user_report_sent_block_user_small_button_title" = "Bloquer";
+
+// Button to review the reported user
+"reporting_user_report_sent_review_button_title" = "Noter";
+
+// Title for the user report update screen
+"reporting_user_update_title" = "Suivi du signalement";
+
+// Text for the user report update screen (version A)
+"reporting_user_update_text_A" = "Merci d'avoir anonymement signalé %@. Des commentaires comme le vôtre nous aident à faire de letgo une communauté sécuritaire.\n\nAprès avoir évalué ce compte, nous l'avons retiré, car il violait nos Directives Communautaires.";
+
+// Text for the user report update screen (version B)
+"reporting_user_update_text_B" = "Merci d'avoir anonymement signalé la photo de profil de %@. Des commentaires comme le vôtre nous aident à faire de letgo une communauté sécuritaire. \n\nAprès avoir évalué la photo, nous l'avons retirée, car elle violait nos Directives Communautaires.";
+
+// Text for the user report update screen (version C)
+"reporting_user_update_text_C" = "Merci d'avoir anonymement signalé la bio de %@. Des commentaires comme le vôtre nous aident à faire de letgo une communauté sécuritaire. \n\nAprès avoir évalué cette bio, nous l'avons retirée, car elle violait nos Directives Communautaires.";
+
+// Placeholder shown if the seleted option allows additional notes
+"reporting_additional_notes_placeholder" = "Ajoutez toutes notes additionnelles qui pourraient nous aider à résoudre ce problème";
+
+// Button title to send the report
+"reporting_send_report_button" = "Signaler";
+
+// Reset password email field hint. Check attached image "reset_password.png"
+"reset_password_email_field_hint" = "Entrez votre adresse email";
+
+// Reset password instructions. Check image @ "reset_password_email_field_hint" segment
+"reset_password_instructions" = "Veuillez entrer votre adresse email et nous vous enverrons un email pour réinitialiser votre mot de passe.";
+
+// Reset password send button. Check image @ "reset_password_email_field_hint" segment
+"reset_password_send_button" = "Envoyer email";
+
+// Reset password send error generic. Check attached image "reset_password_send_error.png"
+"reset_password_send_error_generic" = "Une erreur est survenue lors de la réinitialisation de votre mot de passe. Veuillez réessayer.";
+
+// Reset password send error invalid email. Check image @ "reset_password_send_error_generic" segment
+"reset_password_send_error_invalid_email" = "Veuillez entrer un email valide dans le champ email.";
+
+// Reset password send error user not found or wrong password. Check image @ "reset_password_send_error_generic" segment
+"reset_password_send_error_user_not_found_or_wrong_password" = "L'adresse email %@ n'est pas enregistrée.";
+
+// Reset password send ok. Check image @ "reset_password_send_error_generic" segment
+"reset_password_send_ok" = "Nous avons envoyé un email à %@. Cliquez sur le lien dans l'email pour réinitialiser votre mot de passe.";
+
+// Reset password send too many requests. Check image @ "reset_password_send_error_generic" segment
+"reset_password_send_too_many_requests" = "Nous vous avons déjà envoyé un email de réinitialisation de mot de passe. Vérifiez vos emails et suivez les instructions.";
+
+// Reset password title. Check image @ "reset_password_email_field_hint" segment
+"reset_password_title" = "Réinitialiser le mot de passe";
+
+// Search alerts edit button
+"search_alerts_edit_button" = "Modifier";
+
+// Subtitle for search alerts header
+"search_alerts_header_subtitle" = "Recevez des notifications à propos des nouvelles annonces";
+
+// Text for empty search alerts view
+"search_alerts_placeholder_empty_text" = "Abonnez-vous aux recherches afin de recevoir des notifications quand de nouvelles annonces sont publiées.";
+
+// Text for empty search alerts view action button
+"search_alerts_placeholder_empty_button" = "Commencer à Chercher";
+
+// Text for error in search alerts view
+"search_alerts_placeholder_error_text" = "Oups ! Une erreur est survenue lors du chargement de vos alertes de recherche";
+
+// Text for error in search alerts view action button
+"search_alerts_placeholder_error_button" = "Réessayer";
+
+// Error message when search alert delete fails
+"search_alert_delete_error_message" = "Oups ! Une erreur est survenue au moment de supprimer votre alerte de recherche.";
+
+// Error message when search alert enable fails
+"search_alert_enable_error_message" = "Oups ! Une erreur est survenue au moment d'activer votre alerte de recherche.";
+
+// Error message when search alert disable fails
+"search_alert_disable_error_message" = "Oups ! Une erreur est survenue au moment de désactiver votre alerte de recherche.";
+
+// text for error alert when max search alerts reached
+"search_alert_error_too_many_text" = "Oups ! Vous avez atteint le nombre maximum d'alertes de recherche";
+
+// text for error alert button when max search alerts reached
+"search_alert_error_too_many_button_text" = "Gérer les Notifications";
+
+// Alert message when enabled a new search alert but the limit has been reached
+"search_alerts_disabled_oldest_message" = "Vous avez atteint le nombre maximum d'alertes de recherche. Nous avons donc désactivé la plus ancienne afin d'activer celle-ci.";
+
+// text shown in feed search bar
+"search_letgo" = "Recherche letgo";
+
+// Sell category selection label. Check attached image "sell.png"
+"sell_category_selection_label" = "Catégorie";
+
+// Sell choose category dialog cancel button. Check attached image "sell_choose_category.png"
+"sell_choose_category_dialog_cancel_button" = "Annuler";
+
+// Sell choose category dialog title. Check image @ "sell_choose_category_dialog_cancel_button" segment
+"sell_choose_category_dialog_title" = "Choisissez une catégorie";
+
+// Sell description field hint. Check image @ "sell_category_selection_label" segment
+"sell_description_field_hint" = "Description (optionnel)";
+
+// Sell picture image source camera button. Check attached image "sell_picture_image_source.png"
+"sell_picture_image_source_camera_button" = "Appareil Photo";
+
+// Sell picture image source camera roll button. Check image @ "sell_picture_image_source_camera_button" segment
+"sell_picture_image_source_camera_roll_button" = "Bibliothèque photos";
+
+// Sell picture image source cancel button. Check image @ "sell_picture_image_source_camera_button" segment
+"sell_picture_image_source_cancel_button" = "Annuler";
+
+// Sell picture image source title. Check image @ "sell_picture_image_source_camera_button" segment
+"sell_picture_image_source_title" = "Choisir la source de l'image";
+
+// Sell picture label. Check image @ "reset_password_email_field_hint" segment
+"sell_picture_label" = "Photo";
+
+// Sell picture save into camera roll error generic. Message displayal is like the other error messages
+"sell_picture_save_into_camera_roll_error_generic" = "Une erreur est survenue lors de la sauvegarde de l'image dans votre bibliothèque d'images. Assurez-vous que letgo est autorisé à accéder à vos photos dans les paramètres d'applications.";
+
+// Sell picture save into camera roll loading
+"sell_picture_save_into_camera_roll_loading" = "Sauvegarde de l'image dans la bibliothèque d'images...";
+
+// Sell picture save into camera roll ok
+"sell_picture_save_into_camera_roll_ok" = "Image sauvegardée dans l'album photo.";
+
+// Sell picture selected cancel button
+"sell_picture_selected_cancel_button" = "Annuler";
+
+// Sell picture selected delete button
+"sell_picture_selected_delete_button" = "Supprimer";
+
+// Sell picture selected save into camera roll button
+"sell_picture_selected_save_into_camera_roll_button" = "Sauvegarder";
+
+// Sell picture selected title
+"sell_picture_selected_title" = "Choisir une action";
+
+// Sell edit product price as "give it away"
+"sell_post_free_label" = "Gratuit";
+
+// Sell send error invalid category. Check attached image "sell_send_error.png"
+"sell_send_error_invalid_category" = "Veuillez choisir une catégorie pour votre annonce.";
+
+// Sell send error invalid description. Check image @ "sell_send_error_invalid_category" segment
+"sell_send_error_invalid_description" = "Veuillez entrer une description valide pour votre annonce.";
+
+// Sell send error invalid description too long. Check image @ "sell_send_error_invalid_category" segment
+"sell_send_error_invalid_description_too_long" = "Veuillez entrer une description valide pour votre annonce. La description doit comporter moins de %d caractères.";
+
+// Sell send error invalid image count. Check image @ "sell_send_error_invalid_category" segment
+"sell_send_error_invalid_image_count" = "Au moins une photo est requise pour publier une annonce.";
+
+// Sell send error invalid price. Check image @ "sell_send_error_invalid_category" segment
+"sell_send_error_invalid_price" = "Veuillez entrer un prix valide pour votre annonce. Le prix ne doit comporter que des nombres.";
+
+// Sell send error invalid title. Check image @ "sell_send_error_invalid_category" segment
+"sell_send_error_invalid_title" = "Veuillez entrer un titre valide pour votre annonce.";
+
+// Sell send error sharing facebook. Check image @ "sell_send_error_invalid_category" segment
+"sell_send_error_sharing_facebook" = "Une erreur est survenue lors du partage sur Facebook. Veuillez réessayer.";
+
+// Sell share on facebook label
+"sell_share_on_facebook_label" = "Partager sur Facebook";
+
+// Sell share on facebook footer label
+"sell_share_on_facebook_footer_label" = "Obtenez plus de visibilité et vendez plus vite";
+
+// Sell edit title autogenerated & autotranslated
+"sell_title_autogen_autotrans_label" = "Titre suggéré par letgo et traduit par Google";
+
+// Sell edit title autogenerated
+"sell_title_autogen_label" = "Titre suggéré par letgo";
+
+// Sell title field hint. Check image @ "sell_category_selection_label" segment
+"sell_title_field_hint" = "Titre du bien (optionnel)";
+
+// Sell uploading label
+"sell_uploading_label" = "Publication de votre annonce...";
+
+// Services SeviceType Title
+"services_service_type_title" = "Catégorie de service";
+
+// Services ServiceSubType Title
+"services_service_subtype_title" = "Service";
+
+// Title for list of services
+"services_service_type_list_title" = "Catégorie de service";
+
+// Title for list of service subtypes
+"services_service_subtype_list_title" = "Service";
+
+// Filter title for unified "services" filter
+"services_unified_filter_title" = "Sélectionner une catégorie";
+
+// Settings change location button. Check image @ "settings_change_password_button" segment
+"settings_change_location_button" = "Localisation";
+
+// Settings change password button. Check attached image "settings.png"
+"settings_change_password_button" = "Mot de passe";
+
+// Settings change profile picture button. Check image @ "settings_change_password_button" segment
+"settings_change_profile_picture_button" = "Photo";
+
+// Settings change profile picture error generic. Message displayal is like the other error messages.
+"settings_change_profile_picture_error_generic" = "Une erreur est survenue lors du changement de votre photo de profil.";
+
+// Settings change profile picture loading. Check attached image "settings_change_profile_picture_loading.png"
+"settings_change_profile_picture_loading" = "Paramétrage de votre image de profil, veuillez patienter...";
+
+// Settings change name button. Check image @ "settings_change_password_button" segment
+"settings_change_username_button" = "Nom";
+
+// Settings change email button
+"settings_change_email_button" = "Email";
+
+// Settings change user Bio text button
+"settings_change_user_bio_button" = "Bio / À propos de moi";
+
+// Settings help button. Check attached image @ "settings_change_password_button" segment
+"settings_help_button" = "Aide";
+
+// Settings invite facebook friends. Check image @ "settings_change_password_button" segment
+"settings_invite_facebook_friends_button" = "Invitez des amis Facebook";
+
+// Settings invite facebook friends error. Message displayal is like the other messages.
+"settings_invite_facebook_friends_error" = "Une erreur est survenue lors de l'envoi de l'invitation";
+
+// Settings invite facebook friends ok. Message displayal is like the other messages.
+"settings_invite_facebook_friends_ok" = "Votre invitation a été envoyée !";
+
+// Settings logout button. Check image @ "settings_change_password_button" segment
+"settings_logout_button" = "Se déconnecter";
+
+// Settings logout confirmation message.
+"settings_logout_alert_message" = "Êtes-vous sûr de vouloir vous déconnecter ?";
+
+// Settings logout confirmation ok button.
+"settings_logout_alert_ok" = "Se Déconnecter";
+
+// Settings title. Check image @ "settings_change_password_button" segment
+"settings_title" = "Paramètres";
+
+// Settings section profile
+"settings_section_profile" = "Profil";
+
+// Settings section promote
+"settings_section_promote" = "Promouvoir";
+
+// Settings section support
+"settings_section_support" = "Aide";
+
+// Settings option to turn on/off marketing notifications
+"settings_marketing_notifications_switch" = "Notifications Marketing";
+
+// Alert message when user wants to deactivate marketing notification in settings.
+"settings_marketing_notifications_alert_message" = "Êtes-vous certain de vouloir désactiver les notifications marketing ?";
+
+// Alert message to inform user that needs to activate general push notifications.
+"settings_general_notifications_alert_message" = "Activez les notifications pour l'appli letgo dans les paramètres de votre appareil.";
+
+// Alert message when user wants to activate marketing notification in settings.
+"settings_marketing_notifications_alert_activate" = "Activer";
+
+// Alert button to confirm deactivation.
+"settings_marketing_notifications_alert_deactivate" = "Désactiver";
+
+// Alert button to cancel de action
+"settings_marketing_notifications_alert_cancel" = "Annuler";
+
+// Settings option to access notifications settings
+"settings_notifications_button" = "Notifications";
+
+// Notifications settings view title
+"settings_notifications_title" = "Notifications";
+
+// Settings option to access search alerts
+"settings_notifications_search_alerts" = "Alertes de Recherche";
+
+// Settings option to access push notifications
+"settings_notifications_push_notifications" = "Notifications push";
+
+// Settings option to access email notifications
+"settings_notifications_email" = "Email";
+
+// Settings option to try again if loading failed
+"settings_notifications_error_button" = "Réessayez";
+
+// Settings notifications loading error message
+"settings_notifications_error_message" = "Oups ! Une erreur est survenue lors du chargement de vos paramètres de notification. Veuillez réessayer.";
+
+// Search alerts view title
+"search_alerts_list_title" = "Alertes de Recherche";
+
+// Alert when you don't accept one of the above (just turkey)
+"sign_up_acceptance_error" = "Pour vous inscrire, vous devez accepter la Politique de Confidentialité ainsi que les Conditions d'Utilisation";
+
+// Sign up email field hint. Check attached image "sign_up.png"
+"sign_up_email_field_hint" = "Email";
+
+// Receive newsleter checkbox (just turkey)
+"sign_up_newsleter" = "Je souhaite recevoir la newsletter letgo";
+
+// Sign up password field hint. Check image @ "settings_change_password_button" segment
+"sign_up_password_field_hint" = "Mot de passe";
+
+// Sign up send button. Check image @ "sign_up_email_field_hint" segment
+"sign_up_send_button" = "S'inscrire";
+
+// Sign up send error email taken. Check attached image "sign_up_send_error.png"
+"sign_up_send_error_email_taken" = "L'adresse email %@ est déjà enregistrée. Veuillez l'utiliser pour vous connecter.";
+
+// Sign up send error generic. Check image @ "sign_up_send_error_email_taken" segment
+"sign_up_send_error_generic" = "Une erreur est survenue lors de la création du compte. Veuillez réessayer.";
+
+// Sign up send error invalid Domain. Check image @ "sign_up_send_error_email_taken" segment
+"sign_up_send_error_invalid_domain" = "Adresse email invalide. Changez la et réessayer.";
+
+// Sign up send error invalid email. Check image @ "sign_up_send_error_email_taken" segment
+"sign_up_send_error_invalid_email" = "Veuillez entrer une adresse email valide.";
+
+// Sign up send error invalid password. Check image @ "sign_up_send_error_email_taken" segment
+"sign_up_send_error_invalid_password_with_max" = "Veuillez entrer un mot de passe valide. Il doit contenir entre %d et %d caractères.";
+
+// Sign up send error invalid username. Check image @ "sign_up_send_error_email_taken" segment
+"sign_up_send_error_invalid_username" = "Veuillez entrer un nom d'utilisateur valide. Il doit comporter au moins %d caractères.";
+
+// Sign up terms and conditions complete text (just turkey)
+"sign_up_terms_conditions" = "J'accepte la Politique de Confidentialité ainsi que les Conditions d'Utilisation de letgo";
+
+// Privacy Policy" Part of the complete text (just turkey)
+"sign_up_terms_conditions_privacy_part" = "";
+
+// "Terms of Service" Part of the complete text (just turkey)
+"sign_up_terms_conditions_terms_part" = "";
+
+// Sign up title. Check image @ "sign_up_email_field_hint" segment
+"sign_up_title" = "Créer un nouveau compte";
+
+// Sign up username field hint. Check image @ "sign_up_email_field_hint" segment
+"sign_up_username_field_hint" = "Nom complet";
+
+// Category suggestion label.
+"suggestions_category" = "Catégorie";
+
+// Title for Last Searches sections under Search suggestions.
+"suggestions_last_searches_title" = "Recherches Récentes";
+
+// Button title when user wants to remove Recent Search
+"suggestions_last_searches_clear_button" = "Tout effacer";
+
+// Tab bar tool tip. Check attached image "tab_bar.png"
+"tab_bar_tool_tip" = "Vendez Vos Biens";
+
+// Tab bar "Give It Away" button.
+"tab_bar_give_away_button" = "Donner";
+
+// Tab bar message to incentivise the user to scroll down.
+"tab_bar_incentivise_scroll_banner" = "Faites défiler pour en voir plus";
+
+// Toast server internal.
+"toast_error_internal" = "Oops ! Quelque chose s'est produit.";
+
+// Toast no network.
+"toast_no_network" = "Pas de connection Internet";
+
+// Tour claim label
+"tour_claim_label" = "Achetez et vendez rapidement, de manière sûre et localement.";
+
+// Tour email button
+"tour_email_button" = "Email";
+
+// Tour continue with email button
+"tour_continue_w_email" = "Continuer avec email";
+
+// Tour facebook button
+"tour_facebook_button" = "Continuer avec Facebook";
+
+// Tour google button
+"tour_google_button" = "Continuer avec Google";
+
+// Tour or label.
+"tour_or_label" = "OU UTILISEZ VOTRE EMAIL";
+
+// Skip button
+"tutorial_skip_button_title" = "Passer";
+
+// Accept button on last page of the tutorial
+"tutorial_accept_button_title" = "Commencez";
+
+// Title for trending searches screen (background view when searching)
+"trending_searches_Title" = "Tendance des recherches";
+
+// Title for suggested searches screen (background view when searching)
+"suggested_searches_title" = "Recherches suggérées";
+
+// Text for unsuccessful user unblock
+"unblock_user_error_generic" = "Une erreur est survenue lors du déblocage de cet utilisateur.";
+
+// Message when sharing my profile on social networks/email/etc
+"user_share_title_text_mine" = "Découvrez mon profil letgo !";
+
+// Message when sharing a user profile on social networks/email/etc
+"user_share_title_text_other" = "Découvrez le profil letgo de cet utilisateur !";
+
+// Message when sharing a user profile on social networks/email/etc
+"user_share_title_text_other_w_name" = "Découvrez le profil letgo de %@ !";
+
+// Message when sharing my profile on social networks/email/etc
+"user_share_message_mine" = "Jetez un oeil à tout ce que je vend sur letgo !";
+
+// Message when sharing a user profile on social networks/email/etc
+"user_share_message_other" = "Jetez un oeil à tout ce que ce vendeur vend sur letgo :";
+
+// Message when sharing a user profile on social networks/email/etc
+"user_share_message_other_w_name" = "Regardez tout ce que %@ vend sur letgo !";
+
+// Message error sharing a user profile on social networks/email/etc
+"user_share_error" = "Une erreur est survenue lors du partage du profil. Veuillez réessayer.";
+
+// Information message when rating a user
+"user_rating_message_w_name" = "Votre expérience avec %@ vaut-elle 5 étoiles ? Dites-nous comment ça s'est passé.";
+
+// Information message when rating a user
+"user_rating_message_wo_name" = "Votre expérience avec cet utilisateur vaut-elle 5 étoiles ? Dites-nous comment ça s'est passé.";
+
+// Info message to select one rating tag.
+"user_rating_select_a_tag" = "Sélectionnez au moins un :";
+
+// User rating publish review button
+"user_rating_review_button" = "Publier l'évaluation";
+
+// User rating add comment button
+"user_rating_add_comment_button" = "Ajouter un commentaire";
+
+// User rating update comment button
+"user_rating_update_comment_button" = "Modifier commentaire";
+
+// Skip button
+"user_rating_skip_button" = "Passer";
+
+// Information about review comment when rating a user
+"user_rating_review_info" = "Vous pourrez modifier cette note à tout moment.";
+
+// Review message mandatory (1-3 stars)
+"user_rating_review_placeholder_mandatory" = "Dites-nous en plus sur votre expérience (requis)";
+
+// Review message optional (when user selected 4-5 stars)
+"user_rating_review_placeholder_optional" = "Dites-nous en plus sur votre expérience (optionnel)";
+
+// Message when review was published
+"user_rating_review_send_success" = "Votre avis a été publié !";
+
+// Title when you rate a user
+"user_rating_title" = "Notez votre expérience avec";
+
+// Trending description on header bubble
+"trending_items_header_bubble" = "Tendance";
+
+// Title for Most searched items list view
+"trending_items_view_title" = "Les plus populaires en %@";
+
+// Title for Most searched items list view without location available
+"trending_items_view_title_no_location" = "Articles les plus populaires";
+
+// Subtitle for Most searched items list view
+"trending_items_view_subtitle" = "Publiez l'un d'entre eux et gagnez de l'argent en moins d'une semaine";
+
+// Title for the list of Most searched items list view
+"trending_items_view_number_of_searches_title" = "Les plus recherchés de la semaine";
+
+// Number of searches for item info
+"trending_items_view_number_of_searches_item" = "%@ recherches";
+
+// Post button for each item in the list
+"trending_items_view_post_button" = "Publier";
+
+// Search button for each item in the list
+"trending_items_view_search_button" = "Recherche";
+
+// Title for Most searched items card in feed
+"trending_items_card_title" = "Les articles populaires cette semaine";
+
+// Action text for the Most searched items card fake button
+"trending_items_card_action" = "Voir les articles";
+
+// Title for Most searched items header in user profile
+"trending_items_profile_title" = "Pas certain de ce que vous devriez vendre ?";
+
+// Subtitle for Most searched items header in user profile
+"trending_items_profile_subtitle" = "Découvrez ce que les gens de votre secteur recherchent";
+
+// Button title for trending category in Expandable menu
+"trending_items_expandable_menu_button" = "Tendance";
+
+// iPhone title
+"trending_item_iPhone" = "iPhone";
+
+// ATV title
+"trending_item_atv" = "vtt";
+
+// Smartphone title
+"trending_item_smartphone" = "téléphone intelligent";
+
+// Sedan title
+"trending_item_sedan" = "berline";
+
+// Scooter title
+"trending_item_scooter" = "scooter";
+
+// Computer title
+"trending_item_computer" = "ordinateur";
+
+// Coupe title
+"trending_item_coupe" = "coupé";
+
+// Tablet title
+"trending_item_tablet" = "tablette";
+
+// Motorcycle title
+"trending_item_motorcycle" = "moto";
+
+// Truck title
+"trending_item_truck" = "camion";
+
+// Gadget title
+"trending_item_gadget" = "gadget";
+
+// Trailer title
+"trending_item_trailer" = "remorque";
+
+// Controller title
+"trending_item_controller" = "manette";
+
+// Dresser title
+"trending_item_dresser" = "buffet";
+
+// Subwoofer title
+"trending_item_subwoofer" = "haut-parleur d'extrêmes graves";
+
+// Title for subset of most trending items in expandable menu
+"trending_items_expandable_menu_subset_title" = "ARTICLES LES PLUS POPULAIRES";
+

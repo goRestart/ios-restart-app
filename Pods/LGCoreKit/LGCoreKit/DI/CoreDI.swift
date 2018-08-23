@@ -12,20 +12,23 @@ import KeychainSwift
 import Reachability
 
 final class CoreDI: InternalDI {
+
     // MARK: - Lifecycle
     
     init() {
-        self.networkDAO = NetworkDefaultsDAO()
-        let timeoutInterval = networkDAO.timeoutIntervalForRequests ?? LGCoreKitConstants.timeoutIntervalForRequest
         let userAgentBuilder = LGUserAgentBuilder()
         if ProcessInfo.processInfo.environment["isRunningUnitTests"] != nil {
-            networkManager = Alamofire.SessionManager.make(backgroundEnabled: false,
-                                                           userAgentBuilder: userAgentBuilder,
-                                                           timeoutIntervalForRequest: timeoutInterval)
+            networkManager = Alamofire.SessionManager.make(
+                backgroundEnabled: false,
+                userAgentBuilder: userAgentBuilder,
+                timeoutIntervalForRequest: LGCoreKitConstants.timeoutIntervalForRequest
+            )
         } else {
-            networkManager = Alamofire.SessionManager.make(backgroundEnabled: true,
-                                                           userAgentBuilder: userAgentBuilder,
-                                                           timeoutIntervalForRequest: timeoutInterval)
+            networkManager = Alamofire.SessionManager.make(
+                backgroundEnabled: true,
+                userAgentBuilder: userAgentBuilder,
+                timeoutIntervalForRequest: LGCoreKitConstants.timeoutIntervalForRequest
+            )
         }
 
         keychain = KeychainSwift()
@@ -40,7 +43,7 @@ final class CoreDI: InternalDI {
         self.webSocketLibrary = webSocketLibrary
         let webSocketClient = LGWebSocketClient(webSocket: webSocketLibrary,
                                                 reachability: reachability)
-        webSocketClient.timeoutIntervalForRequest = timeoutInterval
+        webSocketClient.timeoutIntervalForRequest = LGCoreKitConstants.timeoutIntervalForRequest
 
         let appVersion = Bundle.main
         let locale = Locale.autoupdatingCurrent
@@ -80,22 +83,13 @@ final class CoreDI: InternalDI {
                                                 locationRepository: locationRepository,
                                                 deviceLocationDAO: deviceLocationDAO,
                                                 countryHelper: countryHelper)
-
-        let suggestedLocationsApiDataSource = SuggestedLocationsApiDataSource(apiClient: apiClient)
-
         let carsInfoDataSource = CarsInfoApiDataSource(apiClient: apiClient)
         let carsInfoCache: CarsInfoDAO = CarsInfoRealmDAO() ?? CarsInfoMemoryDAO()
         let carsInfoRepository = LGCarsInfoRepository(dataSource: carsInfoDataSource,
                                                       cache: carsInfoCache,
                                                       locationManager: locationManager)
         self.carsInfoRepository = carsInfoRepository
-
-        let taxonomiesCache: TaxonomiesDAO = TaxonomiesRealmDAO() ?? TaxonomiesMemoryDAO()
-        let taxonomiesDataSource = TaxonomiesApiDataSource(apiClient: apiClient)
-        let categoryRepository = LGCategoryRepository(dataSource: taxonomiesDataSource,
-                                                      taxonomiesCache: taxonomiesCache,
-                                                      locationManager: locationManager)
-        self.categoryRepository = categoryRepository
+        self.categoryRepository = LGCategoryRepository()
         
         let servicesInfoDataSource = ServicesInfoApiDataSource(apiClient: apiClient)
         let servicesInfoCache: LGServicesInfoRepository.ServicesInfoCache = ServicesInfoRealmDAO() ?? ServicesInfoMemoryDAO()
@@ -167,6 +161,9 @@ final class CoreDI: InternalDI {
         let userRatingDataSource = UserRatingApiDataSource(apiClient: self.apiClient)
         self.userRatingRepository = LGUserRatingRepository(dataSource: userRatingDataSource,
                                                            myUserRepository: myUserRepository)
+        
+        let feedDataSource = FeedApiDataSource(apiClient: apiClient)
+        feedRepository = LGFeedRepository(datasource: feedDataSource)
 
         self.deviceIdDAO = deviceIdDAO
         self.installationDAO = installationDAO
@@ -182,6 +179,11 @@ final class CoreDI: InternalDI {
         
         let imageMultiplierDataSource = ImageMultiplierApiDataSource(apiClient: apiClient)
         imageMultiplierRepository = LGImageMultiplierRepository(dataSource: imageMultiplierDataSource)
+
+        communityRepository = LGCommunityRepository(tokenDAO: tokenDAO)
+
+        let reportingDataSource = ReportingApiDataSource(apiClient: self.apiClient)
+        reportingRepository = LGReportingRepository(dataSource: reportingDataSource, myUserRepository: myUserRepository)
 
         self.reporter = ReporterProxy()
     }
@@ -239,8 +241,11 @@ final class CoreDI: InternalDI {
     var locationRepository: LocationRepository
     let imageMultiplierRepository: ImageMultiplierRepository
     let servicesInfoRepository: ServicesInfoRepository
-
+    let feedRepository: FeedRepository
     let listingRepository: ListingRepository
+    let communityRepository: CommunityRepository
+    let reportingRepository: ReportingRepository
+
     lazy var fileRepository: FileRepository = {
         let dataSource = FileApiDataSource(apiClient: self.apiClient)
         return LGFileRepository(myUserRepository: self.internalMyUserRepository, fileDataSource: dataSource)
@@ -279,7 +284,6 @@ final class CoreDI: InternalDI {
         return LGNotificationSettingsMailerRepository(dataSource: notificationSettingsMailerDataSource)
     }()
 
-
     // MARK: > DAO
 
     let tokenDAO: TokenDAO
@@ -288,7 +292,6 @@ final class CoreDI: InternalDI {
     let myUserDAO: MyUserDAO
     let stickersDAO: StickersDAO
     let listingsLimboDAO: ListingsLimboDAO
-    let networkDAO: NetworkDAO
 
     // MARK: > Reachability
 

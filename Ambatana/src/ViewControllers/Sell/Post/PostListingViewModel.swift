@@ -6,7 +6,6 @@ protocol PostListingViewModelDelegate: BaseViewModelDelegate {}
 
 enum PostingSource {
     case tabBar
-    case sellButton
     case deepLink
     case onboardingButton
     case onboardingCamera
@@ -14,18 +13,16 @@ enum PostingSource {
     case notifications
     case deleteListing
     case realEstatePromo
-    case mostSearchedTabBarCamera
-    case mostSearchedTrendingExpandable
-    case mostSearchedTagsExpandable
-    case mostSearchedCategoryHeader
-    case mostSearchedCard
-    case mostSearchedUserProfile
+    case chatList
+    case listingList
+    case profile
 }
 
 
 class PostListingViewModel: BaseViewModel {
     
     static let carDetailsNumber: Int = 3
+    static let maxNumberImages: Int = SharedConstants.maxImageCount
     
     weak var delegate: PostListingViewModelDelegate?
     weak var navigator: PostListingNavigator?
@@ -82,6 +79,7 @@ class PostListingViewModel: BaseViewModel {
 
     let postDetailViewModel: PostListingBasicDetailViewModel
     let postListingCameraViewModel: PostListingCameraViewModel
+    let postListingGalleryViewModel: PostListingGalleryViewModel
     let postingSource: PostingSource
     let postCategory: PostCategory?
     let isBlockingPosting: Bool
@@ -100,7 +98,7 @@ class PostListingViewModel: BaseViewModel {
     fileprivate let keyValueStorage: KeyValueStorageable
     
     fileprivate var imagesSelected: [UIImage]?
-    fileprivate var uploadedImageSource: EventParameterPictureSource?
+    fileprivate var uploadedImageSource: EventParameterMediaSource?
     fileprivate var uploadedVideoLength: TimeInterval?
     fileprivate var recordedVideo: RecordedVideo?
     fileprivate var uploadingVideo: VideoUpload?
@@ -113,10 +111,6 @@ class PostListingViewModel: BaseViewModel {
     var realEstateEnabled: Bool {
         return featureFlags.realEstateEnabled.isActive
     }
-    
-    var maxNumberImages: Int {
-        return SharedConstants.maxImageCount
-    }
 
     var shouldShowVideoFooter: Bool {
         guard let category = postCategory?.listingCategory else { return false }
@@ -126,6 +120,7 @@ class PostListingViewModel: BaseViewModel {
     fileprivate let disposeBag: DisposeBag
 
     var categories: [ListingCategory] = []
+    var mediaSource: EventParameterMediaSource = .camera
 
     
     // MARK: - Lifecycle
@@ -186,6 +181,9 @@ class PostListingViewModel: BaseViewModel {
                                                                      postCategory: postCategory,
                                                                      isBlockingPosting: isBlockingPosting,
                                                                      machineLearningSupported: machineLearningSupported)
+        self.postListingGalleryViewModel = PostListingGalleryViewModel(postCategory: postCategory,
+                                                                       isBlockingPosting: isBlockingPosting,
+                                                                       maxImageSelected: PostListingViewModel.maxNumberImages)
         self.tracker = tracker
         self.sessionManager = sessionManager
         self.featureFlags = featureFlags
@@ -199,12 +197,6 @@ class PostListingViewModel: BaseViewModel {
         setupRx()
         setupCarsRx()
         setupCategories()
-    }
-
-    override func didBecomeActive(_ firstTime: Bool) {
-        super.didBecomeActive(firstTime)
-        guard firstTime, !isBlockingPosting else { return }
-        trackVisit()
     }
 
     private func setupCategories() {
@@ -244,12 +236,12 @@ class PostListingViewModel: BaseViewModel {
         }
     }
 
-    func imagesSelected(_ images: [UIImage], source: EventParameterPictureSource, predictionData: MLPredictionDetailsViewData?) {
+    func imagesSelected(_ images: [UIImage], source: EventParameterMediaSource, predictionData: MLPredictionDetailsViewData?) {
         if isBlockingPosting {
             openQueuedRequestsLoading(images: images, imageSource: source)
         } else {
             uploadImages(images, source: source, predictionData: predictionData)
-        }
+        }        
     }
 
     func videoRecorded(video: RecordedVideo) {
@@ -258,7 +250,7 @@ class PostListingViewModel: BaseViewModel {
         uploadVideoSnapshot(uploadingVideo: uploadingVideo)
     }
     
-    fileprivate func uploadImages(_ images: [UIImage], source: EventParameterPictureSource, predictionData: MLPredictionDetailsViewData? = nil) {
+    fileprivate func uploadImages(_ images: [UIImage], source: EventParameterMediaSource, predictionData: MLPredictionDetailsViewData? = nil) {
         uploadedImageSource = source
         imagesSelected = images
         self.predictionData = predictionData
@@ -279,6 +271,8 @@ class PostListingViewModel: BaseViewModel {
                 strongSelf.state.value = strongSelf.state.value.updating(uploadError: error)
             }
         }
+
+        trackPublish(source: source, size: nil)
     }
 
     fileprivate func uploadVideoSnapshot(uploadingVideo: VideoUpload) {
@@ -301,6 +295,8 @@ class PostListingViewModel: BaseViewModel {
                 strongSelf.state.value = strongSelf.state.value.updating(uploadError: error)
             }
         }
+
+        trackPublish(source: .videoCamera, size: uploadingVideo.fileSize)
     }
 
     fileprivate func createPreSignedUploadUrlForVideo(uploadingVideo: VideoUpload) {
@@ -342,7 +338,7 @@ class PostListingViewModel: BaseViewModel {
         })
     }
     
-    fileprivate func openQueuedRequestsLoading(images: [UIImage], imageSource: EventParameterPictureSource) {
+    fileprivate func openQueuedRequestsLoading(images: [UIImage], imageSource: EventParameterMediaSource) {
         guard let listingParams = makeListingParams() else { return }
         navigator?.openQueuedRequestsLoading(images: images,
                                              listingCreationParams: listingParams,
@@ -356,9 +352,7 @@ class PostListingViewModel: BaseViewModel {
             openPostAbandonAlertNotLoggedIn()
         } else {
             if state.value.lastImagesUploadResult?.value == nil && state.value.uploadedVideo == nil {
-                if isBlockingPosting {
-                    trackPostSellAbandon()
-                }
+                trackPostSellAbandon()
                 navigator?.cancelPostListing()
             } else if let listingParams = makeListingParams() {
                 let machineLearningTrackingInfo = MachineLearningTrackingInfo(data: state.value.predictionData,
@@ -370,14 +364,19 @@ class PostListingViewModel: BaseViewModel {
                                                            videoLength: uploadedVideoLength,
                                                            price: postDetailViewModel.price.value,
                                                            typePage: postingSource.typePage,
-                                                           mostSearchedButton: postingSource.mostSearchedButton,
                                                            machineLearningInfo: machineLearningTrackingInfo)
                 navigator?.closePostProductAndPostInBackground(params: listingParams,
-                                                               trackingInfo: trackingInfo)
+                                                               trackingInfo: trackingInfo,
+                                                               shareAfterPost: state.value.shareAfterPost)
             } else {
+                trackPostSellAbandon()
                 navigator?.cancelPostListing()
             }
         }
+    }
+
+    func mediaSourceDidChange(mediaSource: EventParameterMediaSource) {
+        self.mediaSource = mediaSource
     }
 }
 
@@ -495,7 +494,7 @@ extension PostListingViewModel {
 
 extension PostListingViewModel: PostListingBasicDetailViewModelDelegate {
     func postListingDetailDone(_ viewModel: PostListingBasicDetailViewModel) {
-        state.value = state.value.updating(price: viewModel.listingPrice)
+        state.value = state.value.updating(price: viewModel.listingPrice, shareAfterPost: viewModel.shareOnFacebook.value)
     }
 }
 
@@ -506,9 +505,8 @@ fileprivate extension PostListingViewModel {
     func setupRx() {
         category.asObservable().subscribeNext { [weak self] category in
             guard let strongSelf = self, let category = category else { return }
-            strongSelf.state.value = strongSelf.state.value.updating(category: category,
-                                                                     showServicesFeatures: strongSelf.featureFlags.showServicesFeatures.isActive)
-        }.disposed(by: disposeBag)
+            strongSelf.state.value = strongSelf.state.value.updating(category: category)
+            }.disposed(by: disposeBag)
         
         state.asObservable().filter { $0.step == .finished }.bind { [weak self] _ in
             self?.postListing()
@@ -532,6 +530,7 @@ fileprivate extension PostListingViewModel {
         let message = R.Strings.productPostCloseAlertDescription
         let cancelAction = UIAction(interface: .text(R.Strings.productPostCloseAlertCloseButton), action: { [weak self] in
             self?.navigator?.cancelPostListing()
+            self?.trackPostSellAbandon()
         })
         let postAction = UIAction(interface: .text(R.Strings.productPostCloseAlertOkButton), action: { [weak self] in
             self?.postListing()
@@ -549,20 +548,21 @@ fileprivate extension PostListingViewModel {
                                                    videoLength: uploadedVideoLength,
                                                    price: postDetailViewModel.price.value,
                                                    typePage: postingSource.typePage,
-                                                   mostSearchedButton: postingSource.mostSearchedButton,
                                                    machineLearningInfo: machineLearningTrackingInfo)
         if sessionManager.loggedIn {
             guard state.value.lastImagesUploadResult?.value != nil || state.value.uploadedVideo != nil,
                 let listingCreationParams = makeListingParams() else { return }
             navigator?.closePostProductAndPostInBackground(params: listingCreationParams,
-                                                           trackingInfo: trackingInfo)
+                                                           trackingInfo: trackingInfo,
+                                                           shareAfterPost: state.value.shareAfterPost)
         } else if state.value.pendingToUploadMedia {
             let loggedInAction = { [weak self] in
                 guard let listingParams = self?.makeListingParams() else { return }
                 self?.navigator?.closePostProductAndPostLater(params: listingParams,
                                                               images: self?.state.value.pendingToUploadImages,
                                                               video: self?.state.value.pendingToUploadVideo,
-                                                              trackingInfo: trackingInfo)
+                                                              trackingInfo: trackingInfo,
+                                                              shareAfterPost: self?.state.value.shareAfterPost)
             }
             let cancelAction = { [weak self] in
                 guard let _ = self?.state.value else { return }
@@ -576,13 +576,7 @@ fileprivate extension PostListingViewModel {
     }
     
     func openPostingDetails() {
-        let firstStep: PostingDetailStep
-        if let category = state.value.category,
-            category.isService, featureFlags.showServicesFeatures.isActive {
-            firstStep = .servicesSubtypes
-        } else {
-            firstStep = .summary
-        }
+        let firstStep = createFirstStep(forCategory: state.value.category)
         
         navigator?.startDetails(firstStep: firstStep,
                                 postListingState: state.value,
@@ -590,6 +584,15 @@ fileprivate extension PostListingViewModel {
                                 uploadedVideoLength: uploadedVideoLength,
                                 postingSource: postingSource,
                                 postListingBasicInfo: postDetailViewModel)
+    }
+    
+    private func createFirstStep(forCategory category: PostCategory?) -> PostingDetailStep {
+        guard let category = category, category.isService else { return .summary }
+        
+        if featureFlags.jobsAndServicesEnabled.isActive {
+            return .servicesListingType
+        }
+        return .servicesSubtypes
     }
     
     func makeListingParams() -> ListingCreationParams? {
@@ -619,27 +622,61 @@ fileprivate extension PostListingViewModel {
 // MARK: - Tracking
 
 fileprivate extension PostListingViewModel {
-    func trackVisit() {
-        let event = TrackerEvent.listingSellStart(postingSource.typePage,
-                                                  buttonName: postingSource.buttonName,
-                                                  sellButtonPosition: postingSource.sellButtonPosition,
-                                                  category: postCategory?.listingCategory,
-                                                  mostSearchedButton: postingSource.mostSearchedButton,
-                                                  predictiveFlow: false)
+
+    private func trackPostSellAbandon() {
+        var step: EventParameterPostingAbandonStep
+        let pictureUploaded = EventParameterBoolean(bool: state.value.lastImagesUploadResult != nil)
+        switch self.state.value.step {
+        case .imageSelection:
+            switch mediaSource {
+            case .gallery:
+                switch postListingGalleryViewModel.galleryState.value {
+                case .pendingAskPermissions, .missingPermissions:
+                    step = .cameraPermissions
+                case .normal, .empty, .loadImageError, .loading:
+                    step = .capturePhoto
+                }
+            case .camera, .videoCamera:
+                switch self.postListingCameraViewModel.cameraState.value {
+                case .pendingAskPermissions, .missingPermissions:
+                    step = .cameraPermissions
+                case .capture, .recordingVideo, .takingPhoto:
+                    step = .capturePhoto
+                case .previewPhoto, .previewVideo:
+                    step = .imagePreview
+                }
+            }
+        case .addingDetails, .carDetailsSelection, .detailsSelection:
+            step = .addingDetails
+        case .categorySelection:
+            step = .productSellTypeSelect
+        case .errorUpload, .errorVideoUpload:
+            step = .errorUpload
+        case .uploadingImage:
+            step = .uploadingImage
+        case .uploadingVideo:
+            step = .uploadingVideo
+        case .uploadSuccess, .finished:
+            step = .none
+        }
+
+        let event = TrackerEvent.listingSellAbandon(abandonStep: step,
+                                                    pictureUploaded: pictureUploaded,
+                                                    loggedUser: EventParameterBoolean(bool: sessionManager.loggedIn),
+                                                    buttonName: .close)
         tracker.trackEvent(event)
     }
-    
-    fileprivate func trackPostSellAbandon() {
-        let event = TrackerEvent.listingSellAbandon(abandonStep: .cameraPermissions)
-        tracker.trackEvent(event)
+
+    private func trackPublish(source: EventParameterMediaSource, size: Int?) {
+        tracker.trackEvent(TrackerEvent.listingSellMediaPublish(source: source, size: size))
     }
 }
 
 extension PostingSource {
     var typePage: EventParameterTypePage {
         switch self {
-        case .tabBar, .sellButton:
-            return .sell
+        case .tabBar:
+            return .tabBar
         case .deepLink:
             return .external
         case .onboardingButton, .onboardingCamera, .onboardingBlockingPosting:
@@ -648,21 +685,22 @@ extension PostingSource {
             return .notifications
         case .deleteListing:
             return .listingDelete
-        case .mostSearchedTabBarCamera, .mostSearchedTrendingExpandable, .mostSearchedTagsExpandable,
-             .mostSearchedCategoryHeader, .mostSearchedCard, .mostSearchedUserProfile:
-            return .mostSearched
         case .realEstatePromo:
             return .realEstatePromo
+        case .chatList:
+            return .chatList
+        case .listingList:
+            return .listingList
+        case .profile:
+            return .profile
         }
     }
 
     var buttonName: EventParameterButtonNameType? {
         switch self {
-        case .tabBar, .sellButton, .deepLink, .notifications, .deleteListing, .mostSearchedTabBarCamera,
-             .mostSearchedTrendingExpandable, .mostSearchedTagsExpandable, .mostSearchedCategoryHeader,
-             .mostSearchedCard, .mostSearchedUserProfile, .onboardingBlockingPosting:
+        case .tabBar, .deepLink, .notifications, .deleteListing, .onboardingBlockingPosting, .chatList:
             return nil
-        case .onboardingButton:
+        case .onboardingButton, .listingList, .profile:
             return .sellYourStuff
         case .onboardingCamera:
             return .startMakingCash
@@ -675,34 +713,13 @@ extension PostingSource {
         switch self {
         case .tabBar:
             return .tabBar
-        case .sellButton:
+        case .listingList, .profile:
             return .floatingButton
-        case .onboardingButton, .onboardingCamera, .onboardingBlockingPosting, .deepLink, .notifications, .deleteListing, .mostSearchedTabBarCamera,
-             .mostSearchedTrendingExpandable, .mostSearchedTagsExpandable, .mostSearchedCategoryHeader,
-             .mostSearchedCard, .mostSearchedUserProfile:
+        case .onboardingButton, .onboardingCamera, .onboardingBlockingPosting, .deepLink, .notifications,
+             .deleteListing, .chatList:
             return .none
         case .realEstatePromo:
             return .realEstatePromo
-        }
-    }
-    
-    var mostSearchedButton: EventParameterMostSearched {
-        switch self {
-        case .tabBar, .sellButton, .deepLink, .onboardingButton, .onboardingCamera, .onboardingBlockingPosting,
-             .notifications, .deleteListing, .realEstatePromo:
-            return .notApply
-        case .mostSearchedTabBarCamera:
-            return .tabBarCamera
-        case .mostSearchedTrendingExpandable:
-            return .trendingExpandableButton
-        case .mostSearchedTagsExpandable:
-            return .postingTags
-        case .mostSearchedCategoryHeader:
-            return .feedBubble
-        case .mostSearchedCard:
-            return .feedCard
-        case .mostSearchedUserProfile:
-            return .userProfile
         }
     }
 }

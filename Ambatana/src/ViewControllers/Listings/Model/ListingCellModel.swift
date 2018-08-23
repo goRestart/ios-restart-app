@@ -11,7 +11,6 @@ enum ListingCellModel {
     case dfpAdvertisement(data: AdvertisementDFPData)
     case mopubAdvertisement(data: AdvertisementMoPubData)
     case adxAdvertisement(data: AdvertisementAdxData)
-    case mostSearchedItems(data: MostSearchedItemsCardData)
     case promo(data: PromoCellData, delegate: ListingCellDelegate?)
     
     init(listing: Listing) {
@@ -33,10 +32,6 @@ enum ListingCellModel {
         default:
             return nil
         }
-    }
-    
-    init(mostSearchedItemsData: MostSearchedItemsCardData) {
-        self = ListingCellModel.mostSearchedItems(data: mostSearchedItemsData)
     }
     
     init(promoData: PromoCellData, delegate: ListingCellDelegate?) {
@@ -92,16 +87,20 @@ struct ListingData {
     var mediaThumbType: MediaType? {
         return listing?.mediaThumbnail?.type
     }
-
-    var title: String? {
-        return listing?.title
+    
+    var paymentFrequency: String? {
+        return listing?.paymentFrequencyString
     }
     
-    var distanceToListing: Double? {
-        guard let listingPosition = listing?.location,
-              let userLocation = currentLocation?.location else { return nil }
-        return userLocation.distanceTo(listingPosition).roundNearest(0.1)
+    var serviceListingTypeDisplayText: String? {
+        return listing?.service?.servicesAttributes.listingType?.displayName.localizedCapitalized
     }
+    
+    func titleViewModel(featureFlags: FeatureFlaggeable) -> ListingTitleViewModel? {
+        return ListingTitleViewModel(listing: listing,
+                                     featureFlags: featureFlags)
+    }
+
 }
 
 enum CollectionCellType: String {
@@ -162,12 +161,6 @@ struct AdvertisementAdxData {
 enum AdProviderType {
     case dfp
     case moPub
-}
-
-struct MostSearchedItemsCardData {
-    let icon: UIImage? = R.Asset.IconsButtons.trendingIcon.image
-    let title: String = R.Strings.trendingItemsCardTitle
-    let actionTitle: String = R.Strings.trendingItemsCardAction
 }
 
 struct PromoCellData {

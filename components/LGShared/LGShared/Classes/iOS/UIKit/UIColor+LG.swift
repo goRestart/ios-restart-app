@@ -80,21 +80,25 @@ public extension UIColor {
 
 public extension UIColor {
     // Solid Grays
+    static var jetBlack: UIColor { return UIColor(rgb: 0x0C0C0C) } // (12, 12, 12)
     static var lgBlack: UIColor { return UIColor(rgb: 0x2c2c2c) } // (44,44,44)
     static var grayDarker: UIColor { return UIColor(rgb: 0x4a4a4a) } // (74,74,74)
     static var grayDark: UIColor { return UIColor(rgb: 0x757575) } // (117,117,117)
     static var grayRegular: UIColor { return UIColor(rgb: 0xbdbdbd) } // (189,189,189)
     static var grayLight: UIColor { return UIColor(rgb: 0xdddddd) } // (221,221,221)
     static var grayLighter: UIColor { return UIColor(rgb: 0xede9e9) } // (237,233,233)
+    static var veryLightGray: UIColor { return UIColor(rgb: 0xeeeeee) } // (238,238,238)
     static var grayBackground: UIColor { return UIColor(rgb: 0xF7F3F3) } // (247,143,243)
+    static var graySeparator: UIColor { return UIColor(rgb: 0x979797) } // (151, 151, 151)
     static var grayDisclaimerText: UIColor { return UIColor(rgb: 0x9b9b9b) } // (155, 155, 155)
-
+    
     // Alpha grays
 
     fileprivate static let blackAlpha80 = black.withAlphaComponent(0.8)
     fileprivate static let blackAlpha50 = black.withAlphaComponent(0.5)
     fileprivate static let blackAlpha30 = black.withAlphaComponent(0.3)
     fileprivate static let blackAlpha15 = black.withAlphaComponent(0.15)
+    fileprivate static let blackAlpha04 = black.withAlphaComponent(0.04)
 
     fileprivate static let whiteAlpha70 = white.withAlphaComponent(0.7)
     fileprivate static let whiteAlpha30 = white.withAlphaComponent(0.3)
@@ -224,12 +228,12 @@ public extension UIColor {
     static var chatMyBubbleBgColor: UIColor { return primaryColorAlpha16 }
     static var chatMyBubbleBgColorSelected: UIColor { return primaryColorAlpha30 }
 
-    static var chatOthersBubbleBgColor: UIColor { return white }
+    static var chatOthersBubbleBgColorWhite: UIColor { return white }
+    static var chatOthersBubbleBgColorGray: UIColor { return blackAlpha04 }
     static var chatOthersBubbleBgColorSelected: UIColor { return grayLighter }
 
-    static var assistantConversationCellBgColor: UIColor { return primaryColorAlpha08 }
+    static var assistantConversationCellBgColor: UIColor { return UIColor(rgb: 0xFFF0F1) }
 
-    private static let primaryColorAlpha08 = UIColor(rgb: 0xFFE0F1)
     private static let primaryColorAlpha16 = UIColor(rgb: 0xFFE0E4) // (255, 224, 228)
     private static let primaryColorAlpha30 = UIColor(rgb: 0xFFC6CD) // (255, 198, 205)
 
@@ -301,24 +305,6 @@ public extension UIColor {
     }
 }
 
-// MARK: > Superkeyword groups
-
-public extension UIColor {
-    struct Taxonomy {
-        public static var electronics: UIColor { return paleTeal }
-        public static var vehiclesAndBicycles: UIColor { return celestialBlue }
-        public static var homeAndGarden: UIColor { return cyanBlueAzure }
-        public static var hobbiesAndEntertainment: UIColor { return budGreen }
-        public static var fashionAndAccessories: UIColor { return rosa }
-        public static var family: UIColor { return amber }
-        public static var others: UIColor { return earthYellow }
-        
-        fileprivate static let amber = UIColor(rgb: 0x538fd1) // (83, 143, 209)
-        fileprivate static let cyanBlueAzure = UIColor(rgb: 0xf5cd77) // (245, 205, 119)
-        fileprivate static let earthYellow = UIColor(rgb: 0xcd1a960) // (205, 26, 150)
-    }
-}
-
 // MARK: - Camera
 
 public extension UIColor {
@@ -332,6 +318,7 @@ public extension UIColor {
         fileprivate static let almostWatermelonDarker = UIColor(rgb: 0xa93f56) // (169, 63, 86)
     }
 }
+
 // MARK: > Edit User Bio
 
 public extension UIColor {
@@ -350,4 +337,12 @@ public extension UIColor {
 
 public extension UIColor {
     static let toastBackground = UIColor.grayDarker
+}
+
+
+// MARK: > Posting Flow Colors
+
+public extension UIColor {
+    static var serviceTypeRed: UIColor { return existentialDoubtRed }
+    fileprivate static let existentialDoubtRed = UIColor(rgb: 0xfc7d91) // (252, 125, 145)
 }

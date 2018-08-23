@@ -12,12 +12,14 @@ extension UserRatingType {
             return R.Strings.ratingListRatingTypeBuyerTextLabel(userName)
         case .buyer:
             return R.Strings.ratingListRatingTypeSellerTextLabel(userName)
+        case .report:
+            return ""
         }
     }
 
     var ratingTypeTextColor: UIColor {
         switch self {
-        case .conversation:
+        case .conversation, .report:
             return UIColor.blackText
         case .seller:
             return UIColor.soldText
@@ -86,6 +88,7 @@ final class UserRatingCell: UITableViewCell, ReusableCell {
     private let descriptionLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemRegularFont(size: 13)
+        label.numberOfLines = 0
         return label
     }()
     private let timeLabel: UILabel = {

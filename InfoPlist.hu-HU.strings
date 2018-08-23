@@ -1,0 +1,18 @@
+// Message shown when the application asks you to access your location while you use the app
+"NSLocationWhenInUseUsageDescription" = "A letgo hozzáférést igényel a tartózkodási helyedhez, hogy meg tudja jeleníteni a közeli portékákat";
+
+"NSLocationAlwaysUsageDescription" = "A letgo közeli hirdetések megjelenítéséhez és ideális találkozóhelyszínek felajánlásához használja a helyadatokat";
+
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "A letgo közeli hirdetések megjelenítéséhez és ideális találkozóhelyszínek felajánlásához használja a helyadatokat";
+
+"sell_shortcut_title" = "Adj el valamit";
+
+// Should have the same style as sell_shortcut_title
+"start_browsing_shortcut_title" = "Kezdj böngészni";
+
+"NSCameraUsageDescription" = "Használnunk kell a kamerát, hogy fotókat készíthess a hirdetéseidhez.";
+
+"NSPhotoLibraryUsageDescription" = "Használnunk kell a fotótáradat, hogy fotókat választhass a meglévők közül a hirdetéseidhez.";
+
+"NSPhotoLibraryAddUsageDescription" = "Használnunk kell a fotótáradat, hogy fotókat választhass a meglévők közül a hirdetéseidhez.";
+

@@ -58,6 +58,8 @@ struct LGUserRating: UserRating, Decodable {
             self.type = .seller
         case UserRatingApiType.buyer.rawValue:
             self.type = .buyer
+        case UserRatingApiType.report.rawValue:
+            self.type = .report
         default:
             throw DecodingError.valueNotFound(Int.self, DecodingError.Context(codingPath: [CodingKeys.type],
                                                                               debugDescription: "\(typeValue)"))
@@ -112,6 +114,8 @@ extension UserRatingType {
             return .seller
         case .buyer:
             return .buyer
+        case .report:
+            return .report
         }
     }
 
@@ -124,4 +128,5 @@ private enum UserRatingApiType: Int {
     case conversation = 1 // [DEPRECATED] do not use to create new ratings
     case seller = 2
     case buyer = 3
+    case report = 4
 }

@@ -13,47 +13,26 @@ final class FeatureFlagsUDDAO: FeatureFlagsDAO {
     
     fileprivate enum Key: String {
         case newUserProfileEnabled = "newUserProfileEnabled"
-        case advancedReputationSystemEnabled = "advancedReputationSystemEnabled"
         case emergencyLocate = "emergencyLocate"
-        case chatConversationsListWithoutTabs = "chatConversationsListWithoutTabs"
+        case community = "community"
     }
 
     fileprivate var dictionary: [String: Any]
     fileprivate let userDefaults: UserDefaults
-    fileprivate var networkDAO: NetworkDAO
     
     // MARK: - Lifecycle
     
     convenience init() {
-        self.init(userDefaults: UserDefaults.standard, networkDAO: NetworkDefaultsDAO())
+        self.init(userDefaults: UserDefaults.standard)
     }
     
-    init(userDefaults: UserDefaults, networkDAO: NetworkDAO) {
+    init(userDefaults: UserDefaults) {
         self.userDefaults = userDefaults
-        self.networkDAO = networkDAO
         self.dictionary = FeatureFlagsUDDAO.fetch(userDefaults: userDefaults) ?? [:]
     }
     
     
     // MARK: - FeatureFlagsDAO
-
-    func retrieveTimeoutForRequests() -> TimeInterval? {
-        return networkDAO.timeoutIntervalForRequests
-    }
-
-    func save(timeoutForRequests: TimeInterval) {
-        networkDAO.timeoutIntervalForRequests = timeoutForRequests
-    }
-
-    func retrieveAdvanceReputationSystem() -> AdvancedReputationSystem? {
-        guard let rawValue: String = retrieve(key: .advancedReputationSystemEnabled) else { return nil }
-        return AdvancedReputationSystem(rawValue: rawValue)
-    }
-
-    func save(advanceReputationSystem: AdvancedReputationSystem) {
-        save(key: .advancedReputationSystemEnabled, value: advanceReputationSystem.rawValue)
-        sync()
-    }
 
     func retrieveEmergencyLocate() -> EmergencyLocate? {
         guard let rawValue: String = retrieve(key: .emergencyLocate) else { return nil }
@@ -65,13 +44,13 @@ final class FeatureFlagsUDDAO: FeatureFlagsDAO {
         sync()
     }
 
-    func retrieveChatConversationsListWithoutTabs() -> ChatConversationsListWithoutTabs? {
-        guard let rawValue: String = retrieve(key: .chatConversationsListWithoutTabs) else { return nil }
-        return ChatConversationsListWithoutTabs(rawValue: rawValue)
+    func retrieveCommunity() -> ShowCommunity? {
+        guard let rawValue: String = retrieve(key: .community) else { return nil }
+        return ShowCommunity(rawValue: rawValue)
     }
-    
-    func save(chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs) {
-        save(key: .chatConversationsListWithoutTabs, value: chatConversationsListWithoutTabs.rawValue)
+
+    func save(community: ShowCommunity) {
+        save(key: .community, value: community.rawValue)
         sync()
     }
 }

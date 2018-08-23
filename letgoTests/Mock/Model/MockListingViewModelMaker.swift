@@ -23,7 +23,6 @@ class MockListingViewModelMaker: ListingViewModelMaker {
     let monetizationRepository: MockMonetizationRepository
     let tracker: MockTracker
     let keyValueStorage: MockKeyValueStorage
-    let reputationTooltipManager: MockReputationTooltipManager
 
     init(myUserRepository: MockMyUserRepository,
          userRepository: MockUserRepository,
@@ -35,8 +34,7 @@ class MockListingViewModelMaker: ListingViewModelMaker {
          purchasesShopper: MockPurchasesShopper,
          monetizationRepository: MockMonetizationRepository,
          tracker: MockTracker,
-         keyValueStorage: MockKeyValueStorage,
-         reputationTooltipManager: MockReputationTooltipManager) {
+         keyValueStorage: MockKeyValueStorage) {
         self.myUserRepository = myUserRepository
         self.userRepository = userRepository
         self.listingRepository = listingRepository
@@ -48,7 +46,6 @@ class MockListingViewModelMaker: ListingViewModelMaker {
         self.monetizationRepository = monetizationRepository
         self.tracker = tracker
         self.keyValueStorage = keyValueStorage
-        self.reputationTooltipManager = reputationTooltipManager
     }
 
     func make(listing: Listing, navigator: ListingDetailNavigator?, visitSource: EventParameterListingVisitSource) -> ListingViewModel {
@@ -72,8 +69,7 @@ class MockListingViewModelMaker: ListingViewModelMaker {
                                 purchasesShopper: purchasesShopper,
                                 monetizationRepository: monetizationRepository,
                                 tracker: tracker,
-                                keyValueStorage: keyValueStorage,
-                                reputationTooltipManager: reputationTooltipManager)
+                                keyValueStorage: keyValueStorage)
     }
 }
 

@@ -43,8 +43,7 @@ class ListingViewModel: BaseViewModel {
                                     purchasesShopper: LGPurchasesShopper.sharedInstance,
                                     monetizationRepository: Core.monetizationRepository,
                                     tracker: TrackerProxy.sharedInstance,
-                                    keyValueStorage: KeyValueStorage.sharedInstance,
-                                    reputationTooltipManager: LGReputationTooltipManager.sharedInstance)
+                                    keyValueStorage: KeyValueStorage.sharedInstance)
         }
 
         func make(listing: Listing, navigator: ListingDetailNavigator?,
@@ -138,6 +137,7 @@ class ListingViewModel: BaseViewModel {
     var storeProductId: String?
     private var userIsSoftBlocked: Bool = false
     private var bumpUpSource: BumpUpSource?
+    var shouldExecuteBumpBannerAction: Bool = false
 
     fileprivate var alreadyTrackedFirstMessageSent: Bool = false
     fileprivate static let bubbleTagGroup = "favorite.bubble.group"
@@ -162,7 +162,6 @@ class ListingViewModel: BaseViewModel {
     fileprivate let showFeaturedStripeHelper: ShowFeaturedStripeHelper
     fileprivate let visitSource: EventParameterListingVisitSource
     fileprivate let keyValueStorage: KeyValueStorageable
-    let reputationTooltipManager: ReputationTooltipManager
 
     lazy var isShowingFeaturedStripe = Variable<Bool>(false)
     fileprivate lazy var isListingDetailsCompleted = Variable<Bool>(false)
@@ -197,8 +196,7 @@ class ListingViewModel: BaseViewModel {
          purchasesShopper: PurchasesShopper,
          monetizationRepository: MonetizationRepository,
          tracker: Tracker,
-         keyValueStorage: KeyValueStorageable,
-         reputationTooltipManager: ReputationTooltipManager) {
+         keyValueStorage: KeyValueStorageable) {
         self.listing = Variable<Listing>(listing)
         self.visitSource = visitSource
         self.socialSharer = socialSharer
@@ -215,7 +213,6 @@ class ListingViewModel: BaseViewModel {
         self.purchasesShopper = purchasesShopper
         self.monetizationRepository = monetizationRepository
         self.showFeaturedStripeHelper = ShowFeaturedStripeHelper(featureFlags: featureFlags, myUserRepository: myUserRepository)
-        self.reputationTooltipManager = reputationTooltipManager
         self.userInfo = Variable<ListingVMUserInfo>(ListingVMUserInfo(userListing: listing.user,
                                                                       myUser: myUserRepository.myUser,
                                                                       sellerBadge: .noBadge))
@@ -235,16 +232,23 @@ class ListingViewModel: BaseViewModel {
 
         if isMine {
             seller.value = myUserRepository.myUser
+            if featureFlags.alwaysShowBumpBannerWithLoading.isActive {
+                bumpUpBannerInfo.value = BumpUpInfo(type: .loading,
+                                                    timeSinceLastBump: 0,
+                                                    maxCountdown: 0,
+                                                    price: nil,
+                                                    bannerInteractionBlock: { _ in },
+                                                    buttonBlock: { _ in })
+            }
         } else if let userId = userInfo.value.userId {
             userRepository.show(userId) { [weak self] result in
                 guard let strongSelf = self else { return }
                 if let value = result.value {
                     strongSelf.seller.value = value
                     strongSelf.sellerAverageUserRating = value.ratingAverage
-                    let badge = strongSelf.featureFlags.advancedReputationSystem.isActive ? value.reputationBadge : .noBadge
                     strongSelf.userInfo.value = ListingVMUserInfo(userListing: strongSelf.listing.value.user,
                                                                   myUser: strongSelf.myUserRepository.myUser,
-                                                                  sellerBadge: badge)
+                                                                  sellerBadge: value.reputationBadge)
                 }
             }
         }
@@ -277,7 +281,7 @@ class ListingViewModel: BaseViewModel {
         purchasesShopper.delegate = self
         purchasesShopper.bumpInfoRequesterDelegate = self
 
-        if bumpUpBannerInfo.value == nil {
+        if bumpUpBannerInfo.value == nil || bumpUpBannerInfo.value?.type == .loading {
             refreshBumpeableBanner()
         }
 
@@ -398,8 +402,18 @@ class ListingViewModel: BaseViewModel {
             .bind(to: showExactLocationOnMap)
             .disposed(by: disposeBag)
 
+        bumpUpBannerInfo.asObservable().bind { [weak self] bumpUpBannerInfo in
+            guard let strongSelf = self else { return }
+            guard let bumpInfo = bumpUpBannerInfo,
+                bumpInfo.type != .loading,
+                strongSelf.shouldExecuteBumpBannerAction else { return }
+
+            bumpInfo.bannerInteractionBlock(bumpInfo.timeSinceLastBump)
+            strongSelf.shouldExecuteBumpBannerAction = false
+
+            }.disposed(by: disposeBag)
     }
-    
+
     private func distanceString(_ listing: Listing) -> String? {
         guard let userLocation = locationManager.currentLocation?.location else { return nil }
         let distance = listing.location.distanceTo(userLocation)
@@ -435,17 +449,20 @@ class ListingViewModel: BaseViewModel {
     }
 
     func refreshBumpeableBanner() {
-        guard isMine else { return }
+        guard status.value.shouldRefreshBumpBanner,
+            (featureFlags.freeBumpUpEnabled || featureFlags.pricedBumpUpEnabled) else {
+            bumpUpBannerInfo.value = nil
+            return
+        }
         guard let listingId = listing.value.objectId,
-            status.value.shouldRefreshBumpBanner,
             !isUpdatingBumpUpBanner,
-            (featureFlags.freeBumpUpEnabled || featureFlags.pricedBumpUpEnabled) else { return }
+            isMine else { return }
 
         let isBumpUpPending = purchasesShopper.isBumpUpPending(forListingId: listingId)
 
         if isBumpUpPending {
             createBumpeableBanner(forListingId: listingId, withPrice: nil, letgoItemId: nil, storeProductId: nil,
-                                  bumpUpType: .restore)
+                                  bumpUpType: .restore, typePage: .listingDetail)
         } else if let recentBumpInfo = purchasesShopper.timeSinceRecentBumpFor(listingId: listingId) {
             createBumpeableBannerForRecent(listingId: listingId,
                                            bumpUpType: bumpUpType,
@@ -453,13 +470,16 @@ class ListingViewModel: BaseViewModel {
                                            maxCountdown: recentBumpInfo.maxCountdown)
         } else {
             isUpdatingBumpUpBanner = true
-            let parameterTypePage = getParameterTypePage()
             monetizationRepository.retrieveBumpeableListingInfo(
                 listingId: listingId,
                 completion: { [weak self] result in
                     guard let strongSelf = self else { return }
+                    let parameterTypePage = strongSelf.getParameterTypePage()
                     strongSelf.isUpdatingBumpUpBanner = false
-                    guard let bumpeableProduct = result.value else { return }
+                    guard let bumpeableProduct = result.value else {
+                        strongSelf.bumpUpBannerInfo.value = nil
+                        return
+                    }
 
                     strongSelf.timeSinceLastBump = bumpeableProduct.timeSinceLastBump
                     strongSelf.bumpMaxCountdown = bumpeableProduct.maxCountdown
@@ -487,7 +507,8 @@ class ListingViewModel: BaseViewModel {
                                                          withPrice: nil,
                                                          letgoItemId: strongSelf.letgoItemId,
                                                          storeProductId: strongSelf.storeProductId,
-                                                         bumpUpType: .free)
+                                                         bumpUpType: .free,
+                                                         typePage: parameterTypePage)
                     } else if !hiddenItems.isEmpty, strongSelf.featureFlags.pricedBumpUpEnabled {
                         strongSelf.userIsSoftBlocked = true
                         // for hidden items we follow THE SAME FLOW we do for PAID items
@@ -502,6 +523,8 @@ class ListingViewModel: BaseViewModel {
                                                                                          maxCountdown: bumpeableProduct.maxCountdown,
                                                                                          typePage: parameterTypePage)
                         }
+                    } else {
+                        strongSelf.bumpUpBannerInfo.value = nil
                     }
             })
         }
@@ -517,7 +540,9 @@ class ListingViewModel: BaseViewModel {
                                            withPrice: String?,
                                            letgoItemId: String?,
                                            storeProductId: String?,
-                                           bumpUpType: BumpUpType) {
+                                           bumpUpType: BumpUpType,
+                                           typePage: EventParameterTypePage) {
+        let actualTypePage = shouldExecuteBumpBannerAction ? typePage : .listingDetail
         var bannerInteractionBlock: (TimeInterval?) -> Void
         var buttonBlock: (TimeInterval?) -> Void
         switch bumpUpType {
@@ -533,7 +558,7 @@ class ListingViewModel: BaseViewModel {
                                                           storeProductId: storeProductId)
                 self?.navigator?.openFreeBumpUp(forListing: listing,
                                                 bumpUpProductData: bumpUpProductData,
-                                                typePage: .listingDetail,
+                                                typePage: actualTypePage,
                                                 maxCountdown: strongSelf.bumpMaxCountdown)
             }
             bannerInteractionBlock = freeBlock
@@ -549,7 +574,7 @@ class ListingViewModel: BaseViewModel {
                                                           storeProductId: storeProductId)
 
                 self?.openPricedBumpUpView(bumpUpProductData: bumpUpProductData,
-                                           typePage: .listingDetail)
+                                           typePage: actualTypePage)
             }
             buttonBlock = { [weak self] _ in
                 self?.bumpUpProduct(productId: listingId, isBoost: false)
@@ -565,7 +590,7 @@ class ListingViewModel: BaseViewModel {
                                                           storeProductId: storeProductId)
 
                 self?.openBoostBumpUpView(bumpUpProductData: bumpUpProductData,
-                                          typePage: .listingDetail,
+                                          typePage: actualTypePage,
                                           timeSinceLastBump: timeSinceLastBump)
             }
             buttonBlock = { [weak self] _ in
@@ -604,6 +629,9 @@ class ListingViewModel: BaseViewModel {
             }
             bannerInteractionBlock = hiddenBlock
             buttonBlock = hiddenBlock
+        case .loading:
+            bannerInteractionBlock = { _ in }
+            buttonBlock = { _ in }
         }
 
         bumpUpBannerInfo.value = BumpUpInfo(type: bumpUpType,
@@ -613,6 +641,7 @@ class ListingViewModel: BaseViewModel {
                                             bannerInteractionBlock: bannerInteractionBlock,
                                             buttonBlock: buttonBlock)
     }
+
     fileprivate func createBumpeableBannerForRecent(listingId: String,
                                                     bumpUpType: BumpUpType,
                                                     withTime: TimeInterval,
@@ -638,17 +667,19 @@ class ListingViewModel: BaseViewModel {
         navigator?.openVideoPlayer(atIndex: index, listingVM: self, source: source)
     }
 
-    func showBumpUpView(bumpUpProductData: BumpUpProductData,
-                        bumpUpType: BumpUpType,
+    func showBumpUpView(bumpUpProductData: BumpUpProductData?,
+                        bumpUpType: BumpUpType?,
                         bumpUpSource: BumpUpSource?,
                         typePage: EventParameterTypePage?) {
         self.bumpUpSource = bumpUpSource
+        guard let bumpUpProductData = bumpUpProductData, let bumpUpType = bumpUpType else { return }
+        
         switch bumpUpType {
         case .priced, .boost:
             guard bumpUpProductData.hasPaymentId else { return }
             openPricedBumpUpView(bumpUpProductData: bumpUpProductData,
                                  typePage: typePage)
-        case .free, .hidden, .restore:
+        case .free, .hidden, .restore, .loading:
             break
         }
     }
@@ -1186,7 +1217,7 @@ fileprivate extension ListingViewModel {
     func sendMessage(type: ChatWrapperMessageType) {
         // Optimistic behavior
         let message = LocalMessage(type: type, userId: myUserRepository.myUser?.objectId)
-        let messageView = chatViewMessageAdapter.adapt(message)
+        let messageView = chatViewMessageAdapter.adapt(message, userAvatarData: nil)
         directChatMessages.insert(messageView, atIndex: 0)
 
         chatWrapper.sendMessageFor(listing: listing.value, type: type) { [weak self] result in
@@ -1343,7 +1374,8 @@ extension ListingViewModel: BumpInfoRequesterDelegate {
                               withPrice: bumpUpPurchaseableProduct?.formattedCurrencyPrice,
                               letgoItemId: letgoItemId,
                               storeProductId: storeProductId,
-                              bumpUpType: bumpUpType)
+                              bumpUpType: bumpUpType,
+                              typePage: typePage ?? .listingDetail)
     }
 
     var bumpUpType: BumpUpType {
@@ -1361,7 +1393,7 @@ extension ListingViewModel: PurchasesShopperDelegate {
     
     private func isPromotedBump(typePage: EventParameterTypePage?) -> Bool {
         guard let typePage = typePage else { return false }
-        return typePage == .edit || typePage == .sellEdit || typePage == .pushNotification || typePage == .sell
+        return typePage == .edit || typePage == .sellEdit || typePage == .notificationCenter || typePage == .sell
     }
     
     // Free Bump Up

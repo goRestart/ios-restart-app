@@ -92,7 +92,7 @@ final class ServicesInfoRealmDAO: ServicesInfoDAO, ServicesInfoRetrievable {
     func serviceAllSubtypesSorted() -> [ServiceSubtype] {
         let serviceSubtypes: [ServiceSubtype] = dataBase
             .objects(RealmServiceSubtype.self)
-            .flatMap { [weak self] in self?.convertToLGServiceSubtype(serviceSubtype: $0) }
+            .compactMap { [weak self] in self?.convertToLGServiceSubtype(serviceSubtype: $0) }
         return serviceSubtypes.sorted(by: { $0.isHighlighted && !$1.isHighlighted })
     }
     

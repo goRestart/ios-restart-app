@@ -12,10 +12,11 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
         static let transactionBadgeHeight: CGFloat = 30
         static let pendingMessagesBadgeHeight: CGFloat = 18
         static let listingTitleLabelHeight: CGFloat = 18
-        static let assistantInfoLabelHeight: CGFloat = 20
+        static let assistantInfoHeight: CGFloat = 18
         static let statusIconHeight: CGFloat = 12
         static let userTypingAnimationWidth: CGFloat = 40
         static let userTypingAnimationHeight: CGFloat = 24
+        static let assistantBadgeMargin: CGFloat = 2
     }
 
     private let listingImageView: ChatAvatarView = {
@@ -46,16 +47,27 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
     private let textsContainerView = UIView()
     private let userImageContainerView = UIView()
 
-    private let assistantInfoLabel: UIRoundedLabelWithPadding = {
-        let label = UIRoundedLabelWithPadding()
-        label.font = .systemMediumFont(size: 13)
+    private let assistantInfoContainerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.primaryColor.withAlphaComponent(0.1)
+        view.cornerRadius = Layout.assistantInfoHeight/2
+        return view
+    }()
+
+    private let assistantInfoLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemMediumFont(size: 11)
         label.textColor = .primaryColor
         label.textAlignment = .center
         label.text = R.Strings.chatConversationsListLetgoAssistantTag
-        label.backgroundColor = UIColor.primaryColor.withAlphaComponent(0.1)
-        label.padding = UIEdgeInsets(top: 2, left: 12, bottom: 2, right: 12)
-        label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         return label
+    }()
+
+    private let assistantInfoIcon: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = R.Asset.IconsButtons.icAssistantTag.image
+        return imageView
     }()
 
     private let userNameLabel: UILabel = {
@@ -160,7 +172,7 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
 
         statusIcon.layout().height(Layout.statusIconHeight).widthProportionalToHeight()
         listingTitleLabel.layout().height(Layout.listingTitleLabelHeight)
-        assistantInfoLabel.layout().height(Layout.assistantInfoLabelHeight)
+        assistantInfoContainerView.layout().height(Layout.assistantInfoHeight)
 
         contentView.addSubviewForAutoLayout(mainStackContainer)
 
@@ -173,10 +185,29 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
 
         NSLayoutConstraint.activate(cellConstraints)
 
+        assistantInfoContainerView.addSubviewsForAutoLayout([assistantInfoIcon, assistantInfoLabel])
+
+        let assistantInfoConstraints = [
+            assistantInfoIcon.leadingAnchor.constraint(equalTo: assistantInfoContainerView.leadingAnchor,
+                                                       constant: Layout.assistantBadgeMargin),
+            assistantInfoIcon.topAnchor.constraint(equalTo: assistantInfoContainerView.topAnchor,
+                                                   constant: Layout.assistantBadgeMargin),
+            assistantInfoIcon.bottomAnchor.constraint(equalTo: assistantInfoContainerView.bottomAnchor,
+                                                      constant: -Layout.assistantBadgeMargin),
+            assistantInfoIcon.trailingAnchor.constraint(equalTo: assistantInfoLabel.leadingAnchor,
+                                                        constant: -Metrics.veryShortMargin),
+            assistantInfoLabel.topAnchor.constraint(equalTo: assistantInfoContainerView.topAnchor),
+            assistantInfoLabel.bottomAnchor.constraint(equalTo: assistantInfoContainerView.bottomAnchor),
+            assistantInfoLabel.trailingAnchor.constraint(equalTo: assistantInfoContainerView.trailingAnchor,
+                                                         constant: -Metrics.shortMargin)
+        ]
+
+        NSLayoutConstraint.activate(assistantInfoConstraints)
+
         textsContainerView.addSubviewsForAutoLayout([userNameLabel,
                                                      proUserTagView,
                                                      listingTitleLabel,
-                                                     assistantInfoLabel,
+                                                     assistantInfoContainerView,
                                                      timeLastMessageLabel,
                                                      statusIcon,
                                                      statusLabel,
@@ -188,9 +219,9 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
             proUserTagView.leadingAnchor.constraint(equalTo: userNameLabel.trailingAnchor, constant: Metrics.margin),
             proUserTagView.trailingAnchor.constraint(lessThanOrEqualTo: textsContainerView.trailingAnchor),
             proUserTagView.centerYAnchor.constraint(equalTo: userNameLabel.centerYAnchor),
-            assistantInfoLabel.leadingAnchor.constraint(equalTo: userNameLabel.trailingAnchor, constant: Metrics.margin),
-            assistantInfoLabel.trailingAnchor.constraint(lessThanOrEqualTo: textsContainerView.trailingAnchor, constant: -Metrics.margin),
-            assistantInfoLabel.centerYAnchor.constraint(equalTo: userNameLabel.centerYAnchor),
+            assistantInfoContainerView.leadingAnchor.constraint(equalTo: userNameLabel.trailingAnchor, constant: Metrics.margin),
+            assistantInfoContainerView.trailingAnchor.constraint(lessThanOrEqualTo: textsContainerView.trailingAnchor, constant: -Metrics.margin),
+            assistantInfoContainerView.centerYAnchor.constraint(equalTo: userNameLabel.centerYAnchor),
 
             listingTitleLabel.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor,
                                                    constant: Metrics.veryShortMargin),
@@ -244,9 +275,14 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
         timeLastMessageLabel.set(accessibilityId: .conversationCellTimeLabel)
         pendingMessagesLabel.set(accessibilityId: .conversationCellBadgeLabel)
         listingImageView.set(accessibilityId: .conversationCellThumbnailImageView)
+        listingImageView.isAccessibilityElement = true
         userImageView.set(accessibilityId: .conversationCellAvatarImageView)
+        userImageView.isAccessibilityElement = true
         statusIcon.set(accessibilityId: .conversationCellStatusImageView)
-        assistantInfoLabel.set(accessibilityId: .assistantConversationCellInfoLabel)
+        statusIcon.isAccessibilityElement = true
+        statusLabel.set(accessibilityId: .conversationCellStatusLabel)
+        assistantInfoContainerView.set(accessibilityId: .conversationCellAssistantInfoLabel)
+        proUserTagView.set(accessibilityId: .conversationCellProfessionalTag)
     }
 
     func resetUI() {
@@ -288,6 +324,10 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
 
         updateCellWith(status: data.status, userIsTyping: data.isTyping)
         updateCellFor(userType: data.userType)
+
+        set(accessibilityId: .conversationCellContainer(conversationId: data.conversationId))
+        userNameLabel.set(accessibilityId: .conversationCellUserLabel(interlocutorId: data.userId))
+        listingTitleLabel.set(accessibilityId: .conversationCellListingLabel(listingId: data.listingId))
     }
 
     private func setImageWith(url: URL?,
@@ -339,26 +379,26 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
     private func updateCellFor(userType: UserType?) {
         guard let type = userType else {
             proUserTagView.isHidden = true
-            assistantInfoLabel.isHidden = true
-            assistantInfoLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+            assistantInfoContainerView.isHidden = true
+            assistantInfoContainerView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
             userNameLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
             return
         }
 
         switch type {
-        case .user:
+        case .user, .unknown:
             proUserTagView.isHidden = true
-            assistantInfoLabel.isHidden = true
-            assistantInfoLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+            assistantInfoContainerView.isHidden = true
+            assistantInfoContainerView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
             userNameLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         case .pro:
             proUserTagView.isHidden = false
-            assistantInfoLabel.isHidden = true
-            assistantInfoLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+            assistantInfoContainerView.isHidden = true
+            assistantInfoContainerView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         case .dummy:
             proUserTagView.isHidden = true
-            assistantInfoLabel.isHidden = false
-            assistantInfoLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+            assistantInfoContainerView.isHidden = false
+            assistantInfoContainerView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
             userNameLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         }
     }

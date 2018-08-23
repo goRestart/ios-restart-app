@@ -4,7 +4,7 @@ import LGComponents
 
 class SimpleListingsViewModel: BaseViewModel, ListingListViewModelDataDelegate {
 
-    weak var navigator: SimpleProductsNavigator?
+    var navigator: SimpleProductsNavigator?
 
     let title: String
     let listingVisitSource: EventParameterListingVisitSource
@@ -55,15 +55,22 @@ class SimpleListingsViewModel: BaseViewModel, ListingListViewModelDataDelegate {
         return true
     }
 
-    func listingListMV(_ viewModel: ListingListViewModel, didFailRetrievingListingsPage page: UInt, hasListings: Bool,
+    func listingListMV(_ viewModel: ListingListViewModel,
+                       didFailRetrievingListingsPage page: UInt,
+                       hasListings: Bool,
                        error: RepositoryError) {
 
     }
-    func listingListVM(_ viewModel: ListingListViewModel, didSucceedRetrievingListingsPage page: UInt,
-                       withResultsCount resultsCount: Int,  hasListings: Bool) {
+    func listingListVM(_ viewModel: ListingListViewModel,
+                       didSucceedRetrievingListingsPage page: UInt,
+                       withResultsCount resultsCount: Int,
+                       hasListings: Bool,
+                       containsRecentListings: Bool) {
 
     }
-    func listingListVM(_ viewModel: ListingListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
+    func listingListVM(_ viewModel: ListingListViewModel, 
+                       didSelectItemAtIndex index: Int,
+                       thumbnailImage: UIImage?,
                        originFrame: CGRect?) {
         guard let listing = viewModel.listingAtIndex(index) else { return }
         let cellModels = viewModel.objects
@@ -73,10 +80,14 @@ class SimpleListingsViewModel: BaseViewModel, ListingListViewModelDataDelegate {
         navigator?.openListing(data, source: listingVisitSource, actionOnFirstAppear: .nonexistent)
     }
 
-    func vmProcessReceivedListingPage(_ listings: [ListingCellModel], page: UInt) -> [ListingCellModel] {
+    func listingListVMDidSucceedRetrievingCache(viewModel: ListingListViewModel) {
+        // 🤷‍♂️
+    }
+
+    func vmProcessReceivedListingPage(_ listings: [ListingCellModel],
+                                      page: UInt) -> [ListingCellModel] {
         return listings
     }
     func vmDidSelectSellBanner(_ type: String) {}
     func vmDidSelectCollection(_ type: CollectionCellType) {}
-    func vmDidSelectMostSearchedItems() {}
 }

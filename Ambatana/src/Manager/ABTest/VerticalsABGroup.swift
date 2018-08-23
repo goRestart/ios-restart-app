@@ -1,46 +1,36 @@
 struct VerticalsABGroup: ABGroupType {
 
-    let searchCarsIntoNewBackend: LeanplumABVariable<Int>
-    let filterSearchCarSellerType: LeanplumABVariable<Int>
-    let realEstateMap: LeanplumABVariable<Int>
-    let showServicesFeatures: LeanplumABVariable<Int>
     let carExtraFieldsEnabled: LeanplumABVariable<Int>
-    let realEstateMapTooltip: LeanplumABVariable<Int>
-
+    let servicesUnifiedFilterScreen: LeanplumABVariable<Int>
+    let servicesPaymentFrequency: LeanplumABVariable<Int>
+    let jobsAndServicesEnabled: LeanplumABVariable<Int>
+    
     let group: ABGroup = .verticals
     var intVariables: [LeanplumABVariable<Int>] = []
     var stringVariables: [LeanplumABVariable<String>] = []
     var floatVariables: [LeanplumABVariable<Float>] = []
     var boolVariables: [LeanplumABVariable<Bool>] = []
 
-    private init(searchCarsIntoNewBackend: LeanplumABVariable<Int>,
-                 filterSearchCarSellerType: LeanplumABVariable<Int>,
-                 realEstateMap: LeanplumABVariable<Int>,
-                 showServicesFeatures: LeanplumABVariable<Int>,
-                 carExtraFieldsEnabled: LeanplumABVariable<Int>,
-                 realEstateMapTooltip: LeanplumABVariable<Int>) {
-        self.searchCarsIntoNewBackend = searchCarsIntoNewBackend
-        self.filterSearchCarSellerType = filterSearchCarSellerType
-        self.realEstateMap = realEstateMap
-        self.showServicesFeatures = showServicesFeatures
+    private init(carExtraFieldsEnabled: LeanplumABVariable<Int>,
+                 servicesUnifiedFilterScreen: LeanplumABVariable<Int>,
+                 servicesPaymentFrequency: LeanplumABVariable<Int>,
+                 jobsAndServicesEnabled: LeanplumABVariable<Int>) {
         self.carExtraFieldsEnabled = carExtraFieldsEnabled
-        self.realEstateMapTooltip = realEstateMapTooltip
-        
-        intVariables.append(contentsOf: [searchCarsIntoNewBackend,
-                                         filterSearchCarSellerType,
-                                         realEstateMap,
-                                         showServicesFeatures,
-                                         carExtraFieldsEnabled,
-                                         realEstateMapTooltip])
+        self.servicesUnifiedFilterScreen = servicesUnifiedFilterScreen
+        self.servicesPaymentFrequency = servicesPaymentFrequency
+        self.jobsAndServicesEnabled = jobsAndServicesEnabled
+
+        intVariables.append(contentsOf: [carExtraFieldsEnabled,
+                                         servicesUnifiedFilterScreen,
+                                         servicesPaymentFrequency,
+                                         jobsAndServicesEnabled])
     }
     
     static func make() -> VerticalsABGroup {
-        return VerticalsABGroup(searchCarsIntoNewBackend: verticalsIntFor(key: Keys.searchCarsIntoNewBackend),
-                                filterSearchCarSellerType: verticalsIntFor(key: Keys.filterSearchCarSellerType),
-                                realEstateMap: verticalsIntFor(key: Keys.realEstateMap),
-                                showServicesFeatures: verticalsIntFor(key: Keys.showServicesFeatures),
-                                carExtraFieldsEnabled: verticalsIntFor(key: Keys.carExtraFieldsEnabled),
-                                realEstateMapTooltip: verticalsIntFor(key: Keys.realEstateMapTooltip))
+        return VerticalsABGroup(carExtraFieldsEnabled: verticalsIntFor(key: Keys.carExtraFieldsEnabled),
+                                servicesUnifiedFilterScreen: verticalsIntFor(key: Keys.servicesUnifiedFilterScreen),
+                                servicesPaymentFrequency: verticalsIntFor(key: Keys.servicesPaymentFrequency),
+                                jobsAndServicesEnabled: verticalsIntFor(key: Keys.jobsAndServicesEnabled))
     }
     
     private static func verticalsIntFor(key: String) -> LeanplumABVariable<Int> {
@@ -49,10 +39,8 @@ struct VerticalsABGroup: ABGroupType {
 }
 
 private struct Keys {
-    static let searchCarsIntoNewBackend = "20180403searchCarsIntoNewBackend"
-    static let filterSearchCarSellerType = "20180412filterSearchCarSellerType"
-    static let realEstateMap = "20180427realEstateMap"
-    static let showServicesFeatures = "20180518showServicesFeatures"
     static let carExtraFieldsEnabled = "20180628carExtraFieldsEnabled"
-    static let realEstateMapTooltip = "20180703realEstateMapTooltip"
+    static let servicesUnifiedFilterScreen = "20180717servicesUnifiedFilterScreen"
+    static let servicesPaymentFrequency = "20180730servicesPriceType"
+    static let jobsAndServicesEnabled = "20180806jobsAndServicesEnabled"
 }

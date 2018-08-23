@@ -7,16 +7,32 @@ protocol PostingMultiSelectionViewDelegate: class {
     func remove(service subtype: ServiceSubtype)
     func addNew(service name: String)
     func removeNew(service name: String)
+    func removeAllServices()
+    func removeAllNew()
     func showAlertMaxSelection()
 }
 
+protocol PostingMultiSelectionScrollDelegate: class {
+    func scroll(_ scrollView: UIScrollView)
+    func scrollToTop()
+}
+
 final class PostingMultiSelectionView: UIView {
+    
+    private struct Layout {
+        static let tableViewBottomInset: CGFloat = Metrics.veryBigMargin*4
+        static let cellSize: CGFloat = 67
+        static let searchHeight: CGFloat = 44
+        static let tagsHeight: CGFloat = 33
+        static let shadowHeight: CGFloat = 500
+    }
     
     private let disposeBag = DisposeBag()
     
     var theme: ListingAttributePickerCell.Theme = .dark
 
     weak var delegate: PostingMultiSelectionViewDelegate?
+    weak var scrollDelegate: PostingMultiSelectionScrollDelegate?
 
     private var filteredValues: [String]
     private let rawValues: [String]
@@ -69,13 +85,25 @@ final class PostingMultiSelectionView: UIView {
         return (selectedIndexes.count + newSubtypes.count) < SharedConstants.maxNumberMultiPosting
     }
     
+    private var shouldShowMaxSelectionAlert: Bool {
+        switch serviceListingType {
+        case .service:
+            return true
+        case .job:
+            return false
+        }
+    }
+    
     private let keyboardHelper: KeyboardHelper
+    private let serviceListingType: ServiceListingType
+    
     
     // MARK: - Lifecycle
     
     init(keyboardHelper: KeyboardHelper,
          theme: ListingAttributePickerCell.Theme,
-         subtypes: [ServiceSubtype]) {
+         subtypes: [ServiceSubtype],
+         serviceListingType: ServiceListingType?) {
         let highlightedItems = subtypes.filter { $0.isHighlighted }
         let subtypesNames = subtypes.map { $0.name }
         self.keyboardHelper = keyboardHelper
@@ -85,6 +113,7 @@ final class PostingMultiSelectionView: UIView {
         self.highlightedItems = highlightedItems.map { $0.name }
         self.filteredValues = highlightedItems.map { $0.name }
         self.selectedIndexes = []
+        self.serviceListingType = serviceListingType ?? .service
         super.init(frame: CGRect.zero)
         setupUI()
         setupConstraints()
@@ -144,12 +173,13 @@ final class PostingMultiSelectionView: UIView {
         tableView.layout(with: self)
             .bottom()
             .fillHorizontal(by: Metrics.margin)
-        gradient.layout(with: self).fillHorizontal()
-        gradient.layout(with: tableView).fillVertical()
+        gradient.layout(with: self).fillHorizontal().bottom()
+        gradient.layout().height(Layout.shadowHeight)
         
     }
     
     private func setupRx() {
+        
         keyboardHelper.rx_keyboardOrigin
             .asObservable()
             .skip(1)
@@ -158,6 +188,9 @@ final class PostingMultiSelectionView: UIView {
                 guard let keyboardHeight = self?.keyboardHelper.keyboardHeight else { return }
                 let keyboardVisible: Bool = origin < UIScreen.main.bounds.height
                 self?.tableView.contentInset.bottom = keyboardVisible ? (keyboardHeight + Metrics.shortMargin) : Layout.tableViewBottomInset
+                if keyboardVisible {
+                    self?.scrollDelegate?.scrollToTop()
+                }
             }.disposed(by: disposeBag)
     }
     
@@ -181,22 +214,29 @@ final class PostingMultiSelectionView: UIView {
         tableView.reloadData()
     }
     
-    private struct Layout {
-        static let tableViewBottomInset: CGFloat = Metrics.veryBigMargin*4
-        static let cellSize: CGFloat = 67
-        static let searchHeight: CGFloat = 44
-        static let tagsHeight: CGFloat = 33
+    private func clearAllSelectedIfNecessary() {
+        switch serviceListingType {
+        case .job:
+            delegate?.removeAllNew()
+            delegate?.removeAllServices()
+            newSubtypes.removeAll()
+            selectedIndexes.removeAll()
+            tableView.reloadData()
+            collectionView.reloadData()
+        case .service: break
+        }
     }
-    
 }
 
 extension PostingMultiSelectionView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
         return tags.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeue(type: TagCollectionViewWithCloseCell.self, for: indexPath),
             let tag = tags[safeAt: indexPath.row] else { return UICollectionViewCell() }
         cell.setupWith(style: .blackBackgroundWithCross)
@@ -204,7 +244,8 @@ extension PostingMultiSelectionView: UICollectionViewDelegate, UICollectionViewD
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView,
+                        didSelectItemAt indexPath: IndexPath) {
         collection(didSelectTagAtIndex: indexPath.row)
     }
     
@@ -236,7 +277,8 @@ extension PostingMultiSelectionView: UISearchBarDelegate {
 
 extension PostingMultiSelectionView: UITableViewDelegate, UITableViewDataSource {
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView,
+                   numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return filteredValues.count
         }
@@ -247,11 +289,13 @@ extension PostingMultiSelectionView: UITableViewDelegate, UITableViewDataSource 
         return 2
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView,
+                   heightForRowAt indexPath: IndexPath) -> CGFloat {
         return Layout.cellSize
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView,
+                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: PostMultiSelectionCell.reusableID) as? PostMultiSelectionCell else {
                 return UITableViewCell()
@@ -269,7 +313,8 @@ extension PostingMultiSelectionView: UITableViewDelegate, UITableViewDataSource 
         }
     }
     
-    private func updateTableViewSelections(_ indexPath: IndexPath, _ tableView: UITableView) {
+    private func updateTableViewSelections(_ indexPath: IndexPath,
+                                           _ tableView: UITableView) {
         if let rawIndexPath = convertFilteredIndexPathToRawIndexPath(filteredIndexPath: indexPath),
             selectedIndexes.contains(where: { $0 ==  rawIndexPath } ) {
             tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
@@ -278,24 +323,30 @@ extension PostingMultiSelectionView: UITableViewDelegate, UITableViewDataSource 
         }
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView,
+                   didSelectRowAt indexPath: IndexPath) {
         
+        clearAllSelectedIfNecessary()
+
         guard selectedServicesIsLessThanMax else {
-            delegate?.showAlertMaxSelection()
+            if shouldShowMaxSelectionAlert {
+                delegate?.showAlertMaxSelection()
+            }
             return
         }
         
         if indexPath.section == 0 {
             guard let rawIndexPath = convertFilteredIndexPathToRawIndexPath(filteredIndexPath: indexPath),
                 !selectedIndexes.contains(where: { $0 ==  rawIndexPath } ),
-                let subtype = subtypes[safeAt: rawIndexPath.row] else { return }
+                let subtype = subtypes[safeAt: rawIndexPath.row],
+                subtypes.count > rawIndexPath.row else { return }
+            
             selectedIndexes.insert(rawIndexPath, at: 0)
             tableView.cellForRow(at: indexPath)?.isSelected = true
             tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
-            if subtypes.count > rawIndexPath.row {
-                delegate?.add(service: subtype)
-            }
-            addTagAtFirst()
+            
+            delegate?.add(service: subtype)
+            didAddNewTag()
         } else {
             addNewTypeAndResetSearch()
         }
@@ -310,25 +361,24 @@ extension PostingMultiSelectionView: UITableViewDelegate, UITableViewDataSource 
         newSubtypes.append(newItemTitle)
         filteredValues = highlightedItems
         searchBar.text = nil
-        addTagAtFirst()
+        didAddNewTag()
         tableView.reloadData()
     }
 
-    
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView,
+                   didDeselectRowAt indexPath: IndexPath) {
         guard indexPath.section == 0 else { return }
         guard let rawIndexPath = convertFilteredIndexPathToRawIndexPath(filteredIndexPath: indexPath),
             let rawIndex = selectedIndexes.index(of: rawIndexPath),
             let subtype = subtypes[safeAt: rawIndexPath.row],
-            let indexCollection = tags.index(where: { $0 == subtype.name }) else { return }
+            let indexCollection = tags.index(where: { $0 == subtype.name }),
+            subtypes.count > rawIndexPath.row else { return }
         
         selectedIndexes.remove(at: rawIndex)
         tableView.cellForRow(at: indexPath)?.isSelected = false
         tableView.deselectRow(at: indexPath, animated: false)
+        delegate?.remove(service: subtype)
         reloadTag(at: indexCollection)
-        if subtypes.count > rawIndexPath.row {
-            delegate?.remove(service: subtype)
-        }
     }
     
     private func convertFilteredIndexPathToRawIndexPath(filteredIndexPath: IndexPath) -> IndexPath? {
@@ -371,8 +421,18 @@ extension PostingMultiSelectionView: UITableViewDelegate, UITableViewDataSource 
         }
     }
     
-    private func addTagAtFirst() {
+    private func didAddNewTag() {
         updateFilterTagsSize(withValues: tags)
+
+        switch serviceListingType {
+        case .service:
+            addTagAtFirst()
+        case .job:
+            collectionView.reloadData()
+        }
+    }
+    
+    private func addTagAtFirst() {
         collectionView.performBatchUpdates({
             collectionView.insertItems(at: [IndexPath(row: 0, section: 0)])
         }) { _ in
@@ -380,6 +440,12 @@ extension PostingMultiSelectionView: UITableViewDelegate, UITableViewDataSource 
         }
     }
     
+}
+
+extension PostingMultiSelectionView: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        scrollDelegate?.scroll(scrollView)
+    }
 }
 
 extension PostingMultiSelectionView: PostingViewConfigurable {

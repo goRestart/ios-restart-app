@@ -3,9 +3,6 @@ import LGCoreKit
 import RxSwift
 import LGComponents
 
-protocol ExpressChatViewModelDelegate: class {
-    func sendMessageSuccess()
-}
 
 class ExpressChatViewModel: BaseViewModel {
 
@@ -23,11 +20,50 @@ class ExpressChatViewModel: BaseViewModel {
     let messageText = Variable<String>(R.Strings.chatExpressTextFieldText)
     let sendButtonEnabled = Variable<Bool>(false)
 
-    weak var navigator: ExpressChatNavigator?
-
-    weak var delegate: ExpressChatViewModelDelegate?
+    var navigator: ExpressChatNavigator?
+    weak var delegate: BaseViewModelDelegate?
 
     private let chatWrapper: ChatWrapper
+
+    var hideDontAskAgainButton: Bool {
+        return featureFlags.expressChatImprovement.isActive
+    }
+
+    var dontMissLabelText: String {
+        switch featureFlags.expressChatImprovement {
+        case .control, .baseline, .hideDontAsk:
+            return R.Strings.chatExpressDontMissLabel.uppercased()
+        case .newTitleAndHideDontAsk:
+            return R.Strings.chatExpressHighDemandLabel
+        }
+    }
+
+    var dontMissLabelFont: UIFont {
+        switch featureFlags.expressChatImprovement {
+        case .control, .baseline, .hideDontAsk:
+            return .systemFont(size: 17)
+        case .newTitleAndHideDontAsk:
+            return .systemBoldFont(size: 27)
+        }
+    }
+
+    var dontMissLabelAlignment: NSTextAlignment {
+        switch featureFlags.expressChatImprovement {
+        case .control, .baseline, .hideDontAsk:
+            return .center
+        case .newTitleAndHideDontAsk:
+            return .left
+        }
+    }
+
+    var contactSellersLabelText: String? {
+        switch featureFlags.expressChatImprovement {
+        case .control, .baseline, .hideDontAsk:
+            return R.Strings.chatExpressContactSellersLabel
+        case .newTitleAndHideDontAsk:
+            return nil
+        }
+    }
 
 
     // Rx Vars
@@ -66,6 +102,14 @@ class ExpressChatViewModel: BaseViewModel {
 
 
     // MARK: - Public methods
+
+    func openMoreOptionsMenu() {
+        var dontAskAgainAction: UIAction {
+            return UIAction(interface: .text(R.Strings.chatExpressDontAskAgainButton),
+                            action: { [weak self] in self?.closeExpressChat(false) })
+        }
+        delegate?.vmShowActionSheet(R.Strings.commonCancel, actions: [dontAskAgainAction])
+    }
 
     func titleForItemAtIndex(_ index: Int) -> String {
         guard index < productListCount else { return "" }
@@ -152,7 +196,12 @@ class ExpressChatViewModel: BaseViewModel {
         }.disposed(by: disposeBag)
 
         selectedItemsCount.asObservable().subscribeNext { [weak self] numSelected in
-            self?.sendMessageTitle.value = numSelected > 1 ?
+            guard let strongSelf = self else { return }
+            guard !strongSelf.featureFlags.expressChatImprovement.isActive else {
+                strongSelf.sendMessageTitle.value = R.Strings.chatExpressContactOnlyButtonText
+                return
+            }
+            strongSelf.sendMessageTitle.value = numSelected > 1 ?
                 R.Strings.chatExpressContactVariousButtonText(String(numSelected)) :
                 R.Strings.chatExpressContactOneButtonText
         }.disposed(by: disposeBag)

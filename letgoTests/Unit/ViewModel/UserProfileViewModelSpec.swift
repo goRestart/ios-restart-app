@@ -12,8 +12,6 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
     var openSettingsCalled: Bool = false
     var openEditBioCalled: Bool = false
     var openUserReportCalled: Bool = false
-    var openVerifyAccountsCalled: Bool = false
-    var openMostSearchedItemsCalled: Bool = false
     var openVerificationsViewCalled: Bool = false
     var showAlertCalled: Bool = false
     var showNativeShareCalled: Bool = false
@@ -75,8 +73,6 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
                 self.openSettingsCalled = false
                 self.openEditBioCalled = false
                 self.openUserReportCalled = false
-                self.openVerifyAccountsCalled = false
-                self.openMostSearchedItemsCalled = false
                 self.showAlertCalled = false
                 self.showNativeShareCalled = false
                 self.openVerificationsViewCalled = false
@@ -191,15 +187,6 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
                     }
                 }
 
-                context("press edit bio button") {
-                    beforeEach {
-                        sut.didTapEditBioButton()
-                    }
-                    it("calls navigator to open settings") {
-                        expect(self.openEditBioCalled) == true
-                    }
-                }
-
                 context("press report user button") {
                     beforeEach {
                         sut.didTapReportUserButton()
@@ -209,39 +196,12 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
                     }
                 }
 
-                context("open verify accounts") {
-                    beforeEach {
-                        sut.didTapBuildTrustButton()
-                    }
-                    it("calls navigator to open verify accounts") {
-                        expect(self.openVerifyAccountsCalled) == true
-                    }
-                }
-
-                context("open most searched items") {
-                    beforeEach {
-                        sut.didTapMostSearchedItems()
-                    }
-                    it("calls navigator to open most searched items") {
-                        expect(self.openMostSearchedItemsCalled) == true
-                    }
-                }
-
                 context("open push permission alert") {
                     beforeEach {
                         sut.didTapPushPermissionsBanner()
                     }
                     it("calls delegate to show push permission alert") {
                         expect(self.showAlertCalled) == true
-                    }
-                }
-
-                context("open verifications view") {
-                    beforeEach {
-                        sut.didTapKarmaScoreView()
-                    }
-                    it("calls navigator to open verifications view") {
-                        expect(self.openVerificationsViewCalled) == true
                     }
                 }
             }
@@ -268,39 +228,12 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
                     }
                 }
 
-                context("press edit bio button") {
-                    beforeEach {
-                        sut.didTapEditBioButton()
-                    }
-                    it("doesn't calls navigator to open settings") {
-                        expect(self.openEditBioCalled) == false
-                    }
-                }
-
                 context("press report user button") {
                     beforeEach {
                         sut.didTapReportUserButton()
                     }
                     it("calls navigator to open report") {
                         expect(self.openUserReportCalled) == true
-                    }
-                }
-
-                context("open verify accounts") {
-                    beforeEach {
-                        sut.didTapBuildTrustButton()
-                    }
-                    it("doesn't calls navigator to open verify accounts") {
-                        expect(self.openVerifyAccountsCalled) == false
-                    }
-                }
-
-                context("open most searched items") {
-                    beforeEach {
-                        sut.didTapMostSearchedItems()
-                    }
-                    it("calls navigator to open most searched items") {
-                        expect(self.openMostSearchedItemsCalled) == true
                     }
                 }
 
@@ -342,20 +275,8 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
         openEditBioCalled = true
     }
 
-    override func openVerifyAccounts(_ types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?) {
-        openVerifyAccountsCalled = true
-    }
-
-    override func openMostSearchedItems(source: PostingSource, enableSearch: Bool) {
-        openMostSearchedItemsCalled = true
-    }
-
     override func openUserReport(source: EventParameterTypePage, userReportedId: String) {
         openUserReportCalled = true
-    }
-
-    func openVerificationView() {
-        openVerificationsViewCalled = true
     }
 
     override func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, actions: [UIAction]?) {
@@ -365,6 +286,8 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
     func vmShowNativeShare(_ socialMessage: SocialMessage) {
         showNativeShareCalled = true
     }
+
+    func closeProfile() {}
 
     func editListing(_ listing: Listing, pageType: EventParameterTypePage?) {}
 }

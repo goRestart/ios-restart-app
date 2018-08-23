@@ -20,7 +20,7 @@ final class ListingCarouselChatContainerView: UIView {
     }()
 
     private let chatButton: LetgoButton = {
-        let button = LetgoButton(withStyle: .transparent)
+        let button = LetgoButton(withStyle: .transparent(fontSize: .medium, sidePadding: 15))
         button.setTitle(R.Strings.listingChatButton, for: .normal)
         return button
     }()

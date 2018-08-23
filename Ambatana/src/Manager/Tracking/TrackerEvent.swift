@@ -173,13 +173,13 @@ struct TrackerEvent {
         return TrackerEvent(name: .loginBlockedAccountKeepBrowsing, params: params)
     }
 
-    static func listingList(_ user: User?, categories: [ListingCategory]?, taxonomy: TaxonomyChild?, searchQuery: String?,
+    static func listingList(_ user: User?, categories: [ListingCategory]?, searchQuery: String?,
                             resultsCount: ItemsCount?, feedSource: EventParameterFeedSource, success: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
 
         params[.feedSource] = feedSource.rawValue
         params[.categoryId] = (categories ?? [.unassigned]).trackValue
-        params[.keywordName] = taxonomy?.name ?? TrackerEvent.notApply
+        params[.keywordName] = TrackerEvent.notApply
         // Search query
         if let actualSearchQuery = searchQuery {
             params[.searchString] = actualSearchQuery
@@ -191,13 +191,13 @@ struct TrackerEvent {
         return TrackerEvent(name: .listingList, params: params)
     }
     
-    static func listingListVertical(category: ListingCategory, keywords: [String],
-                                    matchingFields: [String], nonMatchingFields: [String]) -> TrackerEvent {
+    static func listingListVertical(category: ListingCategory,
+                                    keywords: [String],
+                                    matchingFields: [String]) -> TrackerEvent {
         var params = EventParameters()
         params[.categoryId] = String(category.rawValue)
         params[.verticalKeyword] = keywords.isEmpty ? TrackerEvent.notApply : keywords.joined(separator: "_")
         params[.verticalMatchingFields] = matchingFields.isEmpty ? TrackerEvent.notApply : matchingFields.joined(separator: ",")
-        params[.verticalNoMatchingFields] = nonMatchingFields.isEmpty ? TrackerEvent.notApply : nonMatchingFields.joined(separator: ",")
 
         return TrackerEvent(name: .listingListVertical, params: params)
     }
@@ -214,7 +214,7 @@ struct TrackerEvent {
         return TrackerEvent(name: .searchStart, params: params)
     }
 
-    static func searchComplete(_ user: User?, searchQuery: String, isTrending: Bool, success: EventParameterSearchCompleteSuccess, isLastSearch: Bool, isSuggestiveSearch: Bool, suggestiveSearchIndex: Int?)
+    static func searchComplete(_ user: User?, searchQuery: String, isTrending: Bool, success: EventParameterSearchCompleteSuccess, isLastSearch: Bool, isSuggestiveSearch: Bool, suggestiveSearchIndex: Int?, searchRelatedItems: Bool)
         -> TrackerEvent {
             var params = EventParameters()
             params[.searchString] = searchQuery
@@ -222,9 +222,12 @@ struct TrackerEvent {
             params[.trendingSearch] = isTrending
             params[.lastSearch] = isLastSearch
             params[.searchSuggestion] = isSuggestiveSearch
+            params[.searchRelatedItems] = searchRelatedItems
+            
             if let suggestiveSearchPosition = suggestiveSearchIndex {
                 params[.searchSuggestionPosition] = suggestiveSearchPosition
             }
+
             return TrackerEvent(name: .searchComplete, params: params)
     }
 
@@ -361,7 +364,7 @@ struct TrackerEvent {
 
         params[.isMine] = isMine.rawValue
         params[.adShown] = adShown.rawValue
-        params[.adType] = adType?.rawValue ?? TrackerEvent.notApply
+        params[.adType] = adType?.stringValue ?? TrackerEvent.notApply
         params[.adQueryType] = queryType?.rawValue ?? TrackerEvent.notApply
         params[.adQuery] = query ?? TrackerEvent.notApply
         params[.adVisibility] = visibility?.rawValue ?? TrackerEvent.notApply
@@ -382,7 +385,7 @@ struct TrackerEvent {
         var params = EventParameters()
 
         params[.listingId] = listingId ?? TrackerEvent.notApply
-        params[.adType] = adType?.rawValue ?? TrackerEvent.notApply
+        params[.adType] = adType?.stringValue ?? TrackerEvent.notApply
         params[.isMine] = isMine.rawValue
         params[.adQueryType] = queryType?.rawValue ?? TrackerEvent.notApply
         params[.adQuery] = query ?? TrackerEvent.notApply
@@ -406,7 +409,7 @@ struct TrackerEvent {
         var params = EventParameters()
         
         params[.listingId] = listingId ?? TrackerEvent.notApply
-        params[.adType] = adType?.rawValue ?? TrackerEvent.notApply
+        params[.adType] = adType?.stringValue ?? TrackerEvent.notApply
         params[.isMine] = isMine.rawValue
         params[.adQueryType] = queryType?.rawValue ?? TrackerEvent.notApply
         params[.adQuery] = query ?? TrackerEvent.notApply
@@ -509,19 +512,16 @@ struct TrackerEvent {
         return TrackerEvent(name: .listingReportError, params: params)
     }
 
-    static func listingSellStart(_ typePage: EventParameterTypePage,
+    static func listingSellStart(typePage: EventParameterTypePage,
                                  buttonName: EventParameterButtonNameType?,
                                  sellButtonPosition: EventParameterSellButtonPosition,
-                                 category: ListingCategory?,
-                                 mostSearchedButton: EventParameterMostSearched,
-                                 predictiveFlow: Bool) -> TrackerEvent {
+                                 category: ListingCategory?) -> TrackerEvent {
         var params = EventParameters()
         params[.typePage] = typePage.rawValue
+        params[.listingVisitSource] = typePage.rawValue
         params[.buttonName] = buttonName?.rawValue
         params[.sellButtonPosition] = sellButtonPosition.rawValue
         params[.categoryId] = category?.rawValue ?? TrackerEvent.notApply
-        params[.mostSearchedButton] = mostSearchedButton.rawValue
-        params[.mlPredictiveFlow] = predictiveFlow
         return TrackerEvent(name: .listingSellStart, params: params)
     }
     
@@ -529,11 +529,10 @@ struct TrackerEvent {
                                     buttonName: EventParameterButtonNameType?,
                                     sellButtonPosition: EventParameterSellButtonPosition?,
                                     negotiable: EventParameterNegotiablePrice?,
-                                    pictureSource: EventParameterPictureSource?,
+                                    pictureSource: EventParameterMediaSource?,
                                     videoLength: TimeInterval?,
                                     freePostingModeAllowed: Bool,
                                     typePage: EventParameterTypePage,
-                                    mostSearchedButton: EventParameterMostSearched,
                                     machineLearningTrackingInfo: MachineLearningTrackingInfo) -> TrackerEvent {
         var params = EventParameters()
         params[.freePosting] = listing.price.allowFreeFilters(freePostingModeAllowed: freePostingModeAllowed).rawValue
@@ -544,7 +543,6 @@ struct TrackerEvent {
         params[.sellButtonPosition] = sellButtonPosition?.rawValue
         params[.listingDescription] = !(listing.descr?.isEmpty ?? true)
         params[.typePage] = typePage.rawValue
-        params[.mostSearchedButton] = mostSearchedButton.rawValue
         if let buttonName = buttonName {
             params[.buttonName] = buttonName.rawValue
         }
@@ -573,6 +571,14 @@ struct TrackerEvent {
         params[.make] = EventParameterMake.make(name: listing.car?.carAttributes.make).name
         params[.model] = EventParameterModel.model(name: listing.car?.carAttributes.model).name
         params[.year] = EventParameterYear.year(year: listing.car?.carAttributes.year).year
+        
+        params[.mileage] = listing.car?.carAttributes.mileage ?? SharedConstants.parameterNotApply
+        params[.bodyType] = listing.car?.carAttributes.bodyType?.rawValue ?? SharedConstants.parameterNotApply
+        params[.transmission] = listing.car?.carAttributes.transmission?.rawValue ?? SharedConstants.parameterNotApply
+        params[.fuelType] = listing.car?.carAttributes.fuelType?.rawValue ?? SharedConstants.parameterNotApply
+        params[.drivetrain] = listing.car?.carAttributes.driveTrain?.rawValue ?? SharedConstants.parameterNotApply
+        params[.seats] = listing.car?.carAttributes.seats ?? SharedConstants.parameterNotApply 
+
         
         if let realEstateAttributes = listing.realEstate?.realEstateAttributes {
             params[.propertyType] = EventParameterStringRealEstate.realEstateParam(name: realEstateAttributes.propertyType?.rawValue).name
@@ -603,6 +609,7 @@ struct TrackerEvent {
         
         params[.serviceType] = listing.service?.servicesAttributes.typeId ?? SharedConstants.parameterNotApply
         params[.serviceSubtype] = listing.service?.servicesAttributes.subtypeId ?? SharedConstants.parameterNotApply
+        params[.serviceListingType] = listing.service?.servicesAttributes.listingType?.rawValue ?? SharedConstants.parameterNotApply
         
         return TrackerEvent(name: .listingSellComplete, params: params)
     }
@@ -704,11 +711,70 @@ struct TrackerEvent {
             return TrackerEvent(name: .listingSellConfirmationShareComplete, params: params)
     }
     
-    static func listingSellAbandon(abandonStep: EventParameterPostingAbandonStep) -> TrackerEvent {
+    static func listingSellAbandon(abandonStep: EventParameterPostingAbandonStep,
+                                   pictureUploaded: EventParameterBoolean,
+                                   loggedUser: EventParameterBoolean,
+                                   buttonName: EventParameterButtonNameType) -> TrackerEvent {
         var params = EventParameters()
         params[.abandonStep] = abandonStep.rawValue
+        params[.pictureUploaded] = pictureUploaded.rawValue
+        params[.loggedUser] = loggedUser.rawValue
+        params[.buttonName] = buttonName.rawValue
         return TrackerEvent(name: .listingSellAbandon, params: params)
     }
+
+    static func listingSellPermissionsGrant(type: EventParameterPermissionType) -> TrackerEvent {
+        var params = EventParameters()
+        params[.permissionType] = type.rawValue
+        return TrackerEvent(name: .listingSellPermissionsGrant, params: params)
+    }
+
+    static func listingSellCategorySelect(typePage: EventParameterTypePage,
+                                          postingType: EventParameterPostingType,
+                                          category: ListingCategory) -> TrackerEvent {
+        var params = EventParameters()
+        params[.listingVisitSource] = typePage.rawValue
+        params[.postingType] = postingType.rawValue
+        params[.categoryId] = category.rawValue
+        return TrackerEvent(name: .listingSellCategorySelect, params: params)
+    }
+
+    static func listingSellMediaSource(source: EventParameterMediaSource,
+                                       previousSource: EventParameterMediaSource?,
+                                       predictiveFlow: Bool) -> TrackerEvent {
+        var params = EventParameters()
+        params[.source] = source.rawValue
+        params[.previousSource] = previousSource?.rawValue ?? ""
+        params[.mlPredictiveFlow] = EventParameterBoolean(bool: predictiveFlow).rawValue
+        return TrackerEvent(name: .listingSellMediaSource, params: params)
+    }
+
+    static func listingSellMediaCapture(source: EventParameterMediaSource,
+                                        cameraSide: EventParameterCameraSide? = nil,
+                                        fileCount: Int = 1,
+                                        hasError: EventParameterBoolean = .falseParameter,
+                                        predictiveFlow: EventParameterBoolean) -> TrackerEvent {
+        var params = EventParameters()
+        params[.mediaType] = source.rawValue
+        params[.cameraSide] = cameraSide?.rawValue ?? ""
+        params[.hasError] = hasError.rawValue
+        params[.fileCount] = fileCount
+        params[.mlPredictiveFlow] = predictiveFlow.rawValue
+        return TrackerEvent(name: .listingSellMediaCapture, params: params)
+    }
+
+    static func listingSellMediaChange(source: EventParameterMediaSource) -> TrackerEvent {
+        var params = EventParameters()
+        params[.mediaType] = source.rawValue
+        return TrackerEvent(name: .listingSellMediaChange, params: params)
+    }
+
+    static func listingSellMediaPublish(source: EventParameterMediaSource, size: Int?) -> TrackerEvent {
+        var params = EventParameters()
+        params[.mediaType] = source.rawValue
+        params[.originalFileSize] = size ?? 0
+        return TrackerEvent(name: .listingSellMediaPublish, params: params)
+    }    
     
     static func listingEditError(_ user: User?,
                                  listing: Listing?,
@@ -767,9 +833,18 @@ struct TrackerEvent {
         params[.model] = EventParameterModel.model(name: listing.car?.carAttributes.model).name
         params[.year] = EventParameterYear.year(year: listing.car?.carAttributes.year).year
         
+        params[.mileage] = listing.car?.carAttributes.mileage
+        params[.bodyType] = listing.car?.carAttributes.bodyType?.rawValue
+        params[.transmission] = listing.car?.carAttributes.transmission?.rawValue
+        params[.fuelType] = listing.car?.carAttributes.fuelType?.rawValue
+        params[.drivetrain] = listing.car?.carAttributes.driveTrain?.rawValue
+        params[.seats] = listing.car?.carAttributes.seats
+        
         if let servicesAttributes = listing.service?.servicesAttributes {
             params[.serviceType] = servicesAttributes.typeId ?? SharedConstants.parameterNotApply
             params[.serviceSubtype] = servicesAttributes.subtypeId ?? SharedConstants.parameterNotApply
+            params[.serviceListingType] = servicesAttributes.listingType?.rawValue ?? SharedConstants.parameterNotApply
+            params[.paymentFrequency] = servicesAttributes.paymentFrequency?.rawValue
         }
         
         if let realEstateAttributes = listing.realEstate?.realEstateAttributes {
@@ -889,6 +964,20 @@ struct TrackerEvent {
         params[.messageGoal] = questionKey
         params[.listingId] = listingId
         return TrackerEvent(name: .chatLetgoServiceQuestionReceived, params: params)
+    }
+    
+    static func chatLetgoServiceCTAReceived(questionKey: String, listingId: String) -> TrackerEvent {
+        var params = EventParameters()
+        params[.messageGoal] = questionKey
+        params[.listingId] = listingId
+        return TrackerEvent(name: .chatLetgoServiceCTAReceived, params: params)
+    }
+
+    static func chatCallToActionTapped(ctaKey: String, isLetgoAssistant: EventParameterBoolean) -> TrackerEvent {
+        var params = EventParameters()
+        params[.messageActionKey] = ctaKey
+        params[.isLetgoAssistant] = isLetgoAssistant.rawValue
+        return TrackerEvent(name: .chatCallToActionTapped, params: params)
     }
 
     static func profileVisit(_ user: User, profileType: EventParameterProfileType, typePage: EventParameterTypePage, tab: EventParameterTab)
@@ -1230,7 +1319,7 @@ struct TrackerEvent {
     static func notificationCenterComplete(source: EventParameterNotificationClickArea, cardAction: String?,
                                            notificationCampaign: String?) -> TrackerEvent {
         var params = EventParameters()
-        params[.notificationClickArea] = source.rawValue
+        params[.notificationClickArea] = source.name
         // cardAction is passed as string instead of EventParameterCardAction type as retention could send anything on the query parameter.
         params[.notificationAction] = cardAction ?? TrackerEvent.notApply
         params[.notificationCampaign] = notificationCampaign ?? TrackerEvent.notApply
@@ -1378,6 +1467,12 @@ struct TrackerEvent {
         params[.chatEnabled] = chatEnabled
         return TrackerEvent(name: .chatWindowVisit, params: params)
     }
+
+    static func chatTabOpen(tabName: EventParameterChatTabName) -> TrackerEvent {
+        var params = EventParameters()
+        params[.chatTabName] = tabName.rawValue
+        return TrackerEvent(name: .chatTabOpen, params: params)
+    }
     
     static func emptyStateVisit(typePage: EventParameterTypePage, reason: EventParameterEmptyReason,
                                 errorCode:Int?, errorDescription: String?) -> TrackerEvent {
@@ -1409,13 +1504,6 @@ struct TrackerEvent {
         params[.bubblePosition] = position
         params[.bubbleName] = name
         return TrackerEvent(name: .filterBubble, params: params)
-    }
-    
-    static func onboardingInterestsComplete(superKeywords: [Int]) -> TrackerEvent {
-        var params = EventParameters()
-        params[.superKeywordsTotal] = superKeywords.count
-        params[.superKeywordsIds] = superKeywords
-        return TrackerEvent(name: .onboardingInterestsComplete, params: params)
     }
     
     static func categoriesStart(source: EventParameterTypePage) -> TrackerEvent {
@@ -1540,7 +1628,18 @@ struct TrackerEvent {
         return dynamicParams
     }
 
-
+    static func openCommunityFromProductList(showingBanner: Bool, bannerType: EventBannerType) -> TrackerEvent {
+        var params = EventParameters()
+        params[.showingBanner] = EventParameterBoolean(bool: showingBanner).rawValue
+        params[.bannerType] = bannerType.rawValue
+        return TrackerEvent(name: .openCommunity, params: params)
+    }
+    
+    static func openCommunityFromTabBar() -> TrackerEvent {
+        return TrackerEvent(name: .openCommunity, params: nil)
+    }
+    
+    
     // MARK: - Private methods
     
     static func eventParameterFreePostingWithPriceRange(_ freePostingModeAllowed: Bool,

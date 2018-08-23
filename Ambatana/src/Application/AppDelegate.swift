@@ -100,7 +100,7 @@ extension AppDelegate: UIApplicationDelegate {
                                                                    didFinishLaunchingWithOptions: launchOptions) ?? false
 
         appCoordinator.open()
-        
+
         return deepLinksRouterContinuation || fbSdkContinuation
     }
 
@@ -136,6 +136,7 @@ extension AppDelegate: UIApplicationDelegate {
          when the user quits.*/
 
         keyValueStorage?[.didEnterBackground] = true
+        keyValueStorage?[.lastSessionDate] = Date()
         appIsActive.value = false
         LGCoreKit.applicationDidEnterBackground()
         listingRepository?.updateListingViewCounts()
@@ -163,7 +164,7 @@ extension AppDelegate: UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-
+        keyValueStorage?[.lastSessionDate] = Date()
     }
 
     func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String,
@@ -278,13 +279,11 @@ fileprivate extension AppDelegate {
         #endif
         
         // LGCoreKit
-        let coreEnvironment = environmentHelper.coreEnvironment
+        let coreEnvironment = environmentHelper.serverEnvironment
         let carsInfoJSONPath = Bundle.main.path(forResource: "CarsInfo", ofType: "json") ?? ""
-        let taxonomiesJSONPath = Bundle.main.path(forResource: "Taxonomies", ofType: "json") ?? ""
         let servicesJSONPath = Bundle.main.path(forResource: "ServicesInfo", ofType: "json") ?? ""
         let coreKitConfig = LGCoreKitConfig(environmentType: coreEnvironment,
                                             carsInfoAppJSONURL: URL(fileURLWithPath: carsInfoJSONPath),
-                                            taxonomiesAppJSONURL: URL(fileURLWithPath: taxonomiesJSONPath),
                                             servicesInfoAppJSONURL: URL(fileURLWithPath: servicesJSONPath))
         LGCoreKit.initialize(config: coreKitConfig)
 
@@ -311,7 +310,6 @@ fileprivate extension AppDelegate {
                                                 didFinishLaunchingWithOptions: launchOptions,
                                                 featureFlags: featureFlags)
         LGNotificationsManager.sharedInstance.setup()
-        StickersManager.sharedInstance.setup()
         setupStripeManager()
     }
 
@@ -433,26 +431,3 @@ fileprivate extension AppDelegate {
     }
 }
 
-extension RequestsTimeOut {
-    
-    var timeout: TimeInterval {
-        switch self {
-        case .thirty: return TimeInterval(30)
-        case .baseline: return TimeInterval(30)
-        case .forty_five: return TimeInterval(45)
-        case .sixty: return TimeInterval(60)
-        case .hundred_and_twenty: return TimeInterval(120)
-        }
-    }
-
-    static func buildFromTimeout(_ timeout: TimeInterval?) -> RequestsTimeOut? {
-        guard let timeInterval = timeout else { return nil }
-        switch timeInterval {
-        case TimeInterval(30): return .thirty
-        case TimeInterval(45): return .forty_five
-        case TimeInterval(60): return .sixty
-        case TimeInterval(120): return .hundred_and_twenty
-        default: return nil
-        }
-    }
-}

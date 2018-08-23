@@ -50,7 +50,8 @@ open class MockChatRepository: InternalChatRepository {
     public let inactiveConversationsCount = Variable<Int?>(nil)
     public let conversationsLock: NSLock = NSLock()
     
-    public func createNewMessage(_ talkerId: String,
+    public func createNewMessage(messageId: String?,
+                                 talkerId: String,
                                  text: String?,
                                  type: ChatMessageType) -> ChatMessage {
         return MockChatMessage(objectId: String.makeRandom(),

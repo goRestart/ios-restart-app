@@ -325,6 +325,7 @@ extension SignUpViewModelSpec: SignUpViewModelDelegate {
     // BaseViewModelDelegate
     func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?) {}
     func vmShowAutoFadingMessage(title: String, message: String, time: Double, completion: (() -> ())?) {}
+    func vmShowAutoFadingMessage(message: String, time: Double, completion: (() -> ())?) {}
     func vmShowLoading(_ loadingMessage: String?) {
         loading = true
     }
@@ -340,6 +341,7 @@ extension SignUpViewModelSpec: SignUpViewModelDelegate {
     func vmShowAlert(_ title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {}
     func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction]) {}
     func vmShowActionSheet(_ cancelLabel: String, actions: [UIAction]) {}
+    func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction], withTitle title: String?) {}
     func ifLoggedInThen(_ source: EventParameterLoginSourceValue, loggedInAction: () -> Void,
                         elsePresentSignUpWithSuccessAction afterLogInAction: @escaping () -> Void) {}
     func ifLoggedInThen(_ source: EventParameterLoginSourceValue, loginStyle: LoginStyle, loggedInAction: () -> Void,

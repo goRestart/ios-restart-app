@@ -1,0 +1,92 @@
+import WebKit
+import LGComponents
+
+final class CommunityViewController: BaseViewController {
+
+    private let viewModel: CommunityViewModel
+    private let webView = WKWebView()
+
+    init(viewModel: CommunityViewModel) {
+        self.viewModel = viewModel
+        super.init(viewModel: viewModel, nibName: nil)
+        hidesBottomBarWhenPushed = false
+        floatingSellButtonHidden = false
+        hasTabBar = true
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupUI()
+        loadWeb()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        viewModel.didAppear()
+    }
+
+    private func setupUI() {
+        view.backgroundColor = .white
+        view.addSubviewForAutoLayout(webView)
+        webView.navigationDelegate = self
+        webView.allowsBackForwardNavigationGestures = true
+        setupNavBar()
+        setupConstraints()
+    }
+
+    private func setupNavBar() {
+        navigationController?.setNavigationBarHidden(!viewModel.showNavBar, animated: false)
+        setupNavBarLeftButton()
+    }
+
+    private func setupNavBarLeftButton() {
+        guard viewModel.showCloseButton else { return }
+        if webView.canGoBack {
+            let backButton = UIBarButtonItem(image: R.Asset.IconsButtons.navbarBack.image,
+                                             style: .plain, target: self, action: #selector(back))
+            self.navigationItem.leftBarButtonItem = backButton
+        } else {
+            setNavBarCloseButton(#selector(close))
+        }
+    }
+
+    private func setupConstraints() {
+        var constraints = [
+            webView.topAnchor.constraint(equalTo: safeTopAnchor),
+            webView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            webView.rightAnchor.constraint(equalTo: view.rightAnchor)
+        ]
+
+        if tabBarController != nil {
+            constraints.append(webView.bottomAnchor.constraint(equalTo: safeBottomAnchor))
+        } else {
+            constraints.append(webView.bottomAnchor.constraint(equalTo: view.bottomAnchor))
+        }
+
+        NSLayoutConstraint.activate(constraints)
+    }
+
+    private func loadWeb() {
+        guard let urlRequest = viewModel.urlRequest else { return }
+        webView.load(urlRequest)
+    }
+
+    @objc private func close() {
+        viewModel.didTapClose()
+    }
+
+    @objc private func back() {
+        webView.goBack()
+    }
+}
+
+extension CommunityViewController: WKNavigationDelegate {
+
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        setupNavBarLeftButton()
+    }
+}

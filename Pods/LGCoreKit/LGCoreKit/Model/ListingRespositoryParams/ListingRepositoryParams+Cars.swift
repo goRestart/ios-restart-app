@@ -29,16 +29,16 @@ extension RetrieveListingParams {
         params[VerticalsParamsKeys.numResults] = numListings
         params[VerticalsParamsKeys.offset] = offset
         params[VerticalsParamsKeys.sort] = sortCriteria?.string
-        params[VerticalsParamsKeys.since] = timeCriteria?.string
+        params[VerticalsParamsKeys.since] = timeCriteria?.parameterValue
         
         // Cars attributes
         if let userTypes = userTypes, userTypes.hasOnlyOneCarSellerType, let apiValue = userTypes.first?.apiValue {
             params[CarAttributesCodingKey.userType.rawValue] = [apiValue]
         }
-        params[CarAttributesCodingKey.makeId.rawValue] = makeId?.value
-        params[CarAttributesCodingKey.modelId.rawValue] = modelId?.value
-        params[CarAttributesCodingKey.minYear.rawValue] = startYear?.value
-        params[CarAttributesCodingKey.maxYear.rawValue] = endYear?.value
+        params[CarAttributesCodingKey.makeId.rawValue] = makeId
+        params[CarAttributesCodingKey.modelId.rawValue] = modelId
+        params[CarAttributesCodingKey.minYear.rawValue] = startYear
+        params[CarAttributesCodingKey.maxYear.rawValue] = endYear
         params[CarAttributesCodingKey.bodyType.rawValue] = bodyType?.map { $0.rawValue }
         params[CarAttributesCodingKey.driveTrain.rawValue] = drivetrain?.map { $0.rawValue }
         params[CarAttributesCodingKey.fuelType.rawValue] = fuelType?.map { $0.rawValue }
@@ -60,7 +60,7 @@ extension UserType {
             return CarSellerTypeParamsValue.user
         case .pro:
             return CarSellerTypeParamsValue.professional
-        case .dummy:
+        case .dummy, .unknown:
             return ""
         }
     }

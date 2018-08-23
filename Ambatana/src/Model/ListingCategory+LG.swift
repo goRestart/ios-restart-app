@@ -28,7 +28,7 @@ extension ListingCategory {
         case .realEstate:
             return FeatureFlags.sharedInstance.realEstateNewCopy.isActive ? R.Strings.categoriesRealEstateTitle : R.Strings.categoriesRealEstate
         case .services:
-            return R.Strings.categoriesServices
+            return FeatureFlags.sharedInstance.jobsAndServicesEnabled.isActive ? R.Strings.categoriesJobsServices : R.Strings.categoriesServices
         }
     }
     
@@ -164,7 +164,7 @@ extension ListingCategory {
         case .motorsAndAccessories:
             return .motorsAndAccessories
         case .services:
-            return featureFlags.showServicesFeatures.isActive ? .services : .otherItems(listingCategory: self)
+            return .services
         case .babyAndChild, .electronics, .fashionAndAccesories, .homeAndGarden, .moviesBooksAndMusic, .other,
              .sportsLeisureAndGames, .unassigned:
             return .otherItems(listingCategory: nil)

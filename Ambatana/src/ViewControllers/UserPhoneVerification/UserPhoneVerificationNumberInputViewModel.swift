@@ -20,7 +20,7 @@ struct PhoneVerificationCountry {
 
 final class UserPhoneVerificationNumberInputViewModel: BaseViewModel {
 
-    weak var navigator: UserPhoneVerificationNavigator?
+    var navigator: UserPhoneVerificationNavigator?
     weak var delegate: BaseViewModelDelegate?
 
     private let myUserRepository: MyUserRepository

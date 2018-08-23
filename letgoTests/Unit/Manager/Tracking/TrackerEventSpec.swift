@@ -808,12 +808,16 @@ class TrackerEventSpec: QuickSpec {
             
             describe("listingList") {
                 let categories: [ListingCategory] = [.homeAndGarden, .motorsAndAccessories]
-                let taxonomy: TaxonomyChild = MockTaxonomyChild.makeMock()
                 let searchQuery = "iPhone"
                 let count = Int.random()
 
                 beforeEach {
-                    sut = TrackerEvent.listingList(nil, categories: categories, taxonomy: taxonomy, searchQuery: searchQuery, resultsCount: count, feedSource: .home, success: .trueParameter)
+                    sut = TrackerEvent.listingList(nil,
+                                                   categories: categories,
+                                                   searchQuery: searchQuery,
+                                                   resultsCount: count,
+                                                   feedSource: .home,
+                                                   success: .trueParameter)
                 }
                 
                 it("has its event name") {
@@ -834,9 +838,6 @@ class TrackerEventSpec: QuickSpec {
                     let listSuccess = sut.params!.stringKeyParams["list-success"] as? String
                     expect(listSuccess).to(equal("true"))
                 }
-                it("contains keyword-name parameter") {
-                    expect(sut.params!.stringKeyParams["keyword-name"] as? String).to(equal(taxonomy.name))
-                }
                 it("contains number-of-items parameter") {
                     if count >= 50 {
                         expect(sut.params!.stringKeyParams["number-of-items"] as? String).to(equal("50"))
@@ -850,8 +851,7 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     sut = TrackerEvent.listingListVertical(category: .cars,
                                                            keywords: ["kw1", "kw2"],
-                                                           matchingFields: ["mf1", "mf2"],
-                                                           nonMatchingFields: ["nmf1", "nmf2"])
+                                                           matchingFields: ["mf1", "mf2"])
                 }
                 
                 it("has its event name") {
@@ -867,9 +867,6 @@ class TrackerEventSpec: QuickSpec {
                 it("contains vertical matching fields parameter") {
                     expect(sut.params!.stringKeyParams["vertical-matching-fields"] as? String) == "mf1,mf2"
                 }
-                it("contains vertical no  matching fields parameter") {
-                    expect(sut.params!.stringKeyParams["vertical-no-matching-fields"] as? String) == "nmf1,nmf2"
-                }
             }
 
             describe("searchStart") {
@@ -883,7 +880,7 @@ class TrackerEventSpec: QuickSpec {
                 context("isLastSearch") {
                     context("success") {
                         beforeEach {
-                            sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .success, isLastSearch: true, isSuggestiveSearch: false, suggestiveSearchIndex: nil)
+                            sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .success, isLastSearch: true, isSuggestiveSearch: false, suggestiveSearchIndex: nil, searchRelatedItems: false)
                         }
                         it("has its event name") {
                             expect(sut.name.rawValue).to(equal("search-complete"))
@@ -914,7 +911,7 @@ class TrackerEventSpec: QuickSpec {
                     }
                     context("failure") {
                         beforeEach {
-                            sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .fail, isLastSearch: true, isSuggestiveSearch: false, suggestiveSearchIndex: nil)
+                            sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .fail, isLastSearch: true, isSuggestiveSearch: false, suggestiveSearchIndex: nil, searchRelatedItems: false)
                         }
                         it("search with no success") {
                             let searchSuccess = sut.params!.stringKeyParams["search-success"] as? String
@@ -925,7 +922,7 @@ class TrackerEventSpec: QuickSpec {
                 context("isSuggestiveSearch") {
                     context("success") {
                         beforeEach {
-                            sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .success, isLastSearch: false, isSuggestiveSearch: true, suggestiveSearchIndex: 0)
+                            sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .success, isLastSearch: false, isSuggestiveSearch: true, suggestiveSearchIndex: 0, searchRelatedItems: false)
                         }
                         it("has its event name") {
                             expect(sut.name.rawValue).to(equal("search-complete"))
@@ -957,11 +954,60 @@ class TrackerEventSpec: QuickSpec {
                     }
                     context("failure") {
                         beforeEach {
-                            sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .fail, isLastSearch: false, isSuggestiveSearch: true, suggestiveSearchIndex: 0)
+                            sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .fail, isLastSearch: false, isSuggestiveSearch: true, suggestiveSearchIndex: 0, searchRelatedItems: false)
                         }
                         it("search with no success") {
                             let searchSuccess = sut.params!.stringKeyParams["search-success"] as? String
                             expect(searchSuccess) == "no"
+                        }
+                    }
+                }
+                
+                context("Shows SearchRelatedItems when search") {
+                    context("Original search shows no result (unsuccessful) and show related items") {
+                        beforeEach {
+                            sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .fail, isLastSearch: false, isSuggestiveSearch: false, suggestiveSearchIndex: 0, searchRelatedItems: true)
+                        }
+                        it("has its event name") {
+                            expect(sut.name.rawValue).to(equal("search-complete"))
+                        }
+                        it("contains the isTrending parameter") {
+                            let searchQuery = sut.params!.stringKeyParams["trending-search"] as? Bool
+                            expect(searchQuery) == false
+                        }
+                        it("contains the isLastSearch parameter") {
+                            let searchQuery = sut.params!.stringKeyParams["last-search"] as? Bool
+                            expect(searchQuery) == false
+                        }
+                        it("contains the isSuggestiveSearch parameter") {
+                            let searchQuery = sut.params!.stringKeyParams["search-suggestion"] as? Bool
+                            expect(searchQuery) == false
+                        }
+                        it("contains the suggestiveSearchIndex parameter") {
+                            let suggestiveSearchIndex = sut.params!.stringKeyParams["search-suggestion-position"] as? Int
+                            expect(suggestiveSearchIndex) == 0
+                        }
+                        it("contains the search keyword related params when passing by the search query") {
+                            let searchQuery = sut.params!.stringKeyParams["search-keyword"] as? String
+                            expect(searchQuery) == "iPhone"
+                        }
+                        it("search is success") {
+                            let searchSuccess = sut.params!.stringKeyParams["search-success"] as? String
+                            expect(searchSuccess) == "no"
+                        }
+                        
+                        it("searches for related items") {
+                            let searchRelated = sut.params!.stringKeyParams["search-related-items"] as? Bool
+                            expect(searchRelated) == true
+                        }
+                    }
+                    context("Original search shows no result (unsuccessful) and not showing related items") {
+                        beforeEach {
+                            sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .fail, isLastSearch: false, isSuggestiveSearch: true, suggestiveSearchIndex: 0, searchRelatedItems: false)
+                        }
+                        it("doesnot search for related items") {
+                            let searchRelated = sut.params!.stringKeyParams["search-related-items"] as? Bool
+                            expect(searchRelated) == false
                         }
                     }
                 }
@@ -1035,10 +1081,10 @@ class TrackerEventSpec: QuickSpec {
                         expect(sut.params!.stringKeyParams["product-model"] as? String) == "model"
                     }
                     it ("start") {
-                        expect(sut.params!.stringKeyParams["product-year-start"] as? String) == "1990"
+                        expect(sut.params!.stringKeyParams["product-year-start"] as? Int) == 1990
                     }
                     it ("end") {
-                        expect(sut.params!.stringKeyParams["product-year-end"] as? String) == "2000"
+                        expect(sut.params!.stringKeyParams["product-year-end"] as? Int) == 2000
                     }
                     it ("property-type") {
                         expect(sut.params!.stringKeyParams["property-type"] as? String) == "flat"
@@ -1067,8 +1113,11 @@ class TrackerEventSpec: QuickSpec {
                     it ("service-subtype") {
                         expect(sut.params!.stringKeyParams["service-subtype"] as? String).notTo(beNil())
                     }
+                    it ("service-listing-type") {
+                        expect(sut.params!.stringKeyParams["service-listing-type"] as? String).notTo(beNil())
+                    }
                     it ("vertical fields") {
-                        expect(sut.params!.stringKeyParams["vertical-fields"] as? String) == "product-make,product-model,product-year-start,product-year-end,property-type,deal-type,bedroom-number,bathroom-number,size-from,room-number,service-type,service-subtype"
+                        expect(sut.params!.stringKeyParams["vertical-fields"] as? String) == "product-make,product-model,product-year-start,product-year-end,mileage-from,mileage-to,body-type,transmission,fuel-type,drivetrain,seats-from,seats-to,service-subtype,service-type,service-listing-type,deal-type,property-type,bedroom-number,bathroom-number,room-number,size-from"
                     }
                 }
                 context("not receiving all params, contains the default params") {
@@ -1128,6 +1177,30 @@ class TrackerEventSpec: QuickSpec {
                     }
                     it ("end") {
                         expect(sut.params!.stringKeyParams["product-year-end"] as? String) == TrackerEvent.notApply
+                    }
+                    it ("mileage-from") {
+                        expect(sut.params!.stringKeyParams["mileage-from"] as? String) == TrackerEvent.notApply
+                    }
+                    it ("mileage-to") {
+                        expect(sut.params!.stringKeyParams["mileage-to"] as? String) == TrackerEvent.notApply
+                    }
+                    it ("bodyType") {
+                        expect(sut.params!.stringKeyParams["body-type"] as? String) == TrackerEvent.notApply
+                    }
+                    it ("transmission") {
+                        expect(sut.params!.stringKeyParams["transmission"] as? String) == TrackerEvent.notApply
+                    }
+                    it ("fuelType") {
+                        expect(sut.params!.stringKeyParams["fuel-type"] as? String) == TrackerEvent.notApply
+                    }
+                    it ("driveTrain") {
+                        expect(sut.params!.stringKeyParams["drivetrain"] as? String) == TrackerEvent.notApply
+                    }
+                    it ("seats-from") {
+                        expect(sut.params!.stringKeyParams["seats-from"] as? String) == TrackerEvent.notApply
+                    }
+                    it ("seats-to") {
+                        expect(sut.params!.stringKeyParams["seats-to"] as? String) == TrackerEvent.notApply
                     }
 
                     it ("vertical fields") {
@@ -2444,19 +2517,21 @@ class TrackerEventSpec: QuickSpec {
 
             describe("listingSellStart") {
                 beforeEach {
-                    sut = TrackerEvent.listingSellStart(.sell,
+                    sut = TrackerEvent.listingSellStart(typePage: .listingList,
                                                         buttonName: .sellYourStuff,
-                                                        sellButtonPosition: .tabBar,
-                                                        category: .cars,
-                                                        mostSearchedButton: .notApply,
-                                                        predictiveFlow: false)
+                                                        sellButtonPosition: .floatingButton,
+                                                        category: .cars)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-start"))
                 }
                 it("contains the page from which the event has been sent") {
                     let typePage = sut.params!.stringKeyParams["type-page"] as? String
-                    expect(typePage).to(equal("product-sell"))
+                    expect(typePage).to(equal("product-list"))
+                }
+                it("contains the page from which the event has been sent as visit source") {
+                    let visitSource = sut.params!.stringKeyParams["visit-source"] as? String
+                    expect(visitSource).to(equal("product-list"))
                 }
                 it("contains button name from which the event has been sent") {
                     let name = sut.params!.stringKeyParams["button-name"] as? String
@@ -2464,50 +2539,152 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains button position from which the event has been sent") {
                     let position = sut.params!.stringKeyParams["sell-button-position"] as? String
-                    expect(position).to(equal("tabbar-camera"))
+                    expect(position).to(equal("big-button"))
                 }
                 it("contains category id param") {
                     let name = sut.params!.stringKeyParams["category-id"] as? Int
                     expect(name).to(equal(9))
                 }
-                it("contains notApply mostSearchedButton param") {
-                    let mostSearchedButton = sut.params!.stringKeyParams["most-searched-button"] as? String
-                    expect(mostSearchedButton).to(equal(EventParameterMostSearched.notApply.rawValue))
+            }
+
+            describe("listingSellPermissionsGrant") {
+                beforeEach {
+                    sut = TrackerEvent.listingSellPermissionsGrant(type: .camera)
                 }
-                describe("listingSellStart mostSearchedButton") {
-                    let eventParameterMostSearched = EventParameterMostSearched.makeMock()
-                    
-                    beforeEach {
-                        sut = TrackerEvent.listingSellStart(.mostSearched,
-                                                            buttonName: nil,
-                                                            sellButtonPosition: .none,
-                                                            category: .cars,
-                                                            mostSearchedButton: eventParameterMostSearched,
-                                                            predictiveFlow: false)
-                    }
-                    it("has its event name") {
-                        expect(sut.name.rawValue).to(equal("product-sell-start"))
-                    }
-                    it("contains the page from which the event has been sent") {
-                        let typePage = sut.params!.stringKeyParams["type-page"] as? String
-                        expect(typePage).to(equal("most-searched"))
-                    }
-                    it("contains button name from which the event has been sent") {
-                        let name = sut.params!.stringKeyParams["button-name"] as? String
-                        expect(name).to(beNil())
-                    }
-                    it("contains button position from which the event has been sent") {
-                        let position = sut.params!.stringKeyParams["sell-button-position"] as? String
-                        expect(position).to(equal("N/A"))
-                    }
-                    it("contains category id param") {
-                        let name = sut.params!.stringKeyParams["category-id"] as? Int
-                        expect(name).to(equal(9))
-                    }
-                    it("contains notApply mostSearchedButton param") {
-                        let mostSearchedButton = sut.params!.stringKeyParams["most-searched-button"] as? String
-                        expect(mostSearchedButton).to(equal(eventParameterMostSearched.rawValue))
-                    }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-sell-permissions-grant"))
+                }
+                it("contains the type of permission which has been granted") {
+                    let permissionType = sut.params!.stringKeyParams["permission-type"] as? String
+                    expect(permissionType).to(equal("camera"))
+                }
+            }
+
+            describe("listingSellCategorySelect") {
+                beforeEach {
+                    sut = TrackerEvent.listingSellCategorySelect(typePage: .listingList,
+                                                                 postingType: .stuff,
+                                                                 category: .other)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-sell-type-select"))
+                }
+                it("contains the category type which has been selected") {
+                    let postingType = sut.params!.stringKeyParams["posting-type"] as? String
+                    expect(postingType).to(equal("stuff"))
+                }
+                it("contains the page from which the posting has been started") {
+                    let visitSource = sut.params!.stringKeyParams["visit-source"] as? String
+                    expect(visitSource).to(equal("product-list"))
+                }
+                it("contains the category id which has been selected") {
+                    let categoryId = sut.params!.stringKeyParams["category-id"] as? Int
+                    expect(categoryId).to(equal(8))
+                }
+            }
+
+            describe("listingSellMediaSource") {
+                beforeEach {
+                    sut = TrackerEvent.listingSellMediaSource(source: .gallery,
+                                                              previousSource: nil,
+                                                              predictiveFlow: true)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-sell-media-source"))
+                }
+                it("contains the media source which has been selected") {
+                    let source = sut.params!.stringKeyParams["source"] as? String
+                    expect(source).to(equal("gallery"))
+                }
+                it("contains the media source which comes from") {
+                    let previousSource = sut.params!.stringKeyParams["previous-source"] as? String
+                    expect(previousSource).to(equal(""))
+                }
+                it("contains if it is a predictive flow") {
+                    let predictiveFlow = sut.params!.stringKeyParams["predictive-flow"] as? String
+                    expect(predictiveFlow).to(equal("true"))
+                }
+            }
+
+            describe("listingSellMediaCapture") {
+                beforeEach {
+                    sut = TrackerEvent.listingSellMediaCapture(source: .videoCamera,
+                                                               cameraSide: .back,
+                                                               fileCount: 1,
+                                                               hasError: .trueParameter,
+                                                               predictiveFlow: .trueParameter)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-sell-media-capture"))
+                }
+                it("contains the media type which has been captured") {
+                    let mediaType = sut.params!.stringKeyParams["media-type"] as? String
+                    expect(mediaType).to(equal("video-camera"))
+                }
+                it("contains the file count which has been captured") {
+                    let fileCount = sut.params!.stringKeyParams["file-count"] as? Int
+                    expect(fileCount).to(equal(1))
+                }
+                it("contains the camera side from which has been captured") {
+                    let cameraSide = sut.params!.stringKeyParams["camera-side"] as? String
+                    expect(cameraSide).to(equal("back"))
+                }
+                it("contains if there was an error capturing media") {
+                    let hasError = sut.params!.stringKeyParams["has-error"] as? String
+                    expect(hasError).to(equal("true"))
+                }
+                it("contains if it is a predictive flow") {
+                    let predictiveFlow = sut.params!.stringKeyParams["predictive-flow"] as? String
+                    expect(predictiveFlow).to(equal("true"))
+                }
+            }
+
+            describe("listingSellMediaChange") {
+                beforeEach {
+                    sut = TrackerEvent.listingSellMediaChange(source: .camera)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-sell-media-change"))
+                }
+                it("contains the type of media which will be captured") {
+                    let mediaType = sut.params!.stringKeyParams["media-type"] as? String
+                    expect(mediaType).to(equal("camera"))
+                }
+            }
+
+            describe("listingSellMediaPublish video") {
+                beforeEach {
+                    sut = TrackerEvent.listingSellMediaPublish(source: .videoCamera,
+                                                               size: 3657)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-sell-media-publish"))
+                }
+                it("contains the type of media which has been captured") {
+                    let mediaType = sut.params!.stringKeyParams["media-type"] as? String
+                    expect(mediaType).to(equal("video-camera"))
+                }
+                it("contains the overall size of the files being uploaded") {
+                    let fileSize = sut.params!.stringKeyParams["original-file-size"] as? Int
+                    expect(fileSize).to(equal(3657))
+                }
+            }
+
+            describe("listingSellMediaPublish camera") {
+                beforeEach {
+                    sut = TrackerEvent.listingSellMediaPublish(source: .camera,
+                                                               size: nil)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-sell-media-publish"))
+                }
+                it("contains the type of media which has been captured") {
+                    let mediaType = sut.params!.stringKeyParams["media-type"] as? String
+                    expect(mediaType).to(equal("camera"))
+                }
+                it("contains the overall size of the files being uploaded") {
+                    let fileSize = sut.params!.stringKeyParams["original-file-size"] as? Int
+                    expect(fileSize).to(equal(0))
                 }
             }
 
@@ -2539,8 +2716,14 @@ class TrackerEventSpec: QuickSpec {
             
             describe("listingSellAbandon") {
                 let abandonStep = EventParameterPostingAbandonStep.makeMock()
+                let pictureUploaded = EventParameterBoolean.falseParameter
+                let loggedUser = EventParameterBoolean.falseParameter
+                let buttonName = EventParameterButtonNameType.close
                 beforeEach {
-                    sut = TrackerEvent.listingSellAbandon(abandonStep: abandonStep)
+                    sut = TrackerEvent.listingSellAbandon(abandonStep: abandonStep,
+                                                          pictureUploaded: pictureUploaded,
+                                                          loggedUser: loggedUser,
+                                                          buttonName: buttonName)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-abandon"))
@@ -2548,6 +2731,18 @@ class TrackerEventSpec: QuickSpec {
                 it("matches abandon step") {
                     let data = sut.params!.stringKeyParams["abandon-step"] as? String
                     expect(data).to(equal(abandonStep.rawValue))
+                }
+                it("matches picture uploaded") {
+                    let data = sut.params!.stringKeyParams["picture-uploaded"] as? String
+                    expect(data).to(equal(pictureUploaded.rawValue))
+                }
+                it("matches logged user") {
+                    let data = sut.params!.stringKeyParams["logged-user"] as? String
+                    expect(data).to(equal(loggedUser.rawValue))
+                }
+                it("matches button name") {
+                    let data = sut.params!.stringKeyParams["button-name"] as? String
+                    expect(data).to(equal(buttonName.rawValue))
                 }
             }
             
@@ -2569,7 +2764,6 @@ class TrackerEventSpec: QuickSpec {
                                                            videoLength: nil,
                                                            freePostingModeAllowed: true,
                                                            typePage: .sell,
-                                                           mostSearchedButton: .notApply,
                                                            machineLearningTrackingInfo: MachineLearningTrackingInfo.defaultValues())
                 }
                 it("has its event name") {
@@ -2606,10 +2800,6 @@ class TrackerEventSpec: QuickSpec {
                 it("contains sell-button-position") {
                     let data = sut.params!.stringKeyParams["sell-button-position"] as? String
                     expect(data).to(equal("big-button"))
-                }
-                it("contains N/A most-searched-button") {
-                    let data = sut.params!.stringKeyParams["most-searched-button"] as? String
-                    expect(data).to(equal(EventParameterMostSearched.notApply.rawValue))
                 }
                 it("contains negotiable-price") {
                     let data = sut.params!.stringKeyParams["negotiable-price"] as? String
@@ -2683,7 +2873,6 @@ class TrackerEventSpec: QuickSpec {
                                                            videoLength: 12,
                                                            freePostingModeAllowed: true,
                                                            typePage: .sell,
-                                                           mostSearchedButton: .notApply,
                                                            machineLearningTrackingInfo: MachineLearningTrackingInfo.defaultValues())
                 }
                 it("has its event name") {
@@ -2720,10 +2909,6 @@ class TrackerEventSpec: QuickSpec {
                 it("contains sell-button-position") {
                     let data = sut.params!.stringKeyParams["sell-button-position"] as? String
                     expect(data).to(equal("big-button"))
-                }
-                it("contains N/A most-searched-button") {
-                    let data = sut.params!.stringKeyParams["most-searched-button"] as? String
-                    expect(data).to(equal(EventParameterMostSearched.notApply.rawValue))
                 }
                 it("contains negotiable-price") {
                     let data = sut.params!.stringKeyParams["negotiable-price"] as? String
@@ -2779,114 +2964,6 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
             
-            describe("listingSellComplete mostSearchedButton") {
-                let eventParameterMostSearched = EventParameterMostSearched.makeMock()
-                
-                beforeEach {
-                    var product = MockProduct.makeMock()
-                    product.objectId = "r4nd0m1D"
-                    product.name = "name"
-                    product.descr = nil
-                    product.category = .homeAndGarden
-                    product.price = .normal(20)
-                    product.images = MockFile.makeMocks(count: 2)
-                    product.descr = String.makeRandom()
-                    sut = TrackerEvent.listingSellComplete(Listing.product(product),
-                                                           buttonName: .done,
-                                                           sellButtonPosition: .floatingButton,
-                                                           negotiable: .yes,
-                                                           pictureSource: .gallery,
-                                                           videoLength: nil,
-                                                           freePostingModeAllowed: true,
-                                                           typePage: .sell,
-                                                           mostSearchedButton: eventParameterMostSearched,
-                                                           machineLearningTrackingInfo: MachineLearningTrackingInfo.defaultValues())
-                }
-                it("has its event name") {
-                    expect(sut.name.rawValue).to(equal("product-sell-complete"))
-                }
-                it("contains free-posting") {
-                    let freePostingParameter = sut.params!.stringKeyParams["free-posting"] as? String
-                    expect(freePostingParameter).to(equal("false"))
-                }
-                it("contains product-id") {
-                    let productId = sut.params!.stringKeyParams["product-id"] as? String
-                    expect(productId).to(equal("r4nd0m1D"))
-                }
-                it("contains category-id") {
-                    let categoryId = sut.params!.stringKeyParams["category-id"] as? Int
-                    expect(categoryId).to(equal(4))
-                }
-                it("contains product-name") {
-                    let data = sut.params!.stringKeyParams["product-name"] as? String
-                    expect(data).to(equal("name"))
-                }
-                it("contains product-description") {
-                    let data = sut.params!.stringKeyParams["product-description"] as? Bool
-                    expect(data).to(equal(true))
-                }
-                it("contains number-photos-posting") {
-                    let data = sut.params!.stringKeyParams["number-photos-posting"] as? Int
-                    expect(data).to(equal(2))
-                }
-                it("contains button-name") {
-                    let data = sut.params!.stringKeyParams["button-name"] as? String
-                    expect(data).to(equal("done"))
-                }
-                it("contains sell-button-position") {
-                    let data = sut.params!.stringKeyParams["sell-button-position"] as? String
-                    expect(data).to(equal("big-button"))
-                }
-                it("contains most-searched-button") {
-                    let data = sut.params!.stringKeyParams["most-searched-button"] as? String
-                    expect(data).to(equal(eventParameterMostSearched.rawValue))
-                }
-                it("contains negotiable-price") {
-                    let data = sut.params!.stringKeyParams["negotiable-price"] as? String
-                    expect(data).to(equal("yes"))
-                }
-                it("contains picture-source") {
-                    let data = sut.params!.stringKeyParams["picture-source"] as? String
-                    expect(data).to(equal("gallery"))
-                }
-                it("no contains video-length") {
-                    let data = sut.params!.stringKeyParams["video-length"] as? String
-                    expect(data).to(beNil())
-                }
-                it("contains posting-type") {
-                    let data = sut.params!.stringKeyParams["posting-type"] as? String
-                    expect(data).to(equal("stuff"))
-                }
-                it("contains make") {
-                    let data = sut.params!.stringKeyParams["product-make"] as? String
-                    expect(data).to(equal("N/A"))
-                }
-                it("contains model") {
-                    let data = sut.params!.stringKeyParams["product-model"] as? String
-                    expect(data).to(equal("N/A"))
-                }
-                it("contains year") {
-                    let data = sut.params!.stringKeyParams["product-year"] as? String
-                    expect(data).to(equal("N/A"))
-                }
-                it("contains property type") {
-                    let data = sut.params!.stringKeyParams["property-type"] as? String
-                    expect(data).to(equal("N/A"))
-                }
-                it("contains deal type") {
-                    let data = sut.params!.stringKeyParams["deal-type"] as? String
-                    expect(data).to(equal("N/A"))
-                }
-                it("contains bedrooms") {
-                    let data = sut.params!.stringKeyParams["bedroom-number"] as? String
-                    expect(data).to(equal("N/A"))
-                }
-                it("contains bathrooms") {
-                    let data = sut.params!.stringKeyParams["bathroom-number"] as? String
-                    expect(data).to(equal("N/A"))
-                }
-            }
-            
             describe("listingSellComplete car") {
                 beforeEach {
                     var car = MockCar.makeMock()
@@ -2906,7 +2983,6 @@ class TrackerEventSpec: QuickSpec {
                                                            videoLength: nil,
                                                            freePostingModeAllowed: true,
                                                            typePage: .sell,
-                                                           mostSearchedButton: .notApply,
                                                            machineLearningTrackingInfo: MachineLearningTrackingInfo.defaultValues())
                 }
                 it("has its event name") {
@@ -2943,10 +3019,6 @@ class TrackerEventSpec: QuickSpec {
                 it("contains sell-button-position") {
                     let data = sut.params!.stringKeyParams["sell-button-position"] as? String
                     expect(data).to(equal("big-button"))
-                }
-                it("contains N/A most-searched-button") {
-                    let data = sut.params!.stringKeyParams["most-searched-button"] as? String
-                    expect(data).to(equal(EventParameterMostSearched.notApply.rawValue))
                 }
                 it("contains negotiable-price") {
                     let data = sut.params!.stringKeyParams["negotiable-price"] as? String
@@ -3039,7 +3111,6 @@ class TrackerEventSpec: QuickSpec {
                                                            videoLength: nil,
                                                            freePostingModeAllowed: true,
                                                            typePage: .sell,
-                                                           mostSearchedButton: .notApply,
                                                            machineLearningTrackingInfo: MachineLearningTrackingInfo.defaultValues())
                 }
                 it("has its event name") {
@@ -3076,10 +3147,6 @@ class TrackerEventSpec: QuickSpec {
                 it("contains sell-button-position") {
                     let data = sut.params!.stringKeyParams["sell-button-position"] as? String
                     expect(data).to(equal("big-button"))
-                }
-                it("contains N/A most-searched-button") {
-                    let data = sut.params!.stringKeyParams["most-searched-button"] as? String
-                    expect(data).to(equal(EventParameterMostSearched.notApply.rawValue))
                 }
                 it("contains negotiable-price") {
                     let data = sut.params!.stringKeyParams["negotiable-price"] as? String
@@ -3391,7 +3458,7 @@ class TrackerEventSpec: QuickSpec {
                         product.price = .normal(20)
                         product.images = MockFile.makeMocks(count: 2)
                         product.descr = String.makeRandom()
-                        sut = TrackerEvent.listingEditComplete(nil, listing: .product(product), category: .homeAndGarden, editedFields: [.title, .category], pageType: .profile)
+                        sut = TrackerEvent.listingEditComplete(nil, listing: .product(product), category: .homeAndGarden, editedFields: [.title, .category, .serviceType, .serviceSubtype, .paymentFrequency], pageType: .profile)
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("product-edit-complete"))
@@ -3412,7 +3479,7 @@ class TrackerEventSpec: QuickSpec {
                     it ("containts product-id") {
                         expect(sut.params!.stringKeyParams["edited-fields"]).notTo(beNil())
                         let editedFields = sut.params!.stringKeyParams["edited-fields"] as? String
-                        expect(editedFields).to(equal("title,category"))
+                        expect(editedFields).to(equal("title,category,service-type,service-subtype,payment-frequency"))
                     }
                     it("contains property type") {
                         let data = sut.params!.stringKeyParams["property-type"] as? String
@@ -3433,6 +3500,57 @@ class TrackerEventSpec: QuickSpec {
                     it("contains page type") {
                         let data = sut.params!.stringKeyParams["type-page"] as? String
                         expect(data).to(equal("profile"))
+                    }
+                }
+                
+                context("edit car") {
+                    beforeEach {
+                        var car = MockCar.makeMock()
+                        car.objectId = "r4nd0m1D"
+                        car.name = "name"
+                        car.descr = nil
+                        car.category = .cars
+                        car.price = .normal(20)
+                        car.images = MockFile.makeMocks(count: 2)
+                        car.descr = String.makeRandom()
+                        car.carAttributes = CarAttributes.init(makeId: "makeId", make: "make", modelId: "modelId", model: "model", year: 1234, mileage: 50000, mileageType: .mi, bodyType: .coupe, transmission: .automatic, fuelType: .electric, driveTrain: .fourWd, seats: 4)
+                        sut = TrackerEvent.listingEditComplete(nil, listing: .car(car), category: nil, editedFields: [.make, .model, .year], pageType: .profile)
+                    }
+                    it("has its event name") {
+                        expect(sut.name.rawValue).to(equal("product-edit-complete"))
+                    }
+                    it ("containts edited-fields") {
+                        expect(sut.params!.stringKeyParams["edited-fields"]).notTo(beNil())
+                        let editedFields = sut.params!.stringKeyParams["edited-fields"] as? String
+                        expect(editedFields).to(equal("make,model,year"))
+                    }
+                    it ("make") {
+                        expect(sut.params!.stringKeyParams["product-make"] as? String) == "make"
+                    }
+                    it ("model") {
+                        expect(sut.params!.stringKeyParams["product-model"] as? String) == "model"
+                    }
+                    it ("year") {
+                        expect(sut.params!.stringKeyParams["product-year"] as? String) == "1234"
+                    }
+                    
+                    it ("mileage") {
+                        expect(sut.params!.stringKeyParams["mileage"] as? Int) == 50000
+                    }
+                    it ("bodyType") {
+                        expect(sut.params!.stringKeyParams["body-type"] as? String) == "coupe"
+                    }
+                    it ("transmission") {
+                        expect(sut.params!.stringKeyParams["transmission"] as? String) == "automatic"
+                    }
+                    it ("fuelType") {
+                        expect(sut.params!.stringKeyParams["fuel-type"] as? String) == "electric"
+                    }
+                    it ("driveTrain") {
+                        expect(sut.params!.stringKeyParams["drivetrain"] as? String) == "4wd"
+                    }
+                    it ("seats") {
+                        expect(sut.params!.stringKeyParams["seats"] as? Int) == 4
                     }
                 }
             }
@@ -3512,13 +3630,15 @@ class TrackerEventSpec: QuickSpec {
                         services.descr = String.makeRandom()
                         let servicesAttributes = ServiceAttributes(typeId: "0123",
                                                                    subtypeId: "4567",
+                                                                   listingType: ServiceListingType.job,
                                                                    typeTitle: String.makeRandom(),
-                                                                   subtypeTitle: String.makeRandom())
+                                                                   subtypeTitle: String.makeRandom(),
+                                                                   paymentFrequency: PaymentFrequency.biweekly)
                         services.servicesAttributes = servicesAttributes
                         sut = TrackerEvent.listingEditComplete(nil,
                                                                listing: .service(services),
                                                                category: nil,
-                                                               editedFields: [.title, .category],
+                                                               editedFields: [.title, .category, .serviceListingType],
                                                                pageType: .profile)
                     }
                     it("has its event name") {
@@ -3538,9 +3658,9 @@ class TrackerEventSpec: QuickSpec {
                     it ("contains edited-fields") {
                         expect(sut.params!.stringKeyParams["edited-fields"]).notTo(beNil())
                     }
-                    it ("contains title and category fields") {
+                    it ("contains title category and service-listing-type fields") {
                         let editedFields = sut.params!.stringKeyParams["edited-fields"] as? String
-                        expect(editedFields).to(equal("title,category"))
+                        expect(editedFields).to(equal("title,category,service-listing-type"))
                     }
                     it("contains service-type") {
                         let data = sut.params!.stringKeyParams["service-type"] as? String
@@ -3549,6 +3669,14 @@ class TrackerEventSpec: QuickSpec {
                     it("contains service-subtype") {
                         let data = sut.params!.stringKeyParams["service-subtype"] as? String
                         expect(data).to(equal("4567"))
+                    }
+                    it("contains service-listing-type") {
+                        let data = sut.params!.stringKeyParams["service-listing-type"] as? String
+                        expect(data).to(equal("job"))
+                    }
+                    it("contains payment-frequency") {
+                        let data = sut.params!.stringKeyParams["payment-frequency"] as? String
+                        expect(data).to(equal("biweekly"))
                     }
                 }
             }
@@ -4978,6 +5106,18 @@ class TrackerEventSpec: QuickSpec {
                     expect(param) == true
                 }
             }
+            describe("chat-tab-open") {
+                beforeEach {
+                    sut = TrackerEvent.chatTabOpen(tabName: .selling)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("chat-tab-open"))
+                }
+                it("contains tabName parameter") {
+                    let param = sut.params!.stringKeyParams["tab-name"] as? String
+                    expect(param) == "selling"
+                }
+            }
             describe("app rating start") {
                 beforeEach {
                     sut = TrackerEvent.appRatingStart(EventParameterRatingSource.listingSellComplete)
@@ -5071,22 +5211,6 @@ class TrackerEventSpec: QuickSpec {
                 it("contains bubble name parameter") {
                     let param = sut.params!.stringKeyParams["bubble-name"] as? String
                     expect(param) == "cars"
-                }
-            }
-            describe("onboarding interests complete") {
-                beforeEach {
-                    sut = TrackerEvent.onboardingInterestsComplete(superKeywords: [2, 3])
-                }
-                it("has its event name") {
-                    expect(sut.name.rawValue).to(equal("onboarding-interests-complete"))
-                }
-                it("contains superkeyword-total parameter") {
-                    let param = sut.params!.stringKeyParams["superkeyword-total"] as? Int
-                    expect(param) == 2
-                }
-                it("contains superkeyword-ids parameter") {
-                    let param = sut.params!.stringKeyParams["superkeyword-ids"] as? [Int]
-                    expect(param) == [2, 3]
                 }
             }
             describe("categories start") {
@@ -5202,6 +5326,41 @@ class TrackerEventSpec: QuickSpec {
                 it("contains the listing id") {
                     let param = sut.params!.stringKeyParams["product-id"] as? String
                     expect(param) == "1234"
+                }
+            }
+            
+            describe("chat letgo service cta received") {
+                beforeEach {
+                    sut = TrackerEvent.chatLetgoServiceCTAReceived(questionKey: "key", listingId: "1234")
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("chat-letgo-service-call-to-action-received"))
+                }
+                it("contains the key") {
+                    let param = sut.params!.stringKeyParams["message-goal"] as? String
+                    expect(param) == "key"
+                }
+                it("contains the listing id") {
+                    let param = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(param) == "1234"
+                }
+            }
+
+            describe("chat message call to action tapped") {
+                beforeEach {
+                    sut = TrackerEvent.chatCallToActionTapped(ctaKey: "cta-cool-key", isLetgoAssistant: .trueParameter)
+                }
+
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("chat-call-to-action-tapped"))
+                }
+                it("contains the key") {
+                    let param = sut.params!.stringKeyParams["action-key"] as? String
+                    expect(param) == "cta-cool-key"
+                }
+                it("contains if interlocutor is an assistant") {
+                    let param = sut.params!.stringKeyParams["is-letgo-assistant"] as? String
+                    expect(param) == "true"
                 }
             }
             
@@ -5340,10 +5499,10 @@ class TrackerEventSpec: QuickSpec {
                         expect(sut.params!.stringKeyParams["product-model"] as? String) == "model"
                     }
                     it ("start") {
-                        expect(sut.params!.stringKeyParams["product-year-start"] as? String) == "1990"
+                        expect(sut.params!.stringKeyParams["product-year-start"] as? Int) == 1990
                     }
                     it ("end") {
-                        expect(sut.params!.stringKeyParams["product-year-end"] as? String) == "2000"
+                        expect(sut.params!.stringKeyParams["product-year-end"] as? Int) == 2000
                     }
                     it ("property-type") {
                         expect(sut.params!.stringKeyParams["property-type"] as? String) == "flat"
@@ -5373,7 +5532,7 @@ class TrackerEventSpec: QuickSpec {
                         expect(sut.params!.stringKeyParams["service-subtype"] as? String).notTo(beNil())
                     }
                     it ("vertical fields") {
-                        expect(sut.params!.stringKeyParams["vertical-fields"] as? String) == "product-make,product-model,product-year-start,product-year-end,property-type,deal-type,bedroom-number,bathroom-number,size-from,room-number,service-type,service-subtype"
+                        expect(sut.params!.stringKeyParams["vertical-fields"] as? String) == "product-make,product-model,product-year-start,product-year-end,mileage-from,mileage-to,body-type,transmission,fuel-type,drivetrain,seats-from,seats-to,service-subtype,service-type,service-listing-type,deal-type,property-type,bedroom-number,bathroom-number,room-number,size-from"
                     }
                 }
             }
@@ -5573,6 +5732,30 @@ class TrackerEventSpec: QuickSpec {
                     }
                     it("contains parameter2-enabled as false") {
                         expect(sut.params!.stringKeyParams["parameter2-enabled"] as? Bool) == true
+                    }
+                }
+            }
+            describe("Open Community") {
+                describe("From product list") {
+                    beforeEach {
+                        sut = TrackerEvent.openCommunityFromProductList(showingBanner: true, bannerType: .joinCommunity)
+                    }
+                    it("event name is open-community") {
+                        expect(sut.name.rawValue) == "open-community"
+                    }
+                    it("contains showing-banner as true") {
+                        expect(sut.params!.stringKeyParams["showing-banner"] as? String) == "true"
+                    }
+                    it("contains bannery-type as join-community") {
+                        expect(sut.params!.stringKeyParams["banner-type"] as? String) == "join-community"
+                    }
+                }
+                describe("From tab bar") {
+                    beforeEach {
+                        sut = TrackerEvent.openCommunityFromTabBar()
+                    }
+                    it("event name is open-community") {
+                        expect(sut.name.rawValue) == "open-community"
                     }
                 }
             }

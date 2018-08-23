@@ -26,19 +26,13 @@ public class LGCoreKit {
 
         // Fill cars Info cache with local data
         InternalCore.carsInfoRepository.loadFirstRunCacheIfNeeded(jsonURL: config.carsInfoAppJSONURL)
-
-        // Fill taxonomies cache with local data
-        InternalCore.categoryRepository.loadFirstRunCacheIfNeeded(jsonURL: config.taxonomiesAppJSONURL)
         
         // Fill services cache with local data
         InternalCore.servicesInfoRepository.loadFirstRunCacheIfNeeded(jsonURL: config.servicesInfoAppJSONURL)
     }
 
     public static func start() {
-        InternalCore.categoryRepository.refreshTaxonomiesCache()
         InternalCore.stickersRepository.show(nil) // Sync stickers to UserDefaults
-        InternalCore.carsInfoRepository.refreshCarsInfoFile()
-        InternalCore.servicesInfoRepository.refreshServicesFile()
     }
 
     public static func applicationDidEnterBackground() {

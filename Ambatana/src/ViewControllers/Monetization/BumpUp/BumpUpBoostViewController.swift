@@ -16,6 +16,8 @@ final class BumpUpBoostViewController: BaseViewController {
     static let timerUpdateInterval: TimeInterval = 1
 
     var titleLabelText: String {
+        guard boostIsEnabled else { return R.Strings.bumpUpViewBoostTitleNotReady }
+
         switch featureFlags.bumpUpBoost {
         case .control, .baseline, .sendTop1hour, .sendTop5Mins:
             return R.Strings.bumpUpViewBoostTitleSendTop
@@ -26,15 +28,38 @@ final class BumpUpBoostViewController: BaseViewController {
         }
     }
 
-    var subtitleLabelText: String {
-        switch featureFlags.bumpUpBoost {
-        case .control, .baseline, .sendTop1hour, .sendTop5Mins:
-            return R.Strings.bumpUpViewBoostSubtitleSendTop
-        case .boostListing1hour:
-            return R.Strings.bumpUpViewBoostSubtitleBoostListing
-        case .cheaperBoost5Mins:
-            return R.Strings.bumpUpViewBoostSubtitleCheaper
+    func textForSubtitleLabelWith(time: TimeInterval?) -> NSAttributedString {
+        guard let time = time, let timeString = Int(time).secondsToPrettyCountdownFormat(), !boostIsEnabled else {
+            let string: String
+            switch featureFlags.bumpUpBoost {
+            case .control, .baseline, .sendTop1hour, .sendTop5Mins:
+                string = R.Strings.bumpUpViewBoostSubtitleSendTop
+            case .boostListing1hour:
+                string = R.Strings.bumpUpViewBoostSubtitleBoostListing
+            case .cheaperBoost5Mins:
+                string = R.Strings.bumpUpViewBoostSubtitleCheaper
+            }
+            return NSAttributedString(string: string)
         }
+
+        let timeAttributes: [NSAttributedStringKey: Any] = [.foregroundColor : UIColor.primaryColor,
+                                                            .font : UIFont.systemBoldFont(size: 15)]
+
+        let fullString = R.Strings.bumpUpViewBoostSubtitleNotReady(timeString)
+        let fullAttributtedString = NSMutableAttributedString(string: fullString)
+
+        let timeRange = NSString(string: fullString).range(of: timeString)
+        fullAttributtedString.setAttributes(timeAttributes, range: timeRange)
+
+        return fullAttributtedString
+    }
+
+    var boostIsEnabled: Bool {
+        if let updateBannerThreshold = featureFlags.bumpUpBoost.boostBannerUIUpdateThreshold,
+            timeIntervalLeft < (viewModel.maxCountdown - updateBannerThreshold) {
+            return true
+        }
+        return false
     }
 
     private var timerProgressView: BumpUpTimerBarView = BumpUpTimerBarView()
@@ -134,10 +159,22 @@ final class BumpUpBoostViewController: BaseViewController {
     @objc private dynamic func updateTimer() {
         timeIntervalLeft = timeIntervalLeft-BumpUpBoostViewController.timerUpdateInterval
         timerProgressView.updateWith(timeLeft: timeIntervalLeft)
+
         if timeIntervalLeft == 0 {
             timer.invalidate()
             viewModel.timerReachedZero()
+        } else if let updateBannerThreshold = featureFlags.bumpUpBoost.boostBannerUIUpdateThreshold,
+            viewModel.maxCountdown - timeIntervalLeft <= updateBannerThreshold {
+            updateUIWith(time: updateBannerThreshold - (viewModel.maxCountdown - timeIntervalLeft))
+        } else {
+            updateUIWith(time: nil)
         }
+    }
+
+    private func updateUIWith(time: TimeInterval?) {
+        boostButton.isEnabled = time == nil
+        titleLabel.text  = titleLabelText
+        subtitleLabel.attributedText = textForSubtitleLabelWith(time: time)
     }
 
     private func setupUI() {
@@ -190,7 +227,7 @@ final class BumpUpBoostViewController: BaseViewController {
 
         titleLabel.adjustsFontSizeToFitWidth = true
 
-        subtitleLabel.text = subtitleLabelText
+        subtitleLabel.attributedText = textForSubtitleLabelWith(time: viewModel.maxCountdown - timeIntervalLeft)
         subtitleLabel.textAlignment = .left
         subtitleLabel.textColor = UIColor.grayText
         subtitleLabel.font = UIFont.systemFont(size: 17)
@@ -247,6 +284,7 @@ final class BumpUpBoostViewController: BaseViewController {
     }
 
     private func setupBoostButton() {
+        boostButton.isEnabled = boostIsEnabled
         boostButton.setStyle(.primary(fontSize: .big))
         boostButton.setTitle(R.Strings.bumpUpViewBoostPayButtonTitle(viewModel.price), for: .normal)
         boostButton.titleLabel?.numberOfLines = 2
@@ -276,7 +314,8 @@ final class BumpUpBoostViewController: BaseViewController {
                                                   constant: -BoostViewMetrics.bottomAnchorConstant).isActive = true
         }
         timerProgressView.layout(with: view).left().right()
-
+        timerProgressView.layout().height(BumpUpTimerBarViewMetrics.height)
+        
         closeButton.layout().width(Metrics.closeButtonWidth).height(Metrics.closeButtonHeight)
         closeButton.layout(with: view).left()
         closeButton.layout(with: timerProgressView).below()

@@ -21,7 +21,8 @@ public protocol UserRating: BaseModel {
 public enum UserRatingType {
     case conversation
     case seller
-    case buyer    
+    case buyer
+    case report
 }
 
 public enum UserRatingStatus: Int {

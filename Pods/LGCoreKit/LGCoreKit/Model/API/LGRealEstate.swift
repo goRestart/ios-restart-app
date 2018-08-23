@@ -10,7 +10,7 @@ public protocol RealEstate: BaseListingModel {
     var realEstateAttributes: RealEstateAttributes { get }
 }
 
-struct LGRealEstate: RealEstate, Decodable {
+struct LGRealEstate: RealEstate, Codable {
     let objectId: String?
     let updatedAt: Date?
     let createdAt: Date?
@@ -126,9 +126,33 @@ struct LGRealEstate: RealEstate, Decodable {
                   realEstateAttributes: nil)
     }
     
+    init(baseListing: BaseListingModel, attributes: RealEstateAttributes?) {
+        self.init(objectId: baseListing.objectId,
+                  updatedAt: baseListing.updatedAt,
+                  createdAt: baseListing.createdAt,
+                  name: baseListing.name,
+                  nameAuto: baseListing.nameAuto,
+                  descr: baseListing.descr,
+                  price: baseListing.price,
+                  currency: baseListing.currency,
+                  location: baseListing.location,
+                  postalAddress: baseListing.postalAddress,
+                  languageCode: baseListing.languageCode,
+                  category: baseListing.category,
+                  status: baseListing.status,
+                  thumbnail: baseListing.thumbnail,
+                  thumbnailSize: baseListing.thumbnailSize,
+                  images: baseListing.images,
+                  media: baseListing.media,
+                  mediaThumbnail: baseListing.mediaThumbnail,
+                  user: baseListing.user,
+                  featured: baseListing.featured,
+                  realEstateAttributes: attributes)
+    }
+    
     init(chatListing: ChatListing, chatInterlocutor: ChatInterlocutor) {
         let user = LGUserListing(chatInterlocutor: chatInterlocutor)
-        let images = [chatListing.image].flatMap{$0}
+        let images = [chatListing.image].compactMap{$0}
         let location = LGLocationCoordinates2D(latitude: 0, longitude: 0)
         let postalAddress = PostalAddress.emptyAddress()
         let category = ListingCategory.other
@@ -182,7 +206,7 @@ struct LGRealEstate: RealEstate, Decodable {
         let actualCurrency = Currency.currencyWithCode(currency)
         let actualCategory = ListingCategory(rawValue: category) ?? .other
         let actualThumbnail = LGFile(id: nil, urlString: thumbnail)
-        let actualImages = images.flatMap { $0 as File }
+        let actualImages = images.compactMap { $0 as File }
         let listingPrice = ListingPrice.fromPrice(price, andFlag: priceFlag)
         
         return self.init(objectId: objectId,
@@ -364,7 +388,32 @@ struct LGRealEstate: RealEstate, Decodable {
         
         realEstateAttributes = (try keyedContainer.decodeIfPresent(RealEstateAttributes.self, forKey: .realEstateAttributes))
             ?? RealEstateAttributes.emptyRealEstateAttributes()
+    }
 
+    public func encode(to encoder: Encoder) throws {
+        let baseListing = LGBaseListing(objectId: objectId,
+                                        updatedAt: updatedAt,
+                                        createdAt: createdAt,
+                                        name: name,
+                                        nameAuto: nameAuto,
+                                        descr: descr,
+                                        price: price,
+                                        currency: currency,
+                                        location: location,
+                                        postalAddress: postalAddress,
+                                        languageCode: languageCode,
+                                        category: category,
+                                        status: status,
+                                        thumbnail: thumbnail,
+                                        thumbnailSize: thumbnailSize,
+                                        images: images,
+                                        media: media,
+                                        mediaThumbnail: mediaThumbnail,
+                                        user: user,
+                                        featured: featured,
+                                        carAttributes: nil)
+        // We don't sync real state attributes on purpose, we can sync them again later
+        try baseListing.encode(to: encoder)
     }
     
     enum CodingKeysRealEstateAttributes: String, CodingKey {

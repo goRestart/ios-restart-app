@@ -25,6 +25,15 @@ extension LGFile {
     }
 }
 
+extension LGFile {
+    static func mapToImages(_ array: [LGFile]) -> [LGListingImage] {
+        return array.compactMap {
+            guard let id = $0.objectId, let url = $0.fileURL else { return nil }
+            return LGListingImage(id: id, url: url)
+        }
+    }
+}
+
 extension LGFile: CustomStringConvertible {
     public var description: String {
         return "fileURL: \(String(describing: fileURL)); token: \(String(describing: objectId)); isSaved: \(isSaved);"

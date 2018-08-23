@@ -9,6 +9,10 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     UITextViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate,
     UINavigationControllerDelegate {
     
+    private enum Layout {
+        static let paymentFrequencyWidth: CGFloat = 120
+    }
+    
     // UI
     private static let loadingTitleDisclaimerLeadingConstraint: CGFloat = 8
     private static let completeTitleDisclaimerLeadingConstraint: CGFloat = -20
@@ -57,6 +61,14 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     @IBOutlet weak var postFreeLabel: UILabel!
     @IBOutlet weak var currencyLabel: UILabel!
     @IBOutlet weak var priceTextField: LGTextField!
+    
+    @IBOutlet weak var paymentFrequencyContainer: UIView!
+    @IBOutlet weak var paymentFrequencyTitleLabel: UILabel!
+    @IBOutlet weak var paymentFrequencyLabel: UILabel!
+    @IBOutlet weak var paymentFrequencyButton: UIButton!
+    @IBOutlet weak var paymentFrequencyChevronImageView: UIImageView!
+    @IBOutlet weak var paymentFrequencyHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var paymentFrequencyTopConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var descriptionView: UIView!
     @IBOutlet weak var descriptionCharCountLabel: UILabel!
@@ -172,6 +184,15 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     @IBOutlet weak var serviceSubtypeValueLabel: UILabel!
     @IBOutlet weak var serviceSubtypeButton: UIButton!
     @IBOutlet weak var serviceSubtypeChevron: UIImageView!
+    
+    @IBOutlet weak var serviceListingTypeContainer: UIView!
+    @IBOutlet weak var serviceListingTitleLabel: UILabel!
+    @IBOutlet weak var serviceListingValueLabel: UILabel!
+    @IBOutlet weak var serviceListingButton: UIButton!
+    @IBOutlet weak var serviceListingChevron: UIImageView!
+
+    @IBOutlet var serviceListingTypeTopConstraint: NSLayoutConstraint!
+    @IBOutlet var serviceListingTypeHeightConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var sendButton: LetgoButton!
     @IBOutlet weak var shareFBSwitch: UISwitch!
@@ -321,7 +342,11 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
             case .sizeSquareMeters:
                 viewModel.realEstateSizeEditionFinished(value: text)
             case .distance:
-                guard let distance = Int(text), distance < SharedConstants.filterMaxCarMileage else { return false }
+                guard !text.isEmpty else {
+                    viewModel.carDistance.value = nil
+                    return true
+                }
+                guard let distance = Int(text) else { return false }
                 viewModel.carDistance.value = distance
             }
         }
@@ -568,7 +593,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         categoryTitleLabel.text = R.Strings.sellCategorySelectionLabel
         categorySelectedLabel.text = viewModel.categoryName ?? ""
 
-        carsDistanceLabel.text = R.Strings.filterCarsMileage.capitalizedFirstLetterOnly
+        carsDistanceLabel.text = viewModel.carAttributes.mileageType?.rawValue.uppercased()
         carsMakeTitleLabel.text = R.Strings.postCategoryDetailCarMake
         carsModelTitleLabel.text = R.Strings.postCategoryDetailCarModel
         carsYearTitleLabel.text = R.Strings.postCategoryDetailCarYear
@@ -581,7 +606,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         if let carDistance = viewModel.carDistance.value {
             carsDistanceField.text = String(carDistance)
         }
-        
+        carsDistanceField.placeholder = R.Strings.filterCarsMileage.capitalizedFirstLetterOnly
         carsDistanceField.tag = TextFieldTag.distance.rawValue
         
         realEstateStandardPropertyTypeTitleLabel.text = R.Strings.realEstateTypePropertyTitle
@@ -594,8 +619,13 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         realEstateTurkishNumberOfRoomsTitleLabel.text = R.Strings.realEstateRoomsTitle
         realEstateTurkishSizeTitleLabel.text = SharedConstants.sizeSquareMetersUnit
         
-        serviceTypeTitleLabel.text = R.Strings.servicesServiceTypeTitle
-        serviceSubtypeTitleLabel.text = R.Strings.servicesServiceSubtypeTitle
+        serviceTypeTitleLabel.text = viewModel.serviceTypeTitleText
+        serviceSubtypeTitleLabel.text = viewModel.serviceSubtypeTitleText
+        paymentFrequencyTitleLabel.text = R.Strings.editPaymentFrequencyTitle
+        paymentFrequencyLabel.text = ""
+        
+        serviceListingTitleLabel.text = R.Strings.editJobsServicesListingTypeTitle
+        serviceListingValueLabel.text = ""
         
         sendButton.setTitle(R.Strings.editProductSendButton, for: .normal)
         sendButton.setStyle(.primary(fontSize:.big))
@@ -653,6 +683,8 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         realEstateTurkishNumberOfRoomsChevron.image = chevron
         serviceChevron.image = chevron
         serviceSubtypeChevron.image = chevron
+        serviceListingChevron.image = chevron
+        paymentFrequencyChevronImageView.image = chevron
     }
 
     fileprivate func setupRxBindings() {
@@ -770,19 +802,19 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         }.disposed(by: disposeBag)
         
         viewModel.carBody.asObservable()
-            .map { $0?.rawValue.capitalizedFirstLetterOnly }
+            .map { $0?.title.capitalizedFirstLetterOnly }
             .bind(to: carsBodySelectedLabel.rx.text)
             .disposed(by: disposeBag)
         viewModel.carTransmission.asObservable()
-            .map { $0?.rawValue.capitalizedFirstLetterOnly }
+            .map { $0?.title.capitalizedFirstLetterOnly }
             .bind(to: carsTransmissionSelectedLabel.rx.text)
             .disposed(by: disposeBag)
         viewModel.carFuel.asObservable()
-            .map { $0?.rawValue.capitalizedFirstLetterOnly }
+            .map { $0?.title.capitalizedFirstLetterOnly }
             .bind(to: carsFuelSelectedLabel.rx.text)
             .disposed(by: disposeBag)
         viewModel.carDrivetrain.asObservable()
-            .map { $0?.rawValue.capitalizedFirstLetterOnly }
+            .map { $0?.title.capitalizedFirstLetterOnly }
             .bind(to: carsDrivetrainSelectedLabel.rx.text)
             .disposed(by: disposeBag)
         viewModel.carSeat.asObservable()
@@ -873,26 +905,42 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
             self?.viewModel.realEstateNumberOfRoomsButtonPressed()
             }.disposed(by: disposeBag)
         
-        if featureFlags.showServicesFeatures.isActive {
-            viewModel.serviceTypeId.asObservable().bind { [weak self] serviceTypeId in
-                guard let _ = serviceTypeId else {
-                    self?.disableServicesSubtypeField()
-                    return
-                }
-                self?.enableServicesSubtypeField()
-                }.disposed(by: disposeBag)
-            
-            viewModel.serviceTypeName.asObservable().bind(to: serviceTypeValueLabel.rx.text).disposed(by: disposeBag)
-            viewModel.serviceSubtypeName.asObservable().bind(to: serviceSubtypeValueLabel.rx.text).disposed(by: disposeBag)
-            
-            serviceTypeButton.rx.tap.bind { [weak self] in
-                self?.viewModel.serviceTypeButtonPressed()
-                }.disposed(by: disposeBag)
-            
-            serviceSubtypeButton.rx.tap.bind { [weak self] in
-                self?.viewModel.serviceSubtypeButtonPressed()
-                }.disposed(by: disposeBag)
-        }
+        viewModel.serviceTypeId.asObservable().bind { [weak self] serviceTypeId in
+            guard let _ = serviceTypeId else {
+                self?.disableServicesSubtypeField()
+                return
+            }
+            self?.enableServicesSubtypeField()
+            }.disposed(by: disposeBag)
+        
+        viewModel.serviceTypeName.asObservable().bind(to: serviceTypeValueLabel.rx.text).disposed(by: disposeBag)
+        viewModel.serviceSubtypeName.asObservable().bind(to: serviceSubtypeValueLabel.rx.text).disposed(by: disposeBag)
+        
+        viewModel.servicePaymentFrequency.asObservable()
+            .map({ [weak self] _ in self?.viewModel.paymentFrequencyText })
+            .bind(to: paymentFrequencyLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.serviceListingType.asObservable()
+            .map({ $0?.pluralDisplayName })
+            .bind(to: serviceListingValueLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        serviceTypeButton.rx.tap.bind { [weak self] in
+            self?.viewModel.serviceTypeButtonPressed()
+            }.disposed(by: disposeBag)
+        
+        serviceSubtypeButton.rx.tap.bind { [weak self] in
+            self?.viewModel.serviceSubtypeButtonPressed()
+            }.disposed(by: disposeBag)
+        
+        serviceListingButton.rx.tap.bind { [weak self] in
+            self?.viewModel.serviceListingTypeButtonPressed()
+        }.disposed(by: disposeBag)
+        
+        paymentFrequencyButton.rx.tap.bind { [weak self] in
+            self?.viewModel.paymentFrequencyButtonPressed()
+            }.disposed(by: disposeBag)
         
         viewModel.loadingProgress.asObservable().map { $0 == nil }.bind(to: loadingView.rx.isHidden).disposed(by: disposeBag)
         viewModel.loadingProgress.asObservable().ignoreNil().bind(to: loadingProgressView.rx.progress).disposed(by: disposeBag)
@@ -940,9 +988,13 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         if active {
             priceContainerHeightConstraint.constant = 0
             priceViewSeparatorTopConstraint.constant = 0
+            hidePaymentFrequencyView()
         } else {
             priceContainerHeightConstraint.constant = EditListingViewController.viewOptionGenericHeight
             priceViewSeparatorTopConstraint.constant = EditListingViewController.separatorOptionsViewDistance
+            if viewModel.shouldShowPaymentFrequency {
+                showPaymentFrequencyView()
+            }
         }
         UIView.animate(withDuration: 0.3, animations: {
             self.view.layoutIfNeeded()
@@ -951,28 +1003,33 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     
     private func updateVerticalFields(category: ListingCategory?) {
         guard let category = category else {
+            hidePaymentFrequencyView()
             hideVerticalFields()
             return
         }
         switch category {
         case .cars:
+            hidePaymentFrequencyView()
             hideRealEstateAttributesView()
             hideServicesAttributesView()
             showCarsAttributesView()
         case .realEstate:
+            hidePaymentFrequencyView()
             hideCarsAttributesView()
             hideServicesAttributesView()
             showRealEstateAttributesView()
         case .services:
-            if featureFlags.showServicesFeatures.isActive {
-                hideCarsAttributesView()
-                hideRealEstateAttributesView()
-                showServicesAttributesView()
+            if viewModel.shouldShowPaymentFrequency {
+                showPaymentFrequencyView()
             } else {
-                hideVerticalFields()
+                hidePaymentFrequencyView()
             }
+            hideCarsAttributesView()
+            hideRealEstateAttributesView()
+            showServicesAttributesView()
         case .babyAndChild, .electronics, .fashionAndAccesories, .homeAndGarden, .motorsAndAccessories,
              .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .unassigned:
+            hidePaymentFrequencyView()
             hideVerticalFields()
         }
         
@@ -1046,11 +1103,42 @@ extension EditListingViewController {
     
     private func showServicesAttributesView() {
         servicesInfoContainer.isHidden = false
-        verticalFieldsContainerConstraint.constant = EditListingViewController.servicesInfoContainerHeight
+        if viewModel.shouldShowListingType {
+            let listingTypeContainerHeight: CGFloat = EditListingViewController.viewOptionVerticalCellHeight
+            verticalFieldsContainerConstraint.constant = EditListingViewController.servicesInfoContainerHeight + listingTypeContainerHeight
+            showServiceListingTypeView()
+        } else {
+            verticalFieldsContainerConstraint.constant = EditListingViewController.servicesInfoContainerHeight
+            hideServiceListingTypeView()
+        }
     }
     
     private func hideServicesAttributesView() {
         servicesInfoContainer.isHidden = true
+    }
+    
+    private func showPaymentFrequencyView() {
+        paymentFrequencyHeightConstraint.constant = EditListingViewController.viewOptionGenericHeight
+        paymentFrequencyTopConstraint.constant = EditListingViewController.separatorOptionsViewDistance
+        paymentFrequencyContainer.isUserInteractionEnabled = true
+    }
+    
+    private func hidePaymentFrequencyView() {
+        paymentFrequencyHeightConstraint.constant = 0
+        paymentFrequencyTopConstraint.constant = 0
+        paymentFrequencyContainer.isUserInteractionEnabled = false
+    }
+    
+    private func showServiceListingTypeView() {
+        serviceListingTypeHeightConstraint.constant = EditListingViewController.viewOptionVerticalCellHeight
+        serviceListingTypeTopConstraint.constant = EditListingViewController.separatorOptionsViewDistance
+        serviceListingTypeContainer.isUserInteractionEnabled = true
+    }
+    
+    private func hideServiceListingTypeView() {
+        serviceListingTypeHeightConstraint.constant = 0
+        serviceListingTypeTopConstraint.constant = 0
+        serviceListingTypeContainer.isUserInteractionEnabled = false
     }
 }
 
@@ -1134,6 +1222,8 @@ extension EditListingViewController {
         carsYearButton.set(accessibilityId: .editListingCarsYearButton)
         serviceTypeButton.set(accessibilityId: .editListingServicesTypeButton)
         serviceSubtypeButton.set(accessibilityId: .editListingServicesSubtypeButton)
+        serviceListingButton.set(accessibilityId: .editListingServicesListingTypeButton)
+        paymentFrequencyButton.set(accessibilityId: .editListingPaymentFrequencyButton)
         sendButton.set(accessibilityId: .editListingSendButton)
         shareFBSwitch.set(accessibilityId: .editListingShareFBSwitch)
         loadingView.set(accessibilityId: .editListingLoadingView)

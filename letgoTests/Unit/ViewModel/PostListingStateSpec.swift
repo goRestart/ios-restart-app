@@ -408,7 +408,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         .updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
                         .updatingAfterUploadingSuccess(predictionData: nil)
                         .updating(price: ListingPrice.makeMock())
-                        .updating(category: .services, showServicesFeatures: true)
+                        .updating(category: .services)
                 }
                 
                 it("returns the same state when updating category") {

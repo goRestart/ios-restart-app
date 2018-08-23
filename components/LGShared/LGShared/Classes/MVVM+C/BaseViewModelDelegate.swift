@@ -2,6 +2,7 @@
 public protocol BaseViewModelDelegate: class {
     func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?)
     func vmShowAutoFadingMessage(title: String, message: String, time: Double, completion: (() -> ())?)
+    func vmShowAutoFadingMessage(message: String, time: Double, completion: (() -> ())?)
 
     func vmShowLoading(_ loadingMessage: String?)
     func vmHideLoading(_ finishedMessage: String?, afterMessageCompletion: (() -> ())?)
@@ -14,6 +15,7 @@ public protocol BaseViewModelDelegate: class {
     func vmShowAlert(_ title: String?, message: String?, cancelLabel: String, actions: [UIAction])
     func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction])
     func vmShowActionSheet(_ cancelLabel: String, actions: [UIAction])
+    func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction], withTitle title: String?)
 
     func vmPop()
     func vmDismiss(_ completion: (() -> Void)?)
@@ -34,6 +36,14 @@ extension UIViewController: BaseViewModelDelegate {
                                        completion: (() -> ())?) {
         showAutoFadingOutMessageAlert(title: title,
                                       message: message,
+                                      time: time,
+                                      completion: completion)
+    }
+    
+    @objc open func vmShowAutoFadingMessage(message: String,
+                                 time: Double,
+                                 completion: (() -> ())?) {
+        showAutoFadingOutMessageAlert(message: message,
                                       time: time,
                                       completion: completion)
     }
@@ -58,6 +68,16 @@ extension UIViewController: BaseViewModelDelegate {
         showActionSheet(cancelAction, actions: actions, barButtonItem: nil, completion: nil)
     }
 
+    public func vmShowActionSheet(_ cancelAction: UIAction,
+                                  actions: [UIAction],
+                                  withTitle title: String?) {
+        showActionSheet(cancelAction,
+                        title: title,
+                        actions: actions,
+                        barButtonItem: nil,
+                        completion: nil)
+    }
+    
     public func vmShowActionSheet(_ cancelLabel: String, actions: [UIAction]) {
         showActionSheet(cancelLabel, actions: actions, barButtonItem: nil)
     }

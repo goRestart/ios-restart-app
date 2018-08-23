@@ -59,14 +59,15 @@ extension FiltersCoordinator: FiltersNavigator {
         navigationController.pushViewController(vc, animated: true)
     }
     
-    func openTaxonomyList(withViewModel viewModel: TaxonomiesViewModel) {
-        let vc = TaxonomiesViewController(viewModel: viewModel)
-        navigationController.pushViewController(vc, animated: true)
-    }
-    
     func openListingAttributePicker(viewModel: ListingAttributePickerViewModel) {
         let vc = ListingAttributePickerViewController(viewModel: viewModel)
         viewModel.delegate = vc
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
+    
+    func openServicesDropdown(viewModel: DropdownViewModel) {
+        let vc = DropdownViewController(withViewModel: viewModel)
         navigationController.pushViewController(vc, animated: true)
     }
 

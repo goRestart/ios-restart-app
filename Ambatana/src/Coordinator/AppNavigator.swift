@@ -13,7 +13,6 @@ protocol AppNavigator: class {
     func openSell(source: PostingSource, postCategory: PostCategory?, listingTitle: String?)
     func openAppRating(_ source: EventParameterRatingSource)
     func openUserRating(_ source: RateUserSource, data: RateUserData)
-    func openVerifyAccounts(_ types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?)
     func openSurveyIfNeeded()
     func openAppInvite(myUserId: String?, myUserName: String?)
     func canOpenAppInvite() -> Bool
@@ -22,11 +21,11 @@ protocol AppNavigator: class {
     func openPromoteBumpForListingId(listingId: String,
                                      bumpUpProductData: BumpUpProductData,
                                      typePage: EventParameterTypePage?)
-    func openMostSearchedItems(source: PostingSource, enableSearch: Bool)
     func canOpenOffensiveReportAlert() -> Bool
     func openOffensiveReportAlert()
     func showBottomBubbleNotification(data: BubbleNotificationData,
                                       duration: TimeInterval,
                                       alignment: BubbleNotificationView.Alignment,
                                       style: BubbleNotificationView.Style)
+    func openCommunityTab()
 }

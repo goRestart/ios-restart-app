@@ -16,6 +16,7 @@ struct ProductsABGroup: ABGroupType {
         static let videoPosting = "20180604VideoPosting"
         static let simplifiedChatButton = "20180611SimplifiedChatButton"
         static let deckItemPage = "20180704DeckItemPage"
+        static let frictionlessShare = "20180716FrictionlessShare"
     }
     
     let servicesCategoryOnSalchichasMenu: LeanplumABVariable<Int>
@@ -23,6 +24,7 @@ struct ProductsABGroup: ABGroupType {
     let videoPosting: LeanplumABVariable<Int>
     let simplifiedChatButton: LeanplumABVariable<Int>
     let deckItemPage: LeanplumABVariable<Int>
+    let frictionlessShare: LeanplumABVariable<Int>
 
     let group: ABGroup = .products
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -34,17 +36,16 @@ struct ProductsABGroup: ABGroupType {
          predictivePosting: LeanplumABVariable<Int>,
          videoPosting: LeanplumABVariable<Int>,
          simplifiedChatButton: LeanplumABVariable<Int>,
-         deckItemPage: LeanplumABVariable<Int>) {
+         deckItemPage: LeanplumABVariable<Int>,
+         frictionlessShare: LeanplumABVariable<Int>) {
         self.servicesCategoryOnSalchichasMenu = servicesCategoryOnSalchichasMenu
         self.predictivePosting = predictivePosting
         self.videoPosting = videoPosting
         self.simplifiedChatButton = simplifiedChatButton
         self.deckItemPage = deckItemPage
-        intVariables.append(contentsOf: [servicesCategoryOnSalchichasMenu,
-                                         predictivePosting,
-                                         videoPosting,
-                                         simplifiedChatButton,
-                                         deckItemPage])
+        self.frictionlessShare = frictionlessShare
+        intVariables.append(contentsOf: [servicesCategoryOnSalchichasMenu, predictivePosting, videoPosting,
+                                         simplifiedChatButton, deckItemPage, frictionlessShare])
     }
 
     static func make() -> ProductsABGroup {
@@ -62,8 +63,10 @@ struct ProductsABGroup: ABGroupType {
                                                               groupType: .products),
                                deckItemPage: .makeInt(key: Keys.deckItemPage,
                                                       defaultValue: 0,
-                                                      groupType: .products)
-        )
+                                                      groupType: .products),
+                               frictionlessShare: .makeInt(key: Keys.frictionlessShare,
+                                                           defaultValue: 0,
+                                                           groupType: .products))
     }
 }
 

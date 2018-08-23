@@ -14,7 +14,6 @@ final class ChatViewController: TextViewController {
     let inputBarHeight: CGFloat = 44
     let expressBannerHeight: CGFloat = 44
     let professionalSellerBannerHeight: CGFloat = 44
-    let reputationTooltipMargin: CGFloat = 40
 
     let listingView: ChatListingView
     let chatDetailHeader: ChatDetailNavBarInfoView
@@ -34,7 +33,6 @@ final class ChatViewController: TextViewController {
     var professionalSellerBannerTopConstraint: NSLayoutConstraint = NSLayoutConstraint()
     var featureFlags: FeatureFlaggeable
     var pushPermissionManager: PushPermissionsManager
-    var tooltip: LetgoTooltip?
 
     var blockedToastOffset: CGFloat {
         return relationInfoView.isHidden ? 0 : RelationInfoView.defaultHeight
@@ -197,7 +195,7 @@ final class ChatViewController: TextViewController {
         
         if let patternBackground = UIColor.emptyViewBackgroundColor {
             tableView.backgroundColor = .clear
-            view.backgroundColor = patternBackground
+            view.backgroundColor = viewModel.showWhiteBackground ? .white : patternBackground
         }
         
         listingView.delegate = self
@@ -210,16 +208,14 @@ final class ChatViewController: TextViewController {
     }
 
     private func setupNavigationBar() {
-        listingView.height = navigationBarHeight
         listingView.letgoAssistantTag.isHidden = !viewModel.isUserDummy
-        listingView.layoutIfNeeded()
         setNavBarTitleStyle(.custom(listingView))
         setLetGoRightButtonWith(image: R.Asset.IconsButtons.icMoreOptions.image, selector: "optionsBtnPressed")
+        setNavBarBackgroundStyle(viewModel.showWhiteBackground ? .white : .default)
     }
 
     private func updateNavigationBarHeaderWith(view: UIView?) {
         guard let view = view else { return }
-        view.height = navigationBarHeight
         setNavBarTitleStyle(.custom(view))
     }
 
@@ -275,8 +271,8 @@ final class ChatViewController: TextViewController {
         }.disposed(by: disposeBag)
     }
 
-    fileprivate func setupDirectAnswers() {
-        directAnswersPresenter.hidden = viewModel.directAnswersState.value != .visible
+    fileprivate func setupDirectAnswers(_ quickAnswers: [QuickAnswer]) {
+        guard quickAnswers.count > 0 else { return }
         guard let parentView = relatedListingsView.superview else { return }
         directAnswersPresenter.horizontalView?.removeFromSuperview()
         let defaultHeight = DirectAnswersHorizontalView.Layout.Height.standard
@@ -291,7 +287,7 @@ final class ChatViewController: TextViewController {
         directAnswers.layout(with: parentView).leading().trailing()
         directAnswers.layout(with: relatedListingsView).bottom(to: .top, by: -DirectAnswersHorizontalView.Layout.standardSideMargin)
         directAnswersPresenter.horizontalView = directAnswers
-        directAnswersPresenter.setDirectAnswers(viewModel.directAnswers)
+        directAnswersPresenter.setDirectAnswers(quickAnswers)
         directAnswersPresenter.delegate = viewModel
     }
 
@@ -313,7 +309,7 @@ final class ChatViewController: TextViewController {
     fileprivate func setupProfessionalSellerBannerWithPhone(phoneNumber: String?) {
         var action: UIAction? = nil
         var buttonIcon: UIImage? = nil
-        if let phone = phoneNumber, phone.isPhoneNumber, viewModel.professionalBannerHasCallAction {
+        if phoneNumber != nil, viewModel.professionalBannerHasCallAction {
             action = UIAction(interface: .button(R.Strings.chatProfessionalBannerButtonTitle,
                                                  .primary(fontSize: .small)),
                               action: { [weak self] in
@@ -550,9 +546,14 @@ fileprivate extension ChatViewController {
             guard let url = imageUrl else { return }
             self?.listingView.listingImage.lg_setImageWithURL(url)
             }.disposed(by: disposeBag)
-        viewModel.shouldUpdateQuickAnswers.asObservable().filter{ $0 }.subscribeNext { [weak self] _ in
-            self?.setupDirectAnswers()
-        }.disposed(by: disposeBag)
+        viewModel.shouldUpdateQuickAnswers
+            .asObservable()
+            .ignoreNil()
+            .distinctUntilChanged()
+            .subscribeNext { [weak self] quickAnswers in
+                self?.setupDirectAnswers(quickAnswers)
+            }
+            .disposed(by: disposeBag)
         
         let placeHolder = Observable.combineLatest(viewModel.interlocutorId.asObservable(),
                                                    viewModel.interlocutorName.asObservable()) {
@@ -572,9 +573,27 @@ fileprivate extension ChatViewController {
                                  viewModel.interlocutorName.asObservable())
             .bind { [weak self] (avatarUrl, name) in
                 guard let vm = self?.viewModel, vm.isUserDummy else { return }
-                guard let showNewHeader = self?.featureFlags.showChatHeaderWithoutListingForAssistant, showNewHeader else { return }
                 self?.chatDetailHeader.setupWith(info: .assistant(name: name, imageUrl: avatarUrl)) { [weak self] in
                     self?.viewModel.userInfoPressed()
+                }
+                self?.updateNavigationBarHeaderWith(view: self?.chatDetailHeader)
+            }.disposed(by: disposeBag)
+
+        Observable.combineLatest(viewModel.listingName.asObservable(),
+                                 viewModel.listingPrice.asObservable(),
+                                 viewModel.listingImageUrl.asObservable())
+            .bind { [weak self] (listingName, listingPrice, listingImageUrl) in
+                guard let strongSelf = self else { return }
+                let isAssistantWithNoProduct = strongSelf.viewModel.isUserDummy
+                    && listingName.isEmpty
+                guard !isAssistantWithNoProduct else { return }
+                guard let showNoUserHeader = self?.featureFlags.showChatHeaderWithoutUser,
+                    showNoUserHeader else { return }
+                let chatNavBarInfo = ChatDetailNavBarInfo.listing(name: listingName,
+                                                                  price: listingPrice,
+                                                                  imageUrl: listingImageUrl)
+                self?.chatDetailHeader.setupWith(info: chatNavBarInfo) { [weak self] in
+                    self?.viewModel.listingInfoPressed()
                 }
                 self?.updateNavigationBarHeaderWith(view: self?.chatDetailHeader)
             }.disposed(by: disposeBag)
@@ -624,10 +643,6 @@ fileprivate extension ChatViewController {
             self?.listingView.badgeImageView.isHidden = !verified
         }).disposed(by: disposeBag)
 
-        viewModel.shouldShowReputationTooltip.asDriver().drive(onNext: { [weak self] showTooltip in
-            showTooltip ? self?.showReputationTooltip() : self?.hideReputationTooltip()
-        }).disposed(by: disposeBag)
-
         textView.rx.text
             .orEmpty
             .skip(1)
@@ -635,32 +650,6 @@ fileprivate extension ChatViewController {
             .disposed(by: disposeBag)
     }
 }
-
-extension ChatViewController: LetgoTooltipDelegate {
-    fileprivate func showReputationTooltip() {
-        guard tooltip == nil else { return }
-        let reputationTooltip = LetgoTooltip()
-        view.addSubviewForAutoLayout(reputationTooltip)
-        reputationTooltip.setupWith(peakOnTop: true, peakOffsetFromLeft: reputationTooltipMargin,
-                                    message: R.Strings.profileReputationTooltipTitle)
-        reputationTooltip.delegate = self
-        reputationTooltip.layout(with: topLayoutGuide).below(by: Metrics.veryShortMargin)
-        reputationTooltip.layout(with: view).leading(by: reputationTooltipMargin)
-        tooltip = reputationTooltip
-        viewModel.reputationTooltipShown()
-    }
-
-    fileprivate func hideReputationTooltip() {
-        tooltip?.removeFromSuperview()
-        tooltip = nil
-    }
-
-    func didTapTooltip() {
-        hideReputationTooltip()
-        viewModel.reputationTooltipTapped()
-    }
-}
-
 
 // MARK: - TableView Delegate & DataSource
 
@@ -678,7 +667,9 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource  {
         let drawer = ChatCellDrawerFactory.drawerForMessage(message, meetingsEnabled: viewModel.meetingsEnabled)
         let cell = drawer.cell(tableView, atIndexPath: indexPath)
 
-        drawer.draw(cell, message: message)
+        let bubbleColor: UIColor = viewModel.showWhiteBackground ? .chatOthersBubbleBgColorGray : .chatOthersBubbleBgColorWhite
+
+        drawer.draw(cell, message: message, bubbleColor: bubbleColor)
         UIView.performWithoutAnimation {
             cell.transform = tableView.transform
         }
@@ -690,6 +681,9 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource  {
         } else if let myMeetingCell = cell as? ChatMyMeetingCell {
             myMeetingCell.locationDelegate = self
             return myMeetingCell
+        } else if let ctaCell = cell as? ChatCallToActionCell {
+            ctaCell.delegate = self
+            return ctaCell
         }
 
         return cell
@@ -933,5 +927,12 @@ extension ChatViewController: MeetingCellImageDelegate, MKMapViewDelegate {
         cellMapViewer.openMapOnView(mainView: topView, fromInitialView: imageView, withCenterCoordinates: coordinates)
 
         textView.resignFirstResponder()
+    }
+}
+
+extension ChatViewController: ChatCallToActionCellDelegate {
+
+    func openDeeplink(url: URL, trackingKey: String) {
+        viewModel.openDeeplink(url: url, trackingKey: trackingKey)
     }
 }

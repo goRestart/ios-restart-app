@@ -99,8 +99,7 @@ final class ListingCreationViewModel : BaseViewModel {
     }
     
     func createListing() {
-        if featureFlags.showServicesFeatures.isActive,
-            !uploadedImageId.isEmpty,
+        if !uploadedImageId.isEmpty,
             numberOfSelectedServicesSubtypes > 0 {
             fetchImagesAndCreateListings()
         } else {
@@ -203,7 +202,10 @@ final class ListingCreationViewModel : BaseViewModel {
     
     func nextStep() {
         if let result = listingResult {
-            navigator?.showConfirmation(listingResult: result, trackingInfo: trackingInfo, modalStyle: false)
+            navigator?.showConfirmation(listingResult: result,
+                                        trackingInfo: trackingInfo,
+                                        shareAfterPost: postListingState?.shareAfterPost,
+                                        modalStyle: false)
         } else if let results = listingsResult {
             navigator?.showMultiListingPostConfirmation(listingResult: results, trackingInfo: trackingInfo, modalStyle: false)
         } else {
@@ -221,7 +223,6 @@ final class ListingCreationViewModel : BaseViewModel {
                                                      videoLength: trackingInfo.videoLength,
                                                      freePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                      typePage: trackingInfo.typePage,
-                                                     mostSearchedButton: trackingInfo.mostSearchedButton,
                                                      machineLearningTrackingInfo: trackingInfo.machineLearningInfo)
         
         tracker.trackEvent(event)
@@ -267,7 +268,7 @@ extension ListingCreationViewModel {
         
         let multipostNewParams: [ListingCreationParams] = newSubtypes.enumerated().compactMap { (index, newSubtype) in
             guard let imageFileId = imagesIds[safeAt: index+multipostSubtypeParams.count] else { return nil }
-            let serviceAttribute = ServiceAttributes()
+            let serviceAttribute = postListingState.verticalAttributes?.serviceAttributes ?? ServiceAttributes()
             let imageFile = LGFile(id: imageFileId, url: nil)
             
             return ListingCreationParams.make(title: newSubtype,

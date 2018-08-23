@@ -3,7 +3,7 @@ import RxDataSources
 import LGCoreKit
 import LGComponents
 
-final class ChatConversationsListViewController: ChatBaseViewController {
+final class ChatConversationsListViewController: ChatBaseViewController, ScrollableToTop {
     
     private let viewModel: ChatConversationsListViewModel
     private let contentView = ChatConversationsListView()
@@ -111,6 +111,7 @@ final class ChatConversationsListViewController: ChatBaseViewController {
         
         viewModel.rx_isEditing
             .asDriver()
+            .distinctUntilChanged()
             .drive(onNext: { [weak self] isEditing in
                 self?.setupNavigationBar(isEditing: isEditing)
                 self?.contentView.switchEditMode(isEditing: isEditing)
@@ -119,8 +120,8 @@ final class ChatConversationsListViewController: ChatBaseViewController {
     }
     
     private func setupViewStateRx() {
-        viewModel.rx_viewState
-            .asDriver()
+        viewModel
+            .viewState
             .drive(onNext: { [weak self] viewState in
                 switch viewState {
                 case .loading:
@@ -213,5 +214,11 @@ final class ChatConversationsListViewController: ChatBaseViewController {
     
     @objc private func navigationBarCancelButtonPressed() {
         viewModel.switchEditMode(isEditing: false)
+    }
+
+    // MARK: - ScrollableToTop
+
+    func scrollToTop() {
+        contentView.scrollToTop()
     }
 }

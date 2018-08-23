@@ -41,7 +41,6 @@ class ListingViewModelSpec: BaseViewModelSpec {
         var monetizationRepository: MockMonetizationRepository!
         var tracker: MockTracker!
         var keyValueStorage: MockKeyValueStorage!
-        var reputationTooltipManager: MockReputationTooltipManager!
 
         var disposeBag: DisposeBag!
         var scheduler: TestScheduler!
@@ -68,8 +67,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                                         purchasesShopper: purchasesShopper,
                                         monetizationRepository: monetizationRepository,
                                         tracker: tracker,
-                                        keyValueStorage: keyValueStorage,
-                                        reputationTooltipManager: reputationTooltipManager)
+                                        keyValueStorage: keyValueStorage)
                 sut.delegate = self
                 sut.navigator = self
                 disposeBag = DisposeBag()
@@ -94,7 +92,6 @@ class ListingViewModelSpec: BaseViewModelSpec {
                 monetizationRepository = MockMonetizationRepository()
                 tracker = MockTracker()
                 keyValueStorage = MockKeyValueStorage()
-                reputationTooltipManager = MockReputationTooltipManager()
 
                 scheduler = TestScheduler(initialClock: 0)
                 scheduler.start()
@@ -861,7 +858,13 @@ extension ListingViewModelSpec: ListingDetailNavigator {
                          source: LetGoGodMode.EventParameterListingVisitSource) {
 
     }
-
+    func openListingAttributeTable(withViewModel viewModel: ListingAttributeTableViewModel) {
+        
+    }
+    
+    func closeListingAttributeTable() {
+        
+    }
 
     func closeProductDetail() {
 

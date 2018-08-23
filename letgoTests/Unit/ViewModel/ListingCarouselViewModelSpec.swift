@@ -40,7 +40,6 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
         var notificationsManager: MockNotificationsManager!
         var monetizationRepository: MockMonetizationRepository!
         var tracker: MockTracker!
-        var reputationTooltipManager: MockReputationTooltipManager!
 
         var disposeBag: DisposeBag!
         var scheduler: TestScheduler!
@@ -93,8 +92,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                                                listingViewModelMaker: listingViewModelMaker,
                                                adsRequester: AdsRequester(),
                                                locationManager: locationManager,
-                                               myUserRepository: myUserRepository,
-                                               reputationTooltipManager: reputationTooltipManager)
+                                               myUserRepository: myUserRepository)
                 sut.delegate = self
 
                 disposeBag = DisposeBag()
@@ -135,7 +133,6 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                 notificationsManager = MockNotificationsManager()
                 monetizationRepository = MockMonetizationRepository.makeMock()
                 tracker = MockTracker()
-                reputationTooltipManager = MockReputationTooltipManager()
 
                 listingListRequester = MockListingListRequester(canRetrieve: true, offset: 0, pageSize: 20)
                 keyValueStorage = MockKeyValueStorage()
@@ -151,8 +148,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                                                                   purchasesShopper: purchasesShopper,
                                                                   monetizationRepository: monetizationRepository,
                                                                   tracker: tracker,
-                                                                  keyValueStorage: keyValueStorage,
-                                                                  reputationTooltipManager: reputationTooltipManager)
+                                                                  keyValueStorage: keyValueStorage)
 
                 scheduler = TestScheduler(initialClock: 0)
                 scheduler.start()
@@ -247,7 +243,8 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                         buildSut(initialProduct: product)
                         sut.active = true
                         sut.moreInfoState.value = .shown
-                        sut.didReceiveAd(bannerTopPosition: 0, bannerBottomPosition: 0, screenHeight: UIScreen.main.bounds.height)
+                        sut.didReceiveAd(bannerTopPosition: 0, bannerBottomPosition: 0, screenHeight: UIScreen.main.bounds.height,
+                                         bannerSize: CGSize.zero)
                     }
                     it("tracks more info visit") {
                         expect(tracker.trackedEvents.last?.actualName) == "product-detail-visit-more-info"
@@ -289,7 +286,8 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                             buildSut(initialProduct: product)
                             sut.active = true
                             sut.moreInfoState.value = .shown
-                            sut.didReceiveAd(bannerTopPosition: 0, bannerBottomPosition: 0, screenHeight: UIScreen.main.bounds.height)
+                            sut.didReceiveAd(bannerTopPosition: 0, bannerBottomPosition: 0, screenHeight: UIScreen.main.bounds.height,
+                                             bannerSize: CGSize.zero)
                         }
                         it("tracks more info visit") {
                             expect(tracker.trackedEvents.last?.actualName) == "product-detail-visit-more-info"
