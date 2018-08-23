@@ -2,17 +2,10 @@ import UI
 import Search
 import SnapKit
 import Core
-import Domain
-
-protocol ProductSelectorViewDelegate: class {
-  func onGameSelected(with id: Identifier<Game>)
-}
+import RxSwift
 
 final class ProductSelectorView: View {
-
-  weak var delegate: ProductSelectorViewDelegate?
-
-  private var inputTextField: UITextField = {
+  fileprivate var inputTextField: UITextField = {
     let textField = UITextField()
     textField.placeholder = Localize("product_selector.search.input.placeholder", table: Table.productSelector)
     textField.font = .h2
@@ -20,16 +13,16 @@ final class ProductSelectorView: View {
     return textField
   }()
 
-  private var searchView = resolver.searchView
-
+  fileprivate var searchView = resolver.searchView
+  private let bag = DisposeBag()
+  
   override func setupView() {
     addSubview(inputTextField)
     addSubview(searchView)
 
     inputTextField.becomeFirstResponder()
-    searchView.bind(textField: inputTextField) { [weak self] selectedGameId in
-      self?.delegate?.onGameSelected(with: selectedGameId)
-    }
+    
+    searchView.bind(rx.query)
   }
 
   override func setupConstraints() {
@@ -45,5 +38,20 @@ final class ProductSelectorView: View {
       make.top.equalTo(inputTextField.snp.bottom).offset(Margin.medium)
       make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
     }
+  }
+}
+
+// MARK: - View bindings
+
+extension Reactive where Base: ProductSelectorView {
+  var state: PublishSubject<GameSuggestionEvent> {
+    return base.searchView.rx.state
+  }
+  
+  fileprivate var query: Observable<String> {
+    return base.inputTextField.rx.value
+      .orEmpty
+      .distinctUntilChanged()
+      .debounce(0.3, scheduler: MainScheduler.instance)
   }
 }

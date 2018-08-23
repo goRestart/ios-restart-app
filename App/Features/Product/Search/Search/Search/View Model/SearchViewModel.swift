@@ -4,9 +4,8 @@ import Domain
 struct SearchViewModel: SearchViewModelType, SearchViewModelOutput {
 
   var output: SearchViewModelOutput { return self }
- 
-  var results = BehaviorSubject<[GameSearchSuggestion]>(value: [])
-  
+  var results = PublishSubject<[GameSearchSuggestion]>()
+
   private let bag = DisposeBag()
   private let searchGames: SearchGamesUseCase
   
