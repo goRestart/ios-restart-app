@@ -62,7 +62,7 @@ final class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDe
         let categoryHeaderElement = categoryElements[indexPath.row]
         cell.categoryTitle.addKern(value: -0.30)
         cell.categoryIcon.image = categoryHeaderElement.imageInFeed
-        cell.categoryTitle.text = categoryHeaderElement.name.localizedUppercase
+        cell.categoryTitle.text = categoryHeaderElement.nameInFeed.localizedUppercase
 
         if let categoryHighlighted = self.categoryHighlighted,
             categoryHeaderElement == categoryHighlighted {

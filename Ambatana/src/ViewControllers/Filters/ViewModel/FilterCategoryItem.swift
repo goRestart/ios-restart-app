@@ -15,6 +15,15 @@ enum FilterCategoryItem: Equatable {
         case let .category(category: category):
             return category.name
         case .free:
+            return R.Strings.categoriesFree
+        }
+    }
+
+    var nameInFeed: String {
+        switch self {
+        case let .category(category: category):
+            return category.name
+        case .free:
             return R.Strings.productFreePrice
         }
     }
