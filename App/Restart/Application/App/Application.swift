@@ -1,11 +1,12 @@
 import UIKit
-import SignUp
 import Core
 import Data
+import SignUp
 
 final class Application: NSObject, UIApplicationDelegate {
   
   var window: UIWindow?
+  
   private let tabBar: TabBar
   
   init(window: UIWindow?,
@@ -19,11 +20,10 @@ final class Application: NSObject, UIApplicationDelegate {
     
     DataModule.start()
     
-    let navigationController = UINavigationController(rootViewController: resolver.makeSignUp())
-    window?.rootViewController = navigationController // tabBar.build()
+    let navigationController = UINavigationController(rootViewController: resolver.makeNotLogged())
+    window?.rootViewController = navigationController
     window?.makeKeyAndVisible()
 
-    
     return true
   }
 }
