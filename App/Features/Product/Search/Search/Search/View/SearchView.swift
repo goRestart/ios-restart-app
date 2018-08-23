@@ -59,7 +59,7 @@ public final class SearchView: View {
     
     viewModel.output.results
       .asObservable()
-      .map(mapToView)
+      .map(toUIModel)
       .subscribe(onNext: { [weak self] suggestions in
         self?.listAdapterDataSource?.suggestions = suggestions
         self?.listAdapter.performUpdates(animated: true)
@@ -68,8 +68,8 @@ public final class SearchView: View {
     self.onGameSelection = onGameSelection
   }
 
-  private func mapToView(_ elements: [GameSearchSuggestion]) -> [GameSuggestionViewRender] {
-    return elements.map { GameSuggestionViewRender(suggestion: $0) }
+  private func toUIModel(_ elements: [GameSearchSuggestion]) -> [GameSuggestionUIModel] {
+    return elements.map { GameSuggestionUIModel(suggestion: $0) }
   }
 }
 

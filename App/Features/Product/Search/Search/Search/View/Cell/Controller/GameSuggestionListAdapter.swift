@@ -8,14 +8,14 @@ protocol GameSuggestionListAdapterDelegate: class {
 final class GameSuggestionListAdapter: NSObject, ListAdapterDataSource {
 
   weak var delegate: GameSuggestionListAdapterDelegate?
-  var suggestions = [GameSuggestionViewRender]()
+  var suggestions = [GameSuggestionUIModel]()
 
   func objects(for listAdapter: ListAdapter) -> [ListDiffable] {
     return suggestions
   }
   
   func listAdapter(_ listAdapter: ListAdapter, sectionControllerFor object: Any) -> ListSectionController {
-    guard let object = object as? GameSuggestionViewRender else { fatalError() }
+    guard let object = object as? GameSuggestionUIModel else { fatalError() }
     let controller = GameSuggestionSectionController(suggestion: object)
     controller.delegate = self
     return controller

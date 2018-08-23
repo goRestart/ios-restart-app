@@ -2,7 +2,7 @@ import RxSwift
 import Domain
 
 struct SearchViewModel: SearchViewModelType, SearchViewModelOutput {
- 
+
   var output: SearchViewModelOutput { return self }
  
   var results = BehaviorSubject<[GameSearchSuggestion]>(value: [])

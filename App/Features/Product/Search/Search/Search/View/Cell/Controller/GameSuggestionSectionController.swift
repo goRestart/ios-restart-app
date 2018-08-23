@@ -9,9 +9,9 @@ final class GameSuggestionSectionController: ListSectionController {
 
   weak var delegate: GameSuggestionSectionControllerDelegate?
 
-  private var suggestion: GameSuggestionViewRender
+  private var suggestion: GameSuggestionUIModel
   
-  init(suggestion: GameSuggestionViewRender) {
+  init(suggestion: GameSuggestionUIModel) {
     self.suggestion = suggestion
   }
   
@@ -33,7 +33,7 @@ final class GameSuggestionSectionController: ListSectionController {
   }
   
   override func didUpdate(to object: Any) {
-    guard let object = object as? GameSuggestionViewRender else { return }
+    guard let object = object as? GameSuggestionUIModel else { return }
     self.suggestion = object
   }
 }
