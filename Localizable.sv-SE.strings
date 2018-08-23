@@ -1,0 +1,4431 @@
+// When a user Account is deactivated because is a scammer
+"account_pending_moderation" = "Konto väntar på att modereras";
+
+// When a user Account is deactivated because is a scammer (includes user name)
+"account_pending_moderation_w_name" = "%@s konto väntar på att modereras";
+
+// Text of the link that will go to the appstore
+"app_share_download_text" = "Ladda ner";
+
+// App share email button
+"app_share_email_button" = "Bjud in via mejl";
+
+// App share facebook messenger button
+"app_share_fbmessenger_button" = "Bjud in via Messenger";
+
+// App share message sent when sharing (above the actual share link)
+"app_share_message_text" = "Kolla in appen letgo och tjäna pengar på att sälja prylar du inte längre använder!";
+
+// App share subject (when sending mail)
+"app_share_subject_text" = "Kolla in letgo";
+
+// App share dialog subtitle
+"app_share_subtitle" = "Ju fler desto roligare! Dela letgo med dina vänner";
+
+// App share dialog title
+"app_share_title" = "BJUD IN DINA VÄNNER";
+
+// App share whatsapp button
+"app_share_whatsapp_button" = "Bjud in via WhatsApp";
+
+// In app notification reply button (reception of message of another user)
+"app_notification_reply" = "Svara";
+
+// Text for unsuccessful user block
+"block_user_error_generic" = "Ett fel uppstod vid blockering av användaren.";
+
+// Text for bubble in free bump
+"bump_up_banner_free_text" = "Puffa uppåt gratis för att sälja snabbare";
+
+// Text for bubble in payment bump
+"bump_up_banner_pay_text" = "Sälj snabbare nu";
+
+// Text for bubble in payment bump improvement.
+"bump_up_banner_pay_text_improvement" = "Sälj snabbare nu";
+
+// Text for bubble in payment bump improvement. Variant A (only in English): Sell faster now
+"bump_up_banner_pay_text_improvement_english_a" = "Sälj snabbare nu";
+
+// Text for bubble in payment bump improvement. Variant B (only in English): Get more visibility
+"bump_up_banner_pay_text_improvement_english_b" = "Sälj snabbare nu";
+
+// Text for bubble in payment bump improvement. Variant C (only in English): Attract more buyers
+"bump_up_banner_pay_text_improvement_english_c" = "Sälj snabbare nu";
+
+// Text for bubble in payment bump improvement. Variant D (only in English): Attract 2x more buyers
+"bump_up_banner_pay_text_improvement_english_d" = "Sälj snabbare nu";
+
+// Text for bubble in payment bump improvement. Variant B (only in Turkish): Daha çok kişi görsün
+"bump_up_banner_pay_text_improvement_turkish_b" = "Sälj snabbare nu";
+
+// Text for bubble in payment bump improvement. Variant C (only in Turkish): Daha çok alıcıyı çek
+"bump_up_banner_pay_text_improvement_turkish_c" = "Sälj snabbare nu";
+
+// Text for bubble in payment bump improvement. Variant D (only in Turkish): İlanına 2 kat daha fazla alıcı çek
+"bump_up_banner_pay_text_improvement_turkish_d" = "Sälj snabbare nu";
+
+// Text for bubble while waiting for next bump
+"bump_up_banner_wait_text" = "till nästa topplistning";
+
+// Text for bubble when boost is enabled
+"bump_up_banner_boost_text" = "Lägg till en extra Boost!";
+
+// Text for the timer progress view, this text is followed by the time left (e.g.: 2h 32m 15s)
+"bump_up_banner_boost_progress_title" = "Topplistad de närmsta";
+
+// Title for bubble button
+"bump_up_banner_free_button_title" = "Puffa uppåt";
+
+// Text for the loading bump up banner
+"bump_up_banner_loading_text" = "Laddar mer info...";
+
+// Free bump up success message
+"bump_up_free_success" = "Puffad! Fortsätt att puffa upp din vara så blir den ännu mer synlig.";
+
+// Payment bump up success message
+"bump_up_pay_success" = "Topplistad! Nu är din annons extra synlig.";
+
+// Error when bumping
+"bump_up_error_bump_generic" = "Ett fel uppstod när din annons skulle topplistas. Vänligen försök igen.";
+
+// Token error when bumping
+"bump_up_error_bump_token" = "Din betalning har genomförts men din annons har inte topplistats.";
+
+// Error shown when payment fails
+"bump_up_error_payment_failed" = "Anslutningen till App Store misslyckades. Din betalning har inte genomförts. Vänligen försök igen.";
+
+// Text for loading view while processing free bump
+"bump_up_processing_free_text" = "Bearbetar...";
+
+// Text for loading view while processing bump with a price
+"bump_up_processing_priced_text" = "Bearbetar betalning...";
+
+// Text for stripe in featured products cells
+"bump_up_product_cell_featured_stripe" = "Topplistad";
+
+// Text for feature call to action in product cell
+"bump_up_product_cell_feature_it_label" = "Topplista den";
+
+// Featured product cell chat now button
+"bump_up_product_cell_chat_now_button" = "Chatta nu";
+
+// Featured product cell chat now button variant A (only in turkish): Sohbet Et
+"bump_up_product_cell_chat_now_button_a" = "Chatta nu";
+
+// Featured product cell chat now button variant B (only in turkish): Mesaj Gönder
+"bump_up_product_cell_chat_now_button_b" = "Chatta nu";
+
+// Featured product cell chat now button variant C (only in turkish): Mesajlaş
+"bump_up_product_cell_chat_now_button_c" = "Chatta nu";
+
+// Featured product cell chat now button variant D (only in turkish): İletişime Geç
+"bump_up_product_cell_chat_now_button_d" = "Chatta nu";
+
+// Featured product cell chat now button variant A (only in English): Chat Now
+"bump_up_product_cell_chat_now_button_english_a" = "Chatta nu";
+
+// Featured product cell chat now button variant B (only in English): Contact
+"bump_up_product_cell_chat_now_button_english_b" = "Chatta nu";
+
+// Featured product cell chat now button variant C (only in English): Contact seller
+"bump_up_product_cell_chat_now_button_english_c" = "Chatta nu";
+
+// Featured product cell chat now button variant D (only in English): Start chat
+"bump_up_product_cell_chat_now_button_english_d" = "Chatta nu";
+
+// Text for label in featured products detail
+"bump_up_product_detail_featured_label" = "TOPPLISTAD";
+
+// Title for free bump up view
+"bump_up_view_free_title" = "PUFFA DIN VARA UPPÅT";
+
+// Subtitle for free bump up view
+"bump_up_view_free_subtitle" = "Ju fler delningar, desto mer synlighet kommer din produkt att få.";
+
+// Title for payment bump up view
+"bump_up_view_pay_title" = "Nå ut till dubbelt så många köpare";
+
+// Subtitle for payment bump up view
+"bump_up_view_pay_subtitle" = "Din annons kommer att vara topplistad i 24 timmar vilket innebär att fler köpare kommer att se den och att dina chanser att sälja ökar";
+
+// Button title for payment bump up view
+"bump_up_view_pay_button_title" = "Topplista för %@";
+
+// Button title for payment bump up boost view
+"bump_up_view_boost_pay_button_title" = "Topplista den igen för %@";
+
+// Title for payment bump up view variant 1
+"bump_up_view_boost_title_send_top" = "Skicka den till toppen igen";
+
+// Title for payment bump up view variant 2
+"bump_up_view_boost_title_boost_listing" = "Boosta din topplistad annons";
+
+// Title for payment bump up view variant 3
+"bump_up_view_boost_title_cheaper_boost" = "Boosta billigare nu";
+
+// Title for payment bump view when boost is not ready yet
+"bump_up_view_boost_title_not_ready" = "Din annons är fortfarande topplistad";
+
+// Subtitle for payment bump up view variant 1
+"bump_up_view_boost_subtitle_send_top" = "Din annons är fortfarande topplistad, men du kan boosta den ännu mer. Det gör att den hamnar på toppen av listan i 24 timmar till från och med nu";
+
+// Subtitle for payment bump up view variant 2
+"bump_up_view_boost_subtitle_boost_listing" = "Eftersom du redan har topplistat din annons det senaste dygnet erbjuder vi dig en rabatt om du förlänger den";
+
+// Subtitle for payment bump up view variant 3
+"bump_up_view_boost_subtitle_cheaper" = "Boosta din annons nu för att få en rabatt på det vanliga priset.";
+
+// Subtitle for payment bump view when boost is not ready yet
+"bump_up_view_boost_subtitle_not_ready" = "Du kan boosta din annons inom %@ för att topplista den ytterligare 24 timmar";
+
+// Text for boost success alert
+"bump_up_boost_success_alert_text" = "Du har boostat din annons! Den kommer att vara topplistad i 24 timmar.";
+
+// Title for payment bump up view
+"bump_up_old_view_pay_title" = "SÄLJ SNABBARE";
+
+// Subtitle for payment bump up view
+"bump_up_old_view_pay_subtitle" = "Nå ut till flera köpare genom att ge din produkt mera synlighet.";
+
+// Button title for payment bump up view
+"bump_up_old_view_pay_button_title" = "Aktivera för %@t";
+
+// Text for alert when bump is not allowed
+"bump_up_not_allowed_alert_text" = "Det går inte att topplista denna annons för tillfället. Var god kontakta oss för mer information.";
+
+// Conatct Us button for alert when bump is not allowed
+"bump_up_not_allowed_alert_contact_button" = "Kontakta Oss";
+
+// Text for telling the user that the refresh of new listings has failed.
+"cached_feed_error" = "Ett fel inträffade när de nya annonserna skulle läggas upp.";
+
+// Text for telling the user that there are fresh listings.
+"cached_feed_new_listings" = "Nya varor";
+
+// Categories baby and child. Check attached image "categories (2).png"
+"categories_baby_and_child" = "Bebis och barn";
+
+// Categories cars and motors. Check attached image "categories (1).png"
+"categories_cars_and_motors" = "Motorer och tillbehör";
+
+// Categories electronics. Check image @ "categories_cars_and_motors" segment
+"categories_electronics" = "Elektronik";
+
+// Categories fashion and accessories. Check image @ "categories_cars_and_motors" segment
+"categories_fashion_and_accessories" = "Mode och accessoarer";
+
+// Categories free. Check image @ "categories_cars_and_motors" segment
+"categories_free" = "Gratisprylar";
+
+// Categories home and garden. Check image @ "categories_cars_and_motors" segment
+"categories_home_and_garden" = "Hem och trädgård";
+
+// Categories movies books and music. Check image @ "categories_cars_and_motors" segment
+"categories_movies_books_and_music" = "Filmer, böcker och musik";
+
+// Categories other. Check image @ "categories_baby_and_child" segment
+"categories_other" = "Övrigt";
+
+// Categories real Estate
+"categories_real_estate" = "Bostad";
+
+// Categories real Estate
+"categories_real_estate_title" = "Bostad";
+
+// Categories services
+"categories_services" = "Tjänster";
+
+// Cateogries Jobs & Services
+"categories_jobs_services" = "Jobb & Tjänster";
+
+// Categories sports leisure and games. Check image @ "categories_cars_and_motors" segment
+"categories_sports_leisure_and_games" = "Sport, fritid och spel";
+
+// Categories title. Check attached image "categories (2).png"
+"categories_title" = "Kategorier";
+
+// Text for non assigned category
+"categories_unassigned" = "Inte vald";
+
+// Text for posting with no category assigned
+"categories_unassigned_items" = "Något annat";
+
+// Category "Cars"
+"categories_car" = "Bilar";
+
+// Category "Tech"
+"categories_inFeed_electronics" = "Elektronik";
+
+// Category "Motors"
+"categories_inFeed_motors" = "Motor";
+
+// Category "Leisure"
+"categories_inFeed_sports_leisure_games" = "Fritid";
+
+// Category "Services"
+"categories_inFeed_services" = "Tjänster";
+
+// Category "Home"
+"categories_inFeed_home" = "Hem";
+
+// Category "Entertainment"
+"categories_inFeed_books_movies" = "Underhållning";
+
+// Category "Fashion"
+"categories_inFeed_fashion" = "Mode";
+
+// Category "Child"
+"categories_inFeed_baby_child" = "Barn";
+
+// Category "Other"
+"categories_inFeed_others" = "Övrigt";
+
+// Category "Cars"
+"categories_inFeed_cars" = "Bilar";
+
+// Category "Housing"
+"categories_inFeed_real_estate" = "Bostad";
+
+// Category "Real Estate"
+"categories_inFeed_real_estate_title" = "Bostad";
+
+// Show more header element
+"categories_super_keywords_inFeed_show_more" = "Visa mer";
+
+// Change Bio placeholder text
+"change_bio_placeholder" = "Lägg till en kort bio som beskriver vem du är. Berätta om dina intressen eller något skoj om dig själv.";
+
+// Change Bio view title
+"change_bio_title" = "Om mig";
+
+// Change Bio save button title
+"change_bio_save_button" = "Spara";
+
+// Change Bio error shown when new bio contains invalid info
+"change_bio_error_message" = "Ett fel uppstod när din biografi skulle sparas. Var god kontrollera att den inte innehåller några kontaktuppgifter.";
+
+// Change location apply button. Check image @ "change_location_title" segment
+"change_location_apply_button" = "Välj plats";
+
+// Change location approximate location label. Check image @ "change_location_title" segment
+"change_location_approximate_location_label" = "Visa uppskattad adress";
+
+// Change location alert, error country alert message
+"change_location_error_country_alert_message" = "Välj en plats i det land du är i just nu.";
+
+// Change location error searching location message. Message displayal is like the other error messages
+"change_location_error_search_location_message" = "Kunde inte hitta platsen. Var god försök igen.";
+
+// Change location unknown location message. Message displayal is like the other error messages
+"change_location_error_unknown_location_message" = "Inga resultat för %@";
+
+// Change location error updating location message. Message displayal is like the other error messages
+"change_location_error_updating_location_message" = "Ett fel uppstod under uppdateringen av din plats.";
+
+// Change location unknown location message. Message displayal is like the other error messages
+"change_location_recommend_update_location_message" = "Vi rekommenderar dig att uppdatera din plats för att hitta de bästa erbjudandena nära dig!";
+
+// Change location search field hint. Check image @ "change_location_title" segment
+"change_location_search_field_hint" = "Ange stad eller postnummer";
+
+// Change location title. Check attached image "change_location.png"
+"change_location_title" = "Byt plats";
+
+// Change Location with Zip code Zipcode placeholder
+"change_location_zip_placeholder" = "Postnummer";
+
+// Change Location with Zip code error message
+"change_location_zip_not_found_error_message" = "Ingen ort motsvarar postnumret du angett. Var god kontrollera numret och försök igen.";
+
+// Change password confirm password field hint. Check attached image "change_password.png"
+"change_password_confirm_password_field_hint" = "Bekräfta lösenord";
+
+// Change password new password field hint. Check image @ "change_password_confirm_password_field_hint" segment
+"change_password_new_password_field_hint" = "Nytt lösenord";
+
+// Change password send error generic. Check attached image "change_password_send_error.png"
+"change_password_send_error_generic" = "Ett fel uppstod vid byte av lösenord. Var vänlig försök igen.";
+
+// Change password send error invalid password. Check image @ "change_password_send_error_generic" segment
+"change_password_send_error_invalid_password_with_max" = "Var god ange ett giltigt lösenord. Det måste vara mellan %d och %d tecken.";
+
+// Change password send error passwords mismatch. Check image @ "change_password_send_error_generic" segment
+"change_password_send_error_passwords_mismatch" = "Lösenorden matchar inte. Var god försök igen.";
+
+// Change password send error link expired (when trying to reset a pwd through an expired email link)
+"change_password_send_error_link_expired" = "Tyvärr, denna länk har upphört!";
+
+// Change password send ok. Check image @ "change_password_send_error_generic" segment
+"change_password_send_ok" = "Lösenordet har ändrats!";
+
+// Change password title. Check image @ "change_password_confirm_password_field_hint" segment
+"change_password_title" = "Ändra lösenord";
+
+// Change name invalid name error.  Check image @ "change_username_title" segment
+"change_username_error_invalid_username" = "Var god ange ett giltigt användarnamn på minst %d tecken.";
+
+// Change name invalid username letgo. Check image @ "change_username_title" segment
+"change_username_error_invalid_username_letgo" = "Ett annat konto använder %@.";
+
+// Change name hint.  Check image @ "change_username_title" segment
+"change_username_field_hint" = "Fullständigt namn";
+
+// Change name loading message. Check image @ "change_username_title" segment
+"change_username_loading" = "Sparar ditt användarnamn...";
+
+// Change name save button.  Check image @ "change_username_title" segment
+"change_username_save_button" = "Spara";
+
+// Change username send ok. Check image @ "change_username_title" segment
+"change_username_send_ok" = "Användarnamnet har bytts!";
+
+// Change name title.  Check attached image "change_username.png"
+"change_username_title" = "Byt namn";
+
+// Change email navigation bar title
+"change_email_title" = "Byt e-post";
+
+// Change email current email text
+"change_email_current_email_label" = "BEFINTLIG E-POST:";
+
+// Change email success message
+"change_email_send_ok" = "Din e-post har ändrats till %@. Kolla din e-post inkorg för att bekräfta den!";
+
+// Change email message while loading
+"change_email_loading" = "Sparar e-post...";
+
+// Change email text field placeholder
+"change_email_field_hint" = "Ny e-post (epost@domän.com)";
+
+// Change email invalid email
+"change_email_error_invalid_email" = "Var god ange en giltig e-postadress.";
+
+// Change email already registered
+"change_email_error_already_registered" = "Denna e-post är redan registrerat, vänligen prova en annan.";
+
+"chat_conversations_list_filter_all" = "Alla";
+
+"chat_conversations_list_filter_selling" = "Säljer";
+
+"chat_conversations_list_filter_buying" = "Köper";
+
+"chat_conversations_list_blocked_users_button" = "Se blockerade användare";
+
+// Tag for the letgo assistant conversation cells
+"chat_conversations_list_letgo_assistant_tag" = "letgo assistent";
+
+// Information regarding the asssitant of letgo
+"chat_user_info_letgo_assistant" = "Jag är en virtuell assistent som ger dig tips och hjälper dig att sälja.";
+
+"chat_message_type_not_supported" = "Det här meddelandet är inte kompatibelt med din version av appen. Uppdatera din app för att få tillgång till de senaste funktionerna!";
+
+// Chat inactive conversations cell
+"chat_inactive_conversations_explanation_label" = "Chattar äldre än 3 månader arkiveras automatiskt.";
+
+// Chat inactive conversations cell
+"chat_inactive_conversations_button" = "Se arkiverade chattar";
+
+// Chat message shown on top of all inactive conversations
+"chat_inactive_conversation_relation_explanation" = "Chattar som har varit inaktiva de senaste 3 månaderna arkiveras automatiskt av letgo.";
+
+// When a user asked to delete his account (short info message)
+"chat_account_deleted_w_name" = "%@s konto har avslutats";
+
+// When a user asked to delete his account (short info message)
+"chat_account_deleted_wo_name" = "Kontot har avslutats";
+
+// Chat block user action
+"chat_block_user" = "Blockera användare";
+
+// Chat block user alert block button
+"chat_block_user_alert_block_button" = "Blockera";
+
+// Chat block user alert text
+"chat_block_user_alert_text" = "Att blockera en användare förhindrar all vidare kontakt mellan er.";
+
+// Chat block user alert title
+"chat_block_user_alert_title" = "Blockera användare";
+
+// Chat detail, you blocked this user label
+"chat_blocked_by_me_label" = "Användaren har blockerats av dig";
+
+// Chat detail, you blocked this user label (includes username)
+"chat_blocked_by_me_label_w_name" = "%@ har blockerats av dig";
+
+// Chat detail, this user blocked you label
+"chat_blocked_by_other_label" = "Denna användare har blockerat dig";
+
+// Title showing LETGO TEAM
+"chat_disclaimer_letgo_team" = "LETGO-TEAMET";
+
+// Chat detail, conversation blocked, disclaimer on bottom. Safety tips text is appended.
+"chat_blocked_disclaimer_scammer_append_safety_tips" = "Klicka här för att se vår %@.";
+
+// Chat detail, conversation blocked, disclaimer on bottom. Safety tips keyword.
+"chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "säkerhetstips";
+
+// Chat detail, conversation blocked, disclaimer on bottom when scammer (missing username)
+"chat_blocked_disclaimer_scammer_wo_name" = "Av säkerhetsskäl har det här kontot tagits bort av letgo och dessa meddelanden har raderats.";
+
+// Message to a seller when is chatting with a scammer
+"chat_forbidden_disclaimer_seller_wo_name" = "Det verkar som att den här användaren inte längre är intresserad av din annons.";
+
+// Message to a seller when is chatting with a scammer (with buyer name)
+"chat_forbidden_disclaimer_seller_w_name" = "Det verkar som att %@ inte längre är intresserad av din annons";
+
+// Message to a buyer when is chatting with a scammer
+"chat_forbidden_disclaimer_buyer_wo_name" = "Det här kontot är under granskning av letgo.";
+
+// Message to a buyer when is chatting with a scammer (with seller name)
+"chat_forbidden_disclaimer_buyer_w_name" = "%@s konto är under granskning av letgo.";
+
+// Message to a user to encourage verifying social accounts (button)
+"chat_connect_account_disclaimer_button" = "Verifiera nu!";
+
+// When a user asked to delete his account (disclaimer message)
+"chat_deleted_disclaimer_w_name" = "Du kan inte fortsätta denna konversation, för %@s konto är inte längre aktivt.";
+
+// When a user asked to delete his account (disclaimer message)
+"chat_deleted_disclaimer_wo_name" = "Du kan inte fortsätta den här konversationen för detta konto är inte längre aktivt.";
+
+// text in chat express banner action button
+"chat_express_banner_button_title" = "Se fynd";
+
+// text in chat express banner title label
+"chat_express_banner_title" = "Liknande fynd nära dig";
+
+// Express chat, don't miss out label text
+"chat_express_dont_miss_label" = "Missa inte dessa fynd";
+
+// Express chat, contact these sellers label text
+"chat_express_contact_sellers_label" = "Kontakta dessa säljare innan andra köpare hittar dem!";
+
+// Express chat, "still available?" text
+"chat_express_text_field_text" = "Hej, är den fortfarande till salu?";
+
+// Express chat contact 1 seller button title
+"chat_express_contact_one_button_text" = "Kontakta 1 säljare";
+
+// Express chat contact several sellers button title
+"chat_express_contact_various_button_text" = "Kontakta %@ säljare";
+
+// Express chat don't ask me again button title
+"chat_express_dont_ask_again_button" = "Fråga mig inte igen";
+
+// Alert text for express chat single message send success
+"chat_express_one_message_sent_success_alert" = "Ditt meddelande har skickats!";
+
+// Alert text for express chat messages send success
+"chat_express_several_messages_sent_success_alert" = "Dina meddelanden har skickats!";
+
+// Express chat jsut contact button title
+"chat_express_contact_only_button_text" = "Kontakta";
+
+// In high demand label text
+"chat_express_high_demand_label" = "Stor efterfrågan! Missa inte dessa fynd";
+
+// text in chat professional banner action button
+"chat_professional_banner_button_title" = "Ring";
+
+// text in chat professional banner title label
+"chat_professional_banner_title" = "Du pratar med en professionell bilhandlare";
+
+// When a user asked to delete his account (state)
+"chat_list_account_deleted" = "Kontot har avslutats";
+
+// Text to put on the username field when user is deleted
+"chat_list_account_deleted_username" = "Inaktiv";
+
+// Chat List all-chats title
+"chat_list_all_empty_title" = "INGEN CHATT (ÄNNU!)";
+
+// Chat List all-chats filter title
+"chat_list_all_title" = "ALLA";
+
+// Chat List Archive error when archiving multiple chats
+"chat_list_archive_error_multiple" = "Ett fel uppstod när dessa konversationer skulle arkiveras. Var god försök igen.";
+
+// Chat List Blocked Users empty body
+"chat_list_blocked_empty_body" = "Välj \"Blockera Användare\" från menyn inne i chatten.";
+
+// Chat List Blocked Users empty title
+"chat_list_blocked_empty_title" = "BLOCKERA ANVÄNDARE";
+
+// Chat list blocked user cell "blocked" label
+"chat_list_blocked_user_label" = "Blockerad";
+
+// Chat list blocked users title
+"chat_list_blocked_users_title" = "BLOCKERADE ANVÄNDARE";
+
+// Chat List buying button
+"chat_list_buying_empty_button" = "Kolla in annonser";
+
+// Chat List buying title
+"chat_list_buying_empty_title" = "INGEN CHATT (ÄNNU!)";
+
+// Chat list buying filter title
+"chat_list_buying_title" = "KÖPER";
+
+// Chat list delete (top bar)
+"chat_list_delete" = "Radera";
+
+// Chat list delete confirmation alert submit button
+"chat_list_delete_alert_send" = "Radera";
+
+// Chat list delete confirmation alert text (multiple)
+"chat_list_delete_alert_text_multiple" = "Du kommer att radera de här chattarna permanent";
+
+// Chat list delete confirmation alert text (single)
+"chat_list_delete_alert_text_one" = "Du kommer att radera den här chatten permanent";
+
+// Chat list delete confirmation alert title (multiple)
+"chat_list_delete_alert_title_multiple" = "Radera chatt";
+
+// Chat list delete confirmation alert title (single)
+"chat_list_delete_alert_title_one" = "Radera chatten";
+
+// Chat list delete error (single)
+"chat_list_delete_error_one" = "Ett fel uppstod när chatten skulle raderas. Var vänlig försök igen.";
+
+// Chat list delete success (single)
+"chat_list_delete_ok_one" = "Chatten har raderats!";
+
+// Chat List selling button
+"chat_list_selling_empty_button" = "Sälj dina prylar";
+
+// Chat List selling title
+"chat_list_selling_empty_title" = "INGEN CHATT (ÄNNU!)";
+
+// Chat list selling filter title
+"chat_list_selling_title" = "SÄLJER";
+
+// Chat list title, Check attached image "chat_list (full).png"
+"chat_list_title" = "Chatt";
+
+// Chat List Unarchive error when archiving multiple chats
+"chat_list_unarchive_error_multiple" = "Ett fel uppstod när dessa konversationer skulle tas bort från arkivet. Var god försök igen.";
+
+// Chat list Unblock
+"chat_list_unblock" = "Avblockera";
+
+// Inactive chats screen title
+"chat_inactive_list_title" = "Inaktiva chattar";
+
+// Login info when trying to chat logged-out
+"chat_login_popup_text" = "För att börja chatta, måste du logga in";
+
+// Disclaimer message shown on the first message receive from the interlocutor
+"chat_message_disclaimer_meeting_security" = "Försök att alltid bestämma träff på välbesökta offentliga platser som caféer eller bankkontor. Det är både praktiskt och säkert.";
+
+// Disclaimer shown for each suspicious message received in chat with no blocked user
+"chat_message_disclaimer_scammer_base_blocked" = "Var extra försiktig när du delar med dig av telefonnummer/e-postadress. Bedragare ber ofta om att lämna letgo-chatten. %@";
+
+// Disclaimer shown for each suspicious message received in chat with blocked user
+"chat_message_disclaimer_scammer_append_blocked" = "Klicka här för att blockera användaren.";
+
+// Chat message field hint. Check attached image "chat.png"
+"chat_message_field_hint" = "Skriv ditt meddelande här";
+
+// Chat detail, the product is given away.
+"chat_product_given_away_label" = "Bortskänkt";
+
+// Chat message load generic error. Message displayal is like the other error messages.
+"chat_message_load_generic_error" = "Ett fel uppstod vid hämtning av din information. Var god försök igen.";
+
+// Chat detail, the product is sold
+"chat_product_sold_label" = "Såld";
+
+// Section inside chat that offers related products
+"chat_related_products_title" = "DU KANSKE ÄR INTRESSERAD AV:";
+
+// Chat safety tips.
+"chat_safety_tips" = "Säkerhetstips";
+
+// Chat safety tips full message
+"chat_safety_tips_message" = "• Möt varandra och betala kontant.\n\n• Håll samtalen i letgo-chatten.\n\n• För bra för att vara sant? Hitta en annan köpare/säljare.";
+
+// Chat safety tips title. Check attached image "chat_safety_tips.png"
+"chat_safety_tips_title" = "SÄKERHETSTIPS";
+
+// Chat send button. Check image @ "chat_list_title" segment
+"chat_send_button" = "Skicka";
+
+// Chat send error generic. Message displayal is like the other error messages
+"chat_send_error_generic" = "Ett fel uppstod när meddelandet sändes. Vänligen försök igen.";
+
+// Chat send error, users in different country
+"chat_send_error_different_country" = "Du kan inte starta en chatt om en annons som har lagts upp i ett annat land.";
+
+// Chat connection status bar connecting
+"chat_status_view_connecting" = "Ansluter...";
+
+// Chat connection status bar no network connection
+"chat_status_view_no_network" = "Ingen anslutning";
+
+// Chat connection status bar unable to connect
+"chat_status_view_unable_to_connect" = "Anslutningen misslyckades. Vänligen försök igen";
+
+// This text will not be shown, but IT HAS TO BE EXACTLY like the "try again" in the "chat_status_view_unable_to_connect" string
+"chat_status_view_try_again" = "försök igen";
+
+// Chat tooltip add stickers "NEW"
+"chat_stickers_tooltip_new" = "NY!";
+
+// Chat unblock user action
+"chat_unblock_user" = "Avblockera användare";
+
+// User info bubble to show information about the other user
+"chat_user_info_name" = "Hej, jag heter %@";
+
+// User info bubble to show information about the other user
+"chat_user_info_verified_with" = "Verifierad med: ";
+
+// Text for the review user button tooltip
+"chat_user_rating_button_tooltip" = "Bedöm denna användare";
+
+// Alert when an unverified user tries to chat
+"chat_verify_alert_ok_button" = "Ok";
+
+// Alert when an unverified user tries to chat
+"chat_verify_alert_title" = "Bekräfta din e-postadress för att chatta";
+
+// Alert encouraging users to connect facebook & google
+"chat_connect_accounts_title" = "SKAPA FÖRTROENDE!";
+
+// Background text on chat list when user is not verified
+"chat_not_verified_state_title" = "ÄR DU VERIFIERAD?";
+
+// Background text on chat list when user is not verified
+"chat_not_verified_state_message" = "Kolla om du är verifierad för att kunna börja chatta.";
+
+// Background text on chat list when user is not verified
+"chat_not_verified_state_check_button" = "Kolla";
+
+// Alert to encourage user to verify
+"chat_not_verified_alert_message" = "Anslut med Facebook, Google eller din e-postadress för att verifiera din identitet.";
+
+// Alert to show when user started chat with himself
+"chat_with_yourself_alert_msg" = "Du kan inte starta en chatt som gäller din egen annons.";
+
+// Button in chat conversation list to mark all conversations as read
+"chat_mark_conversation_as_read_button" = "Markera alla som lästa";
+
+// meeting cell title
+"chat_meeting_cell_title" = "Låt oss träffas på:";
+
+// decline button text
+"chat_meeting_cell_decline_button" = "Tacka nej";
+
+// accept button text
+"chat_meeting_cell_accept_button" = "Tacka ja";
+
+// pending meeting status text
+"chat_meeting_cell_status_pending" = "Inväntar svar";
+
+// accepted meeting status text
+"chat_meeting_cell_status_accepted" = "Godkänd";
+
+// declined meeting status text
+"chat_meeting_cell_status_declined" = "Avböjd";
+
+// Title of transport collection
+"collection_transport_title" = "Res med stil";
+
+// Title of furniture collection
+"collection_furniture_title" = "Borta bra, hemma bäst";
+
+// Title of selected for you collection
+"collection_you_title" = "Vald för dig";
+
+// Explore button on collection cell
+"collection_explore_button" = "Utforska";
+
+// commercializer display share alert
+"commercializer_display_share_alert" = "";
+
+// commercializer display share button for my videos
+"commercializer_display_share_my_video_button" = "";
+
+// Title for the commercializer display view
+"commercializer_display_title_label" = "";
+
+// player couldn't load the video
+"commercializer_load_video_failed_error_message" = "";
+
+// Commercializer ready title
+"commercializer_preview_title" = "";
+
+// commercializer processing video title label
+"commercializer_processing_title_label" = "";
+
+// Empty view shown when the list of commercializable items is empty
+"commercializer_product_list_empty_body" = "";
+
+// Empty view shown when the list of commercializable items is empty
+"commercializer_product_list_empty_title" = "";
+
+// Commercializer main screen intro button (tutorial overlay)
+"commercializer_promote_intro_button" = "";
+
+// Commercializer main screen navigation bar title
+"commercializer_promote_navigation_title" = "";
+
+// commercializer main screen theme already used
+"commercializer_promote_theme_already_used" = "";
+
+// commercializer share message text
+"commercializer_share_message_text" = "";
+
+// Common cancel
+"common_cancel" = "Avbryt";
+
+// Common chat not available
+"common_chat_not_available" = "Hoppsan! Chatten kunder inte hittas.";
+
+// Common collapse
+"common_collapse" = "Visa mindre";
+
+// Common Confirm
+"common_confirm" = "Bekräfta";
+
+// Common Done
+"common_done" = "Klar";
+
+// Common Edit
+"common_edit" = "Redigera";
+
+// Common error
+"common_error" = "Fel";
+
+// Common error connection failed
+"common_error_connection_failed" = "Ett fel uppstod. Var god kontrollera din internetanslutning.";
+
+// Common error generic body
+"common_error_generic_body" = "Ett fel uppstod.";
+
+// Common error list retry button
+"common_error_list_retry_button" = "Prova igen";
+
+// Common error network body
+"common_error_network_body" = "Var vänlig kolla dina nätverksinställningar och försök igen";
+
+// Common error retry button
+"common_error_retry_button" = "Försök igen";
+
+// Common error title
+"common_error_title" = "HOPPSAN!";
+
+// Error when loading image
+"common_error_posting_loaded_image" = "Hoppsan! Din annons har inte lagts upp. Vänligen kontrollera dina nätverksinställningar.";
+
+// Common expand
+"common_expand" = "Visa mer";
+
+// Common loading. Check attached image "common_loading.png"
+"common_loading" = "Laddar...";
+
+// Common max (Abbreviation from maximum)
+"common_max" = "max";
+
+// Common no
+"common_no" = "Nej";
+
+// Common new
+"common_new" = "Ny!";
+
+// Common ok
+"common_ok" = "Ok";
+
+// Common product given away
+"common_product_given_away" = "Bortskänkt";
+
+// Common product not available.
+"common_product_not_available" = "Hoppsan! Den här annonsen finns inte längre";
+
+// Common product sold.
+"common_product_sold" = "Såld";
+
+// Common settings
+"common_settings" = "Inställningar";
+
+"common_short_time_day_ago_label" = "%d dag";
+
+"common_short_time_days_ago_label" = "%d dagar";
+
+"common_short_time_hours_ago_label" = "%d h";
+
+"common_short_time_minutes_ago_label" = "%d m";
+
+"common_short_time_more_than_one_month_ago_label" = "1+ månad";
+
+"common_short_time_week_ago_label" = "%d vecka";
+
+"common_short_time_weeks_ago_label" = "%d veckor";
+
+// Common time a minute ago label
+"common_time_a_minute_ago_label" = "en minut sedan";
+
+// Common time day ago label
+"common_time_day_ago_label" = "en dag sedan";
+
+// Common time days ago label
+"common_time_days_ago_label" = "%d dagar sedan";
+
+// Common time hour ago label
+"common_time_hour_ago_label" = "en timme sedan";
+
+// Common time hours ago label
+"common_time_hours_ago_label" = "%d timmar sedan";
+
+// Common time minutes ago label
+"common_time_minutes_ago_label" = "%d minuter sedan";
+
+// Common time more than one month ago label
+"common_time_more_than_one_month_ago_label" = "mer än en månad sedan";
+
+// Common time now label
+"common_time_now_label" = "nu";
+
+// Common time seconds ago label
+"common_time_seconds_ago_label" = "%d sekunder sedan";
+
+// Common time week ago label
+"common_time_week_ago_label" = "en vecka sedan";
+
+// Common time weeks ago label
+"common_time_weeks_ago_label" = "%d veckor sedan";
+
+// Common user not available
+"common_user_not_available" = "Hoppsan! Användaren hittades inte.";
+
+// Common user review not available
+"common_user_review_not_available" = "Oups! Inget omdöme kunde hittas.";
+
+// Common yes
+"common_yes" = "Ja";
+
+// Common display for time
+"common_hours_mins_secs" = "%@h %@m %@s";
+
+// Text shown in the Community Banner
+"community_banner_title" = "Anslut dig till letgos community!";
+
+// Contact subject option location. Check attached image @ "contact_email_field_hint" segment
+"contact_subject_option_location" = "Platsproblem";
+
+// Contact subject option login. Check attached image @ "contact_email_field_hint" segment
+"contact_subject_option_login" = "Problem med inloggning";
+
+// Contact subject option other. Check attached image @ "contact_email_field_hint" segment
+"contact_subject_option_other" = "Andra problem";
+
+// Contact subject option product edit. Check attached image @ "contact_email_field_hint" segment
+"contact_subject_option_product_edit" = "Redigera eller radera annons";
+
+// Contact subject option profile edit. Check attached image @ "contact_email_field_hint" segment
+"contact_subject_option_profile_edit" = "Redigera/ta bort profil";
+
+// Contact subject option report. Check attached image @ "contact_email_field_hint" segment
+"contact_subject_option_report" = "Rapporterar användare/spam";
+
+// Chat direct answer as buyer
+"direct_answer_condition" = "I vilket skick är den?";
+
+// Chat direct answer as a seller - free listing. yours
+"direct_answer_free_yours" = "Den är din!";
+
+// Chat direct answer as a seller - free listing- still available
+"direct_answer_free_available" = "Ja, den finns fortfarande";
+
+// Chat direct answer as a seller - free listing- no available
+"direct_answer_free_no_available" = "Tyvärr, jag har redan gett bort den!";
+
+// Chat direct answer as buyer - still have it
+"direct_answer_free_still_have" = "Finns den fortfarande?";
+
+// Chat direct answer as buyer
+"direct_answer_interested" = "Jag är intresserad!";
+
+// Chat direct answer as buyer
+"direct_answer_interested_in_this_item" = "Jag är intresserad av denna vara";
+
+// Chat direct answer as buyer
+"direct_answer_interested_in_buying_it" = "Jag funderar på att köpa den";
+
+// Chat direct answer as buyer
+"direct_answer_interested_buy_it" = "Jag skulle vilja köpa den";
+
+// Chat direct answer as buyer
+"direct_answer_interested_is_this_available" = "Är den tillgänglig?";
+
+// Chat direct answer as buyer
+"direct_answer_interested_is_this_still_available" = "Är den fortfarande tillgänglig?";
+
+// Chat direct answer as buyer
+"direct_answer_interested_is_it_still_available" = "Är den fortfarande tillgänglig?";
+
+// Chat direct answer as buyer
+"direct_answer_interested_still_have_it" = "Har du kvar den?";
+
+// Chat direct answer as buyer
+"direct_answer_interested_is_it_still_for_sale" = "Är den fortfarande till salu?";
+
+// Chat direct answer as buyer
+"direct_answer_interested_has_it_sold" = "Är den såld?";
+
+// Chat direct answer as buyer
+"direct_answer_interested_still_selling_it" = "Säljer du den fortfarande?";
+
+// Chat direct answer as buyer
+"direct_answer_interested_what_condition" = "I vilket skick är den?";
+
+// Chat direct answer as buyer
+"direct_answer_is_negotiable" = "Är priset förhandlingsbart?";
+
+// Chat direct answer as buyer
+"direct_answer_like_to_buy" = "Hej! Jag skulle vilja köpa den";
+
+// Chat direct answer as buyer
+"direct_answer_meet_up" = "Var ska vi träffas?";
+
+// Chat direct answer as seller
+"direct_answer_negotiable_no" = "Nej, det är inte förhandlingsbart";
+
+// Chat direct answer as seller
+"direct_answer_negotiable_yes" = "Ja, det är förhandlingsbart";
+
+// Chat direct answer as buyer or seller
+"direct_answer_not_interested" = "Jag är inte intresserad";
+
+// Chat direct answer as seller
+"direct_answer_product_sold" = "Tyvärr, den är redan såld!";
+
+// Alert to ask the user to mark the product as sold - message
+"direct_answer_sold_question_message" = "Markera din annons som såld för att informera andra letgo-användare";
+
+// Alert to ask the user to mark the product as given away - message
+"direct_answer_given_away_question_message" = "Markera din vara som bortskänkt för att informera andra letgo användare";
+
+// Alert to ask the user to mark the product as sold - possitive btn
+"direct_answer_sold_question_ok" = "Markera som såld";
+
+// Alert to ask the user to mark the product as given away - possitive btn
+"direct_answer_given_away_question_ok" = "Markera som bortskänkt";
+
+// Chat direct answer as buyer
+"direct_answer_still_available" = "Är den fortfarande tillgänglig?";
+
+// Alert to ask the user to mark the product as sold - title
+"direct_answer_sold_question_title" = "Redan sålt den?";
+
+// Chat direct answer as seller
+"direct_answer_still_for_sale" = "Ja, den är fortfarande till försäljning";
+
+// Chat direct answer as seller
+"direct_answer_whats_offer" = "Vad bjuder du?";
+
+// option button to hide quick answers
+"direct_answers_hide" = "Göm Snabba Svar";
+
+// option button to show quick answers
+"direct_answers_show" = "Visa Snabba Svar";
+
+// Alert to ask the user to mark the product as given away - title
+"direct_answer_given_away_question_title" = "Redan skänkt bort den?";
+
+// Chat direct answer as buyer
+"direct_answer_still_for_sale_buyer" = "Är den fortfarande till salu?";
+
+// Chat direct answer as buyer
+"direct_answer_price_firm" = "Är priset fast?";
+
+// Chat direct answer as buyer
+"direct_answer_willing_to_negotiate" = "Kan du tänka dig att förhandla?";
+
+// Chat direct answer as buyer
+"direct_answer_how_much_asking" = "Vilket pris begär du?";
+
+// Chat direct answer as buyer
+"direct_answer_good_condition" = "Är den i gott skick?";
+
+// Chat direct answer as buyer
+"direct_answer_describe_condition" = "Kan du beskriva dess skick?";
+
+// Chat direct answer a buyer or seller
+"direct_answer_where_meet_up" = "Var vill du träffas?";
+
+// Chat direct answer a buyer or seller
+"direct_answer_where_located" = "Var befinner du dig?";
+
+// Chat direct availability title
+"direct_answer_availability_title" = "Tillgänglighet...";
+
+// Chat direct price title
+"direct_answer_price_title" = "Pris...";
+
+// Chat direct condition title
+"direct_answer_condition_title" = "Skick...";
+
+// Chat direct meet up title
+"direct_answer_meet_up_title" = "Möte...";
+
+// Chat direct interested title
+"direct_answer_interested_title" = "Intresserad...";
+
+// Chat direct not interested title
+"direct_answer_not_interested_title" = "Inte intresserad...";
+
+// Chat direct sold title
+"direct_answer_sold_title" = "Såld...";
+
+// Chat direct given away title
+"direct_answer_given_away_title" = "Bortskänkt...";
+
+// Chat direct negotiable title
+"direct_answer_negotiable_title" = "Förhandlingsbar...";
+
+// Chat direct not negotiable title
+"direct_answer_not_negotiable_title" = "Ej förhandlingsbar...";
+
+"direct_answer_lets_meet" = "Låt oss träffas";
+
+// Show user a product is discarded
+"discarded" = "Avvisad";
+
+// Rejected reason: breach of bad manners
+"discarded_products_reason_good_manners" = "Bryter mot våra användartips";
+
+// Rejected reason: duplicated
+"discarded_products_reason_duplicated" = "Dubblett";
+
+// Rejected reason: No realistic price
+"discarded_products_reason_non_realistic_price" = "Orimligt pris";
+
+// Rejected reason: Poor Ad Quality
+"discarded_products_reason_poor_ad_quality" = "Bryter mot våra användartips";
+
+// Rejected reason: Photo not clear
+"discarded_products_reason_photo_not_clear" = "Suddigt eller otydligt foto";
+
+// Rejected reason: Reference to competitors
+"discarded_products_reason_reference_to_competitors" = "Hänvisar till andra appar eller webbplatser";
+
+// Rejected reason: Stock photo only
+"discarded_products_reason_stock_photo_only" = "Innehåller endast stockfoton";
+
+// Allow user to edit a discarded product
+"discarded_products_edit" = "Redigera";
+
+// Allow users to delete a discarded product
+"discarded_products_delete" = "Radera";
+
+// Confirm discarded product deletion
+"discarded_products_delete_confirmation" = "Är du säker på att du vill radera denna annons?";
+
+// Text for Edit Product Location Alert
+"edit_product_location_alert_text" = "För att ändra plats på din annons, tillåt tillgång till din platsinfo";
+
+// Title for Edit Product Location Alert
+"edit_product_location_alert_title" = "BYT PLATS";
+
+// Edit product send button. Check image @ "sell_send_error_invalid_category" segment
+"edit_product_send_button" = "Spara ändringar";
+
+// Edit product send error uploading product. Message displayal is like the other error messages.
+"edit_product_send_error_uploading_product" = "Ett fel uppstod när din annons skulle uppdateras.";
+
+// Edit product send ok. Message displayal is like the other messages.
+"edit_product_send_ok" = "Grattis! Din annons är nu uppdaterad.";
+
+// Text for title disclaimer when suggesting title
+"edit_product_suggesting_title" = "Föreslår titel...";
+
+// Edit product title. Check image @ "sell_send_error_invalid_category" segment
+"edit_product_title" = "Redigera annons";
+
+// When closing edit product with unsaved changes
+"edit_product_unsaved_changes_alert" = "Är du säker på att du vill lämna sidan utan att spara ändringarna?";
+
+// When closing edit product with unsaved changes -> Ok button
+"edit_product_unsaved_changes_alert_ok" = "Släng";
+
+// Edit product, short version copy to feature item
+"edit_product_feature_label_short_text" = "Sälj snabbare nu";
+
+// Edit product, long version copy to feature item
+"edit_product_feature_label_long_text" = "Topplista din annons för att sälja snabbare";
+
+// Edit product, copy to feature item test version B
+"edit_product_feature_label_variant_B" = "Sälj snabbare nu";
+
+// Edit product, copy to feature item test version C
+"edit_product_feature_label_variant_C" = "Locka fler säljare för att sälja snabbare";
+
+// Edit product, copy to feature item test version D
+"edit_product_feature_label_variant_D" = "Visa mig hur jag kan locka fler köpare";
+
+// Edit price type, title of options list
+"edit_priceType_choose_title" = "Välj ett alternativ";
+
+// Placeholder value for paymentFrequency/PriceType
+"edit_paymentFrequency_placeholder" = "Ej Vald";
+
+// Title for paymentFrequency edit field
+"edit_paymentFrequency_title" = "Frekvens";
+
+// Title for when Jobs is selected
+"edit_jobsServices_jobs_option_title" = "Jobb";
+
+// Title for when Services is selected
+"edit_jobsServices_services_option_title" = "Tjänster";
+
+// Title for Job/Service listing type title
+"edit_jobsServices_listingType_title" = "Typ av annons";
+
+// Type field title for when Jobs & Services is active
+"edit_jobsServices_serviceType_title" = "Typ";
+
+// Subtype field title for when Jobs & Services is active
+"edit_jobsServices_serviceSubtype_title" = "Undertyp";
+
+// Bubble title
+"engagement_badging_feed_bubble" = "Nya varor";
+
+// featured info view, title
+"featured_info_view_title" = "Topplistad produkt";
+
+// featured info view sell faster text
+"featured_info_view_sell_faster" = "Sälj snabbare";
+
+// featured info view increase visibility text
+"featured_info_view_increase_visibility" = "Skaffa mera synlighet";
+
+// featured info view more buyers text
+"featured_info_view_more_buyers" = "Locka flera köpare";
+
+// When there's no distance filter set
+"filters_distance_not_set" = "inte vald";
+
+// Filters navbar reset
+"filters_navbar_reset" = "Återställ";
+
+// Filters save button
+"filters_save_button" = "Spara filter";
+
+// Filters section car info
+"filters_section_car_info" = "Biluppgifter";
+
+// Filters section categories
+"filters_section_categories" = "Kategorier";
+
+// Filters section distance
+"filters_section_distance" = "Avstånd";
+
+// Filters section location
+"filters_section_location" = "Plats";
+
+// Filters Section Price
+"filters_section_price" = "Pris";
+
+// Filters section sort-by
+"filters_section_sortby" = "Sortera efter";
+
+// Filters secion within (within which time we want the products)
+"filters_section_within" = "Annonserade under";
+
+// Label to select only free items
+"filters_section_price_free_title" = "Visa endast gratis varor";
+
+// Filters Section From price
+"filters_price_from" = "Från";
+
+// Filters Section To price
+"filters_price_to" = "Till";
+
+// From price in the selected filter cell shown in feed
+"filters_price_from_feed_filter_cell" = "Från";
+
+// To price in the selected filter cell shown in feed
+"filters_price_to_feed_filter_cell" = "Till";
+
+// Alert text when min price is higher than max price
+"filters_price_wrong_range_error" = "Lägsta pris kan inte vara högre än högsta pris.";
+
+// Alert text when min size is higher than max size
+"filters_size_wrong_range_error" = "Den minsta ytan får inte vara högre än den största ytan.";
+
+// Filters sort option closest
+"filters_sort_closest" = "Närmast först";
+
+// Filters sort option newest
+"filters_sort_newest" = "Senast upplagda först";
+
+// Filters sort option price ascending
+"filters_sort_price_asc" = "Pris lågt till högt";
+
+// Filters sort option price descending
+"filters_sort_price_desc" = "Pris högt till lågt";
+
+// Filters title
+"filters_title" = "Filter";
+
+// Filters within option All
+"filters_within_all" = "Alla annonser";
+
+// Filters within option 1 day
+"filters_within_day" = "De senaste 24 timmarna";
+
+// Filters within option 30 days
+"filters_within_month" = "De senaste 30 dagarna";
+
+// Filters within option 7 days
+"filters_within_week" = "De senaste 7 dagarna";
+
+// Filters Car seller type: private
+"filters_car_seller_type_private" = "Privat";
+
+// Filters Car seller type: professional
+"filters_car_seller_type_professional" = "Professionell";
+
+// Filters Car seller type: individual
+"filters_car_seller_type_invidual" = "Individ";
+
+// Filters Car seller type: dealership
+"filters_car_seller_type_dealership" = "Bilhandlare";
+
+// Filters Car seller type: all
+"filters_car_seller_type_all" = "Alla";
+
+// Filters Make not set
+"filters_car_make_not_set" = "Ej Valt";
+
+// Filters Model Not Set
+"filters_car_model_not_set" = "Ej Vald";
+
+// Filters for Year, full range
+"filters_car_year_any_year" = "Alla år";
+
+// Filters For Year, before year X
+"filters_car_year_before_year" = "Innan %@";
+
+// Filters section title
+"filters_section_real_estate_info" = "Fastighetsinformation";
+
+// Filters Services section title
+"filters_section_services_info" = "Tjänstinfo";
+
+// Filters ServiceType not set
+"filters_service_type_not_set" = "Ej Vald";
+
+// Filters ServiceSubtype not set
+"filters_service_subtype_not_set" = "Ej Vald";
+
+// Filters property type not set
+"filters_real_estate_property_type_not_set" = "inte vald";
+
+// Filters Type of Listing not set
+"filters_real_estate_offer_type_not_set" = "inte vald";
+
+// Filters Nº of Bedrooms type not set
+"filters_real_estate_bedrooms_not_set" = "inte vald";
+
+// Filters Nº of Bathrooms not set
+"filters_real_estate_bathrooms_not_set" = "inte vald";
+
+// From price in the selected filter cell shown in feed
+"filters_real_estate_size_from_feed_filter_cell" = "Från";
+
+// To price in the selected filter cell shown in feed
+"filters_real_estate_size_to_feed_filter_cell" = "Till";
+
+// Selected location text when there is no postal address.
+"filters_tag_location_selected" = "Utvald plats";
+
+"filter_results_cars_no_matches" = "Din sökning gav ingen träff. \nLiknande resultat visas. ";
+
+"filter_results_cars_other_results" = "Nyligen upplagda i ditt område";
+
+// Title for bodytype filter section
+"filters_cars_bodytype_title" = "Karossform";
+
+// Title for transmission filter section
+"filters_cars_transmission_title" = "Växellåda";
+
+// Title for fueltype filter section
+"filters_cars_fueltype_title" = "Drivmedel";
+
+// Title for drivetrain filter section
+"filters_cars_drivetrain_title" = "Drivlina";
+
+// Title for seat filter section
+"filter_cars_seats_title" = "Säten";
+
+// Mileage
+"filter_cars_mileage" = "Miltal";
+
+// Coupe car type
+"filters_cars_bodytype_coupe" = "coupé";
+
+// Sedan car type
+"filters_cars_bodytype_sedan" = "sedan";
+
+// Hybrid car type
+"filters_cars_bodytype_hybrid" = "Hybrid";
+
+// Hatchback car type
+"filters_cars_bodytype_hatchback" = "Halvkombi";
+
+// Convertible car type
+"filters_cars_bodytype_convertible" = "Cabriolet";
+
+// Wagon car type
+"filters_cars_bodytype_wagon" = "Kombi";
+
+// Minivan car type
+"filters_cars_bodytype_minivan" = "Minibuss";
+
+// SUV car type
+"filters_cars_bodytype_suv" = "Stadsjeep";
+
+// Truck car type
+"filters_cars_bodytype_truck" = "lastbil";
+
+// Other car type
+"filters_cars_bodytype_other" = "Annat";
+
+// AWD drive train
+"filters_cars_drivetrain_awd" = "Allhjulsdrift";
+
+// FWD drive train
+"filters_cars_drivetrain_fwd" = "Framhjulsdrift";
+
+// 4WD drive train
+"filters_cars_drivetrain_4wd" = "Fyrhjulsdrift";
+
+// RWD drive train
+"filters_cars_drivetrain_rwd" = "Bakhjulsdrift";
+
+// Diesel Fuel type
+"filters_cars_fueltype_diesel" = "Diesel";
+
+// Electric Fuel type
+"filters_cars_fueltype_electric" = "Elektrisk";
+
+// Flex Fuel type
+"filters_cars_fueltype_flex" = "Etanol";
+
+// gas Fuel type
+"filters_cars_fueltype_gas" = "Bensin";
+
+// Hybrid fuel type
+"filters_cars_fueltype_hybrid" = "Hybrid";
+
+// Automatic transmission type
+"filters_cars_transmission_automatic" = "Automatisk";
+
+// Manual transmission type
+"filters_cars_transmission_manual" = "Manuell";
+
+// Title for Mileage slider
+"filters_mileage_slider_title" = "Miltal";
+
+// Title for number of seats slider
+"filters_numberOfSeats_slider_title" = "Säten";
+
+// Text to display when no min or max value is selected
+"filters_slider_any" = "Alla";
+
+// Text to display to show more items
+"filter_services_services_list_show_more" = "Visa mer";
+
+// Title for filters services list
+"filters_services_services_list_title" = "Välj kategori";
+
+// Placeholder text shown inside the Search Box to filter the service types
+"filters_services_services_list_search_placeholder" = "Hemmafixare, Entreprenad...";
+
+// Alert to display to user that the max amount of services have already been selected
+"filters_services_services_list_max_selection_alert" = "Hoppsan! Du kan inte välja fler än 15 tjänster.";
+
+// Section header for jobs and services toggle
+"filters_jobs_services_toggle_header" = "Letar efter...";
+
+// Section header text for jobs and services filters
+"filters_jobs_services_header" = "Jobb eller Tjänst Info";
+
+// Title for Jobs and Services Type filter
+"filters_jobs_services_type_title" = "Typ";
+
+// Title for Jobs and Services Subtype filter
+"filters_jobs_services_subtype_title" = "Undertyp";
+
+// Unit suffix for miles (e.g. the mi in "400,000 mi")
+"mile_unit_suffix" = "mil";
+
+// Unit suffix for kilometers (e.g. the km in "400,000 km")
+"kilometer_unit_suffix" = "km";
+
+// Forced update message.
+"forced_update_message" = "Det finns en ny version av letgo. Var god uppdatera nu.";
+
+// Forced update title.
+"forced_update_title" = "Uppdatering tillgänglig";
+
+// Forced update appstore button.
+"forced_update_update_button" = "Uppdatera";
+
+// Privacy Policy button link
+"help_terms_conditions_privacy_part" = "Integritetspolicy";
+
+// Help title.
+"help_title" = "Hjälp";
+
+// Replacement of [EMAIL_HIDDEN]
+"hidden_email_tag" = "[DOLD E-POSTADRESS]";
+
+// Replacement of [TL_HIDDEN]
+"hidden_phone_tag" = "[DOLT TELEFONNUMMER]";
+
+// Alert when clicked hidden_something text
+"hidden_text_alert_title" = "SÄKERHETSTIPS";
+
+// Alert when clicked hidden_something text
+"hidden_text_alert_description" = "Vi döljer kontaktinformation för att du ska kunna köpa och sälja säkert. Att chatta via letgo är både enkelt och säkrare.";
+
+// Title of the first step of the ID Verification
+"id_verification_first_step_title" = "Först behöver vi en bild på dig!";
+
+// Subtitle of the first step of the ID Verification
+"id_verification_first_step_subtitle" = "Ta av dig glasögon, keps eller liknande och ta en selfie.";
+
+// Title of the second step of the ID Verification
+"id_verification_second_step_title" = "Nu behöver vi skanna ditt ID-dokument";
+
+// Subtitle of the second step of the ID Verification
+"id_verification_second_step_subtitle" = "Välj typ av dokument och delstat";
+
+// Title of the list of types of ID to select
+"id_verification_second_step_section_title" = "TYP AV DOKUMENT";
+
+// Message for the alert shown after taking the selfie to update the user profile
+"id_verification_update_avatar_message" = "Vill du använda denna bild som profilbild?";
+
+// Button title to finish step 2 after selecting the Type of ID
+"id_verification_second_step_button_title" = "Fortsätt";
+
+// Title of the view to choose the user State
+"id_verification_select_state_title" = "Delstat";
+
+// Placeholder text shown inside the Search Box to filter the States
+"id_verification_select_state_search_placeholder" = "Sök";
+
+// Title of the third step of the ID Verification
+"id_verification_third_step_title" = "Ta en bild av framsidan av dokumentet";
+
+// Subtitle of the third step of the ID Verification
+"id_verification_third_step_subtitle" = "Försäkra dig att bilden är skarp och att du får med hela dokumentet";
+
+// Title of the fourth step of the ID Verification
+"id_verification_fourth_step_title" = "Ta en bild av baksidan av dokumentet";
+
+// Subtitle of the fourth step of the ID Verification
+"id_verification_fourth_step_subtitle" = "Försäkra dig att bilden är skarp och att du får med hela dokumentet";
+
+// Title of the summary view with all the ID data of the four steps
+"id_verification_summary_title" = "Sammanfattning";
+
+// Subtitle of the summary view
+"id_verification_summary_subtitle" = "Kontrollera uppgifterna och klicka på OK för att spara";
+
+// Title of the list with the info the user selected in the previous steps
+"id_verification_summary_section_title" = "ID-VERIFIKATIONSUPPGIFTER";
+
+// Type of ID passport that can be chosen by the user
+"id_verification_option_passport" = "Pass";
+
+// Type of ID Driver's License that can be chosen by the user
+"id_verification_option_drivers_license" = "Körkort";
+
+// Row of the summary with the selected user picture
+"id_verification_option_user_picture" = "Ditt foto";
+
+// Row of the summary with the selected type of ID
+"id_verification_option_id_type" = "Typ av dokument";
+
+// Row of the summary with the selected State
+"id_verification_option_state" = "Delstat";
+
+// Row of the summary with the selected picture of the ID Front
+"id_verification_option_id_front" = "Dokumentets framsida";
+
+// Row of the summary with the selected picture of the ID Back
+"id_verification_option_id_back" = "Dokumentets baksida";
+
+// Button to confirm the data in summary and request the ID verification
+"id_verification_summary_button_title" = "Ok";
+
+// Text to show on services listing titles. The "Offering" in "Offering: Translation Services"
+"jobs_services_offering_text" = "Erbjuder";
+
+// Text to show on jobs listing titles. The "Wanted" in "Wanted: Translation Services"
+"jobs_services_wanted_text" = "Sökes";
+
+// Title for Listings Map View
+"listings_map_title" = "Kartvy";
+
+// Message for no results in Listings Map View
+"listings_map_no_results_message" = "Ingen exakt matchning hittades. Sök på ett annat område eller ändra sökfilter.";
+
+// Button to refresh a search when user changes the location
+"listing_map_redo_search" = "Sök på detta område";
+
+// Show similar listings if search results were empty
+"listing_show_similar_results" = "Visar träffar för liknande sökningar";
+
+// Long description for showing similar results when search results were empty
+"listing_show_similar_results_description" = "Din sökning gav inga träffar. \nKontrollera att alla ord är rättstavade eller försök med andra sökord eller filter.";
+
+// Interested button on item page. Variant A
+"listing_interested_button_A" = "Jag är intresserad!";
+
+// Interested button on item page. Variant B
+"listing_interested_button_B" = "Intresserad";
+
+// Interested button on item page. Variant C
+"listing_interested_button_C" = "Be om information";
+
+// Interested button on item page. Variant D
+"listing_interested_button_D" = "Be om information";
+
+// Interested button footer on item page.
+"listing_interested_footer" = "Ett automatiskt meddelande skickas till säljaren med frågan om den fortfarande är tillgänglig.";
+
+// Chat button on item page
+"listing_chat_button" = "Chatta nu";
+
+// Fake distance shown in a bubble in a fake product list in onboarding
+"location_permissions_bubble" = "1 km från dig";
+
+// Button to accept asking for location permission
+"location_permissions_button" = "Ja, Använd Min Plats";
+
+// Title asking for Location permission in onboarding (2nd version)
+"location_permissions_title_v2" = "Tillåt platsinfo";
+
+// Subtitle asking for Location permission in onboarding
+"location_permissons_subtitle" = "Vill du se annonser som har lagts upp nära dig?";
+
+// Allow button on the example to allow location permissions
+"location_permissions_allow_button" = "Tillåt";
+
+// Log in error send error generic. Check attached image "log_in_error_send.png"
+"log_in_error_send_error_generic" = "Ett fel uppstod vid inloggning. Var vänlig försök igen.";
+
+// Log in error send error invalid email. Check image @ "log_in_error_send_error_generic" segment
+"log_in_error_send_error_invalid_email" = "Var god ange en giltig e-postadress.";
+
+// Log in error send error user not found or wrong password. Check image @ "log_in_error_send_error_generic" segment
+"log_in_error_send_error_user_not_found_or_wrong_password" = "Ogiltig e-postadress eller lösenord. Var vänlig försök igen.";
+
+// Log in reset password button. Check image @ "log_in_email_field_hint" segment
+"log_in_reset_password_button" = "Glömt ditt lösenord?";
+
+// Log in send button. Check image @ "log_in_email_field_hint" segment
+"log_in_send_button" = "Logga in";
+
+// Log in title. Check image @ "log_in_email_field_hint" segment
+"log_in_title" = "Logga in med e-post";
+
+// Alert shown to users that fail to login due to scammer error
+"login_scammer_alert_title" = "KONTOT ÄR UNDER GRANSKNING";
+
+// Alert shown to users that fail to login due to scammer error
+"login_scammer_alert_message" = "Ditt konto är under granskning av letgo. Om du tror att det har anmälts av misstag, kontakta oss.";
+
+// Alert shown to users that fail to login due to scammer error
+"login_scammer_alert_contact_button" = "Kontakta Oss";
+
+// Alert shown to users that fail to login due to scammer error
+"login_scammer_alert_keep_browsing_button" = "Hoppa över";
+
+// Alert shown to users that fail to login due to device not allowed error
+"login_device_not_allowed_alert_title" = "VERIFIERA INLOGGNING";
+
+// Alert shown to users that fail to login due to device not allowed error
+"login_device_not_allowed_alert_message" = "Du har aldrig använt denna enhet för att logga in innan. Vi har skickat dig ett mejl för att verifiera enheten, var god kontrollera din inkorg för att kunna fortsätta.";
+
+// Alert shown to users that fail to login due to device not allowed error
+"login_device_not_allowed_alert_contact_button" = "Kontakta Oss";
+
+// Alert shown to users that fail to login due to device not allowed error
+"login_device_not_allowed_alert_ok_button" = "Ok";
+
+// Login v2. Log in w email help button
+"log_in_email_help_button" = "Hjälp";
+
+// Login v2. Log in w email password field hint
+"log_in_email_password_field_hint" = "Lösenord";
+
+// Login v2. Lg in w email footer
+"log_in_email_footer" = "Har du inget konto än? Registrera dig";
+
+// Login v2. Log in w email wrong password alert title
+"log_in_email_wrong_password_alert_title" = "Ogiltigt lösenord";
+
+// Login v2. Log in w email wrong password alert cancel button
+"log_in_email_wrong_password_alert_cancel_action" = "Försök igen";
+
+// Login v2. Log in w email forgot password alert title
+"log_in_email_forgot_password_alert_title" = "Glömt ditt lösenord?";
+
+// Login v2. Log in w email forgot password alert msg
+"log_in_email_forgot_password_alert_message" = "Vi kan skicka ett mejl till %@ för att hjälpa dig komma åt ditt konto igen.";
+
+// Login v2. Log in w email forgot password alert cancel action
+"log_in_email_forgot_password_alert_cancel_action" = "Försök igen";
+
+// Login v2. Log in w email forgot password alert remember action
+"log_in_email_forgot_password_alert_remember_action" = "Skicka mejl";
+
+// machine learning MVP
+"ml_onboarding_new_text" = "NY!";
+
+// machine learning MVP
+"ml_onboarding_description_text" = "Visa mig en produkt så berättar jag hur mycket du kan tjäna";
+
+// machine learning MVP
+"ml_onboarding_ok_text" = "Ok";
+
+// machine learning MVP
+"ml_camera_sells_for_text" = "Säljs vanligtvis för $%d";
+
+// machine learning MVP
+"ml_camera_in_about_days_text" = "Inom cirka %d dagar";
+
+// machine learning MVP
+"ml_camera_in_more_than_days_text" = "Mer än %d dagar";
+
+// machine learning MVP
+"ml_details_suggested_details_text" = "DETALJFÖRSLAG";
+
+// machine learning MVP
+"ml_details_title_text" = "Titel:";
+
+// machine learning MVP
+"ml_details_price_text" = "Pris:";
+
+// machine learning MVP
+"ml_category_text" = "Kategori:";
+
+// Login v2. Sign up w email step 1 title
+"sign_up_email_step1_title" = "Skapa ett nytt konto";
+
+// Login v2. Sign up w email step 1 email field hint
+"sign_up_email_step1_email_field_hint" = "E-post";
+
+// Login v2. Sign up w email step 1 continue button
+"sign_up_email_step1_continue_button" = "Gå vidare";
+
+// Login v2. Sign up w email step 1 login keyword to look for in footer to look for and highlight
+"sign_up_email_step1_footer_log_in_kw" = "Logga in";
+
+// Login v2. Sign up w email step 1 help button
+"sign_up_email_step2_help_button" = "Hjälp";
+
+// Login v2. Sign up w email step 2 name
+"sign_up_email_step2_name_field_hint" = "Fullständigt namn";
+
+// Login v2. Sign up w email step 2 "Privacy Policy" keyword to look for and highlight
+"sign_up_email_step2_terms_conditions_privacy_kw" = "Integritetspolicy";
+
+// Login v2. Sign up w email step 2 receive newsleter checkbox
+"sign_up_email_step2_newsletter" = "Jag vill ta emot nyhetsbrev från letgo";
+
+// Main sign up claim label. Check image @ "main_sign_up_already_registered_label" segment
+"main_sign_up_claim_label" = "Köp och sälj snabbt, säkert och lokalt.";
+
+// Main sign up facebook connect button. Check image @ "main_sign_up_already_registered_label" segment
+"main_sign_up_facebook_connect_button" = "Fortsätt med Facebook";
+
+// Main sign up facebook connect button with user name. Check image @ "main_sign_up_already_registered_label" segment
+"main_sign_up_facebook_connect_button_w_name" = "Logga in som %@";
+
+// Main sign up fb connect error email taken. Message displayal is like the other error messages
+"main_sign_up_fb_connect_error_email_taken" = "Din e-postadress är redan registrerad. Använd den för att logga in.";
+
+// Main sign up fb connect error generic. Message displayal is like the other error messages
+"main_sign_up_fb_connect_error_generic" = "Kunde inte logga in. Vänligen försök igen.";
+
+// Main sign up error email invalid. Message displayal is like the other error messages
+"main_sign_up_error_user_rejected" = "Den e-postadress du skrev in är inte korrekt. Kolla den och försök igen.";
+
+// Main sign up error request already sent. Message displayal is like the other error messages
+"main_sign_up_error_request_already_sent" = "Din begäran har redan registrerats. Vänligen vänta innan du försöker igen.";
+
+// Main sign up google connect button. Check image @ "main_sign_up_already_registered_label" segment
+"main_sign_up_google_connect_button" = "Fortsätt med Google";
+
+// Main sign up google connect button with user name. Check image @ "main_sign_up_already_registered_label" segment
+"main_sign_up_google_connect_button_w_name" = "Logga in som %@";
+
+// Main sign up help button. Check image @ "main_sign_up_already_registered_label" segment
+"main_sign_up_help_button" = "Hjälp";
+
+// Main sign up log in label. Check image @ "main_sign_up_already_registered_label" segment
+"main_sign_up_log_in_label" = "Logga in";
+
+// Main sign up or label. Check image @ "main_sign_up_already_registered_label" segment
+"main_sign_up_or_label" = "ELLER ANVÄND DIN E-POST";
+
+// Main sign up quickly label. Check image @ "main_sign_up_already_registered_label" segment
+"main_sign_up_quickly_label" = "ANSLUT SNABBT MED";
+
+// Main sign up sign up button. Check image @ "main_sign_up_already_registered_label" segment
+"main_sign_up_sign_up_button" = "Registrera dig";
+
+// Main terms and conditions complete text
+"main_sign_up_terms_conditions" = "Genom att registrera dig eller logga in godkänner du våra Villkor och vår Integritetspolicy.";
+
+// Privacy Policy" Part of the complete text
+"main_sign_up_terms_conditions_privacy_part" = "Integritetspolicy";
+
+// "Terms of Service" Part of the complete text
+"main_sign_up_terms_conditions_terms_part" = "Villkor";
+
+// Navigation bar button 'Invite''
+"main_products_invite_navigation_bar_button" = "Bjud in";
+
+// Title for meeting creation view
+"meeting_creation_view_title" = "Planera ett möte";
+
+// place header for meeting creation view
+"meeting_creation_view_place" = "PLATS";
+
+// select location label for meeting creation view
+"meeting_creation_view_select_location" = "Välj en plats";
+
+// date header for meeting creation view
+"meeting_creation_view_date_time" = "DATUM & TID";
+
+// select date label for meeting creation view
+"meeting_creation_view_select_date_time" = "Välj datum och tid";
+
+// suggestion cell select button text
+"meeting_creation_view_suggest_cell_select" = "Välj";
+
+// suggestion cell selected button text
+"meeting_creation_view_suggest_cell_selected" = "Vald";
+
+// custom location cell title
+"meeting_creation_view_search_cell_title" = "Sök en annan plats";
+
+// custom location cell button text
+"meeting_creation_view_search_cell_search" = "Sök";
+
+// send meeting button text
+"meeting_creation_view_send_button" = "Föreslå möte";
+
+// safety tips view title
+"meeting_creation_tips_view_title" = "Välj en säker och praktisk mötesplats";
+
+// safety tips view subtitle
+"meeting_creation_tips_view_subtitle" = "Vi rekommenderar att mötas på dagtid på en välbesökt och välupplyst offentlig plats, exempelvis ett fik eller ett bankkontor.";
+
+// send meeting button text
+"meeting_creation_tips_view_send_button" = "Föreslå möte";
+
+// change meeting button text
+"meeting_creation_tips_view_change_button" = "Ändra möte";
+
+// no changes and close button text
+"meeting_creation_tips_view_gotit_button" = "Jag fattar";
+
+// MoPub and Google Adx advertising indicator "Ad"
+"advertising_text" = "Reklam";
+
+// Subtitle text for empty notifications center
+"notifications_empty_subtitle" = "Lägg upp något till försäljning för att börja se lite aktivitet här";
+
+// Title text for empty notifications center
+"notifications_empty_title" = "INGA NOTISER (ÄNNU!)";
+
+// Message shown inside a fake push notification in onboarding
+"notifications_permissions_1_push" = "Isabella: Jag är väldigt intresserad av din mobil. let go för 800 kr?";
+
+// Subtitle asking for Push notifications in onboarding
+"notifications_permissions_1_subtitle" = "Vill du få information när en annan användare skickar ett meddelande till dig?";
+
+// Title for asking for Push notifications in onboarding (2nd version)
+"notifications_permissions_1_title_v2" = "Acceptera notiser";
+
+// Message shown inside a fake push notification after writing a chat message
+"notifications_permissions_3_push" = "Jonas: Jag går med på ditt erbjudande. 17:00 funkar för mig. Ses då?";
+
+// Subtitle asking for Push notifications after writing a chat message
+"notifications_permissions_3_subtitle" = "Vill du får information när en säljare skickar ett meddelande till dig?";
+
+// Title asking for Push notifications after writing a chat message
+"notifications_permissions_3_title" = "Håll dig uppdaterad";
+
+// Message shown inside a fake push notification after posting a product
+"notifications_permissions_4_push" = "Lena: Jag ger dig 500 kr för den. Kan vi träffas i eftermiddag?";
+
+// Subtitle asking for Push notifications after posting a product
+"notifications_permissions_4_subtitle" = "Vill du få information när en köpare skickar ett meddelande till dig?";
+
+// Title asking for Push notifications after posting a product
+"notifications_permissions_4_title" = "Sälj snabbare";
+
+// Title of Cell where the user should tap (Notifications)
+"notifications_permissions_settings_cell1" = "Notiser";
+
+// Title of cell where the user can activate Push Notifications
+"notifications_permissions_settings_cell2" = "Tillåt notiser";
+
+// First section title showing how to navigate to the Notifications settings
+"notifications_permissions_settings_section1" = "Tryck Notiser";
+
+// Second section title showing how to activate Push notifications from settings
+"notifications_permissions_settings_section2" = "Slå på Notiser";
+
+// subtitle to ask the user to activate Push Notifications redirecting him to the system settings
+"notifications_permissions_settings_subtitle" = "Följ de här stegen för att bli informerad om en användare skickar ett meddelande till dig";
+
+// Title to ask the user to activate Push Notifications redirecting him to the system settings
+"notifications_permissions_settings_title" = "Missa ingen försäljning!";
+
+// Title to ask the user to activate Push Notifications redirecting him to the system settings
+"notifications_permissions_settings_title_chat" = "Missa inga svar!";
+
+// Button to activate Push notifications (redirecting the user)
+"notifications_permissions_settings_yes_button" = "Ja, aktivera";
+
+// Button to accept push notifications permissions
+"notifications_permissions_yes_button" = "Ja, Informera Mig";
+
+// Notification center section with today title
+"notifications_section_today" = "Idag";
+
+// Notification center section with yesterday title
+"notifications_section_yesterday" = "Igår";
+
+// Notification center section with 1 days ago title _ Not used, using yesterday
+"notifications_section_one_day_ago" = "1 dag sedan";
+
+// Notification center section with n days ago title
+"notifications_section_days_ago" = "%i dagar sedan";
+
+// Notification center section with 1 weeks ago title
+"notification_section_one_week_ago" = "1 vecka sedan";
+
+// Notification center section with n weeks ago title
+"notifications_section_weeks_ago" = "%i veckor sedan";
+
+// Notification center section with 1 months ago title
+"notification_section_one_month_ago" = "1 månad sedan";
+
+// Notification center section with n months ago title
+"notifications_section_months_ago" = "%i månader sedan";
+
+// Notification cell date with n mins ago
+"notifications_cell_date_mins_ago" = "%im";
+
+// Notification cell date with n hours ago
+"notifications_cell_date_hours_ago" = "%ih";
+
+// Notification cell date with n days ago
+"notifications_cell_date_days_ago" = "%id";
+
+// Notification cell date with n weeks ago
+"notifications_cell_date_weeks_ago" = "%iv";
+
+// Title of notifications section
+"notifications_title" = "Notiser";
+
+// User likes your product
+"notifications_type_like_w_name" = "%@ har sparat din annons som favorit";
+
+// User likes your product
+"notifications_type_like_w_name_w_title" = "%1$@ har sparat din annons som favorit: \"%2$@\"";
+
+// User likes your product
+"notifications_type_like_button" = "Kolla deras profil";
+
+// User sold a product you favorited
+"notifications_type_sold" = "En annons som du markerat som favorit har sålts";
+
+// User sold a product you favorited
+"notifications_type_sold_button" = "Kolla in annonsen";
+
+// User has rated you
+"notifications_type_rating" = "%@ har gett dig ett omdöme";
+
+// User has rated you
+"notifications_type_rating_button" = "Kolla dina omdömen";
+
+// User has updated your rating
+"notifications_type_rating_updated" = "%@ har uppdaterat sitt omdöme";
+
+// Notifications product suggested
+"notifications_type_product_suggested" = "%@ la just upp en annons som du kanske gillar";
+
+// Notifications product suggested
+"notifications_type_product_suggested_w_title" = "%1$@ la just upp en annons som du kanske gillar: \"%2$@\"";
+
+// Notifications product suggested button
+"notifications_type_product_suggested_button" = "Se annonsen";
+
+// Notifications buyers interested
+"notifications_type_buyers_interested" = "%d köpare skulle kunna vara intresserade av din annons";
+
+// Notifications buyers interested
+"notifications_type_buyers_interested_w_title" = "%1$d köpare skulle kunna vara intresserade av din annons: \"%2$@\"";
+
+// Notifications buyers interested button
+"notifications_type_buyers_interested_button" = "Se vem de är";
+
+// Notifications buyers interested button action has been performed
+"notifications_type_buyers_interested_button_done" = "Köpare kontaktad!";
+
+// Notifications Facebook friend text
+"notifications_type_facebook_friend" = "Din Facebook-vän %1$@ har gått med letgo som %2$@";
+
+// Notifications Facebook friend button action
+"notifications_type_facebook_friend_button" = "Se Profil";
+
+// Welcome notification subtitle
+"notifications_type_welcome_subtitle_w_city" = "Tjäna pengar på det du inte behöver och hitta smarta fynd i %@";
+
+// Welcome notification button
+"notifications_type_welcome_button" = "Börja sälja";
+
+// Title shown in the NPS Survey view
+"nps_survey_title" = "VI SKULLE VILJA VETA...";
+
+// Subtitle for the NPS Survey view to explain how it works
+"nps_survey_subtitle" = "På en skala 1 till 10, hur troligt är det att du skulle rekommendera letgo till en vän?";
+
+// NPS survey worst option possible
+"nps_survey_very_bad" = "Inte troligt";
+
+// NPS Survey best option possible
+"nps_survey_very_good" = "Mycket troligt";
+
+// Survey confirmation message
+"survey_confirmation" = "Tack! Din feedback hjälper oss att förbättra letgo";
+
+// Title to select categories on onboarding
+"onboarding_categories_title" = "Vad intresserar dig?";
+
+// Button title when no category selected
+"onboarding_categories_button_title_initial" = "Välj åtminstone %i kategorier";
+
+// Button title when at least one  category is selected
+"onboarding_categories_button_countdown" = "Välj åtminstone %i till";
+
+// Button title when all categories needed are selected.
+"onboarding_categories_button_title_finish" = "Nästa";
+
+// Onboarding direct camera subtitle
+"onboarding_direct_camera_alert_subtitle" = "Lägg upp din första annons och hitta köpare nära dig";
+
+// Onboarding incentivize posting variant A title
+"onboarding_posting_title_a" = "Börja tjäna pengar!";
+
+// Onboarding incentivize posting variant B title
+"onboarding_posting_title_b" = "Lägg upp din första annons";
+
+// Onboarding incentivize posting variant A subtitle
+"onboarding_posting_subtitle_a" = "Lägg upp din första annons och hitta köpare nära dig";
+
+// Onboarding incentivize posting variant B subtitle
+"onboarding_posting_subtitle_b" = "Sälj prylar du inte längre behöver och tjäna extra pengar";
+
+// Onboarding incentivize posting variant A button
+"onboarding_posting_button_a" = "Sälj dina prylar";
+
+// Onboarding incentivize posting variant B button
+"onboarding_posting_button_b" = "Starta";
+
+// Onbarding improvement copies variant B title
+"onboarding_posting_improvement_b_title" = "Det är lätt att sälja. Prova själv!";
+
+// Onbarding improvement copies variant C title
+"onboarding_posting_improvement_c_title" = "Det är lätt att sälja. Prova själv!";
+
+// Onbarding improvement copies variant D title
+"onboarding_posting_improvement_d_title" = "Lägg upp i ett enda steg: ta bara en bild!";
+
+// Onbarding improvement copies variant E title
+"onboarding_posting_improvement_e_title" = "Det är lätt att sälja: ta bara en bild så tar vi hand om resten!";
+
+// Onbarding improvement copies variant F title
+"onboarding_posting_improvement_f_title" = "Lägg upp en annons på ett par sekunder!";
+
+// Onbarding improvement copies variant C button
+"onboarding_posting_improvement_c_button" = "Gör ett försök";
+
+// Onboarding shows alert if user click on close permission request.
+"onboarding_location_permissions_alert_title" = "Är du säker?";
+
+// Onboarding shows alert if user click on close permission request.
+"onboarding_location_permissions_alert_subtitle" = "Du kommer att se annonser från alla platser istället för i ditt område";
+
+// Onboarding shows alert if user click on close permission request.
+"onboarding_notifications_permissions_alert_title" = "Är du säker?";
+
+// Onboarding shows alert if user click on close permission request.
+"onboarding_notifications_permissions_alert_subtitle" = "Du kommer att behöva öppna letgo för att se om du har fått nya meddelanden";
+
+// Onboarding shows alert if user click on close permission request.
+"onboarding_posting_alert_title" = "Skulle du vilja prova genom att lägga upp en bok, en klocka eller några solglasögon...?";
+
+// Onboarding shows alert if user click on close permission request.
+"onboarding_posting_alert_subtitle" = "Du kan ta bort den senare om du inte längre vill sälja den";
+
+// Onboarding shows alert if user click on close permission request.
+"onboarding_alert_yes" = "Ja";
+
+// Onboarding shows alert if user click on close permission request.
+"onboarding_alert_no" = "Nej";
+
+// Title of the offensive report alert
+"offensive_report_alert_title" = "Granska Riktlinjer för letgos community";
+
+// Text message of the offensive report alert
+"offensive_report_alert_message" = "Vi har fått kännedom om eventuellt olämpliga meddelanden som skickats från ditt konto.\n\nUpprepade överträdelser kan leda till avstängning av kontot.";
+
+// Title of the primary action of the offensive report alert
+"offensive_report_alert_primary_action" = "Granska Riktlinjer";
+
+// Title of the secondary action of the offensive report alert
+"offensive_report_alert_secondary_action" = "Skippa";
+
+// Passive buyers screen for seller
+"passive_buyers_title" = "DESSA KÖPARE KAN VARA INTRESSERADE";
+
+// Passive buyers screen for seller
+"passive_buyers_message" = "Kontakta dessa köpare som är intresserade av liknande produkter";
+
+// Passive buyers screen for seller
+"passive_buyers_button" = "Kontakta %d köpare";
+
+// Passive buyers screen for seller load error
+"passive_buyers_not_available" = "Oups! Köpare kunde inte hittas.";
+
+// Passive buyers screen for seller -> Contact error
+"passive_buyers_contact_error" = "Ett fel inträffade när köparna kontaktades. Vänligen försök igen.";
+
+// Passive buyers screen for seller -> Contact success
+"passive_buyers_contact_success" = "Köpare kontaktad!";
+
+// Button in main sign up screen to access the passwordless screen
+"passwordless_main_signup_button" = "Fortsätt med e-post";
+
+// Title in the screen where user inserts the email to receive the magic link
+"passwordless_email_input_title" = "Fortsätt med e-post";
+
+// Description in the screen where user inserts the email to receive the magic link
+"passwordless_email_input_description" = "Ange din e-postadress för att logga in eller registrera dig så skickar vi dig en \"magisk länk\" till din inkorg.";
+
+// Placeholder for the textField where the user inserts the email to receive the magic link
+"passwordless_email_input_textfield_placeholder" = "E-post";
+
+// Text in the button of the screen where user inserts email to receive magic link
+"passwordless_email_input_button" = "Skicka magiska länken";
+
+// Title in the navigation bar for the Email Sent screen after sending magic link
+"passwordless_email_sent_screen_title" = "Vänligen kolla din inkorg";
+
+// Title in the screen where app explains email has been sent
+"passwordless_email_sent_title" = "Klicka på den magiska länken som vi nyss skickat dig för att logga in.";
+
+// Subtitle in the screen where app explains email has been sent
+"passwordless_email_sent_subtitle" = "E-postadress: %@";
+
+// Title in the screen where user has to define a username
+"passwordless_username_input_title" = "Välj ditt användarnamn";
+
+// Placeholder for the textField where the user inserts the username
+"passwordless_username_input_textfield_placeholder" = "Användarnamn";
+
+// Button title for the screen where user inserts the username
+"passwordless_username_input_done_button" = "Klar";
+
+// for use as the "hour" in "/hour"
+"payment_frequency_per_hour" = "timme";
+
+// for use as the "week" in "/week"
+"payment_frequency_per_week" = "vecka";
+
+// for use as the "day" in "/day"
+"payment_frequency_per_day" = "dag";
+
+// for use as the "biweek" value in "/2 weeks"
+"payment_frequency_per_biweek" = "2 veckor";
+
+// for use as the "month" in "/month"
+"payment_frequency_per_month" = "månad";
+
+// for use as the "year" in "/year"
+"payment_frequency_per_year" = "år";
+
+// Button to initiate chat from the full screen photo viewer
+"photo_viewer_chat_button" = "Chatt";
+
+// Add Details navigation title
+"post_category_details_navigation_title" = "Lägg till uppgifter";
+
+// Add listing details description
+"post_category_details_description" = "De som fyller i alla uppgifter attraherar 20% flera potentiella köpare";
+
+// car make title
+"post_category_detail_car_make" = "Märke";
+
+// car model title
+"post_category_detail_car_model" = "Modell";
+
+// car year title
+"post_category_detail_car_year" = "År";
+
+// ok navigation bar button
+"post_category_detail_ok_button" = "Ok";
+
+// progress mark, var is "83%"
+"post_category_details_progress" = "%@ ifyllt";
+
+// progress mark when it's at 100%
+"post_category_details_progress_100" = "Ser kanon ut";
+
+// Search text inside search bar
+"post_category_detail_search_placeholder" = "Sök";
+
+// Add make option
+"post_category_detail_add_make" = "Lägg till märke";
+
+// Add model option
+"post_category_detail_add_model" = "Lägg till modell";
+
+// Take picture title
+"post_header_step_take_picture" = "Ta en bild";
+
+// Confirm picture title
+"post_header_step_confirm_picture" = "Bekräfta bild";
+
+// Add price title
+"post_header_step_add_price" = "Lägg till pris";
+
+// Generating title message
+"post_queued_requests_state_generating_title" = "Genererar titel...";
+
+// Categorizing listing message
+"post_queued_requests_state_categorizing_listing" = "Kategoriserar annons...";
+
+// Posting listing message
+"post_queued_requests_state_posting_listing" = "Publicerar annons...";
+
+// Listing posted message
+"post_queued_requests_state_listing_posted" = "Annonsen har lagts upp!";
+
+// Welcome for the user
+"post_get_started_welcome_user_text" = "Välkommen %@!";
+
+// Welcome when no user name is provided
+"post_get_started_welcome_letgo_text" = "Välkommen till letgo";
+
+// INtroductory text
+"post_get_started_intro_text" = "Upptäck hur enkelt det är att sälja på letgo. Lägg upp en pryl som du har i din närhet.";
+
+// Get Started button text
+"post_get_started_button_text" = "Kom igång";
+
+// discard text
+"post_get_started_discard_text" = "Du kan alltid radera annonsen vid ett senare skede om du inte vill sälja den.";
+
+// post finished done text
+"post_description_done_text" = "Klart! Enkelt, eller hur?";
+
+// post finished button save text
+"post_description_save_button_text" = "Spara annonsen!";
+
+// post finished button discard text
+"post_description_discard_button_text" = "Släng";
+
+// post finished title
+"post_description_info_title" = "INFORMATION";
+
+// post finished product name placeholder
+"post_description_name_placeholder" = "Namn";
+
+// post finished product category placeholder
+"post_description_category_title" = "Kategori";
+
+// post finished product description placeholder
+"post_description_description_placeholder" = "Beskrivning (valfritt)";
+
+// post title for services screen
+"post_details_services_title" = "Vad kan du göra?";
+
+// post subtitle for services screen
+"post_details_services_subtitle" = "Börja tjäna pengar!";
+
+// post title for job type selection screen
+"post_details_jobs_title" = "Vilket slags jobb erbjuder du?";
+
+// post subtitle for jobs screen
+"post_details_jobs_subtitle" = "Välj ett alternativ";
+
+// placeholder for search bar in posting services
+"post_details_services_search_placeholder" = "Sök eller välj från listan";
+
+// Congratulation Page - title
+"post_details_services_congratulation_title" = "Grattis!";
+
+// Congratulation Page - subtitle
+"post_details_services_congratulation_subtitle" = "Dina annonser har publicerats.";
+
+// Congratulation Page - button post more items
+"post_details_services_congratulation_post_another" = "Lägg upp en annan annons";
+
+// Congratulation Page - review and add more detail
+"post_details_services_congratulation_review" = "Kontrollera din annons och lägg till fler detaljer";
+
+// Congratulation Page - people near you have posted...
+"post_details_services_congratulation_people_near" = "Dessa tjänster är efterfrågade i ditt område, kan du leverera dem?";
+
+// Add new service button when it's not available
+"post_details_services_add_new" = "Lägg till en ny tjänst";
+
+// Alert message - the user is not able to create more than 15 services at the time
+"post_details_services_create_max" = "Hoppsan! Du kan bara välja 15 tjänster åt gången.";
+
+// Posting Camera title for services
+"post_details_services_camera_message" = "Lägg upp din företagslogga eller en bild som visar vilken tjänst du erbjuder";
+
+// Title for Jobs/Services posting flow title
+"post_details_jobs_services_step_title" = "Jag är...";
+
+// Prefix for services listingType option
+"post_details_jobs_services_step_option_services_prefix" = "Annonserar...";
+
+// Listing type service display name
+"post_details_listingType_service_display_name" = "en tjänst";
+
+// Prefix for jobs listingType option
+"post_details_jobs_services_step_option_jobs_prefix" = "Behöver anlita någon för";
+
+// Listing type jobs display name
+"post_details_listingType_job_display_name" = "ett jobb";
+
+// Product detail auto gen title disclaimer label.
+"product_auto_generated_title_label" = "Titeln har genererats automatiskt av letgo";
+
+// Product detail auto gen title translated disclaimer label.
+"product_auto_generated_translated_title_label" = "(och översatts av Google)";
+
+// product detail added to favorites notification description
+"product_bubble_favorite_text" = "Annonsen har sparats i dina favoriter!";
+
+// product detail added to favorites notification action button text
+"product_bubble_favorite_button" = "Låt säljaren veta!";
+
+// Error shown when one user blocked the other
+"product_chat_direct_error_blocked_user_message" = "Hoppsan! Du kan inte chatta med denna användare.";
+
+// direct message "sending", goes on a "loading" popup view
+"product_chat_direct_message_sending" = "Sänder...";
+
+// product chat with the seller button title including seller name
+"product_chat_with_seller_name_button" = "Chatta med %@";
+
+// product continue chatting button title
+"product_continue_chatting_button" = "Fortsätt chatta";
+
+// Product distance from you. Check image @ "product_ask_a_question_button" segment
+"product_date_more_than_X_months_ago" = "Upplagd för mer än %i månader sedan";
+
+// Product distance from you. Check image @ "product_ask_a_question_button" segment
+"product_date_one_day_ago" = "Upplagd för 1 dag sedan";
+
+// Product distance from you. Check image @ "product_ask_a_question_button" segment
+"product_date_one_hour_ago" = "Upplagd för 1 timme sedan";
+
+// Product date 1 min ago. Check image @ "product_ask_a_question_button" segment
+"product_date_one_minute_ago" = "Upplagd för 1 minut sedan";
+
+// Product distance from you. Check image @ "product_ask_a_question_button" segment
+"product_date_one_month_ago" = "Upplagd för 1 månad sedan";
+
+// Product distance from you. Check image @ "product_ask_a_question_button" segment
+"product_date_X_days_ago" = "Upplagd för %i dagar sedan";
+
+// Product distance from you. Check image @ "product_ask_a_question_button" segment
+"product_date_X_hours_ago" = "Upplagd för %i timmar sedan";
+
+// Product distance from you. Check image @ "product_ask_a_question_button" segment
+"product_date_X_minutes_ago" = "Upplagd för %i minuter sedan";
+
+// Product distance from you. Check image @ "product_ask_a_question_button" segment
+"product_date_X_months_ago" = "Upplagd för %i månader sedan";
+
+// Product delete alert cancel button. Check attached image "delete.png"
+"product_delete_confirm_cancel_button" = "Avbryt";
+
+// Product delete alert message. Check attached image @ segment "product_delete_confirm_cancel_button"
+"product_delete_confirm_message" = "Varför vill du radera denna annons?";
+
+// Product delete alert ok button. Check attached image @ segment "product_delete_confirm_cancel_button"
+"product_delete_confirm_ok_button" = "Jag vill inte sälja den";
+
+// Product delete alert mark as sold button. Check attached image @ segment "product_delete_confirm_cancel_button"
+"product_delete_confirm_sold_button" = "Jag har redan sålt den";
+
+// Product delete alert title. Check attached image @ segment "product_delete_confirm_cancel_button"
+"product_delete_confirm_title" = "Radera annons";
+
+// Product delete send error generic. Message displayal is like the other error messages.
+"product_delete_send_error_generic" = "Hoppsan! Ett fel uppstod när din annons skulle raderas. Var god försök igen.";
+
+// Product delete when product is already sold.
+"product_delete_sold_confirm_message" = "Är du säker på att du vill radera denna annons?";
+
+// Incentivate post after delete fullscreen button title
+"product_delete_post_button_title" = "Lägg upp en till annons";
+
+// Incentivate post after delete fullscreen text title
+"product_delete_post_title" = "INGET FLYT DEN HÄR GÅNGEN?";
+
+// Incentivate post after delete fullscreen text subtitle
+"product_delete_post_subtitle" = "Lägg upp något annat för att börja tjäna pengar.";
+
+// OnBoarding for explaining new item page functionality
+"product_detail_swipe_to_see_related" = "Svepa för att se liknande annonser";
+
+// Product distance from you. Check image @ "product_ask_a_question_button" segment
+"product_distance_X_from_you" = "%@ från dig";
+
+// Product distance. "More than X mi"
+"product_distance_more_than" = "Mer än %@";
+
+// Product distance. "Near you"
+"product_distance_near_you" = "Nära dig";
+
+// Product distance. "Custom location"
+"product_distance_custom_location" = "Vald plats";
+
+// direct message on product favorite
+"product_favorite_direct_message" = "Jag gillar den! Är de fortfarande tillgänglig?";
+
+// Message to show on Free product
+"product_free_price" = "Gratis";
+
+// Text to be shown inside the bubble (similar as a push) to inform that a message was sent to the seller
+"product_interested_bubble_message" = "Vi har meddelat säljare att du är intresserad av annonsen";
+
+// Text to be shown inside the bubble (similar as a push) to undo the message to the seller
+"product_interested_undo" = "Ångra";
+
+// Text for chat with professional users button
+"product_professional_chat_button" = "Chatt";
+
+// Text for call professional users button
+"product_professional_call_button" = "Ring";
+
+// Product mark as ready to give away button
+"product_sell_again_free_button" = "Markera som tillgänglig";
+
+// Cancel
+"product_sell_again_free_confirm_cancel_button" = "Avbryt";
+
+// Alert message when product is mark as ready to give away (mark as available)
+"product_sell_again_free_confirm_message" = "Vill du markera din vara som tillgänglig?";
+
+// Product ready to give away again ok button. (mark as available)
+"product_sell_again_free_confirm_ok_button" = "Ja";
+
+// Confirmation message when product is again available to give away
+"product_sell_again_free_success_message" = "Grattis! Din vara är nu tillgänglig för att skänkas bort igen.";
+
+// Alert title when product is mark as ready to give away (mark as available)
+"product_sell_again_free_confirm_title" = "Markera som tillgänglig";
+
+// Product shown already as given away.
+"product_list_item_given_away_status_label" = "Redan bortskänkt";
+
+// Product list item sold status label. Check attached image "product_list_item_sold_status_label.png"
+"product_list_item_sold_status_label" = "SÅLD";
+
+// Product list item how long new item in hours label
+"product_list_item_time_hour_label" = "%ih";
+
+// Product list item how long new item in minutes label
+"product_list_item_time_minute_label" = "%imin";
+
+// Product list no products body.
+"product_list_no_products_body" = "Du är den första som utforskar från din stad. Välkommen!";
+
+// <strong>SEE SCREENSHOT</strong> Product list no products title.
+"product_list_no_products_title" = "STAD UPPLÅST!";
+
+// Cancel button on alert when Product is mark as Given away
+"product_mark_as_sold_free_confirm_cancel_button" = "Avbryt";
+
+// Product mark as given away button.
+"product_mark_as_sold_free_button" = "Markera som bortskänkt";
+
+// Title fo the alert  to let the seller know that can not undo the action of mark as sold
+"product_mark_as_sold_alert_title" = "Markera som såld";
+
+// Message to let the seller know that can not undo the action of mark as sold
+"product_mark_as_sold_alert_message" = "Denna åtgärd kan inte ändras. Välj endast detta alternativ om du har mött köparen i person och fått betald. Vill du fortsätta?";
+
+// Cancel button on alert to mark as sold.
+"product_mark_as_sold_alert_cancel" = "Nej";
+
+// Accept button on alert to mark as sold.
+"product_mark_as_sold_alert_confirm" = "Ja";
+
+// Title fo the alert  to let the seller know that can not undo the action of mark as given away
+"product_mark_as_given_away_alert_title" = "Markera som bortskänkt";
+
+// Message to let the seller know that can not undo the action of mark as sold
+"product_mark_as_given_away_alert_message" = "Denna åtgärd kan inte ändras. Välj endast detta alternativ om du har mött köparen i person och givit bort produkten. Vill du fortsätta?";
+
+// Alert message when product is mark as given away
+"product_mark_as_sold_free_confirm_message" = "Markera din vara som bortskänkt";
+
+// Product marked as given away ok button
+"product_mark_as_sold_free_confirm_ok_button" = "Markera";
+
+// Alert title when product is mark as given away
+"product_mark_as_sold_free_confirm_title" = "Markera den som bortskänkt";
+
+// Confirmation message when product has been set as given away again
+"product_mark_as_sold_free_success_message" = "Grattis! Din vara har märkts som bortskänkt.";
+
+// Product mark as sold button. Check attached image "product (seller).png"
+"product_mark_as_sold_button" = "Markera som Såld";
+
+// Product mark as sold confirm cancel button. Check attached image "product_mark_as_sold.png"
+"product_mark_as_sold_confirm_cancel_button" = "Avbryt";
+
+// Product mark as sold confirm message. Check image @ "product_mark_as_sold_confirm_cancel_button" segment
+"product_mark_as_sold_confirm_message" = "Är du säker på att du vill markera denna annons som såld?";
+
+// Product mark as sold confirm ok button. Check image @ "product_mark_as_sold_confirm_cancel_button" segment
+"product_mark_as_sold_confirm_ok_button" = "Markera som Såld";
+
+// Product mark as sold confirm title. Check image @ "product_mark_as_sold_confirm_cancel_button" segment
+"product_mark_as_sold_confirm_title" = "Markera som Såld";
+
+// Product mark as sold error generic. Message displayal is like the other error messages
+"product_mark_as_sold_error_generic" = "Ett fel uppstod när annonsen skulle markeras som såld. Var god försök igen.";
+
+// Product mark as sold success message. Message displayal is like the other error messages
+"product_mark_as_sold_success_message" = "Grattis, din annons har markerats som såld!";
+
+// Rate the buyer when product is marked as sold.
+"product_menu_rate_buyer" = "Betygsätt köpare";
+
+// Tooltip to see more info on snapchat, just the "tap" text
+"product_more_info_tooltip_part_1" = "Klicka";
+
+// Tooltip to see more info on snapchat, just the "to see more info" text
+"product_more_info_tooltip_part_2" = "%@ för mer information";
+
+// Button to open the More Info view tapping or dragging it
+"product_more_info_open_button" = "MER INFO";
+
+// View more related items button on product more info
+"product_more_info_related_view_more" = "Läs mer";
+
+// Text when price is 0$
+"product_negotiable_price" = "Förhandlingsbart";
+
+// Product onboarding, scroll to see gallery label
+"product_onboarding_finger_scroll_label" = "Skrolla ner för att se fler bilder.";
+
+// Product onboarding, swipe to go to next or previous product label
+"product_onboarding_finger_swipe_label" = "Svep för att gå till nästa eller föregående annons";
+
+// Product onboarding, tap to go to next product label
+"product_onboarding_finger_tap_label" = "Klicka för att gå till nästa annons";
+
+// Button to show again the Onboarding in the new Product Detail
+"product_onboarding_show_again_button_title" = "Hur du surfar runt";
+
+// Product new onboarding, keep swipping to go to next or previous product regular text
+"product_new_onboarding_finger_keep_swipe_label" = "%@ framåt eller bakåt för att se föregående eller nästa annons";
+
+// Product new onboarding, swipe to see more pictures label regular text
+"product_new_onboarding_finger_swipe_label" = "%@ för att se fler bilder";
+
+// Product new onboarding, tap to go to next product label regular text
+"product_new_onboarding_finger_tap_label" = "%@ för att se nästa annons";
+
+// Product new onboarding, tap left to go to the next image
+"product_new_onboarding_tap_right_label" = "%@ eller %@ för att se nästa bild";
+
+// Product new onboarding, tap left to go to the next image highlighted right
+"product_new_onboarding_tap_right_highlighted_label" = "Klicka till höger";
+
+// Product new onboarding, tap left to go to the next image highlighted middle
+"product_new_onboarding_tap_right_highlighted_label_2" = "i mitten";
+
+// Product new onboarding, tap left to go to the previous image
+"product_new_onboarding_tap_left_label" = "%@ för att se föregående bild";
+
+// Product new onboarding, tap left to go to the previous image highlighted left
+"product_new_onboarding_tap_left_label_highlighted" = "Klicka till vänster";
+
+// Product new onboarding, swipe to go to next or previous product
+"product_new_onboarding_finger_swipe_next_product_label" = "%@ för att gå till nästa eller föregående produkt";
+
+// Product new onboarding, swipe to go to next or previous product highlighted swipe
+"product_new_onboarding_finger_swipe_next_product_highlighted_label" = "Svep";
+
+// New item Page -- Onboarding over cards to tap to see previous picture
+"product_nit_onboarding_previous_picture" = "Föregående bild";
+
+// New item Page -- Onboarding over cards to tap to see next picture
+"product_nit_onboarding_next_picture" = "Nästa bild";
+
+// Option to edit product
+"product_option_edit" = "Redigera annons";
+
+// Option button to share product
+"product_option_share" = "Dela annons";
+
+// Info bubble on product list when 'newest' ordering is selected
+"product_popular_near_you" = "Populärt nära dig";
+
+// Secondary text when the camera posting appears
+"product_post_camera_first_time_alert_subtitle" = "Ta en bra bild och börja tjäna pengar!";
+
+// Main text when the camera posting appears
+"product_post_camera_first_time_alert_title" = "Vad säljer du?";
+
+// Button text when user didn't allow access to camera
+"product_post_camera_permissions_button" = "Tillåt";
+
+// Message subtitle when user didn't allow access to camera
+"product_post_camera_permissions_subtitle" = "Du måste tillåta åtkomst till Kameran för att ta en bild";
+
+// Message title when user didn't allow access to camera
+"product_post_camera_permissions_title" = "Tillåt åtkomst till Kamera";
+
+// Video posting, tooltip: hold to record a video
+"product_post_camera_video_recording_tooltip" = "%@ för att filma";
+
+// Video posting, tooltip: hold to record a video, highlighted hold
+"product_post_camera_video_recording_tooltip_highlighted_word" = "Håll in";
+
+// Message when the user records a video shorter than min duration
+"product_post_camera_video_recording_min_duration_message" = "Var god spela in minst %d sekunder";
+
+// Video posting, button to set camera in photo mode
+"product_post_camera_photo_mode_button" = "FOTO";
+
+// Video posting, button to set camera in video mode
+"product_post_camera_video_mode_button" = "VIDEO";
+
+// Badge in video button which indicate the new feature
+"product_post_camera_video_mode_button_new_badge" = "Nytt!";
+
+// Video posting, button to select photos from the gallery
+"product_post_camera_gallery_text_button" = "BIBLIOTEK";
+
+// Camera tab on posting
+"product_post_camera_tab_v2" = "KAMERA";
+
+// When closing without posting alert close button
+"product_post_close_alert_close_button" = "Släng";
+
+// When closing without posting alert description
+"product_post_close_alert_description" = "Vill du fortfarande lägga ut den till försäljning?";
+
+// When closing without posting alert ok button
+"product_post_close_alert_ok_button" = "Lägg upp annons";
+
+// When closing without posting alert title
+"product_post_close_alert_title" = "Annonsen är inte upplagd";
+
+// Post another item separator
+"product_post_confirmation_another" = "Eller";
+
+// Post another item button
+"product_post_confirmation_another_button" = "Lägg upp en till annons";
+
+// Post another listing button
+"product_post_confirmation_another_listing_button" = "Lägg upp en annan annons";
+
+// Add more details button (max 20 chars)
+"product_post_confirmation_edit" = "Lägg till mer information";
+
+// Done button after setting (or not) a price
+"product_post_done" = "Klar";
+
+// Button text when there are no photos on gallery
+"product_post_empty_gallery_button" = "Ta bild";
+
+// Message subtitle when there are no photos on gallery
+"product_post_empty_gallery_subtitle" = "Ta en bild på det du vill sälja";
+
+// Message title when there are no photos on gallery
+"product_post_empty_gallery_title" = "Inga bilder hittades";
+
+// Message subtitle when camera appears on free posting.
+"product_post_free_camera_first_time_alert_subtitle" = "Ta en bra bild för att öka dina chanser att sälja!";
+
+// Pos another item button (free Version)
+"product_post_free_confirmation_another_button" = "Skänk bort en sak till";
+
+// Message subtitle when loading an image (from iCloud) fails
+"product_post_gallery_load_image_error_subtitle" = "Välj en annan bild och försök igen.";
+
+// Message title when loading an image (from iCloud) fails
+"product_post_gallery_load_image_error_title" = "Bilden kan inte laddas upp";
+
+// Title for the gallery in multiple selection
+"product_post_gallery_multiple_pics_selected" = "%i bilder valda";
+
+// Button text when user didn't allow access to gallery
+"product_post_gallery_permissions_button" = "Tillåt";
+
+// Message subtitle when user didn't allow access to gallery
+"product_post_gallery_permissions_subtitle" = "Du måste tillåta åtkomst till Bilder för att välja en sparad bild";
+
+// Message title when user didn't allow access to gallery
+"product_post_gallery_permissions_title" = "Tillåt åtkomst till Bilder";
+
+// Title message to ask user to select a picture or more
+"product_post_gallery_select_pictures_title" = "Välj bilder";
+
+// Subtitle message to ask user to select a picture or more
+"product_post_gallery_select_pictures_subtitle" = "Välj upp till 5 bilder för uppladdning";
+
+// Subtitle message to ask user to select a picture or more with params
+"product_post_gallery_select_pictures_subtitle_params" = "Välj upp till %d bilder för uppladdning";
+
+// Gallery tab on posting
+"product_post_gallery_tab" = "BIBLIOTEK";
+
+// When posting failed but it's our fault
+"product_post_generic_error" = "Ett fel uppstod när din annons skulle läggas upp.";
+
+// product name bikes
+"product_post_incentive_bike" = "Cyklar";
+
+// product name cars
+"product_post_incentive_car" = "Bilar";
+
+// product name dressers
+"product_post_incentive_dresser" = "Byråer";
+
+// product name furniture
+"product_post_incentive_furniture" = "Möbler";
+
+// !!!! -> this text will go at the place of the variable %@ in "product_post_incentive_looking_for"
+"product_post_incentive_got_any" = "har du någon att sälja?";
+
+// !!!! -> this text will go at the place of the variable %@ in "product_post_incentive_looking_for"
+"product_post_incentive_got_any_free" = "har du nåt att ge bort?";
+
+// !!!! -> this text will go at the place of the variable %@ in "product_post_incentive_looking_for_services"
+"product_post_incentive_got_any_services" = "kan du leverera dem?";
+
+// product name kid's clothes
+"product_post_incentive_kids_clothes" = "Barnkläder";
+
+// 1st part of the incentivation text
+"product_post_incentive_looking_for" = "Folk nära dig söker efter dessa saker, %@";
+
+// 1st part of the services incentivation text
+"product_post_incentive_looking_for_services" = "Dessa tjänster är efterfrågade i ditt område, %@";
+
+// product name motorcycle
+"product_post_incentive_motorcycle" = "Motorcyklar";
+
+// product name ps4
+"product_post_incentive_ps4" = "PS4";
+
+// After posting, real confirmation subtitle
+"product_post_incentive_subtitle" = "Din produkt har lagts upp.";
+
+// After posting, real confirmation subtitle
+"product_post_incentive_subtitle_free" = "Du är på väg att göra någon gladare.";
+
+// After posting, real confirmation
+"product_post_incentive_title" = "GRATTIS!";
+
+// product name toys
+"product_post_incentive_toys" = "Leksaker";
+
+// product name Tvs
+"product_post_incentive_tv" = "TV-apparater";
+
+// product name cleaning
+"product_post_incentive_cleaning" = "Städning";
+
+// product name lessons
+"product_post_incentive_lessons" = "Lektioner";
+
+// product name creative
+"product_post_incentive_creative" = "Kreativitet";
+
+// Login message when asking for login
+"product_post_login_message" = "Du måste logga in för att sälja dina saker";
+
+// When posting failed due to ip and location countriesare different
+"product_post_different_country_error" = "Du kan inte lägga upp produkter i ett land som du inte befinner dig i.";
+
+// When posting failed due to network connection errors
+"product_post_network_error" = "Din annons har inte lagts upp.\nVänligen kolla dina nätverksinställningar.";
+
+// Question to add a price
+"product_post_price_label" = "Vill du lägga till ett pris?";
+
+// Confirmation BEFORE setting the price
+"product_post_product_posted" = "Annonsen är upplagd. Grattis!";
+
+// Confirmation BEFORE setting the price when not logged in
+"product_post_product_posted_not_logged" = "Bild uppladdad!";
+
+// Confirmation BEFORE setting the price when not logged in (video posting)
+"product_post_product_posted_not_logged_video_posting" = "Video uppladdad!";
+
+// Retake photo button
+"product_post_retake" = "Ta en ny";
+
+// After failure, the text of the "try again" button
+"product_post_retry_button" = "Försök igen";
+
+// Use Photo button
+"product_post_use_photo" = "Lägg upp";
+
+// User photo button when not logged in
+"product_post_use_photo_not_logged" = "Använd bild";
+
+// User video button when not logged in
+"product_post_use_video_not_logged" = "Använd video";
+
+// Product post category selection title
+"product_post_select_category_title" = "Vad lägger du upp?";
+
+// Product post category selection cars button
+"product_post_select_category_cars" = "Bilar";
+
+// Product post category selection motors and accesories button
+"product_post_select_category_motors_and_accessories" = "Andra Fordon och Reservdelar";
+
+// Product post category selection others button
+"product_post_select_category_other" = "Något annat";
+
+// Product post category selection real Estate button
+"product_post_select_category_housing" = "Bostad Uthyres / Säljes";
+
+// Product post category selection services button
+"product_post_select_category_services" = "Tjänster";
+
+// Product post category selection jobs & services button
+"product_post_select_category_jobs_services" = "Jobb & Tjänster";
+
+// Product post category selection real Estate button
+"product_post_select_category_real_estate" = "Bostad";
+
+// Product report confirm message. Message displayal is like the other dialog messages
+"product_report_confirm_message" = "Är du säker på att du vill rapportera denna annons?";
+
+// Product report confirm title. Message displayal is like the other dialog messages
+"product_report_confirm_title" = "Rapportera annons";
+
+// Product report product button. Check image @ "product_ask_a_question_button" segment
+"product_report_product_button" = "Rapportera annons";
+
+// Product reported fail message. Message displayal is like the other dialog messages
+"product_reported_error_generic" = "Vi kunde tyvärr inte rapportera annonsen just nu. Var vänlig försök igen.";
+
+// Product reported success message. Message displayal is like the other dialog messages
+"product_reported_success_message" = "Annonsen har rapporterats. Tack!";
+
+// Product reporting laoding message. Message displayal is like the other dialog messages
+"product_reporting_loading_message" = "Rapporterar annons...";
+
+// Product search no products body.
+"product_search_no_products_body" = "Försök att söka efter något annat eller kom tillbaka och kolla snart igen!";
+
+// Product search no products title.
+"product_search_no_products_title" = "HOPPSAN! VI HITTADE INGET NÄRA DIG";
+
+// Product sell again button. Check image @ "product_mark_as_sold_button" segment
+"product_sell_again_button" = "Sälj den igen";
+
+// Product sell again confirm cancel button. Check attached image "product_mark_as_sold.png"
+"product_sell_again_confirm_cancel_button" = "Avbryt";
+
+// Product sell again confirm message. Check image @ "product_mark_as_sold_confirm_cancel_button" segment
+"product_sell_again_confirm_message" = "Vill du markera den här annonsen som tillgänglig så att köpare återigen kan se den?";
+
+// Product sell again confirm ok button. Check image @ "product_mark_as_sold_confirm_cancel_button" segment
+"product_sell_again_confirm_ok_button" = "Sälj den igen";
+
+// Product sell again confirm title. Check image @ "product_mark_as_sold_confirm_cancel_button" segment
+"product_sell_again_confirm_title" = "Sälj den igen";
+
+// Product sell again error generic. Message displayal is like the other error messages
+"product_sell_again_error_generic" = "Ett fel uppstod när annonsen skulle markeras som tillgänglig. Var god försök igen.";
+
+// Product sell again success message. Message displayal is like the other error messages
+"product_sell_again_success_message" = "Din annons har markerats som tillgänglig!";
+
+// Ask the user to activate Camera access in setting because it was denied before
+"product_sell_camera_permissions_error" = "För att ta en bild, ändra inställningarna så att letgo får tillgång till din kamera.";
+
+// Error shown when the camera access is restricted in the Device
+"product_sell_camera_restricted_error" = "Din kamera är inte tillgänglig. Var vänlig kontrollera dina inställningar och försök igen.";
+
+// Ask the user to activate Photo library access in setting because it was denied before
+"product_sell_photolibrary_permissions_error" = "För att ladda upp en bild, ändra inställningarna så att letgo får tillgång till dina bilder.";
+
+// Error shown when the photo library access is restricted in the Device
+"product_sell_photolibrary_restricted_error" = "Tillgången till dina bilder är begränsad. Var vänlig kolla dina inställningar och försök igen.";
+
+// Share on product detail
+"product_share_navbar_button" = "Dela";
+
+// Product share body
+"product_share_body" = "Kolla vad jag hittade på letgo!";
+
+// Product share body, for MY products
+"product_is_mine_share_body" = "Kolla vad jag säljer på letgo!";
+
+// Product share body, for MY free products
+"product_is_mine_share_body_free" = "Kolla vad jag skänker bort på letgo!";
+
+// Product share via copy_link success
+"product_share_copylink_ok" = "Din länk har kopierats!";
+
+// Product share email error. Message displayal is like the other error messages
+"product_share_email_error" = "Hoppsan! Det verkar som att du inte har något konto i dina mailinstllningar.";
+
+// Product share generic OK. Message displayal is like the other error messages
+"product_share_generic_ok" = "Annonsen har delats!";
+
+// Product share via sms error message
+"product_share_sms_error" = "Ett fel uppstod då ditt meddelande skulle skickas.";
+
+// Product share via sms success message
+"product_share_sms_ok" = "Skickar...";
+
+// Product detail share title label.
+"product_share_title_label" = "DELA ANNONS";
+
+// String to add at the end of the body when the product is from other people
+"product_share_posted_by" = "upplagd av %@";
+
+// Share product title including `on letgo!`
+"product_share_title_on_letgo" = "%@ på letgo!";
+
+// Message when you select sticker to send from a product detail
+"product_stickers_selection_wo_name" = "Välj den sticker du vill skicka till säljaren.";
+
+// Login message when asking for login after clicking on favorite
+"product_favorite_login_popup_text" = "Du måste vara inloggad för att spara denna annons som favorit";
+
+// Login message when asking for login after clicking on report
+"product_report_login_popup_text" = "Du måste vara inloggad för att rapportera en annons";
+
+// Ask phone number dealer intro text
+"professional_dealer_ask_phone_intro_text" = "Jag är en professionell bilhandlare som gärna skulle vilja hjälpa dig personligen. Vänligen ange ditt telefonnummer så kan jag hjälpa dig att göra ett riktigt klipp!";
+
+// Ask phone number not now button title
+"professional_dealer_ask_phone_not_now_button" = "Inte nu";
+
+// Ask phone number let's talk label text
+"professional_dealer_ask_phone_lets_talk_text" = "Låt oss prata";
+
+// Ask phone number text field placeholder
+"professional_dealer_ask_phone_textfield_placeholder" = "Ange telefonnummer";
+
+// Ask phone number send phone button title
+"professional_dealer_ask_phone_send_phone_button" = "Skicka telefonnummer";
+
+// Ask phone number automatic message
+"professional_dealer_ask_phone_chat_message" = "Mitt telefonnummer är %@";
+
+// Request phone cell text message text
+"professional_dealer_ask_phone_add_phone_cell_message" = "Ring nu eller lämna ditt telefonnummer så kan vi ringa upp dig";
+
+// Request phone cell text button text
+"professional_dealer_ask_phone_add_phone_cell_button" = "Lämna ditt telefonnummer";
+
+// Automatic message thanks for leaving phone text
+"professional_dealer_ask_phone_thanks_phone_cell_message" = "Tack för att du lämnat ditt telefonnummer! Det är alltid bättre att slå oss en signal med hjälp av ringknappen ovan.";
+
+// Automatic message thanks for contacting text
+"professional_dealer_ask_phone_thanks_other_cell_message" = "Tack för att du kontaktat oss! Vänligen ring oss eller lägg till ditt nummer så vi kan ringa upp dig.";
+
+// Ask phone alert title
+"professional_dealer_ask_phone_alert_enter_phone" = "Lämna ditt telefonnummer";
+
+// Not valid phone number error alert text
+"professional_dealer_ask_phone_alert_not_valid_phone" = "Vänligen ange ett giltigt telefonnummer";
+
+// Button asking the user to add a Bio
+"profile_bio_add_button" = "Lägg till din bio";
+
+// Button to show/hide the user Bio
+"profile_bio_show_more_button" = "MER OM MIG";
+
+// Profile, you blocked this user label (wo username)
+"profile_blocked_by_me_label" = "Den här användaren har blockerats av dig";
+
+// Profile, you blocked this user label (includes username)
+"profile_blocked_by_me_label_w_name" = "%@ har blockerats av dig";
+
+// Profile, this user blocked you label
+"profile_blocked_by_other_label" = "Denna användare har blockerat dig";
+
+// Profile favourites my user no products button. Check attached image "profile (empty).png"
+"profile_favourites_my_user_no_products_button" = "Surfa vidare";
+
+// Profile favourites my user no products title. Check attached image "profile (empty).png"
+"profile_favourites_my_user_no_products_label" = "INGA FAVORITER (ÄNNU!)";
+
+// Profile favourites products tab. Check attached image "profile (full).png"
+"profile_favourites_products_tab" = "Favoriter";
+
+// Alert to encourage the user to enable push notifications
+"profile_permissions_alert_cancel" = "Inte nu";
+
+// Alert to encourage the user to enable push notifications
+"profile_permissions_alert_message" = "Vill du tillåta notiser för nya meddelanden nu?";
+
+// Alert to encourage the user to enable push notifications
+"profile_permissions_alert_ok" = "Tillåt";
+
+// Alert to encourage the user to enable push notifications
+"profile_permissions_alert_title" = "MISSA INGA SVAR!";
+
+// Message on profile when user has push disabled
+"profile_permissions_header_message" = "Tillåt notiser om meddelanden";
+
+// Profile Reviews Tab title
+"profile_reviews_tab" = "Omdömen";
+
+// Profile Reviews tab has no reviews
+"profile_reviews_empty_label" = "INGA OMDÖMEN (ÄN)!";
+
+// Profile reviews count (appears below review count number)
+"profile_reviews_count" = "Omdömen";
+
+// Profile selling tab (both my user and other user) empty title.
+"profile_selling_no_products_label" = "INGA ANNONSER (ÄN!)";
+
+// Profile selling tab (other user) empty button.
+"profile_selling_other_user_no_products_button" = "Surfa vidare";
+
+// Profile selling products tab. Check image @ "profile_favourites_products_tab" segment
+"profile_selling_products_tab" = "Till salu";
+
+// Profile sold tab (both my user and other user) empty title.
+"profile_sold_no_products_label" = "INGA ANNONSER (ÄN!)";
+
+// Profile sold tab (other user) empty button.
+"profile_sold_other_no_products_button" = "Surfa vidare";
+
+// Profile sold products tab. Check image @ "profile_favourites_products_tab" segment
+"profile_sold_products_tab" = "Sålda";
+
+// Profile verified accounts (other user), at least 1 account verified
+"profile_verified_accounts_other_user" = "VERIFIERAD MED:";
+
+// Profile verified accounts, at least 1 account verified
+"profile_verified_accounts_title" = "VERIFIERAD MED";
+
+// Verify popup to link with email
+"profile_verify_email_button" = "Skicka mejl";
+
+// Verify popup to link with email
+"profile_verify_email_message_present" = "Klicka \"Skicka mejl\" för att skicka en ny verifieringslänk till %@";
+
+// Verify popup to link with email success message
+"profile_verify_email_success" = "Kolla vårt mejl i din inkorg för att verifiera ditt konto. Länken är giltig i 48h.";
+
+// Verify popup to link with email failure too many requests
+"profile_verify_email_too_many_requests" = "Vi har redan skickat dig ett verifieringsmejl. Vänligen kolla din inkorg!";
+
+// Verify popup to link with facebook
+"profile_verify_facebook_button" = "Facebook";
+
+// Verify popup to link with facebook
+"profile_verify_facebook_title" = "FACEBOOK";
+
+// Verify popup to link with google
+"profile_verify_google_button" = "Google";
+
+// Verify popup to link with google
+"profile_verify_google_title" = "GOOGLE";
+
+// TItle shown in the verifications screen
+"profile_verifications_view_title" = "Hur man tjänar poäng";
+
+// Title for the section with the possible verification methods
+"profile_verifications_view_verify_section_title" = "VERIFIERA MED";
+
+// Subtitle for the section with the possible verificationn methods
+"profile_verifications_view_verify_section_subtitle" = "Personuppgifter kommer inte att delas med andra användare";
+
+// Option to verify with Facebook title
+"profile_verifications_view_facebook_title" = "Facebook";
+
+// Option to verify with Google title
+"profile_verifications_view_google_title" = "Google";
+
+// Option to verify with Email
+"profile_verifications_view_email_title" = "E-post";
+
+// Option to verify phone number
+"profile_verifications_view_phone_number_title" = "Telefonnummer";
+
+// Option to verify with personal ID
+"profile_verifications_view_photo_id_title" = "ID-foto";
+
+// Title for the section with the options to add info to increase karma
+"profile_verifications_view_add_info_section_title" = "LÄGG TILL DIN";
+
+// Option to add Profile Picture
+"profile_verifications_view_profile_picture_title" = "Profilbild";
+
+// Option to add a Biography
+"profile_verifications_view_bio_title" = "Bio";
+
+// Section for exta options to increase Karma score
+"profile_verifications_view_extra_section_title" = "KÖP & SÄLJ";
+
+// cell explaining that marking items as sold, increases Karma score
+"profile_verifications_view_mark_as_sold_title" = "Markera som såld";
+
+// cell explaining that marking items as sold, increases Karma score
+"profile_verifications_view_mark_as_sold_subtitle" = "+2 poäng för varje annons (upp till 10 p)";
+
+// Title of the view to verify the email. The user can write its email to send a verification link
+"profile_verifications_email_view_title" = "Verifiera din e-post";
+
+// Placeholder for the enter email field
+"profile_verifications_email_placeholder" = "E-post";
+
+// Button to confirm email and send a verification link
+"profile_verifications_send_button" = "Skicka";
+
+// Title shown in the navigation bar as a screen title in the first screen of the phone verification.
+"phone_verification_number_input_view_title" = "Verifikationsnummer";
+
+// Text shown to explain the screen in the first screen of the phone verification process.
+"phone_verification_number_input_view_description" = "Skapa förtroende genom att verifiera ditt telefonnummer";
+
+// Placeholder shown in the textfield to insert the phone number.
+"phone_verification_number_input_view_textfield_placeholder" = "Telefonnummer";
+
+// Text shown in the button to 'continue' and go the next phone verification step.
+"phone_verification_number_input_view_continue_button" = "Gå vidare";
+
+// Text shown when sms is being sent (as a loding state)
+"phone_verification_number_input_view_sending_message" = "Textmeddelandet skickas...";
+
+// Title shown in the alert to explain that the sms has been sent.
+"phone_verification_number_input_view_confirmation_title" = "Tack!";
+
+// Text shown in the alert to explain that the sms has been sent. (+34 611111111)
+"phone_verification_number_input_view_confirmation_message" = "Vi har skickat ett sms med en verifikationskod till +%@ %@";
+
+// Text shown when something goes wrong trying to send a sms to the user
+"phone_verification_number_input_view_error_message" = "Hoppsan! Ett fel inträffade när textmeddelandet skulle skickas. Vänligen försök igen.";
+
+// Title shown in the navigation bar as a screen title in the second screen of the phone verification.
+"phone_verification_code_input_view_title" = "Verifikationsnummer";
+
+// Title shown in the content of the 2nd step in the phone verification process.
+"phone_verification_code_input_view_content_title" = "Ange den 6-siffriga koden";
+
+// Subtitle shown in the content of the 2nd step. (%s = phone number)
+"phone_verification_code_input_view_content_subtitle" = "Vi har skickat den till %@";
+
+// Text shown below the code textfield as a contextual information.
+"phone_verification_code_input_view_content_subtext" = "Du kan begära en ny kod om du inte har fått den inom %@";
+
+// Text shown in the button below the code textfield to request a code again.
+"phone_verification_code_input_view_content_subaction" = "Har du inte fått koden?";
+
+// Text shown when sms code is being validated by backend.
+"phone_verification_code_input_view_validating_message" = "Verifikation pågår...";
+
+// Text shown when sms code has been verified successfully.
+"phone_verification_code_input_view_validated_success" = "Telefonnumret har verifierats!";
+
+// Text shown when sms code has been verified unsuccessfully.
+"phone_verification_code_input_view_validated_failure" = "Din verifikationskod är ogiltig.";
+
+// Text shown when something goes wrong trying to validate the code
+"phone_verification_code_input_view_error_message" = "Hoppsan! Ett fel inträffade när koden skulle godkännas. Vänligen försök igen.";
+
+// Text shown in the navigation bar  as a screen title in the country picker view.
+"phone_verification_country_picker_view_title" = "Landslista";
+
+// Text shown as a placeholder in the textfield to search a country in the country list.
+"phone_verification_country_picker_view_search_placeholder" = "Sök";
+
+// Text shown for references to Hourly price type
+"priceType_hourly" = "Varje timme";
+
+// Text shown for references to Daily price type
+"priceType_daily" = "Varje dag";
+
+// Text shown for references to Biweekly price type
+"priceType_biweekly" = "Varannan vecka";
+
+// Text shown for references to Weekly price type
+"priceType_weekly" = "Varje vecka";
+
+// Text shown for references to Monthly price type
+"priceType_monthly" = "Varje månad";
+
+// Text shown for references to Yearly price type
+"priceType_yearly" = "Varje år";
+
+// Text shown for references to OneOff price type
+"priceType_oneOff" = "Engångsbetalning";
+
+// Text in a tooltip shown when the current user sees a user with a badge for the first time
+"profile_reputation_tooltip_title" = "Verifierad användare! Klicka om du också vill verifiera dig";
+
+// Disclaimer text telling the user this section is only visibile to him/her
+"profile_karma_visibility_title" = "Endast synligt för dig";
+
+// Text button to open the verifications screen to improve the user score
+"profile_karma_improve_score" = "Öka dina Verifieringspoäng";
+
+// Subtitle shown when the user is not verified yet (indicating how many points needs)
+"profile_karma_unverified_subtitle" = "Samla %@ för att stämplas som Verifierad Användare";
+
+// number of points -> This will be inside "Earn %@ to get the Verified User Badge"
+"profile_karma_unverified_points_subtitle" = "%@ poäng";
+
+// Subtitle shown when the user has enough points and is verified
+"profile_karma_verified_subtitle" = "Du har fått din stämpel!";
+
+// Verification score text inside the private karma view
+"profile_karma_title" = "Verifieringspoäng: %@";
+
+// number of points -> This will be inside "Verification Score: %@"
+"profile_karma_points_title" = "%@ p";
+
+// Button to verify accounts
+"profile_build_trust_button" = "Skapa Förtroende";
+
+// Text to verify accounts
+"profile_connect_accounts_message" = "Du har fortfarande inte verifierat ditt konto med:";
+
+// Text for dummy user info
+"profile_dummy_user_info" = "Hej, det här är %@ från letgo! Jag är här för att hjälpa dig att förbättra din annons och börja sälja.";
+
+// Promote bump up title text
+"promote_bump_title" = "Locka flera köpare";
+
+// Promote bump up main button text
+"promote_bump_sell_faster_button" = "Sälj snabbare";
+
+// Promote bump up later button text
+"promote_bump_later_button" = "Senare";
+
+// Jobs & Services post button text
+"posting_flow_jobs_and_services_category_button_text" = "Jobb & Tjänster";
+
+// Navigation bar title "Set Location"
+"quick_filter_location_title" = "Byt plats";
+
+// Screen to select which buyer you sold the item before rating him/her
+"rate_buyers_message" = "Grattis!";
+
+// Screen to select which buyer you sold the item before rating him/her
+"rate_buyers_sub_message" = "Vem har du sålt detta till?";
+
+// Screen to select which buyer you sold the item before rating him/her
+"rate_buyers_will_do_later_title" = "Jag gör det senare";
+
+// Screen to select which buyer you sold the item before rating him/her
+"rate_buyers_will_do_later_subtitle" = "Betygsätt köparen senare";
+
+// Screen to select which buyer you sold the item before rating him/her
+"rate_buyers_not_on_letgo_title_button" = "Har sålts någon annanstans";
+
+// Screen to select which buyer you sold the item before rating him/her
+"rate_buyers_see_x_more" = "Visa mer";
+
+// Screen to select which buyer you sold the item before rating him/her
+"rate_buyers_see_less" = "Visa mindre";
+
+// Screen to select which buyer you sold the item before rating him/her
+"rate_buyers_not_on_letgo_button" = "Jag sålde det inte på letgo";
+
+// Rate user quick response negative
+"rate_user_negative_not_polite" = "Oartig";
+
+// Rate user quick response negative
+"rate_user_negative_didnt_show_up" = "Dök inte upp";
+
+// Rate user quick response negative
+"rate_user_negative_slow_responses" = "Sen på att svara";
+
+// Rate user quick response negative
+"rate_user_negative_unfair_price" = "Orimliga priser";
+
+// Rate user quick response negative
+"rate_user_negative_not_trustworthy" = "Opålitlig";
+
+// Rate user quick response negative
+"rate_user_negative_item_not_as_advertised" = "Vilseledande annonsering";
+
+// Rate user quick response positive
+"rate_user_positive_polite" = "Artig";
+
+// Rate user quick response positive
+"rate_user_positive_showed_up_on_time" = "Punktlig";
+
+// Rate user quick response positive
+"rate_user_positive_quick_responses" = "Snabb respons";
+
+// Rate user quick response positive
+"rate_user_positive_fair_prices" = "Vettiga priser";
+
+// Rate user quick response positive
+"rate_user_positive_helpful" = "Hjälpsam";
+
+// Rate user quick response positive
+"rate_user_positive_trustworthy" = "Pålitlig";
+
+// Alert asking if the user is enjoying Letgo
+"rating_app_enjoying_alert_title" = "Uppskattar du letgo?";
+
+// Alert asking to rate the Letgo app
+"rating_app_rate_alert_title" = "Skulle du vilja betygsätta oss? Det tar bara några sekunder";
+
+// Alert asking to rate the Letgo app - button Yes
+"rating_app_rate_alert_yes_button" = "Visst!";
+
+// Alert asking to rate the Letgo app - button No
+"rating_app_rate_alert_no_button" = "Nej tack";
+
+// Alert asking is user would like to give feedback for the app
+"rating_app_feedback_title" = "Vill du ge oss lite feedback?";
+
+// Alert asking is user would like to give feedback for the app - button Yes
+"rating_app_feedback_yes_button" = "Visst!";
+
+// Alert asking is user would like to give feedback for the app - button No
+"rating_app_feedback_no_button" = "Nej tack";
+
+// action for user to report a review by another user
+"rating_list_action_report_review" = "Rapportera omdöme";
+
+"rating_list_action_report_review_error_message" = "Ett fel uppstod när din rapport skulle skickas.";
+
+"rating_list_action_report_review_success_message" = "Din rapport har skickats!";
+
+// action for user to review another user
+"rating_list_action_review_user" = "Bedöm användare";
+
+// Text for loading error at user ratings list
+"rating_list_loading_error_message" = "Ett fel uppstod när omdömdet skulle laddas upp.";
+
+// Text for rating of type "buyer" ( %s will be the username)
+"rating_list_rating_type_buyer_text_label" = "%@ har gjort ett fynd";
+
+// Text for rating of type "conversation" ( %s will be the username)
+"rating_list_rating_type_conversation_text_label" = "%@ chattade om en annons";
+
+// Text for rating of type "seller" ( %s will be the username)
+"rating_list_rating_type_seller_text_label" = "%@ har sålt något";
+
+// Text when a rating is pending review
+"rating_list_rating_status_pending" = "Detta omdöme verifieras";
+
+// Title for rating list view
+"rating_list_title" = "Omdömen";
+
+// Rating view rate us label.  Check image @ "rating_view_title_label" segment
+"rating_view_rate_us_label" = "Bedöm oss:";
+
+// Rating view remind me later button.  Check image @ "rating_view_title_label" segment
+"rating_view_remind_later_button" = "Påminn mig senare";
+
+// Rating view title label.  Check attached image "rating_view.png" (but uppercase)
+"rating_view_title_label_uppercase" = "GE OSS 5 STJÄRNOR!";
+
+// Real Estate location title
+"real_estate_location_title" = "Plats";
+
+// Real estate notification
+"real_estate_location_notification_message" = "Vi visar aldrig din exakta plats till andra användare";
+
+// Real Estate summary title
+"real_estate_summary_title" = "Sammanfattning";
+
+// Real Estate price title
+"real_estate_price_title" = "Pris";
+
+// Real Estate offer type title
+"real_estate_offer_type_title" = "Typ av annons";
+
+// Real Estate offer type rent
+"real_estate_offer_type_rent" = "Uthyres";
+
+// Real Estate offer type sale
+"real_estate_offer_type_sale" = "Till salu";
+
+// Skip button
+"posting_button_skip" = "Rensa";
+
+// Real Estate property type title
+"real_estate_type_property_title" = "Typ av fastighet";
+
+// Real Estate property type apartment
+"real_estate_type_property_apartment" = "Lägenhet";
+
+// Real Estate property type house
+"real_estate_type_property_house" = "Hus";
+
+// Real Estate property type room
+"real_estate_type_property_room" = "Rum";
+
+// Real Estate property type commercial
+"real_estate_type_property_commercial" = "Företagslokal";
+
+// Real Estate property type others
+"real_estate_type_property_others" = "Annat";
+
+// Real Estate property type flat
+"real_estate_type_property_flat" = "Lägenhet";
+
+// Real Estate property type land
+"real_estate_type_property_land" = "Mark";
+
+// Real Estate property type villa
+"real_estate_type_property_villa" = "Avskilt Hus / Villa";
+
+// Real Estate number of bathrooms title
+"real_estate_bathrooms_title" = "Antal badrum";
+
+// Real Estate number of bathrooms 0
+"real_estate_bathrooms_0" = "0";
+
+// Real Estate number of bathrooms 1
+"real_estate_bathrooms_1" = "1";
+
+// Real Estate number of bathrooms 1.5
+"real_estate_bathrooms_1_5" = "1,5";
+
+// Real Estate number of bathrooms 2
+"real_estate_bathrooms_2" = "2";
+
+// Real Estate number of bathrooms 2.5
+"real_estate_bathrooms_2_5" = "2,5";
+
+// Real Estate number of bathrooms 3
+"real_estate_bathrooms_3" = "3";
+
+// Real Estate number of bathrooms 3.5
+"real_estate_bathrooms_3_5" = "3,5";
+
+// Real Estate number of bathrooms 4
+"real_estate_bathrooms_4" = "4+";
+
+// bathroom
+"real_estate_summary_bathroom_title" = "badrum";
+
+// bathrooms
+"real_estate_summary_bathrooms_title" = "badrum";
+
+// Ral Estate number of bedrooms Title
+"real_estate_bedrooms_title" = "Antal sovrum";
+
+// Real Estate number of bedrooms 0
+"real_estate_bedrooms_0" = "Etta";
+
+// Real Estate number of bedrooms 1
+"real_estate_bedrooms_1" = "1";
+
+// Real Estate number of bedrooms 2
+"real_estate_bedrooms_2" = "2";
+
+// Real Estate number of bedrooms 3
+"real_estate_bedrooms_3" = "3";
+
+// Real Estate number of bedrooms 4
+"real_estate_bedrooms_4" = "4+";
+
+"real_estate_rooms_title" = "Antal rum";
+
+"real_estate_rooms_studio" = "Studio (1+0)";
+
+"real_estate_rooms_over_ten" = "Över 10";
+
+// Real estate number of rooms depend on bedrooms and living rooms
+"real_estate_rooms_value" = "%d + %d";
+
+// Size square meters title
+"real_estate_size_square_meters_title" = "Yta";
+
+// Size square meters placeHolder
+"real_estate_size_square_meters_placeholder" = "Lägg till";
+
+// bedroom
+"real_estate_summary_bedroom_title" = "rum";
+
+// bedrooms
+"real_estate_summary_bedrooms_title" = "rum";
+
+// rooms
+"real_estate_summary_rooms_title" = "rum";
+
+// Rooms empty
+"real_estate_summary_rooms_empty" = "Lägg till rum";
+
+// Size
+"real_estate_summary_size_title" = "Yta";
+
+// size empty
+"real_estate_summary_size_empty" = "Lägg till yta";
+
+// Real Estate summary price empty value
+"real_estate_summary_price_empty" = "Lägg till pris";
+
+// Real Estate summary property type empty value
+"real_estate_summary_type_property_empty" = "Lägg till fastighetstyp";
+
+// Real Estate summary offer type empty value
+"real_estate_summary_offer_type_empty" = "Lägg till typ av annons";
+
+// Real Estate summary bedrooms empty value
+"real_estate_summary_bedrooms_emtpy" = "Lägg till antal sovrum";
+
+// Real Estate summary bathrooms empty value
+"real_estate_summary_bathrooms_empty" = "Lägg till antal badrum";
+
+// title of price in summary screen
+"real_estate_summary_price_title" = "Pris: %@";
+
+// Real Estate summary location empty value
+"real_estate_summary_location_empty" = "Plats: ej angiven";
+
+// Real estate apartment short version for title.
+"real_estate_title_generator_property_type_apartment" = "Läg.";
+
+// Real estate room short version for title.
+"real_estate_title_generator_property_type_room" = "Rum";
+
+// Real estate house short version for title.
+"real_estate_title_generator_property_type_house" = "Hus";
+
+// Real estate other short version for title.
+"real_estate_title_generator_property_type_other" = "Övrigt";
+
+// Real estate commercial short version for title.
+"real_estate_title_generator_property_type_commercial" = "Annons";
+
+// Real estate sale short version for title.
+"real_estate_title_generator_offer_type_sale" = "Till salu";
+
+// Real estate rent short version for title.
+"real_estate_title_generator_offer_type_rent" = "Uthyres";
+
+// Real estate studio short version for title.
+"real_estate_title_generator_bedrooms_studio" = "Etta";
+
+// Real estate one bedroom short version for title.
+"real_estate_title_generator_bedrooms_one" = "1R";
+
+// Real estate two bedroom short version for title.
+"real_estate_title_generator_bedrooms_two" = "2R";
+
+// Real estate three bedroom short version for title.
+"real_estate_title_generator_bedrooms_three" = "3R";
+
+// Real estate four bedroom short version for title.
+"real_estate_title_generator_bedrooms_four" = "4+R";
+
+// Real Estate number of bathrooms 0 short version
+"real_estate_title_generator_bathrooms_0" = "0";
+
+// Real Estate number of bathrooms 1 short version
+"real_estate_title_generator_bathrooms_1" = "1BA";
+
+// Real Estate number of bathrooms 1.5 short version
+"real_estate_title_generator_bathrooms_1_5" = "1,5BA";
+
+// Real Estate number of bathrooms 2 short version
+"real_estate_title_generator_bathrooms_2" = "2BA";
+
+// Real Estate number of bathrooms 2.5 short version
+"real_estate_title_generator_bathrooms_2_5" = "2,5BA";
+
+// Real Estate number of bathrooms 3 short version
+"real_estate_title_generator_bathrooms_3" = "3BA";
+
+// Real Estate number of bathrooms 3.5 short version
+"real_estate_title_generator_bathrooms_3_5" = "3,5BA";
+
+// Real Estate number of bathrooms 4 short version
+"real_estate_title_generator_bathrooms_4" = "4+BA";
+
+// Real Estate number of bathrooms 0 for attributes tag
+"real_estate_attribute_tag_bathroom_0" = "0BA";
+
+// Show the current step of total steps
+"real_estate_current_step_of_total" = "%d av %d";
+
+// Title for section on related search.
+"real_estate_related_search_title" = "Liknande resultat";
+
+// Tooltip text included on sell button
+"real_estate_tooltip_sell_button" = "Nu kan du hyra ut eller sälja din bostad i vår nya Bostadskategori";
+
+// Tooltip text included on sell button with real estate
+"real_estate_tooltip_sell_button_title" = "Annonsera ut bostäder till salu eller för uthyrning i vår nya Bostadskategori";
+
+// Message inside expandable sell your stuff menu to announce RE
+"real_estate_tooltip_overlay_expandable_menu" = "Prova vår nya Bostadskategori om du vill hyra ut eller sälja en bostad!";
+
+// Message inside gallery view to explain about picture selection on RE
+"real_estate_gallery_view_subtitle" = "Välj upp till 5 bilder av bostaden du vill sälja eller hyra ut";
+
+// Message inside gallery view to explain about picture selection on RE
+"real_estate_gallery_view_subtitle_params" = "Välj upp till %d bilder av bostaden du vill sälja eller hyra ut. Den första kommer att bli din annonsbild så välj en bra bild!";
+
+// Message inside camera view to explain about picture selection on RE
+"real_estate_camera_view_real_estate_message" = "Ta en bild av lokalen eller bostaden du vill hyra ut eller sälja";
+
+// Message inside camera view to open real estate onboarding
+"real_estate_camera_view_real_estate_learn_more" = "Läs mer";
+
+// Title for empty state when search for real estate
+"real_estate_empty_state_search_title" = "HOPPSAN! INGEN BOSTADSANNONS NÄRA DIG";
+
+// Subtitle for empty state when search for real estate
+"real_estate_empty_state_search_subtitle" = "Bli först med att annonsera ut en bostad till salu / för uthyrning i ditt område eller kolla in snart igen!";
+
+// Title for page on real estate tutorial
+"real_estate_tutorial_new" = "NY";
+
+// Title for first section on first option for real estate onboarding
+"real_estate_tutorial_one_page_first_section_title" = "Sälj din bostad eller hitta en hyresgäst till ditt extra rum";
+
+// Title for second section on first option for real estate onboarding
+"real_estate_tutorial_one_page_second_section_title" = "Lägg enkelt upp en annons med alla detaljer som köpare vill veta";
+
+// Title for first section on first page for real estate onboarding
+"real_estate_tutorial_two_pages_first_section_first_page_title" = "Nyhet! Sälj din bostad eller hitta en hyresgäst till ditt extra rum";
+
+// Title for first section on second page for real estate onboarding
+"real_estate_tutorial_two_pages_first_section_second_page_title" = "Lägg enkelt upp en annons med alla detaljer som köpare vill veta";
+
+// Title for first page on three page option.
+"real_estate_tutorial_three_pages_first_page_title" = "Nytt! Köp, sälj eller hyr en bostad";
+
+// Description for first page on three page option.
+"real_estate_tutorial_three_pages_first_page_description" = "Lägg upp bostäder till salu eller för uthyrning i vår nya Bostadskategori. 90% av alla köpare använder nättjänster för att hitta sin nya lya!";
+
+// Title for second page on three page option.
+"real_estate_tutorial_three_pages_second_page_title" = "Allt ligger i detaljerna";
+
+// Description for second page on three page option.
+"real_estate_tutorial_three_pages_second_page_decription" = "Valet av bostad beror på läget och antalet rum och badrum, så se till att lägga till dessa detaljer i din annons!";
+
+// Title for third page on three page option.
+"real_estate_tutorial_three_pages_third_page_title" = "Sälj och köp i ett klick";
+
+// Description for third page on three page option.
+"real_estate_tutorial_three_pages_third_page_description" = "Fullständiga annonser drar till sig 20% fler visningar och säljer snabbare. Glöm inte att du kan topplista dina annonser för att fördubbla synligheten!";
+
+// Title for Promo Cell in real estate Listing - Version 1
+"real_estate_promo_title_version_1" = "Annonsera Fastighet";
+
+// Title for Promo Cell in real estate Listing - Version 2
+"real_estate_promo_title_version_2" = "Nytt! Annonsera ut bostad till salu eller för uthyrning";
+
+// Title for Promo Cell in real estate Listing - Version 3
+"real_estate_promo_title_version_3" = "Nytt! Sälj eller hyr ut bostad";
+
+// Title for Promo Cell in real estate Listing - Version 4
+"real_estate_promo_title_version_4" = "Sälj eller hyr ut bostad";
+
+// Title for Promo Cell in real estate Listing - Version 5
+"real_estate_promo_title_version_5" = "Nu kan du annonsera ut Fastigheter";
+
+// Title for Promo Cell in real estate Listing - Version 6
+"real_estate_promo_title_version_6" = "Nytt! Fastighetsannonser på letgo";
+
+// Title for Promo Cell in real estate Listing - Version 7
+"real_estate_promo_title_version_7" = "Fastighet uthyres och säljes";
+
+// Title for Button in Promo Cell real estate Listing
+"real_estate_promo_post_button_title" = "Annonsera Nu";
+
+// Title for tooltip for real estate map
+"real_estate_map_tooltip_title" = "Nytt! Se bostäderna på en karta";
+
+// Title for button in tooltip for real estate map
+"real_estate_map_tooltip_button_title" = "Prova nu";
+
+// Title when showing list of related items
+"related_items_title" = "Liknande annonser";
+
+// Type Counterfeit items
+"report_user_counterfeit" = "Oäkta varor";
+
+// Error reporting the user because you already reported him
+"report_user_error_already_reported" = "Du har redan rapporterat denna användare!";
+
+// Type inactive
+"report_user_inactive" = "Inaktiv";
+
+// Type Missing in 'action'
+"report_user_mia" = "Personen dök inte upp";
+
+// Type offensive behaviour
+"report_user_offensive" = "Stötande beteende";
+
+// Type other
+"report_user_others" = "Övrigt";
+
+// Type items prohibited
+"report_user_prohibited_items" = "Säljer förbjudna varor";
+
+// Type scammer
+"report_user_scammer" = "Bedragare";
+
+// Send button text
+"report_user_send_button" = "Skicka";
+
+// Error sending report
+"report_user_send_failure" = "Ett fel uppstod när din rapport skulle skickas";
+
+// Confirmation after sending report
+"report_user_send_ok" = "Din rapport har skickats!";
+
+// Type spammer
+"report_user_spammer" = "Personen spammar";
+
+// Type Suspicious behaviour
+"report_user_suspcious" = "Misstänkt beteende";
+
+// Information comment on the text area
+"report_user_text_placeholder" = "Lägg till en kommentar (frivilligt)";
+
+// Title for report user screen
+"report_user_title" = "Rapportera användare";
+
+// Reporting Reason for when the user thinks a product shouldn't be on letgo
+"reporting_reason_should_not_be_on_letgo" = "Den borde inte vara på letgo";
+
+// Reporting Product Reason: the user think the product is scam
+"reporting_reason_its_scam" = "Jag misstänker att det är ett bedrägeri";
+
+// Reporitng Product reason: it's duplicate
+"reporting_reason_duplicate_listing" = "Det är dubblett";
+
+// Reporting Product reason: the product is in a wrong category
+"reporting_reason_wrong_category" = "Den är i fel kategori";
+
+// Reporting Product reason: it has sexual content
+"reporting_reason_sexual_content" = "Sexuellt innehåll";
+
+// Reporting Product reason: the product is drugs, alcohol or tobacco
+"reporting_reason_drugs" = "Droger, alkohol eller tobak";
+
+// Reporting Product reason: the product is a weapon
+"reporting_reason_weapons" = "Vapen eller våldsamt innehåll";
+
+// Reporting User reason: The user is selling something inappropiate
+"reporting_reason_selling_inappropiate" = "Säljer något olämpligt";
+
+// Reporting User reason: The user is behaving suspiciouly
+"reporting_reason_suspiciously" = "Misstänksamt beteende";
+
+// Reporting User reason: The user has an inappropriate bio or photo
+"reporting_reason_inappropiate_photo_or_bio" = "Oanständig profilbild eller biografi";
+
+// Reporting User reason: There was a problem during meeting
+"reporting_reason_problem_meetup" = "Problem vid vårt möte";
+
+// Reporting User reason: The User sent inappropriate chat messages
+"reporting_reason_inappropiate_chat_messages" = "Oanständiga chattmeddelanden";
+
+// Reporting User reason: The user set unrealistic price or offers for products
+"reporting_reason_unrealistic_price" = "Orimliga priser eller erbjudanden";
+
+// Reporting User reason: The user stopped responding chat messages
+"reporting_reason_not_responding" = "Svarar ej på meddelanden";
+
+// Reporting User reason: The user offered to trade instead of cash
+"reporting_reason_offered_trade" = "Erbjuder utbyte istället för kontantbetalning";
+
+// Reporting User reason: The user offered to pay with western union or paypal
+"reporting_reason_offered_western_union_or_paypañ" = "Vill betala med Western Union eller Paypal";
+
+// Reporting User reason: The user is a spam account
+"reporting_reason_spam_account" = "Spamkonto";
+
+// Reporting User reason: The user has an inappropriate photo
+"reporting_reason_profile_photo" = "Profilbild";
+
+// Reporting User reason: The user has an inappropriate bio
+"reporting_reason_bio" = "Bio";
+
+// Reporting User reason: There was a robbery or violent incident
+"reporting_reason_robbery" = "Rån eller våldsam händelse";
+
+// Reporting User reason: The user paid with counterfait money
+"reporting_reason_counterfeit_money" = "Betalade med falska pengar";
+
+// Reporting User reason: The user didn't show up for the meetup
+"reporting_reason_didn't_show_up" = "Dök inte upp";
+
+// Reporting User reason: The user was selling a defective item
+"reporting_reason_item_defective" = "Trasig vara eller stämmer ej med beskrivningen";
+
+// Reporting User reason: The user threatened with violence
+"reporting_reason_threating_violence" = "Hotfull";
+
+// Reporting User reason: The user used rude or offensive language
+"reporting_reason_rude_offensive_language" = "Oförskämd eller stötande språk";
+
+// Reporting User reason: The user had suspicious behavior
+"reporting_reason_suspicious_behavior" = "Skumt eller misstänkt beteende";
+
+// Reporting User reason: The user used sexual or obscene language
+"reporting_reason_sexual_language" = "Sexuellt eller stötande språk";
+
+// Reporting reason: Other reason
+"reporting_reason_other" = "Annat";
+
+// Title for the Report listing view
+"reporting_listing_title" = "Rapportera annons";
+
+// Header text for the Report lsting view
+"reporting_listing_list_header" = "VARFÖR VILL DU RAPPORTERA DENNA ANNONS?";
+
+// Header text for the Report listing "shouldn't be on letgo" option
+"reporting_listing_shouldnt_be_on_letgo_header" = "VARFÖR BORDE DEN INTE VARA PÅ LETGO?";
+
+// Title for the Report Sent view
+"reporting_listing_report_sent_title" = "Anmälan har skickats!";
+
+// Text for the Repott Sent view
+"reporting_listing_report_sent_text" = "Tack för din anonyma anmälan och din hjälp till att göra letgo det bästa stället för att köpa och sälja lokalt.";
+
+// Title for the Report Update view
+"reporting_listing_update_title" = "Rapportuppdatering";
+
+// Text shown in the Report Update view. Including the product name and the seller name
+"reporting_listing_update_text" = "Tack för att ha anonymt anmält \"%1$@\" publicerad av %2$@. Feedback som denna hjälper oss att hålla letgo säkert.\n\nEfter att ha granskat annonsen har vi valt att ta bort den eftersom den bryter mot letgos riktlinjer.";
+
+// Title shown to ask the reporter for how the experience was
+"reporting_listing_update_feedback_title" = "Hur var din erfarenhet?";
+
+// Title shown When the user gives bad feedback about the experience
+"reporting_listing_update_feedback_bad" = "Vad tråkigt att höra.";
+
+// Title shown when the user gives a medium value feedback
+"reporting_listing_update_feedback_medium" = "Tack!";
+
+// Title shown when the user gives good feedback
+"reporting_listing_update_feedback_good" = "Toppen!";
+
+// Title for the Report User view
+"reporting_user_title" = "Rapportera användare";
+
+// Header text for the Report user list view
+"reporting_user_list_header" = "VARFÖR VILL DU RAPPORTERA DENNA ANVÄNDARE?";
+
+// Header text for the report user "suspicious behavior" option list
+"reporting_user_suspicious_behavior_header" = "VAD HÄNDE?";
+
+// Header text for the report user "inappropriate photo or bio" option list
+"reporting_user_inappropriate_photo_or_bio_header" = "VILKEN?";
+
+// Header text for the report user "Problem during meetup" option list
+"reporting_user_problem_meetup_header" = "VAD HÄNDE?";
+
+// Header text for the report user "inappropriate chat" option list
+"reporting_user_inappropriate_chat_header" = "VAD HÄNDE?";
+
+// Title Shown on the Report Sent view
+"reporting_user_report_sent_title" = "Anmälan har skickats!";
+
+// Text shown in the "Redirect to item" thank you screen
+"reporting_user_report_sent_redirect_item_text" = "Tack för din hjälp till att göra letgo det bästa stället för att köpa och sälja lokalt. \n\nVänligen gå till annonsen för att flagga varan så kommer vi att granska den så fort som möjligt.";
+
+// Text Shown in the "block user" thank you screen (version A)
+"reporting_user_report_sent_block_user_A_text" = "Tack för din anonyma anmälan och din hjälp till att göra letgo det bästa stället för att köpa och sälja lokalt.\n\nDu kan alltid blockera en användare för att säkerställa att hen inte kan se dina annonser eller chatta med dig.";
+
+// Text Shown in the "block user" thank you screen when the user can leave a review (version A)
+"reporting_user_report_sent_block_user_A_with_review_text" = "Tack för din anonyma anmälan och din hjälp till att göra letgo det bästa stället för att köpa och sälja lokalt.\n\nTänk på att dela med dig av din erfarenhet av denna säljare med andra användare genom att lämna ett omdöme.\n\nDu kan alltid blockera en användare för att säkerställa att hen inte kan se dina annonser eller chatta med dig.";
+
+// Text Shown in the "block user" thank you screen (version B)
+"reporting_user_report_sent_block_user_B_text" = "Tack för din anonyma anmälan och din hjälp till att göra letgo det bästa stället för att köpa och sälja lokalt.\n\nVårt team kommer att granska din anmälan. Under tiden kan du alltid blockera en användare för att säkerställa att hen inte kan se dina annonser eller chatta med dig.";
+
+// Text Shown in the "block user" thank you screen when the user can leave a review (version A)
+"reporting_user_report_sent_block_user_B_with_review_text" = "Tack för din anonyma anmälan och din hjälp till att göra letgo det bästa stället för att köpa och sälja lokalt.\n\nTänk på att dela med dig av din erfarenhet av denna säljare med andra användare genom att lämna ett omdöme.\n\nVårt team kommer att granska din anmälan. Under tiden kan du alltid blockera en användare för att säkerställa att hen inte kan se dina annonser eller chatta med dig.";
+
+// Text Shown in the "Law enforcement" thank you screen
+"reporting_user_report_sent_law_enforcement_text" = "Vi beklagar verkligen din otrevliga erfarenhet men är tacksamma att du nu är i säkerhet.\n\nVi rekommenderar starkt att kontakta de relevanta lokala myndigheterna och polisanmäla händelsen så fort som möjligt (om du inte redan har gjort det).\n\nVänligen påminn polisen att kontakta letgos juridiska team på lawenforcement@letgo.com så vi kan bistå utredningen på bästa möjliga sätt.\n\nVi kan dela relevant information om %@ med polisen, men på grund av strikta personuppgiftslagar behöver vi först ett beslut från polisen eller en domstol.";
+
+// Text Shown in the "Law enforcement & block" thank you screen
+"reporting_user_report_sent_law_enforcement_and_block_text" = "Vi beklagar verkligen din otrevliga erfarenhet. Vi rekommenderar starkt att kontakta de relevanta lokala myndigheterna och polisanmäla händelsen så fort som möjligt (om du inte redan har gjort det).\n\nVänligen påminn polisen att kontakta letgos juridiska team på lawenforcement@letgo.com så vi kan bistå utredningen på bästa möjliga sätt. Vi kan dela relevant information om %@ med polisen, men på grund av strikta personuppgiftslagar behöver vi först ett beslut från polisen eller en domstol. Under tiden ber vi dig att lämna ytterligare information så att vårt team kan undersöka ditt ärende.\n\nTänk på att du alltid kan blockera en användare för att säkerställa att hen inte kan se dina annonser eller chatta med dig.";
+
+// Button to block the reported user
+"reporting_user_report_sent_block_user_big_button_title" = "Blockera anmäld användare";
+
+// Button to block the reported user
+"reporting_user_report_sent_block_user_small_button_title" = "Blockera";
+
+// Button to review the reported user
+"reporting_user_report_sent_review_button_title" = "Omdöme";
+
+// Title for the user report update screen
+"reporting_user_update_title" = "Rapportuppdatering";
+
+// Text for the user report update screen (version A)
+"reporting_user_update_text_A" = "Tack för att ha anmält %@ anonymt. Feedback som denna hjälper oss att hålla letgo säkert.\n\nEfter att ha granskat kontot har vi beslutat att stänga av det eftersom det bryter mot letgos riktlinjer.";
+
+// Text for the user report update screen (version B)
+"reporting_user_update_text_B" = "Tack för att ha anmält %@s profilbild anonymt. Feedback som denna hjälper oss att hålla letgo säkert.\n\nEfter att ha granskat bilden har vi valt att ta bort den eftersom den bryter mot letgos riktlinjer.";
+
+// Text for the user report update screen (version C)
+"reporting_user_update_text_C" = "Tack för att ha anmält %@s bio anonymt. Feedback som denna hjälper oss att hålla letgo säkert.\n\nEfter att ha granskat biografin har vi valt att ta bort den eftersom den bryter mot letgos riktlinjer.";
+
+// Placeholder shown if the seleted option allows additional notes
+"reporting_additional_notes_placeholder" = "Lämna gärna ytterligare information som kan hjälpa oss att lösa ärendet";
+
+// Button title to send the report
+"reporting_send_report_button" = "Rapportera";
+
+// Reset password email field hint. Check attached image "reset_password.png"
+"reset_password_email_field_hint" = "Ange din e-postadress";
+
+// Reset password instructions. Check image @ "reset_password_email_field_hint" segment
+"reset_password_instructions" = "Vänligen skriv in din e-postadress så skickar vi dig ett e-mejl för att återskapa ditt lösenord";
+
+// Reset password send button. Check image @ "reset_password_email_field_hint" segment
+"reset_password_send_button" = "Skicka mejl";
+
+// Reset password send error generic. Check attached image "reset_password_send_error.png"
+"reset_password_send_error_generic" = "Ett fel uppstod när vi skulle återställa ditt lösenord. Var vänlig försök igen.";
+
+// Reset password send error invalid email. Check image @ "reset_password_send_error_generic" segment
+"reset_password_send_error_invalid_email" = "Var god ange en giltig e-postadress.";
+
+// Reset password send error user not found or wrong password. Check image @ "reset_password_send_error_generic" segment
+"reset_password_send_error_user_not_found_or_wrong_password" = "E-postadressen %@ hittades ej.";
+
+// Reset password send ok. Check image @ "reset_password_send_error_generic" segment
+"reset_password_send_ok" = "Vi har skickat ett e-mejl till %@. Klicka på länken i mejlet för att återställa ditt lösenord.";
+
+// Reset password send too many requests. Check image @ "reset_password_send_error_generic" segment
+"reset_password_send_too_many_requests" = "Vi har redan skickat ett mejl till dig för att återställa ditt lösenord. Kolla i din inkorg och följ instruktionerna i mejlet.";
+
+// Reset password title. Check image @ "reset_password_email_field_hint" segment
+"reset_password_title" = "Återställ lösenord";
+
+// Search alerts edit button
+"search_alerts_edit_button" = "Redigera";
+
+// Subtitle for search alerts header
+"search_alerts_header_subtitle" = "Få notiser om nya annonser";
+
+// Text for empty search alerts view
+"search_alerts_placeholder_empty_text" = "Prenumerera på specifika sökningar för att få notiser när nya annonser läggs upp.";
+
+// Text for empty search alerts view action button
+"search_alerts_placeholder_empty_button" = "Börja Sökning";
+
+// Text for error in search alerts view
+"search_alerts_placeholder_error_text" = "Hoppsan! Ett fel uppstod när dina sökaviseringar skulle laddas upp";
+
+// Text for error in search alerts view action button
+"search_alerts_placeholder_error_button" = "Try Again";
+
+// Error message when search alert delete fails
+"search_alert_delete_error_message" = "Hoppsan! Ett fel inträffade när din sökavisering skulle raderas.";
+
+// Error message when search alert enable fails
+"search_alert_enable_error_message" = "Hoppsan! Ett fel inträffade när din sökavisering skulle aktiveras";
+
+// Error message when search alert disable fails
+"search_alert_disable_error_message" = "Hoppsan! Ett fel inträffade när din sökavisering skulle inaktiveras";
+
+// text for error alert when max search alerts reached
+"search_alert_error_too_many_text" = "Hoppsan! Du har uppnått maxantalet sökaviseringar";
+
+// text for error alert button when max search alerts reached
+"search_alert_error_too_many_button_text" = "Hantera Notiser";
+
+// Alert message when enabled a new search alert but the limit has been reached
+"search_alerts_disabled_oldest_message" = "Du har nått det maximala antalet sökaviseringar så vi har inaktiverat den äldsta för att aktivera den här.";
+
+// text shown in feed search bar
+"search_letgo" = "Sök på letgo";
+
+// Sell category selection label. Check attached image "sell.png"
+"sell_category_selection_label" = "Kategori";
+
+// Sell choose category dialog cancel button. Check attached image "sell_choose_category.png"
+"sell_choose_category_dialog_cancel_button" = "Avbryt";
+
+// Sell choose category dialog title. Check image @ "sell_choose_category_dialog_cancel_button" segment
+"sell_choose_category_dialog_title" = "Välj en kategori";
+
+// Sell description field hint. Check image @ "sell_category_selection_label" segment
+"sell_description_field_hint" = "Beskrivning (frivillig)";
+
+// Sell picture image source camera button. Check attached image "sell_picture_image_source.png"
+"sell_picture_image_source_camera_button" = "Kamera";
+
+// Sell picture image source camera roll button. Check image @ "sell_picture_image_source_camera_button" segment
+"sell_picture_image_source_camera_roll_button" = "Fotogalleri";
+
+// Sell picture image source cancel button. Check image @ "sell_picture_image_source_camera_button" segment
+"sell_picture_image_source_cancel_button" = "Avbryt";
+
+// Sell picture image source title. Check image @ "sell_picture_image_source_camera_button" segment
+"sell_picture_image_source_title" = "Välj bildkälla";
+
+// Sell picture label. Check image @ "reset_password_email_field_hint" segment
+"sell_picture_label" = "Bild";
+
+// Sell picture save into camera roll error generic. Message displayal is like the other error messages
+"sell_picture_save_into_camera_roll_error_generic" = "Ett fel uppstod vid sparning av din bild till biblioteket. Var god se till att letgo har tillgång till dina bilder i inställningar i din iPhone.";
+
+// Sell picture save into camera roll loading
+"sell_picture_save_into_camera_roll_loading" = "Sparar bild i bildbibliotek...";
+
+// Sell picture save into camera roll ok
+"sell_picture_save_into_camera_roll_ok" = "Bild sparad till bildsamling.";
+
+// Sell picture selected cancel button
+"sell_picture_selected_cancel_button" = "Avbryt";
+
+// Sell picture selected delete button
+"sell_picture_selected_delete_button" = "Ta bort";
+
+// Sell picture selected save into camera roll button
+"sell_picture_selected_save_into_camera_roll_button" = "Spara till hårddisk";
+
+// Sell picture selected title
+"sell_picture_selected_title" = "Välj åtgärd";
+
+// Sell edit product price as "give it away"
+"sell_post_free_label" = "Gratis";
+
+// Sell send error invalid category. Check attached image "sell_send_error.png"
+"sell_send_error_invalid_category" = "Var god välj en kategori för annonsen.";
+
+// Sell send error invalid description. Check image @ "sell_send_error_invalid_category" segment
+"sell_send_error_invalid_description" = "Var god ange en giltig beskrivning för annonsen.";
+
+// Sell send error invalid description too long. Check image @ "sell_send_error_invalid_category" segment
+"sell_send_error_invalid_description_too_long" = "Var god ange en giltig beskrivning för annonsen. Maxlängd för beskrivningen är %d tecken.";
+
+// Sell send error invalid image count. Check image @ "sell_send_error_invalid_category" segment
+"sell_send_error_invalid_image_count" = "Minst en bild krävs för att lägga upp en annons.";
+
+// Sell send error invalid price. Check image @ "sell_send_error_invalid_category" segment
+"sell_send_error_invalid_price" = "Var god ange ett giltigt pris för annonsen. Använd endast siffror.";
+
+// Sell send error invalid title. Check image @ "sell_send_error_invalid_category" segment
+"sell_send_error_invalid_title" = "Vad god ange en giltig titel för annonsen.";
+
+// Sell send error sharing facebook. Check image @ "sell_send_error_invalid_category" segment
+"sell_send_error_sharing_facebook" = "Ett fel uppstod vid delning till Facebook. Var god försök igen.";
+
+// Sell share on facebook label
+"sell_share_on_facebook_label" = "Dela på Facebook";
+
+// Sell share on facebook footer label
+"sell_share_on_facebook_footer_label" = "Öka din synlighet och sälj snabbare";
+
+// Sell edit title autogenerated & autotranslated
+"sell_title_autogen_autotrans_label" = "Titel föreslagen av letgo och översatt av Google";
+
+// Sell edit title autogenerated
+"sell_title_autogen_label" = "Titel föreslagen av letgo";
+
+// Sell title field hint. Check image @ "sell_category_selection_label" segment
+"sell_title_field_hint" = "Titel (frivillig)";
+
+// Sell uploading label
+"sell_uploading_label" = "Laddar upp annonsen...";
+
+// Services SeviceType Title
+"services_service_type_title" = "Tjänstekategori";
+
+// Services ServiceSubType Title
+"services_service_subtype_title" = "Tjänst";
+
+// Title for list of services
+"services_service_type_list_title" = "Tjänstekategori";
+
+// Title for list of service subtypes
+"services_service_subtype_list_title" = "Tjänst";
+
+// Filter title for unified "services" filter
+"services_unified_filter_title" = "Välj en kategori";
+
+// Settings change location button. Check image @ "settings_change_password_button" segment
+"settings_change_location_button" = "Plats";
+
+// Settings change password button. Check attached image "settings.png"
+"settings_change_password_button" = "Lösenord";
+
+// Settings change profile picture button. Check image @ "settings_change_password_button" segment
+"settings_change_profile_picture_button" = "Bild";
+
+// Settings change profile picture error generic. Message displayal is like the other error messages.
+"settings_change_profile_picture_error_generic" = "Ett fel uppstod vid ändring av profilbild.";
+
+// Settings change profile picture loading. Check attached image "settings_change_profile_picture_loading.png"
+"settings_change_profile_picture_loading" = "Ställer in din profilbild, var god vänta...";
+
+// Settings change name button. Check image @ "settings_change_password_button" segment
+"settings_change_username_button" = "Namn";
+
+// Settings change email button
+"settings_change_email_button" = "E-post";
+
+// Settings change user Bio text button
+"settings_change_user_bio_button" = "Bio / Om mig";
+
+// Settings help button. Check attached image @ "settings_change_password_button" segment
+"settings_help_button" = "Hjälp";
+
+// Settings invite facebook friends. Check image @ "settings_change_password_button" segment
+"settings_invite_facebook_friends_button" = "Bjud in dina vänner på Facebook";
+
+// Settings invite facebook friends error. Message displayal is like the other messages.
+"settings_invite_facebook_friends_error" = "Ett fel uppstod då din inbjudan skickades.";
+
+// Settings invite facebook friends ok. Message displayal is like the other messages.
+"settings_invite_facebook_friends_ok" = "Din inbjudan har skickats!";
+
+// Settings logout button. Check image @ "settings_change_password_button" segment
+"settings_logout_button" = "Logga ut";
+
+// Settings logout confirmation message.
+"settings_logout_alert_message" = "Är du säker på att du vill logga ut?";
+
+// Settings logout confirmation ok button.
+"settings_logout_alert_ok" = "Logga ut";
+
+// Settings title. Check image @ "settings_change_password_button" segment
+"settings_title" = "Inställningar";
+
+// Settings section profile
+"settings_section_profile" = "Profil";
+
+// Settings section promote
+"settings_section_promote" = "Marknadsför";
+
+// Settings section support
+"settings_section_support" = "Support";
+
+// Settings option to turn on/off marketing notifications
+"settings_marketing_notifications_switch" = "Marknadsföringsnotiser";
+
+// Alert message when user wants to deactivate marketing notification in settings.
+"settings_marketing_notifications_alert_message" = "Är du säker på att du vill stänga av notiser för marknadsföring?";
+
+// Alert message to inform user that needs to activate general push notifications.
+"settings_general_notifications_alert_message" = "Aktivera notiser för letgo appen på din enhets inställningar.";
+
+// Alert message when user wants to activate marketing notification in settings.
+"settings_marketing_notifications_alert_activate" = "Aktivera";
+
+// Alert button to confirm deactivation.
+"settings_marketing_notifications_alert_deactivate" = "Stäng av";
+
+// Alert button to cancel de action
+"settings_marketing_notifications_alert_cancel" = "Avbryt";
+
+// Settings option to access notifications settings
+"settings_notifications_button" = "Notiser";
+
+// Notifications settings view title
+"settings_notifications_title" = "Notiser";
+
+// Settings option to access search alerts
+"settings_notifications_search_alerts" = "Sökaviseringar";
+
+// Settings option to access push notifications
+"settings_notifications_push_notifications" = "Pushaviseringar";
+
+// Settings option to access email notifications
+"settings_notifications_email" = "E-post";
+
+// Settings option to try again if loading failed
+"settings_notifications_error_button" = "Försök igen";
+
+// Settings notifications loading error message
+"settings_notifications_error_message" = "Hoppsan! Ett fel uppstod när dina notisinställningar skulle laddas. Var god försök igen.";
+
+// Search alerts view title
+"search_alerts_list_title" = "Sökaviseringar";
+
+// Alert when you don't accept one of the above (just turkey)
+"sign_up_acceptance_error" = "För att registrera dig måste du godkänna våra Villkor och vår Integritetspolicy";
+
+// Sign up email field hint. Check attached image "sign_up.png"
+"sign_up_email_field_hint" = "E-post";
+
+// Receive newsleter checkbox (just turkey)
+"sign_up_newsleter" = "Jag vill ta emot nyhetsbrev från letgo";
+
+// Sign up password field hint. Check image @ "settings_change_password_button" segment
+"sign_up_password_field_hint" = "Lösenord";
+
+// Sign up send button. Check image @ "sign_up_email_field_hint" segment
+"sign_up_send_button" = "Registrera dig";
+
+// Sign up send error email taken. Check attached image "sign_up_send_error.png"
+"sign_up_send_error_email_taken" = "E-postadressen %@ är redan registrerad. Använd den för att logga in.";
+
+// Sign up send error generic. Check image @ "sign_up_send_error_email_taken" segment
+"sign_up_send_error_generic" = "Ett fel uppstod när kontot skulle skapas. Var vänlig försök igen.";
+
+// Sign up send error invalid Domain. Check image @ "sign_up_send_error_email_taken" segment
+"sign_up_send_error_invalid_domain" = "Ogiltig e-postadress. Vänligen ändra den och försök igen.";
+
+// Sign up send error invalid email. Check image @ "sign_up_send_error_email_taken" segment
+"sign_up_send_error_invalid_email" = "Var god ange en giltig e-postadress.";
+
+// Sign up send error invalid password. Check image @ "sign_up_send_error_email_taken" segment
+"sign_up_send_error_invalid_password_with_max" = "Var god ange ett giltigt lösenord. Det måste vara mellan %d och %d tecken.";
+
+// Sign up send error invalid username. Check image @ "sign_up_send_error_email_taken" segment
+"sign_up_send_error_invalid_username" = "Var god ange ett giltigt användarnamn på minst %d tecken.";
+
+// Sign up terms and conditions complete text (just turkey)
+"sign_up_terms_conditions" = "Jag godkänner letgos Villkor och Integritetspolicy";
+
+// Privacy Policy" Part of the complete text (just turkey)
+"sign_up_terms_conditions_privacy_part" = "";
+
+// "Terms of Service" Part of the complete text (just turkey)
+"sign_up_terms_conditions_terms_part" = "Villkor";
+
+// Sign up title. Check image @ "sign_up_email_field_hint" segment
+"sign_up_title" = "Skapa nytt konto";
+
+// Sign up username field hint. Check image @ "sign_up_email_field_hint" segment
+"sign_up_username_field_hint" = "Fullständigt namn";
+
+// Category suggestion label.
+"suggestions_category" = "Kategori";
+
+// Title for Last Searches sections under Search suggestions.
+"suggestions_last_searches_title" = "Senaste sökningarna";
+
+// Button title when user wants to remove Recent Search
+"suggestions_last_searches_clear_button" = "Rensa alla";
+
+// Tab bar tool tip. Check attached image "tab_bar.png"
+"tab_bar_tool_tip" = "Sälj dina prylar";
+
+// Tab bar "Give It Away" button.
+"tab_bar_give_away_button" = "Ge bort den";
+
+// Tab bar message to incentivise the user to scroll down.
+"tab_bar_incentivise_scroll_banner" = "Skrolla ner för att se mer";
+
+// Toast server internal.
+"toast_error_internal" = "Hoppsan! Något blev fel.";
+
+// Toast no network.
+"toast_no_network" = "Ingen internetanslutning";
+
+// Tour claim label
+"tour_claim_label" = "Köp och sälj snabbt, säkert och lokalt.";
+
+// Tour email button
+"tour_email_button" = "E-post";
+
+// Tour continue with email button
+"tour_continue_w_email" = "Fortsätt med e-post";
+
+// Tour facebook button
+"tour_facebook_button" = "Fortsätt med Facebook";
+
+// Tour google button
+"tour_google_button" = "Fortsätt med Google";
+
+// Tour or label.
+"tour_or_label" = "ELLER ANVÄND DIN E-POST";
+
+// Skip button
+"tutorial_skip_button_title" = "Rensa";
+
+// Accept button on last page of the tutorial
+"tutorial_accept_button_title" = "Kom igång";
+
+// Title for trending searches screen (background view when searching)
+"trending_searches_Title" = "Sökningar som trendar";
+
+// Title for suggested searches screen (background view when searching)
+"suggested_searches_title" = "Rekommenderade Sökningar";
+
+// Text for unsuccessful user unblock
+"unblock_user_error_generic" = "Ett fel uppstod när blockeringen av användaren skulle tas bort.";
+
+// Message when sharing my profile on social networks/email/etc
+"user_share_title_text_mine" = "Kolla min letgo-profil!";
+
+// Message when sharing a user profile on social networks/email/etc
+"user_share_title_text_other" = "Titta på den här användarens letgo-profil!";
+
+// Message when sharing a user profile on social networks/email/etc
+"user_share_title_text_other_w_name" = "Titta på %@s letgo-profil!";
+
+// Message when sharing my profile on social networks/email/etc
+"user_share_message_mine" = "Titta på allt som jag säljer på letgo:";
+
+// Message when sharing a user profile on social networks/email/etc
+"user_share_message_other" = "Titta på allt den här säljaren har på letgo:";
+
+// Message when sharing a user profile on social networks/email/etc
+"user_share_message_other_w_name" = "Titta på allt %@ säljer på letgo!";
+
+// Message error sharing a user profile on social networks/email/etc
+"user_share_error" = "Ett fel inträffade när profilen skulle delas. Vänligen försök igen.";
+
+// Information message when rating a user
+"user_rating_message_w_name" = "Får din upplevelse med %@ fem stjärnor? Berätta hur det gick.";
+
+// Information message when rating a user
+"user_rating_message_wo_name" = "Får din upplevelse med den här användaren fem stjärnor? Berätta hur det gick.";
+
+// Info message to select one rating tag.
+"user_rating_select_a_tag" = "Välj minst en:";
+
+// User rating publish review button
+"user_rating_review_button" = "Publicera Omdöme";
+
+// User rating add comment button
+"user_rating_add_comment_button" = "Lägg till kommentar";
+
+// User rating update comment button
+"user_rating_update_comment_button" = "Uppdatera kommentar";
+
+// Skip button
+"user_rating_skip_button" = "Hoppa över";
+
+// Information about review comment when rating a user
+"user_rating_review_info" = "Du kan uppdatera omdömet när du vill.";
+
+// Review message mandatory (1-3 stars)
+"user_rating_review_placeholder_mandatory" = "Skriv om din upplevelse (obligatoriskt)";
+
+// Review message optional (when user selected 4-5 stars)
+"user_rating_review_placeholder_optional" = "Skriv om din upplevelse (valfritt)";
+
+// Message when review was published
+"user_rating_review_send_success" = "Ditt omdöme har publicerats!";
+
+// Title when you rate a user
+"user_rating_title" = "Betygsätt din upplevelse med";
+
+// Trending description on header bubble
+"trending_items_header_bubble" = "Trendigt";
+
+// Title for Most searched items list view
+"trending_items_view_title" = "Populärast i %@";
+
+// Title for Most searched items list view without location available
+"trending_items_view_title_no_location" = "Populäraste prylar";
+
+// Subtitle for Most searched items list view
+"trending_items_view_subtitle" = "Lägg upp en av dessa och tjäna pengar inom en vecka";
+
+// Title for the list of Most searched items list view
+"trending_items_view_number_of_searches_title" = "Sökningar denna vecka";
+
+// Number of searches for item info
+"trending_items_view_number_of_searches_item" = "%@ sökningar";
+
+// Post button for each item in the list
+"trending_items_view_post_button" = "Publicera";
+
+// Search button for each item in the list
+"trending_items_view_search_button" = "Sök";
+
+// Title for Most searched items card in feed
+"trending_items_card_title" = "Veckans populära prylar";
+
+// Action text for the Most searched items card fake button
+"trending_items_card_action" = "Se listan";
+
+// Title for Most searched items header in user profile
+"trending_items_profile_title" = "Osäker på vad du ska sälja?";
+
+// Subtitle for Most searched items header in user profile
+"trending_items_profile_subtitle" = "Kolla in populära sökningar i ditt område";
+
+// Button title for trending category in Expandable menu
+"trending_items_expandable_menu_button" = "Trendigt";
+
+// iPhone title
+"trending_item_iPhone" = "iPhone";
+
+// ATV title
+"trending_item_atv" = "Fyrhjuling";
+
+// Smartphone title
+"trending_item_smartphone" = "smartphone";
+
+// Sedan title
+"trending_item_sedan" = "sedan";
+
+// Scooter title
+"trending_item_scooter" = "skoter";
+
+// Computer title
+"trending_item_computer" = "dator";
+
+// Coupe title
+"trending_item_coupe" = "coupé";
+
+// Tablet title
+"trending_item_tablet" = "surfplatta";
+
+// Motorcycle title
+"trending_item_motorcycle" = "motorcykel";
+
+// Truck title
+"trending_item_truck" = "lastbil";
+
+// Gadget title
+"trending_item_gadget" = "prylar";
+
+// Trailer title
+"trending_item_trailer" = "släp";
+
+// Controller title
+"trending_item_controller" = "handkontroll";
+
+// Dresser title
+"trending_item_dresser" = "byrå";
+
+// Subwoofer title
+"trending_item_subwoofer" = "bashögtalare";
+
+// Title for subset of most trending items in expandable menu
+"trending_items_expandable_menu_subset_title" = "POPULÄRASTE PRYLAR";

@@ -1202,8 +1202,7 @@ extension FeatureFlags {
             return Bumper.enableJobsAndServicesCategory
         }
         
-        return .control
-        // FIXME: Enable A/B Test
+        return EnableJobsAndServicesCategory.fromPosition(abTests.jobsAndServicesEnabled.value)
     }
 }
 

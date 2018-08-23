@@ -86,7 +86,7 @@
 "categories_inFeed_real_estate_title" = "Inmobiliaria";
 "categories_inFeed_services" = "Servicios";
 "categories_inFeed_sports_leisure_games" = "Tiempo libre";
-"categories_jobs_services" = "Jobs & Services";
+"categories_jobs_services" = "Empleo & Servicios";
 "categories_movies_books_and_music" = "Películas, Libros y Música";
 "categories_other" = "Otros";
 "categories_real_estate" = "Viviendas";
@@ -378,11 +378,11 @@
 "discarded_products_reason_poor_ad_quality" = "No respeta las prácticas recomendadas";
 "discarded_products_reason_reference_to_competitors" = "Referencias a otras apps o páginas web";
 "discarded_products_reason_stock_photo_only" = "Solo contiene imágenes de archivo";
-"edit_jobsServices_jobs_option_title" = "Jobs";
-"edit_jobsServices_listingType_title" = "Type of listing";
-"edit_jobsServices_serviceSubtype_title" = "Subtype";
-"edit_jobsServices_serviceType_title" = "Type";
-"edit_jobsServices_services_option_title" = "Services";
+"edit_jobsServices_jobs_option_title" = "Empleos";
+"edit_jobsServices_listingType_title" = "Tipo de anuncio";
+"edit_jobsServices_serviceSubtype_title" = "Subtipo";
+"edit_jobsServices_serviceType_title" = "Tipo";
+"edit_jobsServices_services_option_title" = "Servicios";
 "edit_paymentFrequency_placeholder" = "No definida";
 "edit_paymentFrequency_title" = "Frecuencia";
 "edit_priceType_choose_title" = "Elige una opción";
@@ -445,6 +445,10 @@
 "filters_cars_transmission_manual" = "Manual";
 "filters_cars_transmission_title" = "Transmisión";
 "filters_distance_not_set" = "no definida";
+"filters_jobs_services_header" = "Características del empleo/servicio";
+"filters_jobs_services_subtype_title" = "Subtipo";
+"filters_jobs_services_toggle_header" = "Busco...";
+"filters_jobs_services_type_title" = "Tipo";
 "filters_mileage_slider_title" = "Kilometraje";
 "filters_navbar_reset" = "Borrar";
 "filters_numberOfSeats_slider_title" = "Plazas";

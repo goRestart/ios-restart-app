@@ -1,0 +1,18 @@
+// Message shown when the application asks you to access your location while you use the app
+"NSLocationWhenInUseUsageDescription" = "letgo trenger tilgang til din plassering for å kunne vise deg produkter i nærheten";
+
+"NSLocationAlwaysUsageDescription" = "letgo vil bruke din plassering for å vise deg dealer i nærheten og foreslå møteplasser";
+
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "letgo vil bruke din plassering for å vise deg dealer i nærheten og foreslå møteplasser";
+
+"sell_shortcut_title" = "Selg Dine Ting";
+
+// Should have the same style as sell_shortcut_title
+"start_browsing_shortcut_title" = "Begynn å bla gjennom";
+
+"NSCameraUsageDescription" = "Ditt kamera vil bli brukt til å ta bilder av det du ønsker å selge.";
+
+"NSPhotoLibraryUsageDescription" = "Ditt bildegalleri vil bli brukt slik at du kan velge bilder av det du ønsker å selge fra din kamerarull.";
+
+"NSPhotoLibraryAddUsageDescription" = "Ditt bildegalleri vil bli brukt slik at du kan velge bilder av det du ønsker å selge fra din kamerarull.";
+

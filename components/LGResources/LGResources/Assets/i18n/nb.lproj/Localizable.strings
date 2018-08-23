@@ -86,7 +86,7 @@
 "categories_inFeed_real_estate_title" = "Real Estate";
 "categories_inFeed_services" = "Tjenester";
 "categories_inFeed_sports_leisure_games" = "Fritid";
-"categories_jobs_services" = "Jobs & Services";
+"categories_jobs_services" = "Jobber & tjenester";
 "categories_movies_books_and_music" = "Film, bøker og musikk";
 "categories_other" = "Annet";
 "categories_real_estate" = "Bolig";
@@ -378,11 +378,11 @@
 "discarded_products_reason_poor_ad_quality" = "Dette overholder ikke optimal praksis";
 "discarded_products_reason_reference_to_competitors" = "Referanser til andre apper eller nettsider";
 "discarded_products_reason_stock_photo_only" = "Inneholder kun bilder som er tatt av andre (stockphoto)";
-"edit_jobsServices_jobs_option_title" = "Jobs";
-"edit_jobsServices_listingType_title" = "Type of listing";
-"edit_jobsServices_serviceSubtype_title" = "Subtype";
+"edit_jobsServices_jobs_option_title" = "Jobber";
+"edit_jobsServices_listingType_title" = "Annonsetype";
+"edit_jobsServices_serviceSubtype_title" = "Undertype";
 "edit_jobsServices_serviceType_title" = "Type";
-"edit_jobsServices_services_option_title" = "Services";
+"edit_jobsServices_services_option_title" = "Tjenester";
 "edit_paymentFrequency_placeholder" = "Ikke valgt";
 "edit_paymentFrequency_title" = "Betalingsfrekvens";
 "edit_priceType_choose_title" = "Velg et alternativ";
@@ -445,6 +445,10 @@
 "filters_cars_transmission_manual" = "Manuell";
 "filters_cars_transmission_title" = "Girkasse";
 "filters_distance_not_set" = "ikke satt";
+"filters_jobs_services_header" = "Jobb- eller tjenesteinfo";
+"filters_jobs_services_subtype_title" = "Undertype";
+"filters_jobs_services_toggle_header" = "Leter etter...";
+"filters_jobs_services_type_title" = "Type";
 "filters_mileage_slider_title" = "Kilometerstand";
 "filters_navbar_reset" = "Tilbakestill";
 "filters_numberOfSeats_slider_title" = "Seter";

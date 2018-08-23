@@ -86,7 +86,7 @@
 "categories_inFeed_real_estate_title" = "Μεσιτικά";
 "categories_inFeed_services" = "Υπηρεσίες";
 "categories_inFeed_sports_leisure_games" = "Χόμπι";
-"categories_jobs_services" = "Jobs & Services";
+"categories_jobs_services" = "Εργασίες & Υπηρεσίες";
 "categories_movies_books_and_music" = "Ταινίες, Βιβλία και Μουσική";
 "categories_other" = "Άλλα";
 "categories_real_estate" = "Μεσιτικά";
@@ -378,11 +378,11 @@
 "discarded_products_reason_poor_ad_quality" = "Δε συμβαδίζει με τις καλύτερες πρακτικές για προχωρημένους";
 "discarded_products_reason_reference_to_competitors" = "Αναφορές σε άλλες εφαρμογές ή ιστοσελίδες";
 "discarded_products_reason_stock_photo_only" = "Περιέχει μόνο πρότυπα φωτογραφιών";
-"edit_jobsServices_jobs_option_title" = "Jobs";
-"edit_jobsServices_listingType_title" = "Type of listing";
-"edit_jobsServices_serviceSubtype_title" = "Subtype";
-"edit_jobsServices_serviceType_title" = "Type";
-"edit_jobsServices_services_option_title" = "Services";
+"edit_jobsServices_jobs_option_title" = "Εργασίες";
+"edit_jobsServices_listingType_title" = "Τύπος Καταχώρησης";
+"edit_jobsServices_serviceSubtype_title" = "Υπότυπος";
+"edit_jobsServices_serviceType_title" = "Τύπος";
+"edit_jobsServices_services_option_title" = "Υπηρεσίες";
 "edit_paymentFrequency_placeholder" = "Δεν έχει καθοριστεί";
 "edit_paymentFrequency_title" = "Συχνότητα";
 "edit_priceType_choose_title" = "Κάντε μια επιλογή";
@@ -445,6 +445,10 @@
 "filters_cars_transmission_manual" = "Χειροκίνητο";
 "filters_cars_transmission_title" = "Μετάδοση κίνησης";
 "filters_distance_not_set" = "Δεν έχει καθοριστεί";
+"filters_jobs_services_header" = "Πληροφορίες Εργασίας ή Υπηρεσίας";
+"filters_jobs_services_subtype_title" = "Υπότυπος";
+"filters_jobs_services_toggle_header" = "Αναζητώ...";
+"filters_jobs_services_type_title" = "Τύπος";
 "filters_mileage_slider_title" = "Χιλιόμετρα";
 "filters_navbar_reset" = "Επαναφορα";
 "filters_numberOfSeats_slider_title" = "Θέσεις";

@@ -86,7 +86,7 @@
 "categories_inFeed_real_estate_title" = "Kiinteistöt";
 "categories_inFeed_services" = "Palvelut";
 "categories_inFeed_sports_leisure_games" = "Vapaa-aika";
-"categories_jobs_services" = "Jobs & Services";
+"categories_jobs_services" = "Työpaikat & palvelut";
 "categories_movies_books_and_music" = "Elokuvat, kirjat ja musiikki";
 "categories_other" = "Muut";
 "categories_real_estate" = "Asunnot";
@@ -378,11 +378,11 @@
 "discarded_products_reason_poor_ad_quality" = "Ei noudata toimintaohjeita";
 "discarded_products_reason_reference_to_competitors" = "Viittaukset muihin sovelluksiin tai sivustolle";
 "discarded_products_reason_stock_photo_only" = "Sisältää vain mallikuvia";
-"edit_jobsServices_jobs_option_title" = "Jobs";
-"edit_jobsServices_listingType_title" = "Type of listing";
-"edit_jobsServices_serviceSubtype_title" = "Subtype";
-"edit_jobsServices_serviceType_title" = "Type";
-"edit_jobsServices_services_option_title" = "Services";
+"edit_jobsServices_jobs_option_title" = "Työt";
+"edit_jobsServices_listingType_title" = "Ilmoituksen tyyppi";
+"edit_jobsServices_serviceSubtype_title" = "Alatyyppi";
+"edit_jobsServices_serviceType_title" = "Tyyppi";
+"edit_jobsServices_services_option_title" = "Palvelut";
 "edit_paymentFrequency_placeholder" = "Ei Rajattu";
 "edit_paymentFrequency_title" = "Maksuväli";
 "edit_priceType_choose_title" = "Valitse vaihtoehto";
@@ -445,6 +445,10 @@
 "filters_cars_transmission_manual" = "Manuaali";
 "filters_cars_transmission_title" = "Vaihteisto";
 "filters_distance_not_set" = "ei rajattu";
+"filters_jobs_services_header" = "Työn tai palvelun tiedot";
+"filters_jobs_services_subtype_title" = "Alatyyppi";
+"filters_jobs_services_toggle_header" = "Haussa...";
+"filters_jobs_services_type_title" = "Tyyppi";
 "filters_mileage_slider_title" = "Kilometrilukema";
 "filters_navbar_reset" = "Nollaa";
 "filters_numberOfSeats_slider_title" = "Istuinpaikat";

@@ -970,7 +970,7 @@ extension R {
     public static let filtersCarsTransmissionTitle = Strings.tr("Localizable", "filters_cars_transmission_title")
     /// not set
     public static let filtersDistanceNotSet = Strings.tr("Localizable", "filters_distance_not_set")
-    /// Job & Service Info
+    /// Job or Service Info
     public static let filtersJobsServicesHeader = Strings.tr("Localizable", "filters_jobs_services_header")
     /// Subtype
     public static let filtersJobsServicesSubtypeTitle = Strings.tr("Localizable", "filters_jobs_services_subtype_title")
@@ -1654,6 +1654,8 @@ extension R {
     public static let postDescriptionNamePlaceholder = Strings.tr("Localizable", "post_description_name_placeholder")
     /// Save this listing!
     public static let postDescriptionSaveButtonText = Strings.tr("Localizable", "post_description_save_button_text")
+    /// Post your company’s logo or a photo that shows the service or job you’re offering
+    public static let postDetailsJobsServicesCameraMessage = Strings.tr("Localizable", "post_details_jobs_services_camera_message")
     /// Looking to hire someone for a
     public static let postDetailsJobsServicesStepOptionJobsPrefix = Strings.tr("Localizable", "post_details_jobs_services_step_option_jobs_prefix")
     /// Advertising a
