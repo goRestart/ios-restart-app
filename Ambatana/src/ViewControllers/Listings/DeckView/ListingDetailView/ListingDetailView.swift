@@ -260,6 +260,8 @@ extension ListingDetailView {
     }
 
     private func updateWith(carousel: ListingCardMediaCarousel) {
+        pageControl.isHidden = carousel.media.count <= 1
+
         pageControl.setPages(carousel.media.count)
         pageControl.turnOnAt(carousel.current)
         self.carousel = carousel
