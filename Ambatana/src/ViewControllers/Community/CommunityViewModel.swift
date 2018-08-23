@@ -1,30 +1,53 @@
 import Foundation
 import LGComponents
 import LGCoreKit
+import RxSwift
 
 class CommunityViewModel: BaseViewModel {
 
     weak var navigator: CommunityTabNavigator?
     private let communityRepository: CommunityRepository
+    private let sessionManager: SessionManager
     private let tracker: Tracker
     private let source: CommunitySource
+    private let disposeBag = DisposeBag()
 
-    var urlRequest: URLRequest?
+    var urlRequest = Variable<URLRequest?>(nil)
     var showNavBar: Bool
     var showCloseButton: Bool
 
-    init(communityRepository: CommunityRepository, source: CommunitySource, tracker: Tracker) {
+    init(communityRepository: CommunityRepository,
+         sessionManager: SessionManager,
+         source: CommunitySource,
+         tracker: Tracker) {
         self.communityRepository = communityRepository
+        self.sessionManager = sessionManager
         self.showNavBar = source == .navBar
         self.showCloseButton = source == .navBar
         self.source = source
         self.tracker = tracker
         super.init()
-        setupRequest()
+        setupRx()
+        buildRequest()
     }
 
-    private func setupRequest() {
-        urlRequest = communityRepository.buildCommunityURLRequest()
+    private func setupRx() {
+        sessionManager
+            .sessionEvents
+            .distinctUntilChanged {
+                switch($0, $1) {
+                case (.login, .login), (.logout, .logout): return true
+                default: return false
+                }
+            }
+            .subscribe { [weak self] sessionEvent in
+                self?.buildRequest()
+            }
+            .disposed(by: disposeBag)
+    }
+
+    private func buildRequest() {
+        urlRequest.value = communityRepository.buildCommunityURLRequest()
     }
 
     func didTapClose() {
