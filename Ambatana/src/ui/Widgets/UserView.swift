@@ -257,7 +257,7 @@ final class UserView: UIView, ListingTitleFontDescriptor {
         guard let subtitle = subtitle,
             let subtitleSuffix = subtitleSuffix else { return nil }
         
-        let text = "\(subtitle) \(subtitleSuffix)"
+        let text = "\(subtitle)\(subtitleSuffix)"
         return text.bifontAttributedText(highlightedText: subtitleSuffix,
                                          mainFont: style.subtitleLabelFont,
                                          mainColour: style.subtitleLabelColor,

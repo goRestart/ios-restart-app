@@ -89,7 +89,7 @@ struct ListingData {
     }
     
     var paymentFrequency: String? {
-        return listing?.service?.servicesAttributes.paymentFrequency?.perValueDisplayName
+        return listing?.paymentFrequencyString
     }
     
     var serviceListingTypeDisplayText: String? {
