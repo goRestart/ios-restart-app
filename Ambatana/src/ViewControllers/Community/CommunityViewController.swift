@@ -32,14 +32,26 @@ final class CommunityViewController: BaseViewController {
     private func setupUI() {
         view.backgroundColor = .white
         view.addSubviewForAutoLayout(webView)
+        webView.navigationDelegate = self
+        webView.allowsBackForwardNavigationGestures = true
         setupNavBar()
         setupConstraints()
     }
 
     private func setupNavBar() {
         navigationController?.setNavigationBarHidden(!viewModel.showNavBar, animated: false)
+        setupNavBarLeftButton()
+    }
+
+    private func setupNavBarLeftButton() {
         guard viewModel.showCloseButton else { return }
-        setNavBarCloseButton(#selector(close))
+        if webView.canGoBack {
+            let backButton = UIBarButtonItem(image: R.Asset.IconsButtons.navbarBack.image,
+                                             style: .plain, target: self, action: #selector(back))
+            self.navigationItem.leftBarButtonItem = backButton
+        } else {
+            setNavBarCloseButton(#selector(close))
+        }
     }
 
     private func setupConstraints() {
@@ -65,5 +77,16 @@ final class CommunityViewController: BaseViewController {
 
     @objc private func close() {
         viewModel.didTapClose()
+    }
+
+    @objc private func back() {
+        webView.goBack()
+    }
+}
+
+extension CommunityViewController: WKNavigationDelegate {
+
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        setupNavBarLeftButton()
     }
 }

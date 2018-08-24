@@ -180,6 +180,7 @@ final class FiltersViewModel: BaseViewModel {
         return updatedSections.filter { $0 != .price || isPriceCellEnabled }
             .filter { $0 != .carsInfo || isCarsInfoCellEnabled }
             .filter { !$0.isRealEstateSection || isRealEstateInfoCellEnabled }
+            .filter { $0 != .jobsServicesToggle || isJobsServicesSectionEnabled }
             .filter { $0 != .servicesInfo || isServicesInfoCellEnabled }
     }
 
@@ -281,6 +282,10 @@ final class FiltersViewModel: BaseViewModel {
             } else if let realEstateSectionIndex = sections.index(of: .realEstateInfo),
                 listingCategory.isRealEstate {
                 delegate?.scrollToSection(atIndexPath: IndexPath(row: 0, section: realEstateSectionIndex))
+            } else if let jobsServicesToggleSectionIndex = sections.index(of: .jobsServicesToggle),
+                listingCategory.isServices,
+                featureFlags.jobsAndServicesEnabled.isActive {
+                delegate?.scrollToSection(atIndexPath: IndexPath(row: 0, section: jobsServicesToggleSectionIndex))
             } else if let servicesSectionIndex = sections.index(of: .servicesInfo),
                 listingCategory.isServices {
                 delegate?.scrollToSection(atIndexPath: IndexPath(row: 0, section: servicesSectionIndex))
@@ -855,6 +860,36 @@ extension FiltersViewModel: CarAttributeSelectionDelegate {
 
 extension FiltersViewModel {
     
+    
+    // MARK: Jobs & Services Toggle
+    
+    var isJobsServicesSectionEnabled: Bool {
+        return isServicesInfoCellEnabled && featureFlags.jobsAndServicesEnabled.isActive
+    }
+    
+    var serviceListingTypeOptions: [ServiceListingType] {
+        return ServiceListingType.allCases(withFirstItem: .job)
+    }
+    
+    func serviceListingTypeDisplayText(atIndex index: Int) -> String? {
+        return serviceListingTypeOptions[safeAt: index]?.pluralDisplayName
+    }
+    
+    func isServiceListingTypeSelected(atIndex index: Int) -> Bool {
+        guard let item = serviceListingTypeOptions[safeAt: index] else { return false }
+        return productFilter.verticalFilters.services.listingTypes.contains(item)
+    }
+    
+    func selectServiceListingTypeOption(atIndex index: Int) {
+        guard let selectedListingType = serviceListingTypeOptions[safeAt: index] else { return }
+        
+        productFilter.verticalFilters.services.listingTypes.removeIfContainsElseAppend(selectedListingType)
+        delegate?.vmDidUpdate()
+    }
+    
+    
+    // MARK: Services
+    
     var currentServiceTypeName: String? {
         return productFilter.verticalFilters.services.type?.name
     }
@@ -862,7 +897,7 @@ extension FiltersViewModel {
     var isServicesInfoCellEnabled: Bool {
         return productFilter.selectedCategories.contains(.services)
     }
-    
+
     var serviceSubtypeCellEnabled: Bool {
         return productFilter.verticalFilters.services.type != nil
     }

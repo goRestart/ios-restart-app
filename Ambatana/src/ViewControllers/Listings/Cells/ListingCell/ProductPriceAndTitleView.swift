@@ -162,7 +162,7 @@ final class ProductPriceAndTitleView: UIView {
                                                   style: OverlayDisplayStyle) -> NSAttributedString? {
         guard let paymentFrequency = paymentFrequency else { return nil }
         
-        let text = "\(price) \(paymentFrequency)"
+        let text = "\(price)\(paymentFrequency)"
         return text.bifontAttributedText(highlightedText: paymentFrequency,
                                          mainFont: ListingCellMetrics.PriceLabel.font,
                                          mainColour: priceLabelColour(forDisplayStyle: style),

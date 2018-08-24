@@ -89,19 +89,18 @@ struct ListingData {
     }
     
     var paymentFrequency: String? {
-        return listing?.service?.servicesAttributes.paymentFrequency?.perValueDisplayName
+        return listing?.paymentFrequencyString
     }
     
-    var distanceToListing: Double? {
-        guard let listingPosition = listing?.location,
-              let userLocation = currentLocation?.location else { return nil }
-        return userLocation.distanceTo(listingPosition).roundNearest(0.1)
+    var serviceListingTypeDisplayText: String? {
+        return listing?.service?.servicesAttributes.listingType?.displayName.localizedCapitalized
     }
     
     func titleViewModel(featureFlags: FeatureFlaggeable) -> ListingTitleViewModel? {
         return ListingTitleViewModel(listing: listing,
                                      featureFlags: featureFlags)
     }
+
 }
 
 enum CollectionCellType: String {

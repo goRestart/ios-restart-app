@@ -357,6 +357,8 @@ extension FiltersViewController: UICollectionViewDataSource {
             return viewModel.numberOfRealEstateRows
         case .servicesInfo:
             return viewModel.serviceSections.count
+        case .jobsServicesToggle:
+            return viewModel.serviceListingTypeOptions.count
         }
     }
     
@@ -406,6 +408,13 @@ extension FiltersViewController: UICollectionViewDataSource {
         case .price:
             return newPriceCell(forIndexPath: indexPath,
                                 inCollectionView: collectionView)
+        case .jobsServicesToggle:
+            guard let cell = collectionView.dequeue(type: FilterSingleCheckCell.self,
+                                                  for: indexPath) else { return UICollectionViewCell() }
+            cell.setup(withTitle: viewModel.serviceListingTypeDisplayText(atIndex: indexPath.row),
+                       isSelected: viewModel.isServiceListingTypeSelected(atIndex: indexPath.row),
+                       showsBottomSeparator: true)
+            return cell
         }
     }
     
@@ -452,7 +461,6 @@ extension FiltersViewController: UICollectionViewDelegate {
             case .year, .bodyType, .transmission, .fuelType, .driveTrain, .mileage, .numberOfSeats:
                 break
             }
-            
         case .realEstateInfo:
             switch viewModel.filterRealEstateSections[indexPath.item] {
             case .propertyType:
@@ -481,6 +489,8 @@ extension FiltersViewController: UICollectionViewDelegate {
             viewModel.selectWithinTimeAtIndex(indexPath.row)
         case .sortBy:
             viewModel.selectSortOptionAtIndex(indexPath.row)
+        case .jobsServicesToggle:
+            viewModel.selectServiceListingTypeOption(atIndex: indexPath.row)
         case .price, .distance:
             // Do nothing
             break
@@ -521,7 +531,7 @@ extension FiltersViewController: UICollectionViewDelegateFlowLayout {
                                                            forContainerWidth: view.bounds.width)
                 return CGSize(width: view.bounds.width, height: height)
             }
-        case .sortBy, .within, .location:
+        case .sortBy, .within, .location, .jobsServicesToggle:
             return CGSize(width: view.bounds.width, height: Layout.singleCheckHeight)
         case .price:
             return CGSize(width: view.bounds.width, height: Layout.pricesHeight)
