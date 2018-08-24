@@ -9,7 +9,7 @@ final class EditUserBioViewModel: BaseViewModel {
     private let myUserRepository: MyUserRepository
     private let tracker: Tracker
 
-    weak var navigator: EditUserBioNavigator?
+    var navigator: EditUserBioNavigator?
     weak var delegate: BaseViewModelDelegate?
 
     var userBio: String? {

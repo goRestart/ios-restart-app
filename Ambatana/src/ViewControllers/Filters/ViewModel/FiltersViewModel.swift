@@ -18,7 +18,7 @@ final class FiltersViewModel: BaseViewModel {
     
     weak var delegate: FiltersViewModelDelegate?
     weak var dataDelegate: FiltersViewModelDataDelegate?
-    var navigator: FiltersRouter?
+    var navigator: FiltersNavigator?
 
     var sections: [FilterSection]
 
@@ -181,11 +181,10 @@ final class FiltersViewModel: BaseViewModel {
     }
 
     func locationButtonPressed() {
-        let locationVM = EditLocationViewModel(mode: .editFilterLocation,
-                                               initialPlace: place,
-                                               distanceRadius: productFilter.distanceRadius)
-        locationVM.locationDelegate = self
-        navigator?.openEditLocation(withViewModel: locationVM)
+        navigator?.openEditLocation(mode: .editFilterLocation,
+                                    initialPlace: place,
+                                    distanceRadius: productFilter.distanceRadius,
+                                    locationDelegate: self)
     }
     
     func resetFilters() {

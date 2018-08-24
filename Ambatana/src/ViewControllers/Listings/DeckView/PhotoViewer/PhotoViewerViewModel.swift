@@ -18,7 +18,7 @@ final class PhotoViewerViewModel: BaseViewModel {
 
     private var media: [Media] { return viewerDisplayable.listing.media }
 
-    var navigator: PhotoViewerNavigator?
+    var navigator: MediaViewerNavigator?
     private let tracker: Tracker
     private let source: EventParameterListingVisitSource
 
@@ -76,6 +76,6 @@ final class PhotoViewerViewModel: BaseViewModel {
     }
 
     func dismiss() {
-        navigator?.closePhotoViewer()
+        navigator?.closeMediaViewer()
     }
 }

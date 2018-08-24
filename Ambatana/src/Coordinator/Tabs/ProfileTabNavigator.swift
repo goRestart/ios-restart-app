@@ -42,10 +42,6 @@ protocol ChangeEmailNavigator: class {
     func closeChangeEmail()
 }
 
-protocol EditLocationNavigator: class {
-    func closeEditLocation()
-}
-
 protocol EditUserBioNavigator: class {
     func closeEditUserBio()
 }

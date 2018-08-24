@@ -38,8 +38,7 @@ final class MeetingSafetyTipsViewModel: BaseViewModel {
     private var closeCompletion: (()->Void)?
     private let keyValueStorage: KeyValueStorageable
 
-    weak var navigator: MeetingAssistantNavigator?
-
+    var navigator: MeetingSafetyTipsNavigator?
 
     convenience init(closeCompletion: (()->Void)?) {
         self.init(closeCompletion: closeCompletion, keyValueStorage: KeyValueStorage.sharedInstance)

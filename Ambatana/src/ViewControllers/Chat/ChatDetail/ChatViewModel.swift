@@ -391,6 +391,22 @@ class ChatViewModel: ChatBaseViewModel {
         return false
     }
 
+    private func shouldShowExpressChatForListing(_ listingId: String?) -> Bool {
+        guard let listingId = listingId else { return false }
+        // user didn't pressed "Don't show again"
+        guard keyValueStorage.userShouldShowExpressChat else { return false }
+        // express chat hasn't been shown for this product
+        guard !expressChatAlreadyShownForProduct(listingId) else { return false }
+        return true
+    }
+
+    private func expressChatAlreadyShownForProduct(_ productId: String) -> Bool {
+        for productShownId in keyValueStorage.userProductsWithExpressChatAlreadyShown {
+            if productShownId == productId { return true }
+        }
+        return false
+    }
+
     func setupConversationFrom(listing: Listing) {
         guard let listingId = listing.objectId, let sellerId = listing.user.objectId else { return }
         if let _ =  myUserRepository.myUser?.objectId {

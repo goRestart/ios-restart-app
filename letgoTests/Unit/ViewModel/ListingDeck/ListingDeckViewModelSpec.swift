@@ -849,7 +849,6 @@ extension ListingDeckViewModelSpec: ListingDetailNavigator {
     func showBumpUpBoostSucceededAlert() {}
     func openContactUs(forListing listing: Listing, contactUstype: ContactUsType) {}
     func openFeaturedInfo() {}
-    func closeFeaturedInfo() {}
     func openListingAttributeTable(withViewModel viewModel: ListingAttributeTableViewModel) {}
     func closeListingAttributeTable() {}
 }

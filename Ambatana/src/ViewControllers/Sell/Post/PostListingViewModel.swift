@@ -4,7 +4,7 @@ import LGComponents
 
 protocol PostListingViewModelDelegate: BaseViewModelDelegate {}
 
-enum PostingSource {
+enum PostingSource: String {
     case tabBar
     case deepLink
     case onboardingButton
@@ -569,8 +569,12 @@ fileprivate extension PostListingViewModel {
                 guard let _ = self?.state.value else { return }
                 self?.navigator?.cancelPostListing()
             }
-            navigator?.openLoginIfNeededFromListingPosted(from: .sell, loggedInAction: loggedInAction, cancelAction: cancelAction)
-
+            
+            navigator?.openLoginIfNeededFromListingPosted(
+                from: .sell,
+                loggedInAction: loggedInAction,
+                cancelAction: cancelAction
+            )
         } else {
             navigator?.cancelPostListing()
         }

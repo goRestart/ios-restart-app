@@ -166,7 +166,6 @@ extension ListingDeckViewModelBinderSpec: ListingDetailNavigator {
     func showBumpUpBoostSucceededAlert() {}
     func openContactUs(forListing listing: Listing, contactUstype: ContactUsType) {}
     func openFeaturedInfo() {}
-    func closeFeaturedInfo() {}
     func openUserReport(source: EventParameterTypePage, userReportedId: String) {}
     func openUserVerificationView() {}
     func openListingAttributeTable(withViewModel viewModel: ListingAttributeTableViewModel) {}

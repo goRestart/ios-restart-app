@@ -27,6 +27,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     private static let searchAlertLimit = 20
     private static let interestingUndoTimeout: TimeInterval = 5
     
+    var wireframe: MainListingNavigator? // We'll call this wireframe to avoid clashing. Too many navigators here
+    
     // > Input
     var searchString: String? {
         return searchType?.text
@@ -582,16 +584,21 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         guard !query.isEmpty else { return }
         
         delegate?.vmDidSearch()
-        if let searchNavigator = searchNavigator  {
-            searchNavigator.openSearchResults(with: .user(query: query), filters: filters)
-        } else {
-            navigator?.openMainListings(withSearchType: .user(query: query), listingFilters: filters)
+        guard let searchNavigator = searchNavigator else {
+            navigator?.openMainListings(withSearchType: .user(query: query),
+                                        listingFilters: filters)
+            return
         }
+        wireframe?.openSearchResults(
+            with: .user(query: query),
+            filters: filters,
+            searchNavigator: searchNavigator
+        )
     }
     
     func showFilters() {
         if let searchNavigator = searchNavigator  {
-            searchNavigator.openFilters(with: filters, dataDelegate: self)
+            wireframe?.openFilters(withFilters: filters, dataDelegate: self)
         } else {
             navigator?.openFilters(withListingFilters: filters, filtersVMDataDelegate: self)
         }
@@ -600,8 +607,9 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     
     func showMap() {
         if let searchNavigator = searchNavigator  {
-            searchNavigator.openMap(requester: listingListRequester,
-                                    listingFilters: filters)
+            wireframe?.openMap(requester: listingListRequester,
+                            listingFilters: filters,
+                            searchNavigator: searchNavigator as! ListingsMapNavigator)
         } else {
             navigator?.openMap(requester: listingListRequester,
                                listingFilters: filters,
@@ -802,10 +810,10 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     func bubbleTapped() {
         let initialPlace = filters.place ?? Place(postalAddress: locationManager.currentLocation?.postalAddress,
                                                   location: locationManager.currentLocation?.location)
-        if let searchNavigator = searchNavigator  {
-            searchNavigator.openLocationSelection(with: initialPlace,
-                                                  distanceRadius: filters.distanceRadius,
-                                                  locationDelegate: self)
+        if let searchNavigator = searchNavigator  { // TODO: Work on this for sectioned feed
+            wireframe?.openLocationSelection(with: initialPlace,
+                                             distanceRadius: filters.distanceRadius,
+                                             locationDelegate: self)
         } else {
             navigator?.openLocationSelection(initialPlace: initialPlace,
                                              distanceRadius: filters.distanceRadius,
