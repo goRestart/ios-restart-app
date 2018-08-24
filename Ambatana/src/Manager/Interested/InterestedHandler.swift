@@ -9,7 +9,7 @@ enum InterestedAction {
     case triggerInterestedAction
 }
 
-final class InterestedHandler {
+final class InterestedHandler: InterestedHandleable {
     
     private let interestedStateUpdater: InterestedStateUpdater
     private let tracker: Tracker
@@ -22,8 +22,8 @@ final class InterestedHandler {
     
     // MARK: - Lifecycle
     
-    convenience init(interestedStateUpdater: InterestedStateUpdater) {
-        self.init(interestedStateUpdater: interestedStateUpdater,
+    convenience init() {
+        self.init(interestedStateUpdater: LGInterestedStateUpdater(),
                   tracker: TrackerProxy.sharedInstance,
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   featureFlags: FeatureFlags.sharedInstance,

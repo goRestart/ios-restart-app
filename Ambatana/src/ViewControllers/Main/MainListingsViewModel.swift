@@ -47,23 +47,9 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         }
     }
     
-    var interestingListingIDs: Set<String> = Set<String>() {
-        didSet {
-            let empty = [String: InterestedState]()
-            let dict: [String: InterestedState] = interestingListingIDs.reduce(empty) {
-                (dict, identifier) -> [String: InterestedState] in
-                var dict = dict
-                dict[identifier] = .seeConversation
-                return dict
-            }
-            listViewModel.listingInterestState = dict
-        }
-    }
-    
     private let interestingUndoTimeout: TimeInterval = 5
     private let chatWrapper: ChatWrapper
-    private let interestedStateUpdater: InterestedStateUpdater
-    private let interestedHandler: InterestedHandler
+    private let interestedHandler: InterestedHandleable
 
     let bannerCellPosition: Int = 8
     let suggestedSearchesLimit: Int = 10
@@ -454,8 +440,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
          featureFlags: FeatureFlaggeable,
          bubbleTextGenerator: DistanceBubbleTextGenerator,
          chatWrapper: ChatWrapper,
-         interestedStateUpdater: InterestedStateUpdater,
-         interestedHandler: InterestedHandler,
+         interestedHandler: InterestedHandleable,
          feedBadgingSynchronizer: FeedBadgingSynchronizer) {
         self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
@@ -476,7 +461,6 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         self.featureFlags = featureFlags
         self.bubbleTextGenerator = bubbleTextGenerator
         self.chatWrapper = chatWrapper
-        self.interestedStateUpdater = interestedStateUpdater
         self.interestedHandler = interestedHandler
         self.feedBadgingSynchronizer = feedBadgingSynchronizer
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
@@ -526,8 +510,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         let featureFlags = FeatureFlags.sharedInstance
         let bubbleTextGenerator = DistanceBubbleTextGenerator()
         let chatWrapper = LGChatWrapper()
-        let interestedStateUpdater = LGInterestedStateUpdater()
-        let interestedHandler = InterestedHandler(interestedStateUpdater: interestedStateUpdater)
+        let interestedHandler = InterestedHandler()
         let feedBadgingSynchronizer = LGFeedBadgingSynchronizer()
         self.init(sessionManager: sessionManager,
                   myUserRepository: myUserRepository,
@@ -547,7 +530,6 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                   featureFlags: featureFlags,
                   bubbleTextGenerator: bubbleTextGenerator,
                   chatWrapper: chatWrapper,
-                  interestedStateUpdater: interestedStateUpdater,
                   interestedHandler: interestedHandler,
                   feedBadgingSynchronizer: feedBadgingSynchronizer)
     }
@@ -563,7 +545,6 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
-        interestingListingIDs = keyValueStorage.interestingListingIDs
         updatePermissionsWarning()
         updateCategoriesHeader()
         if firstTime {

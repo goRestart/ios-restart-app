@@ -26,6 +26,9 @@
 		013B2A2021303DCC00F69613 /* LGInterestedStateUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013B2A1B21303DCB00F69613 /* LGInterestedStateUpdater.swift */; };
 		013B2A2121303DCC00F69613 /* InterestedHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013B2A1C21303DCC00F69613 /* InterestedHandler.swift */; };
 		013B2A2221303DCC00F69613 /* InterestedHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013B2A1C21303DCC00F69613 /* InterestedHandler.swift */; };
+		013B2A242130444E00F69613 /* InterestedHandleable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013B2A232130444E00F69613 /* InterestedHandleable.swift */; };
+		013B2A252130444E00F69613 /* InterestedHandleable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013B2A232130444E00F69613 /* InterestedHandleable.swift */; };
+		013B2A272130482900F69613 /* MockInterestedHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013B2A262130482900F69613 /* MockInterestedHandler.swift */; };
 		0140073A21218CFF00BD2E1B /* FeedBadgingSynchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0140073921218CFF00BD2E1B /* FeedBadgingSynchronizer.swift */; };
 		0140073B21218CFF00BD2E1B /* FeedBadgingSynchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0140073921218CFF00BD2E1B /* FeedBadgingSynchronizer.swift */; };
 		014448392110BEF900A459F9 /* NotificationCenterHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014448382110BEF900A459F9 /* NotificationCenterHeader.swift */; };
@@ -2130,6 +2133,8 @@
 		013B2A1A21303DCB00F69613 /* InterestedStateUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterestedStateUpdater.swift; sourceTree = "<group>"; };
 		013B2A1B21303DCB00F69613 /* LGInterestedStateUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGInterestedStateUpdater.swift; sourceTree = "<group>"; };
 		013B2A1C21303DCC00F69613 /* InterestedHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterestedHandler.swift; sourceTree = "<group>"; };
+		013B2A232130444E00F69613 /* InterestedHandleable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestedHandleable.swift; sourceTree = "<group>"; };
+		013B2A262130482900F69613 /* MockInterestedHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockInterestedHandler.swift; sourceTree = "<group>"; };
 		0140073921218CFF00BD2E1B /* FeedBadgingSynchronizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedBadgingSynchronizer.swift; sourceTree = "<group>"; };
 		014448382110BEF900A459F9 /* NotificationCenterHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenterHeader.swift; sourceTree = "<group>"; };
 		0144C3F521130A5000D811C8 /* NotificationCenterModularCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenterModularCell.swift; sourceTree = "<group>"; };
@@ -3350,6 +3355,7 @@
 		013B2A1921303DA300F69613 /* Interested */ = {
 			isa = PBXGroup;
 			children = (
+				013B2A232130444E00F69613 /* InterestedHandleable.swift */,
 				013B2A1C21303DCC00F69613 /* InterestedHandler.swift */,
 				013B2A1A21303DCB00F69613 /* InterestedStateUpdater.swift */,
 				013B2A1B21303DCB00F69613 /* LGInterestedStateUpdater.swift */,
@@ -4834,6 +4840,7 @@
 				426CB12E20C56768009A065F /* MockImageMultiplierRepository.swift */,
 				01A153502125C71700035DF6 /* MockFeedBadgingSynchronizer.swift */,
 				0173949B212DBD0500A66FE1 /* MockInterestedStateUpdater.swift */,
+				013B2A262130482900F69613 /* MockInterestedHandler.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -7466,6 +7473,7 @@
 				50D08DDC1E69AF14009CC260 /* ChangeEmailViewModelSpec.swift in Sources */,
 				50D08DC61E69AF14009CC260 /* ShowFeaturedStripeHelperSpec.swift in Sources */,
 				C7978D791E924593008CF5BB /* CountryCodeSpec.swift in Sources */,
+				013B2A272130482900F69613 /* MockInterestedHandler.swift in Sources */,
 				0150866B20520BFF0007E792 /* MockEventParameterPostingAbandonStep.swift in Sources */,
 				509F79B21EDC01E400AF2F70 /* RateUserViewModelSpec.swift in Sources */,
 				50D08DB91E69AF14009CC260 /* MockPurchaseableProduct+MockFactory.swift in Sources */,
@@ -8276,6 +8284,7 @@
 				6A0B6A102052BC9F00EAA1F5 /* UserProfileRelationView.swift in Sources */,
 				72D928DC1E83DD340030F4C3 /* ConfigManager.swift in Sources */,
 				016328F620DBCFF000FA618B /* NotificationSettingsCompleteListViewModel.swift in Sources */,
+				013B2A242130444E00F69613 /* InterestedHandleable.swift in Sources */,
 				2E4ADEC2200515FC00D07D8A /* BumpUpPayViewController.swift in Sources */,
 				55FABE1620762E4B004B0DBD /* UserPhoneVerificationCodeInputViewController.swift in Sources */,
 				C77593F11BF0E48D0097D62F /* FilterHeaderCell.swift in Sources */,
@@ -9149,6 +9158,7 @@
 				8E80179C2010DB68004CE244 /* ChatInactiveConversationsListViewController.swift in Sources */,
 				8E8EAD3720A2EC1400ADEAFE /* ChatConversationsListViewModel.swift in Sources */,
 				5011939620C7FE7C00FA7C20 /* AnalyticsSessionDAO.swift in Sources */,
+				013B2A252130444E00F69613 /* InterestedHandleable.swift in Sources */,
 				329ACF5020EA8A9900A1C6A4 /* EmbeddedCollectionViewCell.swift in Sources */,
 				C783D9821C64BBA1000EE5CA /* ReportUsersViewModel.swift in Sources */,
 				50C2E19C1E6FFACE006639BB /* PostListingRedCamButtonFooter.swift in Sources */,
