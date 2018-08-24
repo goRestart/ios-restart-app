@@ -51,6 +51,13 @@ extension Listing {
             return nil
         }
     }
+    
+    
+    var paymentFrequencyString: String? {
+        guard price.value > 0 else { return nil }
+        
+        return service?.servicesAttributes.paymentFrequency?.perValueDisplayName
+    }
 }
 
 extension Product {
@@ -62,6 +69,26 @@ extension Product {
 
     func isMine(myUserRepository: MyUserRepository) -> Bool {
         return belongsTo(userId: myUserRepository.myUser?.objectId)
+    }
+}
+
+extension Listing {
+    func interestedState(myUserRepository: MyUserRepository,
+                         listingInterestStates: Set<String>) -> InterestedState {
+        guard let listingId = objectId else { return .none  }
+        guard !isMine(myUserRepository: myUserRepository) else { return .none }
+        guard !listingInterestStates.contains(listingId) else { return .seeConversation }
+        return .send(enabled: true)
+    }
+    
+    func listingUser(userRepository: UserRepository, completion: @escaping (User?) -> Void) {
+        guard let userId = user.objectId else {
+            completion(nil)
+            return
+        }
+        userRepository.show(userId) { result in
+            completion(result.value)
+        }
     }
 }
 

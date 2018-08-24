@@ -52,10 +52,11 @@ enum PostCategory: Equatable {
         }
     }
     
-    var postCameraTitle: String? {
+    func postCameraTitle(forFeatureFlags featureFlags: FeatureFlaggeable) -> String? {
         switch self {
         case .services:
-            return R.Strings.postDetailsServicesCameraMessage
+            return featureFlags.jobsAndServicesEnabled.isActive ?
+                R.Strings.postDetailsJobsServicesCameraMessage : R.Strings.postDetailsServicesCameraMessage
         case .realEstate:
             return R.Strings.realEstateCameraViewRealEstateMessage
         case .otherItems, .motorsAndAccessories, .car:

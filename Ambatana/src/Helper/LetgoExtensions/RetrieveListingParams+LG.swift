@@ -69,7 +69,7 @@ extension RetrieveListingParams {
         }
         
         if featureFlags.jobsAndServicesEnabled.isActive {
-            // FIXME: Implement this in ABIOS-4741
+            serviceListingTypes = verticalFilters.services.listingTypes
         } else {
             // More info here: ABIOS-4795
             if let categoryIds = categoryIds,

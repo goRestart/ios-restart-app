@@ -1,0 +1,18 @@
+// Message shown when the application asks you to access your location while you use the app
+"NSLocationWhenInUseUsageDescription" = "letgo a besoin de votre localisation pour afficher les bien à proximité";
+
+"NSLocationAlwaysUsageDescription" = "letgo utilisera votre localisation pour vous informer des aubaines près de chez vous et vous suggérer des lieux de rencontre";
+
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "letgo utilisera votre localisation pour vous informer des aubaines près de chez vous et vous suggérer des lieux de rencontre";
+
+"sell_shortcut_title" = "Vendre vos biens";
+
+// Should have the same style as sell_shortcut_title
+"start_browsing_shortcut_title" = "Découvrir des biens";
+
+"NSCameraUsageDescription" = "Votre caméra sera utilisée pour prendre des photos de ce que vous voulez vendre.";
+
+"NSPhotoLibraryUsageDescription" = "Votre album photo sera utilisé pour que vous puissiez sélectionner des images de ce que vous voulez vendre parmi toutes les photos de votre galerie.";
+
+"NSPhotoLibraryAddUsageDescription" = "Votre album photo sera utilisé pour que vous puissiez sélectionner des images de ce que vous voulez vendre parmi toutes les photos de votre galerie.";
+

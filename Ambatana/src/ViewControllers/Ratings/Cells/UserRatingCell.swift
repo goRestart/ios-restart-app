@@ -88,6 +88,7 @@ final class UserRatingCell: UITableViewCell, ReusableCell {
     private let descriptionLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemRegularFont(size: 13)
+        label.numberOfLines = 0
         return label
     }()
     private let timeLabel: UILabel = {

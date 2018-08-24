@@ -212,6 +212,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     let serviceSubtypeId = Variable<String?>(nil)
     let serviceSubtypeName = Variable<String?>(nil)
     let servicePaymentFrequency = Variable<PaymentFrequency?>(nil)
+    let serviceListingType = Variable<ServiceListingType?>(nil)
     
     var shouldFeatureItemAfterEdit = Variable<Bool>(true)
     
@@ -391,6 +392,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
                     ?? servicesInfoRepository.serviceSubtype(forServiceSubtypeId: serviceSubtypeId)?.name
             }
             self.servicePaymentFrequency.value = services.servicesAttributes.paymentFrequency
+            self.serviceListingType.value = services.servicesAttributes.listingType
         }
 
         self.shouldShareInFB = false
@@ -482,6 +484,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         let paymentFrequencyValue: PaymentFrequency? = !(isFreePosting.value) ? servicePaymentFrequency.value : nil
         return ServiceAttributes(typeId: serviceTypeId.value,
                                  subtypeId: serviceSubtypeId.value,
+                                 listingType: serviceListingType.value,
                                  typeTitle: serviceTypeName.value,
                                  subtypeTitle: serviceSubtypeName.value,
                                  paymentFrequency: paymentFrequencyValue)
@@ -791,6 +794,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
                                                                  realEstateNumberOfLivingRooms.asObservable().distinctUntilChanged())
         let checkingServicesChanges = Observable.combineLatest(serviceTypeId.asObservable().distinctUntilChanged(),
                                                                serviceTypeName.asObservable().distinctUntilChanged(),
+                                                               serviceListingType.asObservable().distinctUntilChanged(),
                                                                serviceSubtypeId.asObservable().distinctUntilChanged(),
                                                                serviceSubtypeName.asObservable().distinctUntilChanged(),
                                                                servicePaymentFrequency.asObservable().distinctUntilChanged())
@@ -1041,6 +1045,18 @@ extension EditListingViewModel {
         return featureFlags.servicesPaymentFrequency.isActive && !(isFreePosting.value)
     }
     
+    var shouldShowListingType: Bool {
+        return featureFlags.jobsAndServicesEnabled.isActive
+    }
+    
+    var serviceTypeTitleText: String {
+        return shouldShowListingType ? R.Strings.editJobsServicesServiceTypeTitle : R.Strings.servicesServiceTypeTitle
+    }
+    
+    var serviceSubtypeTitleText: String {
+        return shouldShowListingType ? R.Strings.editJobsServicesServiceSubtypeTitle : R.Strings.servicesServiceSubtypeTitle
+    }
+    
     func serviceTypeButtonPressed() {
         let serviceTypes = servicesInfoRepository.retrieveServiceTypes()
         let serviceTypeNames = serviceTypes.map( { $0.name } )
@@ -1096,6 +1112,21 @@ extension EditListingViewModel {
                                     actions: paymentFrequencyActions,
                                     withTitle: R.Strings.editPriceTypeChooseTitle)
     }
+    
+    func serviceListingTypeButtonPressed() {
+        let listingTypes = ServiceListingType.allCases
+        let listingTypeNames = listingTypes.map( { $0.pluralDisplayName } )
+        let selectedListingType = serviceListingType.value?.pluralDisplayName
+        
+        let vm = ListingAttributeSingleSelectPickerViewModel(title: R.Strings.editJobsServicesListingTypeTitle,
+                                                             attributes: listingTypeNames,
+                                                             selectedAttribute: selectedListingType) { [weak self] selectedIndex in
+                                                                if let selectedIndex = selectedIndex {
+                                                                    self?.updateListingType(withListingType: listingTypes[selectedIndex])
+                                                                }
+        }
+        navigator?.openListingAttributePicker(viewModel: vm)
+    }
 
     private func updateServiceType(withServiceType serviceType: ServiceType?) {
         clearServiceSubtype()
@@ -1107,6 +1138,10 @@ extension EditListingViewModel {
     private func updateServiceSubtype(withServiceSubtype serviceSubtype: ServiceSubtype?) {
         serviceSubtypeName.value = serviceSubtype?.name
         serviceSubtypeId.value = serviceSubtype?.id
+    }
+    
+    private func updateListingType(withListingType listingType: ServiceListingType?) {
+        serviceListingType.value = listingType
     }
     
     private func clearServiceType() {

@@ -226,11 +226,6 @@
          "description": "allows user to see extra car fields (bodyType, fuelType, drivetrain, transmission, seats, mileage)"
     },
     {
-        "name": "ShowChatHeaderWithoutListingForAssistant",
-        "values": ["yes", "no"],
-        "description": "[CHAT] Use the new header WITHOUT LISTING for conversations with no listing related"
-    },
-    {
         "name": "ReportingFostaSesta",
         "values": ["control", "baseline", "withIcons", "withoutIcons"],
         "description": "Show new user/product reporting flow (FOSTA-SESTA compliance)"

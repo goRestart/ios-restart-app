@@ -13,7 +13,7 @@ protocol ListingCellDelegate: class {
     func editPressedForDiscarded(listing: Listing)
     func moreOptionsPressedForDiscarded(listing: Listing)
     func postNowButtonPressed(_ view: UIView)
-    func interestedActionFor(_ listing: Listing)
+    func interestedActionFor(_ listing: Listing, userListing: LocalUser?, completion: @escaping (InterestedState) -> Void)
     func openAskPhoneFor(_ listing: Listing, interlocutor: LocalUser)
     func getUserInfoFor(_ listing: Listing, completion: @escaping (User?) -> Void)
     func bumpUpPressedFor(listing: Listing)
@@ -21,9 +21,12 @@ protocol ListingCellDelegate: class {
 
 final class ListingCell: UICollectionViewCell, ReusableCell {
     private struct Layout {
-        static let stripeHeight: CGFloat = 34
         static let stripWidth: CGFloat = 70
+        static let extraInfoTrailing: CGFloat = 30
     }
+    
+    private let featureFlags: FeatureFlaggeable
+    
     private lazy var interestedButton: UIButton = UIButton()
     private let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView.init(activityIndicatorStyle: .white)
 
@@ -75,6 +78,8 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         label.setContentHuggingPriority(.defaultLow, for: .horizontal)
         return label
     }()
+    
+    private let extraInfoTagView: ExtraInfoTagView = ExtraInfoTagView(withColour: .white)
 
     private let bumpUpContainer = UIView()
 
@@ -134,6 +139,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     }
     
     override init(frame: CGRect) {
+        self.featureFlags = FeatureFlags.sharedInstance
         super.init(frame: frame)
         setupUI()
         contentView.cornerRadius = LGUIKitConstants.mediumCornerRadius
@@ -191,7 +197,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
             interestedButton.widthAnchor.constraint(equalToConstant: InterestedLayout.width)
         ])
         interestedButton.removeTarget(self, action: nil, for: .allEvents)
-        interestedButton.addTarget(self, action: #selector(callDelegateInterestedState), for: .touchUpInside)
+        interestedButton.addTarget(self, action: #selector(interestedButtonTapped), for: .touchUpInside)
         setupActivityIndicator(inside: view, preventMessagesToPro: preventMessagesToPro)
     }
     
@@ -261,6 +267,10 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
             }
         }
     }
+    
+    func setupExtraInfoTag(withText text: String) {
+        setupExtraInfoTagView(withText: text)
+    }
 
     func setupBumpUpCTA() {
 
@@ -294,12 +304,6 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     }
     
     // Product Detail In Image
-    
-    func showDistanceOnlyInImage(distance: Double?) {
-        if let distance = distance {
-            addDistanceViewInImage(distance: distance, isOnTopLeft: false)
-        }
-    }
     
     func show(isDiscarded: Bool, reason: String? = nil) {
         discardedView.isHidden = !isDiscarded
@@ -403,19 +407,16 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
             ])
     }
 
-    private func addDistanceViewInImage(distance: Double, isOnTopLeft: Bool) {
-        
-        let distanceString = String(describing: distance) + DistanceType.systemDistanceType().rawValue
-        
-        if isOnTopLeft {
-            topDistanceInfoView.isHidden = false
-            bottomDistanceInfoView.isHidden = true
-            topDistanceInfoView.setDistance(distanceString)
-        } else {
-            topDistanceInfoView.isHidden = true
-            bottomDistanceInfoView.isHidden = false
-            bottomDistanceInfoView.setDistance(distanceString)
-        }
+    private func setupExtraInfoTagView(withText text: String) {
+        extraInfoTagView.removeFromSuperview()
+        extraInfoTagView.text = text
+        contentView.addSubviewsForAutoLayout([extraInfoTagView])
+        let trailing: CGFloat = interestedButton.isHidden ? 0 : Layout.extraInfoTrailing
+        NSLayoutConstraint.activate([
+            extraInfoTagView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metrics.shortMargin),
+            extraInfoTagView.bottomAnchor.constraint(equalTo: featuredListingInfoView.topAnchor, constant: -Metrics.shortMargin),
+            extraInfoTagView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -trailing)
+            ])
     }
     
     func setupWith(interestedState action: InterestedState) {
@@ -425,38 +426,38 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         interestedButton.isUserInteractionEnabled = action != .none
     }
     
-    @objc private func callDelegateInterestedState() {
+    @objc private func interestedButtonTapped() {
+        defer { updateInterestedButton(withState: .send(enabled: false)) }
         guard let listing = listing else { return }
-        let featureFlags = FeatureFlags.sharedInstance
-        let category = listing.category
-        if shouldPreventMessagesFromFeedToProUsers(category: category, featureFlags: featureFlags) {
-            if listing.user.type != .unknown  {
-                let localUser = LocalUser.init(userListing: listing.user)
-                self.preventMessagesForProfessionals(localUser: localUser, listing: listing)
-            } else {
-                interestedButton.isHidden = true
-                activityIndicator.startAnimating()
-                delegate?.getUserInfoFor(listing, completion: { [weak self] user in
-                    guard let strongSelf = self else { return }
-                    strongSelf.interestedButton.isHidden = false
-                    strongSelf.activityIndicator.stopAnimating()
-                    strongSelf.preventMessagesForProfessionals(localUser: LocalUser.init(user: user), listing: listing)
-                })
-            }
-        } else {
-            delegate?.interestedActionFor(listing)
+        guard shouldPreventMessagesFromFeedToProUsers(category: listing.category) else {
+            return interestActionFor(listing: listing, userListing: nil)
+        }
+        guard listing.user.type == .unknown else {
+            return interestActionFor(listing: listing,
+                                userListing: LocalUser(userListing: listing.user))
+        }
+        
+        interestedButton.isHidden = true
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
+        delegate?.getUserInfoFor(listing) { [weak self] user in
+            self?.interestedButton.isHidden = false
+            self?.activityIndicator.stopAnimating()
+            self?.interestActionFor(listing: listing, userListing: LocalUser(userListing: listing.user))
         }
     }
     
-    private func preventMessagesForProfessionals(localUser: LocalUser?, listing: Listing) {
-        if let localUser = localUser, localUser.type == .pro {
-            self.delegate?.openAskPhoneFor(listing, interlocutor: localUser)
-        } else {
-            self.delegate?.interestedActionFor(listing)
+    private func interestActionFor(listing: Listing, userListing: LocalUser?) {
+        delegate?.interestedActionFor(listing, userListing: userListing) { [weak self] state in
+            self?.updateInterestedButton(withState: state)
         }
     }
     
-    private func shouldPreventMessagesFromFeedToProUsers(category: ListingCategory, featureFlags: FeatureFlags) -> Bool {
+    private func updateInterestedButton(withState state: InterestedState) {
+        interestedButton.setImage(state.image, for: .normal)
+        interestedButton.isUserInteractionEnabled = (state != .none && state != .send(enabled: false))
+    }
+    private func shouldPreventMessagesFromFeedToProUsers(category: ListingCategory) -> Bool {
         guard featureFlags.preventMessagesFromFeedToProUsers.isActive else { return false }
         return category == .realEstate || category == .cars || category == .services
     }
@@ -546,6 +547,8 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         for featuredInfoSubview in featuredListingInfoView.subviews {
             featuredInfoSubview.removeFromSuperview()
         }
+        
+        extraInfoTagView.removeFromSuperview()
     }
     
     

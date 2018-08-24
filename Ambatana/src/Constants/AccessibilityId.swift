@@ -306,6 +306,7 @@ enum AccessibilityId: Equatable, Accessible {
     case editListingFeatureSwitch
     case editListingServicesTypeButton
     case editListingServicesSubtypeButton
+    case editListingServicesListingTypeButton
     case editListingPaymentFrequencyButton
     
     // ReportUser
@@ -939,6 +940,8 @@ enum AccessibilityId: Equatable, Accessible {
                 idSuffix = AccessibilityId.rangeIdentifier(forRange: AccessibilityRange(withLowerBound: from,
                                                                                         upperBound: to),
                                                            identifierPrefix: "RealEstateSizeSquareMetersRange")
+            case let .serviceListingType(listingType):
+                idSuffix = "ServicesListingType-\(listingType.rawValue)"
             }
             return idPrefix + idSuffix
         case .filterTagCellTagIcon:
@@ -1366,6 +1369,8 @@ enum AccessibilityId: Equatable, Accessible {
             return "editListingServicesTypeButton"
         case .editListingServicesSubtypeButton:
             return "editListingServicesSubtypeButton"
+        case .editListingServicesListingTypeButton:
+            return "editListingServicesListingTypeButton"
         case .editListingPaymentFrequencyButton:
             return "editListingPaymentFrequencyButton"
 

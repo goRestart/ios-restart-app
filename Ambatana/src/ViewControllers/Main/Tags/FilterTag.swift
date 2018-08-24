@@ -38,6 +38,7 @@ enum FilterTag: Equatable {
     case serviceType(ServiceType)
     case serviceSubtype(ServiceSubtype)
     case unifiedServiceType(type: ServiceType, selectedSubtypes: [ServiceSubtype])
+    case serviceListingType(ServiceListingType)
 }
 
 func ==(a: FilterTag, b: FilterTag) -> Bool {
@@ -64,6 +65,7 @@ func ==(a: FilterTag, b: FilterTag) -> Bool {
     case (.serviceType(let a), .serviceType(let b)) where a.id == b.id: return true
     case (.unifiedServiceType(let a, _), .unifiedServiceType(let b, _)) where a.id == b.id: return true
     case (.serviceSubtype(let a), .serviceSubtype(let b)) where a.id == b.id: return true
+    case (.serviceListingType(let a), .serviceListingType(let b)) where a.rawValue == b.rawValue: return true
     case (.carBodyType(let a), .carBodyType(let b)) where a.value == b.value: return true
     case (.carFuelType(let a), .carFuelType(let b)) where a.value == b.value: return true
     case (.carTransmissionType(let a), .carTransmissionType(let b)) where a.value == b.value: return true

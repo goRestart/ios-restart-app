@@ -92,11 +92,17 @@ final class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDr
                                                        shouldShow: (style == .serviceList),
                                                        shouldShowBumpUpCTA: showBumpUpCTA);
         }
+        
+        if let serviceListingTypeText = model.serviceListingTypeDisplayText,
+            style == .serviceList,
+            featureFlags.jobsAndServicesEnabled.isActive {
+            cell.setupExtraInfoTag(withText: serviceListingTypeText)
+        }
     }
 
     private func shouldShowInterestedButtonFor(_ model: ListingData) -> Bool {
         let shouldShowDiscarded = model.listing?.status.isDiscarded ?? false
-        return !model.isMine && featureFlags.shouldShowIAmInterestedInFeed.isVisible && !shouldShowDiscarded
+        return !model.isMine && !shouldShowDiscarded
     }
     
     private func configDiscardedProduct(_ model: ListingData, inCell cell: ListingCell) {
