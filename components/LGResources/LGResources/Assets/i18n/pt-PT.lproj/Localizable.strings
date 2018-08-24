@@ -67,6 +67,8 @@
 "bump_up_view_pay_title" = "Atraia 2x mais compradores";
 "cached_feed_error" = "Surgiu um erro ao carregar novos anúncios";
 "cached_feed_new_listings" = "Novos itens";
+"car_promo_cell_title_bold_text" = "Faça dinheiro";
+"car_promo_cell_title_regular_text" = "vendendo o seu carro";
 "categories_baby_and_child" = "Bebés e Crianças";
 "categories_car" = "Carros";
 "categories_cars_and_motors" = "Motores e Acessórios";
@@ -380,8 +382,8 @@
 "discarded_products_reason_stock_photo_only" = "Contém apenas fotos de stocks";
 "edit_jobsServices_jobs_option_title" = "Trabalhos";
 "edit_jobsServices_listingType_title" = "Tipo de publicação";
-"edit_jobsServices_serviceSubtype_title" = "Subtype";
-"edit_jobsServices_serviceType_title" = "Type";
+"edit_jobsServices_serviceSubtype_title" = "Subtipo";
+"edit_jobsServices_serviceType_title" = "Tipo";
 "edit_jobsServices_services_option_title" = "Serviços";
 "edit_paymentFrequency_placeholder" = "Não Definido";
 "edit_paymentFrequency_title" = "Frequência";
@@ -445,10 +447,10 @@
 "filters_cars_transmission_manual" = "Mudanças manuais";
 "filters_cars_transmission_title" = "Mudanças";
 "filters_distance_not_set" = "não definido";
-"filters_jobs_services_header" = "Job or Service Info";
-"filters_jobs_services_subtype_title" = "Subtype";
-"filters_jobs_services_toggle_header" = "Looking for...";
-"filters_jobs_services_type_title" = "Type";
+"filters_jobs_services_header" = "Informações sobre o trabalho ou serviço";
+"filters_jobs_services_subtype_title" = "Subtipo";
+"filters_jobs_services_toggle_header" = "À procura de...";
+"filters_jobs_services_type_title" = "Tipo";
 "filters_mileage_slider_title" = "Quilometragem";
 "filters_navbar_reset" = "Redefinir";
 "filters_numberOfSeats_slider_title" = "Lugares";
@@ -756,6 +758,7 @@
 "post_description_info_title" = "DADOS DA PUBLICAÇÃO";
 "post_description_name_placeholder" = "Alterar nome";
 "post_description_save_button_text" = "Guardar este anúncio!";
+"post_details_jobs_services_camera_message" = "Publique o logótipo da sua empresa ou uma foto que mostre o serviço ou trabalho que está a oferecer";
 "post_details_jobs_services_step_option_jobs_prefix" = "Procuro contratar alguém para um";
 "post_details_jobs_services_step_option_services_prefix" = "Anúncio um";
 "post_details_jobs_services_step_title" = "Sou...";

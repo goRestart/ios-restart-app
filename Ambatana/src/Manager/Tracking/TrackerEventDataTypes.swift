@@ -506,6 +506,7 @@ enum EventParameterButtonNameType: String {
     case sellYourStuff = "sell-your-stuff"
     case startMakingCash = "start-making-cash"
     case realEstatePromo = "real-estate-promo"
+    case carPromo = "car-promo"
     case cancelSelectType = "cancel-select-type"
     case tapOutside = "tap-outside"
 }
@@ -527,6 +528,7 @@ enum EventParameterSellButtonPosition: String {
     case floatingButton = "big-button"
     case none = "N/A"
     case realEstatePromo = "real-estate-promo"
+    case carPromo = "car-promo"
 }
 
 enum EventParameterShareNetwork: String {
@@ -971,6 +973,7 @@ enum EventParameterTypePage: String {
     case inAppNotification = "in-app-notification"
     case filter = "filter"
     case realEstatePromo = "real-estate-promo"
+    case carPromo = "car-promo"
     case filterBubble = "filter-bubble"
     case postingIconInfo = "posting-icon-information"
     case postingLearnMore = "posting-learn-more-button"

@@ -349,5 +349,10 @@
         "name": "RandomImInterestedMessages",
         "values": ["control", "baseline", "active"],
         "description": "[RETENTION] Random Im Interested messages from listing list"
-    }
+    },
+     {
+         "name": "CarPromoCells",
+         "values": ["control", "baseline", "variantA", "variantB"],
+         "description": "[CARS] Show promo cells for cars"
+     }
  ]

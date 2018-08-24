@@ -84,6 +84,7 @@ protocol FeatureFlaggeable: class {
     var servicesPaymentFrequency: ServicesPaymentFrequency { get }
     var carExtraFieldsEnabled: CarExtraFieldsEnabled { get }
     var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen { get }
+    var carPromoCells: CarPromoCells { get }
     
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed { get }
@@ -205,6 +206,10 @@ extension CarExtraFieldsEnabled {
 
 extension RealEstateMapTooltip {
     var isActive: Bool { return self == .active  }
+}
+
+extension CarPromoCells {
+    var isActive: Bool { return self != .control && self != .baseline }
 }
 
 extension BumpUpBoost {
@@ -1216,6 +1221,14 @@ extension FeatureFlags {
         }
         
         return EnableJobsAndServicesCategory.fromPosition(abTests.jobsAndServicesEnabled.value)
+    }
+    
+    var carPromoCells: CarPromoCells {
+        if Bumper.enabled {
+            return Bumper.carPromoCells
+        }
+        
+        return .control
     }
 }
 

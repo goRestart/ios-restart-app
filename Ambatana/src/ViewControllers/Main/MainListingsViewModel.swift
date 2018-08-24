@@ -395,6 +395,10 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     private var isRealEstateSearch: Bool {
         return filters.selectedCategories == [.realEstate]
     }
+    
+    private var isCarPromoSearch: Bool {
+        return filters.selectedCategories == [.cars]
+    }
 
     private var isCurrentFeedACachedFeed: Bool = false {
         didSet {
@@ -1301,6 +1305,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         var totalListings = listings
         totalListings = addCollections(to: totalListings, page: page)
         totalListings = addRealEstatePromoItem(to: totalListings)
+        totalListings = addCarPromoItem(to: totalListings)
         let myUserCreationDate: Date? = myUserRepository.myUser?.creationDate
         if featureFlags.showAdsInFeedWithRatio.isActive ||
             featureFlags.feedAdsProviderForUS.shouldShowAdsInFeedForUser(createdIn: myUserCreationDate) ||
@@ -1454,8 +1459,34 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             (filters.hasAnyRealEstateAttributes && listingListRequester.isFirstPageInLastRequester) else { return listings }
         
         var cellModels = listings
-        cellModels.insert(ListingCellModel.promo(data: PromoCellConfiguration.randomCellData,  delegate: self), at: 0)
+        cellModels.insert(ListingCellModel.promo(data: RealEstatePromoCellConfiguration.randomCellData, delegate: self), at: 0)
         return cellModels
+    }
+    
+    private func addCarPromoItem(to listings: [ListingCellModel]) -> [ListingCellModel] {
+        guard featureFlags.carPromoCells.isActive,
+            isCarPromoSearch,
+            !listings.isEmpty
+            else { return listings }
+        
+        guard let carPromoCellModel = newCarPromoCellModel(),
+            (!filters.hasAnyCarAttributes && listingListRequester.multiIsFirstPage) ||
+            (filters.hasAnyCarAttributes && listingListRequester.isFirstPageInLastRequester) else { return listings }
+        
+        return [carPromoCellModel] + listings
+    }
+    
+    private func newCarPromoCellModel() -> ListingCellModel? {
+        switch featureFlags.carPromoCells {
+        case .control, .baseline:
+            return nil
+        case .variantA:
+            return ListingCellModel.promo(data: CarPromoCellConfiguration.createRandomCellData(showsPostButton: true),
+                                          delegate: self)
+        case .variantB:
+            return ListingCellModel.promo(data: CarPromoCellConfiguration.createRandomCellData(showsPostButton: false),
+                                          delegate: self)
+        }
     }
     
     private func adAbsolutePosition() -> Int {
@@ -2089,11 +2120,11 @@ extension MainListingsViewModel: ListingCellDelegate {
     // Discarded listings are never shown in the main feed
     func moreOptionsPressedForDiscarded(listing: Listing) {}
     
-    func postNowButtonPressed(_ view: UIView) {
-        let postCategory: PostCategory = .realEstate
-        let source: PostingSource = .realEstatePromo
-        navigator?.openSell(source: source, postCategory: postCategory)
-        trackStartSelling(source: source, category: postCategory)
+    func postNowButtonPressed(_ view: UIView,
+                              category: PostCategory,
+                              source: PostingSource) {
+        navigator?.openSell(source: source, postCategory: category)
+        trackStartSelling(source: source, category: category)
     }
     
     func openAskPhoneFor(_ listing: Listing, interlocutor: LocalUser) {

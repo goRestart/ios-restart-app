@@ -219,6 +219,7 @@ extension ABTests {
     var servicesPaymentFrequency: LeanplumABVariable<Int> { return verticals.servicesPaymentFrequency }
     var carExtraFieldsEnabled: LeanplumABVariable<Int> { return verticals.carExtraFieldsEnabled }
     var servicesUnifiedFilterScreen: LeanplumABVariable<Int> { return verticals.servicesUnifiedFilterScreen }
+    var carPromoCells: LeanplumABVariable<Int> { return verticals.carPromoCells }
 }
 
 //  MARK: Products

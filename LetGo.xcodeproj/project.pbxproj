@@ -1450,6 +1450,10 @@
 		C650DEA320C595A500D47C4A /* MultiListingPostedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C650DEA120C595A500D47C4A /* MultiListingPostedViewModel.swift */; };
 		C65567F92112129900AFC97C /* UICollectionView+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65567F82112129900AFC97C /* UICollectionView+LG.swift */; };
 		C65567FA2112129900AFC97C /* UICollectionView+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65567F82112129900AFC97C /* UICollectionView+LG.swift */; };
+		C66105E02130165300BA4EF7 /* RealEstatePromoCellConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66105DF2130165300BA4EF7 /* RealEstatePromoCellConfiguration.swift */; };
+		C66105E12130165300BA4EF7 /* RealEstatePromoCellConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66105DF2130165300BA4EF7 /* RealEstatePromoCellConfiguration.swift */; };
+		C66105E3213016D200BA4EF7 /* CarPromoCellConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66105E2213016D200BA4EF7 /* CarPromoCellConfiguration.swift */; };
+		C66105E4213016D200BA4EF7 /* CarPromoCellConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66105E2213016D200BA4EF7 /* CarPromoCellConfiguration.swift */; };
 		C6687F3320C80D70008C1922 /* MultiListingPostedHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6687F3220C80D70008C1922 /* MultiListingPostedHeaderCell.swift */; };
 		C6687F3420C80D70008C1922 /* MultiListingPostedHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6687F3220C80D70008C1922 /* MultiListingPostedHeaderCell.swift */; };
 		C6687F3620C820BF008C1922 /* MultiListingPostedCongratsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6687F3520C820BF008C1922 /* MultiListingPostedCongratsCell.swift */; };
@@ -2967,6 +2971,8 @@
 		C64DD44E211089CD003E5EC2 /* PaymentFrequency+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PaymentFrequency+LG.swift"; sourceTree = "<group>"; };
 		C650DEA120C595A500D47C4A /* MultiListingPostedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiListingPostedViewModel.swift; sourceTree = "<group>"; };
 		C65567F82112129900AFC97C /* UICollectionView+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+LG.swift"; sourceTree = "<group>"; };
+		C66105DF2130165300BA4EF7 /* RealEstatePromoCellConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealEstatePromoCellConfiguration.swift; sourceTree = "<group>"; };
+		C66105E2213016D200BA4EF7 /* CarPromoCellConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPromoCellConfiguration.swift; sourceTree = "<group>"; };
 		C6687F3220C80D70008C1922 /* MultiListingPostedHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiListingPostedHeaderCell.swift; sourceTree = "<group>"; };
 		C6687F3520C820BF008C1922 /* MultiListingPostedCongratsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiListingPostedCongratsCell.swift; sourceTree = "<group>"; };
 		C6687F3920C83A2C008C1922 /* MultiListingPostedIncentivisorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiListingPostedIncentivisorCell.swift; sourceTree = "<group>"; };
@@ -4110,6 +4116,7 @@
 				4219244020761CF900862CEF /* PromoCell.swift */,
 				42ED94E92077A6DB00548B62 /* PromoCellMetrics.swift */,
 				42ED94EC2077C36C00548B62 /* PromoCellData.swift */,
+				C66105E5213016E600BA4EF7 /* Configurations */,
 			);
 			path = PromoCell;
 			sourceTree = "<group>";
@@ -5661,6 +5668,15 @@
 				C6687F3820C820C4008C1922 /* Cells */,
 			);
 			path = MultiListingPostedViewController;
+			sourceTree = "<group>";
+		};
+		C66105E5213016E600BA4EF7 /* Configurations */ = {
+			isa = PBXGroup;
+			children = (
+				C66105DF2130165300BA4EF7 /* RealEstatePromoCellConfiguration.swift */,
+				C66105E2213016D200BA4EF7 /* CarPromoCellConfiguration.swift */,
+			);
+			path = Configurations;
 			sourceTree = "<group>";
 		};
 		C6687F3820C820C4008C1922 /* Cells */ = {
@@ -8364,6 +8380,7 @@
 				50E557BB1E421CB900327B6A /* LoginCoordinator.swift in Sources */,
 				0A25E8122019C87900E6A72E /* OnBoardingAnimator.swift in Sources */,
 				32448E862105CB7100EFF33A /* FeedViewControllerProtocols.swift in Sources */,
+				C66105E02130165300BA4EF7 /* RealEstatePromoCellConfiguration.swift in Sources */,
 				C7B89CB91C20271E00536A6C /* SocialShareView.swift in Sources */,
 				01772B5F204F0F340037FD5F /* BlockingPostingStepHeaderView.swift in Sources */,
 				72C7A1C61FAB31EF0089F175 /* PostingAddDetailSummaryTableViewCell.swift in Sources */,
@@ -8439,6 +8456,7 @@
 				0AFE311F2056DCAB004B6781 /* ListingDeckImagePreviewCell.swift in Sources */,
 				0AA6A5671FFFBCD600F72F4A /* LGCGAffineTransform.swift in Sources */,
 				42CA899920973F7300CE7B5B /* ListingsMapViewController.swift in Sources */,
+				C66105E3213016D200BA4EF7 /* CarPromoCellConfiguration.swift in Sources */,
 				01834970204F6A9F00B14A24 /* BlockingPostingListingEditionViewModel.swift in Sources */,
 				0A6650DC20BBF51500BD1F2B /* EditLocationView.swift in Sources */,
 			);
@@ -9237,6 +9255,7 @@
 				8E814F431F3475AB00C88432 /* FilterSliderYearCell.swift in Sources */,
 				C7841AF51E07DFFA004A8242 /* UIView+Rating.swift in Sources */,
 				2ECB416C20065FB200482EF7 /* BumpUpFreeViewController.swift in Sources */,
+				C66105E12130165300BA4EF7 /* RealEstatePromoCellConfiguration.swift in Sources */,
 				C7B588881CE1DFA6009B3975 /* ChatBubbleCell.swift in Sources */,
 				50E557BC1E421CB900327B6A /* LoginCoordinator.swift in Sources */,
 				32448E872105CB7100EFF33A /* FeedViewControllerProtocols.swift in Sources */,
@@ -9312,6 +9331,7 @@
 				0AA6A5681FFFBE7B00F72F4A /* LGCGAffineTransform.swift in Sources */,
 				4287173E20655DB500EE334C /* LGNavBarMetrics.swift in Sources */,
 				42CA899A20973F7300CE7B5B /* ListingsMapViewController.swift in Sources */,
+				C66105E4213016D200BA4EF7 /* CarPromoCellConfiguration.swift in Sources */,
 				01834971204F6A9F00B14A24 /* BlockingPostingListingEditionViewModel.swift in Sources */,
 				0A6650DD20BBF51800BD1F2B /* EditLocationView.swift in Sources */,
 			);

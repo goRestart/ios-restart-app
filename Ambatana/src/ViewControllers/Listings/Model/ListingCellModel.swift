@@ -162,10 +162,3 @@ enum AdProviderType {
     case dfp
     case moPub
 }
-
-struct PromoCellData {
-    var appereance: CellAppereance
-    var arrangement: PromoCellArrangement
-    var title: String
-    var image: UIImage
-}

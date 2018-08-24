@@ -83,6 +83,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var realEstateMapTooltip: RealEstateMapTooltip = .control
     var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen = .control
     var jobsAndServicesEnabled: EnableJobsAndServicesCategory = .control
+    var carPromoCells: CarPromoCells = .control
     
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed = .control

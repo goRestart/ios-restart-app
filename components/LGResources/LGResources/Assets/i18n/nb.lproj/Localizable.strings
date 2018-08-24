@@ -67,6 +67,8 @@
 "bump_up_view_pay_title" = "Tiltrekk deg dobbelt så mange kjøpere";
 "cached_feed_error" = "En feil oppstod ved lasting av nye annonser";
 "cached_feed_new_listings" = "Nye produkter";
+"car_promo_cell_title_bold_text" = "Tjen penger";
+"car_promo_cell_title_regular_text" = "ved å selge bilen din";
 "categories_baby_and_child" = "Baby og barn";
 "categories_car" = "Biler";
 "categories_cars_and_motors" = "Andre kjøretøyer og bildeler";
@@ -756,6 +758,7 @@
 "post_description_info_title" = "ANNONSEINFORMASJON";
 "post_description_name_placeholder" = "Navn";
 "post_description_save_button_text" = "Lagre denne annonsen!";
+"post_details_jobs_services_camera_message" = "Publiser bedriftens logo eller et bilde som viser tjenesten eller jobben du tilbyr";
 "post_details_jobs_services_step_option_jobs_prefix" = "Ser etter å ansette noen for en";
 "post_details_jobs_services_step_option_services_prefix" = "Annonserer for en";
 "post_details_jobs_services_step_title" = "Jeg er...";

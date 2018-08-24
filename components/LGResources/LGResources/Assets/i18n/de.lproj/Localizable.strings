@@ -67,6 +67,8 @@
 "bump_up_view_pay_title" = "Ziehe 2x so viele Käufer an";
 "cached_feed_error" = "Beim Laden neuer Angebote ist ein Fehler aufgetreten";
 "cached_feed_new_listings" = "Neue Artikel";
+"car_promo_cell_title_bold_text" = "Make money";
+"car_promo_cell_title_regular_text" = "selling your car";
 "categories_baby_and_child" = "Baby und Kind";
 "categories_car" = "Autos";
 "categories_cars_and_motors" = "Fahrzeuge und Zubehör";
@@ -756,6 +758,7 @@
 "post_description_info_title" = "ANGEBOTSINFORMATIONEN";
 "post_description_name_placeholder" = "Name";
 "post_description_save_button_text" = "Dieses Angebot speichern!";
+"post_details_jobs_services_camera_message" = "Post your company’s logo or a photo that shows the service or job you’re offering";
 "post_details_jobs_services_step_option_jobs_prefix" = "Suche jemanden für";
 "post_details_jobs_services_step_option_services_prefix" = "Bewerbe";
 "post_details_jobs_services_step_title" = "Ich ...";

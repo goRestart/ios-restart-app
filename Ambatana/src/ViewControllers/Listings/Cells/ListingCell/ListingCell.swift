@@ -12,7 +12,7 @@ protocol ListingCellDelegate: class {
     func chatButtonPressedFor(listing: Listing)
     func editPressedForDiscarded(listing: Listing)
     func moreOptionsPressedForDiscarded(listing: Listing)
-    func postNowButtonPressed(_ view: UIView)
+    func postNowButtonPressed(_ view: UIView, category: PostCategory, source: PostingSource)
     func interestedActionFor(_ listing: Listing, userListing: LocalUser?, completion: @escaping (InterestedState) -> Void)
     func openAskPhoneFor(_ listing: Listing, interlocutor: LocalUser)
     func getUserInfoFor(_ listing: Listing, completion: @escaping (User?) -> Void)

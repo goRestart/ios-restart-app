@@ -239,7 +239,8 @@ extension AppCoordinator: AppNavigator {
     func openSell(source: PostingSource, postCategory: PostCategory?, listingTitle: String?) {
         let forcedInitialTab: PostListingViewController.Tab?
         switch source {
-        case .tabBar, .listingList, .profile, .deepLink, .notifications, .deleteListing, .realEstatePromo, .chatList:
+        case .tabBar, .listingList, .profile, .deepLink, .notifications,
+             .deleteListing, .realEstatePromo, .carPromo, .chatList:
             forcedInitialTab = nil
         case .onboardingButton, .onboardingCamera, .onboardingBlockingPosting:
             forcedInitialTab = .camera

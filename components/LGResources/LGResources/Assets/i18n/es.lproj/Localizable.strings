@@ -67,6 +67,8 @@
 "bump_up_view_pay_title" = "Atrae al doble de compradores";
 "cached_feed_error" = "Se ha producido un error al cargar nuevos anuncios";
 "cached_feed_new_listings" = "Nuevos anuncios";
+"car_promo_cell_title_bold_text" = "Gana dinero";
+"car_promo_cell_title_regular_text" = "vendiendo tu coche";
 "categories_baby_and_child" = "Niños y Bebés";
 "categories_car" = "Coches";
 "categories_cars_and_motors" = "Otros Vehículos y Accesorios";
@@ -756,6 +758,7 @@
 "post_description_info_title" = "INFORMACIÓN DEL ANUNCIO";
 "post_description_name_placeholder" = "Nombre";
 "post_description_save_button_text" = "¡Guardar este anuncio!";
+"post_details_jobs_services_camera_message" = "Publica el logo de tu empresa o una foto que muestre el servicio o empleo que ofreces";
 "post_details_jobs_services_step_option_jobs_prefix" = "Buscando contratar a alguien para un";
 "post_details_jobs_services_step_option_services_prefix" = "Anunciando un";
 "post_details_jobs_services_step_title" = "Estoy";

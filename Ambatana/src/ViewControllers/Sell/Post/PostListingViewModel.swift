@@ -13,6 +13,7 @@ enum PostingSource {
     case notifications
     case deleteListing
     case realEstatePromo
+    case carPromo
     case chatList
     case listingList
     case profile
@@ -687,6 +688,8 @@ extension PostingSource {
             return .listingDelete
         case .realEstatePromo:
             return .realEstatePromo
+        case .carPromo:
+            return .carPromo
         case .chatList:
             return .chatList
         case .listingList:
@@ -706,6 +709,8 @@ extension PostingSource {
             return .startMakingCash
         case .realEstatePromo:
             return .realEstatePromo
+        case .carPromo:
+            return .carPromo
         }
     }
     
@@ -720,6 +725,8 @@ extension PostingSource {
             return .none
         case .realEstatePromo:
             return .realEstatePromo
+        case .carPromo:
+            return .carPromo
         }
     }
 }
