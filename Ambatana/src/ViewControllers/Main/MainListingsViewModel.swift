@@ -63,7 +63,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     private let interestingUndoTimeout: TimeInterval = 5
     private let chatWrapper: ChatWrapper
     private let interestedStateUpdater: InterestedStateUpdater
-    private let interestedWrapper: InterestedWrapper
+    private let interestedHandler: InterestedHandler
 
     let bannerCellPosition: Int = 8
     let suggestedSearchesLimit: Int = 10
@@ -455,7 +455,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
          bubbleTextGenerator: DistanceBubbleTextGenerator,
          chatWrapper: ChatWrapper,
          interestedStateUpdater: InterestedStateUpdater,
-         interestedWrapper: InterestedWrapper,
+         interestedHandler: InterestedHandler,
          feedBadgingSynchronizer: FeedBadgingSynchronizer) {
         self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
@@ -477,7 +477,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         self.bubbleTextGenerator = bubbleTextGenerator
         self.chatWrapper = chatWrapper
         self.interestedStateUpdater = interestedStateUpdater
-        self.interestedWrapper = interestedWrapper
+        self.interestedHandler = interestedHandler
         self.feedBadgingSynchronizer = feedBadgingSynchronizer
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
         let columns = show3Columns ? 3 : 2
@@ -527,7 +527,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         let bubbleTextGenerator = DistanceBubbleTextGenerator()
         let chatWrapper = LGChatWrapper()
         let interestedStateUpdater = LGInterestedStateUpdater()
-        let interestedWrapper = InterestedWrapper(interestedStateUpdater: interestedStateUpdater)
+        let interestedHandler = InterestedHandler(interestedStateUpdater: interestedStateUpdater)
         let feedBadgingSynchronizer = LGFeedBadgingSynchronizer()
         self.init(sessionManager: sessionManager,
                   myUserRepository: myUserRepository,
@@ -548,7 +548,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                   bubbleTextGenerator: bubbleTextGenerator,
                   chatWrapper: chatWrapper,
                   interestedStateUpdater: interestedStateUpdater,
-                  interestedWrapper: interestedWrapper,
+                  interestedHandler: interestedHandler,
                   feedBadgingSynchronizer: feedBadgingSynchronizer)
     }
     
@@ -1955,7 +1955,7 @@ extension MainListingsViewModel: ListingCellDelegate {
     
     func interestedActionFor(_ listing: Listing, userListing: LocalUser?, completion: @escaping (InterestedState) -> Void) {
         let interestedAction: () -> () = { [weak self] in
-            self?.interestedWrapper.interestedActionFor(listing,
+            self?.interestedHandler.interestedActionFor(listing,
                                                         userListing: userListing,
                                                         stateCompletion: completion) { [weak self] interestedAction in
                 switch interestedAction {
@@ -1978,7 +1978,7 @@ extension MainListingsViewModel: ListingCellDelegate {
                                          duration: MainListingsViewModel.interestingUndoTimeout) {
                                             cancellable.cancel()
                     }
-                    self?.interestedWrapper.handleCancellableInterestedAction(listing, timer: timer,  completion: completion)
+                    self?.interestedHandler.handleCancellableInterestedAction(listing, timer: timer,  completion: completion)
                 }
             }
         }

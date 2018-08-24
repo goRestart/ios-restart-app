@@ -9,7 +9,7 @@ enum InterestedAction {
     case triggerInterestedAction
 }
 
-final class InterestedWrapper {
+final class InterestedHandler {
     
     private let interestedStateUpdater: InterestedStateUpdater
     private let tracker: Tracker

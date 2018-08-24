@@ -20,6 +20,12 @@
 		01337B962085F55D00AC8385 /* NotificationSettingsSwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01337B942085F55D00AC8385 /* NotificationSettingsSwitchCell.swift */; };
 		013489F820D3FEF900E543C2 /* NotificationSettingCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013489F720D3FEF900E543C2 /* NotificationSettingCellType.swift */; };
 		013489F920D3FEF900E543C2 /* NotificationSettingCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013489F720D3FEF900E543C2 /* NotificationSettingCellType.swift */; };
+		013B2A1D21303DCC00F69613 /* InterestedStateUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013B2A1A21303DCB00F69613 /* InterestedStateUpdater.swift */; };
+		013B2A1E21303DCC00F69613 /* InterestedStateUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013B2A1A21303DCB00F69613 /* InterestedStateUpdater.swift */; };
+		013B2A1F21303DCC00F69613 /* LGInterestedStateUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013B2A1B21303DCB00F69613 /* LGInterestedStateUpdater.swift */; };
+		013B2A2021303DCC00F69613 /* LGInterestedStateUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013B2A1B21303DCB00F69613 /* LGInterestedStateUpdater.swift */; };
+		013B2A2121303DCC00F69613 /* InterestedHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013B2A1C21303DCC00F69613 /* InterestedHandler.swift */; };
+		013B2A2221303DCC00F69613 /* InterestedHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013B2A1C21303DCC00F69613 /* InterestedHandler.swift */; };
 		0140073A21218CFF00BD2E1B /* FeedBadgingSynchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0140073921218CFF00BD2E1B /* FeedBadgingSynchronizer.swift */; };
 		0140073B21218CFF00BD2E1B /* FeedBadgingSynchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0140073921218CFF00BD2E1B /* FeedBadgingSynchronizer.swift */; };
 		014448392110BEF900A459F9 /* NotificationCenterHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014448382110BEF900A459F9 /* NotificationCenterHeader.swift */; };
@@ -35,10 +41,6 @@
 		016328FA20DBCFFD00FA618B /* NotificationSettingsCompleteListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016328F220DBCFEE00FA618B /* NotificationSettingsCompleteListViewController.swift */; };
 		0171FA9B2087444C00CAFE36 /* NotificationSettingsAccessorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0171FA9A2087444C00CAFE36 /* NotificationSettingsAccessorCell.swift */; };
 		0171FA9C2087444C00CAFE36 /* NotificationSettingsAccessorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0171FA9A2087444C00CAFE36 /* NotificationSettingsAccessorCell.swift */; };
-		01739496212DAB9400A66FE1 /* LGInterestedStateUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01739495212DAB9400A66FE1 /* LGInterestedStateUpdater.swift */; };
-		01739497212DAB9400A66FE1 /* LGInterestedStateUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01739495212DAB9400A66FE1 /* LGInterestedStateUpdater.swift */; };
-		01739499212DABCC00A66FE1 /* InterestedStateUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01739498212DABCC00A66FE1 /* InterestedStateUpdater.swift */; };
-		0173949A212DABCC00A66FE1 /* InterestedStateUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01739498212DABCC00A66FE1 /* InterestedStateUpdater.swift */; };
 		0173949C212DBD0500A66FE1 /* MockInterestedStateUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0173949B212DBD0500A66FE1 /* MockInterestedStateUpdater.swift */; };
 		01772B5F204F0F340037FD5F /* BlockingPostingStepHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01772B5E204F0F340037FD5F /* BlockingPostingStepHeaderView.swift */; };
 		01772B60204F0F340037FD5F /* BlockingPostingStepHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01772B5E204F0F340037FD5F /* BlockingPostingStepHeaderView.swift */; };
@@ -70,8 +72,6 @@
 		0187407E1FD594B6009C1363 /* BlockingPostingQueuedRequestsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0187407C1FD594B6009C1363 /* BlockingPostingQueuedRequestsViewModel.swift */; };
 		01990F61203D90FE0080ADDD /* AppsFlyerDeepLinkSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01990F60203D90FE0080ADDD /* AppsFlyerDeepLinkSpec.swift */; };
 		019F4871212C5988004C063C /* InterestedStateManagerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019F4870212C5988004C063C /* InterestedStateManagerSpec.swift */; };
-		019F4866212C102E004C063C /* InterestedWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019F4865212C102E004C063C /* InterestedWrapper.swift */; };
-		019F4867212C102E004C063C /* InterestedWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019F4865212C102E004C063C /* InterestedWrapper.swift */; };
 		01A0480A200CEF53008725A1 /* DailyCountIncrementer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A04809200CEF53008725A1 /* DailyCountIncrementer.swift */; };
 		01A0480B200CEF53008725A1 /* DailyCountIncrementer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A04809200CEF53008725A1 /* DailyCountIncrementer.swift */; };
 		01A153512125C71700035DF6 /* MockFeedBadgingSynchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A153502125C71700035DF6 /* MockFeedBadgingSynchronizer.swift */; };
@@ -2127,6 +2127,9 @@
 		013013EB211B5B6C00FFC309 /* NotificationCenterThumbnailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenterThumbnailCell.swift; sourceTree = "<group>"; };
 		01337B942085F55D00AC8385 /* NotificationSettingsSwitchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsSwitchCell.swift; sourceTree = "<group>"; };
 		013489F720D3FEF900E543C2 /* NotificationSettingCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingCellType.swift; sourceTree = "<group>"; };
+		013B2A1A21303DCB00F69613 /* InterestedStateUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterestedStateUpdater.swift; sourceTree = "<group>"; };
+		013B2A1B21303DCB00F69613 /* LGInterestedStateUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGInterestedStateUpdater.swift; sourceTree = "<group>"; };
+		013B2A1C21303DCC00F69613 /* InterestedHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterestedHandler.swift; sourceTree = "<group>"; };
 		0140073921218CFF00BD2E1B /* FeedBadgingSynchronizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedBadgingSynchronizer.swift; sourceTree = "<group>"; };
 		014448382110BEF900A459F9 /* NotificationCenterHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenterHeader.swift; sourceTree = "<group>"; };
 		0144C3F521130A5000D811C8 /* NotificationCenterModularCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenterModularCell.swift; sourceTree = "<group>"; };
@@ -2136,8 +2139,6 @@
 		016328F320DBCFEF00FA618B /* NotificationSettingsCompleteListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationSettingsCompleteListViewModel.swift; sourceTree = "<group>"; };
 		016328F420DBCFF000FA618B /* NotificationSettingsPlaceholderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationSettingsPlaceholderView.swift; sourceTree = "<group>"; };
 		0171FA9A2087444C00CAFE36 /* NotificationSettingsAccessorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsAccessorCell.swift; sourceTree = "<group>"; };
-		01739495212DAB9400A66FE1 /* LGInterestedStateUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LGInterestedStateUpdater.swift; path = Ambatana/src/Manager/Interested/LGInterestedStateUpdater.swift; sourceTree = SOURCE_ROOT; };
-		01739498212DABCC00A66FE1 /* InterestedStateUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = InterestedStateUpdater.swift; path = Ambatana/src/Manager/Interested/InterestedStateUpdater.swift; sourceTree = SOURCE_ROOT; };
 		0173949B212DBD0500A66FE1 /* MockInterestedStateUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockInterestedStateUpdater.swift; sourceTree = "<group>"; };
 		01772B5E204F0F340037FD5F /* BlockingPostingStepHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BlockingPostingStepHeaderView.swift; path = Onboarding/BlockingPostingStepHeaderView.swift; sourceTree = "<group>"; };
 		01789DDE2123336200F248EC /* DeepLinkSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DeepLinkSpec.swift; path = DeepLinks/DeepLinkSpec.swift; sourceTree = "<group>"; };
@@ -2156,7 +2157,6 @@
 		0187407C1FD594B6009C1363 /* BlockingPostingQueuedRequestsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlockingPostingQueuedRequestsViewModel.swift; path = Onboarding/BlockingPostingQueuedRequestsViewModel.swift; sourceTree = "<group>"; };
 		01990F60203D90FE0080ADDD /* AppsFlyerDeepLinkSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppsFlyerDeepLinkSpec.swift; path = DeepLinks/AppsFlyerDeepLinkSpec.swift; sourceTree = "<group>"; };
 		019F4870212C5988004C063C /* InterestedStateManagerSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestedStateManagerSpec.swift; sourceTree = "<group>"; };
-		019F4865212C102E004C063C /* InterestedWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestedWrapper.swift; sourceTree = "<group>"; };
 		01A04809200CEF53008725A1 /* DailyCountIncrementer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyCountIncrementer.swift; sourceTree = "<group>"; };
 		01A153502125C71700035DF6 /* MockFeedBadgingSynchronizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFeedBadgingSynchronizer.swift; sourceTree = "<group>"; };
 		01A153522125C74200035DF6 /* LGFeedBadgingSynchronizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGFeedBadgingSynchronizer.swift; sourceTree = "<group>"; };
@@ -3347,14 +3347,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		01739493212DAB3E00A66FE1 /* Interested */ = {
+		013B2A1921303DA300F69613 /* Interested */ = {
 			isa = PBXGroup;
 			children = (
-				01739495212DAB9400A66FE1 /* LGInterestedStateUpdater.swift */,
-				01739498212DABCC00A66FE1 /* InterestedStateUpdater.swift */,
+				013B2A1C21303DCC00F69613 /* InterestedHandler.swift */,
+				013B2A1A21303DCB00F69613 /* InterestedStateUpdater.swift */,
+				013B2A1B21303DCB00F69613 /* LGInterestedStateUpdater.swift */,
 			);
-			name = Interested;
-			path = "New Group";
+			path = Interested;
 			sourceTree = "<group>";
 		};
 		0178CBD61F0E462700620BA6 /* DeepLinks */ = {
@@ -4564,7 +4564,7 @@
 		509273341B172D2100A346F9 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
-				01739493212DAB3E00A66FE1 /* Interested */,
+				013B2A1921303DA300F69613 /* Interested */,
 				09D7BC7C20EB62800090E499 /* Payments */,
 				C29F7129209076D900362F76 /* FileManager */,
 				0A04D5C320760A9C00471B9D /* ABTest */,
@@ -4594,7 +4594,6 @@
 				C2DC548320A3343E0052EB12 /* AppEventsManager.swift */,
 				0140073921218CFF00BD2E1B /* FeedBadgingSynchronizer.swift */,
 				01A153522125C74200035DF6 /* LGFeedBadgingSynchronizer.swift */,
-				019F4865212C102E004C063C /* InterestedWrapper.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -7881,7 +7880,6 @@
 				2EE47D2920177653004B04EE /* ChatAskPhoneNumberCell.swift in Sources */,
 				42F0688420FF3AD3009AC898 /* DropdownCellRepresentable.swift in Sources */,
 				C7905B871DF1D090009CD191 /* UITextView+Lines.swift in Sources */,
-				019F4866212C102E004C063C /* InterestedWrapper.swift in Sources */,
 				C6F3CEEC20FF445100AF4D38 /* DropdownHeaderCell.swift in Sources */,
 				C2C2F30520F2DFBA00EAF42A /* ListingCarouselVideoCell.swift in Sources */,
 				0A0C0490209C8CD20028A75D /* SearchAlertFeedHeader.swift in Sources */,
@@ -7890,6 +7888,7 @@
 				72D928F01E83F0BD0030F4C3 /* PushPermissionsManager.swift in Sources */,
 				C6FFC4A120F7491000B9F53A /* SizeRange.swift in Sources */,
 				C7798EA21D2EB6AB00C81DD4 /* UICollectionView+Helper.swift in Sources */,
+				013B2A1F21303DCC00F69613 /* LGInterestedStateUpdater.swift in Sources */,
 				8E56D74520A2ED1300097B61 /* ChatConversationsListView.swift in Sources */,
 				C6FFC49920F748BA00B9F53A /* ServicesFilters.swift in Sources */,
 				2E28B1291D99129D001BF8E4 /* CGFloat+rounding.swift in Sources */,
@@ -7965,8 +7964,6 @@
 				2E4ADEC5200515FC00D07D8A /* FeaturedInfoViewController.swift in Sources */,
 				C6687F3620C820BF008C1922 /* MultiListingPostedCongratsCell.swift in Sources */,
 				42F64F7F20AAE99900CF97AD /* ListingFilters+LG.swift in Sources */,
-				01739496212DAB9400A66FE1 /* LGInterestedStateUpdater.swift in Sources */,
-				01739499212DABCC00A66FE1 /* InterestedStateUpdater.swift in Sources */,
 				42E17F8720FCAC8300E565C2 /* MKMapView+Shared.swift in Sources */,
 				014448392110BEF900A459F9 /* NotificationCenterHeader.swift in Sources */,
 				32059FDB20B5CDF30042713A /* ListingsRequesterProtocol.swift in Sources */,
@@ -8289,6 +8286,7 @@
 				C7B5889A1CE1E025009B3975 /* ConversationCell.swift in Sources */,
 				C7DE8AE01C88A98B005CF37E /* PostListingViewController.swift in Sources */,
 				C73FABB61DD37968008F4519 /* SettingsLogoutCell.swift in Sources */,
+				013B2A1D21303DCC00F69613 /* InterestedStateUpdater.swift in Sources */,
 				320148782100C1B7003445DA /* SectionControllerLayout.swift in Sources */,
 				F51A082B2031B5360008D744 /* AspectRatio.swift in Sources */,
 				0A04D5DB20760A9D00471B9D /* ChatABGroup.swift in Sources */,
@@ -8305,6 +8303,7 @@
 				C690704A21009E2300AF27E4 /* DropdownShowMoreView.swift in Sources */,
 				F5D91E7D2008C20200DF28E7 /* UserRatingType+RateBack.swift in Sources */,
 				0AD1B7432085D66400A28852 /* FeedNavigator.swift in Sources */,
+				013B2A2121303DCC00F69613 /* InterestedHandler.swift in Sources */,
 				3299E5EB2080AE01002935AE /* WaterFallLayoutHeaderTypes.swift in Sources */,
 				01337B952085F55D00AC8385 /* NotificationSettingsSwitchCell.swift in Sources */,
 				72D928E11E83EB990030F4C3 /* RatingManager.swift in Sources */,
@@ -8754,7 +8753,6 @@
 				8E0EEF8A204EF827000C07C9 /* LGVision.swift in Sources */,
 				3201487220FF6F38003445DA /* PushPermissionCollectionCell.swift in Sources */,
 				C7DB41D51C5138B500400945 /* ListingListViewModel.swift in Sources */,
-				019F4867212C102E004C063C /* InterestedWrapper.swift in Sources */,
 				0A00F9C61FA3656600E915F4 /* ListingDeckViewControllerBinder.swift in Sources */,
 				C7DB41D61C5138B500400945 /* CrashlyticsTracker.swift in Sources */,
 				50C2E1A81E701BE8006639BB /* PostListingFooter.swift in Sources */,
@@ -8763,6 +8761,7 @@
 				55FABE2020763460004B0DBD /* UserPhoneVerificationCountryPickerViewModel.swift in Sources */,
 				42F0688520FF3AD3009AC898 /* DropdownCellRepresentable.swift in Sources */,
 				C2C2F30620F2DFBA00EAF42A /* ListingCarouselVideoCell.swift in Sources */,
+				013B2A2021303DCC00F69613 /* LGInterestedStateUpdater.swift in Sources */,
 				C6F3CEED20FF445100AF4D38 /* DropdownHeaderCell.swift in Sources */,
 				0AAC7953207F73960096F156 /* FeedViewController.swift in Sources */,
 				50146BCE1D4F5F9000B0F635 /* NotificationsTabCoordinator.swift in Sources */,
@@ -8838,8 +8837,6 @@
 				725BD5572077C37E00563926 /* VerticalsABGroup.swift in Sources */,
 				8EBE07861FD59F3F009EBC1A /* Data+Extensions.swift in Sources */,
 				C7DB41E71C5138B500400945 /* AmplitudeTracker.swift in Sources */,
-				01739497212DAB9400A66FE1 /* LGInterestedStateUpdater.swift in Sources */,
-				0173949A212DABCC00A66FE1 /* InterestedStateUpdater.swift in Sources */,
 				C7F22D861DB7A55C00353803 /* RecaptchaViewModel.swift in Sources */,
 				2E2D53DF1D369AFF00348D12 /* Config.swift in Sources */,
 				50FEFA1F20469AD6003C51B0 /* ChatBubbleCellType.swift in Sources */,
@@ -9162,6 +9159,7 @@
 				0AA03203210A293700728A1A /* LGUserVerificationBuilder.swift in Sources */,
 				55FABE1720762E4B004B0DBD /* UserPhoneVerificationCodeInputViewController.swift in Sources */,
 				72E8A5871EB2FF15000524E6 /* CategoriesHeaderCollectionView.swift in Sources */,
+				013B2A1E21303DCC00F69613 /* InterestedStateUpdater.swift in Sources */,
 				C7415ED71DE880BD0003D6C1 /* SimpleListingsViewController.swift in Sources */,
 				2E9716AA1D5A284F009B3A32 /* ExpressChatViewController.swift in Sources */,
 				0A90350D1FCC18E800FDE795 /* PhotoViewerView.swift in Sources */,
@@ -9178,6 +9176,7 @@
 				0AA03206210B1A3400728A1A /* UserVerificationRouter.swift in Sources */,
 				C6977E7E2118441200B57E54 /* ServiceAttributes+LG.swift in Sources */,
 				C73FABB71DD37968008F4519 /* SettingsLogoutCell.swift in Sources */,
+				013B2A2221303DCC00F69613 /* InterestedHandler.swift in Sources */,
 				0A21C658210F54680093A86C /* LGBumpUpBuilder.swift in Sources */,
 				C6E770972099A36F002CFA99 /* PushPermissionsTracker.swift in Sources */,
 				016328FA20DBCFFD00FA618B /* NotificationSettingsCompleteListViewController.swift in Sources */,
