@@ -326,8 +326,12 @@ final class ListingListViewModel: BaseViewModel {
     func setErrorState(_ viewModel: LGEmptyViewModel) {
         state = .error(viewModel)
         if let errorReason = viewModel.emptyReason {
-            trackErrorStateShown(reason: errorReason, errorCode: viewModel.errorCode,
-                                 errorDescription: viewModel.errorDescription)
+            trackErrorStateShown(
+                typePage: isPrivateList ? EventParameterTypePage.profile : EventParameterTypePage.listingList,
+                reason: errorReason,
+                errorCode: viewModel.errorCode,
+                errorDescription: viewModel.errorDescription
+            )
         }
     }
 
@@ -886,8 +890,13 @@ final class ListingListViewModel: BaseViewModel {
 // MARK: - Tracking
 
 extension ListingListViewModel {
-    func trackErrorStateShown(reason: EventParameterEmptyReason, errorCode: Int?, errorDescription: String?) {
-        let event = TrackerEvent.emptyStateVisit(typePage: .listingList , reason: reason, errorCode: errorCode,
+    func trackErrorStateShown(typePage: EventParameterTypePage,
+                              reason: EventParameterEmptyReason,
+                              errorCode: Int?,
+                              errorDescription: String?) {
+        let event = TrackerEvent.emptyStateVisit(typePage: typePage,
+                                                 reason: reason,
+                                                 errorCode: errorCode,
                                                  errorDescription: errorDescription)
         tracker.trackEvent(event)
 
