@@ -348,3 +348,9 @@ public extension UIColor {
     static var serviceTypeRed: UIColor { return existentialDoubtRed }
     fileprivate static let existentialDoubtRed = UIColor(rgb: 0xfc7d91) // (252, 125, 145)
 }
+
+// MARK: > P2P Payments Colors
+
+public extension UIColor {
+    static let p2pPaymentsPositive = UIColor(rgb: 0x00A8A8) // (0, 168, 168)
+}
