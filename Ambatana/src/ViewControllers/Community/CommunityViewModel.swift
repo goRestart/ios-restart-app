@@ -11,8 +11,9 @@ class CommunityViewModel: BaseViewModel {
     private let tracker: Tracker
     private let source: CommunitySource
     private let disposeBag = DisposeBag()
+    private let urlRequestVariable = Variable<URLRequest?>(nil)
 
-    var urlRequest = Variable<URLRequest?>(nil)
+    var urlRequest: Observable<URLRequest?> { return urlRequestVariable.asObservable() }
     var showNavBar: Bool
     var showCloseButton: Bool
 
@@ -47,7 +48,7 @@ class CommunityViewModel: BaseViewModel {
     }
 
     private func buildRequest() {
-        urlRequest.value = communityRepository.buildCommunityURLRequest()
+        urlRequestVariable.value = communityRepository.buildCommunityURLRequest()
     }
 
     func didTapClose() {

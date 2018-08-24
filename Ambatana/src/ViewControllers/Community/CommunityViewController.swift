@@ -63,18 +63,18 @@ final class CommunityViewController: BaseViewController {
     private func setupRx() {
         viewModel
             .urlRequest
-            .asDriver()
+            .asDriver(onErrorJustReturn: nil)
             .distinctUntilChanged()
-            .drive(onNext: { [weak self] _ in
-                self?.loadWeb()
+            .drive(onNext: { [weak self] request in
+                guard let request = request else { return }
+                self?.loadWeb(with: request)
             })
             .disposed(by: disposeBag)
     }
 
-    private func loadWeb() {
-        guard let urlRequest = viewModel.urlRequest.value else { return }
+    private func loadWeb(with request: URLRequest) {
         clearCookies() { [weak self] in
-            self?.webView.load(urlRequest)
+            self?.webView.load(request)
         }
     }
 
