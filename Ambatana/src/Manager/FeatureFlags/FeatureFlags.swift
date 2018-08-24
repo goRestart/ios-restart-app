@@ -35,6 +35,8 @@ protocol FeatureFlaggeable: class {
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
+    var shouldHightlightFreeFilterInFeed: Bool { get }
+
     var postingFlowType: PostingFlowType { get }
     var locationRequiresManualChangeSuggestion: Bool { get }
     var signUpEmailNewsletterAcceptRequired: Bool { get }
@@ -95,6 +97,7 @@ protocol FeatureFlaggeable: class {
     var videoPosting: VideoPosting { get }
     var simplifiedChatButton: SimplifiedChatButton { get }
     var frictionlessShare: FrictionlessShare { get }
+    var turkeyFreePosting: TurkeyFreePosting { get }
 
     // MARK: Users
     var emergencyLocate: EmergencyLocate { get }
@@ -416,6 +419,10 @@ extension FrictionlessShare {
     var isActive: Bool { return self == .active }
 }
 
+extension TurkeyFreePosting {
+    var isActive: Bool { return self == .active }
+}
+
 extension GoogleAdxForTR {
     private var shouldShowAdsInFeedForNewUsers: Bool {
         return self == .googleAdxForAllUsers
@@ -708,19 +715,25 @@ final class FeatureFlags: FeatureFlaggeable {
         }
         return OffensiveReportAlert.fromPosition(abTests.offensiveReportAlert.value)
     }
-    
-    
+
     // MARK: - Country features
 
     var freePostingModeAllowed: Bool {
         switch locationCountryCode {
         case .turkey?:
-            return false
+            return turkeyFreePosting.isActive
         default:
             return true
         }
     }
-    
+
+    var shouldHightlightFreeFilterInFeed: Bool {
+        switch locationCountryCode {
+        case .turkey?: return freePostingModeAllowed // just for turkey
+        default: return false
+        }
+    }
+
     var postingFlowType: PostingFlowType {
         if Bumper.enabled {
             return Bumper.realEstateFlowType == .standard ? .standard : .turkish
@@ -1317,6 +1330,13 @@ extension FeatureFlags {
             return Bumper.frictionlessShare
         }
         return FrictionlessShare.fromPosition(abTests.frictionlessShare.value)
+    }
+
+    var turkeyFreePosting: TurkeyFreePosting {
+        if Bumper.enabled {
+            return Bumper.turkeyFreePosting
+        }
+        return TurkeyFreePosting.fromPosition(abTests.turkeyFreePosting.value)
     }
 }
 

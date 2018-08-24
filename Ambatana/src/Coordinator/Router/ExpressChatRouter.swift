@@ -2,8 +2,7 @@ import Foundation
 import LGComponents
 
 protocol ExpressChatNavigator: class {
-    func closeExpressChat(_ showAgain: Bool, forProduct: String)
-    func sentMessage(_ forProduct: String, count: Int)
+    func closeExpressChat(autoFadingOutMessage: String?)
 }
 
 final class ExpressChatRouter: ExpressChatNavigator {
@@ -13,16 +12,13 @@ final class ExpressChatRouter: ExpressChatNavigator {
         self.root = root
     }
 
-    func closeExpressChat(_ showAgain: Bool, forProduct: String) {
-        root?.dismiss(animated: true, completion: nil)
-    }
-
-    func sentMessage(_ forProduct: String, count: Int) {
-        let one = R.Strings.chatExpressOneMessageSentSuccessAlert
-        let more = R.Strings.chatExpressSeveralMessagesSentSuccessAlert
-        let message = count == 1 ? one : more
-        root?.dismiss(animated: true, completion: { [weak root] in
-            root?.showAutoFadingOutMessageAlert(message: message)
-        })
+    func closeExpressChat(autoFadingOutMessage message: String?) {
+        if let message = message {
+            root?.dismiss(animated: true, completion: { [weak root] in
+                root?.showAutoFadingOutMessageAlert(message: message)
+            })
+        } else {
+            root?.dismiss(animated: true, completion: nil)
+        }
     }
 }

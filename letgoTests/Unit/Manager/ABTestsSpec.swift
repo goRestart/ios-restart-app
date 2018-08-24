@@ -11,7 +11,7 @@ import Quick
 import Nimble
 @testable import LetGoGodMode
 
-class ABTestsSpec: QuickSpec {
+final class ABTestsSpec: QuickSpec {
 
     override func spec() {
         var syncer: LeamplumSyncerCounter!
@@ -54,7 +54,7 @@ class ABTestsSpec: QuickSpec {
                     sut.registerVariables()
                 }
                 it("registers all the variables") {
-                    expect(syncer.syncedCount) == 70
+                    expect(syncer.syncedCount) == 71
                 }
             }
 
@@ -331,7 +331,7 @@ class ABTestsSpec: QuickSpec {
 
             context("registering all products variables") {
                 it("the products int variable registered are 5") {
-                    expect(products.intVariables.count) == 5
+                    expect(products.intVariables.count) == 6
                 }
 
                 it("the products bool variable registered are 0") {
@@ -355,7 +355,7 @@ class ABTestsSpec: QuickSpec {
                     syncer.sync(variables: products.floatVariables)
                 }
                 it("the variables registered are 5") {
-                    expect(syncer.syncedCount) == 5
+                    expect(syncer.syncedCount) == 6
                 }
             }
         }

@@ -243,7 +243,12 @@ extension FeedViewModel {
     }
     
     func updateFilters(fromCategoryHeaderInfo categoryHeaderInfo: CategoryHeaderInfo) {
-        filters.selectedCategories = [categoryHeaderInfo.listingCategory]
+        switch categoryHeaderInfo.filterCategoryItem {
+        case .category(let category):
+            filters.selectedCategories = [category]
+        case .free:
+            filters.priceRange = .freePrice
+        }
         trackFilterCategoryHeaderSelection(with: categoryHeaderInfo)
         refreshFiltersVar()
         refreshFeed()

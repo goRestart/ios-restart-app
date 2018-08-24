@@ -99,6 +99,7 @@ class ChatViewModel: ChatBaseViewModel {
     var shouldTrackFirstMessage: Bool = false
     let shouldShowExpressBanner = Variable<Bool>(false)
     let relatedListingsState = Variable<ChatRelatedItemsState>(.loading)
+    var smartQuickAnswers: ChatSmartQuickAnswers?
     let shouldUpdateQuickAnswers = Variable<[QuickAnswer]?>(nil)
     let interlocutorProfessionalInfo = Variable<InterlocutorProfessionalInfo>(InterlocutorProfessionalInfo(isProfessional: false, phoneNumber: nil))
     let lastMessageSentType = Variable<ChatWrapperMessageType?>(nil)
@@ -374,7 +375,20 @@ class ChatViewModel: ChatBaseViewModel {
         guard isBuyer else { return }
         guard !relatedListings.isEmpty else { return }
         guard let listingId = conversation.value.listing?.objectId else { return }
+        guard userHasExpressChatEnabled() else { return }
+        guard !userHasSeenExpressChat(for: listingId) else { return }
         navigator?.openExpressChat(relatedListings, sourceListingId: listingId, manualOpen: false)
+    }
+    
+    private func userHasExpressChatEnabled() -> Bool {
+        return keyValueStorage.userShouldShowExpressChat
+    }
+    
+    private func userHasSeenExpressChat(for listingId: String) -> Bool {
+        for productShownId in keyValueStorage.userProductsWithExpressChatAlreadyShown {
+            if productShownId == listingId { return true }
+        }
+        return false
     }
 
     func setupConversationFrom(listing: Listing) {
@@ -699,9 +713,9 @@ class ChatViewModel: ChatBaseViewModel {
             case .smartQuickAnswer(let sqa):
                 guard let smartQuickAnswersActive = self?.featureFlags.smartQuickAnswers.isActive, smartQuickAnswersActive,
                     let isDummy = self?.isUserDummy, !isDummy,
-                    let myUserId = self?.myUserRepository.myUser?.objectId, sqa.talkerId == myUserId,
-                    let lastMessage = self?.messages.value.first, lastMessage.objectId == sqa.messageId
+                    let myUserId = self?.myUserRepository.myUser?.objectId, sqa.talkerId == myUserId
                     else { return }
+                self?.smartQuickAnswers = sqa
                 self?.shouldUpdateQuickAnswers.value = QuickAnswer.quickAnswers(for: sqa)
             }
         }.disposed(by: disposeBag)
@@ -1806,12 +1820,20 @@ fileprivate extension ChatConversation {
 
 extension ChatViewModel: DirectAnswersPresenterDelegate {
     
+    /*
+     Quick answers priorities:
+     1- dynamic answers (embedded in a chat message)
+     2- smart quick answers (provided by chat event)
+     3- legacy quick answers (hardcoded in app)
+     */
     var directAnswers: [QuickAnswer] {
         if let lastMessage = messages.value.first,
             let userId = myUserRepository.myUser?.objectId,
             lastMessage.talkerId != userId,
             let quickAnswers = QuickAnswer.quickAnswersForChatMessage(chatViewMessage: lastMessage) {
             return quickAnswers
+        } else if let sqa = smartQuickAnswers {
+            return QuickAnswer.quickAnswers(for: sqa)
         } else if !isUserDummy {
             let isFree = featureFlags.freePostingModeAllowed && listingIsFree.value
             let isBuyer = !conversation.value.amISelling

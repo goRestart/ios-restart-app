@@ -200,9 +200,9 @@ class PostListingViewModel: BaseViewModel {
     }
 
     private func setupCategories() {
-        categoryRepository.index(servicesIncluded: false, carsIncluded: false, realEstateIncluded: false) { [weak self] result in
+        categoryRepository.index { [weak self] result in
             guard let categories = result.value else { return }
-            self?.categories = categories
+            self?.categories = categories.filteringBy([.cars, .realEstate, .services, .unassigned])
         }
     }
 

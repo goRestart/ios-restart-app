@@ -84,6 +84,7 @@ extension Bumper  {
         flags.append(CachedFeed.self)
         flags.append(CopyForSellFasterNowInTurkish.self)
         flags.append(NotificationCenterRedesign.self)
+        flags.append(TurkeyFreePosting.self)
         flags.append(RandomImInterestedMessages.self)
         Bumper.initialize(flags)
     } 
@@ -968,6 +969,19 @@ extension Bumper  {
     static var notificationCenterRedesignObservable: Observable<NotificationCenterRedesign> {
         return Bumper.observeValue(for: NotificationCenterRedesign.key).map {
             NotificationCenterRedesign(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var turkeyFreePosting: TurkeyFreePosting {
+        guard let value = Bumper.value(for: TurkeyFreePosting.key) else { return .control }
+        return TurkeyFreePosting(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var turkeyFreePostingObservable: Observable<TurkeyFreePosting> {
+        return Bumper.observeValue(for: TurkeyFreePosting.key).map {
+            TurkeyFreePosting(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -2051,6 +2065,22 @@ enum NotificationCenterRedesign: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "[RETENTION] Notification center redesign with sections and modern UI design" } 
     static func fromPosition(_ position: Int) -> NotificationCenterRedesign {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum TurkeyFreePosting: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return TurkeyFreePosting.control.rawValue }
+    static var enumValues: [TurkeyFreePosting] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[PRODUCTS] Enable Leanplum driven Turkey free posting" } 
+    static func fromPosition(_ position: Int) -> TurkeyFreePosting {
         switch position { 
             case 0: return .control
             case 1: return .baseline

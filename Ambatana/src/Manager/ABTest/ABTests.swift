@@ -40,7 +40,6 @@ class ABTests {
     let discovery = DiscoveryABGroup.make()
     let products = ProductsABGroup.make()
 
-
     convenience init() {
         self.init(syncer: LeamplumSyncer())
     }
@@ -230,6 +229,7 @@ extension ABTests {
     var videoPosting: LeanplumABVariable<Int> { return products.videoPosting }
     var simplifiedChatButton: LeanplumABVariable<Int> { return products.simplifiedChatButton }
     var frictionlessShare: LeanplumABVariable<Int> { return products.frictionlessShare }
+    var turkeyFreePosting: LeanplumABVariable<Int> { return products.turkeyFreePosting }
 }
 
 //  MARK: Legacy
