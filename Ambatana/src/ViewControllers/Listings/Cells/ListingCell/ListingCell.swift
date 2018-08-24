@@ -351,7 +351,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
                                               detailViewInImage])
         setupThumbnailImageViews()
         setupFeaturedListingInfoView()
-        setupStripArea()
+        setupStripeArea()
         setupDiscardedView()
         setupDistanceLabels()
         setupDetailViewInImage()
@@ -391,8 +391,8 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         featuredListingInfoView.layout(with: thumbnailImageView).below()
     }
     
-    private func setupStripArea() {
-        layoutStripArea()
+    private func setupStripeArea() {
+        layoutStripeArea()
         let rotation = CGFloat(Double.pi/4)
         stripeInfoView.transform = CGAffineTransform(rotationAngle: rotation)
         stripeLabel.textColor = UIColor.redText
@@ -430,7 +430,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
             ])
     }
     
-    private func layoutStripArea() {
+    private func layoutStripeArea() {
         NSLayoutConstraint.activate([
             stripeImageView.widthAnchor.constraint(equalToConstant: 70),
             stripeImageView.heightAnchor.constraint(equalToConstant: 70),

@@ -70,6 +70,8 @@
 		0187407E1FD594B6009C1363 /* BlockingPostingQueuedRequestsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0187407C1FD594B6009C1363 /* BlockingPostingQueuedRequestsViewModel.swift */; };
 		01990F61203D90FE0080ADDD /* AppsFlyerDeepLinkSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01990F60203D90FE0080ADDD /* AppsFlyerDeepLinkSpec.swift */; };
 		019F4871212C5988004C063C /* InterestedStateManagerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019F4870212C5988004C063C /* InterestedStateManagerSpec.swift */; };
+		019F4866212C102E004C063C /* InterestedWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019F4865212C102E004C063C /* InterestedWrapper.swift */; };
+		019F4867212C102E004C063C /* InterestedWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019F4865212C102E004C063C /* InterestedWrapper.swift */; };
 		01A0480A200CEF53008725A1 /* DailyCountIncrementer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A04809200CEF53008725A1 /* DailyCountIncrementer.swift */; };
 		01A0480B200CEF53008725A1 /* DailyCountIncrementer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A04809200CEF53008725A1 /* DailyCountIncrementer.swift */; };
 		01A153512125C71700035DF6 /* MockFeedBadgingSynchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A153502125C71700035DF6 /* MockFeedBadgingSynchronizer.swift */; };
@@ -2154,6 +2156,7 @@
 		0187407C1FD594B6009C1363 /* BlockingPostingQueuedRequestsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlockingPostingQueuedRequestsViewModel.swift; path = Onboarding/BlockingPostingQueuedRequestsViewModel.swift; sourceTree = "<group>"; };
 		01990F60203D90FE0080ADDD /* AppsFlyerDeepLinkSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppsFlyerDeepLinkSpec.swift; path = DeepLinks/AppsFlyerDeepLinkSpec.swift; sourceTree = "<group>"; };
 		019F4870212C5988004C063C /* InterestedStateManagerSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestedStateManagerSpec.swift; sourceTree = "<group>"; };
+		019F4865212C102E004C063C /* InterestedWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestedWrapper.swift; sourceTree = "<group>"; };
 		01A04809200CEF53008725A1 /* DailyCountIncrementer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyCountIncrementer.swift; sourceTree = "<group>"; };
 		01A153502125C71700035DF6 /* MockFeedBadgingSynchronizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFeedBadgingSynchronizer.swift; sourceTree = "<group>"; };
 		01A153522125C74200035DF6 /* LGFeedBadgingSynchronizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGFeedBadgingSynchronizer.swift; sourceTree = "<group>"; };
@@ -4591,6 +4594,7 @@
 				C2DC548320A3343E0052EB12 /* AppEventsManager.swift */,
 				0140073921218CFF00BD2E1B /* FeedBadgingSynchronizer.swift */,
 				01A153522125C74200035DF6 /* LGFeedBadgingSynchronizer.swift */,
+				019F4865212C102E004C063C /* InterestedWrapper.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -7877,6 +7881,7 @@
 				2EE47D2920177653004B04EE /* ChatAskPhoneNumberCell.swift in Sources */,
 				42F0688420FF3AD3009AC898 /* DropdownCellRepresentable.swift in Sources */,
 				C7905B871DF1D090009CD191 /* UITextView+Lines.swift in Sources */,
+				019F4866212C102E004C063C /* InterestedWrapper.swift in Sources */,
 				C6F3CEEC20FF445100AF4D38 /* DropdownHeaderCell.swift in Sources */,
 				C2C2F30520F2DFBA00EAF42A /* ListingCarouselVideoCell.swift in Sources */,
 				0A0C0490209C8CD20028A75D /* SearchAlertFeedHeader.swift in Sources */,
@@ -8749,6 +8754,7 @@
 				8E0EEF8A204EF827000C07C9 /* LGVision.swift in Sources */,
 				3201487220FF6F38003445DA /* PushPermissionCollectionCell.swift in Sources */,
 				C7DB41D51C5138B500400945 /* ListingListViewModel.swift in Sources */,
+				019F4867212C102E004C063C /* InterestedWrapper.swift in Sources */,
 				0A00F9C61FA3656600E915F4 /* ListingDeckViewControllerBinder.swift in Sources */,
 				C7DB41D61C5138B500400945 /* CrashlyticsTracker.swift in Sources */,
 				50C2E1A81E701BE8006639BB /* PostListingFooter.swift in Sources */,
