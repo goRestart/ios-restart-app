@@ -40,6 +40,8 @@
 		1CD7A9A81FF5654700CB895D /* FullWidthButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD7A9A71FF5654700CB895D /* FullWidthButton.swift */; };
 		1CDF7DCA1FF5CAF70033770D /* InputTextFieldSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CDF7DC91FF5CAF70033770D /* InputTextFieldSpec.swift */; };
 		2E07F2FD212DEEB400C63BE1 /* UIButton+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E07F2FC212DEEB400C63BE1 /* UIButton+Rx.swift */; };
+		2E71A91B2131A6BF009D24A9 /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A91A2131A6BF009D24A9 /* Checkbox.swift */; };
+		2E71A91E2131AA6A009D24A9 /* CheckboxSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A91D2131AA6A009D24A9 /* CheckboxSpec.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,6 +94,8 @@
 		1CD7A9B01FF56A7900CB895D /* Playground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Playground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		1CDF7DC91FF5CAF70033770D /* InputTextFieldSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputTextFieldSpec.swift; sourceTree = "<group>"; };
 		2E07F2FC212DEEB400C63BE1 /* UIButton+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Rx.swift"; sourceTree = "<group>"; };
+		2E71A91A2131A6BF009D24A9 /* Checkbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checkbox.swift; sourceTree = "<group>"; };
+		2E71A91D2131AA6A009D24A9 /* CheckboxSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxSpec.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -318,6 +322,7 @@
 				1CD7A9911FF55ABA00CB895D /* Font */,
 				1CD7A9A51FF5654700CB895D /* Button */,
 				1C0263611FF5B9390040346B /* Input */,
+				2E71A9192131A6B3009D24A9 /* CheckBox */,
 				1CCA37852006A35900D86072 /* TabBar */,
 			);
 			path = Components;
@@ -339,6 +344,7 @@
 				1CD7A9961FF55D6600CB895D /* Font */,
 				1C0263571FF59AD20040346B /* Button */,
 				1CDF7DC81FF5CAE20033770D /* Input */,
+				2E71A91C2131AA5A009D24A9 /* Checkbox */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -428,6 +434,22 @@
 				2E07F2FC212DEEB400C63BE1 /* UIButton+Rx.swift */,
 			);
 			path = UIButton;
+			sourceTree = "<group>";
+		};
+		2E71A9192131A6B3009D24A9 /* CheckBox */ = {
+			isa = PBXGroup;
+			children = (
+				2E71A91A2131A6BF009D24A9 /* Checkbox.swift */,
+			);
+			path = CheckBox;
+			sourceTree = "<group>";
+		};
+		2E71A91C2131AA5A009D24A9 /* Checkbox */ = {
+			isa = PBXGroup;
+			children = (
+				2E71A91D2131AA6A009D24A9 /* CheckboxSpec.swift */,
+			);
+			path = Checkbox;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -570,6 +592,7 @@
 				1C7F4C5A1FFC2EC0001BEB62 /* LargeButton.swift in Sources */,
 				1C7F4C4F1FF7DFBB001BEB62 /* FullWidthButton+Rx.swift in Sources */,
 				1C0263651FF5BBE50040346B /* InputTextField.swift in Sources */,
+				2E71A91B2131A6BF009D24A9 /* Checkbox.swift in Sources */,
 				1CACDA781FF7B58900538B78 /* ViewController.swift in Sources */,
 				1CD7A9661FF51D0800CB895D /* Palette.swift in Sources */,
 				1CACDA481FF691D900538B78 /* Localize.swift in Sources */,
@@ -599,6 +622,7 @@
 				1CDF7DCA1FF5CAF70033770D /* InputTextFieldSpec.swift in Sources */,
 				1C7F4C5D1FFC325C001BEB62 /* LargeButtonSpec.swift in Sources */,
 				1CD7A9A41FF5635900CB895D /* GradientSpec.swift in Sources */,
+				2E71A91E2131AA6A009D24A9 /* CheckboxSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,7 +8,7 @@ public enum ProductExtraType {
 }
 
 extension Product {
-  public struct Extra {
+  public struct Extra: Equatable {
     public let identifier: Identifier<Product.Extra>
     public let type: ProductExtraType
     

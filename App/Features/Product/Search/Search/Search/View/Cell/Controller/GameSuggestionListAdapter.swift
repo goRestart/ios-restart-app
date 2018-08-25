@@ -1,4 +1,3 @@
-import Domain
 import IGListKit
 import RxSwift
 

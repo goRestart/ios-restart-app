@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Identifier<Element> {
+public struct Identifier<Element>: Equatable, Hashable {
   
   public let value: String
   
@@ -25,13 +25,5 @@ extension Identifier: Encodable {
 extension Identifier: Decodable {
   public init(from decoder: Decoder) throws {
     value = try decoder.singleValueContainer().decode(String.self)
-  }
-}
-
-// MARK: - Equatable
-
-extension Identifier: Equatable {
-  public static func ==(lhs: Identifier<Element>, rhs: Identifier<Element>) -> Bool {
-    return lhs.value == rhs.value
   }
 }

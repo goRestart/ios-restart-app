@@ -26,16 +26,16 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      shouldUseLaunchSchemeArgsEnv = "NO">
       <Testables>
          <TestableReference
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1C9139FD1FF0607600646884"
-               BuildableName = "DataTests.xctest"
-               BlueprintName = "DataTests"
-               ReferencedContainer = "container:Features/Foundation/Data/Data.xcodeproj">
+               BlueprintIdentifier = "1C89D7BB1FF427B700B3FA98"
+               BuildableName = "UITests.xctest"
+               BlueprintName = "UITests"
+               ReferencedContainer = "container:Features/Foundation/UI/UI.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -48,6 +48,13 @@
             ReferencedContainer = "container:Restart.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "SNAP_REFERENCE_IMAGE_PATH"
+            value = "$(SOURCE_ROOT)/Features/Foundation/UI/UITests"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
