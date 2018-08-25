@@ -11,7 +11,7 @@ public final class ProductExtrasViewController: ViewController {
     self.viewBinder = viewBinder
     super.init(nibName: nil, bundle: nil)
   }
-  
+
   public required init?(coder aDecoder: NSCoder) { fatalError() }
   
   public override func loadView() {
