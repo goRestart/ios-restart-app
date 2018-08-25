@@ -20,6 +20,7 @@ public final class Checkbox: View {
   
   override public func setupView() {
     addSubview(checkboxImageView)
+    configure()
   }
   
   override public func setupConstraints() {
