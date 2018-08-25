@@ -1,14 +1,14 @@
 import UIKit
 
 private enum ViewLayout {
-  static let size = CGSize(width: 24, height: 24)
+  static let size = CGSize(width: 20, height: 20)
 }
 
 public final class Checkbox: View {
-  
   private let checkboxImageView: UIImageView = {
     let imageView = UIImageView()
     imageView.contentMode = .scaleAspectFit
+    imageView.tintColor = .softScript
     return imageView
   }()
   
@@ -19,6 +19,8 @@ public final class Checkbox: View {
   }
   
   override public func setupView() {
+    let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapOnCheckbox))
+    addGestureRecognizer(tapGestureRecognizer)
     addSubview(checkboxImageView)
     configure()
   }
@@ -30,6 +32,10 @@ public final class Checkbox: View {
     snp.makeConstraints { make in
       make.size.equalTo(ViewLayout.size)
     }
+  }
+  
+  @objc private func didTapOnCheckbox() {
+    isChecked = !isChecked
   }
   
   private func configure() {

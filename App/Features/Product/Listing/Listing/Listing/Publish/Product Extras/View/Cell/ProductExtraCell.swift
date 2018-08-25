@@ -13,11 +13,7 @@ final class ProductExtraCell: CollectionViewCell {
     return label
   }()
   
-  private let selectionCheckBox: UIView = {
-    let checkBox = UIView()
-    checkBox.backgroundColor = .red
-    return checkBox
-  }()
+  private let selectionCheckBox = Checkbox()
   
   override func setupView() {
     addSubview(typeLabel)
@@ -33,9 +29,7 @@ final class ProductExtraCell: CollectionViewCell {
       make.centerY.equalTo(self)
       make.trailing.equalTo(selectionCheckBox.snp.leading).offset(-Margin.medium)
     }
-    // TODO: Make checkbox control
     selectionCheckBox.snp.makeConstraints { make in
-      make.size.equalTo(CGSize(width: 24, height: 24))
       make.trailing.equalTo(self).offset(-Margin.medium)
       make.centerY.equalTo(self)
     }
@@ -43,5 +37,6 @@ final class ProductExtraCell: CollectionViewCell {
   
   func configure(with productExtra: ProductExtraUIModel) {
     typeLabel.text = productExtra.type
+    selectionCheckBox.isChecked = productExtra.isSelected
   }
 }
