@@ -1,15 +1,8 @@
-import Domain
 import IGListKit
 import RxSwift
 
-protocol GameSuggestionSectionControllerDelegate: class {
-  func didSelectGameSuggestion(with id: Identifier<Game>)
-}
-
 final class GameSuggestionSectionController: ListSectionController {
-
-  weak var delegate: GameSuggestionSectionControllerDelegate?
-
+ 
   private var suggestion: GameSuggestionUIModel
   private let state: PublishSubject<GameSuggestionEvent>
   

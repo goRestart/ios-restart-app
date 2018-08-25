@@ -38,6 +38,9 @@
 		2E71A908213189C9009D24A9 /* ProductExtrasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A907213189C9009D24A9 /* ProductExtrasViewController.swift */; };
 		2E71A90A21318A23009D24A9 /* ProductExtrasViewBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A90921318A23009D24A9 /* ProductExtrasViewBinder.swift */; };
 		2E71A90C21318FFF009D24A9 /* Assembly+ProductExtras.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A90B21318FFF009D24A9 /* Assembly+ProductExtras.swift */; };
+		2E71A91221319667009D24A9 /* ProductExtrasListAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A91121319667009D24A9 /* ProductExtrasListAdapter.swift */; };
+		2E71A916213197B1009D24A9 /* ProductExtraCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A915213197B1009D24A9 /* ProductExtraCell.swift */; };
+		2E71A9182131985D009D24A9 /* ProductExtraSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A9172131985D009D24A9 /* ProductExtraSectionController.swift */; };
 		2E8F012B212F417800DA65E6 /* ProductSelectorViewBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8F012A212F417800DA65E6 /* ProductSelectorViewBinder.swift */; };
 		2EB2B189212B4B5700705ACA /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB2B188212B4B5700705ACA /* Table.swift */; };
 /* End PBXBuildFile section */
@@ -76,6 +79,9 @@
 		2E71A907213189C9009D24A9 /* ProductExtrasViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductExtrasViewController.swift; sourceTree = "<group>"; };
 		2E71A90921318A23009D24A9 /* ProductExtrasViewBinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductExtrasViewBinder.swift; sourceTree = "<group>"; };
 		2E71A90B21318FFF009D24A9 /* Assembly+ProductExtras.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+ProductExtras.swift"; sourceTree = "<group>"; };
+		2E71A91121319667009D24A9 /* ProductExtrasListAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductExtrasListAdapter.swift; sourceTree = "<group>"; };
+		2E71A915213197B1009D24A9 /* ProductExtraCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductExtraCell.swift; sourceTree = "<group>"; };
+		2E71A9172131985D009D24A9 /* ProductExtraSectionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductExtraSectionController.swift; sourceTree = "<group>"; };
 		2E8F012A212F417800DA65E6 /* ProductSelectorViewBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductSelectorViewBinder.swift; sourceTree = "<group>"; };
 		2EB2B188212B4B5700705ACA /* Table.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Table.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -328,6 +334,7 @@
 		2E71A8F821317930009D24A9 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				2E71A90D213194BA009D24A9 /* Cell */,
 				2E71A90421318727009D24A9 /* View Controller */,
 				2E71A8F921317943009D24A9 /* Model */,
 			);
@@ -350,6 +357,24 @@
 				2E71A9052131873B009D24A9 /* ProductExtrasView.swift */,
 			);
 			path = "View Controller";
+			sourceTree = "<group>";
+		};
+		2E71A90D213194BA009D24A9 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				2E71A91021319648009D24A9 /* Controller */,
+				2E71A915213197B1009D24A9 /* ProductExtraCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		2E71A91021319648009D24A9 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				2E71A9172131985D009D24A9 /* ProductExtraSectionController.swift */,
+				2E71A91121319667009D24A9 /* ProductExtrasListAdapter.swift */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -438,10 +463,12 @@
 				1CC119352041CD2C00ED6369 /* ProductDescriptionView.swift in Sources */,
 				2E71A8FB21317950009D24A9 /* ProductExtraUIModel.swift in Sources */,
 				1CC119252041C42100ED6369 /* ProductPriceViewController.swift in Sources */,
+				2E71A916213197B1009D24A9 /* ProductExtraCell.swift in Sources */,
 				1CC119302041CB7000ED6369 /* ProductDescriptionViewModelType.swift in Sources */,
 				2EB2B189212B4B5700705ACA /* Table.swift in Sources */,
 				1CC1191A2041AA7F00ED6369 /* ProductPriceViewModel.swift in Sources */,
 				2E71A908213189C9009D24A9 /* ProductExtrasViewController.swift in Sources */,
+				2E71A91221319667009D24A9 /* ProductExtrasListAdapter.swift in Sources */,
 				2E71A8F7213177D3009D24A9 /* ProductExtrasViewModelType.swift in Sources */,
 				1C05A2192040B5EB007DB1DA /* ProductSelectorViewModelType.swift in Sources */,
 				2E71A90321317FD8009D24A9 /* ProductExtrasViewModel.swift in Sources */,
@@ -451,6 +478,7 @@
 				1CC119272041C4B000ED6369 /* ProductPriceViewBinder.swift in Sources */,
 				2E71A90A21318A23009D24A9 /* ProductExtrasViewBinder.swift in Sources */,
 				1C05A2212040BA51007DB1DA /* ProductSelectorView.swift in Sources */,
+				2E71A9182131985D009D24A9 /* ProductExtraSectionController.swift in Sources */,
 				2E71A9062131873B009D24A9 /* ProductExtrasView.swift in Sources */,
 				1CC119182041A8B500ED6369 /* ProductPriceViewModelType.swift in Sources */,
 				1C05A21B2040B879007DB1DA /* ProductSelectorViewModel.swift in Sources */,
