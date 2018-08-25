@@ -4,6 +4,7 @@ public enum ProductExtraType {
   case sealedProduct
   case collectorsEdition
   case exchangeAccepted
+  case unknown
 }
 
 extension Product {
