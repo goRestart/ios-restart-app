@@ -20,6 +20,9 @@ final class ProductExtrasListAdapter: NSObject, ListAdapterDataSource {
   }
   
   func emptyView(for listAdapter: ListAdapter) -> UIView? {
-    return nil
+    let loadingActivity = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+    loadingActivity.hidesWhenStopped = true
+    loadingActivity.startAnimating()
+    return loadingActivity
   }
 }
