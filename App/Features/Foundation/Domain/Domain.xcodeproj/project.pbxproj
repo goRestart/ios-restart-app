@@ -27,6 +27,7 @@
 		1CB87BC120150CD20058BA99 /* GameSearchSuggestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB87BC020150CD20058BA99 /* GameSearchSuggestion.swift */; };
 		2E71A8DC21314FA8009D24A9 /* Product+Extra.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A8DB21314FA8009D24A9 /* Product+Extra.swift */; };
 		2E71A8DE21314FBD009D24A9 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A8DD21314FBD009D24A9 /* Product.swift */; };
+		2E71A8F021315D83009D24A9 /* GetProductExtrasUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A8EF21315D83009D24A9 /* GetProductExtrasUseCase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +53,7 @@
 		1CB87BC020150CD20058BA99 /* GameSearchSuggestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSearchSuggestion.swift; sourceTree = "<group>"; };
 		2E71A8DB21314FA8009D24A9 /* Product+Extra.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Product+Extra.swift"; sourceTree = "<group>"; };
 		2E71A8DD21314FBD009D24A9 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
+		2E71A8EF21315D83009D24A9 /* GetProductExtrasUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetProductExtrasUseCase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,6 +170,7 @@
 				1C40D89B1FFD1843006D5BE4 /* Auth */,
 				1C40D8D01FFD444C006D5BE4 /* Register */,
 				1C30D71D20096E0900E0A501 /* Game */,
+				2E71A8EE21315D72009D24A9 /* Product */,
 				1CB6495F2009CB65009B7CC1 /* Image */,
 			);
 			path = "Use Case";
@@ -180,8 +183,8 @@
 				1CB6494A2009C655009B7CC1 /* Image */,
 				1C89D6F11FF3CF3A00B3FA98 /* Auth */,
 				1C40D8951FFD16EC006D5BE4 /* User */,
-				1C30D5082009310200E0A501 /* Game */,
 				1C93E0C92040AD210029AD2B /* Product */,
+				1C30D5082009310200E0A501 /* Game */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -235,6 +238,14 @@
 				1CB649602009CB73009B7CC1 /* UploadImageUseCase.swift */,
 			);
 			path = Image;
+			sourceTree = "<group>";
+		};
+		2E71A8EE21315D72009D24A9 /* Product */ = {
+			isa = PBXGroup;
+			children = (
+				2E71A8EF21315D83009D24A9 /* GetProductExtrasUseCase.swift */,
+			);
+			path = Product;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -329,6 +340,7 @@
 				1CB6494C2009C65F009B7CC1 /* Image.swift in Sources */,
 				2E71A8DC21314FA8009D24A9 /* Product+Extra.swift in Sources */,
 				1C89D6F91FF3CF3A00B3FA98 /* BasicCredentials.swift in Sources */,
+				2E71A8F021315D83009D24A9 /* GetProductExtrasUseCase.swift in Sources */,
 				1C89D6F61FF3CF3A00B3FA98 /* AuthenticateUseCase.swift in Sources */,
 				1C30D512200931D500E0A501 /* Manufacturer.swift in Sources */,
 				1CB87BC120150CD20058BA99 /* GameSearchSuggestion.swift in Sources */,

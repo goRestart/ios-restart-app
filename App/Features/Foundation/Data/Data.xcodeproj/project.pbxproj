@@ -43,6 +43,7 @@
 		2E71A8E5213156A6009D24A9 /* ProductAlgoliaDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A8E4213156A6009D24A9 /* ProductAlgoliaDataSource.swift */; };
 		2E71A8E82131572E009D24A9 /* GetProductExtrasAlgoliaAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A8E72131572E009D24A9 /* GetProductExtrasAlgoliaAction.swift */; };
 		2E71A8EB213157D6009D24A9 /* ProductExtraMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A8EA213157D6009D24A9 /* ProductExtraMapper.swift */; };
+		2E71A8ED21315C2D009D24A9 /* ProductRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A8EC21315C2D009D24A9 /* ProductRepository.swift */; };
 		2EB2B144212B2EF500705ACA /* AuthFirebaseDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB2B143212B2EF500705ACA /* AuthFirebaseDataSource.swift */; };
 		2EB2B147212B2F5700705ACA /* SignInUserFirebaseAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB2B146212B2F5700705ACA /* SignInUserFirebaseAction.swift */; };
 		2EB2B14A212B2F8900705ACA /* SignInUserFirebaseErrorAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB2B149212B2F8900705ACA /* SignInUserFirebaseErrorAdapter.swift */; };
@@ -103,6 +104,7 @@
 		2E71A8E4213156A6009D24A9 /* ProductAlgoliaDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductAlgoliaDataSource.swift; sourceTree = "<group>"; };
 		2E71A8E72131572E009D24A9 /* GetProductExtrasAlgoliaAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetProductExtrasAlgoliaAction.swift; sourceTree = "<group>"; };
 		2E71A8EA213157D6009D24A9 /* ProductExtraMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductExtraMapper.swift; sourceTree = "<group>"; };
+		2E71A8EC21315C2D009D24A9 /* ProductRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRepository.swift; sourceTree = "<group>"; };
 		2EB2B143212B2EF500705ACA /* AuthFirebaseDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFirebaseDataSource.swift; sourceTree = "<group>"; };
 		2EB2B146212B2F5700705ACA /* SignInUserFirebaseAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInUserFirebaseAction.swift; sourceTree = "<group>"; };
 		2EB2B149212B2F8900705ACA /* SignInUserFirebaseErrorAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInUserFirebaseErrorAdapter.swift; sourceTree = "<group>"; };
@@ -511,6 +513,7 @@
 			isa = PBXGroup;
 			children = (
 				2E71A8E021315203009D24A9 /* Data Source */,
+				2E71A8EC21315C2D009D24A9 /* ProductRepository.swift */,
 			);
 			path = Product;
 			sourceTree = "<group>";
@@ -786,6 +789,7 @@
 				2E2F7AB42129CECF00CDED0F /* UserFirebaseDataSource.swift in Sources */,
 				2E2F7AB62129D23800CDED0F /* DataModule.swift in Sources */,
 				1CACCE8A1FF309E60001B321 /* PrimitiveSequence+CustomError.swift in Sources */,
+				2E71A8ED21315C2D009D24A9 /* ProductRepository.swift in Sources */,
 				1C89D6FE1FF3CFBF00B3FA98 /* AuthToken.swift in Sources */,
 				2E71A8EB213157D6009D24A9 /* ProductExtraMapper.swift in Sources */,
 				1C93E0CE2040AD690029AD2B /* PublishProductEndpoint.swift in Sources */,
