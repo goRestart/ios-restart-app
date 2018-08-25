@@ -7,8 +7,10 @@ enum ProductExtrasState {
 }
 
 protocol ProductExtrasViewModelInput {
+  func viewDidLoad()
   func didSelectProductExtra(with id: Identifier<Product.Extra>)
   func didUnSelectProductExtra(with id: Identifier<Product.Extra>)
+  func didTapNextButton()
 }
 
 protocol ProductExtrasViewModelOutput {

@@ -33,6 +33,7 @@
 		1CC8412E2040DE7000FD0228 /* Bundle+Framework.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC8412D2040DE7000FD0228 /* Bundle+Framework.swift */; };
 		2E71A8F7213177D3009D24A9 /* ProductExtrasViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A8F6213177D3009D24A9 /* ProductExtrasViewModelType.swift */; };
 		2E71A8FB21317950009D24A9 /* ProductExtraUIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A8FA21317950009D24A9 /* ProductExtraUIModel.swift */; };
+		2E71A90321317FD8009D24A9 /* ProductExtrasViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A90221317FD8009D24A9 /* ProductExtrasViewModel.swift */; };
 		2E8F012B212F417800DA65E6 /* ProductSelectorViewBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8F012A212F417800DA65E6 /* ProductSelectorViewBinder.swift */; };
 		2EB2B189212B4B5700705ACA /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB2B188212B4B5700705ACA /* Table.swift */; };
 /* End PBXBuildFile section */
@@ -66,6 +67,7 @@
 		1CC8412D2040DE7000FD0228 /* Bundle+Framework.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Framework.swift"; sourceTree = "<group>"; };
 		2E71A8F6213177D3009D24A9 /* ProductExtrasViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductExtrasViewModelType.swift; sourceTree = "<group>"; };
 		2E71A8FA21317950009D24A9 /* ProductExtraUIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductExtraUIModel.swift; sourceTree = "<group>"; };
+		2E71A90221317FD8009D24A9 /* ProductExtrasViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductExtrasViewModel.swift; sourceTree = "<group>"; };
 		2E8F012A212F417800DA65E6 /* ProductSelectorViewBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductSelectorViewBinder.swift; sourceTree = "<group>"; };
 		2EB2B188212B4B5700705ACA /* Table.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Table.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -309,6 +311,7 @@
 			isa = PBXGroup;
 			children = (
 				2E71A8F6213177D3009D24A9 /* ProductExtrasViewModelType.swift */,
+				2E71A90221317FD8009D24A9 /* ProductExtrasViewModel.swift */,
 			);
 			path = "View Model";
 			sourceTree = "<group>";
@@ -420,6 +423,7 @@
 				1CC1191A2041AA7F00ED6369 /* ProductPriceViewModel.swift in Sources */,
 				2E71A8F7213177D3009D24A9 /* ProductExtrasViewModelType.swift in Sources */,
 				1C05A2192040B5EB007DB1DA /* ProductSelectorViewModelType.swift in Sources */,
+				2E71A90321317FD8009D24A9 /* ProductExtrasViewModel.swift in Sources */,
 				1CC8412E2040DE7000FD0228 /* Bundle+Framework.swift in Sources */,
 				1CC1193F2041CF4F00ED6369 /* ProductDescriptionViewBinder.swift in Sources */,
 				1CC119322041CC4600ED6369 /* ProductDescriptionViewModel.swift in Sources */,
