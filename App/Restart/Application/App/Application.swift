@@ -6,20 +6,20 @@ final class Application: NSObject, UIApplicationDelegate {
   
   var window: UIWindow?
   
-  private let tabBar: TabBar
+  private let tabBarControllerProvider: TabBarControllerProvider
   
   init(window: UIWindow?,
-       tabBar: TabBar)
+       tabBarControllerProvider: TabBarControllerProvider)
   {
     self.window = window
-    self.tabBar = tabBar
+    self.tabBarControllerProvider = tabBarControllerProvider
   }
   
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     
     DataModule.start()
 
-    window?.rootViewController = tabBar.build()
+    window?.rootViewController = tabBarControllerProvider.makeTabBarController()
     window?.makeKeyAndVisible()
 
     return true

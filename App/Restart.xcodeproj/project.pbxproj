@@ -25,12 +25,16 @@
 		1CAF0F6E2004331C004046A9 /* SignUp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CAF0F6F2004331C004046A9 /* SignUp.framework */; };
 		1CAF0F712004335E004046A9 /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CAF0F702004335E004046A9 /* Application.swift */; };
 		1CAF0F75200435F2004046A9 /* Assembly+Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CAF0F74200435F2004046A9 /* Assembly+Application.swift */; };
-		1CAF0F78200436E3004046A9 /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CAF0F77200436E3004046A9 /* TabBar.swift */; };
 		1CAF0F7A200438A6004046A9 /* Assembly+ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CAF0F79200438A6004046A9 /* Assembly+ViewController.swift */; };
 		2E2F7AB12129CC6C00CDED0F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2E2F7AB02129CC6C00CDED0F /* GoogleService-Info.plist */; };
 		2E2F7AF1212A071500CDED0F /* SignUp.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2E2F7AEF212A071500CDED0F /* SignUp.strings */; };
 		2E71A90021317BA3009D24A9 /* ProductExtras.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2E71A8FE21317BA3009D24A9 /* ProductExtras.strings */; };
 		2E71A9212131C9DE009D24A9 /* TabBarViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A9202131C9DE009D24A9 /* TabBarViewModelType.swift */; };
+		2E71A9232131CA7F009D24A9 /* TabBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A9222131CA7F009D24A9 /* TabBarViewModel.swift */; };
+		2E71A9252131CB9E009D24A9 /* TabBarViewBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A9242131CB9E009D24A9 /* TabBarViewBinder.swift */; };
+		2E71A9282131CF25009D24A9 /* TabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A9272131CF25009D24A9 /* TabBarCoordinator.swift */; };
+		2E71A92A2131CFD4009D24A9 /* Assembly+TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A9292131CFD4009D24A9 /* Assembly+TabBar.swift */; };
+		2E71A92E2131D64A009D24A9 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A92D2131D64A009D24A9 /* TabBarController.swift */; };
 		2EB2B140212B2C9500705ACA /* Login.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2E2F7AEC212A06EC00CDED0F /* Login.strings */; };
 		2EB2B141212B2C9800705ACA /* NotLogged.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2E2F7AEE212A06F200CDED0F /* NotLogged.strings */; };
 		2EB2B190212B4BCC00705ACA /* ProductSelector.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2EB2B18A212B4BCC00705ACA /* ProductSelector.strings */; };
@@ -74,7 +78,6 @@
 		1CAF0F6F2004331C004046A9 /* SignUp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SignUp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1CAF0F702004335E004046A9 /* Application.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
 		1CAF0F74200435F2004046A9 /* Assembly+Application.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+Application.swift"; sourceTree = "<group>"; };
-		1CAF0F77200436E3004046A9 /* TabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
 		1CAF0F79200438A6004046A9 /* Assembly+ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+ViewController.swift"; sourceTree = "<group>"; };
 		2E2F7AB02129CC6C00CDED0F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2E2F7AEB212A06EC00CDED0F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Login.strings; sourceTree = "<group>"; };
@@ -82,6 +85,11 @@
 		2E2F7AF0212A071500CDED0F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/SignUp.strings; sourceTree = "<group>"; };
 		2E71A8FF21317BA3009D24A9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ProductExtras.strings; sourceTree = "<group>"; };
 		2E71A9202131C9DE009D24A9 /* TabBarViewModelType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarViewModelType.swift; sourceTree = "<group>"; };
+		2E71A9222131CA7F009D24A9 /* TabBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewModel.swift; sourceTree = "<group>"; };
+		2E71A9242131CB9E009D24A9 /* TabBarViewBinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewBinder.swift; sourceTree = "<group>"; };
+		2E71A9272131CF25009D24A9 /* TabBarCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarCoordinator.swift; sourceTree = "<group>"; };
+		2E71A9292131CFD4009D24A9 /* Assembly+TabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+TabBar.swift"; sourceTree = "<group>"; };
+		2E71A92D2131D64A009D24A9 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		2EB2B18B212B4BCC00705ACA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ProductSelector.strings; sourceTree = "<group>"; };
 		2EB2B18D212B4BCC00705ACA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ProductPrice.strings; sourceTree = "<group>"; };
 		2EB2B18F212B4BCC00705ACA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ProductDescription.strings; sourceTree = "<group>"; };
@@ -196,6 +204,7 @@
 			isa = PBXGroup;
 			children = (
 				1CAF0F74200435F2004046A9 /* Assembly+Application.swift */,
+				2E71A9292131CFD4009D24A9 /* Assembly+TabBar.swift */,
 				1CAF0F79200438A6004046A9 /* Assembly+ViewController.swift */,
 				1CAF0F6C2004328F004046A9 /* Assembly+Foundation.swift */,
 			);
@@ -205,8 +214,9 @@
 		1CAF0F76200436CC004046A9 /* Tabbar */ = {
 			isa = PBXGroup;
 			children = (
-				1CAF0F77200436E3004046A9 /* TabBar.swift */,
+				2E71A92D2131D64A009D24A9 /* TabBarController.swift */,
 				2E71A91F2131C9BE009D24A9 /* View Model */,
+				2E71A9262131CF19009D24A9 /* Coordinator */,
 			);
 			path = Tabbar;
 			sourceTree = "<group>";
@@ -229,8 +239,18 @@
 			isa = PBXGroup;
 			children = (
 				2E71A9202131C9DE009D24A9 /* TabBarViewModelType.swift */,
+				2E71A9222131CA7F009D24A9 /* TabBarViewModel.swift */,
+				2E71A9242131CB9E009D24A9 /* TabBarViewBinder.swift */,
 			);
 			path = "View Model";
+			sourceTree = "<group>";
+		};
+		2E71A9262131CF19009D24A9 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				2E71A9272131CF25009D24A9 /* TabBarCoordinator.swift */,
+			);
+			path = Coordinator;
 			sourceTree = "<group>";
 		};
 		33B833E5CD9AFE167B3E165E /* Frameworks */ = {
@@ -413,12 +433,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E71A92A2131CFD4009D24A9 /* Assembly+TabBar.swift in Sources */,
+				2E71A9232131CA7F009D24A9 /* TabBarViewModel.swift in Sources */,
+				2E71A92E2131D64A009D24A9 /* TabBarController.swift in Sources */,
 				1CAF0F75200435F2004046A9 /* Assembly+Application.swift in Sources */,
 				1CAF0F6D2004328F004046A9 /* Assembly+Foundation.swift in Sources */,
 				1CAF0F712004335E004046A9 /* Application.swift in Sources */,
+				2E71A9252131CB9E009D24A9 /* TabBarViewBinder.swift in Sources */,
 				1C3B45421FEFCC54008B7B87 /* AppDelegate.swift in Sources */,
 				1CAF0F7A200438A6004046A9 /* Assembly+ViewController.swift in Sources */,
-				1CAF0F78200436E3004046A9 /* TabBar.swift in Sources */,
+				2E71A9282131CF25009D24A9 /* TabBarCoordinator.swift in Sources */,
 				2E71A9212131C9DE009D24A9 /* TabBarViewModelType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
