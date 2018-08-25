@@ -20,21 +20,15 @@ final class ProductExtrasViewModel: ProductExtrasViewModelType, ProductExtrasVie
   // MARK: Output
   
   var productExtras = PublishSubject<[ProductExtraUIModel]>()
-  var state = PublishSubject<ProductExtrasState>()
-  
+
   // MARK: - Input
   
   func viewDidLoad() {
-    state.onNext(.loading)
-    
     getProductExtras.execute()
       .map(toUI)
-      .subscribe(onSuccess: { [weak self] productExtras in
-        self?.state.onNext(.idle)
-        self?.productExtras.onNext(productExtras)
-      }) { (error) in
-        // TODO: Handle error
-    }.disposed(by: bag)
+      .asObservable()
+      .bind(to: productExtras)
+      .disposed(by: bag)
   }
   
   private func toUI(_ productExtras: [Product.Extra]) -> [ProductExtraUIModel] {

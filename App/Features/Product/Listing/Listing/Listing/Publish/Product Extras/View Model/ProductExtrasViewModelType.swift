@@ -1,11 +1,6 @@
 import Domain
 import RxSwift
 
-enum ProductExtrasState {
-  case idle
-  case loading
-}
-
 protocol ProductExtrasViewModelInput {
   func viewDidLoad()
   func didSelectProductExtra(with id: Identifier<Product.Extra>)
@@ -15,7 +10,6 @@ protocol ProductExtrasViewModelInput {
 
 protocol ProductExtrasViewModelOutput {
   var productExtras: PublishSubject<[ProductExtraUIModel]> { get }
-  var state: PublishSubject<ProductExtrasState> { get }
 }
 
 protocol ProductExtrasViewModelType {
