@@ -598,6 +598,8 @@
 		2E75EC501FA86F6E00C5F48F /* AdBannerTrackingStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E75EC4E1FA86F6D00C5F48F /* AdBannerTrackingStatus.swift */; };
 		2E75EC531FA89F5B00C5F48F /* AdsRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E75EC521FA89F5B00C5F48F /* AdsRequester.swift */; };
 		2E75EC541FA89F5B00C5F48F /* AdsRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E75EC521FA89F5B00C5F48F /* AdsRequester.swift */; };
+		2E791C18212C5F3900C9086F /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E791C17212C5F3900C9086F /* NotificationsView.swift */; };
+		2E791C19212C5F3900C9086F /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E791C17212C5F3900C9086F /* NotificationsView.swift */; };
 		2E79430B212B008900CBC5CB /* ProcessInfo+Extended.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E79430A212B008900CBC5CB /* ProcessInfo+Extended.swift */; };
 		2E79430C212B008900CBC5CB /* ProcessInfo+Extended.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E79430A212B008900CBC5CB /* ProcessInfo+Extended.swift */; };
 		2E7F4A462074FB7200A05728 /* lottie_bump_up_boost_success_animation.json in Resources */ = {isa = PBXBuildFile; fileRef = 2E7F4A452074FB7100A05728 /* lottie_bump_up_boost_success_animation.json */; };
@@ -671,6 +673,8 @@
 		2EE47D2F2017812D004B04EE /* ChatAskPhoneNumberCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE47D2D2017812D004B04EE /* ChatAskPhoneNumberCellDrawer.swift */; };
 		2EE47D3120178835004B04EE /* PhoneCallsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE47D3020178835004B04EE /* PhoneCallsHelper.swift */; };
 		2EE47D3220178835004B04EE /* PhoneCallsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE47D3020178835004B04EE /* PhoneCallsHelper.swift */; };
+		2EE4A3C1212D48BF00380467 /* NotificationsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE4A3C0212D48BF00380467 /* NotificationsTableViewController.swift */; };
+		2EE4A3C2212D48BF00380467 /* NotificationsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE4A3C0212D48BF00380467 /* NotificationsTableViewController.swift */; };
 		2EE4BD211CDA398400EAADF9 /* CrashManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE4BD201CDA398400EAADF9 /* CrashManager.swift */; };
 		2EE4BD221CDA398400EAADF9 /* CrashManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE4BD201CDA398400EAADF9 /* CrashManager.swift */; };
 		2EED4D251D23F03E0024328A /* ChatListing+title.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EED4D241D23F03E0024328A /* ChatListing+title.swift */; };
@@ -1717,8 +1721,6 @@
 		C727944A1D54944E009C25AB /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72794481D54944E009C25AB /* SettingsViewModel.swift */; };
 		C727FBBE1CCFC4ED002BC643 /* NotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C727FBBC1CCFC4ED002BC643 /* NotificationsViewController.swift */; };
 		C727FBBF1CCFC4ED002BC643 /* NotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C727FBBC1CCFC4ED002BC643 /* NotificationsViewController.swift */; };
-		C727FBC01CCFC4ED002BC643 /* NotificationsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C727FBBD1CCFC4ED002BC643 /* NotificationsViewController.xib */; };
-		C727FBC11CCFC4ED002BC643 /* NotificationsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C727FBBD1CCFC4ED002BC643 /* NotificationsViewController.xib */; };
 		C727FBC31CCFC545002BC643 /* NotificationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C727FBC21CCFC545002BC643 /* NotificationsViewModel.swift */; };
 		C727FBC41CCFC545002BC643 /* NotificationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C727FBC21CCFC545002BC643 /* NotificationsViewModel.swift */; };
 		C730FD0E1E76F93000175C27 /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C730FD0D1E76F93000175C27 /* CacheManager.swift */; };
@@ -2538,6 +2540,7 @@
 		2E6B6E3C1D2BC0A500C10A20 /* PostIncentiviserItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostIncentiviserItem.swift; sourceTree = "<group>"; };
 		2E75EC4E1FA86F6D00C5F48F /* AdBannerTrackingStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdBannerTrackingStatus.swift; sourceTree = "<group>"; };
 		2E75EC521FA89F5B00C5F48F /* AdsRequester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AdsRequester.swift; path = Ads/AdsRequester.swift; sourceTree = "<group>"; };
+		2E791C17212C5F3900C9086F /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
 		2E79430A212B008900CBC5CB /* ProcessInfo+Extended.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProcessInfo+Extended.swift"; sourceTree = "<group>"; };
 		2E7F4A452074FB7100A05728 /* lottie_bump_up_boost_success_animation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = lottie_bump_up_boost_success_animation.json; sourceTree = "<group>"; };
 		2E8097EE206660FC00E19FC0 /* MeetingSafetyTipsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingSafetyTipsViewController.swift; sourceTree = "<group>"; };
@@ -2576,6 +2579,7 @@
 		2EE47D2D2017812D004B04EE /* ChatAskPhoneNumberCellDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAskPhoneNumberCellDrawer.swift; sourceTree = "<group>"; };
 		2EE47D3020178835004B04EE /* PhoneCallsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneCallsHelper.swift; sourceTree = "<group>"; };
 		2EE47E591BBEA5B70034C19D /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		2EE4A3C0212D48BF00380467 /* NotificationsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsTableViewController.swift; sourceTree = "<group>"; };
 		2EE4BD201CDA398400EAADF9 /* CrashManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrashManager.swift; sourceTree = "<group>"; };
 		2EEBD9731ECB5AF100F43E76 /* FilterListingListRequesterFactorySpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterListingListRequesterFactorySpec.swift; sourceTree = "<group>"; };
 		2EED4D241D23F03E0024328A /* ChatListing+title.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChatListing+title.swift"; sourceTree = "<group>"; };
@@ -3210,7 +3214,6 @@
 		C72794321D549342009C25AB /* ChangeUsernameViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeUsernameViewModel.swift; sourceTree = "<group>"; };
 		C72794481D54944E009C25AB /* SettingsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		C727FBBC1CCFC4ED002BC643 /* NotificationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsViewController.swift; sourceTree = "<group>"; };
-		C727FBBD1CCFC4ED002BC643 /* NotificationsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationsViewController.xib; sourceTree = "<group>"; };
 		C727FBC21CCFC545002BC643 /* NotificationsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsViewModel.swift; sourceTree = "<group>"; };
 		C730FD0D1E76F93000175C27 /* CacheManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
 		C730FD101E77FC5A00175C27 /* BooleanDAO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BooleanDAO.swift; sourceTree = "<group>"; };
@@ -4499,6 +4502,14 @@
 				C708C83B1CDB590400AA87B3 /* AppRatingView.xib */,
 			);
 			path = "App Rating";
+			sourceTree = "<group>";
+		};
+		2EE4A3BF212D48AE00380467 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				2EE4A3C0212D48BF00380467 /* NotificationsTableViewController.swift */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 		2EE60AF01B60D8CD00E56E7D /* Sell */ = {
@@ -6494,8 +6505,9 @@
 			children = (
 				C711A1A21CDC99E5002D30D9 /* CellDrawers */,
 				C727FBC81CD10C82002BC643 /* Cells */,
+				2EE4A3BF212D48AE00380467 /* Controller */,
 				C727FBBC1CCFC4ED002BC643 /* NotificationsViewController.swift */,
-				C727FBBD1CCFC4ED002BC643 /* NotificationsViewController.xib */,
+				2E791C17212C5F3900C9086F /* NotificationsView.swift */,
 				C727FBC21CCFC545002BC643 /* NotificationsViewModel.swift */,
 				014448382110BEF900A459F9 /* NotificationCenterHeader.swift */,
 			);
@@ -7407,7 +7419,6 @@
 				C74016DC1D6467DB004C1E9D /* PostListingDetailPriceView.xib in Resources */,
 				5080111F1D474ED80073F362 /* Icons-Launchers.xcassets in Resources */,
 				C7F18AA11C89D62600D23319 /* GalleryImageCell.xib in Resources */,
-				C727FBC01CCFC4ED002BC643 /* NotificationsViewController.xib in Resources */,
 				C78BB50D1C5A314700614096 /* AppShareViewController.xib in Resources */,
 				50A8DC801BA06B92008296B0 /* ChatSafetyTipsView.xib in Resources */,
 				8EB6510E205C1C1500FF50E4 /* MobileNetLetgov7final.json in Resources */,
@@ -7502,7 +7513,6 @@
 				2E92CC0320248E2800451B65 /* MeetingAssistantViewController.xib in Resources */,
 				C7F18AA21C89D62600D23319 /* GalleryImageCell.xib in Resources */,
 				2E423797205C004B0077B62A /* ChatMyMeetingCell.xib in Resources */,
-				C727FBC11CCFC4ED002BC643 /* NotificationsViewController.xib in Resources */,
 				C78BB50E1C5A314700614096 /* AppShareViewController.xib in Resources */,
 				2ECB417020065FB200482EF7 /* BumpUpPayViewController.xib in Resources */,
 				C7DB427F1C5138B500400945 /* ChatSafetyTipsView.xib in Resources */,
@@ -8776,6 +8786,8 @@
 				0A90350A1FCC18E800FDE795 /* PhotoViewerTransitionAnimator.swift in Sources */,
 				C7F3F1E11DE5A95F00652447 /* ChatRelatedListingsView.swift in Sources */,
 				C727943C1D549342009C25AB /* ChangeUsernameViewController.swift in Sources */,
+				2EE4A3C1212D48BF00380467 /* NotificationsTableViewController.swift in Sources */,
+				0ACA8F3421145ECB00243850 /* LGRateBuilder.swift in Sources */,
 				C605853A20DBD16A008025FD /* ListingAttributeGridViewItemCell.swift in Sources */,
 				A4E09390211B199B002235FC /* LGLoginBuilder.swift in Sources */,
 				72E8A58A1EB34D93000524E6 /* CategoriesHeaderCell.swift in Sources */,
@@ -9046,6 +9058,7 @@
 				0ACDD2EA1FD1426800616F53 /* QuickChatViewBinder.swift in Sources */,
 				2E94A75F20AF2F2F00AEA29A /* ChatAvatarView.swift in Sources */,
 				01A153532125C74200035DF6 /* LGFeedBadgingSynchronizer.swift in Sources */,
+				2E791C18212C5F3900C9086F /* NotificationsView.swift in Sources */,
 				C7E5902D1E5D973C002921B2 /* CollectionType+Merge.swift in Sources */,
 				8E814F421F3475AB00C88432 /* FilterSliderYearCell.swift in Sources */,
 				C7415EDB1DE898580003D6C1 /* SimpleListingsViewModel.swift in Sources */,
@@ -9713,6 +9726,7 @@
 				50EC640B1C64F99E00DC04C5 /* LGEmptyViewModel.swift in Sources */,
 				C78F9DBA1DC9EE8500884064 /* LocalUser.swift in Sources */,
 				50C59BD51CE0DB4400377124 /* KeyValueStorageable.swift in Sources */,
+				2EE4A3C2212D48BF00380467 /* NotificationsTableViewController.swift in Sources */,
 				2EADE4E320514BDB0089D9F8 /* PostingCategoriesPickViewModel.swift in Sources */,
 				C73832811E029CC2007D0C03 /* AccountProvider+LG.swift in Sources */,
 				0A6FECDF2130344000B57004 /* EditListingNavigator.swift in Sources */,
@@ -9973,6 +9987,7 @@
 				2EE47D2F2017812D004B04EE /* ChatAskPhoneNumberCellDrawer.swift in Sources */,
 				721A83121E827FD300507E47 /* MediaPermissions.swift in Sources */,
 				01A153542125C74200035DF6 /* LGFeedBadgingSynchronizer.swift in Sources */,
+				2E791C19212C5F3900C9086F /* NotificationsView.swift in Sources */,
 				2E4DE8DA206422970016D5A8 /* BoostSuccessAlertView.swift in Sources */,
 				C7DB42221C5138B500400945 /* LGNavBarSearchField.swift in Sources */,
 				2E94A76020AF2F2F00AEA29A /* ChatAvatarView.swift in Sources */,
