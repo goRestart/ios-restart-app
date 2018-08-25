@@ -1,10 +1,12 @@
 import UIKit
+import RxSwift
+import RxCocoa
 
 private enum ViewLayout {
   static let size = CGSize(width: 20, height: 20)
 }
 
-public final class Checkbox: View {
+public final class Checkbox: UIControl {
   private let checkboxImageView: UIImageView = {
     let imageView = UIImageView()
     imageView.contentMode = .scaleAspectFit
@@ -18,14 +20,22 @@ public final class Checkbox: View {
     }
   }
   
-  override public func setupView() {
+  public override init(frame: CGRect) {
+    super.init(frame: frame)
+    setupView()
+    setupConstraints()
+  }
+  
+  required public init?(coder aDecoder: NSCoder) { fatalError() }
+  
+  private func setupView() {
     let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapOnCheckbox))
     addGestureRecognizer(tapGestureRecognizer)
     addSubview(checkboxImageView)
     configure()
   }
   
-  override public func setupConstraints() {
+  private func setupConstraints() {
     checkboxImageView.snp.makeConstraints { make in
       make.edges.equalTo(self)
     }
@@ -36,6 +46,7 @@ public final class Checkbox: View {
   
   @objc private func didTapOnCheckbox() {
     isChecked = !isChecked
+    sendActions(for: .valueChanged)
   }
   
   private func configure() {
@@ -44,5 +55,17 @@ public final class Checkbox: View {
       return
     }
     checkboxImageView.image = UIImage(named: "icon.checkbox.checked", in: .framework, compatibleWith: nil)
+  }
+}
+
+// MARK: - View Bindings
+
+extension Reactive where Base: Checkbox {
+  public var isChecked: ControlProperty<Bool> {
+    return base.rx.controlProperty(editingEvents: .valueChanged, getter: { checkbox in
+      checkbox.isChecked
+    }, setter: { (checkbox, value) in
+      checkbox.isChecked = value
+    })
   }
 }
