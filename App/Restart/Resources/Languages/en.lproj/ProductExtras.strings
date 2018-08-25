@@ -2,6 +2,7 @@
   Product Extras
 */
 
-"publish.product.extra.type.collectors_edition" = "Collector's edition";
-"publish.product.extra.type.sealed_product" = "Sealed product";
-"publish.product.extra.type.exchange_accepted" = "Exchange Accepted";
+"product_extras.type.collectors_edition" = "Collector's edition";
+"product_extras.type.sealed_product" = "Sealed product";
+"product_extras.type.exchange_accepted" = "Exchange Accepted";
+"product_extras.next_button.title" = "Siguiente ➞";

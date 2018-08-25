@@ -14,11 +14,11 @@ final class ProductExtraUIModel: ListDiffable {
   var type: String {
     switch productExtra.type {
     case .collectorsEdition:
-      return Localize("publish.product.extra.type.collectors_edition", Table.productExtras)
+      return Localize("product_extras.type.collectors_edition", Table.productExtras)
     case .sealedProduct:
-      return Localize("publish.product.extra.type.sealed_product", Table.productExtras)
+      return Localize("product_extras.type.sealed_product", Table.productExtras)
     case .exchangeAccepted:
-      return Localize("publish.product.extra.type.exchange_accepted", Table.productExtras)
+      return Localize("product_extras.type.exchange_accepted", Table.productExtras)
     case .unknown:
       return ""
     }
