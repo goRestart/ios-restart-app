@@ -1,6 +1,6 @@
 import UI
 
-public final class ProductExtrasViewController: ViewController {
+final class ProductExtrasViewController: ViewController {
   
   var viewModel: ProductExtrasViewModelType!
   
@@ -12,18 +12,19 @@ public final class ProductExtrasViewController: ViewController {
     super.init(nibName: nil, bundle: nil)
   }
 
-  public required init?(coder aDecoder: NSCoder) { fatalError() }
+  required init?(coder aDecoder: NSCoder) { fatalError() }
   
-  public override func loadView() {
+  override func loadView() {
     self.view = productExtrasView
   }
   
-  public override func viewDidLoad() {
+  override func viewDidLoad() {
     super.viewDidLoad()
+    title = Localize("product_extras.title", table: Table.productExtras)
     viewModel.input.viewDidLoad()
   }
   
-  public override func bindViewModel() {
+  override func bindViewModel() {
     viewBinder.bind(view: productExtrasView, to: viewModel, using: bag)
   }
 }

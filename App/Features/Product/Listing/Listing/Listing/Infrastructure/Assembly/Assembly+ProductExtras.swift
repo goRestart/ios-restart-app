@@ -2,7 +2,7 @@ import Core
 import Application
 
 extension Assembly {
-  public var productExtras: ProductExtrasViewController {
+  var productExtras: ProductExtrasViewController {
     let viewController = ProductExtrasViewController(
       viewBinder: viewBinder
     )
