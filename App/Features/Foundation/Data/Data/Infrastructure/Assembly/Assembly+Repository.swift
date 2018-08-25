@@ -1,5 +1,36 @@
 import Core
 
+// MARK: - Product
+
+extension Assembly {
+  public var productRepository: ProductRepository {
+    return ProductRepository(
+      algoliaDataSource: productAlgoliaDataSource
+    )
+  }
+  
+  private var productAlgoliaDataSource: ProductDataSource {
+    return ProductAlgoliaDataSource(
+      getProductExtrasAlgoliaAction: getProductExtrasAlgoliaAction
+    )
+  }
+  
+  // MARK: - Actions
+  
+  private var getProductExtrasAlgoliaAction: GetProductExtrasAlgoliaAction {
+    return GetProductExtrasAlgoliaAction(
+      productExtrasIndex: AlgoliaIndice.productExtras,
+      productExtraMapper: productExtraMapper
+    )
+  }
+  
+  // MARK: - Mapper
+  
+  private var productExtraMapper: ProductExtraMapper {
+    return ProductExtraMapper()
+  }
+}
+
 // MARK: - Game
 
 extension Assembly: GameSuggestionMapperProvider {

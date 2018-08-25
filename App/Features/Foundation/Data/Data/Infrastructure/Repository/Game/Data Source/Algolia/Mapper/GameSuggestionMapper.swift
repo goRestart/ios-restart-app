@@ -20,7 +20,7 @@ struct GameSuggestionMapper: Mappable {
   
   func map(_ from: [String: Any]) throws -> GameSearchSuggestion {
     guard let value = from[JSONKey.value] as? String,
-      let identifier = from[JSONKey.value] as? String else {
+      let identifier = from[JSONKey.id] as? String else {
         throw MappableError.invalidInput
     }
     return GameSearchSuggestion(
