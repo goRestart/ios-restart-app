@@ -1,0 +1,7 @@
+/* 
+  Product Extras
+*/
+
+"publish.product.extra.type.collectors_edition" = "Collector's edition";
+"publish.product.extra.type.sealed_product" = "Sealed product";
+"publish.product.extra.type.exchange_accepted" = "Exchange Accepted";
