@@ -1,7 +1,6 @@
 import UIKit
 import Core
 import Data
-import SignUp
 
 final class Application: NSObject, UIApplicationDelegate {
   
@@ -19,9 +18,8 @@ final class Application: NSObject, UIApplicationDelegate {
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     
     DataModule.start()
-    
-    let navigationController = UINavigationController(rootViewController: resolver.makeNotLogged())
-    window?.rootViewController = navigationController
+
+    window?.rootViewController = tabBar.build()
     window?.makeKeyAndVisible()
 
     return true

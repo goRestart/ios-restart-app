@@ -85,7 +85,6 @@ extension TabBar {
     let tabBarItem = UITabBarItem(
       image: #imageLiteral(resourceName: "icon.tabbar.profile"), tag: MenuItem.profile.rawValue
     )
-    tabBarItem.titlePositionAdjustment = .init(horizontal: 5, vertical: 5)
     viewController.tabBarItem = tabBarItem
     return viewController
   }
