@@ -5,14 +5,14 @@ import Snap
 final class FontableSpec: XCTestCase {
 
   func test_font_book_is_valid() {
-    let fontBook: [(UIFont, String)] = [
+    let fontBook: [(font: UIFont, name: String)] = [
       (.h1, "H1"), (.h2, "H2"), (.button, "button"),
       (.tiny, "tiny"), (.body(.regular), "body_regular"), (.body(.semibold), "body_semibold"),
       (.small(.regular), "small_regular"), (.small(.semibold), "small_semibold")
     ]
     
     fontBook.forEach { element in
-      expect(view(with: element.0, named: element.1)).toMatchSnapshot(named: "\(element.1)_font")
+      expect(view(with: element.font, named: element.name)).toMatchSnapshot(named: "\(element.name)_font")
     }
   }
  
