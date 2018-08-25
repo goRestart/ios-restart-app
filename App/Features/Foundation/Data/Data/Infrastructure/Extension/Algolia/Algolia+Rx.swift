@@ -19,4 +19,8 @@ extension Reactive where Base: InstantSearchClient.Index  {
       }
     })
   }
+  
+  func getAll<T>() -> Single<T> {
+    return self.search(with: Query())
+  }
 }
