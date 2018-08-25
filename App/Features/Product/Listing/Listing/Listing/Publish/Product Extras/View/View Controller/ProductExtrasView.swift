@@ -1,14 +1,22 @@
+import Domain
 import UI
 import RxSwift
 import RxCocoa
 import SnapKit
 import IGListKit
 
+enum ProductExtraEvent {
+  case selectExtra(Identifier<Product.Extra>)
+  case unselectExtra(Identifier<Product.Extra>)
+}
+
 final class ProductExtrasView: View {
+  fileprivate var state = PublishSubject<ProductExtraEvent>()
+  
   fileprivate var listAdapterDataSource: ProductExtrasListAdapter?
   private let updater = ListAdapterUpdater()
   fileprivate var listAdapter: ListAdapter!
-  
+
   private let collectionView: UICollectionView = {
     let collectionViewLayout = ListCollectionViewLayout(stickyHeaders: false, topContentInset: 0, stretchToEdge: false)
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
@@ -16,7 +24,7 @@ final class ProductExtrasView: View {
     return collectionView
   }()
  
-  private let nextButton: FullWidthButton = {
+  fileprivate let nextButton: FullWidthButton = {
     let button = FullWidthButton()
     let title = Localize("product_extras.next_button.title", Table.productExtras).uppercased()
     button.setTitle(title, for: .normal)
@@ -24,7 +32,7 @@ final class ProductExtrasView: View {
   }()
 
   override func setupView() {
-    listAdapterDataSource = ProductExtrasListAdapter()
+    listAdapterDataSource = ProductExtrasListAdapter(state: state)
     
     listAdapter = ListAdapter(updater: updater, viewController: nil)
     listAdapter.collectionView = collectionView
@@ -54,5 +62,13 @@ extension Reactive where Base: ProductExtrasView {
       view.listAdapterDataSource?.productExtras = extras
       view.listAdapter.performUpdates(animated: true)
     }
+  }
+  
+  var state: PublishSubject<ProductExtraEvent> {
+    return base.state
+  }
+  
+  var nextButtonTapped: Observable<Void> {
+    return base.nextButton.rx.buttonWasTapped
   }
 }

@@ -10,6 +10,9 @@ final class ProductExtraUIModel: ListDiffable {
     self.productExtra = productExtra
   }
   
+  var identifier: Identifier<Product.Extra> {
+    return productExtra.identifier
+  }
   var isSelected = false
   var type: String {
     switch productExtra.type {

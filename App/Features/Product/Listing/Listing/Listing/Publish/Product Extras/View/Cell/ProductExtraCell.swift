@@ -1,5 +1,7 @@
 import UI
 import SnapKit
+import RxSwift
+import RxCocoa
 
 final class ProductExtraCell: CollectionViewCell {
   
@@ -13,8 +15,8 @@ final class ProductExtraCell: CollectionViewCell {
     return label
   }()
   
-  private let selectionCheckBox = Checkbox()
-  
+  fileprivate let selectionCheckBox = Checkbox()
+
   override func setupView() {
     addSubview(typeLabel)
     addSubview(selectionCheckBox)
@@ -38,5 +40,13 @@ final class ProductExtraCell: CollectionViewCell {
   func configure(with productExtra: ProductExtraUIModel) {
     typeLabel.text = productExtra.type
     selectionCheckBox.isChecked = productExtra.isSelected
+  }
+}
+
+// MARK: - View bindings
+
+extension Reactive where Base: ProductExtraCell {
+  var isChecked: ControlProperty<Bool> {
+    return base.selectionCheckBox.rx.isChecked
   }
 }

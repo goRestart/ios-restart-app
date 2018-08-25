@@ -5,9 +5,14 @@ import RxSwift
 final class ProductExtraSectionController: ListSectionController {
 
   private var productExtra: ProductExtraUIModel
+  private let state: PublishSubject<ProductExtraEvent>
+  private let bag = DisposeBag()
   
-  init(productExtra: ProductExtraUIModel) {
+  init(productExtra: ProductExtraUIModel,
+       state: PublishSubject<ProductExtraEvent>)
+  {
     self.productExtra = productExtra
+    self.state = state
   }
   
   override func sizeForItem(at index: Int) -> CGSize {
@@ -20,6 +25,15 @@ final class ProductExtraSectionController: ListSectionController {
   override func cellForItem(at index: Int) -> UICollectionViewCell {
     guard let cell = collectionContext!.dequeueReusableCell(of: ProductExtraCell.self, for: self, at: index) as? ProductExtraCell else { fatalError() }
     cell.configure(with: productExtra)
+    
+    cell.rx.isChecked.subscribe(onNext: { [state, productExtra] isChecked in
+      if isChecked {
+        state.onNext(.selectExtra(productExtra.identifier))
+        return
+      }
+      state.onNext(.unselectExtra(productExtra.identifier))
+    }).disposed(by: bag)
+  
     return cell
   }
   
