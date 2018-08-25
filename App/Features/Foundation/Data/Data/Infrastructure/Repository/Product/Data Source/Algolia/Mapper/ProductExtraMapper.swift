@@ -15,11 +15,11 @@ private enum ProductExtraTypeJSONKey {
 struct ProductExtraMapper: Mappable {
   func map(_ from: [String: Any]) throws -> Product.Extra {
     guard let type = from[JSONKey.type] as? String,
-      let identifier = from[JSONKey.id] as? Int else {
+      let identifier = from[JSONKey.id] as? String else {
         throw MappableError.invalidInput
     }
     return Product.Extra(
-      identifier: Identifier<Product.Extra>(String(identifier)),
+      identifier: Identifier<Product.Extra>(identifier),
       type: map(type: type)
     )
   }
