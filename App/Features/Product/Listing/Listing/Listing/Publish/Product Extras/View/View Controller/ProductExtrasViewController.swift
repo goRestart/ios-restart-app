@@ -20,7 +20,6 @@ final class ProductExtrasViewController: ViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    title = Localize("product_extras.title", table: Table.productExtras)
     viewModel.input.viewDidLoad()
   }
   

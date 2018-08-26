@@ -6,6 +6,12 @@ struct ProductPriceViewModel: ProductPriceViewModelType, ProductPriceViewModelIn
   var input: ProductPriceViewModelInput { return self }
   var output: ProductPriceViewModelOutput { return self }
 
+  private let productExtrasNavigator: ProductExtrasNavigator
+  
+  init(productExtrasNavigator: ProductExtrasNavigator) {
+    self.productExtrasNavigator = productExtrasNavigator
+  }
+  
   // MARK: - Output
 
   var price = BehaviorSubject<String>(value: "")
@@ -18,6 +24,6 @@ struct ProductPriceViewModel: ProductPriceViewModelType, ProductPriceViewModelIn
   // MARK: - Input
 
   func onNextStepPressed() {
-    print("Publish product next step")
+    productExtrasNavigator.navigate()
   }
 }

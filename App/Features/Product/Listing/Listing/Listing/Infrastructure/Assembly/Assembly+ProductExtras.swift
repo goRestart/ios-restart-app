@@ -1,15 +1,19 @@
 import Core
 import Application
 
-extension Assembly {
-  var productExtras: ProductExtrasViewController {
+protocol ProductExtrasProvider {
+  func makeProductExtras() -> UIViewController
+}
+
+extension Assembly: ProductExtrasProvider {
+  func makeProductExtras() -> UIViewController {
     let viewController = ProductExtrasViewController(
       viewBinder: viewBinder
     )
     viewController.viewModel = viewModel
     return viewController
   }
-  
+
   private var viewBinder: ProductExtrasViewBinder {
     return ProductExtrasViewBinder()
   }
@@ -22,5 +26,16 @@ extension Assembly {
   
   private var getProductExtras: GetProductExtras {
     return GetProductExtras()
+  }
+}
+
+// MARK: - Navigator
+
+extension Assembly {
+  func productExtrasNavigator(from viewController: UIViewController ) -> ProductExtrasNavigator {
+    return ProductExtrasNavigator(
+      from: viewController,
+      productExtrasProvider: self
+    )
   }
 }

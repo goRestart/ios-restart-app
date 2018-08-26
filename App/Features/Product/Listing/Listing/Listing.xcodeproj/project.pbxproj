@@ -46,6 +46,7 @@
 		2EB2B189212B4B5700705ACA /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB2B188212B4B5700705ACA /* Table.swift */; };
 		2EC6F11221329945002F6400 /* ProductDescriptionNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC6F11121329945002F6400 /* ProductDescriptionNavigator.swift */; };
 		2EC6F1152132A9CE002F6400 /* ProductPriceNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC6F1142132A9CE002F6400 /* ProductPriceNavigator.swift */; };
+		2EC6F1182132B6FE002F6400 /* ProductExtrasNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC6F1172132B6FE002F6400 /* ProductExtrasNavigator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -90,6 +91,7 @@
 		2EB2B188212B4B5700705ACA /* Table.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Table.swift; sourceTree = "<group>"; };
 		2EC6F11121329945002F6400 /* ProductDescriptionNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDescriptionNavigator.swift; sourceTree = "<group>"; };
 		2EC6F1142132A9CE002F6400 /* ProductPriceNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductPriceNavigator.swift; sourceTree = "<group>"; };
+		2EC6F1172132B6FE002F6400 /* ProductExtrasNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductExtrasNavigator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -327,6 +329,7 @@
 			children = (
 				2E71A8F821317930009D24A9 /* View */,
 				2E71A8F5213177C4009D24A9 /* View Model */,
+				2EC6F1162132B6F0002F6400 /* Navigator */,
 			);
 			path = "Product Extras";
 			sourceTree = "<group>";
@@ -398,6 +401,14 @@
 			isa = PBXGroup;
 			children = (
 				2EC6F1142132A9CE002F6400 /* ProductPriceNavigator.swift */,
+			);
+			path = Navigator;
+			sourceTree = "<group>";
+		};
+		2EC6F1162132B6F0002F6400 /* Navigator */ = {
+			isa = PBXGroup;
+			children = (
+				2EC6F1172132B6FE002F6400 /* ProductExtrasNavigator.swift */,
 			);
 			path = Navigator;
 			sourceTree = "<group>";
@@ -516,6 +527,7 @@
 				1CC1192C2041C9E000ED6369 /* String+Floatable.swift in Sources */,
 				2E71A90C21318FFF009D24A9 /* Assembly+ProductExtras.swift in Sources */,
 				1CC5A6142040D0B20082BE80 /* Assembly+ProductSelector.swift in Sources */,
+				2EC6F1182132B6FE002F6400 /* ProductExtrasNavigator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
