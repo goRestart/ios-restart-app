@@ -53,7 +53,7 @@ public final class SearchView: View {
     viewModel.output.results
       .map(toUIModel)
       .subscribe(onNext: { [weak self] suggestions in
-        self?.listAdapterDataSource?.suggestions = suggestions
+        self?.listAdapterDataSource?.set(suggestions)
         self?.listAdapter.performUpdates(animated: true)
       }).disposed(by: bag)
   }
