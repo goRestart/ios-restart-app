@@ -35,6 +35,9 @@
 		2E71A9282131CF25009D24A9 /* TabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A9272131CF25009D24A9 /* TabBarCoordinator.swift */; };
 		2E71A92A2131CFD4009D24A9 /* Assembly+TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A9292131CFD4009D24A9 /* Assembly+TabBar.swift */; };
 		2E71A92E2131D64A009D24A9 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A92D2131D64A009D24A9 /* TabBarController.swift */; };
+		2E7B9B2B21330DA300E4B6F5 /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2E7B9B2821330DA300E4B6F5 /* OpenSans-Semibold.ttf */; };
+		2E7B9B2C21330DA300E4B6F5 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2E7B9B2921330DA300E4B6F5 /* OpenSans-Bold.ttf */; };
+		2E7B9B2D21330DA300E4B6F5 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2E7B9B2A21330DA300E4B6F5 /* OpenSans-Regular.ttf */; };
 		2EB2B140212B2C9500705ACA /* Login.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2E2F7AEC212A06EC00CDED0F /* Login.strings */; };
 		2EB2B141212B2C9800705ACA /* NotLogged.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2E2F7AEE212A06F200CDED0F /* NotLogged.strings */; };
 		2EB2B190212B4BCC00705ACA /* ProductSelector.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2EB2B18A212B4BCC00705ACA /* ProductSelector.strings */; };
@@ -90,6 +93,9 @@
 		2E71A9272131CF25009D24A9 /* TabBarCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarCoordinator.swift; sourceTree = "<group>"; };
 		2E71A9292131CFD4009D24A9 /* Assembly+TabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+TabBar.swift"; sourceTree = "<group>"; };
 		2E71A92D2131D64A009D24A9 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		2E7B9B2821330DA300E4B6F5 /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
+		2E7B9B2921330DA300E4B6F5 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
+		2E7B9B2A21330DA300E4B6F5 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		2EB2B18B212B4BCC00705ACA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ProductSelector.strings; sourceTree = "<group>"; };
 		2EB2B18D212B4BCC00705ACA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ProductPrice.strings; sourceTree = "<group>"; };
 		2EB2B18F212B4BCC00705ACA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ProductDescription.strings; sourceTree = "<group>"; };
@@ -151,6 +157,7 @@
 			children = (
 				2E2F7AB02129CC6C00CDED0F /* GoogleService-Info.plist */,
 				1C3B454D1FEFCC54008B7B87 /* Info.plist */,
+				2E7B9B2621330D9B00E4B6F5 /* Fonts */,
 				2E2F7AC2212A06B100CDED0F /* Languages */,
 				1CAF0F65200431FD004046A9 /* Assets */,
 				1CAF0F63200431E8004046A9 /* Storyboards */,
@@ -253,6 +260,25 @@
 			path = Coordinator;
 			sourceTree = "<group>";
 		};
+		2E7B9B2621330D9B00E4B6F5 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				2E7B9B2721330DA300E4B6F5 /* Open Sans */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		2E7B9B2721330DA300E4B6F5 /* Open Sans */ = {
+			isa = PBXGroup;
+			children = (
+				2E7B9B2821330DA300E4B6F5 /* OpenSans-Semibold.ttf */,
+				2E7B9B2921330DA300E4B6F5 /* OpenSans-Bold.ttf */,
+				2E7B9B2A21330DA300E4B6F5 /* OpenSans-Regular.ttf */,
+			);
+			name = "Open Sans";
+			path = "Features/Foundation/UI/UI/Components/Font/Open Sans";
+			sourceTree = SOURCE_ROOT;
+		};
 		33B833E5CD9AFE167B3E165E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -341,6 +367,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				2EB2B191212B4BCC00705ACA /* ProductPrice.strings in Resources */,
+				2E7B9B2B21330DA300E4B6F5 /* OpenSans-Semibold.ttf in Resources */,
+				2E7B9B2C21330DA300E4B6F5 /* OpenSans-Bold.ttf in Resources */,
 				2E2F7AF1212A071500CDED0F /* SignUp.strings in Resources */,
 				1C3B454C1FEFCC54008B7B87 /* LaunchScreen.storyboard in Resources */,
 				1C3B45491FEFCC54008B7B87 /* Assets.xcassets in Resources */,
@@ -349,6 +377,7 @@
 				2EB2B192212B4BCC00705ACA /* ProductDescription.strings in Resources */,
 				2EB2B190212B4BCC00705ACA /* ProductSelector.strings in Resources */,
 				2E2F7AB12129CC6C00CDED0F /* GoogleService-Info.plist in Resources */,
+				2E7B9B2D21330DA300E4B6F5 /* OpenSans-Regular.ttf in Resources */,
 				2E71A90021317BA3009D24A9 /* ProductExtras.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -371,6 +400,7 @@
 				"$(SRCROOT)/../Carthage/Build/iOS/Result.framework",
 				"$(SRCROOT)/../Carthage/Build/iOS/IGListKit.framework",
 				"$(SRCROOT)/../Carthage/Build/iOS/InstantSearchClient.framework",
+				"$(SRCROOT)/../Carthage/Build/iOS/Kingfisher.framework",
 			);
 			name = "[Carthage] - Copy frameworks";
 			outputPaths = (
@@ -383,6 +413,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IGListKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/InstantSearchClient.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

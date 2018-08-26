@@ -76,7 +76,7 @@ open class LargeButton: UIButton {
       .foregroundColor: foregroundColor
     ]
     guard let title = title else { fatalError("Empty title") }
-    return NSAttributedString(string: title, attributes: attributes)
+    return NSAttributedString(string: title.uppercased(), attributes: attributes)
   }
   
   // MARK: - Highlight
