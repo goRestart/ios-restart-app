@@ -1,4 +1,5 @@
 import Core
+import UI
 
 public protocol ListingProvider {
   func makeNewListingProcess() -> UIViewController
@@ -6,10 +7,9 @@ public protocol ListingProvider {
 
 extension Assembly: ListingProvider {
   public func makeNewListingProcess() -> UIViewController {
-    let navigationController = UINavigationController(
+    let navigationController = NavigationController(
       rootViewController: productSelector
     )
-    navigationController.navigationBar.prefersLargeTitles = true
     return navigationController
   }
 }

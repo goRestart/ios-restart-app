@@ -42,6 +42,8 @@
 		2E71A91B2131A6BF009D24A9 /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A91A2131A6BF009D24A9 /* Checkbox.swift */; };
 		2E71A91E2131AA6A009D24A9 /* CheckboxSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A91D2131AA6A009D24A9 /* CheckboxSpec.swift */; };
 		2E71A9332131DA2C009D24A9 /* UITabBarController+ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A9322131DA2C009D24A9 /* UITabBarController+ViewController.swift */; };
+		2EC6F10D21329553002F6400 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC6F10C21329553002F6400 /* NavigationController.swift */; };
+		2EC6F10F213295D4002F6400 /* TitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC6F10E213295D4002F6400 /* TitleView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +98,8 @@
 		2E71A91A2131A6BF009D24A9 /* Checkbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checkbox.swift; sourceTree = "<group>"; };
 		2E71A91D2131AA6A009D24A9 /* CheckboxSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxSpec.swift; sourceTree = "<group>"; };
 		2E71A9322131DA2C009D24A9 /* UITabBarController+ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabBarController+ViewController.swift"; sourceTree = "<group>"; };
+		2EC6F10C21329553002F6400 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
+		2EC6F10E213295D4002F6400 /* TitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -242,6 +246,7 @@
 				1CACDA771FF7B58900538B78 /* ViewController.swift */,
 				1CACDA3F1FF68E8900538B78 /* View.swift */,
 				1C0500AA200B6C0100E60633 /* CollectionViewCell.swift */,
+				2EC6F10E213295D4002F6400 /* TitleView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -298,6 +303,7 @@
 		1CD52B11204742F300F13E5F /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				2EC6F10B21329547002F6400 /* NavigationController */,
 				2E71A9312131DA20009D24A9 /* TabBarController */,
 				2E07F2FB212DEEAB00C63BE1 /* UIButton */,
 				1CD52B12204742F300F13E5F /* Bundle */,
@@ -460,6 +466,14 @@
 			path = TabBarController;
 			sourceTree = "<group>";
 		};
+		2EC6F10B21329547002F6400 /* NavigationController */ = {
+			isa = PBXGroup;
+			children = (
+				2EC6F10C21329553002F6400 /* NavigationController.swift */,
+			);
+			path = NavigationController;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -599,9 +613,11 @@
 				1C7F4C5A1FFC2EC0001BEB62 /* LargeButton.swift in Sources */,
 				1C7F4C4F1FF7DFBB001BEB62 /* FullWidthButton+Rx.swift in Sources */,
 				1C0263651FF5BBE50040346B /* InputTextField.swift in Sources */,
+				2EC6F10D21329553002F6400 /* NavigationController.swift in Sources */,
 				2E71A91B2131A6BF009D24A9 /* Checkbox.swift in Sources */,
 				1CACDA781FF7B58900538B78 /* ViewController.swift in Sources */,
 				1CD7A9661FF51D0800CB895D /* Palette.swift in Sources */,
+				2EC6F10F213295D4002F6400 /* TitleView.swift in Sources */,
 				1CACDA481FF691D900538B78 /* Localize.swift in Sources */,
 				1CD52B0920473E9500F13E5F /* AddPhotoButton.swift in Sources */,
 				1C0500AB200B6C0100E60633 /* CollectionViewCell.swift in Sources */,

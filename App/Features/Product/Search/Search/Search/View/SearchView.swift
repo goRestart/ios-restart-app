@@ -44,10 +44,7 @@ public final class SearchView: View {
   
   public override func setupConstraints() {
     collectionView.snp.makeConstraints { make in
-      make.left.equalTo(self)
-      make.right.equalTo(self)
-      make.top.equalTo(self)
-      make.bottom.equalTo(self)
+      make.edges.equalTo(self)
     }
   }
   
