@@ -5,12 +5,14 @@ extension Assembly {
     let viewController = ProductSelectorViewController(
       viewBinder: viewBinder
     )
-    viewController.viewModel = viewModel
+    viewController.viewModel = viewModel(for: viewController)
     return viewController
   }
 
-  private var viewModel: ProductSelectorViewModelType {
-    return ProductSelectorViewModel()
+  private func viewModel(for viewController: UIViewController) -> ProductSelectorViewModelType {
+    return ProductSelectorViewModel(
+      productDescriptionNavigator: productDescriptionNavigator(from: viewController)
+    )
   }
   
   private var viewBinder: ProductSelectorViewBinder {

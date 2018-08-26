@@ -51,6 +51,11 @@ final class ProductSelectorView: View {
       make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
     }
   }
+  
+  @discardableResult
+  override func becomeFirstResponder() -> Bool {
+    return inputTextField.becomeFirstResponder()
+  }
 }
 
 // MARK: - View bindings

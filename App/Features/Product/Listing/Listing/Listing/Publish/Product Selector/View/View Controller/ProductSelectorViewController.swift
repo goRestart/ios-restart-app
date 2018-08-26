@@ -19,6 +19,11 @@ final class ProductSelectorViewController: ViewController {
     self.view = productSelectorView
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    productSelectorView.becomeFirstResponder()
+  }
+  
   override func bindViewModel() {
     viewBinder.bind(view: productSelectorView, to: viewModel, using: bag)
   }
