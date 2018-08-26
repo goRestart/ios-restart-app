@@ -17,9 +17,9 @@ final class ProductDescriptionViewController: ViewController {
     self.view = productDescriptionView
   }
 
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    title = Localize("product_description.title", table: Table.productDescription)
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    productDescriptionView.becomeFirstResponder()
   }
 
   override func bindViewModel() {
