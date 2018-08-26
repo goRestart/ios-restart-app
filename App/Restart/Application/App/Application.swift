@@ -1,27 +1,25 @@
 import UIKit
 import Core
 import Data
-import SignUp
 
 final class Application: NSObject, UIApplicationDelegate {
   
   var window: UIWindow?
   
-  private let tabBar: TabBar
+  private let tabBarControllerProvider: TabBarControllerProvider
   
   init(window: UIWindow?,
-       tabBar: TabBar)
+       tabBarControllerProvider: TabBarControllerProvider)
   {
     self.window = window
-    self.tabBar = tabBar
+    self.tabBarControllerProvider = tabBarControllerProvider
   }
   
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     
     DataModule.start()
-    
-    let navigationController = UINavigationController(rootViewController: resolver.makeNotLogged())
-    window?.rootViewController = navigationController
+
+    window?.rootViewController = tabBarControllerProvider.makeTabBarController()
     window?.makeKeyAndVisible()
 
     return true
