@@ -4,3 +4,4 @@
 
 "product_price.title" = "How much?";
 "product_price.price.input.placeholder" = "Don't be too greedy";
+"product_price.next_button.title" = "Next ➞";

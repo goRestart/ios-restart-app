@@ -8,7 +8,7 @@ public protocol ListingProvider {
 extension Assembly: ListingProvider {
   public func makeNewListingProcess() -> UIViewController {
     let navigationController = NavigationController(
-      rootViewController: productSelector
+      rootViewController: makeProductSelector()
     )
     return navigationController
   }

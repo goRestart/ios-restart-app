@@ -44,12 +44,19 @@ final class ProductSelectorView: View {
       make.trailing.equalTo(self).offset(-Margin.medium)
     }
 
-    searchView.snp.makeConstraints { make in
-      make.leading.equalTo(self)
-      make.trailing.equalTo(self)
-      make.top.equalTo(inputTextField.snp.bottom).offset(Margin.medium)
-      make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
-    }
+    Keyboard.subscribe(to: [.willShow]).subscribe(onNext: { [inputTextField, searchView] keyboard in
+      searchView.snp.remakeConstraints { make in
+        make.leading.equalTo(self)
+        make.trailing.equalTo(self)
+        make.top.equalTo(inputTextField.snp.bottom).offset(Margin.medium)
+        make.bottom.equalTo(-keyboard.endFrame.height)
+      }
+    }).disposed(by: bag)
+  }
+  
+  @discardableResult
+  override func becomeFirstResponder() -> Bool {
+    return inputTextField.becomeFirstResponder()
   }
 }
 

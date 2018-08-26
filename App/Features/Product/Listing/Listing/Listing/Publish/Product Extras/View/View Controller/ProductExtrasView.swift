@@ -16,7 +16,13 @@ final class ProductExtrasView: View {
   fileprivate var listAdapterDataSource: ProductExtrasListAdapter?
   private let updater = ListAdapterUpdater()
   fileprivate var listAdapter: ListAdapter!
-
+  
+  private let titleView: TitleView = {
+    let titleView = TitleView()
+    titleView.title = Localize("product_extras.title", table: Table.productExtras)
+    return titleView
+  }()
+  
   private let collectionView: UICollectionView = {
     let collectionViewLayout = ListCollectionViewLayout(stickyHeaders: false, topContentInset: 0, stretchToEdge: false)
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
@@ -38,13 +44,22 @@ final class ProductExtrasView: View {
     listAdapter.collectionView = collectionView
     listAdapter.dataSource = listAdapterDataSource
     
+    addSubview(titleView)
     addSubview(collectionView)
     addSubview(nextButton)
   }
   
   override func setupConstraints() {
+    titleView.snp.makeConstraints { make in
+      make.leading.equalTo(self)
+      make.trailing.equalTo(self)
+      make.top.equalTo(safeAreaLayoutGuide.snp.top)
+    }
     collectionView.snp.makeConstraints { make in
-      make.edges.equalTo(self)
+      make.leading.equalTo(self)
+      make.trailing.equalTo(self)
+      make.top.equalTo(titleView.snp.bottom).offset(Margin.medium)
+      make.bottom.equalTo(nextButton.snp.top).offset(-Margin.small)
     }
     nextButton.snp.makeConstraints { make in
       make.leading.equalTo(self).offset(Margin.medium)

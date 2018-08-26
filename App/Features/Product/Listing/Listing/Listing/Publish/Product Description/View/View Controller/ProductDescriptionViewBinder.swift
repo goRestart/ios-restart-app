@@ -6,5 +6,13 @@ struct ProductDescriptionViewBinder {
     view.rx.productDescription
       .bind(to: viewModel.output.description)
       .disposed(by: bag)
+    
+    viewModel.output.nextStepEnabled
+      .bind(to: view.rx.nextButtonIsEnabled)
+      .disposed(by: bag)
+    
+    view.rx.nextButtonWasTapped.subscribe { _ in
+      viewModel.input.onNextStepPressed()
+    }.disposed(by: bag)
   }
 }

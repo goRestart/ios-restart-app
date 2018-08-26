@@ -6,6 +6,12 @@ struct ProductDescriptionViewModel: ProductDescriptionViewModelType, ProductDesc
   var input: ProductDescriptionViewModelInput { return self }
   var output: ProductDescriptionViewModelOutput { return self }
 
+  private let productPriceNavigator: ProductPriceNavigator
+  
+  init(productPriceNavigator: ProductPriceNavigator) {
+    self.productPriceNavigator = productPriceNavigator
+  }
+  
   // MARK: - Output
 
   var description = BehaviorSubject<String>(value: "")
@@ -16,6 +22,6 @@ struct ProductDescriptionViewModel: ProductDescriptionViewModelType, ProductDesc
   // MARK: - Input
 
   func onNextStepPressed() {
-    print("Publish product next step")
+    productPriceNavigator.navigate()
   }
 }

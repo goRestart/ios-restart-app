@@ -18,13 +18,13 @@ open class FullWidthButton: UIButton {
     case loading
   }
  
-  private lazy var backgroundGradientLayer: CAGradientLayer = {
+  private let backgroundGradientLayer: CAGradientLayer = {
     let layer = CAGradientLayer.default
     layer.cornerRadius = Radius.big
     return layer
   }()
   
-  private lazy var highlightedView: UIView = {
+  private let highlightedView: UIView = {
     let view = UIView()
     view.backgroundColor = UIColor.black.withAlphaComponent(0.3)
     view.isUserInteractionEnabled = false
@@ -164,6 +164,8 @@ open class FullWidthButton: UIButton {
     
     backgroundGradientLayer.frame = bounds
     backgroundGradientLayer.cornerRadius = cornerRadius
+    
+    highlightedView.layer.cornerRadius = cornerRadius
     
     layer.cornerRadius = cornerRadius
   }
