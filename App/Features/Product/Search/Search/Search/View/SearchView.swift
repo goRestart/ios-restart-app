@@ -15,7 +15,7 @@ public final class SearchView: View {
   
   private var listAdapterDataSource: GameSuggestionListAdapter?
   private let updater = ListAdapterUpdater()
-  private var listAdapter: ListAdapter!
+  private var listAdapter: ListAdapter?
 
   private let collectionView: UICollectionView = {
     let collectionViewLayout = ListCollectionViewLayout(stickyHeaders: false, topContentInset: 0, stretchToEdge: false)
@@ -38,8 +38,8 @@ public final class SearchView: View {
     listAdapterDataSource = GameSuggestionListAdapter(state: state)
     
     listAdapter = ListAdapter(updater: updater, viewController: nil)
-    listAdapter.collectionView = collectionView
-    listAdapter.dataSource = listAdapterDataSource
+    listAdapter?.collectionView = collectionView
+    listAdapter?.dataSource = listAdapterDataSource
   }
   
   public override func setupConstraints() {
@@ -54,7 +54,7 @@ public final class SearchView: View {
       .map(toUIModel)
       .subscribe(onNext: { [weak self] suggestions in
         self?.listAdapterDataSource?.set(suggestions)
-        self?.listAdapter.performUpdates(animated: true)
+        self?.listAdapter?.performUpdates(animated: true)
       }).disposed(by: bag)
   }
 
