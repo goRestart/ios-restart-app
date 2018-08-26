@@ -2,7 +2,7 @@ import UIKit
 
 extension UIFont: Fontable {
   public static var h1: UIFont {
-    return .boldSystemFont(ofSize: 28)
+    return .boldSystemFont(ofSize: 30)
   }
   
   public static var h2: UIFont {
