@@ -42,6 +42,8 @@
 		2E71A916213197B1009D24A9 /* ProductExtraCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A915213197B1009D24A9 /* ProductExtraCell.swift */; };
 		2E71A9182131985D009D24A9 /* ProductExtraSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A9172131985D009D24A9 /* ProductExtraSectionController.swift */; };
 		2E71A9302131D8D6009D24A9 /* Assembly+Listing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A92F2131D8D6009D24A9 /* Assembly+Listing.swift */; };
+		2E7B9B1F2132DA8A00E4B6F5 /* ProductSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7B9B1E2132DA8A00E4B6F5 /* ProductSummaryView.swift */; };
+		2E7B9B212132DAAF00E4B6F5 /* ProductSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7B9B202132DAAF00E4B6F5 /* ProductSummaryViewController.swift */; };
 		2E8F012B212F417800DA65E6 /* ProductSelectorViewBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8F012A212F417800DA65E6 /* ProductSelectorViewBinder.swift */; };
 		2EB2B189212B4B5700705ACA /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB2B188212B4B5700705ACA /* Table.swift */; };
 		2EC6F11221329945002F6400 /* ProductDescriptionNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC6F11121329945002F6400 /* ProductDescriptionNavigator.swift */; };
@@ -87,6 +89,8 @@
 		2E71A915213197B1009D24A9 /* ProductExtraCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductExtraCell.swift; sourceTree = "<group>"; };
 		2E71A9172131985D009D24A9 /* ProductExtraSectionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductExtraSectionController.swift; sourceTree = "<group>"; };
 		2E71A92F2131D8D6009D24A9 /* Assembly+Listing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+Listing.swift"; sourceTree = "<group>"; };
+		2E7B9B1E2132DA8A00E4B6F5 /* ProductSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSummaryView.swift; sourceTree = "<group>"; };
+		2E7B9B202132DAAF00E4B6F5 /* ProductSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSummaryViewController.swift; sourceTree = "<group>"; };
 		2E8F012A212F417800DA65E6 /* ProductSelectorViewBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductSelectorViewBinder.swift; sourceTree = "<group>"; };
 		2EB2B188212B4B5700705ACA /* Table.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Table.swift; sourceTree = "<group>"; };
 		2EC6F11121329945002F6400 /* ProductDescriptionNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDescriptionNavigator.swift; sourceTree = "<group>"; };
@@ -180,6 +184,7 @@
 				1CC1192D2041CB5300ED6369 /* Product Description */,
 				1CC119152041A81500ED6369 /* Product Price */,
 				2E71A8F4213177AA009D24A9 /* Product Extras */,
+				2E7B9B1B2132DA4F00E4B6F5 /* Product Summary */,
 			);
 			path = Publish;
 			sourceTree = "<group>";
@@ -389,6 +394,31 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
+		2E7B9B1B2132DA4F00E4B6F5 /* Product Summary */ = {
+			isa = PBXGroup;
+			children = (
+				2E7B9B1C2132DA7200E4B6F5 /* View */,
+			);
+			path = "Product Summary";
+			sourceTree = "<group>";
+		};
+		2E7B9B1C2132DA7200E4B6F5 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				2E7B9B1D2132DA7200E4B6F5 /* View Controller */,
+				2E7B9B202132DAAF00E4B6F5 /* ProductSummaryViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		2E7B9B1D2132DA7200E4B6F5 /* View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				2E7B9B1E2132DA8A00E4B6F5 /* ProductSummaryView.swift */,
+			);
+			path = "View Controller";
+			sourceTree = "<group>";
+		};
 		2EC6F11021329938002F6400 /* Navigator */ = {
 			isa = PBXGroup;
 			children = (
@@ -518,6 +548,8 @@
 				1C05A2212040BA51007DB1DA /* ProductSelectorView.swift in Sources */,
 				2E71A9182131985D009D24A9 /* ProductExtraSectionController.swift in Sources */,
 				2E71A9302131D8D6009D24A9 /* Assembly+Listing.swift in Sources */,
+				2E7B9B212132DAAF00E4B6F5 /* ProductSummaryViewController.swift in Sources */,
+				2E7B9B1F2132DA8A00E4B6F5 /* ProductSummaryView.swift in Sources */,
 				2E71A9062131873B009D24A9 /* ProductExtrasView.swift in Sources */,
 				1CC119182041A8B500ED6369 /* ProductPriceViewModelType.swift in Sources */,
 				1C05A21B2040B879007DB1DA /* ProductSelectorViewModel.swift in Sources */,
