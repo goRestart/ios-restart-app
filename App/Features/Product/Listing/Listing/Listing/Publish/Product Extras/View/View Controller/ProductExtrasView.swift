@@ -73,8 +73,8 @@ final class ProductExtrasView: View {
 
 extension Reactive where Base: ProductExtrasView {
   var productExtras: Binder<[ProductExtraUIModel]> {
-    return Binder(self.base) { view, extras in
-      view.listAdapterDataSource?.productExtras = extras
+    return Binder(self.base) { view, productExtras in
+      view.listAdapterDataSource?.set(productExtras)
       view.listAdapter.performUpdates(animated: true)
     }
   }

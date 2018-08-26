@@ -4,12 +4,16 @@ import RxSwift
 
 final class ProductExtrasListAdapter: NSObject, ListAdapterDataSource {
   
-  var productExtras = [ProductExtraUIModel]()
+  private var productExtras = [ProductExtraUIModel]()
   
   private let state: PublishSubject<ProductExtraEvent>
   
   init(state: PublishSubject<ProductExtraEvent>) {
     self.state = state
+  }
+  
+  func set(_ productExtras: [ProductExtraUIModel]) {
+    self.productExtras = productExtras
   }
   
   func objects(for listAdapter: ListAdapter) -> [ListDiffable] {

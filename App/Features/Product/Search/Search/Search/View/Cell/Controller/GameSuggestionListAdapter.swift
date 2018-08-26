@@ -1,14 +1,19 @@
 import IGListKit
 import RxSwift
+import UIKit
 
 final class GameSuggestionListAdapter: NSObject, ListAdapterDataSource {
 
-  var suggestions = [GameSuggestionUIModel]()
+  private var suggestions = [GameSuggestionUIModel]()
 
   private let state: PublishSubject<GameSuggestionEvent>
 
   init(state: PublishSubject<GameSuggestionEvent>) {
     self.state = state
+  }
+  
+  func set(_ suggestions: [GameSuggestionUIModel]) {
+    self.suggestions = suggestions
   }
   
   func objects(for listAdapter: ListAdapter) -> [ListDiffable] {
