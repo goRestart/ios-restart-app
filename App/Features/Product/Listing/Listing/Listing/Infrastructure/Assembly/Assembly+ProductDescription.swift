@@ -9,7 +9,7 @@ extension Assembly: ProductDescriptionProvider {
     let viewController = ProductDescriptionViewController(
       viewBinder: viewBinder
     )
-    viewController.viewModel = viewModel
+    viewController.viewModel = viewModel(from: viewController)
     return viewController
   }
   
@@ -17,8 +17,10 @@ extension Assembly: ProductDescriptionProvider {
     return ProductDescriptionViewBinder()
   }
 
-  private var viewModel: ProductDescriptionViewModelType {
-    return ProductDescriptionViewModel()
+  private func viewModel(from viewController: UIViewController) -> ProductDescriptionViewModelType {
+    return ProductDescriptionViewModel(
+      productPriceNavigator: productPriceNavigator(from: viewController)
+    )
   }
 }
 

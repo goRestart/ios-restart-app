@@ -16,12 +16,12 @@ final class ProductPriceViewController: ViewController {
   override func loadView() {
     self.view = productPriceView
   }
-
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    title = Localize("product_price.title", table: Table.productPrice)
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    productPriceView.becomeFirstResponder()
   }
-
+  
   override func bindViewModel() {
     viewBinder.bind(view: productPriceView, to: viewModel, using: bag)
   }

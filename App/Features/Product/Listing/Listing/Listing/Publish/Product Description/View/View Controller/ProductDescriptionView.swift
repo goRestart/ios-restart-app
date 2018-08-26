@@ -16,11 +16,20 @@ final class ProductDescriptionView: View {
     return textView
   }()
 
+  fileprivate let nextButton: FullWidthButton = {
+    let button = FullWidthButton()
+    button.radiusDisabled = true
+    let title = Localize("product_description.next_button.title", Table.productDescription).uppercased()
+    button.setTitle(title, for: .normal)
+    return button
+  }()
+  
   private let bag = DisposeBag()
   
   override func setupView() {
     addSubview(titleView)
     addSubview(textView)
+    addSubview(nextButton)
     textView.becomeFirstResponder()
   }
 
@@ -36,13 +45,19 @@ final class ProductDescriptionView: View {
       make.top.equalTo(safeAreaLayoutGuide.snp.top)
     }
 
-    Keyboard.subscribe(to: [.willShow]).subscribe(onNext: { [titleView, textView] keyboard in
-      textView.snp.remakeConstraints ({ make in
+    Keyboard.subscribe(to: [.willShow]).subscribe(onNext: { [titleView, textView, nextButton] keyboard in
+      nextButton.snp.remakeConstraints { make in
+        make.leading.equalTo(self)
+        make.trailing.equalTo(self)
+        make.bottom.equalTo(-keyboard.endFrame.height)
+      }
+      
+      textView.snp.remakeConstraints { make in
         make.leading.equalTo(self).offset(Margin.medium)
         make.top.equalTo(titleView.snp.bottom).offset(Margin.medium)
         make.trailing.equalTo(self).offset(-Margin.medium)
-        make.bottom.equalTo(-keyboard.endFrame.height - Margin.medium)
-      })
+        make.bottom.equalTo(nextButton.snp.top)
+      }
     }).disposed(by: bag)
   }
 }
@@ -52,5 +67,13 @@ final class ProductDescriptionView: View {
 extension Reactive where Base: ProductDescriptionView {
   var productDescription: ControlProperty<String> {
     return base.textView.rx.value.orEmpty
+  }
+  
+  var nextButtonWasTapped: Observable<Void> {
+    return base.nextButton.rx.buttonWasTapped
+  }
+  
+  var nextButtonIsEnabled: Binder<Bool> {
+    return base.nextButton.rx.isEnabled
   }
 }
