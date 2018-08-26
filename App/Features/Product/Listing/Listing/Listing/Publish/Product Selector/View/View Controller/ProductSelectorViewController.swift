@@ -18,11 +18,6 @@ final class ProductSelectorViewController: ViewController {
   override func loadView() {
     self.view = productSelectorView
   }
-
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    title = Localize("product_selector.title", table: Table.productSelector)
-  }
   
   override func bindViewModel() {
     viewBinder.bind(view: productSelectorView, to: viewModel, using: bag)

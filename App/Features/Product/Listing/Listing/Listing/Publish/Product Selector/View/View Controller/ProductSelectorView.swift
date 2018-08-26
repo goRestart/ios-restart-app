@@ -5,6 +5,12 @@ import Core
 import RxSwift
 
 final class ProductSelectorView: View {
+  private let titleView: TitleView = {
+    let titleView = TitleView()
+    titleView.title = Localize("product_selector.title", table: Table.productSelector)
+    return titleView
+  }()
+  
   fileprivate var inputTextField: UITextField = {
     let textField = UITextField()
     textField.placeholder = Localize("product_selector.search.input.placeholder", table: Table.productSelector)
@@ -17,6 +23,7 @@ final class ProductSelectorView: View {
   private let bag = DisposeBag()
   
   override func setupView() {
+    addSubview(titleView)
     addSubview(inputTextField)
     addSubview(searchView)
 
@@ -26,9 +33,14 @@ final class ProductSelectorView: View {
   }
 
   override func setupConstraints() {
+    titleView.snp.makeConstraints { make in
+      make.leading.equalTo(self)
+      make.trailing.equalTo(self)
+      make.top.equalTo(safeAreaLayoutGuide.snp.top)
+    }
     inputTextField.snp.makeConstraints { make in
       make.leading.equalTo(self).offset(Margin.medium)
-      make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(Margin.medium)
+      make.top.equalTo(titleView.snp.bottom).offset(Margin.medium)
       make.trailing.equalTo(self).offset(-Margin.medium)
     }
 
