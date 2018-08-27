@@ -67,6 +67,8 @@
 "bump_up_view_pay_title" = "Nå ut till dubbelt så många köpare";
 "cached_feed_error" = "Ett fel inträffade när de nya annonserna skulle läggas upp.";
 "cached_feed_new_listings" = "Nya varor";
+"car_promo_cell_title_bold_text" = "Tjäna pengar";
+"car_promo_cell_title_regular_text" = "genom att sälja bilen";
 "categories_baby_and_child" = "Bebis och barn";
 "categories_car" = "Bilar";
 "categories_cars_and_motors" = "Motorer och tillbehör";
@@ -86,7 +88,7 @@
 "categories_inFeed_real_estate_title" = "Bostad";
 "categories_inFeed_services" = "Tjänster";
 "categories_inFeed_sports_leisure_games" = "Fritid";
-"categories_jobs_services" = "Jobs & Services";
+"categories_jobs_services" = "Jobb & Tjänster";
 "categories_movies_books_and_music" = "Filmer, böcker och musik";
 "categories_other" = "Övrigt";
 "categories_real_estate" = "Bostad";
@@ -378,11 +380,11 @@
 "discarded_products_reason_poor_ad_quality" = "Bryter mot våra användartips";
 "discarded_products_reason_reference_to_competitors" = "Hänvisar till andra appar eller webbplatser";
 "discarded_products_reason_stock_photo_only" = "Innehåller endast stockfoton";
-"edit_jobsServices_jobs_option_title" = "Jobs";
-"edit_jobsServices_listingType_title" = "Type of listing";
-"edit_jobsServices_serviceSubtype_title" = "Subtype";
-"edit_jobsServices_serviceType_title" = "Type";
-"edit_jobsServices_services_option_title" = "Services";
+"edit_jobsServices_jobs_option_title" = "Jobb";
+"edit_jobsServices_listingType_title" = "Typ av annons";
+"edit_jobsServices_serviceSubtype_title" = "Undertyp";
+"edit_jobsServices_serviceType_title" = "Typ";
+"edit_jobsServices_services_option_title" = "Tjänster";
 "edit_paymentFrequency_placeholder" = "Ej Vald";
 "edit_paymentFrequency_title" = "Frekvens";
 "edit_priceType_choose_title" = "Välj ett alternativ";
@@ -445,6 +447,10 @@
 "filters_cars_transmission_manual" = "Manuell";
 "filters_cars_transmission_title" = "Växellåda";
 "filters_distance_not_set" = "inte vald";
+"filters_jobs_services_header" = "Jobb eller Tjänst Info";
+"filters_jobs_services_subtype_title" = "Undertyp";
+"filters_jobs_services_toggle_header" = "Letar efter...";
+"filters_jobs_services_type_title" = "Typ";
 "filters_mileage_slider_title" = "Miltal";
 "filters_navbar_reset" = "Återställ";
 "filters_numberOfSeats_slider_title" = "Säten";
@@ -752,6 +758,7 @@
 "post_description_info_title" = "INFORMATION";
 "post_description_name_placeholder" = "Namn";
 "post_description_save_button_text" = "Spara annonsen!";
+"post_details_jobs_services_camera_message" = "Lägg upp din företagslogga eller en bild som visar vilken tjänst eller vilket obb du erbjuder";
 "post_details_jobs_services_step_option_jobs_prefix" = "Behöver anlita någon för";
 "post_details_jobs_services_step_option_services_prefix" = "Annonserar...";
 "post_details_jobs_services_step_title" = "Jag är...";
@@ -1281,8 +1288,8 @@
 "reporting_user_problem_meetup_header" = "VAD HÄNDE?";
 "reporting_user_report_sent_block_user_A_text" = "Tack för din anonyma anmälan och din hjälp till att göra letgo det bästa stället för att köpa och sälja lokalt.\n\nDu kan alltid blockera en användare för att säkerställa att hen inte kan se dina annonser eller chatta med dig.";
 "reporting_user_report_sent_block_user_A_with_review_text" = "Tack för din anonyma anmälan och din hjälp till att göra letgo det bästa stället för att köpa och sälja lokalt.\n\nTänk på att dela med dig av din erfarenhet av denna säljare med andra användare genom att lämna ett omdöme.\n\nDu kan alltid blockera en användare för att säkerställa att hen inte kan se dina annonser eller chatta med dig.";
-"reporting_user_report_sent_block_user_B_text" = "Tack för din anonyma anmälan och din hjälp till att göra letgo det bästa stället för att köpa och sälja lokalt.\n\nVårt team kommer att granska din anmälan. Under tiden kan du alltid blockera en användare för att säkerställa att hen inte kan se dina annonser eller chatta med dig.";
-"reporting_user_report_sent_block_user_B_with_review_text" = "Tack för din anonyma anmälan och din hjälp till att göra letgo det bästa stället för att köpa och sälja lokalt.\n\nTänk på att dela med dig av din erfarenhet av denna säljare med andra användare genom att lämna ett omdöme.\n\nVårt team kommer att granska din anmälan. Under tiden kan du alltid blockera en användare för att säkerställa att hen inte kan se dina annonser eller chatta med dig.";
+"reporting_user_report_sent_block_user_B_text" = "Tack för din anonyma anmälan och din hjälp till att göra letgo till det bästa stället för att köpa och sälja lokalt.\n\nVårt team kommer att granska din anmälan. Under tiden kan du alltid blockera en användare för att säkerställa att hen inte kan se dina annonser eller chatta med dig.";
+"reporting_user_report_sent_block_user_B_with_review_text" = "Tack för din anonyma anmälan och din hjälp till att göra letgo till det bästa stället för att köpa och sälja lokalt.\n\nTänk på att dela med dig av din erfarenhet av denna säljare med andra användare genom att lämna ett omdöme.\n\nVårt team kommer att granska din anmälan. Under tiden kan du alltid blockera en användare för att säkerställa att hen inte kan se dina annonser eller chatta med dig.";
 "reporting_user_report_sent_block_user_big_button_title" = "Blockera anmäld användare";
 "reporting_user_report_sent_block_user_small_button_title" = "Blockera";
 "reporting_user_report_sent_law_enforcement_and_block_text" = "Vi beklagar verkligen din otrevliga erfarenhet. Vi rekommenderar starkt att kontakta de relevanta lokala myndigheterna och polisanmäla händelsen så fort som möjligt (om du inte redan har gjort det).\n\nVänligen påminn polisen att kontakta letgos juridiska team på lawenforcement@letgo.com så vi kan bistå utredningen på bästa möjliga sätt. Vi kan dela relevant information om %@ med polisen, men på grund av strikta personuppgiftslagar behöver vi först ett beslut från polisen eller en domstol. Under tiden ber vi dig att lämna ytterligare information så att vårt team kan undersöka ditt ärende.\n\nTänk på att du alltid kan blockera en användare för att säkerställa att hen inte kan se dina annonser eller chatta med dig.";

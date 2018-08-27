@@ -273,9 +273,7 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
     }
 }
 
-
 extension PostingDetailsViewModelSpec: PostListingNavigator {
-
     func closePostServicesAndPostLater(params: [ListingCreationParams],
                                        images: [UIImage]?,
                                        trackingInfo: PostListingTrackingInfo) {

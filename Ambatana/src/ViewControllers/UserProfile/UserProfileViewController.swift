@@ -63,6 +63,8 @@ final class UserProfileViewController: BaseViewController {
         }
     }
 
+    private var tabsContentOffsetState = [CGPoint](repeating: CGPoint(x: 0, y: -Layout.tabsHeight), count: 4)
+
     private let userNavBarAnimationDelta: CGFloat = 40.0
     private let userNavBarAnimationStartOffset: CGFloat = 44.0
 
@@ -438,10 +440,21 @@ extension UserProfileViewController {
 // MARK: - Tabs Delegate
 
 extension UserProfileViewController: UserProfileTabsViewDelegate {
-    func didSelect(tab: UserProfileTabType) {
-        viewModel.selectedTab.value = tab
-        listingView.isHidden = tab == .reviews
-        tableView.isHidden = tab != .reviews
+    func didSelect(tab newTab: UserProfileTabType) {
+        // Store current tab offset state
+        let scrollView = newTab == .reviews ? tableView : listingView.collectionView
+        let previousTab = viewModel.selectedTab.value
+        tabsContentOffsetState[previousTab.rawValue] = CGPoint(x: 0, y: max(scrollView.contentOffset.y, -Layout.tabsHeight))
+
+        // Handle tab content visibility
+        viewModel.selectedTab.value = newTab
+        listingView.isHidden = newTab == .reviews
+        tableView.isHidden = newTab != .reviews
+
+        // Set new tab offset state (previously stored)
+        if scrollView.contentOffset.y >= -Layout.tabsHeight {
+            scrollView.setContentOffset(tabsContentOffsetState[newTab.rawValue], animated: false)
+        }
     }
 }
 

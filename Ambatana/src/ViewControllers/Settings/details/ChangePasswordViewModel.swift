@@ -39,7 +39,7 @@ class ChangePasswordViewModel: BaseViewModel {
    
     weak var delegate : ChangePasswordViewModelDelegate?
     
-    var router: ChangePasswordRouter?
+    var router: ChangePasswordNavigator?
     
     private let myUserRepository: MyUserRepository
     private var token: String?

@@ -4,7 +4,7 @@ import LGComponents
 
 protocol PostListingViewModelDelegate: BaseViewModelDelegate {}
 
-enum PostingSource {
+enum PostingSource: String {
     case tabBar
     case deepLink
     case onboardingButton
@@ -13,6 +13,7 @@ enum PostingSource {
     case notifications
     case deleteListing
     case realEstatePromo
+    case carPromo
     case chatList
     case listingList
     case profile
@@ -200,9 +201,9 @@ class PostListingViewModel: BaseViewModel {
     }
 
     private func setupCategories() {
-        categoryRepository.index(servicesIncluded: false, carsIncluded: false, realEstateIncluded: false) { [weak self] result in
+        categoryRepository.index { [weak self] result in
             guard let categories = result.value else { return }
-            self?.categories = categories
+            self?.categories = categories.filteringBy([.cars, .realEstate, .services, .unassigned])
         }
     }
 
@@ -568,8 +569,12 @@ fileprivate extension PostListingViewModel {
                 guard let _ = self?.state.value else { return }
                 self?.navigator?.cancelPostListing()
             }
-            navigator?.openLoginIfNeededFromListingPosted(from: .sell, loggedInAction: loggedInAction, cancelAction: cancelAction)
-
+            
+            navigator?.openLoginIfNeededFromListingPosted(
+                from: .sell,
+                loggedInAction: loggedInAction,
+                cancelAction: cancelAction
+            )
         } else {
             navigator?.cancelPostListing()
         }
@@ -687,6 +692,8 @@ extension PostingSource {
             return .listingDelete
         case .realEstatePromo:
             return .realEstatePromo
+        case .carPromo:
+            return .carPromo
         case .chatList:
             return .chatList
         case .listingList:
@@ -706,6 +713,8 @@ extension PostingSource {
             return .startMakingCash
         case .realEstatePromo:
             return .realEstatePromo
+        case .carPromo:
+            return .carPromo
         }
     }
     
@@ -720,6 +729,8 @@ extension PostingSource {
             return .none
         case .realEstatePromo:
             return .realEstatePromo
+        case .carPromo:
+            return .carPromo
         }
     }
 }

@@ -817,7 +817,8 @@ class TrackerEventSpec: QuickSpec {
                                                    searchQuery: searchQuery,
                                                    resultsCount: count,
                                                    feedSource: .home,
-                                                   success: .trueParameter)
+                                                   success: .trueParameter,
+                                                   recentItems: .falseParameter)
                 }
                 
                 it("has its event name") {
@@ -844,6 +845,9 @@ class TrackerEventSpec: QuickSpec {
                     } else {
                         expect(sut.params!.stringKeyParams["number-of-items"] as? String).to(equal("\(count)"))
                     }
+                }
+                it("contains recentItems parameter with false value") {
+                    expect(sut.params!.stringKeyParams["recent-items"] as? String).to(equal("false"))
                 }
             }
             
@@ -5735,6 +5739,7 @@ class TrackerEventSpec: QuickSpec {
                     }
                 }
             }
+            
             describe("Open Community") {
                 describe("From product list") {
                     beforeEach {
@@ -5757,6 +5762,15 @@ class TrackerEventSpec: QuickSpec {
                     it("event name is open-community") {
                         expect(sut.name.rawValue) == "open-community"
                     }
+                }
+            }
+            
+            describe("Show new items badge") {
+                beforeEach {
+                    sut = TrackerEvent.showNewItemsBadge()
+                }
+                it("event name is show-new-items-badge") {
+                    expect(sut.name.rawValue) == "show-new-items-badge"
                 }
             }
         }

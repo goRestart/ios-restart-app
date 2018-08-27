@@ -51,6 +51,13 @@ extension Listing {
             return nil
         }
     }
+    
+    
+    var paymentFrequencyString: String? {
+        guard price.value > 0 else { return nil }
+        
+        return service?.servicesAttributes.paymentFrequency?.perValueDisplayName
+    }
 }
 
 extension Product {

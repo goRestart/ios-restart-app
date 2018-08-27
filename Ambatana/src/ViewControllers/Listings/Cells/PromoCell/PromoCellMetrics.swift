@@ -8,6 +8,8 @@ struct PromoCellMetrics {
         static let margin: CGFloat = Metrics.margin
         static let bottomMargin: CGFloat = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus) ? Metrics.shortMargin :
             Metrics.margin
+        static let largeMargin: CGFloat = 32.0
+        static let largeBottomMargin: CGFloat = 32.0
     }
     
     struct Title {

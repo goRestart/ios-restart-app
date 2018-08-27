@@ -66,7 +66,6 @@ protocol ListingDetailNavigator: class {
     func openAppRating(_ source: EventParameterRatingSource)
     func openUser(_ data: UserDetailData)
     func openUserVerificationView()
-
     func closeProductDetail()
     func editListing(_ listing: Listing,
                      bumpUpProductData: BumpUpProductData?,
@@ -104,15 +103,8 @@ protocol ListingDetailNavigator: class {
     func showBumpUpBoostSucceededAlert()
     func openContactUs(forListing listing: Listing, contactUstype: ContactUsType)
     func openFeaturedInfo()
-    func closeFeaturedInfo()
 
     func openAskPhoneFor(listing: Listing, interlocutor: User?)
-    func closeAskPhoneFor(listing: Listing,
-                          openChat: Bool,
-                          withPhoneNum: String?,
-                          source: EventParameterTypePage,
-                          interlocutor: User?)
-
     func openVideoPlayer(atIndex index: Int, listingVM: ListingViewModel, source: EventParameterListingVisitSource)
     
     func openListingAttributeTable(withViewModel viewModel: ListingAttributeTableViewModel)

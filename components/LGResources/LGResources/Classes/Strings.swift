@@ -156,6 +156,10 @@ extension R {
     public static let cachedFeedError = Strings.tr("Localizable", "cached_feed_error")
     /// New items
     public static let cachedFeedNewListings = Strings.tr("Localizable", "cached_feed_new_listings")
+    /// Make money
+    public static let carPromoCellTitleBoldText = Strings.tr("Localizable", "car_promo_cell_title_bold_text")
+    /// selling your car
+    public static let carPromoCellTitleRegularText = Strings.tr("Localizable", "car_promo_cell_title_regular_text")
     /// Baby and Child
     public static let categoriesBabyAndChild = Strings.tr("Localizable", "categories_baby_and_child")
     /// Cars
@@ -970,7 +974,7 @@ extension R {
     public static let filtersCarsTransmissionTitle = Strings.tr("Localizable", "filters_cars_transmission_title")
     /// not set
     public static let filtersDistanceNotSet = Strings.tr("Localizable", "filters_distance_not_set")
-    /// Job & Service Info
+    /// Job or Service Info
     public static let filtersJobsServicesHeader = Strings.tr("Localizable", "filters_jobs_services_header")
     /// Subtype
     public static let filtersJobsServicesSubtypeTitle = Strings.tr("Localizable", "filters_jobs_services_subtype_title")
@@ -1654,6 +1658,8 @@ extension R {
     public static let postDescriptionNamePlaceholder = Strings.tr("Localizable", "post_description_name_placeholder")
     /// Save this listing!
     public static let postDescriptionSaveButtonText = Strings.tr("Localizable", "post_description_save_button_text")
+    /// Post your company’s logo or a photo that shows the service or job you’re offering
+    public static let postDetailsJobsServicesCameraMessage = Strings.tr("Localizable", "post_details_jobs_services_camera_message")
     /// Looking to hire someone for a
     public static let postDetailsJobsServicesStepOptionJobsPrefix = Strings.tr("Localizable", "post_details_jobs_services_step_option_jobs_prefix")
     /// Advertising a
@@ -2804,9 +2810,9 @@ extension R {
     public static let reportingUserReportSentBlockUserAText = Strings.tr("Localizable", "reporting_user_report_sent_block_user_A_text")
     /// Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nBe sure to leave a review of this seller to let others know about your experience.\n\nYou can always block a user to make sure they can no longer see your items or chat with you.
     public static let reportingUserReportSentBlockUserAWithReviewText = Strings.tr("Localizable", "reporting_user_report_sent_block_user_A_with_review_text")
-    /// Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nOur team will investigate your claim, in the meantime, you can always block a user to make sure they can no longer see your items or chat with you.
+    /// Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nOur team will investigate your claim. In the meantime, you can always block a user to make sure they can no longer see your items or chat with you.
     public static let reportingUserReportSentBlockUserBText = Strings.tr("Localizable", "reporting_user_report_sent_block_user_B_text")
-    /// Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nBe sure to leave a review of this user to let others know about your experience.\n\nOur team will investigate your claim, in the meantime,  you can always block a user to make sure they can no longer see your items or chat with you.
+    /// Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nBe sure to leave a review of this user to let others know about your experience.\n\nOur team will investigate your claim. In the meantime, you can always block a user to make sure they can no longer see your items or chat with you.
     public static let reportingUserReportSentBlockUserBWithReviewText = Strings.tr("Localizable", "reporting_user_report_sent_block_user_B_with_review_text")
     /// Block reported user
     public static let reportingUserReportSentBlockUserBigButtonTitle = Strings.tr("Localizable", "reporting_user_report_sent_block_user_big_button_title")

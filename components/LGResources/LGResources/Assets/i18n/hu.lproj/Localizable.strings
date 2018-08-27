@@ -67,6 +67,8 @@
 "bump_up_view_pay_title" = "Keltsd fel kétszer több vásárló érdeklődését";
 "cached_feed_error" = "Hiba történt az új hirdetések betöltése során";
 "cached_feed_new_listings" = "Új tárgyak";
+"car_promo_cell_title_bold_text" = "Make money";
+"car_promo_cell_title_regular_text" = "selling your car";
 "categories_baby_and_child" = "Baba és gyerek";
 "categories_car" = "Autó";
 "categories_cars_and_motors" = "Egyéb járművek és alkatrészek";
@@ -86,7 +88,7 @@
 "categories_inFeed_real_estate_title" = "Ingatlan";
 "categories_inFeed_services" = "Szolgáltatások";
 "categories_inFeed_sports_leisure_games" = "Szabadidő";
-"categories_jobs_services" = "Jobs & Services";
+"categories_jobs_services" = "Munkák és szolgáltatások";
 "categories_movies_books_and_music" = "Filmek, könyvek, zenék";
 "categories_other" = "Egyéb";
 "categories_real_estate" = "Ingatlan";
@@ -378,11 +380,11 @@
 "discarded_products_reason_poor_ad_quality" = "Nem felel meg a bevált módszereknek";
 "discarded_products_reason_reference_to_competitors" = "Más alkalmazásokra vagy weboldalakra hivatkozik";
 "discarded_products_reason_stock_photo_only" = "Csak hivatalos képeket tartalmaz";
-"edit_jobsServices_jobs_option_title" = "Jobs";
-"edit_jobsServices_listingType_title" = "Type of listing";
-"edit_jobsServices_serviceSubtype_title" = "Subtype";
-"edit_jobsServices_serviceType_title" = "Type";
-"edit_jobsServices_services_option_title" = "Services";
+"edit_jobsServices_jobs_option_title" = "Munkák";
+"edit_jobsServices_listingType_title" = "Hirdetés típusa";
+"edit_jobsServices_serviceSubtype_title" = "Altípus";
+"edit_jobsServices_serviceType_title" = "Típus";
+"edit_jobsServices_services_option_title" = "Szolgáltatások";
 "edit_paymentFrequency_placeholder" = "Nincs Megadva";
 "edit_paymentFrequency_title" = "Gyakoriság";
 "edit_priceType_choose_title" = "Válassz egy lehetőséget";
@@ -445,6 +447,10 @@
 "filters_cars_transmission_manual" = "Manuális";
 "filters_cars_transmission_title" = "Váltó";
 "filters_distance_not_set" = "nincs megadva";
+"filters_jobs_services_header" = "Munka- vagy szolgáltatásinfó";
+"filters_jobs_services_subtype_title" = "Altípus";
+"filters_jobs_services_toggle_header" = "Keresek...";
+"filters_jobs_services_type_title" = "Típus";
 "filters_mileage_slider_title" = "Megtett mérföld";
 "filters_navbar_reset" = "Mégse";
 "filters_numberOfSeats_slider_title" = "Ülések";
@@ -752,6 +758,7 @@
 "post_description_info_title" = "HIRDETÉSINFORMÁCIÓK";
 "post_description_name_placeholder" = "Név";
 "post_description_save_button_text" = "Mentsd el a hirdetést!";
+"post_details_jobs_services_camera_message" = "Post your company’s logo or a photo that shows the service or job you’re offering";
 "post_details_jobs_services_step_option_jobs_prefix" = "felbérelni valakit, hogy nyújtson egy";
 "post_details_jobs_services_step_option_services_prefix" = "hirdetni egy";
 "post_details_jobs_services_step_title" = "Szeretnék...";

@@ -202,6 +202,12 @@
 // Text for telling the user that there are fresh listings.
 "cached_feed_new_listings" = "New items";
 
+// First part of car promo cell text (bolded)
+"car_promo_cell_title_bold_text" = "Make money";
+
+// Second part of car promo cell text (regular)
+"car_promo_cell_title_regular_text" = "selling your car";
+
 // Categories baby and child. Check attached image "categories (2).png"
 "categories_baby_and_child" = "Baby and Child";
 
@@ -1454,7 +1460,7 @@
 "filters_jobs_services_toggle_header" = "Looking for...";
 
 // Section header text for jobs and services filters
-"filters_jobs_services_header" = "Job & Service Info";
+"filters_jobs_services_header" = "Job or Service Info";
 
 // Title for Jobs and Services Type filter
 "filters_jobs_services_type_title" = "Type";
@@ -2304,6 +2310,9 @@
 
 // Posting Camera title for services
 "post_details_services_camera_message" = "Post your company’s logo or a photo that shows the service you offer";
+
+// Posting camera title for jobs & services
+"post_details_jobs_services_camera_message" = "Post your company’s logo or a photo that shows the service or job you’re offering";
 
 // Title for Jobs/Services posting flow title
 "post_details_jobs_services_step_title" = "I'm...";
@@ -3885,10 +3894,10 @@
 "reporting_user_report_sent_block_user_A_with_review_text" = "Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nBe sure to leave a review of this seller to let others know about your experience.\n\nYou can always block a user to make sure they can no longer see your items or chat with you.";
 
 // Text Shown in the "block user" thank you screen (version B)
-"reporting_user_report_sent_block_user_B_text" = "Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nOur team will investigate your claim, in the meantime, you can always block a user to make sure they can no longer see your items or chat with you.";
+"reporting_user_report_sent_block_user_B_text" = "Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nOur team will investigate your claim. In the meantime, you can always block a user to make sure they can no longer see your items or chat with you.";
 
 // Text Shown in the "block user" thank you screen when the user can leave a review (version A)
-"reporting_user_report_sent_block_user_B_with_review_text" = "Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nBe sure to leave a review of this user to let others know about your experience.\n\nOur team will investigate your claim, in the meantime,  you can always block a user to make sure they can no longer see your items or chat with you.";
+"reporting_user_report_sent_block_user_B_with_review_text" = "Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nBe sure to leave a review of this user to let others know about your experience.\n\nOur team will investigate your claim. In the meantime, you can always block a user to make sure they can no longer see your items or chat with you.";
 
 // Text Shown in the "Law enforcement" thank you screen
 "reporting_user_report_sent_law_enforcement_text" = "We're very sorry about your experience but thankful that you are now safe.\n\nWe strongly encourage you to reach out to local law enforcement and file a police report as soon as possible (if you haven't already done so).\n\nPlease remind the police to contact letgo’s law enforcement team at lawenforcement@letgo.com so we can help with their investigation.\n\nWe can share relevant information about %@ with police but, due to strict privacy protection laws, we need them to send us a valid search warrant or subpoena first.";

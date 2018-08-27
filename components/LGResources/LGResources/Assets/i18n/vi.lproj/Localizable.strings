@@ -67,6 +67,8 @@
 "bump_up_view_pay_title" = "Thu hút thêm 2x người mua";
 "cached_feed_error" = "Có lỗi xảy ra trong khi tải bài đăng mới";
 "cached_feed_new_listings" = "Đồ mới";
+"car_promo_cell_title_bold_text" = "Kiếm tiền";
+"car_promo_cell_title_regular_text" = "bán xe của bạn";
 "categories_baby_and_child" = "Trẻ sơ sinh và Trẻ nhỏ";
 "categories_car" = "Xe hơi";
 "categories_cars_and_motors" = "Xe máy và Phụ kiện";
@@ -86,7 +88,7 @@
 "categories_inFeed_real_estate_title" = "Bất động sản";
 "categories_inFeed_services" = "Dịch vụ";
 "categories_inFeed_sports_leisure_games" = "Nghỉ ngơi";
-"categories_jobs_services" = "Jobs & Services";
+"categories_jobs_services" = "Công việc & Dịch vụ";
 "categories_movies_books_and_music" = "Phim, Sách và Âm nhạc";
 "categories_other" = "Khác";
 "categories_real_estate" = "Nhà đất";
@@ -378,11 +380,11 @@
 "discarded_products_reason_poor_ad_quality" = "Không tuân theo thực hành tốt nhất";
 "discarded_products_reason_reference_to_competitors" = "Gợi ý tới ứng dụng hoặc trang web khác";
 "discarded_products_reason_stock_photo_only" = "Chỉ có ảnh trên mạng";
-"edit_jobsServices_jobs_option_title" = "Jobs";
-"edit_jobsServices_listingType_title" = "Type of listing";
-"edit_jobsServices_serviceSubtype_title" = "Subtype";
-"edit_jobsServices_serviceType_title" = "Type";
-"edit_jobsServices_services_option_title" = "Services";
+"edit_jobsServices_jobs_option_title" = "Công việc";
+"edit_jobsServices_listingType_title" = "Loại Bài đăng";
+"edit_jobsServices_serviceSubtype_title" = "Tiểu loại";
+"edit_jobsServices_serviceType_title" = "Loại";
+"edit_jobsServices_services_option_title" = "Dịch vụ";
 "edit_paymentFrequency_placeholder" = "Chưa thiết lập";
 "edit_paymentFrequency_title" = "Mức độ thường xuyên";
 "edit_priceType_choose_title" = "Chọn một tùy chọn";
@@ -445,6 +447,10 @@
 "filters_cars_transmission_manual" = "Số sàn";
 "filters_cars_transmission_title" = "Cơ cấu truyền động";
 "filters_distance_not_set" = "chưa được cài đặt";
+"filters_jobs_services_header" = "Thông tin Công việc hoặc Dịch vụ";
+"filters_jobs_services_subtype_title" = "Tiểu loại";
+"filters_jobs_services_toggle_header" = "Đang tìm kiếm...";
+"filters_jobs_services_type_title" = "Loại";
 "filters_mileage_slider_title" = "Số km đã đi";
 "filters_navbar_reset" = "Xóa";
 "filters_numberOfSeats_slider_title" = "Chỗ";
@@ -752,6 +758,7 @@
 "post_description_info_title" = "THÔNG TIN BÀI ĐĂNG";
 "post_description_name_placeholder" = "Tên";
 "post_description_save_button_text" = "Lưu bài đăng này!";
+"post_details_jobs_services_camera_message" = "Đăng logo công ty của bạn hoặc ảnh hiển thị dịch vụ hay công việc bạn thực hiện";
 "post_details_jobs_services_step_option_jobs_prefix" = "Tìm thuê người cho";
 "post_details_jobs_services_step_option_services_prefix" = "Quảng cáo một";
 "post_details_jobs_services_step_title" = "Tôi là...";

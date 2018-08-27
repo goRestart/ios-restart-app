@@ -67,6 +67,8 @@
 "bump_up_view_pay_title" = "2배 더 많은 구매자들의 관심을 끌어보세요";
 "cached_feed_error" = "새로운 목록을 불러오는 동안 오류가 발생했습니다";
 "cached_feed_new_listings" = "새 상품";
+"car_promo_cell_title_bold_text" = "현금 마련하기";
+"car_promo_cell_title_regular_text" = "selling your car";
 "categories_baby_and_child" = "유아동";
 "categories_car" = "자동차";
 "categories_cars_and_motors" = "다른 운송 수단들과 부품들";
@@ -86,7 +88,7 @@
 "categories_inFeed_real_estate_title" = "부동산";
 "categories_inFeed_services" = "서비스";
 "categories_inFeed_sports_leisure_games" = "레져";
-"categories_jobs_services" = "Jobs & Services";
+"categories_jobs_services" = "구직 & 서비스";
 "categories_movies_books_and_music" = "영화, 도서 및 음악";
 "categories_other" = "기타";
 "categories_real_estate" = "부동산";
@@ -378,11 +380,11 @@
 "discarded_products_reason_poor_ad_quality" = "가장 적절한 예를 따르고 있지 않습니다";
 "discarded_products_reason_reference_to_competitors" = "다른 앱이나 웹사이트로 이끄는 행위";
 "discarded_products_reason_stock_photo_only" = "상품 사진들만 포함하세요";
-"edit_jobsServices_jobs_option_title" = "Jobs";
-"edit_jobsServices_listingType_title" = "Type of listing";
-"edit_jobsServices_serviceSubtype_title" = "Subtype";
-"edit_jobsServices_serviceType_title" = "Type";
-"edit_jobsServices_services_option_title" = "Services";
+"edit_jobsServices_jobs_option_title" = "직업";
+"edit_jobsServices_listingType_title" = "게시글 종류";
+"edit_jobsServices_serviceSubtype_title" = "하위 종류";
+"edit_jobsServices_serviceType_title" = "종류";
+"edit_jobsServices_services_option_title" = "서비스";
 "edit_paymentFrequency_placeholder" = "설정하지 않기";
 "edit_paymentFrequency_title" = "자주 사용하는 기능";
 "edit_priceType_choose_title" = "옵션을 선택하세요";
@@ -445,6 +447,10 @@
 "filters_cars_transmission_manual" = "수동";
 "filters_cars_transmission_title" = "변속기";
 "filters_distance_not_set" = "설정하지 않기";
+"filters_jobs_services_header" = "직업 혹은 서비스 정보";
+"filters_jobs_services_subtype_title" = "하위 종류";
+"filters_jobs_services_toggle_header" = "해당 사항을 검색하고 있습니다...";
+"filters_jobs_services_type_title" = "종류";
 "filters_mileage_slider_title" = "마일리지";
 "filters_navbar_reset" = "리셋";
 "filters_numberOfSeats_slider_title" = "자리";
@@ -752,6 +758,7 @@
 "post_description_info_title" = "상품 목록 정보";
 "post_description_name_placeholder" = "이름";
 "post_description_save_button_text" = "해당 상품 목록 저장하기!";
+"post_details_jobs_services_camera_message" = "기업 로고를 게시하거나 서비스 혹은 제공하는 직업을 보여줄 수 있는 사진을 게시해주세요";
 "post_details_jobs_services_step_option_jobs_prefix" = "구인활동을";
 "post_details_jobs_services_step_option_services_prefix" = "서비스를";
 "post_details_jobs_services_step_title" = "저는...";

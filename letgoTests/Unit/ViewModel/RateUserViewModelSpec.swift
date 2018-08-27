@@ -500,7 +500,7 @@ extension RateUserViewModelSpec: RateUserNavigator {
         navigatorReceivedRateUserSkip = true
     }
     
-    func rateUserFinish(withRating rating: Int) {
+    func rateUserFinish(withRating rating: UserRatingValue) {
         navigatorReceivedRateUserFinishLastValue = rating
     }
 }

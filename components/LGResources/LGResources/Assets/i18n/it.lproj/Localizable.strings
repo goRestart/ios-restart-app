@@ -67,6 +67,8 @@
 "bump_up_view_pay_title" = "Attrai il doppio di acquirenti";
 "cached_feed_error" = "Si è verificato un errore durante il caricamento di nuovi annunci";
 "cached_feed_new_listings" = "Nuovi articoli";
+"car_promo_cell_title_bold_text" = "Guadagna denaro";
+"car_promo_cell_title_regular_text" = "vendendo la tua auto";
 "categories_baby_and_child" = "Bambino e Ragazzo";
 "categories_car" = "Auto";
 "categories_cars_and_motors" = "Auto e accessori";
@@ -86,7 +88,7 @@
 "categories_inFeed_real_estate_title" = "Immobili";
 "categories_inFeed_services" = "Servizi";
 "categories_inFeed_sports_leisure_games" = "tempo libero";
-"categories_jobs_services" = "Jobs & Services";
+"categories_jobs_services" = "Lavori e servizi";
 "categories_movies_books_and_music" = "Film, Libri e Musica";
 "categories_other" = "Altro";
 "categories_real_estate" = "Alloggi";
@@ -378,11 +380,11 @@
 "discarded_products_reason_poor_ad_quality" = "Non rispetta le procedure consigliate";
 "discarded_products_reason_reference_to_competitors" = "Riferimenti ad altre app o siti Web";
 "discarded_products_reason_stock_photo_only" = "Contiene solo foto da catalogo";
-"edit_jobsServices_jobs_option_title" = "Jobs";
-"edit_jobsServices_listingType_title" = "Type of listing";
-"edit_jobsServices_serviceSubtype_title" = "Subtype";
-"edit_jobsServices_serviceType_title" = "Type";
-"edit_jobsServices_services_option_title" = "Services";
+"edit_jobsServices_jobs_option_title" = "Lavoro";
+"edit_jobsServices_listingType_title" = "Tipo di annuncio";
+"edit_jobsServices_serviceSubtype_title" = "Sottotipo";
+"edit_jobsServices_serviceType_title" = "Tipo";
+"edit_jobsServices_services_option_title" = "Servizi";
 "edit_paymentFrequency_placeholder" = "Non impostato";
 "edit_paymentFrequency_title" = "Frequenza";
 "edit_priceType_choose_title" = "Scegli un'opzione";
@@ -445,6 +447,10 @@
 "filters_cars_transmission_manual" = "Manuale";
 "filters_cars_transmission_title" = "Cambio";
 "filters_distance_not_set" = "non impostato";
+"filters_jobs_services_header" = "Informazioni sul servizio o lavoro";
+"filters_jobs_services_subtype_title" = "Sottotipo";
+"filters_jobs_services_toggle_header" = "In cerca di...";
+"filters_jobs_services_type_title" = "Tipo";
 "filters_mileage_slider_title" = "Chilometraggio";
 "filters_navbar_reset" = "Resetta";
 "filters_numberOfSeats_slider_title" = "Posti";
@@ -752,6 +758,7 @@
 "post_description_info_title" = "INFORMAZIONI ANNUNCIO";
 "post_description_name_placeholder" = "Nome";
 "post_description_save_button_text" = "Salva questo annuncio!";
+"post_details_jobs_services_camera_message" = "Pubblica il logo della tua azienda o una foto che mostri il servizio o il lavoro da te offerto";
 "post_details_jobs_services_step_option_jobs_prefix" = "Alla ricerca di assumere qualcuno per un";
 "post_details_jobs_services_step_option_services_prefix" = "Pubblicizza un";
 "post_details_jobs_services_step_title" = "Sono un/una...";

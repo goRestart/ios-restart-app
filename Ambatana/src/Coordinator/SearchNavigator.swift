@@ -3,11 +3,6 @@ import LGCoreKit
 import LGComponents
 
 protocol SearchNavigator: class {
-    func openSearchResults(with searchType: SearchType)
-    func openSearchResults(with searchType: SearchType, filters: ListingFilters)
-    func openFilters(with listingFilters: ListingFilters, dataDelegate: FiltersViewModelDataDelegate?)
-    func openLocationSelection(with place: Place?, distanceRadius: Int?, locationDelegate: EditLocationDelegate)
-    func openMap(requester: ListingListMultiRequester, listingFilters: ListingFilters)
     func openListing(_ data: ListingDetailData,
                      source: EventParameterListingVisitSource,
                      actionOnFirstAppear: ProductCarouselActionOnFirstAppear)
@@ -22,14 +17,15 @@ final class SearchCoordinator: NSObject, Coordinator, SearchNavigator {
     let bubbleNotificationManager: BubbleNotificationManager
     let sessionManager: SessionManager
 
-    private let bumpAssembly: BumpUpAssembly
-    private let listingCoordinator: ListingCoordinator
+    private let deeplinkMailBox: DeepLinkMailBox
+    private let listingNavigator: ListingWireframe
 
     private let navigationController: UINavigationController
 
     convenience init(searchType: SearchType?, query: String?) {
         self.init(searchType: searchType,
                   query: query,
+                  deeplinkMailBox: LGDeepLinkMailBox.sharedInstance,
                   bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
                   sessionManager: Core.sessionManager)
     }
@@ -37,26 +33,26 @@ final class SearchCoordinator: NSObject, Coordinator, SearchNavigator {
     convenience override init() {
         self.init(searchType: nil,
                   query: nil,
+                  deeplinkMailBox: LGDeepLinkMailBox.sharedInstance,
                   bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
                   sessionManager: Core.sessionManager)
     }
 
     init(searchType: SearchType?,
          query: String?,
+         deeplinkMailBox: DeepLinkMailBox,
          bubbleNotificationManager: BubbleNotificationManager,
-         sessionManager: SessionManager) {
+         sessionManager: SessionManager ) {
         let vm = SearchViewModel(searchType: searchType)
         let vc = UINavigationController.init(rootViewController: SearchViewController.init(vm: vm))
         self.navigationController = vc
         self.viewController = vc
-        let userCoordinator = UserCoordinator(navigationController: navigationController)
-        self.listingCoordinator = ListingCoordinator(navigationController: vc,
-                                                     userCoordinator: userCoordinator)
-        userCoordinator.listingCoordinator = listingCoordinator
-        self.bumpAssembly = LGBumpUpBuilder.standard(nav: vc)
+        self.deeplinkMailBox = deeplinkMailBox
 
         self.bubbleNotificationManager = bubbleNotificationManager
         self.sessionManager = sessionManager
+        self.listingNavigator = ListingWireframe(nc: navigationController)
+
         super.init()
         vm.navigator = self
         vc.delegate = self
@@ -73,9 +69,12 @@ final class SearchCoordinator: NSObject, Coordinator, SearchNavigator {
 }
 
 extension SearchCoordinator: TrendingSearchesNavigator {
-    
     func openSearchResults(with searchType: SearchType) {
-        openSearchResults(with: searchType, filters: .init())
+        let oldFeedVM = MainListingsViewModel(searchType: searchType, filters: .init())
+        oldFeedVM.searchNavigator = self
+        oldFeedVM.wireframe = MainListingWireframe(nc: navigationController)
+        let oldFeed = MainListingsViewController(viewModel: oldFeedVM)
+        navigationController.pushViewController(oldFeed, animated: true)
     }
 
     func cancelSearch() {
@@ -83,49 +82,12 @@ extension SearchCoordinator: TrendingSearchesNavigator {
     }
 }
 
-extension SearchCoordinator {
-    func openSearchResults(with searchType: SearchType, filters: ListingFilters) {
-        let oldFeedVM = MainListingsViewModel(searchType: searchType, filters: filters)
-        oldFeedVM.searchNavigator = self
-        let oldFeed = MainListingsViewController(viewModel: oldFeedVM)
-        navigationController.pushViewController(oldFeed, animated: true)
-    }
-
-    func openFilters(with listingFilters: ListingFilters, dataDelegate: FiltersViewModelDataDelegate?) {
-        let vc = LGFiltersBuilder.standard(navigationController: navigationController)
-            .buildFilters(
-                filters: listingFilters,
-                dataDelegate: dataDelegate
-            )
-        navigationController.pushViewController(vc, animated: true)
-    }
-    func openLocationSelection(with place: Place?, distanceRadius: Int?, locationDelegate: EditLocationDelegate) {
-        let vm = EditLocationViewModel(mode: .quickFilterLocation,
-                                       initialPlace: place,
-                                       distanceRadius: distanceRadius)
-        vm.locationDelegate = locationDelegate
-        vm.navigator = self
-        let vc = EditLocationViewController(viewModel: vm)
-        navigationController.pushViewController(vc, animated: true)
-    }
-}
-
-extension SearchCoordinator: EditLocationNavigator {
-    func closeEditLocation() {
-        navigationController.popViewController(animated: true)
-    }
-}
-
 extension SearchCoordinator: ListingsMapNavigator {
-    func openMap(requester: ListingListMultiRequester, listingFilters: ListingFilters) {
-        let viewModel = ListingsMapViewModel(navigator: self, currentFilters: listingFilters)
-        let viewController = ListingsMapViewController(viewModel: viewModel)
-        navigationController.pushViewController(viewController, animated: true)
-    }
 
     func openListing(_ data: ListingDetailData,
                      source: EventParameterListingVisitSource,
                      actionOnFirstAppear: ProductCarouselActionOnFirstAppear) {
+        let listingCoordinator = ListingWireframe(nc: navigationController)
         listingCoordinator.openListing(data, source: source, actionOnFirstAppear: actionOnFirstAppear)
     }
 }

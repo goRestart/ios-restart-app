@@ -31,11 +31,11 @@ enum EditLocationMode {
     }
 }
 
-class EditLocationViewModel: BaseViewModel {
+final class EditLocationViewModel: BaseViewModel {
    
     weak var delegate: EditLocationViewModelDelegate?
-    weak var navigator: EditLocationNavigator?
-    weak var quickLocationFiltersNavigator: QuickLocationFiltersNavigator?
+    var navigator: EditLocationNavigator?
+    var quickLocationFiltersNavigator: QuickLocationFiltersNavigator?
     weak var locationDelegate: EditLocationDelegate?
     
     private let locationManager: LocationManager

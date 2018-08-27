@@ -3,13 +3,14 @@ import LGCoreKit
 import RxSwift
 import LGComponents
 
-class ProfessionalDealerAskPhoneViewModel: BaseViewModel {
+final class ProfessionalDealerAskPhoneViewModel: BaseViewModel {
 
     private let phoneNumber = Variable<String>("")
     let sendPhoneButtonEnabled = Variable<Bool>(false)
     private let disposeBag = DisposeBag()
 
-    weak var navigator: ListingDetailNavigator?
+    var navigator: ProfessionalDealerAskPhoneNavigator?
+
     private let listing: Listing
     private let interlocutor: User?
     private let tracker: Tracker

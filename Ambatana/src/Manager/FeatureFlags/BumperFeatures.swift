@@ -84,7 +84,9 @@ extension Bumper  {
         flags.append(CachedFeed.self)
         flags.append(CopyForSellFasterNowInTurkish.self)
         flags.append(NotificationCenterRedesign.self)
+        flags.append(TurkeyFreePosting.self)
         flags.append(RandomImInterestedMessages.self)
+        flags.append(CarPromoCells.self)
         Bumper.initialize(flags)
     } 
 
@@ -972,6 +974,19 @@ extension Bumper  {
     }
     #endif
 
+    static var turkeyFreePosting: TurkeyFreePosting {
+        guard let value = Bumper.value(for: TurkeyFreePosting.key) else { return .control }
+        return TurkeyFreePosting(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var turkeyFreePostingObservable: Observable<TurkeyFreePosting> {
+        return Bumper.observeValue(for: TurkeyFreePosting.key).map {
+            TurkeyFreePosting(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
     static var randomImInterestedMessages: RandomImInterestedMessages {
         guard let value = Bumper.value(for: RandomImInterestedMessages.key) else { return .control }
         return RandomImInterestedMessages(rawValue: value) ?? .control 
@@ -981,6 +996,19 @@ extension Bumper  {
     static var randomImInterestedMessagesObservable: Observable<RandomImInterestedMessages> {
         return Bumper.observeValue(for: RandomImInterestedMessages.key).map {
             RandomImInterestedMessages(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var carPromoCells: CarPromoCells {
+        guard let value = Bumper.value(for: CarPromoCells.key) else { return .control }
+        return CarPromoCells(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var carPromoCellsObservable: Observable<CarPromoCells> {
+        return Bumper.observeValue(for: CarPromoCells.key).map {
+            CarPromoCells(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -2060,6 +2088,22 @@ enum NotificationCenterRedesign: String, BumperFeature  {
     }
 }
 
+enum TurkeyFreePosting: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return TurkeyFreePosting.control.rawValue }
+    static var enumValues: [TurkeyFreePosting] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[PRODUCTS] Enable Leanplum driven Turkey free posting" } 
+    static func fromPosition(_ position: Int) -> TurkeyFreePosting {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
 enum RandomImInterestedMessages: String, BumperFeature  {
     case control, baseline, active
     static var defaultValue: String { return RandomImInterestedMessages.control.rawValue }
@@ -2071,6 +2115,23 @@ enum RandomImInterestedMessages: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum CarPromoCells: String, BumperFeature  {
+    case control, baseline, variantA, variantB
+    static var defaultValue: String { return CarPromoCells.control.rawValue }
+    static var enumValues: [CarPromoCells] { return [.control, .baseline, .variantA, .variantB]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[CARS] Show promo cells for cars" } 
+    static func fromPosition(_ position: Int) -> CarPromoCells {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .variantA
+            case 3: return .variantB
             default: return .control
         }
     }

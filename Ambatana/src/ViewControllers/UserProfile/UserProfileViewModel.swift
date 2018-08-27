@@ -780,8 +780,7 @@ extension UserProfileViewModel: ListingCellDelegate {
         delegate?.vmShowActionSheet(R.Strings.commonCancel, actions: [delete])
     }
     
-    func postNowButtonPressed(_ view: UIView) { }
-
+    func postNowButtonPressed(_ view: UIView, category: PostCategory, source: PostingSource) {}
     func bumpUpPressedFor(listing: Listing) {
         guard let id = listing.objectId else { return }
         let data = ListingDetailData.id(listingId: id)
