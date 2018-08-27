@@ -1,11 +1,3 @@
-//
-//  LocalUser.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 02/11/2016.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 
 struct LocalUser: User, UserListing {

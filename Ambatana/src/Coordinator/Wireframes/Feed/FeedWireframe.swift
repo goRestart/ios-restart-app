@@ -6,7 +6,7 @@ protocol FeedNavigator: class {
                      filtersVMDataDelegate: FiltersViewModelDataDelegate?)
     func openLocationSelection(initialPlace: Place?, distanceRadius: Int?, locationDelegate: EditLocationDelegate)
     func showPushPermissionsAlert(
-        pushPermissionsManager: LGPushPermissionsManager,
+        pushPermissionsManager: PushPermissionsManager,
         withPositiveAction positiveAction: @escaping (() -> Void),
         negativeAction: @escaping (() -> Void)
     )
@@ -55,7 +55,7 @@ final class FeedWireframe: FeedNavigator {
         nc?.pushViewController(viewController, animated: true)
     }
     
-    func showPushPermissionsAlert(pushPermissionsManager: LGPushPermissionsManager,
+    func showPushPermissionsAlert(pushPermissionsManager: PushPermissionsManager,
                                   withPositiveAction positiveAction: @escaping (() -> Void),
                                   negativeAction: @escaping (() -> Void)) {
         let positive: UIAction = UIAction(

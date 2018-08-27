@@ -1,19 +1,11 @@
-//
-//  ListingCellDrawer.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 03/12/15.
-//  Copyright © 2015 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 
 final class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDrawer {
     
-    private let featureFlags: FeatureFlags
+    private let featureFlags: FeatureFlaggeable
     private let preventMessagesToPro: Bool
     
-    init(featureFlags: FeatureFlags = FeatureFlags.sharedInstance) {
+    init(featureFlags: FeatureFlaggeable = FeatureFlags.sharedInstance) {
         self.featureFlags = featureFlags
         self.preventMessagesToPro = featureFlags.preventMessagesFromFeedToProUsers.isActive
         super.init()
@@ -71,7 +63,6 @@ final class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDr
         
         let showBumpUpCTA = model.isMine &&
         featureFlags.showSellFasterInProfileCells.isActive &&
-        featureFlags.pricedBumpUpEnabled &&
         isPrivateList && listingCanBeBumped
         
         let canShowPaymentFrequency = featureFlags.servicesPaymentFrequency.isActive

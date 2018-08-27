@@ -116,6 +116,8 @@ class ListingViewModelSpec: BaseViewModelSpec {
                     product.user = userProduct
                     product.status = .approved
 
+                    monetizationRepository.retrieveResult = BumpeableListingResult(error: .notFound)
+
                     listingRepository.markAsSoldVoidResult = ListingVoidResult(Void())
                     var soldProduct = MockProduct(product: product)
                     soldProduct.status = .sold
@@ -454,16 +456,14 @@ class ListingViewModelSpec: BaseViewModelSpec {
             }
 
             describe ("the right bump up banner appears") {
-                context ("AB test are not active") {
+                context ("product is not mine") {
                     beforeEach {
-                        featureFlags.freeBumpUpEnabled = false
-                        featureFlags.pricedBumpUpEnabled = false
-
-                        let myUser = MockMyUser.makeMock()
+                        var myUser = MockMyUser.makeMock()
+                        myUser.objectId = "user_id"
                         myUserRepository.myUserVar.value = myUser
                         product = MockProduct.makeMock()
                         var userProduct = MockUserListing.makeMock()
-                        userProduct.objectId = myUser.objectId
+                        userProduct.objectId = "product_id"
                         product.user = userProduct
                         product.status = .approved
 
@@ -478,22 +478,17 @@ class ListingViewModelSpec: BaseViewModelSpec {
                         expect(sut.bumpUpBannerInfo.value).to(beNil())
                     }
                 }
-                context ("AB tests active") {
-                    beforeEach {
-                        featureFlags.freeBumpUpEnabled = true
-                        featureFlags.pricedBumpUpEnabled = true
-                    }
-                    context ("product is not mine") {
+                context ("product is mine") {
+                    context ("product status makes it not bumpeable") {
                         beforeEach {
-                            var myUser = MockMyUser.makeMock()
-                            myUser.objectId = "user_id"
+                            let myUser = MockMyUser.makeMock()
                             myUserRepository.myUserVar.value = myUser
                             product = MockProduct.makeMock()
                             var userProduct = MockUserListing.makeMock()
-                            userProduct.objectId = "product_id"
+                            userProduct.objectId = myUser.objectId
                             product.user = userProduct
-                            product.status = .approved
-
+                            product.featured = false
+                            product.status = .deleted
                             purchasesShopper.isBumpUpPending = false
 
                             buildListingViewModel()
@@ -505,18 +500,145 @@ class ListingViewModelSpec: BaseViewModelSpec {
                             expect(sut.bumpUpBannerInfo.value).to(beNil())
                         }
                     }
-                    context ("product is mine") {
-                        context ("product status makes it not bumpeable") {
+                    context ("product status is pending, and is not bumped yet") {
+                        beforeEach {
+
+                            self.calledOpenFreeBumpUpView = false
+                            let myUser = MockMyUser.makeMock()
+                            myUserRepository.myUserVar.value = myUser
+                            product = MockProduct.makeMock()
+                            var userProduct = MockUserListing.makeMock()
+                            userProduct.objectId = myUser.objectId
+                            product.user = userProduct
+                            product.status = .pending
+                            product.featured = false
+
+                            purchasesShopper.isBumpUpPending = false
+
+                            var paymentItem = MockPaymentItem.makeMock()
+                            paymentItem.provider = .apple
+                            var bumpeableProduct = MockBumpeableListing.makeMock()
+                            bumpeableProduct.paymentItems = [paymentItem]
+                            bumpeableProduct.timeSinceLastBump = 0
+                            monetizationRepository.retrieveResult = BumpeableListingResult(value: bumpeableProduct)
+
+                            buildListingViewModel()
+                            sut.active = true
+
+                            expect(sut.bumpUpBannerInfo.value).toEventuallyNot(beNil())
+                        }
+                        it ("banner info type is priced") {
+                            expect(sut.bumpUpBannerInfo.value?.type) == .priced
+                        }
+                        it ("banner interaction block opens priced bump up view") {
+                            sut.bumpUpBannerInfo.value?.bannerInteractionBlock(0)
+                            expect(self.calledOpenPricedBumpUpView).toEventually(beTrue())
+                        }
+                        it ("banner button block tries to bump up the product") {
+                            // "tries to" because the result of the bump up feature is tested in another context
+                            sut.bumpUpBannerInfo.value?.buttonBlock(0)
+                            expect(self.delegateReceivedShowLoading).toEventually(beTrue())
+                        }
+                    }
+                    context ("product status is pending, and is already bumped, not boosteable") {
+                        beforeEach {
+
+                            self.calledOpenFreeBumpUpView = false
+                            let myUser = MockMyUser.makeMock()
+                            myUserRepository.myUserVar.value = myUser
+                            product = MockProduct.makeMock()
+                            var userProduct = MockUserListing.makeMock()
+                            userProduct.objectId = myUser.objectId
+                            product.user = userProduct
+                            product.status = .pending
+                            product.featured = true
+
+                            purchasesShopper.isBumpUpPending = false
+
+                            var paymentItem = MockPaymentItem.makeMock()
+                            paymentItem.provider = .apple
+                            var bumpeableProduct = MockBumpeableListing.makeMock()
+                            bumpeableProduct.paymentItems = [paymentItem]
+                            bumpeableProduct.timeSinceLastBump = TimeInterval.make(minutes: 1)
+                            monetizationRepository.retrieveResult = BumpeableListingResult(value: bumpeableProduct)
+
+                            buildListingViewModel()
+                            sut.active = true
+
+                            expect(sut.bumpUpBannerInfo.value).toEventuallyNot(beNil())
+                        }
+                        it ("banner info type is boost") {
+                            expect(sut.bumpUpBannerInfo.value?.type) == .boost(boostBannerVisible: false)
+                        }
+                        it ("banner interaction block opens boost bump up view") {
+                            sut.bumpUpBannerInfo.value?.bannerInteractionBlock(0)
+                            expect(self.calledOpenBumpUpBoostView).toEventually(beTrue())
+                        }
+                        it ("banner button block tries to boost the product") {
+                            sut.bumpUpBannerInfo.value?.buttonBlock(0)
+                            expect(self.calledOpenBumpUpBoostView).toEventually(beTrue())
+                        }
+                    }
+                    context ("product status is pending, and is already bumped but boosteable") {
+                        beforeEach {
+
+                            self.calledOpenFreeBumpUpView = false
+                            let myUser = MockMyUser.makeMock()
+                            myUserRepository.myUserVar.value = myUser
+                            product = MockProduct.makeMock()
+                            var userProduct = MockUserListing.makeMock()
+                            userProduct.objectId = myUser.objectId
+                            product.user = userProduct
+                            product.status = .pending
+                            product.featured = true
+
+                            purchasesShopper.isBumpUpPending = false
+
+                            var paymentItem = MockPaymentItem.makeMock()
+                            paymentItem.provider = .apple
+                            var bumpeableProduct = MockBumpeableListing.makeMock()
+                            bumpeableProduct.paymentItems = [paymentItem]
+                            bumpeableProduct.timeSinceLastBump = TimeInterval.make(hours: 5)
+                            monetizationRepository.retrieveResult = BumpeableListingResult(value: bumpeableProduct)
+
+                            buildListingViewModel()
+                            sut.active = true
+
+                            expect(sut.bumpUpBannerInfo.value).toEventuallyNot(beNil())
+                        }
+                        it ("banner info type is boost") {
+                            expect(sut.bumpUpBannerInfo.value?.type) == .boost(boostBannerVisible: true)
+                        }
+                        it ("banner interaction block opens boost bump up view") {
+                            sut.bumpUpBannerInfo.value?.bannerInteractionBlock(0)
+                            expect(self.calledOpenBumpUpBoostView).toEventually(beTrue())
+                        }
+                        it ("banner button block tries to boost the product") {
+                            sut.bumpUpBannerInfo.value?.buttonBlock(0)
+                            expect(self.delegateReceivedShowLoading).toEventually(beTrue())
+                        }
+                    }
+                    context ("product status makes it bumpeable") {
+                        context ("retrieve products request fails") {
                             beforeEach {
+
+                                self.calledOpenFreeBumpUpView = false
                                 let myUser = MockMyUser.makeMock()
                                 myUserRepository.myUserVar.value = myUser
                                 product = MockProduct.makeMock()
                                 var userProduct = MockUserListing.makeMock()
                                 userProduct.objectId = myUser.objectId
                                 product.user = userProduct
-                                product.featured = false
-                                product.status = .deleted
+                                product.status = .approved
+
                                 purchasesShopper.isBumpUpPending = false
+
+                                var paymentItem = MockPaymentItem.makeMock()
+                                paymentItem.provider = .letgo
+                                var bumpeableProduct = MockBumpeableListing.makeMock()
+                                bumpeableProduct.paymentItems = [paymentItem]
+                                bumpeableProduct.timeSinceLastBump = 0
+                                monetizationRepository.retrieveResult = BumpeableListingResult(error: .notFound)
 
                                 buildListingViewModel()
                                 sut.active = true
@@ -527,7 +649,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                                 expect(sut.bumpUpBannerInfo.value).to(beNil())
                             }
                         }
-                        context ("product status is pending, and is already bumped") {
+                        context ("retrieve products response 'paymentItems' is empty") {
                             beforeEach {
 
                                 self.calledOpenFreeBumpUpView = false
@@ -537,8 +659,72 @@ class ListingViewModelSpec: BaseViewModelSpec {
                                 var userProduct = MockUserListing.makeMock()
                                 userProduct.objectId = myUser.objectId
                                 product.user = userProduct
-                                product.status = .pending
-                                product.featured = true
+                                product.status = .approved
+
+                                purchasesShopper.isBumpUpPending = false
+
+                                var bumpeableProduct = MockBumpeableListing.makeMock()
+                                bumpeableProduct.paymentItems = []
+                                monetizationRepository.retrieveResult = BumpeableListingResult(value: bumpeableProduct)
+
+                                buildListingViewModel()
+                                sut.active = true
+
+                                expect(sut.bumpUpBannerInfo.value).toEventually(beNil())
+                            }
+                            it ("banner info is nil") {
+                                expect(sut.bumpUpBannerInfo.value).to(beNil())
+                            }
+                        }
+                        context ("free bump") {
+                            beforeEach {
+
+                                self.calledOpenFreeBumpUpView = false
+                                let myUser = MockMyUser.makeMock()
+                                myUserRepository.myUserVar.value = myUser
+                                product = MockProduct.makeMock()
+                                var userProduct = MockUserListing.makeMock()
+                                userProduct.objectId = myUser.objectId
+                                product.user = userProduct
+                                product.status = .approved
+
+                                purchasesShopper.isBumpUpPending = false
+
+                                var paymentItem = MockPaymentItem.makeMock()
+                                paymentItem.provider = .letgo
+                                var bumpeableProduct = MockBumpeableListing.makeMock()
+                                bumpeableProduct.paymentItems = [paymentItem]
+                                bumpeableProduct.timeSinceLastBump = 0
+                                monetizationRepository.retrieveResult = BumpeableListingResult(value: bumpeableProduct)
+
+                                buildListingViewModel()
+                                sut.active = true
+
+                                expect(sut.bumpUpBannerInfo.value).toEventuallyNot(beNil())
+                            }
+                            it ("banner info type is free") {
+                                expect(sut.bumpUpBannerInfo.value?.type) == .free
+                            }
+                            it ("banner interaction block opens free bump up view") {
+                                sut.bumpUpBannerInfo.value?.bannerInteractionBlock(0)
+                                expect(self.calledOpenFreeBumpUpView).toEventually(beTrue())
+                            }
+                            it ("banner button block open free bump up view") {
+                                sut.bumpUpBannerInfo.value?.buttonBlock(0)
+                                expect(self.calledOpenFreeBumpUpView).toEventually(beTrue())
+                            }
+                        }
+                        context ("priced bump, new item") {
+                            beforeEach {
+
+                                self.calledOpenFreeBumpUpView = false
+                                let myUser = MockMyUser.makeMock()
+                                myUserRepository.myUserVar.value = myUser
+                                product = MockProduct.makeMock()
+                                var userProduct = MockUserListing.makeMock()
+                                userProduct.objectId = myUser.objectId
+                                product.user = userProduct
+                                product.status = .approved
 
                                 purchasesShopper.isBumpUpPending = false
 
@@ -546,6 +732,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                                 paymentItem.provider = .apple
                                 var bumpeableProduct = MockBumpeableListing.makeMock()
                                 bumpeableProduct.paymentItems = [paymentItem]
+                                bumpeableProduct.timeSinceLastBump = 0
                                 monetizationRepository.retrieveResult = BumpeableListingResult(value: bumpeableProduct)
 
                                 buildListingViewModel()
@@ -566,176 +753,44 @@ class ListingViewModelSpec: BaseViewModelSpec {
                                 expect(self.delegateReceivedShowLoading).toEventually(beTrue())
                             }
                         }
-                        context ("product status makes it bumpeable") {
-                            context ("retrieve products request fails") {
-                                beforeEach {
+                        context ("priced bump, restore item") {
+                            beforeEach {
 
-                                    self.calledOpenFreeBumpUpView = false
-                                    let myUser = MockMyUser.makeMock()
-                                    myUserRepository.myUserVar.value = myUser
-                                    product = MockProduct.makeMock()
-                                    var userProduct = MockUserListing.makeMock()
-                                    userProduct.objectId = myUser.objectId
-                                    product.user = userProduct
-                                    product.status = .approved
+                                self.calledOpenFreeBumpUpView = false
+                                let myUser = MockMyUser.makeMock()
+                                myUserRepository.myUserVar.value = myUser
+                                product = MockProduct.makeMock()
+                                var userProduct = MockUserListing.makeMock()
+                                userProduct.objectId = myUser.objectId
+                                product.user = userProduct
+                                product.status = .approved
 
-                                    purchasesShopper.isBumpUpPending = false
+                                purchasesShopper.isBumpUpPending = true
 
-                                    var paymentItem = MockPaymentItem.makeMock()
-                                    paymentItem.provider = .letgo
-                                    var bumpeableProduct = MockBumpeableListing.makeMock()
-                                    bumpeableProduct.paymentItems = [paymentItem]
-                                    monetizationRepository.retrieveResult = BumpeableListingResult(error: .notFound)
+                                var paymentItem = MockPaymentItem.makeMock()
+                                paymentItem.provider = .apple
+                                var bumpeableProduct = MockBumpeableListing.makeMock()
+                                bumpeableProduct.paymentItems = [paymentItem]
+                                bumpeableProduct.timeSinceLastBump = 0
+                                monetizationRepository.retrieveResult = BumpeableListingResult(value: bumpeableProduct)
 
-                                    buildListingViewModel()
-                                    sut.active = true
+                                buildListingViewModel()
+                                sut.active = true
 
-                                    expect(sut.bumpUpBannerInfo.value).toEventually(beNil())
-                                }
-                                it ("banner info is nil") {
-                                    expect(sut.bumpUpBannerInfo.value).to(beNil())
-                                }
+                                expect(sut.bumpUpBannerInfo.value).toEventuallyNot(beNil())
                             }
-                            context ("retrieve products response 'paymentItems' is empty") {
-                                beforeEach {
-
-                                    self.calledOpenFreeBumpUpView = false
-                                    let myUser = MockMyUser.makeMock()
-                                    myUserRepository.myUserVar.value = myUser
-                                    product = MockProduct.makeMock()
-                                    var userProduct = MockUserListing.makeMock()
-                                    userProduct.objectId = myUser.objectId
-                                    product.user = userProduct
-                                    product.status = .approved
-
-                                    purchasesShopper.isBumpUpPending = false
-
-                                    var bumpeableProduct = MockBumpeableListing.makeMock()
-                                    bumpeableProduct.paymentItems = []
-                                    monetizationRepository.retrieveResult = BumpeableListingResult(value: bumpeableProduct)
-
-                                    buildListingViewModel()
-                                    sut.active = true
-
-                                    expect(sut.bumpUpBannerInfo.value).toEventually(beNil())
-                                }
-                                it ("banner info is nil") {
-                                    expect(sut.bumpUpBannerInfo.value).to(beNil())
-                                }
+                            it ("banner info type is restore") {
+                                expect(sut.bumpUpBannerInfo.value?.type) == .restore
                             }
-                            context ("free bump") {
-                                beforeEach {
-
-                                    self.calledOpenFreeBumpUpView = false
-                                    let myUser = MockMyUser.makeMock()
-                                    myUserRepository.myUserVar.value = myUser
-                                    product = MockProduct.makeMock()
-                                    var userProduct = MockUserListing.makeMock()
-                                    userProduct.objectId = myUser.objectId
-                                    product.user = userProduct
-                                    product.status = .approved
-
-                                    purchasesShopper.isBumpUpPending = false
-
-                                    var paymentItem = MockPaymentItem.makeMock()
-                                    paymentItem.provider = .letgo
-                                    var bumpeableProduct = MockBumpeableListing.makeMock()
-                                    bumpeableProduct.paymentItems = [paymentItem]
-                                    monetizationRepository.retrieveResult = BumpeableListingResult(value: bumpeableProduct)
-
-                                    buildListingViewModel()
-                                    sut.active = true
-
-                                    expect(sut.bumpUpBannerInfo.value).toEventuallyNot(beNil())
-                                }
-                                it ("banner info type is free") {
-                                    expect(sut.bumpUpBannerInfo.value?.type) == .free
-                                }
-                                it ("banner interaction block opens free bump up view") {
-                                    sut.bumpUpBannerInfo.value?.bannerInteractionBlock(0)
-                                    expect(self.calledOpenFreeBumpUpView).toEventually(beTrue())
-                                }
-                                it ("banner button block open free bump up view") {
-                                    sut.bumpUpBannerInfo.value?.buttonBlock(0)
-                                    expect(self.calledOpenFreeBumpUpView).toEventually(beTrue())
-                                }
+                            it ("banner interaction block tres to restore the bump") {
+                                // "tries to" because the result of the bump up feature is tested in another context
+                                sut.bumpUpBannerInfo.value?.bannerInteractionBlock(0)
+                                expect(self.delegateReceivedShowLoading).toEventually(beTrue())
                             }
-                            context ("priced bump, new item") {
-                                beforeEach {
-
-                                    self.calledOpenFreeBumpUpView = false
-                                    let myUser = MockMyUser.makeMock()
-                                    myUserRepository.myUserVar.value = myUser
-                                    product = MockProduct.makeMock()
-                                    var userProduct = MockUserListing.makeMock()
-                                    userProduct.objectId = myUser.objectId
-                                    product.user = userProduct
-                                    product.status = .approved
-
-                                    purchasesShopper.isBumpUpPending = false
-
-                                    var paymentItem = MockPaymentItem.makeMock()
-                                    paymentItem.provider = .apple
-                                    var bumpeableProduct = MockBumpeableListing.makeMock()
-                                    bumpeableProduct.paymentItems = [paymentItem]
-                                    monetizationRepository.retrieveResult = BumpeableListingResult(value: bumpeableProduct)
-
-                                    buildListingViewModel()
-                                    sut.active = true
-
-                                    expect(sut.bumpUpBannerInfo.value).toEventuallyNot(beNil())
-                                }
-                                it ("banner info type is priced") {
-                                    expect(sut.bumpUpBannerInfo.value?.type) == .priced
-                                }
-                                it ("banner interaction block opens priced bump up view") {
-                                    sut.bumpUpBannerInfo.value?.bannerInteractionBlock(0)
-                                    expect(self.calledOpenPricedBumpUpView).toEventually(beTrue())
-                                }
-                                it ("banner button block tries to bump up the product") {
-                                    // "tries to" because the result of the bump up feature is tested in another context
-                                    sut.bumpUpBannerInfo.value?.buttonBlock(0)
-                                    expect(self.delegateReceivedShowLoading).toEventually(beTrue())
-                                }
-                            }
-                            context ("priced bump, restore item") {
-                                beforeEach {
-
-                                    self.calledOpenFreeBumpUpView = false
-                                    let myUser = MockMyUser.makeMock()
-                                    myUserRepository.myUserVar.value = myUser
-                                    product = MockProduct.makeMock()
-                                    var userProduct = MockUserListing.makeMock()
-                                    userProduct.objectId = myUser.objectId
-                                    product.user = userProduct
-                                    product.status = .approved
-
-                                    purchasesShopper.isBumpUpPending = true
-
-                                    var paymentItem = MockPaymentItem.makeMock()
-                                    paymentItem.provider = .apple
-                                    var bumpeableProduct = MockBumpeableListing.makeMock()
-                                    bumpeableProduct.paymentItems = [paymentItem]
-                                    monetizationRepository.retrieveResult = BumpeableListingResult(value: bumpeableProduct)
-
-                                    buildListingViewModel()
-                                    sut.active = true
-
-                                    expect(sut.bumpUpBannerInfo.value).toEventuallyNot(beNil())
-                                }
-                                it ("banner info type is restore") {
-                                    expect(sut.bumpUpBannerInfo.value?.type) == .restore
-                                }
-                                it ("banner interaction block tres to restore the bump") {
-                                    // "tries to" because the result of the bump up feature is tested in another context
-                                    sut.bumpUpBannerInfo.value?.bannerInteractionBlock(0)
-                                    expect(self.delegateReceivedShowLoading).toEventually(beTrue())
-                                }
-                                it ("banner button block tries to restore the bump") {
-                                    // "tries to" because the result of the bump up feature is tested in another context
-                                    sut.bumpUpBannerInfo.value?.buttonBlock(0)
-                                    expect(self.delegateReceivedShowLoading).toEventually(beTrue())
-                                }
+                            it ("banner button block tries to restore the bump") {
+                                // "tries to" because the result of the bump up feature is tested in another context
+                                sut.bumpUpBannerInfo.value?.buttonBlock(0)
+                                expect(self.delegateReceivedShowLoading).toEventually(beTrue())
                             }
                         }
                     }
@@ -744,7 +799,6 @@ class ListingViewModelSpec: BaseViewModelSpec {
 
             describe("priced bump up product") {
                 beforeEach {
-                    featureFlags.pricedBumpUpEnabled = true
                     let myUser = MockMyUser.makeMock()
                     myUserRepository.myUserVar.value = myUser
                     product = MockProduct.makeMock()
@@ -759,6 +813,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                     paymentItem.itemId = "paymentItemId"
                     var bumpeableProduct = MockBumpeableListing.makeMock()
                     bumpeableProduct.paymentItems = [paymentItem]
+                    bumpeableProduct.timeSinceLastBump = 0
                     monetizationRepository.retrieveResult = BumpeableListingResult(value: bumpeableProduct)
                 }
                 context ("appstore payment fails") {

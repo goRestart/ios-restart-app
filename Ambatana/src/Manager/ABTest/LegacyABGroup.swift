@@ -13,8 +13,6 @@ struct LegacyABGroup: ABGroupType {
         static let marketingPush = "marketingPush"
         static let surveyURL = "surveyURL"
         static let surveyEnabled = "surveyEnabled"
-        static let freeBumpUpEnabled = "freeBumpUpEnabled"
-        static let pricedBumpUpEnabled = "pricedBumpUpEnabled"
         static let carsMultiReqEnabled = "newCarsMultiRequesterEnabled"
         static let inAppRatingIOS10 = "20170711inAppRatingIOS10"
         static let userReviewsReportEnabled = "20170823userReviewsReportEnabled"
@@ -29,8 +27,6 @@ struct LegacyABGroup: ABGroupType {
     // Not an A/B just flags and variables for surveys
     let surveyURL: LeanplumABVariable<String>
     let surveyEnabled: LeanplumABVariable<Bool>
-    let freeBumpUpEnabled: LeanplumABVariable<Bool>
-    let pricedBumpUpEnabled: LeanplumABVariable<Bool>
     let newCarsMultiRequesterEnabled: LeanplumABVariable<Bool>
     let inAppRatingIOS10: LeanplumABVariable<Bool>
     let userReviewsReportEnabled: LeanplumABVariable<Bool>
@@ -50,8 +46,6 @@ struct LegacyABGroup: ABGroupType {
     init(marketingPush: LeanplumABVariable<Int>,
          surveyURL: LeanplumABVariable<String>,
          surveyEnabled: LeanplumABVariable<Bool>,
-         freeBumpUpEnabled: LeanplumABVariable<Bool>,
-         pricedBumpUpEnabled: LeanplumABVariable<Bool>,
          newCarsMultiRequesterEnabled: LeanplumABVariable<Bool>,
          inAppRatingIOS10: LeanplumABVariable<Bool>,
          userReviewsReportEnabled: LeanplumABVariable<Bool>,
@@ -64,8 +58,6 @@ struct LegacyABGroup: ABGroupType {
         self.marketingPush = marketingPush
         self.surveyURL = surveyURL
         self.surveyEnabled = surveyEnabled
-        self.freeBumpUpEnabled = freeBumpUpEnabled
-        self.pricedBumpUpEnabled = pricedBumpUpEnabled
         self.newCarsMultiRequesterEnabled = newCarsMultiRequesterEnabled
         self.inAppRatingIOS10 = inAppRatingIOS10
         self.userReviewsReportEnabled = userReviewsReportEnabled
@@ -80,9 +72,9 @@ struct LegacyABGroup: ABGroupType {
                                          realEstateEnabled,
                                          newItemPage,
                                          showAdsInFeedWithRatio])
-        boolVariables.append(contentsOf: [surveyEnabled, freeBumpUpEnabled,
-                                          pricedBumpUpEnabled, newCarsMultiRequesterEnabled, inAppRatingIOS10,
-                                          userReviewsReportEnabled, appRatingDialogInactive])
+        boolVariables.append(contentsOf: [surveyEnabled, newCarsMultiRequesterEnabled,
+                                          inAppRatingIOS10, userReviewsReportEnabled,
+                                          appRatingDialogInactive])
         stringVariables.append(surveyURL)
         
     }
@@ -91,8 +83,6 @@ struct LegacyABGroup: ABGroupType {
         return LegacyABGroup(marketingPush: .makeInt(key: Keys.marketingPush, defaultValue: 0, groupType: .legacyABTests),
                              surveyURL: .makeString(key: Keys.surveyURL, defaultValue: "", groupType: .legacyABTests),
                              surveyEnabled: .makeBool(key: Keys.surveyEnabled, defaultValue: false, groupType: .legacyABTests),
-                             freeBumpUpEnabled: .makeBool(key: Keys.freeBumpUpEnabled, defaultValue: false, groupType: .legacyABTests),
-                             pricedBumpUpEnabled: .makeBool(key: Keys.pricedBumpUpEnabled, defaultValue: false, groupType: .legacyABTests),
                              newCarsMultiRequesterEnabled: .makeBool(key: Keys.carsMultiReqEnabled, defaultValue: false,  groupType: .legacyABTests),
                              inAppRatingIOS10: .makeBool(key: Keys.inAppRatingIOS10, defaultValue: false, groupType: .legacyABTests),
                              userReviewsReportEnabled: .makeBool(key: Keys.userReviewsReportEnabled, defaultValue: true, groupType: .legacyABTests),

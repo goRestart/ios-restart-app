@@ -452,6 +452,12 @@ enum EventParameterName: String {
     case showingBanner      = "showing-banner"
     case bannerType         = "banner-type"
     
+    // Sectioned Feed
+    case sectionShown = "sections-shown" // lists the sections shown in the sectioned feed
+    case sectionIdentifier = "section-identifier" // section identifier
+    case sectionPosition = "section-number" // Position of the section in the feed
+    case numberOfItemsInSection = "number-of-items-section"
+
     // Engagement badging
     case recentItems        = "recent-items"
 }
@@ -1077,6 +1083,9 @@ enum EventParameterListingVisitSource {
         case .favourite: return "favourite" // from your private profile favourite's list
         case .map: return "map"
         case .unknown: return "N/A"
+        case .section: return "section" // when a user visits an item in the sections
+        case .sectionList: return "section-list" // when a user visits an item through the section list
+        case .relatedItemList: return "related-item-list"
         }
     }
 
@@ -1125,6 +1134,9 @@ enum EventParameterListingVisitSource {
     case favourite
     case map
     case unknown
+    case section
+    case sectionList
+    case relatedItemList
 }
 
 enum EventParameterRelatedListingsVisitSource: String {
@@ -1153,6 +1165,7 @@ enum EventParameterFeedSource: String {
     case filter = "filter"
     case searchAndFilter = "search&filter"
     case collection = "collection"
+    case section = "section"
 }
 
 enum EventParameterAccountNetwork: String {
@@ -1527,6 +1540,17 @@ enum EventParameterUserBadge: String {
 
 enum EventBannerType: String {
     case joinCommunity = "join-community"
+}
+
+enum EventParameterSectionName {
+    case identifier(id: String)
+    
+    var value: String {
+        switch self {
+        case let .identifier(id): return id
+        }
+    }
+
 }
 
 struct EventParameters {

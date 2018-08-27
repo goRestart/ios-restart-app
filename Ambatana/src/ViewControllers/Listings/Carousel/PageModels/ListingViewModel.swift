@@ -239,7 +239,6 @@ class ListingViewModel: BaseViewModel {
     fileprivate let featureFlags: FeatureFlaggeable
     fileprivate let purchasesShopper: PurchasesShopper
     fileprivate let monetizationRepository: MonetizationRepository
-    fileprivate let showFeaturedStripeHelper: ShowFeaturedStripeHelper
     fileprivate let visitSource: EventParameterListingVisitSource
     fileprivate let keyValueStorage: KeyValueStorageable
 
@@ -292,7 +291,6 @@ class ListingViewModel: BaseViewModel {
         self.featureFlags = featureFlags
         self.purchasesShopper = purchasesShopper
         self.monetizationRepository = monetizationRepository
-        self.showFeaturedStripeHelper = ShowFeaturedStripeHelper(featureFlags: featureFlags, myUserRepository: myUserRepository)
         self.userInfo = Variable<ListingVMUserInfo>(ListingVMUserInfo(userListing: listing.user,
                                                                       myUser: myUserRepository.myUser,
                                                                       sellerBadge: .noBadge))
@@ -438,7 +436,7 @@ class ListingViewModel: BaseViewModel {
             let isMine = listing.isMine(myUserRepository: strongSelf.myUserRepository)
             strongSelf.status.value = ListingViewModelStatus(listing: listing, isMine: isMine, featureFlags: strongSelf.featureFlags)
 
-            strongSelf.isShowingFeaturedStripe.value = strongSelf.showFeaturedStripeHelper.shouldShowFeaturedStripeFor(listing: listing) && !strongSelf.status.value.shouldShowStatus
+            strongSelf.isShowingFeaturedStripe.value = listing.shouldShowFeaturedStripe && !strongSelf.status.value.shouldShowStatus
 
             strongSelf.productIsFavoriteable.value = !isMine
             strongSelf.socialMessage.value = ListingSocialMessage(listing: listing,
@@ -531,8 +529,7 @@ class ListingViewModel: BaseViewModel {
     }
 
     func refreshBumpeableBanner() {
-        guard status.value.shouldRefreshBumpBanner,
-            (featureFlags.freeBumpUpEnabled || featureFlags.pricedBumpUpEnabled) else {
+        guard status.value.shouldRefreshBumpBanner else {
             bumpUpBannerInfo.value = nil
             return
         }
@@ -568,7 +565,7 @@ class ListingViewModel: BaseViewModel {
                     let freeItems = bumpeableProduct.paymentItems.filter { $0.provider == .letgo }
                     let paymentItems = bumpeableProduct.paymentItems.filter { $0.provider == .apple }
                     let hiddenItems = bumpeableProduct.paymentItems.filter { $0.provider == .hidden }
-                    if !paymentItems.isEmpty, strongSelf.featureFlags.pricedBumpUpEnabled {
+                    if !paymentItems.isEmpty {
                         strongSelf.userIsSoftBlocked = false
                         // will be considered bumpeable ONCE WE GOT THE PRICES of the products, not before.
                         strongSelf.letgoItemId = paymentItems.first?.itemId
@@ -582,7 +579,7 @@ class ListingViewModel: BaseViewModel {
                                                                                          maxCountdown: bumpeableProduct.maxCountdown,
                                                                                          typePage: parameterTypePage)
                         }
-                    } else if !freeItems.isEmpty, strongSelf.featureFlags.freeBumpUpEnabled {
+                    } else if !freeItems.isEmpty {
                         strongSelf.letgoItemId = freeItems.first?.itemId
                         strongSelf.storeProductId = freeItems.first?.providerItemId
                         strongSelf.createBumpeableBanner(forListingId: listingId,
@@ -591,7 +588,7 @@ class ListingViewModel: BaseViewModel {
                                                          storeProductId: strongSelf.storeProductId,
                                                          bumpUpType: .free,
                                                          typePage: parameterTypePage)
-                    } else if !hiddenItems.isEmpty, strongSelf.featureFlags.pricedBumpUpEnabled {
+                    } else if !hiddenItems.isEmpty {
                         strongSelf.userIsSoftBlocked = true
                         // for hidden items we follow THE SAME FLOW we do for PAID items
                         strongSelf.letgoItemId = hiddenItems.first?.itemId
@@ -729,7 +726,7 @@ class ListingViewModel: BaseViewModel {
                                                     withTime: TimeInterval,
                                                     maxCountdown: TimeInterval) {
         var updatedBumpUpType = bumpUpType
-        if (bumpUpType == .priced || bumpUpType.isBoost) && featureFlags.bumpUpBoost.isActive {
+        if (bumpUpType == .priced || bumpUpType.isBoost) {
             updatedBumpUpType = .boost(boostBannerVisible: false)
         }
         bumpUpBannerInfo.value = BumpUpInfo(type: updatedBumpUpType,
@@ -789,8 +786,7 @@ class ListingViewModel: BaseViewModel {
     }
 
     private var listingCanBeBoosted: Bool {
-        guard let threshold = featureFlags.bumpUpBoost.boostBannerUIUpdateThreshold else { return false }
-        return timeSinceLastBump > threshold
+        return timeSinceLastBump > BumpUpBanner.boostBannerUIUpdateThreshold
     }
 
     private var hasBumpInProgress: Bool {
@@ -1463,7 +1459,7 @@ extension ListingViewModel: BumpInfoRequesterDelegate {
     var bumpUpType: BumpUpType {
         if userIsSoftBlocked {
             return .hidden
-        } else if featureFlags.bumpUpBoost.isActive && hasBumpInProgress {
+        } else if hasBumpInProgress {
             return .boost(boostBannerVisible: listingCanBeBoosted)
         } else {
             return .priced
@@ -1556,7 +1552,7 @@ extension ListingViewModel: PurchasesShopperDelegate {
             if isBoost {
                 strongSelf.bumpUpBoostSucceeded()
             }
-            if let currentBumpUpInfo = self?.bumpUpBannerInfo.value, strongSelf.featureFlags.bumpUpBoost.isActive {
+            if let currentBumpUpInfo = self?.bumpUpBannerInfo.value {
                 let newBannerInfo = BumpUpInfo(type: .boost(boostBannerVisible: false),
                                                timeSinceLastBump: 1,
                                                maxCountdown: currentBumpUpInfo.maxCountdown,

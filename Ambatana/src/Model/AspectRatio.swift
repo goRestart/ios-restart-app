@@ -74,6 +74,12 @@ enum AspectRatio {
     }
 }
 
+extension AspectRatio {
+    func constrainedAspectRatio(_ oriented: AspectRatioOrientation, to otherAspectRatio: AspectRatio) -> AspectRatio {
+        return isMore(.portrait, than: .w1h2) ? .w1h2 : self
+    }
+}
+
 extension AspectRatio: Equatable {
     
     static func ==(lhs: AspectRatio, rhs: AspectRatio) -> Bool {

@@ -1,11 +1,3 @@
-//
-//  WaterFalLayout.swift
-//  LetGo
-//
-//  Created by Haiyan Ma on 09/04/2018.
-//  Copyright © 2018 Haiyan Ma. All rights reserved.
-//
-
 import UIKit
 
 final class WaterFallLayout: UICollectionViewLayout {
@@ -321,7 +313,7 @@ extension WaterFallLayout {
                                               heightForFooterInSection: inSection) ?? WaterFallLayoutSettings.footerHeight
         case .cell: break
         }
-        prepareElement(origin: CGPoint(x: 0, y: collectionViewContentHeight),
+        prepareElementLayoutAttributes(origin: CGPoint(x: 0, y: collectionViewContentHeight),
                        size: CGSize(width: collectionView.bounds.width, height: height),
                        type: type,
                        attributes: attributes,
@@ -345,7 +337,7 @@ extension WaterFallLayout {
             let columnIndex = nextColumnIndexForItem(idx, section: section)
             let itemFrame = self.itemFrame(collectionView, atIndexPath: indexPath, sectionInsets: sectionInsets, columnCount: columnCount, columnIndex: columnIndex)
             let attributes = UICollectionViewLayoutAttributes.buildForCell(atIndexPath: indexPath)
-            prepareElement(origin: itemFrame.origin, size: itemFrame.size, type: .cell, attributes: attributes, collectionViewContentHeight: &collectionViewContentHeight)
+            prepareElementLayoutAttributes(origin: itemFrame.origin, size: itemFrame.size, type: .cell, attributes: attributes, collectionViewContentHeight: &collectionViewContentHeight)
             columnHeights[section][columnIndex] = attributes.frame.maxY + minimumLineSpacing
         }
         
@@ -364,7 +356,11 @@ extension WaterFallLayout {
                                        size: itemSize)
     }
     
-    private func prepareElement(origin: CGPoint, size: CGSize, type: Element, attributes: UICollectionViewLayoutAttributes, collectionViewContentHeight: inout CGFloat) {
+    private func prepareElementLayoutAttributes(origin: CGPoint,
+                                size: CGSize,
+                                type: Element,
+                                attributes: UICollectionViewLayoutAttributes,
+                                collectionViewContentHeight: inout CGFloat) {
         guard size.height > 0 else { return }
         attributes.frame = CGRect(origin: origin, size: size)
         cache[type]?[attributes.indexPath] = attributes

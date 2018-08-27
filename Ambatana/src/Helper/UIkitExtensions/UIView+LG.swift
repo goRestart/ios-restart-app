@@ -29,4 +29,10 @@ extension UIView {
     func removeAllGestureRecognizers() {
         gestureRecognizers?.forEach { removeGestureRecognizer($0) }
     }
+    
+    func viewHeightFittingIn(_ targetSize: CGSize) -> CGFloat {
+        return systemLayoutSizeFitting(targetSize,
+                                       withHorizontalFittingPriority: .required,
+                                       verticalFittingPriority: .fittingSizeLevel).height
+    }
 }
