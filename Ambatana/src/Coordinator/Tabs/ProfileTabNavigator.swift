@@ -20,6 +20,7 @@ protocol PublicProfileNavigator: class {
     func openListing(_ data: ListingDetailData,
                      source: EventParameterListingVisitSource,
                      actionOnFirstAppear: ProductCarouselActionOnFirstAppear)
+    func openLoginIfNeeded(infoMessage: String, then loggedInAction: @escaping (() -> Void))
 }
 
 protocol SettingsNavigator: class {

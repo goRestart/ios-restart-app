@@ -93,6 +93,7 @@ final class UserProfileViewModel: BaseViewModel {
     private let tracker: Tracker
     private let featureFlags: FeatureFlaggeable
     private let notificationsManager: NotificationsManager?
+    private let interestedHandler: InterestedHandleable?
 
     private let disposeBag: DisposeBag
     private let source: UserSource
@@ -112,6 +113,7 @@ final class UserProfileViewModel: BaseViewModel {
           tracker: Tracker,
           featureFlags: FeatureFlaggeable,
           notificationsManager: NotificationsManager?,
+          interestedHandler: InterestedHandleable?,
           user: User?,
           source: UserSource,
           isPrivateProfile: Bool) {
@@ -122,6 +124,7 @@ final class UserProfileViewModel: BaseViewModel {
         self.tracker = tracker
         self.featureFlags = featureFlags
         self.notificationsManager = notificationsManager
+        self.interestedHandler = interestedHandler
         self.user = Variable<User?>(user)
         self.source = source
         self.isPrivateProfile = isPrivateProfile
@@ -170,6 +173,7 @@ final class UserProfileViewModel: BaseViewModel {
                                     tracker: TrackerProxy.sharedInstance,
                                     featureFlags: FeatureFlags.sharedInstance,
                                     notificationsManager: nil,
+                                    interestedHandler: InterestedHandler(),
                                     user: user,
                                     source: source,
                                     isPrivateProfile: false)
@@ -188,6 +192,7 @@ final class UserProfileViewModel: BaseViewModel {
                                     tracker: TrackerProxy.sharedInstance,
                                     featureFlags: FeatureFlags.sharedInstance,
                                     notificationsManager: LGNotificationsManager.sharedInstance,
+                                    interestedHandler: nil,
                                     user: nil,
                                     source: source,
                                     isPrivateProfile: true)
@@ -751,8 +756,46 @@ extension UserProfileViewModel {
 
 extension UserProfileViewModel: ListingCellDelegate {
     func interestedActionFor(_ listing: Listing, userListing: LocalUser?, completion: @escaping (InterestedState) -> Void) {
-        // this is just meant to be inside the MainFeed
-        return
+        guard let interestedHandler = interestedHandler else { return }
+        let interestedAction: () -> () = { [weak self] in
+            interestedHandler.interestedActionFor(listing,
+                                                  userListing: userListing,
+                                                  stateCompletion: completion) { [weak self] interestedAction in
+                                                    switch interestedAction {
+                                                    case .openChatProUser:
+                                                        break
+                                                        //guard let interlocutor = userListing else { return }
+                                                        //self?.profileNavigator?.openListingChat(listing,
+                                                        //source: .listingList,
+                                                    //interlocutor: interlocutor)
+                                                    case .askPhoneProUser:
+                                                        break
+                                                        //guard let interlocutor = userListing else { return }
+                                                    //self?.profileNavigator?.openAskPhoneFromMainFeedFor(listing: listing, interlocutor: interlocutor)
+                                                    case .openChatNonProUser:
+                                                        let chatDetailData = ChatDetailData.listingAPI(listing: listing)
+                                                        self?.profileNavigator?.openChat(chatDetailData,
+                                                                                         source: .listingListFeatured,
+                                                                                         predefinedMessage: nil)
+                                                    case .triggerInterestedAction:
+                                                        let (cancellable, timer) = LGTimer.cancellableWait(5)
+                                                        self?.showUndoBubble(withMessage: R.Strings.productInterestedBubbleMessage,
+                                                                             duration: 5) {
+                                                                                cancellable.cancel()
+                                                        }
+                                                        interestedHandler.handleCancellableInterestedAction(listing, timer: timer,  completion: completion)
+                                                    }
+            }
+        }
+        navigator?.openLoginIfNeeded(infoMessage: R.Strings.chatLoginPopupText, then: interestedAction)
+    }
+    
+    private func showUndoBubble(withMessage message: String,
+                                duration: TimeInterval,
+                                then action: @escaping () -> ()) {
+//        navigator?.showUndoBubble(withMessage: message,
+//                                         duration: duration,
+//                                         withAction: action)
     }
     
     func openAskPhoneFor(_ listing: Listing, interlocutor: LocalUser) {}

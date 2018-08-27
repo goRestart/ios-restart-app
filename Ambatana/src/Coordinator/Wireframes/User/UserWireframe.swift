@@ -5,9 +5,11 @@ import LGComponents
 final class UserWireframe {
     private let nc: UINavigationController
     private lazy var listingRouter = ListingWireframe(nc: nc)
+    private let sessionManager: SessionManager
 
     private let userAssembly: UserAssembly
     private let verificationAssembly: UserVerificationAssembly
+    private let loginAssembly: LoginAssembly
 
     private let userRepository: UserRepository
     private let myUserRepository: MyUserRepository
@@ -16,20 +18,26 @@ final class UserWireframe {
         self.init(nc: nc,
                   userAssembly: LGUserBuilder.standard(nc),
                   verificationAssembly: LGUserVerificationBuilder.standard(nav: nc),
+                  loginAssembly: LoginBuilder.modal,
                   userRepository: Core.userRepository,
-                  myUserRepository: Core.myUserRepository)
+                  myUserRepository: Core.myUserRepository,
+                  sessionManager: Core.sessionManager)
     }
 
     private init(nc: UINavigationController,
                  userAssembly: UserAssembly,
                  verificationAssembly: UserVerificationAssembly,
+                 loginAssembly: LoginAssembly,
                  userRepository: UserRepository,
-                 myUserRepository: MyUserRepository) {
+                 myUserRepository: MyUserRepository,
+                 sessionManager: SessionManager) {
         self.nc = nc
         self.userAssembly = userAssembly
         self.verificationAssembly = verificationAssembly
         self.userRepository = userRepository
         self.myUserRepository = myUserRepository
+        self.loginAssembly = loginAssembly
+        self.sessionManager = sessionManager
     }
 
     func openUser(_ data: UserDetailData) {
@@ -100,5 +108,22 @@ extension UserWireframe: PublicProfileNavigator {
                      source: EventParameterListingVisitSource,
                      actionOnFirstAppear: ProductCarouselActionOnFirstAppear) {
         listingRouter.openListing(data, source: source, actionOnFirstAppear: actionOnFirstAppear)
+    }
+    
+    func openLoginIfNeeded(infoMessage: String, then loggedInAction: @escaping (() -> Void)) {
+        guard !sessionManager.loggedIn else {
+            loggedInAction()
+            return
+        }
+        
+        let vc = loginAssembly.buildPopupSignUp(
+            withMessage: R.Strings.productPostLoginMessage,
+            andSource: .directChat,
+            appearance: .light,
+            loginAction: loggedInAction,
+            cancelAction: nil
+        )
+        vc.modalTransitionStyle = .crossDissolve
+        nc.present(vc, animated: true)
     }
 }
