@@ -1450,7 +1450,8 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             (filters.hasAnyRealEstateAttributes && listingListRequester.isFirstPageInLastRequester) else { return listings }
         
         var cellModels = listings
-        cellModels.insert(ListingCellModel.promo(data: RealEstatePromoCellConfiguration.randomCellData, delegate: self), at: 0)
+        let configuration =  RealEstatePromoCellConfiguration.createRandomCellData(showNewDesign: featureFlags.realEstatePromoCells.isActive)
+        cellModels.insert(ListingCellModel.promo(data: configuration, delegate: self), at: 0)
         return cellModels
     }
     

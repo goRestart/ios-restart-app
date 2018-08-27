@@ -87,6 +87,7 @@ extension Bumper  {
         flags.append(TurkeyFreePosting.self)
         flags.append(RandomImInterestedMessages.self)
         flags.append(CarPromoCells.self)
+        flags.append(RealEstatePromoCells.self)
         Bumper.initialize(flags)
     } 
 
@@ -1009,6 +1010,19 @@ extension Bumper  {
     static var carPromoCellsObservable: Observable<CarPromoCells> {
         return Bumper.observeValue(for: CarPromoCells.key).map {
             CarPromoCells(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var realEstatePromoCells: RealEstatePromoCells {
+        guard let value = Bumper.value(for: RealEstatePromoCells.key) else { return .control }
+        return RealEstatePromoCells(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var realEstatePromoCellsObservable: Observable<RealEstatePromoCells> {
+        return Bumper.observeValue(for: RealEstatePromoCells.key).map {
+            RealEstatePromoCells(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -2132,6 +2146,22 @@ enum CarPromoCells: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .variantA
             case 3: return .variantB
+            default: return .control
+        }
+    }
+}
+
+enum RealEstatePromoCells: String, BumperFeature  {
+    case control, baseline, variantA
+    static var defaultValue: String { return RealEstatePromoCells.control.rawValue }
+    static var enumValues: [RealEstatePromoCells] { return [.control, .baseline, .variantA]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[REAL ESTATE] Show NEW promo cells for real Estate" } 
+    static func fromPosition(_ position: Int) -> RealEstatePromoCells {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .variantA
             default: return .control
         }
     }

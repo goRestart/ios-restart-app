@@ -220,6 +220,7 @@ extension ABTests {
     var carExtraFieldsEnabled: LeanplumABVariable<Int> { return verticals.carExtraFieldsEnabled }
     var servicesUnifiedFilterScreen: LeanplumABVariable<Int> { return verticals.servicesUnifiedFilterScreen }
     var carPromoCells: LeanplumABVariable<Int> { return verticals.carPromoCells }
+    var realEstatePromoCells: LeanplumABVariable<Int> { return verticals.realEstatePromoCells }
 }
 
 //  MARK: Products
