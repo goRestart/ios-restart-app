@@ -1228,7 +1228,7 @@ extension FeatureFlags {
             return Bumper.carPromoCells
         }
         
-        return .control
+        return CarPromoCells.fromPosition(abTests.carPromoCells.value)
     }
 }
 
