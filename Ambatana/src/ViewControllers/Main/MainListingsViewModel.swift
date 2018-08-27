@@ -346,7 +346,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     
     // > Navigator
     weak var navigator: MainTabNavigator?
-    var feedNavigator: FeedNavigator? { return navigator }
+    var feedNavigator: MainTabNavigator? { return navigator }
     
     // List VM
     let listViewModel: ListingListViewModel
@@ -597,24 +597,14 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     }
     
     func showFilters() {
-        if let searchNavigator = searchNavigator  {
-            wireframe?.openFilters(withFilters: filters, dataDelegate: self)
-        } else {
-            navigator?.openFilters(withListingFilters: filters, filtersVMDataDelegate: self)
-        }
+        wireframe?.openFilters(withFilters: filters, dataDelegate: self)
         tracker.trackEvent(TrackerEvent.filterStart())
     }
     
     func showMap() {
-        if let searchNavigator = searchNavigator  {
-            wireframe?.openMap(requester: listingListRequester,
-                            listingFilters: filters,
-                            searchNavigator: searchNavigator as! ListingsMapNavigator)
-        } else {
-            navigator?.openMap(requester: listingListRequester,
-                               listingFilters: filters,
-                               locationManager: locationManager)
-        }
+        wireframe?.openMap(requester: listingListRequester,
+                        listingFilters: filters,
+                        searchNavigator: searchNavigator as! ListingsMapNavigator)
     }
     
     /**
@@ -810,16 +800,9 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     func bubbleTapped() {
         let initialPlace = filters.place ?? Place(postalAddress: locationManager.currentLocation?.postalAddress,
                                                   location: locationManager.currentLocation?.location)
-        if let searchNavigator = searchNavigator  { // TODO: Work on this for sectioned feed
-            wireframe?.openLocationSelection(with: initialPlace,
-                                             distanceRadius: filters.distanceRadius,
-                                             locationDelegate: self)
-        } else {
-            navigator?.openLocationSelection(initialPlace: initialPlace,
-                                             distanceRadius: filters.distanceRadius,
-                                             locationDelegate: self)
-        }
-        
+        wireframe?.openLocationSelection(with: initialPlace,
+                                      distanceRadius: filters.distanceRadius,
+                                      locationDelegate: self)
     }
     
     func recentItemsBubbleTapped() {
