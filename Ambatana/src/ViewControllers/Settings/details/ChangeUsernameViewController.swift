@@ -3,12 +3,34 @@ import Result
 import UIKit
 import LGComponents
 
-class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, ChangeUsernameViewModelDelegate {
-
-    // outlets & buttons
-    @IBOutlet weak var usernameTextfield: LGTextField!
-    @IBOutlet weak var saveButton: LetgoButton!
+private enum Layout {
+    enum usernameTextField {
+        static let height = CGFloat(44)
+    }
     
+    enum passwordTextField {
+        static let leading = CGFloat(15)
+        static let trailing = CGFloat(15)
+        static let bottom = CGFloat(15)
+        static let height = CGFloat(44)
+    }
+}
+final class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, ChangeUsernameViewModelDelegate {
+ 
+    private let usernameTextField: LGTextField = {
+        let textField = LGTextField()
+        textField.backgroundColor = .white
+        textField.placeholder = R.Strings.changeUsernameFieldHint
+        return textField
+    }()
+    
+    private let saveButton: LetgoButton = {
+        let button = LetgoButton(withStyle: .primary(fontSize: .big))
+        button.setTitle(R.Strings.changeUsernameSaveButton, for: .normal)
+        button.isEnabled = false
+        return button
+    }()
+ 
     let viewModel: ChangeUsernameViewModel
     
     var lines: [CALayer]
@@ -16,23 +38,24 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
     init(vm: ChangeUsernameViewModel) {
         self.viewModel = vm
         self.lines = []
-        super.init(viewModel: viewModel, nibName: "ChangeUsernameViewController")
+        super.init(viewModel: viewModel, nibName: nil)
         self.viewModel.delegate = self
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    @available(*, unavailable)
+    required init?(coder: NSCoder) { fatalError() }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupConstraints()
         setupAccessibilityIds()
+        usernameTextField.text = viewModel.username
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        usernameTextfield.becomeFirstResponder()
+        usernameTextField.becomeFirstResponder()
     }
     
     override func viewWillLayoutSubviews() {
@@ -42,16 +65,12 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
             line.removeFromSuperlayer()
         }
         lines = []
-        lines.append(usernameTextfield.addTopBorderWithWidth(1, color: UIColor.lineGray))
-        lines.append(usernameTextfield.addBottomBorderWithWidth(1, color: UIColor.lineGray))
+        lines.append(usernameTextField.addTopBorderWithWidth(1, color: UIColor.lineGray))
+        lines.append(usernameTextField.addBottomBorderWithWidth(1, color: UIColor.lineGray))
         
     }
-    
-    @IBAction func saveUsername(_ sender: AnyObject) {
-        viewModel.saveUsername()
-    }
-    
-    func saveBarButtonPressed() {
+ 
+    @objc private func saveBarButtonPressed() {
         viewModel.saveUsername()
     }
     
@@ -146,21 +165,39 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
 
     
     func setupUI() {
+        view.addSubviewsForAutoLayout([
+            usernameTextField, saveButton
+        ])
         
-        usernameTextfield.delegate = self
-
+        view.backgroundColor = .groupTableViewBackground
+        
+        usernameTextField.delegate = self
+      
         setNavBarTitle(R.Strings.changeUsernameTitle)
         
-        usernameTextfield.placeholder = R.Strings.changeUsernameFieldHint
-        usernameTextfield.text = viewModel.username
-        
-        saveButton.setTitle(R.Strings.changeUsernameSaveButton, for: .normal)
-        saveButton.setStyle(.primary(fontSize: .big))
-        saveButton.isEnabled = false
+        saveButton.addTarget(self, action: #selector(ChangeUsernameViewController.saveBarButtonPressed), for: .touchUpInside)
+    }
+    
+    private func setupConstraints() {
+        let userNameConstraints = [
+            usernameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            usernameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            usernameTextField.topAnchor.constraint(equalTo: safeTopAnchor),
+            usernameTextField.heightAnchor.constraint(equalToConstant: Layout.usernameTextField.height)
+        ]
+        userNameConstraints.activate()
+
+        let buttonConstraints = [
+            saveButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Layout.passwordTextField.leading),
+            saveButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Layout.passwordTextField.trailing),
+            saveButton.topAnchor.constraint(equalTo: usernameTextField.bottomAnchor, constant: Layout.passwordTextField.bottom),
+            saveButton.heightAnchor.constraint(equalToConstant: Layout.passwordTextField.height)
+        ]
+        buttonConstraints.activate()
     }
 
     private func setupAccessibilityIds() {
-        usernameTextfield.set(accessibilityId: .changeUsernameNameField)
+        usernameTextField.set(accessibilityId: .changeUsernameNameField)
         saveButton.set(accessibilityId: .changeUsernameSendButton)
     }
 }
