@@ -26,6 +26,7 @@ final class P2PPaymentsListingHeaderView: UIView {
 
     init() {
         super.init(frame: .zero)
+        setup()
     }
 
     @available(*, unavailable)
