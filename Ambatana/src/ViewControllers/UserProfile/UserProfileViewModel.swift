@@ -769,9 +769,8 @@ extension UserProfileViewModel: ListingCellDelegate {
                                                         //source: .listingList,
                                                     //interlocutor: interlocutor)
                                                     case .askPhoneProUser:
-                                                        break
-                                                        //guard let interlocutor = userListing else { return }
-                                                    //self?.profileNavigator?.openAskPhoneFromMainFeedFor(listing: listing, interlocutor: interlocutor)
+                                                        guard let interlocutor = userListing else { return }
+                                                        self?.navigator?.openAskPhoneFor(listing: listing, interlocutor: interlocutor)
                                                     case .openChatNonProUser:
                                                         let chatDetailData = ChatDetailData.listingAPI(listing: listing)
                                                         self?.profileNavigator?.openChat(chatDetailData,
@@ -800,7 +799,15 @@ extension UserProfileViewModel: ListingCellDelegate {
     
     func openAskPhoneFor(_ listing: Listing, interlocutor: LocalUser) {}
     
-    func getUserInfoFor(_ listing: Listing, completion: @escaping (User?) -> Void) {}
+    func getUserInfoFor(_ listing: Listing, completion: @escaping (User?) -> Void) {
+        guard let userId = listing.user.objectId else {
+            completion(nil)
+            return
+        }
+        userRepository.show(userId) { result in
+            completion(result.value)
+        }
+    }
 
     func chatButtonPressedFor(listing: Listing) {}
 

@@ -21,6 +21,7 @@ protocol PublicProfileNavigator: class {
                      source: EventParameterListingVisitSource,
                      actionOnFirstAppear: ProductCarouselActionOnFirstAppear)
     func openLoginIfNeeded(infoMessage: String, then loggedInAction: @escaping (() -> Void))
+    func openAskPhoneFor(listing: Listing, interlocutor: User?)
 }
 
 protocol SettingsNavigator: class {

@@ -443,7 +443,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         delegate?.getUserInfoFor(listing) { [weak self] user in
             self?.interestedButton.isHidden = false
             self?.activityIndicator.stopAnimating()
-            self?.interestActionFor(listing: listing, userListing: LocalUser(userListing: listing.user))
+            self?.interestActionFor(listing: listing, userListing: LocalUser(user: user))
         }
     }
     

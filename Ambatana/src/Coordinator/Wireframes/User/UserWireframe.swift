@@ -126,4 +126,10 @@ extension UserWireframe: PublicProfileNavigator {
         vc.modalTransitionStyle = .crossDissolve
         nc.present(vc, animated: true)
     }
+    
+    func openAskPhoneFor(listing: Listing, interlocutor: User?) {
+        let assembly = ProfessionalDealerAskPhoneBuilder.modal(nc)
+        let vc = assembly.buildProfessionalDealerAskPhone(listing: listing, interlocutor: interlocutor)
+        nc.present(vc, animated: true, completion: nil)
+    }
 }
