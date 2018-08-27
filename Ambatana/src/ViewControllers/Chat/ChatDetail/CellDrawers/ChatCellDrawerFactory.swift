@@ -9,12 +9,11 @@
 import Foundation
 import LGCoreKit
 
-class ChatCellDrawerFactory {
+struct ChatCellDrawerFactory {
     
     static func drawerForMessage(_ message: ChatViewMessage,
                                  autoHide: Bool = false,
                                  disclosure: Bool = false,
-                                 showClock: Bool = false,
                                  meetingsEnabled: Bool) -> ChatCellDrawer {
         let myUserRepository = Core.myUserRepository
         
@@ -22,7 +21,7 @@ class ChatCellDrawerFactory {
         switch message.type {
         case .offer, .text, .multiAnswer, .unsupported:
             if isMine {
-                return ChatMyMessageCellDrawer(showDisclose: disclosure, autoHide: autoHide, showClock: showClock)
+                return ChatMyMessageCellDrawer(showDisclose: disclosure, autoHide: autoHide)
             } else {
                 return ChatOthersMessageCellDrawer(autoHide: autoHide)
             }
@@ -43,7 +42,7 @@ class ChatCellDrawerFactory {
                 }
             } else {
                 if isMine {
-                    return ChatMyMessageCellDrawer(showDisclose: disclosure, autoHide: autoHide, showClock: showClock)
+                    return ChatMyMessageCellDrawer(showDisclose: disclosure, autoHide: autoHide)
                 } else {
                     return ChatOthersMessageCellDrawer(autoHide: autoHide)
                 }

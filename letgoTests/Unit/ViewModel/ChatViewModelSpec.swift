@@ -331,7 +331,6 @@ class ChatViewModelSpec: BaseViewModelSpec {
                                 expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "product-detail-ask-question", "user-sent-message"]
                             }
                             it("should not clean textField") {
-
                                 expect(self.textFieldCleaned) == false
                             }
                         }
@@ -784,11 +783,17 @@ extension ChatViewModelSpec {
         var messages: [MockChatMessage] = []
         for _ in 0..<myMessagesNumber {
             var chatMessage = MockChatMessage.makeMock()
+            chatMessage.content = MockChatMessageContent(type: .text,
+                                                         defaultText: String.makeRandom(),
+                                                         text: String.makeRandom())
             chatMessage.talkerId = myUserId
             messages.append(chatMessage)
         }
         for _ in 0..<interlocutorNumberMessages {
             var chatMessage = MockChatMessage.makeMock()
+            chatMessage.content = MockChatMessageContent(type: .text,
+                                                         defaultText: String.makeRandom(),
+                                                         text: String.makeRandom())
             chatMessage.talkerId = interlocutorId
             messages.append(chatMessage)
         }

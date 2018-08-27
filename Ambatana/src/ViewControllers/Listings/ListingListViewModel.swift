@@ -17,7 +17,11 @@ protocol ListingListViewModelDelegate: class {
 protocol ListingListViewModelDataDelegate: class {
     func listingListMV(_ viewModel: ListingListViewModel, didFailRetrievingListingsPage page: UInt, hasListings: Bool,
                          error: RepositoryError)
-    func listingListVM(_ viewModel: ListingListViewModel, didSucceedRetrievingListingsPage page: UInt, withResultsCount resultsCount: Int, hasListings: Bool)
+    func listingListVM(_ viewModel: ListingListViewModel,
+                       didSucceedRetrievingListingsPage page: UInt,
+                       withResultsCount resultsCount: Int,
+                       hasListings: Bool,
+                       containsRecentListings: Bool)
     func listingListVM(_ viewModel: ListingListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
                        originFrame: CGRect?)
     func vmProcessReceivedListingPage(_ Listings: [ListingCellModel], page: UInt) -> [ListingCellModel]
@@ -74,7 +78,7 @@ final class ListingListViewModel: BaseViewModel {
     private let imageDownloader: ImageDownloaderType
 
     // Requesters
-    private var shouldSaveToCache = false
+    private lazy var shouldSaveToCache = featureFlags.cachedFeed.isActive
     private let listingCache: ListingListCache
 
     /// A list of requester to try in sequence in case the previous
@@ -98,8 +102,6 @@ final class ListingListViewModel: BaseViewModel {
         let tuple = requesterFactory?.buildIndexedRequesterList()[safeAt: currentRequesterIndex]
         return tuple?.0
     }
-    
-    var recentListingsRequester: RecentListingsRequester?
     
     private var requesterFactory: RequesterFactory? {
         didSet {
@@ -170,6 +172,10 @@ final class ListingListViewModel: BaseViewModel {
     
     let numberOfColumns: Int
     private var searchType: SearchType?
+    
+    var recentListings: [Listing] = []
+    var isShowingRecentListings = false
+    var hasPreviouslyShownRecentListings = false
 
     // MARK: - Lifecycle
     
@@ -237,9 +243,6 @@ final class ListingListViewModel: BaseViewModel {
                   searchType: searchType)
         self.requesterFactory = requesterFactory
         requesterSequence = requesterFactory.buildRequesterList()
-        if featureFlags.engagementBadging.isActive {
-            self.recentListingsRequester = requesterFactory.buildRecentListingsRequester()
-        }
         setCurrentFallbackRequester()
     }
     
@@ -284,7 +287,7 @@ final class ListingListViewModel: BaseViewModel {
             do {
                 try self?.disk.save(listings, to: .caches, with: .feed)
             } catch let e {
-                // TODO: track this?
+                // do nothing, know nothing
             }
         }
     }
@@ -323,8 +326,12 @@ final class ListingListViewModel: BaseViewModel {
     func setErrorState(_ viewModel: LGEmptyViewModel) {
         state = .error(viewModel)
         if let errorReason = viewModel.emptyReason {
-            trackErrorStateShown(reason: errorReason, errorCode: viewModel.errorCode,
-                                 errorDescription: viewModel.errorDescription)
+            trackErrorStateShown(
+                typePage: isPrivateList ? EventParameterTypePage.profile : EventParameterTypePage.listingList,
+                reason: errorReason,
+                errorCode: viewModel.errorCode,
+                errorDescription: viewModel.errorDescription
+            )
         }
     }
 
@@ -383,7 +390,6 @@ final class ListingListViewModel: BaseViewModel {
 
     func interestStateFor(listingAtIndex index: Int) -> InterestedState? {
         guard !isPrivateList else { return .none }
-        guard featureFlags.shouldShowIAmInterestedInFeed.isVisible else { return nil }
         guard let listingID = objects[index].listing?.objectId else { return nil }
         return listingInterestState[listingID] ?? .send(enabled: true)
     }
@@ -445,6 +451,7 @@ final class ListingListViewModel: BaseViewModel {
             strongSelf.applyNewListingInfo(hasNewListing: !newListings.isEmpty,
                                            context: result.context,
                                            verticalTracking: result.verticalTrackingInfo)
+            
             let cellModels = strongSelf.mapListingsToCellModels(newListings,
                                                                 pageNumber: nextPageNumber,
                                                                 shouldBeProcessed: true)
@@ -477,7 +484,8 @@ final class ListingListViewModel: BaseViewModel {
             strongSelf.dataDelegate?.listingListVM(strongSelf,
                                                    didSucceedRetrievingListingsPage: nextPageNumber,
                                                    withResultsCount: newListings.count,
-                                                   hasListings: hasListings)
+                                                   hasListings: hasListings,
+                                                   containsRecentListings: false)
             strongSelf.currentRequesterIndex = 0
         }
         if isFirstPage {
@@ -569,27 +577,28 @@ final class ListingListViewModel: BaseViewModel {
         imageDownloader.downloadImagesWithURLs(urls)
     }
 
-    func retrieveRecentItems() {
-        isLoading = true
-        recentListingsRequester?.retrieveRecentItems { [weak self] result in
-            guard let strongSelf = self else { return }
-            defer { strongSelf.isLoading = false }
-            guard let newListings = result.listingsResult.value else { return }
-
-            let cellModels = strongSelf.mapListingsToCellModels(newListings,
-                                                                pageNumber: nil,
-                                                                shouldBeProcessed: false)
-            let indexes = strongSelf.updateFirstListingIndexes(withCellModels: cellModels)
-            
-            strongSelf.state = .data
-            strongSelf.delegate?.vmDidFinishLoading(strongSelf,
-                                                    page: 0,
-                                                    indexes: indexes)
-            strongSelf.dataDelegate?.listingListVM(strongSelf,
-                                                   didSucceedRetrievingListingsPage: 0,
-                                                   withResultsCount: newListings.count,
-                                                   hasListings: true)
-        }
+    func addRecentListings(_ recentListings: [Listing]) {
+        self.recentListings = recentListings
+    }
+    
+    func showRecentListings() {
+        let cellModels = mapListingsToCellModels(recentListings,
+                                                 pageNumber: nil,
+                                                 shouldBeProcessed: false)
+        let indexes = updateFirstListingIndexes(withCellModels: cellModels)
+        
+        state = .data
+        delegate?.vmDidFinishLoading(self,
+                                     page: 0,
+                                     indexes: indexes)
+        dataDelegate?.listingListVM(self,
+                                    didSucceedRetrievingListingsPage: 0,
+                                    withResultsCount: recentListings.count,
+                                    hasListings: true,
+                                    containsRecentListings: true)
+        
+        isShowingRecentListings = true
+        hasPreviouslyShownRecentListings = true
     }
     
 
@@ -597,6 +606,7 @@ final class ListingListViewModel: BaseViewModel {
 
     func clearList() {
         objects = []
+        isShowingRecentListings = false
         delegate?.vmReloadData(self)
     }
     
@@ -880,8 +890,13 @@ final class ListingListViewModel: BaseViewModel {
 // MARK: - Tracking
 
 extension ListingListViewModel {
-    func trackErrorStateShown(reason: EventParameterEmptyReason, errorCode: Int?, errorDescription: String?) {
-        let event = TrackerEvent.emptyStateVisit(typePage: .listingList , reason: reason, errorCode: errorCode,
+    func trackErrorStateShown(typePage: EventParameterTypePage,
+                              reason: EventParameterEmptyReason,
+                              errorCode: Int?,
+                              errorDescription: String?) {
+        let event = TrackerEvent.emptyStateVisit(typePage: typePage,
+                                                 reason: reason,
+                                                 errorCode: errorCode,
                                                  errorDescription: errorDescription)
         tracker.trackEvent(event)
 

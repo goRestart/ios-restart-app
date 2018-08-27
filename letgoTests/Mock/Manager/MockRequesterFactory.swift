@@ -44,9 +44,5 @@ class MockRequesterFactory: RequesterFactory {
             (type, buildRequester(withProductCount: count))
         }
     }
-    
-    func buildRecentListingsRequester() -> RecentListingsRequester {
-        return RecentListingsRequester()
-    }
 }
 

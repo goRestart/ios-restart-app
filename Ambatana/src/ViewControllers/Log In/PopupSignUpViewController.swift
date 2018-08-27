@@ -18,8 +18,7 @@ final class PopupSignUpViewController: BaseViewController, UITextViewDelegate, G
     
     private var viewModel: SignUpViewModel
     private var topMessage: String
-
-
+    
     // MARK: - Lifecycle
 
     init(viewModel: SignUpViewModel, topMessage: String) {

@@ -11,7 +11,7 @@ import LGComponents
 
 final class PasswordlessEmailSentViewModel: BaseViewModel {
 
-    weak var navigator: PasswordlessNavigator?
+    var router: LoginNavigator?
     let email: String
 
     init(email: String) {
@@ -19,10 +19,10 @@ final class PasswordlessEmailSentViewModel: BaseViewModel {
     }
 
     func didTapClose() {
-        navigator?.closePasswordlessEmailSent()
+        router?.close()
     }
 
     func didTapHelp() {
-        navigator?.openHelpFromPasswordless()
+        router?.showHelp()
     }
 }

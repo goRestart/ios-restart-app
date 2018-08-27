@@ -103,6 +103,7 @@ enum EventName: String {
     case undoMessageSent                    = "undo-sent-message"
     case chatUpdateAppWarningShow           = "chat-update-app-warning-show"
     case chatLetgoServiceQuestionReceived   = "chat-letgo-service-question-received"
+    case chatLetgoServiceCTAReceived        = "chat-letgo-service-call-to-action-received"
 
     case profileVisit                       = "profile-visit"
     case profileEditStart                   = "profile-edit-start"
@@ -222,6 +223,8 @@ enum EventName: String {
 
     case openCommunity                      = "open-community"
 
+    case showNewItemsBadge                  = "show-new-items-badge"
+    
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
     
@@ -370,6 +373,7 @@ enum EventParameterName: String {
     case seatsTo              = "seats-to"
     case serviceType          = "service-type"
     case serviceSubtype       = "service-subtype"
+    case serviceListingType   = "service-listing-type"
     case paymentFrequency     = "payment-frequency"
     case verticalKeyword            = "vertical-keyword"
     case verticalMatchingFields     = "vertical-matching-fields"
@@ -449,6 +453,9 @@ enum EventParameterName: String {
     // Community
     case showingBanner      = "showing-banner"
     case bannerType         = "banner-type"
+    
+    // Engagement badging
+    case recentItems        = "recent-items"
 }
 
 enum EventParameterBoolean: String {
@@ -501,6 +508,7 @@ enum EventParameterButtonNameType: String {
     case sellYourStuff = "sell-your-stuff"
     case startMakingCash = "start-making-cash"
     case realEstatePromo = "real-estate-promo"
+    case carPromo = "car-promo"
     case cancelSelectType = "cancel-select-type"
     case tapOutside = "tap-outside"
 }
@@ -522,6 +530,7 @@ enum EventParameterSellButtonPosition: String {
     case floatingButton = "big-button"
     case none = "N/A"
     case realEstatePromo = "real-estate-promo"
+    case carPromo = "car-promo"
 }
 
 enum EventParameterShareNetwork: String {
@@ -933,8 +942,8 @@ enum EventParameterEditedFields: String {
     case seats                = "seats"
     case serviceType          = "service-type"
     case serviceSubtype       = "service-subtype"
+    case serviceListingType   = "service-listing-type"
     case paymentFrequency     = "payment-frequency"
-    
 }
 
 enum EventParameterTypePage: String {
@@ -966,6 +975,7 @@ enum EventParameterTypePage: String {
     case inAppNotification = "in-app-notification"
     case filter = "filter"
     case realEstatePromo = "real-estate-promo"
+    case carPromo = "car-promo"
     case filterBubble = "filter-bubble"
     case postingIconInfo = "posting-icon-information"
     case postingLearnMore = "posting-learn-more-button"

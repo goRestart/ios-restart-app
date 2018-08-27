@@ -27,7 +27,11 @@ final class CommunityTabCoordinator: TabCoordinator {
         let keyValueStorage = KeyValueStorage.sharedInstance
         let tracker = TrackerProxy.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
-        let viewModel = CommunityViewModel(communityRepository: Core.communityRepository, source: source, tracker: tracker)
+
+        let viewModel = CommunityViewModel(communityRepository: Core.communityRepository,
+                                           sessionManager: Core.sessionManager,
+                                           source: source,
+                                           tracker: tracker)
         let rootViewController = CommunityViewController(viewModel: viewModel)
 
         super.init(listingRepository: listingRepository, userRepository: userRepository,

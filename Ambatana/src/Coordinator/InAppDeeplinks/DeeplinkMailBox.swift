@@ -30,6 +30,24 @@ extension URL {
     static func makeAppRatingDeeplink(with source: EventParameterRatingSource) -> URL? {
         return URL(string: String(format: "letgo://app_rating?rating-source=%@", source.rawValue))
     }
+
+    static func makeSellDeeplink(with source: PostingSource?, category: PostCategory?, title: String?) -> URL? {
+        var params: [String] = []
+        var deeplink = "letgo://sell"
+        if let source = source {
+            params.append("source=\(source.rawValue)")
+        }
+        if let category = category {
+            params.append("category=\(category.description)")
+        }
+        if let title = title {
+            params.append("title=\(title)")
+        }
+        if params.count > 0 {
+            deeplink += "?\(params.joined(separator: "&"))"
+        }
+        return URL(string: deeplink)
+    }
 }
 
 final class LGDeepLinkMailBox: DeepLinkMailBox {

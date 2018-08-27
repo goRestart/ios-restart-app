@@ -10,9 +10,11 @@ enum FilterServicesSection {
     var title: String {
         switch self {
         case .type:
-            return R.Strings.servicesServiceTypeTitle
+            return FeatureFlags.sharedInstance.jobsAndServicesEnabled.isActive ?
+                R.Strings.filtersJobsServicesTypeTitle : R.Strings.servicesServiceTypeTitle
         case .subtype:
-            return R.Strings.servicesServiceSubtypeTitle
+            return FeatureFlags.sharedInstance.jobsAndServicesEnabled.isActive ?
+                R.Strings.filtersJobsServicesSubtypeTitle : R.Strings.servicesServiceSubtypeTitle
         case .unified:
             return R.Strings.servicesUnifiedFilterTitle
         }

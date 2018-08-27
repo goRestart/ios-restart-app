@@ -817,7 +817,8 @@ class TrackerEventSpec: QuickSpec {
                                                    searchQuery: searchQuery,
                                                    resultsCount: count,
                                                    feedSource: .home,
-                                                   success: .trueParameter)
+                                                   success: .trueParameter,
+                                                   recentItems: .falseParameter)
                 }
                 
                 it("has its event name") {
@@ -844,6 +845,9 @@ class TrackerEventSpec: QuickSpec {
                     } else {
                         expect(sut.params!.stringKeyParams["number-of-items"] as? String).to(equal("\(count)"))
                     }
+                }
+                it("contains recentItems parameter with false value") {
+                    expect(sut.params!.stringKeyParams["recent-items"] as? String).to(equal("false"))
                 }
             }
             
@@ -1113,8 +1117,11 @@ class TrackerEventSpec: QuickSpec {
                     it ("service-subtype") {
                         expect(sut.params!.stringKeyParams["service-subtype"] as? String).notTo(beNil())
                     }
+                    it ("service-listing-type") {
+                        expect(sut.params!.stringKeyParams["service-listing-type"] as? String).notTo(beNil())
+                    }
                     it ("vertical fields") {
-                        expect(sut.params!.stringKeyParams["vertical-fields"] as? String) == "product-make,product-model,product-year-start,product-year-end,mileage-from,mileage-to,body-type,transmission,fuel-type,drivetrain,seats-from,seats-to,service-subtype,service-type,deal-type,property-type,bedroom-number,bathroom-number,room-number,size-from"
+                        expect(sut.params!.stringKeyParams["vertical-fields"] as? String) == "product-make,product-model,product-year-start,product-year-end,mileage-from,mileage-to,body-type,transmission,fuel-type,drivetrain,seats-from,seats-to,service-subtype,service-type,service-listing-type,deal-type,property-type,bedroom-number,bathroom-number,room-number,size-from"
                     }
                 }
                 context("not receiving all params, contains the default params") {
@@ -3627,6 +3634,7 @@ class TrackerEventSpec: QuickSpec {
                         services.descr = String.makeRandom()
                         let servicesAttributes = ServiceAttributes(typeId: "0123",
                                                                    subtypeId: "4567",
+                                                                   listingType: ServiceListingType.job,
                                                                    typeTitle: String.makeRandom(),
                                                                    subtypeTitle: String.makeRandom(),
                                                                    paymentFrequency: PaymentFrequency.biweekly)
@@ -3634,7 +3642,7 @@ class TrackerEventSpec: QuickSpec {
                         sut = TrackerEvent.listingEditComplete(nil,
                                                                listing: .service(services),
                                                                category: nil,
-                                                               editedFields: [.title, .category],
+                                                               editedFields: [.title, .category, .serviceListingType],
                                                                pageType: .profile)
                     }
                     it("has its event name") {
@@ -3654,9 +3662,9 @@ class TrackerEventSpec: QuickSpec {
                     it ("contains edited-fields") {
                         expect(sut.params!.stringKeyParams["edited-fields"]).notTo(beNil())
                     }
-                    it ("contains title and category fields") {
+                    it ("contains title category and service-listing-type fields") {
                         let editedFields = sut.params!.stringKeyParams["edited-fields"] as? String
-                        expect(editedFields).to(equal("title,category"))
+                        expect(editedFields).to(equal("title,category,service-listing-type"))
                     }
                     it("contains service-type") {
                         let data = sut.params!.stringKeyParams["service-type"] as? String
@@ -3665,6 +3673,10 @@ class TrackerEventSpec: QuickSpec {
                     it("contains service-subtype") {
                         let data = sut.params!.stringKeyParams["service-subtype"] as? String
                         expect(data).to(equal("4567"))
+                    }
+                    it("contains service-listing-type") {
+                        let data = sut.params!.stringKeyParams["service-listing-type"] as? String
+                        expect(data).to(equal("job"))
                     }
                     it("contains payment-frequency") {
                         let data = sut.params!.stringKeyParams["payment-frequency"] as? String
@@ -5320,6 +5332,23 @@ class TrackerEventSpec: QuickSpec {
                     expect(param) == "1234"
                 }
             }
+            
+            describe("chat letgo service cta received") {
+                beforeEach {
+                    sut = TrackerEvent.chatLetgoServiceCTAReceived(questionKey: "key", listingId: "1234")
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("chat-letgo-service-call-to-action-received"))
+                }
+                it("contains the key") {
+                    let param = sut.params!.stringKeyParams["message-goal"] as? String
+                    expect(param) == "key"
+                }
+                it("contains the listing id") {
+                    let param = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(param) == "1234"
+                }
+            }
 
             describe("chat message call to action tapped") {
                 beforeEach {
@@ -5507,7 +5536,7 @@ class TrackerEventSpec: QuickSpec {
                         expect(sut.params!.stringKeyParams["service-subtype"] as? String).notTo(beNil())
                     }
                     it ("vertical fields") {
-                        expect(sut.params!.stringKeyParams["vertical-fields"] as? String) == "product-make,product-model,product-year-start,product-year-end,mileage-from,mileage-to,body-type,transmission,fuel-type,drivetrain,seats-from,seats-to,service-subtype,service-type,deal-type,property-type,bedroom-number,bathroom-number,room-number,size-from"
+                        expect(sut.params!.stringKeyParams["vertical-fields"] as? String) == "product-make,product-model,product-year-start,product-year-end,mileage-from,mileage-to,body-type,transmission,fuel-type,drivetrain,seats-from,seats-to,service-subtype,service-type,service-listing-type,deal-type,property-type,bedroom-number,bathroom-number,room-number,size-from"
                     }
                 }
             }
@@ -5710,6 +5739,7 @@ class TrackerEventSpec: QuickSpec {
                     }
                 }
             }
+            
             describe("Open Community") {
                 describe("From product list") {
                     beforeEach {
@@ -5732,6 +5762,15 @@ class TrackerEventSpec: QuickSpec {
                     it("event name is open-community") {
                         expect(sut.name.rawValue) == "open-community"
                     }
+                }
+            }
+            
+            describe("Show new items badge") {
+                beforeEach {
+                    sut = TrackerEvent.showNewItemsBadge()
+                }
+                it("event name is show-new-items-badge") {
+                    expect(sut.name.rawValue) == "show-new-items-badge"
                 }
             }
         }

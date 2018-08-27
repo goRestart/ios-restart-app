@@ -236,6 +236,7 @@ extension R {
         public static let childFeed = ImageAsset(name: "child_feed")
         public static let entretainmentFeed = ImageAsset(name: "entretainment_feed")
         public static let fashionFeed = ImageAsset(name: "fashion_feed")
+        public static let freeFeed = ImageAsset(name: "free_feed")
         public static let homeFeed = ImageAsset(name: "home_feed")
         public static let housingFeed = ImageAsset(name: "housing_feed")
         public static let leisureFeed = ImageAsset(name: "leisure_feed")
@@ -565,6 +566,7 @@ extension R {
         CategoriesHeaderIcons.childFeed,
         CategoriesHeaderIcons.entretainmentFeed,
         CategoriesHeaderIcons.fashionFeed,
+        CategoriesHeaderIcons.freeFeed,
         CategoriesHeaderIcons.homeFeed,
         CategoriesHeaderIcons.housingFeed,
         CategoriesHeaderIcons.leisureFeed,
@@ -950,8 +952,24 @@ extension R {
       @available(*, deprecated, renamed: "allImages")
       public static let allValues: [AssetType] = allImages
     }
-    public enum RealEstate {
-      public enum Promo {
+    public enum Verticals {
+      public enum CarPromos {
+        public enum Backgrounds {
+          public static let background1 = ImageAsset(name: "background-1")
+          public static let background2 = ImageAsset(name: "background-2")
+          public static let background3 = ImageAsset(name: "background-3")
+          public static let background4 = ImageAsset(name: "background-4")
+          public static let background5 = ImageAsset(name: "background-5")
+        }
+        public enum Icons {
+          public static let promo1 = ImageAsset(name: "promo-1")
+          public static let promo2 = ImageAsset(name: "promo-2")
+          public static let promo3 = ImageAsset(name: "promo-3")
+          public static let promo4 = ImageAsset(name: "promo-4")
+          public static let promo5 = ImageAsset(name: "promo-5")
+        }
+      }
+      public enum RealEstatePromos {
         public static let realEstatePromo1 = ImageAsset(name: "real-estate-promo-1")
         public static let realEstatePromo2 = ImageAsset(name: "real-estate-promo-2")
         public static let realEstatePromo3 = ImageAsset(name: "real-estate-promo-3")
@@ -965,13 +983,23 @@ extension R {
       public static let allColors: [ColorAsset] = [
       ]
       public static let allImages: [ImageAsset] = [
-        Promo.realEstatePromo1,
-        Promo.realEstatePromo2,
-        Promo.realEstatePromo3,
-        Promo.realEstatePromo4,
-        Promo.realEstatePromo5,
-        Promo.realEstatePromo6,
-        Promo.realEstatePromo7,
+        CarPromos.Backgrounds.background1,
+        CarPromos.Backgrounds.background2,
+        CarPromos.Backgrounds.background3,
+        CarPromos.Backgrounds.background4,
+        CarPromos.Backgrounds.background5,
+        CarPromos.Icons.promo1,
+        CarPromos.Icons.promo2,
+        CarPromos.Icons.promo3,
+        CarPromos.Icons.promo4,
+        CarPromos.Icons.promo5,
+        RealEstatePromos.realEstatePromo1,
+        RealEstatePromos.realEstatePromo2,
+        RealEstatePromos.realEstatePromo3,
+        RealEstatePromos.realEstatePromo4,
+        RealEstatePromos.realEstatePromo5,
+        RealEstatePromos.realEstatePromo6,
+        RealEstatePromos.realEstatePromo7,
       ]
       // swiftlint:enable trailing_comma
       @available(*, deprecated, renamed: "allImages")

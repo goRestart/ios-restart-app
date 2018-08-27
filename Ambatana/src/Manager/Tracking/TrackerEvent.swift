@@ -181,8 +181,13 @@ struct TrackerEvent {
         return TrackerEvent(name: .loginBlockedAccountKeepBrowsing, params: params)
     }
 
-    static func listingList(_ user: User?, categories: [ListingCategory]?, searchQuery: String?,
-                            resultsCount: ItemsCount?, feedSource: EventParameterFeedSource, success: EventParameterBoolean) -> TrackerEvent {
+    static func listingList(_ user: User?,
+                            categories: [ListingCategory]?,
+                            searchQuery: String?,
+                            resultsCount: ItemsCount?,
+                            feedSource: EventParameterFeedSource,
+                            success: EventParameterBoolean,
+                            recentItems: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
 
         params[.feedSource] = feedSource.rawValue
@@ -196,6 +201,7 @@ struct TrackerEvent {
             params[.numberOfItems] = count.value
         }
         params[.listSuccess] = success.rawValue
+        params[.recentItems] = recentItems.rawValue
         return TrackerEvent(name: .listingList, params: params)
     }
     
@@ -617,6 +623,7 @@ struct TrackerEvent {
         
         params[.serviceType] = listing.service?.servicesAttributes.typeId ?? SharedConstants.parameterNotApply
         params[.serviceSubtype] = listing.service?.servicesAttributes.subtypeId ?? SharedConstants.parameterNotApply
+        params[.serviceListingType] = listing.service?.servicesAttributes.listingType?.rawValue ?? SharedConstants.parameterNotApply
         
         return TrackerEvent(name: .listingSellComplete, params: params)
     }
@@ -850,6 +857,7 @@ struct TrackerEvent {
         if let servicesAttributes = listing.service?.servicesAttributes {
             params[.serviceType] = servicesAttributes.typeId ?? SharedConstants.parameterNotApply
             params[.serviceSubtype] = servicesAttributes.subtypeId ?? SharedConstants.parameterNotApply
+            params[.serviceListingType] = servicesAttributes.listingType?.rawValue ?? SharedConstants.parameterNotApply
             params[.paymentFrequency] = servicesAttributes.paymentFrequency?.rawValue
         }
         
@@ -970,6 +978,13 @@ struct TrackerEvent {
         params[.messageGoal] = questionKey
         params[.listingId] = listingId
         return TrackerEvent(name: .chatLetgoServiceQuestionReceived, params: params)
+    }
+    
+    static func chatLetgoServiceCTAReceived(questionKey: String, listingId: String) -> TrackerEvent {
+        var params = EventParameters()
+        params[.messageGoal] = questionKey
+        params[.listingId] = listingId
+        return TrackerEvent(name: .chatLetgoServiceCTAReceived, params: params)
     }
 
     static func chatCallToActionTapped(ctaKey: String, isLetgoAssistant: EventParameterBoolean) -> TrackerEvent {
@@ -1645,6 +1660,10 @@ struct TrackerEvent {
                                                                 priceRange: FilterPriceRange) -> EventParameterBoolean {
         guard freePostingModeAllowed else {return .notAvailable}
         return priceRange.free ? .trueParameter : .falseParameter
+    }
+    
+    static func showNewItemsBadge() -> TrackerEvent {
+        return TrackerEvent(name: .showNewItemsBadge, params: nil)
     }
 }
 

@@ -61,7 +61,17 @@ struct UniversalLink {
                 return UniversalLink(deepLink: DeepLink.link(.user(userId: userId), campaign: campaign, medium: medium, source: source, cardActionParameter: cardAction))
             case "q", "scq":
                 guard components.count > 2, let query = components.last else { return nil }
-                return UniversalLink(deepLink: DeepLink.link(.search(query: query, categories: queryParams["categories"]), campaign: campaign, medium: medium, source: source, cardActionParameter: cardAction))
+                return UniversalLink(deepLink: DeepLink.link(.search(query: query,
+                                                                     categories: queryParams[DeepLinkAction.SearchDeepLinkQueryParameters.categories.rawValue],
+                                                                     distanceRadius: queryParams[DeepLinkAction.SearchDeepLinkQueryParameters.distanceRadius.rawValue],
+                                                                     sortCriteria: queryParams[DeepLinkAction.SearchDeepLinkQueryParameters.sortCriteria.rawValue],
+                                                                     priceFlag: queryParams[DeepLinkAction.SearchDeepLinkQueryParameters.priceFlag.rawValue],
+                                                                     minPrice: queryParams[DeepLinkAction.SearchDeepLinkQueryParameters.minPrice.rawValue],
+                                                                     maxPrice: queryParams[DeepLinkAction.SearchDeepLinkQueryParameters.maxPrice.rawValue]),
+                                                             campaign: campaign,
+                                                             medium: medium,
+                                                             source: source,
+                                                             cardActionParameter: cardAction))
             case "account-chat-list":
                 return UniversalLink(deepLink: DeepLink.link(.conversations, campaign: campaign, medium: medium, source: source, cardActionParameter: cardAction))
             case "account-chat-conversation":

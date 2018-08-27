@@ -64,13 +64,28 @@ final class MainTabCoordinator: TabCoordinator, FeedNavigator {
     }
     
 
-    func openSearch(_ query: String, categoriesString: String?) {
-        var filters = ListingFilters()
-        if let categoriesString = categoriesString {
-            filters.selectedCategories = ListingCategory.categoriesFromString(categoriesString)
+    func openSearch(query: String?,
+                    categories: String?,
+                    distanceRadius: String?,
+                    sortCriteria: String?,
+                    priceFlag: String?,
+                    minPrice: String?,
+                    maxPrice: String?) {
+        let filters = ListingFilters(categoriesString: categories,
+                                     distanceRadiusString: distanceRadius,
+                                     sortCriteriaString: sortCriteria,
+                                     priceFlagString: priceFlag,
+                                     minPriceString: minPrice,
+                                     maxPriceString: maxPrice)
+        let searchType: SearchType?
+        if let query = query {
+            searchType = .user(query: query)
+        } else {
+            searchType = nil
         }
-        let viewModel = MainListingsViewModel(searchType: .user(query: query), filters: filters)
+        let viewModel = MainListingsViewModel(searchType: searchType, filters: filters)
         viewModel.navigator = self
+        viewModel.wireframe = MainListingWireframe(nc: navigationController)
         let vc = MainListingsViewController(viewModel: viewModel)
 
         navigationController.pushViewController(vc, animated: true)
@@ -88,9 +103,28 @@ final class MainTabCoordinator: TabCoordinator, FeedNavigator {
 }
 
 extension MainTabCoordinator: MainTabNavigator {
+    func openListingChat(_ listing: Listing,
+                         source: EventParameterTypePage,
+                         interlocutor: User?) {
+        chatNavigator.openListingChat(listing,
+                                      source: source,
+                                      interlocutor: interlocutor,
+                                      openChatAutomaticMessage: nil)
+    }
 
     func openLoginIfNeeded(infoMessage: String, then loggedAction: @escaping (() -> Void)) {
-        openLoginIfNeeded(from: .directChat, style: .popup(infoMessage), loggedInAction: loggedAction, cancelAction: nil)
+        guard !sessionManager.loggedIn else {
+            loggedAction()
+            return
+        }
+        
+        let vc = LoginBuilder.modal.buildPopupSignUp(
+            withMessage: infoMessage,
+            andSource: .directChat,
+            loginAction: loggedAction,
+            cancelAction: nil
+        )
+        viewController.present(vc, animated: true, completion: nil)
     }
 
     func openMainListings(withSearchType searchType: SearchType, listingFilters: ListingFilters) {
@@ -115,15 +149,12 @@ extension MainTabCoordinator: MainTabNavigator {
     func openLocationSelection(initialPlace: Place?,
                                distanceRadius: Int?,
                                locationDelegate: EditLocationDelegate) {
-        guard let editLocationFiltersCoord =
-            QuickLocationFiltersCoordinator(initialPlace: initialPlace,
-                                            distanceRadius: distanceRadius,
-                                            locationDelegate: locationDelegate) else { return }
-        openChild(coordinator: editLocationFiltersCoord,
-                  parent: rootViewController,
-                  animated: true,
-                  forceCloseChild: true,
-                  completion: nil)
+        let assembly = QuickLocationFiltersBuilder.modal(rootViewController)
+        let vc = assembly.buildQuickLocationFilters(mode: .quickFilterLocation,
+                                                    initialPlace: initialPlace,
+                                                    distanceRadius: distanceRadius,
+                                                    locationDelegate: locationDelegate)
+        navigationController.present(vc, animated: true, completion: nil)
     }
     
     func showPushPermissionsAlert(withPositiveAction positiveAction: @escaping (() -> Void), negativeAction: @escaping (() -> Void)) {
@@ -162,21 +193,17 @@ extension MainTabCoordinator: MainTabNavigator {
     }
     
     func openAskPhoneFromMainFeedFor(listing: Listing, interlocutor: User?) {
-        let askNumVM = ProfessionalDealerAskPhoneViewModel(listing: listing, interlocutor: interlocutor, typePage: .feed)
-        askNumVM.navigator = self
-        let askNumVC = ProfessionalDealerAskPhoneViewController(viewModel: askNumVM)
-        askNumVC.setupForModalWithNonOpaqueBackground()
-        tabCoordinatorDelegate?.tabCoordinator(self,
-                                               setSellButtonHidden: true,
-                                               animated: false)
-        navigationController.present(askNumVC, animated: true, completion: nil)
+        let assembly = ProfessionalDealerAskPhoneBuilder.modal(navigationController)
+        let vc = assembly.buildProfessionalDealerAskPhone(listing: listing, interlocutor: interlocutor)
+        navigationController.present(vc, animated: true, completion: nil)
     }
 
     func openPrivateUserProfile() {
-        openLoginIfNeeded(from: .profile, style: .fullScreen, loggedInAction: {
+        let vc = LoginBuilder.modal.buildMainSignIn(withSource: .profile, loginAction: {
             let coord = ProfileTabCoordinator(source: .mainListing)
             self.openChild(coordinator: coord, parent: self.rootViewController, animated: true, forceCloseChild: true, completion: nil)
         }, cancelAction: nil)
+        viewController.present(vc, animated: true, completion: nil)
     }
 
     func openCommunity() {

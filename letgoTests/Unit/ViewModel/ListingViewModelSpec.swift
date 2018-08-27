@@ -936,10 +936,6 @@ extension ListingViewModelSpec: ListingDetailNavigator {
 
     }
 
-    func closeFeaturedInfo() {
-
-    }
-
     func openAskPhoneFor(listing: Listing, interlocutor: User?) {
 
     }

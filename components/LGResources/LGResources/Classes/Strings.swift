@@ -156,6 +156,10 @@ extension R {
     public static let cachedFeedError = Strings.tr("Localizable", "cached_feed_error")
     /// New items
     public static let cachedFeedNewListings = Strings.tr("Localizable", "cached_feed_new_listings")
+    /// Make money
+    public static let carPromoCellTitleBoldText = Strings.tr("Localizable", "car_promo_cell_title_bold_text")
+    /// selling your car
+    public static let carPromoCellTitleRegularText = Strings.tr("Localizable", "car_promo_cell_title_regular_text")
     /// Baby and Child
     public static let categoriesBabyAndChild = Strings.tr("Localizable", "categories_baby_and_child")
     /// Cars
@@ -194,6 +198,8 @@ extension R {
     public static let categoriesInFeedServices = Strings.tr("Localizable", "categories_inFeed_services")
     /// Leisure
     public static let categoriesInFeedSportsLeisureGames = Strings.tr("Localizable", "categories_inFeed_sports_leisure_games")
+    /// Jobs & Services
+    public static let categoriesJobsServices = Strings.tr("Localizable", "categories_jobs_services")
     /// Movies, Books and Music
     public static let categoriesMoviesBooksAndMusic = Strings.tr("Localizable", "categories_movies_books_and_music")
     /// Other
@@ -728,8 +734,30 @@ extension R {
     public static let directAnswerHowMuchAsking = Strings.tr("Localizable", "direct_answer_how_much_asking")
     /// I'm interested!
     public static let directAnswerInterested = Strings.tr("Localizable", "direct_answer_interested")
+    /// I'd like to buy it
+    public static let directAnswerInterestedBuyIt = Strings.tr("Localizable", "direct_answer_interested_buy_it")
+    /// Has it sold?
+    public static let directAnswerInterestedHasItSold = Strings.tr("Localizable", "direct_answer_interested_has_it_sold")
+    /// I'm interested in buying it
+    public static let directAnswerInterestedInBuyingIt = Strings.tr("Localizable", "direct_answer_interested_in_buying_it")
+    /// I'm interested in this item
+    public static let directAnswerInterestedInThisItem = Strings.tr("Localizable", "direct_answer_interested_in_this_item")
+    /// Is it still available?
+    public static let directAnswerInterestedIsItStillAvailable = Strings.tr("Localizable", "direct_answer_interested_is_it_still_available")
+    /// Is it still for sale?
+    public static let directAnswerInterestedIsItStillForSale = Strings.tr("Localizable", "direct_answer_interested_is_it_still_for_sale")
+    /// Is this available?
+    public static let directAnswerInterestedIsThisAvailable = Strings.tr("Localizable", "direct_answer_interested_is_this_available")
+    /// Is this still available?
+    public static let directAnswerInterestedIsThisStillAvailable = Strings.tr("Localizable", "direct_answer_interested_is_this_still_available")
+    /// Do you still have it?
+    public static let directAnswerInterestedStillHaveIt = Strings.tr("Localizable", "direct_answer_interested_still_have_it")
+    /// Are you still selling it?
+    public static let directAnswerInterestedStillSellingIt = Strings.tr("Localizable", "direct_answer_interested_still_selling_it")
     /// Interested...
     public static let directAnswerInterestedTitle = Strings.tr("Localizable", "direct_answer_interested_title")
+    /// What condition is it in?
+    public static let directAnswerInterestedWhatCondition = Strings.tr("Localizable", "direct_answer_interested_what_condition")
     /// Is the price negotiable?
     public static let directAnswerIsNegotiable = Strings.tr("Localizable", "direct_answer_is_negotiable")
     /// Let's meet
@@ -806,6 +834,16 @@ extension R {
     public static let discardedProductsReasonReferenceToCompetitors = Strings.tr("Localizable", "discarded_products_reason_reference_to_competitors")
     /// Only contains stock photos
     public static let discardedProductsReasonStockPhotoOnly = Strings.tr("Localizable", "discarded_products_reason_stock_photo_only")
+    /// Jobs
+    public static let editJobsServicesJobsOptionTitle = Strings.tr("Localizable", "edit_jobsServices_jobs_option_title")
+    /// Type of listing
+    public static let editJobsServicesListingTypeTitle = Strings.tr("Localizable", "edit_jobsServices_listingType_title")
+    /// Services
+    public static let editJobsServicesServicesOptionTitle = Strings.tr("Localizable", "edit_jobsServices_services_option_title")
+    /// Subtype
+    public static let editJobsServicesServiceSubtypeTitle = Strings.tr("Localizable", "edit_jobsServices_serviceSubtype_title")
+    /// Type
+    public static let editJobsServicesServiceTypeTitle = Strings.tr("Localizable", "edit_jobsServices_serviceType_title")
     /// Not set
     public static let editPaymentFrequencyPlaceholder = Strings.tr("Localizable", "edit_paymentFrequency_placeholder")
     /// Frequency
@@ -936,6 +974,14 @@ extension R {
     public static let filtersCarsTransmissionTitle = Strings.tr("Localizable", "filters_cars_transmission_title")
     /// not set
     public static let filtersDistanceNotSet = Strings.tr("Localizable", "filters_distance_not_set")
+    /// Job or Service Info
+    public static let filtersJobsServicesHeader = Strings.tr("Localizable", "filters_jobs_services_header")
+    /// Subtype
+    public static let filtersJobsServicesSubtypeTitle = Strings.tr("Localizable", "filters_jobs_services_subtype_title")
+    /// Looking for...
+    public static let filtersJobsServicesToggleHeader = Strings.tr("Localizable", "filters_jobs_services_toggle_header")
+    /// Type
+    public static let filtersJobsServicesTypeTitle = Strings.tr("Localizable", "filters_jobs_services_type_title")
     /// Mileage
     public static let filtersMileageSliderTitle = Strings.tr("Localizable", "filters_mileage_slider_title")
     /// Reset
@@ -1612,6 +1658,8 @@ extension R {
     public static let postDescriptionNamePlaceholder = Strings.tr("Localizable", "post_description_name_placeholder")
     /// Save this listing!
     public static let postDescriptionSaveButtonText = Strings.tr("Localizable", "post_description_save_button_text")
+    /// Post your company’s logo or a photo that shows the service or job you’re offering
+    public static let postDetailsJobsServicesCameraMessage = Strings.tr("Localizable", "post_details_jobs_services_camera_message")
     /// Looking to hire someone for a
     public static let postDetailsJobsServicesStepOptionJobsPrefix = Strings.tr("Localizable", "post_details_jobs_services_step_option_jobs_prefix")
     /// Advertising a
@@ -2762,9 +2810,9 @@ extension R {
     public static let reportingUserReportSentBlockUserAText = Strings.tr("Localizable", "reporting_user_report_sent_block_user_A_text")
     /// Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nBe sure to leave a review of this seller to let others know about your experience.\n\nYou can always block a user to make sure they can no longer see your items or chat with you.
     public static let reportingUserReportSentBlockUserAWithReviewText = Strings.tr("Localizable", "reporting_user_report_sent_block_user_A_with_review_text")
-    /// Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nOur team will investigate your claim, in the meantime, you can always block a user to make sure they can no longer see your items or chat with you.
+    /// Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nOur team will investigate your claim. In the meantime, you can always block a user to make sure they can no longer see your items or chat with you.
     public static let reportingUserReportSentBlockUserBText = Strings.tr("Localizable", "reporting_user_report_sent_block_user_B_text")
-    /// Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nBe sure to leave a review of this user to let others know about your experience.\n\nOur team will investigate your claim, in the meantime,  you can always block a user to make sure they can no longer see your items or chat with you.
+    /// Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nBe sure to leave a review of this user to let others know about your experience.\n\nOur team will investigate your claim. In the meantime, you can always block a user to make sure they can no longer see your items or chat with you.
     public static let reportingUserReportSentBlockUserBWithReviewText = Strings.tr("Localizable", "reporting_user_report_sent_block_user_B_with_review_text")
     /// Block reported user
     public static let reportingUserReportSentBlockUserBigButtonTitle = Strings.tr("Localizable", "reporting_user_report_sent_block_user_big_button_title")

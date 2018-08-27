@@ -48,7 +48,9 @@ class MainListingsViewModelSpec: QuickSpec {
                                                 keyValueStorage: keyValueStorage,
                                                 featureFlags: mockFeatureFlags,
                                                 bubbleTextGenerator: DistanceBubbleTextGenerator(),
-                                                chatWrapper: MockChatWrapper())
+                                                chatWrapper: MockChatWrapper(),
+                                                interestedStateUpdater: MockInterestedStateUpdater(),
+                                                feedBadgingSynchronizer: MockFeedBadgingSynchronizer())
                     expect(sut.currentActiveFilters?.selectedCategories) == []
                 }
                 it("has firstDate no nil (more than one time in Letgo)") {
@@ -70,7 +72,9 @@ class MainListingsViewModelSpec: QuickSpec {
                                                 keyValueStorage: keyValueStorage,
                                                 featureFlags: mockFeatureFlags,
                                                 bubbleTextGenerator: DistanceBubbleTextGenerator(),
-                                                chatWrapper: MockChatWrapper())
+                                                chatWrapper: MockChatWrapper(),
+                                                interestedStateUpdater: MockInterestedStateUpdater(),
+                                                feedBadgingSynchronizer: MockFeedBadgingSynchronizer())
                     expect(sut.currentActiveFilters?.selectedCategories) == []
                 }
             }
@@ -104,7 +108,9 @@ class MainListingsViewModelSpec: QuickSpec {
                                                 keyValueStorage: keyValueStorage,
                                                 featureFlags: mockFeatureFlags,
                                                 bubbleTextGenerator: DistanceBubbleTextGenerator(),
-                                                chatWrapper: MockChatWrapper())
+                                                chatWrapper: MockChatWrapper(),
+                                                interestedStateUpdater: MockInterestedStateUpdater(),
+                                                feedBadgingSynchronizer: MockFeedBadgingSynchronizer())
                 }
                 context("when user set some filters") {
                     
@@ -167,8 +173,14 @@ class MainListingsViewModelSpec: QuickSpec {
                                                     keyValueStorage: keyValueStorage,
                                                     featureFlags: mockFeatureFlags,
                                                     bubbleTextGenerator: DistanceBubbleTextGenerator(),
-                                                    chatWrapper: MockChatWrapper())
-                        sut.listingListVM(listingListViewModel, didSucceedRetrievingListingsPage: 0, withResultsCount: Int.random(), hasListings: true)
+                                                    chatWrapper: MockChatWrapper(),
+                                                    interestedStateUpdater: MockInterestedStateUpdater(),
+                                                    feedBadgingSynchronizer: MockFeedBadgingSynchronizer())
+                        sut.listingListVM(listingListViewModel,
+                                          didSucceedRetrievingListingsPage: 0,
+                                          withResultsCount: Int.random(),
+                                          hasListings: true,
+                                          containsRecentListings: false)
                     }
                     it("fires product list event") {
                         let eventNames = mockTracker.trackedEvents.compactMap { $0.name }
@@ -202,8 +214,14 @@ class MainListingsViewModelSpec: QuickSpec {
                                                     keyValueStorage: keyValueStorage,
                                                     featureFlags: mockFeatureFlags,
                                                     bubbleTextGenerator: DistanceBubbleTextGenerator(),
-                                                    chatWrapper: MockChatWrapper())
-                        sut.listingListVM(listingListViewModel, didSucceedRetrievingListingsPage: 0, withResultsCount: Int.random(), hasListings: true)
+                                                    chatWrapper: MockChatWrapper(),
+                                                    interestedStateUpdater: MockInterestedStateUpdater(),
+                                                    feedBadgingSynchronizer: MockFeedBadgingSynchronizer())
+                        sut.listingListVM(listingListViewModel,
+                                          didSucceedRetrievingListingsPage: 0,
+                                          withResultsCount: Int.random(),
+                                          hasListings: true,
+                                          containsRecentListings: false)
                     }
                     it("fires listing list event and search complete") {
                         let eventNames = mockTracker.trackedEvents.compactMap { $0.name }
@@ -237,8 +255,14 @@ class MainListingsViewModelSpec: QuickSpec {
                                                     keyValueStorage: keyValueStorage,
                                                     featureFlags: mockFeatureFlags,
                                                     bubbleTextGenerator: DistanceBubbleTextGenerator(),
-                                                    chatWrapper: MockChatWrapper())
-                        sut.listingListVM(listingListViewModel, didSucceedRetrievingListingsPage: 0, withResultsCount: Int.random(), hasListings: true)
+                                                    chatWrapper: MockChatWrapper(),
+                                                    interestedStateUpdater: MockInterestedStateUpdater(),
+                                                    feedBadgingSynchronizer: MockFeedBadgingSynchronizer())
+                        sut.listingListVM(listingListViewModel,
+                                          didSucceedRetrievingListingsPage: 0,
+                                          withResultsCount: Int.random(),
+                                          hasListings: true,
+                                          containsRecentListings: false)
                     }
                     it("fires product list event") {
                         let eventNames = mockTracker.trackedEvents.compactMap { $0.name }
@@ -272,8 +296,14 @@ class MainListingsViewModelSpec: QuickSpec {
                                                     keyValueStorage: keyValueStorage,
                                                     featureFlags: mockFeatureFlags,
                                                     bubbleTextGenerator: DistanceBubbleTextGenerator(),
-                                                    chatWrapper: MockChatWrapper())
-                        sut.listingListVM(listingListViewModel, didSucceedRetrievingListingsPage: 0, withResultsCount: Int.random(), hasListings: true)
+                                                    chatWrapper: MockChatWrapper(),
+                                                    interestedStateUpdater: MockInterestedStateUpdater(),
+                                                    feedBadgingSynchronizer: MockFeedBadgingSynchronizer())
+                        sut.listingListVM(listingListViewModel,
+                                          didSucceedRetrievingListingsPage: 0,
+                                          withResultsCount: Int.random(),
+                                          hasListings: true,
+                                          containsRecentListings: false)
                     }
                     it("fires product list event and search complete") {
                         let eventNames = mockTracker.trackedEvents.compactMap { $0.name }
@@ -307,8 +337,14 @@ class MainListingsViewModelSpec: QuickSpec {
                                                     keyValueStorage: keyValueStorage,
                                                     featureFlags: mockFeatureFlags,
                                                     bubbleTextGenerator: DistanceBubbleTextGenerator(),
-                                                    chatWrapper: MockChatWrapper())
-                        sut.listingListVM(listingListViewModel, didSucceedRetrievingListingsPage: 0, withResultsCount: Int.random(), hasListings: true)
+                                                    chatWrapper: MockChatWrapper(),
+                                                    interestedStateUpdater: MockInterestedStateUpdater(),
+                                                    feedBadgingSynchronizer: MockFeedBadgingSynchronizer())
+                        sut.listingListVM(listingListViewModel,
+                                          didSucceedRetrievingListingsPage: 0,
+                                          withResultsCount: Int.random(),
+                                          hasListings: true,
+                                          containsRecentListings: false)
                     }
                     it("fires product list event") {
                         let eventNames = mockTracker.trackedEvents.compactMap { $0.name }
@@ -345,7 +381,9 @@ class MainListingsViewModelSpec: QuickSpec {
                                                     keyValueStorage: keyValueStorage,
                                                     featureFlags: mockFeatureFlags,
                                                     bubbleTextGenerator: DistanceBubbleTextGenerator(),
-                                                    chatWrapper: MockChatWrapper())
+                                                    chatWrapper: MockChatWrapper(),
+                                                    interestedStateUpdater: MockInterestedStateUpdater(),
+                                                    feedBadgingSynchronizer: MockFeedBadgingSynchronizer())
                     }
 
                     context("receives listing page with promo cell active") {
@@ -390,7 +428,9 @@ class MainListingsViewModelSpec: QuickSpec {
                                                 keyValueStorage: keyValueStorage,
                                                 featureFlags: mockFeatureFlags,
                                                 bubbleTextGenerator: DistanceBubbleTextGenerator(),
-                                                chatWrapper: MockChatWrapper())
+                                                chatWrapper: MockChatWrapper(),
+                                                interestedStateUpdater: MockInterestedStateUpdater(),
+                                                feedBadgingSynchronizer: MockFeedBadgingSynchronizer())
                 }
                 
                 context("cars new backend active") {
@@ -429,7 +469,9 @@ class MainListingsViewModelSpec: QuickSpec {
                                                 keyValueStorage: keyValueStorage,
                                                 featureFlags: mockFeatureFlags,
                                                 bubbleTextGenerator: DistanceBubbleTextGenerator(),
-                                                chatWrapper: MockChatWrapper())
+                                                chatWrapper: MockChatWrapper(),
+                                                interestedStateUpdater: MockInterestedStateUpdater(),
+                                                feedBadgingSynchronizer: MockFeedBadgingSynchronizer())
                 }
                 
                 context("with too many requests") {

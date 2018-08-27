@@ -548,7 +548,8 @@ extension UserProfileViewModel: ListingListViewModelDataDelegate {
     func listingListVM(_ viewModel: ListingListViewModel,
                        didSucceedRetrievingListingsPage page: UInt,
                        withResultsCount resultsCount: Int,
-                       hasListings: Bool) {
+                       hasListings: Bool,
+                       containsRecentListings: Bool) {
         guard !hasListings && page == 0,
             let emptyState = makeEmptyState(for: viewModel) else { return }
         viewModel.setEmptyState(emptyState)
@@ -743,7 +744,7 @@ extension UserProfileViewModel {
 }
 
 extension UserProfileViewModel: ListingCellDelegate {
-    func interestedActionFor(_ listing: Listing) {
+    func interestedActionFor(_ listing: Listing, userListing: LocalUser?, completion: @escaping (InterestedState) -> Void) {
         // this is just meant to be inside the MainFeed
         return
     }
@@ -773,8 +774,7 @@ extension UserProfileViewModel: ListingCellDelegate {
         delegate?.vmShowActionSheet(R.Strings.commonCancel, actions: [delete])
     }
     
-    func postNowButtonPressed(_ view: UIView) { }
-
+    func postNowButtonPressed(_ view: UIView, category: PostCategory, source: PostingSource) {}
     func bumpUpPressedFor(listing: Listing) {
         guard let id = listing.objectId else { return }
         let data = ListingDetailData.id(listingId: id)

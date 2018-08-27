@@ -52,15 +52,113 @@ enum PostCategory: Equatable {
         }
     }
     
-    var postCameraTitle: String? {
+    func postCameraTitle(forFeatureFlags featureFlags: FeatureFlaggeable) -> String? {
         switch self {
         case .services:
-            return R.Strings.postDetailsServicesCameraMessage
+            return featureFlags.jobsAndServicesEnabled.isActive ?
+                R.Strings.postDetailsJobsServicesCameraMessage : R.Strings.postDetailsServicesCameraMessage
         case .realEstate:
             return R.Strings.realEstateCameraViewRealEstateMessage
         case .otherItems, .motorsAndAccessories, .car:
             return nil
         }
+    }
+}
+
+extension PostCategory: CustomStringConvertible {
+    private enum Descriptor {
+        static let car = "car"
+        static let motorsAndAccessories = "motorsAndAccessories"
+        static let realEstate = "realEstate"
+        static let services = "services"
+        static let otherItems = "otherItems"
+    }
+    var description: String {
+        switch self {
+        case .car: return Descriptor.car
+        case .otherItems(let category): return category?.description ?? ""
+        case .motorsAndAccessories: return Descriptor.motorsAndAccessories
+        case .realEstate: return Descriptor.realEstate
+        case .services: return Descriptor.services
+        }
+    }
+
+    init?(description: String?) {
+        guard let description = description else { return nil }
+        if description == Descriptor.car {
+            self = .car
+        } else if description == Descriptor.realEstate {
+            self = .realEstate
+        } else if description == Descriptor.motorsAndAccessories {
+            self = .motorsAndAccessories
+        } else if description == Descriptor.services {
+            self = .services
+        } else if let category = ListingCategory.init(description: description) {
+            self = .otherItems(listingCategory: category)
+        }
+        return nil
+    }
+}
+
+extension ListingCategory: CustomStringConvertible {
+    private enum Descriptor {
+        static let unassigned = "unassigned"
+        static let electronics = "electronics"
+        static let motorsAndAccessories = "motorsAndAccessories"
+        static let sportsLeisureAndGames = "sportsLeisureAndGames"
+        static let homeAndGarden = "homeAndGarden"
+        static let moviesBooksAndMusic = "moviesBooksAndMusic"
+        static let fashionAndAccesories = "fashionAndAccesories"
+        static let babyAndChild = "babyAndChild"
+        static let other = "other"
+        static let cars = "cars"
+        static let realEstate = "realEstate"
+        static let services = "services"
+    }
+    public var description: String {
+        switch self {
+        case .unassigned: return "unassigned"
+        case .electronics: return "electronics"
+        case .motorsAndAccessories: return "motorsAndAccessories"
+        case .sportsLeisureAndGames:return "sportsLeisureAndGames"
+        case .homeAndGarden: return "homeAndGarden"
+        case .moviesBooksAndMusic: return "moviesBooksAndMusic"
+        case .fashionAndAccesories: return "fashionAndAccesories"
+        case .babyAndChild: return "babyAndChild"
+        case .other: return "other"
+        case .cars: return "cars"
+        case .realEstate: return "realEstate"
+        case .services: return "services"
+        }
+    }
+
+    init?(description: String) {
+        if description == Descriptor.unassigned {
+            self = .unassigned
+        } else if description == Descriptor.electronics {
+            self = .electronics
+        } else if description == Descriptor.motorsAndAccessories {
+            self = .motorsAndAccessories
+        } else if description == Descriptor.sportsLeisureAndGames {
+            self = .sportsLeisureAndGames
+        } else if description == Descriptor.homeAndGarden {
+            self = .homeAndGarden
+        } else if description == Descriptor.moviesBooksAndMusic {
+            self = .moviesBooksAndMusic
+        } else if description == Descriptor.fashionAndAccesories {
+            self = .fashionAndAccesories
+        } else if description == Descriptor.babyAndChild {
+            self = .babyAndChild
+        } else if description == Descriptor.other {
+            self = .other
+        } else if description == Descriptor.cars {
+            self = .cars
+        } else if description == Descriptor.realEstate {
+            self = .realEstate
+        } else if description == Descriptor.services {
+            self = .services
+        }
+        return nil
     }
 }
 

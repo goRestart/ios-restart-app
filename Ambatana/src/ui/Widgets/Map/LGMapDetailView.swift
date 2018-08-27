@@ -45,7 +45,9 @@ final class LGMapDetailView: UIView, UICollectionViewDelegate, UICollectionViewD
     
     private let ribbonView: LGRibbonView = {
         let ribbonView = LGRibbonView()
-        ribbonView.title = R.Strings.bumpUpProductCellFeaturedStripe
+        ribbonView.setupRibbon(configuration: LGRibbonConfiguration(title: R.Strings.bumpUpProductCellFeaturedStripe,
+                                                                    icon: nil,
+                                                                    titleColor: .orangeFree))
         return ribbonView
     }()
     

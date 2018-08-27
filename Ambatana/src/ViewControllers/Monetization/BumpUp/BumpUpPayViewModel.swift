@@ -11,7 +11,6 @@ class BumpUpPayViewModel: BaseViewModel {
     private let storeProductId: String?
     private let typePage: EventParameterTypePage?
 
-
     var price: String {
         return purchaseableProduct.formattedCurrencyPrice
     }
@@ -20,7 +19,6 @@ class BumpUpPayViewModel: BaseViewModel {
     private let tracker: Tracker
 
     var navigator: BumpUpNavigator?
-
 
     // MARK: - Lifecycle
 

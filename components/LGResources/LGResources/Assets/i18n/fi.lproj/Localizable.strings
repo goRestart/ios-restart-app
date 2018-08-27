@@ -67,6 +67,8 @@
 "bump_up_view_pay_title" = "Houkuttele tuplasti enemmän ostajia";
 "cached_feed_error" = "Uusia ilmoituksia ladattaessa tapahtui virhe";
 "cached_feed_new_listings" = "Uudet kohteet";
+"car_promo_cell_title_bold_text" = "Tienaa rahaa";
+"car_promo_cell_title_regular_text" = "myymällä autosi";
 "categories_baby_and_child" = "Vauvat ja lapset";
 "categories_car" = "Autot";
 "categories_cars_and_motors" = "Ajoneuvot ja varusteet";
@@ -86,6 +88,7 @@
 "categories_inFeed_real_estate_title" = "Kiinteistöt";
 "categories_inFeed_services" = "Palvelut";
 "categories_inFeed_sports_leisure_games" = "Vapaa-aika";
+"categories_jobs_services" = "Työpaikat & palvelut";
 "categories_movies_books_and_music" = "Elokuvat, kirjat ja musiikki";
 "categories_other" = "Muut";
 "categories_real_estate" = "Asunnot";
@@ -327,7 +330,18 @@
 "direct_answer_good_condition" = "Onko se hyvässä kunnossa?";
 "direct_answer_how_much_asking" = "Mikä on pyyntihintasi?";
 "direct_answer_interested" = "Olen kiinnostunut!";
+"direct_answer_interested_buy_it" = "Haluaisin ostaa sen";
+"direct_answer_interested_has_it_sold" = "Onko se mennyt kaupaksi?";
+"direct_answer_interested_in_buying_it" = "Olen kiinnostanut sen ostamisesta";
+"direct_answer_interested_in_this_item" = "Olen kiinnostunut tästä kohteesta";
+"direct_answer_interested_is_it_still_available" = "Onko se edelleen vapaana?";
+"direct_answer_interested_is_it_still_for_sale" = "Onko se vielä myynnissä?";
+"direct_answer_interested_is_this_available" = "Onko tämä saatavilla?";
+"direct_answer_interested_is_this_still_available" = "Onko tämä vielä saatavilla?";
+"direct_answer_interested_still_have_it" = "Onko sinulla vielä se?";
+"direct_answer_interested_still_selling_it" = "Vieläkö myyt sitä?";
 "direct_answer_interested_title" = "Kiinnostunut...";
+"direct_answer_interested_what_condition" = "Missä kunnossa se on?";
 "direct_answer_is_negotiable" = "Onko hinta neuvoteltavissa?";
 "direct_answer_lets_meet" = "Tavataan";
 "direct_answer_like_to_buy" = "Hei! Haluaisin ostaa sen";
@@ -366,6 +380,11 @@
 "discarded_products_reason_poor_ad_quality" = "Ei noudata toimintaohjeita";
 "discarded_products_reason_reference_to_competitors" = "Viittaukset muihin sovelluksiin tai sivustolle";
 "discarded_products_reason_stock_photo_only" = "Sisältää vain mallikuvia";
+"edit_jobsServices_jobs_option_title" = "Työt";
+"edit_jobsServices_listingType_title" = "Ilmoituksen tyyppi";
+"edit_jobsServices_serviceSubtype_title" = "Alatyyppi";
+"edit_jobsServices_serviceType_title" = "Tyyppi";
+"edit_jobsServices_services_option_title" = "Palvelut";
 "edit_paymentFrequency_placeholder" = "Ei Rajattu";
 "edit_paymentFrequency_title" = "Maksuväli";
 "edit_priceType_choose_title" = "Valitse vaihtoehto";
@@ -428,6 +447,10 @@
 "filters_cars_transmission_manual" = "Manuaali";
 "filters_cars_transmission_title" = "Vaihteisto";
 "filters_distance_not_set" = "ei rajattu";
+"filters_jobs_services_header" = "Työn tai palvelun tiedot";
+"filters_jobs_services_subtype_title" = "Alatyyppi";
+"filters_jobs_services_toggle_header" = "Haussa...";
+"filters_jobs_services_type_title" = "Tyyppi";
 "filters_mileage_slider_title" = "Kilometrilukema";
 "filters_navbar_reset" = "Nollaa";
 "filters_numberOfSeats_slider_title" = "Istuinpaikat";
@@ -735,6 +758,7 @@
 "post_description_info_title" = "ILMOITUKSEN TIEDOT";
 "post_description_name_placeholder" = "Nimi";
 "post_description_save_button_text" = "Tallenna tämä ilmoitus!";
+"post_details_jobs_services_camera_message" = "Julkaise yrityksesi logo tai kuva, jossa näkyy tarjoamasi palvelu tai työ";
 "post_details_jobs_services_step_option_jobs_prefix" = "Haluan palkata jonkun";
 "post_details_jobs_services_step_option_services_prefix" = "mainostamassa";
 "post_details_jobs_services_step_title" = "Olen...";

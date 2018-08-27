@@ -28,7 +28,7 @@ extension ListingCategory {
         case .realEstate:
             return FeatureFlags.sharedInstance.realEstateNewCopy.isActive ? R.Strings.categoriesRealEstateTitle : R.Strings.categoriesRealEstate
         case .services:
-            return R.Strings.categoriesServices
+            return FeatureFlags.sharedInstance.jobsAndServicesEnabled.isActive ? R.Strings.categoriesJobsServices : R.Strings.categoriesServices
         }
     }
     
@@ -180,7 +180,35 @@ extension ListingCategory {
             return SharedConstants.nonAccurateRegionRadius
         }
     }
+}
 
+extension ListingCategory {
+    static func visibleValuesInFeed(servicesIncluded: Bool,
+                                    realEstateIncluded: Bool,
+                                    servicesHighlighted: Bool) -> [ListingCategory] {
+
+        var categories: [ListingCategory] = [.electronics, .homeAndGarden,
+                                             .sportsLeisureAndGames, .motorsAndAccessories,
+                                             .fashionAndAccesories, .babyAndChild,
+                                             .moviesBooksAndMusic]
+        if servicesIncluded {
+            servicesHighlighted ? categories.insert(.services, at: 0) : categories.append(.services)
+        }
+
+        if realEstateIncluded {
+            categories.insert(.realEstate, at: 0)
+        }
+        categories.insert(.cars, at: 0)
+        categories.append(.other)
+
+        return categories
+    }
+}
+
+extension Array where Element == ListingCategory {
+    func filteringBy(_ categories: [ListingCategory]) -> [Element] {
+        return self.filter { !categories.contains($0) }
+    }
 }
 
 extension Array where Element == ListingCategory {

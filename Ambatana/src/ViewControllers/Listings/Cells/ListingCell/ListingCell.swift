@@ -12,8 +12,8 @@ protocol ListingCellDelegate: class {
     func chatButtonPressedFor(listing: Listing)
     func editPressedForDiscarded(listing: Listing)
     func moreOptionsPressedForDiscarded(listing: Listing)
-    func postNowButtonPressed(_ view: UIView)
-    func interestedActionFor(_ listing: Listing)
+    func postNowButtonPressed(_ view: UIView, category: PostCategory, source: PostingSource)
+    func interestedActionFor(_ listing: Listing, userListing: LocalUser?, completion: @escaping (InterestedState) -> Void)
     func openAskPhoneFor(_ listing: Listing, interlocutor: LocalUser)
     func getUserInfoFor(_ listing: Listing, completion: @escaping (User?) -> Void)
     func bumpUpPressedFor(listing: Listing)
@@ -21,29 +21,16 @@ protocol ListingCellDelegate: class {
 
 final class ListingCell: UICollectionViewCell, ReusableCell {
     private struct Layout {
-        static let stripeHeight: CGFloat = 34
+        static let stripWidth: CGFloat = 70
+        static let extraInfoTrailing: CGFloat = 30
     }
+    
+    private let featureFlags: FeatureFlaggeable
+    
     private lazy var interestedButton: UIButton = UIButton()
     private let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView.init(activityIndicatorStyle: .white)
-    // > Stripe area
-    
-    private let stripeImageView = UIImageView()
-    private let stripeInfoView = UIView()
-    private let stripeInfoInnerContainerView = UIView()
-    
-    private let stripeLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemMediumFont(size: 12)
-        label.minimumScaleFactor = 0.6
-        label.adjustsFontSizeToFitWidth = true
-        return label
-    }()
-    
-    private let stripeIcon: UIImageView = {
-        let iv = UIImageView()
-        iv.contentMode = .scaleAspectFit
-        return iv
-    }()
+
+    private let ribbonView = LGRibbonView()
     
     // > Thumbnail Image and background
     
@@ -91,6 +78,8 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         label.setContentHuggingPriority(.defaultLow, for: .horizontal)
         return label
     }()
+    
+    private let extraInfoTagView: ExtraInfoTagView = ExtraInfoTagView(withColour: .white)
 
     private let bumpUpContainer = UIView()
 
@@ -120,8 +109,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     
     private var detailViewInImageHeightConstraints: NSLayoutConstraint?
     private var thumbnailImageViewHeight: NSLayoutConstraint?
-    private var stripeIconWidth: NSLayoutConstraint?
-    
+
     var listing: Listing?
     weak var delegate: ListingCellDelegate?
     
@@ -151,6 +139,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     }
     
     override init(frame: CGRect) {
+        self.featureFlags = FeatureFlags.sharedInstance
         super.init(frame: frame)
         setupUI()
         contentView.cornerRadius = LGUIKitConstants.mediumCornerRadius
@@ -208,7 +197,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
             interestedButton.widthAnchor.constraint(equalToConstant: InterestedLayout.width)
         ])
         interestedButton.removeTarget(self, action: nil, for: .allEvents)
-        interestedButton.addTarget(self, action: #selector(callDelegateInterestedState), for: .touchUpInside)
+        interestedButton.addTarget(self, action: #selector(interestedButtonTapped), for: .touchUpInside)
         setupActivityIndicator(inside: view, preventMessagesToPro: preventMessagesToPro)
     }
     
@@ -224,23 +213,19 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     }
     
     func setupFreeStripe() {
-        stripeIconWidth?.constant = ListingCellMetrics.stripeIconWidth
-        stripeImageView.image = R.Asset.BackgroundsAndImages.stripeWhite.image
-        stripeIcon.image = R.Asset.IconsButtons.icHeart.image
-        stripeLabel.text = R.Strings.productFreePrice
-        stripeLabel.textColor = UIColor.primaryColor
-        stripeImageView.isHidden = false
-        stripeInfoView.isHidden = false
+        let ribbonConfiguration = LGRibbonConfiguration(title: R.Strings.productFreePrice,
+                                                        icon: nil,
+                                                        titleColor: .orangeFree)
+        ribbonView.setupRibbon(configuration: ribbonConfiguration)
+        ribbonView.isHidden = false
     }
     
     func setupFeaturedStripe(withTextColor textColor: UIColor) {
-        stripeIconWidth?.constant = 0
-        stripeImageView.image = R.Asset.BackgroundsAndImages.stripeWhite.image
-        stripeIcon.image = nil
-        stripeLabel.text = R.Strings.bumpUpProductCellFeaturedStripe
-        stripeLabel.textColor = textColor
-        stripeImageView.isHidden = false
-        stripeInfoView.isHidden = false
+        let ribbonConfiguration = LGRibbonConfiguration(title: R.Strings.bumpUpProductCellFeaturedStripe,
+                                                        icon: nil,
+                                                        titleColor: textColor)
+        ribbonView.setupRibbon(configuration: ribbonConfiguration)
+        ribbonView.isHidden = false
     }
     
     // Product Detail Under Image
@@ -282,6 +267,10 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
             }
         }
     }
+    
+    func setupExtraInfoTag(withText text: String) {
+        setupExtraInfoTagView(withText: text)
+    }
 
     func setupBumpUpCTA() {
 
@@ -316,12 +305,6 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     
     // Product Detail In Image
     
-    func showDistanceOnlyInImage(distance: Double?) {
-        if let distance = distance {
-            addDistanceViewInImage(distance: distance, isOnTopLeft: false)
-        }
-    }
-    
     func show(isDiscarded: Bool, reason: String? = nil) {
         discardedView.isHidden = !isDiscarded
         discardedView.set(reason: reason ?? "")
@@ -339,7 +322,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
                                               thumbnailImageView,
                                               thumbnailGifImageView,
                                               featuredListingInfoView,
-                                              stripeImageView, stripeInfoView,
+                                              ribbonView,
                                               discardedView,
                                               topDistanceInfoView,
                                               bottomDistanceInfoView,
@@ -387,13 +370,12 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     }
     
     private func setupStripArea() {
-        layoutStripArea()
-        let rotation = CGFloat(Double.pi/4)
-        stripeInfoView.transform = CGAffineTransform(rotationAngle: rotation)
-        stripeLabel.textColor = UIColor.redText
-        
-        stripeInfoView.isHidden = true
-        stripeImageView.isHidden = true
+        NSLayoutConstraint.activate([
+            ribbonView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            ribbonView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            ribbonView.widthAnchor.constraint(equalToConstant: Layout.stripWidth),
+            ribbonView.heightAnchor.constraint(equalTo: ribbonView.widthAnchor)
+        ])
     }
     
     private func setupDiscardedView() {
@@ -424,67 +406,17 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
             bottomDistanceInfoView.heightAnchor.constraint(equalToConstant: height)
             ])
     }
-    
-    private func layoutStripArea() {
+
+    private func setupExtraInfoTagView(withText text: String) {
+        extraInfoTagView.removeFromSuperview()
+        extraInfoTagView.text = text
+        contentView.addSubviewsForAutoLayout([extraInfoTagView])
+        let trailing: CGFloat = interestedButton.isHidden ? 0 : Layout.extraInfoTrailing
         NSLayoutConstraint.activate([
-            stripeImageView.widthAnchor.constraint(equalToConstant: 70),
-            stripeImageView.heightAnchor.constraint(equalToConstant: 70),
-            stripeImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 2),
-            stripeImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: -2),
-            
-            stripeInfoView.widthAnchor.constraint(equalToConstant: 63),
-            stripeInfoView.heightAnchor.constraint(equalToConstant: Layout.stripeHeight),
-            stripeInfoView.leadingAnchor.constraint(equalTo: stripeImageView.leadingAnchor, constant: 16),
-            stripeInfoView.centerYAnchor.constraint(equalTo: stripeImageView.centerYAnchor, constant: -7)
+            extraInfoTagView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metrics.shortMargin),
+            extraInfoTagView.bottomAnchor.constraint(equalTo: featuredListingInfoView.topAnchor, constant: -Metrics.shortMargin),
+            extraInfoTagView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -trailing)
             ])
-        setupStripInfoView()
-    }
-    
-    private func setupStripInfoView() {
-        stripeInfoView.addSubviewForAutoLayout(stripeInfoInnerContainerView)
-        NSLayoutConstraint.activate([
-            stripeInfoInnerContainerView.centerXAnchor.constraint(equalTo: stripeInfoView.centerXAnchor, constant: 2),
-            stripeInfoInnerContainerView.leadingAnchor.constraint(greaterThanOrEqualTo: stripeInfoView.leadingAnchor),
-            stripeInfoInnerContainerView.trailingAnchor.constraint(greaterThanOrEqualTo: stripeInfoView.trailingAnchor),
-            stripeInfoInnerContainerView.bottomAnchor.constraint(equalTo: stripeInfoView.bottomAnchor),
-            stripeInfoInnerContainerView.topAnchor.constraint(equalTo: stripeInfoView.topAnchor)
-            ])
-        setupStripeInfoContainerSubviews()
-    }
-    
-    private func setupStripeInfoContainerSubviews() {
-        stripeInfoInnerContainerView.addSubviewsForAutoLayout([stripeLabel, stripeIcon])
-        
-        NSLayoutConstraint.activate([
-            stripeLabel.trailingAnchor.constraint(equalTo: stripeInfoInnerContainerView.trailingAnchor),
-            stripeLabel.bottomAnchor.constraint(equalTo: stripeInfoInnerContainerView.bottomAnchor),
-            stripeLabel.topAnchor.constraint(equalTo: stripeInfoInnerContainerView.topAnchor),
-            stripeLabel.heightAnchor.constraint(equalToConstant: Layout.stripeHeight),
-            stripeLabel.leadingAnchor.constraint(equalTo: stripeIcon.trailingAnchor, constant: 3)
-            ])
-        
-        stripeIconWidth = stripeIcon.widthAnchor.constraint(equalToConstant: 14)
-        stripeIconWidth?.isActive = true
-        NSLayoutConstraint.activate([
-            stripeIcon.leadingAnchor.constraint(equalTo: stripeInfoInnerContainerView.leadingAnchor),
-            stripeIcon.bottomAnchor.constraint(equalTo: stripeInfoInnerContainerView.bottomAnchor, constant: -Metrics.veryShortMargin),
-            stripeIcon.topAnchor.constraint(equalTo: stripeInfoInnerContainerView.topAnchor, constant: Metrics.veryShortMargin)
-            ])
-    }
-    
-    private func addDistanceViewInImage(distance: Double, isOnTopLeft: Bool) {
-        
-        let distanceString = String(describing: distance) + DistanceType.systemDistanceType().rawValue
-        
-        if isOnTopLeft {
-            topDistanceInfoView.isHidden = false
-            bottomDistanceInfoView.isHidden = true
-            topDistanceInfoView.setDistance(distanceString)
-        } else {
-            topDistanceInfoView.isHidden = true
-            bottomDistanceInfoView.isHidden = false
-            bottomDistanceInfoView.setDistance(distanceString)
-        }
     }
     
     func setupWith(interestedState action: InterestedState) {
@@ -494,38 +426,38 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         interestedButton.isUserInteractionEnabled = action != .none
     }
     
-    @objc private func callDelegateInterestedState() {
+    @objc private func interestedButtonTapped() {
+        defer { updateInterestedButton(withState: .send(enabled: false)) }
         guard let listing = listing else { return }
-        let featureFlags = FeatureFlags.sharedInstance
-        let category = listing.category
-        if shouldPreventMessagesFromFeedToProUsers(category: category, featureFlags: featureFlags) {
-            if listing.user.type != .unknown  {
-                let localUser = LocalUser.init(userListing: listing.user)
-                self.preventMessagesForProfessionals(localUser: localUser, listing: listing)
-            } else {
-                interestedButton.isHidden = true
-                activityIndicator.startAnimating()
-                delegate?.getUserInfoFor(listing, completion: { [weak self] user in
-                    guard let strongSelf = self else { return }
-                    strongSelf.interestedButton.isHidden = false
-                    strongSelf.activityIndicator.stopAnimating()
-                    strongSelf.preventMessagesForProfessionals(localUser: LocalUser.init(user: user), listing: listing)
-                })
-            }
-        } else {
-            delegate?.interestedActionFor(listing)
+        guard shouldPreventMessagesFromFeedToProUsers(category: listing.category) else {
+            return interestActionFor(listing: listing, userListing: nil)
+        }
+        guard listing.user.type == .unknown else {
+            return interestActionFor(listing: listing,
+                                userListing: LocalUser(userListing: listing.user))
+        }
+        
+        interestedButton.isHidden = true
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
+        delegate?.getUserInfoFor(listing) { [weak self] user in
+            self?.interestedButton.isHidden = false
+            self?.activityIndicator.stopAnimating()
+            self?.interestActionFor(listing: listing, userListing: LocalUser(userListing: listing.user))
         }
     }
     
-    private func preventMessagesForProfessionals(localUser: LocalUser?, listing: Listing) {
-        if let localUser = localUser, localUser.type == .pro {
-            self.delegate?.openAskPhoneFor(listing, interlocutor: localUser)
-        } else {
-            self.delegate?.interestedActionFor(listing)
+    private func interestActionFor(listing: Listing, userListing: LocalUser?) {
+        delegate?.interestedActionFor(listing, userListing: userListing) { [weak self] state in
+            self?.updateInterestedButton(withState: state)
         }
     }
     
-    private func shouldPreventMessagesFromFeedToProUsers(category: ListingCategory, featureFlags: FeatureFlags) -> Bool {
+    private func updateInterestedButton(withState state: InterestedState) {
+        interestedButton.setImage(state.image, for: .normal)
+        interestedButton.isUserInteractionEnabled = (state != .none && state != .send(enabled: false))
+    }
+    private func shouldPreventMessagesFromFeedToProUsers(category: ListingCategory) -> Bool {
         guard featureFlags.preventMessagesFromFeedToProUsers.isActive else { return false }
         return category == .realEstate || category == .cars || category == .services
     }
@@ -602,9 +534,8 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         setupBackgroundColor(id: nil)
         thumbnailGifImageView.clear()
         thumbnailImageView.image = nil
-        stripeImageView.image = nil
-        stripeLabel.text = ""
-        stripeIcon.image = nil
+        ribbonView.clear()
+        ribbonView.isHidden = true
         detailViewInImage.clearLabelTexts()
         topDistanceInfoView.clearAll()
         bottomDistanceInfoView.clearAll()
@@ -616,6 +547,8 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         for featuredInfoSubview in featuredListingInfoView.subviews {
             featuredInfoSubview.removeFromSuperview()
         }
+        
+        extraInfoTagView.removeFromSuperview()
     }
     
     
@@ -623,9 +556,6 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     private func setAccessibilityIds() {
         thumbnailImageView.set(accessibilityId: .listingCellThumbnailImageView)
         thumbnailGifImageView.set(accessibilityId: .listingCellThumbnailImageView)
-        stripeImageView.set(accessibilityId: .listingCellStripeImageView)
-        stripeLabel.set(accessibilityId: .listingCellStripeLabel)
-        stripeIcon.set(accessibilityId: .listingCellStripeIcon)
         featuredListingChatButton.set(accessibilityId: .listingCellFeaturedChatButton)
     }
     

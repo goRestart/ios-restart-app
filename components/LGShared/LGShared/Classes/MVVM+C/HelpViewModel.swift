@@ -1,14 +1,10 @@
 import LGCoreKit
 
-public protocol HelpNavigator: class {
-    func closeHelp()
-}
-
 public class HelpViewModel: BaseViewModel {
     fileprivate let myUserRepository: MyUserRepository
     fileprivate let installationRepository: InstallationRepository
 
-    weak public var navigator: HelpNavigator?
+    public var router: HelpWireframe?
     
     convenience override public init() {
         self.init(myUserRepository: Core.myUserRepository, installationRepository: Core.installationRepository)
@@ -20,7 +16,7 @@ public class HelpViewModel: BaseViewModel {
     }
     
     override public func backButtonPressed() -> Bool {
-        navigator?.closeHelp()
+        router?.closeHelp()
         return true
     }
     

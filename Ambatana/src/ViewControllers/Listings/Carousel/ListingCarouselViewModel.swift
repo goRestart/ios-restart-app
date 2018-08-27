@@ -76,7 +76,7 @@ class ListingCarouselViewModel: BaseViewModel {
     fileprivate var lastMovement: CarouselMovement = .initial
     
     weak var delegate: ListingCarouselViewModelDelegate?
-    weak var navigator: ListingDetailNavigator? {
+    var navigator: ListingDetailNavigator? {
         didSet {
             currentListingViewModel?.navigator = navigator
         }

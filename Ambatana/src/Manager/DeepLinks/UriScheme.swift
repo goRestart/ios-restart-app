@@ -8,6 +8,11 @@ struct UriScheme {
       static let cardAction = "card-action"
       static let ratingSource = "rating-source"
    }
+   private enum Sell {
+      static let source = "source"
+      static let category = "category"
+      static let title = "title"
+   }
 
    var deepLink: DeepLink
 
@@ -30,10 +35,10 @@ struct UriScheme {
       let medium = params[UTM.medium]
       let source = DeepLinkSource(string: params[UTM.source])
       let cardActionParameter = params[Params.cardAction]
-      let ratingSource = params[Params.ratingSource] ?? ""
 
       switch host {
       case .appRating:
+         let ratingSource = params[Params.ratingSource] ?? ""
          return UriScheme(deepLink: DeepLink.link(.appRating(source: ratingSource),
                                                   campaign: campaign,
                                                   medium: medium,
@@ -46,7 +51,10 @@ struct UriScheme {
                                                   source: source,
                                                   cardActionParameter: cardActionParameter))
       case .sell:
-         return UriScheme(deepLink: DeepLink.link(.sell,
+         let postingSource = params[Sell.source] ?? ""
+         let category = params[Sell.category] ?? ""
+         let title = params[Sell.title] ?? ""
+         return UriScheme(deepLink: DeepLink.link(.sell(source: postingSource, category: category, title: title),
                                                   campaign: campaign,
                                                   medium: medium,
                                                   source: source,
@@ -119,9 +127,15 @@ struct UriScheme {
                                                   source: source,
                                                   cardActionParameter: cardActionParameter))
       case .search:
-         guard let query = params["query"] else { return nil }
-         return UriScheme(deepLink: DeepLink.link(.search(query: query,
-                                                          categories: params["categories"]),
+         // Checking we have at least one parameter to search or filter by
+         guard params.count > 0 else { return nil }
+         return UriScheme(deepLink: DeepLink.link(.search(query: params[DeepLinkAction.SearchDeepLinkQueryParameters.query.rawValue],
+                                                          categories: params[DeepLinkAction.SearchDeepLinkQueryParameters.categories.rawValue],
+                                                          distanceRadius: params[DeepLinkAction.SearchDeepLinkQueryParameters.distanceRadius.rawValue],
+                                                          sortCriteria: params[DeepLinkAction.SearchDeepLinkQueryParameters.sortCriteria.rawValue],
+                                                          priceFlag: params[DeepLinkAction.SearchDeepLinkQueryParameters.priceFlag.rawValue],
+                                                          minPrice: params[DeepLinkAction.SearchDeepLinkQueryParameters.minPrice.rawValue],
+                                                          maxPrice: params[DeepLinkAction.SearchDeepLinkQueryParameters.maxPrice.rawValue]),
                                                   campaign: campaign,
                                                   medium: medium,
                                                   source: source,

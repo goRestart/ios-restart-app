@@ -67,6 +67,8 @@
 "bump_up_view_pay_title" = "Thu hút thêm 2x người mua";
 "cached_feed_error" = "Có lỗi xảy ra trong khi tải bài đăng mới";
 "cached_feed_new_listings" = "Đồ mới";
+"car_promo_cell_title_bold_text" = "Kiếm tiền";
+"car_promo_cell_title_regular_text" = "bán xe của bạn";
 "categories_baby_and_child" = "Trẻ sơ sinh và Trẻ nhỏ";
 "categories_car" = "Xe hơi";
 "categories_cars_and_motors" = "Xe máy và Phụ kiện";
@@ -86,6 +88,7 @@
 "categories_inFeed_real_estate_title" = "Bất động sản";
 "categories_inFeed_services" = "Dịch vụ";
 "categories_inFeed_sports_leisure_games" = "Nghỉ ngơi";
+"categories_jobs_services" = "Công việc & Dịch vụ";
 "categories_movies_books_and_music" = "Phim, Sách và Âm nhạc";
 "categories_other" = "Khác";
 "categories_real_estate" = "Nhà đất";
@@ -327,7 +330,18 @@
 "direct_answer_good_condition" = "Sản phẩm có trong tình trạng tốt không?";
 "direct_answer_how_much_asking" = "Giá yêu cầu của bạn là bao nhiêu?";
 "direct_answer_interested" = "Tôi quan tâm!";
+"direct_answer_interested_buy_it" = "Tôi muốn mua sản phẩm";
+"direct_answer_interested_has_it_sold" = "Nó bán rồi à?";
+"direct_answer_interested_in_buying_it" = "Tôi quan tâm đến việc mua nó";
+"direct_answer_interested_in_this_item" = "Tôi quan tâm đến món đồ này";
+"direct_answer_interested_is_it_still_available" = "Nó còn không?";
+"direct_answer_interested_is_it_still_for_sale" = "Nó vẫn còn bán chứ?";
+"direct_answer_interested_is_this_available" = "Cái này còn không?";
+"direct_answer_interested_is_this_still_available" = "Cái này vẫn còn chứ?";
+"direct_answer_interested_still_have_it" = "Bạn còn cái đó chứ?";
+"direct_answer_interested_still_selling_it" = "Bạn vẫn đang bán nó chứ?";
 "direct_answer_interested_title" = "Quan tâm...";
+"direct_answer_interested_what_condition" = "Nó có tình trạng thế nào?";
 "direct_answer_is_negotiable" = "Giá có thương lượng được không?";
 "direct_answer_lets_meet" = "Hãy gặp";
 "direct_answer_like_to_buy" = "Xin chào! Tôi muốn mua sản phẩm";
@@ -366,6 +380,11 @@
 "discarded_products_reason_poor_ad_quality" = "Không tuân theo thực hành tốt nhất";
 "discarded_products_reason_reference_to_competitors" = "Gợi ý tới ứng dụng hoặc trang web khác";
 "discarded_products_reason_stock_photo_only" = "Chỉ có ảnh trên mạng";
+"edit_jobsServices_jobs_option_title" = "Công việc";
+"edit_jobsServices_listingType_title" = "Loại Bài đăng";
+"edit_jobsServices_serviceSubtype_title" = "Tiểu loại";
+"edit_jobsServices_serviceType_title" = "Loại";
+"edit_jobsServices_services_option_title" = "Dịch vụ";
 "edit_paymentFrequency_placeholder" = "Chưa thiết lập";
 "edit_paymentFrequency_title" = "Mức độ thường xuyên";
 "edit_priceType_choose_title" = "Chọn một tùy chọn";
@@ -428,6 +447,10 @@
 "filters_cars_transmission_manual" = "Số sàn";
 "filters_cars_transmission_title" = "Cơ cấu truyền động";
 "filters_distance_not_set" = "chưa được cài đặt";
+"filters_jobs_services_header" = "Thông tin Công việc hoặc Dịch vụ";
+"filters_jobs_services_subtype_title" = "Tiểu loại";
+"filters_jobs_services_toggle_header" = "Đang tìm kiếm...";
+"filters_jobs_services_type_title" = "Loại";
 "filters_mileage_slider_title" = "Số km đã đi";
 "filters_navbar_reset" = "Xóa";
 "filters_numberOfSeats_slider_title" = "Chỗ";
@@ -735,6 +758,7 @@
 "post_description_info_title" = "THÔNG TIN BÀI ĐĂNG";
 "post_description_name_placeholder" = "Tên";
 "post_description_save_button_text" = "Lưu bài đăng này!";
+"post_details_jobs_services_camera_message" = "Đăng logo công ty của bạn hoặc ảnh hiển thị dịch vụ hay công việc bạn thực hiện";
 "post_details_jobs_services_step_option_jobs_prefix" = "Tìm thuê người cho";
 "post_details_jobs_services_step_option_services_prefix" = "Quảng cáo một";
 "post_details_jobs_services_step_title" = "Tôi là...";

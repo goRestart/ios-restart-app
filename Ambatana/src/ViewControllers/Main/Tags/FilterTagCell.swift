@@ -88,6 +88,8 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
             return FilterTagCell.sizeForText(serviceType.name)
         case .serviceSubtype(let serviceSubtype):
             return FilterTagCell.sizeForText(serviceSubtype.name)
+        case .serviceListingType(let listingType):
+            return FilterTagCell.sizeForText(listingType.pluralDisplayName)
         case .unifiedServiceType(let type, let selectedSubtypes):
              return FilterTagCell.sizeForText("\(type.name) +\(selectedSubtypes.count)")
         case .carBodyType(let bodyType):
@@ -359,6 +361,8 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
             tagLabel.text = serviceType.name
         case .serviceSubtype(let subtype):
             tagLabel.text = subtype.name
+        case .serviceListingType(let listingType):
+            tagLabel.text = listingType.pluralDisplayName
         case .unifiedServiceType(let type, let selectedSubtypes):
             tagLabel.text = "\(type.name) +\(selectedSubtypes.count)"
         case .mileageRange(let start, let end):

@@ -15,7 +15,7 @@ enum FilterCategoryItem: Equatable {
         case let .category(category: category):
             return category.name
         case .free:
-            return R.Strings.categoriesFree
+            return R.Strings.productFreePrice
         }
     }
     
@@ -25,6 +25,15 @@ enum FilterCategoryItem: Equatable {
             return category.image
         case .free:
             return R.Asset.IconsButtons.FiltersCategoriesIcons.categoriesFreeInactive.image
+        }
+    }
+
+    var imageInFeed: UIImage? {
+        switch self {
+        case let .category(category: category):
+            return category.imageInFeed
+        case .free:
+            return R.Asset.IconsButtons.CategoriesHeaderIcons.freeFeed.image
         }
     }
 }

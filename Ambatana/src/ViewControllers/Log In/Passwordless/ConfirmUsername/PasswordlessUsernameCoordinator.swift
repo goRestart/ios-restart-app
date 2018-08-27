@@ -1,11 +1,3 @@
-//
-//  PasswordlessUsernameCoordinator.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 3/5/18.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
 import LGComponents
@@ -54,9 +46,7 @@ class PasswordlessUsernameCoordinator: Coordinator, PasswordlessUsernameNavigato
 
     func openHelp() {
         guard let navCtl = viewController as? UINavigationController else { return }
-        let vm = HelpViewModel()
-        vm.navigator = self
-        let vc = HelpViewController(viewModel: vm)
+        let vc = LGHelpBuilder.standard(navCtl).buildHelp()
         navCtl.pushViewController(vc, animated: true)
     }
 }

@@ -1,8 +1,8 @@
 import LGCoreKit
 
 protocol CategoriesBubblePresentable: CategoriesHeaderCollectionViewDelegate {
-    var categories: [ListingCategory] { get }
-    var categoryHighlighted: ListingCategory { get }
+    var categories: [FilterCategoryItem] { get }
+    var categoryHighlighted: FilterCategoryItem { get }
 }
 
 final class CategoryViewModel: CategoriesBubblePresentable {
@@ -14,17 +14,13 @@ final class CategoryViewModel: CategoriesBubblePresentable {
         self.featureFlags = featureFlags
     }
     
-    var categories: [ListingCategory] {
-        return ListingCategory.visibleValuesInFeed(servicesIncluded: true,
-                                                   realEstateIncluded: featureFlags.realEstateEnabled.isActive,
-                                                   servicesHighlighted: true)
-    }
+    var categories: [FilterCategoryItem] { return FilterCategoryItem.makeForFeed(with: featureFlags) }
     
-    var categoryHighlighted: ListingCategory {
+    var categoryHighlighted: FilterCategoryItem {
         if featureFlags.realEstateEnabled.isActive {
-            return .realEstate
+            return FilterCategoryItem(category: .realEstate)
         } else {
-            return .cars
+            return FilterCategoryItem(category: .cars)
         }
     }
 }

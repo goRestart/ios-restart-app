@@ -1,11 +1,3 @@
-//
-//  PasswordlessEmailViewModel.swift
-//  LetGo
-//
-//  Created by Sergi Gracia on 27/04/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
 import LGComponents
@@ -13,7 +5,7 @@ import RxSwift
 
 final class PasswordlessEmailViewModel: BaseViewModel {
 
-    weak var navigator: PasswordlessNavigator?
+    var router: LoginNavigator?
     weak var delegate: BaseViewModelDelegate?
 
     private let sessionManager: SessionManager
@@ -38,7 +30,7 @@ final class PasswordlessEmailViewModel: BaseViewModel {
         sessionManager.requestPasswordlessWith(email: email) { [weak self] result in
             switch result {
             case .success:
-                self?.navigator?.openPasswordlessEmailSentTo(email: email)
+                self?.router?.showPasswordlessEmailSent(email: email)
             case .failure(let error):
                 switch error {
                 case .scammer:
@@ -55,14 +47,48 @@ final class PasswordlessEmailViewModel: BaseViewModel {
         tracker.trackEvent(.loginEmailSubmit())
     }
 
+    private func showGenericError() {
+        let message = R.Strings.commonErrorGenericBody
+        delegate?.vmShowAutoFadingMessage(message, completion: nil)
+    }
+
+    func didTapHelp() {
+        router?.showHelp()
+    }
+
     private func showScammerAlert(_ userEmail: String?, network: EventParameterAccountNetwork) {
         guard let contactURL = LetgoURLHelper.buildContactUsURL(userEmail: userEmail,
                                                                 installation: installationRepository.installation,
                                                                 listing: nil,
                                                                 type: .scammer) else {
+                                                                    router?.close()
                                                                     return
         }
-        navigator?.closeSignUpLogInAndOpenScammerAlert(contactURL: contactURL, network: network)
+
+        let contact = UIAction(
+            interface: .button(R.Strings.loginScammerAlertContactButton, .primary(fontSize: .medium)),
+            action: {
+                self.tracker.trackEvent(TrackerEvent.loginBlockedAccountContactUs(network, reason: .accountUnderReview))
+                self.router?.close(onFinish: { self.router?.open(url: contactURL) })
+        })
+        let keepBrowsing = UIAction(
+            interface: .button(R.Strings.loginScammerAlertKeepBrowsingButton, .secondary(fontSize: .medium,
+                                                                                         withBorder: false)),
+            action: {
+                self.tracker.trackEvent(TrackerEvent.loginBlockedAccountKeepBrowsing(network, reason: .accountUnderReview))
+                self.router?.close()
+        })
+
+        let actions = [contact, keepBrowsing]
+
+        router?.showAlert(
+            withTitle: R.Strings.loginScammerAlertTitle,
+            andBody: R.Strings.loginScammerAlertMessage,
+            andType: .iconAlert(icon: R.Asset.IconsButtons.icModerationAlert.image),
+            andActions: actions
+        )
+
+        tracker.trackEvent(TrackerEvent.loginBlockedAccountStart(network, reason: .accountUnderReview))
     }
 
     private func showDeviceNotAllowedAlert(_ userEmail: String?, network: EventParameterAccountNetwork) {
@@ -70,17 +96,31 @@ final class PasswordlessEmailViewModel: BaseViewModel {
                                                                 installation: installationRepository.installation,
                                                                 listing: nil,
                                                                 type: .deviceNotAllowed) else {
+                                                                    router?.close()
                                                                     return
         }
-        navigator?.closeSignUpLogInAndOpenDeviceNotAllowedAlert(contactURL: contactURL, network: network)
-    }
 
-    private func showGenericError() {
-        let message = R.Strings.commonErrorGenericBody
-        delegate?.vmShowAutoFadingMessage(message, completion: nil)
-    }
+        let contact = UIAction(
+            interface: .button(R.Strings.loginDeviceNotAllowedAlertContactButton, .primary(fontSize: .medium)),
+            action: {
+                self.tracker.trackEvent(TrackerEvent.loginBlockedAccountContactUs(network, reason: .secondDevice))
+                self.router?.close(onFinish: { self.router?.open(url: contactURL) })
+        })
 
-    func didTapHelp() {
-        navigator?.openHelpFromPasswordless()
+        let keepBrowsing = UIAction(
+            interface: .button(R.Strings.loginDeviceNotAllowedAlertOkButton, .secondary(fontSize: .medium,
+                                                                                        withBorder: false)),
+            action: {
+                self.tracker.trackEvent(TrackerEvent.loginBlockedAccountKeepBrowsing(network, reason: .secondDevice))
+                self.router?.close()
+        })
+
+        router?.showAlert(
+            withTitle: R.Strings.loginDeviceNotAllowedAlertTitle,
+            andBody: R.Strings.loginDeviceNotAllowedAlertMessage,
+            andType: .iconAlert(icon: R.Asset.IconsButtons.icDeviceBlockedAlert.image),
+            andActions: [contact, keepBrowsing])
+
+        tracker.trackEvent(TrackerEvent.loginBlockedAccountStart(network, reason: .secondDevice))
     }
 }

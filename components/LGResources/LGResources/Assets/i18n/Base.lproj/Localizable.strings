@@ -202,6 +202,12 @@
 // Text for telling the user that there are fresh listings.
 "cached_feed_new_listings" = "New items";
 
+// First part of car promo cell text (bolded)
+"car_promo_cell_title_bold_text" = "Make money";
+
+// Second part of car promo cell text (regular)
+"car_promo_cell_title_regular_text" = "selling your car";
+
 // Categories baby and child. Check attached image "categories (2).png"
 "categories_baby_and_child" = "Baby and Child";
 
@@ -234,6 +240,9 @@
 
 // Categories services
 "categories_services" = "Services";
+
+// Cateogries Jobs & Services
+"categories_jobs_services" = "Jobs & Services";
 
 // Categories sports leisure and games. Check image @ "categories_cars_and_motors" segment
 "categories_sports_leisure_and_games" = "Sports, Leisure and Games";
@@ -944,6 +953,39 @@
 "direct_answer_interested" = "I'm interested!";
 
 // Chat direct answer as buyer
+"direct_answer_interested_in_this_item" = "I'm interested in this item";
+
+// Chat direct answer as buyer
+"direct_answer_interested_in_buying_it" = "I'm interested in buying it";
+
+// Chat direct answer as buyer
+"direct_answer_interested_buy_it" = "I'd like to buy it";
+
+// Chat direct answer as buyer
+"direct_answer_interested_is_this_available" = "Is this available?";
+
+// Chat direct answer as buyer
+"direct_answer_interested_is_this_still_available" = "Is this still available?";
+
+// Chat direct answer as buyer
+"direct_answer_interested_is_it_still_available" = "Is it still available?";
+
+// Chat direct answer as buyer
+"direct_answer_interested_still_have_it" = "Do you still have it?";
+
+// Chat direct answer as buyer
+"direct_answer_interested_is_it_still_for_sale" = "Is it still for sale?";
+
+// Chat direct answer as buyer
+"direct_answer_interested_has_it_sold" = "Has it sold?";
+
+// Chat direct answer as buyer
+"direct_answer_interested_still_selling_it" = "Are you still selling it?";
+
+// Chat direct answer as buyer
+"direct_answer_interested_what_condition" = "What condition is it in?";
+
+// Chat direct answer as buyer
 "direct_answer_is_negotiable" = "Is the price negotiable?";
 
 // Chat direct answer as buyer
@@ -1136,6 +1178,21 @@
 
 // Title for paymentFrequency edit field
 "edit_paymentFrequency_title" = "Frequency";
+
+// Title for when Jobs is selected
+"edit_jobsServices_jobs_option_title" = "Jobs";
+
+// Title for when Services is selected
+"edit_jobsServices_services_option_title" = "Services";
+
+// Title for Job/Service listing type title
+"edit_jobsServices_listingType_title" = "Type of listing";
+
+// Type field title for when Jobs & Services is active
+"edit_jobsServices_serviceType_title" = "Type";
+
+// Subtype field title for when Jobs & Services is active
+"edit_jobsServices_serviceSubtype_title" = "Subtype";
 
 // Bubble title
 "engagement_badging_feed_bubble" = "New items";
@@ -1398,6 +1455,18 @@
 
 // Alert to display to user that the max amount of services have already been selected
 "filters_services_services_list_max_selection_alert" = "Oops! You can't select more than 15 services.";
+
+// Section header for jobs and services toggle
+"filters_jobs_services_toggle_header" = "Looking for...";
+
+// Section header text for jobs and services filters
+"filters_jobs_services_header" = "Job or Service Info";
+
+// Title for Jobs and Services Type filter
+"filters_jobs_services_type_title" = "Type";
+
+// Title for Jobs and Services Subtype filter
+"filters_jobs_services_subtype_title" = "Subtype";
 
 // Unit suffix for miles (e.g. the mi in "400,000 mi")
 "mile_unit_suffix" = "mi";
@@ -2241,6 +2310,9 @@
 
 // Posting Camera title for services
 "post_details_services_camera_message" = "Post your company’s logo or a photo that shows the service you offer";
+
+// Posting camera title for jobs & services
+"post_details_jobs_services_camera_message" = "Post your company’s logo or a photo that shows the service or job you’re offering";
 
 // Title for Jobs/Services posting flow title
 "post_details_jobs_services_step_title" = "I'm...";
@@ -3822,10 +3894,10 @@
 "reporting_user_report_sent_block_user_A_with_review_text" = "Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nBe sure to leave a review of this seller to let others know about your experience.\n\nYou can always block a user to make sure they can no longer see your items or chat with you.";
 
 // Text Shown in the "block user" thank you screen (version B)
-"reporting_user_report_sent_block_user_B_text" = "Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nOur team will investigate your claim, in the meantime, you can always block a user to make sure they can no longer see your items or chat with you.";
+"reporting_user_report_sent_block_user_B_text" = "Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nOur team will investigate your claim. In the meantime, you can always block a user to make sure they can no longer see your items or chat with you.";
 
 // Text Shown in the "block user" thank you screen when the user can leave a review (version A)
-"reporting_user_report_sent_block_user_B_with_review_text" = "Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nBe sure to leave a review of this user to let others know about your experience.\n\nOur team will investigate your claim, in the meantime,  you can always block a user to make sure they can no longer see your items or chat with you.";
+"reporting_user_report_sent_block_user_B_with_review_text" = "Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nBe sure to leave a review of this user to let others know about your experience.\n\nOur team will investigate your claim. In the meantime, you can always block a user to make sure they can no longer see your items or chat with you.";
 
 // Text Shown in the "Law enforcement" thank you screen
 "reporting_user_report_sent_law_enforcement_text" = "We're very sorry about your experience but thankful that you are now safe.\n\nWe strongly encourage you to reach out to local law enforcement and file a police report as soon as possible (if you haven't already done so).\n\nPlease remind the police to contact letgo’s law enforcement team at lawenforcement@letgo.com so we can help with their investigation.\n\nWe can share relevant information about %@ with police but, due to strict privacy protection laws, we need them to send us a valid search warrant or subpoena first.";

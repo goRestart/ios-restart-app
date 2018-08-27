@@ -18,7 +18,7 @@ final class FiltersViewModel: BaseViewModel {
     
     weak var delegate: FiltersViewModelDelegate?
     weak var dataDelegate: FiltersViewModelDataDelegate?
-    var navigator: FiltersRouter?
+    var navigator: FiltersNavigator?
 
     var sections: [FilterSection]
 
@@ -32,12 +32,8 @@ final class FiltersViewModel: BaseViewModel {
     }
     
     var currentDistanceRadius : Int {
-        get {
-            return productFilter.distanceRadius ?? 0
-        }
-        set {
-            productFilter.distanceRadius = newValue > 0 ? newValue : nil
-        }
+        get { return productFilter.distanceRadius ?? 0 }
+        set { productFilter.distanceRadius = newValue > 0 ? newValue : nil }
     }
     
     var distanceType : DistanceType {
@@ -56,7 +52,7 @@ final class FiltersViewModel: BaseViewModel {
     }
 
     var isOddNumCategories: Bool {
-        return self.categories.count%2 == 1
+        return categories.count%2 == 1
     }
 
     var isPriceCellEnabled: Bool {
@@ -180,15 +176,15 @@ final class FiltersViewModel: BaseViewModel {
         return updatedSections.filter { $0 != .price || isPriceCellEnabled }
             .filter { $0 != .carsInfo || isCarsInfoCellEnabled }
             .filter { !$0.isRealEstateSection || isRealEstateInfoCellEnabled }
+            .filter { $0 != .jobsServicesToggle || isJobsServicesSectionEnabled }
             .filter { $0 != .servicesInfo || isServicesInfoCellEnabled }
     }
 
     func locationButtonPressed() {
-        let locationVM = EditLocationViewModel(mode: .editFilterLocation,
-                                               initialPlace: place,
-                                               distanceRadius: productFilter.distanceRadius)
-        locationVM.locationDelegate = self
-        navigator?.openEditLocation(withViewModel: locationVM)
+        navigator?.openEditLocation(mode: .editFilterLocation,
+                                    initialPlace: place,
+                                    distanceRadius: productFilter.distanceRadius,
+                                    locationDelegate: self)
     }
     
     func resetFilters() {
@@ -230,25 +226,25 @@ final class FiltersViewModel: BaseViewModel {
     // MARK: Categories
 
     func retrieveCategories() {
-        categoryRepository.index(servicesIncluded: true,
-                                 carsIncluded: false,
-                                 realEstateIncluded: featureFlags.realEstateEnabled.isActive) { [weak self] result in
-                                    
+        let realEstateActive = featureFlags.realEstateEnabled.isActive
+        let toFilter: [ListingCategory] = realEstateActive ? [.cars, .unassigned] : [.cars, .realEstate, .unassigned]
+        categoryRepository.index { [weak self] result in
             guard let strongSelf = self else { return }
             guard let categories = result.value else { return }
-            strongSelf.categories = strongSelf.buildFilterCategoryItemsWithCategories(categories)
+            let filtered = categories.filteringBy(toFilter)
+            
+            strongSelf.categories = strongSelf.buildFilterCategoryItemsWithCategories(filtered)
             strongSelf.delegate?.vmDidUpdate()
         }
     }
 
     private func buildFilterCategoryItemsWithCategories(_ categories: [ListingCategory]) -> [FilterCategoryItem] {
-
-        var filterCatItems: [FilterCategoryItem] = [.category(category: .cars)]
+        var filterCarItems: [FilterCategoryItem] = [.category(category: .cars)]
         if featureFlags.freePostingModeAllowed {
-            filterCatItems.append(.free)
+            filterCarItems.append(.free)
         }
         let builtCategories = categories.map { FilterCategoryItem(category: $0) }
-        return filterCatItems + builtCategories
+        return filterCarItems + builtCategories
     }
 
     func selectCategoryAtIndex(_ index: Int) {
@@ -281,6 +277,10 @@ final class FiltersViewModel: BaseViewModel {
             } else if let realEstateSectionIndex = sections.index(of: .realEstateInfo),
                 listingCategory.isRealEstate {
                 delegate?.scrollToSection(atIndexPath: IndexPath(row: 0, section: realEstateSectionIndex))
+            } else if let jobsServicesToggleSectionIndex = sections.index(of: .jobsServicesToggle),
+                listingCategory.isServices,
+                featureFlags.jobsAndServicesEnabled.isActive {
+                delegate?.scrollToSection(atIndexPath: IndexPath(row: 0, section: jobsServicesToggleSectionIndex))
             } else if let servicesSectionIndex = sections.index(of: .servicesInfo),
                 listingCategory.isServices {
                 delegate?.scrollToSection(atIndexPath: IndexPath(row: 0, section: servicesSectionIndex))
@@ -855,6 +855,36 @@ extension FiltersViewModel: CarAttributeSelectionDelegate {
 
 extension FiltersViewModel {
     
+    
+    // MARK: Jobs & Services Toggle
+    
+    var isJobsServicesSectionEnabled: Bool {
+        return isServicesInfoCellEnabled && featureFlags.jobsAndServicesEnabled.isActive
+    }
+    
+    var serviceListingTypeOptions: [ServiceListingType] {
+        return ServiceListingType.allCases(withFirstItem: .job)
+    }
+    
+    func serviceListingTypeDisplayText(atIndex index: Int) -> String? {
+        return serviceListingTypeOptions[safeAt: index]?.pluralDisplayName
+    }
+    
+    func isServiceListingTypeSelected(atIndex index: Int) -> Bool {
+        guard let item = serviceListingTypeOptions[safeAt: index] else { return false }
+        return productFilter.verticalFilters.services.listingTypes.contains(item)
+    }
+    
+    func selectServiceListingTypeOption(atIndex index: Int) {
+        guard let selectedListingType = serviceListingTypeOptions[safeAt: index] else { return }
+        
+        productFilter.verticalFilters.services.listingTypes.removeIfContainsElseAppend(selectedListingType)
+        delegate?.vmDidUpdate()
+    }
+    
+    
+    // MARK: Services
+    
     var currentServiceTypeName: String? {
         return productFilter.verticalFilters.services.type?.name
     }
@@ -862,7 +892,7 @@ extension FiltersViewModel {
     var isServicesInfoCellEnabled: Bool {
         return productFilter.selectedCategories.contains(.services)
     }
-    
+
     var serviceSubtypeCellEnabled: Bool {
         return productFilter.verticalFilters.services.type != nil
     }

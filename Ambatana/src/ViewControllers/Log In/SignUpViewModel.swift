@@ -67,14 +67,17 @@ class SignUpViewModel: BaseViewModel {
     let previousGoogleUsername: Variable<String?>
 
     weak var delegate: SignUpViewModelDelegate?
-    weak var navigator: MainSignUpNavigator?
+    var router: LoginNavigator?
 
-
+    private var onLoginCallback: (()->())?
+    private var onCancelCallback: (()->())?
+    
     // MARK: - Lifecycle
     
     init(sessionManager: SessionManager, installationRepository: InstallationRepository,
          keyValueStorage: KeyValueStorageable, featureFlags: FeatureFlaggeable, tracker: Tracker, appearance: LoginAppearance,
-         source: EventParameterLoginSourceValue, googleLoginHelper: ExternalAuthHelper, fbLoginHelper: ExternalAuthHelper) {
+         source: EventParameterLoginSourceValue, googleLoginHelper: ExternalAuthHelper, fbLoginHelper: ExternalAuthHelper,
+         loginAction: (()->())?, cancelAction: (()->())?) {
         self.sessionManager = sessionManager
         self.installationRepository = installationRepository
         self.keyValueStorage = keyValueStorage
@@ -86,6 +89,8 @@ class SignUpViewModel: BaseViewModel {
         self.fbLoginHelper = fbLoginHelper
         self.previousFacebookUsername = Variable<String?>(nil)
         self.previousGoogleUsername = Variable<String?>(nil)
+        self.onLoginCallback = loginAction
+        self.onCancelCallback = cancelAction
         super.init()
 
         let rememberedAccount = updatePreviousEmailAndUsernamesFromKeyValueStorage()
@@ -94,7 +99,12 @@ class SignUpViewModel: BaseViewModel {
         tracker.trackEvent(TrackerEvent.loginVisit(loginSource, rememberedAccount: rememberedAccount))
     }
     
-    convenience init(appearance: LoginAppearance, source: EventParameterLoginSourceValue) {
+    convenience init(appearance: LoginAppearance,
+                     source: EventParameterLoginSourceValue,
+                     router: LoginNavigator? = nil,
+                     loginAction: (()->())? = nil,
+                     cancelAction: (()->())? = nil
+                     ) {
         let sessionManager = Core.sessionManager
         let installationRepository = Core.installationRepository
         let keyValueStorage = KeyValueStorage.sharedInstance
@@ -104,7 +114,8 @@ class SignUpViewModel: BaseViewModel {
         let fbLoginHelper = FBLoginHelper()
         self.init(sessionManager: sessionManager, installationRepository: installationRepository,
                   keyValueStorage: keyValueStorage, featureFlags: featureFlags, tracker: tracker, appearance: appearance,
-                  source: source, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
+                  source: source, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper,
+                  loginAction: loginAction, cancelAction: cancelAction)
     }
 
 
@@ -113,8 +124,7 @@ class SignUpViewModel: BaseViewModel {
     func closeButtonPressed() {
         let trackerEvent = TrackerEvent.loginAbandon(loginSource)
         tracker.trackEvent(trackerEvent)
-
-        navigator?.cancelMainSignUp()
+        router?.close(onFinish: { self.onCancelCallback?() })
     }
 
     func connectFBButtonPressed() {
@@ -126,23 +136,32 @@ class SignUpViewModel: BaseViewModel {
     }
 
     func signUpButtonPressed() {
-        navigator?.openSignUpEmailFromMainSignUp()
+        router?.showSignInWithEmail(source: loginSource,
+                                     appearance: appearance,
+                                     logicAction: {[weak self] in
+                                        self?.router?.close(onFinish: self?.onLoginCallback)
+                                     },
+                                     cancelAction: onCancelCallback)
     }
 
     func logInButtonPressed() {
-        navigator?.openLogInEmailFromMainSignUp()
+        router?.showLoginWithEmail(source: loginSource,
+                                   logicAction: {[weak self] in
+                                        self?.router?.close(onFinish: self?.onLoginCallback)
+                                   },
+                                   cancelAction: onCancelCallback)
     }
 
     func continueWithEmailButtonPressed() {
-        navigator?.openPasswordlessEmail()
+        router?.showPasswordlessEmail()
     }
 
     func helpButtonPressed() {
-        navigator?.openHelpFromMainSignUp()
+        router?.showHelp()
     }
 
     func urlPressed(url: URL) {
-        navigator?.open(url: url)
+        router?.open(url: url)
     }
 
 
@@ -182,7 +201,9 @@ class SignUpViewModel: BaseViewModel {
         case let .success(myUser):
             savePreviousEmailOrUsername(accountProvider, username: myUser.name)
             delegate?.vmHideLoading(nil) { [weak self] in
-                self?.navigator?.closeMainSignUpSuccessful(with: myUser)
+                self?.router?.close(onFinish: {
+                    self?.onLoginCallback?()
+                })
             }
         case .scammer:
             delegate?.vmHideLoading(nil) { [weak self] in
@@ -202,11 +223,33 @@ class SignUpViewModel: BaseViewModel {
                                                                 installation: installationRepository.installation,
                                                                 listing: nil,
                                                                 type: .scammer) else {
-                navigator?.cancelMainSignUp()
+                router?.close()
                 return
             }
 
-        navigator?.closeMainSignUpAndOpenScammerAlert(contactURL: contactURL, network: network)
+        let contact = UIAction(
+            interface: .button(R.Strings.loginScammerAlertContactButton, .primary(fontSize: .medium)),
+            action: {
+                self.tracker.trackEvent(TrackerEvent.loginBlockedAccountContactUs(network, reason: .accountUnderReview))
+                self.router?.close(onFinish: { self.router?.open(url: contactURL) })
+        })
+        let keepBrowsing = UIAction(
+            interface: .button(R.Strings.loginScammerAlertKeepBrowsingButton, .secondary(fontSize: .medium,
+                                                                                         withBorder: false)),
+            action: {
+                self.tracker.trackEvent(TrackerEvent.loginBlockedAccountKeepBrowsing(network, reason: .accountUnderReview))
+                self.router?.close()
+        })
+
+        let actions = [contact, keepBrowsing]
+
+        router?.showAlert(
+            withTitle: R.Strings.loginScammerAlertTitle,
+            andBody: R.Strings.loginScammerAlertMessage,
+            andType: .iconAlert(icon: R.Asset.IconsButtons.icModerationAlert.image),
+            andActions: actions
+        )
+        tracker.trackEvent(TrackerEvent.loginBlockedAccountStart(network, reason: .accountUnderReview))
     }
 
     private func showDeviceNotAllowedAlert(_ network: EventParameterAccountNetwork) {
@@ -214,11 +257,31 @@ class SignUpViewModel: BaseViewModel {
                                                                 installation: installationRepository.installation,
                                                                 listing: nil,
                                                                 type: .deviceNotAllowed) else {
-                                                                    navigator?.cancelMainSignUp()
+                                                                    router?.close(onFinish: self.onCancelCallback)
                                                                     return
         }
 
-        navigator?.closeMainSignUpAndOpenDeviceNotAllowedAlert(contactURL: contactURL, network: network)
+        let contact = UIAction(
+            interface: .button(R.Strings.loginDeviceNotAllowedAlertContactButton, .primary(fontSize: .medium)),
+            action: {
+                self.tracker.trackEvent(TrackerEvent.loginBlockedAccountContactUs(network, reason: .secondDevice))
+                self.router?.close(onFinish: { self.router?.open(url: contactURL) })
+        })
+        
+        let keepBrowsing = UIAction(
+            interface: .button(R.Strings.loginDeviceNotAllowedAlertOkButton, .secondary(fontSize: .medium,
+                                                                                        withBorder: false)),
+            action: {
+                self.tracker.trackEvent(TrackerEvent.loginBlockedAccountKeepBrowsing(network, reason: .secondDevice))
+                self.router?.close()
+        })
+        
+        router?.showAlert(
+            withTitle: R.Strings.loginDeviceNotAllowedAlertTitle,
+            andBody: R.Strings.loginDeviceNotAllowedAlertMessage,
+            andType: .iconAlert(icon: R.Asset.IconsButtons.icDeviceBlockedAlert.image),
+            andActions: [contact, keepBrowsing])
+        tracker.trackEvent(TrackerEvent.loginBlockedAccountStart(network, reason: .secondDevice))
     }
 
     private func trackLoginFBOK() {

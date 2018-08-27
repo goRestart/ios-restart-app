@@ -25,6 +25,9 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     static let adInFeedInitialPosition = 3
     private static let adsInFeedRatio = 20
     private static let searchAlertLimit = 20
+    private static let interestingUndoTimeout: TimeInterval = 5
+    
+    var wireframe: MainListingNavigator? // We'll call this wireframe to avoid clashing. Too many navigators here
     
     // > Input
     var searchString: String? {
@@ -61,6 +64,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     
     private let interestingUndoTimeout: TimeInterval = 5
     private let chatWrapper: ChatWrapper
+    private let interestedStateUpdater: InterestedStateUpdater
 
     let bannerCellPosition: Int = 8
     let suggestedSearchesLimit: Int = 10
@@ -118,15 +122,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     let containsListings = Variable<Bool>(false)
     let isShowingCategoriesHeader = Variable<Bool>(false)
     
-    var categoryHeaderElements: [ListingCategory] {
-        return ListingCategory.visibleValuesInFeed(servicesIncluded: true,
-                                                   realEstateIncluded: featureFlags.realEstateEnabled.isActive,
-                                                   servicesHighlighted: true)
-    }
-    
-    var categoryHighlighted: ListingCategory {
-        return .services
-    }
+    var categoryHeaderElements: [FilterCategoryItem] { return FilterCategoryItem.makeForFeed(with: featureFlags) }
+    var categoryHighlighted: FilterCategoryItem { return FilterCategoryItem(category: .services) }
     
     private static let firstVersionNumber = 1
     
@@ -214,6 +211,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         
         if isServicesSelected {
             let servicesFilters = filters.verticalFilters.services
+            servicesFilters.listingTypes.forEach({ resultTags.append(.serviceListingType($0)) })
 
             if featureFlags.servicesUnifiedFilterScreen.isActive {
                 if let serviceType = servicesFilters.type {
@@ -285,7 +283,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     }
     
     private var shouldShowRealEstateMapTooltip: Bool {
-        return featureFlags.realEstateMapTooltip.isActive && !keyValueStorage[.realEstateTooltipMapShown] && !isMapTooltipAdded
+        return keyValueStorage[.realEstateTooltipMapShown] && !isMapTooltipAdded
     }
     
     private func showTooltipMap() {
@@ -331,6 +329,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     fileprivate let categoryRepository: CategoryRepository
     private let searchAlertsRepository: SearchAlertsRepository
     fileprivate let userRepository: UserRepository
+    private let feedBadgingSynchronizer: FeedBadgingSynchronizer
     
     fileprivate let tracker: Tracker
     fileprivate let searchType: SearchType? // The initial search
@@ -398,6 +397,10 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     private var isRealEstateSearch: Bool {
         return filters.selectedCategories == [.realEstate]
     }
+    
+    private var isCarPromoSearch: Bool {
+        return filters.selectedCategories == [.cars]
+    }
 
     private var isCurrentFeedACachedFeed: Bool = false {
         didSet {
@@ -419,7 +422,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     private var shouldFetchCache: Bool {
         let abTestActive = featureFlags.cachedFeed.isActive
         let isEmpty = listViewModel.isListingListEmpty.value
-        return abTestActive && !isCurrentFeedACachedFeed && (isEmpty || !hasFilters)
+        return abTestActive && !isCurrentFeedACachedFeed && isEmpty && !hasFilters
     }
 
     private var shouldDisableOldestSearchAlertIfMaximumReached: Bool {
@@ -448,7 +451,9 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
          keyValueStorage: KeyValueStorage,
          featureFlags: FeatureFlaggeable,
          bubbleTextGenerator: DistanceBubbleTextGenerator,
-         chatWrapper: ChatWrapper) {
+         chatWrapper: ChatWrapper,
+         interestedStateUpdater: InterestedStateUpdater,
+         feedBadgingSynchronizer: FeedBadgingSynchronizer) {
         self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
         self.searchRepository = searchRepository
@@ -468,6 +473,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         self.featureFlags = featureFlags
         self.bubbleTextGenerator = bubbleTextGenerator
         self.chatWrapper = chatWrapper
+        self.interestedStateUpdater = interestedStateUpdater
+        self.feedBadgingSynchronizer = feedBadgingSynchronizer
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
         let columns = show3Columns ? 3 : 2
         let itemsPerPage = show3Columns ? SharedConstants.numListingsPerPageBig : SharedConstants.numListingsPerPageDefault
@@ -490,7 +497,6 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         super.init()
         
         self.listViewModel.listingCellDelegate = self
-        
         setup()
     }
     
@@ -511,6 +517,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         let featureFlags = FeatureFlags.sharedInstance
         let bubbleTextGenerator = DistanceBubbleTextGenerator()
         let chatWrapper = LGChatWrapper()
+        let interestedStateUpdater = LGInterestedStateUpdater()
+        let feedBadgingSynchronizer = LGFeedBadgingSynchronizer()
         self.init(sessionManager: sessionManager,
                   myUserRepository: myUserRepository,
                   searchRepository: searchRepository,
@@ -528,7 +536,9 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                   keyValueStorage: keyValueStorage,
                   featureFlags: featureFlags,
                   bubbleTextGenerator: bubbleTextGenerator,
-                  chatWrapper: chatWrapper)
+                  chatWrapper: chatWrapper,
+                  interestedStateUpdater: interestedStateUpdater,
+                  feedBadgingSynchronizer: feedBadgingSynchronizer)
     }
     
     convenience init(searchType: SearchType? = nil, tabNavigator: TabNavigator?) {
@@ -547,7 +557,6 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         updateCategoriesHeader()
         if firstTime {
             setupRx()
-            notificationsManager.updateEngagementBadgingNotifications()
         }
         if let currentLocation = locationManager.currentLocation {
             retrieveProductsIfNeededWithNewLocation(currentLocation)
@@ -575,16 +584,21 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         guard !query.isEmpty else { return }
         
         delegate?.vmDidSearch()
-        if let searchNavigator = searchNavigator  {
-            searchNavigator.openSearchResults(with: .user(query: query), filters: filters)
-        } else {
-            navigator?.openMainListings(withSearchType: .user(query: query), listingFilters: filters)
+        guard let searchNavigator = searchNavigator else {
+            navigator?.openMainListings(withSearchType: .user(query: query),
+                                        listingFilters: filters)
+            return
         }
+        wireframe?.openSearchResults(
+            with: .user(query: query),
+            filters: filters,
+            searchNavigator: searchNavigator
+        )
     }
     
     func showFilters() {
         if let searchNavigator = searchNavigator  {
-            searchNavigator.openFilters(with: filters, dataDelegate: self)
+            wireframe?.openFilters(withFilters: filters, dataDelegate: self)
         } else {
             navigator?.openFilters(withListingFilters: filters, filtersVMDataDelegate: self)
         }
@@ -593,8 +607,9 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     
     func showMap() {
         if let searchNavigator = searchNavigator  {
-            searchNavigator.openMap(requester: listingListRequester,
-                                    listingFilters: filters)
+            wireframe?.openMap(requester: listingListRequester,
+                            listingFilters: filters,
+                            searchNavigator: searchNavigator as! ListingsMapNavigator)
         } else {
             navigator?.openMap(requester: listingListRequester,
                                listingFilters: filters,
@@ -645,6 +660,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         
         var servicesServiceType: ServiceType? = nil
         var servicesServiceSubtype: [ServiceSubtype] = []
+        var servicesListingTypes: [ServiceListingType] = []
         
         for filterTag in tags {
             switch filterTag {
@@ -694,6 +710,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             case .unifiedServiceType(let type, let selectedSubtypes):
                 servicesServiceType = type
                 servicesServiceSubtype = selectedSubtypes
+            case .serviceListingType(let listingType):
+                servicesListingTypes.append(listingType)
             case .carBodyType(let bodyType):
                 carBodyTypes.append(bodyType)
             case .carFuelType(let fuelType):
@@ -765,6 +783,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             filters.verticalFilters.services.subtypes = nil
         }
         
+        filters.verticalFilters.services.listingTypes = servicesListingTypes
+
         updateCategoriesHeader()
         updateListView()
     }
@@ -778,17 +798,22 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     }
     
     func updateFiltersFromHeaderCategories(_ categoryHeaderInfo: CategoryHeaderInfo) {
-        filters.selectedCategories = [categoryHeaderInfo.listingCategory]
+        switch categoryHeaderInfo.filterCategoryItem {
+        case .category(let category):
+            filters.selectedCategories = [category]
+        case .free:
+            filters.priceRange = .freePrice
+        }
         applyFilters(categoryHeaderInfo)
     }
     
     func bubbleTapped() {
         let initialPlace = filters.place ?? Place(postalAddress: locationManager.currentLocation?.postalAddress,
                                                   location: locationManager.currentLocation?.location)
-        if let searchNavigator = searchNavigator  {
-            searchNavigator.openLocationSelection(with: initialPlace,
-                                                  distanceRadius: filters.distanceRadius,
-                                                  locationDelegate: self)
+        if let searchNavigator = searchNavigator  { // TODO: Work on this for sectioned feed
+            wireframe?.openLocationSelection(with: initialPlace,
+                                             distanceRadius: filters.distanceRadius,
+                                             locationDelegate: self)
         } else {
             navigator?.openLocationSelection(initialPlace: initialPlace,
                                              distanceRadius: filters.distanceRadius,
@@ -798,8 +823,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     }
     
     func recentItemsBubbleTapped() {
-        listViewModel.retrieveRecentItems()
-        notificationsManager.hideEngagementBadgingNotifications()
+        listViewModel.showRecentListings()
+        feedBadgingSynchronizer.hideBadge()
     }
     
     
@@ -854,11 +879,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         errorMessage.value = nil
         listViewModel.cellStyle = cellStyle
         listViewModel.resetUI()
-        listViewModel.refresh(shouldSaveToCache: !hasFilters)
 
-        if shouldFetchCache {
-            listViewModel.fetchFromCache()
-        }
+        listViewModel.refresh(shouldSaveToCache: !hasFilters)
     }
     
     
@@ -1126,7 +1148,8 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
     func listingListVM(_ viewModel: ListingListViewModel,
                        didSucceedRetrievingListingsPage page: UInt,
                        withResultsCount resultsCount: Int,
-                       hasListings: Bool) {
+                       hasListings: Bool,
+                       containsRecentListings: Bool) {
         isCurrentFeedACachedFeed = false
 
         // Only save the string when there is products and we are not searching a collection
@@ -1156,7 +1179,12 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                 filterDescription.value = nil
                 filterTitle.value = nil
                 
-                trackRequestSuccess(page: page, resultsCount: resultsCount, hasListings: hasListings, searchRelatedItems: featureFlags.emptySearchImprovements.isActive)
+                trackRequestSuccess(page: page,
+                                    resultsCount: resultsCount,
+                                    hasListings: hasListings,
+                                    searchRelatedItems: featureFlags.emptySearchImprovements.isActive,
+                                    recentItems: containsRecentListings)
+
             } else {
                 listViewModel.retrieveListingsNextPage()
             }
@@ -1167,16 +1195,28 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             let isFirstRequesterInAlwaysSimilarCase = featureFlags.emptySearchImprovements == .alwaysSimilar && requesterType == .nonFilteredFeed
             let isFirstRequesterInOtherCases = featureFlags.emptySearchImprovements != .alwaysSimilar && requesterType != .search
             if isFirstRequesterInAlwaysSimilarCase || isFirstRequesterInOtherCases {
-                trackRequestSuccess(page: page, resultsCount: resultsCount, hasListings: hasListings, searchRelatedItems: true)
+                trackRequestSuccess(page: page,
+                                    resultsCount: resultsCount,
+                                    hasListings: hasListings,
+                                    searchRelatedItems: true,
+                                    recentItems: containsRecentListings)
                 shouldHideCategoryAfterSearch = true
                 filterDescription.value = featureFlags.emptySearchImprovements.filterDescription
                 filterTitle.value = filterTitleString(forRequesterType: requesterType)
                 updateCategoriesHeader()
             } else {
-                trackRequestSuccess(page: page, resultsCount: resultsCount, hasListings: hasListings, searchRelatedItems: false)
+                trackRequestSuccess(page: page,
+                                    resultsCount: resultsCount,
+                                    hasListings: hasListings,
+                                    searchRelatedItems: false,
+                                    recentItems: containsRecentListings)
             }
         } else {
-            trackRequestSuccess(page: page, resultsCount: resultsCount, hasListings: hasListings, searchRelatedItems: false)
+            trackRequestSuccess(page: page,
+                                resultsCount: resultsCount,
+                                hasListings: hasListings,
+                                searchRelatedItems: false,
+                                recentItems: containsRecentListings)
         }
         
         errorMessage.value = nil
@@ -1187,6 +1227,26 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         
         if(page == 0) {
             bubbleDistance = 1
+        }
+        
+        let isDefaultFeed = !hasFilters && searchType == nil
+        let shouldShowRecentItems = (requester?.multiIsFirstPage == true) &&
+            isDefaultFeed &&
+            hasListings &&
+            !containsRecentListings &&
+        isEngagementBadgingEnabled
+        if shouldShowRecentItems {
+            // If recent listings have not been retrieved, retrieve them and show badge if necessary
+            if listViewModel.recentListings.count == 0 {
+                feedBadgingSynchronizer.retrieveRecentListings { [weak self] recentListings in
+                    guard recentListings.count > 0 else { return }
+                    self?.listViewModel.addRecentListings(recentListings)
+                    self?.trackShowNewItemsBadge()
+                }
+            } else if listViewModel.hasPreviouslyShownRecentListings {
+                // If already retrieved before, we should show them directly
+                listViewModel.showRecentListings()
+            }
         }
     }
     
@@ -1253,6 +1313,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         var totalListings = listings
         totalListings = addCollections(to: totalListings, page: page)
         totalListings = addRealEstatePromoItem(to: totalListings)
+        totalListings = addCarPromoItem(to: totalListings)
         let myUserCreationDate: Date? = myUserRepository.myUser?.creationDate
         if featureFlags.showAdsInFeedWithRatio.isActive ||
             featureFlags.feedAdsProviderForUS.shouldShowAdsInFeedForUser(createdIn: myUserCreationDate) ||
@@ -1406,8 +1467,34 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             (filters.hasAnyRealEstateAttributes && listingListRequester.isFirstPageInLastRequester) else { return listings }
         
         var cellModels = listings
-        cellModels.insert(ListingCellModel.promo(data: PromoCellConfiguration.randomCellData,  delegate: self), at: 0)
+        cellModels.insert(ListingCellModel.promo(data: RealEstatePromoCellConfiguration.randomCellData, delegate: self), at: 0)
         return cellModels
+    }
+    
+    private func addCarPromoItem(to listings: [ListingCellModel]) -> [ListingCellModel] {
+        guard featureFlags.carPromoCells.isActive,
+            isCarPromoSearch,
+            !listings.isEmpty
+            else { return listings }
+        
+        guard let carPromoCellModel = newCarPromoCellModel(),
+            (!filters.hasAnyCarAttributes && listingListRequester.multiIsFirstPage) ||
+            (filters.hasAnyCarAttributes && listingListRequester.isFirstPageInLastRequester) else { return listings }
+        
+        return [carPromoCellModel] + listings
+    }
+    
+    private func newCarPromoCellModel() -> ListingCellModel? {
+        switch featureFlags.carPromoCells {
+        case .control, .baseline:
+            return nil
+        case .variantA:
+            return ListingCellModel.promo(data: CarPromoCellConfiguration.createRandomCellData(showsPostButton: true),
+                                          delegate: self)
+        case .variantB:
+            return ListingCellModel.promo(data: CarPromoCellConfiguration.createRandomCellData(showsPostButton: false),
+                                          delegate: self)
+        }
     }
     
     private func adAbsolutePosition() -> Int {
@@ -1827,13 +1914,22 @@ fileprivate extension MainListingsViewModel {
         return .home
     }
 
-    private func trackRequestSuccess(page: UInt, resultsCount: Int, hasListings: Bool, searchRelatedItems: Bool) {
+    private func trackRequestSuccess(page: UInt,
+                                     resultsCount: Int,
+                                     hasListings: Bool,
+                                     searchRelatedItems: Bool,
+                                     recentItems: Bool) {
         guard page == 0 else { return }
         let successParameter: EventParameterBoolean = hasListings ? .trueParameter : .falseParameter
+        let recentItemsParameter: EventParameterBoolean = recentItems ? .trueParameter : .falseParameter
         let trackerEvent = TrackerEvent.listingList(myUserRepository.myUser,
                                                     categories: filters.selectedCategories,
-                                                    searchQuery: queryString, resultsCount: resultsCount,
-                                                    feedSource: feedSource, success: successParameter)
+                                                    searchQuery: queryString,
+                                                    resultsCount: resultsCount,
+                                                    feedSource: feedSource,
+                                                    success: successParameter,
+                                                    recentItems: recentItemsParameter)
+
         tracker.trackEvent(trackerEvent)
         
         if let searchType = searchType, let searchQuery = searchType.query, shouldTrackSearch {
@@ -1879,6 +1975,11 @@ fileprivate extension MainListingsViewModel {
                                                          sellButtonPosition: source.sellButtonPosition,
                                                          category: category.listingCategory))
     }
+    
+    func trackShowNewItemsBadge() {
+        let trackerEvent = TrackerEvent.showNewItemsBadge()
+        tracker.trackEvent(trackerEvent)
+    }
 }
 
 
@@ -1906,88 +2007,113 @@ extension MainListingsViewModel: CategoriesHeaderCollectionViewDelegate {
 // MARK: ListingCellDelegate
 
 extension MainListingsViewModel: ListingCellDelegate {
-    func interestedActionFor(_ listing: Listing) {
-        guard let identifier = listing.objectId else { return }
-        guard let index = listViewModel.indexFor(listingId: identifier) else { return }
-        if let state = listViewModel.listingInterestState[identifier],
-            case .send(let enabled) = state, !enabled {
-            return
+    
+    func interestedActionFor(_ listing: Listing, userListing: LocalUser?, completion: @escaping (InterestedState) -> Void) {
+        if let user = userListing, user.isProfessional {
+            interestedActionForProUser(forListing: listing, interlocutor: user)
+        } else {
+            interestedActionForNormalUser(listing, completion: completion)
         }
-        markListingWithUndoableInterest(listing, atIndex: index)
     }
     
-    private func markListingWithUndoableInterest(_ listing: Listing, atIndex index: Int) {
-        guard let identifier = listing.objectId else { return }
-        
-        let action: () -> () = { [weak self] in
+    private func openChat(withData data: ChatDetailData) {
+        navigator?.openChat(data,
+                            source: .listingListFeatured,
+                            predefinedMessage: nil)
+    }
+    
+    private func interestedActionForProUser(forListing listing: Listing, interlocutor: LocalUser) {
+        openLoginIfNeeded(message: R.Strings.chatLoginPopupText) { [weak self] in
+            guard let shouldOpenProChat = self?.interestedStateUpdater.hasContactedProListing(listing),
+                shouldOpenProChat else {
+                    self?.navigator?.openAskPhoneFromMainFeedFor(listing: listing,
+                                                                 interlocutor: interlocutor)
+                    return
+            }
+            self?.openProChat(listing, interlocutor: interlocutor)
+        }
+    }
+    
+    private func interestedActionForNormalUser(_ listing: Listing, completion: @escaping (InterestedState) -> Void) {
+        guard !interestedStateUpdater.interestedIsDisabled(forListing: listing) else { return }
+        openLoginIfNeeded(message: R.Strings.chatLoginPopupText) { [weak self] in
             guard let strSelf = self else { return }
-            guard !strSelf.interestingListingIDs.contains(identifier) else {
-                strSelf.navigator?.openChat(.listingAPI(listing: listing),
-                                            source: .listingList,
-                                            predefinedMessage: nil)
+            let shouldOpenChat = strSelf.interestedStateUpdater.hasContactedListing(listing)
+            guard !shouldOpenChat else {
+                completion(.seeConversation)
+                let chatDetailData = ChatDetailData.listingAPI(listing: listing)
+                strSelf.openChat(withData: chatDetailData)
                 return
             }
-            
-            strSelf.listViewModel.update(listing: listing, interestedState: .send(enabled: false))
-            let (cancellable, timer) = LGTimer.cancellableWait(strSelf.interestingUndoTimeout)
-            strSelf.showCancellableInterestedBubbleWith(duration: strSelf.interestingUndoTimeout) {
-                cancellable.cancel()
-            }
-            timer.subscribe { [weak self] (event) in
-                guard let strSelf = self else { return }
-                guard event.error == nil else {
-                    strSelf.sendInterestedMessage(forListing: listing, atIndex: index, withID: identifier)
-                    return
-                }
-                strSelf.undoInterestingMessageFor(listing: listing, withID: identifier)
-                }.disposed(by: strSelf.disposeBag)
+            strSelf.handleCancellableInterestedAction(listing, completion: completion)
         }
-        navigator?.openLoginIfNeeded(infoMessage: R.Strings.chatLoginPopupText, then: action)
     }
     
-    private func undoInterestingMessageFor(listing: Listing, withID identifier: String) {
-        tracker.trackEvent(TrackerEvent.undoSentMessage())
-        interestingListingIDs.remove(identifier)
-        syncInterestingListings(interestingListingIDs)
-        listViewModel.update(listing: listing, interestedState: .send(enabled: true))
+    private func handleCancellableInterestedAction(_ listing: Listing, completion: @escaping (InterestedState) -> Void) {
+        let (cancellable, timer) = LGTimer.cancellableWait(MainListingsViewModel.interestingUndoTimeout)
         
+        showUndoBubble(withMessage: R.Strings.productInterestedBubbleMessage,
+                       duration: MainListingsViewModel.interestingUndoTimeout) {
+                        cancellable.cancel()
+        }
+        
+        timer.subscribe { [weak self] (event) in
+            guard event.error == nil else {
+                completion(.seeConversation)
+                self?.sendMessage(forListing: listing)
+                return
+            }
+            completion(.send(enabled: true))
+            self?.undoSendingInterestedMessage(forListing: listing)
+            }.disposed(by: disposeBag)
     }
     
-    private func syncInterestingListings(_ interestingListingIDs: Set<String>?) {
-        guard let set = interestingListingIDs else { return }
-        keyValueStorage.interestingListingIDs = set
+    private func openLoginIfNeeded(message: String, then action: @escaping () -> Void) {
+        navigator?.openLoginIfNeeded(infoMessage: message, then: action)
     }
     
-    private func sendInterestedMessage(forListing listing: Listing, atIndex index: Int, withID identifier: String) {
-        interestingListingIDs.update(with: identifier)
-        syncInterestingListings(interestingListingIDs)
-        let type: ChatWrapperMessageType = ChatWrapperMessageType.interested(QuickAnswer.interested.textToReply)
-        let trackingInfo = SendMessageTrackingInfo.makeWith(type: type,
-                                                            listing: listing,
-                                                            freePostingAllowed: featureFlags.freePostingModeAllowed)
+    private func openProChat(_ listing: Listing, interlocutor: LocalUser) {
+        let trackHelper = ProductVMTrackHelper(tracker: tracker,
+                                               listing: listing,
+                                               featureFlags: featureFlags)
+        trackHelper.trackChatWithSeller(.feed)
+        navigator?.openListingChat(listing,
+                                   source: .listingList,
+                                   interlocutor: interlocutor)
+    }
+    
+    private func showUndoBubble(withMessage message: String,
+                                duration: TimeInterval,
+                                then action: @escaping () -> ()) {
+        navigator?.showUndoBubble(withMessage: message,
+                                  duration: duration,
+                                  withAction: action)
+    }
+    
+    private func undoSendingInterestedMessage(forListing listing: Listing) {
+        tracker.trackEvent(TrackerEvent.undoSentMessage())
+    }
+    
+    private func sendMessage(forListing listing: Listing) {
+        let type = ChatWrapperMessageType.interested(QuickAnswer.interested.textToReply)
+        interestedStateUpdater.addInterestedState(forListing: listing, completion: nil)
+        let trackingInfo = SendMessageTrackingInfo
+            .makeWith(type: type, listing: listing, freePostingAllowed: featureFlags.freePostingModeAllowed)
             .set(typePage: .listingList)
             .set(isBumpedUp: .falseParameter)
             .set(containsEmoji: false)
-        
-        let containsVideo = EventParameterBoolean(bool: listing.containsVideo())
-        tracker.trackEvent(TrackerEvent.userMessageSent(info: trackingInfo, isProfessional: nil))
-        chatWrapper.sendMessageFor(listing: listing,
-                                   type: type,
-                                   completion: { [weak self] isFirstMessage in
-                                    if isFirstMessage.value ?? false {
-                                        self?.tracker.trackEvent(TrackerEvent.firstMessage(info: trackingInfo,
-                                                                                           listingVisitSource: .listingList,
-                                                                                           feedPosition: .none,
-                                                                                           userBadge: .noBadge,
-                                                                                           containsVideo: containsVideo, isProfessional: nil))
-                                    }
-        })
-        listViewModel.update(listing: listing, interestedState: .seeConversation)
-    }
-    
-    private func showCancellableInterestedBubbleWith(duration: TimeInterval, then action: @escaping ()->()) {
-        let message = R.Strings.productInterestedBubbleMessage
-        navigator?.showUndoBubble(withMessage: message, duration: duration, withAction: action)
+        tracker.trackEvent(.userMessageSent(info: trackingInfo, isProfessional: nil))
+        chatWrapper.sendMessageFor(listing: listing, type: type) { [weak self] isFirstMessage in
+            let isFirstMessage = isFirstMessage.value ?? false
+            guard isFirstMessage else { return }
+            let event = TrackerEvent.firstMessage(info: trackingInfo,
+                                                  listingVisitSource: .listingList,
+                                                  feedPosition: .none,
+                                                  userBadge: .noBadge,
+                                                  containsVideo: EventParameterBoolean(bool: listing.containsVideo()),
+                                                  isProfessional: nil)
+            self?.tracker.trackEvent(event)
+        }
     }
     
     func chatButtonPressedFor(listing: Listing) {
@@ -2002,11 +2128,11 @@ extension MainListingsViewModel: ListingCellDelegate {
     // Discarded listings are never shown in the main feed
     func moreOptionsPressedForDiscarded(listing: Listing) {}
     
-    func postNowButtonPressed(_ view: UIView) {
-        let postCategory: PostCategory = .realEstate
-        let source: PostingSource = .realEstatePromo
-        navigator?.openSell(source: source, postCategory: postCategory)
-        trackStartSelling(source: source, category: postCategory)
+    func postNowButtonPressed(_ view: UIView,
+                              category: PostCategory,
+                              source: PostingSource) {
+        navigator?.openSell(source: source, postCategory: category)
+        trackStartSelling(source: source, category: category)
     }
     
     func openAskPhoneFor(_ listing: Listing, interlocutor: LocalUser) {

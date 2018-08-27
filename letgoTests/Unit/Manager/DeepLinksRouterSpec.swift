@@ -38,7 +38,13 @@ class DeepLinksRouterSpec: QuickSpec {
                 }
                 it("sets a category search deeplink targeting that category with no query string") {
                     if let deeplink = sut.consumeInitialDeepLink() {
-                        expect(deeplink.action) == DeepLinkAction.search(query: "", categories: categoryID)
+                        expect(deeplink.action) == DeepLinkAction.search(query: "",
+                                                                         categories: categoryID,
+                                                                         distanceRadius: nil,
+                                                                         sortCriteria: nil,
+                                                                         priceFlag: nil,
+                                                                         minPrice: nil,
+                                                                         maxPrice: nil)
                     }
                 }
 
@@ -53,9 +59,15 @@ class DeepLinksRouterSpec: QuickSpec {
                 it("sets the initial deeplink properly") {
                     expect(sut.initialDeeplinkAvailable).to(beTrue())
                 }
-                it("sets a category search deeplink with a query string without category") {
+                it("sets a category search deeplink with a query string without any other parameter") {
                     if let deeplink = sut.consumeInitialDeepLink() {
-                        expect(deeplink.action) == DeepLinkAction.search(query: queryString, categories: nil)
+                        expect(deeplink.action) == DeepLinkAction.search(query: queryString,
+                                                                         categories: nil,
+                                                                         distanceRadius: nil,
+                                                                         sortCriteria: nil,
+                                                                         priceFlag: nil,
+                                                                         minPrice: nil,
+                                                                         maxPrice: nil)
                     }
                 }
             }
@@ -90,7 +102,13 @@ class DeepLinksRouterSpec: QuickSpec {
                 }
                 it("sets a category search deeplink with a query string without category") {
                     if let deeplink = sut.consumeInitialDeepLink() {
-                        expect(deeplink.action) == DeepLinkAction.search(query: "", categories: categoryID)
+                        expect(deeplink.action) == DeepLinkAction.search(query: "",
+                                                                         categories: categoryID,
+                                                                         distanceRadius: nil,
+                                                                         sortCriteria: nil,
+                                                                         priceFlag: nil,
+                                                                         minPrice: nil,
+                                                                         maxPrice: nil)
                     }
                 }
             }
@@ -106,7 +124,13 @@ class DeepLinksRouterSpec: QuickSpec {
                 }
                 it("sets a category search deeplink with a query string without category") {
                     if let deeplink = sut.consumeInitialDeepLink() {
-                        expect(deeplink.action) == DeepLinkAction.search(query: queryString, categories: nil)
+                        expect(deeplink.action) == DeepLinkAction.search(query: queryString,
+                                                                         categories: nil,
+                                                                         distanceRadius: nil,
+                                                                         sortCriteria: nil,
+                                                                         priceFlag: nil,
+                                                                         minPrice: nil,
+                                                                         maxPrice: nil)
                     }
                 }
             }

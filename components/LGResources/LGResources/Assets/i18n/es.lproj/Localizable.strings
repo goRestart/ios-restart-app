@@ -67,6 +67,8 @@
 "bump_up_view_pay_title" = "Atrae al doble de compradores";
 "cached_feed_error" = "Se ha producido un error al cargar nuevos anuncios";
 "cached_feed_new_listings" = "Nuevos anuncios";
+"car_promo_cell_title_bold_text" = "Gana dinero";
+"car_promo_cell_title_regular_text" = "vendiendo tu coche";
 "categories_baby_and_child" = "Niños y Bebés";
 "categories_car" = "Coches";
 "categories_cars_and_motors" = "Otros Vehículos y Accesorios";
@@ -86,6 +88,7 @@
 "categories_inFeed_real_estate_title" = "Inmobiliaria";
 "categories_inFeed_services" = "Servicios";
 "categories_inFeed_sports_leisure_games" = "Tiempo libre";
+"categories_jobs_services" = "Empleo & Servicios";
 "categories_movies_books_and_music" = "Películas, Libros y Música";
 "categories_other" = "Otros";
 "categories_real_estate" = "Viviendas";
@@ -327,7 +330,18 @@
 "direct_answer_good_condition" = "¿Está en buen estado?";
 "direct_answer_how_much_asking" = "¿Por cuánto lo vendes?";
 "direct_answer_interested" = "¡Me interesa!";
+"direct_answer_interested_buy_it" = "Quiero comprarlo";
+"direct_answer_interested_has_it_sold" = "¿Se ha vendido?";
+"direct_answer_interested_in_buying_it" = "Me interesa comprarlo";
+"direct_answer_interested_in_this_item" = "Me interesa este artículo";
+"direct_answer_interested_is_it_still_available" = "¿Todavía está disponible?";
+"direct_answer_interested_is_it_still_for_sale" = "¿Todavía está en venta?";
+"direct_answer_interested_is_this_available" = "¿Está disponible?";
+"direct_answer_interested_is_this_still_available" = "¿Esto todavía está disponible?";
+"direct_answer_interested_still_have_it" = "¿Todavía lo tienes?";
+"direct_answer_interested_still_selling_it" = "¿Todavía lo vendes?";
 "direct_answer_interested_title" = "Me interesa...";
+"direct_answer_interested_what_condition" = "¿En qué condición está?";
 "direct_answer_is_negotiable" = "¿El precio es negociable?";
 "direct_answer_lets_meet" = "¿Nos encontramos?";
 "direct_answer_like_to_buy" = "¡Hola! Quiero comprarlo";
@@ -366,6 +380,11 @@
 "discarded_products_reason_poor_ad_quality" = "No respeta las prácticas recomendadas";
 "discarded_products_reason_reference_to_competitors" = "Referencias a otras apps o páginas web";
 "discarded_products_reason_stock_photo_only" = "Solo contiene imágenes de archivo";
+"edit_jobsServices_jobs_option_title" = "Empleos";
+"edit_jobsServices_listingType_title" = "Tipo de anuncio";
+"edit_jobsServices_serviceSubtype_title" = "Subtipo";
+"edit_jobsServices_serviceType_title" = "Tipo";
+"edit_jobsServices_services_option_title" = "Servicios";
 "edit_paymentFrequency_placeholder" = "No definida";
 "edit_paymentFrequency_title" = "Frecuencia";
 "edit_priceType_choose_title" = "Elige una opción";
@@ -428,6 +447,10 @@
 "filters_cars_transmission_manual" = "Manual";
 "filters_cars_transmission_title" = "Transmisión";
 "filters_distance_not_set" = "no definida";
+"filters_jobs_services_header" = "Características del empleo/servicio";
+"filters_jobs_services_subtype_title" = "Subtipo";
+"filters_jobs_services_toggle_header" = "Busco...";
+"filters_jobs_services_type_title" = "Tipo";
 "filters_mileage_slider_title" = "Kilometraje";
 "filters_navbar_reset" = "Borrar";
 "filters_numberOfSeats_slider_title" = "Plazas";
@@ -735,6 +758,7 @@
 "post_description_info_title" = "INFORMACIÓN DEL ANUNCIO";
 "post_description_name_placeholder" = "Nombre";
 "post_description_save_button_text" = "¡Guardar este anuncio!";
+"post_details_jobs_services_camera_message" = "Publica el logo de tu empresa o una foto que muestre el servicio o empleo que ofreces";
 "post_details_jobs_services_step_option_jobs_prefix" = "Buscando contratar a alguien para un";
 "post_details_jobs_services_step_option_services_prefix" = "Anunciando un";
 "post_details_jobs_services_step_title" = "Estoy";

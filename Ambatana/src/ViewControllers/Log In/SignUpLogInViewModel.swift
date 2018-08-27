@@ -149,6 +149,11 @@ class SignUpLogInViewModel: BaseViewModel {
     fileprivate var emailTrimmed: Variable<String?>
     let previousFacebookUsername: Variable<String?>
     let previousGoogleUsername: Variable<String?>
+    
+    var router: LoginNavigator?
+    
+    private var onLoginCallback: (()->())?
+    private var onCancelCallback: (()->())?
 
     func attributedLegalText(_ linkColor: UIColor) -> NSAttributedString {
         guard let conditionsURL = termsAndConditionsURL, let privacyURL = privacyURL else {
@@ -197,7 +202,8 @@ class SignUpLogInViewModel: BaseViewModel {
          featureFlags: FeatureFlaggeable,
          locale: Locale,
          source: EventParameterLoginSourceValue,
-         action: LoginActionType) {
+         action: LoginActionType,
+         loginAction: (()->())?, cancelAction: (()->())?) {
         self.sessionManager = sessionManager
         self.installationRepository = installationRepository
         self.keyValueStorage = keyValueStorage
@@ -223,6 +229,8 @@ class SignUpLogInViewModel: BaseViewModel {
         self.sendButtonEnabledVar = Variable<Bool>(false)
         self.showPasswordVisible = Variable<Bool>(false)
         self.disposeBag = DisposeBag()
+        self.onLoginCallback = loginAction
+        self.onCancelCallback = cancelAction
         super.init()
 
         updatePreviousEmailAndUsernamesFromKeyValueStorage()
@@ -235,7 +243,9 @@ class SignUpLogInViewModel: BaseViewModel {
     }
     
     convenience init(source: EventParameterLoginSourceValue,
-                     action: LoginActionType) {
+                     action: LoginActionType,
+                     loginAction: (()->())? = nil,
+                     cancelAction: (()->())? = nil) {
         let sessionManager = Core.sessionManager
         let installationRepository = Core.installationRepository
         let keyValueStorage = KeyValueStorage.sharedInstance
@@ -253,26 +263,28 @@ class SignUpLogInViewModel: BaseViewModel {
                   featureFlags: featureFlags,
                   locale: locale,
                   source: source,
-                  action: action)
+                  action: action,
+                  loginAction: loginAction,
+                  cancelAction: cancelAction)
     }
     
     
     // MARK: - Public methods
 
     func cancel() {
-        navigator?.cancelSignUpLogIn()
+        router?.close()
     }
 
     func openHelp() {
-        navigator?.openHelpFromSignUpLogin()
+        router?.showHelp()
     }
 
     func openRememberPassword() {
-        navigator?.openRememberPasswordFromSignUpLogIn(email: emailTrimmed.value)
+        router?.showRememberPassword(source: loginSource, email: emailTrimmed.value)
     }
 
     func open(url: URL) {
-        navigator?.open(url: url)
+        router?.open(url: url)
     }
 
     func acceptSuggestedEmail() -> Bool {
@@ -317,7 +329,7 @@ class SignUpLogInViewModel: BaseViewModel {
                     TrackerEvent.signupEmail(strongSelf.loginSource, newsletter: strongSelf.newsletterParameter))
                 
                 strongSelf.delegate?.vmHideLoading(nil) { [weak self] in
-                    self?.navigator?.closeSignUpLogInSuccessful(with: user)
+                    self?.router?.close(onFinish: self?.onCancelCallback)
                 }
             } else if let signUpError = signUpResult.error {
                 if signUpError.isUserExists {
@@ -329,7 +341,7 @@ class SignUpLogInViewModel: BaseViewModel {
                                                                        rememberedAccount: rememberedAccount)
                             strongSelf.tracker.trackEvent(trackerEvent)
                             strongSelf.delegate?.vmHideLoading(nil) { [weak self] in
-                                self?.navigator?.closeSignUpLogInSuccessful(with: myUser)
+                                self?.router?.close(onFinish: self?.onLoginCallback)
                             }
                         } else {
                             strongSelf.process(signupError: signUpError)
@@ -386,7 +398,7 @@ class SignUpLogInViewModel: BaseViewModel {
                 self?.tracker.trackEvent(trackerEvent)
                 
                 self?.delegate?.vmHideLoading(nil) { [weak self] in
-                    self?.navigator?.closeSignUpLogInSuccessful(with: user)
+                    self?.router?.close(onFinish: self?.onLoginCallback)
                 }
             } else if let sessionManagerError = loginResult.error {
                 strongSelf.processLoginSessionError(sessionManagerError)
@@ -498,7 +510,9 @@ class SignUpLogInViewModel: BaseViewModel {
        
         if showCaptcha {
             delegate?.vmHideLoading(nil) { [weak self] in
-                self?.navigator?.openRecaptcha(action: .login)
+                if let strongSelf = self {
+                    strongSelf.router?.showRecaptcha(action: .login, delegate: strongSelf)
+                }
             }
         } else {
             trackLoginEmailFailedWithError(error.trackingError)
@@ -516,7 +530,9 @@ class SignUpLogInViewModel: BaseViewModel {
             }
         case .userNotVerified:
             delegate?.vmHideLoading(nil) { [weak self] in
-                self?.navigator?.openRecaptcha(action: .signup)
+                if let strongSelf = self {
+                    strongSelf.router?.showRecaptcha(action: .signup, delegate: strongSelf)
+                }
             }
         case .network, .badRequest, .notFound, .forbidden, .unauthorized, .conflict, .nonExistingEmail,
              .tooManyRequests, .internalError:
@@ -531,7 +547,7 @@ class SignUpLogInViewModel: BaseViewModel {
         case let .success(myUser):
             savePreviousEmailOrUsername(accountProvider, userEmailOrName: myUser.name)
             delegate?.vmHideLoading(nil) { [weak self] in
-                self?.navigator?.closeSignUpLogInSuccessful(with: myUser)
+                self?.router?.close(onFinish: self?.onLoginCallback)
             }
         case .scammer:
             delegate?.vmHideLoading(nil) { [weak self] in
@@ -551,10 +567,34 @@ class SignUpLogInViewModel: BaseViewModel {
                                                                 installation: installationRepository.installation,
                                                                 listing: nil,
                                                                 type: .scammer) else {
-            navigator?.cancelSignUpLogIn()
-            return
+                                                                    router?.close()
+                                                                    return
         }
-        navigator?.closeSignUpLogInAndOpenScammerAlert(contactURL: contactURL, network: network)
+        
+        let contact = UIAction(
+            interface: .button(R.Strings.loginScammerAlertContactButton, .primary(fontSize: .medium)),
+            action: {
+                self.tracker.trackEvent(TrackerEvent.loginBlockedAccountContactUs(network, reason: .accountUnderReview))
+                self.router?.close(onFinish: { self.router?.open(url: contactURL) })
+        })
+        let keepBrowsing = UIAction(
+            interface: .button(R.Strings.loginScammerAlertKeepBrowsingButton, .secondary(fontSize: .medium,
+                                                                                         withBorder: false)),
+            action: {
+                self.tracker.trackEvent(TrackerEvent.loginBlockedAccountKeepBrowsing(network, reason: .accountUnderReview))
+                self.router?.close()
+        })
+        
+        let actions = [contact, keepBrowsing]
+        
+        router?.showAlert(
+            withTitle: R.Strings.loginScammerAlertTitle,
+            andBody: R.Strings.loginScammerAlertMessage,
+            andType: .iconAlert(icon: R.Asset.IconsButtons.icModerationAlert.image),
+            andActions: actions
+        )
+        
+        tracker.trackEvent(TrackerEvent.loginBlockedAccountStart(network, reason: .accountUnderReview))
     }
 
     private func showDeviceNotAllowedAlert(_ userEmail: String?, network: EventParameterAccountNetwork) {
@@ -562,10 +602,32 @@ class SignUpLogInViewModel: BaseViewModel {
                                                                 installation: installationRepository.installation,
                                                                 listing: nil,
                                                                 type: .deviceNotAllowed) else {
-                                                                    navigator?.cancelSignUpLogIn()
+                                                                    router?.close(onFinish: self.onCancelCallback)
                                                                     return
         }
-        navigator?.closeSignUpLogInAndOpenDeviceNotAllowedAlert(contactURL: contactURL, network: network)
+        
+        let contact = UIAction(
+            interface: .button(R.Strings.loginDeviceNotAllowedAlertContactButton, .primary(fontSize: .medium)),
+            action: {
+                self.tracker.trackEvent(TrackerEvent.loginBlockedAccountContactUs(network, reason: .secondDevice))
+                self.router?.close(onFinish: { self.router?.open(url: contactURL) })
+        })
+        
+        let keepBrowsing = UIAction(
+            interface: .button(R.Strings.loginDeviceNotAllowedAlertOkButton, .secondary(fontSize: .medium,
+                                                                                        withBorder: false)),
+            action: {
+                self.tracker.trackEvent(TrackerEvent.loginBlockedAccountKeepBrowsing(network, reason: .secondDevice))
+                self.router?.close()
+        })
+        
+        router?.showAlert(
+            withTitle: R.Strings.loginDeviceNotAllowedAlertTitle,
+            andBody: R.Strings.loginDeviceNotAllowedAlertMessage,
+            andType: .iconAlert(icon: R.Asset.IconsButtons.icDeviceBlockedAlert.image),
+            andActions: [contact, keepBrowsing])
+        
+        tracker.trackEvent(TrackerEvent.loginBlockedAccountStart(network, reason: .secondDevice))
     }
     
     

@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.42.0</string>
+	<string>1.44.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -50,7 +50,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>448</string>
+	<string>455</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -157,7 +157,7 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>letgo needs to access your location to show you products nearby</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>o save images, give letgo access to your library</string>
+	<string>To save images, give letgo access to your library</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>To start selling, give letgo access to your library</string>
 	<key>UIApplicationShortcutItems</key>

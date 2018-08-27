@@ -136,7 +136,7 @@ class ListingViewModel: BaseViewModel {
 
     // Delegate
     weak var delegate: ListingViewModelDelegate?
-    weak var navigator: ListingDetailNavigator?
+    var navigator: ListingDetailNavigator?
 
     // Data
     let listing: Variable<Listing>

@@ -1,10 +1,12 @@
 import WebKit
 import LGComponents
+import RxSwift
 
 final class CommunityViewController: BaseViewController {
 
     private let viewModel: CommunityViewModel
     private let webView = WKWebView()
+    private let disposeBag = DisposeBag()
 
     init(viewModel: CommunityViewModel) {
         self.viewModel = viewModel
@@ -12,6 +14,7 @@ final class CommunityViewController: BaseViewController {
         hidesBottomBarWhenPushed = false
         floatingSellButtonHidden = false
         hasTabBar = true
+        setupRx()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -21,7 +24,6 @@ final class CommunityViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        loadWeb()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -32,14 +34,26 @@ final class CommunityViewController: BaseViewController {
     private func setupUI() {
         view.backgroundColor = .white
         view.addSubviewForAutoLayout(webView)
+        webView.navigationDelegate = self
+        webView.allowsBackForwardNavigationGestures = true
         setupNavBar()
         setupConstraints()
     }
 
     private func setupNavBar() {
         navigationController?.setNavigationBarHidden(!viewModel.showNavBar, animated: false)
+        setupNavBarLeftButton()
+    }
+
+    private func setupNavBarLeftButton() {
         guard viewModel.showCloseButton else { return }
-        setNavBarCloseButton(#selector(close))
+        if webView.canGoBack {
+            let backButton = UIBarButtonItem(image: R.Asset.IconsButtons.navbarBack.image,
+                                             style: .plain, target: self, action: #selector(back))
+            self.navigationItem.leftBarButtonItem = backButton
+        } else {
+            setNavBarCloseButton(#selector(close))
+        }
     }
 
     private func setupConstraints() {
@@ -58,12 +72,45 @@ final class CommunityViewController: BaseViewController {
         NSLayoutConstraint.activate(constraints)
     }
 
-    private func loadWeb() {
-        guard let urlRequest = viewModel.urlRequest else { return }
-        webView.load(urlRequest)
+    private func setupRx() {
+        viewModel
+            .urlRequest
+            .asDriver(onErrorJustReturn: nil)
+            .distinctUntilChanged()
+            .drive(onNext: { [weak self] request in
+                guard let request = request else { return }
+                self?.loadWeb(with: request)
+            })
+            .disposed(by: disposeBag)
+    }
+
+    private func loadWeb(with request: URLRequest) {
+        clearCookies() { [weak self] in
+            self?.webView.load(request)
+        }
+    }
+
+    private func clearCookies(completion: @escaping ()->Void) {
+        let dataStore = WKWebsiteDataStore.default()
+        dataStore.fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { records in
+            dataStore.removeData(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(),
+                                 for: records.filter { $0.displayName.contains("letgo.com") },
+                                 completionHandler: completion)
+        }
     }
 
     @objc private func close() {
         viewModel.didTapClose()
+    }
+
+    @objc private func back() {
+        webView.goBack()
+    }
+}
+
+extension CommunityViewController: WKNavigationDelegate {
+
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        setupNavBarLeftButton()
     }
 }

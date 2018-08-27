@@ -3,7 +3,7 @@ import Foundation
 import RxSwift
 
 final class MockFeatureFlags: FeatureFlaggeable {
-
+ 
     var trackingData: Observable<[(String, ABGroup)]?> {
         return trackingDataVar.asObservable()
     }
@@ -20,7 +20,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var userReviewsReportEnabled: Bool = true
     var deckItemPage: DeckItemPage = .control
     var realEstateEnabled: RealEstateEnabled = .control
-    var showClockInDirectAnswer: ShowClockInDirectAnswer = .control
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers = .control
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio = .control
     var realEstateNewCopy: RealEstateNewCopy = .control
@@ -33,6 +32,8 @@ final class MockFeatureFlags: FeatureFlaggeable {
     
     // Country dependant features
     var freePostingModeAllowed = false
+    var shouldHightlightFreeFilterInFeed = false
+
     var postingFlowType: PostingFlowType = .standard
     var locationRequiresManualChangeSuggestion = false
     var signUpEmailNewsletterAcceptRequired = false
@@ -62,17 +63,14 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var shouldChangeChatNowCopyInEnglish = false
     var shouldChangeSellFasterNowCopyInEnglish = false
     var copyForSellFasterNowInEnglish: CopyForSellFasterNowInEnglish = .control
-    var shouldShowIAmInterestedInFeed: IAmInterestedFeed = .control
     var googleAdxForTR: GoogleAdxForTR = .control
     var copyForSellFasterNowInTurkish: CopyForSellFasterNowInTurkish = .control
 
     // MARK: Chat
     var showInactiveConversations: Bool = false
     var showChatSafetyTips: Bool = false
-    var userIsTyping: UserIsTyping = .control
     var chatNorris: ChatNorris = .control
     var showChatConnectionStatusBar: ShowChatConnectionStatusBar = .control
-    var showChatHeaderWithoutListingForAssistant: Bool = true
     var showChatHeaderWithoutUser: Bool = true
     var enableCTAMessageType: Bool = true
     var expressChatImprovement: ExpressChatImprovement = .control
@@ -85,6 +83,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var realEstateMapTooltip: RealEstateMapTooltip = .control
     var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen = .control
     var jobsAndServicesEnabled: EnableJobsAndServicesCategory = .control
+    var carPromoCells: CarPromoCells = .control
     
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed = .control
@@ -98,6 +97,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var videoPosting: VideoPosting = .control
     var simplifiedChatButton: SimplifiedChatButton = .control
     var frictionlessShare: FrictionlessShare = .control
+    var turkeyFreePosting: TurkeyFreePosting = .control
 
     // MARK: Users
     var showPasswordlessLogin: ShowPasswordlessLogin = .control
@@ -112,11 +112,11 @@ final class MockFeatureFlags: FeatureFlaggeable {
     // MARK: Retention
     var dummyUsersInfoProfile: DummyUsersInfoProfile = .control
     var onboardingIncentivizePosting: OnboardingIncentivizePosting = .control
-    var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed = .control
     var notificationSettings: NotificationSettings = .control
     var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions = .control
     var engagementBadging: EngagementBadging = .control
     var searchAlertsDisableOldestIfMaximumReached: SearchAlertsDisableOldestIfMaximumReached = .control
     var notificationCenterRedesign: NotificationCenterRedesign = .control
+    var randomImInterestedMessages: RandomImInterestedMessages = .control
 }
 
