@@ -1,6 +1,6 @@
 import UI
 
-public final class ProductSummaryViewController: ViewController {
+final class ProductSummaryViewController: ViewController {
   
   private let productSummaryView = ProductSummaryView()
   
@@ -8,9 +8,9 @@ public final class ProductSummaryViewController: ViewController {
     self.view = productSummaryView
   }
   
-  public init() {
+  init() {
     super.init(nibName: nil, bundle: nil)
   }
   
-  public required init?(coder aDecoder: NSCoder) { fatalError() }
+  required init?(coder aDecoder: NSCoder) { fatalError() }
 }
