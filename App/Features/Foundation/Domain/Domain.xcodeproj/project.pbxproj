@@ -25,6 +25,7 @@
 		1CB6494C2009C65F009B7CC1 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB6494B2009C65F009B7CC1 /* Image.swift */; };
 		1CB649612009CB73009B7CC1 /* UploadImageUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB649602009CB73009B7CC1 /* UploadImageUseCase.swift */; };
 		1CB87BC120150CD20058BA99 /* GameSearchSuggestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB87BC020150CD20058BA99 /* GameSearchSuggestion.swift */; };
+		2E55DE072134884200851620 /* ProductPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E55DE062134884200851620 /* ProductPreview.swift */; };
 		2E71A8DC21314FA8009D24A9 /* Product+Extra.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A8DB21314FA8009D24A9 /* Product+Extra.swift */; };
 		2E71A8DE21314FBD009D24A9 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A8DD21314FBD009D24A9 /* Product.swift */; };
 		2E71A8F021315D83009D24A9 /* GetProductExtrasUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A8EF21315D83009D24A9 /* GetProductExtrasUseCase.swift */; };
@@ -51,6 +52,7 @@
 		1CB6494B2009C65F009B7CC1 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		1CB649602009CB73009B7CC1 /* UploadImageUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImageUseCase.swift; sourceTree = "<group>"; };
 		1CB87BC020150CD20058BA99 /* GameSearchSuggestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSearchSuggestion.swift; sourceTree = "<group>"; };
+		2E55DE062134884200851620 /* ProductPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductPreview.swift; sourceTree = "<group>"; };
 		2E71A8DB21314FA8009D24A9 /* Product+Extra.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Product+Extra.swift"; sourceTree = "<group>"; };
 		2E71A8DD21314FBD009D24A9 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		2E71A8EF21315D83009D24A9 /* GetProductExtrasUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetProductExtrasUseCase.swift; sourceTree = "<group>"; };
@@ -218,6 +220,7 @@
 			children = (
 				1C93E0CA2040AD300029AD2B /* ProductRequest.swift */,
 				2E71A8DD21314FBD009D24A9 /* Product.swift */,
+				2E55DE062134884200851620 /* ProductPreview.swift */,
 				1C93E0CF2040AE250029AD2B /* Product+Price.swift */,
 				2E71A8DB21314FA8009D24A9 /* Product+Extra.swift */,
 			);
@@ -344,6 +347,7 @@
 				1C89D6F61FF3CF3A00B3FA98 /* AuthenticateUseCase.swift in Sources */,
 				1C30D512200931D500E0A501 /* Manufacturer.swift in Sources */,
 				1CB87BC120150CD20058BA99 /* GameSearchSuggestion.swift in Sources */,
+				2E55DE072134884200851620 /* ProductPreview.swift in Sources */,
 				1C30D514200931FC00E0A501 /* Genre.swift in Sources */,
 				1C30D721200970EE00E0A501 /* SearchGamesUseCase.swift in Sources */,
 				1C93E0CB2040AD300029AD2B /* ProductRequest.swift in Sources */,
