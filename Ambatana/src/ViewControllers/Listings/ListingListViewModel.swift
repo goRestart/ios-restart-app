@@ -87,6 +87,7 @@ final class ListingListViewModel: BaseViewModel {
     private let myUserRepository: MyUserRepository
     private let imageDownloader: ImageDownloaderType
     private let source: ListingListViewContainer
+    private let interestedStateUpdater: InterestedStateUpdater?
 
     // Requesters
     private lazy var shouldSaveToCache = featureFlags.cachedFeed.isActive
@@ -200,6 +201,7 @@ final class ListingListViewModel: BaseViewModel {
                  reporter: CrashlyticsReporter,
                  featureFlags: FeatureFlaggeable,
                  myUserRepository: MyUserRepository,
+                 interestedStateUpdater: InterestedStateUpdater? = nil,
                  requesterFactory: RequesterFactory? = nil,
                  searchType: SearchType?) {
         self.objects = (listings ?? []).map(ListingCellModel.init)
@@ -215,6 +217,7 @@ final class ListingListViewModel: BaseViewModel {
         self.indexToTitleMapping = [:]
         self.featureFlags = featureFlags
         self.myUserRepository = myUserRepository
+        self.interestedStateUpdater = interestedStateUpdater
         self.searchType = searchType
         self.listingCache = isPrivateList ? PrivateListCache() : PublicListCache(disk: disk)
         super.init()
@@ -246,7 +249,8 @@ final class ListingListViewModel: BaseViewModel {
                      featureFlags: FeatureFlaggeable,
                      requesterFactory: RequesterFactory,
                      searchType: SearchType?,
-                     source: ListingListViewContainer) {
+                     source: ListingListViewContainer,
+                     interestedStateUpdater: InterestedStateUpdater) {
         self.init(requester: nil,
                   listings: nil,
                   numberOfColumns: numberOfColumns,
@@ -257,6 +261,7 @@ final class ListingListViewModel: BaseViewModel {
                   reporter: CrashlyticsReporter(),
                   featureFlags: featureFlags,
                   myUserRepository: Core.myUserRepository,
+                  interestedStateUpdater: interestedStateUpdater,
                   requesterFactory: requesterFactory,
                   searchType: searchType)
         self.requesterFactory = requesterFactory
@@ -415,7 +420,7 @@ final class ListingListViewModel: BaseViewModel {
         //guard !isPrivateList else { return .none }
         if !isPrivateList || source == .publicProfileSelling {
         guard let listingID = objects[index].listing?.objectId else { return nil }
-        return listingInterestState[listingID] ?? .send(enabled: true)
+        return interestedStateUpdater?.dictInterestedStates[listingID] ?? .send(enabled: true)
         }
         return .none
     }

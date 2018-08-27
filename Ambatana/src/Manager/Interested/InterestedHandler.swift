@@ -11,7 +11,7 @@ enum InterestedAction {
 
 final class InterestedHandler: InterestedHandleable {
     
-    private let interestedStateUpdater: InterestedStateUpdater
+    let interestedStateUpdater: InterestedStateUpdater
     private let tracker: Tracker
     private let keyValueStorage: KeyValueStorage
     private let featureFlags: FeatureFlaggeable

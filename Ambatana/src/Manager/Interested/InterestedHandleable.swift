@@ -2,6 +2,8 @@ import LGCoreKit
 import RxSwift
 
 protocol InterestedHandleable {
+    var interestedStateUpdater: InterestedStateUpdater { get }
+    
     func retrieveInterestedActionFor(_ listing: Listing, userListing: LocalUser?) -> InterestedAction
     func interestedActionFor(_ listing: Listing,
                              userListing: LocalUser?,

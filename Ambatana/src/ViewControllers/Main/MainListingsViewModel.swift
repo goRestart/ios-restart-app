@@ -477,7 +477,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                                                   featureFlags: featureFlags,
                                                   requesterFactory: requesterFactory,
                                                   searchType: searchType,
-                                                  source: .feed)
+                                                  source: .feed,
+                                                  interestedStateUpdater: interestedHandler.interestedStateUpdater)
         let multiRequester = self.listViewModel.currentActiveRequester as? ListingListMultiRequester
         self.listingListRequester = multiRequester ?? ListingListMultiRequester()
         self.listViewModel.listingListFixedInset = show3Columns ? 6 : 10
