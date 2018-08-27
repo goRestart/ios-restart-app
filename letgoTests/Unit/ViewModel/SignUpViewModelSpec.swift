@@ -168,7 +168,7 @@ class SignUpViewModelSpec: QuickSpec {
                             expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-screen", "login-signup-error-google"]
                         }
                     }
-                    fcontext("scammer") {
+                    context("scammer") {
                         beforeEach {
                             googleLoginHelper.loginResult = .scammer
                             sut.connectGoogleButtonPressed()
@@ -218,7 +218,6 @@ class SignUpViewModelSpec: QuickSpec {
                         }
                         it("asks to show device not allowed error alert") {
                             expect(self.finishedDeviceNotAllowed).to(beTrue())
-                            
                         }
                     }
                 }
@@ -286,7 +285,7 @@ class SignUpViewModelSpec: QuickSpec {
                             expect(username).to(beNil())
                         }
                         it("tracks login-screen & login-signup-error-facebook events") {
-                            expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-screen", "login-signup-error-facebook"]
+                            expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-screen", "login-blocked-account-start", "login-signup-error-facebook"]
                         }
                         it("asks to show scammer error alert") {
                             expect(self.finishedScammer).to(beTrue())
@@ -308,7 +307,7 @@ class SignUpViewModelSpec: QuickSpec {
                             expect(username).to(beNil())
                         }
                         it("tracks login-screen & login-signup-error-facebook events") {
-                            expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-screen", "login-signup-error-facebook"]
+                            expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-screen", "login-blocked-account-start", "login-signup-error-facebook"]
                         }
                         it("asks to show device not allowed error alert") {
                             expect(self.finishedDeviceNotAllowed).to(beTrue())
@@ -351,6 +350,8 @@ extension SignUpViewModelSpec: LoginNavigator {
     
     func showAlert(withTitle: String?, andBody: String, andType: AlertType, andActions: [UIAction]) {
         showAlertWasCalled = true
+        finishedDeviceNotAllowed = true
+        finishedScammer = true
     }
 }
 
