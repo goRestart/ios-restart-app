@@ -3,8 +3,9 @@ import UIKit
 private enum OpenSansFamily {
   static let bold = "OpenSans-Bold"
   static let semibold = "OpenSans-Semibold"
-  static let regular = "OpenSan"
+  static let regular = "OpenSans"
 }
+
 extension UIFont: Fontable {
   public static var h1: UIFont {
     return UIFont(name: OpenSansFamily.bold, size: 28)!

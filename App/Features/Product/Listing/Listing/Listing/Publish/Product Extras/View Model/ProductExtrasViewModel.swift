@@ -11,10 +11,14 @@ final class ProductExtrasViewModel: ProductExtrasViewModelType, ProductExtrasVie
   }
   
   private let getProductExtras: GetProductExtrasUseCase
+  private let productSummaryNavigator: ProductSummaryNavigator
   private let bag = DisposeBag()
   
-  init(getProductExtras: GetProductExtrasUseCase) {
+  init(getProductExtras: GetProductExtrasUseCase,
+       productSummaryNavigator: ProductSummaryNavigator)
+  {
     self.getProductExtras = getProductExtras
+    self.productSummaryNavigator = productSummaryNavigator
   }
   
   // MARK: Output
@@ -45,5 +49,6 @@ final class ProductExtrasViewModel: ProductExtrasViewModelType, ProductExtrasVie
   
   func didTapNextButton() {
     print("Next page with items = \(selectedProductExtras)")
+    productSummaryNavigator.navigate()
   }
 }

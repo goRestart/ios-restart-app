@@ -10,7 +10,7 @@ extension Assembly: ProductExtrasProvider {
     let viewController = ProductExtrasViewController(
       viewBinder: viewBinder
     )
-    viewController.viewModel = viewModel
+    viewController.viewModel = viewModel(from: viewController)
     return viewController
   }
 
@@ -18,9 +18,10 @@ extension Assembly: ProductExtrasProvider {
     return ProductExtrasViewBinder()
   }
   
-  private var viewModel: ProductExtrasViewModelType {
+  private func viewModel(from viewController: UIViewController) -> ProductExtrasViewModelType {
     return ProductExtrasViewModel(
-      getProductExtras: getProductExtras
+      getProductExtras: getProductExtras,
+      productSummaryNavigator: productSummaryNavigator(from: viewController)
     )
   }
   
