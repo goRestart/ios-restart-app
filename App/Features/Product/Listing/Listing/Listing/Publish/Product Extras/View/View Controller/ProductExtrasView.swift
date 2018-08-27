@@ -14,8 +14,9 @@ final class ProductExtrasView: View {
   fileprivate var state = PublishSubject<ProductExtraEvent>()
   
   fileprivate var listAdapterDataSource: ProductExtrasListAdapter?
-  private let updater = ListAdapterUpdater()
-  fileprivate var listAdapter: ListAdapter?
+  fileprivate lazy var listAdapter: ListAdapter = {
+    return ListAdapter(updater: ListAdapterUpdater(), viewController: nil, workingRangeSize: 2)
+  }()
   
   private let titleView: TitleView = {
     let titleView = TitleView()
@@ -39,10 +40,9 @@ final class ProductExtrasView: View {
 
   override func setupView() {
     listAdapterDataSource = ProductExtrasListAdapter(state: state)
-    
-    listAdapter = ListAdapter(updater: updater, viewController: nil)
-    listAdapter?.collectionView = collectionView
-    listAdapter?.dataSource = listAdapterDataSource
+
+    listAdapter.collectionView = collectionView
+    listAdapter.dataSource = listAdapterDataSource
     
     addSubview(titleView)
     addSubview(collectionView)
@@ -75,7 +75,7 @@ extension Reactive where Base: ProductExtrasView {
   var productExtras: Binder<[ProductExtraUIModel]> {
     return Binder(self.base) { view, productExtras in
       view.listAdapterDataSource?.set(productExtras)
-      view.listAdapter?.performUpdates(animated: true)
+      view.listAdapter.performUpdates(animated: true)
     }
   }
   
