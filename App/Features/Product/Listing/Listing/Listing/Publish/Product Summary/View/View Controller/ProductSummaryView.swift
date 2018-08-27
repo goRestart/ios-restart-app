@@ -1,7 +1,12 @@
 import UI
 
 final class ProductSummaryView: View {
-  private let scrollView = UIScrollView()
+  private let scrollView: UIScrollView = {
+    let scrollView = UIScrollView()
+    scrollView.showsVerticalScrollIndicator = false
+    return scrollView
+  }()
+ 
   private let stackView: UIStackView = {
     let stackView = UIStackView()
     stackView.axis = .vertical
