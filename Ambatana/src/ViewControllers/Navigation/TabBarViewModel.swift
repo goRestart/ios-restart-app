@@ -11,6 +11,7 @@ class TabBarViewModel: BaseViewModel {
     var chatsBadge = Variable<String?>(nil)
     var sellBadge = Variable<String?>(nil)
     var homeBadge = Variable<String?>(nil)
+    var userAvatar = Variable<UIImage?>(nil)
     
     var shouldShowRealEstateTooltip: Bool {
         return featureFlags.realEstateEnabled.isActive &&
@@ -119,6 +120,31 @@ class TabBarViewModel: BaseViewModel {
             .map { $0 ? TabBarViewModel.engagementBadgingIndicatorValue : nil }
             .bind(to: homeBadge)
             .disposed(by: disposeBag)
+
+        myUserRepository
+            .rx_myUser
+            .distinctUntilChanged { $0?.objectId == $1?.objectId }
+            .subscribe(onNext: { [weak self] myUser in
+                self?.loadAvatar(for: myUser)
+            })
+            .disposed(by: disposeBag)
+    }
+
+    private func loadAvatar(for user: User?) {
+        guard let avatarUrl = user?.avatar?.fileURL else {
+            return self.userAvatar.value = nil
+        }
+
+        if let cachedImage = ImageDownloader.sharedInstance.cachedImageForUrl(avatarUrl) {
+            return self.userAvatar.value = cachedImage
+        }
+
+        ImageDownloader
+            .sharedInstance
+            .downloadImageWithURL(avatarUrl) { [weak self] (result, _) in
+                guard case .success((let image, _)) = result else { return }
+                self?.userAvatar.value = image
+        }
     }
 
     // MARK: - Trackings
