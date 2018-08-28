@@ -395,6 +395,11 @@ extension UserProfileViewModel {
     private func setupMyUserRxBindings() {
         myUserRepository
             .rx_myUser
+            .ignoreWhen { [weak self] myUser in
+                guard let `self` = self else { return true }
+                // Only accept events when view is active or the user has changed
+                return !self.active && self.user.value?.objectId == myUser?.objectId
+            }
             .bind { [weak self] myUser in
                 self?.user.value = myUser
                 self?.isMyUser.value = true
