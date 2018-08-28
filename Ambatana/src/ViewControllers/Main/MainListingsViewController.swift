@@ -56,7 +56,6 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     }()
     
     private var mapTooltip: Tooltip?
-    
 
     // MARK: - Constraints
     
@@ -455,7 +454,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     }
 
     private func setUserProfileButton(withAvatar avatar: UIImage?) {
-        let image = avatar?.af_imageScaled(to: CGSize(width: 26, height: 26))
+        let image = avatar?.af_imageScaled(to: Layout.TabBarIcons.avatarSize)
             .af_imageRoundedIntoCircle()
             .withRenderingMode(.alwaysOriginal)
             ?? R.Asset.IconsButtons.tabbarProfile.image
@@ -717,6 +716,9 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         }
         struct FreshBubble {
             static let height: CGFloat = 45
+        }
+        struct TabBarIcons {
+            static let avatarSize = CGSize(width: 26, height: 26)
         }
     }
 }

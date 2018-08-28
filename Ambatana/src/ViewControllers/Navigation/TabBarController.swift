@@ -28,7 +28,11 @@ final class TabBarController: UITabBarController {
         return [floatingSellButton, tooltip, bottomNotificationsContainer]
     }
     private lazy var bottomNotificationsContainer: UIView = UIView()
-    
+
+    enum Layout {
+        static let avatarSize = CGSize(width: 30, height: 30)
+    }
+
     // Rx
     private let disposeBag = DisposeBag()
 
@@ -360,7 +364,7 @@ final class TabBarController: UITabBarController {
                     let vc = self?.viewControllers?[Tab.profile.index] else { return }
                 if let avatar = image {
                     vc.tabBarItem.image = avatar
-                        .af_imageScaled(to: CGSize(width: 30, height: 30))
+                        .af_imageScaled(to: Layout.avatarSize)
                         .af_imageRoundedIntoCircle()
                         .withRenderingMode(.alwaysOriginal)
                     vc.tabBarItem.selectedImage = vc.tabBarItem.image
