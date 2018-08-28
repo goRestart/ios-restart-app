@@ -22,6 +22,13 @@ protocol PublicProfileNavigator: class {
                      actionOnFirstAppear: ProductCarouselActionOnFirstAppear)
     func openLoginIfNeeded(infoMessage: String, then loggedInAction: @escaping (() -> Void))
     func openAskPhoneFor(listing: Listing, interlocutor: User?)
+    func openListingChat(_ listing: Listing,
+                         source: EventParameterTypePage,
+                         interlocutor: User?,
+                         openChatAutomaticMessage: ChatWrapperMessageType?)
+    func openListingChat(data: ChatDetailData,
+                         source: EventParameterTypePage,
+                         predefinedMessage: String?)
 }
 
 protocol SettingsNavigator: class {

@@ -10,6 +10,7 @@ final class UserWireframe {
     private let userAssembly: UserAssembly
     private let verificationAssembly: UserVerificationAssembly
     private let loginAssembly: LoginAssembly
+    private let chatRouter: ChatWireframe
 
     private let userRepository: UserRepository
     private let myUserRepository: MyUserRepository
@@ -19,6 +20,7 @@ final class UserWireframe {
                   userAssembly: LGUserBuilder.standard(nc),
                   verificationAssembly: LGUserVerificationBuilder.standard(nav: nc),
                   loginAssembly: LoginBuilder.modal,
+                  chatRouter: ChatWireframe(nc: nc),
                   userRepository: Core.userRepository,
                   myUserRepository: Core.myUserRepository,
                   sessionManager: Core.sessionManager)
@@ -28,12 +30,14 @@ final class UserWireframe {
                  userAssembly: UserAssembly,
                  verificationAssembly: UserVerificationAssembly,
                  loginAssembly: LoginAssembly,
+                 chatRouter: ChatWireframe,
                  userRepository: UserRepository,
                  myUserRepository: MyUserRepository,
                  sessionManager: SessionManager) {
         self.nc = nc
         self.userAssembly = userAssembly
         self.verificationAssembly = verificationAssembly
+        self.chatRouter = chatRouter
         self.userRepository = userRepository
         self.myUserRepository = myUserRepository
         self.loginAssembly = loginAssembly
@@ -103,6 +107,16 @@ extension UserWireframe: PublicProfileNavigator {
         let vc = userAssembly.buildUserReport(source: source, userReportedId: userReportedId)
         nc.pushViewController(vc, animated: true)
     }
+    
+    func openListingChat(_ listing: Listing,
+                         source: EventParameterTypePage,
+                         interlocutor: User?,
+                         openChatAutomaticMessage: ChatWrapperMessageType?) {
+        self.chatRouter.openListingChat(listing,
+                                        source: source,
+                                        interlocutor: interlocutor,
+                                        openChatAutomaticMessage: openChatAutomaticMessage)
+    }
 
     func openListing(_ data: ListingDetailData,
                      source: EventParameterListingVisitSource,
@@ -131,5 +145,9 @@ extension UserWireframe: PublicProfileNavigator {
         let assembly = ProfessionalDealerAskPhoneBuilder.modal(nc)
         let vc = assembly.buildProfessionalDealerAskPhone(listing: listing, interlocutor: interlocutor)
         nc.present(vc, animated: true, completion: nil)
+    }
+    
+    func openListingChat(data: ChatDetailData, source: EventParameterTypePage, predefinedMessage: String?) {
+        chatRouter.openChat(data, source: source, predefinedMessage: predefinedMessage)
     }
 }

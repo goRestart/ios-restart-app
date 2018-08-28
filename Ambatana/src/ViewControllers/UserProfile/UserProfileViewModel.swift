@@ -761,29 +761,29 @@ extension UserProfileViewModel: ListingCellDelegate {
             interestedHandler.interestedActionFor(listing,
                                                   userListing: userListing,
                                                   stateCompletion: completion) { [weak self] interestedAction in
-                                                    switch interestedAction {
-                                                    case .openChatProUser:
-                                                        break
-                                                        //guard let interlocutor = userListing else { return }
-                                                        //self?.profileNavigator?.openListingChat(listing,
-                                                        //source: .listingList,
-                                                    //interlocutor: interlocutor)
-                                                    case .askPhoneProUser:
-                                                        guard let interlocutor = userListing else { return }
-                                                        self?.navigator?.openAskPhoneFor(listing: listing, interlocutor: interlocutor)
-                                                    case .openChatNonProUser:
-                                                        let chatDetailData = ChatDetailData.listingAPI(listing: listing)
-                                                        self?.profileNavigator?.openChat(chatDetailData,
-                                                                                         source: .listingListFeatured,
-                                                                                         predefinedMessage: nil)
-                                                    case .triggerInterestedAction:
-                                                        let (cancellable, timer) = LGTimer.cancellableWait(5)
-                                                        self?.showUndoBubble(withMessage: R.Strings.productInterestedBubbleMessage,
-                                                                             duration: 5) {
-                                                                                cancellable.cancel()
-                                                        }
-                                                        interestedHandler.handleCancellableInterestedAction(listing, timer: timer,  completion: completion)
-                                                    }
+                switch interestedAction {
+                case .openChatProUser:
+                    guard let interlocutor = userListing else { return }
+                    self?.navigator?.openListingChat(listing,
+                                                     source: .listingList,
+                                                     interlocutor: interlocutor,
+                                                     openChatAutomaticMessage: nil)
+                case .askPhoneProUser:
+                    guard let interlocutor = userListing else { return }
+                    self?.navigator?.openAskPhoneFor(listing: listing, interlocutor: interlocutor)
+                case .openChatNonProUser:
+                    let chatDetailData = ChatDetailData.listingAPI(listing: listing)
+                    self?.navigator?.openListingChat(data: chatDetailData,
+                                                     source: .listingListFeatured,
+                                                     predefinedMessage: nil)
+                case .triggerInterestedAction:
+                    let (cancellable, timer) = LGTimer.cancellableWait(5)
+                    self?.showUndoBubble(withMessage: R.Strings.productInterestedBubbleMessage,
+                                         duration: 5) {
+                                            cancellable.cancel()
+                    }
+                    interestedHandler.handleCancellableInterestedAction(listing, timer: timer,  completion: completion)
+                }
             }
         }
         navigator?.openLoginIfNeeded(infoMessage: R.Strings.chatLoginPopupText, then: interestedAction)

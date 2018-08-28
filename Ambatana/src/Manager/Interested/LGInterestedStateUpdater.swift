@@ -2,6 +2,8 @@ import LGCoreKit
 
 final class LGInterestedStateUpdater: InterestedStateUpdater {
     
+    static let sharedInstance: LGInterestedStateUpdater = LGInterestedStateUpdater()
+    
     let myUserRepository: MyUserRepository
     let keyValueStorage: KeyValueStorageable
     

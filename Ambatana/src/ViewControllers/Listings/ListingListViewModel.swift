@@ -238,6 +238,7 @@ final class ListingListViewModel: BaseViewModel {
                   reporter: CrashlyticsReporter(),
                   featureFlags: FeatureFlags.sharedInstance,
                   myUserRepository: Core.myUserRepository,
+                  interestedStateUpdater: LGInterestedStateUpdater.sharedInstance,
                   requesterFactory: nil,
                   searchType: nil)
         requesterSequence = [requester]
@@ -280,6 +281,7 @@ final class ListingListViewModel: BaseViewModel {
                   reporter: CrashlyticsReporter(),
                   featureFlags: FeatureFlags.sharedInstance,
                   myUserRepository: Core.myUserRepository,
+                  interestedStateUpdater: LGInterestedStateUpdater.sharedInstance,
                   requesterFactory: nil,
                   searchType: nil)
         setCurrentFallbackRequester()
@@ -406,15 +408,14 @@ final class ListingListViewModel: BaseViewModel {
     }
 
     var isPrivateList: Bool = false
-    var listingInterestState: [String: InterestedState] = [:]
 
-    func update(listing: Listing, interestedState: InterestedState) {
-        guard state.isData, let listingId = listing.objectId else { return }
-        guard let index = indexFor(listingId: listingId) else { return }
-        listingInterestState[listingId] = interestedState
-
-        delegate?.vmReloadItemAtIndexPath(indexPath: IndexPath(row: index, section: 0))
-    }
+//    func update(listing: Listing, interestedState: InterestedState) {
+//        guard state.isData, let listingId = listing.objectId else { return }
+//        guard let index = indexFor(listingId: listingId) else { return }
+//        listingInterestState[listingId] = interestedState
+//
+//        delegate?.vmReloadItemAtIndexPath(indexPath: IndexPath(row: index, section: 0))
+//    }
 
     func interestStateFor(listingAtIndex index: Int) -> InterestedState? {
         //guard !isPrivateList else { return .none }

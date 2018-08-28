@@ -23,7 +23,7 @@ final class InterestedHandler: InterestedHandleable {
     // MARK: - Lifecycle
     
     convenience init() {
-        self.init(interestedStateUpdater: LGInterestedStateUpdater(),
+        self.init(interestedStateUpdater: LGInterestedStateUpdater.sharedInstance,
                   tracker: TrackerProxy.sharedInstance,
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   featureFlags: FeatureFlags.sharedInstance,
