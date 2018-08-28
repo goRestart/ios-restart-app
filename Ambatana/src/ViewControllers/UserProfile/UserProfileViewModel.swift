@@ -783,23 +783,15 @@ extension UserProfileViewModel: ListingCellDelegate {
                                                      predefinedMessage: nil)
                 case .triggerInterestedAction:
                     let (cancellable, timer) = LGTimer.cancellableWait(5)
-                    self?.showUndoBubble(withMessage: R.Strings.productInterestedBubbleMessage,
-                                         duration: 5) {
-                                            cancellable.cancel()
-                    }
+//                    self?.showUndoBubble(withMessage: R.Strings.productInterestedBubbleMessage,
+//                                         duration: 5) {
+//                                            cancellable.cancel()
+//                    }
                     interestedHandler.handleCancellableInterestedAction(listing, timer: timer,  completion: completion)
                 }
             }
         }
         navigator?.openLoginIfNeeded(infoMessage: R.Strings.chatLoginPopupText, then: interestedAction)
-    }
-    
-    private func showUndoBubble(withMessage message: String,
-                                duration: TimeInterval,
-                                then action: @escaping () -> ()) {
-//        navigator?.showUndoBubble(withMessage: message,
-//                                         duration: duration,
-//                                         withAction: action)
     }
     
     func openAskPhoneFor(_ listing: Listing, interlocutor: LocalUser) {}
