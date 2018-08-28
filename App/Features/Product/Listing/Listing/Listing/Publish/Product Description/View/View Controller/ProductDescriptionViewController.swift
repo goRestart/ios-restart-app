@@ -16,9 +16,10 @@ final class ProductDescriptionViewController: ViewController {
   override func loadView() {
     self.view = productDescriptionView
   }
-
+  
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
+    viewModel.input.viewWillAppear()
     productDescriptionView.becomeFirstResponder()
   }
 

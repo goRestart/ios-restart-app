@@ -2,8 +2,8 @@ import Domain
 import Data
 import Core
 
-struct ProductDraft: ProductDraftUseCase {
-
+public struct ProductDraftActions: ProductDraftUseCase {
+  
   private let productDraftRepository: ProductDraftRepository
   
   init(productDraftRepository: ProductDraftRepository) {
@@ -26,14 +26,14 @@ struct ProductDraft: ProductDraftUseCase {
     productDraftRepository.set(productExtras: productExtras)
   }
   
-  public func get() -> Domain.ProductDraft {
+  public func get() -> ProductDraft {
     return productDraftRepository.get()
   }
 }
 
 // MARK: - Public initializer
 
-extension ProductDraft {
+extension ProductDraftActions {
   public init() {
     self.productDraftRepository = resolver.productDraftRepository
   }

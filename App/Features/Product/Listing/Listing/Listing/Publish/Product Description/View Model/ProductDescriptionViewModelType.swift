@@ -1,6 +1,7 @@
 import RxSwift
 
 protocol ProductDescriptionViewModelInput {
+  func viewWillAppear()
   func onNextStepPressed()
 }
 

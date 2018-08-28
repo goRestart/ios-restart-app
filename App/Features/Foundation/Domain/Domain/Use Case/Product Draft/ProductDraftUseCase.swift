@@ -5,5 +5,5 @@ public protocol ProductDraftUseCase {
   func save(description: String)
   func save(price: Decimal)
   func save(productExtras: [Product.Extra])
-  func get() -> Domain.ProductDraft
+  func get() -> ProductDraft
 }
