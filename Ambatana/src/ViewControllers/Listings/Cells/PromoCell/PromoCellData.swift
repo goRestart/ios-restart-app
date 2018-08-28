@@ -1,7 +1,7 @@
 import LGComponents
 
 enum PromoCellType {
-    case realEstate, car
+    case realEstate, car, services
 
     var postCategory: PostCategory {
         switch self {
@@ -9,6 +9,8 @@ enum PromoCellType {
             return .realEstate
         case .car:
             return .car
+        case .services:
+            return .services
         }
     }
     
@@ -18,6 +20,8 @@ enum PromoCellType {
             return .realEstatePromo
         case .car:
             return .carPromo
+        case .services:
+            return .servicesPromo
         }
     }
 }

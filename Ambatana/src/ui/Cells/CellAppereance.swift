@@ -2,6 +2,6 @@
 import LGComponents
 
 enum CellAppearance {
-    case dark, light
-    case backgroundImage(image: UIImage, titleColor: UIColor, buttonStyle: ButtonStyle)
+    case dark(buttonTitle: String), light(buttonTitle: String)
+    case backgroundImage(image: UIImage, titleColor: UIColor, buttonStyle: ButtonStyle, buttonTitle: String)
 }

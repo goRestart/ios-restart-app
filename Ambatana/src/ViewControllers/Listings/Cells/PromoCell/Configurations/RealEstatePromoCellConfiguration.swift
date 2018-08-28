@@ -8,43 +8,43 @@ enum RealEstatePromoCellConfiguration: Int {
     var configuration: PromoCellData {
         switch self {
         case .darkFirst:
-            return PromoCellData(appearance: .dark,
+            return PromoCellData(appearance: .dark(buttonTitle: R.Strings.realEstatePromoPostButtonTitle),
                                  arrangement: .imageOnTop,
                                  title: R.Strings.realEstatePromoTitleVersion1,
                                  image: R.Asset.Verticals.RealEstatePromos.Icons.realEstatePromo1.image,
                                  type: .realEstate)
         case .darkSecond:
-            return PromoCellData(appearance: .dark,
+            return PromoCellData(appearance: .dark(buttonTitle: R.Strings.realEstatePromoPostButtonTitle),
                                  arrangement: .imageOnTop,
                                  title: R.Strings.realEstatePromoTitleVersion2,
                                  image: R.Asset.Verticals.RealEstatePromos.Icons.realEstatePromo2.image,
                                  type: .realEstate)
         case .lightFirst:
-            return PromoCellData(appearance: .light,
+            return PromoCellData(appearance: .light(buttonTitle: R.Strings.realEstatePromoPostButtonTitle),
                                  arrangement: .titleOnTop(showsPostButton: true),
                                  title: R.Strings.realEstatePromoTitleVersion3,
                                  image: R.Asset.Verticals.RealEstatePromos.Icons.realEstatePromo3.image,
                                  type: .realEstate)
         case .lightSecond:
-            return PromoCellData(appearance: .light,
+            return PromoCellData(appearance: .light(buttonTitle: R.Strings.realEstatePromoPostButtonTitle),
                                  arrangement: .titleOnTop(showsPostButton: true),
                                  title: R.Strings.realEstatePromoTitleVersion4,
                                  image: R.Asset.Verticals.RealEstatePromos.Icons.realEstatePromo4.image,
                                  type: .realEstate)
         case .lightThird:
-            return PromoCellData(appearance: .light,
+            return PromoCellData(appearance: .light(buttonTitle: R.Strings.realEstatePromoPostButtonTitle),
                                  arrangement: .titleOnTop(showsPostButton: true),
                                  title: R.Strings.realEstatePromoTitleVersion5,
                                  image: R.Asset.Verticals.RealEstatePromos.Icons.realEstatePromo5.image,
                                  type: .realEstate)
         case .lightFourth:
-            return PromoCellData(appearance: .light,
+            return PromoCellData(appearance: .light(buttonTitle: R.Strings.realEstatePromoPostButtonTitle),
                                  arrangement: .titleOnTop(showsPostButton: true),
                                  title: R.Strings.realEstatePromoTitleVersion6,
                                  image: R.Asset.Verticals.RealEstatePromos.Icons.realEstatePromo6.image,
                                  type: .realEstate)
         case .lightFifth:
-            return PromoCellData(appearance: .light,
+            return PromoCellData(appearance: .light(buttonTitle: R.Strings.realEstatePromoPostButtonTitle),
                                  arrangement: .titleOnTop(showsPostButton: true),
                                  title: R.Strings.realEstatePromoTitleVersion7,
                                  image: R.Asset.Verticals.RealEstatePromos.Icons.realEstatePromo7.image,
@@ -91,7 +91,8 @@ enum RealEstatePromoCellConfiguration: Int {
     private func makeAppearance(withBackground background: R.ImageAsset) -> CellAppearance {
         return .backgroundImage(image: background.image,
                                 titleColor: .white,
-                                buttonStyle: .secondary(fontSize: .verySmallBold, withBorder: false))
+                                buttonStyle: .secondary(fontSize: .verySmallBold, withBorder: false),
+                                buttonTitle: R.Strings.realEstatePromoPostButtonTitle)
     }
     
     static var all: [RealEstatePromoCellConfiguration] {

@@ -1648,6 +1648,8 @@
 		C66105E12130165300BA4EF7 /* RealEstatePromoCellConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66105DF2130165300BA4EF7 /* RealEstatePromoCellConfiguration.swift */; };
 		C66105E3213016D200BA4EF7 /* CarPromoCellConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66105E2213016D200BA4EF7 /* CarPromoCellConfiguration.swift */; };
 		C66105E4213016D200BA4EF7 /* CarPromoCellConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66105E2213016D200BA4EF7 /* CarPromoCellConfiguration.swift */; };
+		C66105E721304AE000BA4EF7 /* ServicesPromoCellConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66105E621304AE000BA4EF7 /* ServicesPromoCellConfiguration.swift */; };
+		C66105E821304AE000BA4EF7 /* ServicesPromoCellConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66105E621304AE000BA4EF7 /* ServicesPromoCellConfiguration.swift */; };
 		C6687F3320C80D70008C1922 /* MultiListingPostedHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6687F3220C80D70008C1922 /* MultiListingPostedHeaderCell.swift */; };
 		C6687F3420C80D70008C1922 /* MultiListingPostedHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6687F3220C80D70008C1922 /* MultiListingPostedHeaderCell.swift */; };
 		C6687F3620C820BF008C1922 /* MultiListingPostedCongratsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6687F3520C820BF008C1922 /* MultiListingPostedCongratsCell.swift */; };
@@ -3249,6 +3251,7 @@
 		C65567F82112129900AFC97C /* UICollectionView+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+LG.swift"; sourceTree = "<group>"; };
 		C66105DF2130165300BA4EF7 /* RealEstatePromoCellConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealEstatePromoCellConfiguration.swift; sourceTree = "<group>"; };
 		C66105E2213016D200BA4EF7 /* CarPromoCellConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPromoCellConfiguration.swift; sourceTree = "<group>"; };
+		C66105E621304AE000BA4EF7 /* ServicesPromoCellConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServicesPromoCellConfiguration.swift; sourceTree = "<group>"; };
 		C6687F3220C80D70008C1922 /* MultiListingPostedHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiListingPostedHeaderCell.swift; sourceTree = "<group>"; };
 		C6687F3520C820BF008C1922 /* MultiListingPostedCongratsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiListingPostedCongratsCell.swift; sourceTree = "<group>"; };
 		C6687F3920C83A2C008C1922 /* MultiListingPostedIncentivisorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiListingPostedIncentivisorCell.swift; sourceTree = "<group>"; };
@@ -6535,6 +6538,7 @@
 			children = (
 				C66105DF2130165300BA4EF7 /* RealEstatePromoCellConfiguration.swift */,
 				C66105E2213016D200BA4EF7 /* CarPromoCellConfiguration.swift */,
+				C66105E621304AE000BA4EF7 /* ServicesPromoCellConfiguration.swift */,
 			);
 			path = Configurations;
 			sourceTree = "<group>";
@@ -9310,6 +9314,7 @@
 				2E4436311BF389E000814624 /* LGNavBarSearchField.swift in Sources */,
 				C7B588871CE1DFA6009B3975 /* ChatBubbleCell.swift in Sources */,
 				C674D31D20ED1BA20027E3AE /* ListingAttributeGridTheme.swift in Sources */,
+				C66105E721304AE000BA4EF7 /* ServicesPromoCellConfiguration.swift in Sources */,
 				2EE47D2E2017812D004B04EE /* ChatAskPhoneNumberCellDrawer.swift in Sources */,
 				C611B06A20C92A0700D7DD89 /* MultiListingPostedStatus.swift in Sources */,
 				326C730A20908148009D21DB /* CategoriesFeedCell.swift in Sources */,
@@ -10272,6 +10277,7 @@
 				42A27EC92126DAA300E2ABC5 /* GADNativeAdViewFactory.swift in Sources */,
 				2E1BC4001E6492230063D1A7 /* ReceiptURLProvider.swift in Sources */,
 				320843B920A1FDF7009A1DC5 /* DiscoveryABGroup.swift in Sources */,
+				C66105E821304AE000BA4EF7 /* ServicesPromoCellConfiguration.swift in Sources */,
 				C77B7DB31DBE3C290043C624 /* ListHeaderContainer.swift in Sources */,
 				C7DE8ACC1C888761005CF37E /* EditListingViewModel.swift in Sources */,
 				42713C68207629A10077F88A /* PromoCell.swift in Sources */,

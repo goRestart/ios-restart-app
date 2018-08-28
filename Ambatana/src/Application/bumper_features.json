@@ -321,8 +321,13 @@
          "description": "[CARS] Show promo cells for cars"
      },
      {
-         "name": "RealEstatePromoCells",
-         "values": ["control", "baseline", "variantA"],
-         "description": "[REAL ESTATE] Show NEW promo cells for real Estate"
+        "name": "ServicesPromoCells",
+        "values": ["control", "baseline", "activeWithCallToAction", "activeWithoutCallToAction"],
+        "description": "[SERVICES] Show promo cells for Services"
+    },
+    {
+        "name": "RealEstatePromoCells",
+        "values": ["control", "baseline", "variantA"],
+        "description": "[REAL ESTATE] Show NEW promo cells for real Estate"
      }
  ]

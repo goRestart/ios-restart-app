@@ -54,11 +54,10 @@ final class ABTestsSpec: QuickSpec {
                     sut.registerVariables()
                 }
                 it("registers all the variables") {
-                    expect(syncer.syncedCount) == 66
+                    expect(syncer.syncedCount) == 67
                 }
             }
-
-            context("registering all the variables") {
+             context("registering all the variables") {
                 beforeEach {
                     sut.registerVariables()
                     uniqueSyncer = LeamplumSyncerCounter()
@@ -173,8 +172,8 @@ final class ABTestsSpec: QuickSpec {
                     syncer.sync(variables: verticals.stringVariables)
                     syncer.sync(variables: verticals.floatVariables)
                 }
-                it("the variables registered are 6") {
-                    expect(syncer.syncedCount) == 6
+                it("the variables registered are 7") {
+                    expect(syncer.syncedCount) == 7
                 }
             }
 

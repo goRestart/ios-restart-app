@@ -19,5 +19,6 @@ struct PromoCellMetrics {
     struct PostButton {
         static let height: CGFloat = 30
         static let width: CGFloat = 95
+        static let horizontalInsets: CGFloat = 32
     }
 }

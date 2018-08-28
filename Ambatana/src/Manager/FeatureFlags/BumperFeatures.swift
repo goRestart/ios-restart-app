@@ -80,6 +80,7 @@ extension Bumper  {
         flags.append(TurkeyFreePosting.self)
         flags.append(RandomImInterestedMessages.self)
         flags.append(CarPromoCells.self)
+        flags.append(ServicesPromoCells.self)
         flags.append(RealEstatePromoCells.self)
         Bumper.initialize(flags)
     } 
@@ -912,6 +913,19 @@ extension Bumper  {
     static var carPromoCellsObservable: Observable<CarPromoCells> {
         return Bumper.observeValue(for: CarPromoCells.key).map {
             CarPromoCells(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var servicesPromoCells: ServicesPromoCells {
+        guard let value = Bumper.value(for: ServicesPromoCells.key) else { return .control }
+        return ServicesPromoCells(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var servicesPromoCellsObservable: Observable<ServicesPromoCells> {
+        return Bumper.observeValue(for: ServicesPromoCells.key).map {
+            ServicesPromoCells(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1940,6 +1954,23 @@ enum CarPromoCells: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .variantA
             case 3: return .variantB
+            default: return .control
+        }
+    }
+}
+
+enum ServicesPromoCells: String, BumperFeature  {
+    case control, baseline, activeWithCallToAction, activeWithoutCallToAction
+    static var defaultValue: String { return ServicesPromoCells.control.rawValue }
+    static var enumValues: [ServicesPromoCells] { return [.control, .baseline, .activeWithCallToAction, .activeWithoutCallToAction]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[SERVICES] Show promo cells for Services" } 
+    static func fromPosition(_ position: Int) -> ServicesPromoCells {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .activeWithCallToAction
+            case 3: return .activeWithoutCallToAction
             default: return .control
         }
     }

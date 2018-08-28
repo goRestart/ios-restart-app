@@ -395,14 +395,6 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         return myUserRepository.myUser?.name
     }
     
-    private var isRealEstateSearch: Bool {
-        return filters.selectedCategories == [.realEstate]
-    }
-    
-    private var isCarPromoSearch: Bool {
-        return filters.selectedCategories == [.cars]
-    }
-
     private var isCurrentFeedACachedFeed: Bool = false {
         didSet {
             guard featureFlags.cachedFeed.isActive else { return }
@@ -432,6 +424,15 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     
     private let requesterFactory: RequesterFactory
     private let requesterDependencyContainer: RequesterDependencyContainer
+    
+    
+    private var canShowCarPromoCells: Bool {
+        return featureFlags.carPromoCells.isActive && filters.isCarSearch
+    }
+    
+    private var canShowServicePromoCells: Bool {
+        return featureFlags.servicesPromoCells.isActive && filters.isJobsAndServicesSearch
+    }
     
     // MARK: - Lifecycle
     
@@ -1162,7 +1163,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             if let isLastPage = requester?.multiIsLastPage, isLastPage {
                 let hasPerformedSearch = queryString != nil || hasFilters
                 let emptyViewModel = EmptyViewModelBuilder(hasPerformedSearch: hasPerformedSearch,
-                                                           isRealEstateSearch: isRealEstateSearch).build()
+                                                           isRealEstateSearch: filters.isRealEstateSearch).build()
                 listViewModel.setEmptyState(emptyViewModel)
                 filterDescription.value = nil
                 filterTitle.value = nil
@@ -1302,6 +1303,8 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         totalListings = addCollections(to: totalListings, page: page)
         totalListings = addRealEstatePromoItem(to: totalListings)
         totalListings = addCarPromoItem(to: totalListings)
+        totalListings = addServicesPromoItem(to: totalListings)
+        
         let myUserCreationDate: Date? = myUserRepository.myUser?.creationDate
         if featureFlags.showAdsInFeedWithRatio.isActive ||
             adsImpressionConfigurable.shouldShowAdsForUser {
@@ -1396,7 +1399,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
     }
     
     private func addRealEstatePromoItem(to listings: [ListingCellModel]) -> [ListingCellModel] {
-        guard isRealEstateSearch, !listings.isEmpty
+        guard filters.isRealEstateSearch, !listings.isEmpty
             else { return listings }
         
         guard (!filters.hasAnyRealEstateAttributes && listingListRequester.multiIsFirstPage) ||
@@ -1409,29 +1412,27 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
     }
     
     private func addCarPromoItem(to listings: [ListingCellModel]) -> [ListingCellModel] {
-        guard featureFlags.carPromoCells.isActive,
-            isCarPromoSearch,
+        guard canShowCarPromoCells,
             !listings.isEmpty
             else { return listings }
         
-        guard let carPromoCellModel = newCarPromoCellModel(),
+        guard let carPromoCellModel = featureFlags.carPromoCells.newCarPromoCellModel(withDelegate: self),
             (!filters.hasAnyCarAttributes && listingListRequester.multiIsFirstPage) ||
             (filters.hasAnyCarAttributes && listingListRequester.isFirstPageInLastRequester) else { return listings }
         
         return [carPromoCellModel] + listings
     }
-    
-    private func newCarPromoCellModel() -> ListingCellModel? {
-        switch featureFlags.carPromoCells {
-        case .control, .baseline:
-            return nil
-        case .variantA:
-            return ListingCellModel.promo(data: CarPromoCellConfiguration.createRandomCellData(showsPostButton: true),
-                                          delegate: self)
-        case .variantB:
-            return ListingCellModel.promo(data: CarPromoCellConfiguration.createRandomCellData(showsPostButton: false),
-                                          delegate: self)
-        }
+
+    private func addServicesPromoItem(to listings: [ListingCellModel]) -> [ListingCellModel] {
+        guard canShowServicePromoCells,
+            !listings.isEmpty
+            else { return listings }
+        
+        guard let servicesPromoCellModel = featureFlags.servicesPromoCells.newServicesPromoCellModel(withDelegate: self),
+            (!filters.hasAnyServicesAttributes && listingListRequester.multiIsFirstPage) ||
+                (filters.hasAnyServicesAttributes && listingListRequester.isFirstPageInLastRequester) else { return listings }
+        
+        return [servicesPromoCellModel] + listings
     }
     
     private func adAbsolutePosition() -> Int {
@@ -2103,4 +2104,51 @@ extension MainListingsViewModel: ListingCellDelegate {
     }
 
     func bumpUpPressedFor(listing: Listing) { }
+}
+
+private extension ListingFilters {
+    
+    var isRealEstateSearch: Bool {
+        return selectedCategories == [.realEstate]
+    }
+    
+    var isCarSearch: Bool {
+        return selectedCategories == [.cars]
+    }
+    
+    var isJobsAndServicesSearch: Bool {
+        return selectedCategories == [.services]
+    }
+}
+
+private extension ServicesPromoCells {
+    
+    func newServicesPromoCellModel(withDelegate delegate: ListingCellDelegate) -> ListingCellModel? {
+        switch self {
+        case .control, .baseline:
+            return nil
+        case .activeWithCallToAction:
+            return ListingCellModel.promo(data: ServicesPromoCellConfiguration.createRandomCellData(showsPostButton: true),
+                                          delegate: delegate)
+        case .activeWithoutCallToAction:
+            return ListingCellModel.promo(data: ServicesPromoCellConfiguration.createRandomCellData(showsPostButton: false),
+                                          delegate: delegate)
+        }
+    }
+}
+
+private extension CarPromoCells {
+    
+    func newCarPromoCellModel(withDelegate delegate: ListingCellDelegate) -> ListingCellModel? {
+        switch self {
+        case .control, .baseline:
+            return nil
+        case .variantA:
+            return ListingCellModel.promo(data: CarPromoCellConfiguration.createRandomCellData(showsPostButton: true),
+                                          delegate: delegate)
+        case .variantB:
+            return ListingCellModel.promo(data: CarPromoCellConfiguration.createRandomCellData(showsPostButton: false),
+                                          delegate: delegate)
+        }
+    }
 }
