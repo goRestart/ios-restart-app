@@ -23,7 +23,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var searchImprovements: SearchImprovements = .control
     var relaxedSearch: RelaxedSearch = .control
     var showProTagUserProfile: Bool = false
-    var sectionedMainFeed: SectionedMainFeed = .control
     var showExactLocationForPros: Bool = true
     
     // Country dependant features
@@ -85,6 +84,8 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var personalizedFeedABTestIntValue: Int? = nil
     var multiContactAfterSearch: MultiContactAfterSearch = .control
     var emptySearchImprovements: EmptySearchImprovements = .control
+    var sectionedFeedABTestIntValue: Int = 0
+    var sectionedFeed: SectionedDiscoveryFeed = .control
     
     //  MARK:  Products
     var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu = .control

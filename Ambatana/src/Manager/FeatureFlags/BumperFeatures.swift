@@ -34,7 +34,6 @@ extension Bumper  {
         flags.append(ChatNorris.self)
         flags.append(ShowProTagUserProfile.self)
         flags.append(CopyForChatNowInEnglish.self)
-        flags.append(SectionedMainFeed.self)
         flags.append(ShowExactLocationForPros.self)
         flags.append(ShowPasswordlessLogin.self)
         flags.append(CopyForSellFasterNowInEnglish.self)
@@ -82,6 +81,7 @@ extension Bumper  {
         flags.append(CarPromoCells.self)
         flags.append(ServicesPromoCells.self)
         flags.append(RealEstatePromoCells.self)
+        flags.append(SectionedDiscoveryFeed.self)
         Bumper.initialize(flags)
     } 
 
@@ -315,19 +315,6 @@ extension Bumper  {
     static var copyForChatNowInEnglishObservable: Observable<CopyForChatNowInEnglish> {
         return Bumper.observeValue(for: CopyForChatNowInEnglish.key).map {
             CopyForChatNowInEnglish(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var sectionedMainFeed: SectionedMainFeed {
-        guard let value = Bumper.value(for: SectionedMainFeed.key) else { return .control }
-        return SectionedMainFeed(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var sectionedMainFeedObservable: Observable<SectionedMainFeed> {
-        return Bumper.observeValue(for: SectionedMainFeed.key).map {
-            SectionedMainFeed(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -942,6 +929,19 @@ extension Bumper  {
         }
     }
     #endif
+
+    static var sectionedDiscoveryFeed: SectionedDiscoveryFeed {
+        guard let value = Bumper.value(for: SectionedDiscoveryFeed.key) else { return .control }
+        return SectionedDiscoveryFeed(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var sectionedDiscoveryFeedObservable: Observable<SectionedDiscoveryFeed> {
+        return Bumper.observeValue(for: SectionedDiscoveryFeed.key).map {
+            SectionedDiscoveryFeed(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
 }
 
 
@@ -1212,23 +1212,6 @@ enum CopyForChatNowInEnglish: String, BumperFeature  {
             case 2: return .variantB
             case 3: return .variantC
             case 4: return .variantD
-            default: return .control
-        }
-    }
-}
-
-enum SectionedMainFeed: String, BumperFeature  {
-    case control, baseline, mediumHorizontalSection, smallHorizontalSection
-    static var defaultValue: String { return SectionedMainFeed.control.rawValue }
-    static var enumValues: [SectionedMainFeed] { return [.control, .baseline, .mediumHorizontalSection, .smallHorizontalSection]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "[Discovery] Sectioned feed" } 
-    static func fromPosition(_ position: Int) -> SectionedMainFeed {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .mediumHorizontalSection
-            case 3: return .smallHorizontalSection
             default: return .control
         }
     }
@@ -1987,6 +1970,22 @@ enum RealEstatePromoCells: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .variantA
+            default: return .control
+        }
+    }
+}
+
+enum SectionedDiscoveryFeed: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return SectionedDiscoveryFeed.control.rawValue }
+    static var enumValues: [SectionedDiscoveryFeed] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[Discovery] Show SectionedFeed" } 
+    static func fromPosition(_ position: Int) -> SectionedDiscoveryFeed {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
             default: return .control
         }
     }

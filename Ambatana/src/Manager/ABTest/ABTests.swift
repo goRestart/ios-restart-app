@@ -107,10 +107,7 @@ class ABTests {
 // MARK: Discovery
 
 extension ABTests {
-    var sectionedMainFeed: LeanplumABVariable<Int> { return discovery.sectionedMainFeed }
-}
-    
-extension ABTests {
+        
     var personalizedFeed: LeanplumABVariable<Int> {
         return discovery.personalizedFeed
     }
@@ -134,6 +131,14 @@ extension ABTests {
     
     var emptySearchImprovements: LeanplumABVariable<Int> {
         return discovery.emptySearchImprovements
+    }
+    
+    var sectionedFeed: LeanplumABVariable<Int> {
+        return discovery.sectionedFeed
+    }
+    
+    var sectionedFeedIsActive: Bool {
+        return sectionedFeed.value > 1
     }
 }
 
