@@ -4,6 +4,7 @@ protocol InterestedStateUpdater {
     var myUserRepository: MyUserRepository { get }
     var keyValueStorage: KeyValueStorageable { get }
     var listingInterestStates: Set<String> { get set }
+    var dictInterestedStates: [String: InterestedState] { get }
     var contactedProSellerList: [String] { get }
     
     func hasContactedProListing(_ listing: Listing) -> Bool

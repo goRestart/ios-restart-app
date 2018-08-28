@@ -31,7 +31,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     var viewModel: MainListingsViewModel
     
     // MARK: - Subviews
-    private let listingListView = ListingListView()
+    private let listingListView = ListingListView(source: .feed)
     private let filterDescriptionHeaderView = FilterDescriptionHeaderView()
     private let filterTitleHeaderView = FilterTitleHeaderView()
     private let infoBubbleView = InfoBubbleView(style: .light)

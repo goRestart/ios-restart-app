@@ -360,7 +360,9 @@ final class ListingListViewModelSpec: QuickSpec {
                                            tracker: tracker,
                                            featureFlags: featureFlags,
                                            requesterFactory: requesterFactory,
-                                           searchType: SearchType.user(query: "abc"))
+                                           searchType: SearchType.user(query: "abc"),
+                                           source: .feed,
+                                           interestedStateUpdater: MockInterestedStateUpdater())
             sut.dataDelegate = dataDelegate
             return sut
         }
@@ -370,7 +372,7 @@ final class ListingListViewModelSpec: QuickSpec {
             let requester = MockListingListRequester(canRetrieve: true, offset: 0, pageSize: 50)
             requester.generateItems(productCount, allowDiscarded: true)
             let multiRequester = ListingListMultiRequester(requesters: [requester])
-            let sut = ListingListViewModel(requester: multiRequester)
+            let sut = ListingListViewModel(requester: multiRequester, source: .feed)
             sut.dataDelegate = dataDelegate
             return sut
         }

@@ -112,6 +112,7 @@ protocol FeatureFlaggeable: class {
     var searchAlertsDisableOldestIfMaximumReached: SearchAlertsDisableOldestIfMaximumReached { get }
     var notificationCenterRedesign: NotificationCenterRedesign { get }
     var randomImInterestedMessages: RandomImInterestedMessages { get }
+    var imInterestedInProfile: ImInterestedInProfile { get }
 }
 
 extension FeatureFlaggeable {
@@ -369,6 +370,10 @@ extension ShowSellFasterInProfileCells {
 }
 
 extension RandomImInterestedMessages {
+    var isActive: Bool { return self == .active }
+}
+
+extension ImInterestedInProfile {
     var isActive: Bool { return self == .active }
 }
 
@@ -1211,5 +1216,12 @@ extension FeatureFlags {
             return Bumper.randomImInterestedMessages
         }
         return RandomImInterestedMessages.fromPosition(abTests.randomImInterestedMessages.value)
+    }
+    
+    var imInterestedInProfile: ImInterestedInProfile {
+        if Bumper.enabled {
+            return Bumper.imInterestedInProfile
+        }
+        return ImInterestedInProfile.fromPosition(abTests.imInterestedInProfile.value)
     }
 }

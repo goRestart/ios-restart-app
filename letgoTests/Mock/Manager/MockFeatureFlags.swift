@@ -113,5 +113,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var searchAlertsDisableOldestIfMaximumReached: SearchAlertsDisableOldestIfMaximumReached = .control
     var notificationCenterRedesign: NotificationCenterRedesign = .control
     var randomImInterestedMessages: RandomImInterestedMessages = .control
+    var imInterestedInProfile: ImInterestedInProfile = .control
 }
 

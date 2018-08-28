@@ -37,6 +37,7 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
                                            tracker: tracker,
                                            featureFlags: featureFlags,
                                            notificationsManager: nil,
+                                           interestedHandler: nil,
                                            user: nil,
                                            source: .tabBar,
                                            isPrivateProfile: true)
@@ -53,6 +54,7 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
                                            tracker: tracker,
                                            featureFlags: featureFlags,
                                            notificationsManager: nil,
+                                           interestedHandler: nil,
                                            user: user,
                                            source: .tabBar,
                                            isPrivateProfile: false)
@@ -290,4 +292,12 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
     func closeProfile() {}
 
     func editListing(_ listing: Listing, pageType: EventParameterTypePage?) {}
+    
+    func openLogin(infoMessage: String, then loggedInAction: @escaping (() -> Void)) {}
+    
+    func openAskPhoneFor(listing: Listing, interlocutor: User?) {}
+    
+    func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?, openChatAutomaticMessage: ChatWrapperMessageType?) {}
+    
+    func openListingChat(data: ChatDetailData, source: EventParameterTypePage, predefinedMessage: String?) {}
 }

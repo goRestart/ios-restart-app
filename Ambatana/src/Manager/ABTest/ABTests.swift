@@ -199,6 +199,7 @@ extension ABTests {
     var searchAlertsDisableOldestIfMaximumReached: LeanplumABVariable<Int> { return retention.searchAlertsDisableOldestIfMaximumReached }
     var notificationCenterRedesign: LeanplumABVariable<Int> { return retention.notificationCenterRedesign }
     var randomImInterestedMessages: LeanplumABVariable<Int> { return retention.randomImInterestedMessages }
+    var imInterestedInProfile: LeanplumABVariable<Int> { return retention.imInterestedInProfile }
 }
 
 //  MARK: RealEstate
