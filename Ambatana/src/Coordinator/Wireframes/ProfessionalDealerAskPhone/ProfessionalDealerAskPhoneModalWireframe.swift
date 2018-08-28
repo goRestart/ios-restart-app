@@ -3,15 +3,11 @@ import LGCoreKit
 
 final class ProfessionalDealerAskPhoneModalWireframe: ProfessionalDealerAskPhoneNavigator {
     private let root: UIViewController
-    private let chatRouter: ChatWireframe
+    private let chatNavigator: ChatNavigator
 
-    convenience init(root: UIViewController, nc: UINavigationController) {
-        self.init(root: root, chatRouter: ChatWireframe(nc: nc))
-    }
-
-    init(root: UIViewController, chatRouter: ChatWireframe) {
+    init(root: UIViewController, chatNavigator: ChatNavigator) {
         self.root = root
-        self.chatRouter = chatRouter
+        self.chatNavigator = chatNavigator
     }
 
     func closeAskPhoneFor(listing: Listing,
@@ -21,15 +17,15 @@ final class ProfessionalDealerAskPhoneModalWireframe: ProfessionalDealerAskPhone
                           interlocutor: User?) {
         var completion: (()->())? = nil
         if openChat {
-            completion = {
+            completion = { [weak self] in
                 var openChatAutomaticMessage: ChatWrapperMessageType? = nil
                 if let phone = withPhoneNum {
                     openChatAutomaticMessage = .phone(phone)
                 }
-                self.chatRouter.openListingChat(listing,
-                                                source: source,
-                                                interlocutor: interlocutor,
-                                                openChatAutomaticMessage: openChatAutomaticMessage)
+                self?.chatNavigator.openListingChat(listing,
+                                                    source: source,
+                                                    interlocutor: interlocutor,
+                                                    openChatAutomaticMessage: openChatAutomaticMessage)
             }
         }
         root.dismiss(animated: true, completion: completion)

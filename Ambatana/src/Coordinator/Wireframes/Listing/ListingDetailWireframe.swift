@@ -13,7 +13,7 @@ final class ListingDetailWireframe: ListingDetailNavigator {
     private let editAssembly: EditListingAssembly
     private let loginAssembly: LoginAssembly
 
-    private let chatRouter: ChatWireframe
+    private let chatNavigator: ChatNavigator
 
     private let myUserRepository: MyUserRepository
     private let installationRepository: InstallationRepository
@@ -50,7 +50,7 @@ final class ListingDetailWireframe: ListingDetailNavigator {
         self.nc = nc
         self.sessionManager = sessionManager
         self.featureFlags = featureFlags
-        self.chatRouter = ChatWireframe(nc: nc)
+        self.chatNavigator = ChatWireframe(nc: nc)
         self.installationRepository = installationRepository
         self.myUserRepository = myUserRepository
         self.bumpAssembly = bumpAssembly
@@ -96,7 +96,7 @@ final class ListingDetailWireframe: ListingDetailNavigator {
     }
 
     func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?) {
-        chatRouter.openListingChat(listing, source: source, interlocutor: interlocutor, openChatAutomaticMessage: nil)
+        chatNavigator.openListingChat(listing, source: source, interlocutor: interlocutor, openChatAutomaticMessage: nil)
     }
 
     func closeListingAfterDelete(_ listing: Listing) {
@@ -234,8 +234,10 @@ final class ListingDetailWireframe: ListingDetailNavigator {
     }
 
     func openAskPhoneFor(listing: Listing, interlocutor: User?) {
-        let assembly = ProfessionalDealerAskPhoneBuilder.standard(nc)
-        let vc = assembly.buildProfessionalDealerAskPhone(listing: listing, interlocutor: interlocutor)
+        let assembly = ProfessionalDealerAskPhoneBuilder.modal(nc)
+        let vc = assembly.buildProfessionalDealerAskPhone(listing: listing,
+                                                          interlocutor: interlocutor,
+                                                          chatNavigator: chatNavigator)
         nc.present(vc, animated: true)
     }
 

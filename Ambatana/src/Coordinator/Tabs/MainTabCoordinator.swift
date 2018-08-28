@@ -4,6 +4,7 @@ import LGComponents
 final class MainTabCoordinator: TabCoordinator, FeedNavigator {
 
     private let feedAssembly: FeedAssembly
+    private lazy var phoneAskAssembly = ProfessionalDealerAskPhoneBuilder.modal(rootViewController)
     private let pushPermissionsManager: PushPermissionsManager
 
     convenience init() {
@@ -193,8 +194,9 @@ extension MainTabCoordinator: MainTabNavigator {
     }
     
     func openAskPhoneFromMainFeedFor(listing: Listing, interlocutor: User?) {
-        let assembly = ProfessionalDealerAskPhoneBuilder.modal(navigationController)
-        let vc = assembly.buildProfessionalDealerAskPhone(listing: listing, interlocutor: interlocutor)
+        let vc = phoneAskAssembly.buildProfessionalDealerAskPhone(listing: listing,
+                                                                  interlocutor: interlocutor,
+                                                                  chatNavigator: chatNavigator)
         navigationController.present(vc, animated: true, completion: nil)
     }
 

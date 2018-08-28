@@ -4,6 +4,10 @@ import LGComponents
 
 protocol ChatNavigator {
     func openChat(_ data: ChatDetailData, source: EventParameterTypePage, predefinedMessage: String?)
+    func openListingChat(_ listing: Listing,
+                         source: EventParameterTypePage,
+                         interlocutor: User?,
+                         openChatAutomaticMessage: ChatWrapperMessageType?)
 }
 
 final class ChatWireframe: ChatNavigator {
