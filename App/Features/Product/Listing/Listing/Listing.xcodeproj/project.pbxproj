@@ -31,6 +31,7 @@
 		1CC119412041CFFF00ED6369 /* Assembly+ProductDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC119402041CFFF00ED6369 /* Assembly+ProductDescription.swift */; };
 		1CC5A6142040D0B20082BE80 /* Assembly+ProductSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC5A6132040D0B20082BE80 /* Assembly+ProductSelector.swift */; };
 		1CC8412E2040DE7000FD0228 /* Bundle+Framework.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC8412D2040DE7000FD0228 /* Bundle+Framework.swift */; };
+		2E11C1B42135E4E2003F98D4 /* Decimal+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E11C1B32135E4E2003F98D4 /* Decimal+String.swift */; };
 		2E55DE09213489EA00851620 /* Assembly+ProductSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E55DE08213489EA00851620 /* Assembly+ProductSummary.swift */; };
 		2E55DE0C21348A5500851620 /* ProductSummaryNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E55DE0B21348A5500851620 /* ProductSummaryNavigator.swift */; };
 		2E71A8F7213177D3009D24A9 /* ProductExtrasViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A8F6213177D3009D24A9 /* ProductExtrasViewModelType.swift */; };
@@ -80,6 +81,7 @@
 		1CC119402041CFFF00ED6369 /* Assembly+ProductDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+ProductDescription.swift"; sourceTree = "<group>"; };
 		1CC5A6132040D0B20082BE80 /* Assembly+ProductSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+ProductSelector.swift"; sourceTree = "<group>"; };
 		1CC8412D2040DE7000FD0228 /* Bundle+Framework.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Framework.swift"; sourceTree = "<group>"; };
+		2E11C1B32135E4E2003F98D4 /* Decimal+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decimal+String.swift"; sourceTree = "<group>"; };
 		2E55DE08213489EA00851620 /* Assembly+ProductSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+ProductSummary.swift"; sourceTree = "<group>"; };
 		2E55DE0B21348A5500851620 /* ProductSummaryNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSummaryNavigator.swift; sourceTree = "<group>"; };
 		2E71A8F6213177D3009D24A9 /* ProductExtrasViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductExtrasViewModelType.swift; sourceTree = "<group>"; };
@@ -321,6 +323,7 @@
 			isa = PBXGroup;
 			children = (
 				1CC1192A2041C9D400ED6369 /* String */,
+				2E11C1B22135E4D5003F98D4 /* Decimal */,
 				1CC8412C2040DE6700FD0228 /* Bundle */,
 			);
 			path = Extension;
@@ -332,6 +335,14 @@
 				1CC8412D2040DE7000FD0228 /* Bundle+Framework.swift */,
 			);
 			path = Bundle;
+			sourceTree = "<group>";
+		};
+		2E11C1B22135E4D5003F98D4 /* Decimal */ = {
+			isa = PBXGroup;
+			children = (
+				2E11C1B32135E4E2003F98D4 /* Decimal+String.swift */,
+			);
+			path = Decimal;
 			sourceTree = "<group>";
 		};
 		2E55DE0A21348A4700851620 /* Navigator */ = {
@@ -561,6 +572,7 @@
 				2E71A90A21318A23009D24A9 /* ProductExtrasViewBinder.swift in Sources */,
 				1C05A2212040BA51007DB1DA /* ProductSelectorView.swift in Sources */,
 				2E71A9182131985D009D24A9 /* ProductExtraSectionController.swift in Sources */,
+				2E11C1B42135E4E2003F98D4 /* Decimal+String.swift in Sources */,
 				2E55DE0C21348A5500851620 /* ProductSummaryNavigator.swift in Sources */,
 				2E71A9302131D8D6009D24A9 /* Assembly+Listing.swift in Sources */,
 				2E7B9B212132DAAF00E4B6F5 /* ProductSummaryViewController.swift in Sources */,

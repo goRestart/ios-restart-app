@@ -20,6 +20,7 @@ extension Assembly: ProductPriceProvider {
 
   private func viewModel(from viewController: UIViewController) -> ProductPriceViewModelType {
     return ProductPriceViewModel(
+      productDraft: productDraftActions,
       productExtrasNavigator: productExtrasNavigator(from: viewController)
     )
   }

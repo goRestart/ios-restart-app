@@ -25,10 +25,15 @@ final class ProductDraftInMemoryDataSource: ProductDraftDataSource {
   }
   
   func get() -> ProductDraft {
+    var price: Product.Price?
+    if let amount = self.price {
+      price = Product.Price(amount: amount, locale: .current)
+    }
+    
     return ProductDraft(
       title: productId?.value,
       description: description,
-      price: nil,
+      price: price,
       productExtras: productExtras,
       productImages: [] // TODO
     )
