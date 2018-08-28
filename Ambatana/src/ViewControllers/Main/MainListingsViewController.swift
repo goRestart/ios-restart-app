@@ -357,7 +357,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     @objc private func endEdit() {
         trendingSearchView.isHidden = true
         setFiltersNavBarButton()
-        setLeftNavBarButtons()
+        setLeftNavBarButtons(withAvatar: viewModel.userAvatar.value)
         navbarSearch.cancelEdit()
     }
 
