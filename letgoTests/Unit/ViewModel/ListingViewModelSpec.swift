@@ -204,7 +204,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                         beforeEach {
                             chatWrapper.results = [ChatWrapperResult(true)]
                             buildListingViewModel()
-                            sut.sendQuickAnswer(quickAnswer: .meetUp)
+                            sut.sendQuickAnswer(quickAnswer: .meetUp, trackingInfo: nil)
 
                             expect(tracker.trackedEvents.count).toEventually(equal(2))
                         }
@@ -227,7 +227,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                         beforeEach {
                             chatWrapper.results = [ChatWrapperResult(true)]
                             buildListingViewModel(visitSource: .favourite)
-                            sut.sendQuickAnswer(quickAnswer: .meetUp)
+                            sut.sendQuickAnswer(quickAnswer: .meetUp, trackingInfo: nil)
                             
                             expect(tracker.trackedEvents.count).toEventually(equal(2))
                         }
@@ -251,7 +251,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                             chatWrapper.results = [ChatWrapperResult(true)]
                             buildListingViewModel(visitSource: .favourite)
                             self.listingViewModelDelegateListingOriginValue = .inResponseToNextRequest
-                            sut.sendQuickAnswer(quickAnswer: .meetUp)
+                            sut.sendQuickAnswer(quickAnswer: .meetUp, trackingInfo: nil)
                             
                             expect(tracker.trackedEvents.count).toEventually(equal(2))
                         }
@@ -275,7 +275,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                             chatWrapper.results = [ChatWrapperResult(true)]
                             buildListingViewModel(visitSource: .favourite)
                             self.listingViewModelDelegateListingOriginValue = .inResponseToPreviousRequest
-                            sut.sendQuickAnswer(quickAnswer: .meetUp)
+                            sut.sendQuickAnswer(quickAnswer: .meetUp, trackingInfo: nil)
                             
                             expect(tracker.trackedEvents.count).toEventually(equal(2))
                         }
@@ -298,7 +298,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                         beforeEach {
                             chatWrapper.results = [ChatWrapperResult(false)]
                             buildListingViewModel()
-                            sut.sendQuickAnswer(quickAnswer: .meetUp)
+                            sut.sendQuickAnswer(quickAnswer: .meetUp, trackingInfo: nil)
 
                             expect(tracker.trackedEvents.count).toEventually(equal(1))
                         }
@@ -316,7 +316,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                         beforeEach {
                             chatWrapper.results = [ChatWrapperResult(error: .notFound)]
                             buildListingViewModel()
-                            sut.sendQuickAnswer(quickAnswer: .meetUp)
+                            sut.sendQuickAnswer(quickAnswer: .meetUp, trackingInfo: nil)
                         }
                         it("requests logged in") {
                             expect(self.calledLogin) == true
@@ -342,7 +342,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                         beforeEach {
                             chatWrapper.results = [ChatWrapperResult(true)]
                             buildListingViewModel()
-                            sut.sendDirectMessage("Hola que tal", isDefaultText: false)
+                            sut.sendDirectMessage("Hola que tal", isDefaultText: false, trackingInfo: nil)
 
                             expect(tracker.trackedEvents.count).toEventually(equal(2))
                         }
@@ -360,7 +360,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                         beforeEach {
                             chatWrapper.results = [ChatWrapperResult(false)]
                             buildListingViewModel()
-                            sut.sendDirectMessage("Hola que tal", isDefaultText: true)
+                            sut.sendDirectMessage("Hola que tal", isDefaultText: true, trackingInfo: nil)
 
                             expect(tracker.trackedEvents.count).toEventually(equal(1))
                         }
@@ -378,7 +378,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                         beforeEach {
                             chatWrapper.results = [ChatWrapperResult(error: .notFound)]
                             buildListingViewModel()
-                            sut.sendDirectMessage("Hola que tal", isDefaultText: true)
+                            sut.sendDirectMessage("Hola que tal", isDefaultText: true, trackingInfo: nil)
                         }
                         it("requests logged in") {
                             expect(self.calledLogin) == true

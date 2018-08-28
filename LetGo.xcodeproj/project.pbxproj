@@ -782,6 +782,10 @@
 		328E8E3320C0467000BBF639 /* MainListingsHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328E8E3120C0467000BBF639 /* MainListingsHeader.swift */; };
 		328E8E3520C046A700BBF639 /* SuggestiveSearchInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328E8E3420C046A700BBF639 /* SuggestiveSearchInfo.swift */; };
 		328E8E3620C046A700BBF639 /* SuggestiveSearchInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328E8E3420C046A700BBF639 /* SuggestiveSearchInfo.swift */; };
+		3294762C2133F750008EE737 /* InterestedStateTrackingInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3294762B2133F750008EE737 /* InterestedStateTrackingInfo.swift */; };
+		3294762D2133F750008EE737 /* InterestedStateTrackingInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3294762B2133F750008EE737 /* InterestedStateTrackingInfo.swift */; };
+		3294763221340EA0008EE737 /* SectionedFeedVMTrackerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3294763121340EA0008EE737 /* SectionedFeedVMTrackerHelper.swift */; };
+		3294763321340EA0008EE737 /* SectionedFeedVMTrackerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3294763121340EA0008EE737 /* SectionedFeedVMTrackerHelper.swift */; };
 		3299E5E7207FB7AB002935AE /* WaterFallLayoutSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3299E5E4207FB7AA002935AE /* WaterFallLayoutSettings.swift */; };
 		3299E5E8207FB7AB002935AE /* WaterfallLayoutItemRenderPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3299E5E5207FB7AA002935AE /* WaterfallLayoutItemRenderPolicy.swift */; };
 		3299E5E9207FB7AB002935AE /* WaterFallLayoutDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3299E5E6207FB7AB002935AE /* WaterFallLayoutDelegates.swift */; };
@@ -2708,6 +2712,8 @@
 		328E8E2E20C03A5E00BBF639 /* EmptyViewModelBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyViewModelBuilder.swift; sourceTree = "<group>"; };
 		328E8E3120C0467000BBF639 /* MainListingsHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListingsHeader.swift; sourceTree = "<group>"; };
 		328E8E3420C046A700BBF639 /* SuggestiveSearchInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestiveSearchInfo.swift; sourceTree = "<group>"; };
+		3294762B2133F750008EE737 /* InterestedStateTrackingInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestedStateTrackingInfo.swift; sourceTree = "<group>"; };
+		3294763121340EA0008EE737 /* SectionedFeedVMTrackerHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionedFeedVMTrackerHelper.swift; sourceTree = "<group>"; };
 		3299E5E4207FB7AA002935AE /* WaterFallLayoutSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaterFallLayoutSettings.swift; sourceTree = "<group>"; };
 		3299E5E5207FB7AA002935AE /* WaterfallLayoutItemRenderPolicy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaterfallLayoutItemRenderPolicy.swift; sourceTree = "<group>"; };
 		3299E5E6207FB7AB002935AE /* WaterFallLayoutDelegates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaterFallLayoutDelegates.swift; sourceTree = "<group>"; };
@@ -4803,6 +4809,7 @@
 			children = (
 				0AAC7954207F73F30096F156 /* FeedViewModel.swift */,
 				326C72E1208A2935009D21DB /* FeedViewModelType.swift */,
+				3294763121340EA0008EE737 /* SectionedFeedVMTrackerHelper.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -6633,6 +6640,7 @@
 				502047141EE1BB21006C0EC2 /* MarkAsSoldTrackingInfo.swift */,
 				C707D4541E9B7CB200042C03 /* PostListingTrackingInfo.swift */,
 				C707D4511E9B7CA100042C03 /* SendMessageTrackingInfo.swift */,
+				3294762B2133F750008EE737 /* InterestedStateTrackingInfo.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -9035,6 +9043,7 @@
 				C7F3F1E11DE5A95F00652447 /* ChatRelatedListingsView.swift in Sources */,
 				C727943C1D549342009C25AB /* ChangeUsernameViewController.swift in Sources */,
 				2EE4A3C1212D48BF00380467 /* NotificationsTableViewController.swift in Sources */,
+				3294763221340EA0008EE737 /* SectionedFeedVMTrackerHelper.swift in Sources */,
 				0ACA8F3421145ECB00243850 /* LGRateBuilder.swift in Sources */,
 				C605853A20DBD16A008025FD /* ListingAttributeGridViewItemCell.swift in Sources */,
 				A4E09390211B199B002235FC /* LGLoginBuilder.swift in Sources */,
@@ -9379,6 +9388,7 @@
 				013489F820D3FEF900E543C2 /* NotificationSettingCellType.swift in Sources */,
 				2E4B359C1CC90A9500B8CB64 /* RelatedListingListRequester.swift in Sources */,
 				0A6FECFE2130344000B57004 /* SimpleListingsWireframe.swift in Sources */,
+				3294762C2133F750008EE737 /* InterestedStateTrackingInfo.swift in Sources */,
 				C742340C1D5A132D0082D1CD /* UITableView+Changes.swift in Sources */,
 				C7AB4EC61CD39C67007B573D /* LGNotificationsManager.swift in Sources */,
 				556E26F9203C3C940098ECF0 /* UserProfileViewModel.swift in Sources */,
@@ -9639,6 +9649,7 @@
 				0A6FECF92130344000B57004 /* ListingWireframe.swift in Sources */,
 				2E2208E91DD4BD1100FB2483 /* EmptyCell.swift in Sources */,
 				2E5C1C391FB60C56002AFD40 /* PromoteBumpViewController.swift in Sources */,
+				3294763321340EA0008EE737 /* SectionedFeedVMTrackerHelper.swift in Sources */,
 				425EE398211AFCFE0002DAB8 /* AspectRatio+CGSize.swift in Sources */,
 				0ACA1953212EA889006489C0 /* TourLoginBuilder.swift in Sources */,
 				C7DB41B21C5138B500400945 /* MediaPickerManager.swift in Sources */,
@@ -9656,6 +9667,7 @@
 				C7126BDF1E6596A300038CC4 /* ListingVMUserInfo.swift in Sources */,
 				6A0D7344204D613500892663 /* EditUserBioViewModel.swift in Sources */,
 				72C7A1BD1F9F8D150089F175 /* SellNavigationViewModel.swift in Sources */,
+				3294762D2133F750008EE737 /* InterestedStateTrackingInfo.swift in Sources */,
 				C271D021206B7C8B00D898F1 /* LGCamera.swift in Sources */,
 				2E4ADED0200516DD00D07D8A /* ProfessionalDealerAskPhoneViewModel.swift in Sources */,
 				0A6FECFD2130344000B57004 /* UserPhoneVerificationNavigator.swift in Sources */,

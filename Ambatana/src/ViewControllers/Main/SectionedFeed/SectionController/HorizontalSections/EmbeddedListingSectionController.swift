@@ -9,6 +9,8 @@ final class EmbeddedListingSectionController: ListSectionController {
     private let embeddedListingViewModel: EmbeddedListingViewModel
 
     weak var listingActionDelegate: ListingActionDelegate?
+    weak var interestedActionDelegate: EmbeddedInterestedActionDelegate?
+
     
     init(embeddedListingViewModel: EmbeddedListingViewModel) {
         self.embeddedListingViewModel = embeddedListingViewModel
@@ -31,6 +33,7 @@ final class EmbeddedListingSectionController: ListSectionController {
             cell.setupFeedListingData(embeddedListingViewModel.updateFeedData(data))
         }
         cell.delegate = listingActionDelegate
+        cell.embeddedInterestedActionDelegate = interestedActionDelegate
         return cell
     }
     

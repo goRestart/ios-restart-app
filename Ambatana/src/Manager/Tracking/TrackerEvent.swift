@@ -960,11 +960,17 @@ struct TrackerEvent {
                              feedPosition: EventParameterFeedPosition,
                              userBadge: EventParameterUserBadge,
                              containsVideo: EventParameterBoolean,
-                             isProfessional: Bool?) -> TrackerEvent {
+                             isProfessional: Bool?,
+                             sectionName: EventParameterSectionName?) -> TrackerEvent {
         info.set(isProfessional:isProfessional)
         var params = info.params
         params[.listingVisitSource] = listingVisitSource.rawValue
-        params[.feedPosition] = feedPosition.value
+        if let sectionName = sectionName?.value {
+            params[.sectionPosition] = feedPosition.value
+            params[.sectionIdentifier] = sectionName
+        } else {
+            params[.feedPosition] = feedPosition.value
+        }
         params[.sellerReputationBadge] = userBadge.rawValue
         params[.isVideo] = containsVideo.rawValue
         return TrackerEvent(name: .firstMessage, params: params)

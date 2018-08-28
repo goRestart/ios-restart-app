@@ -1,4 +1,5 @@
 import IGListKit
+import LGCoreKit
 
 final class HorizontalSectionController: ListSectionController {
 
@@ -70,6 +71,7 @@ extension HorizontalSectionController: ListAdapterDataSource {
         let vm = EmbeddedListingViewModel()
         let sectionController = EmbeddedListingSectionController(embeddedListingViewModel: vm)
         sectionController.listingActionDelegate = listingActionDelegate
+        sectionController.interestedActionDelegate = self
         return sectionController
     }
 
@@ -123,6 +125,25 @@ extension HorizontalSectionController: ListSupplementaryViewSource {
         guard let context = collectionContext else { return .zero }
         return CGSize(width: context.containerSize.width,
                       height: SectionControllerLayout.fixTitleHeaderHeight)
+    }
+}
+
+extension HorizontalSectionController: EmbeddedInterestedActionDelegate {
+    
+    func interestedActionFor(_ listing: Listing,
+                             userListing: LocalUser?,
+                             touchPoint: CGPoint,
+                             completion: @escaping (InterestedState) -> Void) {
+        guard let cell = collectionContext?.cellForItem(at: 0, sectionController: self) as? EmbeddedCollectionViewCell,
+            let point = viewController?.view.convert(touchPoint, to: cell.collectionView),
+            let index = cell.collectionView.indexPathForItem(at: point)?.section,
+            let id = listingHorizontalSectionModel?.id else { return }
+        let trackingInfo = SectionedFeedChatTrackingInfo(sectionId: .identifier(id: id),
+                                                  itemIndexInSection: .position(index: index))
+        listingActionDelegate?.interestedActionFor(listing,
+                                                   userListing: userListing,
+                                                   sectionedFeedChatTrackingInfo: trackingInfo,
+                                                   completion: completion)
     }
 }
 

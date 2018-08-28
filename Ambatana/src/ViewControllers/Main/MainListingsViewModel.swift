@@ -2046,10 +2046,16 @@ extension MainListingsViewModel: ListingCellDelegate {
                                                   feedPosition: .none,
                                                   userBadge: .noBadge,
                                                   containsVideo: EventParameterBoolean(bool: listing.containsVideo()),
-                                                  isProfessional: nil)
+                                                  isProfessional: nil,
+                                                  sectionName: nil)
             self?.tracker.trackEvent(event)
         }
-        
+        listViewModel.update(listing: listing, interestedState: .seeConversation)
+    }
+    
+    private func showCancellableInterestedBubbleWith(duration: TimeInterval, then action: @escaping ()->()) {
+        let message = R.Strings.productInterestedBubbleMessage
+        navigator?.showUndoBubble(withMessage: message, duration: duration, withAction: action)
     }
     
     func chatButtonPressedFor(listing: Listing) {

@@ -83,6 +83,17 @@ final class ListingDeckViewModel: BaseViewModel {
     weak var deckNavigator: DeckNavigator?
     var userHasScrolled: Bool = false
 
+    private var sectionFeedChatTrackingInfo: SectionedFeedChatTrackingInfo? {
+        guard let id = trackingIdentifier, let position = trackingIndex else {
+            return nil
+        }
+        let sectionName = EventParameterSectionName.identifier(id: id)
+        let feedIndex = EventParameterFeedPosition.position(index: position)
+        return SectionedFeedChatTrackingInfo(sectionId: sectionName,
+                                      itemIndexInSection: feedIndex)
+    }
+
+    
     override var active: Bool {
         didSet {
             productsViewModels.forEach { (_, listingViewModel) in
@@ -240,6 +251,7 @@ final class ListingDeckViewModel: BaseViewModel {
             currentListingViewModel?.delegate = self
 
             quickChatViewModel.listingViewModel = currentListingViewModel
+            quickChatViewModel.sectionFeedChatTrackingInfo = sectionFeedChatTrackingInfo
             binder.bind(to:viewModel, quickChatViewModel: quickChatViewModel)
 
             currentIndex = index
