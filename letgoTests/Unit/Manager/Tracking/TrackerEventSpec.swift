@@ -1907,8 +1907,35 @@ class TrackerEventSpec: QuickSpec {
                                                     feedPosition: .position(index:1),
                                                     userBadge: .silver,
                                                     containsVideo: .trueParameter,
-                                                    isProfessional: false)
+                                                    isProfessional: false,
+                                                    sectionName: nil)
                 }
+                
+                context("Trigger first message from a section") {
+                    beforeEach {
+                        sut = TrackerEvent.firstMessage(info: sendMessageInfo,
+                                                        listingVisitSource: .listingList,
+                                                        feedPosition: .position(index:1),
+                                                        userBadge: .silver,
+                                                        containsVideo: .trueParameter,
+                                                        isProfessional: true,
+                                                        sectionName: EventParameterSectionName.identifier(id: "section-1"))
+                    }
+                    
+                    it("contains sectionName param") {
+                        let sectionId = sut.params!.stringKeyParams["section-identifier"] as? String
+                        expect(sectionId) == "section-1"
+                    }
+                    it("contains section-number") {
+                        let sectionNumber = sut.params!.stringKeyParams["section-number"] as? String
+                        expect(sectionNumber).to(equal("2"))
+                    }
+                    it("doesnot contain feed-position") {
+                        let feedPosition = sut.params!.stringKeyParams["feed-position"] as? String
+                        expect(feedPosition).to(beNil())
+                    }
+                }
+                
                 context("Interlocutor is a professional") {
                     beforeEach {
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
@@ -1916,7 +1943,8 @@ class TrackerEventSpec: QuickSpec {
                                                         feedPosition: .position(index:1),
                                                         userBadge: .silver,
                                                         containsVideo: .trueParameter,
-                                                        isProfessional: true)
+                                                        isProfessional: true,
+                                                        sectionName: nil)
                     }
                     it("contains item-type param") {
                         let itemType = sut.params!.stringKeyParams["item-type"] as? String
@@ -1930,7 +1958,8 @@ class TrackerEventSpec: QuickSpec {
                                                         feedPosition: .position(index:1),
                                                         userBadge: .silver,
                                                         containsVideo: .trueParameter,
-                                                        isProfessional: nil)
+                                                        isProfessional: nil,
+                                                        sectionName: nil)
                     }
                     it("contains item-type param") {
                         let itemType = sut.params!.stringKeyParams["item-type"] as? String
@@ -2017,7 +2046,8 @@ class TrackerEventSpec: QuickSpec {
                                                         feedPosition: .position(index:1),
                                                         userBadge: .silver,
                                                         containsVideo: .notAvailable,
-                                                        isProfessional: false)
+                                                        isProfessional: false,
+                                                        sectionName: nil)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -2047,7 +2077,8 @@ class TrackerEventSpec: QuickSpec {
                                                         feedPosition: .position(index:1),
                                                         userBadge: .silver,
                                                         containsVideo: .notAvailable,
-                                                        isProfessional: false)
+                                                        isProfessional: false,
+                                                        sectionName: nil)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -2078,7 +2109,8 @@ class TrackerEventSpec: QuickSpec {
                                                         feedPosition: .position(index:1),
                                                         userBadge: .silver,
                                                         containsVideo: .notAvailable,
-                                                        isProfessional: false)
+                                                        isProfessional: false,
+                                                        sectionName: nil)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -2113,22 +2145,14 @@ class TrackerEventSpec: QuickSpec {
                     mockProduct.currency = Currency(code: "EUR", symbol: "€")
 
                     product = mockProduct
-                    sendMessageInfo = SendMessageTrackingInfo()
-                        .set(chatListing: product, freePostingModeAllowed: true)
-                        .set(interlocutorId: "67890")
-                        .set(messageType: .text)
-                        .set(quickAnswerTypeParameter: nil)
-                        .set(typePage: .listingDetail)
-                        .set(sellerRating: 4)
-                        .set(isBumpedUp: .trueParameter)
-                        .set(containsEmoji: false)
-                        .set(assistantMeeting: nil, isSuggestedPlace: nil)
-                    sut = TrackerEvent.firstMessage(info: sendMessageInfo,
-                                                    listingVisitSource: .listingList,
-                                                    feedPosition: .position(index:1),
-                                                    userBadge: .silver,
-                                                    containsVideo: .notAvailable,
-                                                    isProfessional: false)
+                    sendMessageInfo = makeSendMessageInfo(withProduct: product)
+                    sut = makeSutFirstMessage(product: product,
+                                              visitSource: .listingList,
+                                              position: .position(index:1),
+                                              userBadge: .silver,
+                                              containsVideo: .notAvailable,
+                                              isProfessional: false,
+                                              sectionName: nil)
                 }
                 context("Interlocutor is a professional") {
                     beforeEach {
@@ -2137,7 +2161,8 @@ class TrackerEventSpec: QuickSpec {
                                                         feedPosition: .position(index:1),
                                                         userBadge: .silver,
                                                         containsVideo: .notAvailable,
-                                                        isProfessional: true)
+                                                        isProfessional: true,
+                                                        sectionName: nil)
                     }
                     it("contains item-type param") {
                         let itemType = sut.params!.stringKeyParams["item-type"] as? String
@@ -2151,7 +2176,8 @@ class TrackerEventSpec: QuickSpec {
                                                         feedPosition: .position(index:1),
                                                         userBadge: .silver,
                                                         containsVideo: .notAvailable,
-                                                        isProfessional: nil)
+                                                        isProfessional: nil,
+                                                        sectionName: nil)
                     }
                     it("contains item-type param") {
                         let itemType = sut.params!.stringKeyParams["item-type"] as? String
@@ -2225,7 +2251,8 @@ class TrackerEventSpec: QuickSpec {
                                                         feedPosition: .position(index:1),
                                                         userBadge: .silver,
                                                         containsVideo: .falseParameter,
-                                                        isProfessional: false)
+                                                        isProfessional: false,
+                                                        sectionName: nil)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -2255,7 +2282,8 @@ class TrackerEventSpec: QuickSpec {
                                                         feedPosition: .position(index:1),
                                                         userBadge: .silver,
                                                         containsVideo: .notAvailable,
-                                                        isProfessional: false)
+                                                        isProfessional: false,
+                                                        sectionName: nil)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -2286,7 +2314,8 @@ class TrackerEventSpec: QuickSpec {
                                                         feedPosition: .position(index:1),
                                                         userBadge: .silver,
                                                         containsVideo: .notAvailable,
-                                                        isProfessional: false)
+                                                        isProfessional: false,
+                                                        sectionName: nil)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -5916,6 +5945,36 @@ class TrackerEventSpec: QuickSpec {
                                                        isMine: .falseParameter,
                                                        containsVideo: .trueParameter,
                                                        sectionName: sectionName)
+            }
+            
+            func makeSendMessageInfo(withProduct product: ChatListing) -> SendMessageTrackingInfo {
+                return SendMessageTrackingInfo()
+                    .set(chatListing: product, freePostingModeAllowed: true)
+                    .set(interlocutorId: "67890")
+                    .set(messageType: .text)
+                    .set(quickAnswerTypeParameter: nil)
+                    .set(typePage: .listingDetail)
+                    .set(sellerRating: 4)
+                    .set(isBumpedUp: .trueParameter)
+                    .set(containsEmoji: false)
+                    .set(assistantMeeting: nil, isSuggestedPlace: nil)
+            }
+            
+            func makeSutFirstMessage(product: ChatListing,
+                                     visitSource: EventParameterListingVisitSource,
+                                     position: EventParameterFeedPosition,
+                                     userBadge: EventParameterUserBadge,
+                                     containsVideo: EventParameterBoolean,
+                                     isProfessional: Bool?,
+                                     sectionName: EventParameterSectionName?) -> TrackerEvent {
+                let sendMessageInfo = makeSendMessageInfo(withProduct: product)
+                return TrackerEvent.firstMessage(info: sendMessageInfo,
+                                                listingVisitSource: visitSource,
+                                                feedPosition: position,
+                                                userBadge: userBadge,
+                                                containsVideo: containsVideo,
+                                                isProfessional: isProfessional,
+                                                sectionName: sectionName)
             }
         }
     }

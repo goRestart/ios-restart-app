@@ -473,7 +473,8 @@ extension ProductVMTrackHelper {
                           listingVisitSource: EventParameterListingVisitSource,
                           feedPosition: EventParameterFeedPosition,
                           sellerBadge: EventParameterUserBadge,
-                          containsVideo: EventParameterBoolean) {
+                          containsVideo: EventParameterBoolean,
+                          sectionName: EventParameterSectionName?) {
         guard let info = buildSendMessageInfo(withType: messageType,
                                               isShowingFeaturedStripe: isShowingFeaturedStripe,
                                               error: nil) else { return }
@@ -484,7 +485,8 @@ extension ProductVMTrackHelper {
                                                          feedPosition: feedPosition,
                                                          userBadge: sellerBadge,
                                                          containsVideo: containsVideo,
-                                                         isProfessional: nil))
+                                                         isProfessional: nil,
+                                                         sectionName: sectionName))
         }
         tracker.trackEvent(TrackerEvent.userMessageSent(info: info, isProfessional: nil))
     }

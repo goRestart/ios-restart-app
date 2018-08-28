@@ -7,8 +7,19 @@ protocol FeedListingSelectable: class {
 
 protocol ProductListingDelegate: class {
     func chatButtonPressedFor(listing: Listing)
-    func interestedActionFor(_ listing: Listing, userListing: LocalUser?, completion: @escaping (InterestedState) -> Void)
+    func interestedActionFor(_ listing: Listing,
+                             userListing: LocalUser?,
+                             sectionedFeedChatTrackingInfo: SectionedFeedChatTrackingInfo?,
+                             completion: @escaping (InterestedState) -> Void)
     func getUserInfoFor(_ listing: Listing, completion: @escaping (User?) -> Void)
+}
+
+protocol EmbeddedInterestedActionDelegate: class {
+    /// For listing which is embedded in horizontal sections
+    func interestedActionFor(_ listing: Listing,
+                             userListing: LocalUser?,
+                             touchPoint: CGPoint,
+                             completion: @escaping (InterestedState) -> Void)
 }
 
 protocol ListingActionDelegate: FeedListingSelectable, ProductListingDelegate { }

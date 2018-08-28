@@ -45,8 +45,10 @@ class FeedListingCell: UICollectionViewCell {
     
     private var thumbnailImageViewHeight: NSLayoutConstraint?
     internal var feedListingData: FeedListingData?
-    weak var delegate: ProductListingDelegate?
     
+    weak var delegate: ProductListingDelegate?
+    weak var embeddedInterestedActionDelegate: EmbeddedInterestedActionDelegate?
+
     var thumbnailImage: UIImage? {
         return thumbnailImageView.image ?? thumbnailGifImageView.currentImage
     }
@@ -168,7 +170,7 @@ class FeedListingCell: UICollectionViewCell {
     }
     
     private func setupSelectors() {
-        interestedButton.addTarget(self, action: #selector(interestedButtonTapped), for: .touchUpInside)
+        interestedButton.addTarget(self, action: #selector(interestedButtonTapped(sender:)), for: .touchUpInside)
     }
     
     private func setupActivityIndicator() {
@@ -180,18 +182,20 @@ class FeedListingCell: UICollectionViewCell {
 
 extension FeedListingCell {
     
-    @objc private func interestedButtonTapped() {
+    @objc private func interestedButtonTapped(sender: UIButton) {
         guard let feedListingData = feedListingData else { return }
         let listing = feedListingData.listing
-        
+        let touchPoint = sender.convert(CGPoint.zero, to: nil)
         updateInterestedButton(withState: .send(enabled: false))
         guard feedListingData.preventMessageToProUsers else {
-            return interestActionFor(listing: listing, userListing: nil)
+            return interestActionFor(listing: listing, userListing: nil, touchPoint: touchPoint)
         }
         
         guard feedListingData.user.type == .unknown else {
             return interestActionFor(listing: listing,
-                                     userListing: LocalUser(userListing: feedListingData.user))
+                                     userListing: LocalUser(userListing: feedListingData.user),
+                                     touchPoint: touchPoint)
+
         }
         
         interestedButton.isHidden = true
@@ -201,13 +205,25 @@ extension FeedListingCell {
             self?.interestedButton.isHidden = false
             self?.activityIndicator.stopAnimating()
             self?.interestActionFor(listing: listing,
-                                    userListing: LocalUser(userListing: feedListingData.user))
+                                    userListing: LocalUser(userListing: feedListingData.user),
+                                    touchPoint: touchPoint)
         }
     }
     
-    private func interestActionFor(listing: Listing, userListing: LocalUser?) {
-        delegate?.interestedActionFor(listing, userListing: userListing) { [weak self] state in
-            self?.updateInterestedButton(withState: state)
+    private func interestActionFor(listing: Listing, userListing: LocalUser?, touchPoint: CGPoint) {
+        guard let embededInterestedDelegate = embeddedInterestedActionDelegate else {
+            delegate?.interestedActionFor(listing,
+                                          userListing: userListing,
+                                          sectionedFeedChatTrackingInfo: nil) { [weak self] state in
+                                            self?.updateInterestedButton(withState: state)
+            }
+            return
+        }
+        
+        embededInterestedDelegate.interestedActionFor(listing,
+                                                      userListing: userListing,
+                                                      touchPoint: touchPoint) { [weak self] state in
+                                                        self?.updateInterestedButton(withState: state)
         }
     }
 }

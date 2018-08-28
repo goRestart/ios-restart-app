@@ -112,6 +112,7 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     private let chatWrapper: ChatWrapper
     private let adsImpressionConfigurable: AdsImpressionConfigurable
     private let interestedStateManager: InterestedStateUpdater
+    private let sectionedFeedVMTrackerHelper: SectionedFeedVMTrackerHelper
 
     //  MARK: - Life Cycle
     
@@ -130,6 +131,7 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
          deviceFamily: DeviceFamily = DeviceFamily.current,
          chatWrapper: ChatWrapper = LGChatWrapper(),
          adsImpressionConfigurable: AdsImpressionConfigurable = LGAdsImpressionConfigurable(),
+         sectionedFeedVMTrackerHelper: SectionedFeedVMTrackerHelper = SectionedFeedVMTrackerHelper(),
          interestedStateManager: InterestedStateUpdater = LGInterestedStateUpdater()) {
 
         self.filters = filters
@@ -162,9 +164,9 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
         self.adsImpressionConfigurable = adsImpressionConfigurable
         self.adsPaginationHelper = AdsPaginationHelper(featureFlags: featureFlags)
         self.interestedStateManager = interestedStateManager
+        self.sectionedFeedVMTrackerHelper = sectionedFeedVMTrackerHelper
         super.init()
         setup()
-        
     }
     
     convenience override init() {
@@ -473,8 +475,11 @@ extension FeedViewModel: SelectedForYouDelegate {
         let collectionType = CollectionCellType.selectedForYou
         tracker.trackEvent(TrackerEvent.exploreCollection(collectionType.rawValue))
         let query = collectionType.buildQueryString(from: keyValueStorage)
-        navigator?.openMainListings(withSearchType: .collection(type: collectionType, query: query),
-                                    listingFilters: filters) // FIXME: replace this after navigator refactor: ABIOS-4644, ABIOS-4525 Facu magic
+        guard let strongNavigator = navigator else { return }
+        wireframe?.openClassicFeed(
+            navigator: strongNavigator,
+            withSearchType: .collection(type: collectionType, query: query),
+            listingFilters: filters)
     }
     
     private var shouldShowSelectedForYou: Bool {
@@ -515,11 +520,16 @@ extension FeedViewModel: ListingActionDelegate {
                             completion: completion)
     }
 
-    func interestedActionFor(_ listing: Listing, userListing: LocalUser?, completion: @escaping (InterestedState) -> Void) {
+    func interestedActionFor(_ listing: Listing,
+                             userListing: LocalUser?,
+                             sectionedFeedChatTrackingInfo: SectionedFeedChatTrackingInfo?,
+                             completion: @escaping (InterestedState) -> Void) {
         if let user = userListing, user.isProfessional {
             interestedActionForProUser(forListing: listing, interlocutor: user)
         } else {
-            interestedActionForNormalUser(listing, completion: completion)
+            interestedActionForNormalUser(listing,
+                                          sectionedFeedChatTrackingInfo: sectionedFeedChatTrackingInfo,
+                                          completion: completion)
         }
     }
     
@@ -542,7 +552,8 @@ extension FeedViewModel: ListingActionDelegate {
         }
     }
     
-    private func interestedActionForNormalUser(_ listing: Listing, completion: @escaping (InterestedState) -> Void) {
+    private func interestedActionForNormalUser(_ listing: Listing, sectionedFeedChatTrackingInfo: SectionedFeedChatTrackingInfo?, completion: @escaping (InterestedState) -> Void) {
+
         guard !interestedStateManager.interestedIsDisabled(forListing: listing) else { return }
 
         openLoginIfNeeded(message: R.Strings.chatLoginPopupText) { [weak self] in
@@ -555,11 +566,12 @@ extension FeedViewModel: ListingActionDelegate {
                 strSelf.openChat(withData: chatDetailData)
                 return
             }
-            strSelf.handleCancellableInterestedAction(listing, completion: completion)
+            strSelf.handleCancellableInterestedAction(listing, sectionedFeedChatTrackingInfo: sectionedFeedChatTrackingInfo, completion: completion)
         }
     }
     
-    private func handleCancellableInterestedAction(_ listing: Listing, completion: @escaping (InterestedState) -> Void) {
+    private func handleCancellableInterestedAction(_ listing: Listing, sectionedFeedChatTrackingInfo: SectionedFeedChatTrackingInfo?, completion: @escaping (InterestedState) -> Void) {
+
         let (cancellable, timer) = LGTimer.cancellableWait(FeedViewModel.interestingUndoTimeout)
         
         showUndoBubble(withMessage: R.Strings.productInterestedBubbleMessage,
@@ -571,7 +583,7 @@ extension FeedViewModel: ListingActionDelegate {
             defer { self?.refreshFeed() }
             guard event.error == nil else {
                 completion(.seeConversation)
-                self?.sendMessage(forListing: listing)
+                self?.sendMessage(forListing: listing, sectionedFeedChatTrackingInfo: sectionedFeedChatTrackingInfo)
                 return
             }
             completion(.send(enabled: true))
@@ -579,7 +591,7 @@ extension FeedViewModel: ListingActionDelegate {
         }.disposed(by: disposeBag)
     }
     
-    private func sendMessage(forListing listing: Listing) {
+    private func sendMessage(forListing listing: Listing, sectionedFeedChatTrackingInfo: SectionedFeedChatTrackingInfo?) {
         let type = ChatWrapperMessageType.interested(QuickAnswer.interested.textToReply)
         interestedStateManager.addInterestedState(forListing: listing, completion: nil)
         let trackingInfo = SendMessageTrackingInfo
@@ -591,13 +603,7 @@ extension FeedViewModel: ListingActionDelegate {
         chatWrapper.sendMessageFor(listing: listing, type: type) { [weak self] isFirstMessage in
             let isFirstMessage = isFirstMessage.value ?? false
             guard isFirstMessage else { return }
-            let event = TrackerEvent.firstMessage(info: trackingInfo,
-                                                  listingVisitSource: .listingList,
-                                                  feedPosition: .none,
-                                                  userBadge: .noBadge,
-                                                  containsVideo: EventParameterBoolean(bool: listing.containsVideo()),
-                                                  isProfessional: nil)
-            self?.tracker.trackEvent(event)
+            self?.trackFirstMessage(info: trackingInfo, sectionedFeedChatTrackingInfo: sectionedFeedChatTrackingInfo, listing: listing)
         }
     }
     
@@ -693,15 +699,19 @@ extension FeedViewModel {
     }
     
     private func trackSectionsAndItems(inFeed feed: Feed?) {
-        let successParameter: EventParameterBoolean = feed != nil ? .trueParameter : .falseParameter
-        let trackerEvent = TrackerEvent.listingListSectionedFeed(myUserRepository.myUser,
-                                                                 categories: filters.selectedCategories,
-                                                                 searchQuery: queryString,
-                                                                 sectionItemCount: feed?.totalHorizontalItemCount ?? 0,
-                                                                 inifiteSectionItemCount: feed?.totalVerticalItemCount ?? 0,
-                                                                 sectionNamesShown: feed?.sectionsShown ?? [],
-                                                                 feedSource: feedSource,
-                                                                 success: successParameter)
-        tracker.trackEvent(trackerEvent)
+        sectionedFeedVMTrackerHelper.trackSectionsAndItems(inFeed: feed,
+                                                           user: myUserRepository.myUser,
+                                                           categories: filters.selectedCategories,
+                                                           searchQuery: queryString,
+                                                           feedSource: feedSource)
+    }
+    
+    private func trackFirstMessage(info: SendMessageTrackingInfo,
+                                   sectionedFeedChatTrackingInfo: SectionedFeedChatTrackingInfo?,
+                                   listing: Listing) {
+        sectionedFeedVMTrackerHelper.trackFirstMessage(info: info,
+                                                       listingVisitSource: listingVisitSource,
+                                                       sectionedFeedChatTrackingInfo: sectionedFeedChatTrackingInfo,
+                                                       listing: listing)
     }
 }

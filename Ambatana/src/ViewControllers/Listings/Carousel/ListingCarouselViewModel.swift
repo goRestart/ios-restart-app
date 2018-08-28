@@ -208,6 +208,16 @@ class ListingCarouselViewModel: BaseViewModel {
     var currentAdRequestType: AdRequestType? {
         return adActive ? .dfp : nil
     }
+    
+    var sectionFeedChatTrackingInfo: SectionedFeedChatTrackingInfo? {
+        guard let id = trackingIdentifier else {
+                return nil
+        }
+        let sectionName = EventParameterSectionName.identifier(id: id)
+        return SectionedFeedChatTrackingInfo(sectionId: sectionName,
+                                             itemIndexInSection: trackingFeedPosition)
+    }
+    
     var currentAdRequestQueryType: AdRequestQueryType? = nil
     var adRequestQuery: String? = nil
     var adBannerTrackingStatus: AdBannerTrackingStatus? = nil
@@ -424,11 +434,12 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     func send(quickAnswer: QuickAnswer) {
-        currentListingViewModel?.sendQuickAnswer(quickAnswer: quickAnswer)
+        currentListingViewModel?.sendQuickAnswer(quickAnswer: quickAnswer,
+                                                 trackingInfo: sectionFeedChatTrackingInfo)
     }
 
     func interestedButtonTapped() {
-        currentListingViewModel?.sendInterested()
+        currentListingViewModel?.sendInterested(trackingInfo: sectionFeedChatTrackingInfo)
     }
 
     func chatButtonTapped() {
@@ -436,7 +447,9 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     func send(directMessage: String, isDefaultText: Bool) {
-        currentListingViewModel?.sendDirectMessage(directMessage, isDefaultText: isDefaultText)
+        currentListingViewModel?.sendDirectMessage(directMessage,
+                                                   isDefaultText: isDefaultText,
+                                                   trackingInfo: sectionFeedChatTrackingInfo)
     }
 
     func editButtonPressed() {

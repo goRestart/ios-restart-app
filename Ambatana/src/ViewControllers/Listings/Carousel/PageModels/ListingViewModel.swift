@@ -835,25 +835,25 @@ extension ListingViewModel {
         navigator?.openListingChat(listing.value, source: .listingDetail, interlocutor: seller)
     }
 
-    func sendDirectMessage(_ text: String, isDefaultText: Bool) {
+    func sendDirectMessage(_ text: String, isDefaultText: Bool, trackingInfo: SectionedFeedChatTrackingInfo?) {
         ifLoggedInRunActionElseOpenSignUp(from: .directChat, infoMessage: R.Strings.chatLoginPopupText) { [weak self] in
             if isDefaultText {
-                self?.sendMessage(type: .periscopeDirect(text))
+                self?.sendMessage(type: .periscopeDirect(text), sectionedFeedChatTrackingInfo: trackingInfo)
             } else {
-                self?.sendMessage(type: .text(text))
+                self?.sendMessage(type: .text(text), sectionedFeedChatTrackingInfo: trackingInfo)
             }
         }
     }
 
-    func sendQuickAnswer(quickAnswer: QuickAnswer) {
+    func sendQuickAnswer(quickAnswer: QuickAnswer, trackingInfo: SectionedFeedChatTrackingInfo?) {
         ifLoggedInRunActionElseOpenSignUp(from: .directQuickAnswer, infoMessage: R.Strings.chatLoginPopupText) { [weak self] in
-            self?.sendMessage(type: .quickAnswer(quickAnswer))
+            self?.sendMessage(type: .quickAnswer(quickAnswer), sectionedFeedChatTrackingInfo: trackingInfo)
         }
     }
 
-    func sendInterested() {
+    func sendInterested(trackingInfo: SectionedFeedChatTrackingInfo?) {
         ifLoggedInRunActionElseOpenSignUp(from: .directQuickAnswer, infoMessage: R.Strings.chatLoginPopupText) { [weak self] in
-            self?.sendMessage(type: .interested(QuickAnswer.interested.textToReply))
+            self?.sendMessage(type: .interested(QuickAnswer.interested.textToReply), sectionedFeedChatTrackingInfo: trackingInfo)
         }
     }
 
@@ -1164,7 +1164,8 @@ fileprivate extension ListingViewModel {
   
     func favoriteBubbleNotificationData() -> BubbleNotificationData {
         let action = UIAction(interface: .text(R.Strings.productBubbleFavoriteButton), action: { [weak self] in
-            self?.sendMessage(type: .favoritedListing(R.Strings.productFavoriteDirectMessage))
+            self?.sendMessage(type: .favoritedListing(R.Strings.productFavoriteDirectMessage),
+                              sectionedFeedChatTrackingInfo: nil)
         }, accessibility: AccessibilityId.bubbleButton)
         let data = BubbleNotificationData(tagGroup: ListingViewModel.bubbleTagGroup,
                                           text: R.Strings.productBubbleFavoriteButton,
@@ -1292,7 +1293,7 @@ fileprivate extension ListingViewModel {
         }
     }
 
-    func sendMessage(type: ChatWrapperMessageType) {
+    func sendMessage(type: ChatWrapperMessageType, sectionedFeedChatTrackingInfo: SectionedFeedChatTrackingInfo?) {
         // Optimistic behavior
         let message = LocalMessage(type: type, userId: myUserRepository.myUser?.objectId)
         let messageView = chatViewMessageAdapter.adapt(message, userAvatarData: nil)
@@ -1315,7 +1316,8 @@ fileprivate extension ListingViewModel {
                                                         listingVisitSource: visitSource,
                                                         feedPosition: feedPosition,
                                                         sellerBadge: badgeParameter,
-                                                        containsVideo: containsVideo)
+                                                        containsVideo: containsVideo,
+                                                        sectionName: sectionedFeedChatTrackingInfo?.sectionId)
                 strongSelf.alreadyTrackedFirstMessageSent = true
                 if let listingId = strongSelf.listing.value.objectId {
                     strongSelf.keyValueStorage.interestingListingIDs.update(with: listingId)

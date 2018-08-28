@@ -141,7 +141,8 @@ final class InterestedHandler: InterestedHandleable {
                                               feedPosition: .none,
                                               userBadge: .noBadge,
                                               containsVideo: EventParameterBoolean(bool: listing.containsVideo()),
-                                              isProfessional: nil)
+                                              isProfessional: nil,
+                                              sectionName: nil)
         tracker.trackEvent(event)
     }
 }
