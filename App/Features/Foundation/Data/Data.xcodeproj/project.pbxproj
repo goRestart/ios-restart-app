@@ -33,6 +33,9 @@
 		1CB6495E2009CA79009B7CC1 /* ImageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB6495D2009CA79009B7CC1 /* ImageRepository.swift */; };
 		1CC209B61FF2C2F500EE0B5B /* Assembly+Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC209B51FF2C2F500EE0B5B /* Assembly+Repository.swift */; };
 		1CE92E9F1FF31E5600F762E5 /* Fixture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CE92E9E1FF31E5600F762E5 /* Fixture.swift */; };
+		2E11C1A02135C40F003F98D4 /* ProductDraftDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E11C19F2135C40F003F98D4 /* ProductDraftDataSource.swift */; };
+		2E11C1A32135C4C7003F98D4 /* ProductDraftInMemoryDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E11C1A22135C4C7003F98D4 /* ProductDraftInMemoryDataSource.swift */; };
+		2E11C1A52135C80D003F98D4 /* ProductDraftRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E11C1A42135C80D003F98D4 /* ProductDraftRepository.swift */; };
 		2E2F7AB42129CECF00CDED0F /* UserFirebaseDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2F7AB32129CECF00CDED0F /* UserFirebaseDataSource.swift */; };
 		2E2F7AB62129D23800CDED0F /* DataModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2F7AB52129D23800CDED0F /* DataModule.swift */; };
 		2E2F7AB92129F46100CDED0F /* Auth+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2F7AB82129F46100CDED0F /* Auth+Rx.swift */; };
@@ -94,6 +97,9 @@
 		1CB6495D2009CA79009B7CC1 /* ImageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRepository.swift; sourceTree = "<group>"; };
 		1CC209B51FF2C2F500EE0B5B /* Assembly+Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+Repository.swift"; sourceTree = "<group>"; };
 		1CE92E9E1FF31E5600F762E5 /* Fixture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fixture.swift; sourceTree = "<group>"; };
+		2E11C19F2135C40F003F98D4 /* ProductDraftDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDraftDataSource.swift; sourceTree = "<group>"; };
+		2E11C1A22135C4C7003F98D4 /* ProductDraftInMemoryDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDraftInMemoryDataSource.swift; sourceTree = "<group>"; };
+		2E11C1A42135C80D003F98D4 /* ProductDraftRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDraftRepository.swift; sourceTree = "<group>"; };
 		2E2F7AB32129CECF00CDED0F /* UserFirebaseDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFirebaseDataSource.swift; sourceTree = "<group>"; };
 		2E2F7AB52129D23800CDED0F /* DataModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModule.swift; sourceTree = "<group>"; };
 		2E2F7AB82129F46100CDED0F /* Auth+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Auth+Rx.swift"; sourceTree = "<group>"; };
@@ -322,6 +328,7 @@
 				1C40D8AB1FFD34FB006D5BE4 /* Auth */,
 				1C40D8AC1FFD351D006D5BE4 /* User */,
 				2E71A8DF213151EC009D24A9 /* Product */,
+				2E11C19D2135C3DF003F98D4 /* Product Draft */,
 				1C30D7122009656400E0A501 /* Game */,
 				1CB649542009C926009B7CC1 /* Image */,
 			);
@@ -473,6 +480,32 @@
 				1CE92E9E1FF31E5600F762E5 /* Fixture.swift */,
 			);
 			path = Fixture;
+			sourceTree = "<group>";
+		};
+		2E11C19D2135C3DF003F98D4 /* Product Draft */ = {
+			isa = PBXGroup;
+			children = (
+				2E11C1A42135C80D003F98D4 /* ProductDraftRepository.swift */,
+				2E11C19E2135C403003F98D4 /* Data Source */,
+			);
+			path = "Product Draft";
+			sourceTree = "<group>";
+		};
+		2E11C19E2135C403003F98D4 /* Data Source */ = {
+			isa = PBXGroup;
+			children = (
+				2E11C19F2135C40F003F98D4 /* ProductDraftDataSource.swift */,
+				2E11C1A12135C4B9003F98D4 /* InMemory */,
+			);
+			path = "Data Source";
+			sourceTree = "<group>";
+		};
+		2E11C1A12135C4B9003F98D4 /* InMemory */ = {
+			isa = PBXGroup;
+			children = (
+				2E11C1A22135C4C7003F98D4 /* ProductDraftInMemoryDataSource.swift */,
+			);
+			path = InMemory;
 			sourceTree = "<group>";
 		};
 		2E2F7AB22129CEC300CDED0F /* Firebase */ = {
@@ -813,8 +846,11 @@
 				1C913A3B1FF2BA8B00646884 /* TargetType+Default.swift in Sources */,
 				2E2F7AC12129FA1B00CDED0F /* Assembly+User.swift in Sources */,
 				1C40D8BC1FFD3940006D5BE4 /* UserRepository.swift in Sources */,
+				2E11C1A32135C4C7003F98D4 /* ProductDraftInMemoryDataSource.swift in Sources */,
+				2E11C1A52135C80D003F98D4 /* ProductDraftRepository.swift in Sources */,
 				2E71A8E22131523F009D24A9 /* ProductDataSource.swift in Sources */,
 				2E71A8E5213156A6009D24A9 /* ProductAlgoliaDataSource.swift in Sources */,
+				2E11C1A02135C40F003F98D4 /* ProductDraftDataSource.swift in Sources */,
 				1CACCE7A1FF2D6320001B321 /* ErrorAdapter.swift in Sources */,
 				2EB2B147212B2F5700705ACA /* SignInUserFirebaseAction.swift in Sources */,
 				2EB2B14C212B305000705ACA /* Assembly+Auth.swift in Sources */,

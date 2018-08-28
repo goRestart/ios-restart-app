@@ -31,6 +31,20 @@ extension Assembly {
   }
 }
 
+// MARK: - Product Draft
+
+extension Assembly {
+  public var productDraftRepository: ProductDraftRepository {
+    return ProductDraftRepository(
+      inMemoryDataSource: productDraftInMemoryDataSource
+    )
+  }
+  
+  private var productDraftInMemoryDataSource: ProductDraftDataSource {
+    return ProductDraftInMemoryDataSource.shared
+  }
+}
+
 // MARK: - Game
 
 extension Assembly: GameSuggestionMapperProvider {
