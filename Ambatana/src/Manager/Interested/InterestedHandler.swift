@@ -49,14 +49,9 @@ final class InterestedHandler: InterestedHandleable {
     // MARK: - Interested actions
     
     func retrieveInterestedActionFor(_ listing: Listing, userListing: LocalUser?) -> InterestedAction  {
-        let isProUser: Bool
-        if let user = userListing, user.isProfessional {
-            isProUser = true
-        } else {
-            isProUser = false
-        }
-        let hasContactedProListing = interestedStateUpdater.hasContactedProListing(listing) ? true : false
-        let hasContactedNonProListing = interestedStateUpdater.hasContactedListing(listing) ? true : false
+        let isProUser = userListing?.isProfessional ?? false
+        let hasContactedProListing = interestedStateUpdater.hasContactedProListing(listing)
+        let hasContactedNonProListing = interestedStateUpdater.hasContactedListing(listing)
         
         if isProUser && hasContactedProListing {
             return .openChatProUser

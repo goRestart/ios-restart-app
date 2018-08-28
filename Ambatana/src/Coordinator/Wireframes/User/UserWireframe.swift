@@ -5,7 +5,6 @@ import LGComponents
 final class UserWireframe {
     private let nc: UINavigationController
     private lazy var listingRouter = ListingWireframe(nc: nc)
-    private let sessionManager: SessionManager
 
     private let userAssembly: UserAssembly
     private let verificationAssembly: UserVerificationAssembly
@@ -22,8 +21,7 @@ final class UserWireframe {
                   loginAssembly: LoginBuilder.modal,
                   chatRouter: ChatWireframe(nc: nc),
                   userRepository: Core.userRepository,
-                  myUserRepository: Core.myUserRepository,
-                  sessionManager: Core.sessionManager)
+                  myUserRepository: Core.myUserRepository)
     }
 
     private init(nc: UINavigationController,
@@ -32,8 +30,7 @@ final class UserWireframe {
                  loginAssembly: LoginAssembly,
                  chatRouter: ChatWireframe,
                  userRepository: UserRepository,
-                 myUserRepository: MyUserRepository,
-                 sessionManager: SessionManager) {
+                 myUserRepository: MyUserRepository) {
         self.nc = nc
         self.userAssembly = userAssembly
         self.verificationAssembly = verificationAssembly
@@ -41,7 +38,6 @@ final class UserWireframe {
         self.userRepository = userRepository
         self.myUserRepository = myUserRepository
         self.loginAssembly = loginAssembly
-        self.sessionManager = sessionManager
     }
 
     func openUser(_ data: UserDetailData) {
@@ -124,12 +120,7 @@ extension UserWireframe: PublicProfileNavigator {
         listingRouter.openListing(data, source: source, actionOnFirstAppear: actionOnFirstAppear)
     }
     
-    func openLoginIfNeeded(infoMessage: String, then loggedInAction: @escaping (() -> Void)) {
-        guard !sessionManager.loggedIn else {
-            loggedInAction()
-            return
-        }
-        
+    func openLogin(infoMessage: String, then loggedInAction: @escaping (() -> Void)) {
         let vc = loginAssembly.buildPopupSignUp(
             withMessage: R.Strings.productPostLoginMessage,
             andSource: .directChat,

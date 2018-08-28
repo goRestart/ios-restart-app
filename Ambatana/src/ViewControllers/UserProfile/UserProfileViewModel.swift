@@ -791,7 +791,13 @@ extension UserProfileViewModel: ListingCellDelegate {
                 }
             }
         }
-        navigator?.openLoginIfNeeded(infoMessage: R.Strings.chatLoginPopupText, then: interestedAction)
+        
+        if isLoggedInUser {
+            interestedAction()
+        } else {
+            navigator?.openLogin(infoMessage: R.Strings.chatLoginPopupText,
+                                 then: interestedAction)
+        }
     }
     
     func openAskPhoneFor(_ listing: Listing, interlocutor: LocalUser) {}

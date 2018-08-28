@@ -293,7 +293,7 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
 
     func editListing(_ listing: Listing, pageType: EventParameterTypePage?) {}
     
-    func openLoginIfNeeded(infoMessage: String, then loggedInAction: @escaping (() -> Void)) {}
+    func openLogin(infoMessage: String, then loggedInAction: @escaping (() -> Void)) {}
     
     func openAskPhoneFor(listing: Listing, interlocutor: User?) {}
     

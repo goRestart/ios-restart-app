@@ -92,7 +92,7 @@ extension ProfileTabCoordinator: ProfileTabNavigator {
         return
     }
     
-    func openLoginIfNeeded(infoMessage: String, then loggedInAction: @escaping (() -> Void)) {
+    func openLogin(infoMessage: String, then loggedInAction: @escaping (() -> Void)) {
         // Ignore. This case only needs to be handled by the public user coordinator
         // Should disappear after navigation refactor
         return
