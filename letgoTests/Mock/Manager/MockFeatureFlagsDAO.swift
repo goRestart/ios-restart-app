@@ -13,6 +13,7 @@ class MockFeatureFlagsDAO: FeatureFlagsDAO {
     var timeoutForRequests: TimeInterval?
     var emergencyLocate: EmergencyLocate?
     var community: ShowCommunity?
+    var advancedReputationSystem11: AdvancedReputationSystem11?
 
     func retrieveTimeoutForRequests() -> TimeInterval? {
         return timeoutForRequests
@@ -36,5 +37,13 @@ class MockFeatureFlagsDAO: FeatureFlagsDAO {
 
     func save(community: ShowCommunity) {
         self.community = community
+    }
+
+    func retrieveAdvancedReputationSystem11() -> AdvancedReputationSystem11? {
+        return advancedReputationSystem11
+    }
+
+    func save(advancedReputationSystem11: AdvancedReputationSystem11) {
+        self.advancedReputationSystem11 = advancedReputationSystem11
     }
 }
