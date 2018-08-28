@@ -53,25 +53,6 @@ final class ProfileTabCoordinator: TabCoordinator {
 }
 
 extension ProfileTabCoordinator: ProfileTabNavigator {
-    func openListingChat(data: ChatDetailData, source: EventParameterTypePage, predefinedMessage: String?) {
-        
-    }
-    
-    func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?, openChatAutomaticMessage: ChatWrapperMessageType?) {
-        // Ignore. This case only needs to be handled by the public user coordinator
-        return
-    }
-    
-    func openAskPhoneFor(listing: Listing, interlocutor: User?) {
-        // Ignore. This case only needs to be handled by the public user coordinator
-        return
-    }
-    
-    func openLoginIfNeeded(infoMessage: String, then loggedInAction: @escaping (() -> Void)) {
-        // Ignore. This case only needs to be handled by the public user coordinator
-        return
-    }
-    
     func openSettings() {
         let vm = SettingsViewModel()
         vm.navigator = self
@@ -92,6 +73,28 @@ extension ProfileTabCoordinator: ProfileTabNavigator {
 
     func closeProfile() {
         dismissViewController(animated: true, completion: nil)
+    }
+    
+    func openListingChat(data: ChatDetailData, source: EventParameterTypePage, predefinedMessage: String?) {
+        
+    }
+    
+    func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?, openChatAutomaticMessage: ChatWrapperMessageType?) {
+        // Ignore. This case only needs to be handled by the public user coordinator
+        // Should disappear after navigation refactor
+        return
+    }
+    
+    func openAskPhoneFor(listing: Listing, interlocutor: User?) {
+        // Ignore. This case only needs to be handled by the public user coordinator
+        // Should disappear after navigation refactor
+        return
+    }
+    
+    func openLoginIfNeeded(infoMessage: String, then loggedInAction: @escaping (() -> Void)) {
+        // Ignore. This case only needs to be handled by the public user coordinator
+        // Should disappear after navigation refactor
+        return
     }
 }
 
