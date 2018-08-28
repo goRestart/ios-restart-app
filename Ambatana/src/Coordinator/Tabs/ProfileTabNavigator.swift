@@ -70,7 +70,3 @@ protocol UserVerificationNavigator: class {
     func openEmailVerification()
     func openPhoneNumberVerification()
 }
-
-protocol UserAvatarDetailNavigator: class {
-    func closeAvatarDetail()
-}

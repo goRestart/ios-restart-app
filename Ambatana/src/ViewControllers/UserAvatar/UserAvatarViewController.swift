@@ -2,7 +2,7 @@ import Foundation
 import LGComponents
 import RxSwift
 
-class UserAvatarViewController: BaseViewController {
+final class UserAvatarViewController: BaseViewController {
     private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -19,6 +19,7 @@ class UserAvatarViewController: BaseViewController {
         viewModel.delegate = self
     }
 
+    @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -65,14 +66,13 @@ class UserAvatarViewController: BaseViewController {
     }
 
     private func setupConstraints() {
-        let constraints: [NSLayoutConstraint] = [
+        let constraints = [
             imageView.topAnchor.constraint(equalTo: view.topAnchor),
             imageView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             imageView.leftAnchor.constraint(equalTo: view.leftAnchor),
             imageView.rightAnchor.constraint(equalTo: view.rightAnchor)
         ]
-
-        NSLayoutConstraint.activate(constraints)
+        constraints.activate()
     }
 
     @objc private func didTapEdit() {

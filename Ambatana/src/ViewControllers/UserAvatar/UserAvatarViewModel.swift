@@ -4,7 +4,7 @@ import LGCoreKit
 import RxSwift
 import RxCocoa
 
-class UserAvatarViewModel: BaseViewModel {
+final class UserAvatarViewModel: BaseViewModel {
 
     private let myUserRepository: MyUserRepository
     private let tracker: TrackerProxy
