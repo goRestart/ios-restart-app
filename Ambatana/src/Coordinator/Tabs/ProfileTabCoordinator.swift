@@ -76,7 +76,8 @@ extension ProfileTabCoordinator: ProfileTabNavigator {
     }
     
     func openListingChat(data: ChatDetailData, source: EventParameterTypePage, predefinedMessage: String?) {
-        
+        // Ignore. This case only needs to be handled by the public user coordinator
+        // Should disappear after navigation refactor
     }
     
     func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?, openChatAutomaticMessage: ChatWrapperMessageType?) {

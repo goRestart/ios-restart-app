@@ -112,10 +112,10 @@ extension UserWireframe: PublicProfileNavigator {
                          source: EventParameterTypePage,
                          interlocutor: User?,
                          openChatAutomaticMessage: ChatWrapperMessageType?) {
-        self.chatRouter.openListingChat(listing,
-                                        source: source,
-                                        interlocutor: interlocutor,
-                                        openChatAutomaticMessage: openChatAutomaticMessage)
+        chatRouter.openListingChat(listing,
+                                   source: source,
+                                   interlocutor: interlocutor,
+                                   openChatAutomaticMessage: openChatAutomaticMessage)
     }
 
     func openListing(_ data: ListingDetailData,
