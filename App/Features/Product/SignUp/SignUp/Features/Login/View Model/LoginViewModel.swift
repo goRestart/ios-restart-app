@@ -21,9 +21,8 @@ struct LoginViewModel: LoginViewModelType, LoginViewModelInput, LoginViewModelOu
   
   // MARK: - Output
   
-  var username = BehaviorSubject<String>(value: "")
-  var password = BehaviorSubject<String>(value: "")
-  var state = BehaviorSubject<LoginState>(value: .idle)
+  private let stateSubject = BehaviorSubject<LoginState>(value: .idle)
+  var state: Observable<LoginState> { return stateSubject }
   
   var signInEnabled: Observable<Bool> {
     return Observable.combineLatest(
@@ -39,8 +38,11 @@ struct LoginViewModel: LoginViewModelType, LoginViewModelInput, LoginViewModelOu
   
   // MARK: - Input
   
+  var username = BehaviorSubject<String>(value: "")
+  var password = BehaviorSubject<String>(value: "")
+  
   func signUpButtonPressed() {
-    state.onNext(.loading)
+    stateSubject.onNext(.loading)
     
     let credentials = BasicCredentials(
       username: try! username.value(),
@@ -51,7 +53,7 @@ struct LoginViewModel: LoginViewModelType, LoginViewModelInput, LoginViewModelOu
       print("Welcome :)")
     }) { error in
       print("Error :(")
-      self.state.onNext(.idle)
+      self.stateSubject.onNext(.idle)
     }.disposed(by: bag)
   }
 }

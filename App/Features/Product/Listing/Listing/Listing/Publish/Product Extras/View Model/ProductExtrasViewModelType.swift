@@ -9,7 +9,7 @@ protocol ProductExtrasViewModelInput {
 }
 
 protocol ProductExtrasViewModelOutput {
-  var productExtras: PublishSubject<[ProductExtraUIModel]> { get }
+  var productExtras: Observable<[ProductExtraUIModel]> { get }
 }
 
 protocol ProductExtrasViewModelType {

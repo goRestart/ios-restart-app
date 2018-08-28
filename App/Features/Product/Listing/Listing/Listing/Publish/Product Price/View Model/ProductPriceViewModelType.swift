@@ -1,11 +1,12 @@
 import RxSwift
 
 protocol ProductPriceViewModelInput {
+  var price: BehaviorSubject<String> { get }
+  
   func onNextStepPressed()
 }
 
 protocol ProductPriceViewModelOutput {
-  var price: BehaviorSubject<String> { get }
   var nextStepEnabled: Observable<Bool> { get }
 }
 

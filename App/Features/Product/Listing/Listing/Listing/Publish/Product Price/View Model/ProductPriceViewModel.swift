@@ -14,15 +14,14 @@ struct ProductPriceViewModel: ProductPriceViewModelType, ProductPriceViewModelIn
   
   // MARK: - Output
 
-  var price = BehaviorSubject<String>(value: "")
   var nextStepEnabled: Observable<Bool> {
-    return price
-      .map { $0.trimmed }
-      .map { !$0.isEmpty && $0.isFloatable }
+    return price.map { $0.isFloatable }
   }
 
   // MARK: - Input
 
+  var price = BehaviorSubject<String>(value: "")
+  
   func onNextStepPressed() {
     productExtrasNavigator.navigate()
   }

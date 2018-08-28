@@ -4,7 +4,8 @@ import RxCocoa
 struct ProductPriceViewBinder {
   func bind(view: ProductPriceView, to viewModel: ProductPriceViewModelType, using bag: DisposeBag) {
     view.rx.productPrice
-      .bind(to: viewModel.output.price)
+      .asDriver()
+      .drive(viewModel.input.price)
       .disposed(by: bag)
     
     viewModel.output.nextStepEnabled

@@ -22,8 +22,9 @@ final class ProductExtrasViewModel: ProductExtrasViewModelType, ProductExtrasVie
   }
   
   // MARK: Output
-  
-  var productExtras = PublishSubject<[ProductExtraUIModel]>()
+
+  private let productExtrasPublisher = PublishSubject<[ProductExtraUIModel]>()
+  var productExtras: Observable<[ProductExtraUIModel]> { return productExtrasPublisher }
 
   // MARK: - Input
   
@@ -31,7 +32,7 @@ final class ProductExtrasViewModel: ProductExtrasViewModelType, ProductExtrasVie
     getProductExtras.execute()
       .map(toUI)
       .asObservable()
-      .bind(to: productExtras)
+      .bind(to: productExtrasPublisher)
       .disposed(by: bag)
   }
   

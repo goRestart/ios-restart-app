@@ -6,13 +6,14 @@ enum LoginState {
 }
 
 protocol LoginViewModelInput {
+  var username: BehaviorSubject<String> { get }
+  var password: BehaviorSubject<String> { get }
+  
   func signUpButtonPressed()
 }
 
 protocol LoginViewModelOutput {
-  var username: BehaviorSubject<String> { get }
-  var password: BehaviorSubject<String> { get }
-  var state: BehaviorSubject<LoginState> { get }
+  var state: Observable<LoginState> { get }
   
   var userInteractionEnabled: Observable<Bool> { get }
   var signInEnabled: Observable<Bool> { get }

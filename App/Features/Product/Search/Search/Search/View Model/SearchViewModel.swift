@@ -4,8 +4,10 @@ import Domain
 struct SearchViewModel: SearchViewModelType, SearchViewModelOutput {
 
   var output: SearchViewModelOutput { return self }
-  var results = PublishSubject<[GameSearchSuggestion]>()
-
+  
+  private let resultsSubject = PublishSubject<[GameSearchSuggestion]>()
+  var results: Observable<[GameSearchSuggestion]> { return resultsSubject }
+  
   private let bag = DisposeBag()
   private let searchGames: SearchGamesUseCase
   
@@ -19,7 +21,7 @@ struct SearchViewModel: SearchViewModelType, SearchViewModelOutput {
     query.flatMapLatest { query in
       self.searchGames.execute(with: query)
     }.catchErrorJustReturn([])
-      .bind(to: results)
+      .bind(to: resultsSubject)
       .disposed(by: bag)
   }
 }

@@ -5,12 +5,12 @@ struct LoginViewBinder {
   func bind(view: LoginView, to viewModel: LoginViewModelType, using bag: DisposeBag) {
     view.rx.username
       .asDriver()
-      .drive(viewModel.output.username)
+      .drive(viewModel.input.username)
       .disposed(by: bag)
     
     view.rx.password
       .asDriver()
-      .drive(viewModel.output.password)
+      .drive(viewModel.input.password)
       .disposed(by: bag)
     
     viewModel.output.userInteractionEnabled
