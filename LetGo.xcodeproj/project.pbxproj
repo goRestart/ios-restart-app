@@ -1324,6 +1324,10 @@
 		6AF75D081CF449AF00EACCF0 /* ChatViewMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF75D061CF449AF00EACCF0 /* ChatViewMessage.swift */; };
 		6AF75D0A1CF457D800EACCF0 /* ChatViewMessageAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF75D091CF457D800EACCF0 /* ChatViewMessageAdapter.swift */; };
 		6AF75D0B1CF457D800EACCF0 /* ChatViewMessageAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF75D091CF457D800EACCF0 /* ChatViewMessageAdapter.swift */; };
+		6AFA171F213408B500F16795 /* UserAvatarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA171E213408B500F16795 /* UserAvatarViewController.swift */; };
+		6AFA1720213408B500F16795 /* UserAvatarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA171E213408B500F16795 /* UserAvatarViewController.swift */; };
+		6AFA1722213408C000F16795 /* UserAvatarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA1721213408C000F16795 /* UserAvatarViewModel.swift */; };
+		6AFA1723213408C000F16795 /* UserAvatarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA1721213408C000F16795 /* UserAvatarViewModel.swift */; };
 		7204593A1F5008ED008D5A97 /* ListingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 720459371F500661008D5A97 /* ListingCell.swift */; };
 		7204593B1F5008ED008D5A97 /* ListingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 720459371F500661008D5A97 /* ListingCell.swift */; };
 		720A8FA91F1F94E700DCBAD8 /* FilterTextFieldIntCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 720A8FA71F1F94E700DCBAD8 /* FilterTextFieldIntCell.swift */; };
@@ -3067,6 +3071,8 @@
 		6AF75D031CF3600D00EACCF0 /* ChatStickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatStickerCell.swift; sourceTree = "<group>"; };
 		6AF75D061CF449AF00EACCF0 /* ChatViewMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewMessage.swift; sourceTree = "<group>"; };
 		6AF75D091CF457D800EACCF0 /* ChatViewMessageAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewMessageAdapter.swift; sourceTree = "<group>"; };
+		6AFA171E213408B500F16795 /* UserAvatarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAvatarViewController.swift; sourceTree = "<group>"; };
+		6AFA1721213408C000F16795 /* UserAvatarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAvatarViewModel.swift; sourceTree = "<group>"; };
 		6B9038639A27ACD226783445 /* Pods-LetGo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.debug.xcconfig"; sourceTree = "<group>"; };
 		720459371F500661008D5A97 /* ListingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCell.swift; sourceTree = "<group>"; };
 		720A8FA71F1F94E700DCBAD8 /* FilterTextFieldIntCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterTextFieldIntCell.swift; sourceTree = "<group>"; };
@@ -5144,6 +5150,7 @@
 				50D2CACA1BB412D800EC5C30 /* Settings */,
 				50560B941B25D18F0021D8D9 /* Splash */,
 				50CA9FA81C91694200350C5F /* User */,
+				6AFA171D2134089D00F16795 /* UserAvatar */,
 				556E26F4203C3B190098ECF0 /* UserProfile */,
 				6A0D733E204D5F2A00892663 /* UserBio */,
 				55DFCDD7207378AC00AC5E09 /* UserPhoneVerification */,
@@ -6150,6 +6157,15 @@
 				C730FD101E77FC5A00175C27 /* BooleanDAO.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		6AFA171D2134089D00F16795 /* UserAvatar */ = {
+			isa = PBXGroup;
+			children = (
+				6AFA171E213408B500F16795 /* UserAvatarViewController.swift */,
+				6AFA1721213408C000F16795 /* UserAvatarViewModel.swift */,
+			);
+			path = UserAvatar;
 			sourceTree = "<group>";
 		};
 		720C558F1F44555600554048 /* Widgets */ = {
@@ -8533,6 +8549,7 @@
 				C6FFC47B20F4E8E400B9F53A /* FormattedUnitRange.swift in Sources */,
 				3212AE38211AEAC100945110 /* LocationData.swift in Sources */,
 				0A4C69D820C92D5100B89022 /* RecaptchaView.swift in Sources */,
+				6AFA1722213408C000F16795 /* UserAvatarViewModel.swift in Sources */,
 				50D67B9A1D182EE9003AC0A5 /* SellCoordinator.swift in Sources */,
 				42009A2220765A4F003F946E /* PromoCellDrawer.swift in Sources */,
 				8E80005D20B5CBFA0043A077 /* ChatConversationsListModel.swift in Sources */,
@@ -8853,6 +8870,7 @@
 				0A0CCB1C208E670600DCFFCA /* ListingDeckVideoCell.swift in Sources */,
 				2ECB417E2008CC6900482EF7 /* AdvertisementCell.swift in Sources */,
 				2E92CBFE20248DC600451B65 /* SuggestedLocationCell.swift in Sources */,
+				6AFA171F213408B500F16795 /* UserAvatarViewController.swift in Sources */,
 				C71589B41C4F8E1C00E7563E /* PopupSignUpViewController.swift in Sources */,
 				55FABE1920762E63004B0DBD /* UserPhoneVerificationCodeInputViewModel.swift in Sources */,
 				72CD80CE203469FB0042E1E0 /* LGTutorialViewModel.swift in Sources */,
@@ -9695,6 +9713,7 @@
 				C7DB41BC1C5138B500400945 /* ListingFilters.swift in Sources */,
 				2E4A9DBB1D8169CE00F99026 /* ListingListMultiRequester.swift in Sources */,
 				C708C83D1CDB590400AA87B3 /* AppRatingView.swift in Sources */,
+				6AFA1723213408C000F16795 /* UserAvatarViewModel.swift in Sources */,
 				0183BB1F203C8B6800204383 /* PostingGetStartedViewModel.swift in Sources */,
 				8EC2051F1EAE52F000E4E5EC /* UIView+LG.swift in Sources */,
 				2E2D53DE1D369AF800348D12 /* LGConfigManager.swift in Sources */,
@@ -9724,6 +9743,7 @@
 				8E8017992010B8F2004CE244 /* ChatInactiveConversationsListViewModel.swift in Sources */,
 				0A6FED312130344000B57004 /* OnboardingNavigator.swift in Sources */,
 				C7126BDA1E6053AA00038CC4 /* ListingViewModelStatus.swift in Sources */,
+				6AFA1720213408B500F16795 /* UserAvatarViewController.swift in Sources */,
 				C727944A1D54944E009C25AB /* SettingsViewModel.swift in Sources */,
 				326C72D7208882EB009D21DB /* WaterFallLayoutDelegates.swift in Sources */,
 				2E75EC541FA89F5B00C5F48F /* AdsRequester.swift in Sources */,

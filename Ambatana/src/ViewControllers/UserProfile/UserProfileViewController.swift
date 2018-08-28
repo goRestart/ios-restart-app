@@ -466,7 +466,9 @@ extension UserProfileViewController: UserProfileHeaderDelegate {
         MediaPickerManager.showImagePickerIn(self)
     }
 
-    func didTapAvatar() {}
+    func didTapAvatar() {
+        viewModel.didTapAvatar()
+    }
 }
 
 // MARK: - Image Picker Delegate

@@ -234,6 +234,11 @@ extension UserProfileViewModel {
         trackVerifyAccountStart()
     }
 
+    func didTapAvatar() {
+        guard let user = user.value else { return }
+        navigator?.openAvatarDetail(isPrivate: isPrivateProfile, user: user)
+    }
+
     func updateAvatar(with image: UIImage) {
         guard let imageData = image.dataForAvatar() else { return }
         myUserRepository.updateAvatar(imageData,

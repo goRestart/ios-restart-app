@@ -11,7 +11,8 @@ final class ProfileTabCoordinator: TabCoordinator {
     weak var profileCoordinatorSearchAlertsDelegate: ProfileCoordinatorSearchAlertsDelegate?
 
     private lazy var changePasswordAssembly = ChangePasswordBuilder.standard(root: navigationController)
-    private lazy var editAssemby = EditListingBuilder.modal(navigationController)
+    private lazy var editAssembly = EditListingBuilder.modal(navigationController)
+    private lazy var userAssembly = LGUserBuilder.standard(navigationController)
 
     convenience init(source: UserSource = .tabBar) {
         let sessionManager = Core.sessionManager
@@ -61,7 +62,7 @@ extension ProfileTabCoordinator: ProfileTabNavigator {
     }
 
     func editListing(_ listing: Listing, pageType: EventParameterTypePage?) {
-        let vc = editAssemby.buildEditView(listing: listing,
+        let vc = editAssembly.buildEditView(listing: listing,
                                            pageType: pageType,
                                            bumpUpProductData: nil,
                                            listingCanBeBoosted: false,
@@ -73,6 +74,11 @@ extension ProfileTabCoordinator: ProfileTabNavigator {
 
     func closeProfile() {
         dismissViewController(animated: true, completion: nil)
+    }
+
+    func openAvatarDetail(isPrivate: Bool, user: User) {
+        let vc = userAssembly.buildUserAvatar(isPrivate: isPrivate, user: user)
+        navigationController.pushViewController(vc, animated: true)
     }
 }
 
