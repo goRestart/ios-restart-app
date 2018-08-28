@@ -990,6 +990,22 @@ extension R {
           public static let realEstatePromoCell6 = ImageAsset(name: "real-estate-promo-cell-6")
         }
       }
+      public enum ServicesPromos {
+        public enum Backgrounds {
+          public static let servicesBackground1 = ImageAsset(name: "services-background-1")
+          public static let servicesBackground2 = ImageAsset(name: "services-background-2")
+          public static let servicesBackground3 = ImageAsset(name: "services-background-3")
+          public static let servicesBackground4 = ImageAsset(name: "services-background-4")
+          public static let servicesBackground5 = ImageAsset(name: "services-background-5")
+        }
+        public enum Icons {
+          public static let servicesPromo1 = ImageAsset(name: "services-promo-1")
+          public static let servicesPromo2 = ImageAsset(name: "services-promo-2")
+          public static let servicesPromo3 = ImageAsset(name: "services-promo-3")
+          public static let servicesPromo4 = ImageAsset(name: "services-promo-4")
+          public static let servicesPromo5 = ImageAsset(name: "services-promo-5")
+        }
+      }
 
       // swiftlint:disable trailing_comma
       public static let allColors: [ColorAsset] = [
@@ -1024,6 +1040,16 @@ extension R {
         RealEstatePromos.Icons.realEstatePromoCell4,
         RealEstatePromos.Icons.realEstatePromoCell5,
         RealEstatePromos.Icons.realEstatePromoCell6,
+        ServicesPromos.Backgrounds.servicesBackground1,
+        ServicesPromos.Backgrounds.servicesBackground2,
+        ServicesPromos.Backgrounds.servicesBackground3,
+        ServicesPromos.Backgrounds.servicesBackground4,
+        ServicesPromos.Backgrounds.servicesBackground5,
+        ServicesPromos.Icons.servicesPromo1,
+        ServicesPromos.Icons.servicesPromo2,
+        ServicesPromos.Icons.servicesPromo3,
+        ServicesPromos.Icons.servicesPromo4,
+        ServicesPromos.Icons.servicesPromo5,
       ]
       // swiftlint:enable trailing_comma
       @available(*, deprecated, renamed: "allImages")

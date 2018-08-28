@@ -18,7 +18,7 @@ final class MainTabCoordinator: TabCoordinator {
         let tracker = TrackerProxy.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
         let sessionManager = Core.sessionManager
-        let assembly = featureFlags.sectionedMainFeed.feedAssembly
+        let assembly = featureFlags.sectionedFeed.feedAssembly
         let pushPermissionsManager = LGPushPermissionsManager.sharedInstance
         self.init(listingRepository: listingRepository,
                   userRepository: userRepository,

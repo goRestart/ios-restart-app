@@ -1288,8 +1288,8 @@
 "reporting_user_problem_meetup_header" = "HVA SKJEDDE?";
 "reporting_user_report_sent_block_user_A_text" = "Takk for din anonyme rapportering og for at du hjelper oss med å gjøre letgo til det beste stedet for å kjøpe og selge lokalt.\n\nDu kan når som helst blokkere en bruker for å sikre at de ikke lenger kan se dine produkter eller chatte med deg.";
 "reporting_user_report_sent_block_user_A_with_review_text" = "Takk for din anonyme rapportering og for at du hjelper oss med å gjøre letgo til det beste stedet for å kjøpe og selge lokalt.\n\nIkke glem å legge igjen en vurdering av selgeren for å la andre få vite om din opplevelse.\n\nDu kan når som helst blokkere en bruker for å sikre at de ikke lenger kan se dine produkter eller chatte med deg.";
-"reporting_user_report_sent_block_user_B_text" = "Takk for din anonyme rapportering og for at du hjelper oss med å gjøre letgo til det beste stedet for å kjøpe og selge lokalt.\n\nTeamet vårt vil undersøke påstanden din. I mellomtiden kan du når som helst blokkere en bruker for å sikre at de ikke lenger kan se dine produkter eller chatte med deg.";
-"reporting_user_report_sent_block_user_B_with_review_text" = "Takk for din anonyme rapportering og for at du hjelper oss med å gjøre letgo til det beste stedet for å kjøpe og selge lokalt.\n\nIkke glem å legge igjen en vurdering av selgeren for å la andre få vite om din opplevelse.\n\nTeamet vårt vil undersøke påstanden din. I mellomtiden kan du når som helst blokkere en bruker for å sikre at de ikke lenger kan se dine produkter eller chatte med deg.";
+"reporting_user_report_sent_block_user_B_text" = "Takk for din anonyme rapportering og for at du hjelper oss med å gjøre letgo til det beste stedet for å kjøpe og selge lokalt.\n\nTeamet vårt vil undersøke påstanden din, og i mellomtiden kan du når som helst blokkere en bruker for å sikre at de ikke lenger kan se dine produkter eller chatte med deg.";
+"reporting_user_report_sent_block_user_B_with_review_text" = "Takk for din anonyme rapportering og for at du hjelper oss med å gjøre letgo til det beste stedet for å kjøpe og selge lokalt.\n\nIkke glem å legge igjen en vurdering av selgeren for å la andre få vite om din opplevelse.\n\nTeamet vårt vil undersøke påstanden din, og i mellomtiden kan du når som helst blokkere en bruker for å sikre at de ikke lenger kan se dine produkter eller chatte med deg.";
 "reporting_user_report_sent_block_user_big_button_title" = "Blokker rapportert bruker";
 "reporting_user_report_sent_block_user_small_button_title" = "Blokker";
 "reporting_user_report_sent_law_enforcement_and_block_text" = "Vi beklager for opplevelsen din, men takknemlig for at du nå er trygg. Vi anbefaler sterkt at du kontakter politiet og leverer en politianmeldelse så fort som mulig (om ikke du allerede har gjort det). \n \nVennligst påminn politiet å kontakte letgo's politimyndighetsteam på lawenforcement@letgo.com, slik at vi kan hjelpe til i deres etterforskning. Vi kan dele relevant informasjon om %@ med politiet, men grunnet strenge personvernregler må de sende oss en gyldig ransakingsordre eller stevning først. I mellomtiden kan du gi ytterligere informasjon, slik at teamet vårt kan undersøke påstanden din.\n\nHusk at du kan når som helst blokkere en bruker for å sikre at de ikke lenger kan se dine produkter eller chatte med deg.";
@@ -1356,6 +1356,10 @@
 "sell_title_autogen_label" = "Foreslått tittel av letgo";
 "sell_title_field_hint" = "Produktnavn (alternativt)";
 "sell_uploading_label" = "Publiserer din annonse...";
+"services_promo_cell_title_b" = "Ny kategori: Tjenester!";
+"services_promo_cell_title_c" = "Finn lokale kunder til din tjeneste";
+"services_promo_cell_title_default_bold" = "Tjen penger";
+"services_promo_cell_title_default_regular" = "i fritiden";
 "services_service_subtype_list_title" = "Tjeneste";
 "services_service_subtype_title" = "Tjeneste";
 "services_service_type_list_title" = "Tjenestekategori";

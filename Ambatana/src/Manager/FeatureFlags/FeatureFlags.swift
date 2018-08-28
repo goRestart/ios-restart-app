@@ -26,7 +26,6 @@ protocol FeatureFlaggeable: class {
     var searchImprovements: SearchImprovements { get }
     var relaxedSearch: RelaxedSearch { get }
     var showProTagUserProfile: Bool { get }
-    var sectionedMainFeed: SectionedMainFeed { get }
     var showExactLocationForPros: Bool { get }
 
     // Country dependant features
@@ -78,13 +77,15 @@ protocol FeatureFlaggeable: class {
     var carExtraFieldsEnabled: CarExtraFieldsEnabled { get }
     var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen { get }
     var carPromoCells: CarPromoCells { get }
+    var servicesPromoCells: ServicesPromoCells { get }
     var realEstatePromoCells: RealEstatePromoCells { get }
     
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed { get }
     var personalizedFeedABTestIntValue: Int? { get }
-    var multiContactAfterSearch: MultiContactAfterSearch { get }
     var emptySearchImprovements: EmptySearchImprovements { get }
+    var sectionedFeed: SectionedDiscoveryFeed { get }
+    var sectionedFeedABTestIntValue: Int { get }
 
     // MARK: Products
     var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu { get }
@@ -175,6 +176,9 @@ extension CarPromoCells {
     var isActive: Bool { return self != .control && self != .baseline }
 }
 
+extension ServicesPromoCells {
+    var isActive: Bool { return self != .control && self != .baseline }
+}
 
 extension RealEstatePromoCells {
     var isActive: Bool { return self != .control && self != .baseline }
@@ -393,7 +397,7 @@ extension MultiAdRequestMoreInfo {
 
 }
 
-final class FeatureFlags: FeatureFlaggeable {
+final class FeatureFlags: FeatureFlaggeable {    
     
     static let sharedInstance: FeatureFlags = FeatureFlags()
 
@@ -531,13 +535,6 @@ final class FeatureFlags: FeatureFlaggeable {
         }
         let cached = dao.retrieveCommunity()
         return cached ?? ShowCommunity.fromPosition(abTests.community.value)
-    }
-    
-    var sectionedMainFeed: SectionedMainFeed {
-        if Bumper.enabled {
-            return Bumper.sectionedMainFeed
-        }
-        return SectionedMainFeed.fromPosition(abTests.sectionedMainFeed.value)
     }
     
     var showExactLocationForPros: Bool {
@@ -1007,6 +1004,14 @@ extension FeatureFlags {
         return .control
     }
     
+    var servicesPromoCells: ServicesPromoCells {
+        if Bumper.enabled {
+            return Bumper.servicesPromoCells
+        }
+        
+        return ServicesPromoCells.fromPosition(abTests.servicesPromoCells.value)
+    }
+    
     var realEstatePromoCells: RealEstatePromoCells {
         if Bumper.enabled {
             return Bumper.realEstatePromoCells
@@ -1014,8 +1019,6 @@ extension FeatureFlags {
         
         return RealEstatePromoCells.fromPosition(abTests.realEstatePromoCells.value)
     }
-    
-    
 }
 
 
@@ -1049,11 +1052,6 @@ extension FeatureFlags {
         return abTests.personlizedFeedIsActive ? abTests.personalizedFeed.value : PersonalizedFeed.defaultVariantValue
     }
     
-    var multiContactAfterSearch: MultiContactAfterSearch {
-        if Bumper.enabled { return Bumper.multiContactAfterSearch }
-        return MultiContactAfterSearch.fromPosition(abTests.multiContactAfterSearch.value)
-    }
-    
     var emptySearchImprovements: EmptySearchImprovements {
         if Bumper.enabled { return Bumper.emptySearchImprovements }
         return EmptySearchImprovements.fromPosition(abTests.emptySearchImprovements.value)
@@ -1062,6 +1060,21 @@ extension FeatureFlags {
     var cachedFeed: CachedFeed {
         if Bumper.enabled { return Bumper.cachedFeed }
         return CachedFeed.fromPosition(abTests.cachedFeed.value)
+    }
+    
+    var sectionedFeed: SectionedDiscoveryFeed {
+        if Bumper.enabled {
+            return Bumper.sectionedDiscoveryFeed
+        }
+        if abTests.sectionedFeedIsActive {
+            return SectionedDiscoveryFeed.active
+        } else {
+            return SectionedDiscoveryFeed.fromPosition(sectionedFeedABTestIntValue)
+        }
+    }
+    
+    var sectionedFeedABTestIntValue: Int {
+        return abTests.sectionedFeed.value
     }
 }
 

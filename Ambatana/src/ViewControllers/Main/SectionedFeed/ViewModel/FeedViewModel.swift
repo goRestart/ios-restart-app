@@ -155,7 +155,8 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
         
         self.feedRequester = FeedRequesterFactory.make(withFeedRepository: feedRepository,
                                                        location: locationManager.currentLocation?.location,
-                                                       countryCode: locationManager.currentLocation?.countryCode)
+                                                       countryCode: locationManager.currentLocation?.countryCode,
+                                                       variant: "\(featureFlags.sectionedFeedABTestIntValue)")
         self.sectionControllerFactory = SectionControllerFactory(waterfallColumnCount: waterfallColumnCount,
                                                                  featureFlags: featureFlags,
                                                                  tracker: tracker,
@@ -357,7 +358,8 @@ extension FeedViewModel {
         let countryCode = currentPlace.postalAddress?.countryCode
         feedRequester = FeedRequesterFactory.make(withFeedRepository: feedRepository,
                                                   location: location,
-                                                  countryCode: countryCode)
+                                                  countryCode: countryCode,
+                                                  variant: "\(featureFlags.sectionedFeedABTestIntValue)")
     }
     
     private func resetFeed() {

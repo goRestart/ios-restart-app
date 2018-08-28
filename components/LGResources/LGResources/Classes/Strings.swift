@@ -2962,6 +2962,16 @@ extension R {
     public static let sellTitleFieldHint = Strings.tr("Localizable", "sell_title_field_hint")
     /// Posting your listing...
     public static let sellUploadingLabel = Strings.tr("Localizable", "sell_uploading_label")
+    /// Post a service
+    public static let servicesPromoCallToAction = Strings.tr("Localizable", "services_promo_call_to_action")
+    /// New Services category!
+    public static let servicesPromoCellTitleB = Strings.tr("Localizable", "services_promo_cell_title_b")
+    /// Find local customers for your service
+    public static let servicesPromoCellTitleC = Strings.tr("Localizable", "services_promo_cell_title_c")
+    /// Make money
+    public static let servicesPromoCellTitleDefaultBold = Strings.tr("Localizable", "services_promo_cell_title_default_bold")
+    /// in your spare time
+    public static let servicesPromoCellTitleDefaultRegular = Strings.tr("Localizable", "services_promo_cell_title_default_regular")
     /// Service
     public static let servicesServiceSubtypeListTitle = Strings.tr("Localizable", "services_service_subtype_list_title")
     /// Service

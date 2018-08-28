@@ -5,7 +5,7 @@ enum FeedType {
     case classic
 }
 
-extension SectionedMainFeed {
+extension SectionedDiscoveryFeed {
     var isActive: Bool { return self != .control && self != .baseline }
     var feedAssembly: FeedType { return isActive ? .pro : .classic }
 }
