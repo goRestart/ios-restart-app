@@ -84,6 +84,9 @@ final class UserProfileHeaderView: UIView {
         avatarImageView.backgroundColor = .grayLight
         avatarImageView.layer.cornerRadius = Layout.imageHeight / 2
         avatarImageView.clipsToBounds = true
+        avatarImageView.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapAvatar))
+        avatarImageView.addGestureRecognizer(tap)
 
         userNameLabel.font = .profileUserHeadline
         userNameLabel.textColor = .lgBlack
@@ -184,6 +187,10 @@ final class UserProfileHeaderView: UIView {
         let showProBadge = userBadge == .pro
         verifiedBadgeImageView.isHidden = !showVerifiedBadge
         proBadgeImageView.isHidden = !showProBadge
+    }
+
+    @objc private func didTapAvatar() {
+        delegate?.didTapAvatar()
     }
 
     @objc private func didTapEditAvatar() {

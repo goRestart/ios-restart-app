@@ -20,6 +20,7 @@ protocol PublicProfileNavigator: class {
     func openListing(_ data: ListingDetailData,
                      source: EventParameterListingVisitSource,
                      actionOnFirstAppear: ProductCarouselActionOnFirstAppear)
+    func openAvatarDetail(isPrivate: Bool, user: User)
 }
 
 protocol SettingsNavigator: class {
@@ -68,4 +69,8 @@ protocol UserVerificationNavigator: class {
     func openEditUserBio()
     func openEmailVerification()
     func openPhoneNumberVerification()
+}
+
+protocol UserAvatarDetailNavigator: class {
+    func closeAvatarDetail()
 }
