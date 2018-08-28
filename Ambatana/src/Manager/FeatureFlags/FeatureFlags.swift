@@ -83,7 +83,6 @@ protocol FeatureFlaggeable: class {
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed { get }
     var personalizedFeedABTestIntValue: Int? { get }
-    var multiContactAfterSearch: MultiContactAfterSearch { get }
     var emptySearchImprovements: EmptySearchImprovements { get }
     var sectionedFeed: SectionedDiscoveryFeed { get }
     var sectionedFeedABTestIntValue: Int { get }
@@ -1046,11 +1045,6 @@ extension FeatureFlags {
     
     var personalizedFeedABTestIntValue: Int? {
         return abTests.personlizedFeedIsActive ? abTests.personalizedFeed.value : PersonalizedFeed.defaultVariantValue
-    }
-    
-    var multiContactAfterSearch: MultiContactAfterSearch {
-        if Bumper.enabled { return Bumper.multiContactAfterSearch }
-        return MultiContactAfterSearch.fromPosition(abTests.multiContactAfterSearch.value)
     }
     
     var emptySearchImprovements: EmptySearchImprovements {

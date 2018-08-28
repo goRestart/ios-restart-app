@@ -125,10 +125,6 @@ extension ABTests {
         return personalizedFeed.value > 1
     }
     
-    var multiContactAfterSearch: LeanplumABVariable<Int> {
-        return discovery.multiContact
-    }
-    
     var emptySearchImprovements: LeanplumABVariable<Int> {
         return discovery.emptySearchImprovements
     }

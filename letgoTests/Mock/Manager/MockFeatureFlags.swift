@@ -82,7 +82,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed = .control
     var personalizedFeedABTestIntValue: Int? = nil
-    var multiContactAfterSearch: MultiContactAfterSearch = .control
     var emptySearchImprovements: EmptySearchImprovements = .control
     var sectionedFeedABTestIntValue: Int = 0
     var sectionedFeed: SectionedDiscoveryFeed = .control

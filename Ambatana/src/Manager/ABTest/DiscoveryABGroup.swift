@@ -11,13 +11,11 @@ import Foundation
 struct DiscoveryABGroup: ABGroupType {
     private struct Keys {
         static let personalizedFeed = "20180509PersonalizedFeed"
-        static let multiContact = "20180515MultiContact"
         static let emptySearchImprovements = "20180718EmptySearchImprovementsWithTracking"
         static let sectionedFeed = "20180828SectionedDiscoveryFeed"
     }
     
     let personalizedFeed: LeanplumABVariable<Int>
-    let multiContact: LeanplumABVariable<Int>
     let emptySearchImprovements: LeanplumABVariable<Int>
     let sectionedFeed: LeanplumABVariable<Int>
     
@@ -28,17 +26,12 @@ struct DiscoveryABGroup: ABGroupType {
     var boolVariables: [LeanplumABVariable<Bool>] = []
     
     init(personalizedFeed: LeanplumABVariable<Int>,
-         multiContact: LeanplumABVariable<Int>,
          emptySearchImprovements: LeanplumABVariable<Int>,
          sectionedFeed: LeanplumABVariable<Int>) {
-        
         self.personalizedFeed = personalizedFeed
-        self.multiContact = multiContact
         self.emptySearchImprovements = emptySearchImprovements
         self.sectionedFeed = sectionedFeed
-        
         intVariables.append(contentsOf: [personalizedFeed,
-                                         multiContact,
                                          emptySearchImprovements,
                                          sectionedFeed])
     }
@@ -47,9 +40,6 @@ struct DiscoveryABGroup: ABGroupType {
         return DiscoveryABGroup(personalizedFeed: .makeInt(key: Keys.personalizedFeed,
                                                            defaultValue: 0,
                                                            groupType: .discovery),
-                                multiContact: .makeInt(key: Keys.multiContact,
-                                                       defaultValue: 0,
-                                                       groupType: .discovery),
                                 emptySearchImprovements: .makeInt(key: Keys.emptySearchImprovements,
                                                        defaultValue: 0,
                                                        groupType: .discovery),

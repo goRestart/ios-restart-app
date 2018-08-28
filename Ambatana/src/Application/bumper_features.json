@@ -126,11 +126,6 @@
         "description": "[PRODUCTS] Show services category on salchichas menu"
     },
     {
-        "name": "MultiContactAfterSearch",
-        "values": ["control", "baseline", "photoAndInfo", "onlyPhoto"],
-        "description": "MultiContact After Search"
-    },
-    {
          "name": "EmptySearchImprovements",
          "values": ["control", "baseline", "popularNearYou", "similarQueries", "similarQueriesWhenFewResults", "alwaysSimilar"],
          "description": "Improve empty search experience by proposing relavant listings"

@@ -41,7 +41,6 @@ extension Bumper  {
         flags.append(IAmInterestedFeed.self)
         flags.append(PersonalizedFeed.self)
         flags.append(ServicesCategoryOnSalchichasMenu.self)
-        flags.append(MultiContactAfterSearch.self)
         flags.append(EmptySearchImprovements.self)
         flags.append(OffensiveReportAlert.self)
         flags.append(HighlightedIAmInterestedFeed.self)
@@ -406,19 +405,6 @@ extension Bumper  {
     static var servicesCategoryOnSalchichasMenuObservable: Observable<ServicesCategoryOnSalchichasMenu> {
         return Bumper.observeValue(for: ServicesCategoryOnSalchichasMenu.key).map {
             ServicesCategoryOnSalchichasMenu(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var multiContactAfterSearch: MultiContactAfterSearch {
-        guard let value = Bumper.value(for: MultiContactAfterSearch.key) else { return .control }
-        return MultiContactAfterSearch(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var multiContactAfterSearchObservable: Observable<MultiContactAfterSearch> {
-        return Bumper.observeValue(for: MultiContactAfterSearch.key).map {
-            MultiContactAfterSearch(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1321,23 +1307,6 @@ enum ServicesCategoryOnSalchichasMenu: String, BumperFeature  {
             case 2: return .variantA
             case 3: return .variantB
             case 4: return .variantC
-            default: return .control
-        }
-    }
-}
-
-enum MultiContactAfterSearch: String, BumperFeature  {
-    case control, baseline, photoAndInfo, onlyPhoto
-    static var defaultValue: String { return MultiContactAfterSearch.control.rawValue }
-    static var enumValues: [MultiContactAfterSearch] { return [.control, .baseline, .photoAndInfo, .onlyPhoto]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "MultiContact After Search" } 
-    static func fromPosition(_ position: Int) -> MultiContactAfterSearch {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .photoAndInfo
-            case 3: return .onlyPhoto
             default: return .control
         }
     }
