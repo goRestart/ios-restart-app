@@ -361,7 +361,8 @@ final class ListingListViewModelSpec: QuickSpec {
                                            featureFlags: featureFlags,
                                            requesterFactory: requesterFactory,
                                            searchType: SearchType.user(query: "abc"),
-                                           source: .feed)
+                                           source: .feed,
+                                           interestedStateUpdater: MockInterestedStateUpdater())
             sut.dataDelegate = dataDelegate
             return sut
         }

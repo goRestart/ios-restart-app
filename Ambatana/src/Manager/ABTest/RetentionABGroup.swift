@@ -18,6 +18,7 @@ struct RetentionABGroup: ABGroupType {
         static let searchAlertsDisableOldestIfMaximumReached = "201807SearchAlertsDisableOldestIfMaximumReached"
         static let notificationCenterRedesign = "20180731NotificationCenterRedesign"
         static let randomImInterestedMessages = "20180817RandomImInterestedMessages"
+        static let imInterestedInProfile = "20180828ImInterestedInProfile"
     }
     let dummyUsersInfoProfile: LeanplumABVariable<Int>
     let onboardingIncentivizePosting: LeanplumABVariable<Int>
@@ -27,6 +28,7 @@ struct RetentionABGroup: ABGroupType {
     let searchAlertsDisableOldestIfMaximumReached: LeanplumABVariable<Int>
     let notificationCenterRedesign: LeanplumABVariable<Int>
     let randomImInterestedMessages: LeanplumABVariable<Int>
+    let imInterestedInProfile: LeanplumABVariable<Int>
     
     let group: ABGroup = .retention
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -41,7 +43,8 @@ struct RetentionABGroup: ABGroupType {
          engagementBadging: LeanplumABVariable<Int>,
          searchAlertsDisableOldestIfMaximumReached: LeanplumABVariable<Int>,
          notificationCenterRedesign: LeanplumABVariable<Int>,
-         randomImInterestedMessages: LeanplumABVariable<Int>) {
+         randomImInterestedMessages: LeanplumABVariable<Int>,
+         imInterestedInProfile: LeanplumABVariable<Int>) {
         self.dummyUsersInfoProfile = dummyUsersInfoProfile
         self.onboardingIncentivizePosting = onboardingIncentivizePosting
         self.notificationSettings = notificationSettings
@@ -50,6 +53,7 @@ struct RetentionABGroup: ABGroupType {
         self.searchAlertsDisableOldestIfMaximumReached = searchAlertsDisableOldestIfMaximumReached
         self.notificationCenterRedesign = notificationCenterRedesign
         self.randomImInterestedMessages = randomImInterestedMessages
+        self.imInterestedInProfile = imInterestedInProfile
 
         intVariables.append(contentsOf: [dummyUsersInfoProfile,
                                         onboardingIncentivizePosting,
@@ -58,7 +62,8 @@ struct RetentionABGroup: ABGroupType {
                                         engagementBadging,
                                         searchAlertsDisableOldestIfMaximumReached,
                                         notificationCenterRedesign,
-                                        randomImInterestedMessages])
+                                        randomImInterestedMessages,
+                                        imInterestedInProfile])
     }
 
     static func make() -> RetentionABGroup {
@@ -85,6 +90,9 @@ struct RetentionABGroup: ABGroupType {
                                                                      groupType: .retention),
                                 randomImInterestedMessages: .makeInt(key: Keys.randomImInterestedMessages,
                                                                      defaultValue: 0,
-                                                                     groupType: .retention))
+                                                                     groupType: .retention),
+                                imInterestedInProfile: .makeInt(key: Keys.imInterestedInProfile,
+                                                                defaultValue: 0,
+                                                                groupType: .retention))
     }
 }

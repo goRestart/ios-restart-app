@@ -8,6 +8,22 @@ import RxSwift
 import LGComponents
 
 final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, UserProfileViewModelDelegate {
+    func openLoginIfNeeded(infoMessage: String, then loggedInAction: @escaping (() -> Void)) {
+        
+    }
+    
+    func openAskPhoneFor(listing: Listing, interlocutor: User?) {
+        
+    }
+    
+    func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?, openChatAutomaticMessage: ChatWrapperMessageType?) {
+        
+    }
+    
+    func openListingChat(data: ChatDetailData, source: EventParameterTypePage, predefinedMessage: String?) {
+        
+    }
+    
 
     var openSettingsCalled: Bool = false
     var openEditBioCalled: Bool = false
@@ -37,6 +53,7 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
                                            tracker: tracker,
                                            featureFlags: featureFlags,
                                            notificationsManager: nil,
+                                           interestedHandler: nil,
                                            user: nil,
                                            source: .tabBar,
                                            isPrivateProfile: true)
@@ -53,6 +70,7 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
                                            tracker: tracker,
                                            featureFlags: featureFlags,
                                            notificationsManager: nil,
+                                           interestedHandler: nil,
                                            user: user,
                                            source: .tabBar,
                                            isPrivateProfile: false)

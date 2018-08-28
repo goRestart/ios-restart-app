@@ -410,21 +410,12 @@ final class ListingListViewModel: BaseViewModel {
 
     var isPrivateList: Bool = false
 
-//    func update(listing: Listing, interestedState: InterestedState) {
-//        guard state.isData, let listingId = listing.objectId else { return }
-//        guard let index = indexFor(listingId: listingId) else { return }
-//        listingInterestState[listingId] = interestedState
-//
-//        delegate?.vmReloadItemAtIndexPath(indexPath: IndexPath(row: index, section: 0))
-//    }
-
     func interestStateFor(listingAtIndex index: Int) -> InterestedState? {
-        //guard !isPrivateList else { return .none }
-        if !isPrivateList || source == .publicProfileSelling {
+        guard !isPrivateList ||
+            featureFlags.imInterestedInProfile.isActive && source == .publicProfileSelling
+            else { return .none }
         guard let listingID = objects[index].listing?.objectId else { return nil }
         return interestedStateUpdater?.dictInterestedStates[listingID] ?? .send(enabled: true)
-        }
-        return .none
     }
 
     func prepend(listing: Listing) {

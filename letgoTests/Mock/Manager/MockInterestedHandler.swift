@@ -3,6 +3,8 @@ import LGCoreKit
 import RxSwift
 
 final class MockInterestedHandler: InterestedHandleable {
+    var interestedStateUpdater: InterestedStateUpdater = MockInterestedStateUpdater()
+    
     func retrieveInterestedActionFor(_ listing: Listing, userListing: LocalUser?) -> InterestedAction {
         return .triggerInterestedAction
     }

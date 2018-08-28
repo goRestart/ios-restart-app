@@ -2,10 +2,12 @@
 import LGCoreKit
 
 final class MockInterestedStateUpdater: InterestedStateUpdater {
+    
     var myUserRepository: MyUserRepository = MockMyUserRepository()
     var keyValueStorage: KeyValueStorageable = MockKeyValueStorage()
     var listingInterestStates: Set<String> = Set([])
     var contactedProSellerList: [String] = []
+    var dictInterestedStates: [String : InterestedState] = [:]
     
     func hasContactedProListing(_ listing: Listing) -> Bool {
         guard let listingId = listing.objectId else { return false }

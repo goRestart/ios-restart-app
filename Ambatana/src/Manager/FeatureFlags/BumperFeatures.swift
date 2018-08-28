@@ -81,6 +81,7 @@ extension Bumper  {
         flags.append(RandomImInterestedMessages.self)
         flags.append(CarPromoCells.self)
         flags.append(RealEstatePromoCells.self)
+        flags.append(ImInterestedInProfile.self)
         Bumper.initialize(flags)
     } 
 
@@ -925,6 +926,19 @@ extension Bumper  {
     static var realEstatePromoCellsObservable: Observable<RealEstatePromoCells> {
         return Bumper.observeValue(for: RealEstatePromoCells.key).map {
             RealEstatePromoCells(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var imInterestedInProfile: ImInterestedInProfile {
+        guard let value = Bumper.value(for: ImInterestedInProfile.key) else { return .control }
+        return ImInterestedInProfile(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var imInterestedInProfileObservable: Observable<ImInterestedInProfile> {
+        return Bumper.observeValue(for: ImInterestedInProfile.key).map {
+            ImInterestedInProfile(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1956,6 +1970,22 @@ enum RealEstatePromoCells: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .variantA
+            default: return .control
+        }
+    }
+}
+
+enum ImInterestedInProfile: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return ImInterestedInProfile.control.rawValue }
+    static var enumValues: [ImInterestedInProfile] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[RETENTION] Show Im Interested buttons in public profiles" } 
+    static func fromPosition(_ position: Int) -> ImInterestedInProfile {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
             default: return .control
         }
     }

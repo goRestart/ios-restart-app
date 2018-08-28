@@ -770,7 +770,7 @@ extension UserProfileViewModel: ListingCellDelegate {
                 case .openChatProUser:
                     guard let interlocutor = userListing else { return }
                     self?.navigator?.openListingChat(listing,
-                                                     source: .listingList,
+                                                     source: .profile,
                                                      interlocutor: interlocutor,
                                                      openChatAutomaticMessage: nil)
                 case .askPhoneProUser:
@@ -779,7 +779,7 @@ extension UserProfileViewModel: ListingCellDelegate {
                 case .openChatNonProUser:
                     let chatDetailData = ChatDetailData.listingAPI(listing: listing)
                     self?.navigator?.openListingChat(data: chatDetailData,
-                                                     source: .listingListFeatured,
+                                                     source: .profile,
                                                      predefinedMessage: nil)
                 case .triggerInterestedAction:
                     let (cancellable, timer) = LGTimer.cancellableWait(5)
