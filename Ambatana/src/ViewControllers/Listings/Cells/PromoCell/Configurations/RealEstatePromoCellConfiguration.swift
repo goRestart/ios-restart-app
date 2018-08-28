@@ -91,7 +91,7 @@ enum RealEstatePromoCellConfiguration: Int {
     private func makeAppearance(withBackground background: R.ImageAsset) -> CellAppearance {
         return .backgroundImage(image: background.image,
                                 titleColor: .white,
-                                buttonStyle: .secondary(fontSize: .verySmall, withBorder: false))
+                                buttonStyle: .secondary(fontSize: .verySmallBold, withBorder: false))
     }
     
     static var all: [RealEstatePromoCellConfiguration] {
