@@ -28,24 +28,25 @@ final class UserAvatarViewModel: BaseViewModel {
     func updateAvatar(with image: UIImage) {
         guard let imageData = image.dataForAvatar() else { return }
         delegate?.vmShowLoading(nil)
-        myUserRepository.updateAvatar(imageData,
-                                      progressBlock: nil,
-                                      completion: { [weak self] result in
-                                        if let _ = result.value {
-                                            self?.trackUpdateAvatarComplete()
-                                            self?.myUserRepository.refresh({ result in
-                                                if let value = result.value {
-                                                    self?.user.value = value
-                                                }
-                                                self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
-                                            })
-                                        } else {
-                                            self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
-                                            self?.delegate?
-                                                .vmShowAutoFadingMessage(R.Strings.settingsChangeProfilePictureErrorGeneric,
-                                                                         completion: nil)
-                                        }
-        })
+        myUserRepository
+            .updateAvatar(imageData,
+                          progressBlock: nil,
+                          completion: { [weak self] result in
+                            if let _ = result.value {
+                                self?.trackUpdateAvatarComplete()
+                                self?.myUserRepository.refresh({ result in
+                                    if let value = result.value {
+                                        self?.user.value = value
+                                    }
+                                    self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
+                                })
+                            } else {
+                                self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
+                                self?.delegate?
+                                    .vmShowAutoFadingMessage(R.Strings.settingsChangeProfilePictureErrorGeneric,
+                                                             completion: nil)
+                            }
+            })
     }
 
     private func makeUserAvatar() -> Driver<UIImage?> {
