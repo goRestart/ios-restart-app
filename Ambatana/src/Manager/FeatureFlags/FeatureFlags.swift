@@ -18,17 +18,13 @@ protocol FeatureFlaggeable: class {
     var surveyUrl: String { get }
     var surveyEnabled: Bool { get }
 
-    var freeBumpUpEnabled: Bool { get }
-    var pricedBumpUpEnabled: Bool { get }
     var userReviewsReportEnabled: Bool { get }
     var realEstateEnabled: RealEstateEnabled { get }
     var deckItemPage: DeckItemPage { get }
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio { get }
     var realEstateNewCopy: RealEstateNewCopy { get }
-    var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers { get }
     var searchImprovements: SearchImprovements { get }
     var relaxedSearch: RelaxedSearch { get }
-    var bumpUpBoost: BumpUpBoost { get }
     var showProTagUserProfile: Bool { get }
     var sectionedMainFeed: SectionedMainFeed { get }
     var showExactLocationForPros: Bool { get }
@@ -47,14 +43,11 @@ protocol FeatureFlaggeable: class {
     var shouldChangeChatNowCopyInTurkey: Bool { get }
     var copyForChatNowInTurkey: CopyForChatNowInTurkey { get }
     var shareTypes: [ShareType] { get }
-    var feedAdsProviderForUS:  FeedAdsProviderForUS { get }
     var feedAdUnitId: String? { get }
     var shouldChangeChatNowCopyInEnglish: Bool { get }
     var copyForChatNowInEnglish: CopyForChatNowInEnglish { get }
-    var feedAdsProviderForTR:  FeedAdsProviderForTR { get }
     var shouldChangeSellFasterNowCopyInEnglish: Bool { get }
     var copyForSellFasterNowInEnglish: CopyForSellFasterNowInEnglish { get }
-    var googleAdxForTR: GoogleAdxForTR { get }
     var fullScreenAdsWhenBrowsingForUS: FullScreenAdsWhenBrowsingForUS { get }
     var fullScreenAdUnitId: String? { get }
     var appInstallAdsInFeed: AppInstallAdsInFeed { get }
@@ -85,6 +78,7 @@ protocol FeatureFlaggeable: class {
     var carExtraFieldsEnabled: CarExtraFieldsEnabled { get }
     var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen { get }
     var carPromoCells: CarPromoCells { get }
+    var realEstatePromoCells: RealEstatePromoCells { get }
     
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed { get }
@@ -125,55 +119,23 @@ extension FeatureFlaggeable {
     }
 }
 
+extension FeatureFlaggeable {
+    var chatNowButtonText: String {
+        if shouldChangeChatNowCopyInTurkey {
+            return R.Strings.bumpUpProductCellChatNowButton
+        } else if shouldChangeChatNowCopyInEnglish {
+            return R.Strings.bumpUpProductCellChatNowButtonEnglishB
+        }
+        return R.Strings.bumpUpProductCellChatNowButton
+    }
+}
+
 extension RealEstateEnabled {
     var isActive: Bool { return self == .active }
 }
 
 extension ShowAdsInFeedWithRatio {
     var isActive: Bool { return self != .control && self != .baseline }
-}
-
-extension NoAdsInFeedForNewUsers {
-    private var shouldShowAdsInFeedForNewUsers: Bool {
-        return self == .adsEverywhere || self == .adsForNewUsersOnlyInFeed
-    }
-    private var shouldShowAdsInFeedForOldUsers: Bool {
-        return self == .adsEverywhere || self == .adsForNewUsersOnlyInFeed || self == .noAdsForNewUsers
-    }
-    var shouldShowAdsInFeed: Bool {
-        return shouldShowAdsInFeedForNewUsers || shouldShowAdsInFeedForOldUsers
-    }
-    private var shouldShowAdsInMoreInfoForNewUsers: Bool {
-        return self == .control || self == .baseline || self == .adsEverywhere
-    }
-    private var shouldShowAdsInMoreInfoForOldUsers: Bool {
-        return true
-    }
-    var shouldShowAdsInMoreInfo: Bool {
-        return shouldShowAdsInMoreInfoForNewUsers || shouldShowAdsInMoreInfoForOldUsers
-    }
-
-    func shouldShowAdsInFeedForUser(createdIn: Date?) -> Bool {
-        guard let creationDate = createdIn else { return shouldShowAdsInFeedForOldUsers }
-        if creationDate.isNewerThan(SharedConstants.newUserTimeThresholdForAds) {
-            // New User
-            return shouldShowAdsInFeedForNewUsers
-        } else {
-            // Old user
-            return shouldShowAdsInFeedForOldUsers
-        }
-    }
-
-    func shouldShowAdsInMoreInfoForUser(createdIn: Date?) -> Bool {
-        guard let creationDate = createdIn else { return shouldShowAdsInMoreInfoForOldUsers }
-        if creationDate.isNewerThan(SharedConstants.newUserTimeThresholdForAds) {
-            // New User
-            return shouldShowAdsInMoreInfoForNewUsers
-        } else {
-            // Old user
-            return shouldShowAdsInMoreInfoForOldUsers
-        }
-    }
 }
 
 extension RealEstateNewCopy {
@@ -212,19 +174,9 @@ extension CarPromoCells {
     var isActive: Bool { return self != .control && self != .baseline }
 }
 
-extension BumpUpBoost {
-    var isActive: Bool { get { return self != .control && self != .baseline } }
 
-    var boostBannerUIUpdateThreshold: TimeInterval? {
-        switch self {
-        case .control, .baseline:
-            return nil
-        case .boostListing1hour, .sendTop1hour:
-            return SharedConstants.oneHourTimeLimit
-        case .sendTop5Mins, .cheaperBoost5Mins:
-            return SharedConstants.fiveMinutesTimeLimit
-        }
-    }
+extension RealEstatePromoCells {
+    var isActive: Bool { return self != .control && self != .baseline }
 }
 
 extension DeckItemPage {
@@ -266,62 +218,6 @@ extension EmergencyLocate {
 
 extension OffensiveReportAlert {
     var isActive: Bool { return self == .active }
-}
-
-extension FeedAdsProviderForUS {
-    private var shouldShowAdsInFeedForNewUsers: Bool {
-        return self == .moPubAdsForAllUsers || self == .googleAdxForAllUsers
-    }
-    private var shouldShowAdsInFeedForOldUsers: Bool {
-        return self == .moPubAdsForOldUsers || self == .moPubAdsForAllUsers || self == .googleAdxForOldUsers || self == .googleAdxForAllUsers
-    }
-    
-    var shouldShowAdsInFeed: Bool {
-        return  shouldShowAdsInFeedForNewUsers || shouldShowAdsInFeedForOldUsers
-    }
-    
-    var shouldShowMoPubAds : Bool {
-        return self == .moPubAdsForOldUsers || self == .moPubAdsForAllUsers
-    }
-    
-    var shouldShowGoogleAdxAds : Bool {
-        return self == .googleAdxForOldUsers || self == .googleAdxForAllUsers
-    }
-    
-    func shouldShowAdsInFeedForUser(createdIn: Date?) -> Bool {
-        guard let creationDate = createdIn else { return shouldShowAdsInFeedForOldUsers }
-        if creationDate.isNewerThan(SharedConstants.newUserTimeThresholdForAds) {
-            return shouldShowAdsInFeedForNewUsers
-        } else {
-            return shouldShowAdsInFeedForOldUsers
-        }
-    }
-}
-
-extension FeedAdsProviderForTR {
-    private var shouldShowAdsInFeedForNewUsers: Bool {
-        return self == .moPubAdsForAllUsers
-    }
-    private var shouldShowAdsInFeedForOldUsers: Bool {
-        return self == .moPubAdsForOldUsers || self == .moPubAdsForAllUsers
-    }
-    
-    var shouldShowAdsInFeed: Bool {
-        return  shouldShowAdsInFeedForNewUsers || shouldShowAdsInFeedForOldUsers
-    }
-    
-    var shouldShowMoPubAds : Bool {
-        return self == .moPubAdsForOldUsers || self == .moPubAdsForAllUsers
-    }
-    
-    func shouldShowAdsInFeedForUser(createdIn: Date?) -> Bool {
-        guard let creationDate = createdIn else { return shouldShowAdsInFeedForOldUsers }
-        if creationDate.isNewerThan(SharedConstants.newUserTimeThresholdForAds) {
-            return shouldShowAdsInFeedForNewUsers
-        } else {
-            return shouldShowAdsInFeedForOldUsers
-        }
-    }
 }
 
 extension CopyForChatNowInEnglish {
@@ -428,31 +324,6 @@ extension TurkeyFreePosting {
     var isActive: Bool { return self == .active }
 }
 
-extension GoogleAdxForTR {
-    private var shouldShowAdsInFeedForNewUsers: Bool {
-        return self == .googleAdxForAllUsers
-    }
-    private var shouldShowAdsInFeedForOldUsers: Bool {
-        return self == .googleAdxForOldUsers || self == .googleAdxForAllUsers
-    }
-    
-    var shouldShowAdsInFeed: Bool {
-        return  shouldShowAdsInFeedForNewUsers || shouldShowAdsInFeedForOldUsers
-    }
-    
-    var shouldShowGoogleAdxAds : Bool {
-        return self == .googleAdxForOldUsers || self == .googleAdxForAllUsers
-    }
-    
-    func shouldShowAdsInFeedForUser(createdIn: Date?) -> Bool {
-        guard let creationDate = createdIn else { return shouldShowAdsInFeedForOldUsers }
-        if creationDate.isNewerThan(SharedConstants.newUserTimeThresholdForAds) {
-            return shouldShowAdsInFeedForNewUsers
-        } else {
-            return shouldShowAdsInFeedForOldUsers
-        }
-    }
-}
 
 extension FullScreenAdsWhenBrowsingForUS {
     private var shouldShowFullScreenAdsForNewUsers: Bool {
@@ -586,20 +457,6 @@ final class FeatureFlags: FeatureFlaggeable {
         return abTests.surveyEnabled.value
     }
 
-    var freeBumpUpEnabled: Bool {
-        if Bumper.enabled {
-            return Bumper.freeBumpUpEnabled
-        }
-        return abTests.freeBumpUpEnabled.value
-    }
-
-    var pricedBumpUpEnabled: Bool {
-        if Bumper.enabled {
-            return Bumper.pricedBumpUpEnabled
-        }
-        return abTests.pricedBumpUpEnabled.value
-    }
-
     var userReviewsReportEnabled: Bool {
         if Bumper.enabled {
             return Bumper.userReviewsReportEnabled
@@ -642,13 +499,6 @@ final class FeatureFlags: FeatureFlaggeable {
         return DummyUsersInfoProfile.fromPosition(abTests.dummyUsersInfoProfile.value)
     }
 
-    var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers {
-        if Bumper.enabled {
-            return Bumper.noAdsInFeedForNewUsers
-        }
-        return NoAdsInFeedForNewUsers.fromPosition(abTests.noAdsInFeedForNewUsers.value)
-    }
-
     var searchImprovements: SearchImprovements {
         if Bumper.enabled {
             return Bumper.searchImprovements
@@ -663,13 +513,6 @@ final class FeatureFlags: FeatureFlaggeable {
         return RelaxedSearch.fromPosition(abTests.relaxedSearch.value)
     }
     
-    var bumpUpBoost: BumpUpBoost {
-        if Bumper.enabled {
-            return Bumper.bumpUpBoost
-        }
-        return BumpUpBoost.fromPosition(abTests.bumpUpBoost.value)
-    }
-
     var showProTagUserProfile: Bool {
         if Bumper.enabled {
             return Bumper.showProTagUserProfile
@@ -817,7 +660,7 @@ final class FeatureFlags: FeatureFlaggeable {
             // Bumper overrides country restriction
             switch showAdsInFeedWithRatio {
             case .baseline, .control:
-                return noAdsInFeedForNewUsers.shouldShowAdsInFeed ? EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA20Ratio : nil
+                return nil
             case .ten:
                 return EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA10Ratio
             case .fifteen:
@@ -830,7 +673,7 @@ final class FeatureFlags: FeatureFlaggeable {
         case .usa?:
             switch showAdsInFeedWithRatio {
             case .baseline, .control:
-                return noAdsInFeedForNewUsers.shouldShowAdsInFeed ? EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA20Ratio : nil
+                return nil
             case .ten:
                 return EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA10Ratio
             case .fifteen:
@@ -862,74 +705,16 @@ final class FeatureFlags: FeatureFlaggeable {
         return CopyForChatNowInTurkey.fromPosition(abTests.copyForChatNowInTurkey.value)
     }
     
-    var feedAdsProviderForUS: FeedAdsProviderForUS {
-        if Bumper.enabled {
-            return Bumper.feedAdsProviderForUS
-        }
-        return FeedAdsProviderForUS.fromPosition(abTests.feedAdsProviderForUS.value)
-    }
-    
     var feedAdUnitId: String? {
         if Bumper.enabled {
             // Bumper overrides country restriction
-            switch feedAdsProviderForUS {
-            case .moPubAdsForAllUsers:
-                return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubUSAForAllUsers
-            case .moPubAdsForOldUsers:
-                return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubUSAForOldUsers
-            case .googleAdxForAllUsers:
-                return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxUSAForAllUsers
-            case .googleAdxForOldUsers:
-                return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxUSAForOldUsers
-            default:
-                switch googleAdxForTR {
-                case .googleAdxForAllUsers:
-                    return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxTRForAllUsers
-                case .googleAdxForOldUsers:
-                    return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxTRForOldUsers
-                default:
-                    switch feedAdsProviderForTR {
-                    case .moPubAdsForAllUsers:
-                        return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubTRForAllUsers
-                    case .moPubAdsForOldUsers:
-                        return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubTRForOldUsers
-                    default:
-                        return nil
-                    }
-                }
-            }
+            return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxUSAForOldUsers
         }
         switch sensorLocationCountryCode {
         case .usa?:
-            switch feedAdsProviderForUS {
-            case .moPubAdsForAllUsers:
-                return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubUSAForAllUsers
-            case .moPubAdsForOldUsers:
-                return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubUSAForOldUsers
-            case .googleAdxForAllUsers:
-                return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxUSAForAllUsers
-            case .googleAdxForOldUsers:
-                return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxUSAForOldUsers
-            default:
-                return nil
-            }
+            return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxUSAForOldUsers
         case .turkey?:
-            switch googleAdxForTR {
-            case .googleAdxForAllUsers:
-                return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxTRForAllUsers
-            case .googleAdxForOldUsers:
-                return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxTRForOldUsers
-            default:
-                switch feedAdsProviderForTR {
-                case .moPubAdsForAllUsers:
-                    return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubTRForAllUsers
-                case .moPubAdsForOldUsers:
-                    return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubTRForOldUsers
-                default:
-                    return nil
-                }
-            }
-            
+            return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxTRForOldUsers
         default:
             return nil
         }
@@ -953,13 +738,6 @@ final class FeatureFlags: FeatureFlaggeable {
         }
         return CopyForChatNowInEnglish.fromPosition(abTests.copyForChatNowInEnglish.value)
     }
-    
-    var feedAdsProviderForTR: FeedAdsProviderForTR {
-        if Bumper.enabled {
-            return Bumper.feedAdsProviderForTR
-        }
-        return FeedAdsProviderForTR.fromPosition(abTests.feedAdsProviderForTR.value)
-    }
 
     var shouldChangeSellFasterNowCopyInEnglish: Bool {
         if Bumper.enabled {
@@ -978,13 +756,6 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.copyForSellFasterNowInEnglish
         }
         return CopyForSellFasterNowInEnglish.fromPosition(abTests.copyForSellFasterNowInEnglish.value)
-    }
-
-    var googleAdxForTR: GoogleAdxForTR {
-        if Bumper.enabled {
-            return Bumper.googleAdxForTR
-        }
-        return GoogleAdxForTR.fromPosition(abTests.googleAdxForTR.value)
     }
     
     var fullScreenAdsWhenBrowsingForUS: FullScreenAdsWhenBrowsingForUS {
@@ -1230,6 +1001,16 @@ extension FeatureFlags {
         
         return .control
     }
+    
+    var realEstatePromoCells: RealEstatePromoCells {
+        if Bumper.enabled {
+            return Bumper.realEstatePromoCells
+        }
+        
+        return RealEstatePromoCells.fromPosition(abTests.realEstatePromoCells.value)
+    }
+    
+    
 }
 
 

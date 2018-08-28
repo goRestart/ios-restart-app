@@ -38,9 +38,7 @@ final class EscrowEnvironment: AppEnvironment {
     let feedAdUnitIdDFPUSA10Ratio = ""
     let feedAdUnitIdDFPUSA15Ratio = ""
     let feedAdUnitIdDFPUSA20Ratio = ""
-    let feedAdUnitIdAdxUSAForAllUsers = ""
     let feedAdUnitIdAdxUSAForOldUsers = ""
-    let feedAdUnitIdAdxTRForAllUsers = ""
     let feedAdUnitIdAdxTRForOldUsers = ""
     
     let feedAdUnitIdAdxInstallAppUSA = ""
@@ -52,12 +50,6 @@ final class EscrowEnvironment: AppEnvironment {
     let moreInfoMultiAdUnitIdDFP = ""
     let moreInfoMultiAdUnitIdDFPUSA = ""
     
-    // MoPub Ads
-    let feedAdUnitIdMoPubUSAForAllUsers = ""
-    let feedAdUnitIdMoPubUSAForOldUsers = ""
-    let feedAdUnitIdMoPubTRForAllUsers = ""
-    let feedAdUnitIdMoPubTRForOldUsers = ""
-
     // Stripe
     let stripeAPIKey = ""
     

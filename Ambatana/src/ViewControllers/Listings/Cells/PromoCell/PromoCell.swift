@@ -43,7 +43,6 @@ final class PromoCell: UICollectionViewCell, ReusableCell {
     private let backgroundImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .clear
-        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     

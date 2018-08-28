@@ -6,16 +6,6 @@
         "description": "Show qualitative survey"
     },
     {
-        "name": "FreeBumpUpEnabled",
-        "values": ["No", "Yes"],
-        "description": "[MONEY] User can bump sharing"
-    },
-    {
-        "name": "PricedBumpUpEnabled",
-        "values": ["No", "Yes"],
-        "description": "[MONEY] User can bump paying"
-    },
-    {
         "name": "UserReviewsReportEnabled",
         "values": ["no", "yes"],
         "description": "User reviews report enabled"
@@ -61,11 +51,6 @@
         "description": "[CHAT] Show button to access inactive conversations"
     },
     {
-        "name": "NoAdsInFeedForNewUsers",
-        "values": ["control", "baseline", "AdsEverywhere", "NoAdsForNewUsers", "AdsForNewUsersOnlyInFeed"],
-        "description": "[MONEY] Change logic for showing ads to new users (2 weeks old)"
-    },
-    {
         "name": "SearchImprovements",
         "values": ["control", "baseline", "MWE", "MWERelaxedSynonyms", "MWERelaxedSynonymsMM100", "MWERelaxedSynonymsMM75", "MWS", "boostingScoreDistance", "boostingDistance", "boostingFreshness", "boostingDistAndFreshness"],
         "description": "Search improvements related to multi word, boosting distance, score and freshness"
@@ -86,11 +71,6 @@
         "description": "[RETENTION] Leads the user through the posting feature and onboarding improvements"
     },
     {
-        "name": "BumpUpBoost",
-        "values": ["control", "baseline", "sendTop5Mins", "sendTop1hour", "boostListing1hour", "cheaperBoost5Mins"],
-        "description": "Ability to boost ongoing bump ups"
-    },
-    {
         "name": "CopyForChatNowInTurkey",
         "values": ["control", "variantA", "variantB", "variantC", "variantD"],
         "description": "Try different copies for Chat now button in Turkey"
@@ -106,19 +86,9 @@
         "description": "Show Professional tag in user profile"
     },
     {
-        "name": "FeedAdsProviderForUS",
-        "values": ["control", "baseline", "GoogleAdxForAllUsers", "GoogleAdxForOldUsers", "MoPubAdsForAllUsers", "MoPubAdsForOldUsers"],
-        "description": "[MONEY] Change logic for showing ads with diferent ads providers in the US"
-    },
-    {
         "name": "CopyForChatNowInEnglish",
         "values": ["control", "variantA", "variantB", "variantC", "variantD"],
         "description": "Try different copies for Chat now button in English"
-    },
-    {
-        "name": "FeedAdsProviderForTR",
-        "values": ["control", "baseline", "MoPubAdsForAllUsers", "MoPubAdsForOldUsers"],
-        "description": "[MONEY] Change logic for showing ads with diferent ads providers in TR"
     },
     {
         "name": "SectionedMainFeed",
@@ -159,11 +129,6 @@
         "name": "ServicesCategoryOnSalchichasMenu",
         "values": ["control", "baseline", "VariantA", "VariantB", "VariantC"],
         "description": "[PRODUCTS] Show services category on salchichas menu"
-    },
-    {
-        "name": "GoogleAdxForTR",
-        "values": ["control", "baseline", "GoogleAdxForAllUsers", "GoogleAdxForOldUsers"],
-        "description": "[MONEY] Change logic for showing GoogleAdx in TR"
     },
     {
         "name": "MultiContactAfterSearch",
@@ -354,5 +319,10 @@
          "name": "CarPromoCells",
          "values": ["control", "baseline", "variantA", "variantB"],
          "description": "[CARS] Show promo cells for cars"
+     },
+     {
+         "name": "RealEstatePromoCells",
+         "values": ["control", "baseline", "variantA"],
+         "description": "[REAL ESTATE] Show NEW promo cells for real Estate"
      }
  ]

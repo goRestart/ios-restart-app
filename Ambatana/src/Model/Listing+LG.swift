@@ -37,6 +37,10 @@ extension Listing {
         guard isService else { return false }
         return service?.servicesAttributes == ServiceAttributes.emptyServicesAttributes()
     }
+
+    var shouldShowFeaturedStripe: Bool {
+        return featured ?? false
+    }
 }
 
 extension Listing {
@@ -47,7 +51,6 @@ extension Listing {
         case .realEstate(let realEstate):
             return realEstate.realEstateAttributes.generateTags(postingFlowType: postingFlowType)
         case .service(_):
-            // FIXME: Implement this in ABIOS-4184
             return nil
         }
     }
@@ -70,6 +73,16 @@ extension Product {
     func isMine(myUserRepository: MyUserRepository) -> Bool {
         return belongsTo(userId: myUserRepository.myUser?.objectId)
     }
+
+    var shouldShowFeaturedStripe: Bool {
+        return featured ?? false
+    }
+}
+
+extension Listing {
+    var isVertical: Bool {
+        return category.isCar || category.isServices || category.isRealEstate
+    }
 }
 
 extension Listing {
@@ -91,4 +104,3 @@ extension Listing {
         }
     }
 }
-

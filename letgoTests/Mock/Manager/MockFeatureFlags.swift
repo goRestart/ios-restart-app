@@ -13,19 +13,15 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var surveyUrl: String = ""
     var surveyEnabled: Bool = false
 
-    var freeBumpUpEnabled: Bool = false
-    var pricedBumpUpEnabled: Bool = false
     var newCarsMultiRequesterEnabled: Bool = false
     var inAppRatingIOS10: Bool = false
     var userReviewsReportEnabled: Bool = true
     var deckItemPage: DeckItemPage = .control
     var realEstateEnabled: RealEstateEnabled = .control
-    var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers = .control
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio = .control
     var realEstateNewCopy: RealEstateNewCopy = .control
     var searchImprovements: SearchImprovements = .control
     var relaxedSearch: RelaxedSearch = .control
-    var bumpUpBoost: BumpUpBoost = .control
     var showProTagUserProfile: Bool = false
     var sectionedMainFeed: SectionedMainFeed = .control
     var showExactLocationForPros: Bool = true
@@ -42,9 +38,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var feedDFPAdUnitId: String? = ""
     var shouldChangeChatNowCopyInTurkey = false
     var copyForChatNowInTurkey: CopyForChatNowInTurkey = .control
-    var feedAdsProviderForUS: FeedAdsProviderForUS = .control
     var feedAdUnitId: String? = ""
-    var feedAdsProviderForTR: FeedAdsProviderForTR = .control
     var fullScreenAdsWhenBrowsingForUS: FullScreenAdsWhenBrowsingForUS = .control
     var fullScreenAdUnitId: String? = ""
     var appInstallAdsInFeed: AppInstallAdsInFeed = .control
@@ -63,7 +57,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var shouldChangeChatNowCopyInEnglish = false
     var shouldChangeSellFasterNowCopyInEnglish = false
     var copyForSellFasterNowInEnglish: CopyForSellFasterNowInEnglish = .control
-    var googleAdxForTR: GoogleAdxForTR = .control
     var copyForSellFasterNowInTurkish: CopyForSellFasterNowInTurkish = .control
 
     // MARK: Chat
@@ -84,6 +77,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen = .control
     var jobsAndServicesEnabled: EnableJobsAndServicesCategory = .control
     var carPromoCells: CarPromoCells = .control
+    var realEstatePromoCells: RealEstatePromoCells = .control
     
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed = .control

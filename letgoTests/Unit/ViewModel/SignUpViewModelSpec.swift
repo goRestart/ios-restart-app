@@ -218,6 +218,7 @@ class SignUpViewModelSpec: QuickSpec {
                         }
                         it("asks to show device not allowed error alert") {
                             expect(self.finishedDeviceNotAllowed).to(beTrue())
+                            
                         }
                     }
                 }

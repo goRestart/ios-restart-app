@@ -13,6 +13,9 @@ import LGCoreKit
 
 final class QuickChatViewModel: QuickChatViewModelRx, DirectAnswersHorizontalViewDelegate {
     var listingViewModel: ListingViewModel?
+    
+    var sectionFeedChatTrackingInfo: SectionedFeedChatTrackingInfo?
+
 
     var rxDirectChatPlaceholder: Observable<String> { return directChatPlaceholder.asObservable() }
     var rxQuickAnswers: Observable<[QuickAnswer]> { return quickAnswers.asObservable() }
@@ -30,7 +33,9 @@ final class QuickChatViewModel: QuickChatViewModelRx, DirectAnswersHorizontalVie
     }
 
     func send(directMessage: String, isDefaultText: Bool) {
-        listingViewModel?.sendDirectMessage(directMessage, isDefaultText: isDefaultText)
+        listingViewModel?.sendDirectMessage(directMessage,
+                                            isDefaultText: isDefaultText,
+                                            trackingInfo: sectionFeedChatTrackingInfo)
     }
 
     func performCollectionChange(change: CollectionChange<ChatViewMessage>) {
@@ -55,6 +60,7 @@ final class QuickChatViewModel: QuickChatViewModelRx, DirectAnswersHorizontalVie
     }
 
     func directAnswersHorizontalViewDidSelect(answer: QuickAnswer) {
-        listingViewModel?.sendQuickAnswer(quickAnswer: answer)
+        listingViewModel?.sendQuickAnswer(quickAnswer: answer,
+                                          trackingInfo: sectionFeedChatTrackingInfo)
     }
 }
