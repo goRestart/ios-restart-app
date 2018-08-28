@@ -236,7 +236,7 @@ final class ListingDetailWireframe: ListingDetailNavigator {
     func openAskPhoneFor(listing: Listing, interlocutor: User?) {
         let assembly = ProfessionalDealerAskPhoneBuilder.standard(nc)
         let vc = assembly.buildProfessionalDealerAskPhone(listing: listing, interlocutor: interlocutor)
-        nc.pushViewController(vc, animated: true)
+        nc.present(vc, animated: true)
     }
 
     func openVideoPlayer(atIndex index: Int, listingVM: ListingViewModel, source: EventParameterListingVisitSource) {
