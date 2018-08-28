@@ -15,6 +15,9 @@ protocol FeedNavigator: class {
                  listingFilters: ListingFilters,
                  locationManager: LocationManager)
     func openAppInvite(myUserId: String?, myUserName: String?)
+    func openClassicFeed(navigator: MainTabNavigator,
+                         withSearchType searchType: SearchType,
+                         listingFilters: ListingFilters)
 }
 
 final class FeedWireframe: FeedNavigator {
@@ -84,5 +87,19 @@ final class FeedWireframe: FeedNavigator {
         guard let url = URL.makeInvitationDeepLink(
             withUsername: myUserName, andUserId: myUserId) else { return }
         deepLinkMailBox.push(convertible: url)
+    }
+    
+    /// In a near future the navigator should be deleted, it is necesary because
+    /// the VM needs it to handle just 2 method but that 2 methos have lots of
+    /// dependencies over the coordinator. If the coordinator is migrated
+    /// the navigator reference could be deleted.
+    func openClassicFeed(navigator: MainTabNavigator,
+                         withSearchType searchType: SearchType,
+                         listingFilters: ListingFilters) {
+        guard let strongNC = nc else { return }
+        let (vc, vm) = FeedBuilder.standard(nc: strongNC).makeClassic(
+                withSearchType: searchType, filters: listingFilters)
+        vm.navigator = navigator
+        strongNC.pushViewController(vc, animated: true)
     }
 }

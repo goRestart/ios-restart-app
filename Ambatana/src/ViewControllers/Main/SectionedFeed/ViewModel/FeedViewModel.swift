@@ -475,8 +475,11 @@ extension FeedViewModel: SelectedForYouDelegate {
         let collectionType = CollectionCellType.selectedForYou
         tracker.trackEvent(TrackerEvent.exploreCollection(collectionType.rawValue))
         let query = collectionType.buildQueryString(from: keyValueStorage)
-        navigator?.openMainListings(withSearchType: .collection(type: collectionType, query: query),
-                                    listingFilters: filters) // FIXME: replace this after navigator refactor: ABIOS-4644, ABIOS-4525 Facu magic
+        guard let strongNavigator = navigator else { return }
+        wireframe?.openClassicFeed(
+            navigator: strongNavigator,
+            withSearchType: .collection(type: collectionType, query: query),
+            listingFilters: filters)
     }
     
     private var shouldShowSelectedForYou: Bool {
