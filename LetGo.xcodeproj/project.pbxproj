@@ -1717,8 +1717,6 @@
 		C727943B1D549342009C25AB /* ChangePasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C727942F1D549342009C25AB /* ChangePasswordViewModel.swift */; };
 		C727943C1D549342009C25AB /* ChangeUsernameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72794301D549342009C25AB /* ChangeUsernameViewController.swift */; };
 		C727943D1D549342009C25AB /* ChangeUsernameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72794301D549342009C25AB /* ChangeUsernameViewController.swift */; };
-		C727943E1D549342009C25AB /* ChangeUsernameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C72794311D549342009C25AB /* ChangeUsernameViewController.xib */; };
-		C727943F1D549342009C25AB /* ChangeUsernameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C72794311D549342009C25AB /* ChangeUsernameViewController.xib */; };
 		C72794401D549342009C25AB /* ChangeUsernameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72794321D549342009C25AB /* ChangeUsernameViewModel.swift */; };
 		C72794411D549342009C25AB /* ChangeUsernameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72794321D549342009C25AB /* ChangeUsernameViewModel.swift */; };
 		C72794491D54944E009C25AB /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72794481D54944E009C25AB /* SettingsViewModel.swift */; };
@@ -3216,7 +3214,6 @@
 		C727942D1D549342009C25AB /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		C727942F1D549342009C25AB /* ChangePasswordViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewModel.swift; sourceTree = "<group>"; };
 		C72794301D549342009C25AB /* ChangeUsernameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeUsernameViewController.swift; sourceTree = "<group>"; };
-		C72794311D549342009C25AB /* ChangeUsernameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangeUsernameViewController.xib; sourceTree = "<group>"; };
 		C72794321D549342009C25AB /* ChangeUsernameViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeUsernameViewModel.swift; sourceTree = "<group>"; };
 		C72794481D54944E009C25AB /* SettingsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		C727FBBC1CCFC4ED002BC643 /* NotificationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsViewController.swift; sourceTree = "<group>"; };
@@ -6498,7 +6495,6 @@
 				C727942D1D549342009C25AB /* ChangePasswordViewController.swift */,
 				C727942F1D549342009C25AB /* ChangePasswordViewModel.swift */,
 				C72794301D549342009C25AB /* ChangeUsernameViewController.swift */,
-				C72794311D549342009C25AB /* ChangeUsernameViewController.xib */,
 				C72794321D549342009C25AB /* ChangeUsernameViewModel.swift */,
 				8E2600751E2FB16D00242B3F /* ChangeEmailViewController.swift */,
 				8E26007B1E30E1C300242B3F /* ChangeEmailView.swift */,
@@ -7386,7 +7382,6 @@
 				C78448DD1BD5196E00C76199 /* LetGo.entitlements in Resources */,
 				C74931701D34FD0200E117F1 /* RateUserViewController.xib in Resources */,
 				D40DA2891AEE291D00B64CE1 /* words_lowercase.json in Resources */,
-				C727943E1D549342009C25AB /* ChangeUsernameViewController.xib in Resources */,
 				C75B5DC91D59E09500112368 /* ListingDetailOnboardingView.xib in Resources */,
 				502374571B3D3E8D00E02656 /* InfoPlist.strings in Resources */,
 				2E4ADEC3200515FC00D07D8A /* BumpUpPayViewController.xib in Resources */,
@@ -7479,7 +7474,6 @@
 				C7DB42491C5138B500400945 /* LetGo.entitlements in Resources */,
 				C74931711D34FD0200E117F1 /* RateUserViewController.xib in Resources */,
 				C7DB424B1C5138B500400945 /* words_lowercase.json in Resources */,
-				C727943F1D549342009C25AB /* ChangeUsernameViewController.xib in Resources */,
 				C75B5DCA1D59E09500112368 /* ListingDetailOnboardingView.xib in Resources */,
 				C7DB424C1C5138B500400945 /* InfoPlist.strings in Resources */,
 				2ECB416D20065FB200482EF7 /* BumpUpFreeViewController.xib in Resources */,
