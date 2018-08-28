@@ -157,10 +157,10 @@ final class PromoCell: UICollectionViewCell, ReusableCell {
     }
 
     private func setAccessibilityIds() {
-        set(accessibilityId: .realEstateCell)
-        titleLabel.set(accessibilityId: .realEstatePromoTitle)
-        icon.set(accessibilityId: .realEstatePromoIcon)
-        postButton.set(accessibilityId: .realEstatePromoPostNowButton)
+        set(accessibilityId: .promoCell)
+        titleLabel.set(accessibilityId: .promoCellTitle)
+        icon.set(accessibilityId: .promoCellIcon)
+        postButton.set(accessibilityId: .promoCellPostNowButton)
     }
     
     private func configure(stackViewWith arrangement: PromoCellArrangement) {
