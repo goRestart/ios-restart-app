@@ -5,6 +5,7 @@ struct VerticalsABGroup: ABGroupType {
     let servicesPaymentFrequency: LeanplumABVariable<Int>
     let jobsAndServicesEnabled: LeanplumABVariable<Int>
     let carPromoCells: LeanplumABVariable<Int>
+    let realEstatePromoCells: LeanplumABVariable<Int>
     
     let group: ABGroup = .verticals
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -16,18 +17,21 @@ struct VerticalsABGroup: ABGroupType {
                  servicesUnifiedFilterScreen: LeanplumABVariable<Int>,
                  servicesPaymentFrequency: LeanplumABVariable<Int>,
                  jobsAndServicesEnabled: LeanplumABVariable<Int>,
-                 carPromoCells: LeanplumABVariable<Int>) {
+                 carPromoCells: LeanplumABVariable<Int>,
+                 realEstatePromoCells: LeanplumABVariable<Int>) {
         self.carExtraFieldsEnabled = carExtraFieldsEnabled
         self.servicesUnifiedFilterScreen = servicesUnifiedFilterScreen
         self.servicesPaymentFrequency = servicesPaymentFrequency
         self.jobsAndServicesEnabled = jobsAndServicesEnabled
         self.carPromoCells = carPromoCells
+        self.realEstatePromoCells = realEstatePromoCells
 
         intVariables.append(contentsOf: [carExtraFieldsEnabled,
                                          servicesUnifiedFilterScreen,
                                          servicesPaymentFrequency,
                                          jobsAndServicesEnabled,
-                                         carPromoCells])
+                                         carPromoCells,
+                                         realEstatePromoCells])
     }
     
     static func make() -> VerticalsABGroup {
@@ -35,7 +39,8 @@ struct VerticalsABGroup: ABGroupType {
                                 servicesUnifiedFilterScreen: verticalsIntFor(key: Keys.servicesUnifiedFilterScreen),
                                 servicesPaymentFrequency: verticalsIntFor(key: Keys.servicesPaymentFrequency),
                                 jobsAndServicesEnabled: verticalsIntFor(key: Keys.jobsAndServicesEnabled),
-                                carPromoCells: verticalsIntFor(key: Keys.carPromoCells))
+                                carPromoCells: verticalsIntFor(key: Keys.carPromoCells),
+                                realEstatePromoCells: verticalsIntFor(key: Keys.realEstatePromoCells))
     }
     
     private static func verticalsIntFor(key: String) -> LeanplumABVariable<Int> {
@@ -49,4 +54,5 @@ private struct Keys {
     static let servicesPaymentFrequency = "20180730servicesPriceType"
     static let jobsAndServicesEnabled = "20180806jobsAndServicesEnabled"
     static let carPromoCells = "20182308carPromoCells"
+    static let realEstatePromoCells = "20182708realEstatePromoCells"
 }

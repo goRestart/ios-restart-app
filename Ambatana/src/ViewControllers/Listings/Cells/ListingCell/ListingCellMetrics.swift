@@ -1,12 +1,6 @@
 import Foundation
 import LGComponents
 
-fileprivate extension DeviceFamily {
-    func shouldShow3Columns() -> Bool {
-        return isWiderOrEqualThan(.iPhone6Plus)
-    }
-}
-
 struct ListingCellMetrics {
     
     static let stripeIconWidth: CGFloat = 14

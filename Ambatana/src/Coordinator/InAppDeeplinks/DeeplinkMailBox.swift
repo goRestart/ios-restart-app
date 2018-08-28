@@ -48,6 +48,18 @@ extension URL {
         }
         return URL(string: deeplink)
     }
+    
+    static func makeInvitationDeepLink(withUsername username: String, andUserId userid: String) -> URL? {
+        guard let encodedUsername = username.addingPercentEncoding(
+            withAllowedCharacters: CharacterSet.urlQueryAllowed) else {
+            return nil
+        }
+        return URL(string: String(
+            format: "letgo://app_invite?user-name=%@&user-id=%@",
+            encodedUsername,
+            userid
+        ))
+    }
 }
 
 final class LGDeepLinkMailBox: DeepLinkMailBox {

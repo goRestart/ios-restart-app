@@ -12,7 +12,7 @@ func ==(a: TrackerEvent, b: TrackerEvent) -> Bool {
 struct TrackerEvent {
     static let notApply: String = "N/A"
     static let defaultValue = "default"
-    fileprivate static let itemsCountThreshold = 50
+    static let itemsCountThreshold = 50
 
     private(set) var name: EventName
     var actualName: String {
@@ -197,6 +197,31 @@ struct TrackerEvent {
         return TrackerEvent(name: .listingList, params: params)
     }
     
+    static func listingListSectionedFeed(_ user: User?,
+                                         categories: [ListingCategory]?,
+                                         searchQuery: String?,
+                                         sectionItemCount: Int,
+                                         inifiteSectionItemCount: Int,
+                                         sectionNamesShown: [String],
+                                         feedSource: EventParameterFeedSource,
+                                         success: EventParameterBoolean) -> TrackerEvent {
+        var params = EventParameters()
+        
+        params[.feedSource] = feedSource.rawValue
+        params[.categoryId] = (categories ?? [.unassigned]).trackValue
+        params[.keywordName] = TrackerEvent.notApply
+
+        if let actualSearchQuery = searchQuery {
+            params[.searchString] = actualSearchQuery
+        }
+        params[.numberOfItems] = "\(inifiteSectionItemCount)"
+        params[.numberOfItemsInSection] = "\(sectionItemCount)"
+        params[.sectionShown] = sectionNamesShown.joined(separator: ",")
+
+        params[.listSuccess] = success.rawValue
+        return TrackerEvent(name: .listingList, params: params)
+    }
+    
     static func listingListVertical(category: ListingCategory,
                                     keywords: [String],
                                     matchingFields: [String]) -> TrackerEvent {
@@ -295,16 +320,22 @@ struct TrackerEvent {
                                    isBumpedUp: EventParameterBoolean,
                                    sellerBadge: EventParameterUserBadge,
                                    isMine: EventParameterBoolean,
-                                   containsVideo: EventParameterBoolean) -> TrackerEvent {
+                                   containsVideo: EventParameterBoolean,
+                                   sectionName: EventParameterSectionName?) -> TrackerEvent {
         var params = EventParameters()
         params.addListingParams(listing)
         params[.userAction] = visitUserAction.rawValue
         params[.listingVisitSource] = source.rawValue
-        params[.feedPosition] = feedPosition.value
         params[.isBumpedUp] = isBumpedUp.rawValue
         params[.sellerReputationBadge] = sellerBadge.rawValue
         params[.isMine] = isMine.rawValue
         params[.isVideo] = containsVideo.rawValue
+        if let sectionName = sectionName?.value {
+            params[.sectionPosition] = feedPosition.value
+            params[.sectionIdentifier] = sectionName
+        } else {
+            params[.feedPosition] = feedPosition.value
+        }
         return TrackerEvent(name: .listingDetailVisit, params: params)
     }
 

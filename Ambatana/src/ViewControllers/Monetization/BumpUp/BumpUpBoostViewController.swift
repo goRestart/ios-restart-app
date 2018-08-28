@@ -16,29 +16,12 @@ final class BumpUpBoostViewController: BaseViewController {
     static let timerUpdateInterval: TimeInterval = 1
 
     var titleLabelText: String {
-        guard boostIsEnabled else { return R.Strings.bumpUpViewBoostTitleNotReady }
-
-        switch featureFlags.bumpUpBoost {
-        case .control, .baseline, .sendTop1hour, .sendTop5Mins:
-            return R.Strings.bumpUpViewBoostTitleSendTop
-        case .boostListing1hour:
-            return R.Strings.bumpUpViewBoostTitleBoostListing
-        case .cheaperBoost5Mins:
-            return R.Strings.bumpUpViewBoostTitleCheaperBoost
-        }
+        return R.Strings.bumpUpViewBoostTitleSendTop
     }
 
     func textForSubtitleLabelWith(time: TimeInterval?) -> NSAttributedString {
         guard let time = time, let timeString = Int(time).secondsToPrettyCountdownFormat(), !boostIsEnabled else {
-            let string: String
-            switch featureFlags.bumpUpBoost {
-            case .control, .baseline, .sendTop1hour, .sendTop5Mins:
-                string = R.Strings.bumpUpViewBoostSubtitleSendTop
-            case .boostListing1hour:
-                string = R.Strings.bumpUpViewBoostSubtitleBoostListing
-            case .cheaperBoost5Mins:
-                string = R.Strings.bumpUpViewBoostSubtitleCheaper
-            }
+            let string = R.Strings.bumpUpViewBoostSubtitleSendTop
             return NSAttributedString(string: string)
         }
 
@@ -55,11 +38,7 @@ final class BumpUpBoostViewController: BaseViewController {
     }
 
     var boostIsEnabled: Bool {
-        if let updateBannerThreshold = featureFlags.bumpUpBoost.boostBannerUIUpdateThreshold,
-            timeIntervalLeft < (viewModel.maxCountdown - updateBannerThreshold) {
-            return true
-        }
-        return false
+        return timeIntervalLeft < (viewModel.maxCountdown - BumpUpBanner.boostBannerUIUpdateThreshold)
     }
 
     private var timerProgressView: BumpUpTimerBarView = BumpUpTimerBarView()
@@ -163,9 +142,8 @@ final class BumpUpBoostViewController: BaseViewController {
         if timeIntervalLeft == 0 {
             timer.invalidate()
             viewModel.timerReachedZero()
-        } else if let updateBannerThreshold = featureFlags.bumpUpBoost.boostBannerUIUpdateThreshold,
-            viewModel.maxCountdown - timeIntervalLeft <= updateBannerThreshold {
-            updateUIWith(time: updateBannerThreshold - (viewModel.maxCountdown - timeIntervalLeft))
+        } else if viewModel.maxCountdown - timeIntervalLeft <= BumpUpBanner.boostBannerUIUpdateThreshold {
+            updateUIWith(time: BumpUpBanner.boostBannerUIUpdateThreshold - (viewModel.maxCountdown - timeIntervalLeft))
         } else {
             updateUIWith(time: nil)
         }

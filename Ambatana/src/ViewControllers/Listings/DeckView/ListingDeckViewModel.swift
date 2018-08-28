@@ -41,24 +41,24 @@ final class ListingDeckViewModel: BaseViewModel {
     var pagination: Pagination
 
     // Just for pagination
-    fileprivate(set) var currentIndex: Int = 0 { didSet { setCurrentIndex(currentIndex) } }
+    private(set) var currentIndex: Int = 0 { didSet { setCurrentIndex(currentIndex) } }
     var isNextPageAvailable: Bool { return !pagination.isLast }
     var isLoading = false
 
     let prefetching: Prefetching
-    fileprivate var prefetchingIndexes: [Int] = []
+    private var prefetchingIndexes: [Int] = []
 
     let startIndex: Int
     var shouldSyncFirstListing: Bool = false
-    fileprivate let trackingIndex: Int?
-
-    fileprivate var lastMovement: CarouselMovement = .initial
-    fileprivate let source: EventParameterListingVisitSource
-    fileprivate let listingListRequester: ListingListRequester
-    fileprivate let userRepository: MyUserRepository
-    fileprivate var productsViewModels: [String: ListingViewModel] = [:]
-    fileprivate let listingViewModelMaker: ListingViewModelMaker
-    fileprivate let tracker: Tracker
+    private let trackingIndex: Int?
+    private let trackingIdentifier: String?
+    private var lastMovement: CarouselMovement = .initial
+    private let source: EventParameterListingVisitSource
+    private let listingListRequester: ListingListRequester
+    private let userRepository: MyUserRepository
+    private var productsViewModels: [String: ListingViewModel] = [:]
+    private let listingViewModelMaker: ListingViewModelMaker
+    private let tracker: Tracker
     private let featureFlags: FeatureFlaggeable
 
     let actionOnFirstAppear: DeckActionOnFirstAppear
@@ -104,7 +104,8 @@ final class ListingDeckViewModel: BaseViewModel {
                      source: EventParameterListingVisitSource,
                      detailNavigator: ListingDetailNavigator?,
                      actionOnFirstAppear: DeckActionOnFirstAppear,
-                     trackingIndex: Int?) {
+                     trackingIndex: Int?,
+                     trackingIdentifier: String?) {
         let pagination = Pagination.makePagination(first: 0, next: 1, isLast: false)
         let prefetching = Prefetching(previousCount: 3, nextCount: 3)
         self.init(listModels: listModels,
@@ -122,6 +123,7 @@ final class ListingDeckViewModel: BaseViewModel {
                   tracker: TrackerProxy.sharedInstance,
                   actionOnFirstAppear: actionOnFirstAppear,
                   trackingIndex: trackingIndex,
+                  trackingIdentifier: trackingIdentifier,
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   featureFlags: FeatureFlags.sharedInstance,
                   adsRequester: AdsRequester())
@@ -137,7 +139,8 @@ final class ListingDeckViewModel: BaseViewModel {
                      shouldSyncFirstListing: Bool,
                      binder: ListingDeckViewModelBinder,
                      actionOnFirstAppear: DeckActionOnFirstAppear,
-                     trackingIndex: Int?) {
+                     trackingIndex: Int?,
+                     trackingIdentifier: String?) {
         let pagination = Pagination.makePagination(first: 0, next: 1, isLast: false)
         let prefetching = Prefetching(previousCount: 1, nextCount: 3)
         self.init(listModels: listModels,
@@ -155,6 +158,7 @@ final class ListingDeckViewModel: BaseViewModel {
                   tracker: TrackerProxy.sharedInstance,
                   actionOnFirstAppear: actionOnFirstAppear,
                   trackingIndex: trackingIndex,
+                  trackingIdentifier: trackingIdentifier,
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   featureFlags: FeatureFlags.sharedInstance,
                   adsRequester: AdsRequester())
@@ -175,6 +179,7 @@ final class ListingDeckViewModel: BaseViewModel {
          tracker: Tracker,
          actionOnFirstAppear: DeckActionOnFirstAppear,
          trackingIndex: Int?,
+         trackingIdentifier: String?,
          keyValueStorage: KeyValueStorageable,
          featureFlags: FeatureFlaggeable,
          adsRequester: AdsRequester) {
@@ -212,6 +217,7 @@ final class ListingDeckViewModel: BaseViewModel {
             startIndex = 0
         }
         currentIndex = startIndex
+        self.trackingIdentifier = trackingIdentifier
         super.init()
         self.shouldSyncFirstListing = shouldSyncFirstListing
         binder.deckViewModel = self
@@ -245,11 +251,13 @@ final class ListingDeckViewModel: BaseViewModel {
             if source == .relatedListings {
                 currentListingViewModel?.trackVisit(movement.visitUserAction,
                                                     source: movement.visitSource(source),
-                                                    feedPosition: feedPosition)
+                                                    feedPosition: feedPosition,
+                                                    feedSectionName: trackingFeedSectionName)
             } else {
                 currentListingViewModel?.trackVisit(movement.visitUserAction,
                                                     source: source,
-                                                    feedPosition: feedPosition)
+                                                    feedPosition: feedPosition,
+                                                    feedSectionName: trackingFeedSectionName)
             }
         }
     }
@@ -493,6 +501,11 @@ extension ListingDeckViewModel: ListingViewModelDelegate {
     var trackingFeedPosition: EventParameterFeedPosition {
         guard let trackingIndex = trackingIndex else { return .none }
         return .position(index: trackingIndex)
+    }
+    
+    var trackingFeedSectionName: EventParameterSectionName? {
+        guard let trackingId = trackingIdentifier else { return nil }
+        return .identifier(id: trackingId)
     }
 
     func vmResetBumpUpBannerCountdown() {

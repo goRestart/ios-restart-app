@@ -113,8 +113,6 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     var listing: Listing?
     weak var delegate: ListingCellDelegate?
     
-    var likeButtonEnabled: Bool = true
-    var chatButtonEnabled: Bool = true
     
     override var isHighlighted: Bool {
         didSet {
@@ -123,13 +121,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     }
     
     var thumbnailImage: UIImage? {
-        let image: UIImage?
-        if thumbnailImageView.image != nil {
-            image = thumbnailImageView.image
-        } else {
-            image = thumbnailGifImageView.currentImage
-        }
-        return image
+        return thumbnailImageView.image ?? thumbnailGifImageView.currentImage
     }
     
     // MARK:- Lifecycle
@@ -565,17 +557,5 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     @objc private func openChat() {
         guard let listing = listing else { return }
         delegate?.chatButtonPressedFor(listing: listing)
-    }
-}
-
-private extension InterestedState {
-    var image: UIImage? {
-        switch self {
-        case .none: return nil
-        case .send(let enabled):
-            let alpha: CGFloat = enabled ? 1 : 0.7
-            return R.Asset.IconsButtons.IAmInterested.icIamiSend.image.withAlpha(alpha) ?? R.Asset.IconsButtons.IAmInterested.icIamiSend.image
-        case .seeConversation: return R.Asset.IconsButtons.IAmInterested.icIamiSeeconv.image
-        }
     }
 }

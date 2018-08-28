@@ -142,6 +142,7 @@ final class ListingListViewModel: BaseViewModel {
                 delegate?.vmReloadData(self)}
         }
     }
+    
     private var indexToTitleMapping: [Int:String]
 
     // UI
@@ -736,13 +737,12 @@ final class ListingListViewModel: BaseViewModel {
 
         let showBumpUpCTA = listing.isMine(myUserRepository: myUserRepository) &&
             featureFlags.showSellFasterInProfileCells.isActive &&
-            featureFlags.pricedBumpUpEnabled &&
             isPrivateList && listingCanBeBumped
 
         if showBumpUpCTA {
             cellHeight += ListingCellMetrics.getTotalHeightForBumpUpCTA(text: R.Strings.bumpUpBannerPayTextImprovementEnglishC,
                                                                         containerWidth: widthConstraint)
-        } else if let isFeatured = listing.featured, isFeatured, featureFlags.pricedBumpUpEnabled {
+        } else if let isFeatured = listing.featured, isFeatured {
             if cellStyle == .serviceList {
                 cellHeight += actionButtonCellHeight(for: listing)
             } else  {

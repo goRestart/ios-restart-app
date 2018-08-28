@@ -49,6 +49,7 @@ class MainListingsViewModelSpec: QuickSpec {
                                                 featureFlags: mockFeatureFlags,
                                                 bubbleTextGenerator: DistanceBubbleTextGenerator(),
                                                 chatWrapper: MockChatWrapper(),
+                                                adsImpressionConfigurable: MockAdsImpressionConfigurable(),
                                                 interestedHandler: MockInterestedHandler(),
                                                 feedBadgingSynchronizer: MockFeedBadgingSynchronizer())
                     expect(sut.currentActiveFilters?.selectedCategories) == []
@@ -73,6 +74,7 @@ class MainListingsViewModelSpec: QuickSpec {
                                                 featureFlags: mockFeatureFlags,
                                                 bubbleTextGenerator: DistanceBubbleTextGenerator(),
                                                 chatWrapper: MockChatWrapper(),
+                                                adsImpressionConfigurable: MockAdsImpressionConfigurable(),
                                                 interestedHandler: MockInterestedHandler(),
                                                 feedBadgingSynchronizer: MockFeedBadgingSynchronizer())
                     expect(sut.currentActiveFilters?.selectedCategories) == []
@@ -109,6 +111,7 @@ class MainListingsViewModelSpec: QuickSpec {
                                                 featureFlags: mockFeatureFlags,
                                                 bubbleTextGenerator: DistanceBubbleTextGenerator(),
                                                 chatWrapper: MockChatWrapper(),
+                                                adsImpressionConfigurable: MockAdsImpressionConfigurable(),
                                                 interestedHandler: MockInterestedHandler(),
                                                 feedBadgingSynchronizer: MockFeedBadgingSynchronizer())
                 }
@@ -175,8 +178,10 @@ class MainListingsViewModelSpec: QuickSpec {
                                                     featureFlags: mockFeatureFlags,
                                                     bubbleTextGenerator: DistanceBubbleTextGenerator(),
                                                     chatWrapper: MockChatWrapper(),
+                                                    adsImpressionConfigurable: MockAdsImpressionConfigurable(),
                                                     interestedHandler: MockInterestedHandler(),
                                                     feedBadgingSynchronizer: MockFeedBadgingSynchronizer())
+
                         sut.listingListVM(listingListViewModel,
                                           didSucceedRetrievingListingsPage: 0,
                                           withResultsCount: Int.random(),
@@ -216,6 +221,7 @@ class MainListingsViewModelSpec: QuickSpec {
                                                     featureFlags: mockFeatureFlags,
                                                     bubbleTextGenerator: DistanceBubbleTextGenerator(),
                                                     chatWrapper: MockChatWrapper(),
+                                                    adsImpressionConfigurable: MockAdsImpressionConfigurable(),
                                                     interestedHandler: MockInterestedHandler(),
                                                     feedBadgingSynchronizer: MockFeedBadgingSynchronizer())
                         sut.listingListVM(listingListViewModel,
@@ -257,6 +263,7 @@ class MainListingsViewModelSpec: QuickSpec {
                                                     featureFlags: mockFeatureFlags,
                                                     bubbleTextGenerator: DistanceBubbleTextGenerator(),
                                                     chatWrapper: MockChatWrapper(),
+                                                    adsImpressionConfigurable: MockAdsImpressionConfigurable(),
                                                     interestedHandler: MockInterestedHandler(),
                                                     feedBadgingSynchronizer: MockFeedBadgingSynchronizer())
                         sut.listingListVM(listingListViewModel,
@@ -298,6 +305,7 @@ class MainListingsViewModelSpec: QuickSpec {
                                                     featureFlags: mockFeatureFlags,
                                                     bubbleTextGenerator: DistanceBubbleTextGenerator(),
                                                     chatWrapper: MockChatWrapper(),
+                                                    adsImpressionConfigurable: MockAdsImpressionConfigurable(),
                                                     interestedHandler: MockInterestedHandler(),
                                                     feedBadgingSynchronizer: MockFeedBadgingSynchronizer())
                         sut.listingListVM(listingListViewModel,
@@ -339,6 +347,7 @@ class MainListingsViewModelSpec: QuickSpec {
                                                     featureFlags: mockFeatureFlags,
                                                     bubbleTextGenerator: DistanceBubbleTextGenerator(),
                                                     chatWrapper: MockChatWrapper(),
+                                                    adsImpressionConfigurable: MockAdsImpressionConfigurable(),
                                                     interestedHandler: MockInterestedHandler(),
                                                     feedBadgingSynchronizer: MockFeedBadgingSynchronizer())
                         sut.listingListVM(listingListViewModel,
@@ -383,6 +392,7 @@ class MainListingsViewModelSpec: QuickSpec {
                                                     featureFlags: mockFeatureFlags,
                                                     bubbleTextGenerator: DistanceBubbleTextGenerator(),
                                                     chatWrapper: MockChatWrapper(),
+                                                    adsImpressionConfigurable: MockAdsImpressionConfigurable(),
                                                     interestedHandler: MockInterestedHandler(),
                                                     feedBadgingSynchronizer: MockFeedBadgingSynchronizer())
                     }
@@ -430,6 +440,7 @@ class MainListingsViewModelSpec: QuickSpec {
                                                 featureFlags: mockFeatureFlags,
                                                 bubbleTextGenerator: DistanceBubbleTextGenerator(),
                                                 chatWrapper: MockChatWrapper(),
+                                                adsImpressionConfigurable: MockAdsImpressionConfigurable(),
                                                 interestedHandler: MockInterestedHandler(),
                                                 feedBadgingSynchronizer: MockFeedBadgingSynchronizer())
                 }
@@ -472,6 +483,7 @@ class MainListingsViewModelSpec: QuickSpec {
                                                 featureFlags: mockFeatureFlags,
                                                 bubbleTextGenerator: DistanceBubbleTextGenerator(),
                                                 chatWrapper: MockChatWrapper(),
+                                                adsImpressionConfigurable: MockAdsImpressionConfigurable(),
                                                 interestedHandler: MockInterestedHandler(),
                                                 feedBadgingSynchronizer: MockFeedBadgingSynchronizer())
                 }

@@ -25,8 +25,6 @@ class GridDrawerManager {
     private let advertisementDFPDrawer = AdvertisementDFPCellDrawer()
     private let advertisementMoPubDrawer = AdvertisementMoPubCellDrawer()
     private let advertisementAdxDrawer = AdvertisementAdxCellDrawer()
-    private let showFeaturedStripeHelper = ShowFeaturedStripeHelper(featureFlags: FeatureFlags.sharedInstance,
-                                                                    myUserRepository: Core.myUserRepository)
     private let promoDrawer = PromoCellDrawer()
     
     private let myUserRepository: MyUserRepository
@@ -74,7 +72,6 @@ class GridDrawerManager {
         switch model {
         case let .listingCell(listing) where cell is ListingCell:
             guard let cell = cell as? ListingCell else { return }
-            let isFeatured = showFeaturedStripeHelper.shouldShowFeaturedStripeFor(listing: listing)
             var isMine = false
             if let listingUserId = listing.user.objectId,
                 let myUserId = myUserRepository.myUser?.objectId,
@@ -84,7 +81,7 @@ class GridDrawerManager {
             let data = ListingData(listing: listing,
                                    delegate: delegate,
                                    isFree: listing.price.isFree && freePostingAllowed,
-                                   isFeatured: isFeatured,
+                                   isFeatured: listing.shouldShowFeaturedStripe,
                                    isMine: isMine,
                                    price: listing.priceString(freeModeAllowed: freePostingAllowed),
                                    imageSize: imageSize,
@@ -113,7 +110,6 @@ class GridDrawerManager {
         switch model {
         case let .listingCell(listing) where cell is ListingCell:
             guard let cell = cell as? ListingCell else { return }
-            let isFeatured = showFeaturedStripeHelper.shouldShowFeaturedStripeFor(listing: listing)
             var isMine = false
             if let listingUserId = listing.user.objectId,
                 let myUserId = myUserRepository.myUser?.objectId,
@@ -123,7 +119,7 @@ class GridDrawerManager {
             let data = ListingData(listing: listing,
                                    delegate: delegate,
                                    isFree: listing.price.isFree && freePostingAllowed,
-                                   isFeatured: isFeatured,
+                                   isFeatured: listing.shouldShowFeaturedStripe,
                                    isMine: isMine,
                                    price: listing.priceString(freeModeAllowed: freePostingAllowed),
                                    imageSize: imageSize,

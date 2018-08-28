@@ -1073,8 +1073,10 @@ fileprivate extension AppCoordinator {
             afterDelayClosure = { [weak self] in
                 self?.openInAppWebView(url: url)
             }
+        case .invite(let userid, let username):
+            openAppInvite(myUserId: userid, myUserName: username)
         }
-
+        
         if let afterDelayClosure = afterDelayClosure {
             delay(0.5) { 
                 afterDelayClosure()
@@ -1094,7 +1096,7 @@ fileprivate extension AppCoordinator {
         switch deepLink.action {
         case .home, .sell, .listing, .listingShare, .listingBumpUp, .listingMarkAsSold, .listingEdit, .user,
              .conversations, .conversationWithMessage, .search, .resetPassword, .userRatings, .userRating,
-             .notificationCenter, .appStore, .webView, .appRating:
+             .notificationCenter, .appStore, .webView, .appRating, .invite:
             return // Do nothing
         case let .conversation(data):
             showInappChatNotification(data, message: deepLink.origin.message)

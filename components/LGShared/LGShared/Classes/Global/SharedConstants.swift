@@ -68,6 +68,7 @@ public struct SharedConstants {
     public static let listingsPagingThresholdPercentage: Float = 0.4 // Percentage of page to check bottom threshold to paginate
     public static let maxSelectedForYouQueryTerms = 15
     public static let listingsSearchSuggestionsMaxResults = 10
+    public static let selectedForYouPosition = 10
     
     // Categories
     public static let categoriesCellFactor: CGFloat = 150.0 / 160.0
@@ -91,6 +92,7 @@ public struct SharedConstants {
     public static let defaultPrice: ListingPrice = .normal(0)
     public static let sizeSquareMetersUnit: String = "㎡"
     public static let maxNumberMultiPosting = 15
+    
 
     // Camera
     public static let videoMaxRecordingDuration: TimeInterval = 15
@@ -190,4 +192,10 @@ public struct SharedConstants {
     // Chat norris
     public static let minSafeHourForMeetings = 10
     public static let maxSafeHourForMeetings = 17
+    
+    public enum Feed {
+        public static let adInFeedInitialPosition = 3
+        public static let adsInFeedRatio = 20
+    }
+    
 }

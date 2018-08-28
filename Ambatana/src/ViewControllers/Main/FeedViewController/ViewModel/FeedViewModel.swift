@@ -13,6 +13,8 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     weak var feedRenderingDelegate: FeedRenderable?
     weak var delegate: FeedViewModelDelegate?
     
+    var wireframe: FeedWireframe?
+    
     let numberOfColumnsInLastSection: Int
     var queryString: String?
     private(set) var feedItems: [ListDiffable] = []
@@ -132,13 +134,9 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
         return bubbleTextGenerator.bubbleInfoText(forDistance: distance, type: type, distanceRadius: filters.distanceRadius, place: filters.place)
     }
     
-    
     // MARK:- Navigation
     
-    var shouldShowInviteButton: Bool {
-        return navigator?.canOpenAppInvite() ?? false
-    }
-    
+    var shouldShowInviteButton: Bool { return AppShareViewController.canBeShown() }
     
     // MARK: - App share
     
@@ -229,11 +227,11 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
 extension FeedViewModel {
 
     func openInvite() {
-        navigator?.openAppInvite(myUserId: myUserId, myUserName: myUserName)
+        wireframe?.openAppInvite(myUserId: myUserId, myUserName: myUserName)
     }
     
     func showFilters() {
-        navigator?.openFilters(withListingFilters: filters,
+        wireframe?.openFilters(withListingFilters: filters,
                                filtersVMDataDelegate: self)
         tracker.trackEvent(TrackerEvent.filterStart())
     }
@@ -302,7 +300,8 @@ extension FeedViewModel: PushPermissionsPresenterDelegate {
     
     func showPushPermissionsAlert(withPositiveAction positiveAction: @escaping (() -> Void),
                                   negativeAction: @escaping (() -> Void)) {
-        navigator?.showPushPermissionsAlert(withPositiveAction: positiveAction,
+        wireframe?.showPushPermissionsAlert(pushPermissionsManager: pushPermissionsManager,
+                                            withPositiveAction: positiveAction,
                                             negativeAction: negativeAction)
     }
     
@@ -329,9 +328,7 @@ extension FeedViewModel: PushPermissionsPresenterDelegate {
 }
 
 extension FeedViewModel {
-    func openSearches() {
-        navigator?.openSearches()
-    }
+    func openSearches() { navigator?.openSearches() }
 }
 
 extension FeedViewModel: EditLocationDelegate, LocationEditable {
@@ -340,7 +337,7 @@ extension FeedViewModel: EditLocationDelegate, LocationEditable {
         let currentLocation = locationManager.currentLocation
         let initialPlace = filters.place ?? Place(postalAddress: currentLocation?.postalAddress,
                                                   location: currentLocation?.location)
-        navigator?.openLocationSelection(initialPlace: initialPlace,
+        wireframe?.openLocationSelection(initialPlace: initialPlace,
                                          distanceRadius: filters.distanceRadius,
                                          locationDelegate: self)
     }

@@ -17,8 +17,6 @@ extension Bumper  {
     static func initialize() {
         var flags = [BumperFeature.Type]()
         flags.append(SurveyEnabled.self)
-        flags.append(FreeBumpUpEnabled.self)
-        flags.append(PricedBumpUpEnabled.self)
         flags.append(UserReviewsReportEnabled.self)
         flags.append(RealEstateEnabled.self)
         flags.append(RequestsTimeOut.self)
@@ -28,18 +26,14 @@ extension Bumper  {
         flags.append(RealEstateNewCopy.self)
         flags.append(DummyUsersInfoProfile.self)
         flags.append(ShowInactiveConversations.self)
-        flags.append(NoAdsInFeedForNewUsers.self)
         flags.append(SearchImprovements.self)
         flags.append(RelaxedSearch.self)
         flags.append(ShowChatSafetyTips.self)
         flags.append(OnboardingIncentivizePosting.self)
-        flags.append(BumpUpBoost.self)
         flags.append(CopyForChatNowInTurkey.self)
         flags.append(ChatNorris.self)
         flags.append(ShowProTagUserProfile.self)
-        flags.append(FeedAdsProviderForUS.self)
         flags.append(CopyForChatNowInEnglish.self)
-        flags.append(FeedAdsProviderForTR.self)
         flags.append(SectionedMainFeed.self)
         flags.append(ShowExactLocationForPros.self)
         flags.append(ShowPasswordlessLogin.self)
@@ -48,7 +42,6 @@ extension Bumper  {
         flags.append(IAmInterestedFeed.self)
         flags.append(PersonalizedFeed.self)
         flags.append(ServicesCategoryOnSalchichasMenu.self)
-        flags.append(GoogleAdxForTR.self)
         flags.append(MultiContactAfterSearch.self)
         flags.append(EmptySearchImprovements.self)
         flags.append(OffensiveReportAlert.self)
@@ -87,6 +80,7 @@ extension Bumper  {
         flags.append(TurkeyFreePosting.self)
         flags.append(RandomImInterestedMessages.self)
         flags.append(CarPromoCells.self)
+        flags.append(RealEstatePromoCells.self)
         Bumper.initialize(flags)
     } 
 
@@ -99,32 +93,6 @@ extension Bumper  {
     static var surveyEnabledObservable: Observable<Bool> {
         return Bumper.observeValue(for: SurveyEnabled.key).map {
             SurveyEnabled(rawValue: $0 ?? "")?.asBool ?? false
-        }
-    }
-    #endif
-
-    static var freeBumpUpEnabled: Bool {
-        guard let value = Bumper.value(for: FreeBumpUpEnabled.key) else { return false }
-        return FreeBumpUpEnabled(rawValue: value)?.asBool ?? false
-    } 
-
-    #if (RX_BUMPER)
-    static var freeBumpUpEnabledObservable: Observable<Bool> {
-        return Bumper.observeValue(for: FreeBumpUpEnabled.key).map {
-            FreeBumpUpEnabled(rawValue: $0 ?? "")?.asBool ?? false
-        }
-    }
-    #endif
-
-    static var pricedBumpUpEnabled: Bool {
-        guard let value = Bumper.value(for: PricedBumpUpEnabled.key) else { return false }
-        return PricedBumpUpEnabled(rawValue: value)?.asBool ?? false
-    } 
-
-    #if (RX_BUMPER)
-    static var pricedBumpUpEnabledObservable: Observable<Bool> {
-        return Bumper.observeValue(for: PricedBumpUpEnabled.key).map {
-            PricedBumpUpEnabled(rawValue: $0 ?? "")?.asBool ?? false
         }
     }
     #endif
@@ -246,19 +214,6 @@ extension Bumper  {
     }
     #endif
 
-    static var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers {
-        guard let value = Bumper.value(for: NoAdsInFeedForNewUsers.key) else { return .control }
-        return NoAdsInFeedForNewUsers(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var noAdsInFeedForNewUsersObservable: Observable<NoAdsInFeedForNewUsers> {
-        return Bumper.observeValue(for: NoAdsInFeedForNewUsers.key).map {
-            NoAdsInFeedForNewUsers(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
     static var searchImprovements: SearchImprovements {
         guard let value = Bumper.value(for: SearchImprovements.key) else { return .control }
         return SearchImprovements(rawValue: value) ?? .control 
@@ -311,19 +266,6 @@ extension Bumper  {
     }
     #endif
 
-    static var bumpUpBoost: BumpUpBoost {
-        guard let value = Bumper.value(for: BumpUpBoost.key) else { return .control }
-        return BumpUpBoost(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var bumpUpBoostObservable: Observable<BumpUpBoost> {
-        return Bumper.observeValue(for: BumpUpBoost.key).map {
-            BumpUpBoost(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
     static var copyForChatNowInTurkey: CopyForChatNowInTurkey {
         guard let value = Bumper.value(for: CopyForChatNowInTurkey.key) else { return .control }
         return CopyForChatNowInTurkey(rawValue: value) ?? .control 
@@ -363,19 +305,6 @@ extension Bumper  {
     }
     #endif
 
-    static var feedAdsProviderForUS: FeedAdsProviderForUS {
-        guard let value = Bumper.value(for: FeedAdsProviderForUS.key) else { return .control }
-        return FeedAdsProviderForUS(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var feedAdsProviderForUSObservable: Observable<FeedAdsProviderForUS> {
-        return Bumper.observeValue(for: FeedAdsProviderForUS.key).map {
-            FeedAdsProviderForUS(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
     static var copyForChatNowInEnglish: CopyForChatNowInEnglish {
         guard let value = Bumper.value(for: CopyForChatNowInEnglish.key) else { return .control }
         return CopyForChatNowInEnglish(rawValue: value) ?? .control 
@@ -385,19 +314,6 @@ extension Bumper  {
     static var copyForChatNowInEnglishObservable: Observable<CopyForChatNowInEnglish> {
         return Bumper.observeValue(for: CopyForChatNowInEnglish.key).map {
             CopyForChatNowInEnglish(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var feedAdsProviderForTR: FeedAdsProviderForTR {
-        guard let value = Bumper.value(for: FeedAdsProviderForTR.key) else { return .control }
-        return FeedAdsProviderForTR(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var feedAdsProviderForTRObservable: Observable<FeedAdsProviderForTR> {
-        return Bumper.observeValue(for: FeedAdsProviderForTR.key).map {
-            FeedAdsProviderForTR(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -502,19 +418,6 @@ extension Bumper  {
     static var servicesCategoryOnSalchichasMenuObservable: Observable<ServicesCategoryOnSalchichasMenu> {
         return Bumper.observeValue(for: ServicesCategoryOnSalchichasMenu.key).map {
             ServicesCategoryOnSalchichasMenu(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var googleAdxForTR: GoogleAdxForTR {
-        guard let value = Bumper.value(for: GoogleAdxForTR.key) else { return .control }
-        return GoogleAdxForTR(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var googleAdxForTRObservable: Observable<GoogleAdxForTR> {
-        return Bumper.observeValue(for: GoogleAdxForTR.key).map {
-            GoogleAdxForTR(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1012,6 +915,19 @@ extension Bumper  {
         }
     }
     #endif
+
+    static var realEstatePromoCells: RealEstatePromoCells {
+        guard let value = Bumper.value(for: RealEstatePromoCells.key) else { return .control }
+        return RealEstatePromoCells(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var realEstatePromoCellsObservable: Observable<RealEstatePromoCells> {
+        return Bumper.observeValue(for: RealEstatePromoCells.key).map {
+            RealEstatePromoCells(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
 }
 
 
@@ -1021,24 +937,6 @@ enum SurveyEnabled: String, BumperFeature  {
     static var enumValues: [SurveyEnabled] { return [.no, .yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show qualitative survey" } 
-    var asBool: Bool { return self == .yes }
-}
-
-enum FreeBumpUpEnabled: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return FreeBumpUpEnabled.no.rawValue }
-    static var enumValues: [FreeBumpUpEnabled] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "[MONEY] User can bump sharing" } 
-    var asBool: Bool { return self == .yes }
-}
-
-enum PricedBumpUpEnabled: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return PricedBumpUpEnabled.no.rawValue }
-    static var enumValues: [PricedBumpUpEnabled] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "[MONEY] User can bump paying" } 
     var asBool: Bool { return self == .yes }
 }
 
@@ -1175,24 +1073,6 @@ enum ShowInactiveConversations: String, BumperFeature  {
     var asBool: Bool { return self == .yes }
 }
 
-enum NoAdsInFeedForNewUsers: String, BumperFeature  {
-    case control, baseline, adsEverywhere, noAdsForNewUsers, adsForNewUsersOnlyInFeed
-    static var defaultValue: String { return NoAdsInFeedForNewUsers.control.rawValue }
-    static var enumValues: [NoAdsInFeedForNewUsers] { return [.control, .baseline, .adsEverywhere, .noAdsForNewUsers, .adsForNewUsersOnlyInFeed]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "[MONEY] Change logic for showing ads to new users (2 weeks old)" } 
-    static func fromPosition(_ position: Int) -> NoAdsInFeedForNewUsers {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .adsEverywhere
-            case 3: return .noAdsForNewUsers
-            case 4: return .adsForNewUsersOnlyInFeed
-            default: return .control
-        }
-    }
-}
-
 enum SearchImprovements: String, BumperFeature  {
     case control, baseline, mWE, mWERelaxedSynonyms, mWERelaxedSynonymsMM100, mWERelaxedSynonymsMM75, mWS, boostingScoreDistance, boostingDistance, boostingFreshness, boostingDistAndFreshness
     static var defaultValue: String { return SearchImprovements.control.rawValue }
@@ -1260,25 +1140,6 @@ enum OnboardingIncentivizePosting: String, BumperFeature  {
     }
 }
 
-enum BumpUpBoost: String, BumperFeature  {
-    case control, baseline, sendTop5Mins, sendTop1hour, boostListing1hour, cheaperBoost5Mins
-    static var defaultValue: String { return BumpUpBoost.control.rawValue }
-    static var enumValues: [BumpUpBoost] { return [.control, .baseline, .sendTop5Mins, .sendTop1hour, .boostListing1hour, .cheaperBoost5Mins]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Ability to boost ongoing bump ups" } 
-    static func fromPosition(_ position: Int) -> BumpUpBoost {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .sendTop5Mins
-            case 3: return .sendTop1hour
-            case 4: return .boostListing1hour
-            case 5: return .cheaperBoost5Mins
-            default: return .control
-        }
-    }
-}
-
 enum CopyForChatNowInTurkey: String, BumperFeature  {
     case control, variantA, variantB, variantC, variantD
     static var defaultValue: String { return CopyForChatNowInTurkey.control.rawValue }
@@ -1324,25 +1185,6 @@ enum ShowProTagUserProfile: String, BumperFeature  {
     var asBool: Bool { return self == .yes }
 }
 
-enum FeedAdsProviderForUS: String, BumperFeature  {
-    case control, baseline, googleAdxForAllUsers, googleAdxForOldUsers, moPubAdsForAllUsers, moPubAdsForOldUsers
-    static var defaultValue: String { return FeedAdsProviderForUS.control.rawValue }
-    static var enumValues: [FeedAdsProviderForUS] { return [.control, .baseline, .googleAdxForAllUsers, .googleAdxForOldUsers, .moPubAdsForAllUsers, .moPubAdsForOldUsers]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "[MONEY] Change logic for showing ads with diferent ads providers in the US" } 
-    static func fromPosition(_ position: Int) -> FeedAdsProviderForUS {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .googleAdxForAllUsers
-            case 3: return .googleAdxForOldUsers
-            case 4: return .moPubAdsForAllUsers
-            case 5: return .moPubAdsForOldUsers
-            default: return .control
-        }
-    }
-}
-
 enum CopyForChatNowInEnglish: String, BumperFeature  {
     case control, variantA, variantB, variantC, variantD
     static var defaultValue: String { return CopyForChatNowInEnglish.control.rawValue }
@@ -1356,23 +1198,6 @@ enum CopyForChatNowInEnglish: String, BumperFeature  {
             case 2: return .variantB
             case 3: return .variantC
             case 4: return .variantD
-            default: return .control
-        }
-    }
-}
-
-enum FeedAdsProviderForTR: String, BumperFeature  {
-    case control, baseline, moPubAdsForAllUsers, moPubAdsForOldUsers
-    static var defaultValue: String { return FeedAdsProviderForTR.control.rawValue }
-    static var enumValues: [FeedAdsProviderForTR] { return [.control, .baseline, .moPubAdsForAllUsers, .moPubAdsForOldUsers]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "[MONEY] Change logic for showing ads with diferent ads providers in TR" } 
-    static func fromPosition(_ position: Int) -> FeedAdsProviderForTR {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .moPubAdsForAllUsers
-            case 3: return .moPubAdsForOldUsers
             default: return .control
         }
     }
@@ -1499,23 +1324,6 @@ enum ServicesCategoryOnSalchichasMenu: String, BumperFeature  {
             case 2: return .variantA
             case 3: return .variantB
             case 4: return .variantC
-            default: return .control
-        }
-    }
-}
-
-enum GoogleAdxForTR: String, BumperFeature  {
-    case control, baseline, googleAdxForAllUsers, googleAdxForOldUsers
-    static var defaultValue: String { return GoogleAdxForTR.control.rawValue }
-    static var enumValues: [GoogleAdxForTR] { return [.control, .baseline, .googleAdxForAllUsers, .googleAdxForOldUsers]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "[MONEY] Change logic for showing GoogleAdx in TR" } 
-    static func fromPosition(_ position: Int) -> GoogleAdxForTR {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .googleAdxForAllUsers
-            case 3: return .googleAdxForOldUsers
             default: return .control
         }
     }
@@ -2132,6 +1940,22 @@ enum CarPromoCells: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .variantA
             case 3: return .variantB
+            default: return .control
+        }
+    }
+}
+
+enum RealEstatePromoCells: String, BumperFeature  {
+    case control, baseline, variantA
+    static var defaultValue: String { return RealEstatePromoCells.control.rawValue }
+    static var enumValues: [RealEstatePromoCells] { return [.control, .baseline, .variantA]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[REAL ESTATE] Show NEW promo cells for real Estate" } 
+    static func fromPosition(_ position: Int) -> RealEstatePromoCells {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .variantA
             default: return .control
         }
     }

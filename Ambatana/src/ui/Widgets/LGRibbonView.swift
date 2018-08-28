@@ -70,7 +70,6 @@ final class LGRibbonView: UIView {
         stripeLabel.textColor = configuration?.titleColor
     }
 
-
     //  MARK: - Private methods
 
     private func setupSubviews() {
@@ -92,6 +91,6 @@ final class LGRibbonView: UIView {
                                                  constant: Layout.ribbonLeadingOffset),
             ribbonStack.centerYAnchor.constraint(equalTo: stripeImageView.centerYAnchor,
                                                  constant: Layout.ribbonCenterYOffset),
-            ])
+        ])
     }
 }
