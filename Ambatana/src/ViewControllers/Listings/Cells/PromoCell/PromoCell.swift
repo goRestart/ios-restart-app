@@ -20,8 +20,7 @@ final class PromoCell: UICollectionViewCell, ReusableCell {
 
     private let icon: UIImageView = {
         let icon = UIImageView()
-        icon.contentMode = .center
-        icon.clipsToBounds = true
+        icon.contentMode = .scaleAspectFit
         return icon
     }()
 
@@ -34,11 +33,7 @@ final class PromoCell: UICollectionViewCell, ReusableCell {
         return label
     }()
     
-    private let postButton: LetgoButton = {
-        let button = LetgoButton(withStyle: .primary(fontSize: .verySmall))
-        button.setTitle(R.Strings.realEstatePromoPostButtonTitle, for: .normal)
-        return button
-    }()
+    private let postButton: LetgoButton = LetgoButton(withStyle: .primary(fontSize: .verySmall))
     
     private let backgroundImageView: UIImageView = {
         let imageView = UIImageView()
@@ -47,7 +42,9 @@ final class PromoCell: UICollectionViewCell, ReusableCell {
     }()
     
     private var stackViewTopAnchorConstraint: NSLayoutConstraint?
-    private var stackViewBottomAnchorConstraint: NSLayoutConstraint?
+    private var postButtonBottomAnchorConstraint: NSLayoutConstraint?
+    private var postButtonHeightConstraint: NSLayoutConstraint?
+    private var postButtonWidthConstraint: NSLayoutConstraint?
     
     weak var delegate: ListingCellDelegate?
     private var cellType: PromoCellType?
@@ -93,7 +90,26 @@ final class PromoCell: UICollectionViewCell, ReusableCell {
         contentView.backgroundColor = appearance.backgroundColor
         titleLabel.textColor = appearance.titleColor
         postButton.setStyle(appearance.buttonStyle)
+        postButton.setTitle(appearance.buttonTitle, for: .normal)
         backgroundImageView.image = appearance.backgroundImage
+        
+        updatePostButtonWidth(forTitle: appearance.buttonTitle,
+                              withFont: appearance.buttonStyle.titleFont)
+    }
+    
+    
+    private func updatePostButtonWidth(forTitle title: String?,
+                                       withFont font: UIFont) {
+        guard let title = title else {
+            postButtonWidthConstraint?.constant = PromoCellMetrics.PostButton.width
+            return
+        }
+        
+        let stringWidth = title.widthFor(height: PromoCellMetrics.PostButton.height,
+                                         font: font)
+        let desiredWidth = stringWidth+PromoCellMetrics.PostButton.horizontalInsets
+        
+        postButtonWidthConstraint?.constant = desiredWidth
     }
 
     // MARK: - Private methods
@@ -106,7 +122,7 @@ final class PromoCell: UICollectionViewCell, ReusableCell {
     private func setupUI() {
         contentView.clipsToBounds = true
         cornerRadius = LGUIKitConstants.mediumCornerRadius
-        contentView.addSubviewsForAutoLayout([backgroundImageView, stackView])
+        contentView.addSubviewsForAutoLayout([backgroundImageView, stackView, postButton])
     }
     
     private func resetUI() {
@@ -116,7 +132,7 @@ final class PromoCell: UICollectionViewCell, ReusableCell {
         cellType = nil
         stackView.arrangedSubviews.forEach( { $0.removeFromSuperview() } )
         updateStackViewVerticalConstraints(top: PromoCellMetrics.Stack.margin,
-                                           bottom: -PromoCellMetrics.Stack.bottomMargin)
+                                           bottom: -PromoCellMetrics.PostButton.bottomMargin)
     }
     
     private func setupConstraints() {
@@ -124,26 +140,32 @@ final class PromoCell: UICollectionViewCell, ReusableCell {
                                      backgroundImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
                                      backgroundImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
                                      backgroundImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-                                     postButton.heightAnchor.constraint(equalToConstant: PromoCellMetrics.PostButton.height),
-                                     postButton.widthAnchor.constraint(equalToConstant: PromoCellMetrics.PostButton.width),
+
                                      stackView.leadingAnchor.constraint(equalTo: leadingAnchor,
                                                                         constant: PromoCellMetrics.Stack.margin),
                                      stackView.trailingAnchor.constraint(equalTo: trailingAnchor,
-                                                                         constant: -PromoCellMetrics.Stack.margin)])
+                                                                         constant: -PromoCellMetrics.Stack.margin),
+                                     postButton.centerXAnchor.constraint(equalTo: centerXAnchor),
+                                     postButton.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: Metrics.bigMargin)])
         
         stackViewTopAnchorConstraint = stackView.topAnchor.constraint(equalTo: topAnchor,
                                                                       constant: PromoCellMetrics.Stack.margin)
-        stackViewBottomAnchorConstraint = stackView.bottomAnchor.constraint(equalTo: bottomAnchor,
-                                                                            constant: -PromoCellMetrics.Stack.bottomMargin)
+        postButtonHeightConstraint = postButton.heightAnchor.constraint(equalToConstant: PromoCellMetrics.PostButton.height)
+        postButtonBottomAnchorConstraint = postButton.bottomAnchor.constraint(equalTo: bottomAnchor,
+                                                                            constant: -PromoCellMetrics.PostButton.bottomMargin)
+        postButtonWidthConstraint = postButton.widthAnchor.constraint(equalToConstant: PromoCellMetrics.PostButton.width)
+        
+        postButtonHeightConstraint?.isActive = true
         stackViewTopAnchorConstraint?.isActive = true
-        stackViewBottomAnchorConstraint?.isActive = true
+        postButtonBottomAnchorConstraint?.isActive = true
+        postButtonWidthConstraint?.isActive = true
     }
 
     private func setAccessibilityIds() {
-        set(accessibilityId: .realEstateCell)
-        titleLabel.set(accessibilityId: .realEstatePromoTitle)
-        icon.set(accessibilityId: .realEstatePromoIcon)
-        postButton.set(accessibilityId: .realEstatePromoPostNowButton)
+        set(accessibilityId: .promoCell)
+        titleLabel.set(accessibilityId: .promoCellTitle)
+        icon.set(accessibilityId: .promoCellIcon)
+        postButton.set(accessibilityId: .promoCellPostNowButton)
     }
     
     private func configure(stackViewWith arrangement: PromoCellArrangement) {
@@ -151,16 +173,15 @@ final class PromoCell: UICollectionViewCell, ReusableCell {
         case .imageOnTop:
             stackView.addArrangedSubview(icon)
             stackView.addArrangedSubview(titleLabel)
-            stackView.addArrangedSubview(postButton)
             updateStackViewVerticalConstraints(top: PromoCellMetrics.Stack.margin,
-                                               bottom: -PromoCellMetrics.Stack.bottomMargin)
+                                               bottom: -PromoCellMetrics.PostButton.bottomMargin)
         case .titleOnTop(let showsPostButton):
             stackView.addArrangedSubview(titleLabel)
             stackView.addArrangedSubview(icon)
+            postButtonHeightConstraint?.constant = showsPostButton ? PromoCellMetrics.PostButton.height : 0
             if showsPostButton {
-                stackView.addArrangedSubview(postButton)
                 updateStackViewVerticalConstraints(top: PromoCellMetrics.Stack.margin,
-                                                   bottom: -PromoCellMetrics.Stack.bottomMargin)
+                                                   bottom: -PromoCellMetrics.PostButton.bottomMargin)
             } else {
                 updateStackViewVerticalConstraints(top: PromoCellMetrics.Stack.largeMargin,
                                                    bottom: -PromoCellMetrics.Stack.largeBottomMargin)
@@ -171,7 +192,7 @@ final class PromoCell: UICollectionViewCell, ReusableCell {
     private func updateStackViewVerticalConstraints(top topValue: CGFloat,
                                                     bottom bottomValue: CGFloat) {
         stackViewTopAnchorConstraint?.constant = topValue
-        stackViewBottomAnchorConstraint?.constant = bottomValue
+        postButtonBottomAnchorConstraint?.constant = bottomValue
     }
     
     @objc private func postNowButtonPressed() {
@@ -200,7 +221,7 @@ private extension CellAppearance {
             return .white
         case .light:
             return .redText
-        case .backgroundImage(_, let titleColor, _):
+        case .backgroundImage(_, let titleColor, _, _):
             return titleColor
         }
     }
@@ -209,7 +230,7 @@ private extension CellAppearance {
         switch self {
         case .dark, .light:
             return .primary(fontSize: .verySmall)
-        case .backgroundImage(_, _, let buttonStyle):
+        case .backgroundImage(_, _, let buttonStyle, _):
             return buttonStyle
         }
     }
@@ -218,8 +239,17 @@ private extension CellAppearance {
         switch self {
         case .dark, .light:
             return nil
-        case .backgroundImage(let image, _, _):
+        case .backgroundImage(let image, _, _, _):
             return image
+        }
+    }
+    
+    var buttonTitle: String? {
+        switch self {
+        case .dark(let buttonTitle), .light(let buttonTitle):
+            return buttonTitle
+        case .backgroundImage(_, _, _, let buttonTitle):
+            return buttonTitle
         }
     }
 }

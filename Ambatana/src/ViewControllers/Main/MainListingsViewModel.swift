@@ -49,23 +49,10 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         }
     }
     
-    var interestingListingIDs: Set<String> = Set<String>() {
-        didSet {
-            let empty = [String: InterestedState]()
-            let dict: [String: InterestedState] = interestingListingIDs.reduce(empty) {
-                (dict, identifier) -> [String: InterestedState] in
-                var dict = dict
-                dict[identifier] = .seeConversation
-                return dict
-            }
-            listViewModel.listingInterestState = dict
-        }
-    }
-    
     private let interestingUndoTimeout: TimeInterval = 5
     private let chatWrapper: ChatWrapper
-    private let interestedStateUpdater: InterestedStateUpdater
     private let adsImpressionConfigurable: AdsImpressionConfigurable
+    private let interestedHandler: InterestedHandleable
 
     let bannerCellPosition: Int = 8
     let suggestedSearchesLimit: Int = 10
@@ -395,14 +382,6 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         return myUserRepository.myUser?.name
     }
     
-    private var isRealEstateSearch: Bool {
-        return filters.selectedCategories == [.realEstate]
-    }
-    
-    private var isCarPromoSearch: Bool {
-        return filters.selectedCategories == [.cars]
-    }
-
     private var isCurrentFeedACachedFeed: Bool = false {
         didSet {
             guard featureFlags.cachedFeed.isActive else { return }
@@ -433,6 +412,15 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     private let requesterFactory: RequesterFactory
     private let requesterDependencyContainer: RequesterDependencyContainer
     
+    
+    private var canShowCarPromoCells: Bool {
+        return featureFlags.carPromoCells.isActive && filters.isCarSearch
+    }
+    
+    private var canShowServicePromoCells: Bool {
+        return featureFlags.servicesPromoCells.isActive && filters.isJobsAndServicesSearch
+    }
+    
     // MARK: - Lifecycle
     
     init(sessionManager: SessionManager,
@@ -454,7 +442,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
          bubbleTextGenerator: DistanceBubbleTextGenerator,
          chatWrapper: ChatWrapper,
          adsImpressionConfigurable: AdsImpressionConfigurable,
-         interestedStateUpdater: InterestedStateUpdater,
+         interestedHandler: InterestedHandleable,
          feedBadgingSynchronizer: FeedBadgingSynchronizer) {
         self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
@@ -476,7 +464,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         self.bubbleTextGenerator = bubbleTextGenerator
         self.chatWrapper = chatWrapper
         self.adsImpressionConfigurable = adsImpressionConfigurable
-        self.interestedStateUpdater = interestedStateUpdater
+        self.interestedHandler = interestedHandler
         self.feedBadgingSynchronizer = feedBadgingSynchronizer
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
         let columns = show3Columns ? 3 : 2
@@ -488,7 +476,13 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         let requesterFactory = SearchRequesterFactory(dependencyContainer: self.requesterDependencyContainer,
                                                       featureFlags: featureFlags)
         self.requesterFactory = requesterFactory
-        self.listViewModel = ListingListViewModel(numberOfColumns: columns, tracker: tracker, featureFlags: featureFlags, requesterFactory: requesterFactory, searchType: searchType)
+        self.listViewModel = ListingListViewModel(numberOfColumns: columns,
+                                                  tracker: tracker,
+                                                  featureFlags: featureFlags,
+                                                  requesterFactory: requesterFactory,
+                                                  searchType: searchType,
+                                                  source: .feed,
+                                                  interestedStateUpdater: interestedHandler.interestedStateUpdater)
         let multiRequester = self.listViewModel.currentActiveRequester as? ListingListMultiRequester
         self.listingListRequester = multiRequester ?? ListingListMultiRequester()
         self.listViewModel.listingListFixedInset = show3Columns ? 6 : 10
@@ -521,7 +515,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         let bubbleTextGenerator = DistanceBubbleTextGenerator()
         let chatWrapper = LGChatWrapper()
         let adsImpressionConfigurable = LGAdsImpressionConfigurable()
-        let interestedStateUpdater = LGInterestedStateUpdater()
+        let interestedHandler = InterestedHandler()
         let feedBadgingSynchronizer = LGFeedBadgingSynchronizer()
         self.init(sessionManager: sessionManager,
                   myUserRepository: myUserRepository,
@@ -542,7 +536,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                   bubbleTextGenerator: bubbleTextGenerator,
                   chatWrapper: chatWrapper,
                   adsImpressionConfigurable: adsImpressionConfigurable,
-                  interestedStateUpdater: interestedStateUpdater,
+                  interestedHandler: interestedHandler,
                   feedBadgingSynchronizer: feedBadgingSynchronizer)
     }
     
@@ -557,7 +551,6 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
-        interestingListingIDs = keyValueStorage.interestingListingIDs
         updatePermissionsWarning()
         updateCategoriesHeader()
         if firstTime {
@@ -1162,7 +1155,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             if let isLastPage = requester?.multiIsLastPage, isLastPage {
                 let hasPerformedSearch = queryString != nil || hasFilters
                 let emptyViewModel = EmptyViewModelBuilder(hasPerformedSearch: hasPerformedSearch,
-                                                           isRealEstateSearch: isRealEstateSearch).build()
+                                                           isRealEstateSearch: filters.isRealEstateSearch).build()
                 listViewModel.setEmptyState(emptyViewModel)
                 filterDescription.value = nil
                 filterTitle.value = nil
@@ -1302,6 +1295,8 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         totalListings = addCollections(to: totalListings, page: page)
         totalListings = addRealEstatePromoItem(to: totalListings)
         totalListings = addCarPromoItem(to: totalListings)
+        totalListings = addServicesPromoItem(to: totalListings)
+        
         let myUserCreationDate: Date? = myUserRepository.myUser?.creationDate
         if featureFlags.showAdsInFeedWithRatio.isActive ||
             adsImpressionConfigurable.shouldShowAdsForUser {
@@ -1396,7 +1391,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
     }
     
     private func addRealEstatePromoItem(to listings: [ListingCellModel]) -> [ListingCellModel] {
-        guard isRealEstateSearch, !listings.isEmpty
+        guard filters.isRealEstateSearch, !listings.isEmpty
             else { return listings }
         
         guard (!filters.hasAnyRealEstateAttributes && listingListRequester.multiIsFirstPage) ||
@@ -1409,29 +1404,27 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
     }
     
     private func addCarPromoItem(to listings: [ListingCellModel]) -> [ListingCellModel] {
-        guard featureFlags.carPromoCells.isActive,
-            isCarPromoSearch,
+        guard canShowCarPromoCells,
             !listings.isEmpty
             else { return listings }
         
-        guard let carPromoCellModel = newCarPromoCellModel(),
+        guard let carPromoCellModel = featureFlags.carPromoCells.newCarPromoCellModel(withDelegate: self),
             (!filters.hasAnyCarAttributes && listingListRequester.multiIsFirstPage) ||
             (filters.hasAnyCarAttributes && listingListRequester.isFirstPageInLastRequester) else { return listings }
         
         return [carPromoCellModel] + listings
     }
-    
-    private func newCarPromoCellModel() -> ListingCellModel? {
-        switch featureFlags.carPromoCells {
-        case .control, .baseline:
-            return nil
-        case .variantA:
-            return ListingCellModel.promo(data: CarPromoCellConfiguration.createRandomCellData(showsPostButton: true),
-                                          delegate: self)
-        case .variantB:
-            return ListingCellModel.promo(data: CarPromoCellConfiguration.createRandomCellData(showsPostButton: false),
-                                          delegate: self)
-        }
+
+    private func addServicesPromoItem(to listings: [ListingCellModel]) -> [ListingCellModel] {
+        guard canShowServicePromoCells,
+            !listings.isEmpty
+            else { return listings }
+        
+        guard let servicesPromoCellModel = featureFlags.servicesPromoCells.newServicesPromoCellModel(withDelegate: self),
+            (!filters.hasAnyServicesAttributes && listingListRequester.multiIsFirstPage) ||
+                (filters.hasAnyServicesAttributes && listingListRequester.isFirstPageInLastRequester) else { return listings }
+        
+        return [servicesPromoCellModel] + listings
     }
     
     private func adAbsolutePosition() -> Int {
@@ -1946,75 +1939,35 @@ extension MainListingsViewModel: CategoriesHeaderCollectionViewDelegate {
 extension MainListingsViewModel: ListingCellDelegate {
     
     func interestedActionFor(_ listing: Listing, userListing: LocalUser?, completion: @escaping (InterestedState) -> Void) {
-        if let user = userListing, user.isProfessional {
-            interestedActionForProUser(forListing: listing, interlocutor: user)
-        } else {
-            interestedActionForNormalUser(listing, completion: completion)
-        }
-    }
-    
-    private func openChat(withData data: ChatDetailData) {
-        navigator?.openChat(data,
-                            source: .listingListFeatured,
-                            predefinedMessage: nil)
-    }
-    
-    private func interestedActionForProUser(forListing listing: Listing, interlocutor: LocalUser) {
-        openLoginIfNeeded(message: R.Strings.chatLoginPopupText) { [weak self] in
-            guard let shouldOpenProChat = self?.interestedStateUpdater.hasContactedProListing(listing),
-                shouldOpenProChat else {
-                    self?.navigator?.openAskPhoneFromMainFeedFor(listing: listing,
-                                                                 interlocutor: interlocutor)
-                    return
+        let interestedAction: () -> () = { [weak self] in
+            self?.interestedHandler.interestedActionFor(listing,
+                                                        userListing: userListing,
+                                                        stateCompletion: completion) { [weak self] interestedAction in
+                switch interestedAction {
+                case .openChatProUser:
+                    guard let interlocutor = userListing else { return }
+                    self?.navigator?.openListingChat(listing,
+                                                     source: .listingList,
+                                                     interlocutor: interlocutor)
+                case .askPhoneProUser:
+                    guard let interlocutor = userListing else { return }
+                    self?.navigator?.openAskPhoneFromMainFeedFor(listing: listing, interlocutor: interlocutor)
+                case .openChatNonProUser:
+                    let chatDetailData = ChatDetailData.listingAPI(listing: listing)
+                    self?.navigator?.openChat(chatDetailData,
+                                              source: .listingListFeatured,
+                                              predefinedMessage: nil)
+                case .triggerInterestedAction:
+                    let (cancellable, timer) = LGTimer.cancellableWait(5)
+                    self?.showUndoBubble(withMessage: R.Strings.productInterestedBubbleMessage,
+                                         duration: MainListingsViewModel.interestingUndoTimeout) {
+                                            cancellable.cancel()
+                    }
+                    self?.interestedHandler.handleCancellableInterestedAction(listing, timer: timer,  completion: completion)
+                }
             }
-            self?.openProChat(listing, interlocutor: interlocutor)
         }
-    }
-    
-    private func interestedActionForNormalUser(_ listing: Listing, completion: @escaping (InterestedState) -> Void) {
-        guard !interestedStateUpdater.interestedIsDisabled(forListing: listing) else { return }
-        openLoginIfNeeded(message: R.Strings.chatLoginPopupText) { [weak self] in
-            guard let strSelf = self else { return }
-            let shouldOpenChat = strSelf.interestedStateUpdater.hasContactedListing(listing)
-            guard !shouldOpenChat else {
-                completion(.seeConversation)
-                let chatDetailData = ChatDetailData.listingAPI(listing: listing)
-                strSelf.openChat(withData: chatDetailData)
-                return
-            }
-            strSelf.handleCancellableInterestedAction(listing, completion: completion)
-        }
-    }
-    
-    private func handleCancellableInterestedAction(_ listing: Listing, completion: @escaping (InterestedState) -> Void) {
-        let (cancellable, timer) = LGTimer.cancellableWait(MainListingsViewModel.interestingUndoTimeout)
-        showUndoBubble(withMessage: R.Strings.productInterestedBubbleMessage,
-                       duration: MainListingsViewModel.interestingUndoTimeout) {
-                        cancellable.cancel()
-        }
-        timer.subscribe { [weak self] (event) in
-            guard event.error == nil else {
-                completion(.seeConversation)
-                self?.sendMessage(forListing: listing)
-                return
-            }
-            completion(.send(enabled: true))
-            self?.undoSendingInterestedMessage(forListing: listing)
-            }.disposed(by: disposeBag)
-    }
-    
-    private func openLoginIfNeeded(message: String, then action: @escaping () -> Void) {
-        navigator?.openLoginIfNeeded(infoMessage: message, then: action)
-    }
-    
-    private func openProChat(_ listing: Listing, interlocutor: LocalUser) {
-        let trackHelper = ProductVMTrackHelper(tracker: tracker,
-                                               listing: listing,
-                                               featureFlags: featureFlags)
-        trackHelper.trackChatWithSeller(.feed)
-        navigator?.openListingChat(listing,
-                                   source: .listingList,
-                                   interlocutor: interlocutor)
+        navigator?.openLoginIfNeeded(infoMessage: R.Strings.chatLoginPopupText, then: interestedAction)
     }
     
     private func showUndoBubble(withMessage message: String,
@@ -2023,39 +1976,6 @@ extension MainListingsViewModel: ListingCellDelegate {
         navigator?.showUndoBubble(withMessage: message,
                                   duration: duration,
                                   withAction: action)
-    }
-    
-    private func undoSendingInterestedMessage(forListing listing: Listing) {
-        tracker.trackEvent(TrackerEvent.undoSentMessage())
-    }
-    
-    private func sendMessage(forListing listing: Listing) {
-        let type = ChatWrapperMessageType.interested(QuickAnswer.interested.textToReply)
-        interestedStateUpdater.addInterestedState(forListing: listing, completion: nil)
-        let trackingInfo = SendMessageTrackingInfo
-            .makeWith(type: type, listing: listing, freePostingAllowed: featureFlags.freePostingModeAllowed)
-            .set(typePage: .listingList)
-            .set(isBumpedUp: .falseParameter)
-            .set(containsEmoji: false)
-        tracker.trackEvent(.userMessageSent(info: trackingInfo, isProfessional: nil))
-        chatWrapper.sendMessageFor(listing: listing, type: type) { [weak self] isFirstMessage in
-            let isFirstMessage = isFirstMessage.value ?? false
-            guard isFirstMessage else { return }
-            let event = TrackerEvent.firstMessage(info: trackingInfo,
-                                                  listingVisitSource: .listingList,
-                                                  feedPosition: .none,
-                                                  userBadge: .noBadge,
-                                                  containsVideo: EventParameterBoolean(bool: listing.containsVideo()),
-                                                  isProfessional: nil,
-                                                  sectionName: nil)
-            self?.tracker.trackEvent(event)
-        }
-        listViewModel.update(listing: listing, interestedState: .seeConversation)
-    }
-    
-    private func showCancellableInterestedBubbleWith(duration: TimeInterval, then action: @escaping ()->()) {
-        let message = R.Strings.productInterestedBubbleMessage
-        navigator?.showUndoBubble(withMessage: message, duration: duration, withAction: action)
     }
     
     func chatButtonPressedFor(listing: Listing) {
@@ -2103,4 +2023,51 @@ extension MainListingsViewModel: ListingCellDelegate {
     }
 
     func bumpUpPressedFor(listing: Listing) { }
+}
+
+private extension ListingFilters {
+    
+    var isRealEstateSearch: Bool {
+        return selectedCategories == [.realEstate]
+    }
+    
+    var isCarSearch: Bool {
+        return selectedCategories == [.cars]
+    }
+    
+    var isJobsAndServicesSearch: Bool {
+        return selectedCategories == [.services]
+    }
+}
+
+private extension ServicesPromoCells {
+    
+    func newServicesPromoCellModel(withDelegate delegate: ListingCellDelegate) -> ListingCellModel? {
+        switch self {
+        case .control, .baseline:
+            return nil
+        case .activeWithCallToAction:
+            return ListingCellModel.promo(data: ServicesPromoCellConfiguration.createRandomCellData(showsPostButton: true),
+                                          delegate: delegate)
+        case .activeWithoutCallToAction:
+            return ListingCellModel.promo(data: ServicesPromoCellConfiguration.createRandomCellData(showsPostButton: false),
+                                          delegate: delegate)
+        }
+    }
+}
+
+private extension CarPromoCells {
+    
+    func newCarPromoCellModel(withDelegate delegate: ListingCellDelegate) -> ListingCellModel? {
+        switch self {
+        case .control, .baseline:
+            return nil
+        case .variantA:
+            return ListingCellModel.promo(data: CarPromoCellConfiguration.createRandomCellData(showsPostButton: true),
+                                          delegate: delegate)
+        case .variantB:
+            return ListingCellModel.promo(data: CarPromoCellConfiguration.createRandomCellData(showsPostButton: false),
+                                          delegate: delegate)
+        }
+    }
 }

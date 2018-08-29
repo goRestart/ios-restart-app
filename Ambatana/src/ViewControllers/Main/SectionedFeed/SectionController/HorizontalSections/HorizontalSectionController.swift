@@ -45,14 +45,8 @@ final class HorizontalSectionController: ListSectionController {
     }
     
     private func horizontalSectionHeight(forScreenWidth width: CGFloat) -> CGFloat {
-        switch featureFlags.sectionedMainFeed {
-        case .baseline, .control:
-            return 0
-        case .mediumHorizontalSection:
-            return width / 2.2
-        case .smallHorizontalSection:
-            return width / 3.4
-        }
+        let variant = featureFlags.sectionedFeedABTestIntValue
+        return variant%2 == 0 ? width / 2.2 : width / 3.4
     }
 }
 

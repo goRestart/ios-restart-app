@@ -34,7 +34,6 @@ extension Bumper  {
         flags.append(ChatNorris.self)
         flags.append(ShowProTagUserProfile.self)
         flags.append(CopyForChatNowInEnglish.self)
-        flags.append(SectionedMainFeed.self)
         flags.append(ShowExactLocationForPros.self)
         flags.append(ShowPasswordlessLogin.self)
         flags.append(CopyForSellFasterNowInEnglish.self)
@@ -42,7 +41,6 @@ extension Bumper  {
         flags.append(IAmInterestedFeed.self)
         flags.append(PersonalizedFeed.self)
         flags.append(ServicesCategoryOnSalchichasMenu.self)
-        flags.append(MultiContactAfterSearch.self)
         flags.append(EmptySearchImprovements.self)
         flags.append(OffensiveReportAlert.self)
         flags.append(HighlightedIAmInterestedFeed.self)
@@ -82,6 +80,9 @@ extension Bumper  {
         flags.append(CarPromoCells.self)
         flags.append(RealEstatePromoCells.self)
         flags.append(AdvancedReputationSystem11.self)
+        flags.append(SectionedDiscoveryFeed.self)
+        flags.append(ServicesPromoCells.self)
+        flags.append(ImInterestedInProfile.self)
         Bumper.initialize(flags)
     } 
 
@@ -319,19 +320,6 @@ extension Bumper  {
     }
     #endif
 
-    static var sectionedMainFeed: SectionedMainFeed {
-        guard let value = Bumper.value(for: SectionedMainFeed.key) else { return .control }
-        return SectionedMainFeed(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var sectionedMainFeedObservable: Observable<SectionedMainFeed> {
-        return Bumper.observeValue(for: SectionedMainFeed.key).map {
-            SectionedMainFeed(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
     static var showExactLocationForPros: Bool {
         guard let value = Bumper.value(for: ShowExactLocationForPros.key) else { return true }
         return ShowExactLocationForPros(rawValue: value)?.asBool ?? true
@@ -419,19 +407,6 @@ extension Bumper  {
     static var servicesCategoryOnSalchichasMenuObservable: Observable<ServicesCategoryOnSalchichasMenu> {
         return Bumper.observeValue(for: ServicesCategoryOnSalchichasMenu.key).map {
             ServicesCategoryOnSalchichasMenu(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var multiContactAfterSearch: MultiContactAfterSearch {
-        guard let value = Bumper.value(for: MultiContactAfterSearch.key) else { return .control }
-        return MultiContactAfterSearch(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var multiContactAfterSearchObservable: Observable<MultiContactAfterSearch> {
-        return Bumper.observeValue(for: MultiContactAfterSearch.key).map {
-            MultiContactAfterSearch(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -942,6 +917,45 @@ extension Bumper  {
         }
     }
     #endif
+
+    static var sectionedDiscoveryFeed: SectionedDiscoveryFeed {
+        guard let value = Bumper.value(for: SectionedDiscoveryFeed.key) else { return .control }
+        return SectionedDiscoveryFeed(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var sectionedDiscoveryFeedObservable: Observable<SectionedDiscoveryFeed> {
+        return Bumper.observeValue(for: SectionedDiscoveryFeed.key).map {
+            SectionedDiscoveryFeed(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var servicesPromoCells: ServicesPromoCells {
+        guard let value = Bumper.value(for: ServicesPromoCells.key) else { return .control }
+        return ServicesPromoCells(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var servicesPromoCellsObservable: Observable<ServicesPromoCells> {
+        return Bumper.observeValue(for: ServicesPromoCells.key).map {
+            ServicesPromoCells(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var imInterestedInProfile: ImInterestedInProfile {
+        guard let value = Bumper.value(for: ImInterestedInProfile.key) else { return .control }
+        return ImInterestedInProfile(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var imInterestedInProfileObservable: Observable<ImInterestedInProfile> {
+        return Bumper.observeValue(for: ImInterestedInProfile.key).map {
+            ImInterestedInProfile(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
 }
 
 
@@ -1217,23 +1231,6 @@ enum CopyForChatNowInEnglish: String, BumperFeature  {
     }
 }
 
-enum SectionedMainFeed: String, BumperFeature  {
-    case control, baseline, mediumHorizontalSection, smallHorizontalSection
-    static var defaultValue: String { return SectionedMainFeed.control.rawValue }
-    static var enumValues: [SectionedMainFeed] { return [.control, .baseline, .mediumHorizontalSection, .smallHorizontalSection]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "[Discovery] Sectioned feed" } 
-    static func fromPosition(_ position: Int) -> SectionedMainFeed {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .mediumHorizontalSection
-            case 3: return .smallHorizontalSection
-            default: return .control
-        }
-    }
-}
-
 enum ShowExactLocationForPros: String, BumperFeature  {
     case yes, no
     static var defaultValue: String { return ShowExactLocationForPros.yes.rawValue }
@@ -1338,23 +1335,6 @@ enum ServicesCategoryOnSalchichasMenu: String, BumperFeature  {
             case 2: return .variantA
             case 3: return .variantB
             case 4: return .variantC
-            default: return .control
-        }
-    }
-}
-
-enum MultiContactAfterSearch: String, BumperFeature  {
-    case control, baseline, photoAndInfo, onlyPhoto
-    static var defaultValue: String { return MultiContactAfterSearch.control.rawValue }
-    static var enumValues: [MultiContactAfterSearch] { return [.control, .baseline, .photoAndInfo, .onlyPhoto]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "MultiContact After Search" } 
-    static func fromPosition(_ position: Int) -> MultiContactAfterSearch {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .photoAndInfo
-            case 3: return .onlyPhoto
             default: return .control
         }
     }
@@ -1982,6 +1962,55 @@ enum AdvancedReputationSystem11: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "[USERS] ARS v1.1" } 
     static func fromPosition(_ position: Int) -> AdvancedReputationSystem11 {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum SectionedDiscoveryFeed: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return SectionedDiscoveryFeed.control.rawValue }
+    static var enumValues: [SectionedDiscoveryFeed] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[Discovery] Show SectionedFeed" } 
+    static func fromPosition(_ position: Int) -> SectionedDiscoveryFeed {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum ServicesPromoCells: String, BumperFeature  {
+    case control, baseline, activeWithCallToAction, activeWithoutCallToAction
+    static var defaultValue: String { return ServicesPromoCells.control.rawValue }
+    static var enumValues: [ServicesPromoCells] { return [.control, .baseline, .activeWithCallToAction, .activeWithoutCallToAction]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[SERVICES] Show promo cells for Services" } 
+    static func fromPosition(_ position: Int) -> ServicesPromoCells {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .activeWithCallToAction
+            case 3: return .activeWithoutCallToAction
+            default: return .control
+        }
+    }
+}
+
+enum ImInterestedInProfile: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return ImInterestedInProfile.control.rawValue }
+    static var enumValues: [ImInterestedInProfile] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[RETENTION] Show Im Interested buttons in public profiles" } 
+    static func fromPosition(_ position: Int) -> ImInterestedInProfile {
         switch position { 
             case 0: return .control
             case 1: return .baseline

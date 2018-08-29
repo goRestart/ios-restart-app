@@ -20,6 +20,14 @@
 		01337B962085F55D00AC8385 /* NotificationSettingsSwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01337B942085F55D00AC8385 /* NotificationSettingsSwitchCell.swift */; };
 		013489F820D3FEF900E543C2 /* NotificationSettingCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013489F720D3FEF900E543C2 /* NotificationSettingCellType.swift */; };
 		013489F920D3FEF900E543C2 /* NotificationSettingCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013489F720D3FEF900E543C2 /* NotificationSettingCellType.swift */; };
+		013B2A1D21303DCC00F69613 /* InterestedStateUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013B2A1A21303DCB00F69613 /* InterestedStateUpdater.swift */; };
+		013B2A1F21303DCC00F69613 /* LGInterestedStateUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013B2A1B21303DCB00F69613 /* LGInterestedStateUpdater.swift */; };
+		013B2A2021303DCC00F69613 /* LGInterestedStateUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013B2A1B21303DCB00F69613 /* LGInterestedStateUpdater.swift */; };
+		013B2A2121303DCC00F69613 /* InterestedHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013B2A1C21303DCC00F69613 /* InterestedHandler.swift */; };
+		013B2A2221303DCC00F69613 /* InterestedHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013B2A1C21303DCC00F69613 /* InterestedHandler.swift */; };
+		013B2A242130444E00F69613 /* InterestedHandleable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013B2A232130444E00F69613 /* InterestedHandleable.swift */; };
+		013B2A252130444E00F69613 /* InterestedHandleable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013B2A232130444E00F69613 /* InterestedHandleable.swift */; };
+		013B2A272130482900F69613 /* MockInterestedHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013B2A262130482900F69613 /* MockInterestedHandler.swift */; };
 		0140073A21218CFF00BD2E1B /* FeedBadgingSynchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0140073921218CFF00BD2E1B /* FeedBadgingSynchronizer.swift */; };
 		0140073B21218CFF00BD2E1B /* FeedBadgingSynchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0140073921218CFF00BD2E1B /* FeedBadgingSynchronizer.swift */; };
 		014448392110BEF900A459F9 /* NotificationCenterHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014448382110BEF900A459F9 /* NotificationCenterHeader.swift */; };
@@ -36,7 +44,6 @@
 		0171FA9B2087444C00CAFE36 /* NotificationSettingsAccessorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0171FA9A2087444C00CAFE36 /* NotificationSettingsAccessorCell.swift */; };
 		0171FA9C2087444C00CAFE36 /* NotificationSettingsAccessorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0171FA9A2087444C00CAFE36 /* NotificationSettingsAccessorCell.swift */; };
 		01739496212DAB9400A66FE1 /* LGInterestedStateUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01739495212DAB9400A66FE1 /* LGInterestedStateUpdater.swift */; };
-		01739497212DAB9400A66FE1 /* LGInterestedStateUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01739495212DAB9400A66FE1 /* LGInterestedStateUpdater.swift */; };
 		01739499212DABCC00A66FE1 /* InterestedStateUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01739498212DABCC00A66FE1 /* InterestedStateUpdater.swift */; };
 		0173949A212DABCC00A66FE1 /* InterestedStateUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01739498212DABCC00A66FE1 /* InterestedStateUpdater.swift */; };
 		0173949C212DBD0500A66FE1 /* MockInterestedStateUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0173949B212DBD0500A66FE1 /* MockInterestedStateUpdater.swift */; };
@@ -1652,6 +1659,8 @@
 		C66105E12130165300BA4EF7 /* RealEstatePromoCellConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66105DF2130165300BA4EF7 /* RealEstatePromoCellConfiguration.swift */; };
 		C66105E3213016D200BA4EF7 /* CarPromoCellConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66105E2213016D200BA4EF7 /* CarPromoCellConfiguration.swift */; };
 		C66105E4213016D200BA4EF7 /* CarPromoCellConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66105E2213016D200BA4EF7 /* CarPromoCellConfiguration.swift */; };
+		C66105E721304AE000BA4EF7 /* ServicesPromoCellConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66105E621304AE000BA4EF7 /* ServicesPromoCellConfiguration.swift */; };
+		C66105E821304AE000BA4EF7 /* ServicesPromoCellConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66105E621304AE000BA4EF7 /* ServicesPromoCellConfiguration.swift */; };
 		C6687F3320C80D70008C1922 /* MultiListingPostedHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6687F3220C80D70008C1922 /* MultiListingPostedHeaderCell.swift */; };
 		C6687F3420C80D70008C1922 /* MultiListingPostedHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6687F3220C80D70008C1922 /* MultiListingPostedHeaderCell.swift */; };
 		C6687F3620C820BF008C1922 /* MultiListingPostedCongratsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6687F3520C820BF008C1922 /* MultiListingPostedCongratsCell.swift */; };
@@ -2311,6 +2320,11 @@
 		013013EB211B5B6C00FFC309 /* NotificationCenterThumbnailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenterThumbnailCell.swift; sourceTree = "<group>"; };
 		01337B942085F55D00AC8385 /* NotificationSettingsSwitchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsSwitchCell.swift; sourceTree = "<group>"; };
 		013489F720D3FEF900E543C2 /* NotificationSettingCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingCellType.swift; sourceTree = "<group>"; };
+		013B2A1A21303DCB00F69613 /* InterestedStateUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterestedStateUpdater.swift; sourceTree = "<group>"; };
+		013B2A1B21303DCB00F69613 /* LGInterestedStateUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGInterestedStateUpdater.swift; sourceTree = "<group>"; };
+		013B2A1C21303DCC00F69613 /* InterestedHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterestedHandler.swift; sourceTree = "<group>"; };
+		013B2A232130444E00F69613 /* InterestedHandleable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestedHandleable.swift; sourceTree = "<group>"; };
+		013B2A262130482900F69613 /* MockInterestedHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockInterestedHandler.swift; sourceTree = "<group>"; };
 		0140073921218CFF00BD2E1B /* FeedBadgingSynchronizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedBadgingSynchronizer.swift; sourceTree = "<group>"; };
 		014448382110BEF900A459F9 /* NotificationCenterHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenterHeader.swift; sourceTree = "<group>"; };
 		0144C3F521130A5000D811C8 /* NotificationCenterModularCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenterModularCell.swift; sourceTree = "<group>"; };
@@ -3255,6 +3269,7 @@
 		C65567F82112129900AFC97C /* UICollectionView+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+LG.swift"; sourceTree = "<group>"; };
 		C66105DF2130165300BA4EF7 /* RealEstatePromoCellConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealEstatePromoCellConfiguration.swift; sourceTree = "<group>"; };
 		C66105E2213016D200BA4EF7 /* CarPromoCellConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPromoCellConfiguration.swift; sourceTree = "<group>"; };
+		C66105E621304AE000BA4EF7 /* ServicesPromoCellConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServicesPromoCellConfiguration.swift; sourceTree = "<group>"; };
 		C6687F3220C80D70008C1922 /* MultiListingPostedHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiListingPostedHeaderCell.swift; sourceTree = "<group>"; };
 		C6687F3520C820BF008C1922 /* MultiListingPostedCongratsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiListingPostedCongratsCell.swift; sourceTree = "<group>"; };
 		C6687F3920C83A2C008C1922 /* MultiListingPostedIncentivisorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiListingPostedIncentivisorCell.swift; sourceTree = "<group>"; };
@@ -3625,11 +3640,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		01739493212DAB3E00A66FE1 /* Interested */ = {
+		013B2A1921303DA300F69613 /* Interested */ = {
 			isa = PBXGroup;
 			children = (
-				01739495212DAB9400A66FE1 /* LGInterestedStateUpdater.swift */,
-				01739498212DABCC00A66FE1 /* InterestedStateUpdater.swift */,
+				013B2A232130444E00F69613 /* InterestedHandleable.swift */,
+				013B2A1C21303DCC00F69613 /* InterestedHandler.swift */,
+				013B2A1A21303DCB00F69613 /* InterestedStateUpdater.swift */,
+				013B2A1B21303DCB00F69613 /* LGInterestedStateUpdater.swift */,
 			);
 			path = Interested;
 			name = Interested;
@@ -5391,7 +5408,7 @@
 		509273341B172D2100A346F9 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
-				01739493212DAB3E00A66FE1 /* Interested */,
+				013B2A1921303DA300F69613 /* Interested */,
 				09D7BC7C20EB62800090E499 /* Payments */,
 				C29F7129209076D900362F76 /* FileManager */,
 				0A04D5C320760A9C00471B9D /* ABTest */,
@@ -5663,6 +5680,7 @@
 				2E52956D2114B07D0043AF95 /* MockAdsImpressionHelper.swift */,
 				01A153502125C71700035DF6 /* MockFeedBadgingSynchronizer.swift */,
 				0173949B212DBD0500A66FE1 /* MockInterestedStateUpdater.swift */,
+				013B2A262130482900F69613 /* MockInterestedHandler.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -6551,6 +6569,7 @@
 			children = (
 				C66105DF2130165300BA4EF7 /* RealEstatePromoCellConfiguration.swift */,
 				C66105E2213016D200BA4EF7 /* CarPromoCellConfiguration.swift */,
+				C66105E621304AE000BA4EF7 /* ServicesPromoCellConfiguration.swift */,
 			);
 			path = Configurations;
 			sourceTree = "<group>";
@@ -8362,6 +8381,7 @@
 				01789DDF2123336200F248EC /* DeepLinkSpec.swift in Sources */,
 				50D08DDC1E69AF14009CC260 /* ChangeEmailViewModelSpec.swift in Sources */,
 				C7978D791E924593008CF5BB /* CountryCodeSpec.swift in Sources */,
+				013B2A272130482900F69613 /* MockInterestedHandler.swift in Sources */,
 				0150866B20520BFF0007E792 /* MockEventParameterPostingAbandonStep.swift in Sources */,
 				509F79B21EDC01E400AF2F70 /* RateUserViewModelSpec.swift in Sources */,
 				50D08DB91E69AF14009CC260 /* MockPurchaseableProduct+MockFactory.swift in Sources */,
@@ -8831,6 +8851,7 @@
 				C7798EA21D2EB6AB00C81DD4 /* UICollectionView+Helper.swift in Sources */,
 				0A6FECEC2130344000B57004 /* ChatWireframe.swift in Sources */,
 				A46057F6212AD4B800386DFC /* AccessibilityId.swift in Sources */,
+				013B2A1F21303DCC00F69613 /* LGInterestedStateUpdater.swift in Sources */,
 				8E56D74520A2ED1300097B61 /* ChatConversationsListView.swift in Sources */,
 				C6FFC49920F748BA00B9F53A /* ServicesFilters.swift in Sources */,
 				2E28B1291D99129D001BF8E4 /* CGFloat+rounding.swift in Sources */,
@@ -9261,6 +9282,7 @@
 				6A0B6A102052BC9F00EAA1F5 /* UserProfileRelationView.swift in Sources */,
 				72D928DC1E83DD340030F4C3 /* ConfigManager.swift in Sources */,
 				016328F620DBCFF000FA618B /* NotificationSettingsCompleteListViewModel.swift in Sources */,
+				013B2A242130444E00F69613 /* InterestedHandleable.swift in Sources */,
 				2E4ADEC2200515FC00D07D8A /* BumpUpPayViewController.swift in Sources */,
 				55FABE1620762E4B004B0DBD /* UserPhoneVerificationCodeInputViewController.swift in Sources */,
 				C77593F11BF0E48D0097D62F /* FilterHeaderCell.swift in Sources */,
@@ -9274,6 +9296,7 @@
 				C7DE8AE01C88A98B005CF37E /* PostListingViewController.swift in Sources */,
 				C73FABB61DD37968008F4519 /* SettingsLogoutCell.swift in Sources */,
 				0A6FECAC2130343F00B57004 /* PopupLoginModalWireframe.swift in Sources */,
+				013B2A1D21303DCC00F69613 /* InterestedStateUpdater.swift in Sources */,
 				320148782100C1B7003445DA /* SectionControllerLayout.swift in Sources */,
 				0A6FECDC2130344000B57004 /* EditListingModalWireframe.swift in Sources */,
 				F51A082B2031B5360008D744 /* AspectRatio.swift in Sources */,
@@ -9293,6 +9316,8 @@
 				0A6FECAA2130343F00B57004 /* EditUserBioWireframe.swift in Sources */,
 				C690704A21009E2300AF27E4 /* DropdownShowMoreView.swift in Sources */,
 				F5D91E7D2008C20200DF28E7 /* UserRatingType+RateBack.swift in Sources */,
+				0AD1B7432085D66400A28852 /* FeedNavigator.swift in Sources */,
+				013B2A2121303DCC00F69613 /* InterestedHandler.swift in Sources */,
 				3299E5EB2080AE01002935AE /* WaterFallLayoutHeaderTypes.swift in Sources */,
 				4226B673211096900010CC92 /* FeedRequesterFactory.swift in Sources */,
 				01337B952085F55D00AC8385 /* NotificationSettingsSwitchCell.swift in Sources */,
@@ -9328,6 +9353,7 @@
 				2E4436311BF389E000814624 /* LGNavBarSearchField.swift in Sources */,
 				C7B588871CE1DFA6009B3975 /* ChatBubbleCell.swift in Sources */,
 				C674D31D20ED1BA20027E3AE /* ListingAttributeGridTheme.swift in Sources */,
+				C66105E721304AE000BA4EF7 /* ServicesPromoCellConfiguration.swift in Sources */,
 				2EE47D2E2017812D004B04EE /* ChatAskPhoneNumberCellDrawer.swift in Sources */,
 				C611B06A20C92A0700D7DD89 /* MultiListingPostedStatus.swift in Sources */,
 				326C730A20908148009D21DB /* CategoriesFeedCell.swift in Sources */,
@@ -9806,6 +9832,7 @@
 				55FABE2020763460004B0DBD /* UserPhoneVerificationCountryPickerViewModel.swift in Sources */,
 				42F0688520FF3AD3009AC898 /* DropdownCellRepresentable.swift in Sources */,
 				C2C2F30620F2DFBA00EAF42A /* ListingCarouselVideoCell.swift in Sources */,
+				013B2A2021303DCC00F69613 /* LGInterestedStateUpdater.swift in Sources */,
 				C6F3CEED20FF445100AF4D38 /* DropdownHeaderCell.swift in Sources */,
 				0A6F6E122122B8E5006A7132 /* BumpUpBuilder.swift in Sources */,
 				0A6FED032130344000B57004 /* UserWireframe.swift in Sources */,
@@ -9883,7 +9910,6 @@
 				725BD5572077C37E00563926 /* VerticalsABGroup.swift in Sources */,
 				8EBE07861FD59F3F009EBC1A /* Data+Extensions.swift in Sources */,
 				C7DB41E71C5138B500400945 /* AmplitudeTracker.swift in Sources */,
-				01739497212DAB9400A66FE1 /* LGInterestedStateUpdater.swift in Sources */,
 				0173949A212DABCC00A66FE1 /* InterestedStateUpdater.swift in Sources */,
 				C7F22D861DB7A55C00353803 /* RecaptchaViewModel.swift in Sources */,
 				2E2D53DF1D369AFF00348D12 /* Config.swift in Sources */,
@@ -10228,6 +10254,7 @@
 				8E80179C2010DB68004CE244 /* ChatInactiveConversationsListViewController.swift in Sources */,
 				8E8EAD3720A2EC1400ADEAFE /* ChatConversationsListViewModel.swift in Sources */,
 				5011939620C7FE7C00FA7C20 /* AnalyticsSessionDAO.swift in Sources */,
+				013B2A252130444E00F69613 /* InterestedHandleable.swift in Sources */,
 				329ACF5020EA8A9900A1C6A4 /* EmbeddedCollectionViewCell.swift in Sources */,
 				C783D9821C64BBA1000EE5CA /* ReportUsersViewModel.swift in Sources */,
 				50C2E19C1E6FFACE006639BB /* PostListingRedCamButtonFooter.swift in Sources */,
@@ -10256,6 +10283,7 @@
 				A465723B213057BD00B806C2 /* FeedWireframe.swift in Sources */,
 				C6977E7E2118441200B57E54 /* ServiceAttributes+LG.swift in Sources */,
 				C73FABB71DD37968008F4519 /* SettingsLogoutCell.swift in Sources */,
+				013B2A2221303DCC00F69613 /* InterestedHandler.swift in Sources */,
 				C6E770972099A36F002CFA99 /* PushPermissionsTracker.swift in Sources */,
 				016328FA20DBCFFD00FA618B /* NotificationSettingsCompleteListViewController.swift in Sources */,
 				0A6FED232130344000B57004 /* ChangePasswordModalWireframe.swift in Sources */,
@@ -10292,6 +10320,7 @@
 				42A27EC92126DAA300E2ABC5 /* GADNativeAdViewFactory.swift in Sources */,
 				2E1BC4001E6492230063D1A7 /* ReceiptURLProvider.swift in Sources */,
 				320843B920A1FDF7009A1DC5 /* DiscoveryABGroup.swift in Sources */,
+				C66105E821304AE000BA4EF7 /* ServicesPromoCellConfiguration.swift in Sources */,
 				C77B7DB31DBE3C290043C624 /* ListHeaderContainer.swift in Sources */,
 				C7DE8ACC1C888761005CF37E /* EditListingViewModel.swift in Sources */,
 				42713C68207629A10077F88A /* PromoCell.swift in Sources */,

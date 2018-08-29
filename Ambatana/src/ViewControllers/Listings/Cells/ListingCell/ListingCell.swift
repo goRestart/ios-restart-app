@@ -321,7 +321,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
                                               detailViewInImage])
         setupThumbnailImageViews()
         setupFeaturedListingInfoView()
-        setupStripArea()
+        setupStripeArea()
         setupDiscardedView()
         setupDistanceLabels()
         setupDetailViewInImage()
@@ -361,7 +361,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         featuredListingInfoView.layout(with: thumbnailImageView).below()
     }
     
-    private func setupStripArea() {
+    private func setupStripeArea() {
         NSLayoutConstraint.activate([
             ribbonView.topAnchor.constraint(equalTo: contentView.topAnchor),
             ribbonView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
@@ -435,7 +435,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         delegate?.getUserInfoFor(listing) { [weak self] user in
             self?.interestedButton.isHidden = false
             self?.activityIndicator.stopAnimating()
-            self?.interestActionFor(listing: listing, userListing: LocalUser(userListing: listing.user))
+            self?.interestActionFor(listing: listing, userListing: LocalUser(user: user))
         }
     }
     

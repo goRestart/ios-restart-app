@@ -1288,8 +1288,8 @@
 "reporting_user_problem_meetup_header" = "ĐÃ XẢY RA CHUYỆN GÌ?";
 "reporting_user_report_sent_block_user_A_text" = "Cảm ơn bạn đã báo cáo ẩn danh và giúp chúng tôi làm cho letgo trở thành nơi mua và bán lân cận tốt nhất.\n\nBạn luôn có thể chặn một người dùng để đảm bảo họ không còn có thể nhìn thấy món đồ của bạn hay trò chuyện với bạn.";
 "reporting_user_report_sent_block_user_A_with_review_text" = "Cảm ơn bạn đã báo cáo ẩn danh và giúp chúng tôi làm cho letgo trở thành nơi mua và bán lân cận tốt nhất.\n\nHãy chắc chắn là bạn đã để lại đánh giá về người bán này để người khác biết về trải nghiệm của bạn.\n\nBạn luôn có thể chặn một người dùng để đảm bảo họ không còn có thể nhìn thấy món đồ của bạn hay trò chuyện với bạn.";
-"reporting_user_report_sent_block_user_B_text" = "Cảm ơn bạn đã báo cáo ẩn danh và giúp chúng tôi làm cho letgo trở thành nơi mua và bán lân cận tốt nhất.\n\nĐội ngũ của chúng tôi sẽ điều tra khiếu nại của bạn, trong khi đó, bạn luôn có thể chặn một người dùng để đảm bảo họ không còn có thể nhìn thấy món đồ của bạn hay trò chuyện với bạn.";
-"reporting_user_report_sent_block_user_B_with_review_text" = "Cảm ơn bạn đã báo cáo ẩn danh và giúp chúng tôi làm cho letgo trở thành nơi mua và bán lân cận tốt nhất.\n\nHãy chắc chắn là bạn đã để lại đánh giá về người bán này để người khác biết về trải nghiệm của bạn.\n\nĐội ngũ của chúng tôi sẽ điều tra khiếu nại của bạn, trong khi đó, bạn luôn có thể chặn một người dùng để đảm bảo họ không còn có thể nhìn thấy món đồ của bạn hay trò chuyện với bạn.";
+"reporting_user_report_sent_block_user_B_text" = "Cảm ơn bạn đã báo cáo ẩn danh và giúp chúng tôi làm cho letgo trở thành nơi mua và bán lân cận tốt nhất.\n\nĐội ngũ của chúng tôi sẽ điều tra khiếu nại của bạn. Trong lúc đó, bạn luôn có thể chặn một người dùng để đảm bảo họ không còn có thể nhìn thấy món đồ của bạn hay trò chuyện với bạn.";
+"reporting_user_report_sent_block_user_B_with_review_text" = "Cảm ơn bạn đã báo cáo ẩn danh và giúp chúng tôi làm cho letgo trở thành nơi mua và bán lân cận tốt nhất.\n\nHãy chắc chắn là bạn đã để lại đánh giá về người bán này để người khác biết về trải nghiệm của bạn.\n\nĐội ngũ của chúng tôi sẽ điều tra khiếu nại của bạn. Trong lúc đó, bạn luôn có thể chặn một người dùng để đảm bảo họ không còn có thể nhìn thấy món đồ của bạn hay trò chuyện với bạn.";
 "reporting_user_report_sent_block_user_big_button_title" = "Chặn người dùng bị báo cáo";
 "reporting_user_report_sent_block_user_small_button_title" = "Chặn";
 "reporting_user_report_sent_law_enforcement_and_block_text" = "Chúng tôi rất tiếc về trải nghiệm của bạn nhưng thật may mắn là bạn đã an toàn. Chúng tôi khuyến khích bạn liên hệ với lực lượng thực thi luật pháp sở tại và báo cáo cho công an càng sớm càng tốt (nếu bạn chưa thực hiện).\n\nVui lòng nhắc công an liên hệ với đội ngũ thực thi luật pháp của letgo theo địa chỉ lawenforcement@letgo.com để chúng tôi có thể hỗ trợ họ điều tra. Chúng tôi có thể chia sẻ thông tin liên quan về %@ với công an, nhưng do luật bảo vệ riêng tư nghiêm ngặt, trước tiên chúng tôi cần họ gửi giấy phép khám nhà hoặc trát hầu tòa. Trong khi đó, vui lòng cung cấp thêm thông tin để đội ngũ của chúng tôi có thể điều tra khiếu nại của bạn.\n\nHãy nhớ, bạn luôn có thể chặn một người dùng để đảm bảo họ không thể nhìn thấy món đồ của bạn hay trò chuyện với bạn.";
@@ -1356,6 +1356,10 @@
 "sell_title_autogen_label" = "Tiêu đề do letgo đề xuất";
 "sell_title_field_hint" = "Tiêu đề (tùy chọn)";
 "sell_uploading_label" = "Đang đăng bài...";
+"services_promo_cell_title_b" = "Danh mục Dịch vụ mới!";
+"services_promo_cell_title_c" = "Tìm khách hàng lân cận cho dịch vụ của bạn";
+"services_promo_cell_title_default_bold" = "Kiếm tiền";
+"services_promo_cell_title_default_regular" = "trong thời gian rảnh rỗi";
 "services_service_subtype_list_title" = "Dịch vụ";
 "services_service_subtype_title" = "Dịch vụ";
 "services_service_type_list_title" = "Loại dịch vụ";

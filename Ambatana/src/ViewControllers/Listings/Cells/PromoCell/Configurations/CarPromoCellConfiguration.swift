@@ -46,7 +46,8 @@ enum CarPromoCellConfiguration {
     private func makeAppearance(withBackground background: R.ImageAsset) -> CellAppearance {
         return .backgroundImage(image: background.image,
                                 titleColor: .white,
-                                buttonStyle: .secondary(fontSize: .verySmallBold, withBorder: false))
+                                buttonStyle: .secondary(fontSize: .verySmallBold, withBorder: false),
+                                buttonTitle: buttonTitle)
     }
     
     private var attributedTitle: NSAttributedString? {
@@ -61,6 +62,10 @@ enum CarPromoCellConfiguration {
                                          otherFont: UIFont.systemFont(ofSize: 22.0,
                                                                       weight: UIFont.Weight.bold),
                                          otherColour: .white)
+    }
+    
+    private var buttonTitle: String {
+        return R.Strings.realEstatePromoPostButtonTitle
     }
     
     private static func allCases(showsPostButton show: Bool) -> [CarPromoCellConfiguration] {

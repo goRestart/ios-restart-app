@@ -26,7 +26,6 @@ protocol FeatureFlaggeable: class {
     var searchImprovements: SearchImprovements { get }
     var relaxedSearch: RelaxedSearch { get }
     var showProTagUserProfile: Bool { get }
-    var sectionedMainFeed: SectionedMainFeed { get }
     var showExactLocationForPros: Bool { get }
 
     // Country dependant features
@@ -78,13 +77,15 @@ protocol FeatureFlaggeable: class {
     var carExtraFieldsEnabled: CarExtraFieldsEnabled { get }
     var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen { get }
     var carPromoCells: CarPromoCells { get }
+    var servicesPromoCells: ServicesPromoCells { get }
     var realEstatePromoCells: RealEstatePromoCells { get }
     
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed { get }
     var personalizedFeedABTestIntValue: Int? { get }
-    var multiContactAfterSearch: MultiContactAfterSearch { get }
     var emptySearchImprovements: EmptySearchImprovements { get }
+    var sectionedFeed: SectionedDiscoveryFeed { get }
+    var sectionedFeedABTestIntValue: Int { get }
 
     // MARK: Products
     var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu { get }
@@ -112,6 +113,7 @@ protocol FeatureFlaggeable: class {
     var searchAlertsDisableOldestIfMaximumReached: SearchAlertsDisableOldestIfMaximumReached { get }
     var notificationCenterRedesign: NotificationCenterRedesign { get }
     var randomImInterestedMessages: RandomImInterestedMessages { get }
+    var imInterestedInProfile: ImInterestedInProfile { get }
 }
 
 extension FeatureFlaggeable {
@@ -175,6 +177,9 @@ extension CarPromoCells {
     var isActive: Bool { return self != .control && self != .baseline }
 }
 
+extension ServicesPromoCells {
+    var isActive: Bool { return self != .control && self != .baseline }
+}
 
 extension RealEstatePromoCells {
     var isActive: Bool { return self != .control && self != .baseline }
@@ -372,6 +377,10 @@ extension RandomImInterestedMessages {
     var isActive: Bool { return self == .active }
 }
 
+extension ImInterestedInProfile {
+    var isActive: Bool { return self == .active }
+}
+
 extension BumpInEditCopys {
     var variantString: String {
         switch self {
@@ -392,7 +401,7 @@ extension MultiAdRequestMoreInfo {
 
 }
 
-final class FeatureFlags: FeatureFlaggeable {
+final class FeatureFlags: FeatureFlaggeable {    
     
     static let sharedInstance: FeatureFlags = FeatureFlags()
 
@@ -1015,6 +1024,14 @@ extension FeatureFlags {
         return .control
     }
     
+    var servicesPromoCells: ServicesPromoCells {
+        if Bumper.enabled {
+            return Bumper.servicesPromoCells
+        }
+        
+        return ServicesPromoCells.fromPosition(abTests.servicesPromoCells.value)
+    }
+    
     var realEstatePromoCells: RealEstatePromoCells {
         if Bumper.enabled {
             return Bumper.realEstatePromoCells
@@ -1022,8 +1039,6 @@ extension FeatureFlags {
         
         return RealEstatePromoCells.fromPosition(abTests.realEstatePromoCells.value)
     }
-    
-    
 }
 
 
@@ -1057,11 +1072,6 @@ extension FeatureFlags {
         return abTests.personlizedFeedIsActive ? abTests.personalizedFeed.value : PersonalizedFeed.defaultVariantValue
     }
     
-    var multiContactAfterSearch: MultiContactAfterSearch {
-        if Bumper.enabled { return Bumper.multiContactAfterSearch }
-        return MultiContactAfterSearch.fromPosition(abTests.multiContactAfterSearch.value)
-    }
-    
     var emptySearchImprovements: EmptySearchImprovements {
         if Bumper.enabled { return Bumper.emptySearchImprovements }
         return EmptySearchImprovements.fromPosition(abTests.emptySearchImprovements.value)
@@ -1070,6 +1080,21 @@ extension FeatureFlags {
     var cachedFeed: CachedFeed {
         if Bumper.enabled { return Bumper.cachedFeed }
         return CachedFeed.fromPosition(abTests.cachedFeed.value)
+    }
+    
+    var sectionedFeed: SectionedDiscoveryFeed {
+        if Bumper.enabled {
+            return Bumper.sectionedDiscoveryFeed
+        }
+        if abTests.sectionedFeedIsActive {
+            return SectionedDiscoveryFeed.active
+        } else {
+            return SectionedDiscoveryFeed.fromPosition(sectionedFeedABTestIntValue)
+        }
+    }
+    
+    var sectionedFeedABTestIntValue: Int {
+        return abTests.sectionedFeed.value
     }
 }
 
@@ -1211,5 +1236,12 @@ extension FeatureFlags {
             return Bumper.randomImInterestedMessages
         }
         return RandomImInterestedMessages.fromPosition(abTests.randomImInterestedMessages.value)
+    }
+    
+    var imInterestedInProfile: ImInterestedInProfile {
+        if Bumper.enabled {
+            return Bumper.imInterestedInProfile
+        }
+        return ImInterestedInProfile.fromPosition(abTests.imInterestedInProfile.value)
     }
 }

@@ -91,11 +91,6 @@
         "description": "Try different copies for Chat now button in English"
     },
     {
-        "name": "SectionedMainFeed",
-        "values": ["control", "baseline", "mediumHorizontalSection", "smallHorizontalSection"],
-        "description": "[Discovery] Sectioned feed"
-    },
-    {
         "name": "ShowExactLocationForPros",
         "values": ["yes", "no"],
         "description": "[MONEY] Show exact location for professional delaers in listing detail map"
@@ -129,11 +124,6 @@
         "name": "ServicesCategoryOnSalchichasMenu",
         "values": ["control", "baseline", "VariantA", "VariantB", "VariantC"],
         "description": "[PRODUCTS] Show services category on salchichas menu"
-    },
-    {
-        "name": "MultiContactAfterSearch",
-        "values": ["control", "baseline", "photoAndInfo", "onlyPhoto"],
-        "description": "MultiContact After Search"
     },
     {
          "name": "EmptySearchImprovements",
@@ -316,18 +306,33 @@
         "description": "[RETENTION] Random Im Interested messages from listing list"
     },
      {
-         "name": "CarPromoCells",
-         "values": ["control", "baseline", "variantA", "variantB"],
-         "description": "[CARS] Show promo cells for cars"
+        "name": "CarPromoCells",
+        "values": ["control", "baseline", "variantA", "variantB"],
+        "description": "[CARS] Show promo cells for cars"
      },
      {
-         "name": "RealEstatePromoCells",
-         "values": ["control", "baseline", "variantA"],
-         "description": "[REAL ESTATE] Show NEW promo cells for real Estate"
+        "name": "RealEstatePromoCells",
+        "values": ["control", "baseline", "variantA"],
+        "description": "[REAL ESTATE] Show NEW promo cells for real Estate"
      },
      {
          "name": "AdvancedReputationSystem11",
          "values": ["control", "baseline", "active"],
          "description": "[USERS] ARS v1.1"
+     },
+     {
+        "name": "SectionedDiscoveryFeed",
+        "values": ["control", "baseline", "active"],
+        "description": "[Discovery] Show SectionedFeed"
+     },
+     {
+        "name": "ServicesPromoCells",
+        "values": ["control", "baseline", "activeWithCallToAction", "activeWithoutCallToAction"],
+        "description": "[SERVICES] Show promo cells for Services"
+     },
+     {
+        "name": "ImInterestedInProfile",
+        "values": ["control", "baseline", "active"],
+        "description": "[RETENTION] Show Im Interested buttons in public profiles"
      }
  ]

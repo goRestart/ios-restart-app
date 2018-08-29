@@ -93,6 +93,7 @@ final class UserProfileViewModel: BaseViewModel {
     private let tracker: Tracker
     private let featureFlags: FeatureFlaggeable
     private let notificationsManager: NotificationsManager?
+    private let interestedHandler: InterestedHandleable?
 
     private let disposeBag: DisposeBag
     private let source: UserSource
@@ -112,6 +113,7 @@ final class UserProfileViewModel: BaseViewModel {
           tracker: Tracker,
           featureFlags: FeatureFlaggeable,
           notificationsManager: NotificationsManager?,
+          interestedHandler: InterestedHandleable?,
           user: User?,
           source: UserSource,
           isPrivateProfile: Bool) {
@@ -122,6 +124,7 @@ final class UserProfileViewModel: BaseViewModel {
         self.tracker = tracker
         self.featureFlags = featureFlags
         self.notificationsManager = notificationsManager
+        self.interestedHandler = interestedHandler
         self.user = Variable<User?>(user)
         self.source = source
         self.isPrivateProfile = isPrivateProfile
@@ -133,12 +136,18 @@ final class UserProfileViewModel: BaseViewModel {
                                                                          itemsPerPage: SharedConstants.numListingsPerPageDefault)
         self.favoritesListingListRequester = UserFavoritesListingListRequester()
 
+        let sellingSource: ListingListViewModel.ListingListViewContainer = isPrivateProfile ? .privateProfileSelling : .publicProfileSelling
+        let soldSource: ListingListViewModel.ListingListViewContainer = isPrivateProfile ? .privateProfileSold : .publicProfileSold
+        let favoritesSource: ListingListViewModel.ListingListViewContainer = .privateProfileFavorites // Other profiles favorites can not be seen
         self.sellingListingListViewModel = ListingListViewModel(requester: self.sellingListingListRequester,
-                                                                isPrivateList: true)
+                                                                isPrivateList: true,
+                                                                source: sellingSource)
         self.soldListingListViewModel = ListingListViewModel(requester: self.soldListingListRequester,
-                                                             isPrivateList: true)
+                                                             isPrivateList: true,
+                                                             source: soldSource)
         self.favoritesListingListViewModel = ListingListViewModel(requester: self.favoritesListingListRequester,
-                                                                  isPrivateList: true)
+                                                                  isPrivateList: true,
+                                                                  source: .publicProfileSelling)
         self.ratingListViewModel = UserRatingListViewModel(userId: user?.objectId ?? "", tabNavigator: nil)
 
         self.disposeBag = DisposeBag()
@@ -164,6 +173,7 @@ final class UserProfileViewModel: BaseViewModel {
                                     tracker: TrackerProxy.sharedInstance,
                                     featureFlags: FeatureFlags.sharedInstance,
                                     notificationsManager: nil,
+                                    interestedHandler: InterestedHandler(),
                                     user: user,
                                     source: source,
                                     isPrivateProfile: false)
@@ -182,6 +192,7 @@ final class UserProfileViewModel: BaseViewModel {
                                     tracker: TrackerProxy.sharedInstance,
                                     featureFlags: FeatureFlags.sharedInstance,
                                     notificationsManager: LGNotificationsManager.sharedInstance,
+                                    interestedHandler: nil,
                                     user: nil,
                                     source: source,
                                     isPrivateProfile: true)
@@ -755,13 +766,56 @@ extension UserProfileViewModel {
 
 extension UserProfileViewModel: ListingCellDelegate {
     func interestedActionFor(_ listing: Listing, userListing: LocalUser?, completion: @escaping (InterestedState) -> Void) {
-        // this is just meant to be inside the MainFeed
-        return
+        guard let interestedHandler = interestedHandler else { return }
+        let interestedAction: () -> () = { [weak self] in
+            interestedHandler.interestedActionFor(listing,
+                                                  userListing: userListing,
+                                                  stateCompletion: completion) { [weak self] interestedAction in
+                switch interestedAction {
+                case .openChatProUser:
+                    guard let interlocutor = userListing else { return }
+                    self?.navigator?.openListingChat(listing,
+                                                     source: .profile,
+                                                     interlocutor: interlocutor,
+                                                     openChatAutomaticMessage: nil)
+                case .askPhoneProUser:
+                    guard let interlocutor = userListing else { return }
+                    self?.navigator?.openAskPhoneFor(listing: listing, interlocutor: interlocutor)
+                case .openChatNonProUser:
+                    let chatDetailData = ChatDetailData.listingAPI(listing: listing)
+                    self?.navigator?.openListingChat(data: chatDetailData,
+                                                     source: .profile,
+                                                     predefinedMessage: nil)
+                case .triggerInterestedAction:
+                    let (cancellable, timer) = LGTimer.cancellableWait(5)
+//                    self?.showUndoBubble(withMessage: R.Strings.productInterestedBubbleMessage,
+//                                         duration: 5) {
+//                                            cancellable.cancel()
+//                    }
+                    interestedHandler.handleCancellableInterestedAction(listing, timer: timer,  completion: completion)
+                }
+            }
+        }
+        
+        if isLoggedInUser {
+            interestedAction()
+        } else {
+            navigator?.openLogin(infoMessage: R.Strings.chatLoginPopupText,
+                                 then: interestedAction)
+        }
     }
     
     func openAskPhoneFor(_ listing: Listing, interlocutor: LocalUser) {}
     
-    func getUserInfoFor(_ listing: Listing, completion: @escaping (User?) -> Void) {}
+    func getUserInfoFor(_ listing: Listing, completion: @escaping (User?) -> Void) {
+        guard let userId = listing.user.objectId else {
+            completion(nil)
+            return
+        }
+        userRepository.show(userId) { result in
+            completion(result.value)
+        }
+    }
 
     func chatButtonPressedFor(listing: Listing) {}
 
