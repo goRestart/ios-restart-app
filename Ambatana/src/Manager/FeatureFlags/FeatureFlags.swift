@@ -541,13 +541,6 @@ final class FeatureFlags: FeatureFlaggeable {
         let cached = dao.retrieveCommunity()
         return cached ?? ShowCommunity.fromPosition(abTests.community.value)
     }
-
-    var sectionedMainFeed: SectionedMainFeed {
-        if Bumper.enabled {
-            return Bumper.sectionedMainFeed
-        }
-        return SectionedMainFeed.fromPosition(abTests.sectionedMainFeed.value)
-    }
     
     var showExactLocationForPros: Bool {
         if Bumper.enabled {
