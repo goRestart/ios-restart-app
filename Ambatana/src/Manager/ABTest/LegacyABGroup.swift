@@ -10,7 +10,6 @@ import Foundation
 
 struct LegacyABGroup: ABGroupType {
     private struct Keys {
-        static let marketingPush = "marketingPush"
         static let carsMultiReqEnabled = "newCarsMultiRequesterEnabled"
         static let inAppRatingIOS10 = "20170711inAppRatingIOS10"
         static let userReviewsReportEnabled = "20170823userReviewsReportEnabled"
@@ -70,8 +69,7 @@ struct LegacyABGroup: ABGroupType {
     }
     
     static func make() -> LegacyABGroup {
-        return LegacyABGroup(marketingPush: .makeInt(key: Keys.marketingPush, defaultValue: 0, groupType: .legacyABTests),
-                             newCarsMultiRequesterEnabled: .makeBool(key: Keys.carsMultiReqEnabled, defaultValue: false,  groupType: .legacyABTests),
+        return LegacyABGroup(newCarsMultiRequesterEnabled: .makeBool(key: Keys.carsMultiReqEnabled, defaultValue: false,  groupType: .legacyABTests),
                              inAppRatingIOS10: .makeBool(key: Keys.inAppRatingIOS10, defaultValue: false, groupType: .legacyABTests),
                              userReviewsReportEnabled: .makeBool(key: Keys.userReviewsReportEnabled, defaultValue: true, groupType: .legacyABTests),
                              appRatingDialogInactive: .makeBool(key: Keys.appRatingDialogInactive, defaultValue: false, groupType: .legacyABTests),
