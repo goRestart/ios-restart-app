@@ -4,6 +4,7 @@ import LGComponents
 protocol UserProfileHeaderDelegate: class {
     func didTapEditAvatar()
     func didTapAvatar()
+    func didTapRating()
 }
 
 enum UserHeaderViewBadge {
@@ -113,6 +114,9 @@ final class UserProfileHeaderView: UIView {
         proBadgeImageView.cornerRadius = LGUIKitConstants.mediumCornerRadius
         proBadgeImageView.contentMode = .scaleAspectFit
         proBadgeImageView.isHidden = true
+
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapRatingView))
+        ratingView.addGestureRecognizer(gestureRecognizer)
     }
 
     private func setupConstraints() {
@@ -208,4 +212,9 @@ final class UserProfileHeaderView: UIView {
     @objc private func didTapEditAvatar() {
         delegate?.didTapEditAvatar()
     }
+
+    @objc private func tapRatingView() {
+        delegate?.didTapRating()
+    }
+
 }

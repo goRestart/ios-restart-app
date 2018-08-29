@@ -469,6 +469,11 @@ extension UserProfileViewController: UserProfileHeaderDelegate {
     func didTapAvatar() {
         viewModel.didTapAvatar()
     }
+
+    func didTapRating() {
+        guard viewModel.makeRatingStarsTappable else { return }
+        tabsView.select(tab: .reviews)
+    }
 }
 
 // MARK: - Image Picker Delegate
