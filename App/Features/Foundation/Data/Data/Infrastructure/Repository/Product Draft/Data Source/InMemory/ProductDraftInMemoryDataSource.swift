@@ -6,7 +6,7 @@ final class ProductDraftInMemoryDataSource: ProductDraftDataSource {
   private var productId: Identifier<Product>?
   private var description: String?
   private var price: Decimal?
-  private var productExtras = [Product.Extra]()
+  private var productExtras = [Identifier<Product.Extra>]()
   
   func set(productId: Identifier<Product>) {
     self.productId = productId
@@ -20,7 +20,7 @@ final class ProductDraftInMemoryDataSource: ProductDraftDataSource {
     self.price = price
   }
   
-  func set(productExtras: [Product.Extra]) {
+  func set(productExtras: [Identifier<Product.Extra>]) {
     self.productExtras = productExtras
   }
   

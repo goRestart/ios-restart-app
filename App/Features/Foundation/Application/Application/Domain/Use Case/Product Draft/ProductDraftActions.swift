@@ -22,7 +22,7 @@ public struct ProductDraftActions: ProductDraftUseCase {
     productDraftRepository.set(price: price)
   }
   
-  public func save(productExtras: [Product.Extra]) {
+  public func save(productExtras: [Identifier<Product.Extra>]) {
     productDraftRepository.set(productExtras: productExtras)
   }
   

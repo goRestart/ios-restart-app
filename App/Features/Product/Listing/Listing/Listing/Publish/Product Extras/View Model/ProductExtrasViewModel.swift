@@ -10,13 +10,16 @@ final class ProductExtrasViewModel: ProductExtrasViewModelType, ProductExtrasVie
     return productExtraSelections.filter { $0.value }.map { $0.key }
   }
   
+  private let productDraft: ProductDraftUseCase
   private let getProductExtras: GetProductExtrasUseCase
   private let productSummaryNavigator: ProductSummaryNavigator
   private let bag = DisposeBag()
   
-  init(getProductExtras: GetProductExtrasUseCase,
+  init(productDraft: ProductDraftUseCase,
+       getProductExtras: GetProductExtrasUseCase,
        productSummaryNavigator: ProductSummaryNavigator)
   {
+    self.productDraft = productDraft
     self.getProductExtras = getProductExtras
     self.productSummaryNavigator = productSummaryNavigator
   }
@@ -29,6 +32,8 @@ final class ProductExtrasViewModel: ProductExtrasViewModelType, ProductExtrasVie
   // MARK: - Input
   
   func viewDidLoad() {
+    restoreSelectedProductExtras()
+    
     getProductExtras.execute()
       .map(toUI)
       .asObservable()
@@ -36,8 +41,18 @@ final class ProductExtrasViewModel: ProductExtrasViewModelType, ProductExtrasVie
       .disposed(by: bag)
   }
   
+  private func restoreSelectedProductExtras() {
+    productDraft.get().productExtras.forEach { [weak self] element in
+      self?.productExtraSelections[element] = true
+    }
+  }
+  
   private func toUI(_ productExtras: [Product.Extra]) -> [ProductExtraUIModel] {
-    return productExtras.map { ProductExtraUIModel(productExtra: $0) }
+    return productExtras.map { [weak self] element in
+      let productExtra = ProductExtraUIModel(productExtra: element)
+      productExtra.isSelected = self?.productExtraSelections[productExtra.identifier] ?? false
+      return productExtra
+    }
   }
   
   func didSelectProductExtra(with id: Identifier<Product.Extra>) {
@@ -49,7 +64,7 @@ final class ProductExtrasViewModel: ProductExtrasViewModelType, ProductExtrasVie
   }
   
   func didTapNextButton() {
-    print("Next page with items = \(selectedProductExtras)")
+    productDraft.save(productExtras: selectedProductExtras)
     productSummaryNavigator.navigate()
   }
 }

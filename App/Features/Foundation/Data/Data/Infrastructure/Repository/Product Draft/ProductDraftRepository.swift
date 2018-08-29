@@ -20,7 +20,7 @@ public struct ProductDraftRepository {
     inMemoryDataSource.set(price: price)
   }
   
-  public func set(productExtras: [Product.Extra]) {
+  public func set(productExtras: [Identifier<Product.Extra>]) {
     inMemoryDataSource.set(productExtras: productExtras)
   }
   
