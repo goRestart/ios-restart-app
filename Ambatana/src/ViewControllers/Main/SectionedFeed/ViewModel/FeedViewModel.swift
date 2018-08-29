@@ -86,6 +86,7 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     private var isRetrieving = false
     private var pages = Set<String>()
     private var previousVerticalPageSize = 0
+    private var feedIdSet: Set<String> = Set<String>()
     
     private var sectionControllerFactory: SectionControllerFactory
     
@@ -315,24 +316,31 @@ extension FeedViewModel {
     }
     
     private func updateFeedItems(withFeed feed: Feed) {
-        
         let horizontalSections = feed.horizontalSections(featureFlags, myUserRepository, keyValueStorage, waterfallColumnCount)
-        let verticalItemSections = feed.verticalItems(featureFlags, myUserRepository, keyValueStorage, waterfallColumnCount)
+        let verticalSections = feed.verticalItems(featureFlags, myUserRepository, keyValueStorage, waterfallColumnCount)
+        var duplications = feed.items.count - verticalSections.count
+        let verticalItems = verticalSections.filter { feedListingData in
+            guard let id = feedListingData.listingId else { return false }
+            guard feedIdSet.contains(id) else { return true }
+            duplications += 1
+            return false
+        }
         
         feedItems.append(contentsOf: horizontalSections.listDiffable())
         if locationSectionIndex == nil {
             feedItems.append(LocationData(locationString: locationText))
         }
         
-        let verticalSectionsWithAds = updateWithAds(listDiffable: verticalItemSections.listDiffable())
+        let verticalSectionsWithAds = updateWithAds(listDiffable: verticalItems.listDiffable())
         let allVerticalSections = updateWithSelectedForYou(listDiffable: verticalSectionsWithAds,
                                                            positionInFeed: feedItems.count,
                                                            offset: SharedConstants.selectedForYouPosition)
         
         feedItems.append(contentsOf: allVerticalSections)
-        
+        feedIdSet.formUnion(verticalItems.compactMap { $0.listingId })
         previousVerticalPageSize = allVerticalSections.count
         trackSectionsAndItems(inFeed: feed)
+        sectionedFeedVMTrackerHelper.trackDuplicates(onPage: pages.count, numberOfDuplicates: duplications)
     }
     
     private func updateWithAds(listDiffable: [ListDiffable]) -> [ListDiffable] {
@@ -375,6 +383,7 @@ extension FeedViewModel {
         paginationLinks = nil
         feedItems.removeAll()
         adsPaginationHelper.reset()
+        feedIdSet.removeAll()
     }
     
 }

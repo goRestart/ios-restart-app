@@ -37,5 +37,12 @@ struct SectionedFeedVMTrackerHelper {
                                                                  success: successParameter)
         tracker.trackEvent(trackerEvent)
     }
+    
+    func trackDuplicates(onPage page: Int, numberOfDuplicates: Int) {
+        guard numberOfDuplicates != 0 else { return }
+        let trackerEvent = TrackerEvent.filterDuplicatedItemInSectionedFeed(pageNumber: page,
+                                                         numberOfDuplicates: numberOfDuplicates)
+        tracker.trackEvent(trackerEvent)
+    }
 }
 

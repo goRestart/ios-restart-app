@@ -1682,6 +1682,12 @@ struct TrackerEvent {
         return TrackerEvent(name: .openCommunity, params: nil)
     }
     
+    static func filterDuplicatedItemInSectionedFeed(pageNumber: Int, numberOfDuplicates: Int) -> TrackerEvent {
+        var params = EventParameters()
+        params[.pageNumber] = pageNumber
+        params[.numberOfItems] = numberOfDuplicates
+        return TrackerEvent(name: .duplicatedItemsInFeed, params: params)
+    }
     
     // MARK: - Private methods
     
