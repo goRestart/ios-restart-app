@@ -46,7 +46,7 @@ final class ABTestsSpec: QuickSpec {
                     sut.registerVariables()
                 }
                 it("registers all the variables") {
-                    expect(syncer.syncedCount) == 65
+                    expect(syncer.syncedCount) == 64
                 }
             }
              context("registering all the variables") {
