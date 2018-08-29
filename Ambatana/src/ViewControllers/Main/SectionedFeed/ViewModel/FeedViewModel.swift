@@ -16,7 +16,8 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     weak var feedRenderingDelegate: FeedRenderable?
     weak var delegate: FeedViewModelDelegate?
 
-    var wireframe: FeedWireframe?
+    var wireframe: FeedNavigator?
+    var listingWireframe: ListingWireframe?
 
     weak var rootViewController: UIViewController? {
         didSet {
@@ -132,7 +133,8 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
          chatWrapper: ChatWrapper = LGChatWrapper(),
          adsImpressionConfigurable: AdsImpressionConfigurable = LGAdsImpressionConfigurable(),
          sectionedFeedVMTrackerHelper: SectionedFeedVMTrackerHelper = SectionedFeedVMTrackerHelper(),
-         interestedStateManager: InterestedStateUpdater = LGInterestedStateUpdater()) {
+         interestedStateManager: InterestedStateUpdater = LGInterestedStateUpdater(),
+         shouldShowEditOnLocationHeader: Bool = true) {
 
         self.filters = filters
         self.filtersVar = Variable<ListingFilters>(filters)
@@ -152,15 +154,17 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
         self.waterfallColumnCount = deviceFamily.shouldShow3Columns() ? 3 : 2
         self.viewState = .loading
         self.feedRepository = feedRepository
-        
-        self.feedRequester = FeedRequesterFactory.make(withFeedRepository: feedRepository,
-                                                       location: locationManager.currentLocation?.location,
-                                                       countryCode: locationManager.currentLocation?.countryCode,
-                                                       variant: "\(featureFlags.sectionedFeedABTestIntValue)")
-        self.sectionControllerFactory = SectionControllerFactory(waterfallColumnCount: waterfallColumnCount,
-                                                                 featureFlags: featureFlags,
-                                                                 tracker: tracker,
-                                                                 pushPermissionsManager: pushPermissionsManager)
+        self.feedRequester = FeedRequesterFactory.make(
+            withFeedRepository: feedRepository,
+            location: locationManager.currentLocation?.location,
+            countryCode: locationManager.currentLocation?.countryCode,
+            variant: "\(featureFlags.sectionedFeedABTestIntValue)")
+        self.sectionControllerFactory = SectionControllerFactory(
+            waterfallColumnCount: waterfallColumnCount,
+            featureFlags: featureFlags,
+            tracker: tracker,
+            pushPermissionsManager: pushPermissionsManager,
+            shouldShowEditOnLocationHeader: shouldShowEditOnLocationHeader)
         self.chatWrapper = chatWrapper
         self.adsImpressionConfigurable = adsImpressionConfigurable
         self.adsPaginationHelper = AdsPaginationHelper(featureFlags: featureFlags)
@@ -201,7 +205,10 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     //  MARK: - Load Feed Items
     
     func loadFeedItems() {
-        retrieve()
+        guard let searchType = searchType else { return retrieve() }
+        if case .feed(let page, _) = searchType {
+            retrieveNext(withUrl: page, completion: feedCompletion())
+        }
     }
     
     func willScroll(toSection section: Int) {
@@ -375,14 +382,12 @@ extension FeedViewModel {
 extension FeedViewModel {
     
     func openInvite() {
-        let myUserId = myUserRepository.myUser?.objectId
-        let myUserName = myUserRepository.myUser?.name
-        navigator?.openAppInvite(myUserId: myUserId, myUserName: myUserName)
+        wireframe?.openAppInvite(
+            myUserId: myUserRepository.myUser?.objectId,
+            myUserName:  myUserRepository.myUser?.name)
     }
     
-    func openSearches() {
-        navigator?.openSearches()
-    }
+    func openSearches() { navigator?.openSearches() }
     
     func showFilters() {
         wireframe?.openFilters(withListingFilters: filters,
@@ -392,7 +397,10 @@ extension FeedViewModel {
     
     func refreshControlTriggered() {
         resetFeed()
-        retrieve()
+        guard let searchType = searchType else { return retrieve() }
+        if case .feed(let page, _) = searchType {
+            retrieveNext(withUrl: page, completion: feedCompletion())
+        } else { retrieve() }
     }
 }
 
@@ -505,6 +513,12 @@ extension FeedViewModel: RetryFooterDelegate {
         feedItems.removeLast()
         retrieve()
     }
+}
+
+// MARK: - Horizontal selection delegate
+
+extension FeedViewModel: HorizontalSectionDelegate {
+    func didTapSeeAll(page: SearchType) { wireframe?.openProFeed(withSearchType: page) }
 }
 
 
@@ -644,21 +658,24 @@ extension FeedViewModel {
                           originFrame: CGRect?,
                           index: Int,
                           sectionIdentifier: String) {
-        let data = ListingDetailData.sectionedNonRelatedListing(listing: listing,
-                                                                feedListingDatas: feedDataArray,
-                                                                thumbnailImage: thumbnailImage,
-                                                                originFrame: originFrame,
-                                                                index: index,
-                                                                sectionIdentifier: sectionIdentifier)
-        navigator?.openListing(data, source: listingVisitSource, actionOnFirstAppear: .nonexistent)
+        let data = ListingDetailData.sectionedNonRelatedListing(
+            listing: listing,
+            feedListingDatas: feedDataArray,
+            thumbnailImage: thumbnailImage,
+            originFrame: originFrame,
+            index: index,
+            sectionIdentifier: sectionIdentifier
+        )
+        listingWireframe?.openListing(
+            data, source: listingVisitSource, actionOnFirstAppear: .nonexistent)
     }
     
     func didSelectListing(_ listing: Listing, thumbnailImage: UIImage?, originFrame: CGRect?) {
         let frame = feedRenderingDelegate?.convertViewRectInFeed(from: originFrame ?? .zero)
-        let data = ListingDetailData.sectionedRelatedListing(listing: listing,
-                                                             thumbnailImage: thumbnailImage,
-                                                             originFrame: frame)
-        navigator?.openListing(data, source: listingVisitSource, actionOnFirstAppear: .nonexistent)
+        let data = ListingDetailData.sectionedRelatedListing(
+            listing: listing, thumbnailImage: thumbnailImage, originFrame: frame)
+        listingWireframe?.openListing(
+            data, source: listingVisitSource, actionOnFirstAppear: .nonexistent)
     }
 }
 
@@ -678,7 +695,8 @@ extension FeedViewModel {
     var listingVisitSource: EventParameterListingVisitSource {
         if let searchType = searchType {
             switch searchType {
-            case .collection: return .collection
+            // TODO: Add tracker for feed!.
+            case .collection, .feed: return .collection
             case .user, .trending, .suggestive, .lastSearch:
                 return !hasFilters ? .search : .searchAndFilter
             }

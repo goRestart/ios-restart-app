@@ -118,7 +118,8 @@ final class MainTabCoordinator: TabCoordinator {
 
     // Note: override in subclasses
     override func shouldHideSellButtonAtViewController(_ viewController: UIViewController) -> Bool {
-        return super.shouldHideSellButtonAtViewController(viewController) && !(viewController is MainListingsViewController)
+        return super.shouldHideSellButtonAtViewController(viewController) &&
+            !(viewController is MainListingsViewController || viewController is FeedViewController)
     }
 }
 
