@@ -25,7 +25,6 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     static let adInFeedInitialPosition = 3
     private static let adsInFeedRatio = 20
     private static let searchAlertLimit = 20
-    private static let interestingUndoTimeout: TimeInterval = 5
     
     var wireframe: MainListingNavigator? // We'll call this wireframe to avoid clashing. Too many navigators here
     
@@ -1960,7 +1959,7 @@ extension MainListingsViewModel: ListingCellDelegate {
                 case .triggerInterestedAction:
                     let (cancellable, timer) = LGTimer.cancellableWait(5)
                     self?.showUndoBubble(withMessage: R.Strings.productInterestedBubbleMessage,
-                                         duration: MainListingsViewModel.interestingUndoTimeout) {
+                                         duration: InterestedHandler.undoTimeout) {
                                             cancellable.cancel()
                     }
                     self?.interestedHandler.handleCancellableInterestedAction(listing, timer: timer,  completion: completion)
