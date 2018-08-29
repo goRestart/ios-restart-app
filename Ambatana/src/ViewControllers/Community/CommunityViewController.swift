@@ -14,7 +14,6 @@ final class CommunityViewController: BaseViewController {
         hidesBottomBarWhenPushed = false
         floatingSellButtonHidden = false
         hasTabBar = true
-        setupRx()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -24,6 +23,7 @@ final class CommunityViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupRx()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -112,5 +112,15 @@ extension CommunityViewController: WKNavigationDelegate {
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         setupNavBarLeftButton()
+    }
+
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        let homes = ["https://www.stg.letgo.com/", "https://www.letgo.com/"]
+        if let urlString = navigationAction.request.url?.absoluteString, homes.contains(urlString) {
+            viewModel.openLetgoHome()
+            decisionHandler(.cancel)
+        } else {
+            decisionHandler(.allow)
+        }
     }
 }
