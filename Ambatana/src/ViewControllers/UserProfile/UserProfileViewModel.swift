@@ -788,9 +788,9 @@ extension UserProfileViewModel: ListingCellDelegate {
                                                      source: .profile,
                                                      predefinedMessage: nil)
                 case .triggerInterestedAction:
-                    let (cancellable, timer) = LGTimer.cancellableWait(5)
+                    let (cancellable, timer) = LGTimer.cancellableWait(InterestedHandler.undoTimeout)
                     self?.notifyUndoBubble(withMessage: R.Strings.productInterestedBubbleMessage,
-                                         duration: 5) {
+                                         duration: InterestedHandler.undoTimeout) {
                                             cancellable.cancel()
                     }
                     interestedHandler.handleCancellableInterestedAction(listing, timer: timer,  completion: completion)
