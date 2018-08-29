@@ -236,9 +236,6 @@ extension ABTests {
 
 extension ABTests {
     var marketingPush: LeanplumABVariable<Int> { return legacy.marketingPush }
-    // Not an A/B just flags and variables for surveys
-    var surveyURL: LeanplumABVariable<String> { return legacy.surveyURL }
-    var surveyEnabled: LeanplumABVariable<Bool> { return legacy.surveyEnabled }
     var newCarsMultiRequesterEnabled: LeanplumABVariable<Bool> { return legacy.newCarsMultiRequesterEnabled }
     var inAppRatingIOS10: LeanplumABVariable<Bool> { return legacy.inAppRatingIOS10 }
     var userReviewsReportEnabled: LeanplumABVariable<Bool> { return legacy.userReviewsReportEnabled }

@@ -323,8 +323,6 @@
 		0A6FED352130344000B57004 /* TourLocationWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6FECA62130343F00B57004 /* TourLocationWireframe.swift */; };
 		0A6FED362130344000B57004 /* TourNotificationWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6FECA72130343F00B57004 /* TourNotificationWireframe.swift */; };
 		0A6FED372130344000B57004 /* TourNotificationWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6FECA72130343F00B57004 /* TourNotificationWireframe.swift */; };
-		0A6FED382130344000B57004 /* WebSurveyWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6FECA92130343F00B57004 /* WebSurveyWireframe.swift */; };
-		0A6FED392130344000B57004 /* WebSurveyWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6FECA92130343F00B57004 /* WebSurveyWireframe.swift */; };
 		0A73F1FC209216070016CC72 /* LGTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A73F1FB209216060016CC72 /* LGTimer.swift */; };
 		0A73F1FD209216070016CC72 /* LGTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A73F1FB209216060016CC72 /* LGTimer.swift */; };
 		0A759E971FB472F60030FDE0 /* ListingCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A759E961FB472F60030FDE0 /* ListingCardViewModel.swift */; };
@@ -412,7 +410,6 @@
 		0ACA1953212EA889006489C0 /* TourLoginBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACA1951212EA889006489C0 /* TourLoginBuilder.swift */; };
 		0ACA8F37211484A600243850 /* LGLeanplumBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACA8F36211484A600243850 /* LGLeanplumBuilder.swift */; };
 		0ACA8F3B2114864E00243850 /* LGLeanplumBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACA8F36211484A600243850 /* LGLeanplumBuilder.swift */; };
-		0ACA8F402114920B00243850 /* LGSurveyBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACA8F3F2114920B00243850 /* LGSurveyBuilder.swift */; };
 		0ACA8F452114951300243850 /* LGFiltersBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACA8F442114951300243850 /* LGFiltersBuilder.swift */; };
 		0ACA8F46211495FF00243850 /* LGFiltersBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACA8F442114951300243850 /* LGFiltersBuilder.swift */; };
 		0ACA8F502114B5C000243850 /* GoogleAdxNativeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E28A829207B85C70070A7A6 /* GoogleAdxNativeContentView.swift */; };
@@ -425,7 +422,6 @@
 		0ADD39BF21130A030071DF87 /* LGUserBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADD39BC211306E90071DF87 /* LGUserBuilder.swift */; };
 		0ADE58D21FC45F3100F3DB17 /* ListingCardDetailsViewBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADE58D11FC45F3100F3DB17 /* ListingCardDetailsViewBinder.swift */; };
 		0ADE58D31FC4609400F3DB17 /* ListingCardDetailsViewBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADE58D11FC45F3100F3DB17 /* ListingCardDetailsViewBinder.swift */; };
-		0AE5DDB121182A9300C706AE /* LGSurveyBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACA8F3F2114920B00243850 /* LGSurveyBuilder.swift */; };
 		0AE6F4EA20F88B0100D58BCE /* TrendingSearchesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE6F4E920F88B0100D58BCE /* TrendingSearchesViewController.swift */; };
 		0AE6F4EC20F88B0C00D58BCE /* TrendingSearchesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE6F4EB20F88B0C00D58BCE /* TrendingSearchesViewModel.swift */; };
 		0AE6F4EF20F88D7800D58BCE /* TrendingSearchesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE6F4E920F88B0100D58BCE /* TrendingSearchesViewController.swift */; };
@@ -1960,13 +1956,8 @@
 		C79895C91DE43D5100DD58BF /* SessionEvent+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79895C71DE4349900DD58BF /* SessionEvent+LG.swift */; };
 		C7AB4EC61CD39C67007B573D /* LGNotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AB4EC51CD39C67007B573D /* LGNotificationsManager.swift */; };
 		C7AB4EC71CD39C67007B573D /* LGNotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AB4EC51CD39C67007B573D /* LGNotificationsManager.swift */; };
-		C7AFFB011E7054590052A9CA /* WebSurveyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AFFB001E7054590052A9CA /* WebSurveyViewController.swift */; };
-		C7AFFB021E7054590052A9CA /* WebSurveyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AFFB001E7054590052A9CA /* WebSurveyViewController.swift */; };
-		C7AFFB041E7054780052A9CA /* WebSurveyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AFFB031E7054780052A9CA /* WebSurveyViewModel.swift */; };
-		C7AFFB051E7054780052A9CA /* WebSurveyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AFFB031E7054780052A9CA /* WebSurveyViewModel.swift */; };
 		C7AFFB0D1E7172B20052A9CA /* MyUser+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AFFB0C1E7172B20052A9CA /* MyUser+LG.swift */; };
 		C7AFFB0E1E7172B20052A9CA /* MyUser+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AFFB0C1E7172B20052A9CA /* MyUser+LG.swift */; };
-		C7AFFB101E7176BC0052A9CA /* WebSurveyViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AFFB0F1E7176BC0052A9CA /* WebSurveyViewModelSpec.swift */; };
 		C7B543241D6F49CE005FBA30 /* UIView+Screenshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B543231D6F49CE005FBA30 /* UIView+Screenshot.swift */; };
 		C7B543251D6F49D1005FBA30 /* UIView+Screenshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B543231D6F49CE005FBA30 /* UIView+Screenshot.swift */; };
 		C7B588451CE1DE1C009B3975 /* ChatListingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B5880E1CE1DE1C009B3975 /* ChatListingView.swift */; };
@@ -2476,7 +2467,6 @@
 		0A6FECA52130343F00B57004 /* TourSkiperWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourSkiperWireframe.swift; sourceTree = "<group>"; };
 		0A6FECA62130343F00B57004 /* TourLocationWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourLocationWireframe.swift; sourceTree = "<group>"; };
 		0A6FECA72130343F00B57004 /* TourNotificationWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourNotificationWireframe.swift; sourceTree = "<group>"; };
-		0A6FECA92130343F00B57004 /* WebSurveyWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSurveyWireframe.swift; sourceTree = "<group>"; };
 		0A73F1FB209216060016CC72 /* LGTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGTimer.swift; sourceTree = "<group>"; };
 		0A759E961FB472F60030FDE0 /* ListingCardViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardViewModel.swift; sourceTree = "<group>"; };
 		0A760FED1FA08E0C0055F2B6 /* ListingDeckActionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckActionsView.swift; sourceTree = "<group>"; };
@@ -2523,7 +2513,6 @@
 		0AC489451F9DE31400CD6C53 /* ListingDeckCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckCollectionViewLayout.swift; sourceTree = "<group>"; };
 		0ACA1951212EA889006489C0 /* TourLoginBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourLoginBuilder.swift; sourceTree = "<group>"; };
 		0ACA8F36211484A600243850 /* LGLeanplumBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGLeanplumBuilder.swift; sourceTree = "<group>"; };
-		0ACA8F3F2114920B00243850 /* LGSurveyBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGSurveyBuilder.swift; sourceTree = "<group>"; };
 		0ACA8F442114951300243850 /* LGFiltersBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGFiltersBuilder.swift; sourceTree = "<group>"; };
 		0ACDD2E91FD1426800616F53 /* QuickChatViewBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickChatViewBinder.swift; sourceTree = "<group>"; };
 		0ACDD2EB1FD1450300616F53 /* QuickChatViewBinderSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickChatViewBinderSpec.swift; sourceTree = "<group>"; };
@@ -3433,10 +3422,7 @@
 		C79842001CC8E8C900C300FF /* User+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+LG.swift"; sourceTree = "<group>"; };
 		C79895C71DE4349900DD58BF /* SessionEvent+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SessionEvent+LG.swift"; sourceTree = "<group>"; };
 		C7AB4EC51CD39C67007B573D /* LGNotificationsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGNotificationsManager.swift; sourceTree = "<group>"; };
-		C7AFFB001E7054590052A9CA /* WebSurveyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSurveyViewController.swift; sourceTree = "<group>"; };
-		C7AFFB031E7054780052A9CA /* WebSurveyViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSurveyViewModel.swift; sourceTree = "<group>"; };
 		C7AFFB0C1E7172B20052A9CA /* MyUser+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MyUser+LG.swift"; sourceTree = "<group>"; };
-		C7AFFB0F1E7176BC0052A9CA /* WebSurveyViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSurveyViewModelSpec.swift; sourceTree = "<group>"; };
 		C7B543231D6F49CE005FBA30 /* UIView+Screenshot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Screenshot.swift"; sourceTree = "<group>"; };
 		C7B5880E1CE1DE1C009B3975 /* ChatListingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatListingView.swift; sourceTree = "<group>"; };
 		C7B5880F1CE1DE1C009B3975 /* ChatListingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatListingView.xib; sourceTree = "<group>"; };
@@ -3643,7 +3629,6 @@
 				013B2A1B21303DCB00F69613 /* LGInterestedStateUpdater.swift */,
 			);
 			path = Interested;
-			name = Interested;
 			sourceTree = "<group>";
 		};
 		0178CBD61F0E462700620BA6 /* DeepLinks */ = {
@@ -3779,6 +3764,8 @@
 		0A2F51F62122F5FF0034EF85 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
+				01739495212DAB9400A66FE1 /* LGInterestedStateUpdater.swift */,
+				01739498212DABCC00A66FE1 /* InterestedStateUpdater.swift */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -4112,14 +4099,6 @@
 			path = TourLogin;
 			sourceTree = "<group>";
 		};
-		0A6FECA82130343F00B57004 /* WebSurvey */ = {
-			isa = PBXGroup;
-			children = (
-				0A6FECA92130343F00B57004 /* WebSurveyWireframe.swift */,
-			);
-			path = WebSurvey;
-			sourceTree = "<group>";
-		};
 		0A73F1FA209215F70016CC72 /* LGTimer */ = {
 			isa = PBXGroup;
 			children = (
@@ -4281,7 +4260,6 @@
 				0A6FEC822130343C00B57004 /* User */,
 				0A6FEC7C2130343C00B57004 /* UserPhoneVerification */,
 				0A6FEC8F2130343D00B57004 /* UserVerification */,
-				0A6FECA82130343F00B57004 /* WebSurvey */,
 			);
 			path = Wireframes;
 			sourceTree = "<group>";
@@ -4312,7 +4290,6 @@
 				0ADD39AB211304FA0071DF87 /* LGChatBuilder.swift */,
 				0AA03201210A293600728A1A /* LGUserVerificationBuilder.swift */,
 				0ACA8F442114951300243850 /* LGFiltersBuilder.swift */,
-				0ACA8F3F2114920B00243850 /* LGSurveyBuilder.swift */,
 				0ACA8F36211484A600243850 /* LGLeanplumBuilder.swift */,
 				A4E0938F211B199B002235FC /* LGLoginBuilder.swift */,
 				0ADD39BC211306E90071DF87 /* LGUserBuilder.swift */,
@@ -5164,7 +5141,6 @@
 				556E26F4203C3B190098ECF0 /* UserProfile */,
 				6A0D733E204D5F2A00892663 /* UserBio */,
 				55DFCDD7207378AC00AC5E09 /* UserPhoneVerification */,
-				C7AFFAF51E7053EF0052A9CA /* Surveys */,
 				6A38A99D2077610300F3B292 /* UserVerification */,
 				C6BEE65620EE6ED9008AEA0B /* ListingAttributeTableView */,
 				55D305C92101E53C00E80843 /* Community */,
@@ -5848,7 +5824,6 @@
 				509F79B11EDC01E400AF2F70 /* RateUserViewModelSpec.swift */,
 				50D08DA11E69AF14009CC260 /* SignUpLogInViewModelSpec.swift */,
 				50D08DA21E69AF14009CC260 /* SignUpViewModelSpec.swift */,
-				C7AFFB0F1E7176BC0052A9CA /* WebSurveyViewModelSpec.swift */,
 				8EBEF9781F3CA50500473822 /* LGSliderViewModelSpec.swift */,
 				6A94D709205FB4B600B27C41 /* EditUserBioViewModelSpec.swift */,
 				6A7F9591205928530044D1AC /* UserProfileViewModelSpec.swift */,
@@ -6964,15 +6939,6 @@
 			);
 			name = RelatedListings;
 			path = RelatedLIstings;
-			sourceTree = "<group>";
-		};
-		C7AFFAF51E7053EF0052A9CA /* Surveys */ = {
-			isa = PBXGroup;
-			children = (
-				C7AFFB001E7054590052A9CA /* WebSurveyViewController.swift */,
-				C7AFFB031E7054780052A9CA /* WebSurveyViewModel.swift */,
-			);
-			path = Surveys;
 			sourceTree = "<group>";
 		};
 		C7B5880D1CE1DE1C009B3975 /* ChatDetail */ = {
@@ -8430,7 +8396,6 @@
 				328E8E2D20C0036D00BBF639 /* ListingRequesterMatcher.swift in Sources */,
 				504C63B91ECAE0AB00D33BFA /* PushManagerSpec.swift in Sources */,
 				50D08DD01E69AF14009CC260 /* TrackerProxySpec.swift in Sources */,
-				C7AFFB101E7176BC0052A9CA /* WebSurveyViewModelSpec.swift in Sources */,
 				50D08DBD1E69AF14009CC260 /* MockPurchaseableProductsRequestFactory.swift in Sources */,
 				0A6F6E1E2122BE86006A7132 /* BumpUpsModalRouterSpec.swift in Sources */,
 				50D08DC41E69AF14009CC260 /* MultiPageRequesterSpec.swift in Sources */,
@@ -8595,7 +8560,6 @@
 				72462FB41FDE971B0030399F /* SearchRelatedListingListRequester.swift in Sources */,
 				2EF4E3B11D3688AB00A09DFD /* ConfigRetrieveService.swift in Sources */,
 				2E4B43EA1E7810C00048214B /* PaymentEnqueuable.swift in Sources */,
-				C7AFFB011E7054590052A9CA /* WebSurveyViewController.swift in Sources */,
 				50AB5F221ED4447200E9909D /* UserRatingTag.swift in Sources */,
 				724D77A41FC3251E00DB43C0 /* RealEstateAttributes+LG.swift in Sources */,
 				8EEC7F5A206AA62800616858 /* AdvertisementMoPubCellDrawer.swift in Sources */,
@@ -8878,7 +8842,6 @@
 				55FABE1920762E63004B0DBD /* UserPhoneVerificationCodeInputViewModel.swift in Sources */,
 				72CD80CE203469FB0042E1E0 /* LGTutorialViewModel.swift in Sources */,
 				722A6D14205A714F009A43AB /* LGPageControl.swift in Sources */,
-				C7AFFB041E7054780052A9CA /* WebSurveyViewModel.swift in Sources */,
 				72B935F61E3F917500F93F73 /* UserProduct+LG.swift in Sources */,
 				C7363FB21BF9CB5B00A4BF6F /* FilterTagsView.swift in Sources */,
 				F5BBF67A1FD06488000E37A0 /* ListingAttributePickerCell.swift in Sources */,
@@ -9065,7 +9028,6 @@
 				C727943C1D549342009C25AB /* ChangeUsernameViewController.swift in Sources */,
 				2EE4A3C1212D48BF00380467 /* NotificationsTableViewController.swift in Sources */,
 				3294763221340EA0008EE737 /* SectionedFeedVMTrackerHelper.swift in Sources */,
-				0ACA8F3421145ECB00243850 /* LGRateBuilder.swift in Sources */,
 				C605853A20DBD16A008025FD /* ListingAttributeGridViewItemCell.swift in Sources */,
 				A4E09390211B199B002235FC /* LGLoginBuilder.swift in Sources */,
 				72E8A58A1EB34D93000524E6 /* CategoriesHeaderCell.swift in Sources */,
@@ -9298,7 +9260,6 @@
 				0A6FECAA2130343F00B57004 /* EditUserBioWireframe.swift in Sources */,
 				C690704A21009E2300AF27E4 /* DropdownShowMoreView.swift in Sources */,
 				F5D91E7D2008C20200DF28E7 /* UserRatingType+RateBack.swift in Sources */,
-				0AD1B7432085D66400A28852 /* FeedNavigator.swift in Sources */,
 				013B2A2121303DCC00F69613 /* InterestedHandler.swift in Sources */,
 				3299E5EB2080AE01002935AE /* WaterFallLayoutHeaderTypes.swift in Sources */,
 				4226B673211096900010CC92 /* FeedRequesterFactory.swift in Sources */,
@@ -9379,7 +9340,6 @@
 				5011938E20C553FE00FA7C20 /* AnalyticsSessionData.swift in Sources */,
 				0AE6F4EC20F88B0C00D58BCE /* TrendingSearchesViewModel.swift in Sources */,
 				C788EED71CC7847400B9E26F /* FilteredListingListRequester.swift in Sources */,
-				0A6FED382130344000B57004 /* WebSurveyWireframe.swift in Sources */,
 				509273361B172D5B00A346F9 /* PushManager.swift in Sources */,
 				3299E5E8207FB7AB002935AE /* WaterfallLayoutItemRenderPolicy.swift in Sources */,
 				0A2F51E02122DAB00034EF85 /* AssistantMeetingBuilder.swift in Sources */,
@@ -9393,7 +9353,6 @@
 				6A5E19EC1D548F5400F92692 /* NSError+LG.swift in Sources */,
 				55D305CE2101E63600E80843 /* CommunityViewModel.swift in Sources */,
 				0AF7CCBD1F8B525E00128303 /* OvalLayer.swift in Sources */,
-				0ACA8F402114920B00243850 /* LGSurveyBuilder.swift in Sources */,
 				C707D4521E9B7CA100042C03 /* SendMessageTrackingInfo.swift in Sources */,
 				50146BDF1D4F910000B0F635 /* NotificationsTabNavigator.swift in Sources */,
 				C616945020D3C85B00A6692A /* PostingParamsImageAssigner.swift in Sources */,
@@ -9574,7 +9533,6 @@
 				C64DD450211089CD003E5EC2 /* PaymentFrequency+LG.swift in Sources */,
 				2E2D53E11D369B0500348D12 /* ConfigRetrieveService.swift in Sources */,
 				2E4B43EB1E7810C00048214B /* PaymentEnqueuable.swift in Sources */,
-				C7AFFB021E7054590052A9CA /* WebSurveyViewController.swift in Sources */,
 				8E7F4FDB2119A819004E70C5 /* ConversationCellStatus.swift in Sources */,
 				50AB5F251ED4505800E9909D /* UserRatingTag.swift in Sources */,
 				724D77A51FC3252100DB43C0 /* RealEstateAttributes+LG.swift in Sources */,
@@ -9870,7 +9828,6 @@
 				42D63A9B212ABEA600F45FD6 /* AdsPaginationHelper.swift in Sources */,
 				55FABE1A20762E63004B0DBD /* UserPhoneVerificationCodeInputViewModel.swift in Sources */,
 				6A5E1A131D548F5400F92692 /* UINavigationController+LG.swift in Sources */,
-				C7AFFB051E7054780052A9CA /* WebSurveyViewModel.swift in Sources */,
 				427CAB8B206A8B4E00112D58 /* TrendingSearchView.swift in Sources */,
 				326C72D8208882F2009D21DB /* WaterFallLayoutSettings.swift in Sources */,
 				72CD80CF203469FB0042E1E0 /* LGTutorialViewModel.swift in Sources */,
@@ -9926,7 +9883,6 @@
 				2EBC92131E0ABC4A007F0F82 /* PurchaseableProduct.swift in Sources */,
 				3237C6A9210A071100B7359B /* FeedListingData.swift in Sources */,
 				C7E73E8E1CD20A49000F2591 /* ViewState.swift in Sources */,
-				0AE5DDB121182A9300C706AE /* LGSurveyBuilder.swift in Sources */,
 				421CB34C207BBE5E006BF8A4 /* Collection+Safe.swift in Sources */,
 				F520D23520F8BA44006D55B1 /* SettingsTableViewHeader.swift in Sources */,
 				0A6FECB72130344000B57004 /* LoginModalWireframe.swift in Sources */,
@@ -10107,7 +10063,6 @@
 				320162E52110A13E00B7819D /* DiffUtility.swift in Sources */,
 				0A04D5CE20760A9D00471B9D /* CoreABGroup.swift in Sources */,
 				0A63DFC11FB0A9D000C065F2 /* ListingCardDetailsView.swift in Sources */,
-				0A6FED392130344000B57004 /* WebSurveyWireframe.swift in Sources */,
 				0114DBF620CEA2D200C6DD0B /* NotificationSettingsAccessorListViewModel.swift in Sources */,
 				C7DB420A1C5138B500400945 /* FilterDistanceCell.swift in Sources */,
 				0AEB4FF72018C795003365DE /* ListingDeckOnBoardingViewModel.swift in Sources */,

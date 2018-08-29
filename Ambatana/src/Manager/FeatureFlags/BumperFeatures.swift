@@ -16,7 +16,6 @@ import RxSwift
 extension Bumper  {
     static func initialize() {
         var flags = [BumperFeature.Type]()
-        flags.append(SurveyEnabled.self)
         flags.append(UserReviewsReportEnabled.self)
         flags.append(RealEstateEnabled.self)
         flags.append(RequestsTimeOut.self)
@@ -78,25 +77,12 @@ extension Bumper  {
         flags.append(TurkeyFreePosting.self)
         flags.append(RandomImInterestedMessages.self)
         flags.append(CarPromoCells.self)
-        flags.append(ServicesPromoCells.self)
         flags.append(RealEstatePromoCells.self)
         flags.append(SectionedDiscoveryFeed.self)
+        flags.append(ServicesPromoCells.self)
         flags.append(ImInterestedInProfile.self)
         Bumper.initialize(flags)
     } 
-
-    static var surveyEnabled: Bool {
-        guard let value = Bumper.value(for: SurveyEnabled.key) else { return false }
-        return SurveyEnabled(rawValue: value)?.asBool ?? false
-    } 
-
-    #if (RX_BUMPER)
-    static var surveyEnabledObservable: Observable<Bool> {
-        return Bumper.observeValue(for: SurveyEnabled.key).map {
-            SurveyEnabled(rawValue: $0 ?? "")?.asBool ?? false
-        }
-    }
-    #endif
 
     static var userReviewsReportEnabled: Bool {
         guard let value = Bumper.value(for: UserReviewsReportEnabled.key) else { return false }
@@ -891,19 +877,6 @@ extension Bumper  {
     }
     #endif
 
-    static var servicesPromoCells: ServicesPromoCells {
-        guard let value = Bumper.value(for: ServicesPromoCells.key) else { return .control }
-        return ServicesPromoCells(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var servicesPromoCellsObservable: Observable<ServicesPromoCells> {
-        return Bumper.observeValue(for: ServicesPromoCells.key).map {
-            ServicesPromoCells(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
     static var realEstatePromoCells: RealEstatePromoCells {
         guard let value = Bumper.value(for: RealEstatePromoCells.key) else { return .control }
         return RealEstatePromoCells(rawValue: value) ?? .control 
@@ -930,6 +903,19 @@ extension Bumper  {
     }
     #endif
 
+    static var servicesPromoCells: ServicesPromoCells {
+        guard let value = Bumper.value(for: ServicesPromoCells.key) else { return .control }
+        return ServicesPromoCells(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var servicesPromoCellsObservable: Observable<ServicesPromoCells> {
+        return Bumper.observeValue(for: ServicesPromoCells.key).map {
+            ServicesPromoCells(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
     static var imInterestedInProfile: ImInterestedInProfile {
         guard let value = Bumper.value(for: ImInterestedInProfile.key) else { return .control }
         return ImInterestedInProfile(rawValue: value) ?? .control 
@@ -944,15 +930,6 @@ extension Bumper  {
     #endif
 }
 
-
-enum SurveyEnabled: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return SurveyEnabled.no.rawValue }
-    static var enumValues: [SurveyEnabled] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show qualitative survey" } 
-    var asBool: Bool { return self == .yes }
-}
 
 enum UserReviewsReportEnabled: String, BumperFeature  {
     case no, yes
@@ -1925,23 +1902,6 @@ enum CarPromoCells: String, BumperFeature  {
     }
 }
 
-enum ServicesPromoCells: String, BumperFeature  {
-    case control, baseline, activeWithCallToAction, activeWithoutCallToAction
-    static var defaultValue: String { return ServicesPromoCells.control.rawValue }
-    static var enumValues: [ServicesPromoCells] { return [.control, .baseline, .activeWithCallToAction, .activeWithoutCallToAction]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "[SERVICES] Show promo cells for Services" } 
-    static func fromPosition(_ position: Int) -> ServicesPromoCells {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .activeWithCallToAction
-            case 3: return .activeWithoutCallToAction
-            default: return .control
-        }
-    }
-}
-
 enum RealEstatePromoCells: String, BumperFeature  {
     case control, baseline, variantA
     static var defaultValue: String { return RealEstatePromoCells.control.rawValue }
@@ -1969,6 +1929,23 @@ enum SectionedDiscoveryFeed: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum ServicesPromoCells: String, BumperFeature  {
+    case control, baseline, activeWithCallToAction, activeWithoutCallToAction
+    static var defaultValue: String { return ServicesPromoCells.control.rawValue }
+    static var enumValues: [ServicesPromoCells] { return [.control, .baseline, .activeWithCallToAction, .activeWithoutCallToAction]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[SERVICES] Show promo cells for Services" } 
+    static func fromPosition(_ position: Int) -> ServicesPromoCells {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .activeWithCallToAction
+            case 3: return .activeWithoutCallToAction
             default: return .control
         }
     }

@@ -1,11 +1,6 @@
 
 [
     {
-        "name": "SurveyEnabled",
-        "values": ["No", "Yes"],
-        "description": "Show qualitative survey"
-    },
-    {
         "name": "UserReviewsReportEnabled",
         "values": ["no", "yes"],
         "description": "User reviews report enabled"

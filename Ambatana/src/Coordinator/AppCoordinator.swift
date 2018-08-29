@@ -493,18 +493,6 @@ extension AppCoordinator: AppNavigator {
         tabBarCtl.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
     }
 
-    func openSurveyIfNeeded() {
-        guard featureFlags.surveyEnabled else { return }
-        guard !featureFlags.surveyUrl.isEmpty, let url = URL(string: featureFlags.surveyUrl) else { return }
-
-        delay(3) { [weak self] in
-            guard let tab = self?.tabBarCtl else { return }
-            let assembly = LGSurveyBuilder.modal(root: tab)
-            let vc = assembly.buildWebSurvey(with: url)
-            tab.present(vc, animated: true, completion: nil)
-        }
-    }
-
     func openAppInvite(myUserId: String?, myUserName: String?) {
         AppShareViewController.showOnViewControllerIfNeeded(tabBarCtl, myUserId: myUserId, myUserName: myUserName)
     }
