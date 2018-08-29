@@ -8,6 +8,8 @@ final class CommunityViewController: BaseViewController {
     private let webView = WKWebView()
     private let disposeBag = DisposeBag()
 
+    private let letgoHomeURL = "https://letgo.com/"
+
     init(viewModel: CommunityViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
@@ -115,8 +117,7 @@ extension CommunityViewController: WKNavigationDelegate {
     }
 
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        let homes = ["https://www.stg.letgo.com/", "https://www.letgo.com/"]
-        if let urlString = navigationAction.request.url?.absoluteString, homes.contains(urlString) {
+        if navigationAction.request.url?.absoluteString == letgoHomeURL {
             viewModel.openLetgoHome()
             decisionHandler(.cancel)
         } else {
