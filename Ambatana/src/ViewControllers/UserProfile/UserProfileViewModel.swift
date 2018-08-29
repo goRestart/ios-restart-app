@@ -95,7 +95,7 @@ final class UserProfileViewModel: BaseViewModel {
     private let featureFlags: FeatureFlaggeable
     private let notificationsManager: NotificationsManager?
     private let interestedHandler: InterestedHandleable?
-    let bubbleNotificationManager: BubbleNotificationManager?
+    private let bubbleNotificationManager: BubbleNotificationManager?
 
     private let disposeBag: DisposeBag
     private let source: UserSource
@@ -789,7 +789,7 @@ extension UserProfileViewModel: ListingCellDelegate {
                                                      predefinedMessage: nil)
                 case .triggerInterestedAction:
                     let (cancellable, timer) = LGTimer.cancellableWait(5)
-                    self?.showUndoBubble(withMessage: R.Strings.productInterestedBubbleMessage,
+                    self?.notifyUndoBubble(withMessage: R.Strings.productInterestedBubbleMessage,
                                          duration: 5) {
                                             cancellable.cancel()
                     }
@@ -806,13 +806,22 @@ extension UserProfileViewModel: ListingCellDelegate {
         }
     }
     
-    private func showUndoBubble(withMessage message: String,
+    private func notifyUndoBubble(withMessage message: String,
                                 duration: TimeInterval,
                                 then action: @escaping () -> ()) {
         let action = UIAction(interface: .button(R.Strings.productInterestedUndo, .terciary) , action: action)
         let data = BubbleNotificationData(text: message,
                                           action: action)
         showBubbleNotification.onNext(data)
+    }
+    
+    func showUndoBubble(inView view: UIView,
+                        data: BubbleNotificationData) {
+        bubbleNotificationManager?.showBubble(data: data,
+                                              duration: InterestedHandler.undoTimeout,
+                                              view: view,
+                                              alignment: .bottomFullScreenView,
+                                              style: .light)
     }
     
     func openAskPhoneFor(_ listing: Listing, interlocutor: LocalUser) {}

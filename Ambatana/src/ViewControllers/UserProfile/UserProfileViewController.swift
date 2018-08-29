@@ -24,7 +24,6 @@ final class UserProfileViewController: BaseViewController {
     private let tabsView = UserProfileTabsView()
     private let listingView: ListingListView
     private let tableView = UITableView()
-    private lazy var bottomNotificationsContainer: UIView = UIView()
 
     private let emptyReviewsLabel: UILabel = {
         let label = UILabel()
@@ -411,30 +410,6 @@ final class UserProfileViewController: BaseViewController {
             tableView.contentSize.height = listingView.minimumContentHeight
         }
     }
-    
-    func showBottomBubbleNotification(data: BubbleNotificationData,
-                                      duration: TimeInterval,
-                                      alignment: BubbleNotificationView.Alignment,
-                                      style: BubbleNotificationView.Style) {
-        setupBottomBubbleNotificationsContainer()
-        viewModel.bubbleNotificationManager?.showBubble(data: data,
-                                                        duration: duration,
-                                                        view: bottomNotificationsContainer,
-                                                        alignment: .bottomFullScreenView,
-                                                        style: .light)
-    }
-    
-    private func setupBottomBubbleNotificationsContainer() {
-        guard bottomNotificationsContainer.superview == nil else { return }
-        view.addSubviewForAutoLayout(bottomNotificationsContainer)
-        let bottomOffset: CGFloat = -(view.frame.height + Metrics.margin)
-        let constraints = [
-            bottomNotificationsContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: bottomOffset),
-            bottomNotificationsContainer.leftAnchor.constraint(equalTo: view.leftAnchor),
-            bottomNotificationsContainer.rightAnchor.constraint(equalTo: view.rightAnchor),
-            bottomNotificationsContainer.heightAnchor.constraint(equalToConstant: BubbleNotificationView.initialHeight)]
-        NSLayoutConstraint.activate(constraints)
-    }
 }
 
 // MARK: - NavigationBar actions
@@ -670,11 +645,7 @@ extension UserProfileViewController {
         
         viewModel.showBubbleNotification.asObserver().bind { [weak self] data in
             guard let view = self?.view else { return }
-            self?.viewModel.bubbleNotificationManager?.showBubble(data: data,
-                                                                  duration: InterestedHandler.undoTimeout,
-                                                                  view: view,
-                                                                  alignment: .bottomFullScreenView,
-                                                                  style: .light)
+            self?.viewModel.showUndoBubble(inView: view, data: data)
         }.disposed(by: disposeBag)
     }
 
