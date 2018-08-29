@@ -98,6 +98,7 @@ protocol FeatureFlaggeable: class {
     var emergencyLocate: EmergencyLocate { get }
     var offensiveReportAlert: OffensiveReportAlert { get }
     var community: ShowCommunity { get }
+    var advancedReputationSystem11: AdvancedReputationSystem11 { get }
     
     // MARK: Money
     var preventMessagesFromFeedToProUsers: PreventMessagesFromFeedToProUsers { get }
@@ -293,6 +294,9 @@ extension EngagementBadging {
     var isActive: Bool { return self == .active }
 }
 
+extension AdvancedReputationSystem11 {
+    var isActive: Bool { return self == .active }
+}
 
 // MARK: Products
 
@@ -441,6 +445,7 @@ final class FeatureFlags: FeatureFlaggeable {
         
         dao.save(emergencyLocate: EmergencyLocate.fromPosition(abTests.emergencyLocate.value))
         dao.save(community: ShowCommunity.fromPosition(abTests.community.value))
+        dao.save(advancedReputationSystem11: AdvancedReputationSystem11.fromPosition(abTests.advancedReputationSystem11.value))
     }
     
     var surveyUrl: String {
@@ -527,7 +532,7 @@ final class FeatureFlags: FeatureFlaggeable {
         let cached = dao.retrieveCommunity()
         return cached ?? ShowCommunity.fromPosition(abTests.community.value)
     }
-    
+
     var sectionedMainFeed: SectionedMainFeed {
         if Bumper.enabled {
             return Bumper.sectionedMainFeed
@@ -562,6 +567,14 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.offensiveReportAlert
         }
         return OffensiveReportAlert.fromPosition(abTests.offensiveReportAlert.value)
+    }
+
+    var advancedReputationSystem11: AdvancedReputationSystem11 {
+        if Bumper.enabled {
+            return Bumper.advancedReputationSystem11
+        }
+        let cached = dao.retrieveAdvancedReputationSystem11()
+        return cached ?? AdvancedReputationSystem11.fromPosition(abTests.advancedReputationSystem11.value)
     }
 
     // MARK: - Country features
