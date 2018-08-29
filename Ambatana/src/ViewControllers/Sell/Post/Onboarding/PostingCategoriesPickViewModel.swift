@@ -6,7 +6,7 @@ protocol PostingCategoriesPickDelegate: class {
     func didSelectCategory(category: ListingCategory)
 }
 
-class PostingCategoriesPickViewModel: BaseViewModel {
+final class PostingCategoriesPickViewModel: BaseViewModel {
 
     var backButtonImage: UIImage? {
         return R.Asset.IconsButtons.icBack.image.withRenderingMode(.alwaysTemplate)
