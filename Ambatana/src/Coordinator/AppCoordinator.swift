@@ -44,7 +44,7 @@ final class AppCoordinator: NSObject, Coordinator {
     fileprivate let notificationsTabBarCoordinator: NotificationsTabCoordinator
     fileprivate let chatsTabBarCoordinator: ChatsTabCoordinator
     fileprivate let profileTabBarCoordinator: ProfileTabCoordinator
-    fileprivate let communityTabCoordinator: CommunityTabCoordinator
+    fileprivate let communityTabCoordinator: CommunityTabCoordinator?
     fileprivate let tabCoordinators: [TabCoordinator]
 
     fileprivate let configManager: ConfigManager
@@ -139,11 +139,13 @@ final class AppCoordinator: NSObject, Coordinator {
         self.notificationsTabBarCoordinator = NotificationsTabCoordinator()
         self.chatsTabBarCoordinator = ChatsTabCoordinator()
         self.profileTabBarCoordinator = ProfileTabCoordinator()
-        self.communityTabCoordinator = CommunityTabCoordinator(source: .tabbar)
         if featureFlags.community.shouldShowOnTab {
+            let communityCoordinator = CommunityTabCoordinator(source: .tabbar)
+            self.communityTabCoordinator = communityCoordinator
             self.tabCoordinators = [mainTabBarCoordinator, notificationsTabBarCoordinator, chatsTabBarCoordinator,
-                                    communityTabCoordinator]
+                                    communityCoordinator]
         } else {
+            self.communityTabCoordinator = nil
             self.tabCoordinators = [mainTabBarCoordinator, notificationsTabBarCoordinator, chatsTabBarCoordinator,
                                     profileTabBarCoordinator]
         }
@@ -178,7 +180,6 @@ final class AppCoordinator: NSObject, Coordinator {
         self.verifyAssembly = VerifyAccountsBuilder.modal
         self.promoteAssembly = PromoteBumpBuilder.modal(tabBarCtl)
         self.tourAssembly = TourLoginBuilder.modal
-
         super.init()
         self.tourSkipper = TourSkiperWireframe(appCoordinator: self, deepLinksRouter: deepLinksRouter)
 
@@ -740,12 +741,13 @@ fileprivate extension AppCoordinator {
         notificationsTabBarCoordinator.tabCoordinatorDelegate = self
         chatsTabBarCoordinator.tabCoordinatorDelegate = self
         profileTabBarCoordinator.tabCoordinatorDelegate = self
-        communityTabCoordinator.tabCoordinatorDelegate = self
+        communityTabCoordinator?.tabCoordinatorDelegate = self
 
         mainTabBarCoordinator.appNavigator = self
         notificationsTabBarCoordinator.appNavigator = self
         chatsTabBarCoordinator.appNavigator = self
         profileTabBarCoordinator.appNavigator = self
+        communityTabCoordinator?.appNavigator = self
     }
 
     func setupDeepLinkingRx() {

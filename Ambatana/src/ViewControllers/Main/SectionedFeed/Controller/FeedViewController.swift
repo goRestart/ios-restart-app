@@ -31,20 +31,27 @@ final class FeedViewController: BaseViewController {
     }()
 
     private let viewModel: FeedViewModelType
-    private let navbarSearch: LGNavBarSearchField
+    private let navbarSearch: LGNavBarSearchField?
     
     private let disposeBag = DisposeBag()
 
+    private var hasSearchBar = false
+    private var hasFilters = true
     
     // MARK:- Init
     
-    required init<T>(withViewModel viewModel: T) where T: BaseViewModel, T: FeedViewModelType {
-        self.navbarSearch = LGNavBarSearchField(viewModel.searchString)
+    required init(withViewModel viewModel: BaseViewModel & FeedViewModelType,
+                  showSearchBar: Bool = false,
+                  showFilters: Bool = true) {
+        self.navbarSearch = showSearchBar ? nil : LGNavBarSearchField(
+            viewModel.searchString)
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
         viewModel.feedRenderingDelegate = self
         viewModel.delegate = self
         viewModel.rootViewController = self
+        hasSearchBar = showSearchBar
+        hasFilters = showFilters
         setup()
     }
 
@@ -107,10 +114,20 @@ final class FeedViewController: BaseViewController {
     }
 
     private func setupNavBar() {
-        setNavBarTitleStyle(.custom(navbarSearch))
-        navbarSearch.searchTextField.delegate = self
-        setupFiltersButton()
-        setupInviteNavBarButton()
+        defer {
+            if hasFilters { setupFiltersButton() }
+            setupInviteNavBarButton()
+        }
+        
+        guard hasSearchBar else {
+            if let safeNavbarSearch = navbarSearch {
+                setNavBarTitleStyle(.custom(safeNavbarSearch))
+                safeNavbarSearch.searchTextField.delegate = self
+            }
+            return
+        }
+        
+        setNavBarTitleStyle(.text(viewModel.searchString))
     }
 
     private func setupFiltersButton() {
@@ -199,7 +216,7 @@ extension FeedViewController {
     func setAccessibilityIds() {
         navigationItem.rightBarButtonItem?.set(accessibilityId: .feedFilterButton)
         collectionView.set(accessibilityId: .feedCollectionView)
-        navbarSearch.set(accessibilityId: .feedNavBarSearch)
+        navbarSearch?.set(accessibilityId: .feedNavBarSearch)
         navigationItem.leftBarButtonItem?.set(accessibilityId: .feedInviteButton)
     }
 }
@@ -245,7 +262,7 @@ extension FeedViewController {
     }
     
     @objc private func filtersButtonPressed(_ sender: AnyObject) {
-        navbarSearch.searchTextField.resignFirstResponder()
+        navbarSearch?.searchTextField.resignFirstResponder()
         viewModel.showFilters()
     }
     

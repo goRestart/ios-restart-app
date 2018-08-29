@@ -8,6 +8,45 @@ import Result
 final class FeedViewModelSpec: BaseViewModelSpec {
     
     override func spec() {
+        class FeedWireframeMock: FeedNavigator {
+            var openFiltersWasCalled: (state: Bool, listingFilters: ListingFilters?) = (false, nil)
+            var openLocationWasCalled: Bool = false
+            var showPushPermissionsAlertWasCalled: Bool = false
+            var openMapWasCalled: Bool = false
+            var openAppInviteWasCalled: (Bool, String?, String?) = (true, nil, nil)
+            var openProFeedWasCalled: (state: Bool, searchType: SearchType?) = (true, nil)
+            var openClassicFeedWasCalled: Bool = true
+            
+            func openFilters(withListingFilters listingFilters: ListingFilters, filtersVMDataDelegate: FiltersViewModelDataDelegate?) {
+                openFiltersWasCalled = (true, listingFilters)
+            }
+            
+            func openLocationSelection(initialPlace: Place?, distanceRadius: Int?, locationDelegate: EditLocationDelegate) {
+                openLocationWasCalled = true
+            }
+            
+            func showPushPermissionsAlert(pushPermissionsManager: PushPermissionsManager, withPositiveAction positiveAction: @escaping (() -> Void), negativeAction: @escaping (() -> Void)) {
+                showPushPermissionsAlertWasCalled = true
+            }
+            
+            func openMap(navigator: ListingsMapNavigator, requester: ListingListMultiRequester, listingFilters: ListingFilters, locationManager: LocationManager) {
+                openMapWasCalled = true
+            }
+            
+            func openAppInvite(myUserId: String?, myUserName: String?) {
+                openAppInviteWasCalled = (true, myUserId, myUserName)
+            }
+            
+            func openProFeed(withSearchType searchType: SearchType) {
+                openProFeedWasCalled = (true, searchType)
+            }
+            
+            func openClassicFeed(navigator: MainTabNavigator, withSearchType searchType: SearchType, listingFilters: ListingFilters) {
+                openClassicFeedWasCalled = true
+            }
+        }
+        
+        var subject: FeedViewModel?
         
         describe("FeedViewModelSpec") {
             
@@ -74,6 +113,56 @@ final class FeedViewModelSpec: BaseViewModelSpec {
                 it("returns repository error") {
                     expect(feedResult?.error).toNot(beNil())
                 }
+            }
+        }
+        
+        describe("showFilters") {
+            let feedWireframeMock: FeedWireframeMock = FeedWireframeMock()
+            
+            beforeEach {
+                subject = self.makeFeedViewModel(withFeedResult: FeedResult(error: .notFound))
+                subject?.wireframe = feedWireframeMock
+                subject?.showFilters()
+            }
+            
+            it("should open the filters") {
+                expect(feedWireframeMock.openFiltersWasCalled.0) == true
+              }
+            
+            it("should send the correct parameters") {
+                expect(feedWireframeMock.openFiltersWasCalled.1).toNot(beNil())
+            }
+        }
+        
+        describe("openInvite") {
+            let feedWireframeMock: FeedWireframeMock = FeedWireframeMock()
+            
+            beforeEach {
+                subject = self.makeFeedViewModel(withFeedResult: FeedResult(error: .notFound))
+                subject?.wireframe = feedWireframeMock
+                subject?.openInvite()
+            }
+            
+            it("should open the app invite") {
+                expect(feedWireframeMock.openAppInviteWasCalled.0) == true
+            }
+        }
+        
+        describe("didTapSeeAll") {
+            let feedWireframeMock: FeedWireframeMock = FeedWireframeMock()
+            
+            beforeEach {
+                subject = self.makeFeedViewModel(withFeedResult: FeedResult(error: .notFound))
+                subject?.wireframe = feedWireframeMock
+                subject?.didTapSeeAll(page: .user(query: "CommanderKeen"))
+            }
+            
+            it("should open the pro feed") {
+                expect(feedWireframeMock.openProFeedWasCalled.0) == true
+            }
+            
+            it("should send the correct parameters") {
+                expect(feedWireframeMock.openProFeedWasCalled.1?.query) == "CommanderKeen"
             }
         }
         

@@ -118,7 +118,8 @@ final class MainTabCoordinator: TabCoordinator {
 
     // Note: override in subclasses
     override func shouldHideSellButtonAtViewController(_ viewController: UIViewController) -> Bool {
-        return super.shouldHideSellButtonAtViewController(viewController) && !(viewController is MainListingsViewController)
+        return super.shouldHideSellButtonAtViewController(viewController) &&
+            !(viewController is MainListingsViewController || viewController is FeedViewController)
     }
 }
 
@@ -145,6 +146,20 @@ extension MainTabCoordinator: MainTabNavigator {
             cancelAction: nil
         )
         viewController.present(vc, animated: true, completion: nil)
+    }
+
+    func openFullLoginIfNeeded(source: EventParameterLoginSourceValue, then loggedAction: @escaping (() -> Void)) {
+        guard !sessionManager.loggedIn else {
+            loggedAction()
+            return
+        }
+
+        let vc = LoginBuilder.modal.buildMainSignIn(
+            withSource: source,
+            loginAction: loggedAction,
+            cancelAction: nil)
+        let nav = UINavigationController(rootViewController: vc)
+        viewController.present(nav, animated: true, completion: nil)
     }
 
     func openMainListings(withSearchType searchType: SearchType, listingFilters: ListingFilters) {
@@ -177,11 +192,10 @@ extension MainTabCoordinator: MainTabNavigator {
     }
 
     func openPrivateUserProfile() {
-        let vc = LoginBuilder.modal.buildMainSignIn(withSource: .profile, loginAction: {
+        openFullLoginIfNeeded(source: .profile) {
             let coord = ProfileTabCoordinator(source: .mainListing)
             self.openChild(coordinator: coord, parent: self.rootViewController, animated: true, forceCloseChild: true, completion: nil)
-        }, cancelAction: nil)
-        viewController.present(vc, animated: true, completion: nil)
+        }
     }
 
     func openCommunity() {

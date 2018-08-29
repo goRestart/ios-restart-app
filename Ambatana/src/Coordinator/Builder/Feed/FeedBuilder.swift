@@ -11,7 +11,11 @@ extension SectionedDiscoveryFeed {
 }
 
 protocol FeedAssembly {
-    func makePro(withSearchType: SearchType, filters: ListingFilters) -> (BaseViewController, FeedNavigatorOwnership)
+    func makePro(withSearchType: SearchType,
+                 filters: ListingFilters,
+                 showSearchBar: Bool,
+                 showFilters: Bool,
+                 showLocationEditButton: Bool) -> (BaseViewController, FeedNavigatorOwnership)
     func makeClassic(withSearchType: SearchType, filters: ListingFilters) -> (BaseViewController, FeedNavigatorOwnership)
     func makePro() -> (BaseViewController, FeedNavigatorOwnership)
     func makeClassic() -> (BaseViewController, FeedNavigatorOwnership)
@@ -22,12 +26,25 @@ enum FeedBuilder: FeedAssembly {
     
     func makePro(
         withSearchType searchType: SearchType,
-        filters: ListingFilters) -> (BaseViewController, FeedNavigatorOwnership) {
-        let vm = FeedViewModel(searchType: searchType, filters: filters)
-        let vc = FeedViewController(withViewModel: vm)
+        filters: ListingFilters,
+        showSearchBar: Bool = false,
+        showFilters: Bool = true,
+        showLocationEditButton: Bool = true
+    ) -> (BaseViewController, FeedNavigatorOwnership) {
+        let vm = FeedViewModel(
+            searchType: searchType,
+            filters: filters,
+            shouldShowEditOnLocationHeader: showLocationEditButton)
+        let vc: FeedViewController = FeedViewController(
+            withViewModel: vm,
+            showSearchBar: showSearchBar,
+            showFilters: showFilters
+        )
+        
         switch self {
         case .standard(let nc):
             vm.wireframe = FeedWireframe(nc: nc)
+            vm.listingWireframe = ListingWireframe(nc: nc)
         }
         return (vc, vm)
     }
@@ -49,6 +66,7 @@ enum FeedBuilder: FeedAssembly {
         switch self {
         case .standard(let nc):
             vm.wireframe = FeedWireframe(nc: nc)
+            vm.listingWireframe = ListingWireframe(nc: nc)
         }
         return (FeedViewController(withViewModel: vm), vm)
     }

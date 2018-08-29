@@ -13,7 +13,7 @@ final class SearchViewModel: BaseViewModel {
     var clearTextOnSearch: Bool {
         guard let searchType = searchType else { return false }
         switch searchType {
-        case .collection:
+        case .collection, .feed:
             return true
         case .user, .trending, .suggestive, .lastSearch:
             return false

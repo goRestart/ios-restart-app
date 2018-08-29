@@ -41,7 +41,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     var clearTextOnSearch: Bool {
         guard let searchType = searchType else { return false }
         switch searchType {
-        case .collection:
+        case .collection, .feed:
             return true
         case .user, .trending, .suggestive, .lastSearch:
             return false
@@ -1680,7 +1680,7 @@ extension MainListingsViewModel {
             suggestiveSearch = search
         case let .lastSearch(search):
             suggestiveSearch = search
-        case .collection:
+        case .collection, .feed:
             suggestiveSearch = nil
         }
         if let suggestiveSearch = suggestiveSearch {
@@ -1803,7 +1803,7 @@ fileprivate extension MainListingsViewModel {
     var listingVisitSource: EventParameterListingVisitSource {
         if let searchType = searchType {
             switch searchType {
-            case .collection:
+            case .collection, .feed:
                 return .collection
             case .user, .trending, .suggestive, .lastSearch:
                 if !hasFilters {
