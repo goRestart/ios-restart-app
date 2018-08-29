@@ -26,6 +26,7 @@ final class UserProfileHeaderView: UIView {
     let locationLabel = UILabel()
     let memberSinceLabel = UILabel()
     private let userNameLabel = UILabel()
+    private let ratingCountLabel = UILabel()
     private let avatarImageView = UIImageView()
     private let editAvatarButton = UIButton()
     private let verifiedBadgeImageView = UIImageView()
@@ -35,9 +36,10 @@ final class UserProfileHeaderView: UIView {
 
     let isPrivate: Bool
 
-    private struct Layout {
+    private enum Layout {
         static let verticalMargin: CGFloat = 5.0
         static let imageHeight: CGFloat = 110.0
+        static let ratingCountMargin: CGFloat = 6
         static let verifiedBadgeHeight: CGFloat = 30
         static let editAvatarButtonHeight: CGFloat = 44
         static let editAvatarButtonRightInset: CGFloat = 7
@@ -77,8 +79,8 @@ final class UserProfileHeaderView: UIView {
     }
 
     private func setupView() {
-        addSubviewsForAutoLayout([userNameLabel, ratingView, locationLabel, memberSinceLabel, avatarImageView,
-                                  editAvatarButton, verifiedBadgeImageView, proBadgeImageView])
+        addSubviewsForAutoLayout([userNameLabel, ratingView, ratingCountLabel, locationLabel, memberSinceLabel,
+                                  avatarImageView, editAvatarButton, verifiedBadgeImageView, proBadgeImageView])
 
         avatarImageView.contentMode = .scaleAspectFill
         avatarImageView.backgroundColor = .grayLight
@@ -91,6 +93,9 @@ final class UserProfileHeaderView: UIView {
         userNameLabel.font = .profileUserHeadline
         userNameLabel.textColor = .lgBlack
         userNameLabel.numberOfLines = 1
+
+        ratingCountLabel.font = .smallBodyFont
+        ratingCountLabel.textColor = .grayDark
 
         locationLabel.font = .smallButtonFont
         locationLabel.textColor = .lgBlack
@@ -118,6 +123,9 @@ final class UserProfileHeaderView: UIView {
 
             ratingView.leftAnchor.constraint(equalTo: leftAnchor),
             ratingView.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor, constant: Layout.verticalMargin),
+
+            ratingCountLabel.leftAnchor.constraint(equalTo: ratingView.rightAnchor, constant: Layout.ratingCountMargin),
+            ratingCountLabel.centerYAnchor.constraint(equalTo: ratingView.centerYAnchor),
 
             locationLabel.leftAnchor.constraint(equalTo: leftAnchor),
             locationLabel.topAnchor.constraint(equalTo: ratingView.bottomAnchor, constant: Layout.verticalMargin),
@@ -180,6 +188,10 @@ final class UserProfileHeaderView: UIView {
             .constraint(equalTo: (hasRatings ? ratingView : userNameLabel).bottomAnchor,
                         constant: Layout.verticalMargin)
         locationLabelTopConstraint?.isActive = true
+    }
+
+    func setUser(numberOfRatings: Int) {
+        ratingCountLabel.text = numberOfRatings > 0 ? "(\(numberOfRatings))" : nil
     }
 
     private func updateBadge() {

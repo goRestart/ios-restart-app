@@ -566,6 +566,9 @@ extension UserProfileViewController {
             .userRatingCount
             .drive(onNext: { [weak self] in
                 self?.headerView.setUser(hasRatings: $0 > 0)
+                if let showRatingsCount = self?.viewModel.showRatingsCount, showRatingsCount {
+                    self?.headerView.setUser(numberOfRatings: $0)
+                }
             })
             .disposed(by: disposeBag)
 

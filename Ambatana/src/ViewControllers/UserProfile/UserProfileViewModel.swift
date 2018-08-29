@@ -57,9 +57,9 @@ final class UserProfileViewModel: BaseViewModel {
         return !areEnabled && isPrivateProfile
     }
 
-    var showKarmaView: Bool {
-        return isPrivateProfile
-    }
+    var showKarmaView: Bool { return isPrivateProfile }
+    var showRatingsCount: Bool { return true /* TODO: link real A/B test */ }
+    var makeRatingStarsTappable: Bool { return true /* TODO: link real A/B test */ }
 
     var userName: Driver<String?> { return user.asDriver().map {$0?.name} }
     var userAvatarURL: Driver<URL?> { return user.asDriver().map {$0?.avatar?.fileURL} }
