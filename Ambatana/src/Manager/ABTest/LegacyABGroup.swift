@@ -11,7 +11,6 @@ import Foundation
 struct LegacyABGroup: ABGroupType {
     private struct Keys {
         static let carsMultiReqEnabled = "newCarsMultiRequesterEnabled"
-        static let inAppRatingIOS10 = "20170711inAppRatingIOS10"
         static let userReviewsReportEnabled = "20170823userReviewsReportEnabled"
         static let appRatingDialogInactive = "20170831AppRatingDialogInactive"
         static let locationDataSourceType = "20170830LocationDataSourceType"
