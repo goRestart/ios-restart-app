@@ -743,7 +743,7 @@ extension ChatViewController: ChatViewModelDelegate {
     
     func vmDidRequestShowPrePermissions(_ type: PrePermissionType) {
         showKeyboard(false, animated: true)
-        pushPermissionManager.showPrePermissionsViewFrom(self, type: type, completion: nil)
+        pushPermissionManager.showPrePermissionsViewFrom(self, type: type)
     }
     
     func vmDidBeginEditing() {

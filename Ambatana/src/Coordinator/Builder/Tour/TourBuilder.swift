@@ -1,29 +1,11 @@
 protocol TourAssembly {
-    func buildTourNotification(action: @escaping TourPostingAction,
-                               skipper: TourSkiperNavigator?) -> TourNotificationsViewController
     func buildTourLocation(action: @escaping TourPostingAction,
                            skipper: TourSkiperNavigator?) -> TourLocationViewController
     func buildTourPosting(action: @escaping TourPostingAction) -> TourPostingViewController
 }
 
 enum TourBuilder: TourAssembly {
-    case standard(nc: UINavigationController)
-    
-    func buildTourNotification(action: @escaping TourPostingAction,
-                               skipper: TourSkiperNavigator?) -> TourNotificationsViewController {
-        let type: PrePermissionType = .onboarding
-        let vm = TourNotificationsViewModel(
-            title: type.title,
-            subtitle: type.subtitle,
-            pushText: type.pushMessage,
-            source: type
-        )
-        switch self {
-        case .standard(let nc):
-            vm.navigator = TourNotificationWireframe(nc: nc, action: action, skipper: skipper)
-        }
-        return TourNotificationsViewController(viewModel: vm)
-    }
+    case standard(UINavigationController)
     
     func buildTourLocation(action: @escaping TourPostingAction,
                            skipper: TourSkiperNavigator?) -> TourLocationViewController {

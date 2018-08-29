@@ -20,7 +20,7 @@ final class TourNotificationWireframe: TourNotificationsNavigator {
         self.init(nc: nc, action: action,
                   locationManager: Core.locationManager,
                   featureFlags: FeatureFlags.sharedInstance,
-                  assembly: TourBuilder.standard(nc: nc),
+                  assembly: TourBuilder.standard(nc),
                   skipper: skipper)
     }
 

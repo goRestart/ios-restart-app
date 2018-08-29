@@ -609,7 +609,7 @@ fileprivate extension AppCoordinator {
 
     func showAfterSellPushAndRatingDialogs() {
         if pushPermissionsManager.shouldShowPushPermissionsAlertFromViewController(.sell) {
-            pushPermissionsManager.showPrePermissionsViewFrom(tabBarCtl, type: .sell, completion: nil)
+            pushPermissionsManager.showPrePermissionsViewFrom(tabBarCtl, type: .sell)
         } else if ratingManager.shouldShowRating {
             openAppRating(.listingSellComplete)
         }

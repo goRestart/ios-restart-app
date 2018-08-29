@@ -9,7 +9,7 @@ enum PrePermissionType {
     case profile
 }
 
-class LGPushPermissionsManager: PushPermissionsManager {
+final class LGPushPermissionsManager: PushPermissionsManager {
 
     static let sharedInstance: LGPushPermissionsManager = LGPushPermissionsManager()
     
@@ -64,8 +64,7 @@ class LGPushPermissionsManager: PushPermissionsManager {
 
 
     @discardableResult
-    func showPrePermissionsViewFrom(_ viewController: UIViewController, type: PrePermissionType,
-                                           completion: (() -> ())?) -> UIViewController? {
+    func showPrePermissionsViewFrom(_ viewController: UIViewController, type: PrePermissionType) -> UIViewController? {
         guard shouldShowPushPermissionsAlertFromViewController(type) else { return nil }
 
         prePermissionType = type
@@ -84,28 +83,28 @@ class LGPushPermissionsManager: PushPermissionsManager {
         }
 
         if showSettingsPrePermission {
-            return presentSettingsPrePermissionsFrom(viewController, type: type, completion: completion)
+            return presentSettingsPrePermissionsFrom(viewController, type: type)
         } else {
-            return presentNormalPrePermissionsFrom(viewController, type: type, completion: completion)
+            return presentNormalPrePermissionsFrom(viewController, type: type)
         }
     }
 
-    private func presentNormalPrePermissionsFrom(_ viewController: UIViewController, type: PrePermissionType,
-        completion: (() -> ())?) -> UIViewController {
-            let vm = TourNotificationsViewModel(title: type.title, subtitle: type.subtitle, pushText: type.pushMessage,
-                source: type)
-            let vc = TourNotificationsViewController(viewModel: vm)
-            vc.completion = completion
-            viewController.present(vc, animated: true, completion: nil)
+    private func presentNormalPrePermissionsFrom(_ viewController: UIViewController,
+                                                 type: PrePermissionType) -> UIViewController {
+        let wireframe = TourNotificationPushWireframe(root: viewController)
+        let vc = TourNotificationsBuilder
+            .modal(viewController)
+            .buildTourNotification(type: type,
+                                   navigator: wireframe)
+        vc.modalTransitionStyle = .crossDissolve
+        viewController.present(vc, animated: true, completion: nil)
         return vc
     }
 
-    private func presentSettingsPrePermissionsFrom(_ viewController: UIViewController, type: PrePermissionType,
-                                                   completion: (() -> ())?) -> UIViewController {
+    private func presentSettingsPrePermissionsFrom(_ viewController: UIViewController, type: PrePermissionType) -> UIViewController {
         let vm = PushPrePermissionsSettingsViewModel(source: type)
         let vc = PushPrePermissionsSettingsViewController(viewModel: vm)
         vc.modalTransitionStyle = .crossDissolve
-        vc.completion = completion
         viewController.present(vc, animated: true, completion: nil)
         return vc
     }
