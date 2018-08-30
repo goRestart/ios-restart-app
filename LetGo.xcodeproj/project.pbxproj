@@ -1029,6 +1029,7 @@
 		5095988E1C8733B70026AE2D /* CrashlyticsReporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509598861C8733B70026AE2D /* CrashlyticsReporter.swift */; };
 		509CFF351DCCE8DF0068E518 /* CGPoint+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509CFF341DCCE8DF0068E518 /* CGPoint+LG.swift */; };
 		509CFF361DCCE8DF0068E518 /* CGPoint+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509CFF341DCCE8DF0068E518 /* CGPoint+LG.swift */; };
+		509DE77E2137C21E00368A41 /* InterestedStateUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013B2A1A21303DCB00F69613 /* InterestedStateUpdater.swift */; };
 		509F79AC1ED6CD1C00AF2F70 /* UserRatingTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509F79AB1ED6CD1C00AF2F70 /* UserRatingTagCell.swift */; };
 		509F79AD1ED6CD1C00AF2F70 /* UserRatingTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509F79AB1ED6CD1C00AF2F70 /* UserRatingTagCell.swift */; };
 		509F79AF1ED6E54D00AF2F70 /* CenterAlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509F79AE1ED6E54D00AF2F70 /* CenterAlignedCollectionViewFlowLayout.swift */; };
@@ -10038,6 +10039,7 @@
 				5011938720C5173200FA7C20 /* AnalyticsSessionManager.swift in Sources */,
 				7224D7E91F581EE7004E3B49 /* ExpandableCategorySelectionView.swift in Sources */,
 				2E5350421CF8A0C6003B06CC /* ListingStatsView.swift in Sources */,
+				509DE77E2137C21E00368A41 /* InterestedStateUpdater.swift in Sources */,
 				2E0F26591E0C425900D97898 /* BumpUpBanner.swift in Sources */,
 				32CBAC8620F7826000F6BD34 /* CategoryViewModel.swift in Sources */,
 				0A6FECF72130344000B57004 /* ListingDetailWireframe.swift in Sources */,
