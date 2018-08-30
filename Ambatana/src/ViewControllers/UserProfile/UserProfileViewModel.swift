@@ -248,6 +248,7 @@ extension UserProfileViewModel {
     func didTapAvatar() {
         guard let user = user.value else { return }
         navigator?.openAvatarDetail(isPrivate: isPrivateProfile, user: user)
+        trackOpenAvatarDetail()
     }
 
     func updateAvatar(with image: UIImage) {
@@ -760,6 +761,11 @@ extension UserProfileViewModel {
 
     func trackVerifyAccountStart() {
         let event = TrackerEvent.verifyAccountStart(.profile)
+        tracker.trackEvent(event)
+    }
+
+    func trackOpenAvatarDetail() {
+        let event = TrackerEvent.profileOpenPictureDetail()
         tracker.trackEvent(event)
     }
 }
