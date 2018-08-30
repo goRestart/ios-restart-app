@@ -49,17 +49,17 @@ final class UserProfileViewModel: BaseViewModel {
     // Flag to define if there is a logged in user that allows special actions
     var isLoggedInUser: Bool { return sessionManager.loggedIn }
 
-    var showCloseButtonInNavBar: Bool { return source == .mainListing }
+    var shouldShowCloseButtonInNavBar: Bool { return source == .mainListing }
 
     let arePushNotificationsEnabled = Variable<Bool?>(nil)
-    var showPushPermissionsBanner: Bool {
+    var shouldShowPushPermissionsBanner: Bool {
         guard let areEnabled = arePushNotificationsEnabled.value else { return false }
         return !areEnabled && isPrivateProfile
     }
 
-    var showKarmaView: Bool { return isPrivateProfile }
-    var showRatingsCount: Bool { return self.featureFlags.advancedReputationSystem11.isActive }
-    var makeRatingStarsTappable: Bool { return self.featureFlags.advancedReputationSystem11.isActive }
+    var shouldShowKarmaView: Bool { return isPrivateProfile }
+    var shouldShowRatingCount: Bool { return self.featureFlags.advancedReputationSystem11.isActive }
+    var isTapOnRatingStarsEnabled: Bool { return self.featureFlags.advancedReputationSystem11.isActive }
 
     var userName: Driver<String?> { return user.asDriver().map {$0?.name} }
     var userAvatarURL: Driver<URL?> { return user.asDriver().map {$0?.avatar?.fileURL} }

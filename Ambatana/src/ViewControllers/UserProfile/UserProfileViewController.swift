@@ -145,13 +145,13 @@ final class UserProfileViewController: BaseViewController {
         headerContainerView.addSubviewsForAutoLayout([headerView, dummyView, userRelationView,
                                                       bioAndTrustView, tabsView])
 
-        if viewModel.showKarmaView {
+        if viewModel.shouldShowKarmaView {
             headerContainerView.addSubviewForAutoLayout(karmaView)
 
             let tap = UITapGestureRecognizer(target: self, action: #selector(didTapKarmaScore))
             karmaView.addGestureRecognizer(tap)
         }
-        bioAndTrustView.onlyShowBioText = viewModel.showKarmaView
+        bioAndTrustView.onlyShowBioText = viewModel.shouldShowKarmaView
 
         view.addSubviewsForAutoLayout([tableView, listingView, headerContainerView])
 
@@ -199,7 +199,7 @@ final class UserProfileViewController: BaseViewController {
     private func setupNavBar() {
         let backIcon = R.Asset.IconsButtons.navbarBackRed.image
         setNavBarBackButton(backIcon)
-        if viewModel.showCloseButtonInNavBar {
+        if viewModel.shouldShowCloseButtonInNavBar {
             setNavBarCloseButton(#selector(close))
         }
 
@@ -280,7 +280,7 @@ final class UserProfileViewController: BaseViewController {
             emptyReviewsLabel.centerXAnchor.constraint(equalTo: tableView.centerXAnchor)
         ]
 
-        if viewModel.showKarmaView {
+        if viewModel.shouldShowKarmaView {
             constraints.append(contentsOf: [
                 karmaView.topAnchor.constraint(equalTo: bioAndTrustView.bottomAnchor, constant: Metrics.shortMargin),
                 karmaView.leftAnchor.constraint(equalTo: headerContainerView.leftAnchor, constant: Metrics.shortMargin),
@@ -471,7 +471,7 @@ extension UserProfileViewController: UserProfileHeaderDelegate {
     }
 
     func didTapRating() {
-        guard viewModel.makeRatingStarsTappable else { return }
+        guard viewModel.isTapOnRatingStarsEnabled else { return }
         tabsView.select(tab: .reviews)
     }
 }
@@ -571,7 +571,7 @@ extension UserProfileViewController {
             .userRatingCount
             .drive(onNext: { [weak self] in
                 self?.headerView.setUser(hasRatings: $0 > 0)
-                if let showRatingsCount = self?.viewModel.showRatingsCount, showRatingsCount {
+                if let showRatingsCount = self?.viewModel.shouldShowRatingCount, showRatingsCount {
                     self?.headerView.setUser(numberOfRatings: $0)
                 }
             })
@@ -608,7 +608,7 @@ extension UserProfileViewController {
         viewModel
             .userScore
             .drive(onNext: { [weak self] score in
-                guard let strongSelf = self, strongSelf.viewModel.showKarmaView else { return }
+                guard let strongSelf = self, strongSelf.viewModel.shouldShowKarmaView else { return }
                 strongSelf.karmaView.score = score
             })
             .disposed(by: disposeBag)
@@ -659,7 +659,7 @@ extension UserProfileViewController {
     }
 
     private func buildNotificationBanner() -> UIView? {
-        guard viewModel.showPushPermissionsBanner else { return nil }
+        guard viewModel.shouldShowPushPermissionsBanner else { return nil }
         let container = UIView(frame: CGRect(x: 0, y: 0, width: tableView.width, height: PushPermissionsHeader.viewHeight))
         let pushHeader = PushPermissionsHeader()
         pushHeader.delegate = self
@@ -738,13 +738,13 @@ extension UserProfileViewController: ListingListViewHeaderDelegate, PushPermissi
 
     func totalHeaderHeight() -> CGFloat {
         var totalHeight: CGFloat = 0
-        totalHeight += viewModel.showPushPermissionsBanner ? PushPermissionsHeader.viewHeight : 0
+        totalHeight += viewModel.shouldShowPushPermissionsBanner ? PushPermissionsHeader.viewHeight : 0
         return totalHeight
     }
 
     func setupViewsIn(header: ListHeaderContainer) {
         header.clear()
-        if viewModel.showPushPermissionsBanner {
+        if viewModel.shouldShowPushPermissionsBanner {
             let pushHeader = PushPermissionsHeader()
             pushHeader.tag = 0
             pushHeader.delegate = self
