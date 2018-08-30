@@ -841,6 +841,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     }
 
     private func loadAvatar(for user: User?) {
+        guard featureFlags.advancedReputationSystem11.isActive else { return }
+
         guard let avatarUrl = user?.avatar?.fileURL else {
             return self.userAvatar.value = nil
         }
