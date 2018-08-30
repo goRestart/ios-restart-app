@@ -627,7 +627,13 @@ extension FeedViewModel: ListingActionDelegate {
     }
     
     private func sendMessage(forListing listing: Listing, sectionedFeedChatTrackingInfo: SectionedFeedChatTrackingInfo?) {
-        let type = ChatWrapperMessageType.interested(QuickAnswer.interested.textToReply)
+        let type: ChatWrapperMessageType
+        if featureFlags.randomImInterestedMessages.isActive {
+            type = ChatWrapperMessageType.interested(QuickAnswer.dynamicInterested(
+                interestedMessage: QuickAnswer.InterestedMessage.makeRandom()).textToReply)
+        } else {
+            type = ChatWrapperMessageType.interested(QuickAnswer.interested.textToReply)
+        }
         interestedStateManager.addInterestedState(forListing: listing, completion: nil)
         let trackingInfo = SendMessageTrackingInfo
             .makeWith(type: type, listing: listing, freePostingAllowed: featureFlags.freePostingModeAllowed)
