@@ -246,7 +246,7 @@ extension UserProfileViewModel {
     }
 
     func didTapAvatar() {
-        guard let user = user.value else { return }
+        guard let user = user.value, featureFlags.advancedReputationSystem11.isActive else { return }
         navigator?.openAvatarDetail(isPrivate: isPrivateProfile, user: user)
     }
 
