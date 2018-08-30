@@ -109,7 +109,9 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     let errorMessage = Variable<String?>(nil)
     let containsListings = Variable<Bool>(false)
     let isShowingCategoriesHeader = Variable<Bool>(false)
-    
+
+    var userAvatar = Variable<UIImage?>(nil)
+
     var categoryHeaderElements: [FilterCategoryItem] { return FilterCategoryItem.makeForFeed(with: featureFlags) }
     var categoryHighlighted: FilterCategoryItem { return FilterCategoryItem(category: .services) }
     
@@ -828,8 +830,35 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                                  isShowingCategoriesHeader.asObservable()) { $0 && $1 && $2 }
             .bind(to: recentItemsBubbleVisible)
             .disposed(by: disposeBag)
+
+        myUserRepository
+            .rx_myUser
+            .distinctUntilChanged { $0?.objectId == $1?.objectId }
+            .subscribe(onNext: { [weak self] myUser in
+                self?.loadAvatar(for: myUser)
+            })
+            .disposed(by: disposeBag)
     }
-    
+
+    private func loadAvatar(for user: User?) {
+        guard featureFlags.advancedReputationSystem11.isActive else { return }
+
+        guard let avatarUrl = user?.avatar?.fileURL else {
+            return self.userAvatar.value = nil
+        }
+
+        if let cachedImage = ImageDownloader.sharedInstance.cachedImageForUrl(avatarUrl) {
+            return self.userAvatar.value = cachedImage
+        }
+
+        ImageDownloader
+            .sharedInstance
+            .downloadImageWithURL(avatarUrl) { [weak self] (result, _) in
+                guard case .success((let image, _)) = result else { return }
+                self?.userAvatar.value = image
+        }
+    }
+
     /**
      Returns a view model for search.
      
