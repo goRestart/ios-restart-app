@@ -77,5 +77,5 @@ protocol UserVerificationNavigator: class {
     func closeUserVerification()
     func openEditUserBio()
     func openEmailVerification()
-    func openPhoneNumberVerification()
+    func openPhoneNumberVerification(editing: Bool)
 }
