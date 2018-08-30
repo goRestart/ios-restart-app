@@ -263,13 +263,6 @@ fileprivate extension AppDelegate {
             DDLog.add(DDASLLogger.sharedInstance)       // ASL = Apple System Logs
         #endif
 
-        // New Relic
-        #if GOD_MODE
-            NewRelicAgent.start(withApplicationToken: SharedConstants.newRelicGodModeToken)
-        #else
-            NewRelicAgent.start(withApplicationToken: SharedConstants.newRelicProductionToken)
-        #endif
-
         // Fabric
         #if DEBUG
         #else

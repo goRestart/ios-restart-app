@@ -34,7 +34,6 @@ def shared_pods
     pod "Amplitude-iOS",        "4.0.4"     # Obj-c
     pod "AppsFlyerFramework",   "4.8.4"     # Obj-c
     pod "Leanplum-iOS-SDK",     "2.0.5"     # Obj-c
-    pod "NewRelicAgent",        "6.1.1"     # Obj-c
 
     # Stripe
     pod "Stripe",               "13.0.3"

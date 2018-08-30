@@ -13,7 +13,6 @@
 
 // Tracking
 #import <Leanplum/Leanplum.h>
-#import <NewRelicAgent/NewRelic.h>
 
 #if GOD_MODE
 // FLEX

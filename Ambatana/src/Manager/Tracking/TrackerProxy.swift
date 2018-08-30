@@ -10,7 +10,6 @@ final class TrackerProxy: Tracker {
         trackers.append(FacebookTracker())
         trackers.append(CrashlyticsTracker())
         trackers.append(LeanplumTracker())
-        trackers.append(NewRelicTracker())
         return trackers
     }()
 
