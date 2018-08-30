@@ -35,22 +35,22 @@ final class FeedViewController: BaseViewController {
     
     private let disposeBag = DisposeBag()
 
-    private var hasSearchBar = false
+    private var hideSearchBox = false
     private var hasFilters = true
     
     // MARK:- Init
     
     required init(withViewModel viewModel: BaseViewModel & FeedViewModelType,
-                  showSearchBar: Bool = false,
+                  hideSearchBox: Bool = false,
                   showFilters: Bool = true) {
-        self.navbarSearch = showSearchBar ? nil : LGNavBarSearchField(
+        self.navbarSearch = hideSearchBox ? nil : LGNavBarSearchField(
             viewModel.searchString)
         self.viewModel = viewModel
+        self.hideSearchBox = hideSearchBox
         super.init(viewModel: viewModel, nibName: nil)
         viewModel.feedRenderingDelegate = self
         viewModel.delegate = self
         viewModel.rootViewController = self
-        hasSearchBar = showSearchBar
         hasFilters = showFilters
         setup()
     }
@@ -119,7 +119,7 @@ final class FeedViewController: BaseViewController {
             setupInviteNavBarButton()
         }
         
-        guard hasSearchBar else {
+        guard hideSearchBox else {
             if let safeNavbarSearch = navbarSearch {
                 setNavBarTitleStyle(.custom(safeNavbarSearch))
                 safeNavbarSearch.searchTextField.delegate = self

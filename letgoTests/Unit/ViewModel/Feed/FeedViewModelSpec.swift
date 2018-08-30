@@ -9,12 +9,13 @@ final class FeedViewModelSpec: BaseViewModelSpec {
     
     override func spec() {
         class FeedWireframeMock: FeedNavigator {
+            
             var openFiltersWasCalled: (state: Bool, listingFilters: ListingFilters?) = (false, nil)
             var openLocationWasCalled: Bool = false
             var showPushPermissionsAlertWasCalled: Bool = false
             var openMapWasCalled: Bool = false
             var openAppInviteWasCalled: (Bool, String?, String?) = (true, nil, nil)
-            var openProFeedWasCalled: (state: Bool, searchType: SearchType?) = (true, nil)
+            var openProFeedWasCalled: (state: Bool, searchType: SearchType?, navigator: MainTabNavigator?) = (true, nil, nil)
             var openClassicFeedWasCalled: Bool = true
             
             func openFilters(withListingFilters listingFilters: ListingFilters, filtersVMDataDelegate: FiltersViewModelDataDelegate?) {
@@ -37,8 +38,8 @@ final class FeedViewModelSpec: BaseViewModelSpec {
                 openAppInviteWasCalled = (true, myUserId, myUserName)
             }
             
-            func openProFeed(withSearchType searchType: SearchType) {
-                openProFeedWasCalled = (true, searchType)
+            func openProFeed(navigator: MainTabNavigator?, withSearchType searchType: SearchType) {
+                openProFeedWasCalled = (true, searchType, navigator)
             }
             
             func openClassicFeed(navigator: MainTabNavigator, withSearchType searchType: SearchType, listingFilters: ListingFilters) {
@@ -148,7 +149,7 @@ final class FeedViewModelSpec: BaseViewModelSpec {
             }
         }
         
-        describe("didTapSeeAll") {
+        describe("didTapSeeAll- with nil Navigator ") {
             let feedWireframeMock: FeedWireframeMock = FeedWireframeMock()
             
             beforeEach {
@@ -161,13 +162,39 @@ final class FeedViewModelSpec: BaseViewModelSpec {
                 expect(feedWireframeMock.openProFeedWasCalled.0) == true
             }
             
-            it("should send the correct parameters") {
-                expect(feedWireframeMock.openProFeedWasCalled.1?.query) == "CommanderKeen"
+            it("should have search type as nil due to navigator == nil") {
+                expect(feedWireframeMock.openProFeedWasCalled.1?.query).to(beNil())
+            }
+            
+            it("should have navigator == nil") {
+                expect(feedWireframeMock.openProFeedWasCalled.2).to(beNil())
             }
         }
         
+        describe("didTapSeeAll- with Navigator") {
+            let feedWireframeMock: FeedWireframeMock = FeedWireframeMock()
+            
+            beforeEach {
+                let coordinator = MainTabCoordinator()
+                subject = self.makeFeedViewModel(withFeedResult: FeedResult(error: .notFound))
+                subject?.wireframe = feedWireframeMock
+                subject?.navigator = coordinator
+                subject?.didTapSeeAll(page: .user(query: "CommanderKeen"))
+            }
+            
+            it("should open the pro feed") {
+                expect(feedWireframeMock.openProFeedWasCalled.0) == true
+            }
+            
+            it("should have search type") {
+                expect(feedWireframeMock.openProFeedWasCalled.1?.query) == "CommanderKeen"
+            }
+            
+            it("should have navigator not be nil") {
+                expect(feedWireframeMock.openProFeedWasCalled.2).toNot(beNil())
+            }
+        }
     }
-    
 }
 
 //  MARK: - Helpers
@@ -200,6 +227,5 @@ private extension FeedViewModelSpec {
                              keyValueStorage: MockKeyValueStorage(),
                              deviceFamily: .iPhone6Plus)
     }
-    
 }
 

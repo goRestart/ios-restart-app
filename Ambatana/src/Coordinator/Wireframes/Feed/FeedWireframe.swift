@@ -15,7 +15,7 @@ protocol FeedNavigator: class {
                  listingFilters: ListingFilters,
                  locationManager: LocationManager)
     func openAppInvite(myUserId: String?, myUserName: String?)
-    func openProFeed(withSearchType: SearchType)
+    func openProFeed(navigator: MainTabNavigator?, withSearchType: SearchType)
     func openClassicFeed(navigator: MainTabNavigator,
                          withSearchType searchType: SearchType,
                          listingFilters: ListingFilters)
@@ -89,14 +89,16 @@ final class FeedWireframe: FeedNavigator {
         deepLinkMailBox.push(convertible: url)
     }
     
-    func openProFeed(withSearchType searchType: SearchType) {
-        let (vc, _) = FeedBuilder.standard(nc: nc).makePro(
+    func openProFeed(navigator: MainTabNavigator?,
+                     withSearchType searchType: SearchType) {
+        let (vc, vm) = FeedBuilder.standard(nc: nc).makePro(
             withSearchType: searchType,
             filters: ListingFilters(),
-            showSearchBar: true,
+            hideSearchBox: true,
             showFilters: false,
             showLocationEditButton: false
         )
+        vm.navigator = navigator
         nc.pushViewController(vc, animated: true)
     }
     

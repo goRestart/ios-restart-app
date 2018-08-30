@@ -13,7 +13,7 @@ extension SectionedDiscoveryFeed {
 protocol FeedAssembly {
     func makePro(withSearchType: SearchType,
                  filters: ListingFilters,
-                 showSearchBar: Bool,
+                 hideSearchBox: Bool,
                  showFilters: Bool,
                  showLocationEditButton: Bool) -> (BaseViewController, FeedNavigatorOwnership)
     func makeClassic(withSearchType: SearchType, filters: ListingFilters) -> (BaseViewController, FeedNavigatorOwnership)
@@ -27,7 +27,7 @@ enum FeedBuilder: FeedAssembly {
     func makePro(
         withSearchType searchType: SearchType,
         filters: ListingFilters,
-        showSearchBar: Bool = false,
+        hideSearchBox: Bool = false,
         showFilters: Bool = true,
         showLocationEditButton: Bool = true
     ) -> (BaseViewController, FeedNavigatorOwnership) {
@@ -37,7 +37,7 @@ enum FeedBuilder: FeedAssembly {
             shouldShowEditOnLocationHeader: showLocationEditButton)
         let vc: FeedViewController = FeedViewController(
             withViewModel: vm,
-            showSearchBar: showSearchBar,
+            hideSearchBox: hideSearchBox,
             showFilters: showFilters
         )
         

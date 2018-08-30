@@ -18,7 +18,7 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
 
     var wireframe: FeedNavigator?
     var listingWireframe: ListingWireframe?
-
+    
     weak var rootViewController: UIViewController? {
         didSet {
             sectionControllerFactory.rootViewController = rootViewController
@@ -115,7 +115,7 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     private let adsImpressionConfigurable: AdsImpressionConfigurable
     private let interestedStateManager: InterestedStateUpdater
     private let sectionedFeedVMTrackerHelper: SectionedFeedVMTrackerHelper
-
+    
     //  MARK: - Life Cycle
     
     init(feedRepository: FeedRepository = Core.feedRepository,
@@ -527,7 +527,10 @@ extension FeedViewModel: RetryFooterDelegate {
 // MARK: - Horizontal selection delegate
 
 extension FeedViewModel: HorizontalSectionDelegate {
-    func didTapSeeAll(page: SearchType) { wireframe?.openProFeed(withSearchType: page) }
+    func didTapSeeAll(page: SearchType) {
+        guard let navigator = navigator else { return }
+        wireframe?.openProFeed(navigator: navigator, withSearchType: page)
+    }
 }
 
 
@@ -704,10 +707,10 @@ extension FeedViewModel {
     var listingVisitSource: EventParameterListingVisitSource {
         if let searchType = searchType {
             switch searchType {
-            // TODO: Add tracker for feed!.
-            case .collection, .feed: return .collection
+            case .collection: return .collection
             case .user, .trending, .suggestive, .lastSearch:
                 return !hasFilters ? .search : .searchAndFilter
+            case .feed: return .sectionList
             }
         }
         if hasFilters {
