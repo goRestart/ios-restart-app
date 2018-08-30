@@ -20,6 +20,15 @@ protocol PublicProfileNavigator: class {
     func openListing(_ data: ListingDetailData,
                      source: EventParameterListingVisitSource,
                      actionOnFirstAppear: ProductCarouselActionOnFirstAppear)
+    func openLogin(infoMessage: String, then loggedInAction: @escaping (() -> Void))
+    func openAskPhoneFor(listing: Listing, interlocutor: User?)
+    func openListingChat(_ listing: Listing,
+                         source: EventParameterTypePage,
+                         interlocutor: User?,
+                         openChatAutomaticMessage: ChatWrapperMessageType?)
+    func openListingChat(data: ChatDetailData,
+                         source: EventParameterTypePage,
+                         predefinedMessage: String?)
 }
 
 protocol SettingsNavigator: class {

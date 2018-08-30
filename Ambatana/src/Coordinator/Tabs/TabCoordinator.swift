@@ -52,7 +52,8 @@ class TabCoordinator: NSObject, Coordinator {
          myUserRepository: MyUserRepository, installationRepository: InstallationRepository,
          bubbleNotificationManager: BubbleNotificationManager,
          keyValueStorage: KeyValueStorage, tracker: Tracker, rootViewController: UIViewController,
-         featureFlags: FeatureFlaggeable, sessionManager: SessionManager, deeplinkMailBox: DeepLinkMailBox) {
+         featureFlags: FeatureFlaggeable, sessionManager: SessionManager, deeplinkMailBox: DeepLinkMailBox,
+         externalNC: UINavigationController? = nil) {
         self.listingRepository = listingRepository
         self.userRepository = userRepository
         self.chatRepository = chatRepository
@@ -64,7 +65,11 @@ class TabCoordinator: NSObject, Coordinator {
         self.rootViewController = rootViewController
         self.featureFlags = featureFlags
         self.sessionManager = sessionManager
-        self.navigationController = UINavigationController(rootViewController: rootViewController)
+        if let nc = externalNC {
+            self.navigationController = nc
+        } else {
+            self.navigationController = UINavigationController(rootViewController: rootViewController)
+        }
         self.deeplinkMailBox = deeplinkMailBox
 
         super.init()
@@ -105,7 +110,7 @@ extension TabCoordinator: TabNavigator {
         let data = BubbleNotificationData(text: message, action: action)
         appNavigator?.showBottomBubbleNotification(data: data,
                                                    duration: duration,
-                                                   alignment: .bottom,
+                                                   alignment: .bottomTabBar,
                                                    style: .light)
     }
 
@@ -113,7 +118,7 @@ extension TabCoordinator: TabNavigator {
         let data = BubbleNotificationData(text: message, action: nil)
         appNavigator?.showBottomBubbleNotification(data: data,
                                                    duration: duration,
-                                                   alignment: .bottom,
+                                                   alignment: .bottomTabBar,
                                                    style: .dark)
     }
 

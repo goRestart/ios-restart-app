@@ -1356,6 +1356,10 @@
 "sell_title_autogen_label" = "Title suggested by letgo";
 "sell_title_field_hint" = "Title (optional)";
 "sell_uploading_label" = "Posting your listing...";
+"services_promo_cell_title_b" = "New Services category!";
+"services_promo_cell_title_c" = "Find local customers for your service";
+"services_promo_cell_title_default_bold" = "Make money";
+"services_promo_cell_title_default_regular" = "in your spare time";
 "services_service_subtype_list_title" = "Service";
 "services_service_subtype_title" = "Service";
 "services_service_type_list_title" = "Service category";

@@ -1356,6 +1356,10 @@
 "sell_title_autogen_label" = "Titel föreslagen av letgo";
 "sell_title_field_hint" = "Titel (frivillig)";
 "sell_uploading_label" = "Laddar upp annonsen...";
+"services_promo_cell_title_b" = "Ny tjänstekategori!";
+"services_promo_cell_title_c" = "Hitta lokala kunder för dina tjänster";
+"services_promo_cell_title_default_bold" = "Tjäna pengar";
+"services_promo_cell_title_default_regular" = "på din fritid";
 "services_service_subtype_list_title" = "Tjänst";
 "services_service_subtype_title" = "Tjänst";
 "services_service_type_list_title" = "Tjänstekategori";

@@ -1356,6 +1356,10 @@
 "sell_title_autogen_label" = "letgon ehdottama otsikko";
 "sell_title_field_hint" = "Tuotteen otsikko (vapaaehtoinen)";
 "sell_uploading_label" = "Julkaistaan ilmoitusta...";
+"services_promo_cell_title_b" = "Uusi palvelut-kategoria!";
+"services_promo_cell_title_c" = "Etsi palvelullesi paikallisia asiakkaita";
+"services_promo_cell_title_default_bold" = "Tienaa rahaa";
+"services_promo_cell_title_default_regular" = "vapaa-ajallasi";
 "services_service_subtype_list_title" = "Palvelu";
 "services_service_subtype_title" = "Palvelu";
 "services_service_type_list_title" = "Palvelun kategoria";

@@ -44,7 +44,7 @@ final class AppCoordinator: NSObject, Coordinator {
     fileprivate let notificationsTabBarCoordinator: NotificationsTabCoordinator
     fileprivate let chatsTabBarCoordinator: ChatsTabCoordinator
     fileprivate let profileTabBarCoordinator: ProfileTabCoordinator
-    fileprivate let communityTabCoordinator: CommunityTabCoordinator
+    fileprivate let communityTabCoordinator: CommunityTabCoordinator?
     fileprivate let tabCoordinators: [TabCoordinator]
 
     fileprivate let configManager: ConfigManager
@@ -139,11 +139,13 @@ final class AppCoordinator: NSObject, Coordinator {
         self.notificationsTabBarCoordinator = NotificationsTabCoordinator()
         self.chatsTabBarCoordinator = ChatsTabCoordinator()
         self.profileTabBarCoordinator = ProfileTabCoordinator()
-        self.communityTabCoordinator = CommunityTabCoordinator(source: .tabbar)
         if featureFlags.community.shouldShowOnTab {
+            let communityCoordinator = CommunityTabCoordinator(source: .tabbar)
+            self.communityTabCoordinator = communityCoordinator
             self.tabCoordinators = [mainTabBarCoordinator, notificationsTabBarCoordinator, chatsTabBarCoordinator,
-                                    communityTabCoordinator]
+                                    communityCoordinator]
         } else {
+            self.communityTabCoordinator = nil
             self.tabCoordinators = [mainTabBarCoordinator, notificationsTabBarCoordinator, chatsTabBarCoordinator,
                                     profileTabBarCoordinator]
         }
@@ -178,7 +180,6 @@ final class AppCoordinator: NSObject, Coordinator {
         self.verifyAssembly = VerifyAccountsBuilder.modal
         self.promoteAssembly = PromoteBumpBuilder.modal(tabBarCtl)
         self.tourAssembly = TourLoginBuilder.modal
-
         super.init()
         self.tourSkipper = TourSkiperWireframe(appCoordinator: self, deepLinksRouter: deepLinksRouter)
 
@@ -271,7 +272,7 @@ extension AppCoordinator: AppNavigator {
         let forcedInitialTab: PostListingViewController.Tab?
         switch source {
         case .tabBar, .listingList, .profile, .deepLink, .notifications,
-             .deleteListing, .realEstatePromo, .carPromo, .chatList:
+             .deleteListing, .realEstatePromo, .carPromo, .servicesPromo, .chatList:
             forcedInitialTab = nil
         case .onboardingButton, .onboardingCamera, .onboardingBlockingPosting:
             forcedInitialTab = .camera
@@ -749,12 +750,13 @@ fileprivate extension AppCoordinator {
         notificationsTabBarCoordinator.tabCoordinatorDelegate = self
         chatsTabBarCoordinator.tabCoordinatorDelegate = self
         profileTabBarCoordinator.tabCoordinatorDelegate = self
-        communityTabCoordinator.tabCoordinatorDelegate = self
+        communityTabCoordinator?.tabCoordinatorDelegate = self
 
         mainTabBarCoordinator.appNavigator = self
         notificationsTabBarCoordinator.appNavigator = self
         chatsTabBarCoordinator.appNavigator = self
         profileTabBarCoordinator.appNavigator = self
+        communityTabCoordinator?.appNavigator = self
     }
 
     func setupDeepLinkingRx() {
@@ -1090,8 +1092,10 @@ fileprivate extension AppCoordinator {
             afterDelayClosure = { [weak self] in
                 self?.openInAppWebView(url: url)
             }
+        case .invite(let userid, let username):
+            openAppInvite(myUserId: userid, myUserName: username)
         }
-
+        
         if let afterDelayClosure = afterDelayClosure {
             delay(0.5) { 
                 afterDelayClosure()
@@ -1111,7 +1115,7 @@ fileprivate extension AppCoordinator {
         switch deepLink.action {
         case .home, .sell, .listing, .listingShare, .listingBumpUp, .listingMarkAsSold, .listingEdit, .user,
              .conversations, .conversationWithMessage, .search, .resetPassword, .userRatings, .userRating,
-             .notificationCenter, .appStore, .passwordlessLogin, .passwordlessSignup, .webView, .appRating:
+             .notificationCenter, .appStore, .passwordlessLogin, .passwordlessSignup, .webView, .appRating, .invite:
             return // Do nothing
         case let .conversation(data):
             showInappChatNotification(data, message: deepLink.origin.message)

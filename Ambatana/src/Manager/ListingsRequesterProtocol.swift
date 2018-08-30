@@ -1,5 +1,5 @@
-import Foundation
 import LGCoreKit
+import Result
 
 typealias ListingsRequesterCompletion = (ListingsRequesterResult) -> Void
 

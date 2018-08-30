@@ -1707,7 +1707,8 @@ fileprivate extension ChatViewModel {
                                                          feedPosition: .none,
                                                          userBadge: badgeParameter,
                                                          containsVideo: .notAvailable,
-                                                         isProfessional: isProfessional))
+                                                         isProfessional: isProfessional,
+                                                         sectionName: nil))
         }
         tracker.trackEvent(TrackerEvent.userMessageSent(info: info, isProfessional: isProfessional))
     }

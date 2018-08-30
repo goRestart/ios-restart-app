@@ -259,7 +259,8 @@ extension ExpressChatViewModel {
                                                          feedPosition: .none,
                                                          userBadge: .noBadge,
                                                          containsVideo: containsVideo,
-                                                         isProfessional: nil))
+                                                         isProfessional: nil,
+                                                         sectionName: nil))
         }
         tracker.trackEvent(TrackerEvent.userMessageSent(info: info, isProfessional: nil))
     }
