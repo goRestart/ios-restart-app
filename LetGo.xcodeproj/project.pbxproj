@@ -799,6 +799,7 @@
 		329476372136B0C7008EE737 /* FeedListing+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329476352136B0C7008EE737 /* FeedListing+LG.swift */; };
 		3294763A2136B1EA008EE737 /* Feed+Tracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329476392136B1EA008EE737 /* Feed+Tracking.swift */; };
 		3294763B2136B1EA008EE737 /* Feed+Tracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329476392136B1EA008EE737 /* Feed+Tracking.swift */; };
+		329476472138058F008EE737 /* Array+LGSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329476462138058F008EE737 /* Array+LGSpec.swift */; };
 		3299E5E7207FB7AB002935AE /* WaterFallLayoutSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3299E5E4207FB7AA002935AE /* WaterFallLayoutSettings.swift */; };
 		3299E5E8207FB7AB002935AE /* WaterfallLayoutItemRenderPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3299E5E5207FB7AA002935AE /* WaterfallLayoutItemRenderPolicy.swift */; };
 		3299E5E9207FB7AB002935AE /* WaterFallLayoutDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3299E5E6207FB7AB002935AE /* WaterFallLayoutDelegates.swift */; };
@@ -2743,6 +2744,7 @@
 		3294763121340EA0008EE737 /* SectionedFeedVMTrackerHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionedFeedVMTrackerHelper.swift; sourceTree = "<group>"; };
 		329476352136B0C7008EE737 /* FeedListing+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FeedListing+LG.swift"; sourceTree = "<group>"; };
 		329476392136B1EA008EE737 /* Feed+Tracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Feed+Tracking.swift"; sourceTree = "<group>"; };
+		329476462138058F008EE737 /* Array+LGSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+LGSpec.swift"; sourceTree = "<group>"; };
 		3299E5E4207FB7AA002935AE /* WaterFallLayoutSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaterFallLayoutSettings.swift; sourceTree = "<group>"; };
 		3299E5E5207FB7AA002935AE /* WaterfallLayoutItemRenderPolicy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaterfallLayoutItemRenderPolicy.swift; sourceTree = "<group>"; };
 		3299E5E6207FB7AB002935AE /* WaterFallLayoutDelegates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaterFallLayoutDelegates.swift; sourceTree = "<group>"; };
@@ -5779,6 +5781,7 @@
 				F5D6E67720090D8600E71A54 /* UserRatingType+RateBackSpec.swift */,
 				8E8236F2202CA68000A70A33 /* LGEmojiSpec.swift */,
 				C6FFC47620F49C5500B9F53A /* NumberFormatter+LGSpec.swift */,
+				329476462138058F008EE737 /* Array+LGSpec.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -8484,6 +8487,7 @@
 				50D08DB61E69AF14009CC260 /* MockPurchasesShopper.swift in Sources */,
 				50D08DB31E69AF14009CC260 /* MockGodModeManager.swift in Sources */,
 				3251C3DA20B973E20014B6BA /* MockRequesterFactory.swift in Sources */,
+				329476472138058F008EE737 /* Array+LGSpec.swift in Sources */,
 				2EC653B71E71744B00E23DDF /* MockExternalAuthHelper.swift in Sources */,
 				50D08DC31E69AF14009CC260 /* Int+LGSpec.swift in Sources */,
 				0A85BD9B2074D48200A850AF /* MockProduct+MockFactory.swift in Sources */,
