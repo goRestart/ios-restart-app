@@ -846,7 +846,7 @@
 "common_product_given_away" = "Given away";
 
 // Common product not available.
-"common_product_not_available" = "Oops! This listing is no longer available";
+"common_product_not_available" = "Promoted or no longer available";
 
 // Common product sold.
 "common_product_sold" = "Sold";
@@ -1455,6 +1455,9 @@
 
 // Alert to display to user that the max amount of services have already been selected
 "filters_services_services_list_max_selection_alert" = "Oops! You can't select more than 15 services.";
+
+// Alet to display to the user that the max amount of jobs/services have already been selected
+"filters_jobs_services_list_max_selection_alert" = "Oops! You can’t select more than 15 options.";
 
 // Section header for jobs and services toggle
 "filters_jobs_services_toggle_header" = "Looking for...";
@@ -4102,6 +4105,21 @@
 
 // Filter title for unified "services" filter
 "services_unified_filter_title" = "Select a category";
+
+// Bold text for the services promo cell title (first part of the string)
+"services_promo_cell_title_default_bold" = "Make money";
+
+// Regular weight text for the services promo title (second part of the string)
+"services_promo_cell_title_default_regular" = "in your spare time";
+
+// Auxillary title for services promo cell
+"services_promo_cell_title_b" = "New Services category!";
+
+// Another auxillary title for services promo cell
+"services_promo_cell_title_c" = "Find local customers for your service";
+
+// Call to action for variants 1, 3 and 5
+"services_promo_call_to_action" = "Post a service";
 
 // Settings change location button. Check image @ "settings_change_password_button" segment
 "settings_change_location_button" = "Location";

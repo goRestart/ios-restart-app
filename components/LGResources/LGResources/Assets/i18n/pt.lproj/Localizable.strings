@@ -284,7 +284,7 @@
 "common_no" = "No";
 "common_ok" = "OK";
 "common_product_given_away" = "Given away";
-"common_product_not_available" = "Oops! This listing is no longer available";
+"common_product_not_available" = "Promoted or no longer available";
 "common_product_sold" = "Sold";
 "common_settings" = "Settings";
 "common_short_time_day_ago_label" = "%d day";
@@ -1356,6 +1356,11 @@
 "sell_title_autogen_label" = "Title suggested by letgo";
 "sell_title_field_hint" = "Title (optional)";
 "sell_uploading_label" = "Posting your listing...";
+"services_promo_call_to_action" = "Post a service";
+"services_promo_cell_title_b" = "New Services category!";
+"services_promo_cell_title_c" = "Find local customers for your service";
+"services_promo_cell_title_default_bold" = "Make money";
+"services_promo_cell_title_default_regular" = "in your spare time";
 "services_service_subtype_list_title" = "Service";
 "services_service_subtype_title" = "Service";
 "services_service_type_list_title" = "Service category";

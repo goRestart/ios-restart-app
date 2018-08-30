@@ -1356,6 +1356,11 @@
 "sell_title_autogen_label" = "Заголовок предложен letgo";
 "sell_title_field_hint" = "Название (опционально)";
 "sell_uploading_label" = "Размещаем ваше объявление...";
+"services_promo_call_to_action" = "Post a service";
+"services_promo_cell_title_b" = "New Services category!";
+"services_promo_cell_title_c" = "Find local customers for your service";
+"services_promo_cell_title_default_bold" = "Make Money";
+"services_promo_cell_title_default_regular" = "in your spare time";
 "services_service_subtype_list_title" = "Услуги";
 "services_service_subtype_title" = "Услуги";
 "services_service_type_list_title" = "Категория услуги";

@@ -1356,6 +1356,11 @@
 "sell_title_autogen_label" = "Προτεινόμενος τίτλος από το letgo";
 "sell_title_field_hint" = "Τίτλος (προαιρετικό)";
 "sell_uploading_label" = "Δημοσίευση καταχώρησης...";
+"services_promo_call_to_action" = "Post a service";
+"services_promo_cell_title_b" = "Νέα κατηγορία Υπηρεσίες";
+"services_promo_cell_title_c" = "Βρείτε πελάτες κοντά σας για να τους προσφέρετε τις υπηρεσίες σας";
+"services_promo_cell_title_default_bold" = "Κερδίστε χρήματα";
+"services_promo_cell_title_default_regular" = "στον ελεύθερό σας χρόνο";
 "services_service_subtype_list_title" = "Υπηρεσία";
 "services_service_subtype_title" = "Υπηρεσία";
 "services_service_type_list_title" = "Κατηγορία υπηρεσίας";

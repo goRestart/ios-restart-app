@@ -67,8 +67,8 @@
 "bump_up_view_pay_title" = "Keltsd fel kétszer több vásárló érdeklődését";
 "cached_feed_error" = "Hiba történt az új hirdetések betöltése során";
 "cached_feed_new_listings" = "Új tárgyak";
-"car_promo_cell_title_bold_text" = "Make money";
-"car_promo_cell_title_regular_text" = "selling your car";
+"car_promo_cell_title_bold_text" = "Keress pénzt";
+"car_promo_cell_title_regular_text" = "autód eladásával";
 "categories_baby_and_child" = "Baba és gyerek";
 "categories_car" = "Autó";
 "categories_cars_and_motors" = "Egyéb járművek és alkatrészek";
@@ -758,7 +758,7 @@
 "post_description_info_title" = "HIRDETÉSINFORMÁCIÓK";
 "post_description_name_placeholder" = "Név";
 "post_description_save_button_text" = "Mentsd el a hirdetést!";
-"post_details_jobs_services_camera_message" = "Post your company’s logo or a photo that shows the service or job you’re offering";
+"post_details_jobs_services_camera_message" = "Töltsd fel a vállalati emblémát vagy egy fotót a nyújtott szolgáltatásról vagy munkáról";
 "post_details_jobs_services_step_option_jobs_prefix" = "felbérelni valakit, hogy nyújtson egy";
 "post_details_jobs_services_step_option_services_prefix" = "hirdetni egy";
 "post_details_jobs_services_step_title" = "Szeretnék...";
@@ -1356,6 +1356,11 @@
 "sell_title_autogen_label" = "A letgo által ajánlott cím";
 "sell_title_field_hint" = "Cím (nem kötelező)";
 "sell_uploading_label" = "Hirdetés feltöltése...";
+"services_promo_call_to_action" = "Post a service";
+"services_promo_cell_title_b" = "Új Szolgáltatások kategória!";
+"services_promo_cell_title_c" = "Keress helyi ügyfeleket szolgáltatásodhoz";
+"services_promo_cell_title_default_bold" = "Keress pénzt";
+"services_promo_cell_title_default_regular" = "szabadidődben";
 "services_service_subtype_list_title" = "Szolgáltatás";
 "services_service_subtype_title" = "Szolgáltatás";
 "services_service_type_list_title" = "Szolgáltatás kategória";

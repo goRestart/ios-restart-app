@@ -620,7 +620,7 @@ extension R {
     public static let commonOk = Strings.tr("Localizable", "common_ok")
     /// Given away
     public static let commonProductGivenAway = Strings.tr("Localizable", "common_product_given_away")
-    /// Oops! This listing is no longer available
+    /// Promoted or no longer available
     public static let commonProductNotAvailable = Strings.tr("Localizable", "common_product_not_available")
     /// Sold
     public static let commonProductSold = Strings.tr("Localizable", "common_product_sold")
@@ -976,6 +976,8 @@ extension R {
     public static let filtersDistanceNotSet = Strings.tr("Localizable", "filters_distance_not_set")
     /// Job or Service Info
     public static let filtersJobsServicesHeader = Strings.tr("Localizable", "filters_jobs_services_header")
+    /// Oops! You can’t select more than 15 options.
+    public static let filtersJobsServicesListMaxSelectionAlert = Strings.tr("Localizable", "filters_jobs_services_list_max_selection_alert")
     /// Subtype
     public static let filtersJobsServicesSubtypeTitle = Strings.tr("Localizable", "filters_jobs_services_subtype_title")
     /// Looking for...
@@ -2962,6 +2964,16 @@ extension R {
     public static let sellTitleFieldHint = Strings.tr("Localizable", "sell_title_field_hint")
     /// Posting your listing...
     public static let sellUploadingLabel = Strings.tr("Localizable", "sell_uploading_label")
+    /// Post a service
+    public static let servicesPromoCallToAction = Strings.tr("Localizable", "services_promo_call_to_action")
+    /// New Services category!
+    public static let servicesPromoCellTitleB = Strings.tr("Localizable", "services_promo_cell_title_b")
+    /// Find local customers for your service
+    public static let servicesPromoCellTitleC = Strings.tr("Localizable", "services_promo_cell_title_c")
+    /// Make money
+    public static let servicesPromoCellTitleDefaultBold = Strings.tr("Localizable", "services_promo_cell_title_default_bold")
+    /// in your spare time
+    public static let servicesPromoCellTitleDefaultRegular = Strings.tr("Localizable", "services_promo_cell_title_default_regular")
     /// Service
     public static let servicesServiceSubtypeListTitle = Strings.tr("Localizable", "services_service_subtype_list_title")
     /// Service

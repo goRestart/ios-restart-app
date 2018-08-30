@@ -67,8 +67,8 @@
 "bump_up_view_pay_title" = "Ziehe 2x so viele Käufer an";
 "cached_feed_error" = "Beim Laden neuer Angebote ist ein Fehler aufgetreten";
 "cached_feed_new_listings" = "Neue Artikel";
-"car_promo_cell_title_bold_text" = "Make money";
-"car_promo_cell_title_regular_text" = "selling your car";
+"car_promo_cell_title_bold_text" = "Verdiene Geld";
+"car_promo_cell_title_regular_text" = "durch den Verkauf deines Autos";
 "categories_baby_and_child" = "Baby und Kind";
 "categories_car" = "Autos";
 "categories_cars_and_motors" = "Fahrzeuge und Zubehör";
@@ -284,7 +284,7 @@
 "common_no" = "Nein";
 "common_ok" = "OK";
 "common_product_given_away" = "Verschenkt";
-"common_product_not_available" = "Hoppla! Dieses Angebot ist nicht mehr verfügbar";
+"common_product_not_available" = "Empfohlen oder nicht mehr verfügbar";
 "common_product_sold" = "Verkauft";
 "common_settings" = "Einstellungen";
 "common_short_time_day_ago_label" = "%d Tag";
@@ -758,7 +758,7 @@
 "post_description_info_title" = "ANGEBOTSINFORMATIONEN";
 "post_description_name_placeholder" = "Name";
 "post_description_save_button_text" = "Dieses Angebot speichern!";
-"post_details_jobs_services_camera_message" = "Post your company’s logo or a photo that shows the service or job you’re offering";
+"post_details_jobs_services_camera_message" = "Stelle dein Firmenlogo oder ein Foto, das zeigt, welche Dienstleistungen du anbietest, ein";
 "post_details_jobs_services_step_option_jobs_prefix" = "Suche jemanden für";
 "post_details_jobs_services_step_option_services_prefix" = "Bewerbe";
 "post_details_jobs_services_step_title" = "Ich ...";
@@ -1288,8 +1288,8 @@
 "reporting_user_problem_meetup_header" = "WAS IST PASSIERT?";
 "reporting_user_report_sent_block_user_A_text" = "Danke für deinen anonymen Bericht und dass du uns hilfst, letgo zum besten Ort für lokales Kaufen und Verkaufen zu machen.\n\nDu kannst Nutzer jederzeit blockieren, damit sie deine Angebote nicht mehr sehen und dir keine Nachrichten mehr schicken können.";
 "reporting_user_report_sent_block_user_A_with_review_text" = "Danke für deinen anonymen Bericht und dass du uns hilfst, letgo zum besten Ort für lokales Kaufen und Verkaufen zu machen.\n\nBitte hinterlasse eine Bewertung für diesen Verkäufer, um deine Erfahrung mit anderen zu teilen.\n\nDu kannst Nutzer jederzeit blockieren, damit sie deine Angebote nicht mehr sehen und dir keine Nachrichten mehr schicken können.";
-"reporting_user_report_sent_block_user_B_text" = "Danke für deinen anonymen Bericht und dass du uns hilfst, letgo zum besten Ort für lokales Kaufen und Verkaufen zu machen.\n\nUnser Team wird sich deine Meldung ansehen, in der Zwischenzeit kannst du Nutzer jederzeit blockieren, damit sie deine Angebote nicht mehr sehen und dir keine Nachrichten mehr schicken können.";
-"reporting_user_report_sent_block_user_B_with_review_text" = "Danke für deinen anonymen Bericht und dass du uns hilfst, letgo zum besten Ort für lokales Kaufen und Verkaufen zu machen.\n\nBitte hinterlasse eine Bewertung für diesen Verkäufer, um deine Erfahrung mit anderen zu teilen.\n\nUnser Team wird sich deine Meldung ansehen, in der Zwischenzeit kannst du Nutzer jederzeit blockieren, damit sie deine Angebote nicht mehr sehen und dir keine Nachrichten mehr schicken können.";
+"reporting_user_report_sent_block_user_B_text" = "Danke für deinen anonymen Bericht und dass du uns hilfst, letgo zum besten Ort für lokales Kaufen und Verkaufen zu machen.\n\nUnser Team wird sich deine Meldung ansehen. In der Zwischenzeit kannst du Nutzer jederzeit blockieren, damit sie deine Angebote nicht mehr sehen und dir keine Nachrichten mehr schicken können.";
+"reporting_user_report_sent_block_user_B_with_review_text" = "Danke für deinen anonymen Bericht und dass du uns hilfst, letgo zum besten Ort für lokales Kaufen und Verkaufen zu machen.\n\nBitte hinterlasse eine Bewertung für diesen Verkäufer, um deine Erfahrung mit anderen zu teilen.\n\nUnser Team wird sich deine Meldung ansehen. In der Zwischenzeit kannst du Nutzer jederzeit blockieren, damit sie deine Angebote nicht mehr sehen und dir keine Nachrichten mehr schicken können.";
 "reporting_user_report_sent_block_user_big_button_title" = "Gemeldeten Nutzer blockieren";
 "reporting_user_report_sent_block_user_small_button_title" = "Blockieren";
 "reporting_user_report_sent_law_enforcement_and_block_text" = "Dein Erlebnis tut uns sehr leid. Wir raten dir dringend, dich an deine örtlichen Strafverfolgungsbehörden zu wenden und sobald wie möglich Anzeige zu erstatten (falls du das noch nicht getan hast).\n\nBitte erinnere die Polizei daran, das Strafverfolgungsteam von letgo über lawenforcement@letgo.com zu kontaktieren, damit wir bei den Ermittlungen helfen können. Wir können der Polizei relevante Informationen über %@ übergeben, aber aufgrund strenger Gesetze zum Schutze der Privatsphäre, benötigen wir zuerst einen gültigen Durchsuchungsbefehl oder eine Vorladung.\n\nDenk dran, du kannst Nutzer jederzeit blockieren, damit sie deine Angebote nicht mehr sehen und dir keine Nachrichten mehr schicken können.";
@@ -1356,6 +1356,11 @@
 "sell_title_autogen_label" = "Titelvorschlag von letgo";
 "sell_title_field_hint" = "Produkttitel (optional)";
 "sell_uploading_label" = "Angebot wird eingestellt...";
+"services_promo_call_to_action" = "Stelle eine Dienstleistung ein";
+"services_promo_cell_title_b" = "Neue Dienstleistungskategorien!";
+"services_promo_cell_title_c" = "Finde Kunden in deiner Nähe für deine Dienstleistungen";
+"services_promo_cell_title_default_bold" = "Verdiene Geld";
+"services_promo_cell_title_default_regular" = "in deiner Freizeit";
 "services_service_subtype_list_title" = "Dienstleistung";
 "services_service_subtype_title" = "Dienstleistung";
 "services_service_type_list_title" = "Dienstleistungskategorie";

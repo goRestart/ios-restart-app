@@ -1356,6 +1356,11 @@
 "sell_title_autogen_label" = "Titel voorgesteld door letgo";
 "sell_title_field_hint" = "Titel (optioneel)";
 "sell_uploading_label" = "Uploaden van jouw advertentie...";
+"services_promo_call_to_action" = "Plaats een dienst";
+"services_promo_cell_title_b" = "Nieuwe Diensten categorie!";
+"services_promo_cell_title_c" = "Vind lokale klanten voor jouw dienst";
+"services_promo_cell_title_default_bold" = "Verdien geld";
+"services_promo_cell_title_default_regular" = "in je vrije tijd";
 "services_service_subtype_list_title" = "Diensten";
 "services_service_subtype_title" = "Diensten";
 "services_service_type_list_title" = "Diensten categorie";

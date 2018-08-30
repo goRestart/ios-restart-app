@@ -88,7 +88,7 @@
 "categories_inFeed_real_estate_title" = "Inmobiliaria";
 "categories_inFeed_services" = "Servicios";
 "categories_inFeed_sports_leisure_games" = "Tiempo libre";
-"categories_jobs_services" = "Empleo & Servicios";
+"categories_jobs_services" = "Empleo y Servicios";
 "categories_movies_books_and_music" = "Películas, Libros y Música";
 "categories_other" = "Otros";
 "categories_real_estate" = "Viviendas";
@@ -284,7 +284,7 @@
 "common_no" = "No";
 "common_ok" = "Aceptar";
 "common_product_given_away" = "Ya regalado";
-"common_product_not_available" = "¡Ups! Este anuncio ya no está disponible";
+"common_product_not_available" = "Republicado o no disponible";
 "common_product_sold" = "Vendido";
 "common_settings" = "Ajustes";
 "common_short_time_day_ago_label" = "%d día";
@@ -790,7 +790,7 @@
 "post_queued_requests_state_listing_posted" = "¡Anuncio publicado!";
 "post_queued_requests_state_posting_listing" = "Publicando anuncio...";
 "posting_button_skip" = "Saltar";
-"posting_flow_jobs_and_services_category_button_text" = "Empleo & Servicios";
+"posting_flow_jobs_and_services_category_button_text" = "Empleo y Servicios";
 "priceType_biweekly" = "Cada dos semanas";
 "priceType_daily" = "Cada día";
 "priceType_hourly" = "Cada hora";
@@ -956,7 +956,7 @@
 "product_post_retry_button" = "Vuelve a intentarlo";
 "product_post_select_category_cars" = "Coches";
 "product_post_select_category_housing" = "Viviendas en Alquiler / Venta";
-"product_post_select_category_jobs_services" = "Empleo & Servicios";
+"product_post_select_category_jobs_services" = "Empleo y Servicios";
 "product_post_select_category_motors_and_accessories" = "Otros Vehículos y Accesorios";
 "product_post_select_category_other" = "Otros artículos";
 "product_post_select_category_real_estate" = "Inmobiliaria";
@@ -1356,6 +1356,11 @@
 "sell_title_autogen_label" = "Título sugerido por letgo";
 "sell_title_field_hint" = "Título (opcional)";
 "sell_uploading_label" = "Publicando tu anuncio...";
+"services_promo_call_to_action" = "Publica un servicio";
+"services_promo_cell_title_b" = "¡Nueva categoría: Servicios!";
+"services_promo_cell_title_c" = "Encuentra clientes locales para tu servicio";
+"services_promo_cell_title_default_bold" = "Gana dinero";
+"services_promo_cell_title_default_regular" = "en tu tiempo libre";
 "services_service_subtype_list_title" = "Servicio";
 "services_service_subtype_title" = "Servicio";
 "services_service_type_list_title" = "Categoría del servicio";

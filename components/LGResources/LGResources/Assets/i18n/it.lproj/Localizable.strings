@@ -1356,6 +1356,11 @@
 "sell_title_autogen_label" = "Titolo suggerito da letgo";
 "sell_title_field_hint" = "Titolo (facoltativo)";
 "sell_uploading_label" = "Pubblicazione annuncio...";
+"services_promo_call_to_action" = "Pubblica un servizio";
+"services_promo_cell_title_b" = "Nuova categoria nei servizi!";
+"services_promo_cell_title_c" = "Trova clienti nella zona per il servizio da te offerto";
+"services_promo_cell_title_default_bold" = "Guadagna denaro";
+"services_promo_cell_title_default_regular" = "nel tuo tempo libero";
 "services_service_subtype_list_title" = "Servizio";
 "services_service_subtype_title" = "Servizio";
 "services_service_type_list_title" = "Categoria servizi";
