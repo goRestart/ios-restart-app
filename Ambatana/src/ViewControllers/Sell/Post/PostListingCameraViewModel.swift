@@ -357,7 +357,7 @@ final class PostListingCameraViewModel: BaseViewModel {
     }
     
     private func setupVerticalTextAlert() {
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .seconds(5)) { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .seconds(8)) { [weak self] in
             self?.hideVerticalTextAlert()
         }
     }
