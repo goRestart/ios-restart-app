@@ -6,7 +6,7 @@ import IGListKit
 import Domain
 
 public enum GameSuggestionEvent {
-  case gameSelected(Identifier<Game>)
+  case gameSelected(String, Identifier<Game>)
 }
 
 public final class SearchView: View {

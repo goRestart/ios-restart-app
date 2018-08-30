@@ -1,4 +1,6 @@
 import UI
+import RxSwift
+import RxCocoa
 
 final class ProductSummaryView: View {
   private let scrollView: UIScrollView = {
@@ -16,7 +18,7 @@ final class ProductSummaryView: View {
 
   private let imageCarousel = ImageCarousel()
   
-  private let priceLabel: UILabel = {
+  fileprivate let priceLabel: UILabel = {
     let label = UILabel()
     label.font = .h1
     label.textColor = .primary
@@ -24,7 +26,7 @@ final class ProductSummaryView: View {
     return label
   }()
   
-  private let titleLabel: UILabel = {
+  fileprivate let titleLabel: UILabel = {
     let label = UILabel()
     label.font = .h2
     label.textColor = .darkScript
@@ -33,7 +35,7 @@ final class ProductSummaryView: View {
     return label
   }()
   
-  private let descriptionLabel: UILabel = {
+  fileprivate let descriptionLabel: UILabel = {
     let label = UILabel()
     label.font = .body(.regular)
     label.textColor = .darkScript
@@ -84,6 +86,18 @@ final class ProductSummaryView: View {
       make.leading.equalTo(self).offset(Margin.medium)
       make.trailing.equalTo(self).offset(-Margin.medium)
       make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).offset(-Margin.medium)
+    }
+  }
+}
+
+// MARK: - View binder
+
+extension Reactive where Base: ProductSummaryView {
+  var productDraft: Binder<ProductDraftUIModel> {
+    return Binder(self.base) { view, productDraft in
+      view.titleLabel.text = productDraft.title
+      view.descriptionLabel.text = productDraft.description
+      view.priceLabel.text = productDraft.price
     }
   }
 }

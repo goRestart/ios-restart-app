@@ -8,15 +8,15 @@ public struct ProductDraftRepository {
     self.inMemoryDataSource = inMemoryDataSource
   }
   
-  public func set(productId: Identifier<Product>) {
-    inMemoryDataSource.set(productId: productId)
+  public func set(with title: String, productId: Identifier<Product>) {
+    inMemoryDataSource.set(with: title, productId: productId)
   }
   
   public func set(description: String) {
     inMemoryDataSource.set(description: description)
   }
   
-  public func set(price: Decimal) {
+  public func set(price: Double) {
     inMemoryDataSource.set(price: price)
   }
   

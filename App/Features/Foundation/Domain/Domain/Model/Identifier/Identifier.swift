@@ -8,6 +8,10 @@ public struct Identifier<Element>: Equatable, Hashable {
     self.value = identifier
   }
   
+  public init<T>(_ identifier: Identifier<T>)  {
+    self.init(identifier.value)
+  }
+  
   public init(_ uuid: UUID) {
     self.value = uuid.uuidString
   }

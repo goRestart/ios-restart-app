@@ -28,6 +28,7 @@
 		1CAF0F7A200438A6004046A9 /* Assembly+ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CAF0F79200438A6004046A9 /* Assembly+ViewController.swift */; };
 		2E2F7AB12129CC6C00CDED0F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2E2F7AB02129CC6C00CDED0F /* GoogleService-Info.plist */; };
 		2E2F7AF1212A071500CDED0F /* SignUp.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2E2F7AEF212A071500CDED0F /* SignUp.strings */; };
+		2E64EDAD21386A0A00943F81 /* Generic.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2E64EDAF21386A0A00943F81 /* Generic.strings */; };
 		2E71A90021317BA3009D24A9 /* ProductExtras.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2E71A8FE21317BA3009D24A9 /* ProductExtras.strings */; };
 		2E71A9212131C9DE009D24A9 /* TabBarViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A9202131C9DE009D24A9 /* TabBarViewModelType.swift */; };
 		2E71A9232131CA7F009D24A9 /* TabBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A9222131CA7F009D24A9 /* TabBarViewModel.swift */; };
@@ -86,6 +87,7 @@
 		2E2F7AEB212A06EC00CDED0F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Login.strings; sourceTree = "<group>"; };
 		2E2F7AED212A06F200CDED0F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/NotLogged.strings; sourceTree = "<group>"; };
 		2E2F7AF0212A071500CDED0F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/SignUp.strings; sourceTree = "<group>"; };
+		2E64EDAE21386A0A00943F81 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Generic.strings; sourceTree = "<group>"; };
 		2E71A8FF21317BA3009D24A9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ProductExtras.strings; sourceTree = "<group>"; };
 		2E71A9202131C9DE009D24A9 /* TabBarViewModelType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarViewModelType.swift; sourceTree = "<group>"; };
 		2E71A9222131CA7F009D24A9 /* TabBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewModel.swift; sourceTree = "<group>"; };
@@ -238,6 +240,7 @@
 				2EB2B18C212B4BCC00705ACA /* ProductPrice.strings */,
 				2EB2B18A212B4BCC00705ACA /* ProductSelector.strings */,
 				2E71A8FE21317BA3009D24A9 /* ProductExtras.strings */,
+				2E64EDAF21386A0A00943F81 /* Generic.strings */,
 			);
 			path = Languages;
 			sourceTree = "<group>";
@@ -378,6 +381,7 @@
 				2EB2B190212B4BCC00705ACA /* ProductSelector.strings in Resources */,
 				2E2F7AB12129CC6C00CDED0F /* GoogleService-Info.plist in Resources */,
 				2E7B9B2D21330DA300E4B6F5 /* OpenSans-Regular.ttf in Resources */,
+				2E64EDAD21386A0A00943F81 /* Generic.strings in Resources */,
 				2E71A90021317BA3009D24A9 /* ProductExtras.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -511,6 +515,14 @@
 				2E2F7AF0212A071500CDED0F /* en */,
 			);
 			name = SignUp.strings;
+			sourceTree = "<group>";
+		};
+		2E64EDAF21386A0A00943F81 /* Generic.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2E64EDAE21386A0A00943F81 /* en */,
+			);
+			name = Generic.strings;
 			sourceTree = "<group>";
 		};
 		2E71A8FE21317BA3009D24A9 /* ProductExtras.strings */ = {

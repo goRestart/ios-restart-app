@@ -1,6 +1,6 @@
 import Foundation
 
-extension Decimal {
+extension Double {
   func toString() -> String {
     return String(describing: self)
   }

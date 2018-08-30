@@ -13,6 +13,10 @@ final class GameSuggestionUIModel: NSObject, ListDiffable {
     return suggestion.id
   }
 
+  var title: String {
+    return suggestion.value
+  }
+  
   var attributedTitle: NSAttributedString? {
     let name = suggestion.value
     let query = suggestion.query

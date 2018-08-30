@@ -21,7 +21,7 @@ final class GameSuggestionSectionController: ListSectionController {
   }
 
   override func didSelectItem(at index: Int) {
-    state.onNext(.gameSelected(suggestion.gameId))
+    state.onNext(.gameSelected(suggestion.title, suggestion.gameId))
   }
 
   override func cellForItem(at index: Int) -> UICollectionViewCell {

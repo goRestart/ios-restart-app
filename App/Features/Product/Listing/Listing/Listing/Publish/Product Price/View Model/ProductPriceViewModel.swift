@@ -35,7 +35,7 @@ struct ProductPriceViewModel: ProductPriceViewModelType, ProductPriceViewModelIn
   
   func onNextStepPressed() {
     productDraft.save(
-      price: try! price.value().toDecimal()
+      price: try! price.value().toDouble()
     )
     productExtrasNavigator.navigate()
   }

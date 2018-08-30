@@ -6,7 +6,7 @@ extension String {
     return true
   }
   
-  func toDecimal() -> Decimal {
-    return Decimal(Double(self) ?? 0)
+  func toDouble() -> Double {
+    return Double(self) ?? 0
   }
 }

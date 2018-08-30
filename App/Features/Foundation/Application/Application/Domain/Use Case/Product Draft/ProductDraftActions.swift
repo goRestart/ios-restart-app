@@ -10,15 +10,15 @@ public struct ProductDraftActions: ProductDraftUseCase {
     self.productDraftRepository = productDraftRepository
   }
   
-  public func save(productId: Identifier<Product>) {
-    productDraftRepository.set(productId: productId)
+  public func save(with title: String, productId: Identifier<Product>) {
+    productDraftRepository.set(with: title, productId: productId)
   }
   
   public func save(description: String) {
     productDraftRepository.set(description: description)
   }
   
-  public func save(price: Decimal) {
+  public func save(price: Double) {
     productDraftRepository.set(price: price)
   }
   
