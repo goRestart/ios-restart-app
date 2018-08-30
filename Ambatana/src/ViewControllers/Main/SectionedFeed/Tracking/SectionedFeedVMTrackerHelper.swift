@@ -44,5 +44,18 @@ struct SectionedFeedVMTrackerHelper {
                                                          numberOfDuplicates: numberOfDuplicates)
         tracker.trackEvent(trackerEvent)
     }
+    
+    func trackLocationTypeChange(from old: LGLocationType?,
+                                 to new: LGLocationType?,
+                                 locationServiceStatus: LocationServiceStatus,
+                                 distanceRadius: Int?) {
+        guard old != new else { return }
+        let trackerEvent = TrackerEvent.location(locationType: new,
+                                                 locationServiceStatus: locationServiceStatus,
+                                                 typePage: .automatic,
+                                                 zipCodeFilled: nil,
+                                                 distanceRadius: distanceRadius)
+        tracker.trackEvent(trackerEvent)
+    }
 }
 

@@ -799,6 +799,9 @@
 		329476372136B0C7008EE737 /* FeedListing+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329476352136B0C7008EE737 /* FeedListing+LG.swift */; };
 		3294763A2136B1EA008EE737 /* Feed+Tracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329476392136B1EA008EE737 /* Feed+Tracking.swift */; };
 		3294763B2136B1EA008EE737 /* Feed+Tracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329476392136B1EA008EE737 /* Feed+Tracking.swift */; };
+		32947640213704EB008EE737 /* SectionedFeedRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3294763F213704EB008EE737 /* SectionedFeedRequester.swift */; };
+		32947641213704EB008EE737 /* SectionedFeedRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3294763F213704EB008EE737 /* SectionedFeedRequester.swift */; };
+		329476432137E426008EE737 /* SectionedFeedRequesterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329476422137E426008EE737 /* SectionedFeedRequesterSpec.swift */; };
 		329476472138058F008EE737 /* Array+LGSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329476462138058F008EE737 /* Array+LGSpec.swift */; };
 		3299E5E7207FB7AB002935AE /* WaterFallLayoutSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3299E5E4207FB7AA002935AE /* WaterFallLayoutSettings.swift */; };
 		3299E5E8207FB7AB002935AE /* WaterfallLayoutItemRenderPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3299E5E5207FB7AA002935AE /* WaterfallLayoutItemRenderPolicy.swift */; };
@@ -844,8 +847,6 @@
 		421CB34B207BBE5E006BF8A4 /* Collection+Safe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421CB34A207BBE5E006BF8A4 /* Collection+Safe.swift */; };
 		421CB34C207BBE5E006BF8A4 /* Collection+Safe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421CB34A207BBE5E006BF8A4 /* Collection+Safe.swift */; };
 		4226B670211094110010CC92 /* FeedRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4226B66F211094110010CC92 /* FeedRequester.swift */; };
-		4226B673211096900010CC92 /* FeedRequesterFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4226B672211096900010CC92 /* FeedRequesterFactory.swift */; };
-		4226B674211096900010CC92 /* FeedRequesterFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4226B672211096900010CC92 /* FeedRequesterFactory.swift */; };
 		422FF44C211433F200223A8D /* FeedRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4226B66F211094110010CC92 /* FeedRequester.swift */; };
 		4245B6EF2084D47A00EF8162 /* UserType+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4245B6EE2084D47A00EF8162 /* UserType+LG.swift */; };
 		4245B6F02084D47A00EF8162 /* UserType+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4245B6EE2084D47A00EF8162 /* UserType+LG.swift */; };
@@ -2744,6 +2745,8 @@
 		3294763121340EA0008EE737 /* SectionedFeedVMTrackerHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionedFeedVMTrackerHelper.swift; sourceTree = "<group>"; };
 		329476352136B0C7008EE737 /* FeedListing+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FeedListing+LG.swift"; sourceTree = "<group>"; };
 		329476392136B1EA008EE737 /* Feed+Tracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Feed+Tracking.swift"; sourceTree = "<group>"; };
+		3294763F213704EB008EE737 /* SectionedFeedRequester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionedFeedRequester.swift; sourceTree = "<group>"; };
+		329476422137E426008EE737 /* SectionedFeedRequesterSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionedFeedRequesterSpec.swift; sourceTree = "<group>"; };
 		329476462138058F008EE737 /* Array+LGSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+LGSpec.swift"; sourceTree = "<group>"; };
 		3299E5E4207FB7AA002935AE /* WaterFallLayoutSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaterFallLayoutSettings.swift; sourceTree = "<group>"; };
 		3299E5E5207FB7AA002935AE /* WaterfallLayoutItemRenderPolicy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaterfallLayoutItemRenderPolicy.swift; sourceTree = "<group>"; };
@@ -2774,7 +2777,6 @@
 		4219244020761CF900862CEF /* PromoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoCell.swift; sourceTree = "<group>"; };
 		421CB34A207BBE5E006BF8A4 /* Collection+Safe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Safe.swift"; sourceTree = "<group>"; };
 		4226B66F211094110010CC92 /* FeedRequester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedRequester.swift; sourceTree = "<group>"; };
-		4226B672211096900010CC92 /* FeedRequesterFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedRequesterFactory.swift; sourceTree = "<group>"; };
 		4245B6EE2084D47A00EF8162 /* UserType+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserType+LG.swift"; sourceTree = "<group>"; };
 		4252685520C7E7F900A6E191 /* TagCollectionViewWithCloseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewWithCloseCell.swift; sourceTree = "<group>"; };
 		4252685820C82FC500A6E191 /* PostAddNewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAddNewCell.swift; sourceTree = "<group>"; };
@@ -4849,7 +4851,7 @@
 			children = (
 				0AAC7954207F73F30096F156 /* FeedViewModel.swift */,
 				326C72E1208A2935009D21DB /* FeedViewModelType.swift */,
-				3294763121340EA0008EE737 /* SectionedFeedVMTrackerHelper.swift */,
+				3294763F213704EB008EE737 /* SectionedFeedRequester.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -4864,6 +4866,7 @@
 		329476382136B1DE008EE737 /* Tracking */ = {
 			isa = PBXGroup;
 			children = (
+				3294763121340EA0008EE737 /* SectionedFeedVMTrackerHelper.swift */,
 				329476392136B1EA008EE737 /* Feed+Tracking.swift */,
 			);
 			path = Tracking;
@@ -4963,7 +4966,6 @@
 			isa = PBXGroup;
 			children = (
 				4226B66F211094110010CC92 /* FeedRequester.swift */,
-				4226B672211096900010CC92 /* FeedRequesterFactory.swift */,
 			);
 			name = SectionFeed;
 			sourceTree = "<group>";
@@ -5021,6 +5023,7 @@
 			isa = PBXGroup;
 			children = (
 				42844CC2211201CD0026A21A /* FeedViewModelSpec.swift */,
+				329476422137E426008EE737 /* SectionedFeedRequesterSpec.swift */,
 			);
 			path = Feed;
 			sourceTree = "<group>";
@@ -8387,6 +8390,7 @@
 				2E8ED6A71EC2184E00A2B4AE /* FilterTagsVC+RemoveRelatedTagsSpec.swift in Sources */,
 				6A94D70A205FB4B600B27C41 /* EditUserBioViewModelSpec.swift in Sources */,
 				01990F61203D90FE0080ADDD /* AppsFlyerDeepLinkSpec.swift in Sources */,
+				329476432137E426008EE737 /* SectionedFeedRequesterSpec.swift in Sources */,
 				A4E093892119E255002235FC /* FiltersModalRouterSpec.swift in Sources */,
 				50D08DB81E69AF14009CC260 /* MockListingListRequester.swift in Sources */,
 				50D08DB21E69AF14009CC260 /* MockFeatureFlags.swift in Sources */,
@@ -9148,6 +9152,7 @@
 				C7C61DF51D63035400F9505D /* ListingCarouselMoreInfoView.swift in Sources */,
 				5011938620C5173200FA7C20 /* AnalyticsSessionManager.swift in Sources */,
 				42F0688E20FF8D78009AC898 /* ServiceType+LG.swift in Sources */,
+				32947640213704EB008EE737 /* SectionedFeedRequester.swift in Sources */,
 				0A6FECB02130344000B57004 /* SignupLoginNavigator.swift in Sources */,
 				2E5350411CF8A0C6003B06CC /* ListingStatsView.swift in Sources */,
 				0A6FECC02130344000B57004 /* FiltersNavigator.swift in Sources */,
@@ -9341,7 +9346,6 @@
 				F5D91E7D2008C20200DF28E7 /* UserRatingType+RateBack.swift in Sources */,
 				013B2A2121303DCC00F69613 /* InterestedHandler.swift in Sources */,
 				3299E5EB2080AE01002935AE /* WaterFallLayoutHeaderTypes.swift in Sources */,
-				4226B673211096900010CC92 /* FeedRequesterFactory.swift in Sources */,
 				01337B952085F55D00AC8385 /* NotificationSettingsSwitchCell.swift in Sources */,
 				72D928E11E83EB990030F4C3 /* RatingManager.swift in Sources */,
 				C77B7DBA1DBF9D150043C624 /* PushPermissionsHeader.swift in Sources */,
@@ -9954,6 +9958,7 @@
 				32059FDC20B5CDF30042713A /* ListingsRequesterProtocol.swift in Sources */,
 				F5A836AF1FD1BA13009E636D /* ListingAttributePickerViewModel.swift in Sources */,
 				C7B588841CE1DFA6009B3975 /* ChatMyMessageCellDrawer.swift in Sources */,
+				32947641213704EB008EE737 /* SectionedFeedRequester.swift in Sources */,
 				0A6FECE12130344000B57004 /* EditListingStandardWireframe.swift in Sources */,
 				0A890A8321205DBA0091ED75 /* MediaViewerBuilder.swift in Sources */,
 				0A6FECB12130344000B57004 /* SignupLoginNavigator.swift in Sources */,
@@ -10163,7 +10168,6 @@
 				0A6FED0D2130344000B57004 /* RecaptchaPasswordWireframe.swift in Sources */,
 				2E151D7720A5D3370038D7C7 /* ChatBlockedUsersCell.swift in Sources */,
 				2E2FF6E620AAC8CB00C9A5DA /* ChatAssistantConversationCell.swift in Sources */,
-				4226B674211096900010CC92 /* FeedRequesterFactory.swift in Sources */,
 				0A98767420CE586900DCD360 /* UIStackView+LG.swift in Sources */,
 				C605853F20DBD545008025FD /* FilterAttributeGridCell.swift in Sources */,
 				501495EF1D895B5800AC67CA /* DiscoverListingListRequester.swift in Sources */,
