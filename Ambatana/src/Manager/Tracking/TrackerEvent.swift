@@ -1681,6 +1681,14 @@ struct TrackerEvent {
     static func openCommunityFromTabBar() -> TrackerEvent {
         return TrackerEvent(name: .openCommunity, params: nil)
     }
+
+    static func phoneNumberEditStart() -> TrackerEvent {
+        return TrackerEvent(name: .phoneNumberEditStart, params: nil)
+    }
+
+    static func phoneNumberEditComplete() -> TrackerEvent {
+        return TrackerEvent(name: .phoneNumberEditComplete, params: nil)
+    }
     
     
     // MARK: - Private methods

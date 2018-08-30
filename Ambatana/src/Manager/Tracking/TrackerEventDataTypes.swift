@@ -194,6 +194,8 @@ enum EventName: String {
     case phoneNumberRequest                 = "phone-number-request"
     case phoneNumberSent                    = "phone-number-sent"
     case phoneNumberNotNow                  = "phone-number-not-now"
+    case phoneNumberEditStart               = "profile-edit-edit-sms-start"
+    case phoneNumberEditComplete            = "profile-edit-edit-sms-complete"
     
     case tutorialDialogStart                = "onboarding-dialog-start"
     case tutorialDialogComplete             = "onboarding-dialog-complete"

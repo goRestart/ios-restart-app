@@ -9,6 +9,7 @@ final class UserPhoneVerificationCodeInputViewModel: BaseViewModel {
 
     private let callingCode: String
     private let phoneNumber: String
+    private let isEditing: Bool
     private let myUserRepository: MyUserRepository
     private let tracker: Tracker
     private var timer: Timer?
@@ -28,10 +29,12 @@ final class UserPhoneVerificationCodeInputViewModel: BaseViewModel {
 
     init(callingCode: String,
          phoneNumber: String,
+         isEditing: Bool,
          myUserRepository: MyUserRepository = Core.myUserRepository,
          tracker: Tracker = TrackerProxy.sharedInstance) {
         self.callingCode = callingCode
         self.phoneNumber = phoneNumber
+        self.isEditing = isEditing
         self.myUserRepository = myUserRepository
         self.tracker = tracker
         super.init()
@@ -107,12 +110,16 @@ final class UserPhoneVerificationCodeInputViewModel: BaseViewModel {
     func validate(code: String) {
         validationState.value = .validating
         myUserRepository.validateSMSCode(code) { [weak self] result in
+            guard let strongSelf = self else { return }
             switch result {
             case .success:
-                self?.validationState.value = .success
-                self?.tracker.trackEvent(.verifyAccountComplete(.smsVerification, network: .sms))
+                strongSelf.validationState.value = .success
+                strongSelf.tracker.trackEvent(.verifyAccountComplete(.smsVerification, network: .sms))
+                if strongSelf.isEditing {
+                    strongSelf.tracker.trackEvent(.phoneNumberEditComplete())
+                }
             case .failure:
-                self?.validationState.value = .failure(message: R.Strings.phoneVerificationCodeInputViewErrorMessage)
+                strongSelf.validationState.value = .failure(message: R.Strings.phoneVerificationCodeInputViewErrorMessage)
             }
         }
     }
