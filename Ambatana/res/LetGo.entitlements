@@ -36,6 +36,8 @@
 		<string>applinks:letgo.onelink.me</string>
 		<string>applinks:bnc.lt</string>
 		<string>applinks:app.letgo.com</string>
+		<string>applinks:theletgonews.com</string>
+		<string>applinks:www.theletgonews.com</string>
 	</array>
 </dict>
 </plist>

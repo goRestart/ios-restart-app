@@ -38,6 +38,7 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
                                            featureFlags: featureFlags,
                                            notificationsManager: nil,
                                            interestedHandler: nil,
+                                           bubbleNotificationManager: nil,
                                            user: nil,
                                            source: .tabBar,
                                            isPrivateProfile: true)
@@ -55,6 +56,7 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
                                            featureFlags: featureFlags,
                                            notificationsManager: nil,
                                            interestedHandler: nil,
+                                           bubbleNotificationManager: nil,
                                            user: user,
                                            source: .tabBar,
                                            isPrivateProfile: false)

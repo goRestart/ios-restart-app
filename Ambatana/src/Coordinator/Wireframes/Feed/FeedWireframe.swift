@@ -15,23 +15,24 @@ protocol FeedNavigator: class {
                  listingFilters: ListingFilters,
                  locationManager: LocationManager)
     func openAppInvite(myUserId: String?, myUserName: String?)
+    func openProFeed(navigator: MainTabNavigator?, withSearchType: SearchType)
     func openClassicFeed(navigator: MainTabNavigator,
                          withSearchType searchType: SearchType,
                          listingFilters: ListingFilters)
 }
 
 final class FeedWireframe: FeedNavigator {
-    private let nc: UINavigationController?
+    private let nc: UINavigationController
     private let deepLinkMailBox: DeepLinkMailBox
     
-    init(nc: UINavigationController?,
+    init(nc: UINavigationController,
          deepLinkMailBox: DeepLinkMailBox = LGDeepLinkMailBox.sharedInstance) {
         self.nc = nc
         self.deepLinkMailBox = deepLinkMailBox
     }
     
     func openFilters(withListingFilters listingFilters: ListingFilters, filtersVMDataDelegate: FiltersViewModelDataDelegate?) {
-        nc?.present(
+        nc.present(
             LGFiltersBuilder.modal.buildFilters(
                 filters: listingFilters,
                 dataDelegate: filtersVMDataDelegate
@@ -42,20 +43,19 @@ final class FeedWireframe: FeedNavigator {
     }
     
     func openLocationSelection(initialPlace: Place?, distanceRadius: Int?, locationDelegate: EditLocationDelegate) {
-        guard let strongNC = nc else { return }
-        let assembly = QuickLocationFiltersBuilder.modal(strongNC)
+        let assembly = QuickLocationFiltersBuilder.modal(nc)
         let vc = assembly.buildQuickLocationFilters(mode: .quickFilterLocation,
                                                     initialPlace: initialPlace,
                                                     distanceRadius: distanceRadius,
                                                     locationDelegate: locationDelegate)
-        strongNC.present(vc, animated: true, completion: nil)
+        nc.present(vc, animated: true, completion: nil)
     }
     
     func openMap(navigator: ListingsMapNavigator, requester: ListingListMultiRequester, listingFilters: ListingFilters, locationManager: LocationManager) {
         let viewModel = ListingsMapViewModel(navigator: navigator,
                                              currentFilters: listingFilters)
         let viewController = ListingsMapViewController(viewModel: viewModel)
-        nc?.pushViewController(viewController, animated: true)
+        nc.pushViewController(viewController, animated: true)
     }
     
     func showPushPermissionsAlert(pushPermissionsManager: PushPermissionsManager,
@@ -74,7 +74,7 @@ final class FeedWireframe: FeedNavigator {
             action: negativeAction,
             accessibility: AccessibilityId.userPushPermissionCancel
         )
-        nc?.showAlertWithTitle(
+        nc.showAlertWithTitle(
             R.Strings.profilePermissionsAlertTitle,
             text: R.Strings.profilePermissionsAlertMessage,
             alertType: .iconAlert(icon: R.Asset.IconsButtons.customPermissionProfile.image),
@@ -89,6 +89,19 @@ final class FeedWireframe: FeedNavigator {
         deepLinkMailBox.push(convertible: url)
     }
     
+    func openProFeed(navigator: MainTabNavigator?,
+                     withSearchType searchType: SearchType) {
+        let (vc, vm) = FeedBuilder.standard(nc: nc).makePro(
+            withSearchType: searchType,
+            filters: ListingFilters(),
+            hideSearchBox: true,
+            showFilters: false,
+            showLocationEditButton: false
+        )
+        vm.navigator = navigator
+        nc.pushViewController(vc, animated: true)
+    }
+    
     /// In a near future the navigator should be deleted, it is necesary because
     /// the VM needs it to handle just 2 method but that 2 methos have lots of
     /// dependencies over the coordinator. If the coordinator is migrated
@@ -96,10 +109,9 @@ final class FeedWireframe: FeedNavigator {
     func openClassicFeed(navigator: MainTabNavigator,
                          withSearchType searchType: SearchType,
                          listingFilters: ListingFilters) {
-        guard let strongNC = nc else { return }
-        let (vc, vm) = FeedBuilder.standard(nc: strongNC).makeClassic(
+        let (vc, vm) = FeedBuilder.standard(nc: nc).makeClassic(
                 withSearchType: searchType, filters: listingFilters)
         vm.navigator = navigator
-        strongNC.pushViewController(vc, animated: true)
+        nc.pushViewController(vc, animated: true)
     }
 }

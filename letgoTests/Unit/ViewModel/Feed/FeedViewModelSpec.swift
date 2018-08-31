@@ -8,77 +8,87 @@ import Result
 final class FeedViewModelSpec: BaseViewModelSpec {
     
     override func spec() {
+
+        var subject: FeedViewModel?
         
-        describe("FeedViewModelSpec") {
-            
-            let sutError = makeFeedViewModel(withFeedResult: FeedResult(error: .notFound))
-            let sutResult = makeFeedViewModel(withFeedResult: FeedResult(value: MockFeed.makeMock()))
-            var feedResult: FeedResult?
-            let feedCompletion: FeedCompletion = { r in
-                feedResult = r
-            }
+        describe("showFilters") {
+            let feedWireframeMock: FeedWireframeMock = FeedWireframeMock()
             
             beforeEach {
-                feedResult = nil
+                subject = self.makeFeedViewModel(withFeedResult: FeedResult(error: .notFound))
+                subject?.wireframe = feedWireframeMock
+                subject?.showFilters()
             }
             
-            //  MARK: - Retrieve
-
-            context("Retrieve OK - first") {
-                
-                beforeEach {
-                    sutResult.retrieveFirst(feedCompletion)
-                    expect(feedResult).toEventuallyNot(beNil())
-                }
-                it("returns feed") {
-                    expect(feedResult?.value).toNot(beNil())
-                }
-                it("returns no error") {
-                    expect(feedResult?.error).to(beNil())
-                }
-            }
+            it("should open the filters") {
+                expect(feedWireframeMock.openFiltersWasCalled.0) == true
+              }
             
-            context("Retrieve OK - next withURL") {
-                beforeEach {
-                    sutResult.retrieveNext(withUrl: URL.makeRandom(), completion: feedCompletion)
-                    expect(feedResult).toEventuallyNot(beNil())
-                }
-                it("returns feed") {
-                    expect(feedResult?.value).toNot(beNil())
-                }
-                it("returns no error") {
-                    expect(feedResult?.error).to(beNil())
-                }
-            }
-        
-            context("Retrieve Error - first") {
-                beforeEach {
-                    sutError.retrieveFirst(feedCompletion)
-                    expect(feedResult).toEventuallyNot(beNil())
-                }
-                it("returns no feed") {
-                    expect(feedResult?.value).to(beNil())
-                }
-                it("returns repository error") {
-                    expect(feedResult?.error).toNot(beNil())
-                }
-            }
-            context("Retrieve Error - next withURL") {
-                beforeEach {
-                    sutError.retrieveNext(withUrl: URL.makeRandom(), completion: feedCompletion)
-                    expect(feedResult).toEventuallyNot(beNil())
-                }
-                it("returns no feed") {
-                    expect(feedResult?.value).to(beNil())
-                }
-                it("returns repository error") {
-                    expect(feedResult?.error).toNot(beNil())
-                }
+            it("should send the correct parameters") {
+                expect(feedWireframeMock.openFiltersWasCalled.1).toNot(beNil())
             }
         }
         
+        describe("openInvite") {
+            let feedWireframeMock: FeedWireframeMock = FeedWireframeMock()
+            
+            beforeEach {
+                subject = self.makeFeedViewModel(withFeedResult: FeedResult(error: .notFound))
+                subject?.wireframe = feedWireframeMock
+                subject?.openInvite()
+            }
+            
+            it("should open the app invite") {
+                expect(feedWireframeMock.openAppInviteWasCalled.0) == true
+            }
+        }
+        
+        describe("didTapSeeAll- with nil Navigator ") {
+            let feedWireframeMock: FeedWireframeMock = FeedWireframeMock()
+            
+            beforeEach {
+                subject = self.makeFeedViewModel(withFeedResult: FeedResult(error: .notFound))
+                subject?.wireframe = feedWireframeMock
+                subject?.didTapSeeAll(page: .user(query: "CommanderKeen"))
+            }
+            
+            it("should open the pro feed") {
+                expect(feedWireframeMock.openProFeedWasCalled.0) == true
+            }
+            
+            it("should have search type as nil due to navigator == nil") {
+                expect(feedWireframeMock.openProFeedWasCalled.1?.query).to(beNil())
+            }
+            
+            it("should have navigator == nil") {
+                expect(feedWireframeMock.openProFeedWasCalled.2).to(beNil())
+            }
+        }
+
+        describe("didTapSeeAll- with Navigator") {
+            let feedWireframeMock: FeedWireframeMock = FeedWireframeMock()
+            
+            beforeEach {
+                let coordinator = MainTabCoordinator()
+                subject = self.makeFeedViewModel(withFeedResult: FeedResult(error: .notFound))
+                subject?.wireframe = feedWireframeMock
+                subject?.navigator = coordinator
+                subject?.didTapSeeAll(page: .user(query: "CommanderKeen"))
+            }
+            
+            it("should open the pro feed") {
+                expect(feedWireframeMock.openProFeedWasCalled.0) == true
+            }
+            
+            it("should have search type") {
+                expect(feedWireframeMock.openProFeedWasCalled.1?.query) == "CommanderKeen"
+            }
+            
+            it("should have navigator not be nil") {
+                expect(feedWireframeMock.openProFeedWasCalled.2).toNot(beNil())
+            }
+        }
     }
-    
 }
 
 //  MARK: - Helpers
@@ -98,8 +108,7 @@ private extension FeedViewModelSpec {
                                                                                    countryCode: "US",
                                                                                    country: "US"))
         locationManager.currentLocation = location
-        return FeedViewModel(feedRepository: mockFeedRepository,
-                             searchType: nil,
+        return FeedViewModel(searchType: nil,
                              filters: ListingFilters.makeMock(),
                              bubbleTextGenerator: DistanceBubbleTextGenerator(locationManager: locationManager, featureFlags: featureFlags),
                              myUserRepository: MockMyUserRepository.makeMock(),
@@ -112,5 +121,42 @@ private extension FeedViewModelSpec {
                              deviceFamily: .iPhone6Plus)
     }
     
+    class FeedWireframeMock: FeedNavigator {
+        var openFiltersWasCalled: (state: Bool, listingFilters: ListingFilters?) = (false, nil)
+        var openLocationWasCalled: Bool = false
+        var showPushPermissionsAlertWasCalled: Bool = false
+        var openMapWasCalled: Bool = false
+        var openAppInviteWasCalled: (Bool, String?, String?) = (true, nil, nil)
+        var openProFeedWasCalled: (state: Bool, searchType: SearchType?, navigator: MainTabNavigator?) = (true, nil, nil)
+        var openClassicFeedWasCalled: Bool = true
+        
+        func openFilters(withListingFilters listingFilters: ListingFilters, filtersVMDataDelegate: FiltersViewModelDataDelegate?) {
+            openFiltersWasCalled = (true, listingFilters)
+        }
+        
+        func openLocationSelection(initialPlace: Place?, distanceRadius: Int?, locationDelegate: EditLocationDelegate) {
+            openLocationWasCalled = true
+        }
+        
+        func showPushPermissionsAlert(pushPermissionsManager: PushPermissionsManager, withPositiveAction positiveAction: @escaping (() -> Void), negativeAction: @escaping (() -> Void)) {
+            showPushPermissionsAlertWasCalled = true
+        }
+        
+        func openMap(navigator: ListingsMapNavigator, requester: ListingListMultiRequester, listingFilters: ListingFilters, locationManager: LocationManager) {
+            openMapWasCalled = true
+        }
+        
+        func openAppInvite(myUserId: String?, myUserName: String?) {
+            openAppInviteWasCalled = (true, myUserId, myUserName)
+        }
+        
+        func openProFeed(navigator: MainTabNavigator?, withSearchType searchType: SearchType) {
+            openProFeedWasCalled = (true, searchType, navigator)
+        }
+        
+        func openClassicFeed(navigator: MainTabNavigator, withSearchType searchType: SearchType, listingFilters: ListingFilters) {
+            openClassicFeedWasCalled = true
+        }
+    }
 }
 

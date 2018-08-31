@@ -14,13 +14,13 @@ public extension Array where Element == Int {
 
 public extension Array where Index == Int {
     func insert(newList list: [Element], at positions: [Int]) -> [Element] {
-        guard !positions.isEmpty, !list.isEmpty else { return list }
+        guard !positions.isEmpty, !list.isEmpty else { return self }
         
         var mutatingList = self
         positions.enumerated().reversed().forEach { index, position in
-            guard let newDiffable = list.element(at: index),
+            guard let newElement = list.element(at: index),
                 mutatingList.count > position else { return }
-            mutatingList.insert(newDiffable, at: position)
+            mutatingList.insert(newElement, at: position)
         }
         return mutatingList
     }

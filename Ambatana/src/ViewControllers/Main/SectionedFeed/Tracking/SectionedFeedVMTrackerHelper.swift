@@ -37,5 +37,25 @@ struct SectionedFeedVMTrackerHelper {
                                                                  success: successParameter)
         tracker.trackEvent(trackerEvent)
     }
+    
+    func trackDuplicates(onPage page: Int, numberOfDuplicates: Int) {
+        guard numberOfDuplicates != 0 else { return }
+        let trackerEvent = TrackerEvent.filterDuplicatedItemInSectionedFeed(pageNumber: page,
+                                                         numberOfDuplicates: numberOfDuplicates)
+        tracker.trackEvent(trackerEvent)
+    }
+    
+    func trackLocationTypeChange(from old: LGLocationType?,
+                                 to new: LGLocationType?,
+                                 locationServiceStatus: LocationServiceStatus,
+                                 distanceRadius: Int?) {
+        guard old != new else { return }
+        let trackerEvent = TrackerEvent.location(locationType: new,
+                                                 locationServiceStatus: locationServiceStatus,
+                                                 typePage: .automatic,
+                                                 zipCodeFilled: nil,
+                                                 distanceRadius: distanceRadius)
+        tracker.trackEvent(trackerEvent)
+    }
 }
 
