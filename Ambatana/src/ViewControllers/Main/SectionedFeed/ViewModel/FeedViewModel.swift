@@ -177,7 +177,7 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
-        updatePermissionsPresenter()
+        updatePermissionBanner()
         refreshFeed()
     }
     
@@ -416,6 +416,7 @@ extension FeedViewModel {
     
     func refreshControlTriggered() {
         resetFeed()
+        updatePermissionBanner()
         loadFeedItems()
     }
 }
@@ -444,13 +445,18 @@ extension FeedViewModel: PushPermissionsPresenterDelegate {
     
     private func setupPermissionsNotification() {
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(updatePermissionsPresenter),
+                                               selector: #selector(refreshPushPermissionBanner),
                                                name: NSNotification.Name(rawValue:
                                                 PushManager.Notification.DidRegisterUserNotificationSettings.rawValue),
                                                object: nil)
     }
     
-    @objc private dynamic func updatePermissionsPresenter() {
+    @objc private dynamic func refreshPushPermissionBanner() {
+        updatePermissionBanner()
+        refreshFeed()
+    }
+    
+    private func updatePermissionBanner() {
         let pushBannerId = StaticSectionType.pushBanner.rawValue as ListDiffable
         let hasPushMessage = feedItems.contains(where: { $0.isEqual(toDiffableObject: pushBannerId) })
         
@@ -459,7 +465,6 @@ extension FeedViewModel: PushPermissionsPresenterDelegate {
         } else if hasPushMessage && application.areRemoteNotificationsEnabled {
             feedItems.remove(at: 0)
         }
-        refreshFeed()
     }
 }
 
