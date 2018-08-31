@@ -15,7 +15,9 @@ protocol FeedNavigator: class {
                  listingFilters: ListingFilters,
                  locationManager: LocationManager)
     func openAppInvite(myUserId: String?, myUserName: String?)
-    func openProFeed(navigator: MainTabNavigator?, withSearchType: SearchType)
+    func openProFeed(navigator: MainTabNavigator?,
+                     withSearchType: SearchType,
+                     andFilters filters: ListingFilters)
     func openClassicFeed(navigator: MainTabNavigator,
                          withSearchType searchType: SearchType,
                          listingFilters: ListingFilters)
@@ -90,10 +92,11 @@ final class FeedWireframe: FeedNavigator {
     }
     
     func openProFeed(navigator: MainTabNavigator?,
-                     withSearchType searchType: SearchType) {
+                     withSearchType searchType: SearchType,
+                     andFilters filters: ListingFilters) {
         let (vc, vm) = FeedBuilder.standard(nc: nc).makePro(
             withSearchType: searchType,
-            filters: ListingFilters(),
+            filters: filters,
             hideSearchBox: true,
             showFilters: false,
             showLocationEditButton: false

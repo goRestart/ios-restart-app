@@ -541,7 +541,10 @@ extension FeedViewModel: RetryFooterDelegate {
 extension FeedViewModel: HorizontalSectionDelegate {
     func didTapSeeAll(page: SearchType) {
         guard let navigator = navigator else { return }
-        wireframe?.openProFeed(navigator: navigator, withSearchType: page)
+        wireframe?.openProFeed(
+            navigator: navigator,
+            withSearchType: page,
+            andFilters: filters)
     }
 }
 

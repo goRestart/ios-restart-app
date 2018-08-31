@@ -127,7 +127,7 @@ private extension FeedViewModelSpec {
         var showPushPermissionsAlertWasCalled: Bool = false
         var openMapWasCalled: Bool = false
         var openAppInviteWasCalled: (Bool, String?, String?) = (true, nil, nil)
-        var openProFeedWasCalled: (state: Bool, searchType: SearchType?, navigator: MainTabNavigator?) = (true, nil, nil)
+        var openProFeedWasCalled: (state: Bool, searchType: SearchType?, navigator: MainTabNavigator?, andFilters: ListingFilters?) = (true, nil, nil, nil)
         var openClassicFeedWasCalled: Bool = true
         
         func openFilters(withListingFilters listingFilters: ListingFilters, filtersVMDataDelegate: FiltersViewModelDataDelegate?) {
@@ -150,8 +150,8 @@ private extension FeedViewModelSpec {
             openAppInviteWasCalled = (true, myUserId, myUserName)
         }
         
-        func openProFeed(navigator: MainTabNavigator?, withSearchType searchType: SearchType) {
-            openProFeedWasCalled = (true, searchType, navigator)
+        func openProFeed(navigator: MainTabNavigator?, withSearchType searchType: SearchType, andFilters filters: ListingFilters) {
+            openProFeedWasCalled = (true, searchType, navigator, filters)
         }
         
         func openClassicFeed(navigator: MainTabNavigator, withSearchType searchType: SearchType, listingFilters: ListingFilters) {
