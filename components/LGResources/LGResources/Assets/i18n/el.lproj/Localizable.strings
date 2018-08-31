@@ -448,6 +448,7 @@
 "filters_cars_transmission_title" = "Μετάδοση κίνησης";
 "filters_distance_not_set" = "Δεν έχει καθοριστεί";
 "filters_jobs_services_header" = "Πληροφορίες Εργασίας ή Υπηρεσίας";
+"filters_jobs_services_list_max_selection_alert" = "Oops! You can’t select more than 15 options.";
 "filters_jobs_services_subtype_title" = "Υπότυπος";
 "filters_jobs_services_toggle_header" = "Αναζητώ...";
 "filters_jobs_services_type_title" = "Τύπος";
@@ -759,6 +760,10 @@
 "post_description_name_placeholder" = "Αλλαγή Ονόματος";
 "post_description_save_button_text" = "Αποθήκευση αυτής της καταχώρησης!";
 "post_details_jobs_services_camera_message" = "Δημοσιεύστε το λογότυπο της εταιρίας σας ή μια φωτογραφία που να παρουσιάζει την υπηρεσία ή τη δουλειά που προσφέρετε.";
+"post_details_jobs_services_congratulation_add_more_details" = "by adding more details:";
+"post_details_jobs_services_congratulation_improve_listing" = "Improve your listing\n";
+"post_details_jobs_services_congratulation_people_nearby_first" = "People near you are also";
+"post_details_jobs_services_congratulation_people_nearby_second" = "looking for:";
 "post_details_jobs_services_step_option_jobs_prefix" = "Αναζητώ κάποιον για μια";
 "post_details_jobs_services_step_option_services_prefix" = "Διαφημίζω μία";
 "post_details_jobs_services_step_title" = "Είμαι...";

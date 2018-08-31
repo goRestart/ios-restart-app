@@ -33,9 +33,9 @@ final class MultiListingPostedHeaderCell: UICollectionReusableView, ReusableCell
     
     // MARK:- Public Methods
     
-    func setup(withText text: String,
+    func setup(withText text: NSAttributedString,
                alignment: NSTextAlignment) {
-        titleLabel.text = text
+        titleLabel.attributedText = text
         titleLabel.textAlignment = alignment
     }
     
@@ -51,6 +51,7 @@ final class MultiListingPostedHeaderCell: UICollectionReusableView, ReusableCell
     }
     
     private func reset() {
+        titleLabel.attributedText = nil
         titleLabel.text = nil
     }
 }

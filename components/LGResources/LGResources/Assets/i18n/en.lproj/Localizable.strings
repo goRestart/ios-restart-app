@@ -2305,6 +2305,18 @@
 // Congratulation Page - people near you have posted...
 "post_details_services_congratulation_people_near" = "People around you are looking for these services, have these skills?";
 
+// Congratulation Page - bold text "Improve your listing" in "Improve your listing by adding more details:"
+"post_details_jobs_services_congratulation_improve_listing" = "Improve your listing";
+
+// Congratulation Page - regular text "by adding more details" in "Improve your listing by adding more details:"
+"post_details_jobs_services_congratulation_add_more_details" = "by adding more details:";
+
+// Congratulations page - "People near you are also" in "People near you are also looking for:"
+"post_details_jobs_services_congratulation_people_nearby_first" = "People near you are also";
+
+// Congratulations page - "looking for:" in "People near you are also looking for:"
+"post_details_jobs_services_congratulation_people_nearby_second" = "looking for:";
+
 // Add new service button when it's not available
 "post_details_services_add_new" = "Add a new service";
 

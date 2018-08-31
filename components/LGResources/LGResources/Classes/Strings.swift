@@ -1662,6 +1662,14 @@ extension R {
     public static let postDescriptionSaveButtonText = Strings.tr("Localizable", "post_description_save_button_text")
     /// Post your company’s logo or a photo that shows the service or job you’re offering
     public static let postDetailsJobsServicesCameraMessage = Strings.tr("Localizable", "post_details_jobs_services_camera_message")
+    /// by adding more details:
+    public static let postDetailsJobsServicesCongratulationAddMoreDetails = Strings.tr("Localizable", "post_details_jobs_services_congratulation_add_more_details")
+    /// Improve your listing
+    public static let postDetailsJobsServicesCongratulationImproveListing = Strings.tr("Localizable", "post_details_jobs_services_congratulation_improve_listing")
+    /// People near you are also
+    public static let postDetailsJobsServicesCongratulationPeopleNearbyFirst = Strings.tr("Localizable", "post_details_jobs_services_congratulation_people_nearby_first")
+    /// looking for:
+    public static let postDetailsJobsServicesCongratulationPeopleNearbySecond = Strings.tr("Localizable", "post_details_jobs_services_congratulation_people_nearby_second")
     /// Looking to hire someone for a
     public static let postDetailsJobsServicesStepOptionJobsPrefix = Strings.tr("Localizable", "post_details_jobs_services_step_option_jobs_prefix")
     /// Advertising a
