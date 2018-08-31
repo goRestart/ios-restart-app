@@ -17,7 +17,8 @@ class DropdownViewModelSpec: QuickSpec {
             sut = DropdownViewModel(screenTitle: String.makeRandom(),
                                     searchPlaceholderTitle: String.makeRandom(),
                                     attributes: [dropdownSectionA, dropdownSectionB],
-                                    buttonAction: nil)
+                                    buttonAction: nil,
+                                    featureFlags: MockFeatureFlags())
         }
 
         context("test item selection") {

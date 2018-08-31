@@ -44,7 +44,7 @@ final class FiltersStandardWireframeSpec: QuickSpec {
                 subject?.openServicesDropdown(viewModel: DropdownViewModel(screenTitle: "Commander",
                                                                            searchPlaceholderTitle: "Keen",
                                                                            attributes: [],
-                                                                           buttonAction: nil))
+                                                                           buttonAction: nil, featureFlags: MockFeatureFlags()))
             }
             
             it("should push the view") {
