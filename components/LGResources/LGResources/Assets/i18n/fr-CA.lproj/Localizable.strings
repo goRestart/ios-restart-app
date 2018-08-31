@@ -448,6 +448,7 @@
 "filters_cars_transmission_title" = "Boite de vitesse";
 "filters_distance_not_set" = "non configuré";
 "filters_jobs_services_header" = "Information sur l'Emploi ou le Service";
+"filters_jobs_services_list_max_selection_alert" = "Oops! You can’t select more than 15 options.";
 "filters_jobs_services_subtype_title" = "Sous-type";
 "filters_jobs_services_toggle_header" = "À la recherche de...";
 "filters_jobs_services_type_title" = "Type";
@@ -759,6 +760,10 @@
 "post_description_name_placeholder" = "Nom";
 "post_description_save_button_text" = "Sauvegarder cette annonce !";
 "post_details_jobs_services_camera_message" = "Publiez le logo de votre entreprise ou une photo qui montre le service ou l'emploi que vous proposez";
+"post_details_jobs_services_congratulation_add_more_details" = "by adding more details:";
+"post_details_jobs_services_congratulation_improve_listing" = "Improve your listing\n";
+"post_details_jobs_services_congratulation_people_nearby_first" = "People near you are also";
+"post_details_jobs_services_congratulation_people_nearby_second" = "looking for:";
 "post_details_jobs_services_step_option_jobs_prefix" = "Cherchant à recruter quelqu'un pour un";
 "post_details_jobs_services_step_option_services_prefix" = "Annonçant un";
 "post_details_jobs_services_step_title" = "Je suis...";

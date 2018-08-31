@@ -448,6 +448,7 @@
 "filters_cars_transmission_title" = "Mudanças";
 "filters_distance_not_set" = "não definido";
 "filters_jobs_services_header" = "Informações sobre o trabalho ou serviço";
+"filters_jobs_services_list_max_selection_alert" = "Oops! You can’t select more than 15 options.";
 "filters_jobs_services_subtype_title" = "Subtipo";
 "filters_jobs_services_toggle_header" = "À procura de...";
 "filters_jobs_services_type_title" = "Tipo";
@@ -759,6 +760,10 @@
 "post_description_name_placeholder" = "Alterar nome";
 "post_description_save_button_text" = "Guardar este anúncio!";
 "post_details_jobs_services_camera_message" = "Publique o logótipo da sua empresa ou uma foto que mostre o serviço ou trabalho que está a oferecer";
+"post_details_jobs_services_congratulation_add_more_details" = "by adding more details:";
+"post_details_jobs_services_congratulation_improve_listing" = "Improve your listing\n";
+"post_details_jobs_services_congratulation_people_nearby_first" = "People near you are also";
+"post_details_jobs_services_congratulation_people_nearby_second" = "looking for:";
 "post_details_jobs_services_step_option_jobs_prefix" = "Procuro contratar alguém para um";
 "post_details_jobs_services_step_option_services_prefix" = "Anúncio um";
 "post_details_jobs_services_step_title" = "Sou...";

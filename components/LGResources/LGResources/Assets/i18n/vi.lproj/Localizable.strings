@@ -448,6 +448,7 @@
 "filters_cars_transmission_title" = "Cơ cấu truyền động";
 "filters_distance_not_set" = "chưa được cài đặt";
 "filters_jobs_services_header" = "Thông tin Công việc hoặc Dịch vụ";
+"filters_jobs_services_list_max_selection_alert" = "Oops! You can’t select more than 15 options.";
 "filters_jobs_services_subtype_title" = "Tiểu loại";
 "filters_jobs_services_toggle_header" = "Đang tìm kiếm...";
 "filters_jobs_services_type_title" = "Loại";
@@ -759,6 +760,10 @@
 "post_description_name_placeholder" = "Tên";
 "post_description_save_button_text" = "Lưu bài đăng này!";
 "post_details_jobs_services_camera_message" = "Đăng logo công ty của bạn hoặc ảnh hiển thị dịch vụ hay công việc bạn thực hiện";
+"post_details_jobs_services_congratulation_add_more_details" = "by adding more details:";
+"post_details_jobs_services_congratulation_improve_listing" = "Improve your listing\n";
+"post_details_jobs_services_congratulation_people_nearby_first" = "People near you are also";
+"post_details_jobs_services_congratulation_people_nearby_second" = "looking for:";
 "post_details_jobs_services_step_option_jobs_prefix" = "Tìm thuê người cho";
 "post_details_jobs_services_step_option_services_prefix" = "Quảng cáo một";
 "post_details_jobs_services_step_title" = "Tôi là...";

@@ -448,6 +448,7 @@
 "filters_cars_transmission_title" = "Vites";
 "filters_distance_not_set" = "belirlenmedi";
 "filters_jobs_services_header" = "İş veya Hizmet Bilgisi";
+"filters_jobs_services_list_max_selection_alert" = "Oops! You can’t select more than 15 options.";
 "filters_jobs_services_subtype_title" = "Alt tür";
 "filters_jobs_services_toggle_header" = "Aradığım...";
 "filters_jobs_services_type_title" = "Tür";
@@ -759,6 +760,10 @@
 "post_description_name_placeholder" = "İsim";
 "post_description_save_button_text" = "Bu ilanı kaydet!";
 "post_details_jobs_services_camera_message" = "Şirketinin logosunu ya da sunduğun hizmet veya işi gösteren bir fotoğraf yayınla";
+"post_details_jobs_services_congratulation_add_more_details" = "by adding more details:";
+"post_details_jobs_services_congratulation_improve_listing" = "Improve your listing\n";
+"post_details_jobs_services_congratulation_people_nearby_first" = "People near you are also";
+"post_details_jobs_services_congratulation_people_nearby_second" = "looking for:";
 "post_details_jobs_services_step_option_jobs_prefix" = "Şunun için işe alacak birini arıyorum:";
 "post_details_jobs_services_step_option_services_prefix" = "Şunun ilanını veriyorum:";
 "post_details_jobs_services_step_title" = "Ben";

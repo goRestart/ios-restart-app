@@ -448,6 +448,7 @@
 "filters_cars_transmission_title" = "Transmissie";
 "filters_distance_not_set" = "Niet ingesteld";
 "filters_jobs_services_header" = "Baan of Dienst Info";
+"filters_jobs_services_list_max_selection_alert" = "Oops! You can’t select more than 15 options.";
 "filters_jobs_services_subtype_title" = "Subtype";
 "filters_jobs_services_toggle_header" = "Op zoek naar...";
 "filters_jobs_services_type_title" = "Type";
@@ -759,6 +760,10 @@
 "post_description_name_placeholder" = "Naam";
 "post_description_save_button_text" = "Bewaar deze advertentie!";
 "post_details_jobs_services_camera_message" = "Plaats jouw bedrijfslogo of een foto die de dienst of baan die je aanbiedt laat zien";
+"post_details_jobs_services_congratulation_add_more_details" = "by adding more details:";
+"post_details_jobs_services_congratulation_improve_listing" = "Improve your listing\n";
+"post_details_jobs_services_congratulation_people_nearby_first" = "People near you are also";
+"post_details_jobs_services_congratulation_people_nearby_second" = "looking for:";
 "post_details_jobs_services_step_option_jobs_prefix" = "Ben op zoek om iemand in te huren voor een";
 "post_details_jobs_services_step_option_services_prefix" = "Adverteer een";
 "post_details_jobs_services_step_title" = "Ik...";

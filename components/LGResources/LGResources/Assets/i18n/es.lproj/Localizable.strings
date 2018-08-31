@@ -448,6 +448,7 @@
 "filters_cars_transmission_title" = "Transmisión";
 "filters_distance_not_set" = "no definida";
 "filters_jobs_services_header" = "Características del empleo/servicio";
+"filters_jobs_services_list_max_selection_alert" = "¡Ups! No puedes seleccionar más de 15 opciones.";
 "filters_jobs_services_subtype_title" = "Subtipo";
 "filters_jobs_services_toggle_header" = "Busco...";
 "filters_jobs_services_type_title" = "Tipo";
@@ -759,6 +760,10 @@
 "post_description_name_placeholder" = "Nombre";
 "post_description_save_button_text" = "¡Guardar este anuncio!";
 "post_details_jobs_services_camera_message" = "Publica el logo de tu empresa o una foto que muestre el servicio o empleo que ofreces";
+"post_details_jobs_services_congratulation_add_more_details" = "by adding more details:";
+"post_details_jobs_services_congratulation_improve_listing" = "Improve your listing\n";
+"post_details_jobs_services_congratulation_people_nearby_first" = "People near you are also";
+"post_details_jobs_services_congratulation_people_nearby_second" = "looking for:";
 "post_details_jobs_services_step_option_jobs_prefix" = "Buscando contratar a alguien para un";
 "post_details_jobs_services_step_option_services_prefix" = "Anunciando un";
 "post_details_jobs_services_step_title" = "Estoy";

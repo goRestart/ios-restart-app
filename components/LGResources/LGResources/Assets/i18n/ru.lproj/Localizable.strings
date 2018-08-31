@@ -448,6 +448,7 @@
 "filters_cars_transmission_title" = "Трансмиссия";
 "filters_distance_not_set" = "не установлен";
 "filters_jobs_services_header" = "Job or Service Info";
+"filters_jobs_services_list_max_selection_alert" = "Oops! You can’t select more than 15 options.";
 "filters_jobs_services_subtype_title" = "Subtype";
 "filters_jobs_services_toggle_header" = "Looking for...";
 "filters_jobs_services_type_title" = "Type";
@@ -759,6 +760,10 @@
 "post_description_name_placeholder" = "Изменить имя";
 "post_description_save_button_text" = "Сохранить это объявление!";
 "post_details_jobs_services_camera_message" = "Post your company’s logo or a photo that shows the service or job you’re offering";
+"post_details_jobs_services_congratulation_add_more_details" = "by adding more details:";
+"post_details_jobs_services_congratulation_improve_listing" = "Improve your listing\n";
+"post_details_jobs_services_congratulation_people_nearby_first" = "People near you are also";
+"post_details_jobs_services_congratulation_people_nearby_second" = "looking for:";
 "post_details_jobs_services_step_option_jobs_prefix" = "Хочу нанять кого-нибудь для";
 "post_details_jobs_services_step_option_services_prefix" = "Реклама";
 "post_details_jobs_services_step_title" = "Я...";

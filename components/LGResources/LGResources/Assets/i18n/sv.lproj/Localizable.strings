@@ -448,6 +448,7 @@
 "filters_cars_transmission_title" = "Växellåda";
 "filters_distance_not_set" = "inte vald";
 "filters_jobs_services_header" = "Jobb eller Tjänst Info";
+"filters_jobs_services_list_max_selection_alert" = "Oops! You can’t select more than 15 options.";
 "filters_jobs_services_subtype_title" = "Undertyp";
 "filters_jobs_services_toggle_header" = "Letar efter...";
 "filters_jobs_services_type_title" = "Typ";
@@ -759,6 +760,10 @@
 "post_description_name_placeholder" = "Namn";
 "post_description_save_button_text" = "Spara annonsen!";
 "post_details_jobs_services_camera_message" = "Lägg upp din företagslogga eller en bild som visar vilken tjänst eller vilket obb du erbjuder";
+"post_details_jobs_services_congratulation_add_more_details" = "by adding more details:";
+"post_details_jobs_services_congratulation_improve_listing" = "Improve your listing\n";
+"post_details_jobs_services_congratulation_people_nearby_first" = "People near you are also";
+"post_details_jobs_services_congratulation_people_nearby_second" = "looking for:";
 "post_details_jobs_services_step_option_jobs_prefix" = "Behöver anlita någon för";
 "post_details_jobs_services_step_option_services_prefix" = "Annonserar...";
 "post_details_jobs_services_step_title" = "Jag är...";
