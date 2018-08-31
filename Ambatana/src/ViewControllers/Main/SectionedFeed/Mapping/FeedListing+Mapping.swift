@@ -1,15 +1,7 @@
 import LGCoreKit
 import LGComponents
 
-
 extension FeedListing {
-    
-    private var listing: Listing {
-        switch self {
-        case .product(let listing):
-            return listing
-        }
-    }
     
     func toFeedListingData(cellMetrics: ListingCellSizeMetrics,
                            myUserRepository: MyUserRepository,
@@ -40,20 +32,47 @@ extension FeedListing {
 
 
 extension Array where Element == FeedListing {
+    
     func toFeedListingData(cellMetrics: ListingCellSizeMetrics,
                            myUserRepository: MyUserRepository,
                            listingInterestStates: Set<String>,
                            chatNowTitle: String,
                            freePostingAllowed: Bool,
                            preventMessagesFromFeedToProUser: Bool,
-                           imageHasFixedSize: Bool) -> [FeedListingData] {
-        return map { $0.toFeedListingData(cellMetrics: cellMetrics,
-                                          myUserRepository: myUserRepository,
-                                          listingInterestStates: listingInterestStates,
-                                          chatNowTitle: chatNowTitle,
-                                          freePostingAllowed: freePostingAllowed,
-                                          preventMessagesFromFeedToProUser: preventMessagesFromFeedToProUser,
-                                          imageHasFixedSize: imageHasFixedSize) }
+                           imageHasFixedSize: Bool) -> [FeedListingData]  {
+        return filterDuplicationFromFeedItems(cellMetrics: cellMetrics,
+                                              myUserRepository: myUserRepository,
+                                              listingInterestStates: listingInterestStates,
+                                              chatNowTitle: chatNowTitle,
+                                              freePostingAllowed: freePostingAllowed,
+                                              preventMessagesFromFeedToProUser: preventMessagesFromFeedToProUser,
+                                              imageHasFixedSize: imageHasFixedSize)
+    }
+    
+    private func filterDuplicationFromFeedItems(cellMetrics: ListingCellSizeMetrics,
+                                                myUserRepository: MyUserRepository,
+                                                listingInterestStates: Set<String>,
+                                                chatNowTitle: String,
+                                                freePostingAllowed: Bool,
+                                                preventMessagesFromFeedToProUser: Bool,
+                                                imageHasFixedSize: Bool) -> [FeedListingData] {
+        var identifierSet: Set<String> = Set<String>()
+        var feedListingDataArray: [FeedListingData] = []
+        forEach { feedListing in
+            guard let id = feedListing.listing.objectId else { return }
+            guard !identifierSet.contains(id) else { return }
+            
+            identifierSet.update(with: id)
+            let feedListingData = feedListing.toFeedListingData(cellMetrics: cellMetrics,
+                                                                myUserRepository: myUserRepository,
+                                                                listingInterestStates: listingInterestStates,
+                                                                chatNowTitle: chatNowTitle,
+                                                                freePostingAllowed: freePostingAllowed,
+                                                                preventMessagesFromFeedToProUser: preventMessagesFromFeedToProUser,
+                                                                imageHasFixedSize: imageHasFixedSize)
+            feedListingDataArray.append(feedListingData)
+        }
+        return feedListingDataArray
     }
 }
 

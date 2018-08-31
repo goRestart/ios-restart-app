@@ -30,6 +30,7 @@ extension QuickLocationFiltersBuilder: QuickLocationFiltersAssembly {
             return nav
         case .standard(let nav):
             vm.navigator = EditLocationStandardWireframe(nc: nav)
+            vm.quickLocationFiltersNavigator = QuickLocationFiltersStandardWireframe(nc: nav)
             return vc
         }
     }

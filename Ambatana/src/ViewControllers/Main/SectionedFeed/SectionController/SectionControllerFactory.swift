@@ -5,6 +5,7 @@ typealias FeedDelegate = PushPermissionsPresenterDelegate &
     SelectedForYouDelegate &
     LocationEditable &
     RetryFooterDelegate &
+    HorizontalSectionDelegate &
     AdUpdated
 
 final class SectionControllerFactory {
@@ -17,14 +18,18 @@ final class SectionControllerFactory {
     weak var delegate: FeedDelegate?
     weak var rootViewController: UIViewController?
     
+    private var shouldShowEditOnLocationHeader: Bool
+    
     init(waterfallColumnCount: Int,
          featureFlags: FeatureFlaggeable,
          tracker: Tracker,
-         pushPermissionsManager: PushPermissionsManager) {
+         pushPermissionsManager: PushPermissionsManager,
+         shouldShowEditOnLocationHeader: Bool = true) {
         self.waterfallColumnCount = waterfallColumnCount
         self.featureFlags = featureFlags
         self.tracker = tracker
         self.pushPermissionsManager = pushPermissionsManager
+        self.shouldShowEditOnLocationHeader = shouldShowEditOnLocationHeader
     }
     
     func make(for object: Any) -> ListSectionController {
@@ -33,6 +38,7 @@ final class SectionControllerFactory {
         case is DiffableBox<ListingSectionModel>:
             let horizontalSectionController = HorizontalSectionController()
             horizontalSectionController.listingActionDelegate = delegate
+            horizontalSectionController.delegate = delegate
             return horizontalSectionController
         case let staticSectionString as String:
             guard let staticSectionType = StaticSectionType(rawValue: staticSectionString) else { return ListSectionController() }
@@ -47,7 +53,9 @@ final class SectionControllerFactory {
             sectionController.listingActionDelegate = delegate
             return sectionController
         case is LocationData:
-            let locationEditor = LocationSectionController()
+            let locationEditor = LocationSectionController(
+                shouldShowEdit: shouldShowEditOnLocationHeader
+            )
             locationEditor.locationEditable = delegate
             return locationEditor
         case is DiffableBox<ListingRetrievalState>:

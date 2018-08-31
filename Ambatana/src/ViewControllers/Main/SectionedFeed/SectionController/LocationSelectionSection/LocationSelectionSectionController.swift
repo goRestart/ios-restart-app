@@ -8,8 +8,14 @@ protocol LocationEditable: class {
 final class LocationSectionController: ListSectionController {
     
     weak var locationEditable: LocationEditable?
-    
     private var locationObject: LocationData?
+    
+    private var shouldShowEdit: Bool = true
+    
+    convenience init(shouldShowEdit showEdit: Bool = true) {
+        self.init()
+        shouldShowEdit = showEdit
+    }
     
     override init() {
         super.init()
@@ -52,8 +58,10 @@ extension LocationSectionController: ListSupplementaryViewSource {
                                               at: index) as? SectionTitleHeaderView else {
                                                 fatalError()
         }
-        view.configure(with: locationObject?.locationString ?? R.Strings.productPopularNearYou,
-                       buttonText: R.Strings.commonEdit)
+        view.configure(
+            with: locationObject?.locationString ?? R.Strings.productPopularNearYou,
+            buttonText: R.Strings.commonEdit,
+            shouldShowSeeAllButton: shouldShowEdit)
         view.sectionHeaderDelegate = self
         return view
     }

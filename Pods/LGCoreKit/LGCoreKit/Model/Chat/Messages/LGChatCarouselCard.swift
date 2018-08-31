@@ -6,6 +6,8 @@ public protocol ChatCarouselCard {
     var type: ChatCarouselCardType { get }
     var actions: [ChatCallToAction] { get }
     var imageURL: URL? { get }
+    var deeplinkURL: URL? { get }
+    var trackingKey: String? { get }
     var user: ChatCarouselCardUser? { get }
     var price: ListingPrice? { get }
     var currency: Currency? { get }
@@ -17,6 +19,8 @@ struct LGChatCarouselCard: ChatCarouselCard, Decodable, Equatable {
     let type: ChatCarouselCardType
     let actions: [ChatCallToAction]
     let imageURL: URL?
+    let deeplinkURL: URL?
+    let trackingKey: String?
     let user: ChatCarouselCardUser?
     let price: ListingPrice?
     let currency: Currency?
@@ -26,6 +30,8 @@ struct LGChatCarouselCard: ChatCarouselCard, Decodable, Equatable {
     init(type: ChatCarouselCardType,
          actions: [ChatCallToAction],
          imageURL: URL?,
+         deeplinkURL: URL?,
+         trackingKey: String?,
          user: ChatCarouselCardUser?,
          price: ListingPrice?,
          currency: Currency?,
@@ -34,6 +40,8 @@ struct LGChatCarouselCard: ChatCarouselCard, Decodable, Equatable {
         self.type = type
         self.actions = actions
         self.imageURL = imageURL
+        self.deeplinkURL = deeplinkURL
+        self.trackingKey = trackingKey
         self.user = user
         self.price = price
         self.currency = currency
@@ -71,7 +79,9 @@ struct LGChatCarouselCard: ChatCarouselCard, Decodable, Equatable {
          "price_flag": 1
      },
      "title": "Find other people who are changing the world like you!",
-     "text": "Description"
+     "text": "Description",
+     "deeplink": "letgo://users/dbc364b6-4e26-49dc-a015-dc7820262715",
+     "key": "card tracking key"
      }
      */
     
@@ -84,10 +94,16 @@ struct LGChatCarouselCard: ChatCarouselCard, Decodable, Equatable {
                                                                     forKey: .image)
             let imageURLString = try imageContainer.decode(String.self, forKey: .url)
             imageURL = URL(string: imageURLString) ?? nil
+            if let deeplinkURLString = try keyedContainer.decodeIfPresent(String.self, forKey: .deeplink) {
+                deeplinkURL = URL(string: deeplinkURLString) ?? nil
+            } else {
+                deeplinkURL = nil
+            }
+            trackingKey =  (try? keyedContainer.decodeIfPresent(String.self, forKey: .key)) ?? nil
             user = (try? keyedContainer.decodeIfPresent(LGChatCarouselCardUser.self, forKey: .user)) ?? nil
             title = (try? keyedContainer.decodeIfPresent(String.self, forKey: .title)) ?? nil
             text = (try? keyedContainer.decodeIfPresent(String.self, forKey: .text)) ?? nil
-            if let priceContainer = try? keyedContainer.nestedContainer(keyedBy: PriceCodingKeyds.self, forKey: .price),
+            if let priceContainer = try? keyedContainer.nestedContainer(keyedBy: PriceCodingKeys.self, forKey: .price),
                 let priceDecoded = try priceContainer.decodeIfPresent(Double.self, forKey: .amount),
                 let currencyDecoded = try priceContainer.decodeIfPresent(String.self, forKey: .currency),
                 let flag = try priceContainer.decodeIfPresent(ListingPriceFlag.self, forKey: .flag) {
@@ -105,7 +121,7 @@ struct LGChatCarouselCard: ChatCarouselCard, Decodable, Equatable {
         }
     }
     
-    enum PriceCodingKeyds: String, CodingKey {
+    enum PriceCodingKeys: String, CodingKey {
         case amount
         case currency
         case flag = "price_flag"
@@ -123,6 +139,8 @@ struct LGChatCarouselCard: ChatCarouselCard, Decodable, Equatable {
         case price
         case title
         case text
+        case deeplink
+        case key
     }
     
     // MARK: Equatable

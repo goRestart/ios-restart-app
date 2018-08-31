@@ -392,6 +392,8 @@
 		0AAC7955207F73F30096F156 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAC7954207F73F30096F156 /* FeedViewModel.swift */; };
 		0AAC7956207F73F30096F156 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAC7954207F73F30096F156 /* FeedViewModel.swift */; };
 		0AB3660C200DED020065D5AE /* ListingDeckViewControllerBinderSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB3660B200DED020065D5AE /* ListingDeckViewControllerBinderSpec.swift */; };
+		0AB63DD32136EA7800FECCEF /* QuickLocationFiltersStandardWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB63DD22136EA7800FECCEF /* QuickLocationFiltersStandardWireframe.swift */; };
+		0AB63DD42136EA9900FECCEF /* QuickLocationFiltersStandardWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB63DD22136EA7800FECCEF /* QuickLocationFiltersStandardWireframe.swift */; };
 		0AB6E1D41F9DD1670048AFFD /* ListingDeckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB6E1D31F9DD1670048AFFD /* ListingDeckViewController.swift */; };
 		0AB6E1D61F9DD18F0048AFFD /* ListingDeckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB6E1D51F9DD18F0048AFFD /* ListingDeckView.swift */; };
 		0AB6E1D71F9DD4440048AFFD /* ListingDeckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB6E1D31F9DD1670048AFFD /* ListingDeckViewController.swift */; };
@@ -786,6 +788,14 @@
 		3294762D2133F750008EE737 /* InterestedStateTrackingInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3294762B2133F750008EE737 /* InterestedStateTrackingInfo.swift */; };
 		3294763221340EA0008EE737 /* SectionedFeedVMTrackerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3294763121340EA0008EE737 /* SectionedFeedVMTrackerHelper.swift */; };
 		3294763321340EA0008EE737 /* SectionedFeedVMTrackerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3294763121340EA0008EE737 /* SectionedFeedVMTrackerHelper.swift */; };
+		329476362136B0C7008EE737 /* FeedListing+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329476352136B0C7008EE737 /* FeedListing+LG.swift */; };
+		329476372136B0C7008EE737 /* FeedListing+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329476352136B0C7008EE737 /* FeedListing+LG.swift */; };
+		3294763A2136B1EA008EE737 /* Feed+Tracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329476392136B1EA008EE737 /* Feed+Tracking.swift */; };
+		3294763B2136B1EA008EE737 /* Feed+Tracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329476392136B1EA008EE737 /* Feed+Tracking.swift */; };
+		32947640213704EB008EE737 /* SectionedFeedRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3294763F213704EB008EE737 /* SectionedFeedRequester.swift */; };
+		32947641213704EB008EE737 /* SectionedFeedRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3294763F213704EB008EE737 /* SectionedFeedRequester.swift */; };
+		329476432137E426008EE737 /* SectionedFeedRequesterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329476422137E426008EE737 /* SectionedFeedRequesterSpec.swift */; };
+		329476472138058F008EE737 /* Array+LGSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329476462138058F008EE737 /* Array+LGSpec.swift */; };
 		3299E5E7207FB7AB002935AE /* WaterFallLayoutSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3299E5E4207FB7AA002935AE /* WaterFallLayoutSettings.swift */; };
 		3299E5E8207FB7AB002935AE /* WaterfallLayoutItemRenderPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3299E5E5207FB7AA002935AE /* WaterfallLayoutItemRenderPolicy.swift */; };
 		3299E5E9207FB7AB002935AE /* WaterFallLayoutDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3299E5E6207FB7AB002935AE /* WaterFallLayoutDelegates.swift */; };
@@ -830,8 +840,6 @@
 		421CB34B207BBE5E006BF8A4 /* Collection+Safe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421CB34A207BBE5E006BF8A4 /* Collection+Safe.swift */; };
 		421CB34C207BBE5E006BF8A4 /* Collection+Safe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421CB34A207BBE5E006BF8A4 /* Collection+Safe.swift */; };
 		4226B670211094110010CC92 /* FeedRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4226B66F211094110010CC92 /* FeedRequester.swift */; };
-		4226B673211096900010CC92 /* FeedRequesterFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4226B672211096900010CC92 /* FeedRequesterFactory.swift */; };
-		4226B674211096900010CC92 /* FeedRequesterFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4226B672211096900010CC92 /* FeedRequesterFactory.swift */; };
 		422FF44C211433F200223A8D /* FeedRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4226B66F211094110010CC92 /* FeedRequester.swift */; };
 		4245B6EF2084D47A00EF8162 /* UserType+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4245B6EE2084D47A00EF8162 /* UserType+LG.swift */; };
 		4245B6F02084D47A00EF8162 /* UserType+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4245B6EE2084D47A00EF8162 /* UserType+LG.swift */; };
@@ -1489,6 +1497,12 @@
 		8E26E95D1ED5B5B90086D3EC /* FilterDistanceSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26E95B1ED5B5B90086D3EC /* FilterDistanceSlider.swift */; };
 		8E28A82D207BC5E70070A7A6 /* AdvertisementAdxCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E28A82C207BC5E70070A7A6 /* AdvertisementAdxCellDrawer.swift */; };
 		8E28A82E207BC5E70070A7A6 /* AdvertisementAdxCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E28A82C207BC5E70070A7A6 /* AdvertisementAdxCellDrawer.swift */; };
+		8E453479212DBBF80042CE71 /* ChatCarouselCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E453478212DBBF80042CE71 /* ChatCarouselCellDrawer.swift */; };
+		8E45347A212DBBF80042CE71 /* ChatCarouselCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E453478212DBBF80042CE71 /* ChatCarouselCellDrawer.swift */; };
+		8E50205B212DA415008696B9 /* ChatCarouselCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E50205A212DA415008696B9 /* ChatCarouselCollectionCell.swift */; };
+		8E50205C212DA415008696B9 /* ChatCarouselCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E50205A212DA415008696B9 /* ChatCarouselCollectionCell.swift */; };
+		8E50205E212DAE0C008696B9 /* ChatCarouselCollectionCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E50205D212DAE0C008696B9 /* ChatCarouselCollectionCardCell.swift */; };
+		8E50205F212DAE0C008696B9 /* ChatCarouselCollectionCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E50205D212DAE0C008696B9 /* ChatCarouselCollectionCardCell.swift */; };
 		8E56D74520A2ED1300097B61 /* ChatConversationsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E56D74420A2ED1300097B61 /* ChatConversationsListView.swift */; };
 		8E56D74620A2F0A300097B61 /* ChatConversationsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E56D74420A2ED1300097B61 /* ChatConversationsListView.swift */; };
 		8E69F3F21E9E30EE00E14F12 /* CategoryDetailTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E69F3F11E9E30EE00E14F12 /* CategoryDetailTableView.swift */; };
@@ -2501,6 +2515,7 @@
 		0AAC7951207F73960096F156 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		0AAC7954207F73F30096F156 /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
 		0AB3660B200DED020065D5AE /* ListingDeckViewControllerBinderSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingDeckViewControllerBinderSpec.swift; sourceTree = "<group>"; };
+		0AB63DD22136EA7800FECCEF /* QuickLocationFiltersStandardWireframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickLocationFiltersStandardWireframe.swift; sourceTree = "<group>"; };
 		0AB6E1D31F9DD1670048AFFD /* ListingDeckViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckViewController.swift; sourceTree = "<group>"; };
 		0AB6E1D51F9DD18F0048AFFD /* ListingDeckView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckView.swift; sourceTree = "<group>"; };
 		0AC05A861FB081110091D0E2 /* ListingCardViewBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardViewBinder.swift; sourceTree = "<group>"; };
@@ -2713,6 +2728,11 @@
 		328E8E3420C046A700BBF639 /* SuggestiveSearchInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestiveSearchInfo.swift; sourceTree = "<group>"; };
 		3294762B2133F750008EE737 /* InterestedStateTrackingInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestedStateTrackingInfo.swift; sourceTree = "<group>"; };
 		3294763121340EA0008EE737 /* SectionedFeedVMTrackerHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionedFeedVMTrackerHelper.swift; sourceTree = "<group>"; };
+		329476352136B0C7008EE737 /* FeedListing+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FeedListing+LG.swift"; sourceTree = "<group>"; };
+		329476392136B1EA008EE737 /* Feed+Tracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Feed+Tracking.swift"; sourceTree = "<group>"; };
+		3294763F213704EB008EE737 /* SectionedFeedRequester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionedFeedRequester.swift; sourceTree = "<group>"; };
+		329476422137E426008EE737 /* SectionedFeedRequesterSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionedFeedRequesterSpec.swift; sourceTree = "<group>"; };
+		329476462138058F008EE737 /* Array+LGSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+LGSpec.swift"; sourceTree = "<group>"; };
 		3299E5E4207FB7AA002935AE /* WaterFallLayoutSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaterFallLayoutSettings.swift; sourceTree = "<group>"; };
 		3299E5E5207FB7AA002935AE /* WaterfallLayoutItemRenderPolicy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaterfallLayoutItemRenderPolicy.swift; sourceTree = "<group>"; };
 		3299E5E6207FB7AB002935AE /* WaterFallLayoutDelegates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaterFallLayoutDelegates.swift; sourceTree = "<group>"; };
@@ -2742,7 +2762,6 @@
 		4219244020761CF900862CEF /* PromoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoCell.swift; sourceTree = "<group>"; };
 		421CB34A207BBE5E006BF8A4 /* Collection+Safe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Safe.swift"; sourceTree = "<group>"; };
 		4226B66F211094110010CC92 /* FeedRequester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedRequester.swift; sourceTree = "<group>"; };
-		4226B672211096900010CC92 /* FeedRequesterFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedRequesterFactory.swift; sourceTree = "<group>"; };
 		4245B6EE2084D47A00EF8162 /* UserType+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserType+LG.swift"; sourceTree = "<group>"; };
 		4252685520C7E7F900A6E191 /* TagCollectionViewWithCloseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewWithCloseCell.swift; sourceTree = "<group>"; };
 		4252685820C82FC500A6E191 /* PostAddNewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAddNewCell.swift; sourceTree = "<group>"; };
@@ -3160,6 +3179,9 @@
 		8E26E95B1ED5B5B90086D3EC /* FilterDistanceSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterDistanceSlider.swift; sourceTree = "<group>"; };
 		8E28A829207B85C70070A7A6 /* GoogleAdxNativeContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAdxNativeContentView.swift; sourceTree = "<group>"; };
 		8E28A82C207BC5E70070A7A6 /* AdvertisementAdxCellDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvertisementAdxCellDrawer.swift; sourceTree = "<group>"; };
+		8E453478212DBBF80042CE71 /* ChatCarouselCellDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCarouselCellDrawer.swift; sourceTree = "<group>"; };
+		8E50205A212DA415008696B9 /* ChatCarouselCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCarouselCollectionCell.swift; sourceTree = "<group>"; };
+		8E50205D212DAE0C008696B9 /* ChatCarouselCollectionCardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCarouselCollectionCardCell.swift; sourceTree = "<group>"; };
 		8E56D74420A2ED1300097B61 /* ChatConversationsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatConversationsListView.swift; sourceTree = "<group>"; };
 		8E56D74720A342EF00097B61 /* ChatConversationsListFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatConversationsListFilter.swift; sourceTree = "<group>"; };
 		8E69F3F11E9E30EE00E14F12 /* CategoryDetailTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryDetailTableView.swift; sourceTree = "<group>"; };
@@ -3757,6 +3779,15 @@
 			path = VerifyAccounts;
 			sourceTree = "<group>";
 		};
+		0A2F51F62122F5FF0034EF85 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				01739495212DAB9400A66FE1 /* LGInterestedStateUpdater.swift */,
+				01739498212DABCC00A66FE1 /* InterestedStateUpdater.swift */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		0A2F52A42122FBFD0034EF85 /* QuickLocationFilters */ = {
 			isa = PBXGroup;
 			children = (
@@ -4021,6 +4052,7 @@
 			children = (
 				0A6FEC8D2130343D00B57004 /* QuickLocationFiltersModalWireframe.swift */,
 				0A6FEC8E2130343D00B57004 /* QuickLocationFiltersNavigator.swift */,
+				0AB63DD22136EA7800FECCEF /* QuickLocationFiltersStandardWireframe.swift */,
 			);
 			path = QuickLocationFilters;
 			sourceTree = "<group>";
@@ -4295,6 +4327,7 @@
 		0AAC7950207F738C0096F156 /* SectionedFeed */ = {
 			isa = PBXGroup;
 			children = (
+				329476382136B1DE008EE737 /* Tracking */,
 				425EE38B211AEDCB0002DAB8 /* Mapping */,
 				3237C6AA210A071400B7359B /* Model */,
 				32448E7B2101EFE700EFF33A /* ListingStatusViewControllers */,
@@ -4790,7 +4823,7 @@
 			children = (
 				0AAC7954207F73F30096F156 /* FeedViewModel.swift */,
 				326C72E1208A2935009D21DB /* FeedViewModelType.swift */,
-				3294763121340EA0008EE737 /* SectionedFeedVMTrackerHelper.swift */,
+				3294763F213704EB008EE737 /* SectionedFeedRequester.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -4800,6 +4833,15 @@
 			children = (
 			);
 			path = Coordination;
+			sourceTree = "<group>";
+		};
+		329476382136B1DE008EE737 /* Tracking */ = {
+			isa = PBXGroup;
+			children = (
+				3294763121340EA0008EE737 /* SectionedFeedVMTrackerHelper.swift */,
+				329476392136B1EA008EE737 /* Feed+Tracking.swift */,
+			);
+			path = Tracking;
 			sourceTree = "<group>";
 		};
 		3299E5E3207FB756002935AE /* NewFeedCollectionViewLayout */ = {
@@ -4896,7 +4938,6 @@
 			isa = PBXGroup;
 			children = (
 				4226B66F211094110010CC92 /* FeedRequester.swift */,
-				4226B672211096900010CC92 /* FeedRequesterFactory.swift */,
 			);
 			name = SectionFeed;
 			sourceTree = "<group>";
@@ -4954,6 +4995,7 @@
 			isa = PBXGroup;
 			children = (
 				42844CC2211201CD0026A21A /* FeedViewModelSpec.swift */,
+				329476422137E426008EE737 /* SectionedFeedRequesterSpec.swift */,
 			);
 			path = Feed;
 			sourceTree = "<group>";
@@ -5346,6 +5388,7 @@
 				42109E7A2112F65100AA979E /* Feed+LG.swift */,
 				425EE396211AFCFE0002DAB8 /* AspectRatio+CGSize.swift */,
 				0A14D274212AE3EF00E42146 /* FilterCategoryItem+ListingCategory.swift */,
+				329476352136B0C7008EE737 /* FeedListing+LG.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -5712,6 +5755,7 @@
 				F5D6E67720090D8600E71A54 /* UserRatingType+RateBackSpec.swift */,
 				8E8236F2202CA68000A70A33 /* LGEmojiSpec.swift */,
 				C6FFC47620F49C5500B9F53A /* NumberFormatter+LGSpec.swift */,
+				329476462138058F008EE737 /* Array+LGSpec.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -6975,6 +7019,7 @@
 				2EE47D2D2017812D004B04EE /* ChatAskPhoneNumberCellDrawer.swift */,
 				8E031CB12033343300CA0ED9 /* ChatInterlocutorIsTypingCellDrawer.swift */,
 				2E212C6720FCDEE500FB42B3 /* ChatCallToActionCellDrawer.swift */,
+				8E453478212DBBF80042CE71 /* ChatCarouselCellDrawer.swift */,
 			);
 			path = CellDrawers;
 			sourceTree = "<group>";
@@ -6993,6 +7038,8 @@
 				2EE47D2720177653004B04EE /* ChatAskPhoneNumberCell.swift */,
 				8E031CAB20331D2D00CA0ED9 /* ChatInterlocutorIsTypingCell.swift */,
 				2E212C6420FCC55400FB42B3 /* ChatCallToActionCell.swift */,
+				8E50205A212DA415008696B9 /* ChatCarouselCollectionCell.swift */,
+				8E50205D212DAE0C008696B9 /* ChatCarouselCollectionCardCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -8303,6 +8350,7 @@
 				2E8ED6A71EC2184E00A2B4AE /* FilterTagsVC+RemoveRelatedTagsSpec.swift in Sources */,
 				6A94D70A205FB4B600B27C41 /* EditUserBioViewModelSpec.swift in Sources */,
 				01990F61203D90FE0080ADDD /* AppsFlyerDeepLinkSpec.swift in Sources */,
+				329476432137E426008EE737 /* SectionedFeedRequesterSpec.swift in Sources */,
 				A4E093892119E255002235FC /* FiltersModalRouterSpec.swift in Sources */,
 				50D08DB81E69AF14009CC260 /* MockListingListRequester.swift in Sources */,
 				50D08DB21E69AF14009CC260 /* MockFeatureFlags.swift in Sources */,
@@ -8402,6 +8450,7 @@
 				50D08DB61E69AF14009CC260 /* MockPurchasesShopper.swift in Sources */,
 				50D08DB31E69AF14009CC260 /* MockGodModeManager.swift in Sources */,
 				3251C3DA20B973E20014B6BA /* MockRequesterFactory.swift in Sources */,
+				329476472138058F008EE737 /* Array+LGSpec.swift in Sources */,
 				2EC653B71E71744B00E23DDF /* MockExternalAuthHelper.swift in Sources */,
 				50D08DC31E69AF14009CC260 /* Int+LGSpec.swift in Sources */,
 				0A85BD9B2074D48200A850AF /* MockProduct+MockFactory.swift in Sources */,
@@ -8793,6 +8842,7 @@
 				0A2F52A62122FBFD0034EF85 /* QuickLocationFiltersBuilder.swift in Sources */,
 				50D250041DAFB68600B45EC2 /* UIApplication+PushNotification.swift in Sources */,
 				50D67B9D1D182F07003AC0A5 /* SellNavigator.swift in Sources */,
+				8E453479212DBBF80042CE71 /* ChatCarouselCellDrawer.swift in Sources */,
 				6A38ADE21C64C4EA009E1A31 /* TourLocationViewController.swift in Sources */,
 				0A05F386209B37C400F43A67 /* DeckMapView.swift in Sources */,
 				C7239A181C11F92B006CB5A6 /* CAGradientLayer+Color.swift in Sources */,
@@ -8833,6 +8883,7 @@
 				F5BBF67A1FD06488000E37A0 /* ListingAttributePickerCell.swift in Sources */,
 				C627573220A3436900B401E7 /* OrderCondition.swift in Sources */,
 				50C9E4C11B723E6B001E4E92 /* AmplitudeTracker.swift in Sources */,
+				329476362136B0C7008EE737 /* FeedListing+LG.swift in Sources */,
 				2EF4E3AF1D3688AB00A09DFD /* Config.swift in Sources */,
 				C7F22D851DB7A55C00353803 /* RecaptchaViewModel.swift in Sources */,
 				328E8E1920B6EF4300BBF639 /* RequesterFactory.swift in Sources */,
@@ -8939,6 +8990,7 @@
 				3212ADE921199C1D00945110 /* SelectedForYouSectionController.swift in Sources */,
 				508AFB0A1E51D1BF0007363D /* AutocompleteField.swift in Sources */,
 				2E212C6520FCC55400FB42B3 /* ChatCallToActionCell.swift in Sources */,
+				8E50205E212DAE0C008696B9 /* ChatCarouselCollectionCardCell.swift in Sources */,
 				727EF06F1E0BE6600037DA4E /* LGLocation+isAuto.swift in Sources */,
 				C6BEE65420EE6ED2008AEA0B /* ListingAttributeTableViewController.swift in Sources */,
 				0A05F383209B375D00F43A67 /* DeckMapViewController.swift in Sources */,
@@ -9005,7 +9057,7 @@
 				C6FFC49320F7478D00B9F53A /* VerticalFilters.swift in Sources */,
 				C74016DF1D6468A7004C1E9D /* PostListingBasicDetailViewModel.swift in Sources */,
 				013013E9211B49BF00FFC309 /* NotificationCenterModularCell.swift in Sources */,
-				013013E9211B49BF00FFC309 /* NotificationCenterModularCell.swift in Sources */,
+				8E50205B212DA415008696B9 /* ChatCarouselCollectionCell.swift in Sources */,
 				4287173D20655B0600EE334C /* LGNavBarMetrics.swift in Sources */,
 				0A90350A1FCC18E800FDE795 /* PhotoViewerTransitionAnimator.swift in Sources */,
 				C7F3F1E11DE5A95F00652447 /* ChatRelatedListingsView.swift in Sources */,
@@ -9025,6 +9077,7 @@
 				320162E42110A13E00B7819D /* DiffUtility.swift in Sources */,
 				2EB32D631DF184FF00E01E93 /* BumpUpBanner.swift in Sources */,
 				A41196162122E65000EBB210 /* RecaptchaBuilder.swift in Sources */,
+				3294763A2136B1EA008EE737 /* Feed+Tracking.swift in Sources */,
 				0A6FED1A2130344000B57004 /* RateUserModalWireframe.swift in Sources */,
 				C7239A1A1C158139006CB5A6 /* Listing+Negotiable.swift in Sources */,
 				C73C163B1D06C1B500DFC67D /* SuggestionSearchCell.swift in Sources */,
@@ -9054,6 +9107,7 @@
 				C7C61DF51D63035400F9505D /* ListingCarouselMoreInfoView.swift in Sources */,
 				5011938620C5173200FA7C20 /* AnalyticsSessionManager.swift in Sources */,
 				42F0688E20FF8D78009AC898 /* ServiceType+LG.swift in Sources */,
+				32947640213704EB008EE737 /* SectionedFeedRequester.swift in Sources */,
 				0A6FECB02130344000B57004 /* SignupLoginNavigator.swift in Sources */,
 				2E5350411CF8A0C6003B06CC /* ListingStatsView.swift in Sources */,
 				0A6FECC02130344000B57004 /* FiltersNavigator.swift in Sources */,
@@ -9229,6 +9283,7 @@
 				0A6FECDC2130344000B57004 /* EditListingModalWireframe.swift in Sources */,
 				F51A082B2031B5360008D744 /* AspectRatio.swift in Sources */,
 				0A6FECD62130344000B57004 /* ProfessionalDealerAskPhoneModalWireframe.swift in Sources */,
+				0AB63DD32136EA7800FECCEF /* QuickLocationFiltersStandardWireframe.swift in Sources */,
 				0A04D5DB20760A9D00471B9D /* ChatABGroup.swift in Sources */,
 				50C9E4C51B723E87001E4E92 /* FacebookTracker.swift in Sources */,
 				0ADD39BD211306E90071DF87 /* LGUserBuilder.swift in Sources */,
@@ -9246,7 +9301,6 @@
 				F5D91E7D2008C20200DF28E7 /* UserRatingType+RateBack.swift in Sources */,
 				013B2A2121303DCC00F69613 /* InterestedHandler.swift in Sources */,
 				3299E5EB2080AE01002935AE /* WaterFallLayoutHeaderTypes.swift in Sources */,
-				4226B673211096900010CC92 /* FeedRequesterFactory.swift in Sources */,
 				01337B952085F55D00AC8385 /* NotificationSettingsSwitchCell.swift in Sources */,
 				72D928E11E83EB990030F4C3 /* RatingManager.swift in Sources */,
 				C77B7DBA1DBF9D150043C624 /* PushPermissionsHeader.swift in Sources */,
@@ -9764,6 +9818,8 @@
 				2E6248D9207E352300F4144C /* Sequence+LG.swift in Sources */,
 				8EB6510B205ACBEF00FF50E4 /* MLTrackingInfo.swift in Sources */,
 				C6FFC4A220F7491000B9F53A /* SizeRange.swift in Sources */,
+                0A21C65B210F56260093A86C /* BumpUpsRouter.swift in Sources */,
+				8E45347A212DBBF80042CE71 /* ChatCarouselCellDrawer.swift in Sources */,
 				3212AE39211AEAC100945110 /* LocationData.swift in Sources */,
 				8ED3C524204811E90078BE39 /* LGAnimation.swift in Sources */,
 				C7DB41DC1C5138B500400945 /* CAGradientLayer+Color.swift in Sources */,
@@ -9817,6 +9873,7 @@
 				72CD80CF203469FB0042E1E0 /* LGTutorialViewModel.swift in Sources */,
 				722A6D15205A714F009A43AB /* LGPageControl.swift in Sources */,
 				C7B588801CE1DFA6009B3975 /* ChatCellDrawer.swift in Sources */,
+				0AB63DD42136EA9900FECCEF /* QuickLocationFiltersStandardWireframe.swift in Sources */,
 				0A6FED072130344000B57004 /* BumpUpsStandardWireframe.swift in Sources */,
 				72B935F71E3F917500F93F73 /* UserProduct+LG.swift in Sources */,
 				C627573320A3436900B401E7 /* OrderCondition.swift in Sources */,
@@ -9851,6 +9908,7 @@
 				32059FDC20B5CDF30042713A /* ListingsRequesterProtocol.swift in Sources */,
 				F5A836AF1FD1BA13009E636D /* ListingAttributePickerViewModel.swift in Sources */,
 				C7B588841CE1DFA6009B3975 /* ChatMyMessageCellDrawer.swift in Sources */,
+				32947641213704EB008EE737 /* SectionedFeedRequester.swift in Sources */,
 				0A6FECE12130344000B57004 /* EditListingStandardWireframe.swift in Sources */,
 				0A890A8321205DBA0091ED75 /* MediaViewerBuilder.swift in Sources */,
 				0A6FECB12130344000B57004 /* SignupLoginNavigator.swift in Sources */,
@@ -9904,6 +9962,7 @@
 				F51A08312031B55D0008D744 /* LGSize+CGSize.swift in Sources */,
 				8E1139E61EC9AD7100A9D772 /* FilterTitleHeaderView.swift in Sources */,
 				2E57B80D2051A3FA008B2082 /* PostListingCategoryCell.swift in Sources */,
+				3294763B2136B1EA008EE737 /* Feed+Tracking.swift in Sources */,
 				C743FEB11E449F2E00B4E912 /* RateBuyersHeader.swift in Sources */,
 				0A6FED152130344000B57004 /* VerifyUserEmailWireframe.swift in Sources */,
 				8E031CAD20331D2D00CA0ED9 /* ChatInterlocutorIsTypingCell.swift in Sources */,
@@ -9913,6 +9972,7 @@
 				2ECB417320065FB200482EF7 /* FeaturedInfoViewModel.swift in Sources */,
 				72A83F651DD222100043EB3B /* Leanplum+LG.swift in Sources */,
 				2EBC92061E0A77A5007F0F82 /* AppstoreProductsRequest.swift in Sources */,
+				8E50205F212DAE0C008696B9 /* ChatCarouselCollectionCardCell.swift in Sources */,
 				50C63B721DC3A79100836D85 /* SocialMessage.swift in Sources */,
 				3221E5452062C0400006B12B /* ListingCellMetrics.swift in Sources */,
 				C7126BD81E6053AA00038CC4 /* ListingViewModel.swift in Sources */,
@@ -9988,6 +10048,7 @@
 				C67F1B22212C429600504C29 /* ExtraInfoTagView.swift in Sources */,
 				509598881C8733B70026AE2D /* CrashlyticsLogger.swift in Sources */,
 				6A0D7341204D612500892663 /* EditUserBioViewController.swift in Sources */,
+				8E50205C212DA415008696B9 /* ChatCarouselCollectionCell.swift in Sources */,
 				0ADE58D31FC4609400F3DB17 /* ListingCardDetailsViewBinder.swift in Sources */,
 				325E70D421277ED100D173A1 /* EmbeddedListingViewModel.swift in Sources */,
 				50EC640B1C64F99E00DC04C5 /* LGEmptyViewModel.swift in Sources */,
@@ -10056,7 +10117,6 @@
 				0A6FED0D2130344000B57004 /* RecaptchaPasswordWireframe.swift in Sources */,
 				2E151D7720A5D3370038D7C7 /* ChatBlockedUsersCell.swift in Sources */,
 				2E2FF6E620AAC8CB00C9A5DA /* ChatAssistantConversationCell.swift in Sources */,
-				4226B674211096900010CC92 /* FeedRequesterFactory.swift in Sources */,
 				0A98767420CE586900DCD360 /* UIStackView+LG.swift in Sources */,
 				C605853F20DBD545008025FD /* FilterAttributeGridCell.swift in Sources */,
 				501495EF1D895B5800AC67CA /* DiscoverListingListRequester.swift in Sources */,
@@ -10262,6 +10322,7 @@
 				2E791C19212C5F3900C9086F /* NotificationsView.swift in Sources */,
 				2E4DE8DA206422970016D5A8 /* BoostSuccessAlertView.swift in Sources */,
 				C7DB42221C5138B500400945 /* LGNavBarSearchField.swift in Sources */,
+				329476372136B0C7008EE737 /* FeedListing+LG.swift in Sources */,
 				2E94A76020AF2F2F00AEA29A /* ChatAvatarView.swift in Sources */,
 				C7E5902E1E5D973C002921B2 /* CollectionType+Merge.swift in Sources */,
 				8E814F431F3475AB00C88432 /* FilterSliderYearCell.swift in Sources */,
