@@ -4,6 +4,8 @@ extension LGFeedItemOwner: MockFactory {
             id: String.makeRandom(),
             name: String.makeRandom(),
             avatarUrl: nil,
-            geoData: nil)
+            countryCode: nil,
+            city: nil,
+            zipCode: nil)
     }
 }

@@ -795,8 +795,6 @@
 		3294762D2133F750008EE737 /* InterestedStateTrackingInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3294762B2133F750008EE737 /* InterestedStateTrackingInfo.swift */; };
 		3294763221340EA0008EE737 /* SectionedFeedVMTrackerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3294763121340EA0008EE737 /* SectionedFeedVMTrackerHelper.swift */; };
 		3294763321340EA0008EE737 /* SectionedFeedVMTrackerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3294763121340EA0008EE737 /* SectionedFeedVMTrackerHelper.swift */; };
-		329476362136B0C7008EE737 /* FeedListing+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329476352136B0C7008EE737 /* FeedListing+LG.swift */; };
-		329476372136B0C7008EE737 /* FeedListing+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329476352136B0C7008EE737 /* FeedListing+LG.swift */; };
 		3294763A2136B1EA008EE737 /* Feed+Tracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329476392136B1EA008EE737 /* Feed+Tracking.swift */; };
 		3294763B2136B1EA008EE737 /* Feed+Tracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329476392136B1EA008EE737 /* Feed+Tracking.swift */; };
 		32947640213704EB008EE737 /* SectionedFeedRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3294763F213704EB008EE737 /* SectionedFeedRequester.swift */; };
@@ -2743,7 +2741,6 @@
 		328E8E3420C046A700BBF639 /* SuggestiveSearchInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestiveSearchInfo.swift; sourceTree = "<group>"; };
 		3294762B2133F750008EE737 /* InterestedStateTrackingInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestedStateTrackingInfo.swift; sourceTree = "<group>"; };
 		3294763121340EA0008EE737 /* SectionedFeedVMTrackerHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionedFeedVMTrackerHelper.swift; sourceTree = "<group>"; };
-		329476352136B0C7008EE737 /* FeedListing+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FeedListing+LG.swift"; sourceTree = "<group>"; };
 		329476392136B1EA008EE737 /* Feed+Tracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Feed+Tracking.swift"; sourceTree = "<group>"; };
 		3294763F213704EB008EE737 /* SectionedFeedRequester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionedFeedRequester.swift; sourceTree = "<group>"; };
 		329476422137E426008EE737 /* SectionedFeedRequesterSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionedFeedRequesterSpec.swift; sourceTree = "<group>"; };
@@ -5417,7 +5414,6 @@
 				42109E7A2112F65100AA979E /* Feed+LG.swift */,
 				425EE396211AFCFE0002DAB8 /* AspectRatio+CGSize.swift */,
 				0A14D274212AE3EF00E42146 /* FilterCategoryItem+ListingCategory.swift */,
-				329476352136B0C7008EE737 /* FeedListing+LG.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -8926,7 +8922,6 @@
 				F5BBF67A1FD06488000E37A0 /* ListingAttributePickerCell.swift in Sources */,
 				C627573220A3436900B401E7 /* OrderCondition.swift in Sources */,
 				50C9E4C11B723E6B001E4E92 /* AmplitudeTracker.swift in Sources */,
-				329476362136B0C7008EE737 /* FeedListing+LG.swift in Sources */,
 				2EF4E3AF1D3688AB00A09DFD /* Config.swift in Sources */,
 				C7F22D851DB7A55C00353803 /* RecaptchaViewModel.swift in Sources */,
 				328E8E1920B6EF4300BBF639 /* RequesterFactory.swift in Sources */,
@@ -9866,7 +9861,6 @@
 				2E6248D9207E352300F4144C /* Sequence+LG.swift in Sources */,
 				8EB6510B205ACBEF00FF50E4 /* MLTrackingInfo.swift in Sources */,
 				C6FFC4A220F7491000B9F53A /* SizeRange.swift in Sources */,
-                0A21C65B210F56260093A86C /* BumpUpsRouter.swift in Sources */,
 				8E45347A212DBBF80042CE71 /* ChatCarouselCellDrawer.swift in Sources */,
 				3212AE39211AEAC100945110 /* LocationData.swift in Sources */,
 				8ED3C524204811E90078BE39 /* LGAnimation.swift in Sources */,
@@ -10373,7 +10367,6 @@
 				2E791C19212C5F3900C9086F /* NotificationsView.swift in Sources */,
 				2E4DE8DA206422970016D5A8 /* BoostSuccessAlertView.swift in Sources */,
 				C7DB42221C5138B500400945 /* LGNavBarSearchField.swift in Sources */,
-				329476372136B0C7008EE737 /* FeedListing+LG.swift in Sources */,
 				2E94A76020AF2F2F00AEA29A /* ChatAvatarView.swift in Sources */,
 				C7E5902E1E5D973C002921B2 /* CollectionType+Merge.swift in Sources */,
 				8E814F431F3475AB00C88432 /* FilterSliderYearCell.swift in Sources */,
