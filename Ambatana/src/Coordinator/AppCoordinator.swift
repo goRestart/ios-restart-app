@@ -538,11 +538,10 @@ extension AppCoordinator: AppNavigator {
 
     func openConfirmUsername(token: String) {
         let confirmUsernameCoordinator = PasswordlessUsernameCoordinator(token: token)
-        openChild(coordinator: confirmUsernameCoordinator,
-                  parent: tabBarCtl,
-                  animated: true,
-                  forceCloseChild: true,
-                  completion: nil)
+        let vc = confirmUsernameCoordinator.viewController
+        tabBarCtl.dismissAllPresented {
+            self.tabBarCtl.present(vc, animated: true)
+        }
     }
 
     func openInAppWebView(url: URL) {
