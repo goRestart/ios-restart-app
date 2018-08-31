@@ -931,11 +931,12 @@ extension ListingCarouselViewModel: ListingViewModelDelegate {
 extension CarouselMovement {
 
     func visitSource(_ origin: EventParameterListingVisitSource) -> EventParameterListingVisitSource {
+        let newOrigin: EventParameterListingVisitSource = origin == .sectionList ? .relatedItemList : origin
         switch self {
         case .tap: fallthrough
-        case .swipeRight: return origin.next
-        case .initial: return origin
-        case .swipeLeft: return origin.previous
+        case .swipeRight: return newOrigin.next
+        case .initial: return newOrigin
+        case .swipeLeft: return newOrigin.previous
         }
     }
 

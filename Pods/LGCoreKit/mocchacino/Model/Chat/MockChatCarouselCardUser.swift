@@ -1,5 +1,3 @@
-@testable import LGCoreKit
-
 public struct MockChatCarouselCardUser: ChatCarouselCardUser {
     public var name: String
     public var imageURL: URL?

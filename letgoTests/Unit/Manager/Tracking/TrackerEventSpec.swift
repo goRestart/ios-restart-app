@@ -5878,6 +5878,24 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
             
+            describe("Duplicated Listing items in Feed") {
+                let numberOfDuplicates = 4
+                let pageNumber = 3
+                
+                beforeEach {
+                    sut = TrackerEvent.filterDuplicatedItemInSectionedFeed(pageNumber: pageNumber,
+                                                                           numberOfDuplicates: numberOfDuplicates)
+                }
+                
+                it("has page-number") {
+                    expect(sut.params!.stringKeyParams["page-number"] as? Int).to(be(pageNumber))
+                }
+                
+                it("has number-of-items") {
+                    expect(sut.params!.stringKeyParams["number-of-items"] as? Int).to(be(numberOfDuplicates))
+                }
+            }
+            
             func makeSutForListingDetailVisit(withSectionId id: String?) -> TrackerEvent {
                 var sectionName: EventParameterSectionName? = nil
                 if let id = id {

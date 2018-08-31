@@ -110,7 +110,7 @@ extension TabCoordinator: TabNavigator {
         let data = BubbleNotificationData(text: message, action: action)
         appNavigator?.showBottomBubbleNotification(data: data,
                                                    duration: duration,
-                                                   alignment: .bottom,
+                                                   alignment: .bottomTabBar,
                                                    style: .light)
     }
 
@@ -118,7 +118,7 @@ extension TabCoordinator: TabNavigator {
         let data = BubbleNotificationData(text: message, action: nil)
         appNavigator?.showBottomBubbleNotification(data: data,
                                                    duration: duration,
-                                                   alignment: .bottom,
+                                                   alignment: .bottomTabBar,
                                                    style: .dark)
     }
 

@@ -16,6 +16,8 @@ extension ListingFilters: MockFactory {
     }
 }
 
+extension ListingFilters: Equatable {}
+
 extension VerticalFilters: MockFactory {
     
     public static func makeMock() -> VerticalFilters {
