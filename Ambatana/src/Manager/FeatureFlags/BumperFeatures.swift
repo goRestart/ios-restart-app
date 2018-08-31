@@ -78,10 +78,11 @@ extension Bumper  {
         flags.append(TurkeyFreePosting.self)
         flags.append(RandomImInterestedMessages.self)
         flags.append(CarPromoCells.self)
-        flags.append(ServicesPromoCells.self)
         flags.append(RealEstatePromoCells.self)
         flags.append(SectionedDiscoveryFeed.self)
+        flags.append(ServicesPromoCells.self)
         flags.append(ImInterestedInProfile.self)
+        flags.append(ClickToTalk.self)
         Bumper.initialize(flags)
     } 
 
@@ -891,19 +892,6 @@ extension Bumper  {
     }
     #endif
 
-    static var servicesPromoCells: ServicesPromoCells {
-        guard let value = Bumper.value(for: ServicesPromoCells.key) else { return .control }
-        return ServicesPromoCells(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var servicesPromoCellsObservable: Observable<ServicesPromoCells> {
-        return Bumper.observeValue(for: ServicesPromoCells.key).map {
-            ServicesPromoCells(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
     static var realEstatePromoCells: RealEstatePromoCells {
         guard let value = Bumper.value(for: RealEstatePromoCells.key) else { return .control }
         return RealEstatePromoCells(rawValue: value) ?? .control 
@@ -930,6 +918,19 @@ extension Bumper  {
     }
     #endif
 
+    static var servicesPromoCells: ServicesPromoCells {
+        guard let value = Bumper.value(for: ServicesPromoCells.key) else { return .control }
+        return ServicesPromoCells(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var servicesPromoCellsObservable: Observable<ServicesPromoCells> {
+        return Bumper.observeValue(for: ServicesPromoCells.key).map {
+            ServicesPromoCells(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
     static var imInterestedInProfile: ImInterestedInProfile {
         guard let value = Bumper.value(for: ImInterestedInProfile.key) else { return .control }
         return ImInterestedInProfile(rawValue: value) ?? .control 
@@ -939,6 +940,19 @@ extension Bumper  {
     static var imInterestedInProfileObservable: Observable<ImInterestedInProfile> {
         return Bumper.observeValue(for: ImInterestedInProfile.key).map {
             ImInterestedInProfile(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var clickToTalk: ClickToTalk {
+        guard let value = Bumper.value(for: ClickToTalk.key) else { return .control }
+        return ClickToTalk(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var clickToTalkObservable: Observable<ClickToTalk> {
+        return Bumper.observeValue(for: ClickToTalk.key).map {
+            ClickToTalk(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1925,23 +1939,6 @@ enum CarPromoCells: String, BumperFeature  {
     }
 }
 
-enum ServicesPromoCells: String, BumperFeature  {
-    case control, baseline, activeWithCallToAction, activeWithoutCallToAction
-    static var defaultValue: String { return ServicesPromoCells.control.rawValue }
-    static var enumValues: [ServicesPromoCells] { return [.control, .baseline, .activeWithCallToAction, .activeWithoutCallToAction]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "[SERVICES] Show promo cells for Services" } 
-    static func fromPosition(_ position: Int) -> ServicesPromoCells {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .activeWithCallToAction
-            case 3: return .activeWithoutCallToAction
-            default: return .control
-        }
-    }
-}
-
 enum RealEstatePromoCells: String, BumperFeature  {
     case control, baseline, variantA
     static var defaultValue: String { return RealEstatePromoCells.control.rawValue }
@@ -1974,6 +1971,23 @@ enum SectionedDiscoveryFeed: String, BumperFeature  {
     }
 }
 
+enum ServicesPromoCells: String, BumperFeature  {
+    case control, baseline, activeWithCallToAction, activeWithoutCallToAction
+    static var defaultValue: String { return ServicesPromoCells.control.rawValue }
+    static var enumValues: [ServicesPromoCells] { return [.control, .baseline, .activeWithCallToAction, .activeWithoutCallToAction]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[SERVICES] Show promo cells for Services" } 
+    static func fromPosition(_ position: Int) -> ServicesPromoCells {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .activeWithCallToAction
+            case 3: return .activeWithoutCallToAction
+            default: return .control
+        }
+    }
+}
+
 enum ImInterestedInProfile: String, BumperFeature  {
     case control, baseline, active
     static var defaultValue: String { return ImInterestedInProfile.control.rawValue }
@@ -1981,6 +1995,22 @@ enum ImInterestedInProfile: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "[RETENTION] Show Im Interested buttons in public profiles" } 
     static func fromPosition(_ position: Int) -> ImInterestedInProfile {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum ClickToTalk: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return ClickToTalk.control.rawValue }
+    static var enumValues: [ClickToTalk] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[VERTICALS] Show Click to talk" } 
+    static func fromPosition(_ position: Int) -> ClickToTalk {
         switch position { 
             case 0: return .control
             case 1: return .baseline
