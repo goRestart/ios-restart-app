@@ -19,7 +19,7 @@ extension Feed {
     func verticalItems(_ featureFlags: FeatureFlaggeable,
                        _ myUserRepository: MyUserRepository,
                        _ keyValueStorage: KeyValueStorageable,
-                       _ numberOfColumns: Int) -> [FeedListingData] {
+                       _ numberOfColumns: Int) -> [FeedListingData]  {
         let listingInterestStates = keyValueStorage.interestingListingIDs
         let cellMetrics = ListingCellSizeMetrics(numberOfColumns: numberOfColumns)
         return items.toFeedListingData(cellMetrics: cellMetrics,
@@ -29,17 +29,5 @@ extension Feed {
                                        freePostingAllowed: featureFlags.freePostingModeAllowed,
                                        preventMessagesFromFeedToProUser: featureFlags.preventMessagesFromFeedToProUsers.isActive,
                                        imageHasFixedSize: false)
-    }
-    
-    var totalHorizontalItemCount: Int {
-        return sections.map{ $0.items.count }.reduce(0, +)
-    }
-    
-    var totalVerticalItemCount: Int {
-        return items.count
-    }
-    
-    var sectionsShown: [String] {
-        return sections.map{ $0.id }
     }
 }

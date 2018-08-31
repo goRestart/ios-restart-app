@@ -79,6 +79,7 @@ final class UserProfileViewModel: BaseViewModel {
     var userRelationText: Driver<String?> { return makeUserRelationText() }
     var listingListViewModel: Driver<ListingListViewModel?> { return makeListingListViewModelDriver() }
     let ratingListViewModel: UserRatingListViewModel
+    let showBubbleNotification = PublishSubject<BubbleNotificationData>()
 
     weak var delegate: UserProfileViewModelDelegate?
 
@@ -94,6 +95,7 @@ final class UserProfileViewModel: BaseViewModel {
     private let featureFlags: FeatureFlaggeable
     private let notificationsManager: NotificationsManager?
     private let interestedHandler: InterestedHandleable?
+    private let bubbleNotificationManager: BubbleNotificationManager?
 
     private let disposeBag: DisposeBag
     private let source: UserSource
@@ -114,6 +116,7 @@ final class UserProfileViewModel: BaseViewModel {
           featureFlags: FeatureFlaggeable,
           notificationsManager: NotificationsManager?,
           interestedHandler: InterestedHandleable?,
+          bubbleNotificationManager: BubbleNotificationManager?,
           user: User?,
           source: UserSource,
           isPrivateProfile: Bool) {
@@ -125,6 +128,7 @@ final class UserProfileViewModel: BaseViewModel {
         self.featureFlags = featureFlags
         self.notificationsManager = notificationsManager
         self.interestedHandler = interestedHandler
+        self.bubbleNotificationManager = bubbleNotificationManager
         self.user = Variable<User?>(user)
         self.source = source
         self.isPrivateProfile = isPrivateProfile
@@ -174,6 +178,7 @@ final class UserProfileViewModel: BaseViewModel {
                                     featureFlags: FeatureFlags.sharedInstance,
                                     notificationsManager: nil,
                                     interestedHandler: InterestedHandler(),
+                                    bubbleNotificationManager:  LGBubbleNotificationManager.sharedInstance,
                                     user: user,
                                     source: source,
                                     isPrivateProfile: false)
@@ -193,6 +198,7 @@ final class UserProfileViewModel: BaseViewModel {
                                     featureFlags: FeatureFlags.sharedInstance,
                                     notificationsManager: LGNotificationsManager.sharedInstance,
                                     interestedHandler: nil,
+                                    bubbleNotificationManager: nil,
                                     user: nil,
                                     source: source,
                                     isPrivateProfile: true)
@@ -793,11 +799,11 @@ extension UserProfileViewModel: ListingCellDelegate {
                                                      source: .profile,
                                                      predefinedMessage: nil)
                 case .triggerInterestedAction:
-                    let (cancellable, timer) = LGTimer.cancellableWait(5)
-//                    self?.showUndoBubble(withMessage: R.Strings.productInterestedBubbleMessage,
-//                                         duration: 5) {
-//                                            cancellable.cancel()
-//                    }
+                    let (cancellable, timer) = LGTimer.cancellableWait(InterestedHandler.undoTimeout)
+                    self?.notifyUndoBubble(withMessage: R.Strings.productInterestedBubbleMessage,
+                                         duration: InterestedHandler.undoTimeout) {
+                                            cancellable.cancel()
+                    }
                     interestedHandler.handleCancellableInterestedAction(listing, timer: timer,  completion: completion)
                 }
             }
@@ -809,6 +815,24 @@ extension UserProfileViewModel: ListingCellDelegate {
             navigator?.openLogin(infoMessage: R.Strings.chatLoginPopupText,
                                  then: interestedAction)
         }
+    }
+    
+    private func notifyUndoBubble(withMessage message: String,
+                                duration: TimeInterval,
+                                then action: @escaping () -> ()) {
+        let action = UIAction(interface: .button(R.Strings.productInterestedUndo, .terciary) , action: action)
+        let data = BubbleNotificationData(text: message,
+                                          action: action)
+        showBubbleNotification.onNext(data)
+    }
+    
+    func showUndoBubble(inView view: UIView,
+                        data: BubbleNotificationData) {
+        bubbleNotificationManager?.showBubble(data: data,
+                                              duration: InterestedHandler.undoTimeout,
+                                              view: view,
+                                              alignment: .bottomFullScreenView,
+                                              style: .light)
     }
     
     func openAskPhoneFor(_ listing: Listing, interlocutor: LocalUser) {}

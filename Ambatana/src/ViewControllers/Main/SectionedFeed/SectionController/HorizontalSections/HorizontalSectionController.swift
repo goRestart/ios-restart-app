@@ -1,10 +1,15 @@
 import IGListKit
 import LGCoreKit
 
+protocol HorizontalSectionDelegate: class {
+    func didTapSeeAll(page: SearchType)
+}
+
 final class HorizontalSectionController: ListSectionController {
 
     private var listingHorizontalSectionModel: ListingSectionModel?
     weak var listingActionDelegate: ListingActionDelegate?
+    weak var delegate: HorizontalSectionDelegate?
 
     private lazy var adapter: ListAdapter = {
         let adapter = ListAdapter(updater: ListAdapterUpdater(),
@@ -133,7 +138,7 @@ extension HorizontalSectionController: EmbeddedInterestedActionDelegate {
             let index = cell.collectionView.indexPathForItem(at: point)?.section,
             let id = listingHorizontalSectionModel?.id else { return }
         let trackingInfo = SectionedFeedChatTrackingInfo(sectionId: .identifier(id: id),
-                                                  itemIndexInSection: .position(index: index))
+                                                         itemIndexInSection: .position(index: index))
         listingActionDelegate?.interestedActionFor(listing,
                                                    userListing: userListing,
                                                    sectionedFeedChatTrackingInfo: trackingInfo,
@@ -143,7 +148,9 @@ extension HorizontalSectionController: EmbeddedInterestedActionDelegate {
 
 extension HorizontalSectionController: SectionTitleHeaderViewDelegate {
     func didTapViewAll() {
-        // TODO: https://ambatana.atlassian.net/browse/ABIOS-4506
-        print("View All button is tapped: ABIOS_4506")
+        guard let nextPage = listingHorizontalSectionModel?.links.first?.value ,
+            let nextPageURL = URL(string: nextPage),
+            let title = listingHorizontalSectionModel?.title else { return }
+        delegate?.didTapSeeAll(page: .feed(page: nextPageURL, title: title))
     }
 }

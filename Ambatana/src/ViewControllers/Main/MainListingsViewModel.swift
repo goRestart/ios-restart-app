@@ -25,7 +25,6 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     static let adInFeedInitialPosition = 3
     private static let adsInFeedRatio = 20
     private static let searchAlertLimit = 20
-    private static let interestingUndoTimeout: TimeInterval = 5
     
     var wireframe: MainListingNavigator? // We'll call this wireframe to avoid clashing. Too many navigators here
     
@@ -42,7 +41,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     var clearTextOnSearch: Bool {
         guard let searchType = searchType else { return false }
         switch searchType {
-        case .collection:
+        case .collection, .feed:
             return true
         case .user, .trending, .suggestive, .lastSearch:
             return false
@@ -1710,7 +1709,7 @@ extension MainListingsViewModel {
             suggestiveSearch = search
         case let .lastSearch(search):
             suggestiveSearch = search
-        case .collection:
+        case .collection, .feed:
             suggestiveSearch = nil
         }
         if let suggestiveSearch = suggestiveSearch {
@@ -1833,7 +1832,7 @@ fileprivate extension MainListingsViewModel {
     var listingVisitSource: EventParameterListingVisitSource {
         if let searchType = searchType {
             switch searchType {
-            case .collection:
+            case .collection, .feed:
                 return .collection
             case .user, .trending, .suggestive, .lastSearch:
                 if !hasFilters {
@@ -1989,7 +1988,7 @@ extension MainListingsViewModel: ListingCellDelegate {
                 case .triggerInterestedAction:
                     let (cancellable, timer) = LGTimer.cancellableWait(5)
                     self?.showUndoBubble(withMessage: R.Strings.productInterestedBubbleMessage,
-                                         duration: MainListingsViewModel.interestingUndoTimeout) {
+                                         duration: InterestedHandler.undoTimeout) {
                                             cancellable.cancel()
                     }
                     self?.interestedHandler.handleCancellableInterestedAction(listing, timer: timer,  completion: completion)

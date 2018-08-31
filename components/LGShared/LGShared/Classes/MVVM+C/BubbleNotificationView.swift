@@ -2,6 +2,7 @@ import Foundation
 import LGComponents
 
 public struct BubbleNotificationData {
+    
     public let tagGroup: String?
     public let text: String
     public let infoText: String?
@@ -17,8 +18,12 @@ public struct BubbleNotificationData {
         return !infoText.isEmpty
     }
 
-    public init(tagGroup: String? = nil, text: String, infoText: String? = nil, action: UIAction?,
-         iconURL: URL? = nil, iconImage: UIImage? = nil) {
+    public init(tagGroup: String? = nil,
+                text: String,
+                infoText: String? = nil,
+                action: UIAction?,
+                iconURL: URL? = nil,
+                iconImage: UIImage? = nil) {
         self.tagGroup = tagGroup
         self.text = text
         self.infoText = infoText
@@ -43,13 +48,14 @@ final public class BubbleNotificationView: UIView {
     
     public enum Alignment: Equatable {
         case top(offset: CGFloat)
-        case bottom
+        case bottomTabBar
+        case bottomFullScreenView
 
         var initialBottomConstraintConstant: CGFloat {
             switch self {
             case .top:
                 return 0
-            case .bottom:
+            case .bottomTabBar, .bottomFullScreenView:
                 return Metrics.screenHeight + BubbleNotificationView.initialHeight
             }
         }
@@ -58,8 +64,10 @@ final public class BubbleNotificationView: UIView {
             switch self {
             case let .top(offset):
                 return offset + height
-            case .bottom:
+            case .bottomTabBar:
                 return BubbleNotificationView.Layout.statusBarHeight + height
+            case .bottomFullScreenView:
+                return Metrics.screenHeight - Metrics.margin
             }
         }
         
@@ -67,7 +75,7 @@ final public class BubbleNotificationView: UIView {
             switch (lhs, rhs) {
             case (.top(let lhs), .top(let rhs)):
                 return lhs == rhs
-            case (.bottom, .bottom):
+            case (.bottomTabBar, .bottomTabBar), (.bottomFullScreenView, .bottomFullScreenView):
                 return true
             default:
                 return false
@@ -110,7 +118,7 @@ final public class BubbleNotificationView: UIView {
     private let alignment: Alignment
     
     public var isBottomAligned: Bool {
-        return alignment == .bottom
+        return alignment == .bottomTabBar || alignment == .bottomFullScreenView
     }
     
     

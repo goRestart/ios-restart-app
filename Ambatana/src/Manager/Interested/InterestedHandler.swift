@@ -11,6 +11,8 @@ enum InterestedAction {
 
 final class InterestedHandler: InterestedHandleable {
     
+    static let undoTimeout: TimeInterval = 5
+    
     let interestedStateUpdater: InterestedStateUpdater
     private let tracker: Tracker
     private let keyValueStorage: KeyValueStorage

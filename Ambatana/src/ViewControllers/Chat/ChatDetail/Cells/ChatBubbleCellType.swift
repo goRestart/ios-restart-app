@@ -1,3 +1,7 @@
 enum ChatBubbleCellType {
-    case myMessage, othersMessage, askPhoneNumber, callToAction
+    case myMessage
+    case othersMessage
+    case askPhoneNumber
+    case callToAction
+    case carousel
 }

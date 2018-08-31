@@ -225,6 +225,7 @@ enum EventName: String {
     case openCommunity                      = "open-community"
 
     case showNewItemsBadge                  = "show-new-items-badge"
+    case duplicatedItemsInFeed              = "duplicated-items-hidden"
     
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"

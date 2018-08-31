@@ -17,12 +17,11 @@ protocol FeedViewModelType: FeedNavigatorOwnership {
     var searchString: String? { get }
     var shouldShowInviteButton: Bool { get }
     var viewState: ViewState { get }
-
+    
     var feedItems: [ListDiffable] { get }
     var waterfallColumnCount: Int { get }
     var locationSectionIndex: Int? { get }
     var bottomStatusIndicatorIndex: Int? { get }
-    
     
     func openInvite()
     func openSearches()

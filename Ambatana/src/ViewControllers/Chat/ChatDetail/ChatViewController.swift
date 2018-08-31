@@ -684,6 +684,9 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource  {
         } else if let ctaCell = cell as? ChatCallToActionCell {
             ctaCell.delegate = self
             return ctaCell
+        } else if let carouselCell = cell as? ChatCarouselCollectionCell {
+            carouselCell.delegate = self
+            return carouselCell
         }
 
         return cell
@@ -697,6 +700,17 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource  {
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if let message = viewModel.messageAtIndex(indexPath.row) {
+            if case .carousel = message.type {
+                return ChatCarouselCollectionCardCell.cellSize.height
+                    + ChatCarouselCollectionCell.topBottomInsetForShadows*2
+                    + ChatCarouselCollectionCell.bottomMargin
+            }
+        }
         return UITableViewAutomaticDimension
     }
     
@@ -823,6 +837,7 @@ extension ChatViewController {
             cell.setSelected(true, animated: true)
             return true
         }
+        
         return false
     }
     
@@ -930,9 +945,9 @@ extension ChatViewController: MeetingCellImageDelegate, MKMapViewDelegate {
     }
 }
 
-extension ChatViewController: ChatCallToActionCellDelegate {
+extension ChatViewController: ChatDeeplinkCellDelegate {
 
-    func openDeeplink(url: URL, trackingKey: String) {
+    func openDeeplink(url: URL, trackingKey: String?) {
         viewModel.openDeeplink(url: url, trackingKey: trackingKey)
     }
 }

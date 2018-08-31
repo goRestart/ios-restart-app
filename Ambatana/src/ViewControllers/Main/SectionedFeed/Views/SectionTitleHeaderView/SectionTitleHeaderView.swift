@@ -82,10 +82,13 @@ final class SectionTitleHeaderView: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure(with titleText: String?, buttonText: String?) {
+    func configure(with titleText: String?,
+                   buttonText: String?,
+                   shouldShowSeeAllButton: Bool = true) {
         titleLabel.text = titleText
         guard let buttonTextString = buttonText else { return }
         seeAllButton.setTitle(buttonTextString, for: .normal)
+        seeAllButton.isHidden = !shouldShowSeeAllButton
     }
 }
 
