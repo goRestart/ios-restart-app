@@ -1446,11 +1446,11 @@ extension SignUpLogInViewModelSpec: LoginNavigator {
         showSignInWithEmailWasCalled = true
     }
     
-    func showSignInWithEmail(source: EventParameterLoginSourceValue, appearance: LoginAppearance, logicAction: (() -> ())?, cancelAction: (() -> ())?) {
+    func showSignInWithEmail(source: EventParameterLoginSourceValue, appearance: LoginAppearance, loginAction: (() -> ())?, cancelAction: (() -> ())?) {
         showSignInWithEmailWasCalled = true
     }
     
-    func showLoginWithEmail(source: EventParameterLoginSourceValue, logicAction: (() -> ())?, cancelAction: (() -> ())?) {
+    func showLoginWithEmail(source: EventParameterLoginSourceValue, loginAction: (() -> ())?, cancelAction: (() -> ())?) {
         showLoginWithEmailWasCalled = true
     }
     

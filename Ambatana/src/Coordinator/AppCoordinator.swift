@@ -225,7 +225,9 @@ extension AppCoordinator: AppNavigator {
             keyValueStorage[.firstRunDate] = Date()
         }
 
-        let vc = tourAssembly.buildTour(appearance: .dark, action: onTourPostingFinish, tourSkipper: tourSkipper)
+        let vc = tourAssembly.buildTour(appearance: .dark,
+                                        action: onTourPostingFinish,
+                                        tourSkipper: tourSkipper)
         vc.setupForModalWithNonOpaqueBackground()
         tabBarCtl.present(vc, animated: true, completion: nil)
 
@@ -697,7 +699,10 @@ extension AppCoordinator: UITabBarControllerDelegate {
         }
 
         if let source = tab.logInSource, shouldOpenLogin {
-            openLogin(.fullScreen, source: source, afterLogInSuccessful: afterLogInSuccessful, cancelAction: nil)
+            openLogin(.fullScreen,
+                      source: source,
+                      afterLogInSuccessful: afterLogInSuccessful,
+                      cancelAction: nil)
             return false
         } else {
             switch tab {
@@ -912,7 +917,9 @@ fileprivate extension AppCoordinator {
         }
     }
 
-    func openLogin(_ style: LoginStyle, source: EventParameterLoginSourceValue, afterLogInSuccessful: @escaping () -> (),
+    func openLogin(_ style: LoginStyle,
+                   source: EventParameterLoginSourceValue,
+                   afterLogInSuccessful: @escaping () -> (),
                    cancelAction: (() -> Void)?) {
         switch style {
         case .fullScreen:

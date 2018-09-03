@@ -136,7 +136,7 @@ class SignUpViewModel: BaseViewModel {
     func signUpButtonPressed() {
         router?.showSignInWithEmail(source: loginSource,
                                      appearance: appearance,
-                                     logicAction: {[weak self] in
+                                     loginAction: { [weak self] in
                                         self?.router?.close(onFinish: self?.onLoginCallback)
                                      },
                                      cancelAction: onCancelCallback)
@@ -144,7 +144,7 @@ class SignUpViewModel: BaseViewModel {
 
     func logInButtonPressed() {
         router?.showLoginWithEmail(source: loginSource,
-                                   logicAction: {[weak self] in
+                                   loginAction: {[weak self] in
                                         self?.router?.close(onFinish: self?.onLoginCallback)
                                    },
                                    cancelAction: onCancelCallback)

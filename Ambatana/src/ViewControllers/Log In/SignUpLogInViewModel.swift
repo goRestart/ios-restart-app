@@ -329,7 +329,7 @@ class SignUpLogInViewModel: BaseViewModel {
                     TrackerEvent.signupEmail(strongSelf.loginSource, newsletter: strongSelf.newsletterParameter))
                 
                 strongSelf.delegate?.vmHideLoading(nil) { [weak self] in
-                    self?.router?.close(onFinish: self?.onCancelCallback)
+                    self?.router?.close(onFinish: self?.onLoginCallback)
                 }
             } else if let signUpError = signUpResult.error {
                 if signUpError.isUserExists {
