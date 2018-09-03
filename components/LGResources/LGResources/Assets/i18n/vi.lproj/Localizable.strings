@@ -67,6 +67,8 @@
 "bump_up_view_pay_title" = "Thu hút thêm 2x người mua";
 "cached_feed_error" = "Có lỗi xảy ra trong khi tải bài đăng mới";
 "cached_feed_new_listings" = "Đồ mới";
+"car_promo_cell_title_bold_text" = "Kiếm tiền";
+"car_promo_cell_title_regular_text" = "bán xe của bạn";
 "categories_baby_and_child" = "Trẻ sơ sinh và Trẻ nhỏ";
 "categories_car" = "Xe hơi";
 "categories_cars_and_motors" = "Xe máy và Phụ kiện";
@@ -380,8 +382,8 @@
 "discarded_products_reason_stock_photo_only" = "Chỉ có ảnh trên mạng";
 "edit_jobsServices_jobs_option_title" = "Công việc";
 "edit_jobsServices_listingType_title" = "Loại Bài đăng";
-"edit_jobsServices_serviceSubtype_title" = "Subtype";
-"edit_jobsServices_serviceType_title" = "Type";
+"edit_jobsServices_serviceSubtype_title" = "Tiểu loại";
+"edit_jobsServices_serviceType_title" = "Loại";
 "edit_jobsServices_services_option_title" = "Dịch vụ";
 "edit_paymentFrequency_placeholder" = "Chưa thiết lập";
 "edit_paymentFrequency_title" = "Mức độ thường xuyên";
@@ -445,10 +447,10 @@
 "filters_cars_transmission_manual" = "Số sàn";
 "filters_cars_transmission_title" = "Cơ cấu truyền động";
 "filters_distance_not_set" = "chưa được cài đặt";
-"filters_jobs_services_header" = "Job or Service Info";
-"filters_jobs_services_subtype_title" = "Subtype";
-"filters_jobs_services_toggle_header" = "Looking for...";
-"filters_jobs_services_type_title" = "Type";
+"filters_jobs_services_header" = "Thông tin Công việc hoặc Dịch vụ";
+"filters_jobs_services_subtype_title" = "Tiểu loại";
+"filters_jobs_services_toggle_header" = "Đang tìm kiếm...";
+"filters_jobs_services_type_title" = "Loại";
 "filters_mileage_slider_title" = "Số km đã đi";
 "filters_navbar_reset" = "Xóa";
 "filters_numberOfSeats_slider_title" = "Chỗ";
@@ -756,6 +758,7 @@
 "post_description_info_title" = "THÔNG TIN BÀI ĐĂNG";
 "post_description_name_placeholder" = "Tên";
 "post_description_save_button_text" = "Lưu bài đăng này!";
+"post_details_jobs_services_camera_message" = "Đăng logo công ty của bạn hoặc ảnh hiển thị dịch vụ hay công việc bạn thực hiện";
 "post_details_jobs_services_step_option_jobs_prefix" = "Tìm thuê người cho";
 "post_details_jobs_services_step_option_services_prefix" = "Quảng cáo một";
 "post_details_jobs_services_step_title" = "Tôi là...";
@@ -1285,8 +1288,8 @@
 "reporting_user_problem_meetup_header" = "ĐÃ XẢY RA CHUYỆN GÌ?";
 "reporting_user_report_sent_block_user_A_text" = "Cảm ơn bạn đã báo cáo ẩn danh và giúp chúng tôi làm cho letgo trở thành nơi mua và bán lân cận tốt nhất.\n\nBạn luôn có thể chặn một người dùng để đảm bảo họ không còn có thể nhìn thấy món đồ của bạn hay trò chuyện với bạn.";
 "reporting_user_report_sent_block_user_A_with_review_text" = "Cảm ơn bạn đã báo cáo ẩn danh và giúp chúng tôi làm cho letgo trở thành nơi mua và bán lân cận tốt nhất.\n\nHãy chắc chắn là bạn đã để lại đánh giá về người bán này để người khác biết về trải nghiệm của bạn.\n\nBạn luôn có thể chặn một người dùng để đảm bảo họ không còn có thể nhìn thấy món đồ của bạn hay trò chuyện với bạn.";
-"reporting_user_report_sent_block_user_B_text" = "Cảm ơn bạn đã báo cáo ẩn danh và giúp chúng tôi làm cho letgo trở thành nơi mua và bán lân cận tốt nhất.\n\nĐội ngũ của chúng tôi sẽ điều tra khiếu nại của bạn, trong khi đó, bạn luôn có thể chặn một người dùng để đảm bảo họ không còn có thể nhìn thấy món đồ của bạn hay trò chuyện với bạn.";
-"reporting_user_report_sent_block_user_B_with_review_text" = "Cảm ơn bạn đã báo cáo ẩn danh và giúp chúng tôi làm cho letgo trở thành nơi mua và bán lân cận tốt nhất.\n\nHãy chắc chắn là bạn đã để lại đánh giá về người bán này để người khác biết về trải nghiệm của bạn.\n\nĐội ngũ của chúng tôi sẽ điều tra khiếu nại của bạn, trong khi đó, bạn luôn có thể chặn một người dùng để đảm bảo họ không còn có thể nhìn thấy món đồ của bạn hay trò chuyện với bạn.";
+"reporting_user_report_sent_block_user_B_text" = "Cảm ơn bạn đã báo cáo ẩn danh và giúp chúng tôi làm cho letgo trở thành nơi mua và bán lân cận tốt nhất.\n\nĐội ngũ của chúng tôi sẽ điều tra khiếu nại của bạn. Trong lúc đó, bạn luôn có thể chặn một người dùng để đảm bảo họ không còn có thể nhìn thấy món đồ của bạn hay trò chuyện với bạn.";
+"reporting_user_report_sent_block_user_B_with_review_text" = "Cảm ơn bạn đã báo cáo ẩn danh và giúp chúng tôi làm cho letgo trở thành nơi mua và bán lân cận tốt nhất.\n\nHãy chắc chắn là bạn đã để lại đánh giá về người bán này để người khác biết về trải nghiệm của bạn.\n\nĐội ngũ của chúng tôi sẽ điều tra khiếu nại của bạn. Trong lúc đó, bạn luôn có thể chặn một người dùng để đảm bảo họ không còn có thể nhìn thấy món đồ của bạn hay trò chuyện với bạn.";
 "reporting_user_report_sent_block_user_big_button_title" = "Chặn người dùng bị báo cáo";
 "reporting_user_report_sent_block_user_small_button_title" = "Chặn";
 "reporting_user_report_sent_law_enforcement_and_block_text" = "Chúng tôi rất tiếc về trải nghiệm của bạn nhưng thật may mắn là bạn đã an toàn. Chúng tôi khuyến khích bạn liên hệ với lực lượng thực thi luật pháp sở tại và báo cáo cho công an càng sớm càng tốt (nếu bạn chưa thực hiện).\n\nVui lòng nhắc công an liên hệ với đội ngũ thực thi luật pháp của letgo theo địa chỉ lawenforcement@letgo.com để chúng tôi có thể hỗ trợ họ điều tra. Chúng tôi có thể chia sẻ thông tin liên quan về %@ với công an, nhưng do luật bảo vệ riêng tư nghiêm ngặt, trước tiên chúng tôi cần họ gửi giấy phép khám nhà hoặc trát hầu tòa. Trong khi đó, vui lòng cung cấp thêm thông tin để đội ngũ của chúng tôi có thể điều tra khiếu nại của bạn.\n\nHãy nhớ, bạn luôn có thể chặn một người dùng để đảm bảo họ không thể nhìn thấy món đồ của bạn hay trò chuyện với bạn.";
@@ -1353,6 +1356,10 @@
 "sell_title_autogen_label" = "Tiêu đề do letgo đề xuất";
 "sell_title_field_hint" = "Tiêu đề (tùy chọn)";
 "sell_uploading_label" = "Đang đăng bài...";
+"services_promo_cell_title_b" = "Danh mục Dịch vụ mới!";
+"services_promo_cell_title_c" = "Tìm khách hàng lân cận cho dịch vụ của bạn";
+"services_promo_cell_title_default_bold" = "Kiếm tiền";
+"services_promo_cell_title_default_regular" = "trong thời gian rảnh rỗi";
 "services_service_subtype_list_title" = "Dịch vụ";
 "services_service_subtype_title" = "Dịch vụ";
 "services_service_type_list_title" = "Loại dịch vụ";

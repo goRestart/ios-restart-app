@@ -195,9 +195,9 @@ public enum ButtonStyle {
             return 15
         case .primary, .terciary, .google, .facebook, .dark, .darkField, .lightField, .logout, .secondary, .pinkish:
             switch fontSize {
-            case .big, .verySmallBold:
+            case .big:
                 return 15
-            case .medium, .small, .verySmall:
+            case .medium, .small, .verySmall, .verySmallBold:
                 return 10
             }
         case .transparent(_, let side):

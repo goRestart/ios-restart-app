@@ -67,6 +67,8 @@
 "bump_up_view_pay_title" = "Nå ut till dubbelt så många köpare";
 "cached_feed_error" = "Ett fel inträffade när de nya annonserna skulle läggas upp.";
 "cached_feed_new_listings" = "Nya varor";
+"car_promo_cell_title_bold_text" = "Tjäna pengar";
+"car_promo_cell_title_regular_text" = "genom att sälja bilen";
 "categories_baby_and_child" = "Bebis och barn";
 "categories_car" = "Bilar";
 "categories_cars_and_motors" = "Motorer och tillbehör";
@@ -756,6 +758,7 @@
 "post_description_info_title" = "INFORMATION";
 "post_description_name_placeholder" = "Namn";
 "post_description_save_button_text" = "Spara annonsen!";
+"post_details_jobs_services_camera_message" = "Lägg upp din företagslogga eller en bild som visar vilken tjänst eller vilket obb du erbjuder";
 "post_details_jobs_services_step_option_jobs_prefix" = "Behöver anlita någon för";
 "post_details_jobs_services_step_option_services_prefix" = "Annonserar...";
 "post_details_jobs_services_step_title" = "Jag är...";
@@ -1285,8 +1288,8 @@
 "reporting_user_problem_meetup_header" = "VAD HÄNDE?";
 "reporting_user_report_sent_block_user_A_text" = "Tack för din anonyma anmälan och din hjälp till att göra letgo det bästa stället för att köpa och sälja lokalt.\n\nDu kan alltid blockera en användare för att säkerställa att hen inte kan se dina annonser eller chatta med dig.";
 "reporting_user_report_sent_block_user_A_with_review_text" = "Tack för din anonyma anmälan och din hjälp till att göra letgo det bästa stället för att köpa och sälja lokalt.\n\nTänk på att dela med dig av din erfarenhet av denna säljare med andra användare genom att lämna ett omdöme.\n\nDu kan alltid blockera en användare för att säkerställa att hen inte kan se dina annonser eller chatta med dig.";
-"reporting_user_report_sent_block_user_B_text" = "Tack för din anonyma anmälan och din hjälp till att göra letgo det bästa stället för att köpa och sälja lokalt.\n\nVårt team kommer att granska din anmälan. Under tiden kan du alltid blockera en användare för att säkerställa att hen inte kan se dina annonser eller chatta med dig.";
-"reporting_user_report_sent_block_user_B_with_review_text" = "Tack för din anonyma anmälan och din hjälp till att göra letgo det bästa stället för att köpa och sälja lokalt.\n\nTänk på att dela med dig av din erfarenhet av denna säljare med andra användare genom att lämna ett omdöme.\n\nVårt team kommer att granska din anmälan. Under tiden kan du alltid blockera en användare för att säkerställa att hen inte kan se dina annonser eller chatta med dig.";
+"reporting_user_report_sent_block_user_B_text" = "Tack för din anonyma anmälan och din hjälp till att göra letgo till det bästa stället för att köpa och sälja lokalt.\n\nVårt team kommer att granska din anmälan. Under tiden kan du alltid blockera en användare för att säkerställa att hen inte kan se dina annonser eller chatta med dig.";
+"reporting_user_report_sent_block_user_B_with_review_text" = "Tack för din anonyma anmälan och din hjälp till att göra letgo till det bästa stället för att köpa och sälja lokalt.\n\nTänk på att dela med dig av din erfarenhet av denna säljare med andra användare genom att lämna ett omdöme.\n\nVårt team kommer att granska din anmälan. Under tiden kan du alltid blockera en användare för att säkerställa att hen inte kan se dina annonser eller chatta med dig.";
 "reporting_user_report_sent_block_user_big_button_title" = "Blockera anmäld användare";
 "reporting_user_report_sent_block_user_small_button_title" = "Blockera";
 "reporting_user_report_sent_law_enforcement_and_block_text" = "Vi beklagar verkligen din otrevliga erfarenhet. Vi rekommenderar starkt att kontakta de relevanta lokala myndigheterna och polisanmäla händelsen så fort som möjligt (om du inte redan har gjort det).\n\nVänligen påminn polisen att kontakta letgos juridiska team på lawenforcement@letgo.com så vi kan bistå utredningen på bästa möjliga sätt. Vi kan dela relevant information om %@ med polisen, men på grund av strikta personuppgiftslagar behöver vi först ett beslut från polisen eller en domstol. Under tiden ber vi dig att lämna ytterligare information så att vårt team kan undersöka ditt ärende.\n\nTänk på att du alltid kan blockera en användare för att säkerställa att hen inte kan se dina annonser eller chatta med dig.";
@@ -1353,6 +1356,10 @@
 "sell_title_autogen_label" = "Titel föreslagen av letgo";
 "sell_title_field_hint" = "Titel (frivillig)";
 "sell_uploading_label" = "Laddar upp annonsen...";
+"services_promo_cell_title_b" = "Ny tjänstekategori!";
+"services_promo_cell_title_c" = "Hitta lokala kunder för dina tjänster";
+"services_promo_cell_title_default_bold" = "Tjäna pengar";
+"services_promo_cell_title_default_regular" = "på din fritid";
 "services_service_subtype_list_title" = "Tjänst";
 "services_service_subtype_title" = "Tjänst";
 "services_service_type_list_title" = "Tjänstekategori";

@@ -67,6 +67,8 @@
 "bump_up_view_pay_title" = "Привлекайте в 2 раза больше покупателей";
 "cached_feed_error" = "При загрузке новых объявлений произошла ошибка";
 "cached_feed_new_listings" = "Новые товары";
+"car_promo_cell_title_bold_text" = "Make money";
+"car_promo_cell_title_regular_text" = "selling your car";
 "categories_baby_and_child" = "Все для детей";
 "categories_car" = "Машины";
 "categories_cars_and_motors" = "Запчасти и Аксессуары";
@@ -756,6 +758,7 @@
 "post_description_info_title" = "ИНФОРМАЦИЯ ОБ ОБЪЯВЛЕНИИ";
 "post_description_name_placeholder" = "Изменить имя";
 "post_description_save_button_text" = "Сохранить это объявление!";
+"post_details_jobs_services_camera_message" = "Post your company’s logo or a photo that shows the service or job you’re offering";
 "post_details_jobs_services_step_option_jobs_prefix" = "Хочу нанять кого-нибудь для";
 "post_details_jobs_services_step_option_services_prefix" = "Реклама";
 "post_details_jobs_services_step_title" = "Я...";
@@ -1353,6 +1356,10 @@
 "sell_title_autogen_label" = "Заголовок предложен letgo";
 "sell_title_field_hint" = "Название (опционально)";
 "sell_uploading_label" = "Размещаем ваше объявление...";
+"services_promo_cell_title_b" = "New Services category!";
+"services_promo_cell_title_c" = "Find local customers for your service";
+"services_promo_cell_title_default_bold" = "Make Money";
+"services_promo_cell_title_default_regular" = "in your spare time";
 "services_service_subtype_list_title" = "Услуги";
 "services_service_subtype_title" = "Услуги";
 "services_service_type_list_title" = "Категория услуги";

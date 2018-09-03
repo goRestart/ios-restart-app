@@ -92,8 +92,8 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     weak var adsDelegate: MainListingsAdsDelegate?
     
     // MARK: - Lifecycle
-    convenience init() {
-        self.init(viewModel: ListingListViewModel(), featureFlags: FeatureFlags.sharedInstance)
+    convenience init(source: ListingListViewModel.ListingListViewContainer) {
+        self.init(viewModel: ListingListViewModel(source: source), featureFlags: FeatureFlags.sharedInstance)
         
     }
 

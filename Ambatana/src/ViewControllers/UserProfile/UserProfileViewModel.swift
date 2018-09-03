@@ -79,6 +79,7 @@ final class UserProfileViewModel: BaseViewModel {
     var userRelationText: Driver<String?> { return makeUserRelationText() }
     var listingListViewModel: Driver<ListingListViewModel?> { return makeListingListViewModelDriver() }
     let ratingListViewModel: UserRatingListViewModel
+    let showBubbleNotification = PublishSubject<BubbleNotificationData>()
 
     weak var delegate: UserProfileViewModelDelegate?
 
@@ -93,6 +94,8 @@ final class UserProfileViewModel: BaseViewModel {
     private let tracker: Tracker
     private let featureFlags: FeatureFlaggeable
     private let notificationsManager: NotificationsManager?
+    private let interestedHandler: InterestedHandleable?
+    private let bubbleNotificationManager: BubbleNotificationManager?
 
     private let disposeBag: DisposeBag
     private let source: UserSource
@@ -112,6 +115,8 @@ final class UserProfileViewModel: BaseViewModel {
           tracker: Tracker,
           featureFlags: FeatureFlaggeable,
           notificationsManager: NotificationsManager?,
+          interestedHandler: InterestedHandleable?,
+          bubbleNotificationManager: BubbleNotificationManager?,
           user: User?,
           source: UserSource,
           isPrivateProfile: Bool) {
@@ -122,6 +127,8 @@ final class UserProfileViewModel: BaseViewModel {
         self.tracker = tracker
         self.featureFlags = featureFlags
         self.notificationsManager = notificationsManager
+        self.interestedHandler = interestedHandler
+        self.bubbleNotificationManager = bubbleNotificationManager
         self.user = Variable<User?>(user)
         self.source = source
         self.isPrivateProfile = isPrivateProfile
@@ -133,12 +140,18 @@ final class UserProfileViewModel: BaseViewModel {
                                                                          itemsPerPage: SharedConstants.numListingsPerPageDefault)
         self.favoritesListingListRequester = UserFavoritesListingListRequester()
 
+        let sellingSource: ListingListViewModel.ListingListViewContainer = isPrivateProfile ? .privateProfileSelling : .publicProfileSelling
+        let soldSource: ListingListViewModel.ListingListViewContainer = isPrivateProfile ? .privateProfileSold : .publicProfileSold
+        let favoritesSource: ListingListViewModel.ListingListViewContainer = .privateProfileFavorites // Other profiles favorites can not be seen
         self.sellingListingListViewModel = ListingListViewModel(requester: self.sellingListingListRequester,
-                                                                isPrivateList: true)
+                                                                isPrivateList: true,
+                                                                source: sellingSource)
         self.soldListingListViewModel = ListingListViewModel(requester: self.soldListingListRequester,
-                                                             isPrivateList: true)
+                                                             isPrivateList: true,
+                                                             source: soldSource)
         self.favoritesListingListViewModel = ListingListViewModel(requester: self.favoritesListingListRequester,
-                                                                  isPrivateList: true)
+                                                                  isPrivateList: true,
+                                                                  source: .publicProfileSelling)
         self.ratingListViewModel = UserRatingListViewModel(userId: user?.objectId ?? "", tabNavigator: nil)
 
         self.disposeBag = DisposeBag()
@@ -164,6 +177,8 @@ final class UserProfileViewModel: BaseViewModel {
                                     tracker: TrackerProxy.sharedInstance,
                                     featureFlags: FeatureFlags.sharedInstance,
                                     notificationsManager: nil,
+                                    interestedHandler: InterestedHandler(),
+                                    bubbleNotificationManager:  LGBubbleNotificationManager.sharedInstance,
                                     user: user,
                                     source: source,
                                     isPrivateProfile: false)
@@ -182,6 +197,8 @@ final class UserProfileViewModel: BaseViewModel {
                                     tracker: TrackerProxy.sharedInstance,
                                     featureFlags: FeatureFlags.sharedInstance,
                                     notificationsManager: LGNotificationsManager.sharedInstance,
+                                    interestedHandler: nil,
+                                    bubbleNotificationManager: nil,
                                     user: nil,
                                     source: source,
                                     isPrivateProfile: true)
@@ -395,6 +412,11 @@ extension UserProfileViewModel {
     private func setupMyUserRxBindings() {
         myUserRepository
             .rx_myUser
+            .ignoreWhen { [weak self] myUser in
+                guard let `self` = self else { return true }
+                // Only accept events when view is active or the user has changed
+                return !self.active && self.user.value?.objectId == myUser?.objectId
+            }
             .bind { [weak self] myUser in
                 self?.user.value = myUser
                 self?.isMyUser.value = true
@@ -745,13 +767,74 @@ extension UserProfileViewModel {
 
 extension UserProfileViewModel: ListingCellDelegate {
     func interestedActionFor(_ listing: Listing, userListing: LocalUser?, completion: @escaping (InterestedState) -> Void) {
-        // this is just meant to be inside the MainFeed
-        return
+        guard let interestedHandler = interestedHandler else { return }
+        let interestedAction: () -> () = { [weak self] in
+            interestedHandler.interestedActionFor(listing,
+                                                  userListing: userListing,
+                                                  stateCompletion: completion) { [weak self] interestedAction in
+                switch interestedAction {
+                case .openChatProUser:
+                    guard let interlocutor = userListing else { return }
+                    self?.navigator?.openListingChat(listing,
+                                                     source: .profile,
+                                                     interlocutor: interlocutor,
+                                                     openChatAutomaticMessage: nil)
+                case .askPhoneProUser:
+                    guard let interlocutor = userListing else { return }
+                    self?.navigator?.openAskPhoneFor(listing: listing, interlocutor: interlocutor)
+                case .openChatNonProUser:
+                    let chatDetailData = ChatDetailData.listingAPI(listing: listing)
+                    self?.navigator?.openListingChat(data: chatDetailData,
+                                                     source: .profile,
+                                                     predefinedMessage: nil)
+                case .triggerInterestedAction:
+                    let (cancellable, timer) = LGTimer.cancellableWait(InterestedHandler.undoTimeout)
+                    self?.notifyUndoBubble(withMessage: R.Strings.productInterestedBubbleMessage,
+                                         duration: InterestedHandler.undoTimeout) {
+                                            cancellable.cancel()
+                    }
+                    interestedHandler.handleCancellableInterestedAction(listing, timer: timer,  completion: completion)
+                }
+            }
+        }
+        
+        if isLoggedInUser {
+            interestedAction()
+        } else {
+            navigator?.openLogin(infoMessage: R.Strings.chatLoginPopupText,
+                                 then: interestedAction)
+        }
+    }
+    
+    private func notifyUndoBubble(withMessage message: String,
+                                duration: TimeInterval,
+                                then action: @escaping () -> ()) {
+        let action = UIAction(interface: .button(R.Strings.productInterestedUndo, .terciary) , action: action)
+        let data = BubbleNotificationData(text: message,
+                                          action: action)
+        showBubbleNotification.onNext(data)
+    }
+    
+    func showUndoBubble(inView view: UIView,
+                        data: BubbleNotificationData) {
+        bubbleNotificationManager?.showBubble(data: data,
+                                              duration: InterestedHandler.undoTimeout,
+                                              view: view,
+                                              alignment: .bottomFullScreenView,
+                                              style: .light)
     }
     
     func openAskPhoneFor(_ listing: Listing, interlocutor: LocalUser) {}
     
-    func getUserInfoFor(_ listing: Listing, completion: @escaping (User?) -> Void) {}
+    func getUserInfoFor(_ listing: Listing, completion: @escaping (User?) -> Void) {
+        guard let userId = listing.user.objectId else {
+            completion(nil)
+            return
+        }
+        userRepository.show(userId) { result in
+            completion(result.value)
+        }
+    }
 
     func chatButtonPressedFor(listing: Listing) {}
 
@@ -774,8 +857,7 @@ extension UserProfileViewModel: ListingCellDelegate {
         delegate?.vmShowActionSheet(R.Strings.commonCancel, actions: [delete])
     }
     
-    func postNowButtonPressed(_ view: UIView) { }
-
+    func postNowButtonPressed(_ view: UIView, category: PostCategory, source: PostingSource) {}
     func bumpUpPressedFor(listing: Listing) {
         guard let id = listing.objectId else { return }
         let data = ListingDetailData.id(listingId: id)

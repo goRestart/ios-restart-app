@@ -13,7 +13,6 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TourPostingViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
                 <outlet property="cameraTour" destination="HAx-gS-6t1" id="Pl2-w2-nvb"/>
-                <outlet property="closeButton" destination="On3-Pg-I69" id="YAn-Tj-Xq1"/>
                 <outlet property="okButton" destination="NFS-ck-gsl" id="Nzi-je-jKB"/>
                 <outlet property="photoContainer" destination="wei-bc-Jxc" id="Msw-z3-xwk"/>
                 <outlet property="subtitleLabel" destination="CTM-HU-z6s" id="tAz-Qw-KWo"/>
@@ -130,13 +129,6 @@
                                 </constraints>
                                 <state key="normal" title="_post"/>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="On3-Pg-I69" userLabel="Close Button">
-                                <rect key="frame" x="0.0" y="20" width="56" height="56"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="56" id="e4J-xg-7it"/>
-                                    <constraint firstAttribute="width" constant="56" id="g2w-RI-b1a"/>
-                                </constraints>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -144,10 +136,8 @@
                             <constraint firstAttribute="trailing" secondItem="wei-bc-Jxc" secondAttribute="trailing" constant="16" id="Ahi-8b-UUZ"/>
                             <constraint firstItem="NFS-ck-gsl" firstAttribute="leading" secondItem="dWr-LA-o30" secondAttribute="leading" constant="15" id="Bsn-VC-pZo"/>
                             <constraint firstAttribute="bottom" secondItem="NFS-ck-gsl" secondAttribute="bottom" constant="15" id="HbJ-JG-bI9"/>
-                            <constraint firstItem="On3-Pg-I69" firstAttribute="top" secondItem="dWr-LA-o30" secondAttribute="top" constant="20" id="Ofn-9K-aw9"/>
                             <constraint firstItem="wei-bc-Jxc" firstAttribute="leading" secondItem="dWr-LA-o30" secondAttribute="leading" constant="15" id="dhf-Ay-sOv"/>
                             <constraint firstItem="wei-bc-Jxc" firstAttribute="centerY" secondItem="dWr-LA-o30" secondAttribute="centerY" id="ekI-1a-mpW"/>
-                            <constraint firstItem="On3-Pg-I69" firstAttribute="leading" secondItem="dWr-LA-o30" secondAttribute="leading" id="iPT-bk-1vg"/>
                         </constraints>
                     </view>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

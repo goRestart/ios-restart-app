@@ -156,6 +156,10 @@ extension R {
     public static let cachedFeedError = Strings.tr("Localizable", "cached_feed_error")
     /// New items
     public static let cachedFeedNewListings = Strings.tr("Localizable", "cached_feed_new_listings")
+    /// Make money
+    public static let carPromoCellTitleBoldText = Strings.tr("Localizable", "car_promo_cell_title_bold_text")
+    /// selling your car
+    public static let carPromoCellTitleRegularText = Strings.tr("Localizable", "car_promo_cell_title_regular_text")
     /// Baby and Child
     public static let categoriesBabyAndChild = Strings.tr("Localizable", "categories_baby_and_child")
     /// Cars
@@ -2806,9 +2810,9 @@ extension R {
     public static let reportingUserReportSentBlockUserAText = Strings.tr("Localizable", "reporting_user_report_sent_block_user_A_text")
     /// Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nBe sure to leave a review of this seller to let others know about your experience.\n\nYou can always block a user to make sure they can no longer see your items or chat with you.
     public static let reportingUserReportSentBlockUserAWithReviewText = Strings.tr("Localizable", "reporting_user_report_sent_block_user_A_with_review_text")
-    /// Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nOur team will investigate your claim, in the meantime, you can always block a user to make sure they can no longer see your items or chat with you.
+    /// Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nOur team will investigate your claim. In the meantime, you can always block a user to make sure they can no longer see your items or chat with you.
     public static let reportingUserReportSentBlockUserBText = Strings.tr("Localizable", "reporting_user_report_sent_block_user_B_text")
-    /// Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nBe sure to leave a review of this user to let others know about your experience.\n\nOur team will investigate your claim, in the meantime,  you can always block a user to make sure they can no longer see your items or chat with you.
+    /// Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nBe sure to leave a review of this user to let others know about your experience.\n\nOur team will investigate your claim. In the meantime, you can always block a user to make sure they can no longer see your items or chat with you.
     public static let reportingUserReportSentBlockUserBWithReviewText = Strings.tr("Localizable", "reporting_user_report_sent_block_user_B_with_review_text")
     /// Block reported user
     public static let reportingUserReportSentBlockUserBigButtonTitle = Strings.tr("Localizable", "reporting_user_report_sent_block_user_big_button_title")
@@ -2958,6 +2962,16 @@ extension R {
     public static let sellTitleFieldHint = Strings.tr("Localizable", "sell_title_field_hint")
     /// Posting your listing...
     public static let sellUploadingLabel = Strings.tr("Localizable", "sell_uploading_label")
+    /// Post a service
+    public static let servicesPromoCallToAction = Strings.tr("Localizable", "services_promo_call_to_action")
+    /// New Services category!
+    public static let servicesPromoCellTitleB = Strings.tr("Localizable", "services_promo_cell_title_b")
+    /// Find local customers for your service
+    public static let servicesPromoCellTitleC = Strings.tr("Localizable", "services_promo_cell_title_c")
+    /// Make money
+    public static let servicesPromoCellTitleDefaultBold = Strings.tr("Localizable", "services_promo_cell_title_default_bold")
+    /// in your spare time
+    public static let servicesPromoCellTitleDefaultRegular = Strings.tr("Localizable", "services_promo_cell_title_default_regular")
     /// Service
     public static let servicesServiceSubtypeListTitle = Strings.tr("Localizable", "services_service_subtype_list_title")
     /// Service

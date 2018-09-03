@@ -9,9 +9,11 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
 
     private let chatRepository: ChatRepository
     private let sessionManager: SessionManager
+    private let notificationsManager: NotificationsManager
     private let tracker: Tracker
     private let featureFlags: FeatureFlaggeable
     private var websocketWasClosedDuringCurrentSession = false
+    private var localChatCounter: Int = 0
     
     let rx_navigationBarTitle = Variable<String?>(nil)
     let rx_navigationBarFilterButtonImage = Variable<UIImage>(R.Asset.IconsButtons.icChatFilter.image)
@@ -29,10 +31,12 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
 
     init(chatRepository: ChatRepository = Core.chatRepository,
          sessionManager: SessionManager = Core.sessionManager,
+         notificationsManager: NotificationsManager = LGNotificationsManager.sharedInstance,
          featureFlags: FeatureFlaggeable = FeatureFlags.sharedInstance,
          tracker: Tracker = TrackerProxy.sharedInstance) {
         self.chatRepository = chatRepository
         self.sessionManager = sessionManager
+        self.notificationsManager = notificationsManager
         self.featureFlags = featureFlags
         self.tracker = tracker
         super.init()
@@ -247,11 +251,18 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
         
         rx_conversations
             .asObservable()
-            .filter { $0.count > 0 }
-            .bind { [weak self] _ in
-                if let viewState = self?.rx_viewState.value, viewState != .data {
-                   self?.rx_viewState.value = .data
-                }
+            .bind { [weak self] conversations in
+                self?.updateViewState(for: conversations)
+                self?.updateChatCounter(for: conversations)
+            }
+            .disposed(by: bag)
+        
+        notificationsManager.unreadMessagesCount
+            .asObservable()
+            .ignoreNil()
+            .distinctUntilChanged()
+            .bind { [weak self] unreadMessagesCount in
+                self?.localChatCounter = unreadMessagesCount
             }
             .disposed(by: bag)
     }
@@ -267,6 +278,29 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
                 self?.rx_conversations.value = conversations
             }
             .disposed(by: conversationsFilterBag)
+    }
+    
+    // MARK: Helpers
+    
+    private func updateViewState(for conversations: [ChatConversation]) {
+        guard conversations.count > 0 else { return }
+        if rx_viewState.value != .data {
+            rx_viewState.value = .data
+        }
+    }
+    
+    private func updateChatCounter(for conversations: [ChatConversation]) {
+        let chatCounter = unreadCount(for: conversations)
+        if localChatCounter != chatCounter {
+            localChatCounter = chatCounter
+            notificationsManager.updateChatCounters()
+        }
+    }
+    
+    func unreadCount(for conversations: [ChatConversation]) -> Int {
+        return conversations
+            .map { $0.unreadMessageCount }
+            .reduce(0, +)
     }
     
     // MARK: Pagination protocol

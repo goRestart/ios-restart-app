@@ -91,6 +91,7 @@ final class ListingDeckViewModelSpec: BaseViewModelSpec {
                                            tracker: tracker,
                                            actionOnFirstAppear: actionOnFirstAppear,
                                            trackingIndex: nil,
+                                           trackingIdentifier: nil,
                                            keyValueStorage: MockKeyValueStorage(),
                                            featureFlags: MockFeatureFlags(),
                                            adsRequester: AdsRequester())
@@ -849,7 +850,6 @@ extension ListingDeckViewModelSpec: ListingDetailNavigator {
     func showBumpUpBoostSucceededAlert() {}
     func openContactUs(forListing listing: Listing, contactUstype: ContactUsType) {}
     func openFeaturedInfo() {}
-    func closeFeaturedInfo() {}
     func openListingAttributeTable(withViewModel viewModel: ListingAttributeTableViewModel) {}
     func closeListingAttributeTable() {}
 }

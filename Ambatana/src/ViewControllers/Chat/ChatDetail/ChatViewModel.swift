@@ -99,6 +99,7 @@ class ChatViewModel: ChatBaseViewModel {
     var shouldTrackFirstMessage: Bool = false
     let shouldShowExpressBanner = Variable<Bool>(false)
     let relatedListingsState = Variable<ChatRelatedItemsState>(.loading)
+    var smartQuickAnswers: ChatSmartQuickAnswers?
     let shouldUpdateQuickAnswers = Variable<[QuickAnswer]?>(nil)
     let interlocutorProfessionalInfo = Variable<InterlocutorProfessionalInfo>(InterlocutorProfessionalInfo(isProfessional: false, phoneNumber: nil))
     let lastMessageSentType = Variable<ChatWrapperMessageType?>(nil)
@@ -374,7 +375,36 @@ class ChatViewModel: ChatBaseViewModel {
         guard isBuyer else { return }
         guard !relatedListings.isEmpty else { return }
         guard let listingId = conversation.value.listing?.objectId else { return }
+        guard userHasExpressChatEnabled() else { return }
+        guard !userHasSeenExpressChat(for: listingId) else { return }
         navigator?.openExpressChat(relatedListings, sourceListingId: listingId, manualOpen: false)
+    }
+    
+    private func userHasExpressChatEnabled() -> Bool {
+        return keyValueStorage.userShouldShowExpressChat
+    }
+    
+    private func userHasSeenExpressChat(for listingId: String) -> Bool {
+        for productShownId in keyValueStorage.userProductsWithExpressChatAlreadyShown {
+            if productShownId == listingId { return true }
+        }
+        return false
+    }
+
+    private func shouldShowExpressChatForListing(_ listingId: String?) -> Bool {
+        guard let listingId = listingId else { return false }
+        // user didn't pressed "Don't show again"
+        guard keyValueStorage.userShouldShowExpressChat else { return false }
+        // express chat hasn't been shown for this product
+        guard !expressChatAlreadyShownForProduct(listingId) else { return false }
+        return true
+    }
+
+    private func expressChatAlreadyShownForProduct(_ productId: String) -> Bool {
+        for productShownId in keyValueStorage.userProductsWithExpressChatAlreadyShown {
+            if productShownId == productId { return true }
+        }
+        return false
     }
 
     func setupConversationFrom(listing: Listing) {
@@ -699,9 +729,9 @@ class ChatViewModel: ChatBaseViewModel {
             case .smartQuickAnswer(let sqa):
                 guard let smartQuickAnswersActive = self?.featureFlags.smartQuickAnswers.isActive, smartQuickAnswersActive,
                     let isDummy = self?.isUserDummy, !isDummy,
-                    let myUserId = self?.myUserRepository.myUser?.objectId, sqa.talkerId == myUserId,
-                    let lastMessage = self?.messages.value.first, lastMessage.objectId == sqa.messageId
+                    let myUserId = self?.myUserRepository.myUser?.objectId, sqa.talkerId == myUserId
                     else { return }
+                self?.smartQuickAnswers = sqa
                 self?.shouldUpdateQuickAnswers.value = QuickAnswer.quickAnswers(for: sqa)
             }
         }.disposed(by: disposeBag)
@@ -1541,7 +1571,7 @@ extension ChatViewModel {
         var firstInterlocutorMessageIndex: Int? {
             guard let i = messages.reversed().index(where: {
                 switch $0.type {
-                case .disclaimer, .userInfo, .askPhoneNumber, .interlocutorIsTyping, .multiAnswer, .cta:
+                case .disclaimer, .userInfo, .askPhoneNumber, .interlocutorIsTyping, .multiAnswer, .cta, .carousel:
                     return false
                 case .offer, .sticker, .text, .meeting, .unsupported:
                     return $0.talkerId != myUserRepository.myUser?.objectId
@@ -1693,7 +1723,8 @@ fileprivate extension ChatViewModel {
                                                          feedPosition: .none,
                                                          userBadge: badgeParameter,
                                                          containsVideo: .notAvailable,
-                                                         isProfessional: isProfessional))
+                                                         isProfessional: isProfessional,
+                                                         sectionName: nil))
         }
         tracker.trackEvent(TrackerEvent.userMessageSent(info: info, isProfessional: isProfessional))
     }
@@ -1822,12 +1853,20 @@ fileprivate extension ChatConversation {
 
 extension ChatViewModel: DirectAnswersPresenterDelegate {
     
+    /*
+     Quick answers priorities:
+     1- dynamic answers (embedded in a chat message)
+     2- smart quick answers (provided by chat event)
+     3- legacy quick answers (hardcoded in app)
+     */
     var directAnswers: [QuickAnswer] {
         if let lastMessage = messages.value.first,
             let userId = myUserRepository.myUser?.objectId,
             lastMessage.talkerId != userId,
             let quickAnswers = QuickAnswer.quickAnswersForChatMessage(chatViewMessage: lastMessage) {
             return quickAnswers
+        } else if let sqa = smartQuickAnswers {
+            return QuickAnswer.quickAnswers(for: sqa)
         } else if !isUserDummy {
             let isFree = featureFlags.freePostingModeAllowed && listingIsFree.value
             let isBuyer = !conversation.value.amISelling
@@ -1959,10 +1998,13 @@ extension ChatViewModel: MeetingAssistantDataDelegate {
 
 extension ChatViewModel {
 
-    func openDeeplink(url: URL, trackingKey: String) {
-        let isLetgoAssistant = EventParameterBoolean(bool: isUserDummy)
-        let trackerEvent = TrackerEvent.chatCallToActionTapped(ctaKey: trackingKey, isLetgoAssistant: isLetgoAssistant)
-        tracker.trackEvent(trackerEvent)
+    func openDeeplink(url: URL, trackingKey: String?) {
+        if let trackingKey = trackingKey {
+            let isLetgoAssistant = EventParameterBoolean(bool: isUserDummy)
+            let trackerEvent = TrackerEvent.chatCallToActionTapped(ctaKey: trackingKey,
+                                                                   isLetgoAssistant: isLetgoAssistant)
+            tracker.trackEvent(trackerEvent)
+        }
         navigator?.navigate(with: url)
     }
 

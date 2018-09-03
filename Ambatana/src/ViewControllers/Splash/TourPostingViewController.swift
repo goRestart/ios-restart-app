@@ -10,7 +10,6 @@ final class TourPostingViewController: BaseViewController {
 
     @IBOutlet var internalMargins: [NSLayoutConstraint]!
     @IBOutlet weak var okButton: LetgoButton!
-    @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var subtitleLabel: UILabel!
     @IBOutlet weak var cameraTour: UIImageView!
@@ -24,9 +23,9 @@ final class TourPostingViewController: BaseViewController {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: "TourPostingViewController", statusBarStyle: .lightContent,
                    navBarBackgroundStyle: .transparent(substyle: .dark))
-        self.viewModel.delegate = self
     }
-    
+
+    @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -44,7 +43,6 @@ final class TourPostingViewController: BaseViewController {
 
     private func setupUI() {
         view.backgroundColor = .clear
-        closeButton.setImage(R.Asset.IconsButtons.icClose.image, for: .normal)
         titleLabel.text = viewModel.titleText
         subtitleLabel.text = viewModel.subtitleText
         
@@ -62,11 +60,27 @@ final class TourPostingViewController: BaseViewController {
             view.transform = CGAffineTransform(rotationAngle: CGFloat(Double(index) * Double.pi/2))
         }
         cameraTour.image = R.Asset.IconsButtons.icCameraTour.image
+
+        let close = UIBarButtonItem.init(image: R.Asset.IconsButtons.icClose.image,
+                                         style: .plain,
+                                         target: self,
+                                         action: #selector(closeButtonPressed))
+        close.set(accessibilityId: .tourPostingCloseButton)
+        navigationItem.leftBarButtonItem = close
     }
 
     private func setupRx() {
         okButton.rx.tap.bind { [weak self] in self?.viewModel.okButtonPressed() }.disposed(by: disposeBag)
-        closeButton.rx.tap.bind { [weak self] in self?.viewModel.closeButtonPressed() }.disposed(by: disposeBag)
+    }
+
+    @objc private func closeButtonPressed() {
+        let actionOk = UIAction(interface: UIActionInterface.text(R.Strings.onboardingAlertYes),
+                                action: { [weak self] in self?.viewModel.okButtonPressed() })
+        let actionCancel = UIAction(interface: UIActionInterface.text(R.Strings.onboardingAlertNo),
+                                    action: { [weak self] in self?.viewModel.cancelButtonPressed() })
+        showAlert(R.Strings.onboardingPostingAlertTitle,
+                  message: R.Strings.onboardingPostingAlertSubtitle,
+                  actions: [actionCancel, actionOk])
     }
 
     @objc private func cameraContainerPressed() {
@@ -82,6 +96,5 @@ extension TourPostingViewController: TourPostingViewModelDelegate { }
 fileprivate extension TourPostingViewController {
     func setAccesibilityIds() {
         okButton.set(accessibilityId: .tourPostingOkButton)
-        closeButton.set(accessibilityId: .tourPostingCloseButton)
     }
 }

@@ -1,0 +1,3 @@
+protocol EditLocationNavigator {
+    func closeEditLocation()
+}

@@ -8,7 +8,6 @@ final class TourLocationViewController: BaseViewController {
 
     let viewModel: TourLocationViewModel
 
-    @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var yesButton: LetgoButton!
     @IBOutlet weak var subtitleLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
@@ -31,15 +30,19 @@ final class TourLocationViewController: BaseViewController {
         self.viewModel = viewModel
         switch DeviceFamily.current {
         case .iPhone4:
-            super.init(viewModel: nil, nibName: "TourLocationViewControllerMini",
-                       statusBarStyle: .lightContent)
+            super.init(viewModel: nil,
+                       nibName: "TourLocationViewControllerMini",
+                       statusBarStyle: .lightContent,
+                       navBarBackgroundStyle: .transparent(substyle: .dark))
         case .iPhone5, .iPhone6, .iPhone6Plus, .biggerUnknown:
-            super.init(viewModel: nil, nibName: "TourLocationViewController",
-                       statusBarStyle: .lightContent)
+            super.init(viewModel: nil,
+                       nibName: String(describing: TourLocationViewController.self),
+                       statusBarStyle: .lightContent,
+                       navBarBackgroundStyle: .transparent(substyle: .dark))
         }
-        self.viewModel.delegate = self
     }
 
+    @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -57,7 +60,15 @@ final class TourLocationViewController: BaseViewController {
     }
 
     func close() {
-        viewModel.userDidTapNoButton()
+        let actionOk = UIAction(interface: UIActionInterface.text(R.Strings.onboardingAlertYes),
+                                action: { [weak self] in
+                                    self?.viewModel.okAlertTapped() })
+        let actionCancel = UIAction(interface: UIActionInterface.text(R.Strings.onboardingAlertNo),
+                                    action: { [weak self] in
+                                        self?.viewModel.cancelAlertTapped() })
+        showAlert(R.Strings.onboardingLocationPermissionsAlertTitle,
+                  message: R.Strings.onboardingLocationPermissionsAlertSubtitle,
+                  actions: [actionCancel, actionOk])
     }
 
     
@@ -67,7 +78,7 @@ final class TourLocationViewController: BaseViewController {
         viewModel.userDidTapYesButton()
     }
     
-    @IBAction func noButtonPressed(_ sender: AnyObject) {
+    @objc private func noButtonPressed(_ sender: AnyObject) {
         close()
     }
 
@@ -111,10 +122,16 @@ final class TourLocationViewController: BaseViewController {
         alertContainer.isHidden = !viewModel.showAlertInfo
         let tap = UITapGestureRecognizer(target: self, action: #selector(yesButtonPressed(_:)))
         alertContainer.addGestureRecognizer(tap)
+
+        let close = UIBarButtonItem.init(image: R.Asset.IconsButtons.icClose.image,
+                                         style: .plain,
+                                         target: self,
+                                         action: #selector(closeButtonPressed))
+        close.set(accessibilityId: .tourLocationCloseButton)
+        navigationItem.leftBarButtonItem = close
     }
 
     private func setupImages() {
-        closeButton.setImage(R.Asset.IconsButtons.icClose.image, for: .normal)
         iPhoneTopImage.image = R.Asset.IPhoneParts.iphoneTop.image
         iPhoneLeftImage.image = R.Asset.IPhoneParts.iphoneLeft.image
         iPhoneRightImage.image = R.Asset.IPhoneParts.iphoneRight.image
@@ -124,12 +141,7 @@ final class TourLocationViewController: BaseViewController {
     }
     
     private func setupAccessibilityIds() {
-        closeButton.set(accessibilityId: .tourLocationCloseButton)
         yesButton.set(accessibilityId: .tourLocationOKButton)
         alertContainer.set(accessibilityId: .tourLocationAlert)
     }
 }
-
-// MARK: - TourLocationViewModelDelegate
-
-extension TourLocationViewController: TourLocationViewModelDelegate {}

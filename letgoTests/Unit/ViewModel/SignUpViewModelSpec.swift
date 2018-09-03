@@ -11,6 +11,15 @@ class SignUpViewModelSpec: QuickSpec {
     var finishedScammer: Bool = false
     var finishedDeviceNotAllowed: Bool = false
     
+    var closeWasCalled: Bool = false
+    var closeWithFinishWasCalled: Bool = false
+    var showHelpWasCalled: Bool = false
+    var showSignInWithEmailWasCalled: Bool = false
+    var showLoginWithEmailWasCalled: Bool = false
+    var showRememberPasswordWasCalled: Bool = false
+    var showAlertWasCalled: Bool = false
+    var showRecaptchaWasCalled: Bool = false
+    
     override func spec() {
 
         describe("SignUpViewModelSpec") {
@@ -34,9 +43,10 @@ class SignUpViewModelSpec: QuickSpec {
                 fbLoginHelper = MockExternalAuthHelper(result: .success(myUser: myUser))
                 sut = SignUpViewModel(sessionManager: sessionManager, installationRepository: installationRepository,
                     keyValueStorage: keyValueStorage, featureFlags: featureFlags, tracker: tracker, appearance: .dark,
-                    source: .install, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
+                    source: .install, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper,
+                    loginAction: nil, cancelAction: nil)
                 sut.delegate = self
-                sut.navigator = self
+                sut.router = self
 
                 self.loading = false
                 self.finishedSuccessfully = false
@@ -61,7 +71,8 @@ class SignUpViewModelSpec: QuickSpec {
 
                         sut = SignUpViewModel(sessionManager: sessionManager, installationRepository: installationRepository,
                             keyValueStorage: keyValueStorage, featureFlags: featureFlags, tracker: tracker, appearance: .dark,
-                            source: .install, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
+                            source: .install, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper,
+                            loginAction: nil, cancelAction: nil)
                     }
 
                     it("does not have a previous facebook username") {
@@ -79,7 +90,8 @@ class SignUpViewModelSpec: QuickSpec {
 
                         sut = SignUpViewModel(sessionManager: sessionManager, installationRepository: installationRepository,
                             keyValueStorage: keyValueStorage, featureFlags: featureFlags, tracker: tracker, appearance: .dark,
-                            source: .install, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
+                            source: .install, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper,
+                            loginAction: nil, cancelAction: nil)
                     }
 
                     it("has a previous facebook username") {
@@ -97,7 +109,8 @@ class SignUpViewModelSpec: QuickSpec {
 
                         sut = SignUpViewModel(sessionManager: sessionManager, installationRepository: installationRepository,
                             keyValueStorage: keyValueStorage, featureFlags: featureFlags, tracker: tracker, appearance: .dark,
-                            source: .install, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
+                            source: .install, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper,
+                            loginAction: nil, cancelAction: nil)
                     }
 
                     it("does not have a previous facebook username") {
@@ -171,10 +184,14 @@ class SignUpViewModelSpec: QuickSpec {
                             expect(username).to(beNil())
                         }
                         it("tracks login-screen & login-signup-error-google events") {
-                            expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-screen", "login-signup-error-google"]
+                            expect(tracker.trackedEvents.map({ $0.actualName })) == [
+                                "login-screen",
+                                "login-blocked-account-start",
+                                "login-signup-error-google"
+                            ]
                         }
                         it("asks to show scammer error alert") {
-                            expect(self.finishedScammer).to(beTrue())
+                            expect(self.showAlertWasCalled).to(beTrue())
                         }
                     }
                     context("device not allowed") {
@@ -193,10 +210,15 @@ class SignUpViewModelSpec: QuickSpec {
                             expect(username).to(beNil())
                         }
                         it("tracks login-screen & login-signup-error-google events") {
-                            expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-screen", "login-signup-error-google"]
+                            expect(tracker.trackedEvents.map({ $0.actualName })) == [
+                                "login-screen",
+                                "login-blocked-account-start",
+                                "login-signup-error-google"
+                            ]
                         }
                         it("asks to show device not allowed error alert") {
                             expect(self.finishedDeviceNotAllowed).to(beTrue())
+                            
                         }
                     }
                 }
@@ -264,7 +286,7 @@ class SignUpViewModelSpec: QuickSpec {
                             expect(username).to(beNil())
                         }
                         it("tracks login-screen & login-signup-error-facebook events") {
-                            expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-screen", "login-signup-error-facebook"]
+                            expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-screen", "login-blocked-account-start", "login-signup-error-facebook"]
                         }
                         it("asks to show scammer error alert") {
                             expect(self.finishedScammer).to(beTrue())
@@ -286,7 +308,7 @@ class SignUpViewModelSpec: QuickSpec {
                             expect(username).to(beNil())
                         }
                         it("tracks login-screen & login-signup-error-facebook events") {
-                            expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-screen", "login-signup-error-facebook"]
+                            expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-screen", "login-blocked-account-start", "login-signup-error-facebook"]
                         }
                         it("asks to show device not allowed error alert") {
                             expect(self.finishedDeviceNotAllowed).to(beTrue())
@@ -295,6 +317,42 @@ class SignUpViewModelSpec: QuickSpec {
                 }
             }
         }
+    }
+}
+
+extension SignUpViewModelSpec: LoginNavigator {
+    func showRecaptcha(action: LoginActionType, delegate: RecaptchaTokenDelegate) {
+        showRecaptchaWasCalled = true
+    }
+    
+    func showRememberPassword(source: EventParameterLoginSourceValue, email: String?) {
+        showRememberPasswordWasCalled = true
+    }
+    
+    func close() {
+        closeWasCalled = true
+    }
+    
+    func close(onFinish callback: (() -> ())?) {
+        closeWithFinishWasCalled = true
+    }
+    
+    func showHelp() {
+        showHelpWasCalled = true
+    }
+    
+    func showSignInWithEmail(source: EventParameterLoginSourceValue, appearance: LoginAppearance, logicAction: (() -> ())?, cancelAction: (() -> ())?) {
+        showSignInWithEmailWasCalled = true
+    }
+    
+    func showLoginWithEmail(source: EventParameterLoginSourceValue, logicAction: (() -> ())?, cancelAction: (() -> ())?) {
+        showLoginWithEmailWasCalled = true
+    }
+    
+    func showAlert(withTitle: String?, andBody: String, andType: AlertType, andActions: [UIAction]) {
+        showAlertWasCalled = true
+        finishedDeviceNotAllowed = true
+        finishedScammer = true
     }
 }
 

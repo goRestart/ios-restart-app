@@ -1,5 +1,5 @@
 import Foundation
 
-protocol CommunityTabNavigator: class {
+protocol CommunityTabNavigator: TabNavigator {
     func closeCommunity()
 }

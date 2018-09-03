@@ -54,6 +54,16 @@ private enum Layout {
 }
 
 final class ListingListViewModel: BaseViewModel {
+    
+    enum ListingListViewContainer {
+        case feed
+        case simpleListings
+        case privateProfileSelling
+        case privateProfileSold
+        case privateProfileFavorites
+        case publicProfileSelling
+        case publicProfileSold
+    }
 
     private let cellMinHeight: CGFloat = Layout.minCellHeight
     
@@ -76,6 +86,8 @@ final class ListingListViewModel: BaseViewModel {
     private let featureFlags: FeatureFlaggeable
     private let myUserRepository: MyUserRepository
     private let imageDownloader: ImageDownloaderType
+    private let source: ListingListViewContainer
+    private let interestedStateUpdater: InterestedStateUpdater?
 
     // Requesters
     private lazy var shouldSaveToCache = featureFlags.cachedFeed.isActive
@@ -130,6 +142,7 @@ final class ListingListViewModel: BaseViewModel {
                 delegate?.vmReloadData(self)}
         }
     }
+    
     private var indexToTitleMapping: [Int:String]
 
     // UI
@@ -183,15 +196,18 @@ final class ListingListViewModel: BaseViewModel {
                  listings: [Listing]? = nil,
                  numberOfColumns: Int = 2,
                  isPrivateList: Bool = false,
+                 source: ListingListViewContainer,
                  tracker: Tracker,
                  imageDownloader: ImageDownloaderType,
                  reporter: CrashlyticsReporter,
                  featureFlags: FeatureFlaggeable,
                  myUserRepository: MyUserRepository,
+                 interestedStateUpdater: InterestedStateUpdater? = nil,
                  requesterFactory: RequesterFactory? = nil,
                  searchType: SearchType?) {
         self.objects = (listings ?? []).map(ListingCellModel.init)
         self.isPrivateList = isPrivateList
+        self.source = source
         self.pageNumber = 0
         self.refreshing = false
         self.state = .loading
@@ -202,6 +218,7 @@ final class ListingListViewModel: BaseViewModel {
         self.indexToTitleMapping = [:]
         self.featureFlags = featureFlags
         self.myUserRepository = myUserRepository
+        self.interestedStateUpdater = interestedStateUpdater
         self.searchType = searchType
         self.listingCache = isPrivateList ? PrivateListCache() : PublicListCache(disk: disk)
         super.init()
@@ -209,16 +226,20 @@ final class ListingListViewModel: BaseViewModel {
         self.defaultCellSize = CGSize(width: cellWidth, height: cellHeight)
     }
     
-    convenience init(requester: ListingListRequester, isPrivateList: Bool = false) {
+    convenience init(requester: ListingListRequester,
+                     isPrivateList: Bool = false,
+                     source: ListingListViewContainer) {
         self.init(requester: requester,
                   listings: nil,
                   numberOfColumns: 2,
                   isPrivateList: isPrivateList,
+                  source: source,
                   tracker: TrackerProxy.sharedInstance,
                   imageDownloader: ImageDownloader.sharedInstance,
                   reporter: CrashlyticsReporter(),
                   featureFlags: FeatureFlags.sharedInstance,
                   myUserRepository: Core.myUserRepository,
+                  interestedStateUpdater: LGInterestedStateUpdater.sharedInstance,
                   requesterFactory: nil,
                   searchType: nil)
         requesterSequence = [requester]
@@ -229,16 +250,20 @@ final class ListingListViewModel: BaseViewModel {
                      tracker: Tracker,
                      featureFlags: FeatureFlaggeable,
                      requesterFactory: RequesterFactory,
-                     searchType: SearchType?) {
+                     searchType: SearchType?,
+                     source: ListingListViewContainer,
+                     interestedStateUpdater: InterestedStateUpdater) {
         self.init(requester: nil,
                   listings: nil,
                   numberOfColumns: numberOfColumns,
                   isPrivateList: false,
+                  source: source,
                   tracker: tracker,
                   imageDownloader: ImageDownloader.sharedInstance,
                   reporter: CrashlyticsReporter(),
                   featureFlags: featureFlags,
                   myUserRepository: Core.myUserRepository,
+                  interestedStateUpdater: interestedStateUpdater,
                   requesterFactory: requesterFactory,
                   searchType: searchType)
         self.requesterFactory = requesterFactory
@@ -246,26 +271,32 @@ final class ListingListViewModel: BaseViewModel {
         setCurrentFallbackRequester()
     }
     
-    convenience override init() {
+    convenience init(source: ListingListViewContainer) {
         self.init(requester: nil,
                   listings: nil,
                   numberOfColumns: 2,
                   isPrivateList: false,
+                  source: source,
                   tracker: TrackerProxy.sharedInstance,
                   imageDownloader: ImageDownloader.sharedInstance,
                   reporter: CrashlyticsReporter(),
                   featureFlags: FeatureFlags.sharedInstance,
                   myUserRepository: Core.myUserRepository,
+                  interestedStateUpdater: LGInterestedStateUpdater.sharedInstance,
                   requesterFactory: nil,
                   searchType: nil)
         setCurrentFallbackRequester()
     }
     
-    convenience init(requester: ListingListRequester, listings: [Listing]?, numberOfColumns: Int) {
+    convenience init(requester: ListingListRequester,
+                     listings: [Listing]?,
+                     numberOfColumns: Int,
+                     source: ListingListViewContainer) {
         self.init(requester: requester,
                   listings: listings,
                   numberOfColumns: numberOfColumns,
                   isPrivateList: false,
+                  source: source,
                   tracker: TrackerProxy.sharedInstance,
                   imageDownloader: ImageDownloader.sharedInstance,
                   reporter: CrashlyticsReporter(),
@@ -326,8 +357,12 @@ final class ListingListViewModel: BaseViewModel {
     func setErrorState(_ viewModel: LGEmptyViewModel) {
         state = .error(viewModel)
         if let errorReason = viewModel.emptyReason {
-            trackErrorStateShown(reason: errorReason, errorCode: viewModel.errorCode,
-                                 errorDescription: viewModel.errorDescription)
+            trackErrorStateShown(
+                typePage: isPrivateList ? EventParameterTypePage.profile : EventParameterTypePage.listingList,
+                reason: errorReason,
+                errorCode: viewModel.errorCode,
+                errorDescription: viewModel.errorDescription
+            )
         }
     }
 
@@ -374,20 +409,13 @@ final class ListingListViewModel: BaseViewModel {
     }
 
     var isPrivateList: Bool = false
-    var listingInterestState: [String: InterestedState] = [:]
-
-    func update(listing: Listing, interestedState: InterestedState) {
-        guard state.isData, let listingId = listing.objectId else { return }
-        guard let index = indexFor(listingId: listingId) else { return }
-        listingInterestState[listingId] = interestedState
-
-        delegate?.vmReloadItemAtIndexPath(indexPath: IndexPath(row: index, section: 0))
-    }
 
     func interestStateFor(listingAtIndex index: Int) -> InterestedState? {
-        guard !isPrivateList else { return .none }
+        guard !isPrivateList ||
+            featureFlags.imInterestedInProfile.isActive && source == .publicProfileSelling
+            else { return .none }
         guard let listingID = objects[index].listing?.objectId else { return nil }
-        return listingInterestState[listingID] ?? .send(enabled: true)
+        return interestedStateUpdater?.dictInterestedStates[listingID] ?? .send(enabled: true)
     }
 
     func prepend(listing: Listing) {
@@ -700,13 +728,12 @@ final class ListingListViewModel: BaseViewModel {
 
         let showBumpUpCTA = listing.isMine(myUserRepository: myUserRepository) &&
             featureFlags.showSellFasterInProfileCells.isActive &&
-            featureFlags.pricedBumpUpEnabled &&
             isPrivateList && listingCanBeBumped
 
         if showBumpUpCTA {
             cellHeight += ListingCellMetrics.getTotalHeightForBumpUpCTA(text: R.Strings.bumpUpBannerPayTextImprovementEnglishC,
                                                                         containerWidth: widthConstraint)
-        } else if let isFeatured = listing.featured, isFeatured, featureFlags.pricedBumpUpEnabled {
+        } else if let isFeatured = listing.featured, isFeatured {
             if cellStyle == .serviceList {
                 cellHeight += actionButtonCellHeight(for: listing)
             } else  {
@@ -886,8 +913,13 @@ final class ListingListViewModel: BaseViewModel {
 // MARK: - Tracking
 
 extension ListingListViewModel {
-    func trackErrorStateShown(reason: EventParameterEmptyReason, errorCode: Int?, errorDescription: String?) {
-        let event = TrackerEvent.emptyStateVisit(typePage: .listingList , reason: reason, errorCode: errorCode,
+    func trackErrorStateShown(typePage: EventParameterTypePage,
+                              reason: EventParameterEmptyReason,
+                              errorCode: Int?,
+                              errorDescription: String?) {
+        let event = TrackerEvent.emptyStateVisit(typePage: typePage,
+                                                 reason: reason,
+                                                 errorCode: errorCode,
                                                  errorDescription: errorDescription)
         tracker.trackEvent(event)
 

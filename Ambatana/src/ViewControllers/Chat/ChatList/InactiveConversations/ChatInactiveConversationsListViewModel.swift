@@ -24,7 +24,7 @@ protocol ChatInactiveConversationsListNavigator {
 class ChatInactiveConversationsListViewModel: BaseViewModel, RxPaginable {
     weak var delegate: ChatInactiveConversationsListViewModelDelegate?
     var navigator: ChatInactiveConversationsListNavigator?
-    
+
     private let chatRepository: ChatRepository
     private let myUserRepository: MyUserRepository
     private let tracker: Tracker
@@ -62,7 +62,7 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, RxPaginable {
                   myUserRepository: Core.myUserRepository,
                   tracker: TrackerProxy.sharedInstance)
     }
-    
+
     required init(navigator: ChatInactiveConversationsListNavigator?,
                   chatRepository: ChatRepository,
                   myUserRepository: MyUserRepository,

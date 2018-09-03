@@ -19,7 +19,7 @@ extension LGUserVerificationBuilder: UserVerificationAssembly {
         switch self {
         case .standard(let nav):
             let vm = UserVerificationViewModel()
-            vm.navigator = UserVerificationRouter(navigationController: nav)
+            vm.navigator = UserVerificationWireframe(nc: nav)
             let vc = UserVerificationViewController(viewModel: vm)
             return vc
         }
@@ -29,7 +29,7 @@ extension LGUserVerificationBuilder: UserVerificationAssembly {
         switch self {
         case .standard(let nav):
             let vm = UserVerificationEmailViewModel()
-            vm.navigator = VerifyUserEmailRouter(navigationController: nav)
+            vm.navigator = VerifyUserEmailWireframe(nc: nav)
             let vc = UserVerificationEmailViewController(viewModel: vm)
             return vc
         }
@@ -39,7 +39,7 @@ extension LGUserVerificationBuilder: UserVerificationAssembly {
         switch self {
         case .standard(let nav):
             let vm = EditUserBioViewModel()
-            vm.navigator = EditUserBioRouter(navigationController: nav)
+            vm.navigator = EditUserBioWireframe(nc: nav)
             let vc = EditUserBioViewController(viewModel: vm)
             return vc
         }
@@ -49,7 +49,7 @@ extension LGUserVerificationBuilder: UserVerificationAssembly {
         switch self {
         case .standard(let nav):
             let vm = UserPhoneVerificationNumberInputViewModel()
-            vm.navigator = UserPhoneVerificationRouter(navigationController: nav)
+            vm.navigator = UserPhoneVerificationWireframe(nc: nav)
             let vc = UserPhoneVerificationNumberInputViewController(viewModel: vm)
             vm.delegate = vc
             return vc
@@ -60,7 +60,7 @@ extension LGUserVerificationBuilder: UserVerificationAssembly {
         switch self {
         case .standard(let nav):
             let vm = UserPhoneVerificationCountryPickerViewModel()
-            vm.navigator = UserPhoneVerificationRouter(navigationController: nav)
+            vm.navigator = UserPhoneVerificationWireframe(nc: nav)
             vm.delegate = delegate
             let vc = UserPhoneVerificationCountryPickerViewController(viewModel: vm)
             return vc
@@ -73,7 +73,7 @@ extension LGUserVerificationBuilder: UserVerificationAssembly {
         case .standard(let nav):
             let vm = UserPhoneVerificationCodeInputViewModel(callingCode: callingCode,
                                                              phoneNumber: phoneNumber)
-            vm.navigator = UserPhoneVerificationRouter(navigationController: nav)
+            vm.navigator = UserPhoneVerificationWireframe(nc: nav)
             let vc = UserPhoneVerificationCodeInputViewController(viewModel: vm)
             vm.delegate = vc
             return vc

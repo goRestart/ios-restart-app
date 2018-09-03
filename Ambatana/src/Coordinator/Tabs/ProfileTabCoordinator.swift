@@ -10,6 +10,9 @@ final class ProfileTabCoordinator: TabCoordinator {
 
     weak var profileCoordinatorSearchAlertsDelegate: ProfileCoordinatorSearchAlertsDelegate?
 
+    private lazy var changePasswordAssembly = ChangePasswordBuilder.standard(root: navigationController)
+    private lazy var editAssemby = EditListingBuilder.modal(navigationController)
+
     convenience init(source: UserSource = .tabBar) {
         let sessionManager = Core.sessionManager
         let listingRepository = Core.listingRepository
@@ -23,7 +26,6 @@ final class ProfileTabCoordinator: TabCoordinator {
         let featureFlags = FeatureFlags.sharedInstance
         let viewModel = UserProfileViewModel.makePrivateProfile(source: source)
         let rootViewController = UserProfileViewController(viewModel: viewModel)
-
         self.init(listingRepository: listingRepository,
                   userRepository: userRepository,
                   chatRepository: chatRepository,
@@ -59,21 +61,41 @@ extension ProfileTabCoordinator: ProfileTabNavigator {
     }
 
     func editListing(_ listing: Listing, pageType: EventParameterTypePage?) {
-        let nav = UINavigationController()
-        let assembly = LGListingBuilder.standard(navigationController: navigationController)
-        let vc = assembly.buildEditView(listing: listing,
-                                        pageType: pageType,
-                                        bumpUpProductData: nil,
-                                        listingCanBeBoosted: false,
-                                        timeSinceLastBump: nil,
-                                        maxCountdown: 0,
-                                        onEditAction: nil)
-        nav.viewControllers = [vc]
-        navigationController.present(nav, animated: true)
+        let vc = editAssemby.buildEditView(listing: listing,
+                                           pageType: pageType,
+                                           bumpUpProductData: nil,
+                                           listingCanBeBoosted: false,
+                                           timeSinceLastBump: nil,
+                                           maxCountdown: 0,
+                                           onEditAction: nil)
+        navigationController.present(vc, animated: true)
     }
 
     func closeProfile() {
         dismissViewController(animated: true, completion: nil)
+    }
+    
+    func openListingChat(data: ChatDetailData, source: EventParameterTypePage, predefinedMessage: String?) {
+        // Ignore. This case only needs to be handled by the public user coordinator
+        // Should disappear after navigation refactor
+    }
+    
+    func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?, openChatAutomaticMessage: ChatWrapperMessageType?) {
+        // Ignore. This case only needs to be handled by the public user coordinator
+        // Should disappear after navigation refactor
+        return
+    }
+    
+    func openAskPhoneFor(listing: Listing, interlocutor: User?) {
+        // Ignore. This case only needs to be handled by the public user coordinator
+        // Should disappear after navigation refactor
+        return
+    }
+    
+    func openLogin(infoMessage: String, then loggedInAction: @escaping (() -> Void)) {
+        // Ignore. This case only needs to be handled by the public user coordinator
+        // Should disappear after navigation refactor
+        return
     }
 }
 
@@ -93,21 +115,21 @@ extension ProfileTabCoordinator: SettingsNavigator {
     }
 
     func openEditLocation(withDistanceRadius distanceRadius: Int?) {
-        let vm = EditLocationViewModel(mode: .editUserLocation, distanceRadius: distanceRadius)
-        vm.navigator = self
-        let vc = EditLocationViewController(viewModel: vm)
+        let assembly = QuickLocationFiltersBuilder.standard(navigationController)
+        let vc = assembly.buildQuickLocationFilters(mode: .editUserLocation,
+                                                    initialPlace: nil,
+                                                    distanceRadius: distanceRadius,
+                                                    locationDelegate: nil)
         navigationController.pushViewController(vc, animated: true)
     }
 
     func openChangePassword() {
-        let vc = LGChangePasswordBuilder.standard(navigationController).buildChangePassword()
+        let vc = changePasswordAssembly.buildChangePassword()
         navigationController.pushViewController(vc, animated: true)
     }
 
     func openHelp() {
-        let vm = HelpViewModel()
-        vm.navigator = self
-        let vc = HelpViewController(viewModel: vm)
+        let vc = LGHelpBuilder.standard(navigationController).buildHelp()
         navigationController.pushViewController(vc, animated: true)
     }
 
@@ -131,15 +153,7 @@ extension ProfileTabCoordinator: ChangeUsernameNavigator {
 }
 
 extension ProfileTabCoordinator: ChangeEmailNavigator {
-
     func closeChangeEmail() {
-        navigationController.popViewController(animated: true)
-    }
-}
-
-extension ProfileTabCoordinator: EditLocationNavigator {
-
-    func closeEditLocation() {
         navigationController.popViewController(animated: true)
     }
 }

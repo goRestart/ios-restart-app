@@ -8,6 +8,11 @@ struct UriScheme {
       static let cardAction = "card-action"
       static let ratingSource = "rating-source"
    }
+   private enum Sell {
+      static let source = "source"
+      static let category = "category"
+      static let title = "title"
+   }
 
    var deepLink: DeepLink
 
@@ -30,10 +35,10 @@ struct UriScheme {
       let medium = params[UTM.medium]
       let source = DeepLinkSource(string: params[UTM.source])
       let cardActionParameter = params[Params.cardAction]
-      let ratingSource = params[Params.ratingSource] ?? ""
 
       switch host {
       case .appRating:
+         let ratingSource = params[Params.ratingSource] ?? ""
          return UriScheme(deepLink: DeepLink.link(.appRating(source: ratingSource),
                                                   campaign: campaign,
                                                   medium: medium,
@@ -46,7 +51,10 @@ struct UriScheme {
                                                   source: source,
                                                   cardActionParameter: cardActionParameter))
       case .sell:
-         return UriScheme(deepLink: DeepLink.link(.sell,
+         let postingSource = params[Sell.source] ?? ""
+         let category = params[Sell.category] ?? ""
+         let title = params[Sell.title] ?? ""
+         return UriScheme(deepLink: DeepLink.link(.sell(source: postingSource, category: category, title: title),
                                                   campaign: campaign,
                                                   medium: medium,
                                                   source: source,
@@ -172,6 +180,14 @@ struct UriScheme {
                                                   medium: medium,
                                                   source: source,
                                                   cardActionParameter: cardActionParameter))
+      case .invite:
+         guard let safeUsername = params["user-name"] else { return nil }
+         guard let safeUserid = params["user-id"] else { return nil }
+         return UriScheme(deepLink: DeepLink.link(.invite(userid: safeUserid, username: safeUsername),
+                                                  campaign: campaign,
+                                                  medium: medium,
+                                                  source: source,
+                                                  cardActionParameter: cardActionParameter))
       }
    }
 }
@@ -196,4 +212,5 @@ enum UriSchemeHost: String {
    case notificationCenter = "notification_center"
    case updateApp = "update_app"
    case webView = "webview"
+   case invite = "app_invite"
 }

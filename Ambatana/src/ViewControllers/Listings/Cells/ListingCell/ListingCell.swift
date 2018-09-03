@@ -12,7 +12,7 @@ protocol ListingCellDelegate: class {
     func chatButtonPressedFor(listing: Listing)
     func editPressedForDiscarded(listing: Listing)
     func moreOptionsPressedForDiscarded(listing: Listing)
-    func postNowButtonPressed(_ view: UIView)
+    func postNowButtonPressed(_ view: UIView, category: PostCategory, source: PostingSource)
     func interestedActionFor(_ listing: Listing, userListing: LocalUser?, completion: @escaping (InterestedState) -> Void)
     func openAskPhoneFor(_ listing: Listing, interlocutor: LocalUser)
     func getUserInfoFor(_ listing: Listing, completion: @escaping (User?) -> Void)
@@ -21,7 +21,7 @@ protocol ListingCellDelegate: class {
 
 final class ListingCell: UICollectionViewCell, ReusableCell {
     private struct Layout {
-        static let stripeHeight: CGFloat = 34
+        static let stripWidth: CGFloat = 70
         static let extraInfoTrailing: CGFloat = 30
     }
     
@@ -29,25 +29,8 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     
     private lazy var interestedButton: UIButton = UIButton()
     private let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView.init(activityIndicatorStyle: .white)
-    // > Stripe area
-    
-    private let stripeImageView = UIImageView()
-    private let stripeInfoView = UIView()
-    private let stripeInfoInnerContainerView = UIView()
-    
-    private let stripeLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemMediumFont(size: 12)
-        label.minimumScaleFactor = 0.6
-        label.adjustsFontSizeToFitWidth = true
-        return label
-    }()
-    
-    private let stripeIcon: UIImageView = {
-        let iv = UIImageView()
-        iv.contentMode = .scaleAspectFit
-        return iv
-    }()
+
+    private let ribbonView = LGRibbonView()
     
     // > Thumbnail Image and background
     
@@ -126,13 +109,10 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     
     private var detailViewInImageHeightConstraints: NSLayoutConstraint?
     private var thumbnailImageViewHeight: NSLayoutConstraint?
-    private var stripeIconWidth: NSLayoutConstraint?
-    
+
     var listing: Listing?
     weak var delegate: ListingCellDelegate?
     
-    var likeButtonEnabled: Bool = true
-    var chatButtonEnabled: Bool = true
     
     override var isHighlighted: Bool {
         didSet {
@@ -141,13 +121,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     }
     
     var thumbnailImage: UIImage? {
-        let image: UIImage?
-        if thumbnailImageView.image != nil {
-            image = thumbnailImageView.image
-        } else {
-            image = thumbnailGifImageView.currentImage
-        }
-        return image
+        return thumbnailImageView.image ?? thumbnailGifImageView.currentImage
     }
     
     // MARK:- Lifecycle
@@ -231,23 +205,19 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     }
     
     func setupFreeStripe() {
-        stripeIconWidth?.constant = ListingCellMetrics.stripeIconWidth
-        stripeImageView.image = R.Asset.BackgroundsAndImages.stripeWhite.image
-        stripeIcon.image = R.Asset.IconsButtons.icHeart.image
-        stripeLabel.text = R.Strings.productFreePrice
-        stripeLabel.textColor = UIColor.primaryColor
-        stripeImageView.isHidden = false
-        stripeInfoView.isHidden = false
+        let ribbonConfiguration = LGRibbonConfiguration(title: R.Strings.productFreePrice,
+                                                        icon: nil,
+                                                        titleColor: .orangeFree)
+        ribbonView.setupRibbon(configuration: ribbonConfiguration)
+        ribbonView.isHidden = false
     }
     
     func setupFeaturedStripe(withTextColor textColor: UIColor) {
-        stripeIconWidth?.constant = 0
-        stripeImageView.image = R.Asset.BackgroundsAndImages.stripeWhite.image
-        stripeIcon.image = nil
-        stripeLabel.text = R.Strings.bumpUpProductCellFeaturedStripe
-        stripeLabel.textColor = textColor
-        stripeImageView.isHidden = false
-        stripeInfoView.isHidden = false
+        let ribbonConfiguration = LGRibbonConfiguration(title: R.Strings.bumpUpProductCellFeaturedStripe,
+                                                        icon: nil,
+                                                        titleColor: textColor)
+        ribbonView.setupRibbon(configuration: ribbonConfiguration)
+        ribbonView.isHidden = false
     }
     
     // Product Detail Under Image
@@ -344,14 +314,14 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
                                               thumbnailImageView,
                                               thumbnailGifImageView,
                                               featuredListingInfoView,
-                                              stripeImageView, stripeInfoView,
+                                              ribbonView,
                                               discardedView,
                                               topDistanceInfoView,
                                               bottomDistanceInfoView,
                                               detailViewInImage])
         setupThumbnailImageViews()
         setupFeaturedListingInfoView()
-        setupStripArea()
+        setupStripeArea()
         setupDiscardedView()
         setupDistanceLabels()
         setupDetailViewInImage()
@@ -391,14 +361,13 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         featuredListingInfoView.layout(with: thumbnailImageView).below()
     }
     
-    private func setupStripArea() {
-        layoutStripArea()
-        let rotation = CGFloat(Double.pi/4)
-        stripeInfoView.transform = CGAffineTransform(rotationAngle: rotation)
-        stripeLabel.textColor = UIColor.redText
-        
-        stripeInfoView.isHidden = true
-        stripeImageView.isHidden = true
+    private func setupStripeArea() {
+        NSLayoutConstraint.activate([
+            ribbonView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            ribbonView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            ribbonView.widthAnchor.constraint(equalToConstant: Layout.stripWidth),
+            ribbonView.heightAnchor.constraint(equalTo: ribbonView.widthAnchor)
+        ])
     }
     
     private func setupDiscardedView() {
@@ -429,59 +398,11 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
             bottomDistanceInfoView.heightAnchor.constraint(equalToConstant: height)
             ])
     }
-    
-    private func layoutStripArea() {
-        NSLayoutConstraint.activate([
-            stripeImageView.widthAnchor.constraint(equalToConstant: 70),
-            stripeImageView.heightAnchor.constraint(equalToConstant: 70),
-            stripeImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 2),
-            stripeImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: -2),
-            
-            stripeInfoView.widthAnchor.constraint(equalToConstant: 63),
-            stripeInfoView.heightAnchor.constraint(equalToConstant: Layout.stripeHeight),
-            stripeInfoView.leadingAnchor.constraint(equalTo: stripeImageView.leadingAnchor, constant: 16),
-            stripeInfoView.centerYAnchor.constraint(equalTo: stripeImageView.centerYAnchor, constant: -7)
-            ])
-        setupStripInfoView()
-    }
-    
-    private func setupStripInfoView() {
-        stripeInfoView.addSubviewForAutoLayout(stripeInfoInnerContainerView)
-        NSLayoutConstraint.activate([
-            stripeInfoInnerContainerView.centerXAnchor.constraint(equalTo: stripeInfoView.centerXAnchor, constant: 2),
-            stripeInfoInnerContainerView.leadingAnchor.constraint(greaterThanOrEqualTo: stripeInfoView.leadingAnchor),
-            stripeInfoInnerContainerView.trailingAnchor.constraint(greaterThanOrEqualTo: stripeInfoView.trailingAnchor),
-            stripeInfoInnerContainerView.bottomAnchor.constraint(equalTo: stripeInfoView.bottomAnchor),
-            stripeInfoInnerContainerView.topAnchor.constraint(equalTo: stripeInfoView.topAnchor)
-            ])
-        setupStripeInfoContainerSubviews()
-    }
-    
-    private func setupStripeInfoContainerSubviews() {
-        stripeInfoInnerContainerView.addSubviewsForAutoLayout([stripeLabel, stripeIcon])
-        
-        NSLayoutConstraint.activate([
-            stripeLabel.trailingAnchor.constraint(equalTo: stripeInfoInnerContainerView.trailingAnchor),
-            stripeLabel.bottomAnchor.constraint(equalTo: stripeInfoInnerContainerView.bottomAnchor),
-            stripeLabel.topAnchor.constraint(equalTo: stripeInfoInnerContainerView.topAnchor),
-            stripeLabel.heightAnchor.constraint(equalToConstant: Layout.stripeHeight),
-            stripeLabel.leadingAnchor.constraint(equalTo: stripeIcon.trailingAnchor, constant: 3)
-            ])
-        
-        stripeIconWidth = stripeIcon.widthAnchor.constraint(equalToConstant: 14)
-        stripeIconWidth?.isActive = true
-        NSLayoutConstraint.activate([
-            stripeIcon.leadingAnchor.constraint(equalTo: stripeInfoInnerContainerView.leadingAnchor),
-            stripeIcon.bottomAnchor.constraint(equalTo: stripeInfoInnerContainerView.bottomAnchor, constant: -Metrics.veryShortMargin),
-            stripeIcon.topAnchor.constraint(equalTo: stripeInfoInnerContainerView.topAnchor, constant: Metrics.veryShortMargin)
-            ])
-    }
-    
+
     private func setupExtraInfoTagView(withText text: String) {
         extraInfoTagView.removeFromSuperview()
         extraInfoTagView.text = text
         contentView.addSubviewsForAutoLayout([extraInfoTagView])
-        
         let trailing: CGFloat = interestedButton.isHidden ? 0 : Layout.extraInfoTrailing
         NSLayoutConstraint.activate([
             extraInfoTagView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metrics.shortMargin),
@@ -514,7 +435,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         delegate?.getUserInfoFor(listing) { [weak self] user in
             self?.interestedButton.isHidden = false
             self?.activityIndicator.stopAnimating()
-            self?.interestActionFor(listing: listing, userListing: LocalUser(userListing: listing.user))
+            self?.interestActionFor(listing: listing, userListing: LocalUser(user: user))
         }
     }
     
@@ -605,9 +526,8 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         setupBackgroundColor(id: nil)
         thumbnailGifImageView.clear()
         thumbnailImageView.image = nil
-        stripeImageView.image = nil
-        stripeLabel.text = ""
-        stripeIcon.image = nil
+        ribbonView.clear()
+        ribbonView.isHidden = true
         detailViewInImage.clearLabelTexts()
         topDistanceInfoView.clearAll()
         bottomDistanceInfoView.clearAll()
@@ -628,9 +548,6 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     private func setAccessibilityIds() {
         thumbnailImageView.set(accessibilityId: .listingCellThumbnailImageView)
         thumbnailGifImageView.set(accessibilityId: .listingCellThumbnailImageView)
-        stripeImageView.set(accessibilityId: .listingCellStripeImageView)
-        stripeLabel.set(accessibilityId: .listingCellStripeLabel)
-        stripeIcon.set(accessibilityId: .listingCellStripeIcon)
         featuredListingChatButton.set(accessibilityId: .listingCellFeaturedChatButton)
     }
     
@@ -640,17 +557,5 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     @objc private func openChat() {
         guard let listing = listing else { return }
         delegate?.chatButtonPressedFor(listing: listing)
-    }
-}
-
-private extension InterestedState {
-    var image: UIImage? {
-        switch self {
-        case .none: return nil
-        case .send(let enabled):
-            let alpha: CGFloat = enabled ? 1 : 0.7
-            return R.Asset.IconsButtons.IAmInterested.icIamiSend.image.withAlpha(alpha) ?? R.Asset.IconsButtons.IAmInterested.icIamiSend.image
-        case .seeConversation: return R.Asset.IconsButtons.IAmInterested.icIamiSeeconv.image
-        }
     }
 }

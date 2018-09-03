@@ -19,6 +19,6 @@ extension LGFeedSection: Decodable {
         type = try values.decode(FeedSectionType.self, forKey: .type)
         localizedTitle = try values.decode(String.self, forKey: .localizedTitle)
         links = try values.decode(LGFeedSectionLinks.self, forKey: .links)
-        items = try values.decode(FailableDecodableArray<FeedListing>.self, forKey: .items).validElements
+        items = try values.decode(FailableDecodableArray<FeedListing>.self, forKey: .items).validElements.filter { $0.hasLocation }
     }
 }

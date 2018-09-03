@@ -18,7 +18,7 @@ final class FiltersViewModel: BaseViewModel {
     
     weak var delegate: FiltersViewModelDelegate?
     weak var dataDelegate: FiltersViewModelDataDelegate?
-    var navigator: FiltersRouter?
+    var navigator: FiltersNavigator?
 
     var sections: [FilterSection]
 
@@ -32,12 +32,8 @@ final class FiltersViewModel: BaseViewModel {
     }
     
     var currentDistanceRadius : Int {
-        get {
-            return productFilter.distanceRadius ?? 0
-        }
-        set {
-            productFilter.distanceRadius = newValue > 0 ? newValue : nil
-        }
+        get { return productFilter.distanceRadius ?? 0 }
+        set { productFilter.distanceRadius = newValue > 0 ? newValue : nil }
     }
     
     var distanceType : DistanceType {
@@ -56,7 +52,7 @@ final class FiltersViewModel: BaseViewModel {
     }
 
     var isOddNumCategories: Bool {
-        return self.categories.count%2 == 1
+        return categories.count%2 == 1
     }
 
     var isPriceCellEnabled: Bool {
@@ -185,11 +181,10 @@ final class FiltersViewModel: BaseViewModel {
     }
 
     func locationButtonPressed() {
-        let locationVM = EditLocationViewModel(mode: .editFilterLocation,
-                                               initialPlace: place,
-                                               distanceRadius: productFilter.distanceRadius)
-        locationVM.locationDelegate = self
-        navigator?.openEditLocation(withViewModel: locationVM)
+        navigator?.openEditLocation(mode: .editFilterLocation,
+                                    initialPlace: place,
+                                    distanceRadius: productFilter.distanceRadius,
+                                    locationDelegate: self)
     }
     
     func resetFilters() {
@@ -231,25 +226,25 @@ final class FiltersViewModel: BaseViewModel {
     // MARK: Categories
 
     func retrieveCategories() {
-        categoryRepository.index(servicesIncluded: true,
-                                 carsIncluded: false,
-                                 realEstateIncluded: featureFlags.realEstateEnabled.isActive) { [weak self] result in
-                                    
+        let realEstateActive = featureFlags.realEstateEnabled.isActive
+        let toFilter: [ListingCategory] = realEstateActive ? [.cars, .unassigned] : [.cars, .realEstate, .unassigned]
+        categoryRepository.index { [weak self] result in
             guard let strongSelf = self else { return }
             guard let categories = result.value else { return }
-            strongSelf.categories = strongSelf.buildFilterCategoryItemsWithCategories(categories)
+            let filtered = categories.filteringBy(toFilter)
+            
+            strongSelf.categories = strongSelf.buildFilterCategoryItemsWithCategories(filtered)
             strongSelf.delegate?.vmDidUpdate()
         }
     }
 
     private func buildFilterCategoryItemsWithCategories(_ categories: [ListingCategory]) -> [FilterCategoryItem] {
-
-        var filterCatItems: [FilterCategoryItem] = [.category(category: .cars)]
+        var filterCarItems: [FilterCategoryItem] = [.category(category: .cars)]
         if featureFlags.freePostingModeAllowed {
-            filterCatItems.append(.free)
+            filterCarItems.append(.free)
         }
         let builtCategories = categories.map { FilterCategoryItem(category: $0) }
-        return filterCatItems + builtCategories
+        return filterCarItems + builtCategories
     }
 
     func selectCategoryAtIndex(_ index: Int) {

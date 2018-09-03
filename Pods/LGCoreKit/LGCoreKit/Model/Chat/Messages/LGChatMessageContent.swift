@@ -120,7 +120,7 @@ struct LGChatMessageContent: ChatMessageContent, Decodable, Equatable {
             case .carousel:
                 text = nil
                 let answers = try keyedContainer.decodeIfPresent([LGChatAnswer].self, forKey: .answers) ?? []
-                if let cards = try? keyedContainer.decode([LGChatCarouselCard].self, forKey: .card) {
+                if let cards = try? keyedContainer.decode([LGChatCarouselCard].self, forKey: .cards) {
                     type = .carousel(cards: cards, answers: answers)
                 } else {
                     type = .unsupported(defaultText: defaultText)
@@ -141,7 +141,7 @@ struct LGChatMessageContent: ChatMessageContent, Decodable, Equatable {
         case cta
         case title
         case image
-        case card
+        case cards
     }
     
     // MARK: Equatable

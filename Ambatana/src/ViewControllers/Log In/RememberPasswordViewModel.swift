@@ -13,7 +13,8 @@ class RememberPasswordViewModel: BaseViewModel {
     let loginSource: EventParameterLoginSourceValue
 
     weak var delegate: RememberPasswordViewModelDelegate?
-    weak var navigator: RememberPasswordNavigator?
+    
+    var router: RememberPasswordWireframe?
     
     // Input
     var email: String {
@@ -60,7 +61,7 @@ class RememberPasswordViewModel: BaseViewModel {
                 case .success:
                     strongSelf.delegate?.vmHideLoading(R.Strings.resetPasswordSendOk(strongSelf.email),
                                                        afterMessageCompletion: {
-                        self?.navigator?.closeRememberPassword()
+                        self?.router?.closeRememberPassword()
                     })
                 case .failure(let error):
                     var errorMessage: String?

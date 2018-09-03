@@ -27,7 +27,7 @@ final class SellCoordinator: Coordinator {
     fileprivate let postCategory: PostCategory?
     weak var delegate: SellCoordinatorDelegate?
 
-
+    private lazy var editAssembly = EditListingBuilder.standard(navigationController)
 
     // MARK: - Lifecycle
 
@@ -291,7 +291,18 @@ extension SellCoordinator: PostListingNavigator {
     func openLoginIfNeededFromListingPosted(from: EventParameterLoginSourceValue,
                                             loggedInAction: @escaping (() -> Void),
                                             cancelAction: (() -> Void)?) {
-        openLoginIfNeeded(from: from, style: .popup(R.Strings.productPostLoginMessage), loggedInAction: loggedInAction, cancelAction: cancelAction)
+        guard !sessionManager.loggedIn else {
+            loggedInAction()
+            return
+        }
+
+        let vc = LoginBuilder.modal.buildPopupSignUp(
+            withMessage: R.Strings.productPostLoginMessage,
+            andSource: from,
+            loginAction: loggedInAction,
+            cancelAction: cancelAction
+        )
+        viewController.present(vc, animated: true)
     }
     
     func backToSummary() {
@@ -375,26 +386,25 @@ extension SellCoordinator: MultiListingPostedNavigator {
     }
     
     func openEdit(forListing listing: Listing) {
-        let nav = UINavigationController()
-        let assembly = LGListingBuilder.standard(navigationController: nav)
-        let vc = assembly.buildEditView(listing: listing,
-                                        pageType: nil,
-                                        bumpUpProductData: nil,
-                                        listingCanBeBoosted: false,
-                                        timeSinceLastBump: nil,
-                                        maxCountdown: 0,
-                                        onEditAction: onEdit)
-        nav.viewControllers = [vc]
-        navigationController.present(nav, animated: true)
+        let vc = editAssembly.buildEditView(listing: listing,
+                                            pageType: nil,
+                                            bumpUpProductData: nil,
+                                            listingCanBeBoosted: false,
+                                            timeSinceLastBump: nil,
+                                            maxCountdown: 0,
+                                            onEditAction: self)
+        navigationController.pushViewController(vc, animated: true)
     }
+}
 
-    private func onEdit(listing: Listing,
-                        bumpData: BumpUpProductData?,
-                        timeSinceLastBump: TimeInterval?,
-                        maxCountdown: TimeInterval) {
-        guard let multiListingVC = viewController as? MultiListingPostedViewController else {
-            return
-        }
+// MARK - OnEditActionable
+
+extension SellCoordinator: OnEditActionable {
+    func onEdit(listing: Listing,
+                bumpData: BumpUpProductData?,
+                timeSinceLastBump: TimeInterval?,
+                maxCountdown: TimeInterval) {
+        guard let multiListingVC = viewController as? MultiListingPostedViewController else { return }
         multiListingVC.listingEdited(listing: listing)
     }
 }

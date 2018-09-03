@@ -20,49 +20,9 @@ public enum ListingCategory: Int {
     case realEstate = 10
     case services = 11
 
-    
-    static func visibleValues(servicesIncluded: Bool,
-                              carsIncluded: Bool,
-                              realEstateIncluded: Bool) -> [ListingCategory] {
-
-        var categories: [ListingCategory] = [.electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden, .moviesBooksAndMusic,
-                                             .fashionAndAccesories, .babyAndChild]
-
-        if realEstateIncluded {
-            categories = [.realEstate] + categories
-        }
-
-        if carsIncluded {
-            categories = [.cars] + categories
-        }
-
-        categories = categories + [.other]
-
-        if servicesIncluded {
-            categories = categories + [.services]
-        }
-
-        return categories
-    }
-    
-    public static func visibleValuesInFeed(servicesIncluded: Bool,
-                                           realEstateIncluded: Bool,
-                                           servicesHighlighted: Bool) -> [ListingCategory] {
-        
-        var categories: [ListingCategory] = [.electronics, .homeAndGarden, .sportsLeisureAndGames, .motorsAndAccessories,
-                                             .fashionAndAccesories, .babyAndChild, .moviesBooksAndMusic]
-        if servicesIncluded {
-            categories = servicesHighlighted ? [.services] + categories : categories + [.services]
-        }
-        
-        if realEstateIncluded {
-            categories = [.realEstate] + categories
-        }
-        
-        categories = [.cars] + categories  + [.other]
-        
-        return categories
-    }
+    static var allValues: [ListingCategory] = [.unassigned, .electronics, .motorsAndAccessories, .sportsLeisureAndGames,
+                                               .homeAndGarden, .moviesBooksAndMusic, .fashionAndAccesories, .babyAndChild,
+                                               .other, .cars, .realEstate, .services]
     
     public var isProduct: Bool {
         switch self {

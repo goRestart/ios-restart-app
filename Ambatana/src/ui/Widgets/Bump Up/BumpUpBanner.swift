@@ -125,6 +125,7 @@ protocol BumpUpBannerBoostDelegate: class {
 class BumpUpBanner: UIView {
 
     private static let bannerHeight: CGFloat = 64
+    static let boostBannerUIUpdateThreshold: TimeInterval = SharedConstants.oneHourTimeLimit
 
     override var intrinsicContentSize: CGSize {
         switch type {
@@ -404,8 +405,7 @@ class BumpUpBanner: UIView {
         timeLabelText.value = nil
         timeLabelRightMarginConstraint.constant = 0
         timeLabelWidthConstraint.constant = 0
-        if let updateBannerThreshold = featureFlags.bumpUpBoost.boostBannerUIUpdateThreshold,
-            secondsLeft < (maxCountdown - updateBannerThreshold) {
+        if secondsLeft < (maxCountdown - BumpUpBanner.boostBannerUIUpdateThreshold) {
             readyToBump = true
             type = .boost(boostBannerVisible: true)
             delegate?.updateBoostBannerFor(type: type)
@@ -610,11 +610,7 @@ class BumpUpBanner: UIView {
         case .free, .hidden, .restore, .loading:
             hideProgressBar()
         case .priced:
-            if featureFlags.bumpUpBoost.isActive {
-                showProgressBar(itHasBanner: false)
-            } else {
-                hideProgressBar()
-            }
+            showProgressBar(itHasBanner: false)
         case .boost(let boostBannerVisible):
             showProgressBar(itHasBanner: boostBannerVisible)
         }

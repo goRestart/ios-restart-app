@@ -1,11 +1,12 @@
 import LGCoreKit
 import LGComponents
 
-final class MainTabCoordinator: TabCoordinator, FeedNavigator {
+final class MainTabCoordinator: TabCoordinator {
 
-    private let feedAssembly: FeedAssembly
+    private var feedType: FeedType = .classic
     private let pushPermissionsManager: PushPermissionsManager
-
+    private var feedNC: UINavigationController
+    
     convenience init() {
         let listingRepository = Core.listingRepository
         let userRepository = Core.userRepository
@@ -17,7 +18,7 @@ final class MainTabCoordinator: TabCoordinator, FeedNavigator {
         let tracker = TrackerProxy.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
         let sessionManager = Core.sessionManager
-        let assembly = featureFlags.sectionedMainFeed.feedAssembly
+        let assembly = featureFlags.sectionedFeed.feedAssembly
         let pushPermissionsManager = LGPushPermissionsManager.sharedInstance
         self.init(listingRepository: listingRepository,
                   userRepository: userRepository,
@@ -29,7 +30,7 @@ final class MainTabCoordinator: TabCoordinator, FeedNavigator {
                   tracker: tracker,
                   featureFlags: featureFlags,
                   sessionManager: sessionManager,
-                  feedAssembly: assembly,
+                  feedType: assembly,
                   pushPermissionsManager: pushPermissionsManager)
     }
 
@@ -43,11 +44,27 @@ final class MainTabCoordinator: TabCoordinator, FeedNavigator {
          tracker: Tracker,
          featureFlags: FeatureFlaggeable,
          sessionManager: SessionManager,
-         feedAssembly: FeedAssembly,
+         feedType: FeedType,
          pushPermissionsManager: PushPermissionsManager) {
-        self.feedAssembly = feedAssembly
-        let (vc, vm) = feedAssembly.make()
+        // Alloc a external navigation controller due a architecture limitation,
+        // the Navigation controller is alloced in the Tab Coordinator constructor
+        // but the new architeture requires a reference to the nc, so it should be alloced
+        // in the same place than the Feed. It should be changed in a future
+        // (MainTabCoordinator migration).
+        // The tab coordinator will keep alive the navigation bar, it has a strong
+        // reference.
+        let nav = UINavigationController()
+        let vc: BaseViewController
+        let vm: FeedNavigatorOwnership
+        
+        if feedType == .pro {
+            (vc, vm) = FeedBuilder.standard(nc: nav).makePro()
+        } else {
+            (vc, vm) = FeedBuilder.standard(nc: nav).makeClassic()
+        }
+        feedNC = nav
         self.pushPermissionsManager = pushPermissionsManager
+        
         super.init(listingRepository: listingRepository,
                    userRepository: userRepository,
                    chatRepository: chatRepository,
@@ -59,8 +76,11 @@ final class MainTabCoordinator: TabCoordinator, FeedNavigator {
                    rootViewController: vc,
                    featureFlags: featureFlags,
                    sessionManager: sessionManager,
-                   deeplinkMailBox: LGDeepLinkMailBox.sharedInstance)
+                   deeplinkMailBox: LGDeepLinkMailBox.sharedInstance,
+                   externalNC: nav)
+        nav.setViewControllers([vc], animated: false)
         vm.navigator = self
+        self.feedType = feedType
     }
     
 
@@ -85,6 +105,7 @@ final class MainTabCoordinator: TabCoordinator, FeedNavigator {
         }
         let viewModel = MainListingsViewModel(searchType: searchType, filters: filters)
         viewModel.navigator = self
+        viewModel.wireframe = MainListingWireframe(nc: navigationController)
         let vc = MainListingsViewController(viewModel: viewModel)
 
         navigationController.pushViewController(vc, animated: true)
@@ -97,100 +118,84 @@ final class MainTabCoordinator: TabCoordinator, FeedNavigator {
 
     // Note: override in subclasses
     override func shouldHideSellButtonAtViewController(_ viewController: UIViewController) -> Bool {
-        return super.shouldHideSellButtonAtViewController(viewController) && !(viewController is MainListingsViewController)
+        return super.shouldHideSellButtonAtViewController(viewController) &&
+            !(viewController is MainListingsViewController || viewController is FeedViewController)
     }
 }
 
 extension MainTabCoordinator: MainTabNavigator {
+    func openListingChat(_ listing: Listing,
+                         source: EventParameterTypePage,
+                         interlocutor: User?) {
+        chatNavigator.openListingChat(listing,
+                                      source: source,
+                                      interlocutor: interlocutor,
+                                      openChatAutomaticMessage: nil)
+    }
 
     func openLoginIfNeeded(infoMessage: String, then loggedAction: @escaping (() -> Void)) {
-        openLoginIfNeeded(from: .directChat, style: .popup(infoMessage), loggedInAction: loggedAction, cancelAction: nil)
+        guard !sessionManager.loggedIn else {
+            loggedAction()
+            return
+        }
+        
+        let vc = LoginBuilder.modal.buildPopupSignUp(
+            withMessage: infoMessage,
+            andSource: .directChat,
+            loginAction: loggedAction,
+            cancelAction: nil
+        )
+        viewController.present(vc, animated: true, completion: nil)
+    }
+
+    func openFullLoginIfNeeded(source: EventParameterLoginSourceValue, then loggedAction: @escaping (() -> Void)) {
+        guard !sessionManager.loggedIn else {
+            loggedAction()
+            return
+        }
+
+        let vc = LoginBuilder.modal.buildMainSignIn(
+            withSource: source,
+            loginAction: loggedAction,
+            cancelAction: nil)
+        let nav = UINavigationController(rootViewController: vc)
+        viewController.present(nav, animated: true, completion: nil)
     }
 
     func openMainListings(withSearchType searchType: SearchType, listingFilters: ListingFilters) {
-        let (vc, vm) = feedAssembly.makeWith(searchType: searchType, filters: listingFilters)
+        let vc: BaseViewController
+        let vm: FeedNavigatorOwnership
+        
+        if feedType == .pro {
+            (vc, vm) = FeedBuilder.standard(nc: feedNC).makePro(
+                withSearchType: searchType, filters: listingFilters)
+        } else {
+            (vc, vm) = FeedBuilder.standard(nc: feedNC).makeClassic(
+                withSearchType: searchType, filters: listingFilters)
+        }
+        
         vm.navigator = self
         navigationController.pushViewController(vc, animated: true)
     }
 
-    func openFilters(withListingFilters listingFilters: ListingFilters,
-                     filtersVMDataDelegate: FiltersViewModelDataDelegate?) {
-        let vc = LGFiltersBuilder.modal.buildFilters(
-            filters: listingFilters,
-            dataDelegate: filtersVMDataDelegate
-        )
-        navigationController.present(
-            vc,
-            animated: true,
-            completion: nil
-        )
-    }
-
-    func openLocationSelection(initialPlace: Place?,
-                               distanceRadius: Int?,
-                               locationDelegate: EditLocationDelegate) {
-        guard let editLocationFiltersCoord =
-            QuickLocationFiltersCoordinator(initialPlace: initialPlace,
-                                            distanceRadius: distanceRadius,
-                                            locationDelegate: locationDelegate) else { return }
-        openChild(coordinator: editLocationFiltersCoord,
-                  parent: rootViewController,
-                  animated: true,
-                  forceCloseChild: true,
-                  completion: nil)
-    }
-    
-    func showPushPermissionsAlert(withPositiveAction positiveAction: @escaping (() -> Void), negativeAction: @escaping (() -> Void)) {
-        
-        let positive: UIAction = UIAction(interface: .styledText(R.Strings.profilePermissionsAlertOk, .standard),
-                                          action: { [weak self] in
-                                            positiveAction()
-                                            self?.pushPermissionsManager.showPushPermissionsAlert(prePermissionType: .listingListBanner)
-        },
-                                          accessibility: AccessibilityId.userPushPermissionOK)
-        
-        let negative: UIAction = UIAction(interface: .styledText(R.Strings.profilePermissionsAlertCancel, .cancel),
-                                          action: negativeAction,
-                                          accessibility: AccessibilityId.userPushPermissionCancel)
-        navigationController.showAlertWithTitle(R.Strings.profilePermissionsAlertTitle,
-                                                text: R.Strings.profilePermissionsAlertMessage,
-                                                alertType: .iconAlert(icon: R.Asset.IconsButtons.customPermissionProfile.image),
-                                                actions: [positive, negative])
-    }
-    
     func openSearchAlertsList() {
         let vm = SearchAlertsListViewModel()
         vm.navigator = self
         let vc = SearchAlertsListViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
-
-
-    func openMap(requester: ListingListMultiRequester,
-                 listingFilters: ListingFilters,
-                 locationManager: LocationManager) {
-        let viewModel = ListingsMapViewModel(navigator: self,
-                                             currentFilters: listingFilters)
-        let viewController = ListingsMapViewController(viewModel: viewModel)
-        navigationController.pushViewController(viewController, animated: true)
-    }
     
     func openAskPhoneFromMainFeedFor(listing: Listing, interlocutor: User?) {
-        let askNumVM = ProfessionalDealerAskPhoneViewModel(listing: listing, interlocutor: interlocutor, typePage: .feed)
-        askNumVM.navigator = self
-        let askNumVC = ProfessionalDealerAskPhoneViewController(viewModel: askNumVM)
-        askNumVC.setupForModalWithNonOpaqueBackground()
-        tabCoordinatorDelegate?.tabCoordinator(self,
-                                               setSellButtonHidden: true,
-                                               animated: false)
-        navigationController.present(askNumVC, animated: true, completion: nil)
+        let assembly = ProfessionalDealerAskPhoneBuilder.modal(navigationController)
+        let vc = assembly.buildProfessionalDealerAskPhone(listing: listing, interlocutor: interlocutor)
+        navigationController.present(vc, animated: true, completion: nil)
     }
 
     func openPrivateUserProfile() {
-        openLoginIfNeeded(from: .profile, style: .fullScreen, loggedInAction: {
+        openFullLoginIfNeeded(source: .profile) {
             let coord = ProfileTabCoordinator(source: .mainListing)
             self.openChild(coordinator: coord, parent: self.rootViewController, animated: true, forceCloseChild: true, completion: nil)
-        }, cancelAction: nil)
+        }
     }
 
     func openCommunity() {

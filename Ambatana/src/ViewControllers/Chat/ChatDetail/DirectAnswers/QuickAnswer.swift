@@ -355,6 +355,8 @@ enum QuickAnswer: Equatable {
     static func quickAnswersForChatMessage(chatViewMessage: ChatViewMessage) -> [QuickAnswer]? {
         if case .multiAnswer(_, let answers) = chatViewMessage.type {
             return answers.map { QuickAnswer.dynamic(chatAnswer: $0) }
+        } else if case .carousel(_, let answers) = chatViewMessage.type {
+            return answers.map { QuickAnswer.dynamic(chatAnswer: $0) }
         }
         return nil
     }

@@ -14,9 +14,6 @@ enum TitleDisclaimerStatus {
 protocol EditListingViewModelDelegate : BaseViewModelDelegate {
     func vmShouldUpdateDescriptionWithCount(_ count: Int)
     func vmDidAddOrDeleteImage()
-    func openCarAttributeSelectionsWithViewModel(attributesChoiceViewModel: CarAttributeSelectionViewModel)
-    func openAttributesPicker(viewModel: ListingAttributePickerViewModel)
-    func vmShouldOpenMapWithViewModel(_ locationViewModel: EditLocationViewModel)
     func vmShareOnFbWith(content: FBSDKShareLinkContent)
     func vmHideKeyboard()
 }
@@ -518,28 +515,29 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
 
     func carMakeButtonPressed() {
-        // open car makes table
         let carsMakesList = carsInfoRepository.retrieveCarsMakes()
-        let carsAttributtesChoiceVMWithMakes = CarAttributeSelectionViewModel(carsMakes: carsMakesList, selectedMake: carMakeId.value, style: .edit)
-        carsAttributtesChoiceVMWithMakes.carAttributeSelectionDelegate = self
-        delegate?.openCarAttributeSelectionsWithViewModel(attributesChoiceViewModel: carsAttributtesChoiceVMWithMakes)
+        navigator?.openCarMakesSelection(carsMakesList,
+                                         selectedMake: carMakeId.value,
+                                         style: .edit,
+                                         delegate: self)
     }
 
     func carModelButtonPressed() {
         delegate?.vmHideKeyboard()
         guard let makeId = carMakeId.value else { return }
         let carsModelsList = carsInfoRepository.retrieveCarsModelsFormake(makeId: makeId)
-        let carsAttributtesChoiceVMWithModels = CarAttributeSelectionViewModel(carsModels: carsModelsList, selectedModel: carModelId.value, style: .edit)
-        carsAttributtesChoiceVMWithModels.carAttributeSelectionDelegate = self
-        delegate?.openCarAttributeSelectionsWithViewModel(attributesChoiceViewModel: carsAttributtesChoiceVMWithModels)
+        navigator?.openCarModelsSelection(carsModelsList,
+                                          selectedModel: carModelId.value,
+                                          style: .edit,
+                                          delegate: self)
     }
 
     func carYearButtonPressed() {
         delegate?.vmHideKeyboard()
         let carsYearsList = carsInfoRepository.retrieveValidYears(withFirstYear: nil, ascending: false)
-        let carsAttributtesChoiceVMWithYears = CarAttributeSelectionViewModel(yearsList: carsYearsList, selectedYear: carYear.value)
-        carsAttributtesChoiceVMWithYears.carAttributeSelectionDelegate = self
-        delegate?.openCarAttributeSelectionsWithViewModel(attributesChoiceViewModel: carsAttributtesChoiceVMWithYears)
+        navigator?.openCarYearSelection(carsYearsList,
+                                        selectedYear: carYear.value,
+                                        delegate: self)
     }
     
     func carBodyButtonPressed() {
@@ -714,11 +712,10 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
                                            text: R.Strings.editProductLocationAlertText,
                                            alertType: .iconAlert(icon: alertIcon), actions: [okAction])
         } else {
-            // enabled
             let initialPlace = Place(postalAddress: nil, location: locationManager.currentAutoLocation?.location)
-            let locationVM = EditLocationViewModel(mode: .editListingLocation, initialPlace: initialPlace, distanceRadius: nil)
-            locationVM.locationDelegate = self
-            delegate?.vmShouldOpenMapWithViewModel(locationVM)
+            navigator?.openEditLocation(mode: .editListingLocation,
+                                        initialPlace: initialPlace,
+                                        locationDelegate: self)
         }
     }
 
@@ -1001,21 +998,16 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
     private func closeEdit() {
         delegate?.vmHideKeyboard()
-        delegate?.vmDismiss { [weak self] in
-            guard let strongSelf = self else { return }
-            guard let editedListing = strongSelf.savedListing else {
-                strongSelf.navigator?.editingListingDidCancel()
-                return
-            }
-            let showBumpItem = strongSelf.shouldFeatureItemAfterEdit.value && strongSelf.listingCanBeFeatured
-
-            let bumpUpProductData = showBumpItem ? strongSelf.bumpUpProductData : nil
-
-            self?.navigator?.editingListingDidFinish(editedListing,
-                                                     bumpUpProductData: bumpUpProductData,
-                                                     timeSinceLastBump: strongSelf.timeSinceLastBump,
-                                                     maxCountdown: strongSelf.maxCountdown)
+        guard let editedListing = savedListing else {
+            navigator?.editingListingDidCancel()
+            return
         }
+        let showBumpItem = shouldFeatureItemAfterEdit.value && self.listingCanBeFeatured
+        let bumpData = showBumpItem ? bumpUpProductData : nil
+        navigator?.editingListingDidFinish(editedListing,
+                                           bumpUpProductData: bumpData,
+                                           timeSinceLastBump: timeSinceLastBump,
+                                           maxCountdown: maxCountdown)
     }
 
     private func showError(_ error: ListingCreateValidationError) {
@@ -1173,12 +1165,11 @@ extension EditListingViewModel {
     }
 
     fileprivate func setupCategories() {
-        categoryRepository.index(servicesIncluded: false,
-                                 carsIncluded: true,
-                                 realEstateIncluded: featureFlags.realEstateEnabled.isActive) { [weak self] result in
-                                    
+        let realEstateActive = featureFlags.realEstateEnabled.isActive
+        let toFilter: [ListingCategory] = realEstateActive ? [.cars, .unassigned] : [.cars, .realEstate, .unassigned]
+        categoryRepository.index { [weak self] result in
             guard let categories = result.value else { return }
-            self?.categories = categories
+            self?.categories = categories.filteringBy(toFilter)
         }
     }
 }

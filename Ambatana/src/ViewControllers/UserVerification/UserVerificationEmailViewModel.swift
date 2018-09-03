@@ -8,7 +8,7 @@ final class UserVerificationEmailViewModel: BaseViewModel {
     private let myUserRepository: MyUserRepository
     private let tracker: Tracker
 
-    weak var navigator: VerifyUserEmailNavigator?
+    var navigator: VerifyUserEmailNavigator?
     weak var delegate: BaseViewModelDelegate?
 
     init(myUserRepository: MyUserRepository, tracker: Tracker) {

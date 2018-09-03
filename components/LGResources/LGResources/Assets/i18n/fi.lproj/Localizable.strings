@@ -67,6 +67,8 @@
 "bump_up_view_pay_title" = "Houkuttele tuplasti enemmän ostajia";
 "cached_feed_error" = "Uusia ilmoituksia ladattaessa tapahtui virhe";
 "cached_feed_new_listings" = "Uudet kohteet";
+"car_promo_cell_title_bold_text" = "Tienaa rahaa";
+"car_promo_cell_title_regular_text" = "myymällä autosi";
 "categories_baby_and_child" = "Vauvat ja lapset";
 "categories_car" = "Autot";
 "categories_cars_and_motors" = "Ajoneuvot ja varusteet";
@@ -756,6 +758,7 @@
 "post_description_info_title" = "ILMOITUKSEN TIEDOT";
 "post_description_name_placeholder" = "Nimi";
 "post_description_save_button_text" = "Tallenna tämä ilmoitus!";
+"post_details_jobs_services_camera_message" = "Julkaise yrityksesi logo tai kuva, jossa näkyy tarjoamasi palvelu tai työ";
 "post_details_jobs_services_step_option_jobs_prefix" = "Haluan palkata jonkun";
 "post_details_jobs_services_step_option_services_prefix" = "mainostamassa";
 "post_details_jobs_services_step_title" = "Olen...";
@@ -1353,6 +1356,10 @@
 "sell_title_autogen_label" = "letgon ehdottama otsikko";
 "sell_title_field_hint" = "Tuotteen otsikko (vapaaehtoinen)";
 "sell_uploading_label" = "Julkaistaan ilmoitusta...";
+"services_promo_cell_title_b" = "Uusi palvelut-kategoria!";
+"services_promo_cell_title_c" = "Etsi palvelullesi paikallisia asiakkaita";
+"services_promo_cell_title_default_bold" = "Tienaa rahaa";
+"services_promo_cell_title_default_regular" = "vapaa-ajallasi";
 "services_service_subtype_list_title" = "Palvelu";
 "services_service_subtype_title" = "Palvelu";
 "services_service_type_list_title" = "Palvelun kategoria";

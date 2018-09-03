@@ -28,9 +28,7 @@ public protocol AppEnvironment: AnalyticsAPIKeys {
     var feedAdUnitIdDFPUSA10Ratio: String { get }
     var feedAdUnitIdDFPUSA15Ratio: String { get }
     var feedAdUnitIdDFPUSA20Ratio: String { get }
-    var feedAdUnitIdAdxUSAForAllUsers: String { get }
     var feedAdUnitIdAdxUSAForOldUsers: String { get }
-    var feedAdUnitIdAdxTRForAllUsers: String { get }
     var feedAdUnitIdAdxTRForOldUsers: String { get }
     var fullScreenAdUnitIdAdxForAllUsersForUS: String { get }
     var fullScreenAdUnitIdAdxForOldUsersForUS: String { get }
@@ -38,12 +36,6 @@ public protocol AppEnvironment: AnalyticsAPIKeys {
     var feedAdUnitIdAdxInstallAppTR: String { get }
     var moreInfoMultiAdUnitIdDFP: String { get }
     var moreInfoMultiAdUnitIdDFPUSA: String { get }
-    
-    // MoPub Ads
-    var feedAdUnitIdMoPubUSAForAllUsers: String { get }
-    var feedAdUnitIdMoPubUSAForOldUsers: String { get }
-    var feedAdUnitIdMoPubTRForAllUsers: String { get }
-    var feedAdUnitIdMoPubTRForOldUsers: String { get }
 
     // Stripe
     var stripeAPIKey: String { get }
