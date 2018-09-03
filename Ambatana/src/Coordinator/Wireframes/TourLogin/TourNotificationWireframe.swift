@@ -46,7 +46,7 @@ final class TourNotificationWireframe: TourNotificationsNavigator {
     }
 
     func closeTour() {
-        action(TourPosting(posting: false, source: nil))
+        tourNotificationsFinish()
     }
 
     func tourNotificationsFinish() {
