@@ -26,6 +26,7 @@ extension TourLoginBuilder: TourLoginAssembly {
 
         let vm = TourLoginViewModel(signUpViewModel: signUpVM)
         let vc = TourLoginViewController(viewModel: vm)
+        vm.delegate = vc
         vc.setupForModalWithNonOpaqueBackground()
         vc.modalTransitionStyle = .crossDissolve
 
