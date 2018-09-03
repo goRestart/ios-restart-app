@@ -33,6 +33,7 @@ class CollectionViewFooter: UICollectionReusableView, ReusableCell {
         self.status = .lastPage
         super.init(frame: frame)
         setupUI()
+        setupTargets()
     }
 
     private func setupUI() {
@@ -49,9 +50,13 @@ class CollectionViewFooter: UICollectionReusableView, ReusableCell {
         ])
     }
     
+    private func setupTargets() {
+        retryButton.addTarget(self, action: #selector(retryButtonPressed), for: .touchUpInside)
+    }
+    
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
-    @IBAction func retryButtonPressed(_ sender: UIButton) {
+    @objc func retryButtonPressed() {
         retryButtonBlock?()
     }
 

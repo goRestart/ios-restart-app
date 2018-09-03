@@ -19,11 +19,11 @@ extension LGFiltersBuilder: FiltersAssembly {
 
         switch self {
         case .standard(let navigationController):
-            vm.navigator = FiltersStandardRouter(controller: navigationController)
+            vm.navigator = FiltersStandardWireframe(nc: navigationController)
             return vc
         case .modal:
             let nav = UINavigationController(rootViewController: vc)
-            vm.navigator = FiltersModalRouter(controller: vc, navigationController: nav)
+            vm.navigator = FiltersModalWireframe(controller: vc, nc: nav)
             return nav
         }
     }

@@ -14,10 +14,10 @@ import Foundation
 
 struct PushPermissionsTracker {
     private let tracker: Tracker
-    private let pushPermissionsManager: LGPushPermissionsManager
+    private let pushPermissionsManager: PushPermissionsManager
     
     init(tracker: Tracker = TrackerProxy.sharedInstance,
-         pushPermissionsManager: LGPushPermissionsManager = LGPushPermissionsManager.sharedInstance) {
+         pushPermissionsManager: PushPermissionsManager = LGPushPermissionsManager.sharedInstance) {
         self.tracker = tracker
         self.pushPermissionsManager = pushPermissionsManager
     }

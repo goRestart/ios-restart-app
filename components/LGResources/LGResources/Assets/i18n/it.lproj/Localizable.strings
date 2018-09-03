@@ -67,6 +67,8 @@
 "bump_up_view_pay_title" = "Attrai il doppio di acquirenti";
 "cached_feed_error" = "Si è verificato un errore durante il caricamento di nuovi annunci";
 "cached_feed_new_listings" = "Nuovi articoli";
+"car_promo_cell_title_bold_text" = "Guadagna denaro";
+"car_promo_cell_title_regular_text" = "vendendo la tua auto";
 "categories_baby_and_child" = "Bambino e Ragazzo";
 "categories_car" = "Auto";
 "categories_cars_and_motors" = "Auto e accessori";
@@ -759,6 +761,7 @@
 "post_description_info_title" = "INFORMAZIONI ANNUNCIO";
 "post_description_name_placeholder" = "Nome";
 "post_description_save_button_text" = "Salva questo annuncio!";
+"post_details_jobs_services_camera_message" = "Pubblica il logo della tua azienda o una foto che mostri il servizio o il lavoro da te offerto";
 "post_details_jobs_services_step_option_jobs_prefix" = "Alla ricerca di assumere qualcuno per un";
 "post_details_jobs_services_step_option_services_prefix" = "Pubblicizza un";
 "post_details_jobs_services_step_title" = "Sono un/una...";
@@ -1361,6 +1364,10 @@
 "sell_title_autogen_label" = "Titolo suggerito da letgo";
 "sell_title_field_hint" = "Titolo (facoltativo)";
 "sell_uploading_label" = "Pubblicazione annuncio...";
+"services_promo_cell_title_b" = "Nuova categoria nei servizi!";
+"services_promo_cell_title_c" = "Trova clienti nella zona per il servizio da te offerto";
+"services_promo_cell_title_default_bold" = "Guadagna denaro";
+"services_promo_cell_title_default_regular" = "nel tuo tempo libero";
 "services_service_subtype_list_title" = "Servizio";
 "services_service_subtype_title" = "Servizio";
 "services_service_type_list_title" = "Categoria servizi";

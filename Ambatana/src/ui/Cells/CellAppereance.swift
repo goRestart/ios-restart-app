@@ -1,11 +1,7 @@
-//
-//  CellAppereance.swift
-//  LetGo
-//
-//  Created by Tomas Cobo on 05/04/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
 
-enum CellAppereance {
-    case dark, light
+import LGComponents
+
+enum CellAppearance {
+    case dark(buttonTitle: String), light(buttonTitle: String)
+    case backgroundImage(image: UIImage, titleColor: UIColor, buttonStyle: ButtonStyle, buttonTitle: String)
 }

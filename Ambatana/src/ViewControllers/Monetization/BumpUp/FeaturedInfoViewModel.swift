@@ -1,14 +1,14 @@
 import Foundation
 import LGComponents
 
-class FeaturedInfoViewModel: BaseViewModel {
+final class FeaturedInfoViewModel: BaseViewModel {
 
     var titleText: String
     var sellFasterText: String
     var increaseVisibilityText: String
     var moreBuyersText: String
 
-    weak var navigator: ListingDetailNavigator?
+    var navigator: FeaturedInfoNavigator?
 
 
     // MARK: - Lifecycle

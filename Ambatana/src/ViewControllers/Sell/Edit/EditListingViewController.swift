@@ -1164,22 +1164,6 @@ extension EditListingViewController: EditListingViewModelDelegate {
         FBSDKShareDialog.show(from: self, with: content, delegate: self)
     }
 
-    func openCarAttributeSelectionsWithViewModel(attributesChoiceViewModel: CarAttributeSelectionViewModel) {
-        let vc = CarAttributeSelectionViewController(viewModel: attributesChoiceViewModel)
-        navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    func openAttributesPicker(viewModel: ListingAttributePickerViewModel) {
-        let vc = ListingAttributePickerViewController(viewModel: viewModel)
-        viewModel.delegate = vc
-        navigationController?.pushViewController(vc, animated: true)
-    }
-
-    func vmShouldOpenMapWithViewModel(_ locationViewModel: EditLocationViewModel) {
-        let vc = EditLocationViewController(viewModel: locationViewModel)
-        navigationController?.pushViewController(vc, animated: true)
-    }
-
     func vmHideKeyboard() {
         activeField?.endEditing(true)
     }

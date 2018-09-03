@@ -40,7 +40,6 @@ class ABTests {
     let discovery = DiscoveryABGroup.make()
     let products = ProductsABGroup.make()
 
-
     convenience init() {
         self.init(syncer: LeamplumSyncer())
     }
@@ -108,10 +107,7 @@ class ABTests {
 // MARK: Discovery
 
 extension ABTests {
-    var sectionedMainFeed: LeanplumABVariable<Int> { return discovery.sectionedMainFeed }
-}
-    
-extension ABTests {
+        
     var personalizedFeed: LeanplumABVariable<Int> {
         return discovery.personalizedFeed
     }
@@ -129,12 +125,16 @@ extension ABTests {
         return personalizedFeed.value > 1
     }
     
-    var multiContactAfterSearch: LeanplumABVariable<Int> {
-        return discovery.multiContact
-    }
-    
     var emptySearchImprovements: LeanplumABVariable<Int> {
         return discovery.emptySearchImprovements
+    }
+    
+    var sectionedFeed: LeanplumABVariable<Int> {
+        return discovery.sectionedFeed
+    }
+    
+    var sectionedFeedIsActive: Bool {
+        return sectionedFeed.value > 1
     }
 }
 
@@ -173,16 +173,11 @@ extension ABTests {
 //  MARK: Money
 
 extension ABTests {
-    var noAdsInFeedForNewUsers: LeanplumABVariable<Int> { return money.noAdsInFeedForNewUsers }
     var copyForChatNowInTurkey: LeanplumABVariable<Int> { return money.copyForChatNowInTurkey }
     var showProTagUserProfile: LeanplumABVariable<Bool> { return money.showProTagUserProfile }
-    var feedAdsProviderForUS: LeanplumABVariable<Int> { return money.feedAdsProviderForUS }
     var copyForChatNowInEnglish: LeanplumABVariable<Int> { return money.copyForChatNowInEnglish }
-    var feedAdsProviderForTR: LeanplumABVariable<Int> { return money.feedAdsProviderForTR }
-    var bumpUpBoost: LeanplumABVariable<Int> { return money.bumpUpBoost }
     var showExactLocationForPros: LeanplumABVariable<Bool> { return money.showExactLocationForPros }
     var copyForSellFasterNowInEnglish : LeanplumABVariable<Int> { return money.copyForSellFasterNowInEnglish }
-    var googleAdxForTR: LeanplumABVariable<Int> { return money.googleAdxForTR }
     var fullScreenAdsWhenBrowsingForUS: LeanplumABVariable<Int> { return money.fullScreenAdsWhenBrowsingForUS }
     var preventMessagesFromFeedToProUsers: LeanplumABVariable<Int> { return money.preventMessagesFromFeedToProUsers }
     var appInstallAdsInFeed: LeanplumABVariable<Int> { return money.appInstallAdsInFeed }
@@ -204,6 +199,7 @@ extension ABTests {
     var searchAlertsDisableOldestIfMaximumReached: LeanplumABVariable<Int> { return retention.searchAlertsDisableOldestIfMaximumReached }
     var notificationCenterRedesign: LeanplumABVariable<Int> { return retention.notificationCenterRedesign }
     var randomImInterestedMessages: LeanplumABVariable<Int> { return retention.randomImInterestedMessages }
+    var imInterestedInProfile: LeanplumABVariable<Int> { return retention.imInterestedInProfile }
 }
 
 //  MARK: RealEstate
@@ -220,6 +216,9 @@ extension ABTests {
     var servicesPaymentFrequency: LeanplumABVariable<Int> { return verticals.servicesPaymentFrequency }
     var carExtraFieldsEnabled: LeanplumABVariable<Int> { return verticals.carExtraFieldsEnabled }
     var servicesUnifiedFilterScreen: LeanplumABVariable<Int> { return verticals.servicesUnifiedFilterScreen }
+    var carPromoCells: LeanplumABVariable<Int> { return verticals.carPromoCells }
+    var servicesPromoCells: LeanplumABVariable<Int> { return verticals.servicesPromoCells }
+    var realEstatePromoCells: LeanplumABVariable<Int> { return verticals.realEstatePromoCells }
 }
 
 //  MARK: Products
@@ -231,6 +230,7 @@ extension ABTests {
     var simplifiedChatButton: LeanplumABVariable<Int> { return products.simplifiedChatButton }
     var deckItemPage: LeanplumABVariable<Int> { return products.deckItemPage }
     var frictionlessShare: LeanplumABVariable<Int> { return products.frictionlessShare }
+    var turkeyFreePosting: LeanplumABVariable<Int> { return products.turkeyFreePosting }
 }
 
 //  MARK: Legacy
@@ -240,8 +240,6 @@ extension ABTests {
     // Not an A/B just flags and variables for surveys
     var surveyURL: LeanplumABVariable<String> { return legacy.surveyURL }
     var surveyEnabled: LeanplumABVariable<Bool> { return legacy.surveyEnabled }
-    var freeBumpUpEnabled: LeanplumABVariable<Bool> { return legacy.freeBumpUpEnabled }
-    var pricedBumpUpEnabled: LeanplumABVariable<Bool> { return legacy.pricedBumpUpEnabled }
     var newCarsMultiRequesterEnabled: LeanplumABVariable<Bool> { return legacy.newCarsMultiRequesterEnabled }
     var inAppRatingIOS10: LeanplumABVariable<Bool> { return legacy.inAppRatingIOS10 }
     var userReviewsReportEnabled: LeanplumABVariable<Bool> { return legacy.userReviewsReportEnabled }

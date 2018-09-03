@@ -236,6 +236,7 @@ extension R {
         public static let childFeed = ImageAsset(name: "child_feed")
         public static let entretainmentFeed = ImageAsset(name: "entretainment_feed")
         public static let fashionFeed = ImageAsset(name: "fashion_feed")
+        public static let freeFeed = ImageAsset(name: "free_feed")
         public static let homeFeed = ImageAsset(name: "home_feed")
         public static let housingFeed = ImageAsset(name: "housing_feed")
         public static let leisureFeed = ImageAsset(name: "leisure_feed")
@@ -564,6 +565,7 @@ extension R {
         CategoriesHeaderIcons.childFeed,
         CategoriesHeaderIcons.entretainmentFeed,
         CategoriesHeaderIcons.fashionFeed,
+        CategoriesHeaderIcons.freeFeed,
         CategoriesHeaderIcons.homeFeed,
         CategoriesHeaderIcons.housingFeed,
         CategoriesHeaderIcons.leisureFeed,
@@ -948,28 +950,108 @@ extension R {
       @available(*, deprecated, renamed: "allImages")
       public static let allValues: [AssetType] = allImages
     }
-    public enum RealEstate {
-      public enum Promo {
-        public static let realEstatePromo1 = ImageAsset(name: "real-estate-promo-1")
-        public static let realEstatePromo2 = ImageAsset(name: "real-estate-promo-2")
-        public static let realEstatePromo3 = ImageAsset(name: "real-estate-promo-3")
-        public static let realEstatePromo4 = ImageAsset(name: "real-estate-promo-4")
-        public static let realEstatePromo5 = ImageAsset(name: "real-estate-promo-5")
-        public static let realEstatePromo6 = ImageAsset(name: "real-estate-promo-6")
-        public static let realEstatePromo7 = ImageAsset(name: "real-estate-promo-7")
+    public enum Verticals {
+      public enum CarPromos {
+        public enum Backgrounds {
+          public static let background1 = ImageAsset(name: "background-1")
+          public static let background2 = ImageAsset(name: "background-2")
+          public static let background3 = ImageAsset(name: "background-3")
+          public static let background4 = ImageAsset(name: "background-4")
+          public static let background5 = ImageAsset(name: "background-5")
+        }
+        public enum Icons {
+          public static let promo1 = ImageAsset(name: "promo-1")
+          public static let promo2 = ImageAsset(name: "promo-2")
+          public static let promo3 = ImageAsset(name: "promo-3")
+          public static let promo4 = ImageAsset(name: "promo-4")
+          public static let promo5 = ImageAsset(name: "promo-5")
+        }
+      }
+      public enum RealEstatePromos {
+        public enum Backgrounds {
+          public static let realEstateBackground1 = ImageAsset(name: "real-estate-background-1")
+          public static let realEstateBackground2 = ImageAsset(name: "real-estate-background-2")
+          public static let realEstateBackground3 = ImageAsset(name: "real-estate-background-3")
+          public static let realEstateBackground4 = ImageAsset(name: "real-estate-background-4")
+          public static let realEstateBackground5 = ImageAsset(name: "real-estate-background-5")
+          public static let realEstateBackground6 = ImageAsset(name: "real-estate-background-6")
+        }
+        public enum Icons {
+          public static let realEstatePromo1 = ImageAsset(name: "real-estate-promo-1")
+          public static let realEstatePromo2 = ImageAsset(name: "real-estate-promo-2")
+          public static let realEstatePromo3 = ImageAsset(name: "real-estate-promo-3")
+          public static let realEstatePromo4 = ImageAsset(name: "real-estate-promo-4")
+          public static let realEstatePromo5 = ImageAsset(name: "real-estate-promo-5")
+          public static let realEstatePromo6 = ImageAsset(name: "real-estate-promo-6")
+          public static let realEstatePromo7 = ImageAsset(name: "real-estate-promo-7")
+          public static let realEstatePromoCell1 = ImageAsset(name: "real-estate-promo-cell-1")
+          public static let realEstatePromoCell2 = ImageAsset(name: "real-estate-promo-cell-2")
+          public static let realEstatePromoCell3 = ImageAsset(name: "real-estate-promo-cell-3")
+          public static let realEstatePromoCell4 = ImageAsset(name: "real-estate-promo-cell-4")
+          public static let realEstatePromoCell5 = ImageAsset(name: "real-estate-promo-cell-5")
+          public static let realEstatePromoCell6 = ImageAsset(name: "real-estate-promo-cell-6")
+        }
+      }
+      public enum ServicesPromos {
+        public enum Backgrounds {
+          public static let servicesBackground1 = ImageAsset(name: "services-background-1")
+          public static let servicesBackground2 = ImageAsset(name: "services-background-2")
+          public static let servicesBackground3 = ImageAsset(name: "services-background-3")
+          public static let servicesBackground4 = ImageAsset(name: "services-background-4")
+          public static let servicesBackground5 = ImageAsset(name: "services-background-5")
+        }
+        public enum Icons {
+          public static let servicesPromo1 = ImageAsset(name: "services-promo-1")
+          public static let servicesPromo2 = ImageAsset(name: "services-promo-2")
+          public static let servicesPromo3 = ImageAsset(name: "services-promo-3")
+          public static let servicesPromo4 = ImageAsset(name: "services-promo-4")
+          public static let servicesPromo5 = ImageAsset(name: "services-promo-5")
+        }
       }
 
       // swiftlint:disable trailing_comma
       public static let allColors: [ColorAsset] = [
       ]
       public static let allImages: [ImageAsset] = [
-        Promo.realEstatePromo1,
-        Promo.realEstatePromo2,
-        Promo.realEstatePromo3,
-        Promo.realEstatePromo4,
-        Promo.realEstatePromo5,
-        Promo.realEstatePromo6,
-        Promo.realEstatePromo7,
+        CarPromos.Backgrounds.background1,
+        CarPromos.Backgrounds.background2,
+        CarPromos.Backgrounds.background3,
+        CarPromos.Backgrounds.background4,
+        CarPromos.Backgrounds.background5,
+        CarPromos.Icons.promo1,
+        CarPromos.Icons.promo2,
+        CarPromos.Icons.promo3,
+        CarPromos.Icons.promo4,
+        CarPromos.Icons.promo5,
+        RealEstatePromos.Backgrounds.realEstateBackground1,
+        RealEstatePromos.Backgrounds.realEstateBackground2,
+        RealEstatePromos.Backgrounds.realEstateBackground3,
+        RealEstatePromos.Backgrounds.realEstateBackground4,
+        RealEstatePromos.Backgrounds.realEstateBackground5,
+        RealEstatePromos.Backgrounds.realEstateBackground6,
+        RealEstatePromos.Icons.realEstatePromo1,
+        RealEstatePromos.Icons.realEstatePromo2,
+        RealEstatePromos.Icons.realEstatePromo3,
+        RealEstatePromos.Icons.realEstatePromo4,
+        RealEstatePromos.Icons.realEstatePromo5,
+        RealEstatePromos.Icons.realEstatePromo6,
+        RealEstatePromos.Icons.realEstatePromo7,
+        RealEstatePromos.Icons.realEstatePromoCell1,
+        RealEstatePromos.Icons.realEstatePromoCell2,
+        RealEstatePromos.Icons.realEstatePromoCell3,
+        RealEstatePromos.Icons.realEstatePromoCell4,
+        RealEstatePromos.Icons.realEstatePromoCell5,
+        RealEstatePromos.Icons.realEstatePromoCell6,
+        ServicesPromos.Backgrounds.servicesBackground1,
+        ServicesPromos.Backgrounds.servicesBackground2,
+        ServicesPromos.Backgrounds.servicesBackground3,
+        ServicesPromos.Backgrounds.servicesBackground4,
+        ServicesPromos.Backgrounds.servicesBackground5,
+        ServicesPromos.Icons.servicesPromo1,
+        ServicesPromos.Icons.servicesPromo2,
+        ServicesPromos.Icons.servicesPromo3,
+        ServicesPromos.Icons.servicesPromo4,
+        ServicesPromos.Icons.servicesPromo5,
       ]
       // swiftlint:enable trailing_comma
       @available(*, deprecated, renamed: "allImages")

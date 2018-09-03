@@ -17,7 +17,7 @@ protocol DeckNavigator: class {
     func closeDetail()
 }
 
-typealias DeckWithPhotoViewerNavigator = DeckNavigator & PhotoViewerNavigator
+typealias DeckWithPhotoViewerNavigator = DeckNavigator & MediaViewerNavigator
 
 protocol DeckAnimator: class {
     func setupWith(viewModel: ListingDeckViewModel)
@@ -93,7 +93,7 @@ final class DeckCoordinator: DeckWithPhotoViewerNavigator, ListingDeckOnBoarding
         openDeckOnBoarding()
     }
 
-    func closePhotoViewer() {
+    func closeMediaViewer() {
         navigationController?.popViewController(animated: true)
     }
 

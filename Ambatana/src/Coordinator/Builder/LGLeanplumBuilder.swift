@@ -19,7 +19,7 @@ extension LGLeanplumBuilder: LeanplumAssembly {
                                         image: message.image)
             let vc = LPMessageViewController(vm: vm)
             vc.modalPresentationStyle = .overCurrentContext
-            vm.navigator = LPMessageRouter(root: root)
+            vm.navigator = LPMessageWireframe(root: root)
 
             return vc
         }

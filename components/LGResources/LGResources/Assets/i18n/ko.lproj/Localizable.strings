@@ -84,6 +84,11 @@
 =======
 "cached_feed_error" = "새로운 목록을 불러오는 동안 오류가 발생했습니다";
 "cached_feed_new_listings" = "새 상품";
+<<<<<<< HEAD
+>>>>>>> master
+=======
+"car_promo_cell_title_bold_text" = "현금 마련하기";
+"car_promo_cell_title_regular_text" = "차량 판매하기";
 >>>>>>> master
 "categories_baby_and_child" = "유아동";
 "categories_car" = "자동차";
@@ -418,8 +423,8 @@
 =======
 "edit_jobsServices_jobs_option_title" = "직업";
 "edit_jobsServices_listingType_title" = "게시글 종류";
-"edit_jobsServices_serviceSubtype_title" = "Subtype";
-"edit_jobsServices_serviceType_title" = "Type";
+"edit_jobsServices_serviceSubtype_title" = "하위 종류";
+"edit_jobsServices_serviceType_title" = "종류";
 "edit_jobsServices_services_option_title" = "서비스";
 "edit_paymentFrequency_placeholder" = "설정하지 않기";
 "edit_paymentFrequency_title" = "자주 사용하는 기능";
@@ -495,11 +500,18 @@
 "filters_cars_transmission_title" = "변속기";
 "filters_distance_not_set" = "설정하지 않기";
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 "filters_jobs_services_header" = "Job or Service Info";
 "filters_jobs_services_subtype_title" = "Subtype";
 "filters_jobs_services_toggle_header" = "Looking for...";
 "filters_jobs_services_type_title" = "Type";
+>>>>>>> master
+=======
+"filters_jobs_services_header" = "직업 혹은 서비스 정보";
+"filters_jobs_services_subtype_title" = "하위 종류";
+"filters_jobs_services_toggle_header" = "해당 사항을 검색하고 있습니다...";
+"filters_jobs_services_type_title" = "종류";
 >>>>>>> master
 "filters_mileage_slider_title" = "마일리지";
 "filters_navbar_reset" = "리셋";
@@ -829,9 +841,13 @@
 "post_description_name_placeholder" = "이름";
 "post_description_save_button_text" = "해당 상품 목록 저장하기!";
 <<<<<<< HEAD
+<<<<<<< HEAD
 "post_details_services_add_new" = "새러운 서비스 추가하기";
 "post_details_services_camera_message" = "본인 사진이나 기업 로고를 게시해주세요";
 =======
+=======
+"post_details_jobs_services_camera_message" = "기업 로고를 게시하거나 서비스 혹은 제공하는 직업을 보여줄 수 있는 사진을 게시해주세요";
+>>>>>>> master
 "post_details_jobs_services_step_option_jobs_prefix" = "구인활동을";
 "post_details_jobs_services_step_option_services_prefix" = "서비스를";
 "post_details_jobs_services_step_title" = "저는...";
@@ -1383,8 +1399,8 @@
 "reporting_user_problem_meetup_header" = "무슨일이 일어났나요?";
 "reporting_user_report_sent_block_user_A_text" = "letgo를 지역 내에서 구매와 판매를 할 수 있는 최적의 공간으로 만들 수 있게 도움을 주셔서 대단히 감사합니다.\n\n사용자께서는 해당 사용자가 게시하신 상품이나 채팅을 할 수 없도록 다른 사용자를 언제나 차단하실 수 있습니다.";
 "reporting_user_report_sent_block_user_A_with_review_text" = "letgo를 지역 내에서 구매와 판매를 할 수 있는 최적의 공간으로 만들 수 있게 도움을 주셔서 대단히 감사합니다.\n\n다른 사용자들께서 확인할 수 있도록 평점을 남기는 것을 잊지 말아주세요.\n\n사용자께서는 해당 사용자가 게시하신 상품이나 채팅을 할 수 없도록 다른 사용자를 언제나 차단하실 수 있습니다.";
-"reporting_user_report_sent_block_user_B_text" = "letgo를 지역 내에서 구매와 판매를 할 수 있는 최적의 공간으로 만들 수 있게 도움을 주셔서 대단히 감사합니다.\n\n저희 팀은 신고 내역을 조사할 것입니다. 조사하는 동안, 사용자께서는 해당 사용자가 게시하신 상품이나 채팅을 할 수 없도록 다른 사용자를 언제나 차단하실 수 있습니다.";
-"reporting_user_report_sent_block_user_B_with_review_text" = "익명 신고에 감사드리며 letgo가 지역적으로 구매하고 판매하는 최고의 공간이 될 수 있도록 도움을 주셔서 대단히 감사드립니다.\n\n다른 사용자들도 확인할 수 있도록 해당 사용자와 거래한 후기를 남겨주시는 것을 잊지 말아주세요.\n\n저희 팀이 수사를 진행하는 동안,  사용자께서는 상품 확인 및 채팅을 할 수 없도록 항상 해당 사용자를 차단하실 수 있음을 알려드립니다.";
+"reporting_user_report_sent_block_user_B_text" = "letgo를 지역 내에서 구매와 판매를 할 수 있는 최적의 공간으로 만들 수 있게 도움을 주셔서 대단히 감사합니다.\n\n저희 팀은 신고 내역을 조사할 것입니다. 조사가 진행되는 동안, 사용자께서는 해당 사용자가 게시하신 상품이나 채팅을 할 수 없도록 다른 사용자를 언제나 차단하실 수 있습니다.";
+"reporting_user_report_sent_block_user_B_with_review_text" = "익명 신고에 감사드리며 letgo가 지역적으로 구매하고 판매하는 최고의 공간이 될 수 있도록 도움을 주셔서 대단히 감사드립니다.\n\n다른 사용자들도 확인할 수 있도록 해당 사용자와 거래한 후기를 남겨주시는 것을 잊지 말아주세요.\n\n저희 팀은 신고 내역을 조사할 것입니다. 조사가 진행되는 동안, 사용자께서는 상품 확인 및 채팅을 할 수 없도록 항상 해당 사용자를 차단하실 수 있음을 알려드립니다.";
 "reporting_user_report_sent_block_user_big_button_title" = "신고된 사용자 차단";
 "reporting_user_report_sent_block_user_small_button_title" = "차단";
 "reporting_user_report_sent_law_enforcement_and_block_text" = "해당 경험을 하신 것에 대해 저희는 대단히 죄송스럽게 생각하고 있습니다. 저희는 경찰서에 연락하는 것과 고소장을 신속히 제출하는 것을 추천하여 드리고 있습니다 (아직 진행하지 않으신 경우).\n\n경찰 신고시 수사에 도움이 될 수 있도록 letgo 법무팀 연락처인lawenforcement@letgo.com를 함께 기재해주세요. 저희는 수사관과 %@에 관련한 정보를 공유할 수 있지만, 강력한 개인 정보 보호 법률로 인해, 저희는 수사 영장이나 소환장이 필요합니다. 이와 같은 서류가 작성되는 동안, 저희 팀이 수사를 진행할 수 있도록 추가 정보를 공유해주시면 대단히 감사하겠습니다.\n\n사용자께서는 상품 확인 및 채팅을 할 수 없도록 항상 해당 사용자를 차단하실 수 있음을 알려드립니다.";
@@ -1458,6 +1474,10 @@
 "sell_title_autogen_label" = "letgo에서 추천하는 제목";
 "sell_title_field_hint" = "제품 이름 (선택사항)";
 "sell_uploading_label" = "게시글을 등록 중 입니다...";
+"services_promo_cell_title_b" = "새로운 서비스 항목!";
+"services_promo_cell_title_c" = "서비스를 원하는 근처 고객들을 찾아보세요";
+"services_promo_cell_title_default_bold" = "현금 마련하기";
+"services_promo_cell_title_default_regular" = "여가시간";
 "services_service_subtype_list_title" = "서비스";
 "services_service_subtype_title" = "서비스";
 "services_service_type_list_title" = "서비스 카테고리";

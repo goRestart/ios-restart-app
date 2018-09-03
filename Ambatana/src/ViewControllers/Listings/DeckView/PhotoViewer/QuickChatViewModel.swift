@@ -16,7 +16,8 @@ final class QuickChatViewModel: BaseViewModel, DirectAnswersHorizontalViewDelega
     var listingViewModel: ListingViewModel? {
         didSet { setupRx() }
     }
-
+    
+    var sectionFeedChatTrackingInfo: SectionedFeedChatTrackingInfo?
     private var disposeBag = DisposeBag()
 
     fileprivate let chatEnabled = Variable<Bool>(false)
@@ -47,7 +48,9 @@ final class QuickChatViewModel: BaseViewModel, DirectAnswersHorizontalViewDelega
     }
 
     func send(directMessage: String, isDefaultText: Bool) {
-        listingViewModel?.sendDirectMessage(directMessage, isDefaultText: isDefaultText)
+        listingViewModel?.sendDirectMessage(directMessage,
+                                            isDefaultText: isDefaultText,
+                                            trackingInfo: sectionFeedChatTrackingInfo)
     }
 
     func performCollectionChange(change: CollectionChange<ChatViewMessage>) {
@@ -72,7 +75,8 @@ final class QuickChatViewModel: BaseViewModel, DirectAnswersHorizontalViewDelega
     }
 
     func directAnswersHorizontalViewDidSelect(answer: QuickAnswer) {
-        listingViewModel?.sendQuickAnswer(quickAnswer: answer)
+        listingViewModel?.sendQuickAnswer(quickAnswer: answer,
+                                          trackingInfo: sectionFeedChatTrackingInfo)
     }
 }
 

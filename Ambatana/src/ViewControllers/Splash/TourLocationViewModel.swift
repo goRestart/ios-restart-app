@@ -2,8 +2,6 @@ import RxSwift
 import LGCoreKit
 import LGComponents
 
-protocol TourLocationViewModelDelegate: BaseViewModelDelegate { }
-
 final class TourLocationViewModel: BaseViewModel {
 
     var title: String {
@@ -24,9 +22,8 @@ final class TourLocationViewModel: BaseViewModel {
     let locationManager: LocationManager
     let tracker: Tracker
     
-    weak var navigator: TourLocationNavigator?
-    weak var delegate: TourLocationViewModelDelegate?
-    
+    var navigator: TourLocationNavigator?
+
     private let disposeBag = DisposeBag()
 
     convenience init(source: EventParameterTypePage) {
@@ -59,15 +56,13 @@ final class TourLocationViewModel: BaseViewModel {
             permissionGoToSettings: .notAvailable)
         tracker.trackEvent(trackerEvent)
     }
-    
-    func userDidTapNoButton() {
-        let actionOk = UIAction(interface: UIActionInterface.text(R.Strings.onboardingAlertYes),
-                                action: { [weak self] in self?.closeTourLocation() })
-        let actionCancel = UIAction(interface: UIActionInterface.text(R.Strings.onboardingAlertNo),
-                                    action: { [weak self] in self?.askForPermissions() })
-        delegate?.vmShowAlert(R.Strings.onboardingLocationPermissionsAlertTitle,
-                              message: R.Strings.onboardingLocationPermissionsAlertSubtitle,
-                              actions: [actionCancel, actionOk])
+
+    func okAlertTapped() {
+        closeTourLocation()
+    }
+
+    func cancelAlertTapped() {
+        askForPermissions()
     }
 
     func userDidTapYesButton() {

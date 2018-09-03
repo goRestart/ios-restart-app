@@ -3,7 +3,7 @@ import LGCoreKit
 
 
 struct CategoryHeaderInfo {
-    let listingCategory: ListingCategory
+    let filterCategoryItem: FilterCategoryItem
     let position: Int
     let name: String
 }
@@ -14,8 +14,8 @@ protocol CategoriesHeaderCollectionViewDelegate: class {
 
 final class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    private var categoryElements: [ListingCategory] = []
-    private var categoryHighlighted: ListingCategory?
+    private var categoryElements: [FilterCategoryItem] = []
+    private var categoryHighlighted: FilterCategoryItem?
     
     weak var delegateCategoryHeader: CategoriesHeaderCollectionViewDelegate?
     
@@ -34,7 +34,7 @@ final class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDe
         setAccessibilityIds()
     }
     
-    func configure(with categories: [ListingCategory], categoryHighlighted: ListingCategory) {
+    func configure(with categories: [FilterCategoryItem], categoryHighlighted: FilterCategoryItem) {
         self.categoryElements = categories
         self.categoryHighlighted = categoryHighlighted
     }
@@ -60,10 +60,12 @@ final class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDe
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryHeaderCell.reuseIdentifier,
                                                             for: indexPath) as? CategoryHeaderCell else { return UICollectionViewCell() }
         let categoryHeaderElement = categoryElements[indexPath.row]
-        cell.categoryTitle.text = categoryHeaderElement.name.localizedUppercase
         cell.categoryTitle.addKern(value: -0.30)
         cell.categoryIcon.image = categoryHeaderElement.imageInFeed
-        if let categoryHighlighted = self.categoryHighlighted, categoryHeaderElement == categoryHighlighted {
+        cell.categoryTitle.text = categoryHeaderElement.name.localizedUppercase
+
+        if let categoryHighlighted = self.categoryHighlighted,
+            categoryHeaderElement == categoryHighlighted {
             cell.addNewTagToCategory()
         }
         return cell
@@ -73,7 +75,7 @@ final class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDe
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
        
         let categoryHeaderElement = categoryElements[indexPath.row]
-        let headerInfo = CategoryHeaderInfo(listingCategory: categoryHeaderElement,
+        let headerInfo = CategoryHeaderInfo(filterCategoryItem: categoryHeaderElement,
                                             position: indexPath.row + 1,
                                             name: categoryHeaderElement.name)
         

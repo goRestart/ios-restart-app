@@ -1,10 +1,11 @@
 import UIKit
 
-// MARK: > Basic Letgo Palette
+// MARK: > Not that basic Letgo Palette
 
 public extension UIColor {
     static var soldColor: UIColor { return tealBlue }
     static var soldFreeColor: UIColor { return tealBlue }
+
 }
 
 public extension UIColor {
@@ -19,7 +20,7 @@ public extension UIColor {
 // MARK: > Basic Buttons Palette
 
 public extension UIColor {
-    
+
     static var primaryColor: UIColor { return watermelon }
     static var secondaryColor: UIColor { return white }
     static var terciaryColor: UIColor { return tealBlue }
@@ -119,6 +120,7 @@ public extension UIColor {
 
     static let asparagus = UIColor(rgb: 0x81ac56) // (129, 172, 86)
     static let macaroniAndCheese = UIColor(rgb: 0xf1b83d)
+    static let orangeFree = UIColor(red: 252, green: 152, blue: 84)
 }
 
 // MARK: > Text colors

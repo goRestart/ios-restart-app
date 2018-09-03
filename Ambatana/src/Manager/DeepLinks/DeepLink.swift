@@ -36,7 +36,7 @@ struct DeepLink {
 enum DeepLinkAction: Equatable {
     case appRating(source: String)
     case home
-    case sell
+    case sell(source: String?, category: String?, title: String?)
     case listing(listingId: String)
     case listingShare(listingId: String)
     case listingBumpUp(listingId: String)
@@ -60,6 +60,7 @@ enum DeepLinkAction: Equatable {
     case notificationCenter
     case appStore
     case webView(url: URL)
+    case invite(userid: String, username: String)
     
     static public func ==(lhs: DeepLinkAction, rhs: DeepLinkAction) -> Bool {
         switch (lhs, rhs) {
@@ -67,8 +68,9 @@ enum DeepLinkAction: Equatable {
             return sourceLhs == sourceRhs
         case (.home, .home):
             return true
-        case (.sell, .sell):
-            return true
+        case (.sell(let lhsSource, let lhsCategory, let lhsTitle),
+              .sell(let rhsSource, let rhsCategory, let rhsTitle)):
+            return lhsSource == rhsSource && lhsCategory == rhsCategory && lhsTitle == rhsTitle
         case (.listing(let lhsDetail), .listing(let rhsDetail)):
             return lhsDetail == rhsDetail
         case (.listingShare(let lhsDetail), .listingShare(let rhsDetail)):
@@ -112,6 +114,8 @@ enum DeepLinkAction: Equatable {
             return true
         case (.webView(let lhsUrl), .webView(let rhsUrl)):
             return lhsUrl == rhsUrl
+        case (.invite(let lhsuserid, let lhsusername), .invite(let rhslhsuserid, let rhssername)):
+            return lhsuserid == rhslhsuserid && lhsusername == rhssername
         default:
             return false
         }

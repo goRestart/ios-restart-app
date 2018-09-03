@@ -4,10 +4,6 @@ import RxSwift
 import RxCocoa
 import LGComponents
 
-enum VerificationType {
-    case facebook, google, email(String?)
-}
-
 protocol UserVerificationViewModelDelegate: BaseViewModelDelegate {
     func startAvatarSelection()
 }

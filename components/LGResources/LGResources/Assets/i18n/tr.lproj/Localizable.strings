@@ -67,6 +67,8 @@
 "bump_up_view_pay_title" = "İlanına 2 kat daha fazla alıcı çek";
 "cached_feed_error" = "Yeni ilanlar yüklenirken bir hata oluştu";
 "cached_feed_new_listings" = "Yeni ürünler";
+"car_promo_cell_title_bold_text" = "Para kazan";
+"car_promo_cell_title_regular_text" = "arabanı sat";
 "categories_baby_and_child" = "Bebek ve Çocuk";
 "categories_car" = "Araba";
 "categories_cars_and_motors" = "Diğer Araçlar ve Yedek Parça";
@@ -380,8 +382,8 @@
 "discarded_products_reason_stock_photo_only" = "Sadece stok fotoğraf kullanılması";
 "edit_jobsServices_jobs_option_title" = "İşler";
 "edit_jobsServices_listingType_title" = "İlan Türü";
-"edit_jobsServices_serviceSubtype_title" = "Subtype";
-"edit_jobsServices_serviceType_title" = "Type";
+"edit_jobsServices_serviceSubtype_title" = "Alt tür";
+"edit_jobsServices_serviceType_title" = "Tür";
 "edit_jobsServices_services_option_title" = "Hizmetler";
 "edit_paymentFrequency_placeholder" = "Belirlenmedi";
 "edit_paymentFrequency_title" = "Sıklık";
@@ -445,10 +447,10 @@
 "filters_cars_transmission_manual" = "Düz vites";
 "filters_cars_transmission_title" = "Vites";
 "filters_distance_not_set" = "belirlenmedi";
-"filters_jobs_services_header" = "Job or Service Info";
-"filters_jobs_services_subtype_title" = "Subtype";
-"filters_jobs_services_toggle_header" = "Looking for...";
-"filters_jobs_services_type_title" = "Type";
+"filters_jobs_services_header" = "İş veya Hizmet Bilgisi";
+"filters_jobs_services_subtype_title" = "Alt tür";
+"filters_jobs_services_toggle_header" = "Aradığım...";
+"filters_jobs_services_type_title" = "Tür";
 "filters_mileage_slider_title" = "Kilometre sayacı";
 "filters_navbar_reset" = "Sıfırla";
 "filters_numberOfSeats_slider_title" = "Koltuklar";
@@ -756,6 +758,7 @@
 "post_description_info_title" = "İLAN BİLGİSİ";
 "post_description_name_placeholder" = "İsim";
 "post_description_save_button_text" = "Bu ilanı kaydet!";
+"post_details_jobs_services_camera_message" = "Şirketinin logosunu ya da sunduğun hizmet veya işi gösteren bir fotoğraf yayınla";
 "post_details_jobs_services_step_option_jobs_prefix" = "Şunun için işe alacak birini arıyorum:";
 "post_details_jobs_services_step_option_services_prefix" = "Şunun ilanını veriyorum:";
 "post_details_jobs_services_step_title" = "Ben";
@@ -1358,6 +1361,10 @@
 "sell_title_autogen_label" = "letgo tarafından önerilen başlık";
 "sell_title_field_hint" = "Ürün başlığı (isteğe bağlı)";
 "sell_uploading_label" = "İlanın yayınlanıyor...";
+"services_promo_cell_title_b" = "Yeni Hizmetler kategorisi!";
+"services_promo_cell_title_c" = "Hizmetin için yerel müşteriler bul";
+"services_promo_cell_title_default_bold" = "Para Kazan";
+"services_promo_cell_title_default_regular" = "boş zamanlarında";
 "services_service_subtype_list_title" = "Hizmet";
 "services_service_subtype_title" = "Hizmet";
 "services_service_type_list_title" = "Hizmet kategorisi";

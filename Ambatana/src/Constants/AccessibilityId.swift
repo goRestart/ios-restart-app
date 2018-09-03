@@ -538,6 +538,14 @@ enum AccessibilityId: Equatable, Accessible {
     case userProfileVerifiedWithFacebook
     case userProfileVerifiedWithGoogle
     case userProfileVerifiedWithEmail
+    
+    // Verify Accounts popup
+    case verifyAccountsBackgroundButton
+    case verifyAccountsFacebookButton
+    case verifyAccountsGoogleButton
+    case verifyAccountsEmailButton
+    case verifyAccountsEmailTextField
+    case verifyAccountsEmailTextFieldButton
 
     // Verifications view
     case verificationsOptionsTitle
@@ -722,10 +730,10 @@ enum AccessibilityId: Equatable, Accessible {
     case askPhoneNumberSendPhoneButton
     
     //  MARK - Verticals
-    case realEstateCell
-    case realEstatePromoTitle
-    case realEstatePromoIcon
-    case realEstatePromoPostNowButton
+    case promoCell
+    case promoCellTitle
+    case promoCellIcon
+    case promoCellPostNowButton
 
     // Search Alerts Placeholder
     case searchAlertsPlaceholderIcon
@@ -1783,6 +1791,20 @@ enum AccessibilityId: Equatable, Accessible {
         case .userProfileVerifiedWithEmail:
             return "userProfileVerifiedWithEmail"
 
+        // Verify Accounts popup
+        case .verifyAccountsBackgroundButton:
+            return "verifyAccountsBackgroundButton"
+        case .verifyAccountsFacebookButton:
+            return "verifyAccountsFacebookButton"
+        case .verifyAccountsGoogleButton:
+            return "verifyAccountsGoogleButton"
+        case .verifyAccountsEmailButton:
+            return "verifyAccountsEmailButton"
+        case .verifyAccountsEmailTextField:
+            return "verifyAccountsEmailTextField"
+        case .verifyAccountsEmailTextFieldButton:
+            return "verifyAccountsEmailTextFieldButton"
+            
         // Verifications view
         case .verificationsOptionsTitle:
             return "verificationsOptionsTitle"
@@ -2086,14 +2108,14 @@ enum AccessibilityId: Equatable, Accessible {
             return "askPhoneNumberSendPhoneButton"
             
             //  MARK: Verticals
-        case .realEstateCell:
-            return "realEstateCell"
-        case .realEstatePromoTitle:
-            return "realEstatePromoTitle"
-        case .realEstatePromoIcon:
-            return "realEstatePromoIcon"
-        case .realEstatePromoPostNowButton:
-            return "realEstatePromoPostNowButton"
+        case .promoCell:
+            return "promoCell"
+        case .promoCellTitle:
+            return "promoCellTitle"
+        case .promoCellIcon:
+            return "promoCellIcon"
+        case .promoCellPostNowButton:
+            return "promoCellPostNowButton"
         // Search Alerts Placeholder
         case .searchAlertsPlaceholderIcon:
             return "searchAlertsPlaceholderIcon"

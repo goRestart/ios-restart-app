@@ -157,6 +157,36 @@ final class ProductPriceAndTitleView: UIView {
         }
     }
     
+    func configUI(title: String?,
+                  price: String,
+                  paymentFrequency: String?,
+                  style: OverlayDisplayStyle) {
+        
+        titleLabel.text = title
+        
+        priceLabel.textColor = priceLabelColour(forDisplayStyle: style)
+        
+        switch style {
+        case .darkText:
+            titleLabel.textColor = .darkGrayText
+            backgroundColor = .clear
+            titleLabel.font = ListingCellMetrics.TitleLabel.fontMedium
+            priceLabel.layout(with: self).top(by: ListingCellMetrics.PriceLabel.topMargin)
+        case .whiteText:
+            titleLabel.textColor = .white
+            titleLabel.font = ListingCellMetrics.TitleLabel.fontBold
+            applyShadow(withOpacity: 0.5, radius: 5, color: UIColor.black.cgColor)
+        }
+        
+        if let attributedText = paymentFrequencyAttributedString(forPrice: price,
+                                                                 paymentFrequency: paymentFrequency,
+                                                                 style: style) {
+            priceLabel.attributedText = attributedText
+        } else {
+            priceLabel.text = price
+        }
+    }
+    
     private func paymentFrequencyAttributedString(forPrice price: String,
                                                   paymentFrequency: String?,
                                                   style: OverlayDisplayStyle) -> NSAttributedString? {

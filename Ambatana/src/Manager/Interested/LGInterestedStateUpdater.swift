@@ -2,6 +2,8 @@ import LGCoreKit
 
 final class LGInterestedStateUpdater: InterestedStateUpdater {
     
+    static let sharedInstance: LGInterestedStateUpdater = LGInterestedStateUpdater()
+    
     let myUserRepository: MyUserRepository
     let keyValueStorage: KeyValueStorageable
     
@@ -9,6 +11,17 @@ final class LGInterestedStateUpdater: InterestedStateUpdater {
         didSet {
             keyValueStorage.interestingListingIDs = listingInterestStates
         }
+    }
+    
+    var dictInterestedStates: [String: InterestedState] {
+        let empty = [String: InterestedState]()
+        let dict: [String: InterestedState] = listingInterestStates.reduce(empty) {
+            (dict, identifier) -> [String: InterestedState] in
+            var dict = dict
+            dict[identifier] = .seeConversation
+            return dict
+        }
+        return dict
     }
     
     let contactedProSellerList: [String]

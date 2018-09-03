@@ -29,10 +29,14 @@ class AdvertisementCell: UICollectionViewCell, ReusableCell {
     
     func setupWith(adxData: AdvertisementAdxData) {
         guard let adxNativeView = adxData.adxNativeView else { return }
-        adxNativeView.frame = contentView.frame
-        contentView.addSubviewForAutoLayout(adxNativeView)
-        adxNativeView.layout(with: contentView).fill()
-        adxNativeView.set(accessibilityId: .advertisementCellBanner)
+        setupWith(adContentView: adxNativeView)
+    }
+    
+    func setupWith(adContentView: UIView) {
+        contentView.addSubviewForAutoLayout(adContentView)
+        adContentView.frame = contentView.frame
+        adContentView.layout(with: contentView).fill()
+        adContentView.set(accessibilityId: .advertisementCellBanner)
     }
     
     convenience init() {

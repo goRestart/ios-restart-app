@@ -13,6 +13,8 @@ enum ListingDetailData {
     case listingList(listing: Listing, cellModels: [ListingCellModel], requester: ListingListRequester,
                      thumbnailImage: UIImage?, originFrame: CGRect?, showRelated: Bool, index: Int)
     case listingChat(chatConversation: ChatConversation)
+    case sectionedRelatedListing(listing: Listing, thumbnailImage: UIImage?, originFrame: CGRect?)
+    case sectionedNonRelatedListing(listing: Listing, feedListingDatas: [FeedListingData], thumbnailImage: UIImage?, originFrame: CGRect?, index: Int, sectionIdentifier: String)
 }
 
 enum ChatDetailData {
@@ -66,7 +68,6 @@ protocol ListingDetailNavigator: class {
     func openAppRating(_ source: EventParameterRatingSource)
     func openUser(_ data: UserDetailData)
     func openUserVerificationView()
-
     func closeProductDetail()
     func editListing(_ listing: Listing,
                      bumpUpProductData: BumpUpProductData?,
@@ -104,15 +105,8 @@ protocol ListingDetailNavigator: class {
     func showBumpUpBoostSucceededAlert()
     func openContactUs(forListing listing: Listing, contactUstype: ContactUsType)
     func openFeaturedInfo()
-    func closeFeaturedInfo()
 
     func openAskPhoneFor(listing: Listing, interlocutor: User?)
-    func closeAskPhoneFor(listing: Listing,
-                          openChat: Bool,
-                          withPhoneNum: String?,
-                          source: EventParameterTypePage,
-                          interlocutor: User?)
-
     func openVideoPlayer(atIndex index: Int, listingVM: ListingViewModel, source: EventParameterListingVisitSource)
     
     func openListingAttributeTable(withViewModel viewModel: ListingAttributeTableViewModel)

@@ -23,14 +23,7 @@ class ListingCarouselMoreInfoViewAttributeGridView: UIView {
         return label
     }()
     
-    private let gridCollectionView: ListingAttributeGridView = {
-        let gridView = ListingAttributeGridView(frame: CGRect.zero,
-                                                layoutBehaviour: ListingAttributeGridLayoutBehaviour.horizontalScroll,
-                                                theme: ListingAttributeGridTheme.dark,
-                                                items: [],
-                                                selectionEnabled: false)
-        return gridView
-    }()
+    private var gridCollectionView: ListingAttributeGridView?
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)
@@ -54,9 +47,42 @@ extension ListingCarouselMoreInfoViewAttributeGridView {
                items: [ListingAttributeGridItem],
                tapAction: (() -> Void)?) {
         titleLabel.text = title
-        gridCollectionView.setup(withItems: items)
-        
         self.tapAction = tapAction
+        setupCollectionView(withItems: items)
+    }
+
+    private func setupCollectionView(withItems items: [ListingAttributeGridItem]) {
+        resetCollectionView()
+        gridCollectionView = ListingAttributeGridView(frame: CGRect.zero,
+                                                      layoutBehaviour: ListingAttributeGridLayoutBehaviour.horizontalScroll,
+                                                      theme: ListingAttributeGridTheme.dark,
+                                                      items: items,
+                                                      selectionEnabled: false)
+        setupCollectionViewLayout()
+        setupGestureRecognizer()
+    }
+    
+    private func resetCollectionView() {
+        gridCollectionView?.removeFromSuperview()
+        gridCollectionView = nil
+    }
+    
+    private func setupCollectionViewLayout() {
+        guard let gridCollectionView = gridCollectionView else { return }
+        addSubviewForAutoLayout(gridCollectionView)
+        gridCollectionView.layout(with: self)
+            .fillHorizontal()
+            .bottom(to: .bottom,
+                    by: -Layout.gridCollectionViewVerticalOffset)
+        gridCollectionView.layout(with: titleLabel).top(to: .bottom,
+                                                        by: Layout.gridCollectionViewVerticalOffset)
+    }
+    
+    private func setupGestureRecognizer() {
+        let gestureRecognizer = UITapGestureRecognizer(target: self,
+                                                       action: #selector(didTapCollectionView))
+        gestureRecognizer.cancelsTouchesInView = true
+        gridCollectionView?.addGestureRecognizer(gestureRecognizer)
     }
     
     @objc private func didTapCollectionView() {
@@ -72,36 +98,22 @@ extension ListingCarouselMoreInfoViewAttributeGridView {
     private func performSetup() {
         setupUI()
         setupConstraints()
-        setupTapAction()
     }
     
     private func setupUI() {
         backgroundColor = .clear
         contentMode = UIViewContentMode.redraw
-    }
-    
-    private func setupTapAction() {
-        let gestureRecognizer = UITapGestureRecognizer(target: self,
-                                                       action: #selector(didTapCollectionView))
-        gestureRecognizer.cancelsTouchesInView = true
-        gridCollectionView.addGestureRecognizer(gestureRecognizer)
+        clipsToBounds = true
     }
     
     private func setupConstraints() {
-        addSubviewsForAutoLayout([titleLabel, gridCollectionView])
+        addSubviewsForAutoLayout([titleLabel])
         
         titleLabel.layout(with: self)
             .fillHorizontal(by: Layout.titleLabelHorizontalOffset)
             .top(by: Layout.titleLabelVerticalOffset)
         
         titleLabel.layout().height(Layout.titleLabelHeight)
-        
-        gridCollectionView.layout(with: self)
-            .fillHorizontal()
-            .bottom(to: .bottom,
-                    by: -Layout.gridCollectionViewVerticalOffset)
-        gridCollectionView.layout(with: titleLabel).top(to: .bottom,
-                                                        by: Layout.gridCollectionViewVerticalOffset)
     }
 }
 

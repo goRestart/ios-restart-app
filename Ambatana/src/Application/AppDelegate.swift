@@ -355,7 +355,6 @@ fileprivate extension AppDelegate {
             let featureFlagsSynced = featureFlags.syncedData.asObservable().distinctUntilChanged()
             Observable.combineLatest(appActive.asObservable().distinctUntilChanged(), featureFlagsSynced.asObservable()) { ($0, $1) }
                 .bind { [weak self] (appActive, _) in
-                    guard featureFlags.pricedBumpUpEnabled else { return }
                     if appActive {
                         // observe payment transactions
                         self?.purchasesShopper?.startObservingTransactions()

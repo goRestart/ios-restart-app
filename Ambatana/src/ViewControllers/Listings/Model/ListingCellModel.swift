@@ -61,6 +61,19 @@ enum InterestedState: Equatable {
     }
 }
 
+extension InterestedState {
+    
+    var image: UIImage? {
+        switch self {
+        case .none: return nil
+        case .send(let enabled):
+            let alpha: CGFloat = enabled ? 1 : 0.7
+            return R.Asset.IconsButtons.IAmInterested.icIamiSend.image.withAlpha(alpha) ?? R.Asset.IconsButtons.IAmInterested.icIamiSend.image
+        case .seeConversation: return R.Asset.IconsButtons.IAmInterested.icIamiSeeconv.image
+        }
+    }
+}
+
 struct ListingData {
     var listing: Listing?
     var delegate: ListingCellDelegate?
@@ -119,6 +132,19 @@ enum CollectionCellType: String {
             return R.Strings.collectionYouTitle
         }
     }
+    
+    func buildQueryString(from keyValueStorage: KeyValueStorageable) -> String {
+        var query: String
+        switch self {
+        case .selectedForYou:
+            query = keyValueStorage[.lastSuggestiveSearches]
+                .compactMap { $0.suggestiveSearch.name }
+                .reversed()
+                .joined(separator: " ")
+                .clipMoreThan(wordCount: SharedConstants.maxSelectedForYouQueryTerms)
+        }
+        return query
+    }
 }
 
 struct AdvertisementDFPData {
@@ -161,11 +187,4 @@ struct AdvertisementAdxData {
 enum AdProviderType {
     case dfp
     case moPub
-}
-
-struct PromoCellData {
-    var appereance: CellAppereance
-    var arrangement: PromoCellArrangement
-    var title: String
-    var image: UIImage
 }

@@ -84,6 +84,11 @@
 =======
 "cached_feed_error" = "Er is een fout opgetreden tijdens het laden van nieuwe advertenties";
 "cached_feed_new_listings" = "Nieuwe items";
+<<<<<<< HEAD
+>>>>>>> master
+=======
+"car_promo_cell_title_bold_text" = "Verdien geld";
+"car_promo_cell_title_regular_text" = "jouw auto verkopen";
 >>>>>>> master
 "categories_baby_and_child" = "Baby en kind";
 "categories_car" = "Auto's";
@@ -824,9 +829,13 @@
 "post_description_name_placeholder" = "Naam";
 "post_description_save_button_text" = "Bewaar deze advertentie!";
 <<<<<<< HEAD
+<<<<<<< HEAD
 "post_details_services_add_new" = "Voeg een nieuwe dienst toe";
 "post_details_services_camera_message" = "Post een foto van jezelf of het logo van je bedrijf";
 =======
+=======
+"post_details_jobs_services_camera_message" = "Plaats jouw bedrijfslogo of een foto die de dienst of baan die je aanbiedt laat zien";
+>>>>>>> master
 "post_details_jobs_services_step_option_jobs_prefix" = "Ben op zoek om iemand in te huren voor een";
 "post_details_jobs_services_step_option_services_prefix" = "Adverteer een";
 "post_details_jobs_services_step_title" = "Ik...";
@@ -1445,6 +1454,10 @@
 "sell_title_autogen_label" = "Titel voorgesteld door letgo";
 "sell_title_field_hint" = "Titel (optioneel)";
 "sell_uploading_label" = "Uploaden van jouw advertentie...";
+"services_promo_cell_title_b" = "Nieuwe Diensten categorie!";
+"services_promo_cell_title_c" = "Vind lokale klanten voor jouw dienst";
+"services_promo_cell_title_default_bold" = "Verdien Geld";
+"services_promo_cell_title_default_regular" = "in je vrije tijd";
 "services_service_subtype_list_title" = "Diensten";
 "services_service_subtype_title" = "Diensten";
 "services_service_type_list_title" = "Diensten categorie";
