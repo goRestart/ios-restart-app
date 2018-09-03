@@ -62,4 +62,11 @@ extension CommunityTabCoordinator: CommunityTabNavigator {
     func closeCommunity() {
         dismissViewController(animated: true, completion: nil)
     }
+
+    func openLogin() {
+        guard !sessionManager.loggedIn else { return }
+        let vc = LoginBuilder.modal.buildMainSignIn(withSource: .community, loginAction: nil, cancelAction: nil)
+        let nav = UINavigationController(rootViewController: vc)
+        viewController.present(nav, animated: true)
+    }
 }
