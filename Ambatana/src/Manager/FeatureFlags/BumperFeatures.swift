@@ -81,6 +81,7 @@ extension Bumper  {
         flags.append(SectionedDiscoveryFeed.self)
         flags.append(ServicesPromoCells.self)
         flags.append(ImInterestedInProfile.self)
+        flags.append(ClickToTalk.self)
         Bumper.initialize(flags)
     } 
 
@@ -925,6 +926,19 @@ extension Bumper  {
     static var imInterestedInProfileObservable: Observable<ImInterestedInProfile> {
         return Bumper.observeValue(for: ImInterestedInProfile.key).map {
             ImInterestedInProfile(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var clickToTalk: ClickToTalk {
+        guard let value = Bumper.value(for: ClickToTalk.key) else { return .control }
+        return ClickToTalk(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var clickToTalkObservable: Observable<ClickToTalk> {
+        return Bumper.observeValue(for: ClickToTalk.key).map {
+            ClickToTalk(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1958,6 +1972,22 @@ enum ImInterestedInProfile: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "[RETENTION] Show Im Interested buttons in public profiles" } 
     static func fromPosition(_ position: Int) -> ImInterestedInProfile {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum ClickToTalk: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return ClickToTalk.control.rawValue }
+    static var enumValues: [ClickToTalk] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[VERTICALS] Show Click to talk" } 
+    static func fromPosition(_ position: Int) -> ClickToTalk {
         switch position { 
             case 0: return .control
             case 1: return .baseline

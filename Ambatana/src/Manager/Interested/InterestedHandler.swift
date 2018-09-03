@@ -96,7 +96,13 @@ final class InterestedHandler: InterestedHandleable {
     
     private func sendMessage(forListing listing: Listing) {
         interestedStateUpdater.addInterestedState(forListing: listing, completion: nil)
-        let type = ChatWrapperMessageType.interested(QuickAnswer.interested.textToReply)
+        let type: ChatWrapperMessageType
+        if featureFlags.randomImInterestedMessages.isActive {
+            type = ChatWrapperMessageType.interested(QuickAnswer.dynamicInterested(
+                interestedMessage: QuickAnswer.InterestedMessage.makeRandom()).textToReply)
+        } else {
+            type = ChatWrapperMessageType.interested(QuickAnswer.interested.textToReply)
+        }
         let trackingInfo = makeSendMessageTrackingInfo(type: type, listing: listing)
         trackUserMessageSent(trackingInfo: trackingInfo)
         chatWrapper.sendMessageFor(listing: listing, type: type) { [weak self] isFirstMessage in

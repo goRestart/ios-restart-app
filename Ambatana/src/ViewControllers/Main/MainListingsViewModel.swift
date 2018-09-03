@@ -62,6 +62,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     
     private var isMapTooltipAdded = false
     
+    private var shouldCloseOnRemoveAllFilters: Bool = false
+    
     var hasFilters: Bool {
         return !filters.isDefault()
     }
@@ -496,7 +498,9 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         setup()
     }
     
-    convenience init(searchType: SearchType? = nil, filters: ListingFilters) {
+    convenience init(searchType: SearchType? = nil,
+                     filters: ListingFilters,
+                     shouldCloseOnRemoveAllFilters: Bool) {
         let sessionManager = Core.sessionManager
         let myUserRepository = Core.myUserRepository
         let searchRepository = Core.searchRepository
@@ -537,6 +541,13 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                   adsImpressionConfigurable: adsImpressionConfigurable,
                   interestedHandler: interestedHandler,
                   feedBadgingSynchronizer: feedBadgingSynchronizer)
+        self.shouldCloseOnRemoveAllFilters = shouldCloseOnRemoveAllFilters
+    }
+    
+    convenience init(searchType: SearchType? = nil, filters: ListingFilters) {
+        self.init(searchType: searchType,
+                  filters: filters,
+                  shouldCloseOnRemoveAllFilters: false)
     }
     
     convenience init(searchType: SearchType? = nil, tabNavigator: TabNavigator?) {
@@ -616,6 +627,10 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
      */
     func updateFiltersFromTags(_ tags: [FilterTag],
                                removedTag: FilterTag?) {
+        guard !shouldCloseOnRemoveAllFilters || tags.count > 0 else {
+            wireframe?.closeAll()
+            return
+        }
         var categories: [FilterCategoryItem] = []
         var orderBy = ListingSortCriteria.defaultOption
         var within = ListingTimeFilter.defaultOption
@@ -1049,6 +1064,10 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
 extension MainListingsViewModel: FiltersViewModelDataDelegate {
     
     func viewModelDidUpdateFilters(_ viewModel: FiltersViewModel, filters: ListingFilters) {
+        guard !shouldCloseOnRemoveAllFilters || !filters.isDefault() else {
+            wireframe?.closeAll()
+            return
+        }
         self.filters = filters
         delegate?.vmShowTags(tags: tags)
         updateListView()
@@ -1598,8 +1617,10 @@ extension MainListingsViewModel {
     private func selectedLastSearchAtIndex(_ index: Int) {
         guard let lastSearch = lastSearchAtIndex(index), let name = lastSearch.name, !name.isEmpty else { return }
         delegate?.vmDidSearch()
-        navigator?.openMainListings(withSearchType: .lastSearch(search: lastSearch),
-                                    listingFilters: filters)
+        guard let safeNavigator = navigator else { return }
+        wireframe?.openClassicFeed(navigator: safeNavigator,
+                                   withSearchType: .lastSearch(search: lastSearch),
+                                   listingFilters: filters)
     }
     
     func cleanUpLastSearches() {

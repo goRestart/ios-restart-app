@@ -324,5 +324,10 @@
         "name": "ImInterestedInProfile",
         "values": ["control", "baseline", "active"],
         "description": "[RETENTION] Show Im Interested buttons in public profiles"
+    },
+    {
+        "name": "ClickToTalk",
+        "values": ["control", "baseline", "active"],
+        "description": "[VERTICALS] Show Click to talk"
     }
  ]

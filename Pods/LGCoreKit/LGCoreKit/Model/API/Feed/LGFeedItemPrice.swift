@@ -5,7 +5,7 @@ struct LGFeedItemPrice: Decodable {
         case normal, free, negotiable
     }
     
-    let amount: Double?
+    let amount: Double
     let currency: String
     let flag: PriceFlag
 }
@@ -13,7 +13,7 @@ struct LGFeedItemPrice: Decodable {
 extension LGFeedItemPrice {
     
     static func toListingPrice(price: LGFeedItemPrice) -> ListingPrice {
-        let priceValue = price.amount ?? 0
+        let priceValue = price.amount
         switch price.flag {
         case .normal, .negotiable:
             return ListingPrice.normal(priceValue)
