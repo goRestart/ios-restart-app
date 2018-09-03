@@ -1344,6 +1344,7 @@ extension ChatViewModel {
 
     private func openP2PPaymentsFlow() {
         // TODO: Start P2P Payments flow here (@juolgon)
+        navigator?.openP2PPaymentsOnboarding()
     }
 }
 

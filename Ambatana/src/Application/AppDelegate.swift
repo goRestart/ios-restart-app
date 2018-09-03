@@ -90,6 +90,7 @@ extension AppDelegate: UIApplicationDelegate {
         let window = UIWindow(frame: UIScreen.main.bounds)
         window.backgroundColor = UIColor.white
         window.rootViewController = appCoordinator.tabBarCtl
+
         self.window = window
 
         window.makeKeyAndVisible()
