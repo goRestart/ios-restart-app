@@ -20,7 +20,6 @@ struct LegacyABGroup: ABGroupType {
         static let showAdsInFeedWithRatio = "20180111ShowAdsInFeedWithRatio"
     }
     
-    let marketingPush: LeanplumABVariable<Int>
     let newCarsMultiRequesterEnabled: LeanplumABVariable<Bool>
     let inAppRatingIOS10: LeanplumABVariable<Bool>
     let userReviewsReportEnabled: LeanplumABVariable<Bool>
@@ -37,8 +36,7 @@ struct LegacyABGroup: ABGroupType {
     var floatVariables: [LeanplumABVariable<Float>] = []
     var boolVariables: [LeanplumABVariable<Bool>] = []
     
-    init(marketingPush: LeanplumABVariable<Int>,
-         newCarsMultiRequesterEnabled: LeanplumABVariable<Bool>,
+    init(newCarsMultiRequesterEnabled: LeanplumABVariable<Bool>,
          inAppRatingIOS10: LeanplumABVariable<Bool>,
          userReviewsReportEnabled: LeanplumABVariable<Bool>,
          appRatingDialogInactive: LeanplumABVariable<Bool>,
@@ -46,8 +44,6 @@ struct LegacyABGroup: ABGroupType {
          realEstateEnabled: LeanplumABVariable<Int>,
          newItemPage: LeanplumABVariable<Int>,
          showAdsInFeedWithRatio: LeanplumABVariable<Int>) {
-        
-        self.marketingPush = marketingPush
         self.newCarsMultiRequesterEnabled = newCarsMultiRequesterEnabled
         self.inAppRatingIOS10 = inAppRatingIOS10
         self.userReviewsReportEnabled = userReviewsReportEnabled
@@ -57,8 +53,7 @@ struct LegacyABGroup: ABGroupType {
         self.newItemPage = newItemPage
         self.showAdsInFeedWithRatio = showAdsInFeedWithRatio
         
-        intVariables.append(contentsOf: [marketingPush,
-                                         locationDataSourceType,
+        intVariables.append(contentsOf: [locationDataSourceType,
                                          realEstateEnabled,
                                          newItemPage,
                                          showAdsInFeedWithRatio])
