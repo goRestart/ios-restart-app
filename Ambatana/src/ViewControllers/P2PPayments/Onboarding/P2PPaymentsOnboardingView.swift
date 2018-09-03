@@ -15,6 +15,7 @@ final class P2PPaymentsOnboardingView: UIView {
         static let buttonHorizontalMargin: CGFloat = 24
         static let buttonBottomMargin: CGFloat = 16
         static let stackViewMaxHeightDiff: CGFloat = 120
+        static let stackViewWidthForPad: CGFloat = 414
     }
 
     fileprivate let closeButton: UIButton = {
@@ -50,7 +51,7 @@ final class P2PPaymentsOnboardingView: UIView {
         let stackView = UIStackView.vertical([firsTrait, secondTrait, thirdTrait])
         stackView.alignment = .fill
         stackView.distribution = .equalSpacing
-        stackView.spacing = 16
+        stackView.spacing = 22
         return stackView
     }()
 
@@ -81,22 +82,56 @@ final class P2PPaymentsOnboardingView: UIView {
             closeButton.topAnchor.constraint(equalTo: topAnchor, constant: Layout.closeButtonTopMargin),
             closeButton.heightAnchor.constraint(equalToConstant: Layout.closeButtonSize),
             closeButton.widthAnchor.constraint(equalToConstant: Layout.closeButtonSize),
+
             titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: Layout.titleTopMargin),
+
             traitsScrollView.leadingAnchor.constraint(equalTo: leadingAnchor),
             traitsScrollView.trailingAnchor.constraint(equalTo: trailingAnchor),
             traitsScrollView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
             traitsScrollView.bottomAnchor.constraint(equalTo: makeAnOfferButton.topAnchor),
+
             makeAnOfferButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Layout.buttonHorizontalMargin),
             makeAnOfferButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Layout.buttonHorizontalMargin),
             makeAnOfferButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Layout.buttonBottomMargin),
             makeAnOfferButton.heightAnchor.constraint(equalToConstant: Layout.buttonHeight),
+        ])
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        setupTraitsView()
+    }
+
+    private func setupTraitsView() {
+        switch traitCollection.userInterfaceIdiom {
+        case .phone:
+            setupTraitsViewForPhone()
+        case .pad:
+            setupTraitsViewForPad()
+        default: break
+        }
+    }
+
+    private func setupTraitsViewForPhone() {
+        traitsScrollView.addSubviewForAutoLayout(traitsStackView)
+        NSLayoutConstraint.activate([
             traitsStackView.leadingAnchor.constraint(equalTo: traitsScrollView.leadingAnchor),
             traitsStackView.trailingAnchor.constraint(equalTo: traitsScrollView.trailingAnchor),
             traitsStackView.topAnchor.constraint(equalTo: traitsScrollView.topAnchor),
             traitsStackView.bottomAnchor.constraint(equalTo: traitsScrollView.bottomAnchor),
             traitsStackView.widthAnchor.constraint(equalTo: widthAnchor),
-            traitsStackView.heightAnchor.constraint(greaterThanOrEqualTo: traitsScrollView.heightAnchor, constant: -Layout.stackViewMaxHeightDiff)
+            traitsStackView.heightAnchor.constraint(greaterThanOrEqualTo: traitsScrollView.heightAnchor, constant: -Layout.stackViewMaxHeightDiff),
+        ])
+    }
+
+    private func setupTraitsViewForPad() {
+        traitsStackView.spacing = 88
+        addSubviewForAutoLayout(traitsStackView)
+        NSLayoutConstraint.activate([
+            traitsStackView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            traitsStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            traitsStackView.widthAnchor.constraint(equalToConstant: Layout.stackViewWidthForPad),
         ])
     }
 }
@@ -154,9 +189,11 @@ private extension P2PPaymentsOnboardingView {
                 imageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Layout.horizontalInset),
                 imageView.topAnchor.constraint(equalTo: topAnchor),
                 imageView.widthAnchor.constraint(equalToConstant: Layout.imageWidth),
+
                 titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: Layout.imageToTextSpacing),
                 titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Layout.horizontalInset),
                 titleLabel.topAnchor.constraint(equalTo: topAnchor),
+
                 subtitleLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
                 subtitleLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
                 subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Layout.titleToSubtitleSpacing),
