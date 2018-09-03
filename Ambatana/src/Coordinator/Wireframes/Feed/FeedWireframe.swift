@@ -19,8 +19,12 @@ protocol FeedNavigator: class {
                      withSearchType: SearchType,
                      andFilters filters: ListingFilters)
     func openClassicFeed(navigator: MainTabNavigator,
-                         withSearchType searchType: SearchType,
+                         withSearchType searchType: SearchType?,
                          listingFilters: ListingFilters)
+    func openClassicFeed(navigator: MainTabNavigator,
+                         withSearchType searchType: SearchType?,
+                         listingFilters: ListingFilters,
+                         shouldCloseOnRemoveAllFilters: Bool)
 }
 
 final class FeedWireframe: FeedNavigator {
@@ -105,15 +109,31 @@ final class FeedWireframe: FeedNavigator {
         nc.pushViewController(vc, animated: true)
     }
     
+    func openClassicFeed(navigator: MainTabNavigator,
+                         withSearchType searchType: SearchType? = nil,
+                         listingFilters: ListingFilters) {
+        let (vc, vm) = FeedBuilder.standard(nc: nc).makeClassic(
+            withSearchType: searchType,
+            filters: listingFilters,
+            shouldCloseOnRemoveAllFilters: false
+        )
+        vm.navigator = navigator
+        nc.pushViewController(vc, animated: true)
+    }
+    
     /// In a near future the navigator should be deleted, it is necesary because
     /// the VM needs it to handle just 2 method but that 2 methos have lots of
     /// dependencies over the coordinator. If the coordinator is migrated
     /// the navigator reference could be deleted.
     func openClassicFeed(navigator: MainTabNavigator,
-                         withSearchType searchType: SearchType,
-                         listingFilters: ListingFilters) {
+                         withSearchType searchType: SearchType? = nil,
+                         listingFilters: ListingFilters,
+                         shouldCloseOnRemoveAllFilters: Bool = false) {
         let (vc, vm) = FeedBuilder.standard(nc: nc).makeClassic(
-                withSearchType: searchType, filters: listingFilters)
+                withSearchType: searchType,
+                filters: listingFilters,
+                shouldCloseOnRemoveAllFilters: shouldCloseOnRemoveAllFilters
+        )
         vm.navigator = navigator
         nc.pushViewController(vc, animated: true)
     }

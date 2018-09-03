@@ -18,7 +18,7 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
 
     var wireframe: FeedNavigator?
     var listingWireframe: ListingWireframe?
-    
+
     weak var rootViewController: UIViewController? {
         didSet {
             sectionControllerFactory.rootViewController = rootViewController
@@ -427,6 +427,19 @@ extension FeedViewModel: FiltersViewModelDataDelegate {
     
     func viewModelDidUpdateFilters(_ viewModel: FiltersViewModel,
                                    filters: ListingFilters) {
+        guard !filters.isDefault() else { return }
+        // For the moment when the user wants to filter something the app
+        // must jump directly to the old feed with the applied filters.
+        // Story: https://ambatana.atlassian.net/browse/ABIOS-4525?filter=18022.
+        guard let safeNavigator = navigator else { return }
+        guard filters.hasOnlyPlace else {
+            wireframe?.openClassicFeed(
+                navigator: safeNavigator,
+                withSearchType: searchType,
+                listingFilters: filters,
+                shouldCloseOnRemoveAllFilters: true)
+            return
+        }
         self.filters = filters
         refreshFeedUponLocationChange()
     }
@@ -510,7 +523,8 @@ extension FeedViewModel: SelectedForYouDelegate {
         wireframe?.openClassicFeed(
             navigator: strongNavigator,
             withSearchType: .collection(type: collectionType, query: query),
-            listingFilters: filters)
+            listingFilters: filters,
+            shouldCloseOnRemoveAllFilters: false)
     }
     
     private var shouldShowSelectedForYou: Bool {
