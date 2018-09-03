@@ -15,10 +15,16 @@ protocol FeedNavigator: class {
                  listingFilters: ListingFilters,
                  locationManager: LocationManager)
     func openAppInvite(myUserId: String?, myUserName: String?)
-    func openProFeed(navigator: MainTabNavigator?, withSearchType: SearchType)
+    func openProFeed(navigator: MainTabNavigator?,
+                     withSearchType: SearchType,
+                     andFilters filters: ListingFilters)
     func openClassicFeed(navigator: MainTabNavigator,
-                         withSearchType searchType: SearchType,
+                         withSearchType searchType: SearchType?,
                          listingFilters: ListingFilters)
+    func openClassicFeed(navigator: MainTabNavigator,
+                         withSearchType searchType: SearchType?,
+                         listingFilters: ListingFilters,
+                         shouldCloseOnRemoveAllFilters: Bool)
 }
 
 final class FeedWireframe: FeedNavigator {
@@ -90,13 +96,26 @@ final class FeedWireframe: FeedNavigator {
     }
     
     func openProFeed(navigator: MainTabNavigator?,
-                     withSearchType searchType: SearchType) {
+                     withSearchType searchType: SearchType,
+                     andFilters filters: ListingFilters) {
         let (vc, vm) = FeedBuilder.standard(nc: nc).makePro(
             withSearchType: searchType,
-            filters: ListingFilters(),
+            filters: filters,
             hideSearchBox: true,
             showFilters: false,
             showLocationEditButton: false
+        )
+        vm.navigator = navigator
+        nc.pushViewController(vc, animated: true)
+    }
+    
+    func openClassicFeed(navigator: MainTabNavigator,
+                         withSearchType searchType: SearchType? = nil,
+                         listingFilters: ListingFilters) {
+        let (vc, vm) = FeedBuilder.standard(nc: nc).makeClassic(
+            withSearchType: searchType,
+            filters: listingFilters,
+            shouldCloseOnRemoveAllFilters: false
         )
         vm.navigator = navigator
         nc.pushViewController(vc, animated: true)
@@ -107,10 +126,14 @@ final class FeedWireframe: FeedNavigator {
     /// dependencies over the coordinator. If the coordinator is migrated
     /// the navigator reference could be deleted.
     func openClassicFeed(navigator: MainTabNavigator,
-                         withSearchType searchType: SearchType,
-                         listingFilters: ListingFilters) {
+                         withSearchType searchType: SearchType? = nil,
+                         listingFilters: ListingFilters,
+                         shouldCloseOnRemoveAllFilters: Bool = false) {
         let (vc, vm) = FeedBuilder.standard(nc: nc).makeClassic(
-                withSearchType: searchType, filters: listingFilters)
+                withSearchType: searchType,
+                filters: listingFilters,
+                shouldCloseOnRemoveAllFilters: shouldCloseOnRemoveAllFilters
+        )
         vm.navigator = navigator
         nc.pushViewController(vc, animated: true)
     }

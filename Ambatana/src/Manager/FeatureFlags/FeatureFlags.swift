@@ -181,6 +181,10 @@ extension RealEstatePromoCells {
     var isActive: Bool { return self != .control && self != .baseline }
 }
 
+extension ClickToTalk {
+    var isActive: Bool { return self != .control && self != .baseline }
+}
+
 extension DeckItemPage {
     var isActive: Bool {get { return self == .active }}
 }
@@ -1001,6 +1005,13 @@ extension FeatureFlags {
         }
         
         return RealEstatePromoCells.fromPosition(abTests.realEstatePromoCells.value)
+    }
+    
+    var clickToTalkEnabled: ClickToTalk {
+        if Bumper.enabled {
+            return Bumper.clickToTalk
+        }
+        return .control // ClickToTalk.fromPosition(abTests.clickToTalkEnabled.value)
     }
 }
 

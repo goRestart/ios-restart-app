@@ -75,7 +75,7 @@ final class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationMana
     }
     
     func initialize() {
-        if let location = currentLocation, location.countryCode != nil {
+        if let location = currentLocation, location.countryCode == nil {
             // we do this for older sessions with valid addresses.
             updateLocation(location)
         } else {
