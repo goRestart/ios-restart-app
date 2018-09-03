@@ -16,7 +16,7 @@ final class Application: NSObject, UIApplicationDelegate {
     self.tabBarControllerProvider = tabBarControllerProvider
   }
   
-  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     
     DataModule.start()
     

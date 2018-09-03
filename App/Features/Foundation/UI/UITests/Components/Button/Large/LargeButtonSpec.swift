@@ -24,7 +24,7 @@ final class LargeButtonSpec: XCTestCase {
     expect(button).toMatchSnapshot(named: "highlighted_alt_button")
   }
  
-  private func givenButton(named: String, type: LargeButtonType = .normal, for state: UIControlState) -> LargeButton {
+  private func givenButton(named: String, type: LargeButtonType = .normal, for state: UIControl.State) -> LargeButton {
     let button = LargeButton(frame: CGRect(origin: .zero, size: CGSize(width: 280, height: 48)))
     button.type = type
     button.setTitle(named.uppercased(), for: state)

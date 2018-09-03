@@ -98,7 +98,7 @@ final class LoginView: View {
     
     scrollView.snp.makeConstraints { make in
       make.edges.equalTo(self)
-        .inset(UIEdgeInsetsMake(0, 0, ViewLayout.scrollViewBottomSpace, 0))
+        .inset(UIEdgeInsets.init(top: 0, left: 0, bottom: ViewLayout.scrollViewBottomSpace, right: 0))
     }
     
     stackView.snp.makeConstraints { make in

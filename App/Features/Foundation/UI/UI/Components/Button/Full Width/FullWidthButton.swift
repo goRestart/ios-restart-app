@@ -11,7 +11,7 @@ open class FullWidthButton: UIButton {
     public static let height = CGFloat(56)
   }
   
-  enum State {
+  enum ButtonState {
     case normal
     case highlighted
     case disabled
@@ -33,7 +33,7 @@ open class FullWidthButton: UIButton {
   }()
  
   private lazy var loadingActivity: UIActivityIndicatorView = {
-    let indicatorView = UIActivityIndicatorView(activityIndicatorStyle: .white)
+    let indicatorView = UIActivityIndicatorView(style: .white)
     indicatorView.hidesWhenStopped = true
     return indicatorView
   }()
@@ -83,16 +83,16 @@ open class FullWidthButton: UIButton {
   
   // MARK: - Title
   
-  open override func setTitle(_ title: String?, for state: UIControlState) {
+  open override func setTitle(_ title: String?, for state: UIControl.State) {
     setAttributedTitle(attributed(title), for: state)
   }
   
-  open override func setAttributedTitle(_ title: NSAttributedString?, for state: UIControlState) {
+  open override func setAttributedTitle(_ title: NSAttributedString?, for state: UIControl.State) {
     super.setAttributedTitle(attributed(title?.string), for: state)
   }
   
   private func attributed(_ title: String?) -> NSAttributedString {
-    let attributes: [NSAttributedStringKey: Any] = [
+    let attributes: [NSAttributedString.Key: Any] = [
       .font: UIFont.button,
       .foregroundColor: UIColor.white
     ]
@@ -102,7 +102,7 @@ open class FullWidthButton: UIButton {
  
   // MARK: - State
   
-  private func configure(state: State) {
+  private func configure(state: FullWidthButton.ButtonState) {
     switch state {
     case .normal:
       endLoading()

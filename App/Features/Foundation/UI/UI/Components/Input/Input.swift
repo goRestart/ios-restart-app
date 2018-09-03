@@ -54,7 +54,7 @@ open class Input: UITextField {
   // MARK: - Placeholder
   
   private func set(placeholder: String?) {
-    let attributes: [NSAttributedStringKey: Any] = [
+    let attributes: [NSAttributedString.Key: Any] = [
       .foregroundColor: placeholderColor ?? UIColor.softScript,
       .font: UIFont.body(.regular)
     ]

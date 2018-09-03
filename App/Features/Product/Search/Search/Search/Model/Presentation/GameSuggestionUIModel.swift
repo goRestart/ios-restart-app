@@ -26,7 +26,7 @@ final class GameSuggestionUIModel: NSObject, ListDiffable {
       let regex = try NSRegularExpression(pattern: query.trimmed.folding(options: .diacriticInsensitive, locale: .current), options: .caseInsensitive)
       let range = NSRange(location: 0, length: name.utf16.count)
       let matches = regex.matches(in: name.folding(options: .diacriticInsensitive, locale: .current), options: .withTransparentBounds, range: range)
-      let attributes: [NSAttributedStringKey: Any] = [
+      let attributes: [NSAttributedString.Key: Any] = [
         .font: UIFont.body(.semibold),
         .foregroundColor: UIColor.primary
       ]
