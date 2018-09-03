@@ -103,6 +103,7 @@ PODS:
     - mopub-ios-sdk/Avid
     - mopub-ios-sdk/Core
     - mopub-ios-sdk/Moat
+  - NewRelicAgent (6.1.1)
   - Nimble (7.0.2)
   - OHHTTPStubs (5.2.3):
     - OHHTTPStubs/Default (= 5.2.3)
@@ -175,6 +176,7 @@ DEPENDENCIES:
   - LGCoreKit (= 4.67.1)
   - lottie-ios (= 2.5.0)
   - mopub-ios-sdk (= 4.20.0)
+  - NewRelicAgent (= 6.1.1)
   - Nimble (= 7.0.2)
   - OHHTTPStubs (= 5.2.3)
   - OHHTTPStubs/Swift
@@ -223,6 +225,7 @@ SPEC REPOS:
     - Leanplum-iOS-SDK
     - lottie-ios
     - mopub-ios-sdk
+    - NewRelicAgent
     - Nimble
     - OHHTTPStubs
     - Quick
@@ -287,6 +290,7 @@ SPEC CHECKSUMS:
   LGCoreKit: 911e5a8c1c882ffca5a981cca2a7c70116be51ae
   lottie-ios: d699fdee68d7b63e721d949388b015fef1aaa4ac
   mopub-ios-sdk: 89c6ac9ca01d3b36e9fba16a6cfe31d3c290d354
+  NewRelicAgent: 652434a627201e3745cd5849228feeb10afe1879
   Nimble: bfe1f814edabba69ff145cb1283e04ed636a67f2
   OHHTTPStubs: e238cd5b66d8efa51c861db45895de8fe079f4a7
   Quick: 58d203b1c5e27fff7229c4c1ae445ad7069a7a08
@@ -305,6 +309,6 @@ SPEC CHECKSUMS:
   SwiftyGif: d36c6dfb52e2ca1e48fe349d225f50ec4123ec85
   SwiftyUserDefaults: 3d273b1739b68ada3145dc754a70ec775bc5c8be
 
-PODFILE CHECKSUM: 475fc13670f65eacd5de87de52bbca9faf7802bd
+PODFILE CHECKSUM: 73ea00b41abe1468f75771108ec5c1527d07fe94
 
 COCOAPODS: 1.5.3

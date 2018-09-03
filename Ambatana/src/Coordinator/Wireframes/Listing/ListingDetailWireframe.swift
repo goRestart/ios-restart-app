@@ -12,6 +12,7 @@ final class ListingDetailWireframe: ListingDetailNavigator {
     private let verificationAssembly: UserVerificationAssembly
     private let editAssembly: EditListingAssembly
     private let loginAssembly: LoginAssembly
+    private let rateBuyerAssembly: RateBuyerAssembly
 
     private let chatNavigator: ChatNavigator
 
@@ -31,6 +32,7 @@ final class ListingDetailWireframe: ListingDetailNavigator {
                   verificationAssembly: LGUserVerificationBuilder.standard(nav: nc),
                   editAssembly: EditListingBuilder.modal(nc),
                   loginAssembly: LoginBuilder.modal,
+                  rateBuyerAssembly: RateBuyerBuilder.modal(nc),
                   bubbleManager: LGBubbleNotificationManager.sharedInstance,
                   deeplinkMailBox: LGDeepLinkMailBox.sharedInstance)
 
@@ -45,6 +47,7 @@ final class ListingDetailWireframe: ListingDetailNavigator {
          verificationAssembly: UserVerificationAssembly,
          editAssembly: EditListingAssembly,
          loginAssembly: LoginAssembly,
+         rateBuyerAssembly: RateBuyerAssembly,
          bubbleManager: BubbleNotificationManager,
          deeplinkMailBox: DeepLinkMailBox) {
         self.nc = nc
@@ -57,6 +60,7 @@ final class ListingDetailWireframe: ListingDetailNavigator {
         self.verificationAssembly = verificationAssembly
         self.editAssembly = editAssembly
         self.loginAssembly = loginAssembly
+        self.rateBuyerAssembly = rateBuyerAssembly
         self.deeplinkMailBox = deeplinkMailBox
         self.bubbleManager = bubbleManager
     }
@@ -164,7 +168,12 @@ final class ListingDetailWireframe: ListingDetailNavigator {
                            listingId: String,
                            sourceRateBuyers: SourceRateBuyers?,
                            trackingInfo: MarkAsSoldTrackingInfo) {
-
+        let vc = rateBuyerAssembly.buildRateBuyers(source: source,
+                                                   buyers: buyers,
+                                                   listingId: listingId,
+                                                   sourceRateBuyers: sourceRateBuyers,
+                                                   trackingInfo: trackingInfo)
+        nc.present(vc, animated: true, completion: nil)
     }
     func showProductFavoriteBubble(with data: BubbleNotificationData) {
         bubbleManager.showBubble(data: data,
