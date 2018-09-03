@@ -19,6 +19,7 @@ final class ProductPriceViewController: ViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
+    viewModel.input.viewWillAppear()
     productPriceView.becomeFirstResponder()
   }
   

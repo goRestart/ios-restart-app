@@ -5,4 +5,5 @@ enum Table {
   static let productDescription = "ProductDescription"
   static let productSelector = "ProductSelector"
   static let productExtras = "ProductExtras"
+  static let generic = "Generic"
 }

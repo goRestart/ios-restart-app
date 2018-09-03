@@ -5,8 +5,8 @@ struct ProductSelectorViewBinder {
   func bind(view: ProductSelectorView, to viewModel: ProductSelectorViewModelType, using bag: DisposeBag) {
     
     view.rx.state.subscribe(onNext: { (event) in
-      if case let .gameSelected(identifier) = event {
-        viewModel.input.onGameSelected(with: identifier)
+      if case let .gameSelected(title, identifier) = event {
+        viewModel.input.onGameSelected(with: title, identifier)
       }
     }).disposed(by: bag)
   }

@@ -16,6 +16,7 @@ final class ProductSelectorView: View {
     textField.placeholder = Localize("product_selector.search.input.placeholder", table: Table.productSelector)
     textField.font = .h2
     textField.textColor = .darkScript
+    textField.autocorrectionType = .no
     return textField
   }()
 

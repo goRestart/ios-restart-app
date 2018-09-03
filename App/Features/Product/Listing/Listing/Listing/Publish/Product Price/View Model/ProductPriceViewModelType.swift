@@ -3,6 +3,7 @@ import RxSwift
 protocol ProductPriceViewModelInput {
   var price: BehaviorSubject<String> { get }
   
+  func viewWillAppear()
   func onNextStepPressed()
 }
 

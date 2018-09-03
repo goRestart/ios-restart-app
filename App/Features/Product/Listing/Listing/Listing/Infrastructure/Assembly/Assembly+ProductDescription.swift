@@ -1,4 +1,5 @@
 import Core
+import Application
 
 protocol ProductDescriptionProvider {
   func makeProductDescription() -> UIViewController
@@ -19,6 +20,7 @@ extension Assembly: ProductDescriptionProvider {
 
   private func viewModel(from viewController: UIViewController) -> ProductDescriptionViewModelType {
     return ProductDescriptionViewModel(
+      productDraft: productDraftActions,
       productPriceNavigator: productPriceNavigator(from: viewController)
     )
   }

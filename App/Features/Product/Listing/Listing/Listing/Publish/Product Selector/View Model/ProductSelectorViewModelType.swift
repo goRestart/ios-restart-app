@@ -2,7 +2,7 @@ import Domain
 import RxSwift
 
 protocol ProductSelectorViewModelInput {
-  func onGameSelected(with id: Identifier<Game>)
+  func onGameSelected(with title: String, _ identifier: Identifier<Game>)
 }
 
 protocol ProductSelectorViewModelType {

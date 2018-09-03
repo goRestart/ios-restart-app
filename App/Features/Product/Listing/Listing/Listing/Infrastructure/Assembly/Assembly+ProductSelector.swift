@@ -15,6 +15,7 @@ extension Assembly: ProductSelectorProvider {
   
   private func viewModel(for viewController: UIViewController) -> ProductSelectorViewModelType {
     return ProductSelectorViewModel(
+      productDraft: productDraftActions,
       productDescriptionNavigator: productDescriptionNavigator(from: viewController)
     )
   }

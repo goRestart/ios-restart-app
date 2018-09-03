@@ -13,6 +13,7 @@ final class ProductDescriptionView: View {
     let textView = UITextView()
     textView.font = .h2
     textView.textColor = .darkScript
+    textView.autocorrectionType = .no
     return textView
   }()
 
