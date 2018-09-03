@@ -1,14 +1,15 @@
 import Application
-import RxSwift
 import Domain
+import RxSwift
+import RxCocoa
 
-private struct LoginViewModelConstraints {
+private enum LoginViewModelConstraints {
   static let minUsernameLenght = 3
   static let minPasswordLenght = 6
 }
 
 struct LoginViewModel: LoginViewModelType, LoginViewModelInput, LoginViewModelOutput {
- 
+
   var input: LoginViewModelInput { return self }
   var output: LoginViewModelOutput { return self }
   
@@ -22,38 +23,47 @@ struct LoginViewModel: LoginViewModelType, LoginViewModelInput, LoginViewModelOu
   // MARK: - Output
   
   private let stateSubject = BehaviorSubject<LoginState>(value: .idle)
-  var state: Observable<LoginState> { return stateSubject }
+  var state: Driver<LoginState> { return stateSubject.asDriver(onErrorJustReturn: .idle) }
   
-  var signInEnabled: Observable<Bool> {
+  var signInEnabled: Driver<Bool> {
     return Observable.combineLatest(
-    username.asObservable(), password.asObservable()) { username, password in
+    usernameSubject, passwordSubject) { username, password in
       return username.count >= LoginViewModelConstraints.minUsernameLenght &&
         password.count >= LoginViewModelConstraints.minPasswordLenght
-    }
+    }.asDriver(onErrorJustReturn: false)
   }
 
-  var userInteractionEnabled: Observable<Bool> {
+  var userInteractionEnabled: Driver<Bool> {
     return state.asObservable().map { $0 == .idle }
+      .asDriver(onErrorJustReturn: false)
   }
   
   // MARK: - Input
   
-  var username = BehaviorSubject<String>(value: "")
-  var password = BehaviorSubject<String>(value: "")
+  private let usernameSubject = BehaviorSubject<String>(value: "")
+  private let passwordSubject = BehaviorSubject<String>(value: "")
+  
+  func onChange(username: String) {
+    usernameSubject.onNext(username)
+  }
+  
+  func onChange(password: String) {
+    passwordSubject.onNext(password)
+  }
   
   func signUpButtonPressed() {
     stateSubject.onNext(.loading)
     
-    let credentials = BasicCredentials(
-      username: try! username.value(),
-      password: try! password.value()
-    )
-
-    authenticate.execute(with: credentials).subscribe(onCompleted: {
+    let authentication = Observable.combineLatest(usernameSubject, passwordSubject)
+      .debug()
+      .map(BasicCredentials.init)
+      .map(authenticate.execute)
+ 
+    authentication.subscribe(onNext: { _ in
       print("Welcome :)")
-    }) { error in
+    }, onError: { error in
       print("Error :(")
       self.stateSubject.onNext(.idle)
-    }.disposed(by: bag)
+    }).disposed(by: bag)
   }
 }

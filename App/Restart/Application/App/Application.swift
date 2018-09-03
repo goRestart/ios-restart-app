@@ -2,6 +2,7 @@ import UIKit
 import Core
 import Data
 import Listing
+import SignUp
 
 final class Application: NSObject, UIApplicationDelegate {
   
@@ -20,7 +21,7 @@ final class Application: NSObject, UIApplicationDelegate {
     
     DataModule.start()
     
-    window?.rootViewController = tabBarControllerProvider.makeTabBarController()
+    window?.rootViewController = resolver.makeNotLogged() // tabBarControllerProvider.makeTabBarController()
     window?.makeKeyAndVisible()
 
     return true

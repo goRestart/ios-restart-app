@@ -1,4 +1,5 @@
 import RxSwift
+import RxCocoa
 
 enum LoginState {
   case idle
@@ -6,17 +7,16 @@ enum LoginState {
 }
 
 protocol LoginViewModelInput {
-  var username: BehaviorSubject<String> { get }
-  var password: BehaviorSubject<String> { get }
-  
   func signUpButtonPressed()
+  func onChange(username: String)
+  func onChange(password: String)
 }
 
 protocol LoginViewModelOutput {
-  var state: Observable<LoginState> { get }
+  var state: Driver<LoginState> { get }
   
-  var userInteractionEnabled: Observable<Bool> { get }
-  var signInEnabled: Observable<Bool> { get }
+  var userInteractionEnabled: Driver<Bool> { get }
+  var signInEnabled: Driver<Bool> { get }
 }
 
 protocol LoginViewModelType {

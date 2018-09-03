@@ -3,26 +3,25 @@ import RxSwift
 
 struct LoginViewBinder {
   func bind(view: LoginView, to viewModel: LoginViewModelType, using bag: DisposeBag) {
-    view.rx.username
-      .asDriver()
-      .drive(viewModel.input.username)
-      .disposed(by: bag)
     
-    view.rx.password
-      .asDriver()
-      .drive(viewModel.input.password)
-      .disposed(by: bag)
+    view.rx.username.subscribe(onNext: { username in
+      viewModel.input.onChange(username: username)
+    }).disposed(by: bag)
+    
+    view.rx.password.subscribe(onNext: { password in
+      viewModel.input.onChange(password: password)
+    }).disposed(by: bag)
     
     viewModel.output.userInteractionEnabled
-      .bind(to: view.rx.userInteractionEnabled)
+      .drive(view.rx.userInteractionEnabled)
       .disposed(by: bag)
     
     viewModel.output.signInEnabled
-      .bind(to: view.rx.signInButtonEnabled)
+      .drive(view.rx.signInButtonEnabled)
       .disposed(by: bag)
     
     viewModel.output.state
-      .bind(to: view.rx.signInButtonIsLoading)
+      .drive(view.rx.signInButtonIsLoading)
       .disposed(by: bag)
 
     view.rx.usernameEndEditing.subscribe { _ in
