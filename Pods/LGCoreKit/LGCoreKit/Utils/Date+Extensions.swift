@@ -40,4 +40,8 @@ extension Date {
     func roundedMillisecondsSince1970() -> TimeInterval {
         return (timeIntervalSince1970 * 1000.0).rounded()
     }
+    
+    func nextYear() -> Int {
+        return Calendar.current.component(.year, from: self) + 1
+    }
 }
