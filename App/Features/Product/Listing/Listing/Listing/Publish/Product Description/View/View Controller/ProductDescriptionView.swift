@@ -39,6 +39,11 @@ final class ProductDescriptionView: View {
     return textView.becomeFirstResponder()
   }
   
+  @discardableResult
+  override func resignFirstResponder() -> Bool {
+    return textView.resignFirstResponder()
+  }
+  
   override func setupConstraints() {
     titleView.snp.makeConstraints { make in
       make.leading.equalTo(self)
@@ -46,7 +51,7 @@ final class ProductDescriptionView: View {
       make.top.equalTo(safeAreaLayoutGuide.snp.top)
     }
 
-    Keyboard.subscribe(to: [.willShow]).subscribe(onNext: { [titleView, textView, nextButton] keyboard in
+    Keyboard.subscribe(to: [.willShow, .didShow]).subscribe(onNext: { [titleView, textView, nextButton] keyboard in
       nextButton.snp.remakeConstraints { make in
         make.leading.equalTo(self)
         make.trailing.equalTo(self)

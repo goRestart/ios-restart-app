@@ -17,6 +17,7 @@ struct ProductDescriptionViewBinder {
       .disposed(by: bag)
 
     view.rx.nextButtonWasTapped.subscribe { _ in
+      view.resignFirstResponder()
       viewModel.input.onNextStepPressed()
     }.disposed(by: bag)
   }

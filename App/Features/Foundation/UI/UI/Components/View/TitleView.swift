@@ -21,7 +21,7 @@ public final class TitleView: View {
   override public func setupConstraints() {
     titleLabel.snp.makeConstraints { make in
       make.edges.equalTo(self)
-        .inset(UIEdgeInsetsMake(0, Margin.medium, 0, Margin.medium))
+        .inset(UIEdgeInsets.init(top: 0, left: Margin.medium, bottom: 0, right: Margin.medium))
     }
   }
 }

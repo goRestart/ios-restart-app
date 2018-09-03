@@ -119,10 +119,10 @@ final class SignUpView: View {
         if keyboard.event == .willShow {
           let bottomSpace = keyboard.endFrame.height + FullWidthButton.Layout.height + Margin.medium
           make.edges.equalTo(self)
-            .inset(UIEdgeInsetsMake(0, 0, bottomSpace, 0))
+            .inset(UIEdgeInsets.init(top: 0, left: 0, bottom: bottomSpace, right: 0))
         } else {
           make.edges.equalTo(self)
-            .inset(UIEdgeInsetsMake(0, 0, ViewLayout.scrollViewBottomSpace, 0))
+            .inset(UIEdgeInsets.init(top: 0, left: 0, bottom: ViewLayout.scrollViewBottomSpace, right: 0))
         }
       }
 
@@ -149,12 +149,12 @@ final class SignUpView: View {
     
     scrollView.snp.makeConstraints { make in
       make.edges.equalTo(self)
-        .inset(UIEdgeInsetsMake(0, 0, ViewLayout.scrollViewBottomSpace, 0))
+        .inset(UIEdgeInsets.init(top: 0, left: 0, bottom: ViewLayout.scrollViewBottomSpace, right: 0))
     }
     
     stackView.snp.makeConstraints { make in
       make.edges.equalTo(scrollView)
-        .inset(UIEdgeInsetsMake(0, Margin.medium, 0, Margin.medium))
+        .inset(UIEdgeInsets.init(top: 0, left: Margin.medium, bottom: 0, right: Margin.medium))
     }
     
     [usernameTextField, emailTextField, passwordTextField].forEach { input in

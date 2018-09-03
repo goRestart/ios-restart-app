@@ -15,7 +15,7 @@ public struct Keyboard {
     public let startFrame: CGRect
     public let endFrame: CGRect
     public let animationDuration: TimeInterval
-    public let animationCurve: UIViewAnimationCurve?
+    public let animationCurve: UIView.AnimationCurve?
   }
   
   private static let notificationCenter = NotificationCenter.default
@@ -30,10 +30,10 @@ public struct Keyboard {
   }
   
   private static func extract(from notification: Notification) -> KeyboardInfo {
-    let keyboardStartFrame = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? CGRect) ?? .zero
-    let keyboardEndFrame = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? CGRect) ?? .zero
-    let animationDuration = (notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? TimeInterval) ?? 0
-    let animationCurve = notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? UIViewAnimationCurve
+    let keyboardStartFrame = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? CGRect) ?? .zero
+    let keyboardEndFrame = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect) ?? .zero
+    let animationDuration = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval) ?? 0
+    let animationCurve = notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? UIView.AnimationCurve
     let event = relation.filter { $0.value == notification.name }.first!.key
     
     let keyboardInfo = KeyboardInfo(
@@ -47,11 +47,11 @@ public struct Keyboard {
   }
   
   private static let relation: [KeyboardEvent: NSNotification.Name] = [
-    .willShow: NSNotification.Name.UIKeyboardWillShow,
-    .willHide: NSNotification.Name.UIKeyboardWillHide,
-    .didShow: NSNotification.Name.UIKeyboardDidShow,
-    .didHide: NSNotification.Name.UIKeyboardDidHide,
-    .willChangeFrame: NSNotification.Name.UIKeyboardWillChangeFrame,
-    .didChangeFrame: NSNotification.Name.UIKeyboardDidChangeFrame
+    .willShow: UIResponder.keyboardWillShowNotification,
+    .willHide: UIResponder.keyboardWillHideNotification,
+    .didShow: UIResponder.keyboardDidShowNotification,
+    .didHide: UIResponder.keyboardDidHideNotification,
+    .willChangeFrame: UIResponder.keyboardWillChangeFrameNotification,
+    .didChangeFrame: UIResponder.keyboardDidChangeFrameNotification
   ]
 }

@@ -42,7 +42,7 @@ final class ProductPriceView: View {
       make.top.equalTo(safeAreaLayoutGuide.snp.top)
     }
     
-    Keyboard.subscribe(to: [.willShow]).subscribe(onNext: { [titleView, inputTextField, nextButton] keyboard in
+    Keyboard.subscribe(to: [.willShow, .didShow]).subscribe(onNext: { [titleView, inputTextField, nextButton] keyboard in
       nextButton.snp.remakeConstraints { make in
         make.leading.equalTo(self)
         make.trailing.equalTo(self)

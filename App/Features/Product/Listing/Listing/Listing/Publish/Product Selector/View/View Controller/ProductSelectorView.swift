@@ -59,6 +59,11 @@ final class ProductSelectorView: View {
   override func becomeFirstResponder() -> Bool {
     return inputTextField.becomeFirstResponder()
   }
+  
+  @discardableResult
+  override func resignFirstResponder() -> Bool {
+    return inputTextField.resignFirstResponder()
+  }
 }
 
 // MARK: - View bindings

@@ -61,17 +61,17 @@ open class LargeButton: UIButton {
   
   // MARK: - Title
   
-  open override func setTitle(_ title: String?, for state: UIControlState) {
+  open override func setTitle(_ title: String?, for state: UIControl.State) {
     setAttributedTitle(attributed(title), for: state)
   }
   
-  open override func setAttributedTitle(_ title: NSAttributedString?, for state: UIControlState) {
+  open override func setAttributedTitle(_ title: NSAttributedString?, for state: UIControl.State) {
     super.setAttributedTitle(attributed(title?.string), for: state)
   }
   
   private func attributed(_ title: String?) -> NSAttributedString {
     let foregroundColor = type == .normal ? UIColor.primary: UIColor.darkScript
-    let attributes: [NSAttributedStringKey: Any] = [
+    let attributes: [NSAttributedString.Key: Any] = [
       .font: UIFont.button,
       .foregroundColor: foregroundColor
     ]

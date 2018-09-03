@@ -19,7 +19,7 @@ final class FullWidthButtonSpec: XCTestCase {
     expect(button).toMatchSnapshot(named: "disabled_button")
   }
   
-  private func givenButton(named: String, for state: UIControlState) -> FullWidthButton {
+  private func givenButton(named: String, for state: UIControl.State) -> FullWidthButton {
     let button = FullWidthButton(frame: CGRect(origin: .zero, size: CGSize(width: 375, height: 56)))
     button.setTitle(named.uppercased(), for: state)
     switch state {
