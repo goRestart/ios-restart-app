@@ -28,6 +28,11 @@
 		1CAF0F7A200438A6004046A9 /* Assembly+ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CAF0F79200438A6004046A9 /* Assembly+ViewController.swift */; };
 		2E2F7AB12129CC6C00CDED0F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2E2F7AB02129CC6C00CDED0F /* GoogleService-Info.plist */; };
 		2E2F7AF1212A071500CDED0F /* SignUp.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2E2F7AEF212A071500CDED0F /* SignUp.strings */; };
+		2E3E06FF213DB97700118E64 /* Listing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EE4A3B1212C938100380467 /* Listing.framework */; };
+		2E3E0700213DB97700118E64 /* Listing.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2EE4A3B1212C938100380467 /* Listing.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		2E3E0705213DBA7C00118E64 /* Search.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E3E0704213DBA7C00118E64 /* Search.framework */; };
+		2E3E0706213DBA9700118E64 /* Search.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E3E0704213DBA7C00118E64 /* Search.framework */; };
+		2E3E0707213DBA9700118E64 /* Search.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2E3E0704213DBA7C00118E64 /* Search.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2E64EDAD21386A0A00943F81 /* Generic.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2E64EDAF21386A0A00943F81 /* Generic.strings */; };
 		2E71A90021317BA3009D24A9 /* ProductExtras.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2E71A8FE21317BA3009D24A9 /* ProductExtras.strings */; };
 		2E71A9212131C9DE009D24A9 /* TabBarViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A9202131C9DE009D24A9 /* TabBarViewModelType.swift */; };
@@ -36,9 +41,6 @@
 		2E71A9282131CF25009D24A9 /* TabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A9272131CF25009D24A9 /* TabBarCoordinator.swift */; };
 		2E71A92A2131CFD4009D24A9 /* Assembly+TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A9292131CFD4009D24A9 /* Assembly+TabBar.swift */; };
 		2E71A92E2131D64A009D24A9 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A92D2131D64A009D24A9 /* TabBarController.swift */; };
-		2E7B9B2B21330DA300E4B6F5 /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2E7B9B2821330DA300E4B6F5 /* OpenSans-Semibold.ttf */; };
-		2E7B9B2C21330DA300E4B6F5 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2E7B9B2921330DA300E4B6F5 /* OpenSans-Bold.ttf */; };
-		2E7B9B2D21330DA300E4B6F5 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2E7B9B2A21330DA300E4B6F5 /* OpenSans-Regular.ttf */; };
 		2EB2B140212B2C9500705ACA /* Login.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2E2F7AEC212A06EC00CDED0F /* Login.strings */; };
 		2EB2B141212B2C9800705ACA /* NotLogged.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2E2F7AEE212A06F200CDED0F /* NotLogged.strings */; };
 		2EB2B190212B4BCC00705ACA /* ProductSelector.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2EB2B18A212B4BCC00705ACA /* ProductSelector.strings */; };
@@ -57,9 +59,11 @@
 			files = (
 				1CAD06DC20043EAB00CAE9C5 /* UI.framework in Embed Frameworks */,
 				1CAD06D920043DAC00CAE9C5 /* Data.framework in Embed Frameworks */,
+				2E3E0707213DBA9700118E64 /* Search.framework in Embed Frameworks */,
 				1CAD06D720043D5B00CAE9C5 /* Domain.framework in Embed Frameworks */,
 				1CAD06D420043D2000CAE9C5 /* Application.framework in Embed Frameworks */,
 				1CAD06D120043CEC00CAE9C5 /* Core.framework in Embed Frameworks */,
+				2E3E0700213DB97700118E64 /* Listing.framework in Embed Frameworks */,
 				1CAD06D020043CC300CAE9C5 /* SignUp.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -87,6 +91,7 @@
 		2E2F7AEB212A06EC00CDED0F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Login.strings; sourceTree = "<group>"; };
 		2E2F7AED212A06F200CDED0F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/NotLogged.strings; sourceTree = "<group>"; };
 		2E2F7AF0212A071500CDED0F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/SignUp.strings; sourceTree = "<group>"; };
+		2E3E0704213DBA7C00118E64 /* Search.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Search.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E64EDAE21386A0A00943F81 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Generic.strings; sourceTree = "<group>"; };
 		2E71A8FF21317BA3009D24A9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ProductExtras.strings; sourceTree = "<group>"; };
 		2E71A9202131C9DE009D24A9 /* TabBarViewModelType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarViewModelType.swift; sourceTree = "<group>"; };
@@ -95,9 +100,6 @@
 		2E71A9272131CF25009D24A9 /* TabBarCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarCoordinator.swift; sourceTree = "<group>"; };
 		2E71A9292131CFD4009D24A9 /* Assembly+TabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+TabBar.swift"; sourceTree = "<group>"; };
 		2E71A92D2131D64A009D24A9 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
-		2E7B9B2821330DA300E4B6F5 /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
-		2E7B9B2921330DA300E4B6F5 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
-		2E7B9B2A21330DA300E4B6F5 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		2EB2B18B212B4BCC00705ACA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ProductSelector.strings; sourceTree = "<group>"; };
 		2EB2B18D212B4BCC00705ACA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ProductPrice.strings; sourceTree = "<group>"; };
 		2EB2B18F212B4BCC00705ACA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ProductDescription.strings; sourceTree = "<group>"; };
@@ -112,10 +114,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E3E0705213DBA7C00118E64 /* Search.framework in Frameworks */,
 				2EE4A3B2212C938100380467 /* Listing.framework in Frameworks */,
 				1CAD06D520043D4E00CAE9C5 /* Domain.framework in Frameworks */,
 				1CAF0F692004326F004046A9 /* Core.framework in Frameworks */,
+				2E3E0706213DBA9700118E64 /* Search.framework in Frameworks */,
 				1CAD06DA20043EA400CAE9C5 /* UI.framework in Frameworks */,
+				2E3E06FF213DB97700118E64 /* Listing.framework in Frameworks */,
 				1CAD06D820043D8100CAE9C5 /* Data.framework in Frameworks */,
 				1CAD06D220043D1A00CAE9C5 /* Application.framework in Frameworks */,
 				1CAF0F6E2004331C004046A9 /* SignUp.framework in Frameworks */,
@@ -159,7 +164,7 @@
 			children = (
 				2E2F7AB02129CC6C00CDED0F /* GoogleService-Info.plist */,
 				1C3B454D1FEFCC54008B7B87 /* Info.plist */,
-				2E7B9B2621330D9B00E4B6F5 /* Fonts */,
+				2E3E0708213DBB0400118E64 /* Fonts */,
 				2E2F7AC2212A06B100CDED0F /* Languages */,
 				1CAF0F65200431FD004046A9 /* Assets */,
 				1CAF0F63200431E8004046A9 /* Storyboards */,
@@ -245,6 +250,13 @@
 			path = Languages;
 			sourceTree = "<group>";
 		};
+		2E3E0708213DBB0400118E64 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		2E71A91F2131C9BE009D24A9 /* View Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -263,28 +275,10 @@
 			path = Coordinator;
 			sourceTree = "<group>";
 		};
-		2E7B9B2621330D9B00E4B6F5 /* Fonts */ = {
-			isa = PBXGroup;
-			children = (
-				2E7B9B2721330DA300E4B6F5 /* Open Sans */,
-			);
-			path = Fonts;
-			sourceTree = "<group>";
-		};
-		2E7B9B2721330DA300E4B6F5 /* Open Sans */ = {
-			isa = PBXGroup;
-			children = (
-				2E7B9B2821330DA300E4B6F5 /* OpenSans-Semibold.ttf */,
-				2E7B9B2921330DA300E4B6F5 /* OpenSans-Bold.ttf */,
-				2E7B9B2A21330DA300E4B6F5 /* OpenSans-Regular.ttf */,
-			);
-			name = "Open Sans";
-			path = "Features/Foundation/UI/UI/Components/Font/Open Sans";
-			sourceTree = SOURCE_ROOT;
-		};
 		33B833E5CD9AFE167B3E165E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2E3E0704213DBA7C00118E64 /* Search.framework */,
 				2EE4A3B1212C938100380467 /* Listing.framework */,
 				1CAD06DB20043EA400CAE9C5 /* UI.framework */,
 				1CAD06D620043D4E00CAE9C5 /* Domain.framework */,
@@ -371,8 +365,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2EB2B191212B4BCC00705ACA /* ProductPrice.strings in Resources */,
-				2E7B9B2B21330DA300E4B6F5 /* OpenSans-Semibold.ttf in Resources */,
-				2E7B9B2C21330DA300E4B6F5 /* OpenSans-Bold.ttf in Resources */,
 				2E2F7AF1212A071500CDED0F /* SignUp.strings in Resources */,
 				1C3B454C1FEFCC54008B7B87 /* LaunchScreen.storyboard in Resources */,
 				1C3B45491FEFCC54008B7B87 /* Assets.xcassets in Resources */,
@@ -381,7 +373,6 @@
 				2EB2B192212B4BCC00705ACA /* ProductDescription.strings in Resources */,
 				2EB2B190212B4BCC00705ACA /* ProductSelector.strings in Resources */,
 				2E2F7AB12129CC6C00CDED0F /* GoogleService-Info.plist in Resources */,
-				2E7B9B2D21330DA300E4B6F5 /* OpenSans-Regular.ttf in Resources */,
 				2E64EDAD21386A0A00943F81 /* Generic.strings in Resources */,
 				2E71A90021317BA3009D24A9 /* ProductExtras.strings in Resources */,
 			);
