@@ -16,7 +16,6 @@ import RxSwift
 extension Bumper  {
     static func initialize() {
         var flags = [BumperFeature.Type]()
-        flags.append(SurveyEnabled.self)
         flags.append(UserReviewsReportEnabled.self)
         flags.append(RealEstateEnabled.self)
         flags.append(RequestsTimeOut.self)
@@ -85,19 +84,6 @@ extension Bumper  {
         flags.append(ClickToTalk.self)
         Bumper.initialize(flags)
     } 
-
-    static var surveyEnabled: Bool {
-        guard let value = Bumper.value(for: SurveyEnabled.key) else { return false }
-        return SurveyEnabled(rawValue: value)?.asBool ?? false
-    } 
-
-    #if (RX_BUMPER)
-    static var surveyEnabledObservable: Observable<Bool> {
-        return Bumper.observeValue(for: SurveyEnabled.key).map {
-            SurveyEnabled(rawValue: $0 ?? "")?.asBool ?? false
-        }
-    }
-    #endif
 
     static var userReviewsReportEnabled: Bool {
         guard let value = Bumper.value(for: UserReviewsReportEnabled.key) else { return false }
@@ -958,15 +944,6 @@ extension Bumper  {
     #endif
 }
 
-
-enum SurveyEnabled: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return SurveyEnabled.no.rawValue }
-    static var enumValues: [SurveyEnabled] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show qualitative survey" } 
-    var asBool: Bool { return self == .yes }
-}
 
 enum UserReviewsReportEnabled: String, BumperFeature  {
     case no, yes

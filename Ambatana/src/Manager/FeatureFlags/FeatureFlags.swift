@@ -15,9 +15,6 @@ protocol FeatureFlaggeable: class {
     var syncedData: Observable<Bool> { get }
     func variablesUpdated()
 
-    var surveyUrl: String { get }
-    var surveyEnabled: Bool { get }
-
     var userReviewsReportEnabled: Bool { get }
     var realEstateEnabled: RealEstateEnabled { get }
     var deckItemPage: DeckItemPage { get }
@@ -454,20 +451,6 @@ final class FeatureFlags: FeatureFlaggeable {
         
         dao.save(emergencyLocate: EmergencyLocate.fromPosition(abTests.emergencyLocate.value))
         dao.save(community: ShowCommunity.fromPosition(abTests.community.value))
-    }
-    
-    var surveyUrl: String {
-        if Bumper.enabled {
-            return Bumper.surveyEnabled ? SharedConstants.surveyDefaultTestUrl : ""
-        }
-        return abTests.surveyURL.value
-    }
-
-    var surveyEnabled: Bool {
-        if Bumper.enabled {
-            return Bumper.surveyEnabled
-        }
-        return abTests.surveyEnabled.value
     }
 
     var userReviewsReportEnabled: Bool {

@@ -11,8 +11,6 @@ import Foundation
 struct LegacyABGroup: ABGroupType {
     private struct Keys {
         static let marketingPush = "marketingPush"
-        static let surveyURL = "surveyURL"
-        static let surveyEnabled = "surveyEnabled"
         static let carsMultiReqEnabled = "newCarsMultiRequesterEnabled"
         static let inAppRatingIOS10 = "20170711inAppRatingIOS10"
         static let userReviewsReportEnabled = "20170823userReviewsReportEnabled"
@@ -24,9 +22,6 @@ struct LegacyABGroup: ABGroupType {
     }
     
     let marketingPush: LeanplumABVariable<Int>
-    // Not an A/B just flags and variables for surveys
-    let surveyURL: LeanplumABVariable<String>
-    let surveyEnabled: LeanplumABVariable<Bool>
     let newCarsMultiRequesterEnabled: LeanplumABVariable<Bool>
     let inAppRatingIOS10: LeanplumABVariable<Bool>
     let userReviewsReportEnabled: LeanplumABVariable<Bool>
@@ -44,8 +39,6 @@ struct LegacyABGroup: ABGroupType {
     var boolVariables: [LeanplumABVariable<Bool>] = []
     
     init(marketingPush: LeanplumABVariable<Int>,
-         surveyURL: LeanplumABVariable<String>,
-         surveyEnabled: LeanplumABVariable<Bool>,
          newCarsMultiRequesterEnabled: LeanplumABVariable<Bool>,
          inAppRatingIOS10: LeanplumABVariable<Bool>,
          userReviewsReportEnabled: LeanplumABVariable<Bool>,
@@ -56,8 +49,6 @@ struct LegacyABGroup: ABGroupType {
          showAdsInFeedWithRatio: LeanplumABVariable<Int>) {
         
         self.marketingPush = marketingPush
-        self.surveyURL = surveyURL
-        self.surveyEnabled = surveyEnabled
         self.newCarsMultiRequesterEnabled = newCarsMultiRequesterEnabled
         self.inAppRatingIOS10 = inAppRatingIOS10
         self.userReviewsReportEnabled = userReviewsReportEnabled
@@ -72,17 +63,14 @@ struct LegacyABGroup: ABGroupType {
                                          realEstateEnabled,
                                          newItemPage,
                                          showAdsInFeedWithRatio])
-        boolVariables.append(contentsOf: [surveyEnabled, newCarsMultiRequesterEnabled,
-                                          inAppRatingIOS10, userReviewsReportEnabled,
+        boolVariables.append(contentsOf: [newCarsMultiRequesterEnabled,
+                                          inAppRatingIOS10,
+                                          userReviewsReportEnabled,
                                           appRatingDialogInactive])
-        stringVariables.append(surveyURL)
-        
     }
     
     static func make() -> LegacyABGroup {
         return LegacyABGroup(marketingPush: .makeInt(key: Keys.marketingPush, defaultValue: 0, groupType: .legacyABTests),
-                             surveyURL: .makeString(key: Keys.surveyURL, defaultValue: "", groupType: .legacyABTests),
-                             surveyEnabled: .makeBool(key: Keys.surveyEnabled, defaultValue: false, groupType: .legacyABTests),
                              newCarsMultiRequesterEnabled: .makeBool(key: Keys.carsMultiReqEnabled, defaultValue: false,  groupType: .legacyABTests),
                              inAppRatingIOS10: .makeBool(key: Keys.inAppRatingIOS10, defaultValue: false, groupType: .legacyABTests),
                              userReviewsReportEnabled: .makeBool(key: Keys.userReviewsReportEnabled, defaultValue: true, groupType: .legacyABTests),
