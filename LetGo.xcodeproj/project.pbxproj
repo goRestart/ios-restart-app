@@ -200,8 +200,6 @@
 		0A6FECB12130344000B57004 /* SignupLoginNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6FEC492130343800B57004 /* SignupLoginNavigator.swift */; };
 		0A6FECB22130344000B57004 /* LoginStandardWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6FEC4A2130343800B57004 /* LoginStandardWireframe.swift */; };
 		0A6FECB32130344000B57004 /* LoginStandardWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6FEC4A2130343800B57004 /* LoginStandardWireframe.swift */; };
-		0A6FECB42130344000B57004 /* MainSignUpNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6FEC4B2130343800B57004 /* MainSignUpNavigator.swift */; };
-		0A6FECB52130344000B57004 /* MainSignUpNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6FEC4B2130343800B57004 /* MainSignUpNavigator.swift */; };
 		0A6FECB62130344000B57004 /* LoginModalWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6FEC4C2130343800B57004 /* LoginModalWireframe.swift */; };
 		0A6FECB72130344000B57004 /* LoginModalWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6FEC4C2130343800B57004 /* LoginModalWireframe.swift */; };
 		0A6FECBA2130344000B57004 /* FeaturedInfoModalWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6FEC4F2130343800B57004 /* FeaturedInfoModalWireframe.swift */; };
@@ -2333,7 +2331,6 @@
 		0A6FEC482130343800B57004 /* LoginNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginNavigator.swift; sourceTree = "<group>"; };
 		0A6FEC492130343800B57004 /* SignupLoginNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupLoginNavigator.swift; sourceTree = "<group>"; };
 		0A6FEC4A2130343800B57004 /* LoginStandardWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginStandardWireframe.swift; sourceTree = "<group>"; };
-		0A6FEC4B2130343800B57004 /* MainSignUpNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainSignUpNavigator.swift; sourceTree = "<group>"; };
 		0A6FEC4C2130343800B57004 /* LoginModalWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginModalWireframe.swift; sourceTree = "<group>"; };
 		0A6FEC4F2130343800B57004 /* FeaturedInfoModalWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedInfoModalWireframe.swift; sourceTree = "<group>"; };
 		0A6FEC502130343800B57004 /* FeaturedInfoNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedInfoNavigator.swift; sourceTree = "<group>"; };
@@ -3725,7 +3722,6 @@
 				0A6FEC482130343800B57004 /* LoginNavigator.swift */,
 				0A6FEC492130343800B57004 /* SignupLoginNavigator.swift */,
 				0A6FEC4A2130343800B57004 /* LoginStandardWireframe.swift */,
-				0A6FEC4B2130343800B57004 /* MainSignUpNavigator.swift */,
 				0A6FEC4C2130343800B57004 /* LoginModalWireframe.swift */,
 			);
 			path = Login;
@@ -8903,7 +8899,6 @@
 				2E1711F0212708F7001F92AA /* HTMLBoldParser.swift in Sources */,
 				C743FEAD1E449EA600B4E912 /* RateBuyersViewController.swift in Sources */,
 				C7F22D801DB7A3A200353803 /* RecaptchaViewController.swift in Sources */,
-				0A6FECB42130344000B57004 /* MainSignUpNavigator.swift in Sources */,
 				42059D11207E31DF00083438 /* FilterCarSection.swift in Sources */,
 				0AB6E1D61F9DD18F0048AFFD /* ListingDeckView.swift in Sources */,
 				C6977E912121B17200B57E54 /* OverlayDisplayStyle.swift in Sources */,
@@ -9307,7 +9302,6 @@
 				2E212C6920FCDEE500FB42B3 /* ChatCallToActionCellDrawer.swift in Sources */,
 				50C59BDF1CE0DBC100377124 /* KeyValueStorage.swift in Sources */,
 				72EB70601E65C63900BF709B /* ModularNotificationCell.swift in Sources */,
-				0A6FECB52130344000B57004 /* MainSignUpNavigator.swift in Sources */,
 				C7DE8ADD1C88A8E5005CF37E /* PostListingViewModel.swift in Sources */,
 				C7DB41A41C5138B500400945 /* MainListingsViewController.swift in Sources */,
 				50146BC31D4F5F5B00B0F635 /* TabCoordinator.swift in Sources */,

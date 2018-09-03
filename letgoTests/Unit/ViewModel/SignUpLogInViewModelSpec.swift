@@ -16,14 +16,9 @@ import RxSwift
 
 class SignUpLogInViewModelSpec: BaseViewModelSpec {
     var finishedSuccessfully: Bool = false
-    var finishedScammer: Bool = false
-    var finishedDeviceNotAllowed: Bool = false
-    var openRecaptchaCalled: Bool = false
-    
+
     var delegateReceivedShowGodModeAlert = false
-    var navigatorReceivedOpenRememberPassword = false
-    var navigatorReceivedOpenHelp = false
-    
+
     var showAlertWasCalled: Bool = false
     var openWasCalled: Bool = false
     var closeWasCalled: Bool = false
@@ -62,25 +57,28 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                 fbLoginHelper = MockExternalAuthHelper(result: .success(myUser: myUser))
                 let locale = Locale(identifier: "es_ES")
 
-                sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository: installationRepository,
-                    keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
-                    fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
-                    locale: locale, source: .install, action: .signup,
-                    loginAction: nil, cancelAction: nil)
+                sut = SignUpLogInViewModel(sessionManager: sessionManager,
+                                           installationRepository: installationRepository,
+                                           keyValueStorage: keyValueStorage,
+                                           googleLoginHelper: googleLoginHelper,
+                                           fbLoginHelper: fbLoginHelper,
+                                           tracker: tracker,
+                                           featureFlags: featureFlags,
+                                           locale: locale,
+                                           source: .install,
+                                           action: .signup,
+                                           loginAction: nil,
+                                           cancelAction: nil)
                 sut.delegate = self
                 sut.router = self
 
                 self.finishedSuccessfully = false
-                self.finishedScammer = false
-                self.finishedDeviceNotAllowed = false
-                self.openRecaptchaCalled = false
+                self.showRecaptchaWasCalled = false
                 
                 self.delegateReceivedShowGodModeAlert = false
                 self.delegateReceivedHideLoading = false
                 self.delegateReceivedShowAlert = false
-                self.navigatorReceivedOpenRememberPassword = false
-                self.navigatorReceivedOpenHelp = false
-                
+
                 sendButtonEnabled = false
                 disposeBag = DisposeBag()
                 sut.sendButtonEnabled.subscribeNext { enabled in
@@ -341,7 +339,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                             expect(tracker.trackedEvents.map({ $0.actualName })) == []
                         }
                         it("asks to open recaptcha") {
-                            expect(self.openRecaptchaCalled).toEventually(beTrue())
+                            expect(self.showRecaptchaWasCalled).toEventually(beTrue())
                         }
                     }
                 }
@@ -464,7 +462,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                             expect(tracker.trackedEvents.map({ $0.actualName })) == []
                         }
                         it("asks to open recaptcha") {
-                            expect(self.openRecaptchaCalled).toEventually(beTrue())
+                            expect(self.showRecaptchaWasCalled).toEventually(beTrue())
                         }
                     }
                 }
@@ -585,7 +583,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                             expect(tracker.trackedEvents.map({ $0.actualName })) == []
                         }
                         it("asks to open recaptcha") {
-                            expect(self.openRecaptchaCalled).toEventually(beTrue())
+                            expect(self.showRecaptchaWasCalled).toEventually(beTrue())
                         }
                     }
                 }
@@ -935,7 +933,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                             expect(trackedEventNames) == [EventName.loginEmail]
                         }
                         it("calls close after login in navigator when signup succeeds") {
-                            expect(self.closeWasCalled).toEventually(beTrue())
+                            expect(self.closeWithCallbackWasCalled).toEventually(beTrue())
                         }
                         it("saves letgo as previous user account provider") {
                             let provider = keyValueStorage[.previousUserAccountProvider]
@@ -1285,7 +1283,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                             expect(trackedEventNames) == [EventName.signupEmail]
                         }
                         it("calls close after login in navigator when signup succeeds") {
-                            expect(self.closeWasCalled).toEventually(beTrue())
+                            expect(self.closeWithCallbackWasCalled).toEventually(beTrue())
                         }
                         it("saves letgo as previous user account provider") {
                             let provider = keyValueStorage[.previousUserAccountProvider]

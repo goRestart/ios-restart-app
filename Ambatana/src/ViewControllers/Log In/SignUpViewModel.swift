@@ -63,7 +63,6 @@ class SignUpViewModel: BaseViewModel {
     let previousGoogleUsername: Variable<String?>
 
     weak var delegate: SignUpViewModelDelegate?
-    weak var navigator: MainSignUpNavigator?
 
     var router: LoginNavigator?
 

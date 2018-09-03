@@ -335,7 +335,7 @@ class SignUpLogInViewModel: BaseViewModel {
                 if signUpError.isUserExists {
                     strongSelf.sessionManager.login(signUpForm.email, password: signUpForm.password) { [weak self] loginResult in
                         guard let strongSelf = self else { return }
-                        if let myUser = loginResult.value {
+                        if let _ = loginResult.value {
                             let rememberedAccount = strongSelf.previousEmail.value != nil
                             let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource,
                                                                        rememberedAccount: rememberedAccount)

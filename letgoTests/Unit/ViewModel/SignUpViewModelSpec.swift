@@ -41,10 +41,17 @@ class SignUpViewModelSpec: QuickSpec {
                 let myUser = MockMyUser.makeMock()
                 googleLoginHelper = MockExternalAuthHelper(result: .success(myUser: myUser))
                 fbLoginHelper = MockExternalAuthHelper(result: .success(myUser: myUser))
-                sut = SignUpViewModel(sessionManager: sessionManager, installationRepository: installationRepository,
-                    keyValueStorage: keyValueStorage, featureFlags: featureFlags, tracker: tracker, appearance: .dark,
-                    source: .install, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper,
-                    loginAction: nil, cancelAction: nil)
+                sut = SignUpViewModel(sessionManager: sessionManager,
+                                      installationRepository: installationRepository,
+                                      keyValueStorage: keyValueStorage,
+                                      featureFlags: featureFlags,
+                                      tracker: tracker,
+                                      appearance: .dark,
+                                      source: .install,
+                                      googleLoginHelper: googleLoginHelper,
+                                      fbLoginHelper: fbLoginHelper,
+                                      loginAction: nil,
+                                      cancelAction: nil)
                 sut.delegate = self
                 sut.router = self
 
@@ -168,7 +175,7 @@ class SignUpViewModelSpec: QuickSpec {
                             expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-screen", "login-signup-error-google"]
                         }
                     }
-                    fcontext("scammer") {
+                    context("scammer") {
                         beforeEach {
                             googleLoginHelper.loginResult = .scammer
                             sut.connectGoogleButtonPressed()
@@ -285,8 +292,8 @@ class SignUpViewModelSpec: QuickSpec {
                             let username = keyValueStorage[.previousUserEmailOrName]
                             expect(username).to(beNil())
                         }
-                        it("tracks login-screen & login-signup-error-facebook events") {
-                            expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-screen", "login-signup-error-facebook"]
+                        it("tracks login-screen & login-blocked-account-start & login-signup-error-facebook events") {
+                            expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-screen", "login-blocked-account-start", "login-signup-error-facebook"]
                         }
                         it("asks to show scammer error alert") {
                             expect(self.finishedScammer).to(beTrue())
@@ -307,8 +314,8 @@ class SignUpViewModelSpec: QuickSpec {
                             let username = keyValueStorage[.previousUserEmailOrName]
                             expect(username).to(beNil())
                         }
-                        it("tracks login-screen & login-signup-error-facebook events") {
-                            expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-screen", "login-signup-error-facebook"]
+                        it("tracks login-screen & login-blocked-account-start & login-signup-error-facebook events") {
+                            expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-screen", "login-blocked-account-start", "login-signup-error-facebook"]
                         }
                         it("asks to show device not allowed error alert") {
                             expect(self.finishedDeviceNotAllowed).to(beTrue())
@@ -321,6 +328,8 @@ class SignUpViewModelSpec: QuickSpec {
 }
 
 extension SignUpViewModelSpec: LoginNavigator {
+    func open(url: URL) { }
+
     func showRecaptcha(action: LoginActionType, delegate: RecaptchaTokenDelegate) {
         showRecaptchaWasCalled = true
     }
@@ -331,6 +340,7 @@ extension SignUpViewModelSpec: LoginNavigator {
     
     func close() {
         closeWasCalled = true
+        finishedSuccessfully = false
     }
     
     func close(onFinish callback: (() -> ())?) {
@@ -341,39 +351,26 @@ extension SignUpViewModelSpec: LoginNavigator {
         showHelpWasCalled = true
     }
     
-    func showSignInWithEmail(source: EventParameterLoginSourceValue, appearance: LoginAppearance, loginAction: (() -> ())?, cancelAction: (() -> ())?) {
+    func showSignInWithEmail(source: EventParameterLoginSourceValue,
+                             appearance: LoginAppearance,
+                             loginAction: (() -> ())?,
+                             cancelAction: (() -> ())?) {
         showSignInWithEmailWasCalled = true
     }
     
-    func showLoginWithEmail(source: EventParameterLoginSourceValue, loginAction: (() -> ())?, cancelAction: (() -> ())?) {
+    func showLoginWithEmail(source: EventParameterLoginSourceValue,
+                            loginAction: (() -> ())?,
+                            cancelAction: (() -> ())?) {
         showLoginWithEmailWasCalled = true
     }
     
     func showAlert(withTitle: String?, andBody: String, andType: AlertType, andActions: [UIAction]) {
         showAlertWasCalled = true
-    }
-}
 
-extension SignUpViewModelSpec: MainSignUpNavigator {
-    func cancelMainSignUp() {
-        finishedSuccessfully = false
-    }
-    func closeMainSignUpSuccessful(with myUser: MyUser) {
-        finishedSuccessfully = true
-    }
-    func closeMainSignUpAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork) {
         finishedSuccessfully = false
         finishedScammer = true
-    }
-    func closeMainSignUpAndOpenDeviceNotAllowedAlert(contactURL: URL, network: EventParameterAccountNetwork) {
-        finishedSuccessfully = false
         finishedDeviceNotAllowed = true
     }
-    func openSignUpEmailFromMainSignUp() {}
-    func openLogInEmailFromMainSignUp() {}
-
-    func openHelpFromMainSignUp() {}
-    func open(url: URL) {}
 }
 
 extension SignUpViewModelSpec: SignUpViewModelDelegate {
