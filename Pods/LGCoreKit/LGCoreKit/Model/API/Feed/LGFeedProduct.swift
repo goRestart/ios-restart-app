@@ -20,7 +20,7 @@ struct LGFeedProduct {
     let createdAt: Date?
     let updatedAt: Date?
     let owner: LGFeedItemOwner
-    let geoData: LGFeedItemGeoData
+    let geoData: LGFeedItemGeoData?
     let price: LGFeedItemPrice
     let media: LGFeedMedia
 }
@@ -40,14 +40,12 @@ extension LGFeedProduct: Decodable {
        "is_translated": false
      },
      "owner": {
-       "id": "abdcd",
-       "name": "John Smith",
-       "avatar_url": "https://avatar/molon.jpg",
-       "geo_data": {
-         "country_code": "US",
-         "city": "Edimburgh",
-         "zip_code": "EH6 8QP"
-       }
+        "id": "abdcd",
+        "name": "John Smith",
+        "avatar_url": "https://avatar/molon.jpg",
+        "zip_code": "EH6 8QP",
+        "country_code": "US",
+        "city": "Edimburgh"
      },
      "geo_data": {
        "coords": {
@@ -113,7 +111,7 @@ extension LGFeedProduct: Decodable {
         createdAt = Core.dateFormatter.date(from: try container.decode(String.self, forKey: .createdAt))
         updatedAt = Core.dateFormatter.date(from: try container.decode(String.self, forKey: .updatedAt))
         owner = try container.decode(LGFeedItemOwner.self, forKey: .owner)
-        geoData = try container.decode(LGFeedItemGeoData.self, forKey: .geoData)
+        geoData = try container.decodeIfPresent(LGFeedItemGeoData.self, forKey: .geoData)
         price = try container.decode(LGFeedItemPrice.self, forKey: .price)
         media = try container.decode(LGFeedMedia.self, forKey: .media)
     }
@@ -131,8 +129,8 @@ extension LGFeedProduct {
         return LGMediaThumbnail( file: file, type: type, size: size)
     }
     
-    static func toListing(item: LGFeedProduct) -> Listing {
-        let baseListing = LGFeedProduct.toBaseListing(item: item)
+    static func toListing(item: LGFeedProduct) -> Listing? {
+        guard let baseListing = LGFeedProduct.toBaseListing(item: item) else { return nil }
         switch item.category {
         case .unassigned, .electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden,
              .moviesBooksAndMusic, .fashionAndAccesories, .babyAndChild, .other:
@@ -146,7 +144,8 @@ extension LGFeedProduct {
         }
     }
     
-    private static func toBaseListing(item: LGFeedProduct) -> LGBaseListing {
+    private static func toBaseListing(item: LGFeedProduct) -> LGBaseListing? {
+        guard let geoData = item.geoData else { return nil }
         let baseListing = LGBaseListing(
             objectId: item.id,
             updatedAt: item.updatedAt,
@@ -156,7 +155,7 @@ extension LGFeedProduct {
             descr: item.description,
             price: LGFeedItemPrice.toListingPrice(price: item.price),
             currency: Core.currencyHelper.currencyWithCurrencyCode(item.price.currency),
-            location: item.geoData.location,
+            location: geoData.location,
             postalAddress: LGFeedItemGeoData.toPostalAddress(geodata: item.geoData),
             languageCode: nil,
             category: item.category,

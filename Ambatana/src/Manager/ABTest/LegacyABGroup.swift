@@ -19,9 +19,7 @@ struct LegacyABGroup: ABGroupType {
         static let showAdsInFeedWithRatio = "20180111ShowAdsInFeedWithRatio"
     }
     
-    let marketingPush: LeanplumABVariable<Int>
     let newCarsMultiRequesterEnabled: LeanplumABVariable<Bool>
-    let inAppRatingIOS10: LeanplumABVariable<Bool>
     let userReviewsReportEnabled: LeanplumABVariable<Bool>
     let appRatingDialogInactive: LeanplumABVariable<Bool>
     let locationDataSourceType: LeanplumABVariable<Int>
@@ -36,19 +34,14 @@ struct LegacyABGroup: ABGroupType {
     var floatVariables: [LeanplumABVariable<Float>] = []
     var boolVariables: [LeanplumABVariable<Bool>] = []
     
-    init(marketingPush: LeanplumABVariable<Int>,
-         newCarsMultiRequesterEnabled: LeanplumABVariable<Bool>,
-         inAppRatingIOS10: LeanplumABVariable<Bool>,
+    init(newCarsMultiRequesterEnabled: LeanplumABVariable<Bool>,
          userReviewsReportEnabled: LeanplumABVariable<Bool>,
          appRatingDialogInactive: LeanplumABVariable<Bool>,
          locationDataSourceType: LeanplumABVariable<Int>,
          realEstateEnabled: LeanplumABVariable<Int>,
          newItemPage: LeanplumABVariable<Int>,
          showAdsInFeedWithRatio: LeanplumABVariable<Int>) {
-        
-        self.marketingPush = marketingPush
         self.newCarsMultiRequesterEnabled = newCarsMultiRequesterEnabled
-        self.inAppRatingIOS10 = inAppRatingIOS10
         self.userReviewsReportEnabled = userReviewsReportEnabled
         self.appRatingDialogInactive = appRatingDialogInactive
         self.locationDataSourceType = locationDataSourceType
@@ -56,20 +49,17 @@ struct LegacyABGroup: ABGroupType {
         self.newItemPage = newItemPage
         self.showAdsInFeedWithRatio = showAdsInFeedWithRatio
         
-        intVariables.append(contentsOf: [marketingPush,
-                                         locationDataSourceType,
+        intVariables.append(contentsOf: [locationDataSourceType,
                                          realEstateEnabled,
                                          newItemPage,
                                          showAdsInFeedWithRatio])
         boolVariables.append(contentsOf: [newCarsMultiRequesterEnabled,
-                                          inAppRatingIOS10,
                                           userReviewsReportEnabled,
                                           appRatingDialogInactive])
     }
     
     static func make() -> LegacyABGroup {
         return LegacyABGroup(newCarsMultiRequesterEnabled: .makeBool(key: Keys.carsMultiReqEnabled, defaultValue: false,  groupType: .legacyABTests),
-                             inAppRatingIOS10: .makeBool(key: Keys.inAppRatingIOS10, defaultValue: false, groupType: .legacyABTests),
                              userReviewsReportEnabled: .makeBool(key: Keys.userReviewsReportEnabled, defaultValue: true, groupType: .legacyABTests),
                              appRatingDialogInactive: .makeBool(key: Keys.appRatingDialogInactive, defaultValue: false, groupType: .legacyABTests),
                              locationDataSourceType: .makeInt(key: Keys.locationDataSourceType, defaultValue: 0, groupType: .legacyABTests),

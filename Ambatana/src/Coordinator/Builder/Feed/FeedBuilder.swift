@@ -11,12 +11,14 @@ extension SectionedDiscoveryFeed {
 }
 
 protocol FeedAssembly {
-    func makePro(withSearchType: SearchType,
+    func makePro(withSearchType: SearchType?,
                  filters: ListingFilters,
                  hideSearchBox: Bool,
                  showFilters: Bool,
                  showLocationEditButton: Bool) -> (BaseViewController, FeedNavigatorOwnership)
-    func makeClassic(withSearchType: SearchType, filters: ListingFilters) -> (BaseViewController, FeedNavigatorOwnership)
+    func makeClassic(withSearchType: SearchType?,
+                     filters: ListingFilters,
+                     shouldCloseOnRemoveAllFilters: Bool) -> (BaseViewController, FeedNavigatorOwnership)
     func makePro() -> (BaseViewController, FeedNavigatorOwnership)
     func makeClassic() -> (BaseViewController, FeedNavigatorOwnership)
 }
@@ -25,7 +27,7 @@ enum FeedBuilder: FeedAssembly {
     case standard(nc: UINavigationController)
     
     func makePro(
-        withSearchType searchType: SearchType,
+        withSearchType searchType: SearchType? = nil,
         filters: ListingFilters,
         hideSearchBox: Bool = false,
         showFilters: Bool = true,
@@ -50,9 +52,14 @@ enum FeedBuilder: FeedAssembly {
     }
     
     func makeClassic(
-        withSearchType searchType: SearchType,
-        filters: ListingFilters) -> (BaseViewController, FeedNavigatorOwnership) {
-        let vm = MainListingsViewModel(searchType: searchType, filters: filters)
+        withSearchType searchType: SearchType? = nil,
+        filters: ListingFilters,
+        shouldCloseOnRemoveAllFilters: Bool = false) -> (BaseViewController, FeedNavigatorOwnership) {
+        let vm = MainListingsViewModel(
+            searchType: searchType,
+            filters: filters,
+            shouldCloseOnRemoveAllFilters: shouldCloseOnRemoveAllFilters
+        )
         let vc = MainListingsViewController(viewModel: vm)
         switch self {
         case .standard(let nc):
