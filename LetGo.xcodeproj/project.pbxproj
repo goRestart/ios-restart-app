@@ -102,6 +102,12 @@
 		09129E4E211AEF86004B84E9 /* P2PPaymentsOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09129E4C211AEF86004B84E9 /* P2PPaymentsOnboardingViewController.swift */; };
 		09129E50211AF037004B84E9 /* P2PPaymentsOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09129E4F211AF037004B84E9 /* P2PPaymentsOnboardingView.swift */; };
 		09129E51211AF037004B84E9 /* P2PPaymentsOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09129E4F211AF037004B84E9 /* P2PPaymentsOnboardingView.swift */; };
+		097EDBE1213CFE460057D638 /* P2PPaymentsWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097EDBE0213CFE460057D638 /* P2PPaymentsWireframe.swift */; };
+		097EDBE2213CFE4B0057D638 /* P2PPaymentsWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097EDBE0213CFE460057D638 /* P2PPaymentsWireframe.swift */; };
+		097EDBE5213CFF180057D638 /* LGP2PPaymentsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097EDBE4213CFF180057D638 /* LGP2PPaymentsBuilder.swift */; };
+		097EDBE6213CFF3D0057D638 /* LGP2PPaymentsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097EDBE4213CFF180057D638 /* LGP2PPaymentsBuilder.swift */; };
+		097EDBE8213CFF6D0057D638 /* P2PPaymentsOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097EDBE7213CFF6D0057D638 /* P2PPaymentsOnboardingViewModel.swift */; };
+		097EDBE9213CFF6D0057D638 /* P2PPaymentsOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097EDBE7213CFF6D0057D638 /* P2PPaymentsOnboardingViewModel.swift */; };
 		09D7BC7E20EB62950090E499 /* StripeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D7BC7D20EB62950090E499 /* StripeManager.swift */; };
 		09D7BC7F20EB62950090E499 /* StripeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D7BC7D20EB62950090E499 /* StripeManager.swift */; };
 		0A00F9C61FA3656600E915F4 /* ListingDeckViewControllerBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A00F9C31FA364B100E915F4 /* ListingDeckViewControllerBinder.swift */; };
@@ -2381,6 +2387,9 @@
 		01E5B70420889BEF001C5A1F /* SearchAlertFeedHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAlertFeedHeader.swift; sourceTree = "<group>"; };
 		09129E4C211AEF86004B84E9 /* P2PPaymentsOnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOnboardingViewController.swift; sourceTree = "<group>"; };
 		09129E4F211AF037004B84E9 /* P2PPaymentsOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOnboardingView.swift; sourceTree = "<group>"; };
+		097EDBE0213CFE460057D638 /* P2PPaymentsWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PPaymentsWireframe.swift; sourceTree = "<group>"; };
+		097EDBE4213CFF180057D638 /* LGP2PPaymentsBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGP2PPaymentsBuilder.swift; sourceTree = "<group>"; };
+		097EDBE7213CFF6D0057D638 /* P2PPaymentsOnboardingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOnboardingViewModel.swift; sourceTree = "<group>"; };
 		09D7BC7D20EB62950090E499 /* StripeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripeManager.swift; sourceTree = "<group>"; };
 		0A00F9C31FA364B100E915F4 /* ListingDeckViewControllerBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckViewControllerBinder.swift; sourceTree = "<group>"; };
 		0A04D5C420760A9C00471B9D /* CoreABGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreABGroup.swift; sourceTree = "<group>"; };
@@ -3732,10 +3741,27 @@
 		09129E4B211AEF68004B84E9 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
+				097EDBE7213CFF6D0057D638 /* P2PPaymentsOnboardingViewModel.swift */,
 				09129E4C211AEF86004B84E9 /* P2PPaymentsOnboardingViewController.swift */,
 				09129E4F211AF037004B84E9 /* P2PPaymentsOnboardingView.swift */,
 			);
 			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		097EDBDF213CFE180057D638 /* P2PPayments */ = {
+			isa = PBXGroup;
+			children = (
+				097EDBE0213CFE460057D638 /* P2PPaymentsWireframe.swift */,
+			);
+			path = P2PPayments;
+			sourceTree = "<group>";
+		};
+		097EDBE3213CFEF10057D638 /* P2PPayments */ = {
+			isa = PBXGroup;
+			children = (
+				097EDBE4213CFF180057D638 /* LGP2PPaymentsBuilder.swift */,
+			);
+			path = P2PPayments;
 			sourceTree = "<group>";
 		};
 		09D7BC7C20EB62800090E499 /* Payments */ = {
@@ -4312,6 +4338,7 @@
 				0A6FEC6B2130343A00B57004 /* LPMessage */,
 				0A6FEC552130343900B57004 /* MainListing */,
 				0A6FEC6D2130343B00B57004 /* MediaViewer */,
+				097EDBDF213CFE180057D638 /* P2PPayments */,
 				0A6FEC622130343A00B57004 /* ProfessionalDealerAskPhone */,
 				0A6FEC5D2130343900B57004 /* PromoteBump */,
 				0A6FEC8C2130343D00B57004 /* QuickLocationFilters */,
@@ -4353,6 +4380,7 @@
 				0A890A9721206AD10091ED75 /* FeaturedInfo */,
 				0A890A8A212063820091ED75 /* EditListing */,
 				0A890A8021205DA60091ED75 /* MediaViewer */,
+				097EDBE3213CFEF10057D638 /* P2PPayments */,
 				0ADD39AB211304FA0071DF87 /* LGChatBuilder.swift */,
 				0AA03201210A293600728A1A /* LGUserVerificationBuilder.swift */,
 				0ACA8F442114951300243850 /* LGFiltersBuilder.swift */,
@@ -9264,6 +9292,7 @@
 				0A6FECB42130344000B57004 /* MainSignUpNavigator.swift in Sources */,
 				42059D11207E31DF00083438 /* FilterCarSection.swift in Sources */,
 				0AB6E1D61F9DD18F0048AFFD /* ListingDeckView.swift in Sources */,
+				097EDBE8213CFF6D0057D638 /* P2PPaymentsOnboardingViewModel.swift in Sources */,
 				C6977E912121B17200B57E54 /* OverlayDisplayStyle.swift in Sources */,
 				72EB705C1E65C44E00BF709B /* ModularNotificationCellDrawer.swift in Sources */,
 				505F55B31E8A97AF005A616F /* PostCategorySelectionView.swift in Sources */,
@@ -9368,6 +9397,7 @@
 				013B2A2121303DCC00F69613 /* InterestedHandler.swift in Sources */,
 				3299E5EB2080AE01002935AE /* WaterFallLayoutHeaderTypes.swift in Sources */,
 				01337B952085F55D00AC8385 /* NotificationSettingsSwitchCell.swift in Sources */,
+				097EDBE5213CFF180057D638 /* LGP2PPaymentsBuilder.swift in Sources */,
 				72D928E11E83EB990030F4C3 /* RatingManager.swift in Sources */,
 				C77B7DBA1DBF9D150043C624 /* PushPermissionsHeader.swift in Sources */,
 				8EEC7F61206AA64000616858 /* MoPubAdsRequester.swift in Sources */,
@@ -9383,6 +9413,7 @@
 				2E47610B1EF0343B003F15F2 /* ListingDetailOnboardingViewModel.swift in Sources */,
 				C7BB25D01E36153600649396 /* GodModeManager.swift in Sources */,
 				6A6C756E207B83B500845A88 /* UserVerificationEmailViewModel.swift in Sources */,
+				097EDBE1213CFE460057D638 /* P2PPaymentsWireframe.swift in Sources */,
 				C73189C91DBE3847005A93EE /* ListHeaderContainer.swift in Sources */,
 				2E423784205A7AA00077B62A /* BumpUpTimerBarView.swift in Sources */,
 				C6977E7D2118441200B57E54 /* ServiceAttributes+LG.swift in Sources */,
@@ -9701,6 +9732,7 @@
 				6A879DA91C8DD2BD00E0C868 /* PushPrePermissionsSettingsViewModel.swift in Sources */,
 				3201487620FF6FAA003445DA /* PushMessageSectionController.swift in Sources */,
 				8E0EEFC32057E785000C07C9 /* MLPredictionDetailsView.swift in Sources */,
+				097EDBE6213CFF3D0057D638 /* LGP2PPaymentsBuilder.swift in Sources */,
 				7226F0FC1E962CA200B54D01 /* ChatRelatedItemsState.swift in Sources */,
 				8EF1CDB32010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift in Sources */,
 				C7DB41AA1C5138B500400945 /* MainListingsViewModel.swift in Sources */,
@@ -10068,6 +10100,7 @@
 				8E838215210F4D8000475568 /* ChatConnectionBarStatus.swift in Sources */,
 				C707D4591E9B8C0B00042C03 /* RepositoryError+LG.swift in Sources */,
 				50CFB2F420A2D94800255EE8 /* UserVerificationViewController.swift in Sources */,
+				097EDBE2213CFE4B0057D638 /* P2PPaymentsWireframe.swift in Sources */,
 				C6BEE65520EE6ED2008AEA0B /* ListingAttributeTableViewController.swift in Sources */,
 				C7DE8AD71C88929A005CF37E /* PostListingCameraView.swift in Sources */,
 				0A3048292041E20100C11498 /* ListingDeckSnapshotType.swift in Sources */,
@@ -10370,6 +10403,7 @@
 				2E423785205A7AA10077B62A /* BumpUpTimerBarView.swift in Sources */,
 				42A27EC92126DAA300E2ABC5 /* GADNativeAdViewFactory.swift in Sources */,
 				2E1BC4001E6492230063D1A7 /* ReceiptURLProvider.swift in Sources */,
+				097EDBE9213CFF6D0057D638 /* P2PPaymentsOnboardingViewModel.swift in Sources */,
 				320843B920A1FDF7009A1DC5 /* DiscoveryABGroup.swift in Sources */,
 				C66105E821304AE000BA4EF7 /* ServicesPromoCellConfiguration.swift in Sources */,
 				C77B7DB31DBE3C290043C624 /* ListHeaderContainer.swift in Sources */,

@@ -40,6 +40,7 @@ class TabCoordinator: NSObject, Coordinator {
     private lazy var verificationAssembly = LGUserVerificationBuilder.standard(nav: navigationController)
     private lazy var rateBuyerAssembly = RateBuyerBuilder.modal(navigationController)
     private lazy var expressChatAssembly = ExpressChatBuilder.modal(navigationController)
+    private lazy var p2pPaymentsAssembly = LGP2PPaymentsBuilder.modal(root: navigationController)
 
     weak var tabCoordinatorDelegate: TabCoordinatorDelegate?
     weak var appNavigator: AppNavigator?
@@ -278,6 +279,11 @@ extension TabCoordinator: ChatDetailNavigator {
         let assembly = AssistantMeetingBuilder.modal(navigationController)
         let vc = assembly.buildAssistantFor(listingId: listingId, dataDelegate: dataDelegate)
         navigationController.present(vc, animated: true, completion: nil)
+    }
+
+    func openP2PPaymentsOnboarding() {
+        let onboarding = p2pPaymentsAssembly.buildOnboarding()
+        navigationController.present(onboarding, animated: true)
     }
 }
 

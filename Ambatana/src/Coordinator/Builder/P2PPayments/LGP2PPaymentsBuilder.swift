@@ -13,7 +13,7 @@ extension LGP2PPaymentsBuilder: P2PPaymentsAssembly {
         switch self {
         case .modal(root: let root):
             let vm = P2PPaymentsOnboardingViewModel()
-            vm.navigator = P2PPaymentsRouter(root: root)
+            vm.navigator = P2PPaymentsWireframe(root: root)
             return P2PPaymentsOnboardingViewController(viewModel: vm)
         }
     }

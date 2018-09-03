@@ -4,14 +4,14 @@ protocol P2PPaymentsNavigator {
     func closeOnboarding()
 }
 
-final class P2PPaymentsRouter: P2PPaymentsNavigator {
-    private weak var root: UIViewController?
+final class P2PPaymentsWireframe: P2PPaymentsNavigator {
+    private let root: UIViewController
 
     init(root: UIViewController) {
         self.root = root
     }
 
     func closeOnboarding() {
-        root?.dismiss(animated: true)
+        root.dismiss(animated: true)
     }
 }
