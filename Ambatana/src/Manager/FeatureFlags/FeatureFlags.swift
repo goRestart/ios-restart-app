@@ -381,10 +381,6 @@ extension CopyForSellFasterNowInTurkish {
     }
 }
 
-extension IAmInterestedFeed {
-    var isVisible: Bool { return self == .control || self == .baseline }
-}
-
 extension PersonalizedFeed {
     var isActive: Bool { return self != .control && self != .baseline }
 }

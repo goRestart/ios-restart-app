@@ -45,14 +45,12 @@ extension Bumper  {
         flags.append(ShowPasswordlessLogin.self)
         flags.append(CopyForSellFasterNowInEnglish.self)
         flags.append(EmergencyLocate.self)
-        flags.append(IAmInterestedFeed.self)
         flags.append(PersonalizedFeed.self)
         flags.append(ServicesCategoryOnSalchichasMenu.self)
         flags.append(GoogleAdxForTR.self)
         flags.append(MultiContactAfterSearch.self)
         flags.append(EmptySearchImprovements.self)
         flags.append(OffensiveReportAlert.self)
-        flags.append(HighlightedIAmInterestedFeed.self)
         flags.append(FullScreenAdsWhenBrowsingForUS.self)
         flags.append(VideoPosting.self)
         flags.append(PredictivePosting.self)
@@ -467,19 +465,6 @@ extension Bumper  {
     }
     #endif
 
-    static var iAmInterestedFeed: IAmInterestedFeed {
-        guard let value = Bumper.value(for: IAmInterestedFeed.key) else { return .control }
-        return IAmInterestedFeed(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var iAmInterestedFeedObservable: Observable<IAmInterestedFeed> {
-        return Bumper.observeValue(for: IAmInterestedFeed.key).map {
-            IAmInterestedFeed(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
     static var personalizedFeed: PersonalizedFeed {
         guard let value = Bumper.value(for: PersonalizedFeed.key) else { return .control }
         return PersonalizedFeed(rawValue: value) ?? .control 
@@ -554,19 +539,6 @@ extension Bumper  {
     static var offensiveReportAlertObservable: Observable<OffensiveReportAlert> {
         return Bumper.observeValue(for: OffensiveReportAlert.key).map {
             OffensiveReportAlert(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var highlightedIAmInterestedFeed: HighlightedIAmInterestedFeed {
-        guard let value = Bumper.value(for: HighlightedIAmInterestedFeed.key) else { return .control }
-        return HighlightedIAmInterestedFeed(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var highlightedIAmInterestedFeedObservable: Observable<HighlightedIAmInterestedFeed> {
-        return Bumper.observeValue(for: HighlightedIAmInterestedFeed.key).map {
-            HighlightedIAmInterestedFeed(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1454,22 +1426,6 @@ enum EmergencyLocate: String, BumperFeature  {
     }
 }
 
-enum IAmInterestedFeed: String, BumperFeature  {
-    case control, baseline, hidden
-    static var defaultValue: String { return IAmInterestedFeed.control.rawValue }
-    static var enumValues: [IAmInterestedFeed] { return [.control, .baseline, .hidden]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show an I am interested button in the main feed" } 
-    static func fromPosition(_ position: Int) -> IAmInterestedFeed {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .hidden
-            default: return .control
-        }
-    }
-}
-
 enum PersonalizedFeed: String, BumperFeature  {
     case control, baseline, personalized
     static var defaultValue: String { return PersonalizedFeed.control.rawValue }
@@ -1568,24 +1524,6 @@ enum OffensiveReportAlert: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
-            default: return .control
-        }
-    }
-}
-
-enum HighlightedIAmInterestedFeed: String, BumperFeature  {
-    case control, baseline, lightBottom, darkTop, darkBottom
-    static var defaultValue: String { return HighlightedIAmInterestedFeed.control.rawValue }
-    static var enumValues: [HighlightedIAmInterestedFeed] { return [.control, .baseline, .lightBottom, .darkTop, .darkBottom]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "[RETENTION] Show an I am interested highlighted undo button in the main feed more" } 
-    static func fromPosition(_ position: Int) -> HighlightedIAmInterestedFeed {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .lightBottom
-            case 3: return .darkTop
-            case 4: return .darkBottom
             default: return .control
         }
     }
