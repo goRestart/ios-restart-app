@@ -16,13 +16,8 @@ import RxSwift
 
 class SignUpLogInViewModelSpec: BaseViewModelSpec {
     var finishedSuccessfully: Bool = false
-    var finishedScammer: Bool = false
-    var finishedDeviceNotAllowed: Bool = false
-    
     var delegateReceivedShowGodModeAlert = false
-    var navigatorReceivedOpenRememberPassword = false
-    var navigatorReceivedOpenHelp = false
-    
+
     var showAlertWasCalled: Bool = false
     var openWasCalled: Bool = false
     var closeWasCalled: Bool = false
@@ -61,25 +56,28 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                 fbLoginHelper = MockExternalAuthHelper(result: .success(myUser: myUser))
                 let locale = Locale(identifier: "es_ES")
 
-                sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository: installationRepository,
-                    keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
-                    fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
-                    locale: locale, source: .install, action: .signup,
-                    loginAction: nil, cancelAction: nil)
+                sut = SignUpLogInViewModel(sessionManager: sessionManager,
+                                           installationRepository: installationRepository,
+                                           keyValueStorage: keyValueStorage,
+                                           googleLoginHelper: googleLoginHelper,
+                                           fbLoginHelper: fbLoginHelper,
+                                           tracker: tracker,
+                                           featureFlags: featureFlags,
+                                           locale: locale,
+                                           source: .install,
+                                           action: .signup,
+                                           loginAction: nil,
+                                           cancelAction: nil)
                 sut.delegate = self
                 sut.router = self
 
                 self.finishedSuccessfully = false
-                self.finishedScammer = false
-                self.finishedDeviceNotAllowed = false
                 self.showRecaptchaWasCalled = false
                 
                 self.delegateReceivedShowGodModeAlert = false
                 self.delegateReceivedHideLoading = false
                 self.delegateReceivedShowAlert = false
-                self.navigatorReceivedOpenRememberPassword = false
-                self.navigatorReceivedOpenHelp = false
-                
+
                 sendButtonEnabled = false
                 disposeBag = DisposeBag()
                 sut.sendButtonEnabled.subscribeNext { enabled in
@@ -1445,11 +1443,11 @@ extension SignUpLogInViewModelSpec: LoginNavigator {
         showSignInWithEmailWasCalled = true
     }
     
-    func showSignInWithEmail(source: EventParameterLoginSourceValue, appearance: LoginAppearance, logicAction: (() -> ())?, cancelAction: (() -> ())?) {
+    func showSignInWithEmail(source: EventParameterLoginSourceValue, appearance: LoginAppearance, loginAction: (() -> ())?, cancelAction: (() -> ())?) {
         showSignInWithEmailWasCalled = true
     }
     
-    func showLoginWithEmail(source: EventParameterLoginSourceValue, logicAction: (() -> ())?, cancelAction: (() -> ())?) {
+    func showLoginWithEmail(source: EventParameterLoginSourceValue, loginAction: (() -> ())?, cancelAction: (() -> ())?) {
         showLoginWithEmailWasCalled = true
     }
     

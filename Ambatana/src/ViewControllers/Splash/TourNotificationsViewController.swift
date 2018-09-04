@@ -26,9 +26,6 @@ final class TourNotificationsViewController: BaseViewController {
     @IBOutlet weak var pushImage: UIImageView!
     @IBOutlet weak var permissionAlertImage: UIImageView!
 
-    var completion: (() -> ())?
-    var pushDialogWasShown = false
-
     // MARK: - Lifecycle
     
     init(viewModel: TourNotificationsViewModel) {
@@ -52,7 +49,7 @@ final class TourNotificationsViewController: BaseViewController {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -65,34 +62,7 @@ final class TourNotificationsViewController: BaseViewController {
                                          action: #selector(closeButtonPressed))
         close.set(accessibilityId: .tourNotificationsCloseButton)
         navigationItem.leftBarButtonItem = close
-
-        NotificationCenter.default.addObserver(self,
-            selector: #selector(TourNotificationsViewController.didRegisterUserNotificationSettings),
-            name: NSNotification.Name(rawValue: PushManager.Notification.DidRegisterUserNotificationSettings.rawValue),
-            object: nil)
-        
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(didBecomeActive),
-                                               name: NSNotification.Name.UIApplicationDidBecomeActive,
-                                               object: nil)
         viewModel.viewDidLoad()
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
-
-    @objc func didRegisterUserNotificationSettings() {
-        let time = DispatchTime.now() + Double(Int64(0.5 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
-        DispatchQueue.main.asyncAfter(deadline: time) { [weak self] in
-            guard let viewAlpha = self?.view.alpha, viewAlpha > 0 else { return }
-            self?.viewModel.openNextStep()
-        }
-    }
-    
-    @objc func didBecomeActive() {
-        guard pushDialogWasShown else { return }
-        viewModel.openNextStep()
     }
     
     // MARK: - IBActions
@@ -119,7 +89,6 @@ final class TourNotificationsViewController: BaseViewController {
     
     @IBAction func yesButtonPressed(_ sender: AnyObject) {
         viewModel.userDidTapYesButton()
-        pushDialogWasShown = true
     }    
     
     // MARK: - UI

@@ -283,10 +283,6 @@ extension CopyForSellFasterNowInTurkish {
     }
 }
 
-extension IAmInterestedFeed {
-    var isVisible: Bool { return self == .control || self == .baseline }
-}
-
 extension PersonalizedFeed {
     var isActive: Bool { return self != .control && self != .baseline }
 }
@@ -988,7 +984,7 @@ extension FeatureFlags {
             return Bumper.carPromoCells
         }
         
-        return .control
+        return CarPromoCells.fromPosition(abTests.carPromoCells.value)
     }
     
     var servicesPromoCells: ServicesPromoCells {

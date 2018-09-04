@@ -2,7 +2,7 @@ import LGCoreKit
 import LGComponents
 
 final class MainTabCoordinator: TabCoordinator {
-
+    private lazy var phoneAskAssembly = ProfessionalDealerAskPhoneBuilder.modal(rootViewController)
     private var feedType: FeedType = .classic
     private let pushPermissionsManager: PushPermissionsManager
     private var feedNC: UINavigationController
@@ -186,15 +186,20 @@ extension MainTabCoordinator: MainTabNavigator {
     }
     
     func openAskPhoneFromMainFeedFor(listing: Listing, interlocutor: User?) {
-        let assembly = ProfessionalDealerAskPhoneBuilder.modal(navigationController)
-        let vc = assembly.buildProfessionalDealerAskPhone(listing: listing, interlocutor: interlocutor)
+        let vc = phoneAskAssembly.buildProfessionalDealerAskPhone(listing: listing,
+                                                                  interlocutor: interlocutor,
+                                                                  chatNavigator: chatNavigator)
         navigationController.present(vc, animated: true, completion: nil)
     }
 
     func openPrivateUserProfile() {
         openFullLoginIfNeeded(source: .profile) {
             let coord = ProfileTabCoordinator(source: .mainListing)
-            self.openChild(coordinator: coord, parent: self.rootViewController, animated: true, forceCloseChild: true, completion: nil)
+            self.openChild(coordinator: coord,
+                           parent: self.rootViewController,
+                           animated: true,
+                           forceCloseChild: true,
+                           completion: nil)
         }
     }
 

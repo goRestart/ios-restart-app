@@ -128,6 +128,7 @@ final class ListingAttributeSingleSelectPickerViewModel: BaseViewModel, ListingA
     let title: String
     let attributes: [String]
     let canSearchAttributes: Bool
+    let canDeselect: Bool
     
     private var selectedAttribute: String?
     private var selectionUpdate: ((_ selectedIndex: Int?) -> Void)?
@@ -152,27 +153,18 @@ final class ListingAttributeSingleSelectPickerViewModel: BaseViewModel, ListingA
         return .primary(fontSize: .medium)
     }
     
-    convenience init(title: String,
-                     attributes: [String],
-                     selectedAttribute: String?,
-                     selectionUpdate: @escaping (Int?) -> Void) {
-        self.init(title: title,
-                  attributes: attributes,
-                  selectedAttribute: selectedAttribute,
-                  canSearchAttributes: false,
-                  selectionUpdate: selectionUpdate)
-    }
-    
     init(title: String,
         attributes: [String],
         selectedAttribute: String?,
-        canSearchAttributes: Bool,
+        canSearchAttributes: Bool = false,
+        canDeselect: Bool = true,
         selectionUpdate: @escaping (Int?) -> Void) {
         self.title = title
         self.attributes = attributes
         self.selectedAttribute = selectedAttribute
         self.selectionUpdate = selectionUpdate
         self.canSearchAttributes = canSearchAttributes
+        self.canDeselect = canDeselect
         
         super.init()
     }

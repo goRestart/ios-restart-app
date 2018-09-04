@@ -448,6 +448,7 @@
 "filters_cars_transmission_title" = "Váltó";
 "filters_distance_not_set" = "nincs megadva";
 "filters_jobs_services_header" = "Munka- vagy szolgáltatásinfó";
+"filters_jobs_services_list_max_selection_alert" = "Hoppá! Legfeljebb 15 lehetőséget választhatsz.";
 "filters_jobs_services_subtype_title" = "Altípus";
 "filters_jobs_services_toggle_header" = "Keresek...";
 "filters_jobs_services_type_title" = "Típus";
@@ -759,6 +760,10 @@
 "post_description_name_placeholder" = "Név";
 "post_description_save_button_text" = "Mentsd el a hirdetést!";
 "post_details_jobs_services_camera_message" = "Töltsd fel a vállalati emblémát vagy egy fotót a nyújtott szolgáltatásról vagy munkáról";
+"post_details_jobs_services_congratulation_add_more_details" = "további részletek hozzáadásával:";
+"post_details_jobs_services_congratulation_improve_listing" = "Turbózd fel a hirdetést";
+"post_details_jobs_services_congratulation_people_nearby_first" = "A környékeden élők";
+"post_details_jobs_services_congratulation_people_nearby_second" = "a következőket is keresik:";
 "post_details_jobs_services_step_option_jobs_prefix" = "felbérelni valakit, hogy nyújtson egy";
 "post_details_jobs_services_step_option_services_prefix" = "hirdetni egy";
 "post_details_jobs_services_step_title" = "Szeretnék...";
@@ -1049,6 +1054,9 @@
 "profile_sold_no_products_label" = "NINCSENEK HIRDETÉSEK (EGYELŐRE!)";
 "profile_sold_other_no_products_button" = "Tovább böngészek";
 "profile_sold_products_tab" = "Eladott";
+"profile_verifications_awareness_view_bold_text" = "Here's a pro tip";
+"profile_verifications_awareness_view_button" = "Complete profile";
+"profile_verifications_awareness_view_text" = "%@ - did you know that verified users make better deals?\n\nComplete and verify your profile today!";
 "profile_verifications_email_placeholder" = "Email";
 "profile_verifications_email_view_title" = "E-mail cím hitelesítése";
 "profile_verifications_send_button" = "Küldés";
@@ -1356,6 +1364,7 @@
 "sell_title_autogen_label" = "A letgo által ajánlott cím";
 "sell_title_field_hint" = "Cím (nem kötelező)";
 "sell_uploading_label" = "Hirdetés feltöltése...";
+"services_promo_call_to_action" = "Hirdess meg szolgáltatás";
 "services_promo_cell_title_b" = "Új Szolgáltatások kategória!";
 "services_promo_cell_title_c" = "Keress helyi ügyfeleket szolgáltatásodhoz";
 "services_promo_cell_title_default_bold" = "Keress pénzt";
@@ -1397,6 +1406,8 @@
 "settings_section_promote" = "Hirdet";
 "settings_section_support" = "Támogatás";
 "settings_title" = "Beállítások";
+"share_screenshot_description" = "Készen is áll a megosztásra:";
+"share_screenshot_title" = "Képernyőkép elmentve!";
 "sign_up_acceptance_error" = "A regisztrációhoz el kell fogadnod Felhasználási feltételeinket és Adatkezelési irányelveinket";
 "sign_up_email_field_hint" = "E-mail cím";
 "sign_up_email_step1_continue_button" = "Folytatás";

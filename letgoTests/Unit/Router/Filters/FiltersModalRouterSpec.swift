@@ -53,10 +53,12 @@ final class FiltersModalWireframeSpec: QuickSpec {
         
         describe("openServicesDropdown") {
             beforeEach {
+                let featureFlags = MockFeatureFlags()
                 subject?.openServicesDropdown(viewModel: DropdownViewModel(screenTitle: "Commander",
                                                                            searchPlaceholderTitle: "Keen",
                                                                            attributes: [],
-                                                                           buttonAction: nil))
+                                                                           buttonAction: nil,
+                                                                           featureFlags: featureFlags))
             }
             
             it("should push the view") {
