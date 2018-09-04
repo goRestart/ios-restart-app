@@ -761,9 +761,9 @@
 "post_description_save_button_text" = "Salva questo annuncio!";
 "post_details_jobs_services_camera_message" = "Pubblica il logo della tua azienda o una foto che mostri il servizio o il lavoro da te offerto";
 "post_details_jobs_services_congratulation_add_more_details" = "aggiungendo altri dettagli:";
-"post_details_jobs_services_congratulation_improve_listing" = "Migliora il tuo annuncio\n";
-"post_details_jobs_services_congratulation_people_nearby_first" = "People near you are also";
-"post_details_jobs_services_congratulation_people_nearby_second" = "looking for:";
+"post_details_jobs_services_congratulation_improve_listing" = "Migliora il tuo annuncio";
+"post_details_jobs_services_congratulation_people_nearby_first" = "Persone nella tua zona stanno";
+"post_details_jobs_services_congratulation_people_nearby_second" = "cercando anche:";
 "post_details_jobs_services_step_option_jobs_prefix" = "Alla ricerca di assumere qualcuno per un";
 "post_details_jobs_services_step_option_services_prefix" = "Pubblicizza un";
 "post_details_jobs_services_step_title" = "Sono un/una...";
@@ -1054,6 +1054,9 @@
 "profile_sold_no_products_label" = "ANCORA NESSUN ANNUNCIO!";
 "profile_sold_other_no_products_button" = "Continua la consultazione";
 "profile_sold_products_tab" = "Venduto";
+"profile_verifications_awareness_view_bold_text" = "Here's a pro tip";
+"profile_verifications_awareness_view_button" = "Complete profile";
+"profile_verifications_awareness_view_text" = "%@ - did you know that verified users make better deals?\n\nComplete and verify your profile today!";
 "profile_verifications_email_placeholder" = "Email";
 "profile_verifications_email_view_title" = "Verifica il tuo indirizzo email";
 "profile_verifications_send_button" = "Invia";
@@ -1403,6 +1406,8 @@
 "settings_section_promote" = "Promuovi";
 "settings_section_support" = "Supporto";
 "settings_title" = "Impostazioni";
+"share_screenshot_description" = "Adesso è pronto per essere condiviso:";
+"share_screenshot_title" = "Screenshot salvato!";
 "sign_up_acceptance_error" = "Per registrarti devi accettare i Termini e condizioni e l'Informativa sulla privacy";
 "sign_up_email_field_hint" = "Email";
 "sign_up_email_step1_continue_button" = "Continua";

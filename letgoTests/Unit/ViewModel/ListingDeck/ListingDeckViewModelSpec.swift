@@ -91,6 +91,7 @@ final class ListingDeckViewModelSpec: BaseViewModelSpec {
                                            tracker: tracker,
                                            actionOnFirstAppear: actionOnFirstAppear,
                                            trackingIndex: nil,
+                                           trackingIdentifier: nil,
                                            keyValueStorage: MockKeyValueStorage(),
                                            featureFlags: MockFeatureFlags(),
                                            adsRequester: AdsRequester())

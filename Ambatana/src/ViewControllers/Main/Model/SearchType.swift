@@ -14,6 +14,7 @@ enum SearchType {
     case suggestive(search: SuggestiveSearch, indexSelected: Int)
     case lastSearch(search: SuggestiveSearch)
     case collection(type: CollectionCellType, query: String)
+    case feed(page: URL, title: String)
 
     var text: String? {
         switch self {
@@ -27,6 +28,8 @@ enum SearchType {
             return search.name
         case let .collection(type, _):
             return type.title
+        case let .feed(_, title):
+            return title
         }
     }
 
@@ -42,12 +45,14 @@ enum SearchType {
             return search.name
         case let .collection(_ , query):
             return query
+        case .feed:
+            return nil
         }
     }
     
     var category: ListingCategory? {
         switch self {
-        case .user, .trending, .collection:
+        case .user, .trending, .collection, .feed:
             return nil
         case let .suggestive(search, _):
             return search.category
@@ -58,7 +63,7 @@ enum SearchType {
 
     var isTrending: Bool {
         switch self {
-        case .user, .suggestive, .collection, .lastSearch:
+        case .user, .suggestive, .collection, .lastSearch, .feed:
             return false
         case .trending:
             return true
@@ -67,7 +72,7 @@ enum SearchType {
     
     var isSuggestive: Bool {
         switch self {
-        case .user, .trending, .collection, .lastSearch:
+        case .user, .trending, .collection, .lastSearch, .feed:
             return false
         case .suggestive:
             return true
@@ -76,7 +81,7 @@ enum SearchType {
 
     var isCollection: Bool {
         switch self {
-        case .user, .suggestive, .trending, .lastSearch:
+        case .user, .suggestive, .trending, .lastSearch, .feed:
             return false
         case .collection:
             return true
@@ -85,7 +90,7 @@ enum SearchType {
     
     var isLastSearch: Bool {
         switch self {
-        case .user, .suggestive, .trending, .collection:
+        case .user, .suggestive, .trending, .collection, .feed:
             return false
         case .lastSearch:
             return true
@@ -96,7 +101,7 @@ enum SearchType {
         switch self {
         case .user:
             return true
-        case .lastSearch, .suggestive, .trending, .collection:
+        case .lastSearch, .suggestive, .trending, .collection, .feed:
             return false
         }
     }
@@ -105,7 +110,7 @@ enum SearchType {
         switch self {
         case let .suggestive(_, indexSelected):
             return indexSelected
-        case .user, .trending, .lastSearch, .collection:
+        case .user, .trending, .lastSearch, .collection, .feed:
             return nil
         }
     }

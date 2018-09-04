@@ -448,7 +448,7 @@
 "filters_cars_transmission_title" = "Vites";
 "filters_distance_not_set" = "belirlenmedi";
 "filters_jobs_services_header" = "İş veya Hizmet Bilgisi";
-"filters_jobs_services_list_max_selection_alert" = "Oops! You can’t select more than 15 options.";
+"filters_jobs_services_list_max_selection_alert" = "Oops! 15'den fazla seçim yapamazsın.";
 "filters_jobs_services_subtype_title" = "Alt tür";
 "filters_jobs_services_toggle_header" = "Aradığım...";
 "filters_jobs_services_type_title" = "Tür";
@@ -760,10 +760,10 @@
 "post_description_name_placeholder" = "İsim";
 "post_description_save_button_text" = "Bu ilanı kaydet!";
 "post_details_jobs_services_camera_message" = "Şirketinin logosunu ya da sunduğun hizmet veya işi gösteren bir fotoğraf yayınla";
-"post_details_jobs_services_congratulation_add_more_details" = "by adding more details:";
-"post_details_jobs_services_congratulation_improve_listing" = "Improve your listing\n";
-"post_details_jobs_services_congratulation_people_nearby_first" = "People near you are also";
-"post_details_jobs_services_congratulation_people_nearby_second" = "looking for:";
+"post_details_jobs_services_congratulation_add_more_details" = "daha fazla ayrıntı ekle:";
+"post_details_jobs_services_congratulation_improve_listing" = "İlanını geliştir";
+"post_details_jobs_services_congratulation_people_nearby_first" = "Yakınındaki insanlar";
+"post_details_jobs_services_congratulation_people_nearby_second" = "bunları da arıyor:";
 "post_details_jobs_services_step_option_jobs_prefix" = "Şunun için işe alacak birini arıyorum:";
 "post_details_jobs_services_step_option_services_prefix" = "Şunun ilanını veriyorum:";
 "post_details_jobs_services_step_title" = "Ben";
@@ -1054,6 +1054,9 @@
 "profile_sold_no_products_label" = "(HENÜZ!) İLAN YOK";
 "profile_sold_other_no_products_button" = "Aramaya Başla";
 "profile_sold_products_tab" = "Satıldı";
+"profile_verifications_awareness_view_bold_text" = "Here's a pro tip";
+"profile_verifications_awareness_view_button" = "Complete profile";
+"profile_verifications_awareness_view_text" = "%@ - did you know that verified users make better deals?\n\nComplete and verify your profile today!";
 "profile_verifications_email_placeholder" = "E-posta";
 "profile_verifications_email_view_title" = "E-postanı doğrula";
 "profile_verifications_send_button" = "Gönder";
@@ -1403,6 +1406,8 @@
 "settings_section_promote" = "Öne çıkar";
 "settings_section_support" = "Destek";
 "settings_title" = "Ayarlar";
+"share_screenshot_description" = "Now it’s ready for you to share:";
+"share_screenshot_title" = "Screenshot saved!";
 "sign_up_acceptance_error" = "Kaydolmak için letgo Şartlar ve Koşullarını & Gizlilik Politikasını kabul etmelisin";
 "sign_up_email_field_hint" = "E-posta";
 "sign_up_email_step1_continue_button" = "Devam Et";

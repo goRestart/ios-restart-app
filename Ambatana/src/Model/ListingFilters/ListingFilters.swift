@@ -31,6 +31,17 @@ struct ListingFilters {
     var hasAnyCarAttributes: Bool {
         return verticalFilters.cars.hasAnyAttributesSet
     }
+    
+    var hasOnlyPlace: Bool {
+        if let _ = distanceRadius { return false }
+        if !selectedCategories.isEmpty { return false }
+        if selectedWithin != ListingTimeFilter.defaultOption { return false }
+        if selectedOrdering != ListingSortCriteria.defaultOption { return false }
+        if priceRange != .priceRange(min: nil, max: nil) { return false }
+        if verticalFilters.hasAnyAttributesSet { return false }
+        if let _ = place { return true }
+        return false
+    }
 
     init() {
         self.init(place: nil,

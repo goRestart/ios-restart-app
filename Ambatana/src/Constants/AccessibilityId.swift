@@ -730,10 +730,10 @@ enum AccessibilityId: Equatable, Accessible {
     case askPhoneNumberSendPhoneButton
     
     //  MARK - Verticals
-    case realEstateCell
-    case realEstatePromoTitle
-    case realEstatePromoIcon
-    case realEstatePromoPostNowButton
+    case promoCell
+    case promoCellTitle
+    case promoCellIcon
+    case promoCellPostNowButton
 
     // Search Alerts Placeholder
     case searchAlertsPlaceholderIcon
@@ -1656,6 +1656,8 @@ enum AccessibilityId: Equatable, Accessible {
                 suffix = "AskPhoneNumber"
             case .callToAction:
                 suffix = "CallToAction"
+            case .carousel:
+                suffix = "Carousel"
             }
             return "chatCellContainer\(suffix)"
         case .chatCellMessageLabel:
@@ -2108,14 +2110,14 @@ enum AccessibilityId: Equatable, Accessible {
             return "askPhoneNumberSendPhoneButton"
             
             //  MARK: Verticals
-        case .realEstateCell:
-            return "realEstateCell"
-        case .realEstatePromoTitle:
-            return "realEstatePromoTitle"
-        case .realEstatePromoIcon:
-            return "realEstatePromoIcon"
-        case .realEstatePromoPostNowButton:
-            return "realEstatePromoPostNowButton"
+        case .promoCell:
+            return "promoCell"
+        case .promoCellTitle:
+            return "promoCellTitle"
+        case .promoCellIcon:
+            return "promoCellIcon"
+        case .promoCellPostNowButton:
+            return "promoCellPostNowButton"
         // Search Alerts Placeholder
         case .searchAlertsPlaceholderIcon:
             return "searchAlertsPlaceholderIcon"

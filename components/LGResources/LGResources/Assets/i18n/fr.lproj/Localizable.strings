@@ -761,7 +761,7 @@
 "post_description_save_button_text" = "Sauvegarder cette annonce !";
 "post_details_jobs_services_camera_message" = "Publiez le logo de votre entreprise ou une photo qui montre le service ou l'emploi que vous proposez";
 "post_details_jobs_services_congratulation_add_more_details" = "by adding more details:";
-"post_details_jobs_services_congratulation_improve_listing" = "Improve your listing\n";
+"post_details_jobs_services_congratulation_improve_listing" = "Improve your listing";
 "post_details_jobs_services_congratulation_people_nearby_first" = "People near you are also";
 "post_details_jobs_services_congratulation_people_nearby_second" = "looking for:";
 "post_details_jobs_services_step_option_jobs_prefix" = "Cherchant à recruter quelqu'un pour un";
@@ -1054,6 +1054,9 @@
 "profile_sold_no_products_label" = "AUCUNE ANNONCE (POUR LE MOMENT !)";
 "profile_sold_other_no_products_button" = "Continuer à naviguer";
 "profile_sold_products_tab" = "Vendu";
+"profile_verifications_awareness_view_bold_text" = "Here's a pro tip";
+"profile_verifications_awareness_view_button" = "Complete profile";
+"profile_verifications_awareness_view_text" = "%@ - did you know that verified users make better deals?\n\nComplete and verify your profile today!";
 "profile_verifications_email_placeholder" = "Email";
 "profile_verifications_email_view_title" = "Vérifiez votre courriel";
 "profile_verifications_send_button" = "Envoyer";
@@ -1403,6 +1406,8 @@
 "settings_section_promote" = "Promouvoir";
 "settings_section_support" = "Aide";
 "settings_title" = "Paramètres";
+"share_screenshot_description" = "Now it’s ready for you to share:";
+"share_screenshot_title" = "Screenshot saved!";
 "sign_up_acceptance_error" = "Pour vous inscrire, vous devez accepter la Politique de Confidentialité ainsi que les Conditions d'Utilisation";
 "sign_up_email_field_hint" = "Email";
 "sign_up_email_step1_continue_button" = "Continuer";

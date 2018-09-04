@@ -92,7 +92,8 @@ final class UserProfileViewController: BaseViewController {
         self.disposeBag = DisposeBag()
         self.headerView = UserProfileHeaderView(isPrivate: viewModel.isPrivateProfile)
         self.bioAndTrustView = UserProfileBioAndTrustView(isPrivate: viewModel.isPrivateProfile)
-        self.listingView = ListingListView(viewModel: ListingListViewModel(),
+        let source: ListingListViewModel.ListingListViewContainer = viewModel.isPrivateProfile ? .privateProfileSelling : .publicProfileSelling
+        self.listingView = ListingListView(viewModel: ListingListViewModel(source: source),
                                            featureFlags: FeatureFlags.sharedInstance)
         self.socialSharer = socialSharer
         self.socialSharer.delegate = viewModel
@@ -630,6 +631,11 @@ extension UserProfileViewController {
                 self?.updateDummyUsersView(isDummy: isDummy, userName: userName)
             })
             .disposed(by: disposeBag)
+        
+        viewModel.showBubbleNotification.asObserver().bind { [weak self] data in
+            guard let view = self?.view else { return }
+            self?.viewModel.showUndoBubble(inView: view, data: data)
+        }.disposed(by: disposeBag)
     }
 
     private func setupPushPermissionsRx() {

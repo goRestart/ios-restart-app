@@ -2,8 +2,8 @@ import UIKit
 import LGCoreKit
 import LGComponents
 
-protocol ChatCallToActionCellDelegate: class {
-    func openDeeplink(url: URL, trackingKey: String)
+protocol ChatDeeplinkCellDelegate: class {
+    func openDeeplink(url: URL, trackingKey: String?)
 }
 
 final class ChatCallToActionCell: ChatBubbleCell, ReusableCell {
@@ -93,7 +93,7 @@ final class ChatCallToActionCell: ChatBubbleCell, ReusableCell {
     private var ctas: [ChatCallToAction]?
     private var ctaData: ChatCallToActionData?
 
-    weak var delegate: ChatCallToActionCellDelegate?
+    weak var delegate: ChatDeeplinkCellDelegate?
 
     var bubbleBottomMargin: NSLayoutConstraint?
     private var bubbleLeftMargin: NSLayoutConstraint?

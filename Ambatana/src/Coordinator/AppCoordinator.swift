@@ -44,7 +44,7 @@ final class AppCoordinator: NSObject, Coordinator {
     fileprivate let notificationsTabBarCoordinator: NotificationsTabCoordinator
     fileprivate let chatsTabBarCoordinator: ChatsTabCoordinator
     fileprivate let profileTabBarCoordinator: ProfileTabCoordinator
-    fileprivate let communityTabCoordinator: CommunityTabCoordinator
+    fileprivate let communityTabCoordinator: CommunityTabCoordinator?
     fileprivate let tabCoordinators: [TabCoordinator]
 
     fileprivate let configManager: ConfigManager
@@ -139,11 +139,13 @@ final class AppCoordinator: NSObject, Coordinator {
         self.notificationsTabBarCoordinator = NotificationsTabCoordinator()
         self.chatsTabBarCoordinator = ChatsTabCoordinator()
         self.profileTabBarCoordinator = ProfileTabCoordinator()
-        self.communityTabCoordinator = CommunityTabCoordinator(source: .tabbar)
         if featureFlags.community.shouldShowOnTab {
+            let communityCoordinator = CommunityTabCoordinator(source: .tabbar)
+            self.communityTabCoordinator = communityCoordinator
             self.tabCoordinators = [mainTabBarCoordinator, notificationsTabBarCoordinator, chatsTabBarCoordinator,
-                                    communityTabCoordinator]
+                                    communityCoordinator]
         } else {
+            self.communityTabCoordinator = nil
             self.tabCoordinators = [mainTabBarCoordinator, notificationsTabBarCoordinator, chatsTabBarCoordinator,
                                     profileTabBarCoordinator]
         }
@@ -178,7 +180,6 @@ final class AppCoordinator: NSObject, Coordinator {
         self.verifyAssembly = VerifyAccountsBuilder.modal
         self.promoteAssembly = PromoteBumpBuilder.modal(tabBarCtl)
         self.tourAssembly = TourLoginBuilder.modal
-
         super.init()
         self.tourSkipper = TourSkiperWireframe(appCoordinator: self, deepLinksRouter: deepLinksRouter)
 
@@ -273,7 +274,7 @@ extension AppCoordinator: AppNavigator {
         let forcedInitialTab: PostListingViewController.Tab?
         switch source {
         case .tabBar, .listingList, .profile, .deepLink, .notifications,
-             .deleteListing, .realEstatePromo, .carPromo, .chatList:
+             .deleteListing, .realEstatePromo, .carPromo, .servicesPromo, .chatList:
             forcedInitialTab = nil
         case .onboardingButton, .onboardingCamera, .onboardingBlockingPosting:
             forcedInitialTab = .camera
@@ -492,18 +493,6 @@ extension AppCoordinator: AppNavigator {
     func openResetPassword(_ token: String) {
         let vc = changePasswordAssembly.buildChangePassword(withToken: token)
         tabBarCtl.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
-    }
-
-    func openSurveyIfNeeded() {
-        guard featureFlags.surveyEnabled else { return }
-        guard !featureFlags.surveyUrl.isEmpty, let url = URL(string: featureFlags.surveyUrl) else { return }
-
-        delay(3) { [weak self] in
-            guard let tab = self?.tabBarCtl else { return }
-            let assembly = LGSurveyBuilder.modal(root: tab)
-            let vc = assembly.buildWebSurvey(with: url)
-            tab.present(vc, animated: true, completion: nil)
-        }
     }
 
     func openAppInvite(myUserId: String?, myUserName: String?) {
@@ -745,12 +734,13 @@ fileprivate extension AppCoordinator {
         notificationsTabBarCoordinator.tabCoordinatorDelegate = self
         chatsTabBarCoordinator.tabCoordinatorDelegate = self
         profileTabBarCoordinator.tabCoordinatorDelegate = self
-        communityTabCoordinator.tabCoordinatorDelegate = self
+        communityTabCoordinator?.tabCoordinatorDelegate = self
 
         mainTabBarCoordinator.appNavigator = self
         notificationsTabBarCoordinator.appNavigator = self
         chatsTabBarCoordinator.appNavigator = self
         profileTabBarCoordinator.appNavigator = self
+        communityTabCoordinator?.appNavigator = self
     }
 
     func setupDeepLinkingRx() {
@@ -1080,8 +1070,10 @@ fileprivate extension AppCoordinator {
             afterDelayClosure = { [weak self] in
                 self?.openInAppWebView(url: url)
             }
+        case .invite(let userid, let username):
+            openAppInvite(myUserId: userid, myUserName: username)
         }
-
+        
         if let afterDelayClosure = afterDelayClosure {
             delay(0.5) { 
                 afterDelayClosure()
@@ -1101,7 +1093,7 @@ fileprivate extension AppCoordinator {
         switch deepLink.action {
         case .home, .sell, .listing, .listingShare, .listingBumpUp, .listingMarkAsSold, .listingEdit, .user,
              .conversations, .conversationWithMessage, .search, .resetPassword, .userRatings, .userRating,
-             .notificationCenter, .appStore, .webView, .appRating:
+             .notificationCenter, .appStore, .webView, .appRating, .invite:
             return // Do nothing
         case let .conversation(data):
             showInappChatNotification(data, message: deepLink.origin.message)

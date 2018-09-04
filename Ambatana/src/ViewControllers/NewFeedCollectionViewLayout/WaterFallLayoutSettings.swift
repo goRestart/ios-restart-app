@@ -1,12 +1,3 @@
-//
-//  WaterFallLayoutSettings.swift
-//  LetGo
-//
-//  Created by Haiyan Ma on 09/04/2018.
-//  Copyright © 2018 Haiyan Ma. All rights reserved.
-//
-
-import UIKit
 import LGComponents
 
 struct WaterFallLayoutSettings {

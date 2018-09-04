@@ -14,6 +14,7 @@ enum PostingSource: String {
     case deleteListing
     case realEstatePromo
     case carPromo
+    case servicesPromo
     case chatList
     case listingList
     case profile
@@ -694,6 +695,8 @@ extension PostingSource {
             return .realEstatePromo
         case .carPromo:
             return .carPromo
+        case .servicesPromo:
+            return .servicesPromo
         case .chatList:
             return .chatList
         case .listingList:
@@ -715,6 +718,8 @@ extension PostingSource {
             return .realEstatePromo
         case .carPromo:
             return .carPromo
+        case .servicesPromo:
+            return .servicesPromo
         }
     }
     
@@ -731,6 +736,8 @@ extension PostingSource {
             return .realEstatePromo
         case .carPromo:
             return .carPromo
+        case .servicesPromo:
+            return .servicesPromo
         }
     }
 }

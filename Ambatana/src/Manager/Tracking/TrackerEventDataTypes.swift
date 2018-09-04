@@ -148,9 +148,6 @@ enum EventName: String {
     case expressChatComplete                = "express-chat-complete"
     case expressChatDontAsk                 = "express-chat-dont-ask"
 
-    case surveyStart                        = "survey-start"
-    case surveyCompleted                    = "survey-completed"
-
     case verifyAccountStart                 = "verify-account-start"
     case verifyAccountSelectNetwork         = "verify-account-select-network"
     case verifyAccountComplete              = "verify-account-complete"
@@ -222,6 +219,7 @@ enum EventName: String {
     case openCommunity                      = "open-community"
 
     case showNewItemsBadge                  = "show-new-items-badge"
+    case duplicatedItemsInFeed              = "duplicated-items-hidden"
     
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
@@ -350,7 +348,6 @@ enum EventParameterName: String {
     case listSuccess          = "list-success"
     case userFromId           = "user-from-id"
     case notAvailableReason   = "not-available-reason"
-    case surveyUrl            = "survey-url"
     case blockButtonPosition  = "block-button-position"
     case postingType          = "posting-type"
     case carSellerType        = "seller-type"
@@ -452,6 +449,12 @@ enum EventParameterName: String {
     case showingBanner      = "showing-banner"
     case bannerType         = "banner-type"
     
+    // Sectioned Feed
+    case sectionShown = "sections-shown" // lists the sections shown in the sectioned feed
+    case sectionIdentifier = "section-identifier" // section identifier
+    case sectionPosition = "section-number" // Position of the section in the feed
+    case numberOfItemsInSection = "number-of-items-section"
+
     // Engagement badging
     case recentItems        = "recent-items"
 }
@@ -507,6 +510,7 @@ enum EventParameterButtonNameType: String {
     case startMakingCash = "start-making-cash"
     case realEstatePromo = "real-estate-promo"
     case carPromo = "car-promo"
+    case servicesPromo = "services-promo"
     case cancelSelectType = "cancel-select-type"
     case tapOutside = "tap-outside"
 }
@@ -529,6 +533,7 @@ enum EventParameterSellButtonPosition: String {
     case none = "N/A"
     case realEstatePromo = "real-estate-promo"
     case carPromo = "car-promo"
+    case servicesPromo = "services-promo"
 }
 
 enum EventParameterShareNetwork: String {
@@ -974,6 +979,7 @@ enum EventParameterTypePage: String {
     case filter = "filter"
     case realEstatePromo = "real-estate-promo"
     case carPromo = "car-promo"
+    case servicesPromo = "services-promo"
     case filterBubble = "filter-bubble"
     case postingIconInfo = "posting-icon-information"
     case postingLearnMore = "posting-learn-more-button"
@@ -1077,6 +1083,9 @@ enum EventParameterListingVisitSource {
         case .favourite: return "favourite" // from your private profile favourite's list
         case .map: return "map"
         case .unknown: return "N/A"
+        case .section: return "section" // when a user visits an item in the sections
+        case .sectionList: return "section-list" // when a user visits an item through the section list
+        case .relatedItemList: return "related-item-list"
         }
     }
 
@@ -1125,6 +1134,9 @@ enum EventParameterListingVisitSource {
     case favourite
     case map
     case unknown
+    case section
+    case sectionList
+    case relatedItemList
 }
 
 enum EventParameterRelatedListingsVisitSource: String {
@@ -1153,6 +1165,7 @@ enum EventParameterFeedSource: String {
     case filter = "filter"
     case searchAndFilter = "search&filter"
     case collection = "collection"
+    case section = "section"
 }
 
 enum EventParameterAccountNetwork: String {
@@ -1527,6 +1540,17 @@ enum EventParameterUserBadge: String {
 
 enum EventBannerType: String {
     case joinCommunity = "join-community"
+}
+
+enum EventParameterSectionName {
+    case identifier(id: String)
+    
+    var value: String {
+        switch self {
+        case let .identifier(id): return id
+        }
+    }
+
 }
 
 struct EventParameters {

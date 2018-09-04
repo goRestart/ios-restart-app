@@ -74,6 +74,29 @@ extension ProfileTabCoordinator: ProfileTabNavigator {
     func closeProfile() {
         dismissViewController(animated: true, completion: nil)
     }
+    
+    func openListingChat(data: ChatDetailData, source: EventParameterTypePage, predefinedMessage: String?) {
+        // Ignore. This case only needs to be handled by the public user coordinator
+        // Should disappear after navigation refactor
+    }
+    
+    func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?, openChatAutomaticMessage: ChatWrapperMessageType?) {
+        // Ignore. This case only needs to be handled by the public user coordinator
+        // Should disappear after navigation refactor
+        return
+    }
+    
+    func openAskPhoneFor(listing: Listing, interlocutor: User?) {
+        // Ignore. This case only needs to be handled by the public user coordinator
+        // Should disappear after navigation refactor
+        return
+    }
+    
+    func openLogin(infoMessage: String, then loggedInAction: @escaping (() -> Void)) {
+        // Ignore. This case only needs to be handled by the public user coordinator
+        // Should disappear after navigation refactor
+        return
+    }
 }
 
 extension ProfileTabCoordinator: SettingsNavigator {

@@ -448,7 +448,7 @@
 "filters_cars_transmission_title" = "Boite de vitesse";
 "filters_distance_not_set" = "non configuré";
 "filters_jobs_services_header" = "Information sur l'Emploi ou le Service";
-"filters_jobs_services_list_max_selection_alert" = "Oops! You can’t select more than 15 options.";
+"filters_jobs_services_list_max_selection_alert" = "Oups ! Vous ne pouvez pas sélectionner plus de 15 options.";
 "filters_jobs_services_subtype_title" = "Sous-type";
 "filters_jobs_services_toggle_header" = "À la recherche de...";
 "filters_jobs_services_type_title" = "Type";
@@ -760,10 +760,10 @@
 "post_description_name_placeholder" = "Nom";
 "post_description_save_button_text" = "Sauvegarder cette annonce !";
 "post_details_jobs_services_camera_message" = "Publiez le logo de votre entreprise ou une photo qui montre le service ou l'emploi que vous proposez";
-"post_details_jobs_services_congratulation_add_more_details" = "by adding more details:";
-"post_details_jobs_services_congratulation_improve_listing" = "Improve your listing\n";
-"post_details_jobs_services_congratulation_people_nearby_first" = "People near you are also";
-"post_details_jobs_services_congratulation_people_nearby_second" = "looking for:";
+"post_details_jobs_services_congratulation_add_more_details" = "en ajoutant plus de détails :";
+"post_details_jobs_services_congratulation_improve_listing" = "Améliorez votre annonce";
+"post_details_jobs_services_congratulation_people_nearby_first" = "Les gens près de chez vous";
+"post_details_jobs_services_congratulation_people_nearby_second" = "regardent également :";
 "post_details_jobs_services_step_option_jobs_prefix" = "Cherchant à recruter quelqu'un pour un";
 "post_details_jobs_services_step_option_services_prefix" = "Annonçant un";
 "post_details_jobs_services_step_title" = "Je suis...";
@@ -1054,6 +1054,9 @@
 "profile_sold_no_products_label" = "AUCUNE ANNONCE (POUR LE MOMENT !)";
 "profile_sold_other_no_products_button" = "Continuer à Naviguer";
 "profile_sold_products_tab" = "Vendu";
+"profile_verifications_awareness_view_bold_text" = "Here's a pro tip";
+"profile_verifications_awareness_view_button" = "Complete profile";
+"profile_verifications_awareness_view_text" = "%@ - did you know that verified users make better deals?\n\nComplete and verify your profile today!";
 "profile_verifications_email_placeholder" = "Email";
 "profile_verifications_email_view_title" = "Vérifiez votre courriel";
 "profile_verifications_send_button" = "Envoyer";
@@ -1403,6 +1406,8 @@
 "settings_section_promote" = "Promouvoir";
 "settings_section_support" = "Assistance";
 "settings_title" = "Paramètres";
+"share_screenshot_description" = "C'est maintenant prêt à être partagé :";
+"share_screenshot_title" = "Capture d'écran sauvegardée !";
 "sign_up_acceptance_error" = "Pour vous inscrire, vous devez accepter la Politique de Confidentialité ainsi que les Conditions d'Utilisation";
 "sign_up_email_field_hint" = "Courriel";
 "sign_up_email_step1_continue_button" = "Continuer";

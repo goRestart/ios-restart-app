@@ -67,13 +67,13 @@ class ListingCarouselViewModel: BaseViewModel {
     var currentListingViewModel: ListingViewModel?
     let currentViewModelIsBeingUpdated = Variable<Bool>(false)
     let startIndex: Int
-    fileprivate(set) var currentIndex: Int = 0 {
+    private(set) var currentIndex: Int = 0 {
         didSet {
             // Just for pagination
             setCurrentIndex(currentIndex)
         }
     }
-    fileprivate var lastMovement: CarouselMovement = .initial
+    private var lastMovement: CarouselMovement = .initial
     
     weak var delegate: ListingCarouselViewModelDelegate?
     var navigator: ListingDetailNavigator? {
@@ -141,11 +141,11 @@ class ListingCarouselViewModel: BaseViewModel {
     let moreInfoState = Variable<MoreInfoState>(.hidden)
 
     // Image prefetching
-    fileprivate let previousImagesToPrefetch = 1
-    fileprivate let nextImagesToPrefetch = 3
-    fileprivate var prefetchingIndexes: [Int] = []
+    private let previousImagesToPrefetch = 1
+    private let nextImagesToPrefetch = 3
+    private var prefetchingIndexes: [Int] = []
 
-    fileprivate var shouldShowOnboarding: Bool { return !keyValueStorage[.didShowListingDetailOnboarding] }
+    private var shouldShowOnboarding: Bool { return !keyValueStorage[.didShowListingDetailOnboarding] }
 
     var imageScrollDirection: UICollectionViewScrollDirection = .vertical
 
@@ -153,22 +153,24 @@ class ListingCarouselViewModel: BaseViewModel {
         return currentListingViewModel?.isMine ?? false
     }
 
-    fileprivate var trackingIndex: Int?
-    fileprivate var initialThumbnail: UIImage?
+    private var trackingIndex: Int?
+    private let trackingIdentifier: String?
+    private var initialThumbnail: UIImage?
 
     private var activeDisposeBag = DisposeBag()
 
-    fileprivate let source: EventParameterListingVisitSource
-    fileprivate let listingListRequester: ListingListRequester
-    fileprivate var productsViewModels: [String: ListingViewModel] = [:]
-    fileprivate let keyValueStorage: KeyValueStorageable
-    fileprivate let imageDownloader: ImageDownloaderType
-    fileprivate let listingViewModelMaker: ListingViewModelMaker
+    private let source: EventParameterListingVisitSource
+    private let listingListRequester: ListingListRequester
+    private var productsViewModels: [String: ListingViewModel] = [:]
+    private let keyValueStorage: KeyValueStorageable
+    private let imageDownloader: ImageDownloaderType
+    private let listingViewModelMaker: ListingViewModelMaker
     let featureFlags: FeatureFlaggeable
-    fileprivate let locationManager: LocationManager
-    fileprivate let myUserRepository: MyUserRepository
+    private let locationManager: LocationManager
+    private let myUserRepository: MyUserRepository
+    private let adsImpressionConfigurable: AdsImpressionConfigurable
 
-    fileprivate let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
 
     override var active: Bool {
         didSet {
@@ -176,7 +178,7 @@ class ListingCarouselViewModel: BaseViewModel {
         }
     }
 
-    fileprivate let adsRequester: AdsRequester
+    private let adsRequester: AdsRequester
 
     // Ads
     var dfpAdUnitId: String {
@@ -190,8 +192,7 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     var userShouldSeeAds: Bool {
-        let myUserCreationDate: Date? = myUserRepository.myUser?.creationDate
-        return featureFlags.noAdsInFeedForNewUsers.shouldShowAdsInMoreInfoForUser(createdIn: myUserCreationDate)
+        return adsImpressionConfigurable.shouldShowAdsForUser
     }
 
     var dfpContentURL: String? {
@@ -207,6 +208,16 @@ class ListingCarouselViewModel: BaseViewModel {
     var currentAdRequestType: AdRequestType? {
         return adActive ? .dfp : nil
     }
+    
+    var sectionFeedChatTrackingInfo: SectionedFeedChatTrackingInfo? {
+        guard let id = trackingIdentifier else {
+                return nil
+        }
+        let sectionName = EventParameterSectionName.identifier(id: id)
+        return SectionedFeedChatTrackingInfo(sectionId: sectionName,
+                                             itemIndexInSection: trackingFeedPosition)
+    }
+    
     var currentAdRequestQueryType: AdRequestQueryType? = nil
     var adRequestQuery: String? = nil
     var adBannerTrackingStatus: AdBannerTrackingStatus? = nil
@@ -234,6 +245,7 @@ class ListingCarouselViewModel: BaseViewModel {
                   source: source,
                   actionOnFirstAppear: actionOnFirstAppear,
                   trackingIndex: trackingIndex,
+                  trackingIdentifier: nil,
                   firstProductSyncRequired: true)
     }
 
@@ -250,17 +262,19 @@ class ListingCarouselViewModel: BaseViewModel {
                   source: source,
                   actionOnFirstAppear: actionOnFirstAppear,
                   trackingIndex: trackingIndex,
+                  trackingIdentifier: nil,
                   firstProductSyncRequired: false)
     }
 
     convenience init(productListModels: [ListingCellModel]?,
-         initialListing: Listing?,
-         thumbnailImage: UIImage?,
-         listingListRequester: ListingListRequester,
-         source: EventParameterListingVisitSource,
-         actionOnFirstAppear: ProductCarouselActionOnFirstAppear,
-         trackingIndex: Int?,
-         firstProductSyncRequired: Bool) {
+                     initialListing: Listing?,
+                     thumbnailImage: UIImage?,
+                     listingListRequester: ListingListRequester,
+                     source: EventParameterListingVisitSource,
+                     actionOnFirstAppear: ProductCarouselActionOnFirstAppear,
+                     trackingIndex: Int?,
+                     trackingIdentifier: String?,
+                     firstProductSyncRequired: Bool) {
         self.init(productListModels: productListModels,
                   initialListing: initialListing,
                   thumbnailImage: thumbnailImage,
@@ -268,6 +282,7 @@ class ListingCarouselViewModel: BaseViewModel {
                   source: source,
                   actionOnFirstAppear: actionOnFirstAppear,
                   trackingIndex: trackingIndex,
+                  trackingIdentifier: trackingIdentifier,
                   firstProductSyncRequired: firstProductSyncRequired,
                   featureFlags: FeatureFlags.sharedInstance,
                   keyValueStorage: KeyValueStorage.sharedInstance,
@@ -275,7 +290,8 @@ class ListingCarouselViewModel: BaseViewModel {
                   listingViewModelMaker: ListingViewModel.ConvenienceMaker(),
                   adsRequester: AdsRequester(),
                   locationManager: Core.locationManager,
-                  myUserRepository: Core.myUserRepository)
+                  myUserRepository: Core.myUserRepository,
+                  adsImpressionConfigurable: LGAdsImpressionConfigurable())
     }
 
     init(productListModels: [ListingCellModel]?,
@@ -285,6 +301,7 @@ class ListingCarouselViewModel: BaseViewModel {
          source: EventParameterListingVisitSource,
          actionOnFirstAppear: ProductCarouselActionOnFirstAppear,
          trackingIndex: Int?,
+         trackingIdentifier: String?,
          firstProductSyncRequired: Bool,
          featureFlags: FeatureFlaggeable,
          keyValueStorage: KeyValueStorageable,
@@ -292,7 +309,9 @@ class ListingCarouselViewModel: BaseViewModel {
          listingViewModelMaker: ListingViewModelMaker,
          adsRequester: AdsRequester,
          locationManager: LocationManager,
-         myUserRepository: MyUserRepository) {
+         myUserRepository: MyUserRepository,
+         adsImpressionConfigurable: AdsImpressionConfigurable) {
+
         if let productListModels = productListModels {
             let listingCarouselCellModels = productListModels
                 .compactMap(ListingCarouselCellModel.adapter)
@@ -318,14 +337,17 @@ class ListingCarouselViewModel: BaseViewModel {
         self.adsRequester = adsRequester
         self.locationManager = locationManager
         self.myUserRepository = myUserRepository
+        self.adsImpressionConfigurable = adsImpressionConfigurable
+
         if let initialListing = initialListing {
             self.startIndex = objects.value.index(where: { $0.listing.objectId == initialListing.objectId}) ?? 0
         } else {
             self.startIndex = 0
         }
         self.currentIndex = startIndex
-        super.init()
+        self.trackingIdentifier = trackingIdentifier
         self.trackingIndex = trackingIndex
+        super.init()
         setupRxBindings()
         moveToProductAtIndex(startIndex, movement: .initial)
 
@@ -338,7 +360,10 @@ class ListingCarouselViewModel: BaseViewModel {
         if firstTime && shouldShowOnboarding {
             delegate?.vmShowOnboarding()
         }
-        currentListingViewModel?.trackVisit(.none, source: source, feedPosition: trackingFeedPosition)
+        currentListingViewModel?.trackVisit(.none,
+                                            source: source,
+                                            feedPosition: trackingFeedPosition,
+                                            feedSectionName: trackingFeedSectionName)
     }
         
     private func syncFirstListing() {
@@ -374,7 +399,8 @@ class ListingCarouselViewModel: BaseViewModel {
         if active {
             currentListingViewModel?.trackVisit(movement.visitUserAction,
                                                 source: movement.visitSource(source),
-                                                feedPosition: trackingFeedPosition)
+                                                feedPosition: trackingFeedPosition,
+                                                feedSectionName: trackingFeedSectionName)
         }
     }
 
@@ -408,11 +434,12 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     func send(quickAnswer: QuickAnswer) {
-        currentListingViewModel?.sendQuickAnswer(quickAnswer: quickAnswer)
+        currentListingViewModel?.sendQuickAnswer(quickAnswer: quickAnswer,
+                                                 trackingInfo: sectionFeedChatTrackingInfo)
     }
 
     func interestedButtonTapped() {
-        currentListingViewModel?.sendInterested()
+        currentListingViewModel?.sendInterested(trackingInfo: sectionFeedChatTrackingInfo)
     }
 
     func chatButtonTapped() {
@@ -420,7 +447,9 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     func send(directMessage: String, isDefaultText: Bool) {
-        currentListingViewModel?.sendDirectMessage(directMessage, isDefaultText: isDefaultText)
+        currentListingViewModel?.sendDirectMessage(directMessage,
+                                                   isDefaultText: isDefaultText,
+                                                   trackingInfo: sectionFeedChatTrackingInfo)
     }
 
     func editButtonPressed() {
@@ -601,7 +630,7 @@ class ListingCarouselViewModel: BaseViewModel {
 
     // MARK: - Private Methods
 
-    fileprivate func listingAt(index: Int) -> Listing? {
+    private func listingAt(index: Int) -> Listing? {
         return listingCellModelAt(index: index)?.listing
     }
 
@@ -818,6 +847,11 @@ extension ListingCarouselViewModel: ListingViewModelDelegate {
         return .position(index: trackingIndex)
     }
     
+    var trackingFeedSectionName: EventParameterSectionName? {
+        guard let trackingId = trackingIdentifier else { return nil }
+        return .identifier(id: trackingId)
+    }
+    
     var listingOrigin: ListingOrigin {
         let result: ListingOrigin
         switch lastMovement {
@@ -897,11 +931,12 @@ extension ListingCarouselViewModel: ListingViewModelDelegate {
 extension CarouselMovement {
 
     func visitSource(_ origin: EventParameterListingVisitSource) -> EventParameterListingVisitSource {
+        let newOrigin: EventParameterListingVisitSource = origin == .sectionList ? .relatedItemList : origin
         switch self {
         case .tap: fallthrough
-        case .swipeRight: return origin.next
-        case .initial: return origin
-        case .swipeLeft: return origin.previous
+        case .swipeRight: return newOrigin.next
+        case .initial: return newOrigin
+        case .swipeLeft: return newOrigin.previous
         }
     }
 

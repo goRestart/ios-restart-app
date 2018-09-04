@@ -59,6 +59,19 @@ class CommunityViewModel: BaseViewModel {
         trackOpenCommunity()
     }
 
+    func openLetgoHome() {
+        switch source {
+        case .navBar:
+            navigator?.closeCommunity()
+        case .tabbar:
+            navigator?.openHome()
+        }
+    }
+
+    func openLetgoLogin() {
+        navigator?.openLogin()
+    }
+
     private func trackOpenCommunity() {
         let trackerEvent: TrackerEvent
         switch source {

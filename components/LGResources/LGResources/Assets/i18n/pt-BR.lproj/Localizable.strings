@@ -284,7 +284,7 @@
 "common_no" = "No";
 "common_ok" = "OK";
 "common_product_given_away" = "Given away";
-"common_product_not_available" = "Promoted or no longer available";
+"common_product_not_available" = "Removed or no longer available";
 "common_product_sold" = "Sold";
 "common_settings" = "Settings";
 "common_short_time_day_ago_label" = "%d day";
@@ -1054,6 +1054,9 @@
 "profile_sold_no_products_label" = "NO LISTINGS (YET!)";
 "profile_sold_other_no_products_button" = "Keep Browsing";
 "profile_sold_products_tab" = "Sold";
+"profile_verifications_awareness_view_bold_text" = "Here's a pro tip";
+"profile_verifications_awareness_view_button" = "Complete profile";
+"profile_verifications_awareness_view_text" = "%@ - did you know that verified users make better deals?\n\nComplete and verify your profile today!";
 "profile_verifications_email_placeholder" = "Email";
 "profile_verifications_email_view_title" = "Verify your Email";
 "profile_verifications_send_button" = "Send";
@@ -1403,6 +1406,8 @@
 "settings_section_promote" = "Promote";
 "settings_section_support" = "Support";
 "settings_title" = "Settings";
+"share_screenshot_description" = "Now it’s ready for you to share:";
+"share_screenshot_title" = "Screenshot saved!";
 "sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";
 "sign_up_email_field_hint" = "Email";
 "sign_up_email_step1_continue_button" = "Continue";

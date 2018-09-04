@@ -15,22 +15,14 @@ protocol FeatureFlaggeable: class {
     var syncedData: Observable<Bool> { get }
     func variablesUpdated()
 
-    var surveyUrl: String { get }
-    var surveyEnabled: Bool { get }
-
-    var freeBumpUpEnabled: Bool { get }
-    var pricedBumpUpEnabled: Bool { get }
     var userReviewsReportEnabled: Bool { get }
     var realEstateEnabled: RealEstateEnabled { get }
     var deckItemPage: DeckItemPage { get }
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio { get }
     var realEstateNewCopy: RealEstateNewCopy { get }
-    var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers { get }
     var searchImprovements: SearchImprovements { get }
     var relaxedSearch: RelaxedSearch { get }
-    var bumpUpBoost: BumpUpBoost { get }
     var showProTagUserProfile: Bool { get }
-    var sectionedMainFeed: SectionedMainFeed { get }
     var showExactLocationForPros: Bool { get }
 
     // Country dependant features
@@ -47,14 +39,11 @@ protocol FeatureFlaggeable: class {
     var shouldChangeChatNowCopyInTurkey: Bool { get }
     var copyForChatNowInTurkey: CopyForChatNowInTurkey { get }
     var shareTypes: [ShareType] { get }
-    var feedAdsProviderForUS:  FeedAdsProviderForUS { get }
     var feedAdUnitId: String? { get }
     var shouldChangeChatNowCopyInEnglish: Bool { get }
     var copyForChatNowInEnglish: CopyForChatNowInEnglish { get }
-    var feedAdsProviderForTR:  FeedAdsProviderForTR { get }
     var shouldChangeSellFasterNowCopyInEnglish: Bool { get }
     var copyForSellFasterNowInEnglish: CopyForSellFasterNowInEnglish { get }
-    var googleAdxForTR: GoogleAdxForTR { get }
     var fullScreenAdsWhenBrowsingForUS: FullScreenAdsWhenBrowsingForUS { get }
     var fullScreenAdUnitId: String? { get }
     var appInstallAdsInFeed: AppInstallAdsInFeed { get }
@@ -85,12 +74,15 @@ protocol FeatureFlaggeable: class {
     var carExtraFieldsEnabled: CarExtraFieldsEnabled { get }
     var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen { get }
     var carPromoCells: CarPromoCells { get }
+    var servicesPromoCells: ServicesPromoCells { get }
+    var realEstatePromoCells: RealEstatePromoCells { get }
     
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed { get }
     var personalizedFeedABTestIntValue: Int? { get }
-    var multiContactAfterSearch: MultiContactAfterSearch { get }
     var emptySearchImprovements: EmptySearchImprovements { get }
+    var sectionedFeed: SectionedDiscoveryFeed { get }
+    var sectionedFeedABTestIntValue: Int { get }
 
     // MARK: Products
     var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu { get }
@@ -117,11 +109,23 @@ protocol FeatureFlaggeable: class {
     var searchAlertsDisableOldestIfMaximumReached: SearchAlertsDisableOldestIfMaximumReached { get }
     var notificationCenterRedesign: NotificationCenterRedesign { get }
     var randomImInterestedMessages: RandomImInterestedMessages { get }
+    var imInterestedInProfile: ImInterestedInProfile { get }
 }
 
 extension FeatureFlaggeable {
     var syncedData: Observable<Bool> {
         return trackingData.map { $0 != nil }
+    }
+}
+
+extension FeatureFlaggeable {
+    var chatNowButtonText: String {
+        if shouldChangeChatNowCopyInTurkey {
+            return R.Strings.bumpUpProductCellChatNowButton
+        } else if shouldChangeChatNowCopyInEnglish {
+            return R.Strings.bumpUpProductCellChatNowButtonEnglishB
+        }
+        return R.Strings.bumpUpProductCellChatNowButton
     }
 }
 
@@ -131,49 +135,6 @@ extension RealEstateEnabled {
 
 extension ShowAdsInFeedWithRatio {
     var isActive: Bool { return self != .control && self != .baseline }
-}
-
-extension NoAdsInFeedForNewUsers {
-    private var shouldShowAdsInFeedForNewUsers: Bool {
-        return self == .adsEverywhere || self == .adsForNewUsersOnlyInFeed
-    }
-    private var shouldShowAdsInFeedForOldUsers: Bool {
-        return self == .adsEverywhere || self == .adsForNewUsersOnlyInFeed || self == .noAdsForNewUsers
-    }
-    var shouldShowAdsInFeed: Bool {
-        return shouldShowAdsInFeedForNewUsers || shouldShowAdsInFeedForOldUsers
-    }
-    private var shouldShowAdsInMoreInfoForNewUsers: Bool {
-        return self == .control || self == .baseline || self == .adsEverywhere
-    }
-    private var shouldShowAdsInMoreInfoForOldUsers: Bool {
-        return true
-    }
-    var shouldShowAdsInMoreInfo: Bool {
-        return shouldShowAdsInMoreInfoForNewUsers || shouldShowAdsInMoreInfoForOldUsers
-    }
-
-    func shouldShowAdsInFeedForUser(createdIn: Date?) -> Bool {
-        guard let creationDate = createdIn else { return shouldShowAdsInFeedForOldUsers }
-        if creationDate.isNewerThan(SharedConstants.newUserTimeThresholdForAds) {
-            // New User
-            return shouldShowAdsInFeedForNewUsers
-        } else {
-            // Old user
-            return shouldShowAdsInFeedForOldUsers
-        }
-    }
-
-    func shouldShowAdsInMoreInfoForUser(createdIn: Date?) -> Bool {
-        guard let creationDate = createdIn else { return shouldShowAdsInMoreInfoForOldUsers }
-        if creationDate.isNewerThan(SharedConstants.newUserTimeThresholdForAds) {
-            // New User
-            return shouldShowAdsInMoreInfoForNewUsers
-        } else {
-            // Old user
-            return shouldShowAdsInMoreInfoForOldUsers
-        }
-    }
 }
 
 extension RealEstateNewCopy {
@@ -212,19 +173,16 @@ extension CarPromoCells {
     var isActive: Bool { return self != .control && self != .baseline }
 }
 
-extension BumpUpBoost {
-    var isActive: Bool { get { return self != .control && self != .baseline } }
+extension ServicesPromoCells {
+    var isActive: Bool { return self != .control && self != .baseline }
+}
 
-    var boostBannerUIUpdateThreshold: TimeInterval? {
-        switch self {
-        case .control, .baseline:
-            return nil
-        case .boostListing1hour, .sendTop1hour:
-            return SharedConstants.oneHourTimeLimit
-        case .sendTop5Mins, .cheaperBoost5Mins:
-            return SharedConstants.fiveMinutesTimeLimit
-        }
-    }
+extension RealEstatePromoCells {
+    var isActive: Bool { return self != .control && self != .baseline }
+}
+
+extension ClickToTalk {
+    var isActive: Bool { return self != .control && self != .baseline }
 }
 
 extension DeckItemPage {
@@ -266,62 +224,6 @@ extension EmergencyLocate {
 
 extension OffensiveReportAlert {
     var isActive: Bool { return self == .active }
-}
-
-extension FeedAdsProviderForUS {
-    private var shouldShowAdsInFeedForNewUsers: Bool {
-        return self == .moPubAdsForAllUsers || self == .googleAdxForAllUsers
-    }
-    private var shouldShowAdsInFeedForOldUsers: Bool {
-        return self == .moPubAdsForOldUsers || self == .moPubAdsForAllUsers || self == .googleAdxForOldUsers || self == .googleAdxForAllUsers
-    }
-    
-    var shouldShowAdsInFeed: Bool {
-        return  shouldShowAdsInFeedForNewUsers || shouldShowAdsInFeedForOldUsers
-    }
-    
-    var shouldShowMoPubAds : Bool {
-        return self == .moPubAdsForOldUsers || self == .moPubAdsForAllUsers
-    }
-    
-    var shouldShowGoogleAdxAds : Bool {
-        return self == .googleAdxForOldUsers || self == .googleAdxForAllUsers
-    }
-    
-    func shouldShowAdsInFeedForUser(createdIn: Date?) -> Bool {
-        guard let creationDate = createdIn else { return shouldShowAdsInFeedForOldUsers }
-        if creationDate.isNewerThan(SharedConstants.newUserTimeThresholdForAds) {
-            return shouldShowAdsInFeedForNewUsers
-        } else {
-            return shouldShowAdsInFeedForOldUsers
-        }
-    }
-}
-
-extension FeedAdsProviderForTR {
-    private var shouldShowAdsInFeedForNewUsers: Bool {
-        return self == .moPubAdsForAllUsers
-    }
-    private var shouldShowAdsInFeedForOldUsers: Bool {
-        return self == .moPubAdsForOldUsers || self == .moPubAdsForAllUsers
-    }
-    
-    var shouldShowAdsInFeed: Bool {
-        return  shouldShowAdsInFeedForNewUsers || shouldShowAdsInFeedForOldUsers
-    }
-    
-    var shouldShowMoPubAds : Bool {
-        return self == .moPubAdsForOldUsers || self == .moPubAdsForAllUsers
-    }
-    
-    func shouldShowAdsInFeedForUser(createdIn: Date?) -> Bool {
-        guard let creationDate = createdIn else { return shouldShowAdsInFeedForOldUsers }
-        if creationDate.isNewerThan(SharedConstants.newUserTimeThresholdForAds) {
-            return shouldShowAdsInFeedForNewUsers
-        } else {
-            return shouldShowAdsInFeedForOldUsers
-        }
-    }
 }
 
 extension CopyForChatNowInEnglish {
@@ -424,31 +326,6 @@ extension TurkeyFreePosting {
     var isActive: Bool { return self == .active }
 }
 
-extension GoogleAdxForTR {
-    private var shouldShowAdsInFeedForNewUsers: Bool {
-        return self == .googleAdxForAllUsers
-    }
-    private var shouldShowAdsInFeedForOldUsers: Bool {
-        return self == .googleAdxForOldUsers || self == .googleAdxForAllUsers
-    }
-    
-    var shouldShowAdsInFeed: Bool {
-        return  shouldShowAdsInFeedForNewUsers || shouldShowAdsInFeedForOldUsers
-    }
-    
-    var shouldShowGoogleAdxAds : Bool {
-        return self == .googleAdxForOldUsers || self == .googleAdxForAllUsers
-    }
-    
-    func shouldShowAdsInFeedForUser(createdIn: Date?) -> Bool {
-        guard let creationDate = createdIn else { return shouldShowAdsInFeedForOldUsers }
-        if creationDate.isNewerThan(SharedConstants.newUserTimeThresholdForAds) {
-            return shouldShowAdsInFeedForNewUsers
-        } else {
-            return shouldShowAdsInFeedForOldUsers
-        }
-    }
-}
 
 extension FullScreenAdsWhenBrowsingForUS {
     private var shouldShowFullScreenAdsForNewUsers: Bool {
@@ -493,6 +370,10 @@ extension RandomImInterestedMessages {
     var isActive: Bool { return self == .active }
 }
 
+extension ImInterestedInProfile {
+    var isActive: Bool { return self == .active }
+}
+
 extension BumpInEditCopys {
     var variantString: String {
         switch self {
@@ -513,7 +394,7 @@ extension MultiAdRequestMoreInfo {
 
 }
 
-final class FeatureFlags: FeatureFlaggeable {
+final class FeatureFlags: FeatureFlaggeable {    
     
     static let sharedInstance: FeatureFlags = FeatureFlags()
 
@@ -567,34 +448,6 @@ final class FeatureFlags: FeatureFlaggeable {
         dao.save(emergencyLocate: EmergencyLocate.fromPosition(abTests.emergencyLocate.value))
         dao.save(community: ShowCommunity.fromPosition(abTests.community.value))
     }
-    
-    var surveyUrl: String {
-        if Bumper.enabled {
-            return Bumper.surveyEnabled ? SharedConstants.surveyDefaultTestUrl : ""
-        }
-        return abTests.surveyURL.value
-    }
-
-    var surveyEnabled: Bool {
-        if Bumper.enabled {
-            return Bumper.surveyEnabled
-        }
-        return abTests.surveyEnabled.value
-    }
-
-    var freeBumpUpEnabled: Bool {
-        if Bumper.enabled {
-            return Bumper.freeBumpUpEnabled
-        }
-        return abTests.freeBumpUpEnabled.value
-    }
-
-    var pricedBumpUpEnabled: Bool {
-        if Bumper.enabled {
-            return Bumper.pricedBumpUpEnabled
-        }
-        return abTests.pricedBumpUpEnabled.value
-    }
 
     var userReviewsReportEnabled: Bool {
         if Bumper.enabled {
@@ -638,13 +491,6 @@ final class FeatureFlags: FeatureFlaggeable {
         return DummyUsersInfoProfile.fromPosition(abTests.dummyUsersInfoProfile.value)
     }
 
-    var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers {
-        if Bumper.enabled {
-            return Bumper.noAdsInFeedForNewUsers
-        }
-        return NoAdsInFeedForNewUsers.fromPosition(abTests.noAdsInFeedForNewUsers.value)
-    }
-
     var searchImprovements: SearchImprovements {
         if Bumper.enabled {
             return Bumper.searchImprovements
@@ -659,13 +505,6 @@ final class FeatureFlags: FeatureFlaggeable {
         return RelaxedSearch.fromPosition(abTests.relaxedSearch.value)
     }
     
-    var bumpUpBoost: BumpUpBoost {
-        if Bumper.enabled {
-            return Bumper.bumpUpBoost
-        }
-        return BumpUpBoost.fromPosition(abTests.bumpUpBoost.value)
-    }
-
     var showProTagUserProfile: Bool {
         if Bumper.enabled {
             return Bumper.showProTagUserProfile
@@ -679,13 +518,6 @@ final class FeatureFlags: FeatureFlaggeable {
         }
         let cached = dao.retrieveCommunity()
         return cached ?? ShowCommunity.fromPosition(abTests.community.value)
-    }
-    
-    var sectionedMainFeed: SectionedMainFeed {
-        if Bumper.enabled {
-            return Bumper.sectionedMainFeed
-        }
-        return SectionedMainFeed.fromPosition(abTests.sectionedMainFeed.value)
     }
     
     var showExactLocationForPros: Bool {
@@ -813,7 +645,7 @@ final class FeatureFlags: FeatureFlaggeable {
             // Bumper overrides country restriction
             switch showAdsInFeedWithRatio {
             case .baseline, .control:
-                return noAdsInFeedForNewUsers.shouldShowAdsInFeed ? EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA20Ratio : nil
+                return nil
             case .ten:
                 return EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA10Ratio
             case .fifteen:
@@ -826,7 +658,7 @@ final class FeatureFlags: FeatureFlaggeable {
         case .usa?:
             switch showAdsInFeedWithRatio {
             case .baseline, .control:
-                return noAdsInFeedForNewUsers.shouldShowAdsInFeed ? EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA20Ratio : nil
+                return nil
             case .ten:
                 return EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA10Ratio
             case .fifteen:
@@ -858,74 +690,16 @@ final class FeatureFlags: FeatureFlaggeable {
         return CopyForChatNowInTurkey.fromPosition(abTests.copyForChatNowInTurkey.value)
     }
     
-    var feedAdsProviderForUS: FeedAdsProviderForUS {
-        if Bumper.enabled {
-            return Bumper.feedAdsProviderForUS
-        }
-        return FeedAdsProviderForUS.fromPosition(abTests.feedAdsProviderForUS.value)
-    }
-    
     var feedAdUnitId: String? {
         if Bumper.enabled {
             // Bumper overrides country restriction
-            switch feedAdsProviderForUS {
-            case .moPubAdsForAllUsers:
-                return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubUSAForAllUsers
-            case .moPubAdsForOldUsers:
-                return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubUSAForOldUsers
-            case .googleAdxForAllUsers:
-                return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxUSAForAllUsers
-            case .googleAdxForOldUsers:
-                return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxUSAForOldUsers
-            default:
-                switch googleAdxForTR {
-                case .googleAdxForAllUsers:
-                    return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxTRForAllUsers
-                case .googleAdxForOldUsers:
-                    return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxTRForOldUsers
-                default:
-                    switch feedAdsProviderForTR {
-                    case .moPubAdsForAllUsers:
-                        return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubTRForAllUsers
-                    case .moPubAdsForOldUsers:
-                        return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubTRForOldUsers
-                    default:
-                        return nil
-                    }
-                }
-            }
+            return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxUSAForOldUsers
         }
         switch sensorLocationCountryCode {
         case .usa?:
-            switch feedAdsProviderForUS {
-            case .moPubAdsForAllUsers:
-                return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubUSAForAllUsers
-            case .moPubAdsForOldUsers:
-                return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubUSAForOldUsers
-            case .googleAdxForAllUsers:
-                return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxUSAForAllUsers
-            case .googleAdxForOldUsers:
-                return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxUSAForOldUsers
-            default:
-                return nil
-            }
+            return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxUSAForOldUsers
         case .turkey?:
-            switch googleAdxForTR {
-            case .googleAdxForAllUsers:
-                return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxTRForAllUsers
-            case .googleAdxForOldUsers:
-                return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxTRForOldUsers
-            default:
-                switch feedAdsProviderForTR {
-                case .moPubAdsForAllUsers:
-                    return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubTRForAllUsers
-                case .moPubAdsForOldUsers:
-                    return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubTRForOldUsers
-                default:
-                    return nil
-                }
-            }
-            
+            return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxTRForOldUsers
         default:
             return nil
         }
@@ -949,13 +723,6 @@ final class FeatureFlags: FeatureFlaggeable {
         }
         return CopyForChatNowInEnglish.fromPosition(abTests.copyForChatNowInEnglish.value)
     }
-    
-    var feedAdsProviderForTR: FeedAdsProviderForTR {
-        if Bumper.enabled {
-            return Bumper.feedAdsProviderForTR
-        }
-        return FeedAdsProviderForTR.fromPosition(abTests.feedAdsProviderForTR.value)
-    }
 
     var shouldChangeSellFasterNowCopyInEnglish: Bool {
         if Bumper.enabled {
@@ -974,13 +741,6 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.copyForSellFasterNowInEnglish
         }
         return CopyForSellFasterNowInEnglish.fromPosition(abTests.copyForSellFasterNowInEnglish.value)
-    }
-
-    var googleAdxForTR: GoogleAdxForTR {
-        if Bumper.enabled {
-            return Bumper.googleAdxForTR
-        }
-        return GoogleAdxForTR.fromPosition(abTests.googleAdxForTR.value)
     }
     
     var fullScreenAdsWhenBrowsingForUS: FullScreenAdsWhenBrowsingForUS {
@@ -1226,6 +986,29 @@ extension FeatureFlags {
         
         return CarPromoCells.fromPosition(abTests.carPromoCells.value)
     }
+    
+    var servicesPromoCells: ServicesPromoCells {
+        if Bumper.enabled {
+            return Bumper.servicesPromoCells
+        }
+        
+        return ServicesPromoCells.fromPosition(abTests.servicesPromoCells.value)
+    }
+    
+    var realEstatePromoCells: RealEstatePromoCells {
+        if Bumper.enabled {
+            return Bumper.realEstatePromoCells
+        }
+        
+        return RealEstatePromoCells.fromPosition(abTests.realEstatePromoCells.value)
+    }
+    
+    var clickToTalkEnabled: ClickToTalk {
+        if Bumper.enabled {
+            return Bumper.clickToTalk
+        }
+        return .control // ClickToTalk.fromPosition(abTests.clickToTalkEnabled.value)
+    }
 }
 
 
@@ -1259,11 +1042,6 @@ extension FeatureFlags {
         return abTests.personlizedFeedIsActive ? abTests.personalizedFeed.value : PersonalizedFeed.defaultVariantValue
     }
     
-    var multiContactAfterSearch: MultiContactAfterSearch {
-        if Bumper.enabled { return Bumper.multiContactAfterSearch }
-        return MultiContactAfterSearch.fromPosition(abTests.multiContactAfterSearch.value)
-    }
-    
     var emptySearchImprovements: EmptySearchImprovements {
         if Bumper.enabled { return Bumper.emptySearchImprovements }
         return EmptySearchImprovements.fromPosition(abTests.emptySearchImprovements.value)
@@ -1272,6 +1050,21 @@ extension FeatureFlags {
     var cachedFeed: CachedFeed {
         if Bumper.enabled { return Bumper.cachedFeed }
         return CachedFeed.fromPosition(abTests.cachedFeed.value)
+    }
+    
+    var sectionedFeed: SectionedDiscoveryFeed {
+        if Bumper.enabled {
+            return Bumper.sectionedDiscoveryFeed
+        }
+        if abTests.sectionedFeedIsActive {
+            return SectionedDiscoveryFeed.active
+        } else {
+            return SectionedDiscoveryFeed.fromPosition(sectionedFeedABTestIntValue)
+        }
+    }
+    
+    var sectionedFeedABTestIntValue: Int {
+        return abTests.sectionedFeed.value
     }
 }
 
@@ -1413,5 +1206,12 @@ extension FeatureFlags {
             return Bumper.randomImInterestedMessages
         }
         return RandomImInterestedMessages.fromPosition(abTests.randomImInterestedMessages.value)
+    }
+    
+    var imInterestedInProfile: ImInterestedInProfile {
+        if Bumper.enabled {
+            return Bumper.imInterestedInProfile
+        }
+        return ImInterestedInProfile.fromPosition(abTests.imInterestedInProfile.value)
     }
 }

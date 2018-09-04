@@ -272,7 +272,7 @@ extension ListingDetailWireframe: OnEditActionable {
                 timeSinceLastBump: TimeInterval?,
                 maxCountdown: TimeInterval) {
         guard let bumpData = bumpData, bumpData.hasPaymentId else { return }
-        if let timeSinceLastBump = timeSinceLastBump, timeSinceLastBump > 0, featureFlags.bumpUpBoost.isActive {
+        if let timeSinceLastBump = timeSinceLastBump, timeSinceLastBump > 0 {
             openBumpUpBoost(forListing: listing,
                             bumpUpProductData: bumpData,
                             typePage: .edit,

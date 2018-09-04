@@ -44,11 +44,10 @@ final class LGMapDetailView: UIView, UICollectionViewDelegate, UICollectionViewD
     // MARK: - Subviews
     
     private let ribbonView: LGRibbonView = {
-        let ribbonView = LGRibbonView()
-        ribbonView.setupRibbon(configuration: LGRibbonConfiguration(title: R.Strings.bumpUpProductCellFeaturedStripe,
-                                                                    icon: nil,
-                                                                    titleColor: .orangeFree))
-        return ribbonView
+        let configuration = LGRibbonConfiguration(title: R.Strings.bumpUpProductCellFeaturedStripe,
+                                                  icon: nil,
+                                                  titleColor: .orangeFree)
+        return LGRibbonView(configuration: configuration)
     }()
     
     private let imageView: UIImageView = {

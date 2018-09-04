@@ -37,7 +37,7 @@ struct ListingTitleViewModel {
     }
     
     init?(listing: Listing?,
-          featureFlags: FeatureFlaggeable) {
+          featureFlags: FeatureFlaggeable = FeatureFlags.sharedInstance) {
         guard let listing = listing else {
             return nil
         }

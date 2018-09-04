@@ -1,6 +1,6 @@
 PODS:
-  - Alamofire (4.5.1)
-  - AlamofireImage (3.3.0):
+  - Alamofire (4.7.3)
+  - AlamofireImage (3.3.1):
     - Alamofire (~> 4.5)
   - Amplitude-iOS (4.0.4)
   - AppsFlyerFramework (4.8.4)
@@ -64,7 +64,7 @@ PODS:
     - IGListKit/Diffing
   - IGListKit/Diffing (3.4.0)
   - JSONWebToken (2.2.0)
-  - KeychainSwift (10.0.0)
+  - KeychainSwift (11.0.0)
   - KMPlaceholderTextView (1.3.0)
   - Leanplum-iOS-SDK (2.0.5)
   - LGCollapsibleLabel (1.2.0)
@@ -75,16 +75,16 @@ PODS:
   - LGComponents/LGAnalytics (1.0.0)
   - LGComponents/LGResources (1.0.0)
   - LGComponents/LGShared (1.0.0):
-    - AlamofireImage (= 3.3.0)
+    - AlamofireImage (= 3.3.1)
     - CocoaLumberjack/Swift (= 3.3.0)
-    - LGCoreKit (= 4.67.1)
+    - LGCoreKit (= 4.72.0)
     - RxCocoa (= 4.0.0)
-  - LGCoreKit (4.67.1):
-    - Alamofire (~> 4.5.1)
+  - LGCoreKit (4.72.0):
+    - Alamofire (~> 4.7.3)
     - CocoaLumberjack/Swift (~> 3.3.0)
     - DeviceGuru (~> 3.0.1)
     - JSONWebToken (~> 2.2.0)
-    - KeychainSwift (~> 10.0.0)
+    - KeychainSwift (~> 11.0.0)
     - ReachabilitySwift (~> 4.1.0)
     - RealmSwift (~> 3.0.0)
     - Result (~> 3.2.4)
@@ -150,7 +150,7 @@ PODS:
   - SwiftyUserDefaults (3.0.1)
 
 DEPENDENCIES:
-  - AlamofireImage (= 3.3.0)
+  - AlamofireImage (= 3.3.1)
   - Amplitude-iOS (= 4.0.4)
   - AppsFlyerFramework (= 4.8.4)
   - Branch (= 0.22.5)
@@ -168,12 +168,12 @@ DEPENDENCIES:
   - GoogleIDFASupport (= 3.14.0)
   - GoogleSignIn (= 4.1.1)
   - IGListKit (= 3.4.0)
-  - KeychainSwift (= 10.0.0)
+  - KeychainSwift (= 11.0.0)
   - KMPlaceholderTextView (from `https://github.com/letgoapp/KMPlaceholderTextView`, commit `426117c98e8da8fc7d64a7d3c2f0f45c48d595e6`)
   - Leanplum-iOS-SDK (= 2.0.5)
   - LGCollapsibleLabel (= 1.2.0)
   - LGComponents (from `components`)
-  - LGCoreKit (= 4.67.1)
+  - LGCoreKit (= 4.72.0)
   - lottie-ios (= 2.5.0)
   - mopub-ios-sdk (= 4.20.0)
   - NewRelicAgent (= 6.1.1)
@@ -257,8 +257,8 @@ CHECKOUT OPTIONS:
     :git: https://github.com/letgoapp/KMPlaceholderTextView
 
 SPEC CHECKSUMS:
-  Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
-  AlamofireImage: 2e784dc5d00f04903a52c1d169181469c805c3df
+  Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
+  AlamofireImage: 3b35b586853abaf94ca1250f4e94cff3c21a4c0d
   Amplitude-iOS: 2ad4d7270c99186236c1272a3a9425463b1ae1a7
   AppsFlyerFramework: c45bbd289a6f9e9a19976ee270b44edea646aab6
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
@@ -282,12 +282,12 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 0c4baf0a73acd0041bf9f71ea018deedab5ea84e
   IGListKit: 7a5d788e9fb746bcd402baa8e8b24bc3bd2a5a07
   JSONWebToken: 6fae32489632658d563dd6952a5c34020ea813e4
-  KeychainSwift: f9f7910449a0c0fd2cabc889121530dd2c477c33
+  KeychainSwift: bea6bd9f98af7b8d7ca4aa79fe105c00fab532db
   KMPlaceholderTextView: 2bbcd19a273648a80a61e1e48f9743a24d8930e3
   Leanplum-iOS-SDK: d7d387b7f3688e697f2893978bfe67092df5b7ca
   LGCollapsibleLabel: 2a5ebb0ff0ff3e1d7ab0c295a17c923db000f557
-  LGComponents: 1c6d994e411681899826ce5e98556c7e229f8773
-  LGCoreKit: 911e5a8c1c882ffca5a981cca2a7c70116be51ae
+  LGComponents: 7e32d96c7e1018a3d612e754a746f4262907e9bf
+  LGCoreKit: 9ef0612798c7a0fed71fdd503b46f12b3c02e058
   lottie-ios: d699fdee68d7b63e721d949388b015fef1aaa4ac
   mopub-ios-sdk: 89c6ac9ca01d3b36e9fba16a6cfe31d3c290d354
   NewRelicAgent: 652434a627201e3745cd5849228feeb10afe1879
@@ -309,6 +309,6 @@ SPEC CHECKSUMS:
   SwiftyGif: d36c6dfb52e2ca1e48fe349d225f50ec4123ec85
   SwiftyUserDefaults: 3d273b1739b68ada3145dc754a70ec775bc5c8be
 
-PODFILE CHECKSUM: 73ea00b41abe1468f75771108ec5c1527d07fe94
+PODFILE CHECKSUM: b25150d67e2b47e8fc087c289f830a17bb8652cd
 
 COCOAPODS: 1.5.3

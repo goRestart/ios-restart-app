@@ -180,6 +180,14 @@ struct UriScheme {
                                                   medium: medium,
                                                   source: source,
                                                   cardActionParameter: cardActionParameter))
+      case .invite:
+         guard let safeUsername = params["user-name"] else { return nil }
+         guard let safeUserid = params["user-id"] else { return nil }
+         return UriScheme(deepLink: DeepLink.link(.invite(userid: safeUserid, username: safeUsername),
+                                                  campaign: campaign,
+                                                  medium: medium,
+                                                  source: source,
+                                                  cardActionParameter: cardActionParameter))
       }
    }
 }
@@ -204,4 +212,5 @@ enum UriSchemeHost: String {
    case notificationCenter = "notification_center"
    case updateApp = "update_app"
    case webView = "webview"
+   case invite = "app_invite"
 }

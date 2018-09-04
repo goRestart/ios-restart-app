@@ -1555,7 +1555,7 @@ extension ChatViewModel {
         var firstInterlocutorMessageIndex: Int? {
             guard let i = messages.reversed().index(where: {
                 switch $0.type {
-                case .disclaimer, .userInfo, .askPhoneNumber, .interlocutorIsTyping, .multiAnswer, .cta:
+                case .disclaimer, .userInfo, .askPhoneNumber, .interlocutorIsTyping, .multiAnswer, .cta, .carousel:
                     return false
                 case .offer, .sticker, .text, .meeting, .unsupported:
                     return $0.talkerId != myUserRepository.myUser?.objectId
@@ -1707,7 +1707,8 @@ fileprivate extension ChatViewModel {
                                                          feedPosition: .none,
                                                          userBadge: badgeParameter,
                                                          containsVideo: .notAvailable,
-                                                         isProfessional: isProfessional))
+                                                         isProfessional: isProfessional,
+                                                         sectionName: nil))
         }
         tracker.trackEvent(TrackerEvent.userMessageSent(info: info, isProfessional: isProfessional))
     }
@@ -1981,10 +1982,13 @@ extension ChatViewModel: MeetingAssistantDataDelegate {
 
 extension ChatViewModel {
 
-    func openDeeplink(url: URL, trackingKey: String) {
-        let isLetgoAssistant = EventParameterBoolean(bool: isUserDummy)
-        let trackerEvent = TrackerEvent.chatCallToActionTapped(ctaKey: trackingKey, isLetgoAssistant: isLetgoAssistant)
-        tracker.trackEvent(trackerEvent)
+    func openDeeplink(url: URL, trackingKey: String?) {
+        if let trackingKey = trackingKey {
+            let isLetgoAssistant = EventParameterBoolean(bool: isUserDummy)
+            let trackerEvent = TrackerEvent.chatCallToActionTapped(ctaKey: trackingKey,
+                                                                   isLetgoAssistant: isLetgoAssistant)
+            tracker.trackEvent(trackerEvent)
+        }
         navigator?.navigate(with: url)
     }
 

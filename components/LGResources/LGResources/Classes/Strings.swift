@@ -620,7 +620,7 @@ extension R {
     public static let commonOk = Strings.tr("Localizable", "common_ok")
     /// Given away
     public static let commonProductGivenAway = Strings.tr("Localizable", "common_product_given_away")
-    /// Promoted or no longer available
+    /// Removed or no longer available
     public static let commonProductNotAvailable = Strings.tr("Localizable", "common_product_not_available")
     /// Sold
     public static let commonProductSold = Strings.tr("Localizable", "common_product_sold")
@@ -2322,6 +2322,14 @@ extension R {
     public static let profileSoldOtherNoProductsButton = Strings.tr("Localizable", "profile_sold_other_no_products_button")
     /// Sold
     public static let profileSoldProductsTab = Strings.tr("Localizable", "profile_sold_products_tab")
+    /// Here's a pro tip
+    public static let profileVerificationsAwarenessViewBoldText = Strings.tr("Localizable", "profile_verifications_awareness_view_bold_text")
+    /// Complete profile
+    public static let profileVerificationsAwarenessViewButton = Strings.tr("Localizable", "profile_verifications_awareness_view_button")
+    /// %@ - did you know that verified users make better deals?\n\nComplete and verify your profile today!
+    public static func profileVerificationsAwarenessViewText(_ p1: String) -> String {
+      return Strings.tr("Localizable", "profile_verifications_awareness_view_text", p1)
+    }
     /// Email
     public static let profileVerificationsEmailPlaceholder = Strings.tr("Localizable", "profile_verifications_email_placeholder")
     /// Verify your Email
@@ -3056,6 +3064,10 @@ extension R {
     public static let settingsSectionSupport = Strings.tr("Localizable", "settings_section_support")
     /// Settings
     public static let settingsTitle = Strings.tr("Localizable", "settings_title")
+    /// Now it’s ready for you to share:
+    public static let shareScreenshotDescription = Strings.tr("Localizable", "share_screenshot_description")
+    /// Screenshot saved!
+    public static let shareScreenshotTitle = Strings.tr("Localizable", "share_screenshot_title")
     /// To sign up you have to accept the Terms & Conditions and the Privacy Policy
     public static let signUpAcceptanceError = Strings.tr("Localizable", "sign_up_acceptance_error")
     /// Email

@@ -24,6 +24,7 @@ enum ChatViewMessageType {
     case multiAnswer(question: ChatQuestion, answers: [ChatAnswer])
     case interlocutorIsTyping
     case cta(ctaData: ChatCallToActionData, ctas: [ChatCallToAction])
+    case carousel(cards: [ChatCarouselCard], answers: [ChatAnswer])
     case unsupported(text: String)
 
     var isAskPhoneNumber: Bool {
@@ -106,6 +107,13 @@ enum ChatViewMessageType {
                 return lhsCtaData.text == rhsCtaData.text && lhsCtaData.key == rhsCtaData.key
                     && lhsCtas.map { $0.objectId } == rhsCtas.map { $0.objectId }
             }
+        case .carousel(let rhsCards, let rhsAnswsers):
+            if case .carousel(let lhsCards, let lhsAnswsers) = lhs {
+                return rhsCards.map { $0.imageURL } == lhsCards.map { $0.imageURL }
+                    && rhsCards.map { $0.title } == lhsCards.map { $0.title }
+                    && rhsCards.map { $0.text } == lhsCards.map { $0.text }
+                    && rhsAnswsers.map { $0.id } == lhsAnswsers.map { $0.id }
+            }
         case .unsupported(let lhsText):
             switch rhs {
             case .unsupported(let rhsText):
@@ -165,7 +173,7 @@ struct ChatViewMessage: BaseModel {
         case .text, .offer:
             return true
         case .sticker, .disclaimer, .userInfo, .askPhoneNumber, .meeting, .interlocutorIsTyping, .unsupported, .multiAnswer,
-             .cta:
+             .cta, .carousel:
             return false
         }
     }
@@ -192,6 +200,8 @@ struct ChatViewMessage: BaseModel {
             return "..."
         case .cta(let ctaData, _):
             return ctaData.title ?? ctaData.text ?? ""
+        case .carousel:
+            return ""
         case .unsupported(let text):
             return text
         }

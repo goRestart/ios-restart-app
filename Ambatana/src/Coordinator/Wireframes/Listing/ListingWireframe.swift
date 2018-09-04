@@ -57,7 +57,45 @@ final class ListingWireframe {
                         index: index)
         case let .listingChat(chatConversation):
             openListing(chatConversation: chatConversation, source: source)
+        case let .sectionedRelatedListing(listing, thumbnailImage, originFrame):
+            openListingRelated(listing,
+                               thumbnailImage: thumbnailImage,
+                               originFrame: originFrame,
+                               source: source,
+                               index: 0)
+        case let .sectionedNonRelatedListing(listing, feedListingDatas, thumbnailImage, originFrame, index, identifier):
+            openListingNonRelated(listing,
+                                  feedListingDataArray: feedListingDatas,
+                                  thumbnailImage: thumbnailImage,
+                                  originFrame: originFrame,
+                                  source: source,
+                                  index: index,
+                                  identifier: identifier)
         }
+    }
+    
+    func openListingNonRelated(_ listing: Listing,
+                               feedListingDataArray: [FeedListingData],
+                               thumbnailImage: UIImage?,
+                               originFrame: CGRect?,
+                               source: EventParameterListingVisitSource,
+                               index: Int,
+                               identifier: String?) {
+        
+        let cellModels = feedListingDataArray.map { ListingCellModel.init(listing: $0.listing) }
+        let requester = FilteredListingListRequester(itemsPerPage: SharedConstants.numListingsPerPageDefault,
+                                                     offset: 0)
+        let vm = ListingCarouselViewModel(productListModels: cellModels,
+                                          initialListing: listing,
+                                          thumbnailImage: thumbnailImage,
+                                          listingListRequester: requester,
+                                          source: source,
+                                          actionOnFirstAppear: .nonexistent,
+                                          trackingIndex: index,
+                                          trackingIdentifier: identifier,
+                                          firstProductSyncRequired: false)
+        vm.navigator = detailNavigator
+        openListing(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, listingId: listing.objectId)
     }
 
     private func openListing(listingId: String,
@@ -101,9 +139,14 @@ final class ListingWireframe {
         }
     }
 
-    func openListing(listing: Listing, thumbnailImage: UIImage? = nil, originFrame: CGRect? = nil,
-                     source: EventParameterListingVisitSource, requester: ListingListRequester? = nil, index: Int,
-                     discover: Bool, actionOnFirstAppear: ProductCarouselActionOnFirstAppear) {
+    func openListing(listing: Listing,
+                     thumbnailImage: UIImage? = nil,
+                     originFrame: CGRect? = nil,
+                     source: EventParameterListingVisitSource,
+                     requester: ListingListRequester? = nil,
+                     index: Int,
+                     discover: Bool,
+                     actionOnFirstAppear: ProductCarouselActionOnFirstAppear) {
         guard let listingId = listing.objectId else { return }
         var requestersArray: [ListingListRequester] = []
         let listingListRequester: ListingListRequester?
@@ -139,28 +182,26 @@ final class ListingWireframe {
                                    actionOnFirstAppear: actionOnFirstAppear,
                                    trackingIndex: nil)
         } else {
-            let vm = ListingCarouselViewModel(listing: listing, thumbnailImage: thumbnailImage,
-                                              listingListRequester: requester, source: source,
-                                              actionOnFirstAppear: actionOnFirstAppear, trackingIndex: index)
+            let vm = ListingCarouselViewModel(listing: listing,
+                                              thumbnailImage: thumbnailImage,
+                                              listingListRequester: requester,
+                                              source: source,
+                                              actionOnFirstAppear: actionOnFirstAppear,
+                                              trackingIndex: index)
             vm.navigator = detailNavigator
             openListing(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, listingId: listingId)
         }
-
     }
 
     func openListing(_ listing: Listing, cellModels: [ListingCellModel], requester: ListingListRequester,
                      thumbnailImage: UIImage?, originFrame: CGRect?, showRelated: Bool,
                      source: EventParameterListingVisitSource, index: Int) {
         if showRelated {
-            //Same as single product opening
-            openListing(listing: listing,
-                        thumbnailImage: thumbnailImage,
-                        originFrame: originFrame,
-                        source: source,
-                        requester: requester,
-                        index: index,
-                        discover: false,
-                        actionOnFirstAppear: .nonexistent)
+            openListingRelated(listing,
+                               thumbnailImage: thumbnailImage,
+                               originFrame: originFrame,
+                               source: source,
+                               index: index)
         } else if featureFlags.deckItemPage.isActive {
             openListingNewItemPage(listing,
                                    thumbnailImage: thumbnailImage,
@@ -171,13 +212,32 @@ final class ListingWireframe {
                                    actionOnFirstAppear: .nonexistent,
                                    trackingIndex: index)
         } else {
-            let vm = ListingCarouselViewModel(productListModels: cellModels, initialListing: listing,
-                                              thumbnailImage: thumbnailImage, listingListRequester: requester, source: source,
-                                              actionOnFirstAppear: .nonexistent, trackingIndex: index,
+            let vm = ListingCarouselViewModel(productListModels: cellModels,
+                                              initialListing: listing,
+                                              thumbnailImage: thumbnailImage,
+                                              listingListRequester: requester,
+                                              source: source,
+                                              actionOnFirstAppear: .nonexistent,
+                                              trackingIndex: index,
+                                              trackingIdentifier: nil,
                                               firstProductSyncRequired: false)
             vm.navigator = detailNavigator
             openListing(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, listingId: listing.objectId)
         }
+    }
+    
+    func openListingRelated(_ listing: Listing,
+                            thumbnailImage: UIImage?,
+                            originFrame: CGRect?,
+                            source: EventParameterListingVisitSource,
+                            index: Int) {
+        openListing(listing: listing,
+                    thumbnailImage: thumbnailImage,
+                    originFrame: originFrame,
+                    source: source,
+                    index: index,
+                    discover: false,
+                    actionOnFirstAppear: .nonexistent)
     }
 
     func openListing(chatConversation: ChatConversation, source: EventParameterListingVisitSource) {
@@ -185,7 +245,7 @@ final class ListingWireframe {
             let listingId = localProduct.objectId else { return }
         let relatedRequester = RelatedListingListRequester(listingId: listingId,
                                                            itemsPerPage: SharedConstants.numListingsPerPageDefault)
-        let filteredRequester = FilteredListingListRequester( itemsPerPage: SharedConstants.numListingsPerPageDefault, offset: 0)
+        let filteredRequester = FilteredListingListRequester(itemsPerPage: SharedConstants.numListingsPerPageDefault, offset: 0)
         let requester = ListingListMultiRequester(requesters: [relatedRequester, filteredRequester])
 
         if featureFlags.deckItemPage.isActive {
@@ -193,15 +253,17 @@ final class ListingWireframe {
                                    listingListRequester: requester,
                                    source: source)
         } else {
-            let vm = ListingCarouselViewModel(listing: .product(localProduct), listingListRequester: requester,
-                                              source: source, actionOnFirstAppear: .nonexistent, trackingIndex: nil)
+            let vm = ListingCarouselViewModel(listing: .product(localProduct),
+                                              listingListRequester: requester,
+                                              source: source,
+                                              actionOnFirstAppear: .nonexistent,
+                                              trackingIndex: nil)
             vm.navigator = detailNavigator
             openListing(vm, thumbnailImage: nil, originFrame: nil, listingId: listingId)
         }
     }
 
-    func openListing(_ viewModel: ListingCarouselViewModel, thumbnailImage: UIImage?, originFrame: CGRect?,
-                     listingId: String?) {
+    func openListing(_ viewModel: ListingCarouselViewModel, thumbnailImage: UIImage?, originFrame: CGRect?, listingId: String?) {
         let color = UIColor.placeholderBackgroundColor(listingId)
         let animator = ListingCarouselPushAnimator(originFrame: originFrame, originThumbnail: thumbnailImage,
                                                    backgroundColor: color)
@@ -241,7 +303,8 @@ final class ListingWireframe {
                                              source: source,
                                              detailNavigator: detailNavigator,
                                              actionOnFirstAppear: actionOnFirstAppear,
-                                             trackingIndex: trackingIndex)
+                                             trackingIndex: trackingIndex,
+                                             trackingIdentifier: nil)
 
         let deckViewController = ListingDeckViewController(viewModel: viewModel)
         viewModel.delegate = deckViewController

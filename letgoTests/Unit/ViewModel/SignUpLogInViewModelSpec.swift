@@ -16,7 +16,6 @@ import RxSwift
 
 class SignUpLogInViewModelSpec: BaseViewModelSpec {
     var finishedSuccessfully: Bool = false
-
     var delegateReceivedShowGodModeAlert = false
 
     var showAlertWasCalled: Bool = false

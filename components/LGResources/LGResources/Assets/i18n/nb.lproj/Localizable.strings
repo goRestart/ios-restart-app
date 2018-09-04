@@ -284,7 +284,7 @@
 "common_no" = "Nei";
 "common_ok" = "Ok";
 "common_product_given_away" = "Gitt bort";
-"common_product_not_available" = "Oops! Annonsen er ikke lenger tilgjengelig";
+"common_product_not_available" = "Publisert på nytt eller ikke lenger tilgjengelig";
 "common_product_sold" = "Solgt";
 "common_settings" = "Innstillinger";
 "common_short_time_day_ago_label" = "%d dag";
@@ -448,7 +448,7 @@
 "filters_cars_transmission_title" = "Girkasse";
 "filters_distance_not_set" = "ikke satt";
 "filters_jobs_services_header" = "Jobb- eller tjenesteinfo";
-"filters_jobs_services_list_max_selection_alert" = "Oops! You can’t select more than 15 options.";
+"filters_jobs_services_list_max_selection_alert" = "Oops! Du ikke velge flere enn 15 alternativer.";
 "filters_jobs_services_subtype_title" = "Undertype";
 "filters_jobs_services_toggle_header" = "Leter etter...";
 "filters_jobs_services_type_title" = "Type";
@@ -760,10 +760,10 @@
 "post_description_name_placeholder" = "Navn";
 "post_description_save_button_text" = "Lagre denne annonsen!";
 "post_details_jobs_services_camera_message" = "Publiser bedriftens logo eller et bilde som viser tjenesten eller jobben du tilbyr";
-"post_details_jobs_services_congratulation_add_more_details" = "by adding more details:";
-"post_details_jobs_services_congratulation_improve_listing" = "Improve your listing\n";
-"post_details_jobs_services_congratulation_people_nearby_first" = "People near you are also";
-"post_details_jobs_services_congratulation_people_nearby_second" = "looking for:";
+"post_details_jobs_services_congratulation_add_more_details" = "ved å legge til flere detaljer:";
+"post_details_jobs_services_congratulation_improve_listing" = "Forbedre din annonse";
+"post_details_jobs_services_congratulation_people_nearby_first" = "Personer i nærheten er også";
+"post_details_jobs_services_congratulation_people_nearby_second" = "på utkikk etter:";
 "post_details_jobs_services_step_option_jobs_prefix" = "Ser etter å ansette noen for en";
 "post_details_jobs_services_step_option_services_prefix" = "Annonserer for en";
 "post_details_jobs_services_step_title" = "Jeg er...";
@@ -1054,6 +1054,9 @@
 "profile_sold_no_products_label" = "INGEN ANNONSER (ENDA!)";
 "profile_sold_other_no_products_button" = "Fortsett å bla i produktene";
 "profile_sold_products_tab" = "Solgt";
+"profile_verifications_awareness_view_bold_text" = "Here's a pro tip";
+"profile_verifications_awareness_view_button" = "Complete profile";
+"profile_verifications_awareness_view_text" = "%@ - did you know that verified users make better deals?\n\nComplete and verify your profile today!";
 "profile_verifications_email_placeholder" = "E-post";
 "profile_verifications_email_view_title" = "Verifiser din e-postadresse";
 "profile_verifications_send_button" = "Send";
@@ -1403,6 +1406,8 @@
 "settings_section_promote" = "Promoter";
 "settings_section_support" = "Support";
 "settings_title" = "Innstillinger";
+"share_screenshot_description" = "Nå er det klart for å deles:";
+"share_screenshot_title" = "Skjermbilde lagret!";
 "sign_up_acceptance_error" = "For å registrere bruker må du først godkjenne vilkår & betingelser og betingelser for personvern";
 "sign_up_email_field_hint" = "E-post";
 "sign_up_email_step1_continue_button" = "Fortsett";

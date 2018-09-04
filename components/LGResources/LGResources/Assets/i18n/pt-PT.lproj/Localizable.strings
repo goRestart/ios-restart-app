@@ -448,7 +448,7 @@
 "filters_cars_transmission_title" = "Mudanças";
 "filters_distance_not_set" = "não definido";
 "filters_jobs_services_header" = "Informações sobre o trabalho ou serviço";
-"filters_jobs_services_list_max_selection_alert" = "Oops! You can’t select more than 15 options.";
+"filters_jobs_services_list_max_selection_alert" = "Ups! Não pode selecionar mais de 15 opções.";
 "filters_jobs_services_subtype_title" = "Subtipo";
 "filters_jobs_services_toggle_header" = "À procura de...";
 "filters_jobs_services_type_title" = "Tipo";
@@ -760,10 +760,10 @@
 "post_description_name_placeholder" = "Alterar nome";
 "post_description_save_button_text" = "Guardar este anúncio!";
 "post_details_jobs_services_camera_message" = "Publique o logótipo da sua empresa ou uma foto que mostre o serviço ou trabalho que está a oferecer";
-"post_details_jobs_services_congratulation_add_more_details" = "by adding more details:";
-"post_details_jobs_services_congratulation_improve_listing" = "Improve your listing\n";
-"post_details_jobs_services_congratulation_people_nearby_first" = "People near you are also";
-"post_details_jobs_services_congratulation_people_nearby_second" = "looking for:";
+"post_details_jobs_services_congratulation_add_more_details" = "adicionando mais detalhes:";
+"post_details_jobs_services_congratulation_improve_listing" = "Melhore o seu anúncio";
+"post_details_jobs_services_congratulation_people_nearby_first" = "Pessoas perto de si estão também";
+"post_details_jobs_services_congratulation_people_nearby_second" = "a procurar:";
 "post_details_jobs_services_step_option_jobs_prefix" = "Procuro contratar alguém para um";
 "post_details_jobs_services_step_option_services_prefix" = "Anúncio um";
 "post_details_jobs_services_step_title" = "Sou...";
@@ -1054,6 +1054,9 @@
 "profile_sold_no_products_label" = "SEM PUBLICAÇÕES (AINDA!)";
 "profile_sold_other_no_products_button" = "Continue a navegar";
 "profile_sold_products_tab" = "Vendido";
+"profile_verifications_awareness_view_bold_text" = "Here's a pro tip";
+"profile_verifications_awareness_view_button" = "Complete profile";
+"profile_verifications_awareness_view_text" = "%@ - did you know that verified users make better deals?\n\nComplete and verify your profile today!";
 "profile_verifications_email_placeholder" = "Email";
 "profile_verifications_email_view_title" = "Verifique o seu email";
 "profile_verifications_send_button" = "Enviar";
@@ -1403,6 +1406,8 @@
 "settings_section_promote" = "Promover";
 "settings_section_support" = "Suporte";
 "settings_title" = "Configurações";
+"share_screenshot_description" = "Está agora pronta para a poder partilhar:";
+"share_screenshot_title" = "Captura de ecrã guardada!";
 "sign_up_acceptance_error" = "Para se inscrever deve aceitar os Termos & Condições e Política de Privacidade";
 "sign_up_email_field_hint" = "Email";
 "sign_up_email_step1_continue_button" = "Continuar";
