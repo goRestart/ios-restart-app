@@ -1,4 +1,5 @@
 import Core
+import UI
 
 public protocol NotLoggedProvider {
   func makeNotLogged() -> UIViewController
@@ -11,10 +12,9 @@ extension Assembly: NotLoggedProvider {
     )
     viewController.viewModel = viewModel(for: viewController)
     
-    let navigationController = UINavigationController(
+    let navigationController = NavigationController(
       rootViewController: viewController
     )
-    navigationController.navigationBar.prefersLargeTitles = true
     return navigationController
   }
   

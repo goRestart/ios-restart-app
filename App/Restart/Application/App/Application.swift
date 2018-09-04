@@ -20,7 +20,7 @@ final class Application: NSObject, UIApplicationDelegate {
     
     DataModule.start()
     
-    window?.rootViewController = tabBarControllerProvider.makeTabBarController()
+    window?.rootViewController =  tabBarControllerProvider.makeTabBarController()
     window?.makeKeyAndVisible()
 
     return true

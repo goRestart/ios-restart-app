@@ -1,14 +1,15 @@
 import RxSwift
+import RxCocoa
 
 protocol ProductPriceViewModelInput {
-  var price: BehaviorSubject<String> { get }
-  
   func viewWillAppear()
+  func onChange(price: String)
   func onNextStepPressed()
 }
 
 protocol ProductPriceViewModelOutput {
-  var nextStepEnabled: Observable<Bool> { get }
+  var nextStepEnabled: Driver<Bool> { get }
+  var price: Driver<String> { get }
 }
 
 protocol ProductPriceViewModelType {

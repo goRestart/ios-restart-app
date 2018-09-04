@@ -1,5 +1,6 @@
-import RxSwift
 import Domain
+import RxSwift
+import RxCocoa
 
 enum SignUpState {
   case idle
@@ -7,18 +8,18 @@ enum SignUpState {
 }
 
 protocol SignUpViewModelInput {
+  func onChange(username: String)
+  func onChange(email: String)
+  func onChange(password: String)
   func signInButtonPressed()
 }
 
 protocol SignUpViewModelOutput {
-  var username: BehaviorSubject<String> { get }
-  var email: BehaviorSubject<String> { get }
-  var password: BehaviorSubject<String> { get }
-  var state: PublishSubject<SignUpState> { get }
-  var error: PublishSubject<RegisterUserError?> { get }
+  var state: Driver<SignUpState> { get }
+  var error: Driver<RegisterUserError?> { get }
   
-  var userInteractionEnabled: Observable<Bool> { get }
-  var signUpEnabled: Observable<Bool> { get }
+  var userInteractionEnabled: Driver<Bool> { get }
+  var signUpEnabled: Driver<Bool> { get }
 }
 
 protocol SignUpViewModelType {

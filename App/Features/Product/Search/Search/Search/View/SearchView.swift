@@ -51,6 +51,7 @@ public final class SearchView: View {
   public func bind(_ query: Observable<String>) {
     viewModel.output.bind(to: query)
     viewModel.output.results
+      .asObservable()
       .map(toUIModel)
       .subscribe(onNext: { [weak self] suggestions in
         self?.listAdapterDataSource?.set(suggestions)

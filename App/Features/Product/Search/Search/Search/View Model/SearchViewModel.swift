@@ -1,12 +1,13 @@
-import RxSwift
 import Domain
+import RxSwift
+import RxCocoa
 
 struct SearchViewModel: SearchViewModelType, SearchViewModelOutput {
 
   var output: SearchViewModelOutput { return self }
   
   private let resultsSubject = PublishSubject<[GameSearchSuggestion]>()
-  var results: Observable<[GameSearchSuggestion]> { return resultsSubject }
+  var results: Driver<[GameSearchSuggestion]> { return resultsSubject.asDriver(onErrorJustReturn: []) }
   
   private let bag = DisposeBag()
   private let searchGames: SearchGamesUseCase

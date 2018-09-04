@@ -1,8 +1,9 @@
-import RxSwift
 import Domain
+import RxSwift
+import RxCocoa
 
 protocol SearchViewModelOutput {
-  var results: Observable<[GameSearchSuggestion]> { get }
+  var results: Driver<[GameSearchSuggestion]> { get }
   func bind(to query: Observable<String>)
 }
 

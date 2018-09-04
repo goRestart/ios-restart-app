@@ -1,5 +1,6 @@
-import RxSwift
 import Domain
+import RxSwift
+import RxCocoa
 
 struct ProductPriceViewModel: ProductPriceViewModelType, ProductPriceViewModelInput, ProductPriceViewModelOutput {
 
@@ -18,24 +19,33 @@ struct ProductPriceViewModel: ProductPriceViewModelType, ProductPriceViewModelIn
   
   // MARK: - Output
 
-  var nextStepEnabled: Observable<Bool> {
+  var nextStepEnabled: Driver<Bool> {
     return price.map { $0.isFloatable }
+      .asDriver(onErrorJustReturn: false)
+  }
+  
+  var price: Driver<String> {
+    return priceSubject.asDriver(onErrorJustReturn: "")
   }
 
   // MARK: - Input
 
-  var price = BehaviorSubject<String>(value: "")
+  private let priceSubject = BehaviorSubject<String>(value: "")
   
   func viewWillAppear() {
     guard let productPrice = productDraft.get().price else { return }
-    price.onNext(
+    priceSubject.onNext(
       productPrice.amount.toString()
     )
   }
   
+  func onChange(price: String) {
+    priceSubject.onNext(price)
+  }
+  
   func onNextStepPressed() {
     productDraft.save(
-      price: try! price.value().toDouble()
+      price: try! priceSubject.value().toDouble()
     )
     productExtrasNavigator.navigate()
   }

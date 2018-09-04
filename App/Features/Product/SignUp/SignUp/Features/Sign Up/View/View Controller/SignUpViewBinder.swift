@@ -3,35 +3,32 @@ import RxSwift
 
 struct SignUpViewBinder {
   func bind(view: SignUpView, to viewModel: SignUpViewModelType, using bag: DisposeBag) {
-    view.rx.username
-      .asDriver()
-      .drive(viewModel.output.username)
-      .disposed(by: bag)
+    view.rx.username.subscribe(onNext: { username in
+      viewModel.input.onChange(username: username)
+    }).disposed(by: bag)
 
-    view.rx.email
-      .asDriver()
-      .drive(viewModel.output.email)
-      .disposed(by: bag)
+    view.rx.email.subscribe(onNext: { email in
+      viewModel.input.onChange(email: email)
+    }).disposed(by: bag)
     
-    view.rx.password
-      .asDriver()
-      .drive(viewModel.output.password)
-      .disposed(by: bag)
-
+    view.rx.password.subscribe(onNext: { password in
+      viewModel.input.onChange(password: password)
+    }).disposed(by: bag)
+    
     viewModel.output.userInteractionEnabled
-      .bind(to: view.rx.userInteractionEnabled)
+      .drive(view.rx.userInteractionEnabled)
       .disposed(by: bag)
     
     viewModel.output.state
-      .bind(to: view.rx.signUpButtonIsLoading)
+      .drive(view.rx.signUpButtonIsLoading)
       .disposed(by: bag)
     
     viewModel.output.error
-      .bind(to: view.rx.error)
+      .drive(view.rx.error)
       .disposed(by: bag)
     
     viewModel.output.signUpEnabled
-      .bind(to: view.rx.signUpButtonEnabled)
+      .drive(view.rx.signUpButtonEnabled)
       .disposed(by: bag)
 
     view.rx.usernameEndEditing.subscribe { _ in
