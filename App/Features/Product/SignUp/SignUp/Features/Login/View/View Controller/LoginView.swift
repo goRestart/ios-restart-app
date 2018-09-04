@@ -11,6 +11,12 @@ private enum ViewLayout {
 final class LoginView: View {
   private let scrollView = UIScrollView()
 
+  private let titleView: TitleView = {
+    let titleView = TitleView()
+    titleView.title = Localize("login.title", table: Table.login)
+    return titleView
+  }()
+  
   fileprivate let usernameInput: Input = {
     let input = Input()
     input.autocapitalizationType = .none
@@ -55,6 +61,8 @@ final class LoginView: View {
   }
   
   override func setupView() {
+    addSubview(titleView)
+    
     stackView.addArrangedSubview(usernameInput)
     stackView.addArrangedSubview(passwordInput)
     
@@ -66,7 +74,13 @@ final class LoginView: View {
     usernameInput.becomeFirstResponder()
   }
   
-  override func setupConstraints() {    
+  override func setupConstraints() {
+    titleView.snp.makeConstraints { make in
+      make.leading.equalTo(self)
+      make.trailing.equalTo(self)
+      make.top.equalTo(safeAreaLayoutGuide.snp.top)
+    }
+    
     signInButton.snp.makeConstraints { make in
       make.left.equalTo(self).offset(Margin.medium)
       make.right.equalTo(self).offset(-Margin.medium)
@@ -89,7 +103,7 @@ final class LoginView: View {
       
       UIView.animate(withDuration: keyboard.animationDuration,
                      delay: 0,
-                     options: .curveEaseIn , animations: { [weak self] in
+                     options: .curveLinear , animations: { [weak self] in
         self?.signInButton.radiusDisabled = keyboard.event == .willHide ? false : true
         self?.layoutIfNeeded()
       })
@@ -97,8 +111,10 @@ final class LoginView: View {
     }).disposed(by: bag)
     
     scrollView.snp.makeConstraints { make in
-      make.edges.equalTo(self)
-        .inset(UIEdgeInsets.init(top: 0, left: 0, bottom: ViewLayout.scrollViewBottomSpace, right: 0))
+      make.leading.equalTo(self)
+      make.trailing.equalTo(self)
+      make.top.equalTo(titleView.snp.bottom)
+      make.bottom.equalTo(ViewLayout.scrollViewBottomSpace)
     }
     
     stackView.snp.makeConstraints { make in

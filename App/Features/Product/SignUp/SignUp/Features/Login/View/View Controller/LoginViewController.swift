@@ -19,11 +19,6 @@ final class LoginViewController: ViewController {
     self.view = loginView
   }
   
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    title = Localize("login.title", table: Table.login)
-  }
-  
   override func bindViewModel() {
     viewBinder.bind(view: loginView, to: viewModel, using: bag)
   }

@@ -54,16 +54,17 @@ struct LoginViewModel: LoginViewModelType, LoginViewModelInput, LoginViewModelOu
   func signUpButtonPressed() {
     stateSubject.onNext(.loading)
     
-    let authentication = Observable.combineLatest(usernameSubject, passwordSubject)
-      .debug()
+    let authentication = Observable
+      .combineLatest(usernameSubject, passwordSubject)
       .map(BasicCredentials.init)
       .map(authenticate.execute)
- 
-    authentication.subscribe(onNext: { _ in
-      print("Welcome :)")
-    }, onError: { error in
-      print("Error :(")
+      .asCompletable()
+    
+    authentication.subscribe(onCompleted: {
+      print("Completed")
+    }) { error in
+      print("Error = \(error)")
       self.stateSubject.onNext(.idle)
-    }).disposed(by: bag)
+    }.disposed(by: bag)
   }
 }
