@@ -1,15 +1,16 @@
 import Domain
 import RxSwift
+import RxCocoa
 
 protocol ProductExtrasViewModelInput {
   func viewDidLoad()
-  func didSelectProductExtra(with id: Identifier<Product.Extra>)
-  func didUnSelectProductExtra(with id: Identifier<Product.Extra>)
-  func didTapNextButton()
+  func onSelectProductExtra(with id: Identifier<Product.Extra>)
+  func onUnSelectProductExtra(with id: Identifier<Product.Extra>)
+  func nextButtonPressed()
 }
 
 protocol ProductExtrasViewModelOutput {
-  var productExtras: Observable<[ProductExtraUIModel]> { get }
+  var productExtras: Driver<[ProductExtraUIModel]> { get }
 }
 
 protocol ProductExtrasViewModelType {

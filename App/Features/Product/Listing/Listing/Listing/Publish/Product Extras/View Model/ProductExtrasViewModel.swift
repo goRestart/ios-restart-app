@@ -1,5 +1,6 @@
 import Domain
 import RxSwift
+import RxCocoa
 
 final class ProductExtrasViewModel: ProductExtrasViewModelType, ProductExtrasViewModelInput, ProductExtrasViewModelOutput {
   var input: ProductExtrasViewModelInput { return self }
@@ -27,7 +28,7 @@ final class ProductExtrasViewModel: ProductExtrasViewModelType, ProductExtrasVie
   // MARK: Output
 
   private let productExtrasPublisher = PublishSubject<[ProductExtraUIModel]>()
-  var productExtras: Observable<[ProductExtraUIModel]> { return productExtrasPublisher }
+  var productExtras: Driver<[ProductExtraUIModel]> { return productExtrasPublisher.asDriver(onErrorJustReturn: []) }
 
   // MARK: - Input
   
@@ -55,15 +56,15 @@ final class ProductExtrasViewModel: ProductExtrasViewModelType, ProductExtrasVie
     }
   }
   
-  func didSelectProductExtra(with id: Identifier<Product.Extra>) {
+  func onSelectProductExtra(with id: Identifier<Product.Extra>) {
     productExtraSelections[id] = true
   }
   
-  func didUnSelectProductExtra(with id: Identifier<Product.Extra>) {
+  func onUnSelectProductExtra(with id: Identifier<Product.Extra>) {
     productExtraSelections[id] = false
   }
   
-  func didTapNextButton() {
+  func nextButtonPressed() {
     productDraft.save(productExtras: selectedProductExtras)
     productSummaryNavigator.navigate()
   }
