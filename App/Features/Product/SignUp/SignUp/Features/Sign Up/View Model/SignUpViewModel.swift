@@ -1,7 +1,8 @@
 import Application
-import RxSwift
 import Domain
 import Core
+import RxSwift
+import RxCocoa
 
 private enum LoginViewModelConstraints {
   static let minUsernameLenght = 3
@@ -26,39 +27,58 @@ struct SignUpViewModel: SignUpViewModelType, SignUpViewModelInput, SignUpViewMod
   
   // MARK: - Output
   
-  var username = BehaviorSubject<String>(value: "")
-  var password = BehaviorSubject<String>(value: "")
-  var email = BehaviorSubject<String>(value: "")
-  var state = PublishSubject<SignUpState>()
-  var error = PublishSubject<RegisterUserError?>()
+  private let stateSubject = PublishSubject<SignUpState>()
+  var state: Driver<SignUpState> {
+    return stateSubject.asDriver(onErrorJustReturn: .idle)
+  }
   
-  var signUpEnabled: Observable<Bool> {
-    return Observable.combineLatest(
-    username.asObservable(), email.asObservable(), password.asObservable()) {
+  private let errorSubject = PublishSubject<RegisterUserError?>()
+  var error: Driver<RegisterUserError?> {
+    return errorSubject.asDriver(onErrorJustReturn: nil)
+  }
+
+  var signUpEnabled: Driver<Bool> {
+    return Observable.combineLatest(usernameSubject, emailSubject, passwordSubject) {
       username, email, password in
       return username.count >= LoginViewModelConstraints.minUsernameLenght &&
         password.count >= LoginViewModelConstraints.minPasswordLenght &&
         self.emailValidator.validate(email)
-    }
+    }.asDriver(onErrorJustReturn: false)
   }
   
-  var userInteractionEnabled: Observable<Bool> {
+  var userInteractionEnabled: Driver<Bool> {
     return state.asObservable().map { $0 == .idle }
+      .asDriver(onErrorJustReturn: false)
   }
   
   // MARK: - Input
   
+  private let usernameSubject = BehaviorSubject<String>(value: "")
+  private let passwordSubject = BehaviorSubject<String>(value: "")
+  private let emailSubject = BehaviorSubject<String>(value: "")
+  
+  func onChange(username: String) {
+    usernameSubject.onNext(username)
+  }
+  
+  func onChange(email: String) {
+    emailSubject.onNext(email)
+  }
+  
+  func onChange(password: String) {
+    passwordSubject.onNext(password)
+  }
+  
   func signInButtonPressed() {
-    state.onNext(.loading)
+    stateSubject.onNext(.loading)
     
-    let credentials = UserCredentials(
-      username: try! username.value(),
-      email: try! email.value(),
-      password: try! password.value()
-    )
+    let register = Observable
+      .combineLatest(usernameSubject, emailSubject, passwordSubject)
+      .map(UserCredentials.init)
+      .flatMap(registerUser.execute)
+      .asCompletable()
     
-    registerUser.execute(with: credentials)
-      .subscribe(onCompleted: {
+      register.subscribe(onCompleted: {
         print("User created correctly ✅") // TODO: Handle user creation
       }) { error in
         self.handle(error)
@@ -70,7 +90,7 @@ struct SignUpViewModel: SignUpViewModelType, SignUpViewModelInput, SignUpViewMod
       // TODO: Show generic error
       return
     }
-    self.error.onNext(error)
-    self.state.onNext(.idle)
+    errorSubject.onNext(error)
+    stateSubject.onNext(.idle)
   }
 }

@@ -7,9 +7,9 @@ enum LoginState {
 }
 
 protocol LoginViewModelInput {
-  func signUpButtonPressed()
   func onChange(username: String)
   func onChange(password: String)
+  func signUpButtonPressed()
 }
 
 protocol LoginViewModelOutput {

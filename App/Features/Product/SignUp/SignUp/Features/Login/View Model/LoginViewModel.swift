@@ -57,7 +57,7 @@ struct LoginViewModel: LoginViewModelType, LoginViewModelInput, LoginViewModelOu
     let authentication = Observable
       .combineLatest(usernameSubject, passwordSubject)
       .map(BasicCredentials.init)
-      .map(authenticate.execute)
+      .flatMap(authenticate.execute)
       .asCompletable()
     
     authentication.subscribe(onCompleted: {
