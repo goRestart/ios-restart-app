@@ -218,6 +218,7 @@ extension ABTests {
     var carPromoCells: LeanplumABVariable<Int> { return verticals.carPromoCells }
     var servicesPromoCells: LeanplumABVariable<Int> { return verticals.servicesPromoCells }
     var realEstatePromoCells: LeanplumABVariable<Int> { return verticals.realEstatePromoCells }
+    var proUserExtraImages: LeanplumABVariable<Int> { return verticals.proUsersExtraImages }
     var clickToTalkEnabled: LeanplumABVariable<Int> { return verticals.clickToTalkEnabled }
 }
 

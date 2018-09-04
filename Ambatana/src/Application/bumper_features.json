@@ -295,6 +295,11 @@
         "description": "[REAL ESTATE] Show NEW promo cells for real Estate"
      },
      {
+         "name": "ProUsersExtraImages",
+         "values": ["control", "baseline", "active"],
+         "description": "[Cars] allow up to 25 images to be displayed on the product detail page"
+     },
+        {
         "name": "SectionedDiscoveryFeed",
         "values": ["control", "baseline", "active"],
         "description": "[Discovery] Show SectionedFeed"

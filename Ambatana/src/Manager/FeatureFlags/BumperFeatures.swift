@@ -75,6 +75,7 @@ extension Bumper  {
         flags.append(RandomImInterestedMessages.self)
         flags.append(CarPromoCells.self)
         flags.append(RealEstatePromoCells.self)
+        flags.append(ProUsersExtraImages.self)
         flags.append(SectionedDiscoveryFeed.self)
         flags.append(ServicesPromoCells.self)
         flags.append(ImInterestedInProfile.self)
@@ -845,6 +846,19 @@ extension Bumper  {
     static var realEstatePromoCellsObservable: Observable<RealEstatePromoCells> {
         return Bumper.observeValue(for: RealEstatePromoCells.key).map {
             RealEstatePromoCells(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var proUsersExtraImages: ProUsersExtraImages {
+        guard let value = Bumper.value(for: ProUsersExtraImages.key) else { return .control }
+        return ProUsersExtraImages(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var proUsersExtraImagesObservable: Observable<ProUsersExtraImages> {
+        return Bumper.observeValue(for: ProUsersExtraImages.key).map {
+            ProUsersExtraImages(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1835,6 +1849,22 @@ enum RealEstatePromoCells: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .variantA
+            default: return .control
+        }
+    }
+}
+
+enum ProUsersExtraImages: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return ProUsersExtraImages.control.rawValue }
+    static var enumValues: [ProUsersExtraImages] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[Cars] allow up to 25 images to be displayed on the product detail page" } 
+    static func fromPosition(_ position: Int) -> ProUsersExtraImages {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
             default: return .control
         }
     }

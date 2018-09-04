@@ -74,6 +74,7 @@ protocol FeatureFlaggeable: class {
     var carPromoCells: CarPromoCells { get }
     var servicesPromoCells: ServicesPromoCells { get }
     var realEstatePromoCells: RealEstatePromoCells { get }
+    var proUsersExtraImages: ProUsersExtraImages { get }
     
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed { get }
@@ -176,6 +177,10 @@ extension ServicesPromoCells {
 }
 
 extension RealEstatePromoCells {
+    var isActive: Bool { return self != .control && self != .baseline }
+}
+
+extension ProUsersExtraImages {
     var isActive: Bool { return self != .control && self != .baseline }
 }
 
@@ -999,6 +1004,14 @@ extension FeatureFlags {
         }
         
         return RealEstatePromoCells.fromPosition(abTests.realEstatePromoCells.value)
+    }
+    
+    var proUsersExtraImages: ProUsersExtraImages {
+        if Bumper.enabled {
+            return Bumper.proUsersExtraImages
+        }
+        
+        return ProUsersExtraImages.fromPosition(abTests.proUserExtraImages.value)
     }
     
     var clickToTalkEnabled: ClickToTalk {
