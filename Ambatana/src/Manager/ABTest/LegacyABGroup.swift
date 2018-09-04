@@ -11,7 +11,6 @@ import Foundation
 struct LegacyABGroup: ABGroupType {
     private struct Keys {
         static let carsMultiReqEnabled = "newCarsMultiRequesterEnabled"
-        static let inAppRatingIOS10 = "20170711inAppRatingIOS10"
         static let userReviewsReportEnabled = "20170823userReviewsReportEnabled"
         static let appRatingDialogInactive = "20170831AppRatingDialogInactive"
         static let locationDataSourceType = "20170830LocationDataSourceType"
@@ -21,7 +20,6 @@ struct LegacyABGroup: ABGroupType {
     }
     
     let newCarsMultiRequesterEnabled: LeanplumABVariable<Bool>
-    let inAppRatingIOS10: LeanplumABVariable<Bool>
     let userReviewsReportEnabled: LeanplumABVariable<Bool>
     let appRatingDialogInactive: LeanplumABVariable<Bool>
     let locationDataSourceType: LeanplumABVariable<Int>
@@ -37,7 +35,6 @@ struct LegacyABGroup: ABGroupType {
     var boolVariables: [LeanplumABVariable<Bool>] = []
     
     init(newCarsMultiRequesterEnabled: LeanplumABVariable<Bool>,
-         inAppRatingIOS10: LeanplumABVariable<Bool>,
          userReviewsReportEnabled: LeanplumABVariable<Bool>,
          appRatingDialogInactive: LeanplumABVariable<Bool>,
          locationDataSourceType: LeanplumABVariable<Int>,
@@ -45,7 +42,6 @@ struct LegacyABGroup: ABGroupType {
          newItemPage: LeanplumABVariable<Int>,
          showAdsInFeedWithRatio: LeanplumABVariable<Int>) {
         self.newCarsMultiRequesterEnabled = newCarsMultiRequesterEnabled
-        self.inAppRatingIOS10 = inAppRatingIOS10
         self.userReviewsReportEnabled = userReviewsReportEnabled
         self.appRatingDialogInactive = appRatingDialogInactive
         self.locationDataSourceType = locationDataSourceType
@@ -58,14 +54,12 @@ struct LegacyABGroup: ABGroupType {
                                          newItemPage,
                                          showAdsInFeedWithRatio])
         boolVariables.append(contentsOf: [newCarsMultiRequesterEnabled,
-                                          inAppRatingIOS10,
                                           userReviewsReportEnabled,
                                           appRatingDialogInactive])
     }
     
     static func make() -> LegacyABGroup {
         return LegacyABGroup(newCarsMultiRequesterEnabled: .makeBool(key: Keys.carsMultiReqEnabled, defaultValue: false,  groupType: .legacyABTests),
-                             inAppRatingIOS10: .makeBool(key: Keys.inAppRatingIOS10, defaultValue: false, groupType: .legacyABTests),
                              userReviewsReportEnabled: .makeBool(key: Keys.userReviewsReportEnabled, defaultValue: true, groupType: .legacyABTests),
                              appRatingDialogInactive: .makeBool(key: Keys.appRatingDialogInactive, defaultValue: false, groupType: .legacyABTests),
                              locationDataSourceType: .makeInt(key: Keys.locationDataSourceType, defaultValue: 0, groupType: .legacyABTests),
