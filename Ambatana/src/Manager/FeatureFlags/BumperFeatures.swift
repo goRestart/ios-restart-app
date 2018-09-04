@@ -69,7 +69,6 @@ extension Bumper  {
         flags.append(BumpInEditCopys.self)
         flags.append(MultiAdRequestMoreInfo.self)
         flags.append(EnableJobsAndServicesCategory.self)
-        flags.append(CachedFeed.self)
         flags.append(CopyForSellFasterNowInTurkish.self)
         flags.append(NotificationCenterRedesign.self)
         flags.append(TurkeyFreePosting.self)
@@ -768,19 +767,6 @@ extension Bumper  {
     static var enableJobsAndServicesCategoryObservable: Observable<EnableJobsAndServicesCategory> {
         return Bumper.observeValue(for: EnableJobsAndServicesCategory.key).map {
             EnableJobsAndServicesCategory(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var cachedFeed: CachedFeed {
-        guard let value = Bumper.value(for: CachedFeed.key) else { return .control }
-        return CachedFeed(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var cachedFeedObservable: Observable<CachedFeed> {
-        return Bumper.observeValue(for: CachedFeed.key).map {
-            CachedFeed(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1746,22 +1732,6 @@ enum EnableJobsAndServicesCategory: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "[SERVICES] Services category becomes Jobs & Services, enables features related to jobs" } 
     static func fromPosition(_ position: Int) -> EnableJobsAndServicesCategory {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
-enum CachedFeed: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return CachedFeed.control.rawValue }
-    static var enumValues: [CachedFeed] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "[CORE] Show cached feed before requesting for a fresh one" } 
-    static func fromPosition(_ position: Int) -> CachedFeed {
         switch position { 
             case 0: return .control
             case 1: return .baseline

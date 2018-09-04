@@ -51,8 +51,6 @@ protocol FeatureFlaggeable: class {
     var alwaysShowBumpBannerWithLoading: AlwaysShowBumpBannerWithLoading { get }
     var showSellFasterInProfileCells: ShowSellFasterInProfileCells { get }
     var bumpInEditCopys: BumpInEditCopys { get }
-    // MARK: Core
-    var cachedFeed: CachedFeed { get }
 
     var copyForSellFasterNowInTurkish: CopyForSellFasterNowInTurkish { get }
     var multiAdRequestMoreInfo: MultiAdRequestMoreInfo { get }
@@ -1047,11 +1045,6 @@ extension FeatureFlags {
         return EmptySearchImprovements.fromPosition(abTests.emptySearchImprovements.value)
     }
 
-    var cachedFeed: CachedFeed {
-        if Bumper.enabled { return Bumper.cachedFeed }
-        return CachedFeed.fromPosition(abTests.cachedFeed.value)
-    }
-    
     var sectionedFeed: SectionedDiscoveryFeed {
         if Bumper.enabled {
             return Bumper.sectionedDiscoveryFeed
@@ -1089,10 +1082,6 @@ extension EmptySearchImprovements {
         case .popularNearYou, .similarQueries, .similarQueriesWhenFewResults, .alwaysSimilar: return R.Strings.listingShowSimilarResultsDescription
         }
     }
-}
-
-extension CachedFeed {
-    var isActive: Bool { return self == .active }
 }
 
 // MARK: Products
