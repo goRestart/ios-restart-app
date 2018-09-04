@@ -43,7 +43,9 @@ final class QuickChatView: UIView, UIGestureRecognizerDelegate {
 
     func setListingAs(interested: Bool) {
         chatButton.isHidden = !interested
+        chatButton.isUserInteractionEnabled = !chatButton.isHidden
         directAnswersView.isHidden = interested
+        chatButton.isUserInteractionEnabled = !directAnswersView.isHidden
     }
 
     func updateWith(bottomInset: CGFloat, animationTime: TimeInterval,
@@ -141,7 +143,7 @@ final class QuickChatView: UIView, UIGestureRecognizerDelegate {
             directAnswersViewBottom,
 
             chatButton.heightAnchor.constraint(equalToConstant: Layout.buttonHeight),
-            chatButton.bottomAnchor.constraint(equalTo: bottomAnchor),
+            chatButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Metrics.margin),
             chatButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metrics.margin),
             chatButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metrics.margin),
 

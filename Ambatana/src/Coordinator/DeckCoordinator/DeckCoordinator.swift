@@ -31,7 +31,6 @@ protocol DeckAnimator: class {
 final class DeckCoordinator: DeckWithPhotoViewerNavigator, ListingDeckOnBoardingNavigator, DeckAnimator {
 
     fileprivate weak var navigationController: UINavigationController?
-    weak var listingDetailNavigator: ListingDetailNavigator?
 
     var interactiveTransitioner: UIPercentDrivenInteractiveTransition?
     
@@ -44,12 +43,10 @@ final class DeckCoordinator: DeckWithPhotoViewerNavigator, ListingDeckOnBoarding
     }
 
     func showListingDetail(listing: Listing, visitSource: EventParameterListingVisitSource) {
-        let vm = ListingDetailViewModel(withListing: listing, visitSource: visitSource)
-        vm.navigator = self
-        vm.listingViewModel.navigator = listingDetailNavigator
-        let vc = ListingDetailViewController(viewModel: vm)
-
-        navigationController?.pushViewController(vc, animated: true)
+        guard let nc = navigationController else { return }
+        let vc = ListingBuilder.standard(nc).buildListingDetail(for: listing,
+                                                                source: visitSource)
+        nc.pushViewController(vc, animated: true)
     }
 
     func closeDetail() {

@@ -8,7 +8,8 @@ final class ListingDetailViewController: BaseViewController {
     private enum Layout {
         static let buttonSize = CGSize(width: 40, height: 40)
     }
-    let detailView = ListingDetailView()
+    fileprivate let detailView = ListingDetailView()
+
     let viewModel: ListingDetailViewModel
     private let disposeBag = DisposeBag()
 
@@ -26,8 +27,10 @@ final class ListingDetailViewController: BaseViewController {
         self.edgesForExtendedLayout = .all
         self.automaticallyAdjustsScrollViewInsets = false
         self.extendedLayoutIncludesOpaqueBars = true
+        self.hidesBottomBarWhenPushed = true
     }
 
+    @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) { fatalError("Die xibs, die") }
 
     override func loadView() {

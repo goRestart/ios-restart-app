@@ -5,11 +5,13 @@ import RxSwift
 import RxCocoa
 
 final class ListingDetailViewModel: BaseViewModel {
-
-    weak var navigator: DeckNavigator?
+    var navigator: ListingFullDetailNavigator?
+    var listingDetailNavigator: ListingDetailNavigator? {
+        didSet { listingViewModel.navigator = listingDetailNavigator }
+    }
 
     lazy var listingViewModel: ListingViewModel = maker.make(listing: listing,
-                                                             navigator: nil, // TODO: connect with screen
+                                                             navigator: listingDetailNavigator,
                                                              visitSource: visitSource)
     private let maker: ListingViewModelMaker
     private let listing: Listing
@@ -41,6 +43,11 @@ final class ListingDetailViewModel: BaseViewModel {
         if firstTime {
             listingViewModel.active = true
         }
+    }
+
+    override func didBecomeInactive() {
+        super.didBecomeInactive()
+        listingViewModel.active = false
     }
 
     func closeDetail() {
