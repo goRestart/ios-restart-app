@@ -82,6 +82,7 @@ extension Bumper  {
         flags.append(ServicesPromoCells.self)
         flags.append(ImInterestedInProfile.self)
         flags.append(ClickToTalk.self)
+        flags.append(MakeAnOfferButton.self)
         Bumper.initialize(flags)
     } 
 
@@ -939,6 +940,19 @@ extension Bumper  {
     static var clickToTalkObservable: Observable<ClickToTalk> {
         return Bumper.observeValue(for: ClickToTalk.key).map {
             ClickToTalk(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var makeAnOfferButton: MakeAnOfferButton {
+        guard let value = Bumper.value(for: MakeAnOfferButton.key) else { return .control }
+        return MakeAnOfferButton(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var makeAnOfferButtonObservable: Observable<MakeAnOfferButton> {
+        return Bumper.observeValue(for: MakeAnOfferButton.key).map {
+            MakeAnOfferButton(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1988,6 +2002,22 @@ enum ClickToTalk: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "[VERTICALS] Show Click to talk" } 
     static func fromPosition(_ position: Int) -> ClickToTalk {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum MakeAnOfferButton: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return MakeAnOfferButton.control.rawValue }
+    static var enumValues: [MakeAnOfferButton] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[P2P PAYMENTS] Show make an offer button" } 
+    static func fromPosition(_ position: Int) -> MakeAnOfferButton {
         switch position { 
             case 0: return .control
             case 1: return .baseline

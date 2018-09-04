@@ -94,6 +94,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var simplifiedChatButton: SimplifiedChatButton = .control
     var frictionlessShare: FrictionlessShare = .control
     var turkeyFreePosting: TurkeyFreePosting = .control
+    var makeAnOfferButton: MakeAnOfferButton = .control
 
     // MARK: Users
     var showPasswordlessLogin: ShowPasswordlessLogin = .control
