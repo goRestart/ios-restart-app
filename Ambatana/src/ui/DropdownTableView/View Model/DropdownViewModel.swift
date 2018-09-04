@@ -31,15 +31,22 @@ final class DropdownViewModel {
     private var isFilterActive: Bool = false
     weak var delegate: DropdownViewModelDelegate?
     
+    private let featureFlags: FeatureFlaggeable
+    private var maxAlertTitle: String {
+        return featureFlags.jobsAndServicesEnabled.isActive ? R.Strings.filtersJobsServicesListMaxSelectionAlert : R.Strings.filtersServicesServicesListMaxSelectionAlert
+    }
+    
     init(screenTitle: String,
          searchPlaceholderTitle: String,
          attributes: [DropdownSectionViewModel],
-         buttonAction: ((DropdownSelectedItems?) -> Void)?) {
+         buttonAction: ((DropdownSelectedItems?) -> Void)?,
+         featureFlags: FeatureFlaggeable) {
         self.screenTitle = screenTitle
         self.searchPlaceholderTitle = searchPlaceholderTitle
         self.initialSelectedItems = attributes.selectedSectionItems
         self.attributes = attributes
         self.buttonAction = buttonAction
+        self.featureFlags = featureFlags
     }
 
     
@@ -90,7 +97,7 @@ final class DropdownViewModel {
                 delegate?.selectRow(atIndexPath: indexPath)
             } else {
                 delegate?.deselectRow(atIndexPath: indexPath)
-                showAlert(withTitle: R.Strings.filtersServicesServicesListMaxSelectionAlert)
+                showAlert(withTitle: maxAlertTitle)
             }
         case .header:
             if !isFilterActive {

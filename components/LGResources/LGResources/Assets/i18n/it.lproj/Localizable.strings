@@ -448,6 +448,7 @@
 "filters_cars_transmission_title" = "Cambio";
 "filters_distance_not_set" = "non impostato";
 "filters_jobs_services_header" = "Informazioni sul servizio o lavoro";
+"filters_jobs_services_list_max_selection_alert" = "Ops! Non è possibile selezionare più di 15 opzioni.";
 "filters_jobs_services_subtype_title" = "Sottotipo";
 "filters_jobs_services_toggle_header" = "In cerca di...";
 "filters_jobs_services_type_title" = "Tipo";
@@ -759,6 +760,10 @@
 "post_description_name_placeholder" = "Nome";
 "post_description_save_button_text" = "Salva questo annuncio!";
 "post_details_jobs_services_camera_message" = "Pubblica il logo della tua azienda o una foto che mostri il servizio o il lavoro da te offerto";
+"post_details_jobs_services_congratulation_add_more_details" = "aggiungendo altri dettagli:";
+"post_details_jobs_services_congratulation_improve_listing" = "Migliora il tuo annuncio";
+"post_details_jobs_services_congratulation_people_nearby_first" = "Persone nella tua zona stanno";
+"post_details_jobs_services_congratulation_people_nearby_second" = "cercando anche:";
 "post_details_jobs_services_step_option_jobs_prefix" = "Alla ricerca di assumere qualcuno per un";
 "post_details_jobs_services_step_option_services_prefix" = "Pubblicizza un";
 "post_details_jobs_services_step_title" = "Sono un/una...";
@@ -1049,6 +1054,9 @@
 "profile_sold_no_products_label" = "ANCORA NESSUN ANNUNCIO!";
 "profile_sold_other_no_products_button" = "Continua la consultazione";
 "profile_sold_products_tab" = "Venduto";
+"profile_verifications_awareness_view_bold_text" = "Here's a pro tip";
+"profile_verifications_awareness_view_button" = "Complete profile";
+"profile_verifications_awareness_view_text" = "%@ - did you know that verified users make better deals?\n\nComplete and verify your profile today!";
 "profile_verifications_email_placeholder" = "Email";
 "profile_verifications_email_view_title" = "Verifica il tuo indirizzo email";
 "profile_verifications_send_button" = "Invia";
@@ -1356,6 +1364,7 @@
 "sell_title_autogen_label" = "Titolo suggerito da letgo";
 "sell_title_field_hint" = "Titolo (facoltativo)";
 "sell_uploading_label" = "Pubblicazione annuncio...";
+"services_promo_call_to_action" = "Pubblica un servizio";
 "services_promo_cell_title_b" = "Nuova categoria nei servizi!";
 "services_promo_cell_title_c" = "Trova clienti nella zona per il servizio da te offerto";
 "services_promo_cell_title_default_bold" = "Guadagna denaro";
@@ -1397,6 +1406,8 @@
 "settings_section_promote" = "Promuovi";
 "settings_section_support" = "Supporto";
 "settings_title" = "Impostazioni";
+"share_screenshot_description" = "Adesso è pronto per essere condiviso:";
+"share_screenshot_title" = "Screenshot salvato!";
 "sign_up_acceptance_error" = "Per registrarti devi accettare i Termini e condizioni e l'Informativa sulla privacy";
 "sign_up_email_field_hint" = "Email";
 "sign_up_email_step1_continue_button" = "Continua";

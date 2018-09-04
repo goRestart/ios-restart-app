@@ -153,7 +153,6 @@ extension ABTests {
 extension ABTests {
     var searchImprovements: LeanplumABVariable<Int> { return core.searchImprovements }
     var relaxedSearch: LeanplumABVariable<Int> { return core.relaxedSearch }
-    var cachedFeed: LeanplumABVariable<Int> { return core.cachedFeed }
 }
 
 //  MARK: Chat
@@ -237,9 +236,7 @@ extension ABTests {
 //  MARK: Legacy
 
 extension ABTests {
-    var marketingPush: LeanplumABVariable<Int> { return legacy.marketingPush }
     var newCarsMultiRequesterEnabled: LeanplumABVariable<Bool> { return legacy.newCarsMultiRequesterEnabled }
-    var inAppRatingIOS10: LeanplumABVariable<Bool> { return legacy.inAppRatingIOS10 }
     var userReviewsReportEnabled: LeanplumABVariable<Bool> { return legacy.userReviewsReportEnabled }
     var appRatingDialogInactive: LeanplumABVariable<Bool> { return legacy.appRatingDialogInactive }
     var locationDataSourceType: LeanplumABVariable<Int> { return legacy.locationDataSourceType }

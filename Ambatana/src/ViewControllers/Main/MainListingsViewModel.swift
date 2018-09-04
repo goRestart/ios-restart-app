@@ -384,10 +384,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     }
     
     private var isCurrentFeedACachedFeed: Bool = false {
-        didSet {
-            guard featureFlags.cachedFeed.isActive else { return }
-            isFreshBubbleVisible.value = isCurrentFeedACachedFeed
-        }
+        didSet { isFreshBubbleVisible.value = isCurrentFeedACachedFeed }
     }
     
     fileprivate let disposeBag = DisposeBag()
@@ -399,11 +396,9 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         let hasSearchQuery = searchType?.text != nil
         return isThereLoggedUser && hasSearchQuery
     }
-    var shouldSetupFeedBubble: Bool { return featureFlags.cachedFeed.isActive }
     private var shouldFetchCache: Bool {
-        let abTestActive = featureFlags.cachedFeed.isActive
         let isEmpty = listViewModel.isListingListEmpty.value
-        return abTestActive && !isCurrentFeedACachedFeed && isEmpty && !hasFilters
+        return !isCurrentFeedACachedFeed && isEmpty && !hasFilters
     }
 
     private var shouldDisableOldestSearchAlertIfMaximumReached: Bool {

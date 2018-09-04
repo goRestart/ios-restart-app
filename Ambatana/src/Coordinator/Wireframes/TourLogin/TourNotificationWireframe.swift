@@ -20,7 +20,7 @@ final class TourNotificationWireframe: TourNotificationsNavigator {
         self.init(nc: nc, action: action,
                   locationManager: Core.locationManager,
                   featureFlags: FeatureFlags.sharedInstance,
-                  assembly: TourBuilder.standard(nc: nc),
+                  assembly: TourBuilder.standard(nc),
                   skipper: skipper)
     }
 
@@ -46,7 +46,7 @@ final class TourNotificationWireframe: TourNotificationsNavigator {
     }
 
     func closeTour() {
-        action(TourPosting(posting: false, source: nil))
+        tourNotificationsFinish()
     }
 
     func tourNotificationsFinish() {

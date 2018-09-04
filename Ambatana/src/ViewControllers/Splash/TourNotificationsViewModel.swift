@@ -20,6 +20,8 @@ final class TourNotificationsViewModel: BaseViewModel {
     var showPushInfo: Bool { return false }
     var showAlertInfo: Bool { return !showPushInfo }
     var infoImage: UIImage? { return R.Asset.IPhoneParts.imgPermissionsBackground.image }
+
+    private var pushDialogWasShown = false
     
     init(title: String, subtitle: String, pushText: String, source: PrePermissionType, featureFlags: FeatureFlags) {
         self.title = title
@@ -34,10 +36,7 @@ final class TourNotificationsViewModel: BaseViewModel {
     }
 
     func nextStep() -> TourNotificationNextStep? {
-        guard navigator == nil else {
-            navigator?.tourNotificationsFinish()
-            return nil
-        }
+        guard navigator != nil else { return .noStep }
         switch source {
         case .onboarding:
             return Core.locationManager.shouldAskForLocationPermissions() ? .location : .noStep
@@ -46,6 +45,24 @@ final class TourNotificationsViewModel: BaseViewModel {
         }
     }
 
+    override func didBecomeActive(_ firstTime: Bool) {
+        super.didBecomeActive(firstTime)
+        if pushDialogWasShown {
+            openNextStep()
+        }
+    }
+
+    @objc func didRegisterUserNotificationSettings() {
+        DispatchQueue
+            .main
+            .asyncAfter(deadline: .now() + .milliseconds(500)) { [weak self] in
+                self?.openNextStep()
+        }
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
     
     // MARK: - Tracking
     
@@ -59,6 +76,7 @@ final class TourNotificationsViewModel: BaseViewModel {
 
     func cancelAlertTapped() {
         trackCloseTourNotifications()
+        openNextStep()
     }
 
     func okAlertTapped() {
@@ -66,9 +84,11 @@ final class TourNotificationsViewModel: BaseViewModel {
     }
 
     func userDidTapYesButton() {
+        pushDialogWasShown = true
+
         requestPermissionAccepted()
         trackAskPermissions()
-        requestPermissionFinished()
+        openNextStep()
     }
     
     // MARK: - Private methods
@@ -91,12 +111,13 @@ final class TourNotificationsViewModel: BaseViewModel {
 }
 
 extension TourNotificationsViewModel {
-    private func requestPermissionFinished() {
-        openNextStep()
-    }
-
     private func requestPermissionAccepted() {
         LGPushPermissionsManager.sharedInstance.showPushPermissionsAlert(prePermissionType: .onboarding)
+        let name = NSNotification.Name(rawValue: PushManager.Notification.DidRegisterUserNotificationSettings.rawValue)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(didRegisterUserNotificationSettings),
+                                               name: name,
+                                               object: nil)
     }
 
     func openNextStep() {

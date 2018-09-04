@@ -90,7 +90,7 @@ final class ListingListViewModel: BaseViewModel {
     private let interestedStateUpdater: InterestedStateUpdater?
 
     // Requesters
-    private lazy var shouldSaveToCache = featureFlags.cachedFeed.isActive
+    private var shouldSaveToCache = true
     private let listingCache: ListingListCache
 
     /// A list of requester to try in sequence in case the previous
