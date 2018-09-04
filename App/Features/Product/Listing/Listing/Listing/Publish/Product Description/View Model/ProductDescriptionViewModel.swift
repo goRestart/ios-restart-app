@@ -1,8 +1,9 @@
-import RxSwift
 import Domain
+import RxSwift
+import RxCocoa
 
 struct ProductDescriptionViewModel: ProductDescriptionViewModelType, ProductDescriptionViewModelInput, ProductDescriptionViewModelOutput {
-
+ 
   var input: ProductDescriptionViewModelInput { return self }
   var output: ProductDescriptionViewModelOutput { return self }
 
@@ -18,21 +19,31 @@ struct ProductDescriptionViewModel: ProductDescriptionViewModelType, ProductDesc
   
   // MARK: - Output
 
-  var description = BehaviorSubject<String>(value: "")
-  var nextStepEnabled: Observable<Bool> {
-    return description.map { !$0.trimmed.isEmpty }
+  var nextStepEnabled: Driver<Bool> {
+    return descriptionSubject.map { !$0.trimmed.isEmpty }
+      .asDriver(onErrorJustReturn: false)
+  }
+  
+  var description: Driver<String> {
+    return descriptionSubject.asDriver(onErrorJustReturn: "")
   }
   
   // MARK: - Input
 
+  private let descriptionSubject = BehaviorSubject<String>(value: "")
+
   func viewWillAppear() {
     guard let savedDescription = productDraft.get().description else { return }
-    description.onNext(savedDescription)
+    descriptionSubject.onNext(savedDescription)
+  }
+
+  func onChange(description: String) {
+    descriptionSubject.onNext(description)
   }
   
   func onNextStepPressed() {
     productDraft.save(
-      description: try! description.value()
+      description: try! descriptionSubject.value()
     )
     productPriceNavigator.navigate()
   }
