@@ -111,14 +111,14 @@
 		0904D8A3213F310C00D5D554 /* P2PPaymentsCreateOfferViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0904D893213F310C00D5D554 /* P2PPaymentsCreateOfferViewModel.swift */; };
 		09129E4D211AEF86004B84E9 /* P2PPaymentsOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09129E4C211AEF86004B84E9 /* P2PPaymentsOnboardingViewController.swift */; };
 		09129E4E211AEF86004B84E9 /* P2PPaymentsOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09129E4C211AEF86004B84E9 /* P2PPaymentsOnboardingViewController.swift */; };
-		09129E50211AF037004B84E9 /* P2PPaymentsOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09129E4F211AF037004B84E9 /* P2PPaymentsOnboardingView.swift */; };
-		09129E51211AF037004B84E9 /* P2PPaymentsOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09129E4F211AF037004B84E9 /* P2PPaymentsOnboardingView.swift */; };
 		097EDBE1213CFE460057D638 /* P2PPaymentsWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097EDBE0213CFE460057D638 /* P2PPaymentsWireframe.swift */; };
 		097EDBE2213CFE4B0057D638 /* P2PPaymentsWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097EDBE0213CFE460057D638 /* P2PPaymentsWireframe.swift */; };
 		097EDBE5213CFF180057D638 /* LGP2PPaymentsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097EDBE4213CFF180057D638 /* LGP2PPaymentsBuilder.swift */; };
 		097EDBE6213CFF3D0057D638 /* LGP2PPaymentsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097EDBE4213CFF180057D638 /* LGP2PPaymentsBuilder.swift */; };
 		097EDBE8213CFF6D0057D638 /* P2PPaymentsOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097EDBE7213CFF6D0057D638 /* P2PPaymentsOnboardingViewModel.swift */; };
 		097EDBE9213CFF6D0057D638 /* P2PPaymentsOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097EDBE7213CFF6D0057D638 /* P2PPaymentsOnboardingViewModel.swift */; };
+		098F1BC0213F669E004B72C9 /* P2PPaymentsOnboardingTraitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 098F1BBF213F669E004B72C9 /* P2PPaymentsOnboardingTraitView.swift */; };
+		098F1BC1213F669E004B72C9 /* P2PPaymentsOnboardingTraitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 098F1BBF213F669E004B72C9 /* P2PPaymentsOnboardingTraitView.swift */; };
 		09D7BC7E20EB62950090E499 /* StripeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D7BC7D20EB62950090E499 /* StripeManager.swift */; };
 		09D7BC7F20EB62950090E499 /* StripeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D7BC7D20EB62950090E499 /* StripeManager.swift */; };
 		0A00F9C61FA3656600E915F4 /* ListingDeckViewControllerBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A00F9C31FA364B100E915F4 /* ListingDeckViewControllerBinder.swift */; };
@@ -2415,10 +2415,10 @@
 		0904D892213F310C00D5D554 /* P2PPaymentsCreateOfferView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PPaymentsCreateOfferView.swift; sourceTree = "<group>"; };
 		0904D893213F310C00D5D554 /* P2PPaymentsCreateOfferViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PPaymentsCreateOfferViewModel.swift; sourceTree = "<group>"; };
 		09129E4C211AEF86004B84E9 /* P2PPaymentsOnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOnboardingViewController.swift; sourceTree = "<group>"; };
-		09129E4F211AF037004B84E9 /* P2PPaymentsOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOnboardingView.swift; sourceTree = "<group>"; };
 		097EDBE0213CFE460057D638 /* P2PPaymentsWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PPaymentsWireframe.swift; sourceTree = "<group>"; };
 		097EDBE4213CFF180057D638 /* LGP2PPaymentsBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGP2PPaymentsBuilder.swift; sourceTree = "<group>"; };
 		097EDBE7213CFF6D0057D638 /* P2PPaymentsOnboardingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOnboardingViewModel.swift; sourceTree = "<group>"; };
+		098F1BBF213F669E004B72C9 /* P2PPaymentsOnboardingTraitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOnboardingTraitView.swift; sourceTree = "<group>"; };
 		09D7BC7D20EB62950090E499 /* StripeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripeManager.swift; sourceTree = "<group>"; };
 		0A00F9C31FA364B100E915F4 /* ListingDeckViewControllerBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckViewControllerBinder.swift; sourceTree = "<group>"; };
 		0A04D5C420760A9C00471B9D /* CoreABGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreABGroup.swift; sourceTree = "<group>"; };
@@ -3805,9 +3805,9 @@
 		09129E4B211AEF68004B84E9 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
+				098F1BBE213F6671004B72C9 /* Subviews */,
 				097EDBE7213CFF6D0057D638 /* P2PPaymentsOnboardingViewModel.swift */,
 				09129E4C211AEF86004B84E9 /* P2PPaymentsOnboardingViewController.swift */,
-				09129E4F211AF037004B84E9 /* P2PPaymentsOnboardingView.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -3826,6 +3826,14 @@
 				097EDBE4213CFF180057D638 /* LGP2PPaymentsBuilder.swift */,
 			);
 			path = P2PPayments;
+			sourceTree = "<group>";
+		};
+		098F1BBE213F6671004B72C9 /* Subviews */ = {
+			isa = PBXGroup;
+			children = (
+				098F1BBF213F669E004B72C9 /* P2PPaymentsOnboardingTraitView.swift */,
+			);
+			path = Subviews;
 			sourceTree = "<group>";
 		};
 		09D7BC7C20EB62800090E499 /* Payments */ = {
@@ -9163,7 +9171,6 @@
 				C7B5884B1CE1DE1C009B3975 /* ChatViewModel.swift in Sources */,
 				727EF0691E0AF0220037DA4E /* LocationManager+LG.swift in Sources */,
 				2E373FAA1D3D135D00AC811C /* UserRatingListRequester.swift in Sources */,
-				09129E50211AF037004B84E9 /* P2PPaymentsOnboardingView.swift in Sources */,
 				C7126BD71E6053AA00038CC4 /* ListingViewModel.swift in Sources */,
 				2E4ADEC6200515FC00D07D8A /* FeaturedInfoViewModel.swift in Sources */,
 				0183496D204F6A8900B14A24 /* BlockingPostingListingEditionViewController.swift in Sources */,
@@ -9206,6 +9213,7 @@
 				0A6FECD42130344000B57004 /* ProfessionalDealerAskPhoneNavigator.swift in Sources */,
 				0904D898213F310C00D5D554 /* P2PPaymentsCreateOfferViewController.swift in Sources */,
 				3299E5E7207FB7AB002935AE /* WaterFallLayoutSettings.swift in Sources */,
+				098F1BC0213F669E004B72C9 /* P2PPaymentsOnboardingTraitView.swift in Sources */,
 				8E80F70A20D9390A005256D9 /* ChatBaseViewController.swift in Sources */,
 				32448E6F2100E64F00EFF33A /* ListingTimeFilter.swift in Sources */,
 				C7111F081CA4458F000C5C5A /* ShortcutItem.swift in Sources */,
@@ -10306,7 +10314,6 @@
 				01A171BE208DD1A300C98D4C /* SearchAlertsListViewController.swift in Sources */,
 				C7DE8AD21C888761005CF37E /* SellListingCell.swift in Sources */,
 				8E7F4FDE2119A856004E70C5 /* ConversationCellData.swift in Sources */,
-				09129E51211AF037004B84E9 /* P2PPaymentsOnboardingView.swift in Sources */,
 				6AA26CFE1CFDBA7600546063 /* ChatDisclaimerCellDrawer.swift in Sources */,
 				0A8732EF212160EF006DEF11 /* ChangePasswordBuilder.swift in Sources */,
 				2E131C6C1DEDE998004D26DC /* LGPurchasesShopper.swift in Sources */,
@@ -10341,6 +10348,7 @@
 				501495EF1D895B5800AC67CA /* DiscoverListingListRequester.swift in Sources */,
 				6A5E19FF1D548F5400F92692 /* LGLocationCoordinates2D+Distance.swift in Sources */,
 				0A6FECC72130344000B57004 /* RateBuyersNavigator.swift in Sources */,
+				098F1BC1213F669E004B72C9 /* P2PPaymentsOnboardingTraitView.swift in Sources */,
 				2E303F4A207BAD7300C2CE1D /* CellMapViewer.swift in Sources */,
 				425B40A820A99981000968CF /* MKMapView+Location.swift in Sources */,
 				0A04D5D420760A9D00471B9D /* MoneyABGroup.swift in Sources */,
