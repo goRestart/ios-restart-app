@@ -4,7 +4,7 @@ import RxSwift
 import RxCocoa
 import PassKit
 
-// TODO: @juolgon Locaalize all texts
+// TODO: @juolgon Localize all texts
 
 final class P2PPaymentsCreateOfferViewController: BaseViewController {
     var viewModel: P2PPaymentsCreateOfferViewModel
@@ -18,6 +18,7 @@ final class P2PPaymentsCreateOfferViewController: BaseViewController {
     private let activityIndicator: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(activityIndicatorStyle: .gray)
         view.hidesWhenStopped = true
+        view.startAnimating()
         return view
     }()
 
@@ -35,12 +36,12 @@ final class P2PPaymentsCreateOfferViewController: BaseViewController {
 
     override func loadView() {
         view = UIView()
-        setup()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
+        setup()
     }
 
     private func setup() {
@@ -48,6 +49,7 @@ final class P2PPaymentsCreateOfferViewController: BaseViewController {
         setupConstraints()
         setupKeyboardHelper()
         hideAllViews()
+        setupRx()
     }
 
     private func setupConstraints() {
@@ -102,6 +104,37 @@ final class P2PPaymentsCreateOfferViewController: BaseViewController {
         changeOfferView.isHidden = true
         setupPaymentButton.isHidden = true
         buyButton.isHidden = true
+    }
+
+    private func setupRx() {
+        let bindings = [
+            viewModel.listingImageViewURL.drive(headerView.rx.imageURL),
+            viewModel.listingTitle.drive(headerView.rx.title),
+            viewModel.priceAmountText.drive(buyerInfoView.rx.priceText),
+            viewModel.feeAmountText.drive(buyerInfoView.rx.feeText),
+            viewModel.totalAmountText.drive(buyerInfoView.rx.totalText),
+            viewModel.feePercentageText.drive(buyerInfoView.rx.feePercentageText),
+            viewModel.uiState.map { $0 == .loading }.drive(activityIndicator.rx.isAnimating),
+            viewModel.uiState.map { $0 != .buy }.drive(buyerInfoView.rx.isHidden),
+            viewModel.uiState.map { $0 != .changeOffer }.drive(changeOfferView.rx.isHidden),
+            viewModel.uiState.map { $0 == .changeOffer }.drive(changeOfferView.rx.isFocused),
+            viewModel.currencyCode.drive(changeOfferView.rx.currencyCode),
+            viewModel.offerAmount.drive(changeOfferView.rx.value),
+        ]
+        bindings.forEach { [disposeBag] in $0.disposed(by: disposeBag) }
+
+        buyerInfoView.rx.changeButtonTap
+            .subscribe(onNext: { [weak self] _ in
+                self?.viewModel.changeOfferButtonPressed()
+            })
+            .disposed(by: disposeBag)
+
+        changeOfferView.rx.changeOfferButtonTap
+            .subscribe(onNext: { [weak self] _ in
+                guard let newValue = self?.changeOfferView.value else { return }
+                self?.viewModel.changeOfferDoneButtonPressed(newValue: newValue)
+            })
+            .disposed(by: disposeBag)
     }
 
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
