@@ -110,5 +110,7 @@ final class ListingCardView: UICollectionViewCell, ReusableCell {
         super.apply(layoutAttributes)
         contentView.layer.cornerRadius = Metrics.margin
         previewImageView.layer.cornerRadius = Metrics.margin
+        applyShadow(withOpacity: 0.15, radius: Metrics.margin)
+        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: Metrics.margin).cgPath
     }
 }
