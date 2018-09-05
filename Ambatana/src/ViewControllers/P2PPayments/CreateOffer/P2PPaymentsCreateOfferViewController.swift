@@ -7,6 +7,14 @@ import RxCocoa
 
 final class P2PPaymentsCreateOfferViewController: BaseViewController {
     var viewModel: P2PPaymentsCreateOfferViewModel
+
+    private let headerView = P2PPaymentsListingHeaderView()
+    private let lineSeparatorView = P2PPaymentsLineSeparatorView()
+    private let changeOfferView = P2PPaymentsChangeOfferView()
+    private let offerFeesView = P2PPaymentsOfferFeesView()
+
+    private var bottomContraint: NSLayoutConstraint?
+    private let keyboardHelper = KeyboardHelper()
     private let disposeBag = DisposeBag()
 
     init(viewModel: P2PPaymentsCreateOfferViewModel) {
@@ -19,7 +27,7 @@ final class P2PPaymentsCreateOfferViewController: BaseViewController {
 
     override func loadView() {
         view = UIView()
-        setupUI()
+        setup()
     }
 
     override func viewDidLoad() {
@@ -27,7 +35,40 @@ final class P2PPaymentsCreateOfferViewController: BaseViewController {
         view.backgroundColor = UIColor.white
     }
 
-    private func setupUI() {
+    private func setup() {
+        view.addSubviewsForAutoLayout([headerView, lineSeparatorView, changeOfferView])
+        setupConstraints()
+        setupKeyboardHelper()
+    }
+
+    private func setupConstraints() {
+        bottomContraint = changeOfferView.bottomAnchor.constraint(equalTo: view.safeBottomAnchor)
+        NSLayoutConstraint.activate([
+            headerView.topAnchor.constraint(equalTo: view.safeTopAnchor, constant: 4),
+            headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+
+            lineSeparatorView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 24),
+            lineSeparatorView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
+            lineSeparatorView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
+
+            changeOfferView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            changeOfferView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            changeOfferView.topAnchor.constraint(equalTo: lineSeparatorView.bottomAnchor, constant: 12),
+            bottomContraint!
+        ])
+    }
+
+    private func setupKeyboardHelper() {
+        keyboardHelper
+            .rx_keyboardHeight
+            .asDriver()
+            .skip(1)
+            .distinctUntilChanged()
+            .drive(onNext: { [weak self] height in
+                self?.bottomContraint?.constant = -height
+                self?.view.layoutIfNeeded()
+            }).disposed(by: disposeBag)
     }
 
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
