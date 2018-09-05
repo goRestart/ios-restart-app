@@ -19,6 +19,8 @@ final class P2PPaymentsCreateOfferBuyerInfoView: UIView {
     }()
 
     private let buyerProtectionView = BuyerProtectionView()
+    private let offerFeesView = P2PPaymentsOfferFeesView()
+    private let lineSeparatorView = P2PPaymentsLineSeparatorView()
 
     init() {
         super.init(frame: .zero)
@@ -29,18 +31,27 @@ final class P2PPaymentsCreateOfferBuyerInfoView: UIView {
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     private func setup() {
-        addSubviewsForAutoLayout([escrowInfoLabel, buyerProtectionView])
+        addSubviewsForAutoLayout([offerFeesView, lineSeparatorView, escrowInfoLabel, buyerProtectionView])
         setupConstraints()
     }
 
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            escrowInfoLabel.topAnchor.constraint(equalTo: topAnchor),
-            escrowInfoLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
-            escrowInfoLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            offerFeesView.topAnchor.constraint(equalTo: topAnchor),
+            offerFeesView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
+            offerFeesView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
+
+            lineSeparatorView.topAnchor.constraint(equalTo: offerFeesView.bottomAnchor, constant: 12),
+            lineSeparatorView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
+            lineSeparatorView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12),
+
+            escrowInfoLabel.topAnchor.constraint(equalTo: lineSeparatorView.bottomAnchor, constant: 12),
+            escrowInfoLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
+            escrowInfoLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
+
             buyerProtectionView.topAnchor.constraint(equalTo: escrowInfoLabel.bottomAnchor, constant: Layout.buyerProtectionTopMargin),
-            buyerProtectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            buyerProtectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            buyerProtectionView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
+            buyerProtectionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
             buyerProtectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
