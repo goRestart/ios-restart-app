@@ -18,7 +18,7 @@ final class ListingsMapViewModel: BaseViewModel {
     private let disposeBag = DisposeBag()
     
     private let tracker: Tracker
-    private let navigator: ListingsMapNavigator
+    var navigator: ListingsMapNavigator?
     private let myUserRepository: MyUserRepository
     private var productFilter : ListingFilters
     private let featureFlags: FeatureFlaggeable
@@ -31,23 +31,19 @@ final class ListingsMapViewModel: BaseViewModel {
     let isLoading = Variable(false)
     let errorMessage = Variable<String?>(nil)
 
-    convenience init(navigator: ListingsMapNavigator,
-                     currentFilters: ListingFilters) {
-        self.init(navigator: navigator,
-                  tracker: TrackerProxy.sharedInstance,
+    convenience init(currentFilters: ListingFilters) {
+        self.init(tracker: TrackerProxy.sharedInstance,
                   myUserRepository: Core.myUserRepository,
                   locationManager: Core.locationManager,
                   currentFilters: currentFilters,
                   featureFlags: FeatureFlags.sharedInstance)
     }
 
-    init(navigator: ListingsMapNavigator,
-         tracker: Tracker,
+    init(tracker: Tracker,
          myUserRepository: MyUserRepository,
          locationManager: LocationManager,
          currentFilters: ListingFilters,
          featureFlags: FeatureFlaggeable) {
-        self.navigator = navigator
         self.tracker = tracker
         self.locationManager = locationManager
         self.productFilter = currentFilters
@@ -133,7 +129,7 @@ final class ListingsMapViewModel: BaseViewModel {
     }
     
     func open(_ listingData: ListingDetailData) {
-        navigator.openListing(listingData, source: .map, actionOnFirstAppear: .nonexistent)
+        navigator?.openListing(listingData, source: .map, actionOnFirstAppear: .nonexistent)
     }
     
     private func trackListingMapDetail(_ listing: Listing) {

@@ -611,8 +611,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     
     func showMap() {
         wireframe?.openMap(requester: listingListRequester,
-                        listingFilters: filters,
-                        searchNavigator: searchNavigator as! ListingsMapNavigator)
+                        listingFilters: filters)
     }
     
     /**
