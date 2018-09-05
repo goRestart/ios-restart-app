@@ -1676,15 +1676,15 @@ fileprivate extension ChatViewModel {
 fileprivate extension ChatViewModel {
 
     func trackLetgoServiceMessageReceived() {
-        guard let listingId = conversation.value.listing?.objectId,
-            let lastMessage = messages.value.first
-            else { return }
+        guard let lastMessage = messages.value.first else { return }
         if case .multiAnswer(let question, _) = lastMessage.type,
             let questionKey = question.key {
-            tracker.trackEvent(TrackerEvent.chatLetgoServiceQuestionReceived(questionKey: questionKey, listingId: listingId))
+            tracker.trackEvent(TrackerEvent.chatLetgoServiceQuestionReceived(questionKey: questionKey,
+                                                                             listingId: conversation.value.listing?.objectId))
         } else if case .cta(let data, _) = lastMessage.type,
             let key = data.key {
-            tracker.trackEvent(TrackerEvent.chatLetgoServiceCTAReceived(questionKey: key, listingId: listingId))
+            tracker.trackEvent(TrackerEvent.chatLetgoServiceCTAReceived(questionKey: key,
+                                                                        listingId: conversation.value.listing?.objectId))
         }
     }
     
