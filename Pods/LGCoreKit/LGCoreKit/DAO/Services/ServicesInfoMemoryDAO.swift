@@ -2,12 +2,19 @@ final class ServicesInfoMemoryDAO: ServicesInfoDAO, ServicesInfoRetrievable {
 
     private var serviceTypesList: [ServiceType] = []
     
+    var isExpired: Bool {
+        return false // The app won't be in memory for several days so technically it never expires
+    }
+
     var servicesTypes: [ServiceType] {
         return serviceTypesList
     }
     
-    func save(servicesInfo: [ServiceType]) {
+    private(set) var localeId: String?
+    
+    func save(servicesInfo: [ServiceType], localeId: String?) {
         serviceTypesList = servicesInfo
+        self.localeId = localeId
     }
     
     func serviceSubtypes(forServiceTypeId serviceTypeId: String) -> [ServiceSubtype] {
@@ -29,37 +36,5 @@ final class ServicesInfoMemoryDAO: ServicesInfoDAO, ServicesInfoRetrievable {
     
     func clean() {
         serviceTypesList = []
-    }
-    
-    func loadFirstRunCacheIfNeeded(jsonURL: URL) {
-        guard serviceTypesList.isEmpty else { return }
-        do {
-            let data = try Data(contentsOf: jsonURL)
-            let jsonServiceTypesList = try JSONSerialization.jsonObject(with: data,
-                                                                        options: [])
-            guard let serviceTypesList = decoder(jsonServiceTypesList) else { return }
-            save(servicesInfo: serviceTypesList)
-        } catch {
-            logMessage(.verbose,
-                       type: CoreLoggingOptions.database,
-                       message: "Failed to create Services Info first run memory cache: \(error)")
-        }
-    }
-}
-
-
-// MARK:- Decoder implementation
-extension ServicesInfoMemoryDAO {
-    
-    private func decoder(_ object: Any) -> [ServiceType]? {
-        guard let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) else { return nil }
-        
-        do {
-            let serviceTypes = try JSONDecoder().decode(FailableDecodableArray<LGServiceType>.self, from: data)
-            return serviceTypes.validElements
-        } catch {
-            logMessage(.debug, type: .parsing, message: "could not parse LGServiceType \(object)")
-        }
-        return nil
-    }
+    }    
 }

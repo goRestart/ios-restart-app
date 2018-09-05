@@ -1,12 +1,10 @@
-//
-//  CarsInfoRealmDAO.swift
-//  LGCoreKit
-//
-//  Created by Dídac on 24/03/17.
-//  Copyright © 2017 Ambatana Inc. All rights reserved.
-//
-
 import RealmSwift
+
+@objcMembers class RealmCarsInfo: Object {
+    dynamic var countryCode: String? = nil
+    dynamic var updatedAt: Date = Date()
+    dynamic var carMakes = List<RealmCarsMakeWithModels>()
+}
 
 @objcMembers class RealmCarsMakeWithModels: Object {
     dynamic var makeId: String = CarAttributes.emptyMake
@@ -19,39 +17,64 @@ import RealmSwift
     dynamic var modelName: String = CarAttributes.emptyModel
 }
 
+typealias Days = Int
 
 class CarsInfoRealmDAO: CarsInfoDAO {
+    
+    static let expirationThresholdDays = 15
 
     static let dataBaseName = "CarsInfo"
     static let dataBaseExtension = "realm"
+    private static let schemaVersion: UInt64 = 1
+    
+    static func cacheFilePath() -> String {
+        guard let cacheDirectoryPath =
+            NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first else { return "" }
+        let cacheFilePath = cacheDirectoryPath + "/\(CarsInfoRealmDAO.dataBaseName).\(CarsInfoRealmDAO.dataBaseExtension)"
+        return cacheFilePath
+    }
 
-    let dataBase: Realm
+    private let dataBase: Realm
+    private let expirationThreshold: Days
+    
+    var isExpired: Bool {
+        guard let updatedAt = realmCarsInfo?.updatedAt else { return true }
+        return updatedAt.isOlderThan(days: expirationThreshold)
+    }
 
     var carsMakesList: [CarsMake] {
-        let carsMakes = dataBase.objects(RealmCarsMakeWithModels.self)
-        let rmCarsMakesArray = Array(carsMakes)
+        guard let carMakesList = realmCarsInfo?.carMakes else {
+            return []
+        }
+        let rmCarsMakesArray = Array(carMakesList)
         return rmCarsMakesArray.map { convertToLGCarsMake(carsMake: $0) }
+    }
+    
+    var countryCode: String? {
+        return realmCarsInfo?.countryCode
+    }
+    
+    private var realmCarsInfo: RealmCarsInfo? {
+        return dataBase.objects(RealmCarsInfo.self).first
     }
 
 
     // MARK: - Lifecycle
 
-    init(realm: Realm) {
+    init(realm: Realm, expirationThreshold: Days = CarsInfoRealmDAO.expirationThresholdDays) {
         self.dataBase = realm
+        self.expirationThreshold = expirationThreshold
     }
-
-    convenience init?() {
-
-        guard let cacheDirectoryPath = NSSearchPathForDirectoriesInDomains(.cachesDirectory,
-                                                                           .userDomainMask, true).first else { return nil }
-        let cacheFilePath = cacheDirectoryPath + "/\(CarsInfoRealmDAO.dataBaseName).\(CarsInfoRealmDAO.dataBaseExtension)"
-
+    
+    convenience init?(cacheFilePath: String = cacheFilePath()) {
+        guard !cacheFilePath.isEmpty else { return nil }
         do {
             let cacheFileUrl = URL(fileURLWithPath: cacheFilePath, isDirectory: false)
             let config = Realm.Configuration(fileURL: cacheFileUrl,
                                              readOnly: false,
-                                             objectTypes: [RealmCarsMakeWithModels.self, RealmCarsModel.self])
-
+                                             schemaVersion: CarsInfoRealmDAO.schemaVersion,
+                                             deleteRealmIfMigrationNeeded: true,
+                                             objectTypes: [RealmCarsInfo.self, RealmCarsMakeWithModels.self, RealmCarsModel.self])
             let dataBase = try Realm(configuration: config)
             self.init(realm: dataBase)
         } catch let error {
@@ -63,30 +86,30 @@ class CarsInfoRealmDAO: CarsInfoDAO {
 
     // MARK: - Public methods
 
-    func save(carsInfo: [CarsMakeWithModels]) {
+    func save(carsInfo: [CarsMakeWithModels], countryCode: String?) {
         clean()
 
         let realmArray = carsInfo.map { convertToRealmCarsMake(carsMake: $0) }
         let realmList = RealmHelper.convertArrayToRealmList(inputArray: realmArray)
+        
+        let realmCarsInfo = RealmCarsInfo()
+        realmCarsInfo.carMakes = realmList
+        realmCarsInfo.countryCode = countryCode
+        realmCarsInfo.updatedAt = Date()
 
         dataBase.cancelWriteTransactionsIfNeeded()
         do {
             try dataBase.write {
-                dataBase.add(realmList)
+                dataBase.add(realmCarsInfo)
             }
         } catch let error {
             logMessage(.verbose, type: CoreLoggingOptions.database, message: "Could not write in Cars Info DB: \(error)")
         }
     }
-
+    
     func modelsForMake(makeId: String) -> [CarsModel] {
-        let makes = dataBase.objects(RealmCarsMakeWithModels.self)
-        let queryPredicate = NSPredicate(format: "makeId == '\(makeId)'")
-        guard let rmMake = makes.filter(queryPredicate).first else { return [] }
-
-        let modelsArray = RealmHelper.convertRealmListToArray(realmList: rmMake.models).map { convertToLGCarsModel(carsModel: $0) }
-
-        return modelsArray
+        guard let carMake = carMake(withMakeId: makeId) else { return [] }
+        return RealmHelper.convertRealmListToArray(realmList: carMake.models).map { convertToLGCarsModel(carsModel: $0) }
     }
 
     func clean() {
@@ -100,53 +123,29 @@ class CarsInfoRealmDAO: CarsInfoDAO {
         }
     }
 
-    func loadFirstRunCacheIfNeeded(jsonURL: URL) {
-        guard dataBase.objects(RealmCarsMakeWithModels.self).isEmpty else { return }
-
-        do {
-            let data = try Data(contentsOf: jsonURL)
-            let jsonCarsMakesList = try JSONSerialization.jsonObject(with: data, options: [])
-            guard let carsMakeList = decoder(jsonCarsMakesList) else { return }
-            save(carsInfo: carsMakeList)
-        } catch let error {
-            logMessage(.verbose, type: CoreLoggingOptions.database, message: "Failed to create Cars Info first run cache: \(error)")
-        }
-    }
-    
     func retrieveMakeName(with makeId: String?) -> String? {
         guard let makeId = makeId else { return nil }
-        let makes = dataBase.objects(RealmCarsMakeWithModels.self)
-        let queryPredicate = NSPredicate(format: "makeId == '\(makeId)'")
-        guard let rmMake = makes.filter(queryPredicate).first else { return nil }
-        return rmMake.makeName
+        return carMake(withMakeId: makeId)?.makeName
     }
     
     func retrieveModelName(with makeId: String?, modelId: String?) -> String? {
-        guard let makeId = makeId else { return nil }
-        guard let modelId = modelId else { return nil }
+        guard let makeId = makeId, let modelId = modelId else { return nil }
         let models = modelsForMake(makeId: makeId)
         return models.first(where: { $0.modelId == modelId })?.modelName
     }
     
-    private func decoder(_ object: Any) -> [CarsMakeWithModels]? {
-        guard let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) else { return nil }
-        
-        // Ignore cars makes that can't be decoded
-        do {
-            let carMakes = try JSONDecoder().decode(FailableDecodableArray<ApiCarsMake>.self, from: data)
-            return carMakes.validElements
-        } catch {
-            logMessage(.debug, type: .parsing, message: "could not parse ApiCarsMake \(object)")
-        }
-        return nil
-    }
-
 
     // MARK: - Private Methods
 
+    private func carMake(withMakeId makeId: String) -> RealmCarsMakeWithModels? {
+        guard let carMakes = realmCarsInfo?.carMakes else { return nil }
+        return RealmHelper.convertRealmListToArray(realmList: carMakes).first(where: { $0.makeId == makeId })
+    }
+
+    
     // MARK: > LG to Realm
 
-    fileprivate func convertToRealmCarsMake(carsMake: CarsMakeWithModels) -> RealmCarsMakeWithModels {
+    private func convertToRealmCarsMake(carsMake: CarsMakeWithModels) -> RealmCarsMakeWithModels {
         let resultMake = RealmCarsMakeWithModels()
         resultMake.makeId = carsMake.makeId
         resultMake.makeName = carsMake.makeName
@@ -157,7 +156,7 @@ class CarsInfoRealmDAO: CarsInfoDAO {
         return resultMake
     }
 
-    fileprivate func convertToRealmCarsModel(carsModel: CarsModel) -> RealmCarsModel {
+    private func convertToRealmCarsModel(carsModel: CarsModel) -> RealmCarsModel {
         let resultModel = RealmCarsModel()
         resultModel.modelId = carsModel.modelId
         resultModel.modelName = carsModel.modelName
@@ -167,12 +166,12 @@ class CarsInfoRealmDAO: CarsInfoDAO {
 
     // MARK: > Realm to LG
 
-    fileprivate func convertToLGCarsMake(carsMake: RealmCarsMakeWithModels) -> LGCarsMake {
+    private func convertToLGCarsMake(carsMake: RealmCarsMakeWithModels) -> LGCarsMake {
         let resultMake = LGCarsMake(makeId: carsMake.makeId, makeName: carsMake.makeName)
         return resultMake
     }
 
-    fileprivate func convertToLGCarsModel(carsModel: RealmCarsModel) -> LGCarsModel {
+    private func convertToLGCarsModel(carsModel: RealmCarsModel) -> LGCarsModel {
         let resultModel = LGCarsModel(modelId: carsModel.modelId, modelName: carsModel.modelName)
         return resultModel
     }
