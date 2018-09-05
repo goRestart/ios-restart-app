@@ -105,8 +105,6 @@
 		0904D89D213F310C00D5D554 /* P2PPaymentsChangeOfferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0904D890213F310C00D5D554 /* P2PPaymentsChangeOfferView.swift */; };
 		0904D89E213F310C00D5D554 /* P2PPaymentsCurrencyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0904D891213F310C00D5D554 /* P2PPaymentsCurrencyTextField.swift */; };
 		0904D89F213F310C00D5D554 /* P2PPaymentsCurrencyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0904D891213F310C00D5D554 /* P2PPaymentsCurrencyTextField.swift */; };
-		0904D8A0213F310C00D5D554 /* P2PPaymentsCreateOfferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0904D892213F310C00D5D554 /* P2PPaymentsCreateOfferView.swift */; };
-		0904D8A1213F310C00D5D554 /* P2PPaymentsCreateOfferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0904D892213F310C00D5D554 /* P2PPaymentsCreateOfferView.swift */; };
 		0904D8A2213F310C00D5D554 /* P2PPaymentsCreateOfferViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0904D893213F310C00D5D554 /* P2PPaymentsCreateOfferViewModel.swift */; };
 		0904D8A3213F310C00D5D554 /* P2PPaymentsCreateOfferViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0904D893213F310C00D5D554 /* P2PPaymentsCreateOfferViewModel.swift */; };
 		09129E4D211AEF86004B84E9 /* P2PPaymentsOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09129E4C211AEF86004B84E9 /* P2PPaymentsOnboardingViewController.swift */; };
@@ -2412,7 +2410,6 @@
 		0904D88F213F310C00D5D554 /* P2PPaymentsCreateOfferBuyerInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PPaymentsCreateOfferBuyerInfoView.swift; sourceTree = "<group>"; };
 		0904D890213F310C00D5D554 /* P2PPaymentsChangeOfferView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PPaymentsChangeOfferView.swift; sourceTree = "<group>"; };
 		0904D891213F310C00D5D554 /* P2PPaymentsCurrencyTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PPaymentsCurrencyTextField.swift; sourceTree = "<group>"; };
-		0904D892213F310C00D5D554 /* P2PPaymentsCreateOfferView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PPaymentsCreateOfferView.swift; sourceTree = "<group>"; };
 		0904D893213F310C00D5D554 /* P2PPaymentsCreateOfferViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PPaymentsCreateOfferViewModel.swift; sourceTree = "<group>"; };
 		09129E4C211AEF86004B84E9 /* P2PPaymentsOnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOnboardingViewController.swift; sourceTree = "<group>"; };
 		097EDBE0213CFE460057D638 /* P2PPaymentsWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PPaymentsWireframe.swift; sourceTree = "<group>"; };
@@ -3777,7 +3774,6 @@
 				0904D88E213F310C00D5D554 /* Subviews */,
 				0904D893213F310C00D5D554 /* P2PPaymentsCreateOfferViewModel.swift */,
 				0904D88D213F310C00D5D554 /* P2PPaymentsCreateOfferViewController.swift */,
-				0904D892213F310C00D5D554 /* P2PPaymentsCreateOfferView.swift */,
 			);
 			path = CreateOffer;
 			sourceTree = "<group>";
@@ -9495,7 +9491,6 @@
 				0ADD39BD211306E90071DF87 /* LGUserBuilder.swift in Sources */,
 				50146BE21D4F910B00B0F635 /* ProfileTabNavigator.swift in Sources */,
 				C7B588571CE1DE1C009B3975 /* DirectAnswersPresenter.swift in Sources */,
-				0904D8A0213F310C00D5D554 /* P2PPaymentsCreateOfferView.swift in Sources */,
 				0904D89E213F310C00D5D554 /* P2PPaymentsCurrencyTextField.swift in Sources */,
 				C7732F6A1D87FA3400EAD5B7 /* TourPostingViewController.swift in Sources */,
 				0A6FECBC2130344000B57004 /* FeaturedInfoNavigator.swift in Sources */,
@@ -10554,7 +10549,6 @@
 				2E94A76020AF2F2F00AEA29A /* ChatAvatarView.swift in Sources */,
 				C7E5902E1E5D973C002921B2 /* CollectionType+Merge.swift in Sources */,
 				8E814F431F3475AB00C88432 /* FilterSliderYearCell.swift in Sources */,
-				0904D8A1213F310C00D5D554 /* P2PPaymentsCreateOfferView.swift in Sources */,
 				C7841AF51E07DFFA004A8242 /* UIView+Rating.swift in Sources */,
 				2ECB416C20065FB200482EF7 /* BumpUpFreeViewController.swift in Sources */,
 				C66105E12130165300BA4EF7 /* RealEstatePromoCellConfiguration.swift in Sources */,
