@@ -4,4 +4,8 @@ import LGComponents
 
 final class P2PPaymentsCreateOfferViewModel: BaseViewModel {
     var navigator: P2PPaymentsNavigator?
+
+    func closeButtonPressed() {
+        navigator?.closeOnboarding()
+    }
 }

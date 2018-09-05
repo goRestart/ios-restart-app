@@ -40,4 +40,8 @@ final class P2PPaymentsCreateOfferViewController: BaseViewController {
         setNavBarTitleStyle(NavBarTitleStyle.text("Offer"))
         setNavBarBackgroundStyle(NavBarBackgroundStyle.transparent(substyle: NavBarTransparentSubStyle.light))
     }
+
+    @objc private func closeButtonPressed() {
+        viewModel.closeButtonPressed()
+    }
 }
