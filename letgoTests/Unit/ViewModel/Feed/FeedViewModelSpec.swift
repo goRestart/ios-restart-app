@@ -325,6 +325,16 @@ private extension FeedViewModelSpec {
                 shouldCloseOnRemoveAllFilters: shouldCloseOnRemoveAllFilters
             )
         }
+
+        func openClassicFeed(navigator: MainTabNavigator, withSearchType searchType: SearchType?, listingFilters: ListingFilters, shouldCloseOnRemoveAllFilters: Bool, tagsDelegate: MainListingsTagsDelegate?) {
+            openClassicFeedWasCalled = (
+                state: true,
+                navigator: navigator,
+                searchType: searchType,
+                shouldCloseOnRemoveAllFilters: shouldCloseOnRemoveAllFilters
+            )
+        }
+
     }
 }
 

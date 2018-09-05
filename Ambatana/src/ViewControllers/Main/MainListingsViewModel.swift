@@ -18,6 +18,10 @@ protocol MainListingsAdsDelegate: class {
     func rootViewControllerForAds() -> UIViewController
 }
 
+protocol MainListingsTagsDelegate: class {
+    func onCloseAllFilters(finalFiters: ListingFilters)
+}
+
 final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     
     weak var searchNavigator: SearchNavigator?
@@ -332,6 +336,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     // > Delegate
     weak var delegate: MainListingsViewModelDelegate?
     weak var adsDelegate: MainListingsAdsDelegate?
+    weak var tagsDelegate: MainListingsTagsDelegate?
     
     // > Navigator
     weak var navigator: MainTabNavigator?
@@ -624,6 +629,9 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                                removedTag: FilterTag?) {
         guard !shouldCloseOnRemoveAllFilters || tags.count > 0 else {
             wireframe?.close()
+            var newFilter = ListingFilters()
+            newFilter.place = filters.place
+            tagsDelegate?.onCloseAllFilters(finalFiters: newFilter)
             return
         }
         var categories: [FilterCategoryItem] = []
@@ -1061,6 +1069,7 @@ extension MainListingsViewModel: FiltersViewModelDataDelegate {
     func viewModelDidUpdateFilters(_ viewModel: FiltersViewModel, filters: ListingFilters) {
         guard !shouldCloseOnRemoveAllFilters || !filters.isDefault() else {
             wireframe?.close()
+            self.filters = filters
             return
         }
         self.filters = filters

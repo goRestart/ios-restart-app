@@ -414,7 +414,8 @@ extension FeedViewModel {
                 navigator: safeNavigator,
                 withSearchType: searchType,
                 listingFilters: safeSelf.filters,
-                shouldCloseOnRemoveAllFilters: false)
+                shouldCloseOnRemoveAllFilters: false
+            )
             safeSelf.delegate?.searchCompleted()
         }
     }
@@ -438,21 +439,22 @@ extension FeedViewModel: FiltersViewModelDataDelegate {
     
     func viewModelDidUpdateFilters(_ viewModel: FiltersViewModel,
                                    filters: ListingFilters) {
+        defer { refreshFeedUponLocationChange() }
+        self.filters = filters
         guard !filters.isDefault() else { return }
         // For the moment when the user wants to filter something the app
         // must jump directly to the old feed with the applied filters.
         // Story: https://ambatana.atlassian.net/browse/ABIOS-4525?filter=18022.
         guard let safeNavigator = navigator else { return }
-        guard filters.hasOnlyPlace else {
-            wireframe?.openClassicFeed(
-                navigator: safeNavigator,
-                withSearchType: searchType,
-                listingFilters: filters,
-                shouldCloseOnRemoveAllFilters: true)
-            return
-        }
-        self.filters = filters
-        refreshFeedUponLocationChange()
+        guard !filters.hasOnlyPlace else { return }
+        wireframe?.openClassicFeed(
+            navigator: safeNavigator,
+            withSearchType: searchType,
+            listingFilters: filters,
+            shouldCloseOnRemoveAllFilters: true,
+            tagsDelegate: self
+        )
+        self.filters = ListingFilters()
     }
 }
 
@@ -742,6 +744,15 @@ extension FeedViewModel {
 extension FeedViewModel: AdUpdated {
     func updatedAd() {
         refreshFeed()
+    }
+}
+
+// MARK: - Main Listings Tags Delegate
+
+extension FeedViewModel: MainListingsTagsDelegate {
+    func onCloseAllFilters(finalFiters newFilters: ListingFilters) {
+        self.filters = newFilters
+        refreshFeedUponLocationChange()
     }
 }
 

@@ -18,7 +18,8 @@ protocol FeedAssembly {
                  showLocationEditButton: Bool) -> (BaseViewController, FeedNavigatorOwnership)
     func makeClassic(withSearchType: SearchType?,
                      filters: ListingFilters,
-                     shouldCloseOnRemoveAllFilters: Bool) -> (BaseViewController, FeedNavigatorOwnership)
+                     shouldCloseOnRemoveAllFilters: Bool,
+                     tagsDelegate: MainListingsTagsDelegate?) -> (BaseViewController, FeedNavigatorOwnership)
     func makePro() -> (BaseViewController, FeedNavigatorOwnership)
     func makeClassic() -> (BaseViewController, FeedNavigatorOwnership)
 }
@@ -54,7 +55,8 @@ enum FeedBuilder: FeedAssembly {
     func makeClassic(
         withSearchType searchType: SearchType? = nil,
         filters: ListingFilters,
-        shouldCloseOnRemoveAllFilters: Bool = false) -> (BaseViewController, FeedNavigatorOwnership) {
+        shouldCloseOnRemoveAllFilters: Bool = false,
+        tagsDelegate: MainListingsTagsDelegate? = nil) -> (BaseViewController, FeedNavigatorOwnership) {
         let vm = MainListingsViewModel(
             searchType: searchType,
             filters: filters,
@@ -65,6 +67,9 @@ enum FeedBuilder: FeedAssembly {
         case .standard(let nc):
             vm.wireframe = MainListingWireframe(nc: nc)
         }
+        
+        vm.tagsDelegate = tagsDelegate
+        
         return (vc, vm)
     }
     
