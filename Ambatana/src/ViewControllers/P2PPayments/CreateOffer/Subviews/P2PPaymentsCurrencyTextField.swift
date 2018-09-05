@@ -1,9 +1,19 @@
 import UIKit
 import LGComponents
 import LGCoreKit
+import RxSwift
+import RxCocoa
 
 final class P2PPaymentsCurrencyTextField: UIView, UITextFieldDelegate {
+    fileprivate static let valueFormatter: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.locale = Locale.current
+        formatter.numberStyle = .decimal
+        return formatter
+    }()
+
     var value: Decimal = Decimal(0)
+    var currencyCode: String? = Locale.current.currencyCode
 
     private let formattedTextLabel: UILabel = {
         let label = UILabel()
@@ -13,7 +23,7 @@ final class P2PPaymentsCurrencyTextField: UIView, UITextFieldDelegate {
         return label
     }()
 
-    private let innerTextField: UITextField = {
+    fileprivate let innerTextField: UITextField = {
         let textField = UITextField()
         textField.keyboardType = .decimalPad
         textField.isHidden = true
@@ -55,11 +65,42 @@ final class P2PPaymentsCurrencyTextField: UIView, UITextFieldDelegate {
     @objc private func editingChanged() {
         let newValue = Decimal(string: innerTextField.text ?? "0", locale: Locale.current) ?? 0
         value = newValue
-        let formattedAmount = Core.currencyHelper.formattedAmountWithCurrencyCode("EUR", amount: (newValue as NSDecimalNumber).doubleValue)
+        updateFormattedLabel()
+    }
+
+    fileprivate func updateFormattedLabel() {
+        let formattedAmount = Core.currencyHelper.formattedAmountWithCurrencyCode(currencyCode ?? "EUR", amount: (value as NSDecimalNumber).doubleValue)
         formattedTextLabel.text = formattedAmount
     }
 
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         return textField.shouldChangePriceInRange(range, replacementString: string, acceptsSeparator: true)
+    }
+}
+
+extension Reactive where Base: P2PPaymentsCurrencyTextField {
+    var isFocused: Binder<Bool> {
+        return Binder<Bool>(self.base) { base, focused in
+            if focused {
+                base.innerTextField.becomeFirstResponder()
+            } else {
+                base.innerTextField.resignFirstResponder()
+            }
+        }
+    }
+
+    var value: Binder<Decimal> {
+        return Binder<Decimal>(self.base) { base, value in
+            base.value = value
+            base.innerTextField.text = P2PPaymentsCurrencyTextField.valueFormatter.string(from: value as NSDecimalNumber)
+            base.updateFormattedLabel()
+        }
+    }
+
+    var currencyCode: Binder<String?> {
+        return Binder<String?>(self.base) { base, code in
+            base.currencyCode = code
+            base.updateFormattedLabel()
+        }
     }
 }

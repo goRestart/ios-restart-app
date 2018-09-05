@@ -1,5 +1,7 @@
 import UIKit
 import LGComponents
+import RxSwift
+import RxCocoa
 
 // TODO: @juolgon Localize texts
 
@@ -16,12 +18,12 @@ final class P2PPaymentsOfferFeesView: UIView {
         return label
     }()
 
-    private let feeTitleLabel: UILabel = {
+    fileprivate let feeTitleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .grayRegular
         label.font = UIFont.systemMediumFont(size: 18)
         label.setContentHuggingPriority(.defaultLow, for: .horizontal)
-        label.text = "Payment fee 2%"
+        label.text = "Payment fee"
         return label
     }()
 
@@ -35,37 +37,37 @@ final class P2PPaymentsOfferFeesView: UIView {
         return label
     }()
 
-    private let priceLabel: UILabel = {
+    fileprivate let priceLabel: UILabel = {
         let label = UILabel()
         label.textColor = .grayRegular
         label.font = UIFont.systemMediumFont(size: 18)
-        label.text = "$930"
+        label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         return label
     }()
 
-    private let feeLabel: UILabel = {
+    fileprivate let feeLabel: UILabel = {
         let label = UILabel()
         label.textColor = .grayRegular
         label.font = UIFont.systemMediumFont(size: 18)
-        label.text = "$930"
+        label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         return label
     }()
 
-    private let totalLabel: UILabel = {
+    fileprivate let totalLabel: UILabel = {
         let label = UILabel()
         label.textColor = .lgBlack
         label.font = UIFont.systemBoldFont(size: 24)
-        label.text = "$930"
+        label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         return label
     }()
 
-    private let changeButton: LetgoButton = {
+    fileprivate let changeButton: LetgoButton = {
         let button = LetgoButton(withStyle: ButtonStyle.pinkish(fontSize: .small, withBorder: false))
         button.setTitle("Change", for: .normal)
         return button
     }()
 
-    private let infoButton: UIButton = {
+    fileprivate let infoButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Info", for: .normal)
         button.isHidden = true
@@ -84,12 +86,13 @@ final class P2PPaymentsOfferFeesView: UIView {
         let stackView = UIStackView.vertical([priceLabel, feeLabel, totalLabel])
         stackView.alignment = .leading
         stackView.spacing = 12
+        stackView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         return stackView
     }()
 
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView.horizontal([titlesStackView, amountsStackView, changeButton])
-        stackView.distribution = .fillProportionally
+        stackView.distribution = .fill
         stackView.alignment = .lastBaseline
         return stackView
     }()
@@ -110,5 +113,39 @@ final class P2PPaymentsOfferFeesView: UIView {
             infoButton.leadingAnchor.constraint(equalTo: feeLabel.trailingAnchor, constant: 4),
             infoButton.centerYAnchor.constraint(equalTo: feeLabel.centerYAnchor),
         ])
+    }
+}
+
+// MARK: - Rx
+
+extension Reactive where Base: P2PPaymentsOfferFeesView {
+    var priceText: Binder<String?> {
+        return base.priceLabel.rx.text
+    }
+
+    var feeText: Binder<String?> {
+        return base.feeLabel.rx.text
+    }
+
+    var totalText: Binder<String?> {
+        return base.totalLabel.rx.text
+    }
+
+    var feePercentageText: Binder<String?> {
+        return Binder(base) { base, string in
+            let percentageText: String = {
+                guard let string = string else { return "" }
+                return " (\(string))"
+            }()
+            base.feeTitleLabel.text = "Payment fee " + percentageText
+        }
+    }
+
+    var infoButtonTap: ControlEvent<Void> {
+        return base.infoButton.rx.tap
+    }
+
+    var changeButtonTap: ControlEvent<Void> {
+        return base.changeButton.rx.tap
     }
 }

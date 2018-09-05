@@ -1,5 +1,7 @@
 import UIKit
 import LGComponents
+import RxSwift
+import RxCocoa
 
 // TODO: @juolgon Localize texts
 
@@ -19,7 +21,7 @@ final class P2PPaymentsCreateOfferBuyerInfoView: UIView {
     }()
 
     private let buyerProtectionView = BuyerProtectionView()
-    private let offerFeesView = P2PPaymentsOfferFeesView()
+    fileprivate let offerFeesView = P2PPaymentsOfferFeesView()
     private let lineSeparatorView = P2PPaymentsLineSeparatorView()
 
     init() {
@@ -125,5 +127,33 @@ private extension P2PPaymentsCreateOfferBuyerInfoView {
                 descriptionLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Layout.textBottomMargin)
             ])
         }
+    }
+}
+
+// MARK: - Rx
+
+extension Reactive where Base: P2PPaymentsCreateOfferBuyerInfoView {
+    var priceText: Binder<String?> {
+        return base.offerFeesView.rx.priceText
+    }
+
+    var feeText: Binder<String?> {
+        return base.offerFeesView.rx.feeText
+    }
+
+    var totalText: Binder<String?> {
+        return base.offerFeesView.rx.totalText
+    }
+
+    var feePercentageText: Binder<String?> {
+        return base.offerFeesView.rx.feePercentageText
+    }
+
+    var infoButtonTap: ControlEvent<Void> {
+        return base.offerFeesView.rx.infoButtonTap
+    }
+
+    var changeButtonTap: ControlEvent<Void> {
+        return base.offerFeesView.rx.changeButtonTap
     }
 }

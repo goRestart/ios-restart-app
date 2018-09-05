@@ -3785,9 +3785,9 @@
 			isa = PBXGroup;
 			children = (
 				0904D88F213F310C00D5D554 /* P2PPaymentsCreateOfferBuyerInfoView.swift */,
+				098F1BC2213F8EAC004B72C9 /* P2PPaymentsOfferFeesView.swift */,
 				0904D890213F310C00D5D554 /* P2PPaymentsChangeOfferView.swift */,
 				0904D891213F310C00D5D554 /* P2PPaymentsCurrencyTextField.swift */,
-				098F1BC2213F8EAC004B72C9 /* P2PPaymentsOfferFeesView.swift */,
 			);
 			path = Subviews;
 			sourceTree = "<group>";

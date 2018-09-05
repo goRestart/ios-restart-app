@@ -1,9 +1,13 @@
 import UIKit
 import LGComponents
+import RxSwift
+import RxCocoa
 
 // TODO: @juolgon Localize texts
 
 final class P2PPaymentsChangeOfferView: UIView {
+    var value: Decimal { return currencyTextField.value }
+
     private enum Layout {
         static let currencyTextFieldTopMargin: CGFloat = 25
         static let doneButtonHorizontalMargin: CGFloat = 24
@@ -20,7 +24,7 @@ final class P2PPaymentsChangeOfferView: UIView {
         return label
     }()
 
-    private let currencyTextField = P2PPaymentsCurrencyTextField()
+    fileprivate let currencyTextField = P2PPaymentsCurrencyTextField()
 
     fileprivate let doneButton: LetgoButton = {
         let button = LetgoButton(withStyle: .primary(fontSize: .big))
@@ -56,5 +60,23 @@ final class P2PPaymentsChangeOfferView: UIView {
             doneButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Layout.doneButtonBottomMargin),
             doneButton.heightAnchor.constraint(equalToConstant: Layout.doneButtonHeight),
         ])
+    }
+}
+
+extension Reactive where Base: P2PPaymentsChangeOfferView {
+    var isFocused: Binder<Bool> {
+        return base.currencyTextField.rx.isFocused
+    }
+
+    var value: Binder<Decimal> {
+        return base.currencyTextField.rx.value
+    }
+
+    var currencyCode: Binder<String?> {
+        return base.currencyTextField.rx.currencyCode
+    }
+
+    var changeOfferButtonTap: ControlEvent<Void> {
+        return base.doneButton.rx.tap
     }
 }
