@@ -239,12 +239,6 @@ final class ListingDetailWireframe: ListingDetailNavigator {
         nc.present(vc, animated: true)
     }
 
-    func openVideoPlayer(atIndex index: Int, listingVM: ListingViewModel, source: EventParameterListingVisitSource) {
-        let assembly = MediaViewerBuilder.modal(nc)
-        guard let vc = assembly.buildVideoPlayer(atIndex: index, listingVM: listingVM, source: source) else { return }
-        nc.present(vc, animated: true, completion: nil)
-    }
-
     func openListingAttributeTable(withViewModel viewModel: ListingAttributeTableViewModel) {
         let viewController = ListingAttributeTableViewController(withViewModel: viewModel)
         nc.present(viewController, animated: true, completion: nil)

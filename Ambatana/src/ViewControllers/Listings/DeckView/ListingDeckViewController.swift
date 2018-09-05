@@ -17,15 +17,16 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     }
     override var preferredStatusBarStyle: UIStatusBarStyle { return .default }
 
+    private let quickChatVC: QuickChatViewController
     fileprivate let listingDeckView = ListingDeckView()
     private let collectionDataSource: DeckCollectionDataSource
+    private let collectionDelegate: DeckViewCollectionDelegate
+
     fileprivate let viewModel: ListingDeckViewModel
     fileprivate let binder = ListingDeckViewControllerBinder()
     private let disposeBag = DisposeBag()
     private lazy var cardOnBoarding = ListingCardOnBoardingView()
 
-    fileprivate var transitioner: PhotoViewerTransitionAnimator?
-    private var lastPageBeforeDragging: Int = 0
     private let shouldShowCardsOnBoarding: Bool
 
     private var interstitial: GADInterstitial?
@@ -43,17 +44,33 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         self.shouldShowCardsOnBoarding = viewModel.shouldShowCardGesturesOnBoarding
         self.collectionDataSource =  DeckCollectionDataSource(withViewModel: viewModel,
                                                               imageDownloader: viewModel.imageDownloader)
+        self.collectionDelegate = DeckViewCollectionDelegate(viewModel: viewModel, listingDeckView: listingDeckView)
+
+        self.quickChatVC = QuickChatViewController(listingViewModel: viewModel.currentListingViewModel)
         super.init(viewModel: viewModel, nibName: nil)
-        self.collectionDataSource.delegate = self
         self.hidesBottomBarWhenPushed = true
+        self.collectionDataSource.delegate = collectionDelegate
     }
 
+    @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     override func loadView() {
         super.loadView()
         view.addSubviewForAutoLayout(listingDeckView)
         constraintViewToSafeRootView(listingDeckView)
+    }
+
+    private func addQuickChat() {
+        addChildViewController(quickChatVC)
+        listingDeckView.addSubviewForAutoLayout(quickChatVC.view)
+
+        NSLayoutConstraint.activate([
+            quickChatVC.view.topAnchor.constraint(equalTo: safeTopAnchor),
+            quickChatVC.view.leadingAnchor.constraint(equalTo: listingDeckView.leadingAnchor),
+            quickChatVC.view.trailingAnchor.constraint(equalTo: listingDeckView.trailingAnchor),
+            quickChatVC.view.bottomAnchor.constraint(equalTo: safeBottomAnchor)
+        ])
     }
 
     override func viewDidFirstAppear(_ animated: Bool) {
@@ -97,6 +114,8 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        addQuickChat()
+
         view.backgroundColor = listingDeckView.backgroundColor
         
         setupCollectionView()
@@ -153,7 +172,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     private func setupCollectionView() {
         automaticallyAdjustsScrollViewInsets = false
         listingDeckView.collectionView.dataSource = self.collectionDataSource
-        listingDeckView.setCollectionLayoutDelegate(self)
+        listingDeckView.setCollectionLayoutDelegate(collectionDelegate)
         listingDeckView.collectionView.register(ListingCardView.self,
                                                 forCellWithReuseIdentifier: ListingCardView.reusableID)
     }
@@ -221,12 +240,12 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     }
 
     func willBeginDragging() {
-        lastPageBeforeDragging = listingDeckView.currentPage
+        collectionDelegate.lastPageBeforeDragging = listingDeckView.currentPage
         listingDeckView.bumpUpBanner.animateTo(alpha: 0)
     }
 
     func didMoveToItemAtIndex(_ index: Int) {
-        lastPageBeforeDragging = index
+        collectionDelegate.lastPageBeforeDragging = index
         listingDeckView.cardAtIndex(index - 1)?.isUserInteractionEnabled = false
         listingDeckView.cardAtIndex(index)?.isUserInteractionEnabled = true
         listingDeckView.cardAtIndex(index + 1)?.isUserInteractionEnabled = false
@@ -266,7 +285,7 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     
 
     func didTapShare() {
-        viewModel.currentListingViewModel?.shareProduct()
+        viewModel.currentListingViewModel.shareProduct()
     }
 
     func didTapCardAction() {
@@ -321,12 +340,16 @@ extension ListingDeckViewController {
         case .triggerBumpUp(_,_,_,_):
             viewModel.showBumpUpView(viewModel.actionOnFirstAppear)
         case .triggerMarkAsSold:
-            viewModel.currentListingViewModel?.markAsSold()
+            viewModel.currentListingViewModel.markAsSold()
         case .edit:
-            viewModel.currentListingViewModel?.editListing()
+            viewModel.currentListingViewModel.editListing()
         case .nonexistent:
             break
         }
+    }
+
+    private func currentPageCell() -> ListingCardView? {
+        return listingDeckView.cardAtIndex(viewModel.currentIndex)
     }
 }
 
@@ -337,42 +360,6 @@ extension ListingDeckViewController: ListingDeckViewModelDelegate {
 
     func vmResetBumpUpBannerCountdown() {
         listingDeckView.resetBumpUpCountdown()
-    }
-}
-
-extension ListingDeckViewController: ListingCardViewDelegate, ListingDeckCollectionViewLayoutDelegate {    
-    func targetPage(forProposedPage proposedPage: Int, withScrollingDirection direction: ScrollingDirection) -> Int {
-        guard direction != .none else {
-            return proposedPage
-        }
-        return min(max(0, lastPageBeforeDragging + direction.delta), viewModel.objectCount - 1)
-    }
-
-    private func currentPageCell() -> ListingCardView? {
-        return listingDeckView.cardAtIndex(viewModel.currentIndex)
-    }
-
-    func cardViewDidTapOnMoreInfo(_ cardView: ListingCardView) {
-        viewModel.showListingDetail(at: cardView.tag)
-    }
-}
-
-extension ListingDeckViewController {
-    var photoViewerTransitionFrame: CGRect {
-        guard let current = currentPageCell() else { return windowTargetFrame }
-        let size = current.previewVisibleFrame.size
-        let corrected = CGRect(x: current.frame.minX, y: current.frame.minY, width: size.width, height: size.height)
-        return listingDeckView.collectionView.convertToWindow(corrected)
-    }
-
-    var animationController: UIViewControllerAnimatedTransitioning? {
-        guard let cached = viewModel.cachedImageAtIndex(0) else { return nil }
-        if transitioner == nil {
-            transitioner = PhotoViewerTransitionAnimator(image: cached, initialFrame: photoViewerTransitionFrame)
-        } else {
-            transitioner?.setImage(cached)
-        }
-        return transitioner
     }
 }
 

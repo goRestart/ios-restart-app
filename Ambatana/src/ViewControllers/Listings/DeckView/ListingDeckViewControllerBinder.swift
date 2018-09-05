@@ -49,7 +49,6 @@ protocol ListingDeckViewModelType: class {
     func didTapActionButton()
     func replaceListingCellModelAtIndex(_ index: Int, withListing listing: Listing)
     func moveToListingAtIndex(_ index: Int, movement: DeckMovement)
-    func openVideoPlayer()
 }
 
 final class ListingDeckViewControllerBinder {

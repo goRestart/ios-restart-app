@@ -6,14 +6,9 @@ import RxCocoa
 
 final class ListingDetailViewModel: BaseViewModel {
     var navigator: ListingFullDetailNavigator?
-    var listingDetailNavigator: ListingDetailNavigator? {
-        didSet { listingViewModel.navigator = listingDetailNavigator }
-    }
+    lazy var listingViewModel: ListingViewModel = maker.build(listing: listing, visitSource: visitSource)
 
-    lazy var listingViewModel: ListingViewModel = maker.make(listing: listing,
-                                                             navigator: listingDetailNavigator,
-                                                             visitSource: visitSource)
-    private let maker: ListingViewModelMaker
+    private let maker: ListingViewModelAssembly
     private let listing: Listing
     private let visitSource: EventParameterListingVisitSource
     private let featureFlags: FeatureFlaggeable
@@ -24,17 +19,23 @@ final class ListingDetailViewModel: BaseViewModel {
         return DeckMapData(location: location, shouldHighlightCenter: shouldShowExactLocation)
     }
 
-    convenience init(withListing listing: Listing, visitSource: EventParameterListingVisitSource) {
-        self.init(withListing: listing, visitSource: visitSource, featureFlags: FeatureFlags.sharedInstance)
+    convenience init(withListing listing: Listing,
+                     viewModelMaker: ListingViewModelAssembly,
+                     visitSource: EventParameterListingVisitSource) {
+        self.init(withListing: listing,
+                  viewModelMaker: viewModelMaker,
+                  visitSource: visitSource,
+                  featureFlags: FeatureFlags.sharedInstance)
     }
 
     init(withListing listing: Listing,
+         viewModelMaker: ListingViewModelAssembly,
          visitSource: EventParameterListingVisitSource,
          featureFlags: FeatureFlaggeable) {
         self.listing = listing
         self.visitSource = visitSource
         self.featureFlags = featureFlags
-        self.maker = ListingViewModel.ConvenienceMaker()
+        self.maker = viewModelMaker
         super.init()
     }
 

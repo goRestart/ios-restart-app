@@ -107,7 +107,6 @@ protocol ListingDetailNavigator: class {
     func openFeaturedInfo()
 
     func openAskPhoneFor(listing: Listing, interlocutor: User?)
-    func openVideoPlayer(atIndex index: Int, listingVM: ListingViewModel, source: EventParameterListingVisitSource)
     
     func openListingAttributeTable(withViewModel viewModel: ListingAttributeTableViewModel)
     func closeListingAttributeTable()

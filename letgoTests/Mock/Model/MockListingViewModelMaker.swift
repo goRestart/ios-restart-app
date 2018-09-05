@@ -1,5 +1,5 @@
 //
-//  MockListingViewModelMaker.swift
+//  MockListingViewModelAssembly.swift
 //  LetGo
 //
 //  Created by Eli Kohen on 02/03/2017.
@@ -10,7 +10,7 @@
 import LGCoreKit
 
 
-class MockListingViewModelMaker: ListingViewModelMaker {
+final class MockListingViewModelAssembly: ListingViewModelAssembly {
 
     let myUserRepository: MockMyUserRepository
     let userRepository: MockUserRepository
@@ -48,13 +48,7 @@ class MockListingViewModelMaker: ListingViewModelMaker {
         self.keyValueStorage = keyValueStorage
     }
 
-    func make(listing: Listing, navigator: ListingDetailNavigator?, visitSource: EventParameterListingVisitSource) -> ListingViewModel {
-        let viewModel = make(listing: listing, visitSource: visitSource)
-        viewModel.navigator = navigator
-        return viewModel
-    }
-
-    func make(listing: Listing, visitSource: EventParameterListingVisitSource) -> ListingViewModel {
+    func build(listing: Listing, visitSource: EventParameterListingVisitSource) -> ListingViewModel {
         return ListingViewModel(listing: listing,
                                 visitSource: visitSource,
                                 myUserRepository: myUserRepository,

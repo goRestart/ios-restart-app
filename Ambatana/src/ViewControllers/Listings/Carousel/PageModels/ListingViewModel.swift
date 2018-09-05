@@ -17,42 +17,40 @@ protocol ListingViewModelDelegate: BaseViewModelDelegate {
     func vmResetBumpUpBannerCountdown()
 }
 
-protocol ListingViewModelMaker {
-    func make(listing: Listing, visitSource: EventParameterListingVisitSource) -> ListingViewModel
-    func make(listing: Listing, navigator: ListingDetailNavigator?, visitSource: EventParameterListingVisitSource) -> ListingViewModel
+protocol ListingViewModelAssembly {
+    func build(listing: Listing, visitSource: EventParameterListingVisitSource) -> ListingViewModel
 }
 
 enum ListingOrigin {
     case initial, inResponseToNextRequest, inResponseToPreviousRequest
 }
 
-class ListingViewModel: BaseViewModel {
-    class ConvenienceMaker: ListingViewModelMaker {
-        func make(listing: Listing, visitSource source: EventParameterListingVisitSource) -> ListingViewModel {
-            return ListingViewModel(listing: listing,
-                                    visitSource: source,
-                                    myUserRepository: Core.myUserRepository,
-                                    userRepository: Core.userRepository,
-                                    listingRepository: Core.listingRepository,
-                                    chatWrapper: LGChatWrapper(),
-                                    chatViewMessageAdapter: ChatViewMessageAdapter(),
-                                    locationManager: Core.locationManager,
-                                    countryHelper: Core.countryHelper,
-                                    socialSharer: SocialSharer(),
-                                    featureFlags: FeatureFlags.sharedInstance,
-                                    purchasesShopper: LGPurchasesShopper.sharedInstance,
-                                    monetizationRepository: Core.monetizationRepository,
-                                    tracker: TrackerProxy.sharedInstance,
-                                    keyValueStorage: KeyValueStorage.sharedInstance)
+final class ListingViewModel: BaseViewModel {
+    final class ConvenienceMaker: ListingViewModelAssembly {
+        let detailNavigator: ListingDetailNavigator
+        init(detailNavigator: ListingDetailNavigator) {
+            self.detailNavigator = detailNavigator
         }
 
-        func make(listing: Listing, navigator: ListingDetailNavigator?,
-                  visitSource: EventParameterListingVisitSource) -> ListingViewModel {
-            let viewModel = make(listing: listing, visitSource: visitSource)
-            viewModel.navigator = navigator
-            return viewModel
+        func build(listing: Listing, visitSource source: EventParameterListingVisitSource) -> ListingViewModel {
+            let vm =  ListingViewModel(listing: listing,
+                                       visitSource: source,
+                                       myUserRepository: Core.myUserRepository,
+                                       userRepository: Core.userRepository,
+                                       listingRepository: Core.listingRepository,
+                                       chatWrapper: LGChatWrapper(),
+                                       chatViewMessageAdapter: ChatViewMessageAdapter(),
+                                       locationManager: Core.locationManager,
+                                       countryHelper: Core.countryHelper,
+                                       socialSharer: SocialSharer(),
+                                       featureFlags: FeatureFlags.sharedInstance,
+                                       purchasesShopper: LGPurchasesShopper.sharedInstance,
+                                       monetizationRepository: Core.monetizationRepository,
+                                       tracker: TrackerProxy.sharedInstance,
+                                       keyValueStorage: KeyValueStorage.sharedInstance)
+            vm.navigator = detailNavigator
+            return vm
         }
-
     }
 
     // Delegate
@@ -658,10 +656,6 @@ class ListingViewModel: BaseViewModel {
     func bumpUpHiddenProductContactUs() {
         trackBumpUpNotAllowedContactUs(reason: .notAllowedInternal)
         navigator?.openContactUs(forListing: listing.value, contactUstype: .bumpUpNotAllowed)
-    }
-
-    func openVideoPlayer(atIndex index: Int, source: EventParameterListingVisitSource) {
-        navigator?.openVideoPlayer(atIndex: index, listingVM: self, source: source)
     }
 
     func showBumpUpView(bumpUpProductData: BumpUpProductData?,
@@ -1511,31 +1505,4 @@ extension ListingViewModel: PurchasesShopperDelegate {
 // new item page
 extension ListingViewModel {
     var isFavoritable: Bool { return !isMine }
-}
-
-struct PhotoViewerDisplayItem: PhotoViewerDisplayable {
-    let listing: Listing
-    let media: [Media]
-    let isMine: Bool
-    let isPlayable: Bool
-    let isChatEnabled: Bool
-}
-
-extension ListingViewModel {
-    func makeDisplayable() -> PhotoViewerDisplayItem {
-        return PhotoViewerDisplayItem(listing: listing.value,
-                                      media: productMedia.value,
-                                      isMine: isMine,
-                                      isPlayable: isPlayable,
-                                      isChatEnabled: !isMine)
-    }
-
-    func makeDisplayable(forMediaAt index: Int) -> PhotoViewerDisplayItem? {
-        guard 0..<productMedia.value.count ~= index else { return nil }
-        return PhotoViewerDisplayItem(listing: listing.value,
-                                      media: [productMedia.value[index]],
-                                      isMine: isMine,
-                                      isPlayable: isPlayable,
-                                      isChatEnabled: false) // forced false
-    }
 }
