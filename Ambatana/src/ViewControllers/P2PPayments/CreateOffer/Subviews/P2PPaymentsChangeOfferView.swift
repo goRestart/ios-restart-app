@@ -8,6 +8,7 @@ final class P2PPaymentsChangeOfferView: UIView {
         static let currencyTextFieldTopMargin: CGFloat = 25
         static let doneButtonHorizontalMargin: CGFloat = 24
         static let doneButtonBottomMargin: CGFloat = 12
+        static let doneButtonHeight: CGFloat = 55
     }
 
     private let titleLabel: UILabel = {
@@ -52,7 +53,8 @@ final class P2PPaymentsChangeOfferView: UIView {
 
             doneButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Layout.doneButtonHorizontalMargin),
             doneButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Layout.doneButtonHorizontalMargin),
-            doneButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Layout.doneButtonBottomMargin)
+            doneButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Layout.doneButtonBottomMargin),
+            doneButton.heightAnchor.constraint(equalToConstant: Layout.doneButtonHeight),
         ])
     }
 }
