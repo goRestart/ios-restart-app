@@ -1,13 +1,6 @@
-//
-//  ChatOtherInfoCellDrawer.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 15/06/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
+import Foundation
 
-
-class ChatOtherInfoCellDrawer: BaseChatCellDrawer<ChatOtherInfoCell> {
+final class ChatOtherInfoCellDrawer: BaseChatCellDrawer<ChatOtherInfoCell> {
 
     override init(autoHide: Bool) {
         super.init(autoHide: autoHide)
@@ -15,15 +8,19 @@ class ChatOtherInfoCellDrawer: BaseChatCellDrawer<ChatOtherInfoCell> {
 
     override func draw(_ cell: ChatOtherInfoCell, message: ChatViewMessage, bubbleColor: UIColor? = nil) {
         switch message.type {
-        case let .userInfo(isDummy, name, address, facebook, google, email):
-            cell.set(name: name)
+        case let .userInfo(userInfo):
+            cell.set(name: userInfo.name)
+            cell.set(rating: userInfo.rating)
             cell.set(bubbleBackgroundColor: bubbleColor)
-            cell.set(userAvatar: message.userAvatarData?.avatarImage, avatarAction: message.userAvatarData?.avatarAction)
-            if isDummy {
+            if userInfo.isDummy {
                 cell.setupLetgoAssistantInfo()
             } else {
-                cell.setupLocation(address)
-                cell.setupVerifiedInfo(facebook: facebook, google: google, email: email)
+                cell.setupLocation(userInfo.address)
+                cell.setupVerifiedInfo(
+                    facebook: userInfo.isFacebookVerified,
+                    google: userInfo.isGoogleVerified,
+                    email: userInfo.isEmailVerified
+                )
             }
         default:
             break

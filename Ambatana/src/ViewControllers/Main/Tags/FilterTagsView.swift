@@ -11,7 +11,7 @@ protocol FilterTagsViewDelegate : class {
     func filterTagsViewDidSelectTag(_ tag: FilterTag)
 }
 
-class FilterTagsView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, FilterTagCellDelegate {
+final class FilterTagsView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, FilterTagCellDelegate {
 
     static var collectionViewHeight: CGFloat = 52
     static var minimumInteritemSpacing: CGFloat = 5
@@ -29,7 +29,8 @@ class FilterTagsView: UIView, UICollectionViewDataSource, UICollectionViewDelega
         setupView()
         setAccessibilityIds()
     }
-    
+
+    @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

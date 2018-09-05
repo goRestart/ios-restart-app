@@ -8,12 +8,22 @@
 
 import LGCoreKit
 
+struct ChatUserInfo: Equatable {
+    let isDummy: Bool
+    let name: String
+    let address: String?
+    let rating: Float?
+    let isFacebookVerified: Bool
+    let isGoogleVerified: Bool
+    let isEmailVerified: Bool
+}
+
 enum ChatViewMessageType {
     case text(text: String)
     case offer(text: String)
     case sticker(url: String)
     case disclaimer(text: NSAttributedString ,action: (() -> ())?)
-    case userInfo(isDummy: Bool, name: String, address: String?, facebook: Bool, google: Bool, email: Bool)
+    case userInfo(userInfo: ChatUserInfo)
     case askPhoneNumber(text: String, action: (() -> Void)?)
     case meeting(type: MeetingMessageType,
                  date: Date?,
@@ -67,11 +77,10 @@ enum ChatViewMessageType {
                 return lhsText == rhsText
             default: return false
             }
-        case let .userInfo(lhsIsDummy, lhsName, lhsAddress, lhsFacebook, lhsGoogle, lhsEmail):
+        case let .userInfo(userInfo):
             switch rhs {
-            case let .userInfo(rhsIsDummy, rhsName, rhsAddress, rhsFacebook, rhsGoogle, rhsEmail):
-                return lhsIsDummy == rhsIsDummy && lhsName == rhsName && lhsAddress == rhsAddress
-                    && lhsFacebook == rhsFacebook && lhsGoogle == rhsGoogle && lhsEmail == rhsEmail
+            case let .userInfo(rhsUserInfo):
+                return userInfo == rhsUserInfo
             default: return false
             }
         case let .askPhoneNumber(lhsText, _):
@@ -188,8 +197,8 @@ struct ChatViewMessage: BaseModel {
             return url
         case .disclaimer(let text, _):
             return text.string
-        case .userInfo(_, let name, _, _, _, _):
-            return name
+        case .userInfo(let userInfo):
+            return userInfo.name
         case .askPhoneNumber(let text, _):
             return text
         case let .meeting(_, _, _, _, _, text):

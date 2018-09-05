@@ -124,9 +124,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
 
         setupFilterHeaders()
         setupListingView()
-        if viewModel.shouldSetupFeedBubble {
-            setupFreshFeedBuble()
-        }
+        setupFreshFeedBuble()
         setupInfoBubble()
         if viewModel.isEngagementBadgingEnabled {
             setupRecentItemsBubbleView()

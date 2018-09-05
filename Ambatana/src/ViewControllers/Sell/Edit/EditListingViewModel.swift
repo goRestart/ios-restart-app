@@ -1112,7 +1112,8 @@ extension EditListingViewModel {
         
         let vm = ListingAttributeSingleSelectPickerViewModel(title: R.Strings.editJobsServicesListingTypeTitle,
                                                              attributes: listingTypeNames,
-                                                             selectedAttribute: selectedListingType) { [weak self] selectedIndex in
+                                                             selectedAttribute: selectedListingType,
+                                                             canDeselect: false) { [weak self] selectedIndex in
                                                                 if let selectedIndex = selectedIndex {
                                                                     self?.updateListingType(withListingType: listingTypes[selectedIndex])
                                                                 }

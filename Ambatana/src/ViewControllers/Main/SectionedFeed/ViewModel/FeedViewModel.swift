@@ -18,7 +18,7 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
 
     var wireframe: FeedNavigator?
     var listingWireframe: ListingWireframe?
-    
+
     weak var rootViewController: UIViewController? {
         didSet {
             sectionControllerFactory.rootViewController = rootViewController
@@ -67,7 +67,7 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
             return filters.place ?? Place(postalAddress: currentLocation?.postalAddress,
                                           location: currentLocation?.location)
     }
-    
+
     // Private vars
     
     private let filtersVar: Variable<ListingFilters>
@@ -332,7 +332,7 @@ extension FeedViewModel {
     }
     
     private func updateFeedItems(withFeed feed: Feed) {
-        let horizontalSections = feed.horizontalSections(featureFlags, myUserRepository, keyValueStorage, waterfallColumnCount)
+        let horizontalSections = feed.horizontalSections(featureFlags, myUserRepository, keyValueStorage, waterfallColumnCount, pages.count)
         let verticalSections = feed.verticalItems(featureFlags, myUserRepository, keyValueStorage, waterfallColumnCount)
         var duplications = feed.items.count - verticalSections.count
         let verticalItems = verticalSections.filter { feedListingData in
@@ -406,7 +406,19 @@ extension FeedViewModel {
             myUserName:  myUserRepository.myUser?.name)
     }
     
-    func openSearches() { navigator?.openSearches() }
+    func openSearches() {
+        guard let safeNavigator = navigator else { return }
+        wireframe?.openSearches(withSearchType: searchType){ [weak self] searchType in
+            guard let safeSelf = self else { return }
+            safeSelf.wireframe?.openClassicFeed(
+                navigator: safeNavigator,
+                withSearchType: searchType,
+                listingFilters: safeSelf.filters,
+                shouldCloseOnRemoveAllFilters: false
+            )
+            safeSelf.delegate?.searchCompleted()
+        }
+    }
     
     func showFilters() {
         wireframe?.openFilters(withListingFilters: filters,
@@ -427,8 +439,22 @@ extension FeedViewModel: FiltersViewModelDataDelegate {
     
     func viewModelDidUpdateFilters(_ viewModel: FiltersViewModel,
                                    filters: ListingFilters) {
+        defer { refreshFeedUponLocationChange() }
         self.filters = filters
-        refreshFeedUponLocationChange()
+        guard !filters.isDefault() else { return }
+        // For the moment when the user wants to filter something the app
+        // must jump directly to the old feed with the applied filters.
+        // Story: https://ambatana.atlassian.net/browse/ABIOS-4525?filter=18022.
+        guard let safeNavigator = navigator else { return }
+        guard !filters.hasOnlyPlace else { return }
+        wireframe?.openClassicFeed(
+            navigator: safeNavigator,
+            withSearchType: searchType,
+            listingFilters: filters,
+            shouldCloseOnRemoveAllFilters: true,
+            tagsDelegate: self
+        )
+        self.filters = ListingFilters()
     }
 }
 
@@ -510,7 +536,8 @@ extension FeedViewModel: SelectedForYouDelegate {
         wireframe?.openClassicFeed(
             navigator: strongNavigator,
             withSearchType: .collection(type: collectionType, query: query),
-            listingFilters: filters)
+            listingFilters: filters,
+            shouldCloseOnRemoveAllFilters: false)
     }
     
     private var shouldShowSelectedForYou: Bool {
@@ -717,6 +744,15 @@ extension FeedViewModel {
 extension FeedViewModel: AdUpdated {
     func updatedAd() {
         refreshFeed()
+    }
+}
+
+// MARK: - Main Listings Tags Delegate
+
+extension FeedViewModel: MainListingsTagsDelegate {
+    func onCloseAllFilters(finalFiters newFilters: ListingFilters) {
+        self.filters = newFilters
+        refreshFeedUponLocationChange()
     }
 }
 

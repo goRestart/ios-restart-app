@@ -11,16 +11,15 @@ final class RateUserStandardWireframe: RateUserNavigator {
         self.deepLinkMailBox = deepLinkMailBox
     }
     func rateUserCancel() {
-        nc.popViewController(animated: true)
+        nc.dismiss(animated: true, completion: nil)
     }
 
     func rateUserSkip() {
-        nc.popViewController(animated: true)
+        nc.dismiss(animated: true, completion: nil)
     }
 
     func rateUserFinish(withRating rating: UserRatingValue) {
-        nc.popViewController(animated: true, completion: {
-            [weak self] in
+        nc.dismiss(animated: true, completion: { [weak self] in
             if rating.shouldShowAppRating {
                 self?.openAppRating(.chat)
             }

@@ -7,6 +7,7 @@ struct VerticalsABGroup: ABGroupType {
     let carPromoCells: LeanplumABVariable<Int>
     let servicesPromoCells: LeanplumABVariable<Int>
     let realEstatePromoCells: LeanplumABVariable<Int>
+    let proUsersExtraImages: LeanplumABVariable<Int>
     let clickToTalkEnabled: LeanplumABVariable<Int>
     
     let group: ABGroup = .verticals
@@ -14,7 +15,7 @@ struct VerticalsABGroup: ABGroupType {
     var stringVariables: [LeanplumABVariable<String>] = []
     var floatVariables: [LeanplumABVariable<Float>] = []
     var boolVariables: [LeanplumABVariable<Bool>] = []
-
+    
     private init(carExtraFieldsEnabled: LeanplumABVariable<Int>,
                  servicesUnifiedFilterScreen: LeanplumABVariable<Int>,
                  servicesPaymentFrequency: LeanplumABVariable<Int>,
@@ -22,6 +23,7 @@ struct VerticalsABGroup: ABGroupType {
                  carPromoCells: LeanplumABVariable<Int>,
                  servicesPromoCells: LeanplumABVariable<Int>,
                  realEstatePromoCells: LeanplumABVariable<Int>,
+                 proUsersExtraImages: LeanplumABVariable<Int>,
                  clickToTalkEnabled: LeanplumABVariable<Int>) {
         self.carExtraFieldsEnabled = carExtraFieldsEnabled
         self.servicesUnifiedFilterScreen = servicesUnifiedFilterScreen
@@ -30,6 +32,7 @@ struct VerticalsABGroup: ABGroupType {
         self.carPromoCells = carPromoCells
         self.servicesPromoCells = servicesPromoCells
         self.realEstatePromoCells = realEstatePromoCells
+        self.proUsersExtraImages = proUsersExtraImages
         self.clickToTalkEnabled = clickToTalkEnabled
         intVariables.append(contentsOf: [carExtraFieldsEnabled,
                                          servicesUnifiedFilterScreen,
@@ -38,6 +41,7 @@ struct VerticalsABGroup: ABGroupType {
                                          carPromoCells,
                                          servicesPromoCells,
                                          realEstatePromoCells,
+                                         proUsersExtraImages,
                                          clickToTalkEnabled])
     }
     
@@ -49,6 +53,7 @@ struct VerticalsABGroup: ABGroupType {
                                 carPromoCells: verticalsIntFor(key: Keys.carPromoCells),
                                 servicesPromoCells: verticalsIntFor(key: Keys.servicesPromoCells),
                                 realEstatePromoCells: verticalsIntFor(key: Keys.realEstatePromoCells),
+                                proUsersExtraImages: verticalsIntFor(key: Keys.proUsersExtraImages),
                                 clickToTalkEnabled:verticalsIntFor(key: Keys.clickToTalkEnabled))
     }
     
@@ -65,5 +70,6 @@ private struct Keys {
     static let carPromoCells = "20182308carPromoCells"
     static let servicesPromoCells = "20182408servicesPromoCells"
     static let realEstatePromoCells = "20182708realEstatePromoCells"
+    static let proUsersExtraImages = "20182808allow25ImagesForPros"
     static let clickToTalkEnabled = "20182708clickToTalk"
 }

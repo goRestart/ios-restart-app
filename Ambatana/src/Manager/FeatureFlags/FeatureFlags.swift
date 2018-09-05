@@ -15,9 +15,6 @@ protocol FeatureFlaggeable: class {
     var syncedData: Observable<Bool> { get }
     func variablesUpdated()
 
-    var surveyUrl: String { get }
-    var surveyEnabled: Bool { get }
-
     var userReviewsReportEnabled: Bool { get }
     var realEstateEnabled: RealEstateEnabled { get }
     var deckItemPage: DeckItemPage { get }
@@ -54,8 +51,6 @@ protocol FeatureFlaggeable: class {
     var alwaysShowBumpBannerWithLoading: AlwaysShowBumpBannerWithLoading { get }
     var showSellFasterInProfileCells: ShowSellFasterInProfileCells { get }
     var bumpInEditCopys: BumpInEditCopys { get }
-    // MARK: Core
-    var cachedFeed: CachedFeed { get }
 
     var copyForSellFasterNowInTurkish: CopyForSellFasterNowInTurkish { get }
     var multiAdRequestMoreInfo: MultiAdRequestMoreInfo { get }
@@ -79,6 +74,7 @@ protocol FeatureFlaggeable: class {
     var carPromoCells: CarPromoCells { get }
     var servicesPromoCells: ServicesPromoCells { get }
     var realEstatePromoCells: RealEstatePromoCells { get }
+    var proUsersExtraImages: ProUsersExtraImages { get }
     
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed { get }
@@ -184,6 +180,10 @@ extension RealEstatePromoCells {
     var isActive: Bool { return self != .control && self != .baseline }
 }
 
+extension ProUsersExtraImages {
+    var isActive: Bool { return self != .control && self != .baseline }
+}
+
 extension ClickToTalk {
     var isActive: Bool { return self != .control && self != .baseline }
 }
@@ -284,10 +284,6 @@ extension CopyForSellFasterNowInTurkish {
             return R.Strings.bumpUpBannerPayTextImprovementTurkishD
         }
     }
-}
-
-extension IAmInterestedFeed {
-    var isVisible: Bool { return self == .control || self == .baseline }
 }
 
 extension PersonalizedFeed {
@@ -454,20 +450,6 @@ final class FeatureFlags: FeatureFlaggeable {
         
         dao.save(emergencyLocate: EmergencyLocate.fromPosition(abTests.emergencyLocate.value))
         dao.save(community: ShowCommunity.fromPosition(abTests.community.value))
-    }
-    
-    var surveyUrl: String {
-        if Bumper.enabled {
-            return Bumper.surveyEnabled ? SharedConstants.surveyDefaultTestUrl : ""
-        }
-        return abTests.surveyURL.value
-    }
-
-    var surveyEnabled: Bool {
-        if Bumper.enabled {
-            return Bumper.surveyEnabled
-        }
-        return abTests.surveyEnabled.value
     }
 
     var userReviewsReportEnabled: Bool {
@@ -1005,7 +987,7 @@ extension FeatureFlags {
             return Bumper.carPromoCells
         }
         
-        return .control
+        return CarPromoCells.fromPosition(abTests.carPromoCells.value)
     }
     
     var servicesPromoCells: ServicesPromoCells {
@@ -1022,6 +1004,14 @@ extension FeatureFlags {
         }
         
         return RealEstatePromoCells.fromPosition(abTests.realEstatePromoCells.value)
+    }
+    
+    var proUsersExtraImages: ProUsersExtraImages {
+        if Bumper.enabled {
+            return Bumper.proUsersExtraImages
+        }
+        
+        return ProUsersExtraImages.fromPosition(abTests.proUserExtraImages.value)
     }
     
     var clickToTalkEnabled: ClickToTalk {
@@ -1068,11 +1058,6 @@ extension FeatureFlags {
         return EmptySearchImprovements.fromPosition(abTests.emptySearchImprovements.value)
     }
 
-    var cachedFeed: CachedFeed {
-        if Bumper.enabled { return Bumper.cachedFeed }
-        return CachedFeed.fromPosition(abTests.cachedFeed.value)
-    }
-    
     var sectionedFeed: SectionedDiscoveryFeed {
         if Bumper.enabled {
             return Bumper.sectionedDiscoveryFeed
@@ -1110,10 +1095,6 @@ extension EmptySearchImprovements {
         case .popularNearYou, .similarQueries, .similarQueriesWhenFewResults, .alwaysSimilar: return R.Strings.listingShowSimilarResultsDescription
         }
     }
-}
-
-extension CachedFeed {
-    var isActive: Bool { return self == .active }
 }
 
 // MARK: Products

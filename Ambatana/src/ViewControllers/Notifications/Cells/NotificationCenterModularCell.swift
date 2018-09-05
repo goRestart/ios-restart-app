@@ -395,7 +395,7 @@ final class NotificationCenterModularCell: UITableViewCell, ReusableCell, UIColl
         titleLabelLeftMargin?.constant = basicImageIncluded ? Metrics.margin : 0
         bodyLabel.font = UIFont.notificationSubtitleFont(read: isRead)
         if isRead {
-            bodyLabel.setHTMLFromString(htmlText: body)
+            bodyLabel.boldStyledHTML(htmlBuffer: body)
         } else {
             bodyLabel.text = body.ignoreHTMLTags
         }

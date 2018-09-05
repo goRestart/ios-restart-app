@@ -988,7 +988,8 @@ extension FiltersViewModel {
         let vm = DropdownViewModel(screenTitle: R.Strings.filtersServicesServicesListTitle,
                                    searchPlaceholderTitle: R.Strings.filtersServicesServicesListSearchPlaceholder,
                                    attributes: sectionRepresentables,
-                                   buttonAction: updateAllServices)
+                                   buttonAction: updateAllServices,
+                                   featureFlags: featureFlags)
         navigator?.openServicesDropdown(viewModel: vm)
     }
     

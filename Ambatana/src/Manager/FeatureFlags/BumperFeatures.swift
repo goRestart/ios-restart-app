@@ -16,7 +16,6 @@ import RxSwift
 extension Bumper  {
     static func initialize() {
         var flags = [BumperFeature.Type]()
-        flags.append(SurveyEnabled.self)
         flags.append(UserReviewsReportEnabled.self)
         flags.append(RealEstateEnabled.self)
         flags.append(RequestsTimeOut.self)
@@ -38,12 +37,10 @@ extension Bumper  {
         flags.append(ShowPasswordlessLogin.self)
         flags.append(CopyForSellFasterNowInEnglish.self)
         flags.append(EmergencyLocate.self)
-        flags.append(IAmInterestedFeed.self)
         flags.append(PersonalizedFeed.self)
         flags.append(ServicesCategoryOnSalchichasMenu.self)
         flags.append(EmptySearchImprovements.self)
         flags.append(OffensiveReportAlert.self)
-        flags.append(HighlightedIAmInterestedFeed.self)
         flags.append(FullScreenAdsWhenBrowsingForUS.self)
         flags.append(VideoPosting.self)
         flags.append(PredictivePosting.self)
@@ -72,32 +69,19 @@ extension Bumper  {
         flags.append(BumpInEditCopys.self)
         flags.append(MultiAdRequestMoreInfo.self)
         flags.append(EnableJobsAndServicesCategory.self)
-        flags.append(CachedFeed.self)
         flags.append(CopyForSellFasterNowInTurkish.self)
         flags.append(NotificationCenterRedesign.self)
         flags.append(TurkeyFreePosting.self)
         flags.append(RandomImInterestedMessages.self)
         flags.append(CarPromoCells.self)
         flags.append(RealEstatePromoCells.self)
+        flags.append(ProUsersExtraImages.self)
         flags.append(SectionedDiscoveryFeed.self)
         flags.append(ServicesPromoCells.self)
         flags.append(ImInterestedInProfile.self)
         flags.append(ClickToTalk.self)
         Bumper.initialize(flags)
     } 
-
-    static var surveyEnabled: Bool {
-        guard let value = Bumper.value(for: SurveyEnabled.key) else { return false }
-        return SurveyEnabled(rawValue: value)?.asBool ?? false
-    } 
-
-    #if (RX_BUMPER)
-    static var surveyEnabledObservable: Observable<Bool> {
-        return Bumper.observeValue(for: SurveyEnabled.key).map {
-            SurveyEnabled(rawValue: $0 ?? "")?.asBool ?? false
-        }
-    }
-    #endif
 
     static var userReviewsReportEnabled: Bool {
         guard let value = Bumper.value(for: UserReviewsReportEnabled.key) else { return false }
@@ -372,19 +356,6 @@ extension Bumper  {
     }
     #endif
 
-    static var iAmInterestedFeed: IAmInterestedFeed {
-        guard let value = Bumper.value(for: IAmInterestedFeed.key) else { return .control }
-        return IAmInterestedFeed(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var iAmInterestedFeedObservable: Observable<IAmInterestedFeed> {
-        return Bumper.observeValue(for: IAmInterestedFeed.key).map {
-            IAmInterestedFeed(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
     static var personalizedFeed: PersonalizedFeed {
         guard let value = Bumper.value(for: PersonalizedFeed.key) else { return .control }
         return PersonalizedFeed(rawValue: value) ?? .control 
@@ -433,19 +404,6 @@ extension Bumper  {
     static var offensiveReportAlertObservable: Observable<OffensiveReportAlert> {
         return Bumper.observeValue(for: OffensiveReportAlert.key).map {
             OffensiveReportAlert(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var highlightedIAmInterestedFeed: HighlightedIAmInterestedFeed {
-        guard let value = Bumper.value(for: HighlightedIAmInterestedFeed.key) else { return .control }
-        return HighlightedIAmInterestedFeed(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var highlightedIAmInterestedFeedObservable: Observable<HighlightedIAmInterestedFeed> {
-        return Bumper.observeValue(for: HighlightedIAmInterestedFeed.key).map {
-            HighlightedIAmInterestedFeed(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -814,19 +772,6 @@ extension Bumper  {
     }
     #endif
 
-    static var cachedFeed: CachedFeed {
-        guard let value = Bumper.value(for: CachedFeed.key) else { return .control }
-        return CachedFeed(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var cachedFeedObservable: Observable<CachedFeed> {
-        return Bumper.observeValue(for: CachedFeed.key).map {
-            CachedFeed(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
     static var copyForSellFasterNowInTurkish: CopyForSellFasterNowInTurkish {
         guard let value = Bumper.value(for: CopyForSellFasterNowInTurkish.key) else { return .control }
         return CopyForSellFasterNowInTurkish(rawValue: value) ?? .control 
@@ -905,6 +850,19 @@ extension Bumper  {
     }
     #endif
 
+    static var proUsersExtraImages: ProUsersExtraImages {
+        guard let value = Bumper.value(for: ProUsersExtraImages.key) else { return .control }
+        return ProUsersExtraImages(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var proUsersExtraImagesObservable: Observable<ProUsersExtraImages> {
+        return Bumper.observeValue(for: ProUsersExtraImages.key).map {
+            ProUsersExtraImages(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
     static var sectionedDiscoveryFeed: SectionedDiscoveryFeed {
         guard let value = Bumper.value(for: SectionedDiscoveryFeed.key) else { return .control }
         return SectionedDiscoveryFeed(rawValue: value) ?? .control 
@@ -958,15 +916,6 @@ extension Bumper  {
     #endif
 }
 
-
-enum SurveyEnabled: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return SurveyEnabled.no.rawValue }
-    static var enumValues: [SurveyEnabled] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show qualitative survey" } 
-    var asBool: Bool { return self == .yes }
-}
 
 enum UserReviewsReportEnabled: String, BumperFeature  {
     case no, yes
@@ -1290,22 +1239,6 @@ enum EmergencyLocate: String, BumperFeature  {
     }
 }
 
-enum IAmInterestedFeed: String, BumperFeature  {
-    case control, baseline, hidden
-    static var defaultValue: String { return IAmInterestedFeed.control.rawValue }
-    static var enumValues: [IAmInterestedFeed] { return [.control, .baseline, .hidden]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show an I am interested button in the main feed" } 
-    static func fromPosition(_ position: Int) -> IAmInterestedFeed {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .hidden
-            default: return .control
-        }
-    }
-}
-
 enum PersonalizedFeed: String, BumperFeature  {
     case control, baseline, personalized
     static var defaultValue: String { return PersonalizedFeed.control.rawValue }
@@ -1370,24 +1303,6 @@ enum OffensiveReportAlert: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
-            default: return .control
-        }
-    }
-}
-
-enum HighlightedIAmInterestedFeed: String, BumperFeature  {
-    case control, baseline, lightBottom, darkTop, darkBottom
-    static var defaultValue: String { return HighlightedIAmInterestedFeed.control.rawValue }
-    static var enumValues: [HighlightedIAmInterestedFeed] { return [.control, .baseline, .lightBottom, .darkTop, .darkBottom]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "[RETENTION] Show an I am interested highlighted undo button in the main feed more" } 
-    static func fromPosition(_ position: Int) -> HighlightedIAmInterestedFeed {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .lightBottom
-            case 3: return .darkTop
-            case 4: return .darkBottom
             default: return .control
         }
     }
@@ -1840,22 +1755,6 @@ enum EnableJobsAndServicesCategory: String, BumperFeature  {
     }
 }
 
-enum CachedFeed: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return CachedFeed.control.rawValue }
-    static var enumValues: [CachedFeed] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "[CORE] Show cached feed before requesting for a fresh one" } 
-    static func fromPosition(_ position: Int) -> CachedFeed {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
 enum CopyForSellFasterNowInTurkish: String, BumperFeature  {
     case control, baseline, variantB, variantC, variantD
     static var defaultValue: String { return CopyForSellFasterNowInTurkish.control.rawValue }
@@ -1950,6 +1849,22 @@ enum RealEstatePromoCells: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .variantA
+            default: return .control
+        }
+    }
+}
+
+enum ProUsersExtraImages: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return ProUsersExtraImages.control.rawValue }
+    static var enumValues: [ProUsersExtraImages] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[Cars] allow up to 25 images to be displayed on the product detail page" } 
+    static func fromPosition(_ position: Int) -> ProUsersExtraImages {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
             default: return .control
         }
     }

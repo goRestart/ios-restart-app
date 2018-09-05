@@ -80,10 +80,6 @@ public struct SharedConstants {
     // Pre Permissions
     public static let pushPermissionRepeatTime = TimeInterval.make(days: 1)
 
-    // Surveys
-    public static let surveysMinGapTime = TimeInterval.make(days: 1)
-    public static let surveyDefaultTestUrl = "https://letgo1.typeform.com/to/e9Ndb4"
-
     // Listing posting
     public static var maxImageCount: Int = 10
     public static let maxPriceIntegerCharacters = 9
