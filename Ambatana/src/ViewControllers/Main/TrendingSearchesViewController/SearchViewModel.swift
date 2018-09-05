@@ -8,6 +8,10 @@ final class SearchViewModel: BaseViewModel {
     private let tracker: TrackerProxy
     private let myUserRepository: MyUserRepository
 
+    var wireframe: SearchResultsNavigator?
+    
+    var searchCallback: ((SearchType) -> ())?
+    
     private let searchType: SearchType? // The initial search
     var searchString: String? = nil
     var clearTextOnSearch: Bool {
@@ -20,25 +24,30 @@ final class SearchViewModel: BaseViewModel {
         }
     }
 
-    convenience init(searchType: SearchType?) {
+    convenience init(searchType: SearchType?,
+                     searchCallback: ((SearchType) -> ())? = nil) {
         self.init(searchType: searchType,
                   tracker: TrackerProxy.sharedInstance,
-                  myUserRepository: Core.myUserRepository)
+                  myUserRepository: Core.myUserRepository,
+                  searchCallback: searchCallback)
     }
 
-    private init(searchType: SearchType?, tracker: TrackerProxy, myUserRepository: MyUserRepository) {
+    private init(searchType: SearchType?,
+                 tracker: TrackerProxy,
+                 myUserRepository: MyUserRepository,
+                 searchCallback: ((SearchType) -> ())? = nil) {
         self.searchType = searchType
         self.tracker = tracker
         self.myUserRepository = myUserRepository
+        self.searchCallback = searchCallback
     }
 
     func search(_ query: String) {
         guard !query.isEmpty else { return }
         tracker.trackEvent(TrackerEvent.searchStart(myUserRepository.myUser))
-        navigator?.openSearchResults(with: .user(query: query))
+        searchCallback?(.user(query: query))
+        wireframe?.cancelSearch()
     }
 
-    func cancel() {
-        navigator?.cancelSearch()
-    }
+    func cancel() { wireframe?.cancelSearch() }
 }

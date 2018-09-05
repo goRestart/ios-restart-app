@@ -67,7 +67,7 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
             return filters.place ?? Place(postalAddress: currentLocation?.postalAddress,
                                           location: currentLocation?.location)
     }
-    
+
     // Private vars
     
     private let filtersVar: Variable<ListingFilters>
@@ -406,7 +406,18 @@ extension FeedViewModel {
             myUserName:  myUserRepository.myUser?.name)
     }
     
-    func openSearches() { navigator?.openSearches() }
+    func openSearches() {
+        guard let safeNavigator = navigator else { return }
+        wireframe?.openSearches(withSearchType: searchType){ [weak self] searchType in
+            guard let safeSelf = self else { return }
+            safeSelf.wireframe?.openClassicFeed(
+                navigator: safeNavigator,
+                withSearchType: searchType,
+                listingFilters: safeSelf.filters,
+                shouldCloseOnRemoveAllFilters: false)
+            safeSelf.delegate?.searchCompleted()
+        }
+    }
     
     func showFilters() {
         wireframe?.openFilters(withListingFilters: filters,

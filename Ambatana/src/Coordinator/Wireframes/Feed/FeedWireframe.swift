@@ -14,6 +14,8 @@ protocol FeedNavigator: class {
                  requester: ListingListMultiRequester,
                  listingFilters: ListingFilters,
                  locationManager: LocationManager)
+    func openSearches(withSearchType searchType: SearchType?,
+                      searchCallback searchCallback: ((SearchType) -> ())?)
     func openAppInvite(myUserId: String?, myUserName: String?)
     func openProFeed(navigator: MainTabNavigator?,
                      withSearchType: SearchType,
@@ -86,6 +88,17 @@ final class FeedWireframe: FeedNavigator {
             alertType: .iconAlert(icon: R.Asset.IconsButtons.customPermissionProfile.image),
             actions: [positive, negative]
         )
+    }
+    
+    func openSearches(withSearchType searchType: SearchType?,
+                      searchCallback searchCallback: ((SearchType) -> ())?) {
+        nc.present(
+            UINavigationController(rootViewController:
+                SearchBuilder.modal(root: nc).buildSearch(
+                    withSearchType: searchType,
+                    searchCallback: searchCallback)),
+            animated: true,
+            completion: nil)
     }
     
     func openAppInvite(myUserId: String?, myUserName: String?) {

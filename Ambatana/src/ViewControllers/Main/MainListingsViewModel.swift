@@ -623,7 +623,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     func updateFiltersFromTags(_ tags: [FilterTag],
                                removedTag: FilterTag?) {
         guard !shouldCloseOnRemoveAllFilters || tags.count > 0 else {
-            wireframe?.closeAll()
+            wireframe?.close()
             return
         }
         var categories: [FilterCategoryItem] = []
@@ -1060,7 +1060,7 @@ extension MainListingsViewModel: FiltersViewModelDataDelegate {
     
     func viewModelDidUpdateFilters(_ viewModel: FiltersViewModel, filters: ListingFilters) {
         guard !shouldCloseOnRemoveAllFilters || !filters.isDefault() else {
-            wireframe?.closeAll()
+            wireframe?.close()
             return
         }
         self.filters = filters

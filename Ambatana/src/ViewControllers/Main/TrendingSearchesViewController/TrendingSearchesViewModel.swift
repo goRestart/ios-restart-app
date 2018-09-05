@@ -10,11 +10,6 @@ private enum SuggestiveSearches {
     static let lastSearchesShowMaximum = 3
 }
 
-protocol TrendingSearchesNavigator: class {
-    func cancelSearch()
-    func openSearchResults(with searchType: SearchType)
-}
-
 final class TrendingSearchesViewModel: BaseViewModel {
 
     weak var navigator: TrendingSearchesNavigator?
@@ -30,19 +25,33 @@ final class TrendingSearchesViewModel: BaseViewModel {
     let suggestiveSearchInfo = Variable<SuggestiveSearchInfo>(.empty())
 
     let searchText = Variable<String?>(nil)
+    
+    var wireframe: TrendingSearchesNavigator?
 
+    private var searchCallback: ((SearchType) -> ())?
+    
     convenience override init() {
         self.init(keyValueStorage: KeyValueStorage.sharedInstance,
                   locationManager: Core.locationManager,
-                  searchRepository: Core.searchRepository)
+                  searchRepository: Core.searchRepository,
+                  searchCallback: nil)
+    }
+    
+    convenience init(searchCallback: ((SearchType) -> ())?) {
+        self.init(keyValueStorage: KeyValueStorage.sharedInstance,
+                  locationManager: Core.locationManager,
+                  searchRepository: Core.searchRepository,
+                  searchCallback: searchCallback)
     }
 
     private init(keyValueStorage: KeyValueStorageable,
                  locationManager: LocationManager,
-                 searchRepository: SearchRepository) {
+                 searchRepository: SearchRepository,
+                 searchCallback: ((SearchType) -> ())?) {
         self.keyValueStorage = keyValueStorage
         self.locationManager = locationManager
         self.searchRepository = searchRepository
+        self.searchCallback = searchCallback
     }
 
     override func didBecomeActive(_ firstTime: Bool) {
@@ -73,9 +82,7 @@ final class TrendingSearchesViewModel: BaseViewModel {
         }).disposed(by: disposeBag)
     }
 
-    func endEditing() {
-        navigator?.cancelSearch()
-    }
+    func endEditing() { wireframe?.cancelSearch() }
 
     func cleanUpLastSearches() {
         keyValueStorage[.lastSuggestiveSearches] = []
@@ -166,17 +173,20 @@ extension TrendingSearchesViewModel {
 
     private func selectedTrendingSearchAtIndex(_ index: Int) {
         guard let trendingSearch = trendingSearchAtIndex(index), !trendingSearch.isEmpty else { return }
-        navigator?.openSearchResults(with: .trending(query: trendingSearch))
+        searchCallback?(.trending(query: trendingSearch))
+        wireframe?.cancelSearch()
     }
 
     private func selectedSuggestiveSearchAtIndex(_ index: Int) {
         guard let (suggestiveSearch, _) = suggestiveSearchAtIndex(index) else { return }
-        navigator?.openSearchResults(with: .suggestive(search: suggestiveSearch, indexSelected: index))
+        searchCallback?(.suggestive(search: suggestiveSearch, indexSelected: index))
+        wireframe?.cancelSearch()
     }
 
     private func selectedLastSearchAtIndex(_ index: Int) {
         guard let lastSearch = lastSearchAtIndex(index), let name = lastSearch.name, !name.isEmpty else { return }
-        navigator?.openSearchResults(with: .lastSearch(search: lastSearch))
+        searchCallback?(.lastSearch(search: lastSearch))
+        wireframe?.cancelSearch()
     }
 
     func trendingSearchAtIndex(_ index: Int) -> String? {

@@ -289,4 +289,6 @@ extension FeedViewController: FeedViewModelDelegate {
         guard viewModel === vm else { return }
         refreshUIWithState(state)
     }
+    
+    func searchCompleted() { navbarSearch?.cancelEdit() }
 }
