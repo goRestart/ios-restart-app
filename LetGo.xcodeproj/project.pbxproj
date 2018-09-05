@@ -117,6 +117,8 @@
 		097EDBE9213CFF6D0057D638 /* P2PPaymentsOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097EDBE7213CFF6D0057D638 /* P2PPaymentsOnboardingViewModel.swift */; };
 		098F1BC0213F669E004B72C9 /* P2PPaymentsOnboardingTraitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 098F1BBF213F669E004B72C9 /* P2PPaymentsOnboardingTraitView.swift */; };
 		098F1BC1213F669E004B72C9 /* P2PPaymentsOnboardingTraitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 098F1BBF213F669E004B72C9 /* P2PPaymentsOnboardingTraitView.swift */; };
+		098F1BC3213F8EAC004B72C9 /* P2PPaymentsOfferFeesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 098F1BC2213F8EAC004B72C9 /* P2PPaymentsOfferFeesView.swift */; };
+		098F1BC4213F8EAC004B72C9 /* P2PPaymentsOfferFeesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 098F1BC2213F8EAC004B72C9 /* P2PPaymentsOfferFeesView.swift */; };
 		09D7BC7E20EB62950090E499 /* StripeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D7BC7D20EB62950090E499 /* StripeManager.swift */; };
 		09D7BC7F20EB62950090E499 /* StripeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D7BC7D20EB62950090E499 /* StripeManager.swift */; };
 		0A00F9C61FA3656600E915F4 /* ListingDeckViewControllerBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A00F9C31FA364B100E915F4 /* ListingDeckViewControllerBinder.swift */; };
@@ -2416,6 +2418,7 @@
 		097EDBE4213CFF180057D638 /* P2PPaymentsMakeAnOfferBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PPaymentsMakeAnOfferBuilder.swift; sourceTree = "<group>"; };
 		097EDBE7213CFF6D0057D638 /* P2PPaymentsOnboardingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOnboardingViewModel.swift; sourceTree = "<group>"; };
 		098F1BBF213F669E004B72C9 /* P2PPaymentsOnboardingTraitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOnboardingTraitView.swift; sourceTree = "<group>"; };
+		098F1BC2213F8EAC004B72C9 /* P2PPaymentsOfferFeesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOfferFeesView.swift; sourceTree = "<group>"; };
 		09D7BC7D20EB62950090E499 /* StripeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripeManager.swift; sourceTree = "<group>"; };
 		0A00F9C31FA364B100E915F4 /* ListingDeckViewControllerBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckViewControllerBinder.swift; sourceTree = "<group>"; };
 		0A04D5C420760A9C00471B9D /* CoreABGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreABGroup.swift; sourceTree = "<group>"; };
@@ -3784,6 +3787,7 @@
 				0904D88F213F310C00D5D554 /* P2PPaymentsCreateOfferBuyerInfoView.swift */,
 				0904D890213F310C00D5D554 /* P2PPaymentsChangeOfferView.swift */,
 				0904D891213F310C00D5D554 /* P2PPaymentsCurrencyTextField.swift */,
+				098F1BC2213F8EAC004B72C9 /* P2PPaymentsOfferFeesView.swift */,
 			);
 			path = Subviews;
 			sourceTree = "<group>";
@@ -8952,6 +8956,7 @@
 				C79643111D4F5AFA000C5FCE /* RelatedListingsView.swift in Sources */,
 				0140073A21218CFF00BD2E1B /* FeedBadgingSynchronizer.swift in Sources */,
 				5095988D1C8733B70026AE2D /* CrashlyticsReporter.swift in Sources */,
+				098F1BC3213F8EAC004B72C9 /* P2PPaymentsOfferFeesView.swift in Sources */,
 				C7363FBC1BFA449A00A4BF6F /* ListingSortCriteria+LG.swift in Sources */,
 				09129E4D211AEF86004B84E9 /* P2PPaymentsOnboardingViewController.swift in Sources */,
 				0AC05A871FB081110091D0E2 /* ListingCardViewBinder.swift in Sources */,
@@ -9700,6 +9705,7 @@
 				5555531E203D92F900C913D2 /* UserProfileViewModel.swift in Sources */,
 				2ECB417120065FB200482EF7 /* BumpUpPayViewModel.swift in Sources */,
 				C703BDFF1C7F1AF900EC8EF2 /* EditLocationViewController.swift in Sources */,
+				098F1BC4213F8EAC004B72C9 /* P2PPaymentsOfferFeesView.swift in Sources */,
 				A4B06437212FF82000769B6B /* FeedBuilder.swift in Sources */,
 				0A38625520EB7E8C00DD997F /* LPMessageViewModel.swift in Sources */,
 				C6DC012A213D313E00661438 /* PageControlRepresentable.swift in Sources */,
