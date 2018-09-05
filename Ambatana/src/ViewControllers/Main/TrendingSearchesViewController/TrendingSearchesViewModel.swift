@@ -28,30 +28,30 @@ final class TrendingSearchesViewModel: BaseViewModel {
     
     var wireframe: TrendingSearchesNavigator?
 
-    private var searchCallback: ((SearchType) -> ())?
-    
+    private var onUserSearchCallback: ((SearchType) -> ())?
+
     convenience override init() {
         self.init(keyValueStorage: KeyValueStorage.sharedInstance,
                   locationManager: Core.locationManager,
                   searchRepository: Core.searchRepository,
-                  searchCallback: nil)
+                  onUserSearchCallback: nil)
     }
     
-    convenience init(searchCallback: ((SearchType) -> ())?) {
+    convenience init(onUserSearchCallback: ((SearchType) -> ())?) {
         self.init(keyValueStorage: KeyValueStorage.sharedInstance,
                   locationManager: Core.locationManager,
                   searchRepository: Core.searchRepository,
-                  searchCallback: searchCallback)
+                  onUserSearchCallback: onUserSearchCallback)
     }
 
     private init(keyValueStorage: KeyValueStorageable,
                  locationManager: LocationManager,
                  searchRepository: SearchRepository,
-                 searchCallback: ((SearchType) -> ())?) {
+                 onUserSearchCallback: ((SearchType) -> ())?) {
         self.keyValueStorage = keyValueStorage
         self.locationManager = locationManager
         self.searchRepository = searchRepository
-        self.searchCallback = searchCallback
+        self.onUserSearchCallback = onUserSearchCallback
     }
 
     override func didBecomeActive(_ firstTime: Bool) {
@@ -173,19 +173,19 @@ extension TrendingSearchesViewModel {
 
     private func selectedTrendingSearchAtIndex(_ index: Int) {
         guard let trendingSearch = trendingSearchAtIndex(index), !trendingSearch.isEmpty else { return }
-        searchCallback?(.trending(query: trendingSearch))
+        onUserSearchCallback?(.trending(query: trendingSearch))
         wireframe?.cancelSearch()
     }
 
     private func selectedSuggestiveSearchAtIndex(_ index: Int) {
         guard let (suggestiveSearch, _) = suggestiveSearchAtIndex(index) else { return }
-        searchCallback?(.suggestive(search: suggestiveSearch, indexSelected: index))
+        onUserSearchCallback?(.suggestive(search: suggestiveSearch, indexSelected: index))
         wireframe?.cancelSearch()
     }
 
     private func selectedLastSearchAtIndex(_ index: Int) {
         guard let lastSearch = lastSearchAtIndex(index), let name = lastSearch.name, !name.isEmpty else { return }
-        searchCallback?(.lastSearch(search: lastSearch))
+        onUserSearchCallback?(.lastSearch(search: lastSearch))
         wireframe?.cancelSearch()
     }
 

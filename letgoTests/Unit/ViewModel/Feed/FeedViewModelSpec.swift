@@ -203,7 +203,7 @@ final class FeedViewModelSpec: BaseViewModelSpec {
             }
         }
         
-        describe("openSaerches") {
+        describe("openSearches") {
             var wireframe: FeedWireframeMock?
             let navigator: MainTabCoordinator = MainTabCoordinator()
             
@@ -296,7 +296,7 @@ private extension FeedViewModelSpec {
             openMapWasCalled = true
         }
         
-        func openSearches(withSearchType searchType: SearchType?, searchCallback: ((SearchType) -> ())?) {
+        func openSearches(withSearchType searchType: SearchType?, onUserSearchCallback: ((SearchType) -> ())?) {
             openSearchesWasCalled = true
         }
         

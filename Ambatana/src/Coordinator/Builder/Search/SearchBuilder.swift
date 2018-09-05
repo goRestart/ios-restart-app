@@ -2,15 +2,15 @@ import LGComponents
 
 protocol SearchAssembly {
     func buildSearch(withSearchType searchType: SearchType?,
-                     searchCallback: ((SearchType) -> ())?) -> BaseViewController
+                     onUserSearchCallback: ((SearchType) -> ())?) -> BaseViewController
 }
 
 enum SearchBuilder: SearchAssembly {
     case modal(root: UIViewController)
     
     func buildSearch(withSearchType searchType: SearchType?,
-                     searchCallback: ((SearchType) -> ())?) -> BaseViewController {
-        let vm = SearchViewModel(searchType: searchType, searchCallback: searchCallback)
+                     onUserSearchCallback: ((SearchType) -> ())?) -> BaseViewController {
+        let vm = SearchViewModel(searchType: searchType, onUserSearchCallback: onUserSearchCallback)
         let vc = SearchViewController(vm: vm)
         
         switch self {

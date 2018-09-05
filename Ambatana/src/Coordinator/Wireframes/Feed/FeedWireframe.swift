@@ -15,7 +15,7 @@ protocol FeedNavigator: class {
                  listingFilters: ListingFilters,
                  locationManager: LocationManager)
     func openSearches(withSearchType searchType: SearchType?,
-                      searchCallback searchCallback: ((SearchType) -> ())?)
+                      onUserSearchCallback onUserSearchCallback: ((SearchType) -> ())?)
     func openAppInvite(myUserId: String?, myUserName: String?)
     func openProFeed(navigator: MainTabNavigator?,
                      withSearchType: SearchType,
@@ -91,12 +91,12 @@ final class FeedWireframe: FeedNavigator {
     }
     
     func openSearches(withSearchType searchType: SearchType?,
-                      searchCallback searchCallback: ((SearchType) -> ())?) {
+                      onUserSearchCallback onUserSearchCallback: ((SearchType) -> ())?) {
         nc.present(
             UINavigationController(rootViewController:
                 SearchBuilder.modal(root: nc).buildSearch(
                     withSearchType: searchType,
-                    searchCallback: searchCallback)),
+                    onUserSearchCallback: onUserSearchCallback)),
             animated: true,
             completion: nil)
     }

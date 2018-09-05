@@ -10,7 +10,7 @@ final class SearchViewModel: BaseViewModel {
 
     var wireframe: SearchResultsNavigator?
     
-    var searchCallback: ((SearchType) -> ())?
+    var onUserSearchCallback: ((SearchType) -> ())?
     
     private let searchType: SearchType? // The initial search
     var searchString: String? = nil
@@ -25,27 +25,27 @@ final class SearchViewModel: BaseViewModel {
     }
 
     convenience init(searchType: SearchType?,
-                     searchCallback: ((SearchType) -> ())? = nil) {
+                     onUserSearchCallback: ((SearchType) -> ())? = nil) {
         self.init(searchType: searchType,
                   tracker: TrackerProxy.sharedInstance,
                   myUserRepository: Core.myUserRepository,
-                  searchCallback: searchCallback)
+                  onUserSearchCallback: onUserSearchCallback)
     }
 
     private init(searchType: SearchType?,
                  tracker: TrackerProxy,
                  myUserRepository: MyUserRepository,
-                 searchCallback: ((SearchType) -> ())? = nil) {
+                 onUserSearchCallback: ((SearchType) -> ())? = nil) {
         self.searchType = searchType
         self.tracker = tracker
         self.myUserRepository = myUserRepository
-        self.searchCallback = searchCallback
+        self.onUserSearchCallback = onUserSearchCallback
     }
 
     func search(_ query: String) {
         guard !query.isEmpty else { return }
         tracker.trackEvent(TrackerEvent.searchStart(myUserRepository.myUser))
-        searchCallback?(.user(query: query))
+        onUserSearchCallback?(.user(query: query))
         wireframe?.cancelSearch()
     }
 

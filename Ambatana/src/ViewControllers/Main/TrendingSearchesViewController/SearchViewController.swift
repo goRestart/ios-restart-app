@@ -22,7 +22,7 @@ final class SearchViewController: BaseViewController {
     required init?(coder aDecoder: NSCoder) { fatalError("Die xibs, die") }
 
     private func loadTrendingView() {
-        let vm = TrendingSearchesViewModel(searchCallback: viewModel.searchCallback)
+        let vm = TrendingSearchesViewModel(onUserSearchCallback: viewModel.onUserSearchCallback)
         vm.wireframe = TrendingSearchesWireframe(root: self)
         let trending = TrendingSearchesViewController(viewModel: vm)
         trendingViewModel = trending.viewModel

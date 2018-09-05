@@ -1591,7 +1591,10 @@ extension MainListingsViewModel {
     private func selectedTrendingSearchAtIndex(_ index: Int) {
         guard let trendingSearch = trendingSearchAtIndex(index), !trendingSearch.isEmpty else { return }
         delegate?.vmDidSearch()
-        navigator?.openMainListings(withSearchType: .trending(query: trendingSearch), listingFilters: filters)
+        guard let safeNavigator = navigator else { return }
+        wireframe?.openClassicFeed(navigator: safeNavigator,
+                                   withSearchType: .trending(query: trendingSearch),
+                                   listingFilters: filters)
     }
     
     private func selectedSuggestiveSearchAtIndex(_ index: Int) {
@@ -1604,9 +1607,12 @@ extension MainListingsViewModel {
         } else {
             newFilters = filters
         }
-        navigator?.openMainListings(withSearchType: .suggestive(search: suggestiveSearch,
-                                                                indexSelected: index),
-                                    listingFilters: newFilters)
+        guard let safeNavigator = navigator else { return }
+        wireframe?.openClassicFeed(navigator: safeNavigator,
+                                   withSearchType: .suggestive(
+                                    search: suggestiveSearch,
+                                    indexSelected: index),
+                                   listingFilters: newFilters)
     }
     
     private func selectedLastSearchAtIndex(_ index: Int) {
