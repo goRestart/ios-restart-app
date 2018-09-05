@@ -355,6 +355,8 @@
 		0A8275131F7D1A1100A6A0C5 /* DeferredDeepLinkFacebookTargetSearchQuery.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A82750D1F7D190A00A6A0C5 /* DeferredDeepLinkFacebookTargetSearchQuery.json */; };
 		0A8275141F7D1A1100A6A0C5 /* DeferredDeepLinkFacebookTargetCategory.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A82750F1F7D194800A6A0C5 /* DeferredDeepLinkFacebookTargetCategory.json */; };
 		0A8275151F7D1A1100A6A0C5 /* DeferredDeepLinkFacebookTargetListing.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A8275111F7D196700A6A0C5 /* DeferredDeepLinkFacebookTargetListing.json */; };
+		0A82A18A213FFF41005ECA58 /* DashedLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A82A189213FFF41005ECA58 /* DashedLine.swift */; };
+		0A82A18B213FFF41005ECA58 /* DashedLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A82A189213FFF41005ECA58 /* DashedLine.swift */; };
 		0A85BD9B2074D48200A850AF /* MockProduct+MockFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A85BD9A2074D48200A850AF /* MockProduct+MockFactory.swift */; };
 		0A8732DE21215C77006DEF11 /* SimpleListingBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8732DD21215C77006DEF11 /* SimpleListingBuilder.swift */; };
 		0A8732DF21215C77006DEF11 /* SimpleListingBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8732DD21215C77006DEF11 /* SimpleListingBuilder.swift */; };
@@ -2501,6 +2503,7 @@
 		0A82750D1F7D190A00A6A0C5 /* DeferredDeepLinkFacebookTargetSearchQuery.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DeferredDeepLinkFacebookTargetSearchQuery.json; sourceTree = "<group>"; };
 		0A82750F1F7D194800A6A0C5 /* DeferredDeepLinkFacebookTargetCategory.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DeferredDeepLinkFacebookTargetCategory.json; sourceTree = "<group>"; };
 		0A8275111F7D196700A6A0C5 /* DeferredDeepLinkFacebookTargetListing.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DeferredDeepLinkFacebookTargetListing.json; sourceTree = "<group>"; };
+		0A82A189213FFF41005ECA58 /* DashedLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashedLine.swift; sourceTree = "<group>"; };
 		0A85BD9A2074D48200A850AF /* MockProduct+MockFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MockProduct+MockFactory.swift"; sourceTree = "<group>"; };
 		0A8732DD21215C77006DEF11 /* SimpleListingBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleListingBuilder.swift; sourceTree = "<group>"; };
 		0A8732ED212160EF006DEF11 /* ChangePasswordBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordBuilder.swift; sourceTree = "<group>"; };
@@ -4166,6 +4169,14 @@
 				0A25E8112019C87900E6A72E /* OnBoardingAnimator.swift */,
 			);
 			path = OnBoarding;
+			sourceTree = "<group>";
+		};
+		0A82A188213FFF31005ECA58 /* DashedLine */ = {
+			isa = PBXGroup;
+			children = (
+				0A82A189213FFF41005ECA58 /* DashedLine.swift */,
+			);
+			path = DashedLine;
 			sourceTree = "<group>";
 		};
 		0A8732DB21215C52006DEF11 /* SimpleListing */ = {
@@ -7267,6 +7278,7 @@
 		D458383C1AEE6A9100B5F181 /* ui */ = {
 			isa = PBXGroup;
 			children = (
+				0A82A188213FFF31005ECA58 /* DashedLine */,
 				0A2D42C020E64731001EA068 /* Leanplum */,
 				42F0687E20FF3A51009AC898 /* DropdownTableView */,
 				2E200D1E20BEEB4D0054F053 /* ChatConnectionStatusView */,
@@ -9489,6 +9501,7 @@
 				0A6FED2E2130344000B57004 /* TourPostingWireframe.swift in Sources */,
 				C66105E3213016D200BA4EF7 /* CarPromoCellConfiguration.swift in Sources */,
 				01834970204F6A9F00B14A24 /* BlockingPostingListingEditionViewModel.swift in Sources */,
+				0A82A18A213FFF41005ECA58 /* DashedLine.swift in Sources */,
 				0A6650DC20BBF51500BD1F2B /* EditLocationView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -9601,6 +9614,7 @@
 				8E814F3A1F3472C000C88432 /* LGSlider.swift in Sources */,
 				0A6FECBF2130344000B57004 /* FiltersStandardWireframe.swift in Sources */,
 				3221E5382060619E0006B12B /* ProductPriceAndTitleView.swift in Sources */,
+				0A82A18B213FFF41005ECA58 /* DashedLine.swift in Sources */,
 				C6FFC4A520F7492500B9F53A /* FilterPriceRange.swift in Sources */,
 				C7DB41981C5138B500400945 /* CollectionViewFooter.swift in Sources */,
 				0A2F51F42122E41B0034EF85 /* VerifyAccountsBuilder.swift in Sources */,

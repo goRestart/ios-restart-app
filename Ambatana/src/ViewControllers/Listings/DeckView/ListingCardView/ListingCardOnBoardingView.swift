@@ -3,6 +3,9 @@ import LGComponents
 
 final class ListingCardOnBoardingView: UIView {
 
+    private let horizontalDashed = DashedLine(color: .white)
+    private let verticalDashed = DashedLine(color: .white)
+
     private let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
     private let previousView = GestureView(image: R.Asset.IconsButtons.NewItemPage.nitTapGesture.image,
                                        text: R.Strings.productNitOnboardingPreviousPicture,
@@ -23,30 +26,55 @@ final class ListingCardOnBoardingView: UIView {
     }
 
     private func setupUI() {
-        let movementsLayoutGuide = UILayoutGuide()
+        let horizontalTrailingLayoutGuide = UILayoutGuide()
+        let horizontalLeadingLayoutGuide = UILayoutGuide()
 
-        addLayoutGuide(movementsLayoutGuide)
-        addSubviewsForAutoLayout([visualEffectView, previousView, nextView, moreInfoView])
+        let verticalLayoutGuide = UILayoutGuide()
+
+        addLayoutGuide(horizontalLeadingLayoutGuide)
+        addLayoutGuide(horizontalTrailingLayoutGuide)
+        addLayoutGuide(verticalLayoutGuide)
+
+        addSubviewsForAutoLayout([visualEffectView, previousView,
+                                  nextView, moreInfoView,
+                                  horizontalDashed, verticalDashed])
         NSLayoutConstraint.activate([
-            movementsLayoutGuide.topAnchor.constraint(equalTo: topAnchor),
-            movementsLayoutGuide.heightAnchor.constraint(equalTo: heightAnchor, constant: 0.6),
+            horizontalLeadingLayoutGuide.topAnchor.constraint(equalTo: topAnchor),
+            horizontalLeadingLayoutGuide.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.5),
+            horizontalLeadingLayoutGuide.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.7),
+            horizontalLeadingLayoutGuide.leadingAnchor.constraint(equalTo: leadingAnchor),
 
+            horizontalTrailingLayoutGuide.topAnchor.constraint(equalTo: topAnchor),
+            horizontalTrailingLayoutGuide.widthAnchor.constraint(equalTo: horizontalLeadingLayoutGuide.widthAnchor),
+            horizontalTrailingLayoutGuide.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor),
+
+            verticalLayoutGuide.topAnchor.constraint(equalTo: horizontalLeadingLayoutGuide.bottomAnchor),
+            verticalLayoutGuide.bottomAnchor.constraint(equalTo: bottomAnchor),
+
+            verticalDashed.centerXAnchor.constraint(equalTo: centerXAnchor),
+            verticalDashed.topAnchor.constraint(equalTo: topAnchor),
+            verticalDashed.heightAnchor.constraint(equalTo: horizontalLeadingLayoutGuide.heightAnchor,
+                                                   constant: -Metrics.shortMargin), // to avoid overlapping
+            verticalDashed.widthAnchor.constraint(equalToConstant: 1),
+
+            horizontalDashed.centerYAnchor.constraint(equalTo: horizontalLeadingLayoutGuide.bottomAnchor),
+            horizontalDashed.leadingAnchor.constraint(equalTo: leadingAnchor),
+            horizontalDashed.trailingAnchor.constraint(equalTo: trailingAnchor),
+            horizontalDashed.heightAnchor.constraint(equalToConstant: 1),
+            
             visualEffectView.topAnchor.constraint(equalTo: topAnchor),
             visualEffectView.trailingAnchor.constraint(equalTo: trailingAnchor),
             visualEffectView.bottomAnchor.constraint(equalTo: bottomAnchor),
             visualEffectView.leadingAnchor.constraint(equalTo: leadingAnchor),
 
-            previousView.bottomAnchor.constraint(equalTo: movementsLayoutGuide.centerYAnchor,
-                                                 constant: -Metrics.margin),
-            previousView.trailingAnchor.constraint(equalTo: centerXAnchor, constant: -Metrics.margin),
-            previousView.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: Metrics.margin),
+            previousView.centerYAnchor.constraint(equalTo: horizontalLeadingLayoutGuide.centerYAnchor),
+            previousView.centerXAnchor.constraint(equalTo: horizontalLeadingLayoutGuide.centerXAnchor),
 
             nextView.widthAnchor.constraint(equalTo: previousView.widthAnchor),
             nextView.centerYAnchor.constraint(equalTo: previousView.centerYAnchor),
-            nextView.leadingAnchor.constraint(equalTo: centerXAnchor, constant: Metrics.margin),
-            nextView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -Metrics.margin),
+            nextView.centerXAnchor.constraint(equalTo: horizontalTrailingLayoutGuide.centerXAnchor),
 
-            moreInfoView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Metrics.veryBigMargin),
+            moreInfoView.centerYAnchor.constraint(equalTo: verticalLayoutGuide.centerYAnchor),
             moreInfoView.centerXAnchor.constraint(equalTo: centerXAnchor)
         ])
     }
