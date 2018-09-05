@@ -12,6 +12,6 @@ final class P2PPaymentsOnboardingViewModel: BaseViewModel {
     }
 
     func makeAnOfferButtonPressed() {
-        // TODO: Link with make an offer screen (@juolgon)
+        navigator?.openMakeAnOffer()
     }
 }

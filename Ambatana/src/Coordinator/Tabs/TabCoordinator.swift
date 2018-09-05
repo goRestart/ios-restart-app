@@ -40,7 +40,7 @@ class TabCoordinator: NSObject, Coordinator {
     private lazy var verificationAssembly = LGUserVerificationBuilder.standard(nav: navigationController)
     private lazy var rateBuyerAssembly = RateBuyerBuilder.modal(navigationController)
     private lazy var expressChatAssembly = ExpressChatBuilder.modal(navigationController)
-    private lazy var p2pPaymentsAssembly = LGP2PPaymentsBuilder.modal(root: navigationController)
+    private lazy var p2pPaymentsAssembly = LGP2PPaymentsBuilder.modal
 
     weak var tabCoordinatorDelegate: TabCoordinatorDelegate?
     weak var appNavigator: AppNavigator?

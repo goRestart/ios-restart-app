@@ -50,7 +50,7 @@ final class ChatDetailWireframe: ChatDetailNavigator {
                   verifyAccountsAssembly: VerifyAccountsBuilder.modal,
                   loginAssembly: LoginBuilder.modal,
                   assistantMeetingAssembly: AssistantMeetingBuilder.modal(nc),
-                  p2pPaymentsAssembly: LGP2PPaymentsBuilder.modal(root: nc),
+                  p2pPaymentsAssembly: LGP2PPaymentsBuilder.modal,
                   deeplinkMailBox: LGDeepLinkMailBox.sharedInstance)
     }
 
