@@ -68,6 +68,7 @@ final class P2PPaymentsOfferFeesView: UIView {
     private let infoButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Info", for: .normal)
+        button.isHidden = true
         return button
     }()
 

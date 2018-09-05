@@ -2,6 +2,7 @@ import UIKit
 import LGComponents
 import RxSwift
 import RxCocoa
+import PassKit
 
 // TODO: @juolgon Locaalize all texts
 
@@ -11,7 +12,14 @@ final class P2PPaymentsCreateOfferViewController: BaseViewController {
     private let headerView = P2PPaymentsListingHeaderView()
     private let lineSeparatorView = P2PPaymentsLineSeparatorView()
     private let changeOfferView = P2PPaymentsChangeOfferView()
-    private let offerFeesView = P2PPaymentsOfferFeesView()
+    private let buyerInfoView = P2PPaymentsCreateOfferBuyerInfoView()
+    private let setupPaymentButton = PKPaymentButton(paymentButtonType: .setUp, paymentButtonStyle: .whiteOutline)
+    private let buyButton = PKPaymentButton(paymentButtonType: .buy, paymentButtonStyle: .black)
+    private let activityIndicator: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        view.hidesWhenStopped = true
+        return view
+    }()
 
     private var bottomContraint: NSLayoutConstraint?
     private let keyboardHelper = KeyboardHelper()
@@ -36,9 +44,10 @@ final class P2PPaymentsCreateOfferViewController: BaseViewController {
     }
 
     private func setup() {
-        view.addSubviewsForAutoLayout([headerView, lineSeparatorView, changeOfferView])
+        view.addSubviewsForAutoLayout([headerView, lineSeparatorView, changeOfferView, buyerInfoView, setupPaymentButton, buyButton, activityIndicator])
         setupConstraints()
         setupKeyboardHelper()
+        hideAllViews()
     }
 
     private func setupConstraints() {
@@ -52,10 +61,27 @@ final class P2PPaymentsCreateOfferViewController: BaseViewController {
             lineSeparatorView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
             lineSeparatorView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
 
+            buyerInfoView.topAnchor.constraint(equalTo: lineSeparatorView.bottomAnchor, constant: 12),
+            buyerInfoView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            buyerInfoView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+
             changeOfferView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             changeOfferView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             changeOfferView.topAnchor.constraint(equalTo: lineSeparatorView.bottomAnchor, constant: 12),
-            bottomContraint!
+            bottomContraint!,
+
+            setupPaymentButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            setupPaymentButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+            setupPaymentButton.heightAnchor.constraint(equalToConstant: 44),
+            setupPaymentButton.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: -16),
+
+            buyButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            buyButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+            buyButton.heightAnchor.constraint(equalToConstant: 44),
+            buyButton.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: -16),
+
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
         ])
     }
 
@@ -69,6 +95,13 @@ final class P2PPaymentsCreateOfferViewController: BaseViewController {
                 self?.bottomContraint?.constant = -height
                 self?.view.layoutIfNeeded()
             }).disposed(by: disposeBag)
+    }
+
+    private func hideAllViews() {
+        buyerInfoView.isHidden = true
+        changeOfferView.isHidden = true
+        setupPaymentButton.isHidden = true
+        buyButton.isHidden = true
     }
 
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
