@@ -32,7 +32,6 @@ final class P2PPaymentsMakeAnOfferWireframe: P2PPaymentsMakeAnOfferNavigator {
 
     func openMakeAnOffer() {
         let vc = assembly.buildMakeAnOffer(chatConversation: chatConversation)
-        navigationController.addFadeTransition()
-        navigationController.setViewControllers([vc], animated: false)
+        navigationController.setViewControllers([vc], animated: true)
     }
 }
