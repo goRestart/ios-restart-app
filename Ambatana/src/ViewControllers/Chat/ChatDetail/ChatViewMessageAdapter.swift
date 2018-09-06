@@ -1,11 +1,11 @@
 import LGCoreKit
 import LGComponents
 
-class ChatViewMessageAdapter {
-    let stickersRepository: StickersRepository
-    let myUserRepository: MyUserRepository
-    let featureFlags: FeatureFlaggeable
-    let tracker: TrackerProxy
+final class ChatViewMessageAdapter {
+    private let stickersRepository: StickersRepository
+    private let myUserRepository: MyUserRepository
+    private let featureFlags: FeatureFlaggeable
+    private let tracker: TrackerProxy
 
     convenience init() {
         let stickersRepository = Core.stickersRepository
@@ -95,6 +95,9 @@ class ChatViewMessageAdapter {
             type = ChatViewMessageType.cta(ctaData: ctaData, ctas: ctas)
         case .carousel:
             type = ChatViewMessageType.unsupported(text: R.Strings.chatMessageTypeNotSupported)
+        // ABIOS-4837 waiting for back-end implementation to show this new message type
+//        case .carousel(let cards, let answers):
+//            type = ChatViewMessageType.carousel(cards: cards, answers: answers)
         }
         return ChatViewMessage(objectId: message.objectId, talkerId: message.talkerId, sentAt: message.sentAt,
                                receivedAt: message.receivedAt, readAt: message.readAt, type: type,
@@ -128,15 +131,14 @@ class ChatViewMessageAdapter {
         case .interlocutorIsTyping:
             type = ChatViewMessageType.interlocutorIsTyping
         case .cta(let ctaData, let ctas):
-            if featureFlags.enableCTAMessageType {
-                type = ChatViewMessageType.cta(ctaData: ctaData, ctas: ctas)
-            } else {
-                type = ChatViewMessageType.unsupported(text: R.Strings.chatMessageTypeNotSupported)
-            }
+            type = ChatViewMessageType.cta(ctaData: ctaData, ctas: ctas)
         case .unsupported(let defaultText):
             type = ChatViewMessageType.unsupported(text: defaultText ?? R.Strings.chatMessageTypeNotSupported)
         case .carousel:
             type = ChatViewMessageType.unsupported(text: R.Strings.chatMessageTypeNotSupported)
+        // ABIOS-4837 waiting for back-end implementation to show this new message type
+//        case .carousel(let cards, let answers):
+//            type = ChatViewMessageType.carousel(cards: cards, answers: answers)
         }
         return ChatViewMessage(objectId: message.objectId,
                                talkerId: message.talkerId,
@@ -235,13 +237,18 @@ class ChatViewMessageAdapter {
         let email = user.emailAccount?.verified ?? false
         let name = R.Strings.chatUserInfoName(user.name ?? "")
         let address = user.postalAddress.zipCodeCityString
+ 
+        let chatUserInfo = ChatUserInfo(
+            isDummy: user.isDummy,
+            name: name,
+            address: address,
+            rating: user.ratingAverage,
+            isFacebookVerified: facebook,
+            isGoogleVerified: google,
+            isEmailVerified: email
+        )
         return ChatViewMessage(objectId: nil, talkerId: "", sentAt: nil, receivedAt: nil, readAt: nil,
-                               type: .userInfo(isDummy: user.isDummy,
-                                               name: name,
-                                               address: address,
-                                               facebook: facebook,
-                                               google: google,
-                                               email: email),
+                               type: .userInfo(userInfo: chatUserInfo),
                                status: nil, warningStatus: .normal,
                                userAvatarData: userAvatarData)
     }

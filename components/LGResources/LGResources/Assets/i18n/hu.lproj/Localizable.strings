@@ -246,6 +246,10 @@
 "chat_verify_alert_ok_button" = "OK";
 "chat_verify_alert_title" = "A csevegéshez igazold vissza e-mail címedet";
 "chat_with_yourself_alert_msg" = "A saját hirdetésedről nem indíthatsz csevegést.";
+"click_to_talk_smoketest_action_button" = "Első lépések";
+"click_to_talk_smoketest_description" = "Connect with your most interested buyers quickly and sell your items twice as fast.";
+"click_to_talk_smoketest_subtitle" = "Receive calls";
+"click_to_talk_smoketest_title" = "Click to Talk";
 "collection_explore_button" = "Felfedezés";
 "collection_furniture_title" = "Az én váram...";
 "collection_transport_title" = "Utazz stílusosan";
@@ -448,6 +452,7 @@
 "filters_cars_transmission_title" = "Váltó";
 "filters_distance_not_set" = "nincs megadva";
 "filters_jobs_services_header" = "Munka- vagy szolgáltatásinfó";
+"filters_jobs_services_list_max_selection_alert" = "Hoppá! Legfeljebb 15 lehetőséget választhatsz.";
 "filters_jobs_services_subtype_title" = "Altípus";
 "filters_jobs_services_toggle_header" = "Keresek...";
 "filters_jobs_services_type_title" = "Típus";
@@ -759,6 +764,10 @@
 "post_description_name_placeholder" = "Név";
 "post_description_save_button_text" = "Mentsd el a hirdetést!";
 "post_details_jobs_services_camera_message" = "Töltsd fel a vállalati emblémát vagy egy fotót a nyújtott szolgáltatásról vagy munkáról";
+"post_details_jobs_services_congratulation_add_more_details" = "további részletek hozzáadásával:";
+"post_details_jobs_services_congratulation_improve_listing" = "Turbózd fel a hirdetést";
+"post_details_jobs_services_congratulation_people_nearby_first" = "A környékeden élők";
+"post_details_jobs_services_congratulation_people_nearby_second" = "a következőket is keresik:";
 "post_details_jobs_services_step_option_jobs_prefix" = "felbérelni valakit, hogy nyújtson egy";
 "post_details_jobs_services_step_option_services_prefix" = "hirdetni egy";
 "post_details_jobs_services_step_title" = "Szeretnék...";
@@ -878,13 +887,8 @@
 "product_new_onboarding_tap_right_highlighted_label" = "koppints jobbra";
 "product_new_onboarding_tap_right_highlighted_label_2" = "középre";
 "product_new_onboarding_tap_right_label" = "A következő képhez %@ vagy %@";
-<<<<<<< HEAD
-"product_nit_onboarding_next_picture" = "Next picture";
-"product_nit_onboarding_previous_picture" = "Previous picture";
-=======
 "product_nit_onboarding_next_picture" = "Következő kép";
 "product_nit_onboarding_previous_picture" = "Előző kép";
->>>>>>> master
 "product_onboarding_finger_scroll_label" = "Csúsztatással további képeket jeleníthetsz meg";
 "product_onboarding_finger_swipe_label" = "A következő vagy az előző hirdetéshez suhints oldalra";
 "product_onboarding_finger_tap_label" = "A következő hirdetéshez koppints egyet";
@@ -1054,6 +1058,9 @@
 "profile_sold_no_products_label" = "NINCSENEK HIRDETÉSEK (EGYELŐRE!)";
 "profile_sold_other_no_products_button" = "Tovább böngészek";
 "profile_sold_products_tab" = "Eladott";
+"profile_verifications_awareness_view_bold_text" = "Tipp";
+"profile_verifications_awareness_view_button" = "Profil kitöltése";
+"profile_verifications_awareness_view_text" = "%@ – tudtad, hogy a visszaigazold felhasználók jobb üzleteket bonyolítanak le?\n\nTöltsd ki és igazold vissza profilodat!";
 "profile_verifications_email_placeholder" = "Email";
 "profile_verifications_email_view_title" = "E-mail cím hitelesítése";
 "profile_verifications_send_button" = "Küldés";
@@ -1361,6 +1368,7 @@
 "sell_title_autogen_label" = "A letgo által ajánlott cím";
 "sell_title_field_hint" = "Cím (nem kötelező)";
 "sell_uploading_label" = "Hirdetés feltöltése...";
+"services_promo_call_to_action" = "Hirdess meg szolgáltatás";
 "services_promo_cell_title_b" = "Új Szolgáltatások kategória!";
 "services_promo_cell_title_c" = "Keress helyi ügyfeleket szolgáltatásodhoz";
 "services_promo_cell_title_default_bold" = "Keress pénzt";
@@ -1402,6 +1410,8 @@
 "settings_section_promote" = "Hirdet";
 "settings_section_support" = "Támogatás";
 "settings_title" = "Beállítások";
+"share_screenshot_description" = "Készen is áll a megosztásra:";
+"share_screenshot_title" = "Képernyőkép elmentve!";
 "sign_up_acceptance_error" = "A regisztrációhoz el kell fogadnod Felhasználási feltételeinket és Adatkezelési irányelveinket";
 "sign_up_email_field_hint" = "E-mail cím";
 "sign_up_email_step1_continue_button" = "Folytatás";

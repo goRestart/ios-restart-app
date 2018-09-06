@@ -8,113 +8,11 @@ import Result
 final class FeedViewModelSpec: BaseViewModelSpec {
     
     override func spec() {
-        class FeedWireframeMock: FeedNavigator {
-            
-            var openFiltersWasCalled: (state: Bool, listingFilters: ListingFilters?) = (false, nil)
-            var openLocationWasCalled: Bool = false
-            var showPushPermissionsAlertWasCalled: Bool = false
-            var openMapWasCalled: Bool = false
-            var openAppInviteWasCalled: (Bool, String?, String?) = (true, nil, nil)
-            var openProFeedWasCalled: (state: Bool, searchType: SearchType?, navigator: MainTabNavigator?) = (true, nil, nil)
-            var openClassicFeedWasCalled: Bool = true
-            
-            func openFilters(withListingFilters listingFilters: ListingFilters, filtersVMDataDelegate: FiltersViewModelDataDelegate?) {
-                openFiltersWasCalled = (true, listingFilters)
-            }
-            
-            func openLocationSelection(initialPlace: Place?, distanceRadius: Int?, locationDelegate: EditLocationDelegate) {
-                openLocationWasCalled = true
-            }
-            
-            func showPushPermissionsAlert(pushPermissionsManager: PushPermissionsManager, withPositiveAction positiveAction: @escaping (() -> Void), negativeAction: @escaping (() -> Void)) {
-                showPushPermissionsAlertWasCalled = true
-            }
-            
-            func openMap(navigator: ListingsMapNavigator, requester: ListingListMultiRequester, listingFilters: ListingFilters, locationManager: LocationManager) {
-                openMapWasCalled = true
-            }
-            
-            func openAppInvite(myUserId: String?, myUserName: String?) {
-                openAppInviteWasCalled = (true, myUserId, myUserName)
-            }
-            
-            func openProFeed(navigator: MainTabNavigator?, withSearchType searchType: SearchType) {
-                openProFeedWasCalled = (true, searchType, navigator)
-            }
-            
-            func openClassicFeed(navigator: MainTabNavigator, withSearchType searchType: SearchType, listingFilters: ListingFilters) {
-                openClassicFeedWasCalled = true
-            }
-        }
         
         var subject: FeedViewModel?
         
-        describe("FeedViewModelSpec") {
-            
-            let sutError = makeFeedViewModel(withFeedResult: FeedResult(error: .notFound))
-            let sutResult = makeFeedViewModel(withFeedResult: FeedResult(value: MockFeed.makeMock()))
-            var feedResult: FeedResult?
-            let feedCompletion: FeedCompletion = { r in
-                feedResult = r
-            }
-            
-            beforeEach {
-                feedResult = nil
-            }
-            
-            //  MARK: - Retrieve
-
-            context("Retrieve OK - first") {
-                
-                beforeEach {
-                    sutResult.retrieveFirst(feedCompletion)
-                    expect(feedResult).toEventuallyNot(beNil())
-                }
-                it("returns feed") {
-                    expect(feedResult?.value).toNot(beNil())
-                }
-                it("returns no error") {
-                    expect(feedResult?.error).to(beNil())
-                }
-            }
-            
-            context("Retrieve OK - next withURL") {
-                beforeEach {
-                    sutResult.retrieveNext(withUrl: URL.makeRandom(), completion: feedCompletion)
-                    expect(feedResult).toEventuallyNot(beNil())
-                }
-                it("returns feed") {
-                    expect(feedResult?.value).toNot(beNil())
-                }
-                it("returns no error") {
-                    expect(feedResult?.error).to(beNil())
-                }
-            }
-        
-            context("Retrieve Error - first") {
-                beforeEach {
-                    sutError.retrieveFirst(feedCompletion)
-                    expect(feedResult).toEventuallyNot(beNil())
-                }
-                it("returns no feed") {
-                    expect(feedResult?.value).to(beNil())
-                }
-                it("returns repository error") {
-                    expect(feedResult?.error).toNot(beNil())
-                }
-            }
-            context("Retrieve Error - next withURL") {
-                beforeEach {
-                    sutError.retrieveNext(withUrl: URL.makeRandom(), completion: feedCompletion)
-                    expect(feedResult).toEventuallyNot(beNil())
-                }
-                it("returns no feed") {
-                    expect(feedResult?.value).to(beNil())
-                }
-                it("returns repository error") {
-                    expect(feedResult?.error).toNot(beNil())
-                }
-            }
+        beforeEach {
+            subject = self.makeFeedViewModel(withFeedResult: FeedResult(error: .notFound))
         }
         
         describe("showFilters") {
@@ -128,7 +26,7 @@ final class FeedViewModelSpec: BaseViewModelSpec {
             
             it("should open the filters") {
                 expect(feedWireframeMock.openFiltersWasCalled.0) == true
-              }
+            }
             
             it("should send the correct parameters") {
                 expect(feedWireframeMock.openFiltersWasCalled.1).toNot(beNil())
@@ -149,51 +47,194 @@ final class FeedViewModelSpec: BaseViewModelSpec {
             }
         }
         
-        describe("didTapSeeAll- with nil Navigator ") {
-            let feedWireframeMock: FeedWireframeMock = FeedWireframeMock()
+        describe("didTapSeeAll") {
+            var feedWireframeMock: FeedWireframeMock?
+            let coordinator = MainTabCoordinator()
             
             beforeEach {
+                feedWireframeMock = FeedWireframeMock()
                 subject = self.makeFeedViewModel(withFeedResult: FeedResult(error: .notFound))
                 subject?.wireframe = feedWireframeMock
-                subject?.didTapSeeAll(page: .user(query: "CommanderKeen"))
             }
             
-            it("should open the pro feed") {
-                expect(feedWireframeMock.openProFeedWasCalled.0) == true
+            context("when the navigator is not nil") {
+                beforeEach {
+                    subject?.navigator = coordinator
+                    subject?.didTapSeeAll(page: .user(query: "CommanderKeen"))
+                }
+                
+                it("should open the pro feed") {
+                    expect(feedWireframeMock?.openProFeedWasCalled.0) == true
+                }
+                
+                it("should have a beautiful search type") {
+                    expect(feedWireframeMock?.openProFeedWasCalled.searchType).toNot(beNil())
+                }
+                
+                it("should have the correct search type") {
+                    expect(feedWireframeMock?.openProFeedWasCalled.1?.query) == "CommanderKeen"
+                }
             }
             
-            it("should have search type as nil due to navigator == nil") {
-                expect(feedWireframeMock.openProFeedWasCalled.1?.query).to(beNil())
-            }
-            
-            it("should have navigator == nil") {
-                expect(feedWireframeMock.openProFeedWasCalled.2).to(beNil())
+            context("when the navigator is nil") {
+                beforeEach {
+                    subject?.navigator = nil
+                    subject?.didTapSeeAll(page: .user(query: "CommanderKeen"))
+                }
+                
+                it("should NOT open the pro feed") {
+                    expect(feedWireframeMock?.openProFeedWasCalled.0) == false
+                }
+                
+                it("should have search type as nil due to navigator == nil") {
+                    expect(feedWireframeMock?.openProFeedWasCalled.1?.query).to(beNil())
+                }
+                
+                it("should have navigator == nil") {
+                    expect(feedWireframeMock?.openProFeedWasCalled.searchType).to(beNil())
+                }
             }
         }
         
-        describe("didTapSeeAll- with Navigator") {
+        describe("showFilters") {
             let feedWireframeMock: FeedWireframeMock = FeedWireframeMock()
             
             beforeEach {
-                let coordinator = MainTabCoordinator()
                 subject = self.makeFeedViewModel(withFeedResult: FeedResult(error: .notFound))
                 subject?.wireframe = feedWireframeMock
-                subject?.navigator = coordinator
-                subject?.didTapSeeAll(page: .user(query: "CommanderKeen"))
+                subject?.showFilters()
             }
             
-            it("should open the pro feed") {
-                expect(feedWireframeMock.openProFeedWasCalled.0) == true
+            it("should open the filters") {
+                expect(feedWireframeMock.openFiltersWasCalled.0) == true
             }
             
-            it("should have search type") {
-                expect(feedWireframeMock.openProFeedWasCalled.1?.query) == "CommanderKeen"
-            }
-            
-            it("should have navigator not be nil") {
-                expect(feedWireframeMock.openProFeedWasCalled.2).toNot(beNil())
+            it("should send the correct parameters") {
+                expect(feedWireframeMock.openFiltersWasCalled.1).toNot(beNil())
             }
         }
+        
+        describe("openInvite") {
+            let feedWireframeMock: FeedWireframeMock = FeedWireframeMock()
+            
+            beforeEach {
+                subject = self.makeFeedViewModel(withFeedResult: FeedResult(error: .notFound))
+                subject?.wireframe = feedWireframeMock
+                subject?.openInvite()
+            }
+            
+            it("should open the app invite") {
+                expect(feedWireframeMock.openAppInviteWasCalled.0) == true
+            }
+        }
+        
+        describe("viewModelDidUpdateFilters") {
+            var feedWireframeMock: FeedWireframeMock?
+            var filters: ListingFilters = ListingFilters()
+            var coordinator: MainTabCoordinator?
+            
+            beforeEach {
+                coordinator = MainTabCoordinator()
+                subject = self.makeFeedViewModel(withFeedResult: FeedResult(error: .notFound))
+                feedWireframeMock = FeedWireframeMock()
+                subject?.wireframe = feedWireframeMock
+                subject?.navigator = coordinator
+                subject?.viewModelDidUpdateFilters(FiltersViewModel(), filters: filters)
+            }
+            
+            context("when the filters are the default") {
+                beforeEach {
+                    filters = ListingFilters()
+                }
+                
+                it("should do nothing") {
+                    expect(feedWireframeMock?.openClassicFeedWasCalled.state) == false
+                }
+            }
+            
+            context("when the filters are NOT the defaults") {
+                
+                beforeEach {
+                    filters = ListingFilters.makeMock()
+                }
+                
+                context("and the navigator does not exists") {
+                    beforeEach {
+                        subject?.navigator = nil
+                    }
+                    
+                    it("should do nothing") {
+                        expect(feedWireframeMock?.openClassicFeedWasCalled.state) == false
+                    }
+                }
+                
+                context("and the navigator exists") {
+                    context("and has many filters") {
+                        
+                        beforeEach {
+                            filters = ListingFilters.makeMock()
+                        }
+                        
+                        it("should call the correct method") {
+                            expect(feedWireframeMock?.openClassicFeedWasCalled.state) == true
+                        }
+                        
+                        it("should contains the correct parameters") {
+                            expect(feedWireframeMock?.openClassicFeedWasCalled.navigator).toNot(beNil())
+                            expect(feedWireframeMock?.openClassicFeedWasCalled.searchType).toNot(beNil())
+                            expect(feedWireframeMock?.openClassicFeedWasCalled.shouldCloseOnRemoveAllFilters) == true
+                        }
+                    }
+                    
+                    context("and only has place filter") {
+                        
+                        beforeEach {
+                            feedWireframeMock = FeedWireframeMock()
+                            filters = ListingFilters()
+                            filters.place = Place(placeId: nil, placeResumedData: nil)
+                        }
+                        
+                        it("should call the correct method") {
+                            expect(feedWireframeMock?.openClassicFeedWasCalled.state) == false
+                        }
+                    }
+                    
+                }
+            }
+        }
+        
+        describe("openSearches") {
+            var wireframe: FeedWireframeMock?
+            let navigator: MainTabCoordinator = MainTabCoordinator()
+            
+            beforeEach {
+                wireframe = FeedWireframeMock()
+                subject?.wireframe = wireframe
+            }
+            
+            context("when the navigator is nil") {
+                beforeEach {
+                    subject?.navigator = nil
+                    subject?.openSearches()
+                }
+                
+                it("should not call the correct method") {
+                    expect(wireframe?.openSearchesWasCalled) == false
+                }
+            }
+            
+            context("when the navigator is NOT nil") {
+                beforeEach {
+                    subject?.navigator = navigator
+                    subject?.openSearches()
+                }
+                
+                it("should call the correct and beautiful method") {
+                    expect(wireframe?.openSearchesWasCalled) == true
+                }
+            }
+        }
+        
     }
 }
 
@@ -214,8 +255,8 @@ private extension FeedViewModelSpec {
                                                                                    countryCode: "US",
                                                                                    country: "US"))
         locationManager.currentLocation = location
-        return FeedViewModel(feedRepository: mockFeedRepository,
-                             searchType: nil,
+        
+        return FeedViewModel(searchType: SearchType.user(query: "BatMan"),
                              filters: ListingFilters.makeMock(),
                              bubbleTextGenerator: DistanceBubbleTextGenerator(locationManager: locationManager, featureFlags: featureFlags),
                              myUserRepository: MockMyUserRepository.makeMock(),
@@ -226,6 +267,74 @@ private extension FeedViewModelSpec {
                              featureFlags: featureFlags,
                              keyValueStorage: MockKeyValueStorage(),
                              deviceFamily: .iPhone6Plus)
+    }
+    
+    class FeedWireframeMock: FeedNavigator {
+        var openFiltersWasCalled: (state: Bool, listingFilters: ListingFilters?) = (false, nil)
+        var openLocationWasCalled: Bool = false
+        var showPushPermissionsAlertWasCalled: Bool = false
+        var openMapWasCalled: Bool = false
+        var openSearchesWasCalled: Bool = false
+        var openAppInviteWasCalled: (Bool, String?, String?) = (false, nil, nil)
+        var openProFeedWasCalled: (state: Bool, searchType: SearchType?, filters: ListingFilters?) = (false, nil, nil)
+        var openClassicFeedWasCalled: (state: Bool, navigator: MainTabNavigator?, searchType: SearchType?, shouldCloseOnRemoveAllFilters: Bool?) = (false, nil, nil, nil)
+        
+        
+        func openFilters(withListingFilters listingFilters: ListingFilters, filtersVMDataDelegate: FiltersViewModelDataDelegate?) {
+            openFiltersWasCalled = (true, listingFilters)
+        }
+        
+        func openLocationSelection(initialPlace: Place?, distanceRadius: Int?, locationDelegate: EditLocationDelegate) {
+            openLocationWasCalled = true
+        }
+        
+        func showPushPermissionsAlert(pushPermissionsManager: PushPermissionsManager, withPositiveAction positiveAction: @escaping (() -> Void), negativeAction: @escaping (() -> Void)) {
+            showPushPermissionsAlertWasCalled = true
+        }
+        
+        func openMap(navigator: ListingsMapNavigator, requester: ListingListMultiRequester, listingFilters: ListingFilters, locationManager: LocationManager) {
+            openMapWasCalled = true
+        }
+        
+        func openSearches(withSearchType searchType: SearchType?, onUserSearchCallback: ((SearchType) -> ())?) {
+            openSearchesWasCalled = true
+        }
+        
+        func openAppInvite(myUserId: String?, myUserName: String?) {
+            openAppInviteWasCalled = (true, myUserId, myUserName)
+        }
+        
+        func openClassicFeed(navigator: MainTabNavigator, withSearchType searchType: SearchType?, listingFilters: ListingFilters) {
+            openClassicFeedWasCalled = (
+                state: true,
+                navigator: navigator,
+                searchType: searchType,
+                shouldCloseOnRemoveAllFilters: true
+            )
+        }
+        
+        func openProFeed(navigator: MainTabNavigator?, withSearchType searchType: SearchType, andFilters filters: ListingFilters) {
+            openProFeedWasCalled = (state: true, searchType: searchType, filters: filters)
+        }
+        
+        func openClassicFeed(navigator: MainTabNavigator, withSearchType searchType: SearchType?, listingFilters: ListingFilters, shouldCloseOnRemoveAllFilters: Bool) {
+            openClassicFeedWasCalled = (
+                state: true,
+                navigator: navigator,
+                searchType: searchType,
+                shouldCloseOnRemoveAllFilters: shouldCloseOnRemoveAllFilters
+            )
+        }
+
+        func openClassicFeed(navigator: MainTabNavigator, withSearchType searchType: SearchType?, listingFilters: ListingFilters, shouldCloseOnRemoveAllFilters: Bool, tagsDelegate: MainListingsTagsDelegate?) {
+            openClassicFeedWasCalled = (
+                state: true,
+                navigator: navigator,
+                searchType: searchType,
+                shouldCloseOnRemoveAllFilters: shouldCloseOnRemoveAllFilters
+            )
+        }
+
     }
 }
 

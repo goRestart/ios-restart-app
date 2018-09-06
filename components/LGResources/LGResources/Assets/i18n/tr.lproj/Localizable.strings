@@ -246,6 +246,10 @@
 "chat_verify_alert_ok_button" = "OK";
 "chat_verify_alert_title" = "Mesajlaşmak için e-postanı doğrula";
 "chat_with_yourself_alert_msg" = "Sana ait bir ilan hakkında bir sohbet başlatamazsın.";
+"click_to_talk_smoketest_action_button" = "Başla";
+"click_to_talk_smoketest_description" = "Connect with your most interested buyers quickly and sell your items twice as fast.";
+"click_to_talk_smoketest_subtitle" = "Receive calls";
+"click_to_talk_smoketest_title" = "Click to Talk";
 "collection_explore_button" = "Keşfet";
 "collection_furniture_title" = "Evim güzel evim";
 "collection_transport_title" = "Seyahat şıklığı";
@@ -284,7 +288,7 @@
 "common_no" = "Hayır";
 "common_ok" = "Tamam";
 "common_product_given_away" = "Bağışlandı";
-"common_product_not_available" = "Oops! Bu ilan artık mevcut değil";
+"common_product_not_available" = "Yeniden yayınlanmış veya mevcut değil";
 "common_product_sold" = "Satıldı";
 "common_settings" = "Ayarlar";
 "common_short_time_day_ago_label" = "%d gün";
@@ -448,6 +452,7 @@
 "filters_cars_transmission_title" = "Vites";
 "filters_distance_not_set" = "belirlenmedi";
 "filters_jobs_services_header" = "İş veya Hizmet Bilgisi";
+"filters_jobs_services_list_max_selection_alert" = "Oops! 15'den fazla seçim yapamazsın.";
 "filters_jobs_services_subtype_title" = "Alt tür";
 "filters_jobs_services_toggle_header" = "Aradığım...";
 "filters_jobs_services_type_title" = "Tür";
@@ -759,6 +764,10 @@
 "post_description_name_placeholder" = "İsim";
 "post_description_save_button_text" = "Bu ilanı kaydet!";
 "post_details_jobs_services_camera_message" = "Şirketinin logosunu ya da sunduğun hizmet veya işi gösteren bir fotoğraf yayınla";
+"post_details_jobs_services_congratulation_add_more_details" = "daha fazla ayrıntı ekle:";
+"post_details_jobs_services_congratulation_improve_listing" = "İlanını geliştir";
+"post_details_jobs_services_congratulation_people_nearby_first" = "Yakınındaki insanlar";
+"post_details_jobs_services_congratulation_people_nearby_second" = "bunları da arıyor:";
 "post_details_jobs_services_step_option_jobs_prefix" = "Şunun için işe alacak birini arıyorum:";
 "post_details_jobs_services_step_option_services_prefix" = "Şunun ilanını veriyorum:";
 "post_details_jobs_services_step_title" = "Ben";
@@ -878,13 +887,8 @@
 "product_new_onboarding_tap_right_highlighted_label" = "Sağa dokun";
 "product_new_onboarding_tap_right_highlighted_label_2" = "ekrana";
 "product_new_onboarding_tap_right_label" = "Sonraki fotoğrafı görmek için %@ veya %@";
-<<<<<<< HEAD
-"product_nit_onboarding_next_picture" = "Next picture";
-"product_nit_onboarding_previous_picture" = "Previous picture";
-=======
 "product_nit_onboarding_next_picture" = "Sonraki resim";
 "product_nit_onboarding_previous_picture" = "Önceki resim";
->>>>>>> master
 "product_onboarding_finger_scroll_label" = "Daha fazla fotoğraf görmek için sürükle";
 "product_onboarding_finger_swipe_label" = "Bir önceki veya sonraki ilana gitmek için ekranı kaydır";
 "product_onboarding_finger_tap_label" = "Bir sonraki ilana gitmek için dokun";
@@ -1054,6 +1058,9 @@
 "profile_sold_no_products_label" = "(HENÜZ!) İLAN YOK";
 "profile_sold_other_no_products_button" = "Aramaya Başla";
 "profile_sold_products_tab" = "Satıldı";
+"profile_verifications_awareness_view_bold_text" = "Here's a pro tip";
+"profile_verifications_awareness_view_button" = "Complete profile";
+"profile_verifications_awareness_view_text" = "%@ - did you know that verified users make better deals?\n\nComplete and verify your profile today!";
 "profile_verifications_email_placeholder" = "E-posta";
 "profile_verifications_email_view_title" = "E-postanı doğrula";
 "profile_verifications_send_button" = "Gönder";
@@ -1256,12 +1263,12 @@
 "reporting_listing_update_feedback_good" = "Harika!";
 "reporting_listing_update_feedback_medium" = "Teşekkürler!";
 "reporting_listing_update_feedback_title" = "Bu nasıl bir deneyimdi?";
-"reporting_listing_update_text" = "%2$@ tarafından yayınanan \"%1$@\" ilanını isimsiz olarak rapor ettiğin için teşekkürler. Bu değerlendirmeler letgo topluluğunu güvende tutmamıza yardımcı oluyor.\n\nBu ürünü gözden geçirdikten sonra kaldırdık, çünkü Topluluk Kurallarımızı ilan ediyordu.";
+"reporting_listing_update_text" = "%2$@ tarafından yayınanan \"%1$@\" ilanını isimsiz olarak rapor ettiğin için teşekkürler. Bu tür geri bildirimler letgo topluluğunu güvende tutmamıza yardımcı oluyor.\n\nBu ürünü gözden geçirdikten sonra kaldırdık, çünkü Topluluk Kurallarımızı ihlal ediyordu.";
 "reporting_listing_update_title" = "Rapor Güncellemesi";
 "reporting_reason_bio" = "Biyografi";
 "reporting_reason_counterfeit_money" = "Sahte parayla ödeme yaptı";
 "reporting_reason_didn't_show_up" = "Buluşmaya gelmedi";
-"reporting_reason_drugs" = "İlaç, alkol veya tütün";
+"reporting_reason_drugs" = "Uyuşturucu, alkol veya tütün";
 "reporting_reason_duplicate_listing" = "Çift ilan verilmiş";
 "reporting_reason_inappropiate_chat_messages" = "Uygunsuz sohbet mesajları";
 "reporting_reason_inappropiate_photo_or_bio" = "Uygunsuz profil fotoğrafı veya biyografi";
@@ -1291,22 +1298,22 @@
 "reporting_user_inappropriate_photo_or_bio_header" = "HANGİSİ?";
 "reporting_user_list_header" = "NEDEN BU KULLANICIYI RAPOR EDİYORSUN?";
 "reporting_user_problem_meetup_header" = "NE OLDU?";
-"reporting_user_report_sent_block_user_A_text" = "Anonim olarak rapor ettiğin ve letgo'yu yerel alım satım için en ideal yer haline getirmemize yardım ettiğin için teşekkür ederiz.\n\nEkibimiz iddianı araştıracak, bu sırada ürünlerini görememeleri veya sana mesaj gönderememeleri için istediğin zaman her kullanıcıyı engelleyebilirsin.";
-"reporting_user_report_sent_block_user_A_with_review_text" = "Anonim olarak rapor ettiğin ve letgo'yu yerel alım satım için en ideal yer haline getirmemize yardım ettiğin için teşekkür ederiz.\n\nBu satıcı için bir yorum bırakarak diğerlerinin deneyiminden faydalandıklarından emin ol.\n\nÜrünlerini görememeleri veya sana mesaj gönderememeleri için istediğin kullanıcıyı engelleyebilirsin.";
-"reporting_user_report_sent_block_user_B_text" = "Anonim olarak rapor ettiğin ve letgo'yu yerel alım satım için en ideal yer haline getirmemize yardım ettiğin için teşekkür ederiz.\n\nEkibimiz iddianı araştıracak, bu sırada ürünlerini görememeleri veya sana mesaj gönderememeleri için istediğin zaman her kullanıcıyı engelleyebilirsin.";
-"reporting_user_report_sent_block_user_B_with_review_text" = "Anonim olarak rapor ettiğin ve letgo'yu yerel alım satım için en ideal yer haline getirmemize yardım ettiğin için teşekkür ederiz.\n\nBu satıcı için bir yorum bırakarak diğerlerinin deneyiminden faydalandıklarından emin ol.\n\nEkibimiz iddianı araştıracak, bu sırada ürünlerini görememeleri veya sana mesaj gönderememeleri için istediğin zaman her kullanıcıyı engelleyebilirsin.";
+"reporting_user_report_sent_block_user_A_text" = "İsimsiz olarak rapor ettiğin ve letgo'yu yerel alım satım için en ideal yer haline getirmemize yardım ettiğin için teşekkür ederiz.\n\nÜrünlerini görememeleri veya sana mesaj gönderememeleri için istediğin kullanıcıyı engelleyebilirsin.";
+"reporting_user_report_sent_block_user_A_with_review_text" = "İsimsiz olarak rapor ettiğin ve letgo'yu yerel alım satım için en ideal yer haline getirmemize yardım ettiğin için teşekkür ederiz.\n\nBu satıcı için bir yorum bırakarak diğerlerinin deneyiminden faydalandıklarından emin ol.\n\nÜrünlerini görememeleri veya sana mesaj gönderememeleri için istediğin kullanıcıyı engelleyebilirsin.";
+"reporting_user_report_sent_block_user_B_text" = "İsimsiz olarak rapor ettiğin ve letgo'yu yerel alım satım için en ideal yer haline getirmemize yardım ettiğin için teşekkür ederiz.\n\nEkibimiz iddianı araştıracak, bu sırada ürünlerini görememeleri veya sana mesaj gönderememeleri için istediğin zaman her kullanıcıyı engelleyebilirsin.";
+"reporting_user_report_sent_block_user_B_with_review_text" = "İsimsiz olarak rapor ettiğin ve letgo'yu yerel alım satım için en ideal yer haline getirmemize yardım ettiğin için teşekkür ederiz.\n\nBu satıcı için bir yorum bırakarak diğerlerinin deneyiminden faydalandıklarından emin ol.\n\nEkibimiz iddianı araştıracak, bu sırada ürünlerini görememeleri veya sana mesaj gönderememeleri için istediğin zaman her kullanıcıyı engelleyebilirsin.";
 "reporting_user_report_sent_block_user_big_button_title" = "Rapor edilen kullanıcıyı engelle";
 "reporting_user_report_sent_block_user_small_button_title" = "Engelle";
-"reporting_user_report_sent_law_enforcement_and_block_text" = "Yaşadığın tecrübe için üzgünüz. Mümkün olan en kısa zamanda yerel güvenlik görevlileriyle iletişime geçmeni ve bir polis raporu doldurmanı tavsiye ederiz (daha önce yapmadıysan).\n\nSoruşturmalarına yardım edebilmemiz için, lütfen polise letgo'nun yasa uygulama ekibiyle lawenforcement@letgo üzerinden iletişime geçebileceklerini hatırlatmayı unutma. Polisle %@ ile ilgili bilgileri paylaşabiliriz, ama katı gizlilik koruma yasaları sebebiyle, öncelikle bize geçerli bir arama izni veya celp göndermeleri gerekiyor. Bu arada, ekibimizin iddianı araştırabilmesi için lütfen ek bilgiler sağla.\n\nürünlerini görememeleri veya sana mesaj gönderememeleri için istediğin zaman her kullanıcıyı engelleyebileceğini hatırlatmak isteriz.";
-"reporting_user_report_sent_law_enforcement_text" = "Yaşadığın tecrübe için üzgünüz, ama şimdi güvende olduğun için minnettarız.\n\nMümkün olan en kısa zamanda yerel güvenlik görevlileriyle iletişime geçmeni ve bir polis raporu doldurmanı tavsiye ederiz (daha önce yapmadıysan).\n\nSoruşturmalarına yardım edebilmemiz için, lütfen polise letgo'nun yasa uygulama ekibiyle lawenforcement@letgo üzerinden iletişime geçebileceklerini hatırlatmayı unutma.\n\nPolisle %@ ile ilgili bilgileri paylaşabiliriz, ama katı gizlilik koruma yasaları sebebiyle, öncelikle bize geçerli bir arama izni veya celp göndermeleri gerekiyor.";
+"reporting_user_report_sent_law_enforcement_and_block_text" = "Yaşadığın tecrübe için üzgünüz. Mümkün olan en kısa zamanda yerel güvenlik görevlileriyle iletişime geçmeni ve bir polis raporu oluşturmanı tavsiye ederiz (eğer daha önce yapmadıysan).\n\nSoruşturmalarına yardım edebilmemiz için, lütfen polise letgo'nun yasa uygulama ekibiyle lawenforcement@letgo.com üzerinden iletişime geçebileceklerini hatırlatmayı unutma. Polisle %@ ile ilgili bilgileri paylaşabiliriz, ama katı gizlilik koruma yasaları sebebiyle, öncelikle bize geçerli bir resmi yazı göndermeleri gerekiyor. Bu arada, ekibimizin iddianı araştırabilmesi için lütfen ek bilgiler sağla.\n\nÜrünlerini görememeleri veya sana mesaj gönderememeleri için istediğin zaman her kullanıcıyı engelleyebileceğini hatırlatmak isteriz.";
+"reporting_user_report_sent_law_enforcement_text" = "Yaşadığın tecrübe için üzgünüz, ama şimdi güvende olduğun için minnettarız.\n\nMümkün olan en kısa zamanda yerel güvenlik görevlileriyle iletişime geçmeni ve bir polis raporu oluşturmanı tavsiye ederiz (eğer daha önce yapmadıysan).\n\nSoruşturmalarına yardım edebilmemiz için, lütfen polise letgo'nun yasa uygulama ekibiyle lawenforcement@letgo.com üzerinden iletişime geçebileceklerini hatırlatmayı unutma.\n\nPolisle %@ ile ilgili bilgileri paylaşabiliriz, ama katı gizlilik koruma yasaları sebebiyle, öncelikle bize geçerli bir resmi yazı göndermeleri gerekiyor.";
 "reporting_user_report_sent_redirect_item_text" = "letgo'yu yerel alım satım için en ideal yer haline getirmemize yardım ettiğin için teşekkürler.\n\nLütfen ilana git ve ürünü işaretle; çabucak gözden geçirelim.";
 "reporting_user_report_sent_review_button_title" = "Değerlendir";
 "reporting_user_report_sent_title" = "Rapor gönderildi!";
 "reporting_user_suspicious_behavior_header" = "NE OLDU?";
 "reporting_user_title" = "Kullanıcıyı Şikayet Et";
-"reporting_user_update_text_A" = "%@ isimli kullanıcıyı anonim olarak rapor ettiğin için teşekkürler. Seninki gibi geri bildirimler letgo topluluğunu güvende tutmamıza yardımcı oluyor.\n\nBu hesabı inceledikten sonra kaldırdık, çünkü Topluluk Kurallarımızı ihlal ediyordu.";
-"reporting_user_update_text_B" = "%@ isimli kullanıcının profil fotoğrafını anonim olarak rapor ettiğin için teşekkürler. Seninki gibi geri bildirimler letgo topluluğunu güvende tutmamıza yardımcı oluyor.\n\nFotoğrafı inceledikten sonra kaldırdık, çünkü Topluluk Kurallarımızı ihlal ediyordu.";
-"reporting_user_update_text_C" = "%@ isimli kullanıcın biyografisini anonim olarak rapor ettiğin için teşekkürler. Seninki gibi geri bildirimler letgo topluluğunu güvende tutmamıza yardımcı oluyor.\n\nBiyografiyi inceledikten sonra kaldırdık, çünkü Topluluk Kurallarımızı ihlal ediyordu.";
+"reporting_user_update_text_A" = "%@ isimli kullanıcıyı isimsiz olarak rapor ettiğin için teşekkürler. Seninki gibi geri bildirimler letgo topluluğunu güvende tutmamıza yardımcı oluyor.\n\nBu hesabı inceledikten sonra kaldırdık, çünkü Topluluk Kurallarımızı ihlal ediyordu.";
+"reporting_user_update_text_B" = "%@ isimli kullanıcının profil fotoğrafını isimsiz olarak rapor ettiğin için teşekkürler. Seninki gibi geri bildirimler letgo topluluğunu güvende tutmamıza yardımcı oluyor.\n\nFotoğrafı inceledikten sonra kaldırdık, çünkü Topluluk Kurallarımızı ihlal ediyordu.";
+"reporting_user_update_text_C" = "%@ isimli kullanıcın biyografisini isimsiz olarak rapor ettiğin için teşekkürler. Seninki gibi geri bildirimler letgo topluluğunu güvende tutmamıza yardımcı oluyor.\n\nBiyografiyi inceledikten sonra kaldırdık, çünkü Topluluk Kurallarımızı ihlal ediyordu.";
 "reporting_user_update_title" = "Rapor güncellemesi";
 "reset_password_email_field_hint" = "E-posta adresini gir";
 "reset_password_instructions" = "Lütfen e-posta adresini gir, şifreni yenilemen için sana bir e-posta göndereceğiz.";
@@ -1361,9 +1368,10 @@
 "sell_title_autogen_label" = "letgo tarafından önerilen başlık";
 "sell_title_field_hint" = "Ürün başlığı (isteğe bağlı)";
 "sell_uploading_label" = "İlanın yayınlanıyor...";
+"services_promo_call_to_action" = "Bir hizmet ilanı ver";
 "services_promo_cell_title_b" = "Yeni Hizmetler kategorisi!";
 "services_promo_cell_title_c" = "Hizmetin için yerel müşteriler bul";
-"services_promo_cell_title_default_bold" = "Para Kazan";
+"services_promo_cell_title_default_bold" = "Para kazan";
 "services_promo_cell_title_default_regular" = "boş zamanlarında";
 "services_service_subtype_list_title" = "Hizmet";
 "services_service_subtype_title" = "Hizmet";
@@ -1402,6 +1410,8 @@
 "settings_section_promote" = "Öne çıkar";
 "settings_section_support" = "Destek";
 "settings_title" = "Ayarlar";
+"share_screenshot_description" = "Now it’s ready for you to share:";
+"share_screenshot_title" = "Screenshot saved!";
 "sign_up_acceptance_error" = "Kaydolmak için letgo Şartlar ve Koşullarını & Gizlilik Politikasını kabul etmelisin";
 "sign_up_email_field_hint" = "E-posta";
 "sign_up_email_step1_continue_button" = "Devam Et";

@@ -246,6 +246,10 @@
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_title" = "Vérifiez votre email pour chatter";
 "chat_with_yourself_alert_msg" = "Vous ne pouvez pas démarrer une conversation à propos de votre propre annonce.";
+"click_to_talk_smoketest_action_button" = "Commencez";
+"click_to_talk_smoketest_description" = "Connect with your most interested buyers quickly and sell your items twice as fast.";
+"click_to_talk_smoketest_subtitle" = "Receive calls";
+"click_to_talk_smoketest_title" = "Click to Talk";
 "collection_explore_button" = "Explorer";
 "collection_furniture_title" = "Un bon chez-soi";
 "collection_transport_title" = "Voyagez avec style";
@@ -448,6 +452,7 @@
 "filters_cars_transmission_title" = "Boite de vitesse";
 "filters_distance_not_set" = "Aucun";
 "filters_jobs_services_header" = "Information sur l'Emploi ou le Service";
+"filters_jobs_services_list_max_selection_alert" = "Oops! You can’t select more than 15 options.";
 "filters_jobs_services_subtype_title" = "Sous-type";
 "filters_jobs_services_toggle_header" = "À la recherche de...";
 "filters_jobs_services_type_title" = "Type";
@@ -759,6 +764,10 @@
 "post_description_name_placeholder" = "Nom";
 "post_description_save_button_text" = "Sauvegarder cette annonce !";
 "post_details_jobs_services_camera_message" = "Publiez le logo de votre entreprise ou une photo qui montre le service ou l'emploi que vous proposez";
+"post_details_jobs_services_congratulation_add_more_details" = "by adding more details:";
+"post_details_jobs_services_congratulation_improve_listing" = "Improve your listing";
+"post_details_jobs_services_congratulation_people_nearby_first" = "People near you are also";
+"post_details_jobs_services_congratulation_people_nearby_second" = "looking for:";
 "post_details_jobs_services_step_option_jobs_prefix" = "Cherchant à recruter quelqu'un pour un";
 "post_details_jobs_services_step_option_services_prefix" = "Annonçant un";
 "post_details_jobs_services_step_title" = "Je suis...";
@@ -878,13 +887,8 @@
 "product_new_onboarding_tap_right_highlighted_label" = "Touchez sur la droite";
 "product_new_onboarding_tap_right_highlighted_label_2" = "au milieu";
 "product_new_onboarding_tap_right_label" = "%@ ou %@ pour voir l'image suivante";
-<<<<<<< HEAD
-"product_nit_onboarding_next_picture" = "Next picture";
-"product_nit_onboarding_previous_picture" = "Previous picture";
-=======
 "product_nit_onboarding_next_picture" = "Photo suivante";
 "product_nit_onboarding_previous_picture" = "Photo précédente";
->>>>>>> master
 "product_onboarding_finger_scroll_label" = "Scrollez pour voir plus de photos";
 "product_onboarding_finger_swipe_label" = "Glissez pour voir l'annonce suivante ou précédente";
 "product_onboarding_finger_tap_label" = "Tapez pour voir l'annonce suivante";
@@ -1054,6 +1058,9 @@
 "profile_sold_no_products_label" = "AUCUNE ANNONCE (POUR LE MOMENT !)";
 "profile_sold_other_no_products_button" = "Continuer à naviguer";
 "profile_sold_products_tab" = "Vendu";
+"profile_verifications_awareness_view_bold_text" = "Here's a pro tip";
+"profile_verifications_awareness_view_button" = "Complete profile";
+"profile_verifications_awareness_view_text" = "%@ - did you know that verified users make better deals?\n\nComplete and verify your profile today!";
 "profile_verifications_email_placeholder" = "Email";
 "profile_verifications_email_view_title" = "Vérifiez votre courriel";
 "profile_verifications_send_button" = "Envoyer";
@@ -1361,9 +1368,10 @@
 "sell_title_autogen_label" = "Titre suggéré par letgo";
 "sell_title_field_hint" = "Titre du bien (optionnel)";
 "sell_uploading_label" = "Publication de votre annonce...";
+"services_promo_call_to_action" = "Publiez un service";
 "services_promo_cell_title_b" = "Nouvelle catégorie pour les Services !";
 "services_promo_cell_title_c" = "Trouvez des clients locaux pour votre service";
-"services_promo_cell_title_default_bold" = "Gagnez de l'Argent";
+"services_promo_cell_title_default_bold" = "Gagnez de l'argent";
 "services_promo_cell_title_default_regular" = "pendant votre temps libre";
 "services_service_subtype_list_title" = "Service";
 "services_service_subtype_title" = "Service";
@@ -1402,6 +1410,8 @@
 "settings_section_promote" = "Promouvoir";
 "settings_section_support" = "Aide";
 "settings_title" = "Paramètres";
+"share_screenshot_description" = "Now it’s ready for you to share:";
+"share_screenshot_title" = "Screenshot saved!";
 "sign_up_acceptance_error" = "Pour vous inscrire, vous devez accepter la Politique de Confidentialité ainsi que les Conditions d'Utilisation";
 "sign_up_email_field_hint" = "Email";
 "sign_up_email_step1_continue_button" = "Continuer";

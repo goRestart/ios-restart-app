@@ -5,7 +5,7 @@ import RxSwift
 import KMPlaceholderTextView
 import LGComponents
 
-class EditListingViewController: BaseViewController, UITextFieldDelegate,
+final class EditListingViewController: BaseViewController, UITextFieldDelegate,
     UITextViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate,
     UINavigationControllerDelegate {
     

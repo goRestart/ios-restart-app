@@ -81,7 +81,6 @@ final class ListingCarouselViewModel: BaseViewModel {
             currentListingViewModel?.navigator = navigator
         }
     }
-
     let objects = CollectionVariable<ListingCarouselCellModel>([])
     var objectChanges: Observable<CollectionChange<ListingCarouselCellModel>> {
         return objects.changesObservable
@@ -229,6 +228,10 @@ final class ListingCarouselViewModel: BaseViewModel {
     
     var extraFieldsGridEnabled: Bool {
         return featureFlags.carExtraFieldsEnabled.isActive
+    }
+    
+    var shouldShowScrollingPageControl: Bool {
+        return featureFlags.proUsersExtraImages.isActive
     }
 
     // MARK: - Init

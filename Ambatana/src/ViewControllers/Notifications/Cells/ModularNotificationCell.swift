@@ -435,7 +435,7 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         default:
             sourceClickArea = .unknown
         }
-        notifacionModuleTapped(with: thumbnailsDeeplinks[thumbnailTappedIndex], source: sourceClickArea)
+        notifacionModuleTapped(with: thumbnailsDeeplinks[safeAt: thumbnailTappedIndex], source: sourceClickArea)
     }
     
     @objc func CTATapped(sender: UITapGestureRecognizer) {
@@ -452,7 +452,7 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
             default:
             sourceClickArea = .unknown
         }
-        notifacionModuleTapped(with: callsToActionDeeplinks[buttonTappedIndex], source: sourceClickArea)
+        notifacionModuleTapped(with: callsToActionDeeplinks[safeAt: buttonTappedIndex], source: sourceClickArea)
     }
     
     func notifacionModuleTapped(with deeplink: String?, source: EventParameterNotificationClickArea) {

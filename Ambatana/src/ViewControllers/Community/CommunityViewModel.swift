@@ -68,6 +68,10 @@ class CommunityViewModel: BaseViewModel {
         }
     }
 
+    func openLetgoLogin() {
+        navigator?.openLogin()
+    }
+
     private func trackOpenCommunity() {
         let trackerEvent: TrackerEvent
         switch source {

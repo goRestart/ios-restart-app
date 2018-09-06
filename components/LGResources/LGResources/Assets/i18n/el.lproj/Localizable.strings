@@ -246,6 +246,10 @@
 "chat_verify_alert_ok_button" = "ΟΚ";
 "chat_verify_alert_title" = "Επιβεβαιώστε το email σας για να συνομιλήσετε";
 "chat_with_yourself_alert_msg" = "Δεν μπορείτε να ξεκινήσετε μια συζήτηση για μια δική σας καταχώρηση.";
+"click_to_talk_smoketest_action_button" = "Ξεκινήστε";
+"click_to_talk_smoketest_description" = "Ελάτε σε επικοινωνία με τους πιο ενδιαφέροντες πωλητές άμεσα και πουλήστε τα αντικείμενά σας ακόμη πιο γρήγορα.";
+"click_to_talk_smoketest_subtitle" = "Λάβετε κλήσεις";
+"click_to_talk_smoketest_title" = "Κάντε κλικ για Συνομιλία";
 "collection_explore_button" = "Ανακαλύψτε";
 "collection_furniture_title" = "Πουθενά όπως στο σπίτι";
 "collection_transport_title" = "Ταξιδέψτε με στυλ";
@@ -284,7 +288,7 @@
 "common_no" = "Όχι";
 "common_ok" = "ΟΚ";
 "common_product_given_away" = "Χαρισμένο";
-"common_product_not_available" = "Όπα! Η καταχώρηση αυτή δεν είναι πλέον διαθέσιμη";
+"common_product_not_available" = "Έχει αφαιρεθεί ή δεν είναι πλέον διαθέσιμο";
 "common_product_sold" = "Πωλήθηκε";
 "common_settings" = "Ρυθμίσεις";
 "common_short_time_day_ago_label" = "%d μέρα";
@@ -448,6 +452,7 @@
 "filters_cars_transmission_title" = "Μετάδοση κίνησης";
 "filters_distance_not_set" = "Δεν έχει καθοριστεί";
 "filters_jobs_services_header" = "Πληροφορίες Εργασίας ή Υπηρεσίας";
+"filters_jobs_services_list_max_selection_alert" = "Όπα! Δεν μπορείτε να πατήσετε περισσότερες από 15 επιλογές.";
 "filters_jobs_services_subtype_title" = "Υπότυπος";
 "filters_jobs_services_toggle_header" = "Αναζητώ...";
 "filters_jobs_services_type_title" = "Τύπος";
@@ -759,6 +764,10 @@
 "post_description_name_placeholder" = "Αλλαγή Ονόματος";
 "post_description_save_button_text" = "Αποθήκευση αυτής της καταχώρησης!";
 "post_details_jobs_services_camera_message" = "Δημοσιεύστε το λογότυπο της εταιρίας σας ή μια φωτογραφία που να παρουσιάζει την υπηρεσία ή τη δουλειά που προσφέρετε.";
+"post_details_jobs_services_congratulation_add_more_details" = "προσθέτοντας περισσότερες λεπτομέρειες:";
+"post_details_jobs_services_congratulation_improve_listing" = "Βελτιώστε την καταχώρησή σας";
+"post_details_jobs_services_congratulation_people_nearby_first" = "Άλλοι χρήστες γύρω σας επίσης";
+"post_details_jobs_services_congratulation_people_nearby_second" = "αναζητούν:";
 "post_details_jobs_services_step_option_jobs_prefix" = "Αναζητώ κάποιον για μια";
 "post_details_jobs_services_step_option_services_prefix" = "Διαφημίζω μία";
 "post_details_jobs_services_step_title" = "Είμαι...";
@@ -878,13 +887,8 @@
 "product_new_onboarding_tap_right_highlighted_label" = "Πατήστε δεξιά";
 "product_new_onboarding_tap_right_highlighted_label_2" = "στο κέντρο";
 "product_new_onboarding_tap_right_label" = "%@ ή %@ για να δείτε την επόμενη φωτογραφία";
-<<<<<<< HEAD
-"product_nit_onboarding_next_picture" = "Next picture";
-"product_nit_onboarding_previous_picture" = "Previous picture";
-=======
 "product_nit_onboarding_next_picture" = "Επόμενη εικόνα";
 "product_nit_onboarding_previous_picture" = "Προηγούμενη εικόνα";
->>>>>>> master
 "product_onboarding_finger_scroll_label" = "Σύρετε για να δείτε περισσότερες φωτογραφίες";
 "product_onboarding_finger_swipe_label" = "Σύρετε για να πάτε στην επόμενη ή στην προηγούμενη καταχώρηση";
 "product_onboarding_finger_tap_label" = "Πατήστε για να πάτε στην επόμενη καταχώρηση";
@@ -1054,6 +1058,9 @@
 "profile_sold_no_products_label" = "ΚΑΜΙΑ ΚΑΤΑΧΩΡΗΣΗ (ΑΚΟΜΗ!)";
 "profile_sold_other_no_products_button" = "Συνεχίστε την πλοήγηση";
 "profile_sold_products_tab" = "Πωλήθηκαν";
+"profile_verifications_awareness_view_bold_text" = "Μια συμβουλή για προχωρημένους";
+"profile_verifications_awareness_view_button" = "Ολοκλήρωση προφίλ";
+"profile_verifications_awareness_view_text" = "%@ - γνωρίζατε πως οι επιβεβαιωμένοι χρήστες κάνουν καλύτερες προσφορές;\n\nΟλοκληρώστε και επιβεβαιώστε το προφίλ σας σήμερα!";
 "profile_verifications_email_placeholder" = "Email";
 "profile_verifications_email_view_title" = "Επιβεβαιώστε το Email σας";
 "profile_verifications_send_button" = "Αποστολή";
@@ -1361,6 +1368,7 @@
 "sell_title_autogen_label" = "Προτεινόμενος τίτλος από το letgo";
 "sell_title_field_hint" = "Τίτλος (προαιρετικό)";
 "sell_uploading_label" = "Δημοσίευση καταχώρησης...";
+"services_promo_call_to_action" = "Δημοσιεύστε μια υπηρεσία";
 "services_promo_cell_title_b" = "Νέα κατηγορία Υπηρεσίες";
 "services_promo_cell_title_c" = "Βρείτε πελάτες κοντά σας για να τους προσφέρετε τις υπηρεσίες σας";
 "services_promo_cell_title_default_bold" = "Κερδίστε χρήματα";
@@ -1402,6 +1410,8 @@
 "settings_section_promote" = "Προώθηση";
 "settings_section_support" = "Υποστήριξη";
 "settings_title" = "Ρυθμίσεις";
+"share_screenshot_description" = "Τώρα μπορείτε να το μοιραστείτε:";
+"share_screenshot_title" = "Το στιγμιότυπο αποθηκεύτηκε!";
 "sign_up_acceptance_error" = "Για να εγγραφείτε θα πρέπει να αποδεχτείτε τους Όρους & Προϋποθέσεις και την Πολιτική Ιδιωτικότητας";
 "sign_up_email_field_hint" = "Email";
 "sign_up_email_step1_continue_button" = "Συνέχεια";

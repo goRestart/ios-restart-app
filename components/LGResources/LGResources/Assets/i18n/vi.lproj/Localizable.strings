@@ -246,6 +246,10 @@
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_title" = "Xác nhận email của bạn để trò chuyện";
 "chat_with_yourself_alert_msg" = "Bạn không thể bắt đầu cuộc trò chuyện về bài đăng của chính mình.";
+"click_to_talk_smoketest_action_button" = "Bắt đầu";
+"click_to_talk_smoketest_description" = "Connect with your most interested buyers quickly and sell your items twice as fast.";
+"click_to_talk_smoketest_subtitle" = "Receive calls";
+"click_to_talk_smoketest_title" = "Click to Talk";
 "collection_explore_button" = "Khám phá";
 "collection_furniture_title" = "Không nơi nào như ở nhà";
 "collection_transport_title" = "Du lịch theo phong cách";
@@ -284,7 +288,7 @@
 "common_no" = "Không";
 "common_ok" = "OK";
 "common_product_given_away" = "Đã tặng";
-"common_product_not_available" = "Ồ! Bài đăng này không còn nữa";
+"common_product_not_available" = "Đã bị xóa hoặc không còn nữa";
 "common_product_sold" = "Đã bán";
 "common_settings" = "Cài đặt";
 "common_short_time_day_ago_label" = "%d ngày";
@@ -448,6 +452,7 @@
 "filters_cars_transmission_title" = "Cơ cấu truyền động";
 "filters_distance_not_set" = "chưa được cài đặt";
 "filters_jobs_services_header" = "Thông tin Công việc hoặc Dịch vụ";
+"filters_jobs_services_list_max_selection_alert" = "Ồ! Bạn không thể chọn nhiều hơn 15 lựa chọn.";
 "filters_jobs_services_subtype_title" = "Tiểu loại";
 "filters_jobs_services_toggle_header" = "Đang tìm kiếm...";
 "filters_jobs_services_type_title" = "Loại";
@@ -759,6 +764,10 @@
 "post_description_name_placeholder" = "Tên";
 "post_description_save_button_text" = "Lưu bài đăng này!";
 "post_details_jobs_services_camera_message" = "Đăng logo công ty của bạn hoặc ảnh hiển thị dịch vụ hay công việc bạn thực hiện";
+"post_details_jobs_services_congratulation_add_more_details" = "bằng cách thêm thông tin:";
+"post_details_jobs_services_congratulation_improve_listing" = "Cải thiện bài đăng";
+"post_details_jobs_services_congratulation_people_nearby_first" = "Những người gần bạn cũng";
+"post_details_jobs_services_congratulation_people_nearby_second" = "đang tìm kiếm:";
 "post_details_jobs_services_step_option_jobs_prefix" = "Tìm thuê người cho";
 "post_details_jobs_services_step_option_services_prefix" = "Quảng cáo một";
 "post_details_jobs_services_step_title" = "Tôi là...";
@@ -878,13 +887,8 @@
 "product_new_onboarding_tap_right_highlighted_label" = "Nhấp vào bên phải";
 "product_new_onboarding_tap_right_highlighted_label_2" = "ở giữa";
 "product_new_onboarding_tap_right_label" = "%@ hoặc %@ để xem ảnh tiếp theo";
-<<<<<<< HEAD
-"product_nit_onboarding_next_picture" = "Next picture";
-"product_nit_onboarding_previous_picture" = "Previous picture";
-=======
 "product_nit_onboarding_next_picture" = "Ảnh tiếp theo";
 "product_nit_onboarding_previous_picture" = "Ảnh trước";
->>>>>>> master
 "product_onboarding_finger_scroll_label" = "Cuộn để xem thêm ảnh";
 "product_onboarding_finger_swipe_label" = "Vuốt để tới bài đăng tiếp theo hoặc trước đó";
 "product_onboarding_finger_tap_label" = "Chạm để tới bài đăng tiếp theo";
@@ -1054,6 +1058,9 @@
 "profile_sold_no_products_label" = "KHÔNG (CHƯA) CÓ BÀI ĐĂNG NÀO!";
 "profile_sold_other_no_products_button" = "Tiếp tục Duyệt";
 "profile_sold_products_tab" = "Đã bán";
+"profile_verifications_awareness_view_bold_text" = "Sau đây là mẹo của chuyên gia";
+"profile_verifications_awareness_view_button" = "Hoàn thành hồ sơ";
+"profile_verifications_awareness_view_text" = "%@ - bạn có biết rằng người dùng đã xác thực sẽ có giao dịch tốt hơn?\n\nHoàn thành và xác thực hồ sơ ngay hôm nay!";
 "profile_verifications_email_placeholder" = "Email";
 "profile_verifications_email_view_title" = "Xác minh email của bạn";
 "profile_verifications_send_button" = "Gửi";
@@ -1361,6 +1368,7 @@
 "sell_title_autogen_label" = "Tiêu đề do letgo đề xuất";
 "sell_title_field_hint" = "Tiêu đề (tùy chọn)";
 "sell_uploading_label" = "Đang đăng bài...";
+"services_promo_call_to_action" = "Đăng một dịch vụ";
 "services_promo_cell_title_b" = "Danh mục Dịch vụ mới!";
 "services_promo_cell_title_c" = "Tìm khách hàng lân cận cho dịch vụ của bạn";
 "services_promo_cell_title_default_bold" = "Kiếm tiền";
@@ -1402,6 +1410,8 @@
 "settings_section_promote" = "Xúc tiến";
 "settings_section_support" = "Hỗ trợ";
 "settings_title" = "Cài đặt";
+"share_screenshot_description" = "Đã sẵn sàng để bạn chia sẻ:";
+"share_screenshot_title" = "Đã lưu ảnh chụp màn hình!";
 "sign_up_acceptance_error" = "Để đăng ký, bạn phải đồng ý với các Điều khoản & Điều kiện và Chính sách Bảo mật của letgo";
 "sign_up_email_field_hint" = "Email";
 "sign_up_email_step1_continue_button" = "Tiếp tục";

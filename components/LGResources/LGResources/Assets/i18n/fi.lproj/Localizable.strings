@@ -246,6 +246,10 @@
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_title" = "Vahvista sähköpostiosoitteesi keskustellaksesi";
 "chat_with_yourself_alert_msg" = "Et voi aloittaa keskustelua omasta ilmoituksestasi.";
+"click_to_talk_smoketest_action_button" = "Aloita";
+"click_to_talk_smoketest_description" = "Connect with your most interested buyers quickly and sell your items twice as fast.";
+"click_to_talk_smoketest_subtitle" = "Receive calls";
+"click_to_talk_smoketest_title" = "Click to Talk";
 "collection_explore_button" = "Tutustu";
 "collection_furniture_title" = "Oma koti kullan kallis";
 "collection_transport_title" = "Matkusta tyylillä";
@@ -448,6 +452,7 @@
 "filters_cars_transmission_title" = "Vaihteisto";
 "filters_distance_not_set" = "ei rajattu";
 "filters_jobs_services_header" = "Työn tai palvelun tiedot";
+"filters_jobs_services_list_max_selection_alert" = "Hups! Voit valita korkeintaan 15 vaihtoehtoa.";
 "filters_jobs_services_subtype_title" = "Alatyyppi";
 "filters_jobs_services_toggle_header" = "Haussa...";
 "filters_jobs_services_type_title" = "Tyyppi";
@@ -759,6 +764,10 @@
 "post_description_name_placeholder" = "Nimi";
 "post_description_save_button_text" = "Tallenna tämä ilmoitus!";
 "post_details_jobs_services_camera_message" = "Julkaise yrityksesi logo tai kuva, jossa näkyy tarjoamasi palvelu tai työ";
+"post_details_jobs_services_congratulation_add_more_details" = "lisäämällä tietoja:";
+"post_details_jobs_services_congratulation_improve_listing" = "Paranna ilmoitustasi";
+"post_details_jobs_services_congratulation_people_nearby_first" = "Ihmiset lähistölläsi";
+"post_details_jobs_services_congratulation_people_nearby_second" = "etsivät myös:";
 "post_details_jobs_services_step_option_jobs_prefix" = "Haluan palkata jonkun";
 "post_details_jobs_services_step_option_services_prefix" = "mainostamassa";
 "post_details_jobs_services_step_title" = "Olen...";
@@ -878,13 +887,8 @@
 "product_new_onboarding_tap_right_highlighted_label" = "Paina oikealla";
 "product_new_onboarding_tap_right_highlighted_label_2" = "keskellä";
 "product_new_onboarding_tap_right_label" = "%@ tai %@ nähdäksesi seuraavan kuvan";
-<<<<<<< HEAD
-"product_nit_onboarding_next_picture" = "Next picture";
-"product_nit_onboarding_previous_picture" = "Previous picture";
-=======
 "product_nit_onboarding_next_picture" = "Seuraava kuva";
 "product_nit_onboarding_previous_picture" = "Edellinen kuva";
->>>>>>> master
 "product_onboarding_finger_scroll_label" = "Vieritä nähdäksesi lisää kuvia";
 "product_onboarding_finger_swipe_label" = "Pyyhkäise mennäksesi seuraavaan tai edelliseen ilmoitukseen";
 "product_onboarding_finger_tap_label" = "Napauta mennäksesi seuraavaan ilmoitukseen";
@@ -1054,6 +1058,9 @@
 "profile_sold_no_products_label" = "EI ILMOITUKSIA (VIELÄ!)";
 "profile_sold_other_no_products_button" = "Jatka selaamista";
 "profile_sold_products_tab" = "Myyty";
+"profile_verifications_awareness_view_bold_text" = "Here's a pro tip";
+"profile_verifications_awareness_view_button" = "Complete profile";
+"profile_verifications_awareness_view_text" = "%@ - did you know that verified users make better deals?\n\nComplete and verify your profile today!";
 "profile_verifications_email_placeholder" = "Sähköposti";
 "profile_verifications_email_view_title" = "Vahvista sähköpostisi";
 "profile_verifications_send_button" = "Lähetä";
@@ -1361,6 +1368,7 @@
 "sell_title_autogen_label" = "letgon ehdottama otsikko";
 "sell_title_field_hint" = "Tuotteen otsikko (vapaaehtoinen)";
 "sell_uploading_label" = "Julkaistaan ilmoitusta...";
+"services_promo_call_to_action" = "Julkaise palvelu";
 "services_promo_cell_title_b" = "Uusi palvelut-kategoria!";
 "services_promo_cell_title_c" = "Etsi palvelullesi paikallisia asiakkaita";
 "services_promo_cell_title_default_bold" = "Tienaa rahaa";
@@ -1402,6 +1410,8 @@
 "settings_section_promote" = "Mainosta";
 "settings_section_support" = "Tuki";
 "settings_title" = "Asetukset";
+"share_screenshot_description" = "Now it’s ready for you to share:";
+"share_screenshot_title" = "Screenshot saved!";
 "sign_up_acceptance_error" = "Rekisteröityäksesi sinun on hyväksyttävä Käyttöehdot ja Yksityisyyskäytäntö";
 "sign_up_email_field_hint" = "Sähköposti";
 "sign_up_email_step1_continue_button" = "Jatka";

@@ -17,14 +17,6 @@ final class FeedApiDataSource: FeedDataSource {
     }
     
     func index(page: URL, completion: FeedDataSourceCompletion?) {
-        guard let host = page.host, let baseUrlHost = URL(string: FeedBaseURL.baseURL)?.host, host == baseUrlHost
-            else {
-                let invalidHost = page.host ?? ""
-                let description = "\(FeedApiDataSource.self) \(#function): invalid host - \(invalidHost)"
-                let result = FeedDataSourceResult(error: ApiError.internalError(description: description))
-                completion?(result)
-                return
-        }
         let request = AbsoluteUrlRequest<FeedBaseURL>(url: page, authLevel: .nonexistent)
         apiClient.request(request, decoder: FeedApiDataSource.decoder, completion: completion)
     }

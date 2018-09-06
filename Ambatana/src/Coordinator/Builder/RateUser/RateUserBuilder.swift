@@ -17,10 +17,12 @@ extension RateUserBuilder: RateUserAssembly {
         switch self {
         case .standard(let nav):
             vm.navigator = RateUserStandardWireframe(nc: nav)
+            return vc
         case .modal(let root):
+            let nc = UINavigationController(rootViewController: vc)
             vm.navigator = RateUserModalWireframe(root: root)
+            return nc
         }
-        return vc
     }
 }
 

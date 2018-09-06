@@ -20,7 +20,6 @@ protocol PushPermissionsManager {
     
     
     @discardableResult
-    func showPrePermissionsViewFrom(_ viewController: UIViewController, type: PrePermissionType,
-                                    completion: (() -> ())?) -> UIViewController?
+    func showPrePermissionsViewFrom(_ viewController: UIViewController, type: PrePermissionType) -> UIViewController?
 
 }

@@ -984,14 +984,14 @@ struct TrackerEvent {
         return TrackerEvent(name: .chatRelatedItemsComplete, params: params)
     }
     
-    static func chatLetgoServiceQuestionReceived(questionKey: String, listingId: String) -> TrackerEvent {
+    static func chatLetgoServiceQuestionReceived(questionKey: String, listingId: String?) -> TrackerEvent {
         var params = EventParameters()
         params[.messageGoal] = questionKey
         params[.listingId] = listingId
         return TrackerEvent(name: .chatLetgoServiceQuestionReceived, params: params)
     }
     
-    static func chatLetgoServiceCTAReceived(questionKey: String, listingId: String) -> TrackerEvent {
+    static func chatLetgoServiceCTAReceived(questionKey: String, listingId: String?) -> TrackerEvent {
         var params = EventParameters()
         params[.messageGoal] = questionKey
         params[.listingId] = listingId
@@ -1285,20 +1285,6 @@ struct TrackerEvent {
         var params = EventParameters()
         params[.expressChatTrigger] = trigger.rawValue
         return TrackerEvent(name: .expressChatDontAsk, params: params)
-    }
-
-    static func surveyStart(userId: String?, surveyUrl: String) -> TrackerEvent {
-        var params = EventParameters()
-        params[.userId] = userId
-        params[.surveyUrl] = surveyUrl
-        return TrackerEvent(name: .surveyStart, params: params)
-    }
-
-    static func surveyCompleted(userId: String?, surveyUrl: String) -> TrackerEvent {
-        var params = EventParameters()
-        params[.userId] = userId
-        params[.surveyUrl] = surveyUrl
-        return TrackerEvent(name: .surveyCompleted, params: params)
     }
 
     static func verifyAccountStart(_ typePage: EventParameterTypePage) -> TrackerEvent {

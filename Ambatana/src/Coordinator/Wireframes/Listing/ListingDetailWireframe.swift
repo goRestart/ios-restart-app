@@ -12,8 +12,9 @@ final class ListingDetailWireframe: ListingDetailNavigator {
     private let verificationAssembly: UserVerificationAssembly
     private let editAssembly: EditListingAssembly
     private let loginAssembly: LoginAssembly
+    private let rateBuyerAssembly: RateBuyerAssembly
 
-    private let chatRouter: ChatWireframe
+    private let chatNavigator: ChatNavigator
 
     private let myUserRepository: MyUserRepository
     private let installationRepository: InstallationRepository
@@ -31,6 +32,7 @@ final class ListingDetailWireframe: ListingDetailNavigator {
                   verificationAssembly: LGUserVerificationBuilder.standard(nav: nc),
                   editAssembly: EditListingBuilder.modal(nc),
                   loginAssembly: LoginBuilder.modal,
+                  rateBuyerAssembly: RateBuyerBuilder.modal(nc),
                   bubbleManager: LGBubbleNotificationManager.sharedInstance,
                   deeplinkMailBox: LGDeepLinkMailBox.sharedInstance)
 
@@ -45,18 +47,20 @@ final class ListingDetailWireframe: ListingDetailNavigator {
          verificationAssembly: UserVerificationAssembly,
          editAssembly: EditListingAssembly,
          loginAssembly: LoginAssembly,
+         rateBuyerAssembly: RateBuyerAssembly,
          bubbleManager: BubbleNotificationManager,
          deeplinkMailBox: DeepLinkMailBox) {
         self.nc = nc
         self.sessionManager = sessionManager
         self.featureFlags = featureFlags
-        self.chatRouter = ChatWireframe(nc: nc)
+        self.chatNavigator = ChatWireframe(nc: nc)
         self.installationRepository = installationRepository
         self.myUserRepository = myUserRepository
         self.bumpAssembly = bumpAssembly
         self.verificationAssembly = verificationAssembly
         self.editAssembly = editAssembly
         self.loginAssembly = loginAssembly
+        self.rateBuyerAssembly = rateBuyerAssembly
         self.deeplinkMailBox = deeplinkMailBox
         self.bubbleManager = bubbleManager
     }
@@ -96,7 +100,7 @@ final class ListingDetailWireframe: ListingDetailNavigator {
     }
 
     func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?) {
-        chatRouter.openListingChat(listing, source: source, interlocutor: interlocutor, openChatAutomaticMessage: nil)
+        chatNavigator.openListingChat(listing, source: source, interlocutor: interlocutor, openChatAutomaticMessage: nil)
     }
 
     func closeListingAfterDelete(_ listing: Listing) {
@@ -164,7 +168,12 @@ final class ListingDetailWireframe: ListingDetailNavigator {
                            listingId: String,
                            sourceRateBuyers: SourceRateBuyers?,
                            trackingInfo: MarkAsSoldTrackingInfo) {
-
+        let vc = rateBuyerAssembly.buildRateBuyers(source: source,
+                                                   buyers: buyers,
+                                                   listingId: listingId,
+                                                   sourceRateBuyers: sourceRateBuyers,
+                                                   trackingInfo: trackingInfo)
+        nc.present(vc, animated: true, completion: nil)
     }
     func showProductFavoriteBubble(with data: BubbleNotificationData) {
         bubbleManager.showBubble(data: data,
@@ -234,8 +243,10 @@ final class ListingDetailWireframe: ListingDetailNavigator {
     }
 
     func openAskPhoneFor(listing: Listing, interlocutor: User?) {
-        let assembly = ProfessionalDealerAskPhoneBuilder.standard(nc)
-        let vc = assembly.buildProfessionalDealerAskPhone(listing: listing, interlocutor: interlocutor)
+        let assembly = ProfessionalDealerAskPhoneBuilder.modal(nc)
+        let vc = assembly.buildProfessionalDealerAskPhone(listing: listing,
+                                                          interlocutor: interlocutor,
+                                                          chatNavigator: chatNavigator)
         nc.present(vc, animated: true)
     }
 

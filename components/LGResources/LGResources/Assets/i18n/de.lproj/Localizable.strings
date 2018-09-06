@@ -246,6 +246,10 @@
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_title" = "Verifiziere deine E-Mail-Adresse, um Gespräche zu führen";
 "chat_with_yourself_alert_msg" = "Du kannst kein Gespräch zu deinem eigenen Angebot beginnen.";
+"click_to_talk_smoketest_action_button" = "Leg los";
+"click_to_talk_smoketest_description" = "Verbinde dich schnell mit deine interessiertesten Käufern und verkaufe deine Artikel doppelt so schnell.";
+"click_to_talk_smoketest_subtitle" = "Anrufe empfangen";
+"click_to_talk_smoketest_title" = "Zum Reden drücken";
 "collection_explore_button" = "Entdecken";
 "collection_furniture_title" = "Zuhause ist's doch am schönsten";
 "collection_transport_title" = "Reise mit Stil";
@@ -284,7 +288,7 @@
 "common_no" = "Nein";
 "common_ok" = "OK";
 "common_product_given_away" = "Verschenkt";
-"common_product_not_available" = "Hoppla! Dieses Angebot ist nicht mehr verfügbar";
+"common_product_not_available" = "Entfernt oder nicht mehr verfügbar";
 "common_product_sold" = "Verkauft";
 "common_settings" = "Einstellungen";
 "common_short_time_day_ago_label" = "%d Tag";
@@ -448,6 +452,7 @@
 "filters_cars_transmission_title" = "Getriebe";
 "filters_distance_not_set" = "nicht eingestellt";
 "filters_jobs_services_header" = "Information über Stelle oder Dienstleistung";
+"filters_jobs_services_list_max_selection_alert" = "Hoppla! Du kannst nur bis zu 15 Optionen auswählen.";
 "filters_jobs_services_subtype_title" = "Unterart";
 "filters_jobs_services_toggle_header" = "Suche nach ...";
 "filters_jobs_services_type_title" = "Art";
@@ -759,6 +764,10 @@
 "post_description_name_placeholder" = "Name";
 "post_description_save_button_text" = "Dieses Angebot speichern!";
 "post_details_jobs_services_camera_message" = "Stelle dein Firmenlogo oder ein Foto, das zeigt, welche Dienstleistungen du anbietest, ein";
+"post_details_jobs_services_congratulation_add_more_details" = "indem du mehr Details hinzufügst:";
+"post_details_jobs_services_congratulation_improve_listing" = "Verbessere dein Angebot,";
+"post_details_jobs_services_congratulation_people_nearby_first" = "Leute in deiner Nähe";
+"post_details_jobs_services_congratulation_people_nearby_second" = "suchen auch nach:";
 "post_details_jobs_services_step_option_jobs_prefix" = "Suche jemanden für";
 "post_details_jobs_services_step_option_services_prefix" = "Bewerbe";
 "post_details_jobs_services_step_title" = "Ich ...";
@@ -878,13 +887,8 @@
 "product_new_onboarding_tap_right_highlighted_label" = "Drücke rechts";
 "product_new_onboarding_tap_right_highlighted_label_2" = "in der Mitte";
 "product_new_onboarding_tap_right_label" = "%@ oder %@, um das nächste Bild zu sehen";
-<<<<<<< HEAD
-"product_nit_onboarding_next_picture" = "Next picture";
-"product_nit_onboarding_previous_picture" = "Previous picture";
-=======
 "product_nit_onboarding_next_picture" = "Nächstes Bild";
 "product_nit_onboarding_previous_picture" = "Vorheriges Bild";
->>>>>>> master
 "product_onboarding_finger_scroll_label" = "Scrolle, um mehr Bilder zu sehen";
 "product_onboarding_finger_swipe_label" = "Wische, um zum nächsten oder vorherigen Angebot zu gelangen";
 "product_onboarding_finger_tap_label" = "Drücke, um zum nächsten Angebot zu gelangen";
@@ -1054,6 +1058,9 @@
 "profile_sold_no_products_label" = "(NOCH) KEINE ANGEBOTE";
 "profile_sold_other_no_products_button" = "Mehr entdecken";
 "profile_sold_products_tab" = "Verkauft";
+"profile_verifications_awareness_view_bold_text" = "Hier ist ein Profi-Tipp";
+"profile_verifications_awareness_view_button" = "Profil vervollständigen";
+"profile_verifications_awareness_view_text" = "%@ – wusstest du, dass verifizierte Nutzer bessere Angebote erhalten?\n\nVervollständige und verifiziere jetzt dein Profil!";
 "profile_verifications_email_placeholder" = "E-Mail";
 "profile_verifications_email_view_title" = "Verifiziere deine E-Mail-Adresse";
 "profile_verifications_send_button" = "Senden";
@@ -1361,6 +1368,7 @@
 "sell_title_autogen_label" = "Titelvorschlag von letgo";
 "sell_title_field_hint" = "Produkttitel (optional)";
 "sell_uploading_label" = "Angebot wird eingestellt...";
+"services_promo_call_to_action" = "Stelle eine Dienstleistung ein";
 "services_promo_cell_title_b" = "Neue Dienstleistungskategorien!";
 "services_promo_cell_title_c" = "Finde Kunden in deiner Nähe für deine Dienstleistungen";
 "services_promo_cell_title_default_bold" = "Verdiene Geld";
@@ -1402,6 +1410,8 @@
 "settings_section_promote" = "Bewerben";
 "settings_section_support" = "Hilfe";
 "settings_title" = "Einstellungen";
+"share_screenshot_description" = "Jetzt kannst du es teilen:";
+"share_screenshot_title" = "Bildschirmfoto gespeichert!";
 "sign_up_acceptance_error" = "Um dich registrieren zu können, musst du die Nutzungsbedingungen und Datenschutzrichtlinien von letgo akzeptieren";
 "sign_up_email_field_hint" = "E-Mail-Adresse";
 "sign_up_email_step1_continue_button" = "Fortfahren";

@@ -15,22 +15,16 @@
 "bump_up_banner_boost_text" = "추가 강조를 추가해보세요!";
 "bump_up_banner_free_button_title" = "강조하기";
 "bump_up_banner_free_text" = "빠르게 판매하기 위해 무료로 강조해보세요";
-<<<<<<< HEAD
-=======
 "bump_up_banner_loading_text" = "더 많은 정보 로딩 중...";
->>>>>>> master
 "bump_up_banner_pay_text" = "상품을 빨리 판매해보세요";
 "bump_up_banner_pay_text_improvement" = "지금 빨리 판매하기";
 "bump_up_banner_pay_text_improvement_english_a" = "지금 빨리 판매하기";
 "bump_up_banner_pay_text_improvement_english_b" = "지금 빨리 판매하기";
 "bump_up_banner_pay_text_improvement_english_c" = "지금 빨리 판매하기";
 "bump_up_banner_pay_text_improvement_english_d" = "지금 빨리 판매하기";
-<<<<<<< HEAD
-=======
 "bump_up_banner_pay_text_improvement_turkish_b" = "지금 빨리 판매하기";
 "bump_up_banner_pay_text_improvement_turkish_c" = "지금 빨리 판매하기";
 "bump_up_banner_pay_text_improvement_turkish_d" = "지금 빨리 판매하기";
->>>>>>> master
 "bump_up_banner_wait_text" = "다시 강조하기";
 "bump_up_boost_success_alert_text" = "상품이 강조되었습니다! 상품은 24시간 동안 강조되어 집니다.";
 "bump_up_error_bump_generic" = "상품 목록을 강조하는 동안 오류가 발생했습니다. 다시 시도해주세요.";
@@ -54,42 +48,27 @@
 "bump_up_product_cell_chat_now_button_english_b" = "지금 대화하기";
 "bump_up_product_cell_chat_now_button_english_c" = "지금 대화하기";
 "bump_up_product_cell_chat_now_button_english_d" = "지금 대화하기";
-<<<<<<< HEAD
-=======
 "bump_up_product_cell_feature_it_label" = "상품 강조하기";
->>>>>>> master
 "bump_up_product_cell_featured_stripe" = "주요";
 "bump_up_product_detail_featured_label" = "주요";
 "bump_up_view_boost_pay_button_title" = "%@에 상품을 다시 강조해보세요";
 "bump_up_view_boost_subtitle_boost_listing" = "이미 24시간 내에 상품을 강조하셨기 때문에, 저희는 다른 상품을 강조하는 가격을 할인해드렸습니다!";
 "bump_up_view_boost_subtitle_cheaper" = "일반 강조 가격을 할인받기 위해 지금 상품을 강조해보세요.";
-<<<<<<< HEAD
-"bump_up_view_boost_subtitle_send_top" = "사용자분의 게시글은 여전히 강조 상태이지만, 추가 강조 기능을 추가하실 수 있습니다. 이 기능은 상품 목록을 상단으로 이동시키고 24시간 동안 상품 강조 기능을 사용하실 수 있습니다.";
-"bump_up_view_boost_title_boost_listing" = "판매 목록을 강조해보세요";
-"bump_up_view_boost_title_cheaper_boost" = "저렴한 강조 기능을 지금 사용해보세요";
-=======
 "bump_up_view_boost_subtitle_not_ready" = "24시간 동안 강조되며 목록 상단으로 게시글을 이동할 수 있는 상품 강조를 %@안에 추가하실 수 있습니다";
 "bump_up_view_boost_subtitle_send_top" = "사용자분의 게시글은 여전히 강조 상태이지만, 추가 강조 기능을 추가하실 수 있습니다. 이 기능은 상품 목록을 상단으로 이동시키고 24시간 동안 상품 강조 기능을 사용하실 수 있습니다.";
 "bump_up_view_boost_title_boost_listing" = "판매 목록을 강조해보세요";
 "bump_up_view_boost_title_cheaper_boost" = "저렴한 강조 기능을 지금 사용해보세요";
 "bump_up_view_boost_title_not_ready" = "사용자분의 게시글은 여전히 강조되어 있습니다";
->>>>>>> master
 "bump_up_view_boost_title_send_top" = "상단으로 다시 올려보세요";
 "bump_up_view_free_subtitle" = "더 많이 공유할 수록, 판매 상품이 더 잘보이게 될 것입니다.";
 "bump_up_view_free_title" = "리스팅 강조하기";
 "bump_up_view_pay_button_title" = "%@ 상품 강조하기";
 "bump_up_view_pay_subtitle" = "더 많은 사용자가 상품 목록을 확인하고 판매를 빠르게 진행할 수 있도록 사용자 분의 상품 목록은 24시간 동안 강조됩니다.";
 "bump_up_view_pay_title" = "2배 더 많은 구매자들의 관심을 끌어보세요";
-<<<<<<< HEAD
-=======
 "cached_feed_error" = "새로운 목록을 불러오는 동안 오류가 발생했습니다";
 "cached_feed_new_listings" = "새 상품";
-<<<<<<< HEAD
->>>>>>> master
-=======
 "car_promo_cell_title_bold_text" = "현금 마련하기";
 "car_promo_cell_title_regular_text" = "차량 판매하기";
->>>>>>> master
 "categories_baby_and_child" = "유아동";
 "categories_car" = "자동차";
 "categories_cars_and_motors" = "다른 운송 수단들과 부품들";
@@ -109,10 +88,7 @@
 "categories_inFeed_real_estate_title" = "부동산";
 "categories_inFeed_services" = "서비스";
 "categories_inFeed_sports_leisure_games" = "레져";
-<<<<<<< HEAD
-=======
 "categories_jobs_services" = "구직 & 서비스";
->>>>>>> master
 "categories_movies_books_and_music" = "영화, 도서 및 음악";
 "categories_other" = "기타";
 "categories_real_estate" = "부동산";
@@ -185,18 +161,12 @@
 "chat_express_banner_button_title" = "할인 확인하기";
 "chat_express_banner_title" = "근처의 관련 할인상품";
 "chat_express_contact_one_button_text" = "1 판매자에게 연락하기";
-<<<<<<< HEAD
-=======
 "chat_express_contact_only_button_text" = "연락처";
->>>>>>> master
 "chat_express_contact_sellers_label" = "다른 구매자가 사가기 전에, 구매자에게 연락해보세요!";
 "chat_express_contact_various_button_text" = "%@ 판매자들에게 연락하기";
 "chat_express_dont_ask_again_button" = "다시 묻지 말아주세요";
 "chat_express_dont_miss_label" = "이 할인들을 놓치지 마세요";
-<<<<<<< HEAD
-=======
 "chat_express_high_demand_label" = "수요가 많네요! 이번 할인을 놓치지 마세요";
->>>>>>> master
 "chat_express_one_message_sent_success_alert" = "메세지가 성공적으로 발송되었습니다!";
 "chat_express_several_messages_sent_success_alert" = "메세지가 성공적으로 발송되었습니다!";
 "chat_express_text_field_text" = "안녕하세요! 판매하고 계신가요?";
@@ -276,6 +246,10 @@
 "chat_verify_alert_ok_button" = "예";
 "chat_verify_alert_title" = "채팅을 위해 이메일 확인";
 "chat_with_yourself_alert_msg" = "상품 게시글과 관련한 대화를 시작하실 수 없습니다.";
+"click_to_talk_smoketest_action_button" = "시작해보세요";
+"click_to_talk_smoketest_description" = "가장 관심있는 구매자와 빠르게 연락하고 상품을 2배 더 빠르게 판매해보세요.";
+"click_to_talk_smoketest_subtitle" = "전화 받기";
+"click_to_talk_smoketest_title" = "클릭하여 대화 시작하기";
 "collection_explore_button" = "검색";
 "collection_furniture_title" = "집처럼 편안한 공간은 없습니다";
 "collection_transport_title" = "화려하게 여행해보세요";
@@ -314,7 +288,7 @@
 "common_no" = "아니요";
 "common_ok" = "확인";
 "common_product_given_away" = "기부";
-"common_product_not_available" = "이런! 이 상품 목록은 더 이상 존재하지 않습니다";
+"common_product_not_available" = "이 상품 목록은 삭제되었거나 더 이상 존재하지 않습니다";
 "common_product_sold" = "판매 완료";
 "common_settings" = "설정";
 "common_short_time_day_ago_label" = "%d 일";
@@ -338,10 +312,7 @@
 "common_user_not_available" = "이런! 사용자를 찾을 수 없습니다.";
 "common_user_review_not_available" = "이런! 리뷰를 찾을 수 없습니다.";
 "common_yes" = "예";
-<<<<<<< HEAD
-=======
 "community_banner_title" = "letgo 커뮤니티에 가입하세요!";
->>>>>>> master
 "contact_subject_option_location" = "위치 파악하는데 문제가 있습니다";
 "contact_subject_option_login" = "로그인 허가";
 "contact_subject_option_other" = "다른 문제";
@@ -363,9 +334,6 @@
 "direct_answer_good_condition" = "상태가 좋습니까?";
 "direct_answer_how_much_asking" = "요청하는 가격은 얼마입니까?";
 "direct_answer_interested" = "관심있어요!";
-<<<<<<< HEAD
-"direct_answer_interested_title" = "관심 있는...";
-=======
 "direct_answer_interested_buy_it" = "구매하기를 원하는데요";
 "direct_answer_interested_has_it_sold" = "판매 되었나요?";
 "direct_answer_interested_in_buying_it" = "이 상품을 구매하는데 관심이 있습니다";
@@ -378,7 +346,6 @@
 "direct_answer_interested_still_selling_it" = "여전히 판매하고 계신가요?";
 "direct_answer_interested_title" = "관심 있는...";
 "direct_answer_interested_what_condition" = "이것은 어떤 상태인가요?";
->>>>>>> master
 "direct_answer_is_negotiable" = "가격이 흥정 가능한가요?";
 "direct_answer_lets_meet" = "만나보기";
 "direct_answer_like_to_buy" = "안녕하세요! 구매하기를 원하는데요";
@@ -417,10 +384,6 @@
 "discarded_products_reason_poor_ad_quality" = "가장 적절한 예를 따르고 있지 않습니다";
 "discarded_products_reason_reference_to_competitors" = "다른 앱이나 웹사이트로 이끄는 행위";
 "discarded_products_reason_stock_photo_only" = "상품 사진들만 포함하세요";
-<<<<<<< HEAD
-"edit_product_feature_label_long_text" = "빠르게 판매하기 위해 게시글을 강조해보세요";
-"edit_product_feature_label_short_text" = "지금 빨리 판매하기";
-=======
 "edit_jobsServices_jobs_option_title" = "직업";
 "edit_jobsServices_listingType_title" = "게시글 종류";
 "edit_jobsServices_serviceSubtype_title" = "하위 종류";
@@ -434,7 +397,6 @@
 "edit_product_feature_label_variant_B" = "지금 빨리 판매하기";
 "edit_product_feature_label_variant_C" = "더 빠르게 많은 구매자들의 이목을 끌어보세요";
 "edit_product_feature_label_variant_D" = "더 많은 구매자들의 이목을 끄는 방법을 알려주세요";
->>>>>>> master
 "edit_product_location_alert_text" = "당신의 상품 게시글이 등록된 지역을 변경하기 위해서, 위치 탐색을 허가해주세요";
 "edit_product_location_alert_title" = "위치 변경하기";
 "edit_product_send_button" = "변경사항 저장하기";
@@ -444,10 +406,7 @@
 "edit_product_title" = "상품 게시글 수정";
 "edit_product_unsaved_changes_alert" = "이 변경사항을 취소하시겠습니까?";
 "edit_product_unsaved_changes_alert_ok" = "취소하기";
-<<<<<<< HEAD
-=======
 "engagement_badging_feed_bubble" = "새 상품";
->>>>>>> master
 "featured_info_view_increase_visibility" = "구매자의 눈에 띄게 하기";
 "featured_info_view_more_buyers" = "더 많은 구매자의 관심 끌기";
 "featured_info_view_sell_faster" = "빠르게 판매하기";
@@ -456,10 +415,7 @@
 "filter_cars_seats_title" = "자리";
 "filter_results_cars_no_matches" = "검색에 대한 정확하게 일치되는 것이 없습니다. \n유사한 결과물 보기. ";
 "filter_results_cars_other_results" = "귀하의 영역에 최근에 게시됨";
-<<<<<<< HEAD
-=======
 "filter_services_services_list_show_more" = "더보기";
->>>>>>> master
 "filters_car_make_not_set" = "설정되지 않은";
 "filters_car_model_not_set" = "설정되지 않은";
 "filters_car_seller_type_all" = "전체";
@@ -468,11 +424,7 @@
 "filters_car_seller_type_private" = "개인";
 "filters_car_seller_type_professional" = "전문가";
 "filters_car_year_any_year" = "아무 해";
-<<<<<<< HEAD
-"filters_car_year_before_year" = "% 전!";
-=======
 "filters_car_year_before_year" = "%@ 전!";
->>>>>>> master
 "filters_cars_bodytype_convertible" = "컨버터블";
 "filters_cars_bodytype_coupe" = "쿠페";
 "filters_cars_bodytype_hatchback" = "해치백";
@@ -499,20 +451,11 @@
 "filters_cars_transmission_manual" = "수동";
 "filters_cars_transmission_title" = "변속기";
 "filters_distance_not_set" = "설정하지 않기";
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-"filters_jobs_services_header" = "Job or Service Info";
-"filters_jobs_services_subtype_title" = "Subtype";
-"filters_jobs_services_toggle_header" = "Looking for...";
-"filters_jobs_services_type_title" = "Type";
->>>>>>> master
-=======
 "filters_jobs_services_header" = "직업 혹은 서비스 정보";
+"filters_jobs_services_list_max_selection_alert" = "이런! 15개 이상 서비스를 선택하실 수 없습니다.";
 "filters_jobs_services_subtype_title" = "하위 종류";
 "filters_jobs_services_toggle_header" = "해당 사항을 검색하고 있습니다...";
 "filters_jobs_services_type_title" = "종류";
->>>>>>> master
 "filters_mileage_slider_title" = "마일리지";
 "filters_navbar_reset" = "리셋";
 "filters_numberOfSeats_slider_title" = "자리";
@@ -533,23 +476,16 @@
 "filters_section_distance" = "거리";
 "filters_section_location" = "위치";
 "filters_section_price" = "가격";
-<<<<<<< HEAD
-"filters_section_price_free_title" = "무료 제품만 보기";
-=======
 "filters_section_price_free_title" = "무료 상품만 보기";
->>>>>>> master
 "filters_section_real_estate_info" = "상품 정보";
 "filters_section_services_info" = "서비스 정보";
 "filters_section_sortby" = "분류하기";
 "filters_section_within" = "안에 입력하세요";
 "filters_service_subtype_not_set" = "설정하지 않기";
 "filters_service_type_not_set" = "설정하지 않기";
-<<<<<<< HEAD
-=======
 "filters_services_services_list_max_selection_alert" = "이런! 15개 이상 서비스를 선택하실 수 없습니다.";
 "filters_services_services_list_search_placeholder" = "수리공, 계약직...";
 "filters_services_services_list_title" = "항목을 선택하세요";
->>>>>>> master
 "filters_size_wrong_range_error" = "최소 크기는 최대 크기보다 클 수 없습니다.";
 "filters_slider_any" = "모두";
 "filters_sort_closest" = "가장 가까운 순서대로";
@@ -595,13 +531,9 @@
 "id_verification_third_step_subtitle" = "신분증이 명확하며 뷰파인더 내부의 상자에 있는지 확인해주세요";
 "id_verification_third_step_title" = "신분증의 정면 사진을 촬영하세요";
 "id_verification_update_avatar_message" = "다음 사진을 프로필 사진으로 정하시겠습니까?";
-<<<<<<< HEAD
-"kilometer_unit_suffix" = "KM";
-=======
 "jobs_services_offering_text" = "제공";
 "jobs_services_wanted_text" = "희망하는";
 "kilometer_unit_suffix" = "km";
->>>>>>> master
 "listing_chat_button" = "지금 채팅하기";
 "listing_interested_button_A" = "관심있습니다";
 "listing_interested_button_B" = "관심있습니다";
@@ -685,15 +617,12 @@
 "ml_onboarding_description_text" = "상품을 보여주세요. 가격이 얼마 정도 하는지 알려드릴게요.";
 "ml_onboarding_new_text" = "새로운!";
 "ml_onboarding_ok_text" = "예";
-<<<<<<< HEAD
-=======
 "notification_section_one_month_ago" = "1달 전";
 "notification_section_one_week_ago" = "일주일 전";
 "notifications_cell_date_days_ago" = "%id";
 "notifications_cell_date_hours_ago" = "%i시간";
 "notifications_cell_date_mins_ago" = "%i분";
 "notifications_cell_date_weeks_ago" = "%iw";
->>>>>>> master
 "notifications_empty_subtitle" = "판매할 상품을 게시하고 몇가지 활동을 확인하세요";
 "notifications_empty_title" = "알림 없음 (아직이에요!)";
 "notifications_permissions_1_push" = "이사벨라: 판매하시는 전화기에 관심있는데요. $100 제안해볼게요";
@@ -714,15 +643,12 @@
 "notifications_permissions_settings_title_chat" = "대답하는 것을 잊지 마세요!";
 "notifications_permissions_settings_yes_button" = "네, 설정합니다";
 "notifications_permissions_yes_button" = "네, 알려주세요";
-<<<<<<< HEAD
-=======
 "notifications_section_days_ago" = "%i일 전";
 "notifications_section_months_ago" = "%i 달 전";
 "notifications_section_one_day_ago" = "하루 전";
 "notifications_section_today" = "오늘";
 "notifications_section_weeks_ago" = "%i 주 전";
 "notifications_section_yesterday" = "어제";
->>>>>>> master
 "notifications_title" = "알림";
 "notifications_type_buyers_interested" = "%d 구매자들이 사용자 분의 상품 목록에 관심있는 것 같습니다";
 "notifications_type_buyers_interested_button" = "누구인지 알아보세요";
@@ -793,15 +719,12 @@
 "passwordless_username_input_done_button" = "완료";
 "passwordless_username_input_textfield_placeholder" = "사용자";
 "passwordless_username_input_title" = "사용자 이름을 선택하세요";
-<<<<<<< HEAD
-=======
 "payment_frequency_per_biweek" = "2주";
 "payment_frequency_per_day" = "일";
 "payment_frequency_per_hour" = "시간";
 "payment_frequency_per_month" = "달";
 "payment_frequency_per_week" = "주";
 "payment_frequency_per_year" = "연";
->>>>>>> master
 "phone_verification_code_input_view_content_subaction" = "코드를 받지 못하셨나요?";
 "phone_verification_code_input_view_content_subtext" = "%@ 이내에 메시지를 받지 못하셨다면, 다른 코드를 요청하실 수 있습니다";
 "phone_verification_code_input_view_content_subtitle" = "%@로 발송해드렸습니다";
@@ -840,14 +763,11 @@
 "post_description_info_title" = "상품 목록 정보";
 "post_description_name_placeholder" = "이름";
 "post_description_save_button_text" = "해당 상품 목록 저장하기!";
-<<<<<<< HEAD
-<<<<<<< HEAD
-"post_details_services_add_new" = "새러운 서비스 추가하기";
-"post_details_services_camera_message" = "본인 사진이나 기업 로고를 게시해주세요";
-=======
-=======
 "post_details_jobs_services_camera_message" = "기업 로고를 게시하거나 서비스 혹은 제공하는 직업을 보여줄 수 있는 사진을 게시해주세요";
->>>>>>> master
+"post_details_jobs_services_congratulation_add_more_details" = "상세 내역 추가하기:";
+"post_details_jobs_services_congratulation_improve_listing" = "게시글을 효과적으로 만들어보세요";
+"post_details_jobs_services_congratulation_people_nearby_first" = "근처의 고객들은 또한";
+"post_details_jobs_services_congratulation_people_nearby_second" = "다음을 찾고 있습니다:";
 "post_details_jobs_services_step_option_jobs_prefix" = "구인활동을";
 "post_details_jobs_services_step_option_services_prefix" = "서비스를";
 "post_details_jobs_services_step_title" = "저는...";
@@ -857,7 +777,6 @@
 "post_details_listingType_service_display_name" = "광고하는 중";
 "post_details_services_add_new" = "새러운 서비스 추가하기";
 "post_details_services_camera_message" = "기업 로고나 제공하는 서비스를 보여줄 수 있는 사진을 게시해주세요";
->>>>>>> master
 "post_details_services_congratulation_people_near" = "당신 주변 사람들은 이러한 서비스를 찾고 있거나 이런 기술을 가지고 있나요?";
 "post_details_services_congratulation_post_another" = "다른 글 작성하기";
 "post_details_services_congratulation_review" = "당신의 게시글을 검토하고 더 많은 상세 내역을 추가해보세요";
@@ -880,8 +799,6 @@
 "post_queued_requests_state_listing_posted" = "게시글이 등록되었습니다!";
 "post_queued_requests_state_posting_listing" = "상품 목록 게시 중...";
 "posting_button_skip" = "넘기기";
-<<<<<<< HEAD
-=======
 "posting_flow_jobs_and_services_category_button_text" = "구직 & 서비스";
 "priceType_biweekly" = "격주제";
 "priceType_daily" = "일당제";
@@ -890,7 +807,6 @@
 "priceType_oneOff" = "일당";
 "priceType_weekly" = "주당";
 "priceType_yearly" = "연봉제";
->>>>>>> master
 "product_auto_generated_title_label" = "제목은 letgo에서 자동적으로 생성합니다";
 "product_auto_generated_translated_title_label" = "(또한 구글에 의해서 번역됩니다)";
 "product_bubble_favorite_button" = "판매자에게 알려보세요!";
@@ -971,13 +887,8 @@
 "product_new_onboarding_tap_right_highlighted_label" = "클릭하여 우측으로 이동하기";
 "product_new_onboarding_tap_right_highlighted_label_2" = "화면 중간";
 "product_new_onboarding_tap_right_label" = "다음 사진을 확인하기 위해 %@ 혹은 %@ 확인";
-<<<<<<< HEAD
-"product_nit_onboarding_next_picture" = "Next picture";
-"product_nit_onboarding_previous_picture" = "Previous picture";
-=======
 "product_nit_onboarding_next_picture" = "다음 사진";
 "product_nit_onboarding_previous_picture" = "이전 사진";
->>>>>>> master
 "product_onboarding_finger_scroll_label" = "더 많은 사진을 확인하기 위해 스크롤을 내려보세요";
 "product_onboarding_finger_swipe_label" = "다음 상품 목록 혹은 이전 상품 목록으로 이동하기 위해 누르기";
 "product_onboarding_finger_tap_label" = "눌러서 다음 상품 목록으로 이동하기";
@@ -996,11 +907,7 @@
 "product_post_camera_video_mode_button" = "비디오";
 "product_post_camera_video_mode_button_new_badge" = "신상!";
 "product_post_camera_video_recording_min_duration_message" = "최소 %d초 동안 녹화해주세요";
-<<<<<<< HEAD
-"product_post_camera_video_recording_tooltip" = "비디오를 녹화하기 위해 %@ 사용";
-=======
 "product_post_camera_video_recording_tooltip" = "비디오 녹화를 위해 %@ 사용";
->>>>>>> master
 "product_post_camera_video_recording_tooltip_highlighted_word" = "멈춤";
 "product_post_close_alert_close_button" = "삭제하기";
 "product_post_close_alert_description" = "여전히 판매를 원하시나요?";
@@ -1058,10 +965,7 @@
 "product_post_retry_button" = "다시 시도하기";
 "product_post_select_category_cars" = "자동차";
 "product_post_select_category_housing" = "매매/임대용 부동산";
-<<<<<<< HEAD
-=======
 "product_post_select_category_jobs_services" = "구직 & 서비스";
->>>>>>> master
 "product_post_select_category_motors_and_accessories" = "다른 운송 수단들과 부품들";
 "product_post_select_category_other" = "기타 제품";
 "product_post_select_category_real_estate" = "부동산";
@@ -1154,6 +1058,9 @@
 "profile_sold_no_products_label" = "상품 게시글이 없습니다 (아직이에요!)";
 "profile_sold_other_no_products_button" = "계속 검색하기";
 "profile_sold_products_tab" = "품절";
+"profile_verifications_awareness_view_bold_text" = "프로팁은 다음과 같습니다";
+"profile_verifications_awareness_view_button" = "프로필 완료하기";
+"profile_verifications_awareness_view_text" = "%@ - 인증된 사용자들이 더 나은 거래를 한다는 사실을 알고 계셨나요?\n\n오늘 프로필을 완성하고 인증받아보세요!";
 "profile_verifications_email_placeholder" = "이메일";
 "profile_verifications_email_view_title" = "이메일을 인증하세요";
 "profile_verifications_send_button" = "발송";
@@ -1250,11 +1157,7 @@
 "real_estate_gallery_view_subtitle_params" = "매매하거나 임대하고자 하는 부동산의 사진을 최대 %d장 선택하세요. 첫번째 사진은 강조되기 때문에, 가장 잘나온 사진을 선택하는 것을 잊지 말아주세요!";
 "real_estate_location_notification_message" = "저희는 다른 사용자들에게 회원님의 정확한 위치를 공개하지 않습니다";
 "real_estate_location_title" = "위치";
-<<<<<<< HEAD
-"real_estate_map_tooltip_button_title" = "Try Now";
-=======
 "real_estate_map_tooltip_button_title" = "지금 시도하기";
->>>>>>> master
 "real_estate_map_tooltip_title" = "새로운 기능! 지도에서 판매하고 계신 것을 확인해보세요.";
 "real_estate_offer_type_rent" = "전세";
 "real_estate_offer_type_sale" = "판매중";
@@ -1350,8 +1253,6 @@
 "report_user_suspcious" = "의심스러운 행동";
 "report_user_text_placeholder" = "댓글달기 (선택사항)";
 "report_user_title" = "사용자 신고하기";
-<<<<<<< HEAD
-=======
 "reporting_additional_notes_placeholder" = "수사가 협조가 되는 동안, 저희 부서가 사용자분의 신고를 조사할 수 있도록 추가 정보를 추가하여 주십세요";
 "reporting_listing_list_header" = "해당 상품 게시글을 신고하는 사유가 무엇인가요?";
 "reporting_listing_report_sent_text" = "익명 신고와 letgo를 거래 및 판매를 하기 위한 최고의 장소로 만들 수 있도록 도움을 주셔서 진심으로 감사드립니다.";
@@ -1414,7 +1315,6 @@
 "reporting_user_update_text_B" = "%@의 프로필 사진을 익명으로 신고해주셔서 대단히 감사합니다. 피드백은 letgo 커뮤니티를 안전하게 보호할 수 있는 큰 힘이 됩니다.\n\n사진을 검토하였으며, 저희 커뮤니티 가이드라인을 위반한 사유로 프로필을 삭제하였음을 알려드립니다.";
 "reporting_user_update_text_C" = "%@의 프로필을 익명으로 신고해주셔서 대단히 감사합니다. 피드백은 letgo 커뮤니티를 안전하게 보호할 수 있는 큰 힘이 됩니다.\n\n프로필을 검토하였으며, 저희 커뮤니티 가이드라인을 위반한 사유로 프로필을 삭제하였음을 알려드립니다.";
 "reporting_user_update_title" = "신고한 내역 업데이트";
->>>>>>> master
 "reset_password_email_field_hint" = "이메일";
 "reset_password_instructions" = "이메일주소를 입력하시면 암호 재설정을 위한 이메일을 발송해드리겠습니다";
 "reset_password_send_button" = "비밀번호 재설정";
@@ -1429,10 +1329,7 @@
 "search_alert_enable_error_message" = "이런! 검색 알림을 활성화 하는 동안 오류가 발생했습니다.";
 "search_alert_error_too_many_button_text" = "알림 설정";
 "search_alert_error_too_many_text" = "이런! 회원님께서는 검색알림을 받을 수 있는 최대치에 도달하셨습니다";
-<<<<<<< HEAD
-=======
 "search_alerts_disabled_oldest_message" = "최대 검색 알림에 도달하셨습니다. 따라서, 저희는 가장 오래된 알림을 비활성화 하고, 현재 선택하신 사항을 활성화 했습니다.";
->>>>>>> master
 "search_alerts_edit_button" = "수정";
 "search_alerts_header_subtitle" = "새로운 게시글 알림 받기";
 "search_alerts_list_title" = "검색 알림";
@@ -1465,27 +1362,22 @@
 "sell_send_error_invalid_price" = "상품 게시글에 유효한 가격을 입력해주세요. 숫자만 입력 가능합니다.";
 "sell_send_error_invalid_title" = "상품 목록의 이름을 입력해주세요.";
 "sell_send_error_sharing_facebook" = "페이스북에 공유하는데 문제가 발생했습니다. 다시 시도해주세요.";
-<<<<<<< HEAD
-=======
 "sell_share_on_facebook_footer_label" = "더 많이 보여주고 더 빠르게 판매하세요";
->>>>>>> master
 "sell_share_on_facebook_label" = "페이스북에 공유하기";
 "sell_title_autogen_autotrans_label" = "lego에서 추천하고 Google에서 번역된 제목";
 "sell_title_autogen_label" = "letgo에서 추천하는 제목";
 "sell_title_field_hint" = "제품 이름 (선택사항)";
 "sell_uploading_label" = "게시글을 등록 중 입니다...";
+"services_promo_call_to_action" = "서비스 게시하기";
 "services_promo_cell_title_b" = "새로운 서비스 항목!";
 "services_promo_cell_title_c" = "서비스를 원하는 근처 고객들을 찾아보세요";
-"services_promo_cell_title_default_bold" = "현금 마련하기";
+"services_promo_cell_title_default_bold" = "현금 마련";
 "services_promo_cell_title_default_regular" = "여가시간";
 "services_service_subtype_list_title" = "서비스";
 "services_service_subtype_title" = "서비스";
 "services_service_type_list_title" = "서비스 카테고리";
 "services_service_type_title" = "서비스 카테고리";
-<<<<<<< HEAD
-=======
 "services_unified_filter_title" = "항목을 선택하세요";
->>>>>>> master
 "settings_change_email_button" = "이메일";
 "settings_change_location_button" = "위치";
 "settings_change_password_button" = "비밀번호";
@@ -1518,6 +1410,8 @@
 "settings_section_promote" = "광고";
 "settings_section_support" = "지원";
 "settings_title" = "설정";
+"share_screenshot_description" = "공유하기 위해 다음이 준비되어 있습니다:";
+"share_screenshot_title" = "스크린샷이 저장되었습니다!";
 "sign_up_acceptance_error" = "가입버튼을 누름으로써, 사용약관 및 개인정보보호 약관에 동의합니다";
 "sign_up_email_field_hint" = "이메일";
 "sign_up_email_step1_continue_button" = "계속";

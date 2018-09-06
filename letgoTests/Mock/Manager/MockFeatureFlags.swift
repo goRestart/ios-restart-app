@@ -3,7 +3,6 @@ import Foundation
 import RxSwift
 
 final class MockFeatureFlags: FeatureFlaggeable {
- 
     var trackingData: Observable<[(String, ABGroup)]?> {
         return trackingDataVar.asObservable()
     }
@@ -16,7 +15,9 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var newCarsMultiRequesterEnabled: Bool = false
     var inAppRatingIOS10: Bool = false
     var userReviewsReportEnabled: Bool = true
+
     var deckItemPage: NewItemPageV3 = .control
+    var cachedFeed: CachedFeed = .control
     var realEstateEnabled: RealEstateEnabled = .control
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio = .control
     var realEstateNewCopy: RealEstateNewCopy = .control
@@ -46,7 +47,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var showSellFasterInProfileCells: ShowSellFasterInProfileCells = .control
     var bumpInEditCopys: BumpInEditCopys = .control
     var multiAdRequestMoreInfo: MultiAdRequestMoreInfo = .control
-    var cachedFeed: CachedFeed = .control
 
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false
@@ -78,6 +78,8 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var carPromoCells: CarPromoCells = .control
     var servicesPromoCells: ServicesPromoCells = .control
     var realEstatePromoCells: RealEstatePromoCells = .control
+    var proUsersExtraImages: ProUsersExtraImages = .control
+    var clickToTalkEnabled: ClickToTalk = .control
     
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed = .control
