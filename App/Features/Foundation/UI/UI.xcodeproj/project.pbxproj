@@ -39,6 +39,9 @@
 		1CD7A9A81FF5654700CB895D /* FullWidthButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD7A9A71FF5654700CB895D /* FullWidthButton.swift */; };
 		1CDF7DCA1FF5CAF70033770D /* InputTextFieldSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CDF7DC91FF5CAF70033770D /* InputTextFieldSpec.swift */; };
 		2E07F2FD212DEEB400C63BE1 /* UIButton+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E07F2FC212DEEB400C63BE1 /* UIButton+Rx.swift */; };
+		2E08DF762141D53B0039161E /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2E08DF732141D53B0039161E /* OpenSans-Semibold.ttf */; };
+		2E08DF772141D53B0039161E /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2E08DF742141D53B0039161E /* OpenSans-Bold.ttf */; };
+		2E08DF782141D53B0039161E /* OpenSans.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2E08DF752141D53B0039161E /* OpenSans.ttf */; };
 		2E71A91B2131A6BF009D24A9 /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A91A2131A6BF009D24A9 /* Checkbox.swift */; };
 		2E71A91E2131AA6A009D24A9 /* CheckboxSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A91D2131AA6A009D24A9 /* CheckboxSpec.swift */; };
 		2E71A9332131DA2C009D24A9 /* UITabBarController+ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A9322131DA2C009D24A9 /* UITabBarController+ViewController.swift */; };
@@ -101,6 +104,9 @@
 		1CD7A9B01FF56A7900CB895D /* Playground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Playground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		1CDF7DC91FF5CAF70033770D /* InputTextFieldSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputTextFieldSpec.swift; sourceTree = "<group>"; };
 		2E07F2FC212DEEB400C63BE1 /* UIButton+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Rx.swift"; sourceTree = "<group>"; };
+		2E08DF732141D53B0039161E /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
+		2E08DF742141D53B0039161E /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
+		2E08DF752141D53B0039161E /* OpenSans.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = OpenSans.ttf; sourceTree = "<group>"; };
 		2E71A91A2131A6BF009D24A9 /* Checkbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checkbox.swift; sourceTree = "<group>"; };
 		2E71A91D2131AA6A009D24A9 /* CheckboxSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxSpec.swift; sourceTree = "<group>"; };
 		2E71A9322131DA2C009D24A9 /* UITabBarController+ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabBarController+ViewController.swift"; sourceTree = "<group>"; };
@@ -381,6 +387,7 @@
 		1CD7A9911FF55ABA00CB895D /* Font */ = {
 			isa = PBXGroup;
 			children = (
+				2E08DF712141D53B0039161E /* Fonts */,
 				1CD7A9921FF55AD000CB895D /* Fontable.swift */,
 				1CD7A9941FF55BD900CB895D /* UIFont+Fontable.swift */,
 			);
@@ -454,6 +461,24 @@
 				2E07F2FC212DEEB400C63BE1 /* UIButton+Rx.swift */,
 			);
 			path = UIButton;
+			sourceTree = "<group>";
+		};
+		2E08DF712141D53B0039161E /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				2E08DF722141D53B0039161E /* Open Sans */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		2E08DF722141D53B0039161E /* Open Sans */ = {
+			isa = PBXGroup;
+			children = (
+				2E08DF732141D53B0039161E /* OpenSans-Semibold.ttf */,
+				2E08DF742141D53B0039161E /* OpenSans-Bold.ttf */,
+				2E08DF752141D53B0039161E /* OpenSans.ttf */,
+			);
+			path = "Open Sans";
 			sourceTree = "<group>";
 		};
 		2E71A9192131A6B3009D24A9 /* CheckBox */ = {
@@ -620,7 +645,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E08DF762141D53B0039161E /* OpenSans-Semibold.ttf in Resources */,
 				1CD52B0F2047428100F13E5F /* Assets.xcassets in Resources */,
+				2E08DF782141D53B0039161E /* OpenSans.ttf in Resources */,
+				2E08DF772141D53B0039161E /* OpenSans-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
