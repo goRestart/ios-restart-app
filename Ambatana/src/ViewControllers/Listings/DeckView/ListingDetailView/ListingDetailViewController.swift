@@ -3,6 +3,7 @@ import LGComponents
 import LGCoreKit
 import RxSwift
 import RxCocoa
+import GoogleMobileAds
 
 final class ListingDetailViewController: BaseViewController {
     private enum Layout {
@@ -14,6 +15,23 @@ final class ListingDetailViewController: BaseViewController {
     private let disposeBag = DisposeBag()
 
     private let quickChatViewController: QuickChatViewController
+
+    lazy var dfpBannerView: DFPBannerView = {
+        let dfpBanner = DFPBannerView(adSize: kGADAdSizeLargeBanner)
+
+        dfpBanner.rootViewController = self
+        dfpBanner.delegate = self
+
+        if viewModel.multiAdRequestActive {
+            dfpBanner.adSizeDelegate = self
+            var validSizes: [NSValue] = []
+            validSizes.append(NSValueFromGADAdSize(kGADAdSizeBanner)) // 320x50
+            validSizes.append(NSValueFromGADAdSize(kGADAdSizeLargeBanner)) // 320x100
+            validSizes.append(NSValueFromGADAdSize(kGADAdSizeMediumRectangle)) // 300x250
+            dfpBanner.validAdSizes = validSizes
+        }
+        return dfpBanner
+    }()
 
     init(viewModel: ListingDetailViewModel) {
         self.viewModel = viewModel
@@ -40,6 +58,7 @@ final class ListingDetailViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         addQuickChat()
+        addBanner()
         setupRx()
     }
 
@@ -55,9 +74,22 @@ final class ListingDetailViewController: BaseViewController {
             ])
     }
 
+    private func addBanner() {
+        detailView.addBanner(banner: dfpBannerView)
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: true)
+        if viewModel.adActive {
+            if let adBannerTrackingStatus = viewModel.adBannerTrackingStatus {
+                viewModel.adAlreadyRequestedWithStatus(adBannerTrackingStatus: adBannerTrackingStatus)
+            } else {
+                loadDFPRequest()
+            }
+        } else {
+            detailView.hideBanner()
+        }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -113,6 +145,13 @@ final class ListingDetailViewController: BaseViewController {
 
     @objc private func closeView() {
         viewModel.closeDetail()
+    }
+
+    func loadDFPRequest() {
+        dfpBannerView.adUnitID = viewModel.dfpAdUnitId
+        let dfpRequest = DFPRequest()
+        dfpRequest.contentURL = viewModel.dfpContentURL
+        dfpBannerView.load(dfpRequest)
     }
 }
 
@@ -170,5 +209,51 @@ private extension Reactive where Base: ListingDetailViewController {
         return Binder(self.base) { controller, location in
             controller.detailView.populateWith(location: location)
         }
+    }
+}
+
+// MARK: - GADAdSizeDelegate, GADBannerViewDelegate
+
+extension ListingDetailViewController: GADAdSizeDelegate, GADBannerViewDelegate {
+    func adView(_ bannerView: GADBannerView, willChangeAdSizeTo size: GADAdSize) {
+        let sizeFromAdSize = CGSizeFromGADAdSize(size)
+        detailView.updateBannerContainerWith(height: sizeFromAdSize.height,
+                                             leftMargin: viewModel.sideMargin,
+                                             rightMargin: -viewModel.sideMargin)
+        
+        let newFrame = CGRect(x: bannerView.frame.origin.x,
+                              y: bannerView.frame.origin.y,
+                              width: sizeFromAdSize.width,
+                              height: sizeFromAdSize.height)
+        bannerView.frame = newFrame
+    }
+
+    func adViewDidReceiveAd(_ bannerView: GADBannerView) {
+        if bannerView.frame.size.height > 0 {
+            let absolutePosition = detailView.bannerAbsolutePosition()
+            let bannerTop = absolutePosition.y
+            let bannerBottom = bannerTop + bannerView.frame.size.height
+            viewModel.didReceiveAd(bannerTopPosition: bannerTop,
+                                   bannerBottomPosition: bannerBottom,
+                                   screenHeight: UIScreen.main.bounds.height,
+                                   bannerSize: bannerView.adSize.size)
+        }
+    }
+
+    func adView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError) {
+        logMessage(.info, type: .monetization, message: "MoreInfo banner failed with error: \(error.localizedDescription)")
+        detailView.hideBanner()
+        viewModel.didFailToReceiveAd(withErrorCode: GADErrorCode(rawValue: error.code) ?? .internalError,
+                                      bannerSize: bannerView.adSize.size)
+    }
+
+    func adViewWillPresentScreen(_ bannerView: GADBannerView) {
+        viewModel.adTapped(typePage: EventParameterTypePage.listingDetailMoreInfo, willLeaveApp: false,
+                            bannerSize: bannerView.adSize.size)
+    }
+
+    func adViewWillLeaveApplication(_ bannerView: GADBannerView) {
+        viewModel.adTapped(typePage: EventParameterTypePage.listingDetailMoreInfo, willLeaveApp: true,
+                            bannerSize: bannerView.adSize.size)
     }
 }

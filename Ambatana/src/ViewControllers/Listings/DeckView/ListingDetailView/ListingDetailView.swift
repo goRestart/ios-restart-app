@@ -95,8 +95,19 @@ final class ListingDetailView: UIView {
     private let detailMapView = ListingCardDetailMapView()
     fileprivate let mapTap = UITapGestureRecognizer()
 
-    private var mapSnapShotToBottom: NSLayoutConstraint?
-    private var mapSnapShotToSocialView: NSLayoutConstraint?
+    private let bannerContainer: UIView = UIView()
+    lazy var bannerContainerHeight: NSLayoutConstraint = NSLayoutConstraint(item: bannerContainer,
+                                                                            attribute: .height,
+                                                                            relatedBy: .equal,
+                                                                            toItem: nil,
+                                                                            attribute: .notAnAttribute,
+                                                                            multiplier: 1,
+                                                                            constant: 0)
+    private var bannerContainerViewLeftConstraint: NSLayoutConstraint?
+    private var bannerContainerViewRightConstraint: NSLayoutConstraint?
+    private var bannerContainerToBottom: NSLayoutConstraint?
+    private var bannerContainerToSocialView: NSLayoutConstraint?
+
 
     private let socialMediaHeader: UILabel = {
         let label = UILabel()
@@ -137,10 +148,13 @@ final class ListingDetailView: UIView {
 
         addSubviewsForAutoLayout([scrollView])
         scrollView.addSubviewsForAutoLayout([mainImageView, pageControl, headerStackView, detailLabel,
-                                             statsView, userView, detailMapView, socialMediaHeader,
-                                             socialShareView, whiteBackground])
+                                             statsView, userView, detailMapView, bannerContainer,
+                                             socialMediaHeader, socialShareView, whiteBackground])
 
         let pageControlTop = pageControl.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: Metrics.margin)
+
+        let bannerLeft = bannerContainer.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: Metrics.shortMargin)
+        let bannerRight = bannerContainer.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -Metrics.shortMargin)
 
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: topAnchor),
@@ -179,7 +193,13 @@ final class ListingDetailView: UIView {
             detailMapView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metrics.shortMargin),
             detailMapView.heightAnchor.constraint(equalToConstant: Layout.mapHeight),
 
-            socialMediaHeader.topAnchor.constraint(equalTo: detailMapView.bottomAnchor, constant: 2*Metrics.margin),
+            bannerContainer.topAnchor.constraint(equalTo: detailMapView.bottomAnchor, constant: 2*Metrics.margin),
+            bannerContainer.centerXAnchor.constraint(equalTo: centerXAnchor),
+            bannerLeft,
+            bannerRight,
+            bannerContainerHeight,
+
+            socialMediaHeader.topAnchor.constraint(equalTo: bannerContainer.bottomAnchor, constant: 2*Metrics.margin),
             socialMediaHeader.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metrics.bigMargin),
             socialMediaHeader.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metrics.bigMargin),
 
@@ -190,6 +210,8 @@ final class ListingDetailView: UIView {
                                                     constant: -Layout.scrollBottomInset)
             ])
 
+        bannerContainerViewLeftConstraint = bannerLeft
+        bannerContainerViewRightConstraint = bannerRight
         self.pageControlTop = pageControlTop
     }
 
@@ -225,11 +247,36 @@ final class ListingDetailView: UIView {
         setNeedsLayout()
     }
 
+    func addBanner(banner: UIView) {
+        bannerContainer.addSubviewForAutoLayout(banner)
+        NSLayoutConstraint.activate([
+            banner.topAnchor.constraint(equalTo: bannerContainer.topAnchor),
+            banner.bottomAnchor.constraint(equalTo: bannerContainer.bottomAnchor),
+            banner.leadingAnchor.constraint(greaterThanOrEqualTo: bannerContainer.leadingAnchor),
+            banner.trailingAnchor.constraint(lessThanOrEqualTo: bannerContainer.trailingAnchor),
+            banner.centerXAnchor.constraint(equalTo: bannerContainer.centerXAnchor)
+            ])
+    }
+
+    func updateBannerContainerWith(height: CGFloat, leftMargin: CGFloat, rightMargin: CGFloat) {
+        bannerContainerHeight.constant = height
+        bannerContainerViewLeftConstraint?.constant = leftMargin
+        bannerContainerViewRightConstraint?.constant = rightMargin
+    }
+
+    func hideBanner() {
+        updateBannerContainerWith(height: 0, leftMargin: 0, rightMargin: 0)
+    }
+
+    func bannerAbsolutePosition() -> CGPoint {
+        return scrollView.convert(bannerContainer.frame.origin, to: nil)
+    }
+
     private func enableSocialView(_ enabled: Bool) {
         socialShareView.isHidden = !enabled
         socialMediaHeader.isHidden = !enabled
-        mapSnapShotToBottom?.isActive = !enabled
-        mapSnapShotToSocialView?.isActive = enabled
+        bannerContainerToBottom?.isActive = !enabled
+        bannerContainerToSocialView?.isActive = enabled
         setNeedsLayout()
     }
 }

@@ -3,6 +3,7 @@ import LGComponents
 import LGCoreKit
 import RxSwift
 import RxCocoa
+import GoogleMobileAds
 
 final class ListingDetailViewModel: BaseViewModel {
     var navigator: ListingFullDetailNavigator?
@@ -19,22 +20,49 @@ final class ListingDetailViewModel: BaseViewModel {
         return DeckMapData(location: location, shouldHighlightCenter: shouldShowExactLocation)
     }
 
+    // Ads
+    private let adsImpressionConfigurable: AdsImpressionConfigurable
+    var dfpAdUnitId: String {
+        return featureFlags.moreInfoDFPAdUnitId
+    }
+    var adActive: Bool {
+        return !listingViewModel.isMine && userShouldSeeAds
+    }
+    var multiAdRequestActive: Bool {
+        return featureFlags.multiAdRequestMoreInfo.isActive
+    }
+    var userShouldSeeAds: Bool {
+        return adsImpressionConfigurable.shouldShowAdsForUser
+    }
+    var dfpContentURL: String? {
+        guard let listingId = listingViewModel.listing.value.objectId else { return nil }
+        return LetgoURLHelper.buildProductURL(listingId: listingId, isLocalized: true)?.absoluteString
+    }
+    let sideMargin: CGFloat = DeviceFamily.current.isWiderOrEqualThan(.iPhone6) ? Metrics.margin : 0
+    var currentAdRequestType: AdRequestType? {
+        return adActive ? .dfp : nil
+    }
+    var adBannerTrackingStatus: AdBannerTrackingStatus? = nil
+
     convenience init(withListing listing: Listing,
                      viewModelMaker: ListingViewModelAssembly,
                      visitSource: EventParameterListingVisitSource) {
         self.init(withListing: listing,
                   viewModelMaker: viewModelMaker,
                   visitSource: visitSource,
-                  featureFlags: FeatureFlags.sharedInstance)
+                  featureFlags: FeatureFlags.sharedInstance,
+                  adsImpressionConfigurable: LGAdsImpressionConfigurable())
     }
 
     init(withListing listing: Listing,
          viewModelMaker: ListingViewModelAssembly,
          visitSource: EventParameterListingVisitSource,
-         featureFlags: FeatureFlaggeable) {
+         featureFlags: FeatureFlaggeable,
+         adsImpressionConfigurable: AdsImpressionConfigurable) {
         self.listing = listing
         self.visitSource = visitSource
         self.featureFlags = featureFlags
+        self.adsImpressionConfigurable = adsImpressionConfigurable
         self.maker = viewModelMaker
         super.init()
     }
@@ -53,6 +81,85 @@ final class ListingDetailViewModel: BaseViewModel {
 
     func closeDetail() {
         navigator?.closeDetail()
+    }
+}
+
+extension ListingDetailViewModel {
+    func didReceiveAd(bannerTopPosition: CGFloat,
+                      bannerBottomPosition: CGFloat,
+                      screenHeight: CGFloat,
+                      bannerSize: CGSize) {
+
+        let isMine = EventParameterBoolean(bool: listingViewModel.isMine)
+        let adShown: EventParameterBoolean = .trueParameter
+        let adType = currentAdRequestType?.trackingParamValueFor(size: multiAdRequestActive ? bannerSize : nil)
+        let visibility = EventParameterAdVisibility(bannerTopPosition: bannerTopPosition,
+                                                    bannerBottomPosition: bannerBottomPosition,
+                                                    screenHeight: screenHeight)
+        let errorReason: EventParameterAdSenseRequestErrorReason? = nil
+
+        adBannerTrackingStatus = AdBannerTrackingStatus(isMine: isMine,
+                                                        adShown: adShown,
+                                                        adType: adType,
+                                                        queryType: nil,
+                                                        query: nil,
+                                                        visibility: visibility,
+                                                        errorReason: errorReason)
+
+        listingViewModel.trackVisitMoreInfo(isMine: isMine,
+                                                    adShown: adShown,
+                                                    adType: adType,
+                                                    queryType: nil,
+                                                    query: nil,
+                                                    visibility: visibility,
+                                                    errorReason: errorReason)
+    }
+
+    func didFailToReceiveAd(withErrorCode code: GADErrorCode, bannerSize: CGSize) {
+
+        let isMine = EventParameterBoolean(bool: listingViewModel.isMine)
+        let adShown: EventParameterBoolean = .falseParameter
+        let adType = currentAdRequestType?.trackingParamValueFor(size: multiAdRequestActive ? bannerSize : nil)
+        let visibility: EventParameterAdVisibility? = nil
+        let errorReason: EventParameterAdSenseRequestErrorReason? = EventParameterAdSenseRequestErrorReason(errorCode: code)
+
+        adBannerTrackingStatus = AdBannerTrackingStatus(isMine: isMine,
+                                                        adShown: adShown,
+                                                        adType: adType,
+                                                        queryType: nil,
+                                                        query: nil,
+                                                        visibility: visibility,
+                                                        errorReason: errorReason)
+
+        listingViewModel.trackVisitMoreInfo(isMine: isMine,
+                                                    adShown: adShown,
+                                                    adType: adType,
+                                                    queryType: nil,
+                                                    query: nil,
+                                                    visibility: visibility,
+                                                    errorReason: errorReason)
+    }
+
+    func adAlreadyRequestedWithStatus(adBannerTrackingStatus status: AdBannerTrackingStatus) {
+        listingViewModel.trackVisitMoreInfo(isMine: status.isMine,
+                                                    adShown: status.adShown,
+                                                    adType: status.adType,
+                                                    queryType: status.queryType,
+                                                    query: status.query,
+                                                    visibility: status.visibility,
+                                                    errorReason: status.errorReason)
+    }
+
+    func adTapped(typePage: EventParameterTypePage, willLeaveApp: Bool, bannerSize: CGSize) {
+        let adType = currentAdRequestType?.trackingParamValueFor(size: multiAdRequestActive ? bannerSize : nil)
+        let isMine = EventParameterBoolean(bool: listingViewModel.isMine)
+        let willLeave = EventParameterBoolean(bool: willLeaveApp)
+        listingViewModel.trackAdTapped(adType: adType,
+                                               isMine: isMine,
+                                               queryType: nil,
+                                               query: nil,
+                                               willLeaveApp: willLeave,
+                                               typePage: typePage)
     }
 }
 
