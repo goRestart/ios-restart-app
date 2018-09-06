@@ -16,7 +16,6 @@ import RxSwift
 extension Bumper  {
     static func initialize() {
         var flags = [BumperFeature.Type]()
-        flags.append(UserReviewsReportEnabled.self)
         flags.append(RealEstateEnabled.self)
         flags.append(RequestsTimeOut.self)
         flags.append(DeckItemPage.self)
@@ -82,19 +81,6 @@ extension Bumper  {
         flags.append(ClickToTalk.self)
         Bumper.initialize(flags)
     } 
-
-    static var userReviewsReportEnabled: Bool {
-        guard let value = Bumper.value(for: UserReviewsReportEnabled.key) else { return false }
-        return UserReviewsReportEnabled(rawValue: value)?.asBool ?? false
-    } 
-
-    #if (RX_BUMPER)
-    static var userReviewsReportEnabledObservable: Observable<Bool> {
-        return Bumper.observeValue(for: UserReviewsReportEnabled.key).map {
-            UserReviewsReportEnabled(rawValue: $0 ?? "")?.asBool ?? false
-        }
-    }
-    #endif
 
     static var realEstateEnabled: RealEstateEnabled {
         guard let value = Bumper.value(for: RealEstateEnabled.key) else { return .control }
@@ -916,15 +902,6 @@ extension Bumper  {
     #endif
 }
 
-
-enum UserReviewsReportEnabled: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return UserReviewsReportEnabled.no.rawValue }
-    static var enumValues: [UserReviewsReportEnabled] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "User reviews report enabled" } 
-    var asBool: Bool { return self == .yes }
-}
 
 enum RealEstateEnabled: String, BumperFeature  {
     case control, baseline, active

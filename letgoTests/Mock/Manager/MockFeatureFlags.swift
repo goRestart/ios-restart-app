@@ -10,8 +10,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     func variablesUpdated() {}
     let trackingDataVar = Variable<[(String, ABGroup)]?>(nil)
 
-    var newCarsMultiRequesterEnabled: Bool = false
-    var userReviewsReportEnabled: Bool = true
     var deckItemPage: DeckItemPage = .control
     var realEstateEnabled: RealEstateEnabled = .control
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio = .control
