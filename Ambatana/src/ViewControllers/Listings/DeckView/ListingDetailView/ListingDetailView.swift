@@ -22,7 +22,6 @@ private enum Layout {
     static let scrollBottomInset: CGFloat = 3*Metrics.bigMargin
 }
 
-
 final class ListingDetailView: UIView {
     private let scrollView: UIScrollView = {
         let scroll = UIScrollView()
@@ -40,12 +39,11 @@ final class ListingDetailView: UIView {
         let img = UIImageView()
         img.clipsToBounds = true
         img.image = R.Asset.BackgroundsAndImages.bg1New.image
-        img.contentMode = .scaleAspectFit
+        img.contentMode = .scaleAspectFill
         return img
     }()
     private var carousel: ListingCardMediaCarousel?
 
-    private var mainImgHeightConstraint: NSLayoutConstraint?
     private lazy var headerStackView: UIStackView = {
         let stackView = UIStackView.vertical([titleLabel, priceLabel])
         stackView.distribution = .fillProportionally
@@ -134,12 +132,6 @@ final class ListingDetailView: UIView {
         setupUI()
     }
 
-    private func updateImageViewAspectRatio() {
-        guard let size = mainImageView.image?.size else { return }
-        mainImgHeightConstraint?.constant = (size.height / size.width) * mainImageView.bounds.width
-        setNeedsLayout()
-    }
-
     private func setupUI() {
         detailMapView.addGestureRecognizer(mapTap)
 
@@ -148,7 +140,6 @@ final class ListingDetailView: UIView {
                                              statsView, userView, detailMapView, socialMediaHeader,
                                              socialShareView, whiteBackground])
 
-        let height = mainImageView.heightAnchor.constraint(equalToConstant: 60) // totally arbitrary
         let pageControlTop = pageControl.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: Metrics.margin)
 
         NSLayoutConstraint.activate([
@@ -161,7 +152,7 @@ final class ListingDetailView: UIView {
             pageControl.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metrics.margin),
             pageControl.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metrics.margin),
 
-            height,
+            mainImageView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.3),
             mainImageView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             mainImageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             mainImageView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
@@ -199,7 +190,6 @@ final class ListingDetailView: UIView {
                                                     constant: -Layout.scrollBottomInset)
             ])
 
-        self.mainImgHeightConstraint = height
         self.pageControlTop = pageControlTop
     }
 
@@ -241,12 +231,6 @@ final class ListingDetailView: UIView {
         mapSnapShotToBottom?.isActive = !enabled
         mapSnapShotToSocialView?.isActive = enabled
         setNeedsLayout()
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        updateImageViewAspectRatio()
-
     }
 }
 
