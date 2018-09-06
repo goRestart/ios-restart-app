@@ -3,6 +3,7 @@ import Snap
 @testable import UI
 
 final class CheckboxSpec: XCTestCase {
+  
   func test_checkbox_with_no_state_is_valid() {
     let checkbox = givenCheckboxWithNoState()
     expect(checkbox).toMatchSnapshot(named: "checkbox_with_no_state")
