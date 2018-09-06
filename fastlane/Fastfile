@@ -1,4 +1,4 @@
-min_fastlane_version("2.72.0")
+min_fastlane_version("2.102.0")
 
 default_platform(:ios)
 
@@ -39,7 +39,6 @@ platform :ios do
       workspace: workspace,
       scheme: scheme,
       code_coverage: true,
-      clean: true,
       devices: ['iPhone 7']
     )
   end 
