@@ -120,6 +120,8 @@ final class P2PPaymentsCreateOfferViewController: BaseViewController {
             viewModel.uiState.map { $0 == .changeOffer }.drive(changeOfferView.rx.isFocused),
             viewModel.currencyCode.drive(changeOfferView.rx.currencyCode),
             viewModel.offerAmount.drive(changeOfferView.rx.value),
+            viewModel.buyButtonHidden.drive(buyButton.rx.isHidden),
+            viewModel.configurePaymentButtonHidden.drive(setupPaymentButton.rx.isHidden),
         ]
         bindings.forEach { [disposeBag] in $0.disposed(by: disposeBag) }
 

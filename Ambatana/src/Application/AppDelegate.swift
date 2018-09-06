@@ -314,9 +314,9 @@ fileprivate extension AppDelegate {
     }
 
     private func setupStripeManager() {
-        let config = StripeManager.Config(apiKey: EnvironmentProxy.sharedInstance.stripeAPIKey,
-                                          appleMerchantId: EnvironmentProxy.sharedInstance.appleMerchantId)
-        StripeManager.setup(config: config)
+        let config = LGPaymentsManager.Config(apiKey: EnvironmentProxy.sharedInstance.stripeAPIKey,
+                                              appleMerchantId: EnvironmentProxy.sharedInstance.appleMerchantId)
+        LGPaymentsManager.setup(config: config)
     }
 }
 

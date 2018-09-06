@@ -9,12 +9,13 @@ final class P2PPaymentsCreateOfferViewModel: BaseViewModel {
     private let chatConversation: ChatConversation
     private let p2pPaymentsRepository: P2PPaymentsRepository
     private let myUserRepository: MyUserRepository
+    private let paymentsManager: PaymentsManager
     fileprivate let currencyHelper = Core.currencyHelper
 
     private let listingImageViewURLRelay = BehaviorRelay<URL?>(value: nil)
     private let listingTitleRelay = BehaviorRelay<String?>(value: nil)
     private let uiStateRelay = BehaviorRelay<UIState>(value: .loading)
-    private let paymentButtonStateRelay = BehaviorRelay<PaymentButtonState>(value: .buy)
+    private let paymentButtonStateRelay = BehaviorRelay<PaymentButtonState>(value: .hidden)
     private let offerFeesRelay = BehaviorRelay<P2PPaymentOfferFees?>(value: nil)
     private let currencyCodeRelay = BehaviorRelay<String?>(value: nil)
     private let offerAmountRelay = BehaviorRelay<Decimal>(value: 0)
@@ -22,21 +23,27 @@ final class P2PPaymentsCreateOfferViewModel: BaseViewModel {
     convenience init(chatConversation: ChatConversation) {
         self.init(chatConversation: chatConversation,
                   p2pPaymentsRepository: Core.p2pPaymentsRepository,
-                  myUserRepository: Core.myUserRepository)
+                  myUserRepository: Core.myUserRepository,
+                  paymentsManager: LGPaymentsManager())
     }
 
     init(chatConversation: ChatConversation,
          p2pPaymentsRepository: P2PPaymentsRepository,
-         myUserRepository: MyUserRepository) {
+         myUserRepository: MyUserRepository,
+         paymentsManager: PaymentsManager) {
         self.chatConversation = chatConversation
         self.p2pPaymentsRepository = p2pPaymentsRepository
         self.myUserRepository = myUserRepository
+        self.paymentsManager = paymentsManager
         super.init()
     }
 
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
-        setup()
+        if firstTime {
+            setup()
+        }
+        updatePaymentCapabilities()
     }
 
     private func setup() {
@@ -74,6 +81,17 @@ final class P2PPaymentsCreateOfferViewModel: BaseViewModel {
         offerFeesRelay.accept(offerFees)
         uiStateRelay.accept(.buy)
     }
+
+    private func updatePaymentCapabilities() {
+        switch paymentsManager.canMakePayments() {
+        case .unavailable:
+            paymentButtonStateRelay.accept(.hidden)
+        case .notConfigured:
+            paymentButtonStateRelay.accept(.configure)
+        case .readyToPay:
+            paymentButtonStateRelay.accept(.pay)
+        }
+    }
 }
 
 // MARK: - Inner types
@@ -84,7 +102,7 @@ extension P2PPaymentsCreateOfferViewModel {
     }
 
     enum PaymentButtonState {
-        case setup, buy
+        case hidden, configure, pay
     }
 }
 
@@ -120,6 +138,24 @@ extension P2PPaymentsCreateOfferViewModel {
     var paymentButtonState: Driver<PaymentButtonState> { return paymentButtonStateRelay.asDriver() }
     var currencyCode: Driver<String?> { return currencyCodeRelay.asDriver() }
     var offerAmount: Driver<Decimal> { return offerAmountRelay.asDriver() }
+
+    var configurePaymentButtonHidden: Driver<Bool> {
+        return Driver.combineLatest(uiState, paymentButtonState) { (uiState, buttonState) -> Bool in
+            switch (uiState, buttonState) {
+            case (.buy, .configure): return false
+            default: return true
+            }
+        }
+    }
+
+    var buyButtonHidden: Driver<Bool> {
+        return Driver.combineLatest(uiState, paymentButtonState) { (uiState, buttonState) -> Bool in
+            switch (uiState, buttonState) {
+            case (.buy, .pay): return false
+            default: return true
+            }
+        }
+    }
 
     var priceAmountText: Driver<String?> {
         return offerFeesRelay.asDriver().map { [currencyHelper] offerFees in
