@@ -185,6 +185,8 @@ extension ABTests {
     var bumpInEditCopys: LeanplumABVariable<Int> { return money.bumpInEditCopys }
     var copyForSellFasterNowInTurkish : LeanplumABVariable<Int> { return money.copyForSellFasterNowInTurkish }
     var multiAdRequestMoreInfo: LeanplumABVariable<Int> { return money.multiAdRequestMoreInfo }
+    var multiAdRequestInChatSectionForUS: LeanplumABVariable<Int> { return money.multiAdRequestInChatSectionForUS }
+    var multiAdRequestInChatSectionForTR: LeanplumABVariable<Int> { return money.multiAdRequestInChatSectionForTR }
 }
 
 //  MARK: Retention

@@ -79,6 +79,8 @@ extension Bumper  {
         flags.append(ServicesPromoCells.self)
         flags.append(ImInterestedInProfile.self)
         flags.append(ClickToTalk.self)
+        flags.append(MultiAdRequestInChatSectionForUS.self)
+        flags.append(MultiAdRequestInChatSectionForTR.self)
         Bumper.initialize(flags)
     } 
 
@@ -897,6 +899,32 @@ extension Bumper  {
     static var clickToTalkObservable: Observable<ClickToTalk> {
         return Bumper.observeValue(for: ClickToTalk.key).map {
             ClickToTalk(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var multiAdRequestInChatSectionForUS: MultiAdRequestInChatSectionForUS {
+        guard let value = Bumper.value(for: MultiAdRequestInChatSectionForUS.key) else { return .control }
+        return MultiAdRequestInChatSectionForUS(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var multiAdRequestInChatSectionForUSObservable: Observable<MultiAdRequestInChatSectionForUS> {
+        return Bumper.observeValue(for: MultiAdRequestInChatSectionForUS.key).map {
+            MultiAdRequestInChatSectionForUS(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var multiAdRequestInChatSectionForTR: MultiAdRequestInChatSectionForTR {
+        guard let value = Bumper.value(for: MultiAdRequestInChatSectionForTR.key) else { return .control }
+        return MultiAdRequestInChatSectionForTR(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var multiAdRequestInChatSectionForTRObservable: Observable<MultiAdRequestInChatSectionForTR> {
+        return Bumper.observeValue(for: MultiAdRequestInChatSectionForTR.key).map {
+            MultiAdRequestInChatSectionForTR(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1903,6 +1931,38 @@ enum ClickToTalk: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "[VERTICALS] Show Click to talk" } 
     static func fromPosition(_ position: Int) -> ClickToTalk {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum MultiAdRequestInChatSectionForUS: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return MultiAdRequestInChatSectionForUS.control.rawValue }
+    static var enumValues: [MultiAdRequestInChatSectionForUS] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[MONEY] Muti ad request in Chat section. For US" } 
+    static func fromPosition(_ position: Int) -> MultiAdRequestInChatSectionForUS {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum MultiAdRequestInChatSectionForTR: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return MultiAdRequestInChatSectionForTR.control.rawValue }
+    static var enumValues: [MultiAdRequestInChatSectionForTR] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[MONEY] Muti ad request in Chat section. For Turkey" } 
+    static func fromPosition(_ position: Int) -> MultiAdRequestInChatSectionForTR {
         switch position { 
             case 0: return .control
             case 1: return .baseline

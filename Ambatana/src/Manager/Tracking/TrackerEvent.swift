@@ -457,6 +457,18 @@ struct TrackerEvent {
         
         return TrackerEvent(name: .adShown, params: params)
     }
+    
+    static func adError(adShown: EventParameterBoolean,
+                        adType: EventParameterAdType?,
+                        typePage: EventParameterTypePage,
+                        errorReason: EventParameterAdSenseRequestErrorReason?) -> TrackerEvent {
+        var params = EventParameters()
+        params[.typePage] = typePage.rawValue
+        params[.adType] = adType?.stringValue ?? TrackerEvent.notApply
+        params[.adShown] = adShown.rawValue
+        params[.reason] = errorReason?.rawValue ?? TrackerEvent.notApply
+        return TrackerEvent(name: .adError, params: params)
+    }
 
     static func listingFavorite(_ listing: Listing, typePage: EventParameterTypePage,
                                 isBumpedUp: EventParameterBoolean) -> TrackerEvent {
