@@ -1,11 +1,3 @@
-//
-//  Date+Extensions.swift
-//  LGCoreKit
-//
-//  Created by Nestor on 12/01/2018.
-//  Copyright © 2018 Ambatana Inc. All rights reserved.
-//
-
 import Foundation
 
 extension Date {
@@ -41,6 +33,14 @@ extension Date {
         return (timeIntervalSince1970 * 1000.0).rounded()
     }
     
+    /// Returns true if `days` have passed since
+    func isOlderThan(days: Int) -> Bool {
+        guard let dateInThePast = Calendar.current.date(byAdding: .day, value: -days, to: Date()) else {
+            return false
+        }
+        return self < dateInThePast
+    }
+
     func nextYear() -> Int {
         return Calendar.current.component(.year, from: self) + 1
     }

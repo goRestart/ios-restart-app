@@ -4,9 +4,9 @@ import CoreGraphics
 final class ScrollingPageControl: UIView {
     
     private struct Layout {
-        static let scrollViewWidth: CGFloat = 10.0
-        static let itemSize: CGSize = CGSize(width: 10.0, height: 10.0)
-        static let interItemSpacing: CGFloat = 7.0
+        static let scrollViewWidth: CGFloat = 14.0
+        static let itemSize: CGSize = CGSize(width: 14.0, height: 14.0)
+        static let interItemSpacing: CGFloat = 3.0
     }
     
     private enum Direction {
@@ -18,6 +18,7 @@ final class ScrollingPageControl: UIView {
     private let adjacentIndexThreshold: Int = 2
     
     private var itemColor: UIColor
+    private let deselectedItemColor: UIColor
     
     private var dotViews: [PageItemDotView] = []
     
@@ -43,9 +44,10 @@ final class ScrollingPageControl: UIView {
         return scrollView
     }()
     
-    required init(itemColor: UIColor) {
+    required init(itemColor: UIColor,
+                  deselectedItemColor: UIColor) {
         self.itemColor = itemColor
-
+        self.deselectedItemColor = deselectedItemColor
         super.init(frame: .zero)
         performInitialSetup()
     }
@@ -95,6 +97,7 @@ final class ScrollingPageControl: UIView {
         for i in 0...numberOfPages-1 {
             let itemRect = frameForItem(atIndex: i)
             let itemView = PageItemDotView(withColor: itemColor,
+                                           deselectedColor: deselectedItemColor,
                                            frame: itemRect)
             scrollView.addSubview(itemView)
             dotViews.append(itemView)
@@ -205,18 +208,18 @@ private final class PageItemDotView: UIView {
     }
     
     private struct Layout {
-        static let smallSelectionInset: CGFloat = 2
-        static let tinySelectionInset: CGFloat = 4
+        static let shadowBlurSize: CGFloat = 2.0
     }
     
     private var selectionState: SelectionState
+    private let deselectedColor: UIColor
     
     private var fillColor: UIColor {
         switch selectionState {
         case .selected:
             return tintColor
         case .adjacent, .small, .tiny:
-            return tintColor.withAlphaComponent(0.5)
+            return deselectedColor
         case .hidden:
             return .clear
         }
@@ -236,7 +239,9 @@ private final class PageItemDotView: UIView {
     }
     
     init(withColor color: UIColor,
+         deselectedColor: UIColor,
          frame: CGRect) {
+        self.deselectedColor = deselectedColor
         selectionState = .adjacent
         super.init(frame: frame)
         self.tintColor = color
@@ -254,7 +259,9 @@ private final class PageItemDotView: UIView {
             return
         }
         
-        drawDot(in: rect, withContext: ctx)
+        drawDot(in: rect.insetBy(dx: Layout.shadowBlurSize,
+                                 dy: Layout.shadowBlurSize),
+                withContext: ctx)
     }
     
     private func drawDot(in rect: CGRect,
@@ -262,6 +269,9 @@ private final class PageItemDotView: UIView {
         let path = UIBezierPath(ovalIn: rect)
         ctx.addPath(path.cgPath)
         ctx.setFillColor(fillColor.cgColor)
+        ctx.setShadow(offset: CGSize.zero,
+                      blur: Layout.shadowBlurSize,
+                      color: UIColor.black.withAlphaComponent(0.5).cgColor)
         ctx.fillPath()
     }
     

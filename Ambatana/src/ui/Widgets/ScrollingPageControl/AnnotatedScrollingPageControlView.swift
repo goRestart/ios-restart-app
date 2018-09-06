@@ -34,7 +34,8 @@ final class AnnotatedScrollingPageControlView: UIView, PageControlRepresentable 
     }()
     
     private let pageControl: ScrollingPageControl = {
-        let pageControl = ScrollingPageControl(itemColor: .white)
+        let pageControl = ScrollingPageControl(itemColor: .white,
+                                               deselectedItemColor: .grayRegular)
         return pageControl
     }()
     
