@@ -14,9 +14,9 @@ struct LoginViewModel: LoginViewModelType, LoginViewModelInput, LoginViewModelOu
   var output: LoginViewModelOutput { return self }
   
   private let bag = DisposeBag()
-  private let authenticate: Authenticate
+  private let authenticate: AuthenticateUseCase
   
-  init(authenticate: Authenticate) {
+  init(authenticate: AuthenticateUseCase) {
     self.authenticate = authenticate
   }
   

@@ -15,8 +15,6 @@
 		1C1D22751FFE56ED00BC0316 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1D22741FFE56ED00BC0316 /* SignUpViewModel.swift */; };
 		1C1D22771FFEBFE900BC0316 /* SignUpViewBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1D22761FFEBFE900BC0316 /* SignUpViewBinder.swift */; };
 		1C1D22931FFEDC4A00BC0316 /* SignUpViewSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1D22921FFEDC4A00BC0316 /* SignUpViewSpec.swift */; };
-		1C7B83B51FFFA10E00EE5CAC /* SignUpViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7B83B41FFFA10E00EE5CAC /* SignUpViewModelSpec.swift */; };
-		1C7B83B81FFFA3A100EE5CAC /* RegisterUserStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7B83B71FFFA3A100EE5CAC /* RegisterUserStub.swift */; };
 		1C7B83BB1FFFABC400EE5CAC /* AuthenticateStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7B83BA1FFFABC400EE5CAC /* AuthenticateStub.swift */; };
 		1C7B83DB2001865100EE5CAC /* LoginViewBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7B83DA2001865100EE5CAC /* LoginViewBinder.swift */; };
 		1C7DD9891FF66C41009C574E /* SignUp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C7DD97F1FF66C41009C574E /* SignUp.framework */; };
@@ -41,6 +39,7 @@
 		2E2F7AF7212A079900CDED0F /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2F7AF6212A079800CDED0F /* Table.swift */; };
 		2ECA1F1C21285556001A3167 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2ECA1F1B21285556001A3167 /* Domain.framework */; };
 		2ECA1F1E21285562001A3167 /* Application.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2ECA1F1D21285562001A3167 /* Application.framework */; };
+		7D703CF71CE7AAE9D80161E7 /* Pods_SignUpTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E63EF10599D5688AD0DEDE0 /* Pods_SignUpTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,8 +61,6 @@
 		1C1D22741FFE56ED00BC0316 /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		1C1D22761FFEBFE900BC0316 /* SignUpViewBinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewBinder.swift; sourceTree = "<group>"; };
 		1C1D22921FFEDC4A00BC0316 /* SignUpViewSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewSpec.swift; sourceTree = "<group>"; };
-		1C7B83B41FFFA10E00EE5CAC /* SignUpViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModelSpec.swift; sourceTree = "<group>"; };
-		1C7B83B71FFFA3A100EE5CAC /* RegisterUserStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUserStub.swift; sourceTree = "<group>"; };
 		1C7B83BA1FFFABC400EE5CAC /* AuthenticateStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticateStub.swift; sourceTree = "<group>"; };
 		1C7B83DA2001865100EE5CAC /* LoginViewBinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewBinder.swift; sourceTree = "<group>"; };
 		1C7DD97F1FF66C41009C574E /* SignUp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SignUp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -86,11 +83,15 @@
 		1CACD9E51FF67C3400538B78 /* Assembly+Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+Login.swift"; sourceTree = "<group>"; };
 		1CACDA3C1FF68DF900538B78 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		1CACDA621FF69B8C00538B78 /* Data.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Data.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		276EA25C478BA13D01CF2EFA /* Pods-SignUpTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SignUpTests.debug.xcconfig"; path = "../../../Pods/Target Support Files/Pods-SignUpTests/Pods-SignUpTests.debug.xcconfig"; sourceTree = "<group>"; };
 		2E07F2F9212DEDBD00C63BE1 /* NotLoggedViewBinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotLoggedViewBinder.swift; sourceTree = "<group>"; };
 		2E07F2FE212DEF8500C63BE1 /* UI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = UI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E2F7AF6212A079800CDED0F /* Table.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Table.swift; sourceTree = "<group>"; };
 		2ECA1F1B21285556001A3167 /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2ECA1F1D21285562001A3167 /* Application.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Application.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4E63EF10599D5688AD0DEDE0 /* Pods_SignUpTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SignUpTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4FE7554BDD3AB59A3EDE3A4A /* Pods_SignUp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SignUp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		85542F4FA6534F18108B70C7 /* Pods-SignUpTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SignUpTests.release.xcconfig"; path = "../../../Pods/Target Support Files/Pods-SignUpTests/Pods-SignUpTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +110,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1C7DD9891FF66C41009C574E /* SignUp.framework in Frameworks */,
+				7D703CF71CE7AAE9D80161E7 /* Pods_SignUpTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -160,31 +162,6 @@
 			path = "View Model";
 			sourceTree = "<group>";
 		};
-		1C7B83B11FFFA0ED00EE5CAC /* Sign Up */ = {
-			isa = PBXGroup;
-			children = (
-				1C7B83B31FFFA10000EE5CAC /* View Model */,
-			);
-			path = "Sign Up";
-			sourceTree = "<group>";
-		};
-		1C7B83B31FFFA10000EE5CAC /* View Model */ = {
-			isa = PBXGroup;
-			children = (
-				1C7B83B41FFFA10E00EE5CAC /* SignUpViewModelSpec.swift */,
-				1C7B83B61FFFA39300EE5CAC /* Test Doubles */,
-			);
-			path = "View Model";
-			sourceTree = "<group>";
-		};
-		1C7B83B61FFFA39300EE5CAC /* Test Doubles */ = {
-			isa = PBXGroup;
-			children = (
-				1C7B83B71FFFA3A100EE5CAC /* RegisterUserStub.swift */,
-			);
-			path = "Test Doubles";
-			sourceTree = "<group>";
-		};
 		1C7B83B91FFFABB400EE5CAC /* Test Doubles */ = {
 			isa = PBXGroup;
 			children = (
@@ -200,6 +177,7 @@
 				1C7DD98C1FF66C41009C574E /* SignUpTests */,
 				1C7DD9801FF66C41009C574E /* Products */,
 				1CACD9DD1FF6713000538B78 /* Frameworks */,
+				D6AFC8E61FF4C68E0C354F2D /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -236,7 +214,6 @@
 			isa = PBXGroup;
 			children = (
 				1C7F4C511FF95B26001BEB62 /* Login */,
-				1C7B83B11FFFA0ED00EE5CAC /* Sign Up */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -367,6 +344,8 @@
 				2ECA1F1D21285562001A3167 /* Application.framework */,
 				2ECA1F1B21285556001A3167 /* Domain.framework */,
 				1CACDA621FF69B8C00538B78 /* Data.framework */,
+				4FE7554BDD3AB59A3EDE3A4A /* Pods_SignUp.framework */,
+				4E63EF10599D5688AD0DEDE0 /* Pods_SignUpTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -406,6 +385,15 @@
 			path = Table;
 			sourceTree = "<group>";
 		};
+		D6AFC8E61FF4C68E0C354F2D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				276EA25C478BA13D01CF2EFA /* Pods-SignUpTests.debug.xcconfig */,
+				85542F4FA6534F18108B70C7 /* Pods-SignUpTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -442,9 +430,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1C7DD9961FF66C41009C574E /* Build configuration list for PBXNativeTarget "SignUpTests" */;
 			buildPhases = (
+				734D4ED4A50F4D087D598B68 /* [CP] Check Pods Manifest.lock */,
 				1C7DD9841FF66C41009C574E /* Sources */,
 				1C7DD9851FF66C41009C574E /* Frameworks */,
 				1C7DD9861FF66C41009C574E /* Resources */,
+				CC468AFCE625F08F68F340A4 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -516,6 +506,55 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		734D4ED4A50F4D087D598B68 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SignUpTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CC468AFCE625F08F68F340A4 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/../../../Pods/Target Support Files/Pods-SignUpTests/Pods-SignUpTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../../../Pods/Target Support Files/Pods-SignUpTests/Pods-SignUpTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		1C7DD97A1FF66C41009C574E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -550,9 +589,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1C1D22931FFEDC4A00BC0316 /* SignUpViewSpec.swift in Sources */,
-				1C7B83B51FFFA10E00EE5CAC /* SignUpViewModelSpec.swift in Sources */,
 				1C7F4C541FF95B47001BEB62 /* LoginViewModelSpec.swift in Sources */,
-				1C7B83B81FFFA3A100EE5CAC /* RegisterUserStub.swift in Sources */,
 				1C7B83BB1FFFABC400EE5CAC /* AuthenticateStub.swift in Sources */,
 				1C7F4C9B1FFC6405001BEB62 /* NotLoggedViewSpec.swift in Sources */,
 			);
@@ -697,7 +734,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../../Carthage/Build/iOS\"";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../Carthage/Build/iOS\"",
+				);
 				INFOPLIST_FILE = SignUp/Resources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -721,7 +761,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../../Carthage/Build/iOS\"";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../Carthage/Build/iOS\"",
+				);
 				INFOPLIST_FILE = SignUp/Resources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -735,12 +778,16 @@
 		};
 		1C7DD9971FF66C41009C574E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 276EA25C478BA13D01CF2EFA /* Pods-SignUpTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3ZGLM2XX3U;
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../../Carthage/Build/iOS\"";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../Carthage/Build/iOS\"",
+				);
 				INFOPLIST_FILE = SignUpTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks \"$(SRCROOT)/../../../../Carthage/Build/iOS\"";
 				PRODUCT_BUNDLE_IDENTIFIER = in.skydev.SignUpTests;
@@ -753,12 +800,16 @@
 		};
 		1C7DD9981FF66C41009C574E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 85542F4FA6534F18108B70C7 /* Pods-SignUpTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3ZGLM2XX3U;
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../../Carthage/Build/iOS\"";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../Carthage/Build/iOS\"",
+				);
 				INFOPLIST_FILE = SignUpTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks \"$(SRCROOT)/../../../../Carthage/Build/iOS\"";
 				PRODUCT_BUNDLE_IDENTIFIER = in.skydev.SignUpTests;

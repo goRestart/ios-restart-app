@@ -26,16 +26,26 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      codeCoverageEnabled = "YES"
       shouldUseLaunchSchemeArgsEnv = "NO">
+      <CodeCoverageTargets>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "1C7DD97E1FF66C41009C574E"
+            BuildableName = "SignUp.framework"
+            BlueprintName = "SignUp"
+            ReferencedContainer = "container:Features/Product/SignUp/SignUp.xcodeproj">
+         </BuildableReference>
+      </CodeCoverageTargets>
       <Testables>
          <TestableReference
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1C89D7BB1FF427B700B3FA98"
-               BuildableName = "UITests.xctest"
-               BlueprintName = "UITests"
-               ReferencedContainer = "container:Features/Foundation/UI/UI.xcodeproj">
+               BlueprintIdentifier = "1C7DD9871FF66C41009C574E"
+               BuildableName = "SignUpTests.xctest"
+               BlueprintName = "SignUpTests"
+               ReferencedContainer = "container:Features/Product/SignUp/SignUp.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
