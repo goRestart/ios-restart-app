@@ -31,16 +31,6 @@ Update carthage dependencies
 fastlane ios test
 ```
 Run all tests
-### ios test_foundation
-```
-fastlane ios test_foundation
-```
-Run tests for foundation feature frameworks
-### ios test_signup
-```
-fastlane ios test_signup
-```
-Runs tests for Signup framework
 
 ----
 
