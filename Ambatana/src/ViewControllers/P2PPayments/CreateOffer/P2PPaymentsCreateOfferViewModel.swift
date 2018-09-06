@@ -116,9 +116,10 @@ final class P2PPaymentsCreateOfferViewModel: BaseViewModel {
             self?.paymentAuthControllerRelay.accept(nil)
             switch result {
             case .success(let offerId):
-                print("SUCCESS: \(offerId)")
+                UIPasteboard.general.string = offerId
+                self?.navigator?.closeOnboarding()
             case .failure:
-                print("fail")
+                break
             }
         }
         paymentAuthControllerRelay.accept(authController)
