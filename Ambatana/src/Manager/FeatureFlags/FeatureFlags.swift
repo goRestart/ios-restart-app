@@ -15,7 +15,6 @@ protocol FeatureFlaggeable: class {
     var syncedData: Observable<Bool> { get }
     func variablesUpdated()
 
-    var userReviewsReportEnabled: Bool { get }
     var realEstateEnabled: RealEstateEnabled { get }
     var deckItemPage: DeckItemPage { get }
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio { get }
@@ -450,13 +449,6 @@ final class FeatureFlags: FeatureFlaggeable {
         
         dao.save(emergencyLocate: EmergencyLocate.fromPosition(abTests.emergencyLocate.value))
         dao.save(community: ShowCommunity.fromPosition(abTests.community.value))
-    }
-
-    var userReviewsReportEnabled: Bool {
-        if Bumper.enabled {
-            return Bumper.userReviewsReportEnabled
-        }
-        return abTests.userReviewsReportEnabled.value
     }
 
     var realEstateEnabled: RealEstateEnabled {
