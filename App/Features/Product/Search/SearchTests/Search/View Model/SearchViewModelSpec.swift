@@ -1,5 +1,6 @@
 import XCTest
 import RxTest
+import RxSwift
 import RxCocoa
 import Domain
 @testable import Search
@@ -9,6 +10,7 @@ final class SearchViewModelSpec: XCTestCase {
   private var sut: SearchViewModelType!
   private var searchGames: SearchGamesStub!
   private let scheduler = TestScheduler(initialClock: 0)
+  private let bag = DisposeBag()
   
   override func setUp() {
     super.setUp()
@@ -25,41 +27,44 @@ final class SearchViewModelSpec: XCTestCase {
   }
   
   func test_should_update_results_if_there_are_game_results() {
-    let inputObserver = scheduler.createObserver([GameSearchSuggestion].self)
+    let input = givenInput()
 
-    _ = sut.output.results.asObservable().bind(to: inputObserver)
+    sut.output.results
+      .drive(input)
+      .disposed(by: bag)
     
     searchGames.givenThereAreGameResults()
-
+    
     sut.output.bind(to: .just("mario"))
 
-    let expectedValues = [
-      next(0, []),
+    let expectedEvents = [
       next(0, searchGames.suggestions)
     ]
 
-    XCTAssertEqual(inputObserver.events.count, expectedValues.count)
-    XCTAssertEqual(inputObserver.events.first!.value.element!, [])
-    XCTAssertEqual(inputObserver.events.last!.value.element!, searchGames.suggestions)
+    XCTAssertEqual(input.events, expectedEvents)
   }
   
   func test_should_return_empty_list_if_there_are_any_errors() {
-    let inputObserver = scheduler.createObserver([GameSearchSuggestion].self)
-
-    _ = sut.output.results.asObservable().bind(to: inputObserver)
+    let input = givenInput()
+    
+    sut.output.results
+      .drive(input)
+      .disposed(by: bag)
     
     searchGames.errorToThrow = .noInternet
 
     sut.output.bind(to: .just("mario"))
-
-    let expectedValues = [
-      next(0, []),
-      next(0, searchGames.suggestions)
+    
+    let expectedEvents: [Recorded<Event<[GameSearchSuggestion]>>] = [
+      next(0, [])
     ]
-
-    XCTAssertEqual(inputObserver.events.count, expectedValues.count)
-    XCTAssertEqual(inputObserver.events.first!.value.element!, [])
-    XCTAssertEqual(inputObserver.events.last!.value.element!, [])
+    
+    XCTAssertEqual(input.events, expectedEvents)
+  }
+  
+  // MARK: - Observers
+  
+  private func givenInput() -> TestableObserver<[GameSearchSuggestion]> {
+    return scheduler.createObserver([GameSearchSuggestion].self)
   }
 }
-

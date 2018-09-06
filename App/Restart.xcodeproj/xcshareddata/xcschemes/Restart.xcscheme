@@ -26,8 +26,85 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      codeCoverageEnabled = "YES"
+      onlyGenerateCoverageForSpecifiedTargets = "YES"
       shouldUseLaunchSchemeArgsEnv = "NO">
+      <CodeCoverageTargets>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "1C7DD97E1FF66C41009C574E"
+            BuildableName = "SignUp.framework"
+            BlueprintName = "SignUp"
+            ReferencedContainer = "container:Features/Product/SignUp/SignUp.xcodeproj">
+         </BuildableReference>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "1C89D7171FF3D63100B3FA98"
+            BuildableName = "Application.framework"
+            BlueprintName = "Application"
+            ReferencedContainer = "container:Features/Foundation/Application/Application.xcodeproj">
+         </BuildableReference>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "1C913A4B1FF2C1C700646884"
+            BuildableName = "Core.framework"
+            BlueprintName = "Core"
+            ReferencedContainer = "container:Features/Foundation/Core/Core.xcodeproj">
+         </BuildableReference>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "1C9139F41FF0607600646884"
+            BuildableName = "Data.framework"
+            BlueprintName = "Data"
+            ReferencedContainer = "container:Features/Foundation/Data/Data.xcodeproj">
+         </BuildableReference>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "1C89D6CF1FF3CEDF00B3FA98"
+            BuildableName = "Domain.framework"
+            BlueprintName = "Domain"
+            ReferencedContainer = "container:Features/Foundation/Domain/Domain.xcodeproj">
+         </BuildableReference>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "1C93E0DC2040B33D0029AD2B"
+            BuildableName = "Listing.framework"
+            BlueprintName = "Listing"
+            ReferencedContainer = "container:Features/Product/Listing/Listing/Listing.xcodeproj">
+         </BuildableReference>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "1C3B453D1FEFCC54008B7B87"
+            BuildableName = "Restart.app"
+            BlueprintName = "Restart"
+            ReferencedContainer = "container:Restart.xcodeproj">
+         </BuildableReference>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "1C93BEAF200A3C9800DDF249"
+            BuildableName = "Search.framework"
+            BlueprintName = "Search"
+            ReferencedContainer = "container:Features/Product/Search/Search.xcodeproj">
+         </BuildableReference>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "1C89D7B21FF427B600B3FA98"
+            BuildableName = "UI.framework"
+            BlueprintName = "UI"
+            ReferencedContainer = "container:Features/Foundation/UI/UI.xcodeproj">
+         </BuildableReference>
+      </CodeCoverageTargets>
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "1C7DD9871FF66C41009C574E"
+               BuildableName = "SignUpTests.xctest"
+               BlueprintName = "SignUpTests"
+               ReferencedContainer = "container:Features/Product/SignUp/SignUp.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
          <TestableReference
             skipped = "NO">
             <BuildableReference
@@ -36,6 +113,16 @@
                BuildableName = "UITests.xctest"
                BlueprintName = "UITests"
                ReferencedContainer = "container:Features/Foundation/UI/UI.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "1C93BEB8200A3C9800DDF249"
+               BuildableName = "SearchTests.xctest"
+               BlueprintName = "SearchTests"
+               ReferencedContainer = "container:Features/Product/Search/Search.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>

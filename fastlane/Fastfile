@@ -1,4 +1,4 @@
-min_fastlane_version("2.72.0")
+min_fastlane_version("2.102.0")
 
 default_platform(:ios)
 
@@ -18,26 +18,10 @@ platform :ios do
 
   desc "Run all tests"
   lane :test do 
-    test_foundation
-    test_signup  
-  end
-
-  desc "Run tests for foundation feature frameworks"
-  lane :test_foundation do 
     test(
-      project: "App/Features/Foundation/UI/UI.xcodeproj", 
-      scheme: "UI")
-
-    test(
-      project: "App/Features/Foundation/Data/Data.xcodeproj", 
-      scheme: "Data")
-  end
-
-  desc "Runs tests for Signup framework"
-  lane :test_signup do
-    test(
-      project: "App/Features/Product/SignUp/SignUp.xcodeproj", 
-      scheme: "SignUp")
+      workspace: "Restart.xcworkspace",
+      scheme: "Restart"
+    )
   end
 
   def _carthage(update)
@@ -50,12 +34,11 @@ platform :ios do
     )
   end
 
-  def test(project:, scheme:)
+  def test(workspace:, scheme:)
     scan(
-      project: project,
+      workspace: workspace,
       scheme: scheme,
       code_coverage: true,
-      clean: true,
       devices: ['iPhone 7']
     )
   end 

@@ -33,9 +33,6 @@
 		2E3E0705213DBA7C00118E64 /* Search.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E3E0704213DBA7C00118E64 /* Search.framework */; };
 		2E3E0706213DBA9700118E64 /* Search.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E3E0704213DBA7C00118E64 /* Search.framework */; };
 		2E3E0707213DBA9700118E64 /* Search.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2E3E0704213DBA7C00118E64 /* Search.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		2E3E071B213DBC2900118E64 /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2E3E0718213DBC2900118E64 /* OpenSans-Semibold.ttf */; };
-		2E3E071C213DBC2900118E64 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2E3E0719213DBC2900118E64 /* OpenSans-Bold.ttf */; };
-		2E3E071D213DBC2900118E64 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2E3E071A213DBC2900118E64 /* OpenSans-Regular.ttf */; };
 		2E64EDAD21386A0A00943F81 /* Generic.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2E64EDAF21386A0A00943F81 /* Generic.strings */; };
 		2E71A90021317BA3009D24A9 /* ProductExtras.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2E71A8FE21317BA3009D24A9 /* ProductExtras.strings */; };
 		2E71A9212131C9DE009D24A9 /* TabBarViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A9202131C9DE009D24A9 /* TabBarViewModelType.swift */; };
@@ -95,9 +92,6 @@
 		2E2F7AED212A06F200CDED0F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/NotLogged.strings; sourceTree = "<group>"; };
 		2E2F7AF0212A071500CDED0F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/SignUp.strings; sourceTree = "<group>"; };
 		2E3E0704213DBA7C00118E64 /* Search.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Search.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		2E3E0718213DBC2900118E64 /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
-		2E3E0719213DBC2900118E64 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
-		2E3E071A213DBC2900118E64 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		2E64EDAE21386A0A00943F81 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Generic.strings; sourceTree = "<group>"; };
 		2E71A8FF21317BA3009D24A9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ProductExtras.strings; sourceTree = "<group>"; };
 		2E71A9202131C9DE009D24A9 /* TabBarViewModelType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarViewModelType.swift; sourceTree = "<group>"; };
@@ -170,7 +164,6 @@
 			children = (
 				2E2F7AB02129CC6C00CDED0F /* GoogleService-Info.plist */,
 				1C3B454D1FEFCC54008B7B87 /* Info.plist */,
-				2E3E0708213DBB0400118E64 /* Fonts */,
 				2E2F7AC2212A06B100CDED0F /* Languages */,
 				1CAF0F65200431FD004046A9 /* Assets */,
 				1CAF0F63200431E8004046A9 /* Storyboards */,
@@ -254,24 +247,6 @@
 				2E64EDAF21386A0A00943F81 /* Generic.strings */,
 			);
 			path = Languages;
-			sourceTree = "<group>";
-		};
-		2E3E0708213DBB0400118E64 /* Fonts */ = {
-			isa = PBXGroup;
-			children = (
-				2E3E0717213DBC2900118E64 /* Open Sans */,
-			);
-			path = Fonts;
-			sourceTree = "<group>";
-		};
-		2E3E0717213DBC2900118E64 /* Open Sans */ = {
-			isa = PBXGroup;
-			children = (
-				2E3E0718213DBC2900118E64 /* OpenSans-Semibold.ttf */,
-				2E3E0719213DBC2900118E64 /* OpenSans-Bold.ttf */,
-				2E3E071A213DBC2900118E64 /* OpenSans-Regular.ttf */,
-			);
-			path = "Open Sans";
 			sourceTree = "<group>";
 		};
 		2E71A91F2131C9BE009D24A9 /* View Model */ = {
@@ -381,7 +356,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2E3E071B213DBC2900118E64 /* OpenSans-Semibold.ttf in Resources */,
 				2EB2B191212B4BCC00705ACA /* ProductPrice.strings in Resources */,
 				2E2F7AF1212A071500CDED0F /* SignUp.strings in Resources */,
 				1C3B454C1FEFCC54008B7B87 /* LaunchScreen.storyboard in Resources */,
@@ -391,8 +365,6 @@
 				2EB2B192212B4BCC00705ACA /* ProductDescription.strings in Resources */,
 				2EB2B190212B4BCC00705ACA /* ProductSelector.strings in Resources */,
 				2E2F7AB12129CC6C00CDED0F /* GoogleService-Info.plist in Resources */,
-				2E3E071D213DBC2900118E64 /* OpenSans-Regular.ttf in Resources */,
-				2E3E071C213DBC2900118E64 /* OpenSans-Bold.ttf in Resources */,
 				2E64EDAD21386A0A00943F81 /* Generic.strings in Resources */,
 				2E71A90021317BA3009D24A9 /* ProductExtras.strings in Resources */,
 			);
@@ -433,7 +405,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
+			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
 		};
 		26174AFE82405ED62C48A8D5 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;

@@ -694,7 +694,6 @@
 				1C9139FA1FF0607600646884 /* Sources */,
 				1C9139FB1FF0607600646884 /* Frameworks */,
 				1C9139FC1FF0607600646884 /* Resources */,
-				1CACCE831FF300240001B321 /* [Carthage] - Copy frameworks */,
 			);
 			buildRules = (
 			);
@@ -764,27 +763,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1CACCE831FF300240001B321 /* [Carthage] - Copy frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/../../../../Carthage/Build/iOS/RxSwift.framework",
-				"$(SRCROOT)/../../../../Carthage/Build/iOS/Alamofire.framework",
-				"$(SRCROOT)/../../../../Carthage/Build/iOS/Moya.framework",
-				"$(SRCROOT)/../../../../Carthage/Build/iOS/RxMoya.framework",
-				"$(SRCROOT)/../../../../Carthage/Build/iOS/Result.framework",
-				"$(SRCROOT)/../../../../Carthage/Build/iOS/OHHTTPStubs.framework",
-				"$(SRCROOT)/../../../../Carthage/Build/iOS/RxBlocking.framework",
-			);
-			name = "[Carthage] - Copy frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
-		};
 		4E70F89C9DA7FC68D45C3672 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

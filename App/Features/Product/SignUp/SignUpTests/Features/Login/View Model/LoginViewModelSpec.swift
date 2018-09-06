@@ -11,11 +11,14 @@ final class LoginViewModelSpec: XCTestCase {
   private var sut: LoginViewModelType!
   private var authenticate: AuthenticateStub!
   private let scheduler = TestScheduler(initialClock: 0)
+  private let bag = DisposeBag()
   
   override func setUp() {
     super.setUp()
     authenticate = AuthenticateStub()
-    sut = LoginViewModel(authenticate: Authenticate())
+    sut = LoginViewModel(
+      authenticate: authenticate
+    )
   }
   
   override func tearDown() {
@@ -24,88 +27,129 @@ final class LoginViewModelSpec: XCTestCase {
     super.tearDown()
   }
   
-  func test_viewmodel_initial_state_is_correct() {
-    XCTAssertEqual("", sut.output.username.value)
-    XCTAssertEqual("", sut.output.password.value)
-    XCTAssertEqual(.idle, sut.output.state.value)
-    
-    let signInEnabledObserver = scheduler.createObserver(Bool.self)
-    let userInteractionDisabledObserver = scheduler.createObserver(Bool.self)
+  func test_viewModel_initial_state_is_correct() {
+    let state = givenState()
+    let userInteractionEnabled = givenUserInteractionEnabled()
+    let signInEnabled = givenSignInEnabled()
 
-    _ = sut.output.signInEnabled.bind(to: signInEnabledObserver)
-    _ = sut.output.userInteractionEnabled.bind(to: userInteractionDisabledObserver)
- 
-    XCTAssertEqual(signInEnabledObserver.events, [next(0, false)])
-    XCTAssertEqual(userInteractionDisabledObserver.events, [next(0, true)])
+    sut.output.state.drive(state).disposed(by: bag)
+    sut.output.userInteractionEnabled.drive(userInteractionEnabled).disposed(by: bag)
+    sut.output.signInEnabled.drive(signInEnabled).disposed(by: bag)
+    
+    XCTAssertEqual(state.events, [Recorded.next(0, .idle)])
+    XCTAssertEqual(userInteractionEnabled.events, [Recorded.next(0, true)])
+    XCTAssertEqual(signInEnabled.events, [Recorded.next(0, false)])
   }
   
-  func test_should_enable_signin_button_when_login_fields_are_correctly_filled() {
-    let signUpEnabledObserver = scheduler.createObserver(Bool.self)
-    _ = sut.output.signInEnabled.bind(to: signUpEnabledObserver)
-    
-    sut.output.username.value = "restart"
-    sut.output.password.value = "1234567"
-    
-    let expectedValues = [
-      next(0, false),
-      next(0, false),
-      next(0, true)
+  func test_should_enable_signIn_when_login_fields_are_filled_correctly() {
+    let signInEnabled = givenSignInEnabled()
+
+    sut.output.signInEnabled
+      .drive(signInEnabled)
+      .disposed(by: bag)
+
+    sut.input.onChange(username: "skyweb07")
+    sut.input.onChange(password: "password")
+
+    let expectedEvents: [Recorded<Event<Bool>>] = [
+      .next(0, false),
+      .next(0, false),
+      .next(0, true),
     ]
-    XCTAssertEqual(signUpEnabledObserver.events, expectedValues)
+    
+    XCTAssertEqual(signInEnabled.events, expectedEvents)
   }
   
-  func test_should_disable_signin_button_when_user_incorrectly_update_one_of_the_login_fields() {
-    let signUpEnabledObserver = scheduler.createObserver(Bool.self)
-    _ = sut.output.signInEnabled.bind(to: signUpEnabledObserver)
+  func test_should_not_enable_sign_if_username_lenght_is_incorrect() {
+    let signInEnabled = givenSignInEnabled()
     
-    sut.output.username.value = "restart"
-    sut.output.password.value = "1234567"
-    sut.output.username.value = "as"
+    sut.output.signInEnabled
+      .drive(signInEnabled)
+      .disposed(by: bag)
     
-    let expectedValues = [
-      next(0, false),
-      next(0, false),
-      next(0, true),
-      next(0, false)
+    sut.input.onChange(username: "el")
+    sut.input.onChange(password: "password")
+    
+    let expectedEvents: [Recorded<Event<Bool>>] = [
+      .next(0, false),
+      .next(0, false),
+      .next(0, false),
     ]
-    XCTAssertEqual(signUpEnabledObserver.events, expectedValues)
+    
+    XCTAssertEqual(signInEnabled.events, expectedEvents)
   }
   
-  func test_should_re_enable_signin_button_when_login_fields_are_valid() {
-    let signInEnabledObserver = scheduler.createObserver(Bool.self)
-    _ = sut.output.signInEnabled.bind(to: signInEnabledObserver)
+  func test_should_not_enable_sign_if_password_lenght_is_incorrect() {
+    let signInEnabled = givenSignInEnabled()
     
-    sut.output.username.value = "restart"
-    sut.output.password.value = "1234567"
-    sut.output.username.value = "as"
-    sut.output.username.value = "astro"
+    sut.output.signInEnabled
+      .drive(signInEnabled)
+      .disposed(by: bag)
     
-    let expectedValues = [
-      next(0, false),
-      next(0, false),
-      next(0, true),
-      next(0, false),
-      next(0, true)
+    sut.input.onChange(username: "skyweb07")
+    sut.input.onChange(password: "123")
+    
+    let expectedEvents: [Recorded<Event<Bool>>] = [
+      .next(0, false),
+      .next(0, false),
+      .next(0, false),
     ]
-    XCTAssertEqual(signInEnabledObserver.events, expectedValues)
+    
+    XCTAssertEqual(signInEnabled.events, expectedEvents)
   }
   
-  func test_should_set_correct_login_state_if_auth_fails() {
-    let loginState = scheduler.createObserver(LoginState.self)
-    _ = sut.output.state.asObservable().bind(to: loginState)
+  func test_should_set_loading_state_when_sign_button_is_pressed() {
+    let state = givenState()
     
-    sut.output.username.value = "restart"
-    sut.output.password.value = "1234567"
+    sut.output.state
+      .drive(state)
+      .disposed(by: bag)
+    
+    sut.input.onChange(username: "skyweb07")
+    sut.input.onChange(password: "password")
+    sut.input.signUpButtonPressed()
+    
+    let expectedEvents: [Recorded<Event<LoginState>>] = [
+      .next(0, .idle),
+      .next(0, .loading),
+    ]
+    
+    XCTAssertEqual(state.events, expectedEvents)
+  }
+
+  func test_should_set_idle_state_if_login_failed() {
+    let state = givenState()
+    
+    sut.output.state
+      .drive(state)
+      .disposed(by: bag)
     
     authenticate.responseError = .invalidCredentials
     
+    sut.input.onChange(username: "skyweb07")
+    sut.input.onChange(password: "password")
     sut.input.signUpButtonPressed()
     
-    let expectedStateValues = [
-      next(0, LoginState.idle),
-      next(0, LoginState.loading)
+    let expectedEvents: [Recorded<Event<LoginState>>] = [
+      .next(0, .idle),
+      .next(0, .loading),
+      .next(0, .idle)
     ]
     
-    XCTAssertEqual(loginState.events, expectedStateValues)
+    XCTAssertEqual(state.events, expectedEvents)
+  }
+  
+  // MARK: - Observers
+  
+  private func givenState() -> TestableObserver<LoginState> {
+    return scheduler.createObserver(LoginState.self)
+  }
+  
+  private func givenUserInteractionEnabled() -> TestableObserver<Bool> {
+    return scheduler.createObserver(Bool.self)
+  }
+  
+  private func givenSignInEnabled() -> TestableObserver<Bool> {
+    return scheduler.createObserver(Bool.self)
   }
 }
