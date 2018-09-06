@@ -1,14 +1,15 @@
 import UI
 import IGListKit
 import RxSwift
+import RxCocoa
 
 final class ProductExtrasListAdapter: NSObject, ListAdapterDataSource {
   
   private var productExtras = [ProductExtraUIModel]()
   
-  private let state: PublishSubject<ProductExtraEvent>
+  private let state: PublishRelay<ProductExtraEvent>
   
-  init(state: PublishSubject<ProductExtraEvent>) {
+  init(state: PublishRelay<ProductExtraEvent>) {
     self.state = state
   }
   

@@ -1,4 +1,4 @@
-import RxSwift
+import RxCocoa
 
 protocol ProductSummaryViewModelInput {
   func viewDidLoad()
@@ -6,7 +6,7 @@ protocol ProductSummaryViewModelInput {
 }
 
 protocol ProductSummaryViewModelOutput {
-  var productDraft: Observable<ProductDraftUIModel> { get }
+  var productDraft: Driver<ProductDraftUIModel?> { get }
 }
 
 protocol ProductSummaryViewModelType {

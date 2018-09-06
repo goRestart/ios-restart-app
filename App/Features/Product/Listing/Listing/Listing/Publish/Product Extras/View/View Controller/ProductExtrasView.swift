@@ -11,7 +11,7 @@ enum ProductExtraEvent {
 }
 
 final class ProductExtrasView: View {
-  fileprivate var state = PublishSubject<ProductExtraEvent>()
+  fileprivate var state = PublishRelay<ProductExtraEvent>()
   
   fileprivate var listAdapterDataSource: ProductExtrasListAdapter?
   fileprivate lazy var listAdapter: ListAdapter = {
@@ -79,7 +79,7 @@ extension Reactive where Base: ProductExtrasView {
     }
   }
   
-  var state: PublishSubject<ProductExtraEvent> {
+  var state: PublishRelay<ProductExtraEvent> {
     return base.state
   }
   

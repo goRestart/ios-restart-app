@@ -27,18 +27,18 @@ struct SignUpViewModel: SignUpViewModelType, SignUpViewModelInput, SignUpViewMod
   
   // MARK: - Output
   
-  private let stateSubject = PublishSubject<SignUpState>()
+  private let stateRelay = PublishRelay<SignUpState>()
   var state: Driver<SignUpState> {
-    return stateSubject.asDriver(onErrorJustReturn: .idle)
+    return stateRelay.asDriver(onErrorJustReturn: .idle)
   }
   
-  private let errorSubject = PublishSubject<RegisterUserError?>()
+  private let errorRelay = PublishRelay<RegisterUserError?>()
   var error: Driver<RegisterUserError?> {
-    return errorSubject.asDriver(onErrorJustReturn: nil)
+    return errorRelay.asDriver(onErrorJustReturn: nil)
   }
 
   var signUpEnabled: Driver<Bool> {
-    return Observable.combineLatest(usernameSubject, emailSubject, passwordSubject) {
+    return Observable.combineLatest(usernameRelay, emailRelay, passwordRelay) {
       username, email, password in
       return username.count >= LoginViewModelConstraints.minUsernameLenght &&
         password.count >= LoginViewModelConstraints.minPasswordLenght &&
@@ -53,27 +53,27 @@ struct SignUpViewModel: SignUpViewModelType, SignUpViewModelInput, SignUpViewMod
   
   // MARK: - Input
   
-  private let usernameSubject = BehaviorSubject<String>(value: "")
-  private let passwordSubject = BehaviorSubject<String>(value: "")
-  private let emailSubject = BehaviorSubject<String>(value: "")
+  private let usernameRelay = BehaviorRelay<String>(value: "")
+  private let passwordRelay = BehaviorRelay<String>(value: "")
+  private let emailRelay = BehaviorRelay<String>(value: "")
   
   func onChange(username: String) {
-    usernameSubject.onNext(username)
+    usernameRelay.accept(username)
   }
   
   func onChange(email: String) {
-    emailSubject.onNext(email)
+    emailRelay.accept(email)
   }
   
   func onChange(password: String) {
-    passwordSubject.onNext(password)
+    passwordRelay.accept(password)
   }
   
   func signInButtonPressed() {
-    stateSubject.onNext(.loading)
+    stateRelay.accept(.loading)
     
     let register = Observable
-      .combineLatest(usernameSubject, emailSubject, passwordSubject)
+      .combineLatest(usernameRelay, emailRelay, passwordRelay)
       .map(UserCredentials.init)
       .flatMap(registerUser.execute)
       .asCompletable()
@@ -90,7 +90,7 @@ struct SignUpViewModel: SignUpViewModelType, SignUpViewModelInput, SignUpViewMod
       // TODO: Show generic error
       return
     }
-    errorSubject.onNext(error)
-    stateSubject.onNext(.idle)
+    errorRelay.accept(error)
+    stateRelay.accept(.idle)
   }
 }

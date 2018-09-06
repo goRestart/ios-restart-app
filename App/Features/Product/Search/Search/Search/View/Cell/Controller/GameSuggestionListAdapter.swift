@@ -1,14 +1,14 @@
 import IGListKit
-import RxSwift
+import RxCocoa
 import UIKit
 
 final class GameSuggestionListAdapter: NSObject, ListAdapterDataSource {
 
   private var suggestions = [GameSuggestionUIModel]()
 
-  private let state: PublishSubject<GameSuggestionEvent>
+  private let state: PublishRelay<GameSuggestionEvent>
 
-  init(state: PublishSubject<GameSuggestionEvent>) {
+  init(state: PublishRelay<GameSuggestionEvent>) {
     self.state = state
   }
   

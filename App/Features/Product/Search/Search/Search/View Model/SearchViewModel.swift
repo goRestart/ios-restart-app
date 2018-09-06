@@ -6,8 +6,8 @@ struct SearchViewModel: SearchViewModelType, SearchViewModelOutput {
 
   var output: SearchViewModelOutput { return self }
   
-  private let resultsSubject = PublishSubject<[GameSearchSuggestion]>()
-  var results: Driver<[GameSearchSuggestion]> { return resultsSubject.asDriver(onErrorJustReturn: []) }
+  private let resultsRelay = PublishRelay<[GameSearchSuggestion]>()
+  var results: Driver<[GameSearchSuggestion]> { return resultsRelay.asDriver(onErrorJustReturn: []) }
   
   private let bag = DisposeBag()
   private let searchGames: SearchGamesUseCase
@@ -22,7 +22,7 @@ struct SearchViewModel: SearchViewModelType, SearchViewModelOutput {
     query.flatMapLatest { query in
       self.searchGames.execute(with: query)
     }.catchErrorJustReturn([])
-      .bind(to: resultsSubject)
+      .bind(to: resultsRelay)
       .disposed(by: bag)
   }
 }

@@ -11,7 +11,7 @@ public enum GameSuggestionEvent {
 
 public final class SearchView: View {
   
-  fileprivate var state = PublishSubject<GameSuggestionEvent>()
+  fileprivate var state = PublishRelay<GameSuggestionEvent>()
   
   private var listAdapterDataSource: GameSuggestionListAdapter?
   private lazy var listAdapter: ListAdapter = {
@@ -67,7 +67,7 @@ public final class SearchView: View {
 // MARK: - View bindings
 
 extension Reactive where Base: SearchView {
-  public var state: PublishSubject<GameSuggestionEvent> {
+  public var state: PublishRelay<GameSuggestionEvent> {
     return base.state
   }
 }

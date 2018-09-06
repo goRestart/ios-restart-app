@@ -1,13 +1,13 @@
 import IGListKit
-import RxSwift
+import RxCocoa
 
 final class GameSuggestionSectionController: ListSectionController {
  
   private var suggestion: GameSuggestionUIModel
-  private let state: PublishSubject<GameSuggestionEvent>
+  private let state: PublishRelay<GameSuggestionEvent>
   
   init(suggestion: GameSuggestionUIModel,
-       state: PublishSubject<GameSuggestionEvent>)
+       state: PublishRelay<GameSuggestionEvent>)
   {
     self.suggestion = suggestion
     self.state = state
@@ -21,7 +21,7 @@ final class GameSuggestionSectionController: ListSectionController {
   }
 
   override func didSelectItem(at index: Int) {
-    state.onNext(.gameSelected(suggestion.title, suggestion.gameId))
+    state.accept(.gameSelected(suggestion.title, suggestion.gameId))
   }
 
   override func cellForItem(at index: Int) -> UICollectionViewCell {

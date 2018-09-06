@@ -25,27 +25,27 @@ struct ProductPriceViewModel: ProductPriceViewModelType, ProductPriceViewModelIn
   }
   
   var price: Driver<String> {
-    return priceSubject.asDriver(onErrorJustReturn: "")
+    return priceRelay.asDriver(onErrorJustReturn: "")
   }
 
   // MARK: - Input
 
-  private let priceSubject = BehaviorSubject<String>(value: "")
+  private let priceRelay = BehaviorRelay<String>(value: "")
   
   func viewWillAppear() {
     guard let productPrice = productDraft.get().price else { return }
-    priceSubject.onNext(
+    priceRelay.accept(
       productPrice.amount.toString()
     )
   }
   
   func onChange(price: String) {
-    priceSubject.onNext(price)
+    priceRelay.accept(price)
   }
   
   func onNextStepPressed() {
     productDraft.save(
-      price: try! priceSubject.value().toDouble()
+      price: priceRelay.value.toDouble()
     )
     productExtrasNavigator.navigate()
   }

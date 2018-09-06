@@ -1,5 +1,6 @@
-import RxSwift
 import Domain
+import RxSwift
+import RxCocoa
 
 struct ProductSummaryViewModel: ProductSummaryViewModelType, ProductSummaryViewModelInput, ProductSummaryViewModelOutput {
   
@@ -18,15 +19,17 @@ struct ProductSummaryViewModel: ProductSummaryViewModelType, ProductSummaryViewM
   
   // MARK: - Output
   
-  private let productDraftPublisher = PublishSubject<ProductDraftUIModel>()
-  var productDraft: Observable<ProductDraftUIModel> { return productDraftPublisher }
+  private let productDraftRelay = PublishRelay<ProductDraftUIModel?>()
+  var productDraft: Driver<ProductDraftUIModel?> {
+    return productDraftRelay.asDriver(onErrorJustReturn: nil)
+  }
   
   // MARK: - Input
   
   func viewDidLoad() {
     let storedProductDraft = getProductDraft.get()
     guard let productDraftUIModel = try? productDraftViewMapper.map(storedProductDraft) else { return }
-    productDraftPublisher.onNext(productDraftUIModel)
+    productDraftRelay.accept(productDraftUIModel)
   }
   
   func publishButtonPressed() {

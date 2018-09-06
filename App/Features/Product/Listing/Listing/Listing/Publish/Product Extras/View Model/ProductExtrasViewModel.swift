@@ -27,8 +27,10 @@ final class ProductExtrasViewModel: ProductExtrasViewModelType, ProductExtrasVie
   
   // MARK: Output
 
-  private let productExtrasPublisher = PublishSubject<[ProductExtraUIModel]>()
-  var productExtras: Driver<[ProductExtraUIModel]> { return productExtrasPublisher.asDriver(onErrorJustReturn: []) }
+  private let productExtrasRelay = PublishRelay<[ProductExtraUIModel]>()
+  var productExtras: Driver<[ProductExtraUIModel]> {
+    return productExtrasRelay.asDriver(onErrorJustReturn: [])
+  }
 
   // MARK: - Input
   
@@ -38,7 +40,7 @@ final class ProductExtrasViewModel: ProductExtrasViewModelType, ProductExtrasVie
     getProductExtras.execute()
       .map(toUI)
       .asObservable()
-      .bind(to: productExtrasPublisher)
+      .bind(to: productExtrasRelay)
       .disposed(by: bag)
   }
   

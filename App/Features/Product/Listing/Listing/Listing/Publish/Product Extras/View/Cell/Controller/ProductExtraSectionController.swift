@@ -1,15 +1,16 @@
 import UI
 import IGListKit
 import RxSwift
+import RxCocoa
 
 final class ProductExtraSectionController: ListSectionController {
 
   private var productExtra: ProductExtraUIModel
-  private let state: PublishSubject<ProductExtraEvent>
+  private let state: PublishRelay<ProductExtraEvent>
   private let bag = DisposeBag()
   
   init(productExtra: ProductExtraUIModel,
-       state: PublishSubject<ProductExtraEvent>)
+       state: PublishRelay<ProductExtraEvent>)
   {
     self.productExtra = productExtra
     self.state = state
@@ -28,10 +29,10 @@ final class ProductExtraSectionController: ListSectionController {
     
     cell.rx.isChecked.subscribe(onNext: { [state, productExtra] isChecked in
       if isChecked {
-        state.onNext(.selectExtra(productExtra.identifier))
+        state.accept(.selectExtra(productExtra.identifier))
         return
       }
-      state.onNext(.unselectExtra(productExtra.identifier))
+      state.accept(.unselectExtra(productExtra.identifier))
     }).disposed(by: bag)
   
     return cell

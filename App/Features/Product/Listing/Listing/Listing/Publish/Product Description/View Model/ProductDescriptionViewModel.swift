@@ -20,30 +20,30 @@ struct ProductDescriptionViewModel: ProductDescriptionViewModelType, ProductDesc
   // MARK: - Output
 
   var nextStepEnabled: Driver<Bool> {
-    return descriptionSubject.map { !$0.trimmed.isEmpty }
+    return descriptionRelay.map { !$0.trimmed.isEmpty }
       .asDriver(onErrorJustReturn: false)
   }
   
   var description: Driver<String> {
-    return descriptionSubject.asDriver(onErrorJustReturn: "")
+    return descriptionRelay.asDriver(onErrorJustReturn: "")
   }
   
   // MARK: - Input
 
-  private let descriptionSubject = BehaviorSubject<String>(value: "")
+  private let descriptionRelay = BehaviorRelay<String>(value: "")
 
   func viewWillAppear() {
     guard let savedDescription = productDraft.get().description else { return }
-    descriptionSubject.onNext(savedDescription)
+    descriptionRelay.accept(savedDescription)
   }
 
   func onChange(description: String) {
-    descriptionSubject.onNext(description)
+    descriptionRelay.accept(description)
   }
   
   func onNextStepPressed() {
     productDraft.save(
-      description: try! descriptionSubject.value()
+      description: descriptionRelay.value
     )
     productPriceNavigator.navigate()
   }

@@ -3,6 +3,7 @@ import Search
 import SnapKit
 import Core
 import RxSwift
+import RxCocoa
 
 final class ProductSelectorView: View {
   private let titleView: TitleView = {
@@ -69,7 +70,7 @@ final class ProductSelectorView: View {
 // MARK: - View bindings
 
 extension Reactive where Base: ProductSelectorView {
-  var state: PublishSubject<GameSuggestionEvent> {
+  var state: PublishRelay<GameSuggestionEvent> {
     return base.searchView.rx.state
   }
   

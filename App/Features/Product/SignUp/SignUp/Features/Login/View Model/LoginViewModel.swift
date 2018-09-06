@@ -22,12 +22,12 @@ struct LoginViewModel: LoginViewModelType, LoginViewModelInput, LoginViewModelOu
   
   // MARK: - Output
   
-  private let stateSubject = BehaviorSubject<LoginState>(value: .idle)
-  var state: Driver<LoginState> { return stateSubject.asDriver(onErrorJustReturn: .idle) }
+  private let stateRelay = BehaviorRelay<LoginState>(value: .idle)
+  var state: Driver<LoginState> { return stateRelay.asDriver(onErrorJustReturn: .idle) }
   
   var signInEnabled: Driver<Bool> {
     return Observable.combineLatest(
-    usernameSubject, passwordSubject) { username, password in
+    usernameRelay, passwordRelay) { username, password in
       return username.count >= LoginViewModelConstraints.minUsernameLenght &&
         password.count >= LoginViewModelConstraints.minPasswordLenght
     }.asDriver(onErrorJustReturn: false)
@@ -40,22 +40,22 @@ struct LoginViewModel: LoginViewModelType, LoginViewModelInput, LoginViewModelOu
   
   // MARK: - Input
   
-  private let usernameSubject = BehaviorSubject<String>(value: "")
-  private let passwordSubject = BehaviorSubject<String>(value: "")
+  private let usernameRelay = BehaviorRelay<String>(value: "")
+  private let passwordRelay = BehaviorRelay<String>(value: "")
   
   func onChange(username: String) {
-    usernameSubject.onNext(username)
+    usernameRelay.accept(username)
   }
   
   func onChange(password: String) {
-    passwordSubject.onNext(password)
+    passwordRelay.accept(password)
   }
   
   func signUpButtonPressed() {
-    stateSubject.onNext(.loading)
+    stateRelay.accept(.loading)
     
     let authentication = Observable
-      .combineLatest(usernameSubject, passwordSubject)
+      .combineLatest(usernameRelay, passwordRelay)
       .map(BasicCredentials.init)
       .flatMap(authenticate.execute)
       .asCompletable()
@@ -64,7 +64,7 @@ struct LoginViewModel: LoginViewModelType, LoginViewModelInput, LoginViewModelOu
       print("Completed")
     }) { error in
       print("Error = \(error)")
-      self.stateSubject.onNext(.idle)
+      self.stateRelay.accept(.idle)
     }.disposed(by: bag)
   }
 }
