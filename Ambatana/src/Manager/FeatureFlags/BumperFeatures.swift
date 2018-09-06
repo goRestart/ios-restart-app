@@ -20,7 +20,6 @@ extension Bumper  {
         flags.append(UserReviewsReportEnabled.self)
         flags.append(RealEstateEnabled.self)
         flags.append(RequestsTimeOut.self)
-        flags.append(DeckItemPage.self)
         flags.append(ShowAdsInFeedWithRatio.self)
         flags.append(RealEstateFlowType.self)
         flags.append(RealEstateNewCopy.self)
@@ -79,9 +78,9 @@ extension Bumper  {
         flags.append(TurkeyFreePosting.self)
         flags.append(RandomImInterestedMessages.self)
         flags.append(CarPromoCells.self)
-        flags.append(ServicesPromoCells.self)
         flags.append(RealEstatePromoCells.self)
         flags.append(SectionedDiscoveryFeed.self)
+        flags.append(ServicesPromoCells.self)
         flags.append(ImInterestedInProfile.self)
         Bumper.initialize(flags)
     } 
@@ -134,19 +133,6 @@ extension Bumper  {
     static var requestsTimeOutObservable: Observable<RequestsTimeOut> {
         return Bumper.observeValue(for: RequestsTimeOut.key).map {
             RequestsTimeOut(rawValue: $0 ?? "") ?? .baseline
-        }
-    }
-    #endif
-
-    static var deckItemPage: DeckItemPage {
-        guard let value = Bumper.value(for: DeckItemPage.key) else { return .control }
-        return DeckItemPage(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var deckItemPageObservable: Observable<DeckItemPage> {
-        return Bumper.observeValue(for: DeckItemPage.key).map {
-            DeckItemPage(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -905,19 +891,6 @@ extension Bumper  {
     }
     #endif
 
-    static var servicesPromoCells: ServicesPromoCells {
-        guard let value = Bumper.value(for: ServicesPromoCells.key) else { return .control }
-        return ServicesPromoCells(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var servicesPromoCellsObservable: Observable<ServicesPromoCells> {
-        return Bumper.observeValue(for: ServicesPromoCells.key).map {
-            ServicesPromoCells(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
     static var realEstatePromoCells: RealEstatePromoCells {
         guard let value = Bumper.value(for: RealEstatePromoCells.key) else { return .control }
         return RealEstatePromoCells(rawValue: value) ?? .control 
@@ -940,6 +913,19 @@ extension Bumper  {
     static var sectionedDiscoveryFeedObservable: Observable<SectionedDiscoveryFeed> {
         return Bumper.observeValue(for: SectionedDiscoveryFeed.key).map {
             SectionedDiscoveryFeed(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var servicesPromoCells: ServicesPromoCells {
+        guard let value = Bumper.value(for: ServicesPromoCells.key) else { return .control }
+        return ServicesPromoCells(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var servicesPromoCellsObservable: Observable<ServicesPromoCells> {
+        return Bumper.observeValue(for: ServicesPromoCells.key).map {
+            ServicesPromoCells(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1007,22 +993,6 @@ enum RequestsTimeOut: String, BumperFeature  {
             case 3: return .sixty
             case 4: return .hundred_and_twenty
             default: return .baseline
-        }
-    }
-}
-
-enum DeckItemPage: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return DeckItemPage.control.rawValue }
-    static var enumValues: [DeckItemPage] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Deck item page with card appearance and different navigation" } 
-    static func fromPosition(_ position: Int) -> DeckItemPage {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
         }
     }
 }
@@ -1555,21 +1525,19 @@ enum ShowChatHeaderWithoutUser: String, BumperFeature  {
 }
 
 enum NewItemPageV3: String, BumperFeature  {
-    case control, baseline, variant1, variant2, variant3, variant4, variant5, variant6
+    case control, baseline, infoWithLaterals, infoWithoutLaterals, buttonWithLaterals, buttonWithoutLaterals
     static var defaultValue: String { return NewItemPageV3.control.rawValue }
-    static var enumValues: [NewItemPageV3] { return [.control, .baseline, .variant1, .variant2, .variant3, .variant4, .variant5, .variant6]}
+    static var enumValues: [NewItemPageV3] { return [.control, .baseline, .infoWithLaterals, .infoWithoutLaterals, .buttonWithLaterals, .buttonWithoutLaterals]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "[Products] New item page V3 -- all in" } 
     static func fromPosition(_ position: Int) -> NewItemPageV3 {
         switch position { 
             case 0: return .control
             case 1: return .baseline
-            case 2: return .variant1
-            case 3: return .variant2
-            case 4: return .variant3
-            case 5: return .variant4
-            case 6: return .variant5
-            case 7: return .variant6
+            case 2: return .infoWithLaterals
+            case 3: return .infoWithoutLaterals
+            case 4: return .buttonWithLaterals
+            case 5: return .buttonWithoutLaterals
             default: return .control
         }
     }
@@ -1960,23 +1928,6 @@ enum CarPromoCells: String, BumperFeature  {
     }
 }
 
-enum ServicesPromoCells: String, BumperFeature  {
-    case control, baseline, activeWithCallToAction, activeWithoutCallToAction
-    static var defaultValue: String { return ServicesPromoCells.control.rawValue }
-    static var enumValues: [ServicesPromoCells] { return [.control, .baseline, .activeWithCallToAction, .activeWithoutCallToAction]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "[SERVICES] Show promo cells for Services" } 
-    static func fromPosition(_ position: Int) -> ServicesPromoCells {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .activeWithCallToAction
-            case 3: return .activeWithoutCallToAction
-            default: return .control
-        }
-    }
-}
-
 enum RealEstatePromoCells: String, BumperFeature  {
     case control, baseline, variantA
     static var defaultValue: String { return RealEstatePromoCells.control.rawValue }
@@ -2004,6 +1955,23 @@ enum SectionedDiscoveryFeed: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum ServicesPromoCells: String, BumperFeature  {
+    case control, baseline, activeWithCallToAction, activeWithoutCallToAction
+    static var defaultValue: String { return ServicesPromoCells.control.rawValue }
+    static var enumValues: [ServicesPromoCells] { return [.control, .baseline, .activeWithCallToAction, .activeWithoutCallToAction]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[SERVICES] Show promo cells for Services" } 
+    static func fromPosition(_ position: Int) -> ServicesPromoCells {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .activeWithCallToAction
+            case 3: return .activeWithoutCallToAction
             default: return .control
         }
     }

@@ -8,6 +8,6 @@ protocol ListingOwner {
 }
 
 extension ListingOwner {
-    var isMine: Bool { return ownedListing.value.isMine(myUserRepository: myUserRepository) }
+    var isMine: Bool { return ownedListing.isMine(myUserRepository: myUserRepository) }
     var isFavoritable: Bool { return !isMine }
 }
