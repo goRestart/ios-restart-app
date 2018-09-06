@@ -125,6 +125,13 @@ final class P2PPaymentsCreateOfferViewController: BaseViewController {
         ]
         bindings.forEach { [disposeBag] in $0.disposed(by: disposeBag) }
 
+        viewModel.paymentAuthController
+            .drive(onNext: { [weak self] controller in
+                guard let controller = controller else { return }
+                self?.present(controller, animated: true)
+            })
+            .disposed(by: disposeBag)
+
         buyerInfoView.rx.changeButtonTap
             .subscribe(onNext: { [weak self] _ in
                 self?.viewModel.changeOfferButtonPressed()
@@ -135,6 +142,18 @@ final class P2PPaymentsCreateOfferViewController: BaseViewController {
             .subscribe(onNext: { [weak self] _ in
                 guard let newValue = self?.changeOfferView.value else { return }
                 self?.viewModel.changeOfferDoneButtonPressed(newValue: newValue)
+            })
+            .disposed(by: disposeBag)
+
+        setupPaymentButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                self?.viewModel.configurePaymentButtonPressed()
+            })
+            .disposed(by: disposeBag)
+
+        buyButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                self?.viewModel.payButtonPressed()
             })
             .disposed(by: disposeBag)
     }

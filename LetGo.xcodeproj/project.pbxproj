@@ -121,6 +121,8 @@
 		098F1BC4213F8EAC004B72C9 /* P2PPaymentsOfferFeesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 098F1BC2213F8EAC004B72C9 /* P2PPaymentsOfferFeesView.swift */; };
 		09AA63042140B52D00702387 /* PaymentsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AA63032140B52D00702387 /* PaymentsManager.swift */; };
 		09AA63052140B87000702387 /* PaymentsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AA63032140B52D00702387 /* PaymentsManager.swift */; };
+		09AA63072140CD7B00702387 /* PaymentRequestListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AA63062140CD7B00702387 /* PaymentRequestListener.swift */; };
+		09AA63082140CD7B00702387 /* PaymentRequestListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AA63062140CD7B00702387 /* PaymentRequestListener.swift */; };
 		0A00F9C61FA3656600E915F4 /* ListingDeckViewControllerBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A00F9C31FA364B100E915F4 /* ListingDeckViewControllerBinder.swift */; };
 		0A04D5CD20760A9D00471B9D /* CoreABGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A04D5C420760A9C00471B9D /* CoreABGroup.swift */; };
 		0A04D5CE20760A9D00471B9D /* CoreABGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A04D5C420760A9C00471B9D /* CoreABGroup.swift */; };
@@ -2420,6 +2422,7 @@
 		098F1BBF213F669E004B72C9 /* P2PPaymentsOnboardingTraitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOnboardingTraitView.swift; sourceTree = "<group>"; };
 		098F1BC2213F8EAC004B72C9 /* P2PPaymentsOfferFeesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOfferFeesView.swift; sourceTree = "<group>"; };
 		09AA63032140B52D00702387 /* PaymentsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentsManager.swift; sourceTree = "<group>"; };
+		09AA63062140CD7B00702387 /* PaymentRequestListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentRequestListener.swift; sourceTree = "<group>"; };
 		0A00F9C31FA364B100E915F4 /* ListingDeckViewControllerBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckViewControllerBinder.swift; sourceTree = "<group>"; };
 		0A04D5C420760A9C00471B9D /* CoreABGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreABGroup.swift; sourceTree = "<group>"; };
 		0A04D5C520760A9C00471B9D /* ABDynamicVar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ABDynamicVar.swift; sourceTree = "<group>"; };
@@ -3840,6 +3843,7 @@
 			isa = PBXGroup;
 			children = (
 				09AA63032140B52D00702387 /* PaymentsManager.swift */,
+				09AA63062140CD7B00702387 /* PaymentRequestListener.swift */,
 			);
 			path = Payments;
 			sourceTree = "<group>";
@@ -9629,6 +9633,7 @@
 				0A04D5D520760A9D00471B9D /* RealEstateABGroup.swift in Sources */,
 				C7F4CBA61C92CC5A008E40D6 /* LGViewPagerPage.swift in Sources */,
 				C7BB25CE1E3613D500649396 /* VersionChecker.swift in Sources */,
+				09AA63072140CD7B00702387 /* PaymentRequestListener.swift in Sources */,
 				42E749662130064300297F75 /* BannerSectionController.swift in Sources */,
 				C7126BE11E6596B200038CC4 /* ListingVMProductInfo.swift in Sources */,
 				4252685920C82FC500A6E191 /* PostAddNewCell.swift in Sources */,
@@ -10184,6 +10189,7 @@
 				F51A08312031B55D0008D744 /* LGSize+CGSize.swift in Sources */,
 				8E1139E61EC9AD7100A9D772 /* FilterTitleHeaderView.swift in Sources */,
 				2E57B80D2051A3FA008B2082 /* PostListingCategoryCell.swift in Sources */,
+				09AA63082140CD7B00702387 /* PaymentRequestListener.swift in Sources */,
 				3294763B2136B1EA008EE737 /* Feed+Tracking.swift in Sources */,
 				C743FEB11E449F2E00B4E912 /* RateBuyersHeader.swift in Sources */,
 				0A6FED152130344000B57004 /* VerifyUserEmailWireframe.swift in Sources */,

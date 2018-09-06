@@ -19,6 +19,7 @@ final class P2PPaymentsCreateOfferViewModel: BaseViewModel {
     private let offerFeesRelay = BehaviorRelay<P2PPaymentOfferFees?>(value: nil)
     private let currencyCodeRelay = BehaviorRelay<String?>(value: nil)
     private let offerAmountRelay = BehaviorRelay<Decimal>(value: 0)
+    private let paymentAuthControllerRelay = BehaviorRelay<UIViewController?>(value: nil)
 
     convenience init(chatConversation: ChatConversation) {
         self.init(chatConversation: chatConversation,
@@ -92,6 +93,36 @@ final class P2PPaymentsCreateOfferViewModel: BaseViewModel {
             paymentButtonStateRelay.accept(.pay)
         }
     }
+
+    private func startPaymentRequest() {
+        guard
+            let listingId = chatConversation.listing?.objectId,
+            let buyerId = myUserRepository.myUser?.objectId,
+            let sellerId = chatConversation.interlocutor?.objectId,
+            let currency = chatConversation.listing?.currency,
+            let offerFees = offerFeesRelay.value,
+            let countryCode = (Locale.current as NSLocale).object(forKey: .countryCode) as? String else {
+                return
+        }
+        let paymentRequest = PaymentRequest(listingId: listingId,
+                                            buyerId: buyerId,
+                                            sellerId: sellerId,
+                                            sellerAmount: offerFees.amount as NSDecimalNumber,
+                                            feeAmount: offerFees.serviceFee as NSDecimalNumber,
+                                            totalAmount: offerFees.total as NSDecimalNumber,
+                                            currency: currency,
+                                            countryCode: countryCode)
+        let authController = paymentsManager.createPaymentRequestController(paymentRequest) { [weak self] result in
+            self?.paymentAuthControllerRelay.accept(nil)
+            switch result {
+            case .success(let offerId):
+                print("SUCCESS: \(offerId)")
+            case .failure:
+                print("fail")
+            }
+        }
+        paymentAuthControllerRelay.accept(authController)
+    }
 }
 
 // MARK: - Inner types
@@ -121,6 +152,14 @@ extension P2PPaymentsCreateOfferViewModel {
         offerAmountRelay.accept(newValue)
         calculateFees()
     }
+
+    func configurePaymentButtonPressed() {
+        paymentsManager.openPaymentSetup()
+    }
+
+    func payButtonPressed() {
+        startPaymentRequest()
+    }
 }
 
 // MARK: - Rx Outputs
@@ -138,6 +177,7 @@ extension P2PPaymentsCreateOfferViewModel {
     var paymentButtonState: Driver<PaymentButtonState> { return paymentButtonStateRelay.asDriver() }
     var currencyCode: Driver<String?> { return currencyCodeRelay.asDriver() }
     var offerAmount: Driver<Decimal> { return offerAmountRelay.asDriver() }
+    var paymentAuthController: Driver<UIViewController?> { return paymentAuthControllerRelay.asDriver() }
 
     var configurePaymentButtonHidden: Driver<Bool> {
         return Driver.combineLatest(uiState, paymentButtonState) { (uiState, buttonState) -> Bool in

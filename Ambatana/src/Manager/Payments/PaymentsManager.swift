@@ -2,6 +2,17 @@ import Foundation
 import LGCoreKit
 import Stripe
 import PassKit
+import Result
+
+// TODO: @juolgon localize texts
+
+protocol PaymentsManager {
+    func canMakePayments() -> PaymentCapabilities
+    func openPaymentSetup()
+    func createPaymentRequestController(_ request: PaymentRequest, completion: @escaping PaymentRequestCompletion) -> UIViewController?
+}
+
+// MARK: - Types
 
 enum PaymentCapabilities {
     case unavailable
@@ -9,12 +20,30 @@ enum PaymentCapabilities {
     case readyToPay
 }
 
-protocol PaymentsManager {
-    func canMakePayments() -> PaymentCapabilities
+struct PaymentRequest {
+    let listingId: String
+    let buyerId: String
+    let sellerId: String
+    let sellerAmount: NSDecimalNumber
+    let feeAmount: NSDecimalNumber
+    let totalAmount: NSDecimalNumber
+    let currency: Currency
+    let countryCode: String
 }
+
+enum PaymentRequestError: Error {
+    case systemCanceled
+    case stripeTokenCreationFailed
+    case p2pPaymentOfferCreationFailed
+}
+
+typealias PaymentRequestCompletion = (Result<String, PaymentRequestError>) -> Void
+
+// MARK: - LGPaymentsManager
 
 final class LGPaymentsManager: PaymentsManager {
     private let p2pPaymentsRepository: P2PPaymentsRepository
+    private var paymentRequestListener: PaymentRequestListener?
 
     convenience init() {
         self.init(p2pPaymentsRepository: Core.p2pPaymentsRepository)
@@ -35,6 +64,33 @@ final class LGPaymentsManager: PaymentsManager {
         case (true, true):
             return .readyToPay
         }
+    }
+
+    func openPaymentSetup() {
+        PKPassLibrary().openPaymentSetup()
+    }
+
+    func createPaymentRequestController(_ request: PaymentRequest, completion: @escaping PaymentRequestCompletion) -> UIViewController? {
+        guard let merchantId = STPPaymentConfiguration.shared().appleMerchantIdentifier else { return nil }
+        let paymentRequest = Stripe.paymentRequest(withMerchantIdentifier: merchantId,
+                                                   country: request.countryCode,
+                                                   currency: request.currency.code)
+        paymentRequest.paymentSummaryItems = [
+            PKPaymentSummaryItem(label: "total for seller", amount: request.sellerAmount),
+            PKPaymentSummaryItem(label: "service fee", amount: request.feeAmount),
+            PKPaymentSummaryItem(label: "seller", amount: request.totalAmount),
+        ]
+        guard let authViewController = createAuthViewController(with: paymentRequest) else { return nil }
+        let listener = PaymentRequestListener(paymentRequest: request, p2pPaymentsRepository: p2pPaymentsRepository, completion: completion)
+        authViewController.delegate = listener
+        paymentRequestListener = listener
+        return authViewController
+    }
+
+    private func createAuthViewController(with paymentRequest: PKPaymentRequest) -> PKPaymentAuthorizationViewController? {
+        guard Stripe.canSubmitPaymentRequest(paymentRequest) else { return nil }
+        guard let authViewController = PKPaymentAuthorizationViewController(paymentRequest: paymentRequest) else { return nil }
+        return authViewController
     }
 }
 
