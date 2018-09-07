@@ -9,19 +9,23 @@ final class ProductImagesViewModel: ProductImagesViewModelType, ProductImagesVie
   
   // MARK: - Output
   
+  private let addedImagesRelay = BehaviorRelay<Bool>(value: false)
   var nextStepEnabled: Driver<Bool> {
-    return Observable.just(images.count > 0)
-      .asDriver(onErrorJustReturn: false)
+    return addedImagesRelay.asDriver()
   }
   
   // MARK: - Input
   
   func onAdd(image: UIImage) {
     images.append(image)
+    addedImagesRelay.accept(true)
   }
   
   func onRemove(image: UIImage) {
     images.removeAll { $0 == image }
+    
+    let thereAreImagesAdded = images.count > 0
+    addedImagesRelay.accept(thereAreImagesAdded)
   }
   
   func onNextStepPressed() {

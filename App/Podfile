@@ -26,3 +26,8 @@ target 'SearchTests' do
   project 'Features/Product/Search/Search.xcodeproj'
   firebase
 end
+
+target 'ListingTests' do
+  project 'Features/Product/Listing/Listing/Listing.xcodeproj'
+  firebase
+end

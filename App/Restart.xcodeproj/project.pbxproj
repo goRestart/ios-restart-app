@@ -28,10 +28,8 @@
 		1CAF0F7A200438A6004046A9 /* Assembly+ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CAF0F79200438A6004046A9 /* Assembly+ViewController.swift */; };
 		2E2F7AB12129CC6C00CDED0F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2E2F7AB02129CC6C00CDED0F /* GoogleService-Info.plist */; };
 		2E2F7AF1212A071500CDED0F /* SignUp.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2E2F7AEF212A071500CDED0F /* SignUp.strings */; };
-		2E3E06FF213DB97700118E64 /* Listing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EE4A3B1212C938100380467 /* Listing.framework */; };
 		2E3E0700213DB97700118E64 /* Listing.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2EE4A3B1212C938100380467 /* Listing.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2E3E0705213DBA7C00118E64 /* Search.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E3E0704213DBA7C00118E64 /* Search.framework */; };
-		2E3E0706213DBA9700118E64 /* Search.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E3E0704213DBA7C00118E64 /* Search.framework */; };
 		2E3E0707213DBA9700118E64 /* Search.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2E3E0704213DBA7C00118E64 /* Search.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2E64EDAD21386A0A00943F81 /* Generic.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2E64EDAF21386A0A00943F81 /* Generic.strings */; };
 		2E71A90021317BA3009D24A9 /* ProductExtras.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2E71A8FE21317BA3009D24A9 /* ProductExtras.strings */; };
@@ -118,9 +116,7 @@
 				2EE4A3B2212C938100380467 /* Listing.framework in Frameworks */,
 				1CAD06D520043D4E00CAE9C5 /* Domain.framework in Frameworks */,
 				1CAF0F692004326F004046A9 /* Core.framework in Frameworks */,
-				2E3E0706213DBA9700118E64 /* Search.framework in Frameworks */,
 				1CAD06DA20043EA400CAE9C5 /* UI.framework in Frameworks */,
-				2E3E06FF213DB97700118E64 /* Listing.framework in Frameworks */,
 				1CAD06D820043D8100CAE9C5 /* Data.framework in Frameworks */,
 				1CAD06D220043D1A00CAE9C5 /* Application.framework in Frameworks */,
 				1CAF0F6E2004331C004046A9 /* SignUp.framework in Frameworks */,
@@ -323,7 +319,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0920;
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 1000;
 				ORGANIZATIONNAME = Skydev;
 				TargetAttributes = {
 					1C3B453D1FEFCC54008B7B87 = {
