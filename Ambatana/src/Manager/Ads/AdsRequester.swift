@@ -80,4 +80,5 @@ final class AdsRequester {
         guard !indexWithAds.contains(index) else { return false }
         return (index - AdsRequester.fullScreenFirstAdOffset) % AdsRequester.fullScreenNextAdFrequency == 0
     }
+    
 }

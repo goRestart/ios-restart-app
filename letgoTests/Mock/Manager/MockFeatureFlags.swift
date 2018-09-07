@@ -105,6 +105,9 @@ final class MockFeatureFlags: FeatureFlaggeable {
     
     // MARK: Money
     var preventMessagesFromFeedToProUsers: PreventMessagesFromFeedToProUsers = .control
+    var multiAdRequestInChatSectionForUS: MultiAdRequestInChatSectionForUS = .control
+    var multiAdRequestInChatSectionForTR: MultiAdRequestInChatSectionForTR = .control
+    var multiAdRequestInChatSectionAdUnitId: String? = ""
     
     // MARK: Retention
     var dummyUsersInfoProfile: DummyUsersInfoProfile = .control

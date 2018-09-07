@@ -98,6 +98,9 @@ protocol FeatureFlaggeable: class {
     
     // MARK: Money
     var preventMessagesFromFeedToProUsers: PreventMessagesFromFeedToProUsers { get }
+    var multiAdRequestInChatSectionForUS: MultiAdRequestInChatSectionForUS { get }
+    var multiAdRequestInChatSectionForTR: MultiAdRequestInChatSectionForTR { get }
+    var multiAdRequestInChatSectionAdUnitId: String? { get }
     
     // MARK: Retention
     var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
@@ -351,6 +354,24 @@ extension FullScreenAdsWhenBrowsingForUS {
 
 extension PreventMessagesFromFeedToProUsers {
     var isActive: Bool { return self == .active }
+}
+
+extension MultiAdRequestInChatSectionForUS {
+    var isActive: Bool { return self == .active }
+    
+    func shouldShowAdsForUser(createdIn: Date?) -> Bool {
+        guard isActive else { return false }
+        return createdIn?.isOlderThan(SharedConstants.newUserTimeThresholdForAds) ?? false
+    }
+}
+
+extension MultiAdRequestInChatSectionForTR {
+    var isActive: Bool { return self == .active }
+    
+    func shouldShowAdsForUser(createdIn: Date?) -> Bool {
+        guard isActive else { return false }
+        return createdIn?.isOlderThan(SharedConstants.newUserTimeThresholdForAds) ?? false
+    }
 }
 
 extension AppInstallAdsInFeed {
@@ -1147,8 +1168,36 @@ extension FeatureFlags {
         }
         return PreventMessagesFromFeedToProUsers.fromPosition(abTests.preventMessagesFromFeedToProUsers.value)
     }
+    
+    var multiAdRequestInChatSectionForUS: MultiAdRequestInChatSectionForUS {
+        if Bumper.enabled {
+            return Bumper.multiAdRequestInChatSectionForUS
+        }
+        return MultiAdRequestInChatSectionForUS.fromPosition(abTests.multiAdRequestInChatSectionForUS.value)
+    }
+    
+    var multiAdRequestInChatSectionForTR: MultiAdRequestInChatSectionForTR {
+        if Bumper.enabled {
+            return Bumper.multiAdRequestInChatSectionForTR
+        }
+        return MultiAdRequestInChatSectionForTR.fromPosition(abTests.multiAdRequestInChatSectionForTR.value)
+    }
+    
+    var multiAdRequestInChatSectionAdUnitId: String? {
+        if Bumper.enabled {
+            // Bumper overrides country restriction
+            return multiAdRequestInChatSectionForUS.isActive ? EnvironmentProxy.sharedInstance.chatSectionAdUnitForOldUsersUS : nil
+        }
+        switch sensorLocationCountryCode {
+        case .usa?:
+            return multiAdRequestInChatSectionForUS.isActive ? EnvironmentProxy.sharedInstance.chatSectionAdUnitForOldUsersUS : nil
+        case .turkey?:
+            return multiAdRequestInChatSectionForTR.isActive ? EnvironmentProxy.sharedInstance.chatSectionAdUnitForOldUsersTR : nil
+        default:
+            return nil
+        }
+    }
 }
-
 
 // MARK: Retention
 

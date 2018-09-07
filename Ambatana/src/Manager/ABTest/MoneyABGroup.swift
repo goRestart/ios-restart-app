@@ -23,6 +23,8 @@ struct MoneyABGroup: ABGroupType {
         static let bumpInEditCopys = "20180806BumpInEditCopys"
         static let copyForSellFasterNowInTurkish = "20180810CopyForSellFasterNowInTurkish"
         static let multiAdRequestMoreInfo = "20180810MultiAdRequestMoreInfo"
+        static let multiAdRequestInChatSectionForUS = "20180802MultiAdRequestInChatSectionForUS"
+        static let multiAdRequestInChatSectionForTR = "20180802MultiAdRequestInChatSectionForTR"
     }
     let copyForChatNowInTurkey: LeanplumABVariable<Int>
     let showProTagUserProfile: LeanplumABVariable<Bool>
@@ -37,6 +39,8 @@ struct MoneyABGroup: ABGroupType {
     let bumpInEditCopys: LeanplumABVariable<Int>
     let copyForSellFasterNowInTurkish: LeanplumABVariable<Int>
     let multiAdRequestMoreInfo: LeanplumABVariable<Int>
+    let multiAdRequestInChatSectionForUS: LeanplumABVariable<Int>
+    let multiAdRequestInChatSectionForTR: LeanplumABVariable<Int>
 
     let group: ABGroup = .money
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -56,7 +60,9 @@ struct MoneyABGroup: ABGroupType {
          showSellFasterInProfileCells: LeanplumABVariable<Int>,
          bumpInEditCopys: LeanplumABVariable<Int>,
          copyForSellFasterNowInTurkish: LeanplumABVariable<Int>,
-         multiAdRequestMoreInfo: LeanplumABVariable<Int>){
+         multiAdRequestMoreInfo: LeanplumABVariable<Int>,
+         multiAdRequestInChatSectionForUS: LeanplumABVariable<Int>,
+         multiAdRequestInChatSectionForTR: LeanplumABVariable<Int>){
         self.copyForChatNowInTurkey = copyForChatNowInTurkey
         self.showProTagUserProfile = showProTagUserProfile
         self.copyForChatNowInEnglish = copyForChatNowInEnglish
@@ -70,6 +76,8 @@ struct MoneyABGroup: ABGroupType {
         self.bumpInEditCopys = bumpInEditCopys
         self.copyForSellFasterNowInTurkish = copyForSellFasterNowInTurkish
         self.multiAdRequestMoreInfo = multiAdRequestMoreInfo
+        self.multiAdRequestInChatSectionForUS = multiAdRequestInChatSectionForUS
+        self.multiAdRequestInChatSectionForTR = multiAdRequestInChatSectionForTR
 
         intVariables.append(contentsOf: [copyForChatNowInTurkey,
                                          copyForChatNowInEnglish,
@@ -81,7 +89,9 @@ struct MoneyABGroup: ABGroupType {
                                          showSellFasterInProfileCells,
                                          bumpInEditCopys,
                                          copyForSellFasterNowInTurkish,
-                                         multiAdRequestMoreInfo])
+                                         multiAdRequestMoreInfo,
+                                         multiAdRequestInChatSectionForUS,
+                                         multiAdRequestInChatSectionForTR])
         boolVariables.append(contentsOf: [showProTagUserProfile,
                                           showExactLocationForPros])
     }
@@ -125,7 +135,13 @@ struct MoneyABGroup: ABGroupType {
                                                                     groupType: .money),
                             multiAdRequestMoreInfo: .makeInt(key: Keys.multiAdRequestMoreInfo,
                                                              defaultValue: 0,
-                                                             groupType: .money)
+                                                             groupType: .money),
+                            multiAdRequestInChatSectionForUS: .makeInt(key: Keys.multiAdRequestInChatSectionForUS,
+                                                                      defaultValue: 0,
+                                                                      groupType: .money),
+                            multiAdRequestInChatSectionForTR: .makeInt(key: Keys.multiAdRequestInChatSectionForTR,
+                                                                      defaultValue: 0,
+                                                                      groupType: .money)
         )
     }
 }
