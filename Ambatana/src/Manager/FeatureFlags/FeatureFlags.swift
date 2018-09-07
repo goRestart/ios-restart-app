@@ -15,10 +15,6 @@ protocol FeatureFlaggeable: class {
     var syncedData: Observable<Bool> { get }
     func variablesUpdated()
 
-    var surveyUrl: String { get }
-    var surveyEnabled: Bool { get }
-
-    var userReviewsReportEnabled: Bool { get }
     var realEstateEnabled: RealEstateEnabled { get }
     var deckItemPage: DeckItemPage { get }
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio { get }
@@ -54,8 +50,6 @@ protocol FeatureFlaggeable: class {
     var alwaysShowBumpBannerWithLoading: AlwaysShowBumpBannerWithLoading { get }
     var showSellFasterInProfileCells: ShowSellFasterInProfileCells { get }
     var bumpInEditCopys: BumpInEditCopys { get }
-    // MARK: Core
-    var cachedFeed: CachedFeed { get }
 
     var copyForSellFasterNowInTurkish: CopyForSellFasterNowInTurkish { get }
     var multiAdRequestMoreInfo: MultiAdRequestMoreInfo { get }
@@ -79,6 +73,7 @@ protocol FeatureFlaggeable: class {
     var carPromoCells: CarPromoCells { get }
     var servicesPromoCells: ServicesPromoCells { get }
     var realEstatePromoCells: RealEstatePromoCells { get }
+    var proUsersExtraImages: ProUsersExtraImages { get }
     
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed { get }
@@ -103,6 +98,9 @@ protocol FeatureFlaggeable: class {
     
     // MARK: Money
     var preventMessagesFromFeedToProUsers: PreventMessagesFromFeedToProUsers { get }
+    var multiAdRequestInChatSectionForUS: MultiAdRequestInChatSectionForUS { get }
+    var multiAdRequestInChatSectionForTR: MultiAdRequestInChatSectionForTR { get }
+    var multiAdRequestInChatSectionAdUnitId: String? { get }
     
     // MARK: Retention
     var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
@@ -182,6 +180,10 @@ extension ServicesPromoCells {
 }
 
 extension RealEstatePromoCells {
+    var isActive: Bool { return self != .control && self != .baseline }
+}
+
+extension ProUsersExtraImages {
     var isActive: Bool { return self != .control && self != .baseline }
 }
 
@@ -287,10 +289,6 @@ extension CopyForSellFasterNowInTurkish {
     }
 }
 
-extension IAmInterestedFeed {
-    var isVisible: Bool { return self == .control || self == .baseline }
-}
-
 extension PersonalizedFeed {
     var isActive: Bool { return self != .control && self != .baseline }
 }
@@ -359,6 +357,24 @@ extension FullScreenAdsWhenBrowsingForUS {
 
 extension PreventMessagesFromFeedToProUsers {
     var isActive: Bool { return self == .active }
+}
+
+extension MultiAdRequestInChatSectionForUS {
+    var isActive: Bool { return self == .active }
+    
+    func shouldShowAdsForUser(createdIn: Date?) -> Bool {
+        guard isActive else { return false }
+        return createdIn?.isOlderThan(SharedConstants.newUserTimeThresholdForAds) ?? false
+    }
+}
+
+extension MultiAdRequestInChatSectionForTR {
+    var isActive: Bool { return self == .active }
+    
+    func shouldShowAdsForUser(createdIn: Date?) -> Bool {
+        guard isActive else { return false }
+        return createdIn?.isOlderThan(SharedConstants.newUserTimeThresholdForAds) ?? false
+    }
 }
 
 extension AppInstallAdsInFeed {
@@ -459,27 +475,6 @@ final class FeatureFlags: FeatureFlaggeable {
         dao.save(emergencyLocate: EmergencyLocate.fromPosition(abTests.emergencyLocate.value))
         dao.save(community: ShowCommunity.fromPosition(abTests.community.value))
         dao.save(advancedReputationSystem11: AdvancedReputationSystem11.fromPosition(abTests.advancedReputationSystem11.value))
-    }
-    
-    var surveyUrl: String {
-        if Bumper.enabled {
-            return Bumper.surveyEnabled ? SharedConstants.surveyDefaultTestUrl : ""
-        }
-        return abTests.surveyURL.value
-    }
-
-    var surveyEnabled: Bool {
-        if Bumper.enabled {
-            return Bumper.surveyEnabled
-        }
-        return abTests.surveyEnabled.value
-    }
-
-    var userReviewsReportEnabled: Bool {
-        if Bumper.enabled {
-            return Bumper.userReviewsReportEnabled
-        }
-        return abTests.userReviewsReportEnabled.value
     }
 
     var realEstateEnabled: RealEstateEnabled {
@@ -1018,7 +1013,7 @@ extension FeatureFlags {
             return Bumper.carPromoCells
         }
         
-        return .control
+        return CarPromoCells.fromPosition(abTests.carPromoCells.value)
     }
     
     var servicesPromoCells: ServicesPromoCells {
@@ -1035,6 +1030,14 @@ extension FeatureFlags {
         }
         
         return RealEstatePromoCells.fromPosition(abTests.realEstatePromoCells.value)
+    }
+    
+    var proUsersExtraImages: ProUsersExtraImages {
+        if Bumper.enabled {
+            return Bumper.proUsersExtraImages
+        }
+        
+        return ProUsersExtraImages.fromPosition(abTests.proUserExtraImages.value)
     }
     
     var clickToTalkEnabled: ClickToTalk {
@@ -1081,11 +1084,6 @@ extension FeatureFlags {
         return EmptySearchImprovements.fromPosition(abTests.emptySearchImprovements.value)
     }
 
-    var cachedFeed: CachedFeed {
-        if Bumper.enabled { return Bumper.cachedFeed }
-        return CachedFeed.fromPosition(abTests.cachedFeed.value)
-    }
-    
     var sectionedFeed: SectionedDiscoveryFeed {
         if Bumper.enabled {
             return Bumper.sectionedDiscoveryFeed
@@ -1123,10 +1121,6 @@ extension EmptySearchImprovements {
         case .popularNearYou, .similarQueries, .similarQueriesWhenFewResults, .alwaysSimilar: return R.Strings.listingShowSimilarResultsDescription
         }
     }
-}
-
-extension CachedFeed {
-    var isActive: Bool { return self == .active }
 }
 
 // MARK: Products
@@ -1186,8 +1180,36 @@ extension FeatureFlags {
         }
         return PreventMessagesFromFeedToProUsers.fromPosition(abTests.preventMessagesFromFeedToProUsers.value)
     }
+    
+    var multiAdRequestInChatSectionForUS: MultiAdRequestInChatSectionForUS {
+        if Bumper.enabled {
+            return Bumper.multiAdRequestInChatSectionForUS
+        }
+        return MultiAdRequestInChatSectionForUS.fromPosition(abTests.multiAdRequestInChatSectionForUS.value)
+    }
+    
+    var multiAdRequestInChatSectionForTR: MultiAdRequestInChatSectionForTR {
+        if Bumper.enabled {
+            return Bumper.multiAdRequestInChatSectionForTR
+        }
+        return MultiAdRequestInChatSectionForTR.fromPosition(abTests.multiAdRequestInChatSectionForTR.value)
+    }
+    
+    var multiAdRequestInChatSectionAdUnitId: String? {
+        if Bumper.enabled {
+            // Bumper overrides country restriction
+            return multiAdRequestInChatSectionForUS.isActive ? EnvironmentProxy.sharedInstance.chatSectionAdUnitForOldUsersUS : nil
+        }
+        switch sensorLocationCountryCode {
+        case .usa?:
+            return multiAdRequestInChatSectionForUS.isActive ? EnvironmentProxy.sharedInstance.chatSectionAdUnitForOldUsersUS : nil
+        case .turkey?:
+            return multiAdRequestInChatSectionForTR.isActive ? EnvironmentProxy.sharedInstance.chatSectionAdUnitForOldUsersTR : nil
+        default:
+            return nil
+        }
+    }
 }
-
 
 // MARK: Retention
 

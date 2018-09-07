@@ -9,6 +9,10 @@ final class SellNavigationController: UINavigationController {
     fileprivate let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
     fileprivate let backgroundImageView = UIImageView()
 
+    var currentStep: CGFloat {
+        return viewModel.actualStep
+    }
+    
     init(root: UIViewController) { // we do this because a leak https://lists.swift.org/pipermail/swift-users/Week-of-Mon-20171211/006747.html
         super.init(nibName: nil, bundle: nil)
         viewControllers.append(root)
@@ -45,7 +49,17 @@ final class SellNavigationController: UINavigationController {
     }
     
     func startDetails(category: PostCategory?) {
+        viewModel.shouldModifyProgress = true
         viewModel.categorySelected.value = category
+    }
+    
+    override func pushViewController(_ viewController: UIViewController, animated: Bool) {
+        super.pushViewController(viewController, animated: animated)
+        viewModel.navigationControllerPushed()
+    }
+    override func popViewController(animated: Bool) -> UIViewController? {
+        viewModel.navigationControllerPop()
+        return super.popViewController(animated: animated)
     }
 }
 

@@ -1,15 +1,4 @@
-
 [
-    {
-        "name": "SurveyEnabled",
-        "values": ["No", "Yes"],
-        "description": "Show qualitative survey"
-    },
-    {
-        "name": "UserReviewsReportEnabled",
-        "values": ["no", "yes"],
-        "description": "User reviews report enabled"
-    },
     {
         "name": "RealEstateEnabled",
         "values": ["control", "baseline", "active"],
@@ -111,11 +100,6 @@
         "description": "Activate the Emergency Locate feature"
     },
     {
-        "name": "IAmInterestedFeed",
-        "values": ["control", "baseline", "hidden"],
-        "description": "Show an I am interested button in the main feed"
-    },
-    {
         "name": "PersonalizedFeed",
         "values": ["control", "baseline", "personalized"],
         "description": "Personalize the feed"
@@ -134,11 +118,6 @@
          "name": "OffensiveReportAlert",
          "values": ["control", "baseline", "active"],
          "description": "Offensive Report alert active"
-    },
-    {
-         "name": "HighlightedIAmInterestedFeed",
-         "values": ["control", "baseline", "lightBottom", "darkTop", "darkBottom"],
-         "description": "[RETENTION] Show an I am interested highlighted undo button in the main feed more"
     },
     {
         "name": "FullScreenAdsWhenBrowsingForUS",
@@ -281,11 +260,6 @@
         "description": "[SERVICES] Services category becomes Jobs & Services, enables features related to jobs"
     },
     {
-        "name": "CachedFeed",
-        "values": ["control", "baseline", "active"],
-        "description": "[CORE] Show cached feed before requesting for a fresh one"
-    },
-    {
         "name": "CopyForSellFasterNowInTurkish",
         "values": ["control", "baseline", "variantB", "variantC", "variantD"],
         "description": "[MONEY] Try different copies for 'Sell faster now' banner in Turkish"
@@ -321,6 +295,11 @@
          "description": "[USERS] ARS v1.1"
      },
      {
+         "name": "ProUsersExtraImages",
+         "values": ["control", "baseline", "active"],
+         "description": "[Cars] allow up to 25 images to be displayed on the product detail page"
+     },
+        {
         "name": "SectionedDiscoveryFeed",
         "values": ["control", "baseline", "active"],
         "description": "[Discovery] Show SectionedFeed"
@@ -339,5 +318,15 @@
         "name": "ClickToTalk",
         "values": ["control", "baseline", "active"],
         "description": "[VERTICALS] Show Click to talk"
+    },
+    {
+        "name": "MultiAdRequestInChatSectionForUS",
+        "values": ["control", "baseline", "active"],
+        "description": "[MONEY] Muti ad request in Chat section. For US"
+    },
+    {
+        "name": "MultiAdRequestInChatSectionForTR",
+        "values": ["control", "baseline", "active"],
+        "description": "[MONEY] Muti ad request in Chat section. For Turkey"
     }
  ]

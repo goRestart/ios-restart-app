@@ -18,7 +18,7 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
 
     var wireframe: FeedNavigator?
     var listingWireframe: ListingWireframe?
-    
+
     weak var rootViewController: UIViewController? {
         didSet {
             sectionControllerFactory.rootViewController = rootViewController
@@ -67,7 +67,7 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
             return filters.place ?? Place(postalAddress: currentLocation?.postalAddress,
                                           location: currentLocation?.location)
     }
-    
+
     // Private vars
     
     private let filtersVar: Variable<ListingFilters>
@@ -177,7 +177,7 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
-        updatePermissionsPresenter()
+        updatePermissionBanner()
         refreshFeed()
     }
     
@@ -332,7 +332,7 @@ extension FeedViewModel {
     }
     
     private func updateFeedItems(withFeed feed: Feed) {
-        let horizontalSections = feed.horizontalSections(featureFlags, myUserRepository, keyValueStorage, waterfallColumnCount)
+        let horizontalSections = feed.horizontalSections(featureFlags, myUserRepository, keyValueStorage, waterfallColumnCount, pages.count)
         let verticalSections = feed.verticalItems(featureFlags, myUserRepository, keyValueStorage, waterfallColumnCount)
         var duplications = feed.items.count - verticalSections.count
         let verticalItems = verticalSections.filter { feedListingData in
@@ -406,7 +406,19 @@ extension FeedViewModel {
             myUserName:  myUserRepository.myUser?.name)
     }
     
-    func openSearches() { navigator?.openSearches() }
+    func openSearches() {
+        guard let safeNavigator = navigator else { return }
+        wireframe?.openSearches(withSearchType: searchType){ [weak self] searchType in
+            guard let safeSelf = self else { return }
+            safeSelf.wireframe?.openClassicFeed(
+                navigator: safeNavigator,
+                withSearchType: searchType,
+                listingFilters: safeSelf.filters,
+                shouldCloseOnRemoveAllFilters: false
+            )
+            safeSelf.delegate?.searchCompleted()
+        }
+    }
     
     func showFilters() {
         wireframe?.openFilters(withListingFilters: filters,
@@ -416,6 +428,7 @@ extension FeedViewModel {
     
     func refreshControlTriggered() {
         resetFeed()
+        updatePermissionBanner()
         loadFeedItems()
     }
 }
@@ -426,8 +439,22 @@ extension FeedViewModel: FiltersViewModelDataDelegate {
     
     func viewModelDidUpdateFilters(_ viewModel: FiltersViewModel,
                                    filters: ListingFilters) {
+        defer { refreshFeedUponLocationChange() }
         self.filters = filters
-        refreshFeedUponLocationChange()
+        guard !filters.isDefault() else { return }
+        // For the moment when the user wants to filter something the app
+        // must jump directly to the old feed with the applied filters.
+        // Story: https://ambatana.atlassian.net/browse/ABIOS-4525?filter=18022.
+        guard let safeNavigator = navigator else { return }
+        guard !filters.hasOnlyPlace else { return }
+        wireframe?.openClassicFeed(
+            navigator: safeNavigator,
+            withSearchType: searchType,
+            listingFilters: filters,
+            shouldCloseOnRemoveAllFilters: true,
+            tagsDelegate: self
+        )
+        self.filters = ListingFilters()
     }
 }
 
@@ -444,13 +471,18 @@ extension FeedViewModel: PushPermissionsPresenterDelegate {
     
     private func setupPermissionsNotification() {
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(updatePermissionsPresenter),
+                                               selector: #selector(refreshPushPermissionBanner),
                                                name: NSNotification.Name(rawValue:
                                                 PushManager.Notification.DidRegisterUserNotificationSettings.rawValue),
                                                object: nil)
     }
     
-    @objc private dynamic func updatePermissionsPresenter() {
+    @objc private dynamic func refreshPushPermissionBanner() {
+        updatePermissionBanner()
+        refreshFeed()
+    }
+    
+    private func updatePermissionBanner() {
         let pushBannerId = StaticSectionType.pushBanner.rawValue as ListDiffable
         let hasPushMessage = feedItems.contains(where: { $0.isEqual(toDiffableObject: pushBannerId) })
         
@@ -459,7 +491,6 @@ extension FeedViewModel: PushPermissionsPresenterDelegate {
         } else if hasPushMessage && application.areRemoteNotificationsEnabled {
             feedItems.remove(at: 0)
         }
-        refreshFeed()
     }
 }
 
@@ -505,7 +536,8 @@ extension FeedViewModel: SelectedForYouDelegate {
         wireframe?.openClassicFeed(
             navigator: strongNavigator,
             withSearchType: .collection(type: collectionType, query: query),
-            listingFilters: filters)
+            listingFilters: filters,
+            shouldCloseOnRemoveAllFilters: false)
     }
     
     private var shouldShowSelectedForYou: Bool {
@@ -536,7 +568,10 @@ extension FeedViewModel: RetryFooterDelegate {
 extension FeedViewModel: HorizontalSectionDelegate {
     func didTapSeeAll(page: SearchType) {
         guard let navigator = navigator else { return }
-        wireframe?.openProFeed(navigator: navigator, withSearchType: page)
+        wireframe?.openProFeed(
+            navigator: navigator,
+            withSearchType: page,
+            andFilters: filters)
     }
 }
 
@@ -627,7 +662,13 @@ extension FeedViewModel: ListingActionDelegate {
     }
     
     private func sendMessage(forListing listing: Listing, sectionedFeedChatTrackingInfo: SectionedFeedChatTrackingInfo?) {
-        let type = ChatWrapperMessageType.interested(QuickAnswer.interested.textToReply)
+        let type: ChatWrapperMessageType
+        if featureFlags.randomImInterestedMessages.isActive {
+            type = ChatWrapperMessageType.interested(QuickAnswer.dynamicInterested(
+                interestedMessage: QuickAnswer.InterestedMessage.makeRandom()).textToReply)
+        } else {
+            type = ChatWrapperMessageType.interested(QuickAnswer.interested.textToReply)
+        }
         interestedStateManager.addInterestedState(forListing: listing, completion: nil)
         let trackingInfo = SendMessageTrackingInfo
             .makeWith(type: type, listing: listing, freePostingAllowed: featureFlags.freePostingModeAllowed)
@@ -703,6 +744,15 @@ extension FeedViewModel {
 extension FeedViewModel: AdUpdated {
     func updatedAd() {
         refreshFeed()
+    }
+}
+
+// MARK: - Main Listings Tags Delegate
+
+extension FeedViewModel: MainListingsTagsDelegate {
+    func onCloseAllFilters(finalFiters newFilters: ListingFilters) {
+        self.filters = newFilters
+        refreshFeedUponLocationChange()
     }
 }
 

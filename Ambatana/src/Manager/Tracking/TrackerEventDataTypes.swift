@@ -149,9 +149,6 @@ enum EventName: String {
     case expressChatComplete                = "express-chat-complete"
     case expressChatDontAsk                 = "express-chat-dont-ask"
 
-    case surveyStart                        = "survey-start"
-    case surveyCompleted                    = "survey-completed"
-
     case verifyAccountStart                 = "verify-account-start"
     case verifyAccountSelectNetwork         = "verify-account-select-network"
     case verifyAccountComplete              = "verify-account-complete"
@@ -189,6 +186,7 @@ enum EventName: String {
 
     case adTapped                           = "ad-tapped"
     case adShown                            = "ad-shown"
+    case adError                            = "ad-error"
     case featuredMoreInfo                   = "featured-more-info"
     case openOptionOnSummary                = "posting-summary-open"
 
@@ -354,7 +352,6 @@ enum EventParameterName: String {
     case listSuccess          = "list-success"
     case userFromId           = "user-from-id"
     case notAvailableReason   = "not-available-reason"
-    case surveyUrl            = "survey-url"
     case blockButtonPosition  = "block-button-position"
     case postingType          = "posting-type"
     case carSellerType        = "seller-type"

@@ -153,4 +153,13 @@ public final class EnvironmentProxy: AppEnvironment {
         return environment.feedAdUnitIdAdxInstallAppTR
     }
     
+    public var chatSectionAdUnitForOldUsersUS: String {
+        return environment.chatSectionAdUnitForOldUsersUS
+    }
+    
+    public var chatSectionAdUnitForOldUsersTR: String {
+        return environment.chatSectionAdUnitForOldUsersTR
+    }
+    
+    
 }

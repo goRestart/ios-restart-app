@@ -13,7 +13,6 @@ protocol AppNavigator: class {
     func openSell(source: PostingSource, postCategory: PostCategory?, listingTitle: String?)
     func openAppRating(_ source: EventParameterRatingSource)
     func openUserRating(_ source: RateUserSource, data: RateUserData)
-    func openSurveyIfNeeded()
     func openAppInvite(myUserId: String?, myUserName: String?)
     func canOpenAppInvite() -> Bool
     func openDeepLink(deepLink: DeepLink)

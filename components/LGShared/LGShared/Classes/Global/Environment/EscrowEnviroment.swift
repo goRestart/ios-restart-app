@@ -46,6 +46,15 @@ final class EscrowEnvironment: AppEnvironment {
     
     let fullScreenAdUnitIdAdxForAllUsersForUS = ""
     let fullScreenAdUnitIdAdxForOldUsersForUS = ""
+    
+    let chatSectionAdUnitForOldUsersUS = ""
+    let chatSectionAdUnitForOldUsersTR = ""
+    
+    // MoPub Ads
+    let feedAdUnitIdMoPubUSAForAllUsers = ""
+    let feedAdUnitIdMoPubUSAForOldUsers = ""
+    let feedAdUnitIdMoPubTRForAllUsers = ""
+    let feedAdUnitIdMoPubTRForOldUsers = ""
 
     let moreInfoMultiAdUnitIdDFP = ""
     let moreInfoMultiAdUnitIdDFPUSA = ""

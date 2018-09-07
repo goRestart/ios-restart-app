@@ -15,6 +15,8 @@ final class SellNavigationViewModel : BaseViewModel {
     }
     private let disposeBag = DisposeBag()
 
+    var shouldModifyProgress: Bool = false
+
     var hasInitialCategory: Bool = false
     
     let featureFlags: FeatureFlags
@@ -47,5 +49,20 @@ final class SellNavigationViewModel : BaseViewModel {
             .map { return $0?.numberOfSteps ?? 1 }
             .bind(to: numberOfSteps)
             .disposed(by: disposeBag)
+    }
+    
+    
+    // MARK: - Actions
+    
+    func navigationControllerPushed() {
+        if shouldModifyProgress {
+            currentStep.value = currentStep.value + 1
+        }
+    }
+    
+    func navigationControllerPop() {
+        if shouldModifyProgress {
+            currentStep.value = currentStep.value - 1
+        }
     }
 }

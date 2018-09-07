@@ -4,7 +4,8 @@ extension Feed {
     func horizontalSections(_ featureFlags: FeatureFlaggeable,
                             _ myUserRepository: MyUserRepository,
                             _ keyValueStorage: KeyValueStorageable,
-                            _ numberOfColumns: Int) -> [ListingSectionModel] {
+                            _ numberOfColumns: Int,
+                            _ pageNumber: Int) -> [ListingSectionModel] {
         let listingInterestStates = keyValueStorage.interestingListingIDs
         let cellMetrics = ListingCellSizeMetrics(numberOfColumns: numberOfColumns)
         return sections.toSectionModel(cellMetrics: cellMetrics,
@@ -13,7 +14,8 @@ extension Feed {
                                        chatNowTitle: featureFlags.chatNowButtonText,
                                        freePostingAllowed: featureFlags.freePostingModeAllowed,
                                        preventMessagesFromFeedToProUser: featureFlags.preventMessagesFromFeedToProUsers.isActive,
-                                       imageHasFixedSize: true).filter { $0.type == .horizontal }
+                                       imageHasFixedSize: true,
+                                       pageNumber: pageNumber).filter { $0.type == .horizontal }
     }
     
     func verticalItems(_ featureFlags: FeatureFlaggeable,

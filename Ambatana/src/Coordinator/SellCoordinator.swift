@@ -27,7 +27,7 @@ final class SellCoordinator: Coordinator {
     fileprivate let postCategory: PostCategory?
     weak var delegate: SellCoordinatorDelegate?
 
-    private lazy var editAssembly = EditListingBuilder.standard(navigationController)
+    private lazy var editAssembly = EditListingBuilder.modal(navigationController)
 
     // MARK: - Lifecycle
 
@@ -393,7 +393,7 @@ extension SellCoordinator: MultiListingPostedNavigator {
                                             timeSinceLastBump: nil,
                                             maxCountdown: 0,
                                             onEditAction: self)
-        navigationController.pushViewController(vc, animated: true)
+        navigationController.present(vc, animated: true, completion: nil)
     }
 }
 

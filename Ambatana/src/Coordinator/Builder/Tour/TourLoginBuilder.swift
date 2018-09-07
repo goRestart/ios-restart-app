@@ -22,10 +22,12 @@ extension TourLoginBuilder: TourLoginAssembly {
                                        loginAction: {
                                         // Another patch used to spawn the permissions.
                                         // and close the tour login view.
-                                        wireframe.tourLoginFinish() })
+                                        wireframe.tourLoginFinish()
+        })
 
         let vm = TourLoginViewModel(signUpViewModel: signUpVM)
         let vc = TourLoginViewController(viewModel: vm)
+        vm.delegate = vc
         vc.setupForModalWithNonOpaqueBackground()
         vc.modalTransitionStyle = .crossDissolve
 

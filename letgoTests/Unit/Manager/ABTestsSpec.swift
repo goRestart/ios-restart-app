@@ -41,12 +41,21 @@ final class ABTestsSpec: QuickSpec {
                 products = ProductsABGroup.make()
             }
 
+            context("registering all the variables") { 
+                beforeEach {
+                    sut.registerVariables()
+                }
+                it("registers all the variables") {
+                    expect(syncer.syncedCount) == 64
+                }
+            }
+
             context("registering all the variables") {
                 beforeEach {
                     sut.registerVariables()
                 }
                 it("registers all the variables") {
-                    expect(syncer.syncedCount) == 69
+                    expect(syncer.syncedCount) == 64
                 }
             }
              context("registering all the variables") {
@@ -98,16 +107,16 @@ final class ABTestsSpec: QuickSpec {
             }
 
             context("registering all the  legacy variables") {
-                it("the legacy int variables registered are 5") {
-                    expect(legacy.intVariables.count) == 5
+                it("the legacy int variables registered are 4") {
+                    expect(legacy.intVariables.count) == 4
                 }
 
-                it("the legacy bool variables registered are 5") {
-                    expect(legacy.boolVariables.count) == 5
+                it("the legacy bool variables registered are 0") {
+                    expect(legacy.boolVariables.count) == 0
                 }
 
-                it("the legacy string variables registered are 1") {
-                    expect(legacy.stringVariables.count) == 1
+                it("the legacy string variables registered are 0") {
+                    expect(legacy.stringVariables.count) == 0
                 }
 
                 it("the legacy float variables registered are 0") {
@@ -122,8 +131,8 @@ final class ABTestsSpec: QuickSpec {
                     syncer.sync(variables: legacy.stringVariables)
                     syncer.sync(variables: legacy.floatVariables)
                 }
-                it("the variables registered are 11") {
-                    expect(syncer.syncedCount) == 11
+                it("the variables registered are 4") {
+                    expect(syncer.syncedCount) == 4
                 }
             }
             
@@ -164,8 +173,8 @@ final class ABTestsSpec: QuickSpec {
                     syncer.sync(variables: verticals.stringVariables)
                     syncer.sync(variables: verticals.floatVariables)
                 }
-                it("the variables registered are 8") {
-                    expect(syncer.syncedCount) == 8
+                it("the variables registered are 9") {
+                    expect(syncer.syncedCount) == 9
                 }
             }
 
@@ -201,8 +210,8 @@ final class ABTestsSpec: QuickSpec {
             }
 
             context("registering all the money variables") {
-                it("the money int variable registered are 11") {
-                    expect(money.intVariables.count) == 11
+                it("the money int variable registered are 13") {
+                    expect(money.intVariables.count) == 13
                 }
 
                 it("the money bool variable registered are 2") {
@@ -225,8 +234,8 @@ final class ABTestsSpec: QuickSpec {
                     syncer.sync(variables: money.stringVariables)
                     syncer.sync(variables: money.floatVariables)
                 }
-                it("the variables registered are 13") {
-                    expect(syncer.syncedCount) == 13
+                it("the variables registered are 15") {
+                    expect(syncer.syncedCount) == 15
                 }
             }
 
@@ -262,7 +271,7 @@ final class ABTestsSpec: QuickSpec {
 
             context("registering all the core variables") {
                 it("the core int variable registered are 3") {
-                    expect(core.intVariables.count) == 3
+                    expect(core.intVariables.count) == 2
                 }
 
                 it("the core bool variable registered are 0") {
@@ -285,8 +294,8 @@ final class ABTestsSpec: QuickSpec {
                     syncer.sync(variables: core.stringVariables)
                     syncer.sync(variables: core.floatVariables)
                 }
-                it("the variables registered are 3") {
-                    expect(syncer.syncedCount) == 3
+                it("the variables registered are 2") {
+                    expect(syncer.syncedCount) == 2
                 }
             }
 

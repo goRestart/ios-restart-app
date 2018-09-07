@@ -71,11 +71,10 @@ extension LGFeedOwnerGeoData: Decodable {
 
 extension LGFeedOwnerGeoData {
     
-    static func toPostalAddress(geodata: LGFeedOwnerGeoData?) -> PostalAddress {
-        guard
-            let city = geodata?.city,
-            let zipCode = geodata?.zipCode,
-            let countryCode = geodata?.countryCode else {
+    static func toPostalAddress(city: String?, zipCode: String?, countryCode: String?) -> PostalAddress {
+        guard let city = city,
+            let zipCode = zipCode,
+            let countryCode = countryCode else {
                 return PostalAddress.emptyAddress()
         }
         return PostalAddress(address: nil,

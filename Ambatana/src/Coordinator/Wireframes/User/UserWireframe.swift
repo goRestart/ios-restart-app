@@ -139,7 +139,9 @@ extension UserWireframe: PublicProfileNavigator {
     
     func openAskPhoneFor(listing: Listing, interlocutor: User?) {
         let assembly = ProfessionalDealerAskPhoneBuilder.modal(nc)
-        let vc = assembly.buildProfessionalDealerAskPhone(listing: listing, interlocutor: interlocutor)
+        let vc = assembly.buildProfessionalDealerAskPhone(listing: listing,
+                                                          interlocutor: interlocutor,
+                                                          chatNavigator: ChatWireframe(nc: nc))
         nc.present(vc, animated: true, completion: nil)
     }
     

@@ -6,6 +6,11 @@ protocol MainListingNavigator: class {
     func openFilters(withFilters: ListingFilters, dataDelegate: FiltersViewModelDataDelegate?)
     func openLocationSelection(with place: Place, distanceRadius: Int?, locationDelegate: EditLocationDelegate)
     func openMap(requester: ListingListMultiRequester, listingFilters: ListingFilters, searchNavigator: ListingsMapNavigator)
+    func openClassicFeed(navigator: MainTabNavigator,
+                         withSearchType searchType: SearchType?,
+                         listingFilters: ListingFilters)
+    func close()
+    func closeAll()
 }
 
 final class MainListingWireframe: MainListingNavigator {
@@ -49,4 +54,17 @@ final class MainListingWireframe: MainListingNavigator {
         let viewController = ListingsMapViewController(viewModel: viewModel)
         nc.pushViewController(viewController, animated: true)
     }
+    
+    func openClassicFeed(navigator: MainTabNavigator,
+                         withSearchType searchType: SearchType? = nil,
+                         listingFilters: ListingFilters) {
+        let (vc, vm) = FeedBuilder.standard(nc: nc).makeClassic(
+            withSearchType: searchType, filters: listingFilters)
+        vm.navigator = navigator
+        nc.pushViewController(vc, animated: true)
+    }
+    
+    func close() { nc.popViewController(animated: true) }
+    
+    func closeAll() { nc.popToRootViewController(animated: true) }
 }

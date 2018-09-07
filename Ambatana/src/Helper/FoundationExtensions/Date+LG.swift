@@ -180,6 +180,10 @@ extension Date {
     func isOlderThan(days: Double) -> Bool {
         return !isNewerThan(secondsInADay * days)
     }
+    
+    func isOlderThan(_ seconds: TimeInterval) -> Bool {
+        return !isNewerThan(seconds)
+    }
 
     func isNewerThan(_ seconds: TimeInterval) -> Bool {
         let time = self.timeIntervalSince1970
@@ -189,6 +193,10 @@ extension Date {
 
     var year: Int {
         return Calendar.current.component(.year, from: self)
+    }
+    
+    var nextYear: Int {
+        return year + 1
     }
     
     var millisecondsSince1970: TimeInterval {

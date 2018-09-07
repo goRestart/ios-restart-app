@@ -156,6 +156,58 @@ class ChatViewModelSpec: BaseViewModelSpec {
                     user = self.makeUser(with: .active, isDummy: false, userId: mockMyUser.objectId!)
                     
                 }
+                context("tracking letgo service messages") {
+                    context("cta message shown") {
+                        beforeEach {
+                            user.type = .user
+                            var ctaMessage = MockChatMessage.makeMock()
+                            ctaMessage.warnings = []
+                            ctaMessage.content = MockChatMessageContent(type:
+                                .cta(ctaData: MockChatCallToActionData(key: "tracking-key",
+                                                                       title: nil, text: nil, image: nil),
+                                     ctas: []), text: nil)
+                            chatMessages = [ctaMessage]
+                            chatConversation = self.makeChatConversation(with: chatInterlocutor,
+                                                                         unreadMessageCount: 0,
+                                                                         lastMessageSentAt: nil,
+                                                                         amISelling: true)
+                            buildChatViewModel(myUser: mockMyUser,
+                                               chatMessages: chatMessages,
+                                               product: productResult,
+                                               chatConversation: chatConversation,
+                                               user: user)
+                            sut.active = true
+                        }
+                        it("tracks window open + cta message") {
+                            expect(tracker.trackedEvents.map { $0.actualName })
+                                .toEventually(equal(["chat-window-open", "chat-letgo-service-call-to-action-received"]))
+                        }
+                    }
+                    context("multiAnswer message shown") {
+                        beforeEach {
+                            user.type = .user
+                            var ctaMessage = MockChatMessage.makeMock()
+                            ctaMessage.warnings = []
+                            ctaMessage.content = MockChatMessageContent(type:
+                                .multiAnswer(question: MockChatQuestion(key: "tracking-key", text: "text"), answers: []), text: nil)
+                            chatMessages = [ctaMessage]
+                            chatConversation = self.makeChatConversation(with: chatInterlocutor,
+                                                                         unreadMessageCount: 0,
+                                                                         lastMessageSentAt: nil,
+                                                                         amISelling: true)
+                            buildChatViewModel(myUser: mockMyUser,
+                                               chatMessages: chatMessages,
+                                               product: productResult,
+                                               chatConversation: chatConversation,
+                                               user: user)
+                            sut.active = true
+                        }
+                        it("tracks window open + multiAnswer message") {
+                            expect(tracker.trackedEvents.map { $0.actualName })
+                                .toEventually(equal(["chat-window-open", "chat-letgo-service-question-received"]))
+                        }
+                    }
+                }
                 context("related products") {
                     context("being a seller") {
                         beforeEach {

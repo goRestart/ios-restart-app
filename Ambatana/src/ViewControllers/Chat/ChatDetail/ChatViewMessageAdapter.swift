@@ -1,11 +1,11 @@
 import LGCoreKit
 import LGComponents
 
-class ChatViewMessageAdapter {
-    let stickersRepository: StickersRepository
-    let myUserRepository: MyUserRepository
-    let featureFlags: FeatureFlaggeable
-    let tracker: TrackerProxy
+final class ChatViewMessageAdapter {
+    private let stickersRepository: StickersRepository
+    private let myUserRepository: MyUserRepository
+    private let featureFlags: FeatureFlaggeable
+    private let tracker: TrackerProxy
 
     convenience init() {
         let stickersRepository = Core.stickersRepository
@@ -237,13 +237,18 @@ class ChatViewMessageAdapter {
         let email = user.emailAccount?.verified ?? false
         let name = R.Strings.chatUserInfoName(user.name ?? "")
         let address = user.postalAddress.zipCodeCityString
+ 
+        let chatUserInfo = ChatUserInfo(
+            isDummy: user.isDummy,
+            name: name,
+            address: address,
+            rating: user.ratingAverage,
+            isFacebookVerified: facebook,
+            isGoogleVerified: google,
+            isEmailVerified: email
+        )
         return ChatViewMessage(objectId: nil, talkerId: "", sentAt: nil, receivedAt: nil, readAt: nil,
-                               type: .userInfo(isDummy: user.isDummy,
-                                               name: name,
-                                               address: address,
-                                               facebook: facebook,
-                                               google: google,
-                                               email: email),
+                               type: .userInfo(userInfo: chatUserInfo),
                                status: nil, warningStatus: .normal,
                                userAvatarData: userAvatarData)
     }

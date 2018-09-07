@@ -284,7 +284,7 @@
 "common_no" = "Nej";
 "common_ok" = "Ok";
 "common_product_given_away" = "Bortskänkt";
-"common_product_not_available" = "Hoppsan! Den här annonsen finns inte längre";
+"common_product_not_available" = "Publicerad på nytt eller ej tillgänglig längre";
 "common_product_sold" = "Såld";
 "common_settings" = "Inställningar";
 "common_short_time_day_ago_label" = "%d dag";
@@ -448,6 +448,7 @@
 "filters_cars_transmission_title" = "Växellåda";
 "filters_distance_not_set" = "inte vald";
 "filters_jobs_services_header" = "Jobb eller Tjänst Info";
+"filters_jobs_services_list_max_selection_alert" = "Hoppsan! Du kan inte välja fler än 15 alternativ.";
 "filters_jobs_services_subtype_title" = "Undertyp";
 "filters_jobs_services_toggle_header" = "Letar efter...";
 "filters_jobs_services_type_title" = "Typ";
@@ -759,6 +760,10 @@
 "post_description_name_placeholder" = "Namn";
 "post_description_save_button_text" = "Spara annonsen!";
 "post_details_jobs_services_camera_message" = "Lägg upp din företagslogga eller en bild som visar vilken tjänst eller vilket obb du erbjuder";
+"post_details_jobs_services_congratulation_add_more_details" = "med flera detaljer:";
+"post_details_jobs_services_congratulation_improve_listing" = "Förbättra din annons";
+"post_details_jobs_services_congratulation_people_nearby_first" = "Användare i ditt område";
+"post_details_jobs_services_congratulation_people_nearby_second" = "letar också efter:";
 "post_details_jobs_services_step_option_jobs_prefix" = "Behöver anlita någon för";
 "post_details_jobs_services_step_option_services_prefix" = "Annonserar...";
 "post_details_jobs_services_step_title" = "Jag är...";
@@ -1049,6 +1054,9 @@
 "profile_sold_no_products_label" = "INGA ANNONSER (ÄN!)";
 "profile_sold_other_no_products_button" = "Surfa vidare";
 "profile_sold_products_tab" = "Sålda";
+"profile_verifications_awareness_view_bold_text" = "Here's a pro tip";
+"profile_verifications_awareness_view_button" = "Complete profile";
+"profile_verifications_awareness_view_text" = "%@ - did you know that verified users make better deals?\n\nComplete and verify your profile today!";
 "profile_verifications_email_placeholder" = "E-post";
 "profile_verifications_email_view_title" = "Verifiera din e-post";
 "profile_verifications_send_button" = "Skicka";
@@ -1356,6 +1364,7 @@
 "sell_title_autogen_label" = "Titel föreslagen av letgo";
 "sell_title_field_hint" = "Titel (frivillig)";
 "sell_uploading_label" = "Laddar upp annonsen...";
+"services_promo_call_to_action" = "Lägg upp en tjänst";
 "services_promo_cell_title_b" = "Ny tjänstekategori!";
 "services_promo_cell_title_c" = "Hitta lokala kunder för dina tjänster";
 "services_promo_cell_title_default_bold" = "Tjäna pengar";
@@ -1397,6 +1406,8 @@
 "settings_section_promote" = "Marknadsför";
 "settings_section_support" = "Support";
 "settings_title" = "Inställningar";
+"share_screenshot_description" = "Du kan nu dela den:";
+"share_screenshot_title" = "Skärmdump sparad!";
 "sign_up_acceptance_error" = "För att registrera dig måste du godkänna våra Villkor och vår Integritetspolicy";
 "sign_up_email_field_hint" = "E-post";
 "sign_up_email_step1_continue_button" = "Gå vidare";

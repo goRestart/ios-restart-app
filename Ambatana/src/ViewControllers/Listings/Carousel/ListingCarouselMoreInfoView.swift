@@ -850,10 +850,6 @@ extension ListingCarouselMoreInfoView: GADAdSizeDelegate, GADBannerViewDelegate 
             let absolutePosition = scrollView.convert(bannerContainerView.frame.origin, to: nil)
             let bannerTop = absolutePosition.y
             let bannerBottom = bannerTop + sizeFromAdSize.height
-            viewModel?.didReceiveAd(bannerTopPosition: bannerTop,
-                                    bannerBottomPosition: bannerBottom,
-                                    screenHeight: UIScreen.main.bounds.height,
-                                    bannerSize: bannerView.adSize.size)
         }
     }
 
