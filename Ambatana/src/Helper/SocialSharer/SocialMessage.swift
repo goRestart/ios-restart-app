@@ -195,7 +195,12 @@ extension SocialMessage {
 // MARK: - Listing Share
 
 struct ListingSocialMessage: SocialMessage {
-    static var utmCampaignValue = "product-detail-share"
+    enum Campaign: String {
+        case detail = "product-detail-share"
+        case posted = "product-sell-confirmation-share"
+    }
+
+    static var utmCampaignValue: String = Campaign.detail.rawValue
 
     let emailShareIsHtml = false
     var emailShareSubject: String {
@@ -235,8 +240,9 @@ struct ListingSocialMessage: SocialMessage {
     private let imageURL: URL?
     private let listingId: String
     private let isMine: Bool
+    private let campaign: Campaign
 
-    init(title: String, listing: Listing, isMine: Bool, fallbackToStore: Bool, myUserId: String?, myUserName: String?) {
+    init(title: String, listing: Listing, isMine: Bool, fallbackToStore: Bool, myUserId: String?, myUserName: String?, campaign: Campaign) {
         self.title = title
         self.listingUserName = listing.user.name ?? ""
         self.listingTitle = listing.title ?? ""
@@ -247,15 +253,16 @@ struct ListingSocialMessage: SocialMessage {
         self.fallbackToStore = fallbackToStore
         self.myUserId = myUserId
         self.myUserName = myUserName
+        self.campaign = campaign
     }
     
-    init(listing: Listing, fallbackToStore: Bool, myUserId: String?, myUserName: String?) {
+    init(listing: Listing, fallbackToStore: Bool, myUserId: String?, myUserName: String?, campaign: Campaign = .detail) {
         let listingIsMine = Core.myUserRepository.myUser?.objectId == listing.user.objectId
         let socialTitleMyListing = listing.price.isFree ? R.Strings.productIsMineShareBodyFree :
             R.Strings.productIsMineShareBody
         let socialTitle = listingIsMine ? socialTitleMyListing : R.Strings.productShareBody
         self.init(title: socialTitle, listing: listing, isMine: listingIsMine, fallbackToStore: fallbackToStore,
-                  myUserId: myUserId, myUserName: myUserName)
+                  myUserId: myUserId, myUserName: myUserName, campaign: campaign)
     }
 
     func retrieveNativeShareItems(completion: @escaping NativeShareItemsCompletion) {
@@ -295,13 +302,26 @@ struct ListingSocialMessage: SocialMessage {
                                                      source: source)
         let deepLinkString = addCustomSchemeToDeeplinkPath(deepLinkPath)
         retrieveShareURL(source: source,
-                         campaign: ListingSocialMessage.utmCampaignValue,
+                         campaign: campaign.rawValue,
                          deepLinkString: deepLinkString,
                          webURLString: webUrlLangLocalizedString,
                          fallbackToStore: fallbackToStore,
                          myUserId: myUserId,
                          myUserName: myUserName,
                          completion: completion)
+    }
+
+    func addUtmParamsToURLString(_ string: String, source: ShareSource?) -> String {
+        guard !string.isEmpty else { return "" }
+        let mediumValue = source?.rawValue ?? ""
+        let completeURLString = string + "?" +
+            ListingSocialMessage.utmCampaignKey + "=" + campaign.rawValue + "&" +
+            ListingSocialMessage.utmMediumKey + "=" + mediumValue + "&" +
+            ListingSocialMessage.utmSourceKey + "=" + ListingSocialMessage.utmSourceValue
+        if let percentEncodedURLString = AppsFlyerDeepLink.percentEncodeForAmpersands(urlString: completeURLString) {
+            return percentEncodedURLString
+        }
+        return completeURLString
     }
 }
 
