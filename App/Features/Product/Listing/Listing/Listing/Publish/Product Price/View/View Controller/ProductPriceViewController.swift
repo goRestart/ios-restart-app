@@ -11,7 +11,6 @@ final class ProductPriceViewController: ViewController {
     self.viewBinder = viewBinder
     super.init(nibName: nil, bundle: nil)
   }
-  required init?(coder aDecoder: NSCoder) { fatalError() }
 
   override func loadView() {
     self.view = productPriceView

@@ -15,9 +15,7 @@ final class ProductSummaryViewController: ViewController {
   public override func loadView() {
     self.view = productSummaryView
   }
-  
-  required init?(coder aDecoder: NSCoder) { fatalError() }
-  
+
   override func viewDidLoad() {
     super.viewDidLoad()
     viewModel.input.viewDidLoad()

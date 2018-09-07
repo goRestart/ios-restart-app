@@ -15,8 +15,6 @@ final class NotLoggedViewController: ViewController {
     super.init(nibName: nil, bundle: nil)
   }
   
-  required init?(coder aDecoder: NSCoder) { fatalError() }
-  
   override func loadView() {
     self.view = notLoggedView
   }
