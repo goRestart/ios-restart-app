@@ -51,7 +51,7 @@ final class DevelopmentEnvironment: AppEnvironment {
     let chatSectionAdUnitForOldUsersTR = "/21636273254/turkey/iOS/chat/300x250_var_b"
 
     // Stripe
-    let stripeAPIKey = "pk_test_ubL9uioHtnpGqKN5bzIRElxk"
+    let stripeAPIKey = "pk_test_wO3WBbgxEOh1Qxg3yGdD4PLg"
 
     private let _godmode: Bool
     
