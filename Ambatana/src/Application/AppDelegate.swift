@@ -92,6 +92,7 @@ extension AppDelegate: UIApplicationDelegate {
         window.rootViewController = appCoordinator.tabBarCtl
         self.window = window
 
+
         window.makeKeyAndVisible()
 
         let fbApplicationDelegate = FBSDKApplicationDelegate.sharedInstance()
@@ -100,6 +101,11 @@ extension AppDelegate: UIApplicationDelegate {
                                                                    didFinishLaunchingWithOptions: launchOptions) ?? false
 
         appCoordinator.open()
+
+        let vm = UserVerificationAwarenessViewModel()
+        let vc = UserVerificationAwarenessViewController(viewModel: vm)
+        appCoordinator.tabBarCtl.present(vc, animated: true, completion: nil)
+
 
         return deepLinksRouterContinuation || fbSdkContinuation
     }
