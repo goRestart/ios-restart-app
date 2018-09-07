@@ -1,16 +1,10 @@
 import UIKit
 import SnapKit
-
-private enum ViewLayout {
-  static let minWidth = CGFloat(30)
-  static let minHeight = CGFloat(30)
-}
+import RxSwift
+import RxCocoa
 
 public final class AddPhotoButton: View {
-
-  public typealias OnButtonSelected = (UIButton) -> Void
-
-  private var addButton: UIButton = {
+  fileprivate let addButton: UIButton = {
     let button = UIButton()
     let addPlusImage = UIImage(named: "add_plus.icon", in: .framework, compatibleWith: nil)!
     button.setImage(addPlusImage , for: .normal)
@@ -18,13 +12,11 @@ public final class AddPhotoButton: View {
     return button
   }()
 
-  public var onSelected: OnButtonSelected?
-
+  @available(*, unavailable)
   public override func setupView() {
     backgroundColor = .grease
     layer.cornerRadius = Radius.big
     addSubview(addButton)
-    addButton.addTarget(self, action: #selector(onButtonSelected(_:)), for: .touchUpInside)
   }
 
   public override func setupConstraints() {
@@ -32,8 +24,12 @@ public final class AddPhotoButton: View {
       make.edges.equalTo(self)
     }
   }
+}
 
-  @objc private func onButtonSelected(_ sender: UIButton) {
-    onSelected?(sender)
+// MARK: - View Bindings
+
+extension Reactive where Base: AddPhotoButton {
+  public var buttonWasTapped: Observable<Void> {
+    return base.addButton.rx.buttonWasTapped
   }
 }
