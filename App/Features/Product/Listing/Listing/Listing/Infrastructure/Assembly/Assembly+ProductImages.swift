@@ -6,19 +6,18 @@ protocol ProductImagesProvider {
 
 extension Assembly: ProductImagesProvider {
   func makeProductImages() -> UIViewController {
-    let viewController = ProductImagesViewController()
-//    viewController.viewModel = viewModel(for: viewController)
+    let viewController = ProductImagesViewController(
+      viewBinder: viewBinder
+    )
+    viewController.viewModel = viewModel(for: viewController)
     return viewController
   }
   
-//  private func viewModel(for viewController: UIViewController) -> ProductSelectorViewModelType {
-//    return ProductSelectorViewModel(
-//      productDraft: productDraftActions,
-//      productDescriptionNavigator: productDescriptionNavigator(from: viewController)
-//    )
-//  }
+  private func viewModel(for viewController: UIViewController) -> ProductImagesViewModelType {
+    return ProductImagesViewModel()
+  }
   
-//  private var viewBinder: ProductSelectorViewBinder {
-//    return ProductSelectorViewBinder()
-//  }
+  private var viewBinder: ProductImagesViewBinder {
+    return ProductImagesViewBinder()
+  }
 }

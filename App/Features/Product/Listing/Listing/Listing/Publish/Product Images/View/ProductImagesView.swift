@@ -1,6 +1,11 @@
 import UI
+import RxSwift
+import RxCocoa
 
 final class ProductImagesView: View {
+  let imageSelectionRelay = BehaviorRelay<UIImage?>(value: nil)
+  let imageDeselectionRelay = BehaviorRelay<UIImage?>(value: nil)
+  
   private let titleView: TitleView = {
     let titleView = TitleView()
     titleView.title = Localize("product_images.title", table: Table.productImages)
@@ -33,7 +38,7 @@ final class ProductImagesView: View {
   private let addPhotoBottom4 = AddPhotoButton()
   private let addPhotoBottom5 = AddPhotoButton()
 
-  private let nextStepButton: FullWidthButton = {
+  fileprivate let nextButton: FullWidthButton = {
     let button = FullWidthButton()
     let title = Localize("product_images.next_button.title", table: Table.productImages)
     button.setTitle(title, for: .normal)
@@ -53,7 +58,7 @@ final class ProductImagesView: View {
     
     scrollView.addSubview(stackView)
     addSubview(scrollView)
-    addSubview(nextStepButton)
+    addSubview(nextButton)
   }
   
   override func setupConstraints() {
@@ -66,7 +71,7 @@ final class ProductImagesView: View {
       make.leading.equalTo(self)
       make.trailing.equalTo(self)
       make.top.equalTo(titleView.snp.bottom).offset(Margin.medium)
-      make.bottom.equalTo(nextStepButton.snp.top).offset(-Margin.small)
+      make.bottom.equalTo(nextButton.snp.top).offset(-Margin.small)
     }
     stackView.snp.makeConstraints { make in
       make.leading.equalTo(self).offset(Margin.medium)
@@ -85,10 +90,22 @@ final class ProductImagesView: View {
         make.height.equalTo(height)
       }
     }
-    nextStepButton.snp.makeConstraints { make in
+    nextButton.snp.makeConstraints { make in
       make.leading.equalTo(self).offset(Margin.medium)
       make.trailing.equalTo(self).offset(-Margin.medium)
       make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).offset(-Margin.medium)
     }
+  }
+}
+
+// MARK: - View Bindings
+
+extension Reactive where Base: ProductImagesView {
+  var nextButtonIsEnabled: Binder<Bool> {
+    return base.nextButton.rx.isEnabled
+  }
+  
+  var nextButtonWasTapped: Observable<Void> {
+    return base.nextButton.rx.buttonWasTapped
   }
 }
