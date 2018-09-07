@@ -22,6 +22,7 @@ protocol FeatureFlaggeable: class {
     var realEstateNewCopy: RealEstateNewCopy { get }
     var searchImprovements: SearchImprovements { get }
     var relaxedSearch: RelaxedSearch { get }
+    var mutePushNotifications: MutePushNotifications { get }
     var showProTagUserProfile: Bool { get }
     var showExactLocationForPros: Bool { get }
 
@@ -471,6 +472,7 @@ final class FeatureFlags: FeatureFlaggeable {
         
         dao.save(emergencyLocate: EmergencyLocate.fromPosition(abTests.emergencyLocate.value))
         dao.save(community: ShowCommunity.fromPosition(abTests.community.value))
+        
     }
 
     var realEstateEnabled: RealEstateEnabled {
@@ -520,6 +522,21 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.relaxedSearch
         }
         return RelaxedSearch.fromPosition(abTests.relaxedSearch.value)
+    }
+    
+    var mutePushNotifications: MutePushNotifications {
+        if Bumper.enabled {
+            return Bumper.mutePushNotifications
+        }
+        return MutePushNotifications.control // MutePushNotifications.fromPosition(abTests.mutePushNotifications.value)
+    }
+    
+    var mutePushNotificationsStartHour: Int {
+        return abTests.mutePushNotificationsStartHour.value
+    }
+    
+    var mutePushNotificationsEndHour: Int {
+        return abTests.mutePushNotificationsEndHour.value
     }
     
     var showProTagUserProfile: Bool {

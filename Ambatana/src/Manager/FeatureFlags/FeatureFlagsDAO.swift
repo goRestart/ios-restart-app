@@ -11,4 +11,6 @@ protocol FeatureFlagsDAO {
     func save(emergencyLocate: EmergencyLocate)
     func retrieveCommunity() -> ShowCommunity?
     func save(community: ShowCommunity)
+    func retrieveMutePushNotifications() -> (MutePushNotifications, hourStart: Int, hourEnd: Int)?
+    func save(mutePushNotifications: MutePushNotifications, hourStart: Int, hourEnd: Int)
 }

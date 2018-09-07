@@ -315,6 +315,11 @@
         "description": "[VERTICALS] Show Click to talk"
     },
     {
+        "name": "MutePushNotifications",
+        "values": ["control", "baseline", "active"],
+        "description": "[CORE] Push notifications won't make a sound during some night hours."
+    },
+    {
         "name": "MultiAdRequestInChatSectionForUS",
         "values": ["control", "baseline", "active"],
         "description": "[MONEY] Muti ad request in Chat section. For US"
