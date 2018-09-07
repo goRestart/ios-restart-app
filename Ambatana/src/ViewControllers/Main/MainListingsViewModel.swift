@@ -242,10 +242,6 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     var shouldShowUserProfileButton: Bool {
         return featureFlags.community.shouldShowOnTab
     }
-
-    var shouldShowCommunityBanner: Bool {
-        return featureFlags.community.isActive && !listViewModel.isListingListEmpty.value
-    }
     
     private var carSelectedWithFilters: Bool {
         guard filters.selectedCategories.contains(.cars) else { return false }

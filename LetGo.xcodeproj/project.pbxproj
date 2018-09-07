@@ -1332,8 +1332,6 @@
 		6AE143CE204413B000CFAE10 /* UserProfileBioAndTrustView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE143CC204413B000CFAE10 /* UserProfileBioAndTrustView.swift */; };
 		6AE1666E2101F0DA00D6B6ED /* CommunityTabCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE1666D2101F0DA00D6B6ED /* CommunityTabCoordinator.swift */; };
 		6AE1666F2101F10F00D6B6ED /* CommunityTabCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE1666D2101F0DA00D6B6ED /* CommunityTabCoordinator.swift */; };
-		6AE166712107160400D6B6ED /* CommunityHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE166702107160400D6B6ED /* CommunityHeaderView.swift */; };
-		6AE166722107160400D6B6ED /* CommunityHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE166702107160400D6B6ED /* CommunityHeaderView.swift */; };
 		6AEF66B31C5A155C0025D43C /* Paginable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEF66B21C5A155C0025D43C /* Paginable.swift */; };
 		6AEF66B41C5A155C0025D43C /* Paginable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEF66B21C5A155C0025D43C /* Paginable.swift */; };
 		6AF75CFE1CF35EFB00EACCF0 /* ChatStickerCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF75CFD1CF35EFB00EACCF0 /* ChatStickerCellDrawer.swift */; };
@@ -3079,7 +3077,6 @@
 		6ADACDC61CEDC68A008A5603 /* ChatStickersView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatStickersView.swift; sourceTree = "<group>"; };
 		6AE143CC204413B000CFAE10 /* UserProfileBioAndTrustView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileBioAndTrustView.swift; sourceTree = "<group>"; };
 		6AE1666D2101F0DA00D6B6ED /* CommunityTabCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityTabCoordinator.swift; sourceTree = "<group>"; };
-		6AE166702107160400D6B6ED /* CommunityHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityHeaderView.swift; sourceTree = "<group>"; };
 		6AEF66B21C5A155C0025D43C /* Paginable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Paginable.swift; sourceTree = "<group>"; };
 		6AF75CFD1CF35EFB00EACCF0 /* ChatStickerCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatStickerCellDrawer.swift; sourceTree = "<group>"; };
 		6AF75D031CF3600D00EACCF0 /* ChatStickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatStickerCell.swift; sourceTree = "<group>"; };
@@ -5278,7 +5275,6 @@
 				C6F3CEF120FF457A00AF4D38 /* LGCheckboxView.swift */,
 				C6F3CEFA20FF69A800AF4D38 /* LGChevronView.swift */,
 				C202E3F821005A2500E1A5E5 /* Checkbox.swift */,
-				6AE166702107160400D6B6ED /* CommunityHeaderView.swift */,
 				C67F1B20212C429600504C29 /* ExtraInfoTagView.swift */,
 			);
 			path = Widgets;
@@ -8636,7 +8632,6 @@
 				2E4EBFC31EADF63A005FE040 /* CarAttributeSelectionViewController.swift in Sources */,
 				6A38A9A62077610400F3B292 /* UserVerificationNavBarView.swift in Sources */,
 				8E0EEFC22057E785000C07C9 /* MLPredictionDetailsView.swift in Sources */,
-				6AE166712107160400D6B6ED /* CommunityHeaderView.swift in Sources */,
 				0A6FED122130344000B57004 /* UserVerificationWireframe.swift in Sources */,
 				7226F0FB1E962CA200B54D01 /* ChatRelatedItemsState.swift in Sources */,
 				3201487520FF6FAA003445DA /* PushMessageSectionController.swift in Sources */,
@@ -9609,7 +9604,6 @@
 				2E4EBFC41EADF63A005FE040 /* CarAttributeSelectionViewController.swift in Sources */,
 				425EE391211AEE560002DAB8 /* FeedListing+Mapping.swift in Sources */,
 				6A38A9A72077610400F3B292 /* UserVerificationNavBarView.swift in Sources */,
-				6AE166722107160400D6B6ED /* CommunityHeaderView.swift in Sources */,
 				6A879DA91C8DD2BD00E0C868 /* PushPrePermissionsSettingsViewModel.swift in Sources */,
 				3201487620FF6FAA003445DA /* PushMessageSectionController.swift in Sources */,
 				8E0EEFC32057E785000C07C9 /* MLPredictionDetailsView.swift in Sources */,
