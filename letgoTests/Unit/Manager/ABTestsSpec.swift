@@ -41,21 +41,12 @@ final class ABTestsSpec: QuickSpec {
                 products = ProductsABGroup.make()
             }
 
-            context("registering all the variables") { 
-                beforeEach {
-                    sut.registerVariables()
-                }
-                it("registers all the variables") {
-                    expect(syncer.syncedCount) == 63
-                }
-            }
-
             context("registering all the variables") {
                 beforeEach {
                     sut.registerVariables()
                 }
                 it("registers all the variables") {
-                    expect(syncer.syncedCount) == 63
+                    expect(syncer.syncedCount) == 64
                 }
             }
             context("registering all the variables") {

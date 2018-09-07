@@ -17,7 +17,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var userReviewsReportEnabled: Bool = true
 
     var deckItemPage: NewItemPageV3 = .control
-    var cachedFeed: CachedFeed = .control
     var realEstateEnabled: RealEstateEnabled = .control
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio = .control
     var realEstateNewCopy: RealEstateNewCopy = .control
