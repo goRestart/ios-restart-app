@@ -59,6 +59,7 @@
 		2ECF3FA12137291900F3C02E /* ProductDraftViewMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ECF3FA02137291900F3C02E /* ProductDraftViewMapper.swift */; };
 		2ECF3FA321372D2E00F3C02E /* ProductSummaryViewBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ECF3FA221372D2E00F3C02E /* ProductSummaryViewBinder.swift */; };
 		2EF18F5B21431595009D7B3A /* ProductImagesViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF18F5A21431595009D7B3A /* ProductImagesViewModelType.swift */; };
+		2EF18F5D21431692009D7B3A /* ProductImagesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF18F5C21431692009D7B3A /* ProductImagesViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -116,6 +117,7 @@
 		2ECF3FA02137291900F3C02E /* ProductDraftViewMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDraftViewMapper.swift; sourceTree = "<group>"; };
 		2ECF3FA221372D2E00F3C02E /* ProductSummaryViewBinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSummaryViewBinder.swift; sourceTree = "<group>"; };
 		2EF18F5A21431595009D7B3A /* ProductImagesViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductImagesViewModelType.swift; sourceTree = "<group>"; };
+		2EF18F5C21431692009D7B3A /* ProductImagesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductImagesViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -525,6 +527,7 @@
 			isa = PBXGroup;
 			children = (
 				2EF18F5A21431595009D7B3A /* ProductImagesViewModelType.swift */,
+				2EF18F5C21431692009D7B3A /* ProductImagesViewModel.swift */,
 			);
 			path = "View Model";
 			sourceTree = "<group>";
@@ -651,6 +654,7 @@
 				1C05A21B2040B879007DB1DA /* ProductSelectorViewModel.swift in Sources */,
 				1C05A21F2040BA20007DB1DA /* ProductSelectorViewController.swift in Sources */,
 				2E8F012B212F417800DA65E6 /* ProductSelectorViewBinder.swift in Sources */,
+				2EF18F5D21431692009D7B3A /* ProductImagesViewModel.swift in Sources */,
 				1CC119292041C62100ED6369 /* Assembly+ProductPrice.swift in Sources */,
 				2ECF3F9C213726DC00F3C02E /* ProductDraftUIModel.swift in Sources */,
 				2E71A90C21318FFF009D24A9 /* Assembly+ProductExtras.swift in Sources */,
