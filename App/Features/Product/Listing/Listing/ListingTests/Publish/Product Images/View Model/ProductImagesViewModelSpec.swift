@@ -7,15 +7,15 @@ import RxCocoa
 final class ProductImagesViewModelSpec: XCTestCase {
   
   private var sut: ProductImagesViewModelType!
-  private var productImagesCoordinator: ProductImagesCoordinatorSpy!
+  private var coordinator: ProductImagesCoordinatorSpy!
   private let scheduler = TestScheduler(initialClock: 0)
   private let bag = DisposeBag()
   
   override func setUp() {
     super.setUp()
-    productImagesCoordinator = ProductImagesCoordinatorSpy()
+    coordinator = ProductImagesCoordinatorSpy()
     sut = ProductImagesViewModel(
-      productImagesCoordinator: productImagesCoordinator
+      coordinator: coordinator
     )
   }
   
@@ -69,7 +69,7 @@ final class ProductImagesViewModelSpec: XCTestCase {
   func test_should_open_camera_if_image_is_empty() {
     sut.input.onSelectButton(with: 1)
     
-    XCTAssertTrue(productImagesCoordinator.openCameraWasCalled)
+    XCTAssertTrue(coordinator.openCameraWasCalled)
   }
   
   func test_should_send_image_removal_event_if_image_is_already_selected() {
@@ -94,7 +94,7 @@ final class ProductImagesViewModelSpec: XCTestCase {
   func test_should_open_description_if_next_button_is_pressed() {
     sut.input.onNextStepPressed()
     
-    XCTAssertTrue(productImagesCoordinator.openDescriptionWasCalled)
+    XCTAssertTrue(coordinator.openDescriptionWasCalled)
   }
   
   // MARK: - Observers
