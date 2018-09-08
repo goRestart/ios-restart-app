@@ -2,7 +2,7 @@ import UI
 
 final class ProductImagesViewController: ViewController {
 
-  private let productImagesView = ProductImagesView()
+  fileprivate let productImagesView = ProductImagesView()
   private let viewBinder: ProductImagesViewBinder
   
   var viewModel: ProductImagesViewModelType!
@@ -18,5 +18,14 @@ final class ProductImagesViewController: ViewController {
   
   override func bindViewModel() {
     viewBinder.bind(productImagesView, to: viewModel, using: bag)
+  }
+}
+
+// MARK: - ProductImagesCoordinatorIndex
+
+extension ProductImagesViewController: ProductImagesCoordinatorIndex {
+  func didSelectImage(_ image: UIImage, with index: Int) {
+    viewModel.input.onAdd(image: image, with: index)
+    productImagesView.onImageSelected(image: image, with: index)
   }
 }

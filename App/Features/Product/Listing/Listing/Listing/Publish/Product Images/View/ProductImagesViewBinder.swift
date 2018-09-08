@@ -3,21 +3,44 @@ import RxCocoa
 
 struct ProductImagesViewBinder {
   func bind(_ view: ProductImagesView, to viewModel: ProductImagesViewModelType, using bag: DisposeBag) {
-    
     viewModel.output.nextStepEnabled
       .drive(view.rx.nextButtonIsEnabled)
       .disposed(by: bag)
     
-    view.imageSelectionRelay.subscribe(onNext: { image in
-      guard let image = image else { return }
-      viewModel.input.onAdd(image: image)
+    viewModel.output.imageIndexShouldBeRemoved
+      .asObservable()
+      .subscribe(onNext: { index in
+        view.showImageRemoveAlert(for: index)
     }).disposed(by: bag)
     
-    view.imageDeselectionRelay.subscribe(onNext: { image in
-      guard let image = image else { return }
-      viewModel.input.onRemove(image: image)
+    view.imageSelectionRelay.subscribe(onNext: { imageSelection in
+      viewModel.input.onAdd(image: imageSelection.image, with: imageSelection.index)
     }).disposed(by: bag)
     
+    view.imageDeselectionRelay.subscribe(onNext: { index in
+      viewModel.input.onRemoveImage(with: index)
+    }).disposed(by: bag)
+    
+    view.rx.addImage1WasTapped.subscribe { _ in
+      viewModel.input.onSelectButton(with: 1)
+    }.disposed(by: bag)
+    
+    view.rx.addImage2WasTapped.subscribe { _ in
+      viewModel.input.onSelectButton(with: 2)
+    }.disposed(by: bag)
+    
+    view.rx.addImage3WasTapped.subscribe { _ in
+      viewModel.input.onSelectButton(with: 3)
+    }.disposed(by: bag)
+    
+    view.rx.addImage4WasTapped.subscribe { _ in
+      viewModel.input.onSelectButton(with: 4)
+    }.disposed(by: bag)
+    
+    view.rx.addImage5WasTapped.subscribe { _ in
+      viewModel.input.onSelectButton(with: 5)
+    }.disposed(by: bag)
+
     view.rx.nextButtonWasTapped.subscribe { _ in
       viewModel.input.onNextStepPressed()
     }.disposed(by: bag)

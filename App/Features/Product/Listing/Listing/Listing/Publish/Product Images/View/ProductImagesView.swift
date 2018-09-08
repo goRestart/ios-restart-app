@@ -2,9 +2,11 @@ import UI
 import RxSwift
 import RxCocoa
 
+typealias ImageSelection = (image: UIImage, index: Int)
+
 final class ProductImagesView: View {
-  let imageSelectionRelay = BehaviorRelay<UIImage?>(value: nil)
-  let imageDeselectionRelay = BehaviorRelay<UIImage?>(value: nil)
+  let imageSelectionRelay = PublishRelay<ImageSelection>()
+  let imageDeselectionRelay = PublishRelay<Int>()
   
   private let titleView: TitleView = {
     let titleView = TitleView()
@@ -32,11 +34,11 @@ final class ProductImagesView: View {
     return scrollView
   }()
   
-  private let addPhotoBottom1 = AddPhotoButton()
-  private let addPhotoBottom2 = AddPhotoButton()
-  private let addPhotoBottom3 = AddPhotoButton()
-  private let addPhotoBottom4 = AddPhotoButton()
-  private let addPhotoBottom5 = AddPhotoButton()
+  fileprivate let addPhotoBottom1 = AddPhotoButton()
+  fileprivate let addPhotoBottom2 = AddPhotoButton()
+  fileprivate let addPhotoBottom3 = AddPhotoButton()
+  fileprivate let addPhotoBottom4 = AddPhotoButton()
+  fileprivate let addPhotoBottom5 = AddPhotoButton()
 
   fileprivate let nextButton: FullWidthButton = {
     let button = FullWidthButton()
@@ -96,6 +98,63 @@ final class ProductImagesView: View {
       make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).offset(-Margin.medium)
     }
   }
+  
+  // MARK: - Public
+
+  func onImageSelected(image: UIImage, with index: Int) {
+    switch index {
+    case 1:
+      addPhotoBottom1.set(state: .filled(image))
+    case 2:
+      addPhotoBottom2.set(state: .filled(image))
+    case 3:
+      addPhotoBottom3.set(state: .filled(image))
+    case 4:
+      addPhotoBottom4.set(state: .filled(image))
+    case 5:
+      addPhotoBottom5.set(state: .filled(image))
+    default:
+      break
+    }
+  }
+
+  func showImageRemoveAlert(for index: Int) {
+    let alert = UIAlertController(
+      title: Localize("product_images.delete_confirmation_alert.title", Table.productImages),
+      message: Localize("product_images.delete_confirmation_alert.message", Table.productImages),
+      preferredStyle: .alert
+    )
+    
+    let deleteAction = UIAlertAction(title: Localize("generic.action.delete", Table.generic), style: .destructive) { [weak self] _ in
+      self?.removeImage(at: index)
+      self?.imageDeselectionRelay.accept(index)
+    }
+    let cancelAction = UIAlertAction(title: Localize("generic.action.cancel", Table.generic), style: .cancel)
+    
+    alert.addAction(deleteAction)
+    alert.addAction(cancelAction)
+    
+    parentViewController?.present(alert, animated: true)
+  }
+  
+  // MARK: - Private
+  
+  private func removeImage(at index: Int) {
+    switch index {
+    case 1:
+      addPhotoBottom1.set(state: .empty)
+    case 2:
+      addPhotoBottom2.set(state: .empty)
+    case 3:
+      addPhotoBottom3.set(state: .empty)
+    case 4:
+      addPhotoBottom4.set(state: .empty)
+    case 5:
+      addPhotoBottom5.set(state: .empty)
+    default:
+      break
+    }
+  }
 }
 
 // MARK: - View Bindings
@@ -107,5 +166,25 @@ extension Reactive where Base: ProductImagesView {
   
   var nextButtonWasTapped: Observable<Void> {
     return base.nextButton.rx.buttonWasTapped
+  }
+  
+  var addImage1WasTapped: Observable<Void> {
+    return base.addPhotoBottom1.rx.buttonWasTapped
+  }
+  
+  var addImage2WasTapped: Observable<Void> {
+    return base.addPhotoBottom2.rx.buttonWasTapped
+  }
+  
+  var addImage3WasTapped: Observable<Void> {
+    return base.addPhotoBottom3.rx.buttonWasTapped
+  }
+  
+  var addImage4WasTapped: Observable<Void> {
+    return base.addPhotoBottom4.rx.buttonWasTapped
+  }
+  
+  var addImage5WasTapped: Observable<Void> {
+    return base.addPhotoBottom5.rx.buttonWasTapped
   }
 }

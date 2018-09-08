@@ -3,3 +3,5 @@
 */
 
 "generic.product.free" = "Free";
+"generic.action.delete" = "Delete";
+"generic.action.cancel" = "Cancel";

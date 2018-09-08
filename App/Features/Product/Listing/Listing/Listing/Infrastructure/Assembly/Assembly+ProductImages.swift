@@ -13,8 +13,23 @@ extension Assembly: ProductImagesProvider {
     return viewController
   }
   
-  private func viewModel(for viewController: UIViewController) -> ProductImagesViewModelType {
-    return ProductImagesViewModel()
+  private func viewModel(for viewController: ProductImagesViewController) -> ProductImagesViewModelType {
+    return ProductImagesViewModel(
+      productImagesCoordinator: productImagesCoordinator(with: viewController)
+    )
+  }
+  
+  private func productImagesCoordinator(with viewController: ProductImagesViewController) -> ProductImagesCoordinator {
+    let coordinator = ProductImagesCoordinator(
+      cameraNavigator: cameraNavigator(from: viewController),
+      productSelectorNavigator: productSelectorNavigator(from: viewController)
+    )
+    coordinator.delegate = viewController
+    return coordinator
+  }
+  
+  private func cameraNavigator(from viewController: UIViewController) -> CameraNavigator {
+    return CameraNavigator(from: viewController)
   }
   
   private var viewBinder: ProductImagesViewBinder {
