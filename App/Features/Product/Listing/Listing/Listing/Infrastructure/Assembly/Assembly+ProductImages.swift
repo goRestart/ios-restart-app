@@ -15,11 +15,11 @@ extension Assembly: ProductImagesProvider {
   
   private func viewModel(for viewController: ProductImagesViewController) -> ProductImagesViewModelType {
     return ProductImagesViewModel(
-      productImagesCoordinator: productImagesCoordinator(with: viewController)
+      coordinator: productImagesCoordinator(with: viewController)
     )
   }
   
-  private func productImagesCoordinator(with viewController: ProductImagesViewController) -> ProductImagesCoordinator {
+  private func productImagesCoordinator(with viewController: ProductImagesViewController) -> ProductImagesCoordinable {
     let coordinator = ProductImagesCoordinator(
       cameraNavigator: cameraNavigator(from: viewController),
       productSelectorNavigator: productSelectorNavigator(from: viewController)

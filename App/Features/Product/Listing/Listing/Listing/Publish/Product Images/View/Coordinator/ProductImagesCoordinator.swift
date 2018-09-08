@@ -4,7 +4,7 @@ protocol ProductImagesCoordinatorIndex: class {
   func didSelectImage(_ image: UIImage, with index: Int)
 }
 
-final class ProductImagesCoordinator {
+final class ProductImagesCoordinator: ProductImagesCoordinable {
 
   private let cameraNavigator: CameraNavigator
   private let productSelectorNavigator: ProductSelectorNavigator

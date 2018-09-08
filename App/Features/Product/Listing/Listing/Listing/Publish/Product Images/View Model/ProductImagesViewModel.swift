@@ -10,11 +10,10 @@ final class ProductImagesViewModel: ProductImagesViewModelType, ProductImagesVie
   var output: ProductImagesViewModelOutput { return self }
   
   private var imagesStatus = [Int: ImageStatus]()
+  private let coordinator: ProductImagesCoordinable
   
-  private let productImagesCoordinator: ProductImagesCoordinator
-  
-  init(productImagesCoordinator: ProductImagesCoordinator) {
-    self.productImagesCoordinator = productImagesCoordinator
+  init(coordinator: ProductImagesCoordinable) {
+    self.coordinator = coordinator
   }
   
   // MARK: - Output
@@ -34,7 +33,7 @@ final class ProductImagesViewModel: ProductImagesViewModelType, ProductImagesVie
   func onSelectButton(with index: Int) {
     let imageIsAlreadyFilled = imagesStatus[index] != nil
     guard imageIsAlreadyFilled else {
-      productImagesCoordinator.openCamera(with: index)
+      coordinator.openCamera(with: index)
       return
     }
     imageIndexRemovalRelay.accept(index)
@@ -53,6 +52,6 @@ final class ProductImagesViewModel: ProductImagesViewModelType, ProductImagesVie
   }
 
   func onNextStepPressed() {
-    productImagesCoordinator.openDescription()
+    coordinator.openDescription()
   }
 }
