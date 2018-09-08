@@ -24,3 +24,14 @@ extension Assembly: ProductSelectorProvider {
     return ProductSelectorViewBinder()
   }
 }
+
+// MARK: - Navigator
+
+extension Assembly {
+  func productSelectorNavigator(from: UIViewController) -> ProductSelectorNavigator {
+    return ProductSelectorNavigator(
+      from: from,
+      productSelectorProvider: self
+    )
+  }
+}
