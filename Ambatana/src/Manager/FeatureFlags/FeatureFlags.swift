@@ -467,11 +467,10 @@ final class FeatureFlags: FeatureFlaggeable {
 
     func variablesUpdated() {
         defer { abTests.variablesUpdated() }
-        guard Bumper.enabled else { return }
+        guard !Bumper.enabled else { return }
         
         dao.save(emergencyLocate: EmergencyLocate.fromPosition(abTests.emergencyLocate.value))
         dao.save(community: ShowCommunity.fromPosition(abTests.community.value))
-        
     }
 
     var realEstateEnabled: RealEstateEnabled {
