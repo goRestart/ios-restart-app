@@ -106,6 +106,18 @@ final class ProductImagesViewModelSpec: XCTestCase {
     XCTAssertTrue(productDraft.saveImagesWasCalled)
   }
   
+  func test_should_close_clear_product_draft_if_close_button_is_pressed() {
+    sut.input.onCloseButtonPressed()
+    
+    XCTAssertTrue(productDraft.clearWasCalled)
+  }
+  
+  func test_should_close_product_images_if_close_button_is_pressed() {
+    sut.input.onCloseButtonPressed()
+    
+    XCTAssertTrue(coordinator.closeWasCalled)
+  }
+  
   // MARK: - Observers
 
   private func givenNextStepIsEnabled() -> TestableObserver<Bool> {

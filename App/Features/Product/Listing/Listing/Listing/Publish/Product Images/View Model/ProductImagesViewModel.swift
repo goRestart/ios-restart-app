@@ -61,6 +61,7 @@ final class ProductImagesViewModel: ProductImagesViewModelType, ProductImagesVie
   }
   
   func onCloseButtonPressed() {
+    productDraft.clear()
     coordinator.close()
   }
 }

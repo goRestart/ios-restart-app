@@ -30,6 +30,10 @@ public struct ProductDraftActions: ProductDraftUseCase {
     productDraftRepository.set(productExtras: productExtras)
   }
   
+  public func clear() {
+    productDraftRepository.clear()
+  }
+  
   public func get() -> ProductDraft {
     return productDraftRepository.get()
   }

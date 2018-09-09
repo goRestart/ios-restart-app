@@ -3,6 +3,7 @@
 final class ProductImagesCoordinatorSpy: ProductImagesCoordinable {
   var openDescriptionWasCalled = false
   var openCameraWasCalled = false
+  var closeWasCalled = false
   
   func openDescription() {
     openDescriptionWasCalled = true
@@ -10,5 +11,9 @@ final class ProductImagesCoordinatorSpy: ProductImagesCoordinable {
   
   func openCamera(with index: Int) {
     openCameraWasCalled = true
+  }
+  
+  func close() {
+    closeWasCalled = true
   }
 }

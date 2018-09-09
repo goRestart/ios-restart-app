@@ -6,5 +6,6 @@ protocol ProductDraftDataSource {
   func set(description: String)
   func set(price: Double)
   func set(productExtras: [Identifier<Product.Extra>])
+  func clear()
   func get() -> ProductDraft
 }

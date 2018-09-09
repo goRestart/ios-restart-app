@@ -6,5 +6,6 @@ public protocol ProductDraftUseCase {
   func save(description: String)
   func save(price: Double)
   func save(productExtras: [Identifier<Product.Extra>])
+  func clear()
   func get() -> ProductDraft
 }

@@ -6,6 +6,7 @@ final class ProductDraftSpy: ProductDraftUseCase {
   var saveDescriptionWasCalled = false
   var savePriceWasCalled = false
   var saveProductExtrasWasCalled = false
+  var clearWasCalled = false
   var getProductDraftWasCalled = false
   
   func save(images: [UIImage]) {
@@ -26,6 +27,10 @@ final class ProductDraftSpy: ProductDraftUseCase {
   
   func save(productExtras: [Identifier<Product.Extra>]) {
     saveProductExtrasWasCalled = true
+  }
+  
+  func clear() {
+    clearWasCalled = true
   }
   
   func get() -> ProductDraft {

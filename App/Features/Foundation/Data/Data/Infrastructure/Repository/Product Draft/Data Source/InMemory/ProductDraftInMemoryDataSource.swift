@@ -31,6 +31,15 @@ final class ProductDraftInMemoryDataSource: ProductDraftDataSource {
     self.productExtras = productExtras
   }
   
+  func clear() {
+    images = []
+    productTitle = nil
+    productId = nil
+    description = nil
+    price = nil
+    productExtras = []
+  }
+  
   func get() -> ProductDraft {
     var price: Product.Price?
     if let amount = self.price {

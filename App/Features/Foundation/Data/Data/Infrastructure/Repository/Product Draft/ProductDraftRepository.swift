@@ -28,6 +28,10 @@ public struct ProductDraftRepository {
     inMemoryDataSource.set(productExtras: productExtras)
   }
   
+  public func clear() {
+    inMemoryDataSource.clear()
+  }
+  
   public func get() -> ProductDraft {
     return inMemoryDataSource.get()
   }
