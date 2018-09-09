@@ -1,19 +1,23 @@
+import Domain
 import RxSwift
 import RxCocoa
-
-private enum ImageStatus {
-  case filled(UIImage)
-}
 
 final class ProductImagesViewModel: ProductImagesViewModelType, ProductImagesViewModelInput, ProductImagesViewModelOutput {
   var input: ProductImagesViewModelInput { return self }
   var output: ProductImagesViewModelOutput { return self }
   
-  private var imagesStatus = [Int: ImageStatus]()
+  private var imagesStatus = [Int: UIImage]()
+  private var images: [UIImage] {
+    return imagesStatus.map { $0.value }
+  }
   private let coordinator: ProductImagesCoordinable
+  private let productDraft: ProductDraftUseCase
   
-  init(coordinator: ProductImagesCoordinable) {
+  init(coordinator: ProductImagesCoordinable,
+       productDraft: ProductDraftUseCase)
+  {
     self.coordinator = coordinator
+    self.productDraft = productDraft
   }
   
   // MARK: - Output
@@ -40,7 +44,7 @@ final class ProductImagesViewModel: ProductImagesViewModelType, ProductImagesVie
   }
   
   func onAdd(image: UIImage, with index: Int) {
-    imagesStatus[index] = .filled(image)
+    imagesStatus[index] = image
     addedImagesRelay.accept(true)
   }
   
@@ -52,6 +56,7 @@ final class ProductImagesViewModel: ProductImagesViewModelType, ProductImagesVie
   }
 
   func onNextStepPressed() {
+    productDraft.save(images: images)
     coordinator.openDescription()
   }
 }

@@ -8,6 +8,10 @@ public struct ProductDraftRepository {
     self.inMemoryDataSource = inMemoryDataSource
   }
   
+  public func set(images: [UIImage]) {
+    inMemoryDataSource.set(images: images)
+  }
+  
   public func set(with title: String, productId: Identifier<Product>) {
     inMemoryDataSource.set(with: title, productId: productId)
   }

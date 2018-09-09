@@ -3,11 +3,16 @@ import Domain
 final class ProductDraftInMemoryDataSource: ProductDraftDataSource {
   static let shared = ProductDraftInMemoryDataSource()
   
+  private var images = [UIImage]()
   private var productTitle: String?
   private var productId: Identifier<Product>?
   private var description: String?
   private var price: Double?
   private var productExtras = [Identifier<Product.Extra>]()
+  
+  func set(images: [UIImage]) {
+    self.images = images
+  }
   
   func set(with title: String, productId: Identifier<Product>) {
     self.productTitle = title
@@ -37,7 +42,7 @@ final class ProductDraftInMemoryDataSource: ProductDraftDataSource {
       description: description,
       price: price,
       productExtras: productExtras,
-      productImages: [] // TODO
+      productImages: images
     )
   }
 }

@@ -8,14 +8,17 @@ final class ProductImagesViewModelSpec: XCTestCase {
   
   private var sut: ProductImagesViewModelType!
   private var coordinator: ProductImagesCoordinatorSpy!
+  private var productDraft: ProductDraftSpy!
   private let scheduler = TestScheduler(initialClock: 0)
   private let bag = DisposeBag()
   
   override func setUp() {
     super.setUp()
     coordinator = ProductImagesCoordinatorSpy()
+    productDraft = ProductDraftSpy()
     sut = ProductImagesViewModel(
-      coordinator: coordinator
+      coordinator: coordinator,
+      productDraft: productDraft
     )
   }
   
@@ -95,6 +98,12 @@ final class ProductImagesViewModelSpec: XCTestCase {
     sut.input.onNextStepPressed()
     
     XCTAssertTrue(coordinator.openDescriptionWasCalled)
+  }
+  
+  func test_should_save_product_images_if_next_button_is_pressed() {
+    sut.input.onNextStepPressed()
+    
+    XCTAssertTrue(productDraft.saveImagesWasCalled)
   }
   
   // MARK: - Observers

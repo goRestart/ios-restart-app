@@ -15,7 +15,8 @@ extension Assembly: ProductImagesProvider {
   
   private func viewModel(for viewController: ProductImagesViewController) -> ProductImagesViewModelType {
     return ProductImagesViewModel(
-      coordinator: productImagesCoordinator(with: viewController)
+      coordinator: productImagesCoordinator(with: viewController),
+      productDraft: productDraftActions
     )
   }
   
