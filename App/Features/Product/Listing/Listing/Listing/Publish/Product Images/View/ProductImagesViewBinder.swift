@@ -22,23 +22,23 @@ struct ProductImagesViewBinder {
     }).disposed(by: bag)
     
     view.rx.addImage1WasTapped.subscribe { _ in
-      viewModel.input.onSelectButton(with: 1)
+      viewModel.input.onImageSelected(with: 1)
     }.disposed(by: bag)
     
     view.rx.addImage2WasTapped.subscribe { _ in
-      viewModel.input.onSelectButton(with: 2)
+      viewModel.input.onImageSelected(with: 2)
     }.disposed(by: bag)
     
     view.rx.addImage3WasTapped.subscribe { _ in
-      viewModel.input.onSelectButton(with: 3)
+      viewModel.input.onImageSelected(with: 3)
     }.disposed(by: bag)
     
     view.rx.addImage4WasTapped.subscribe { _ in
-      viewModel.input.onSelectButton(with: 4)
+      viewModel.input.onImageSelected(with: 4)
     }.disposed(by: bag)
     
     view.rx.addImage5WasTapped.subscribe { _ in
-      viewModel.input.onSelectButton(with: 5)
+      viewModel.input.onImageSelected(with: 5)
     }.disposed(by: bag)
 
     view.rx.nextButtonWasTapped.subscribe { _ in

@@ -2,7 +2,7 @@ import RxSwift
 import RxCocoa
 
 protocol ProductImagesViewModelInput {
-  func onSelectButton(with index: Int)
+  func onImageSelected(with index: Int)
   func onAdd(image: UIImage, with index: Int)
   func onRemoveImage(with index: Int)
   func onNextStepPressed()

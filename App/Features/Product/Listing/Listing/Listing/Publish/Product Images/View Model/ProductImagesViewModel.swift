@@ -30,7 +30,7 @@ final class ProductImagesViewModel: ProductImagesViewModelType, ProductImagesVie
   
   // MARK: - Input
 
-  func onSelectButton(with index: Int) {
+  func onImageSelected(with index: Int) {
     let imageIsAlreadyFilled = imagesStatus[index] != nil
     guard imageIsAlreadyFilled else {
       coordinator.openCamera(with: index)

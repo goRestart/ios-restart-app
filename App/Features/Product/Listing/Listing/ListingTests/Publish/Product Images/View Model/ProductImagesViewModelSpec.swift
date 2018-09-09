@@ -66,8 +66,8 @@ final class ProductImagesViewModelSpec: XCTestCase {
     XCTAssertEqual(nextStepIsEnabled.events, expectedEvents)
   }
   
-  func test_should_open_camera_if_image_is_empty() {
-    sut.input.onSelectButton(with: 1)
+  func test_should_open_camera_if_image_is_not_selected() {
+    sut.input.onImageSelected(with: 1)
     
     XCTAssertTrue(coordinator.openCameraWasCalled)
   }
@@ -82,7 +82,7 @@ final class ProductImagesViewModelSpec: XCTestCase {
     let image = UIImage()
     
     sut.input.onAdd(image: image, with: 1)
-    sut.input.onSelectButton(with: 1)
+    sut.input.onImageSelected(with: 1)
     
     let expectedEvents: [Recorded<Event<Int>>] = [
       .next(0, 1)
