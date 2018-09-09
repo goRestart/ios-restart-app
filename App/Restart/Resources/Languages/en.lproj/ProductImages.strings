@@ -1,0 +1,11 @@
+/*
+ Product Images
+ */
+
+"product_images.title" = "Add some photos";
+"product_images.next_button.title" = "Next ➞";
+
+// MARK: - Delete confirmation
+
+"product_images.delete_confirmation_alert.title" = "Delete confirmation";
+"product_images.delete_confirmation_alert.message" = "Do you want to delete the current image";

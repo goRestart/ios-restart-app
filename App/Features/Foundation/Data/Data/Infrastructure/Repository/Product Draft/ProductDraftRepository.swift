@@ -8,6 +8,10 @@ public struct ProductDraftRepository {
     self.inMemoryDataSource = inMemoryDataSource
   }
   
+  public func set(images: [UIImage]) {
+    inMemoryDataSource.set(images: images)
+  }
+  
   public func set(with title: String, productId: Identifier<Product>) {
     inMemoryDataSource.set(with: title, productId: productId)
   }
@@ -22,6 +26,10 @@ public struct ProductDraftRepository {
   
   public func set(productExtras: [Identifier<Product.Extra>]) {
     inMemoryDataSource.set(productExtras: productExtras)
+  }
+  
+  public func clear() {
+    inMemoryDataSource.clear()
   }
   
   public func get() -> ProductDraft {

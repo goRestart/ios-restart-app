@@ -51,8 +51,11 @@
 		2E7B9B35213314FE00E4B6F5 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7B9B34213314FE00E4B6F5 /* Image.swift */; };
 		2E7B9B372133151D00E4B6F5 /* ImageCarouselListAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7B9B362133151D00E4B6F5 /* ImageCarouselListAdapter.swift */; };
 		2E7B9B3A21331D0000E4B6F5 /* UIImageView+ImageLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7B9B3921331D0000E4B6F5 /* UIImageView+ImageLoading.swift */; };
+		2EC6876F2145024C00A04133 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC6876E2145024C00A04133 /* Images.swift */; };
+		2EC68772214502B000A04133 /* UIImage+Extras.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC68771214502B000A04133 /* UIImage+Extras.swift */; };
 		2EC6F10D21329553002F6400 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC6F10C21329553002F6400 /* NavigationController.swift */; };
 		2EC6F10F213295D4002F6400 /* TitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC6F10E213295D4002F6400 /* TitleView.swift */; };
+		2EF18F8D21434B7C009D7B3A /* UIResponder+ParentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF18F8C21434B7C009D7B3A /* UIResponder+ParentViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -116,8 +119,11 @@
 		2E7B9B34213314FE00E4B6F5 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		2E7B9B362133151D00E4B6F5 /* ImageCarouselListAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCarouselListAdapter.swift; sourceTree = "<group>"; };
 		2E7B9B3921331D0000E4B6F5 /* UIImageView+ImageLoading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+ImageLoading.swift"; sourceTree = "<group>"; };
+		2EC6876E2145024C00A04133 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
+		2EC68771214502B000A04133 /* UIImage+Extras.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extras.swift"; sourceTree = "<group>"; };
 		2EC6F10C21329553002F6400 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		2EC6F10E213295D4002F6400 /* TitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleView.swift; sourceTree = "<group>"; };
+		2EF18F8C21434B7C009D7B3A /* UIResponder+ParentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIResponder+ParentViewController.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -321,7 +327,9 @@
 		1CD52B11204742F300F13E5F /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				2EF18F8B21434B6E009D7B3A /* UIResponder */,
 				2E7B9B3821331CF200E4B6F5 /* UIImageView */,
+				2EC687702145029D00A04133 /* UIImage */,
 				2EC6F10B21329547002F6400 /* NavigationController */,
 				2E71A9312131DA20009D24A9 /* TabBarController */,
 				2E07F2FB212DEEAB00C63BE1 /* UIButton */,
@@ -350,6 +358,7 @@
 				2E71A9192131A6B3009D24A9 /* CheckBox */,
 				2E7B9B152132D49B00E4B6F5 /* Image Carousel */,
 				1CCA37852006A35900D86072 /* TabBar */,
+				2EC6876D2145024200A04133 /* Images */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -541,12 +550,36 @@
 			path = UIImageView;
 			sourceTree = "<group>";
 		};
+		2EC6876D2145024200A04133 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				2EC6876E2145024C00A04133 /* Images.swift */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		2EC687702145029D00A04133 /* UIImage */ = {
+			isa = PBXGroup;
+			children = (
+				2EC68771214502B000A04133 /* UIImage+Extras.swift */,
+			);
+			path = UIImage;
+			sourceTree = "<group>";
+		};
 		2EC6F10B21329547002F6400 /* NavigationController */ = {
 			isa = PBXGroup;
 			children = (
 				2EC6F10C21329553002F6400 /* NavigationController.swift */,
 			);
 			path = NavigationController;
+			sourceTree = "<group>";
+		};
+		2EF18F8B21434B6E009D7B3A /* UIResponder */ = {
+			isa = PBXGroup;
+			children = (
+				2EF18F8C21434B7C009D7B3A /* UIResponder+ParentViewController.swift */,
+			);
+			path = UIResponder;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -687,11 +720,13 @@
 				1C0263631FF5B9570040346B /* Input.swift in Sources */,
 				2E7B9B3A21331D0000E4B6F5 /* UIImageView+ImageLoading.swift in Sources */,
 				1CD7A9931FF55AD000CB895D /* Fontable.swift in Sources */,
+				2EC6876F2145024C00A04133 /* Images.swift in Sources */,
 				1CD52B142047430F00F13E5F /* Bundle+Framework.swift in Sources */,
 				2E7B9B312133128E00E4B6F5 /* ImageCarouselCell.swift in Sources */,
 				2E7B9B172132D4B700E4B6F5 /* ImageCarousel.swift in Sources */,
 				1CD7A9A21FF562E800CB895D /* CAGradientLayer+Gradient.swift in Sources */,
 				1C7F4C5A1FFC2EC0001BEB62 /* LargeButton.swift in Sources */,
+				2EC68772214502B000A04133 /* UIImage+Extras.swift in Sources */,
 				1C7F4C4F1FF7DFBB001BEB62 /* FullWidthButton+Rx.swift in Sources */,
 				2E7B9B372133151D00E4B6F5 /* ImageCarouselListAdapter.swift in Sources */,
 				1C0263651FF5BBE50040346B /* InputTextField.swift in Sources */,
@@ -711,6 +746,7 @@
 				1CCA37892006A84A00D86072 /* TabBarItem.swift in Sources */,
 				1CACDA401FF68E8900538B78 /* View.swift in Sources */,
 				2E71A9332131DA2C009D24A9 /* UITabBarController+ViewController.swift in Sources */,
+				2EF18F8D21434B7C009D7B3A /* UIResponder+ParentViewController.swift in Sources */,
 				1C8ED0AF2002AD3700777BDD /* Keyboard.swift in Sources */,
 				1CD7A9951FF55BD900CB895D /* UIFont+Fontable.swift in Sources */,
 				1C0263541FF57B3A0040346B /* Margin.swift in Sources */,

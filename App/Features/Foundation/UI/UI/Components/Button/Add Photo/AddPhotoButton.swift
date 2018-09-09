@@ -1,39 +1,63 @@
 import UIKit
 import SnapKit
+import RxSwift
+import RxCocoa
 
-private enum ViewLayout {
-  static let minWidth = CGFloat(30)
-  static let minHeight = CGFloat(30)
+public enum AddPhotoButtonState {
+  case filled(UIImage)
+  case empty
 }
 
 public final class AddPhotoButton: View {
-
-  public typealias OnButtonSelected = (UIButton) -> Void
-
-  private var addButton: UIButton = {
+  fileprivate let addButton: UIButton = {
     let button = UIButton()
-    let addPlusImage = UIImage(named: "add_plus.icon", in: .framework, compatibleWith: nil)!
-    button.setImage(addPlusImage , for: .normal)
+    button.setImage(Images.Buttons.addPlus , for: .normal)
     button.tintColor = .softScript
     return button
   }()
+  
+  private let imageView: UIImageView = {
+    let imageView = UIImageView()
+    imageView.contentMode = .scaleAspectFill
+    imageView.isHidden = true
+    return imageView
+  }()
 
-  public var onSelected: OnButtonSelected?
-
+  @available(*, unavailable)
   public override func setupView() {
     backgroundColor = .grease
     layer.cornerRadius = Radius.big
+    clipsToBounds = true
     addSubview(addButton)
-    addButton.addTarget(self, action: #selector(onButtonSelected(_:)), for: .touchUpInside)
+    addSubview(imageView)
   }
 
+  @available(*, unavailable)
   public override func setupConstraints() {
     addButton.snp.makeConstraints { make in
       make.edges.equalTo(self)
     }
+    imageView.snp.makeConstraints { make in
+      make.edges.equalTo(self)
+    }
   }
+  
+  public func set(state: AddPhotoButtonState) {
+    switch state {
+    case .filled(let image):
+      imageView.isHidden = false
+      imageView.image = image
+    case .empty:
+      imageView.isHidden = true
+      imageView.image = nil
+    }
+  }
+}
 
-  @objc private func onButtonSelected(_ sender: UIButton) {
-    onSelected?(sender)
+// MARK: - View Bindings
+
+extension Reactive where Base: AddPhotoButton {
+  public var buttonWasTapped: Observable<Void> {
+    return base.addButton.rx.buttonWasTapped
   }
 }

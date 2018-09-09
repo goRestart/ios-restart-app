@@ -10,6 +10,10 @@ public struct ProductDraftActions: ProductDraftUseCase {
     self.productDraftRepository = productDraftRepository
   }
   
+  public func save(images: [UIImage]) {
+    productDraftRepository.set(images: images)
+  }
+  
   public func save(with title: String, productId: Identifier<Product>) {
     productDraftRepository.set(with: title, productId: productId)
   }
@@ -24,6 +28,10 @@ public struct ProductDraftActions: ProductDraftUseCase {
   
   public func save(productExtras: [Identifier<Product.Extra>]) {
     productDraftRepository.set(productExtras: productExtras)
+  }
+  
+  public func clear() {
+    productDraftRepository.clear()
   }
   
   public func get() -> ProductDraft {
