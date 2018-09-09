@@ -59,4 +59,8 @@ final class ProductImagesViewModel: ProductImagesViewModelType, ProductImagesVie
     productDraft.save(images: images)
     coordinator.openDescription()
   }
+  
+  func onCloseButtonPressed() {
+    coordinator.close()
+  }
 }

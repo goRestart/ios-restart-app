@@ -6,15 +6,18 @@ protocol ProductImagesCoordinatorIndex: class {
 
 final class ProductImagesCoordinator: ProductImagesCoordinable {
 
+  private weak var productImages: UIViewController?
   private let cameraNavigator: CameraNavigator
   private let productSelectorNavigator: ProductSelectorNavigator
   private var index: Int?
   
   weak var delegate: ProductImagesCoordinatorIndex?
   
-  init(cameraNavigator: CameraNavigator,
+  init(productImages: UIViewController?,
+       cameraNavigator: CameraNavigator,
        productSelectorNavigator: ProductSelectorNavigator)
   {
+    self.productImages = productImages
     self.cameraNavigator = cameraNavigator
     self.productSelectorNavigator = productSelectorNavigator
   }
@@ -37,5 +40,9 @@ extension ProductImagesCoordinator: CameraNavigatorDelegate {
   func didSelectImage(_ image: UIImage) {
     guard let index = index else { return }
     delegate?.didSelectImage(image, with: index)
+  }
+  
+  func close() {
+    productImages?.dismiss(animated: true)
   }
 }

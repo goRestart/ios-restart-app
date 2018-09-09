@@ -11,8 +11,7 @@ public enum AddPhotoButtonState {
 public final class AddPhotoButton: View {
   fileprivate let addButton: UIButton = {
     let button = UIButton()
-    let addPlusImage = UIImage(named: "add_plus.icon", in: .framework, compatibleWith: nil)!
-    button.setImage(addPlusImage , for: .normal)
+    button.setImage(Images.Buttons.addPlus , for: .normal)
     button.tintColor = .softScript
     return button
   }()

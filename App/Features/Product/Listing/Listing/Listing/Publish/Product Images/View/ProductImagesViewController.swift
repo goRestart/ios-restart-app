@@ -15,6 +15,11 @@ final class ProductImagesViewController: ViewController {
   override func loadView() {
     self.view = productImagesView
   }
+
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    productImagesView.configureCloseButton()
+  }
   
   override func bindViewModel() {
     viewBinder.bind(productImagesView, to: viewModel, using: bag)

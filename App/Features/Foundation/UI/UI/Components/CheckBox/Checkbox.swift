@@ -51,10 +51,10 @@ public final class Checkbox: UIControl {
   
   private func configure() {
     guard isChecked else {
-      checkboxImageView.image = UIImage(named: "icon.checkbox.unchecked", in: .framework, compatibleWith: nil)
+      checkboxImageView.image = Images.Checkbox.unchecked
       return
     }
-    checkboxImageView.image = UIImage(named: "icon.checkbox.checked", in: .framework, compatibleWith: nil)
+    checkboxImageView.image = Images.Checkbox.checked
   }
 }
 

@@ -6,6 +6,7 @@ protocol ProductImagesViewModelInput {
   func onAdd(image: UIImage, with index: Int)
   func onRemoveImage(with index: Int)
   func onNextStepPressed()
+  func onCloseButtonPressed()
 }
 
 protocol ProductImagesViewModelOutput {

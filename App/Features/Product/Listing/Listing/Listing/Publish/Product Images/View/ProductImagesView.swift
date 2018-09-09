@@ -34,6 +34,12 @@ final class ProductImagesView: View {
     return scrollView
   }()
   
+  fileprivate let closeButton: UIBarButtonItem = {
+    let button = UIBarButtonItem(image: Images.Navigation.close, style: UIBarButtonItem.Style.plain, target: nil, action: nil)
+    button.tintColor = .primary
+    return button
+  }()
+  
   fileprivate let addPhotoBottom1 = AddPhotoButton()
   fileprivate let addPhotoBottom2 = AddPhotoButton()
   fileprivate let addPhotoBottom3 = AddPhotoButton()
@@ -61,6 +67,8 @@ final class ProductImagesView: View {
     scrollView.addSubview(stackView)
     addSubview(scrollView)
     addSubview(nextButton)
+    
+    configureCloseButton()
   }
   
   override func setupConstraints() {
@@ -137,6 +145,10 @@ final class ProductImagesView: View {
     parentViewController?.present(alert, animated: true)
   }
   
+  func configureCloseButton() {
+    parentViewController?.navigationItem.leftBarButtonItem = closeButton
+  }
+  
   // MARK: - Private
   
   private func removeImage(at index: Int) {
@@ -162,6 +174,10 @@ final class ProductImagesView: View {
 extension Reactive where Base: ProductImagesView {
   var nextButtonIsEnabled: Binder<Bool> {
     return base.nextButton.rx.isEnabled
+  }
+  
+  var closeButtonWasTapped: ControlEvent<Void> {
+    return base.closeButton.rx.tap
   }
   
   var nextButtonWasTapped: Observable<Void> {

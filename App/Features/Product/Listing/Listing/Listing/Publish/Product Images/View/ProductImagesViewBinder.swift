@@ -41,6 +41,10 @@ struct ProductImagesViewBinder {
       viewModel.input.onImageSelected(with: 5)
     }.disposed(by: bag)
 
+    view.rx.closeButtonWasTapped.subscribe { _ in
+      viewModel.input.onCloseButtonPressed()
+    }.disposed(by: bag)
+    
     view.rx.nextButtonWasTapped.subscribe { _ in
       viewModel.input.onNextStepPressed()
     }.disposed(by: bag)

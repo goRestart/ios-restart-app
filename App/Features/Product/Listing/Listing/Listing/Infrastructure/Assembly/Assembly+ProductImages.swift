@@ -22,6 +22,7 @@ extension Assembly: ProductImagesProvider {
   
   private func productImagesCoordinator(with viewController: ProductImagesViewController) -> ProductImagesCoordinable {
     let coordinator = ProductImagesCoordinator(
+      productImages: viewController,
       cameraNavigator: cameraNavigator(from: viewController),
       productSelectorNavigator: productSelectorNavigator(from: viewController)
     )
