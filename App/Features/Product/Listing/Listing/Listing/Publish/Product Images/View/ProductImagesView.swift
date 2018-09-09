@@ -50,6 +50,7 @@ final class ProductImagesView: View {
     let button = FullWidthButton()
     let title = Localize("product_images.next_button.title", table: Table.productImages)
     button.setTitle(title, for: .normal)
+    button.isEnabled = false
     return button
   }()
   

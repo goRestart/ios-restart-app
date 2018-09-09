@@ -14,4 +14,8 @@ public enum Images {
     public static let back = UIImage(name: "icon.navigation.back")
     public static let close = UIImage(name: "icon.navigation.close")
   }
+  
+  public enum Test {
+    public static let bestGame = UIImage(name: "need_for_speed_most_wanted")!
+  }
 }

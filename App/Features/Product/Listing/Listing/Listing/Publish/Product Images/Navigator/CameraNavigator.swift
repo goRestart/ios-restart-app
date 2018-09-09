@@ -1,5 +1,6 @@
 import Foundation
 import UIKit
+import UI
 
 protocol CameraNavigatorDelegate: class {
   func didSelectImage(_ image: UIImage)
@@ -16,7 +17,7 @@ final class CameraNavigator: NSObject {
   
   func navigate() {
     #if targetEnvironment(simulator)
-    let simulatorImage = UIImage(named: "need_for_speed_most_wanted", in: .framework, compatibleWith: nil)!
+    let simulatorImage = Images.Test.bestGame
     delegate?.didSelectImage(simulatorImage)
     #endif
   
