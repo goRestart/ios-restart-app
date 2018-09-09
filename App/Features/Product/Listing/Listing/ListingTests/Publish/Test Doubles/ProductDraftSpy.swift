@@ -9,6 +9,8 @@ final class ProductDraftSpy: ProductDraftUseCase {
   var clearWasCalled = false
   var getProductDraftWasCalled = false
   
+  private var productDraft: ProductDraft?
+  
   func save(images: [UIImage]) {
     saveImagesWasCalled = true
   }
@@ -35,7 +37,17 @@ final class ProductDraftSpy: ProductDraftUseCase {
   
   func get() -> ProductDraft {
     getProductDraftWasCalled = true
-    fatalError()
+    guard let productDraft = productDraft else { fatalError() }
+    return productDraft
+  }
+  
+  func givenProductDraftIsComplete() {
+    productDraft = ProductDraft(
+      title: "Need For Speed Most Wanted",
+      description: "Best game",
+      price: Product.Price(amount: 50, locale: .current),
+      productExtras: [],
+      productImages: []
+    )
   }
 }
-

@@ -23,6 +23,8 @@ final class ProductImagesViewModelSpec: XCTestCase {
   }
   
   override func tearDown() {
+    coordinator = nil
+    productDraft = nil
     sut = nil
     super.tearDown()
   }

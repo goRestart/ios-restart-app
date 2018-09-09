@@ -8,10 +8,10 @@ struct ProductDescriptionViewModel: ProductDescriptionViewModelType, ProductDesc
   var output: ProductDescriptionViewModelOutput { return self }
 
   private let productDraft: ProductDraftUseCase
-  private let productPriceNavigator: ProductPriceNavigator
+  private let productPriceNavigator: ProductPriceNavigable
   
   init(productDraft: ProductDraftUseCase,
-       productPriceNavigator: ProductPriceNavigator)
+       productPriceNavigator: ProductPriceNavigable)
   {
     self.productDraft = productDraft
     self.productPriceNavigator = productPriceNavigator
