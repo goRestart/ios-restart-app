@@ -1,0 +1,3 @@
+protocol ProductDescriptionNavigable {
+  func navigate()
+}

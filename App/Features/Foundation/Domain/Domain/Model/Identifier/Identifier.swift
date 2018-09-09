@@ -15,6 +15,10 @@ public struct Identifier<Element>: Equatable, Hashable {
   public init(_ uuid: UUID) {
     self.value = uuid.uuidString
   }
+  
+  public static func make() -> Identifier<Element> {
+    return Identifier(UUID())
+  }
 }
 
 // MARK: - Encodable

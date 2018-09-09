@@ -29,7 +29,7 @@ extension Assembly: ProductDescriptionProvider {
 // MARK: - Navigator
 
 extension Assembly {
-  func productDescriptionNavigator(from viewController: UIViewController) -> ProductDescriptionNavigator {
+  func productDescriptionNavigator(from viewController: UIViewController) -> ProductDescriptionNavigable {
     return ProductDescriptionNavigator(
       from: viewController,
       productDescriptionProvider: self
