@@ -78,6 +78,6 @@ extension Reactive where Base: ProductSelectorView {
     return base.inputTextField.rx.value
       .orEmpty
       .distinctUntilChanged()
-      .debounce(0.3, scheduler: MainScheduler.instance)
+      .debounce(0.1, scheduler: MainScheduler.instance)
   }
 }

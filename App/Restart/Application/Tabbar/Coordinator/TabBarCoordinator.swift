@@ -12,6 +12,8 @@ final class TabBarCoordinator {
   }
   
   func openPublishNewProduct() {
-    tabBarController?.present(listingProvider.makeNewListingProcess(), animated: true)
+    tabBarController?.present(
+      listingProvider.makeNewListingProcess(), animated: true
+    )
   }
 }

@@ -6,10 +6,10 @@ struct ProductSelectorViewModel: ProductSelectorViewModelType, ProductSelectorVi
   var input: ProductSelectorViewModelInput { return self }
 
   private let productDraft: ProductDraftUseCase
-  private let productDescriptionNavigator: ProductDescriptionNavigator
+  private let productDescriptionNavigator: ProductDescriptionNavigable
   
   init(productDraft: ProductDraftUseCase,
-       productDescriptionNavigator: ProductDescriptionNavigator)
+       productDescriptionNavigator: ProductDescriptionNavigable)
   {
     self.productDraft = productDraft
     self.productDescriptionNavigator = productDescriptionNavigator
