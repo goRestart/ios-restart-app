@@ -417,6 +417,9 @@
 		0AAC7953207F73960096F156 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAC7951207F73960096F156 /* FeedViewController.swift */; };
 		0AAC7955207F73F30096F156 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAC7954207F73F30096F156 /* FeedViewModel.swift */; };
 		0AAC7956207F73F30096F156 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAC7954207F73F30096F156 /* FeedViewModel.swift */; };
+		0AB3660C200DED020065D5AE /* ListingDeckViewControllerBinderSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB3660B200DED020065D5AE /* ListingDeckViewControllerBinderSpec.swift */; };
+		0AB4F826214677CB009151E6 /* UserDefailts+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4F825214677CB009151E6 /* UserDefailts+LG.swift */; };
+		0AB4F827214677CB009151E6 /* UserDefailts+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4F825214677CB009151E6 /* UserDefailts+LG.swift */; };
 		0AB63DD32136EA7800FECCEF /* QuickLocationFiltersStandardWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB63DD22136EA7800FECCEF /* QuickLocationFiltersStandardWireframe.swift */; };
 		0AB63DD42136EA9900FECCEF /* QuickLocationFiltersStandardWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB63DD22136EA7800FECCEF /* QuickLocationFiltersStandardWireframe.swift */; };
 		0AB6E1D41F9DD1670048AFFD /* ListingDeckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB6E1D31F9DD1670048AFFD /* ListingDeckViewController.swift */; };
@@ -2550,6 +2553,8 @@
 		0AA7DB5A2110A7B800B2B657 /* DeeplinkMailBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeeplinkMailBox.swift; sourceTree = "<group>"; };
 		0AAC7951207F73960096F156 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		0AAC7954207F73F30096F156 /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
+		0AB3660B200DED020065D5AE /* ListingDeckViewControllerBinderSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingDeckViewControllerBinderSpec.swift; sourceTree = "<group>"; };
+		0AB4F825214677CB009151E6 /* UserDefailts+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefailts+LG.swift"; sourceTree = "<group>"; };
 		0AB63DD22136EA7800FECCEF /* QuickLocationFiltersStandardWireframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickLocationFiltersStandardWireframe.swift; sourceTree = "<group>"; };
 		0AB6E1D31F9DD1670048AFFD /* ListingDeckViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckViewController.swift; sourceTree = "<group>"; };
 		0AB6E1D51F9DD18F0048AFFD /* ListingDeckView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckView.swift; sourceTree = "<group>"; };
@@ -4383,6 +4388,14 @@
 				326C72DD2089F9DA009D21DB /* Views */,
 			);
 			path = SectionedFeed;
+			sourceTree = "<group>";
+		};
+		0AB4F824214677C2009151E6 /* UserDefaults */ = {
+			isa = PBXGroup;
+			children = (
+				0AB4F825214677CB009151E6 /* UserDefailts+LG.swift */,
+			);
+			path = UserDefaults;
 			sourceTree = "<group>";
 		};
 		0AB6E1D21F9DD15D0048AFFD /* DeckView */ = {
@@ -7288,6 +7301,7 @@
 		D412E0801B4F03D700683FFD /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				0AB4F824214677C2009151E6 /* UserDefaults */,
 				3212AE5121257A7700945110 /* Lens+LG.swift */,
 				320162E22110A12900B7819D /* IGListKitHelper */,
 				A41195F521219B7500EBB210 /* HTML */,
@@ -7604,6 +7618,9 @@
 						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
 							com.apple.BackgroundModes = {
 								enabled = 1;
 							};
@@ -9453,6 +9470,7 @@
 				2E4DE8D9206422970016D5A8 /* BoostSuccessAlertView.swift in Sources */,
 				D4912A831B08E12C00DACD5A /* UIImage+Tint.swift in Sources */,
 				0A751481214272570049E135 /* UserRatingListRequester.swift in Sources */,
+				0AB4F826214677CB009151E6 /* UserDefailts+LG.swift in Sources */,
 				C7841AF41E07DFFA004A8242 /* UIView+Rating.swift in Sources */,
 				0A6FED362130344000B57004 /* TourNotificationWireframe.swift in Sources */,
 				C2E9ACEB207B64C00054B246 /* VPPostListingRedCamFooter.swift in Sources */,
@@ -10433,6 +10451,7 @@
 				C611B06B20C92A0700D7DD89 /* MultiListingPostedStatus.swift in Sources */,
 				0183BB19203C71D400204383 /* ListingPostedDescriptiveViewModel.swift in Sources */,
 				0A6FED0F2130344000B57004 /* QuickLocationFiltersModalWireframe.swift in Sources */,
+				0AB4F827214677CB009151E6 /* UserDefailts+LG.swift in Sources */,
 				326C730B20908148009D21DB /* CategoriesFeedCell.swift in Sources */,
 				427CAB86206A7D5600112D58 /* InfoBubbleView.swift in Sources */,
 				C611D65F20DD396100955BF4 /* CarExtras+LG.swift in Sources */,

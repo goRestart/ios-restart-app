@@ -1,15 +1,7 @@
-//
-//  NSUserDefaults+KeyValueStorage.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 09/05/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import SwiftyUserDefaults
 
-class StorageableUserDefaults: KeyValueStorageable {
+final class StorageableUserDefaults: KeyValueStorageable {
 
     private let userDefaults: UserDefaults
     
