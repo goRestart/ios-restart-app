@@ -323,6 +323,55 @@ struct ListingSocialMessage: SocialMessage {
         }
         return completeURLString
     }
+
+    func retrieveShareURL(source: ShareSource?, campaign: String, deepLinkString: String, webURLString: String?,
+                          fallbackToStore: Bool, myUserId: String?, myUserName: String?,
+                          completion: @escaping AppsFlyerGenerateInviteURLCompletion) {
+        AppsFlyerShareInviteHelper.generateInviteUrl(linkGenerator: { generator in
+            return self.appsFlyerLinkGenerator(generator,
+                                               source: source,
+                                               campaign: campaign,
+                                               deepLinkString: deepLinkString,
+                                               webURLString: webURLString,
+                                               fallbackToStore: fallbackToStore,
+                                               myUserId: myUserId,
+                                               myUserName: myUserName)}) { url in
+                                                // The callback is handled by another thread invoked by AppsFlyer
+                                                // Dispatch to main thread to avoid unexpected behaviours,
+                                                // i.e. FacebookMessageDialog crashes if not called from main
+                                                DispatchQueue.main.async {
+                                                    completion(url)
+                                                }
+        }
+    }
+
+    private func appsFlyerLinkGenerator(_ generator: AppsFlyerLinkGenerator,
+                                        source: ShareSource?,
+                                        campaign: String,
+                                        deepLinkString: String,
+                                        webURLString: String?,
+                                        fallbackToStore: Bool,
+                                        myUserId: String?,
+                                        myUserName: String?) -> AppsFlyerLinkGenerator {
+        generator.setCampaign(campaign)
+        if let source = source {
+            generator.setChannel(source.rawValue)
+        }
+        generator.setBaseDeeplink(deepLinkString)
+        generator.addParameterValue(ListingSocialMessage.utmSourceValue, forKey: ListingSocialMessage.siteIDKey)
+        if var webURLString = webURLString {
+            webURLString = addUtmParamsToURLString(webURLString, source: source)
+            generator.addParameterValue(webURLString, forKey: ListingSocialMessage.webDeeplink)
+        }
+        if let myUserId = myUserId {
+            generator.addParameterValue(myUserId, forKey: ListingSocialMessage.sub1)
+        }
+        if let myUserName = myUserName {
+            generator.addParameterValue(myUserName, forKey: ListingSocialMessage.sub2)
+        }
+
+        return generator
+    }
 }
 
 
