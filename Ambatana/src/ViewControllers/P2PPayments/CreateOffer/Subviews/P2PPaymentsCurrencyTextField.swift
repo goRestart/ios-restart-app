@@ -23,7 +23,7 @@ final class P2PPaymentsCurrencyTextField: UIView, UITextFieldDelegate {
         return label
     }()
 
-    fileprivate let innerTextField: UITextField = {
+    fileprivate let hiddenTextField: UITextField = {
         let textField = UITextField()
         textField.keyboardType = .decimalPad
         textField.isHidden = true
@@ -41,10 +41,10 @@ final class P2PPaymentsCurrencyTextField: UIView, UITextFieldDelegate {
     private func setup() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapped))
         addGestureRecognizer(tapGesture)
-        addSubview(innerTextField)
+        addSubview(hiddenTextField)
         addSubviewForAutoLayout(formattedTextLabel)
-        innerTextField.delegate = self
-        innerTextField.addTarget(self, action: #selector(editingChanged), for: .editingChanged)
+        hiddenTextField.delegate = self
+        hiddenTextField.addTarget(self, action: #selector(editingChanged), for: .editingChanged)
         editingChanged()
         setupConstraints()
     }
@@ -59,11 +59,11 @@ final class P2PPaymentsCurrencyTextField: UIView, UITextFieldDelegate {
     }
 
     @objc private func tapped() {
-        innerTextField.becomeFirstResponder()
+        hiddenTextField.becomeFirstResponder()
     }
 
     @objc private func editingChanged() {
-        let newValue = Decimal(string: innerTextField.text ?? "0", locale: Locale.current) ?? 0
+        let newValue = Decimal(string: hiddenTextField.text ?? "0", locale: Locale.current) ?? 0
         value = newValue
         updateFormattedLabel()
     }
@@ -82,9 +82,9 @@ extension Reactive where Base: P2PPaymentsCurrencyTextField {
     var isFocused: Binder<Bool> {
         return Binder<Bool>(self.base) { base, focused in
             if focused {
-                base.innerTextField.becomeFirstResponder()
+                base.hiddenTextField.becomeFirstResponder()
             } else {
-                base.innerTextField.resignFirstResponder()
+                base.hiddenTextField.resignFirstResponder()
             }
         }
     }
@@ -92,7 +92,7 @@ extension Reactive where Base: P2PPaymentsCurrencyTextField {
     var value: Binder<Decimal> {
         return Binder<Decimal>(self.base) { base, value in
             base.value = value
-            base.innerTextField.text = P2PPaymentsCurrencyTextField.valueFormatter.string(from: value as NSDecimalNumber)
+            base.hiddenTextField.text = P2PPaymentsCurrencyTextField.valueFormatter.string(from: value as NSDecimalNumber)
             base.updateFormattedLabel()
         }
     }
