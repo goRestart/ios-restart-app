@@ -304,4 +304,6 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
     func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?, openChatAutomaticMessage: ChatWrapperMessageType?) {}
     
     func openListingChat(data: ChatDetailData, source: EventParameterTypePage, predefinedMessage: String?) {}
+
+    func closeAvatarDetail() {}
 }
