@@ -13,7 +13,7 @@ final class DeckViewCollectionDelegate: NSObject, ListingCardViewDelegate, Listi
         guard direction != .none else {
             return proposedPage
         }
-        return min(max(0, lastPageBeforeDragging + direction.delta), viewModel.objectCount - 1)
+        return min(max(0, lastPageBeforeDragging + direction.delta), max(viewModel.objectCount - 1, 0))
     }
 
     private func currentPageCell() -> ListingCardView? {
