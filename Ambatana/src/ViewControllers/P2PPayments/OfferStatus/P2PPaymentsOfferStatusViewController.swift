@@ -28,6 +28,7 @@ final class P2PPaymentsOfferStatusViewController: BaseViewController {
     }()
 
     private let viewModel: P2PPaymentsOfferStatusViewModel
+    private let disposeBag = DisposeBag()
 
     init(viewModel: P2PPaymentsOfferStatusViewModel) {
         self.viewModel = viewModel
@@ -54,13 +55,14 @@ final class P2PPaymentsOfferStatusViewController: BaseViewController {
     }
 
     @objc private func closeButtonPressed() {
-//        viewModel.closeButtonPressed()
+        viewModel.closeButtonPressed()
     }
 
     private func setup() {
         view.backgroundColor = UIColor.white
         view.addSubviewsForAutoLayout([headerView, lineSeparatorView, stepListView, actionButton, activityIndicator])
         setupConstraints()
+        setupRx()
     }
 
     private func setupConstraints() {
@@ -86,5 +88,13 @@ final class P2PPaymentsOfferStatusViewController: BaseViewController {
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
         ])
+    }
+
+    private func setupRx() {
+        let bindings = [
+            viewModel.listingImageViewURL.drive(headerView.rx.imageURL),
+            viewModel.listingTitle.drive(headerView.rx.title),
+        ]
+        bindings.forEach { [disposeBag] in $0.disposed(by: disposeBag) }
     }
 }
