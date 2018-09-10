@@ -81,7 +81,10 @@ final class LGPaymentsManager: PaymentsManager {
             PKPaymentSummaryItem(label: "seller", amount: request.totalAmount),
         ]
         guard let authViewController = createAuthViewController(with: paymentRequest) else { return nil }
-        let listener = PaymentRequestListener(paymentRequest: request, p2pPaymentsRepository: p2pPaymentsRepository, completion: completion)
+        let listener = PaymentRequestListener(paymentRequest: request, p2pPaymentsRepository: p2pPaymentsRepository) { [weak self] result in
+            completion(result)
+            self?.paymentRequestListener = nil
+        }
         authViewController.delegate = listener
         paymentRequestListener = listener
         return authViewController
