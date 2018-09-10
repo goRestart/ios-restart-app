@@ -14,11 +14,7 @@ final class ListingCardPageControl: UIView {
         static let intrinsicHeight: CGFloat = 12
     }
 
-    private let pills: [UIView] = {
-        var pills: [UIView] = []
-        for _ in 1...Default.maxPages { pills.append(ListingCardPageControl.makePill()) }
-        return pills
-    }()
+    private let pills = (1...Default.maxPages).map { ListingCardPageControl.makePill() }
 
     private lazy var stackView: UIStackView = {
         let sv = UIStackView.horizontal(pills)

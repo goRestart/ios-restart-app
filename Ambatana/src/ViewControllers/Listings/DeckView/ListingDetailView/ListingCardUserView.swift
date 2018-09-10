@@ -2,6 +2,7 @@ import Foundation
 import RxSwift
 import LGComponents
 
+// TODO: Use the new one
 final class ListingCardUserView: UIView {
     private enum Images {
         static let placeholder = R.Asset.IconsButtons.userPlaceholder.image
