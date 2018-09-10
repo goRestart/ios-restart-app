@@ -10,7 +10,7 @@ import Result
 protocol PaymentsManager {
     func canMakePayments() -> PaymentCapabilities
     func openPaymentSetup()
-    func createPaymentRequestController(_ request: PaymentRequest, completion: @escaping PaymentRequestCompletion) -> UIViewController?
+    func createPaymentRequestController(_ request: PaymentRequest, completion: @escaping ResultCompletion<String, PaymentRequestError>) -> UIViewController?
 }
 
 // MARK: - Types
@@ -37,8 +37,6 @@ enum PaymentRequestError: Error {
     case stripeTokenCreationFailed
     case p2pPaymentOfferCreationFailed
 }
-
-typealias PaymentRequestCompletion = (Result<String, PaymentRequestError>) -> Void
 
 // MARK: - LGPaymentsManager
 
@@ -72,7 +70,7 @@ final class LGPaymentsManager: PaymentsManager {
         PKPassLibrary().openPaymentSetup()
     }
 
-    func createPaymentRequestController(_ request: PaymentRequest, completion: @escaping PaymentRequestCompletion) -> UIViewController? {
+    func createPaymentRequestController(_ request: PaymentRequest, completion: @escaping ResultCompletion<String, PaymentRequestError>) -> UIViewController? {
         guard let merchantId = STPPaymentConfiguration.shared().appleMerchantIdentifier else { return nil }
         let paymentRequest = Stripe.paymentRequest(withMerchantIdentifier: merchantId,
                                                    country: request.countryCode,

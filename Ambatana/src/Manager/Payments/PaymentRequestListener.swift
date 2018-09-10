@@ -5,16 +5,14 @@ import PassKit
 import Result
 
 final class PaymentRequestListener: NSObject, PKPaymentAuthorizationViewControllerDelegate {
-    private typealias StripeTokenCreationCompletion = (Result<STPToken, PaymentRequestError>) -> Void
-
     private let paymentRequest: PaymentRequest
     private let p2pPaymentsRepository: P2PPaymentsRepository
-    private let completion: PaymentRequestCompletion
+    private let completion: ResultCompletion<String, PaymentRequestError>
     private var result: Result<String, PaymentRequestError>?
 
     init(paymentRequest: PaymentRequest,
          p2pPaymentsRepository: P2PPaymentsRepository,
-         completion: @escaping PaymentRequestCompletion) {
+         completion: @escaping ResultCompletion<String, PaymentRequestError>) {
         self.paymentRequest = paymentRequest
         self.p2pPaymentsRepository = p2pPaymentsRepository
         self.completion = completion
@@ -35,7 +33,7 @@ final class PaymentRequestListener: NSObject, PKPaymentAuthorizationViewControll
         }
     }
 
-    private func createOffer(with payment: PKPayment, completion: @escaping PaymentRequestCompletion) {
+    private func createOffer(with payment: PKPayment, completion: @escaping ResultCompletion<String, PaymentRequestError>) {
         createStripeToken(with: payment) { [weak self] result in
             switch result {
             case .success(let token):
@@ -46,7 +44,7 @@ final class PaymentRequestListener: NSObject, PKPaymentAuthorizationViewControll
         }
     }
 
-    private func createStripeToken(with payment: PKPayment, completion: @escaping StripeTokenCreationCompletion) {
+    private func createStripeToken(with payment: PKPayment, completion: @escaping ResultCompletion<STPToken, PaymentRequestError>) {
         STPAPIClient.shared().createToken(with: payment) { token, error in
             guard let token = token, error == nil else {
                 completion(.failure(.stripeTokenCreationFailed))
@@ -56,7 +54,7 @@ final class PaymentRequestListener: NSObject, PKPaymentAuthorizationViewControll
         }
     }
 
-    private func createP2PPaymentsOffer(with token: STPToken, completion: @escaping PaymentRequestCompletion) {
+    private func createP2PPaymentsOffer(with token: STPToken, completion: @escaping ResultCompletion<String, PaymentRequestError>) {
         let params = P2PPaymentCreateOfferParams(listingId: paymentRequest.listingId,
                                                  buyerId: paymentRequest.buyerId,
                                                  sellerId: paymentRequest.sellerId,
