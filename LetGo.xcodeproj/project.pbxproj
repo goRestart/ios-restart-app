@@ -115,6 +115,10 @@
 		0915FB982140FE340003D5B0 /* P2PPaymentsOfferStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0915FB962140FE340003D5B0 /* P2PPaymentsOfferStatusViewModel.swift */; };
 		0915FB9B214102F70003D5B0 /* P2PPaymentsOfferStatusStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0915FB9A214102F70003D5B0 /* P2PPaymentsOfferStatusStepView.swift */; };
 		0915FB9C214102F70003D5B0 /* P2PPaymentsOfferStatusStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0915FB9A214102F70003D5B0 /* P2PPaymentsOfferStatusStepView.swift */; };
+		0941DEF92146AADC00576659 /* P2PPaymentsOfferStatusWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0941DEF82146AADC00576659 /* P2PPaymentsOfferStatusWireframe.swift */; };
+		0941DEFA2146AADC00576659 /* P2PPaymentsOfferStatusWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0941DEF82146AADC00576659 /* P2PPaymentsOfferStatusWireframe.swift */; };
+		0941DEFC2146AB8100576659 /* P2PPaymentsOfferStatusBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0941DEFB2146AB8100576659 /* P2PPaymentsOfferStatusBuilder.swift */; };
+		0941DEFD2146AB8100576659 /* P2PPaymentsOfferStatusBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0941DEFB2146AB8100576659 /* P2PPaymentsOfferStatusBuilder.swift */; };
 		097EDBE1213CFE460057D638 /* P2PPaymentsMakeAnOfferWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097EDBE0213CFE460057D638 /* P2PPaymentsMakeAnOfferWireframe.swift */; };
 		097EDBE2213CFE4B0057D638 /* P2PPaymentsMakeAnOfferWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097EDBE0213CFE460057D638 /* P2PPaymentsMakeAnOfferWireframe.swift */; };
 		097EDBE5213CFF180057D638 /* P2PPaymentsMakeAnOfferBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097EDBE4213CFF180057D638 /* P2PPaymentsMakeAnOfferBuilder.swift */; };
@@ -2429,6 +2433,8 @@
 		0915FB932140FE0B0003D5B0 /* P2PPaymentsOfferStatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOfferStatusViewController.swift; sourceTree = "<group>"; };
 		0915FB962140FE340003D5B0 /* P2PPaymentsOfferStatusViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOfferStatusViewModel.swift; sourceTree = "<group>"; };
 		0915FB9A214102F70003D5B0 /* P2PPaymentsOfferStatusStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOfferStatusStepView.swift; sourceTree = "<group>"; };
+		0941DEF82146AADC00576659 /* P2PPaymentsOfferStatusWireframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOfferStatusWireframe.swift; sourceTree = "<group>"; };
+		0941DEFB2146AB8100576659 /* P2PPaymentsOfferStatusBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOfferStatusBuilder.swift; sourceTree = "<group>"; };
 		097EDBE0213CFE460057D638 /* P2PPaymentsMakeAnOfferWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PPaymentsMakeAnOfferWireframe.swift; sourceTree = "<group>"; };
 		097EDBE4213CFF180057D638 /* P2PPaymentsMakeAnOfferBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PPaymentsMakeAnOfferBuilder.swift; sourceTree = "<group>"; };
 		097EDBE7213CFF6D0057D638 /* P2PPaymentsOnboardingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOnboardingViewModel.swift; sourceTree = "<group>"; };
@@ -3854,6 +3860,7 @@
 			isa = PBXGroup;
 			children = (
 				097EDBE0213CFE460057D638 /* P2PPaymentsMakeAnOfferWireframe.swift */,
+				0941DEF82146AADC00576659 /* P2PPaymentsOfferStatusWireframe.swift */,
 			);
 			path = P2PPayments;
 			sourceTree = "<group>";
@@ -3862,6 +3869,7 @@
 			isa = PBXGroup;
 			children = (
 				097EDBE4213CFF180057D638 /* P2PPaymentsMakeAnOfferBuilder.swift */,
+				0941DEFB2146AB8100576659 /* P2PPaymentsOfferStatusBuilder.swift */,
 			);
 			path = P2PPayments;
 			sourceTree = "<group>";
@@ -8855,6 +8863,7 @@
 				2E423790205BE2930077B62A /* ChatMyMeetingCell.swift in Sources */,
 				0A2077AE2114C05700BFD3D7 /* GoogleAdxNativeContentView.swift in Sources */,
 				6A5E19DE1D548F5400F92692 /* FBLoginHelper.swift in Sources */,
+				0941DEFC2146AB8100576659 /* P2PPaymentsOfferStatusBuilder.swift in Sources */,
 				C77593E11BF0B8C60097D62F /* FiltersViewModel.swift in Sources */,
 				4273565720A32F5000C71D49 /* Listing+Map.swift in Sources */,
 				C29F01832067A03E00A43E2F /* Camera.swift in Sources */,
@@ -9058,6 +9067,7 @@
 				3201487120FF6F38003445DA /* PushPermissionCollectionCell.swift in Sources */,
 				0AAC7952207F73960096F156 /* FeedViewController.swift in Sources */,
 				8EB6510A205ACBEF00FF50E4 /* MLTrackingInfo.swift in Sources */,
+				0941DEF92146AADC00576659 /* P2PPaymentsOfferStatusWireframe.swift in Sources */,
 				506846471CD390CA00FA00C2 /* AppNavigator.swift in Sources */,
 				55FABE1F20763460004B0DBD /* UserPhoneVerificationCountryPickerViewModel.swift in Sources */,
 				C79842011CC8E8C900C300FF /* User+LG.swift in Sources */,
@@ -9849,6 +9859,7 @@
 				42E749672130064300297F75 /* BannerSectionController.swift in Sources */,
 				32448E7E2101F00000EFF33A /* FeedErrorViewController.swift in Sources */,
 				0A6FED2F2130344000B57004 /* TourPostingWireframe.swift in Sources */,
+				0941DEFD2146AB8100576659 /* P2PPaymentsOfferStatusBuilder.swift in Sources */,
 				C271E13B20CEB3B8008868C6 /* ListingCarouselChatContainerView.swift in Sources */,
 				42E1832A21230F6200B78DA8 /* AdsSectionController.swift in Sources */,
 				42E74963212FFC3400297F75 /* SectionControllerFactory.swift in Sources */,
@@ -10052,6 +10063,7 @@
 				C78BB50C1C5A314700614096 /* AppShareViewController.swift in Sources */,
 				72D928E51E83EBC10030F4C3 /* LGRatingManager.swift in Sources */,
 				32D85F61209B57250080D143 /* MainTabNavigator.swift in Sources */,
+				0941DEFA2146AADC00576659 /* P2PPaymentsOfferStatusWireframe.swift in Sources */,
 				0A2D42C320E6473C001EA068 /* LPInterstitialView.swift in Sources */,
 				0A6FECEB2130344000B57004 /* MediaViewerModalWireframe.swift in Sources */,
 				016328F820DBCFF800FA618B /* NotificationSettingsPlaceholderView.swift in Sources */,
