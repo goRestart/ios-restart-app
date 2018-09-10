@@ -1588,8 +1588,6 @@
 		8EF1CDB02010F11F00D324F6 /* ChatInactiveConversationDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1CDAE2010F11F00D324F6 /* ChatInactiveConversationDetailsViewModel.swift */; };
 		8EF1CDB22010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1CDB12010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift */; };
 		8EF1CDB32010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1CDB12010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift */; };
-		8EF71E89213C6D9F00DA1CAE /* RateBuyersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF71E88213C6D9F00DA1CAE /* RateBuyersViewController.swift */; };
-		8EF71E8A213C6D9F00DA1CAE /* RateBuyersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF71E88213C6D9F00DA1CAE /* RateBuyersViewController.swift */; };
 		8EF71E8C213C6E3800DA1CAE /* RoundedActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF71E8B213C6E3800DA1CAE /* RoundedActivityIndicatorView.swift */; };
 		8EF71E8D213C6E3800DA1CAE /* RoundedActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF71E8B213C6E3800DA1CAE /* RoundedActivityIndicatorView.swift */; };
 		8EF71E8E213C76FD00DA1CAE /* ConversationAdCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0F4CFC21130DA900430E6A /* ConversationAdCell.swift */; };
@@ -3243,7 +3241,6 @@
 		8EEC7F60206AA64000616858 /* MoPubAdsRequester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MoPubAdsRequester.swift; path = Ads/MoPubAdsRequester.swift; sourceTree = "<group>"; };
 		8EF1CDAE2010F11F00D324F6 /* ChatInactiveConversationDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInactiveConversationDetailsViewModel.swift; sourceTree = "<group>"; };
 		8EF1CDB12010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInactiveConversationDetailsViewController.swift; sourceTree = "<group>"; };
-		8EF71E88213C6D9F00DA1CAE /* RateBuyersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateBuyersViewController.swift; sourceTree = "<group>"; };
 		8EF71E8B213C6E3800DA1CAE /* RoundedActivityIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedActivityIndicatorView.swift; sourceTree = "<group>"; };
 		9DB1684F7DACC5DAD148649F /* Pods_letgoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_letgoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A00FF2637A49FDC98C3FB781 /* Pods-LetGoGodMode.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.release.xcconfig"; sourceTree = "<group>"; };
@@ -6932,7 +6929,6 @@
 				0A82A19B2141A7CD005ECA58 /* UserRatingListViewModel.swift */,
 				0A82A18E2141A7CA005ECA58 /* UserRatingTagCell.swift */,
 				C743FEAF1E449F2E00B4E912 /* RateBuyersHeader.swift */,
-				8EF71E88213C6D9F00DA1CAE /* RateBuyersViewController.swift */,
 				C743FEB21E44CFEC00B4E912 /* RateBuyersViewModel.swift */,
 				C749316C1D34FD0200E117F1 /* RateUserViewController.swift */,
 				C749316D1D34FD0200E117F1 /* RateUserViewController.xib */,
@@ -8878,7 +8874,6 @@
 				0A6FECE82130344000B57004 /* MediaViewerStandardWireframe.swift in Sources */,
 				8EEC7F56206AA60B00616858 /* MoPubNativeView.swift in Sources */,
 				0A890AA421208BAC0091ED75 /* ProfessionalDealerAskPhoneBuilder.swift in Sources */,
-				8EF71E89213C6D9F00DA1CAE /* RateBuyersViewController.swift in Sources */,
 				2E4ADEC1200515FC00D07D8A /* BumpUpFreeViewModel.swift in Sources */,
 				32D85F60209B57250080D143 /* MainTabNavigator.swift in Sources */,
 				0A8823AA2052BBD3004414CA /* ZoomableImageView.swift in Sources */,
@@ -9005,7 +9000,6 @@
 				3212ADF62119A1C600945110 /* WaterfallLayoutItemRenderPolicy.swift in Sources */,
 				C6687F3620C820BF008C1922 /* MultiListingPostedCongratsCell.swift in Sources */,
 				42F64F7F20AAE99900CF97AD /* ListingFilters+LG.swift in Sources */,
-				01739499212DABCC00A66FE1 /* (null) in Sources */,
 				42E17F8720FCAC8300E565C2 /* MKMapView+Shared.swift in Sources */,
 				014448392110BEF900A459F9 /* NotificationCenterHeader.swift in Sources */,
 				32059FDB20B5CDF30042713A /* ListingsRequesterProtocol.swift in Sources */,
@@ -9852,7 +9846,6 @@
 				42ED94EE2077C36C00548B62 /* PromoCellData.swift in Sources */,
 				C6977E8A2119F4E900B57E54 /* ServiceListingType+LG.swift in Sources */,
 				8E1139E31EC9AD5B00A9D772 /* FilterDescriptionHeaderView.swift in Sources */,
-				8EF71E8A213C6D9F00DA1CAE /* RateBuyersViewController.swift in Sources */,
 				0A2D69DE1FC5DB0300F072A1 /* Bounceable.swift in Sources */,
 				0AC05A881FB081A30091D0E2 /* ListingCardViewBinder.swift in Sources */,
 				42ED94EB2077A6DB00548B62 /* PromoCellMetrics.swift in Sources */,
