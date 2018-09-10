@@ -288,6 +288,10 @@ extension FeedViewController: FeedRenderable {
     func updateFeed() {
         adapter.performUpdates(animated: true, completion: nil)
     }
+    
+    func reloadFeed() {
+        adapter.reloadData(completion: nil)
+    }
 }
 
 extension FeedViewController: FeedViewModelDelegate {
