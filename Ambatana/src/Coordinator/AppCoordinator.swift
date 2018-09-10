@@ -1164,9 +1164,9 @@ fileprivate extension AppCoordinator {
     }
 
     func loginPasswordlessWith(token: String) {
+        tabBarCtl.dismissAllPresented(nil)
         guard let navCtl = selectedNavigationController else { return }
         navCtl.showLoadingMessageAlert()
-
         sessionManager.loginPasswordlessWith(token: token) { result in
             switch result {
             case .success:
