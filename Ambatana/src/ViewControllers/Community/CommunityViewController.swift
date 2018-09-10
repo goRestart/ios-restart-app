@@ -11,6 +11,7 @@ final class CommunityViewController: BaseViewController {
 
     private let letgoHomeURL = "https://letgo.com/"
     private let letgoLoginURL = "login=true&community=true"
+    private var initialURL: URL?
 
     init(viewModel: CommunityViewModel) {
         self.viewModel = viewModel
@@ -52,7 +53,7 @@ final class CommunityViewController: BaseViewController {
 
     private func setupNavBarLeftButton() {
         guard viewModel.showCloseButton else { return }
-        if webView.canGoBack {
+        if webView.canGoBack, webView.url != initialURL {
             let backButton = UIBarButtonItem(image: R.Asset.IconsButtons.navbarBack.image,
                                              style: .plain, target: self, action: #selector(back))
             self.navigationItem.leftBarButtonItem = backButton
@@ -117,6 +118,7 @@ extension CommunityViewController: WKNavigationDelegate {
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         setupNavBarLeftButton()
+        initialURL = initialURL ?? webView.url
     }
 
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
