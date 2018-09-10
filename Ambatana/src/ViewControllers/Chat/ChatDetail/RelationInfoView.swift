@@ -30,8 +30,6 @@ enum ChatInfoViewStatus: Int {
             }
         case .blockedBy:
             return R.Strings.chatBlockedByOtherLabel
-        case .listingDeleted:
-            return R.Strings.commonProductNotAvailable
         case .listingSold:
             return R.Strings.chatProductSoldLabel
         case .listingGivenAway:
@@ -42,7 +40,7 @@ enum ChatInfoViewStatus: Int {
             } else {
                 return R.Strings.chatAccountDeletedWoName
             }
-        case .available:
+        case .available, .listingDeleted:
             return ""
         case .inactiveConversation:
             return R.Strings.chatInactiveConversationRelationExplanation
@@ -56,13 +54,13 @@ enum ChatInfoViewStatus: Int {
 
     var bgColor: UIColor {
         switch self {
-        case .forbidden, .userDeleted, .userPendingDelete, .blockedBy, .listingDeleted, .inactiveConversation:
-            return UIColor.lgBlack
+        case .forbidden, .userDeleted, .userPendingDelete, .blockedBy, .inactiveConversation:
+            return .lgBlack
         case .blocked:
-            return UIColor.primaryColor
+            return .primaryColor
         case .listingSold, .listingGivenAway:
-            return UIColor.soldColor
-        case .available:
+            return .soldColor
+        case .available, .listingDeleted:
             return .clear
         }
     }
@@ -77,20 +75,20 @@ enum ChatInfoViewStatus: Int {
             return R.Asset.BackgroundsAndImages.icBlockedWhite.image
         case .blockedBy:
             return R.Asset.BackgroundsAndImages.icBlockedWhiteLine.image
-        case .listingDeleted, .inactiveConversation:
+        case .inactiveConversation:
             return R.Asset.BackgroundsAndImages.icAlertYellowWhiteInside.image
         case .listingSold, .listingGivenAway:
             return R.Asset.BackgroundsAndImages.icSoldWhite.image
-        case .available:
+        case .available, .listingDeleted:
             return UIImage()
         }
     }
 
     var isHidden: Bool {
         switch self {
-        case .forbidden, .blocked, .blockedBy, .listingDeleted, .listingSold, .listingGivenAway, .userDeleted, .userPendingDelete, .inactiveConversation:
+        case .forbidden, .blocked, .blockedBy, .listingSold, .listingGivenAway, .userDeleted, .userPendingDelete, .inactiveConversation:
             return false
-        case .available:
+        case .available, .listingDeleted:
             return true
         }
     }

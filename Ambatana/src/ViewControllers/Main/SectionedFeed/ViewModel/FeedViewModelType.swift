@@ -21,7 +21,6 @@ protocol FeedViewModelType: FeedNavigatorOwnership {
     var feedItems: [ListDiffable] { get }
     var waterfallColumnCount: Int { get }
     var locationSectionIndex: Int? { get }
-    var bottomStatusIndicatorIndex: Int? { get }
     
     func openInvite()
     func openSearches()

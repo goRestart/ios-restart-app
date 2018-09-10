@@ -153,6 +153,9 @@ extension ABTests {
 extension ABTests {
     var searchImprovements: LeanplumABVariable<Int> { return core.searchImprovements }
     var relaxedSearch: LeanplumABVariable<Int> { return core.relaxedSearch }
+    var mutePushNotifications: LeanplumABVariable<Int> { return core.mutePushNotifications }
+    var mutePushNotificationsStartHour: LeanplumABVariable<Int> { return core.mutePushNotificationsStartHour }
+    var mutePushNotificationsEndHour: LeanplumABVariable<Int> { return core.mutePushNotificationsEndHour }
 }
 
 //  MARK: Chat
@@ -185,6 +188,8 @@ extension ABTests {
     var bumpInEditCopys: LeanplumABVariable<Int> { return money.bumpInEditCopys }
     var copyForSellFasterNowInTurkish : LeanplumABVariable<Int> { return money.copyForSellFasterNowInTurkish }
     var multiAdRequestMoreInfo: LeanplumABVariable<Int> { return money.multiAdRequestMoreInfo }
+    var multiAdRequestInChatSectionForUS: LeanplumABVariable<Int> { return money.multiAdRequestInChatSectionForUS }
+    var multiAdRequestInChatSectionForTR: LeanplumABVariable<Int> { return money.multiAdRequestInChatSectionForTR }
 }
 
 //  MARK: Retention
@@ -236,9 +241,6 @@ extension ABTests {
 //  MARK: Legacy
 
 extension ABTests {
-    var newCarsMultiRequesterEnabled: LeanplumABVariable<Bool> { return legacy.newCarsMultiRequesterEnabled }
-    var userReviewsReportEnabled: LeanplumABVariable<Bool> { return legacy.userReviewsReportEnabled }
-    var appRatingDialogInactive: LeanplumABVariable<Bool> { return legacy.appRatingDialogInactive }
     var locationDataSourceType: LeanplumABVariable<Int> { return legacy.locationDataSourceType }
     var realEstateEnabled: LeanplumABVariable<Int> { return legacy.realEstateEnabled }
     var deckItemPage: LeanplumABVariable<Int> { return legacy.newItemPage }

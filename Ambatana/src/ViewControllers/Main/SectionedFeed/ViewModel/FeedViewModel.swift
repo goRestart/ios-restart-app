@@ -51,11 +51,6 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
         return feedItems.index(where: { $0 is LocationData })
     }
     
-    var bottomStatusIndicatorIndex: Int? {
-        guard feedItems.last is DiffableBox<ListingRetrievalState> else { return nil }
-        return feedItems.count - 1
-    }
-    
     var verticalSectionsCount: Int {
         guard let locationSectionIndex = locationSectionIndex,
             feedItems.count > locationSectionIndex else { return 0 }
