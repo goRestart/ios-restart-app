@@ -14,6 +14,8 @@ protocol FeedNavigator: class {
                  requester: ListingListMultiRequester,
                  listingFilters: ListingFilters,
                  locationManager: LocationManager)
+    func openSearches(withSearchType searchType: SearchType?,
+                      onUserSearchCallback onUserSearchCallback: ((SearchType) -> ())?)
     func openAppInvite(myUserId: String?, myUserName: String?)
     func openProFeed(navigator: MainTabNavigator?,
                      withSearchType: SearchType,
@@ -25,6 +27,11 @@ protocol FeedNavigator: class {
                          withSearchType searchType: SearchType?,
                          listingFilters: ListingFilters,
                          shouldCloseOnRemoveAllFilters: Bool)
+    func openClassicFeed(navigator: MainTabNavigator,
+                         withSearchType searchType: SearchType?,
+                         listingFilters: ListingFilters,
+                         shouldCloseOnRemoveAllFilters: Bool,
+                         tagsDelegate: MainListingsTagsDelegate?)
 }
 
 final class FeedWireframe: FeedNavigator {
@@ -98,6 +105,17 @@ final class FeedWireframe: FeedNavigator {
         )
     }
     
+    func openSearches(withSearchType searchType: SearchType?,
+                      onUserSearchCallback onUserSearchCallback: ((SearchType) -> ())?) {
+        nc.present(
+            UINavigationController(rootViewController:
+                SearchBuilder.modal(root: nc).buildSearch(
+                    withSearchType: searchType,
+                    onUserSearchCallback: onUserSearchCallback)),
+            animated: true,
+            completion: nil)
+    }
+    
     func openAppInvite(myUserId: String?, myUserName: String?) {
         guard let myUserId = myUserId, let myUserName = myUserName else { return }
         guard let url = URL.makeInvitationDeepLink(
@@ -143,6 +161,21 @@ final class FeedWireframe: FeedNavigator {
                 withSearchType: searchType,
                 filters: listingFilters,
                 shouldCloseOnRemoveAllFilters: shouldCloseOnRemoveAllFilters
+        )
+        vm.navigator = navigator
+        nc.pushViewController(vc, animated: true)
+    }
+    
+    func openClassicFeed(navigator: MainTabNavigator,
+                         withSearchType searchType: SearchType? = nil,
+                         listingFilters: ListingFilters,
+                         shouldCloseOnRemoveAllFilters: Bool = false,
+                         tagsDelegate: MainListingsTagsDelegate? = nil) {
+        let (vc, vm) = FeedBuilder.standard(nc: nc).makeClassic(
+            withSearchType: searchType,
+            filters: listingFilters,
+            shouldCloseOnRemoveAllFilters: shouldCloseOnRemoveAllFilters,
+            tagsDelegate: tagsDelegate
         )
         vm.navigator = navigator
         nc.pushViewController(vc, animated: true)

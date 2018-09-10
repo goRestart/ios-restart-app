@@ -16,7 +16,6 @@ import RxSwift
 extension Bumper  {
     static func initialize() {
         var flags = [BumperFeature.Type]()
-        flags.append(UserReviewsReportEnabled.self)
         flags.append(RealEstateEnabled.self)
         flags.append(RequestsTimeOut.self)
         flags.append(DeckItemPage.self)
@@ -69,32 +68,22 @@ extension Bumper  {
         flags.append(BumpInEditCopys.self)
         flags.append(MultiAdRequestMoreInfo.self)
         flags.append(EnableJobsAndServicesCategory.self)
-        flags.append(CachedFeed.self)
         flags.append(CopyForSellFasterNowInTurkish.self)
         flags.append(NotificationCenterRedesign.self)
         flags.append(TurkeyFreePosting.self)
         flags.append(RandomImInterestedMessages.self)
         flags.append(CarPromoCells.self)
         flags.append(RealEstatePromoCells.self)
+        flags.append(ProUsersExtraImages.self)
         flags.append(SectionedDiscoveryFeed.self)
         flags.append(ServicesPromoCells.self)
         flags.append(ImInterestedInProfile.self)
         flags.append(ClickToTalk.self)
+        flags.append(MutePushNotifications.self)
+        flags.append(MultiAdRequestInChatSectionForUS.self)
+        flags.append(MultiAdRequestInChatSectionForTR.self)
         Bumper.initialize(flags)
     } 
-
-    static var userReviewsReportEnabled: Bool {
-        guard let value = Bumper.value(for: UserReviewsReportEnabled.key) else { return false }
-        return UserReviewsReportEnabled(rawValue: value)?.asBool ?? false
-    } 
-
-    #if (RX_BUMPER)
-    static var userReviewsReportEnabledObservable: Observable<Bool> {
-        return Bumper.observeValue(for: UserReviewsReportEnabled.key).map {
-            UserReviewsReportEnabled(rawValue: $0 ?? "")?.asBool ?? false
-        }
-    }
-    #endif
 
     static var realEstateEnabled: RealEstateEnabled {
         guard let value = Bumper.value(for: RealEstateEnabled.key) else { return .control }
@@ -772,19 +761,6 @@ extension Bumper  {
     }
     #endif
 
-    static var cachedFeed: CachedFeed {
-        guard let value = Bumper.value(for: CachedFeed.key) else { return .control }
-        return CachedFeed(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var cachedFeedObservable: Observable<CachedFeed> {
-        return Bumper.observeValue(for: CachedFeed.key).map {
-            CachedFeed(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
     static var copyForSellFasterNowInTurkish: CopyForSellFasterNowInTurkish {
         guard let value = Bumper.value(for: CopyForSellFasterNowInTurkish.key) else { return .control }
         return CopyForSellFasterNowInTurkish(rawValue: value) ?? .control 
@@ -863,6 +839,19 @@ extension Bumper  {
     }
     #endif
 
+    static var proUsersExtraImages: ProUsersExtraImages {
+        guard let value = Bumper.value(for: ProUsersExtraImages.key) else { return .control }
+        return ProUsersExtraImages(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var proUsersExtraImagesObservable: Observable<ProUsersExtraImages> {
+        return Bumper.observeValue(for: ProUsersExtraImages.key).map {
+            ProUsersExtraImages(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
     static var sectionedDiscoveryFeed: SectionedDiscoveryFeed {
         guard let value = Bumper.value(for: SectionedDiscoveryFeed.key) else { return .control }
         return SectionedDiscoveryFeed(rawValue: value) ?? .control 
@@ -914,17 +903,48 @@ extension Bumper  {
         }
     }
     #endif
-}
 
 
-enum UserReviewsReportEnabled: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return UserReviewsReportEnabled.no.rawValue }
-    static var enumValues: [UserReviewsReportEnabled] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "User reviews report enabled" } 
-    var asBool: Bool { return self == .yes }
+    static var mutePushNotifications: MutePushNotifications {
+        guard let value = Bumper.value(for: MutePushNotifications.key) else { return .control }
+        return MutePushNotifications(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var mutePushNotificationsObservable: Observable<MutePushNotifications> {
+        return Bumper.observeValue(for: MutePushNotifications.key).map {
+            MutePushNotifications(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var multiAdRequestInChatSectionForUS: MultiAdRequestInChatSectionForUS {
+        guard let value = Bumper.value(for: MultiAdRequestInChatSectionForUS.key) else { return .control }
+        return MultiAdRequestInChatSectionForUS(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var multiAdRequestInChatSectionForUSObservable: Observable<MultiAdRequestInChatSectionForUS> {
+        return Bumper.observeValue(for: MultiAdRequestInChatSectionForUS.key).map {
+            MultiAdRequestInChatSectionForUS(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var multiAdRequestInChatSectionForTR: MultiAdRequestInChatSectionForTR {
+        guard let value = Bumper.value(for: MultiAdRequestInChatSectionForTR.key) else { return .control }
+        return MultiAdRequestInChatSectionForTR(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var multiAdRequestInChatSectionForTRObservable: Observable<MultiAdRequestInChatSectionForTR> {
+        return Bumper.observeValue(for: MultiAdRequestInChatSectionForTR.key).map {
+            MultiAdRequestInChatSectionForTR(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
 }
+
 
 enum RealEstateEnabled: String, BumperFeature  {
     case control, baseline, active
@@ -1755,22 +1775,6 @@ enum EnableJobsAndServicesCategory: String, BumperFeature  {
     }
 }
 
-enum CachedFeed: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return CachedFeed.control.rawValue }
-    static var enumValues: [CachedFeed] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "[CORE] Show cached feed before requesting for a fresh one" } 
-    static func fromPosition(_ position: Int) -> CachedFeed {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
 enum CopyForSellFasterNowInTurkish: String, BumperFeature  {
     case control, baseline, variantB, variantC, variantD
     static var defaultValue: String { return CopyForSellFasterNowInTurkish.control.rawValue }
@@ -1870,6 +1874,22 @@ enum RealEstatePromoCells: String, BumperFeature  {
     }
 }
 
+enum ProUsersExtraImages: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return ProUsersExtraImages.control.rawValue }
+    static var enumValues: [ProUsersExtraImages] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[Cars] allow up to 25 images to be displayed on the product detail page" } 
+    static func fromPosition(_ position: Int) -> ProUsersExtraImages {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
 enum SectionedDiscoveryFeed: String, BumperFeature  {
     case control, baseline, active
     static var defaultValue: String { return SectionedDiscoveryFeed.control.rawValue }
@@ -1926,6 +1946,54 @@ enum ClickToTalk: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "[VERTICALS] Show Click to talk" } 
     static func fromPosition(_ position: Int) -> ClickToTalk {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum MutePushNotifications: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return MutePushNotifications.control.rawValue }
+    static var enumValues: [MutePushNotifications] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[CORE] Push notifications won't make a sound during some night hours." } 
+    static func fromPosition(_ position: Int) -> MutePushNotifications {
+        switch position {
+        case 0: return .control
+        case 1: return .baseline
+        case 2: return .active
+        default: return .control
+        }
+    }
+}
+
+enum MultiAdRequestInChatSectionForUS: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return MultiAdRequestInChatSectionForUS.control.rawValue }
+    static var enumValues: [MultiAdRequestInChatSectionForUS] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[MONEY] Muti ad request in Chat section. For US" } 
+    static func fromPosition(_ position: Int) -> MultiAdRequestInChatSectionForUS {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum MultiAdRequestInChatSectionForTR: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return MultiAdRequestInChatSectionForTR.control.rawValue }
+    static var enumValues: [MultiAdRequestInChatSectionForTR] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[MONEY] Muti ad request in Chat section. For Turkey" } 
+    static func fromPosition(_ position: Int) -> MultiAdRequestInChatSectionForTR {
         switch position { 
             case 0: return .control
             case 1: return .baseline

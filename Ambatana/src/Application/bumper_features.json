@@ -1,10 +1,5 @@
 [
     {
-        "name": "UserReviewsReportEnabled",
-        "values": ["no", "yes"],
-        "description": "User reviews report enabled"
-    },
-    {
         "name": "RealEstateEnabled",
         "values": ["control", "baseline", "active"],
         "description": "Allow to see Real Estate category"
@@ -265,11 +260,6 @@
         "description": "[SERVICES] Services category becomes Jobs & Services, enables features related to jobs"
     },
     {
-        "name": "CachedFeed",
-        "values": ["control", "baseline", "active"],
-        "description": "[CORE] Show cached feed before requesting for a fresh one"
-    },
-    {
         "name": "CopyForSellFasterNowInTurkish",
         "values": ["control", "baseline", "variantB", "variantC", "variantD"],
         "description": "[MONEY] Try different copies for 'Sell faster now' banner in Turkish"
@@ -300,6 +290,11 @@
         "description": "[REAL ESTATE] Show NEW promo cells for real Estate"
      },
      {
+         "name": "ProUsersExtraImages",
+         "values": ["control", "baseline", "active"],
+         "description": "[Cars] allow up to 25 images to be displayed on the product detail page"
+     },
+        {
         "name": "SectionedDiscoveryFeed",
         "values": ["control", "baseline", "active"],
         "description": "[Discovery] Show SectionedFeed"
@@ -318,5 +313,20 @@
         "name": "ClickToTalk",
         "values": ["control", "baseline", "active"],
         "description": "[VERTICALS] Show Click to talk"
+    },
+    {
+        "name": "MutePushNotifications",
+        "values": ["control", "baseline", "active"],
+        "description": "[CORE] Push notifications won't make a sound during some night hours."
+    },
+    {
+        "name": "MultiAdRequestInChatSectionForUS",
+        "values": ["control", "baseline", "active"],
+        "description": "[MONEY] Muti ad request in Chat section. For US"
+    },
+    {
+        "name": "MultiAdRequestInChatSectionForTR",
+        "values": ["control", "baseline", "active"],
+        "description": "[MONEY] Muti ad request in Chat section. For Turkey"
     }
  ]

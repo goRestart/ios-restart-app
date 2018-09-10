@@ -51,11 +51,6 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
         return feedItems.index(where: { $0 is LocationData })
     }
     
-    var bottomStatusIndicatorIndex: Int? {
-        guard feedItems.last is DiffableBox<ListingRetrievalState> else { return nil }
-        return feedItems.count - 1
-    }
-    
     var verticalSectionsCount: Int {
         guard let locationSectionIndex = locationSectionIndex,
             feedItems.count > locationSectionIndex else { return 0 }
@@ -67,7 +62,7 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
             return filters.place ?? Place(postalAddress: currentLocation?.postalAddress,
                                           location: currentLocation?.location)
     }
-    
+
     // Private vars
     
     private let filtersVar: Variable<ListingFilters>
@@ -406,7 +401,19 @@ extension FeedViewModel {
             myUserName:  myUserRepository.myUser?.name)
     }
     
-    func openSearches() { navigator?.openSearches() }
+    func openSearches() {
+        guard let safeNavigator = navigator else { return }
+        wireframe?.openSearches(withSearchType: searchType){ [weak self] searchType in
+            guard let safeSelf = self else { return }
+            safeSelf.wireframe?.openClassicFeed(
+                navigator: safeNavigator,
+                withSearchType: searchType,
+                listingFilters: safeSelf.filters,
+                shouldCloseOnRemoveAllFilters: false
+            )
+            safeSelf.delegate?.searchCompleted()
+        }
+    }
     
     func showFilters() {
         wireframe?.openFilters(withListingFilters: filters,
@@ -427,21 +434,22 @@ extension FeedViewModel: FiltersViewModelDataDelegate {
     
     func viewModelDidUpdateFilters(_ viewModel: FiltersViewModel,
                                    filters: ListingFilters) {
+        defer { refreshFeedUponLocationChange() }
+        self.filters = filters
         guard !filters.isDefault() else { return }
         // For the moment when the user wants to filter something the app
         // must jump directly to the old feed with the applied filters.
         // Story: https://ambatana.atlassian.net/browse/ABIOS-4525?filter=18022.
         guard let safeNavigator = navigator else { return }
-        guard filters.hasOnlyPlace else {
-            wireframe?.openClassicFeed(
-                navigator: safeNavigator,
-                withSearchType: searchType,
-                listingFilters: filters,
-                shouldCloseOnRemoveAllFilters: true)
-            return
-        }
-        self.filters = filters
-        refreshFeedUponLocationChange()
+        guard !filters.hasOnlyPlace else { return }
+        wireframe?.openClassicFeed(
+            navigator: safeNavigator,
+            withSearchType: searchType,
+            listingFilters: filters,
+            shouldCloseOnRemoveAllFilters: true,
+            tagsDelegate: self
+        )
+        self.filters = ListingFilters()
     }
 }
 
@@ -731,6 +739,15 @@ extension FeedViewModel {
 extension FeedViewModel: AdUpdated {
     func updatedAd() {
         refreshFeed()
+    }
+}
+
+// MARK: - Main Listings Tags Delegate
+
+extension FeedViewModel: MainListingsTagsDelegate {
+    func onCloseAllFilters(finalFiters newFilters: ListingFilters) {
+        self.filters = newFilters
+        refreshFeedUponLocationChange()
     }
 }
 
