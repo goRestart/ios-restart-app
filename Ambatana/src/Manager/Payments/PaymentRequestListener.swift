@@ -60,7 +60,7 @@ final class PaymentRequestListener: NSObject, PKPaymentAuthorizationViewControll
         let params = P2PPaymentCreateOfferParams(listingId: paymentRequest.listingId,
                                                  buyerId: paymentRequest.buyerId,
                                                  sellerId: paymentRequest.sellerId,
-                                                 amount: paymentRequest.totalAmount.doubleValue,
+                                                 amount: paymentRequest.sellerAmount.doubleValue,
                                                  currency: paymentRequest.currency,
                                                  paymentToken: token.tokenId)
         p2pPaymentsRepository.createOffer(params: params) { result in
