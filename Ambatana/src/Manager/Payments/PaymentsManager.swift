@@ -1,5 +1,6 @@
 import Foundation
 import LGCoreKit
+import LGComponents
 import Stripe
 import PassKit
 import Result
@@ -46,10 +47,11 @@ final class LGPaymentsManager: PaymentsManager {
     private var paymentRequestListener: PaymentRequestListener?
 
     convenience init() {
-        self.init(p2pPaymentsRepository: Core.p2pPaymentsRepository)
+        self.init(p2pPaymentsRepository: Core.p2pPaymentsRepository, config: .defaultConfig)
     }
 
-    init(p2pPaymentsRepository: P2PPaymentsRepository) {
+    init(p2pPaymentsRepository: P2PPaymentsRepository, config: Config) {
+        LGPaymentsManager.setup(config: config)
         self.p2pPaymentsRepository = p2pPaymentsRepository
     }
 
@@ -100,6 +102,9 @@ extension LGPaymentsManager {
     struct Config {
         let apiKey: String
         let appleMerchantId: String
+
+        static let defaultConfig = Config(apiKey: EnvironmentProxy.sharedInstance.stripeAPIKey,
+                                          appleMerchantId: EnvironmentProxy.sharedInstance.appleMerchantId)
     }
 
     static func setup(config: Config) {

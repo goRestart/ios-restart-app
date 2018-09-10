@@ -310,13 +310,6 @@ fileprivate extension AppDelegate {
                                                 didFinishLaunchingWithOptions: launchOptions,
                                                 featureFlags: featureFlags)
         LGNotificationsManager.sharedInstance.setup()
-        setupStripeManager()
-    }
-
-    private func setupStripeManager() {
-        let config = LGPaymentsManager.Config(apiKey: EnvironmentProxy.sharedInstance.stripeAPIKey,
-                                              appleMerchantId: EnvironmentProxy.sharedInstance.appleMerchantId)
-        LGPaymentsManager.setup(config: config)
     }
 }
 
