@@ -20,6 +20,7 @@ final class P2PPaymentsOnboardingTraitView: UIView {
         label.font = .systemBoldFont(size: 20)
         label.textColor = .lgBlack
         label.numberOfLines = 0
+        label.setContentHuggingPriority(.defaultHigh, for: .vertical)
         return label
     }()
 
@@ -28,6 +29,7 @@ final class P2PPaymentsOnboardingTraitView: UIView {
         label.font = .systemFont(ofSize: 16)
         label.textColor = .grayDark
         label.numberOfLines = 0
+        label.setContentHuggingPriority(.defaultHigh, for: .vertical)
         return label
     }()
 
