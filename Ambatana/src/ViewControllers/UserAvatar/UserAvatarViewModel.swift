@@ -34,20 +34,26 @@ final class UserAvatarViewModel: BaseViewModel {
                           progressBlock: nil,
                           completion: { [weak self] result in
                             if let _ = result.value {
-                                self?.trackUpdateAvatarComplete()
-                                self?.myUserRepository.refresh({ result in
-                                    if let value = result.value {
-                                        self?.user.value = value
-                                    }
-                                    self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
-                                })
+                                self?.updateSuccess()
                             } else {
-                                self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
-                                self?.delegate?
-                                    .vmShowAutoFadingMessage(R.Strings.settingsChangeProfilePictureErrorGeneric,
-                                                             completion: nil)
+                                self?.updateError()
                             }
             })
+    }
+
+    private func updateSuccess() {
+        trackUpdateAvatarComplete()
+        myUserRepository.refresh { [weak self] result in
+            if let value = result.value {
+                self?.user.value = value
+            }
+            self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
+        }
+    }
+
+    private func updateError() {
+        delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
+        delegate?.vmShowAutoFadingMessage(R.Strings.settingsChangeProfilePictureErrorGeneric, completion: nil)
     }
 
     private func makeUserAvatar() -> Driver<UIImage?> {

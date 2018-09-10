@@ -2,6 +2,7 @@ import CoreLocation
 import LGCoreKit
 import Result
 import RxSwift
+import RxCocoa
 import GoogleMobileAds
 import MoPub
 import LGComponents
@@ -115,7 +116,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     let containsListings = Variable<Bool>(false)
     let isShowingCategoriesHeader = Variable<Bool>(false)
 
-    var userAvatar = Variable<UIImage?>(nil)
+    var userAvatar = BehaviorRelay<UIImage?>(value: nil)
 
     var categoryHeaderElements: [FilterCategoryItem] { return FilterCategoryItem.makeForFeed(with: featureFlags) }
     var categoryHighlighted: FilterCategoryItem { return FilterCategoryItem(category: .services) }
@@ -861,18 +862,20 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         guard featureFlags.advancedReputationSystem11.isActive else { return }
 
         guard let avatarUrl = user?.avatar?.fileURL else {
-            return self.userAvatar.value = nil
+            self.userAvatar.accept(nil)
+            return
         }
 
         if let cachedImage = ImageDownloader.sharedInstance.cachedImageForUrl(avatarUrl) {
-            return self.userAvatar.value = cachedImage
+            self.userAvatar.accept(cachedImage)
+            return
         }
 
         ImageDownloader
             .sharedInstance
             .downloadImageWithURL(avatarUrl) { [weak self] (result, _) in
                 guard case .success((let image, _)) = result else { return }
-                self?.userAvatar.value = image
+                self?.userAvatar.accept(image)
         }
     }
 
