@@ -103,6 +103,10 @@ extension ProfileTabCoordinator: ProfileTabNavigator {
         // Should disappear after navigation refactor
         return
     }
+
+    func closeAvatarDetail() {
+        navigationController.popViewController(animated: true)
+    }
 }
 
 extension ProfileTabCoordinator: SettingsNavigator {

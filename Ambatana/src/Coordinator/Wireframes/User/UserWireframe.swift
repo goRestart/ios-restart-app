@@ -148,4 +148,8 @@ extension UserWireframe: PublicProfileNavigator {
     func openListingChat(data: ChatDetailData, source: EventParameterTypePage, predefinedMessage: String?) {
         chatRouter.openChat(data, source: source, predefinedMessage: predefinedMessage)
     }
+
+    func closeAvatarDetail() {
+        nc.popViewController(animated: true)
+    }
 }

@@ -30,6 +30,7 @@ protocol PublicProfileNavigator: class {
     func openListingChat(data: ChatDetailData,
                          source: EventParameterTypePage,
                          predefinedMessage: String?)
+    func closeAvatarDetail()
 }
 
 protocol SettingsNavigator: class {

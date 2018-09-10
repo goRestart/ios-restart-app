@@ -7,6 +7,7 @@ final class UserAvatarViewController: BaseViewController {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.backgroundColor = .white
+        imageView.isUserInteractionEnabled = true
         return imageView
     }()
 
@@ -43,6 +44,8 @@ final class UserAvatarViewController: BaseViewController {
         }
         setupRx()
         setupConstraints()
+        let tap = UITapGestureRecognizer(target: self, action: #selector(close))
+        imageView.addGestureRecognizer(tap)
     }
 
     private func setupRx() {
@@ -77,6 +80,10 @@ final class UserAvatarViewController: BaseViewController {
 
     @objc private func didTapEdit() {
         MediaPickerManager.showImagePickerIn(self)
+    }
+
+    @objc private func close() {
+        viewModel.didTapClose()
     }
 }
 

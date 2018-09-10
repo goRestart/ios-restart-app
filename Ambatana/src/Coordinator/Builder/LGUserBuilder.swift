@@ -46,8 +46,9 @@ extension LGUserBuilder: UserAssembly {
 
     func buildUserAvatar(isPrivate: Bool, user: User) -> UserAvatarViewController {
         switch self {
-        case .standard:
+        case .standard(let nav):
             let vm = UserAvatarViewModel(isPrivate: isPrivate, user: user)
+            vm.navigator = UserWireframe(nc: nav)
             let vc = UserAvatarViewController(viewModel: vm)
             return vc
         }

@@ -11,6 +11,7 @@ final class UserAvatarViewModel: BaseViewModel {
     private let user: Variable<User>
 
     weak var delegate: BaseViewModelDelegate?
+    var navigator: PublicProfileNavigator?
     var isPrivate: Bool
     var userAvatarURL: Driver<URL?> { return user.asDriver().map {$0.avatar?.fileURL} }
     var userAvatarPlaceholder: Driver<UIImage?> { return makeUserAvatar() }
@@ -60,5 +61,9 @@ final class UserAvatarViewModel: BaseViewModel {
     func trackUpdateAvatarComplete() {
         let trackerEvent = TrackerEvent.profileEditEditPicture()
         tracker.trackEvent(trackerEvent)
+    }
+
+    func didTapClose() {
+        navigator?.closeAvatarDetail()
     }
 }
