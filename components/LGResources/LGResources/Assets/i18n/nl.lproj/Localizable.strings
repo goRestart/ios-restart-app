@@ -448,6 +448,7 @@
 "filters_cars_transmission_title" = "Transmissie";
 "filters_distance_not_set" = "Niet ingesteld";
 "filters_jobs_services_header" = "Baan of Dienst Info";
+"filters_jobs_services_list_max_selection_alert" = "Oeps! Je kunt niet meer dan 15 opties selecteren.";
 "filters_jobs_services_subtype_title" = "Subtype";
 "filters_jobs_services_toggle_header" = "Op zoek naar...";
 "filters_jobs_services_type_title" = "Type";
@@ -759,6 +760,10 @@
 "post_description_name_placeholder" = "Naam";
 "post_description_save_button_text" = "Bewaar deze advertentie!";
 "post_details_jobs_services_camera_message" = "Plaats jouw bedrijfslogo of een foto die de dienst of baan die je aanbiedt laat zien";
+"post_details_jobs_services_congratulation_add_more_details" = "door meer details toe te voegen:";
+"post_details_jobs_services_congratulation_improve_listing" = "Verbeter je advertentie";
+"post_details_jobs_services_congratulation_people_nearby_first" = "Mensen in jouw omgeving zijn ook";
+"post_details_jobs_services_congratulation_people_nearby_second" = "op zoek naar:";
 "post_details_jobs_services_step_option_jobs_prefix" = "Ben op zoek om iemand in te huren voor een";
 "post_details_jobs_services_step_option_services_prefix" = "Adverteer een";
 "post_details_jobs_services_step_title" = "Ik...";
@@ -1049,6 +1054,9 @@
 "profile_sold_no_products_label" = "(NOG!) GEEN ADVERTENTIES";
 "profile_sold_other_no_products_button" = "Blijf browsen";
 "profile_sold_products_tab" = "Verkocht";
+"profile_verifications_awareness_view_bold_text" = "Here's a pro tip";
+"profile_verifications_awareness_view_button" = "Complete profile";
+"profile_verifications_awareness_view_text" = "%@ - did you know that verified users make better deals?\n\nComplete and verify your profile today!";
 "profile_verifications_email_placeholder" = "Email";
 "profile_verifications_email_view_title" = "Verifieer je e-mail";
 "profile_verifications_send_button" = "Verstuur";
@@ -1356,9 +1364,10 @@
 "sell_title_autogen_label" = "Titel voorgesteld door letgo";
 "sell_title_field_hint" = "Titel (optioneel)";
 "sell_uploading_label" = "Uploaden van jouw advertentie...";
+"services_promo_call_to_action" = "Plaats een dienst";
 "services_promo_cell_title_b" = "Nieuwe Diensten categorie!";
 "services_promo_cell_title_c" = "Vind lokale klanten voor jouw dienst";
-"services_promo_cell_title_default_bold" = "Verdien Geld";
+"services_promo_cell_title_default_bold" = "Verdien geld";
 "services_promo_cell_title_default_regular" = "in je vrije tijd";
 "services_service_subtype_list_title" = "Diensten";
 "services_service_subtype_title" = "Diensten";
@@ -1397,6 +1406,8 @@
 "settings_section_promote" = "Promoten";
 "settings_section_support" = "Ondersteuning";
 "settings_title" = "Instellingen";
+"share_screenshot_description" = "Nu is het klaar voor jou om te delen:";
+"share_screenshot_title" = "Screenshot opgeslagen!";
 "sign_up_acceptance_error" = "Om je aan te melden dien je de Algemene Voorwaarden en het Privacybeleid te accepteren";
 "sign_up_email_field_hint" = "E-mail";
 "sign_up_email_step1_continue_button" = "Doorgaan";

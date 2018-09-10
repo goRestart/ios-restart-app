@@ -1,6 +1,12 @@
 
 public enum FeedListing {
     case product(Listing)
+    case emptyLocation           //  To be removed when app supports location-less products
+    
+    var hasLocation: Bool {
+        guard case .emptyLocation = self else { return true }
+        return false
+    }
 }
 
 extension FeedListing: Decodable {
@@ -18,8 +24,17 @@ extension FeedListing: Decodable {
         let type = try container.decode(ListingType.self, forKey: .type)
         switch type {
         case .product:
-            let feedProduct = try container.decode(LGFeedProduct.self, forKey: .attributes)
-            self = .product(LGFeedProduct.toListing(item: feedProduct))
+            self = try container.decodeAndEmbedListing()
         }
+    }
+}
+
+extension KeyedDecodingContainer where KeyedDecodingContainer.Key == FeedListing.CodingKeys {
+    func decodeAndEmbedListing() throws -> FeedListing {
+        let feedListing = try decode(LGFeedProduct.self, forKey: .attributes)
+        if let listing = LGFeedProduct.toListing(item: feedListing) {
+            return .product(listing)
+        }
+        return .emptyLocation
     }
 }

@@ -191,7 +191,7 @@ class ChatViewModel: ChatBaseViewModel {
     fileprivate var shouldShowOtherUserInfo: Bool {
         guard conversation.value.isSaved else { return true }
         let alreadyShown = messages.value.reduce(false) { (result, current)  in
-            if case ChatViewMessageType.userInfo(_,_,_,_,_,_) = current.type {
+            if case ChatViewMessageType.userInfo(_) = current.type {
                 return true
             }
             return result
@@ -1555,7 +1555,7 @@ extension ChatViewModel {
         var firstInterlocutorMessageIndex: Int? {
             guard let i = messages.reversed().index(where: {
                 switch $0.type {
-                case .disclaimer, .userInfo, .askPhoneNumber, .interlocutorIsTyping, .multiAnswer, .cta:
+                case .disclaimer, .userInfo, .askPhoneNumber, .interlocutorIsTyping, .multiAnswer, .cta, .carousel:
                     return false
                 case .offer, .sticker, .text, .meeting, .unsupported:
                     return $0.talkerId != myUserRepository.myUser?.objectId
@@ -1676,15 +1676,15 @@ fileprivate extension ChatViewModel {
 fileprivate extension ChatViewModel {
 
     func trackLetgoServiceMessageReceived() {
-        guard let listingId = conversation.value.listing?.objectId,
-            let lastMessage = messages.value.last
-            else { return }
+        guard let lastMessage = messages.value.first else { return }
         if case .multiAnswer(let question, _) = lastMessage.type,
             let questionKey = question.key {
-            tracker.trackEvent(TrackerEvent.chatLetgoServiceQuestionReceived(questionKey: questionKey, listingId: listingId))
+            tracker.trackEvent(TrackerEvent.chatLetgoServiceQuestionReceived(questionKey: questionKey,
+                                                                             listingId: conversation.value.listing?.objectId))
         } else if case .cta(let data, _) = lastMessage.type,
             let key = data.key {
-            tracker.trackEvent(TrackerEvent.chatLetgoServiceCTAReceived(questionKey: key, listingId: listingId))
+            tracker.trackEvent(TrackerEvent.chatLetgoServiceCTAReceived(questionKey: key,
+                                                                        listingId: conversation.value.listing?.objectId))
         }
     }
     
@@ -1982,10 +1982,13 @@ extension ChatViewModel: MeetingAssistantDataDelegate {
 
 extension ChatViewModel {
 
-    func openDeeplink(url: URL, trackingKey: String) {
-        let isLetgoAssistant = EventParameterBoolean(bool: isUserDummy)
-        let trackerEvent = TrackerEvent.chatCallToActionTapped(ctaKey: trackingKey, isLetgoAssistant: isLetgoAssistant)
-        tracker.trackEvent(trackerEvent)
+    func openDeeplink(url: URL, trackingKey: String?) {
+        if let trackingKey = trackingKey {
+            let isLetgoAssistant = EventParameterBoolean(bool: isUserDummy)
+            let trackerEvent = TrackerEvent.chatCallToActionTapped(ctaKey: trackingKey,
+                                                                   isLetgoAssistant: isLetgoAssistant)
+            tracker.trackEvent(trackerEvent)
+        }
         navigator?.navigate(with: url)
     }
 

@@ -47,14 +47,12 @@ extension LGFeed: Decodable {
                   "is_translated": false
                 },
                 "owner": {
-                  "id": "abdcd",
-                  "name": "John Smith",
-                  "avatar_url": "https://avatar/molon.jpg",
-                  "geo_data": {
-                    "country_code": "US",
-                    "city": "Edimburgh",
-                    "zip_code": "EH6 8QP"
-                  }
+                 "id": "abdcd",
+                 "name": "John Smith",
+                 "avatar_url": "https://avatar/molon.jpg",
+                 "zip_code": "EH6 8QP",
+                 "country_code": "US",
+                 "city": "Edimburgh"
                 },
                 "geo_data": {
                   "coords": {
@@ -120,6 +118,6 @@ extension LGFeed: Decodable {
         pagination = try rootContainer.decode(LGPaginationLinks.self, forKey: .links)
         let dataValues = try rootContainer.nestedContainer(keyedBy: FeedDataKeys.self, forKey: .data)
         sections = try dataValues.decode([LGFeedSection].self, forKey: .sections)
-        items = try dataValues.decode(FailableDecodableArray<FeedListing>.self, forKey: .items).validElements
+        items = try dataValues.decode(FailableDecodableArray<FeedListing>.self, forKey: .items).validElements.filter { $0.hasLocation }
     }
 }

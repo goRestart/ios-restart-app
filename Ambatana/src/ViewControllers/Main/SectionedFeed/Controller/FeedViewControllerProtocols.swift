@@ -10,4 +10,5 @@ protocol WaterFallScrollable: class {
 
 protocol FeedViewModelDelegate: class {
     func vmDidUpdateState(_ vm: FeedViewModel, state: ViewState)
+    func searchCompleted()
 }

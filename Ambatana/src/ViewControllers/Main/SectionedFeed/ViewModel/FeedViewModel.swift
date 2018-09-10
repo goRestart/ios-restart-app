@@ -18,7 +18,7 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
 
     var wireframe: FeedNavigator?
     var listingWireframe: ListingWireframe?
-    
+
     weak var rootViewController: UIViewController? {
         didSet {
             sectionControllerFactory.rootViewController = rootViewController
@@ -51,11 +51,6 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
         return feedItems.index(where: { $0 is LocationData })
     }
     
-    var bottomStatusIndicatorIndex: Int? {
-        guard feedItems.last is DiffableBox<ListingRetrievalState> else { return nil }
-        return feedItems.count - 1
-    }
-    
     var verticalSectionsCount: Int {
         guard let locationSectionIndex = locationSectionIndex,
             feedItems.count > locationSectionIndex else { return 0 }
@@ -63,17 +58,17 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     }
     
     var currentPlace: Place {
-        let currentLocation = locationManager.currentLocation
-        return filters.place ?? Place(postalAddress: currentLocation?.postalAddress,
-                                      location: currentLocation?.location)
+            let currentLocation = locationManager.currentLocation
+            return filters.place ?? Place(postalAddress: currentLocation?.postalAddress,
+                                          location: currentLocation?.location)
     }
-    
+
     // Private vars
     
     private let filtersVar: Variable<ListingFilters>
     private let disposeBag = DisposeBag()
     
-    
+    private var lastReceivedLocation: LGLocation?
     private var listingRetrievalState: ListingRetrievalState = .error {
         didSet {
             removeLoadingBottom()
@@ -108,24 +103,23 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     private let locationManager: LocationManager
     private let featureFlags: FeatureFlaggeable
     private let keyValueStorage: KeyValueStorageable
-    private let feedRepository: FeedRepository
     private var shouldTrackSearch = false
-    private var feedRequester: FeedRequester?
     private let chatWrapper: ChatWrapper
     private let adsImpressionConfigurable: AdsImpressionConfigurable
     private let interestedStateManager: InterestedStateUpdater
     private let sectionedFeedVMTrackerHelper: SectionedFeedVMTrackerHelper
-    
+    private let sectionedFeedRequester: SectionedFeedRequester
+    private let sessionManager: SessionManager
     //  MARK: - Life Cycle
     
-    init(feedRepository: FeedRepository = Core.feedRepository,
-         searchType: SearchType? = nil,
+    init(searchType: SearchType? = nil,
          filters: ListingFilters,
          bubbleTextGenerator: DistanceBubbleTextGenerator = DistanceBubbleTextGenerator(),
          myUserRepository: MyUserRepository = Core.myUserRepository,
          userRepository: UserRepository = Core.userRepository,
          tracker: Tracker = TrackerProxy.sharedInstance,
          pushPermissionsManager: PushPermissionsManager = LGPushPermissionsManager.sharedInstance,
+         sessionManager: SessionManager = Core.sessionManager,
          application: Application = UIApplication.shared,
          locationManager: LocationManager = Core.locationManager,
          featureFlags: FeatureFlaggeable = FeatureFlags.sharedInstance,
@@ -148,18 +142,13 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
         self.userRepository = userRepository
         self.tracker = tracker
         self.pushPermissionsManager = pushPermissionsManager
+        self.sessionManager = sessionManager
         self.application = application
         self.locationManager = locationManager
         self.featureFlags = featureFlags
         self.keyValueStorage = keyValueStorage
         self.waterfallColumnCount = deviceFamily.shouldShow3Columns() ? 3 : 2
         self.viewState = .loading
-        self.feedRepository = feedRepository
-        self.feedRequester = FeedRequesterFactory.make(
-            withFeedRepository: feedRepository,
-            location: locationManager.currentLocation?.location,
-            countryCode: locationManager.currentLocation?.countryCode,
-            variant: "\(featureFlags.sectionedFeedABTestIntValue)")
         self.sectionControllerFactory = SectionControllerFactory(
             waterfallColumnCount: waterfallColumnCount,
             featureFlags: featureFlags,
@@ -171,6 +160,7 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
         self.adsPaginationHelper = AdsPaginationHelper(featureFlags: featureFlags)
         self.interestedStateManager = interestedStateManager
         self.sectionedFeedVMTrackerHelper = sectionedFeedVMTrackerHelper
+        self.sectionedFeedRequester = SectionedFeedRequester()
         super.init()
         setup()
     }
@@ -182,7 +172,7 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
-        updatePermissionsPresenter()
+        updatePermissionBanner()
         refreshFeed()
     }
     
@@ -208,7 +198,7 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     func loadFeedItems() {
         guard let searchType = searchType else { return retrieve() }
         if case .feed(let page, _) = searchType {
-            retrieveNext(withUrl: page, completion: feedCompletion())
+            sectionedFeedRequester.retrieveNext(withUrl: page, completion: feedCompletion())
         }
     }
     
@@ -235,6 +225,7 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     private func setup() {
         sectionControllerFactory.delegate = self
         setupPermissionsNotification()
+        setupSesstionAndLocation()
     }
     
     private func refreshFeed() {
@@ -252,30 +243,51 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     }
 }
 
+// MARK: - Session and Location Manager change
+
+extension FeedViewModel {
+    
+    private func setupSesstionAndLocation() {
+        sessionManager.sessionEvents.bind { [weak self] _ in
+            guard self?.active == true else { return }
+            self?.sessionDidChange() }
+            .disposed(by: disposeBag)
+        locationManager.locationEvents.filter { $0 == .locationUpdate }.bind { [weak self] _ in
+            guard self?.active == true else { return }
+            self?.locationDidChange()
+            }.disposed(by: disposeBag)
+    }
+    
+    private func sessionDidChange() {
+        retrieve()
+    }
+    
+    private func locationDidChange() {
+        guard let newLocation = locationManager.currentLocation else { return }
+        lastReceivedLocation = locationManager.currentLocation
+        filters.place =  Place(postalAddress: newLocation.postalAddress,
+                               location: newLocation.location)
+        trackLocationTypeChange(from: lastReceivedLocation?.type, to: newLocation.type)
+        refreshFeedUponLocationChange()
+    }
+}
+
 //  MARK: - FeedRequester
 
 extension FeedViewModel {
     
-    func retrieve() {
+    private func retrieve() {
         let completion = feedCompletion()
         isRetrieving = true
         if let nextFeedPageURL = paginationLinks?.next {
             listingRetrievalState = .loading
-            retrieveNext(withUrl: nextFeedPageURL, completion: completion)
+            sectionedFeedRequester.retrieveNext(withUrl: nextFeedPageURL, completion: completion)
         } else {
             viewState = .loading
-            retrieveFirst(completion)
+            sectionedFeedRequester.retrieveFirst(completion)
         }
     }
-    
-    func retrieveFirst(_ completion: @escaping FeedCompletion) {
-        feedRequester?.retrieve(completion)
-    }
-    
-    func retrieveNext(withUrl url: URL, completion: @escaping FeedCompletion) {
-        feedRequester?.retrieve(nextURL: url, completion)
-    }
-    
+
     private func feedCompletion() -> FeedCompletion {
         return { [weak self] result in
             self?.isRetrieving = false
@@ -285,7 +297,6 @@ extension FeedViewModel {
                 self?.removeLoadingBottom()
                 defer {
                     self?.refreshFeed()
-                    
                 }
                 guard !feed.isEmpty else {
                     self?.renderEmptyPage(feed)
@@ -316,7 +327,7 @@ extension FeedViewModel {
     }
     
     private func updateFeedItems(withFeed feed: Feed) {
-        let horizontalSections = feed.horizontalSections(featureFlags, myUserRepository, keyValueStorage, waterfallColumnCount)
+        let horizontalSections = feed.horizontalSections(featureFlags, myUserRepository, keyValueStorage, waterfallColumnCount, pages.count)
         let verticalSections = feed.verticalItems(featureFlags, myUserRepository, keyValueStorage, waterfallColumnCount)
         var duplications = feed.items.count - verticalSections.count
         let verticalItems = verticalSections.filter { feedListingData in
@@ -369,12 +380,7 @@ extension FeedViewModel {
     }
     
     private func updateFeedRequester() {
-        let location = currentPlace.location
-        let countryCode = currentPlace.postalAddress?.countryCode
-        feedRequester = FeedRequesterFactory.make(withFeedRepository: feedRepository,
-                                                  location: location,
-                                                  countryCode: countryCode,
-                                                  variant: "\(featureFlags.sectionedFeedABTestIntValue)")
+        sectionedFeedRequester.updateFeedRequester(withCurrentPlace: currentPlace)
     }
     
     private func resetFeed() {
@@ -385,7 +391,6 @@ extension FeedViewModel {
         adsPaginationHelper.reset()
         feedIdSet.removeAll()
     }
-    
 }
 
 extension FeedViewModel {
@@ -396,7 +401,19 @@ extension FeedViewModel {
             myUserName:  myUserRepository.myUser?.name)
     }
     
-    func openSearches() { navigator?.openSearches() }
+    func openSearches() {
+        guard let safeNavigator = navigator else { return }
+        wireframe?.openSearches(withSearchType: searchType){ [weak self] searchType in
+            guard let safeSelf = self else { return }
+            safeSelf.wireframe?.openClassicFeed(
+                navigator: safeNavigator,
+                withSearchType: searchType,
+                listingFilters: safeSelf.filters,
+                shouldCloseOnRemoveAllFilters: false
+            )
+            safeSelf.delegate?.searchCompleted()
+        }
+    }
     
     func showFilters() {
         wireframe?.openFilters(withListingFilters: filters,
@@ -406,10 +423,8 @@ extension FeedViewModel {
     
     func refreshControlTriggered() {
         resetFeed()
-        guard let searchType = searchType else { return retrieve() }
-        if case .feed(let page, _) = searchType {
-            retrieveNext(withUrl: page, completion: feedCompletion())
-        } else { retrieve() }
+        updatePermissionBanner()
+        loadFeedItems()
     }
 }
 
@@ -419,9 +434,22 @@ extension FeedViewModel: FiltersViewModelDataDelegate {
     
     func viewModelDidUpdateFilters(_ viewModel: FiltersViewModel,
                                    filters: ListingFilters) {
+        defer { refreshFeedUponLocationChange() }
         self.filters = filters
-        refreshFiltersVar()
-        refreshFeed()
+        guard !filters.isDefault() else { return }
+        // For the moment when the user wants to filter something the app
+        // must jump directly to the old feed with the applied filters.
+        // Story: https://ambatana.atlassian.net/browse/ABIOS-4525?filter=18022.
+        guard let safeNavigator = navigator else { return }
+        guard !filters.hasOnlyPlace else { return }
+        wireframe?.openClassicFeed(
+            navigator: safeNavigator,
+            withSearchType: searchType,
+            listingFilters: filters,
+            shouldCloseOnRemoveAllFilters: true,
+            tagsDelegate: self
+        )
+        self.filters = ListingFilters()
     }
 }
 
@@ -438,13 +466,18 @@ extension FeedViewModel: PushPermissionsPresenterDelegate {
     
     private func setupPermissionsNotification() {
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(updatePermissionsPresenter),
+                                               selector: #selector(refreshPushPermissionBanner),
                                                name: NSNotification.Name(rawValue:
                                                 PushManager.Notification.DidRegisterUserNotificationSettings.rawValue),
                                                object: nil)
     }
     
-    @objc private dynamic func updatePermissionsPresenter() {
+    @objc private dynamic func refreshPushPermissionBanner() {
+        updatePermissionBanner()
+        refreshFeed()
+    }
+    
+    private func updatePermissionBanner() {
         let pushBannerId = StaticSectionType.pushBanner.rawValue as ListDiffable
         let hasPushMessage = feedItems.contains(where: { $0.isEqual(toDiffableObject: pushBannerId) })
         
@@ -453,9 +486,7 @@ extension FeedViewModel: PushPermissionsPresenterDelegate {
         } else if hasPushMessage && application.areRemoteNotificationsEnabled {
             feedItems.remove(at: 0)
         }
-        refreshFeed()
     }
-
 }
 
 //  MARK: - Location Edition
@@ -471,18 +502,20 @@ extension FeedViewModel: EditLocationDelegate, LocationEditable {
     func editLocationDidSelectPlace(_ place: Place, distanceRadius: Int?) {
         filters.place = place
         filters.distanceRadius = distanceRadius
-        
-        updateLocationTextInFeedItems(newLocationString: locationText)
-        
-        resetFeed()
-        updateFeedRequester()
-        refreshFiltersVar()
-        retrieve()
+        refreshFeedUponLocationChange()
     }
     
     private func updateLocationTextInFeedItems(newLocationString: String) {
         guard let index = locationSectionIndex else { return }
         feedItems[index] = LocationData(locationString: newLocationString)
+    }
+    
+    private func refreshFeedUponLocationChange() {
+        updateLocationTextInFeedItems(newLocationString: locationText)
+        resetFeed()
+        updateFeedRequester()
+        refreshFiltersVar()
+        retrieve()
     }
 }
 
@@ -498,7 +531,8 @@ extension FeedViewModel: SelectedForYouDelegate {
         wireframe?.openClassicFeed(
             navigator: strongNavigator,
             withSearchType: .collection(type: collectionType, query: query),
-            listingFilters: filters)
+            listingFilters: filters,
+            shouldCloseOnRemoveAllFilters: false)
     }
     
     private var shouldShowSelectedForYou: Bool {
@@ -529,7 +563,10 @@ extension FeedViewModel: RetryFooterDelegate {
 extension FeedViewModel: HorizontalSectionDelegate {
     func didTapSeeAll(page: SearchType) {
         guard let navigator = navigator else { return }
-        wireframe?.openProFeed(navigator: navigator, withSearchType: page)
+        wireframe?.openProFeed(
+            navigator: navigator,
+            withSearchType: page,
+            andFilters: filters)
     }
 }
 
@@ -620,7 +657,13 @@ extension FeedViewModel: ListingActionDelegate {
     }
     
     private func sendMessage(forListing listing: Listing, sectionedFeedChatTrackingInfo: SectionedFeedChatTrackingInfo?) {
-        let type = ChatWrapperMessageType.interested(QuickAnswer.interested.textToReply)
+        let type: ChatWrapperMessageType
+        if featureFlags.randomImInterestedMessages.isActive {
+            type = ChatWrapperMessageType.interested(QuickAnswer.dynamicInterested(
+                interestedMessage: QuickAnswer.InterestedMessage.makeRandom()).textToReply)
+        } else {
+            type = ChatWrapperMessageType.interested(QuickAnswer.interested.textToReply)
+        }
         interestedStateManager.addInterestedState(forListing: listing, completion: nil)
         let trackingInfo = SendMessageTrackingInfo
             .makeWith(type: type, listing: listing, freePostingAllowed: featureFlags.freePostingModeAllowed)
@@ -699,6 +742,15 @@ extension FeedViewModel: AdUpdated {
     }
 }
 
+// MARK: - Main Listings Tags Delegate
+
+extension FeedViewModel: MainListingsTagsDelegate {
+    func onCloseAllFilters(finalFiters newFilters: ListingFilters) {
+        self.filters = newFilters
+        refreshFeedUponLocationChange()
+    }
+}
+
 
 //  MARK: - Tracking
 
@@ -745,5 +797,12 @@ extension FeedViewModel {
                                                        listingVisitSource: listingVisitSource,
                                                        sectionedFeedChatTrackingInfo: sectionedFeedChatTrackingInfo,
                                                        listing: listing)
+    }
+    
+    private func trackLocationTypeChange(from old: LGLocationType?, to new: LGLocationType?) {
+        sectionedFeedVMTrackerHelper.trackLocationTypeChange(from: old,
+                                                             to: new,
+                                                             locationServiceStatus: locationManager.locationServiceStatus,
+                                                             distanceRadius: filters.distanceRadius)
     }
 }

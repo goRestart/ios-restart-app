@@ -10,7 +10,6 @@ final class FeedRequester {
         feedRepository = repository
         initialIndexParams = params
     }
-
 }
 
 extension FeedRequester: RequesterURLPaginable {

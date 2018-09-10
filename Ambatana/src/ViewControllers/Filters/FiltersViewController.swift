@@ -628,7 +628,7 @@ extension FiltersViewController {
             guard let cell = collectionView.dequeue(type: FilterSliderYearCell.self,
                                                     for: indexPath) else { return UICollectionViewCell() }
             cell.setupSlider(minimumValue: SharedConstants.filterMinCarYear,
-                             maximumValue: Date().year,
+                             maximumValue: Date().nextYear,
                              minimumValueSelected: viewModel.carYearStart,
                              maximumValueSelected: viewModel.carYearEnd)
             cell.delegate = self

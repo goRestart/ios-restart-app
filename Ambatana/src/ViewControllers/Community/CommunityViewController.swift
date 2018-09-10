@@ -1,12 +1,16 @@
 import WebKit
 import LGComponents
 import RxSwift
+import Foundation
 
 final class CommunityViewController: BaseViewController {
 
     private let viewModel: CommunityViewModel
     private let webView = WKWebView()
     private let disposeBag = DisposeBag()
+
+    private let letgoHomeURL = "https://letgo.com/"
+    private let letgoLoginURL = "login=true&community=true"
 
     init(viewModel: CommunityViewModel) {
         self.viewModel = viewModel
@@ -115,11 +119,19 @@ extension CommunityViewController: WKNavigationDelegate {
     }
 
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        let homes = ["https://www.stg.letgo.com/", "https://www.letgo.com/"]
-        if let urlString = navigationAction.request.url?.absoluteString, homes.contains(urlString) {
+        guard let urlString = navigationAction.request.url?.absoluteString else {
+            decisionHandler(.allow)
+            return
+        }
+        if urlString == letgoHomeURL {
             viewModel.openLetgoHome()
             decisionHandler(.cancel)
-        } else {
+        }
+        else if urlString.contains(letgoLoginURL) {
+            viewModel.openLetgoLogin()
+            decisionHandler(.cancel)
+        }
+        else {
             decisionHandler(.allow)
         }
     }

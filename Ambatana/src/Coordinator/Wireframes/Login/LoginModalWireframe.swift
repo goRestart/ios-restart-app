@@ -15,22 +15,22 @@ class LoginModalWireframe: LoginNavigator {
 
     func showSignInWithEmail(source: EventParameterLoginSourceValue,
                               appearance: LoginAppearance,
-                              logicAction: (()->())?, cancelAction: (()->())?) {
+                              loginAction: (()->())?, cancelAction: (()->())?) {
         guard let nc = controller.navigationController else { return }
         let vc = LoginBuilder.standard(context: nc)
             .buildSignUpWithEmail(withSource: source,
                                   appearance: appearance,
-                                  loginAction: logicAction,
+                                  loginAction: loginAction,
                                   cancelAction: cancelAction)
         nc.pushViewController(vc, animated: true)
     }
 
     func showLoginWithEmail(source: EventParameterLoginSourceValue,
-                            logicAction: (()->())?, cancelAction: (()->())?) {
+                            loginAction: (()->())?, cancelAction: (()->())?) {
         guard let nc = controller.navigationController else { return }
         let vc = LoginBuilder.standard(context: nc)
             .buildLogInWithEmail(withSource: source,
-                                 loginAction: logicAction,
+                                 loginAction: loginAction,
                                  cancelAction: cancelAction)
         nc.pushViewController(vc, animated: true)
     }

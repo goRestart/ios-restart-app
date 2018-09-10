@@ -1,11 +1,11 @@
 final class PopupLoginModalWireframe: LoginModalWireframe {
     override
     func showLoginWithEmail(source: EventParameterLoginSourceValue,
-                            logicAction: (() -> ())?,
+                            loginAction: (() -> ())?,
                             cancelAction: (() -> ())?) {
         let vc = LoginBuilder.modal.buildLogInWithEmail(
             withSource: source,
-            loginAction: logicAction,
+            loginAction: loginAction,
             cancelAction: cancelAction
         )
         controller.modalTransitionStyle = .crossDissolve
@@ -15,13 +15,13 @@ final class PopupLoginModalWireframe: LoginModalWireframe {
     override
     func showSignInWithEmail(source: EventParameterLoginSourceValue,
                               appearance: LoginAppearance,
-                              logicAction: (() -> ())?,
+                              loginAction: (() -> ())?,
                               cancelAction: (() -> ())?) {
         let vc = LoginBuilder.modal.buildSignUpWithEmail(
             withSource: source,
             appearance: appearance,
             keyboardFocus: true,
-            loginAction: logicAction,
+            loginAction: loginAction,
             cancelAction: cancelAction
         )
         vc.modalTransitionStyle = .crossDissolve

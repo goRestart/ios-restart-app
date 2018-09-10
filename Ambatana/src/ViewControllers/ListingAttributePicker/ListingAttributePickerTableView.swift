@@ -34,6 +34,7 @@ class ListingAttributePickerTableView: UIView, UITableViewDelegate, UITableViewD
     internal var selectedIndexes: [IndexPath]
     weak var delegate: ListingAttributePickerTableViewDelegate?
     private let showsSearchBar: Bool
+    private let allowsDeselect: Bool
     
     // MARK: - Lifecycle
     
@@ -44,20 +45,23 @@ class ListingAttributePickerTableView: UIView, UITableViewDelegate, UITableViewD
                   selectedIndexes: selectedIndexes,
                   delegate: delegate,
                   showsSearchBar: false,
-                  allowsMultiselect: false)
+                  allowsMultiselect: false,
+                  allowsDeselect: true)
     }
     
     init(values: [String],
          selectedIndexes: [IndexPath],
          delegate: ListingAttributePickerTableViewDelegate?,
          showsSearchBar: Bool,
-         allowsMultiselect: Bool) {
+         allowsMultiselect: Bool,
+         allowsDeselect: Bool) {
         self.rawValues = values
         self.filteredValues = values
         self.delegate = delegate
         self.selectedIndexes = selectedIndexes
         self.showsSearchBar = showsSearchBar
         self.allowsMultiselect = allowsMultiselect
+        self.allowsDeselect = allowsDeselect
         super.init(frame: CGRect.zero)
         setupUI()
         setupAccessibilityIds()
@@ -190,6 +194,9 @@ class ListingAttributePickerTableView: UIView, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        guard allowsDeselect else {
+            return indexPath
+        }
         tableView.cellForRow(at: indexPath)?.isSelected = false
         tableView.deselectRow(at: indexPath, animated: false)
         if let rawIndexPath = convertFilteredIndexPathToRawIndexPath(filteredIndexPath: indexPath),

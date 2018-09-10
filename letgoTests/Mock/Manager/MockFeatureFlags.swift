@@ -10,18 +10,13 @@ final class MockFeatureFlags: FeatureFlaggeable {
     func variablesUpdated() {}
     let trackingDataVar = Variable<[(String, ABGroup)]?>(nil)
 
-    var surveyUrl: String = ""
-    var surveyEnabled: Bool = false
-
-    var newCarsMultiRequesterEnabled: Bool = false
-    var inAppRatingIOS10: Bool = false
-    var userReviewsReportEnabled: Bool = true
     var deckItemPage: DeckItemPage = .control
     var realEstateEnabled: RealEstateEnabled = .control
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio = .control
     var realEstateNewCopy: RealEstateNewCopy = .control
     var searchImprovements: SearchImprovements = .control
     var relaxedSearch: RelaxedSearch = .control
+    var mutePushNotifications: MutePushNotifications = .control
     var showProTagUserProfile: Bool = false
     var showExactLocationForPros: Bool = true
     
@@ -46,7 +41,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var showSellFasterInProfileCells: ShowSellFasterInProfileCells = .control
     var bumpInEditCopys: BumpInEditCopys = .control
     var multiAdRequestMoreInfo: MultiAdRequestMoreInfo = .control
-    var cachedFeed: CachedFeed = .control
 
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false
@@ -78,6 +72,8 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var carPromoCells: CarPromoCells = .control
     var servicesPromoCells: ServicesPromoCells = .control
     var realEstatePromoCells: RealEstatePromoCells = .control
+    var proUsersExtraImages: ProUsersExtraImages = .control
+    var clickToTalkEnabled: ClickToTalk = .control
     
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed = .control
@@ -103,6 +99,9 @@ final class MockFeatureFlags: FeatureFlaggeable {
     
     // MARK: Money
     var preventMessagesFromFeedToProUsers: PreventMessagesFromFeedToProUsers = .control
+    var multiAdRequestInChatSectionForUS: MultiAdRequestInChatSectionForUS = .control
+    var multiAdRequestInChatSectionForTR: MultiAdRequestInChatSectionForTR = .control
+    var multiAdRequestInChatSectionAdUnitId: String? = ""
     
     // MARK: Retention
     var dummyUsersInfoProfile: DummyUsersInfoProfile = .control
