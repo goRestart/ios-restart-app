@@ -41,21 +41,12 @@ final class ABTestsSpec: QuickSpec {
                 products = ProductsABGroup.make()
             }
 
-            context("registering all the variables") { 
-                beforeEach {
-                    sut.registerVariables()
-                }
-                it("registers all the variables") {
-                    expect(syncer.syncedCount) == 64
-                }
-            }
-
             context("registering all the variables") {
                 beforeEach {
                     sut.registerVariables()
                 }
                 it("registers all the variables") {
-                    expect(syncer.syncedCount) == 64
+                    expect(syncer.syncedCount) == 67
                 }
             }
              context("registering all the variables") {
@@ -270,8 +261,8 @@ final class ABTestsSpec: QuickSpec {
             }
 
             context("registering all the core variables") {
-                it("the core int variable registered are 3") {
-                    expect(core.intVariables.count) == 2
+                it("the core int variable registered are correct") {
+                    expect(core.intVariables.count) == 5
                 }
 
                 it("the core bool variable registered are 0") {
@@ -294,8 +285,8 @@ final class ABTestsSpec: QuickSpec {
                     syncer.sync(variables: core.stringVariables)
                     syncer.sync(variables: core.floatVariables)
                 }
-                it("the variables registered are 2") {
-                    expect(syncer.syncedCount) == 2
+                it("the variables registered are correct") {
+                    expect(syncer.syncedCount) == 5
                 }
             }
 

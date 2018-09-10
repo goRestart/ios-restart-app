@@ -5,8 +5,6 @@ final class WaterFallListAdapter: ListAdapter {
 
     private let waterfallColumnCount: Int
     weak var scrollDelegate: WaterFallScrollable?
-    var locationSectionIndex: Int?
-    var bottomStatusIndicatorIndex: Int?
     
     init(updater: ListUpdatingDelegate,
          viewController: UIViewController?,
@@ -44,14 +42,18 @@ extension WaterFallListAdapter: LGWaterFallLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         columnCountForSectionAt section: Int) -> Int {
-        guard section != bottomStatusIndicatorIndex,
-            let locationSectionIndex = locationSectionIndex else { return 1 }
-        return section > locationSectionIndex ? waterfallColumnCount : 1
+        let sc = sectionController(forSection: section)
+        if sc is ProductListingSectionController
+            || sc is AdsSectionController
+            || sc is SelectedForYouSectionController {
+            return waterfallColumnCount
+        } else { return 1 }
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         headerStickynessForSectionAt section: Int) -> HeaderStickyType {
-        return section == locationSectionIndex ? .pinned : .nonSticky
+        let isLocationBanner = sectionController(forSection: section) is LocationSectionController
+        return isLocationBanner ? .pinned : .nonSticky
     }
     
     func collectionView(_ collectionView: UICollectionView,

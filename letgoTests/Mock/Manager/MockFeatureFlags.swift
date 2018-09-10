@@ -16,6 +16,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var realEstateNewCopy: RealEstateNewCopy = .control
     var searchImprovements: SearchImprovements = .control
     var relaxedSearch: RelaxedSearch = .control
+    var mutePushNotifications: MutePushNotifications = .control
     var showProTagUserProfile: Bool = false
     var showExactLocationForPros: Bool = true
     

@@ -16,6 +16,9 @@ final class FeatureFlagsUDDAO: FeatureFlagsDAO {
         case emergencyLocate = "emergencyLocate"
         case community = "community"
         case advancedReputationSystem11 = "advancedReputationSystem11"
+        case mutePushNotifications = "mutePushNotifications"
+        case mutePushNotificationsStartHour = "mutePushNotificationsStartHour"
+        case mutePushNotificationsEndHour = "mutePushNotificationsEndHour"
     }
 
     fileprivate var dictionary: [String: Any]
@@ -62,6 +65,24 @@ final class FeatureFlagsUDDAO: FeatureFlagsDAO {
 
     func save(advancedReputationSystem11: AdvancedReputationSystem11) {
         save(key: .advancedReputationSystem11, value: advancedReputationSystem11.rawValue)
+    }
+    
+    func retrieveMutePushNotifications() -> (MutePushNotifications, hourStart: Int, hourEnd: Int)? {
+        guard
+            let rawValue: String = retrieve(key: .mutePushNotifications),
+            let start: Int = retrieve(key: .mutePushNotificationsStartHour),
+            let end: Int = retrieve(key: .mutePushNotificationsEndHour),
+            let mutePushNotifications = MutePushNotifications(rawValue: rawValue)
+            else {
+                return nil
+        }
+        return (mutePushNotifications, hourStart: start, hourEnd: end)
+    }
+
+    func save(mutePushNotifications: MutePushNotifications, hourStart: Int, hourEnd: Int) {
+        save(key: .mutePushNotifications, value: mutePushNotifications.rawValue)
+        save(key: .mutePushNotificationsStartHour, value: hourStart)
+        save(key: .mutePushNotificationsEndHour, value: hourEnd)
         sync()
     }
 }

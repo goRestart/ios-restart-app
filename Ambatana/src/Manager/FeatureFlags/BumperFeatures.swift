@@ -80,6 +80,7 @@ extension Bumper  {
         flags.append(ServicesPromoCells.self)
         flags.append(ImInterestedInProfile.self)
         flags.append(ClickToTalk.self)
+        flags.append(MutePushNotifications.self)
         flags.append(MultiAdRequestInChatSectionForUS.self)
         flags.append(MultiAdRequestInChatSectionForTR.self)
         Bumper.initialize(flags)
@@ -913,6 +914,20 @@ extension Bumper  {
     static var clickToTalkObservable: Observable<ClickToTalk> {
         return Bumper.observeValue(for: ClickToTalk.key).map {
             ClickToTalk(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+
+    static var mutePushNotifications: MutePushNotifications {
+        guard let value = Bumper.value(for: MutePushNotifications.key) else { return .control }
+        return MutePushNotifications(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var mutePushNotificationsObservable: Observable<MutePushNotifications> {
+        return Bumper.observeValue(for: MutePushNotifications.key).map {
+            MutePushNotifications(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1966,6 +1981,22 @@ enum ClickToTalk: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .active
             default: return .control
+        }
+    }
+}
+
+enum MutePushNotifications: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return MutePushNotifications.control.rawValue }
+    static var enumValues: [MutePushNotifications] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[CORE] Push notifications won't make a sound during some night hours." } 
+    static func fromPosition(_ position: Int) -> MutePushNotifications {
+        switch position {
+        case 0: return .control
+        case 1: return .baseline
+        case 2: return .active
+        default: return .control
         }
     }
 }
