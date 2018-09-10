@@ -17,8 +17,7 @@ final class P2PPaymentsCreateOfferViewController: BaseViewController {
         static let separatorBottomMargin: CGFloat = 12
     }
 
-    var viewModel: P2PPaymentsCreateOfferViewModel
-
+    private let viewModel: P2PPaymentsCreateOfferViewModel
     private let headerView = P2PPaymentsListingHeaderView()
     private let lineSeparatorView = P2PPaymentsLineSeparatorView()
     private let changeOfferView = P2PPaymentsChangeOfferView()
@@ -43,10 +42,6 @@ final class P2PPaymentsCreateOfferViewController: BaseViewController {
 
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
-
-    override func loadView() {
-        view = UIView()
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
