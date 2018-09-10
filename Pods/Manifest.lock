@@ -77,7 +77,7 @@ PODS:
   - LGComponents/LGShared (1.0.0):
     - AlamofireImage (= 3.3.1)
     - CocoaLumberjack/Swift (= 3.3.0)
-    - LGCoreKit (= 4.73.0)
+    - LGCoreKit
     - RxCocoa (= 4.0.0)
   - LGCoreKit (4.73.0):
     - Alamofire (~> 4.7.3)
@@ -173,7 +173,7 @@ DEPENDENCIES:
   - Leanplum-iOS-SDK (= 2.0.5)
   - LGCollapsibleLabel (= 1.2.0)
   - LGComponents (from `components`)
-  - LGCoreKit (= 4.73.0)
+  - "LGCoreKit (from `git@github.com:letgoapp/letgo-ios-lgcorekit.git`, branch `feature-p2p-payments`)"
   - lottie-ios (= 2.5.0)
   - mopub-ios-sdk (= 4.20.0)
   - NewRelicAgent (= 6.1.1)
@@ -195,7 +195,6 @@ SPEC REPOS:
   "git@github.com:letgoapp/letgo-ios-specs.git":
     - bumper
     - LGCollapsibleLabel
-    - LGCoreKit
   https://github.com/cocoapods/specs.git:
     - Alamofire
     - AlamofireImage
@@ -250,11 +249,17 @@ EXTERNAL SOURCES:
     :git: https://github.com/letgoapp/KMPlaceholderTextView
   LGComponents:
     :path: components
+  LGCoreKit:
+    :branch: feature-p2p-payments
+    :git: "git@github.com:letgoapp/letgo-ios-lgcorekit.git"
 
 CHECKOUT OPTIONS:
   KMPlaceholderTextView:
     :commit: 426117c98e8da8fc7d64a7d3c2f0f45c48d595e6
     :git: https://github.com/letgoapp/KMPlaceholderTextView
+  LGCoreKit:
+    :commit: 0a7b8b21cd603b7091033aefdad8faf4f406bcd5
+    :git: "git@github.com:letgoapp/letgo-ios-lgcorekit.git"
 
 SPEC CHECKSUMS:
   Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
@@ -286,8 +291,8 @@ SPEC CHECKSUMS:
   KMPlaceholderTextView: 2bbcd19a273648a80a61e1e48f9743a24d8930e3
   Leanplum-iOS-SDK: d7d387b7f3688e697f2893978bfe67092df5b7ca
   LGCollapsibleLabel: 2a5ebb0ff0ff3e1d7ab0c295a17c923db000f557
-  LGComponents: e7b7ff93db85abe9aee41e6400f29eb6dbffb0a6
-  LGCoreKit: 49c815f2a3d769076674188d1e1d36acff56a36b
+  LGComponents: 413ea05a240ec0f2567a8624d396be447bf55372
+  LGCoreKit: a8eecadf9d960f86448f98f1d93c6f20702a8609
   lottie-ios: d699fdee68d7b63e721d949388b015fef1aaa4ac
   mopub-ios-sdk: 89c6ac9ca01d3b36e9fba16a6cfe31d3c290d354
   NewRelicAgent: 652434a627201e3745cd5849228feeb10afe1879
@@ -309,6 +314,6 @@ SPEC CHECKSUMS:
   SwiftyGif: d36c6dfb52e2ca1e48fe349d225f50ec4123ec85
   SwiftyUserDefaults: 3d273b1739b68ada3145dc754a70ec775bc5c8be
 
-PODFILE CHECKSUM: f215790dca579d09e14061468828834dbb87d6bb
+PODFILE CHECKSUM: d280f6c10f5b5ec8c3c0507989b3db77ed98eab9
 
 COCOAPODS: 1.5.3

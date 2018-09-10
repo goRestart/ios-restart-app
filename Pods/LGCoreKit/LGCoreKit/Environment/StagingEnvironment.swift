@@ -31,4 +31,5 @@ struct StagingEnvironment: Environment {
     let notificationSettingsMailerBaseURL = "https://mailer.stg.letgo.com"
     let reportingBaseURL = "https://reporting.stg.letgo.com"
     let communityBaseURL = "https://community-sso.stg.letgo.com"
+    let p2pPaymentsBaseURL = "https://p2payments.stg.letgo.com"
 }

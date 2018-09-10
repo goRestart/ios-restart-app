@@ -283,6 +283,10 @@ final class CoreDI: InternalDI {
         let notificationSettingsMailerDataSource = NotificationSettingsMailerApiDataSource(apiClient: self.apiClient)
         return LGNotificationSettingsMailerRepository(dataSource: notificationSettingsMailerDataSource)
     }()
+    lazy var p2pPaymentsRepository: P2PPaymentsRepository = {
+        let p2pPaymentsDataSource = P2PPaymentsApiDataSource(apiClient: self.apiClient)
+        return LGP2PPaymentsRepository(dataSource: p2pPaymentsDataSource)
+    }()
 
     // MARK: > DAO
 

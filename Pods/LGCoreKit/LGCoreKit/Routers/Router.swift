@@ -153,6 +153,12 @@ struct FeedBaseURL: BaseURL {
     static let contentTypeHeader: String? = nil
 }
 
+struct P2PPaymentsBaseURL: BaseURL {
+    static let baseURL = EnvironmentProxy.sharedInstance.p2pPaymentsBaseURL
+    static let acceptHeader: String? = "application/json"
+    static let contentTypeHeader: String? = "application/json"
+}
+
 enum Encoding {
     case json, url
 }

@@ -31,4 +31,5 @@ struct ProductionEnvironment: Environment {
     let notificationSettingsMailerBaseURL = "https://mailer.letgo.com"
     let reportingBaseURL = "https://reporting.letgo.com"
     let communityBaseURL = "https://community-sso.letgo.com"
+    let p2pPaymentsBaseURL = "https://p2payments.letgo.com"
 }

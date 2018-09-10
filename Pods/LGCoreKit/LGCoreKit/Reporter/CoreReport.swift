@@ -167,6 +167,9 @@ enum CoreReportDataSource: ReportType {
         case feed
         case report
         case availableFeaturePurchases
+        case p2pPaymentOfferId
+        case p2pPaymentOffer
+        case p2pPaymentOfferFees
 
         
         var type: Any.Type {
@@ -247,6 +250,12 @@ enum CoreReportDataSource: ReportType {
                 return LGReport.self
             case .availableFeaturePurchases:
                 return LGAvailableFeaturePurchases.self
+            case .p2pPaymentOfferId:
+                return String.self
+            case .p2pPaymentOffer:
+                return LGP2PPaymentOffer.self
+            case .p2pPaymentOfferFees:
+                return LGP2PPaymentOfferFees.self
             }
         }
     }

@@ -31,4 +31,5 @@ struct EscrowEnvironment: Environment {
     let notificationSettingsMailerBaseURL = "https://mailer.escrowverification.letgo.com"
     let reportingBaseURL = "https://reporting.stg.letgo.com"
     let communityBaseURL = "https://community-sso.escrowverification.letgo.com"
+    let p2pPaymentsBaseURL = "https://p2payments.escrow.letgo.com"
 }
