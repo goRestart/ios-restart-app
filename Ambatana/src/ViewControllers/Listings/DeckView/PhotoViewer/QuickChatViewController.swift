@@ -5,7 +5,6 @@ import RxSwift
 import RxCocoa
 
 final class QuickChatViewController: BaseViewController {
-
     fileprivate let viewModel = QuickChatViewModel()
     fileprivate let chatView = QuickChatView()
 
@@ -59,11 +58,12 @@ final class QuickChatViewController: BaseViewController {
 
     private func setupRx() {
         let bindings = [
-            viewModel.rx
-                .quickAnswers
-                .asDriver(onErrorJustReturn: []).drive(rx.quickAnswers),
             viewModel.rx.directMessages.asDriver(onErrorJustReturn: .composite([])).drive(rx.directMessages),
-            viewModel.rx.isInterested.asDriver(onErrorJustReturn: false).drive(rx.isInterested)
+            viewModel.rx.chatState
+                .asDriver(onErrorJustReturn: QuickChatViewState(quickAnswersState: nil,
+                                                                proState: nil,
+                                                                isInterested: false))
+                .drive(rx.chatState)
         ]
         bindings.forEach { $0.disposed(by: disposeBag) }
     }
@@ -110,10 +110,24 @@ extension QuickChatViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
+private extension QuickChatViewState {
+    var areQuickAnswersEnabled: Bool { return quickAnswersState != nil }
+    var quickAnswers: [QuickAnswer] { return  quickAnswersState?.quickAnswers ?? [] }
+
+    var isPro: Bool { return proState != nil }
+    var proText: String { return proState?.message ?? "" }
+    var proImage: UIImage? { return proState?.icon }
+}
+
 extension Reactive where Base: QuickChatViewController {
-    var quickAnswers: Binder<[QuickAnswer]> {
-        return Binder(self.base) { controller, quickAnswers in
-            controller.chatView.updateDirectChatWith(answers: quickAnswers)
+    var chatState: Binder<QuickChatViewState> {
+        return Binder(self.base) { controller, chatState in
+            // the order is important
+            controller.chatView.setChatEnabled(chatState.areQuickAnswersEnabled)
+            controller.chatView.updateDirectChatWith(answers: chatState.quickAnswers)
+            controller.chatView.setSellerAsPro(chatState.isPro)
+            controller.chatView.setPro(chatState.proText, image: chatState.proImage)
+            controller.chatView.setListingAs(interested: chatState.isInterested)
         }
     }
 
@@ -123,12 +137,6 @@ extension Reactive where Base: QuickChatViewController {
                 controller.chatView.showDirectMessages()
             }
             controller.handleChatChange(change)
-        }
-    }
-
-    var isInterested: Binder<Bool> {
-        return Binder(self.base) { controller, isInterested in
-            controller.chatView.setListingAs(interested: isInterested)
         }
     }
 }

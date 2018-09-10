@@ -489,7 +489,6 @@ extension ListingDeckViewModel: ListingViewModelDelegate {
 // ListingDeckViewModelType
 
 extension ListingDeckViewModel: ListingDeckViewModelType {
-    var rxIsChatEnabled: Observable<Bool> { return quickChatViewModel.rx.isChatEnabled }
     var rxObjectChanges: Observable<CollectionChange<ListingCellModel>> { return objects.changesObservable }
     var rxActionButtons: Observable<[UIAction]> { return actionButtons.asObservable() }
     var rxBumpUpBannerInfo: Observable<BumpUpInfo?> { return bumpUpBannerInfo.asObservable() }

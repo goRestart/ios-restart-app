@@ -26,6 +26,13 @@ final class QuickChatView: UIView, UIGestureRecognizerDelegate {
         return button
     }()
 
+    private let proButton: LetgoButton = {
+        let button = LetgoButton.init(withStyle: .primary(fontSize: .big))
+        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -Metrics.shortMargin, bottom: 0, right: 0)
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: Metrics.shortMargin, bottom: 0, right: 0)
+        return button
+    }()
+
     private var alphaAnimationHideTimer: Timer?
 
     init() {
@@ -41,11 +48,24 @@ final class QuickChatView: UIView, UIGestureRecognizerDelegate {
         backgroundColor = UIColor.clear
     }
 
+    func setChatEnabled(_ enabled: Bool) {
+        directAnswersView.isHidden = !enabled
+        directAnswersView.isUserInteractionEnabled = enabled
+    }
+
     func setListingAs(interested: Bool) {
         chatButton.isHidden = !interested
-        chatButton.isUserInteractionEnabled = !chatButton.isHidden
-        directAnswersView.isHidden = interested
-        chatButton.isUserInteractionEnabled = !directAnswersView.isHidden
+        chatButton.isUserInteractionEnabled = interested
+    }
+
+    func setSellerAsPro(_ isPro: Bool) {
+        proButton.isHidden = !isPro
+        proButton.isUserInteractionEnabled = isPro
+    }
+
+    func setPro(_ text: String, image: UIImage?) {
+        proButton.setTitle(text, for: .normal)
+        proButton.setImage(image, for: .normal)
     }
 
     func updateWith(bottomInset: CGFloat, animationTime: TimeInterval,
@@ -134,7 +154,7 @@ final class QuickChatView: UIView, UIGestureRecognizerDelegate {
 
     private func setupUI() {
         backgroundColor = .clear
-        addSubviewsForAutoLayout([directAnswersView, chatButton, tableView])
+        addSubviewsForAutoLayout([directAnswersView, chatButton, proButton, tableView])
         let directAnswersViewBottom = directAnswersView.bottomAnchor.constraint(equalTo: bottomAnchor)
 
         NSLayoutConstraint.activate([
@@ -146,6 +166,11 @@ final class QuickChatView: UIView, UIGestureRecognizerDelegate {
             chatButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Metrics.margin),
             chatButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metrics.margin),
             chatButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metrics.margin),
+
+            proButton.heightAnchor.constraint(equalToConstant: Layout.buttonHeight),
+            proButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Metrics.margin),
+            proButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metrics.margin),
+            proButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metrics.margin),
 
             tableView.topAnchor.constraint(equalTo: topAnchor),
             tableView.leadingAnchor.constraint(equalTo: leadingAnchor),

@@ -44,7 +44,6 @@ protocol ListingDeckViewModelType: class {
     var rxBumpUpBannerInfo: Observable<BumpUpInfo?> { get }
 
     var rxObjectChanges: Observable<CollectionChange<ListingCellModel>> { get }
-    var rxIsChatEnabled: Observable<Bool> { get }
 
     func didTapActionButton()
     func replaceListingCellModelAtIndex(_ index: Int, withListing listing: Listing)
@@ -176,7 +175,7 @@ final class ListingDeckViewControllerBinder {
         }.distinctUntilChanged()
 
         let areActionsEnabled = viewModel.rxActionButtons.map { $0.count > 0 }
-        let chatEnabled: Observable<Bool> = viewModel.rxIsChatEnabled.distinctUntilChanged()
+        let chatEnabled: Observable<Bool> = .just(true)
         Observable.combineLatest(contentOffsetAlphaSignal,
                                  chatEnabled,
                                  areActionsEnabled.distinctUntilChanged()) { ($0, $1, $2) }
