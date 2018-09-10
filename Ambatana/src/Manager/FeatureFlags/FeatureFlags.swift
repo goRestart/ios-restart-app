@@ -95,6 +95,7 @@ protocol FeatureFlaggeable: class {
     var emergencyLocate: EmergencyLocate { get }
     var offensiveReportAlert: OffensiveReportAlert { get }
     var community: ShowCommunity { get }
+    var advancedReputationSystem12: AdvancedReputationSystem12 { get }
     
     // MARK: Money
     var preventMessagesFromFeedToProUsers: PreventMessagesFromFeedToProUsers { get }
@@ -289,6 +290,10 @@ extension CopyForSellFasterNowInTurkish {
     }
 }
 
+extension AdvancedReputationSystem12 {
+    var isActive: Bool { return self == .active }
+}
+
 extension PersonalizedFeed {
     var isActive: Bool { return self != .control && self != .baseline }
 }
@@ -471,6 +476,7 @@ final class FeatureFlags: FeatureFlaggeable {
         
         dao.save(emergencyLocate: EmergencyLocate.fromPosition(abTests.emergencyLocate.value))
         dao.save(community: ShowCommunity.fromPosition(abTests.community.value))
+        dao.save(advancedReputationSystem12: AdvancedReputationSystem12.fromPosition(abTests.advancedReputationSystem12.value))
     }
 
     var realEstateEnabled: RealEstateEnabled {
@@ -579,6 +585,14 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.offensiveReportAlert
         }
         return OffensiveReportAlert.fromPosition(abTests.offensiveReportAlert.value)
+    }
+
+    var advancedReputationSystem12: AdvancedReputationSystem12 {
+        if Bumper.enabled {
+            return Bumper.advancedReputationSystem12
+        }
+        let cached = dao.retrieveAdvancedReputationSystem12()
+        return cached ?? AdvancedReputationSystem12.fromPosition(abTests.advancedReputationSystem12.value)
     }
 
     // MARK: - Country features

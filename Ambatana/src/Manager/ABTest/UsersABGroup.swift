@@ -15,6 +15,7 @@ struct UsersABGroup: ABGroupType {
         static let offensiveReportAlert = "20180525OffensiveReportAlert"
         static let reportingFostaSesta = "20180627ReportingFostaSesta"
         static let community = "20180720Community"
+        static let advancedReputationSystem12 = "20180910AdvancedReputationSystem12"
     }
 
     let showPasswordlessLogin: LeanplumABVariable<Int>
@@ -22,6 +23,7 @@ struct UsersABGroup: ABGroupType {
     let offensiveReportAlert: LeanplumABVariable<Int>
     let reportingFostaSesta: LeanplumABVariable<Int>
     let community: LeanplumABVariable<Int>
+    let advancedReputationSystem12: LeanplumABVariable<Int>
 
     let group: ABGroup = .users
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -33,17 +35,20 @@ struct UsersABGroup: ABGroupType {
          emergencyLocate: LeanplumABVariable<Int>,
          offensiveReportAlert: LeanplumABVariable<Int>,
          reportingFostaSesta: LeanplumABVariable<Int>,
-         community: LeanplumABVariable<Int>) {
+         community: LeanplumABVariable<Int>,
+         advancedReputationSystem12: LeanplumABVariable<Int>) {
         self.showPasswordlessLogin = showPasswordlessLogin
         self.emergencyLocate = emergencyLocate
         self.offensiveReportAlert = offensiveReportAlert
         self.reportingFostaSesta = reportingFostaSesta
         self.community = community
+        self.advancedReputationSystem12 = advancedReputationSystem12
         intVariables.append(contentsOf: [showPasswordlessLogin,
                                          emergencyLocate,
                                          offensiveReportAlert,
                                          reportingFostaSesta,
-                                         community])
+                                         community,
+                                         advancedReputationSystem12])
     }
 
     static func make() -> UsersABGroup {
@@ -61,7 +66,10 @@ struct UsersABGroup: ABGroupType {
                                                           groupType: .users),
                             community: .makeInt(key: Keys.community,
                                                 defaultValue: 0,
-                                                groupType: .users)
+                                                groupType: .users),
+                            advancedReputationSystem12: .makeInt(key: Keys.advancedReputationSystem12,
+                                                                 defaultValue: 0,
+                                                                 groupType: .users)
         )
     }
 }
