@@ -8,6 +8,9 @@ import RxCocoa
 final class P2PPaymentsCreateOfferBuyerInfoView: UIView {
     private enum Layout {
         static let buyerProtectionTopMargin: CGFloat = 36
+        static let contentHorizontalMargin: CGFloat = 24
+        static let separatorHorizontalMargin: CGFloat = 12
+        static let separatorVerticalSpacing: CGFloat = 12
     }
 
     private let escrowInfoLabel: UILabel = {
@@ -40,20 +43,20 @@ final class P2PPaymentsCreateOfferBuyerInfoView: UIView {
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             offerFeesView.topAnchor.constraint(equalTo: topAnchor),
-            offerFeesView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
-            offerFeesView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
+            offerFeesView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Layout.contentHorizontalMargin),
+            offerFeesView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Layout.contentHorizontalMargin),
 
-            lineSeparatorView.topAnchor.constraint(equalTo: offerFeesView.bottomAnchor, constant: 12),
-            lineSeparatorView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
-            lineSeparatorView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12),
+            lineSeparatorView.topAnchor.constraint(equalTo: offerFeesView.bottomAnchor, constant: Layout.separatorVerticalSpacing),
+            lineSeparatorView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Layout.separatorHorizontalMargin),
+            lineSeparatorView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Layout.separatorHorizontalMargin),
 
-            escrowInfoLabel.topAnchor.constraint(equalTo: lineSeparatorView.bottomAnchor, constant: 12),
-            escrowInfoLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
-            escrowInfoLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
+            escrowInfoLabel.topAnchor.constraint(equalTo: lineSeparatorView.bottomAnchor, constant: Layout.separatorVerticalSpacing),
+            escrowInfoLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Layout.contentHorizontalMargin),
+            escrowInfoLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Layout.contentHorizontalMargin),
 
             buyerProtectionView.topAnchor.constraint(equalTo: escrowInfoLabel.bottomAnchor, constant: Layout.buyerProtectionTopMargin),
-            buyerProtectionView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
-            buyerProtectionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
+            buyerProtectionView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Layout.contentHorizontalMargin),
+            buyerProtectionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Layout.contentHorizontalMargin),
             buyerProtectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }

@@ -7,6 +7,16 @@ import PassKit
 // TODO: @juolgon Localize all texts
 
 final class P2PPaymentsCreateOfferViewController: BaseViewController {
+    private enum Layout {
+        static let contentHorizontalMargin: CGFloat = 24
+        static let separatorHorizontalMargin: CGFloat = 12
+        static let buttonHeight: CGFloat = 44
+        static let buttonBottomMargin: CGFloat = 16
+        static let headerTopMargin: CGFloat = 4
+        static let separatorTopMargin: CGFloat = 24
+        static let separatorBottomMargin: CGFloat = 12
+    }
+
     var viewModel: P2PPaymentsCreateOfferViewModel
 
     private let headerView = P2PPaymentsListingHeaderView()
@@ -55,32 +65,32 @@ final class P2PPaymentsCreateOfferViewController: BaseViewController {
     private func setupConstraints() {
         bottomContraint = changeOfferView.bottomAnchor.constraint(equalTo: view.safeBottomAnchor)
         NSLayoutConstraint.activate([
-            headerView.topAnchor.constraint(equalTo: view.safeTopAnchor, constant: 4),
-            headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+            headerView.topAnchor.constraint(equalTo: view.safeTopAnchor, constant: Layout.headerTopMargin),
+            headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Layout.contentHorizontalMargin),
+            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Layout.contentHorizontalMargin),
 
-            lineSeparatorView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 24),
-            lineSeparatorView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
-            lineSeparatorView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
+            lineSeparatorView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: Layout.separatorTopMargin),
+            lineSeparatorView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Layout.separatorHorizontalMargin),
+            lineSeparatorView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Layout.separatorHorizontalMargin),
 
-            buyerInfoView.topAnchor.constraint(equalTo: lineSeparatorView.bottomAnchor, constant: 12),
+            buyerInfoView.topAnchor.constraint(equalTo: lineSeparatorView.bottomAnchor, constant: Layout.separatorBottomMargin),
             buyerInfoView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             buyerInfoView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
 
             changeOfferView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             changeOfferView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            changeOfferView.topAnchor.constraint(equalTo: lineSeparatorView.bottomAnchor, constant: 12),
+            changeOfferView.topAnchor.constraint(equalTo: lineSeparatorView.bottomAnchor, constant: Layout.separatorBottomMargin),
             bottomContraint!,
 
-            setupPaymentButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-            setupPaymentButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
-            setupPaymentButton.heightAnchor.constraint(equalToConstant: 44),
-            setupPaymentButton.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: -16),
+            setupPaymentButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Layout.contentHorizontalMargin),
+            setupPaymentButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Layout.contentHorizontalMargin),
+            setupPaymentButton.heightAnchor.constraint(equalToConstant: Layout.buttonHeight),
+            setupPaymentButton.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: -Layout.buttonBottomMargin),
 
-            buyButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-            buyButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
-            buyButton.heightAnchor.constraint(equalToConstant: 44),
-            buyButton.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: -16),
+            buyButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Layout.contentHorizontalMargin),
+            buyButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Layout.contentHorizontalMargin),
+            buyButton.heightAnchor.constraint(equalToConstant: Layout.buttonHeight),
+            buyButton.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: -Layout.buttonBottomMargin),
 
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
