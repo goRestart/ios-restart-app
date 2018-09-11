@@ -6,13 +6,13 @@ protocol P2PPaymentsOfferStatusNavigator {
 }
 
 final class P2PPaymentsOfferStatusWireframe: P2PPaymentsOfferStatusNavigator {
-    private let navigationController: UINavigationController
+    private weak var navigationController: UINavigationController?
 
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
     }
 
     func close() {
-        navigationController.dismiss(animated: true)
+        navigationController?.dismiss(animated: true)
     }
 }
