@@ -95,6 +95,8 @@ final class P2PPaymentsOfferStatusViewController: BaseViewController {
             viewModel.listingImageURL.drive(headerView.rx.imageURL),
             viewModel.listingTitle.drive(headerView.rx.title),
             viewModel.stepList.map { $0 ?? .empty }.drive(stepListView.rx.state),
+            viewModel.actionButtonTitle.drive(actionButton.rx.title()),
+            viewModel.actionButtonTitle.map { $0 == nil }.drive(actionButton.rx.isHidden),
         ]
         bindings.forEach { [disposeBag] in $0.disposed(by: disposeBag) }
     }

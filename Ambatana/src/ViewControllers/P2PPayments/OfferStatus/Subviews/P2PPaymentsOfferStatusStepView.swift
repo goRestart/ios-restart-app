@@ -42,6 +42,8 @@ final class P2PPaymentsOfferStatusStepView: UIView {
         let label = UILabel()
         label.font = UIFont.systemBoldFont(size: 20)
         label.textColor = UIColor.lgBlack
+        label.numberOfLines = 0
+        label.setContentHuggingPriority(.defaultHigh, for: .vertical)
         return label
     }()
 
@@ -93,6 +95,7 @@ final class P2PPaymentsOfferStatusStepView: UIView {
     }
 
     private func setupConstraints() {
+        actionButton.heightAnchor.constraint(equalToConstant: 32).isActive = true
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: topAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -118,6 +121,8 @@ final class P2PPaymentsOfferStatusStepView: UIView {
         }
         if let buttonState = state.buttonState {
             actionButton.setTitle(buttonState.title, for: .normal)
+        } else {
+            actionButton.isHidden = true
         }
     }
 

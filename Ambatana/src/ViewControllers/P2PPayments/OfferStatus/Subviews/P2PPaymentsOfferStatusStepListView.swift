@@ -56,11 +56,11 @@ final class P2PPaymentsOfferStatusStepListView: UIView {
     private func setupConstraints() {
         scrollView.constraintToEdges(in: self)
         NSLayoutConstraint.activate([
-            stepsStackView.widthAnchor.constraint(equalTo: widthAnchor),
+            stepsStackView.widthAnchor.constraint(equalTo: widthAnchor, constant: -48),
             stepsStackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             stepsStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            stepsStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            stepsStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            stepsStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 24),
+            stepsStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -24),
         ])
     }
 
