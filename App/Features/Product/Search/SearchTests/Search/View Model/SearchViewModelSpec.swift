@@ -20,12 +20,6 @@ final class SearchViewModelSpec: XCTestCase {
     )
   }
   
-  override func tearDown() {
-    searchGames = nil
-    sut = nil
-    super.tearDown()
-  }
-  
   func test_should_update_results_if_there_are_game_results() {
     let input = givenInput()
 

@@ -22,13 +22,6 @@ final class ProductImagesViewModelSpec: XCTestCase {
     )
   }
   
-  override func tearDown() {
-    coordinator = nil
-    productDraft = nil
-    sut = nil
-    super.tearDown()
-  }
-  
   func test_viewModel_initial_state_is_correct() {
     let nextStepIsEnabled = givenNextStepIsEnabled()
     

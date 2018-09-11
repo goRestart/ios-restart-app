@@ -21,12 +21,6 @@ final class LoginViewModelSpec: XCTestCase {
     )
   }
   
-  override func tearDown() {
-    authenticate = nil
-    sut = nil
-    super.tearDown()
-  }
-  
   func test_viewModel_initial_state_is_correct() {
     let state = givenState()
     let userInteractionEnabled = givenUserInteractionEnabled()

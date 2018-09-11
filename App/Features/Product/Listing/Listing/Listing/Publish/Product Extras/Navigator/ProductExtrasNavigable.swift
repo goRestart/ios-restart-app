@@ -1,0 +1,3 @@
+protocol ProductExtrasNavigable {
+  func navigate()
+}

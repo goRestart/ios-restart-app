@@ -1,6 +1,6 @@
 import Foundation
 
-struct ProductExtrasNavigator {
+struct ProductExtrasNavigator: ProductExtrasNavigable {
   
   private weak var from: UIViewController?
   private let productExtrasProvider: ProductExtrasProvider
