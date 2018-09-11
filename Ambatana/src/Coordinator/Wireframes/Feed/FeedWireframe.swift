@@ -37,10 +37,19 @@ protocol FeedNavigator: class {
 final class FeedWireframe: FeedNavigator {
     private let nc: UINavigationController
     private let deepLinkMailBox: DeepLinkMailBox
-    
+    private let listingMapAssmebly: ListingsMapAssembly
+
+    convenience init(nc: UINavigationController) {
+        self.init(nc: nc,
+                  deepLinkMailBox: LGDeepLinkMailBox.sharedInstance,
+                  listingMapAssmebly: ListingsMapBuilder.standard(nc))
+    }
+
     init(nc: UINavigationController,
-         deepLinkMailBox: DeepLinkMailBox = LGDeepLinkMailBox.sharedInstance) {
+         deepLinkMailBox: DeepLinkMailBox,
+         listingMapAssmebly: ListingsMapAssembly) {
         self.nc = nc
+        self.listingMapAssmebly = listingMapAssmebly
         self.deepLinkMailBox = deepLinkMailBox
     }
     
@@ -64,11 +73,12 @@ final class FeedWireframe: FeedNavigator {
         nc.present(vc, animated: true, completion: nil)
     }
     
-    func openMap(navigator: ListingsMapNavigator, requester: ListingListMultiRequester, listingFilters: ListingFilters, locationManager: LocationManager) {
-        let viewModel = ListingsMapViewModel(navigator: navigator,
-                                             currentFilters: listingFilters)
-        let viewController = ListingsMapViewController(viewModel: viewModel)
-        nc.pushViewController(viewController, animated: true)
+    func openMap(navigator: ListingsMapNavigator,
+                 requester: ListingListMultiRequester,
+                 listingFilters: ListingFilters,
+                 locationManager: LocationManager) {
+        let vc = listingMapAssmebly.buildListingsMap(filters: listingFilters)
+        nc.pushViewController(vc, animated: true)
     }
     
     func showPushPermissionsAlert(pushPermissionsManager: PushPermissionsManager,

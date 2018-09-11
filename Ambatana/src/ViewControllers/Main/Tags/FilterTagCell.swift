@@ -10,7 +10,7 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
     private enum Layout {
         enum Width {
             static let closeButton: CGFloat = 32
-            static let fixedSpacing = Layout.leading + Layout.trailing + Layout.Width.closeButton
+            static let fixedSpacing = Layout.leading + Layout.trailing + Layout.Width.closeButton + Layout.extraPadding
         }
 
         enum Height {
@@ -118,10 +118,10 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
 
         let boundingBox = String(text.prefix(20)).boundingRect(with: constraintRect,
                                                                options: .usesLineFragmentOrigin,
-                                                               attributes: [.font: UIFont.mediumBodyFont],
+                                                               attributes: [.font: UIFont.systemRegularFont(size: 14)],
                                                                context: nil)
-        let emptySpace = Layout.Width.fixedSpacing + Layout.extraPadding
-        return CGSize(width: boundingBox.width + emptySpace, height: Layout.Height.cell)
+        let emptySpace = Layout.Width.fixedSpacing
+        return CGSize(width: ceil(boundingBox.width + emptySpace), height: Layout.Height.cell)
     }
 
     private static func stringForPriceRange(_ min: Int?, max: Int?, withCurrency currency: Currency?) -> String {
@@ -270,7 +270,7 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
             closeButton.leadingAnchor.constraint(equalTo: tagLabel.trailingAnchor, constant: Layout.extraPadding),
             closeButton.topAnchor.constraint(equalTo: contentView.topAnchor),
             closeButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            closeButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Layout.trailing),
+            closeButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Layout.trailing),
             closeButton.widthAnchor.constraint(equalToConstant: Layout.Width.closeButton)
         ])
     }

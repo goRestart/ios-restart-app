@@ -60,7 +60,7 @@ final class CommunityTabCoordinator: TabCoordinator {
 
 extension CommunityTabCoordinator: CommunityTabNavigator {
     func closeCommunity() {
-        dismissViewController(animated: true, completion: nil)
+        closeCoordinator(animated: true, completion: nil)
     }
 
     func openLogin() {
