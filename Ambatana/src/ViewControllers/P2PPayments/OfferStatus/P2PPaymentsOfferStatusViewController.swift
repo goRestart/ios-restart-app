@@ -92,8 +92,9 @@ final class P2PPaymentsOfferStatusViewController: BaseViewController {
 
     private func setupRx() {
         let bindings = [
-            viewModel.listingImageViewURL.drive(headerView.rx.imageURL),
+            viewModel.listingImageURL.drive(headerView.rx.imageURL),
             viewModel.listingTitle.drive(headerView.rx.title),
+            viewModel.stepList.map { $0 ?? .empty }.drive(stepListView.rx.state),
         ]
         bindings.forEach { [disposeBag] in $0.disposed(by: disposeBag) }
     }

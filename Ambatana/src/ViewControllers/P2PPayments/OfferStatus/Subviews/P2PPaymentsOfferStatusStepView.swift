@@ -87,7 +87,7 @@ final class P2PPaymentsOfferStatusStepView: UIView {
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     private func setup() {
-        addSubviewsForAutoLayout([titleLabel, descriptionLabel, extraDescriptionLabel, actionButton])
+        addSubviewsForAutoLayout([titleLabel, descriptionLabel, stackView])
         setupConstraints()
         configureForCurrentState()
     }
@@ -98,11 +98,11 @@ final class P2PPaymentsOfferStatusStepView: UIView {
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
 
-            descriptionLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 4),
+            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4),
             descriptionLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             descriptionLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
 
-            stackView.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 4),
+            stackView.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 4),
             stackView.bottomAnchor.constraint(equalTo: bottomAnchor),
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor),

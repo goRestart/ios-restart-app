@@ -119,6 +119,8 @@
 		0941DEFA2146AADC00576659 /* P2PPaymentsOfferStatusWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0941DEF82146AADC00576659 /* P2PPaymentsOfferStatusWireframe.swift */; };
 		0941DEFC2146AB8100576659 /* P2PPaymentsOfferStatusBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0941DEFB2146AB8100576659 /* P2PPaymentsOfferStatusBuilder.swift */; };
 		0941DEFD2146AB8100576659 /* P2PPaymentsOfferStatusBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0941DEFB2146AB8100576659 /* P2PPaymentsOfferStatusBuilder.swift */; };
+		0941DEFF21478E4700576659 /* P2PPaymentsOfferStatusStepListState+OfferStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0941DEFE21478E4700576659 /* P2PPaymentsOfferStatusStepListState+OfferStatus.swift */; };
+		0941DF0021478E4700576659 /* P2PPaymentsOfferStatusStepListState+OfferStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0941DEFE21478E4700576659 /* P2PPaymentsOfferStatusStepListState+OfferStatus.swift */; };
 		097EDBE1213CFE460057D638 /* P2PPaymentsMakeAnOfferWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097EDBE0213CFE460057D638 /* P2PPaymentsMakeAnOfferWireframe.swift */; };
 		097EDBE2213CFE4B0057D638 /* P2PPaymentsMakeAnOfferWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097EDBE0213CFE460057D638 /* P2PPaymentsMakeAnOfferWireframe.swift */; };
 		097EDBE5213CFF180057D638 /* P2PPaymentsMakeAnOfferBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097EDBE4213CFF180057D638 /* P2PPaymentsMakeAnOfferBuilder.swift */; };
@@ -2435,6 +2437,7 @@
 		0915FB9A214102F70003D5B0 /* P2PPaymentsOfferStatusStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOfferStatusStepView.swift; sourceTree = "<group>"; };
 		0941DEF82146AADC00576659 /* P2PPaymentsOfferStatusWireframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOfferStatusWireframe.swift; sourceTree = "<group>"; };
 		0941DEFB2146AB8100576659 /* P2PPaymentsOfferStatusBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOfferStatusBuilder.swift; sourceTree = "<group>"; };
+		0941DEFE21478E4700576659 /* P2PPaymentsOfferStatusStepListState+OfferStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "P2PPaymentsOfferStatusStepListState+OfferStatus.swift"; sourceTree = "<group>"; };
 		097EDBE0213CFE460057D638 /* P2PPaymentsMakeAnOfferWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PPaymentsMakeAnOfferWireframe.swift; sourceTree = "<group>"; };
 		097EDBE4213CFF180057D638 /* P2PPaymentsMakeAnOfferBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PPaymentsMakeAnOfferBuilder.swift; sourceTree = "<group>"; };
 		097EDBE7213CFF6D0057D638 /* P2PPaymentsOnboardingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOnboardingViewModel.swift; sourceTree = "<group>"; };
@@ -3843,6 +3846,7 @@
 				0915FB992140FE4C0003D5B0 /* Subviews */,
 				0915FB962140FE340003D5B0 /* P2PPaymentsOfferStatusViewModel.swift */,
 				0915FB932140FE0B0003D5B0 /* P2PPaymentsOfferStatusViewController.swift */,
+				0941DEFE21478E4700576659 /* P2PPaymentsOfferStatusStepListState+OfferStatus.swift */,
 			);
 			path = OfferStatus;
 			sourceTree = "<group>";
@@ -9093,6 +9097,7 @@
 				C6FFC49920F748BA00B9F53A /* ServicesFilters.swift in Sources */,
 				8E0F4CFD21130DA900430E6A /* ConversationAdCell.swift in Sources */,
 				2E28B1291D99129D001BF8E4 /* CGFloat+rounding.swift in Sources */,
+				0941DEFF21478E4700576659 /* P2PPaymentsOfferStatusStepListState+OfferStatus.swift in Sources */,
 				0AE6F4FB20F8CE5500D58BCE /* UIViewController+Childs.swift in Sources */,
 				5020471B1EE99F7A006C0EC2 /* FeatureFlagsUDDAO.swift in Sources */,
 				0A2F52A62122FBFD0034EF85 /* QuickLocationFiltersBuilder.swift in Sources */,
@@ -10089,6 +10094,7 @@
 				2ED296BF213E7B98003E26A3 /* ChatOtherInfoLocationView.swift in Sources */,
 				C7DB41D61C5138B500400945 /* CrashlyticsTracker.swift in Sources */,
 				50C2E1A81E701BE8006639BB /* PostListingFooter.swift in Sources */,
+				0941DF0021478E4700576659 /* P2PPaymentsOfferStatusStepListState+OfferStatus.swift in Sources */,
 				C7DB41D81C5138B500400945 /* TrackerEvent.swift in Sources */,
 				55D305CC2101E55800E80843 /* CommunityViewController.swift in Sources */,
 				55FABE2020763460004B0DBD /* UserPhoneVerificationCountryPickerViewModel.swift in Sources */,

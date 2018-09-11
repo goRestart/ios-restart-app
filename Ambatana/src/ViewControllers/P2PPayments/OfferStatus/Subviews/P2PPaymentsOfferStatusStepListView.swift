@@ -1,5 +1,7 @@
 import UIKit
 import LGComponents
+import RxSwift
+import RxCocoa
 
 // MARK: - State
 
@@ -7,7 +9,6 @@ struct P2PPaymentsOfferStatusStepListState {
     typealias Step = P2PPaymentsOfferStatusStepViewState
 
     enum CurrentStep {
-        case pending(Int)
         case completed(Int)
         case failed(Int)
     }
@@ -15,13 +16,15 @@ struct P2PPaymentsOfferStatusStepListState {
     let steps: [Step]
     let currentStep: CurrentStep
 
-    static let empty = P2PPaymentsOfferStatusStepListState(steps: [], currentStep: .pending(0))
+    static let empty = P2PPaymentsOfferStatusStepListState(steps: [], currentStep: .completed(0))
 }
 
 // MARK: - View
 
 final class P2PPaymentsOfferStatusStepListView: UIView {
-    var state: P2PPaymentsOfferStatusStepListState = .empty
+    var state: P2PPaymentsOfferStatusStepListState = .empty {
+        didSet { configureForCurrentState() }
+    }
 
     private let stepsStackView: UIStackView = {
         let stackView = UIStackView.vertical()
@@ -59,5 +62,19 @@ final class P2PPaymentsOfferStatusStepListView: UIView {
             stepsStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             stepsStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
         ])
+    }
+
+    private func configureForCurrentState() {
+        let stepViews = state.steps.map { P2PPaymentsOfferStatusStepView(state: $0) }
+        stepsStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        stepsStackView.addArrangedSubviews(stepViews)
+    }
+}
+
+extension Reactive where Base: P2PPaymentsOfferStatusStepListView {
+    var state: Binder<P2PPaymentsOfferStatusStepListState> {
+        return Binder(self.base) { base, state in
+            base.state = state
+        }
     }
 }
