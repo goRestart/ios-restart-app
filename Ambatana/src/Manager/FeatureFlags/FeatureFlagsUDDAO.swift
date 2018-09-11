@@ -27,7 +27,7 @@ final class FeatureFlagsUDDAO: FeatureFlagsDAO {
     // MARK: - Lifecycle
     
     convenience init() {
-        self.init(userDefaults: UserDefaults.standard)
+        self.init(userDefaults: UserDefaults.letgo)
     }
     
     init(userDefaults: UserDefaults) {

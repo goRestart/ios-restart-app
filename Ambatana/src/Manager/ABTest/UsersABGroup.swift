@@ -14,7 +14,7 @@ struct UsersABGroup: ABGroupType {
         static let emergencyLocate = "20180425EmergencyLocate"
         static let offensiveReportAlert = "20180525OffensiveReportAlert"
         static let reportingFostaSesta = "20180627ReportingFostaSesta"
-        static let community = "20180720Community"
+        static let community = "20180907Community"
         static let advancedReputationSystem11 = "20180828AdvancedReputationSystem11"
     }
 

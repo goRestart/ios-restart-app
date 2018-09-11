@@ -296,7 +296,11 @@ extension FeedViewModel {
             } else if let feed = result.value {
                 self?.removeLoadingBottom()
                 defer {
-                    self?.refreshFeed()
+                    if feed.isFirstPage {
+                        self?.feedRenderingDelegate?.updateFeed()
+                    } else {
+                        self?.refreshFeed()
+                    }
                 }
                 guard !feed.isEmpty else {
                     self?.renderEmptyPage(feed)

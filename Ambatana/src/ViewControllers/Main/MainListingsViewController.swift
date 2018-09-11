@@ -737,10 +737,6 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
         if shouldShowSearchAlertBanner {
             totalHeight += SearchAlertFeedHeader.viewHeight
         }
-        if viewModel.shouldShowCommunityBanner {
-            totalHeight += CommunityHeaderView.viewHeight
-        }
-
         return totalHeight
     }
 
@@ -774,13 +770,6 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
             searchAlertHeader.tag = 3
             searchAlertHeader.delegate = self
             header.addHeader(searchAlertHeader, height: SearchAlertFeedHeader.viewHeight)
-        }
-
-        if viewModel.shouldShowCommunityBanner {
-            let community = CommunityHeaderView()
-            community.delegate = self
-            community.tag = 4
-            header.addHeader(community, height: CommunityHeaderView.viewHeight)
         }
     }
 
@@ -905,12 +894,6 @@ extension MainListingsViewController: TrendingSearchViewDelegate {
         viewModel.searchText.value = text
         navbarSearch.searchTextField.text = text
         navBarSearchTextFieldDidUpdate(text: text)
-    }
-}
-
-extension MainListingsViewController: CommunityHeaderViewDelegate {
-    func didTapCommunityHeader() {
-        viewModel.vmUserDidTapCommunity()
     }
 }
 
