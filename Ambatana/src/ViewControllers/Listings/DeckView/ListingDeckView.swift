@@ -5,7 +5,7 @@ import RxSwift
 import RxCocoa
 import LGComponents
 
-final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewType {
+final class ListingDeckView: UIView, UICollectionViewDelegate {
     struct Layout {
 		struct Height {
             static let previewFactor: CGFloat = 0.7
@@ -103,10 +103,10 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
         return collectionLayout.normalizedPageOffset(givenOffset: givenOffset)
     }
 
-    func updatePrivateActionsWith(actionsAlpha: CGFloat, bumpBannerAlpha: CGFloat) {
-        itemActionsView.alpha = max(actionsAlpha, bumpBannerAlpha)
+    func updatePrivateActionsWith(actionsAlpha: CGFloat) {
+        itemActionsView.alpha = actionsAlpha
         itemActionsView.backgroundColor = actionsAlpha > 0 ? ListingDeckView.actionsViewBackgroundColor : .clear
-        itemActionsView.updatePrivateActionsWith(actionsAlpha: actionsAlpha, bumpBannerAlpha: bumpBannerAlpha)
+        itemActionsView.updatePrivateActionsWith(actionsAlpha: actionsAlpha)
     }
 
     // MARK: ItemActionsView

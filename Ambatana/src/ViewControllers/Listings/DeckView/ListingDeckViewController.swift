@@ -9,15 +9,15 @@ import GoogleMobileAds
 typealias DeckMovement = CarouselMovement
 
 final class ListingDeckViewController: KeyboardViewController, UICollectionViewDelegate {
-    private struct Layout {
-        struct Insets {
+    private enum Layout {
+        enum Insets {
             static let chat: CGFloat = 75
             static let bump: CGFloat = 80
         }
     }
     override var preferredStatusBarStyle: UIStatusBarStyle { return .default }
 
-    private let quickChatVC: QuickChatViewController
+    fileprivate let quickChatVC: QuickChatViewController
     fileprivate let listingDeckView = ListingDeckView()
     private let collectionDataSource: DeckCollectionDataSource
     private let collectionDelegate: DeckViewCollectionDelegate
@@ -32,12 +32,6 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     private var interstitial: GADInterstitial?
     private var firstAdShowed = false
     private var lastIndexAd = -1
-
-    lazy var windowTargetFrame: CGRect = {
-        let size = listingDeckView.cardSize
-        let frame = CGRect(x: 20, y: 0, width: size.width, height: size.height)
-        return listingDeckView.collectionView.convertToWindow(frame)
-    }()
 
     init(viewModel: ListingDeckViewModel) {
         self.viewModel = viewModel
@@ -78,7 +72,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         updateStartIndex()
         listingDeckView.collectionView.layoutIfNeeded()
         guard let current = currentPageCell() else { return }
-        populateCell(current)
+        current.isUserInteractionEnabled = true
         UIView.animate(withDuration: 0.5,
                        delay: 0,
                        options: .curveEaseIn,
@@ -232,8 +226,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
 
 }
 
-extension ListingDeckViewController: ListingDeckViewControllerBinderType {
-    var rxContentOffset: Observable<CGPoint> { return listingDeckView.rxCollectionView.contentOffset.share() }
+extension ListingDeckViewController {
 
     func willDisplayCell(_ cell: UICollectionViewCell, atIndexPath indexPath: IndexPath) {
         cell.isUserInteractionEnabled = indexPath.row == viewModel.currentIndex
@@ -257,39 +250,16 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     
     func didEndDecelerating() {
         guard let cell = listingDeckView.cardAtIndex(viewModel.currentIndex) else { return }
-        populateCell(cell)
-    }
-
-    private func populateCell(_ card: ListingCardView) {
-        card.isUserInteractionEnabled = true
+        cell.isUserInteractionEnabled = true
     }
 
     func updateViewWithActions(_ actionButtons: [UIAction]) {
         guard let actionButton = actionButtons.first else { return }
         listingDeckView.configureActionWith(actionButton)
     }
-    
-    func updateViewWith(alpha: CGFloat, chatEnabled: Bool, actionsEnabled: Bool) {
-        let clippedAlpha = min(1.0, alpha)
-
-        let actionsAlpha = actionsEnabled ? clippedAlpha : 0
-        let bumpBannerAlpha: CGFloat = (actionsEnabled || !chatEnabled) ? 1.0 : 0
-
-        listingDeckView.updatePrivateActionsWith(actionsAlpha: actionsAlpha, bumpBannerAlpha: bumpBannerAlpha)
-        updateChatWith(alpha: (chatEnabled && !actionsEnabled) ? clippedAlpha : 0)
-    }
-
-    func updateChatWith(alpha: CGFloat) {
-        // TODO: Handle interested button
-    }
-    
 
     func didTapShare() {
         viewModel.currentListingViewModel.shareProduct()
-    }
-
-    func didTapCardAction() {
-        viewModel.didTapCardAction()
     }
 
     func updateWithBumpUpInfo(_ bumpInfo: BumpUpInfo?) {
@@ -320,16 +290,8 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     func presentInterstitialAtIndex(_ index: Int) {
         viewModel.presentInterstitial(self.interstitial, index: index, fromViewController: self)
     }
-
-    private func isCardVisible(_ cardView: ListingCardView) -> Bool {
-        let filtered = listingDeckView.collectionView
-            .visibleCells
-            .filter { cell in return cell.tag == cardView.tag }
-        return !filtered.isEmpty
-    }
 }
 
-// TODO: Refactor ABIOS-3814
 extension ListingDeckViewController {
     private func processActionOnFirstAppear() {
         switch viewModel.actionOnFirstAppear {
@@ -366,6 +328,21 @@ extension ListingDeckViewController: ListingDeckViewModelDelegate {
 // MARK: Rx
 
 extension Reactive where Base: ListingDeckViewController {
+    var contentOffset: Observable<CGPoint> { return base.listingDeckView.rxCollectionView.contentOffset.asObservable() }
+
+    var actionsAlpha: Binder<CGFloat> {
+        return Binder(self.base) { controller, alpha in
+            let clippedAlpha = min(1.0, alpha)
+            controller.listingDeckView.updatePrivateActionsWith(actionsAlpha: clippedAlpha)
+        }
+    }
+
+    var chatAlpha: Binder<CGFloat> {
+        return Binder(self.base) { controller, alpha in
+            controller.quickChatVC.view.alpha = alpha
+        }
+    }
+
     var status: Binder<ListingDeckStatus?> {
         return Binder(self.base) { controller, status in
             guard let status = status else { return }

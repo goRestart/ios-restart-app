@@ -40,9 +40,10 @@ protocol ListingDeckViewModelDelegate: BaseViewModelDelegate {
 typealias DeckActionOnFirstAppear = ProductCarouselActionOnFirstAppear
 final class ListingDeckViewModel: BaseViewModel {
 
+    private let disposeBag = DisposeBag()
+
     let objects = CollectionVariable<ListingCellModel>([])
 
-    let binder: ListingDeckViewModelBinder
     var currentListingViewModel: ListingViewModel
     var navigator: ListingDeckNavigator?
 
@@ -80,7 +81,7 @@ final class ListingDeckViewModel: BaseViewModel {
     var navBarButtons: [UIAction] { return currentListingViewModel.navBarActionsNewItemPage }
 
     let quickChatViewModel = QuickChatViewModel()
-    lazy var bumpUpBannerInfo = Variable<BumpUpInfo?>(nil)
+    let bumpUpBannerInfo = Variable<BumpUpInfo?>(nil)
 
     let imageDownloader: ImageDownloaderType
     private var sectionFeedChatTrackingInfo: SectionedFeedChatTrackingInfo? {
@@ -126,7 +127,6 @@ final class ListingDeckViewModel: BaseViewModel {
                   pagination: pagination,
                   prefetching: prefetching,
                   shouldSyncFirstListing: false,
-                  binder: ListingDeckViewModelBinder(),
                   tracker: TrackerProxy.sharedInstance,
                   actionOnFirstAppear: actionOnFirstAppear,
                   trackingIndex: trackingIndex,
@@ -144,7 +144,6 @@ final class ListingDeckViewModel: BaseViewModel {
                      imageDownloader: ImageDownloaderType,
                      listingViewModelAssembly: ListingViewModelAssembly,
                      shouldSyncFirstListing: Bool,
-                     binder: ListingDeckViewModelBinder,
                      actionOnFirstAppear: DeckActionOnFirstAppear,
                      trackingIndex: Int?,
                      trackingIdentifier: String?) {
@@ -160,7 +159,6 @@ final class ListingDeckViewModel: BaseViewModel {
                   pagination: pagination,
                   prefetching: prefetching,
                   shouldSyncFirstListing: shouldSyncFirstListing,
-                  binder: binder,
                   tracker: TrackerProxy.sharedInstance,
                   actionOnFirstAppear: actionOnFirstAppear,
                   trackingIndex: trackingIndex,
@@ -180,7 +178,6 @@ final class ListingDeckViewModel: BaseViewModel {
          pagination: Pagination,
          prefetching: Prefetching,
          shouldSyncFirstListing: Bool,
-         binder: ListingDeckViewModelBinder,
          tracker: Tracker,
          actionOnFirstAppear: DeckActionOnFirstAppear,
          trackingIndex: Int?,
@@ -194,7 +191,6 @@ final class ListingDeckViewModel: BaseViewModel {
         self.listingListRequester = listingListRequester
         self.listingViewModelAssembly = viewModelMaker
         self.source = source
-        self.binder = binder
         self.userRepository = myUserRepository
         self.tracker = tracker
         self.listingTracker = ListingTracker.init(tracker: tracker,
@@ -224,12 +220,12 @@ final class ListingDeckViewModel: BaseViewModel {
         self.trackingIdentifier = trackingIdentifier
         super.init()
         self.shouldSyncFirstListing = shouldSyncFirstListing
-        binder.deckViewModel = self
     }
 
     override func didBecomeActive(_ firstTime: Bool) {
         if shouldSyncFirstListing {
             syncFirstListing()
+            bind(to: currentListingViewModel)
         }
         moveToListingAtIndex(currentIndex, movement: .initial)
     }
@@ -245,13 +241,23 @@ final class ListingDeckViewModel: BaseViewModel {
 
             quickChatViewModel.listingViewModel = currentListingViewModel
             quickChatViewModel.sectionFeedChatTrackingInfo = sectionFeedChatTrackingInfo
-            //            binder.bind(to:viewModel, quickChatViewModel: quickChatViewModel)
 
             currentIndex = index
             prefetchNeighborsImages(index, movement: movement)
 
             // Tracking ABIOS-4531
         }
+    }
+
+    private func bind(to current: ListingViewModel) {
+        current.listing
+            .asObservable()
+            .bind { [weak self] listing in
+                guard let strongSelf = self else { return }
+                strongSelf.replaceListingCellModelAtIndex(strongSelf.currentIndex, withListing: listing)
+            }.disposed(by: disposeBag)
+        current.cardActionButtons.bind(to: actionButtons).disposed(by: disposeBag)
+        current.cardBumpUpBannerInfo.bind(to: bumpUpBannerInfo).disposed(by: disposeBag)
     }
 
     func didTapCardAction() {
@@ -295,7 +301,6 @@ final class ListingDeckViewModel: BaseViewModel {
 
     func interstitialAdTapped(typePage: EventParameterTypePage) {
         let adType = AdRequestType.interstitial.trackingParamValueFor(size: nil)
-        let isMine = EventParameterBoolean(bool: currentListingViewModel.isMine)
         let feedPosition: EventParameterFeedPosition = .position(index: currentIndex)
         let willLeave = EventParameterBoolean(bool: true)
 
@@ -309,7 +314,6 @@ final class ListingDeckViewModel: BaseViewModel {
     
     func interstitialAdShown(typePage: EventParameterTypePage) {
         let adType = AdRequestType.interstitial.trackingParamValueFor(size: nil)
-        let isMine = EventParameterBoolean(bool: currentListingViewModel.isMine)
         let feedPosition: EventParameterFeedPosition = .position(index: currentIndex)
         let adShown = EventParameterBoolean(bool: true)
 
@@ -392,6 +396,10 @@ final class ListingDeckViewModel: BaseViewModel {
                                                    bumpUpSource: triggerBumpUpSource,
                                                    typePage: typePage)
         }
+    }
+
+    func didTapActionButton() {
+        actionButtons.value.first?.action()
     }
 }
 
@@ -486,16 +494,10 @@ extension ListingDeckViewModel: ListingViewModelDelegate {
     }
 }
 
-// ListingDeckViewModelType
-
-extension ListingDeckViewModel: ListingDeckViewModelType {
-    var rxObjectChanges: Observable<CollectionChange<ListingCellModel>> { return objects.changesObservable }
-    var rxActionButtons: Observable<[UIAction]> { return actionButtons.asObservable() }
-    var rxBumpUpBannerInfo: Observable<BumpUpInfo?> { return bumpUpBannerInfo.asObservable() }
-
-    func didTapActionButton() {
-        actionButtons.value.first?.action()
-    }
+extension Reactive where Base: ListingDeckViewModel {
+    var objectChanges: Observable<CollectionChange<ListingCellModel>> { return base.objects.changesObservable }
+    var actionButtons: Observable<[UIAction]> { return base.actionButtons.asObservable() }
+    var bumpUpBannerInfo: Observable<BumpUpInfo?> { return base.bumpUpBannerInfo.asObservable() }
 }
 
 // MARK: Paginable

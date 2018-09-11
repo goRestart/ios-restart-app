@@ -58,7 +58,6 @@ final class ListingDeckActionView: UIView {
         setupSeparator()
         setupBumpUpBanner()
 
-        hideBumpUp()
         setupUI()
     }
 
@@ -96,10 +95,10 @@ final class ListingDeckActionView: UIView {
             ])
     }
 
-    func updatePrivateActionsWith(actionsAlpha: CGFloat, bumpBannerAlpha: CGFloat) {
+    func updatePrivateActionsWith(actionsAlpha: CGFloat) {
         actionButton.alpha = actionsAlpha
         separator.alpha = actionsAlpha
-        bumpUpBanner.alpha = bumpBannerAlpha
+        bumpUpBanner.alpha = actionsAlpha
     }
 
     func resetCountdown() {
@@ -135,7 +134,7 @@ final class ListingDeckActionView: UIView {
 
         bringSubview(toFront: actionButton)
 
-        fullModeAlignment(false)
+        fullModeAlignment(true)
     }
 
     private func fullModeAlignment(_ isEnabled: Bool) {
