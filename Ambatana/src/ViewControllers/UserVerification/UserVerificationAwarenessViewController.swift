@@ -77,13 +77,24 @@ final class UserVerificationAwarenessViewController: BaseViewController {
         container.addSubviewsForAutoLayout([avatarImageView, badgeImageView, label, button])
         setupConstraints()
 
-        label.text = "Here's a pro tip - did you know that verified users make better deals?\n\nComplete and verify your profile today!"
-        button.setTitle("Complete profile", for: .normal)
+        label.attributedText = messageText()
+        button.setTitle(R.Strings.profileVerificationsAwarenessViewButton, for: .normal)
         if let url = viewModel.avatarURL {
             avatarImageView.lg_setImageWithURL(url)
         } else {
             avatarImageView.image = viewModel.placeholder
         }
+    }
+
+    private func messageText() -> NSAttributedString {
+        let boldText = R.Strings.profileVerificationsAwarenessViewBoldText
+        let fullText = R.Strings.profileVerificationsAwarenessViewText(boldText)
+        let message = NSMutableAttributedString(string: fullText,
+                                                attributes: [.font: UIFont.verificationsAwarenessMessageFont,
+                                                             .foregroundColor: UIColor.lgBlack])
+        let range = (fullText as NSString).range(of: boldText)
+        message.addAttribute(.font, value: UIFont.verificationsAwarenessMessageBoldFont, range: range)
+        return message
     }
 
     func setupConstraints() {

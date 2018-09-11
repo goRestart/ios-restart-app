@@ -181,6 +181,8 @@ public extension UIFont {
     static var profileKarmaOpenVerificationFont: UIFont { return UIFont.systemBoldFont(size: 15) }
     static var verificationItemTitle: UIFont { return systemBoldFont(size: 23) }
     static var verificationEventCountFont: UIFont { return systemBoldFont(size: 10) }
+    static var verificationsAwarenessMessageFont: UIFont { return systemRegularFont(size: 16) }
+    static var verificationsAwarenessMessageBoldFont: UIFont { return systemBoldFont(size: 16) }
 }
 
 public extension UIFont {

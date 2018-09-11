@@ -176,7 +176,37 @@
 "bump_up_view_boost_subtitle_cheaper" = "Boost your listing right now to get a discount off the typical feature price.";
 
 // Subtitle for payment bump view when boost is not ready yet
-"bump_up_view_boost_subtitle_not_ready" = "You can add another boost in %@ to move it to the top and be featured for 24 additional hours";
+"bump_up_view_boost_subtitle_not_ready" = "You can feature your listing again in %@ to move it back to the top";
+
+// Title for multi day bump screen
+"bump_up_view_multi_day_title" = "Sell faster now";
+
+// title for 1 day bump view
+"bump_up_view_multi_day_1_day_title" = "Attract 2x more buyers";
+
+// tag for num of days - 1 day
+"bump_up_view_multi_day_1_day_tag" = "1 DAY";
+
+// subtitle for 1 day bump view
+"bump_up_view_multi_day_1_day_subtitle" = "We’ll feature your listing for 24 hours so more buyers will see your listing and you’ll sell faster";
+
+// title for 3 day bump view
+"bump_up_view_multi_day_3_days_title" = "Attract 6x more buyers";
+
+// tag for num of days - 3 days
+"bump_up_view_multi_day_3_days_tag" = "3 DAYS";
+
+// subtitle for 3 day bump view
+"bump_up_view_multi_day_3_days_subtitle" = "Feature your listing for 3 days at a discounted rate. We'll move it to the top every 24 hours so you'll sell faster!";
+
+// title for 7 day bump view
+"bump_up_view_multi_day_7_days_title" = "Attract 14x more buyers";
+
+// tag for num of days - 7 days
+"bump_up_view_multi_day_7_days_tag" = "7 DAYS";
+
+// subtitle for 7 day bump view
+"bump_up_view_multi_day_7_days_subtitle" = "Feature your listing for 7 days at a discounted rate. We'll move it to the top every 24 hours so you'll sell faster!";
 
 // Text for boost success alert
 "bump_up_boost_success_alert_text" = "Your listing was boosted! It will be featured for the next 24 hours.";
@@ -737,6 +767,36 @@
 // Title of transport collection
 "collection_transport_title" = "Travel in style";
 
+// Payment state to make an offer for an item
+"chat_payment_state_make_offer" = "Pay securely through the letgo app";
+
+// The seller received a new offer from other use to sell it's item
+"chat_payment_state_view_offer" = "You've got a new offer to accept";
+
+// Share payment code with seller
+"chat_payment_state_view_payment_code" = "Share the code with the seller when you receive the item";
+
+// Get buyer payment code 
+"chat_payment_state_exchange_code" = "Make sure to get the buyer's payment code when you give them the item";
+
+// Finish the payout process
+"chat_payment_state_payout" = "Finish the payout process to receive your payment";
+
+// Make an offer
+"chat_payment_state_make_offer_button_title" = "Make an offer";
+
+// See offer
+"chat_payment_state_view_offer_button_title" = "See offer";
+
+// Received Item
+"chat_payment_state_view_payment_code_button_title" = "Received Item";
+
+// Enter code to get paid
+"chat_payment_state_exchange_code_button_title" = "Enter code to get paid";
+
+// Payout
+"chat_payment_state_payout_button_title" = "Payout";
+
 // Title of furniture collection
 "collection_furniture_title" = "No place like home";
 
@@ -846,7 +906,7 @@
 "common_product_given_away" = "Given away";
 
 // Common product not available.
-"common_product_not_available" = "Oops! This listing is no longer available";
+"common_product_not_available" = "Removed or no longer available";
 
 // Common product sold.
 "common_product_sold" = "Sold";
@@ -933,6 +993,18 @@
 
 // Contact subject option report. Check attached image @ "contact_email_field_hint" segment
 "contact_subject_option_report" = "Report user or spam";
+
+// Title for the click to talk smoketest
+"click_to_talk_smoketest_title" = "Click to Talk";
+
+// Subtitle for the click to talk smoketest
+"click_to_talk_smoketest_subtitle" = "Receive calls";
+
+// Description for the click to talk smoketest
+"click_to_talk_smoketest_description" = "Connect with your most interested buyers quickly and sell your items twice as fast.";
+
+// Action Button for the click to talk smoketest
+"click_to_talk_smoketest_action_button" = "Get Started";
 
 // Chat direct answer as buyer
 "direct_answer_condition" = "What condition is it in?";
@@ -1455,6 +1527,9 @@
 
 // Alert to display to user that the max amount of services have already been selected
 "filters_services_services_list_max_selection_alert" = "Oops! You can't select more than 15 services.";
+
+// Alet to display to the user that the max amount of jobs/services have already been selected
+"filters_jobs_services_list_max_selection_alert" = "Oops! You can’t select more than 15 options.";
 
 // Section header for jobs and services toggle
 "filters_jobs_services_toggle_header" = "Looking for...";
@@ -2302,6 +2377,18 @@
 // Congratulation Page - people near you have posted...
 "post_details_services_congratulation_people_near" = "People around you are looking for these services, have these skills?";
 
+// Congratulation Page - bold text "Improve your listing" in "Improve your listing by adding more details:"
+"post_details_jobs_services_congratulation_improve_listing" = "Improve your listing";
+
+// Congratulation Page - regular text "by adding more details" in "Improve your listing by adding more details:"
+"post_details_jobs_services_congratulation_add_more_details" = "by adding more details:";
+
+// Congratulations page - "People near you are also" in "People near you are also looking for:"
+"post_details_jobs_services_congratulation_people_nearby_first" = "People near you are also";
+
+// Congratulations page - "looking for:" in "People near you are also looking for:"
+"post_details_jobs_services_congratulation_people_nearby_second" = "looking for:";
+
 // Add new service button when it's not available
 "post_details_services_add_new" = "Add a new service";
 
@@ -3135,6 +3222,15 @@
 
 // Button to confirm email and send a verification link
 "profile_verifications_send_button" = "Send";
+
+// !!! -> this text will go at the place of the variable %@ in "profile_verifications_awareness_view_text"
+"profile_verifications_awareness_view_bold_text" = "Here's a pro tip";
+
+// Text shown in an awareness campaign view to remind the users to verify
+"profile_verifications_awareness_view_text" = "%@ - did you know that verified users make better deals?\n\nComplete and verify your profile today!";
+
+// Button to open the verifications view from the awareness view
+"profile_verifications_awareness_view_button" = "Complete profile";
 
 // Title shown in the navigation bar as a screen title in the first screen of the phone verification.
 "phone_verification_number_input_view_title" = "Number verification";
@@ -4214,8 +4310,17 @@
 // Settings notifications loading error message
 "settings_notifications_error_message" = "Oops! An error occurred while loading your notification settings. Please try again.";
 
+// Settings option to access rewards
+"settings_rewards_button" = "Rewards";
+
 // Search alerts view title
 "search_alerts_list_title" = "Search Alerts";
+
+// Share screenshot view title
+"share_screenshot_title" = "Screenshot saved!";
+
+// Share screenshot view description
+"share_screenshot_description" = "Now it’s ready for you to share:";
 
 // Alert when you don't accept one of the above (just turkey)
 "sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";
