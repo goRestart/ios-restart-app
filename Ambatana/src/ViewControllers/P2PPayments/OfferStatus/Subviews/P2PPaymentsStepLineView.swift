@@ -45,7 +45,7 @@ final class P2PPaymentsStepLineView: UIView {
         let p1 = CGPoint(x: rect.midX, y: rect.maxY)
         context.move(to: p0)
         context.addLine(to: p1)
-        context.setLineDash(phase: 0, lengths: [8, 8])
+        context.setLineDash(phase: 0, lengths: [8, 4])
         context.setLineWidth(1)
         context.setLineCap(.butt)
         UIColor.grayRegular.set()
