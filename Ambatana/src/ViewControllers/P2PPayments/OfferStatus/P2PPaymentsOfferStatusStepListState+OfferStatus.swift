@@ -1,6 +1,8 @@
 import Foundation
 import LGCoreKit
 
+// TODO: @juolgon Localize all texts
+
 extension P2PPaymentsOfferStatusStepListState {
     typealias ButtonTapHandler = () -> Void
 

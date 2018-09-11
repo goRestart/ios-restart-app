@@ -20,6 +20,14 @@ final class P2PPaymentsOfferStatusViewController: BaseViewController {
     private let lineSeparatorView = P2PPaymentsLineSeparatorView()
     private let stepListView = P2PPaymentsOfferStatusStepListView()
     private let actionButton = LetgoButton(withStyle: .primary(fontSize: .big))
+
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.alwaysBounceVertical = true
+        return scrollView
+    }()
+
     private let activityIndicator: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(activityIndicatorStyle: .gray)
         view.hidesWhenStopped = true
@@ -60,7 +68,8 @@ final class P2PPaymentsOfferStatusViewController: BaseViewController {
 
     private func setup() {
         view.backgroundColor = UIColor.white
-        view.addSubviewsForAutoLayout([headerView, lineSeparatorView, stepListView, actionButton, activityIndicator])
+        view.addSubviewsForAutoLayout([headerView, lineSeparatorView, scrollView, actionButton, activityIndicator])
+        scrollView.addSubviewForAutoLayout(stepListView)
         setupConstraints()
         setupRx()
     }
@@ -75,10 +84,16 @@ final class P2PPaymentsOfferStatusViewController: BaseViewController {
             lineSeparatorView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Layout.separatorHorizontalMargin),
             lineSeparatorView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Layout.separatorHorizontalMargin),
 
-            stepListView.topAnchor.constraint(equalTo: lineSeparatorView.bottomAnchor),
-            stepListView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            stepListView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            stepListView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            stepListView.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -2 * Layout.contentHorizontalMargin),
+            stepListView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: Layout.contentHorizontalMargin),
+            stepListView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: Layout.contentHorizontalMargin),
+            stepListView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            stepListView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+
+            scrollView.topAnchor.constraint(equalTo: lineSeparatorView.bottomAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
 
             actionButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Layout.contentHorizontalMargin),
             actionButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Layout.contentHorizontalMargin),
@@ -92,6 +107,7 @@ final class P2PPaymentsOfferStatusViewController: BaseViewController {
 
     private func setupRx() {
         let bindings = [
+            viewModel.showLoadingIndicator.drive(activityIndicator.rx.isAnimating),
             viewModel.listingImageURL.drive(headerView.rx.imageURL),
             viewModel.listingTitle.drive(headerView.rx.title),
             viewModel.stepList.map { $0 ?? .empty }.drive(stepListView.rx.state),
@@ -99,5 +115,14 @@ final class P2PPaymentsOfferStatusViewController: BaseViewController {
             viewModel.actionButtonTitle.map { $0 == nil }.drive(actionButton.rx.isHidden),
         ]
         bindings.forEach { [disposeBag] in $0.disposed(by: disposeBag) }
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        let bottomInset: CGFloat = {
+            guard !actionButton.isHidden else { return 0 }
+            return view.bounds.maxY - actionButton.frame.minY
+        }()
+        scrollView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: bottomInset, right: 0)
     }
 }

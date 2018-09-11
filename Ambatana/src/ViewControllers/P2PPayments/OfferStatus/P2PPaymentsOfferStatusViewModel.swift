@@ -93,6 +93,13 @@ extension P2PPaymentsOfferStatusViewModel {
         case loading
         case buyerInfoLoaded(offer: P2PPaymentOffer, listing: Listing)
 
+        var showLoadingIndicator: Bool {
+            switch self {
+            case .loading: return true
+            default: return false
+            }
+        }
+
         var offer: P2PPaymentOffer? {
             guard case let .buyerInfoLoaded(offer: offer, listing: _) = self else { return nil }
             return offer
@@ -153,6 +160,7 @@ extension P2PPaymentsOfferStatusViewModel {
 // MARK: - Rx Outputs
 
 extension P2PPaymentsOfferStatusViewModel {
+    var showLoadingIndicator: Driver<Bool> { return stateRelay.asDriver().map { $0.showLoadingIndicator } }
     var listingTitle: Driver<String?> { return stateRelay.asDriver().map { $0.listingTitle } }
     var listingImageURL: Driver<URL?> { return stateRelay.asDriver().map { $0.listingImageURL } }
     var actionButtonTitle: Driver<String?> { return stateRelay.asDriver().map { $0.actionButtonTitle } }
