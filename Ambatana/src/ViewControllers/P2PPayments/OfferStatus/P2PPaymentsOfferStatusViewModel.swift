@@ -76,6 +76,14 @@ final class P2PPaymentsOfferStatusViewModel: BaseViewModel {
         }
         stateRelay.accept(.buyerInfoLoaded(offer: offer, listing: listing))
     }
+
+    private func withdrawOffer() {
+        stateRelay.accept(.loading)
+        p2pPaymentsRepository.changeOfferStatus(offerId: offerId, status: .canceled) { [weak self] _ in
+            // TODO: @juolgon properly handle error here
+            self?.getP2PPaymentsOffer()
+        }
+    }
 }
 
 // MARK: - UI State
@@ -117,8 +125,9 @@ extension P2PPaymentsOfferStatusViewModel {
 
         func stepList(actionHandler: ActionHandler?) -> P2PPaymentsOfferStatusStepListState? {
             guard case let .buyerInfoLoaded(offer: offer, listing: listing) = self else { return nil }
+            let price = (offer.fees.total as NSDecimalNumber).doubleValue
             return P2PPaymentsOfferStatusStepListState.buyerStepList(status: offer.status,
-                                                                     listingPrice: listing.price.value,
+                                                                     listingPrice: price,
                                                                      currency: listing.currency,
                                                                      withdrawnButtonTapHandler: actionHandler)
         }
@@ -137,7 +146,7 @@ extension P2PPaymentsOfferStatusViewModel {
     }
 
     func withdrawnButtonPressed() {
-        navigator?.close()
+        withdrawOffer()
     }
 }
 
