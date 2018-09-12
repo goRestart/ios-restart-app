@@ -1,0 +1,3 @@
+protocol RewardsNavigator {
+    func closeRewards()
+}
