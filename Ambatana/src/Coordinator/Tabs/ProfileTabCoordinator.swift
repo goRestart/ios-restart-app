@@ -13,6 +13,7 @@ final class ProfileTabCoordinator: TabCoordinator {
     private lazy var changePasswordAssembly = ChangePasswordBuilder.standard(root: navigationController)
     private lazy var editAssembly = EditListingBuilder.modal(navigationController)
     private lazy var userAssembly = LGUserBuilder.standard(navigationController)
+    private lazy var rewardsAssembly = RewardsBuilder.standard(navigationController)
 
     convenience init(source: UserSource = .tabBar) {
         let sessionManager = Core.sessionManager
@@ -152,6 +153,11 @@ extension ProfileTabCoordinator: SettingsNavigator {
     
     func closeSettings() {
         navigationController.popViewController(animated: true)
+    }
+
+    func openRewards() {
+        let vc = rewardsAssembly.buildRewards()
+        navigationController.pushViewController(vc, animated: true)
     }
 }
 

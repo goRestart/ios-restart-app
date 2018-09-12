@@ -113,6 +113,7 @@ protocol FeatureFlaggeable: class {
     var notificationCenterRedesign: NotificationCenterRedesign { get }
     var randomImInterestedMessages: RandomImInterestedMessages { get }
     var imInterestedInProfile: ImInterestedInProfile { get }
+    var affiliationEnabled: AffiliationEnabled { get }
 }
 
 extension FeatureFlaggeable {
@@ -402,6 +403,10 @@ extension ImInterestedInProfile {
     var isActive: Bool { return self == .active }
 }
 
+extension AffiliationEnabled {
+    var isActive: Bool { return self == .active }
+}
+
 extension BumpInEditCopys {
     var variantString: String {
         switch self {
@@ -533,7 +538,7 @@ final class FeatureFlags: FeatureFlaggeable {
         }
         return MutePushNotifications.control // MutePushNotifications.fromPosition(abTests.mutePushNotifications.value)
     }
-    
+
     var mutePushNotificationsStartHour: Int {
         return abTests.mutePushNotificationsStartHour.value
     }
@@ -1285,5 +1290,12 @@ extension FeatureFlags {
             return Bumper.imInterestedInProfile
         }
         return ImInterestedInProfile.fromPosition(abTests.imInterestedInProfile.value)
+    }
+
+    var affiliationEnabled: AffiliationEnabled {
+        if Bumper.enabled {
+            return Bumper.affiliationEnabled
+        }
+        return .control // ABIOS-5051
     }
 }

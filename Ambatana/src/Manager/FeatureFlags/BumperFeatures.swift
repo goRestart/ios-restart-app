@@ -83,6 +83,7 @@ extension Bumper  {
         flags.append(MutePushNotifications.self)
         flags.append(MultiAdRequestInChatSectionForUS.self)
         flags.append(MultiAdRequestInChatSectionForTR.self)
+        flags.append(AffiliationEnabled.self)
         Bumper.initialize(flags)
     } 
 
@@ -918,7 +919,6 @@ extension Bumper  {
     }
     #endif
 
-
     static var mutePushNotifications: MutePushNotifications {
         guard let value = Bumper.value(for: MutePushNotifications.key) else { return .control }
         return MutePushNotifications(rawValue: value) ?? .control 
@@ -954,6 +954,19 @@ extension Bumper  {
     static var multiAdRequestInChatSectionForTRObservable: Observable<MultiAdRequestInChatSectionForTR> {
         return Bumper.observeValue(for: MultiAdRequestInChatSectionForTR.key).map {
             MultiAdRequestInChatSectionForTR(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var affiliationEnabled: AffiliationEnabled {
+        guard let value = Bumper.value(for: AffiliationEnabled.key) else { return .control }
+        return AffiliationEnabled(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var affiliationEnabledObservable: Observable<AffiliationEnabled> {
+        return Bumper.observeValue(for: AffiliationEnabled.key).map {
+            AffiliationEnabled(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1992,11 +2005,11 @@ enum MutePushNotifications: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "[CORE] Push notifications won't make a sound during some night hours." } 
     static func fromPosition(_ position: Int) -> MutePushNotifications {
-        switch position {
-        case 0: return .control
-        case 1: return .baseline
-        case 2: return .active
-        default: return .control
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
         }
     }
 }
@@ -2024,6 +2037,22 @@ enum MultiAdRequestInChatSectionForTR: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "[MONEY] Muti ad request in Chat section. For Turkey" } 
     static func fromPosition(_ position: Int) -> MultiAdRequestInChatSectionForTR {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum AffiliationEnabled: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return AffiliationEnabled.control.rawValue }
+    static var enumValues: [AffiliationEnabled] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[RETENTION] Enables Affiliation / Referral Program" } 
+    static func fromPosition(_ position: Int) -> AffiliationEnabled {
         switch position { 
             case 0: return .control
             case 1: return .baseline

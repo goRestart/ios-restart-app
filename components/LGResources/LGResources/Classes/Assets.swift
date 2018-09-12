@@ -470,6 +470,7 @@ extension R {
       public static let icSettingNotifications = ImageAsset(name: "ic_setting_notifications")
       public static let icSettingPassword = ImageAsset(name: "ic_setting_password")
       public static let icSettingPrivacyPolicy = ImageAsset(name: "ic_setting_privacy_policy")
+      public static let icSettingRewards = ImageAsset(name: "ic_setting_rewards")
       public static let icSettingTermsAndConditions = ImageAsset(name: "ic_setting_terms_and_conditions")
       public static let icSettingsBio = ImageAsset(name: "ic_settings_bio")
       public static let icShare = ImageAsset(name: "ic_share")
@@ -773,6 +774,7 @@ extension R {
         icSettingNotifications,
         icSettingPassword,
         icSettingPrivacyPolicy,
+        icSettingRewards,
         icSettingTermsAndConditions,
         icSettingsBio,
         icShare,

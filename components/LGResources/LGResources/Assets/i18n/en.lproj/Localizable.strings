@@ -176,7 +176,37 @@
 "bump_up_view_boost_subtitle_cheaper" = "Boost your listing right now to get a discount off the typical feature price.";
 
 // Subtitle for payment bump view when boost is not ready yet
-"bump_up_view_boost_subtitle_not_ready" = "You can add another boost in %@ to move it to the top and be featured for 24 additional hours";
+"bump_up_view_boost_subtitle_not_ready" = "You can feature your listing again in %@ to move it back to the top";
+
+// Title for multi day bump screen
+"bump_up_view_multi_day_title" = "Sell faster now";
+
+// title for 1 day bump view
+"bump_up_view_multi_day_1_day_title" = "Attract 2x more buyers";
+
+// tag for num of days - 1 day
+"bump_up_view_multi_day_1_day_tag" = "1 DAY";
+
+// subtitle for 1 day bump view
+"bump_up_view_multi_day_1_day_subtitle" = "We’ll feature your listing for 24 hours so more buyers will see your listing and you’ll sell faster";
+
+// title for 3 day bump view
+"bump_up_view_multi_day_3_days_title" = "Attract 6x more buyers";
+
+// tag for num of days - 3 days
+"bump_up_view_multi_day_3_days_tag" = "3 DAYS";
+
+// subtitle for 3 day bump view
+"bump_up_view_multi_day_3_days_subtitle" = "Feature your listing for 3 days at a discounted rate. We'll move it to the top every 24 hours so you'll sell faster!";
+
+// title for 7 day bump view
+"bump_up_view_multi_day_7_days_title" = "Attract 14x more buyers";
+
+// tag for num of days - 7 days
+"bump_up_view_multi_day_7_days_tag" = "7 DAYS";
+
+// subtitle for 7 day bump view
+"bump_up_view_multi_day_7_days_subtitle" = "Feature your listing for 7 days at a discounted rate. We'll move it to the top every 24 hours so you'll sell faster!";
 
 // Text for boost success alert
 "bump_up_boost_success_alert_text" = "Your listing was boosted! It will be featured for the next 24 hours.";
@@ -737,6 +767,36 @@
 // Title of transport collection
 "collection_transport_title" = "Travel in style";
 
+// Payment state to make an offer for an item
+"chat_payment_state_make_offer" = "Pay securely through the letgo app";
+
+// The seller received a new offer from other use to sell it's item
+"chat_payment_state_view_offer" = "You've got a new offer to accept";
+
+// Share payment code with seller
+"chat_payment_state_view_payment_code" = "Share the code with the seller when you receive the item";
+
+// Get buyer payment code 
+"chat_payment_state_exchange_code" = "Make sure to get the buyer's payment code when you give them the item";
+
+// Finish the payout process
+"chat_payment_state_payout" = "Finish the payout process to receive your payment";
+
+// Make an offer
+"chat_payment_state_make_offer_button_title" = "Make an offer";
+
+// See offer
+"chat_payment_state_view_offer_button_title" = "See offer";
+
+// Received Item
+"chat_payment_state_view_payment_code_button_title" = "Received Item";
+
+// Enter code to get paid
+"chat_payment_state_exchange_code_button_title" = "Enter code to get paid";
+
+// Payout
+"chat_payment_state_payout_button_title" = "Payout";
+
 // Title of furniture collection
 "collection_furniture_title" = "No place like home";
 
@@ -933,6 +993,18 @@
 
 // Contact subject option report. Check attached image @ "contact_email_field_hint" segment
 "contact_subject_option_report" = "Report user or spam";
+
+// Title for the click to talk smoketest
+"click_to_talk_smoketest_title" = "Click to Talk";
+
+// Subtitle for the click to talk smoketest
+"click_to_talk_smoketest_subtitle" = "Receive calls";
+
+// Description for the click to talk smoketest
+"click_to_talk_smoketest_description" = "Connect with your most interested buyers quickly and sell your items twice as fast.";
+
+// Action Button for the click to talk smoketest
+"click_to_talk_smoketest_action_button" = "Get Started";
 
 // Chat direct answer as buyer
 "direct_answer_condition" = "What condition is it in?";
@@ -4237,6 +4309,9 @@
 
 // Settings notifications loading error message
 "settings_notifications_error_message" = "Oops! An error occurred while loading your notification settings. Please try again.";
+
+// Settings option to access rewards
+"settings_rewards_button" = "Rewards";
 
 // Search alerts view title
 "search_alerts_list_title" = "Search Alerts";
