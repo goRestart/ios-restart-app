@@ -6,7 +6,7 @@ extension P2PPaymentsOfferStatusViewModel {
     enum UIState {
         case loading
         case buyerInfoLoaded(offer: P2PPaymentOffer, listing: Listing)
-        case sellerInfoLoaded
+        case sellerInfoLoaded(offer: P2PPaymentOffer)
 
         var showLoadingIndicator: Bool {
             switch self {
@@ -15,23 +15,29 @@ extension P2PPaymentsOfferStatusViewModel {
             }
         }
 
-        var showBuyerInfo: Bool {
+        var hideBuyerInfo: Bool {
             switch self {
-            case .buyerInfoLoaded: return true
-            default: return false
+            case .buyerInfoLoaded: return false
+            default: return true
             }
         }
 
-        var showSellerInfo: Bool {
+        var hideSellerInfo: Bool {
             switch self {
-            case .sellerInfoLoaded: return true
-            default: return false
+            case .sellerInfoLoaded: return false
+            default: return true
             }
         }
 
         var offer: P2PPaymentOffer? {
-            guard case let .buyerInfoLoaded(offer: offer, listing: _) = self else { return nil }
-            return offer
+            switch self {
+            case .loading:
+                return nil
+            case .buyerInfoLoaded(offer: let offer, listing: _):
+                return offer
+            case .sellerInfoLoaded(offer: let offer):
+                return offer
+            }
         }
 
         var listing: Listing? {
@@ -59,13 +65,18 @@ extension P2PPaymentsOfferStatusViewModel {
             }
         }
 
-        func stepList(actionHandler: ActionHandler?) -> P2PPaymentsOfferStatusStepListState? {
+        func buyerStepList(actionHandler: ActionHandler?) -> P2PPaymentsOfferStatusStepListState? {
             guard case let .buyerInfoLoaded(offer: offer, listing: listing) = self else { return nil }
             let price = (offer.fees.total as NSDecimalNumber).doubleValue
             return P2PPaymentsOfferStatusStepListState.buyerStepList(status: offer.status,
                                                                      listingPrice: price,
                                                                      currency: listing.currency,
                                                                      withdrawnButtonTapHandler: actionHandler)
+        }
+
+        var sellerStepList: P2PPaymentsOfferStatusStepListState? {
+            guard case let .sellerInfoLoaded(offer: offer) = self else { return nil }
+            return P2PPaymentsOfferStatusStepListState.sellerStepList(status: offer.status)
         }
     }
 }

@@ -28,6 +28,21 @@ extension P2PPaymentsOfferStatusStepListState {
         return P2PPaymentsOfferStatusStepListState(steps: [stepOne, stepTwo, stepThree],
                                                    currentStep: currentStep)
     }
+
+    static func sellerStepList(status: P2PPaymentOfferStatus) -> P2PPaymentsOfferStatusStepListState {
+        let stepOne = P2PPaymentsOfferStatusStepViewState.sellerStepOne(status: status)
+        let stepTwo = P2PPaymentsOfferStatusStepViewState.sellerStepTwo()
+        let currentStep: CurrentStep = {
+            switch status {
+            case .pending: return .completed(-1)
+            case .canceled, .expired, .error, .declined: return .failed(0)
+            case .accepted: return .completed(0)
+            case .completed: return .completed(1)
+            }
+        }()
+        return P2PPaymentsOfferStatusStepListState(steps: [stepOne, stepTwo],
+                                                   currentStep: currentStep)
+    }
 }
 
 extension P2PPaymentsOfferStatusStepViewState {
@@ -80,6 +95,34 @@ extension P2PPaymentsOfferStatusStepViewState {
     static func buyerStepThree(status: P2PPaymentOfferStatus) -> P2PPaymentsOfferStatusStepViewState {
         return P2PPaymentsOfferStatusStepViewState(title: "Meet in person and release the payment",
                                                    description: "When you have the item, release the payment to the seller by sharing your payment code",
+                                                   extraDescription: nil,
+                                                   buttonState: nil)
+    }
+
+    static func sellerStepOne(status: P2PPaymentOfferStatus) -> P2PPaymentsOfferStatusStepViewState {
+        let extraDescription: ExtraDescription? = {
+            switch status {
+            case .completed, .error, .pending:
+                return nil
+            case .accepted:
+                return ExtraDescription(text: "Offer accepted", style: .positive)
+            case .declined:
+                return ExtraDescription(text: "Offer declined", style: .negative)
+            case .canceled:
+                return ExtraDescription(text: "Offer withdrawn", style: .negative)
+            case .expired:
+                return ExtraDescription(text: "Offer expired", style: .negative)
+            }
+        }()
+        return P2PPaymentsOfferStatusStepViewState(title: "Accept the offer",
+                                                   description: "A buyer’s offering to pay you securely through the letgo app. Act fast, their offer expires in 24 hours.",
+                                                   extraDescription: extraDescription,
+                                                   buttonState: nil)
+    }
+
+    static func sellerStepTwo() -> P2PPaymentsOfferStatusStepViewState {
+        return P2PPaymentsOfferStatusStepViewState(title: "Meet in person and get paid",
+                                                   description: "Give the item to the buyer, get their payment code and enter it in the app to receive your secure payment",
                                                    extraDescription: nil,
                                                    buttonState: nil)
     }
