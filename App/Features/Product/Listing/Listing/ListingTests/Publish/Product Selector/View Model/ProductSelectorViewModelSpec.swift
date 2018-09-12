@@ -17,14 +17,7 @@ final class ProductSelectorViewModelSpec: XCTestCase {
       productDescriptionNavigator: productDescriptionNavigator
     )
   }
-  
-  override func tearDown() {
-    productDraft = nil
-    productDescriptionNavigator = nil
-    sut = nil
-    super.tearDown()
-  }
-  
+
   func test_should_navigate_to_next_step_when_game_is_selected() {
     sut.input.onGameSelected(with: "mario", Identifier.make())
     

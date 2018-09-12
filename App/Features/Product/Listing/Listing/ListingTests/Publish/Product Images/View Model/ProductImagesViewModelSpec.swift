@@ -22,21 +22,14 @@ final class ProductImagesViewModelSpec: XCTestCase {
     )
   }
   
-  override func tearDown() {
-    coordinator = nil
-    productDraft = nil
-    sut = nil
-    super.tearDown()
-  }
-  
-  func test_viewModel_initial_state_is_correct() {
+  func test_view_model_initial_state() {
     let nextStepIsEnabled = givenNextStepIsEnabled()
     
     sut.output.nextStepEnabled.drive(nextStepIsEnabled).disposed(by: bag)
     
     XCTAssertEqual(nextStepIsEnabled.events, [Recorded.next(0, false)])
   }
-  
+    
   func test_should_enable_next_step_if_there_are_at_least_one_image_added() {
     let nextStepIsEnabled = givenNextStepIsEnabled()
     

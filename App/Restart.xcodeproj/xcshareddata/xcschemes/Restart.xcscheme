@@ -27,7 +27,6 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       codeCoverageEnabled = "YES"
-      onlyGenerateCoverageForSpecifiedTargets = "YES"
       shouldUseLaunchSchemeArgsEnv = "NO">
       <CodeCoverageTargets>
          <BuildableReference
@@ -97,32 +96,18 @@
       <Testables>
          <TestableReference
             skipped = "NO"
-            parallelizable = "YES"
-            testExecutionOrdering = "random">
+            parallelizable = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1C7DD9871FF66C41009C574E"
-               BuildableName = "SignUpTests.xctest"
-               BlueprintName = "SignUpTests"
-               ReferencedContainer = "container:Features/Product/SignUp/SignUp.xcodeproj">
+               BlueprintIdentifier = "2EF18F6121431879009D7B3A"
+               BuildableName = "ListingTests.xctest"
+               BlueprintName = "ListingTests"
+               ReferencedContainer = "container:Features/Product/Listing/Listing/Listing.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
             skipped = "NO"
-            parallelizable = "YES"
-            testExecutionOrdering = "random">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1C89D7BB1FF427B700B3FA98"
-               BuildableName = "UITests.xctest"
-               BlueprintName = "UITests"
-               ReferencedContainer = "container:Features/Foundation/UI/UI.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES"
-            testExecutionOrdering = "random">
+            parallelizable = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1C93BEB8200A3C9800DDF249"
@@ -133,14 +118,24 @@
          </TestableReference>
          <TestableReference
             skipped = "NO"
-            parallelizable = "YES"
-            testExecutionOrdering = "random">
+            parallelizable = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "2EF18F6121431879009D7B3A"
-               BuildableName = "ListingTests.xctest"
-               BlueprintName = "ListingTests"
-               ReferencedContainer = "container:Features/Product/Listing/Listing/Listing.xcodeproj">
+               BlueprintIdentifier = "1C7DD9871FF66C41009C574E"
+               BuildableName = "SignUpTests.xctest"
+               BlueprintName = "SignUpTests"
+               ReferencedContainer = "container:Features/Product/SignUp/SignUp.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "1C89D7BB1FF427B700B3FA98"
+               BuildableName = "UITests.xctest"
+               BlueprintName = "UITests"
+               ReferencedContainer = "container:Features/Foundation/UI/UI.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
