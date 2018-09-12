@@ -131,6 +131,8 @@
 		097523932148AE6B00F76F54 /* P2PPaymentsBuyerHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097523912148AE6B00F76F54 /* P2PPaymentsBuyerHeaderView.swift */; };
 		097523952148AF8800F76F54 /* P2PPaymentsOfferFeesSellerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097523942148AF8800F76F54 /* P2PPaymentsOfferFeesSellerView.swift */; };
 		097523962148AF8800F76F54 /* P2PPaymentsOfferFeesSellerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097523942148AF8800F76F54 /* P2PPaymentsOfferFeesSellerView.swift */; };
+		097523982148B26900F76F54 /* P2PPaymentsOfferStatusSellerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097523972148B26900F76F54 /* P2PPaymentsOfferStatusSellerView.swift */; };
+		097523992148B26900F76F54 /* P2PPaymentsOfferStatusSellerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097523972148B26900F76F54 /* P2PPaymentsOfferStatusSellerView.swift */; };
 		097EDBE1213CFE460057D638 /* P2PPaymentsMakeAnOfferWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097EDBE0213CFE460057D638 /* P2PPaymentsMakeAnOfferWireframe.swift */; };
 		097EDBE2213CFE4B0057D638 /* P2PPaymentsMakeAnOfferWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097EDBE0213CFE460057D638 /* P2PPaymentsMakeAnOfferWireframe.swift */; };
 		097EDBE5213CFF180057D638 /* P2PPaymentsMakeAnOfferBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097EDBE4213CFF180057D638 /* P2PPaymentsMakeAnOfferBuilder.swift */; };
@@ -2453,6 +2455,7 @@
 		0975238E2148A8D000F76F54 /* P2PPaymentsOfferStatusBuyerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOfferStatusBuyerView.swift; sourceTree = "<group>"; };
 		097523912148AE6B00F76F54 /* P2PPaymentsBuyerHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsBuyerHeaderView.swift; sourceTree = "<group>"; };
 		097523942148AF8800F76F54 /* P2PPaymentsOfferFeesSellerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOfferFeesSellerView.swift; sourceTree = "<group>"; };
+		097523972148B26900F76F54 /* P2PPaymentsOfferStatusSellerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOfferStatusSellerView.swift; sourceTree = "<group>"; };
 		097EDBE0213CFE460057D638 /* P2PPaymentsMakeAnOfferWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PPaymentsMakeAnOfferWireframe.swift; sourceTree = "<group>"; };
 		097EDBE4213CFF180057D638 /* P2PPaymentsMakeAnOfferBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PPaymentsMakeAnOfferBuilder.swift; sourceTree = "<group>"; };
 		097EDBE7213CFF6D0057D638 /* P2PPaymentsOnboardingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOnboardingViewModel.swift; sourceTree = "<group>"; };
@@ -3876,6 +3879,7 @@
 				097523912148AE6B00F76F54 /* P2PPaymentsBuyerHeaderView.swift */,
 				097523942148AF8800F76F54 /* P2PPaymentsOfferFeesSellerView.swift */,
 				0975238E2148A8D000F76F54 /* P2PPaymentsOfferStatusBuyerView.swift */,
+				097523972148B26900F76F54 /* P2PPaymentsOfferStatusSellerView.swift */,
 			);
 			path = Subviews;
 			sourceTree = "<group>";
@@ -9183,6 +9187,7 @@
 				F56651F1203C886C00B43DD7 /* DiscardedReason+LG.swift in Sources */,
 				72854D1D1F8E252600E54530 /* RealEstatePropertyType+LG.swift in Sources */,
 				097523922148AE6B00F76F54 /* P2PPaymentsBuyerHeaderView.swift in Sources */,
+				097523982148B26900F76F54 /* P2PPaymentsOfferStatusSellerView.swift in Sources */,
 				55DFCDD92073790D00AC5E09 /* UserPhoneVerificationNumberInputViewController.swift in Sources */,
 				C7BAC9C31E49CEA1005BD0AF /* NotificationsManager.swift in Sources */,
 				C7732F6F1D87FA4600EAD5B7 /* TourPostingViewModel.swift in Sources */,
@@ -10185,6 +10190,7 @@
 				2E92CC0520248E2800451B65 /* SuggestedLocationCell.swift in Sources */,
 				0A0CCB1D208E678E00DCFFCA /* ListingDeckVideoCell.swift in Sources */,
 				097523932148AE6B00F76F54 /* P2PPaymentsBuyerHeaderView.swift in Sources */,
+				097523992148B26900F76F54 /* P2PPaymentsOfferStatusSellerView.swift in Sources */,
 				42D63A9B212ABEA600F45FD6 /* AdsPaginationHelper.swift in Sources */,
 				55FABE1A20762E63004B0DBD /* UserPhoneVerificationCodeInputViewModel.swift in Sources */,
 				6A5E1A131D548F5400F92692 /* UINavigationController+LG.swift in Sources */,
