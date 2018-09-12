@@ -28,8 +28,6 @@ public final class ImageCarousel: View {
     pageControl.pageIndicatorTintColor = .pinkishGrey
     pageControl.transform = CGAffineTransform(scaleX: 1.05, y: 1.05);
     pageControl.isUserInteractionEnabled = false
-    pageControl.numberOfPages = 3
-    pageControl.currentPage = 2
     return pageControl
   }()
   
@@ -38,6 +36,7 @@ public final class ImageCarousel: View {
   public override func setupView() {
     listAdapter.collectionView = collectionView
     listAdapter.dataSource = listAdapterDataSource
+    listAdapter.scrollViewDelegate = self
     
     addSubview(collectionView)
     addSubview(pageControl)
@@ -66,7 +65,18 @@ public final class ImageCarousel: View {
   // MARK: - Public
   
   public func set(_ images: [CarouselImage]) {
+    pageControl.numberOfPages = images.count
+    
     listAdapterDataSource.set(images)
     listAdapter.performUpdates(animated: true)
+  }
+}
+
+// MARK: - UICollectionViewDelegate
+
+extension ImageCarousel: UIScrollViewDelegate {
+  private func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+    guard let currentPage = collectionView.indexPathsForVisibleItems.first?.section else { return }
+    pageControl.currentPage = currentPage
   }
 }
