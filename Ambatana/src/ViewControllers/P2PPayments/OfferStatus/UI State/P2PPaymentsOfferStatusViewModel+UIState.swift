@@ -113,6 +113,21 @@ extension P2PPaymentsOfferStatusViewModel {
             return P2PPaymentsOfferStatusViewModel.percentageFormatter.string(from: NSNumber(value: percentage))
         }
 
+        var declineButtonIsHidden: Bool {
+            guard case let .sellerInfoLoaded(offer: offer, listing: _, buyer: _) = self else { return true }
+            return offer.status != .pending
+        }
+
+        var acceptButtonIsHidden: Bool {
+            guard case let .sellerInfoLoaded(offer: offer, listing: _, buyer: _) = self else { return true }
+            return offer.status != .pending
+        }
+
+        var enterCodeButtonIsHidden: Bool {
+            guard case let .sellerInfoLoaded(offer: offer, listing: _, buyer: _) = self else { return true }
+            return offer.status != .accepted
+        }
+
         var actionButtonTitle: String? {
             guard let offer = offer else { return nil }
             switch offer.status {

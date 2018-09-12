@@ -14,6 +14,7 @@ final class P2PPaymentsOfferStatusViewModel: BaseViewModel {
     private let p2pPaymentsRepository: P2PPaymentsRepository
     private let listingRepository: ListingRepository
     private let myUserRepository: MyUserRepository
+    private let userRepository: UserRepository
 
     private let stateRelay = BehaviorRelay<UIState>(value: .loading)
 
@@ -21,17 +22,20 @@ final class P2PPaymentsOfferStatusViewModel: BaseViewModel {
         self.init(offerId: offerId,
                   p2pPaymentsRepository: Core.p2pPaymentsRepository,
                   listingRepository: Core.listingRepository,
-                  myUserRepository: Core.myUserRepository)
+                  myUserRepository: Core.myUserRepository,
+                  userRepository: Core.userRepository)
     }
 
     init(offerId: String,
          p2pPaymentsRepository: P2PPaymentsRepository,
          listingRepository: ListingRepository,
-         myUserRepository: MyUserRepository) {
+         myUserRepository: MyUserRepository,
+         userRepository: UserRepository) {
         self.offerId = offerId
         self.p2pPaymentsRepository = p2pPaymentsRepository
         self.listingRepository = listingRepository
         self.myUserRepository = myUserRepository
+        self.userRepository = userRepository
         super.init()
     }
 
@@ -108,13 +112,24 @@ extension P2PPaymentsOfferStatusViewModel {
     var showLoadingIndicator: Driver<Bool> { return stateRelay.asDriver().map { $0.showLoadingIndicator } }
     var hideBuyerInfo: Driver<Bool> { return stateRelay.asDriver().map { $0.hideBuyerInfo } }
     var hideSellerInfo: Driver<Bool> { return stateRelay.asDriver().map { $0.hideSellerInfo } }
+
     var listingTitle: Driver<String?> { return stateRelay.asDriver().map { $0.listingTitle } }
     var listingImageURL: Driver<URL?> { return stateRelay.asDriver().map { $0.listingImageURL } }
     var actionButtonTitle: Driver<String?> { return stateRelay.asDriver().map { $0.actionButtonTitle } }
-    var sellerStepList: Driver<P2PPaymentsOfferStatusStepListState?> {return stateRelay.asDriver().map { $0.sellerStepList } }
     var buyerStepList: Driver<P2PPaymentsOfferStatusStepListState?> {
         return stateRelay.asDriver().map { [weak self] state in
             state.buyerStepList(actionHandler: { self?.withdrawnButtonPressed() })
         }
     }
+
+    var sellerHeaderImageURL: Driver<URL?> { return stateRelay.asDriver().map { $0.sellerHeaderImageURL } }
+    var sellerHeaderTitle: Driver<String?> { return stateRelay.asDriver().map { $0.sellerHeaderTitle } }
+    var netAmountText: Driver<String?> { return stateRelay.asDriver().map { $0.netAmountText } }
+    var feeAmountText: Driver<String?> { return stateRelay.asDriver().map { $0.feeAmountText } }
+    var grossAmountText: Driver<String?> { return stateRelay.asDriver().map { $0.grossAmountText } }
+    var feePercentageText: Driver<String?> { return stateRelay.asDriver().map { $0.feePercentageText } }
+    var declineButtonIsHidden: Driver<Bool> { return stateRelay.asDriver().map { $0.declineButtonIsHidden } }
+    var acceptButtonIsHidden: Driver<Bool> { return stateRelay.asDriver().map { $0.acceptButtonIsHidden } }
+    var enterCodeButtonIsHidden: Driver<Bool> { return stateRelay.asDriver().map { $0.enterCodeButtonIsHidden } }
+    var sellerStepList: Driver<P2PPaymentsOfferStatusStepListState?> {return stateRelay.asDriver().map { $0.sellerStepList } }
 }

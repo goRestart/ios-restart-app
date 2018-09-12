@@ -83,6 +83,15 @@ final class P2PPaymentsOfferStatusViewController: BaseViewController {
             viewModel.actionButtonTitle.drive(offerStatusBuyer.rx.actionButtonTitle),
             viewModel.actionButtonTitle.map { $0 == nil }.drive(offerStatusBuyer.rx.actionButtonIsHidden),
 
+            viewModel.sellerHeaderImageURL.drive(offerStatusSeller.rx.buyerImageURL),
+            viewModel.sellerHeaderTitle.drive(offerStatusSeller.rx.headerTitle),
+            viewModel.netAmountText.drive(offerStatusSeller.rx.netText),
+            viewModel.feeAmountText.drive(offerStatusSeller.rx.feeText),
+            viewModel.grossAmountText.drive(offerStatusSeller.rx.grossText),
+            viewModel.feePercentageText.drive(offerStatusSeller.rx.feePercentageText),
+            viewModel.declineButtonIsHidden.drive(offerStatusSeller.rx.declineButtonIsHidden),
+            viewModel.acceptButtonIsHidden.drive(offerStatusSeller.rx.acceptButtonIsHidden),
+            viewModel.enterCodeButtonIsHidden.drive(offerStatusSeller.rx.enterCodeButtonIsHidden),
             viewModel.sellerStepList.map { $0 ?? .empty }.drive(offerStatusSeller.rx.stepList),
         ]
         bindings.forEach { [disposeBag] in $0.disposed(by: disposeBag) }
