@@ -16,13 +16,12 @@ final class ProductSummaryView: View {
     return stackView
   }()
 
-  private let imageCarousel = ImageCarousel()
+  fileprivate let imageCarousel = ImageCarousel()
   
   fileprivate let priceLabel: UILabel = {
     let label = UILabel()
     label.font = .h1
     label.textColor = .primary
-    label.text = "35€"
     return label
   }()
   
@@ -31,7 +30,6 @@ final class ProductSummaryView: View {
     label.font = .h2
     label.textColor = .darkScript
     label.numberOfLines = 0
-    label.text = "StarCraft II: Wings of Liberty el mejor de todos los tiempos"
     return label
   }()
   
@@ -40,13 +38,12 @@ final class ProductSummaryView: View {
     label.font = .body(.regular)
     label.textColor = .darkScript
     label.numberOfLines = 0
-    label.text = "Juego en perfecto estado, solamente una semana de uso, solamente una semana de uso., solamente una semana de uso., solamente una semana de uso., solamente una semana de uso., solamente una semana de uso., solamente una semana de uso., solamente una semana de uso., solamente una semana de uso., solamente una semana de uso., solamente una semana de uso., solamente una semana de uso., solamente una semana de uso., solamente una semana de uso., solamente una semana de uso., solamente una semana de uso., solamente una semana de uso., solamente una semana de uso., solamente una semana de uso., solamente una semana de uso., solamente una semana de uso., solamente una semana de uso., solamente una semana de uso., solamente una semana de uso., solamente una semana de uso., solamente una semana de uso., solamente una semana de uso., solamente una semana de uso., solamente una semana de uso., solamente una semana de uso., solamente una semana de uso., solamente una semana de uso., solamente una semana de uso., solamente una semana de uso., solamente una semana de uso., solamente una semana de uso., solamente una semana de uso., solamente una semana de uso., solamente una semana de uso.. (Escucho ofertas/No cambios)"
     return label
   }()
   
   fileprivate let publishButton: FullWidthButton = {
     let button = FullWidthButton()
-    let title = "Publicar anuncio ➞"//Localize("signup.button.signup.title", Table.signUp).uppercased()
+    let title = Localize("product_summary.button.publish.title", Table.productSummary).uppercased()
     button.setTitle(title, for: .normal)
     return button
   }()
@@ -90,7 +87,7 @@ final class ProductSummaryView: View {
   }
 }
 
-// MARK: - View binder
+// MARK: - View bindings
 
 extension Reactive where Base: ProductSummaryView {
   var productDraft: Binder<ProductDraftUIModel?> {
@@ -98,6 +95,9 @@ extension Reactive where Base: ProductSummaryView {
       view.titleLabel.text = productDraft?.title
       view.descriptionLabel.text = productDraft?.description
       view.priceLabel.text = productDraft?.price
+      
+      guard let images = productDraft?.images else { return }
+      view.imageCarousel.set(images)
     }
   }
 }

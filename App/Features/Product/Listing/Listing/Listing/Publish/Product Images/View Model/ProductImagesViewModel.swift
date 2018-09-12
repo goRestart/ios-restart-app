@@ -8,7 +8,7 @@ final class ProductImagesViewModel: ProductImagesViewModelType, ProductImagesVie
   
   private var imagesStatus = [Int: UIImage]()
   private var images: [UIImage] {
-    return imagesStatus.map { $0.value }
+    return imagesStatus.sorted { $0.key < $1.key }.map { $0.value }
   }
   private let coordinator: ProductImagesCoordinable
   private let productDraft: ProductDraftUseCase

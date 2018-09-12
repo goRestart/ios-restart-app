@@ -31,6 +31,7 @@
 		2E3E0700213DB97700118E64 /* Listing.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2EE4A3B1212C938100380467 /* Listing.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2E3E0705213DBA7C00118E64 /* Search.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E3E0704213DBA7C00118E64 /* Search.framework */; };
 		2E3E0707213DBA9700118E64 /* Search.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2E3E0704213DBA7C00118E64 /* Search.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		2E4F37C12149AD76009D0373 /* ProductSummary.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2E4F37C32149AD76009D0373 /* ProductSummary.strings */; };
 		2E64EDAD21386A0A00943F81 /* Generic.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2E64EDAF21386A0A00943F81 /* Generic.strings */; };
 		2E71A90021317BA3009D24A9 /* ProductExtras.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2E71A8FE21317BA3009D24A9 /* ProductExtras.strings */; };
 		2E71A9212131C9DE009D24A9 /* TabBarViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A9202131C9DE009D24A9 /* TabBarViewModelType.swift */; };
@@ -91,6 +92,7 @@
 		2E2F7AED212A06F200CDED0F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/NotLogged.strings; sourceTree = "<group>"; };
 		2E2F7AF0212A071500CDED0F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/SignUp.strings; sourceTree = "<group>"; };
 		2E3E0704213DBA7C00118E64 /* Search.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Search.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2E4F37C22149AD76009D0373 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ProductSummary.strings; sourceTree = "<group>"; };
 		2E64EDAE21386A0A00943F81 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Generic.strings; sourceTree = "<group>"; };
 		2E71A8FF21317BA3009D24A9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ProductExtras.strings; sourceTree = "<group>"; };
 		2E71A9202131C9DE009D24A9 /* TabBarViewModelType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarViewModelType.swift; sourceTree = "<group>"; };
@@ -243,6 +245,7 @@
 				2EB2B18C212B4BCC00705ACA /* ProductPrice.strings */,
 				2EB2B18A212B4BCC00705ACA /* ProductSelector.strings */,
 				2E71A8FE21317BA3009D24A9 /* ProductExtras.strings */,
+				2E4F37C32149AD76009D0373 /* ProductSummary.strings */,
 				2E64EDAF21386A0A00943F81 /* Generic.strings */,
 			);
 			path = Languages;
@@ -360,6 +363,7 @@
 				2E2F7AF1212A071500CDED0F /* SignUp.strings in Resources */,
 				1C3B454C1FEFCC54008B7B87 /* LaunchScreen.storyboard in Resources */,
 				1C3B45491FEFCC54008B7B87 /* Assets.xcassets in Resources */,
+				2E4F37C12149AD76009D0373 /* ProductSummary.strings in Resources */,
 				2EB2B140212B2C9500705ACA /* Login.strings in Resources */,
 				2EB2B141212B2C9800705ACA /* NotLogged.strings in Resources */,
 				2EB2B192212B4BCC00705ACA /* ProductDescription.strings in Resources */,
@@ -499,6 +503,14 @@
 				2E2F7AF0212A071500CDED0F /* en */,
 			);
 			name = SignUp.strings;
+			sourceTree = "<group>";
+		};
+		2E4F37C32149AD76009D0373 /* ProductSummary.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2E4F37C22149AD76009D0373 /* en */,
+			);
+			name = ProductSummary.strings;
 			sourceTree = "<group>";
 		};
 		2E64EDAF21386A0A00943F81 /* Generic.strings */ = {

@@ -2,9 +2,9 @@ import IGListKit
 
 final class ImageCarouselSectionController: ListSectionController {
   
-  private var image: Image
+  private var image: CarouselImage
   
-  init(image: Image) {
+  init(image: CarouselImage) {
     self.image = image
   }
   
@@ -22,7 +22,7 @@ final class ImageCarouselSectionController: ListSectionController {
   }
   
   override func didUpdate(to object: Any) {
-    guard let object = object as? Image else { return }
+    guard let object = object as? CarouselImage else { return }
     self.image = object
   }
 }

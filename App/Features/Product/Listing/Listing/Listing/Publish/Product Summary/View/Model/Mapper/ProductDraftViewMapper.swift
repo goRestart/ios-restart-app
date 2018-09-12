@@ -1,5 +1,6 @@
 import Domain
 import Core
+import UI
 
 struct ProductDraftViewMapper: Mappable {
   
@@ -19,7 +20,7 @@ struct ProductDraftViewMapper: Mappable {
       price: priceFormatter.format(price),
       title: title,
       description: description,
-      images: []
+      images: from.productImages.map { CarouselImage(image: $0) }
     )
   }
 }

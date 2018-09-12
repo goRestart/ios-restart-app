@@ -28,8 +28,6 @@ public final class ImageCarousel: View {
     pageControl.pageIndicatorTintColor = .pinkishGrey
     pageControl.transform = CGAffineTransform(scaleX: 1.05, y: 1.05);
     pageControl.isUserInteractionEnabled = false
-    pageControl.numberOfPages = 3
-    pageControl.currentPage = 2
     return pageControl
   }()
   
@@ -38,18 +36,12 @@ public final class ImageCarousel: View {
   public override func setupView() {
     listAdapter.collectionView = collectionView
     listAdapter.dataSource = listAdapterDataSource
+    listAdapter.scrollViewDelegate = self
     
     addSubview(collectionView)
     addSubview(pageControl)
     
     backgroundColor = .clear
-    
-    listAdapterDataSource.set([
-      Image(url: URL(string: "https://cdn.wallapop.com/images/10420/34/w9/__/c10420p189622489/i424166429.jpg?pictureSize=W320")),
-      Image(url: URL(string: "https://cdn.wallapop.com/images/10420/1o/c0/__/c10420p101337571/i220817887.jpg?pictureSize=W320")),
-      Image(url: URL(string: "https://cdn.wallapop.com/images/10420/40/1z/__/c10420p241957023/i553163186.jpg?pictureSize=W320"))
-      ])
-    listAdapter.performUpdates(animated: true)
   }
   
   public override func setupConstraints() {
@@ -68,5 +60,24 @@ public final class ImageCarousel: View {
       make.centerX.equalTo(self)
       make.bottom.equalTo(self).offset(Margin.small)
     }
+  }
+  
+  // MARK: - Public
+  
+  public func set(_ images: [CarouselImage]) {
+    pageControl.numberOfPages = images.count
+    pageControl.isHidden = images.count == 1
+
+    listAdapterDataSource.set(images)
+    listAdapter.performUpdates(animated: true)
+  }
+}
+
+// MARK: - UICollectionViewDelegate
+
+extension ImageCarousel: UIScrollViewDelegate {
+  public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+    guard let currentPage = collectionView.indexPathsForVisibleItems.first?.section else { return }
+    pageControl.currentPage = currentPage
   }
 }
