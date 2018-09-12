@@ -57,7 +57,6 @@ final class PushPrePermissionsSettingsViewController: BaseViewController {
                                          style: .plain,
                                          target: self,
                                          action: #selector(closeButtonPressed))
-        close.set(accessibilityId: .tourPostingCloseButton)
         navigationItem.leftBarButtonItem = close
 
         switch DeviceFamily.current {
