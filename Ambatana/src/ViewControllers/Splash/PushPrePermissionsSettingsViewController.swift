@@ -53,10 +53,10 @@ final class PushPrePermissionsSettingsViewController: BaseViewController {
         settingsImage1.image = R.Asset.BackgroundsAndImages.settingsNotifications1.image
         settingsImage2.image = R.Asset.BackgroundsAndImages.settingsNotifications2.image
 
-        let close = UIBarButtonItem.init(image: R.Asset.IconsButtons.icClose.image,
-                                         style: .plain,
-                                         target: self,
-                                         action: #selector(closeButtonPressed))
+        let close = UIBarButtonItem(image: R.Asset.IconsButtons.icClose.image,
+                                    style: .plain,
+                                    target: self,
+                                    action: #selector(closeButtonPressed))
         navigationItem.leftBarButtonItem = close
 
         switch DeviceFamily.current {
@@ -113,7 +113,7 @@ final class PushPrePermissionsSettingsViewController: BaseViewController {
         close()
     }
     
-    @objc func closeButtonPressed(_ sender: AnyObject) {
+    @objc private func closeButtonPressed(_ sender: AnyObject) {
         viewModel.userDidTapNoButton()
         close()
     }
