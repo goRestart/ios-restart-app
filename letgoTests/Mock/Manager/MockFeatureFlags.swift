@@ -96,7 +96,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var offensiveReportAlert: OffensiveReportAlert = .control
     var reportingFostaSesta: ReportingFostaSesta = .control
     var community: ShowCommunity = .control
-    
+
     // MARK: Money
     var preventMessagesFromFeedToProUsers: PreventMessagesFromFeedToProUsers = .control
     var multiAdRequestInChatSectionForUS: MultiAdRequestInChatSectionForUS = .control
@@ -113,5 +113,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var notificationCenterRedesign: NotificationCenterRedesign = .control
     var randomImInterestedMessages: RandomImInterestedMessages = .control
     var imInterestedInProfile: ImInterestedInProfile = .control
+    var affiliationEnabled: AffiliationEnabled = .control
 }
 
