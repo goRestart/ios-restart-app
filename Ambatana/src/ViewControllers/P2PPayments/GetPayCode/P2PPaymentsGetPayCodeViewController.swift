@@ -9,7 +9,7 @@ final class P2PPaymentsGetPayCodeViewController: BaseViewController {
     private let viewModel: P2PPaymentsGetPayCodeViewModel
 
     private let warningImageView: UIImageView = {
-        let imageView = UIImageView(image: R.Asset.P2PPayments.icTrust.image)
+        let imageView = UIImageView(image: R.Asset.P2PPayments.icError.image)
         imageView.tintColor = .p2pPaymentsWarning
         return imageView
     }()
@@ -46,7 +46,7 @@ final class P2PPaymentsGetPayCodeViewController: BaseViewController {
     }()
 
     private let activityIndicator: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView()
+        let view = UIActivityIndicatorView(activityIndicatorStyle: .gray)
         view.hidesWhenStopped = true
         view.startAnimating()
         return view
@@ -75,6 +75,16 @@ final class P2PPaymentsGetPayCodeViewController: BaseViewController {
         setup()
     }
 
+    override func viewWillAppearFromBackground(_ fromBackground: Bool) {
+        super.viewWillAppearFromBackground(fromBackground)
+        setupNavigationBar()
+    }
+
+    private func setupNavigationBar() {
+        setNavBarTitleStyle(NavBarTitleStyle.text("Offer"))
+        setNavBarBackgroundStyle(NavBarBackgroundStyle.transparent(substyle: NavBarTransparentSubStyle.light))
+    }
+
     private func setup() {
         view.backgroundColor = UIColor.white
         view.addSubviewsForAutoLayout([warningImageView,
@@ -90,6 +100,7 @@ final class P2PPaymentsGetPayCodeViewController: BaseViewController {
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             warningImageView.topAnchor.constraint(equalTo: view.safeTopAnchor, constant: 12),
+            warningImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             warningImageView.widthAnchor.constraint(equalToConstant: 34),
             warningImageView.heightAnchor.constraint(equalToConstant: 34),
 
@@ -109,7 +120,7 @@ final class P2PPaymentsGetPayCodeViewController: BaseViewController {
             payCodeLabel.centerXAnchor.constraint(equalTo: payCodeBackground.centerXAnchor),
 
             activityIndicator.centerXAnchor.constraint(equalTo: payCodeLabel.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: payCodeLabel.centerYAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: payCodeBackground.centerYAnchor),
 
             disclaimerLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
             disclaimerLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32),
