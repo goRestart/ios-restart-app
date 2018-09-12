@@ -75,7 +75,7 @@ public final class ImageCarousel: View {
 // MARK: - UICollectionViewDelegate
 
 extension ImageCarousel: UIScrollViewDelegate {
-  private func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+  public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
     guard let currentPage = collectionView.indexPathsForVisibleItems.first?.section else { return }
     pageControl.currentPage = currentPage
   }
