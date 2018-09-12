@@ -7,10 +7,16 @@ import RxCocoa
 final class P2PPaymentsOfferStatusViewModel: BaseViewModel {
     typealias ActionHandler = () -> Void
 
+    private enum Mode {
+        case buyer, seller
+    }
+
     var navigator: P2PPaymentsOfferStatusNavigator?
     private let offerId: String
     private var offer: P2PPaymentOffer?
     private var listing: Listing?
+    private var buyer: User?
+    private var mode: Mode?
     private let p2pPaymentsRepository: P2PPaymentsRepository
     private let listingRepository: ListingRepository
     private let myUserRepository: MyUserRepository
@@ -65,7 +71,7 @@ final class P2PPaymentsOfferStatusViewModel: BaseViewModel {
             switch result {
             case .success(let listing):
                 self?.listing = listing
-                self?.updateState()
+                self?.getBuyerInformationIfNeeded()
             case .failure:
                 // TODO: @juolgon properly handle error here
                 self?.getListingInformation() // Fail silently and retry
@@ -73,17 +79,82 @@ final class P2PPaymentsOfferStatusViewModel: BaseViewModel {
         }
     }
 
+    private func getBuyerInformationIfNeeded() {
+        configureMode()
+        guard let mode = mode else { return }
+        if mode == .seller {
+            getBuyerInformation()
+        } else {
+            updateState()
+        }
+    }
+
+    private func configureMode() {
+        guard let buyerId = offer?.buyerId,
+            let sellerId = offer?.sellerId,
+            let myUserId = myUserRepository.myUser?.objectId else { return }
+        if myUserId == buyerId {
+            mode = .buyer
+        }
+        if myUserId == sellerId {
+            mode = .seller
+        }
+    }
+
+    private func getBuyerInformation() {
+        guard let buyerId = offer?.buyerId else { return }
+        userRepository.show(buyerId) { [weak self] result in
+            switch result {
+            case .success(let buyer):
+                self?.buyer = buyer
+                self?.updateState()
+            case .failure:
+                // TODO: @juolgon properly handle error here
+                self?.getBuyerInformation() // Fail silently and retry
+            }
+        }
+    }
+
     private func updateState() {
-        guard let offer = offer, let listing = listing else {
+        guard let offer = offer, let mode = mode else {
             stateRelay.accept(.loading)
             return
         }
-        stateRelay.accept(.buyerInfoLoaded(offer: offer, listing: listing))
+        switch mode {
+        case .buyer:
+            guard let listing = listing else {
+                stateRelay.accept(.loading)
+                return
+            }
+            stateRelay.accept(.buyerInfoLoaded(offer: offer, listing: listing))
+        case .seller:
+            guard let listing = listing, let buyer = buyer else {
+                stateRelay.accept(.loading)
+                return
+            }
+            stateRelay.accept(.sellerInfoLoaded(offer: offer, listing: listing, buyer: buyer))
+        }
     }
 
     private func withdrawOffer() {
         stateRelay.accept(.loading)
         p2pPaymentsRepository.changeOfferStatus(offerId: offerId, status: .canceled) { [weak self] _ in
+            // TODO: @juolgon properly handle error here
+            self?.getP2PPaymentsOffer()
+        }
+    }
+
+    private func declineOffer() {
+        stateRelay.accept(.loading)
+        p2pPaymentsRepository.changeOfferStatus(offerId: offerId, status: .declined) { [weak self] _ in
+            // TODO: @juolgon properly handle error here
+            self?.getP2PPaymentsOffer()
+        }
+    }
+
+    private func acceptOffer() {
+        stateRelay.accept(.loading)
+        p2pPaymentsRepository.changeOfferStatus(offerId: offerId, status: .accepted) { [weak self] _ in
             // TODO: @juolgon properly handle error here
             self?.getP2PPaymentsOffer()
         }
@@ -98,11 +169,25 @@ extension P2PPaymentsOfferStatusViewModel {
     }
 
     func actionButtonPressed() {
+        // TODO: @juolgon handle this
         navigator?.close()
     }
 
     func withdrawnButtonPressed() {
         withdrawOffer()
+    }
+
+    func declineButtonPressed() {
+        declineOffer()
+    }
+
+    func acceptButtonPressed() {
+        acceptOffer()
+    }
+
+    func enterCodeButtonPressed() {
+        // TODO: @juolgon handle this
+        navigator?.close()
     }
 }
 
@@ -131,5 +216,5 @@ extension P2PPaymentsOfferStatusViewModel {
     var declineButtonIsHidden: Driver<Bool> { return stateRelay.asDriver().map { $0.declineButtonIsHidden } }
     var acceptButtonIsHidden: Driver<Bool> { return stateRelay.asDriver().map { $0.acceptButtonIsHidden } }
     var enterCodeButtonIsHidden: Driver<Bool> { return stateRelay.asDriver().map { $0.enterCodeButtonIsHidden } }
-    var sellerStepList: Driver<P2PPaymentsOfferStatusStepListState?> {return stateRelay.asDriver().map { $0.sellerStepList } }
+    var sellerStepList: Driver<P2PPaymentsOfferStatusStepListState?> { return stateRelay.asDriver().map { $0.sellerStepList } }
 }

@@ -95,5 +95,23 @@ final class P2PPaymentsOfferStatusViewController: BaseViewController {
             viewModel.sellerStepList.map { $0 ?? .empty }.drive(offerStatusSeller.rx.stepList),
         ]
         bindings.forEach { [disposeBag] in $0.disposed(by: disposeBag) }
+
+        offerStatusSeller.rx.acceptButtonTap
+            .subscribe(onNext: { [weak self] _ in
+                self?.viewModel.acceptButtonPressed()
+            })
+            .disposed(by: disposeBag)
+
+        offerStatusSeller.rx.declineButtonTap
+            .subscribe(onNext: { [weak self] _ in
+                self?.viewModel.declineButtonPressed()
+            })
+            .disposed(by: disposeBag)
+
+        offerStatusSeller.rx.enterCodeButtonTap
+            .subscribe(onNext: { [weak self] _ in
+                self?.viewModel.enterCodeButtonPressed()
+            })
+            .disposed(by: disposeBag)
     }
 }

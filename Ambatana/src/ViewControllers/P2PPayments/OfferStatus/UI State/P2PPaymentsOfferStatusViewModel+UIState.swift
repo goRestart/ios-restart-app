@@ -82,7 +82,7 @@ extension P2PPaymentsOfferStatusViewModel {
             let name = buyer.name ?? ""
             let amount = (offer.fees.amount as NSDecimalNumber).doubleValue
             let formattedPrice = currencyHelper.formattedAmountWithCurrencyCode(listing.currency.code, amount: amount)
-            let listingName = listing.name ?? ""
+            let listingName = listing.name ?? listing.nameAuto ?? ""
             return "\(name), offering \(formattedPrice) for \"\(listingName)\""
         }
 

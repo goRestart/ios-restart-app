@@ -133,4 +133,7 @@ extension Reactive where Base: P2PPaymentsOfferStatusSellerView {
     var feeText: Binder<String?> { return base.offerFeesView.rx.feeText }
     var netText: Binder<String?> { return base.offerFeesView.rx.netText }
     var feePercentageText: Binder<String?> { return base.offerFeesView.rx.feePercentageText }
+    var acceptButtonTap: ControlEvent<Void> { return base.acceptButton.rx.tap }
+    var declineButtonTap: ControlEvent<Void> { return base.declineButton.rx.tap }
+    var enterCodeButtonTap: ControlEvent<Void> { return base.enterCodeButton.rx.tap }
 }
