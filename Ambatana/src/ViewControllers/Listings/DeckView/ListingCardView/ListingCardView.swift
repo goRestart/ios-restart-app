@@ -15,6 +15,7 @@ final class ListingCardView: UICollectionViewCell, ReusableCell {
     private let pageControl = ListingCardPageControl()
     private var carousel: ListingCardMediaCarousel?
 
+    private let videoPreview = VideoPreview(frame: .zero)
     private let previewImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
@@ -39,6 +40,7 @@ final class ListingCardView: UICollectionViewCell, ReusableCell {
         super.prepareForReuse()
         previewImageView.image = nil
         carousel = nil
+        videoPreview.pause()
     }
 
     func populateWith(_ model: ListingCardModel, imageDownloader: ImageDownloaderType) {
@@ -61,26 +63,35 @@ final class ListingCardView: UICollectionViewCell, ReusableCell {
     }
 
     private func populateWith(media: Media?) {
-        if let previewURL = media?.outputs.image {
+        if let video = media?.outputs.video {
+            videoPreview.isHidden = false
+            previewImageView.isHidden = true
+            videoPreview.url = video
+            videoPreview.play()
+        } else  if let previewURL = media?.outputs.image {
+            videoPreview.isHidden = true
+            previewImageView.isHidden = false
             previewImageView.lg_setImageWithURL(previewURL)
-        } else if let video = media?.outputs.video {
-            // TODO: handle videos
         }
     }
 
     private func setupUI() {
-        contentView.addSubviewsForAutoLayout([previewImageView, pageControl])
-
-        NSLayoutConstraint.activate([
+        contentView.addSubviewsForAutoLayout([previewImageView, videoPreview, pageControl])
+        [
             previewImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             previewImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             previewImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             previewImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
 
+            videoPreview.topAnchor.constraint(equalTo: contentView.topAnchor),
+            videoPreview.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            videoPreview.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            videoPreview.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+
             pageControl.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Metrics.margin),
             pageControl.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metrics.margin),
             pageControl.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Metrics.margin)
-        ])
+        ].activate()
         setupTapGesture()
 
         backgroundColor = .clear
