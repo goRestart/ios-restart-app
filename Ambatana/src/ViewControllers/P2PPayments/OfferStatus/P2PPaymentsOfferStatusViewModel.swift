@@ -7,6 +7,8 @@ import RxCocoa
 final class P2PPaymentsOfferStatusViewModel: BaseViewModel {
     typealias ActionHandler = () -> Void
 
+    private static let updatesTimeInterval: RxTimeInterval = 10
+
     private enum Mode {
         case buyer, seller
     }
@@ -17,12 +19,13 @@ final class P2PPaymentsOfferStatusViewModel: BaseViewModel {
     private var listing: Listing?
     private var buyer: User?
     private var mode: Mode?
+    private var updateTimerDisposable: Disposable?
     private let p2pPaymentsRepository: P2PPaymentsRepository
     private let listingRepository: ListingRepository
     private let myUserRepository: MyUserRepository
     private let userRepository: UserRepository
-
     private let stateRelay = BehaviorRelay<UIState>(value: .loading)
+    private let disposeBag = DisposeBag()
 
     convenience init(offerId: String) {
         self.init(offerId: offerId,
@@ -47,9 +50,12 @@ final class P2PPaymentsOfferStatusViewModel: BaseViewModel {
 
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
-        if firstTime {
-            getP2PPaymentsOffer()
-        }
+        getP2PPaymentsOffer()
+    }
+
+    override func didBecomeInactive() {
+        super.didBecomeInactive()
+        stopAutoUpdates()
     }
 
     private func getP2PPaymentsOffer() {
@@ -134,6 +140,23 @@ final class P2PPaymentsOfferStatusViewModel: BaseViewModel {
             }
             stateRelay.accept(.sellerInfoLoaded(offer: offer, listing: listing, buyer: buyer))
         }
+        startAutoUpdatesIfNeeded()
+    }
+
+    private func startAutoUpdatesIfNeeded() {
+        guard updateTimerDisposable == nil else { return }
+        let timer = Observable<Int>.timer(P2PPaymentsOfferStatusViewModel.updatesTimeInterval,
+                                          period: P2PPaymentsOfferStatusViewModel.updatesTimeInterval,
+                                          scheduler: MainScheduler.instance)
+        updateTimerDisposable = timer.subscribe(onNext: { [weak self] _ in
+            self?.getP2PPaymentsOffer()
+        })
+        updateTimerDisposable?.disposed(by: disposeBag)
+    }
+
+    private func stopAutoUpdates() {
+        updateTimerDisposable?.dispose()
+        updateTimerDisposable = nil
     }
 
     private func withdrawOffer() {
