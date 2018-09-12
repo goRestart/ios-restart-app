@@ -2,7 +2,7 @@ import Foundation
 import LGCoreKit
 import LGComponents
 
-class PostAnotherListingViewModel: BaseViewModel {
+final class PostAnotherListingViewModel: BaseViewModel {
 
     var navigator: PostAnotherListingNavigator?
 
