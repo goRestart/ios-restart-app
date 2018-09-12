@@ -66,7 +66,8 @@ public final class ImageCarousel: View {
   
   public func set(_ images: [CarouselImage]) {
     pageControl.numberOfPages = images.count
-    
+    pageControl.isHidden = images.count == 1
+
     listAdapterDataSource.set(images)
     listAdapter.performUpdates(animated: true)
   }
