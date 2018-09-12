@@ -111,6 +111,7 @@ protocol ListingDetailNavigator: class {
     
     func openListingAttributeTable(withViewModel viewModel: ListingAttributeTableViewModel)
     func closeListingAttributeTable()
+    func openPostAnotherListing()
 }
 
 protocol SimpleProductsNavigator: class {

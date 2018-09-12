@@ -243,7 +243,8 @@ extension TabCoordinator: ChatDetailNavigator {
                                                    buyers: buyers,
                                                    listingId: listingId,
                                                    sourceRateBuyers: sourceRateBuyers,
-                                                   trackingInfo: trackingInfo)
+                                                   trackingInfo: trackingInfo,
+                                                   onRateUserFinishAction: nil)
         navigationController.present(vc, animated: true, completion: nil)
     }
 
