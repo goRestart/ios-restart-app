@@ -16,7 +16,7 @@ final class ProductSummaryView: View {
     return stackView
   }()
 
-  private let imageCarousel = ImageCarousel()
+  fileprivate let imageCarousel = ImageCarousel()
   
   fileprivate let priceLabel: UILabel = {
     let label = UILabel()
@@ -98,6 +98,9 @@ extension Reactive where Base: ProductSummaryView {
       view.titleLabel.text = productDraft?.title
       view.descriptionLabel.text = productDraft?.description
       view.priceLabel.text = productDraft?.price
+      
+      guard let images = productDraft?.images else { return }
+      view.imageCarousel.set(images)
     }
   }
 }

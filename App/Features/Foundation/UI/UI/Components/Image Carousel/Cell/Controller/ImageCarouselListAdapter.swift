@@ -2,9 +2,9 @@ import IGListKit
 
 final class ImageCarouselListAdapter: NSObject, ListAdapterDataSource {
   
-  private var images = [Image]()
+  private var images = [CarouselImage]()
   
-  func set(_ images: [Image]) {
+  func set(_ images: [CarouselImage]) {
     self.images = images
   }
   
@@ -13,7 +13,7 @@ final class ImageCarouselListAdapter: NSObject, ListAdapterDataSource {
   }
   
   func listAdapter(_ listAdapter: ListAdapter, sectionControllerFor object: Any) -> ListSectionController {
-    guard let object = object as? Image else { fatalError() }
+    guard let object = object as? CarouselImage else { fatalError() }
     let sectionController = ImageCarouselSectionController(
       image: object
     )

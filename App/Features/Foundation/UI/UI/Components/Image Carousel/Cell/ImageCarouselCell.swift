@@ -28,8 +28,12 @@ final class ImageCarouselCell: CollectionViewCell {
     }
   }
   
-  func configure(with image: Image) {
-    guard let url = image.url else { return }
-    imageView.set(url: url)
+  func configure(with image: CarouselImage) {
+    if let url = image.url {
+      imageView.set(url: url)
+    }
+    if let image = image.image {
+      imageView.image = image
+    }
   }
 }

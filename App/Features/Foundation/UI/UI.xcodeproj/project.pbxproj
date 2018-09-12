@@ -42,13 +42,13 @@
 		2E08DF762141D53B0039161E /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2E08DF732141D53B0039161E /* OpenSans-Semibold.ttf */; };
 		2E08DF772141D53B0039161E /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2E08DF742141D53B0039161E /* OpenSans-Bold.ttf */; };
 		2E08DF782141D53B0039161E /* OpenSans.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2E08DF752141D53B0039161E /* OpenSans.ttf */; };
+		2E4F37BE2149A07C009D0373 /* CarouselImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4F37BD2149A07B009D0373 /* CarouselImage.swift */; };
 		2E71A91B2131A6BF009D24A9 /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A91A2131A6BF009D24A9 /* Checkbox.swift */; };
 		2E71A91E2131AA6A009D24A9 /* CheckboxSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A91D2131AA6A009D24A9 /* CheckboxSpec.swift */; };
 		2E71A9332131DA2C009D24A9 /* UITabBarController+ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A9322131DA2C009D24A9 /* UITabBarController+ViewController.swift */; };
 		2E7B9B172132D4B700E4B6F5 /* ImageCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7B9B162132D4B700E4B6F5 /* ImageCarousel.swift */; };
 		2E7B9B312133128E00E4B6F5 /* ImageCarouselCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7B9B302133128E00E4B6F5 /* ImageCarouselCell.swift */; };
 		2E7B9B33213313BA00E4B6F5 /* ImageCarouselSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7B9B32213313BA00E4B6F5 /* ImageCarouselSectionController.swift */; };
-		2E7B9B35213314FE00E4B6F5 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7B9B34213314FE00E4B6F5 /* Image.swift */; };
 		2E7B9B372133151D00E4B6F5 /* ImageCarouselListAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7B9B362133151D00E4B6F5 /* ImageCarouselListAdapter.swift */; };
 		2E7B9B3A21331D0000E4B6F5 /* UIImageView+ImageLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7B9B3921331D0000E4B6F5 /* UIImageView+ImageLoading.swift */; };
 		2EC6876F2145024C00A04133 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC6876E2145024C00A04133 /* Images.swift */; };
@@ -110,13 +110,13 @@
 		2E08DF732141D53B0039161E /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
 		2E08DF742141D53B0039161E /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		2E08DF752141D53B0039161E /* OpenSans.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = OpenSans.ttf; sourceTree = "<group>"; };
+		2E4F37BD2149A07B009D0373 /* CarouselImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarouselImage.swift; sourceTree = "<group>"; };
 		2E71A91A2131A6BF009D24A9 /* Checkbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checkbox.swift; sourceTree = "<group>"; };
 		2E71A91D2131AA6A009D24A9 /* CheckboxSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxSpec.swift; sourceTree = "<group>"; };
 		2E71A9322131DA2C009D24A9 /* UITabBarController+ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabBarController+ViewController.swift"; sourceTree = "<group>"; };
 		2E7B9B162132D4B700E4B6F5 /* ImageCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCarousel.swift; sourceTree = "<group>"; };
 		2E7B9B302133128E00E4B6F5 /* ImageCarouselCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCarouselCell.swift; sourceTree = "<group>"; };
 		2E7B9B32213313BA00E4B6F5 /* ImageCarouselSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCarouselSectionController.swift; sourceTree = "<group>"; };
-		2E7B9B34213314FE00E4B6F5 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		2E7B9B362133151D00E4B6F5 /* ImageCarouselListAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCarouselListAdapter.swift; sourceTree = "<group>"; };
 		2E7B9B3921331D0000E4B6F5 /* UIImageView+ImageLoading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+ImageLoading.swift"; sourceTree = "<group>"; };
 		2EC6876E2145024C00A04133 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
@@ -519,7 +519,7 @@
 			children = (
 				2E7B9B2E2133127E00E4B6F5 /* Cell */,
 				2E7B9B162132D4B700E4B6F5 /* ImageCarousel.swift */,
-				2E7B9B34213314FE00E4B6F5 /* Image.swift */,
+				2E4F37BD2149A07B009D0373 /* CarouselImage.swift */,
 			);
 			path = "Image Carousel";
 			sourceTree = "<group>";
@@ -731,6 +731,7 @@
 				2E7B9B372133151D00E4B6F5 /* ImageCarouselListAdapter.swift in Sources */,
 				1C0263651FF5BBE50040346B /* InputTextField.swift in Sources */,
 				2EC6F10D21329553002F6400 /* NavigationController.swift in Sources */,
+				2E4F37BE2149A07C009D0373 /* CarouselImage.swift in Sources */,
 				2E71A91B2131A6BF009D24A9 /* Checkbox.swift in Sources */,
 				2E7B9B33213313BA00E4B6F5 /* ImageCarouselSectionController.swift in Sources */,
 				1CACDA781FF7B58900538B78 /* ViewController.swift in Sources */,
@@ -740,7 +741,6 @@
 				1CD52B0920473E9500F13E5F /* AddPhotoButton.swift in Sources */,
 				1C0500AB200B6C0100E60633 /* CollectionViewCell.swift in Sources */,
 				1C0263561FF57B630040346B /* Radius.swift in Sources */,
-				2E7B9B35213314FE00E4B6F5 /* Image.swift in Sources */,
 				1CD7A9681FF5238600CB895D /* UIColor+Palette.swift in Sources */,
 				1CD7A9A01FF5626B00CB895D /* Gradient.swift in Sources */,
 				1CCA37892006A84A00D86072 /* TabBarItem.swift in Sources */,
