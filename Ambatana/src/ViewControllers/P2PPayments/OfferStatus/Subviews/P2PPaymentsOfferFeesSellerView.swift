@@ -10,7 +10,6 @@ final class P2PPaymentsOfferFeesSellerView: UIView {
         let label = UILabel()
         label.textColor = .grayRegular
         label.font = UIFont.systemMediumFont(size: 18)
-//        label.setContentHuggingPriority(.defaultLow, for: .horizontal)
         label.text = "Buyer pay"
         return label
     }()
@@ -19,7 +18,6 @@ final class P2PPaymentsOfferFeesSellerView: UIView {
         let label = UILabel()
         label.textColor = .grayRegular
         label.font = UIFont.systemMediumFont(size: 18)
-//        label.setContentHuggingPriority(.defaultLow, for: .horizontal)
         label.text = "Payment fee"
         return label
     }()
@@ -28,8 +26,6 @@ final class P2PPaymentsOfferFeesSellerView: UIView {
         let label = UILabel()
         label.textColor = .p2pPaymentsPositive
         label.font = UIFont.systemBoldFont(size: 20)
-//        label.setContentHuggingPriority(.defaultLow, for: .horizontal)
-//        label.setContentHuggingPriority(.defaultLow, for: .vertical)
         label.text = "You receive"
         return label
     }()
@@ -38,7 +34,6 @@ final class P2PPaymentsOfferFeesSellerView: UIView {
         let label = UILabel()
         label.textColor = .grayRegular
         label.font = UIFont.systemMediumFont(size: 18)
-//        label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         return label
     }()
 
@@ -46,7 +41,6 @@ final class P2PPaymentsOfferFeesSellerView: UIView {
         let label = UILabel()
         label.textColor = .grayRegular
         label.font = UIFont.systemMediumFont(size: 18)
-//        label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         return label
     }()
 
@@ -54,7 +48,6 @@ final class P2PPaymentsOfferFeesSellerView: UIView {
         let label = UILabel()
         label.textColor = .p2pPaymentsPositive
         label.font = UIFont.systemBoldFont(size: 20)
-//        label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         return label
     }()
 
@@ -68,16 +61,14 @@ final class P2PPaymentsOfferFeesSellerView: UIView {
     private lazy var titlesStackView: UIStackView = {
         let stackView = UIStackView.vertical([grossTitleLabel, feeTitleLabel, netTitleLabel])
         stackView.alignment = .leading
-        stackView.spacing = 12
-//        stackView.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        stackView.spacing = 16
         return stackView
     }()
 
     private lazy var amountsStackView: UIStackView = {
         let stackView = UIStackView.vertical([grossLabel, feeLabel, netLabel])
         stackView.alignment = .trailing
-        stackView.spacing = 12
-//        stackView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        stackView.spacing = 16
         return stackView
     }()
 
@@ -91,7 +82,6 @@ final class P2PPaymentsOfferFeesSellerView: UIView {
 
     private func setup() {
         addSubviewsForAutoLayout([titlesStackView, amountsStackView])
-//        stackView.constraintToEdges(in: self)
         NSLayoutConstraint.activate([
             titlesStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
             titlesStackView.topAnchor.constraint(equalTo: topAnchor),
@@ -100,9 +90,6 @@ final class P2PPaymentsOfferFeesSellerView: UIView {
             amountsStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
             amountsStackView.topAnchor.constraint(equalTo: topAnchor),
             amountsStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
-
-            infoButton.leadingAnchor.constraint(equalTo: feeLabel.trailingAnchor, constant: 4),
-            infoButton.centerYAnchor.constraint(equalTo: feeLabel.centerYAnchor),
         ])
     }
 }
