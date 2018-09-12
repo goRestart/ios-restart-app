@@ -85,7 +85,7 @@ final class P2PPaymentsOfferStatusSellerView: UIView {
             secondLineSeparatorView.widthAnchor.constraint(equalTo: widthAnchor, constant: -2 * Layout.separatorHorizontalMargin),
             secondLineSeparatorView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: Layout.separatorHorizontalMargin),
             secondLineSeparatorView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: Layout.separatorHorizontalMargin),
-            secondLineSeparatorView.topAnchor.constraint(equalTo: offerFeesView.bottomAnchor, constant: Layout.separatorTopMargin),
+            secondLineSeparatorView.topAnchor.constraint(equalTo: offerFeesView.bottomAnchor, constant: Layout.separatorBottomMargin),
 
             stepListView.widthAnchor.constraint(equalTo: widthAnchor, constant: -2 * Layout.contentHorizontalMargin),
             stepListView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: Layout.contentHorizontalMargin),

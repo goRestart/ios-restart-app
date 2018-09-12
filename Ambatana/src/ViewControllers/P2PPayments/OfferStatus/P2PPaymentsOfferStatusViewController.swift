@@ -74,12 +74,16 @@ final class P2PPaymentsOfferStatusViewController: BaseViewController {
     private func setupRx() {
         let bindings = [
             viewModel.showLoadingIndicator.drive(activityIndicator.rx.isAnimating),
+            viewModel.hideBuyerInfo.drive(offerStatusBuyer.rx.isHidden),
+            viewModel.hideSellerInfo.drive(offerStatusSeller.rx.isHidden),
 
             viewModel.listingImageURL.drive(offerStatusBuyer.rx.listingImageURL),
             viewModel.listingTitle.drive(offerStatusBuyer.rx.listingTitle),
-            viewModel.stepList.map { $0 ?? .empty }.drive(offerStatusBuyer.rx.stepList),
+            viewModel.buyerStepList.map { $0 ?? .empty }.drive(offerStatusBuyer.rx.stepList),
             viewModel.actionButtonTitle.drive(offerStatusBuyer.rx.actionButtonTitle),
             viewModel.actionButtonTitle.map { $0 == nil }.drive(offerStatusBuyer.rx.actionButtonIsHidden),
+
+            viewModel.sellerStepList.map { $0 ?? .empty }.drive(offerStatusSeller.rx.stepList),
         ]
         bindings.forEach { [disposeBag] in $0.disposed(by: disposeBag) }
     }

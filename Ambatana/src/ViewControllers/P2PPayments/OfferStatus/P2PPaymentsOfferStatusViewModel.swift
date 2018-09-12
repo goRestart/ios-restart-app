@@ -106,12 +106,15 @@ extension P2PPaymentsOfferStatusViewModel {
 
 extension P2PPaymentsOfferStatusViewModel {
     var showLoadingIndicator: Driver<Bool> { return stateRelay.asDriver().map { $0.showLoadingIndicator } }
+    var hideBuyerInfo: Driver<Bool> { return stateRelay.asDriver().map { $0.hideBuyerInfo } }
+    var hideSellerInfo: Driver<Bool> { return stateRelay.asDriver().map { $0.hideSellerInfo } }
     var listingTitle: Driver<String?> { return stateRelay.asDriver().map { $0.listingTitle } }
     var listingImageURL: Driver<URL?> { return stateRelay.asDriver().map { $0.listingImageURL } }
     var actionButtonTitle: Driver<String?> { return stateRelay.asDriver().map { $0.actionButtonTitle } }
-    var stepList: Driver<P2PPaymentsOfferStatusStepListState?> {
+    var sellerStepList: Driver<P2PPaymentsOfferStatusStepListState?> {return stateRelay.asDriver().map { $0.sellerStepList } }
+    var buyerStepList: Driver<P2PPaymentsOfferStatusStepListState?> {
         return stateRelay.asDriver().map { [weak self] state in
-            state.stepList(actionHandler: { self?.withdrawnButtonPressed() })
+            state.buyerStepList(actionHandler: { self?.withdrawnButtonPressed() })
         }
     }
 }
