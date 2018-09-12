@@ -14,9 +14,29 @@ protocol VerificationCodeTextFieldDelegate: class {
 
 final class VerificationCodeTextField: UIView {
 
+    enum InputType {
+        case numeric
+        case alphaNumeric
+
+        fileprivate var keyboardType: UIKeyboardType {
+            switch self {
+            case .numeric: return .numberPad
+            case .alphaNumeric: return .namePhonePad
+            }
+        }
+
+        fileprivate var characterSet: CharacterSet {
+            switch self {
+            case .numeric: return .decimalDigits
+            case .alphaNumeric: return .alphanumerics
+            }
+        }
+    }
+
     weak var delegate: VerificationCodeTextFieldDelegate?
 
     private let numberOfDigits: Int
+    private let inputType: InputType
     private let containerView = UIView()
     private var textFields: [UITextField] = []
     private var lines: [UIView] = []
@@ -28,7 +48,7 @@ final class VerificationCodeTextField: UIView {
     }
 
     private struct Layout {
-        static let elementWidth: CGFloat = 26
+        static let elementWidth: CGFloat = 38
         static let marginBetweenElements: CGFloat = 5
         static let textFieldHeight: CGFloat = 48
         static let lineHeight: CGFloat = 3
@@ -36,8 +56,9 @@ final class VerificationCodeTextField: UIView {
         static let activeLineColor: UIColor = .primaryColor
     }
 
-    init(digits: Int) {
+    init(digits: Int, inputType: InputType = .numeric) {
         self.numberOfDigits = digits
+        self.inputType = inputType
         super.init(frame: .zero)
         setupUI()
     }
@@ -60,12 +81,13 @@ final class VerificationCodeTextField: UIView {
         for _ in 0..<numberOfDigits {
             let textField = CodeTextField(frame: .zero)
             textField.tintColor = .clear
-            textField.keyboardType = .numberPad
+            textField.keyboardType = inputType.keyboardType
             textField.font = .smsVerificationCodeInputTextfieldText
             textField.textColor = .blackText
             textField.delegate = self
             textField.codeTextFieldDelegate = self
             textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+            textField.autocapitalizationType = .allCharacters
             textFields.append(textField)
         }
     }
@@ -178,13 +200,14 @@ final class VerificationCodeTextField: UIView {
 
 extension VerificationCodeTextField: UITextFieldDelegate, CodeTextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let aSet = NSCharacterSet.decimalDigits.inverted
+        let aSet = inputType.characterSet.inverted
         let compSepByCharInSet = string.components(separatedBy: aSet)
         let numberFiltered = compSepByCharInSet.joined(separator: "")
         return string == numberFiltered
     }
 
     @objc private func textFieldDidChange(_ textField: UITextField) {
+        textField.text =  textField.text?.uppercased()
         guard let currentIndex = textFields.index(of: textField),
             let text = textField.text, !text.isEmpty else { return }
 
