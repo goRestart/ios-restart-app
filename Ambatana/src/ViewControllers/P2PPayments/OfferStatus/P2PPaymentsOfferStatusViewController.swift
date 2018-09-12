@@ -96,6 +96,12 @@ final class P2PPaymentsOfferStatusViewController: BaseViewController {
         ]
         bindings.forEach { [disposeBag] in $0.disposed(by: disposeBag) }
 
+        offerStatusBuyer.rx.actionButtonTap
+            .subscribe(onNext: { [weak self] _ in
+                self?.viewModel.actionButtonPressed()
+            })
+            .disposed(by: disposeBag)
+
         offerStatusSeller.rx.acceptButtonTap
             .subscribe(onNext: { [weak self] _ in
                 self?.viewModel.acceptButtonPressed()

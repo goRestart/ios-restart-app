@@ -85,5 +85,6 @@ extension Reactive where Base: P2PPaymentsOfferStatusBuyerView {
     var stepList: Binder<P2PPaymentsOfferStatusStepListState> { return base.stepListView.rx.state }
     var actionButtonTitle: Binder<String?> { return base.actionButton.rx.title() }
     var actionButtonIsHidden: Binder<Bool> { return base.actionButton.rx.isHidden }
+    var actionButtonTap: ControlEvent<Void> { return base.actionButton.rx.tap }
 }
 
