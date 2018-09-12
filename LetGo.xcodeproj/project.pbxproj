@@ -141,6 +141,10 @@
 		097523992148B26900F76F54 /* P2PPaymentsOfferStatusSellerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097523972148B26900F76F54 /* P2PPaymentsOfferStatusSellerView.swift */; };
 		0975239B2148B86700F76F54 /* P2PPaymentsOfferStatusViewModel+UIState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0975239A2148B86700F76F54 /* P2PPaymentsOfferStatusViewModel+UIState.swift */; };
 		0975239C2148B86700F76F54 /* P2PPaymentsOfferStatusViewModel+UIState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0975239A2148B86700F76F54 /* P2PPaymentsOfferStatusViewModel+UIState.swift */; };
+		097BC1D0214925520024D9F8 /* P2PPaymentsEnterPayCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097BC1CF214925520024D9F8 /* P2PPaymentsEnterPayCodeViewController.swift */; };
+		097BC1D1214925520024D9F8 /* P2PPaymentsEnterPayCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097BC1CF214925520024D9F8 /* P2PPaymentsEnterPayCodeViewController.swift */; };
+		097BC1D32149255E0024D9F8 /* P2PPaymentsEnterPayCodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097BC1D22149255E0024D9F8 /* P2PPaymentsEnterPayCodeViewModel.swift */; };
+		097BC1D42149255E0024D9F8 /* P2PPaymentsEnterPayCodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097BC1D22149255E0024D9F8 /* P2PPaymentsEnterPayCodeViewModel.swift */; };
 		097EDBE1213CFE460057D638 /* P2PPaymentsMakeAnOfferWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097EDBE0213CFE460057D638 /* P2PPaymentsMakeAnOfferWireframe.swift */; };
 		097EDBE2213CFE4B0057D638 /* P2PPaymentsMakeAnOfferWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097EDBE0213CFE460057D638 /* P2PPaymentsMakeAnOfferWireframe.swift */; };
 		097EDBE5213CFF180057D638 /* P2PPaymentsMakeAnOfferBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097EDBE4213CFF180057D638 /* P2PPaymentsMakeAnOfferBuilder.swift */; };
@@ -2662,6 +2666,8 @@
 		097523942148AF8800F76F54 /* P2PPaymentsOfferFeesSellerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOfferFeesSellerView.swift; sourceTree = "<group>"; };
 		097523972148B26900F76F54 /* P2PPaymentsOfferStatusSellerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOfferStatusSellerView.swift; sourceTree = "<group>"; };
 		0975239A2148B86700F76F54 /* P2PPaymentsOfferStatusViewModel+UIState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "P2PPaymentsOfferStatusViewModel+UIState.swift"; sourceTree = "<group>"; };
+		097BC1CF214925520024D9F8 /* P2PPaymentsEnterPayCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsEnterPayCodeViewController.swift; sourceTree = "<group>"; };
+		097BC1D22149255E0024D9F8 /* P2PPaymentsEnterPayCodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsEnterPayCodeViewModel.swift; sourceTree = "<group>"; };
 		097EDBE0213CFE460057D638 /* P2PPaymentsMakeAnOfferWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PPaymentsMakeAnOfferWireframe.swift; sourceTree = "<group>"; };
 		097EDBE4213CFF180057D638 /* P2PPaymentsMakeAnOfferBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PPaymentsMakeAnOfferBuilder.swift; sourceTree = "<group>"; };
 		097EDBE7213CFF6D0057D638 /* P2PPaymentsOnboardingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOnboardingViewModel.swift; sourceTree = "<group>"; };
@@ -4172,6 +4178,7 @@
 				0904D88C213F310C00D5D554 /* CreateOffer */,
 				0915FB922140FDE20003D5B0 /* OfferStatus */,
 				0942C7B12148FDDB00779DF1 /* GetPayCode */,
+				097BC1CE214925230024D9F8 /* EnterPayCode */,
 			);
 			path = P2PPayments;
 			sourceTree = "<group>";
@@ -4228,6 +4235,15 @@
 				0941DEFE21478E4700576659 /* P2PPaymentsOfferStatusStepListState+OfferStatus.swift */,
 			);
 			path = "UI State";
+			sourceTree = "<group>";
+		};
+		097BC1CE214925230024D9F8 /* EnterPayCode */ = {
+			isa = PBXGroup;
+			children = (
+				097BC1D22149255E0024D9F8 /* P2PPaymentsEnterPayCodeViewModel.swift */,
+				097BC1CF214925520024D9F8 /* P2PPaymentsEnterPayCodeViewController.swift */,
+			);
+			path = EnterPayCode;
 			sourceTree = "<group>";
 		};
 		097EDBDF213CFE180057D638 /* P2PPayments */ = {
@@ -9661,6 +9677,7 @@
 				7285C95B1F83C75F00BD16E9 /* SellNavigationController.swift in Sources */,
 				425EE397211AFCFE0002DAB8 /* AspectRatio+CGSize.swift in Sources */,
 				C72794281D549334009C25AB /* SettingsCell.swift in Sources */,
+				097BC1D32149255E0024D9F8 /* P2PPaymentsEnterPayCodeViewModel.swift in Sources */,
 				0A3C143121232FBD00C836F7 /* PaymentFrequency+LG.swift in Sources */,
 				F57D3A2D1FED017A006F2CA4 /* UIRoundedLabelWithPadding.swift in Sources */,
 				50F681F21C8F4586001F33A3 /* RxPaginable.swift in Sources */,
@@ -9899,6 +9916,7 @@
 				504CD27F214AAF3800A7672C /* AffiliationFAQBuilder.swift in Sources */,
 				72CD80CE203469FB0042E1E0 /* LGTutorialViewModel.swift in Sources */,
 				722A6D14205A714F009A43AB /* LGPageControl.swift in Sources */,
+				097BC1D0214925520024D9F8 /* P2PPaymentsEnterPayCodeViewController.swift in Sources */,
 				72B935F61E3F917500F93F73 /* UserProduct+LG.swift in Sources */,
 				C7363FB21BF9CB5B00A4BF6F /* FilterTagsView.swift in Sources */,
 				0A06C3EB20FCCCC300D41982 /* ListingCardModel.swift in Sources */,
@@ -10770,6 +10788,7 @@
 				42F0688C20FF44C1009AC898 /* DropdownViewModel.swift in Sources */,
 				0AEAFC2421529E2100B8E223 /* AffiliationOnBoardingView.swift in Sources */,
 				C21E6079208A89AF008A1956 /* VideoPreview.swift in Sources */,
+				097BC1D42149255E0024D9F8 /* P2PPaymentsEnterPayCodeViewModel.swift in Sources */,
 				72FE02DD1F98CE0A005BD672 /* AlphaAnimator.swift in Sources */,
 				4252685720C7E7F900A6E191 /* TagCollectionViewWithCloseCell.swift in Sources */,
 				C783D98A1C64C15B000EE5CA /* ReportUserCell.swift in Sources */,
@@ -10998,6 +11017,7 @@
 				0A376DC0214FE2A100DFFB7F /* AffiliationModalBuilder.swift in Sources */,
 				507532E31FEA47D400FCF9D5 /* UILabel+Rx.swift in Sources */,
 				C7798EA31D2EB6AB00C81DD4 /* UICollectionView+Helper.swift in Sources */,
+				097BC1D1214925520024D9F8 /* P2PPaymentsEnterPayCodeViewController.swift in Sources */,
 				2EFF0D9D1E69732E00FBF3D5 /* Dictionary+Filter.swift in Sources */,
 				426CB13720C58820009A065F /* PostMultiSelectionCell.swift in Sources */,
 				0A6FED272130344000B57004 /* ExpressChatNavigator.swift in Sources */,
