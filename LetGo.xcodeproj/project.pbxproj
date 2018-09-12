@@ -129,6 +129,8 @@
 		097523902148A8D000F76F54 /* P2PPaymentsOfferStatusBuyerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0975238E2148A8D000F76F54 /* P2PPaymentsOfferStatusBuyerView.swift */; };
 		097523922148AE6B00F76F54 /* P2PPaymentsBuyerHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097523912148AE6B00F76F54 /* P2PPaymentsBuyerHeaderView.swift */; };
 		097523932148AE6B00F76F54 /* P2PPaymentsBuyerHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097523912148AE6B00F76F54 /* P2PPaymentsBuyerHeaderView.swift */; };
+		097523952148AF8800F76F54 /* P2PPaymentsOfferFeesSellerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097523942148AF8800F76F54 /* P2PPaymentsOfferFeesSellerView.swift */; };
+		097523962148AF8800F76F54 /* P2PPaymentsOfferFeesSellerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097523942148AF8800F76F54 /* P2PPaymentsOfferFeesSellerView.swift */; };
 		097EDBE1213CFE460057D638 /* P2PPaymentsMakeAnOfferWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097EDBE0213CFE460057D638 /* P2PPaymentsMakeAnOfferWireframe.swift */; };
 		097EDBE2213CFE4B0057D638 /* P2PPaymentsMakeAnOfferWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097EDBE0213CFE460057D638 /* P2PPaymentsMakeAnOfferWireframe.swift */; };
 		097EDBE5213CFF180057D638 /* P2PPaymentsMakeAnOfferBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097EDBE4213CFF180057D638 /* P2PPaymentsMakeAnOfferBuilder.swift */; };
@@ -2450,6 +2452,7 @@
 		0975238B2147D97D00F76F54 /* P2PPaymentsStepLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsStepLineView.swift; sourceTree = "<group>"; };
 		0975238E2148A8D000F76F54 /* P2PPaymentsOfferStatusBuyerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOfferStatusBuyerView.swift; sourceTree = "<group>"; };
 		097523912148AE6B00F76F54 /* P2PPaymentsBuyerHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsBuyerHeaderView.swift; sourceTree = "<group>"; };
+		097523942148AF8800F76F54 /* P2PPaymentsOfferFeesSellerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOfferFeesSellerView.swift; sourceTree = "<group>"; };
 		097EDBE0213CFE460057D638 /* P2PPaymentsMakeAnOfferWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PPaymentsMakeAnOfferWireframe.swift; sourceTree = "<group>"; };
 		097EDBE4213CFF180057D638 /* P2PPaymentsMakeAnOfferBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PPaymentsMakeAnOfferBuilder.swift; sourceTree = "<group>"; };
 		097EDBE7213CFF6D0057D638 /* P2PPaymentsOnboardingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOnboardingViewModel.swift; sourceTree = "<group>"; };
@@ -3871,6 +3874,7 @@
 				0941DF012147C15900576659 /* P2PPaymentsNumberView.swift */,
 				0975238B2147D97D00F76F54 /* P2PPaymentsStepLineView.swift */,
 				097523912148AE6B00F76F54 /* P2PPaymentsBuyerHeaderView.swift */,
+				097523942148AF8800F76F54 /* P2PPaymentsOfferFeesSellerView.swift */,
 				0975238E2148A8D000F76F54 /* P2PPaymentsOfferStatusBuyerView.swift */,
 			);
 			path = Subviews;
@@ -8844,6 +8848,7 @@
 				50D4C3221F8CBF39000E8069 /* SuggestiveSearch+LG.swift in Sources */,
 				50CBCD5F1BF0BB8F00A329BB /* CollectionViewFooter.swift in Sources */,
 				C6FFC4A720F74F1E00B9F53A /* VerticalFilterType.swift in Sources */,
+				097523952148AF8800F76F54 /* P2PPaymentsOfferFeesSellerView.swift in Sources */,
 				7265F459202B10EA00533FE7 /* FilterRealEstateSection.swift in Sources */,
 				C64D26C420ED1DD900EC43A1 /* ListingAttributeGridLayoutBehaviour.swift in Sources */,
 				0A0CD7F81FD97FBB00B0BACF /* FilterCell.swift in Sources */,
@@ -9845,6 +9850,7 @@
 				50EC64051C64B05500DC04C5 /* LGEmptyView.swift in Sources */,
 				509CFF361DCCE8DF0068E518 /* CGPoint+LG.swift in Sources */,
 				3221E53C206152CB0006B12B /* DistanceInfoView.swift in Sources */,
+				097523962148AF8800F76F54 /* P2PPaymentsOfferFeesSellerView.swift in Sources */,
 				C6FFC4A820F74F1E00B9F53A /* VerticalFilterType.swift in Sources */,
 				0187407E1FD594B6009C1363 /* BlockingPostingQueuedRequestsViewModel.swift in Sources */,
 				8EEC7F5B206AA62800616858 /* AdvertisementMoPubCellDrawer.swift in Sources */,
