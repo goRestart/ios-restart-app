@@ -38,4 +38,18 @@ extension P2PPaymentsOfferStatusBuilder: P2PPaymentsOfferStatusAssembly {
             return vc
         }
     }
+
+    func buildEnterPayCode(offerId: String) -> UIViewController {
+        let vm = P2PPaymentsEnterPayCodeViewModel(offerId: offerId)
+        let vc = P2PPaymentsEnterPayCodeViewController(viewModel: vm)
+        switch self {
+        case .modal:
+            let nc = UINavigationController(rootViewController: vc)
+            vm.navigator = P2PPaymentsOfferStatusWireframe(offerId: offerId, navigationController: nc)
+            return nc
+        case .standard(nc: let nc):
+            vm.navigator = P2PPaymentsOfferStatusWireframe(offerId: offerId, navigationController: nc)
+            return vc
+        }
+    }
 }

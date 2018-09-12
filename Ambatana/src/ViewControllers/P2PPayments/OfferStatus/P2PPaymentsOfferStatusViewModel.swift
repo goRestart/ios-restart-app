@@ -214,8 +214,7 @@ extension P2PPaymentsOfferStatusViewModel {
     }
 
     func enterCodeButtonPressed() {
-        // TODO: @juolgon handle this
-        navigator?.close()
+        navigator?.openEnterPayCode()
     }
 }
 
