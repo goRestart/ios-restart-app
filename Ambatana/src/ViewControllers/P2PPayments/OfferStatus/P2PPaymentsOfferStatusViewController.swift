@@ -8,6 +8,7 @@ import RxCocoa
 final class P2PPaymentsOfferStatusViewController: BaseViewController {
 
     private let offerStatusBuyer = P2PPaymentsOfferStatusBuyerView()
+    private let offerStatusSeller = P2PPaymentsOfferStatusSellerView()
     private let activityIndicator: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(activityIndicatorStyle: .gray)
         view.hidesWhenStopped = true
@@ -48,7 +49,7 @@ final class P2PPaymentsOfferStatusViewController: BaseViewController {
 
     private func setup() {
         view.backgroundColor = UIColor.white
-        view.addSubviewsForAutoLayout([offerStatusBuyer, activityIndicator])
+        view.addSubviewsForAutoLayout([offerStatusBuyer, offerStatusSeller, activityIndicator])
         setupConstraints()
         setupRx()
     }
@@ -59,6 +60,11 @@ final class P2PPaymentsOfferStatusViewController: BaseViewController {
             offerStatusBuyer.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             offerStatusBuyer.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             offerStatusBuyer.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+
+            offerStatusSeller.topAnchor.constraint(equalTo: view.safeTopAnchor),
+            offerStatusSeller.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            offerStatusSeller.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            offerStatusSeller.trailingAnchor.constraint(equalTo: view.trailingAnchor),
 
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),

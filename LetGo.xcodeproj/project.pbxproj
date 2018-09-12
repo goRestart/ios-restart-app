@@ -133,6 +133,8 @@
 		097523962148AF8800F76F54 /* P2PPaymentsOfferFeesSellerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097523942148AF8800F76F54 /* P2PPaymentsOfferFeesSellerView.swift */; };
 		097523982148B26900F76F54 /* P2PPaymentsOfferStatusSellerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097523972148B26900F76F54 /* P2PPaymentsOfferStatusSellerView.swift */; };
 		097523992148B26900F76F54 /* P2PPaymentsOfferStatusSellerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097523972148B26900F76F54 /* P2PPaymentsOfferStatusSellerView.swift */; };
+		0975239B2148B86700F76F54 /* P2PPaymentsOfferStatusViewModel+UIState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0975239A2148B86700F76F54 /* P2PPaymentsOfferStatusViewModel+UIState.swift */; };
+		0975239C2148B86700F76F54 /* P2PPaymentsOfferStatusViewModel+UIState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0975239A2148B86700F76F54 /* P2PPaymentsOfferStatusViewModel+UIState.swift */; };
 		097EDBE1213CFE460057D638 /* P2PPaymentsMakeAnOfferWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097EDBE0213CFE460057D638 /* P2PPaymentsMakeAnOfferWireframe.swift */; };
 		097EDBE2213CFE4B0057D638 /* P2PPaymentsMakeAnOfferWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097EDBE0213CFE460057D638 /* P2PPaymentsMakeAnOfferWireframe.swift */; };
 		097EDBE5213CFF180057D638 /* P2PPaymentsMakeAnOfferBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097EDBE4213CFF180057D638 /* P2PPaymentsMakeAnOfferBuilder.swift */; };
@@ -2456,6 +2458,7 @@
 		097523912148AE6B00F76F54 /* P2PPaymentsBuyerHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsBuyerHeaderView.swift; sourceTree = "<group>"; };
 		097523942148AF8800F76F54 /* P2PPaymentsOfferFeesSellerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOfferFeesSellerView.swift; sourceTree = "<group>"; };
 		097523972148B26900F76F54 /* P2PPaymentsOfferStatusSellerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOfferStatusSellerView.swift; sourceTree = "<group>"; };
+		0975239A2148B86700F76F54 /* P2PPaymentsOfferStatusViewModel+UIState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "P2PPaymentsOfferStatusViewModel+UIState.swift"; sourceTree = "<group>"; };
 		097EDBE0213CFE460057D638 /* P2PPaymentsMakeAnOfferWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PPaymentsMakeAnOfferWireframe.swift; sourceTree = "<group>"; };
 		097EDBE4213CFF180057D638 /* P2PPaymentsMakeAnOfferBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PPaymentsMakeAnOfferBuilder.swift; sourceTree = "<group>"; };
 		097EDBE7213CFF6D0057D638 /* P2PPaymentsOnboardingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOnboardingViewModel.swift; sourceTree = "<group>"; };
@@ -3861,10 +3864,10 @@
 		0915FB922140FDE20003D5B0 /* OfferStatus */ = {
 			isa = PBXGroup;
 			children = (
+				0975239D2148B8F500F76F54 /* UI State */,
 				0915FB992140FE4C0003D5B0 /* Subviews */,
 				0915FB962140FE340003D5B0 /* P2PPaymentsOfferStatusViewModel.swift */,
 				0915FB932140FE0B0003D5B0 /* P2PPaymentsOfferStatusViewController.swift */,
-				0941DEFE21478E4700576659 /* P2PPaymentsOfferStatusStepListState+OfferStatus.swift */,
 			);
 			path = OfferStatus;
 			sourceTree = "<group>";
@@ -3882,6 +3885,15 @@
 				097523972148B26900F76F54 /* P2PPaymentsOfferStatusSellerView.swift */,
 			);
 			path = Subviews;
+			sourceTree = "<group>";
+		};
+		0975239D2148B8F500F76F54 /* UI State */ = {
+			isa = PBXGroup;
+			children = (
+				0975239A2148B86700F76F54 /* P2PPaymentsOfferStatusViewModel+UIState.swift */,
+				0941DEFE21478E4700576659 /* P2PPaymentsOfferStatusStepListState+OfferStatus.swift */,
+			);
+			path = "UI State";
 			sourceTree = "<group>";
 		};
 		097EDBDF213CFE180057D638 /* P2PPayments */ = {
@@ -9428,6 +9440,7 @@
 				2E2FF6E520AAC8CB00C9A5DA /* ChatAssistantConversationCell.swift in Sources */,
 				C797404F1D2A95B100381A4A /* LeanplumTracker.swift in Sources */,
 				0A6FED022130344000B57004 /* UserWireframe.swift in Sources */,
+				0975239B2148B86700F76F54 /* P2PPaymentsOfferStatusViewModel+UIState.swift in Sources */,
 				0A98767320CE580D00DCD360 /* UIStackView+LG.swift in Sources */,
 				C605853E20DBD545008025FD /* FilterAttributeGridCell.swift in Sources */,
 				0A63DFC01FB0A9A600C065F2 /* ListingCardDetailsView.swift in Sources */,
@@ -10431,6 +10444,7 @@
 				6A3F3B9C20AD81A100E2881F /* LetgoTooltip.swift in Sources */,
 				42F0688F20FF8D78009AC898 /* ServiceType+LG.swift in Sources */,
 				6A38A9992076304A00F3B292 /* UserProfileKarmaScoreView.swift in Sources */,
+				0975239C2148B86700F76F54 /* P2PPaymentsOfferStatusViewModel+UIState.swift in Sources */,
 				C7DB42091C5138B500400945 /* ChatSafetyTipsView.swift in Sources */,
 				5011938720C5173200FA7C20 /* AnalyticsSessionManager.swift in Sources */,
 				7224D7E91F581EE7004E3B49 /* ExpandableCategorySelectionView.swift in Sources */,
