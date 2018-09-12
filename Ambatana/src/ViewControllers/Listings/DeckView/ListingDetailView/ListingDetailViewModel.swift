@@ -5,6 +5,11 @@ import RxSwift
 import RxCocoa
 import GoogleMobileAds
 
+struct UserDetail {
+    let userInfo: ListingVMUserInfo
+    let isPro: Bool
+}
+
 final class ListingDetailViewModel: BaseViewModel {
     var navigator: ListingFullDetailNavigator?
     lazy var listingViewModel: ListingViewModel = maker.build(listing: listing, visitSource: visitSource)
@@ -180,7 +185,18 @@ extension Reactive where Base: ListingDetailViewModel {
 
         return Observable.combineLatest(views, favs, date) { ($0, $1, $2) }.asDriver(onErrorJustReturn: nil)
     }
-    var user: Driver<ListingVMUserInfo> { return base.listingViewModel.userInfo.asDriver() }
+    var user: Driver<UserDetail?> {
+        let isPro = base.listingViewModel.seller.asObservable().map { $0?.isProfessional ?? false }
+        let userInfo = base.listingViewModel.userInfo.asObservable()
+
+        let userDetail: Observable<UserDetail?> = Observable.combineLatest(isPro, userInfo) { ($0, $1) }
+            .map { (isPro, userInfo) in
+                return UserDetail.init(userInfo: userInfo, isPro: isPro)
+        }
+
+        return userDetail.asDriver(onErrorJustReturn: nil)
+    }
+
     var location: Driver<ListingDetailLocation?> {
         let location = base.listingViewModel.productInfo.asObservable().map { return $0?.location }
         let address = base.listingViewModel.productInfo.asObservable().map { $0?.address }

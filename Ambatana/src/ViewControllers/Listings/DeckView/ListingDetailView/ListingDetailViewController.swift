@@ -104,7 +104,7 @@ final class ListingDetailViewController: BaseViewController {
             viewModel.rx.price.drive(rx.price),
             viewModel.rx.detail.drive(rx.detail),
             viewModel.rx.stats.drive(rx.stats),
-            viewModel.rx.user.drive(rx.userInfo),
+            viewModel.rx.user.drive(rx.userDetail),
             viewModel.rx.location.drive(rx.location)
             ]
         bindings.forEach { $0.disposed(by: disposeBag) }
@@ -199,9 +199,10 @@ private extension Reactive where Base: ListingDetailViewController {
         }
     }
 
-    var userInfo: Binder<ListingVMUserInfo> {
-        return Binder(self.base) { controller, userInfo in
-            controller.detailView.populateWith(userInfo: userInfo)
+    var userDetail: Binder<UserDetail?> {
+        return Binder(self.base) { controller, userDetail in
+            guard let userDetail = userDetail else { return }
+            controller.detailView.populateWith(userDetail: userDetail)
         }
     }
 

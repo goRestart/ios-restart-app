@@ -90,7 +90,11 @@ final class ListingDetailView: UIView {
     private var locationToStats: NSLayoutConstraint?
     private var locationToDetail: NSLayoutConstraint?
 
-    private let userView = ListingCardUserView()
+    private let userView: UserView = {
+        let view = UserView.userView(.full)
+        view.showShadow(false)
+        return view
+    }()
 
     private let detailMapView = ListingCardDetailMapView()
     fileprivate let mapTap = UITapGestureRecognizer()
@@ -187,6 +191,7 @@ final class ListingDetailView: UIView {
             userView.topAnchor.constraint(equalTo: statsView.bottomAnchor, constant: 2*Metrics.margin),
             userView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: Metrics.bigMargin),
             userView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -Metrics.bigMargin),
+            userView.heightAnchor.constraint(equalToConstant: 50),
 
             detailMapView.topAnchor.constraint(equalTo: userView.bottomAnchor, constant: 2*Metrics.bigMargin),
             detailMapView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metrics.shortMargin),
@@ -323,12 +328,18 @@ extension ListingDetailView {
                                       postedDate: date)
     }
 
-    func populateWith(userInfo: ListingVMUserInfo) {
-        userView.populate(withUserName: userInfo.name,
-                          placeholder: userInfo.avatarPlaceholder(),
-                          icon: userInfo.avatar,
-                          imageDownloader: ImageDownloader.sharedInstance,
-                          badgeType: userInfo.badge)
+    func populateWith(userDetail: UserDetail) {
+        let userInfo = userDetail.userInfo
+        let isPro = userDetail.isPro
+        userView.setupWith(userAvatar: userInfo.avatar,
+                           userName: userInfo.name,
+                           productTitle: nil,
+                           productPrice: nil,
+                           productPaymentFrequency: nil,
+                           userId: userInfo.userId,
+                           isProfessional: isPro,
+                           userBadge: userInfo.badge)
+        userView.titleLabel.text = userInfo.name
     }
 
     func populateWith(location: ListingDetailLocation?) {
