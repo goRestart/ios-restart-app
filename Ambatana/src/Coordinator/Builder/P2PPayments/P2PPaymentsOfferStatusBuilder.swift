@@ -17,10 +17,24 @@ extension P2PPaymentsOfferStatusBuilder: P2PPaymentsOfferStatusAssembly {
         switch self {
         case .modal:
             let nc = UINavigationController(rootViewController: vc)
-            vm.navigator = P2PPaymentsOfferStatusWireframe(navigationController: nc)
+            vm.navigator = P2PPaymentsOfferStatusWireframe(offerId: offerId, navigationController: nc)
             return nc
         case .standard(nc: let nc):
-            vm.navigator = P2PPaymentsOfferStatusWireframe(navigationController: nc)
+            vm.navigator = P2PPaymentsOfferStatusWireframe(offerId: offerId, navigationController: nc)
+            return vc
+        }
+    }
+
+    func buildGetPayCode(offerId: String) -> UIViewController {
+        let vm = P2PPaymentsGetPayCodeViewModel()
+        let vc = P2PPaymentsGetPayCodeViewController(viewModel: vm)
+        switch self {
+        case .modal:
+            let nc = UINavigationController(rootViewController: vc)
+            vm.navigator = P2PPaymentsOfferStatusWireframe(offerId: offerId, navigationController: nc)
+            return nc
+        case .standard(nc: let nc):
+            vm.navigator = P2PPaymentsOfferStatusWireframe(offerId: offerId, navigationController: nc)
             return vc
         }
     }
