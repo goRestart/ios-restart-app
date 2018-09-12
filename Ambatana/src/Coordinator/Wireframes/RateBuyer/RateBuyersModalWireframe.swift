@@ -5,7 +5,6 @@ final class RateBuyersModalWireframe: RateBuyersNavigator {
     private let nc: UINavigationController
 
     private let rateUserAssembly: RateUserAssembly
-    private let postAnotherListingAssembly: PostAnotherListingAssembly
     private let rateUser: RateUserSource
     private let onRateUserFinishAction: OnRateUserFinishActionable?
 
@@ -16,7 +15,6 @@ final class RateBuyersModalWireframe: RateBuyersNavigator {
         self.init(root: root,
                   nc: nc,
                   rateUserAssembly: RateUserBuilder.standard(nc),
-                  postAnotherListingAssembly: PostAnotherListingBuilder.modal(root),
                   rateUser: source,
                   onRateUserFinishAction: onRateUserFinishAction)
     }
@@ -24,22 +22,18 @@ final class RateBuyersModalWireframe: RateBuyersNavigator {
     init(root: UIViewController,
          nc: UINavigationController,
          rateUserAssembly: RateUserAssembly,
-         postAnotherListingAssembly: PostAnotherListingAssembly,
          rateUser: RateUserSource,
          onRateUserFinishAction: OnRateUserFinishActionable?) {
         self.root = root
         self.nc = nc
         self.rateUserAssembly = rateUserAssembly
-        self.postAnotherListingAssembly = postAnotherListingAssembly
         self.rateUser = rateUser
         self.onRateUserFinishAction = onRateUserFinishAction
     }
 
     func rateBuyersCancel() {
         root.dismiss(animated: true) { [weak self] in
-            guard let strongSelf = self, strongSelf.rateUser == .markAsSold else { return }
-            let vc = strongSelf.postAnotherListingAssembly.buildPostAnotherListing()
-            strongSelf.root.present(vc, animated: true, completion: nil)
+            self?.onRateUserFinishAction?.onFinish()
         }
     }
 
@@ -58,9 +52,7 @@ final class RateBuyersModalWireframe: RateBuyersNavigator {
 
     func rateBuyersFinishNotOnLetgo() {
         root.dismiss(animated: true) { [weak self] in
-            guard let strongSelf = self, strongSelf.rateUser == .markAsSold else { return }
-            let vc = strongSelf.postAnotherListingAssembly.buildPostAnotherListing()
-            strongSelf.root.present(vc, animated: true, completion: nil)
+            self?.onRateUserFinishAction?.onFinish()
         }
     }
 }
