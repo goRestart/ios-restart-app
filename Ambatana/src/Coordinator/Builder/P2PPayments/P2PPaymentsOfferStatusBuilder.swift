@@ -26,7 +26,7 @@ extension P2PPaymentsOfferStatusBuilder: P2PPaymentsOfferStatusAssembly {
     }
 
     func buildGetPayCode(offerId: String) -> UIViewController {
-        let vm = P2PPaymentsGetPayCodeViewModel()
+        let vm = P2PPaymentsGetPayCodeViewModel(offerId: offerId)
         let vc = P2PPaymentsGetPayCodeViewController(viewModel: vm)
         switch self {
         case .modal:

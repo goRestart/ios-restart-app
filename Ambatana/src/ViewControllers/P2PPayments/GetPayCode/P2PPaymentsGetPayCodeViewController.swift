@@ -7,6 +7,7 @@ import RxCocoa
 
 final class P2PPaymentsGetPayCodeViewController: BaseViewController {
     private let viewModel: P2PPaymentsGetPayCodeViewModel
+    private let disposeBag = DisposeBag()
 
     private let warningImageView: UIImageView = {
         let imageView = UIImageView(image: R.Asset.P2PPayments.icError.image)
@@ -59,6 +60,7 @@ final class P2PPaymentsGetPayCodeViewController: BaseViewController {
         label.setContentHuggingPriority(.defaultHigh, for: .vertical)
         label.textColor = .lgBlack
         label.font = UIFont.systemFont(size: 16)
+        label.textAlignment = .center
         return label
     }()
 
@@ -95,6 +97,7 @@ final class P2PPaymentsGetPayCodeViewController: BaseViewController {
                                        activityIndicator,
                                        disclaimerLabel])
         setupConstraints()
+        setupRx()
     }
 
     private func setupConstraints() {
@@ -126,5 +129,13 @@ final class P2PPaymentsGetPayCodeViewController: BaseViewController {
             disclaimerLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32),
             disclaimerLabel.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: -32),
         ])
+    }
+
+    private func setupRx() {
+        let bindings = [
+            viewModel.showActivityIndicator.drive(activityIndicator.rx.isAnimating),
+            viewModel.payCodeText.drive(payCodeLabel.rx.text),
+        ]
+        bindings.forEach { [disposeBag] in $0.disposed(by: disposeBag) }
     }
 }
