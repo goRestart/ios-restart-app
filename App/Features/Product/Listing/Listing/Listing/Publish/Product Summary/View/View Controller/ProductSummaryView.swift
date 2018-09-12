@@ -22,7 +22,6 @@ final class ProductSummaryView: View {
     let label = UILabel()
     label.font = .h1
     label.textColor = .primary
-    label.text = "35€"
     return label
   }()
   
@@ -88,7 +87,7 @@ final class ProductSummaryView: View {
   }
 }
 
-// MARK: - View binder
+// MARK: - View bindings
 
 extension Reactive where Base: ProductSummaryView {
   var productDraft: Binder<ProductDraftUIModel?> {
