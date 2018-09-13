@@ -1,5 +1,6 @@
 protocol FeedRenderable: class {
     func updateFeed()
+    func reloadFeed()
     func convertViewRectInFeed(from originalFrame: CGRect) -> CGRect
 }
 

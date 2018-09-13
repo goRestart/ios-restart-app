@@ -26,21 +26,27 @@ final class UserPhoneVerificationNumberInputViewModel: BaseViewModel {
     private let myUserRepository: MyUserRepository
     private let locationManager: LocationManager
     private let locationRepository: LocationRepository
+    private let tracker: TrackerProxy
     private let telephonyNetworkInfo: CTTelephonyNetworkInfo
     private let countryHelper: CountryHelper
+    private let isEditing: Bool
 
     var country = Variable<PhoneVerificationCountry?>(nil)
     var isContinueActionEnabled = Variable<Bool>(false)
 
-    init(myUserRepository: MyUserRepository = Core.myUserRepository,
+    init(isEditing: Bool = false,
+         myUserRepository: MyUserRepository = Core.myUserRepository,
          locationManager: LocationManager = Core.locationManager,
          locationRepository: LocationRepository = Core.locationRepository,
+         tracker: TrackerProxy = TrackerProxy.sharedInstance,
          countryHelper: CountryHelper = Core.countryHelper,
          telephonyNetworkInfo: CTTelephonyNetworkInfo = CTTelephonyNetworkInfo()) {
+        self.isEditing = isEditing
         self.myUserRepository = myUserRepository
         self.locationManager = locationManager
         self.locationRepository = locationRepository
         self.telephonyNetworkInfo = telephonyNetworkInfo
+        self.tracker = tracker
         self.countryHelper = countryHelper
         super.init()
         retrieveCurrentLocationCountry()
@@ -93,7 +99,8 @@ final class UserPhoneVerificationNumberInputViewModel: BaseViewModel {
     func didTapContinueButton(with phoneNumber: String) {
         guard let callingCode = country.value?.callingCode else { return }
         requestCode(withCallingCode: callingCode, phoneNumber: phoneNumber) { [weak self] in
-            self?.navigator?.openCodeInput(sentTo: phoneNumber, with: callingCode)
+            guard let strongSelf = self else { return }
+            self?.navigator?.openCodeInput(sentTo: phoneNumber, with: callingCode, editing: strongSelf.isEditing)
         }
     }
 

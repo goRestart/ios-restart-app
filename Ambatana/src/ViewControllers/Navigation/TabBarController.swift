@@ -28,7 +28,11 @@ final class TabBarController: UITabBarController {
         return [floatingSellButton, tooltip, bottomNotificationsContainer]
     }
     private lazy var bottomNotificationsContainer: UIView = UIView()
-    
+
+    enum Layout {
+        static let avatarSize = CGSize(width: 30, height: 30)
+    }
+
     // Rx
     private let disposeBag = DisposeBag()
 
@@ -250,6 +254,7 @@ final class TabBarController: UITabBarController {
             vc.tabBarItem = tabBarItem
         }
         setupBadgesRx()
+        setupUserAvatarRx()
     }
 
     @available(iOS 11, *)
@@ -347,6 +352,32 @@ final class TabBarController: UITabBarController {
         if let homeTab = vcs[Tab.home.index].tabBarItem, viewModel.shouldShowHomeBadge {
             viewModel.homeBadge.asObservable().bind(to: homeTab.rx.badgeValue).disposed(by: disposeBag)
         }
+    }
+
+    private func setupUserAvatarRx() {
+        viewModel
+            .userAvatar
+            .asDriver()
+            .drive(onNext:{ [weak self] image in
+                guard let featureFlags = self?.featureFlags,
+                    Tab.home.all(featureFlags).contains(.profile),
+                    let vc = self?.viewControllers?[Tab.profile.index] else { return }
+                if let avatar = image {
+                    vc.tabBarItem.image = avatar
+                        .af_imageScaled(to: Layout.avatarSize)
+                        .af_imageRoundedIntoCircle()
+                        .withRenderingMode(.alwaysOriginal)
+                    vc.tabBarItem.selectedImage = vc.tabBarItem.image
+                } else {
+                    vc.tabBarItem.image = Tab.profile.tabIconImage
+                        .imageWithColor(UIColor.tabBarIconUnselectedColor)?
+                        .withRenderingMode(UIImageRenderingMode.alwaysOriginal)
+                    vc.tabBarItem.selectedImage = Tab.profile.tabIconImage
+                        .imageWithColor(UIColor.tabBarIconSelectedColor)?
+                        .withRenderingMode(UIImageRenderingMode.alwaysOriginal)
+                }
+            })
+            .disposed(by: disposeBag)
     }
 
     // MARK: - Trackings

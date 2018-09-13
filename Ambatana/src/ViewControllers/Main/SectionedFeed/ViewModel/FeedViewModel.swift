@@ -85,6 +85,8 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     
     private var sectionControllerFactory: SectionControllerFactory
     
+    private var showingRetryState: Bool = false
+    
     //  Ads
     
     private var adsPaginationHelper: AdsPaginationHelper
@@ -203,6 +205,7 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     }
     
     func willScroll(toSection section: Int) {
+        guard !showingRetryState else { return }
         if shouldRetrieveNextPage(section: section) { retrieve() }
     }
     
@@ -296,7 +299,11 @@ extension FeedViewModel {
             } else if let feed = result.value {
                 self?.removeLoadingBottom()
                 defer {
-                    self?.refreshFeed()
+                    if feed.isFirstPage {
+                        self?.feedRenderingDelegate?.updateFeed()
+                    } else {
+                        self?.refreshFeed()
+                    }
                 }
                 guard !feed.isEmpty else {
                     self?.renderEmptyPage(feed)
@@ -321,6 +328,8 @@ extension FeedViewModel {
     private func show(error: RepositoryError) {
         guard isFirstPage,
             let errorViewModel = LGEmptyViewModel.map(from: error, action: retrieve) else {
+                listingRetrievalState = .error
+                showingRetryState = true
                 return
         }
         viewState = .error(errorViewModel)
@@ -553,6 +562,7 @@ extension FeedViewModel: SelectedForYouDelegate {
 
 extension FeedViewModel: RetryFooterDelegate {
     func retryClicked() {
+        showingRetryState = false
         feedItems.removeLast()
         retrieve()
     }

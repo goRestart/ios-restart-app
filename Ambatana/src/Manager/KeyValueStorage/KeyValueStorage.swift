@@ -1,11 +1,3 @@
-//
-//  KeyValueStorage.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 09/05/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import SwiftyUserDefaults
 import RxSwift
@@ -75,7 +67,7 @@ extension DefaultsKeys {
 
 // MARK: - KeyValueStorage
 
-class KeyValueStorage {
+final class KeyValueStorage {
     static let sharedInstance: KeyValueStorage = KeyValueStorage()
 
     fileprivate var storage: KeyValueStorageable

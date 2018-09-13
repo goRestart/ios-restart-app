@@ -27,8 +27,8 @@ final class UserVerificationWireframe: UserVerificationNavigator {
         nc.pushViewController(vc, animated: true)
     }
 
-    func openPhoneNumberVerification() {
-        let vc = assembly.buildPhoneNumberVerification()
+    func openPhoneNumberVerification(editing: Bool) {
+        let vc = assembly.buildPhoneNumberVerification(editing: editing)
         nc.pushViewController(vc, animated: true)
     }
 }

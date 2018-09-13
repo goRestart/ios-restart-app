@@ -74,6 +74,7 @@ extension Bumper  {
         flags.append(RandomImInterestedMessages.self)
         flags.append(CarPromoCells.self)
         flags.append(RealEstatePromoCells.self)
+        flags.append(AdvancedReputationSystem11.self)
         flags.append(ProUsersExtraImages.self)
         flags.append(SectionedDiscoveryFeed.self)
         flags.append(ServicesPromoCells.self)
@@ -82,6 +83,8 @@ extension Bumper  {
         flags.append(MutePushNotifications.self)
         flags.append(MultiAdRequestInChatSectionForUS.self)
         flags.append(MultiAdRequestInChatSectionForTR.self)
+        flags.append(AffiliationEnabled.self)
+        flags.append(MakeAnOfferButton.self)
         Bumper.initialize(flags)
     } 
 
@@ -839,6 +842,19 @@ extension Bumper  {
     }
     #endif
 
+    static var advancedReputationSystem11: AdvancedReputationSystem11 {
+        guard let value = Bumper.value(for: AdvancedReputationSystem11.key) else { return .control }
+        return AdvancedReputationSystem11(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var advancedReputationSystem11Observable: Observable<AdvancedReputationSystem11> {
+        return Bumper.observeValue(for: AdvancedReputationSystem11.key).map {
+            AdvancedReputationSystem11(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
     static var proUsersExtraImages: ProUsersExtraImages {
         guard let value = Bumper.value(for: ProUsersExtraImages.key) else { return .control }
         return ProUsersExtraImages(rawValue: value) ?? .control 
@@ -904,7 +920,6 @@ extension Bumper  {
     }
     #endif
 
-
     static var mutePushNotifications: MutePushNotifications {
         guard let value = Bumper.value(for: MutePushNotifications.key) else { return .control }
         return MutePushNotifications(rawValue: value) ?? .control 
@@ -943,8 +958,43 @@ extension Bumper  {
         }
     }
     #endif
+
+    static var affiliationEnabled: AffiliationEnabled {
+        guard let value = Bumper.value(for: AffiliationEnabled.key) else { return .control }
+        return AffiliationEnabled(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var affiliationEnabledObservable: Observable<AffiliationEnabled> {
+        return Bumper.observeValue(for: AffiliationEnabled.key).map {
+            AffiliationEnabled(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var makeAnOfferButton: MakeAnOfferButton {
+        guard let value = Bumper.value(for: MakeAnOfferButton.key) else { return .control }
+        return MakeAnOfferButton(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var makeAnOfferButtonObservable: Observable<MakeAnOfferButton> {
+        return Bumper.observeValue(for: MakeAnOfferButton.key).map {
+            MakeAnOfferButton(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
 }
 
+
+enum UserReviewsReportEnabled: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return UserReviewsReportEnabled.no.rawValue }
+    static var enumValues: [UserReviewsReportEnabled] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "User reviews report enabled" } 
+    var asBool: Bool { return self == .yes }
+}
 
 enum RealEstateEnabled: String, BumperFeature  {
     case control, baseline, active
@@ -1874,6 +1924,22 @@ enum RealEstatePromoCells: String, BumperFeature  {
     }
 }
 
+enum AdvancedReputationSystem11: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return AdvancedReputationSystem11.control.rawValue }
+    static var enumValues: [AdvancedReputationSystem11] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[USERS] ARS v1.1" } 
+    static func fromPosition(_ position: Int) -> AdvancedReputationSystem11 {
+          switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
 enum ProUsersExtraImages: String, BumperFeature  {
     case control, baseline, active
     static var defaultValue: String { return ProUsersExtraImages.control.rawValue }
@@ -1962,11 +2028,11 @@ enum MutePushNotifications: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "[CORE] Push notifications won't make a sound during some night hours." } 
     static func fromPosition(_ position: Int) -> MutePushNotifications {
-        switch position {
-        case 0: return .control
-        case 1: return .baseline
-        case 2: return .active
-        default: return .control
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
         }
     }
 }
@@ -1994,6 +2060,38 @@ enum MultiAdRequestInChatSectionForTR: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "[MONEY] Muti ad request in Chat section. For Turkey" } 
     static func fromPosition(_ position: Int) -> MultiAdRequestInChatSectionForTR {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum AffiliationEnabled: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return AffiliationEnabled.control.rawValue }
+    static var enumValues: [AffiliationEnabled] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[RETENTION] Enables Affiliation / Referral Program" } 
+    static func fromPosition(_ position: Int) -> AffiliationEnabled {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum MakeAnOfferButton: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return MakeAnOfferButton.control.rawValue }
+    static var enumValues: [MakeAnOfferButton] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[P2P PAYMENTS] Show make an offer button" } 
+    static func fromPosition(_ position: Int) -> MakeAnOfferButton {
         switch position { 
             case 0: return .control
             case 1: return .baseline
