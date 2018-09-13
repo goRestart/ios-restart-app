@@ -18,7 +18,7 @@ protocol ChatDetailNavigator: DeepLinkNavigator {
                            trackingInfo: MarkAsSoldTrackingInfo)
     func openLoginIfNeededFromChatDetail(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void))
     func openAssistantFor(listingId: String, dataDelegate: MeetingAssistantDataDelegate)
-    func openP2PPaymentsOnboarding()
+    func openMakeAnOffer(chatConversation: ChatConversation)
 }
 
 
@@ -36,7 +36,7 @@ final class ChatDetailWireframe: ChatDetailNavigator {
     private let verifyAccountsAssembly: VerifyAccountsAssembly
     private let loginAssembly: LoginAssembly
     private let assistantMeetingAssembly: AssistantMeetingAssembly
-    private let p2pPaymentsAssembly: P2PPaymentsAssembly
+    private let p2pPaymentsMakeAnOfferAssembly: P2PPaymentsMakeAnOfferAssembly
 
     convenience init(nc: UINavigationController) {
         self.init(nc: nc,
@@ -50,7 +50,7 @@ final class ChatDetailWireframe: ChatDetailNavigator {
                   verifyAccountsAssembly: VerifyAccountsBuilder.modal,
                   loginAssembly: LoginBuilder.modal,
                   assistantMeetingAssembly: AssistantMeetingBuilder.modal(nc),
-                  p2pPaymentsAssembly: LGP2PPaymentsBuilder.modal(root: nc),
+                  p2pPaymentsMakeAnOfferAssembly: P2PPaymentsMakeAnOfferBuilder.modal,
                   deeplinkMailBox: LGDeepLinkMailBox.sharedInstance)
     }
 
@@ -65,7 +65,7 @@ final class ChatDetailWireframe: ChatDetailNavigator {
          verifyAccountsAssembly: VerifyAccountsAssembly,
          loginAssembly: LoginAssembly,
          assistantMeetingAssembly: AssistantMeetingAssembly,
-         p2pPaymentsAssembly: P2PPaymentsAssembly,
+         p2pPaymentsMakeAnOfferAssembly: P2PPaymentsMakeAnOfferAssembly,
          deeplinkMailBox: DeepLinkMailBox) {
         self.nc = nc
         self.sessionManager = sessionManager
@@ -78,7 +78,7 @@ final class ChatDetailWireframe: ChatDetailNavigator {
         self.verifyAccountsAssembly = verifyAccountsAssembly
         self.loginAssembly = loginAssembly
         self.assistantMeetingAssembly = assistantMeetingAssembly
-        self.p2pPaymentsAssembly = p2pPaymentsAssembly
+        self.p2pPaymentsMakeAnOfferAssembly = p2pPaymentsMakeAnOfferAssembly
         self.deeplinkMailBox = deeplinkMailBox
     }
 
@@ -163,8 +163,8 @@ final class ChatDetailWireframe: ChatDetailNavigator {
         nc.present(vc, animated: true, completion: nil)
     }
 
-    func openP2PPaymentsOnboarding() {
-        let onboarding = p2pPaymentsAssembly.buildOnboarding()
-        nc.present(onboarding, animated: true)
+    func openMakeAnOffer(chatConversation: ChatConversation) {
+        let vc = p2pPaymentsMakeAnOfferAssembly.buildOnboarding(chatConversation: chatConversation)
+        nc.present(vc, animated: true)
     }
 }

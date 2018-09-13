@@ -937,6 +937,7 @@ extension R {
     }
     public enum P2PPayments {
       public static let close = ImageAsset(name: "close")
+      public static let icTrust = ImageAsset(name: "ic_trust")
       public static let onboardingStep1 = ImageAsset(name: "onboardingStep1")
       public static let onboardingStep2 = ImageAsset(name: "onboardingStep2")
       public static let onboardingStep3 = ImageAsset(name: "onboardingStep3")
@@ -946,6 +947,7 @@ extension R {
       ]
       public static let allImages: [ImageAsset] = [
         close,
+        icTrust,
         onboardingStep1,
         onboardingStep2,
         onboardingStep3,
