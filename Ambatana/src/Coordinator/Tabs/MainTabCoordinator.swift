@@ -204,10 +204,9 @@ extension MainTabCoordinator: MainTabNavigator {
     }
 
     func openCommunity() {
-        guard featureFlags.community.isActive else { return }
         if featureFlags.community.shouldShowOnTab {
             openCommunityTab()
-        } else {
+        } else if featureFlags.community.shouldShowOnNavBar {
             let coord = CommunityTabCoordinator(source: .navBar)
             openChild(coordinator: coord, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
         }

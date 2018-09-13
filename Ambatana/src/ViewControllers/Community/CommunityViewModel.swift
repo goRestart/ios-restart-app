@@ -2,8 +2,9 @@ import Foundation
 import LGComponents
 import LGCoreKit
 import RxSwift
+import RxCocoa
 
-class CommunityViewModel: BaseViewModel {
+final class CommunityViewModel: BaseViewModel {
 
     weak var navigator: CommunityTabNavigator?
     private let communityRepository: CommunityRepository
@@ -11,7 +12,7 @@ class CommunityViewModel: BaseViewModel {
     private let tracker: Tracker
     private let source: CommunitySource
     private let disposeBag = DisposeBag()
-    private let urlRequestVariable = Variable<URLRequest?>(nil)
+    private let urlRequestVariable = BehaviorRelay<URLRequest?>(value: nil)
 
     var urlRequest: Observable<URLRequest?> { return urlRequestVariable.asObservable() }
     var showNavBar: Bool
@@ -29,6 +30,10 @@ class CommunityViewModel: BaseViewModel {
         self.tracker = tracker
         super.init()
         setupRx()
+    }
+
+    override func didBecomeActive(_ firstTime: Bool) {
+        super.didBecomeActive(firstTime)
         buildRequest()
     }
 
@@ -42,13 +47,14 @@ class CommunityViewModel: BaseViewModel {
                 }
             }
             .subscribe { [weak self] sessionEvent in
+                guard self?.active ?? false else { return }
                 self?.buildRequest()
             }
             .disposed(by: disposeBag)
     }
 
     private func buildRequest() {
-        urlRequestVariable.value = communityRepository.buildCommunityURLRequest()
+        urlRequestVariable.accept(communityRepository.buildCommunityURLRequest())
     }
 
     func didTapClose() {

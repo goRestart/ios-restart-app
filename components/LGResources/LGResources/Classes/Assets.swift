@@ -230,6 +230,21 @@ extension R {
       @available(*, deprecated, renamed: "allImages")
       public static let allValues: [AssetType] = allImages
     }
+    public enum Icons {
+      public static let icArrowLeft = ImageAsset(name: "ic_arrow_left")
+      public static let icPen = ImageAsset(name: "ic_pen")
+
+      // swiftlint:disable trailing_comma
+      public static let allColors: [ColorAsset] = [
+      ]
+      public static let allImages: [ImageAsset] = [
+        icArrowLeft,
+        icPen,
+      ]
+      // swiftlint:enable trailing_comma
+      @available(*, deprecated, renamed: "allImages")
+      public static let allValues: [AssetType] = allImages
+    }
     public enum IconsButtons {
       public enum CategoriesHeaderIcons {
         public static let carsFeed = ImageAsset(name: "cars_feed")
@@ -456,6 +471,7 @@ extension R {
       public static let icSettingNotifications = ImageAsset(name: "ic_setting_notifications")
       public static let icSettingPassword = ImageAsset(name: "ic_setting_password")
       public static let icSettingPrivacyPolicy = ImageAsset(name: "ic_setting_privacy_policy")
+      public static let icSettingRewards = ImageAsset(name: "ic_setting_rewards")
       public static let icSettingTermsAndConditions = ImageAsset(name: "ic_setting_terms_and_conditions")
       public static let icSettingsBio = ImageAsset(name: "ic_settings_bio")
       public static let icShare = ImageAsset(name: "ic_share")
@@ -760,6 +776,7 @@ extension R {
         icSettingNotifications,
         icSettingPassword,
         icSettingPrivacyPolicy,
+        icSettingRewards,
         icSettingTermsAndConditions,
         icSettingsBio,
         icShare,

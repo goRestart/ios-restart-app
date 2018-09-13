@@ -4,6 +4,24 @@
 // When a user Account is deactivated because is a scammer (includes user name)
 "account_pending_moderation_w_name" = "%@'s account is pending moderation";
 
+// Affiliation challenges screen. Title.
+"affiliation_challenges_title" = "Rewards";
+
+// Affiliation challenges screen. Invite friends button.
+"affiliation_challenges_invite_friends_button" = "Invite friends";
+
+// Affiliation Invite SMS contacts screen. Title.
+"affiliation_invite_sms_contacts_title" = "Connect contacts";
+
+// Affilation Invite friends screen. Title.
+"affiliation_invite_friends_title" = "Invite friends";
+
+// Affilation Invite friends screen. SMS Button.
+"affiliation_invite_friends_sms_button" = "Invite via text";
+
+// Affilation FAQ screen. Title.
+"affiliation_faq_title" = "How it works";
+
 // Text of the link that will go to the appstore
 "app_share_download_text" = "Download";
 
@@ -176,7 +194,37 @@
 "bump_up_view_boost_subtitle_cheaper" = "Boost your listing right now to get a discount off the typical feature price.";
 
 // Subtitle for payment bump view when boost is not ready yet
-"bump_up_view_boost_subtitle_not_ready" = "You can add another boost in %@ to move it to the top and be featured for 24 additional hours";
+"bump_up_view_boost_subtitle_not_ready" = "You can feature your listing again in %@ to move it back to the top";
+
+// Title for multi day bump screen
+"bump_up_view_multi_day_title" = "Sell faster now";
+
+// title for 1 day bump view
+"bump_up_view_multi_day_1_day_title" = "Attract 2x more buyers";
+
+// tag for num of days - 1 day
+"bump_up_view_multi_day_1_day_tag" = "1 DAY";
+
+// subtitle for 1 day bump view
+"bump_up_view_multi_day_1_day_subtitle" = "We’ll feature your listing for 24 hours so more buyers will see your listing and you’ll sell faster";
+
+// title for 3 day bump view
+"bump_up_view_multi_day_3_days_title" = "Attract 6x more buyers";
+
+// tag for num of days - 3 days
+"bump_up_view_multi_day_3_days_tag" = "3 DAYS";
+
+// subtitle for 3 day bump view
+"bump_up_view_multi_day_3_days_subtitle" = "Feature your listing for 3 days at a discounted rate. We'll move it to the top every 24 hours so you'll sell faster!";
+
+// title for 7 day bump view
+"bump_up_view_multi_day_7_days_title" = "Attract 14x more buyers";
+
+// tag for num of days - 7 days
+"bump_up_view_multi_day_7_days_tag" = "7 DAYS";
+
+// subtitle for 7 day bump view
+"bump_up_view_multi_day_7_days_subtitle" = "Feature your listing for 7 days at a discounted rate. We'll move it to the top every 24 hours so you'll sell faster!";
 
 // Text for boost success alert
 "bump_up_boost_success_alert_text" = "Your listing was boosted! It will be featured for the next 24 hours.";
@@ -737,6 +785,36 @@
 // Title of transport collection
 "collection_transport_title" = "Travel in style";
 
+// Payment state to make an offer for an item
+"chat_payment_state_make_offer" = "Pay securely through the letgo app";
+
+// The seller received a new offer from other use to sell it's item
+"chat_payment_state_view_offer" = "You've got a new offer to accept";
+
+// Share payment code with seller
+"chat_payment_state_view_payment_code" = "Share the code with the seller when you receive the item";
+
+// Get buyer payment code 
+"chat_payment_state_exchange_code" = "Make sure to get the buyer's payment code when you give them the item";
+
+// Finish the payout process
+"chat_payment_state_payout" = "Finish the payout process to receive your payment";
+
+// Make an offer
+"chat_payment_state_make_offer_button_title" = "Make an offer";
+
+// See offer
+"chat_payment_state_view_offer_button_title" = "See offer";
+
+// Received Item
+"chat_payment_state_view_payment_code_button_title" = "Received Item";
+
+// Enter code to get paid
+"chat_payment_state_exchange_code_button_title" = "Enter code to get paid";
+
+// Payout
+"chat_payment_state_payout_button_title" = "Payout";
+
 // Title of furniture collection
 "collection_furniture_title" = "No place like home";
 
@@ -846,7 +924,7 @@
 "common_product_given_away" = "Given away";
 
 // Common product not available.
-"common_product_not_available" = "no lon";
+"common_product_not_available" = "Removed or no longer available";
 
 // Common product sold.
 "common_product_sold" = "Sold";
@@ -913,6 +991,18 @@
 // Common display for time
 "common_hours_mins_secs" = "%@h %@m %@s";
 
+// System message shown in chat for an offer that has been accepted and is expired
+"communication_offer_accepted_expired" = "The offer has expired";
+
+// System message shown in chat for an offer that is pending and expiring soon
+"communication_offer_pending_expiring" = "The offer's expiring soon";
+
+// System message shown in chat for an offer that is completed and expired
+"communication_offer_completed_expired" = "The offer has expired";
+
+// System message shown in chat for an offer that is accepted and expiring soon
+"communication_offer_accepted_expiring" = "The offer's expiring soon";
+
 // Text shown in the Community Banner
 "community_banner_title" = "Join the letgo community!";
 
@@ -945,6 +1035,9 @@
 
 // Action Button for the click to talk smoketest
 "click_to_talk_smoketest_action_button" = "Get Started";
+
+// Title for the click to talk smoketest banner
+"click_to_talk_smoketest_banner_title" = "Introducing \"Click to Talk\"";
 
 // Chat direct answer as buyer
 "direct_answer_condition" = "What condition is it in?";
@@ -2196,6 +2289,15 @@
 
 // Button to initiate chat from the full screen photo viewer
 "photo_viewer_chat_button" = "Chat";
+
+// Title label in the screen after mark a listing as sold
+"post_another_listing_title" = "MAKING MONEY!";
+
+// Description label in the screen after mark a listing as sold
+"post_another_listing_description" = "You're on a roll, keep it going!";
+
+// Button to initiate the posting
+"post_another_listing_button" = "Post another listing";
 
 // Add Details navigation title
 "post_category_details_navigation_title" = "Add Details";
@@ -3995,6 +4097,24 @@
 // Reset password title. Check image @ "reset_password_email_field_hint" segment
 "reset_password_title" = "Reset password";
 
+// To be REMOVED - Rewards FAQ screen title
+"rewards_faq_title" = "How it works";
+
+// To be REMOVED - Rewards invite contacts screen title
+"rewards_invite_contacts_title" = "Connect contacts";
+
+// To be REMOVED - Rewards screen invite friends button
+"rewards_invite_friends_button" = "Invite friends";
+
+// To be REMOVED - Rewards invite friends screen contact button
+"rewards_invite_friends_contact_button" = "Invite via text";
+
+// To be REMOVED - Rewards invite friends screen title
+"rewards_invite_friends_title" = "Invite friends";
+
+// To be REMOVED - Rewards screen title
+"rewards_title" = "Rewards";
+
 // Search alerts edit button 
 "search_alerts_edit_button" = "Edit";
 
@@ -4249,6 +4369,12 @@
 
 // Settings notifications loading error message
 "settings_notifications_error_message" = "Oops! An error occurred while loading your notification settings. Please try again.";
+
+// Settings option to access rewards
+"settings_rewards_button" = "Rewards";
+
+// Settings option to access affiliation
+"settings_affililation_button" = "Rewards";
 
 // Search alerts view title
 "search_alerts_list_title" = "Search Alerts";

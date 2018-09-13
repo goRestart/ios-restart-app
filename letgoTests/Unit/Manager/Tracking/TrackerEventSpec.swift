@@ -4327,6 +4327,13 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
+            describe("profileOpenPictureDetail") {
+                it("has its event name") {
+                    sut = TrackerEvent.profileOpenPictureDetail()
+                    expect(sut.name.rawValue).to(equal("profile-photo-tapped"))
+                }
+            }
+
             describe("profileShareStart") {
                 beforeEach {
                     sut = TrackerEvent.profileShareStart(.publicParameter)
