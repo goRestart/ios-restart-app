@@ -146,6 +146,7 @@ extension ABTests {
     var offensiveReportAlert: LeanplumABVariable<Int> { return users.offensiveReportAlert }
     var reportingFostaSesta: LeanplumABVariable<Int> { return users.reportingFostaSesta }
     var community: LeanplumABVariable<Int> { return users.community }
+    var advancedReputationSystem11: LeanplumABVariable<Int> { return users.advancedReputationSystem11 }
 }
 
 //  MARK: Core
@@ -236,6 +237,7 @@ extension ABTests {
     var simplifiedChatButton: LeanplumABVariable<Int> { return products.simplifiedChatButton }
     var frictionlessShare: LeanplumABVariable<Int> { return products.frictionlessShare }
     var turkeyFreePosting: LeanplumABVariable<Int> { return products.turkeyFreePosting }
+    var makeAnOfferButton: LeanplumABVariable<Int> { return products.makeAnOfferButton }
 }
 
 //  MARK: Legacy

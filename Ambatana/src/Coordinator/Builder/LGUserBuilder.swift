@@ -6,6 +6,7 @@ protocol UserAssembly {
                    hidesBottomBarWhenPushed: Bool) -> UserProfileViewController
     func buildUser(user: User, source: UserSource) -> UserProfileViewController
     func buildUserReport(source: EventParameterTypePage, userReportedId: String) -> ReportUsersViewController
+    func buildUserAvatar(isPrivate: Bool, user: User) -> UserAvatarViewController
 }
 
 enum LGUserBuilder {
@@ -39,6 +40,16 @@ extension LGUserBuilder: UserAssembly {
             let vm = UserProfileViewModel.makePublicProfile(chatInterlocutor: interlocutor, source: .chat)
             vm.navigator = UserWireframe(nc: nav)
             let vc = UserProfileViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
+            return vc
+        }
+    }
+
+    func buildUserAvatar(isPrivate: Bool, user: User) -> UserAvatarViewController {
+        switch self {
+        case .standard(let nav):
+            let vm = UserAvatarViewModel(isPrivate: isPrivate, user: user)
+            vm.navigator = UserWireframe(nc: nav)
+            let vc = UserAvatarViewController(viewModel: vm)
             return vc
         }
     }
