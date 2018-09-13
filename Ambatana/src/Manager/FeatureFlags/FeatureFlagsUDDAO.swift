@@ -15,6 +15,7 @@ final class FeatureFlagsUDDAO: FeatureFlagsDAO {
         case newUserProfileEnabled = "newUserProfileEnabled"
         case emergencyLocate = "emergencyLocate"
         case community = "community"
+        case advancedReputationSystem11 = "advancedReputationSystem11"
         case advancedReputationSystem12 = "advancedReputationSystem12"
         case mutePushNotifications = "mutePushNotifications"
         case mutePushNotificationsStartHour = "mutePushNotificationsStartHour"
@@ -55,6 +56,16 @@ final class FeatureFlagsUDDAO: FeatureFlagsDAO {
 
     func save(community: ShowCommunity) {
         save(key: .community, value: community.rawValue)
+        sync()
+    }
+
+    func retrieveAdvancedReputationSystem11() -> AdvancedReputationSystem11? {
+        guard let rawValue: String = retrieve(key: .advancedReputationSystem11) else { return nil }
+        return AdvancedReputationSystem11(rawValue: rawValue)
+    }
+
+    func save(advancedReputationSystem11: AdvancedReputationSystem11) {
+        save(key: .advancedReputationSystem11, value: advancedReputationSystem11.rawValue)
         sync()
     }
 

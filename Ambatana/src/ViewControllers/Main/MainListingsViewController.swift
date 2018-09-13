@@ -56,7 +56,6 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     }()
     
     private var mapTooltip: Tooltip?
-    
 
     // MARK: - Constraints
     
@@ -355,7 +354,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     @objc private func endEdit() {
         trendingSearchView.isHidden = true
         setFiltersNavBarButton()
-        setLeftNavBarButtons()
+        setLeftNavBarButtons(withAvatar: viewModel.userAvatar.value)
         navbarSearch.cancelEdit()
     }
 
@@ -433,12 +432,12 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         navigationItem.setLeftBarButtonItems([invite, spacing], animated: false)
     }
 
-    private func setLeftNavBarButtons() {
+    private func setLeftNavBarButtons(withAvatar avatar: UIImage? = nil) {
         guard isRootViewController() else { return }
         if viewModel.shouldShowCommunityButton {
             setCommunityButton()
         } else if viewModel.shouldShowUserProfileButton {
-            setUserProfileButton()
+            setUserProfileButton(withAvatar: avatar)
         } else {
             setInviteNavBarButton()
         }
@@ -452,8 +451,13 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         navigationItem.setLeftBarButton(button, animated: false)
     }
 
-    private func setUserProfileButton() {
-        let button = UIBarButtonItem(image: R.Asset.IconsButtons.tabbarProfile.image,
+    private func setUserProfileButton(withAvatar avatar: UIImage?) {
+        let image = avatar?.af_imageScaled(to: Layout.TabBarIcons.avatarSize)
+            .af_imageRoundedIntoCircle()
+            .withRenderingMode(.alwaysOriginal)
+            ?? R.Asset.IconsButtons.tabbarProfile.image
+
+        let button = UIBarButtonItem(image: image,
                                      style: .plain,
                                      target: self,
                                      action: #selector(didTapUserProfile))
@@ -661,6 +665,14 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         }.disposed(by: disposeBag)
         
         navbarSearch.searchTextField.rx.text.asObservable().bind(to: viewModel.searchText).disposed(by: disposeBag)
+
+        viewModel
+            .userAvatar
+            .asDriver()
+            .drive(onNext:{ [weak self] image in
+                self?.setLeftNavBarButtons(withAvatar: image)
+            })
+            .disposed(by: disposeBag)
     }
 
     private func updateTopInset() {
@@ -702,6 +714,9 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         }
         struct FreshBubble {
             static let height: CGFloat = 45
+        }
+        struct TabBarIcons {
+            static let avatarSize = CGSize(width: 26, height: 26)
         }
     }
 }

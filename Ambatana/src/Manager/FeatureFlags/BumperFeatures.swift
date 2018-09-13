@@ -74,6 +74,7 @@ extension Bumper  {
         flags.append(RandomImInterestedMessages.self)
         flags.append(CarPromoCells.self)
         flags.append(RealEstatePromoCells.self)
+        flags.append(AdvancedReputationSystem11.self)
         flags.append(AdvancedReputationSystem12.self)
         flags.append(ProUsersExtraImages.self)
         flags.append(SectionedDiscoveryFeed.self)
@@ -83,6 +84,7 @@ extension Bumper  {
         flags.append(MutePushNotifications.self)
         flags.append(MultiAdRequestInChatSectionForUS.self)
         flags.append(MultiAdRequestInChatSectionForTR.self)
+        flags.append(AffiliationEnabled.self)
         Bumper.initialize(flags)
     } 
 
@@ -840,6 +842,19 @@ extension Bumper  {
     }
     #endif
 
+    static var advancedReputationSystem11: AdvancedReputationSystem11 {
+        guard let value = Bumper.value(for: AdvancedReputationSystem11.key) else { return .control }
+        return AdvancedReputationSystem11(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var advancedReputationSystem11Observable: Observable<AdvancedReputationSystem11> {
+        return Bumper.observeValue(for: AdvancedReputationSystem11.key).map {
+            AdvancedReputationSystem11(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
     static var advancedReputationSystem12: AdvancedReputationSystem12 {
         guard let value = Bumper.value(for: AdvancedReputationSystem12.key) else { return .control }
         return AdvancedReputationSystem12(rawValue: value) ?? .control 
@@ -953,6 +968,19 @@ extension Bumper  {
     static var multiAdRequestInChatSectionForTRObservable: Observable<MultiAdRequestInChatSectionForTR> {
         return Bumper.observeValue(for: MultiAdRequestInChatSectionForTR.key).map {
             MultiAdRequestInChatSectionForTR(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var affiliationEnabled: AffiliationEnabled {
+        guard let value = Bumper.value(for: AffiliationEnabled.key) else { return .control }
+        return AffiliationEnabled(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var affiliationEnabledObservable: Observable<AffiliationEnabled> {
+        return Bumper.observeValue(for: AffiliationEnabled.key).map {
+            AffiliationEnabled(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1887,6 +1915,22 @@ enum RealEstatePromoCells: String, BumperFeature  {
     }
 }
 
+enum AdvancedReputationSystem11: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return AdvancedReputationSystem11.control.rawValue }
+    static var enumValues: [AdvancedReputationSystem11] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[USERS] ARS v1.1" } 
+    static func fromPosition(_ position: Int) -> AdvancedReputationSystem11 {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
 enum AdvancedReputationSystem12: String, BumperFeature  {
     case control, baseline, active
     static var defaultValue: String { return AdvancedReputationSystem12.control.rawValue }
@@ -2023,6 +2067,22 @@ enum MultiAdRequestInChatSectionForTR: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "[MONEY] Muti ad request in Chat section. For Turkey" } 
     static func fromPosition(_ position: Int) -> MultiAdRequestInChatSectionForTR {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum AffiliationEnabled: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return AffiliationEnabled.control.rawValue }
+    static var enumValues: [AffiliationEnabled] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[RETENTION] Enables Affiliation / Referral Program" } 
+    static func fromPosition(_ position: Int) -> AffiliationEnabled {
         switch position { 
             case 0: return .control
             case 1: return .baseline
