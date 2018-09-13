@@ -272,7 +272,7 @@ extension AppCoordinator: AppNavigator {
         let forcedInitialTab: PostListingViewController.Tab?
         switch source {
         case .tabBar, .listingList, .profile, .deepLink, .notifications,
-             .deleteListing, .realEstatePromo, .carPromo, .servicesPromo, .chatList:
+             .deleteListing, .realEstatePromo, .carPromo, .servicesPromo, .chatList, .markAsSold:
             forcedInitialTab = nil
         case .onboardingButton, .onboardingCamera, .onboardingBlockingPosting:
             forcedInitialTab = .camera
@@ -473,7 +473,7 @@ extension AppCoordinator: AppNavigator {
     // MARK -
 
     func openUserRating(_ source: RateUserSource, data: RateUserData) {
-        let vc = rateUserAsembly.buildRateUser(source: source, data: data, showSkipButton: false)
+        let vc = rateUserAsembly.buildRateUser(source: source, data: data, showSkipButton: false, onRateUserFinishAction: nil)
         tabBarCtl.present(vc, animated: true, completion: nil)
     }
 

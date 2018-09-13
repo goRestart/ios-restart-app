@@ -172,7 +172,8 @@ final class ListingDetailWireframe: ListingDetailNavigator {
                                                    buyers: buyers,
                                                    listingId: listingId,
                                                    sourceRateBuyers: sourceRateBuyers,
-                                                   trackingInfo: trackingInfo)
+                                                   trackingInfo: trackingInfo,
+                                                   onRateUserFinishAction: self)
         nc.present(vc, animated: true, completion: nil)
     }
     func showProductFavoriteBubble(with data: BubbleNotificationData) {
@@ -264,6 +265,12 @@ final class ListingDetailWireframe: ListingDetailNavigator {
     func closeListingAttributeTable() {
         nc.dismiss(animated: true, completion: nil)
     }
+
+    func openPostAnotherListing() {
+        let assembly = PostAnotherListingBuilder.modal(nc)
+        let vc = assembly.buildPostAnotherListing()
+        nc.present(vc, animated: true, completion: nil)
+    }
 }
 
 extension ListingDetailWireframe: OnEditActionable {
@@ -284,5 +291,11 @@ extension ListingDetailWireframe: OnEditActionable {
                           typePage: .edit,
                           maxCountdown: maxCountdown)
         }
+    }
+}
+
+extension ListingDetailWireframe: OnRateUserFinishActionable {
+    func onFinish() {
+        openPostAnotherListing()
     }
 }

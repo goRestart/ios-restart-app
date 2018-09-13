@@ -907,7 +907,8 @@ extension ListingViewModelSpec: ListingViewModelDelegate {
     func vmResetBumpUpBannerCountdown() {}
 }
 
-extension ListingViewModelSpec: ListingDetailNavigator {
+extension ListingViewModelSpec: ListingDetailNavigator {    
+
     func openVideoPlayer(atIndex index: Int,
                          listingVM: ListingViewModel,
                          source: LetGoGodMode.EventParameterListingVisitSource) {
@@ -998,5 +999,9 @@ extension ListingViewModelSpec: ListingDetailNavigator {
     func closeAskPhoneFor(listing: Listing, openChat: Bool, withPhoneNum: String?, source: LetGoGodMode.EventParameterTypePage,
                           interlocutor: User?) {
 
+    }
+
+    func openPostAnotherListing() {
+        
     }
 }

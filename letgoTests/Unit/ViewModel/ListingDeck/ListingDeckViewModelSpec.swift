@@ -852,4 +852,5 @@ extension ListingDeckViewModelSpec: ListingDetailNavigator {
     func openFeaturedInfo() {}
     func openListingAttributeTable(withViewModel viewModel: ListingAttributeTableViewModel) {}
     func closeListingAttributeTable() {}
+    func openPostAnotherListing() {}
 }
