@@ -112,6 +112,7 @@ final class ChatOtherInfoCell: UITableViewCell, ReusableCell {
 
 fileprivate extension ChatOtherInfoCell {
     fileprivate func setupUI() {
+        backgroundColor = .clear
         addSubviewsForAutoLayout([bubbleView])
         bubbleView.addSubviewForAutoLayout(stackView)
     
