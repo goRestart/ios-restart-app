@@ -46,4 +46,8 @@ final class PasswordlessUsernameViewModel: BaseViewModel {
     func didTapHelp() {
         navigator?.openHelp()
     }
+
+    func didTapClose() {
+        navigator?.closePasswordlessConfirmUsername()
+    }
 }

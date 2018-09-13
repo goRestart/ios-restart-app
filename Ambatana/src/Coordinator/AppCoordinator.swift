@@ -533,10 +533,11 @@ extension AppCoordinator: AppNavigator {
     }
 
     func openConfirmUsername(token: String) {
-        let confirmUsernameCoordinator = PasswordlessUsernameCoordinator(token: token)
-        let vc = confirmUsernameCoordinator.viewController
-        tabBarCtl.dismissAllPresented {
-            self.tabBarCtl.present(vc, animated: true)
+        let coord = PasswordlessUsernameCoordinator(token: token)
+        tabBarCtl.dismissAllPresented { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.openChild(coordinator: coord, parent: strongSelf.tabBarCtl, animated: true,
+                                 forceCloseChild: true, completion: nil)
         }
     }
 

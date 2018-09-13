@@ -63,7 +63,7 @@ final class PasswordlessUsernameViewController: BaseViewController {
     private func setupUI() {
         view.backgroundColor = .white
         view.addSubviewsForAutoLayout([titleLabel, usernameTextField, doneButton])
-
+        setNavBarCloseButton(#selector(close))
         setupNavBarActions()
         setupTitleLabelUI()
         setupUsernameTextFieldUI()
@@ -77,6 +77,10 @@ final class PasswordlessUsernameViewController: BaseViewController {
                                          target: self,
                                          action: #selector(didTapHelp))
         navigationItem.rightBarButtonItem = helpButton
+    }
+
+    @objc private func close() {
+        viewModel.didTapClose()
     }
 
     private func setupTitleLabelUI() {
