@@ -509,8 +509,18 @@ extension FeedViewModel: EditLocationDelegate, LocationEditable {
     }
     
     func editLocationDidSelectPlace(_ place: Place, distanceRadius: Int?) {
+        var newFiltersWithLocationAndDistance = filters
+        newFiltersWithLocationAndDistance.place = place
+        newFiltersWithLocationAndDistance.distanceRadius = distanceRadius
         filters.place = place
-        filters.distanceRadius = distanceRadius
+        guard let safeNavigator = navigator else { return }
+        wireframe?.openClassicFeed(
+            navigator: safeNavigator,
+            withSearchType: searchType,
+            listingFilters: newFiltersWithLocationAndDistance,
+            shouldCloseOnRemoveAllFilters: true,
+            tagsDelegate: self
+        )
         refreshFeedUponLocationChange()
     }
     
