@@ -84,6 +84,7 @@ extension Bumper  {
         flags.append(MultiAdRequestInChatSectionForUS.self)
         flags.append(MultiAdRequestInChatSectionForTR.self)
         flags.append(AffiliationEnabled.self)
+        flags.append(MakeAnOfferButton.self)
         Bumper.initialize(flags)
     } 
 
@@ -970,8 +971,30 @@ extension Bumper  {
         }
     }
     #endif
+
+    static var makeAnOfferButton: MakeAnOfferButton {
+        guard let value = Bumper.value(for: MakeAnOfferButton.key) else { return .control }
+        return MakeAnOfferButton(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var makeAnOfferButtonObservable: Observable<MakeAnOfferButton> {
+        return Bumper.observeValue(for: MakeAnOfferButton.key).map {
+            MakeAnOfferButton(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
 }
 
+
+enum UserReviewsReportEnabled: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return UserReviewsReportEnabled.no.rawValue }
+    static var enumValues: [UserReviewsReportEnabled] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "User reviews report enabled" } 
+    var asBool: Bool { return self == .yes }
+}
 
 enum RealEstateEnabled: String, BumperFeature  {
     case control, baseline, active
@@ -2053,6 +2076,22 @@ enum AffiliationEnabled: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "[RETENTION] Enables Affiliation / Referral Program" } 
     static func fromPosition(_ position: Int) -> AffiliationEnabled {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum MakeAnOfferButton: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return MakeAnOfferButton.control.rawValue }
+    static var enumValues: [MakeAnOfferButton] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[P2P PAYMENTS] Show make an offer button" } 
+    static func fromPosition(_ position: Int) -> MakeAnOfferButton {
         switch position { 
             case 0: return .control
             case 1: return .baseline

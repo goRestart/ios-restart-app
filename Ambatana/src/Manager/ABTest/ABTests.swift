@@ -237,6 +237,7 @@ extension ABTests {
     var simplifiedChatButton: LeanplumABVariable<Int> { return products.simplifiedChatButton }
     var frictionlessShare: LeanplumABVariable<Int> { return products.frictionlessShare }
     var turkeyFreePosting: LeanplumABVariable<Int> { return products.turkeyFreePosting }
+    var makeAnOfferButton: LeanplumABVariable<Int> { return products.makeAnOfferButton }
 }
 
 //  MARK: Legacy
