@@ -1344,8 +1344,8 @@ extension ChatViewModel {
 }
 
 // MARK: - P2P Payments Testing
+// TODO: @juolgon Change this code for the final production code before merging the feature branch into develop
 
-// FIXME: Change this code for the final production code before merging the feature branch into develop (@juolgon)
 extension ChatViewModel {
     private func actionForP2PPaymentsFlowTesting() -> [UIAction] {
         return [UIAction(interface: UIActionInterface.text("P2P Payments - Offer"), action: openP2PPaymentsMakeAnOfferFlow),

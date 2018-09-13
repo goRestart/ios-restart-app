@@ -2,6 +2,12 @@ import UIKit
 import LGComponents
 
 final class P2PPaymentsNumberView: UIView {
+    private enum Layout {
+        static let iconSize: CGFloat = 18
+        static let smallContentSize: CGFloat = 28
+        static let largeContentSize: CGFloat = 32
+    }
+
     enum State {
         case number(Int)
         case success
@@ -83,9 +89,11 @@ final class P2PPaymentsNumberView: UIView {
     override var intrinsicContentSize: CGSize {
         switch state {
         case .number:
-            return CGSize(width: 32, height: 32)
+            return CGSize(width: Layout.largeContentSize,
+                          height: Layout.largeContentSize)
         case .success, .fail:
-            return CGSize(width: 28, height: 28)
+            return CGSize(width: Layout.smallContentSize,
+                          height: Layout.smallContentSize)
         }
     }
 }

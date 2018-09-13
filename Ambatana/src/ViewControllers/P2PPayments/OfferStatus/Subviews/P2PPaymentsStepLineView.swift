@@ -9,15 +9,18 @@ final class P2PPaymentsStepLineView: UIView {
         }
     }
 
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        backgroundColor = UIColor.clear
+    }
+
+    @available(*, unavailable)
+    required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+
     override func draw(_ rect: CGRect) {
         guard let context = UIGraphicsGetCurrentContext() else { return }
         drawDashedLine(in: context, rect: rect)
         drawFullLine(in: context, rect: rect)
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        backgroundColor = UIColor.clear
     }
 
     private func drawFullLine(in context: CGContext, rect: CGRect) {

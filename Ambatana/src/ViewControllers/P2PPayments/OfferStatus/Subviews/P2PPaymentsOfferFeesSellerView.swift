@@ -6,6 +6,10 @@ import RxCocoa
 // TODO: @juolgon Localize texts
 
 final class P2PPaymentsOfferFeesSellerView: UIView {
+    private enum Layout {
+        static let textSpacing: CGFloat = 16
+    }
+
     private let grossTitleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .grayRegular
@@ -61,14 +65,14 @@ final class P2PPaymentsOfferFeesSellerView: UIView {
     private lazy var titlesStackView: UIStackView = {
         let stackView = UIStackView.vertical([grossTitleLabel, feeTitleLabel, netTitleLabel])
         stackView.alignment = .leading
-        stackView.spacing = 16
+        stackView.spacing = Layout.textSpacing
         return stackView
     }()
 
     private lazy var amountsStackView: UIStackView = {
         let stackView = UIStackView.vertical([grossLabel, feeLabel, netLabel])
         stackView.alignment = .trailing
-        stackView.spacing = 16
+        stackView.spacing = Layout.textSpacing
         return stackView
     }()
 
