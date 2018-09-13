@@ -84,7 +84,7 @@ final class ChatConversationsListViewController: ChatBaseViewController, Scrolla
         if featureFlags.showChatConnectionStatusBar.isActive {
             setupStatusBarRx()
         }
-        if viewModel.shouldSetupAds() {
+        if viewModel.shouldShowAds() {
             setupAdsRx()
         }
     }
@@ -112,6 +112,9 @@ final class ChatConversationsListViewController: ChatBaseViewController, Scrolla
         contentView.refreshControlBlock = { [weak self] in
             self?.viewModel.retrieveFirstPage(completion: { [weak self] in
                 self?.contentView.endRefresh()
+                if let viewModel = self?.viewModel, viewModel.shouldShowAds() {
+                    self?.bannerView.load(DFPRequest())
+                }
             })
         }
     }
@@ -256,11 +259,10 @@ final class ChatConversationsListViewController: ChatBaseViewController, Scrolla
 
     private func setupAdsRx() {
         bannerView.adUnitID = featureFlags.multiAdRequestInChatSectionAdUnitId
-        let adRequest = DFPRequest()
         bannerView.adSizeDelegate = self
         bannerView.delegate = self
         bannerView.rootViewController = self
-        bannerView.load(adRequest)
+        bannerView.load(DFPRequest())
     }
     
     // MARK: Navigation Bar Actions
@@ -310,7 +312,6 @@ final class ChatConversationsListViewController: ChatBaseViewController, Scrolla
             .map { [ChatConversationsListSectionModel(conversations: $0, header: "conversations", adData: adData)] }
             .bind(to: contentView.rx_tableView.items(dataSource: dataSource))
             .disposed(by: bag)
-        viewModel.adShown(bannerSize: bannerView.adSize.size)
     }
 }
 
@@ -331,6 +332,7 @@ extension ChatConversationsListViewController: GADBannerViewDelegate {
     func adViewDidReceiveAd(_ bannerView: GADBannerView) {
         logMessage(.info, type: [.monetization], message: "bannerView received: \(bannerView)")
         updateWithAd(bannerView: bannerView)
+        viewModel.adShown(bannerSize: bannerView.adSize.size)
     }
     
     func adView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError) {
