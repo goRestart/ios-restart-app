@@ -1648,6 +1648,7 @@
 		C29F01832067A03E00A43E2F /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29F01812067A03E00A43E2F /* Camera.swift */; };
 		C29F712B209076F800362F76 /* LGFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29F712A209076F800362F76 /* LGFileManager.swift */; };
 		C29F712C209076F800362F76 /* LGFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29F712A209076F800362F76 /* LGFileManager.swift */; };
+		C2A2F75D2142694300320F47 /* SocialMessageSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A2F75C2142694300320F47 /* SocialMessageSpec.swift */; };
 		C2C2F30520F2DFBA00EAF42A /* ListingCarouselVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C2F30420F2DFBA00EAF42A /* ListingCarouselVideoCell.swift */; };
 		C2C2F30620F2DFBA00EAF42A /* ListingCarouselVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C2F30420F2DFBA00EAF42A /* ListingCarouselVideoCell.swift */; };
 		C2DC548420A3343E0052EB12 /* AppEventsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2DC548320A3343E0052EB12 /* AppEventsManager.swift */; };
@@ -3276,6 +3277,7 @@
 		C271E13920CEB3B8008868C6 /* ListingCarouselChatContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingCarouselChatContainerView.swift; sourceTree = "<group>"; };
 		C29F01812067A03E00A43E2F /* Camera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
 		C29F712A209076F800362F76 /* LGFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGFileManager.swift; sourceTree = "<group>"; };
+		C2A2F75C2142694300320F47 /* SocialMessageSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialMessageSpec.swift; sourceTree = "<group>"; };
 		C2C2F30420F2DFBA00EAF42A /* ListingCarouselVideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingCarouselVideoCell.swift; sourceTree = "<group>"; };
 		C2DC548320A3343E0052EB12 /* AppEventsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEventsManager.swift; sourceTree = "<group>"; };
 		C2E7F41F20DB90BC0092A1F9 /* Locale+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Locale+LG.swift"; sourceTree = "<group>"; };
@@ -5808,6 +5810,7 @@
 				8E8236F2202CA68000A70A33 /* LGEmojiSpec.swift */,
 				C6FFC47620F49C5500B9F53A /* NumberFormatter+LGSpec.swift */,
 				329476462138058F008EE737 /* Array+LGSpec.swift */,
+				C2A2F75C2142694300320F47 /* SocialMessageSpec.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -8497,6 +8500,7 @@
 				425BB9FB20888CF500FE9BB8 /* UserType+LGSpec.swift in Sources */,
 				72D928D81E83D1C60030F4C3 /* ChatViewModelSpec.swift in Sources */,
 				72D928E71E83ED300030F4C3 /* MockRatingManager.swift in Sources */,
+				C2A2F75D2142694300320F47 /* SocialMessageSpec.swift in Sources */,
 				50D08DCB1E69AF14009CC260 /* CrashManagerSpec.swift in Sources */,
 				0A82750A1F7D090C00A6A0C5 /* MockDeferredDeepLinkMaker.swift in Sources */,
 				A4E0938E2119E280002235FC /* LGFiltersBuilder.swift in Sources */,
