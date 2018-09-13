@@ -38,7 +38,12 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     }
     
     var shouldShowInviteButton: Bool {
+        guard !shouldShowAffiliateButton else { return false }
         return navigator?.canOpenAppInvite() ?? false
+    }
+    
+    var shouldShowAffiliateButton: Bool {
+        return featureFlags.affiliationEnabled.isActive
     }
     
     private(set) var viewState: ViewState {
@@ -438,6 +443,10 @@ extension FeedViewModel {
         wireframe?.openFilters(withListingFilters: filters,
                                filtersVMDataDelegate: self)
         tracker.trackEvent(TrackerEvent.filterStart())
+    }
+    
+    func openAffiliationChallenges() {
+        wireframe?.openAffiliationChallenges()
     }
     
     func refreshControlTriggered() {

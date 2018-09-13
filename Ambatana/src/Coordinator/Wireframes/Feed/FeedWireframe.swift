@@ -4,6 +4,7 @@ import LGComponents
 protocol FeedNavigator: class {
     func openFilters(withListingFilters listingFilters: ListingFilters,
                      filtersVMDataDelegate: FiltersViewModelDataDelegate?)
+    func openAffiliationChallenges()
     func openLocationSelection(initialPlace: Place?, distanceRadius: Int?, locationDelegate: EditLocationDelegate)
     func showPushPermissionsAlert(
         pushPermissionsManager: PushPermissionsManager,
@@ -38,6 +39,8 @@ final class FeedWireframe: FeedNavigator {
     private let nc: UINavigationController
     private let deepLinkMailBox: DeepLinkMailBox
     private let listingMapAssmebly: ListingsMapAssembly
+    private lazy var affiliationChallengesAssembly = AffiliationChallengesBuilder.standard(nc)
+
 
     convenience init(nc: UINavigationController) {
         self.init(nc: nc,
@@ -64,6 +67,11 @@ final class FeedWireframe: FeedNavigator {
         )
     }
     
+    func openAffiliationChallenges() {
+        let vc = affiliationChallengesAssembly.buildAffiliationChallenges()
+        nc.pushViewController(vc, animated: true)
+    }
+
     func openLocationSelection(initialPlace: Place?, distanceRadius: Int?, locationDelegate: EditLocationDelegate) {
         let assembly = QuickLocationFiltersBuilder.modal(nc)
         let vc = assembly.buildQuickLocationFilters(mode: .quickFilterLocation,
@@ -130,7 +138,7 @@ final class FeedWireframe: FeedNavigator {
             withSearchType: searchType,
             filters: filters,
             hideSearchBox: true,
-            showFilters: false,
+            showRightNavBarButtons: false,
             showLocationEditButton: false
         )
         vm.navigator = navigator
