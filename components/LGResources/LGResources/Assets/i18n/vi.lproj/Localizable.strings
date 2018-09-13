@@ -1344,6 +1344,10 @@
 "reset_password_send_ok" = "Chúng tôi vừa gửi email cho %@! Hãy nhấn vào đường dẫn trong thư để lấy lại mật khẩu.";
 "reset_password_send_too_many_requests" = "Chúng tôi vừa gửi cho bạn email khôi phục mật khẩu. Vui lòng kiểm tra email và làm theo hướng dẫn.";
 "reset_password_title" = "Lấy lại mật khẩu";
+"rewards_faq_title" = "How it works";
+"rewards_invite_friends_button" = "Invite friends";
+"rewards_invite_friends_title" = "Invite friends";
+"rewards_title" = "Rewards";
 "search_alert_delete_error_message" = "Ồ! Có lỗi xảy ra trong khi xóa thông báo tìm kiếm của bạn.";
 "search_alert_disable_error_message" = "Ồ! Có lỗi xảy ra trong khi bỏ kích hoạt thông báo tìm kiếm của bạn.";
 "search_alert_enable_error_message" = "Ồ! Có lỗi xảy ra trong khi kích hoạt thông báo tìm kiếm của bạn.";

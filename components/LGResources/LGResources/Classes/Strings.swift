@@ -738,6 +738,14 @@ extension R {
     public static let commonUserReviewNotAvailable = Strings.tr("Localizable", "common_user_review_not_available")
     /// Yes
     public static let commonYes = Strings.tr("Localizable", "common_yes")
+    /// The offer has expired
+    public static let communicationOfferAcceptedExpired = Strings.tr("Localizable", "communication_offer_accepted_expired")
+    /// The offer's expiring soon
+    public static let communicationOfferAcceptedExpiring = Strings.tr("Localizable", "communication_offer_accepted_expiring")
+    /// The offer has expired
+    public static let communicationOfferCompletedExpired = Strings.tr("Localizable", "communication_offer_completed_expired")
+    /// The offer's expiring soon
+    public static let communicationOfferPendingExpiring = Strings.tr("Localizable", "communication_offer_pending_expiring")
     /// Join the letgo community!
     public static let communityBannerTitle = Strings.tr("Localizable", "community_banner_title")
     /// Location issues
@@ -2938,6 +2946,14 @@ extension R {
     public static let resetPasswordSendTooManyRequests = Strings.tr("Localizable", "reset_password_send_too_many_requests")
     /// Reset password
     public static let resetPasswordTitle = Strings.tr("Localizable", "reset_password_title")
+    /// How it works
+    public static let rewardsFaqTitle = Strings.tr("Localizable", "rewards_faq_title")
+    /// Invite friends
+    public static let rewardsInviteFriendsButton = Strings.tr("Localizable", "rewards_invite_friends_button")
+    /// Invite friends
+    public static let rewardsInviteFriendsTitle = Strings.tr("Localizable", "rewards_invite_friends_title")
+    /// Rewards
+    public static let rewardsTitle = Strings.tr("Localizable", "rewards_title")
     /// Oops! An error occurred while deleting your search alert.
     public static let searchAlertDeleteErrorMessage = Strings.tr("Localizable", "search_alert_delete_error_message")
     /// Oops! An error occurred while deactivating your search alert.

@@ -1344,6 +1344,10 @@
 "reset_password_send_ok" = "Olemme lähettäneet sähköpostia osoitteeseen %@. Klikkaa sähköpostissa olevaa linkkiä vaihtaaksesi salasanasi!";
 "reset_password_send_too_many_requests" = "Olemme lähettäneet sinulle jo sähköpostin salasanan nollaamiseksi. Ole hyvä ja tarkista sähköpostisi ja seuraa siinä olevia ohjeita.";
 "reset_password_title" = "Nollaa salasana";
+"rewards_faq_title" = "How it works";
+"rewards_invite_friends_button" = "Invite friends";
+"rewards_invite_friends_title" = "Invite friends";
+"rewards_title" = "Rewards";
 "search_alert_delete_error_message" = "Hups! Hakuvahtiasi poistettaessa tapahtui virhe.";
 "search_alert_disable_error_message" = "Hups! Kun hakuvahtiasi otettiin pois käytöstä, tapahtui virhe.";
 "search_alert_enable_error_message" = "Hups! Hakuvahtiasi aktivoitaessa tapahtui virhe.";

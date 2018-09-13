@@ -1344,6 +1344,10 @@
 "reset_password_send_ok" = "이메일을 %@으로 발송하였습니다. 수신함을 확인하시고 비밀번호 재설정 지시를 따라주세요!";
 "reset_password_send_too_many_requests" = "저희는 비밀번호 재설정 이메일을 발송했습니다. 이메일을 확인하시고 설명을 따라주세요.";
 "reset_password_title" = "비밀번호 재설정";
+"rewards_faq_title" = "How it works";
+"rewards_invite_friends_button" = "Invite friends";
+"rewards_invite_friends_title" = "Invite friends";
+"rewards_title" = "Rewards";
 "search_alert_delete_error_message" = "이런! 검색알림을 삭제하는 동안 오류가 발생했습니다.";
 "search_alert_disable_error_message" = "이런! 검색 알림을 비활성화 하는 동안 오류가 발생했습니다.";
 "search_alert_enable_error_message" = "이런! 검색 알림을 활성화 하는 동안 오류가 발생했습니다.";

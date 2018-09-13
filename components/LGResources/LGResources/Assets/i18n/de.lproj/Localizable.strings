@@ -1344,6 +1344,10 @@
 "reset_password_send_ok" = "Wir haben eine E-Mail an %@ geschickt. Klicke bitte auf den Link in der E-Mail, um dein Kennwort zurückzusetzen.";
 "reset_password_send_too_many_requests" = "Wir haben dir bereits eine E-Mail zur Kennwortwiederherstellung geschickt. Bitte schaue in dein Postfach und folge den Anweisungen.";
 "reset_password_title" = "Kennwort zurücksetzen";
+"rewards_faq_title" = "How it works";
+"rewards_invite_friends_button" = "Invite friends";
+"rewards_invite_friends_title" = "Invite friends";
+"rewards_title" = "Rewards";
 "search_alert_delete_error_message" = "Hoppla! Beim Löschen deiner gespeicherten Suche ist ein Fehler aufgetreten.";
 "search_alert_disable_error_message" = "Hoppla! Beim Deaktivieren deiner gespeicherten Suche ist ein Fehler aufgetreten.";
 "search_alert_enable_error_message" = "Hoppla! Beim Aktivieren deiner gespeicherten Suche ist ein Fehler aufgetreten.";

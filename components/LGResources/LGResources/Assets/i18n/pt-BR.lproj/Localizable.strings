@@ -1344,6 +1344,10 @@
 "reset_password_send_ok" = "We've sent an email to %@. Click the link in the email to reset your password!";
 "reset_password_send_too_many_requests" = "We've already sent you a password reset email. Please check your email and follow the instructions.";
 "reset_password_title" = "Reset password";
+"rewards_faq_title" = "How it works";
+"rewards_invite_friends_button" = "Invite friends";
+"rewards_invite_friends_title" = "Invite friends";
+"rewards_title" = "Rewards";
 "search_alert_delete_error_message" = "Oops! An error occurred while deleting your search alert.";
 "search_alert_disable_error_message" = "Oops! An error occurred while deactivating your search alert.";
 "search_alert_enable_error_message" = "Oops! An error occurred while activating your search alert.";

@@ -1036,6 +1036,24 @@
 		507532E31FEA47D400FCF9D5 /* UILabel+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507532E11FEA47D400FCF9D5 /* UILabel+Rx.swift */; };
 		5076228A1CD0EB1D004E5D0D /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507622861CD0EB1D004E5D0D /* AppCoordinator.swift */; };
 		5076228B1CD0EB1D004E5D0D /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507622861CD0EB1D004E5D0D /* AppCoordinator.swift */; };
+		507E6B7F2148E9040077BC94 /* RewardsInviteFriendsNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507E6B7E2148E9040077BC94 /* RewardsInviteFriendsNavigator.swift */; };
+		507E6B802148E9040077BC94 /* RewardsInviteFriendsNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507E6B7E2148E9040077BC94 /* RewardsInviteFriendsNavigator.swift */; };
+		507E6B822148E93E0077BC94 /* RewardsInviteFriendsStandardWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507E6B812148E93E0077BC94 /* RewardsInviteFriendsStandardWireframe.swift */; };
+		507E6B832148E93E0077BC94 /* RewardsInviteFriendsStandardWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507E6B812148E93E0077BC94 /* RewardsInviteFriendsStandardWireframe.swift */; };
+		507E6B862148E9920077BC94 /* RewardsInviteFriendsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507E6B852148E9920077BC94 /* RewardsInviteFriendsBuilder.swift */; };
+		507E6B872148E9920077BC94 /* RewardsInviteFriendsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507E6B852148E9920077BC94 /* RewardsInviteFriendsBuilder.swift */; };
+		507E6B892148E9EE0077BC94 /* RewardsInviteFriendsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507E6B882148E9EE0077BC94 /* RewardsInviteFriendsViewModel.swift */; };
+		507E6B8A2148E9EE0077BC94 /* RewardsInviteFriendsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507E6B882148E9EE0077BC94 /* RewardsInviteFriendsViewModel.swift */; };
+		507E6B8C2148E9F90077BC94 /* RewardsInviteFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507E6B8B2148E9F90077BC94 /* RewardsInviteFriendsViewController.swift */; };
+		507E6B8D2148E9F90077BC94 /* RewardsInviteFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507E6B8B2148E9F90077BC94 /* RewardsInviteFriendsViewController.swift */; };
+		507E6B8F214907440077BC94 /* RewardsFAQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507E6B8E214907440077BC94 /* RewardsFAQViewController.swift */; };
+		507E6B90214907440077BC94 /* RewardsFAQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507E6B8E214907440077BC94 /* RewardsFAQViewController.swift */; };
+		507E6B922149074E0077BC94 /* RewardsFAQViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507E6B912149074E0077BC94 /* RewardsFAQViewModel.swift */; };
+		507E6B932149074E0077BC94 /* RewardsFAQViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507E6B912149074E0077BC94 /* RewardsFAQViewModel.swift */; };
+		507E6B96214908080077BC94 /* RewardsFAQNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507E6B95214908080077BC94 /* RewardsFAQNavigator.swift */; };
+		507E6B97214908080077BC94 /* RewardsFAQNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507E6B95214908080077BC94 /* RewardsFAQNavigator.swift */; };
+		507E6B99214908150077BC94 /* RewardsFAQStandardWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507E6B98214908150077BC94 /* RewardsFAQStandardWireframe.swift */; };
+		507E6B9A214908150077BC94 /* RewardsFAQStandardWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507E6B98214908150077BC94 /* RewardsFAQStandardWireframe.swift */; };
 		507F1BFB1C89DDF9001F0A95 /* PostalAddress+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507F1BFA1C89DDF9001F0A95 /* PostalAddress+String.swift */; };
 		507F1BFC1C89DDF9001F0A95 /* PostalAddress+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507F1BFA1C89DDF9001F0A95 /* PostalAddress+String.swift */; };
 		508010FE1D4748120073F362 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508010E61D4748120073F362 /* SettingsViewController.swift */; };
@@ -2909,6 +2927,15 @@
 		507440DD1E3F97EB006976F7 /* LoginAppearance+Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "LoginAppearance+Helper.swift"; path = "v2/LoginAppearance+Helper.swift"; sourceTree = "<group>"; };
 		507532E11FEA47D400FCF9D5 /* UILabel+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Rx.swift"; sourceTree = "<group>"; };
 		507622861CD0EB1D004E5D0D /* AppCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		507E6B7E2148E9040077BC94 /* RewardsInviteFriendsNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsInviteFriendsNavigator.swift; sourceTree = "<group>"; };
+		507E6B812148E93E0077BC94 /* RewardsInviteFriendsStandardWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RewardsInviteFriendsStandardWireframe.swift; sourceTree = "<group>"; };
+		507E6B852148E9920077BC94 /* RewardsInviteFriendsBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RewardsInviteFriendsBuilder.swift; sourceTree = "<group>"; };
+		507E6B882148E9EE0077BC94 /* RewardsInviteFriendsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsInviteFriendsViewModel.swift; sourceTree = "<group>"; };
+		507E6B8B2148E9F90077BC94 /* RewardsInviteFriendsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsInviteFriendsViewController.swift; sourceTree = "<group>"; };
+		507E6B8E214907440077BC94 /* RewardsFAQViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsFAQViewController.swift; sourceTree = "<group>"; };
+		507E6B912149074E0077BC94 /* RewardsFAQViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsFAQViewModel.swift; sourceTree = "<group>"; };
+		507E6B95214908080077BC94 /* RewardsFAQNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsFAQNavigator.swift; sourceTree = "<group>"; };
+		507E6B98214908150077BC94 /* RewardsFAQStandardWireframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsFAQStandardWireframe.swift; sourceTree = "<group>"; };
 		507F1BFA1C89DDF9001F0A95 /* PostalAddress+String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PostalAddress+String.swift"; sourceTree = "<group>"; };
 		508010E61D4748120073F362 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		508010E71D4748120073F362 /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
@@ -4301,6 +4328,8 @@
 			isa = PBXGroup;
 			children = (
 				50B5ECAB2146A89B00646702 /* Rewards */,
+				507E6B94214907FD0077BC94 /* RewardsFAQ */,
+				507E6B7D2148E8EE0077BC94 /* RewardsInviteFriends */,
 				A47C4A66213D5B32005AA387 /* Search */,
 				A47C4A5E213D31BB005AA387 /* TrendingSearches */,
 				A465722D213056C800B806C2 /* Feed */,
@@ -4341,6 +4370,7 @@
 			isa = PBXGroup;
 			children = (
 				50B5ECB22146A96B00646702 /* Rewards */,
+				507E6B842148E9920077BC94 /* RewardsInviteFriends */,
 				0AF28D84213ECEBA005A6F8C /* ListingsMap */,
 				A47C4A62213D5574005AA387 /* Search */,
 				A47C4A5A213D304F005AA387 /* TrendingSearches */,
@@ -5395,6 +5425,33 @@
 			path = Coordinator;
 			sourceTree = "<group>";
 		};
+		507E6B7D2148E8EE0077BC94 /* RewardsInviteFriends */ = {
+			isa = PBXGroup;
+			children = (
+				507E6B7E2148E9040077BC94 /* RewardsInviteFriendsNavigator.swift */,
+				507E6B812148E93E0077BC94 /* RewardsInviteFriendsStandardWireframe.swift */,
+			);
+			name = RewardsInviteFriends;
+			path = Ambatana/src/Coordinator/Wireframes/RewardsInviteFriends;
+			sourceTree = SOURCE_ROOT;
+		};
+		507E6B842148E9920077BC94 /* RewardsInviteFriends */ = {
+			isa = PBXGroup;
+			children = (
+				507E6B852148E9920077BC94 /* RewardsInviteFriendsBuilder.swift */,
+			);
+			path = RewardsInviteFriends;
+			sourceTree = "<group>";
+		};
+		507E6B94214907FD0077BC94 /* RewardsFAQ */ = {
+			isa = PBXGroup;
+			children = (
+				507E6B95214908080077BC94 /* RewardsFAQNavigator.swift */,
+				507E6B98214908150077BC94 /* RewardsFAQStandardWireframe.swift */,
+			);
+			path = RewardsFAQ;
+			sourceTree = "<group>";
+		};
 		508011081D474ED80073F362 /* img */ = {
 			isa = PBXGroup;
 			children = (
@@ -5563,6 +5620,10 @@
 		50B5ECB62146AD7C00646702 /* Rewards */ = {
 			isa = PBXGroup;
 			children = (
+				507E6B8E214907440077BC94 /* RewardsFAQViewController.swift */,
+				507E6B912149074E0077BC94 /* RewardsFAQViewModel.swift */,
+				507E6B8B2148E9F90077BC94 /* RewardsInviteFriendsViewController.swift */,
+				507E6B882148E9EE0077BC94 /* RewardsInviteFriendsViewModel.swift */,
 				50B5ECBA2146ADAC00646702 /* RewardsViewController.swift */,
 				50B5ECB72146ADA000646702 /* RewardsViewModel.swift */,
 			);
@@ -8881,6 +8942,7 @@
 				F5F2113920EE5EE000CD137A /* EnvironmentsHelper.swift in Sources */,
 				C708C83C1CDB590400AA87B3 /* AppRatingView.swift in Sources */,
 				0A82A1A02141A7CD005ECA58 /* RateUserViewModel.swift in Sources */,
+				507E6B922149074E0077BC94 /* RewardsFAQViewModel.swift in Sources */,
 				09D7BC7E20EB62950090E499 /* StripeManager.swift in Sources */,
 				C784FDFF1C21B45B00846AB7 /* LoadingIndicator.swift in Sources */,
 				2EF4E3AE1D3688AB00A09DFD /* LGConfigManager.swift in Sources */,
@@ -8994,6 +9056,7 @@
 				0A0C0490209C8CD20028A75D /* SearchAlertFeedHeader.swift in Sources */,
 				01BDE97A2050B1820081B670 /* BlockingPostingHeaderStep.swift in Sources */,
 				720A8FA91F1F94E700DCBAD8 /* FilterTextFieldIntCell.swift in Sources */,
+				507E6B892148E9EE0077BC94 /* RewardsInviteFriendsViewModel.swift in Sources */,
 				72D928F01E83F0BD0030F4C3 /* PushPermissionsManager.swift in Sources */,
 				C6FFC4A120F7491000B9F53A /* SizeRange.swift in Sources */,
 				C7798EA21D2EB6AB00C81DD4 /* UICollectionView+Helper.swift in Sources */,
@@ -9115,6 +9178,7 @@
 				C6F3CEFB20FF69A800AF4D38 /* LGChevronView.swift in Sources */,
 				727463B51FB0AF1400AD8261 /* LGSearchMapViewModel.swift in Sources */,
 				C765EE7F1E84036400063750 /* SessionErrors+LG.swift in Sources */,
+				507E6B96214908080077BC94 /* RewardsFAQNavigator.swift in Sources */,
 				C7E73E8A1CD1F77E000F2591 /* NotificationData.swift in Sources */,
 				3212AE272119DD7C00945110 /* SelectedForYouSectionController.swift in Sources */,
 				0A4766CB1FC5BB2A005B176F /* ProductStatusView.swift in Sources */,
@@ -9130,7 +9194,6 @@
 				0A6FECF42130344000B57004 /* MeetingAssistantModalWireframe.swift in Sources */,
 				F51A08322031B55E0008D744 /* LGSize+CGSize.swift in Sources */,
 				72A83F641DD222100043EB3B /* Leanplum+LG.swift in Sources */,
-				C743FEB01E449F2E00B4E912 /* RateBuyersHeader.swift in Sources */,
 				50B5ECB82146ADA000646702 /* RewardsViewModel.swift in Sources */,
 				8E031CAC20331D2D00CA0ED9 /* ChatInterlocutorIsTypingCell.swift in Sources */,
 				8E1139E51EC9AD7100A9D772 /* FilterTitleHeaderView.swift in Sources */,
@@ -9210,6 +9273,7 @@
 				C73832801E029CC2007D0C03 /* AccountProvider+LG.swift in Sources */,
 				0ADE58D21FC45F3100F3DB17 /* ListingCardDetailsViewBinder.swift in Sources */,
 				0A561AE220C81FF00082D551 /* UICollectionView+ReusableCell.swift in Sources */,
+				507E6B822148E93E0077BC94 /* RewardsInviteFriendsStandardWireframe.swift in Sources */,
 				C21E6078208A89AF008A1956 /* VideoPreview.swift in Sources */,
 				C6977E8C21218B8300B57E54 /* ListingTitleViewModel.swift in Sources */,
 				2E28B12B1D9912B2001BF8E4 /* Double+Rounding.swift in Sources */,
@@ -9252,6 +9316,7 @@
 				A41196162122E65000EBB210 /* RecaptchaBuilder.swift in Sources */,
 				3294763A2136B1EA008EE737 /* Feed+Tracking.swift in Sources */,
 				0A82A19C2141A7CD005ECA58 /* UserRatingTagCell.swift in Sources */,
+				507E6B862148E9920077BC94 /* RewardsInviteFriendsBuilder.swift in Sources */,
 				0A6FED1A2130344000B57004 /* RateUserModalWireframe.swift in Sources */,
 				C7239A1A1C158139006CB5A6 /* Listing+Negotiable.swift in Sources */,
 				C73C163B1D06C1B500DFC67D /* SuggestionSearchCell.swift in Sources */,
@@ -9412,6 +9477,7 @@
 				6A6C756B207B7F0000845A88 /* UserVerificationEmailViewController.swift in Sources */,
 				C6687F3A20C83A2C008C1922 /* MultiListingPostedIncentivisorCell.swift in Sources */,
 				A46057F1212AD33F00386DFC /* VerifyAccountsViewController.swift in Sources */,
+				507E6B7F2148E9040077BC94 /* RewardsInviteFriendsNavigator.swift in Sources */,
 				0A6FECC42130344000B57004 /* MainListingWireframe.swift in Sources */,
 				42566BF220ED217800120431 /* TooltipConfiguration.swift in Sources */,
 				502191101B2F1DC100ABD31F /* RememberPasswordViewModel.swift in Sources */,
@@ -9442,6 +9508,7 @@
 				72E8A5861EB2FF15000524E6 /* CategoriesHeaderCollectionView.swift in Sources */,
 				6AF75D071CF449AF00EACCF0 /* ChatViewMessage.swift in Sources */,
 				C77593DE1BF0B8A00097D62F /* FiltersViewController.swift in Sources */,
+				507E6B99214908150077BC94 /* RewardsFAQStandardWireframe.swift in Sources */,
 				0A6FECEE2130344000B57004 /* ChatDetailWireframe.swift in Sources */,
 				0A6FED282130344000B57004 /* ExpressChatWireframe.swift in Sources */,
 				0A90350C1FCC18E800FDE795 /* PhotoViewerView.swift in Sources */,
@@ -9479,6 +9546,7 @@
 				C7BAC9CD1E49E81E005BD0AF /* Listing+LG.swift in Sources */,
 				0A6FED2A2130344000B57004 /* TourLoginWireframe.swift in Sources */,
 				C7DE8ACB1C888761005CF37E /* EditListingViewModel.swift in Sources */,
+				507E6B8C2148E9F90077BC94 /* RewardsInviteFriendsViewController.swift in Sources */,
 				0AEB4FF22018C25F003365DE /* ListingDeckOnBoardingBinder.swift in Sources */,
 				C21E6074208A8828008A1956 /* RecordedVideo.swift in Sources */,
 				0AE6F4FE20F8DE2A00D58BCE /* SearchNavigator.swift in Sources */,
@@ -9531,6 +9599,7 @@
 				0A2D69E01FC6BA6900F072A1 /* ListingCardDetailMapView.swift in Sources */,
 				0A25E8122019C87900E6A72E /* OnBoardingAnimator.swift in Sources */,
 				32448E862105CB7100EFF33A /* FeedViewControllerProtocols.swift in Sources */,
+				507E6B8F214907440077BC94 /* RewardsFAQViewController.swift in Sources */,
 				C66105E02130165300BA4EF7 /* RealEstatePromoCellConfiguration.swift in Sources */,
 				C7B89CB91C20271E00536A6C /* SocialShareView.swift in Sources */,
 				01772B5F204F0F340037FD5F /* BlockingPostingStepHeaderView.swift in Sources */,
@@ -9904,6 +9973,7 @@
 				C7DB41BF1C5138B500400945 /* LoadingIndicator.swift in Sources */,
 				2E200D2120BEEB630054F053 /* ChatConnectionStatusView.swift in Sources */,
 				C6FFC49D20F748C500B9F53A /* RealEstateFilters.swift in Sources */,
+				507E6B932149074E0077BC94 /* RewardsFAQViewModel.swift in Sources */,
 				0AB6E1D71F9DD4440048AFFD /* ListingDeckViewController.swift in Sources */,
 				42109E7C2112F65100AA979E /* Feed+LG.swift in Sources */,
 				6A5E19FB1D548F5400F92692 /* KeyboardHelper.swift in Sources */,
@@ -9926,6 +9996,7 @@
 				6AFA1720213408B500F16795 /* UserAvatarViewController.swift in Sources */,
 				C727944A1D54944E009C25AB /* SettingsViewModel.swift in Sources */,
 				326C72D7208882EB009D21DB /* WaterFallLayoutDelegates.swift in Sources */,
+				507E6B9A214908150077BC94 /* RewardsFAQStandardWireframe.swift in Sources */,
 				2E75EC541FA89F5B00C5F48F /* AdsRequester.swift in Sources */,
 				0183496B204F573100B14A24 /* ListingEditionParams+LG.swift in Sources */,
 				6A5E1A171D548F5400F92692 /* UITextField+LG.swift in Sources */,
@@ -9973,6 +10044,7 @@
 				0A90350F1FCC18E800FDE795 /* PhotoViewerViewController.swift in Sources */,
 				72FE02DA1F97A155005BD672 /* ListingCreationParams+LG.swift in Sources */,
 				C2DC548520A3343E0052EB12 /* AppEventsManager.swift in Sources */,
+				507E6B97214908080077BC94 /* RewardsFAQNavigator.swift in Sources */,
 				32448E702100E64F00EFF33A /* ListingTimeFilter.swift in Sources */,
 				8E0EEF8A204EF827000C07C9 /* LGVision.swift in Sources */,
 				3201487220FF6F38003445DA /* PushPermissionCollectionCell.swift in Sources */,
@@ -10008,6 +10080,7 @@
 				8EEC7F5F206AA63000616858 /* MoPubNativeView.swift in Sources */,
 				0AE6F4FC20F8CE7A00D58BCE /* UIViewController+Childs.swift in Sources */,
 				8E56D74620A2F0A300097B61 /* ChatConversationsListView.swift in Sources */,
+				507E6B832148E93E0077BC94 /* RewardsInviteFriendsStandardWireframe.swift in Sources */,
 				2EE47D2A20177653004B04EE /* ChatAskPhoneNumberCell.swift in Sources */,
 				01BDE97B2050B1820081B670 /* BlockingPostingHeaderStep.swift in Sources */,
 				720A8FAA1F1F94E700DCBAD8 /* FilterTextFieldIntCell.swift in Sources */,
@@ -10224,6 +10297,7 @@
 				F5DC45252088889100D1EC17 /* KenBurnsView.swift in Sources */,
 				0AF28D87213ECEC2005A6F8C /* ListingsMapBuilder.swift in Sources */,
 				0A6FED0B2130344000B57004 /* ChatInactiveDetailWireframe.swift in Sources */,
+				507E6B8A2148E9EE0077BC94 /* RewardsInviteFriendsViewModel.swift in Sources */,
 				C650DEA320C595A500D47C4A /* MultiListingPostedViewModel.swift in Sources */,
 				01772B60204F0F340037FD5F /* BlockingPostingStepHeaderView.swift in Sources */,
 				2E151D7420A49BB20038D7C7 /* ChatBlockedUsersViewController.swift in Sources */,
@@ -10280,12 +10354,14 @@
 				2E131C6C1DEDE998004D26DC /* LGPurchasesShopper.swift in Sources */,
 				502047161EE1BB22006C0EC2 /* MarkAsSoldTrackingInfo.swift in Sources */,
 				C7C61DF61D63035400F9505D /* ListingCarouselMoreInfoView.swift in Sources */,
+				507E6B872148E9920077BC94 /* RewardsInviteFriendsBuilder.swift in Sources */,
 				6A3F3B9C20AD81A100E2881F /* LetgoTooltip.swift in Sources */,
 				42F0688F20FF8D78009AC898 /* ServiceType+LG.swift in Sources */,
 				6A38A9992076304A00F3B292 /* UserProfileKarmaScoreView.swift in Sources */,
 				C7DB42091C5138B500400945 /* ChatSafetyTipsView.swift in Sources */,
 				5011938720C5173200FA7C20 /* AnalyticsSessionManager.swift in Sources */,
 				7224D7E91F581EE7004E3B49 /* ExpandableCategorySelectionView.swift in Sources */,
+				507E6B90214907440077BC94 /* RewardsFAQViewController.swift in Sources */,
 				2E5350421CF8A0C6003B06CC /* ListingStatsView.swift in Sources */,
 				509DE77E2137C21E00368A41 /* InterestedStateUpdater.swift in Sources */,
 				2E0F26591E0C425900D97898 /* BumpUpBanner.swift in Sources */,
@@ -10325,6 +10401,7 @@
 				0A759E981FB473AC0030FDE0 /* ListingCardViewModel.swift in Sources */,
 				0AF5EB6D1FD060B2001DFAE2 /* QuickChatView.swift in Sources */,
 				0A6FED112130344000B57004 /* QuickLocationFiltersNavigator.swift in Sources */,
+				507E6B8D2148E9F90077BC94 /* RewardsInviteFriendsViewController.swift in Sources */,
 				4273565520A308A300C71D49 /* LGMapDetailView.swift in Sources */,
 				0ACA8F46211495FF00243850 /* LGFiltersBuilder.swift in Sources */,
 				32F900C120EBC48E00D30411 /* ListingSectionModel.swift in Sources */,
@@ -10528,6 +10605,7 @@
 				2E75EC501FA86F6E00C5F48F /* AdBannerTrackingStatus.swift in Sources */,
 				2E92CC0220248E2800451B65 /* MeetingAssistantViewController.swift in Sources */,
 				0AE6F4F920F8CC7700D58BCE /* SearchViewModel.swift in Sources */,
+				507E6B802148E9040077BC94 /* RewardsInviteFriendsNavigator.swift in Sources */,
 				50146BD11D4F5F9F00B0F635 /* ChatsTabCoordinator.swift in Sources */,
 				C7DB42251C5138B500400945 /* SocialShareView.swift in Sources */,
 				015E4FDF204FFC090094FF20 /* BlockingPostingLoadingView.swift in Sources */,

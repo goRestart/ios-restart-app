@@ -1344,6 +1344,10 @@
 "reset_password_send_ok" = "We hebben een e-mail gestuurd naar %@. Klik op de link in de e-mail om je wachtwoord te resetten.";
 "reset_password_send_too_many_requests" = "We hebben je al een e-mail gestuurd om je wachtwoord te resetten. Controleer je e-mail en volg de instructies.";
 "reset_password_title" = "Reset wachtwoord";
+"rewards_faq_title" = "How it works";
+"rewards_invite_friends_button" = "Invite friends";
+"rewards_invite_friends_title" = "Invite friends";
+"rewards_title" = "Rewards";
 "search_alert_delete_error_message" = "Oeps! Er is een fout opgetreden tijdens het verwijderen van jouw zoekmelding.";
 "search_alert_disable_error_message" = "Oeps! Er is een fout opgetreden tijdens het deactiveren van jouw zoekmelding";
 "search_alert_enable_error_message" = "Oeps! Er is een fout opgetreden tijdens het activeren van jouw zoekmelding";

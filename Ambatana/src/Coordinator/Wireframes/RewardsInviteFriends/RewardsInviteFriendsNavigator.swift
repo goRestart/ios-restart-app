@@ -1,0 +1,4 @@
+protocol RewardsInviteFriendsNavigator {
+    func closeRewardsInviteFriends()
+}
+

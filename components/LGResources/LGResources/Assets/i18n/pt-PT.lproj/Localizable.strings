@@ -1344,6 +1344,10 @@
 "reset_password_send_ok" = "Enviamos um email para %@! Clique no link do email para redefinir a sua password!";
 "reset_password_send_too_many_requests" = "Já lhe enviamos um email para redefinir a sua password. Por favor verifique o seu email e siga as instruções.";
 "reset_password_title" = "Redefinir password";
+"rewards_faq_title" = "How it works";
+"rewards_invite_friends_button" = "Invite friends";
+"rewards_invite_friends_title" = "Invite friends";
+"rewards_title" = "Rewards";
 "search_alert_delete_error_message" = "Ups! Surgiu um erro ao eliminar o seu alerta de pesquisa.";
 "search_alert_disable_error_message" = "Ups! Surgiu um erro ao desativar o seu alerta de pesquisa";
 "search_alert_enable_error_message" = "Ups! Surgiu um erro ao ativar o seu alerta de pesquisa";

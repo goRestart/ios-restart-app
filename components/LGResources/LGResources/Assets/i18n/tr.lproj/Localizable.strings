@@ -1344,6 +1344,10 @@
 "reset_password_send_ok" = "%@ adresine bir e-posta gönderdik. Şifreni yenilemek için e-postana gönderilen bağlantıya tıkla.";
 "reset_password_send_too_many_requests" = "Şifreni yenilemen için sana bir e-posta gönderdik. Lütfen e-postanı kontrol edip açıklamaları uygula.";
 "reset_password_title" = "Şifreyi yenile";
+"rewards_faq_title" = "How it works";
+"rewards_invite_friends_button" = "Invite friends";
+"rewards_invite_friends_title" = "Invite friends";
+"rewards_title" = "Rewards";
 "search_alert_delete_error_message" = "Oops! Arama alarmın silinirken bir hata oluştu.";
 "search_alert_disable_error_message" = "Oops! Arama alarmın devre dışı bırakılırken bir hata oluştu.";
 "search_alert_enable_error_message" = "Oops! Arama alarmına izin verilirken bir hata oluştu.";

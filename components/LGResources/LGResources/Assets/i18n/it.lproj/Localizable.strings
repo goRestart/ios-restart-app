@@ -1344,6 +1344,10 @@
 "reset_password_send_ok" = "Abbiamo inviato un'email a %@. Clicca sul link all'interno dell'email per ripristinare la tua password!";
 "reset_password_send_too_many_requests" = "Ti abbiamo già inviato una email per reimpostare la password. Controlla la tua casella di posta e segui le istruzioni.";
 "reset_password_title" = "Reimposta Password";
+"rewards_faq_title" = "How it works";
+"rewards_invite_friends_button" = "Invite friends";
+"rewards_invite_friends_title" = "Invite friends";
+"rewards_title" = "Rewards";
 "search_alert_delete_error_message" = "Ops! Si è verificato un errore durante l'eliminazione dei tuoi avvisi di ricerca.";
 "search_alert_disable_error_message" = "Ops! Si è verificato un errore durante la disattivazione dei tuoi avvisi di ricerca";
 "search_alert_enable_error_message" = "Ops! Si è verificato un errore durante l'attivazione dei tuoi avvisi di ricerca.";
