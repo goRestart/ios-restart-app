@@ -173,7 +173,7 @@ DEPENDENCIES:
   - Leanplum-iOS-SDK (= 2.0.5)
   - LGCollapsibleLabel (= 1.2.0)
   - LGComponents (from `components`)
-  - "LGCoreKit (from `git@github.com:letgoapp/letgo-ios-lgcorekit.git`, branch `ABIOS-4957-payment-app-state`)"
+  - LGCoreKit (from `../letgo-ios-lgcorekit`)
   - lottie-ios (= 2.5.0)
   - mopub-ios-sdk (= 4.20.0)
   - NewRelicAgent (= 6.1.1)
@@ -250,16 +250,12 @@ EXTERNAL SOURCES:
   LGComponents:
     :path: components
   LGCoreKit:
-    :branch: ABIOS-4957-payment-app-state
-    :git: "git@github.com:letgoapp/letgo-ios-lgcorekit.git"
+    :path: "../letgo-ios-lgcorekit"
 
 CHECKOUT OPTIONS:
   KMPlaceholderTextView:
     :commit: 426117c98e8da8fc7d64a7d3c2f0f45c48d595e6
     :git: https://github.com/letgoapp/KMPlaceholderTextView
-  LGCoreKit:
-    :commit: 10b48b027bb07523c7060708d71416967c40e8ea
-    :git: "git@github.com:letgoapp/letgo-ios-lgcorekit.git"
 
 SPEC CHECKSUMS:
   Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
@@ -292,7 +288,7 @@ SPEC CHECKSUMS:
   Leanplum-iOS-SDK: d7d387b7f3688e697f2893978bfe67092df5b7ca
   LGCollapsibleLabel: 2a5ebb0ff0ff3e1d7ab0c295a17c923db000f557
   LGComponents: a7285550deb9b2fc7e7f3affa2ab70545ada5da5
-  LGCoreKit: a8eecadf9d960f86448f98f1d93c6f20702a8609
+  LGCoreKit: 49c815f2a3d769076674188d1e1d36acff56a36b
   lottie-ios: d699fdee68d7b63e721d949388b015fef1aaa4ac
   mopub-ios-sdk: 89c6ac9ca01d3b36e9fba16a6cfe31d3c290d354
   NewRelicAgent: 652434a627201e3745cd5849228feeb10afe1879
@@ -314,6 +310,6 @@ SPEC CHECKSUMS:
   SwiftyGif: d36c6dfb52e2ca1e48fe349d225f50ec4123ec85
   SwiftyUserDefaults: 3d273b1739b68ada3145dc754a70ec775bc5c8be
 
-PODFILE CHECKSUM: 75f9e2cf5b9d689431a0f0d3d9f22f0e14090a2c
+PODFILE CHECKSUM: 6107f0d313a8bb1d49c27ccba74be345f57a084e
 
 COCOAPODS: 1.5.3
