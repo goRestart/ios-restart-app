@@ -19,6 +19,7 @@ protocol ChatDetailNavigator: DeepLinkNavigator {
     func openLoginIfNeededFromChatDetail(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void))
     func openAssistantFor(listingId: String, dataDelegate: MeetingAssistantDataDelegate)
     func openMakeAnOffer(chatConversation: ChatConversation)
+    func openOfferStatus(offerId: String)
 }
 
 
@@ -165,6 +166,11 @@ final class ChatDetailWireframe: ChatDetailNavigator {
 
     func openMakeAnOffer(chatConversation: ChatConversation) {
         let vc = p2pPaymentsMakeAnOfferAssembly.buildOnboarding(chatConversation: chatConversation)
+        nc.present(vc, animated: true)
+    }
+
+    func openOfferStatus(offerId: String) {
+        let vc = P2PPaymentsOfferStatusBuilder.modal.buildOfferStatus(offerId: offerId)
         nc.present(vc, animated: true)
     }
 }

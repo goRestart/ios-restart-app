@@ -1195,8 +1195,8 @@ extension ChatViewModel {
         }
 
         // FIXME: Remove this action and use the final production version before merging this branch into develop (@juolgon)
-        let p2pPaymentsFlowAction = actionForP2PPaymentsFlowTesting()
-        actions.append(p2pPaymentsFlowAction)
+        let p2pPaymentsFlowActions = actionForP2PPaymentsFlowTesting()
+        actions.append(contentsOf: p2pPaymentsFlowActions)
 
         delegate?.vmShowActionSheet(R.Strings.commonCancel, actions: actions)
     }
@@ -1344,16 +1344,23 @@ extension ChatViewModel {
 }
 
 // MARK: - P2P Payments Testing
+// TODO: @juolgon Change this code for the final production code before merging the feature branch into develop
 
-// FIXME: Change this code for the final production code before merging the feature branch into develop (@juolgon)
 extension ChatViewModel {
-    private func actionForP2PPaymentsFlowTesting() -> UIAction {
-        return UIAction(interface: UIActionInterface.text("P2P Payments"), action: openP2PPaymentsFlow)
+    private func actionForP2PPaymentsFlowTesting() -> [UIAction] {
+        return [UIAction(interface: UIActionInterface.text("P2P Payments - Offer"), action: openP2PPaymentsMakeAnOfferFlow),
+                UIAction(interface: UIActionInterface.text("P2P Payments - Status"), action: openP2PPaymentsOfferStatusFlow)]
     }
 
-    private func openP2PPaymentsFlow() {
+    private func openP2PPaymentsMakeAnOfferFlow() {
         // TODO: Start P2P Payments flow here (@juolgon)
         navigator?.openMakeAnOffer(chatConversation: conversation.value)
+    }
+
+    private func openP2PPaymentsOfferStatusFlow() {
+        // TODO: Start P2P Payments flow here (@juolgon)
+        guard let offerId = UIPasteboard.general.string else { return }
+        navigator?.openOfferStatus(offerId: offerId)
     }
 }
 

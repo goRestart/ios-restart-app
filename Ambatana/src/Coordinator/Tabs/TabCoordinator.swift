@@ -285,6 +285,11 @@ extension TabCoordinator: ChatDetailNavigator {
         let vc = p2pPaymentsMakeAnOfferAssembly.buildOnboarding(chatConversation: chatConversation)
         navigationController.present(vc, animated: true)
     }
+
+    func openOfferStatus(offerId: String) {
+        let vc = P2PPaymentsOfferStatusBuilder.modal.buildOfferStatus(offerId: offerId)
+        navigationController.present(vc, animated: true)
+    }
 }
 
 // MARK: - UINavigationControllerDelegate
