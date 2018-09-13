@@ -4,6 +4,24 @@
 // When a user Account is deactivated because is a scammer (includes user name)
 "account_pending_moderation_w_name" = "%@'s account is pending moderation";
 
+// Affiliation challenges screen. Title.
+"affiliation_challenges_title" = "Rewards";
+
+// Affiliation challenges screen. Invite friends button.
+"affiliation_challenges_invite_friends_button" = "Invite friends";
+
+// Affiliation Invite SMS contacts screen. Title.
+"affiliation_invite_sms_contacts_title" = "Connect contacts";
+
+// Affilation Invite friends screen. Title.
+"affiliation_invite_friends_title" = "Invite friends";
+
+// Affilation Invite friends screen. SMS Button.
+"affiliation_invite_friends_sms_button" = "Invite via text";
+
+// Affilation FAQ screen. Title.
+"affiliation_faq_title" = "How it works";
+
 // Text of the link that will go to the appstore
 "app_share_download_text" = "Download";
 
@@ -2269,6 +2287,15 @@
 // Button to initiate chat from the full screen photo viewer
 "photo_viewer_chat_button" = "Chat";
 
+// Title label in the screen after mark a listing as sold
+"post_another_listing_title" = "MAKING MONEY!";
+
+// Description label in the screen after mark a listing as sold
+"post_another_listing_description" = "You're on a roll, keep it going!";
+
+// Button to initiate the posting
+"post_another_listing_button" = "Post another listing";
+
 // Add Details navigation title
 "post_category_details_navigation_title" = "Add Details";
 
@@ -4067,16 +4094,22 @@
 // Reset password title. Check image @ "reset_password_email_field_hint" segment
 "reset_password_title" = "Reset password";
 
-// Rewards FAQ screen title
+// To be REMOVED - Rewards FAQ screen title
 "rewards_faq_title" = "How it works";
 
-// Rewards screen invite friends button
+// To be REMOVED - Rewards invite contacts screen title
+"rewards_invite_contacts_title" = "Connect contacts";
+
+// To be REMOVED - Rewards screen invite friends button
 "rewards_invite_friends_button" = "Invite friends";
 
-// Rewards invite friends screen title
+// To be REMOVED - Rewards invite friends screen contact button
+"rewards_invite_friends_contact_button" = "Invite via text";
+
+// To be REMOVED - Rewards invite friends screen title
 "rewards_invite_friends_title" = "Invite friends";
 
-// Rewards screen title
+// To be REMOVED - Rewards screen title
 "rewards_title" = "Rewards";
 
 // Search alerts edit button 
@@ -4336,6 +4369,9 @@
 
 // Settings option to access rewards
 "settings_rewards_button" = "Rewards";
+
+// Settings option to access affiliation
+"settings_affililation_button" = "Rewards";
 
 // Search alerts view title
 "search_alerts_list_title" = "Search Alerts";

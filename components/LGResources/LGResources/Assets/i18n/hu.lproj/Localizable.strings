@@ -71,7 +71,7 @@
 "bump_up_view_multi_day_7_days_subtitle" = "Emeld ki hirdetésedet 7 napra kedvezményes áron. 24 óránként a lista tetejére küldjük, hogy gyorsabban eladhasd!";
 "bump_up_view_multi_day_7_days_tag" = "7 NAP";
 "bump_up_view_multi_day_7_days_title" = "14x több vásárló";
-"bump_up_view_multi_day_title" = "Irány a gyorsabb eladás";
+"bump_up_view_multi_day_title" = "Add el gyorsabban";
 "bump_up_view_pay_button_title" = "Kiemelés: %@";
 "bump_up_view_pay_subtitle" = "24 órára kiemeljük hirdetésedet, hogy többen láthassák és gyorsabban eladhasd";
 "bump_up_view_pay_title" = "Keltsd fel kétszer több vásárló érdeklődését";
@@ -232,9 +232,9 @@
 "chat_not_verified_state_check_button" = "Ellenőrzés";
 "chat_not_verified_state_message" = "A csevegéshez ellenőrizd, hogy visszaigazoltad-e magadat.";
 "chat_not_verified_state_title" = "VISSZAIGAZOLTAD MAGADAT?";
-"chat_payment_state_exchange_code" = "Ne felejtsd el elkérni a vásárló fizetési kódját, ha átadtad a tárgyat";
+"chat_payment_state_exchange_code" = "Ne felejtsd elkérni a vásárló fizetési kódját, ha átadtad a tárgyat";
 "chat_payment_state_exchange_code_button_title" = "A kifizetéshez add meg a kódot";
-"chat_payment_state_make_offer" = "Biztonságos fizetés a letgo alkalmazással";
+"chat_payment_state_make_offer" = "Fizess biztonságosan a letgo alkalmazással";
 "chat_payment_state_make_offer_button_title" = "Ajánlatot teszek";
 "chat_payment_state_payout" = "A bevételt a kifizetési folyamat befejezésével kaphatod meg";
 "chat_payment_state_payout_button_title" = "Kifizetés";
@@ -765,6 +765,9 @@
 "phone_verification_number_input_view_textfield_placeholder" = "Telefonszám";
 "phone_verification_number_input_view_title" = "Telefonos hitelesítés";
 "photo_viewer_chat_button" = "Chat";
+"post_another_listing_button" = "Újabb hirdetés";
+"post_another_listing_description" = "Sínen vagy, csak így tovább!";
+"post_another_listing_title" = "Pénzre váltva!";
 "post_category_detail_add_make" = "Gyártó hozzáadása";
 "post_category_detail_add_model" = "Típus hozzáadása";
 "post_category_detail_car_make" = "Gyártó";
@@ -1344,10 +1347,12 @@
 "reset_password_send_ok" = "E-mailt küldtünk a következő címre: %@. A benne lévő linkre kattintva helyreállíthatod jelszavadat.";
 "reset_password_send_too_many_requests" = "Már küldtünk jelszó-helyreállítási e-mailt. Ellenőrizd postafiókodat, és kövesd az utasításokat!";
 "reset_password_title" = "Jelszóhelyreállítás";
-"rewards_faq_title" = "How it works";
-"rewards_invite_friends_button" = "Invite friends";
-"rewards_invite_friends_title" = "Invite friends";
-"rewards_title" = "Rewards";
+"rewards_faq_title" = "Hogyan működik?";
+"rewards_invite_contacts_title" = "Csatlakoztass ismerősöket";
+"rewards_invite_friends_button" = "Hívd meg barátaid";
+"rewards_invite_friends_contact_button" = "Hívj meg szöveges üzenettel";
+"rewards_invite_friends_title" = "Hívd meg barátaid";
+"rewards_title" = "Jutalmak";
 "search_alert_delete_error_message" = "Hoppá! Hiba történt a keresési figyelmeztetés törlése során.";
 "search_alert_disable_error_message" = "Hoppá! Hiba történt a keresési figyelmeztetés kikapcsolása során.";
 "search_alert_enable_error_message" = "Hoppá! Hiba történt a keresési figyelmeztetés bekapcsolása során.";
@@ -1402,6 +1407,7 @@
 "services_service_type_list_title" = "Szolgáltatás kategória";
 "services_service_type_title" = "Szolgáltatás kategória";
 "services_unified_filter_title" = "Válassz kategóriát";
+"settings_affililation_button" = "Rewards";
 "settings_change_email_button" = "E-mail";
 "settings_change_location_button" = "Tartózkodási hely";
 "settings_change_password_button" = "Jelszóváltás";

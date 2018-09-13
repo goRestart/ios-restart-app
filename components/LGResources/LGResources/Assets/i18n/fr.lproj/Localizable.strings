@@ -765,6 +765,9 @@
 "phone_verification_number_input_view_textfield_placeholder" = "Numéro de Téléphone";
 "phone_verification_number_input_view_title" = "Vérification du numéro";
 "photo_viewer_chat_button" = "Chat";
+"post_another_listing_button" = "Publier une autre annonce";
+"post_another_listing_description" = "Vous êtes sur la bonne voie, continuez ainsi !";
+"post_another_listing_title" = "Argent gagné !";
 "post_category_detail_add_make" = "Ajouter Marque";
 "post_category_detail_add_model" = "Ajouter Modèle";
 "post_category_detail_car_make" = "Marque";
@@ -1345,8 +1348,10 @@
 "reset_password_send_too_many_requests" = "Nous vous avons déjà envoyé un email de réinitialisation de mot de passe. Vérifiez vos emails et suivez les instructions.";
 "reset_password_title" = "Réinitialiser le mot de passe";
 "rewards_faq_title" = "How it works";
-"rewards_invite_friends_button" = "Invite friends";
-"rewards_invite_friends_title" = "Invite friends";
+"rewards_invite_contacts_title" = "Connect contacts";
+"rewards_invite_friends_button" = "Inviter des amis";
+"rewards_invite_friends_contact_button" = "Invite via text";
+"rewards_invite_friends_title" = "Inviter des amis";
 "rewards_title" = "Rewards";
 "search_alert_delete_error_message" = "Oups ! Une erreur est survenue au moment de supprimer votre alerte de recherche.";
 "search_alert_disable_error_message" = "Oups ! Une erreur est survenue au moment de désactiver votre alerte de recherche.";
@@ -1402,6 +1407,7 @@
 "services_service_type_list_title" = "Catégorie de service";
 "services_service_type_title" = "Catégorie de service";
 "services_unified_filter_title" = "Sélectionner une catégorie";
+"settings_affililation_button" = "Rewards";
 "settings_change_email_button" = "Email";
 "settings_change_location_button" = "Lieu";
 "settings_change_password_button" = "Mot de passe";

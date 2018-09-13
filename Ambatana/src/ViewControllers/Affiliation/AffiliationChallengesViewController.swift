@@ -1,25 +1,22 @@
 import LGComponents
 import RxSwift
 
-final class RewardsViewController: BaseViewController {
-    private let viewModel: RewardsViewModel
+final class AffiliationChallengesViewController: BaseViewController {
+    private let viewModel: AffiliationChallengesViewModel
     private let disposeBag = DisposeBag()
 
     private let inviteFriendsButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle(R.Strings.rewardsInviteFriendsButton, for: .normal)
+        button.setTitle(R.Strings.affiliationChallengesInviteFriendsButton, for: .normal)
         return button
     }()
 
-    private let faqButton: UIButton = {
-        let button = UIButton(type: .infoDark)
-        return button
-    }()
+    private let faqButton: UIButton = UIButton(type: .infoDark)
 
 
     // MARK: Lifecycle
 
-    init(viewModel: RewardsViewModel) {
+    init(viewModel: AffiliationChallengesViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel,
                    nibName: nil)
@@ -34,7 +31,7 @@ final class RewardsViewController: BaseViewController {
     }
 
     private func setupUI() {
-        title = R.Strings.rewardsTitle
+        title = R.Strings.affiliationChallengesTitle
         setupInviteFriendsButton()
         setupFAQButton()
     }

@@ -1,4 +1,0 @@
-protocol RewardsFAQNavigator {
-    func closeRewardsFAQ()
-}
-

@@ -1036,24 +1036,6 @@
 		507532E31FEA47D400FCF9D5 /* UILabel+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507532E11FEA47D400FCF9D5 /* UILabel+Rx.swift */; };
 		5076228A1CD0EB1D004E5D0D /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507622861CD0EB1D004E5D0D /* AppCoordinator.swift */; };
 		5076228B1CD0EB1D004E5D0D /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507622861CD0EB1D004E5D0D /* AppCoordinator.swift */; };
-		507E6B7F2148E9040077BC94 /* RewardsInviteFriendsNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507E6B7E2148E9040077BC94 /* RewardsInviteFriendsNavigator.swift */; };
-		507E6B802148E9040077BC94 /* RewardsInviteFriendsNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507E6B7E2148E9040077BC94 /* RewardsInviteFriendsNavigator.swift */; };
-		507E6B822148E93E0077BC94 /* RewardsInviteFriendsStandardWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507E6B812148E93E0077BC94 /* RewardsInviteFriendsStandardWireframe.swift */; };
-		507E6B832148E93E0077BC94 /* RewardsInviteFriendsStandardWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507E6B812148E93E0077BC94 /* RewardsInviteFriendsStandardWireframe.swift */; };
-		507E6B862148E9920077BC94 /* RewardsInviteFriendsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507E6B852148E9920077BC94 /* RewardsInviteFriendsBuilder.swift */; };
-		507E6B872148E9920077BC94 /* RewardsInviteFriendsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507E6B852148E9920077BC94 /* RewardsInviteFriendsBuilder.swift */; };
-		507E6B892148E9EE0077BC94 /* RewardsInviteFriendsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507E6B882148E9EE0077BC94 /* RewardsInviteFriendsViewModel.swift */; };
-		507E6B8A2148E9EE0077BC94 /* RewardsInviteFriendsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507E6B882148E9EE0077BC94 /* RewardsInviteFriendsViewModel.swift */; };
-		507E6B8C2148E9F90077BC94 /* RewardsInviteFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507E6B8B2148E9F90077BC94 /* RewardsInviteFriendsViewController.swift */; };
-		507E6B8D2148E9F90077BC94 /* RewardsInviteFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507E6B8B2148E9F90077BC94 /* RewardsInviteFriendsViewController.swift */; };
-		507E6B8F214907440077BC94 /* RewardsFAQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507E6B8E214907440077BC94 /* RewardsFAQViewController.swift */; };
-		507E6B90214907440077BC94 /* RewardsFAQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507E6B8E214907440077BC94 /* RewardsFAQViewController.swift */; };
-		507E6B922149074E0077BC94 /* RewardsFAQViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507E6B912149074E0077BC94 /* RewardsFAQViewModel.swift */; };
-		507E6B932149074E0077BC94 /* RewardsFAQViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507E6B912149074E0077BC94 /* RewardsFAQViewModel.swift */; };
-		507E6B96214908080077BC94 /* RewardsFAQNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507E6B95214908080077BC94 /* RewardsFAQNavigator.swift */; };
-		507E6B97214908080077BC94 /* RewardsFAQNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507E6B95214908080077BC94 /* RewardsFAQNavigator.swift */; };
-		507E6B99214908150077BC94 /* RewardsFAQStandardWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507E6B98214908150077BC94 /* RewardsFAQStandardWireframe.swift */; };
-		507E6B9A214908150077BC94 /* RewardsFAQStandardWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507E6B98214908150077BC94 /* RewardsFAQStandardWireframe.swift */; };
 		507F1BFB1C89DDF9001F0A95 /* PostalAddress+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507F1BFA1C89DDF9001F0A95 /* PostalAddress+String.swift */; };
 		507F1BFC1C89DDF9001F0A95 /* PostalAddress+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507F1BFA1C89DDF9001F0A95 /* PostalAddress+String.swift */; };
 		508010FE1D4748120073F362 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508010E61D4748120073F362 /* SettingsViewController.swift */; };
@@ -1083,16 +1065,6 @@
 		50A8DC821BA06BB1008296B0 /* ChatSafetyTipsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A8DC811BA06BB1008296B0 /* ChatSafetyTipsView.swift */; };
 		50AB5F221ED4447200E9909D /* UserRatingTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AB5F211ED4447200E9909D /* UserRatingTag.swift */; };
 		50AB5F251ED4505800E9909D /* UserRatingTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AB5F211ED4447200E9909D /* UserRatingTag.swift */; };
-		50B5ECAD2146A8DA00646702 /* RewardsStandardWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B5ECAC2146A8DA00646702 /* RewardsStandardWireframe.swift */; };
-		50B5ECAE2146A8DA00646702 /* RewardsStandardWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B5ECAC2146A8DA00646702 /* RewardsStandardWireframe.swift */; };
-		50B5ECB02146A8DF00646702 /* RewardsNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B5ECAF2146A8DF00646702 /* RewardsNavigator.swift */; };
-		50B5ECB12146A8DF00646702 /* RewardsNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B5ECAF2146A8DF00646702 /* RewardsNavigator.swift */; };
-		50B5ECB42146A97D00646702 /* RewardsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B5ECB32146A97D00646702 /* RewardsBuilder.swift */; };
-		50B5ECB52146A97D00646702 /* RewardsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B5ECB32146A97D00646702 /* RewardsBuilder.swift */; };
-		50B5ECB82146ADA000646702 /* RewardsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B5ECB72146ADA000646702 /* RewardsViewModel.swift */; };
-		50B5ECB92146ADA000646702 /* RewardsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B5ECB72146ADA000646702 /* RewardsViewModel.swift */; };
-		50B5ECBB2146ADAC00646702 /* RewardsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B5ECBA2146ADAC00646702 /* RewardsViewController.swift */; };
-		50B5ECBC2146ADAC00646702 /* RewardsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B5ECBA2146ADAC00646702 /* RewardsViewController.swift */; };
 		50BA5C061C3C093E00F34042 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BA5C041C3C093E00F34042 /* AppDelegate.swift */; };
 		50BA5C081C3C096D00F34042 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 50BA5C071C3C096D00F34042 /* GoogleService-Info.plist */; };
 		50C2E19B1E6FFACE006639BB /* PostListingRedCamButtonFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C2E19A1E6FFACE006639BB /* PostListingRedCamButtonFooter.swift */; };
@@ -1180,6 +1152,44 @@
 		50D08DE51E69AF14009CC260 /* SignUpLogInViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08DA11E69AF14009CC260 /* SignUpLogInViewModelSpec.swift */; };
 		50D08DE61E69AF14009CC260 /* SignUpViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08DA21E69AF14009CC260 /* SignUpViewModelSpec.swift */; };
 		50D08DE81E69AF14009CC260 /* MockChatWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08DA51E69AF14009CC260 /* MockChatWrapper.swift */; };
+		50D153F0214A5BE600221B06 /* AffiliationFAQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D153E8214A5BE600221B06 /* AffiliationFAQViewController.swift */; };
+		50D153F1214A5BE600221B06 /* AffiliationFAQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D153E8214A5BE600221B06 /* AffiliationFAQViewController.swift */; };
+		50D153F2214A5BE600221B06 /* AffiliationFAQViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D153E9214A5BE600221B06 /* AffiliationFAQViewModel.swift */; };
+		50D153F3214A5BE600221B06 /* AffiliationFAQViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D153E9214A5BE600221B06 /* AffiliationFAQViewModel.swift */; };
+		50D153F4214A5BE600221B06 /* AffiliationChallengesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D153EA214A5BE600221B06 /* AffiliationChallengesViewController.swift */; };
+		50D153F5214A5BE600221B06 /* AffiliationChallengesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D153EA214A5BE600221B06 /* AffiliationChallengesViewController.swift */; };
+		50D153F6214A5BE600221B06 /* AffiliationChallengesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D153EB214A5BE600221B06 /* AffiliationChallengesViewModel.swift */; };
+		50D153F7214A5BE600221B06 /* AffiliationChallengesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D153EB214A5BE600221B06 /* AffiliationChallengesViewModel.swift */; };
+		50D153F8214A5BE600221B06 /* AffiliationInviteFriendsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D153EC214A5BE600221B06 /* AffiliationInviteFriendsViewModel.swift */; };
+		50D153F9214A5BE600221B06 /* AffiliationInviteFriendsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D153EC214A5BE600221B06 /* AffiliationInviteFriendsViewModel.swift */; };
+		50D153FA214A5BE600221B06 /* AffiliationInviteFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D153ED214A5BE600221B06 /* AffiliationInviteFriendsViewController.swift */; };
+		50D153FB214A5BE600221B06 /* AffiliationInviteFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D153ED214A5BE600221B06 /* AffiliationInviteFriendsViewController.swift */; };
+		50D153FC214A5BE600221B06 /* AffiliationInviteSMSContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D153EE214A5BE600221B06 /* AffiliationInviteSMSContactsViewController.swift */; };
+		50D153FD214A5BE600221B06 /* AffiliationInviteSMSContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D153EE214A5BE600221B06 /* AffiliationInviteSMSContactsViewController.swift */; };
+		50D153FE214A5BE600221B06 /* AffiliationInviteSMSContactsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D153EF214A5BE600221B06 /* AffiliationInviteSMSContactsViewModel.swift */; };
+		50D153FF214A5BE600221B06 /* AffiliationInviteSMSContactsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D153EF214A5BE600221B06 /* AffiliationInviteSMSContactsViewModel.swift */; };
+		50D15406214A5BFF00221B06 /* AffiliationChallengesBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D15401214A5BFE00221B06 /* AffiliationChallengesBuilder.swift */; };
+		50D15407214A5BFF00221B06 /* AffiliationChallengesBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D15401214A5BFE00221B06 /* AffiliationChallengesBuilder.swift */; };
+		50D15408214A5BFF00221B06 /* AffiliationInviteSMSContactsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D15403214A5BFE00221B06 /* AffiliationInviteSMSContactsBuilder.swift */; };
+		50D15409214A5BFF00221B06 /* AffiliationInviteSMSContactsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D15403214A5BFE00221B06 /* AffiliationInviteSMSContactsBuilder.swift */; };
+		50D1540A214A5BFF00221B06 /* AffiliationInviteFriendsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D15405214A5BFE00221B06 /* AffiliationInviteFriendsBuilder.swift */; };
+		50D1540B214A5BFF00221B06 /* AffiliationInviteFriendsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D15405214A5BFE00221B06 /* AffiliationInviteFriendsBuilder.swift */; };
+		50D15418214A5C2300221B06 /* AffiliationFAQStandardWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D1540D214A5C2200221B06 /* AffiliationFAQStandardWireframe.swift */; };
+		50D15419214A5C2300221B06 /* AffiliationFAQStandardWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D1540D214A5C2200221B06 /* AffiliationFAQStandardWireframe.swift */; };
+		50D1541A214A5C2300221B06 /* AffiliationFAQNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D1540E214A5C2200221B06 /* AffiliationFAQNavigator.swift */; };
+		50D1541B214A5C2300221B06 /* AffiliationFAQNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D1540E214A5C2200221B06 /* AffiliationFAQNavigator.swift */; };
+		50D1541C214A5C2300221B06 /* AffiliationChallengesNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D15410214A5C2200221B06 /* AffiliationChallengesNavigator.swift */; };
+		50D1541D214A5C2300221B06 /* AffiliationChallengesNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D15410214A5C2200221B06 /* AffiliationChallengesNavigator.swift */; };
+		50D1541E214A5C2300221B06 /* AffiliationChallengesStandardWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D15411214A5C2200221B06 /* AffiliationChallengesStandardWireframe.swift */; };
+		50D1541F214A5C2300221B06 /* AffiliationChallengesStandardWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D15411214A5C2200221B06 /* AffiliationChallengesStandardWireframe.swift */; };
+		50D15420214A5C2300221B06 /* AffiliationInviteFriendsStandardWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D15413214A5C2300221B06 /* AffiliationInviteFriendsStandardWireframe.swift */; };
+		50D15421214A5C2300221B06 /* AffiliationInviteFriendsStandardWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D15413214A5C2300221B06 /* AffiliationInviteFriendsStandardWireframe.swift */; };
+		50D15422214A5C2300221B06 /* AffiliationInviteFriendsNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D15414214A5C2300221B06 /* AffiliationInviteFriendsNavigator.swift */; };
+		50D15423214A5C2300221B06 /* AffiliationInviteFriendsNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D15414214A5C2300221B06 /* AffiliationInviteFriendsNavigator.swift */; };
+		50D15424214A5C2300221B06 /* AffiliationInviteSMSContactsStandardWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D15416214A5C2300221B06 /* AffiliationInviteSMSContactsStandardWireframe.swift */; };
+		50D15425214A5C2300221B06 /* AffiliationInviteSMSContactsStandardWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D15416214A5C2300221B06 /* AffiliationInviteSMSContactsStandardWireframe.swift */; };
+		50D15426214A5C2300221B06 /* AffiliationInviteSMSContactsNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D15417214A5C2300221B06 /* AffiliationInviteSMSContactsNavigator.swift */; };
+		50D15427214A5C2300221B06 /* AffiliationInviteSMSContactsNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D15417214A5C2300221B06 /* AffiliationInviteSMSContactsNavigator.swift */; };
 		50D250041DAFB68600B45EC2 /* UIApplication+PushNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D250031DAFB68600B45EC2 /* UIApplication+PushNotification.swift */; };
 		50D250051DAFB68600B45EC2 /* UIApplication+PushNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D250031DAFB68600B45EC2 /* UIApplication+PushNotification.swift */; };
 		50D4C3221F8CBF39000E8069 /* SuggestiveSearch+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D4C3211F8CBF39000E8069 /* SuggestiveSearch+LG.swift */; };
@@ -2927,15 +2937,6 @@
 		507440DD1E3F97EB006976F7 /* LoginAppearance+Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "LoginAppearance+Helper.swift"; path = "v2/LoginAppearance+Helper.swift"; sourceTree = "<group>"; };
 		507532E11FEA47D400FCF9D5 /* UILabel+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Rx.swift"; sourceTree = "<group>"; };
 		507622861CD0EB1D004E5D0D /* AppCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
-		507E6B7E2148E9040077BC94 /* RewardsInviteFriendsNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsInviteFriendsNavigator.swift; sourceTree = "<group>"; };
-		507E6B812148E93E0077BC94 /* RewardsInviteFriendsStandardWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RewardsInviteFriendsStandardWireframe.swift; sourceTree = "<group>"; };
-		507E6B852148E9920077BC94 /* RewardsInviteFriendsBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RewardsInviteFriendsBuilder.swift; sourceTree = "<group>"; };
-		507E6B882148E9EE0077BC94 /* RewardsInviteFriendsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsInviteFriendsViewModel.swift; sourceTree = "<group>"; };
-		507E6B8B2148E9F90077BC94 /* RewardsInviteFriendsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsInviteFriendsViewController.swift; sourceTree = "<group>"; };
-		507E6B8E214907440077BC94 /* RewardsFAQViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsFAQViewController.swift; sourceTree = "<group>"; };
-		507E6B912149074E0077BC94 /* RewardsFAQViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsFAQViewModel.swift; sourceTree = "<group>"; };
-		507E6B95214908080077BC94 /* RewardsFAQNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsFAQNavigator.swift; sourceTree = "<group>"; };
-		507E6B98214908150077BC94 /* RewardsFAQStandardWireframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsFAQStandardWireframe.swift; sourceTree = "<group>"; };
 		507F1BFA1C89DDF9001F0A95 /* PostalAddress+String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PostalAddress+String.swift"; sourceTree = "<group>"; };
 		508010E61D4748120073F362 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		508010E71D4748120073F362 /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
@@ -2953,11 +2954,6 @@
 		50A8DC7F1BA06B92008296B0 /* ChatSafetyTipsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatSafetyTipsView.xib; sourceTree = "<group>"; };
 		50A8DC811BA06BB1008296B0 /* ChatSafetyTipsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatSafetyTipsView.swift; sourceTree = "<group>"; };
 		50AB5F211ED4447200E9909D /* UserRatingTag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRatingTag.swift; sourceTree = "<group>"; };
-		50B5ECAC2146A8DA00646702 /* RewardsStandardWireframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsStandardWireframe.swift; sourceTree = "<group>"; };
-		50B5ECAF2146A8DF00646702 /* RewardsNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsNavigator.swift; sourceTree = "<group>"; };
-		50B5ECB32146A97D00646702 /* RewardsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsBuilder.swift; sourceTree = "<group>"; };
-		50B5ECB72146ADA000646702 /* RewardsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsViewModel.swift; sourceTree = "<group>"; };
-		50B5ECBA2146ADAC00646702 /* RewardsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsViewController.swift; sourceTree = "<group>"; };
 		50BA5C041C3C093E00F34042 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		50BA5C051C3C093E00F34042 /* letgo-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "letgo-Bridging-Header.h"; sourceTree = "<group>"; };
 		50BA5C071C3C096D00F34042 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -3043,6 +3039,25 @@
 		50D08DA21E69AF14009CC260 /* SignUpViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewModelSpec.swift; sourceTree = "<group>"; };
 		50D08DA51E69AF14009CC260 /* MockChatWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockChatWrapper.swift; sourceTree = "<group>"; };
 		50D08DE91E69AF6F009CC260 /* letgoTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "letgoTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		50D153E8214A5BE600221B06 /* AffiliationFAQViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AffiliationFAQViewController.swift; sourceTree = "<group>"; };
+		50D153E9214A5BE600221B06 /* AffiliationFAQViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AffiliationFAQViewModel.swift; sourceTree = "<group>"; };
+		50D153EA214A5BE600221B06 /* AffiliationChallengesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AffiliationChallengesViewController.swift; sourceTree = "<group>"; };
+		50D153EB214A5BE600221B06 /* AffiliationChallengesViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AffiliationChallengesViewModel.swift; sourceTree = "<group>"; };
+		50D153EC214A5BE600221B06 /* AffiliationInviteFriendsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AffiliationInviteFriendsViewModel.swift; sourceTree = "<group>"; };
+		50D153ED214A5BE600221B06 /* AffiliationInviteFriendsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AffiliationInviteFriendsViewController.swift; sourceTree = "<group>"; };
+		50D153EE214A5BE600221B06 /* AffiliationInviteSMSContactsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AffiliationInviteSMSContactsViewController.swift; sourceTree = "<group>"; };
+		50D153EF214A5BE600221B06 /* AffiliationInviteSMSContactsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AffiliationInviteSMSContactsViewModel.swift; sourceTree = "<group>"; };
+		50D15401214A5BFE00221B06 /* AffiliationChallengesBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AffiliationChallengesBuilder.swift; sourceTree = "<group>"; };
+		50D15403214A5BFE00221B06 /* AffiliationInviteSMSContactsBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AffiliationInviteSMSContactsBuilder.swift; sourceTree = "<group>"; };
+		50D15405214A5BFE00221B06 /* AffiliationInviteFriendsBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AffiliationInviteFriendsBuilder.swift; sourceTree = "<group>"; };
+		50D1540D214A5C2200221B06 /* AffiliationFAQStandardWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AffiliationFAQStandardWireframe.swift; sourceTree = "<group>"; };
+		50D1540E214A5C2200221B06 /* AffiliationFAQNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AffiliationFAQNavigator.swift; sourceTree = "<group>"; };
+		50D15410214A5C2200221B06 /* AffiliationChallengesNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AffiliationChallengesNavigator.swift; sourceTree = "<group>"; };
+		50D15411214A5C2200221B06 /* AffiliationChallengesStandardWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AffiliationChallengesStandardWireframe.swift; sourceTree = "<group>"; };
+		50D15413214A5C2300221B06 /* AffiliationInviteFriendsStandardWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AffiliationInviteFriendsStandardWireframe.swift; sourceTree = "<group>"; };
+		50D15414214A5C2300221B06 /* AffiliationInviteFriendsNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AffiliationInviteFriendsNavigator.swift; sourceTree = "<group>"; };
+		50D15416214A5C2300221B06 /* AffiliationInviteSMSContactsStandardWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AffiliationInviteSMSContactsStandardWireframe.swift; sourceTree = "<group>"; };
+		50D15417214A5C2300221B06 /* AffiliationInviteSMSContactsNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AffiliationInviteSMSContactsNavigator.swift; sourceTree = "<group>"; };
 		50D250031DAFB68600B45EC2 /* UIApplication+PushNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+PushNotification.swift"; sourceTree = "<group>"; };
 		50D4C3211F8CBF39000E8069 /* SuggestiveSearch+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SuggestiveSearch+LG.swift"; sourceTree = "<group>"; };
 		50D67B991D182EE9003AC0A5 /* SellCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellCoordinator.swift; sourceTree = "<group>"; };
@@ -4327,9 +4342,10 @@
 		0AA031E32109D02D00728A1A /* Wireframes */ = {
 			isa = PBXGroup;
 			children = (
-				50B5ECAB2146A89B00646702 /* Rewards */,
-				507E6B94214907FD0077BC94 /* RewardsFAQ */,
-				507E6B7D2148E8EE0077BC94 /* RewardsInviteFriends */,
+				50D1540F214A5C2200221B06 /* AffiliationChallenges */,
+				50D1540C214A5C2200221B06 /* AffiliationFAQ */,
+				50D15412214A5C2300221B06 /* AffiliationInviteFriends */,
+				50D15415214A5C2300221B06 /* AffiliationInviteSMSContacts */,
 				A47C4A66213D5B32005AA387 /* Search */,
 				A47C4A5E213D31BB005AA387 /* TrendingSearches */,
 				A465722D213056C800B806C2 /* Feed */,
@@ -4369,8 +4385,9 @@
 		0AA03200210A293600728A1A /* Builder */ = {
 			isa = PBXGroup;
 			children = (
-				50B5ECB22146A96B00646702 /* Rewards */,
-				507E6B842148E9920077BC94 /* RewardsInviteFriends */,
+				50D15400214A5BFE00221B06 /* AffiliationChallenges */,
+				50D15404214A5BFE00221B06 /* AffiliationInviteFriends */,
+				50D15402214A5BFE00221B06 /* AffiliationInviteSMSContacts */,
 				0AF28D84213ECEBA005A6F8C /* ListingsMap */,
 				A47C4A62213D5574005AA387 /* Search */,
 				A47C4A5A213D304F005AA387 /* TrendingSearches */,
@@ -5253,7 +5270,7 @@
 		50560B871B25D18F0021D8D9 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				50B5ECB62146AD7C00646702 /* Rewards */,
+				50D153E7214A5BE600221B06 /* Affiliation */,
 				42CA899720973F5A00CE7B5B /* ListingsMap */,
 				3299E5E3207FB756002935AE /* NewFeedCollectionViewLayout */,
 				2E92CBF120248DC500451B65 /* MeetingAssistant */,
@@ -5425,33 +5442,6 @@
 			path = Coordinator;
 			sourceTree = "<group>";
 		};
-		507E6B7D2148E8EE0077BC94 /* RewardsInviteFriends */ = {
-			isa = PBXGroup;
-			children = (
-				507E6B7E2148E9040077BC94 /* RewardsInviteFriendsNavigator.swift */,
-				507E6B812148E93E0077BC94 /* RewardsInviteFriendsStandardWireframe.swift */,
-			);
-			name = RewardsInviteFriends;
-			path = Ambatana/src/Coordinator/Wireframes/RewardsInviteFriends;
-			sourceTree = SOURCE_ROOT;
-		};
-		507E6B842148E9920077BC94 /* RewardsInviteFriends */ = {
-			isa = PBXGroup;
-			children = (
-				507E6B852148E9920077BC94 /* RewardsInviteFriendsBuilder.swift */,
-			);
-			path = RewardsInviteFriends;
-			sourceTree = "<group>";
-		};
-		507E6B94214907FD0077BC94 /* RewardsFAQ */ = {
-			isa = PBXGroup;
-			children = (
-				507E6B95214908080077BC94 /* RewardsFAQNavigator.swift */,
-				507E6B98214908150077BC94 /* RewardsFAQStandardWireframe.swift */,
-			);
-			path = RewardsFAQ;
-			sourceTree = "<group>";
-		};
 		508011081D474ED80073F362 /* img */ = {
 			isa = PBXGroup;
 			children = (
@@ -5598,36 +5588,6 @@
 				50A8DC7F1BA06B92008296B0 /* ChatSafetyTipsView.xib */,
 			);
 			path = "Chat Safety Tips";
-			sourceTree = "<group>";
-		};
-		50B5ECAB2146A89B00646702 /* Rewards */ = {
-			isa = PBXGroup;
-			children = (
-				50B5ECAC2146A8DA00646702 /* RewardsStandardWireframe.swift */,
-				50B5ECAF2146A8DF00646702 /* RewardsNavigator.swift */,
-			);
-			path = Rewards;
-			sourceTree = "<group>";
-		};
-		50B5ECB22146A96B00646702 /* Rewards */ = {
-			isa = PBXGroup;
-			children = (
-				50B5ECB32146A97D00646702 /* RewardsBuilder.swift */,
-			);
-			path = Rewards;
-			sourceTree = "<group>";
-		};
-		50B5ECB62146AD7C00646702 /* Rewards */ = {
-			isa = PBXGroup;
-			children = (
-				507E6B8E214907440077BC94 /* RewardsFAQViewController.swift */,
-				507E6B912149074E0077BC94 /* RewardsFAQViewModel.swift */,
-				507E6B8B2148E9F90077BC94 /* RewardsInviteFriendsViewController.swift */,
-				507E6B882148E9EE0077BC94 /* RewardsInviteFriendsViewModel.swift */,
-				50B5ECBA2146ADAC00646702 /* RewardsViewController.swift */,
-				50B5ECB72146ADA000646702 /* RewardsViewModel.swift */,
-			);
-			path = Rewards;
 			sourceTree = "<group>";
 		};
 		50C2E1991E6FFA7A006639BB /* PostProductFooter */ = {
@@ -6035,6 +5995,81 @@
 				50D08DA51E69AF14009CC260 /* MockChatWrapper.swift */,
 			);
 			path = Wrappers;
+			sourceTree = "<group>";
+		};
+		50D153E7214A5BE600221B06 /* Affiliation */ = {
+			isa = PBXGroup;
+			children = (
+				50D153E8214A5BE600221B06 /* AffiliationFAQViewController.swift */,
+				50D153E9214A5BE600221B06 /* AffiliationFAQViewModel.swift */,
+				50D153EA214A5BE600221B06 /* AffiliationChallengesViewController.swift */,
+				50D153EB214A5BE600221B06 /* AffiliationChallengesViewModel.swift */,
+				50D153EC214A5BE600221B06 /* AffiliationInviteFriendsViewModel.swift */,
+				50D153ED214A5BE600221B06 /* AffiliationInviteFriendsViewController.swift */,
+				50D153EE214A5BE600221B06 /* AffiliationInviteSMSContactsViewController.swift */,
+				50D153EF214A5BE600221B06 /* AffiliationInviteSMSContactsViewModel.swift */,
+			);
+			path = Affiliation;
+			sourceTree = "<group>";
+		};
+		50D15400214A5BFE00221B06 /* AffiliationChallenges */ = {
+			isa = PBXGroup;
+			children = (
+				50D15401214A5BFE00221B06 /* AffiliationChallengesBuilder.swift */,
+			);
+			path = AffiliationChallenges;
+			sourceTree = "<group>";
+		};
+		50D15402214A5BFE00221B06 /* AffiliationInviteSMSContacts */ = {
+			isa = PBXGroup;
+			children = (
+				50D15403214A5BFE00221B06 /* AffiliationInviteSMSContactsBuilder.swift */,
+			);
+			path = AffiliationInviteSMSContacts;
+			sourceTree = "<group>";
+		};
+		50D15404214A5BFE00221B06 /* AffiliationInviteFriends */ = {
+			isa = PBXGroup;
+			children = (
+				50D15405214A5BFE00221B06 /* AffiliationInviteFriendsBuilder.swift */,
+			);
+			path = AffiliationInviteFriends;
+			sourceTree = "<group>";
+		};
+		50D1540C214A5C2200221B06 /* AffiliationFAQ */ = {
+			isa = PBXGroup;
+			children = (
+				50D1540D214A5C2200221B06 /* AffiliationFAQStandardWireframe.swift */,
+				50D1540E214A5C2200221B06 /* AffiliationFAQNavigator.swift */,
+			);
+			path = AffiliationFAQ;
+			sourceTree = "<group>";
+		};
+		50D1540F214A5C2200221B06 /* AffiliationChallenges */ = {
+			isa = PBXGroup;
+			children = (
+				50D15410214A5C2200221B06 /* AffiliationChallengesNavigator.swift */,
+				50D15411214A5C2200221B06 /* AffiliationChallengesStandardWireframe.swift */,
+			);
+			path = AffiliationChallenges;
+			sourceTree = "<group>";
+		};
+		50D15412214A5C2300221B06 /* AffiliationInviteFriends */ = {
+			isa = PBXGroup;
+			children = (
+				50D15413214A5C2300221B06 /* AffiliationInviteFriendsStandardWireframe.swift */,
+				50D15414214A5C2300221B06 /* AffiliationInviteFriendsNavigator.swift */,
+			);
+			path = AffiliationInviteFriends;
+			sourceTree = "<group>";
+		};
+		50D15415214A5C2300221B06 /* AffiliationInviteSMSContacts */ = {
+			isa = PBXGroup;
+			children = (
+				50D15416214A5C2300221B06 /* AffiliationInviteSMSContactsStandardWireframe.swift */,
+				50D15417214A5C2300221B06 /* AffiliationInviteSMSContactsNavigator.swift */,
+			);
+			path = AffiliationInviteSMSContacts;
 			sourceTree = "<group>";
 		};
 		50D2CACA1BB412D800EC5C30 /* Settings */ = {
@@ -8819,6 +8854,7 @@
 				2E4B43EA1E7810C00048214B /* PaymentEnqueuable.swift in Sources */,
 				50AB5F221ED4447200E9909D /* UserRatingTag.swift in Sources */,
 				724D77A41FC3251E00DB43C0 /* RealEstateAttributes+LG.swift in Sources */,
+				50D153F4214A5BE600221B06 /* AffiliationChallengesViewController.swift in Sources */,
 				8EEC7F5A206AA62800616858 /* AdvertisementMoPubCellDrawer.swift in Sources */,
 				6A5691531D255D27000B7365 /* ListingCellModel.swift in Sources */,
 				8E814F3C1F3472E800C88432 /* LGSliderViewModel.swift in Sources */,
@@ -8873,6 +8909,7 @@
 				6A38A9A62077610400F3B292 /* UserVerificationNavBarView.swift in Sources */,
 				8E0EEFC22057E785000C07C9 /* MLPredictionDetailsView.swift in Sources */,
 				0A6FED122130344000B57004 /* UserVerificationWireframe.swift in Sources */,
+				50D153FE214A5BE600221B06 /* AffiliationInviteSMSContactsViewModel.swift in Sources */,
 				7226F0FB1E962CA200B54D01 /* ChatRelatedItemsState.swift in Sources */,
 				3201487520FF6FAA003445DA /* PushMessageSectionController.swift in Sources */,
 				D4BFE5B61B640C36006A8CB6 /* MainListingsViewModel.swift in Sources */,
@@ -8899,6 +8936,7 @@
 				C70A426D1E9666C100B6EFD8 /* CollectionType+Find.swift in Sources */,
 				C7111F021CA438AC000C5C5A /* UniversalLink.swift in Sources */,
 				7285C95B1F83C75F00BD16E9 /* SellNavigationController.swift in Sources */,
+				50D153F6214A5BE600221B06 /* AffiliationChallengesViewModel.swift in Sources */,
 				425EE397211AFCFE0002DAB8 /* AspectRatio+CGSize.swift in Sources */,
 				C72794281D549334009C25AB /* SettingsCell.swift in Sources */,
 				0A3C143121232FBD00C836F7 /* PaymentFrequency+LG.swift in Sources */,
@@ -8942,7 +8980,6 @@
 				F5F2113920EE5EE000CD137A /* EnvironmentsHelper.swift in Sources */,
 				C708C83C1CDB590400AA87B3 /* AppRatingView.swift in Sources */,
 				0A82A1A02141A7CD005ECA58 /* RateUserViewModel.swift in Sources */,
-				507E6B922149074E0077BC94 /* RewardsFAQViewModel.swift in Sources */,
 				09D7BC7E20EB62950090E499 /* StripeManager.swift in Sources */,
 				C784FDFF1C21B45B00846AB7 /* LoadingIndicator.swift in Sources */,
 				2EF4E3AE1D3688AB00A09DFD /* LGConfigManager.swift in Sources */,
@@ -8970,6 +9007,7 @@
 				C727FBC31CCFC545002BC643 /* NotificationsViewModel.swift in Sources */,
 				42109E7B2112F65100AA979E /* Feed+LG.swift in Sources */,
 				326C72D520888280009D21DB /* UICollectionViewLayoutAttributes+Builder.swift in Sources */,
+				50D1540A214A5BFF00221B06 /* AffiliationInviteFriendsBuilder.swift in Sources */,
 				C6FFC4B120FCA84600B9F53A /* FilterCategoryItem.swift in Sources */,
 				0A6FECCA2130344000B57004 /* RateBuyersModalWireframe.swift in Sources */,
 				8E838214210F4D8000475568 /* ChatConnectionBarStatus.swift in Sources */,
@@ -8978,7 +9016,6 @@
 				5569D9A820848CA8004E5468 /* UserPhoneVerificationCodeInputTextField.swift in Sources */,
 				0A2F52C021232AC90034EF85 /* PromoteBumpBuilder.swift in Sources */,
 				0A6FED322130344000B57004 /* TourSkiperWireframe.swift in Sources */,
-				50B5ECB42146A97D00646702 /* RewardsBuilder.swift in Sources */,
 				C7126BD91E6053AA00038CC4 /* ListingViewModelStatus.swift in Sources */,
 				3212AE2B2119DFB100945110 /* LocationSelectionSectionController.swift in Sources */,
 				8E8017982010B8F2004CE244 /* ChatInactiveConversationsListViewModel.swift in Sources */,
@@ -9023,6 +9060,8 @@
 				C75B5DD51D59E0C500112368 /* ListingCarouselImageCell.swift in Sources */,
 				0A2D42C220E6473C001EA068 /* LPInterstitialView.swift in Sources */,
 				0A6FED102130344000B57004 /* QuickLocationFiltersNavigator.swift in Sources */,
+				50D153F8214A5BE600221B06 /* AffiliationInviteFriendsViewModel.swift in Sources */,
+				50D15426214A5C2300221B06 /* AffiliationInviteSMSContactsNavigator.swift in Sources */,
 				50146BC71D4F5F6D00B0F635 /* MainTabCoordinator.swift in Sources */,
 				50C9E4BB1B71FBD7001E4E92 /* TrackerEvent.swift in Sources */,
 				0A90350E1FCC18E800FDE795 /* PhotoViewerViewController.swift in Sources */,
@@ -9041,6 +9080,7 @@
 				3201487120FF6F38003445DA /* PushPermissionCollectionCell.swift in Sources */,
 				0AAC7952207F73960096F156 /* FeedViewController.swift in Sources */,
 				8EB6510A205ACBEF00FF50E4 /* MLTrackingInfo.swift in Sources */,
+				50D15406214A5BFF00221B06 /* AffiliationChallengesBuilder.swift in Sources */,
 				506846471CD390CA00FA00C2 /* AppNavigator.swift in Sources */,
 				55FABE1F20763460004B0DBD /* UserPhoneVerificationCountryPickerViewModel.swift in Sources */,
 				C79842011CC8E8C900C300FF /* User+LG.swift in Sources */,
@@ -9056,7 +9096,6 @@
 				0A0C0490209C8CD20028A75D /* SearchAlertFeedHeader.swift in Sources */,
 				01BDE97A2050B1820081B670 /* BlockingPostingHeaderStep.swift in Sources */,
 				720A8FA91F1F94E700DCBAD8 /* FilterTextFieldIntCell.swift in Sources */,
-				507E6B892148E9EE0077BC94 /* RewardsInviteFriendsViewModel.swift in Sources */,
 				72D928F01E83F0BD0030F4C3 /* PushPermissionsManager.swift in Sources */,
 				C6FFC4A120F7491000B9F53A /* SizeRange.swift in Sources */,
 				C7798EA21D2EB6AB00C81DD4 /* UICollectionView+Helper.swift in Sources */,
@@ -9075,6 +9114,7 @@
 				8E453479212DBBF80042CE71 /* ChatCarouselCellDrawer.swift in Sources */,
 				6A38ADE21C64C4EA009E1A31 /* TourLocationViewController.swift in Sources */,
 				0A05F386209B37C400F43A67 /* DeckMapView.swift in Sources */,
+				50D1541E214A5C2300221B06 /* AffiliationChallengesStandardWireframe.swift in Sources */,
 				C7239A181C11F92B006CB5A6 /* CAGradientLayer+Color.swift in Sources */,
 				50C63B731DC3A79100836D85 /* SocialSharer.swift in Sources */,
 				42F1DDFF20BD9C22002E2EE7 /* FilterServicesSection.swift in Sources */,
@@ -9082,10 +9122,12 @@
 				0A6FECDE2130344000B57004 /* EditListingNavigator.swift in Sources */,
 				C7B5887F1CE1DFA6009B3975 /* ChatCellDrawer.swift in Sources */,
 				0A0C0491209C91A30028A75D /* NotificationSettingsMainViewController.swift in Sources */,
+				50D15422214A5C2300221B06 /* AffiliationInviteFriendsNavigator.swift in Sources */,
 				507532E21FEA47D400FCF9D5 /* UILabel+Rx.swift in Sources */,
 				F59755FA20B5A89E00C5103F /* UIApplication+AnalyticsApplication.swift in Sources */,
 				8E7F4FDD2119A856004E70C5 /* ConversationCellData.swift in Sources */,
 				2E9716A31D5A0535009B3A32 /* ExpressChatCell.swift in Sources */,
+				50D15424214A5C2300221B06 /* AffiliationInviteSMSContactsStandardWireframe.swift in Sources */,
 				2EFF0D9C1E69732E00FBF3D5 /* Dictionary+Filter.swift in Sources */,
 				0A82A19E2141A7CD005ECA58 /* RateBuyersViewModel.swift in Sources */,
 				0ACA1952212EA889006489C0 /* TourLoginBuilder.swift in Sources */,
@@ -9147,11 +9189,11 @@
 				F5A836AD1FD1AEB1009E636D /* ListingAttributePickerViewModel.swift in Sources */,
 				0ACC843421357B6300803D66 /* TourNotificationPushWireframe.swift in Sources */,
 				72CD80CC203469FB0042E1E0 /* LGTutorialLayout.swift in Sources */,
-				50B5ECB02146A8DF00646702 /* RewardsNavigator.swift in Sources */,
 				2EBC92121E0ABC4A007F0F82 /* PurchaseableProduct.swift in Sources */,
 				013013EC211B5B6C00FFC309 /* NotificationCenterThumbnailCell.swift in Sources */,
 				D412E0861B4F179F00683FFD /* ListingListView.swift in Sources */,
 				0A04D5DD20760A9D00471B9D /* LegacyABGroup.swift in Sources */,
+				50D15408214A5BFF00221B06 /* AffiliationInviteSMSContactsBuilder.swift in Sources */,
 				C6977E892119F4E900B57E54 /* ServiceListingType+LG.swift in Sources */,
 				6AE143CD204413B000CFAE10 /* UserProfileBioAndTrustView.swift in Sources */,
 				3212AE3F211B00AD00945110 /* ListingRetrievalState.swift in Sources */,
@@ -9176,9 +9218,9 @@
 				0A6FECE02130344000B57004 /* EditListingStandardWireframe.swift in Sources */,
 				C7DCFEC21BFE3CFD00F7A4FB /* UITabBarController+Animations.swift in Sources */,
 				C6F3CEFB20FF69A800AF4D38 /* LGChevronView.swift in Sources */,
+				50D153FA214A5BE600221B06 /* AffiliationInviteFriendsViewController.swift in Sources */,
 				727463B51FB0AF1400AD8261 /* LGSearchMapViewModel.swift in Sources */,
 				C765EE7F1E84036400063750 /* SessionErrors+LG.swift in Sources */,
-				507E6B96214908080077BC94 /* RewardsFAQNavigator.swift in Sources */,
 				C7E73E8A1CD1F77E000F2591 /* NotificationData.swift in Sources */,
 				3212AE272119DD7C00945110 /* SelectedForYouSectionController.swift in Sources */,
 				0A4766CB1FC5BB2A005B176F /* ProductStatusView.swift in Sources */,
@@ -9194,7 +9236,6 @@
 				0A6FECF42130344000B57004 /* MeetingAssistantModalWireframe.swift in Sources */,
 				F51A08322031B55E0008D744 /* LGSize+CGSize.swift in Sources */,
 				72A83F641DD222100043EB3B /* Leanplum+LG.swift in Sources */,
-				50B5ECB82146ADA000646702 /* RewardsViewModel.swift in Sources */,
 				8E031CAC20331D2D00CA0ED9 /* ChatInterlocutorIsTypingCell.swift in Sources */,
 				8E1139E51EC9AD7100A9D772 /* FilterTitleHeaderView.swift in Sources */,
 				2EBC92051E0A77A5007F0F82 /* AppstoreProductsRequest.swift in Sources */,
@@ -9206,6 +9247,7 @@
 				C7126BD71E6053AA00038CC4 /* ListingViewModel.swift in Sources */,
 				2E4ADEC6200515FC00D07D8A /* FeaturedInfoViewModel.swift in Sources */,
 				0183496D204F6A8900B14A24 /* BlockingPostingListingEditionViewController.swift in Sources */,
+				50D15418214A5C2300221B06 /* AffiliationFAQStandardWireframe.swift in Sources */,
 				42B7029A20A595840031B9BD /* LGRibbonView.swift in Sources */,
 				2E42378B205BE2880077B62A /* ChatOtherMeetingCellDrawer.swift in Sources */,
 				0AFC21542063D35300C09B24 /* NSAttributedString+LG.swift in Sources */,
@@ -9272,8 +9314,8 @@
 				0A6FECD02130344000B57004 /* PromoteBumpNavigator.swift in Sources */,
 				C73832801E029CC2007D0C03 /* AccountProvider+LG.swift in Sources */,
 				0ADE58D21FC45F3100F3DB17 /* ListingCardDetailsViewBinder.swift in Sources */,
+				50D15420214A5C2300221B06 /* AffiliationInviteFriendsStandardWireframe.swift in Sources */,
 				0A561AE220C81FF00082D551 /* UICollectionView+ReusableCell.swift in Sources */,
-				507E6B822148E93E0077BC94 /* RewardsInviteFriendsStandardWireframe.swift in Sources */,
 				C21E6078208A89AF008A1956 /* VideoPreview.swift in Sources */,
 				C6977E8C21218B8300B57E54 /* ListingTitleViewModel.swift in Sources */,
 				2E28B12B1D9912B2001BF8E4 /* Double+Rounding.swift in Sources */,
@@ -9294,7 +9336,6 @@
 				C6FFC49320F7478D00B9F53A /* VerticalFilters.swift in Sources */,
 				C74016DF1D6468A7004C1E9D /* PostListingBasicDetailViewModel.swift in Sources */,
 				8E50205B212DA415008696B9 /* ChatCarouselCollectionCell.swift in Sources */,
-				50B5ECBB2146ADAC00646702 /* RewardsViewController.swift in Sources */,
 				4287173D20655B0600EE334C /* LGNavBarMetrics.swift in Sources */,
 				0A90350A1FCC18E800FDE795 /* PhotoViewerTransitionAnimator.swift in Sources */,
 				C7F3F1E11DE5A95F00652447 /* ChatRelatedListingsView.swift in Sources */,
@@ -9313,10 +9354,11 @@
 				C6C8937020C7D4B80069197C /* CardView.swift in Sources */,
 				320162E42110A13E00B7819D /* DiffUtility.swift in Sources */,
 				2EB32D631DF184FF00E01E93 /* BumpUpBanner.swift in Sources */,
+				50D1541A214A5C2300221B06 /* AffiliationFAQNavigator.swift in Sources */,
 				A41196162122E65000EBB210 /* RecaptchaBuilder.swift in Sources */,
+				50D153F0214A5BE600221B06 /* AffiliationFAQViewController.swift in Sources */,
 				3294763A2136B1EA008EE737 /* Feed+Tracking.swift in Sources */,
 				0A82A19C2141A7CD005ECA58 /* UserRatingTagCell.swift in Sources */,
-				507E6B862148E9920077BC94 /* RewardsInviteFriendsBuilder.swift in Sources */,
 				0A6FED1A2130344000B57004 /* RateUserModalWireframe.swift in Sources */,
 				C7239A1A1C158139006CB5A6 /* Listing+Negotiable.swift in Sources */,
 				C73C163B1D06C1B500DFC67D /* SuggestionSearchCell.swift in Sources */,
@@ -9393,6 +9435,7 @@
 				4273565420A308A300C71D49 /* LGMapDetailView.swift in Sources */,
 				C2E7F42020DB90BC0092A1F9 /* Locale+LG.swift in Sources */,
 				0ACA8F452114951300243850 /* LGFiltersBuilder.swift in Sources */,
+				50D153FC214A5BE600221B06 /* AffiliationInviteSMSContactsViewController.swift in Sources */,
 				C627573520A3439C00B401E7 /* OrderConditionable.swift in Sources */,
 				42E74962212FFC3400297F75 /* SectionControllerFactory.swift in Sources */,
 				2EED4D251D23F03E0024328A /* ChatListing+title.swift in Sources */,
@@ -9427,7 +9470,6 @@
 				01A171C0208DD1B900C98D4C /* SearchAlertsListViewModel.swift in Sources */,
 				50146BD31D4F5FC700B0F635 /* ProfileTabCoordinator.swift in Sources */,
 				2E52956B211353240043AF95 /* AdsImpressionHelper.swift in Sources */,
-				50B5ECAD2146A8DA00646702 /* RewardsStandardWireframe.swift in Sources */,
 				425EE38D211AEE070002DAB8 /* FeedSection+Mapping.swift in Sources */,
 				425EE390211AEE560002DAB8 /* FeedListing+Mapping.swift in Sources */,
 				2E1711F0212708F7001F92AA /* HTMLBoldParser.swift in Sources */,
@@ -9477,7 +9519,6 @@
 				6A6C756B207B7F0000845A88 /* UserVerificationEmailViewController.swift in Sources */,
 				C6687F3A20C83A2C008C1922 /* MultiListingPostedIncentivisorCell.swift in Sources */,
 				A46057F1212AD33F00386DFC /* VerifyAccountsViewController.swift in Sources */,
-				507E6B7F2148E9040077BC94 /* RewardsInviteFriendsNavigator.swift in Sources */,
 				0A6FECC42130344000B57004 /* MainListingWireframe.swift in Sources */,
 				42566BF220ED217800120431 /* TooltipConfiguration.swift in Sources */,
 				502191101B2F1DC100ABD31F /* RememberPasswordViewModel.swift in Sources */,
@@ -9493,6 +9534,7 @@
 				329ACF4F20EA8A9900A1C6A4 /* EmbeddedCollectionViewCell.swift in Sources */,
 				5011939520C7FE7C00FA7C20 /* AnalyticsSessionDAO.swift in Sources */,
 				0A6FED0C2130344000B57004 /* RecaptchaPasswordWireframe.swift in Sources */,
+				50D1541C214A5C2300221B06 /* AffiliationChallengesNavigator.swift in Sources */,
 				50C2E19B1E6FFACE006639BB /* PostListingRedCamButtonFooter.swift in Sources */,
 				42D63A9A212ABEA600F45FD6 /* AdsPaginationHelper.swift in Sources */,
 				32BF6808210F07C800360860 /* FeedDetailView.swift in Sources */,
@@ -9508,7 +9550,6 @@
 				72E8A5861EB2FF15000524E6 /* CategoriesHeaderCollectionView.swift in Sources */,
 				6AF75D071CF449AF00EACCF0 /* ChatViewMessage.swift in Sources */,
 				C77593DE1BF0B8A00097D62F /* FiltersViewController.swift in Sources */,
-				507E6B99214908150077BC94 /* RewardsFAQStandardWireframe.swift in Sources */,
 				0A6FECEE2130344000B57004 /* ChatDetailWireframe.swift in Sources */,
 				0A6FED282130344000B57004 /* ExpressChatWireframe.swift in Sources */,
 				0A90350C1FCC18E800FDE795 /* PhotoViewerView.swift in Sources */,
@@ -9546,7 +9587,6 @@
 				C7BAC9CD1E49E81E005BD0AF /* Listing+LG.swift in Sources */,
 				0A6FED2A2130344000B57004 /* TourLoginWireframe.swift in Sources */,
 				C7DE8ACB1C888761005CF37E /* EditListingViewModel.swift in Sources */,
-				507E6B8C2148E9F90077BC94 /* RewardsInviteFriendsViewController.swift in Sources */,
 				0AEB4FF22018C25F003365DE /* ListingDeckOnBoardingBinder.swift in Sources */,
 				C21E6074208A8828008A1956 /* RecordedVideo.swift in Sources */,
 				0AE6F4FE20F8DE2A00D58BCE /* SearchNavigator.swift in Sources */,
@@ -9599,7 +9639,6 @@
 				0A2D69E01FC6BA6900F072A1 /* ListingCardDetailMapView.swift in Sources */,
 				0A25E8122019C87900E6A72E /* OnBoardingAnimator.swift in Sources */,
 				32448E862105CB7100EFF33A /* FeedViewControllerProtocols.swift in Sources */,
-				507E6B8F214907440077BC94 /* RewardsFAQViewController.swift in Sources */,
 				C66105E02130165300BA4EF7 /* RealEstatePromoCellConfiguration.swift in Sources */,
 				C7B89CB91C20271E00536A6C /* SocialShareView.swift in Sources */,
 				01772B5F204F0F340037FD5F /* BlockingPostingStepHeaderView.swift in Sources */,
@@ -9652,6 +9691,7 @@
 				2E6B6E3D1D2BC0A500C10A20 /* PostIncentiviserItem.swift in Sources */,
 				013489F820D3FEF900E543C2 /* NotificationSettingCellType.swift in Sources */,
 				2E4B359C1CC90A9500B8CB64 /* RelatedListingListRequester.swift in Sources */,
+				50D153F2214A5BE600221B06 /* AffiliationFAQViewModel.swift in Sources */,
 				0A6FECFE2130344000B57004 /* SimpleListingsWireframe.swift in Sources */,
 				3294762C2133F750008EE737 /* InterestedStateTrackingInfo.swift in Sources */,
 				C742340C1D5A132D0082D1CD /* UITableView+Changes.swift in Sources */,
@@ -9862,6 +9902,7 @@
 				72EB70601E65C63900BF709B /* ModularNotificationCell.swift in Sources */,
 				0A82A1A92141A7CD005ECA58 /* PossibleBuyerCell.swift in Sources */,
 				C7DE8ADD1C88A8E5005CF37E /* PostListingViewModel.swift in Sources */,
+				50D153F3214A5BE600221B06 /* AffiliationFAQViewModel.swift in Sources */,
 				C7DB41A41C5138B500400945 /* MainListingsViewController.swift in Sources */,
 				3212AE202119D65200945110 /* ProductListingSectionController.swift in Sources */,
 				50146BC31D4F5F5B00B0F635 /* TabCoordinator.swift in Sources */,
@@ -9967,13 +10008,11 @@
 				2E2D53DE1D369AF800348D12 /* LGConfigManager.swift in Sources */,
 				6A5E19E11D548F5400F92692 /* FBSDKSharing+LG.swift in Sources */,
 				C7415EE31DEDDB460003D6C1 /* KeyboardViewController.swift in Sources */,
-				50B5ECB52146A97D00646702 /* RewardsBuilder.swift in Sources */,
 				0A93E2031FCE9A1600955A3A /* PhotoViewerViewControllerBinder.swift in Sources */,
 				C727943B1D549342009C25AB /* ChangePasswordViewModel.swift in Sources */,
 				C7DB41BF1C5138B500400945 /* LoadingIndicator.swift in Sources */,
 				2E200D2120BEEB630054F053 /* ChatConnectionStatusView.swift in Sources */,
 				C6FFC49D20F748C500B9F53A /* RealEstateFilters.swift in Sources */,
-				507E6B932149074E0077BC94 /* RewardsFAQViewModel.swift in Sources */,
 				0AB6E1D71F9DD4440048AFFD /* ListingDeckViewController.swift in Sources */,
 				42109E7C2112F65100AA979E /* Feed+LG.swift in Sources */,
 				6A5E19FB1D548F5400F92692 /* KeyboardHelper.swift in Sources */,
@@ -9996,7 +10035,6 @@
 				6AFA1720213408B500F16795 /* UserAvatarViewController.swift in Sources */,
 				C727944A1D54944E009C25AB /* SettingsViewModel.swift in Sources */,
 				326C72D7208882EB009D21DB /* WaterFallLayoutDelegates.swift in Sources */,
-				507E6B9A214908150077BC94 /* RewardsFAQStandardWireframe.swift in Sources */,
 				2E75EC541FA89F5B00C5F48F /* AdsRequester.swift in Sources */,
 				0183496B204F573100B14A24 /* ListingEditionParams+LG.swift in Sources */,
 				6A5E1A171D548F5400F92692 /* UITextField+LG.swift in Sources */,
@@ -10044,7 +10082,6 @@
 				0A90350F1FCC18E800FDE795 /* PhotoViewerViewController.swift in Sources */,
 				72FE02DA1F97A155005BD672 /* ListingCreationParams+LG.swift in Sources */,
 				C2DC548520A3343E0052EB12 /* AppEventsManager.swift in Sources */,
-				507E6B97214908080077BC94 /* RewardsFAQNavigator.swift in Sources */,
 				32448E702100E64F00EFF33A /* ListingTimeFilter.swift in Sources */,
 				8E0EEF8A204EF827000C07C9 /* LGVision.swift in Sources */,
 				3201487220FF6F38003445DA /* PushPermissionCollectionCell.swift in Sources */,
@@ -10080,7 +10117,7 @@
 				8EEC7F5F206AA63000616858 /* MoPubNativeView.swift in Sources */,
 				0AE6F4FC20F8CE7A00D58BCE /* UIViewController+Childs.swift in Sources */,
 				8E56D74620A2F0A300097B61 /* ChatConversationsListView.swift in Sources */,
-				507E6B832148E93E0077BC94 /* RewardsInviteFriendsStandardWireframe.swift in Sources */,
+				50D153FD214A5BE600221B06 /* AffiliationInviteSMSContactsViewController.swift in Sources */,
 				2EE47D2A20177653004B04EE /* ChatAskPhoneNumberCell.swift in Sources */,
 				01BDE97B2050B1820081B670 /* BlockingPostingHeaderStep.swift in Sources */,
 				720A8FAA1F1F94E700DCBAD8 /* FilterTextFieldIntCell.swift in Sources */,
@@ -10107,6 +10144,7 @@
 				C6977E832119E9AF00B57E54 /* PostingServicesListingTypeSelectionView.swift in Sources */,
 				4245B6F02084D47A00EF8162 /* UserType+LG.swift in Sources */,
 				6A38ADE31C64C4EA009E1A31 /* TourLocationViewController.swift in Sources */,
+				50D1541B214A5C2300221B06 /* AffiliationFAQNavigator.swift in Sources */,
 				8EF1CDB02010F11F00D324F6 /* ChatInactiveConversationDetailsViewModel.swift in Sources */,
 				A47C4A65213D558B005AA387 /* SearchBuilder.swift in Sources */,
 				C6A5CC5B20E2465000610A3A /* ListingAttributeGridItem.swift in Sources */,
@@ -10119,6 +10157,7 @@
 				0A890A8D212063900091ED75 /* EditListingBuilder.swift in Sources */,
 				2E92CC0520248E2800451B65 /* SuggestedLocationCell.swift in Sources */,
 				0A0CCB1D208E678E00DCFFCA /* ListingDeckVideoCell.swift in Sources */,
+				50D153FB214A5BE600221B06 /* AffiliationInviteFriendsViewController.swift in Sources */,
 				42D63A9B212ABEA600F45FD6 /* AdsPaginationHelper.swift in Sources */,
 				55FABE1A20762E63004B0DBD /* UserPhoneVerificationCodeInputViewModel.swift in Sources */,
 				6A5E1A131D548F5400F92692 /* UINavigationController+LG.swift in Sources */,
@@ -10139,7 +10178,6 @@
 				0AE6F4EF20F88D7800D58BCE /* TrendingSearchesViewController.swift in Sources */,
 				C7DB41E51C5138B500400945 /* FilterTagsView.swift in Sources */,
 				0A04D5D020760A9D00471B9D /* ABDynamicVar.swift in Sources */,
-				50B5ECB12146A8DF00646702 /* RewardsNavigator.swift in Sources */,
 				725BD5572077C37E00563926 /* VerticalsABGroup.swift in Sources */,
 				8EBE07861FD59F3F009EBC1A /* Data+Extensions.swift in Sources */,
 				C7DB41E71C5138B500400945 /* AmplitudeTracker.swift in Sources */,
@@ -10148,6 +10186,7 @@
 				50FEFA1F20469AD6003C51B0 /* ChatBubbleCellType.swift in Sources */,
 				3212ADF72119A1C600945110 /* WaterfallLayoutItemRenderPolicy.swift in Sources */,
 				2ECB416E20065FB200482EF7 /* BumpUpFreeViewModel.swift in Sources */,
+				50D1541F214A5C2300221B06 /* AffiliationChallengesStandardWireframe.swift in Sources */,
 				6A4E80621C77620900C6423E /* LetgoAvatar.swift in Sources */,
 				55DFCDDA2073790D00AC5E09 /* UserPhoneVerificationNumberInputViewController.swift in Sources */,
 				72854D1E1F8E252600E54530 /* RealEstatePropertyType+LG.swift in Sources */,
@@ -10155,6 +10194,7 @@
 				0144483A2110BEF900A459F9 /* NotificationCenterHeader.swift in Sources */,
 				F56651F2203C886C00B43DD7 /* DiscardedReason+LG.swift in Sources */,
 				C7DB41EB1C5138B500400945 /* SignUpViewModel.swift in Sources */,
+				50D15421214A5C2300221B06 /* AffiliationInviteFriendsStandardWireframe.swift in Sources */,
 				42E17F8820FCAC8300E565C2 /* MKMapView+Shared.swift in Sources */,
 				C6687F3720C820BF008C1922 /* MultiListingPostedCongratsCell.swift in Sources */,
 				0AC489471F9DE41A00CD6C53 /* ListingDeckCollectionViewLayout.swift in Sources */,
@@ -10172,6 +10212,7 @@
 				72854D241F8E287600E54530 /* NumberOfBedrooms.swift in Sources */,
 				72CD80CD203469FB0042E1E0 /* LGTutorialLayout.swift in Sources */,
 				2EBC92161E0ABC73007F0F82 /* PurchaseableProductsResponse.swift in Sources */,
+				50D1540B214A5BFF00221B06 /* AffiliationInviteFriendsBuilder.swift in Sources */,
 				55769A632109C19600E66696 /* CommunityTabNavigator.swift in Sources */,
 				6AE143CE204413B000CFAE10 /* UserProfileBioAndTrustView.swift in Sources */,
 				C7DB41EF1C5138B500400945 /* ListingListView.swift in Sources */,
@@ -10180,13 +10221,13 @@
 				3237C6A9210A071100B7359B /* FeedListingData.swift in Sources */,
 				C7E73E8E1CD20A49000F2591 /* ViewState.swift in Sources */,
 				421CB34C207BBE5E006BF8A4 /* Collection+Safe.swift in Sources */,
+				50D153F1214A5BE600221B06 /* AffiliationFAQViewController.swift in Sources */,
 				F520D23520F8BA44006D55B1 /* SettingsTableViewHeader.swift in Sources */,
 				0A6FECB72130344000B57004 /* LoginModalWireframe.swift in Sources */,
 				329ACF5320EA8D4E00A1C6A4 /* EmbeddedListingSectionController.swift in Sources */,
 				C6977E922121B17200B57E54 /* OverlayDisplayStyle.swift in Sources */,
 				C6C8936E20C6E8B70069197C /* MultiListingPostedListingCell.swift in Sources */,
 				C7DB41F31C5138B500400945 /* BaseCellDrawer.swift in Sources */,
-				50B5ECB92146ADA000646702 /* RewardsViewModel.swift in Sources */,
 				0A6FED252130344000B57004 /* ChangePasswordNavigator.swift in Sources */,
 				C7111F001CA4389C000C5C5A /* PushNotification.swift in Sources */,
 				C6F3CEFC20FF69A800AF4D38 /* LGChevronView.swift in Sources */,
@@ -10280,13 +10321,14 @@
 				3212ADF92119A1C600945110 /* LGWaterFallSettings.swift in Sources */,
 				C75B5DD21D59E0C500112368 /* ListingCarouselCell.swift in Sources */,
 				2E4EBFC11EADF628005FE040 /* CarAttributeSelectionViewModel.swift in Sources */,
+				50D15423214A5C2300221B06 /* AffiliationInviteFriendsNavigator.swift in Sources */,
 				0A04D5D820760A9D00471B9D /* RetentionABGroup.swift in Sources */,
 				C7DB42001C5138B500400945 /* ReusableCell.swift in Sources */,
 				72CD80D3203469FB0042E1E0 /* LGTutorialView.swift in Sources */,
 				42CA89A020975BF400CE7B5B /* ListingsMapViewModel.swift in Sources */,
 				C674D31B20ED1AA40027E3AE /* ListingCarouselMoreInfoViewAttributeGridView.swift in Sources */,
+				50D15407214A5BFF00221B06 /* AffiliationChallengesBuilder.swift in Sources */,
 				2E28B12C1D99132D001BF8E4 /* Double+Rounding.swift in Sources */,
-				50B5ECBC2146ADAC00646702 /* RewardsViewController.swift in Sources */,
 				0A760FEF1FA08EFD0055F2B6 /* ListingDeckActionsView.swift in Sources */,
 				01A0480B200CEF53008725A1 /* DailyCountIncrementer.swift in Sources */,
 				8EB650F32059279400FF50E4 /* MLPredictionDetailsViewCell.swift in Sources */,
@@ -10297,7 +10339,6 @@
 				F5DC45252088889100D1EC17 /* KenBurnsView.swift in Sources */,
 				0AF28D87213ECEC2005A6F8C /* ListingsMapBuilder.swift in Sources */,
 				0A6FED0B2130344000B57004 /* ChatInactiveDetailWireframe.swift in Sources */,
-				507E6B8A2148E9EE0077BC94 /* RewardsInviteFriendsViewModel.swift in Sources */,
 				C650DEA320C595A500D47C4A /* MultiListingPostedViewModel.swift in Sources */,
 				01772B60204F0F340037FD5F /* BlockingPostingStepHeaderView.swift in Sources */,
 				2E151D7420A49BB20038D7C7 /* ChatBlockedUsersViewController.swift in Sources */,
@@ -10315,6 +10356,7 @@
 				C78F9DBA1DC9EE8500884064 /* LocalUser.swift in Sources */,
 				50C59BD51CE0DB4400377124 /* KeyValueStorageable.swift in Sources */,
 				2EE4A3C2212D48BF00380467 /* NotificationsTableViewController.swift in Sources */,
+				50D15427214A5C2300221B06 /* AffiliationInviteSMSContactsNavigator.swift in Sources */,
 				2EADE4E320514BDB0089D9F8 /* PostingCategoriesPickViewModel.swift in Sources */,
 				C73832811E029CC2007D0C03 /* AccountProvider+LG.swift in Sources */,
 				0A6FECDF2130344000B57004 /* EditListingNavigator.swift in Sources */,
@@ -10354,14 +10396,13 @@
 				2E131C6C1DEDE998004D26DC /* LGPurchasesShopper.swift in Sources */,
 				502047161EE1BB22006C0EC2 /* MarkAsSoldTrackingInfo.swift in Sources */,
 				C7C61DF61D63035400F9505D /* ListingCarouselMoreInfoView.swift in Sources */,
-				507E6B872148E9920077BC94 /* RewardsInviteFriendsBuilder.swift in Sources */,
 				6A3F3B9C20AD81A100E2881F /* LetgoTooltip.swift in Sources */,
 				42F0688F20FF8D78009AC898 /* ServiceType+LG.swift in Sources */,
 				6A38A9992076304A00F3B292 /* UserProfileKarmaScoreView.swift in Sources */,
+				50D153F9214A5BE600221B06 /* AffiliationInviteFriendsViewModel.swift in Sources */,
 				C7DB42091C5138B500400945 /* ChatSafetyTipsView.swift in Sources */,
 				5011938720C5173200FA7C20 /* AnalyticsSessionManager.swift in Sources */,
 				7224D7E91F581EE7004E3B49 /* ExpandableCategorySelectionView.swift in Sources */,
-				507E6B90214907440077BC94 /* RewardsFAQViewController.swift in Sources */,
 				2E5350421CF8A0C6003B06CC /* ListingStatsView.swift in Sources */,
 				509DE77E2137C21E00368A41 /* InterestedStateUpdater.swift in Sources */,
 				2E0F26591E0C425900D97898 /* BumpUpBanner.swift in Sources */,
@@ -10373,6 +10414,7 @@
 				0A63DFC11FB0A9D000C065F2 /* ListingCardDetailsView.swift in Sources */,
 				0114DBF620CEA2D200C6DD0B /* NotificationSettingsAccessorListViewModel.swift in Sources */,
 				C7DB420A1C5138B500400945 /* FilterDistanceCell.swift in Sources */,
+				50D153F7214A5BE600221B06 /* AffiliationChallengesViewModel.swift in Sources */,
 				0AEB4FF72018C795003365DE /* ListingDeckOnBoardingViewModel.swift in Sources */,
 				01A824AB203B328D00DF5007 /* BlockingPostingAddPriceViewModel.swift in Sources */,
 				C730FD121E77FC5A00175C27 /* BooleanDAO.swift in Sources */,
@@ -10401,7 +10443,6 @@
 				0A759E981FB473AC0030FDE0 /* ListingCardViewModel.swift in Sources */,
 				0AF5EB6D1FD060B2001DFAE2 /* QuickChatView.swift in Sources */,
 				0A6FED112130344000B57004 /* QuickLocationFiltersNavigator.swift in Sources */,
-				507E6B8D2148E9F90077BC94 /* RewardsInviteFriendsViewController.swift in Sources */,
 				4273565520A308A300C71D49 /* LGMapDetailView.swift in Sources */,
 				0ACA8F46211495FF00243850 /* LGFiltersBuilder.swift in Sources */,
 				32F900C120EBC48E00D30411 /* ListingSectionModel.swift in Sources */,
@@ -10422,7 +10463,6 @@
 				F57D3A311FED01A6006F2CA4 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
 				326C72E3208A2935009D21DB /* FeedViewModelType.swift in Sources */,
 				0A6FED1B2130344000B57004 /* RateUserModalWireframe.swift in Sources */,
-				50B5ECAE2146A8DA00646702 /* RewardsStandardWireframe.swift in Sources */,
 				0A6FECFF2130344000B57004 /* SimpleListingsWireframe.swift in Sources */,
 				C7B5887E1CE1DFA6009B3975 /* BaseChatCellDrawer.swift in Sources */,
 				0A73F1FD209216070016CC72 /* LGTimer.swift in Sources */,
@@ -10486,6 +10526,7 @@
 				328E8E3620C046A700BBF639 /* SuggestiveSearchInfo.swift in Sources */,
 				6A6C756C207B7F0000845A88 /* UserVerificationEmailViewController.swift in Sources */,
 				0A890AC42120A8D40091ED75 /* RateUserBuilder.swift in Sources */,
+				50D15425214A5C2300221B06 /* AffiliationInviteSMSContactsStandardWireframe.swift in Sources */,
 				C6687F3B20C83A2C008C1922 /* MultiListingPostedIncentivisorCell.swift in Sources */,
 				2E9716AF1D5B2C59009B3A32 /* ChatWrapper.swift in Sources */,
 				C75018491D10681B007D4CE4 /* ChatOtherInfoCell.swift in Sources */,
@@ -10551,6 +10592,7 @@
 				727463B31FB0AEAB00AD8261 /* LGSearchMap.swift in Sources */,
 				C77B7DBB1DBF9D150043C624 /* PushPermissionsHeader.swift in Sources */,
 				6A12E0501C635FF900C1BFE3 /* TourLoginViewModel.swift in Sources */,
+				50D1541D214A5C2300221B06 /* AffiliationChallengesNavigator.swift in Sources */,
 				0183BB22203C8BEE00204383 /* PostingGetStartedViewController.swift in Sources */,
 				6A6C756F207B83B500845A88 /* UserVerificationEmailViewModel.swift in Sources */,
 				2E47610C1EF0343B003F15F2 /* ListingDetailOnboardingViewModel.swift in Sources */,
@@ -10565,7 +10607,9 @@
 				2E1BC4001E6492230063D1A7 /* ReceiptURLProvider.swift in Sources */,
 				320843B920A1FDF7009A1DC5 /* DiscoveryABGroup.swift in Sources */,
 				C66105E821304AE000BA4EF7 /* ServicesPromoCellConfiguration.swift in Sources */,
+				50D15419214A5C2300221B06 /* AffiliationFAQStandardWireframe.swift in Sources */,
 				C77B7DB31DBE3C290043C624 /* ListHeaderContainer.swift in Sources */,
+				50D15409214A5BFF00221B06 /* AffiliationInviteSMSContactsBuilder.swift in Sources */,
 				C7DE8ACC1C888761005CF37E /* EditListingViewModel.swift in Sources */,
 				42713C68207629A10077F88A /* PromoCell.swift in Sources */,
 				2E151D7120A49B8A0038D7C7 /* ChatBlockedUsersViewModel.swift in Sources */,
@@ -10575,6 +10619,7 @@
 				C72794411D549342009C25AB /* ChangeUsernameViewModel.swift in Sources */,
 				C611B06B20C92A0700D7DD89 /* MultiListingPostedStatus.swift in Sources */,
 				0183BB19203C71D400204383 /* ListingPostedDescriptiveViewModel.swift in Sources */,
+				50D153FF214A5BE600221B06 /* AffiliationInviteSMSContactsViewModel.swift in Sources */,
 				0A6FED0F2130344000B57004 /* QuickLocationFiltersModalWireframe.swift in Sources */,
 				0AB4F827214677CB009151E6 /* UserDefailts+LG.swift in Sources */,
 				326C730B20908148009D21DB /* CategoriesFeedCell.swift in Sources */,
@@ -10605,7 +10650,6 @@
 				2E75EC501FA86F6E00C5F48F /* AdBannerTrackingStatus.swift in Sources */,
 				2E92CC0220248E2800451B65 /* MeetingAssistantViewController.swift in Sources */,
 				0AE6F4F920F8CC7700D58BCE /* SearchViewModel.swift in Sources */,
-				507E6B802148E9040077BC94 /* RewardsInviteFriendsNavigator.swift in Sources */,
 				50146BD11D4F5F9F00B0F635 /* ChatsTabCoordinator.swift in Sources */,
 				C7DB42251C5138B500400945 /* SocialShareView.swift in Sources */,
 				015E4FDF204FFC090094FF20 /* BlockingPostingLoadingView.swift in Sources */,
@@ -10645,6 +10689,7 @@
 				2E28B12D1D991330001BF8E4 /* CGFloat+rounding.swift in Sources */,
 				01D432022080FBD600061F0C /* NotificationSettingsMainViewController.swift in Sources */,
 				72FE02E31F9E1DF7005BD672 /* PostingAddDetailSummaryTableView.swift in Sources */,
+				50D153F5214A5BE600221B06 /* AffiliationChallengesViewController.swift in Sources */,
 				2EE47D3220178835004B04EE /* PhoneCallsHelper.swift in Sources */,
 				8E26E95D1ED5B5B90086D3EC /* FilterDistanceSlider.swift in Sources */,
 				013489F920D3FEF900E543C2 /* NotificationSettingCellType.swift in Sources */,
