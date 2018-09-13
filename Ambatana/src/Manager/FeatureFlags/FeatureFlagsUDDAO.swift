@@ -17,8 +17,6 @@ final class FeatureFlagsUDDAO: FeatureFlagsDAO {
         case community = "community"
         case advancedReputationSystem11 = "advancedReputationSystem11"
         case mutePushNotifications = "mutePushNotifications"
-        case mutePushNotificationsStartHour = "mutePushNotificationsStartHour"
-        case mutePushNotificationsEndHour = "mutePushNotificationsEndHour"
     }
 
     fileprivate var dictionary: [String: Any]
@@ -67,23 +65,20 @@ final class FeatureFlagsUDDAO: FeatureFlagsDAO {
         save(key: .advancedReputationSystem11, value: advancedReputationSystem11.rawValue)
     }
     
-    func retrieveMutePushNotifications() -> (MutePushNotifications, hourStart: Int, hourEnd: Int)? {
-        guard
-            let rawValue: String = retrieve(key: .mutePushNotifications),
-            let start: Int = retrieve(key: .mutePushNotificationsStartHour),
-            let end: Int = retrieve(key: .mutePushNotificationsEndHour),
-            let mutePushNotifications = MutePushNotifications(rawValue: rawValue)
-            else {
-                return nil
-        }
-        return (mutePushNotifications, hourStart: start, hourEnd: end)
+    func retrieveMutePushNotifications() -> MutePushNotificationFeatureFlagHelper? {
+        guard let data: Data = retrieve(key: .mutePushNotifications) else { return nil }
+        return try? JSONDecoder().decode(MutePushNotificationFeatureFlagHelper.self, from: data)
     }
 
     func save(mutePushNotifications: MutePushNotifications, hourStart: Int, hourEnd: Int) {
-        save(key: .mutePushNotifications, value: mutePushNotifications.rawValue)
-        save(key: .mutePushNotificationsStartHour, value: hourStart)
-        save(key: .mutePushNotificationsEndHour, value: hourEnd)
-        sync()
+        let featureFlagHelper = MutePushNotificationFeatureFlagHelper(
+            mutePushNotifications: mutePushNotifications,
+            start: hourStart,
+            end: hourEnd)
+        if let encodedData = try? JSONEncoder().encode(featureFlagHelper) {
+            save(key: .mutePushNotifications, value: encodedData)
+            sync()
+        }
     }
 }
 
@@ -105,5 +100,29 @@ fileprivate extension FeatureFlagsUDDAO {
 
     func sync() {
         userDefaults.setValue(dictionary, forKey: FeatureFlagsUDDAO.userDefaultsKey)
+    }
+}
+
+extension MutePushNotificationFeatureFlagHelper {
+
+    init(mutePushNotifications: MutePushNotifications, start: Int, end: Int) {
+        self.variable = mutePushNotifications.position
+        self.startHour = start
+        self.endHour = end
+    }
+
+    func toMutePushNotifications() -> MutePushNotifications? {
+        return MutePushNotifications.fromPosition(self.variable)
+    }
+}
+
+extension MutePushNotifications {
+    
+    var position: Int {
+        switch self {
+        case .control: return 0
+        case .baseline: return 1
+        case .active: return 2
+        }
     }
 }

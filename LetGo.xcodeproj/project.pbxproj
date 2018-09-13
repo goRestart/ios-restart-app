@@ -2248,6 +2248,8 @@
 		D4912A831B08E12C00DACD5A /* UIImage+Tint.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4912A821B08E12C00DACD5A /* UIImage+Tint.swift */; };
 		D4BFE5B41B640C36006A8CB6 /* MainListingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BFE5AF1B640C36006A8CB6 /* MainListingsViewController.swift */; };
 		D4BFE5B61B640C36006A8CB6 /* MainListingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BFE5B11B640C36006A8CB6 /* MainListingsViewModel.swift */; };
+		F516C26121496D6A00BA036D /* UserDefailts+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4F825214677CB009151E6 /* UserDefailts+LG.swift */; };
+		F516C26221496D6A00BA036D /* UserDefailts+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4F825214677CB009151E6 /* UserDefailts+LG.swift */; };
 		F51A082B2031B5360008D744 /* AspectRatio.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51A082A2031B5360008D744 /* AspectRatio.swift */; };
 		F51A082C2031B5380008D744 /* AspectRatio.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51A082A2031B5360008D744 /* AspectRatio.swift */; };
 		F51A082E2031B54B0008D744 /* AspectRatioSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51A082D2031B54A0008D744 /* AspectRatioSpec.swift */; };
@@ -2277,6 +2279,17 @@
 		F5A836AD1FD1AEB1009E636D /* ListingAttributePickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A836AC1FD1AEB1009E636D /* ListingAttributePickerViewModel.swift */; };
 		F5A836AE1FD1BA11009E636D /* ListingAttributePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A836AA1FD1AE32009E636D /* ListingAttributePickerViewController.swift */; };
 		F5A836AF1FD1BA13009E636D /* ListingAttributePickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A836AC1FD1AEB1009E636D /* ListingAttributePickerViewModel.swift */; };
+		F5AE3CF32142E308009B3320 /* PushNotificationScheduleChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AE3CF22142E308009B3320 /* PushNotificationScheduleChecker.swift */; };
+		F5AE3CF42142E308009B3320 /* PushNotificationScheduleChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AE3CF22142E308009B3320 /* PushNotificationScheduleChecker.swift */; };
+		F5AE3CF52142E308009B3320 /* PushNotificationScheduleChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AE3CF22142E308009B3320 /* PushNotificationScheduleChecker.swift */; };
+		F5AE3CF62142E308009B3320 /* PushNotificationScheduleChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AE3CF22142E308009B3320 /* PushNotificationScheduleChecker.swift */; };
+		F5AE3CF82142E318009B3320 /* MutePushNotificationFeatureFlagHelper+NotificationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AE3CF72142E318009B3320 /* MutePushNotificationFeatureFlagHelper+NotificationExtension.swift */; };
+		F5AE3CF92142E318009B3320 /* MutePushNotificationFeatureFlagHelper+NotificationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AE3CF72142E318009B3320 /* MutePushNotificationFeatureFlagHelper+NotificationExtension.swift */; };
+		F5AE3CFD2142E326009B3320 /* PushNotificationScheduleCheckerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AE3CFC2142E326009B3320 /* PushNotificationScheduleCheckerSpec.swift */; };
+		F5AE3CFF2142E383009B3320 /* MutePushNotificationFeatureFlagHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AE3CFE2142E383009B3320 /* MutePushNotificationFeatureFlagHelper.swift */; };
+		F5AE3D002142E383009B3320 /* MutePushNotificationFeatureFlagHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AE3CFE2142E383009B3320 /* MutePushNotificationFeatureFlagHelper.swift */; };
+		F5AE3D012142E43A009B3320 /* MutePushNotificationFeatureFlagHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AE3CFE2142E383009B3320 /* MutePushNotificationFeatureFlagHelper.swift */; };
+		F5AE3D022142E43A009B3320 /* MutePushNotificationFeatureFlagHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AE3CFE2142E383009B3320 /* MutePushNotificationFeatureFlagHelper.swift */; };
 		F5BBF6791FD06488000E37A0 /* ListingAttributePickerTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BBF6771FD06488000E37A0 /* ListingAttributePickerTableView.swift */; };
 		F5BBF67A1FD06488000E37A0 /* ListingAttributePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BBF6781FD06488000E37A0 /* ListingAttributePickerCell.swift */; };
 		F5BBF67B1FD0649A000E37A0 /* ListingAttributePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BBF6781FD06488000E37A0 /* ListingAttributePickerCell.swift */; };
@@ -3639,6 +3652,10 @@
 		F59755FC20B5AA2F00C5103F /* ABGroup+AnalyticsABTestGroupIdentifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ABGroup+AnalyticsABTestGroupIdentifier.swift"; sourceTree = "<group>"; };
 		F5A836AA1FD1AE32009E636D /* ListingAttributePickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingAttributePickerViewController.swift; sourceTree = "<group>"; };
 		F5A836AC1FD1AEB1009E636D /* ListingAttributePickerViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingAttributePickerViewModel.swift; sourceTree = "<group>"; };
+		F5AE3CF22142E308009B3320 /* PushNotificationScheduleChecker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushNotificationScheduleChecker.swift; sourceTree = "<group>"; };
+		F5AE3CF72142E318009B3320 /* MutePushNotificationFeatureFlagHelper+NotificationExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MutePushNotificationFeatureFlagHelper+NotificationExtension.swift"; sourceTree = "<group>"; };
+		F5AE3CFC2142E326009B3320 /* PushNotificationScheduleCheckerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushNotificationScheduleCheckerSpec.swift; sourceTree = "<group>"; };
+		F5AE3CFE2142E383009B3320 /* MutePushNotificationFeatureFlagHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MutePushNotificationFeatureFlagHelper.swift; sourceTree = "<group>"; };
 		F5BBF6771FD06488000E37A0 /* ListingAttributePickerTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingAttributePickerTableView.swift; sourceTree = "<group>"; };
 		F5BBF6781FD06488000E37A0 /* ListingAttributePickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingAttributePickerCell.swift; sourceTree = "<group>"; };
 		F5D6E67720090D8600E71A54 /* UserRatingType+RateBackSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserRatingType+RateBackSpec.swift"; sourceTree = "<group>"; };
@@ -5841,6 +5858,7 @@
 		50D08D741E69AF14009CC260 /* Unit */ = {
 			isa = PBXGroup;
 			children = (
+				F5AE3CFA2142E326009B3320 /* Extensions */,
 				A4E0938C2119E270002235FC /* Builder */,
 				A4E093862119E222002235FC /* Router */,
 				C627573A20A3495700B401E7 /* Protocols */,
@@ -6423,6 +6441,7 @@
 		72D57CCF1E5767FC0009FA06 /* notificationservice */ = {
 			isa = PBXGroup;
 			children = (
+				F5AE3CF72142E318009B3320 /* MutePushNotificationFeatureFlagHelper+NotificationExtension.swift */,
 				72D57CD01E5767FC0009FA06 /* NotificationService.swift */,
 				72D57CD21E5767FC0009FA06 /* Info.plist */,
 			);
@@ -7036,6 +7055,7 @@
 				502047171EE99F6D006C0EC2 /* FeatureFlagsDAO.swift */,
 				5020471A1EE99F7A006C0EC2 /* FeatureFlagsUDDAO.swift */,
 				727EF06B1E0BE16D0037DA4E /* CountryCode.swift */,
+				F5AE3CFE2142E383009B3320 /* MutePushNotificationFeatureFlagHelper.swift */,
 			);
 			path = FeatureFlags;
 			sourceTree = "<group>";
@@ -7440,6 +7460,7 @@
 		D412E0801B4F03D700683FFD /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				F5AE3CF22142E308009B3320 /* PushNotificationScheduleChecker.swift */,
 				0AB4F824214677C2009151E6 /* UserDefaults */,
 				3212AE5121257A7700945110 /* Lens+LG.swift */,
 				320162E22110A12900B7819D /* IGListKitHelper */,
@@ -7574,6 +7595,22 @@
 				F57D3A2C1FED017A006F2CA4 /* UIRoundedLabelWithPadding.swift */,
 			);
 			path = TagCollectionView;
+			sourceTree = "<group>";
+		};
+		F5AE3CFA2142E326009B3320 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				F5AE3CFB2142E326009B3320 /* Notification */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		F5AE3CFB2142E326009B3320 /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				F5AE3CFC2142E326009B3320 /* PushNotificationScheduleCheckerSpec.swift */,
+			);
+			path = Notification;
 			sourceTree = "<group>";
 		};
 		F5BBF6761FD06488000E37A0 /* ListingAttributePicker */ = {
@@ -8630,6 +8667,7 @@
 				0178CBD81F0E463D00620BA6 /* UriSchemeSpec.swift in Sources */,
 				50D08DB41E69AF14009CC260 /* MockKeyValueStorage.swift in Sources */,
 				50D08DD81E69AF14009CC260 /* LGConfigDAOSpec.swift in Sources */,
+				F5AE3CFD2142E326009B3320 /* PushNotificationScheduleCheckerSpec.swift in Sources */,
 				8EA7A5CD20DBB64E009F211D /* ChatBaseViewModelSpec.swift in Sources */,
 				2EEDC5881E71B0D6008779D8 /* HOF.swift in Sources */,
 				0A93E2021FCE95A000955A3A /* PhotoViewerViewControllerBinderSpec.swift in Sources */,
@@ -9538,6 +9576,7 @@
 				50C2E19B1E6FFACE006639BB /* PostListingRedCamButtonFooter.swift in Sources */,
 				42D63A9A212ABEA600F45FD6 /* AdsPaginationHelper.swift in Sources */,
 				32BF6808210F07C800360860 /* FeedDetailView.swift in Sources */,
+				F5AE3CFF2142E383009B3320 /* MutePushNotificationFeatureFlagHelper.swift in Sources */,
 				0A6FECAE2130343F00B57004 /* LoginNavigator.swift in Sources */,
 				726E35C01FE13FB200F98776 /* RetrieveListingParams+LG.swift in Sources */,
 				6A0B6A102052BC9F00EAA1F5 /* UserProfileRelationView.swift in Sources */,
@@ -9656,6 +9695,7 @@
 				8E0C9DF41E96924F00768D27 /* PostCategoryDetailProgressView.swift in Sources */,
 				72854D1A1F8E002100E54530 /* RealEstateOfferType+LG.swift in Sources */,
 				5011938E20C553FE00FA7C20 /* AnalyticsSessionData.swift in Sources */,
+				F5AE3CF32142E308009B3320 /* PushNotificationScheduleChecker.swift in Sources */,
 				0AE6F4EC20F88B0C00D58BCE /* TrendingSearchesViewModel.swift in Sources */,
 				C788EED71CC7847400B9E26F /* FilteredListingListRequester.swift in Sources */,
 				8EF71E8C213C6E3800DA1CAE /* RoundedActivityIndicatorView.swift in Sources */,
@@ -9736,7 +9776,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F516C26221496D6A00BA036D /* UserDefailts+LG.swift in Sources */,
+				F5AE3CF92142E318009B3320 /* MutePushNotificationFeatureFlagHelper+NotificationExtension.swift in Sources */,
 				72157A0B1E5F3798006AF997 /* NotificationService.swift in Sources */,
+				F5AE3D022142E43A009B3320 /* MutePushNotificationFeatureFlagHelper.swift in Sources */,
+				F5AE3CF62142E308009B3320 /* PushNotificationScheduleChecker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9744,7 +9788,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F516C26121496D6A00BA036D /* UserDefailts+LG.swift in Sources */,
+				F5AE3CF82142E318009B3320 /* MutePushNotificationFeatureFlagHelper+NotificationExtension.swift in Sources */,
 				7281CBCA1E5EF06800C6ADF4 /* NotificationService.swift in Sources */,
+				F5AE3D012142E43A009B3320 /* MutePushNotificationFeatureFlagHelper.swift in Sources */,
+				F5AE3CF52142E308009B3320 /* PushNotificationScheduleChecker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10531,6 +10579,7 @@
 				2E9716AF1D5B2C59009B3A32 /* ChatWrapper.swift in Sources */,
 				C75018491D10681B007D4CE4 /* ChatOtherInfoCell.swift in Sources */,
 				0A6FED352130344000B57004 /* TourLocationWireframe.swift in Sources */,
+				F5AE3D002142E383009B3320 /* MutePushNotificationFeatureFlagHelper.swift in Sources */,
 				F5A836AE1FD1BA11009E636D /* ListingAttributePickerViewController.swift in Sources */,
 				0A4AD7FB203DDACA002625B7 /* UILayoutPriority.swift in Sources */,
 				326C72D32088820F009D21DB /* WaterFallLayout.swift in Sources */,
@@ -10652,6 +10701,7 @@
 				0AE6F4F920F8CC7700D58BCE /* SearchViewModel.swift in Sources */,
 				50146BD11D4F5F9F00B0F635 /* ChatsTabCoordinator.swift in Sources */,
 				C7DB42251C5138B500400945 /* SocialShareView.swift in Sources */,
+				F5AE3CF42142E308009B3320 /* PushNotificationScheduleChecker.swift in Sources */,
 				015E4FDF204FFC090094FF20 /* BlockingPostingLoadingView.swift in Sources */,
 				42E1832D2123147B00B78DA8 /* AdData.swift in Sources */,
 				8E0C9DF51E96924F00768D27 /* PostCategoryDetailProgressView.swift in Sources */,
