@@ -271,6 +271,7 @@ extension R {
         public static let icIamiSend = ImageAsset(name: "ic_iami_send")
       }
       public enum NewItemPage {
+        public static let nitArrowDown = ImageAsset(name: "nit_arrow_down")
         public static let nitEdit = ImageAsset(name: "nit_edit")
         public static let nitFavourite = ImageAsset(name: "nit_favourite")
         public static let nitFavouriteOn = ImageAsset(name: "nit_favourite_on")
@@ -595,6 +596,7 @@ extension R {
         Community.shapeYellow,
         IAmInterested.icIamiSeeconv,
         IAmInterested.icIamiSend,
+        NewItemPage.nitArrowDown,
         NewItemPage.nitEdit,
         NewItemPage.nitFavourite,
         NewItemPage.nitFavouriteOn,
