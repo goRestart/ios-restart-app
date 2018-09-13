@@ -76,7 +76,6 @@ final class AppCoordinator: NSObject, Coordinator {
     fileprivate let disposeBag = DisposeBag()
 
     private let rateUserAsembly: RateUserAssembly
-    private let changePasswordAssembly: ChangePasswordAssembly
     private let editAssembly: EditListingAssembly
     private let verifyAssembly: VerifyAccountsAssembly
     private let promoteAssembly: PromoteBumpAssembly
@@ -175,7 +174,6 @@ final class AppCoordinator: NSObject, Coordinator {
         self.locationManager = locationManager
 
         self.rateUserAsembly = RateUserBuilder.modal(tabBarCtl)
-        self.changePasswordAssembly = ChangePasswordBuilder.modal
         self.editAssembly = EditListingBuilder.modal(tabBarCtl)
         self.verifyAssembly = VerifyAccountsBuilder.modal
         self.promoteAssembly = PromoteBumpBuilder.modal(tabBarCtl)
@@ -491,8 +489,16 @@ extension AppCoordinator: AppNavigator {
     }
 
     func openResetPassword(_ token: String) {
-        let vc = changePasswordAssembly.buildChangePassword(withToken: token)
-        tabBarCtl.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
+        if let presentedNavCtl = tabBarCtl.presentedViewController as? UINavigationController {
+            let builder = ChangePasswordBuilder.standard(root: presentedNavCtl)
+            let vc = builder.buildChangePassword(withToken: token)
+            presentedNavCtl.pushViewController(vc, animated: true)
+        } else {
+            let builder = ChangePasswordBuilder.modal
+            let vc = builder.buildChangePassword(withToken: token)
+            tabBarCtl.present(UINavigationController(rootViewController: vc),
+                              animated: true, completion: nil)
+        }
     }
 
     func openAppInvite(myUserId: String?, myUserName: String?) {

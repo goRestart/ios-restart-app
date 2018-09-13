@@ -96,6 +96,7 @@ protocol FeatureFlaggeable: class {
     var emergencyLocate: EmergencyLocate { get }
     var offensiveReportAlert: OffensiveReportAlert { get }
     var community: ShowCommunity { get }
+    var advancedReputationSystem11: AdvancedReputationSystem11 { get }
     
     // MARK: Money
     var preventMessagesFromFeedToProUsers: PreventMessagesFromFeedToProUsers { get }
@@ -113,6 +114,7 @@ protocol FeatureFlaggeable: class {
     var notificationCenterRedesign: NotificationCenterRedesign { get }
     var randomImInterestedMessages: RandomImInterestedMessages { get }
     var imInterestedInProfile: ImInterestedInProfile { get }
+    var affiliationEnabled: AffiliationEnabled { get }
 }
 
 extension FeatureFlaggeable {
@@ -217,8 +219,8 @@ extension CopyForChatNowInTurkey {
 
 extension ShowCommunity {
     var isActive: Bool {  return self != .baseline && self != .control }
-    var shouldShowOnTab: Bool { return self == .communityOnTabBar }
-    var shouldShowOnNavBar: Bool { return self == .communityOnNavBar }
+    var shouldShowOnTab: Bool { return isActive && self == .communityOnTabBar }
+    var shouldShowOnNavBar: Bool { return isActive && self == .communityOnNavBar }
 }
 
 extension ShowPasswordlessLogin {
@@ -302,6 +304,9 @@ extension EngagementBadging {
     var isActive: Bool { return self == .active }
 }
 
+extension AdvancedReputationSystem11 {
+    var isActive: Bool { return self == .active }
+}
 
 // MARK: Products
 
@@ -399,6 +404,10 @@ extension ImInterestedInProfile {
     var isActive: Bool { return self == .active }
 }
 
+extension AffiliationEnabled {
+    var isActive: Bool { return self == .active }
+}
+
 extension BumpInEditCopys {
     var variantString: String {
         switch self {
@@ -472,6 +481,7 @@ final class FeatureFlags: FeatureFlaggeable {
         
         dao.save(emergencyLocate: EmergencyLocate.fromPosition(abTests.emergencyLocate.value))
         dao.save(community: ShowCommunity.fromPosition(abTests.community.value))
+        dao.save(advancedReputationSystem11: AdvancedReputationSystem11.fromPosition(abTests.advancedReputationSystem11.value))
     }
 
     var realEstateEnabled: RealEstateEnabled {
@@ -529,7 +539,7 @@ final class FeatureFlags: FeatureFlaggeable {
         }
         return MutePushNotifications.control // MutePushNotifications.fromPosition(abTests.mutePushNotifications.value)
     }
-    
+
     var mutePushNotificationsStartHour: Int {
         return abTests.mutePushNotificationsStartHour.value
     }
@@ -580,6 +590,14 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.offensiveReportAlert
         }
         return OffensiveReportAlert.fromPosition(abTests.offensiveReportAlert.value)
+    }
+
+    var advancedReputationSystem11: AdvancedReputationSystem11 {
+        if Bumper.enabled {
+            return Bumper.advancedReputationSystem11
+        }
+        let cached = dao.retrieveAdvancedReputationSystem11()
+        return cached ?? AdvancedReputationSystem11.fromPosition(abTests.advancedReputationSystem11.value)
     }
 
     // MARK: - Country features
@@ -1273,5 +1291,12 @@ extension FeatureFlags {
             return Bumper.imInterestedInProfile
         }
         return ImInterestedInProfile.fromPosition(abTests.imInterestedInProfile.value)
+    }
+
+    var affiliationEnabled: AffiliationEnabled {
+        if Bumper.enabled {
+            return Bumper.affiliationEnabled
+        }
+        return .control // ABIOS-5051
     }
 }

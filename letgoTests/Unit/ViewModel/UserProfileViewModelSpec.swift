@@ -294,6 +294,8 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
     func closeProfile() {}
 
     func editListing(_ listing: Listing, pageType: EventParameterTypePage?) {}
+
+    func openAvatarDetail(isPrivate: Bool, user: User) {}
     
     func openLogin(infoMessage: String, then loggedInAction: @escaping (() -> Void)) {}
     
@@ -302,4 +304,6 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
     func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?, openChatAutomaticMessage: ChatWrapperMessageType?) {}
     
     func openListingChat(data: ChatDetailData, source: EventParameterTypePage, predefinedMessage: String?) {}
+
+    func closeAvatarDetail() {}
 }

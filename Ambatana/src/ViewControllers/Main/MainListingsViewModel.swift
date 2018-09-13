@@ -2,6 +2,7 @@ import CoreLocation
 import LGCoreKit
 import Result
 import RxSwift
+import RxCocoa
 import GoogleMobileAds
 import MoPub
 import LGComponents
@@ -114,7 +115,9 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     let errorMessage = Variable<String?>(nil)
     let containsListings = Variable<Bool>(false)
     let isShowingCategoriesHeader = Variable<Bool>(false)
-    
+
+    var userAvatar = BehaviorRelay<UIImage?>(value: nil)
+
     var categoryHeaderElements: [FilterCategoryItem] { return FilterCategoryItem.makeForFeed(with: featureFlags) }
     var categoryHighlighted: FilterCategoryItem { return FilterCategoryItem(category: .services) }
     
@@ -245,10 +248,6 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
 
     var shouldShowUserProfileButton: Bool {
         return featureFlags.community.shouldShowOnTab
-    }
-
-    var shouldShowCommunityBanner: Bool {
-        return featureFlags.community.isActive && !listViewModel.isListingListEmpty.value
     }
     
     private var carSelectedWithFilters: Bool {
@@ -611,8 +610,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     
     func showMap() {
         wireframe?.openMap(requester: listingListRequester,
-                        listingFilters: filters,
-                        searchNavigator: searchNavigator as! ListingsMapNavigator)
+                        listingFilters: filters)
     }
     
     /**
@@ -845,8 +843,37 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                                  isShowingCategoriesHeader.asObservable()) { $0 && $1 && $2 }
             .bind(to: recentItemsBubbleVisible)
             .disposed(by: disposeBag)
+
+        myUserRepository
+            .rx_myUser
+            .distinctUntilChanged { $0?.objectId == $1?.objectId }
+            .subscribe(onNext: { [weak self] myUser in
+                self?.loadAvatar(for: myUser)
+            })
+            .disposed(by: disposeBag)
     }
-    
+
+    private func loadAvatar(for user: User?) {
+        guard featureFlags.advancedReputationSystem11.isActive else { return }
+
+        guard let avatarUrl = user?.avatar?.fileURL else {
+            self.userAvatar.accept(nil)
+            return
+        }
+
+        if let cachedImage = ImageDownloader.sharedInstance.cachedImageForUrl(avatarUrl) {
+            self.userAvatar.accept(cachedImage)
+            return
+        }
+
+        ImageDownloader
+            .sharedInstance
+            .downloadImageWithURL(avatarUrl) { [weak self] (result, _) in
+                guard case .success((let image, _)) = result else { return }
+                self?.userAvatar.accept(image)
+        }
+    }
+
     /**
      Returns a view model for search.
      

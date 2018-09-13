@@ -1070,6 +1070,10 @@ struct TrackerEvent {
         return TrackerEvent(name: .profileEditEditPicture, params: nil)
     }
 
+    static func profileOpenPictureDetail() -> TrackerEvent {
+        return TrackerEvent(name: .profileOpenUserPicture, params: nil)
+    }
+
     static func profileShareStart(_ type: EventParameterProfileType)  -> TrackerEvent {
         var params = EventParameters()
         params[.profileType] = type.rawValue
@@ -1686,6 +1690,14 @@ struct TrackerEvent {
     
     static func openCommunityFromTabBar() -> TrackerEvent {
         return TrackerEvent(name: .openCommunity, params: nil)
+    }
+
+    static func phoneNumberEditStart() -> TrackerEvent {
+        return TrackerEvent(name: .phoneNumberEditStart, params: nil)
+    }
+
+    static func phoneNumberEditComplete() -> TrackerEvent {
+        return TrackerEvent(name: .phoneNumberEditComplete, params: nil)
     }
     
     static func filterDuplicatedItemInSectionedFeed(pageNumber: Int, numberOfDuplicates: Int) -> TrackerEvent {
