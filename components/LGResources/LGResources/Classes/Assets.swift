@@ -230,6 +230,21 @@ extension R {
       @available(*, deprecated, renamed: "allImages")
       public static let allValues: [AssetType] = allImages
     }
+    public enum Icons {
+      public static let icArrowLeft = ImageAsset(name: "ic_arrow_left")
+      public static let icPen = ImageAsset(name: "ic_pen")
+
+      // swiftlint:disable trailing_comma
+      public static let allColors: [ColorAsset] = [
+      ]
+      public static let allImages: [ImageAsset] = [
+        icArrowLeft,
+        icPen,
+      ]
+      // swiftlint:enable trailing_comma
+      @available(*, deprecated, renamed: "allImages")
+      public static let allValues: [AssetType] = allImages
+    }
     public enum IconsButtons {
       public enum CategoriesHeaderIcons {
         public static let carsFeed = ImageAsset(name: "cars_feed")
