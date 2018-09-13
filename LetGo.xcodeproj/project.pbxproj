@@ -44,6 +44,7 @@
 		01772B5F204F0F340037FD5F /* BlockingPostingStepHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01772B5E204F0F340037FD5F /* BlockingPostingStepHeaderView.swift */; };
 		01772B60204F0F340037FD5F /* BlockingPostingStepHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01772B5E204F0F340037FD5F /* BlockingPostingStepHeaderView.swift */; };
 		01789DDF2123336200F248EC /* DeepLinkSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01789DDE2123336200F248EC /* DeepLinkSpec.swift */; };
+		0178C8DC214A6F1500FE23D2 /* InterestedStateUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013B2A1A21303DCB00F69613 /* InterestedStateUpdater.swift */; };
 		0178CBD81F0E463D00620BA6 /* UriSchemeSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0178CBD71F0E463D00620BA6 /* UriSchemeSpec.swift */; };
 		017E607F20D15D39007025C0 /* NotificationSettingsListDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017E607E20D15D39007025C0 /* NotificationSettingsListDetailViewModel.swift */; };
 		017E608020D15D39007025C0 /* NotificationSettingsListDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017E607E20D15D39007025C0 /* NotificationSettingsListDetailViewModel.swift */; };
@@ -9068,6 +9069,7 @@
 				F5A836AD1FD1AEB1009E636D /* ListingAttributePickerViewModel.swift in Sources */,
 				0ACC843421357B6300803D66 /* TourNotificationPushWireframe.swift in Sources */,
 				72CD80CC203469FB0042E1E0 /* LGTutorialLayout.swift in Sources */,
+				0178C8DC214A6F1500FE23D2 /* InterestedStateUpdater.swift in Sources */,
 				2EBC92121E0ABC4A007F0F82 /* PurchaseableProduct.swift in Sources */,
 				013013EC211B5B6C00FFC309 /* NotificationCenterThumbnailCell.swift in Sources */,
 				D412E0861B4F179F00683FFD /* ListingListView.swift in Sources */,
