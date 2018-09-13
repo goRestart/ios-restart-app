@@ -18,6 +18,8 @@ extension R {
     public static let advertisingText = Strings.tr("Localizable", "advertising_text")
     /// Invite friends
     public static let affiliationChallengesInviteFriendsButton = Strings.tr("Localizable", "affiliation_challenges_invite_friends_button")
+    /// Earn Points
+    public static let affiliationChallengesSubtitle = Strings.tr("Localizable", "affiliation_challenges_subtitle")
     /// Rewards
     public static let affiliationChallengesTitle = Strings.tr("Localizable", "affiliation_challenges_title")
     /// How it works
@@ -28,6 +30,12 @@ extension R {
     public static let affiliationInviteFriendsTitle = Strings.tr("Localizable", "affiliation_invite_friends_title")
     /// Connect contacts
     public static let affiliationInviteSmsContactsTitle = Strings.tr("Localizable", "affiliation_invite_sms_contacts_title")
+    /// View Rewards
+    public static let affiliationWalletOpenStoreButton = Strings.tr("Localizable", "affiliation_wallet_open_store_button")
+    /// PTS
+    public static let affiliationWalletPointsLabel = Strings.tr("Localizable", "affiliation_wallet_points_label")
+    /// YOUR WALLET
+    public static let affiliationWalletTitle = Strings.tr("Localizable", "affiliation_wallet_title")
     /// Reply
     public static let appNotificationReply = Strings.tr("Localizable", "app_notification_reply")
     /// Download

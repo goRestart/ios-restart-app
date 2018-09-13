@@ -1349,7 +1349,7 @@
 "reset_password_send_too_many_requests" = "Wir haben dir bereits eine E-Mail zur Kennwortwiederherstellung geschickt. Bitte schaue in dein Postfach und folge den Anweisungen.";
 "reset_password_title" = "Kennwort zurücksetzen";
 "rewards_faq_title" = "Wie's funktioniert";
-"rewards_invite_contacts_title" = "Connect contacts";
+"rewards_invite_contacts_title" = "Kontakte verbinden";
 "rewards_invite_friends_button" = "Freunde einladen";
 "rewards_invite_friends_contact_button" = "Via SMS einladen";
 "rewards_invite_friends_title" = "Freunde einladen";

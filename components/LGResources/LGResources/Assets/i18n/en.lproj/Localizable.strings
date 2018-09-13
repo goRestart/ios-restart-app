@@ -7,6 +7,9 @@
 // Affiliation challenges screen. Title.
 "affiliation_challenges_title" = "Rewards";
 
+// Affiliation challenges screen. Subtitle.
+"affiliation_challenges_subtitle" = "Earn Points";
+
 // Affiliation challenges screen. Invite friends button.
 "affiliation_challenges_invite_friends_button" = "Invite friends";
 
@@ -21,6 +24,15 @@
 
 // Affilation FAQ screen. Title.
 "affiliation_faq_title" = "How it works";
+
+// Affiliation challenges screen. Wallet View. Title.
+"affiliation_wallet_title" = "YOUR WALLET";
+
+// Affiliation challenges screen. Wallet View. Points label.
+"affiliation_wallet_points_label" = "PTS";
+
+// Affiliation challenges screen. Wallet View. Open store button.
+"affiliation_wallet_open_store_button" = "View Rewards";
 
 // Text of the link that will go to the appstore
 "app_share_download_text" = "Download";

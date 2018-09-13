@@ -1,11 +1,11 @@
-final class RewardsFAQStandardWireframe: RewardsFAQNavigator {
+final class AffiliationFAQStandardWireframe: AffiliationFAQNavigator {
     private let navigationController: UINavigationController
 
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
     }
 
-    func closeRewardsFAQ() {
+    func closeAffiliationFAQ() {
         navigationController.popViewController(animated: true)
     }
 }
