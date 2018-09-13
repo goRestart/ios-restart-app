@@ -62,6 +62,7 @@ protocol TabNavigator: class {
     func showFailBubble(withMessage message: String, duration: TimeInterval)
     func openUserVerificationView()
     func openCommunityTab()
+    func openUserVerificationAwarenessView()
 }
 
 protocol ListingDetailNavigator: class {

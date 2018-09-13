@@ -30,6 +30,9 @@ final class UserVerificationAwarenessViewController: BaseViewController {
         let imageView = UIImageView()
         imageView.image = R.Asset.IconsButtons.icKarmaBadgeActive.image
         imageView.contentMode = .scaleAspectFit
+        imageView.frame = CGRect.zero
+        imageView.alpha = 0
+        imageView.clipsToBounds = true
         return imageView
     }()
 
@@ -71,7 +74,11 @@ final class UserVerificationAwarenessViewController: BaseViewController {
         setupUI()
     }
 
-    func setupUI() {
+    override func viewDidAppear(_ animated: Bool) {
+        animateBadge()
+    }
+
+    private func setupUI() {
         view.backgroundColor = UIColor.black.withAlphaComponent(0.7)
         view.addSubviewsForAutoLayout([container, closeButton])
         container.addSubviewsForAutoLayout([avatarImageView, badgeImageView, label, button])
@@ -84,6 +91,8 @@ final class UserVerificationAwarenessViewController: BaseViewController {
         } else {
             avatarImageView.image = viewModel.placeholder
         }
+        button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+        closeButton.addTarget(self, action: #selector(didTapClose), for: .touchUpInside)
     }
 
     private func messageText() -> NSAttributedString {
@@ -97,7 +106,17 @@ final class UserVerificationAwarenessViewController: BaseViewController {
         return message
     }
 
-    func setupConstraints() {
+    private func animateBadge() {
+        self.badgeImageView.transform = CGAffineTransform.init(scaleX: 0.1, y: 0.1)
+        UIView.animate(withDuration: 0.3, delay: 0.5,
+                       usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5,
+                       options: [], animations: {
+                        self.badgeImageView.alpha = 1.0
+                        self.badgeImageView.transform = .identity
+        }, completion: nil)
+    }
+
+    private func setupConstraints() {
         let constraints: [NSLayoutConstraint] = [
             container.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             container.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 37),
@@ -106,10 +125,8 @@ final class UserVerificationAwarenessViewController: BaseViewController {
             avatarImageView.topAnchor.constraint(equalTo: container.topAnchor, constant: 30),
             avatarImageView.heightAnchor.constraint(equalToConstant: Layout.imageHeight),
             avatarImageView.widthAnchor.constraint(equalTo: avatarImageView.heightAnchor),
-            badgeImageView.bottomAnchor.constraint(equalTo: avatarImageView.bottomAnchor),
-            badgeImageView.rightAnchor.constraint(equalTo: avatarImageView.rightAnchor),
-            badgeImageView.heightAnchor.constraint(equalToConstant: Layout.verifiedBadgeHeight),
-            badgeImageView.widthAnchor.constraint(equalTo: badgeImageView.heightAnchor),
+            badgeImageView.centerXAnchor.constraint(equalTo: avatarImageView.rightAnchor, constant: -Layout.verifiedBadgeHeight/2),
+            badgeImageView.centerYAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: -Layout.verifiedBadgeHeight/2),
             label.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: Metrics.bigMargin),
             label.leftAnchor.constraint(equalTo: container.leftAnchor, constant: Metrics.bigMargin),
             label.rightAnchor.constraint(equalTo: container.rightAnchor, constant: -Metrics.bigMargin),
@@ -123,5 +140,14 @@ final class UserVerificationAwarenessViewController: BaseViewController {
             closeButton.topAnchor.constraint(equalTo: container.topAnchor, constant: -Metrics.shortMargin)
         ]
         constraints.activate()
+    }
+
+    @objc private func didTapButton() {
+//        viewModel.openVerifications()
+        viewModel.close()
+    }
+
+    @objc private func didTapClose() {
+        viewModel.close()
     }
 }

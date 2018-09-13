@@ -78,3 +78,7 @@ protocol UserVerificationNavigator: class {
     func openEmailVerification()
     func openPhoneNumberVerification()
 }
+
+protocol UserVerificationAwarenessNavigator: class {
+    func closeAwarenessView()
+}

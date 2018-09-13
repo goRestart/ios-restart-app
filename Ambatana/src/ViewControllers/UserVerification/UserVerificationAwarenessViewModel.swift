@@ -14,13 +14,20 @@ final class UserVerificationAwarenessViewModel: BaseViewModel {
 
     private var user: User?
     private let myUserRepository: MyUserRepository
+    private let callToAction: () -> ()
+    var navigator: UserVerificationAwarenessNavigator?
 
-    init(myUserRepository: MyUserRepository = Core.myUserRepository) {
+    init(callToAction: @escaping () -> (), myUserRepository: MyUserRepository = Core.myUserRepository) {
         self.myUserRepository = myUserRepository
         self.user = myUserRepository.myUser
+        self.callToAction = callToAction
     }
 
     func openVerifications() {
-        // TODO: Navigate to verifications
+        callToAction()
+    }
+
+    func close() {
+        navigator?.closeAwarenessView()
     }
 }

@@ -64,6 +64,8 @@ extension DefaultsKeys {
 
     static let showOffensiveReportOnNextStart = DefaultsKey<Bool>("showOffensiveReportOnNextStart")
 
+    static let showVerificationAwarenessOnNextStart = DefaultsKey<Bool>("showVerificationAwarenessOnNextStart")
+
     static let machineLearningOnboardingShown = DefaultsKey<Bool>("machineLearningOnboardingShown")
 
     static let analyticsSessionData = DefaultsKey<AnalyticsSessionData>("analyticsSessionData")

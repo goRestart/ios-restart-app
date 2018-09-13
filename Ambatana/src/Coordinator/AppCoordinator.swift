@@ -79,6 +79,7 @@ final class AppCoordinator: NSObject, Coordinator {
     private let changePasswordAssembly: ChangePasswordAssembly
     private let editAssembly: EditListingAssembly
     private let verifyAssembly: VerifyAccountsAssembly
+    private let verificationAwarenessAssembly: UserVerificationAwarenessAssembly
     private let promoteAssembly: PromoteBumpAssembly
     private let tourAssembly: TourLoginAssembly
 
@@ -180,6 +181,7 @@ final class AppCoordinator: NSObject, Coordinator {
         self.verifyAssembly = VerifyAccountsBuilder.modal
         self.promoteAssembly = PromoteBumpBuilder.modal(tabBarCtl)
         self.tourAssembly = TourLoginBuilder.modal
+        self.verificationAwarenessAssembly = UserVerificationAwarenessBuilder.modal(tabBarCtl)
         super.init()
         self.tourSkipper = TourSkiperWireframe(appCoordinator: self, deepLinksRouter: deepLinksRouter)
 
@@ -332,12 +334,26 @@ extension AppCoordinator: AppNavigator {
         tabBarCtl.present(vc, animated: true, completion: nil)
     }
 
-    func canOpenOffensiveReportAlert() -> Bool {
+    func canOpenModalView() -> Bool {
         return tabBarCtl.presentedViewController == nil
     }
 
+    func shouldShowVerificationAwareness() -> Bool {
+        return myUserRepository.myUser?.hasBadge == false
+    }
+
+    func openVerificationAwarenessView() {
+        let callToAction: () -> () = { [weak self] in
+            self?.tabBarCtl.dismiss(animated: true, completion: {
+                self?.selectedTabCoordinator?.openUserVerificationView()
+            })
+        }
+        let vc = verificationAwarenessAssembly.buildUserVerificationAwarenessView(callToAction: callToAction)
+        tabBarCtl.present(vc, animated: true, completion: nil)
+    }
+
     func openOffensiveReportAlert() {
-        guard canOpenOffensiveReportAlert() else { return }
+        guard canOpenModalView() else { return }
         let reviewAction = { [weak self] in
             guard let url = LetgoURLHelper.buildCommunityGuidelineURL() else { return }
             self?.openInAppWebView(url: url)

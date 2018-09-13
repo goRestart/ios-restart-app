@@ -21,11 +21,13 @@ protocol AppNavigator: class {
     func openPromoteBumpForListingId(listingId: String,
                                      bumpUpProductData: BumpUpProductData,
                                      typePage: EventParameterTypePage?)
-    func canOpenOffensiveReportAlert() -> Bool
+    func canOpenModalView() -> Bool
     func openOffensiveReportAlert()
     func showBottomBubbleNotification(data: BubbleNotificationData,
                                       duration: TimeInterval,
                                       alignment: BubbleNotificationView.Alignment,
                                       style: BubbleNotificationView.Style)
     func openCommunityTab()
+    func shouldShowVerificationAwareness() -> Bool
+    func openVerificationAwarenessView()
 }
