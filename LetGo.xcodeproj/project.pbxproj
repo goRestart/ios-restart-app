@@ -651,6 +651,10 @@
 		2EADE4E320514BDB0089D9F8 /* PostingCategoriesPickViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EADE4E120514BDB0089D9F8 /* PostingCategoriesPickViewModel.swift */; };
 		2EB32D631DF184FF00E01E93 /* BumpUpBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB32D621DF184FF00E01E93 /* BumpUpBanner.swift */; };
 		2EB636161E8A941B0063E8EA /* CarsInfo.json in Resources */ = {isa = PBXBuildFile; fileRef = 2EB636151E8A941B0063E8EA /* CarsInfo.json */; };
+		2EB9A14E2141148E0096EB7B /* ChatPaymentBannerViewBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB9A14D2141148E0096EB7B /* ChatPaymentBannerViewBinder.swift */; };
+		2EB9A14F214114930096EB7B /* ChatPaymentBannerViewBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB9A14D2141148E0096EB7B /* ChatPaymentBannerViewBinder.swift */; };
+		2EB9A15121412DDB0096EB7B /* ButtonActionEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB9A15021412DDB0096EB7B /* ButtonActionEvent.swift */; };
+		2EB9A15221412DDB0096EB7B /* ButtonActionEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB9A15021412DDB0096EB7B /* ButtonActionEvent.swift */; };
 		2EBC92051E0A77A5007F0F82 /* AppstoreProductsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBC92041E0A77A5007F0F82 /* AppstoreProductsRequest.swift */; };
 		2EBC92061E0A77A5007F0F82 /* AppstoreProductsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBC92041E0A77A5007F0F82 /* AppstoreProductsRequest.swift */; };
 		2EBC92121E0ABC4A007F0F82 /* PurchaseableProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBC92101E0ABC26007F0F82 /* PurchaseableProduct.swift */; };
@@ -672,12 +676,18 @@
 		2ECB417320065FB200482EF7 /* FeaturedInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4ADEBC200515FC00D07D8A /* FeaturedInfoViewModel.swift */; };
 		2ECB417E2008CC6900482EF7 /* AdvertisementCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ECB417C2008CC6900482EF7 /* AdvertisementCell.swift */; };
 		2ECB417F2008CC6900482EF7 /* AdvertisementCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ECB417C2008CC6900482EF7 /* AdvertisementCell.swift */; };
+		2ED296C5213EC152003E26A3 /* ChatPaymentBannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED296C4213EC152003E26A3 /* ChatPaymentBannerViewModel.swift */; };
+		2ED296C6213EC152003E26A3 /* ChatPaymentBannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED296C4213EC152003E26A3 /* ChatPaymentBannerViewModel.swift */; };
+		2ED296C8213EC2A0003E26A3 /* ChatPaymentBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED296C7213EC2A0003E26A3 /* ChatPaymentBannerView.swift */; };
+		2ED296C9213EC2A0003E26A3 /* ChatPaymentBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED296C7213EC2A0003E26A3 /* ChatPaymentBannerView.swift */; };
 		2ED296BE213E7B98003E26A3 /* ChatOtherInfoLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED296BD213E7B98003E26A3 /* ChatOtherInfoLocationView.swift */; };
 		2ED296BF213E7B98003E26A3 /* ChatOtherInfoLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED296BD213E7B98003E26A3 /* ChatOtherInfoLocationView.swift */; };
 		2ED296C1213E87A8003E26A3 /* ChatOtherInfoAssistantView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED296C0213E87A8003E26A3 /* ChatOtherInfoAssistantView.swift */; };
 		2ED296C2213E87A8003E26A3 /* ChatOtherInfoAssistantView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED296C0213E87A8003E26A3 /* ChatOtherInfoAssistantView.swift */; };
 		2ED5E52D1EC5BAFB00B6D4F6 /* FilterListingListRequesterFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED5E52C1EC5BAFB00B6D4F6 /* FilterListingListRequesterFactory.swift */; };
 		2ED5E52E1EC5BAFB00B6D4F6 /* FilterListingListRequesterFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED5E52C1EC5BAFB00B6D4F6 /* FilterListingListRequesterFactory.swift */; };
+		2EDB6DD02140043700E1D837 /* P2PPaymentState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDB6DCF2140043700E1D837 /* P2PPaymentState.swift */; };
+		2EDB6DD12140043700E1D837 /* P2PPaymentState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDB6DCF2140043700E1D837 /* P2PPaymentState.swift */; };
 		2EDCFA311BFF8AB00000E47D /* SignUpLogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDCFA2E1BFF8AB00000E47D /* SignUpLogInViewController.swift */; };
 		2EDCFA321BFF8AB00000E47D /* SignUpLogInViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EDCFA2F1BFF8AB00000E47D /* SignUpLogInViewController.xib */; };
 		2EDCFA331BFF8AB00000E47D /* SignUpLogInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDCFA301BFF8AB00000E47D /* SignUpLogInViewModel.swift */; };
@@ -2681,6 +2691,8 @@
 		2EADE4E120514BDB0089D9F8 /* PostingCategoriesPickViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PostingCategoriesPickViewModel.swift; path = Onboarding/PostingCategoriesPickViewModel.swift; sourceTree = "<group>"; };
 		2EB32D621DF184FF00E01E93 /* BumpUpBanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BumpUpBanner.swift; path = "Bump Up/BumpUpBanner.swift"; sourceTree = "<group>"; };
 		2EB636151E8A941B0063E8EA /* CarsInfo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CarsInfo.json; sourceTree = "<group>"; };
+		2EB9A14D2141148E0096EB7B /* ChatPaymentBannerViewBinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatPaymentBannerViewBinder.swift; sourceTree = "<group>"; };
+		2EB9A15021412DDB0096EB7B /* ButtonActionEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonActionEvent.swift; sourceTree = "<group>"; };
 		2EBC92041E0A77A5007F0F82 /* AppstoreProductsRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppstoreProductsRequest.swift; path = Monetization/AppstoreProductsRequest.swift; sourceTree = "<group>"; };
 		2EBC92101E0ABC26007F0F82 /* PurchaseableProduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PurchaseableProduct.swift; path = Monetization/PurchaseableProduct.swift; sourceTree = "<group>"; };
 		2EBC92141E0ABC73007F0F82 /* PurchaseableProductsResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PurchaseableProductsResponse.swift; path = Monetization/PurchaseableProductsResponse.swift; sourceTree = "<group>"; };
@@ -2690,9 +2702,12 @@
 		2EC653B51E71744B00E23DDF /* MockExternalAuthHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockExternalAuthHelper.swift; sourceTree = "<group>"; };
 		2EC842A51E6EEB7000EED53A /* MockReceiptURLProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockReceiptURLProvider.swift; sourceTree = "<group>"; };
 		2ECB417C2008CC6900482EF7 /* AdvertisementCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvertisementCell.swift; sourceTree = "<group>"; };
+		2ED296C4213EC152003E26A3 /* ChatPaymentBannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatPaymentBannerViewModel.swift; sourceTree = "<group>"; };
+		2ED296C7213EC2A0003E26A3 /* ChatPaymentBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatPaymentBannerView.swift; sourceTree = "<group>"; };
 		2ED296BD213E7B98003E26A3 /* ChatOtherInfoLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatOtherInfoLocationView.swift; sourceTree = "<group>"; };
 		2ED296C0213E87A8003E26A3 /* ChatOtherInfoAssistantView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatOtherInfoAssistantView.swift; sourceTree = "<group>"; };
 		2ED5E52C1EC5BAFB00B6D4F6 /* FilterListingListRequesterFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterListingListRequesterFactory.swift; path = "Products Requester/FilterListingListRequesterFactory.swift"; sourceTree = "<group>"; };
+		2EDB6DCF2140043700E1D837 /* P2PPaymentState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentState.swift; sourceTree = "<group>"; };
 		2EDCFA2E1BFF8AB00000E47D /* SignUpLogInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpLogInViewController.swift; sourceTree = "<group>"; };
 		2EDCFA2F1BFF8AB00000E47D /* SignUpLogInViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SignUpLogInViewController.xib; sourceTree = "<group>"; };
 		2EDCFA301BFF8AB00000E47D /* SignUpLogInViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpLogInViewModel.swift; sourceTree = "<group>"; };
@@ -4717,6 +4732,18 @@
 				C708C83B1CDB590400AA87B3 /* AppRatingView.xib */,
 			);
 			path = "App Rating";
+			sourceTree = "<group>";
+		};
+		2ED296C3213EC140003E26A3 /* Payment Banner */ = {
+			isa = PBXGroup;
+			children = (
+				2ED296C4213EC152003E26A3 /* ChatPaymentBannerViewModel.swift */,
+				2ED296C7213EC2A0003E26A3 /* ChatPaymentBannerView.swift */,
+				2EB9A14D2141148E0096EB7B /* ChatPaymentBannerViewBinder.swift */,
+				2EDB6DCF2140043700E1D837 /* P2PPaymentState.swift */,
+				2EB9A15021412DDB0096EB7B /* ButtonActionEvent.swift */,
+			);
+			path = "Payment Banner";
 			sourceTree = "<group>";
 		};
 		2EE4A3BF212D48AE00380467 /* Controller */ = {
@@ -7105,6 +7132,7 @@
 				C7B588711CE1DFA6009B3975 /* CellDrawers */,
 				C7B588771CE1DFA6009B3975 /* Cells */,
 				C7B588121CE1DE1C009B3975 /* DirectAnswers */,
+				2ED296C3213EC140003E26A3 /* Payment Banner */,
 				C7B5880E1CE1DE1C009B3975 /* ChatListingView.swift */,
 				C7B5880F1CE1DE1C009B3975 /* ChatListingView.xib */,
 				C7B588101CE1DE1C009B3975 /* ChatViewController.swift */,
@@ -8745,6 +8773,7 @@
 				2E423790205BE2930077B62A /* ChatMyMeetingCell.swift in Sources */,
 				0A2077AE2114C05700BFD3D7 /* GoogleAdxNativeContentView.swift in Sources */,
 				6A5E19DE1D548F5400F92692 /* FBLoginHelper.swift in Sources */,
+				2ED296C5213EC152003E26A3 /* ChatPaymentBannerViewModel.swift in Sources */,
 				C77593E11BF0B8C60097D62F /* FiltersViewModel.swift in Sources */,
 				4273565720A32F5000C71D49 /* Listing+Map.swift in Sources */,
 				C29F01832067A03E00A43E2F /* Camera.swift in Sources */,
@@ -8821,10 +8850,12 @@
 				2E5C1C381FB60C56002AFD40 /* PromoteBumpViewController.swift in Sources */,
 				C783D98E1C650F38000EE5CA /* ReportUserCellDrawer.swift in Sources */,
 				C7363FB51BF9CB8D00A4BF6F /* FilterTagCell.swift in Sources */,
+				2EB9A14E2141148E0096EB7B /* ChatPaymentBannerViewBinder.swift in Sources */,
 				2E2208E51DD4BCD800FB2483 /* EmptyCellDrawer.swift in Sources */,
 				6A3C730F1CF346CB00A062E0 /* ChatStickerGridCell.swift in Sources */,
 				2EADE4DF20514AF60089D9F8 /* PostingCategoriesPickViewController.swift in Sources */,
 				2E9716A61D5A08AB009B3A32 /* ExpressChatViewModel.swift in Sources */,
+				2ED296C8213EC2A0003E26A3 /* ChatPaymentBannerView.swift in Sources */,
 				72854D201F8E261C00E54530 /* NumberOfBathrooms.swift in Sources */,
 				6A0D7343204D613500892663 /* EditUserBioViewModel.swift in Sources */,
 				C7126BDE1E6596A300038CC4 /* ListingVMUserInfo.swift in Sources */,
@@ -9069,6 +9100,7 @@
 				0A6FED1C2130344000B57004 /* RateUserNavigator.swift in Sources */,
 				C749C78D1C10830600F7118E /* CellDrawer.swift in Sources */,
 				C6C8936D20C6E8B70069197C /* MultiListingPostedListingCell.swift in Sources */,
+				2EDB6DD02140043700E1D837 /* P2PPaymentState.swift in Sources */,
 				329ACF5220EA8D4E00A1C6A4 /* EmbeddedListingSectionController.swift in Sources */,
 				421CB34B207BBE5E006BF8A4 /* Collection+Safe.swift in Sources */,
 				8E0EEFBC2056E2AA000C07C9 /* MLPostingOnboardingView.swift in Sources */,
@@ -9569,6 +9601,7 @@
 				6ACC24C41D2A90400064B165 /* GridDrawerManager.swift in Sources */,
 				0A6FED162130344000B57004 /* EditLocationStandardWireframe.swift in Sources */,
 				C703BE021C7F1AF900EC8EF2 /* EditLocationViewModel.swift in Sources */,
+				2EB9A15121412DDB0096EB7B /* ButtonActionEvent.swift in Sources */,
 				C7B588891CE1DFA6009B3975 /* ChatMyMessageCell.swift in Sources */,
 				502047181EE99F6E006C0EC2 /* FeatureFlagsDAO.swift in Sources */,
 				50C59BD81CE0DB4400377124 /* UserDefaultsUser.swift in Sources */,
@@ -9710,6 +9743,7 @@
 				2E2D53E11D369B0500348D12 /* ConfigRetrieveService.swift in Sources */,
 				2E4B43EB1E7810C00048214B /* PaymentEnqueuable.swift in Sources */,
 				8E7F4FDB2119A819004E70C5 /* ConversationCellStatus.swift in Sources */,
+				2ED296C6213EC152003E26A3 /* ChatPaymentBannerViewModel.swift in Sources */,
 				50AB5F251ED4505800E9909D /* UserRatingTag.swift in Sources */,
 				724D77A51FC3252100DB43C0 /* RealEstateAttributes+LG.swift in Sources */,
 				017E608020D15D39007025C0 /* NotificationSettingsListDetailViewModel.swift in Sources */,
@@ -9727,6 +9761,7 @@
 				C271E13B20CEB3B8008868C6 /* ListingCarouselChatContainerView.swift in Sources */,
 				42E1832A21230F6200B78DA8 /* AdsSectionController.swift in Sources */,
 				42E74963212FFC3400297F75 /* SectionControllerFactory.swift in Sources */,
+				2EB9A15221412DDB0096EB7B /* ButtonActionEvent.swift in Sources */,
 				507440DF1E3F97EB006976F7 /* LoginAppearance+Helper.swift in Sources */,
 				C77D64691CBD250700A22510 /* Tab.swift in Sources */,
 				8E15D7981E9B97D3000A99C0 /* PostCategoryDetailRowView.swift in Sources */,
@@ -10072,6 +10107,7 @@
 				421CB34C207BBE5E006BF8A4 /* Collection+Safe.swift in Sources */,
 				F520D23520F8BA44006D55B1 /* SettingsTableViewHeader.swift in Sources */,
 				0A6FECB72130344000B57004 /* LoginModalWireframe.swift in Sources */,
+				2EB9A14F214114930096EB7B /* ChatPaymentBannerViewBinder.swift in Sources */,
 				329ACF5320EA8D4E00A1C6A4 /* EmbeddedListingSectionController.swift in Sources */,
 				C6977E922121B17200B57E54 /* OverlayDisplayStyle.swift in Sources */,
 				C6C8936E20C6E8B70069197C /* MultiListingPostedListingCell.swift in Sources */,
@@ -10096,6 +10132,7 @@
 				8E28A82E207BC5E70070A7A6 /* AdvertisementAdxCellDrawer.swift in Sources */,
 				72C7A1C41FA73AC80089F175 /* ListingPrice+LG.swift in Sources */,
 				6A879DA01C8D89A400E0C868 /* PushPrePermissionsSettingsViewController.swift in Sources */,
+				2ED296C9213EC2A0003E26A3 /* ChatPaymentBannerView.swift in Sources */,
 				0A6FECE92130344000B57004 /* MediaViewerStandardWireframe.swift in Sources */,
 				0187407B1FD59391009C1363 /* BlockingPostingQueuedRequestsViewController.swift in Sources */,
 				C7D23FE21DCC96BA00931803 /* CarouselUIHelper.swift in Sources */,
@@ -10198,6 +10235,7 @@
 				6A0D7341204D612500892663 /* EditUserBioViewController.swift in Sources */,
 				8E50205C212DA415008696B9 /* ChatCarouselCollectionCell.swift in Sources */,
 				0ADE58D31FC4609400F3DB17 /* ListingCardDetailsViewBinder.swift in Sources */,
+				2EDB6DD12140043700E1D837 /* P2PPaymentState.swift in Sources */,
 				325E70D421277ED100D173A1 /* EmbeddedListingViewModel.swift in Sources */,
 				50EC640B1C64F99E00DC04C5 /* LGEmptyViewModel.swift in Sources */,
 				C78F9DBA1DC9EE8500884064 /* LocalUser.swift in Sources */,

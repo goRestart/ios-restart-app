@@ -1,19 +1,23 @@
 enum P2PPaymentsRouter: URLRequestAuthenticable {
 
-    static let offersUrl = "/api/offers"
-    static let offerFeesUrl = "/api/offer-price-breakdown"
+    private static let offersUrl = "/api/offers"
+    private static let appStateUrl = "/api/app-state"
+    private static let offerFeesUrl = "/api/offer-price-breakdown"
 
     case showOffer(id: String)
     case createOffer(params: P2PPaymentCreateOfferParams)
     case calculateOfferFees(params: P2PPaymentCalculateOfferFeesParams)
     case changeOfferStatus(id: String, status: LGP2PPaymentOffer.Status)
-
+    case showAppState(params: P2PPaymentStateParams)
+  
     var endpoint: String {
         switch self {
         case .showOffer, .createOffer, .changeOfferStatus:
             return P2PPaymentsRouter.offersUrl
         case .calculateOfferFees(params: _):
             return P2PPaymentsRouter.offerFeesUrl
+        case .showAppState(params: _):
+          return P2PPaymentsRouter.appStateUrl
         }
     }
 
@@ -39,6 +43,8 @@ enum P2PPaymentsRouter: URLRequestAuthenticable {
                                                         objectId: id,
                                                         params: status.apiParams(offerId: id),
                                                         encoding: .json).asURLRequest()
+        case .showAppState(let appStateParams):
+          return try Router<P2PPaymentsBaseURL>.read(endpoint: endpoint, params: appStateParams.apiParams).asURLRequest()
         }
     }
 }

@@ -35,4 +35,10 @@ final class LGP2PPaymentsRepository: P2PPaymentsRepository {
             handleApiResult(result, completion: completion)
         }
     }
+  
+    func getPaymentState(params: P2PPaymentStateParams, completion: GetP2PPaymentPaymentStateCompletion?) {
+        dataSource.getPaymentState(params: params) { result in
+            handleApiResult(result, completion: completion)
+        }
+    }
 }

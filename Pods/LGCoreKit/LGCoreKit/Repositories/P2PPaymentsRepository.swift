@@ -13,9 +13,13 @@ public typealias ShowP2PPaymentOfferCompletion = (ShowP2PPaymentOfferResult) -> 
 public typealias ChangeP2PPaymentOfferStatusResult = Result<Void, RepositoryError>
 public typealias ChangeP2PPaymentOfferStatusCompletion = (ChangeP2PPaymentOfferStatusResult) -> Void
 
+public typealias GetP2PPaymentPaymentStateResult = Result<P2PPaymentState, RepositoryError>
+public typealias GetP2PPaymentPaymentStateCompletion = (GetP2PPaymentPaymentStateResult) -> Void
+
 public protocol P2PPaymentsRepository {
     func showOffer(id: String, completion: ShowP2PPaymentOfferCompletion?)
     func createOffer(params: P2PPaymentCreateOfferParams, completion: CreateP2PPaymentOfferCompletion?)
     func calculateOfferFees(params: P2PPaymentCalculateOfferFeesParams, completion: CalculateP2PPaymentOfferFeesCompletion?)
     func changeOfferStatus(offerId: String, status: P2PPaymentOfferStatus, completion: ChangeP2PPaymentOfferStatusCompletion?)
+    func getPaymentState(params: P2PPaymentStateParams, completion: GetP2PPaymentPaymentStateCompletion?)
 }

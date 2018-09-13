@@ -170,7 +170,7 @@ enum CoreReportDataSource: ReportType {
         case p2pPaymentOfferId
         case p2pPaymentOffer
         case p2pPaymentOfferFees
-
+        case p2pPaymentOfferState
         
         var type: Any.Type {
             switch self {
@@ -256,6 +256,8 @@ enum CoreReportDataSource: ReportType {
                 return LGP2PPaymentOffer.self
             case .p2pPaymentOfferFees:
                 return LGP2PPaymentOfferFees.self
+            case .p2pPaymentOfferState:
+                return P2PPaymentState.self
             }
         }
     }

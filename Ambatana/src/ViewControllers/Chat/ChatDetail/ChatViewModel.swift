@@ -211,12 +211,21 @@ class ChatViewModel: ChatBaseViewModel {
         }
     }
 
-    fileprivate var buyerId: String? {
+    var listingIdentifier: String? {
+        return conversation.value.listing?.objectId
+    }
+    
+    var buyerId: String? {
         let myUserId = myUserRepository.myUser?.objectId
         let interlocutorId = conversation.value.interlocutor?.objectId
         let currentBuyer = conversation.value.amISelling ? interlocutorId : myUserId
         return currentBuyer
     }
+    
+    var sellerId: String? {
+        return interlocutorId.value
+    }
+ 
 
     fileprivate var shouldShowSafetyTips: Bool {
         guard !isUserDummy else { return false }

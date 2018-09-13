@@ -15,9 +15,14 @@ typealias P2PPaymentsDataSourceCalculateOfferFeesCompletion = (P2PPaymentsDataSo
 typealias P2PPaymentsDataSourceEmptyResult = Result<Void, ApiError>
 typealias P2PPaymentsDataSourceEmptyCompletion = (P2PPaymentsDataSourceEmptyResult) -> Void
 
+typealias P2PPaymentsDataSourcePaymentStateResult = Result<P2PPaymentState, ApiError>
+typealias P2PPaymentsDataSourcePaymentStateCompletion = (P2PPaymentsDataSourcePaymentStateResult) -> Void
+
+
 protocol P2PPaymentsDataSource {
     func showOffer(id: String, completion: P2PPaymentsDataSourceOfferCompletion?)
     func createOffer(params: P2PPaymentCreateOfferParams, completion: P2PPaymentsDataSourceCreateOfferCompletion?)
     func calculateOfferFees(params: P2PPaymentCalculateOfferFeesParams, completion: P2PPaymentsDataSourceCalculateOfferFeesCompletion?)
     func changeOfferStatus(offerId: String, status: P2PPaymentOfferStatus, completion: P2PPaymentsDataSourceEmptyCompletion?)
+    func getPaymentState(params: P2PPaymentStateParams, completion: P2PPaymentsDataSourcePaymentStateCompletion?)
 }
