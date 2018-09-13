@@ -14,7 +14,6 @@
             <connections>
                 <outlet property="alertContainer" destination="ed0-sW-LvT" id="lug-Ff-LdI"/>
                 <outlet property="alertOkLabel" destination="rsA-Lz-vyx" id="BBB-x5-3yN"/>
-                <outlet property="closeButton" destination="DDd-7O-z2N" id="9BW-zq-Re8"/>
                 <outlet property="iPhoneBottomImage" destination="xi6-UD-KE4" id="evP-dK-o8y"/>
                 <outlet property="iPhoneLeftImage" destination="kzD-3x-MFf" id="3ho-X8-Sag"/>
                 <outlet property="iPhoneRightImage" destination="4oE-uN-rGm" id="ffs-1p-edq"/>
@@ -227,30 +226,18 @@
                                     <constraint firstAttribute="bottom" secondItem="AiC-DB-mnX" secondAttribute="bottom" id="rBd-9n-ogE"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DDd-7O-z2N">
-                                <rect key="frame" x="0.0" y="10" width="56" height="56"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="56" id="8s0-sy-klj"/>
-                                    <constraint firstAttribute="width" constant="56" id="yhx-9k-Ri3"/>
-                                </constraints>
-                                <connections>
-                                    <action selector="closeButtonPressed:" destination="-1" eventType="touchUpInside" id="e6M-ec-0eV"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="gXC-0a-nJJ" secondAttribute="trailing" constant="8" id="1Ce-8q-maY"/>
-                            <constraint firstItem="gXC-0a-nJJ" firstAttribute="top" secondItem="DDd-7O-z2N" secondAttribute="bottom" constant="-10" id="1cx-Ix-Nbb"/>
                             <constraint firstAttribute="bottom" secondItem="c2d-xa-4J4" secondAttribute="bottom" constant="17" id="24c-wJ-Fye"/>
                             <constraint firstItem="ed0-sW-LvT" firstAttribute="centerX" secondItem="THg-Sc-rjD" secondAttribute="centerX" id="2md-CK-G0O"/>
                             <constraint firstItem="ed0-sW-LvT" firstAttribute="centerY" secondItem="v3H-cU-ytk" secondAttribute="centerY" id="8i9-ph-OTx"/>
-                            <constraint firstItem="DDd-7O-z2N" firstAttribute="leading" secondItem="THg-Sc-rjD" secondAttribute="leading" id="9G5-TJ-s3f"/>
                             <constraint firstItem="gXC-0a-nJJ" firstAttribute="leading" secondItem="THg-Sc-rjD" secondAttribute="leading" constant="8" id="ERD-Nm-bzn"/>
                             <constraint firstItem="1fb-yZ-LPM" firstAttribute="top" secondItem="e5E-wj-RMQ" secondAttribute="bottom" id="Efo-rR-7ca"/>
                             <constraint firstItem="uj3-fy-ofE" firstAttribute="top" secondItem="gXC-0a-nJJ" secondAttribute="bottom" constant="10" id="GnG-nx-8ZC"/>
                             <constraint firstItem="v3H-cU-ytk" firstAttribute="top" secondItem="uj3-fy-ofE" secondAttribute="bottom" constant="13" id="IAq-fx-g59"/>
-                            <constraint firstItem="DDd-7O-z2N" firstAttribute="top" secondItem="THg-Sc-rjD" secondAttribute="top" constant="10" id="PhI-fT-iKB"/>
+                            <constraint firstItem="gXC-0a-nJJ" firstAttribute="top" secondItem="THg-Sc-rjD" secondAttribute="top" constant="56" id="MSV-XV-Dmd"/>
                             <constraint firstItem="v3H-cU-ytk" firstAttribute="centerX" secondItem="THg-Sc-rjD" secondAttribute="centerX" id="Ve5-oO-00X"/>
                             <constraint firstItem="c2d-xa-4J4" firstAttribute="leading" secondItem="THg-Sc-rjD" secondAttribute="leading" constant="15" id="WEa-Vi-NE8"/>
                             <constraint firstItem="1fb-yZ-LPM" firstAttribute="leading" secondItem="THg-Sc-rjD" secondAttribute="leading" constant="30" id="aRa-vB-wgw"/>

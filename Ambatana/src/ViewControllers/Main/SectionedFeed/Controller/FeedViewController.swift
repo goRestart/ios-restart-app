@@ -244,6 +244,14 @@ extension FeedViewController: WaterFallScrollable {
     
 }
 
+// MARK: - Scrollable To Top
+
+extension FeedViewController: ScrollableToTop {
+    func scrollToTop() {
+        collectionView.setContentOffset(.zero, animated: true)
+    }
+}
+
 //  MARK: - UITextFieldDelegate
 
 extension FeedViewController: UITextFieldDelegate {
@@ -279,6 +287,10 @@ extension FeedViewController: FeedRenderable {
     
     func updateFeed() {
         adapter.performUpdates(animated: true, completion: nil)
+    }
+    
+    func reloadFeed() {
+        adapter.reloadData(completion: nil)
     }
 }
 

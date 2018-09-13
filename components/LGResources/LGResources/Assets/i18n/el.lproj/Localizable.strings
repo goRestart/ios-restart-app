@@ -1344,6 +1344,10 @@
 "reset_password_send_ok" = "Σας στείλαμε ένα μήνυμα στο %@. Κάντε κλικ στο σύνδεσμο του email για να επαναφέρετε τον κωδικό πρόσβασης.";
 "reset_password_send_too_many_requests" = "Σας έχουμε στείλει ήδη ένα email για επαναφορά κωδικού. Παρακαλώ ελέγξτε τα email σας και ακολουθήστε τις οδηγίες.";
 "reset_password_title" = "Επαναφορά κωδικού πρόσβασης";
+"rewards_faq_title" = "How it works";
+"rewards_invite_friends_button" = "Invite friends";
+"rewards_invite_friends_title" = "Invite friends";
+"rewards_title" = "Rewards";
 "search_alert_delete_error_message" = "Όπα! Παρουσιάστηκε σφάλμα κατά τη διαγραφή της ειδοποίησης αναζήτησης.";
 "search_alert_disable_error_message" = "Όπα! Παρουσιάστηκε σφάλμα κατά την απενεργοποίηση της ειδοποίησης αναζήτησης.";
 "search_alert_enable_error_message" = "Όπα! Παρουσιάστηκε σφάλμα κατά την ενεργοποίηση της ειδοποίησης αναζήτησης.";
@@ -1426,6 +1430,7 @@
 "settings_notifications_push_notifications" = "Ειδοποιήσεις push";
 "settings_notifications_search_alerts" = "Αναζήτηση Ειδοποιήσεων";
 "settings_notifications_title" = "Ειδοποιήσεις";
+"settings_rewards_button" = "Rewards";
 "settings_section_profile" = "Προφίλ";
 "settings_section_promote" = "Προώθηση";
 "settings_section_support" = "Υποστήριξη";

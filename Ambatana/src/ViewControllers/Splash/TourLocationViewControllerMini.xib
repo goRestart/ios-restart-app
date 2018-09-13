@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina3_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -14,7 +14,6 @@
             <connections>
                 <outlet property="alertContainer" destination="eAj-PQ-9G8" id="zGW-6D-Lrc"/>
                 <outlet property="alertOkLabel" destination="A5m-ec-bHr" id="kdL-9r-j3D"/>
-                <outlet property="closeButton" destination="jO7-ua-tLP" id="gha-pl-Ye5"/>
                 <outlet property="distanceLabel" destination="nnu-rE-Ux7" id="O5t-Gb-UCj"/>
                 <outlet property="iPhoneBottomImage" destination="9JF-Xe-i8b" id="fGa-UG-xnt"/>
                 <outlet property="iPhoneLeftImage" destination="0eM-v4-yeg" id="gX3-NC-CN3"/>
@@ -160,16 +159,6 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jO7-ua-tLP">
-                                <rect key="frame" x="0.0" y="10" width="56" height="56"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="56" id="k7T-eG-OUq"/>
-                                    <constraint firstAttribute="width" constant="56" id="qfX-f0-koE"/>
-                                </constraints>
-                                <connections>
-                                    <action selector="closeButtonPressed:" destination="-1" eventType="touchUpInside" id="kJN-J4-IOB"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Do you want to see products near you?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qtS-Fa-2SK">
                                 <rect key="frame" x="43" y="95" width="235" height="41"/>
                                 <constraints>
@@ -229,18 +218,16 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="FQA-rK-Rbt" firstAttribute="top" secondItem="jO7-ua-tLP" secondAttribute="bottom" constant="-10" id="FgA-Ic-2XK"/>
                             <constraint firstItem="qtS-Fa-2SK" firstAttribute="centerX" secondItem="bq4-di-d1a" secondAttribute="centerX" id="NGg-2o-pdE"/>
                             <constraint firstAttribute="trailing" secondItem="GUZ-3O-0f7" secondAttribute="trailing" constant="15" id="Qfx-Ls-fhn"/>
                             <constraint firstItem="6fD-K2-LnF" firstAttribute="centerX" secondItem="bq4-di-d1a" secondAttribute="centerX" id="RwF-Ex-iMB"/>
-                            <constraint firstItem="jO7-ua-tLP" firstAttribute="leading" secondItem="bq4-di-d1a" secondAttribute="leading" id="UXr-kj-Gl7"/>
                             <constraint firstItem="aa0-Zo-i07" firstAttribute="top" secondItem="qtS-Fa-2SK" secondAttribute="bottom" constant="13" id="Wv6-bq-Ifd"/>
                             <constraint firstItem="eAj-PQ-9G8" firstAttribute="centerY" secondItem="aa0-Zo-i07" secondAttribute="centerY" id="Z2e-Ap-ZdS"/>
                             <constraint firstItem="GUZ-3O-0f7" firstAttribute="leading" secondItem="bq4-di-d1a" secondAttribute="leading" constant="15" id="fvF-8s-HW3"/>
+                            <constraint firstItem="FQA-rK-Rbt" firstAttribute="top" secondItem="bq4-di-d1a" secondAttribute="top" constant="56" id="g59-FK-flg"/>
                             <constraint firstItem="FQA-rK-Rbt" firstAttribute="leading" secondItem="bq4-di-d1a" secondAttribute="leading" constant="8" id="gct-QF-WAW"/>
                             <constraint firstItem="qtS-Fa-2SK" firstAttribute="top" secondItem="FQA-rK-Rbt" secondAttribute="bottom" constant="10" id="hYe-XM-3Yh"/>
                             <constraint firstItem="eAj-PQ-9G8" firstAttribute="centerX" secondItem="bq4-di-d1a" secondAttribute="centerX" id="mpk-iW-FNj"/>
-                            <constraint firstItem="jO7-ua-tLP" firstAttribute="top" secondItem="bq4-di-d1a" secondAttribute="top" constant="10" id="pbY-vf-whI"/>
                             <constraint firstAttribute="trailing" secondItem="FQA-rK-Rbt" secondAttribute="trailing" constant="8" id="qi9-aX-T0e"/>
                             <constraint firstAttribute="bottom" secondItem="GUZ-3O-0f7" secondAttribute="bottom" constant="17" id="tm6-tj-dWY"/>
                             <constraint firstItem="6fD-K2-LnF" firstAttribute="top" secondItem="0Sn-6M-ouv" secondAttribute="bottom" constant="25" id="wt6-31-9dv"/>

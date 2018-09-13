@@ -973,6 +973,18 @@
 // Common display for time
 "common_hours_mins_secs" = "%@h %@m %@s";
 
+// System message shown in chat for an offer that has been accepted and is expired
+"communication_offer_accepted_expired" = "The offer has expired";
+
+// System message shown in chat for an offer that is pending and expiring soon
+"communication_offer_pending_expiring" = "The offer's expiring soon";
+
+// System message shown in chat for an offer that is completed and expired
+"communication_offer_completed_expired" = "The offer has expired";
+
+// System message shown in chat for an offer that is accepted and expiring soon
+"communication_offer_accepted_expiring" = "The offer's expiring soon";
+
 // Text shown in the Community Banner
 "community_banner_title" = "Join the letgo community!";
 
@@ -4055,6 +4067,18 @@
 // Reset password title. Check image @ "reset_password_email_field_hint" segment
 "reset_password_title" = "Reset password";
 
+// Rewards FAQ screen title
+"rewards_faq_title" = "How it works";
+
+// Rewards screen invite friends button
+"rewards_invite_friends_button" = "Invite friends";
+
+// Rewards invite friends screen title
+"rewards_invite_friends_title" = "Invite friends";
+
+// Rewards screen title
+"rewards_title" = "Rewards";
+
 // Search alerts edit button 
 "search_alerts_edit_button" = "Edit";
 
@@ -4309,6 +4333,9 @@
 
 // Settings notifications loading error message
 "settings_notifications_error_message" = "Oops! An error occurred while loading your notification settings. Please try again.";
+
+// Settings option to access rewards
+"settings_rewards_button" = "Rewards";
 
 // Search alerts view title
 "search_alerts_list_title" = "Search Alerts";

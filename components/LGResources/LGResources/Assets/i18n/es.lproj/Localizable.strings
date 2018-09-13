@@ -1344,6 +1344,10 @@
 "reset_password_send_ok" = "Hemos enviado un email a %@. Haz clic en el enlace dentro del email para restablecer tu contraseña.";
 "reset_password_send_too_many_requests" = "Ya te hemos enviado un email para restablecer la contraseña. Revisa tu bandeja de entrada y sigue las instrucciones del mensaje.";
 "reset_password_title" = "Restablecer la contraseña";
+"rewards_faq_title" = "How it works";
+"rewards_invite_friends_button" = "Invite friends";
+"rewards_invite_friends_title" = "Invite friends";
+"rewards_title" = "Rewards";
 "search_alert_delete_error_message" = "¡Ups! Se ha producido un error al borrar tu alerta de búsqueda.";
 "search_alert_disable_error_message" = "¡Ups! Se ha producido un error al desactivar tu alerta de búsqueda.";
 "search_alert_enable_error_message" = "¡Ups! Se ha producido un error al activar tu alerta de búsqueda.";
@@ -1426,6 +1430,7 @@
 "settings_notifications_push_notifications" = "Notificaciones";
 "settings_notifications_search_alerts" = "Alertas de búsqueda";
 "settings_notifications_title" = "Notificaciones";
+"settings_rewards_button" = "Rewards";
 "settings_section_profile" = "Perfil";
 "settings_section_promote" = "Promover";
 "settings_section_support" = "Ayuda";

@@ -1344,6 +1344,10 @@
 "reset_password_send_ok" = "Vi har skickat ett e-mejl till %@. Klicka på länken i mejlet för att återställa ditt lösenord.";
 "reset_password_send_too_many_requests" = "Vi har redan skickat ett mejl till dig för att återställa ditt lösenord. Kolla i din inkorg och följ instruktionerna i mejlet.";
 "reset_password_title" = "Återställ lösenord";
+"rewards_faq_title" = "How it works";
+"rewards_invite_friends_button" = "Invite friends";
+"rewards_invite_friends_title" = "Invite friends";
+"rewards_title" = "Rewards";
 "search_alert_delete_error_message" = "Hoppsan! Ett fel inträffade när din sökavisering skulle raderas.";
 "search_alert_disable_error_message" = "Hoppsan! Ett fel inträffade när din sökavisering skulle inaktiveras";
 "search_alert_enable_error_message" = "Hoppsan! Ett fel inträffade när din sökavisering skulle aktiveras";
@@ -1426,6 +1430,7 @@
 "settings_notifications_push_notifications" = "Pushaviseringar";
 "settings_notifications_search_alerts" = "Sökaviseringar";
 "settings_notifications_title" = "Notiser";
+"settings_rewards_button" = "Rewards";
 "settings_section_profile" = "Profil";
 "settings_section_promote" = "Marknadsför";
 "settings_section_support" = "Support";

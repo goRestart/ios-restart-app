@@ -1344,6 +1344,10 @@
 "reset_password_send_ok" = "Мы отправили письмо %@. Пройдите по ссылке в нем для сброса пароля!";
 "reset_password_send_too_many_requests" = "Мы уже отправили вам письмо для сброса пароля. Пожалуйста, проверьте ящик и следуйте инструкции.";
 "reset_password_title" = "Сбросить пароль";
+"rewards_faq_title" = "How it works";
+"rewards_invite_friends_button" = "Invite friends";
+"rewards_invite_friends_title" = "Invite friends";
+"rewards_title" = "Rewards";
 "search_alert_delete_error_message" = "Упс! При удалении поискового уведомления произошла ошибка.";
 "search_alert_disable_error_message" = "Упс! При отключении поискового уведомления произошла ошибка";
 "search_alert_enable_error_message" = "Упс! При включении поискового уведомления произошла ошибка";
@@ -1426,6 +1430,7 @@
 "settings_notifications_push_notifications" = "Всплывающие уведомления";
 "settings_notifications_search_alerts" = "Поисковые уведомления";
 "settings_notifications_title" = "Уведомления";
+"settings_rewards_button" = "Rewards";
 "settings_section_profile" = "Профиль";
 "settings_section_promote" = "Продвигать";
 "settings_section_support" = "Поддержка";

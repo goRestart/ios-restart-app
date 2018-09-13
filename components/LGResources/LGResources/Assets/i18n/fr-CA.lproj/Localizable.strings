@@ -1344,6 +1344,10 @@
 "reset_password_send_ok" = "Nous avons envoyé un courriel à %@. Veuillez cliquer sur le lien dans le courriel pour réinitialiser votre mot de passe !";
 "reset_password_send_too_many_requests" = "Nous vous avons déjà envoyé un courriel de réinitialisation de mot de passe. Veuillez vérifier vos courriels et suivre les instructions.";
 "reset_password_title" = "Réinitialiser le mot de passe";
+"rewards_faq_title" = "How it works";
+"rewards_invite_friends_button" = "Invite friends";
+"rewards_invite_friends_title" = "Invite friends";
+"rewards_title" = "Rewards";
 "search_alert_delete_error_message" = "Oups ! Une erreur est survenue au moment de supprimer votre alerte de recherche.";
 "search_alert_disable_error_message" = "Oups ! Une erreur est survenue au moment de désactiver votre alerte de recherche.";
 "search_alert_enable_error_message" = "Oups ! Une erreur est survenue au moment d'activer votre alerte de recherche.";
@@ -1426,6 +1430,7 @@
 "settings_notifications_push_notifications" = "Notifications push";
 "settings_notifications_search_alerts" = "Alertes de Recherche";
 "settings_notifications_title" = "Notifications";
+"settings_rewards_button" = "Rewards";
 "settings_section_profile" = "Profil";
 "settings_section_promote" = "Promouvoir";
 "settings_section_support" = "Assistance";

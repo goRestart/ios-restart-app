@@ -22,9 +22,10 @@ final class UserPhoneVerificationWireframe: UserPhoneVerificationNavigator {
         nc.popViewController(animated: true)
     }
 
-    func openCodeInput(sentTo phoneNumber: String, with callingCode: String) {
+    func openCodeInput(sentTo phoneNumber: String, with callingCode: String, editing: Bool) {
         let vc = assembly.buildUserPhoneVerificationCodeInput(sentTo: phoneNumber,
-                                                                with: callingCode)
+                                                                with: callingCode,
+                                                                editing: editing)
         nc.pushViewController(vc, animated: true)
     }
     
