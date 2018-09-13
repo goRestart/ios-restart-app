@@ -2,12 +2,9 @@ import Result
 import RxSwift
 
 final class LGCarsInfoRepository: CarsInfoRepository {
-
     private let dataSource: CarsInfoDataSource
     private let cache: CarsInfoDAO
     private let locationManager: LocationManager
-
-    private var countryCode: String?
 
     private var disposeBag = DisposeBag()
 
@@ -22,17 +19,14 @@ final class LGCarsInfoRepository: CarsInfoRepository {
     }
 
     func loadFirstRunCacheIfNeeded(jsonURL: URL) {
-        cache.loadFirstRunCacheIfNeeded(jsonURL: jsonURL)
-    }
-
-    func refreshCarsInfoFile() {
-        countryCode = locationManager.currentLocation?.postalAddress?.countryCode
-        dataSource.index(countryCode: countryCode) { [weak self] result in
-            if let value = result.value {
-                if !value.isEmpty {
-                    self?.cache.save(carsInfo: value)
-                }
-            }
+        guard cache.carsMakesList.isEmpty else { return }
+        do {
+            let data = try Data(contentsOf: jsonURL)
+            let jsonCarMakesList = try JSONSerialization.jsonObject(with: data, options: [])
+            guard let carMakesList = decoder(jsonCarMakesList) else { return }
+            cache.save(carsInfo: carMakesList, countryCode: nil)
+        } catch let error {
+            logMessage(.verbose, type: CoreLoggingOptions.database, message: "Failed to create Cars Info first run cache: \(error)")
         }
     }
 
@@ -71,15 +65,42 @@ final class LGCarsInfoRepository: CarsInfoRepository {
         return cache.retrieveMakeName(with: makeId)
     }
     
+    private func decoder(_ object: Any) -> [CarsMakeWithModels]? {
+        guard let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) else { return nil }
+        
+        // Ignore cars makes that can't be decoded
+        do {
+            let carMakes = try JSONDecoder().decode(FailableDecodableArray<ApiCarsMake>.self, from: data)
+            return carMakes.validElements
+        } catch {
+            logMessage(.debug, type: .parsing, message: "could not parse ApiCarsMake \(object)")
+        }
+        return nil
+    }
     
+    private func requestCarsInfoFile(for countryCode: String) {
+        dataSource.index(countryCode: countryCode) { [weak self] result in
+            if let value = result.value, !value.isEmpty {
+                self?.cache.save(carsInfo: value, countryCode: countryCode)
+            }
+        }
+    }
+
 
     // Rx
 
-    fileprivate func setupRx() {
+    private func setupRx() {
         locationManager.locationEvents.filter { $0 == .locationUpdate }.subscribeNext { [weak self] _ in
-            guard let locationCountryCode = self?.locationManager.currentLocation?.postalAddress?.countryCode,
-                locationCountryCode != self?.countryCode else { return }
-            self?.refreshCarsInfoFile()
+            guard
+                let cache = self?.cache,
+                let newLocationCountryCode = self?.locationManager.currentLocation?.postalAddress?.countryCode
+                else {
+                    return
+            }
+            let countryHasChanged = newLocationCountryCode != cache.countryCode
+            if countryHasChanged || cache.isExpired {
+                self?.requestCarsInfoFile(for: newLocationCountryCode)
+            }
         }.disposed(by: disposeBag)
     }
 }

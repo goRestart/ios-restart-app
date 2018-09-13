@@ -244,6 +244,14 @@ extension FeedViewController: WaterFallScrollable {
     
 }
 
+// MARK: - Scrollable To Top
+
+extension FeedViewController: ScrollableToTop {
+    func scrollToTop() {
+        collectionView.setContentOffset(.zero, animated: true)
+    }
+}
+
 //  MARK: - UITextFieldDelegate
 
 extension FeedViewController: UITextFieldDelegate {
@@ -278,9 +286,11 @@ extension FeedViewController: FeedRenderable {
     }
     
     func updateFeed() {
-        adapter.locationSectionIndex = viewModel.locationSectionIndex
-        adapter.bottomStatusIndicatorIndex = viewModel.bottomStatusIndicatorIndex
         adapter.performUpdates(animated: true, completion: nil)
+    }
+    
+    func reloadFeed() {
+        adapter.reloadData(completion: nil)
     }
 }
 
@@ -289,4 +299,6 @@ extension FeedViewController: FeedViewModelDelegate {
         guard viewModel === vm else { return }
         refreshUIWithState(state)
     }
+    
+    func searchCompleted() { navbarSearch?.cancelEdit() }
 }

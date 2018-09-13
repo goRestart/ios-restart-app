@@ -146,6 +146,7 @@ extension ABTests {
     var offensiveReportAlert: LeanplumABVariable<Int> { return users.offensiveReportAlert }
     var reportingFostaSesta: LeanplumABVariable<Int> { return users.reportingFostaSesta }
     var community: LeanplumABVariable<Int> { return users.community }
+    var advancedReputationSystem11: LeanplumABVariable<Int> { return users.advancedReputationSystem11 }
 }
 
 //  MARK: Core
@@ -153,6 +154,9 @@ extension ABTests {
 extension ABTests {
     var searchImprovements: LeanplumABVariable<Int> { return core.searchImprovements }
     var relaxedSearch: LeanplumABVariable<Int> { return core.relaxedSearch }
+    var mutePushNotifications: LeanplumABVariable<Int> { return core.mutePushNotifications }
+    var mutePushNotificationsStartHour: LeanplumABVariable<Int> { return core.mutePushNotificationsStartHour }
+    var mutePushNotificationsEndHour: LeanplumABVariable<Int> { return core.mutePushNotificationsEndHour }
 }
 
 //  MARK: Chat
@@ -185,6 +189,8 @@ extension ABTests {
     var bumpInEditCopys: LeanplumABVariable<Int> { return money.bumpInEditCopys }
     var copyForSellFasterNowInTurkish : LeanplumABVariable<Int> { return money.copyForSellFasterNowInTurkish }
     var multiAdRequestMoreInfo: LeanplumABVariable<Int> { return money.multiAdRequestMoreInfo }
+    var multiAdRequestInChatSectionForUS: LeanplumABVariable<Int> { return money.multiAdRequestInChatSectionForUS }
+    var multiAdRequestInChatSectionForTR: LeanplumABVariable<Int> { return money.multiAdRequestInChatSectionForTR }
 }
 
 //  MARK: Retention
@@ -218,6 +224,7 @@ extension ABTests {
     var carPromoCells: LeanplumABVariable<Int> { return verticals.carPromoCells }
     var servicesPromoCells: LeanplumABVariable<Int> { return verticals.servicesPromoCells }
     var realEstatePromoCells: LeanplumABVariable<Int> { return verticals.realEstatePromoCells }
+    var proUserExtraImages: LeanplumABVariable<Int> { return verticals.proUsersExtraImages }
     var clickToTalkEnabled: LeanplumABVariable<Int> { return verticals.clickToTalkEnabled }
 }
 
@@ -236,9 +243,6 @@ extension ABTests {
 //  MARK: Legacy
 
 extension ABTests {
-    var newCarsMultiRequesterEnabled: LeanplumABVariable<Bool> { return legacy.newCarsMultiRequesterEnabled }
-    var userReviewsReportEnabled: LeanplumABVariable<Bool> { return legacy.userReviewsReportEnabled }
-    var appRatingDialogInactive: LeanplumABVariable<Bool> { return legacy.appRatingDialogInactive }
     var locationDataSourceType: LeanplumABVariable<Int> { return legacy.locationDataSourceType }
     var realEstateEnabled: LeanplumABVariable<Int> { return legacy.realEstateEnabled }
     var deckItemPage: LeanplumABVariable<Int> { return legacy.newItemPage }

@@ -51,11 +51,6 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
         return feedItems.index(where: { $0 is LocationData })
     }
     
-    var bottomStatusIndicatorIndex: Int? {
-        guard feedItems.last is DiffableBox<ListingRetrievalState> else { return nil }
-        return feedItems.count - 1
-    }
-    
     var verticalSectionsCount: Int {
         guard let locationSectionIndex = locationSectionIndex,
             feedItems.count > locationSectionIndex else { return 0 }
@@ -67,7 +62,7 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
             return filters.place ?? Place(postalAddress: currentLocation?.postalAddress,
                                           location: currentLocation?.location)
     }
-    
+
     // Private vars
     
     private let filtersVar: Variable<ListingFilters>
@@ -89,6 +84,8 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     private var feedIdSet: Set<String> = Set<String>()
     
     private var sectionControllerFactory: SectionControllerFactory
+    
+    private var showingRetryState: Bool = false
     
     //  Ads
     
@@ -208,6 +205,7 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     }
     
     func willScroll(toSection section: Int) {
+        guard !showingRetryState else { return }
         if shouldRetrieveNextPage(section: section) { retrieve() }
     }
     
@@ -301,7 +299,11 @@ extension FeedViewModel {
             } else if let feed = result.value {
                 self?.removeLoadingBottom()
                 defer {
-                    self?.refreshFeed()
+                    if feed.isFirstPage {
+                        self?.feedRenderingDelegate?.updateFeed()
+                    } else {
+                        self?.refreshFeed()
+                    }
                 }
                 guard !feed.isEmpty else {
                     self?.renderEmptyPage(feed)
@@ -326,6 +328,8 @@ extension FeedViewModel {
     private func show(error: RepositoryError) {
         guard isFirstPage,
             let errorViewModel = LGEmptyViewModel.map(from: error, action: retrieve) else {
+                listingRetrievalState = .error
+                showingRetryState = true
                 return
         }
         viewState = .error(errorViewModel)
@@ -406,7 +410,19 @@ extension FeedViewModel {
             myUserName:  myUserRepository.myUser?.name)
     }
     
-    func openSearches() { navigator?.openSearches() }
+    func openSearches() {
+        guard let safeNavigator = navigator else { return }
+        wireframe?.openSearches(withSearchType: searchType){ [weak self] searchType in
+            guard let safeSelf = self else { return }
+            safeSelf.wireframe?.openClassicFeed(
+                navigator: safeNavigator,
+                withSearchType: searchType,
+                listingFilters: safeSelf.filters,
+                shouldCloseOnRemoveAllFilters: false
+            )
+            safeSelf.delegate?.searchCompleted()
+        }
+    }
     
     func showFilters() {
         wireframe?.openFilters(withListingFilters: filters,
@@ -427,21 +443,22 @@ extension FeedViewModel: FiltersViewModelDataDelegate {
     
     func viewModelDidUpdateFilters(_ viewModel: FiltersViewModel,
                                    filters: ListingFilters) {
+        defer { refreshFeedUponLocationChange() }
+        self.filters = filters
         guard !filters.isDefault() else { return }
         // For the moment when the user wants to filter something the app
         // must jump directly to the old feed with the applied filters.
         // Story: https://ambatana.atlassian.net/browse/ABIOS-4525?filter=18022.
         guard let safeNavigator = navigator else { return }
-        guard filters.hasOnlyPlace else {
-            wireframe?.openClassicFeed(
-                navigator: safeNavigator,
-                withSearchType: searchType,
-                listingFilters: filters,
-                shouldCloseOnRemoveAllFilters: true)
-            return
-        }
-        self.filters = filters
-        refreshFeedUponLocationChange()
+        guard !filters.hasOnlyPlace else { return }
+        wireframe?.openClassicFeed(
+            navigator: safeNavigator,
+            withSearchType: searchType,
+            listingFilters: filters,
+            shouldCloseOnRemoveAllFilters: true,
+            tagsDelegate: self
+        )
+        self.filters = ListingFilters()
     }
 }
 
@@ -545,6 +562,7 @@ extension FeedViewModel: SelectedForYouDelegate {
 
 extension FeedViewModel: RetryFooterDelegate {
     func retryClicked() {
+        showingRetryState = false
         feedItems.removeLast()
         retrieve()
     }
@@ -731,6 +749,15 @@ extension FeedViewModel {
 extension FeedViewModel: AdUpdated {
     func updatedAd() {
         refreshFeed()
+    }
+}
+
+// MARK: - Main Listings Tags Delegate
+
+extension FeedViewModel: MainListingsTagsDelegate {
+    func onCloseAllFilters(finalFiters newFilters: ListingFilters) {
+        self.filters = newFilters
+        refreshFeedUponLocationChange()
     }
 }
 

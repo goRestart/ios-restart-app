@@ -15,13 +15,13 @@ protocol FeatureFlaggeable: class {
     var syncedData: Observable<Bool> { get }
     func variablesUpdated()
 
-    var userReviewsReportEnabled: Bool { get }
     var realEstateEnabled: RealEstateEnabled { get }
     var deckItemPage: DeckItemPage { get }
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio { get }
     var realEstateNewCopy: RealEstateNewCopy { get }
     var searchImprovements: SearchImprovements { get }
     var relaxedSearch: RelaxedSearch { get }
+    var mutePushNotifications: MutePushNotifications { get }
     var showProTagUserProfile: Bool { get }
     var showExactLocationForPros: Bool { get }
 
@@ -74,6 +74,7 @@ protocol FeatureFlaggeable: class {
     var carPromoCells: CarPromoCells { get }
     var servicesPromoCells: ServicesPromoCells { get }
     var realEstatePromoCells: RealEstatePromoCells { get }
+    var proUsersExtraImages: ProUsersExtraImages { get }
     
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed { get }
@@ -95,9 +96,13 @@ protocol FeatureFlaggeable: class {
     var emergencyLocate: EmergencyLocate { get }
     var offensiveReportAlert: OffensiveReportAlert { get }
     var community: ShowCommunity { get }
+    var advancedReputationSystem11: AdvancedReputationSystem11 { get }
     
     // MARK: Money
     var preventMessagesFromFeedToProUsers: PreventMessagesFromFeedToProUsers { get }
+    var multiAdRequestInChatSectionForUS: MultiAdRequestInChatSectionForUS { get }
+    var multiAdRequestInChatSectionForTR: MultiAdRequestInChatSectionForTR { get }
+    var multiAdRequestInChatSectionAdUnitId: String? { get }
     
     // MARK: Retention
     var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
@@ -109,6 +114,7 @@ protocol FeatureFlaggeable: class {
     var notificationCenterRedesign: NotificationCenterRedesign { get }
     var randomImInterestedMessages: RandomImInterestedMessages { get }
     var imInterestedInProfile: ImInterestedInProfile { get }
+    var affiliationEnabled: AffiliationEnabled { get }
 }
 
 extension FeatureFlaggeable {
@@ -180,6 +186,10 @@ extension RealEstatePromoCells {
     var isActive: Bool { return self != .control && self != .baseline }
 }
 
+extension ProUsersExtraImages {
+    var isActive: Bool { return self != .control && self != .baseline }
+}
+
 extension ClickToTalk {
     var isActive: Bool { return self != .control && self != .baseline }
 }
@@ -209,8 +219,8 @@ extension CopyForChatNowInTurkey {
 
 extension ShowCommunity {
     var isActive: Bool {  return self != .baseline && self != .control }
-    var shouldShowOnTab: Bool { return self == .communityOnTabBar }
-    var shouldShowOnNavBar: Bool { return self == .communityOnNavBar }
+    var shouldShowOnTab: Bool { return isActive && self == .communityOnTabBar }
+    var shouldShowOnNavBar: Bool { return isActive && self == .communityOnNavBar }
 }
 
 extension ShowPasswordlessLogin {
@@ -294,6 +304,9 @@ extension EngagementBadging {
     var isActive: Bool { return self == .active }
 }
 
+extension AdvancedReputationSystem11 {
+    var isActive: Bool { return self == .active }
+}
 
 // MARK: Products
 
@@ -352,6 +365,24 @@ extension PreventMessagesFromFeedToProUsers {
     var isActive: Bool { return self == .active }
 }
 
+extension MultiAdRequestInChatSectionForUS {
+    var isActive: Bool { return self == .active }
+    
+    func shouldShowAdsForUser(createdIn: Date?) -> Bool {
+        guard isActive else { return false }
+        return createdIn?.isOlderThan(SharedConstants.newUserTimeThresholdForAds) ?? false
+    }
+}
+
+extension MultiAdRequestInChatSectionForTR {
+    var isActive: Bool { return self == .active }
+    
+    func shouldShowAdsForUser(createdIn: Date?) -> Bool {
+        guard isActive else { return false }
+        return createdIn?.isOlderThan(SharedConstants.newUserTimeThresholdForAds) ?? false
+    }
+}
+
 extension AppInstallAdsInFeed {
     var isActive: Bool { return self == .active }
 }
@@ -373,6 +404,10 @@ extension RandomImInterestedMessages {
 }
 
 extension ImInterestedInProfile {
+    var isActive: Bool { return self == .active }
+}
+
+extension AffiliationEnabled {
     var isActive: Bool { return self == .active }
 }
 
@@ -445,17 +480,11 @@ final class FeatureFlags: FeatureFlaggeable {
 
     func variablesUpdated() {
         defer { abTests.variablesUpdated() }
-        guard Bumper.enabled else { return }
+        guard !Bumper.enabled else { return }
         
         dao.save(emergencyLocate: EmergencyLocate.fromPosition(abTests.emergencyLocate.value))
         dao.save(community: ShowCommunity.fromPosition(abTests.community.value))
-    }
-
-    var userReviewsReportEnabled: Bool {
-        if Bumper.enabled {
-            return Bumper.userReviewsReportEnabled
-        }
-        return abTests.userReviewsReportEnabled.value
+        dao.save(advancedReputationSystem11: AdvancedReputationSystem11.fromPosition(abTests.advancedReputationSystem11.value))
     }
 
     var realEstateEnabled: RealEstateEnabled {
@@ -507,6 +536,21 @@ final class FeatureFlags: FeatureFlaggeable {
         return RelaxedSearch.fromPosition(abTests.relaxedSearch.value)
     }
     
+    var mutePushNotifications: MutePushNotifications {
+        if Bumper.enabled {
+            return Bumper.mutePushNotifications
+        }
+        return MutePushNotifications.control // MutePushNotifications.fromPosition(abTests.mutePushNotifications.value)
+    }
+
+    var mutePushNotificationsStartHour: Int {
+        return abTests.mutePushNotificationsStartHour.value
+    }
+    
+    var mutePushNotificationsEndHour: Int {
+        return abTests.mutePushNotificationsEndHour.value
+    }
+    
     var showProTagUserProfile: Bool {
         if Bumper.enabled {
             return Bumper.showProTagUserProfile
@@ -549,6 +593,14 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.offensiveReportAlert
         }
         return OffensiveReportAlert.fromPosition(abTests.offensiveReportAlert.value)
+    }
+
+    var advancedReputationSystem11: AdvancedReputationSystem11 {
+        if Bumper.enabled {
+            return Bumper.advancedReputationSystem11
+        }
+        let cached = dao.retrieveAdvancedReputationSystem11()
+        return cached ?? AdvancedReputationSystem11.fromPosition(abTests.advancedReputationSystem11.value)
     }
 
     // MARK: - Country features
@@ -1005,6 +1057,14 @@ extension FeatureFlags {
         return RealEstatePromoCells.fromPosition(abTests.realEstatePromoCells.value)
     }
     
+    var proUsersExtraImages: ProUsersExtraImages {
+        if Bumper.enabled {
+            return Bumper.proUsersExtraImages
+        }
+        
+        return ProUsersExtraImages.fromPosition(abTests.proUserExtraImages.value)
+    }
+    
     var clickToTalkEnabled: ClickToTalk {
         if Bumper.enabled {
             return Bumper.clickToTalk
@@ -1152,8 +1212,36 @@ extension FeatureFlags {
         }
         return PreventMessagesFromFeedToProUsers.fromPosition(abTests.preventMessagesFromFeedToProUsers.value)
     }
+    
+    var multiAdRequestInChatSectionForUS: MultiAdRequestInChatSectionForUS {
+        if Bumper.enabled {
+            return Bumper.multiAdRequestInChatSectionForUS
+        }
+        return MultiAdRequestInChatSectionForUS.fromPosition(abTests.multiAdRequestInChatSectionForUS.value)
+    }
+    
+    var multiAdRequestInChatSectionForTR: MultiAdRequestInChatSectionForTR {
+        if Bumper.enabled {
+            return Bumper.multiAdRequestInChatSectionForTR
+        }
+        return MultiAdRequestInChatSectionForTR.fromPosition(abTests.multiAdRequestInChatSectionForTR.value)
+    }
+    
+    var multiAdRequestInChatSectionAdUnitId: String? {
+        if Bumper.enabled {
+            // Bumper overrides country restriction
+            return multiAdRequestInChatSectionForUS.isActive ? EnvironmentProxy.sharedInstance.chatSectionAdUnitForOldUsersUS : nil
+        }
+        switch sensorLocationCountryCode {
+        case .usa?:
+            return multiAdRequestInChatSectionForUS.isActive ? EnvironmentProxy.sharedInstance.chatSectionAdUnitForOldUsersUS : nil
+        case .turkey?:
+            return multiAdRequestInChatSectionForTR.isActive ? EnvironmentProxy.sharedInstance.chatSectionAdUnitForOldUsersTR : nil
+        default:
+            return nil
+        }
+    }
 }
-
 
 // MARK: Retention
 
@@ -1213,5 +1301,12 @@ extension FeatureFlags {
             return Bumper.imInterestedInProfile
         }
         return ImInterestedInProfile.fromPosition(abTests.imInterestedInProfile.value)
+    }
+
+    var affiliationEnabled: AffiliationEnabled {
+        if Bumper.enabled {
+            return Bumper.affiliationEnabled
+        }
+        return .control // ABIOS-5051
     }
 }

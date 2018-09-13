@@ -457,6 +457,18 @@ struct TrackerEvent {
         
         return TrackerEvent(name: .adShown, params: params)
     }
+    
+    static func adError(adShown: EventParameterBoolean,
+                        adType: EventParameterAdType?,
+                        typePage: EventParameterTypePage,
+                        errorReason: EventParameterAdSenseRequestErrorReason?) -> TrackerEvent {
+        var params = EventParameters()
+        params[.typePage] = typePage.rawValue
+        params[.adType] = adType?.stringValue ?? TrackerEvent.notApply
+        params[.adShown] = adShown.rawValue
+        params[.reason] = errorReason?.rawValue ?? TrackerEvent.notApply
+        return TrackerEvent(name: .adError, params: params)
+    }
 
     static func listingFavorite(_ listing: Listing, typePage: EventParameterTypePage,
                                 isBumpedUp: EventParameterBoolean) -> TrackerEvent {
@@ -1002,14 +1014,14 @@ struct TrackerEvent {
         return TrackerEvent(name: .chatRelatedItemsComplete, params: params)
     }
     
-    static func chatLetgoServiceQuestionReceived(questionKey: String, listingId: String) -> TrackerEvent {
+    static func chatLetgoServiceQuestionReceived(questionKey: String, listingId: String?) -> TrackerEvent {
         var params = EventParameters()
         params[.messageGoal] = questionKey
         params[.listingId] = listingId
         return TrackerEvent(name: .chatLetgoServiceQuestionReceived, params: params)
     }
     
-    static func chatLetgoServiceCTAReceived(questionKey: String, listingId: String) -> TrackerEvent {
+    static func chatLetgoServiceCTAReceived(questionKey: String, listingId: String?) -> TrackerEvent {
         var params = EventParameters()
         params[.messageGoal] = questionKey
         params[.listingId] = listingId
@@ -1048,6 +1060,10 @@ struct TrackerEvent {
 
     static func profileEditEditPicture() -> TrackerEvent {
         return TrackerEvent(name: .profileEditEditPicture, params: nil)
+    }
+
+    static func profileOpenPictureDetail() -> TrackerEvent {
+        return TrackerEvent(name: .profileOpenUserPicture, params: nil)
     }
 
     static func profileShareStart(_ type: EventParameterProfileType)  -> TrackerEvent {
@@ -1666,6 +1682,14 @@ struct TrackerEvent {
     
     static func openCommunityFromTabBar() -> TrackerEvent {
         return TrackerEvent(name: .openCommunity, params: nil)
+    }
+
+    static func phoneNumberEditStart() -> TrackerEvent {
+        return TrackerEvent(name: .phoneNumberEditStart, params: nil)
+    }
+
+    static func phoneNumberEditComplete() -> TrackerEvent {
+        return TrackerEvent(name: .phoneNumberEditComplete, params: nil)
     }
     
     static func filterDuplicatedItemInSectionedFeed(pageNumber: Int, numberOfDuplicates: Int) -> TrackerEvent {

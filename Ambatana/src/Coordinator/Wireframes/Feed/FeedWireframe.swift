@@ -14,6 +14,8 @@ protocol FeedNavigator: class {
                  requester: ListingListMultiRequester,
                  listingFilters: ListingFilters,
                  locationManager: LocationManager)
+    func openSearches(withSearchType searchType: SearchType?,
+                      onUserSearchCallback onUserSearchCallback: ((SearchType) -> ())?)
     func openAppInvite(myUserId: String?, myUserName: String?)
     func openProFeed(navigator: MainTabNavigator?,
                      withSearchType: SearchType,
@@ -25,15 +27,29 @@ protocol FeedNavigator: class {
                          withSearchType searchType: SearchType?,
                          listingFilters: ListingFilters,
                          shouldCloseOnRemoveAllFilters: Bool)
+    func openClassicFeed(navigator: MainTabNavigator,
+                         withSearchType searchType: SearchType?,
+                         listingFilters: ListingFilters,
+                         shouldCloseOnRemoveAllFilters: Bool,
+                         tagsDelegate: MainListingsTagsDelegate?)
 }
 
 final class FeedWireframe: FeedNavigator {
     private let nc: UINavigationController
     private let deepLinkMailBox: DeepLinkMailBox
-    
+    private let listingMapAssmebly: ListingsMapAssembly
+
+    convenience init(nc: UINavigationController) {
+        self.init(nc: nc,
+                  deepLinkMailBox: LGDeepLinkMailBox.sharedInstance,
+                  listingMapAssmebly: ListingsMapBuilder.standard(nc))
+    }
+
     init(nc: UINavigationController,
-         deepLinkMailBox: DeepLinkMailBox = LGDeepLinkMailBox.sharedInstance) {
+         deepLinkMailBox: DeepLinkMailBox,
+         listingMapAssmebly: ListingsMapAssembly) {
         self.nc = nc
+        self.listingMapAssmebly = listingMapAssmebly
         self.deepLinkMailBox = deepLinkMailBox
     }
     
@@ -57,11 +73,12 @@ final class FeedWireframe: FeedNavigator {
         nc.present(vc, animated: true, completion: nil)
     }
     
-    func openMap(navigator: ListingsMapNavigator, requester: ListingListMultiRequester, listingFilters: ListingFilters, locationManager: LocationManager) {
-        let viewModel = ListingsMapViewModel(navigator: navigator,
-                                             currentFilters: listingFilters)
-        let viewController = ListingsMapViewController(viewModel: viewModel)
-        nc.pushViewController(viewController, animated: true)
+    func openMap(navigator: ListingsMapNavigator,
+                 requester: ListingListMultiRequester,
+                 listingFilters: ListingFilters,
+                 locationManager: LocationManager) {
+        let vc = listingMapAssmebly.buildListingsMap(filters: listingFilters)
+        nc.pushViewController(vc, animated: true)
     }
     
     func showPushPermissionsAlert(pushPermissionsManager: PushPermissionsManager,
@@ -86,6 +103,17 @@ final class FeedWireframe: FeedNavigator {
             alertType: .iconAlert(icon: R.Asset.IconsButtons.customPermissionProfile.image),
             actions: [positive, negative]
         )
+    }
+    
+    func openSearches(withSearchType searchType: SearchType?,
+                      onUserSearchCallback onUserSearchCallback: ((SearchType) -> ())?) {
+        nc.present(
+            UINavigationController(rootViewController:
+                SearchBuilder.modal(root: nc).buildSearch(
+                    withSearchType: searchType,
+                    onUserSearchCallback: onUserSearchCallback)),
+            animated: true,
+            completion: nil)
     }
     
     func openAppInvite(myUserId: String?, myUserName: String?) {
@@ -133,6 +161,21 @@ final class FeedWireframe: FeedNavigator {
                 withSearchType: searchType,
                 filters: listingFilters,
                 shouldCloseOnRemoveAllFilters: shouldCloseOnRemoveAllFilters
+        )
+        vm.navigator = navigator
+        nc.pushViewController(vc, animated: true)
+    }
+    
+    func openClassicFeed(navigator: MainTabNavigator,
+                         withSearchType searchType: SearchType? = nil,
+                         listingFilters: ListingFilters,
+                         shouldCloseOnRemoveAllFilters: Bool = false,
+                         tagsDelegate: MainListingsTagsDelegate? = nil) {
+        let (vc, vm) = FeedBuilder.standard(nc: nc).makeClassic(
+            withSearchType: searchType,
+            filters: listingFilters,
+            shouldCloseOnRemoveAllFilters: shouldCloseOnRemoveAllFilters,
+            tagsDelegate: tagsDelegate
         )
         vm.navigator = navigator
         nc.pushViewController(vc, animated: true)

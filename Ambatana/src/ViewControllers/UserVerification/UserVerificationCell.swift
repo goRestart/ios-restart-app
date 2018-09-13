@@ -85,16 +85,17 @@ final class UserVerificationCell: UITableViewCell, ReusableCell {
         pointsLabel.text = item.pointsValue
         customAccessoryView.isHidden = !item.showsAccessoryView
         selectionStyle = item.canBeSelected ? .default : .none
-        setCompleted(completed: item.completed, eventCount: item.eventCountString)
+        setCompleted(completed: item.completed, isActive: item.isActive, eventCount: item.eventCountString)
         subtitleLabel.text = item.subtitle
         titleViewTopConstraint?.constant = item.subtitle == nil ? Metrics.bigMargin : Metrics.margin
     }
 
-    private func setCompleted(completed: Bool, eventCount: String?) {
-        logoImageView.alpha = completed ? 0.30 : 1
-        titleLabel.alpha = completed ? 0.30 : 1
-        pointsLabel.alpha = completed ? 0.30 : 1
-        customAccessoryView.alpha = completed ? 0.30 : 1
+    private func setCompleted(completed: Bool, isActive: Bool, eventCount: String?) {
+        logoImageView.alpha = isActive ? 1 : 0.30
+        titleLabel.alpha = isActive ? 1 : 0.30
+        pointsLabel.alpha = isActive ? 1 : 0.30
+        pointsLabel.textColor = completed ? .verificationPoints : .grayRegular
+        customAccessoryView.alpha = isActive ? 1 : 0.30
         completedBadge.isHidden = !completed && eventCount == nil
         completedBadge.image = eventCount == nil ? R.Asset.IconsButtons.verifyCheck.image : R.Asset.IconsButtons.oval.image
         eventCountLabel.isHidden = eventCount == nil

@@ -7,30 +7,26 @@ protocol FilterTagCellDelegate : class {
 }
 
 final class FilterTagCell: UICollectionViewCell, ReusableCell {
-    private struct Layout {
-        struct Width {
-            static let icon: CGFloat = 28
+    private enum Layout {
+        enum Width {
             static let closeButton: CGFloat = 32
-            static let fixedSpace: CGFloat = 52 //15.0 left margin & 32.0 close button + 5 right margin
+            static let fixedSpacing = Layout.leading + Layout.trailing + Layout.Width.closeButton + Layout.extraPadding
         }
-        struct Height {
+
+        enum Height {
             static let cell: CGFloat = 32
         }
-        static let margin: CGFloat = 2
+        static let leading: CGFloat = Metrics.margin
+        static let trailing: CGFloat = Metrics.veryShortMargin
+        static let extraPadding: CGFloat = 2
     }
     private static let USDollarCode = "USD"
 
-    private let tagIcon: UIImageView = {
-        let imageView = UIImageView()
-        imageView.clipsToBounds = true
-        imageView.contentMode = .scaleAspectFill
-        return imageView
-    }()
-    private var tagIconWidth: NSLayoutConstraint?
-
     private let tagLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.mediumBodyFont
+        label.font = .systemRegularFont(size: 14)
+        label.textColor = .lgBlack
+        label.textAlignment = .right
         return label
     }()
     private let closeButton: UIButton = {
@@ -54,13 +50,13 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
             return FilterTagCell.sizeForText(sortOption.name)
         case .within(let timeOption):
             return FilterTagCell.sizeForText(timeOption.name)
-        case .category:
-            return CGSize(width: Layout.Width.icon + Layout.Width.fixedSpace, height: Layout.Height.cell)
+        case .category(let category):
+            return FilterTagCell.sizeForText(category.name)
         case .priceRange(let minPrice, let maxPrice, let currency):
             let priceRangeString = FilterTagCell.stringForPriceRange(minPrice, max: maxPrice, withCurrency: currency)
             return FilterTagCell.sizeForText(priceRangeString)
         case .freeStuff:
-            return CGSize(width: Layout.Width.icon + Layout.Width.fixedSpace, height: Layout.Height.cell)
+            return FilterTagCell.sizeForText(R.Strings.categoriesFree)
         case .distance(let distance):
             return FilterTagCell.sizeForText(distance.intToDistanceFormat())
         case .carSellerType(_, let name):
@@ -118,10 +114,14 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
     
     private static func sizeForText(_ text: String) -> CGSize {
         let constraintRect = CGSize(width: CGFloat.greatestFiniteMagnitude, height: Layout.Height.cell)
-        let boundingBox = text.boundingRect(with: constraintRect,
-            options: NSStringDrawingOptions.usesLineFragmentOrigin,
-            attributes: [NSAttributedStringKey.font: UIFont.mediumBodyFont], context: nil)
-        return CGSize(width: boundingBox.width + Layout.Width.fixedSpace + 5, height: Layout.Height.cell)
+
+
+        let boundingBox = String(text.prefix(20)).boundingRect(with: constraintRect,
+                                                               options: .usesLineFragmentOrigin,
+                                                               attributes: [.font: UIFont.systemRegularFont(size: 14)],
+                                                               context: nil)
+        let emptySpace = Layout.Width.fixedSpacing
+        return CGSize(width: ceil(boundingBox.width + emptySpace), height: Layout.Height.cell)
     }
 
     private static func stringForPriceRange(_ min: Int?, max: Int?, withCurrency currency: Currency?) -> String {
@@ -261,25 +261,18 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
     }
     
     private func setupConstraints() {
-        let iconWidth = tagIcon.widthAnchor.constraint(equalToConstant: Layout.Width.icon)
-        contentView.addSubviewsForAutoLayout([tagIcon, tagLabel, closeButton])
+        contentView.addSubviewsForAutoLayout([tagLabel, closeButton])
         NSLayoutConstraint.activate([
-            tagIcon.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metrics.margin),
-            tagIcon.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Layout.margin),
-            tagIcon.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Layout.margin),
-
-            tagLabel.leadingAnchor.constraint(equalTo: tagIcon.trailingAnchor),
+            tagLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Layout.leading),
             tagLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
             tagLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
 
-            closeButton.leadingAnchor.constraint(equalTo: tagLabel.trailingAnchor),
+            closeButton.leadingAnchor.constraint(equalTo: tagLabel.trailingAnchor, constant: Layout.extraPadding),
             closeButton.topAnchor.constraint(equalTo: contentView.topAnchor),
             closeButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            closeButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -2*Layout.margin),
+            closeButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Layout.trailing),
             closeButton.widthAnchor.constraint(equalToConstant: Layout.Width.closeButton)
         ])
-
-        tagIconWidth = iconWidth
     }
 
     override func layoutSubviews() {
@@ -289,14 +282,11 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
     
     private func resetUI() {
         tagLabel.text = nil
-        tagIcon.image = nil
-        tagIconWidth?.constant = 0
         tagLabel.textColor = .black
         contentView.backgroundColor = .white
     }
     
     private func setAccessibilityIds() {
-        tagIcon.set(accessibilityId: .filterTagCellTagIcon)
         tagLabel.set(accessibilityId: .filterTagCellTagLabel)
     }
     
@@ -320,13 +310,11 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
         case .within(let timeOption):
             tagLabel.text = timeOption.name
         case .category(let category):
-            tagIconWidth?.constant = Layout.Width.icon
-            tagIcon.image = category.imageTag
+            tagLabel.text = category.name
         case .priceRange(let minPrice, let maxPrice, let currency):
             tagLabel.text = FilterTagCell.stringForPriceRange(minPrice, max: maxPrice, withCurrency: currency)
         case .freeStuff:
-            tagIconWidth?.constant = Layout.Width.icon
-            tagIcon.image = R.Asset.IconsButtons.FiltersTagCategories.categoriesFreeTag.image
+            tagLabel.text = R.Strings.categoriesFree
         case .distance(let distance):
             tagLabel.text = distance.intToDistanceFormat()
         case .carSellerType(_, let name):
