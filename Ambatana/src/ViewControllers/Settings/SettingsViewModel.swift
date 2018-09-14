@@ -15,7 +15,7 @@ enum LetGoSetting {
     case logOut
     case versionInfo
     case notifications
-    case rewards
+    case affiliation
 }
 
 struct SettingsSection {
@@ -195,7 +195,7 @@ class SettingsViewModel: BaseViewModel {
         profileSettings.append(.notifications)
 
         if featureFlags.affiliationEnabled.isActive {
-            profileSettings.append(.rewards)
+            profileSettings.append(.affiliation)
         }
 
         settingSections.append(SettingsSection(title: R.Strings.settingsSectionProfile, settings: profileSettings))
@@ -249,8 +249,8 @@ class SettingsViewModel: BaseViewModel {
             break
         case .notifications:
             navigator?.openNotificationSettings()
-        case .rewards:
-            navigator?.openRewards()
+        case .affiliation:
+            navigator?.openAffiliationChallenges()
         }
     }
 

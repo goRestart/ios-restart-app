@@ -765,6 +765,9 @@
 "phone_verification_number_input_view_textfield_placeholder" = "Phone number";
 "phone_verification_number_input_view_title" = "Number verification";
 "photo_viewer_chat_button" = "Chat";
+"post_another_listing_button" = "Post another listing";
+"post_another_listing_description" = "You're on a roll, keep it going!";
+"post_another_listing_title" = "MAKING MONEY!";
 "post_category_detail_add_make" = "Add Make";
 "post_category_detail_add_model" = "Add Model";
 "post_category_detail_car_make" = "Make";
@@ -1345,7 +1348,9 @@
 "reset_password_send_too_many_requests" = "We've already sent you a password reset email. Please check your email and follow the instructions.";
 "reset_password_title" = "Reset password";
 "rewards_faq_title" = "How it works";
+"rewards_invite_contacts_title" = "Connect contacts";
 "rewards_invite_friends_button" = "Invite friends";
+"rewards_invite_friends_contact_button" = "Invite via text";
 "rewards_invite_friends_title" = "Invite friends";
 "rewards_title" = "Rewards";
 "search_alert_delete_error_message" = "Oops! An error occurred while deleting your search alert.";
@@ -1402,6 +1407,7 @@
 "services_service_type_list_title" = "Service category";
 "services_service_type_title" = "Service category";
 "services_unified_filter_title" = "Select a category";
+"settings_affililation_button" = "Rewards";
 "settings_change_email_button" = "Email";
 "settings_change_location_button" = "Location";
 "settings_change_password_button" = "Password";

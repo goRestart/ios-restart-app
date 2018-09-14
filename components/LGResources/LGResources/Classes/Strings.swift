@@ -16,6 +16,18 @@ extension R {
     }
     /// Ad
     public static let advertisingText = Strings.tr("Localizable", "advertising_text")
+    /// Invite friends
+    public static let affiliationChallengesInviteFriendsButton = Strings.tr("Localizable", "affiliation_challenges_invite_friends_button")
+    /// Rewards
+    public static let affiliationChallengesTitle = Strings.tr("Localizable", "affiliation_challenges_title")
+    /// How it works
+    public static let affiliationFaqTitle = Strings.tr("Localizable", "affiliation_faq_title")
+    /// Invite via text
+    public static let affiliationInviteFriendsSmsButton = Strings.tr("Localizable", "affiliation_invite_friends_sms_button")
+    /// Invite friends
+    public static let affiliationInviteFriendsTitle = Strings.tr("Localizable", "affiliation_invite_friends_title")
+    /// Connect contacts
+    public static let affiliationInviteSmsContactsTitle = Strings.tr("Localizable", "affiliation_invite_sms_contacts_title")
     /// Reply
     public static let appNotificationReply = Strings.tr("Localizable", "app_notification_reply")
     /// Download
@@ -1678,6 +1690,12 @@ extension R {
     public static let phoneVerificationNumberInputViewTitle = Strings.tr("Localizable", "phone_verification_number_input_view_title")
     /// Chat
     public static let photoViewerChatButton = Strings.tr("Localizable", "photo_viewer_chat_button")
+    /// Post another listing
+    public static let postAnotherListingButton = Strings.tr("Localizable", "post_another_listing_button")
+    /// You're on a roll, keep it going!
+    public static let postAnotherListingDescription = Strings.tr("Localizable", "post_another_listing_description")
+    /// MAKING MONEY!
+    public static let postAnotherListingTitle = Strings.tr("Localizable", "post_another_listing_title")
     /// Add Make
     public static let postCategoryDetailAddMake = Strings.tr("Localizable", "post_category_detail_add_make")
     /// Add Model
@@ -2948,8 +2966,12 @@ extension R {
     public static let resetPasswordTitle = Strings.tr("Localizable", "reset_password_title")
     /// How it works
     public static let rewardsFaqTitle = Strings.tr("Localizable", "rewards_faq_title")
+    /// Connect contacts
+    public static let rewardsInviteContactsTitle = Strings.tr("Localizable", "rewards_invite_contacts_title")
     /// Invite friends
     public static let rewardsInviteFriendsButton = Strings.tr("Localizable", "rewards_invite_friends_button")
+    /// Invite via text
+    public static let rewardsInviteFriendsContactButton = Strings.tr("Localizable", "rewards_invite_friends_contact_button")
     /// Invite friends
     public static let rewardsInviteFriendsTitle = Strings.tr("Localizable", "rewards_invite_friends_title")
     /// Rewards
@@ -3064,6 +3086,8 @@ extension R {
     public static let servicesServiceTypeTitle = Strings.tr("Localizable", "services_service_type_title")
     /// Select a category
     public static let servicesUnifiedFilterTitle = Strings.tr("Localizable", "services_unified_filter_title")
+    /// Rewards
+    public static let settingsAffililationButton = Strings.tr("Localizable", "settings_affililation_button")
     /// Email
     public static let settingsChangeEmailButton = Strings.tr("Localizable", "settings_change_email_button")
     /// Location

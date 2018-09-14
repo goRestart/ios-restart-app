@@ -9,7 +9,6 @@
 @testable import LetGoGodMode
 
 class MockFeatureFlagsDAO: FeatureFlagsDAO {
-    
     var timeoutForRequests: TimeInterval?
     var emergencyLocate: EmergencyLocate?
     var community: ShowCommunity?
@@ -63,5 +62,9 @@ class MockFeatureFlagsDAO: FeatureFlagsDAO {
     
     func save(mutePushNotifications: MutePushNotifications, hourStart: Int, hourEnd: Int) {
         self.mutePushNotifications = (mutePushNotifications, hourStart, hourEnd)
+    }
+    
+    func retrieveMutePushNotifications() -> MutePushNotificationFeatureFlagHelper? {
+        return nil
     }
 }

@@ -96,7 +96,11 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             isMapTooltipAdded = false
             delegate?.vmHideMapToolTip(hideForever: false)
         }
+        
         rightButtonItems.append((image: hasFilters ? R.Asset.IconsButtons.icFiltersActive.image : R.Asset.IconsButtons.icFilters.image, selector: #selector(MainListingsViewController.openFilters)))
+        if shouldShowAffiliateButton {
+            rightButtonItems.append((image: R.Asset.IconsButtons.icCloseDark.image, selector: #selector(MainListingsViewController.openAffiliationChallenges)))
+        }
         return rightButtonItems
     }
     
@@ -239,7 +243,12 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     }
     
     var shouldShowInviteButton: Bool {
+        guard !shouldShowAffiliateButton else { return false }
         return navigator?.canOpenAppInvite() ?? false
+    }
+    
+    var shouldShowAffiliateButton: Bool {
+        return featureFlags.affiliationEnabled.isActive
     }
 
     var shouldShowCommunityButton: Bool {
@@ -606,6 +615,10 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     func showFilters() {
         wireframe?.openFilters(withFilters: filters, dataDelegate: self)
         tracker.trackEvent(TrackerEvent.filterStart())
+    }
+    
+    func openAffiliationChallenges() {
+        wireframe?.openAffiliationChallenges()
     }
     
     func showMap() {
