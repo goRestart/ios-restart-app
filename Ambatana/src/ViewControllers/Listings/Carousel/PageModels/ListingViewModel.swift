@@ -229,12 +229,7 @@ final class ListingViewModel: BaseViewModel {
         if isMine {
             seller.value = myUserRepository.myUser
             if featureFlags.alwaysShowBumpBannerWithLoading.isActive {
-                bumpUpBannerInfo.value = BumpUpInfo(type: .loading,
-                                                    timeSinceLastBump: 0,
-                                                    maxCountdown: 0,
-                                                    price: nil,
-                                                    bannerInteractionBlock: { _ in },
-                                                    buttonBlock: { _ in })
+                bumpUpBannerInfo.value = BumpUpInfo.makeLoading()
             }
         } else if let userId = userInfo.value.userId {
             userRepository.show(userId) { [weak self] result in
@@ -371,7 +366,6 @@ final class ListingViewModel: BaseViewModel {
                                                    freeModeAllowed: strongSelf.featureFlags.freePostingModeAllowed,
                                                    postingFlowType: strongSelf.featureFlags.postingFlowType)
             strongSelf.productInfo.value = productInfo
-
         }.disposed(by: disposeBag)
 
         status.asObservable().bind { [weak self] status in

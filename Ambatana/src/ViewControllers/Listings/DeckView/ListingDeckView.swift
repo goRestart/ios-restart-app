@@ -9,7 +9,7 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
     struct Layout {
 		struct Height {
             static let previewFactor: CGFloat = 0.7
-            static let actions: CGFloat = 100
+            static let actions: CGFloat = 120
         }
         static let collectionVerticalInset: CGFloat = 18
     }
@@ -18,16 +18,18 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
     var cardSize: CGSize { return collectionLayout.cardSize }
     var cellHeight: CGFloat { return collectionLayout.cellHeight }
 
-    let statusView = ListingStatusView()
-    var rxStatusControlEvent: ControlEvent<UITapGestureRecognizer>?
+    let statusView: ListingStatusView = {
+        let view = ListingStatusView()
+        view.applyDefaultShadow()
+        view.alpha = 0
+        return view
+    }()
+    let statusTap = UITapGestureRecognizer()
 
     lazy var collectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
-    lazy var rxCollectionView: Reactive<UICollectionView> = collectionView.rx
     private let collectionLayout = ListingDeckCollectionViewLayout()
 
     let itemActionsView = ListingDeckActionView()
-
-    var rxActionButton: Reactive<LetgoButton> { return itemActionsView.actionButton.rx }
 
     var currentPage: Int { return collectionLayout.page }
     var bumpUpBanner: BumpUpBanner { return itemActionsView.bumpUpBanner }
@@ -51,28 +53,21 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
             collectionView.topAnchor.constraint(equalTo: topAnchor, constant: Layout.collectionVerticalInset),
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Layout.Height.actions),
 
             statusView.topAnchor.constraint(equalTo: collectionView.topAnchor, constant: Metrics.veryBigMargin),
             statusView.centerXAnchor.constraint(equalTo: centerXAnchor),
 
             itemActionsView.leadingAnchor.constraint(equalTo: leadingAnchor),
             itemActionsView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            itemActionsView.topAnchor.constraint(equalTo: collectionView.bottomAnchor),
-            itemActionsView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            itemActionsView.heightAnchor.constraint(equalToConstant: Layout.Height.actions)
+            itemActionsView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
 
         setupCollectionView()
         setupPrivateActionsView()
-        setupStatusView()
+        statusView.addGestureRecognizer(statusTap)
 
         if #available(iOS 10.0, *) { collectionView.isPrefetchingEnabled = true }
-    }
-
-    private func setupStatusView() {
-        let tap = UITapGestureRecognizer()
-        statusView.addGestureRecognizer(tap)
-        rxStatusControlEvent = tap.rx.event
     }
 
     private func setupCollectionView() {
@@ -94,11 +89,6 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
         itemActionsView.backgroundColor = ListingDeckView.actionsViewBackgroundColor
     }
 
-    func moveToPage(_ page: Int) {
-        let offset = collectionLayout.anchorOffsetForPage(page)
-        collectionView.setContentOffset(offset, animated: true)
-    }
-
     func normalizedPageOffset(givenOffset: CGFloat) -> CGFloat {
         return collectionLayout.normalizedPageOffset(givenOffset: givenOffset)
     }
@@ -111,8 +101,12 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
 
     // MARK: ItemActionsView
 
-    func configureActionWith(_ action: UIAction) {
-        itemActionsView.actionButton.configureWith(uiAction: action)
+    func configureActionWith(_ action: UIAction?) {
+        if let action = action {
+            itemActionsView.actionButton.configureWith(uiAction: action)
+        } else {
+            itemActionsView.actionButton.alpha = 0
+        }
     }
 
     // MARK: BumpUp
@@ -152,3 +146,11 @@ extension ListingDeckView {
         cardAtIndex(current + 1)?.alpha = 1
     }
 }
+
+extension Reactive where Base: ListingDeckView {
+    var collectionView: Reactive<UICollectionView> { return base.collectionView.rx }
+    var actionButton: Reactive<LetgoButton> { return base.itemActionsView.actionButton.rx }
+    var statusControlEvent: ControlEvent<UITapGestureRecognizer> { return base.statusTap.rx.event }
+}
+
+

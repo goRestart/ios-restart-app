@@ -9,26 +9,29 @@ final class ListingDeckActionView: UIView {
         struct Height {
             static let actionButton: CGFloat = 48.0
             static let blank: CGFloat = Metrics.shortMargin
-            static let bumpUp: CGFloat = 64.0
-
-            static let compressed: CGFloat = 2*Layout.Height.blank + Layout.Height.actionButton
-
-            static func expandedWith(banner: BumpUpBanner) -> CGFloat {
-                return 3*Layout.Height.blank + banner.intrinsicContentSize.height + Layout.Height.actionButton
-            }
         }
     }
 
-    let actionButton = LetgoButton(withStyle: .terciary)
+    let actionButton: LetgoButton = {
+        let button = LetgoButton(withStyle: .terciary)
+        button.setTitle(R.Strings.productMarkAsSoldButton, for: .normal)
+        return button
+    }()
+
     private var fullViewContraints: [NSLayoutConstraint] = []
     private var actionButtonCenterY: NSLayoutConstraint?
-    private var actionButtonBottomAnchorConstraint: NSLayoutConstraint = NSLayoutConstraint()
+    private var actionButtonBottomAnchorConstraint: NSLayoutConstraint?
 
     private var actionButtonBottomMargin: CGFloat {
-        return -(bumpUpBanner.intrinsicContentSize.height+Layout.Height.blank)
+        return -(bumpUpBanner.intrinsicContentSize.height + Layout.Height.blank)
     }
 
-    private let separator = UIView()
+    private let separator: UIView = {
+        let separator = UIView()
+        separator.applyDefaultShadow()
+        separator.layer.shadowOffset = CGSize(width: 0, height: -1)
+        return separator
+    }()
 
     let bumpUpBanner = BumpUpBanner()
     var isBumpUpVisible: Bool { return !bumpUpBanner.isHidden }
@@ -40,59 +43,39 @@ final class ListingDeckActionView: UIView {
         setup()
     }
 
-    required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
-
-    override var intrinsicContentSize: CGSize {
-        let height: CGFloat
-        if !isBumpUpVisible {
-            height = Layout.Height.compressed
-        } else {
-            height = Layout.Height.expandedWith(banner: bumpUpBanner)
-        }
-        return CGSize(width: UIViewNoIntrinsicMetric, height: height)
-    }
+    @available(*, unavailable)
+    required init?(coder aDecoder: NSCoder) { fatalError("Die xibs, die") }
 
     private func setup() {
         addSubviewsForAutoLayout([actionButton, separator, bumpUpBanner])
-        setupActionButton()
-        setupSeparator()
-        setupBumpUpBanner()
+        let actionButtonCenterY = actionButton.centerYAnchor.constraint(equalTo: centerYAnchor)
+        let actionButtonBottomAnchorConstraint = actionButton.bottomAnchor.constraint(equalTo: bottomAnchor,
+                                                                                      constant: actionButtonBottomMargin)
+        [
+            actionButton.heightAnchor.constraint(equalToConstant: Layout.Height.actionButton),
+            actionButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metrics.margin),
+            actionButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metrics.margin),
+            actionButtonCenterY,
 
-        setupUI()
-    }
+            separator.topAnchor.constraint(equalTo: actionButton.bottomAnchor, constant: Metrics.shortMargin),
+            separator.heightAnchor.constraint(equalToConstant: 1),
+            separator.leadingAnchor.constraint(equalTo: leadingAnchor),
+            separator.trailingAnchor.constraint(equalTo: trailingAnchor),
 
-    private func setupActionButton() {
-        actionButton.layout().height(Layout.Height.actionButton)
-        actionButton.layout(with: self).fillHorizontal(by: Metrics.margin)
-        actionButtonCenterY = actionButton.centerYAnchor.constraint(equalTo: centerYAnchor)
-        actionButtonCenterY?.isActive = true
-
-        actionButtonBottomAnchorConstraint = actionButton.bottomAnchor.constraint(equalTo: bottomAnchor,
-                                                                                  constant: actionButtonBottomMargin)
+            bumpUpBanner.topAnchor.constraint(equalTo: separator.bottomAnchor),
+            bumpUpBanner.leftAnchor.constraint(equalTo: leftAnchor),
+            bumpUpBanner.rightAnchor.constraint(equalTo: rightAnchor),
+            bumpUpBanner.centerXAnchor.constraint(equalTo: centerXAnchor)
+        ].activate()
 
         fullViewContraints.append(contentsOf: [
             actionButton.topAnchor.constraint(equalTo: topAnchor, constant: Layout.Height.blank),
             actionButtonBottomAnchorConstraint
         ])
 
-        actionButton.setTitle(R.Strings.productMarkAsSoldButton, for: .normal)
-    }
-
-    private func setupSeparator() {
-        separator.layout(with: actionButton).below(by: Metrics.shortMargin)
-        separator.layout().height(1)
-        separator.layout(with: self).fillHorizontal()
-        separator.applyDefaultShadow()
-        separator.layer.shadowOffset = CGSize(width: 0, height: -1)
-    }
-
-    private func setupBumpUpBanner() {
-        NSLayoutConstraint.activate([
-            bumpUpBanner.topAnchor.constraint(equalTo: separator.bottomAnchor),
-            bumpUpBanner.leftAnchor.constraint(equalTo: leftAnchor),
-            bumpUpBanner.rightAnchor.constraint(equalTo: rightAnchor),
-            bumpUpBanner.centerXAnchor.constraint(equalTo: centerXAnchor)
-            ])
+        self.actionButtonCenterY = actionButtonCenterY
+        self.actionButtonBottomAnchorConstraint = actionButtonBottomAnchorConstraint
+        setupUI()
     }
 
     func updatePrivateActionsWith(actionsAlpha: CGFloat) {
@@ -115,7 +98,12 @@ final class ListingDeckActionView: UIView {
 
     func updateBumpUp(withInfo info: BumpUpInfo) {
         bumpUpBanner.updateInfo(info: info)
-        actionButtonBottomAnchorConstraint.constant = actionButtonBottomMargin
+        switch info.type {
+        case .boost(let boostBannerVisible):
+            actionButtonBottomAnchorConstraint?.constant = boostBannerVisible ? -CarouselUI.bannerHeight*2 : -CarouselUI.bannerHeight
+        case .free, .hidden, .priced, .restore, .loading:
+            actionButtonBottomAnchorConstraint?.constant = -CarouselUI.bannerHeight
+        }
     }
 
     func showBumpUp() {

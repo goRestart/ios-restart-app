@@ -24,7 +24,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
 
     fileprivate let viewModel: ListingDeckViewModel
     fileprivate let binder = ListingDeckViewControllerBinder()
-    private let disposeBag = DisposeBag()
+    fileprivate let disposeBag = DisposeBag()
     private lazy var cardOnBoarding = ListingCardOnBoardingView()
 
     private let shouldShowCardsOnBoarding: Bool
@@ -126,9 +126,6 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     override func viewWillDisappearToBackground(_ toBackground: Bool) {
         super.viewWillDisappearToBackground(toBackground)
         listingDeckView.collectionView.clipsToBounds = true
-        if toBackground {
-            closeBumpUpBanner(animated: true)
-        }
     }
 
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
@@ -238,7 +235,6 @@ extension ListingDeckViewController {
     }
 
     func didMoveToItemAtIndex(_ index: Int) {
-        collectionDelegate.lastPageBeforeDragging = index
         listingDeckView.cardAtIndex(index - 1)?.isUserInteractionEnabled = false
         listingDeckView.cardAtIndex(index)?.isUserInteractionEnabled = true
         listingDeckView.cardAtIndex(index + 1)?.isUserInteractionEnabled = false
@@ -251,40 +247,11 @@ extension ListingDeckViewController {
     func didEndDecelerating() {
         guard let cell = listingDeckView.cardAtIndex(viewModel.currentIndex) else { return }
         cell.isUserInteractionEnabled = true
-    }
-
-    func updateViewWithActions(_ actionButtons: [UIAction]) {
-        guard let actionButton = actionButtons.first else { return }
-        listingDeckView.configureActionWith(actionButton)
+        collectionDelegate.lastPageBeforeDragging = listingDeckView.currentPage
     }
 
     func didTapShare() {
         viewModel.currentListingViewModel.shareProduct()
-    }
-
-    func updateWithBumpUpInfo(_ bumpInfo: BumpUpInfo?) {
-        guard let bumpUp = bumpInfo else {
-            closeBumpUpBanner(animated: true)
-            return
-        }
-
-        listingDeckView.bumpUpBanner.animateTo(alpha: 1)
-        guard !listingDeckView.isBumpUpVisible else {
-            // banner is already visible, but info changes
-            listingDeckView.updateBumpUp(withInfo: bumpUp)
-            return
-        }
-
-        viewModel.bumpUpBannerShown(bumpInfo: bumpUp)
-        listingDeckView.updateBumpUp(withInfo: bumpUp)
-        listingDeckView.bumpUpBanner.layoutIfNeeded()
-        UIView.animate(withDuration: 0.3,
-                       delay: 0,
-                       options: .curveEaseIn,
-                       animations: { [weak self] in
-                        self?.listingDeckView.showBumpUp()
-                        self?.listingDeckView.layoutIfNeeded()
-            }, completion: nil)
     }
     
     func presentInterstitialAtIndex(_ index: Int) {
@@ -293,23 +260,6 @@ extension ListingDeckViewController {
 }
 
 extension ListingDeckViewController {
-    private func processActionOnFirstAppear() {
-        switch viewModel.actionOnFirstAppear {
-        case .showKeyboard:
-            break // we no longer support this one
-        case .showShareSheet:
-            viewModel.didTapCardAction()
-        case .triggerBumpUp(_,_,_,_):
-            viewModel.showBumpUpView(viewModel.actionOnFirstAppear)
-        case .triggerMarkAsSold:
-            viewModel.currentListingViewModel.markAsSold()
-        case .edit:
-            viewModel.currentListingViewModel.editListing()
-        case .nonexistent:
-            break
-        }
-    }
-
     private func currentPageCell() -> ListingCardView? {
         return listingDeckView.cardAtIndex(viewModel.currentIndex)
     }
@@ -328,11 +278,28 @@ extension ListingDeckViewController: ListingDeckViewModelDelegate {
 // MARK: Rx
 
 extension Reactive where Base: ListingDeckViewController {
-    var contentOffset: Observable<CGPoint> { return base.listingDeckView.rxCollectionView.contentOffset.asObservable() }
+    var contentOffset: Observable<CGPoint> {
+        return base.listingDeckView.rx.collectionView.contentOffset.asObservable()
+    }
+
+    var action: Binder<UIAction?> {
+        return Binder(self.base) { controller, actionable in
+            controller.listingDeckView.configureActionWith(actionable)
+
+            guard let actionable = actionable else { return }
+            controller.listingDeckView.rx.actionButton
+                .tap
+                .takeUntil(controller.viewModel.rx.actionButtons)
+                .bind {
+                actionable.action()
+            }.disposed(by: controller.disposeBag)
+        }
+    }
 
     var actionsAlpha: Binder<CGFloat> {
         return Binder(self.base) { controller, alpha in
             let clippedAlpha = min(1.0, alpha)
+            controller.listingDeckView.statusView.alpha = clippedAlpha
             controller.listingDeckView.updatePrivateActionsWith(actionsAlpha: clippedAlpha)
         }
     }
@@ -350,6 +317,34 @@ extension Reactive where Base: ListingDeckViewController {
             controller.listingDeckView.statusView.isHidden = !statusVisible
             controller.listingDeckView.statusView.setFeaturedStatus(status.status, featured: status.isFeatured)
         }
+    }
+
+    var bumpUp: Binder<BumpUpInfo?> {
+        return Binder(self.base) { controller, bumpUpData in
+            controller.updateWithBumpUpInfo(bumpUpData)
+        }
+    }
+}
+
+extension ListingDeckViewController {
+    func updateWithBumpUpInfo(_ bumpInfo: BumpUpInfo?) {
+        guard let bumpUp = bumpInfo else {
+            closeBumpUpBanner(animated: true)
+            return
+        }
+
+        listingDeckView.updateBumpUp(withInfo: bumpUp)
+
+        guard !listingDeckView.isBumpUpVisible else { return }
+        viewModel.bumpUpBannerShown(bumpInfo: bumpUp)
+
+        listingDeckView.showBumpUp()
+        UIView.animate(withDuration: 0.3,
+                       delay: 0,
+                       options: .curveEaseIn,
+                       animations: { [weak self] in
+                        self?.listingDeckView.itemActionsView.layoutIfNeeded()
+            }, completion: nil)
     }
 }
 

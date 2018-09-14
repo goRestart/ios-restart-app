@@ -28,11 +28,14 @@ final class ListingDeckViewControllerBinder {
     private func bindActions(withViewModel viewModel: ListingDeckViewModel,
                              listingDeckView: ListingDeckView,
                              disposeBag: DisposeBag) {
-        viewModel.rx.actionButtons.bind { [weak self] actionButtons in
-            self?.listingDeckViewController?.updateViewWithActions(actionButtons)
-        }.disposed(by: disposeBag)
+        guard let deckVC = listingDeckViewController else { return }
+        viewModel.rx.actionButtons.map { return $0.first }
+            .bind(to: deckVC.rx.action)
+            .disposed(by: disposeBag)
 
-        listingDeckView.rxStatusControlEvent?.asDriver().drive(onNext: { [weak self] _ in
+        listingDeckView.rx.statusControlEvent
+            .asDriver()
+            .drive(onNext: { [weak self] _ in
             self?.listingDeckViewController?.didTapStatus()
         }).disposed(by: disposeBag)
     }
@@ -40,7 +43,9 @@ final class ListingDeckViewControllerBinder {
     private func bindActionButtonTap(withViewModel viewModel: ListingDeckViewModel,
                                      listingDeckView: ListingDeckView?,
                                      disposeBag: DisposeBag) {
-        listingDeckView?.rxActionButton.tap.bind { [weak viewModel] in
+        listingDeckView?.rx.actionButton
+            .tap
+            .bind { [weak viewModel] in
             viewModel?.didTapActionButton()
         }.disposed(by: disposeBag)
     }
@@ -49,22 +54,18 @@ final class ListingDeckViewControllerBinder {
                              viewController: ListingDeckViewController,
                              listingDeckView: ListingDeckView,
                              disposeBag: DisposeBag) {
-        let didEndDecelerating = listingDeckView.rxCollectionView.didEndDecelerating
+        let didEndDecelerating = listingDeckView.rx.collectionView.didEndDecelerating
         let bumpUp = viewModel.bumpUpBannerInfo.asObservable().share()
-        let willBeginDragging = listingDeckView.rxCollectionView.willBeginDragging
+        let willBeginDragging = listingDeckView.rx.collectionView.willBeginDragging
 
         bumpUp
-            .filter { $0 != nil }
             .takeUntil(willBeginDragging.asObservable())
-            .bind { [weak viewController] bumpInfo in
-                viewController?.updateWithBumpUpInfo(bumpInfo)
-            }.disposed(by: disposeBag)
-
+            .bind(to: viewController.rx.bumpUp)
+            .disposed(by: disposeBag)
         Observable
-            .combineLatest(didEndDecelerating, bumpUp) { ($0, $1) }
-            .bind { [weak viewController] (didEnded, bumpInfo) in
-                viewController?.updateWithBumpUpInfo(bumpInfo)
-            }.disposed(by: disposeBag)
+            .combineLatest(didEndDecelerating, bumpUp) { ($0, $1) }.map { $0.1 }
+            .bind(to: viewController.rx.bumpUp)
+            .disposed(by: disposeBag)
     }
 
     private func bindCollectionView(withViewController viewController: ListingDeckViewController,
@@ -76,8 +77,8 @@ final class ListingDeckViewControllerBinder {
             listingDeckView?.handleCollectionChange(change, completion: nil)
         }.disposed(by: disposeBag)
 
-        let willBeginDragging = listingDeckView.rxCollectionView.willBeginDragging
-        let didEndDecelerating = listingDeckView.rxCollectionView.didEndDecelerating
+        let willBeginDragging = listingDeckView.rx.collectionView.willBeginDragging
+        let didEndDecelerating = listingDeckView.rx.collectionView.didEndDecelerating
 
         willBeginDragging
             .asDriver().drive(onNext: { [weak viewController] _ in
@@ -89,7 +90,9 @@ final class ListingDeckViewControllerBinder {
             viewController?.didEndDecelerating()
         }).disposed(by: disposeBag)
 
-        listingDeckView.rxCollectionView.willDisplayCell.bind { [weak viewController] (cell, indexPath) in
+        listingDeckView.rx.collectionView
+            .willDisplayCell
+            .bind { [weak viewController] (cell, indexPath) in
             viewController?.willDisplayCell(cell, atIndexPath: indexPath)
         }.disposed(by: disposeBag)
     }
@@ -129,12 +132,14 @@ final class ListingDeckViewControllerBinder {
             return 2*(1 - pageOffset)
         }.distinctUntilChanged()
 
-        normalized.bind(to: viewController.rx.chatAlpha).disposed(by: disposeBag)
+        Observable.combineLatest(normalized, viewModel.rx.isMine) { ($0, $1) }.map { (alpha, isMine) in
+            guard !isMine else { return 0 }
+            return alpha
+        }.bind(to: viewController.rx.chatAlpha).disposed(by: disposeBag)
 
-        let actionsEnabled = viewModel.rx.actionButtons.map { $0.count > 0 }
-        Observable.combineLatest(normalized, actionsEnabled) { offset, enabled in return enabled ? offset : 0 }
-            .observeOn(MainScheduler.asyncInstance)
-            .bind(to: viewController.rx.actionsAlpha)
-            .disposed(by: disposeBag)
+        Observable.combineLatest(normalized, viewModel.rx.isMine) { ($0, $1) }.map { (alpha, isMine) in
+            guard isMine else { return 0 }
+            return alpha
+        }.bind(to: viewController.rx.actionsAlpha).disposed(by: disposeBag)
     }
 }

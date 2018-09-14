@@ -44,7 +44,7 @@ final class ListingDeckViewModel: BaseViewModel {
 
     let objects = CollectionVariable<ListingCellModel>([])
 
-    var currentListingViewModel: ListingViewModel
+    let currentListingViewModel: ListingViewModel
     var navigator: ListingDeckNavigator?
 
     weak var delegate: ListingDeckViewModelDelegate?
@@ -75,13 +75,15 @@ final class ListingDeckViewModel: BaseViewModel {
 
     private let featureFlags: FeatureFlaggeable
 
-    let actionOnFirstAppear: DeckActionOnFirstAppear
+    private let actionOnFirstAppear: DeckActionOnFirstAppear
 
-    lazy var actionButtons = Variable<[UIAction]>([])
+    fileprivate let actionButtons = Variable<[UIAction]>([])
     var navBarButtons: [UIAction] { return currentListingViewModel.navBarActionsNewItemPage }
 
-    let quickChatViewModel = QuickChatViewModel()
+    private let quickChatViewModel = QuickChatViewModel()
     let bumpUpBannerInfo = Variable<BumpUpInfo?>(nil)
+
+    fileprivate let isMine: BehaviorRelay<Bool> = .init(value: false)
 
     let imageDownloader: ImageDownloaderType
     private var sectionFeedChatTrackingInfo: SectionedFeedChatTrackingInfo? {
@@ -216,6 +218,8 @@ final class ListingDeckViewModel: BaseViewModel {
             return aListing.objectId == initialListing.objectId
         }) ?? 0
         currentListingViewModel = listingViewModelAssembly.build(listing: initialListing, visitSource: source)
+        quickChatViewModel.listingViewModel = currentListingViewModel
+
         currentIndex = startIndex
         self.trackingIdentifier = trackingIdentifier
         super.init()
@@ -225,21 +229,42 @@ final class ListingDeckViewModel: BaseViewModel {
     override func didBecomeActive(_ firstTime: Bool) {
         if shouldSyncFirstListing {
             syncFirstListing()
+        }
+        if firstTime {
             bind(to: currentListingViewModel)
+            processActionOnFirstAppear()
         }
         moveToListingAtIndex(currentIndex, movement: .initial)
     }
 
+    private func processActionOnFirstAppear() {
+        switch actionOnFirstAppear {
+        case .showKeyboard:
+        break // we no longer support this one
+        case .showShareSheet:
+            didTapCardAction()
+        case .triggerBumpUp(_,_,_,_):
+            showBumpUpView(actionOnFirstAppear)
+        case .triggerMarkAsSold:
+            currentListingViewModel.markAsSold()
+        case .edit:
+            currentListingViewModel.editListing()
+        case .nonexistent:
+            break
+        }
+    }
 
     func moveToListingAtIndex(_ index: Int, movement: DeckMovement) {
         guard let listing = objects.value[safeAt: index]?.listing else { return }
         lastMovement = movement
         if active {
             currentListingViewModel.delegate = nil
+            currentListingViewModel.active = false
             currentListingViewModel.listing.value = listing
+            currentListingViewModel.active = true
             currentListingViewModel.delegate = self
 
-            quickChatViewModel.listingViewModel = currentListingViewModel
+            isMine.accept(currentListingViewModel.isMine)
             quickChatViewModel.sectionFeedChatTrackingInfo = sectionFeedChatTrackingInfo
 
             currentIndex = index
@@ -254,10 +279,14 @@ final class ListingDeckViewModel: BaseViewModel {
             .asObservable()
             .bind { [weak self] listing in
                 guard let strongSelf = self else { return }
-                strongSelf.replaceListingCellModelAtIndex(strongSelf.currentIndex, withListing: listing)
+                guard let index = strongSelf.objects.value.index(where: {
+                    $0.listing?.objectId == listing.objectId
+                }) else { return }
+                strongSelf.replaceListingCellModelAtIndex(index, withListing: listing)
             }.disposed(by: disposeBag)
-        current.cardActionButtons.bind(to: actionButtons).disposed(by: disposeBag)
+        current.actionButtons.asObservable().bind(to: actionButtons).disposed(by: disposeBag)
         current.cardBumpUpBannerInfo.bind(to: bumpUpBannerInfo).disposed(by: disposeBag)
+
     }
 
     func didTapCardAction() {
@@ -375,12 +404,6 @@ final class ListingDeckViewModel: BaseViewModel {
         keyValueStorage[.didShowCardGesturesOnBoarding] = true
     }
 
-    func cachedImageAtIndex(_ index: Int) -> UIImage? {
-        guard let url = currentListingViewModel.productImageURLs.value[safeAt: index],
-            let cached = imageDownloader.cachedImageForUrl(url) else { return nil }
-        return cached
-    }
-
     func showListingDetail(at index: Int) {
         guard let listing = objects.value[safeAt: index]?.listing else { return }
         navigator?.openListingDetail(listing, source: source)
@@ -494,12 +517,6 @@ extension ListingDeckViewModel: ListingViewModelDelegate {
     }
 }
 
-extension Reactive where Base: ListingDeckViewModel {
-    var objectChanges: Observable<CollectionChange<ListingCellModel>> { return base.objects.changesObservable }
-    var actionButtons: Observable<[UIAction]> { return base.actionButtons.asObservable() }
-    var bumpUpBannerInfo: Observable<BumpUpInfo?> { return base.bumpUpBannerInfo.asObservable() }
-}
-
 // MARK: Paginable
 
 extension ListingDeckViewModel: Paginable {
@@ -582,4 +599,10 @@ extension Reactive where Base: ListingDeckViewModel {
         let combined = Observable<ListingDeckStatus>.combineLatest(status, isFeatured) { ($0, $1) }
         return combined.asDriver(onErrorJustReturn: (.pending, false))
     }
+
+    var isMine: Observable<Bool> { return base.isMine.asObservable() }
+
+    var objectChanges: Observable<CollectionChange<ListingCellModel>> { return base.objects.changesObservable }
+    var actionButtons: Observable<[UIAction]> { return base.actionButtons.asObservable() }
+    var bumpUpBannerInfo: Observable<BumpUpInfo?> { return base.bumpUpBannerInfo.asObservable() }
 }
