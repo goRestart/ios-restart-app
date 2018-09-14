@@ -206,6 +206,7 @@ extension ABTests {
     var notificationCenterRedesign: LeanplumABVariable<Int> { return retention.notificationCenterRedesign }
     var randomImInterestedMessages: LeanplumABVariable<Int> { return retention.randomImInterestedMessages }
     var imInterestedInProfile: LeanplumABVariable<Int> { return retention.imInterestedInProfile }
+    var shareAfterScreenshot: LeanplumABVariable<Int> { return retention.shareAfterScreenshot }
 }
 
 //  MARK: RealEstate

@@ -115,6 +115,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var notificationCenterRedesign: NotificationCenterRedesign = .control
     var randomImInterestedMessages: RandomImInterestedMessages = .control
     var imInterestedInProfile: ImInterestedInProfile = .control
+    var shareAfterScreenshot: ShareAfterScreenshot = .control
     var affiliationEnabled: AffiliationEnabled = .control
 }
 

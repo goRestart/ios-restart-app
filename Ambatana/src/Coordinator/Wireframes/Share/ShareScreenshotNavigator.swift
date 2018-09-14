@@ -1,0 +1,3 @@
+protocol ShareScreenshotNavigator {
+    func closeShareScreenshot()
+}

@@ -114,6 +114,7 @@ protocol FeatureFlaggeable: class {
     var notificationCenterRedesign: NotificationCenterRedesign { get }
     var randomImInterestedMessages: RandomImInterestedMessages { get }
     var imInterestedInProfile: ImInterestedInProfile { get }
+    var shareAfterScreenshot: ShareAfterScreenshot { get }
     var affiliationEnabled: AffiliationEnabled { get }
 }
 
@@ -405,6 +406,10 @@ extension RandomImInterestedMessages {
 }
 
 extension ImInterestedInProfile {
+    var isActive: Bool { return self == .active }
+}
+
+extension ShareAfterScreenshot {
     var isActive: Bool { return self == .active }
 }
 
@@ -1313,6 +1318,13 @@ extension FeatureFlags {
             return Bumper.imInterestedInProfile
         }
         return ImInterestedInProfile.fromPosition(abTests.imInterestedInProfile.value)
+    }
+    
+    var shareAfterScreenshot: ShareAfterScreenshot {
+        if Bumper.enabled {
+            return Bumper.shareAfterScreenshot
+        }
+        return ShareAfterScreenshot.fromPosition(abTests.shareAfterScreenshot.value)
     }
 
     var affiliationEnabled: AffiliationEnabled {

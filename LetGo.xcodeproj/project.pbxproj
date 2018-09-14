@@ -16,6 +16,12 @@
 		013013ED211B5B6C00FFC309 /* NotificationCenterThumbnailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013013EB211B5B6C00FFC309 /* NotificationCenterThumbnailCell.swift */; };
 		01337B952085F55D00AC8385 /* NotificationSettingsSwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01337B942085F55D00AC8385 /* NotificationSettingsSwitchCell.swift */; };
 		01337B962085F55D00AC8385 /* NotificationSettingsSwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01337B942085F55D00AC8385 /* NotificationSettingsSwitchCell.swift */; };
+		0133D90E2139474B00AD9959 /* ShareScreenshotNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0133D90D2139474B00AD9959 /* ShareScreenshotNavigator.swift */; };
+		0133D90F2139474B00AD9959 /* ShareScreenshotNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0133D90D2139474B00AD9959 /* ShareScreenshotNavigator.swift */; };
+		0133D912213947BE00AD9959 /* ShareScreenshotBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0133D911213947BE00AD9959 /* ShareScreenshotBuilder.swift */; };
+		0133D913213947BE00AD9959 /* ShareScreenshotBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0133D911213947BE00AD9959 /* ShareScreenshotBuilder.swift */; };
+		0133D91621394C7300AD9959 /* ShareScreenshotWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0133D91521394C7300AD9959 /* ShareScreenshotWireframe.swift */; };
+		0133D91721394C7300AD9959 /* ShareScreenshotWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0133D91521394C7300AD9959 /* ShareScreenshotWireframe.swift */; };
 		013489F820D3FEF900E543C2 /* NotificationSettingCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013489F720D3FEF900E543C2 /* NotificationSettingCellType.swift */; };
 		013489F920D3FEF900E543C2 /* NotificationSettingCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013489F720D3FEF900E543C2 /* NotificationSettingCellType.swift */; };
 		013B2A1F21303DCC00F69613 /* LGInterestedStateUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013B2A1B21303DCB00F69613 /* LGInterestedStateUpdater.swift */; };
@@ -44,7 +50,13 @@
 		01772B5F204F0F340037FD5F /* BlockingPostingStepHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01772B5E204F0F340037FD5F /* BlockingPostingStepHeaderView.swift */; };
 		01772B60204F0F340037FD5F /* BlockingPostingStepHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01772B5E204F0F340037FD5F /* BlockingPostingStepHeaderView.swift */; };
 		01789DDF2123336200F248EC /* DeepLinkSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01789DDE2123336200F248EC /* DeepLinkSpec.swift */; };
+		0178C8E2214AC41000FE23D2 /* ShareScreenshotViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0178C8E0214AC41000FE23D2 /* ShareScreenshotViewModel.swift */; };
+		0178C8E3214AC41000FE23D2 /* ShareScreenshotViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0178C8E0214AC41000FE23D2 /* ShareScreenshotViewModel.swift */; };
+		0178C8E4214AC41000FE23D2 /* ShareScreenshotViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0178C8E1214AC41000FE23D2 /* ShareScreenshotViewController.swift */; };
+		0178C8E5214AC41000FE23D2 /* ShareScreenshotViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0178C8E1214AC41000FE23D2 /* ShareScreenshotViewController.swift */; };
 		0178CBD81F0E463D00620BA6 /* UriSchemeSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0178CBD71F0E463D00620BA6 /* UriSchemeSpec.swift */; };
+		017BEE19213DF3F500922956 /* ShareScreenshotAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BEE18213DF3F500922956 /* ShareScreenshotAnimator.swift */; };
+		017BEE1A213DF3F500922956 /* ShareScreenshotAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BEE18213DF3F500922956 /* ShareScreenshotAnimator.swift */; };
 		017E607F20D15D39007025C0 /* NotificationSettingsListDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017E607E20D15D39007025C0 /* NotificationSettingsListDetailViewModel.swift */; };
 		017E608020D15D39007025C0 /* NotificationSettingsListDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017E607E20D15D39007025C0 /* NotificationSettingsListDetailViewModel.swift */; };
 		017E608220D15D4F007025C0 /* NotificationSettingsListDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017E608120D15D4F007025C0 /* NotificationSettingsListDetailViewController.swift */; };
@@ -2391,6 +2403,9 @@
 		012B73E51F54216600068537 /* QuickAnswerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickAnswerSpec.swift; sourceTree = "<group>"; };
 		013013EB211B5B6C00FFC309 /* NotificationCenterThumbnailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenterThumbnailCell.swift; sourceTree = "<group>"; };
 		01337B942085F55D00AC8385 /* NotificationSettingsSwitchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsSwitchCell.swift; sourceTree = "<group>"; };
+		0133D90D2139474B00AD9959 /* ShareScreenshotNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareScreenshotNavigator.swift; sourceTree = "<group>"; };
+		0133D911213947BE00AD9959 /* ShareScreenshotBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareScreenshotBuilder.swift; sourceTree = "<group>"; };
+		0133D91521394C7300AD9959 /* ShareScreenshotWireframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareScreenshotWireframe.swift; sourceTree = "<group>"; };
 		013489F720D3FEF900E543C2 /* NotificationSettingCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingCellType.swift; sourceTree = "<group>"; };
 		013B2A1A21303DCB00F69613 /* InterestedStateUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterestedStateUpdater.swift; sourceTree = "<group>"; };
 		013B2A1B21303DCB00F69613 /* LGInterestedStateUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGInterestedStateUpdater.swift; sourceTree = "<group>"; };
@@ -2408,7 +2423,10 @@
 		0173949B212DBD0500A66FE1 /* MockInterestedStateUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockInterestedStateUpdater.swift; sourceTree = "<group>"; };
 		01772B5E204F0F340037FD5F /* BlockingPostingStepHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BlockingPostingStepHeaderView.swift; path = Onboarding/BlockingPostingStepHeaderView.swift; sourceTree = "<group>"; };
 		01789DDE2123336200F248EC /* DeepLinkSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DeepLinkSpec.swift; path = DeepLinks/DeepLinkSpec.swift; sourceTree = "<group>"; };
+		0178C8E0214AC41000FE23D2 /* ShareScreenshotViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShareScreenshotViewModel.swift; path = Ambatana/src/ViewControllers/Share/ShareScreenshotViewModel.swift; sourceTree = SOURCE_ROOT; };
+		0178C8E1214AC41000FE23D2 /* ShareScreenshotViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShareScreenshotViewController.swift; path = Ambatana/src/ViewControllers/Share/ShareScreenshotViewController.swift; sourceTree = SOURCE_ROOT; };
 		0178CBD71F0E463D00620BA6 /* UriSchemeSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UriSchemeSpec.swift; path = DeepLinks/UriSchemeSpec.swift; sourceTree = "<group>"; };
+		017BEE18213DF3F500922956 /* ShareScreenshotAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareScreenshotAnimator.swift; sourceTree = "<group>"; };
 		017E607E20D15D39007025C0 /* NotificationSettingsListDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsListDetailViewModel.swift; sourceTree = "<group>"; };
 		017E608120D15D4F007025C0 /* NotificationSettingsListDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsListDetailViewController.swift; sourceTree = "<group>"; };
 		017E608420D16B78007025C0 /* NotificationSettingSwitchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingSwitchCell.swift; sourceTree = "<group>"; };
@@ -3748,6 +3766,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0133D90B213946E400AD9959 /* Share */ = {
+			isa = PBXGroup;
+			children = (
+				0133D90D2139474B00AD9959 /* ShareScreenshotNavigator.swift */,
+				0133D91521394C7300AD9959 /* ShareScreenshotWireframe.swift */,
+				017BEE18213DF3F500922956 /* ShareScreenshotAnimator.swift */,
+			);
+			path = Share;
+			sourceTree = "<group>";
+		};
+		0133D9102139478000AD9959 /* Share */ = {
+			isa = PBXGroup;
+			children = (
+				0133D911213947BE00AD9959 /* ShareScreenshotBuilder.swift */,
+			);
+			path = Share;
+			sourceTree = "<group>";
+		};
 		013B2A1921303DA300F69613 /* Interested */ = {
 			isa = PBXGroup;
 			children = (
@@ -3757,6 +3793,23 @@
 				013B2A1B21303DCB00F69613 /* LGInterestedStateUpdater.swift */,
 			);
 			path = Interested;
+			sourceTree = "<group>";
+		};
+		0178C8DE214AC1DB00FE23D2 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
+		0178C8DF214AC3CA00FE23D2 /* Share */ = {
+			isa = PBXGroup;
+			children = (
+				0178C8E1214AC41000FE23D2 /* ShareScreenshotViewController.swift */,
+				0178C8E0214AC41000FE23D2 /* ShareScreenshotViewModel.swift */,
+			);
+			name = Share;
+			path = "New Group";
 			sourceTree = "<group>";
 		};
 		0178CBD61F0E462700620BA6 /* DeepLinks */ = {
@@ -4022,13 +4075,6 @@
 				0A6FEC602130343900B57004 /* PromoteBumpModalWireframe.swift */,
 			);
 			path = PromoteBump;
-			sourceTree = "<group>";
-		};
-		0A6FEC612130343A00B57004 /* Search */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Search;
 			sourceTree = "<group>";
 		};
 		0A6FEC622130343A00B57004 /* ProfessionalDealerAskPhone */ = {
@@ -4365,6 +4411,7 @@
 				50D15415214A5C2300221B06 /* AffiliationInviteSMSContacts */,
 				A47C4A66213D5B32005AA387 /* Search */,
 				A47C4A5E213D31BB005AA387 /* TrendingSearches */,
+				0133D90B213946E400AD9959 /* Share */,
 				A465722D213056C800B806C2 /* Feed */,
 				0A6FEC752130343B00B57004 /* AssistantMeeting */,
 				0A6FEC842130343C00B57004 /* BumpUps */,
@@ -4389,7 +4436,6 @@
 				0A6FEC952130343E00B57004 /* RateUser */,
 				0A6FEC8A2130343D00B57004 /* Recaptcha */,
 				0A6FEC5B2130343900B57004 /* RememberPassword */,
-				0A6FEC612130343A00B57004 /* Search */,
 				0A6FEC7F2130343C00B57004 /* SimpleListing */,
 				0A6FECA02130343F00B57004 /* TourLogin */,
 				0A6FEC822130343C00B57004 /* User */,
@@ -4408,6 +4454,7 @@
 				0AF28D84213ECEBA005A6F8C /* ListingsMap */,
 				A47C4A62213D5574005AA387 /* Search */,
 				A47C4A5A213D304F005AA387 /* TrendingSearches */,
+				0133D9102139478000AD9959 /* Share */,
 				A4B06434212FF80C00769B6B /* Feed */,
 				A4605827212D9A5F00386DFC /* Tour */,
 				0A2F52A42122FBFD0034EF85 /* QuickLocationFilters */,
@@ -5287,6 +5334,7 @@
 		50560B871B25D18F0021D8D9 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				0178C8DF214AC3CA00FE23D2 /* Share */,
 				50D153E7214A5BE600221B06 /* Affiliation */,
 				42CA899720973F5A00CE7B5B /* ListingsMap */,
 				3299E5E3207FB756002935AE /* NewFeedCollectionViewLayout */,
@@ -6157,6 +6205,7 @@
 				6608E0371A820FBD005895ED /* Products */,
 				ABA47C14BB52140048297810 /* Frameworks */,
 				4624A7DDBDADD7F8BDB5921F /* Pods */,
+				0178C8DE214AC1DB00FE23D2 /* Recovered References */,
 			);
 			indentWidth = 4;
 			sourceTree = "<group>";
@@ -8810,6 +8859,7 @@
 				2EBC92181E0ABCDF007F0F82 /* PurchaseableProductsRequest.swift in Sources */,
 				C74234061D59EC680082D1CD /* LocalMessage.swift in Sources */,
 				0AA7DB5B2110A7B800B2B657 /* DeeplinkMailBox.swift in Sources */,
+				0178C8E4214AC41000FE23D2 /* ShareScreenshotViewController.swift in Sources */,
 				504652F21CC0F0B3003F5070 /* Listing+Title.swift in Sources */,
 				C6977E862119EE6E00B57E54 /* PostingServicesListingTypeSelectionCell.swift in Sources */,
 				0A63DFC31FB0B7AC00C065F2 /* ListingCardUserView.swift in Sources */,
@@ -8844,6 +8894,7 @@
 				0A82A1AA2141A7CD005ECA58 /* UserRatingCell.swift in Sources */,
 				C7B588451CE1DE1C009B3975 /* ChatListingView.swift in Sources */,
 				C6FFC47B20F4E8E400B9F53A /* FormattedUnitRange.swift in Sources */,
+				0133D91621394C7300AD9959 /* ShareScreenshotWireframe.swift in Sources */,
 				3212AE38211AEAC100945110 /* LocationData.swift in Sources */,
 				0A4C69D820C92D5100B89022 /* RecaptchaView.swift in Sources */,
 				6AFA1722213408C000F16795 /* UserAvatarViewModel.swift in Sources */,
@@ -9182,6 +9233,7 @@
 				72FE02DF1F98D38F005BD672 /* PostingAddDetailPriceView.swift in Sources */,
 				0AE6F4F320F8CBBB00D58BCE /* SearchViewController.swift in Sources */,
 				326C72D22088820F009D21DB /* WaterFallLayout.swift in Sources */,
+				0133D90E2139474B00AD9959 /* ShareScreenshotNavigator.swift in Sources */,
 				3237C69C21072A4400B7359B /* ErrorView.swift in Sources */,
 				0A0CCB1C208E670600DCFFCA /* ListingDeckVideoCell.swift in Sources */,
 				2ECB417E2008CC6900482EF7 /* AdvertisementCell.swift in Sources */,
@@ -9205,6 +9257,7 @@
 				725BD5562077C37E00563926 /* VerticalsABGroup.swift in Sources */,
 				50FEFA1E20469AD6003C51B0 /* ChatBubbleCellType.swift in Sources */,
 				0A6FED1E2130344000B57004 /* RateUserStandardWireframe.swift in Sources */,
+				0178C8E2214AC41000FE23D2 /* ShareScreenshotViewModel.swift in Sources */,
 				C7B588831CE1DFA6009B3975 /* ChatMyMessageCellDrawer.swift in Sources */,
 				50F0BAA61B28937800E50A68 /* SignUpViewModel.swift in Sources */,
 				3299E5E9207FB7AB002935AE /* WaterFallLayoutDelegates.swift in Sources */,
@@ -9416,6 +9469,7 @@
 				6AA26CFD1CFDBA7600546063 /* ChatDisclaimerCellDrawer.swift in Sources */,
 				50A8DC821BA06BB1008296B0 /* ChatSafetyTipsView.swift in Sources */,
 				0AEB4FF02018AA93003365DE /* ListingDeckOnBoardingViewModel.swift in Sources */,
+				017BEE19213DF3F500922956 /* ShareScreenshotAnimator.swift in Sources */,
 				2E131C6B1DEDE998004D26DC /* LGPurchasesShopper.swift in Sources */,
 				6A3F3B9B20AD81A000E2881F /* LetgoTooltip.swift in Sources */,
 				3237C6A52108ABB500B7359B /* ListingCellSizeMetrics.swift in Sources */,
@@ -9631,6 +9685,7 @@
 				0AE6F4FE20F8DE2A00D58BCE /* SearchNavigator.swift in Sources */,
 				727463B21FB0AEAB00AD8261 /* LGSearchMap.swift in Sources */,
 				0183BB21203C8BEE00204383 /* PostingGetStartedViewController.swift in Sources */,
+				0133D912213947BE00AD9959 /* ShareScreenshotBuilder.swift in Sources */,
 				6A5E19E81D548F5400F92692 /* Int+LG.swift in Sources */,
 				2E47610B1EF0343B003F15F2 /* ListingDetailOnboardingViewModel.swift in Sources */,
 				C7BB25D01E36153600649396 /* GodModeManager.swift in Sources */,
@@ -9855,6 +9910,7 @@
 				42009A2320765FE0003F946E /* PromoCellDrawer.swift in Sources */,
 				8E80005E20B5CBFA0043A077 /* ChatConversationsListModel.swift in Sources */,
 				0A890ACA2120AA6E0091ED75 /* RateBuyerBuilder.swift in Sources */,
+				017BEE1A213DF3F500922956 /* ShareScreenshotAnimator.swift in Sources */,
 				C6BEE65C20EE6F69008AEA0B /* ListingAttributeTableViewModel.swift in Sources */,
 				C7126BC81E6052E300038CC4 /* CustomTouchesTableView.swift in Sources */,
 				0A6FECCB2130344000B57004 /* RateBuyersModalWireframe.swift in Sources */,
@@ -10045,6 +10101,7 @@
 				09D7BC7F20EB62950090E499 /* StripeManager.swift in Sources */,
 				2E2D53E01D369B0500348D12 /* ConfigDAO.swift in Sources */,
 				C7DB41BB1C5138B500400945 /* ListingCategory+LG.swift in Sources */,
+				0133D91721394C7300AD9959 /* ShareScreenshotWireframe.swift in Sources */,
 				0A6FECFB2130344000B57004 /* UserPhoneVerificationWireframe.swift in Sources */,
 				6AEF66B41C5A155C0025D43C /* Paginable.swift in Sources */,
 				C7DB41BC1C5138B500400945 /* ListingFilters.swift in Sources */,
@@ -10145,6 +10202,7 @@
 				55FABE2020763460004B0DBD /* UserPhoneVerificationCountryPickerViewModel.swift in Sources */,
 				42F0688520FF3AD3009AC898 /* DropdownCellRepresentable.swift in Sources */,
 				C2C2F30620F2DFBA00EAF42A /* ListingCarouselVideoCell.swift in Sources */,
+				0178C8E5214AC41000FE23D2 /* ShareScreenshotViewController.swift in Sources */,
 				013B2A2021303DCC00F69613 /* LGInterestedStateUpdater.swift in Sources */,
 				C6F3CEED20FF445100AF4D38 /* DropdownHeaderCell.swift in Sources */,
 				0A6F6E122122B8E5006A7132 /* BumpUpBuilder.swift in Sources */,
@@ -10224,6 +10282,7 @@
 				328E8E1A20B6EF4300BBF639 /* RequesterFactory.swift in Sources */,
 				C2E85E8920736B9A0009F3B0 /* Camera.swift in Sources */,
 				0AE6F4EF20F88D7800D58BCE /* TrendingSearchesViewController.swift in Sources */,
+				0133D913213947BE00AD9959 /* ShareScreenshotBuilder.swift in Sources */,
 				C7DB41E51C5138B500400945 /* FilterTagsView.swift in Sources */,
 				0A04D5D020760A9D00471B9D /* ABDynamicVar.swift in Sources */,
 				725BD5572077C37E00563926 /* VerticalsABGroup.swift in Sources */,
@@ -10365,6 +10424,7 @@
 				C7DB41FE1C5138B500400945 /* AppsflyerTracker.swift in Sources */,
 				C7DE8ABF1C888750005CF37E /* ListingPostedViewModel.swift in Sources */,
 				6A12E04D1C635FA600C1BFE3 /* TourLoginViewController.swift in Sources */,
+				0133D90F2139474B00AD9959 /* ShareScreenshotNavigator.swift in Sources */,
 				8EB65111205C1C1500FF50E4 /* MobileNetLetgov7final.mlmodel in Sources */,
 				3212ADF92119A1C600945110 /* LGWaterFallSettings.swift in Sources */,
 				C75B5DD21D59E0C500112368 /* ListingCarouselCell.swift in Sources */,
@@ -10595,6 +10655,7 @@
 				726E35C11FE13FB200F98776 /* RetrieveListingParams+LG.swift in Sources */,
 				6A0B6A112052BC9F00EAA1F5 /* UserProfileRelationView.swift in Sources */,
 				016328F920DBCFFB00FA618B /* NotificationSettingsCompleteListViewModel.swift in Sources */,
+				0178C8E3214AC41000FE23D2 /* ShareScreenshotViewModel.swift in Sources */,
 				72D928DB1E83DD330030F4C3 /* ConfigManager.swift in Sources */,
 				0AA03203210A293700728A1A /* LGUserVerificationBuilder.swift in Sources */,
 				55FABE1720762E4B004B0DBD /* UserPhoneVerificationCodeInputViewController.swift in Sources */,

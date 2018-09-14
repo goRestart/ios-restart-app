@@ -81,6 +81,7 @@ extension Bumper  {
         flags.append(ServicesPromoCells.self)
         flags.append(ImInterestedInProfile.self)
         flags.append(ClickToTalk.self)
+        flags.append(ShareAfterScreenshot.self)
         flags.append(MutePushNotifications.self)
         flags.append(MultiAdRequestInChatSectionForUS.self)
         flags.append(MultiAdRequestInChatSectionForTR.self)
@@ -929,6 +930,19 @@ extension Bumper  {
     static var clickToTalkObservable: Observable<ClickToTalk> {
         return Bumper.observeValue(for: ClickToTalk.key).map {
             ClickToTalk(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var shareAfterScreenshot: ShareAfterScreenshot {
+        guard let value = Bumper.value(for: ShareAfterScreenshot.key) else { return .control }
+        return ShareAfterScreenshot(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var shareAfterScreenshotObservable: Observable<ShareAfterScreenshot> {
+        return Bumper.observeValue(for: ShareAfterScreenshot.key).map {
+            ShareAfterScreenshot(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -2019,6 +2033,22 @@ enum ClickToTalk: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "[VERTICALS] Show Click to talk" } 
     static func fromPosition(_ position: Int) -> ClickToTalk {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum ShareAfterScreenshot: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return ShareAfterScreenshot.control.rawValue }
+    static var enumValues: [ShareAfterScreenshot] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[RETENTION] Show a share view after the user takes a screenshot" } 
+    static func fromPosition(_ position: Int) -> ShareAfterScreenshot {
         switch position { 
             case 0: return .control
             case 1: return .baseline
