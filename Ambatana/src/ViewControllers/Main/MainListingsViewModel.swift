@@ -613,9 +613,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     }
     
     func showFilters() {
-        navigator?.openUserVerificationAwarenessView()
-//        wireframe?.openFilters(withFilters: filters, dataDelegate: self)
-//        tracker.trackEvent(TrackerEvent.filterStart())
+        wireframe?.openFilters(withFilters: filters, dataDelegate: self)
+        tracker.trackEvent(TrackerEvent.filterStart())
     }
     
     func openAffiliationChallenges() {

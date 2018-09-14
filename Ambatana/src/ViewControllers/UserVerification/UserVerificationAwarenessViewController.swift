@@ -8,6 +8,8 @@ final class UserVerificationAwarenessViewController: BaseViewController {
         static let imageHeight: CGFloat = 100.0
         static let verifiedBadgeHeight: CGFloat = 30
         static let closeButtonHeight: CGFloat = 33
+        static let containerMargin: CGFloat = 37
+        static let avatarMargin: CGFloat = 30
     }
 
     private let container: UIView = {
@@ -123,10 +125,10 @@ final class UserVerificationAwarenessViewController: BaseViewController {
     private func setupConstraints() {
         let constraints: [NSLayoutConstraint] = [
             container.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            container.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 37),
-            container.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -37),
+            container.leftAnchor.constraint(equalTo: view.leftAnchor, constant: Layout.containerMargin),
+            container.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -Layout.containerMargin),
             avatarImageView.centerXAnchor.constraint(equalTo: container.centerXAnchor),
-            avatarImageView.topAnchor.constraint(equalTo: container.topAnchor, constant: 30),
+            avatarImageView.topAnchor.constraint(equalTo: container.topAnchor, constant: Layout.avatarMargin),
             avatarImageView.heightAnchor.constraint(equalToConstant: Layout.imageHeight),
             avatarImageView.widthAnchor.constraint(equalTo: avatarImageView.heightAnchor),
             badgeImageView.centerXAnchor.constraint(equalTo: avatarImageView.rightAnchor, constant: -Layout.verifiedBadgeHeight/2),
