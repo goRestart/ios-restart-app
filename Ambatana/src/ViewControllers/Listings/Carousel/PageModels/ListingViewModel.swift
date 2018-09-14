@@ -108,7 +108,7 @@ final class ListingViewModel: BaseViewModel {
         let userName = listing.value.user.name?.toNameReduced(maxChars: SharedConstants.maxCharactersOnUserNameChatButton) ?? ""
         return R.Strings.productChatWithSellerNameButton(userName)
     }
-    fileprivate lazy var productIsFavoriteable = Variable<Bool>(false)
+    lazy var productIsFavoriteable = Variable<Bool>(false)
     lazy var favoriteButtonState = Variable<ButtonState>(.enabled)
     lazy var shareButtonState = Variable<ButtonState>(.hidden)
 

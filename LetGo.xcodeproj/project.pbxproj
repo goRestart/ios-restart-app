@@ -164,6 +164,8 @@
 		0A3AF6C5213D84B70034143B /* ListingDeckNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3AF6C4213D84B70034143B /* ListingDeckNavigator.swift */; };
 		0A3C143121232FBD00C836F7 /* PaymentFrequency+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C64DD44E211089CD003E5EC2 /* PaymentFrequency+LG.swift */; };
 		0A3F3FEB210B75A50070F6A1 /* DropdownSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C690704C21021E7A00AF27E4 /* DropdownSectionViewModel.swift */; };
+		0A45A875214ADD990045ACFA /* RxSwift+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45A874214ADD990045ACFA /* RxSwift+LG.swift */; };
+		0A45A876214ADDD00045ACFA /* RxSwift+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45A874214ADD990045ACFA /* RxSwift+LG.swift */; };
 		0A4766C91FC58DFF005B176F /* ListingCardViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6BAC1D1FC58D680008A703 /* ListingCardViewCellModel.swift */; };
 		0A48B2511FD9A19400C7F163 /* ListingDeckViewControllerBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A00F9C31FA364B100E915F4 /* ListingDeckViewControllerBinder.swift */; };
 		0A48B2521FD9A1B300C7F163 /* Bounceable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2D69DC1FC5DA8700F072A1 /* Bounceable.swift */; };
@@ -2471,6 +2473,7 @@
 		0A3AF6BE213D48480034143B /* ListingBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingBuilder.swift; sourceTree = "<group>"; };
 		0A3AF6C1213D62BD0034143B /* DeckViewCollectionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckViewCollectionDelegate.swift; sourceTree = "<group>"; };
 		0A3AF6C4213D84B70034143B /* ListingDeckNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingDeckNavigator.swift; sourceTree = "<group>"; };
+		0A45A874214ADD990045ACFA /* RxSwift+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RxSwift+LG.swift"; sourceTree = "<group>"; };
 		0A4AD7F9203DD9B8002625B7 /* UILayoutPriority.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILayoutPriority.swift; sourceTree = "<group>"; };
 		0A4C69D720C92D5100B89022 /* RecaptchaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecaptchaView.swift; sourceTree = "<group>"; };
 		0A561AE120C81FF00082D551 /* UICollectionView+ReusableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+ReusableCell.swift"; sourceTree = "<group>"; };
@@ -6281,6 +6284,7 @@
 				6A5E19B91D548F5400F92692 /* FBSDKSharing+LG.swift */,
 				6A5E19BA1D548F5400F92692 /* GoogleLoginHelper.swift */,
 				5061ACBC1DE3637D002E5423 /* ExternalAuthHelper.swift */,
+				0A45A874214ADD990045ACFA /* RxSwift+LG.swift */,
 			);
 			path = 3rdPartyExtensions;
 			sourceTree = "<group>";
@@ -9619,6 +9623,7 @@
 				F51A082B2031B5360008D744 /* AspectRatio.swift in Sources */,
 				0A6FECD62130344000B57004 /* ProfessionalDealerAskPhoneModalWireframe.swift in Sources */,
 				0AB63DD32136EA7800FECCEF /* QuickLocationFiltersStandardWireframe.swift in Sources */,
+				0A45A875214ADD990045ACFA /* RxSwift+LG.swift in Sources */,
 				0A04D5DB20760A9D00471B9D /* ChatABGroup.swift in Sources */,
 				50C9E4C51B723E87001E4E92 /* FacebookTracker.swift in Sources */,
 				0ADD39BD211306E90071DF87 /* LGUserBuilder.swift in Sources */,
@@ -9874,6 +9879,7 @@
 				01A171C4208DE5B800C98D4C /* SearchAlertSwitchCell.swift in Sources */,
 				C71C5D5F1D95897F006EB3CE /* BumperFeatures.swift in Sources */,
 				C7DB41921C5138B500400945 /* FilterSection.swift in Sources */,
+				0A45A876214ADDD00045ACFA /* RxSwift+LG.swift in Sources */,
 				0AAC7956207F73F30096F156 /* FeedViewModel.swift in Sources */,
 				8E80F70820D938FD005256D9 /* ChatBaseViewModel.swift in Sources */,
 				50146BDA1D4F90E500B0F635 /* ChatsTabNavigator.swift in Sources */,

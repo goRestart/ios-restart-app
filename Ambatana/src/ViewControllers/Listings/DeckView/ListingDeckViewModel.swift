@@ -70,7 +70,6 @@ final class ListingDeckViewModel: BaseViewModel {
     private let userRepository: MyUserRepository
 
     private let listingViewModelAssembly: ListingViewModelAssembly
-    private let tracker: Tracker
     private let listingTracker: ListingTracker
 
     private let featureFlags: FeatureFlaggeable
@@ -82,6 +81,8 @@ final class ListingDeckViewModel: BaseViewModel {
 
     private let quickChatViewModel = QuickChatViewModel()
     let bumpUpBannerInfo = Variable<BumpUpInfo?>(nil)
+    fileprivate let isFavorite: BehaviorRelay<Bool> = .init(value: false)
+    private var favoriteCache: [String: Bool] = [:]
 
     fileprivate let isMine: BehaviorRelay<Bool> = .init(value: false)
 
@@ -129,7 +130,7 @@ final class ListingDeckViewModel: BaseViewModel {
                   pagination: pagination,
                   prefetching: prefetching,
                   shouldSyncFirstListing: false,
-                  tracker: TrackerProxy.sharedInstance,
+                  tracker: ListingTracker(),
                   actionOnFirstAppear: actionOnFirstAppear,
                   trackingIndex: trackingIndex,
                   trackingIdentifier: trackingIdentifier,
@@ -161,7 +162,7 @@ final class ListingDeckViewModel: BaseViewModel {
                   pagination: pagination,
                   prefetching: prefetching,
                   shouldSyncFirstListing: shouldSyncFirstListing,
-                  tracker: TrackerProxy.sharedInstance,
+                  tracker: ListingTracker(),
                   actionOnFirstAppear: actionOnFirstAppear,
                   trackingIndex: trackingIndex,
                   trackingIdentifier: trackingIdentifier,
@@ -180,7 +181,7 @@ final class ListingDeckViewModel: BaseViewModel {
          pagination: Pagination,
          prefetching: Prefetching,
          shouldSyncFirstListing: Bool,
-         tracker: Tracker,
+         tracker: ListingTracker,
          actionOnFirstAppear: DeckActionOnFirstAppear,
          trackingIndex: Int?,
          trackingIdentifier: String?,
@@ -194,10 +195,7 @@ final class ListingDeckViewModel: BaseViewModel {
         self.listingViewModelAssembly = viewModelMaker
         self.source = source
         self.userRepository = myUserRepository
-        self.tracker = tracker
-        self.listingTracker = ListingTracker.init(tracker: tracker,
-                                                  featureFlags: featureFlags,
-                                                  myUserRepository: myUserRepository)
+        self.listingTracker = tracker
         self.actionOnFirstAppear = actionOnFirstAppear
         self.trackingIndex = trackingIndex
         self.keyValueStorage = keyValueStorage
@@ -239,11 +237,11 @@ final class ListingDeckViewModel: BaseViewModel {
 
     private func processActionOnFirstAppear() {
         switch actionOnFirstAppear {
-        case .showKeyboard:
-        break // we no longer support this one
+        case .showKeyboard: // we no longer support this one
+            break
         case .showShareSheet:
             currentListingViewModel.shareProduct()
-        case .triggerBumpUp(_,_,_,_):
+        case .triggerBumpUp:
             showBumpUpView(actionOnFirstAppear)
         case .triggerMarkAsSold:
             currentListingViewModel.markAsSold()
@@ -261,10 +259,9 @@ final class ListingDeckViewModel: BaseViewModel {
             currentListingViewModel.delegate = nil
             currentListingViewModel.active = false
             currentListingViewModel.listing.value = listing
+            forceCurrentUpdate(listing: listing)
             currentListingViewModel.active = true
-            currentListingViewModel.forcedUpdate()
             currentListingViewModel.delegate = self
-
             isMine.accept(currentListingViewModel.isMine)
             quickChatViewModel.sectionFeedChatTrackingInfo = sectionFeedChatTrackingInfo
 
@@ -273,6 +270,16 @@ final class ListingDeckViewModel: BaseViewModel {
 
             // Tracking ABIOS-4531
         }
+    }
+
+    private func forceCurrentUpdate(listing: Listing) {
+        currentListingViewModel.forcedUpdate()
+        guard let objectId = listing.objectId,
+            let cachedValue = favoriteCache[objectId] else {
+                isFavorite.accept(false)
+                return
+        }
+        isFavorite.accept(cachedValue)
     }
 
     private func bind(to current: ListingViewModel) {
@@ -285,6 +292,12 @@ final class ListingDeckViewModel: BaseViewModel {
                 }) else { return }
                 strongSelf.replaceListingCellModelAtIndex(index, withListing: listing)
             }.disposed(by: disposeBag)
+        current.isFavorite.asObservable().bind { [weak self] in
+            self?.isFavorite.accept($0)
+            if let listingID = current.listing.value.objectId {
+                self?.favoriteCache[listingID] = $0
+            }
+        }.disposed(by: disposeBag)
         current.actionButtons.asObservable().bind(to: actionButtons).disposed(by: disposeBag)
         current.cardBumpUpBannerInfo.bind(to: bumpUpBannerInfo).disposed(by: disposeBag)
 
@@ -611,7 +624,7 @@ extension Reactive where Base: ListingDeckViewModel {
     }
 
     var listingAction: Driver<ListingAction> {
-        let isFavorite = base.currentListingViewModel.isFavorite.asObservable()
+        let isFavorite = base.isFavorite.asObservable()
         let isFavoritable = isMine.map { return !$0 }
         let isEditable = base.currentListingViewModel.status.asObservable().map { return $0.isEditable }
 
@@ -620,8 +633,9 @@ extension Reactive where Base: ListingDeckViewModel {
             .distinctUntilChanged()
             .asDriver(onErrorJustReturn: ListingAction(isFavorite: false, isFavoritable: false, isEditable: false))
     }
-
-    var isMine: Observable<Bool> { return base.isMine.asObservable() }
+    var isMine: Observable<Bool> {
+        return base.currentListingViewModel.productIsFavoriteable.asObservable().map { return !$0 }
+    }
 
     var objectChanges: Observable<CollectionChange<ListingCellModel>> { return base.objects.changesObservable }
     var actionButtons: Observable<[UIAction]> { return base.actionButtons.asObservable() }

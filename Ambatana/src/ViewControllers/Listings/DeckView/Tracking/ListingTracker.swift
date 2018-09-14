@@ -6,6 +6,12 @@ final class ListingTracker {
     private let featureFlags: FeatureFlaggeable
     private let myUserRepository: MyUserRepository
 
+    convenience init() {
+        self.init(tracker: TrackerProxy.sharedInstance,
+                  featureFlags: FeatureFlags.sharedInstance,
+                  myUserRepository: Core.myUserRepository)
+    }
+
     init(tracker: Tracker, featureFlags: FeatureFlaggeable, myUserRepository: MyUserRepository) {
         self.tracker = tracker
         self.featureFlags = featureFlags
