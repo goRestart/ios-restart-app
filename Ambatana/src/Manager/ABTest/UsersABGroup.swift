@@ -16,6 +16,7 @@ struct UsersABGroup: ABGroupType {
         static let reportingFostaSesta = "20180627ReportingFostaSesta"
         static let community = "20180907Community"
         static let advancedReputationSystem11 = "20180828AdvancedReputationSystem11"
+        static let advancedReputationSystem12 = "20180910AdvancedReputationSystem12"
     }
 
     let showPasswordlessLogin: LeanplumABVariable<Int>
@@ -24,6 +25,7 @@ struct UsersABGroup: ABGroupType {
     let reportingFostaSesta: LeanplumABVariable<Int>
     let community: LeanplumABVariable<Int>
     let advancedReputationSystem11: LeanplumABVariable<Int>
+    let advancedReputationSystem12: LeanplumABVariable<Int>
 
     let group: ABGroup = .users
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -36,19 +38,22 @@ struct UsersABGroup: ABGroupType {
          offensiveReportAlert: LeanplumABVariable<Int>,
          reportingFostaSesta: LeanplumABVariable<Int>,
          community: LeanplumABVariable<Int>,
-         advancedReputationSystem11: LeanplumABVariable<Int>) {
+         advancedReputationSystem11: LeanplumABVariable<Int>,
+         advancedReputationSystem12: LeanplumABVariable<Int>) {
         self.showPasswordlessLogin = showPasswordlessLogin
         self.emergencyLocate = emergencyLocate
         self.offensiveReportAlert = offensiveReportAlert
         self.reportingFostaSesta = reportingFostaSesta
         self.community = community
         self.advancedReputationSystem11 = advancedReputationSystem11
+        self.advancedReputationSystem12 = advancedReputationSystem12
         intVariables.append(contentsOf: [showPasswordlessLogin,
                                          emergencyLocate,
                                          offensiveReportAlert,
                                          reportingFostaSesta,
                                          community,
-                                         advancedReputationSystem11])
+                                         advancedReputationSystem11,
+                                         advancedReputationSystem12])
     }
 
     static func make() -> UsersABGroup {
@@ -68,6 +73,9 @@ struct UsersABGroup: ABGroupType {
                                                 defaultValue: 0,
                                                 groupType: .users),
                             advancedReputationSystem11: .makeInt(key: Keys.advancedReputationSystem11,
+                                                                 defaultValue: 0,
+                                                                 groupType: .users),
+                            advancedReputationSystem12: .makeInt(key: Keys.advancedReputationSystem12,
                                                                  defaultValue: 0,
                                                                  groupType: .users)
         )

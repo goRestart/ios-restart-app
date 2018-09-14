@@ -447,7 +447,7 @@ final class ListingDeckViewModel: BaseViewModel {
 // MARK: ListingViewModelDelegate
 
 extension ListingDeckViewModel: ListingViewModelDelegate {
-    
+
     var listingOrigin: ListingOrigin {
         let result: ListingOrigin
         switch lastMovement {

@@ -75,11 +75,13 @@ extension Bumper  {
         flags.append(CarPromoCells.self)
         flags.append(RealEstatePromoCells.self)
         flags.append(AdvancedReputationSystem11.self)
+        flags.append(AdvancedReputationSystem12.self)
         flags.append(ProUsersExtraImages.self)
         flags.append(SectionedDiscoveryFeed.self)
         flags.append(ServicesPromoCells.self)
         flags.append(ImInterestedInProfile.self)
         flags.append(ClickToTalk.self)
+        flags.append(ShareAfterScreenshot.self)
         flags.append(MutePushNotifications.self)
         flags.append(MultiAdRequestInChatSectionForUS.self)
         flags.append(MultiAdRequestInChatSectionForTR.self)
@@ -854,6 +856,19 @@ extension Bumper  {
     }
     #endif
 
+    static var advancedReputationSystem12: AdvancedReputationSystem12 {
+        guard let value = Bumper.value(for: AdvancedReputationSystem12.key) else { return .control }
+        return AdvancedReputationSystem12(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var advancedReputationSystem12Observable: Observable<AdvancedReputationSystem12> {
+        return Bumper.observeValue(for: AdvancedReputationSystem12.key).map {
+            AdvancedReputationSystem12(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
     static var proUsersExtraImages: ProUsersExtraImages {
         guard let value = Bumper.value(for: ProUsersExtraImages.key) else { return .control }
         return ProUsersExtraImages(rawValue: value) ?? .control 
@@ -915,6 +930,19 @@ extension Bumper  {
     static var clickToTalkObservable: Observable<ClickToTalk> {
         return Bumper.observeValue(for: ClickToTalk.key).map {
             ClickToTalk(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var shareAfterScreenshot: ShareAfterScreenshot {
+        guard let value = Bumper.value(for: ShareAfterScreenshot.key) else { return .control }
+        return ShareAfterScreenshot(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var shareAfterScreenshotObservable: Observable<ShareAfterScreenshot> {
+        return Bumper.observeValue(for: ShareAfterScreenshot.key).map {
+            ShareAfterScreenshot(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1911,7 +1939,23 @@ enum AdvancedReputationSystem11: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "[USERS] ARS v1.1" } 
     static func fromPosition(_ position: Int) -> AdvancedReputationSystem11 {
-          switch position { 
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum AdvancedReputationSystem12: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return AdvancedReputationSystem12.control.rawValue }
+    static var enumValues: [AdvancedReputationSystem12] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[USERS] ARS v1.2" } 
+    static func fromPosition(_ position: Int) -> AdvancedReputationSystem12 {
+        switch position { 
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
@@ -1992,6 +2036,22 @@ enum ClickToTalk: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "[VERTICALS] Show Click to talk" } 
     static func fromPosition(_ position: Int) -> ClickToTalk {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum ShareAfterScreenshot: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return ShareAfterScreenshot.control.rawValue }
+    static var enumValues: [ShareAfterScreenshot] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[RETENTION] Show a share view after the user takes a screenshot" } 
+    static func fromPosition(_ position: Int) -> ShareAfterScreenshot {
         switch position { 
             case 0: return .control
             case 1: return .baseline

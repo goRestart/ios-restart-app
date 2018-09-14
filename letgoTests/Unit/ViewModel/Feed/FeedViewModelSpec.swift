@@ -60,7 +60,7 @@ final class FeedViewModelSpec: BaseViewModelSpec {
             context("when the navigator is not nil") {
                 beforeEach {
                     subject?.navigator = coordinator
-                    subject?.didTapSeeAll(page: .user(query: "CommanderKeen"))
+                    subject?.didTapSeeAll(page: .user(query: "CommanderKeen"), section: 0, identifier: "DopefishSection")
                 }
                 
                 it("should open the pro feed") {
@@ -79,7 +79,7 @@ final class FeedViewModelSpec: BaseViewModelSpec {
             context("when the navigator is nil") {
                 beforeEach {
                     subject?.navigator = nil
-                    subject?.didTapSeeAll(page: .user(query: "CommanderKeen"))
+                    subject?.didTapSeeAll(page: .user(query: "CommanderKeen"), section: 0, identifier: "DopefishSection")
                 }
                 
                 it("should NOT open the pro feed") {
@@ -271,6 +271,7 @@ private extension FeedViewModelSpec {
     
     class FeedWireframeMock: FeedNavigator {
         var openFiltersWasCalled: (state: Bool, listingFilters: ListingFilters?) = (false, nil)
+        var openAffiliationChallengesWasCalled: Bool = false
         var openLocationWasCalled: Bool = false
         var showPushPermissionsAlertWasCalled: Bool = false
         var openMapWasCalled: Bool = false
@@ -282,6 +283,10 @@ private extension FeedViewModelSpec {
         
         func openFilters(withListingFilters listingFilters: ListingFilters, filtersVMDataDelegate: FiltersViewModelDataDelegate?) {
             openFiltersWasCalled = (true, listingFilters)
+        }
+        
+        func openAffiliationChallenges() {
+            openAffiliationChallengesWasCalled = true
         }
         
         func openLocationSelection(initialPlace: Place?, distanceRadius: Int?, locationDelegate: EditLocationDelegate) {
@@ -314,6 +319,10 @@ private extension FeedViewModelSpec {
         }
         
         func openProFeed(navigator: MainTabNavigator?, withSearchType searchType: SearchType, andFilters filters: ListingFilters) {
+            openProFeedWasCalled = (state: true, searchType: searchType, filters: filters)
+        }
+        
+        func openProFeed(navigator: MainTabNavigator?, withSearchType searchType: SearchType, andFilters filters: ListingFilters, andComingSectionPosition: UInt?, andComingSectionIdentifier: String?) {
             openProFeedWasCalled = (state: true, searchType: searchType, filters: filters)
         }
         

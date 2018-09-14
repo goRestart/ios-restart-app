@@ -88,6 +88,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                                                source: source,
                                                actionOnFirstAppear: actionOnFirstAppear,
                                                trackingIndex: trackingIndex,
+                                               sectionIndex: nil,
                                                trackingIdentifier: trackingIdentifier,
                                                firstProductSyncRequired: firstProductSyncRequired,
                                                featureFlags: featureFlags,

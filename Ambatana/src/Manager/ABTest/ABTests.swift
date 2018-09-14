@@ -147,6 +147,7 @@ extension ABTests {
     var reportingFostaSesta: LeanplumABVariable<Int> { return users.reportingFostaSesta }
     var community: LeanplumABVariable<Int> { return users.community }
     var advancedReputationSystem11: LeanplumABVariable<Int> { return users.advancedReputationSystem11 }
+    var advancedReputationSystem12: LeanplumABVariable<Int> { return users.advancedReputationSystem12 }
 }
 
 //  MARK: Core
@@ -205,6 +206,7 @@ extension ABTests {
     var notificationCenterRedesign: LeanplumABVariable<Int> { return retention.notificationCenterRedesign }
     var randomImInterestedMessages: LeanplumABVariable<Int> { return retention.randomImInterestedMessages }
     var imInterestedInProfile: LeanplumABVariable<Int> { return retention.imInterestedInProfile }
+    var shareAfterScreenshot: LeanplumABVariable<Int> { return retention.shareAfterScreenshot }
 }
 
 //  MARK: RealEstate

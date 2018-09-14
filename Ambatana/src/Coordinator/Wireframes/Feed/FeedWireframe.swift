@@ -4,6 +4,7 @@ import LGComponents
 protocol FeedNavigator: class {
     func openFilters(withListingFilters listingFilters: ListingFilters,
                      filtersVMDataDelegate: FiltersViewModelDataDelegate?)
+    func openAffiliationChallenges()
     func openLocationSelection(initialPlace: Place?, distanceRadius: Int?, locationDelegate: EditLocationDelegate)
     func showPushPermissionsAlert(
         pushPermissionsManager: PushPermissionsManager,
@@ -20,6 +21,11 @@ protocol FeedNavigator: class {
     func openProFeed(navigator: MainTabNavigator?,
                      withSearchType: SearchType,
                      andFilters filters: ListingFilters)
+    func openProFeed(navigator: MainTabNavigator?,
+                     withSearchType: SearchType,
+                     andFilters filters: ListingFilters,
+                     andComingSectionPosition: UInt?,
+                     andComingSectionIdentifier: String?)
     func openClassicFeed(navigator: MainTabNavigator,
                          withSearchType searchType: SearchType?,
                          listingFilters: ListingFilters)
@@ -38,6 +44,8 @@ final class FeedWireframe: FeedNavigator {
     private let nc: UINavigationController
     private let deepLinkMailBox: DeepLinkMailBox
     private let listingMapAssmebly: ListingsMapAssembly
+    private lazy var affiliationChallengesAssembly = AffiliationChallengesBuilder.standard(nc)
+
 
     convenience init(nc: UINavigationController) {
         self.init(nc: nc,
@@ -64,6 +72,11 @@ final class FeedWireframe: FeedNavigator {
         )
     }
     
+    func openAffiliationChallenges() {
+        let vc = affiliationChallengesAssembly.buildAffiliationChallenges()
+        nc.pushViewController(vc, animated: true)
+    }
+
     func openLocationSelection(initialPlace: Place?, distanceRadius: Int?, locationDelegate: EditLocationDelegate) {
         let assembly = QuickLocationFiltersBuilder.modal(nc)
         let vc = assembly.buildQuickLocationFilters(mode: .quickFilterLocation,
@@ -126,12 +139,26 @@ final class FeedWireframe: FeedNavigator {
     func openProFeed(navigator: MainTabNavigator?,
                      withSearchType searchType: SearchType,
                      andFilters filters: ListingFilters) {
+       openProFeed(navigator: navigator,
+                   withSearchType: searchType,
+                   andFilters: filters,
+                   andComingSectionPosition: nil,
+                   andComingSectionIdentifier: nil)
+    }
+    
+    func openProFeed(navigator: MainTabNavigator?,
+                     withSearchType searchType: SearchType,
+                     andFilters filters: ListingFilters,
+                     andComingSectionPosition position: UInt?,
+                     andComingSectionIdentifier identifier: String?) {
         let (vc, vm) = FeedBuilder.standard(nc: nc).makePro(
             withSearchType: searchType,
             filters: filters,
             hideSearchBox: true,
-            showFilters: false,
-            showLocationEditButton: false
+            showRightNavBarButtons: false,
+            showLocationEditButton: false,
+            comingSectionPosition: position,
+            comingSectionIdentifier: identifier
         )
         vm.navigator = navigator
         nc.pushViewController(vc, animated: true)

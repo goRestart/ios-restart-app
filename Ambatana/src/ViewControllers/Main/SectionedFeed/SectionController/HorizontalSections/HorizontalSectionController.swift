@@ -2,11 +2,16 @@ import IGListKit
 import LGCoreKit
 
 protocol HorizontalSectionDelegate: class {
-    func didTapSeeAll(page: SearchType)
+    func didTapSeeAll(page: SearchType, section: UInt, identifier: String)
 }
 
 final class HorizontalSectionController: ListSectionController {
 
+    enum Constants {
+        static let bigCellVariation: CGFloat = 2.4
+        static let smallCellVariation: CGFloat = 3.6
+    }
+    
     private var listingHorizontalSectionModel: ListingSectionModel?
     weak var listingActionDelegate: ListingActionDelegate?
     weak var delegate: HorizontalSectionDelegate?
@@ -51,7 +56,7 @@ final class HorizontalSectionController: ListSectionController {
     
     private func horizontalSectionHeight(forScreenWidth width: CGFloat) -> CGFloat {
         let variant = featureFlags.sectionedFeedABTestIntValue
-        return variant%2 == 0 ? width / 2.2 : width / 3.4
+        return variant%2 == 0 ? width / Constants.bigCellVariation : width / Constants.smallCellVariation
     }
 }
 
@@ -94,7 +99,8 @@ extension HorizontalSectionController: UICollectionViewDelegate {
                                                 thumbnailImage: cell.thumbnailImage,
                                                 originFrame: originalFrame,
                                                 index: indexPath.section,
-                                                sectionIdentifier: model.id)
+                                                sectionIdentifier: model.id,
+                                                sectionIndex: model.sectionPosition.index)
     }
 }
 
@@ -151,6 +157,11 @@ extension HorizontalSectionController: SectionTitleHeaderViewDelegate {
         guard let nextPage = listingHorizontalSectionModel?.links.first?.value ,
             let nextPageURL = URL(string: nextPage),
             let title = listingHorizontalSectionModel?.title else { return }
-        delegate?.didTapSeeAll(page: .feed(page: nextPageURL, title: title))
+        guard let model = listingHorizontalSectionModel else { return }
+        delegate?.didTapSeeAll(
+            page: .feed(page: nextPageURL, title: title),
+            section: model.sectionPosition.index,
+            identifier: model.id
+        )
     }
 }

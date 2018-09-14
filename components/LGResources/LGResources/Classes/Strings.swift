@@ -2308,7 +2308,7 @@ extension R {
     public static let professionalDealerAskPhoneAddPhoneCellMessage = Strings.tr("Localizable", "professional_dealer_ask_phone_add_phone_cell_message")
     /// Add your phone number
     public static let professionalDealerAskPhoneAlertEnterPhone = Strings.tr("Localizable", "professional_dealer_ask_phone_alert_enter_phone")
-    /// Please enter a valid  phone number
+    /// Please enter a valid \nphone number
     public static let professionalDealerAskPhoneAlertNotValidPhone = Strings.tr("Localizable", "professional_dealer_ask_phone_alert_not_valid_phone")
     /// My phone number is %@
     public static func professionalDealerAskPhoneChatMessage(_ p1: String) -> String {

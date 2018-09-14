@@ -5,6 +5,11 @@ import IGListKit
 import LGCoreKit
 
 final class FeedViewController: BaseViewController {
+    private enum Layout {
+        enum TabBarIcons {
+            static let avatarSize = CGSize(width: 26, height: 26)
+        }
+    }
     
     private let refreshControl = UIRefreshControl()
     private let waterFallLayout = LGWaterFallLayout()
@@ -36,13 +41,13 @@ final class FeedViewController: BaseViewController {
     private let disposeBag = DisposeBag()
 
     private var hideSearchBox = false
-    private var hasFilters = true
+    private var showRightButtons = true
     
     // MARK:- Init
     
     required init(withViewModel viewModel: BaseViewModel & FeedViewModelType,
                   hideSearchBox: Bool = false,
-                  showFilters: Bool = true) {
+                  showRightNavBarButtons: Bool = true) {
         self.navbarSearch = hideSearchBox ? nil : LGNavBarSearchField(
             viewModel.searchString)
         self.viewModel = viewModel
@@ -51,7 +56,7 @@ final class FeedViewController: BaseViewController {
         viewModel.feedRenderingDelegate = self
         viewModel.delegate = self
         viewModel.rootViewController = self
-        hasFilters = showFilters
+        showRightButtons = showRightNavBarButtons
         setup()
     }
 
@@ -73,6 +78,7 @@ final class FeedViewController: BaseViewController {
         setupCollectionView()
         setupRefreshControl()
         setAccessibilityIds()
+        setupRxBindings()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -115,8 +121,8 @@ final class FeedViewController: BaseViewController {
 
     private func setupNavBar() {
         defer {
-            if hasFilters { setupFiltersButton() }
-            setupInviteNavBarButton()
+            if showRightButtons { setupRightNavBarButtons() }
+            setLeftNavBarButtons()
         }
         
         guard hideSearchBox else {
@@ -129,14 +135,34 @@ final class FeedViewController: BaseViewController {
         
         setNavBarTitleStyle(.text(viewModel.searchString))
     }
-
-    private func setupFiltersButton() {
-        let buttonImages = ButtonImage(normal: R.Asset.IconsButtons.icFilters.image, selected: R.Asset.IconsButtons.icFiltersActive.image)
-        guard let rightButton = setLetGoRightButtonsWith(buttonImages: [buttonImages],
-                                                         selectors: [#selector(filtersButtonPressed)]).first else { return  }
+    
+    private func setupRxBindings() {
+        viewModel
+            .rx_userAvatar
+            .asDriver()
+            .drive(onNext:{ [weak self] image in
+                self?.setLeftNavBarButtons(withAvatar: image)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func setupRightNavBarButtons() {
+        var buttonImages: [ButtonImage] = []
+        var selectors: [Selector] = []
+        
+        let filterButtonImages = ButtonImage(normal: R.Asset.IconsButtons.icFilters.image, selected: R.Asset.IconsButtons.icFiltersActive.image)
+            buttonImages.append(filterButtonImages)
+            selectors.append(#selector(filtersButtonPressed))
+        if viewModel.shouldShowAffiliateButton {
+            let affiliateButtonImages =  ButtonImage(normal: R.Asset.IconsButtons.icCloseDark.image)
+            buttonImages.append(affiliateButtonImages)
+            selectors.append(#selector(AffiliationButtonPressed))
+        }
+        guard let filterButton = setLetGoRightButtonsWith(buttonImages: buttonImages,
+                                                         selectors: selectors).first else { return }
         viewModel
             .rxHasFilter
-            .drive(onNext: { rightButton.isSelected = $0})
+            .drive(onNext: { filterButton.isSelected = $0})
             .disposed(by: disposeBag)
     }
     
@@ -152,6 +178,37 @@ final class FeedViewController: BaseViewController {
         navigationItem.setLeftBarButtonItems([invite, spacing], animated: false)
     }
 
+    private func setLeftNavBarButtons(withAvatar avatar: UIImage? = nil) {
+        if viewModel.shouldShowCommunityButton {
+            setCommunityButton()
+        } else if viewModel.shouldShowUserProfileButton {
+            setUserProfileButton(withAvatar: avatar)
+        } else {
+            setupInviteNavBarButton()
+        }
+    }
+    
+    private func setCommunityButton() {
+        let button = UIBarButtonItem(image: R.Asset.IconsButtons.tabbarCommunity.image,
+                                     style: .plain,
+                                     target: self,
+                                     action: #selector(didTapCommunity))
+        navigationItem.setLeftBarButton(button, animated: false)
+    }
+    
+    private func setUserProfileButton(withAvatar avatar: UIImage?) {
+        let image = avatar?.af_imageScaled(to: Layout.TabBarIcons.avatarSize)
+            .af_imageRoundedIntoCircle()
+            .withRenderingMode(.alwaysOriginal)
+            ?? R.Asset.IconsButtons.tabbarProfile.image
+        
+        let button = UIBarButtonItem(image: image,
+                                     style: .plain,
+                                     target: self,
+                                     action: #selector(didTapUserProfile))
+        navigationItem.setLeftBarButton(button, animated: false)
+    }
+    
     private func setup() {
         hidesBottomBarWhenPushed = false
         floatingSellButtonHidden = false
@@ -167,6 +224,7 @@ final class FeedViewController: BaseViewController {
     private func addErrorViewController(with emptyVM: LGEmptyViewModel) {
         let errorVC = ErrorViewController(style: .feed, viewModel: emptyVM)
         errorVC.retryHandler = { [weak self] in
+            self?.viewModel.resetFirstLoadState()
             self?.loadFeed()
         }
         errorViewController = errorVC
@@ -269,9 +327,21 @@ extension FeedViewController {
         viewModel.openInvite()
     }
     
+    @objc private func didTapCommunity() {
+        viewModel.openCommunity()
+    }
+    
+    @objc private func didTapUserProfile() {
+        viewModel.openUserProfile()
+    }
+    
     @objc private func filtersButtonPressed(_ sender: AnyObject) {
         navbarSearch?.searchTextField.resignFirstResponder()
         viewModel.showFilters()
+    }
+    
+    @objc private func AffiliationButtonPressed(_ sender: AnyObject) {
+        viewModel.openAffiliationChallenges()
     }
     
     @objc private func refreshControlTriggered() {
