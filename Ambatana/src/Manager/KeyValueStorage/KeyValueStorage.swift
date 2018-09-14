@@ -1,11 +1,3 @@
-//
-//  KeyValueStorage.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 09/05/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import SwiftyUserDefaults
 import RxSwift
@@ -55,7 +47,6 @@ extension DefaultsKeys {
     static let sessionNumber = DefaultsKey<Int>("sessionNumber")
     static let postListingLastGalleryAlbumSelected = DefaultsKey<String?>("postProductLastGalleryAlbumSelected")
 
-    static let lastShownSurveyDate = DefaultsKey<Date?>("lastShownSurveyDate")
     static let lastShownPromoteBumpDate = DefaultsKey<Date?>("lastShownPromoteBumpDate")
     static let realEstateTooltipSellButtonAlreadyShown = DefaultsKey<Bool>("realEstateTooltipSellButtonAlreadyShown")
     static let realEstateTooltipMapShown = DefaultsKey<Bool>("realEstateTooltipMapShown")
@@ -78,7 +69,7 @@ extension DefaultsKeys {
 
 // MARK: - KeyValueStorage
 
-class KeyValueStorage {
+final class KeyValueStorage {
     static let sharedInstance: KeyValueStorage = KeyValueStorage()
 
     fileprivate var storage: KeyValueStorageable

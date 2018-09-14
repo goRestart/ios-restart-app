@@ -10,7 +10,6 @@ import Result
 
 public protocol CarsInfoRepository {
     func loadFirstRunCacheIfNeeded(jsonURL: URL)
-    func refreshCarsInfoFile()
     func retrieveCarsMakes() -> [CarsMake]
     func retrieveCarsModelsFormake(makeId: String) -> [CarsModel]
     func retrieveValidYears(withFirstYear firstYear: Int?, ascending: Bool) -> [Int]

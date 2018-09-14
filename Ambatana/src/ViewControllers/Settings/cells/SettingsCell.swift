@@ -87,6 +87,8 @@ fileprivate extension LetGoSetting {
             return R.Strings.settingsChangeUserBioButton
         case .notifications:
             return R.Strings.settingsNotificationsButton
+        case .affiliation:
+            return R.Strings.settingsAffililationButton
         }
     }
 
@@ -114,6 +116,8 @@ fileprivate extension LetGoSetting {
             return placeholder
         case .notifications:
             return R.Asset.IconsButtons.icSettingNotifications.image
+        case .affiliation:
+            return R.Asset.IconsButtons.icSettingAffiliation.image
         }
     }
 

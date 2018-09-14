@@ -16,7 +16,7 @@ enum MultiListingPostedViewItem {
 }
 
 enum MultiListingPostedHeaderItem {
-    case header(title: String, textAlignment: NSTextAlignment)
+    case header(title: NSAttributedString, textAlignment: NSTextAlignment)
 }
 
 final class MultiListingPostedViewModel: BaseViewModel {
@@ -60,6 +60,33 @@ final class MultiListingPostedViewModel: BaseViewModel {
         case .servicesImageUpload, .error:
             return false
         }
+    }
+    
+    private var listingsSectionTitle: NSAttributedString {
+        if featureFlags.jobsAndServicesEnabled.isActive {
+            let textX = R.Strings.postDetailsJobsServicesCongratulationImproveListing
+            let textY = R.Strings.postDetailsJobsServicesCongratulationAddMoreDetails
+            
+            let text = "\(textX) \(textY)"
+            return text.bifontAttributedText(highlightedText: textX,
+                                             mainFont: UIFont.systemFont(ofSize: 15.0),
+                                             mainColour: .blackText,
+                                             otherFont: UIFont.systemFont(ofSize: 15.0,
+                                                                          weight: UIFont.Weight.bold),
+                                             otherColour: .blackText)
+        }
+        return NSAttributedString(string: R.Strings.postDetailsServicesCongratulationReview,
+                                  attributes: [.foregroundColor: UIColor.gray,
+                                               .font: UIFont.systemFont(ofSize: 15.0,
+                                                                        weight: UIFont.Weight.medium)])
+    }
+    
+    private var listingsSectionTextAlignment: NSTextAlignment {
+        if featureFlags.jobsAndServicesEnabled.isActive {
+            return .center
+        }
+        
+        return .left
     }
     
     weak var navigator: MultiListingPostedNavigator?
@@ -339,7 +366,6 @@ extension MultiListingPostedViewModel {
         }
     }
     
-    
     func headerItem(forSection section: Int) -> MultiListingPostedHeaderItem? {
         guard let section = MultiListingPostedViewSection(rawValue: section) else {
             return nil
@@ -352,8 +378,8 @@ extension MultiListingPostedViewModel {
             guard listings.count != 0 else {
                 return nil
             }
-            return .header(title: R.Strings.postDetailsServicesCongratulationReview,
-                           textAlignment: NSTextAlignment.left)
+            return .header(title: listingsSectionTitle,
+                           textAlignment: listingsSectionTextAlignment)
         }
     }
     
@@ -395,7 +421,6 @@ extension MultiListingPostedViewModel {
             
             let boundingBox = text.boundingRect(with: constraintRect,
                                                 options: NSStringDrawingOptions.usesLineFragmentOrigin,
-                                                attributes: [.font: UIFont.mediumBodyFont],
                                                 context: nil)
             
             return CGSize(width: collectionView.frame.size.width,

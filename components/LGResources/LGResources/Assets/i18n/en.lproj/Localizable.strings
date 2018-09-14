@@ -4,6 +4,36 @@
 // When a user Account is deactivated because is a scammer (includes user name)
 "account_pending_moderation_w_name" = "%@'s account is pending moderation";
 
+// Affiliation challenges screen. Title.
+"affiliation_challenges_title" = "Rewards";
+
+// Affiliation challenges screen. Subtitle.
+"affiliation_challenges_subtitle" = "Earn Points";
+
+// Affiliation challenges screen. Invite friends button.
+"affiliation_challenges_invite_friends_button" = "Invite friends";
+
+// Affiliation Invite SMS contacts screen. Title.
+"affiliation_invite_sms_contacts_title" = "Connect contacts";
+
+// Affilation Invite friends screen. Title.
+"affiliation_invite_friends_title" = "Invite friends";
+
+// Affilation Invite friends screen. SMS Button.
+"affiliation_invite_friends_sms_button" = "Invite via text";
+
+// Affilation FAQ screen. Title.
+"affiliation_faq_title" = "How it works";
+
+// Affiliation challenges screen. Wallet View. Title.
+"affiliation_wallet_title" = "YOUR WALLET";
+
+// Affiliation challenges screen. Wallet View. Points label.
+"affiliation_wallet_points_label" = "PTS";
+
+// Affiliation challenges screen. Wallet View. Open store button.
+"affiliation_wallet_open_store_button" = "View Rewards";
+
 // Text of the link that will go to the appstore
 "app_share_download_text" = "Download";
 
@@ -973,6 +1003,18 @@
 // Common display for time
 "common_hours_mins_secs" = "%@h %@m %@s";
 
+// System message shown in chat for an offer that has been accepted and is expired
+"communication_offer_accepted_expired" = "The offer has expired";
+
+// System message shown in chat for an offer that is pending and expiring soon
+"communication_offer_pending_expiring" = "The offer's expiring soon";
+
+// System message shown in chat for an offer that is completed and expired
+"communication_offer_completed_expired" = "The offer has expired";
+
+// System message shown in chat for an offer that is accepted and expiring soon
+"communication_offer_accepted_expiring" = "The offer's expiring soon";
+
 // Text shown in the Community Banner
 "community_banner_title" = "Join the letgo community!";
 
@@ -1005,6 +1047,9 @@
 
 // Action Button for the click to talk smoketest
 "click_to_talk_smoketest_action_button" = "Get Started";
+
+// Title for the click to talk smoketest banner
+"click_to_talk_smoketest_banner_title" = "Introducing \"Click to Talk\"";
 
 // Chat direct answer as buyer
 "direct_answer_condition" = "What condition is it in?";
@@ -2256,6 +2301,15 @@
 
 // Button to initiate chat from the full screen photo viewer
 "photo_viewer_chat_button" = "Chat";
+
+// Title label in the screen after mark a listing as sold
+"post_another_listing_title" = "MAKING MONEY!";
+
+// Description label in the screen after mark a listing as sold
+"post_another_listing_description" = "You're on a roll, keep it going!";
+
+// Button to initiate the posting
+"post_another_listing_button" = "Post another listing";
 
 // Add Details navigation title
 "post_category_details_navigation_title" = "Add Details";
@@ -4055,6 +4109,24 @@
 // Reset password title. Check image @ "reset_password_email_field_hint" segment
 "reset_password_title" = "Reset password";
 
+// To be REMOVED - Rewards FAQ screen title
+"rewards_faq_title" = "How it works";
+
+// To be REMOVED - Rewards invite contacts screen title
+"rewards_invite_contacts_title" = "Connect contacts";
+
+// To be REMOVED - Rewards screen invite friends button
+"rewards_invite_friends_button" = "Invite friends";
+
+// To be REMOVED - Rewards invite friends screen contact button
+"rewards_invite_friends_contact_button" = "Invite via text";
+
+// To be REMOVED - Rewards invite friends screen title
+"rewards_invite_friends_title" = "Invite friends";
+
+// To be REMOVED - Rewards screen title
+"rewards_title" = "Rewards";
+
 // Search alerts edit button 
 "search_alerts_edit_button" = "Edit";
 
@@ -4312,6 +4384,9 @@
 
 // Settings option to access rewards
 "settings_rewards_button" = "Rewards";
+
+// Settings option to access affiliation
+"settings_affililation_button" = "Rewards";
 
 // Search alerts view title
 "search_alerts_list_title" = "Search Alerts";

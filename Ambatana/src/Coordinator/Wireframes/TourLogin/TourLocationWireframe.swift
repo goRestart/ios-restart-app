@@ -13,7 +13,7 @@ final class TourLocationWireframe: TourLocationNavigator {
                      action: @escaping TourPostingAction,
                      skipper: TourSkiperNavigator?) {
         self.init(nc: nc, action: action,
-                  assembly: TourBuilder.standard(nc: nc),
+                  assembly: TourBuilder.standard(nc),
                   featureFlags: FeatureFlags.sharedInstance,
                   skipper: skipper)
     }

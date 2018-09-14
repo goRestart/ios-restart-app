@@ -108,6 +108,7 @@ enum EventName: String {
     case profileEditEditName                = "profile-edit-edit-name"
     case profileEditEditLocationStart       = "profile-edit-edit-location-start"
     case profileEditEditPicture             = "profile-edit-edit-picture"
+    case profileOpenUserPicture             = "profile-photo-tapped"
     case profileReport                      = "profile-report"
     case profileBlock                       = "profile-block"
     case profileUnblock                     = "profile-unblock"
@@ -148,9 +149,6 @@ enum EventName: String {
     case expressChatComplete                = "express-chat-complete"
     case expressChatDontAsk                 = "express-chat-dont-ask"
 
-    case surveyStart                        = "survey-start"
-    case surveyCompleted                    = "survey-completed"
-
     case verifyAccountStart                 = "verify-account-start"
     case verifyAccountSelectNetwork         = "verify-account-select-network"
     case verifyAccountComplete              = "verify-account-complete"
@@ -188,12 +186,15 @@ enum EventName: String {
 
     case adTapped                           = "ad-tapped"
     case adShown                            = "ad-shown"
+    case adError                            = "ad-error"
     case featuredMoreInfo                   = "featured-more-info"
     case openOptionOnSummary                = "posting-summary-open"
 
     case phoneNumberRequest                 = "phone-number-request"
     case phoneNumberSent                    = "phone-number-sent"
     case phoneNumberNotNow                  = "phone-number-not-now"
+    case phoneNumberEditStart               = "profile-edit-edit-sms-start"
+    case phoneNumberEditComplete            = "profile-edit-edit-sms-complete"
     
     case tutorialDialogStart                = "onboarding-dialog-start"
     case tutorialDialogComplete             = "onboarding-dialog-complete"
@@ -353,7 +354,6 @@ enum EventParameterName: String {
     case listSuccess          = "list-success"
     case userFromId           = "user-from-id"
     case notAvailableReason   = "not-available-reason"
-    case surveyUrl            = "survey-url"
     case blockButtonPosition  = "block-button-position"
     case postingType          = "posting-type"
     case carSellerType        = "seller-type"

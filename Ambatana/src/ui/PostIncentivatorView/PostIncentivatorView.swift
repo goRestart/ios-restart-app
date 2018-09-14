@@ -31,6 +31,8 @@ class PostIncentivatorView: UIView {
         
         return defaultIncentiveText()
     }
+    
+    private let featureFlags: FeatureFlaggeable = FeatureFlags.sharedInstance
 
 
     // MARK: - Lifecycle
@@ -127,15 +129,19 @@ class PostIncentivatorView: UIView {
     }
     
     private func servicesIncentiveText() -> NSAttributedString {
-
+        
         let lookingForTextAttributes: [NSAttributedStringKey : Any] = [NSAttributedStringKey.foregroundColor : UIColor.darkGrayText,
                                                                        NSAttributedStringKey.font : UIFont.mediumBodyFont]
         let gotAnyTextAttributes: [NSAttributedStringKey : Any] = [NSAttributedStringKey.foregroundColor : UIColor.darkGrayText,
                                                                    NSAttributedStringKey.font : UIFont.systemBoldFont(size: 15)]
-        let secondPartString = R.Strings.productPostIncentiveGotAnyServices
-        let plainText = R.Strings.productPostIncentiveLookingForServices(secondPartString)
-        let resultText = NSMutableAttributedString(string: plainText, attributes: lookingForTextAttributes)
-        let boldRange = NSString(string: plainText).range(of: secondPartString, options: .caseInsensitive)
+        let secondPartString = featureFlags.jobsAndServicesEnabled.isActive ? R.Strings.postDetailsJobsServicesCongratulationPeopleNearbySecond :
+            R.Strings.productPostIncentiveGotAnyServices
+        
+        let baseText = featureFlags.jobsAndServicesEnabled.isActive ? (R.Strings.postDetailsJobsServicesCongratulationPeopleNearbyFirst + " \(secondPartString)") :
+            R.Strings.productPostIncentiveLookingForServices(secondPartString)
+        
+        let resultText = NSMutableAttributedString(string: baseText, attributes: lookingForTextAttributes)
+        let boldRange = NSString(string: baseText).range(of: secondPartString, options: .caseInsensitive)
         resultText.addAttributes(gotAnyTextAttributes, range: boldRange)
         
         return resultText

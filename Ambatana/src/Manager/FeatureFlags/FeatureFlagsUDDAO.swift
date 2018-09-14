@@ -15,6 +15,9 @@ final class FeatureFlagsUDDAO: FeatureFlagsDAO {
         case newUserProfileEnabled = "newUserProfileEnabled"
         case emergencyLocate = "emergencyLocate"
         case community = "community"
+        case advancedReputationSystem11 = "advancedReputationSystem11"
+        case advancedReputationSystem12 = "advancedReputationSystem12"
+        case mutePushNotifications = "mutePushNotifications"
     }
 
     fileprivate var dictionary: [String: Any]
@@ -23,7 +26,7 @@ final class FeatureFlagsUDDAO: FeatureFlagsDAO {
     // MARK: - Lifecycle
     
     convenience init() {
-        self.init(userDefaults: UserDefaults.standard)
+        self.init(userDefaults: UserDefaults.letgo)
     }
     
     init(userDefaults: UserDefaults) {
@@ -53,6 +56,42 @@ final class FeatureFlagsUDDAO: FeatureFlagsDAO {
         save(key: .community, value: community.rawValue)
         sync()
     }
+
+    func retrieveAdvancedReputationSystem11() -> AdvancedReputationSystem11? {
+        guard let rawValue: String = retrieve(key: .advancedReputationSystem11) else { return nil }
+        return AdvancedReputationSystem11(rawValue: rawValue)
+    }
+
+    func save(advancedReputationSystem11: AdvancedReputationSystem11) {
+        save(key: .advancedReputationSystem11, value: advancedReputationSystem11.rawValue)
+        sync()
+    }
+
+    func retrieveAdvancedReputationSystem12() -> AdvancedReputationSystem12? {
+        guard let rawValue: String = retrieve(key: .advancedReputationSystem12) else { return nil }
+        return AdvancedReputationSystem12(rawValue: rawValue)
+    }
+
+    func save(advancedReputationSystem12: AdvancedReputationSystem12) {
+        save(key: .advancedReputationSystem12, value: advancedReputationSystem12.rawValue)
+        sync()
+    }
+
+    func retrieveMutePushNotifications() -> MutePushNotificationFeatureFlagHelper? {
+        guard let data: Data = retrieve(key: .mutePushNotifications) else { return nil }
+        return try? JSONDecoder().decode(MutePushNotificationFeatureFlagHelper.self, from: data)
+    }
+
+    func save(mutePushNotifications: MutePushNotifications, hourStart: Int, hourEnd: Int) {
+        let featureFlagHelper = MutePushNotificationFeatureFlagHelper(
+            mutePushNotifications: mutePushNotifications,
+            start: hourStart,
+            end: hourEnd)
+        if let encodedData = try? JSONEncoder().encode(featureFlagHelper) {
+            save(key: .mutePushNotifications, value: encodedData)
+            sync()
+        }
+    }
 }
 
 
@@ -73,5 +112,29 @@ fileprivate extension FeatureFlagsUDDAO {
 
     func sync() {
         userDefaults.setValue(dictionary, forKey: FeatureFlagsUDDAO.userDefaultsKey)
+    }
+}
+
+extension MutePushNotificationFeatureFlagHelper {
+
+    init(mutePushNotifications: MutePushNotifications, start: Int, end: Int) {
+        self.variable = mutePushNotifications.position
+        self.startHour = start
+        self.endHour = end
+    }
+
+    func toMutePushNotifications() -> MutePushNotifications? {
+        return MutePushNotifications.fromPosition(self.variable)
+    }
+}
+
+extension MutePushNotifications {
+    
+    var position: Int {
+        switch self {
+        case .control: return 0
+        case .baseline: return 1
+        case .active: return 2
+        }
     }
 }

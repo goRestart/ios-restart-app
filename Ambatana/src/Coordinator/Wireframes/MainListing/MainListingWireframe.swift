@@ -5,7 +5,8 @@ protocol MainListingNavigator: class {
     func openSearchResults(with searchType: SearchType, filters: ListingFilters, searchNavigator: SearchNavigator)
     func openFilters(withFilters: ListingFilters, dataDelegate: FiltersViewModelDataDelegate?)
     func openLocationSelection(with place: Place, distanceRadius: Int?, locationDelegate: EditLocationDelegate)
-    func openMap(requester: ListingListMultiRequester, listingFilters: ListingFilters, searchNavigator: ListingsMapNavigator)
+    func openMap(requester: ListingListMultiRequester, listingFilters: ListingFilters)
+    func openAffiliationChallenges()
     func openClassicFeed(navigator: MainTabNavigator,
                          withSearchType searchType: SearchType?,
                          listingFilters: ListingFilters)
@@ -15,9 +16,16 @@ protocol MainListingNavigator: class {
 
 final class MainListingWireframe: MainListingNavigator {
     private let nc: UINavigationController
+    private let listingMapAssmebly: ListingsMapAssembly
+    private lazy var affiliationChallengesAssembly = AffiliationChallengesBuilder.standard(nc)
 
-    init(nc: UINavigationController) {
+    convenience init(nc: UINavigationController) {
+        self.init(nc: nc, listingMapAssmebly: ListingsMapBuilder.standard(nc))
+    }
+
+    init(nc: UINavigationController, listingMapAssmebly: ListingsMapAssembly) {
         self.nc = nc
+        self.listingMapAssmebly = listingMapAssmebly
     }
     
     func openSearchResults(with searchType: SearchType, filters: ListingFilters, searchNavigator: SearchNavigator) {
@@ -49,10 +57,15 @@ final class MainListingWireframe: MainListingNavigator {
         nc.pushViewController(vc, animated: true)
     }
     
-    func openMap(requester: ListingListMultiRequester, listingFilters: ListingFilters, searchNavigator: ListingsMapNavigator) {
-        let viewModel = ListingsMapViewModel(navigator: searchNavigator, currentFilters: listingFilters)
-        let viewController = ListingsMapViewController(viewModel: viewModel)
-        nc.pushViewController(viewController, animated: true)
+    func openMap(requester: ListingListMultiRequester,
+                 listingFilters: ListingFilters) {
+        let vc = listingMapAssmebly.buildListingsMap(filters: listingFilters)
+        nc.pushViewController(vc, animated: true)
+    }
+    
+    func openAffiliationChallenges() {
+        let vc = affiliationChallengesAssembly.buildAffiliationChallenges()
+        nc.pushViewController(vc, animated: true)
     }
     
     func openClassicFeed(navigator: MainTabNavigator,

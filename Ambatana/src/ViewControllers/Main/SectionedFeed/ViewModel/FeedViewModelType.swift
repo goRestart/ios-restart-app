@@ -16,16 +16,17 @@ protocol FeedViewModelType: FeedNavigatorOwnership {
     var rxHasFilter: Driver<Bool> { get }
     var searchString: String? { get }
     var shouldShowInviteButton: Bool { get }
+    var shouldShowAffiliateButton: Bool { get }
     var viewState: ViewState { get }
     
     var feedItems: [ListDiffable] { get }
     var waterfallColumnCount: Int { get }
     var locationSectionIndex: Int? { get }
-    var bottomStatusIndicatorIndex: Int? { get }
     
     func openInvite()
     func openSearches()
     func showFilters()
+    func openAffiliationChallenges()
     func refreshControlTriggered()
 
     func loadFeedItems()

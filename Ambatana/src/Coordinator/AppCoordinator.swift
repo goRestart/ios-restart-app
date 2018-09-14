@@ -76,7 +76,6 @@ final class AppCoordinator: NSObject, Coordinator {
     fileprivate let disposeBag = DisposeBag()
 
     private let rateUserAsembly: RateUserAssembly
-    private let changePasswordAssembly: ChangePasswordAssembly
     private let editAssembly: EditListingAssembly
     private let verifyAssembly: VerifyAccountsAssembly
     private let verificationAwarenessAssembly: UserVerificationAwarenessAssembly
@@ -176,7 +175,6 @@ final class AppCoordinator: NSObject, Coordinator {
         self.locationManager = locationManager
 
         self.rateUserAsembly = RateUserBuilder.modal(tabBarCtl)
-        self.changePasswordAssembly = ChangePasswordBuilder.modal
         self.editAssembly = EditListingBuilder.modal(tabBarCtl)
         self.verifyAssembly = VerifyAccountsBuilder.modal
         self.promoteAssembly = PromoteBumpBuilder.modal(tabBarCtl)
@@ -228,7 +226,9 @@ extension AppCoordinator: AppNavigator {
             keyValueStorage[.firstRunDate] = Date()
         }
 
-        let vc = tourAssembly.buildTour(appearance: .dark, action: onTourPostingFinish, tourSkipper: tourSkipper)
+        let vc = tourAssembly.buildTour(appearance: .dark,
+                                        action: onTourPostingFinish,
+                                        tourSkipper: tourSkipper)
         vc.setupForModalWithNonOpaqueBackground()
         tabBarCtl.present(vc, animated: true, completion: nil)
 
@@ -505,19 +505,15 @@ extension AppCoordinator: AppNavigator {
     }
 
     func openResetPassword(_ token: String) {
-        let vc = changePasswordAssembly.buildChangePassword(withToken: token)
-        tabBarCtl.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
-    }
-
-    func openSurveyIfNeeded() {
-        guard featureFlags.surveyEnabled else { return }
-        guard !featureFlags.surveyUrl.isEmpty, let url = URL(string: featureFlags.surveyUrl) else { return }
-
-        delay(3) { [weak self] in
-            guard let tab = self?.tabBarCtl else { return }
-            let assembly = LGSurveyBuilder.modal(root: tab)
-            let vc = assembly.buildWebSurvey(with: url)
-            tab.present(vc, animated: true, completion: nil)
+        if let presentedNavCtl = tabBarCtl.presentedViewController as? UINavigationController {
+            let builder = ChangePasswordBuilder.standard(root: presentedNavCtl)
+            let vc = builder.buildChangePassword(withToken: token)
+            presentedNavCtl.pushViewController(vc, animated: true)
+        } else {
+            let builder = ChangePasswordBuilder.modal
+            let vc = builder.buildChangePassword(withToken: token)
+            tabBarCtl.present(UINavigationController(rootViewController: vc),
+                              animated: true, completion: nil)
         }
     }
 
@@ -626,7 +622,7 @@ fileprivate extension AppCoordinator {
 
     func showAfterSellPushAndRatingDialogs() {
         if pushPermissionsManager.shouldShowPushPermissionsAlertFromViewController(.sell) {
-            pushPermissionsManager.showPrePermissionsViewFrom(tabBarCtl, type: .sell, completion: nil)
+            pushPermissionsManager.showPrePermissionsViewFrom(tabBarCtl, type: .sell)
         } else if ratingManager.shouldShowRating {
             openAppRating(.listingSellComplete)
         }
@@ -714,7 +710,10 @@ extension AppCoordinator: UITabBarControllerDelegate {
         }
 
         if let source = tab.logInSource, shouldOpenLogin {
-            openLogin(.fullScreen, source: source, afterLogInSuccessful: afterLogInSuccessful, cancelAction: nil)
+            openLogin(.fullScreen,
+                      source: source,
+                      afterLogInSuccessful: afterLogInSuccessful,
+                      cancelAction: nil)
             return false
         } else {
             switch tab {
@@ -827,7 +826,7 @@ fileprivate extension AppCoordinator {
 
         let yesAction = UIAction(interface: .styledText(R.Strings.commonOk, .standard), action: { [weak self] in
             self?.openLoginIfNeeded(from: .profile) { [weak self] in
-                self?.openUserProfile() { [weak self] in
+                self?.openUserProfile() { [weak self] _ in
                     self?.openChangeLocation()
                 }
             }
@@ -930,7 +929,9 @@ fileprivate extension AppCoordinator {
         }
     }
 
-    func openLogin(_ style: LoginStyle, source: EventParameterLoginSourceValue, afterLogInSuccessful: @escaping () -> (),
+    func openLogin(_ style: LoginStyle,
+                   source: EventParameterLoginSourceValue,
+                   afterLogInSuccessful: @escaping () -> (),
                    cancelAction: (() -> Void)?) {
         switch style {
         case .fullScreen:
@@ -1071,13 +1072,13 @@ fileprivate extension AppCoordinator {
             }
         case .userRatings:
             afterDelayClosure = { [weak self] in
-                self?.openUserProfile() { [weak self] in
+                self?.openUserProfile() { [weak self] _ in
                     self?.openMyUserRatings()
                 }
             }
         case let .userRating(ratingId):
             afterDelayClosure = { [weak self] in
-                self?.openUserProfile() { [weak self] in
+                self?.openUserProfile() { [weak self] _ in
                     self?.openUserRatingForUserFromRating(ratingId)
                 }
             }
@@ -1168,12 +1169,17 @@ fileprivate extension AppCoordinator {
         }
     }
 
-    func openUserProfile(completion: (()->Void)? = nil) {
+    func openUserProfile(completionOpenProfile: ((TabCoordinator)->Void)? = nil) {
         if featureFlags.community.shouldShowOnTab {
             let coord = ProfileTabCoordinator(source: .mainListing)
-            openChild(coordinator: coord, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: completion)
+            openChild(coordinator: coord, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: {
+                completionOpenProfile?(coord)
+            })
         } else {
-            openTab(.profile, force: false, completion: completion)
+            openTab(.profile, force: false, completion: { [weak self] in
+                guard let strongSelf = self else { return }
+                completionOpenProfile?(strongSelf.profileTabBarCoordinator)
+            })
         }
     }
 
@@ -1231,7 +1237,7 @@ extension AppCoordinator: BumpInfoRequesterDelegate {
         switch bumpUpSource {
         case .deepLink, .profile:
             tabBarCtl.clearAllPresented(nil)
-            openUserProfile() { [weak self] in
+            openUserProfile() { [weak self] coord in
                 var actionOnFirstAppear = ProductCarouselActionOnFirstAppear.triggerBumpUp(bumpUpProductData: bumpUpProductData,
                                                                                            bumpUpType: .priced,
                                                                                            triggerBumpUpSource: .deepLink,
@@ -1240,8 +1246,8 @@ extension AppCoordinator: BumpInfoRequesterDelegate {
                     actionOnFirstAppear = ProductCarouselActionOnFirstAppear.nonexistent
                 }
 
-                self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: requestListingId),
-                                                          source: .external, actionOnFirstAppear: actionOnFirstAppear)
+                coord.openListing(ListingDetailData.id(listingId: requestListingId),
+                                  source: .external, actionOnFirstAppear: actionOnFirstAppear)
             }
         case .promoted:
             tabBarCtl.clearAllPresented(nil)
@@ -1264,20 +1270,22 @@ extension AppCoordinator {
     func openSellFaster(listingId: String,
                         bumpUpProductData: BumpUpProductData,
                         typePage: EventParameterTypePage?) {
-        tabBarCtl.clearAllPresented(nil)
-        openUserProfile() { [weak self] in
+        let completion: (()->Void) = { [weak self] in
+            self?.openUserProfile() { coord in
 
-            let triggerBumpOnAppear = ProductCarouselActionOnFirstAppear.triggerBumpUp(bumpUpProductData: bumpUpProductData,
-                                                                                       bumpUpType: .priced,
-                                                                                       triggerBumpUpSource: .promoted,
-                                                                                       typePage: typePage)
+                let triggerBumpOnAppear = ProductCarouselActionOnFirstAppear.triggerBumpUp(bumpUpProductData: bumpUpProductData,
+                                                                                           bumpUpType: .priced,
+                                                                                           triggerBumpUpSource: .promoted,
+                                                                                           typePage: typePage)
 
-            self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: listingId),
-                                                      source: .promoteBump,
-                                                      actionOnFirstAppear: triggerBumpOnAppear)
-            self?.keyValueStorage[.lastShownPromoteBumpDate] = Date()
-            
+                coord.openListing(ListingDetailData.id(listingId: listingId),
+                                  source: .promoteBump,
+                                  actionOnFirstAppear: triggerBumpOnAppear)
+                self?.keyValueStorage[.lastShownPromoteBumpDate] = Date()
+
+            }
         }
+        tabBarCtl.clearAllPresented(completion)
     }
 }
 

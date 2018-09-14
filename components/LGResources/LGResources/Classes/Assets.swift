@@ -230,6 +230,21 @@ extension R {
       @available(*, deprecated, renamed: "allImages")
       public static let allValues: [AssetType] = allImages
     }
+    public enum Icons {
+      public static let icArrowLeft = ImageAsset(name: "ic_arrow_left")
+      public static let icPen = ImageAsset(name: "ic_pen")
+
+      // swiftlint:disable trailing_comma
+      public static let allColors: [ColorAsset] = [
+      ]
+      public static let allImages: [ImageAsset] = [
+        icArrowLeft,
+        icPen,
+      ]
+      // swiftlint:enable trailing_comma
+      @available(*, deprecated, renamed: "allImages")
+      public static let allValues: [AssetType] = allImages
+    }
     public enum IconsButtons {
       public enum CategoriesHeaderIcons {
         public static let carsFeed = ImageAsset(name: "cars_feed")
@@ -448,6 +463,7 @@ extension R {
       public static let icSearchFill = ImageAsset(name: "ic_search_fill")
       public static let icSellWhite = ImageAsset(name: "ic_sell_white")
       public static let icSend = ImageAsset(name: "ic_send")
+      public static let icSettingAffiliation = ImageAsset(name: "ic_setting_affiliation")
       public static let icSettingEmail = ImageAsset(name: "ic_setting_email")
       public static let icSettingHelp = ImageAsset(name: "ic_setting_help")
       public static let icSettingLocation = ImageAsset(name: "ic_setting_location")
@@ -751,6 +767,7 @@ extension R {
         icSearchFill,
         icSellWhite,
         icSend,
+        icSettingAffiliation,
         icSettingEmail,
         icSettingHelp,
         icSettingLocation,

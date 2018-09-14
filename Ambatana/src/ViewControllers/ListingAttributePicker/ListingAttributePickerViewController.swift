@@ -30,7 +30,8 @@ final class ListingAttributePickerViewController: KeyboardViewController {
                                                     selectedIndexes: selectedIndexes,
                                                     delegate: nil,
                                                     showsSearchBar: viewModel.canSearchAttributes,
-                                                    allowsMultiselect: false)
+                                                    allowsMultiselect: false,
+                                                    allowsDeselect: viewModel.canDeselect)
         super.init(viewModel: viewModel, nibName: nil)
         self.tableView.delegate = self
         self.title = viewModel.title
@@ -43,7 +44,8 @@ final class ListingAttributePickerViewController: KeyboardViewController {
                                                     selectedIndexes: selectedIndexes,
                                                     delegate: nil,
                                                     showsSearchBar: viewModel.canSearchAttributes,
-                                                    allowsMultiselect: true)
+                                                    allowsMultiselect: true,
+                                                    allowsDeselect: true)
         super.init(viewModel: viewModel, nibName: nil)
         self.tableView.delegate = self
         self.title = viewModel.title

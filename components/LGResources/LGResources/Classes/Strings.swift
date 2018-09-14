@@ -16,6 +16,18 @@ extension R {
     }
     /// Ad
     public static let advertisingText = Strings.tr("Localizable", "advertising_text")
+    /// Invite friends
+    public static let affiliationChallengesInviteFriendsButton = Strings.tr("Localizable", "affiliation_challenges_invite_friends_button")
+    /// Rewards
+    public static let affiliationChallengesTitle = Strings.tr("Localizable", "affiliation_challenges_title")
+    /// How it works
+    public static let affiliationFaqTitle = Strings.tr("Localizable", "affiliation_faq_title")
+    /// Invite via text
+    public static let affiliationInviteFriendsSmsButton = Strings.tr("Localizable", "affiliation_invite_friends_sms_button")
+    /// Invite friends
+    public static let affiliationInviteFriendsTitle = Strings.tr("Localizable", "affiliation_invite_friends_title")
+    /// Connect contacts
+    public static let affiliationInviteSmsContactsTitle = Strings.tr("Localizable", "affiliation_invite_sms_contacts_title")
     /// Reply
     public static let appNotificationReply = Strings.tr("Localizable", "app_notification_reply")
     /// Download
@@ -738,6 +750,14 @@ extension R {
     public static let commonUserReviewNotAvailable = Strings.tr("Localizable", "common_user_review_not_available")
     /// Yes
     public static let commonYes = Strings.tr("Localizable", "common_yes")
+    /// The offer has expired
+    public static let communicationOfferAcceptedExpired = Strings.tr("Localizable", "communication_offer_accepted_expired")
+    /// The offer's expiring soon
+    public static let communicationOfferAcceptedExpiring = Strings.tr("Localizable", "communication_offer_accepted_expiring")
+    /// The offer has expired
+    public static let communicationOfferCompletedExpired = Strings.tr("Localizable", "communication_offer_completed_expired")
+    /// The offer's expiring soon
+    public static let communicationOfferPendingExpiring = Strings.tr("Localizable", "communication_offer_pending_expiring")
     /// Join the letgo community!
     public static let communityBannerTitle = Strings.tr("Localizable", "community_banner_title")
     /// Location issues
@@ -1670,6 +1690,12 @@ extension R {
     public static let phoneVerificationNumberInputViewTitle = Strings.tr("Localizable", "phone_verification_number_input_view_title")
     /// Chat
     public static let photoViewerChatButton = Strings.tr("Localizable", "photo_viewer_chat_button")
+    /// Post another listing
+    public static let postAnotherListingButton = Strings.tr("Localizable", "post_another_listing_button")
+    /// You're on a roll, keep it going!
+    public static let postAnotherListingDescription = Strings.tr("Localizable", "post_another_listing_description")
+    /// MAKING MONEY!
+    public static let postAnotherListingTitle = Strings.tr("Localizable", "post_another_listing_title")
     /// Add Make
     public static let postCategoryDetailAddMake = Strings.tr("Localizable", "post_category_detail_add_make")
     /// Add Model
@@ -2272,7 +2298,7 @@ extension R {
     public static let professionalDealerAskPhoneAddPhoneCellMessage = Strings.tr("Localizable", "professional_dealer_ask_phone_add_phone_cell_message")
     /// Add your phone number
     public static let professionalDealerAskPhoneAlertEnterPhone = Strings.tr("Localizable", "professional_dealer_ask_phone_alert_enter_phone")
-    /// Please enter a valid  phone number
+    /// Please enter a valid \nphone number
     public static let professionalDealerAskPhoneAlertNotValidPhone = Strings.tr("Localizable", "professional_dealer_ask_phone_alert_not_valid_phone")
     /// My phone number is %@
     public static func professionalDealerAskPhoneChatMessage(_ p1: String) -> String {
@@ -2938,6 +2964,18 @@ extension R {
     public static let resetPasswordSendTooManyRequests = Strings.tr("Localizable", "reset_password_send_too_many_requests")
     /// Reset password
     public static let resetPasswordTitle = Strings.tr("Localizable", "reset_password_title")
+    /// How it works
+    public static let rewardsFaqTitle = Strings.tr("Localizable", "rewards_faq_title")
+    /// Connect contacts
+    public static let rewardsInviteContactsTitle = Strings.tr("Localizable", "rewards_invite_contacts_title")
+    /// Invite friends
+    public static let rewardsInviteFriendsButton = Strings.tr("Localizable", "rewards_invite_friends_button")
+    /// Invite via text
+    public static let rewardsInviteFriendsContactButton = Strings.tr("Localizable", "rewards_invite_friends_contact_button")
+    /// Invite friends
+    public static let rewardsInviteFriendsTitle = Strings.tr("Localizable", "rewards_invite_friends_title")
+    /// Rewards
+    public static let rewardsTitle = Strings.tr("Localizable", "rewards_title")
     /// Oops! An error occurred while deleting your search alert.
     public static let searchAlertDeleteErrorMessage = Strings.tr("Localizable", "search_alert_delete_error_message")
     /// Oops! An error occurred while deactivating your search alert.
@@ -3048,6 +3086,8 @@ extension R {
     public static let servicesServiceTypeTitle = Strings.tr("Localizable", "services_service_type_title")
     /// Select a category
     public static let servicesUnifiedFilterTitle = Strings.tr("Localizable", "services_unified_filter_title")
+    /// Rewards
+    public static let settingsAffililationButton = Strings.tr("Localizable", "settings_affililation_button")
     /// Email
     public static let settingsChangeEmailButton = Strings.tr("Localizable", "settings_change_email_button")
     /// Location

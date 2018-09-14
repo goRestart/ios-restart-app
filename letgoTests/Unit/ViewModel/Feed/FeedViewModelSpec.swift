@@ -203,6 +203,38 @@ final class FeedViewModelSpec: BaseViewModelSpec {
             }
         }
         
+        describe("openSearches") {
+            var wireframe: FeedWireframeMock?
+            let navigator: MainTabCoordinator = MainTabCoordinator()
+            
+            beforeEach {
+                wireframe = FeedWireframeMock()
+                subject?.wireframe = wireframe
+            }
+            
+            context("when the navigator is nil") {
+                beforeEach {
+                    subject?.navigator = nil
+                    subject?.openSearches()
+                }
+                
+                it("should not call the correct method") {
+                    expect(wireframe?.openSearchesWasCalled) == false
+                }
+            }
+            
+            context("when the navigator is NOT nil") {
+                beforeEach {
+                    subject?.navigator = navigator
+                    subject?.openSearches()
+                }
+                
+                it("should call the correct and beautiful method") {
+                    expect(wireframe?.openSearchesWasCalled) == true
+                }
+            }
+        }
+        
     }
 }
 
@@ -239,9 +271,11 @@ private extension FeedViewModelSpec {
     
     class FeedWireframeMock: FeedNavigator {
         var openFiltersWasCalled: (state: Bool, listingFilters: ListingFilters?) = (false, nil)
+        var openAffiliationChallengesWasCalled: Bool = false
         var openLocationWasCalled: Bool = false
         var showPushPermissionsAlertWasCalled: Bool = false
         var openMapWasCalled: Bool = false
+        var openSearchesWasCalled: Bool = false
         var openAppInviteWasCalled: (Bool, String?, String?) = (false, nil, nil)
         var openProFeedWasCalled: (state: Bool, searchType: SearchType?, filters: ListingFilters?) = (false, nil, nil)
         var openClassicFeedWasCalled: (state: Bool, navigator: MainTabNavigator?, searchType: SearchType?, shouldCloseOnRemoveAllFilters: Bool?) = (false, nil, nil, nil)
@@ -249,6 +283,10 @@ private extension FeedViewModelSpec {
         
         func openFilters(withListingFilters listingFilters: ListingFilters, filtersVMDataDelegate: FiltersViewModelDataDelegate?) {
             openFiltersWasCalled = (true, listingFilters)
+        }
+        
+        func openAffiliationChallenges() {
+            openAffiliationChallengesWasCalled = true
         }
         
         func openLocationSelection(initialPlace: Place?, distanceRadius: Int?, locationDelegate: EditLocationDelegate) {
@@ -263,10 +301,13 @@ private extension FeedViewModelSpec {
             openMapWasCalled = true
         }
         
+        func openSearches(withSearchType searchType: SearchType?, onUserSearchCallback: ((SearchType) -> ())?) {
+            openSearchesWasCalled = true
+        }
+        
         func openAppInvite(myUserId: String?, myUserName: String?) {
             openAppInviteWasCalled = (true, myUserId, myUserName)
         }
-        
         
         func openClassicFeed(navigator: MainTabNavigator, withSearchType searchType: SearchType?, listingFilters: ListingFilters) {
             openClassicFeedWasCalled = (
@@ -289,6 +330,16 @@ private extension FeedViewModelSpec {
                 shouldCloseOnRemoveAllFilters: shouldCloseOnRemoveAllFilters
             )
         }
+
+        func openClassicFeed(navigator: MainTabNavigator, withSearchType searchType: SearchType?, listingFilters: ListingFilters, shouldCloseOnRemoveAllFilters: Bool, tagsDelegate: MainListingsTagsDelegate?) {
+            openClassicFeedWasCalled = (
+                state: true,
+                navigator: navigator,
+                searchType: searchType,
+                shouldCloseOnRemoveAllFilters: shouldCloseOnRemoveAllFilters
+            )
+        }
+
     }
 }
 

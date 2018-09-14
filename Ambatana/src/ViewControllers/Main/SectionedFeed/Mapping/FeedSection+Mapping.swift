@@ -7,7 +7,8 @@ extension FeedSection {
                         chatNowTitle: String,
                         freePostingAllowed: Bool,
                         preventMessagesFromFeedToProUser: Bool,
-                        imageHasFixedSize: Bool) -> ListingSectionModel {
+                        imageHasFixedSize: Bool,
+                        sectionPosition: SectionPosition) -> ListingSectionModel {
         let feedListingDataItems = items.toFeedListingData(cellMetrics: cellMetrics,
                                                            myUserRepository: myUserRepository,
                                                            listingInterestStates: listingInterestStates,
@@ -19,7 +20,8 @@ extension FeedSection {
                                    type: type.toListingSectionType,
                                    title: localizedTitle,
                                    links: links.toDictionary,
-                                   items: feedListingDataItems)
+                                   items: feedListingDataItems,
+                                   sectionPosition: sectionPosition)
     }
 }
 
@@ -30,14 +32,19 @@ extension Array where Element == FeedSection {
                         chatNowTitle: String,
                         freePostingAllowed: Bool,
                         preventMessagesFromFeedToProUser: Bool,
-                        imageHasFixedSize: Bool) -> [ListingSectionModel] {
-        return map { $0.toSectionModel(cellMetrics: cellMetrics,
-                                       myUserRepository: myUserRepository,
-                                       listingInterestStates: listingInterestStates,
-                                       chatNowTitle: chatNowTitle,
-                                       freePostingAllowed: freePostingAllowed,
-                                       preventMessagesFromFeedToProUser: preventMessagesFromFeedToProUser,
-                                       imageHasFixedSize: imageHasFixedSize) }
+                        imageHasFixedSize: Bool,
+                        pageNumber: Int) -> [ListingSectionModel] {
+        return enumerated().map { $0.element.toSectionModel(cellMetrics: cellMetrics,
+                                                            myUserRepository: myUserRepository,
+                                                            listingInterestStates: listingInterestStates,
+                                                            chatNowTitle: chatNowTitle,
+                                                            freePostingAllowed: freePostingAllowed,
+                                                            preventMessagesFromFeedToProUser: preventMessagesFromFeedToProUser,
+                                                            imageHasFixedSize: imageHasFixedSize,
+                                                            sectionPosition: SectionPosition(page: UInt(bitPattern: pageNumber),
+                                                                                             index: UInt(bitPattern: $0.offset))
+            )
+        }
     }
 }
 

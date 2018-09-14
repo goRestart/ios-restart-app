@@ -1,5 +1,6 @@
 protocol FeedRenderable: class {
     func updateFeed()
+    func reloadFeed()
     func convertViewRectInFeed(from originalFrame: CGRect) -> CGRect
 }
 
@@ -10,4 +11,5 @@ protocol WaterFallScrollable: class {
 
 protocol FeedViewModelDelegate: class {
     func vmDidUpdateState(_ vm: FeedViewModel, state: ViewState)
+    func searchCompleted()
 }

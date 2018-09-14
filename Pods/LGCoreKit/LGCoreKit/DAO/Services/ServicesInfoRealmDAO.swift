@@ -1,5 +1,11 @@
 import RealmSwift
 
+@objcMembers class RealmServicesInfo: Object {
+    dynamic var localeId: String? = nil
+    dynamic var updatedAt: Date = Date()
+    dynamic var services = List<RealmServiceType>()
+}
+
 @objcMembers class RealmServiceType: Object {
     dynamic var typeId: String = ""
     dynamic var typeName: String = ""
@@ -14,34 +20,59 @@ import RealmSwift
 
 final class ServicesInfoRealmDAO: ServicesInfoDAO, ServicesInfoRetrievable {
     
+    static let expirationThresholdDays = 15
+    
     static let dataBaseName = "ServicesInfo"
     static let dataBaseExtension = "realm"
+    private static let schemaVersion: UInt64 = 1
+    
+    static func cacheFilePath() -> String {
+        guard let cacheDirectoryPath =
+            NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first else { return "" }
+        let cacheFilePath = cacheDirectoryPath + "/\(ServicesInfoRealmDAO.dataBaseName).\(ServicesInfoRealmDAO.dataBaseExtension)"
+        return cacheFilePath
+    }
     
     private let dataBase: Realm
+    private let expirationThreshold: Days
+    
+    var isExpired: Bool {
+        guard let updatedAt = realmServicesInfo?.updatedAt else { return true }
+        return updatedAt.isOlderThan(days: expirationThreshold)
+    }
     
     var servicesTypes: [ServiceType] {
-        let serviceTypes = dataBase.objects(RealmServiceType.self)
-        let realmServiceTypesArray = Array(serviceTypes)
-        return realmServiceTypesArray.map { convertToLGServiceType(serviceType: $0) }
+        guard let servicesList = realmServicesInfo?.services else {
+            return []
+        }
+        let services = Array(servicesList)
+        return services.map { convertToLGServiceType(serviceType: $0) }
+    }
+    
+    var localeId: String? {
+        return realmServicesInfo?.localeId
+    }
+
+    private var realmServicesInfo: RealmServicesInfo? {
+        return dataBase.objects(RealmServicesInfo.self).first
     }
     
     // MARK: - Lifecycle
     
-    init(realm: Realm) {
+    init(realm: Realm, expirationThreshold: Days = CarsInfoRealmDAO.expirationThresholdDays) {
         self.dataBase = realm
+        self.expirationThreshold = expirationThreshold
     }
     
-    convenience init?() {
-        guard let cacheDirectoryPath = NSSearchPathForDirectoriesInDomains(.cachesDirectory,
-                                                                           .userDomainMask, true).first else { return nil }
-        let cacheFilePath = cacheDirectoryPath + "/\(ServicesInfoRealmDAO.dataBaseName).\(ServicesInfoRealmDAO.dataBaseExtension)"
-        
+    convenience init?(cacheFilePath: String = cacheFilePath()) {
+        guard !cacheFilePath.isEmpty else { return nil }
         do {
             let cacheFileUrl = URL(fileURLWithPath: cacheFilePath, isDirectory: false)
             let config = Realm.Configuration(fileURL: cacheFileUrl,
                                              readOnly: false,
-                                             objectTypes: [RealmServiceType.self, RealmServiceSubtype.self])
-            
+                                             schemaVersion: ServicesInfoRealmDAO.schemaVersion,
+                                             deleteRealmIfMigrationNeeded: true,
+                                             objectTypes: [RealmServicesInfo.self, RealmServiceType.self, RealmServiceSubtype.self])
             let dataBase = try Realm(configuration: config)
             self.init(realm: dataBase)
         } catch let error {
@@ -50,21 +81,24 @@ final class ServicesInfoRealmDAO: ServicesInfoDAO, ServicesInfoRetrievable {
         }
     }
 
-    func save(servicesInfo serviceTypes: [ServiceType]) {
+    func save(servicesInfo serviceTypes: [ServiceType], localeId: String?) {
         clean()
         
         let realmArray = serviceTypes.map { convertToRealmServiceType(serviceType: $0) }
         let realmList = RealmHelper.convertArrayToRealmList(inputArray: realmArray)
         
+        let servicesInfo = RealmServicesInfo()
+        servicesInfo.services = realmList
+        servicesInfo.localeId = localeId
+        servicesInfo.updatedAt = Date()
+        
         dataBase.cancelWriteTransactionsIfNeeded()
         do {
             try dataBase.write {
-                dataBase.add(realmList)
+                dataBase.add(servicesInfo)
             }
         } catch let error {
-            logMessage(.verbose,
-                       type: CoreLoggingOptions.database,
-                       message: "Could not write in Services Info DB: \(error)")
+            logMessage(.verbose, type: CoreLoggingOptions.database, message: "Could not write in Services Info DB: \(error)")
         }
     }
     
@@ -74,26 +108,18 @@ final class ServicesInfoRealmDAO: ServicesInfoDAO, ServicesInfoRetrievable {
     }
     
     func serviceType(forServiceTypeId serviceTypeId: String) -> ServiceType? {
-        let realmServiceTypes = dataBase.objects(RealmServiceType.self)
-        let queryPredicate = NSPredicate(format: "typeId == '\(serviceTypeId)'")
-        guard let realmServiceType = realmServiceTypes.filter(queryPredicate).first else { return nil }
-        let serviceType = convertToLGServiceType(serviceType: realmServiceType)
-        return serviceType
+        return servicesTypes.first(where: { $0.id == serviceTypeId })
     }
     
     func serviceSubtype(forServiceSubtypeId serviceSubtypeId: String) -> ServiceSubtype? {
-        let realmServiceSubtypes = dataBase.objects(RealmServiceSubtype.self)
-        let queryPredicate = NSPredicate(format: "subtypeId == '\(serviceSubtypeId)'")
-        guard let realmServiceSubtype = realmServiceSubtypes.filter(queryPredicate).first else { return nil }
-        let serviceSubtype = convertToLGServiceSubtype(serviceSubtype: realmServiceSubtype)
-        return serviceSubtype
+        return servicesTypes
+            .first(where: { $0.subTypes.contains{ $0.id == serviceSubtypeId } })?
+            .subTypes
+            .first(where: { $0.id == serviceSubtypeId })
     }
     
     func serviceAllSubtypesSorted() -> [ServiceSubtype] {
-        let serviceSubtypes: [ServiceSubtype] = dataBase
-            .objects(RealmServiceSubtype.self)
-            .compactMap { [weak self] in self?.convertToLGServiceSubtype(serviceSubtype: $0) }
-        return serviceSubtypes.sorted(by: { $0.isHighlighted && !$1.isHighlighted })
+        return servicesTypes.flatMap{ $0.subTypes }.sorted(by: { $0.isHighlighted && !$1.isHighlighted })
     }
     
     func clean() {
@@ -103,43 +129,8 @@ final class ServicesInfoRealmDAO: ServicesInfoDAO, ServicesInfoRetrievable {
                 dataBase.deleteAll()
             }
         } catch let error {
-            logMessage(.verbose,
-                       type: CoreLoggingOptions.database,
-                       message: "Could not clean the Services Info DB: \(error)")
+            logMessage(.verbose, type: CoreLoggingOptions.database, message: "Could not clean the Services Info DB: \(error)")
         }
-    }
-    
-    func loadFirstRunCacheIfNeeded(jsonURL: URL) {
-        guard dataBase.objects(RealmServiceType.self).isEmpty else { return }
-        
-        do {
-            let data = try Data(contentsOf: jsonURL)
-            let jsonServiceTypesList = try JSONSerialization.jsonObject(with: data, options: [])
-            guard let serviceTypes = decoder(jsonServiceTypesList) else { return }
-            save(servicesInfo: serviceTypes)
-        } catch {
-            logMessage(.verbose,
-                       type: CoreLoggingOptions.database,
-                       message: "Failed to create Services Info first run cache: \(error)")
-        }
-    }
-}
-
-
-// MARK:- Decoder
-extension ServicesInfoRealmDAO {
-    
-    private func decoder(_ object: Any) -> [ServiceType]? {
-        guard let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) else { return nil }
-        
-        do {
-            let serviceTypes = try JSONDecoder().decode(FailableDecodableArray<LGServiceType>.self, from: data)
-            return serviceTypes.validElements
-        } catch {
-            logMessage(.debug, type: .parsing, message: "could not parse LGServiceTypes \(object)")
-        }
-
-        return nil
     }
 }
 

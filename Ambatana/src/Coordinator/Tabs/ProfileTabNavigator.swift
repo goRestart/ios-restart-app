@@ -20,6 +20,7 @@ protocol PublicProfileNavigator: class {
     func openListing(_ data: ListingDetailData,
                      source: EventParameterListingVisitSource,
                      actionOnFirstAppear: ProductCarouselActionOnFirstAppear)
+    func openAvatarDetail(isPrivate: Bool, user: User)
     func openLogin(infoMessage: String, then loggedInAction: @escaping (() -> Void))
     func openAskPhoneFor(listing: Listing, interlocutor: User?)
     func openListingChat(_ listing: Listing,
@@ -29,6 +30,7 @@ protocol PublicProfileNavigator: class {
     func openListingChat(data: ChatDetailData,
                          source: EventParameterTypePage,
                          predefinedMessage: String?)
+    func closeAvatarDetail()
 }
 
 protocol SettingsNavigator: class {
@@ -41,6 +43,7 @@ protocol SettingsNavigator: class {
     func open(url: URL)
     func openEditUserBio()
     func openNotificationSettings()
+    func openAffiliationChallenges()
 }
 
 protocol ChangeUsernameNavigator: class {
@@ -76,7 +79,7 @@ protocol UserVerificationNavigator: class {
     func closeUserVerification()
     func openEditUserBio()
     func openEmailVerification()
-    func openPhoneNumberVerification()
+    func openPhoneNumberVerification(editing: Bool)
 }
 
 protocol UserVerificationAwarenessNavigator: class {

@@ -36,6 +36,8 @@ public protocol AppEnvironment: AnalyticsAPIKeys {
     var feedAdUnitIdAdxInstallAppTR: String { get }
     var moreInfoMultiAdUnitIdDFP: String { get }
     var moreInfoMultiAdUnitIdDFPUSA: String { get }
+    var chatSectionAdUnitForOldUsersUS: String { get }
+    var chatSectionAdUnitForOldUsersTR: String { get }
 
     // Stripe
     var stripeAPIKey: String { get }

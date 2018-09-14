@@ -4374,6 +4374,13 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
+            describe("profileOpenPictureDetail") {
+                it("has its event name") {
+                    sut = TrackerEvent.profileOpenPictureDetail()
+                    expect(sut.name.rawValue).to(equal("profile-photo-tapped"))
+                }
+            }
+
             describe("profileShareStart") {
                 beforeEach {
                     sut = TrackerEvent.profileShareStart(.publicParameter)
@@ -4831,42 +4838,6 @@ class TrackerEventSpec: QuickSpec {
                     it("has its trigger") {
                         let trigger = sut.params!.stringKeyParams["express-chat-trigger"] as? String
                         expect(trigger) == "automatic"
-                    }
-                }
-            }
-
-            describe("Web Survey") {
-                context("Survey start") {
-                    beforeEach {
-                        sut = TrackerEvent.surveyStart(userId: "my-user-id", surveyUrl: "https://www.thesurvey.com")
-                    }
-                    it("has its event name") {
-                        expect(sut.name.rawValue) == "survey-start"
-                    }
-                    it("contains userId param") {
-                        let param = sut.params!.stringKeyParams["user-id"] as? String
-                        expect(param) == "my-user-id"
-                    }
-                    it("contains surveyUrl param") {
-                        let param = sut.params!.stringKeyParams["survey-url"] as? String
-                        expect(param) == "https://www.thesurvey.com"
-                    }
-                }
-
-                context("Survey completed") {
-                    beforeEach {
-                        sut = TrackerEvent.surveyCompleted(userId: "my-user-id", surveyUrl: "https://www.thesurvey.com")
-                    }
-                    it("has its event name") {
-                        expect(sut.name.rawValue) == "survey-completed"
-                    }
-                    it("contains userId param") {
-                        let param = sut.params!.stringKeyParams["user-id"] as? String
-                        expect(param) == "my-user-id"
-                    }
-                    it("contains surveyUrl param") {
-                        let param = sut.params!.stringKeyParams["survey-url"] as? String
-                        expect(param) == "https://www.thesurvey.com"
                     }
                 }
             }

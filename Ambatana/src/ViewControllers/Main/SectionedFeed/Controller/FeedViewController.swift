@@ -36,13 +36,13 @@ final class FeedViewController: BaseViewController {
     private let disposeBag = DisposeBag()
 
     private var hideSearchBox = false
-    private var hasFilters = true
+    private var showRightButtons = true
     
     // MARK:- Init
     
     required init(withViewModel viewModel: BaseViewModel & FeedViewModelType,
                   hideSearchBox: Bool = false,
-                  showFilters: Bool = true) {
+                  showRightNavBarButtons: Bool = true) {
         self.navbarSearch = hideSearchBox ? nil : LGNavBarSearchField(
             viewModel.searchString)
         self.viewModel = viewModel
@@ -51,7 +51,7 @@ final class FeedViewController: BaseViewController {
         viewModel.feedRenderingDelegate = self
         viewModel.delegate = self
         viewModel.rootViewController = self
-        hasFilters = showFilters
+        showRightButtons = showRightNavBarButtons
         setup()
     }
 
@@ -115,7 +115,7 @@ final class FeedViewController: BaseViewController {
 
     private func setupNavBar() {
         defer {
-            if hasFilters { setupFiltersButton() }
+            if showRightButtons { setupRightNavBarButtons() }
             setupInviteNavBarButton()
         }
         
@@ -129,14 +129,24 @@ final class FeedViewController: BaseViewController {
         
         setNavBarTitleStyle(.text(viewModel.searchString))
     }
-
-    private func setupFiltersButton() {
-        let buttonImages = ButtonImage(normal: R.Asset.IconsButtons.icFilters.image, selected: R.Asset.IconsButtons.icFiltersActive.image)
-        guard let rightButton = setLetGoRightButtonsWith(buttonImages: [buttonImages],
-                                                         selectors: [#selector(filtersButtonPressed)]).first else { return  }
+    
+    private func setupRightNavBarButtons() {
+        var buttonImages: [ButtonImage] = []
+        var selectors: [Selector] = []
+        
+        let filterButtonImages = ButtonImage(normal: R.Asset.IconsButtons.icFilters.image, selected: R.Asset.IconsButtons.icFiltersActive.image)
+            buttonImages.append(filterButtonImages)
+            selectors.append(#selector(filtersButtonPressed))
+        if viewModel.shouldShowAffiliateButton {
+            let affiliateButtonImages =  ButtonImage(normal: R.Asset.IconsButtons.icCloseDark.image)
+            buttonImages.append(affiliateButtonImages)
+            selectors.append(#selector(AffiliationButtonPressed))
+        }
+        guard let filterButton = setLetGoRightButtonsWith(buttonImages: buttonImages,
+                                                         selectors: selectors).first else { return }
         viewModel
             .rxHasFilter
-            .drive(onNext: { rightButton.isSelected = $0})
+            .drive(onNext: { filterButton.isSelected = $0})
             .disposed(by: disposeBag)
     }
     
@@ -244,6 +254,14 @@ extension FeedViewController: WaterFallScrollable {
     
 }
 
+// MARK: - Scrollable To Top
+
+extension FeedViewController: ScrollableToTop {
+    func scrollToTop() {
+        collectionView.setContentOffset(.zero, animated: true)
+    }
+}
+
 //  MARK: - UITextFieldDelegate
 
 extension FeedViewController: UITextFieldDelegate {
@@ -266,6 +284,10 @@ extension FeedViewController {
         viewModel.showFilters()
     }
     
+    @objc private func AffiliationButtonPressed(_ sender: AnyObject) {
+        viewModel.openAffiliationChallenges()
+    }
+    
     @objc private func refreshControlTriggered() {
         viewModel.refreshControlTriggered()
     }
@@ -278,9 +300,11 @@ extension FeedViewController: FeedRenderable {
     }
     
     func updateFeed() {
-        adapter.locationSectionIndex = viewModel.locationSectionIndex
-        adapter.bottomStatusIndicatorIndex = viewModel.bottomStatusIndicatorIndex
         adapter.performUpdates(animated: true, completion: nil)
+    }
+    
+    func reloadFeed() {
+        adapter.reloadData(completion: nil)
     }
 }
 
@@ -289,4 +313,6 @@ extension FeedViewController: FeedViewModelDelegate {
         guard viewModel === vm else { return }
         refreshUIWithState(state)
     }
+    
+    func searchCompleted() { navbarSearch?.cancelEdit() }
 }

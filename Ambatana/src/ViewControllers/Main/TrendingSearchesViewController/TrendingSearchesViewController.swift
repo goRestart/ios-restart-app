@@ -16,10 +16,7 @@ final class TrendingSearchesViewController: BaseViewController {
         super.init(viewModel: viewModel, nibName: nil)
     }
 
-    convenience init() {
-        self.init(viewModel: TrendingSearchesViewModel())
-    }
-
+    @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) { fatalError("Die xibs, die") }
 
     override func loadView() {

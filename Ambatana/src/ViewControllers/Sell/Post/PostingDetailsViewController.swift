@@ -114,12 +114,13 @@ final class PostingDetailsViewController: KeyboardViewController, LGSearchMapVie
     
     private func setupNavigationBar() {
         guard let navigationController = navigationController as? SellNavigationController else { return }
+        let currentStep = navigationController.currentStep
         setNavBarBackgroundStyle(.transparent(substyle: .dark))
         
         let backImage = R.Asset.IconsButtons.navbarBackWhiteShadow.image
         let closeImage = R.Asset.IconsButtons.icPostClose.image
         
-        if viewModel.isSummaryStep {
+        if currentStep == 1 || viewModel.isSummaryStep {
             let closeButton = UIBarButtonItem(image: closeImage , style: UIBarButtonItemStyle.plain,
                                               target: self, action: #selector(PostingDetailsViewController.closeButtonPressed))
             closeButton.setBackgroundVerticalPositionAdjustment(5, for: .default)
