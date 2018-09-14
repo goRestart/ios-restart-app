@@ -46,6 +46,14 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
         return featureFlags.affiliationEnabled.isActive
     }
     
+    var shouldShowCommunityButton: Bool {
+        return featureFlags.community.shouldShowOnNavBar
+    }
+    
+    var shouldShowUserProfileButton: Bool {
+        return featureFlags.community.shouldShowOnTab
+    }
+    
     private(set) var viewState: ViewState {
         didSet {
             delegate?.vmDidUpdateState(self, state: viewState)
@@ -67,6 +75,12 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
             return filters.place ?? Place(postalAddress: currentLocation?.postalAddress,
                                           location: currentLocation?.location)
     }
+    
+    var rx_userAvatar: BehaviorRelay<UIImage?> { return userAvatar }
+    
+    // RX
+    
+    var userAvatar = BehaviorRelay<UIImage?>(value: nil)
 
     // Private vars
     
@@ -201,6 +215,10 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
         updatePermissionBanner()
         refreshFeed()
         setupLocation()
+        
+        guard firstTime else { return }
+        
+        setupRx()
     }
     
     //  MARK: - Filter
@@ -254,6 +272,19 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
         sectionControllerFactory.delegate = self
         setupPermissionsNotification()
         setupSession()
+    }
+    
+    private func setupRx() {
+        myUserRepository
+            .rx_myUser
+            .distinctUntilChanged { $0?.objectId == $1?.objectId }
+            .filter { _ in
+                return self.featureFlags.advancedReputationSystem11.isActive
+            }
+            .subscribe(onNext: { [weak self] myUser in
+                self?.loadAvatar(for: myUser)
+            })
+            .disposed(by: disposeBag)
     }
     
     private func refreshFeed() {
@@ -442,6 +473,29 @@ extension FeedViewModel {
     }
 }
 
+
+
+extension FeedViewModel {
+    private func loadAvatar(for user: User?) {
+        guard let avatarUrl = user?.avatar?.fileURL else {
+            self.userAvatar.accept(nil)
+            return
+        }
+        
+        if let cachedImage = ImageDownloader.sharedInstance.cachedImageForUrl(avatarUrl) {
+            self.userAvatar.accept(cachedImage)
+            return
+        }
+        
+        ImageDownloader
+            .sharedInstance
+            .downloadImageWithURL(avatarUrl) { [weak self] (result, _) in
+                guard case .success((let image, _)) = result else { return }
+                self?.userAvatar.accept(image)
+        }
+    }
+}
+
 extension FeedViewModel {
     
     func openInvite() {
@@ -480,6 +534,10 @@ extension FeedViewModel {
         updatePermissionBanner()
         loadFeedItems()
     }
+    
+    func openCommunity() { navigator?.openCommunity() }
+    
+    func openUserProfile() { navigator?.openPrivateUserProfile() }
 }
 
 // MARK:- FiltersViewModelDataDelegate

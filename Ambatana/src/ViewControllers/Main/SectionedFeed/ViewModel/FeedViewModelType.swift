@@ -17,17 +17,23 @@ protocol FeedViewModelType: FeedNavigatorOwnership {
     var searchString: String? { get }
     var shouldShowInviteButton: Bool { get }
     var shouldShowAffiliateButton: Bool { get }
+    var shouldShowCommunityButton: Bool { get }
+    var shouldShowUserProfileButton: Bool { get }
     var viewState: ViewState { get }
     
     var feedItems: [ListDiffable] { get }
     var waterfallColumnCount: Int { get }
     var locationSectionIndex: Int? { get }
     
+    var rx_userAvatar: BehaviorRelay<UIImage?> { get }
+    
     func openInvite()
     func openSearches()
     func showFilters()
     func openAffiliationChallenges()
     func refreshControlTriggered()
+    func openCommunity()
+    func openUserProfile()
 
     func loadFeedItems()
     func willScroll(toSection section: Int)

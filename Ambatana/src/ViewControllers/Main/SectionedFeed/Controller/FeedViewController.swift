@@ -5,6 +5,11 @@ import IGListKit
 import LGCoreKit
 
 final class FeedViewController: BaseViewController {
+    private enum Layout {
+        enum TabBarIcons {
+            static let avatarSize = CGSize(width: 26, height: 26)
+        }
+    }
     
     private let refreshControl = UIRefreshControl()
     private let waterFallLayout = LGWaterFallLayout()
@@ -73,6 +78,7 @@ final class FeedViewController: BaseViewController {
         setupCollectionView()
         setupRefreshControl()
         setAccessibilityIds()
+        setupRxBindings()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -116,7 +122,7 @@ final class FeedViewController: BaseViewController {
     private func setupNavBar() {
         defer {
             if showRightButtons { setupRightNavBarButtons() }
-            setupInviteNavBarButton()
+            setLeftNavBarButtons()
         }
         
         guard hideSearchBox else {
@@ -128,6 +134,16 @@ final class FeedViewController: BaseViewController {
         }
         
         setNavBarTitleStyle(.text(viewModel.searchString))
+    }
+    
+    private func setupRxBindings() {
+        viewModel
+            .rx_userAvatar
+            .asDriver()
+            .drive(onNext:{ [weak self] image in
+                self?.setLeftNavBarButtons(withAvatar: image)
+            })
+            .disposed(by: disposeBag)
     }
     
     private func setupRightNavBarButtons() {
@@ -162,6 +178,37 @@ final class FeedViewController: BaseViewController {
         navigationItem.setLeftBarButtonItems([invite, spacing], animated: false)
     }
 
+    private func setLeftNavBarButtons(withAvatar avatar: UIImage? = nil) {
+        if viewModel.shouldShowCommunityButton {
+            setCommunityButton()
+        } else if viewModel.shouldShowUserProfileButton {
+            setUserProfileButton(withAvatar: avatar)
+        } else {
+            setupInviteNavBarButton()
+        }
+    }
+    
+    private func setCommunityButton() {
+        let button = UIBarButtonItem(image: R.Asset.IconsButtons.tabbarCommunity.image,
+                                     style: .plain,
+                                     target: self,
+                                     action: #selector(didTapCommunity))
+        navigationItem.setLeftBarButton(button, animated: false)
+    }
+    
+    private func setUserProfileButton(withAvatar avatar: UIImage?) {
+        let image = avatar?.af_imageScaled(to: Layout.TabBarIcons.avatarSize)
+            .af_imageRoundedIntoCircle()
+            .withRenderingMode(.alwaysOriginal)
+            ?? R.Asset.IconsButtons.tabbarProfile.image
+        
+        let button = UIBarButtonItem(image: image,
+                                     style: .plain,
+                                     target: self,
+                                     action: #selector(didTapUserProfile))
+        navigationItem.setLeftBarButton(button, animated: false)
+    }
+    
     private func setup() {
         hidesBottomBarWhenPushed = false
         floatingSellButtonHidden = false
@@ -277,6 +324,14 @@ extension FeedViewController {
 
     @objc private func openInvite() {
         viewModel.openInvite()
+    }
+    
+    @objc private func didTapCommunity() {
+        viewModel.openCommunity()
+    }
+    
+    @objc private func didTapUserProfile() {
+        viewModel.openUserProfile()
     }
     
     @objc private func filtersButtonPressed(_ sender: AnyObject) {
