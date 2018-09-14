@@ -1,11 +1,12 @@
-final class RewardsInviteFriendsStandardWireframe: RewardsInviteFriendsNavigator {
+final class AffiliationInviteSMSContactsStandardWireframe: AffiliationInviteSMSContactsNavigator {
     private let navigationController: UINavigationController
 
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
     }
 
-    func closeRewardsInviteFriends() {
+    func closeAffiliationInviteSMSContacts() {
         navigationController.popViewController(animated: true)
     }
 }
+

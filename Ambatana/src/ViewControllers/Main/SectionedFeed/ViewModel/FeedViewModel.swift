@@ -38,7 +38,12 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     }
     
     var shouldShowInviteButton: Bool {
+        guard !shouldShowAffiliateButton else { return false }
         return navigator?.canOpenAppInvite() ?? false
+    }
+    
+    var shouldShowAffiliateButton: Bool {
+        return featureFlags.affiliationEnabled.isActive
     }
     
     private(set) var viewState: ViewState {
@@ -84,7 +89,9 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     private var feedIdSet: Set<String> = Set<String>()
     
     private var sectionControllerFactory: SectionControllerFactory
-    
+
+    private var isCurrentLocationAutomatic: Bool?
+
     private var showingRetryState: Bool = false
     
     //  Ads
@@ -176,6 +183,7 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
         super.didBecomeActive(firstTime)
         updatePermissionBanner()
         refreshFeed()
+        setupLocation()
     }
     
     //  MARK: - Filter
@@ -228,7 +236,7 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     private func setup() {
         sectionControllerFactory.delegate = self
         setupPermissionsNotification()
-        setupSesstionAndLocation()
+        setupSession()
     }
     
     private func refreshFeed() {
@@ -250,15 +258,17 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
 
 extension FeedViewModel {
     
-    private func setupSesstionAndLocation() {
+    private func setupSession() {
         sessionManager.sessionEvents.bind { [weak self] _ in
             guard self?.active == true else { return }
             self?.sessionDidChange() }
             .disposed(by: disposeBag)
+    }
+    
+    private func setupLocation() {
         locationManager.locationEvents.filter { $0 == .locationUpdate }.bind { [weak self] _ in
-            guard self?.active == true else { return }
             self?.locationDidChange()
-            }.disposed(by: disposeBag)
+        }.disposed(by: disposeBag)
     }
     
     private func sessionDidChange() {
@@ -267,9 +277,14 @@ extension FeedViewModel {
     
     private func locationDidChange() {
         guard let newLocation = locationManager.currentLocation else { return }
+
+        if let safeCurrentLocation = isCurrentLocationAutomatic,
+            safeCurrentLocation && newLocation.isAuto {
+            return
+        }
+        
         lastReceivedLocation = locationManager.currentLocation
-        filters.place =  Place(postalAddress: newLocation.postalAddress,
-                               location: newLocation.location)
+        isCurrentLocationAutomatic = newLocation.isAuto
         trackLocationTypeChange(from: lastReceivedLocation?.type, to: newLocation.type)
         refreshFeedUponLocationChange()
     }
@@ -430,6 +445,10 @@ extension FeedViewModel {
         tracker.trackEvent(TrackerEvent.filterStart())
     }
     
+    func openAffiliationChallenges() {
+        wireframe?.openAffiliationChallenges()
+    }
+    
     func refreshControlTriggered() {
         resetFeed()
         updatePermissionBanner()
@@ -509,8 +528,18 @@ extension FeedViewModel: EditLocationDelegate, LocationEditable {
     }
     
     func editLocationDidSelectPlace(_ place: Place, distanceRadius: Int?) {
+        var newFiltersWithLocationAndDistance = filters
+        newFiltersWithLocationAndDistance.place = place
+        newFiltersWithLocationAndDistance.distanceRadius = distanceRadius
         filters.place = place
-        filters.distanceRadius = distanceRadius
+        guard let safeNavigator = navigator else { return }
+        wireframe?.openClassicFeed(
+            navigator: safeNavigator,
+            withSearchType: searchType,
+            listingFilters: newFiltersWithLocationAndDistance,
+            shouldCloseOnRemoveAllFilters: true,
+            tagsDelegate: self
+        )
         refreshFeedUponLocationChange()
     }
     
