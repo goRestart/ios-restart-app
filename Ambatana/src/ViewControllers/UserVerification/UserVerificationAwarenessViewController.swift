@@ -47,6 +47,9 @@ final class UserVerificationAwarenessViewController: BaseViewController {
     private let closeButton: UIButton = {
         let button = UIButton()
         button.layer.cornerRadius = Layout.closeButtonHeight / 2
+        button.setImage(R.Asset.IconsButtons.icCloseDark.image, for: .normal)
+        button.imageEdgeInsets = UIEdgeInsets(top: 6, left: 6, bottom: 6, right: 6)
+        button.contentEdgeInsets = UIEdgeInsets(top: 6, left: 8, bottom: 6, right: 6)
         button.backgroundColor = UIColor.grayLight.withAlphaComponent(0.9)
         return button
     }()
@@ -108,7 +111,7 @@ final class UserVerificationAwarenessViewController: BaseViewController {
 
     private func animateBadge() {
         self.badgeImageView.transform = CGAffineTransform.init(scaleX: 0.1, y: 0.1)
-        UIView.animate(withDuration: 0.3, delay: 0.5,
+        UIView.animate(withDuration: 0.5, delay: 0.5,
                        usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5,
                        options: [], animations: {
                         self.badgeImageView.alpha = 1.0

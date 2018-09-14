@@ -76,11 +76,9 @@ final class PushManager {
             showOffensiveReportAlert()
         }
 
-        showVerificationAwarenessView()
-
-//        if keyValueStorage[.showVerificationAwarenessOnNextStart] {
-//            showVerificationAwarenessView()
-//        }
+        if keyValueStorage[.showVerificationAwarenessOnNextStart] {
+            showVerificationAwarenessView()
+        }
     }
 
     func application(_ application: Application,
