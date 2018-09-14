@@ -556,7 +556,7 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.mutePushNotifications
         }
         let cached = dao.retrieveMutePushNotifications()?.toMutePushNotifications()
-        return cached ??  MutePushNotifications.control // MutePushNotifications.fromPosition(abTests.mutePushNotifications.value)
+        return cached ?? MutePushNotifications.fromPosition(abTests.mutePushNotifications.value)
     }
 
     var mutePushNotificationsStartHour: Int {
