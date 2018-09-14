@@ -27,6 +27,40 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     fileprivate let disposeBag = DisposeBag()
     private lazy var cardOnBoarding = ListingCardOnBoardingView()
 
+    fileprivate lazy var shareButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(R.Asset.IconsButtons.NewItemPage.nitShare.image.withRenderingMode(.alwaysTemplate),
+                        for: .normal)
+        button.tintColor = .grayRegular
+        button.addTarget(viewModel, action: #selector(ListingDeckViewModel.share), for: .touchUpInside)
+        return button
+    }()
+    fileprivate lazy var moreButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(R.Asset.IconsButtons.NewItemPage.nitMore.image.withRenderingMode(.alwaysTemplate),
+                        for: .normal)
+        button.tintColor = .grayRegular
+        button.addTarget(self, action: #selector(ListingDeckViewController.didTapMoreActions), for: .touchUpInside)
+        return button
+    }()
+    fileprivate lazy var favoriteButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.tintColor = .grayRegular
+        button.setImage(R.Asset.IconsButtons.NewItemPage.nitFavourite.image.withRenderingMode(.alwaysTemplate),
+                        for: .normal)
+        button.addTarget(viewModel, action: #selector(ListingDeckViewModel.switchFavorite), for: .touchUpInside)
+        return button
+    }()
+    fileprivate lazy var editButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.tintColor = .grayRegular
+        button.setImage(R.Asset.IconsButtons.icPen.image.withRenderingMode(.alwaysTemplate),
+                        for: .normal)
+        button.addTarget(viewModel, action: #selector(ListingDeckViewModel.edit), for: .touchUpInside)
+        return button
+    }()
+    fileprivate var navBarButtons: [UIButton] { return [favoriteButton, moreButton, shareButton] }
+
     private let shouldShowCardsOnBoarding: Bool
 
     private var interstitial: GADInterstitial?
@@ -117,8 +151,11 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         reloadData()
         setupInterstitial()
 
+        setNavigationBarRightButtons([favoriteButton, shareButton, moreButton], animated: false)
+
         let bindings = [
-            viewModel.rx.listingStatus.drive(rx.status)
+            viewModel.rx.listingStatus.drive(rx.status),
+            viewModel.rx.listingAction.drive(rx.listingAction)
         ]
         bindings.forEach { $0.disposed(by: disposeBag) }
     }
@@ -179,24 +216,27 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.view.backgroundColor = .clear
 
-        self.navigationItem.leftBarButtonItem  = UIBarButtonItem(image: R.Asset.CongratsScreenImages.icCloseRed.image,
-                                                                 style: .plain,
-                                                                 target: self,
-                                                                 action: #selector(didTapClose))
-
-        self.navigationItem.rightBarButtonItem  = UIBarButtonItem(image: R.Asset.IconsButtons.icMoreOptions.image,
-                                                                  style: .plain,
-                                                                  target: self,
-                                                                  action: #selector(didTapMoreActions))
+        let image = R.Asset.IconsButtons.icPostClose.image.withRenderingMode(.alwaysTemplate)
+        let button = UIBarButtonItem(image: image,
+                                     style: .plain,
+                                     target: self,
+                                     action: #selector(didTapClose))
+        button.tintColor = .grayRegular
+        self.navigationItem.leftBarButtonItem  = button
     }
 
     // Actions
 
     @objc private func didTapMoreActions() {
         var toShowActions = viewModel.navBarButtons
-        let title = R.Strings.productOnboardingShowAgainButtonTitle
-        toShowActions.append(UIAction(interface: .text(title), action: { [weak viewModel] in
+        toShowActions.append(UIAction(interface: .text(R.Strings.productOnboardingShowAgainButtonTitle),
+                                      action: { [weak viewModel] in
             viewModel?.showOnBoarding()
+        }))
+        let moreInfo = R.Strings.productMoreInfoOpenButton.lowercased().capitalizedFirstLetterOnly
+        toShowActions.append(UIAction(interface: .text(moreInfo),
+                                      action: { [weak viewModel] in
+            viewModel?.showListingDetail(at: viewModel?.currentIndex ?? 0)
         }))
         showActionSheet(R.Strings.commonCancel, actions: toShowActions, barButtonItem: nil)
     }
@@ -263,6 +303,7 @@ extension ListingDeckViewController {
     private func currentPageCell() -> ListingCardView? {
         return listingDeckView.cardAtIndex(viewModel.currentIndex)
     }
+    
 }
 
 extension ListingDeckViewController: ListingDeckViewModelDelegate {
@@ -301,6 +342,32 @@ extension Reactive where Base: ListingDeckViewController {
             let clippedAlpha = min(1.0, alpha)
             controller.listingDeckView.statusView.alpha = clippedAlpha
             controller.listingDeckView.updatePrivateActionsWith(actionsAlpha: clippedAlpha)
+        }
+    }
+
+    var navBarAlpha: Binder<CGFloat> {
+        return Binder(self.base) { controller, alpha in
+            controller.navBarButtons.forEach { $0.alpha = max(alpha, 0.1) }
+        }
+    }
+
+    var listingAction: Binder<ListingAction> {
+        return Binder(self.base) { controller, action in
+            let buttons: [UIButton]
+            if action.isFavoritable {
+                if action.isFavorite {
+                    controller.favoriteButton.setImage(R.Asset.IconsButtons.NewItemPage.nitFavouriteOn.image, for: .normal)
+                } else {
+                    let image = R.Asset.IconsButtons.NewItemPage.nitFavourite.image.withRenderingMode(.alwaysTemplate)
+                    controller.favoriteButton.setImage(image, for: .normal)
+                }
+                buttons = [controller.favoriteButton, controller.shareButton, controller.moreButton]
+            } else if action.isEditable {
+                buttons = [controller.editButton, controller.shareButton, controller.moreButton]
+            } else {
+                buttons = [controller.shareButton, controller.moreButton]
+            }
+            controller.setNavigationBarRightButtons(buttons, animated: false)
         }
     }
 
@@ -364,5 +431,4 @@ extension ListingDeckViewController: GADInterstitialDelegate {
     func interstitialWillLeaveApplication(_ ad: GADInterstitial) {
         viewModel.interstitialAdTapped(typePage: EventParameterTypePage.nextItem)
     }
-    
 }

@@ -242,7 +242,7 @@ final class ListingDeckViewModel: BaseViewModel {
         case .showKeyboard:
         break // we no longer support this one
         case .showShareSheet:
-            didTapCardAction()
+            currentListingViewModel.shareProduct()
         case .triggerBumpUp(_,_,_,_):
             showBumpUpView(actionOnFirstAppear)
         case .triggerMarkAsSold:
@@ -262,6 +262,7 @@ final class ListingDeckViewModel: BaseViewModel {
             currentListingViewModel.active = false
             currentListingViewModel.listing.value = listing
             currentListingViewModel.active = true
+            currentListingViewModel.forcedUpdate()
             currentListingViewModel.delegate = self
 
             isMine.accept(currentListingViewModel.isMine)
@@ -289,12 +290,16 @@ final class ListingDeckViewModel: BaseViewModel {
 
     }
 
-    func didTapCardAction() {
-        if currentListingViewModel.cardIsFavoritable {
-            currentListingViewModel.switchFavorite()
-        } else {
-            currentListingViewModel.editListing()
-        }
+    @objc func edit() {
+        currentListingViewModel.editListing()
+    }
+
+    @objc func share() {
+        currentListingViewModel.shareProduct()
+    }
+
+    @objc func switchFavorite() {
+        currentListingViewModel.switchFavorite()
     }
 
     private func syncFirstListing() {
@@ -589,6 +594,11 @@ extension ListingDeckViewModel: DeckCollectionViewModel {
 
 // MARK: Rx
 
+struct ListingAction: Equatable {
+    let isFavorite: Bool
+    let isFavoritable: Bool
+    let isEditable: Bool
+}
 typealias ListingDeckStatus = (status: ListingViewModelStatus, isFeatured: Bool)
 extension ListingDeckViewModel: ReactiveCompatible {}
 extension Reactive where Base: ListingDeckViewModel {
@@ -598,6 +608,17 @@ extension Reactive where Base: ListingDeckViewModel {
 
         let combined = Observable<ListingDeckStatus>.combineLatest(status, isFeatured) { ($0, $1) }
         return combined.asDriver(onErrorJustReturn: (.pending, false))
+    }
+
+    var listingAction: Driver<ListingAction> {
+        let isFavorite = base.currentListingViewModel.isFavorite.asObservable()
+        let isFavoritable = isMine.map { return !$0 }
+        let isEditable = base.currentListingViewModel.status.asObservable().map { return $0.isEditable }
+
+        return Observable.combineLatest(isFavorite, isFavoritable, isEditable) { ($0, $1, $2) }
+            .map { return ListingAction(isFavorite: $0, isFavoritable: $1, isEditable: $2) }
+            .distinctUntilChanged()
+            .asDriver(onErrorJustReturn: ListingAction(isFavorite: false, isFavoritable: false, isEditable: false))
     }
 
     var isMine: Observable<Bool> { return base.isMine.asObservable() }

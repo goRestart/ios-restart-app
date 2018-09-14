@@ -132,14 +132,14 @@ final class ListingDeckViewControllerBinder {
             return 2*(1 - pageOffset)
         }.distinctUntilChanged()
 
+        normalized.bind(to: viewController.rx.navBarAlpha).disposed(by: disposeBag)
+
         Observable.combineLatest(normalized, viewModel.rx.isMine) { ($0, $1) }.map { (alpha, isMine) in
-            guard !isMine else { return 0 }
-            return alpha
+            return isMine ? 0 : alpha
         }.bind(to: viewController.rx.chatAlpha).disposed(by: disposeBag)
 
         Observable.combineLatest(normalized, viewModel.rx.isMine) { ($0, $1) }.map { (alpha, isMine) in
-            guard isMine else { return 0 }
-            return alpha
+            return isMine ? alpha : 0
         }.bind(to: viewController.rx.actionsAlpha).disposed(by: disposeBag)
     }
 }

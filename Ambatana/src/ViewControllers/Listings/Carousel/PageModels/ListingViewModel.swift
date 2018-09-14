@@ -250,12 +250,7 @@ final class ListingViewModel: BaseViewModel {
                                          completion: nil)
 
         if !relationRetrieved && myUserRepository.myUser != nil {
-            listingRepository.retrieveUserListingRelation(listingId) { [weak self] result in
-                guard let value = result.value  else { return }
-                self?.relationRetrieved = true
-                self?.isFavorite.value = value.isFavorited
-                self?.isReported.value = value.isReported
-            }
+            refreshUserListingRelation()
         }
         
         if isMine && status.value.isSold {
@@ -279,6 +274,20 @@ final class ListingViewModel: BaseViewModel {
         isInterested.value = keyValueStorage.interestingListingIDs.contains(listingId)
     }
 
+    func forcedUpdate() {
+        refreshUserListingRelation()
+    }
+
+    func refreshUserListingRelation() {
+        guard let listingId = listing.value.objectId else { return }
+        listingRepository.retrieveUserListingRelation(listingId) { [weak self] result in
+            guard let value = result.value  else { return }
+            self?.relationRetrieved = true
+            self?.isFavorite.value = value.isFavorited
+            self?.isReported.value = value.isReported
+        }
+    }
+
     override func didBecomeInactive() {
         super.didBecomeInactive()
         bumpUpBannerInfo.value = nil
@@ -289,7 +298,7 @@ final class ListingViewModel: BaseViewModel {
         guard let listingId = listing.value.objectId else { return }
         listingRepository.retrieve(listingId) { [weak self] result in
             if let listing = result.value {
-                self?.listing.value = listing
+                self?.listing.value = listing   
             }
             completion?()
         }
@@ -1494,9 +1503,4 @@ extension ListingViewModel: PurchasesShopperDelegate {
                            typePage: .listingDetail)
         delegate?.vmShowLoading(R.Strings.bumpUpProcessingFreeText)
     }
-}
-
-// new item page
-extension ListingViewModel {
-    var isFavoritable: Bool { return !isMine }
 }

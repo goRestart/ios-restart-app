@@ -4,15 +4,6 @@ import LGCoreKit
 import RxSwift
 import RxCocoa
 
-private enum Images {
-    static let favourite = R.Asset.IconsButtons.NewItemPage.nitFavourite.image
-    static let favouriteOn = R.Asset.IconsButtons.NewItemPage.nitFavouriteOn.image
-
-    static let edit = R.Asset.IconsButtons.NewItemPage.nitEdit.image
-    static let placeholder = R.Asset.IconsButtons.userPlaceholder.image
-    static let share = R.Asset.IconsButtons.NewItemPage.nitShare.image
-}
-
 private enum Map {
     static let snapshotSize = CGSize(width: 300, height: 500)
 }

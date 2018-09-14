@@ -272,10 +272,10 @@ extension R {
       }
       public enum NewItemPage {
         public static let nitArrowDown = ImageAsset(name: "nit_arrow_down")
-        public static let nitEdit = ImageAsset(name: "nit_edit")
         public static let nitFavourite = ImageAsset(name: "nit_favourite")
         public static let nitFavouriteOn = ImageAsset(name: "nit_favourite_on")
         public static let nitLocation = ImageAsset(name: "nit_location")
+        public static let nitMore = ImageAsset(name: "nit_more")
         public static let nitOnboarding = ImageAsset(name: "nit_onboarding")
         public static let nitPhotoChat = ImageAsset(name: "nit_photo_chat")
         public static let nitPreviewCount = ImageAsset(name: "nit_preview_count")
@@ -432,6 +432,7 @@ extension R {
       public static let icPasswordActive = ImageAsset(name: "ic_password_active")
       public static let icPasswordActiveDark = ImageAsset(name: "ic_password_active_dark")
       public static let icPasswordDark = ImageAsset(name: "ic_password_dark")
+      public static let icPen = ImageAsset(name: "ic_pen")
       public static let icPendingModeration = ImageAsset(name: "ic_pending_moderation")
       public static let icPostClose = ImageAsset(name: "ic_post_close")
       public static let icPostCorner = ImageAsset(name: "ic_post_corner")
@@ -597,10 +598,10 @@ extension R {
         IAmInterested.icIamiSeeconv,
         IAmInterested.icIamiSend,
         NewItemPage.nitArrowDown,
-        NewItemPage.nitEdit,
         NewItemPage.nitFavourite,
         NewItemPage.nitFavouriteOn,
         NewItemPage.nitLocation,
+        NewItemPage.nitMore,
         NewItemPage.nitOnboarding,
         NewItemPage.nitPhotoChat,
         NewItemPage.nitPreviewCount,
@@ -738,6 +739,7 @@ extension R {
         icPasswordActive,
         icPasswordActiveDark,
         icPasswordDark,
+        icPen,
         icPendingModeration,
         icPostClose,
         icPostCorner,
