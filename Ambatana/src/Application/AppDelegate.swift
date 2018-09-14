@@ -92,7 +92,6 @@ extension AppDelegate: UIApplicationDelegate {
         window.rootViewController = appCoordinator.tabBarCtl
         self.window = window
 
-
         window.makeKeyAndVisible()
 
         let fbApplicationDelegate = FBSDKApplicationDelegate.sharedInstance()

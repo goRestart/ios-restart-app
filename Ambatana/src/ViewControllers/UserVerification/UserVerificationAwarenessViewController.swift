@@ -44,18 +44,18 @@ final class UserVerificationAwarenessViewController: BaseViewController {
         return label
     }()
 
-    private let closeButton: UIButton = {
+    private let laterButton: UIButton = {
         let button = UIButton()
-        button.layer.cornerRadius = Layout.closeButtonHeight / 2
-        button.setImage(R.Asset.IconsButtons.icCloseDark.image, for: .normal)
-        button.imageEdgeInsets = UIEdgeInsets(top: 6, left: 6, bottom: 6, right: 6)
-        button.contentEdgeInsets = UIEdgeInsets(top: 6, left: 8, bottom: 6, right: 6)
-        button.backgroundColor = UIColor.grayLight.withAlphaComponent(0.9)
+        button.backgroundColor = .white
+        button.setTitleColor(UIColor.black.withAlphaComponent(0.34), for: .normal)
+        button.setTitle(R.Strings.promoteBumpLaterButton, for: .normal)
+        button.titleLabel?.font = UIFont.verySmallBoldButtonFont
         return button
     }()
 
     private let button: LetgoButton = {
         let button = LetgoButton(withStyle: .primary(fontSize: .verySmallBold))
+        button.contentEdgeInsets = UIEdgeInsets(top: 0, left: Metrics.bigMargin, bottom: 0, right: Metrics.bigMargin)
         return button
     }()
 
@@ -84,8 +84,8 @@ final class UserVerificationAwarenessViewController: BaseViewController {
 
     private func setupUI() {
         view.backgroundColor = UIColor.black.withAlphaComponent(0.7)
-        view.addSubviewsForAutoLayout([container, closeButton])
-        container.addSubviewsForAutoLayout([avatarImageView, badgeImageView, label, button])
+        view.addSubviewForAutoLayout(container)
+        container.addSubviewsForAutoLayout([avatarImageView, badgeImageView, label, button, laterButton])
         setupConstraints()
 
         label.attributedText = messageText()
@@ -96,7 +96,7 @@ final class UserVerificationAwarenessViewController: BaseViewController {
             avatarImageView.image = viewModel.placeholder
         }
         button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
-        closeButton.addTarget(self, action: #selector(didTapClose), for: .touchUpInside)
+        laterButton.addTarget(self, action: #selector(didTapClose), for: .touchUpInside)
     }
 
     private func messageText() -> NSAttributedString {
@@ -136,19 +136,17 @@ final class UserVerificationAwarenessViewController: BaseViewController {
             label.rightAnchor.constraint(equalTo: container.rightAnchor, constant: -Metrics.bigMargin),
             button.centerXAnchor.constraint(equalTo: container.centerXAnchor),
             button.topAnchor.constraint(equalTo: label.bottomAnchor, constant: Metrics.bigMargin),
-            button.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -30),
             button.heightAnchor.constraint(equalToConstant: 34),
-            closeButton.heightAnchor.constraint(equalToConstant: Layout.closeButtonHeight),
-            closeButton.widthAnchor.constraint(equalTo: closeButton.heightAnchor),
-            closeButton.rightAnchor.constraint(equalTo: container.rightAnchor, constant: Metrics.shortMargin),
-            closeButton.topAnchor.constraint(equalTo: container.topAnchor, constant: -Metrics.shortMargin)
+            laterButton.centerXAnchor.constraint(equalTo: container.centerXAnchor),
+            laterButton.topAnchor.constraint(equalTo: button.bottomAnchor, constant: Metrics.shortMargin),
+            laterButton.heightAnchor.constraint(equalToConstant: 34),
+            laterButton.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -Metrics.bigMargin),
         ]
         constraints.activate()
     }
 
     @objc private func didTapButton() {
-//        viewModel.openVerifications()
-        viewModel.close()
+        viewModel.openVerifications()
     }
 
     @objc private func didTapClose() {

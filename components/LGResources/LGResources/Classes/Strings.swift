@@ -18,6 +18,8 @@ extension R {
     public static let advertisingText = Strings.tr("Localizable", "advertising_text")
     /// Invite friends
     public static let affiliationChallengesInviteFriendsButton = Strings.tr("Localizable", "affiliation_challenges_invite_friends_button")
+    /// Earn Points
+    public static let affiliationChallengesSubtitle = Strings.tr("Localizable", "affiliation_challenges_subtitle")
     /// Rewards
     public static let affiliationChallengesTitle = Strings.tr("Localizable", "affiliation_challenges_title")
     /// How it works
@@ -28,6 +30,12 @@ extension R {
     public static let affiliationInviteFriendsTitle = Strings.tr("Localizable", "affiliation_invite_friends_title")
     /// Connect contacts
     public static let affiliationInviteSmsContactsTitle = Strings.tr("Localizable", "affiliation_invite_sms_contacts_title")
+    /// View Rewards
+    public static let affiliationWalletOpenStoreButton = Strings.tr("Localizable", "affiliation_wallet_open_store_button")
+    /// PTS
+    public static let affiliationWalletPointsLabel = Strings.tr("Localizable", "affiliation_wallet_points_label")
+    /// YOUR WALLET
+    public static let affiliationWalletTitle = Strings.tr("Localizable", "affiliation_wallet_title")
     /// Reply
     public static let appNotificationReply = Strings.tr("Localizable", "app_notification_reply")
     /// Download
@@ -596,6 +604,8 @@ extension R {
     public static let chatWithYourselfAlertMsg = Strings.tr("Localizable", "chat_with_yourself_alert_msg")
     /// Get Started
     public static let clickToTalkSmoketestActionButton = Strings.tr("Localizable", "click_to_talk_smoketest_action_button")
+    /// Introducing "Click to Talk"
+    public static let clickToTalkSmoketestBannerTitle = Strings.tr("Localizable", "click_to_talk_smoketest_banner_title")
     /// Connect with your most interested buyers quickly and sell your items twice as fast.
     public static let clickToTalkSmoketestDescription = Strings.tr("Localizable", "click_to_talk_smoketest_description")
     /// Receive calls
@@ -2298,7 +2308,7 @@ extension R {
     public static let professionalDealerAskPhoneAddPhoneCellMessage = Strings.tr("Localizable", "professional_dealer_ask_phone_add_phone_cell_message")
     /// Add your phone number
     public static let professionalDealerAskPhoneAlertEnterPhone = Strings.tr("Localizable", "professional_dealer_ask_phone_alert_enter_phone")
-    /// Please enter a valid \nphone number
+    /// Please enter a valid  phone number
     public static let professionalDealerAskPhoneAlertNotValidPhone = Strings.tr("Localizable", "professional_dealer_ask_phone_alert_not_valid_phone")
     /// My phone number is %@
     public static func professionalDealerAskPhoneChatMessage(_ p1: String) -> String {

@@ -339,7 +339,7 @@ extension AppCoordinator: AppNavigator {
     }
 
     func shouldShowVerificationAwareness() -> Bool {
-        return myUserRepository.myUser?.hasBadge == false
+        return featureFlags.advancedReputationSystem12.isActive && myUserRepository.myUser?.hasBadge == false
     }
 
     func openVerificationAwarenessView() {
