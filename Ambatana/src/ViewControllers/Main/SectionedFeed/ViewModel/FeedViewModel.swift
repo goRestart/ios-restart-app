@@ -89,10 +89,18 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     private var feedIdSet: Set<String> = Set<String>()
     
     private var sectionControllerFactory: SectionControllerFactory
+    
+    // This var extens due a issue when the controller request the first
+    // page and the locations changes and it also request the first too,
+    // so when the request arrives it must detect if the fist page was loaded
+    // or not and if it correspond to the correct location.
+    private var isFirstPageAlreadyLoadedWithLocation: LGLocation?
+    private var isPullToRefreshTriggered: Bool = false
 
     private var isCurrentLocationAutomatic: Bool?
 
     private var showingRetryState: Bool = false
+
     
     //  Ads
     
@@ -301,6 +309,14 @@ extension FeedViewModel {
             listingRetrievalState = .loading
             sectionedFeedRequester.retrieveNext(withUrl: nextFeedPageURL, completion: completion)
         } else {
+            guard !isPullToRefreshTriggered else {
+                viewState = .loading
+                sectionedFeedRequester.retrieveFirst(completion)
+                isPullToRefreshTriggered = false
+                return
+            }
+            guard isFirstPageAlreadyLoadedWithLocation != locationManager.currentLocation else { return }
+            isFirstPageAlreadyLoadedWithLocation = locationManager.currentLocation
             viewState = .loading
             sectionedFeedRequester.retrieveFirst(completion)
         }
@@ -450,6 +466,7 @@ extension FeedViewModel {
     }
     
     func refreshControlTriggered() {
+        isPullToRefreshTriggered = true
         resetFeed()
         updatePermissionBanner()
         loadFeedItems()

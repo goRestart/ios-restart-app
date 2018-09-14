@@ -97,7 +97,8 @@ protocol FeatureFlaggeable: class {
     var offensiveReportAlert: OffensiveReportAlert { get }
     var community: ShowCommunity { get }
     var advancedReputationSystem11: AdvancedReputationSystem11 { get }
-    
+    var advancedReputationSystem12: AdvancedReputationSystem12 { get }
+
     // MARK: Money
     var preventMessagesFromFeedToProUsers: PreventMessagesFromFeedToProUsers { get }
     var multiAdRequestInChatSectionForUS: MultiAdRequestInChatSectionForUS { get }
@@ -290,6 +291,10 @@ extension CopyForSellFasterNowInTurkish {
             return R.Strings.bumpUpBannerPayTextImprovementTurkishD
         }
     }
+}
+
+extension AdvancedReputationSystem12 {
+    var isActive: Bool { return self == .active }
 }
 
 extension PersonalizedFeed {
@@ -489,6 +494,7 @@ final class FeatureFlags: FeatureFlaggeable {
             dao.save(emergencyLocate: EmergencyLocate.fromPosition(abTests.emergencyLocate.value))
             dao.save(community: ShowCommunity.fromPosition(abTests.community.value))
             dao.save(advancedReputationSystem11: AdvancedReputationSystem11.fromPosition(abTests.advancedReputationSystem11.value))
+            dao.save(advancedReputationSystem12: AdvancedReputationSystem12.fromPosition(abTests.advancedReputationSystem12.value))
             dao.save(mutePushNotifications: MutePushNotifications.fromPosition(abTests.core.mutePushNotifications.value),
                      hourStart: abTests.core.mutePushNotificationsStartHour.value,
                      hourEnd: abTests.core.mutePushNotificationsEndHour.value)
@@ -610,6 +616,14 @@ final class FeatureFlags: FeatureFlaggeable {
         }
         let cached = dao.retrieveAdvancedReputationSystem11()
         return cached ?? AdvancedReputationSystem11.fromPosition(abTests.advancedReputationSystem11.value)
+    }
+
+    var advancedReputationSystem12: AdvancedReputationSystem12 {
+        if Bumper.enabled {
+            return Bumper.advancedReputationSystem12
+        }
+        let cached = dao.retrieveAdvancedReputationSystem12()
+        return cached ?? AdvancedReputationSystem12.fromPosition(abTests.advancedReputationSystem12.value)
     }
 
     // MARK: - Country features

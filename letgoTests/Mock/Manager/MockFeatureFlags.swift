@@ -98,6 +98,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var reportingFostaSesta: ReportingFostaSesta = .control
     var community: ShowCommunity = .control
     var advancedReputationSystem11: AdvancedReputationSystem11 = .control
+    var advancedReputationSystem12: AdvancedReputationSystem12 = .control
 
     // MARK: Money
     var preventMessagesFromFeedToProUsers: PreventMessagesFromFeedToProUsers = .control
