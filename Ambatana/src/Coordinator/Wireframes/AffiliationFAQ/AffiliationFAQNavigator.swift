@@ -1,0 +1,4 @@
+protocol AffiliationFAQNavigator {
+    func closeAffiliationFAQ()
+}
+

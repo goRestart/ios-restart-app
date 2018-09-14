@@ -1,12 +1,12 @@
 import LGComponents
 
-final class RewardsInviteFriendsViewController: BaseViewController {
-    private let viewModel: RewardsInviteFriendsViewModel
+final class AffiliationFAQViewController: BaseViewController {
+    private let viewModel: AffiliationFAQViewModel
 
 
     // MARK: Lifecycle
 
-    init(viewModel: RewardsInviteFriendsViewModel) {
+    init(viewModel: AffiliationFAQViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel,
                    nibName: nil)
@@ -21,7 +21,7 @@ final class RewardsInviteFriendsViewController: BaseViewController {
     }
 
     private func setupUI() {
-        title = R.Strings.rewardsInviteFriendsTitle
+        title = R.Strings.affiliationFaqTitle
     }
 
     private func setupConstraints() {

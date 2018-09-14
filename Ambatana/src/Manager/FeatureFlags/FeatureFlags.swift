@@ -486,13 +486,21 @@ final class FeatureFlags: FeatureFlaggeable {
 
     func variablesUpdated() {
         defer { abTests.variablesUpdated() }
-        guard !Bumper.enabled else { return }
-        
-        dao.save(emergencyLocate: EmergencyLocate.fromPosition(abTests.emergencyLocate.value))
-        dao.save(community: ShowCommunity.fromPosition(abTests.community.value))
-        dao.save(advancedReputationSystem11: AdvancedReputationSystem11.fromPosition(abTests.advancedReputationSystem11.value))
-        dao.save(advancedReputationSystem12: AdvancedReputationSystem12.fromPosition(abTests.advancedReputationSystem12.value))
-        dao.save(advancedReputationSystem13: AdvancedReputationSystem13.fromPosition(abTests.advancedReputationSystem13.value))
+        if Bumper.enabled {
+            dao.save(mutePushNotifications: Bumper.mutePushNotifications,
+                     hourStart: abTests.core.mutePushNotificationsStartHour.value,
+                     hourEnd: abTests.core.mutePushNotificationsEndHour.value)
+
+        } else {
+            dao.save(emergencyLocate: EmergencyLocate.fromPosition(abTests.emergencyLocate.value))
+            dao.save(community: ShowCommunity.fromPosition(abTests.community.value))
+            dao.save(advancedReputationSystem11: AdvancedReputationSystem11.fromPosition(abTests.advancedReputationSystem11.value))
+            dao.save(advancedReputationSystem12: AdvancedReputationSystem12.fromPosition(abTests.advancedReputationSystem12.value))
+            dao.save(advancedReputationSystem13: AdvancedReputationSystem13.fromPosition(abTests.advancedReputationSystem13.value))
+            dao.save(mutePushNotifications: MutePushNotifications.fromPosition(abTests.core.mutePushNotifications.value),
+                     hourStart: abTests.core.mutePushNotificationsStartHour.value,
+                     hourEnd: abTests.core.mutePushNotificationsEndHour.value)
+        }
     }
 
     var realEstateEnabled: RealEstateEnabled {
@@ -548,7 +556,8 @@ final class FeatureFlags: FeatureFlaggeable {
         if Bumper.enabled {
             return Bumper.mutePushNotifications
         }
-        return MutePushNotifications.control // MutePushNotifications.fromPosition(abTests.mutePushNotifications.value)
+        let cached = dao.retrieveMutePushNotifications()?.toMutePushNotifications()
+        return cached ??  MutePushNotifications.control // MutePushNotifications.fromPosition(abTests.mutePushNotifications.value)
     }
 
     var mutePushNotificationsStartHour: Int {
