@@ -7,6 +7,11 @@ protocol HorizontalSectionDelegate: class {
 
 final class HorizontalSectionController: ListSectionController {
 
+    enum Constants {
+        static let bigCellVariation: CGFloat = 2.4
+        static let smallCellVariation: CGFloat = 3.6
+    }
+    
     private var listingHorizontalSectionModel: ListingSectionModel?
     weak var listingActionDelegate: ListingActionDelegate?
     weak var delegate: HorizontalSectionDelegate?
@@ -51,7 +56,7 @@ final class HorizontalSectionController: ListSectionController {
     
     private func horizontalSectionHeight(forScreenWidth width: CGFloat) -> CGFloat {
         let variant = featureFlags.sectionedFeedABTestIntValue
-        return variant%2 == 0 ? width / 2.2 : width / 3.4
+        return variant%2 == 0 ? width / Constants.bigCellVariation : width / Constants.smallCellVariation
     }
 }
 
