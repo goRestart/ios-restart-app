@@ -29,6 +29,7 @@ extension ListingViewModel {
     func trackVisit(_ visitUserAction: ListingVisitUserAction,
                     source: EventParameterListingVisitSource,
                     feedPosition: EventParameterFeedPosition,
+                    sectionPosition: EventParameterSectionPosition,
                     feedSectionName: EventParameterSectionName?) {
         let isBumpedUp = isShowingFeaturedStripe.value ? EventParameterBoolean.trueParameter :
                                                    EventParameterBoolean.falseParameter
@@ -39,6 +40,7 @@ extension ListingViewModel {
         trackHelper.trackVisit(visitUserAction,
                                source: source,
                                feedPosition: feedPosition,
+                               sectionPosition: sectionPosition,
                                isShowingFeaturedStripe: isBumpedUp,
                                sellerBadge: sellerBadge,
                                isMine: isMine,
@@ -312,6 +314,7 @@ extension ProductVMTrackHelper {
     func trackVisit(_ visitUserAction: ListingVisitUserAction,
                     source: EventParameterListingVisitSource,
                     feedPosition: EventParameterFeedPosition,
+                    sectionPosition: EventParameterSectionPosition,
                     isShowingFeaturedStripe: EventParameterBoolean,
                     sellerBadge: EventParameterUserBadge,
                     isMine: EventParameterBoolean,
@@ -321,6 +324,7 @@ extension ProductVMTrackHelper {
                                                            visitUserAction: visitUserAction,
                                                            source: source,
                                                            feedPosition: feedPosition,
+                                                           sectionPosition: sectionPosition,
                                                            isBumpedUp: isShowingFeaturedStripe,
                                                            sellerBadge: sellerBadge,
                                                            isMine: isMine,
@@ -483,6 +487,7 @@ extension ProductVMTrackHelper {
             tracker.trackEvent(TrackerEvent.firstMessage(info: info,
                                                          listingVisitSource: listingVisitSource,
                                                          feedPosition: feedPosition,
+                                                         sectionPosition: .none,
                                                          userBadge: sellerBadge,
                                                          containsVideo: containsVideo,
                                                          isProfessional: nil,

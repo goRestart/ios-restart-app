@@ -262,6 +262,7 @@ extension ExpressChatViewModel {
             tracker.trackEvent(TrackerEvent.firstMessage(info: info,
                                                          listingVisitSource: .unknown,
                                                          feedPosition: .none,
+                                                         sectionPosition: .none,
                                                          userBadge: .noBadge,
                                                          containsVideo: containsVideo,
                                                          isProfessional: nil,

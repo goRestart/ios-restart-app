@@ -264,11 +264,13 @@ final class ListingDeckViewModel: BaseViewModel {
                 currentListingViewModel?.trackVisit(movement.visitUserAction,
                                                     source: movement.visitSource(source),
                                                     feedPosition: feedPosition,
+                                                    sectionPosition: .none,
                                                     feedSectionName: trackingFeedSectionName)
             } else {
                 currentListingViewModel?.trackVisit(movement.visitUserAction,
                                                     source: source,
                                                     feedPosition: feedPosition,
+                                                    sectionPosition: .none,
                                                     feedSectionName: trackingFeedSectionName)
             }
         }
@@ -491,7 +493,7 @@ final class ListingDeckViewModel: BaseViewModel {
 // MARK: ListingViewModelDelegate
 
 extension ListingDeckViewModel: ListingViewModelDelegate {
-    
+
     var listingOrigin: ListingOrigin {
         let result: ListingOrigin
         switch lastMovement {

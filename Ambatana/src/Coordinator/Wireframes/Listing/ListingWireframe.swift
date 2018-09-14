@@ -63,14 +63,15 @@ final class ListingWireframe {
                                originFrame: originFrame,
                                source: source,
                                index: 0)
-        case let .sectionedNonRelatedListing(listing, feedListingDatas, thumbnailImage, originFrame, index, identifier):
+        case let .sectionedNonRelatedListing(listing, feedListingDatas, thumbnailImage, originFrame, index, identifier, section):
             openListingNonRelated(listing,
                                   feedListingDataArray: feedListingDatas,
                                   thumbnailImage: thumbnailImage,
                                   originFrame: originFrame,
                                   source: source,
                                   index: index,
-                                  identifier: identifier)
+                                  identifier: identifier,
+                                  section: section)
         }
     }
     
@@ -80,7 +81,8 @@ final class ListingWireframe {
                                originFrame: CGRect?,
                                source: EventParameterListingVisitSource,
                                index: Int,
-                               identifier: String?) {
+                               identifier: String?,
+                               section: UInt? = nil) {
         
         let cellModels = feedListingDataArray.map { ListingCellModel.init(listing: $0.listing) }
         let requester = FilteredListingListRequester(itemsPerPage: SharedConstants.numListingsPerPageDefault,
@@ -92,6 +94,7 @@ final class ListingWireframe {
                                           source: source,
                                           actionOnFirstAppear: .nonexistent,
                                           trackingIndex: index,
+                                          sectionIndex: section,
                                           trackingIdentifier: identifier,
                                           firstProductSyncRequired: false)
         vm.navigator = detailNavigator
@@ -187,7 +190,8 @@ final class ListingWireframe {
                                               listingListRequester: requester,
                                               source: source,
                                               actionOnFirstAppear: actionOnFirstAppear,
-                                              trackingIndex: index)
+                                              trackingIndex: index,
+                                              sectionIndex: nil)
             vm.navigator = detailNavigator
             openListing(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, listingId: listingId)
         }
@@ -219,6 +223,7 @@ final class ListingWireframe {
                                               source: source,
                                               actionOnFirstAppear: .nonexistent,
                                               trackingIndex: index,
+                                              sectionIndex: nil,
                                               trackingIdentifier: nil,
                                               firstProductSyncRequired: false)
             vm.navigator = detailNavigator
@@ -257,7 +262,8 @@ final class ListingWireframe {
                                               listingListRequester: requester,
                                               source: source,
                                               actionOnFirstAppear: .nonexistent,
-                                              trackingIndex: nil)
+                                              trackingIndex: nil,
+                                              sectionIndex: nil)
             vm.navigator = detailNavigator
             openListing(vm, thumbnailImage: nil, originFrame: nil, listingId: listingId)
         }

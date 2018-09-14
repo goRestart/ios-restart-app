@@ -2,7 +2,7 @@ import IGListKit
 import LGCoreKit
 
 protocol HorizontalSectionDelegate: class {
-    func didTapSeeAll(page: SearchType)
+    func didTapSeeAll(page: SearchType, section: UInt, identifier: String)
 }
 
 final class HorizontalSectionController: ListSectionController {
@@ -95,8 +95,12 @@ extension HorizontalSectionController: UICollectionViewDelegate {
         let embeddedCollectionViewCell = collectionContext?.cellForItem(at: 0, sectionController: self)
         let originalFrame = embeddedCollectionViewCell?.convert(cell.frame, to: nil) ?? .zero
         listingActionDelegate?.didSelectListing(model.items[indexPath.section].listing,
+                                                from: model.items,
                                                 thumbnailImage: cell.thumbnailImage,
-                                                originFrame: originalFrame)
+                                                originFrame: originalFrame,
+                                                index: indexPath.section,
+                                                sectionIdentifier: model.id,
+                                                sectionIndex: model.sectionPosition.index)
     }
 }
 
@@ -153,6 +157,11 @@ extension HorizontalSectionController: SectionTitleHeaderViewDelegate {
         guard let nextPage = listingHorizontalSectionModel?.links.first?.value ,
             let nextPageURL = URL(string: nextPage),
             let title = listingHorizontalSectionModel?.title else { return }
-        delegate?.didTapSeeAll(page: .feed(page: nextPageURL, title: title))
+        guard let model = listingHorizontalSectionModel else { return }
+        delegate?.didTapSeeAll(
+            page: .feed(page: nextPageURL, title: title),
+            section: model.sectionPosition.index,
+            identifier: model.id
+        )
     }
 }

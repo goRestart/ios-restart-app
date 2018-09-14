@@ -153,6 +153,7 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     private var trackingIndex: Int?
+    private var sectionIndex: UInt?
     private let trackingIdentifier: String?
     private var initialThumbnail: UIImage?
 
@@ -179,6 +180,11 @@ class ListingCarouselViewModel: BaseViewModel {
 
     private let adsRequester: AdsRequester
 
+    var trackingSectionPosition: EventParameterSectionPosition {
+        guard let sectionIndex = sectionIndex else { return .none }
+        return .position(index: sectionIndex)
+    }
+    
     // Ads
     var dfpAdUnitId: String {
         return featureFlags.moreInfoDFPAdUnitId
@@ -240,7 +246,8 @@ class ListingCarouselViewModel: BaseViewModel {
                      listingListRequester: ListingListRequester,
                      source: EventParameterListingVisitSource,
                      actionOnFirstAppear: ProductCarouselActionOnFirstAppear,
-                     trackingIndex: Int?) {
+                     trackingIndex: Int?,
+                     sectionIndex: UInt?) {
         self.init(productListModels: nil,
                   initialListing: listing,
                   thumbnailImage: nil,
@@ -248,6 +255,7 @@ class ListingCarouselViewModel: BaseViewModel {
                   source: source,
                   actionOnFirstAppear: actionOnFirstAppear,
                   trackingIndex: trackingIndex,
+                  sectionIndex: sectionIndex,
                   trackingIdentifier: nil,
                   firstProductSyncRequired: true)
     }
@@ -257,7 +265,8 @@ class ListingCarouselViewModel: BaseViewModel {
                      listingListRequester: ListingListRequester,
                      source: EventParameterListingVisitSource,
                      actionOnFirstAppear: ProductCarouselActionOnFirstAppear,
-                     trackingIndex: Int?) {
+                     trackingIndex: Int?,
+                     sectionIndex: UInt?) {
         self.init(productListModels: nil,
                   initialListing: listing,
                   thumbnailImage: thumbnailImage,
@@ -265,6 +274,7 @@ class ListingCarouselViewModel: BaseViewModel {
                   source: source,
                   actionOnFirstAppear: actionOnFirstAppear,
                   trackingIndex: trackingIndex,
+                  sectionIndex: sectionIndex,
                   trackingIdentifier: nil,
                   firstProductSyncRequired: false)
     }
@@ -276,6 +286,7 @@ class ListingCarouselViewModel: BaseViewModel {
                      source: EventParameterListingVisitSource,
                      actionOnFirstAppear: ProductCarouselActionOnFirstAppear,
                      trackingIndex: Int?,
+                     sectionIndex: UInt?,
                      trackingIdentifier: String?,
                      firstProductSyncRequired: Bool) {
         self.init(productListModels: productListModels,
@@ -285,6 +296,7 @@ class ListingCarouselViewModel: BaseViewModel {
                   source: source,
                   actionOnFirstAppear: actionOnFirstAppear,
                   trackingIndex: trackingIndex,
+                  sectionIndex: sectionIndex,
                   trackingIdentifier: trackingIdentifier,
                   firstProductSyncRequired: firstProductSyncRequired,
                   featureFlags: FeatureFlags.sharedInstance,
@@ -304,6 +316,7 @@ class ListingCarouselViewModel: BaseViewModel {
          source: EventParameterListingVisitSource,
          actionOnFirstAppear: ProductCarouselActionOnFirstAppear,
          trackingIndex: Int?,
+         sectionIndex: UInt?,
          trackingIdentifier: String?,
          firstProductSyncRequired: Bool,
          featureFlags: FeatureFlaggeable,
@@ -350,6 +363,7 @@ class ListingCarouselViewModel: BaseViewModel {
         self.currentIndex = startIndex
         self.trackingIdentifier = trackingIdentifier
         self.trackingIndex = trackingIndex
+        self.sectionIndex = sectionIndex
         super.init()
         setupRxBindings()
         moveToProductAtIndex(startIndex, movement: .initial)
@@ -366,6 +380,7 @@ class ListingCarouselViewModel: BaseViewModel {
         currentListingViewModel?.trackVisit(.none,
                                             source: source,
                                             feedPosition: trackingFeedPosition,
+                                            sectionPosition: trackingSectionPosition,
                                             feedSectionName: trackingFeedSectionName)
     }
         
@@ -403,6 +418,7 @@ class ListingCarouselViewModel: BaseViewModel {
             currentListingViewModel?.trackVisit(movement.visitUserAction,
                                                 source: movement.visitSource(source),
                                                 feedPosition: trackingFeedPosition,
+                                                sectionPosition: trackingSectionPosition,
                                                 feedSectionName: trackingFeedSectionName)
         }
     }

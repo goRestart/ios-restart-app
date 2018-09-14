@@ -60,7 +60,7 @@ final class FeedViewModelSpec: BaseViewModelSpec {
             context("when the navigator is not nil") {
                 beforeEach {
                     subject?.navigator = coordinator
-                    subject?.didTapSeeAll(page: .user(query: "CommanderKeen"))
+                    subject?.didTapSeeAll(page: .user(query: "CommanderKeen"), section: 0, identifier: "DopefishSection")
                 }
                 
                 it("should open the pro feed") {
@@ -79,7 +79,7 @@ final class FeedViewModelSpec: BaseViewModelSpec {
             context("when the navigator is nil") {
                 beforeEach {
                     subject?.navigator = nil
-                    subject?.didTapSeeAll(page: .user(query: "CommanderKeen"))
+                    subject?.didTapSeeAll(page: .user(query: "CommanderKeen"), section: 0, identifier: "DopefishSection")
                 }
                 
                 it("should NOT open the pro feed") {
@@ -319,6 +319,10 @@ private extension FeedViewModelSpec {
         }
         
         func openProFeed(navigator: MainTabNavigator?, withSearchType searchType: SearchType, andFilters filters: ListingFilters) {
+            openProFeedWasCalled = (state: true, searchType: searchType, filters: filters)
+        }
+        
+        func openProFeed(navigator: MainTabNavigator?, withSearchType searchType: SearchType, andFilters filters: ListingFilters, andComingSectionPosition: UInt?, andComingSectionIdentifier: String?) {
             openProFeedWasCalled = (state: true, searchType: searchType, filters: filters)
         }
         

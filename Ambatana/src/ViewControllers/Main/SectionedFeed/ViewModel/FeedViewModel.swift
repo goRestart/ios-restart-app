@@ -101,6 +101,11 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
 
     private var showingRetryState: Bool = false
 
+    // This var contians the position of the correct section for
+    // the feed, if the feed is the main it must set this variable
+    // as nil because it is not coming from any section.
+    private var comingSectionPosition: UInt? = nil
+    private var comingSectionIdentifier: String? = nil
     
     //  Ads
     
@@ -146,7 +151,9 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
          adsImpressionConfigurable: AdsImpressionConfigurable = LGAdsImpressionConfigurable(),
          sectionedFeedVMTrackerHelper: SectionedFeedVMTrackerHelper = SectionedFeedVMTrackerHelper(),
          interestedStateManager: InterestedStateUpdater = LGInterestedStateUpdater(),
-         shouldShowEditOnLocationHeader: Bool = true) {
+         shouldShowEditOnLocationHeader: Bool = true,
+         comingSectionPosition: UInt? = nil,
+         comingSectionIdentifier: String? = nil) {
 
         self.filters = filters
         self.filtersVar = Variable<ListingFilters>(filters)
@@ -178,6 +185,8 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
         self.interestedStateManager = interestedStateManager
         self.sectionedFeedVMTrackerHelper = sectionedFeedVMTrackerHelper
         self.sectionedFeedRequester = SectionedFeedRequester()
+        self.comingSectionPosition = comingSectionPosition
+        self.comingSectionIdentifier = comingSectionIdentifier
         super.init()
         setup()
     }
@@ -617,12 +626,15 @@ extension FeedViewModel: RetryFooterDelegate {
 // MARK: - Horizontal selection delegate
 
 extension FeedViewModel: HorizontalSectionDelegate {
-    func didTapSeeAll(page: SearchType) {
+    func didTapSeeAll(page: SearchType, section: UInt, identifier: String) {
         guard let navigator = navigator else { return }
         wireframe?.openProFeed(
             navigator: navigator,
             withSearchType: page,
-            andFilters: filters)
+            andFilters: filters,
+            andComingSectionPosition: section,
+            andComingSectionIdentifier: identifier
+        )
     }
 }
 
@@ -768,14 +780,16 @@ extension FeedViewModel {
                           thumbnailImage: UIImage?,
                           originFrame: CGRect?,
                           index: Int,
-                          sectionIdentifier: String) {
+                          sectionIdentifier: String,
+                          sectionIndex: UInt?) {
         let data = ListingDetailData.sectionedNonRelatedListing(
             listing: listing,
             feedListingDatas: feedDataArray,
             thumbnailImage: thumbnailImage,
             originFrame: originFrame,
             index: index,
-            sectionIdentifier: sectionIdentifier
+            sectionIdentifier: sectionIdentifier,
+            sectionIndex: sectionIndex
         )
         listingWireframe?.openListing(
             data, source: listingVisitSource, actionOnFirstAppear: .nonexistent)
@@ -843,7 +857,9 @@ extension FeedViewModel {
                                                            user: myUserRepository.myUser,
                                                            categories: filters.selectedCategories,
                                                            searchQuery: queryString,
-                                                           feedSource: feedSource)
+                                                           feedSource: feedSource,
+                                                           sectionPosition: comingSectionPosition,
+                                                           sectionIdentifier: comingSectionIdentifier)
     }
     
     private func trackFirstMessage(info: SendMessageTrackingInfo,
@@ -852,6 +868,7 @@ extension FeedViewModel {
         sectionedFeedVMTrackerHelper.trackFirstMessage(info: info,
                                                        listingVisitSource: listingVisitSource,
                                                        sectionedFeedChatTrackingInfo: sectionedFeedChatTrackingInfo,
+                                                       sectionPosition: .none,
                                                        listing: listing)
     }
     

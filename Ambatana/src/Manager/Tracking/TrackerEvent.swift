@@ -204,7 +204,9 @@ struct TrackerEvent {
                                          inifiteSectionItemCount: Int,
                                          sectionNamesShown: [String],
                                          feedSource: EventParameterFeedSource,
-                                         success: EventParameterBoolean) -> TrackerEvent {
+                                         success: EventParameterBoolean?,
+                                         sectionPosition: EventParameterSectionPosition?,
+                                         sectionName: EventParameterSectionName?) -> TrackerEvent {
         var params = EventParameters()
         
         params[.feedSource] = feedSource.rawValue
@@ -218,7 +220,17 @@ struct TrackerEvent {
         params[.numberOfItemsInSection] = "\(sectionItemCount)"
         params[.sectionShown] = sectionNamesShown.joined(separator: ",")
 
-        params[.listSuccess] = success.rawValue
+        if let sectionPosition = sectionPosition {
+            params[.sectionPosition] = sectionPosition.value
+        }
+        
+        if let sectionName = sectionName?.value {
+            params[.sectionIdentifier] = sectionName
+        }
+        if let success = success {
+            params[.listSuccess] = success.rawValue
+        }
+        
         return TrackerEvent(name: .listingList, params: params)
     }
     
@@ -317,6 +329,7 @@ struct TrackerEvent {
                                    visitUserAction: ListingVisitUserAction,
                                    source: EventParameterListingVisitSource,
                                    feedPosition: EventParameterFeedPosition,
+                                   sectionPosition: EventParameterSectionPosition,
                                    isBumpedUp: EventParameterBoolean,
                                    sellerBadge: EventParameterUserBadge,
                                    isMine: EventParameterBoolean,
@@ -331,7 +344,8 @@ struct TrackerEvent {
         params[.isMine] = isMine.rawValue
         params[.isVideo] = containsVideo.rawValue
         if let sectionName = sectionName?.value {
-            params[.sectionPosition] = feedPosition.value
+            params[.itemPositionInSection] = feedPosition.value
+            params[.sectionPosition] = sectionPosition.value
             params[.sectionIdentifier] = sectionName
         } else {
             params[.feedPosition] = feedPosition.value
@@ -970,6 +984,7 @@ struct TrackerEvent {
     static func firstMessage(info: SendMessageTrackingInfo,
                              listingVisitSource: EventParameterListingVisitSource,
                              feedPosition: EventParameterFeedPosition,
+                             sectionPosition: EventParameterSectionPosition,
                              userBadge: EventParameterUserBadge,
                              containsVideo: EventParameterBoolean,
                              isProfessional: Bool?,
@@ -978,7 +993,8 @@ struct TrackerEvent {
         var params = info.params
         params[.listingVisitSource] = listingVisitSource.rawValue
         if let sectionName = sectionName?.value {
-            params[.sectionPosition] = feedPosition.value
+            params[.itemPositionInSection] = feedPosition.value
+            params[.sectionPosition] = sectionPosition.value
             params[.sectionIdentifier] = sectionName
         } else {
             params[.feedPosition] = feedPosition.value

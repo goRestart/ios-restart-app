@@ -456,7 +456,8 @@ enum EventParameterName: String {
     // Sectioned Feed
     case sectionShown = "sections-shown" // lists the sections shown in the sectioned feed
     case sectionIdentifier = "section-identifier" // section identifier
-    case sectionPosition = "section-number" // Position of the section in the feed
+    case itemPositionInSection = "item-position-in-section" // Position of the section in the feed
+    case sectionPosition = "section-number"
     case numberOfItemsInSection = "number-of-items-section"
 
     // Engagement badging
@@ -1150,6 +1151,21 @@ enum EventParameterRelatedListingsVisitSource: String {
 
 enum EventParameterFeedPosition {
     case position(index: Int)
+    case none
+    
+    var value: String {
+        switch self {
+        case let .position(index):
+            let value = index + 1
+            return String(value)
+        case .none:
+            return "N/A"
+        }
+    }
+}
+
+enum EventParameterSectionPosition {
+    case position(index: UInt)
     case none
     
     var value: String {
