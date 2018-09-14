@@ -74,6 +74,7 @@ final class UserVerificationAwarenessViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel.viewDidLoad()
         setupUI()
     }
 

@@ -1688,7 +1688,11 @@ struct TrackerEvent {
         params[.numberOfItems] = numberOfDuplicates
         return TrackerEvent(name: .duplicatedItemsInFeed, params: params)
     }
-    
+
+    static func verificationModalShown() -> TrackerEvent {
+        return TrackerEvent(name: .verificationModalShown, params: nil)
+    }
+
     // MARK: - Private methods
     
     static func eventParameterFreePostingWithPriceRange(_ freePostingModeAllowed: Bool,

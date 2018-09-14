@@ -223,6 +223,8 @@ enum EventName: String {
 
     case showNewItemsBadge                  = "show-new-items-badge"
     case duplicatedItemsInFeed              = "duplicated-items-hidden"
+
+    case verificationModalShown             = "verification-modal-shown"
     
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
