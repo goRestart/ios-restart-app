@@ -109,7 +109,6 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     // so when the request arrives it must detect if the fist page was loaded
     // or not and if it correspond to the correct location.
     private var isFirstPageAlreadyLoadedWithLocation: LGLocation?
-    private var isPullToRefreshTriggered: Bool = false
 
     private var isCurrentLocationAutomatic: Bool?
 
@@ -349,12 +348,6 @@ extension FeedViewModel {
             listingRetrievalState = .loading
             sectionedFeedRequester.retrieveNext(withUrl: nextFeedPageURL, completion: completion)
         } else {
-            guard !isPullToRefreshTriggered else {
-                viewState = .loading
-                sectionedFeedRequester.retrieveFirst(completion)
-                isPullToRefreshTriggered = false
-                return
-            }
             guard isFirstPageAlreadyLoadedWithLocation != locationManager.currentLocation else { return }
             isFirstPageAlreadyLoadedWithLocation = locationManager.currentLocation
             viewState = .loading
@@ -529,12 +522,14 @@ extension FeedViewModel {
     }
     
     func refreshControlTriggered() {
-        isPullToRefreshTriggered = true
+        isFirstPageAlreadyLoadedWithLocation = nil
         resetFeed()
         updatePermissionBanner()
         loadFeedItems()
     }
-    
+
+    func resetFirstLoadState() { isFirstPageAlreadyLoadedWithLocation = nil }
+
     func openCommunity() { navigator?.openCommunity() }
     
     func openUserProfile() { navigator?.openPrivateUserProfile() }

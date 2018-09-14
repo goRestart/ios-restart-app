@@ -224,6 +224,7 @@ final class FeedViewController: BaseViewController {
     private func addErrorViewController(with emptyVM: LGEmptyViewModel) {
         let errorVC = ErrorViewController(style: .feed, viewModel: emptyVM)
         errorVC.retryHandler = { [weak self] in
+            self?.viewModel.resetFirstLoadState()
             self?.loadFeed()
         }
         errorViewController = errorVC

@@ -35,6 +35,8 @@ protocol FeedViewModelType: FeedNavigatorOwnership {
     func openCommunity()
     func openUserProfile()
 
+    func resetFirstLoadState()
+    
     func loadFeedItems()
     func willScroll(toSection section: Int)
     func feedSectionController(for object: Any) -> ListSectionController
