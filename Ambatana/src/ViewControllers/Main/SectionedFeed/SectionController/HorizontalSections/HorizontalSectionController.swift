@@ -95,11 +95,8 @@ extension HorizontalSectionController: UICollectionViewDelegate {
         let embeddedCollectionViewCell = collectionContext?.cellForItem(at: 0, sectionController: self)
         let originalFrame = embeddedCollectionViewCell?.convert(cell.frame, to: nil) ?? .zero
         listingActionDelegate?.didSelectListing(model.items[indexPath.section].listing,
-                                                from: model.items,
                                                 thumbnailImage: cell.thumbnailImage,
-                                                originFrame: originalFrame,
-                                                index: indexPath.section,
-                                                sectionIdentifier: model.id)
+                                                originFrame: originalFrame)
     }
 }
 
