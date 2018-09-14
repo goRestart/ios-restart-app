@@ -45,6 +45,17 @@ extension R {
 
   // swiftlint:disable identifier_name line_length nesting type_body_length type_name
   public enum Asset {
+    public enum Affiliation {
+
+      // swiftlint:disable trailing_comma
+      public static let allColors: [ColorAsset] = [
+      ]
+      public static let allImages: [ImageAsset] = [
+      ]
+      // swiftlint:enable trailing_comma
+      @available(*, deprecated, renamed: "allImages")
+      public static let allValues: [AssetType] = allImages
+    }
     public enum BackgroundsAndImages {
       public static let bg1New = ImageAsset(name: "bg_1_new")
       public static let bg2New = ImageAsset(name: "bg_2_new")
