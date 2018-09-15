@@ -17,20 +17,11 @@
 		1C89D6FE1FF3CFBF00B3FA98 /* AuthToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C89D6FD1FF3CFBF00B3FA98 /* AuthToken.swift */; };
 		1C9139FF1FF0607600646884 /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C9139F51FF0607600646884 /* Data.framework */; };
 		1C913A061FF0607600646884 /* Data.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C9139F81FF0607600646884 /* Data.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1C913A1A1FF0656800646884 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C913A191FF0656800646884 /* AuthService.swift */; };
 		1C913A291FF0670300646884 /* AuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C913A281FF0670300646884 /* AuthRepository.swift */; };
 		1C913A2F1FF2B2D400646884 /* AuthDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C913A2E1FF2B2D400646884 /* AuthDataSource.swift */; };
 		1C913A351FF2B65300646884 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C913A341FF2B65300646884 /* Endpoint.swift */; };
 		1C913A3B1FF2BA8B00646884 /* TargetType+Default.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C913A3A1FF2BA8B00646884 /* TargetType+Default.swift */; };
-		1C913A3E1FF2BB4200646884 /* AuthenticateEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C913A3D1FF2BB4200646884 /* AuthenticateEndpoint.swift */; };
-		1C93E0C82040ACA30029AD2B /* ListingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93E0C72040ACA30029AD2B /* ListingService.swift */; };
-		1C93E0CE2040AD690029AD2B /* PublishProductEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93E0CD2040AD690029AD2B /* PublishProductEndpoint.swift */; };
 		1CACCE7A1FF2D6320001B321 /* ErrorAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CACCE791FF2D6320001B321 /* ErrorAdapter.swift */; };
-		1CACCE8A1FF309E60001B321 /* PrimitiveSequence+CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CACCE891FF309E60001B321 /* PrimitiveSequence+CustomError.swift */; };
-		1CB649512009C717009B7CC1 /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB649502009C717009B7CC1 /* ImageService.swift */; };
-		1CB649592009C964009B7CC1 /* ImageDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB649582009C964009B7CC1 /* ImageDataSource.swift */; };
-		1CB6495C2009C9CA009B7CC1 /* ImageApiDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB6495B2009C9CA009B7CC1 /* ImageApiDataSource.swift */; };
-		1CB6495E2009CA79009B7CC1 /* ImageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB6495D2009CA79009B7CC1 /* ImageRepository.swift */; };
 		1CC209B61FF2C2F500EE0B5B /* Assembly+Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC209B51FF2C2F500EE0B5B /* Assembly+Repository.swift */; };
 		1CE92E9F1FF31E5600F762E5 /* Fixture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CE92E9E1FF31E5600F762E5 /* Fixture.swift */; };
 		2E11C1A02135C40F003F98D4 /* ProductDraftDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E11C19F2135C40F003F98D4 /* ProductDraftDataSource.swift */; };
@@ -52,6 +43,9 @@
 		2EB2B14A212B2F8900705ACA /* SignInUserFirebaseErrorAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB2B149212B2F8900705ACA /* SignInUserFirebaseErrorAdapter.swift */; };
 		2EB2B14C212B305000705ACA /* Assembly+Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB2B14B212B305000705ACA /* Assembly+Auth.swift */; };
 		2ECA1F1A21285542001A3167 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2ECA1F1921285542001A3167 /* Domain.framework */; };
+		2ED3F5FB214C534500A715E0 /* ImageUploadService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED3F5FA214C534500A715E0 /* ImageUploadService.swift */; };
+		2ED3F5FD214C555300A715E0 /* Storage+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED3F5FC214C555300A715E0 /* Storage+Rx.swift */; };
+		2ED3F5FF214DA12000A715E0 /* Assembly+Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED3F5FE214DA12000A715E0 /* Assembly+Service.swift */; };
 		2EE4A3B5212C9D0F00380467 /* Algolia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE4A3B4212C9D0F00380467 /* Algolia.swift */; };
 		2EE4A3B8212CA55800380467 /* GameAlgoliaDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE4A3B7212CA55800380467 /* GameAlgoliaDataSource.swift */; };
 		2EE4A3BB212CA63C00380467 /* Algolia+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE4A3BA212CA63C00380467 /* Algolia+Rx.swift */; };
@@ -81,20 +75,11 @@
 		1C9139F91FF0607600646884 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1C9139FE1FF0607600646884 /* DataTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DataTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C913A051FF0607600646884 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1C913A191FF0656800646884 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		1C913A281FF0670300646884 /* AuthRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRepository.swift; sourceTree = "<group>"; };
 		1C913A2E1FF2B2D400646884 /* AuthDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthDataSource.swift; sourceTree = "<group>"; };
 		1C913A341FF2B65300646884 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		1C913A3A1FF2BA8B00646884 /* TargetType+Default.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TargetType+Default.swift"; sourceTree = "<group>"; };
-		1C913A3D1FF2BB4200646884 /* AuthenticateEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticateEndpoint.swift; sourceTree = "<group>"; };
-		1C93E0C72040ACA30029AD2B /* ListingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingService.swift; sourceTree = "<group>"; };
-		1C93E0CD2040AD690029AD2B /* PublishProductEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishProductEndpoint.swift; sourceTree = "<group>"; };
 		1CACCE791FF2D6320001B321 /* ErrorAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAdapter.swift; sourceTree = "<group>"; };
-		1CACCE891FF309E60001B321 /* PrimitiveSequence+CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PrimitiveSequence+CustomError.swift"; sourceTree = "<group>"; };
-		1CB649502009C717009B7CC1 /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
-		1CB649582009C964009B7CC1 /* ImageDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDataSource.swift; sourceTree = "<group>"; };
-		1CB6495B2009C9CA009B7CC1 /* ImageApiDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageApiDataSource.swift; sourceTree = "<group>"; };
-		1CB6495D2009CA79009B7CC1 /* ImageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRepository.swift; sourceTree = "<group>"; };
 		1CC209B51FF2C2F500EE0B5B /* Assembly+Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+Repository.swift"; sourceTree = "<group>"; };
 		1CE92E9E1FF31E5600F762E5 /* Fixture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fixture.swift; sourceTree = "<group>"; };
 		2E11C19F2135C40F003F98D4 /* ProductDraftDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDraftDataSource.swift; sourceTree = "<group>"; };
@@ -116,6 +101,9 @@
 		2EB2B149212B2F8900705ACA /* SignInUserFirebaseErrorAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInUserFirebaseErrorAdapter.swift; sourceTree = "<group>"; };
 		2EB2B14B212B305000705ACA /* Assembly+Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+Auth.swift"; sourceTree = "<group>"; };
 		2ECA1F1921285542001A3167 /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2ED3F5FA214C534500A715E0 /* ImageUploadService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUploadService.swift; sourceTree = "<group>"; };
+		2ED3F5FC214C555300A715E0 /* Storage+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Storage+Rx.swift"; sourceTree = "<group>"; };
+		2ED3F5FE214DA12000A715E0 /* Assembly+Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+Service.swift"; sourceTree = "<group>"; };
 		2EE4A3B4212C9D0F00380467 /* Algolia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Algolia.swift; sourceTree = "<group>"; };
 		2EE4A3B7212CA55800380467 /* GameAlgoliaDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameAlgoliaDataSource.swift; sourceTree = "<group>"; };
 		2EE4A3BA212CA63C00380467 /* Algolia+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Algolia+Rx.swift"; sourceTree = "<group>"; };
@@ -285,6 +273,7 @@
 		1C913A161FF064EB00646884 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				2ED3F5F9214C533000A715E0 /* Firebase */,
 				2EE4A3B3212C9D0300380467 /* Algolia */,
 				1C913A171FF0650600646884 /* Network */,
 			);
@@ -295,20 +284,8 @@
 			isa = PBXGroup;
 			children = (
 				1CACCE8B1FF30A380001B321 /* Protocol */,
-				1C913A181FF0652000646884 /* Auth */,
-				1CB6494D2009C708009B7CC1 /* Image */,
-				1C93E0C42040AC900029AD2B /* Listing */,
 			);
 			path = Network;
-			sourceTree = "<group>";
-		};
-		1C913A181FF0652000646884 /* Auth */ = {
-			isa = PBXGroup;
-			children = (
-				1C913A191FF0656800646884 /* AuthService.swift */,
-				1C913A3C1FF2BB3700646884 /* Endpoints */,
-			);
-			path = Auth;
 			sourceTree = "<group>";
 		};
 		1C913A1C1FF065AF00646884 /* Infrastructure */ = {
@@ -330,7 +307,6 @@
 				2E71A8DF213151EC009D24A9 /* Product */,
 				2E11C19D2135C3DF003F98D4 /* Product Draft */,
 				1C30D7122009656400E0A501 /* Game */,
-				1CB649542009C926009B7CC1 /* Image */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -357,7 +333,6 @@
 			children = (
 				2E2F7AB72129F3A500CDED0F /* Firebase */,
 				2EE4A3B9212CA63000380467 /* Algolia */,
-				1CC209BF1FF2C4B700EE0B5B /* RxSwift */,
 				1C913A391FF2BA7700646884 /* Moya */,
 			);
 			path = Extension;
@@ -369,31 +344,6 @@
 				1C913A3A1FF2BA8B00646884 /* TargetType+Default.swift */,
 			);
 			path = Moya;
-			sourceTree = "<group>";
-		};
-		1C913A3C1FF2BB3700646884 /* Endpoints */ = {
-			isa = PBXGroup;
-			children = (
-				1C913A3D1FF2BB4200646884 /* AuthenticateEndpoint.swift */,
-			);
-			path = Endpoints;
-			sourceTree = "<group>";
-		};
-		1C93E0C42040AC900029AD2B /* Listing */ = {
-			isa = PBXGroup;
-			children = (
-				1C93E0C72040ACA30029AD2B /* ListingService.swift */,
-				1C93E0CC2040AD5A0029AD2B /* Endpoint */,
-			);
-			path = Listing;
-			sourceTree = "<group>";
-		};
-		1C93E0CC2040AD5A0029AD2B /* Endpoint */ = {
-			isa = PBXGroup;
-			children = (
-				1C93E0CD2040AD690029AD2B /* PublishProductEndpoint.swift */,
-			);
-			path = Endpoint;
 			sourceTree = "<group>";
 		};
 		1CACCE781FF2D61D0001B321 /* Error */ = {
@@ -413,40 +363,6 @@
 			path = Protocol;
 			sourceTree = "<group>";
 		};
-		1CB6494D2009C708009B7CC1 /* Image */ = {
-			isa = PBXGroup;
-			children = (
-				1CB649502009C717009B7CC1 /* ImageService.swift */,
-			);
-			path = Image;
-			sourceTree = "<group>";
-		};
-		1CB649542009C926009B7CC1 /* Image */ = {
-			isa = PBXGroup;
-			children = (
-				1CB6495D2009CA79009B7CC1 /* ImageRepository.swift */,
-				1CB649572009C959009B7CC1 /* Data Source */,
-			);
-			path = Image;
-			sourceTree = "<group>";
-		};
-		1CB649572009C959009B7CC1 /* Data Source */ = {
-			isa = PBXGroup;
-			children = (
-				1CB649582009C964009B7CC1 /* ImageDataSource.swift */,
-				1CB6495A2009C9BD009B7CC1 /* Api */,
-			);
-			path = "Data Source";
-			sourceTree = "<group>";
-		};
-		1CB6495A2009C9BD009B7CC1 /* Api */ = {
-			isa = PBXGroup;
-			children = (
-				1CB6495B2009C9CA009B7CC1 /* ImageApiDataSource.swift */,
-			);
-			path = Api;
-			sourceTree = "<group>";
-		};
 		1CC209B41FF2C2D100EE0B5B /* Assembly */ = {
 			isa = PBXGroup;
 			children = (
@@ -454,16 +370,9 @@
 				2EB2B14B212B305000705ACA /* Assembly+Auth.swift */,
 				2E2F7AC02129FA1B00CDED0F /* Assembly+User.swift */,
 				1C40D8B91FFD38CA006D5BE4 /* Assembly+Moya.swift */,
+				2ED3F5FE214DA12000A715E0 /* Assembly+Service.swift */,
 			);
 			path = Assembly;
-			sourceTree = "<group>";
-		};
-		1CC209BF1FF2C4B700EE0B5B /* RxSwift */ = {
-			isa = PBXGroup;
-			children = (
-				1CACCE891FF309E60001B321 /* PrimitiveSequence+CustomError.swift */,
-			);
-			path = RxSwift;
 			sourceTree = "<group>";
 		};
 		1CE92E9C1FF31E4900F762E5 /* Utils */ = {
@@ -522,6 +431,7 @@
 			isa = PBXGroup;
 			children = (
 				2E2F7AB82129F46100CDED0F /* Auth+Rx.swift */,
+				2ED3F5FC214C555300A715E0 /* Storage+Rx.swift */,
 			);
 			path = Firebase;
 			sourceTree = "<group>";
@@ -610,6 +520,14 @@
 				2EB2B149212B2F8900705ACA /* SignInUserFirebaseErrorAdapter.swift */,
 			);
 			path = Error;
+			sourceTree = "<group>";
+		};
+		2ED3F5F9214C533000A715E0 /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				2ED3F5FA214C534500A715E0 /* ImageUploadService.swift */,
+			);
+			path = Firebase;
 			sourceTree = "<group>";
 		};
 		2EE4A3B3212C9D0300380467 /* Algolia */ = {
@@ -790,36 +708,30 @@
 			files = (
 				2E2F7ABF2129F83000CDED0F /* RegisterUserFirebaseAction.swift in Sources */,
 				1C913A2F1FF2B2D400646884 /* AuthDataSource.swift in Sources */,
-				1CB649512009C717009B7CC1 /* ImageService.swift in Sources */,
-				1C93E0C82040ACA30029AD2B /* ListingService.swift in Sources */,
 				1CC209B61FF2C2F500EE0B5B /* Assembly+Repository.swift in Sources */,
 				2E2F7AB92129F46100CDED0F /* Auth+Rx.swift in Sources */,
-				1CB6495E2009CA79009B7CC1 /* ImageRepository.swift in Sources */,
-				1C913A3E1FF2BB4200646884 /* AuthenticateEndpoint.swift in Sources */,
+				2ED3F5FB214C534500A715E0 /* ImageUploadService.swift in Sources */,
 				1C30D71C2009686400E0A501 /* GameRepository.swift in Sources */,
 				2E2F7AB42129CECF00CDED0F /* UserFirebaseDataSource.swift in Sources */,
 				2E2F7AB62129D23800CDED0F /* DataModule.swift in Sources */,
-				1CACCE8A1FF309E60001B321 /* PrimitiveSequence+CustomError.swift in Sources */,
 				2E71A8ED21315C2D009D24A9 /* ProductRepository.swift in Sources */,
 				1C89D6FE1FF3CFBF00B3FA98 /* AuthToken.swift in Sources */,
 				2E71A8EB213157D6009D24A9 /* ProductExtraMapper.swift in Sources */,
-				1C93E0CE2040AD690029AD2B /* PublishProductEndpoint.swift in Sources */,
-				1CB649592009C964009B7CC1 /* ImageDataSource.swift in Sources */,
 				2EB2B14A212B2F8900705ACA /* SignInUserFirebaseErrorAdapter.swift in Sources */,
 				1C40D8B01FFD354B006D5BE4 /* UserDataSource.swift in Sources */,
 				1C30D7182009658D00E0A501 /* GameDataSource.swift in Sources */,
 				2EE4A3BE212CABEE00380467 /* GameSuggestionMapper.swift in Sources */,
+				2ED3F5FF214DA12000A715E0 /* Assembly+Service.swift in Sources */,
 				1C913A351FF2B65300646884 /* Endpoint.swift in Sources */,
 				2E71A8E82131572E009D24A9 /* GetProductExtrasAlgoliaAction.swift in Sources */,
 				2EE4A3BB212CA63C00380467 /* Algolia+Rx.swift in Sources */,
 				1C40D8B81FFD369B006D5BE4 /* EmptyResponse.swift in Sources */,
 				2E2F7ABC2129F71600CDED0F /* RegisterUserFirebaseErrorAdapter.swift in Sources */,
-				1C913A1A1FF0656800646884 /* AuthService.swift in Sources */,
 				1C40D8BA1FFD38CA006D5BE4 /* Assembly+Moya.swift in Sources */,
 				2EE4A3B8212CA55800380467 /* GameAlgoliaDataSource.swift in Sources */,
 				1C913A291FF0670300646884 /* AuthRepository.swift in Sources */,
+				2ED3F5FD214C555300A715E0 /* Storage+Rx.swift in Sources */,
 				2EE4A3B5212C9D0F00380467 /* Algolia.swift in Sources */,
-				1CB6495C2009C9CA009B7CC1 /* ImageApiDataSource.swift in Sources */,
 				2EB2B144212B2EF500705ACA /* AuthFirebaseDataSource.swift in Sources */,
 				1C913A3B1FF2BA8B00646884 /* TargetType+Default.swift in Sources */,
 				2E2F7AC12129FA1B00CDED0F /* Assembly+User.swift in Sources */,

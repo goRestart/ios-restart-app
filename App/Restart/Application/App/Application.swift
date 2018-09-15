@@ -1,7 +1,5 @@
-import UIKit
-import Core
 import Data
-import Listing
+import Firebase
 
 final class Application: NSObject, UIApplicationDelegate {
   
@@ -17,12 +15,19 @@ final class Application: NSObject, UIApplicationDelegate {
   }
   
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-    
-    DataModule.start()
-    
+
     window?.rootViewController =  tabBarControllerProvider.makeTabBarController()
     window?.makeKeyAndVisible()
 
+    initializeModules()
+    
     return true
+  }
+  
+  private func initializeModules() {
+    FirebaseApp.configure()
+    
+    let storage = Storage.storage()
+    DataModule.shared.initialize(with: storage)
   }
 }

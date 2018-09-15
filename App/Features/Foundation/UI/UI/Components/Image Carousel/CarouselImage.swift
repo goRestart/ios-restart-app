@@ -1,9 +1,10 @@
 import IGListKit
-import UIKit
+import Domain
 
 public final class CarouselImage: ListDiffable {
   public let url: URL?
   public let image: UIImage?
+  private let identifier = Identifier<CarouselImage>()
   
   public init(url: URL? = nil, image: UIImage? = nil) {
     self.url = url
@@ -17,6 +18,6 @@ public final class CarouselImage: ListDiffable {
   }
   
   public func diffIdentifier() -> NSObjectProtocol {
-    return "\(String(describing: url?.absoluteString.hashValue))\(String(describing: image?.hash))" as NSObjectProtocol
+    return identifier.value as NSObjectProtocol
   }
 }

@@ -1,7 +1,12 @@
-import FirebaseCore
+import Firebase
 
-public struct DataModule {
-  public static func start() {
+public final class DataModule {
+  public static let shared = DataModule()
+
+  var storage: Storage?
+  
+  public func initialize(with storage: Storage) {
+    self.storage = storage
     FirebaseApp.configure()
   }
 }
