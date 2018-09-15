@@ -154,7 +154,7 @@ final class FeedViewController: BaseViewController {
             buttonImages.append(filterButtonImages)
             selectors.append(#selector(filtersButtonPressed))
         if viewModel.shouldShowAffiliateButton {
-            let affiliateButtonImages =  ButtonImage(normal: R.Asset.IconsButtons.icCloseDark.image)
+            let affiliateButtonImages =  ButtonImage(normal: R.Asset.Affiliation.affiliationIcon.image.tint(color: UIColor.primaryColor))
             buttonImages.append(affiliateButtonImages)
             selectors.append(#selector(AffiliationButtonPressed))
         }
