@@ -267,6 +267,7 @@
 "chat_verify_alert_title" = "Vérifiez votre email pour chatter";
 "chat_with_yourself_alert_msg" = "Vous ne pouvez pas démarrer une conversation à propos de votre propre annonce.";
 "click_to_talk_smoketest_action_button" = "Commencez";
+"click_to_talk_smoketest_banner_title" = "Introducing \"Click to Talk\"";
 "click_to_talk_smoketest_description" = "Entrez rapidement en contact avec vos acheteurs les plus intéressés et vendez vos produits deux fois plus vite.";
 "click_to_talk_smoketest_subtitle" = "Recevez des appels";
 "click_to_talk_smoketest_title" = "Cliquez pour Parler";

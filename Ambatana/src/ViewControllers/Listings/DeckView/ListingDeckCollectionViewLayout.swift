@@ -50,7 +50,7 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
     private var itemsCount: Int { return collectionView?.numberOfItems(inSection: 0) ?? Defaults.itemsCount }
 
     var page: Int { return Int(normalizedPageOffset(givenOffset: collectionView?.contentOffset.x ?? Defaults.offset)) }
-    var interitemSpacing: CGFloat { return cellLayout.insets.left / 2.0 }
+    var interitemSpacing: CGFloat { return FeatureFlags.sharedInstance.interitemSpacing(cellLayout: cellLayout) }
     var visibleWidth: CGFloat {
         get {
             guard let view = collectionView, view.bounds.size != .zero else { return Defaults.visibleWidth }
@@ -123,7 +123,7 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
 
     // Method that returns the anchor offset for a given page
     func anchorOffsetForPage(_ page: Int) -> CGPoint {
-        let target = CGFloat(page) * (cellWidth + cellLayout.insets.left / 2)
+        let target = CGFloat(page) * (cellWidth + interitemSpacing)
         return CGPoint(x: target, y: 0)
     }
 
@@ -202,7 +202,7 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
 
     private func update(attributes: UICollectionViewLayoutAttributes, forItemAt indexPath: IndexPath) {
         attributes.zIndex = indexPath.row
-        let x = CGFloat(indexPath.row) * (cellWidth + cellLayout.insets.left / 2) + cellLayout.insets.left
+        let x = CGFloat(indexPath.row) * (cellWidth + interitemSpacing) + cellLayout.insets.left
         let yOffset = yInsetForItem(withInitialX: x)
         attributes.frame = CGRect(x: x, y: yOffset, width: cellWidth, height: cellHeight)
         attributes.alpha = alphaForItem(withInitialX: x)
@@ -214,5 +214,15 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
     //     Return true so that the layout is continuously invalidated as the user scrolls
     override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
         return true
+    }
+}
+
+private extension FeatureFlags {
+    func interitemSpacing(cellLayout: ListingDeckCellLayout) -> CGFloat {
+        if deckItemPage == .buttonWithoutLaterals || deckItemPage == .infoWithoutLaterals {
+            return cellLayout.insets.left
+        } else {
+            return cellLayout.insets.left / 2
+        }
     }
 }

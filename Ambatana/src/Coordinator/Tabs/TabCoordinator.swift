@@ -23,8 +23,6 @@ class TabCoordinator: NSObject, Coordinator {
     lazy var userNavigator = UserWireframe(nc: navigationController)
     lazy var chatNavigator = ChatWireframe(nc: navigationController)
 
-    var deckAnimator: DeckAnimator?
-
     let listingRepository: ListingRepository
     let userRepository: UserRepository
     let chatRepository: ChatRepository
@@ -43,8 +41,6 @@ class TabCoordinator: NSObject, Coordinator {
 
     weak var tabCoordinatorDelegate: TabCoordinatorDelegate?
     weak var appNavigator: AppNavigator?
-
-    fileprivate var interactiveTransitioner: UIPercentDrivenInteractiveTransition?
 
     // MARK: - Lifecycle
 
@@ -294,8 +290,6 @@ extension TabCoordinator: UINavigationControllerDelegate {
         } else if let animator = (fromVC as? AnimatableTransition)?.animator, operation == .pop {
             animator.pushing = false
             return animator
-        } else if let transitioner = deckAnimator?.animatedTransitionings(for: operation, from: fromVC, to: toVC) {
-            return transitioner
         } else {
             return nil
         }
@@ -312,27 +306,10 @@ extension TabCoordinator: UINavigationControllerDelegate {
                               didShow viewController: UIViewController, animated: Bool) {
         if let main = viewController as? MainListingsViewController {
             main.tabBarController?.setTabBarHidden(false, animated: true)
-        } else if let photoViewer = viewController as? PhotoViewerViewController {
-            let leftGesture = UIScreenEdgePanGestureRecognizer(target: self,
-                                                               action: #selector(handlePhotoViewerEdgeGesture))
-            leftGesture.edges = .left
-            photoViewer.addEdgeGesture([leftGesture])
         }
         tabCoordinatorDelegate?.tabCoordinator(self,
                                                setSellButtonHidden: shouldHideSellButtonAtViewController(viewController),
                                                animated: true)
     }
 
-    @objc func handlePhotoViewerEdgeGesture(gesture: UIScreenEdgePanGestureRecognizer) {
-        deckAnimator?.handlePhotoViewerEdgeGesture(gesture)
-    }
-
-    func navigationController(_ navigationController: UINavigationController,
-                              interactionControllerFor animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        if let animator = animationController as? PhotoViewerTransitionAnimator,
-            animator.isInteractive {
-            return deckAnimator?.interactiveTransitioner
-        }
-        return nil
-    }
 }

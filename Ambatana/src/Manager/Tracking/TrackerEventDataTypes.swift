@@ -38,8 +38,6 @@ enum EventName: String {
     case listingDetailVisit                 = "product-detail-visit"
     case listingDetailVisitMoreInfo         = "product-detail-visit-more-info"
     case listingNotAvailable                = "product-not-available"
-    case listingVisitPhotoViewer            = "product-visit-photo-viewer"
-    case listingVisitPhotoChat              = "product-visit-photo-chat"
 
     case listingFavorite                    = "product-detail-favorite"
     case listingShare                       = "product-detail-share"
@@ -404,7 +402,6 @@ enum EventParameterName: String {
     case chatsDeleted         = "chats-deleted"
     case chatContainsEmoji    = "contain-emoji"
     case inactiveConversations = "inactive-conversations"
-    case photoViewerNumberOfPhotos   = "number-photos"
     case abandonStep          = "abandon-step"
     case searchAlertSource    = "alert-source"
     case sellerReputationBadge = "seller-reputation-badge"

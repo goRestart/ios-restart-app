@@ -267,6 +267,7 @@
 "chat_verify_alert_title" = "Vahvista sähköpostiosoitteesi keskustellaksesi";
 "chat_with_yourself_alert_msg" = "Et voi aloittaa keskustelua omasta ilmoituksestasi.";
 "click_to_talk_smoketest_action_button" = "Aloita";
+"click_to_talk_smoketest_banner_title" = "Introducing \"Click to Talk\"";
 "click_to_talk_smoketest_description" = "Saa yhteys kiinnostuneimpiin ostajiin nopeasti ja myy tavarasi tuplasti nopeammin.";
 "click_to_talk_smoketest_subtitle" = "Ota vastaan puheluita";
 "click_to_talk_smoketest_title" = "Paina puhuaksesi";

@@ -3875,53 +3875,6 @@ class TrackerEventSpec: QuickSpec {
                     expect(productId).to(equal(product.objectId))
                 }
             }
-
-            describe("listingVisitPhotoViewer") {
-                it("has its event name") {
-                    let product = MockProduct.makeMock()
-                    sut = TrackerEvent.listingVisitPhotoViewer(.product(product),
-                                                               source: .listingList,
-                                                               numberOfPictures: 5)
-                    expect(sut.name.rawValue).to(equal("product-visit-photo-viewer"))
-                }
-                it("has related-source param") {
-                    let source = sut.params?.stringKeyParams["visit-source"] as? String
-                    expect(source) == "product-list"
-                }
-                it("contains the product id") {
-                    let product = MockProduct.makeMock()
-                    sut = TrackerEvent.listingVisitPhotoChat(.product(product),
-                                                             source: .listingList)
-
-                    expect(sut.params).notTo(beNil())
-                    expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
-                    let productId = sut.params!.stringKeyParams["product-id"] as? String
-                    expect(productId).to(equal(product.objectId))
-                }
-            }
-
-            describe("listingVisitPhotoChat") {
-                it("has its event name") {
-                    let product = MockProduct.makeMock()
-                    sut = TrackerEvent.listingVisitPhotoChat(Listing.product(product),
-                                                             source: .listingList)
-                    expect(sut.name.rawValue).to(equal("product-visit-photo-chat"))
-                }
-                it("has related-source param") {
-                    let source = sut.params?.stringKeyParams["visit-source"] as? String
-                    expect(source) == "product-list"
-                }
-                it("contains the product id") {
-                    let product = MockProduct.makeMock()
-                    sut = TrackerEvent.listingVisitPhotoChat(Listing.product(product),
-                                                             source: .listingList)
-
-                    expect(sut.params).notTo(beNil())
-                    expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
-                    let productId = sut.params!.stringKeyParams["product-id"] as? String
-                    expect(productId).to(equal(product.objectId))
-                }
-            }
             
             describe("relatedListings") {
                 beforeEach {

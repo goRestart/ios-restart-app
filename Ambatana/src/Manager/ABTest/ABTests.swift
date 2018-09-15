@@ -237,6 +237,7 @@ extension ABTests {
     var predictivePosting: LeanplumABVariable<Int> { return products.predictivePosting }
     var videoPosting: LeanplumABVariable<Int> { return products.videoPosting }
     var simplifiedChatButton: LeanplumABVariable<Int> { return products.simplifiedChatButton }
+    var deckItemPage: LeanplumABVariable<Int> { return products.deckItemPage }
     var frictionlessShare: LeanplumABVariable<Int> { return products.frictionlessShare }
     var turkeyFreePosting: LeanplumABVariable<Int> { return products.turkeyFreePosting }
 }
@@ -246,6 +247,5 @@ extension ABTests {
 extension ABTests {
     var locationDataSourceType: LeanplumABVariable<Int> { return legacy.locationDataSourceType }
     var realEstateEnabled: LeanplumABVariable<Int> { return legacy.realEstateEnabled }
-    var deckItemPage: LeanplumABVariable<Int> { return legacy.newItemPage }
     var showAdsInFeedWithRatio: LeanplumABVariable<Int> { return legacy.showAdsInFeedWithRatio }
 }

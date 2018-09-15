@@ -16,7 +16,8 @@ protocol FeatureFlaggeable: class {
     func variablesUpdated()
 
     var realEstateEnabled: RealEstateEnabled { get }
-    var deckItemPage: DeckItemPage { get }
+    var deckItemPage: NewItemPageV3 { get }
+
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio { get }
     var realEstateNewCopy: RealEstateNewCopy { get }
     var searchImprovements: SearchImprovements { get }
@@ -187,16 +188,16 @@ extension RealEstatePromoCells {
     var isActive: Bool { return self != .control && self != .baseline }
 }
 
+extension NewItemPageV3 {
+    var isActive: Bool { return self != .control && self != .baseline }
+}
+
 extension ProUsersExtraImages {
     var isActive: Bool { return self != .control && self != .baseline }
 }
 
 extension ClickToTalk {
     var isActive: Bool { return self != .control && self != .baseline }
-}
-
-extension DeckItemPage {
-    var isActive: Bool {get { return self == .active }}
 }
 
 extension CopyForChatNowInTurkey {
@@ -509,11 +510,11 @@ final class FeatureFlags: FeatureFlaggeable {
         return RealEstateEnabled.fromPosition(abTests.realEstateEnabled.value)
     }
 
-    var deckItemPage: DeckItemPage {
+    var deckItemPage: NewItemPageV3 {
         if Bumper.enabled {
-            return Bumper.deckItemPage
+            return Bumper.newItemPageV3
         }
-        return DeckItemPage.fromPosition(abTests.deckItemPage.value)
+        return NewItemPageV3.fromPosition(abTests.deckItemPage.value)
     }
 
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio {

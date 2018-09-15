@@ -267,6 +267,7 @@
 "chat_verify_alert_title" = "Xác nhận email của bạn để trò chuyện";
 "chat_with_yourself_alert_msg" = "Bạn không thể bắt đầu cuộc trò chuyện về bài đăng của chính mình.";
 "click_to_talk_smoketest_action_button" = "Bắt đầu";
+"click_to_talk_smoketest_banner_title" = "Introducing \"Click to Talk\"";
 "click_to_talk_smoketest_description" = "Nhanh chóng kết nói với những người mua quan tâm nhất và bán đồ của bạn nhanh gấp đôi.";
 "click_to_talk_smoketest_subtitle" = "Nhận cuộc gọi";
 "click_to_talk_smoketest_title" = "Nhấp để Trò chuyện";

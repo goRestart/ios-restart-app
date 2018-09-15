@@ -267,6 +267,7 @@
 "chat_verify_alert_title" = "Επιβεβαιώστε το email σας για να συνομιλήσετε";
 "chat_with_yourself_alert_msg" = "Δεν μπορείτε να ξεκινήσετε μια συζήτηση για μια δική σας καταχώρηση.";
 "click_to_talk_smoketest_action_button" = "Ξεκινήστε";
+"click_to_talk_smoketest_banner_title" = "Introducing \"Click to Talk\"";
 "click_to_talk_smoketest_description" = "Ελάτε σε επικοινωνία με τους πιο ενδιαφέροντες αγοραστές άμεσα και πουλήστε τα αντικείμενά σας ακόμη πιο γρήγορα.";
 "click_to_talk_smoketest_subtitle" = "Λάβετε κλήσεις";
 "click_to_talk_smoketest_title" = "Κάντε κλικ για Συνομιλία";

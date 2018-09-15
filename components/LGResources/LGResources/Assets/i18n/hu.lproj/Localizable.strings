@@ -267,6 +267,7 @@
 "chat_verify_alert_title" = "A csevegéshez igazold vissza e-mail címedet";
 "chat_with_yourself_alert_msg" = "A saját hirdetésedről nem indíthatsz csevegést.";
 "click_to_talk_smoketest_action_button" = "Első lépések";
+"click_to_talk_smoketest_banner_title" = "Introducing \"Click to Talk\"";
 "click_to_talk_smoketest_description" = "Pillanatok alatt kapcsolatba léphetsz a legesélyesebb vásárlóval, és akár kétszer gyorsabban nyélbe ütheted az üzletet.";
 "click_to_talk_smoketest_subtitle" = "Hívásfogadás";
 "click_to_talk_smoketest_title" = "A beszédhez kattints";

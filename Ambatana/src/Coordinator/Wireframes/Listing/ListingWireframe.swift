@@ -14,7 +14,6 @@ final class ListingWireframe {
 
     private let tracker: Tracker
     private let featureFlags: FeatureFlaggeable
-    var deckAnimator: DeckAnimator?
 
     convenience init(nc: UINavigationController) {
         self.init(nc: nc,
@@ -87,8 +86,10 @@ final class ListingWireframe {
         let cellModels = feedListingDataArray.map { ListingCellModel.init(listing: $0.listing) }
         let requester = FilteredListingListRequester(itemsPerPage: SharedConstants.numListingsPerPageDefault,
                                                      offset: 0)
+        let navigator = ListingDetailWireframe(nc: nc)
         let vm = ListingCarouselViewModel(productListModels: cellModels,
                                           initialListing: listing,
+                                          viewModelMaker: ListingViewModel.ConvenienceMaker(detailNavigator: navigator),
                                           thumbnailImage: thumbnailImage,
                                           listingListRequester: requester,
                                           source: source,
@@ -185,7 +186,9 @@ final class ListingWireframe {
                                    actionOnFirstAppear: actionOnFirstAppear,
                                    trackingIndex: nil)
         } else {
+            let navigator = ListingDetailWireframe(nc: nc)
             let vm = ListingCarouselViewModel(listing: listing,
+                                              viewModelMaker: ListingViewModel.ConvenienceMaker(detailNavigator: navigator),
                                               thumbnailImage: thumbnailImage,
                                               listingListRequester: requester,
                                               source: source,
@@ -216,8 +219,10 @@ final class ListingWireframe {
                                    actionOnFirstAppear: .nonexistent,
                                    trackingIndex: index)
         } else {
+            let navigator = ListingDetailWireframe(nc: nc)
             let vm = ListingCarouselViewModel(productListModels: cellModels,
                                               initialListing: listing,
+                                              viewModelMaker: ListingViewModel.ConvenienceMaker(detailNavigator: navigator),
                                               thumbnailImage: thumbnailImage,
                                               listingListRequester: requester,
                                               source: source,
@@ -258,7 +263,9 @@ final class ListingWireframe {
                                    listingListRequester: requester,
                                    source: source)
         } else {
+            let navigator = ListingDetailWireframe(nc: nc)
             let vm = ListingCarouselViewModel(listing: .product(localProduct),
+                                              viewModelMaker: ListingViewModel.ConvenienceMaker(detailNavigator: navigator),
                                               listingListRequester: requester,
                                               source: source,
                                               actionOnFirstAppear: .nonexistent,
@@ -298,25 +305,15 @@ final class ListingWireframe {
                                 source: EventParameterListingVisitSource,
                                 actionOnFirstAppear: DeckActionOnFirstAppear,
                                 trackingIndex: Int?) {
-        if deckAnimator == nil {
-            let coordinator = DeckCoordinator(withNavigationController: nc)
-            deckAnimator = coordinator
-        }
-
-        let viewModel = ListingDeckViewModel(listModels: cellModels ?? [],
-                                             listing: listing,
-                                             listingListRequester: requester,
-                                             source: source,
-                                             detailNavigator: detailNavigator,
-                                             actionOnFirstAppear: actionOnFirstAppear,
-                                             trackingIndex: trackingIndex,
-                                             trackingIdentifier: nil)
-
-        let deckViewController = ListingDeckViewController(viewModel: viewModel)
-        viewModel.delegate = deckViewController
-
-        deckAnimator?.setupWith(viewModel: viewModel)
-        nc.pushViewController(deckViewController, animated: true)
+        let vc = ListingBuilder.standard(nc).buildDeck(with: listing,
+                                                       thumbnailImage: thumbnailImage,
+                                                       listings: cellModels,
+                                                       requester: requester,
+                                                       source: source,
+                                                       onFirstAppear: actionOnFirstAppear,
+                                                       trackingIndex: trackingIndex,
+                                                       trackingIdentifier: nil)
+        nc.pushViewController(vc, animated: true)
     }
 
     func openUser(userId: String, source: UserSource) {

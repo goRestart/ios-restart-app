@@ -3,14 +3,20 @@ import Foundation
 import RxSwift
 
 final class MockFeatureFlags: FeatureFlaggeable {
- 
     var trackingData: Observable<[(String, ABGroup)]?> {
         return trackingDataVar.asObservable()
     }
     func variablesUpdated() {}
     let trackingDataVar = Variable<[(String, ABGroup)]?>(nil)
 
-    var deckItemPage: DeckItemPage = .control
+    var surveyUrl: String = ""
+    var surveyEnabled: Bool = false
+
+    var newCarsMultiRequesterEnabled: Bool = false
+    var inAppRatingIOS10: Bool = false
+    var userReviewsReportEnabled: Bool = true
+
+    var deckItemPage: NewItemPageV3 = .control
     var realEstateEnabled: RealEstateEnabled = .control
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio = .control
     var realEstateNewCopy: RealEstateNewCopy = .control

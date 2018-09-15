@@ -267,6 +267,7 @@
 "chat_verify_alert_title" = "Подтвердите ваш е-мейл для общения";
 "chat_with_yourself_alert_msg" = "Вы не можете начать чат о своем объявлении.";
 "click_to_talk_smoketest_action_button" = "Начать";
+"click_to_talk_smoketest_banner_title" = "Introducing \"Click to Talk\"";
 "click_to_talk_smoketest_description" = "Быстро связывайтесь с наиболее заинтересованными покупателями и продавайте товары в два раза быстрее.";
 "click_to_talk_smoketest_subtitle" = "Получайте звонки";
 "click_to_talk_smoketest_title" = "Нажмите для разговора";

@@ -65,11 +65,17 @@ final class ListingCarouselVideoCell: UICollectionViewCell, ReusableCell {
     }
 
     private func setupRx() {
-        videoPreview.rx_progress.asDriver().drive(onNext: { [weak self] progress in
-            guard let strongSelf = self else { return }
-            strongSelf.delegate?.didChangeVideoProgress(progress: progress, pageAtIndex: strongSelf.position)
+        videoPreview
+            .rx_progress
+            .asDriver()
+            .drive(onNext: { [weak self] progress in
+                guard let strongSelf = self else { return }
+                strongSelf.delegate?.didChangeVideoProgress(progress: progress, pageAtIndex: strongSelf.position)
         }).disposed(by: disposeBag)
-        videoPreview.rx_status.subscribeNext { [weak self] status in
+        videoPreview
+            .rx
+            .status
+            .subscribeNext { [weak self] status in
             guard let strongSelf = self else { return }
             DispatchQueue.main.async {
                 strongSelf.delegate?.didChangeVideoStatus(status: status, pageAtIndex: strongSelf.position)

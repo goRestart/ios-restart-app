@@ -267,6 +267,7 @@
 "chat_verify_alert_title" = "Mesajlaşmak için e-postanı doğrula";
 "chat_with_yourself_alert_msg" = "Sana ait bir ilan hakkında bir sohbet başlatamazsın.";
 "click_to_talk_smoketest_action_button" = "Başla";
+"click_to_talk_smoketest_banner_title" = "Introducing \"Click to Talk\"";
 "click_to_talk_smoketest_description" = "En ilgilenen alıcılara çabucak bağlan ve ürünlerini iki kat daha hızlı sat.";
 "click_to_talk_smoketest_subtitle" = "Arama kabul et";
 "click_to_talk_smoketest_title" = "Konuşmak için tıkla";

@@ -23,7 +23,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
     override func spec() {
         var sut: ListingCarouselViewModel!
 
-        var listingViewModelMaker: MockListingViewModelMaker!
+        var listingViewModelAssembly: MockListingViewModelAssembly!
         var listingListRequester: MockListingListRequester!
         var keyValueStorage: MockKeyValueStorage!
         var imageDownloader: MockImageDownloader!
@@ -79,8 +79,10 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                 if let initialProduct = initialProduct {
                     initialListing = .product(initialProduct)
                 }
+                let nc = UINavigationController()
                 sut = ListingCarouselViewModel(productListModels: productListModels,
                                                initialListing: initialListing,
+                                               viewModelMaker: listingViewModelAssembly,
                                                thumbnailImage: nil,
                                                listingListRequester: listingListRequester,
                                                source: source,
@@ -92,7 +94,6 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                                                featureFlags: featureFlags,
                                                keyValueStorage: keyValueStorage,
                                                imageDownloader: imageDownloader,
-                                               listingViewModelMaker: listingViewModelMaker,
                                                adsRequester: AdsRequester(),
                                                locationManager: locationManager,
                                                myUserRepository: myUserRepository,
@@ -142,7 +143,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                 keyValueStorage = MockKeyValueStorage()
                 imageDownloader = MockImageDownloader()
 
-                listingViewModelMaker = MockListingViewModelMaker(myUserRepository: myUserRepository,
+                listingViewModelAssembly = MockListingViewModelAssembly(myUserRepository: myUserRepository,
                                                                   userRepository: userRepository,
                                                                   listingRepository: listingRepository,
                                                                   chatWrapper: chatWrapper,

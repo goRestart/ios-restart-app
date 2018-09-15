@@ -56,7 +56,7 @@ enum AdRequestQueryType {
     }
 }
 
-class ListingCarouselViewModel: BaseViewModel {
+final class ListingCarouselViewModel: BaseViewModel {
 
     // Paginable
     let firstPage: Int = 0
@@ -164,7 +164,7 @@ class ListingCarouselViewModel: BaseViewModel {
     private var productsViewModels: [String: ListingViewModel] = [:]
     private let keyValueStorage: KeyValueStorageable
     private let imageDownloader: ImageDownloaderType
-    private let listingViewModelMaker: ListingViewModelMaker
+    private let listingViewModelAssembly: ListingViewModelAssembly
     let featureFlags: FeatureFlaggeable
     private let locationManager: LocationManager
     private let myUserRepository: MyUserRepository
@@ -243,6 +243,7 @@ class ListingCarouselViewModel: BaseViewModel {
     // MARK: - Init
 
     convenience init(listing: Listing,
+                     viewModelMaker: ListingViewModelAssembly,
                      listingListRequester: ListingListRequester,
                      source: EventParameterListingVisitSource,
                      actionOnFirstAppear: ProductCarouselActionOnFirstAppear,
@@ -250,6 +251,7 @@ class ListingCarouselViewModel: BaseViewModel {
                      sectionIndex: UInt?) {
         self.init(productListModels: nil,
                   initialListing: listing,
+                  viewModelMaker: viewModelMaker,
                   thumbnailImage: nil,
                   listingListRequester: listingListRequester,
                   source: source,
@@ -261,6 +263,7 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     convenience init(listing: Listing,
+                     viewModelMaker: ListingViewModelAssembly,
                      thumbnailImage: UIImage?,
                      listingListRequester: ListingListRequester,
                      source: EventParameterListingVisitSource,
@@ -269,6 +272,7 @@ class ListingCarouselViewModel: BaseViewModel {
                      sectionIndex: UInt?) {
         self.init(productListModels: nil,
                   initialListing: listing,
+                  viewModelMaker: viewModelMaker,
                   thumbnailImage: thumbnailImage,
                   listingListRequester: listingListRequester,
                   source: source,
@@ -281,6 +285,7 @@ class ListingCarouselViewModel: BaseViewModel {
 
     convenience init(productListModels: [ListingCellModel]?,
                      initialListing: Listing?,
+                     viewModelMaker: ListingViewModelAssembly,
                      thumbnailImage: UIImage?,
                      listingListRequester: ListingListRequester,
                      source: EventParameterListingVisitSource,
@@ -291,6 +296,7 @@ class ListingCarouselViewModel: BaseViewModel {
                      firstProductSyncRequired: Bool) {
         self.init(productListModels: productListModels,
                   initialListing: initialListing,
+                  viewModelMaker: viewModelMaker,
                   thumbnailImage: thumbnailImage,
                   listingListRequester: listingListRequester,
                   source: source,
@@ -302,7 +308,6 @@ class ListingCarouselViewModel: BaseViewModel {
                   featureFlags: FeatureFlags.sharedInstance,
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   imageDownloader: ImageDownloader.sharedInstance,
-                  listingViewModelMaker: ListingViewModel.ConvenienceMaker(),
                   adsRequester: AdsRequester(),
                   locationManager: Core.locationManager,
                   myUserRepository: Core.myUserRepository,
@@ -311,6 +316,7 @@ class ListingCarouselViewModel: BaseViewModel {
 
     init(productListModels: [ListingCellModel]?,
          initialListing: Listing?,
+         viewModelMaker: ListingViewModelAssembly,
          thumbnailImage: UIImage?,
          listingListRequester: ListingListRequester,
          source: EventParameterListingVisitSource,
@@ -322,7 +328,6 @@ class ListingCarouselViewModel: BaseViewModel {
          featureFlags: FeatureFlaggeable,
          keyValueStorage: KeyValueStorageable,
          imageDownloader: ImageDownloaderType,
-         listingViewModelMaker: ListingViewModelMaker,
          adsRequester: AdsRequester,
          locationManager: LocationManager,
          myUserRepository: MyUserRepository,
@@ -348,7 +353,7 @@ class ListingCarouselViewModel: BaseViewModel {
         self.actionOnFirstAppear = actionOnFirstAppear
         self.keyValueStorage = keyValueStorage
         self.imageDownloader = imageDownloader
-        self.listingViewModelMaker = listingViewModelMaker
+        self.listingViewModelAssembly = viewModelMaker
         self.featureFlags = featureFlags
         self.adsRequester = adsRequester
         self.locationManager = locationManager
@@ -441,11 +446,6 @@ class ListingCarouselViewModel: BaseViewModel {
 
     func userAvatarPressed() {
         currentListingViewModel?.openProductOwnerProfile()
-    }
-
-    func videoButtonTapped() {
-        currentListingViewModel?.openVideoPlayer(atIndex: 0, source: source)
-        currentListingViewModel?.trackPlayVideo(source: source)
     }
 
     func directMessagesItemPressed() {
@@ -663,7 +663,7 @@ class ListingCarouselViewModel: BaseViewModel {
         if let vm = productsViewModels[listingId] {
             return vm
         }
-        let vm = listingViewModelMaker.make(listing: listing, visitSource: source)
+        let vm = listingViewModelAssembly.build(listing: listing, visitSource: source)
         vm.navigator = navigator
         productsViewModels[listingId] = vm
         return vm
