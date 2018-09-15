@@ -12,12 +12,8 @@ public struct Identifier<Element>: Equatable, Hashable {
     self.init(identifier.value)
   }
   
-  public init(_ uuid: UUID) {
+  public init(_ uuid: UUID = UUID()) {
     self.value = uuid.uuidString
-  }
-  
-  public static func make() -> Identifier<Element> {
-    return Identifier(UUID())
   }
 }
 

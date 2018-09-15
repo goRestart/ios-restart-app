@@ -2,7 +2,7 @@ import RxSwift
 import FirebaseAuth
 
 extension Reactive where Base: Auth {
-  public func createUser(email: String, password: String) -> Single<AuthDataResult> {
+  func createUser(email: String, password: String) -> Single<AuthDataResult> {
     return Single.create { event in
       Auth.auth().createUser(withEmail: email, password: password, completion: { (result, error) in
         if let result = result {
@@ -16,7 +16,7 @@ extension Reactive where Base: Auth {
     }
   }
   
-  public func signIn(email: String, password: String) -> Single<AuthDataResult> {
+  func signIn(email: String, password: String) -> Single<AuthDataResult> {
     return Single.create { event in
       Auth.auth().signIn(withEmail: email, password: password, completion: { (result, error) in
         if let result = result {

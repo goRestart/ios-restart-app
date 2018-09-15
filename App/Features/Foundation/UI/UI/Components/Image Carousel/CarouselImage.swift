@@ -4,7 +4,7 @@ import Domain
 public final class CarouselImage: ListDiffable {
   public let url: URL?
   public let image: UIImage?
-  private let identifier = Identifier<CarouselImage>.make()
+  private let identifier = Identifier<CarouselImage>()
   
   public init(url: URL? = nil, image: UIImage? = nil) {
     self.url = url
