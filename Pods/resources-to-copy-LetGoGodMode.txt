@@ -1,2 +1,0 @@
-/Users/facundo.menzella/Desktop/workspace/letgo-ios/Pods/GoogleSignIn/Resources/GoogleSignIn.bundle
-/Users/facundo.menzella/Library/Developer/Xcode/DerivedData/LetGo-dyzpzwkdijlifqagxtxuoklkxacs/Build/Products/Debug-iphonesimulator/LGComponents/LGResourcesBundle.bundle

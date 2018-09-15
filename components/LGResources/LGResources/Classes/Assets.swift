@@ -59,6 +59,7 @@ extension R {
       public static let allValues: [AssetType] = allImages
     }
     public enum BackgroundsAndImages {
+      public static let affStoreBackground = ImageAsset(name: "aff_store_background")
       public static let bg1New = ImageAsset(name: "bg_1_new")
       public static let bg2New = ImageAsset(name: "bg_2_new")
       public static let bg3New = ImageAsset(name: "bg_3_new")
@@ -95,6 +96,7 @@ extension R {
       public static let allColors: [ColorAsset] = [
       ]
       public static let allImages: [ImageAsset] = [
+        affStoreBackground,
         bg1New,
         bg2New,
         bg3New,

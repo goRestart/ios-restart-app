@@ -176,6 +176,14 @@
 		0A3AF6C5213D84B70034143B /* ListingDeckNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3AF6C4213D84B70034143B /* ListingDeckNavigator.swift */; };
 		0A3C143121232FBD00C836F7 /* PaymentFrequency+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C64DD44E211089CD003E5EC2 /* PaymentFrequency+LG.swift */; };
 		0A3F3FEB210B75A50070F6A1 /* DropdownSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C690704C21021E7A00AF27E4 /* DropdownSectionViewModel.swift */; };
+		0A45A879214BC66F0045ACFA /* AffiliationStoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45A878214BC66F0045ACFA /* AffiliationStoreViewController.swift */; };
+		0A45A87A214BC66F0045ACFA /* AffiliationStoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45A878214BC66F0045ACFA /* AffiliationStoreViewController.swift */; };
+		0A45A87C214BC6900045ACFA /* AffiliationStoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45A87B214BC6900045ACFA /* AffiliationStoreView.swift */; };
+		0A45A87D214BC6900045ACFA /* AffiliationStoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45A87B214BC6900045ACFA /* AffiliationStoreView.swift */; };
+		0A45A87F214BC7470045ACFA /* AffiliationStoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45A87E214BC7470045ACFA /* AffiliationStoreCell.swift */; };
+		0A45A880214BC7470045ACFA /* AffiliationStoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45A87E214BC7470045ACFA /* AffiliationStoreCell.swift */; };
+		0A45A882214BDCC50045ACFA /* AffiliationStoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45A881214BDCC50045ACFA /* AffiliationStoreViewModel.swift */; };
+		0A45A883214BDCC50045ACFA /* AffiliationStoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45A881214BDCC50045ACFA /* AffiliationStoreViewModel.swift */; };
 		0A45A875214ADD990045ACFA /* RxSwift+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45A874214ADD990045ACFA /* RxSwift+LG.swift */; };
 		0A45A876214ADDD00045ACFA /* RxSwift+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45A874214ADD990045ACFA /* RxSwift+LG.swift */; };
 		0A4766C91FC58DFF005B176F /* ListingCardViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6BAC1D1FC58D680008A703 /* ListingCardViewCellModel.swift */; };
@@ -2499,6 +2507,12 @@
 		0A2F52BF21232AC90034EF85 /* PromoteBumpBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoteBumpBuilder.swift; sourceTree = "<group>"; };
 		0A35E6E920FCDE49002701ED /* ListingCardMediaCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingCardMediaCarousel.swift; sourceTree = "<group>"; };
 		0A38625320EB7E8500DD997F /* LPMessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LPMessageViewModel.swift; sourceTree = "<group>"; };
+		0A3AF6C9213D89F30034143B /* NotificationCenterModularCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationCenterModularCell.swift; sourceTree = "<group>"; };
+		0A45A878214BC66F0045ACFA /* AffiliationStoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationStoreViewController.swift; sourceTree = "<group>"; };
+		0A45A87B214BC6900045ACFA /* AffiliationStoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationStoreView.swift; sourceTree = "<group>"; };
+		0A45A87E214BC7470045ACFA /* AffiliationStoreCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationStoreCell.swift; sourceTree = "<group>"; };
+		0A45A881214BDCC50045ACFA /* AffiliationStoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationStoreViewModel.swift; sourceTree = "<group>"; };
+		0A4766CA1FC5BB2A005B176F /* ProductStatusView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductStatusView.swift; sourceTree = "<group>"; };
 		0A3AF6B7213D46600034143B /* ListingFullDetailNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingFullDetailNavigator.swift; sourceTree = "<group>"; };
 		0A3AF6B9213D46D10034143B /* ListingFullDetailWireframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingFullDetailWireframe.swift; sourceTree = "<group>"; };
 		0A3AF6BE213D48480034143B /* ListingBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingBuilder.swift; sourceTree = "<group>"; };
@@ -3983,6 +3997,17 @@
 			);
 			path = PromoteBump;
 			sourceTree = "<group>";
+		};
+		0A45A877214BC6550045ACFA /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				0A45A878214BC66F0045ACFA /* AffiliationStoreViewController.swift */,
+				0A45A87B214BC6900045ACFA /* AffiliationStoreView.swift */,
+				0A45A87E214BC7470045ACFA /* AffiliationStoreCell.swift */,
+				0A45A881214BDCC50045ACFA /* AffiliationStoreViewModel.swift */,
+			);
+			path = Store;
+			sourceTree = "<group>";   
 		};
 		0A3AF6BD213D48410034143B /* Listing */ = {
 			isa = PBXGroup;
@@ -6118,6 +6143,7 @@
 		50D153E7214A5BE600221B06 /* Affiliation */ = {
 			isa = PBXGroup;
 			children = (
+				0A45A877214BC6550045ACFA /* Store */,
 				50D153E8214A5BE600221B06 /* AffiliationFAQViewController.swift */,
 				50D153E9214A5BE600221B06 /* AffiliationFAQViewModel.swift */,
 				50D153EA214A5BE600221B06 /* AffiliationChallengesViewController.swift */,
@@ -9157,6 +9183,7 @@
 				0A2F52C021232AC90034EF85 /* PromoteBumpBuilder.swift in Sources */,
 				0A6FED322130344000B57004 /* TourSkiperWireframe.swift in Sources */,
 				C7126BD91E6053AA00038CC4 /* ListingViewModelStatus.swift in Sources */,
+				0A45A882214BDCC50045ACFA /* AffiliationStoreViewModel.swift in Sources */,
 				3212AE2B2119DFB100945110 /* LocationSelectionSectionController.swift in Sources */,
 				8E8017982010B8F2004CE244 /* ChatInactiveConversationsListViewModel.swift in Sources */,
 				2E75EC531FA89F5B00C5F48F /* AdsRequester.swift in Sources */,
@@ -9283,6 +9310,7 @@
 				326C72D22088820F009D21DB /* WaterFallLayout.swift in Sources */,
 				0133D90E2139474B00AD9959 /* ShareScreenshotNavigator.swift in Sources */,
 				3237C69C21072A4400B7359B /* ErrorView.swift in Sources */,
+				0A45A87F214BC7470045ACFA /* AffiliationStoreCell.swift in Sources */,
 				0A0CCB1C208E670600DCFFCA /* ListingDeckVideoCell.swift in Sources */,
 				2ECB417E2008CC6900482EF7 /* AdvertisementCell.swift in Sources */,
 				2E92CBFE20248DC600451B65 /* SuggestedLocationCell.swift in Sources */,
@@ -9410,6 +9438,7 @@
 				C7E1DE541E51F644003818F6 /* DirectAnswersHorizontalView.swift in Sources */,
 				508AFB0A1E51D1BF0007363D /* AutocompleteField.swift in Sources */,
 				2E212C6520FCC55400FB42B3 /* ChatCallToActionCell.swift in Sources */,
+				0A45A879214BC66F0045ACFA /* AffiliationStoreViewController.swift in Sources */,
 				8E50205E212DAE0C008696B9 /* ChatCarouselCollectionCardCell.swift in Sources */,
 				727EF06F1E0BE6600037DA4E /* LGLocation+isAuto.swift in Sources */,
 				C6BEE65420EE6ED2008AEA0B /* ListingAttributeTableViewController.swift in Sources */,
@@ -9832,6 +9861,7 @@
 				4226B670211094110010CC92 /* FeedRequester.swift in Sources */,
 				C7F18A941C89CB3300D23319 /* PostListingGalleryView.swift in Sources */,
 				0A6FECF62130344000B57004 /* ListingDetailWireframe.swift in Sources */,
+				0A45A87C214BC6900045ACFA /* AffiliationStoreView.swift in Sources */,
 				0A751473214272570049E135 /* RateUserViewModel.swift in Sources */,
 				C7DE8ABA1C888750005CF37E /* ListingPostedViewController.swift in Sources */,
 				0A6FED242130344000B57004 /* ChangePasswordNavigator.swift in Sources */,
@@ -9935,6 +9965,8 @@
 				0AA7DB5C2110A7B800B2B657 /* DeeplinkMailBox.swift in Sources */,
 				0A3AF6BB213D477D0034143B /* ListingFullDetailNavigator.swift in Sources */,
 				C7F18AA01C89D62600D23319 /* GalleryImageCell.swift in Sources */,
+				0A45A883214BDCC50045ACFA /* AffiliationStoreViewModel.swift in Sources */,
+				0A60CAA71FB0C4EF00BE1EFE /* ListingCardUserView.swift in Sources */,
 				2E0F26511E0ACD5D00D97898 /* PurchaseableProductsRequestFactory.swift in Sources */,
 				42F0688220FF3A9A009AC898 /* DropdownCellViewModel.swift in Sources */,
 				C75B5DC81D59E09500112368 /* ListingDetailOnboardingView.swift in Sources */,
@@ -10065,6 +10097,7 @@
 				C7C61DFD1D630ED800F9505D /* CollectionCell.swift in Sources */,
 				0A8732DF21215C77006DEF11 /* SimpleListingBuilder.swift in Sources */,
 				C7B543251D6F49D1005FBA30 /* UIView+Screenshot.swift in Sources */,
+				0A45A87A214BC66F0045ACFA /* AffiliationStoreViewController.swift in Sources */,
 				2E212C6920FCDEE500FB42B3 /* ChatCallToActionCellDrawer.swift in Sources */,
 				50C59BDF1CE0DBC100377124 /* KeyValueStorage.swift in Sources */,
 				C7DE8ADD1C88A8E5005CF37E /* PostListingViewModel.swift in Sources */,
@@ -10136,6 +10169,7 @@
 				2EADE4E020514AF60089D9F8 /* PostingCategoriesPickViewController.swift in Sources */,
 				0A6FED092130344000B57004 /* BumpUpsModalWireframe.swift in Sources */,
 				427FCCD020C946D300E652ED /* UITableView+ReusableCell.swift in Sources */,
+				0A45A87D214BC6900045ACFA /* AffiliationStoreView.swift in Sources */,
 				0ACC843521357BC800803D66 /* TourNotificationPushWireframe.swift in Sources */,
 				C7126BDF1E6596A300038CC4 /* ListingVMUserInfo.swift in Sources */,
 				6A0D7344204D613500892663 /* EditUserBioViewModel.swift in Sources */,
@@ -10511,6 +10545,7 @@
 				50D15407214A5BFF00221B06 /* AffiliationChallengesBuilder.swift in Sources */,
 				2E28B12C1D99132D001BF8E4 /* Double+Rounding.swift in Sources */,
 				0A760FEF1FA08EFD0055F2B6 /* ListingDeckActionsView.swift in Sources */,
+				0A45A880214BC7470045ACFA /* AffiliationStoreCell.swift in Sources */,
 				01A0480B200CEF53008725A1 /* DailyCountIncrementer.swift in Sources */,
 				8EB650F32059279400FF50E4 /* MLPredictionDetailsViewCell.swift in Sources */,
 				0A6E56AF1F8E241000419DDC /* RelatedListingsViewModel.swift in Sources */,
