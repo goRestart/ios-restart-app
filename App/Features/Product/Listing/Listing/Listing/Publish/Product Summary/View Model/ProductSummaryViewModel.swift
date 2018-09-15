@@ -9,12 +9,16 @@ struct ProductSummaryViewModel: ProductSummaryViewModelType, ProductSummaryViewM
   
   private let getProductDraft: ProductDraftUseCase
   private let productDraftViewMapper: ProductDraftViewMapper
+  private let uploadProduct: UploadProductUseCase
+  private let bag = DisposeBag()
   
   init(getProductDraft: ProductDraftUseCase,
-       productDraftViewMapper: ProductDraftViewMapper)
+       productDraftViewMapper: ProductDraftViewMapper,
+       uploadProduct: UploadProductUseCase)
   {
     self.getProductDraft = getProductDraft
     self.productDraftViewMapper = productDraftViewMapper
+    self.uploadProduct = uploadProduct
   }
   
   // MARK: - Output
@@ -27,12 +31,18 @@ struct ProductSummaryViewModel: ProductSummaryViewModelType, ProductSummaryViewM
   // MARK: - Input
   
   func viewDidLoad() {
-    let storedProductDraft = getProductDraft.get()
-    guard let productDraftUIModel = try? productDraftViewMapper.map(storedProductDraft) else { return }
+    let productDraft = getProductDraft.get()
+    guard let productDraftUIModel = try? productDraftViewMapper.map(productDraft) else { return }
     productDraftRelay.accept(productDraftUIModel)
   }
   
   func publishButtonPressed() {
-    
+    let productDraft = getProductDraft.get()
+    uploadProduct.execute(with: productDraft)
+      .subscribe(onCompleted: {
+        print("Product uploaded correctly")
+      }) { error in
+        // TODO: Handle error
+    }.disposed(by: bag)
   }
 }

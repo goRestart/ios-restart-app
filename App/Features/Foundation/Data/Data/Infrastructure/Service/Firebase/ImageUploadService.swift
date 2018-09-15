@@ -3,6 +3,7 @@ import Firebase
  
 private enum Products {
   static let path = "products/"
+  static let file = "image"
 }
 
 public struct ImageUploadService {
@@ -16,12 +17,11 @@ public struct ImageUploadService {
   public func upload(_ images: [Data]) -> Single<[URL]> {
     let references = images.map { image -> (StorageReference, Data) in
       let folder = UUID().uuidString
-      let file = UUID().uuidString
-      
+
       let reference = storage
         .reference(withPath: Products.path)
         .child(folder)
-        .child(file)
+        .child(Products.file)
       
       return (reference, image)
     }
