@@ -261,9 +261,7 @@ final class ChatViewController: TextViewController {
             connectionStatusView.cornerRadius = ChatConnectionStatusView.standardHeight/2
             connectionStatusView.alpha = 0
         }
- 
-        // TODO: Feature flag payments
-        
+
         view.addSubviewForAutoLayout(chatPaymentBannerView)
         
         let chatPaymentBannerConstraints = [
@@ -661,20 +659,36 @@ fileprivate extension ChatViewController {
             .bind(to: viewModel.chatBoxText)
             .disposed(by: disposeBag)
         
-        
-        guard let buyerId = viewModel.buyerId, let sellerId = viewModel.sellerId, let listingId = viewModel.listingIdentifier else { return }
-            
-        let params = P2PPaymentStateParams(buyerId: buyerId, sellerId: sellerId, listingId: listingId)
+
+        viewModel.listingName.asObservable().subscribeNext { [weak viewModel, weak self] _ in
+            guard let viewModel = viewModel else { return }
+            guard let buyerId = viewModel.buyerId, let sellerId = viewModel.sellerId, let listingId = viewModel.listingIdentifier else { return }
+
+            let params = P2PPaymentStateParams(buyerId: buyerId, sellerId: sellerId, listingId: listingId)
+
+            self?.chatPaymentBannerView.configure(with: params)
+        }.disposed(by: disposeBag)
+
         let actionButtonEvent = chatPaymentBannerView
             .actionButtonEvent
             .asObservable()
-            .ignore(.none)
         
-        actionButtonEvent.subscribeNext { event in
-            // TODO: @julian Handle events
+        actionButtonEvent.subscribeNext { [weak self] event in
+            switch event {
+            case .makeOffer:
+                self?.viewModel.makeAnOfferButtonPressed()
+            case .viewOffer(offerId: let id):
+                self?.viewModel.viewOfferButtonPressed(offerId: id)
+            case .viewPayCode(offerId: let id):
+                self?.viewModel.viewPayCodeButtonPressed(offerId: id)
+            case .exchangeCode(offerId: let id):
+                self?.viewModel.exchangeCodeButtonPressed(offerId: id)
+            case .payout(offerId: let id):
+                self?.viewModel.payoutButtonPressed(offerId: id)
+            case .none:
+                break // Do nothing
+            }
         }.disposed(by: disposeBag)
-        
-        chatPaymentBannerView.configure(with: params)
     }
 }
 

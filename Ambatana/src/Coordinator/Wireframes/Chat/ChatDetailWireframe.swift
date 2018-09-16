@@ -20,6 +20,8 @@ protocol ChatDetailNavigator: DeepLinkNavigator {
     func openAssistantFor(listingId: String, dataDelegate: MeetingAssistantDataDelegate)
     func openMakeAnOffer(chatConversation: ChatConversation)
     func openOfferStatus(offerId: String)
+    func openOfferPayCode(offerId: String)
+    func openEnterPayCode(offerId: String, buyerName: String, buyerAvatar: File?)
 }
 
 
@@ -171,6 +173,18 @@ final class ChatDetailWireframe: ChatDetailNavigator {
 
     func openOfferStatus(offerId: String) {
         let vc = P2PPaymentsOfferStatusBuilder.modal.buildOfferStatus(offerId: offerId)
+        nc.present(vc, animated: true)
+    }
+
+    func openOfferPayCode(offerId: String) {
+        let vc = P2PPaymentsOfferStatusBuilder.modal.buildGetPayCode(offerId: offerId)
+        nc.present(vc, animated: true)
+    }
+
+    func openEnterPayCode(offerId: String, buyerName: String, buyerAvatar: File?) {
+        let vc = P2PPaymentsOfferStatusBuilder.modal.buildEnterPayCode(offerId: offerId,
+                                                                       buyerName: buyerName,
+                                                                       buyerAvatar: buyerAvatar)
         nc.present(vc, animated: true)
     }
 }

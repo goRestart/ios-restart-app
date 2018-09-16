@@ -223,9 +223,11 @@ class ChatViewModel: ChatBaseViewModel {
     }
     
     var sellerId: String? {
-        return interlocutorId.value
+        let myUserId = myUserRepository.myUser?.objectId
+        let interlocutorId = conversation.value.interlocutor?.objectId
+        let currentSeller = conversation.value.amISelling ? myUserId : interlocutorId
+        return currentSeller
     }
- 
 
     fileprivate var shouldShowSafetyTips: Bool {
         guard !isUserDummy else { return false }
@@ -1194,10 +1196,6 @@ extension ChatViewModel {
             }
         }
 
-        // FIXME: Remove this action and use the final production version before merging this branch into develop (@juolgon)
-        let p2pPaymentsFlowActions = actionForP2PPaymentsFlowTesting()
-        actions.append(contentsOf: p2pPaymentsFlowActions)
-
         delegate?.vmShowActionSheet(R.Strings.commonCancel, actions: actions)
     }
     
@@ -1340,27 +1338,6 @@ extension ChatViewModel {
         case .approved, .pending:
             return .available
         }
-    }
-}
-
-// MARK: - P2P Payments Testing
-// TODO: @juolgon Change this code for the final production code before merging the feature branch into develop
-
-extension ChatViewModel {
-    private func actionForP2PPaymentsFlowTesting() -> [UIAction] {
-        return [UIAction(interface: UIActionInterface.text("P2P Payments - Offer"), action: openP2PPaymentsMakeAnOfferFlow),
-                UIAction(interface: UIActionInterface.text("P2P Payments - Status"), action: openP2PPaymentsOfferStatusFlow)]
-    }
-
-    private func openP2PPaymentsMakeAnOfferFlow() {
-        // TODO: Start P2P Payments flow here (@juolgon)
-        navigator?.openMakeAnOffer(chatConversation: conversation.value)
-    }
-
-    private func openP2PPaymentsOfferStatusFlow() {
-        // TODO: Start P2P Payments flow here (@juolgon)
-        guard let offerId = UIPasteboard.general.string else { return }
-        navigator?.openOfferStatus(offerId: offerId)
     }
 }
 
@@ -2110,5 +2087,33 @@ extension ChatViewModel {
 
     private func firstMeetingIn(messages: [ChatMessage]) -> ChatMessage? {
         return messages.first(matching: { $0.content.type == .meeting } )
+    }
+}
+
+// MARK: - P2P Payments
+
+extension ChatViewModel {
+    func makeAnOfferButtonPressed() {
+        navigator?.openMakeAnOffer(chatConversation: conversation.value)
+    }
+
+    func viewOfferButtonPressed(offerId: String) {
+        navigator?.openOfferStatus(offerId: offerId)
+    }
+
+    func viewPayCodeButtonPressed(offerId: String) {
+        navigator?.openOfferPayCode(offerId: offerId)
+    }
+
+    func exchangeCodeButtonPressed(offerId: String) {
+        let buyerName = conversation.value.interlocutor?.name ?? ""
+        let buyerAvatar = conversation.value.interlocutor?.avatar
+        navigator?.openEnterPayCode(offerId: offerId,
+                                    buyerName: buyerName,
+                                    buyerAvatar: buyerAvatar)
+    }
+
+    func payoutButtonPressed(offerId: String) {
+        // TODO: @juolgon handle payout button
     }
 }

@@ -29,7 +29,9 @@ final class P2PPaymentsOfferStatusWireframe: P2PPaymentsOfferStatusNavigator {
 
     func openEnterPayCode(buyer: User) {
         guard let nc = navigationController else { return }
-        let vc = P2PPaymentsOfferStatusBuilder.standard(nc: nc).buildEnterPayCode(offerId: offerId, buyer: buyer)
+        let vc = P2PPaymentsOfferStatusBuilder.standard(nc: nc).buildEnterPayCode(offerId: offerId,
+                                                                                  buyerName: buyer.name ?? "",
+                                                                                  buyerAvatar: buyer.avatar)
         nc.pushViewController(vc, animated: true)
     }
 }
