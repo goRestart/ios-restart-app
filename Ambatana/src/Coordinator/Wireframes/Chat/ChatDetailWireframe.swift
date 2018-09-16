@@ -22,6 +22,7 @@ protocol ChatDetailNavigator: DeepLinkNavigator {
     func openOfferStatus(offerId: String)
     func openOfferPayCode(offerId: String)
     func openEnterPayCode(offerId: String, buyerName: String, buyerAvatar: File?)
+    func openPayout(offerId: String)
 }
 
 
@@ -185,6 +186,11 @@ final class ChatDetailWireframe: ChatDetailNavigator {
         let vc = P2PPaymentsOfferStatusBuilder.modal.buildEnterPayCode(offerId: offerId,
                                                                        buyerName: buyerName,
                                                                        buyerAvatar: buyerAvatar)
+        nc.present(vc, animated: true)
+    }
+
+    func openPayout(offerId: String) {
+        let vc = P2PPaymentsOfferStatusBuilder.modal.buildPayout(offerId: offerId)
         nc.present(vc, animated: true)
     }
 }

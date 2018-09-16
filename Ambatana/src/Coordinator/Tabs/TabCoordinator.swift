@@ -298,6 +298,11 @@ extension TabCoordinator: ChatDetailNavigator {
                                                                        buyerAvatar: buyerAvatar)
         navigationController.present(vc, animated: true)
     }
+
+    func openPayout(offerId: String) {
+        let vc = P2PPaymentsOfferStatusBuilder.modal.buildPayout(offerId: offerId)
+        navigationController.present(vc, animated: true)
+    }
 }
 
 // MARK: - UINavigationControllerDelegate
