@@ -16,7 +16,8 @@ protocol FeatureFlaggeable: class {
     func variablesUpdated()
 
     var realEstateEnabled: RealEstateEnabled { get }
-    var deckItemPage: DeckItemPage { get }
+    var deckItemPage: NewItemPageV3 { get }
+
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio { get }
     var realEstateNewCopy: RealEstateNewCopy { get }
     var searchImprovements: SearchImprovements { get }
@@ -115,6 +116,7 @@ protocol FeatureFlaggeable: class {
     var notificationCenterRedesign: NotificationCenterRedesign { get }
     var randomImInterestedMessages: RandomImInterestedMessages { get }
     var imInterestedInProfile: ImInterestedInProfile { get }
+    var shareAfterScreenshot: ShareAfterScreenshot { get }
     var affiliationEnabled: AffiliationEnabled { get }
 }
 
@@ -187,16 +189,16 @@ extension RealEstatePromoCells {
     var isActive: Bool { return self != .control && self != .baseline }
 }
 
+extension NewItemPageV3 {
+    var isActive: Bool { return self != .control && self != .baseline }
+}
+
 extension ProUsersExtraImages {
     var isActive: Bool { return self != .control && self != .baseline }
 }
 
 extension ClickToTalk {
     var isActive: Bool { return self != .control && self != .baseline }
-}
-
-extension DeckItemPage {
-    var isActive: Bool {get { return self == .active }}
 }
 
 extension CopyForChatNowInTurkey {
@@ -412,6 +414,10 @@ extension ImInterestedInProfile {
     var isActive: Bool { return self == .active }
 }
 
+extension ShareAfterScreenshot {
+    var isActive: Bool { return self == .active }
+}
+
 extension AffiliationEnabled {
     var isActive: Bool { return self == .active }
 }
@@ -508,11 +514,11 @@ final class FeatureFlags: FeatureFlaggeable {
         return RealEstateEnabled.fromPosition(abTests.realEstateEnabled.value)
     }
 
-    var deckItemPage: DeckItemPage {
+    var deckItemPage: NewItemPageV3 {
         if Bumper.enabled {
-            return Bumper.deckItemPage
+            return Bumper.newItemPageV3
         }
-        return DeckItemPage.fromPosition(abTests.deckItemPage.value)
+        return NewItemPageV3.fromPosition(abTests.deckItemPage.value)
     }
 
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio {
@@ -555,7 +561,7 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.mutePushNotifications
         }
         let cached = dao.retrieveMutePushNotifications()?.toMutePushNotifications()
-        return cached ??  MutePushNotifications.control // MutePushNotifications.fromPosition(abTests.mutePushNotifications.value)
+        return cached ?? MutePushNotifications.fromPosition(abTests.mutePushNotifications.value)
     }
 
     var mutePushNotificationsStartHour: Int {
@@ -1324,6 +1330,13 @@ extension FeatureFlags {
             return Bumper.imInterestedInProfile
         }
         return ImInterestedInProfile.fromPosition(abTests.imInterestedInProfile.value)
+    }
+    
+    var shareAfterScreenshot: ShareAfterScreenshot {
+        if Bumper.enabled {
+            return Bumper.shareAfterScreenshot
+        }
+        return ShareAfterScreenshot.fromPosition(abTests.shareAfterScreenshot.value)
     }
 
     var affiliationEnabled: AffiliationEnabled {

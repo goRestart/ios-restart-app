@@ -10,11 +10,6 @@
          "description": "API requests timeout"
     },
     {
-        "name": "DeckItemPage",
-        "values": ["control", "baseline", "active"],
-        "description": "Deck item page with card appearance and different navigation"
-    },
-    {
         "name": "ShowAdsInFeedWithRatio",
         "values": ["control", "baseline", "ten", "fifteen", "twenty"],
         "description": "[MONEY] show ads in feed every X cells"
@@ -170,12 +165,17 @@
         "description": "[CHAT] Use the new header WITHOUT USER in chat detail"
     },
     {
-        "name": "RealEstateMapTooltip",
-        "values": ["control", "baseline", "active"],
-        "description": "Show tooltip for Real Estate Map"
-    },
+        "name": "NewItemPageV3",
+        "values": ["control", "baseline", "infoWithLaterals", "infoWithoutLaterals", "buttonWithLaterals", "buttonWithoutLaterals"],
+        "description": "[Products] New item page V3 -- all in"
+	},
     {
-        "name": "AppInstallAdsInFeed",
+     	"name": "RealEstateMapTooltip",
+    	"values": ["control", "baseline", "active"],
+     	"description": "Show tooltip for Real Estate Map"
+    },
+	 {
+     	"name": "AppInstallAdsInFeed",
         "values": ["control", "baseline", "active"],
         "description": "[MONEY] Show App Install Ads from Google Adx in feed"
     },
@@ -325,6 +325,11 @@
         "description": "[VERTICALS] Show Click to talk"
     },
     {
+        "name": "ShareAfterScreenshot",
+        "values": ["control", "baseline", "active"],
+        "description": "[RETENTION] Show a share view after the user takes a screenshot"
+    },
+    {
         "name": "MutePushNotifications",
         "values": ["control", "baseline", "active"],
         "description": "[CORE] Push notifications won't make a sound during some night hours."
@@ -349,4 +354,4 @@
         "values": ["control", "baseline", "active"],
         "description": "[P2P PAYMENTS] Show make an offer button"
     }
- ]
+]

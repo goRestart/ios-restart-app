@@ -267,6 +267,7 @@
 "chat_verify_alert_title" = "Mesajlaşmak için e-postanı doğrula";
 "chat_with_yourself_alert_msg" = "Sana ait bir ilan hakkında bir sohbet başlatamazsın.";
 "click_to_talk_smoketest_action_button" = "Başla";
+"click_to_talk_smoketest_banner_title" = "\"Konuşmak için Tıkla\"nın Tanıtımı";
 "click_to_talk_smoketest_description" = "En ilgilenen alıcılara çabucak bağlan ve ürünlerini iki kat daha hızlı sat.";
 "click_to_talk_smoketest_subtitle" = "Arama kabul et";
 "click_to_talk_smoketest_title" = "Konuşmak için tıkla";
@@ -1407,7 +1408,7 @@
 "services_service_type_list_title" = "Hizmet kategorisi";
 "services_service_type_title" = "Hizmet kategorisi";
 "services_unified_filter_title" = "Bir kategori seç";
-"settings_affililation_button" = "Rewards";
+"settings_affililation_button" = "Ödüller";
 "settings_change_email_button" = "E-posta";
 "settings_change_location_button" = "Konum";
 "settings_change_password_button" = "Şifre";

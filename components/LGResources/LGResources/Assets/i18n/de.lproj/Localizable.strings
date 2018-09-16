@@ -267,6 +267,7 @@
 "chat_verify_alert_title" = "Verifiziere deine E-Mail-Adresse, um Gespräche zu führen";
 "chat_with_yourself_alert_msg" = "Du kannst kein Gespräch zu deinem eigenen Angebot beginnen.";
 "click_to_talk_smoketest_action_button" = "Leg los";
+"click_to_talk_smoketest_banner_title" = "Introducing \"Click to Talk\"";
 "click_to_talk_smoketest_description" = "Verbinde dich schnell mit deine interessiertesten Käufern und verkaufe deine Artikel doppelt so schnell.";
 "click_to_talk_smoketest_subtitle" = "Anrufe empfangen";
 "click_to_talk_smoketest_title" = "Zum Reden drücken";
@@ -1348,7 +1349,7 @@
 "reset_password_send_too_many_requests" = "Wir haben dir bereits eine E-Mail zur Kennwortwiederherstellung geschickt. Bitte schaue in dein Postfach und folge den Anweisungen.";
 "reset_password_title" = "Kennwort zurücksetzen";
 "rewards_faq_title" = "Wie's funktioniert";
-"rewards_invite_contacts_title" = "Connect contacts";
+"rewards_invite_contacts_title" = "Kontakte verbinden";
 "rewards_invite_friends_button" = "Freunde einladen";
 "rewards_invite_friends_contact_button" = "Via SMS einladen";
 "rewards_invite_friends_title" = "Freunde einladen";

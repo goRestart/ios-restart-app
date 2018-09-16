@@ -1,11 +1,3 @@
-//
-//  VideoPreview.swift
-//  LetGo
-//
-//  Created by Álvaro Murillo del Puerto on 20/4/18.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import UIKit
 import AVFoundation
 import RxSwift
@@ -49,7 +41,7 @@ final class VideoPreview: UIView {
         }
     }
 
-    lazy private var player: AVPlayer = {
+    lazy fileprivate var player: AVPlayer = {
         let player = AVPlayer(playerItem: nil)
         player.actionAtItemEnd = .none
         playerLayer.player = player
@@ -85,11 +77,7 @@ final class VideoPreview: UIView {
         return Float(currentTime / duration)
     }
 
-    var rx_progress = Variable<Float>(0.0)
-
-    var rx_status: Observable<Status> {
-        return player.rx.observe(AVPlayerStatus.self, #keyPath(AVPlayerItem.status)).map { Status(status: $0) }
-    }
+    var rx_progress = BehaviorRelay<Float>(value: 0.0)
 
     private var periodicTimeObserver: Any?
 
@@ -113,7 +101,7 @@ final class VideoPreview: UIView {
         periodicTimeObserver = player.addPeriodicTimeObserver(forInterval: time,
                                                               queue: DispatchQueue.main) { [weak self] (time) in
             guard let strongSelf = self else { return }
-            strongSelf.rx_progress.value = strongSelf.progress
+            strongSelf.rx_progress.accept(strongSelf.progress)
         }
 
         NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd(notification:)),
@@ -148,8 +136,19 @@ final class VideoPreview: UIView {
     }
 
     private func setupRx() {
-        rx_status.asDriver(onErrorJustReturn: .unknown).drive(onNext: { [weak self] status in
+        rx.status
+            .asDriver(onErrorJustReturn: .unknown)
+            .drive(onNext: { [weak self] status in
             status == .unknown ? self?.activityIndicator.startAnimating() : self?.activityIndicator.stopAnimating()
         }).disposed(by: disposeBag)
+    }
+}
+
+extension Reactive where Base: VideoPreview {
+    var status: Observable<VideoPreview.Status> {
+        return base.player.rx.observe(AVPlayerStatus.self,
+                                      #keyPath(AVPlayerItem.status))
+            .map { VideoPreview.Status(status: $0) }
+            .asObservable()
     }
 }

@@ -21,6 +21,11 @@ protocol FeedNavigator: class {
     func openProFeed(navigator: MainTabNavigator?,
                      withSearchType: SearchType,
                      andFilters filters: ListingFilters)
+    func openProFeed(navigator: MainTabNavigator?,
+                     withSearchType: SearchType,
+                     andFilters filters: ListingFilters,
+                     andComingSectionPosition: UInt?,
+                     andComingSectionIdentifier: String?)
     func openClassicFeed(navigator: MainTabNavigator,
                          withSearchType searchType: SearchType?,
                          listingFilters: ListingFilters)
@@ -134,12 +139,26 @@ final class FeedWireframe: FeedNavigator {
     func openProFeed(navigator: MainTabNavigator?,
                      withSearchType searchType: SearchType,
                      andFilters filters: ListingFilters) {
+       openProFeed(navigator: navigator,
+                   withSearchType: searchType,
+                   andFilters: filters,
+                   andComingSectionPosition: nil,
+                   andComingSectionIdentifier: nil)
+    }
+    
+    func openProFeed(navigator: MainTabNavigator?,
+                     withSearchType searchType: SearchType,
+                     andFilters filters: ListingFilters,
+                     andComingSectionPosition position: UInt?,
+                     andComingSectionIdentifier identifier: String?) {
         let (vc, vm) = FeedBuilder.standard(nc: nc).makePro(
             withSearchType: searchType,
             filters: filters,
             hideSearchBox: true,
             showRightNavBarButtons: false,
-            showLocationEditButton: false
+            showLocationEditButton: false,
+            comingSectionPosition: position,
+            comingSectionIdentifier: identifier
         )
         vm.navigator = navigator
         nc.pushViewController(vc, animated: true)

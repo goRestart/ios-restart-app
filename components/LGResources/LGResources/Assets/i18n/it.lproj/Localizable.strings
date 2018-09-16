@@ -267,6 +267,7 @@
 "chat_verify_alert_title" = "Verifica il tuo indirizzo email per chattare";
 "chat_with_yourself_alert_msg" = "Non puoi iniziare una conversazione riguardante il tuo annuncio.";
 "click_to_talk_smoketest_action_button" = "Inizia";
+"click_to_talk_smoketest_banner_title" = "Presentazione \"Clicca per parlare\"";
 "click_to_talk_smoketest_description" = "Mettiti velocemente in contatto con gli acquirenti più interessati e vendi i tuoi articoli due volte più rapidamente.";
 "click_to_talk_smoketest_subtitle" = "Ricevi chiamate";
 "click_to_talk_smoketest_title" = "Clicca per parlare";
@@ -1407,7 +1408,7 @@
 "services_service_type_list_title" = "Categoria servizi";
 "services_service_type_title" = "Categoria servizi";
 "services_unified_filter_title" = "Seleziona una categoria";
-"settings_affililation_button" = "Rewards";
+"settings_affililation_button" = "Ricompense";
 "settings_change_email_button" = "Indirizzo email";
 "settings_change_location_button" = "Posizione";
 "settings_change_password_button" = "Password";

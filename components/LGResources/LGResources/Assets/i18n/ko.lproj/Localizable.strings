@@ -267,6 +267,7 @@
 "chat_verify_alert_title" = "채팅을 위해 이메일 확인";
 "chat_with_yourself_alert_msg" = "상품 게시글과 관련한 대화를 시작하실 수 없습니다.";
 "click_to_talk_smoketest_action_button" = "시작해보세요";
+"click_to_talk_smoketest_banner_title" = "Introducing \"Click to Talk\"";
 "click_to_talk_smoketest_description" = "가장 관심있는 구매자와 빠르게 연락하고 상품을 2배 더 빠르게 판매해보세요.";
 "click_to_talk_smoketest_subtitle" = "전화 받기";
 "click_to_talk_smoketest_title" = "클릭하여 대화 시작하기";

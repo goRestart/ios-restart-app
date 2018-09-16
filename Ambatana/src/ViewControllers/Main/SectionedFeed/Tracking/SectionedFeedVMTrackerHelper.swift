@@ -10,10 +10,14 @@ struct SectionedFeedVMTrackerHelper {
     func trackFirstMessage(info: SendMessageTrackingInfo,
                            listingVisitSource: EventParameterListingVisitSource,
                            sectionedFeedChatTrackingInfo: SectionedFeedChatTrackingInfo?,
+                           sectionPosition: UInt?,
                            listing: Listing) {
         let event = TrackerEvent.firstMessage(info: info,
                                               listingVisitSource: listingVisitSource,
                                               feedPosition: sectionedFeedChatTrackingInfo?.itemIndexInSection ?? .none,
+                                              sectionPosition: (sectionPosition != nil) ?
+                                                EventParameterSectionPosition.position(index: sectionPosition!) :
+                                                EventParameterSectionPosition.none,
                                               userBadge: .noBadge,
                                               containsVideo: EventParameterBoolean(bool: listing.containsVideo()),
                                               isProfessional: nil,
@@ -25,7 +29,9 @@ struct SectionedFeedVMTrackerHelper {
                                user: User?,
                                categories: [ListingCategory]?,
                                searchQuery: String?,
-                               feedSource: EventParameterFeedSource) {
+                               feedSource: EventParameterFeedSource,
+                               sectionPosition: UInt?,
+                               sectionIdentifier: String?) {
         let successParameter: EventParameterBoolean = feed != nil ? .trueParameter : .falseParameter
         let trackerEvent = TrackerEvent.listingListSectionedFeed(user,
                                                                  categories: categories,
@@ -34,7 +40,13 @@ struct SectionedFeedVMTrackerHelper {
                                                                  inifiteSectionItemCount: feed?.totalVerticalItemCount ?? 0,
                                                                  sectionNamesShown: feed?.sectionsShown ?? [],
                                                                  feedSource: feedSource,
-                                                                 success: successParameter)
+                                                                 success: successParameter,
+                                                                 sectionPosition: (sectionPosition != nil) ?
+                                                                    EventParameterSectionPosition.position(index: sectionPosition!) :
+                                                                    EventParameterSectionPosition.none,
+                                                                 sectionName: (sectionIdentifier != nil) ?
+                                                                    EventParameterSectionName.identifier(id: sectionIdentifier!) :
+                                                                    nil)
         tracker.trackEvent(trackerEvent)
     }
     

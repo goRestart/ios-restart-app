@@ -5,15 +5,11 @@ import RxSwift
 import RxCocoa
 import LGComponents
 
-final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewType {
+final class ListingDeckView: UIView, UICollectionViewDelegate {
     struct Layout {
-        // to center the play button with the page symbols
-        static let playButtonEdges = UIEdgeInsets(top: 11,
-                                                  left: 0,
-                                                  bottom: 0,
-                                                  right: 30)
-        struct Height {
+		struct Height {
             static let previewFactor: CGFloat = 0.7
+            static let actions: CGFloat = 120
         }
         static let collectionVerticalInset: CGFloat = 18
     }
@@ -22,28 +18,24 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
     var cardSize: CGSize { return collectionLayout.cardSize }
     var cellHeight: CGFloat { return collectionLayout.cellHeight }
 
-    let collectionView: UICollectionView
+    let statusView: ListingStatusView = {
+        let view = ListingStatusView()
+        view.applyDefaultShadow()
+        view.alpha = 0
+        return view
+    }()
+    let statusTap = UITapGestureRecognizer()
+
+    lazy var collectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
     private let collectionLayout = ListingDeckCollectionViewLayout()
-    let rxCollectionView: Reactive<UICollectionView>
 
     let itemActionsView = ListingDeckActionView()
-    private let startPlayingButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setImage(R.Asset.IconsButtons.VideoPosting.icVideopostingPlay.image, for: .normal)
-        return button
-    }()
-
-    var rxStartPlayingButton: Reactive<UIButton> { return startPlayingButton.rx }
-    var rxActionButton: Reactive<LetgoButton> { return itemActionsView.actionButton.rx }
 
     var currentPage: Int { return collectionLayout.page }
     var bumpUpBanner: BumpUpBanner { return itemActionsView.bumpUpBanner }
     var isBumpUpVisible: Bool { return itemActionsView.isBumpUpVisible }
 
     override init(frame: CGRect) {
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
-        rxCollectionView = collectionView.rx
-        
         super.init(frame: frame)
         setupUI()
     }
@@ -56,48 +48,38 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
 
     private func setupUI() {
         backgroundColor = UIColor.white
-        setupCollectionView()
-        setupPrivateActionsView()
-        if #available(iOS 10.0, *) { collectionView.isPrefetchingEnabled = true }
-    }
-
-    private func setupCollectionView() {
-        addSubviewForAutoLayout(collectionView)
+        addSubviewsForAutoLayout([collectionView, statusView, itemActionsView])
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: topAnchor, constant: Layout.collectionVerticalInset),
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Layout.collectionVerticalInset)
+            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Layout.Height.actions),
+
+            statusView.topAnchor.constraint(equalTo: collectionView.topAnchor, constant: Metrics.veryBigMargin),
+            statusView.centerXAnchor.constraint(equalTo: centerXAnchor),
+
+            itemActionsView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            itemActionsView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            itemActionsView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
 
+        setupCollectionView()
+        setupPrivateActionsView()
+        statusView.addGestureRecognizer(statusTap)
+
+        if #available(iOS 10.0, *) { collectionView.isPrefetchingEnabled = true }
+    }
+
+    private func setupCollectionView() {
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.decelerationRate = 0
         collectionView.contentInset = .zero
         collectionView.bounces = true
         collectionView.alwaysBounceVertical = false
         collectionView.backgroundColor = UIColor.white
-
-        setupPlayableButton()
-    }
-
-    private func setupPlayableButton() {
-        addSubviewForAutoLayout(startPlayingButton)
-        startPlayingButton.alpha = 0
-        NSLayoutConstraint.activate([
-            startPlayingButton.rightAnchor.constraint(equalTo: collectionView.rightAnchor,
-                                                      constant: -Layout.playButtonEdges.right),
-            startPlayingButton.topAnchor.constraint(equalTo: collectionView.topAnchor,
-                                                    constant: Layout.playButtonEdges.top),
-            startPlayingButton.widthAnchor.constraint(equalToConstant: 30),
-            startPlayingButton.heightAnchor.constraint(equalTo: startPlayingButton.widthAnchor)
-        ])
-        startPlayingButton.addTarget(self, action: #selector(bouncePlayingButton), for: .touchUpInside)
     }
 
     private func setupPrivateActionsView() {
-        addSubview(itemActionsView)
-        itemActionsView.translatesAutoresizingMaskIntoConstraints = false
-
         itemActionsView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         itemActionsView.layout(with: self).fillHorizontal()
 
@@ -111,20 +93,20 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
         return collectionLayout.normalizedPageOffset(givenOffset: givenOffset)
     }
 
-    func updatePlayButtonWith(alpha: CGFloat) {
-        startPlayingButton.alpha = alpha
-    }
-
-    func updatePrivateActionsWith(actionsAlpha: CGFloat, bumpBannerAlpha: CGFloat) {
-        itemActionsView.alpha = max(actionsAlpha, bumpBannerAlpha)
+    func updatePrivateActionsWith(actionsAlpha: CGFloat) {
+        itemActionsView.alpha = actionsAlpha
         itemActionsView.backgroundColor = actionsAlpha > 0 ? ListingDeckView.actionsViewBackgroundColor : .clear
-        itemActionsView.updatePrivateActionsWith(actionsAlpha: actionsAlpha, bumpBannerAlpha: bumpBannerAlpha)
+        itemActionsView.updatePrivateActionsWith(actionsAlpha: actionsAlpha)
     }
 
     // MARK: ItemActionsView
 
-    func configureActionWith(_ action: UIAction) {
-        itemActionsView.actionButton.configureWith(uiAction: action)
+    func configureActionWith(_ action: UIAction?) {
+        if let action = action {
+            itemActionsView.actionButton.configureWith(uiAction: action)
+        } else {
+            itemActionsView.actionButton.alpha = 0
+        }
     }
 
     // MARK: BumpUp
@@ -152,14 +134,9 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
     func setCollectionLayoutDelegate(_ delegate: ListingDeckCollectionViewLayoutDelegate) {
         collectionLayout.delegate = delegate
     }
-
-    @objc private func bouncePlayingButton() {
-        startPlayingButton.bounce()
-    }
 }
 
 extension ListingDeckView {
-
     func cardAtIndex(_ index: Int) -> ListingCardView? {
         return collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? ListingCardView
     }
@@ -169,3 +146,11 @@ extension ListingDeckView {
         cardAtIndex(current + 1)?.alpha = 1
     }
 }
+
+extension Reactive where Base: ListingDeckView {
+    var collectionView: Reactive<UICollectionView> { return base.collectionView.rx }
+    var actionButton: Reactive<LetgoButton> { return base.itemActionsView.actionButton.rx }
+    var statusControlEvent: ControlEvent<UITapGestureRecognizer> { return base.statusTap.rx.event }
+}
+
+
