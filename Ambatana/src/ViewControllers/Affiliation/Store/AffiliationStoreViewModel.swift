@@ -21,8 +21,13 @@ struct AffiliationPurchase {
 
 final class AffiliationStoreViewModel: BaseViewModel {
     fileprivate let state: PublishSubject<ViewState> = .init()
+    var navigator: AffiliationStoreNavigator?
 
     private(set) var purchases: [AffiliationPurchase] = []
+    var moreActions: [UIAction] {
+        return [UIAction(interface: .text(R.Strings.affiliationStoreHistory),
+                         action: { [weak self] in self?.openHistory() })]
+    }
 
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
@@ -36,6 +41,11 @@ final class AffiliationStoreViewModel: BaseViewModel {
             self?.state.onNext(.data)
         }
     }
+
+    private func openHistory() {
+        navigator?.openHistory()
+    }
+
 }
 
 private extension AffiliationStoreViewModel {
@@ -43,15 +53,15 @@ private extension AffiliationStoreViewModel {
         // TODO: Delete when core side is done
         return [
             AffiliationPurchase(title: "$10 Amazon Gift Card",
-                                partnerIcon: R.Asset.IconsButtons.icReportSuspicious.image,
+                                partnerIcon: R.Asset.Affiliation.Partners.amazon.image,
                                 points: "10 points",
                                 state: .enabled),
             AffiliationPurchase(title: "$30 Amazon Gift Card",
-                                partnerIcon: R.Asset.IconsButtons.icReportSpammer.image,
+                                partnerIcon: R.Asset.Affiliation.Partners.amazon.image,
                                 points: "30 points",
                                 state: .enabled),
             AffiliationPurchase(title: "$50 Amazon Gift Card",
-                                partnerIcon: R.Asset.IconsButtons.icReportScammer.image,
+                                partnerIcon: R.Asset.Affiliation.Partners.amazon.image,
                                 points: "50 points",
                                 state: .disabled),
         ]

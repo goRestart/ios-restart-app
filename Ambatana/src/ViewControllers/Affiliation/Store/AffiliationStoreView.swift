@@ -2,7 +2,6 @@ import LGComponents
 
 private enum Layout {
     static let interItemSpacing: CGFloat = 35
-
     static let aspect: CGFloat = 0.74
 }
 
@@ -13,7 +12,7 @@ final class AffiliationStoreView: UIView {
         flow.minimumInteritemSpacing = Layout.interItemSpacing
         flow.scrollDirection = .vertical
 
-        let width = UIScreen.main.bounds.width - 2*Metrics.bigMargin - 2
+        let width = min(UIScreen.main.bounds.width - 2*Metrics.bigMargin - 2, 325)
         let height = Layout.aspect * width
         flow.itemSize = CGSize(width: width, height: height)
 

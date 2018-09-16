@@ -1,0 +1,3 @@
+protocol AffiliationStoreNavigator {
+    func openHistory()
+}

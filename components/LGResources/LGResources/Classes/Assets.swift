@@ -46,13 +46,19 @@ extension R {
   // swiftlint:disable identifier_name line_length nesting type_body_length type_name
   public enum Asset {
     public enum Affiliation {
+      public enum Partners {
+        public static let amazon = ImageAsset(name: "amazon")
+      }
       public static let affiliationIcon = ImageAsset(name: "affiliationIcon")
+      public static let icnThreeDots = ImageAsset(name: "icn_three_dots")
 
       // swiftlint:disable trailing_comma
       public static let allColors: [ColorAsset] = [
       ]
       public static let allImages: [ImageAsset] = [
+        Partners.amazon,
         affiliationIcon,
+        icnThreeDots,
       ]
       // swiftlint:enable trailing_comma
       @available(*, deprecated, renamed: "allImages")
