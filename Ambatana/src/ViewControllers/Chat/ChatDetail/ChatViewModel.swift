@@ -2114,6 +2114,6 @@ extension ChatViewModel {
     }
 
     func payoutButtonPressed(offerId: String) {
-        // TODO: @juolgon handle payout button
+        navigator?.openPayout(offerId: offerId)
     }
 }
