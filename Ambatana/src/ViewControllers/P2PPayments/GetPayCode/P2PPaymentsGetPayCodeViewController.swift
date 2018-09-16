@@ -83,8 +83,13 @@ final class P2PPaymentsGetPayCodeViewController: BaseViewController {
     }
 
     private func setupNavigationBar() {
+        setNavBarCloseButton(#selector(closeButtonPressed), icon: R.Asset.P2PPayments.close.image)
         setNavBarTitleStyle(NavBarTitleStyle.text("Offer"))
         setNavBarBackgroundStyle(NavBarBackgroundStyle.transparent(substyle: NavBarTransparentSubStyle.light))
+    }
+
+    @objc private func closeButtonPressed() {
+        viewModel.closeButtonPressed()
     }
 
     private func setup() {

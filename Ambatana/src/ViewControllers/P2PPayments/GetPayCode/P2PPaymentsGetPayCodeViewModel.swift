@@ -77,6 +77,14 @@ extension P2PPaymentsGetPayCodeViewModel {
     }
 }
 
+// MARK: - UI Actions
+
+extension P2PPaymentsGetPayCodeViewModel {
+    func closeButtonPressed() {
+        navigator?.close()
+    }
+}
+
 // MARK: - Rx Outputs
 
 extension P2PPaymentsGetPayCodeViewModel {

@@ -95,6 +95,10 @@ extension P2PPaymentsEnterPayCodeViewModel {
     func payCodeEntered(_ payCode: String) {
         usePayCode(payCode)
     }
+
+    func closeButtonPressed() {
+        navigator?.close()
+    }
 }
 
 // MARK: - Rx Outputs
