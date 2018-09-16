@@ -4,7 +4,7 @@ import LGCoreKit
 protocol P2PPaymentsOfferStatusNavigator {
     func close()
     func openGetPayCode()
-    func openEnterPayCode()
+    func openEnterPayCode(buyer: User)
 }
 
 final class P2PPaymentsOfferStatusWireframe: P2PPaymentsOfferStatusNavigator {
@@ -27,9 +27,9 @@ final class P2PPaymentsOfferStatusWireframe: P2PPaymentsOfferStatusNavigator {
         nc.pushViewController(vc, animated: true)
     }
 
-    func openEnterPayCode() {
+    func openEnterPayCode(buyer: User) {
         guard let nc = navigationController else { return }
-        let vc = P2PPaymentsOfferStatusBuilder.standard(nc: nc).buildEnterPayCode(offerId: offerId)
+        let vc = P2PPaymentsOfferStatusBuilder.standard(nc: nc).buildEnterPayCode(offerId: offerId, buyer: buyer)
         nc.pushViewController(vc, animated: true)
     }
 }
