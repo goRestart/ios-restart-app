@@ -38,7 +38,9 @@ struct ChatPaymentBannerViewModel {
     func configure(with params: P2PPaymentStateParams) {
         p2pRepository.getPaymentState(params: params) { result in
             if case let .success(state) = result {
-                self.offerStateRelay.accept(state)
+                // TODO: @juolgon payout testing code
+//                self.offerStateRelay.accept(state)
+                self.offerStateRelay.accept(.payout(offerId: "asdasd"))
             }
         }
     }
